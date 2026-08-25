@@ -41,9 +41,9 @@ worst first:
 
 1. **Corridors drift off the club's own map** — see item 4 below; this is now the
    largest remaining gap.
-2. **Guide furniture is missing** — distance markers (red 100 m, yellow 150 m, white 200 m),
-   "Next Tee" indicators, a per-hole compass rose. This is phase 06 and the only phase of
-   the original plan not attempted.
+2. **Bunker angles are all zero.** The guide gives no orientation, so every bunker is
+   axis-aligned. The old hand-placed set had a few rotated. Cosmetic, but it is the most
+   obvious tell that the set is generated.
 3. **Routing is fixed at the clubhouse, still loose in the middle.** Holes 15–18 and 1 were
    re-anchored (phase 02): the closing walks went from 574/348/272 m to 77/80/87 m. What
    remains is the middle of the round — 7→8 is 172 m, 11→12 is 167 m, 5→6 is 162 m.
@@ -64,10 +64,22 @@ worst first:
    which is inside the reading error of a small dark rose.
 6. **Missing guide furniture** — distance markers, "Next Tee", per-hole compass.
 
-Phases 02 (routing and orientation), 03 (water), 04 (penalty marking) and 05 (bunkers)
-are done. Water is 51 of 56 — the five skipped are ones the fjord already provides.
-Marking is 66 runs against the guide's 63. Bunkers are 53 of 53. The remaining work is
-phase 06, the guide furniture.
+All six phases of the alignment plan are done: 02 routing and orientation, 03 water,
+04 penalty marking, 05 bunkers, 06 guide furniture. Water is 51 of 56 — the five skipped
+are ones the fjord already provides. Marking is 66 runs against the guide's 63. Bunkers
+are 53 of 53. Distance plates, next-tee signs and a per-hole compass rose are in.
+
+What is left is judgement work rather than plan work: hole 16's corridor still crosses
+16% forest, hole 7's compass rose disagrees by 39° and wants a human eye, and the middle
+of the round still walks 150–170 m between some holes.
+
+**The fairway plates are distance-to-green markers, not pin positions** — red 100 m,
+yellow 150 m, white 200 m. An early reading of the guide took them for pins, which would
+have put the flag in the wrong place on all eighteen holes.
+
+**UI changes need measuring, not eyeballing.** The compass rose in the card header cost
+58 px and silently wrapped the hole line onto two rows. Measure `.c-meta` height against
+its line-height at 1280, 900 and 420 px before and after any card change.
 
 **Green pads and water.** `terrainH` lays a green pad and the water block runs after it, so
 a green inside a water area used to be flooded over: the 14th, the island green the course
