@@ -71,11 +71,17 @@ const note=(bad,msg)=> (bad?fails:warns).push(msg);
 let section=t=>console.log('\n== '+t+' '+'='.repeat(Math.max(0,58-t.length)));
 
 /* ---- 1. which side is a bunker actually on? ------------------------------------
-   The page derives lateral offsets with n = (cos b, -sin b), commented "right-hand
-   normal". Forward for bearing b is F=(sin b, cos b); with north=-z and east=+x the
-   player's right is (-Fz, Fx) = (-cos b, sin b). So that normal is the LEFT vector
-   and every side-specified feature is mirrored. Measure it rather than trust either. */
+   Forward for the page's internal angle b is F=(sin b, cos b); with north=-z and
+   east=+x the player's right is (-Fz, Fx) = (-cos b, sin b). The page places bunkers
+   at a signed lateral offset from a normal it builds itself, so read that normal out
+   of the target rather than assuming it -- a check that hardcodes the formula it is
+   testing cannot see the bug it exists to catch, nor the fix. */
+const NRM=html.match(/const nx=(-?)Math\.cos\(p\.b\),nz=(-?)Math\.sin\(p\.b\);/);
+if(!NRM) throw new Error('geomcheck: cannot find the bunker lateral normal in '+TARGET);
+const NSX = NRM[1]==='-' ? -1 : 1, NSZ = NRM[2]==='-' ? -1 : 1;
+const pageNormal = b => [NSX*Math.cos(b), NSZ*Math.sin(b)];
 section('bunker side vs the guide');
+console.log('page lateral normal              : ('+(NSX<0?'-':'')+'cos b, '+(NSZ<0?'-':'')+'sin b)');
 let mirrored=0, sided=0;
 for(const h of HOLES){
   const gd=(inv[h.n]&&inv[h.n].bunkers)||[];
@@ -84,7 +90,7 @@ for(const h of HOLES){
     if(want!=='left'&&want!=='right') return;
     sided++;
     const p=alongLine(h.line,b[0]);
-    const nx=Math.cos(p.b), nz=-Math.sin(p.b);          /* what the page uses */
+    const [nx,nz]=pageNormal(p.b);                       /* whatever the page uses */
     const X=p.x+nx*b[1], Z=p.z+nz*b[1];
     const F=[Math.sin(p.b),Math.cos(p.b)];
     const R=[-F[1],F[0]];                                /* the player's true right */
@@ -171,6 +177,32 @@ for(const o of OBLINES){
   }
 }
 note(crossing>0, `${crossing} out-of-bounds runs cross their own hole`);
+
+/* ---- 5b. is a sided water feature on the side the guide draws it? ---------------
+   gen-water writes the guide's side onto every left/right feature as `s`, so this is
+   checking the built geometry against the guide's own words rather than against the
+   generator's arithmetic. Untagged features (crosses, or water that predates the
+   generator) are counted but not judged. */
+section('water side vs the guide');
+let wSided=0, wWrong=0, wUntagged=0;
+for(const rec of [...PONDS,...STREAMS]){
+  if(!rec.h){ wUntagged++; continue; }
+  if(rec.s!=='left' && rec.s!=='right'){ wUntagged++; continue; }
+  const h=HOLES.find(x=>x.n===rec.h); if(!h) continue;
+  wSided++;
+  let cx,cz;
+  if(rec.c){ [cx,cz]=rec.c; }
+  else { cx=0; cz=0; for(const q of rec.p){cx+=q[0];cz+=q[1];} cx/=rec.p.length; cz/=rec.p.length; }
+  let best={d:1e9,p:null};
+  for(let f=0;f<=40;f++){ const p=alongLine(h.line,f/40);
+    const d=Math.hypot(cx-p.x,cz-p.z); if(d<best.d) best={d,p}; }
+  const F=[Math.sin(best.p.b),Math.cos(best.p.b)], R=[-F[1],F[0]];
+  const actual=((cx-best.p.x)*R[0]+(cz-best.p.z)*R[1])>0 ? 'right' : 'left';
+  if(actual!==rec.s){ wWrong++; console.log(`  hole ${rec.h} ${rec.k} should be ${rec.s}, is ${actual}`); }
+}
+console.log('water features carrying a side   :', wSided, '(' + wUntagged + ' untagged)');
+console.log('rendered on the opposite side    :', wWrong);
+note(wWrong>0, `${wWrong} of ${wSided} sided water features are mirrored`);
 
 /* ---- 6. water sitting on the hole it is tagged to ------------------------------- */
 section('water tagged to the wrong hole');

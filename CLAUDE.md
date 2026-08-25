@@ -18,12 +18,34 @@ First load takes a few seconds: terrain → water → ~1900 trees → detail, th
 **exits non-zero** if either of these regresses. Run it after any change to `HOLES`,
 the routing, or the terrain.
 
+`node banguide/geomcheck.mjs` is the other half. Counting features is not checking them, so
+this one asks whether they are on the side the guide draws them, on top of each other, or on
+top of a tee. Both take an optional path, so a candidate can be checked before it is installed.
+
 1. **Card data** — par, handicap index and all six tee distances for all 18 holes match
    the club's published guide exactly. 144 values, currently zero mismatches.
 2. **Drawn hole lengths** — each `h.line` polyline measures its own back-tee distance to
    within 0.13%. Geometry work must preserve this.
 
 Everything else the check prints is a target being worked toward, not a guarantee.
+
+## Rebuilding the course furniture
+
+The generators live in `banguide/` and read the page rather than assuming things about it:
+`lib.mjs` parses `HOLES`, the land-cover raster and the page's own lateral normal out of the
+target. Each generator takes `[target.html] out.json`; each apply script takes
+`in.html out.html data.json` and finds what it rewrites by counting brackets, never by regex.
+
+    node banguide/gen-water.mjs     cand.html  water.json
+    node banguide/gen-ob.mjs        cand.html  ob.json
+    node banguide/apply-water.mjs   cand.html  next.html  water.json ob.json
+    node banguide/gen-bunkers.mjs   next.html  bunkers.json
+    node banguide/apply-bunkers.mjs next.html  final.html bunkers.json
+
+Order matters: bunkers dodge water, so the water has to be in the file before they are
+generated. `gen-water` writes the guide's side onto every left/right feature as `s`, and
+geomcheck's water-side test reads that — so the built geometry is checked against the
+guide's own words rather than against the generator's arithmetic.
 
 ## Reference data
 
@@ -36,42 +58,45 @@ Everything else the check prints is a target being worked toward, not a guarante
 
 ## Where the alignment work stands
 
-The card is right and the hole lengths are right. The map is approximate. Current gaps,
-worst first:
+The card is right, the hole lengths are right, and every feature that has a side is now on
+it. The map is still approximate. What `geomcheck` fails on, worst first:
 
-1. **Corridors drift off the club's own map** — see item 4 below; this is now the
-   largest remaining gap.
-2. **Bunker angles are all zero.** The guide gives no orientation, so every bunker is
-   axis-aligned. The old hand-placed set had a few rotated. Cosmetic, but it is the most
-   obvious tell that the set is generated.
-3. **Routing is fixed at the clubhouse, still loose in the middle.** Holes 15–18 and 1 were
-   re-anchored (phase 02): the closing walks went from 574/348/272 m to 77/80/87 m. What
-   remains is the middle of the round — 7→8 is 172 m, 11→12 is 167 m, 5→6 is 162 m.
-   Median is 90 m against a real-course 20–80 m.
-4. **Corridors drift off the club's own map, and mostly should be left alone.** Mean 72.5%
-   of centre-line samples land on mown turf. Phase 05 measured whether refitting helps:
-   sweeping width and lateral offset per hole, with each turf cell assigned to its nearest
-   hole so a corridor cannot be rewarded for swallowing its neighbour's fairway. Best widths
-   cluster at 23–24 against the current flat 24, twelve of eighteen holes want no change,
-   and a full refit moves mean F1 only 0.493 → 0.539. The residual is mostly the raster
-   being coarse plus the four par 3s having no corridor to fit. Hole 16 at 62% with 16% of
-   its corridor in forest is the one genuine outlier left.
+1. **Holes overlap.** 12 and 13 run 1 m apart, 17 and 18 about the same, 2 and 3 at 2 m,
+   16 and 17 at 3 m. Three greens sit inside another hole's corridor — green 16 is only
+   3 m off hole 17's centre line. The phase 02 solver had no anti-overlap term; it needs
+   one and a re-run. 2&3 and 12&13 predate that phase.
+2. **Water is a set of craters.** `terrainH` floods each feature to an absolute `-wd` and
+   `buildWater` writes every surface vertex at `y=0`, so a pond on a hillside is a pit
+   with a sheet of water at sea level laid across it. Each feature needs a local water
+   level read off the terrain around it, and its own surface height.
+3. **Four tees stand in water**, and one does not play its card distance: the page walks a
+   wet tee pad sideways onto dry ground but the card length is measured from where the pad
+   was meant to be.
+4. **Two water features are nearer another hole than the one they are tagged to.** The
+   green de-collision pass pushes them further than it needs to.
+5. **Corridors drift off the club's own map.** Mean 72.5% of centre-line samples land on
+   mown turf; 6 of 18 green centres are off it. Phase 05 measured whether refitting helps:
+   twelve of eighteen holes want no change and a full refit moves mean F1 only 0.493 →
+   0.539, so most of the residual is the raster being coarse and the four par 3s having no
+   corridor to fit. Hole 16 at 62%, with 16% of its corridor in forest, is the one genuine
+   outlier. **If you sweep this again**: assign each turf cell to its nearest hole first, or
+   the fit hits the search bounds on every axis and asks for 80 m corridors shifted 34 m.
+6. **The middle of the round still walks a long way.** The closing holes were re-anchored in
+   phase 02 and the walks there went from 574/348/272 m to 77/80/87 m, but 7→8 is 172 m,
+   11→12 is 167 m and 5→6 is 162 m. Median 90 m against a real course's 20–80.
+7. **Bunker angles are all zero.** The guide gives no orientation, so every bunker is
+   axis-aligned. Cosmetic, but it is the most obvious tell that the set is generated.
+8. **Hole 7 reads 39° off its rose.** That is inside the reading error of a small dark
+   rose, and every other readable rose now agrees — hole 17 was 139° out and was turned in
+   phase 02, and sits 6° off now.
 
-   **If you sweep this again**: assign turf to the nearest hole first. Without that, the fit
-   hits the search bounds on every axis and asks for 80 m corridors shifted 34 m.
-5. **Bearings are good.** Hole 17 was 139° off its rose and was turned in phase 02; it now
-   sits 6° off. 15 of 16 readable roses agree, mean error 9°. Only hole 7 remains at 39°,
-   which is inside the reading error of a small dark rose.
-6. **Missing guide furniture** — distance markers, "Next Tee", per-hole compass.
+All six phases of the alignment plan are done: 02 routing and orientation, 03 water, 04
+penalty marking, 05 bunkers, 06 guide furniture. Water is 49 of 56 — the seven skipped are
+ones the fjord already provides. Marking is 64 runs against the guide's 63, bunkers 53 of 53.
 
-All six phases of the alignment plan are done: 02 routing and orientation, 03 water,
-04 penalty marking, 05 bunkers, 06 guide furniture. Water is 51 of 56 — the five skipped
-are ones the fjord already provides. Marking is 66 runs against the guide's 63. Bunkers
-are 53 of 53. Distance plates, next-tee signs and a per-hole compass rose are in.
-
-What is left is judgement work rather than plan work: hole 16's corridor still crosses
-16% forest, hole 7's compass rose disagrees by 39° and wants a human eye, and the middle
-of the round still walks 150–170 m between some holes.
+Suggested next step is the routing solver with an anti-overlap term, because items 1, 5 and 6
+are all that same solver, and moving a hole invalidates the water and bunkers around it. Do
+it before the water elevation work or the 49 water features get rebuilt twice.
 
 **The fairway plates are distance-to-green markers, not pin positions** — red 100 m,
 yellow 150 m, white 200 m. An early reading of the guide took them for pins, which would
@@ -111,6 +136,15 @@ and leaves 130 m walks; and let the neighbouring hole move a little — freeing 
 **Bearings.** North is **−z**, east is +x. A compass bearing is `atan2(dx, -dz)`, which is
 what the page's own `bearingName` does. Using `atan2(dx, dz)` reflects every angle and
 looks plausible — it produced a confident, wrong conclusion once already.
+
+**Left and right**, which is a different thing from the bearing. `alongLine` returns an angle
+`b` for which **forward is `(sin b, cos b)`**. North being −z, the player's right hand is
+`(-Fz, Fx)` = **`(-cos b, sin b)`**. The page used `(cos b, -sin b)` and called it the
+right-hand normal; that is the *left* vector, and it quietly mirrored 51 bunkers, 33 water
+features and every sided out-of-bounds run. Fixed — but note how it survived so long: the
+checker had the same formula hardcoded, so it agreed with the bug, and then agreed just as
+readily with the fix. Anything that judges a side must read the normal out of the target file
+(`banguide/lib.mjs` does) instead of restating it.
 
 **Colour management (r185).** Three separate rules, and they disagree with each other on
 purpose:
