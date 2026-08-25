@@ -27,6 +27,12 @@ function arr(name) {
 }
 const APONDS = arr('PONDS'), ASTREAMS = arr('STREAMS');
 const waterOn = n => APONDS.filter(p => p.h === n).length + ASTREAMS.filter(t => t.h === n).length;
+/* marked runs the page draws: every penalty-tagged water feature carries its own
+   margin line, plus the white out-of-bounds runs */
+const AOB = arr('OBLINES');
+const markOn = n => APONDS.filter(p => p.h === n && p.pen).length
+                  + ASTREAMS.filter(t => t.h === n && t.pen).length
+                  + AOB.filter(o => o.h === n).length;
 
 /* ---- land-cover raster read off the club course map ---- */
 const g = re => html.match(re)[1];
@@ -78,7 +84,7 @@ for (let i = 0; i < HOLES.length; i++) {
     walk: hyp(gpt, next.line[0]), bearing: b, bDelta,
     bunkApp: (h.bk || []).length, bunkGuide: (gi.bunkers || []).length,
     waterApp: waterOn(h.n), waterGuide: (gi.water || []).length,
-    markApp: h.ob ? 1 : 0, markGuide: (gi.boundaries || []).length,
+    markApp: markOn(h.n), markGuide: (gi.boundaries || []).length,
   });
   if (!cardOK) fail.push(`hole ${h.n}: card does not match the guide`);
   if (Math.abs(lenErr) > 0.5) fail.push(`hole ${h.n}: drawn length off by ${lenErr.toFixed(2)}%`);

@@ -39,28 +39,38 @@ Everything else the check prints is a target being worked toward, not a guarante
 The card is right and the hole lengths are right. The map is approximate. Current gaps,
 worst first:
 
-1. **Water is not modelled.** `STREAMS` and `WOODS` are empty, `PONDS` has one entry.
-   The guide draws 56 water features. Holes 6 and 18 are literally named after a ditch
-   and a brook that do not exist in the geometry.
-2. **No penalty or boundary marking.** The guide has 63 marked runs (29 red, 19 yellow,
-   15 white). The app has two bare `ob:'left'`/`'right'` strings.
+1. **Corridors drift off the club's own map** — see item 4 below; this is now the
+   largest remaining gap.
+2. **Bunkers**: 44 modelled against the guide's 53. Hole 5 has six in the guide and two
+   here, hole 6 four against one. Positions are unverified against `approxFraction`.
 3. **Routing is fixed at the clubhouse, still loose in the middle.** Holes 15–18 and 1 were
    re-anchored (phase 02): the closing walks went from 574/348/272 m to 77/80/87 m. What
    remains is the middle of the round — 7→8 is 172 m, 11→12 is 167 m, 5→6 is 162 m.
    Median is 90 m against a real-course 20–80 m.
-4. **Corridors drift off the club's own map.** Mean 73% of centre-line samples land on
+4. **Corridors drift off the club's own map.** Mean 72.5% of centre-line samples land on
    mown turf in the embedded land-cover raster; 6 of 18 green centres are off turf.
    Some of this is honest — the southern fairways are genuinely narrow and the corridor
-   width is a flat 24/26 m. Hole 4 at 43% is a real outlier.
+   width is a flat 24/26 m. Hole 4 at 43% and hole 16 at 62% are the real outliers, and
+   16's corridor crosses 16% forest.
 5. **Bearings are good.** Hole 17 was 139° off its rose and was turned in phase 02; it now
    sits 6° off. 15 of 16 readable roses agree, mean error 9°. Only hole 7 remains at 39°,
    which is inside the reading error of a small dark rose.
 6. **Missing guide furniture** — distance markers, "Next Tee", per-hole compass.
 
-Phase 02 (routing and orientation) is done. The suggested next step is the water and the
-penalty marking — gaps 1 and 2 — which is where the app starts to look like the guide.
-`banguide/guide-inventory.json` already holds every feature, so this is data entry plus
-rendering rather than research.
+Phases 02 (routing and orientation), 03 (water) and 04 (penalty marking) are done.
+Water is 51 of 56 — the five skipped are ones the fjord already provides. Marking is
+66 runs against the guide's 63. The suggested next step is phase 05, fitting the
+corridors and greens onto the land-cover raster, then the guide furniture in phase 06.
+
+**Water and marking.** `PONDS` and `STREAMS` are generated from
+`banguide/guide-inventory.json`, not hand-placed, and both feed terrain shaping that was
+already in the file (`streamAt` carves, `waterDepth` floods, `waterSD` benches).
+`wetAt` bakes them into a 4 m mask at startup because it is called over a million times
+while the water surface builds. Red and yellow marking traces the margins of the water it
+marks, so a line can never drift away from its hazard; white follows the property
+boundary. If you regenerate, keep the three safety rules that took three passes to get
+right: clear the playing corridor, never sit on a green, and de-collide **globally** —
+per-hole guards cannot see that hole 17's lake is sitting on the 8th green.
 
 **Re-anchoring holes.** `solve.mjs` in the phase-02 work treated each hole as a rigid body
 (translate + rotate about its midpoint), which preserves shape and card length exactly, and
