@@ -793,30 +793,44 @@ function turfStd(tex,norm,fixedSurf){
     sh.uniforms.uD={value:tex};
     sh.uniforms.uFix={value:(fixedSurf===undefined?-1:fixedSurf)};
     sh.vertexShader=sh.vertexShader
-      .replace('#include <common>','#include <common>\nattribute float surf;\nvarying float vSurf;\nvarying vec3 vWP;')
-      .replace('#include <begin_vertex>','#include <begin_vertex>\nvSurf=surf;\nvWP=(modelMatrix*vec4(position,1.0)).xyz;');
+      .replace('#include <common>','#include <common>\nattribute float surf;\nattribute float aDet;attribute float aBmp;attribute float aGls;attribute float aStr;\nvarying float vSurf;\nvarying vec3 vWP;\nvarying float vDet;varying float vBmp;varying float vGls;varying float vStr;')
+      .replace('#include <begin_vertex>','#include <begin_vertex>\nvSurf=surf;\nvWP=(modelMatrix*vec4(position,1.0)).xyz;\nvDet=aDet;vBmp=aBmp;vGls=aGls;vStr=aStr;');
     sh.fragmentShader=sh.fragmentShader
-      .replace('#include <common>','#include <common>\nuniform sampler2D uD;\nuniform float uFix;\nvarying float vSurf;\nvarying vec3 vWP;')
+      .replace('#include <common>','#include <common>\nuniform sampler2D uD;\nuniform float uFix;\nvarying float vSurf;\nvarying vec3 vWP;\nvarying float vDet;varying float vBmp;varying float vGls;varying float vStr;')
       .replace('#include <color_fragment>',`#include <color_fragment>
         float S = uFix>=0.0 ? uFix : vSurf;
         vec2 wp=vWP.xz;
         float cd=length(cameraPosition-vWP);
         float hi=1.0-smoothstep(45.0,200.0,cd);
         bool isSand=(S>5.5&&S<6.5), isGreen=(S>2.5&&S<3.5), isFescue=(S<0.5);
-        float sc = isSand?2.10:(isFescue?0.52:(isGreen?1.75:1.05));
+        bool isPan=(S>7.5&&S<8.5);
+        /* surfShade() solves the detail frequency per vertex; the per-id constant is
+           only a fallback for geometry that carries no aDet attribute */
+        float scId = isSand?2.10:(isFescue?0.52:(isGreen?1.75:1.05));
+        float sc = vDet>0.01 ? vDet : scId;
         float d1=texture2D(uD,wp*sc*0.55).r;
         float d2=texture2D(uD,wp*sc*2.4).g;
         float d3=texture2D(uD,wp*0.075).b;
         float det=mix(d1*0.60+d3*0.40, d1*0.34+d2*0.42+d3*0.24, hi);
-        float amt = isSand?0.30:(isGreen?0.15:(isFescue?0.62:0.50));
+        float amt = isSand?0.30:(isGreen?0.15:(isFescue?0.62:(isPan?0.66:0.50)));
         diffuseColor.rgb*=mix(1.0,0.62+0.80*det,amt);
-        if(S>1.5&&S<2.5){                       /* fairway mowing bands */
-          float b=sin((wp.x*0.7071+wp.y*0.7071)*0.60);
-          diffuseColor.rgb*=1.0+0.042*sign(b);
+        /* mowing: vStr carries the cut, so fairway, tee and green each read
+           differently instead of the fairway alone being striped */
+        if(vStr>0.01){
+          float b1=sin((wp.x*0.7071+wp.y*0.7071)*0.60);
+          diffuseColor.rgb*=1.0+0.042*sign(b1)*min(vStr,1.0);
+          if(vStr>1.05){                         /* tees and greens cross-cut */
+            float b2=sin((wp.x*0.7071-wp.y*0.7071)*1.35);
+            diffuseColor.rgb*=1.0+0.020*sign(b2)*min(vStr-1.0,1.0);
+          }
         }
         if(isSand){                              /* raked ripples */
           float rp=sin(wp.x*0.55+wp.y*0.30+d1*5.0);
           diffuseColor.rgb*=1.0+0.05*rp*hi;
+        }
+        if(isPan){                               /* dry, cracked hardpan */
+          float ck=smoothstep(0.62,0.78,d2);
+          diffuseColor.rgb*=1.0-0.16*ck*hi;
         }`)
       .replace('#include <roughnessmap_fragment>',`
         float S2 = uFix>=0.0 ? uFix : vSurf;
@@ -831,7 +845,20 @@ function turfStd(tex,norm,fixedSurf){
         else if(S2<7.5) roughnessFactor=0.86;   /* cart path          */
         else if(S2<8.5) roughnessFactor=0.94;   /* dirt / hardpan     */
         else if(S2<9.5) roughnessFactor=0.98;   /* pine straw         */
-        else            roughnessFactor=0.38;   /* wet shore          */`);
+        else            roughnessFactor=0.38;   /* wet shore          */
+        /* surfShade's gloss channel. specularStrength does not exist in the standard
+           BRDF, so the only honest route for it is roughness. */
+        if(vGls>0.001) roughnessFactor*=mix(1.05,0.70,clamp(vGls*1.9,0.0,1.0));`)
+      .replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
+        { float _nd=length(cameraPosition-vWP);
+          float _nf=1.0-smoothstep(70.0,240.0,_nd);
+          if(_nf>0.001&&vBmp>0.001){             /* micro-relief, per surfShade */
+            vec2 wq=vWP.xz*max(vDet*0.9,0.05);
+            float h0=texture2D(uD,wq).g;
+            float hx=texture2D(uD,wq+vec2(0.35,0.0)).g;
+            float hy=texture2D(uD,wq+vec2(0.0,0.35)).g;
+            normal=normalize(normal+vec3(h0-hx,0.0,h0-hy)*vBmp*2.0*_nf);
+          } }`);
   };
   m.customProgramCacheKey=()=>'std'+(norm?1:0)+'_'+fixedSurf;
   return m;
@@ -984,6 +1011,11 @@ function buildTerrain(){
       const sf=surfaceAt(x,z), fw=Math.max(sf.fair,lcCov(x,z,2)*0.9);
       let id=0;
       if(lcCov(x,z,3)>0.5) id=9;
+      if(1-nrm[v*3+1]>0.05||(sf.path>0.14&&sf.path<=0.40)) id=8;
+        /* hardpan: eroded ground on the steeper faces, plus the worn margin either
+           side of a cart path. Thresholds measured against the built terrain rather
+           than guessed -- the course is very flat (90th-percentile slope 0.0028), so
+           this legitimately covers only about 0.5% of vertices. */
       if(fw>0.06) id=1;
       if(fw>0.28) id=2;
       if(sf.fringe>0.30) id=4;
