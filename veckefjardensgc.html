@@ -127,7 +127,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   background:rgba(7,22,27,.74);backdrop-filter:blur(8px);padding:5px}
 #minibox b{display:block;font-family:var(--mono);font-size:8px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--lav);text-align:center;padding-bottom:4px;font-weight:400}
-#mini{display:block}
+#mini{display:block;position:static;inset:auto}
 @media(max-width:640px){#minibox{right:8px;top:auto;bottom:152px;transform:scale(.7);transform-origin:bottom right}}
 #hint{position:fixed;left:50%;transform:translateX(-50%);bottom:118px;z-index:19;
   font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
@@ -894,7 +894,7 @@ function turfMat(tex,sA,sB,sC,amt,stripe,map,norm){
   m.customProgramCacheKey=()=>'turf2_'+sA+'_'+sB+'_'+sC+'_'+amt+'_'+(map?1:0)+'_'+(norm?1:0);
   return m;
 }
-function lam(o){const m=stdMat(o);if(o.color!==undefined)m.color.convertSRGBToLinear();return m;}
+function lam(o){return stdMat(o);}   /* r185 ColorManagement converts Color(hex) already */
 const s2l=v=>v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4);
 const L=a=>[s2l(a[0]),s2l(a[1]),s2l(a[2])];
 const C={
@@ -1113,7 +1113,7 @@ function buildOverlays(){
 
 /* ===================== water ===================== */
 const waterUni={t:{value:0},cShallow:{value:new THREE.Color(0x3E7E8C)},
-                cDeep:{value:new THREE.Color(0x0C2E3E)},sunDir:{value:new THREE.Vector3(-0.45,0.42,0.79)},
+                cDeep:{value:new THREE.Color(0x0C2E3E)},sunDir:{value:new THREE.Vector3(-0.42,0.46,-0.78)},
                 fogColor:{value:new THREE.Color(0xAFCBD2)},fogDensity:{value:0.00038}};
 const waterMat=new THREE.ShaderMaterial({
   uniforms:waterUni,transparent:true,
@@ -1385,7 +1385,7 @@ function buildDetail(){
   const tg=new THREE.SphereGeometry(0.42,7,5);
   TEE_COLS.forEach((c,ti)=>{
     const list=TEES.filter(t=>t.i===ti);
-    const tm=stdMat({color:c});tm.color.convertSRGBToLinear();
+    const tm=stdMat({color:c});
     const im=new THREE.InstancedMesh(tg,tm,list.length*2);
     list.forEach((t,i)=>{
       for(let s=0;s<2;s++){
@@ -1459,11 +1459,13 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.22;
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = THREE.PCFShadowMap;
 document.body.appendChild(renderer.domElement);
 
+const SKY = 0xAFCBD2;                             /* == waterUni.fogColor        */
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x9FC0D8);
+scene.background = new THREE.Color(SKY);
+scene.fog = new THREE.FogExp2(SKY, 0.00038);      /* == waterUni.fogDensity      */
 
 const camera = new THREE.PerspectiveCamera(52, innerWidth / innerHeight, 2, 16000);
 camera.position.set(CX, 600, CZ + 900);
@@ -1721,13 +1723,14 @@ const step=(p,m)=>new Promise(r=>{bootbar.style.width=p+'%';bootmsg.textContent=
 
 window.__d={renderer:renderer,scene:scene,camera:camera,rig:rig,trees:trees};
 /* ===================== loop ===================== */
-const clock=new THREE.Clock();
+const clock=new THREE.Timer();
 const rElev=document.getElementById('r-elev'),rDist=document.getElementById('r-dist');
 let acc=0;
 function animate(){
   initPBR();
   requestAnimationFrame(animate);
-  const dt=Math.min(clock.getDelta(),0.1),t=clock.elapsedTime;
+  clock.update();
+  const dt=Math.min(clock.getDelta(),0.1),t=clock.getElapsed();
   waterUni.t.value=t;
 
   if(tweening){
