@@ -262,8 +262,12 @@ table.sc tr.tot td{color:var(--ljung);border-top:1px solid var(--line)}
   <a href="https://www.top100golfcourses.com/golf-course/veckefjaerden" target="_blank" rel="noopener">Top 100 Golf Courses</a></p>
 </div></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.185.0/build/three.module.min.js"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+window.THREE = THREE;
 /* ============================================================================
    VECKEFJÄRDENS GC — MÄSTERSKAPSBANAN
    Distances / par / index: club scorecard (LiveCaddie course 379).
@@ -1018,7 +1022,7 @@ function buildTerrain(){
   }
   geo.setAttribute('uv',new THREE.BufferAttribute(uv,2));
   const tex=new THREE.TextureLoader().load(TEXSRC);
-  tex.anisotropy=8;tex.wrapS=tex.wrapT=THREE.ClampToEdgeWrapping;tex.encoding=THREE.sRGBEncoding;
+  tex.anisotropy=8;tex.wrapS=tex.wrapT=THREE.ClampToEdgeWrapping;tex.colorSpace=THREE.SRGBColorSpace;
   const turfNrm=NRM.clone();turfNrm.wrapS=turfNrm.wrapT=THREE.RepeatWrapping;
   turfNrm.repeat.set(W/7.5,D/7.5);turfNrm.needsUpdate=true;
   terrain=new THREE.Mesh(geo,turfStd(DET,turfNrm));
@@ -1407,7 +1411,7 @@ function buildDetail(){
     g2.fillStyle='#CC6B84';g2.fillRect(0,0,128,88);
     g2.fillStyle='#F1EBDA';g2.font='bold 58px "Bricolage Grotesque",sans-serif';
     g2.textAlign='center';g2.textBaseline='middle';g2.fillText(String(f.h),64,46);
-    const tex=new THREE.CanvasTexture(cv);tex.anisotropy=4;tex.encoding=THREE.sRGBEncoding;
+    const tex=new THREE.CanvasTexture(cv);tex.anisotropy=4;tex.colorSpace=THREE.SRGBColorSpace;
     const cloth=new THREE.Mesh(new THREE.PlaneGeometry(3.4,2.3,8,2),
       stdMat({map:tex,side:THREE.DoubleSide}));
     cloth.position.set(1.7,6.0,0);cloth.castShadow=true;
@@ -1433,6 +1437,55 @@ function buildDetail(){
   });
   stakes.count=sn;scene.add(stakes);
 }
+
+/* ===================== stage: renderer, scene, camera, light =====================
+   Rebuilt from the constraints the surrounding code imposes:
+     PlaneGeometry(W,D,NX,NZ) at buildTerrain, sampleH's (NX+1)-stride row-major
+     lookup, heightGrid[i/3] indexed by vertex, and the LOW quality flag used by
+     buildWater and buildTrees.  STEP=7 m gives 214 x 280 = 59 920 vertices.      */
+const LOW = Math.min(innerWidth, innerHeight) < 760 || (navigator.hardwareConcurrency || 8) <= 4;
+
+const STEP = 7;                                   /* metres between grid samples  */
+const NX = Math.round(W / STEP), NZ = Math.round(D / STEP);
+const heightGrid = new Float32Array((NX + 1) * (NZ + 1));
+let terrain = null;
+
+const CX = (BND.x0 + BND.x1) / 2, CZ = (BND.z0 + BND.z1) / 2;
+
+const renderer = new THREE.WebGLRenderer({antialias: !LOW, powerPreference: 'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, LOW ? 1.25 : 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.22;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x9FC0D8);
+
+const camera = new THREE.PerspectiveCamera(52, innerWidth / innerHeight, 2, 16000);
+camera.position.set(CX, 600, CZ + 900);
+
+/* sun direction matches the highlight baked into the environment shader below */
+const SUNDIR = new THREE.Vector3(-0.42, 0.46, -0.78).normalize();
+const sun = new THREE.DirectionalLight(0xFFF0DA, 2.6);
+sun.position.copy(SUNDIR).multiplyScalar(2600).add(new THREE.Vector3(CX, 0, CZ));
+sun.target.position.set(CX, 0, CZ);
+sun.castShadow = true;
+sun.shadow.mapSize.set(LOW ? 1024 : 2048, LOW ? 1024 : 2048);
+sun.shadow.camera.near = 400;
+sun.shadow.camera.far = 5200;
+{const S = 1150; const c = sun.shadow.camera; c.left = -S; c.right = S; c.top = S; c.bottom = -S; c.updateProjectionMatrix();}
+sun.shadow.bias = -0.0005;
+sun.shadow.normalBias = 1.1;
+scene.add(sun);
+scene.add(sun.target);
+
+const hemi = new THREE.HemisphereLight(0xBFD8F2, 0x4C5A3C, 1.6);
+hemi.position.set(CX, 400, CZ);
+scene.add(hemi);
 
 /* ===================== camera rig ===================== */
 const rig={tx:0,ty:20,tz:-120,r:900,th:2.5,ph:1.02};
