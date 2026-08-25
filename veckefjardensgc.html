@@ -899,16 +899,17 @@ function turfStd(tex,norm,fixedSurf){
         float cd=length(cameraPosition-vWP);
         float hi=1.0-smoothstep(45.0,200.0,cd);
         bool isSand=(S>5.5&&S<6.5), isGreen=(S>2.5&&S<3.5), isFescue=(S<0.5);
-        bool isPan=(S>7.5&&S<8.5);
+        bool isFringe=(S>3.5&&S<4.5), isTee=(S>4.5&&S<5.5), isPath=(S>6.5&&S<7.5);
+        bool isPan=(S>7.5&&S<8.5), isStraw=(S>8.5&&S<9.5), isShore=(S>9.5);
         /* surfShade() solves the detail frequency per vertex; the per-id constant is
            only a fallback for geometry that carries no aDet attribute */
-        float scId = isSand?2.10:(isFescue?0.52:(isGreen?1.75:1.05));
+        float scId = isSand?2.45:(isPath?3.15:(isPan?2.85:(isStraw?1.65:(isFescue?0.48:(isGreen?2.90:(isFringe?2.05:(isTee?2.35:1.35)))))));
         float sc = vDet>0.01 ? vDet : scId;
         float d1=texture2D(uD,wp*sc*0.55).r;
         float d2=texture2D(uD,wp*sc*2.4).g;
         float d3=texture2D(uD,wp*0.075).b;
         float det=mix(d1*0.60+d3*0.40, d1*0.34+d2*0.42+d3*0.24, hi);
-        float amt = isSand?0.30:(isGreen?0.15:(isFescue?0.62:(isPan?0.66:0.50)));
+        float amt = isSand?0.42:(isGreen?0.18:(isFringe?0.26:(isTee?0.30:(isPath?0.58:(isStraw?0.50:(isShore?0.36:(isFescue?0.68:(isPan?0.70:0.54))))))));
         diffuseColor.rgb*=mix(1.0,0.62+0.80*det,amt);
         /* mowing: vStr carries the cut, so fairway, tee and green each read
            differently instead of the fairway alone being striped */
@@ -920,9 +921,22 @@ function turfStd(tex,norm,fixedSurf){
             diffuseColor.rgb*=1.0+0.020*sign(b2)*min(vStr-1.0,1.0);
           }
         }
-        if(isSand){                              /* raked ripples */
-          float rp=sin(wp.x*0.55+wp.y*0.30+d1*5.0);
-          diffuseColor.rgb*=1.0+0.05*rp*hi;
+        if(isSand){                              /* raked ripples and bunker grain */
+          float rake=sin(wp.x*0.70+wp.y*0.34+d1*5.0);
+          float shoe=smoothstep(0.64,0.86,d2)*smoothstep(0.86,0.58,d1);
+          diffuseColor.rgb*=1.0+0.075*rake*hi-0.065*shoe*hi;
+        }
+        if(isPath){                              /* gravel/asphalt aggregate */
+          float chip=smoothstep(0.42,0.86,d2);
+          diffuseColor.rgb*=mix(0.86,1.18,chip*hi);
+        }
+        if(isStraw){                             /* pine needles and mulch */
+          float ndl=sin(wp.x*2.2+d2*9.0)*sin(wp.y*0.55+d1*5.0);
+          diffuseColor.rgb*=1.0+0.06*ndl*hi;
+        }
+        if(isGreen||isTee){
+          float velvet=0.5+0.5*sin((wp.x*0.55-wp.y*0.18));
+          diffuseColor.rgb*=1.0+0.025*(velvet-0.5)*hi;
         }
         if(isPan){                               /* dry, cracked hardpan */
           float ck=smoothstep(0.62,0.78,d2);
@@ -937,8 +951,8 @@ function turfStd(tex,norm,fixedSurf){
         else if(S2<3.5) roughnessFactor=0.68;   /* putting green      */
         else if(S2<4.5) roughnessFactor=0.79;   /* fringe / collar    */
         else if(S2<5.5) roughnessFactor=0.83;   /* tee box            */
-        else if(S2<6.5) roughnessFactor=0.99;   /* sand               */
-        else if(S2<7.5) roughnessFactor=0.86;   /* cart path          */
+        else if(S2<6.5) roughnessFactor=0.96;   /* sand, matte but shaped */
+        else if(S2<7.5) roughnessFactor=0.74;   /* cart path aggregate */
         else if(S2<8.5) roughnessFactor=0.94;   /* dirt / hardpan     */
         else if(S2<9.5) roughnessFactor=0.98;   /* pine straw         */
         else            roughnessFactor=0.38;   /* wet shore          */
@@ -1241,15 +1255,16 @@ function buildOverlays(){
    colours must stay raw sRGB. setHex with LinearSRGBColorSpace stores the bytes
    verbatim instead of converting them into the linear working space.              */
 const rawSRGB=h=>new THREE.Color().setHex(h,THREE.LinearSRGBColorSpace);
-const waterUni={t:{value:0},cShallow:{value:rawSRGB(0x3E7E8C)},
-                cDeep:{value:rawSRGB(0x0C2E3E)},sunDir:{value:new THREE.Vector3(-0.42,0.46,0.78)},
+const waterUni={t:{value:0},cShallow:{value:rawSRGB(0x4B9AAA)},
+                cDeep:{value:rawSRGB(0x062230)},cRefl:{value:rawSRGB(0xDDECF0)},
+                sunDir:{value:new THREE.Vector3(-0.42,0.46,0.78)},
                 fogColor:{value:rawSRGB(0xAFCBD2)},fogDensity:{value:0.00038}};
 const waterMat=new THREE.ShaderMaterial({
   uniforms:waterUni,transparent:true,
   vertexShader:`attribute float shore; varying float vS; varying vec3 vW;
     void main(){vS=shore;vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;
       gl_Position=projectionMatrix*viewMatrix*w;}`,
-  fragmentShader:`uniform float t; uniform vec3 cShallow,cDeep,sunDir,fogColor; uniform float fogDensity;
+  fragmentShader:`uniform float t; uniform vec3 cShallow,cDeep,cRefl,sunDir,fogColor; uniform float fogDensity;
     varying float vS; varying vec3 vW;
     void main(){
       if(vS<=0.5) discard;   // dry land: no water sheet
@@ -1257,6 +1272,7 @@ const waterMat=new THREE.ShaderMaterial({
       vec2 p=vW.xz;
       float w1=sin(p.x*0.062+t*0.9)+sin(p.y*0.048-t*0.7);
       float w2=sin((p.x+p.y)*0.031+t*0.45)+sin((p.x-p.y)*0.026-t*0.36);
+      float cap=sin(p.x*0.21+p.y*0.12+t*1.8)*sin(p.x*0.08-p.y*0.19-t*1.35);
       float _wd=length(cameraPosition-vW);
       float _hf=1.0-smoothstep(140.0,650.0,_wd);
       float w3=(sin(p.x*0.17-t*1.7)*0.35+sin(p.y*0.155+t*1.5)*0.35)*_hf;
@@ -1265,7 +1281,8 @@ const waterMat=new THREE.ShaderMaterial({
       float fres=pow(1.0-max(dot(n,V),0.0),3.0);
       float depth=smoothstep(0.0,42.0,vS);
       vec3 c=mix(cShallow,cDeep,depth);
-      c=mix(c,vec3(0.62,0.76,0.82),fres*0.85);
+      c=mix(c,cRefl,fres*0.82);
+      c+=vec3(0.03,0.07,0.08)*cap*(1.0-depth)*_hf;
       float spec=pow(max(dot(reflect(-normalize(sunDir),n),V),0.0),90.0);
       c+=vec3(1.0,0.95,0.85)*spec*0.75;
       float foam=smoothstep(6.0,0.0,vS)*(0.45+0.35*_hf*sin(p.x*0.34+p.y*0.29+t*2.1));
@@ -1383,12 +1400,12 @@ const M4=(x,y,z,sx,sy,sz)=>new THREE.Matrix4().compose(
 
 /* ===================== trees ===================== */
 function spruceGeo(){
-  const bark=L([0.24,0.19,0.15]),nd=L([0.114,0.216,0.153]),nl=L([0.161,0.286,0.180]);
+  const bark=L([0.24,0.19,0.15]),nd=L([0.114,0.216,0.153]),nl=L([0.161,0.286,0.180]),tip=L([0.196,0.345,0.208]);
   return merge([
-    {g:new THREE.CylinderGeometry(0.30,0.46,3.0,5,1,true),m:M4(0,1.5,0),c:bark},
-    {g:new THREE.ConeGeometry(3.3,5.6,7,1,true),m:M4(0,4.4,0),c:nd},
-    {g:new THREE.ConeGeometry(2.6,5.2,7,1,true),m:M4(0,7.5,0),c:nl},
-    {g:new THREE.ConeGeometry(1.7,4.6,6,1,true),m:M4(0,10.6,0),c:nl}
+    {g:new THREE.CylinderGeometry(0.30,0.46,3.0,7,1,true),m:M4(0,1.5,0),c:bark},
+    {g:new THREE.ConeGeometry(3.5,5.8,9,1,true),m:M4(0,4.4,0),c:nd},
+    {g:new THREE.ConeGeometry(2.7,5.4,9,1,true),m:M4(0,7.6,0),c:nl},
+    {g:new THREE.ConeGeometry(1.8,4.8,8,1,true),m:M4(0,10.8,0),c:tip}
   ]);
 }
 function pineGeo(){
@@ -1507,8 +1524,17 @@ function buildTrees(){
   });
 }
 /* ===================== reeds, rocks, flags, tees, buildings ===================== */
+function rockGeo(){
+  const g=new THREE.DodecahedronGeometry(1,0);
+  const pos=g.attributes.position.array;
+  for(let i=0;i<pos.length;i+=3){
+    const n=0.82+hash2((pos[i]*41)|0,(pos[i+1]*53+pos[i+2]*67)|0)*0.46;
+    pos[i]*=n*1.18; pos[i+1]*=(0.55+n*0.35); pos[i+2]*=(0.90+n*0.28);
+  }
+  g.computeVertexNormals(); return g;
+}
 function buildDetail(){
-  const m=new THREE.Matrix4(),q=new THREE.Quaternion(),
+  const m=new THREE.Matrix4(),q=new THREE.Quaternion(),e=new THREE.Euler(),
         v=new THREE.Vector3(),sv=new THREE.Vector3();
   /* tee markers */
   const tg=new THREE.SphereGeometry(0.42,7,5);
@@ -1565,6 +1591,26 @@ function buildDetail(){
     }
   });
   stakes.count=sn;scene.add(stakes);
+
+  /* shoreline, bunker-lip and hazard-border stones */
+  const rocks=[];
+  for(let z=BND.z0+12;z<BND.z1-12;z+=18)for(let x=BND.x0+12;x<BND.x1-12;x+=18){
+    const r=hash2((x*19)|0,(z*23)|0); if(r>0.34)continue;
+    const jx=x+(hash2(x|0,z|0)-0.5)*15, jz=z+(hash2((x+7)|0,(z-9)|0)-0.5)*15;
+    const h=sampleH(jx,jz), sf=surfaceAt(jx,jz); if(h<0.15||sf.green>0.08||sf.tee>0.08||sf.fair>0.22)continue;
+    let dWater=Math.abs(waterSD(jx,jz)), dSand=1e9;
+    for(const b of BUNKERS)dSand=Math.min(dSand,Math.abs(ellipseSD(jx,jz,b.x,b.z,b.rx+1.2,b.rz+1.2,b.rot)));
+    const border=Math.min(dWater,dSand);
+    if(border<3.8 || (sf.path>0.18&&r<0.08))rocks.push([jx,h+0.10,jz,0.55+hash2(x|0,(z+31)|0)*1.35,r*6.283]);
+  }
+  const rg=rockGeo(),rm=stdMat({color:0x77786D,roughness:0.88});
+  const rim=new THREE.InstancedMesh(rg,rm,LOW?Math.min(rocks.length,240):Math.min(rocks.length,520));
+  for(let i=0;i<rim.count;i++){
+    const t=rocks[i]; e.set(hash2(i,2)*0.5,t[4],hash2(i,5)*0.5); q.setFromEuler(e);
+    v.set(t[0],t[1],t[2]); sv.set(t[3]*1.35,t[3]*0.55,t[3]); m.compose(v,q,sv); rim.setMatrixAt(i,m);
+  }
+  rim.castShadow=true; rim.receiveShadow=true; scene.add(rim);
+
 }
 
 /* ===================== stage: renderer, scene, camera, light =====================
