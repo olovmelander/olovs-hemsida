@@ -18,6 +18,16 @@ const s = html.indexOf('const HOLES = ['), e = html.indexOf('\nconst CLUB=');
 if (s < 0 || e < 0) { console.error('could not locate the HOLES array'); process.exit(2); }
 const HOLES = eval(html.slice(s, e).replace('const HOLES = [', '[').replace(/\];[\s\S]*$/, '];'));
 
+/* water the page actually models, tagged per hole by the generator */
+function arr(name) {
+  const i = html.indexOf('const ' + name + '=');
+  if (i < 0) return [];
+  const j = html.indexOf('];', i);
+  try { return eval(html.slice(html.indexOf('[', i), j + 1)); } catch (e) { return []; }
+}
+const APONDS = arr('PONDS'), ASTREAMS = arr('STREAMS');
+const waterOn = n => APONDS.filter(p => p.h === n).length + ASTREAMS.filter(t => t.h === n).length;
+
 /* ---- land-cover raster read off the club course map ---- */
 const g = re => html.match(re)[1];
 const LCM = new Uint8Array(Buffer.from(g(/const LCB64='([^']+)'/), 'base64'));
@@ -67,7 +77,7 @@ for (let i = 0; i < HOLES.length; i++) {
     greenOn: COVER[lcClass(gpt[0], gpt[1])],
     walk: hyp(gpt, next.line[0]), bearing: b, bDelta,
     bunkApp: (h.bk || []).length, bunkGuide: (gi.bunkers || []).length,
-    waterApp: 0, waterGuide: (gi.water || []).length,
+    waterApp: waterOn(h.n), waterGuide: (gi.water || []).length,
     markApp: h.ob ? 1 : 0, markGuide: (gi.boundaries || []).length,
   });
   if (!cardOK) fail.push(`hole ${h.n}: card does not match the guide`);
