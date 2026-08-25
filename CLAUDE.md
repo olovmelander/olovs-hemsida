@@ -41,26 +41,40 @@ worst first:
 
 1. **Corridors drift off the club's own map** — see item 4 below; this is now the
    largest remaining gap.
-2. **Bunkers**: 44 modelled against the guide's 53. Hole 5 has six in the guide and two
-   here, hole 6 four against one. Positions are unverified against `approxFraction`.
+2. **Guide furniture is missing** — distance markers (red 100 m, yellow 150 m, white 200 m),
+   "Next Tee" indicators, a per-hole compass rose. This is phase 06 and the only phase of
+   the original plan not attempted.
 3. **Routing is fixed at the clubhouse, still loose in the middle.** Holes 15–18 and 1 were
    re-anchored (phase 02): the closing walks went from 574/348/272 m to 77/80/87 m. What
    remains is the middle of the round — 7→8 is 172 m, 11→12 is 167 m, 5→6 is 162 m.
    Median is 90 m against a real-course 20–80 m.
-4. **Corridors drift off the club's own map.** Mean 72.5% of centre-line samples land on
-   mown turf in the embedded land-cover raster; 6 of 18 green centres are off turf.
-   Some of this is honest — the southern fairways are genuinely narrow and the corridor
-   width is a flat 24/26 m. Hole 4 at 43% and hole 16 at 62% are the real outliers, and
-   16's corridor crosses 16% forest.
+4. **Corridors drift off the club's own map, and mostly should be left alone.** Mean 72.5%
+   of centre-line samples land on mown turf. Phase 05 measured whether refitting helps:
+   sweeping width and lateral offset per hole, with each turf cell assigned to its nearest
+   hole so a corridor cannot be rewarded for swallowing its neighbour's fairway. Best widths
+   cluster at 23–24 against the current flat 24, twelve of eighteen holes want no change,
+   and a full refit moves mean F1 only 0.493 → 0.539. The residual is mostly the raster
+   being coarse plus the four par 3s having no corridor to fit. Hole 16 at 62% with 16% of
+   its corridor in forest is the one genuine outlier left.
+
+   **If you sweep this again**: assign turf to the nearest hole first. Without that, the fit
+   hits the search bounds on every axis and asks for 80 m corridors shifted 34 m.
 5. **Bearings are good.** Hole 17 was 139° off its rose and was turned in phase 02; it now
    sits 6° off. 15 of 16 readable roses agree, mean error 9°. Only hole 7 remains at 39°,
    which is inside the reading error of a small dark rose.
 6. **Missing guide furniture** — distance markers, "Next Tee", per-hole compass.
 
-Phases 02 (routing and orientation), 03 (water) and 04 (penalty marking) are done.
-Water is 51 of 56 — the five skipped are ones the fjord already provides. Marking is
-66 runs against the guide's 63. The suggested next step is phase 05, fitting the
-corridors and greens onto the land-cover raster, then the guide furniture in phase 06.
+Phases 02 (routing and orientation), 03 (water), 04 (penalty marking) and 05 (bunkers)
+are done. Water is 51 of 56 — the five skipped are ones the fjord already provides.
+Marking is 66 runs against the guide's 63. Bunkers are 53 of 53. The remaining work is
+phase 06, the guide furniture.
+
+**Green pads and water.** `terrainH` lays a green pad and the water block runs after it, so
+a green inside a water area used to be flooded over: the 14th, the island green the course
+is known for, sat 5 m under the fjord and the 6th at 0.12 m. Green pads now damp the flood
+by how much pad is present, so the water still floods around an island green while the
+putting surface stays dry. Probe it with `sampleH` at each green centre — anything under
+about 1 m is submerged.
 
 **Water and marking.** `PONDS` and `STREAMS` are generated from
 `banguide/guide-inventory.json`, not hand-placed, and both feed terrain shaping that was
