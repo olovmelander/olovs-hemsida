@@ -8,7 +8,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.dirname(new URL(import.meta.url).pathname).replace(/\/banguide$/, '');
-const html = fs.readFileSync(path.join(ROOT, 'veckefjardensgc.html'), 'utf8');
+const TARGET = process.argv[2] || path.join(ROOT, 'veckefjardensgc.html');
+const html = fs.readFileSync(TARGET, 'utf8');
 const card = JSON.parse(fs.readFileSync(path.join(ROOT, 'banguide/guide-card.json'), 'utf8')).holes;
 const inv  = JSON.parse(fs.readFileSync(path.join(ROOT, 'banguide/guide-inventory.json'), 'utf8')).holes;
 

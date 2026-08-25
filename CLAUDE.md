@@ -44,20 +44,31 @@ worst first:
    and a brook that do not exist in the geometry.
 2. **No penalty or boundary marking.** The guide has 63 marked runs (29 red, 19 yellow,
    15 white). The app has two bare `ob:'left'`/`'right'` strings.
-3. **Routing breaks at the clubhouse.** 16→17 is a 574 m walk, 17→18 is 348 m, 18→1 is
-   272 m. Median walk is 150 m; a real course is 20–80 m.
+3. **Routing is fixed at the clubhouse, still loose in the middle.** Holes 15–18 and 1 were
+   re-anchored (phase 02): the closing walks went from 574/348/272 m to 77/80/87 m. What
+   remains is the middle of the round — 7→8 is 172 m, 11→12 is 167 m, 5→6 is 162 m.
+   Median is 90 m against a real-course 20–80 m.
 4. **Corridors drift off the club's own map.** Mean 73% of centre-line samples land on
-   mown turf in the embedded land-cover raster; 8 of 18 green centres are off turf.
+   mown turf in the embedded land-cover raster; 6 of 18 green centres are off turf.
    Some of this is honest — the southern fairways are genuinely narrow and the corridor
    width is a flat 24/26 m. Hole 4 at 43% is a real outlier.
-5. **Hole 17 points the wrong way** — 139° off its compass rose. It is the only genuine
-   one: 14 of 16 readable roses agree, four within a degree. Hole 7 is 39° off, which is
-   inside the reading error of a small dark rose.
+5. **Bearings are good.** Hole 17 was 139° off its rose and was turned in phase 02; it now
+   sits 6° off. 15 of 16 readable roses agree, mean error 9°. Only hole 7 remains at 39°,
+   which is inside the reading error of a small dark rose.
 6. **Missing guide furniture** — distance markers, "Next Tee", per-hole compass.
 
-Suggested next step is the routing: re-anchor 16, 17, 18 and 1 so the walks close up, and
-turn hole 17 while it is being moved. Doing that before adding water avoids building the
-56 water features twice.
+Phase 02 (routing and orientation) is done. The suggested next step is the water and the
+penalty marking — gaps 1 and 2 — which is where the app starts to look like the guide.
+`banguide/guide-inventory.json` already holds every feature, so this is data entry plus
+rendering rather than research.
+
+**Re-anchoring holes.** `solve.mjs` in the phase-02 work treated each hole as a rigid body
+(translate + rotate about its midpoint), which preserves shape and card length exactly, and
+scored candidate arrangements on four independent sources: the land-cover raster, the walk
+distances a real course must have, the guide compass roses, and the overview marker
+positions. Two lessons if you do it again: weight the walks heavily or the turf term wins
+and leaves 130 m walks; and let the neighbouring hole move a little — freeing hole 15 by
+39 m lifted 17 from 69% to 92% on turf and 18 from 76% to 87%.
 
 ## Things that will bite you
 
