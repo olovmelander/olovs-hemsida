@@ -788,7 +788,7 @@ const NRM=normalTex(512,8);
 /* ---- physically-based turf material: roughness varies by surface type ---- */
 function turfStd(tex,norm,fixedSurf){
   const m=new THREE.MeshStandardMaterial(Object.assign(
-    {vertexColors:true,roughness:0.92,metalness:0.0},
+    {vertexColors:true,roughness:0.92,metalness:0.0,envMapIntensity:ENV_INT},
     norm?{normalMap:norm,normalScale:new THREE.Vector2(0.55,0.55)}:{}));
   m.onBeforeCompile=sh=>{
     sh.uniforms.uD={value:tex};
@@ -840,7 +840,7 @@ function turfStd(tex,norm,fixedSurf){
 function turfMat(tex,sA,sB,sC,amt,stripe,map,norm){
   const base=Object.assign({vertexColors:true},map?{map:map}:{});
   const m = norm
-    ? new THREE.MeshStandardMaterial(Object.assign(base,{roughness:0.92,metalness:0.0,
+    ? new THREE.MeshStandardMaterial(Object.assign(base,{roughness:0.92,metalness:0.0,envMapIntensity:ENV_INT,
         normalMap:norm,normalScale:new THREE.Vector2(0.62,0.62)}))
     : stdMat(base);
   m.onBeforeCompile=sh=>{
@@ -1472,20 +1472,22 @@ camera.position.set(CX, 600, CZ + 900);
 
 /* sun direction matches the highlight baked into the environment shader below */
 const SUNDIR = new THREE.Vector3(-0.42, 0.46, -0.78).normalize();
-const sun = new THREE.DirectionalLight(0xFFF0DA, 2.6);
+const sun = new THREE.DirectionalLight(0xFFF0DA, 4.2);
 sun.position.copy(SUNDIR).multiplyScalar(2600).add(new THREE.Vector3(CX, 0, CZ));
 sun.target.position.set(CX, 0, CZ);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOW ? 1024 : 2048, LOW ? 1024 : 2048);
 sun.shadow.camera.near = 400;
 sun.shadow.camera.far = 5200;
-{const S = 1150; const c = sun.shadow.camera; c.left = -S; c.right = S; c.top = S; c.bottom = -S; c.updateProjectionMatrix();}
+{const c = sun.shadow.camera;                    /* fitted to the casters, not to a
+     worst-case azimuth: measured light-space extent is x[-900,834] y[-437,499]      */
+ c.left = -1000; c.right = 1000; c.top = 620; c.bottom = -620; c.updateProjectionMatrix();}
 sun.shadow.bias = -0.0005;
-sun.shadow.normalBias = 1.1;
+sun.shadow.normalBias = 0.6;                      /* texels are smaller now       */
 scene.add(sun);
 scene.add(sun.target);
 
-const hemi = new THREE.HemisphereLight(0xBFD8F2, 0x4C5A3C, 1.6);
+const hemi = new THREE.HemisphereLight(0xBFD8F2, 0x4C5A3C, 0.7);
 hemi.position.set(CX, 400, CZ);
 scene.add(hemi);
 
@@ -1513,10 +1515,12 @@ function lookFrom(px,py,pz,tx,ty,tz,dur){
 /* pointer control */
 let drag=null,pinch=null;
 /* ---------- PBR upgrade: filmic response + image-based lighting ---------- */
+const ENV_INT = 0.65;      /* image-based light is fill, not the key light */
 function stdMat(o){
   o=o||{};
   if(o.roughness===undefined)o.roughness=0.93;
   if(o.metalness===undefined)o.metalness=0.0;
+  if(o.envMapIntensity===undefined)o.envMapIntensity=ENV_INT;
   delete o.shininess; delete o.specular;
   return new THREE.MeshStandardMaterial(o);
 }
@@ -1710,7 +1714,7 @@ const step=(p,m)=>new Promise(r=>{bootbar.style.width=p+'%';bootmsg.textContent=
 (async function(){
   await step(6,'solving the routing…');   buildCoarse();
   await step(22,'shaping 1 540 × 1 540 m of terrain…'); buildTerrain();
-  await step(52,'draping the aerial survey…');
+  await step(52,'draping the aerial survey…'); buildOverlays();
   await step(66,'flooding Veckefjärden…'); buildWater();
   await step(76,'planting the forest…'); buildTrees();
   await step(92,'setting flags and clubhouse…'); buildDetail();
