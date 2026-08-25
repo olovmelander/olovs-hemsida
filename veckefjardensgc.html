@@ -1112,9 +1112,13 @@ function buildOverlays(){
 }
 
 /* ===================== water ===================== */
-const waterUni={t:{value:0},cShallow:{value:new THREE.Color(0x3E7E8C)},
-                cDeep:{value:new THREE.Color(0x0C2E3E)},sunDir:{value:new THREE.Vector3(-0.42,0.46,-0.78)},
-                fogColor:{value:new THREE.Color(0xAFCBD2)},fogDensity:{value:0.00038}};
+/* display-referred: this shader bypasses tone mapping and output encoding, so its
+   colours must stay raw sRGB. setHex with LinearSRGBColorSpace stores the bytes
+   verbatim instead of converting them into the linear working space.              */
+const rawSRGB=h=>new THREE.Color().setHex(h,THREE.LinearSRGBColorSpace);
+const waterUni={t:{value:0},cShallow:{value:rawSRGB(0x3E7E8C)},
+                cDeep:{value:rawSRGB(0x0C2E3E)},sunDir:{value:new THREE.Vector3(-0.42,0.46,-0.78)},
+                fogColor:{value:rawSRGB(0xAFCBD2)},fogDensity:{value:0.00038}};
 const waterMat=new THREE.ShaderMaterial({
   uniforms:waterUni,transparent:true,
   vertexShader:`attribute float shore; varying float vS; varying vec3 vW;
