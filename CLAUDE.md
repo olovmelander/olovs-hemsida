@@ -36,20 +36,31 @@ The generators live in `banguide/` and read the page rather than assuming things
 target. Each generator takes `[target.html] out.json`; each apply script takes
 `in.html out.html data.json` and finds what it rewrites by counting brackets, never by regex.
 
+    node banguide/solve-routing.mjs 2,3 220000 7 solved.json   # only when a hole must move
+    node banguide/apply-lines.mjs   cand.html  moved.html solved.json
     node banguide/gen-water.mjs     cand.html  water.json
     node banguide/gen-ob.mjs        cand.html  ob.json
     node banguide/apply-water.mjs   cand.html  next.html  water.json ob.json
     node banguide/gen-bunkers.mjs   next.html  bunkers.json
     node banguide/apply-bunkers.mjs next.html  final.html bunkers.json
 
-Order matters: bunkers dodge water, so the water has to be in the file before they are
-generated. `gen-water` writes the guide's side onto every left/right feature as `s`, and
+Order matters: re-anchoring comes first because water, out-of-bounds and bunkers are all keyed
+to where the holes are; then bunkers dodge water, so the water has to be in the file before they
+are generated. `gen-water` writes the guide's side onto every left/right feature as `s`, and
 geomcheck's water-side test reads that — so the built geometry is checked against the
 guide's own words rather than against the generator's arithmetic.
 
 ## Reference data
 
 - `banguide/guide-card.json` — the card, transcribed from the official guide.
+- `banguide/guide-markers.json` — where the club's own overview map puts each hole, in world
+  metres. The overview plots a numbered disc per hole, and those discs sit on the hole
+  **midpoints**: mean 46 m from the midpoint, against 185 m and 190 m from the tee and the
+  green. That makes them the strongest anchor we have for where a hole belongs — better than
+  the compass roses, which were read off dark screenshots. Regenerate with
+  `python3 banguide/register-map.py <overview.jpg>`, which fits a scale-and-translate from map
+  pixels to world metres by matching turf masks, then reports water and forest agreement as
+  checks that never entered the fit (water lands at 0.92, so the fit is sound).
 - `banguide/guide-inventory.json` — per-hole features read off the 18 guide plans:
   bunkers (with `approxFraction` 0 at the back tee, 1 at the green), water, marked
   penalty/OB runs with their real colour, green shape, treelines, and `guideBearingDeg`.
@@ -61,10 +72,17 @@ guide's own words rather than against the generator's arithmetic.
 The card is right, the hole lengths are right, and every feature that has a side is now on
 it. The map is still approximate. What `geomcheck` fails on, worst first:
 
-1. **Holes overlap.** 12 and 13 run 1 m apart, 17 and 18 about the same, 2 and 3 at 2 m,
-   16 and 17 at 3 m. Three greens sit inside another hole's corridor — green 16 is only
-   3 m off hole 17's centre line. The phase 02 solver had no anti-overlap term; it needs
-   one and a re-run. 2&3 and 12&13 predate that phase.
+1. **Holes overlap.** 12 and 13 run 1 m apart, 17 and 18 about the same, 16 and 17 at 3 m.
+   Three greens sit inside another hole's corridor — green 16 is only 3 m off hole 17's
+   centre line. `solve-routing.mjs` fixes these the way it fixed 2 and 3; it just has not
+   been run on them yet.
+
+   **2 and 3 are done.** They crossed at [-413, 713] — 78% down the par 5 and 18% off the
+   3rd tee, so the drive at the 3rd flew over the 2nd's approach. Hole 3 was turned +18.9°
+   and shifted 22 m, which put its midpoint 13 m from the club's marker (was 23 m), cut its
+   error against the compass rose from 27° to 8°, and opened the pair from 2 m to 56 m.
+   Hole 2 barely moved: 5 m and half a degree. Four solver runs with different free
+   variables all landed on +17 to +21° for hole 3, so the number is not a fluke of one fit.
 2. **Water is a set of craters.** `terrainH` floods each feature to an absolute `-wd` and
    `buildWater` writes every surface vertex at `y=0`, so a pond on a hillside is a pit
    with a sheet of water at sea level laid across it. Each feature needs a local water
@@ -132,6 +150,15 @@ and leaves 130 m walks; and let the neighbouring hole move a little — freeing 
 39 m lifted 17 from 69% to 92% on turf and 18 from 76% to 87%.
 
 ## Things that will bite you
+
+**check.mjs's turf percentage is a coarse instrument.** It samples the 6 m land-cover raster,
+which is itself a lossy trace of the club's map. Turning hole 3 dropped its reported turf from
+71% to 51%, which reads like a serious regression — but sampling the club's map directly, at its
+own 1.5 m per pixel, the same move goes 73% → 71% while the share of the corridor crossing
+woodland falls 11% → 4%. Use the raster to compare two options; go back to the map image before
+believing a single number. And when reading colours off the map, dilate the mask for the blue
+hole markers before classifying: their antialiased rim reads as water, which invented a pond in
+the middle of hole 3.
 
 **Bearings.** North is **−z**, east is +x. A compass bearing is `atan2(dx, -dz)`, which is
 what the page's own `bearingName` does. Using `atan2(dx, dz)` reflects every angle and
