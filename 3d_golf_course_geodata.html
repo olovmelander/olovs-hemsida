@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="data:,">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>3D Golf Course Viewer — Swedish WebGPU Geodata Engine</title>
@@ -172,7 +173,7 @@
                         </span>
                     </div>
                     <p class="text-[11px] font-mono text-slate-400 tracking-wider flex items-center gap-2 mt-0.5">
-                        <span>GPS-ANCHORED TOPO</span>
+                        <span id="geodata-status">GPS-ANCHORED TOPO</span>
                         <span class="inline-block w-1 h-1 rounded-full bg-slate-600"></span>
                         <span id="course-subtitle" class="text-emerald-400">UNESCO World Heritage Archipelago</span>
                     </p>
@@ -295,6 +296,10 @@
                             <span class="hidden sm:inline">Trace Shot</span>
                         </button>
                     </div>
+                    <button id="btn-banguide" class="mt-2.5 w-full py-2 rounded-xl bg-sky-500/10 border border-sky-300/25 hover:bg-sky-500/20 text-sky-100 font-mono text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 hidden">
+                        <i data-lucide="map" class="w-3.5 h-3.5 text-sky-300"></i>
+                        Open source banguide
+                    </button>
                 </div>
 
                 <!-- Real-Time Elevation Cross Section Profile -->
@@ -476,6 +481,24 @@
         </div>
     </div>
 
+    <div id="banguide-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="glass-panel-dark rounded-3xl p-4 md:p-5 max-w-4xl w-full max-h-[94vh] border border-sky-200/20 shadow-2xl flex flex-col">
+            <div class="flex items-center justify-between gap-4 mb-3">
+                <div>
+                    <p class="text-[10px] font-mono uppercase tracking-[0.2em] text-sky-300 font-bold">Source reference</p>
+                    <h3 id="banguide-title" class="text-xl font-display font-extrabold text-white">Veckefjärdens GC · Hole 1</h3>
+                </div>
+                <button id="btn-close-banguide" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-200 hover:text-white transition-colors" title="Close banguide">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="relative min-h-0 flex-1 rounded-2xl overflow-hidden bg-slate-950 border border-white/10">
+                <img id="banguide-image" class="w-full h-full max-h-[78vh] object-contain" alt="Veckefjärden hole banguide map">
+            </div>
+            <p class="mt-3 text-[10px] font-mono text-slate-400">The 3D hazard, fairway and green layer is registered from this local course banguide to GolfTraxx GPS tee and green coordinates.</p>
+        </div>
+    </div>
+
     <!-- ================= JAVASCRIPT 3D ENGINE ================= -->
     <script type="module">
         import * as THREE from 'three/webgpu';
@@ -495,6 +518,37 @@
            ========================================================================= */
         // Full GolfTraxx FeatureCollections are embedded so the viewer has no data-fetch dependency.
         const GOLFTRAXX_FEATURES = {"norrfallsviken":{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530780670621958,62.98160552242159]},"properties":{"hole":"1","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532534359036042,62.98171719258006]},"properties":{"hole":"1","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532406089290976,62.98170665478138]},"properties":{"hole":"1","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5326545822,62.9817265122]},"properties":{"hole":"1","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52633625028428,62.98120220785502]},"properties":{"hole":"1","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53184637244023,62.9811871577168]},"properties":{"hole":"2","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530437736481993,62.97987195283357]},"properties":{"hole":"2","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530534772245897,62.97995646487509]},"properties":{"hole":"2","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530378251536064,62.97980693743963]},"properties":{"hole":"2","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53184637244023,62.9811871577168]},"properties":{"hole":"2","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532225428734943,62.97744818248449]},"properties":{"hole":"3","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532324194190995,62.97703827636109]},"properties":{"hole":"3","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532311259399997,62.977105743187366]},"properties":{"hole":"3","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53234249345494,62.9769890894586]},"properties":{"hole":"3","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53043639532201,62.97908598602571]},"properties":{"hole":"3","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534380107423054,62.97967288979702]},"properties":{"hole":"4","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.533494502181952,62.980992113942]},"properties":{"hole":"4","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53356203372703,62.980892628145874]},"properties":{"hole":"4","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53343233513688,62.9810891627841]},"properties":{"hole":"4","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534616141816365,62.9776232248864]},"properties":{"hole":"4","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538098513973083,62.98051811749517]},"properties":{"hole":"5","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.539512903,62.9808893301]},"properties":{"hole":"5","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.539266615988478,62.980822743397276]},"properties":{"hole":"5","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53974846111068,62.98093642092274]},"properties":{"hole":"5","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53387671698364,62.98126383606814]},"properties":{"hole":"5","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53814631752712,62.97831941220869]},"properties":{"hole":"6","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538357735700007,62.977186868653625]},"properties":{"hole":"6","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538344800972958,62.97727992654502]},"properties":{"hole":"6","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538381399345088,62.97711330906955]},"properties":{"hole":"6","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.539385498092,62.98030079130207]},"properties":{"hole":"6","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.537262053361626,62.9770381931364]},"properties":{"hole":"7","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5347054319,62.9768525153]},"properties":{"hole":"7","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.535025091028697,62.976873674214445]},"properties":{"hole":"7","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534452828034386,62.976826481991935]},"properties":{"hole":"7","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.537262053361626,62.9770381931364]},"properties":{"hole":"7","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534631671222684,62.97908623892319]},"properties":{"hole":"8","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5335234426,62.980996463]},"properties":{"hole":"8","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.533585609709036,62.98089332177221]},"properties":{"hole":"8","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.533442500054107,62.98110447809285]},"properties":{"hole":"8","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534068407329556,62.9771315878074]},"properties":{"hole":"8","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.528264971813886,62.982475672469526]},"properties":{"hole":"9","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5253596632,62.9813640156]},"properties":{"hole":"9","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525518389772966,62.98142049450002]},"properties":{"hole":"9","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525214347690135,62.981305099800004]},"properties":{"hole":"9","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532020064434736,62.98230021826583]},"properties":{"hole":"9","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.526900592303715,62.98389955130918]},"properties":{"hole":"10","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5309073362541,62.98486284562879]},"properties":{"hole":"10","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530776384345064,62.98482671539102]},"properties":{"hole":"10","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53104097050001,62.984890447744895]},"properties":{"hole":"10","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52473873183771,62.98209752808759]},"properties":{"hole":"10","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52885678752221,62.98501513629003]},"properties":{"hole":"11","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52654424702871,62.984549313266974]},"properties":{"hole":"11","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.526676151549253,62.98457288197396]},"properties":{"hole":"11","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5263855205,62.9845123431]},"properties":{"hole":"11","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52885678752221,62.98501513629003]},"properties":{"hole":"11","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52812540929223,62.98731725483149]},"properties":{"hole":"12","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5303417788,62.9877225095]},"properties":{"hole":"12","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530090127399156,62.98767419295816]},"properties":{"hole":"12","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53059343019999,62.987767171600005]},"properties":{"hole":"12","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.526054743932733,62.98548863978177]},"properties":{"hole":"12","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53028679348993,62.986114428732265]},"properties":{"hole":"13","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53081739461804,62.985190541966254]},"properties":{"hole":"13","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530772273318863,62.98526893256478]},"properties":{"hole":"13","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530859833672114,62.98513773595599]},"properties":{"hole":"13","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5328187988,62.988292626]},"properties":{"hole":"13","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.531899665972137,62.98554750605803]},"properties":{"hole":"14","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5325965641,62.9868408981]},"properties":{"hole":"14","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532556807227028,62.98676212614835]},"properties":{"hole":"14","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5326443675,62.9869111423]},"properties":{"hole":"14","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.531902348181152,62.9855487243582]},"properties":{"hole":"14","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53717107151601,62.985656738668226]},"properties":{"hole":"15","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53791356721637,62.98505569335867]},"properties":{"hole":"15","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5378201660893,62.98513043027809]},"properties":{"hole":"15","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53799623935327,62.985000449637916]},"properties":{"hole":"15","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534006064878437,62.98712109332887]},"properties":{"hole":"15","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538842952599985,62.98242156524248]},"properties":{"hole":"16","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53784201239099,62.98173880756424]},"properties":{"hole":"16","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5379765991287,62.98182574662355]},"properties":{"hole":"16","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.537726201170454,62.98166283465157]},"properties":{"hole":"16","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538816130509836,62.984478203649616]},"properties":{"hole":"16","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53483391497639,62.98260268218456]},"properties":{"hole":"17","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532690353718856,62.983855989900015]},"properties":{"hole":"17","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532776660666443,62.98380524096376]},"properties":{"hole":"17","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532585271280304,62.98391404906152]},"properties":{"hole":"17","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.537221080999643,62.98145734210081]},"properties":{"hole":"17","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.527477480551447,62.98316638384738]},"properties":{"hole":"18","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5252762517,62.9817257719]},"properties":{"hole":"18","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525437660590985,62.98182733208474]},"properties":{"hole":"18","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525152393827057,62.98164127008021]},"properties":{"hole":"18","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.531189657828058,62.983622061708864]},"properties":{"hole":"18","type":"waypoint","name":"TheTipsTee Back Reach"}}]},"veckefjarden":{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67487616019815,63.28489602310085]},"properties":{"hole":"1","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6760129406,63.2841391757]},"properties":{"hole":"1","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6757988401,63.2842569425]},"properties":{"hole":"1","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6761948545,63.2840358786]},"properties":{"hole":"1","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.674511379772124,63.28694580871459]},"properties":{"hole":"1","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.672425486024114,63.28334211051698]},"properties":{"hole":"2","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6683105011,63.2822089752]},"properties":{"hole":"2","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6685952916,63.2822736952]},"properties":{"hole":"2","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6680310751,63.2821466672]},"properties":{"hole":"2","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67725346225092,63.28343375604141]},"properties":{"hole":"2","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.671414345722706,63.284002462013234]},"properties":{"hole":"3","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6728738035,63.2851637136]},"properties":{"hole":"3","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6727562626,63.2850511685]},"properties":{"hole":"3","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6730074377,63.2852750528]},"properties":{"hole":"3","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.667981118183643,63.28264224639996]},"properties":{"hole":"3","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6715957309,63.2851637136]},"properties":{"hole":"4","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66918126655493,63.284084917467]},"properties":{"hole":"4","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.669350722000004,63.28415445149057]},"properties":{"hole":"4","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66901985777295,63.28400694265529]},"properties":{"hole":"4","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6715957309,63.2851637136]},"properties":{"hole":"4","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66759473989516,63.2852738443223]},"properties":{"hole":"5","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6691821314,63.2872926664]},"properties":{"hole":"5","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6691021414,63.2871306908]},"properties":{"hole":"5","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6692621214,63.2874377616]},"properties":{"hole":"5","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.667755672436055,63.28314676412776]},"properties":{"hole":"5","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.666458348140143,63.29019945983409]},"properties":{"hole":"6","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663982193,63.2911378069]},"properties":{"hole":"6","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6642455257,63.2910216519]},"properties":{"hole":"6","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663729589,63.2912419064]},"properties":{"hole":"6","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66781018148365,63.28823671313573]},"properties":{"hole":"6","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663076947426195,63.291374091415875]},"properties":{"hole":"7","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6645597327,63.2924811713]},"properties":{"hole":"7","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66441000535408,63.29239153929241]},"properties":{"hole":"7","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6646719093,63.2925611595]},"properties":{"hole":"7","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663076947426195,63.291374091415875]},"properties":{"hole":"7","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.666985790859126,63.29255591113649]},"properties":{"hole":"8","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6686777884,63.2917607097]},"properties":{"hole":"8","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66851465,63.2918265872]},"properties":{"hole":"8","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6688221515,63.2916912156]},"properties":{"hole":"8","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.664207022319697,63.29417602909127]},"properties":{"hole":"8","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.673853110694836,63.290130811283234]},"properties":{"hole":"9","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6759581686,63.2890630656]},"properties":{"hole":"9","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6757065172,63.2891856209]},"properties":{"hole":"9","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6762205488,63.28894051]},"properties":{"hole":"9","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.670602273368786,63.291572649142445]},"properties":{"hole":"9","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.673660856568738,63.29160561633269]},"properties":{"hole":"10","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6692400998,63.2927681411]},"properties":{"hole":"10","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6695248903,63.2926785078]},"properties":{"hole":"10","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6689767671,63.292867418]},"properties":{"hole":"10","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.676407438599988,63.289671899768265]},"properties":{"hole":"10","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.664872122496988,63.294828215498725]},"properties":{"hole":"11","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627741587,63.2950239222]},"properties":{"hole":"11","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6631662375,63.2949656289]},"properties":{"hole":"11","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6623981732,63.2950894477]},"properties":{"hole":"11","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.668181968421365,63.29340582757065]},"properties":{"hole":"11","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6633280349,63.2939173662]},"properties":{"hole":"12","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66058902323605,63.29479533422985]},"properties":{"hole":"12","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66084162715407,63.29471293359299]},"properties":{"hole":"12","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6602988684,63.2948680918]},"properties":{"hole":"12","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6633280349,63.2939173662]},"properties":{"hole":"12","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.662221147443912,63.293710467253014]},"properties":{"hole":"13","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627302909,63.2920232419]},"properties":{"hole":"13","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627146739,63.2921747078]},"properties":{"hole":"13","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627405435,63.2918934745]},"properties":{"hole":"13","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.65878255548682,63.295067750039976]},"properties":{"hole":"13","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6618518674,63.2924620409]},"properties":{"hole":"14","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66093675791802,63.29115087110194]},"properties":{"hole":"14","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.661012336,63.2912637662]},"properties":{"hole":"14","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6608397221,63.2910114538]},"properties":{"hole":"14","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6618518674,63.2924620409]},"properties":{"hole":"14","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.664711967083658,63.2895004429922]},"properties":{"hole":"15","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6644861853,63.2890981866]},"properties":{"hole":"15","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6645671278,63.2892303858]},"properties":{"hole":"15","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6643730562,63.2889732207]},"properties":{"hole":"15","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66189564761802,63.29082899080691]},"properties":{"hole":"15","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.672697768155036,63.28859302595742]},"properties":{"hole":"16","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6740920406,63.2885934433]},"properties":{"hole":"16","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.673759923,63.2885833808]},"properties":{"hole":"16","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6744187938,63.288603506]},"properties":{"hole":"16","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66859398836225,63.288380831743794]},"properties":{"hole":"16","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.667935029852774,63.29049588750498]},"properties":{"hole":"17","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6650940942,63.2914438709]},"properties":{"hole":"17","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6654003423,63.2913397707]},"properties":{"hole":"17","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6648200326,63.291547971]},"properties":{"hole":"17","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67150773226061,63.28921313788155]},"properties":{"hole":"17","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67132888904689,63.290157546695916]},"properties":{"hole":"18","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6755502098,63.2887136444]},"properties":{"hole":"18","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.675239549880292,63.288820528518166]},"properties":{"hole":"18","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67581259,63.2886224335]},"properties":{"hole":"18","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66730557552455,63.291729578952676]},"properties":{"hole":"18","type":"waypoint","name":"TheTipsTee Back Reach"}}]}};
+
+        // Veckefjärden's banguide geometry: manually surveyed course routing, green
+        // dimensions, bunkers, ponds and drainage features.  This lives alongside the
+        // authoritative GolfTraxx GPS pins above.  At runtime each hole is locally
+        // registered from its banguide tee/green to those GPS endpoints, preserving
+        // real distances while retaining the exact doglegs and hazard placement.
+        const VECKEFJARDEN_BANGUIDE = {"holes":[{"n":1,"par":4,"idx":8,"t":[334,325,312,302,254,210],"line":[[-112.5,89.9],[-66.6,420.8]],"gr":[19,14],"grot":24,"tiers":2,"rise":11,"name":"Two plateaus","note":"Short on the card, but the ground climbs all the way to a green built in two plateaus, so the second shot plays a club or more longer than it looks. Miss it left and the chip back is unkind.","bk":[[0.7,-24,9,6,0],[0.62,-24,9,6,0]],"sp":"Ö-viks brunnsborrning"},{"n":2,"par":5,"idx":18,"t":[506,484,471,409,380,380],"line":[[-71.5,503.3],[-315,637.4],[-487.8,786.3]],"gr":[18,15],"grot":-20.5,"drop":-14,"name":"Downhill invitation","note":"The most gettable hole out here — birdie, even eagle, is on. It all rests on the tee shot, which falls away enough that most players take too much club. Out of bounds waits left; rough and timber right.","bk":[[0.73,24,12,8,0],[0.9,24,9,6,0]],"ob":"left","sp":"LSM – Licens Svets Montage Ö-vik"},{"n":3,"par":4,"idx":4,"t":[396,373,364,355,275,225],"line":[[-513.7,736],[-272.9,421.4]],"gr":[18,14],"grot":26.9,"rise":14,"name":"Uphill, tilted, unforgiving","note":"One of the hardest on the card. The drive climbs with a chain of bunkers down the left and a ditch tracking the right. The green tips left towards sand, so anything cut too fine feeds away from you — short is the miss that survives.","bk":[[0.63,-24,9,6,0],[0.73,-24,9,6,0],[0.81,-24,12,8,0],[0.95,-24,12,8,0]],"sp":"OKQ8"},{"n":4,"par":3,"idx":10,"t":[177,167,150,141,126,126],"line":[[-347.7,410.6],[-475.5,533]],"gr":[19,15],"grot":30,"name":"Land it and hope","note":"Sand guards the right of the green, a ditch runs down the left. The putting surface tilts hard enough that holding it is the whole problem — but the ball only ever stops if it lands on the green, so take the club that gets there.","bk":[[0.88,-25,9,6,0],[0.92,28,16,10,0]],"sp":"Ahlsells"},{"n":5,"par":5,"idx":14,"t":[494,470,464,433,399,285],"line":[[-538.5,673.3],[-553.2,416.9],[-509.5,183.8]],"gr":[18,14],"grot":-14,"name":"Angles decide it","note":"Start it a shade right and the hillside usually gathers the ball back down to short grass. The second is where the hole is won: get to the left side of the fairway and the tricky green opens up.","bk":[[0.46,-24,9,6,0],[0.52,-24,9,6,0],[0.66,24,9,6,0],[0.79,-24,9,6,0],[0.95,-24,12,8,0],[0.97,24,12,8,0]],"sp":"Go Sport Travel"},{"n":6,"par":4,"idx":2,"t":[417,389,358,354,306,249],"line":[[-533.9,24],[-692,-146.9],[-766.8,-315.3]],"gr":[18,14],"grot":36,"name":"Ditch, then decide","note":"Stroke index two. The long hitter either lays back from the ditch that cuts the fairway or takes it on. Bail out into the heavy rough right and the second shot becomes enormous. A pond sits front-right of the green.","bk":[[0.8,-24,9,6,0],[0.9,-24,9,6,0],[0.96,-24,9,6,0],[0.99,27,12,8,0]],"sp":"VTG"},{"n":7,"par":3,"idx":16,"t":[158,150,142,130,90,90],"line":[[-862.1,-364.9],[-905.6,-516.8]],"gr":[17,14],"grot":-8,"rise":6,"name":"Sand around the collar","note":"Club selection is everything into a green sitting up above you. One long bunker sweeps around the left flank and another sits square across the front — between them they take away every shortcut.","bk":[[0.86,-16,16,10,0],[0.89,23,9,6,0]],"sp":"Elite Plaza Hotel"},{"n":8,"par":4,"idx":12,"t":[365,360,322,312,254,254],"line":[[-823.7,-667.7],[-561.9,-413.3]],"gr":[20,13],"grot":52,"name":"Wide off the tee, mean at the green","note":"As generous a landing area as the course offers, so let the driver go. The trouble is the green, set at an angle across the line, with a bunker short that collects far more approaches than anyone expects.","bk":[[0.96,-26,16,10,0],[0.62,-24,12,8,0]],"sp":"SEB"},{"n":9,"par":4,"idx":6,"t":[404,385,327,318,265,199],"line":[[-428.1,-364.5],[-132.8,-88.8]],"gr":[18,15],"grot":-30,"rise":8,"name":"Water right, green above","note":"Stay away from the water down the right off the tee. The green is raised and plays longer than the number suggests — but get past the flag and the putt coming back down the slope is genuinely quick.","bk":[[0.59,-24,12,8,0],[0.89,-24,12,8,0],[0.95,-24,12,8,0]],"sp":"Måleriproduktion AB"},{"n":10,"par":5,"idx":9,"t":[530,510,487,478,417,354],"line":[[-121.2,-171.2],[-318.1,-399.7],[-500.7,-536.9]],"gr":[18,14],"grot":20,"mound":[24,-26,30,7],"name":"Left side, full wedge","note":"A placement par five. Favour the left on the second, because a big mound shoulders the right side of the green and kills anything running in. Leave yourself a full wedge and the ball will stop.","bk":[[0.38,24,12,8,0],[0.46,24,12,8,0],[0.98,-24,12,8,0]],"sp":"CoreIT"},{"n":11,"par":4,"idx":15,"t":[344,339,333,297,245,208],"line":[[-615.5,-633.5],[-902.1,-823.9]],"gr":[26,12],"grot":0,"name":"Looks simple, isn't","note":"A short par four with the fjord down the left and an out of bounds line down the right — not much of a corridor for a hole this length. The green is long, so the flag position changes the club by two.","bk":[[0.62,-24,9,6,0],[0.95,32,12,8,0]],"ob":"right","sp":"Anytec"},{"n":12,"par":3,"idx":11,"t":[174,166,153,142,121,121],"line":[[-902.2,-656.8],[-1048.7,-750.5]],"gr":[17,15],"grot":-34,"rise":9,"name":"Up, or into sand","note":"The green is lifted and ringed with sand. You will not get there by luck — it takes a properly struck shot. Anything short or off-line has one destination, and it is a bunker.","bk":[[0.87,19,16,10,0],[0.85,-23,9,6,0],[0.72,0,12,8,0]],"sp":"Försäkringsplanering"},{"n":13,"par":4,"idx":1,"t":[424,414,375,365,324,250],"line":[[-1017.8,-835.2],[-958.1,-614.6],[-850.3,-451.6]],"gr":[18,14],"grot":44,"name":"The number one","note":"The card's hardest hole bends right around a stand of trees and dares you to shave the corner. The line is as tight to the fairway bunker as nerve allows, with a gentle fade on it. Push it and the ball is gone in thick cover.","bk":[[0.25,-24,9,6,0],[0.5,24,12,8,0],[0.72,17,12,8,0],[0.97,24,9,6,0]],"sp":"Malux"},{"n":14,"par":3,"idx":5,"t":[163,150,136,128,115,71],"line":[[-950.7,-445],[-981.4,-284.7]],"gr":[17,15],"grot":20,"name":"The signature — a green in the fjord","note":"Veckefjärden's calling card: a short hole to a green on a peninsula out in the fjord. The ball leaves the shelter of the tree line and meets the crosswind, and dead into the breeze this becomes a very different club.","bk":[[0.93,-23,9,6,0]],"sp":"Domsjö Fabriker"},{"n":15,"par":4,"idx":13,"t":[266,232,223,212,204,204],"line":[[-936.6,-290.1],[-735.4,-116]],"gr":[17,14],"grot":-16,"name":"How brave is the round going?","note":"A short par four with several answers. The fjord runs the whole right-hand side and bulges into the line, so the driver tempts you to cut the corner over it. The percentage play is an iron to the safe side and a comfortable wedge in.","bk":[[0.94,-19,12,8,0],[0.85,-17,9,6,0]],"sp":"Eurocon"},{"n":16,"par":4,"idx":17,"t":[309,273,273,254,216,216],"line":[[-679,-166.5],[-370.3,-176.4]],"gr":[18,15],"grot":-24,"name":"Bunkers all around","note":"The most straightforward par four on the back nine, and long hitters will have a go at it. Better to position the tee shot for the wedge you trust, because sand rings this green and it collects everything loose.","bk":[[1.02,-24,9,6,0],[0.96,-24,9,6,0],[0.89,7,12,8,0],[0.94,24,12,8,0],[0.83,10,9,6,0]],"sp":"Nordins Bilverkstad"},{"n":17,"par":4,"idx":3,"t":[422,406,395,386,333,281],"line":[[-312.9,-125.8],[-640.3,-392]],"gr":[18,14],"grot":52,"name":"Play it as a five","note":"A brute. The sensible round treats this as a par five: lay the second short of the water and wedge on. Taking it on with a long iron is a lot of risk — water left, bunker right, and very little green between them.","bk":[[1,24,9,6,0]],"sp":"Höglandssågen"},{"n":18,"par":5,"idx":7,"t":[553,528,519,486,419,320],"line":[[-577.6,-342.3],[-331.9,-163.4],[-159,15.8]],"gr":[20,15],"grot":-12,"rise":12,"name":"Uphill, over the brook, home","note":"A long par five climbing back to the clubhouse. There is room to open the shoulders off the tee, but the brook is squarely in the second shot, so pick the club carefully. Past the water the slope steepens and the approach plays every metre of it.","bk":[[0.59,-24,12,8,0],[0.58,24,12,8,0],[0.43,17,9,6,0],[0.95,26,9,6,0],[0.9,24,9,6,0]],"sp":"El-Centralen"}],"ponds":[{"c":[-1003,-310],"r":[86,74],"rot":0,"name":"bay14"},{"pen":"r","c":[-180.7,-76],"r":[15,12],"rot":47,"h":9,"k":"pond","s":"right"},{"pen":"r","c":[-859.3,-754.6],"r":[15,12],"rot":-123.6,"h":11,"k":"pond","s":"left"},{"pen":"r","c":[-415.4,-235],"r":[15,12],"rot":91.8,"h":16,"k":"pond","s":"left"},{"pen":"r","c":[-458.7,-233.6],"r":[15,12],"rot":91.8,"h":16,"k":"pond","s":"left"},{"pen":"y","c":[-591.2,-352.1],"r":[15,12],"rot":-129.1,"h":17,"k":"pond"},{"pen":"r","c":[-278.3,-175],"r":[15,12],"rot":-129.1,"h":17,"k":"pond","s":"right"},{"pen":"r","c":[-273.7,-54.1],"r":[15,12],"rot":44,"h":18,"k":"pond","s":"right"},{"pen":"r","c":[-323.1,-67.9],"r":[15,12],"rot":44,"h":18,"k":"pond","s":"right"}],"streams":[{"pen":"r","p":[[-56.7,259.2],[-97.9,264.9],[-120.1,268]],"w":2.8,"h":1,"k":"stream"},{"pen":"r","p":[[-299.9,560.6],[-337.2,571.6],[-373.6,608.7]],"w":2.8,"h":2,"k":"stream","s":"right"},{"pen":"y","p":[[-425.4,541.7],[-375.8,579.6],[-349.2,600]],"w":2.8,"h":3,"k":"stream"},{"pen":"r","p":[[-402.4,646.6],[-338.4,570.8],[-282,489.3]],"w":2.8,"h":3,"k":"stream","s":"right"},{"pen":"r","p":[[-499.1,472.5],[-510,471.4],[-509.3,482.3]],"w":2.8,"h":4,"k":"stream","s":"right"},{"pen":"r","p":[[-430.9,534.6],[-459.6,504.5],[-475.1,488.3]],"w":2.8,"h":4,"k":"stream"},{"pen":"y","p":[[-508.5,671.6],[-506.1,641.8],[-511.9,612.4]],"w":2.8,"h":5,"k":"stream","s":"right"},{"pen":"r","p":[[-459.6,243.4],[-446.8,220.7],[-450.5,194.9]],"w":2.8,"h":5,"k":"stream","s":"right"},{"pen":"y","p":[[-597.5,26],[-551.7,-16.4],[-527,-39.2]],"w":2,"h":6,"k":"ditch"},{"pen":"y","p":[[-739.7,-147.1],[-682.7,-172.5],[-652,-186.1]],"w":2.8,"h":6,"k":"stream"},{"pen":"r","p":[[-703.5,-320.6],[-704.3,-343.1],[-720.4,-358.7]],"w":2.8,"h":6,"k":"stream","s":"right"},{"pen":"y","p":[[-961.4,-398.4],[-901.4,-415.6],[-869.1,-424.9]],"w":2.8,"h":7,"k":"stream"},{"pen":"r","p":[[-916.5,-431.5],[-929.8,-460.6],[-933.9,-492.2]],"w":2.8,"h":7,"k":"stream","s":"left"},{"pen":"y","p":[[-698.6,-613.1],[-742.1,-568.3],[-765.5,-544.2]],"w":2,"h":8,"k":"ditch"},{"pen":"r","p":[[-781.9,-579.7],[-746,-538.1],[-703.4,-503.4]],"w":2,"h":8,"k":"ditch","s":"right"},{"pen":"r","p":[[-681.5,-389.8],[-676.8,-373.6],[-660.5,-369.5]],"w":2,"h":8,"k":"ditch","s":"right"},{"pen":"r","p":[[-229.8,-132.9],[-196.2,-94.9],[-156,-63.9]],"w":2.8,"h":9,"k":"stream","s":"right"},{"pen":"r","p":[[-339.9,-328.7],[-283.5,-282.6],[-233.6,-229.4]],"w":2.8,"h":9,"k":"stream","s":"left"},{"pen":"y","p":[[-328.9,-337.6],[-371.5,-291.9],[-394.4,-267.4]],"w":2.8,"h":9,"k":"stream"},{"pen":"y","p":[[-257.9,-256.3],[-210.6,-297],[-185.2,-319]],"w":2,"h":10,"k":"ditch"},{"pen":"y","p":[[-360,-371.2],[-322.6,-421.1],[-302.4,-447.9]],"w":2,"h":10,"k":"ditch"},{"pen":"r","p":[[-430.9,-444.5],[-405.9,-477.7],[-392.5,-495.6]],"w":2.8,"h":10,"k":"stream"},{"pen":"r","p":[[-392.6,-530.7],[-413,-556.6],[-443.5,-568.9]],"w":2.8,"h":10,"k":"stream","s":"right"},{"pen":"r","p":[[-877.9,-767],[-902.1,-777.3],[-920.9,-795.6]],"w":2.8,"h":11,"k":"stream","s":"left"},{"pen":"r","p":[[-754.3,-797.7],[-792.6,-833.3],[-840.2,-854.8]],"w":2.8,"h":11,"k":"stream","s":"right"},{"pen":"y","p":[[-663.6,-607.8],[-629,-659.8],[-610.4,-687.8]],"w":2,"h":11,"k":"ditch"},{"pen":"r","p":[[-935.1,-659.9],[-894,-587.9],[-845.3,-505.7]],"w":2.8,"h":13,"k":"stream","s":"left"},{"pen":"r","p":[[-842.9,-498.4],[-877.6,-475.5],[-896.3,-463.1]],"w":2,"h":13,"k":"ditch"},{"pen":"r","p":[[-1024.8,-631.3],[-1028.5,-612.7],[-1007.9,-581.2]],"w":2,"h":13,"k":"ditch","s":"right"},{"pen":"y","p":[[-918.9,-355.8],[-980.2,-367.6],[-1013.2,-373.9]],"w":2.8,"h":14,"k":"stream"},{"pen":"y","p":[[-530.8,-219.3],[-528.8,-156.9],[-527.7,-123.3]],"w":2.8,"h":16,"k":"stream"},{"pen":"r","p":[[-677.9,-132.5],[-600.6,-130.2],[-523.6,-137.5]],"w":2.8,"h":16,"k":"stream","s":"right"},{"pen":"r","p":[[-680,-198.5],[-678.7,-156.9],[-678,-134.5]],"w":2.8,"h":16,"k":"stream"},{"pen":"r","p":[[-550.5,-241.6],[-572.1,-248.4],[-583.2,-268.2]],"w":2.8,"h":17,"k":"stream","s":"left"},{"pen":"r","p":[[-501.7,-238.1],[-475.5,-270.3],[-461.3,-287.7]],"w":2,"h":17,"k":"ditch"},{"pen":"r","p":[[-350.8,-79.2],[-364.2,-79.4],[-367.1,-92.6]],"w":2.8,"h":17,"k":"stream","s":"left"},{"pen":"r","p":[[-573.3,-440.8],[-576.2,-454],[-589.6,-454.2]],"w":2,"h":17,"k":"ditch","s":"right"},{"pen":"r","p":[[-199.8,-75.5],[-163.7,-44.9],[-134.5,-7.8]],"w":2.8,"h":18,"k":"stream","s":"left"},{"pen":"y","p":[[-201.2,-97.1],[-246.1,-53.8],[-270.3,-30.5]],"w":2.8,"h":18,"k":"stream"},{"pen":"y","p":[[-413,-281.8],[-449.7,-231.4],[-469.5,-204.2]],"w":2,"h":18,"k":"ditch"},{"pen":"r","p":[[-549.8,-361.7],[-574.3,-328],[-587.5,-309.9]],"w":2,"h":18,"k":"ditch"}]};
+
+        // Official, exact source tiles discovered through the Lantmäteriet STAC
+        // catalog. Asset requests return 401 until the account has approved
+        // Geotorget access; keeping the URLs here makes the upcoming COG ingestion
+        // deterministic without embedding or exposing any credential.
+        const VECKEFJARDEN_LANTMATERIET_COGS = Object.freeze({
+            terrain: {
+                product: 'Markhöjdmodell Nedladdning, grid 1 m',
+                acquired: '2020-06-18',
+                tiles: [
+                    'https://dl1.lantmateriet.se/hojd/data/grid1m/70_6/05/70225_6825_25.tif',
+                    'https://dl1.lantmateriet.se/hojd/data/grid1m/70_6/05/70200_6825_25.tif'
+                ]
+            },
+            orthophoto: {
+                product: 'Ortofoto 0.16 m RGB',
+                acquired: '2024',
+                tiles: [
+                    'https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70225_6825_25_mr24.tif',
+                    'https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70200_6825_25_mr24.tif'
+                ]
+            },
+            access: 'Approved Geotorget download access required; do not place credentials in this HTML file.'
+        });
 
         const COURSE_METADATA = {
             norrfallsviken: {
@@ -721,11 +775,139 @@
             return Math.hypot(x - (start.x + dx * t), z - (start.z + dz * t));
         }
 
+        function pointAlongRoute(route, fraction) {
+            const totalLength = route.slice(1).reduce((sum, point, index) => (
+                sum + point.distanceTo(route[index])
+            ), 0);
+            let remaining = totalLength * THREE.MathUtils.clamp(fraction, 0, 1);
+
+            for (let i = 1; i < route.length; i++) {
+                const from = route[i - 1];
+                const to = route[i];
+                const length = from.distanceTo(to);
+                if (remaining <= length || i === route.length - 1) {
+                    const t = length === 0 ? 0 : remaining / length;
+                    const point = from.clone().lerp(to, t);
+                    const direction = to.clone().sub(from).normalize();
+                    return { point, direction };
+                }
+                remaining -= length;
+            }
+            return { point: route[0].clone(), direction: new THREE.Vector3(0, 0, -1) };
+        }
+
+        function getEllipseEdgeDistance(x, z, shape) {
+            const dx = x - shape.center.x;
+            const dz = z - shape.center.z;
+            const cosine = Math.cos(shape.rotation);
+            const sine = Math.sin(shape.rotation);
+            const localX = cosine * dx + sine * dz;
+            const localZ = -sine * dx + cosine * dz;
+            return (Math.hypot(localX / shape.rx, localZ / shape.rz) - 1) * Math.min(shape.rx, shape.rz);
+        }
+
+        function registerBanguideHole(hole, guideHole) {
+            const oldStart = guideHole.line[0];
+            const oldEnd = guideHole.line[guideHole.line.length - 1];
+            const newStart = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
+            const newEnd = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+            const oldDX = oldEnd[0] - oldStart[0];
+            const oldDZ = oldEnd[1] - oldStart[1];
+            const newDX = newEnd.x - newStart.x;
+            const newDZ = newEnd.z - newStart.z;
+            const oldLength = Math.hypot(oldDX, oldDZ) || 1;
+            const newLength = Math.hypot(newDX, newDZ) || 1;
+            const scale = newLength / oldLength;
+            const cosine = (oldDX * newDX + oldDZ * newDZ) / (oldLength * newLength);
+            const sine = (oldDX * newDZ - oldDZ * newDX) / (oldLength * newLength);
+
+            const project = ([x, z]) => new THREE.Vector3(
+                newStart.x + scale * (cosine * (x - oldStart[0]) - sine * (z - oldStart[1])),
+                0,
+                newStart.z + scale * (sine * (x - oldStart[0]) + cosine * (z - oldStart[1]))
+            );
+
+            hole.guide = guideHole;
+            hole.guideProject = project;
+            hole.guideScale = scale;
+            hole.guideRotation = Math.atan2(sine, cosine);
+            hole.guideElevationCorrection = 0;
+            hole.localRoute = guideHole.line.map(project);
+            hole.localTee = hole.localRoute[0].clone();
+            hole.localGreen = hole.localRoute[hole.localRoute.length - 1].clone();
+            hole.greenShape = {
+                center: hole.localGreen,
+                rx: guideHole.gr[0] * scale,
+                rz: guideHole.gr[1] * scale,
+                rotation: hole.guideRotation + (guideHole.grot || 0) * DEG_TO_RAD
+            };
+            hole.fairwayHalfWidth = (guideHole.par === 5 ? 26 : 24) * scale;
+            const teeDirection = hole.localRoute[1].clone().sub(hole.localRoute[0]).setY(0).normalize();
+            hole.teeShape = {
+                center: hole.localTee,
+                width: 8.2 * scale,
+                length: 13.5 * scale,
+                rotation: Math.atan2(teeDirection.x, teeDirection.z)
+            };
+            hole.bunkers = (guideHole.bk || []).map(([fraction, side, rx, rz, angle]) => {
+                const { point, direction } = pointAlongRoute(hole.localRoute, fraction);
+                const normal = new THREE.Vector3(-direction.z, 0, direction.x);
+                return {
+                    center: point.addScaledVector(normal, side * scale),
+                    rx: rx * scale,
+                    rz: rz * scale,
+                    rotation: Math.atan2(direction.z, direction.x) + Math.PI / 2 + angle * DEG_TO_RAD
+                };
+            });
+            if (guideHole.mound) {
+                const [side, along, radius, height] = guideHole.mound;
+                const finalDirection = hole.localRoute[hole.localRoute.length - 1]
+                    .clone()
+                    .sub(hole.localRoute[hole.localRoute.length - 2])
+                    .setY(0)
+                    .normalize();
+                const normal = new THREE.Vector3(-finalDirection.z, 0, finalDirection.x);
+                hole.mound = {
+                    center: hole.localGreen.clone()
+                        .addScaledVector(normal, side * scale)
+                        .addScaledVector(finalDirection, along * scale),
+                    radius: radius * scale,
+                    height
+                };
+            } else {
+                hole.mound = null;
+            }
+            hole.guideElevationDelta = Number.isFinite(guideHole.rise) ? guideHole.rise
+                : (Number.isFinite(guideHole.drop) ? guideHole.drop : null);
+        }
+
         function prepareCourseProjection(course) {
+            const guideHoles = course.id === 'veckefjarden' ? VECKEFJARDEN_BANGUIDE.holes : null;
+            course.holes.forEach(hole => { hole.guideElevationCorrection = 0; });
+            course.holes.forEach((hole, index) => {
+                const guideHole = guideHoles?.[index];
+                if (guideHole) {
+                    registerBanguideHole(hole, guideHole);
+                } else {
+                    hole.localRoute = hole.route.map(([lon, lat]) => gpsToLocal3D(lon, lat, course.origin));
+                    hole.localGreen = gpsToLocal3D(hole.green[0], hole.green[1], course.origin);
+                    hole.localTee = gpsToLocal3D(hole.tee[0], hole.tee[1], course.origin);
+                    hole.greenShape = { center: hole.localGreen, rx: 15, rz: 15, rotation: 0 };
+                    hole.fairwayHalfWidth = 32;
+                    hole.bunkers = [];
+                    hole.teeShape = { center: hole.localTee, width: 8, length: 13, rotation: 0 };
+                    hole.mound = null;
+                    hole.guideElevationDelta = null;
+                }
+                if (Number.isFinite(hole.guideElevationDelta)) {
+                    const rawDelta = getProceduralElevation(hole.localGreen.x, hole.localGreen.z)
+                        - getProceduralElevation(hole.localTee.x, hole.localTee.z);
+                    hole.guideElevationCorrection = hole.guideElevationDelta - rawDelta;
+                } else {
+                    hole.guideElevationCorrection = 0;
+                }
+            });
             course.holes.forEach(hole => {
-                hole.localRoute = hole.route.map(([lon, lat]) => gpsToLocal3D(lon, lat, course.origin));
-                hole.localGreen = gpsToLocal3D(hole.green[0], hole.green[1], course.origin);
-                hole.localTee = gpsToLocal3D(hole.tee[0], hole.tee[1], course.origin);
                 hole.localGreenBase = getBaseElevation(hole.localGreen.x, hole.localGreen.z);
                 hole.localTeeBase = getBaseElevation(hole.localTee.x, hole.localTee.z);
             });
@@ -735,14 +917,18 @@
             let fairwayDistance = Infinity;
             let greenDistance = Infinity;
             let teeDistance = Infinity;
+            let bunkerEdgeDistance = Infinity;
+            let fairwayHalfWidth = 32;
             let closestGreenBase = 0;
             let closestTeeBase = 0;
+            let closestGreenHole = null;
 
             currentCourse.holes.forEach(hole => {
-                const greenDistanceForHole = Math.hypot(x - hole.localGreen.x, z - hole.localGreen.z);
+                const greenDistanceForHole = Math.max(0, getEllipseEdgeDistance(x, z, hole.greenShape));
                 if (greenDistanceForHole < greenDistance) {
                     greenDistance = greenDistanceForHole;
                     closestGreenBase = hole.localGreenBase;
+                    closestGreenHole = hole;
                 }
 
                 const teeDistanceForHole = Math.hypot(x - hole.localTee.x, z - hole.localTee.z);
@@ -752,29 +938,85 @@
                 }
 
                 for (let i = 1; i < hole.localRoute.length; i++) {
-                    fairwayDistance = Math.min(
-                        fairwayDistance,
-                        distanceToSegmentXZ(x, z, hole.localRoute[i - 1], hole.localRoute[i])
-                    );
+                    const routeDistance = distanceToSegmentXZ(x, z, hole.localRoute[i - 1], hole.localRoute[i]);
+                    if (routeDistance < fairwayDistance) {
+                        fairwayDistance = routeDistance;
+                        fairwayHalfWidth = hole.fairwayHalfWidth;
+                    }
                 }
+
+                hole.bunkers.forEach(bunker => {
+                    bunkerEdgeDistance = Math.min(bunkerEdgeDistance, getEllipseEdgeDistance(x, z, bunker));
+                });
             });
 
-            return { fairwayDistance, greenDistance, teeDistance, closestGreenBase, closestTeeBase };
+            return {
+                fairwayDistance, fairwayHalfWidth, greenDistance, teeDistance, bunkerEdgeDistance,
+                closestGreenBase, closestTeeBase, closestGreenHole
+            };
         }
 
-        // LiDAR-inspired procedural topography. The real GPS features then grade and carve
-        // playable surfaces into this terrain; no unprovided elevation raster is represented as real data.
-        function getBaseElevation(x, z) {
-            const hill1 = Math.sin(x * 0.0018 + 0.4) * Math.cos(z * 0.0018 + 0.6) * 45;
-            const hill2 = Math.sin(x * 0.004 - 0.2) * Math.cos(z * 0.0035 + 0.8) * 18;
-            const ridge = Math.sin((x + z) * 0.0028) * 14;
-            const detail = Math.sin(x * 0.015) * Math.cos(z * 0.015) * 3.5;
-            
-            // Coastal shelf falloff toward water
+        function getProceduralElevation(x, z) {
+            // A simulator baseline: broad, restrained Swedish woodland undulation.
+            // The course's documented rises, drops and engineered features are added
+            // below; giant procedural mountains are deliberately avoided.
+            const hill1 = Math.sin(x * 0.0018 + 0.4) * Math.cos(z * 0.0018 + 0.6) * 8.5;
+            const hill2 = Math.sin(x * 0.004 - 0.2) * Math.cos(z * 0.0035 + 0.8) * 3.1;
+            const ridge = Math.sin((x + z) * 0.0028) * 2.6;
+            const detail = Math.sin(x * 0.015) * Math.cos(z * 0.015) * 0.5;
+
             const distFromOrigin = Math.sqrt(x*x + z*z);
-            const coastalFalloff = Math.min(25, distFromOrigin * 0.015);
-            
-            return (hill1 + hill2 + ridge + detail) * currentCourse.terrainScale + 12 - coastalFalloff;
+            const softEdgeFalloff = Math.min(3.5, distFromOrigin * 0.002);
+
+            return (hill1 + hill2 + ridge + detail) * currentCourse.terrainScale + 17 - softEdgeFalloff;
+        }
+
+        function getGuideTerrainAdjustment(x, z) {
+            if (currentCourse.id !== 'veckefjarden') return 0;
+            let bestCorridorWeight = 0;
+            let corridorAdjustment = 0;
+            let moundAdjustment = 0;
+
+            currentCourse.holes.forEach(hole => {
+                if (!Number.isFinite(hole.guideElevationCorrection)) return;
+                let totalLength = 0;
+                let passedLength = 0;
+                let nearest = { distance: Infinity, fraction: 0 };
+
+                for (let i = 1; i < hole.localRoute.length; i++) {
+                    totalLength += hole.localRoute[i].distanceTo(hole.localRoute[i - 1]);
+                }
+                for (let i = 1; i < hole.localRoute.length; i++) {
+                    const from = hole.localRoute[i - 1];
+                    const to = hole.localRoute[i];
+                    const dx = to.x - from.x;
+                    const dz = to.z - from.z;
+                    const length = Math.hypot(dx, dz) || 1;
+                    const segmentFraction = THREE.MathUtils.clamp(((x - from.x) * dx + (z - from.z) * dz) / (length * length), 0, 1);
+                    const distance = Math.hypot(x - (from.x + dx * segmentFraction), z - (from.z + dz * segmentFraction));
+                    if (distance < nearest.distance) {
+                        nearest = { distance, fraction: (passedLength + length * segmentFraction) / totalLength };
+                    }
+                    passedLength += length;
+                }
+
+                const corridorFade = 1 - THREE.MathUtils.smoothstep(nearest.distance, hole.fairwayHalfWidth, hole.fairwayHalfWidth + 85);
+                if (corridorFade > bestCorridorWeight) {
+                    bestCorridorWeight = corridorFade;
+                    corridorAdjustment = hole.guideElevationCorrection * nearest.fraction * corridorFade;
+                }
+                if (hole.mound) {
+                    const d = Math.hypot(x - hole.mound.center.x, z - hole.mound.center.z);
+                    moundAdjustment += hole.mound.height * 0.48 * Math.exp(-(d * d) / (2 * hole.mound.radius * hole.mound.radius));
+                }
+            });
+            return corridorAdjustment + moundAdjustment;
+        }
+
+        // The broad landscape remains an honest visual terrain fallback. Banguide
+        // rise/drop notes, mounds and engineered golf surfaces then shape it locally.
+        function getBaseElevation(x, z) {
+            return getProceduralElevation(x, z) + getGuideTerrainAdjustment(x, z);
         }
 
         function getElevationAt(x, z) {
@@ -782,10 +1024,23 @@
             const surface = getCourseSurfaceAt(x, z);
             const greenBlend = 1 - THREE.MathUtils.smoothstep(surface.greenDistance, 4, 18);
             const teeBlend = 1 - THREE.MathUtils.smoothstep(surface.teeDistance, 4, 16);
-            const greenContour = Math.sin(x * 0.12) * Math.cos(z * 0.11) * 0.22;
+            const bunkerBlend = 1 - THREE.MathUtils.smoothstep(surface.bunkerEdgeDistance, 0, 5);
+            const green = surface.closestGreenHole;
+            let greenContour = Math.sin(x * 0.12) * Math.cos(z * 0.11) * 0.12;
+            if (green?.guide) {
+                const shape = green.greenShape;
+                const dx = x - shape.center.x;
+                const dz = z - shape.center.z;
+                const cosine = Math.cos(shape.rotation);
+                const sine = Math.sin(shape.rotation);
+                const localZ = -sine * dx + cosine * dz;
+                const tierBreak = green.guide.tiers > 1 ? Math.tanh(localZ * 0.28) * 0.38 : 0;
+                greenContour += tierBreak + Math.sin(localZ * 0.55) * 0.075;
+            }
 
             let elevation = THREE.MathUtils.lerp(baseElevation, surface.closestGreenBase + greenContour, greenBlend);
             elevation = THREE.MathUtils.lerp(elevation, surface.closestTeeBase + 0.12, teeBlend * (1 - greenBlend));
+            elevation -= bunkerBlend * 0.65;
             return elevation;
         }
 
@@ -793,11 +1048,50 @@
            4. 3D TERRAIN MESH WITH CUSTOM PBR SHADER & GRANITE CLIFF DETECTION
            ========================================================================= */
         let terrainMesh;
-        const TERRAIN_SIZE = 3600;
+        let terrainMaterial;
+        let terrainSatelliteTexture = null;
+        let simulatorGroundTexture = null;
+        // Both embedded courses fit within this square with a generous forest margin.
+        // Keeping it tight also makes the live orthophoto mosaic crisp instead of
+        // spending requests and texture resolution on kilometres of empty terrain.
+        const TERRAIN_SIZE = 2600;
         const TERRAIN_SEGS = 220;
 
+        function getSimulatorGroundTexture() {
+            if (simulatorGroundTexture) return simulatorGroundTexture;
+            const canvas = document.createElement('canvas');
+            canvas.width = 768;
+            canvas.height = 768;
+            const context = canvas.getContext('2d');
+            const image = context.createImageData(canvas.width, canvas.height);
+
+            for (let y = 0; y < canvas.height; y++) {
+                for (let x = 0; x < canvas.width; x++) {
+                    const index = (y * canvas.width + x) * 4;
+                    const broad = Math.sin(x * 0.043) * Math.cos(y * 0.037);
+                    const grain = Math.sin(x * 1.71 + y * 0.79) * 0.5 + Math.sin(x * 0.41 - y * 1.33) * 0.5;
+                    const value = Math.round(218 + broad * 11 + grain * 8);
+                    image.data[index] = value;
+                    image.data[index + 1] = value + 5;
+                    image.data[index + 2] = value - 5;
+                    image.data[index + 3] = 255;
+                }
+            }
+            context.putImageData(image, 0, 0);
+            simulatorGroundTexture = new THREE.CanvasTexture(canvas);
+            simulatorGroundTexture.colorSpace = THREE.SRGBColorSpace;
+            simulatorGroundTexture.anisotropy = 8;
+            return simulatorGroundTexture;
+        }
+
         function buildTerrain() {
-            if (terrainMesh) scene.remove(terrainMesh);
+            if (terrainMesh) {
+                scene.remove(terrainMesh);
+                terrainMesh.geometry.dispose();
+                terrainMesh.material.dispose();
+            }
+            if (terrainSatelliteTexture) terrainSatelliteTexture.dispose();
+            terrainSatelliteTexture = null;
 
             const geom = new THREE.PlaneGeometry(TERRAIN_SIZE, TERRAIN_SIZE, TERRAIN_SEGS, TERRAIN_SEGS);
             geom.rotateX(-Math.PI / 2);
@@ -822,8 +1116,14 @@
                     colors[i * 3 + 0] = 0.72; // R
                     colors[i * 3 + 1] = 0.65; // G
                     colors[i * 3 + 2] = 0.52; // B
-                } else if (surface.greenDistance < 15) {
-                    // Inferred putting-green footprint around the GPS centre/front/back data.
+                } else if (surface.bunkerEdgeDistance <= 0) {
+                    // Banguide-surveyed sand hazards (Veckefjärden) or any future course layer.
+                    const grain = Math.sin(x * 0.34 + z * 0.17) * 0.025;
+                    colors[i * 3 + 0] = 0.74 + grain;
+                    colors[i * 3 + 1] = 0.64 + grain;
+                    colors[i * 3 + 2] = 0.44 + grain * 0.5;
+                } else if (surface.greenDistance <= 0) {
+                    // Putting-green footprint uses each banguide's measured green proportions.
                     colors[i * 3 + 0] = 0.10;
                     colors[i * 3 + 1] = 0.47;
                     colors[i * 3 + 2] = 0.20;
@@ -831,48 +1131,415 @@
                     colors[i * 3 + 0] = 0.13;
                     colors[i * 3 + 1] = 0.38;
                     colors[i * 3 + 2] = 0.17;
-                } else if (surface.fairwayDistance < 32) {
+                } else if (surface.fairwayDistance < surface.fairwayHalfWidth) {
                     const stripe = Math.sin((x + z) * 0.09) * 0.025;
                     colors[i * 3 + 0] = 0.16 + stripe;
                     colors[i * 3 + 1] = 0.40 + stripe * 2;
                     colors[i * 3 + 2] = 0.13 + stripe;
-                } else if (y > 38 || slopeFactor > 0.7) {
+                } else if (currentCourse.id === 'norrfallsviken' && (y > 30 || slopeFactor > 0.46)) {
                     // Exposed Red Nordingrå Granite bedrock cliffs
                     colors[i * 3 + 0] = 0.62;
                     colors[i * 3 + 1] = 0.38;
                     colors[i * 3 + 2] = 0.32;
                 } else {
                     // Rich Swedish turf with subtle tonal variation
-                    const noise = Math.sin(x * 0.02) * 0.06;
-                    colors[i * 3 + 0] = 0.18 + noise;
-                    colors[i * 3 + 1] = 0.42 + noise * 1.2;
-                    colors[i * 3 + 2] = 0.16 + noise * 0.8;
+                    const noise = Math.sin(x * 0.02) * 0.025 + Math.cos(z * 0.018) * 0.018;
+                    colors[i * 3 + 0] = 0.22 + noise;
+                    colors[i * 3 + 1] = 0.39 + noise * 0.8;
+                    colors[i * 3 + 2] = 0.18 + noise * 0.55;
                 }
             }
 
             geom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
             geom.computeVertexNormals();
 
-            // PBR Standard Material with Vertex Colors + Roughness
-            const mat = new THREE.MeshStandardMaterial({
+            // A neutral high-frequency ground detail texture keeps the surface rich
+            // under changing light without draping a flat satellite photograph on it.
+            terrainMaterial = new THREE.MeshStandardMaterial({
+                map: getSimulatorGroundTexture(),
                 vertexColors: true,
-                roughness: 0.85,
-                metalness: 0.05,
+                roughness: 0.96,
+                metalness: 0,
                 flatShading: false
             });
 
-            terrainMesh = new THREE.Mesh(geom, mat);
+            terrainMesh = new THREE.Mesh(geom, terrainMaterial);
             terrainMesh.receiveShadow = true;
             terrainMesh.castShadow = true;
             scene.add(terrainMesh);
+        }
+
+        function worldImageryPixel(lon, lat, zoom) {
+            const tileCount = 2 ** zoom;
+            const latitudeRadians = THREE.MathUtils.clamp(lat, -85.05112878, 85.05112878) * DEG_TO_RAD;
+            return {
+                x: ((lon + 180) / 360) * tileCount * 256,
+                y: ((1 - Math.asinh(Math.tan(latitudeRadians)) / Math.PI) / 2) * tileCount * 256
+            };
+        }
+
+        function localToCourseGps(course, x, z) {
+            return {
+                lon: course.origin.lon + x / (111320 * Math.cos(course.origin.lat * DEG_TO_RAD)),
+                lat: course.origin.lat - z / 111320
+            };
+        }
+
+        function loadTileImage(url) {
+            return new Promise((resolve, reject) => {
+                const image = new Image();
+                image.crossOrigin = 'anonymous';
+                image.onload = () => resolve(image);
+                image.onerror = () => reject(new Error(`Could not load imagery tile: ${url}`));
+                image.src = url;
+            });
+        }
+
+        async function loadVeckefjardenWorldImagery() {
+            const requestedCourse = currentCourse;
+            if (requestedCourse.id !== 'veckefjarden' || !terrainMaterial) return;
+
+            // Public visual fallback while the higher-resolution, official Lantmäteriet
+            // COGs are pending authorised Geotorget access.  It is intentionally labeled
+            // a fallback rather than being represented as a Lantmäteriet orthophoto.
+            const zoom = 15;
+            const half = TERRAIN_SIZE / 2;
+            const northWest = localToCourseGps(requestedCourse, -half, -half);
+            const southEast = localToCourseGps(requestedCourse, half, half);
+            const topLeft = worldImageryPixel(northWest.lon, northWest.lat, zoom);
+            const bottomRight = worldImageryPixel(southEast.lon, southEast.lat, zoom);
+            const minTileX = Math.floor(topLeft.x / 256);
+            const maxTileX = Math.floor(bottomRight.x / 256);
+            const minTileY = Math.floor(topLeft.y / 256);
+            const maxTileY = Math.floor(bottomRight.y / 256);
+            const tileJobs = [];
+
+            for (let y = minTileY; y <= maxTileY; y++) {
+                for (let x = minTileX; x <= maxTileX; x++) tileJobs.push({ x, y });
+            }
+
+            try {
+                const tiles = await Promise.all(tileJobs.map(async ({ x, y }) => ({
+                    x, y,
+                    image: await loadTileImage(`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zoom}/${y}/${x}`)
+                })));
+                if (currentCourse !== requestedCourse || !terrainMaterial) return;
+
+                const resolution = 2048;
+                const canvas = document.createElement('canvas');
+                canvas.width = resolution;
+                canvas.height = resolution;
+                const context = canvas.getContext('2d');
+                context.fillStyle = '#183a2a';
+                context.fillRect(0, 0, resolution, resolution);
+
+                tiles.forEach(({ x, y, image }) => {
+                    const tileLeft = x * 256;
+                    const tileTop = y * 256;
+                    const destinationX = ((tileLeft - topLeft.x) / (bottomRight.x - topLeft.x)) * resolution;
+                    const destinationY = ((tileTop - topLeft.y) / (bottomRight.y - topLeft.y)) * resolution;
+                    const destinationSizeX = (256 / (bottomRight.x - topLeft.x)) * resolution;
+                    const destinationSizeY = (256 / (bottomRight.y - topLeft.y)) * resolution;
+                    context.drawImage(image, destinationX, destinationY, destinationSizeX, destinationSizeY);
+                });
+
+                terrainSatelliteTexture = new THREE.CanvasTexture(canvas);
+                terrainSatelliteTexture.colorSpace = THREE.SRGBColorSpace;
+                terrainSatelliteTexture.anisotropy = 8;
+                terrainMaterial.map = terrainSatelliteTexture;
+                terrainMaterial.vertexColors = false;
+                terrainMaterial.roughness = 0.82;
+                terrainMaterial.needsUpdate = true;
+                document.getElementById('geodata-status').textContent = 'ESRI ORTHO FALLBACK · GPS + BANGUIDE';
+            } catch (error) {
+                console.warn('World imagery fallback was unavailable; retaining banguide terrain materials.', error);
+                if (currentCourse === requestedCourse) {
+                    document.getElementById('geodata-status').textContent = 'GPS + BANGUIDE · ORTHO UNAVAILABLE';
+                }
+            }
         }
 
         /* =========================================================================
            5. DYNAMIC NORDIC WATER & FJORD SHADER
            ========================================================================= */
         let waterMesh;
+        const banguideFeaturesGroup = new THREE.Group();
+        scene.add(banguideFeaturesGroup);
+
+        function clearBanguideFeatures() {
+            while (banguideFeaturesGroup.children.length > 0) {
+                banguideFeaturesGroup.remove(banguideFeaturesGroup.children[0]);
+            }
+        }
+
+        function createSurfaceEllipse(shape, material, verticalOffset = 0.05, conformToTerrain = true) {
+            const segments = 40;
+            const positions = new Float32Array((segments + 1) * 3);
+            const uvs = new Float32Array((segments + 1) * 2);
+            const indices = [];
+            const centerY = getElevationAt(shape.center.x, shape.center.z) + verticalOffset;
+            positions[0] = shape.center.x;
+            positions[1] = centerY;
+            positions[2] = shape.center.z;
+            uvs[0] = 0.5;
+            uvs[1] = 0.5;
+
+            for (let i = 0; i < segments; i++) {
+                const angle = (i / segments) * Math.PI * 2;
+                const localX = Math.cos(angle) * shape.rx;
+                const localZ = Math.sin(angle) * shape.rz;
+                const cosine = Math.cos(shape.rotation);
+                const sine = Math.sin(shape.rotation);
+                const x = shape.center.x + localX * cosine - localZ * sine;
+                const z = shape.center.z + localX * sine + localZ * cosine;
+                const offset = (i + 1) * 3;
+                positions[offset] = x;
+                positions[offset + 1] = conformToTerrain ? getElevationAt(x, z) + verticalOffset : centerY;
+                positions[offset + 2] = z;
+                uvs[(i + 1) * 2] = 0.5 + Math.cos(angle) * 0.5;
+                uvs[(i + 1) * 2 + 1] = 0.5 + Math.sin(angle) * 0.5;
+                indices.push(0, i + 1, ((i + 1) % segments) + 1);
+            }
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+            geometry.setIndex(indices);
+            geometry.computeVertexNormals();
+            return new THREE.Mesh(geometry, material);
+        }
+
+        let banguideTextures = null;
+        function createCanvasTexture(draw) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 256;
+            canvas.height = 512;
+            draw(canvas.getContext('2d'), canvas.width, canvas.height);
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.colorSpace = THREE.SRGBColorSpace;
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            return texture;
+        }
+
+        function getBanguideTextures() {
+            if (banguideTextures) return banguideTextures;
+            const fairway = createCanvasTexture((ctx, width, height) => {
+                ctx.clearRect(0, 0, width, height);
+                for (let y = 0; y < height; y += 34) {
+                    ctx.fillStyle = y % 68 === 0 ? 'rgba(77, 170, 78, 0.36)' : 'rgba(23, 105, 51, 0.27)';
+                    ctx.fillRect(0, y, width, 34);
+                }
+                ctx.fillStyle = 'rgba(198, 255, 181, 0.10)';
+                for (let y = 8; y < height; y += 34) ctx.fillRect(0, y, width, 1);
+            });
+            const green = createCanvasTexture((ctx, width, height) => {
+                ctx.fillStyle = '#398d42';
+                ctx.fillRect(0, 0, width, height);
+                for (let y = 0; y < height; y += 18) {
+                    ctx.fillStyle = y % 36 === 0 ? 'rgba(149, 233, 111, 0.25)' : 'rgba(11, 72, 36, 0.13)';
+                    ctx.fillRect(0, y, width, 18);
+                }
+                ctx.strokeStyle = 'rgba(220, 255, 197, 0.12)';
+                ctx.lineWidth = 1;
+                for (let x = 0; x < width; x += 32) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x + 12, height);
+                    ctx.stroke();
+                }
+            });
+            const sand = createCanvasTexture((ctx, width, height) => {
+                ctx.fillStyle = '#d9bd79';
+                ctx.fillRect(0, 0, width, height);
+                ctx.strokeStyle = 'rgba(99, 70, 31, 0.18)';
+                ctx.lineWidth = 1;
+                for (let y = 6; y < height; y += 12) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    for (let x = 0; x <= width; x += 14) {
+                        ctx.lineTo(x, y + Math.sin(x * 0.13 + y * 0.04) * 1.8);
+                    }
+                    ctx.stroke();
+                }
+            });
+            banguideTextures = { fairway, green, sand };
+            return banguideTextures;
+        }
+
+        function createFairwayRibbon(hole, material) {
+            const route = hole.localRoute;
+            if (route.length < 2) return null;
+            const positions = [];
+            const uvs = [];
+            const indices = [];
+            let lengthAlong = 0;
+
+            route.forEach((point, index) => {
+                const previous = route[Math.max(0, index - 1)];
+                const next = route[Math.min(route.length - 1, index + 1)];
+                if (index > 0) lengthAlong += point.distanceTo(previous);
+                const direction = next.clone().sub(previous).setY(0).normalize();
+                const halfWidth = (hole.par === 3 ? 11 : hole.fairwayHalfWidth) * (
+                    index === route.length - 1 ? 0.68 : index === 0 ? 0.74 : 1
+                );
+                const normal = new THREE.Vector3(-direction.z, 0, direction.x).multiplyScalar(halfWidth);
+
+                [normal, normal.clone().multiplyScalar(-1)].forEach((offset, side) => {
+                    const x = point.x + offset.x;
+                    const z = point.z + offset.z;
+                    positions.push(x, getElevationAt(x, z) + 0.12, z);
+                    uvs.push(side, lengthAlong / 28);
+                });
+                if (index > 0) {
+                    const base = index * 2;
+                    indices.push(base - 2, base, base - 1, base, base + 1, base - 1);
+                }
+            });
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+            geometry.setIndex(indices);
+            geometry.computeVertexNormals();
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.receiveShadow = true;
+            return mesh;
+        }
+
+        function createWaterRibbon(points, width, material) {
+            if (points.length < 2) return null;
+            const positions = [];
+            const indices = [];
+
+            points.forEach((point, index) => {
+                const previous = points[Math.max(0, index - 1)];
+                const next = points[Math.min(points.length - 1, index + 1)];
+                const direction = next.clone().sub(previous).setY(0).normalize();
+                const normal = new THREE.Vector3(-direction.z, 0, direction.x).multiplyScalar(width / 2);
+
+                [normal, normal.clone().multiplyScalar(-1)].forEach(offset => {
+                    const x = point.x + offset.x;
+                    const z = point.z + offset.z;
+                    positions.push(x, getElevationAt(x, z) + 0.12, z);
+                });
+
+                if (index > 0) {
+                    const base = index * 2;
+                    indices.push(base - 2, base, base - 1, base, base + 1, base - 1);
+                }
+            });
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setIndex(indices);
+            geometry.computeVertexNormals();
+            return new THREE.Mesh(geometry, material);
+        }
+
+        function buildBanguideLandscapeFeatures() {
+            clearBanguideFeatures();
+            if (currentCourse.id !== 'veckefjarden') return;
+
+            const textures = getBanguideTextures();
+            const fairwayMaterial = new THREE.MeshStandardMaterial({
+                map: textures.fairway, color: 0xffffff, roughness: 0.9, metalness: 0,
+                transparent: true, opacity: 0.82, depthWrite: false
+            });
+            const collarMaterial = new THREE.MeshStandardMaterial({
+                color: 0x2b783b, roughness: 0.94, transparent: true, opacity: 0.42, depthWrite: false
+            });
+            const greenMaterial = new THREE.MeshStandardMaterial({
+                map: textures.green, color: 0xffffff, roughness: 0.87, metalness: 0,
+                transparent: true, opacity: 0.84, depthWrite: false
+            });
+            const bunkerLipMaterial = new THREE.MeshStandardMaterial({
+                color: 0x8b9561, roughness: 0.95, transparent: true, opacity: 0.6, depthWrite: false
+            });
+            const bunkerMaterial = new THREE.MeshStandardMaterial({
+                map: textures.sand, color: 0xffffff, roughness: 0.94, metalness: 0.02
+            });
+            const waterMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x1b6d81, emissive: 0x062c38, emissiveIntensity: 0.35,
+                roughness: 0.22, metalness: 0.15, transparent: true, opacity: 0.92,
+                clearcoat: 0.78, clearcoatRoughness: 0.14
+            });
+            const ditchMaterial = new THREE.MeshStandardMaterial({
+                color: 0x2d6470, roughness: 0.48, metalness: 0.08, transparent: true, opacity: 0.9
+            });
+
+            currentCourse.holes.forEach(hole => {
+                const fairway = createFairwayRibbon(hole, fairwayMaterial);
+                if (fairway) {
+                    fairway.renderOrder = 1;
+                    banguideFeaturesGroup.add(fairway);
+                }
+
+                const collar = createSurfaceEllipse({
+                    center: hole.greenShape.center,
+                    rx: hole.greenShape.rx + 2.7,
+                    rz: hole.greenShape.rz + 2.7,
+                    rotation: hole.greenShape.rotation
+                }, collarMaterial, 0.135, true);
+                collar.renderOrder = 2;
+                banguideFeaturesGroup.add(collar);
+
+                const green = createSurfaceEllipse(hole.greenShape, greenMaterial, 0.18, true);
+                green.renderOrder = 3;
+                banguideFeaturesGroup.add(green);
+
+                hole.bunkers.forEach(bunker => {
+                    const lip = createSurfaceEllipse({
+                        center: bunker.center,
+                        rx: bunker.rx + 1.65,
+                        rz: bunker.rz + 1.65,
+                        rotation: bunker.rotation
+                    }, bunkerLipMaterial, 0.11, true);
+                    lip.renderOrder = 3;
+                    banguideFeaturesGroup.add(lip);
+
+                    const sand = createSurfaceEllipse(bunker, bunkerMaterial, 0.17, true);
+                    sand.renderOrder = 4;
+                    sand.receiveShadow = true;
+                    banguideFeaturesGroup.add(sand);
+                });
+            });
+
+            VECKEFJARDEN_BANGUIDE.ponds.forEach(pond => {
+                const hole = currentCourse.holes[(pond.h || 14) - 1];
+                if (!hole?.guideProject) return;
+                const center = hole.guideProject(pond.c);
+                const ellipse = {
+                    center,
+                    rx: pond.r[0] * hole.guideScale,
+                    rz: pond.r[1] * hole.guideScale,
+                    rotation: hole.guideRotation + (pond.rot || 0) * DEG_TO_RAD
+                };
+                const water = createSurfaceEllipse(ellipse, waterMaterial, 0.3, false);
+                water.receiveShadow = true;
+                banguideFeaturesGroup.add(water);
+            });
+
+            VECKEFJARDEN_BANGUIDE.streams.forEach(stream => {
+                const hole = currentCourse.holes[stream.h - 1];
+                if (!hole?.guideProject) return;
+                const points = stream.p.map(hole.guideProject);
+                const ribbon = createWaterRibbon(
+                    points,
+                    stream.w * hole.guideScale,
+                    stream.k === 'ditch' ? ditchMaterial : waterMaterial
+                );
+                if (ribbon) banguideFeaturesGroup.add(ribbon);
+            });
+        }
+
         function buildWater() {
             if (waterMesh) scene.remove(waterMesh);
+            waterMesh = null;
+
+            // Veckefjärden has individually located water hazards from the banguide,
+            // so do not cover the entire landscape with an invented sea plane.
+            if (currentCourse.id === 'veckefjarden') return;
 
             const waterGeom = new THREE.PlaneGeometry(TERRAIN_SIZE * 1.4, TERRAIN_SIZE * 1.4, 64, 64);
             waterGeom.rotateX(-Math.PI / 2);
@@ -1064,15 +1731,49 @@
             flagObjects = [];
             activeShotArc = null;
             activeShotAnimation = null;
+            const turfTextures = getBanguideTextures();
+            const teeApronMaterial = new THREE.MeshStandardMaterial({
+                color: 0x286d36, roughness: 0.92, transparent: true, opacity: 0.58, depthWrite: false
+            });
+            const teeDeckMaterial = new THREE.MeshStandardMaterial({
+                map: turfTextures.green, color: 0xffffff, roughness: 0.86,
+                transparent: true, opacity: 0.78, depthWrite: false
+            });
 
             currentCourse.holes.forEach((hole, idx) => {
-                const tee3D = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
+                const tee3D = hole.localTee.clone();
                 tee3D.y = getElevationAt(tee3D.x, tee3D.z);
 
-                const green3D = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+                const green3D = hole.localGreen.clone();
                 green3D.y = getElevationAt(green3D.x, green3D.z);
 
-                // 1. Tee Box Marker Cylinders
+                // 1. Built tee deck: a closely-mown, level surface aligned with
+                // the banguide's opening line rather than floating tee markers.
+                const teeShape = hole.teeShape;
+                const apron = new THREE.Mesh(
+                    new THREE.PlaneGeometry(teeShape.width + 2.2, teeShape.length + 2.2, 1, 1),
+                    teeApronMaterial
+                );
+                apron.geometry.rotateX(-Math.PI / 2);
+                apron.position.copy(tee3D);
+                apron.position.y += 0.105;
+                apron.rotation.y = teeShape.rotation;
+                apron.renderOrder = 4;
+                courseFurnitureGroup.add(apron);
+
+                const teeDeck = new THREE.Mesh(
+                    new THREE.PlaneGeometry(teeShape.width, teeShape.length, 2, 4),
+                    teeDeckMaterial
+                );
+                teeDeck.geometry.rotateX(-Math.PI / 2);
+                teeDeck.position.copy(tee3D);
+                teeDeck.position.y += 0.14;
+                teeDeck.rotation.y = teeShape.rotation;
+                teeDeck.renderOrder = 5;
+                teeDeck.receiveShadow = true;
+                courseFurnitureGroup.add(teeDeck);
+
+                // 2. Color-coded Tee Markers
                 const teeBoxGroup = new THREE.Group();
                 const teeColors = [0xffffff, 0xf59e0b, 0x3b82f6, 0xef4444];
                 teeColors.forEach((color, cIdx) => {
@@ -1085,9 +1786,10 @@
                     teeBoxGroup.add(marker);
                 });
                 teeBoxGroup.position.copy(tee3D);
+                teeBoxGroup.rotation.y = teeShape.rotation;
                 courseFurnitureGroup.add(teeBoxGroup);
 
-                // 2. 3D Animated Pin Flag
+                // 3. 3D Animated Pin Flag
                 const flagGroup = new THREE.Group();
                 const pole = new THREE.Mesh(
                     new THREE.CylinderGeometry(0.08, 0.08, 3.2, 8),
@@ -1255,13 +1957,13 @@
             iconBg.className = 'w-10 h-10 rounded-xl bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-emerald-300';
 
             const hole = currentCourse.holes[activeHoleIdx];
-            const greenPos = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+            const greenPos = hole.localGreen.clone();
             greenPos.y = getElevationAt(greenPos.x, greenPos.z);
 
             if (activeGreenContourMesh) scene.remove(activeGreenContourMesh);
 
             // Create high-res grid over green putting surface
-            const size = 42;
+            const size = Math.max(hole.greenShape.rx, hole.greenShape.rz) * 2.35;
             const segs = 36;
             const geom = new THREE.PlaneGeometry(size, size, segs, segs);
             geom.rotateX(-Math.PI / 2);
@@ -1363,6 +2065,7 @@
         function selectHole(index, transitionCamera = true) {
             activeHoleIdx = index;
             const hole = currentCourse.holes[index];
+            updateBanguideReference();
 
             // 1. Update HUD Text & Telemetry
             document.getElementById('hud-hole-title').innerText = `Hole ${hole.num}`;
@@ -1383,10 +2086,10 @@
             document.getElementById('pin-back').innerText = `${dBack}m`;
 
             // 2. 3D Coordinates
-            const tee3D = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
+            const tee3D = hole.localTee.clone();
             tee3D.y = getElevationAt(tee3D.x, tee3D.z);
 
-            const green3D = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+            const green3D = hole.localGreen.clone();
             green3D.y = getElevationAt(green3D.x, green3D.z);
 
             const elevDelta = (green3D.y - tee3D.y).toFixed(1);
@@ -1436,6 +2139,28 @@
             if (isSlopeHeatmapActive) {
                 toggleGreenSlopeHeatmap(true);
             }
+        }
+
+        function updateBanguideReference() {
+            if (currentCourse.id !== 'veckefjarden') return;
+            const hole = currentCourse.holes[activeHoleIdx];
+            const paddedHole = String(hole.num).padStart(2, '0');
+            document.getElementById('banguide-title').textContent = `Veckefjärdens GC · Hole ${hole.num}`;
+            document.getElementById('banguide-image').src = `banguide/maps/hole_${paddedHole}.jpg`;
+        }
+
+        function openBanguide() {
+            if (currentCourse.id !== 'veckefjarden') return;
+            updateBanguideReference();
+            const modal = document.getElementById('banguide-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeBanguide() {
+            const modal = document.getElementById('banguide-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
         function updateElevationProfileSVG(teeY, greenY) {
@@ -1575,11 +2300,18 @@
             currentCourse = COURSE_DATA[courseKey];
             prepareCourseProjection(currentCourse);
             document.getElementById('course-subtitle').innerText = currentCourse.subtitle;
+            document.getElementById('geodata-status').textContent = courseKey === 'veckefjarden'
+                ? 'GPS + BANGUIDE · ORTHO LOADING'
+                : 'GPS-ANCHORED TOPO';
+            document.getElementById('btn-banguide').classList.toggle('hidden', courseKey !== 'veckefjarden');
+            if (courseKey !== 'veckefjarden') closeBanguide();
             isRangefinderActive = false;
             clearRangefinder();
 
             buildTerrain();
+            loadVeckefjardenWorldImagery();
             buildWater();
+            buildBanguideLandscapeFeatures();
             buildForests();
             buildCourseFurniture();
 
@@ -1608,10 +2340,16 @@
             startDroneFlyover();
         });
 
+        document.getElementById('btn-banguide').addEventListener('click', openBanguide);
+        document.getElementById('btn-close-banguide').addEventListener('click', closeBanguide);
+        document.getElementById('banguide-modal').addEventListener('click', (event) => {
+            if (event.target === event.currentTarget) closeBanguide();
+        });
+
         document.getElementById('btn-shot-tracer').addEventListener('click', () => {
             playClubStrikeSound();
             const hole = currentCourse.holes[activeHoleIdx];
-            const tee = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
+            const tee = hole.localTee.clone();
             tee.y = getElevationAt(tee.x, tee.z);
             drawBallTrajectory(tee, getShotLandingPosition(hole, currentClub.carry), currentClub.apex, currentClub.name);
         });
