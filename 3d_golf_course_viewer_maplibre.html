@@ -33,9 +33,9 @@
         }
     </script>
 
-    <!-- MapLibre GL JS v4 (3D Terrain & Free Camera) -->
-    <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
-    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <!-- MapLibre GL JS v5: classic script keeps this viewer compatible with file:/// URLs. -->
+    <link href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
 
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -230,8 +230,8 @@
             <!-- 3D Exaggeration Quick Toggle -->
             <div class="glass-panel px-3 py-1.5 rounded-2xl hidden lg:flex items-center gap-2 text-xs">
                 <span class="text-slate-400 font-medium flex items-center gap-1"><i data-lucide="mountain" class="w-3.5 h-3.5 text-emerald-400"></i> 3D Relief:</span>
-                <input type="range" id="quickExaggeration" min="1.0" max="3.5" step="0.2" value="2.2" oninput="setTerrainExaggeration(this.value)" class="w-20">
-                <span id="quickExaggerationVal" class="font-mono text-emerald-400 font-bold text-[11px] w-7">2.2x</span>
+                <input type="range" id="quickExaggeration" min="0.5" max="3.0" step="0.1" value="1.35" oninput="setTerrainExaggeration(this.value)" class="w-20">
+                <span id="quickExaggerationVal" class="font-mono text-emerald-400 font-bold text-[11px] w-7">1.35x</span>
             </div>
 
             <!-- Unit Toggle -->
@@ -402,20 +402,20 @@
             <div class="space-y-2">
                 <div class="flex justify-between items-center text-xs">
                     <label class="font-semibold text-slate-200">3D Terrain Exaggeration</label>
-                    <span id="modalExaggerationVal" class="font-mono text-emerald-400 font-bold">2.2x</span>
+                    <span id="modalExaggerationVal" class="font-mono text-emerald-400 font-bold">1.35x</span>
                 </div>
-                <input type="range" id="modalExaggerationSlider" min="1.0" max="3.5" step="0.1" value="2.2" oninput="setTerrainExaggeration(this.value)" class="w-full">
-                <p class="text-[11px] text-slate-400">Exaggerates Swedish hill slopes and bunker elevation changes for dramatic 3D perspective.</p>
+                <input type="range" id="modalExaggerationSlider" min="0.5" max="3.0" step="0.05" value="1.35" oninput="setTerrainExaggeration(this.value)" class="w-full">
+                <p class="text-[11px] text-slate-400">1.35x is tuned for a natural course view. Higher values are useful for inspecting broad slopes, but do not add terrain detail.</p>
             </div>
 
             <!-- Hillshade & Shading -->
             <div class="space-y-2">
                 <div class="flex justify-between items-center text-xs">
                     <label class="font-semibold text-slate-200">Sun Hillshade Shading</label>
-                    <span id="modalHillshadeVal" class="font-mono text-emerald-400 font-bold">85%</span>
+                    <span id="modalHillshadeVal" class="font-mono text-emerald-400 font-bold">55%</span>
                 </div>
-                <input type="range" id="modalHillshadeSlider" min="0" max="1" step="0.05" value="0.85" oninput="setHillshadeIntensity(this.value)" class="w-full">
-                <p class="text-[11px] text-slate-400">Controls directional sunlight and slope depth shadows.</p>
+                <input type="range" id="modalHillshadeSlider" min="0" max="1" step="0.05" value="0.55" oninput="setHillshadeIntensity(this.value)" class="w-full">
+                <p class="text-[11px] text-slate-400">Controls directional sunlight and slope depth shadows without obscuring the aerial imagery.</p>
             </div>
 
             <!-- Units -->
@@ -3189,8 +3189,11 @@
     let parsedHoles = [];
     let selectedHoleNum = 1;
     let currentUnit = 'meters'; // 'meters' or 'yards'
-    let terrainExaggeration = 2.2;
-    let hillshadeIntensity = 0.85;
+    // Conservative defaults preserve the actual shape of the terrain. The data
+    // resolution, rather than exaggeration, determines how much ground detail is visible.
+    let terrainExaggeration = 1.35;
+    let hillshadeIntensity = 0.55;
+    let hasFinishedInitialLoad = false;
 
     // Animation & Flyover State
     let isFlyoverPlaying = false;
@@ -3213,10 +3216,11 @@
     function initMap() {
         showLoading('Initializing High-Definition 3D Terrain & Aerial Imagery...');
 
-        // Enable crisp high-DPI resolution
+        // Keep native high-DPI detail without letting a very high-density display
+        // overwhelm the GPU. 2x is enough to make vector overlays and imagery crisp.
         map = new maplibregl.Map({
             container: 'map',
-            pixelRatio: Math.min(window.devicePixelRatio || 2, 2),
+            pixelRatio: Math.min(window.devicePixelRatio || 1, 2),
             style: {
                 version: 8,
                 sources: {
@@ -3230,8 +3234,19 @@
                         maxzoom: 19,
                         attribution: 'Esri, Maxar, Earthstar Geographics'
                     },
-                    // 2. AWS Open Data Global Elevation Mesh (Terrarium RGB format)
-                    'awsTerrain': {
+                    // Use separate DEM sources for the terrain mesh and hillshade.
+                    // MapLibre recommends this so both render paths can retain the
+                    // appropriate elevation tiles at the same time.
+                    'awsTerrainMesh': {
+                        type: 'raster-dem',
+                        tiles: [
+                            'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'
+                        ],
+                        encoding: 'terrarium',
+                        tileSize: 256,
+                        maxzoom: 15
+                    },
+                    'awsTerrainHillshade': {
                         type: 'raster-dem',
                         tiles: [
                             'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'
@@ -3249,23 +3264,29 @@
                         minzoom: 0,
                         maxzoom: 22,
                         paint: {
+                            // Linear filtering is smoother than nearest-neighbour when
+                            // imagery is viewed at its final zoom level.
                             'raster-resampling': 'linear',
                             'raster-fade-duration': 150,
-                            'raster-contrast': 0.12,
-                            'raster-saturation': 0.22,
-                            'raster-brightness-max': 1.05
+                            'raster-contrast': 0.08,
+                            'raster-saturation': 0.12,
+                            'raster-brightness-min': 0.02,
+                            // MapLibre accepts brightness values only within [0, 1].
+                            'raster-brightness-max': 1.0
                         }
                     },
                     {
                         id: 'hills-layer',
                         type: 'hillshade',
-                        source: 'awsTerrain',
+                        source: 'awsTerrainHillshade',
                         layout: { visibility: 'visible' },
                         paint: {
+                            'hillshade-method': 'standard',
                             'hillshade-shadow-color': '#021017',
                             'hillshade-highlight-color': '#ffffff',
                             'hillshade-accent-color': '#064e3b',
                             'hillshade-exaggeration': hillshadeIntensity,
+                            'hillshade-illumination-altitude': 38,
                             'hillshade-illumination-direction': 315,
                             'hillshade-illumination-anchor': 'viewport'
                         }
@@ -3284,14 +3305,16 @@
             zoom: 15.6,
             pitch: 65,
             bearing: -15,
-            maxPitch: 85,
+            maxZoom: 19,
+            maxPitch: 82,
+            renderWorldCopies: false,
             antialias: true
         });
 
         map.on('load', () => {
             // Apply 3D Elevation Terrain Mesh
             map.setTerrain({
-                source: 'awsTerrain',
+                source: 'awsTerrainMesh',
                 exaggeration: terrainExaggeration
             });
 
@@ -3314,13 +3337,22 @@
             // Render Lucide Icons
             lucide.createIcons();
 
-            hideLoading();
-            showNotification('MapLibre 3D Golf Viewer Ready!', 'success');
+            // Wait for the initial terrain and imagery tiles where possible. The
+            // timeout still leaves the viewer usable if an individual tile stalls.
+            map.once('idle', finishInitialMapLoad);
+            window.setTimeout(finishInitialMapLoad, 5000);
         });
 
         map.on('error', (e) => {
             console.warn('Map error:', e);
         });
+    }
+
+    function finishInitialMapLoad() {
+        if (hasFinishedInitialLoad) return;
+        hasFinishedInitialLoad = true;
+        hideLoading();
+        showNotification('High-fidelity 3D course view ready', 'success');
     }
 
     function setupCourseSources() {
@@ -3345,15 +3377,32 @@
         });
 
         map.addLayer({
+            id: 'fairway-lines-muted',
+            type: 'line',
+            source: 'courseFairwayLines',
+            filter: ['!=', ['get', 'selected'], true],
+            layout: { 'line-cap': 'round', 'line-join': 'round' },
+            paint: {
+                'line-color': '#94a3b8',
+                'line-width': 1.5,
+                'line-opacity': 0.6,
+                'line-dasharray': [2, 2]
+            }
+        });
+
+        // `line-dasharray` cannot use data expressions in MapLibre 5. Keep the
+        // selected and muted routes in separate layers so file:// viewers get the
+        // same visual hierarchy without a style-validation error.
+        map.addLayer({
             id: 'fairway-lines-core',
             type: 'line',
             source: 'courseFairwayLines',
+            filter: ['==', ['get', 'selected'], true],
             layout: { 'line-cap': 'round', 'line-join': 'round' },
             paint: {
-                'line-color': ['case', ['get', 'selected'], '#34d399', '#94a3b8'],
-                'line-width': ['case', ['get', 'selected'], 3.5, 1.5],
-                'line-opacity': ['case', ['get', 'selected'], 1.0, 0.6],
-                'line-dasharray': ['case', ['get', 'selected'], [1, 0], [2, 2]]
+                'line-color': '#34d399',
+                'line-width': 3.5,
+                'line-opacity': 1.0
             }
         });
 
@@ -3376,7 +3425,8 @@
             }
         });
 
-        // Green & Target Landing Zone Contour Rings
+        // Terrain-following course surfaces. These translucent areas make the
+        // route readable without replacing the underlying aerial photography.
         map.addSource('courseLandingRings', {
             type: 'geojson',
             data: { type: 'FeatureCollection', features: [] }
@@ -3387,8 +3437,31 @@
             type: 'fill',
             source: 'courseLandingRings',
             paint: {
-                'fill-color': ['get', 'color'],
-                'fill-opacity': 0.16
+                'fill-color': [
+                    'match', ['get', 'kind'],
+                    'fairway', '#22c55e',
+                    'green', '#34d399',
+                    'tee', '#60a5fa',
+                    'target', '#fbbf24',
+                    '#ffffff'
+                ],
+                'fill-opacity': [
+                    'case',
+                    ['get', 'selected'],
+                    ['match', ['get', 'kind'],
+                        'fairway', 0.16,
+                        'green', 0.30,
+                        'tee', 0.22,
+                        'target', 0.12,
+                        0.10
+                    ],
+                    ['match', ['get', 'kind'],
+                        'fairway', 0.035,
+                        'green', 0.10,
+                        'tee', 0.08,
+                        0.05
+                    ]
+                ]
             }
         });
 
@@ -3396,11 +3469,18 @@
             id: 'landing-rings-outline',
             type: 'line',
             source: 'courseLandingRings',
+            layout: { 'line-join': 'round' },
             paint: {
-                'line-color': ['get', 'color'],
-                'line-width': 2,
-                'line-dasharray': [3, 2],
-                'line-opacity': 0.85
+                'line-color': [
+                    'match', ['get', 'kind'],
+                    'fairway', '#6ee7b7',
+                    'green', '#a7f3d0',
+                    'tee', '#93c5fd',
+                    'target', '#fcd34d',
+                    '#ffffff'
+                ],
+                'line-width': ['case', ['get', 'selected'], 1.8, 0.8],
+                'line-opacity': ['case', ['get', 'selected'], 0.85, 0.35]
             }
         });
     }
@@ -3506,14 +3586,54 @@
         activeMarkers.forEach(m => m.remove());
         activeMarkers = [];
 
-        // Build GeoJSON Lines
+        // Build the centre lines and soft, terrain-following course surfaces.
+        // The source data supplies point references rather than fairway polygons,
+        // so the fairway is intentionally a restrained route corridor—not a claim
+        // of surveyed course boundaries.
         const lineFeatures = [];
+        const courseSurfaceFeatures = [];
 
         parsedHoles.forEach(h => {
             const isSelected = h.hole === selectedHoleNum;
             const coords = [h.teeCoords];
             if (h.targetCoords) coords.push(h.targetCoords);
             coords.push(h.greenCoords);
+
+            const addSurface = (feature, kind) => {
+                if (!feature) return;
+                feature.properties = {
+                    ...(feature.properties || {}),
+                    hole: h.hole,
+                    kind,
+                    selected: isSelected
+                };
+                courseSurfaceFeatures.push(feature);
+            };
+
+            // Keep other holes legible in a course overview, then give the selected
+            // hole a wider, more visible corridor.
+            addSurface(
+                turf.buffer(
+                    turf.lineString(coords),
+                    isSelected ? 24 : 13,
+                    { units: 'meters', steps: 12 }
+                ),
+                'fairway'
+            );
+            addSurface(
+                turf.circle(h.teeCoords, isSelected ? 11 : 7, { units: 'meters', steps: 20 }),
+                'tee'
+            );
+            addSurface(
+                turf.circle(h.greenCoords, isSelected ? 17 : 11, { units: 'meters', steps: 28 }),
+                'green'
+            );
+            if (h.targetCoords && isSelected) {
+                addSurface(
+                    turf.circle(h.targetCoords, 20, { units: 'meters', steps: 24 }),
+                    'target'
+                );
+            }
 
             lineFeatures.push({
                 type: 'Feature',
@@ -3599,6 +3719,11 @@
         map.getSource('courseFairwayLines').setData({
             type: 'FeatureCollection',
             features: lineFeatures
+        });
+
+        map.getSource('courseLandingRings').setData({
+            type: 'FeatureCollection',
+            features: courseSurfaceFeatures
         });
     }
 
@@ -3983,7 +4108,7 @@
 
         if (map && map.getTerrain()) {
             map.setTerrain({
-                source: 'awsTerrain',
+                source: 'awsTerrainMesh',
                 exaggeration: terrainExaggeration
             });
         }

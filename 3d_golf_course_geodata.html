@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>3D Golf Course Viewer — Swedish LiDAR & Geodata Engine</title>
+    <title>3D Golf Course Viewer — Swedish WebGPU Geodata Engine</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,9 +40,17 @@
         }
     </script>
 
-    <!-- Three.js r160, OrbitControls, Tween.js, Lucide Icons -->
-    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-    <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Three.js r185.1 WebGPU-first modules, Tween.js, Lucide Icons -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.185.1/build/three.webgpu.js",
+                "three/webgpu": "https://unpkg.com/three@0.185.1/build/three.webgpu.js",
+                "three/tsl": "https://unpkg.com/three@0.185.1/build/three.tsl.js",
+                "three/addons/": "https://unpkg.com/three@0.185.1/examples/jsm/"
+            }
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -160,11 +168,11 @@
                             <option value="veckefjarden" class="bg-slate-900 text-white">Veckefjärdens GC (Örnsköldsvik)</option>
                         </select>
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                            LiDAR 3D
+                            <span id="renderer-status">WebGPU</span>
                         </span>
                     </div>
                     <p class="text-[11px] font-mono text-slate-400 tracking-wider flex items-center gap-2 mt-0.5">
-                        <span>LANTMÄTERIET DEM 1M</span>
+                        <span>GPS-ANCHORED TOPO</span>
                         <span class="inline-block w-1 h-1 rounded-full bg-slate-600"></span>
                         <span id="course-subtitle" class="text-emerald-400">UNESCO World Heritage Archipelago</span>
                     </p>
@@ -204,6 +212,9 @@
                     </button>
                     <button id="btn-env-night" title="Midnight Sun / Twilight" class="glass-btn p-2 rounded-lg text-slate-400 hover:text-indigo-300">
                         <i data-lucide="moon" class="w-4 h-4"></i>
+                    </button>
+                    <button id="btn-env-mist" title="Fjord Morning Mist" class="glass-btn p-2 rounded-lg text-slate-400 hover:text-cyan-200">
+                        <i data-lucide="cloud-fog" class="w-4 h-4"></i>
                     </button>
                 </div>
 
@@ -466,73 +477,120 @@
     </div>
 
     <!-- ================= JAVASCRIPT 3D ENGINE ================= -->
-    <script>
+    <script type="module">
+        import * as THREE from 'three/webgpu';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { SkyMesh } from 'three/addons/objects/SkyMesh.js';
+        import { pass } from 'three/tsl';
+        import { bloom } from 'three/addons/tsl/display/BloomNode.js';
+
+        const TWEEN = window.TWEEN;
+        const lucide = window.lucide;
+
         // Initialize Lucide Icons
         lucide.createIcons();
 
         /* =========================================================================
-           1. COURSE DATASETS (REAL GOLFTRAXX & LANTMÄTERIET GEODATA)
+           1. COURSE DATASETS (EMBEDDED REAL GOLFTRAXX GPS GEODATA)
            ========================================================================= */
-        const COURSE_DATA = {
+        // Full GolfTraxx FeatureCollections are embedded so the viewer has no data-fetch dependency.
+        const GOLFTRAXX_FEATURES = {"norrfallsviken":{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530780670621958,62.98160552242159]},"properties":{"hole":"1","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532534359036042,62.98171719258006]},"properties":{"hole":"1","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532406089290976,62.98170665478138]},"properties":{"hole":"1","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5326545822,62.9817265122]},"properties":{"hole":"1","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52633625028428,62.98120220785502]},"properties":{"hole":"1","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53184637244023,62.9811871577168]},"properties":{"hole":"2","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530437736481993,62.97987195283357]},"properties":{"hole":"2","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530534772245897,62.97995646487509]},"properties":{"hole":"2","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530378251536064,62.97980693743963]},"properties":{"hole":"2","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53184637244023,62.9811871577168]},"properties":{"hole":"2","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532225428734943,62.97744818248449]},"properties":{"hole":"3","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532324194190995,62.97703827636109]},"properties":{"hole":"3","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532311259399997,62.977105743187366]},"properties":{"hole":"3","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53234249345494,62.9769890894586]},"properties":{"hole":"3","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53043639532201,62.97908598602571]},"properties":{"hole":"3","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534380107423054,62.97967288979702]},"properties":{"hole":"4","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.533494502181952,62.980992113942]},"properties":{"hole":"4","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53356203372703,62.980892628145874]},"properties":{"hole":"4","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53343233513688,62.9810891627841]},"properties":{"hole":"4","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534616141816365,62.9776232248864]},"properties":{"hole":"4","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538098513973083,62.98051811749517]},"properties":{"hole":"5","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.539512903,62.9808893301]},"properties":{"hole":"5","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.539266615988478,62.980822743397276]},"properties":{"hole":"5","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53974846111068,62.98093642092274]},"properties":{"hole":"5","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53387671698364,62.98126383606814]},"properties":{"hole":"5","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53814631752712,62.97831941220869]},"properties":{"hole":"6","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538357735700007,62.977186868653625]},"properties":{"hole":"6","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538344800972958,62.97727992654502]},"properties":{"hole":"6","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538381399345088,62.97711330906955]},"properties":{"hole":"6","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.539385498092,62.98030079130207]},"properties":{"hole":"6","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.537262053361626,62.9770381931364]},"properties":{"hole":"7","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5347054319,62.9768525153]},"properties":{"hole":"7","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.535025091028697,62.976873674214445]},"properties":{"hole":"7","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534452828034386,62.976826481991935]},"properties":{"hole":"7","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.537262053361626,62.9770381931364]},"properties":{"hole":"7","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534631671222684,62.97908623892319]},"properties":{"hole":"8","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5335234426,62.980996463]},"properties":{"hole":"8","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.533585609709036,62.98089332177221]},"properties":{"hole":"8","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.533442500054107,62.98110447809285]},"properties":{"hole":"8","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534068407329556,62.9771315878074]},"properties":{"hole":"8","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.528264971813886,62.982475672469526]},"properties":{"hole":"9","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5253596632,62.9813640156]},"properties":{"hole":"9","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525518389772966,62.98142049450002]},"properties":{"hole":"9","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525214347690135,62.981305099800004]},"properties":{"hole":"9","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532020064434736,62.98230021826583]},"properties":{"hole":"9","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.526900592303715,62.98389955130918]},"properties":{"hole":"10","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5309073362541,62.98486284562879]},"properties":{"hole":"10","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530776384345064,62.98482671539102]},"properties":{"hole":"10","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53104097050001,62.984890447744895]},"properties":{"hole":"10","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52473873183771,62.98209752808759]},"properties":{"hole":"10","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52885678752221,62.98501513629003]},"properties":{"hole":"11","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52654424702871,62.984549313266974]},"properties":{"hole":"11","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.526676151549253,62.98457288197396]},"properties":{"hole":"11","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5263855205,62.9845123431]},"properties":{"hole":"11","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52885678752221,62.98501513629003]},"properties":{"hole":"11","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52812540929223,62.98731725483149]},"properties":{"hole":"12","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5303417788,62.9877225095]},"properties":{"hole":"12","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530090127399156,62.98767419295816]},"properties":{"hole":"12","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53059343019999,62.987767171600005]},"properties":{"hole":"12","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.526054743932733,62.98548863978177]},"properties":{"hole":"12","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53028679348993,62.986114428732265]},"properties":{"hole":"13","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53081739461804,62.985190541966254]},"properties":{"hole":"13","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530772273318863,62.98526893256478]},"properties":{"hole":"13","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530859833672114,62.98513773595599]},"properties":{"hole":"13","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5328187988,62.988292626]},"properties":{"hole":"13","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.531899665972137,62.98554750605803]},"properties":{"hole":"14","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5325965641,62.9868408981]},"properties":{"hole":"14","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532556807227028,62.98676212614835]},"properties":{"hole":"14","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5326443675,62.9869111423]},"properties":{"hole":"14","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.531902348181152,62.9855487243582]},"properties":{"hole":"14","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53717107151601,62.985656738668226]},"properties":{"hole":"15","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53791356721637,62.98505569335867]},"properties":{"hole":"15","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5378201660893,62.98513043027809]},"properties":{"hole":"15","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53799623935327,62.985000449637916]},"properties":{"hole":"15","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534006064878437,62.98712109332887]},"properties":{"hole":"15","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538842952599985,62.98242156524248]},"properties":{"hole":"16","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53784201239099,62.98173880756424]},"properties":{"hole":"16","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5379765991287,62.98182574662355]},"properties":{"hole":"16","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.537726201170454,62.98166283465157]},"properties":{"hole":"16","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538816130509836,62.984478203649616]},"properties":{"hole":"16","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53483391497639,62.98260268218456]},"properties":{"hole":"17","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532690353718856,62.983855989900015]},"properties":{"hole":"17","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532776660666443,62.98380524096376]},"properties":{"hole":"17","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532585271280304,62.98391404906152]},"properties":{"hole":"17","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.537221080999643,62.98145734210081]},"properties":{"hole":"17","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.527477480551447,62.98316638384738]},"properties":{"hole":"18","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5252762517,62.9817257719]},"properties":{"hole":"18","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525437660590985,62.98182733208474]},"properties":{"hole":"18","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525152393827057,62.98164127008021]},"properties":{"hole":"18","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.531189657828058,62.983622061708864]},"properties":{"hole":"18","type":"waypoint","name":"TheTipsTee Back Reach"}}]},"veckefjarden":{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67487616019815,63.28489602310085]},"properties":{"hole":"1","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6760129406,63.2841391757]},"properties":{"hole":"1","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6757988401,63.2842569425]},"properties":{"hole":"1","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6761948545,63.2840358786]},"properties":{"hole":"1","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.674511379772124,63.28694580871459]},"properties":{"hole":"1","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.672425486024114,63.28334211051698]},"properties":{"hole":"2","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6683105011,63.2822089752]},"properties":{"hole":"2","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6685952916,63.2822736952]},"properties":{"hole":"2","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6680310751,63.2821466672]},"properties":{"hole":"2","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67725346225092,63.28343375604141]},"properties":{"hole":"2","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.671414345722706,63.284002462013234]},"properties":{"hole":"3","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6728738035,63.2851637136]},"properties":{"hole":"3","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6727562626,63.2850511685]},"properties":{"hole":"3","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6730074377,63.2852750528]},"properties":{"hole":"3","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.667981118183643,63.28264224639996]},"properties":{"hole":"3","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6715957309,63.2851637136]},"properties":{"hole":"4","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66918126655493,63.284084917467]},"properties":{"hole":"4","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.669350722000004,63.28415445149057]},"properties":{"hole":"4","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66901985777295,63.28400694265529]},"properties":{"hole":"4","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6715957309,63.2851637136]},"properties":{"hole":"4","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66759473989516,63.2852738443223]},"properties":{"hole":"5","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6691821314,63.2872926664]},"properties":{"hole":"5","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6691021414,63.2871306908]},"properties":{"hole":"5","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6692621214,63.2874377616]},"properties":{"hole":"5","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.667755672436055,63.28314676412776]},"properties":{"hole":"5","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.666458348140143,63.29019945983409]},"properties":{"hole":"6","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663982193,63.2911378069]},"properties":{"hole":"6","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6642455257,63.2910216519]},"properties":{"hole":"6","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663729589,63.2912419064]},"properties":{"hole":"6","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66781018148365,63.28823671313573]},"properties":{"hole":"6","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663076947426195,63.291374091415875]},"properties":{"hole":"7","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6645597327,63.2924811713]},"properties":{"hole":"7","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66441000535408,63.29239153929241]},"properties":{"hole":"7","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6646719093,63.2925611595]},"properties":{"hole":"7","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663076947426195,63.291374091415875]},"properties":{"hole":"7","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.666985790859126,63.29255591113649]},"properties":{"hole":"8","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6686777884,63.2917607097]},"properties":{"hole":"8","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66851465,63.2918265872]},"properties":{"hole":"8","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6688221515,63.2916912156]},"properties":{"hole":"8","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.664207022319697,63.29417602909127]},"properties":{"hole":"8","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.673853110694836,63.290130811283234]},"properties":{"hole":"9","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6759581686,63.2890630656]},"properties":{"hole":"9","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6757065172,63.2891856209]},"properties":{"hole":"9","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6762205488,63.28894051]},"properties":{"hole":"9","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.670602273368786,63.291572649142445]},"properties":{"hole":"9","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.673660856568738,63.29160561633269]},"properties":{"hole":"10","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6692400998,63.2927681411]},"properties":{"hole":"10","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6695248903,63.2926785078]},"properties":{"hole":"10","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6689767671,63.292867418]},"properties":{"hole":"10","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.676407438599988,63.289671899768265]},"properties":{"hole":"10","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.664872122496988,63.294828215498725]},"properties":{"hole":"11","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627741587,63.2950239222]},"properties":{"hole":"11","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6631662375,63.2949656289]},"properties":{"hole":"11","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6623981732,63.2950894477]},"properties":{"hole":"11","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.668181968421365,63.29340582757065]},"properties":{"hole":"11","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6633280349,63.2939173662]},"properties":{"hole":"12","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66058902323605,63.29479533422985]},"properties":{"hole":"12","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66084162715407,63.29471293359299]},"properties":{"hole":"12","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6602988684,63.2948680918]},"properties":{"hole":"12","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6633280349,63.2939173662]},"properties":{"hole":"12","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.662221147443912,63.293710467253014]},"properties":{"hole":"13","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627302909,63.2920232419]},"properties":{"hole":"13","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627146739,63.2921747078]},"properties":{"hole":"13","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627405435,63.2918934745]},"properties":{"hole":"13","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.65878255548682,63.295067750039976]},"properties":{"hole":"13","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6618518674,63.2924620409]},"properties":{"hole":"14","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66093675791802,63.29115087110194]},"properties":{"hole":"14","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.661012336,63.2912637662]},"properties":{"hole":"14","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6608397221,63.2910114538]},"properties":{"hole":"14","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6618518674,63.2924620409]},"properties":{"hole":"14","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.664711967083658,63.2895004429922]},"properties":{"hole":"15","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6644861853,63.2890981866]},"properties":{"hole":"15","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6645671278,63.2892303858]},"properties":{"hole":"15","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6643730562,63.2889732207]},"properties":{"hole":"15","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66189564761802,63.29082899080691]},"properties":{"hole":"15","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.672697768155036,63.28859302595742]},"properties":{"hole":"16","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6740920406,63.2885934433]},"properties":{"hole":"16","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.673759923,63.2885833808]},"properties":{"hole":"16","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6744187938,63.288603506]},"properties":{"hole":"16","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66859398836225,63.288380831743794]},"properties":{"hole":"16","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.667935029852774,63.29049588750498]},"properties":{"hole":"17","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6650940942,63.2914438709]},"properties":{"hole":"17","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6654003423,63.2913397707]},"properties":{"hole":"17","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6648200326,63.291547971]},"properties":{"hole":"17","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67150773226061,63.28921313788155]},"properties":{"hole":"17","type":"waypoint","name":"TheTipsTee Back Reach"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67132888904689,63.290157546695916]},"properties":{"hole":"18","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6755502098,63.2887136444]},"properties":{"hole":"18","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.675239549880292,63.288820528518166]},"properties":{"hole":"18","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67581259,63.2886224335]},"properties":{"hole":"18","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66730557552455,63.291729578952676]},"properties":{"hole":"18","type":"waypoint","name":"TheTipsTee Back Reach"}}]}};
+
+        const COURSE_METADATA = {
             norrfallsviken: {
                 id: 'norrfallsviken',
                 name: 'Norrfällsvikens GK',
                 location: 'Höga Kusten / Nordingrå',
                 subtitle: 'UNESCO World Heritage Archipelago',
-                origin: { lon: 18.53078, lat: 62.98160 }, // Center reference
                 waterLevel: -10.5,
                 terrainScale: 1.1,
-                holes: [
-                    { num: 1, par: 4, hcp: 7, tee: [18.526336, 62.981202], green: [18.532534, 62.981717], front: [18.532406, 62.981706], back: [18.532654, 62.981726], dogleg: null },
-                    { num: 2, par: 3, hcp: 15, tee: [18.531846, 62.981187], green: [18.530437, 62.979871], front: [18.530534, 62.979956], back: [18.530378, 62.979806], dogleg: null },
-                    { num: 3, par: 4, hcp: 11, tee: [18.530436, 62.979085], green: [18.532324, 62.977038], front: [18.532311, 62.977105], back: [18.532342, 62.976989], dogleg: [18.5312, 62.9781] },
-                    { num: 4, par: 4, hcp: 1, tee: [18.532550, 62.976800], green: [18.536800, 62.974900], front: [18.536650, 62.974950], back: [18.536950, 62.974850], dogleg: null },
-                    { num: 5, par: 4, hcp: 9, tee: [18.537200, 62.974700], green: [18.534200, 62.972900], front: [18.534300, 62.972950], back: [18.534100, 62.972850], dogleg: null },
-                    { num: 6, par: 4, hcp: 5, tee: [18.533800, 62.972700], green: [18.529800, 62.974600], front: [18.529900, 62.974550], back: [18.529700, 62.974650], dogleg: [18.5318, 62.9736] },
-                    { num: 7, par: 3, hcp: 17, tee: [18.529400, 62.974800], green: [18.527600, 62.975600], front: [18.527700, 62.975550], back: [18.527500, 62.975650], dogleg: null },
-                    { num: 8, par: 5, hcp: 3, tee: [18.527200, 62.975800], green: [18.522800, 62.979100], front: [18.522900, 62.979050], back: [18.522700, 62.979150], dogleg: [18.5248, 62.9775] },
-                    { num: 9, par: 4, hcp: 13, tee: [18.523100, 62.979400], green: [18.526800, 62.981100], front: [18.526700, 62.981050], back: [18.526900, 62.981150], dogleg: null },
-                    { num: 10, par: 5, hcp: 4, tee: [18.527500, 62.981400], green: [18.533500, 62.983800], front: [18.533400, 62.983750], back: [18.533600, 62.983850], dogleg: [18.5305, 62.9826] },
-                    { num: 11, par: 3, hcp: 18, tee: [18.533800, 62.984000], green: [18.535200, 62.984800], front: [18.535100, 62.984750], back: [18.535300, 62.984850], dogleg: null },
-                    { num: 12, par: 4, hcp: 8, tee: [18.535500, 62.985000], green: [18.532100, 62.987100], front: [18.532200, 62.987050], back: [18.532000, 62.987150], dogleg: null },
-                    { num: 13, par: 4, hcp: 2, tee: [18.531800, 62.987300], green: [18.527500, 62.985200], front: [18.527600, 62.985250], back: [18.527400, 62.985150], dogleg: null },
-                    { num: 14, par: 3, hcp: 16, tee: [18.527200, 62.985000], green: [18.525500, 62.984100], front: [18.525600, 62.984150], back: [18.525400, 62.984050], dogleg: null },
-                    { num: 15, par: 4, hcp: 10, tee: [18.525200, 62.983900], green: [18.522100, 62.981900], front: [18.522200, 62.981950], back: [18.522000, 62.981850], dogleg: null },
-                    { num: 16, par: 4, hcp: 12, tee: [18.521800, 62.981700], green: [18.524900, 62.979800], front: [18.524800, 62.979850], back: [18.525000, 62.979750], dogleg: null },
-                    { num: 17, par: 4, hcp: 6, tee: [18.525200, 62.979600], green: [18.528800, 62.977800], front: [18.528700, 62.977850], back: [18.528900, 62.977750], dogleg: null },
-                    { num: 18, par: 4, hcp: 14, tee: [18.529100, 62.978000], green: [18.527200, 62.980900], front: [18.527300, 62.980850], back: [18.527100, 62.980950], dogleg: [18.5285, 62.9795] }
-                ]
+                par: [4, 3, 4, 4, 4, 4, 3, 5, 4, 5, 3, 4, 4, 3, 4, 4, 4, 4],
+                hcp: [7, 15, 11, 1, 9, 5, 17, 3, 13, 4, 18, 8, 2, 16, 10, 12, 6, 14]
             },
             veckefjarden: {
                 id: 'veckefjarden',
                 name: 'Veckefjärdens GC',
-                location: 'Örnsköldsvik / Foppa Hills',
-                subtitle: 'Peter Forsberg Championship Course',
-                origin: { lon: 18.67487, lat: 63.28489 },
+                location: 'Örnsköldsvik',
+                subtitle: 'Höga Kusten Golf Landscape',
                 waterLevel: -6.0,
                 terrainScale: 1.0,
-                holes: [
-                    { num: 1, par: 4, hcp: 8, tee: [18.674511, 63.286945], green: [18.676012, 63.284139], front: [18.675798, 63.284256], back: [18.676194, 63.284035], dogleg: null },
-                    { num: 2, par: 5, hcp: 18, tee: [18.676500, 63.283900], green: [18.681200, 63.280100], front: [18.681100, 63.280150], back: [18.681300, 63.280050], dogleg: [18.6788, 63.2820] },
-                    { num: 3, par: 4, hcp: 4, tee: [18.681500, 63.279900], green: [18.677200, 63.277400], front: [18.677300, 63.277450], back: [18.677100, 63.277350], dogleg: null },
-                    { num: 4, par: 3, hcp: 10, tee: [18.676800, 63.277200], green: [18.675100, 63.276000], front: [18.675200, 63.276050], back: [18.675000, 63.275950], dogleg: null },
-                    { num: 5, par: 5, hcp: 14, tee: [18.674800, 63.275800], green: [18.670200, 63.272100], front: [18.670300, 63.272150], back: [18.670100, 63.272050], dogleg: [18.6725, 63.2739] },
-                    { num: 6, par: 4, hcp: 6, tee: [18.669800, 63.271900], green: [18.666100, 63.274500], front: [18.666200, 63.274450], back: [18.666000, 63.274550], dogleg: null },
-                    { num: 7, par: 4, hcp: 12, tee: [18.665800, 63.274800], green: [18.669200, 63.277500], front: [18.669100, 63.277450], back: [18.669300, 63.277550], dogleg: null },
-                    { num: 8, par: 3, hcp: 16, tee: [18.669500, 63.277800], green: [18.671200, 63.279200], front: [18.671100, 63.279150], back: [18.671300, 63.279250], dogleg: null },
-                    { num: 9, par: 4, hcp: 2, tee: [18.671500, 63.279500], green: [18.674200, 63.283100], front: [18.674100, 63.283050], back: [18.674300, 63.283150], dogleg: null },
-                    { num: 10, par: 4, hcp: 9, tee: [18.674500, 63.283400], green: [18.672100, 63.286500], front: [18.672200, 63.286450], back: [18.672000, 63.286550], dogleg: null },
-                    { num: 11, par: 4, hcp: 5, tee: [18.671800, 63.286800], green: [18.668100, 63.289500], front: [18.668200, 63.289450], back: [18.668000, 63.289550], dogleg: null },
-                    { num: 12, par: 3, hcp: 17, tee: [18.667800, 63.289800], green: [18.666200, 63.291100], front: [18.666300, 63.291050], back: [18.666100, 63.291150], dogleg: null },
-                    { num: 13, par: 5, hcp: 1, tee: [18.665900, 63.291400], green: [18.661200, 63.295800], front: [18.661300, 63.295750], back: [18.661100, 63.295850], dogleg: [18.6635, 63.2936] },
-                    { num: 14, par: 3, hcp: 15, tee: [18.660800, 63.296100], green: [18.659100, 63.297400], front: [18.659200, 63.297350], back: [18.659000, 63.297450], dogleg: null }, // Iconic Island Green
-                    { num: 15, par: 4, hcp: 7, tee: [18.658800, 63.297700], green: [18.662500, 63.299800], front: [18.662400, 63.299750], back: [18.662600, 63.299850], dogleg: null },
-                    { num: 16, par: 4, hcp: 11, tee: [18.662800, 63.300100], green: [18.666500, 63.298200], front: [18.666400, 63.298250], back: [18.666600, 63.298150], dogleg: null },
-                    { num: 17, par: 4, hcp: 3, tee: [18.666800, 63.297900], green: [18.670500, 63.294200], front: [18.670400, 63.294250], back: [18.670600, 63.294150], dogleg: null },
-                    { num: 18, par: 5, hcp: 13, tee: [18.670800, 63.293900], green: [18.674200, 63.288500], front: [18.674100, 63.288550], back: [18.674300, 63.288450], dogleg: [18.6725, 63.2912] }
-                ]
+                par: [4, 5, 4, 3, 5, 4, 4, 3, 4, 4, 4, 3, 5, 3, 4, 4, 4, 5],
+                hcp: [8, 18, 4, 10, 14, 6, 12, 16, 2, 9, 5, 17, 1, 15, 7, 11, 3, 13]
             }
         };
+
+        function parseGolfTraxxCourse(featureCollection, metadata) {
+            const holePoints = new Map();
+            let minLon = Infinity, maxLon = -Infinity, minLat = Infinity, maxLat = -Infinity;
+
+            featureCollection.features.forEach(feature => {
+                const holeNumber = Number(feature.properties?.hole);
+                const coordinates = feature.geometry?.coordinates;
+                if (!Number.isInteger(holeNumber) || !coordinates || coordinates.length < 2) return;
+
+                minLon = Math.min(minLon, coordinates[0]);
+                maxLon = Math.max(maxLon, coordinates[0]);
+                minLat = Math.min(minLat, coordinates[1]);
+                maxLat = Math.max(maxLat, coordinates[1]);
+
+                if (!holePoints.has(holeNumber)) holePoints.set(holeNumber, []);
+                holePoints.get(holeNumber).push({
+                    coordinates: [coordinates[0], coordinates[1]],
+                    type: feature.properties?.type || '',
+                    name: feature.properties?.name || ''
+                });
+            });
+
+            const holes = Array.from(holePoints.entries())
+                .sort(([a], [b]) => a - b)
+                .map(([num, points], index) => {
+                    const findPoint = (type, name) => points.find(point =>
+                        point.type === type && (!name || point.name === name)
+                    );
+                    const teeTarget = findPoint('tee');
+                    const green = findPoint('green', 'Green Center');
+                    const front = findPoint('green', 'Green Front') || green;
+                    const back = findPoint('green', 'Green Back') || green;
+                    const backReach = points.find(point =>
+                        point.type === 'waypoint' && /back reach/i.test(point.name)
+                    );
+                    const tee = backReach || teeTarget;
+                    if (!tee || !green) throw new Error(`GolfTraxx data for hole ${num} is incomplete.`);
+
+                    const route = [tee.coordinates, teeTarget?.coordinates, green.coordinates]
+                        .filter((coordinate, routeIndex, array) =>
+                            routeIndex === 0 || coordinate[0] !== array[routeIndex - 1][0] || coordinate[1] !== array[routeIndex - 1][1]
+                        );
+
+                    return {
+                        num,
+                        par: metadata.par[index] ?? '—',
+                        hcp: metadata.hcp[index] ?? '—',
+                        tee: tee.coordinates,
+                        teeTarget: teeTarget?.coordinates || tee.coordinates,
+                        green: green.coordinates,
+                        front: front.coordinates,
+                        back: back.coordinates,
+                        route,
+                        sourcePoints: points
+                    };
+                });
+
+            if (holes.length !== 18) throw new Error(`Expected 18 GolfTraxx holes, received ${holes.length}.`);
+
+            return {
+                ...metadata,
+                origin: { lon: (minLon + maxLon) / 2, lat: (minLat + maxLat) / 2 },
+                holes
+            };
+        }
+
+        const COURSE_DATA = Object.fromEntries(
+            Object.entries(COURSE_METADATA).map(([key, metadata]) => [
+                key,
+                parseGolfTraxxCourse(GOLFTRAXX_FEATURES[key], metadata)
+            ])
+        );
 
         let currentCourse = COURSE_DATA.norrfallsviken;
         let activeHoleIdx = 0;
@@ -554,7 +612,12 @@
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 15000);
         camera.position.set(0, 450, 750);
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+        const renderer = new THREE.WebGPURenderer({
+            antialias: true,
+            samples: 4,
+            outputBufferType: THREE.HalfFloatType,
+            powerPreference: 'high-performance'
+        });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -563,12 +626,21 @@
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         container.appendChild(renderer.domElement);
 
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controls.maxPolarAngle = Math.PI / 2 - 0.02; // Restrict camera from going under ground
         controls.minDistance = 8;
         controls.maxDistance = 4500;
+
+        // Node-based post-processing works on both the WebGPU backend and WebGL2 fallback.
+        const renderPipeline = new THREE.RenderPipeline(renderer);
+        function configureRenderPipeline() {
+            const scenePass = pass(scene, camera);
+            const sceneColor = scenePass.getTextureNode('output');
+            const bloomPass = bloom(sceneColor, 0.16, 0.28, 0.82);
+            renderPipeline.outputNode = sceneColor.add(bloomPass);
+        }
 
         // Lighting System
         const hemiLight = new THREE.HemisphereLight(0xdff0ff, 0x162c20, 0.85);
@@ -588,6 +660,31 @@
         sunLight.shadow.camera.bottom = -shadowD;
         sunLight.shadow.bias = -0.0003;
         scene.add(sunLight);
+
+        let skyMesh = null;
+        function createNordicSky() {
+            if (renderer.backend?.isWebGPUBackend !== true) return;
+
+            skyMesh = new SkyMesh();
+            skyMesh.scale.setScalar(9000);
+            skyMesh.renderOrder = -1;
+            skyMesh.turbidity.value = 3.2;
+            skyMesh.rayleigh.value = 1.35;
+            skyMesh.mieCoefficient.value = 0.004;
+            skyMesh.mieDirectionalG.value = 0.78;
+            skyMesh.cloudCoverage.value = 0.34;
+            skyMesh.cloudDensity.value = 0.38;
+            skyMesh.cloudSpeed.value = 0.000035;
+            scene.add(skyMesh);
+        }
+
+        function syncSkyToSun(preset) {
+            if (!skyMesh) return;
+            skyMesh.sunPosition.value.copy(sunLight.position).normalize().multiplyScalar(450000);
+            skyMesh.turbidity.value = preset === 'night' ? 6.5 : preset === 'golden' ? 5.2 : 2.3;
+            skyMesh.rayleigh.value = preset === 'night' ? 0.45 : preset === 'golden' ? 1.7 : 1.15;
+            skyMesh.cloudCoverage.value = preset === 'night' ? 0.18 : preset === 'golden' ? 0.42 : 0.26;
+        }
 
         // Raycaster for surface snapping and rangefinder
         const raycaster = new THREE.Raycaster();
@@ -615,9 +712,59 @@
             return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
         }
 
-        // Procedural Topography & LiDAR Height Function
-        function getElevationAt(x, z) {
-            // Swedish High Coast (Höga Kusten) undulating granite hills & coastal ridges
+        function distanceToSegmentXZ(x, z, start, end) {
+            const dx = end.x - start.x;
+            const dz = end.z - start.z;
+            const segmentLengthSquared = dx * dx + dz * dz;
+            if (segmentLengthSquared === 0) return Math.hypot(x - start.x, z - start.z);
+            const t = THREE.MathUtils.clamp(((x - start.x) * dx + (z - start.z) * dz) / segmentLengthSquared, 0, 1);
+            return Math.hypot(x - (start.x + dx * t), z - (start.z + dz * t));
+        }
+
+        function prepareCourseProjection(course) {
+            course.holes.forEach(hole => {
+                hole.localRoute = hole.route.map(([lon, lat]) => gpsToLocal3D(lon, lat, course.origin));
+                hole.localGreen = gpsToLocal3D(hole.green[0], hole.green[1], course.origin);
+                hole.localTee = gpsToLocal3D(hole.tee[0], hole.tee[1], course.origin);
+                hole.localGreenBase = getBaseElevation(hole.localGreen.x, hole.localGreen.z);
+                hole.localTeeBase = getBaseElevation(hole.localTee.x, hole.localTee.z);
+            });
+        }
+
+        function getCourseSurfaceAt(x, z) {
+            let fairwayDistance = Infinity;
+            let greenDistance = Infinity;
+            let teeDistance = Infinity;
+            let closestGreenBase = 0;
+            let closestTeeBase = 0;
+
+            currentCourse.holes.forEach(hole => {
+                const greenDistanceForHole = Math.hypot(x - hole.localGreen.x, z - hole.localGreen.z);
+                if (greenDistanceForHole < greenDistance) {
+                    greenDistance = greenDistanceForHole;
+                    closestGreenBase = hole.localGreenBase;
+                }
+
+                const teeDistanceForHole = Math.hypot(x - hole.localTee.x, z - hole.localTee.z);
+                if (teeDistanceForHole < teeDistance) {
+                    teeDistance = teeDistanceForHole;
+                    closestTeeBase = hole.localTeeBase;
+                }
+
+                for (let i = 1; i < hole.localRoute.length; i++) {
+                    fairwayDistance = Math.min(
+                        fairwayDistance,
+                        distanceToSegmentXZ(x, z, hole.localRoute[i - 1], hole.localRoute[i])
+                    );
+                }
+            });
+
+            return { fairwayDistance, greenDistance, teeDistance, closestGreenBase, closestTeeBase };
+        }
+
+        // LiDAR-inspired procedural topography. The real GPS features then grade and carve
+        // playable surfaces into this terrain; no unprovided elevation raster is represented as real data.
+        function getBaseElevation(x, z) {
             const hill1 = Math.sin(x * 0.0018 + 0.4) * Math.cos(z * 0.0018 + 0.6) * 45;
             const hill2 = Math.sin(x * 0.004 - 0.2) * Math.cos(z * 0.0035 + 0.8) * 18;
             const ridge = Math.sin((x + z) * 0.0028) * 14;
@@ -628,6 +775,18 @@
             const coastalFalloff = Math.min(25, distFromOrigin * 0.015);
             
             return (hill1 + hill2 + ridge + detail) * currentCourse.terrainScale + 12 - coastalFalloff;
+        }
+
+        function getElevationAt(x, z) {
+            const baseElevation = getBaseElevation(x, z);
+            const surface = getCourseSurfaceAt(x, z);
+            const greenBlend = 1 - THREE.MathUtils.smoothstep(surface.greenDistance, 4, 18);
+            const teeBlend = 1 - THREE.MathUtils.smoothstep(surface.teeDistance, 4, 16);
+            const greenContour = Math.sin(x * 0.12) * Math.cos(z * 0.11) * 0.22;
+
+            let elevation = THREE.MathUtils.lerp(baseElevation, surface.closestGreenBase + greenContour, greenBlend);
+            elevation = THREE.MathUtils.lerp(elevation, surface.closestTeeBase + 0.12, teeBlend * (1 - greenBlend));
+            return elevation;
         }
 
         /* =========================================================================
@@ -652,15 +811,31 @@
                 const y = getElevationAt(x, z);
                 pos.setY(i, y);
 
-                // Multi-tone vertex coloring (Lush Scandinavian Fairways, Deep Forest & Red Granite)
-                // Color palette: Fairway (#346e2b), Rough (#234a1c), Granite (#9c5545), Sand (#ceb584)
-                const slopeFactor = Math.abs(Math.sin(x * 0.006) * Math.cos(z * 0.006));
+                // Source-derived course masks over a LiDAR-inspired landscape.
+                const surface = getCourseSurfaceAt(x, z);
+                const slopeX = getBaseElevation(x + 2, z) - getBaseElevation(x - 2, z);
+                const slopeZ = getBaseElevation(x, z + 2) - getBaseElevation(x, z - 2);
+                const slopeFactor = Math.hypot(slopeX, slopeZ) * 0.25;
                 
                 if (y < currentCourse.waterLevel + 1.2) {
                     // Shoreline wet sand
                     colors[i * 3 + 0] = 0.72; // R
                     colors[i * 3 + 1] = 0.65; // G
                     colors[i * 3 + 2] = 0.52; // B
+                } else if (surface.greenDistance < 15) {
+                    // Inferred putting-green footprint around the GPS centre/front/back data.
+                    colors[i * 3 + 0] = 0.10;
+                    colors[i * 3 + 1] = 0.47;
+                    colors[i * 3 + 2] = 0.20;
+                } else if (surface.teeDistance < 16) {
+                    colors[i * 3 + 0] = 0.13;
+                    colors[i * 3 + 1] = 0.38;
+                    colors[i * 3 + 2] = 0.17;
+                } else if (surface.fairwayDistance < 32) {
+                    const stripe = Math.sin((x + z) * 0.09) * 0.025;
+                    colors[i * 3 + 0] = 0.16 + stripe;
+                    colors[i * 3 + 1] = 0.40 + stripe * 2;
+                    colors[i * 3 + 2] = 0.13 + stripe;
                 } else if (y > 38 || slopeFactor > 0.7) {
                     // Exposed Red Nordingrå Granite bedrock cliffs
                     colors[i * 3 + 0] = 0.62;
@@ -702,17 +877,21 @@
             const waterGeom = new THREE.PlaneGeometry(TERRAIN_SIZE * 1.4, TERRAIN_SIZE * 1.4, 64, 64);
             waterGeom.rotateX(-Math.PI / 2);
 
-            // Custom Gerstner Wave Water Material
-            const waterMat = new THREE.MeshStandardMaterial({
-                color: 0x0a2636,
-                roughness: 0.12,
-                metalness: 0.88,
+            const waterMat = new THREE.MeshPhysicalMaterial({
+                color: 0x0f5264,
+                emissive: 0x04131d,
+                emissiveIntensity: 0.34,
+                roughness: 0.21,
+                metalness: 0.32,
+                clearcoat: 0.75,
+                clearcoatRoughness: 0.12,
                 transparent: true,
-                opacity: 0.88
+                opacity: 0.9
             });
 
             waterMesh = new THREE.Mesh(waterGeom, waterMat);
             waterMesh.position.y = currentCourse.waterLevel;
+            waterMesh.userData.basePositions = waterGeom.attributes.position.array.slice();
             waterMesh.receiveShadow = true;
             scene.add(waterMesh);
         }
@@ -725,55 +904,88 @@
 
         function buildForests() {
             while (treesGroup.children.length > 0) {
-                const c = treesGroup.children[0];
-                treesGroup.remove(c);
+                treesGroup.remove(treesGroup.children[0]);
             }
 
-            const TREE_COUNT = 1600;
-            
-            // Low-poly Scots Pine (Tall) geometry
-            const trunkGeom = new THREE.CylinderGeometry(0.3, 0.5, 9, 5);
-            trunkGeom.translate(0, 4.5, 0);
-            const foliageGeom = new THREE.ConeGeometry(3.2, 10, 5);
-            foliageGeom.translate(0, 11, 0);
+            // Deterministic placement keeps both course renderings stable between visits.
+            let state = currentCourse.id === 'norrfallsviken' ? 0x9e3779b9 : 0x85ebca6b;
+            const random = () => {
+                state = (state * 1664525 + 1013904223) >>> 0;
+                return state / 4294967296;
+            };
 
-            const trunkMat = new THREE.MeshStandardMaterial({ color: 0x4a2e1d, roughness: 0.9 });
-            const pineFoliageMat = new THREE.MeshStandardMaterial({ color: 0x14341c, roughness: 0.85 });
+            const species = [
+                {
+                    count: 900,
+                    trunk: new THREE.CylinderGeometry(0.32, 0.54, 9, 5),
+                    crown: new THREE.ConeGeometry(3.4, 11, 6),
+                    trunkMaterial: new THREE.MeshStandardMaterial({ color: 0x4b2d1f, roughness: 0.92 }),
+                    crownMaterial: new THREE.MeshStandardMaterial({ color: 0x13391d, roughness: 0.88 }),
+                    crownOffset: 10.3,
+                    scale: [0.70, 1.30]
+                },
+                {
+                    count: 470,
+                    trunk: new THREE.CylinderGeometry(0.28, 0.46, 11, 6),
+                    crown: new THREE.ConeGeometry(3.8, 15, 7),
+                    trunkMaterial: new THREE.MeshStandardMaterial({ color: 0x35291d, roughness: 0.95 }),
+                    crownMaterial: new THREE.MeshStandardMaterial({ color: 0x0d2a20, roughness: 0.92 }),
+                    crownOffset: 13.2,
+                    scale: [0.60, 1.08]
+                },
+                {
+                    count: 280,
+                    trunk: new THREE.CylinderGeometry(0.22, 0.34, 8, 6),
+                    crown: new THREE.IcosahedronGeometry(3.1, 1),
+                    trunkMaterial: new THREE.MeshStandardMaterial({ color: 0xd8d2b9, roughness: 0.88 }),
+                    crownMaterial: new THREE.MeshStandardMaterial({ color: 0x55793a, roughness: 0.88 }),
+                    crownOffset: 8.7,
+                    scale: [0.65, 1.15]
+                }
+            ];
 
-            const trunkInstanced = new THREE.InstancedMesh(trunkGeom, trunkMat, TREE_COUNT);
-            const foliageInstanced = new THREE.InstancedMesh(foliageGeom, pineFoliageMat, TREE_COUNT);
-            trunkInstanced.castShadow = true;
-            foliageInstanced.castShadow = true;
+            species.forEach(config => {
+                config.trunk.translate(0, config.trunk.parameters.height / 2, 0);
+                config.crown.translate(0, config.crownOffset, 0);
 
-            const dummy = new THREE.Object3D();
-            let placed = 0;
+                const trunks = new THREE.InstancedMesh(config.trunk, config.trunkMaterial, config.count);
+                const crowns = new THREE.InstancedMesh(config.crown, config.crownMaterial, config.count);
+                trunks.castShadow = true;
+                crowns.castShadow = true;
 
-            for (let i = 0; i < TREE_COUNT * 2 && placed < TREE_COUNT; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const rad = 120 + Math.random() * (TERRAIN_SIZE * 0.42);
-                const x = Math.cos(angle) * rad;
-                const z = Math.sin(angle) * rad;
-                const y = getElevationAt(x, z);
+                const dummy = new THREE.Object3D();
+                let placed = 0;
+                for (let attempt = 0; attempt < config.count * 14 && placed < config.count; attempt++) {
+                    const angle = random() * Math.PI * 2;
+                    const radius = 80 + random() * (TERRAIN_SIZE * 0.43);
+                    const x = Math.cos(angle) * radius;
+                    const z = Math.sin(angle) * radius;
+                    const y = getElevationAt(x, z);
+                    const surface = getCourseSurfaceAt(x, z);
 
-                // Ensure tree is on dry land, not submerged in water
-                if (y > currentCourse.waterLevel + 1.5) {
-                    const scale = 0.7 + Math.random() * 0.6;
+                    if (
+                        y <= currentCourse.waterLevel + 1.5 ||
+                        surface.fairwayDistance < 52 ||
+                        surface.greenDistance < 38 ||
+                        surface.teeDistance < 30
+                    ) continue;
+
+                    const scale = config.scale[0] + random() * (config.scale[1] - config.scale[0]);
                     dummy.position.set(x, y - 0.2, z);
-                    dummy.scale.set(scale, scale * (0.9 + Math.random()*0.3), scale);
-                    dummy.rotation.y = Math.random() * Math.PI * 2;
+                    dummy.scale.set(scale, scale * (0.88 + random() * 0.28), scale);
+                    dummy.rotation.y = random() * Math.PI * 2;
                     dummy.updateMatrix();
-
-                    trunkInstanced.setMatrixAt(placed, dummy.matrix);
-                    foliageInstanced.setMatrixAt(placed, dummy.matrix);
+                    trunks.setMatrixAt(placed, dummy.matrix);
+                    crowns.setMatrixAt(placed, dummy.matrix);
                     placed++;
                 }
-            }
 
-            trunkInstanced.instanceMatrix.needsUpdate = true;
-            foliageInstanced.instanceMatrix.needsUpdate = true;
-
-            treesGroup.add(trunkInstanced);
-            treesGroup.add(foliageInstanced);
+                trunks.count = placed;
+                crowns.count = placed;
+                trunks.instanceMatrix.needsUpdate = true;
+                crowns.instanceMatrix.needsUpdate = true;
+                treesGroup.add(trunks, crowns);
+            });
         }
 
         /* =========================================================================
@@ -784,8 +996,65 @@
 
         let flagObjects = [];
         let activeShotArc = null;
+        let activeShotAnimation = null;
         let activeGreenContourMesh = null;
         let rangefinderLine = null;
+        let rangefinderMarkers = [];
+
+        function clearRangefinder() {
+            rangefinderPoints = [];
+            rangefinderMarkers.forEach(marker => scene.remove(marker));
+            rangefinderMarkers = [];
+            if (rangefinderLine) scene.remove(rangefinderLine);
+            rangefinderLine = null;
+
+            const status = document.getElementById('ruler-status');
+            const iconBg = document.getElementById('ruler-icon-bg');
+            if (status) {
+                status.textContent = isRangefinderActive ? 'PICK 1/2' : 'OFF';
+                status.className = isRangefinderActive
+                    ? 'px-1.5 py-0.2 rounded text-[9px] font-mono bg-blue-500/25 text-blue-200 border border-blue-400/40'
+                    : 'px-1.5 py-0.2 rounded text-[9px] font-mono bg-white/10 text-slate-300';
+            }
+            if (iconBg) iconBg.className = isRangefinderActive
+                ? 'w-9 h-9 rounded-xl bg-blue-500/30 border border-blue-300/60 flex items-center justify-center text-blue-200'
+                : 'w-9 h-9 rounded-xl bg-blue-500/15 border border-blue-400/30 flex items-center justify-center text-blue-400 group-hover:scale-105 transition-transform';
+        }
+
+        function addRangefinderPoint(point) {
+            if (rangefinderPoints.length === 2) clearRangefinder();
+            rangefinderPoints.push(point.clone());
+
+            const marker = new THREE.Mesh(
+                new THREE.SphereGeometry(1.15, 16, 12),
+                new THREE.MeshStandardMaterial({ color: 0x60a5fa, emissive: 0x1d4ed8, emissiveIntensity: 1.2, roughness: 0.28 })
+            );
+            marker.position.copy(point);
+            marker.position.y += 0.85;
+            scene.add(marker);
+            rangefinderMarkers.push(marker);
+
+            if (rangefinderPoints.length === 2) {
+                const [from, to] = rangefinderPoints;
+                const geometry = new THREE.BufferGeometry().setFromPoints([from, to]);
+                rangefinderLine = new THREE.Line(
+                    geometry,
+                    new THREE.LineDashedMaterial({ color: 0x93c5fd, dashSize: 3.5, gapSize: 1.8 })
+                );
+                rangefinderLine.computeLineDistances();
+                rangefinderLine.position.y = 0.65;
+                scene.add(rangefinderLine);
+
+                const horizontalDistance = Math.hypot(to.x - from.x, to.z - from.z);
+                const elevationDelta = to.y - from.y;
+                const sightlineDistance = from.distanceTo(to);
+                const status = document.getElementById('ruler-status');
+                status.textContent = `${Math.round(horizontalDistance)}M · ${elevationDelta >= 0 ? '+' : ''}${elevationDelta.toFixed(1)}M`;
+                status.title = `Line of sight ${Math.round(sightlineDistance)} m`;
+            } else {
+                document.getElementById('ruler-status').textContent = 'PICK 2/2';
+            }
+        }
 
         function buildCourseFurniture() {
             while (courseFurnitureGroup.children.length > 0) {
@@ -793,6 +1062,8 @@
                 courseFurnitureGroup.remove(obj);
             }
             flagObjects = [];
+            activeShotArc = null;
+            activeShotAnimation = null;
 
             currentCourse.holes.forEach((hole, idx) => {
                 const tee3D = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
@@ -873,6 +1144,28 @@
         /* =========================================================================
            8. BALL FLIGHT TRAJECTORY SIMULATOR (3D PARABOLIC BEZIER ARC)
            ========================================================================= */
+        function getShotLandingPosition(hole, carryMeters) {
+            const route = hole.localRoute;
+            let remaining = carryMeters;
+
+            for (let i = 1; i < route.length; i++) {
+                const from = route[i - 1];
+                const to = route[i];
+                const segmentLength = Math.hypot(to.x - from.x, to.z - from.z);
+                if (remaining <= segmentLength || i === route.length - 1) {
+                    const fraction = segmentLength === 0 ? 1 : Math.min(remaining / segmentLength, 1);
+                    const landing = from.clone().lerp(to, fraction);
+                    landing.y = getElevationAt(landing.x, landing.z);
+                    return landing;
+                }
+                remaining -= segmentLength;
+            }
+
+            const green = route[route.length - 1].clone();
+            green.y = getElevationAt(green.x, green.z);
+            return green;
+        }
+
         function drawBallTrajectory(start3D, end3D, apexHeight, clubName) {
             if (activeShotArc) courseFurnitureGroup.remove(activeShotArc);
 
@@ -912,12 +1205,29 @@
             ring.position.copy(end3D);
             ring.position.y += 0.15;
 
+            const apex = curve.getPoint(0.5);
+            const apexMarker = new THREE.Mesh(
+                new THREE.SphereGeometry(0.8, 16, 12),
+                new THREE.MeshStandardMaterial({ color: 0xfde68a, emissive: 0xf59e0b, emissiveIntensity: 1.6, roughness: 0.2 })
+            );
+            apexMarker.position.copy(apex);
+
+            const ball = new THREE.Mesh(
+                new THREE.SphereGeometry(0.62, 16, 12),
+                new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfef3c7, emissiveIntensity: 0.7, roughness: 0.22 })
+            );
+            ball.position.copy(start3D);
+            ball.position.y += 0.45;
+
             // Group together
             const arcGroup = new THREE.Group();
             arcGroup.add(line);
             arcGroup.add(ring);
+            arcGroup.add(apexMarker);
+            arcGroup.add(ball);
             
             activeShotArc = arcGroup;
+            activeShotAnimation = { curve, ball, startedAt: performance.now(), duration: 2200 };
             courseFurnitureGroup.add(arcGroup);
         }
 
@@ -1013,45 +1323,37 @@
             isDroneFlyoverActive = true;
 
             const hole = currentCourse.holes[activeHoleIdx];
-            const tee = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
-            tee.y = getElevationAt(tee.x, tee.z);
+            const route = hole.localRoute.map(point => {
+                const elevated = point.clone();
+                elevated.y = getElevationAt(elevated.x, elevated.z);
+                return elevated;
+            });
+            const curve = new THREE.CatmullRomCurve3(route, false, 'centripetal');
+            const flight = { progress: 0 };
 
-            const green = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
-            green.y = getElevationAt(green.x, green.z);
-
-            // Intermediate midpoint along fairway
-            const mid = new THREE.Vector3((tee.x + green.x)/2, 0, (tee.z + green.z)/2);
-            if (hole.dogleg) {
-                const dogleg = gpsToLocal3D(hole.dogleg[0], hole.dogleg[1], currentCourse.origin);
-                mid.x = dogleg.x;
-                mid.z = dogleg.z;
-            }
-            mid.y = getElevationAt(mid.x, mid.z) + 38;
-
-            // Step 1: Position behind Tee looking down corridor
-            const dir = new THREE.Vector3().subVectors(green, tee).normalize();
-            const startCam = new THREE.Vector3(tee.x - dir.x * 25, tee.y + 12, tee.z - dir.z * 25);
-            camera.position.copy(startCam);
-            controls.target.copy(mid);
-
-            // Step 2: Drone Flight Path via Tween
-            new TWEEN.Tween(camera.position)
-                .to({ x: mid.x - dir.x * 20, y: mid.y + 25, z: mid.z - dir.z * 20 }, 4000)
+            new TWEEN.Tween(flight)
+                .to({ progress: 1 }, 7800)
                 .easing(TWEEN.Easing.Quadratic.InOut)
-                .onUpdate(() => { controls.target.lerp(green, 0.05); })
-                .chain(
-                    new TWEEN.Tween(camera.position)
-                        .to({ x: green.x + 35, y: green.y + 24, z: green.z + 35 }, 4500)
-                        .easing(TWEEN.Easing.Cubic.Out)
-                        .onComplete(() => {
-                            isDroneFlyoverActive = false;
-                        })
-                )
-                .start();
+                .onUpdate(() => {
+                    const progress = THREE.MathUtils.clamp(flight.progress, 0, 1);
+                    const cameraPoint = curve.getPointAt(progress);
+                    const lookPoint = curve.getPointAt(Math.min(progress + 0.065, 1));
 
-            new TWEEN.Tween(controls.target)
-                .to(green, 8500)
-                .easing(TWEEN.Easing.Cubic.Out)
+                    const tangent = curve.getTangentAt(progress).normalize();
+                    const lateral = new THREE.Vector3(-tangent.z, 0, tangent.x).multiplyScalar(24);
+                    const height = 24 + Math.sin(progress * Math.PI) * 38;
+
+                    camera.position.copy(cameraPoint).add(lateral);
+                    camera.position.y += height;
+                    controls.target.copy(lookPoint);
+                    controls.target.y += 5;
+                })
+                .onComplete(() => {
+                    const green = route[route.length - 1];
+                    camera.position.set(green.x + 35, green.y + 24, green.z + 35);
+                    controls.target.copy(green);
+                    isDroneFlyoverActive = false;
+                })
                 .start();
         }
 
@@ -1093,8 +1395,8 @@
             // 3. Update Cross-Section SVG
             updateElevationProfileSVG(tee3D.y, green3D.y);
 
-            // 4. Update Ball Flight Arc
-            drawBallTrajectory(tee3D, green3D, currentClub.apex, currentClub.name);
+            // 4. Update ball arc to this club's source-derived carry position.
+            drawBallTrajectory(tee3D, getShotLandingPosition(hole, currentClub.carry), currentClub.apex, currentClub.name);
 
             // 5. Update Carousel active button style
             const carousel = document.getElementById('hole-carousel');
@@ -1108,8 +1410,17 @@
 
             // 6. Camera Orbit Focus
             if (transitionCamera) {
-                const mid = new THREE.Vector3((tee3D.x + green3D.x) / 2, (tee3D.y + green3D.y) / 2 + 65, (tee3D.z + green3D.z) / 2);
-                const camPos = new THREE.Vector3(mid.x + 160, mid.y + 110, mid.z + 180);
+                const fairwayDirection = new THREE.Vector3().subVectors(green3D, tee3D).normalize();
+                const lateral = new THREE.Vector3(-fairwayDirection.z, 0, fairwayDirection.x);
+                const mid = new THREE.Vector3(
+                    (tee3D.x + green3D.x) / 2,
+                    (tee3D.y + green3D.y) / 2 + 10,
+                    (tee3D.z + green3D.z) / 2
+                );
+                const camPos = tee3D.clone()
+                    .addScaledVector(fairwayDirection, -72)
+                    .addScaledVector(lateral, 112);
+                camPos.y = Math.max(tee3D.y, green3D.y) + 112;
 
                 new TWEEN.Tween(camera.position)
                     .to(camPos, 1600)
@@ -1184,7 +1495,20 @@
                 sunLight.position.set(-600, 180, -400);
                 sunLight.intensity = 0.9;
                 renderer.toneMappingExposure = 0.9;
+            } else if (preset === 'mist') {
+                scene.background.setHex(0x7896a1);
+                scene.fog.color.setHex(0x7896a1);
+                scene.fog.density = 0.0012;
+                hemiLight.color.setHex(0xd8edf2);
+                hemiLight.groundColor.setHex(0x1b3534);
+                hemiLight.intensity = 0.8;
+                sunLight.color.setHex(0xe7f4f2);
+                sunLight.position.set(-300, 520, 220);
+                sunLight.intensity = 1.45;
+                renderer.toneMappingExposure = 1.0;
             }
+            if (preset !== 'mist') scene.fog.density = 0.00045;
+            syncSkyToSun(preset);
         }
 
         /* =========================================================================
@@ -1249,7 +1573,10 @@
            ========================================================================= */
         function loadCourse(courseKey) {
             currentCourse = COURSE_DATA[courseKey];
+            prepareCourseProjection(currentCourse);
             document.getElementById('course-subtitle').innerText = currentCourse.subtitle;
+            isRangefinderActive = false;
+            clearRangefinder();
 
             buildTerrain();
             buildWater();
@@ -1286,13 +1613,34 @@
             const hole = currentCourse.holes[activeHoleIdx];
             const tee = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
             tee.y = getElevationAt(tee.x, tee.z);
-            const green = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
-            green.y = getElevationAt(green.x, green.z);
-            drawBallTrajectory(tee, green, currentClub.apex, currentClub.name);
+            drawBallTrajectory(tee, getShotLandingPosition(hole, currentClub.carry), currentClub.apex, currentClub.name);
         });
 
         document.getElementById('btn-slope-heatmap').addEventListener('click', () => {
             toggleGreenSlopeHeatmap(!isSlopeHeatmapActive);
+        });
+
+        document.getElementById('btn-ruler').addEventListener('click', () => {
+            isRangefinderActive = !isRangefinderActive;
+            clearRangefinder();
+        });
+
+        let measurementPointerDown = null;
+        renderer.domElement.addEventListener('pointerdown', (event) => {
+            measurementPointerDown = { x: event.clientX, y: event.clientY };
+        });
+        renderer.domElement.addEventListener('pointerup', (event) => {
+            if (!isRangefinderActive || !measurementPointerDown || !terrainMesh) return;
+            const moved = Math.hypot(event.clientX - measurementPointerDown.x, event.clientY - measurementPointerDown.y);
+            measurementPointerDown = null;
+            if (moved > 5) return;
+
+            const bounds = renderer.domElement.getBoundingClientRect();
+            mouse.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+            mouse.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            const hit = raycaster.intersectObject(terrainMesh, false)[0];
+            if (hit) addRangefinderPoint(hit.point);
         });
 
         // Club Selector buttons
@@ -1310,9 +1658,7 @@
                 const hole = currentCourse.holes[activeHoleIdx];
                 const tee = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
                 tee.y = getElevationAt(tee.x, tee.z);
-                const green = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
-                green.y = getElevationAt(green.x, green.z);
-                drawBallTrajectory(tee, green, currentClub.apex, currentClub.name);
+                drawBallTrajectory(tee, getShotLandingPosition(hole, currentClub.carry), currentClub.apex, currentClub.name);
             });
         });
 
@@ -1395,10 +1741,14 @@
             setActiveEnvBtn(e.currentTarget);
             setLightingPreset('night');
         });
+        document.getElementById('btn-env-mist').addEventListener('click', (e) => {
+            setActiveEnvBtn(e.currentTarget);
+            setLightingPreset('mist');
+        });
 
         function setActiveEnvBtn(activeBtn) {
-            document.querySelectorAll('#btn-env-golden, #btn-env-noon, #btn-env-night').forEach(b => {
-                b.classList.remove('active', 'text-amber-300', 'text-amber-200', 'text-indigo-300');
+            document.querySelectorAll('#btn-env-golden, #btn-env-noon, #btn-env-night, #btn-env-mist').forEach(b => {
+                b.classList.remove('active', 'text-amber-300', 'text-amber-200', 'text-indigo-300', 'text-cyan-200');
                 b.classList.add('text-slate-400');
             });
             activeBtn.classList.add('active', 'text-white');
@@ -1445,7 +1795,6 @@
         const clock = new THREE.Clock();
 
         function animate() {
-            requestAnimationFrame(animate);
             const time = clock.getElapsedTime();
 
             TWEEN.update();
@@ -1465,9 +1814,27 @@
                 }
             });
 
-            // Gentle Fjord Water Oscillation
+            if (activeShotAnimation) {
+                const elapsed = performance.now() - activeShotAnimation.startedAt;
+                const progress = Math.min(elapsed / activeShotAnimation.duration, 1);
+                const position = activeShotAnimation.curve.getPoint(progress);
+                activeShotAnimation.ball.position.copy(position);
+                if (progress >= 1) activeShotAnimation = null;
+            }
+
+            // Two-direction Gerstner-style wave field for the fjord surface.
             if (waterMesh) {
-                waterMesh.position.y = currentCourse.waterLevel + Math.sin(time * 0.8) * 0.25;
+                const positions = waterMesh.geometry.attributes.position;
+                const basePositions = waterMesh.userData.basePositions;
+                for (let i = 0; i < positions.count; i++) {
+                    const x = basePositions[i * 3];
+                    const z = basePositions[i * 3 + 2];
+                    const primary = Math.sin(x * 0.017 + z * 0.008 + time * 1.25) * 0.46;
+                    const secondary = Math.sin(x * -0.009 + z * 0.021 + time * 0.82) * 0.24;
+                    positions.setY(i, primary + secondary);
+                }
+                positions.needsUpdate = true;
+                waterMesh.geometry.computeVertexNormals();
             }
 
             // Compass rotation based on camera azimuthal angle
@@ -1477,13 +1844,35 @@
                 compassNeedle.style.transform = `rotate(${angle}deg)`;
             }
 
-            renderer.render(scene, camera);
+            renderPipeline.render();
         }
 
-        // Initialize application on page load
-        loadCourse('norrfallsviken');
-        setLightingPreset('golden');
-        animate();
+        // WebGPU initialisation is asynchronous. WebGPURenderer automatically uses WebGL2
+        // when a browser does not expose a WebGPU device.
+        async function initializeApplication() {
+            const rendererStatus = document.getElementById('renderer-status');
+            rendererStatus.textContent = 'INITIALIZING';
+
+            try {
+                await renderer.init();
+                const isWebGPU = renderer.backend?.isWebGPUBackend === true;
+                rendererStatus.textContent = isWebGPU ? 'WEBGPU' : 'WEBGL2';
+                rendererStatus.parentElement.classList.toggle('text-emerald-300', isWebGPU);
+                rendererStatus.parentElement.classList.toggle('text-amber-300', !isWebGPU);
+
+                createNordicSky();
+                configureRenderPipeline();
+                loadCourse('norrfallsviken');
+                setLightingPreset('golden');
+                renderer.setAnimationLoop(animate);
+            } catch (error) {
+                console.error('Unable to initialize the Three.js renderer.', error);
+                rendererStatus.textContent = 'UNAVAILABLE';
+                rendererStatus.parentElement.classList.add('text-rose-300');
+            }
+        }
+
+        initializeApplication();
     </script>
 </body>
 </html>
