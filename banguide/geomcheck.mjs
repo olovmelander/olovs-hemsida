@@ -9,8 +9,9 @@
    Run:  node banguide/geomcheck.mjs [path-to-html]                                     */
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = path.dirname(new URL(import.meta.url).pathname).replace(/\/banguide$/, '');
+const ROOT = path.dirname(fileURLToPath(import.meta.url)).replace(/[/\\]banguide$/, '');
 const TARGET = process.argv[2] || path.join(ROOT, 'veckefjardensgc.html');
 const html = fs.readFileSync(TARGET, 'utf8');
 const inv = JSON.parse(fs.readFileSync(path.join(ROOT,'banguide/guide-inventory.json'),'utf8')).holes;

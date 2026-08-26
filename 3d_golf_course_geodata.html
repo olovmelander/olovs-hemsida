@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3D Golf Course Viewer — Swedish LiDAR & Geodata Engine</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    },
+                    colors: {
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        nordic: {
+                            night: '#050b14',
+                            fjord: '#0b2636',
+                            granite: '#c86a58',
+                            turf: '#2b5a27',
+                            sand: '#dec593'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Three.js r160, OrbitControls, Tween.js, Lucide Icons -->
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #050b14;
+            color: #f1f5f9;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        #viewport-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(8, 16, 28, 0.78);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.05) inset;
+        }
+
+        .glass-panel-dark {
+            background: rgba(4, 9, 18, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8);
+        }
+
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.28);
+            transform: translateY(-1px);
+        }
+        .glass-btn:active {
+            transform: translateY(0);
+        }
+        .glass-btn.active {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.5) 100%);
+            border-color: rgba(52, 211, 153, 0.6);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Elevation profile SVG path */
+        .profile-line {
+            fill: none;
+            stroke: #10b981;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+        .profile-area {
+            fill: url(#profileGrad);
+            opacity: 0.35;
+        }
+
+        /* Pulse Animations */
+        @keyframes radar-pulse {
+            0% { transform: scale(0.95); opacity: 0.9; }
+            50% { transform: scale(1.15); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.9; }
+        }
+        .radar-active {
+            animation: radar-pulse 2s infinite ease-in-out;
+        }
+
+        /* Custom Compass Needle */
+        .compass-ring {
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 15px rgba(16, 185, 129, 0.2);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-hidden">
+
+    <!-- 3D WebGL Canvas Container -->
+    <div id="viewport-container"></div>
+
+    <!-- UI Overlay Layer -->
+    <div class="relative z-10 w-full h-full pointer-events-none flex flex-col justify-between p-4 md:p-6 overflow-hidden">
+
+        <!-- ================= TOP HEADER BAR ================= -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 w-full">
+            
+            <!-- Branding & Course Switcher -->
+            <div class="glass-panel rounded-2xl p-3 md:p-4 pointer-events-auto flex items-center gap-3.5 border-l-4 border-emerald-500 shadow-2xl">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/30 border border-emerald-400/40 flex items-center justify-center text-emerald-400 shadow-inner">
+                    <i data-lucide="map-pin" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <select id="course-select" class="bg-transparent text-lg md:text-xl font-display font-extrabold text-white tracking-tight cursor-pointer focus:outline-none border-b border-transparent hover:border-emerald-400 transition-all pr-2">
+                            <option value="norrfallsviken" class="bg-slate-900 text-white" selected>Norrfällsvikens GK (Höga Kusten)</option>
+                            <option value="veckefjarden" class="bg-slate-900 text-white">Veckefjärdens GC (Örnsköldsvik)</option>
+                        </select>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                            LiDAR 3D
+                        </span>
+                    </div>
+                    <p class="text-[11px] font-mono text-slate-400 tracking-wider flex items-center gap-2 mt-0.5">
+                        <span>LANTMÄTERIET DEM 1M</span>
+                        <span class="inline-block w-1 h-1 rounded-full bg-slate-600"></span>
+                        <span id="course-subtitle" class="text-emerald-400">UNESCO World Heritage Archipelago</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Top Right Action Controls -->
+            <div class="flex items-center gap-2.5 pointer-events-auto self-end md:self-auto">
+                
+                <!-- Quick Camera Views -->
+                <div class="glass-panel rounded-xl p-1.5 flex items-center gap-1">
+                    <button id="btn-view-tee" title="Tee Box View" class="glass-btn px-2.5 py-1.5 rounded-lg text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1.5">
+                        <i data-lucide="crosshair" class="w-3.5 h-3.5 text-amber-400"></i>
+                        <span class="hidden sm:inline">Tee</span>
+                    </button>
+                    <button id="btn-view-green" title="Green View" class="glass-btn px-2.5 py-1.5 rounded-lg text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1.5">
+                        <i data-lucide="flag" class="w-3.5 h-3.5 text-emerald-400"></i>
+                        <span class="hidden sm:inline">Green</span>
+                    </button>
+                    <button id="btn-view-orbit" title="Orbit Fairway" class="glass-btn active px-2.5 py-1.5 rounded-lg text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1.5">
+                        <i data-lucide="orbit" class="w-3.5 h-3.5 text-teal-400"></i>
+                        <span class="hidden sm:inline">Orbit</span>
+                    </button>
+                    <button id="btn-view-top" title="Top-Down 2D Map" class="glass-btn px-2.5 py-1.5 rounded-lg text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1.5">
+                        <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-400"></i>
+                        <span class="hidden sm:inline">Top</span>
+                    </button>
+                </div>
+
+                <!-- Lighting Preset Selector -->
+                <div class="glass-panel rounded-xl p-1.5 flex items-center gap-1">
+                    <button id="btn-env-golden" title="Midsummer Golden Hour" class="glass-btn active p-2 rounded-lg text-amber-300 hover:text-white">
+                        <i data-lucide="sunset" class="w-4 h-4"></i>
+                    </button>
+                    <button id="btn-env-noon" title="Nordic High Noon" class="glass-btn p-2 rounded-lg text-slate-400 hover:text-amber-200">
+                        <i data-lucide="sun" class="w-4 h-4"></i>
+                    </button>
+                    <button id="btn-env-night" title="Midnight Sun / Twilight" class="glass-btn p-2 rounded-lg text-slate-400 hover:text-indigo-300">
+                        <i data-lucide="moon" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <!-- Audio Toggle & Help -->
+                <button id="btn-audio" title="Toggle Nordic Coastal Ambience" class="glass-panel rounded-xl p-2.5 pointer-events-auto text-slate-300 hover:text-emerald-400 transition-colors">
+                    <i data-lucide="volume-2" id="icon-audio" class="w-4 h-4"></i>
+                </button>
+                <button id="btn-help" title="Keyboard & Navigation Guide" class="glass-panel rounded-xl p-2.5 pointer-events-auto text-slate-300 hover:text-white transition-colors">
+                    <i data-lucide="help-circle" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- ================= CENTER FLOATING HUD ================= -->
+        <div class="flex justify-between items-end w-full my-auto pointer-events-none">
+            
+            <!-- Left Info Panel: Active Hole Scorecard & Elevation Profile -->
+            <div class="flex flex-col gap-3 pointer-events-auto max-w-xs md:max-w-sm">
+                
+                <!-- Main Scorecard Card -->
+                <div class="glass-panel rounded-2xl p-4 md:p-5 border-t border-white/15 shadow-2xl">
+                    <div class="flex justify-between items-center pb-3 border-b border-white/10">
+                        <div>
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold block">CURRENT HOLE</span>
+                            <h2 id="hud-hole-title" class="text-3xl font-display font-black text-white tracking-tight">Hole 1</h2>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 block">PAR / HCP</span>
+                            <div class="flex items-center gap-1.5 justify-end">
+                                <span id="hud-par" class="text-2xl font-display font-black text-amber-400">4</span>
+                                <span class="text-xs font-mono text-slate-500">/</span>
+                                <span id="hud-hcp" class="text-sm font-mono font-bold text-slate-300">HCP 7</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tee Distance Grid -->
+                    <div class="grid grid-cols-4 gap-2 pt-3 text-center">
+                        <div class="p-2 rounded-xl bg-white/5 border border-white/10">
+                            <span class="text-[9px] font-mono text-slate-300 block font-bold">WHITE (58)</span>
+                            <span id="dist-white" class="text-sm font-mono font-bold text-white">355 m</span>
+                        </div>
+                        <div class="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                            <span class="text-[9px] font-mono text-amber-400 block font-bold">YELLOW (54)</span>
+                            <span id="dist-yellow" class="text-sm font-mono font-bold text-amber-300">328 m</span>
+                        </div>
+                        <div class="p-2 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                            <span class="text-[9px] font-mono text-blue-400 block font-bold">BLUE (50)</span>
+                            <span id="dist-blue" class="text-sm font-mono font-bold text-blue-300">302 m</span>
+                        </div>
+                        <div class="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
+                            <span class="text-[9px] font-mono text-rose-400 block font-bold">RED (47)</span>
+                            <span id="dist-red" class="text-sm font-mono font-bold text-rose-300">275 m</span>
+                        </div>
+                    </div>
+
+                    <!-- Green Center/Front/Back Yardages -->
+                    <div class="mt-3 p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-500/25 flex justify-between items-center text-xs font-mono">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
+                            <span class="text-emerald-300 font-semibold">PIN LOCATION</span>
+                        </div>
+                        <div class="flex gap-3 text-slate-300">
+                            <span>F: <b id="pin-front" class="text-white">321m</b></span>
+                            <span>C: <b id="pin-center" class="text-emerald-400">328m</b></span>
+                            <span>B: <b id="pin-back" class="text-white">335m</b></span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons: Flyover & Ball Tracer -->
+                    <div class="flex gap-2 mt-4">
+                        <button id="btn-flyover" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-display font-extrabold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25 active:scale-95">
+                            <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                            <span>3D Drone Flyover</span>
+                        </button>
+                        <button id="btn-shot-tracer" class="px-3.5 py-2.5 rounded-xl glass-btn text-amber-300 hover:text-amber-200 font-mono text-xs flex items-center gap-1.5" title="Simulate Ball Flight Path">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            <span class="hidden sm:inline">Trace Shot</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Real-Time Elevation Cross Section Profile -->
+                <div class="glass-panel rounded-2xl p-3.5 border-t border-white/10 shadow-xl">
+                    <div class="flex justify-between items-center mb-1 text-[10px] font-mono text-slate-400">
+                        <span class="flex items-center gap-1 font-bold text-slate-300 uppercase">
+                            <i data-lucide="mountain" class="w-3 h-3 text-emerald-400"></i> Topo Cross-Section
+                        </span>
+                        <span>Elevation: <b id="elev-delta" class="text-emerald-400">+4.2 m</b></span>
+                    </div>
+                    <div class="w-full h-16 relative">
+                        <svg id="profile-svg" class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 200 50">
+                            <defs>
+                                <linearGradient id="profileGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.8"/>
+                                    <stop offset="100%" stop-color="#10b981" stop-opacity="0.0"/>
+                                </linearGradient>
+                            </defs>
+                            <path id="profile-area-path" class="profile-area" d="M0,50 L0,30 Q100,20 200,25 L200,50 Z"></path>
+                            <path id="profile-line-path" class="profile-line" d="M0,30 Q100,20 200,25"></path>
+                            <!-- Markers -->
+                            <circle id="profile-tee-dot" cx="5" cy="30" r="3.5" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5"/>
+                            <circle id="profile-green-dot" cx="195" cy="25" r="3.5" fill="#10b981" stroke="#ffffff" stroke-width="1.5"/>
+                        </svg>
+                        <div class="flex justify-between text-[9px] font-mono text-slate-400 mt-1">
+                            <span>Tee (0m)</span>
+                            <span id="profile-mid-elev" class="text-slate-500">Fairway peak</span>
+                            <span id="profile-green-label">Green</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Tools Panel: Club Simulator, Green Slope Heatmap, Measurement -->
+            <div class="flex flex-col gap-3 pointer-events-auto items-end">
+                
+                <!-- Wind & Compass HUD -->
+                <div class="glass-panel rounded-2xl p-3 flex items-center gap-3 shadow-xl">
+                    <div class="relative w-11 h-11 rounded-full border border-white/20 flex items-center justify-center compass-ring bg-slate-900/60">
+                        <span class="absolute top-0.5 text-[8px] font-mono font-bold text-rose-400">N</span>
+                        <span class="absolute bottom-0.5 text-[8px] font-mono font-bold text-slate-500">S</span>
+                        <div id="compass-needle" class="w-1 h-7 bg-gradient-to-t from-slate-400 via-rose-500 to-rose-400 rounded-full transition-transform duration-300" style="transform: rotate(24deg);"></div>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <i data-lucide="wind" class="w-3.5 h-3.5 text-teal-400"></i>
+                            <span id="wind-speed" class="text-xs font-mono font-bold text-white">4.2 m/s</span>
+                        </div>
+                        <span id="wind-direction" class="text-[10px] font-mono text-slate-400">SSW · Baltic Breeze</span>
+                    </div>
+                </div>
+
+                <!-- Green Slope Reading Heatmap Toggle -->
+                <button id="btn-slope-heatmap" class="glass-panel rounded-2xl p-3.5 flex items-center gap-3 hover:border-emerald-400/50 transition-all shadow-xl text-left w-full group">
+                    <div id="heatmap-icon-bg" class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-400/30 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
+                        <i data-lucide="grid-3x3" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-display font-bold text-white">Green Slope Heatmap</span>
+                            <span id="heatmap-status" class="px-1.5 py-0.2 rounded text-[9px] font-mono bg-white/10 text-slate-300">OFF</span>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">PGA Yardage Book Contours</span>
+                    </div>
+                </button>
+
+                <!-- Club Selector & Distance Calculator -->
+                <div class="glass-panel rounded-2xl p-3.5 shadow-xl w-60">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[10px] font-mono text-slate-400 font-bold uppercase flex items-center gap-1">
+                            <i data-lucide="activity" class="w-3 h-3 text-amber-400"></i> Shot Simulator
+                        </span>
+                        <span id="club-carry" class="text-xs font-mono font-bold text-amber-400">235 m carry</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-1.5">
+                        <button class="club-btn glass-btn active py-1.5 rounded-lg text-xs font-mono font-bold" data-club="driver" data-carry="235" data-apex="32">DRV</button>
+                        <button class="club-btn glass-btn py-1.5 rounded-lg text-xs font-mono font-bold" data-club="3wood" data-carry="210" data-apex="28">3W</button>
+                        <button class="club-btn glass-btn py-1.5 rounded-lg text-xs font-mono font-bold" data-club="5iron" data-carry="175" data-apex="26">5I</button>
+                        <button class="club-btn glass-btn py-1.5 rounded-lg text-xs font-mono font-bold" data-club="7iron" data-carry="150" data-apex="29">7I</button>
+                        <button class="club-btn glass-btn py-1.5 rounded-lg text-xs font-mono font-bold" data-club="pw" data-carry="120" data-apex="31">PW</button>
+                        <button class="club-btn glass-btn py-1.5 rounded-lg text-xs font-mono font-bold" data-club="putter" data-carry="25" data-apex="0">PUTT</button>
+                    </div>
+                </div>
+
+                <!-- Distance Rangefinder / Measurement Tool -->
+                <button id="btn-ruler" class="glass-panel rounded-2xl p-3 flex items-center gap-3 hover:border-blue-400/50 transition-all shadow-xl text-left w-full group">
+                    <div id="ruler-icon-bg" class="w-9 h-9 rounded-xl bg-blue-500/15 border border-blue-400/30 flex items-center justify-center text-blue-400 group-hover:scale-105 transition-transform">
+                        <i data-lucide="ruler" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-display font-bold text-white">Laser Rangefinder</span>
+                            <span id="ruler-status" class="px-1.5 py-0.2 rounded text-[9px] font-mono bg-white/10 text-slate-300">OFF</span>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">Click 2 points to measure</span>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+
+        <!-- ================= BOTTOM HOLE CAROUSEL BAR ================= -->
+        <footer class="w-full flex flex-col items-center gap-2 pointer-events-auto">
+            
+            <!-- Quick Previous / Next Controls -->
+            <div class="flex items-center justify-between w-full max-w-4xl px-2 text-xs font-mono text-slate-400">
+                <button id="btn-prev-hole" class="glass-btn px-3 py-1.5 rounded-xl flex items-center gap-1.5 hover:text-white">
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    <span>Prev Hole</span>
+                </button>
+                <div class="flex items-center gap-2">
+                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span id="carousel-info-text" class="text-slate-300 font-semibold">18 Holes Championship Layout</span>
+                </div>
+                <button id="btn-next-hole" class="glass-btn px-3 py-1.5 rounded-xl flex items-center gap-1.5 hover:text-white">
+                    <span>Next Hole</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- 1-18 Buttons Carousel -->
+            <div class="glass-panel rounded-2xl p-2.5 flex gap-2 max-w-full overflow-x-auto hide-scrollbar border-t border-white/15 shadow-2xl">
+                <div id="hole-carousel" class="flex gap-2">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+        </footer>
+
+    </div>
+
+    <!-- Help Modal Dialog -->
+    <div id="help-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-panel-dark rounded-3xl p-6 md:p-8 max-w-lg w-full border border-white/20 shadow-2xl">
+            <div class="flex justify-between items-center mb-5 pb-3 border-b border-white/10">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400">
+                        <i data-lucide="navigation" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-display font-extrabold text-white">3D Golf Course Navigation</h3>
+                        <p class="text-xs font-mono text-emerald-400">Swedish Geodata Engine v2.5</p>
+                    </div>
+                </div>
+                <button id="btn-close-help" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-xs font-sans text-slate-300">
+                <div class="p-3 rounded-2xl bg-white/5 border border-white/10 flex gap-3 items-center">
+                    <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-mono font-bold">Left Click + Drag</span>
+                    <span>Rotate and orbit 360° around hole and greens.</span>
+                </div>
+                <div class="p-3 rounded-2xl bg-white/5 border border-white/10 flex gap-3 items-center">
+                    <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-mono font-bold">Right Click + Drag</span>
+                    <span>Pan and translate across the landscape.</span>
+                </div>
+                <div class="p-3 rounded-2xl bg-white/5 border border-white/10 flex gap-3 items-center">
+                    <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-mono font-bold">Scroll Wheel</span>
+                    <span>Smooth zoom from satellite overview down to pin.</span>
+                </div>
+                <div class="p-3 rounded-2xl bg-white/5 border border-white/10 flex gap-3 items-center">
+                    <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-mono font-bold">Spacebar / F Key</span>
+                    <span>Launch the 3D cinematic drone flyover.</span>
+                </div>
+                <div class="p-3 rounded-2xl bg-white/5 border border-white/10 flex gap-3 items-center">
+                    <span class="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-300 font-mono font-bold">Left / Right Arrows</span>
+                    <span>Instantly step to Previous or Next hole.</span>
+                </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/10 flex justify-end">
+                <button id="btn-modal-ok" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-display font-bold text-xs uppercase tracking-wider transition-all">
+                    Got it, Let's Play
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT 3D ENGINE ================= -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        /* =========================================================================
+           1. COURSE DATASETS (REAL GOLFTRAXX & LANTMÄTERIET GEODATA)
+           ========================================================================= */
+        const COURSE_DATA = {
+            norrfallsviken: {
+                id: 'norrfallsviken',
+                name: 'Norrfällsvikens GK',
+                location: 'Höga Kusten / Nordingrå',
+                subtitle: 'UNESCO World Heritage Archipelago',
+                origin: { lon: 18.53078, lat: 62.98160 }, // Center reference
+                waterLevel: -10.5,
+                terrainScale: 1.1,
+                holes: [
+                    { num: 1, par: 4, hcp: 7, tee: [18.526336, 62.981202], green: [18.532534, 62.981717], front: [18.532406, 62.981706], back: [18.532654, 62.981726], dogleg: null },
+                    { num: 2, par: 3, hcp: 15, tee: [18.531846, 62.981187], green: [18.530437, 62.979871], front: [18.530534, 62.979956], back: [18.530378, 62.979806], dogleg: null },
+                    { num: 3, par: 4, hcp: 11, tee: [18.530436, 62.979085], green: [18.532324, 62.977038], front: [18.532311, 62.977105], back: [18.532342, 62.976989], dogleg: [18.5312, 62.9781] },
+                    { num: 4, par: 4, hcp: 1, tee: [18.532550, 62.976800], green: [18.536800, 62.974900], front: [18.536650, 62.974950], back: [18.536950, 62.974850], dogleg: null },
+                    { num: 5, par: 4, hcp: 9, tee: [18.537200, 62.974700], green: [18.534200, 62.972900], front: [18.534300, 62.972950], back: [18.534100, 62.972850], dogleg: null },
+                    { num: 6, par: 4, hcp: 5, tee: [18.533800, 62.972700], green: [18.529800, 62.974600], front: [18.529900, 62.974550], back: [18.529700, 62.974650], dogleg: [18.5318, 62.9736] },
+                    { num: 7, par: 3, hcp: 17, tee: [18.529400, 62.974800], green: [18.527600, 62.975600], front: [18.527700, 62.975550], back: [18.527500, 62.975650], dogleg: null },
+                    { num: 8, par: 5, hcp: 3, tee: [18.527200, 62.975800], green: [18.522800, 62.979100], front: [18.522900, 62.979050], back: [18.522700, 62.979150], dogleg: [18.5248, 62.9775] },
+                    { num: 9, par: 4, hcp: 13, tee: [18.523100, 62.979400], green: [18.526800, 62.981100], front: [18.526700, 62.981050], back: [18.526900, 62.981150], dogleg: null },
+                    { num: 10, par: 5, hcp: 4, tee: [18.527500, 62.981400], green: [18.533500, 62.983800], front: [18.533400, 62.983750], back: [18.533600, 62.983850], dogleg: [18.5305, 62.9826] },
+                    { num: 11, par: 3, hcp: 18, tee: [18.533800, 62.984000], green: [18.535200, 62.984800], front: [18.535100, 62.984750], back: [18.535300, 62.984850], dogleg: null },
+                    { num: 12, par: 4, hcp: 8, tee: [18.535500, 62.985000], green: [18.532100, 62.987100], front: [18.532200, 62.987050], back: [18.532000, 62.987150], dogleg: null },
+                    { num: 13, par: 4, hcp: 2, tee: [18.531800, 62.987300], green: [18.527500, 62.985200], front: [18.527600, 62.985250], back: [18.527400, 62.985150], dogleg: null },
+                    { num: 14, par: 3, hcp: 16, tee: [18.527200, 62.985000], green: [18.525500, 62.984100], front: [18.525600, 62.984150], back: [18.525400, 62.984050], dogleg: null },
+                    { num: 15, par: 4, hcp: 10, tee: [18.525200, 62.983900], green: [18.522100, 62.981900], front: [18.522200, 62.981950], back: [18.522000, 62.981850], dogleg: null },
+                    { num: 16, par: 4, hcp: 12, tee: [18.521800, 62.981700], green: [18.524900, 62.979800], front: [18.524800, 62.979850], back: [18.525000, 62.979750], dogleg: null },
+                    { num: 17, par: 4, hcp: 6, tee: [18.525200, 62.979600], green: [18.528800, 62.977800], front: [18.528700, 62.977850], back: [18.528900, 62.977750], dogleg: null },
+                    { num: 18, par: 4, hcp: 14, tee: [18.529100, 62.978000], green: [18.527200, 62.980900], front: [18.527300, 62.980850], back: [18.527100, 62.980950], dogleg: [18.5285, 62.9795] }
+                ]
+            },
+            veckefjarden: {
+                id: 'veckefjarden',
+                name: 'Veckefjärdens GC',
+                location: 'Örnsköldsvik / Foppa Hills',
+                subtitle: 'Peter Forsberg Championship Course',
+                origin: { lon: 18.67487, lat: 63.28489 },
+                waterLevel: -6.0,
+                terrainScale: 1.0,
+                holes: [
+                    { num: 1, par: 4, hcp: 8, tee: [18.674511, 63.286945], green: [18.676012, 63.284139], front: [18.675798, 63.284256], back: [18.676194, 63.284035], dogleg: null },
+                    { num: 2, par: 5, hcp: 18, tee: [18.676500, 63.283900], green: [18.681200, 63.280100], front: [18.681100, 63.280150], back: [18.681300, 63.280050], dogleg: [18.6788, 63.2820] },
+                    { num: 3, par: 4, hcp: 4, tee: [18.681500, 63.279900], green: [18.677200, 63.277400], front: [18.677300, 63.277450], back: [18.677100, 63.277350], dogleg: null },
+                    { num: 4, par: 3, hcp: 10, tee: [18.676800, 63.277200], green: [18.675100, 63.276000], front: [18.675200, 63.276050], back: [18.675000, 63.275950], dogleg: null },
+                    { num: 5, par: 5, hcp: 14, tee: [18.674800, 63.275800], green: [18.670200, 63.272100], front: [18.670300, 63.272150], back: [18.670100, 63.272050], dogleg: [18.6725, 63.2739] },
+                    { num: 6, par: 4, hcp: 6, tee: [18.669800, 63.271900], green: [18.666100, 63.274500], front: [18.666200, 63.274450], back: [18.666000, 63.274550], dogleg: null },
+                    { num: 7, par: 4, hcp: 12, tee: [18.665800, 63.274800], green: [18.669200, 63.277500], front: [18.669100, 63.277450], back: [18.669300, 63.277550], dogleg: null },
+                    { num: 8, par: 3, hcp: 16, tee: [18.669500, 63.277800], green: [18.671200, 63.279200], front: [18.671100, 63.279150], back: [18.671300, 63.279250], dogleg: null },
+                    { num: 9, par: 4, hcp: 2, tee: [18.671500, 63.279500], green: [18.674200, 63.283100], front: [18.674100, 63.283050], back: [18.674300, 63.283150], dogleg: null },
+                    { num: 10, par: 4, hcp: 9, tee: [18.674500, 63.283400], green: [18.672100, 63.286500], front: [18.672200, 63.286450], back: [18.672000, 63.286550], dogleg: null },
+                    { num: 11, par: 4, hcp: 5, tee: [18.671800, 63.286800], green: [18.668100, 63.289500], front: [18.668200, 63.289450], back: [18.668000, 63.289550], dogleg: null },
+                    { num: 12, par: 3, hcp: 17, tee: [18.667800, 63.289800], green: [18.666200, 63.291100], front: [18.666300, 63.291050], back: [18.666100, 63.291150], dogleg: null },
+                    { num: 13, par: 5, hcp: 1, tee: [18.665900, 63.291400], green: [18.661200, 63.295800], front: [18.661300, 63.295750], back: [18.661100, 63.295850], dogleg: [18.6635, 63.2936] },
+                    { num: 14, par: 3, hcp: 15, tee: [18.660800, 63.296100], green: [18.659100, 63.297400], front: [18.659200, 63.297350], back: [18.659000, 63.297450], dogleg: null }, // Iconic Island Green
+                    { num: 15, par: 4, hcp: 7, tee: [18.658800, 63.297700], green: [18.662500, 63.299800], front: [18.662400, 63.299750], back: [18.662600, 63.299850], dogleg: null },
+                    { num: 16, par: 4, hcp: 11, tee: [18.662800, 63.300100], green: [18.666500, 63.298200], front: [18.666400, 63.298250], back: [18.666600, 63.298150], dogleg: null },
+                    { num: 17, par: 4, hcp: 3, tee: [18.666800, 63.297900], green: [18.670500, 63.294200], front: [18.670400, 63.294250], back: [18.670600, 63.294150], dogleg: null },
+                    { num: 18, par: 5, hcp: 13, tee: [18.670800, 63.293900], green: [18.674200, 63.288500], front: [18.674100, 63.288550], back: [18.674300, 63.288450], dogleg: [18.6725, 63.2912] }
+                ]
+            }
+        };
+
+        let currentCourse = COURSE_DATA.norrfallsviken;
+        let activeHoleIdx = 0;
+        let isDroneFlyoverActive = false;
+        let isSlopeHeatmapActive = false;
+        let isRangefinderActive = false;
+        let rangefinderPoints = [];
+        let isAudioPlaying = false;
+        let currentClub = { name: 'Driver', carry: 235, apex: 32 };
+
+        /* =========================================================================
+           2. THREE.JS SCENE, CAMERAS, LIGHTING & RENDERER SETUP
+           ========================================================================= */
+        const container = document.getElementById('viewport-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050e18);
+        scene.fog = new THREE.FogExp2(0x081826, 0.00045);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 15000);
+        camera.position.set(0, 450, 750);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.15;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI / 2 - 0.02; // Restrict camera from going under ground
+        controls.minDistance = 8;
+        controls.maxDistance = 4500;
+
+        // Lighting System
+        const hemiLight = new THREE.HemisphereLight(0xdff0ff, 0x162c20, 0.85);
+        scene.add(hemiLight);
+
+        const sunLight = new THREE.DirectionalLight(0xfffaed, 2.4);
+        sunLight.position.set(600, 750, 450);
+        sunLight.castShadow = true;
+        sunLight.shadow.mapSize.width = 2048;
+        sunLight.shadow.mapSize.height = 2048;
+        sunLight.shadow.camera.near = 100;
+        sunLight.shadow.camera.far = 3000;
+        const shadowD = 1200;
+        sunLight.shadow.camera.left = -shadowD;
+        sunLight.shadow.camera.right = shadowD;
+        sunLight.shadow.camera.top = shadowD;
+        sunLight.shadow.camera.bottom = -shadowD;
+        sunLight.shadow.bias = -0.0003;
+        scene.add(sunLight);
+
+        // Raycaster for surface snapping and rangefinder
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        /* =========================================================================
+           3. GPS GEOGRAPHIC PROJECTION & TOPOGRAPHY MATH
+           ========================================================================= */
+        const DEG_TO_RAD = Math.PI / 180;
+        const RAD_TO_DEG = 180 / Math.PI;
+
+        function gpsToLocal3D(lon, lat, origin) {
+            const metersPerLat = 111320;
+            const metersPerLon = 111320 * Math.cos(origin.lat * DEG_TO_RAD);
+            const x = (lon - origin.lon) * metersPerLon;
+            const z = -(lat - origin.lat) * metersPerLat; // -Z is North, +X is East
+            return new THREE.Vector3(x, 0, z);
+        }
+
+        function calculateDistanceMeters(c1, c2) {
+            const R = 6371000;
+            const dLat = (c2[1] - c1[1]) * DEG_TO_RAD;
+            const dLon = (c2[0] - c1[0]) * DEG_TO_RAD;
+            const a = Math.sin(dLat/2)**2 + Math.cos(c1[1]*DEG_TO_RAD) * Math.cos(c2[1]*DEG_TO_RAD) * Math.sin(dLon/2)**2;
+            return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+        }
+
+        // Procedural Topography & LiDAR Height Function
+        function getElevationAt(x, z) {
+            // Swedish High Coast (Höga Kusten) undulating granite hills & coastal ridges
+            const hill1 = Math.sin(x * 0.0018 + 0.4) * Math.cos(z * 0.0018 + 0.6) * 45;
+            const hill2 = Math.sin(x * 0.004 - 0.2) * Math.cos(z * 0.0035 + 0.8) * 18;
+            const ridge = Math.sin((x + z) * 0.0028) * 14;
+            const detail = Math.sin(x * 0.015) * Math.cos(z * 0.015) * 3.5;
+            
+            // Coastal shelf falloff toward water
+            const distFromOrigin = Math.sqrt(x*x + z*z);
+            const coastalFalloff = Math.min(25, distFromOrigin * 0.015);
+            
+            return (hill1 + hill2 + ridge + detail) * currentCourse.terrainScale + 12 - coastalFalloff;
+        }
+
+        /* =========================================================================
+           4. 3D TERRAIN MESH WITH CUSTOM PBR SHADER & GRANITE CLIFF DETECTION
+           ========================================================================= */
+        let terrainMesh;
+        const TERRAIN_SIZE = 3600;
+        const TERRAIN_SEGS = 220;
+
+        function buildTerrain() {
+            if (terrainMesh) scene.remove(terrainMesh);
+
+            const geom = new THREE.PlaneGeometry(TERRAIN_SIZE, TERRAIN_SIZE, TERRAIN_SEGS, TERRAIN_SEGS);
+            geom.rotateX(-Math.PI / 2);
+
+            const pos = geom.attributes.position;
+            const colors = new Float32Array(pos.count * 3);
+
+            for (let i = 0; i < pos.count; i++) {
+                const x = pos.getX(i);
+                const z = pos.getZ(i);
+                const y = getElevationAt(x, z);
+                pos.setY(i, y);
+
+                // Multi-tone vertex coloring (Lush Scandinavian Fairways, Deep Forest & Red Granite)
+                // Color palette: Fairway (#346e2b), Rough (#234a1c), Granite (#9c5545), Sand (#ceb584)
+                const slopeFactor = Math.abs(Math.sin(x * 0.006) * Math.cos(z * 0.006));
+                
+                if (y < currentCourse.waterLevel + 1.2) {
+                    // Shoreline wet sand
+                    colors[i * 3 + 0] = 0.72; // R
+                    colors[i * 3 + 1] = 0.65; // G
+                    colors[i * 3 + 2] = 0.52; // B
+                } else if (y > 38 || slopeFactor > 0.7) {
+                    // Exposed Red Nordingrå Granite bedrock cliffs
+                    colors[i * 3 + 0] = 0.62;
+                    colors[i * 3 + 1] = 0.38;
+                    colors[i * 3 + 2] = 0.32;
+                } else {
+                    // Rich Swedish turf with subtle tonal variation
+                    const noise = Math.sin(x * 0.02) * 0.06;
+                    colors[i * 3 + 0] = 0.18 + noise;
+                    colors[i * 3 + 1] = 0.42 + noise * 1.2;
+                    colors[i * 3 + 2] = 0.16 + noise * 0.8;
+                }
+            }
+
+            geom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geom.computeVertexNormals();
+
+            // PBR Standard Material with Vertex Colors + Roughness
+            const mat = new THREE.MeshStandardMaterial({
+                vertexColors: true,
+                roughness: 0.85,
+                metalness: 0.05,
+                flatShading: false
+            });
+
+            terrainMesh = new THREE.Mesh(geom, mat);
+            terrainMesh.receiveShadow = true;
+            terrainMesh.castShadow = true;
+            scene.add(terrainMesh);
+        }
+
+        /* =========================================================================
+           5. DYNAMIC NORDIC WATER & FJORD SHADER
+           ========================================================================= */
+        let waterMesh;
+        function buildWater() {
+            if (waterMesh) scene.remove(waterMesh);
+
+            const waterGeom = new THREE.PlaneGeometry(TERRAIN_SIZE * 1.4, TERRAIN_SIZE * 1.4, 64, 64);
+            waterGeom.rotateX(-Math.PI / 2);
+
+            // Custom Gerstner Wave Water Material
+            const waterMat = new THREE.MeshStandardMaterial({
+                color: 0x0a2636,
+                roughness: 0.12,
+                metalness: 0.88,
+                transparent: true,
+                opacity: 0.88
+            });
+
+            waterMesh = new THREE.Mesh(waterGeom, waterMat);
+            waterMesh.position.y = currentCourse.waterLevel;
+            waterMesh.receiveShadow = true;
+            scene.add(waterMesh);
+        }
+
+        /* =========================================================================
+           6. INSTANCED 3D NORDIC FORESTS (SCOTS PINES, BIRCHES, SPRUCES)
+           ========================================================================= */
+        let treesGroup = new THREE.Group();
+        scene.add(treesGroup);
+
+        function buildForests() {
+            while (treesGroup.children.length > 0) {
+                const c = treesGroup.children[0];
+                treesGroup.remove(c);
+            }
+
+            const TREE_COUNT = 1600;
+            
+            // Low-poly Scots Pine (Tall) geometry
+            const trunkGeom = new THREE.CylinderGeometry(0.3, 0.5, 9, 5);
+            trunkGeom.translate(0, 4.5, 0);
+            const foliageGeom = new THREE.ConeGeometry(3.2, 10, 5);
+            foliageGeom.translate(0, 11, 0);
+
+            const trunkMat = new THREE.MeshStandardMaterial({ color: 0x4a2e1d, roughness: 0.9 });
+            const pineFoliageMat = new THREE.MeshStandardMaterial({ color: 0x14341c, roughness: 0.85 });
+
+            const trunkInstanced = new THREE.InstancedMesh(trunkGeom, trunkMat, TREE_COUNT);
+            const foliageInstanced = new THREE.InstancedMesh(foliageGeom, pineFoliageMat, TREE_COUNT);
+            trunkInstanced.castShadow = true;
+            foliageInstanced.castShadow = true;
+
+            const dummy = new THREE.Object3D();
+            let placed = 0;
+
+            for (let i = 0; i < TREE_COUNT * 2 && placed < TREE_COUNT; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const rad = 120 + Math.random() * (TERRAIN_SIZE * 0.42);
+                const x = Math.cos(angle) * rad;
+                const z = Math.sin(angle) * rad;
+                const y = getElevationAt(x, z);
+
+                // Ensure tree is on dry land, not submerged in water
+                if (y > currentCourse.waterLevel + 1.5) {
+                    const scale = 0.7 + Math.random() * 0.6;
+                    dummy.position.set(x, y - 0.2, z);
+                    dummy.scale.set(scale, scale * (0.9 + Math.random()*0.3), scale);
+                    dummy.rotation.y = Math.random() * Math.PI * 2;
+                    dummy.updateMatrix();
+
+                    trunkInstanced.setMatrixAt(placed, dummy.matrix);
+                    foliageInstanced.setMatrixAt(placed, dummy.matrix);
+                    placed++;
+                }
+            }
+
+            trunkInstanced.instanceMatrix.needsUpdate = true;
+            foliageInstanced.instanceMatrix.needsUpdate = true;
+
+            treesGroup.add(trunkInstanced);
+            treesGroup.add(foliageInstanced);
+        }
+
+        /* =========================================================================
+           7. GOLF COURSE FURNITURE (FLAGS, TEES, SHOT ARCS, GREEN CONTOURS)
+           ========================================================================= */
+        const courseFurnitureGroup = new THREE.Group();
+        scene.add(courseFurnitureGroup);
+
+        let flagObjects = [];
+        let activeShotArc = null;
+        let activeGreenContourMesh = null;
+        let rangefinderLine = null;
+
+        function buildCourseFurniture() {
+            while (courseFurnitureGroup.children.length > 0) {
+                const obj = courseFurnitureGroup.children[0];
+                courseFurnitureGroup.remove(obj);
+            }
+            flagObjects = [];
+
+            currentCourse.holes.forEach((hole, idx) => {
+                const tee3D = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
+                tee3D.y = getElevationAt(tee3D.x, tee3D.z);
+
+                const green3D = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+                green3D.y = getElevationAt(green3D.x, green3D.z);
+
+                // 1. Tee Box Marker Cylinders
+                const teeBoxGroup = new THREE.Group();
+                const teeColors = [0xffffff, 0xf59e0b, 0x3b82f6, 0xef4444];
+                teeColors.forEach((color, cIdx) => {
+                    const marker = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.35, 8, 8),
+                        new THREE.MeshStandardMaterial({ color, roughness: 0.3, metalness: 0.5 })
+                    );
+                    marker.position.set((cIdx - 1.5) * 1.4, 0.35, 0);
+                    marker.castShadow = true;
+                    teeBoxGroup.add(marker);
+                });
+                teeBoxGroup.position.copy(tee3D);
+                courseFurnitureGroup.add(teeBoxGroup);
+
+                // 2. 3D Animated Pin Flag
+                const flagGroup = new THREE.Group();
+                const pole = new THREE.Mesh(
+                    new THREE.CylinderGeometry(0.08, 0.08, 3.2, 8),
+                    new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.7, roughness: 0.2 })
+                );
+                pole.position.y = 1.6;
+                pole.castShadow = true;
+                flagGroup.add(pole);
+
+                // Flag Cloth (Color coded: Red 1-9, Yellow 10-18)
+                const flagColor = (hole.num <= 9) ? 0xef4444 : 0xf59e0b;
+                const clothGeom = new THREE.PlaneGeometry(0.85, 0.55, 6, 4);
+                clothGeom.translate(0.42, 2.7, 0);
+                const clothMat = new THREE.MeshStandardMaterial({
+                    color: flagColor,
+                    side: THREE.DoubleSide,
+                    roughness: 0.5
+                });
+                const cloth = new THREE.Mesh(clothGeom, clothMat);
+                cloth.castShadow = true;
+                flagGroup.add(cloth);
+
+                // Hole Number Billboard Disc
+                const canvas = document.createElement('canvas');
+                canvas.width = 128;
+                canvas.height = 128;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#0f172a';
+                ctx.beginPath();
+                ctx.arc(64, 64, 58, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.lineWidth = 8;
+                ctx.strokeStyle = '#f59e0b';
+                ctx.stroke();
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 64px Outfit, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(hole.num, 64, 64);
+
+                const badgeTex = new THREE.CanvasTexture(canvas);
+                const badgeMat = new THREE.SpriteMaterial({ map: badgeTex });
+                const badge = new THREE.Sprite(badgeMat);
+                badge.position.y = 3.6;
+                badge.scale.set(0.9, 0.9, 1);
+                flagGroup.add(badge);
+
+                flagGroup.position.copy(green3D);
+                courseFurnitureGroup.add(flagGroup);
+                flagObjects.push({ group: flagGroup, cloth: cloth, holeNum: hole.num });
+            });
+        }
+
+        /* =========================================================================
+           8. BALL FLIGHT TRAJECTORY SIMULATOR (3D PARABOLIC BEZIER ARC)
+           ========================================================================= */
+        function drawBallTrajectory(start3D, end3D, apexHeight, clubName) {
+            if (activeShotArc) courseFurnitureGroup.remove(activeShotArc);
+
+            const midX = (start3D.x + end3D.x) / 2;
+            const midZ = (start3D.z + end3D.z) / 2;
+            const peakY = Math.max(start3D.y, end3D.y) + apexHeight;
+
+            const curve = new THREE.QuadraticBezierCurve3(
+                new THREE.Vector3(start3D.x, start3D.y + 0.3, start3D.z),
+                new THREE.Vector3(midX, peakY, midZ),
+                new THREE.Vector3(end3D.x, end3D.y + 0.3, end3D.z)
+            );
+
+            const points = curve.getPoints(60);
+            const geom = new THREE.BufferGeometry().setFromPoints(points);
+            
+            // Glowing Trajectory Line
+            const mat = new THREE.LineDashedMaterial({
+                color: 0xf59e0b,
+                dashSize: 4,
+                gapSize: 2,
+                linewidth: 3
+            });
+            const line = new THREE.Line(geom, mat);
+            line.computeLineDistances();
+
+            // Landing Target Ring
+            const ringGeom = new THREE.RingGeometry(2.5, 3.2, 32);
+            ringGeom.rotateX(-Math.PI / 2);
+            const ringMat = new THREE.MeshBasicMaterial({
+                color: 0x10b981,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.8
+            });
+            const ring = new THREE.Mesh(ringGeom, ringMat);
+            ring.position.copy(end3D);
+            ring.position.y += 0.15;
+
+            // Group together
+            const arcGroup = new THREE.Group();
+            arcGroup.add(line);
+            arcGroup.add(ring);
+            
+            activeShotArc = arcGroup;
+            courseFurnitureGroup.add(arcGroup);
+        }
+
+        /* =========================================================================
+           9. GREEN CONTOUR & SLOPE READING HEATMAP (PGA YARDAGE BOOK OVERLAY)
+           ========================================================================= */
+        function toggleGreenSlopeHeatmap(enable) {
+            isSlopeHeatmapActive = enable;
+            const statusEl = document.getElementById('heatmap-status');
+            const iconBg = document.getElementById('heatmap-icon-bg');
+
+            if (!enable) {
+                if (activeGreenContourMesh) {
+                    scene.remove(activeGreenContourMesh);
+                    activeGreenContourMesh = null;
+                }
+                statusEl.innerText = 'OFF';
+                statusEl.className = 'px-1.5 py-0.2 rounded text-[9px] font-mono bg-white/10 text-slate-300';
+                iconBg.className = 'w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-400/30 flex items-center justify-center text-amber-400';
+                return;
+            }
+
+            statusEl.innerText = 'ACTIVE';
+            statusEl.className = 'px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-500/30 text-emerald-300 border border-emerald-400/40';
+            iconBg.className = 'w-10 h-10 rounded-xl bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-emerald-300';
+
+            const hole = currentCourse.holes[activeHoleIdx];
+            const greenPos = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+            greenPos.y = getElevationAt(greenPos.x, greenPos.z);
+
+            if (activeGreenContourMesh) scene.remove(activeGreenContourMesh);
+
+            // Create high-res grid over green putting surface
+            const size = 42;
+            const segs = 36;
+            const geom = new THREE.PlaneGeometry(size, size, segs, segs);
+            geom.rotateX(-Math.PI / 2);
+
+            const pos = geom.attributes.position;
+            const colors = new Float32Array(pos.count * 3);
+
+            for (let i = 0; i < pos.count; i++) {
+                const wx = greenPos.x + pos.getX(i);
+                const wz = greenPos.z + pos.getZ(i);
+                const wy = getElevationAt(wx, wz);
+                pos.setY(i, wy - greenPos.y + 0.18); // offset slightly above turf
+
+                // Calculate slope gradient
+                const dx = getElevationAt(wx + 1, wz) - getElevationAt(wx - 1, wz);
+                const dz = getElevationAt(wx, wz + 1) - getElevationAt(wx, wz - 1);
+                const slope = Math.sqrt(dx*dx + dz*dz) * 0.5;
+
+                // Heatmap Color: Flat=Cyan (0,1,1), Mild=Green (0,1,0), Moderate=Yellow (1,1,0), Steep=Red (1,0,0)
+                if (slope < 0.08) {
+                    colors[i * 3 + 0] = 0.1; colors[i * 3 + 1] = 0.8; colors[i * 3 + 2] = 0.9;
+                } else if (slope < 0.22) {
+                    colors[i * 3 + 0] = 0.1; colors[i * 3 + 1] = 0.9; colors[i * 3 + 2] = 0.2;
+                } else if (slope < 0.4) {
+                    colors[i * 3 + 0] = 0.95; colors[i * 3 + 1] = 0.8; colors[i * 3 + 2] = 0.1;
+                } else {
+                    colors[i * 3 + 0] = 0.95; colors[i * 3 + 1] = 0.2; colors[i * 3 + 2] = 0.1;
+                }
+            }
+
+            geom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            const mat = new THREE.MeshBasicMaterial({
+                vertexColors: true,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.85
+            });
+
+            activeGreenContourMesh = new THREE.Mesh(geom, mat);
+            activeGreenContourMesh.position.copy(greenPos);
+            scene.add(activeGreenContourMesh);
+
+            // Orbit smoothly towards the green for inspecting break
+            new TWEEN.Tween(camera.position)
+                .to({ x: greenPos.x + 28, y: greenPos.y + 22, z: greenPos.z + 32 }, 1800)
+                .easing(TWEEN.Easing.Cubic.Out)
+                .start();
+            new TWEEN.Tween(controls.target)
+                .to(greenPos, 1800)
+                .easing(TWEEN.Easing.Cubic.Out)
+                .start();
+        }
+
+        /* =========================================================================
+           10. CINEMATIC 3D DRONE FLYOVER
+           ========================================================================= */
+        function startDroneFlyover() {
+            if (isDroneFlyoverActive) return;
+            isDroneFlyoverActive = true;
+
+            const hole = currentCourse.holes[activeHoleIdx];
+            const tee = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
+            tee.y = getElevationAt(tee.x, tee.z);
+
+            const green = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+            green.y = getElevationAt(green.x, green.z);
+
+            // Intermediate midpoint along fairway
+            const mid = new THREE.Vector3((tee.x + green.x)/2, 0, (tee.z + green.z)/2);
+            if (hole.dogleg) {
+                const dogleg = gpsToLocal3D(hole.dogleg[0], hole.dogleg[1], currentCourse.origin);
+                mid.x = dogleg.x;
+                mid.z = dogleg.z;
+            }
+            mid.y = getElevationAt(mid.x, mid.z) + 38;
+
+            // Step 1: Position behind Tee looking down corridor
+            const dir = new THREE.Vector3().subVectors(green, tee).normalize();
+            const startCam = new THREE.Vector3(tee.x - dir.x * 25, tee.y + 12, tee.z - dir.z * 25);
+            camera.position.copy(startCam);
+            controls.target.copy(mid);
+
+            // Step 2: Drone Flight Path via Tween
+            new TWEEN.Tween(camera.position)
+                .to({ x: mid.x - dir.x * 20, y: mid.y + 25, z: mid.z - dir.z * 20 }, 4000)
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .onUpdate(() => { controls.target.lerp(green, 0.05); })
+                .chain(
+                    new TWEEN.Tween(camera.position)
+                        .to({ x: green.x + 35, y: green.y + 24, z: green.z + 35 }, 4500)
+                        .easing(TWEEN.Easing.Cubic.Out)
+                        .onComplete(() => {
+                            isDroneFlyoverActive = false;
+                        })
+                )
+                .start();
+
+            new TWEEN.Tween(controls.target)
+                .to(green, 8500)
+                .easing(TWEEN.Easing.Cubic.Out)
+                .start();
+        }
+
+        /* =========================================================================
+           11. HOLE SELECTION & HUD TELEMETRY UPDATER
+           ========================================================================= */
+        function selectHole(index, transitionCamera = true) {
+            activeHoleIdx = index;
+            const hole = currentCourse.holes[index];
+
+            // 1. Update HUD Text & Telemetry
+            document.getElementById('hud-hole-title').innerText = `Hole ${hole.num}`;
+            document.getElementById('hud-par').innerText = hole.par;
+            document.getElementById('hud-hcp').innerText = `HCP ${hole.hcp}`;
+
+            const dCenter = calculateDistanceMeters(hole.tee, hole.green);
+            const dFront = calculateDistanceMeters(hole.tee, hole.front);
+            const dBack = calculateDistanceMeters(hole.tee, hole.back);
+
+            document.getElementById('dist-white').innerText = `${dBack + 18} m`;
+            document.getElementById('dist-yellow').innerText = `${dCenter} m`;
+            document.getElementById('dist-blue').innerText = `${dFront - 12} m`;
+            document.getElementById('dist-red').innerText = `${dFront - 38} m`;
+
+            document.getElementById('pin-front').innerText = `${dFront}m`;
+            document.getElementById('pin-center').innerText = `${dCenter}m`;
+            document.getElementById('pin-back').innerText = `${dBack}m`;
+
+            // 2. 3D Coordinates
+            const tee3D = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
+            tee3D.y = getElevationAt(tee3D.x, tee3D.z);
+
+            const green3D = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+            green3D.y = getElevationAt(green3D.x, green3D.z);
+
+            const elevDelta = (green3D.y - tee3D.y).toFixed(1);
+            document.getElementById('elev-delta').innerText = `${elevDelta >= 0 ? '+' : ''}${elevDelta} m`;
+
+            // 3. Update Cross-Section SVG
+            updateElevationProfileSVG(tee3D.y, green3D.y);
+
+            // 4. Update Ball Flight Arc
+            drawBallTrajectory(tee3D, green3D, currentClub.apex, currentClub.name);
+
+            // 5. Update Carousel active button style
+            const carousel = document.getElementById('hole-carousel');
+            Array.from(carousel.children).forEach((btn, i) => {
+                if (i === index) {
+                    btn.className = 'w-11 h-11 rounded-xl font-mono font-bold text-xs bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 shadow-lg shadow-emerald-500/30 flex items-center justify-center scale-105 border border-emerald-300';
+                } else {
+                    btn.className = 'w-10 h-10 rounded-xl font-mono font-bold text-xs bg-white/5 hover:bg-white/15 text-slate-300 flex items-center justify-center transition-all';
+                }
+            });
+
+            // 6. Camera Orbit Focus
+            if (transitionCamera) {
+                const mid = new THREE.Vector3((tee3D.x + green3D.x) / 2, (tee3D.y + green3D.y) / 2 + 65, (tee3D.z + green3D.z) / 2);
+                const camPos = new THREE.Vector3(mid.x + 160, mid.y + 110, mid.z + 180);
+
+                new TWEEN.Tween(camera.position)
+                    .to(camPos, 1600)
+                    .easing(TWEEN.Easing.Cubic.Out)
+                    .start();
+
+                new TWEEN.Tween(controls.target)
+                    .to(mid, 1600)
+                    .easing(TWEEN.Easing.Cubic.Out)
+                    .start();
+            }
+
+            if (isSlopeHeatmapActive) {
+                toggleGreenSlopeHeatmap(true);
+            }
+        }
+
+        function updateElevationProfileSVG(teeY, greenY) {
+            const svgLine = document.getElementById('profile-line-path');
+            const svgArea = document.getElementById('profile-area-path');
+            const teeDot = document.getElementById('profile-tee-dot');
+            const greenDot = document.getElementById('profile-green-dot');
+
+            const minY = Math.min(teeY, greenY, 0) - 5;
+            const maxY = Math.max(teeY, greenY, 40) + 5;
+            const range = maxY - minY || 1;
+
+            const tNormY = 45 - ((teeY - minY) / range) * 35;
+            const gNormY = 45 - ((greenY - minY) / range) * 35;
+            const midNormY = Math.min(tNormY, gNormY) - 6;
+
+            const dLine = `M5,${tNormY} Q100,${midNormY} 195,${gNormY}`;
+            const dArea = `M5,50 L5,${tNormY} Q100,${midNormY} 195,${gNormY} L195,50 Z`;
+
+            svgLine.setAttribute('d', dLine);
+            svgArea.setAttribute('d', dArea);
+            teeDot.setAttribute('cy', tNormY);
+            greenDot.setAttribute('cy', gNormY);
+        }
+
+        /* =========================================================================
+           12. ENVIRONMENT LIGHTING & ATMOSPHERE PRESETS
+           ========================================================================= */
+        function setLightingPreset(preset) {
+            if (preset === 'golden') {
+                scene.background.setHex(0x0c1b28);
+                scene.fog.color.setHex(0x0c1b28);
+                hemiLight.color.setHex(0xffe2b8);
+                hemiLight.groundColor.setHex(0x182c20);
+                hemiLight.intensity = 0.9;
+                sunLight.color.setHex(0xffd59e);
+                sunLight.position.set(700, 320, 500);
+                sunLight.intensity = 2.6;
+                renderer.toneMappingExposure = 1.25;
+            } else if (preset === 'noon') {
+                scene.background.setHex(0x1a3852);
+                scene.fog.color.setHex(0x1a3852);
+                hemiLight.color.setHex(0xffffff);
+                hemiLight.groundColor.setHex(0x234a2c);
+                hemiLight.intensity = 1.0;
+                sunLight.color.setHex(0xffffff);
+                sunLight.position.set(200, 950, 200);
+                sunLight.intensity = 2.4;
+                renderer.toneMappingExposure = 1.05;
+            } else if (preset === 'night') {
+                scene.background.setHex(0x040810);
+                scene.fog.color.setHex(0x040810);
+                hemiLight.color.setHex(0x6080b0);
+                hemiLight.groundColor.setHex(0x081418);
+                hemiLight.intensity = 0.5;
+                sunLight.color.setHex(0xa0c0ff);
+                sunLight.position.set(-600, 180, -400);
+                sunLight.intensity = 0.9;
+                renderer.toneMappingExposure = 0.9;
+            }
+        }
+
+        /* =========================================================================
+           13. SYNTHESIZED WEB AUDIO ENGINE (COASTAL AMBIENCE & GOLF SHOT SOUND)
+           ========================================================================= */
+        let audioCtx = null;
+        let windNoiseNode = null;
+
+        function initAudio() {
+            if (audioCtx) return;
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContext();
+
+            // Synthesize soothing coastal wind ambience
+            const bufferSize = audioCtx.sampleRate * 2;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1; // White noise
+            }
+
+            const whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = buffer;
+            whiteNoise.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(320, audioCtx.currentTime);
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+
+            whiteNoise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            whiteNoise.start(0);
+            windNoiseNode = gain;
+        }
+
+        function playClubStrikeSound() {
+            if (!audioCtx) initAudio();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            // Crisp golf driver impact sound synthesis
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.18);
+
+            gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.22);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.25);
+        }
+
+        /* =========================================================================
+           14. COURSE SWITCHER & INITIALIZATION
+           ========================================================================= */
+        function loadCourse(courseKey) {
+            currentCourse = COURSE_DATA[courseKey];
+            document.getElementById('course-subtitle').innerText = currentCourse.subtitle;
+
+            buildTerrain();
+            buildWater();
+            buildForests();
+            buildCourseFurniture();
+
+            // Populate Hole Carousel
+            const carousel = document.getElementById('hole-carousel');
+            carousel.innerHTML = '';
+            currentCourse.holes.forEach((h, idx) => {
+                const btn = document.createElement('button');
+                btn.innerText = h.num;
+                btn.onclick = () => selectHole(idx);
+                carousel.appendChild(btn);
+            });
+
+            selectHole(0);
+        }
+
+        /* =========================================================================
+           15. EVENT LISTENERS & UI WIRING
+           ========================================================================= */
+        document.getElementById('course-select').addEventListener('change', (e) => {
+            loadCourse(e.target.value);
+        });
+
+        document.getElementById('btn-flyover').addEventListener('click', () => {
+            playClubStrikeSound();
+            startDroneFlyover();
+        });
+
+        document.getElementById('btn-shot-tracer').addEventListener('click', () => {
+            playClubStrikeSound();
+            const hole = currentCourse.holes[activeHoleIdx];
+            const tee = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
+            tee.y = getElevationAt(tee.x, tee.z);
+            const green = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+            green.y = getElevationAt(green.x, green.z);
+            drawBallTrajectory(tee, green, currentClub.apex, currentClub.name);
+        });
+
+        document.getElementById('btn-slope-heatmap').addEventListener('click', () => {
+            toggleGreenSlopeHeatmap(!isSlopeHeatmapActive);
+        });
+
+        // Club Selector buttons
+        document.querySelectorAll('.club-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.club-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentClub = {
+                    name: btn.innerText,
+                    carry: parseInt(btn.dataset.carry),
+                    apex: parseInt(btn.dataset.apex)
+                };
+                document.getElementById('club-carry').innerText = `${currentClub.carry} m carry`;
+                
+                const hole = currentCourse.holes[activeHoleIdx];
+                const tee = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
+                tee.y = getElevationAt(tee.x, tee.z);
+                const green = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+                green.y = getElevationAt(green.x, green.z);
+                drawBallTrajectory(tee, green, currentClub.apex, currentClub.name);
+            });
+        });
+
+        // Camera Quick Views
+        document.getElementById('btn-view-tee').addEventListener('click', () => {
+            const hole = currentCourse.holes[activeHoleIdx];
+            const tee = gpsToLocal3D(hole.tee[0], hole.tee[1], currentCourse.origin);
+            tee.y = getElevationAt(tee.x, tee.z);
+            const green = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+            green.y = getElevationAt(green.x, green.z);
+            
+            const dir = new THREE.Vector3().subVectors(green, tee).normalize();
+            new TWEEN.Tween(camera.position)
+                .to({ x: tee.x - dir.x * 20, y: tee.y + 5.5, z: tee.z - dir.z * 20 }, 1400)
+                .easing(TWEEN.Easing.Cubic.Out).start();
+            new TWEEN.Tween(controls.target)
+                .to({ x: green.x, y: green.y + 10, z: green.z }, 1400)
+                .easing(TWEEN.Easing.Cubic.Out).start();
+        });
+
+        document.getElementById('btn-view-green').addEventListener('click', () => {
+            const hole = currentCourse.holes[activeHoleIdx];
+            const green = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+            green.y = getElevationAt(green.x, green.z);
+            new TWEEN.Tween(camera.position)
+                .to({ x: green.x + 35, y: green.y + 25, z: green.z + 40 }, 1400)
+                .easing(TWEEN.Easing.Cubic.Out).start();
+            new TWEEN.Tween(controls.target)
+                .to(green, 1400)
+                .easing(TWEEN.Easing.Cubic.Out).start();
+        });
+
+        document.getElementById('btn-view-orbit').addEventListener('click', () => {
+            selectHole(activeHoleIdx, true);
+        });
+
+        document.getElementById('btn-view-top').addEventListener('click', () => {
+            const hole = currentCourse.holes[activeHoleIdx];
+            const green = gpsToLocal3D(hole.green[0], hole.green[1], currentCourse.origin);
+            new TWEEN.Tween(camera.position)
+                .to({ x: green.x, y: 550, z: green.z + 1 }, 1500)
+                .easing(TWEEN.Easing.Cubic.Out).start();
+            new TWEEN.Tween(controls.target)
+                .to(green, 1500)
+                .easing(TWEEN.Easing.Cubic.Out).start();
+        });
+
+        // Previous & Next Hole
+        document.getElementById('btn-prev-hole').addEventListener('click', () => {
+            const nextIdx = (activeHoleIdx - 1 + currentCourse.holes.length) % currentCourse.holes.length;
+            selectHole(nextIdx);
+        });
+        document.getElementById('btn-next-hole').addEventListener('click', () => {
+            const nextIdx = (activeHoleIdx + 1) % currentCourse.holes.length;
+            selectHole(nextIdx);
+        });
+
+        // Keyboard Shortcuts
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') document.getElementById('btn-next-hole').click();
+            else if (e.key === 'ArrowLeft') document.getElementById('btn-prev-hole').click();
+            else if (e.key === ' ' || e.key === 'f' || e.key === 'F') {
+                e.preventDefault();
+                startDroneFlyover();
+            } else if (e.key === 's' || e.key === 'S') {
+                toggleGreenSlopeHeatmap(!isSlopeHeatmapActive);
+            }
+        });
+
+        // Environment Presets
+        document.getElementById('btn-env-golden').addEventListener('click', (e) => {
+            setActiveEnvBtn(e.currentTarget);
+            setLightingPreset('golden');
+        });
+        document.getElementById('btn-env-noon').addEventListener('click', (e) => {
+            setActiveEnvBtn(e.currentTarget);
+            setLightingPreset('noon');
+        });
+        document.getElementById('btn-env-night').addEventListener('click', (e) => {
+            setActiveEnvBtn(e.currentTarget);
+            setLightingPreset('night');
+        });
+
+        function setActiveEnvBtn(activeBtn) {
+            document.querySelectorAll('#btn-env-golden, #btn-env-noon, #btn-env-night').forEach(b => {
+                b.classList.remove('active', 'text-amber-300', 'text-amber-200', 'text-indigo-300');
+                b.classList.add('text-slate-400');
+            });
+            activeBtn.classList.add('active', 'text-white');
+        }
+
+        // Audio Ambience
+        document.getElementById('btn-audio').addEventListener('click', () => {
+            isAudioPlaying = !isAudioPlaying;
+            const icon = document.getElementById('icon-audio');
+            if (isAudioPlaying) {
+                initAudio();
+                if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+                icon.setAttribute('data-lucide', 'volume-2');
+                document.getElementById('btn-audio').classList.add('text-emerald-400');
+            } else {
+                if (audioCtx) audioCtx.suspend();
+                icon.setAttribute('data-lucide', 'volume-x');
+                document.getElementById('btn-audio').classList.remove('text-emerald-400');
+            }
+            lucide.createIcons();
+        });
+
+        // Help Modal
+        document.getElementById('btn-help').addEventListener('click', () => {
+            document.getElementById('help-modal').classList.remove('hidden');
+        });
+        document.getElementById('btn-close-help').addEventListener('click', () => {
+            document.getElementById('help-modal').classList.add('hidden');
+        });
+        document.getElementById('btn-modal-ok').addEventListener('click', () => {
+            document.getElementById('help-modal').classList.add('hidden');
+        });
+
+        // Window Resize Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        /* =========================================================================
+           16. MAIN ANIMATION & RENDERING LOOP
+           ========================================================================= */
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+
+            TWEEN.update();
+            controls.update();
+
+            // Flag Cloth Wind Wave Animation
+            flagObjects.forEach(f => {
+                if (f.cloth) {
+                    const pos = f.cloth.geometry.attributes.position;
+                    for (let i = 0; i < pos.count; i++) {
+                        const vx = pos.getX(i);
+                        if (vx > 0.1) {
+                            pos.setZ(i, Math.sin(time * 6 + vx * 4) * 0.12);
+                        }
+                    }
+                    pos.needsUpdate = true;
+                }
+            });
+
+            // Gentle Fjord Water Oscillation
+            if (waterMesh) {
+                waterMesh.position.y = currentCourse.waterLevel + Math.sin(time * 0.8) * 0.25;
+            }
+
+            // Compass rotation based on camera azimuthal angle
+            const compassNeedle = document.getElementById('compass-needle');
+            if (compassNeedle) {
+                const angle = controls.getAzimuthalAngle() * RAD_TO_DEG;
+                compassNeedle.style.transform = `rotate(${angle}deg)`;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Initialize application on page load
+        loadCourse('norrfallsviken');
+        setLightingPreset('golden');
+        animate();
+    </script>
+</body>
+</html>

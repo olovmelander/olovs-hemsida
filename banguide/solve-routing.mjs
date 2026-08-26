@@ -17,9 +17,10 @@
    up crossing.                                                                        */
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {load, alongLine, distToLine, hyp} from './lib.mjs';
 
-const ROOT = path.dirname(new URL(import.meta.url).pathname).replace(/\/banguide$/, '');
+const ROOT = path.dirname(fileURLToPath(import.meta.url)).replace(/[/\\]banguide$/, '');
 const c = load();
 const M = JSON.parse(fs.readFileSync(path.join(ROOT,'banguide/guide-markers.json'),'utf8'));
 const inv = JSON.parse(fs.readFileSync(path.join(ROOT,'banguide/guide-inventory.json'),'utf8')).holes;
