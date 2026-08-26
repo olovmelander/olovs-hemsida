@@ -11,8 +11,9 @@
    exists to catch.                                                                  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-export const ROOT = path.dirname(new URL(import.meta.url).pathname).replace(/\/banguide$/, '');
+export const ROOT = path.dirname(fileURLToPath(import.meta.url)).replace(/[/\\]banguide$/, '');
 
 export function load(target){
   const file = target || path.join(ROOT,'veckefjardensgc.html');

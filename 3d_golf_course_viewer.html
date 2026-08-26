@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3D Golf Course Viewer — Google 3D Tiles & Cesium</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    },
+                    colors: {
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706'
+                        },
+                        emerald: {
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- CesiumJS Base Setup & CDN -->
+    <script>
+        window.CESIUM_BASE_URL = 'https://cdn.jsdelivr.net/npm/cesium@1.120.0/Build/Cesium/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cesium@1.120.0/Build/Cesium/Cesium.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/cesium@1.120.0/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #090d16;
+            color: #f8fafc;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        #cesiumContainer {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background: radial-gradient(circle at center, #131b2e 0%, #080c14 100%);
+        }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.05) inset;
+        }
+
+        .glass-panel-dark {
+            background: rgba(10, 15, 29, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        .glass-button {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+        .glass-button:active {
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar for Hole Carousel */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Cesium Widget Tweaks */
+        .cesium-widget-credits {
+            display: none !important;
+        }
+        .cesium-viewer {
+            overflow: hidden;
+        }
+
+        /* Range Slider Styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 9999px;
+            height: 6px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #10b981;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+            border: 2px solid white;
+            transition: all 0.15s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #34d399;
+        }
+
+        /* Pulsing Glow Animation */
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        .pulse-active {
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased select-none">
+
+    <!-- Cesium Globe Container -->
+    <div id="cesiumContainer"></div>
+
+    <!-- Drop Overlay for Custom GeoJSON -->
+    <div id="dropZoneOverlay" class="hidden absolute inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center border-4 border-dashed border-emerald-500/50 m-4 rounded-3xl transition-all">
+        <i data-lucide="upload-cloud" class="w-20 h-20 text-emerald-400 mb-4 animate-bounce"></i>
+        <h2 class="text-2xl font-bold font-display text-white">Drop GeoJSON or KML Course File Here</h2>
+        <p class="text-slate-400 mt-2 text-sm">Supports Golftraxx GeoJSON, KML, and standard golf feature collections</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Local Server Alert (Shown if opened via file://) -->
+    <div id="fileProtocolBanner" class="hidden absolute top-20 left-1/2 -translate-x-1/2 z-50 max-w-xl w-[calc(100%-32px)] bg-amber-950/95 border border-amber-500/50 p-4 rounded-2xl shadow-2xl backdrop-blur-xl text-amber-200 text-xs flex items-start gap-3">
+        <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
+        <div class="space-y-1">
+            <h4 class="font-bold text-white text-sm">Browser Security Note: Running on file://</h4>
+            <p class="text-amber-200/90 leading-relaxed">
+                Modern browsers restrict Web Workers and tile fetching when opened directly as a file path (<code class="bg-black/40 px-1 py-0.5 rounded font-mono">file:///...</code>).
+            </p>
+            <p class="text-white font-semibold pt-1">
+                👉 Please open via your local server: <a href="http://localhost:8080/" class="underline text-emerald-400 hover:text-emerald-300 font-mono font-bold">http://localhost:8080/</a> (or run <code class="bg-black/40 px-1 py-0.5 rounded font-mono">python -m http.server 8080</code>).
+            </p>
+        </div>
+        <button onclick="document.getElementById('fileProtocolBanner').classList.add('hidden')" class="text-amber-400 hover:text-white p-1">
+            <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <header class="absolute top-0 left-0 right-0 z-30 p-3 sm:p-4 flex items-center justify-between pointer-events-none">
+        <!-- Logo & Course Name -->
+        <div class="flex items-center gap-3 pointer-events-auto">
+            <div class="glass-panel px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-slate-950 font-black text-lg">
+                    ⛳
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 id="courseTitle" class="text-sm sm:text-base font-bold font-display tracking-tight text-white">Veckefjärdens GC</h1>
+                        <span id="terrainBadge" class="px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">3D Globe</span>
+                    </div>
+                    <p id="courseSubtitle" class="text-[11px] text-slate-400 font-medium truncate">Mästerskapsbanan • 18 Holes • Par 72</p>
+                </div>
+            </div>
+
+            <!-- Course Switcher Buttons (Desktop) -->
+            <div class="hidden md:flex items-center glass-panel p-1 rounded-2xl gap-1">
+                <button id="btnCourseVeck" onclick="switchCourse('veckefjarden')" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-emerald-600 text-white shadow-md">
+                    Veckefjärden
+                </button>
+                <button id="btnCourseNorr" onclick="switchCourse('norrfallsviken')" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition">
+                    Norrfällsviken
+                </button>
+                <label class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition cursor-pointer flex items-center gap-1.5">
+                    <i data-lucide="folder-up" class="w-3.5 h-3.5"></i>
+                    <span>Custom</span>
+                    <input type="file" id="fileInput" accept=".geojson,.json,.kml" class="hidden" onchange="handleFileSelect(event)">
+                </label>
+            </div>
+        </div>
+
+        <!-- Top Right Control Panel -->
+        <div class="flex items-center gap-2 pointer-events-auto">
+            <!-- 3D Terrain Provider Switcher -->
+            <div class="glass-panel p-1 rounded-2xl flex items-center">
+                <select id="terrainSelect" onchange="changeTerrainProvider(this.value)" class="bg-transparent text-xs font-medium text-slate-200 px-3 py-1.5 rounded-xl outline-none cursor-pointer hover:bg-white/5 transition">
+                    <option value="satellite-3d" class="bg-slate-900 text-white">🛰️ 3D Satellite (Standard)</option>
+                    <option value="google-3d-tiles" class="bg-slate-900 text-white">🌐 Google Photorealistic 3D</option>
+                    <option value="cesium-world-terrain" class="bg-slate-900 text-white">🏔️ Cesium World Terrain</option>
+                </select>
+            </div>
+
+            <!-- Unit Toggle (m / yd) -->
+            <button onclick="toggleUnits()" class="glass-panel px-3 py-2 rounded-2xl text-xs font-mono font-bold text-slate-200 hover:text-white transition flex items-center gap-1.5" title="Toggle Distance Units">
+                <i data-lucide="ruler" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span id="unitBadge">METERS</span>
+            </button>
+
+            <!-- Shot Planner / Ruler Toggle -->
+            <button id="btnPlanner" onclick="toggleShotPlanner()" class="glass-panel px-3 py-2 rounded-2xl text-xs font-semibold text-slate-300 hover:text-white transition flex items-center gap-1.5" title="Interactive Shot Planner">
+                <i data-lucide="crosshair" class="w-3.5 h-3.5 text-blue-400"></i>
+                <span class="hidden sm:inline">Rangefinder</span>
+            </button>
+
+            <!-- Settings / API Keys Modal Trigger -->
+            <button onclick="openSettingsModal()" class="glass-panel p-2 rounded-2xl text-slate-300 hover:text-white transition" title="Terrain & API Settings">
+                <i data-lucide="settings" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Course Switcher Bar -->
+    <div class="md:hidden absolute top-16 left-3 right-3 z-20 flex glass-panel p-1 rounded-xl gap-1">
+        <button id="btnMobileVeck" onclick="switchCourse('veckefjarden')" class="flex-1 py-1.5 rounded-lg text-xs font-semibold transition bg-emerald-600 text-white">Veckefjärden</button>
+        <button id="btnMobileNorr" onclick="switchCourse('norrfallsviken')" class="flex-1 py-1.5 rounded-lg text-xs font-semibold text-slate-300 transition">Norrfällsviken</button>
+        <label class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 flex items-center justify-center gap-1 cursor-pointer">
+            <i data-lucide="upload" class="w-3 h-3"></i>
+            <input type="file" accept=".geojson,.json,.kml" class="hidden" onchange="handleFileSelect(event)">
+        </label>
+    </div>
+
+    <!-- Floating Telemetry & Flyover HUD Card -->
+    <div id="telemetryCard" class="absolute top-28 sm:top-24 left-3 sm:left-4 z-20 w-[calc(100%-24px)] sm:w-80 glass-panel-dark p-4 rounded-3xl transition-all duration-300">
+        <!-- Hole Header & Par -->
+        <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-display font-bold text-sm">
+                    <span id="hudHoleNumber">1</span>
+                </div>
+                <div>
+                    <h2 id="hudHoleTitle" class="text-base font-bold font-display text-white">Hole 1</h2>
+                    <p id="hudHolePar" class="text-[11px] text-slate-400 font-medium">Par 4 • Index 7</p>
+                </div>
+            </div>
+            
+            <div class="text-right">
+                <div class="text-lg font-black font-display text-emerald-400 tracking-tight" id="hudTotalDistance">330 m</div>
+                <div class="text-[10px] font-mono text-slate-400 uppercase" id="hudTotalDistanceSub">361 Yards</div>
+            </div>
+        </div>
+
+        <!-- Shot Segments Matrix -->
+        <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-white/5 p-2.5 rounded-2xl border border-white/5">
+                <div class="text-[10px] uppercase font-mono text-slate-400 flex items-center gap-1 mb-0.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                    Tee → Target
+                </div>
+                <div class="text-sm font-bold font-display text-slate-200" id="hudTeeTargetDist">229 m</div>
+                <div class="text-[10px] text-slate-400" id="hudTeeTargetSub">Drive Landing</div>
+            </div>
+
+            <div class="bg-white/5 p-2.5 rounded-2xl border border-white/5">
+                <div class="text-[10px] uppercase font-mono text-slate-400 flex items-center gap-1 mb-0.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                    Target → Pin
+                </div>
+                <div class="text-sm font-bold font-display text-slate-200" id="hudTargetGreenDist">101 m</div>
+                <div class="text-[10px] text-slate-400" id="hudTargetGreenSub">Approach</div>
+            </div>
+        </div>
+
+        <!-- Green Depth Pill -->
+        <div class="flex items-center justify-between bg-emerald-950/40 border border-emerald-500/20 px-3 py-2 rounded-2xl mb-3.5 text-xs">
+            <span class="text-emerald-300/80 font-medium flex items-center gap-1.5">
+                <i data-lucide="flag" class="w-3.5 h-3.5 text-emerald-400"></i>
+                Green Depth
+            </span>
+            <span class="font-mono font-bold text-emerald-300" id="hudGreenDepth">32 m (F: 314m / B: 346m)</span>
+        </div>
+
+        <!-- Flyover Controls -->
+        <div class="space-y-2.5 pt-1 border-t border-white/10">
+            <div class="flex items-center justify-between text-xs text-slate-300">
+                <span class="font-semibold flex items-center gap-1.5">
+                    <i data-lucide="video" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    Drone Flyover
+                </span>
+                <span id="flyoverProgressText" class="font-mono text-[11px] text-slate-400">0%</span>
+            </div>
+
+            <!-- Scrubber Timeline -->
+            <input type="range" id="flyoverScrubber" min="0" max="100" value="0" step="0.5" class="w-full" oninput="seekFlyover(this.value)">
+
+            <!-- Control Buttons -->
+            <div class="grid grid-cols-4 gap-1.5">
+                <button id="btnFlyoverPlay" onclick="toggleFlyoverPlay()" class="col-span-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-emerald-600/30">
+                    <i id="playIcon" data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                    <span id="playLabel">Play Flyover</span>
+                </button>
+                <button onclick="restartFlyover()" class="glass-button text-slate-200 py-2 rounded-xl text-xs flex items-center justify-center gap-1" title="Restart Flyover">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                </button>
+                <button id="btnFlyoverSpeed" onclick="cycleFlyoverSpeed()" class="glass-button text-slate-200 py-2 rounded-xl text-xs font-mono font-bold" title="Change Speed">
+                    1x
+                </button>
+            </div>
+
+            <!-- Camera View Shortcuts -->
+            <div class="grid grid-cols-3 gap-1 pt-1">
+                <button onclick="viewTeeBox()" class="glass-button text-[11px] font-semibold text-slate-300 py-1.5 rounded-xl hover:text-white">
+                    🏌️ Tee View
+                </button>
+                <button onclick="viewGreenOrbit()" class="glass-button text-[11px] font-semibold text-slate-300 py-1.5 rounded-xl hover:text-white">
+                    ⛳ Green Orbit
+                </button>
+                <button onclick="viewHoleOverview()" class="glass-button text-[11px] font-semibold text-slate-300 py-1.5 rounded-xl hover:text-white">
+                    🗺️ Top View
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rangefinder Active HUD (Floating Bottom-Right) -->
+    <div id="plannerHUD" class="hidden absolute bottom-24 right-4 z-30 glass-panel-dark p-4 rounded-3xl w-72 border border-blue-500/30 shadow-2xl">
+        <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold font-display text-blue-400 flex items-center gap-1.5">
+                <i data-lucide="crosshair" class="w-4 h-4"></i>
+                Rangefinder Active
+            </span>
+            <button onclick="toggleShotPlanner()" class="text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+        </div>
+        <p class="text-[11px] text-slate-300 mb-3">Click anywhere on the course to measure distance & elevation.</p>
+        
+        <div class="space-y-1.5 font-mono text-xs">
+            <div class="flex justify-between bg-white/5 p-2 rounded-xl">
+                <span class="text-slate-400">From Tee:</span>
+                <span id="rangeTeeDist" class="text-white font-bold">--- m</span>
+            </div>
+            <div class="flex justify-between bg-white/5 p-2 rounded-xl">
+                <span class="text-slate-400">To Green Pin:</span>
+                <span id="rangeGreenDist" class="text-emerald-400 font-bold">--- m</span>
+            </div>
+            <div class="flex justify-between bg-white/5 p-2 rounded-xl">
+                <span class="text-slate-400">Elevation Δh:</span>
+                <span id="rangeElevDelta" class="text-amber-400 font-bold">--- m</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Hole Selection Strip (Holes 1–18 Carousel) -->
+    <footer class="absolute bottom-0 left-0 right-0 z-30 p-3 sm:p-4 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent">
+        <div class="max-w-7xl mx-auto flex items-center gap-2">
+            <!-- Course Overview Button -->
+            <button onclick="viewCourseOverview()" class="glass-panel px-3.5 py-3 rounded-2xl text-xs font-bold text-slate-200 hover:text-white transition flex flex-col items-center justify-center flex-shrink-0" title="Full Course Overview">
+                <i data-lucide="map" class="w-4 h-4 text-emerald-400 mb-0.5"></i>
+                <span>ALL</span>
+            </button>
+
+            <!-- Scrollable Hole Badges -->
+            <div id="holeCarousel" class="flex items-center gap-2 overflow-x-auto hide-scrollbar py-1 flex-grow">
+                <!-- Dynamically populated 1 to 18 -->
+            </div>
+        </div>
+    </footer>
+
+    <!-- Settings & API Modal -->
+    <div id="settingsModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel-dark max-w-md w-full p-6 rounded-3xl border border-white/10 shadow-2xl space-y-5">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
+                        <i data-lucide="sliders" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold font-display text-lg text-white">Terrain & API Settings</h3>
+                </div>
+                <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Google Maps API Key Input -->
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-slate-200">
+                    Google Maps Platform API Key (for 3D Photorealistic Tiles)
+                </label>
+                <input type="password" id="inputGoogleKey" placeholder="AIzaSy..." class="w-full bg-slate-900/90 border border-white/15 rounded-xl px-3 py-2 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+                <p class="text-[10px] text-slate-400 leading-relaxed">
+                    Required for <span class="text-emerald-400 font-medium">Google Photorealistic 3D Tiles</span>. Enable <em>"Map Tiles API"</em> in your Google Cloud Console.
+                </p>
+            </div>
+
+            <!-- Cesium Ion Token Input -->
+            <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-slate-200">
+                    Cesium Ion Access Token (Optional for Cesium World Terrain)
+                </label>
+                <input type="password" id="inputCesiumToken" placeholder="eyJhbGci..." class="w-full bg-slate-900/90 border border-white/15 rounded-xl px-3 py-2 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+                <p class="text-[10px] text-slate-400">
+                    Used for official Cesium World Terrain and Ion 3D assets.
+                </p>
+            </div>
+
+            <!-- Terrain Exaggeration Slider -->
+            <div class="space-y-2 pt-2 border-t border-white/10">
+                <div class="flex justify-between text-xs">
+                    <span class="text-slate-200 font-semibold">Terrain Elevation Exaggeration</span>
+                    <span id="valExaggeration" class="font-mono text-emerald-400 font-bold">1.2x</span>
+                </div>
+                <input type="range" id="sliderExaggeration" min="1.0" max="2.5" step="0.1" value="1.2" class="w-full" oninput="updateTerrainExaggeration(this.value)">
+                <p class="text-[10px] text-slate-400">Enhances subtle undulations on fairways and greens.</p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-2 pt-2">
+                <button onclick="saveSettings()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-emerald-600/30">
+                    Save & Reload Terrain
+                </button>
+                <button onclick="closeSettingsModal()" class="glass-button text-slate-300 font-semibold px-4 py-2.5 rounded-xl text-xs">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen Spinner -->
+    <div id="loadingScreen" class="absolute inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="relative w-20 h-20 mb-6">
+            <div class="absolute inset-0 rounded-full border-4 border-emerald-500/20 animate-ping"></div>
+            <div class="w-20 h-20 rounded-full border-4 border-t-emerald-500 border-r-teal-400 border-b-transparent border-l-transparent animate-spin"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-2xl">⛳</div>
+        </div>
+        <h2 class="text-xl font-bold font-display text-white tracking-wide">Initializing 3D Golf World</h2>
+        <p id="loadingStatus" class="text-slate-400 mt-2 text-xs font-mono">Loading satellite imagery and terrain mesh...</p>
+    </div>
+
+<script>
+    /* ==========================================================================
+       1. EMBEDDED GEOJSON COURSE DATA (Veckefjärden & Norrfällsviken)
+       ========================================================================== */
+
+    const VECKEFJARDEN_GEOJSON = {
+        "type": "FeatureCollection",
+        "features": [
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.67487616019815,63.28489602310085]},"properties":{"hole":"1","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6760129406,63.2841391757]},"properties":{"hole":"1","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6757988401,63.2842569425]},"properties":{"hole":"1","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6761948545,63.2840358786]},"properties":{"hole":"1","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.674511379772124,63.28694580871459]},"properties":{"hole":"1","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.672425486024114,63.28334211051698]},"properties":{"hole":"2","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6683105011,63.2822089752]},"properties":{"hole":"2","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6685952916,63.2822736952]},"properties":{"hole":"2","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6680310751,63.2821466672]},"properties":{"hole":"2","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67725346225092,63.28343375604141]},"properties":{"hole":"2","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.671414345722706,63.284002462013234]},"properties":{"hole":"3","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6728738035,63.2851637136]},"properties":{"hole":"3","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6727562626,63.2850511685]},"properties":{"hole":"3","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6730074377,63.2852750528]},"properties":{"hole":"3","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.667981118183643,63.28264224639996]},"properties":{"hole":"3","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.6715957309,63.2851637136]},"properties":{"hole":"4","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66918126655493,63.284084917467]},"properties":{"hole":"4","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.669350722000004,63.28415445149057]},"properties":{"hole":"4","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66901985777295,63.28400694265529]},"properties":{"hole":"4","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6715957309,63.2851637136]},"properties":{"hole":"4","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.66759473989516,63.2852738443223]},"properties":{"hole":"5","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6691821314,63.2872926664]},"properties":{"hole":"5","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6691021414,63.2871306908]},"properties":{"hole":"5","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6692621214,63.2874377616]},"properties":{"hole":"5","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.667755672436055,63.28314676412776]},"properties":{"hole":"5","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.666458348140143,63.29019945983409]},"properties":{"hole":"6","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663982193,63.2911378069]},"properties":{"hole":"6","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6642455257,63.2910216519]},"properties":{"hole":"6","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663729589,63.2912419064]},"properties":{"hole":"6","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66781018148365,63.28823671313573]},"properties":{"hole":"6","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.663076947426195,63.291374091415875]},"properties":{"hole":"7","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6645597327,63.2924811713]},"properties":{"hole":"7","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66441000535408,63.29239153929241]},"properties":{"hole":"7","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6646719093,63.2925611595]},"properties":{"hole":"7","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.663076947426195,63.291374091415875]},"properties":{"hole":"7","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.666985790859126,63.29255591113649]},"properties":{"hole":"8","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6686777884,63.2917607097]},"properties":{"hole":"8","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66851465,63.2918265872]},"properties":{"hole":"8","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6688221515,63.2916912156]},"properties":{"hole":"8","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.664207022319697,63.29417602909127]},"properties":{"hole":"8","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.673853110694836,63.290130811283234]},"properties":{"hole":"9","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6759581686,63.2890630656]},"properties":{"hole":"9","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6757065172,63.2891856209]},"properties":{"hole":"9","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6762205488,63.28894051]},"properties":{"hole":"9","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.670602273368786,63.291572649142445]},"properties":{"hole":"9","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.673660856568738,63.29160561633269]},"properties":{"hole":"10","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6692400998,63.2927681411]},"properties":{"hole":"10","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6695248903,63.2926785078]},"properties":{"hole":"10","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6689767671,63.292867418]},"properties":{"hole":"10","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.676407438599988,63.289671899768265]},"properties":{"hole":"10","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.664872122496988,63.294828215498725]},"properties":{"hole":"11","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627741587,63.2950239222]},"properties":{"hole":"11","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6631662375,63.2949656289]},"properties":{"hole":"11","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6623981732,63.2950894477]},"properties":{"hole":"11","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.668181968421365,63.29340582757065]},"properties":{"hole":"11","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.6633280349,63.2939173662]},"properties":{"hole":"12","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66058902323605,63.29479533422985]},"properties":{"hole":"12","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66084162715407,63.29471293359299]},"properties":{"hole":"12","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6602988684,63.2948680918]},"properties":{"hole":"12","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6633280349,63.2939173662]},"properties":{"hole":"12","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.662221147443912,63.293710467253014]},"properties":{"hole":"13","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627302909,63.2920232419]},"properties":{"hole":"13","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627146739,63.2921747078]},"properties":{"hole":"13","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6627405435,63.2918934745]},"properties":{"hole":"13","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.65878255548682,63.295067750039976]},"properties":{"hole":"13","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.6618518674,63.2924620409]},"properties":{"hole":"14","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66093675791802,63.29115087110194]},"properties":{"hole":"14","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.661012336,63.2912637662]},"properties":{"hole":"14","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6608397221,63.2910114538]},"properties":{"hole":"14","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6618518674,63.2924620409]},"properties":{"hole":"14","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.664711967083658,63.2895004429922]},"properties":{"hole":"15","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6644861853,63.2890981866]},"properties":{"hole":"15","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6645671278,63.2892303858]},"properties":{"hole":"15","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6643730562,63.2889732207]},"properties":{"hole":"15","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66189564761802,63.29082899080691]},"properties":{"hole":"15","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.672697768155036,63.28859302595742]},"properties":{"hole":"16","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6740920406,63.2885934433]},"properties":{"hole":"16","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.673759923,63.2885833808]},"properties":{"hole":"16","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6744187938,63.288603506]},"properties":{"hole":"16","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66859398836225,63.288380831743794]},"properties":{"hole":"16","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.667935029852774,63.29049588750498]},"properties":{"hole":"17","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6650940942,63.2914438709]},"properties":{"hole":"17","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6654003423,63.2913397707]},"properties":{"hole":"17","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6648200326,63.291547971]},"properties":{"hole":"17","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67150773226061,63.28921313788155]},"properties":{"hole":"17","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.67132888904689,63.290157546695916]},"properties":{"hole":"18","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.6755502098,63.2887136444]},"properties":{"hole":"18","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.675239549880292,63.288820528518166]},"properties":{"hole":"18","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.67581259,63.2886224335]},"properties":{"hole":"18","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.66730557552455,63.291729578952676]},"properties":{"hole":"18","type":"waypoint","name":"TheTipsTee Back Reach"}}
+        ]
+    };
+
+    const NORRFALLSVIKEN_GEOJSON = {
+        "type": "FeatureCollection",
+        "features": [
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.530780670621958,62.98160552242159]},"properties":{"hole":"1","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532534359036042,62.98171719258006]},"properties":{"hole":"1","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532406089290976,62.98170665478138]},"properties":{"hole":"1","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5326545822,62.9817265122]},"properties":{"hole":"1","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52633625028428,62.98120220785502]},"properties":{"hole":"1","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.53184637244023,62.9811871577168]},"properties":{"hole":"2","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530437736481993,62.97987195283357]},"properties":{"hole":"2","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530534772245897,62.97995646487509]},"properties":{"hole":"2","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.530340700718086,62.979787440792044]},"properties":{"hole":"2","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53184637244023,62.9811871577168]},"properties":{"hole":"2","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.529853926519842,62.97940173772836]},"properties":{"hole":"3","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.529367123405786,62.976527961208964]},"properties":{"hole":"3","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52955219582781,62.97664687483758]},"properties":{"hole":"3","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.529182050983753,62.97640904758034]},"properties":{"hole":"3","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.531818228303038,62.97864079493976]},"properties":{"hole":"3","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.528448343276978,62.97644917416398]},"properties":{"hole":"4","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52737545967102,62.97545041180295]},"properties":{"hole":"4","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52763295173645,62.97554519782563]},"properties":{"hole":"4","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52711796760559,62.975355625780275]},"properties":{"hole":"4","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.528448343276978,62.97644917416398]},"properties":{"hole":"4","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.52664589881897,62.97546936906669]},"properties":{"hole":"5","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.527581132924376,62.978431872120035]},"properties":{"hole":"5","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.527503944909405,62.978310344074215]},"properties":{"hole":"5","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.527658320939343,62.978553399435306]},"properties":{"hole":"5","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52445831969246,62.97746536645227]},"properties":{"hole":"5","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.52809249767355,62.978921868478426]},"properties":{"hole":"6","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.528990137562093,62.98063544970477]},"properties":{"hole":"6","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52895660995111,62.980512803248695]},"properties":{"hole":"6","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52902366517293,62.98075809616086]},"properties":{"hole":"6","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52809249767355,62.978921868478426]},"properties":{"hole":"6","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.529329895973206,62.98108422617066]},"properties":{"hole":"7","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.528911471366882,62.982051239634934]},"properties":{"hole":"7","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.529018759727478,62.981920882897645]},"properties":{"hole":"7","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.528804183006287,62.98218159637222]},"properties":{"hole":"7","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.529329895973206,62.98108422617066]},"properties":{"hole":"7","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.528659343719482,62.98246599974558]},"properties":{"hole":"8","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525585532188416,62.98130932454687]},"properties":{"hole":"8","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525864481925964,62.98138043132646]},"properties":{"hole":"8","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525306582450867,62.98123821776727]},"properties":{"hole":"8","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.528659343719482,62.98246599974558]},"properties":{"hole":"8","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.524673581123352,62.98150367980313]},"properties":{"hole":"9","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.527355790138245,62.9841865979505]},"properties":{"hole":"9","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52718412876129,62.98406809542031]},"properties":{"hole":"9","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5275274515152,62.984305096338575]},"properties":{"hole":"9","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52084534151759,62.983995393165246]},"properties":{"hole":"9","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.527101683416556,62.98466601449626]},"properties":{"hole":"10","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5317763686,62.9841439268]},"properties":{"hole":"10","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5315510631,62.9841794711]},"properties":{"hole":"10","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5320016742,62.9841083824]},"properties":{"hole":"10","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.527101683416556,62.98466601449626]},"properties":{"hole":"10","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.532291583099684,62.98444738495089]},"properties":{"hole":"11","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534839886241013,62.984240763919426]},"properties":{"hole":"11","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534603851847683,62.98426445585093]},"properties":{"hole":"11","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.535075920634347,62.984217071987915]},"properties":{"hole":"11","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534608389408422,62.98687359501594]},"properties":{"hole":"11","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.534952541819717,62.984488344795556]},"properties":{"hole":"12","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5301889386,62.9856519652]},"properties":{"hole":"12","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5304678883,62.9855571617]},"properties":{"hole":"12","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5299099889,62.9857467688]},"properties":{"hole":"12","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.534952541819717,62.984488344795556]},"properties":{"hole":"12","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.529952904183616,62.986061309855794]},"properties":{"hole":"13","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5323286057,62.9864214476]},"properties":{"hole":"13","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5320550203,62.9863456041]},"properties":{"hole":"13","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532602191,62.9864972912]},"properties":{"hole":"13","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.52843825946115,62.9880193487988]},"properties":{"hole":"13","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.531899665972137,62.98554750605803]},"properties":{"hole":"14","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5325965641,62.9868408981]},"properties":{"hole":"14","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532556807227028,62.98676212614835]},"properties":{"hole":"14","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5326443675,62.9869111423]},"properties":{"hole":"14","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.531902348181152,62.9855487243582]},"properties":{"hole":"14","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.53717107151601,62.985656738668226]},"properties":{"hole":"15","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53791356721637,62.98505569335867]},"properties":{"hole":"15","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5378201660893,62.98513043027809]},"properties":{"hole":"15","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538006967008115,62.98498095643926]},"properties":{"hole":"15","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53717107151601,62.985656738668226]},"properties":{"hole":"15","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.538466847844075,62.984852331590455]},"properties":{"hole":"16","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.53580540845347,62.983058864703955]},"properties":{"hole":"16","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.536066228343714,62.983196962298715]},"properties":{"hole":"16","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.535544585141094,62.9829207671092]},"properties":{"hole":"16","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.538816130509836,62.984478203649616]},"properties":{"hole":"16","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.53483391497639,62.98260268218456]},"properties":{"hole":"17","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532690353718856,62.983855989900015]},"properties":{"hole":"17","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532776660666443,62.98380524096376]},"properties":{"hole":"17","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.532585271280304,62.98391404906152]},"properties":{"hole":"17","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.537221080999643,62.981457187122116]},"properties":{"hole":"17","type":"waypoint","name":"TheTipsTee Back Reach"}},
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[18.53177636862564,62.983791024346824]},"properties":{"hole":"18","type":"tee","name":"Tee Target"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.5252762517,62.9817257719]},"properties":{"hole":"18","type":"green","name":"Green Center"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525437660590985,62.98182733208474]},"properties":{"hole":"18","type":"green","name":"Green Front"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.525152393827057,62.98164127008021]},"properties":{"hole":"18","type":"green","name":"Green Back"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[18.531189657828058,62.983622061708865]},"properties":{"hole":"18","type":"waypoint","name":"TheTipsTee Back Reach"}}
+        ]
+    };
+
+    /* ==========================================================================
+       2. APPLICATION STATE
+       ========================================================================== */
+
+    let viewer;
+    let currentCourseKey = 'veckefjarden';
+    let currentCourseData = VECKEFJARDEN_GEOJSON;
+    let parsedHoles = []; // Structured hole definitions
+    let selectedHoleNum = 1;
+    let unitMode = 'METERS'; // 'METERS' or 'YARDS'
+
+    // 3D Tiles & Terrain State
+    let activeGoogle3DTileset = null;
+    let currentTerrainProvider = 'satellite-3d';
+    let terrainExaggeration = 1.2;
+
+    // Flyover Controller State
+    let isFlyoverPlaying = false;
+    let flyoverProgress = 0.0; // 0.0 to 1.0
+    let flyoverSpeed = 1.0; // 1x, 2x, 4x
+    let flyoverAnimationHandle = null;
+    let lastAnimTimestamp = null;
+    let isSeeking = false;
+
+    // Shot Planner State
+    let isPlannerActive = false;
+    let plannerTargetEntity = null;
+    let plannerLineTee = null;
+    let plannerLineGreen = null;
+    let plannerHandler = null;
+
+    // Entity Collections
+    let courseEntityCollection = [];
+
+    /* ==========================================================================
+       3. GEOMETRY & MATH HELPERS
+       ========================================================================== */
+
+    function haversineDist(c1, c2) {
+        const R = 6371e3;
+        const dLat = (c2[1] - c1[1]) * Math.PI / 180;
+        const dLon = (c2[0] - c1[0]) * Math.PI / 180;
+        const a = Math.sin(dLat/2)**2 + Math.cos(c1[1]*Math.PI/180)*Math.cos(c2[1]*Math.PI/180)*Math.sin(dLon/2)**2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    function calculateBearing(c1, c2) {
+        const lat1 = c1[1] * Math.PI / 180;
+        const lon1 = c1[0] * Math.PI / 180;
+        const lat2 = c2[1] * Math.PI / 180;
+        const lon2 = c2[0] * Math.PI / 180;
+        const dLon = lon2 - lon1;
+        const y = Math.sin(dLon) * Math.cos(lat2);
+        const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+        return ((Math.atan2(y, x) * 180 / Math.PI) + 360) % 360;
+    }
+
+    function formatDist(meters) {
+        if (meters == null || isNaN(meters)) return '---';
+        if (unitMode === 'YARDS') {
+            return `${Math.round(meters * 1.09361)} yd`;
+        }
+        return `${Math.round(meters)} m`;
+    }
+
+    function formatSecondaryDist(meters) {
+        if (meters == null || isNaN(meters)) return '---';
+        if (unitMode === 'YARDS') {
+            return `${Math.round(meters)} m`;
+        }
+        return `${Math.round(meters * 1.09361)} Yards`;
+    }
+
+    /* ==========================================================================
+       4. CESIUM INITIALIZATION & TERRAIN MANAGEMENT
+       ========================================================================== */
+
+    function createSatelliteImageryProvider() {
+        return new Cesium.UrlTemplateImageryProvider({
+            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            maximumLevel: 18,
+            credit: 'Esri, Maxar, Earthstar Geographics'
+        });
+    }
+
+    async function initCesium() {
+        showLoading('Initializing 3D Globe...');
+        
+        try {
+            // Read saved keys
+            const savedGoogleKey = localStorage.getItem('golf_google_api_key') || '';
+            const savedIonToken = localStorage.getItem('golf_cesium_ion_token') || '';
+            if (savedIonToken) Cesium.Ion.defaultAccessToken = savedIonToken;
+
+            // Initialize Cesium Viewer with working satellite imagery provider
+            const satProvider = createSatelliteImageryProvider();
+
+            viewer = new Cesium.Viewer('cesiumContainer', {
+                terrainProvider: new Cesium.EllipsoidTerrainProvider(),
+                baseLayer: new Cesium.ImageryLayer(satProvider),
+                baseLayerPicker: false,
+                geocoder: false,
+                homeButton: false,
+                sceneModePicker: false,
+                navigationHelpButton: false,
+                animation: false,
+                timeline: false,
+                fullscreenButton: false,
+                infoBox: false,
+                selectionIndicator: false,
+                shadows: false,
+                shouldAnimate: true
+            });
+
+            // Ensure imagery layer is attached
+            if (viewer.imageryLayers.length === 0) {
+                viewer.imageryLayers.addImageryProvider(satProvider);
+            }
+
+            // CRITICAL: Disable night/solar shadow darkening so the satellite map is bright daylight 24/7!
+            viewer.scene.globe.enableLighting = false;
+            viewer.scene.globe.show = true;
+            viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#0f291e');
+            viewer.scene.globe.depthTestAgainstTerrain = true;
+            viewer.scene.screenSpaceCameraController.enableCollisionDetection = true;
+            viewer.scene.screenSpaceCameraController.minimumZoomDistance = 10;
+            viewer.scene.screenSpaceCameraController.maximumZoomDistance = 50000;
+            viewer.scene.globe.terrainExaggeration = terrainExaggeration;
+
+            // Load initial terrain mode
+            const preferredMode = savedGoogleKey ? 'google-3d-tiles' : 'satellite-3d';
+            document.getElementById('terrainSelect').value = preferredMode;
+            await changeTerrainProvider(preferredMode, false);
+
+            // Check for file:// protocol
+            if (window.location.protocol === 'file:') {
+                document.getElementById('fileProtocolBanner')?.classList.remove('hidden');
+            }
+
+            // Parse URL parameters or hash (#course=veckefjarden&hole=1)
+            const paramsString = window.location.search ? window.location.search.substring(1) : window.location.hash.substring(1);
+            const urlParams = new URLSearchParams(paramsString);
+            const initialCourse = urlParams.get('course') || 'veckefjarden';
+            const initialHole = parseInt(urlParams.get('hole')) || 1;
+
+            // Parse and load initial course
+            loadCourseData(initialCourse === 'norrfallsviken' ? NORRFALLSVIKEN_GEOJSON : VECKEFJARDEN_GEOJSON, initialCourse);
+            if (initialHole > 1) {
+                selectHole(initialHole);
+            }
+
+            // Setup Click Picking for Markers / Planner
+            setupViewerInteractions();
+
+            // Render lucide icons
+            lucide.createIcons();
+
+            // Hide loading
+            hideLoading();
+            showNotification('3D Golf Viewer Ready!', 'success');
+
+        } catch (err) {
+            console.error('Cesium Init Error:', err);
+            hideLoading();
+            showNotification('Initialization notice: ' + (err.message || err), 'warning');
+        }
+    }
+
+    async function changeTerrainProvider(mode, showToast = true) {
+        currentTerrainProvider = mode;
+
+        // Cleanup any existing Google 3D Tileset
+        if (activeGoogle3DTileset) {
+            viewer.scene.primitives.remove(activeGoogle3DTileset);
+            activeGoogle3DTileset = null;
+        }
+
+        const badge = document.getElementById('terrainBadge');
+
+        if (mode === 'google-3d-tiles') {
+            const googleKey = localStorage.getItem('golf_google_api_key') || '';
+            if (!googleKey) {
+                if (showToast) {
+                    showNotification('Please enter a Google Maps Platform API Key in Settings to enable Photorealistic 3D Tiles.', 'warning');
+                    openSettingsModal();
+                }
+                return;
+            }
+
+            try {
+                showLoading('Loading Google Photorealistic 3D Tiles...');
+                activeGoogle3DTileset = await Cesium.createGooglePhotorealistic3DTileset({
+                    key: googleKey
+                });
+                viewer.scene.primitives.add(activeGoogle3DTileset);
+                viewer.scene.globe.show = false; // 3D Tiles replaces the globe mesh
+                badge.innerText = 'Google 3D Tiles';
+                badge.className = 'px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30';
+                hideLoading();
+                if (showToast) showNotification('Google Photorealistic 3D Tiles Loaded!', 'success');
+            } catch (err) {
+                console.error('Google 3D Tiles failed:', err);
+                viewer.scene.globe.show = true;
+                hideLoading();
+                if (showToast) showNotification('Google 3D Tiles error: ' + (err.message || err), 'error');
+            }
+
+        } else if (mode === 'cesium-world-terrain') {
+            viewer.scene.globe.show = true;
+            if (viewer.imageryLayers.length === 0) {
+                viewer.imageryLayers.addImageryProvider(createSatelliteImageryProvider());
+            }
+            try {
+                showLoading('Loading Cesium World Terrain...');
+                const token = localStorage.getItem('golf_cesium_ion_token') || '';
+                if (token) {
+                    Cesium.Ion.defaultAccessToken = token;
+                }
+                const terrainProvider = await Cesium.createWorldTerrainAsync({
+                    requestVertexNormals: true,
+                    requestWaterMask: true
+                });
+                viewer.terrainProvider = terrainProvider;
+                viewer.scene.globe.depthTestAgainstTerrain = true;
+                badge.innerText = 'Cesium Terrain';
+                badge.className = 'px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+                hideLoading();
+                if (showToast) showNotification('Cesium 3D World Terrain Active', 'success');
+            } catch (err) {
+                console.warn('Cesium Terrain error:', err);
+                viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+                hideLoading();
+                if (showToast) showNotification('Cesium World Terrain error: ' + (err.message || err), 'warning');
+            }
+
+        } else {
+            // Satellite 3D
+            viewer.scene.globe.show = true;
+            viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+            if (viewer.imageryLayers.length === 0) {
+                viewer.imageryLayers.addImageryProvider(createSatelliteImageryProvider());
+            }
+            badge.innerText = 'Satellite 3D';
+            badge.className = 'px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+            if (showToast) showNotification('Satellite 3D Globe Active', 'info');
+        }
+
+        // Re-render markers & clamping
+        renderCourseEntities();
+    }
+
+    function updateTerrainExaggeration(val) {
+        terrainExaggeration = parseFloat(val);
+        document.getElementById('valExaggeration').innerText = val + 'x';
+        if (viewer && viewer.scene && viewer.scene.globe) {
+            viewer.scene.globe.terrainExaggeration = terrainExaggeration;
+        }
+    }
+
+    /* ==========================================================================
+       5. PIN & BILLBOARD ICON GENERATORS (High-DPI SVGs)
+       ========================================================================== */
+
+    function createTeeIconSvg(holeNum) {
+        const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+            <defs>
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.6"/>
+                </filter>
+            </defs>
+            <g filter="url(#shadow)">
+                <circle cx="32" cy="28" r="22" fill="#0f172a" stroke="#3b82f6" stroke-width="3"/>
+                <circle cx="32" cy="28" r="18" fill="#1e293b"/>
+                <text x="32" y="24" fill="#94a3b8" font-size="9" font-weight="bold" font-family="sans-serif" text-anchor="middle">TEE</text>
+                <text x="32" y="38" fill="#ffffff" font-size="14" font-weight="900" font-family="sans-serif" text-anchor="middle">${holeNum}</text>
+                <polygon points="32,54 26,44 38,44" fill="#3b82f6"/>
+            </g>
+        </svg>`;
+        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    function createTargetIconSvg(distStr) {
+        const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="90" height="48" viewBox="0 0 90 48">
+            <defs>
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
+                </filter>
+            </defs>
+            <g filter="url(#shadow)">
+                <rect x="4" y="4" width="82" height="30" rx="15" fill="#0f172a" stroke="#cbd5e1" stroke-width="2"/>
+                <circle cx="20" cy="19" r="6" fill="#f59e0b"/>
+                <circle cx="20" cy="19" r="2" fill="#ffffff"/>
+                <text x="52" y="23" fill="#f8fafc" font-size="11" font-weight="800" font-family="monospace" text-anchor="middle">${distStr}</text>
+                <polygon points="45,42 39,34 51,34" fill="#cbd5e1"/>
+            </g>
+        </svg>`;
+        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    function createGreenPinSvg(holeNum, distStr) {
+        const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60">
+            <defs>
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.6"/>
+                </filter>
+            </defs>
+            <g filter="url(#shadow)">
+                <rect x="6" y="4" width="88" height="32" rx="16" fill="#064e3b" stroke="#10b981" stroke-width="2.5"/>
+                <circle cx="22" cy="20" r="10" fill="#10b981"/>
+                <text x="22" y="24" fill="#022c22" font-size="11" font-weight="900" font-family="sans-serif" text-anchor="middle">${holeNum}</text>
+                <text x="58" y="24" fill="#ffffff" font-size="12" font-weight="800" font-family="monospace" text-anchor="middle">${distStr}</text>
+                <polygon points="50,48 42,36 58,36" fill="#10b981"/>
+                <line x1="50" y1="36" x2="50" y2="56" stroke="#ffffff" stroke-width="2"/>
+            </g>
+        </svg>`;
+        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    /* ==========================================================================
+       6. COURSE DATA PARSER & 3D ENTITY BUILDER
+       ========================================================================== */
+
+    function loadCourseData(geojson, courseKey) {
+        currentCourseKey = courseKey;
+        currentCourseData = geojson;
+        parsedHoles = [];
+
+        // Determine title & subtitle
+        const titleEl = document.getElementById('courseTitle');
+        const subEl = document.getElementById('courseSubtitle');
+
+        if (courseKey === 'veckefjarden') {
+            titleEl.innerText = 'Veckefjärdens GC';
+            subEl.innerText = 'Mästerskapsbanan • Örnsköldsvik • 18 Holes';
+        } else if (courseKey === 'norrfallsviken') {
+            titleEl.innerText = 'Norrfällsvikens GC';
+            subEl.innerText = 'High Coast Golf • 18 Holes • Par 72';
+        } else {
+            titleEl.innerText = 'Custom Course';
+            subEl.innerText = `${geojson.features?.length || 0} Features Loaded`;
+        }
+
+        // Parse Holes 1 to 18
+        for (let h = 1; h <= 18; h++) {
+            const hFeatures = geojson.features.filter(f => parseInt(f.properties.hole) === h);
+            if (hFeatures.length === 0) continue;
+
+            const tee = hFeatures.find(f => f.properties.name && (f.properties.name.includes('TheTipsTee') || (f.properties.name.includes('Tee') && !f.properties.name.includes('Target')))) 
+                     || hFeatures.find(f => f.properties.type === 'tee' && f.properties.name !== 'Tee Target')
+                     || hFeatures.find(f => f.properties.name && f.properties.name.includes('Tee'));
+
+            const target = hFeatures.find(f => f.properties.name === 'Tee Target');
+            const greenCenter = hFeatures.find(f => f.properties.name === 'Green Center') || hFeatures.find(f => f.properties.type === 'green');
+            const greenFront = hFeatures.find(f => f.properties.name === 'Green Front');
+            const greenBack = hFeatures.find(f => f.properties.name === 'Green Back');
+
+            if (!tee || !greenCenter) continue;
+
+            const teeCoords = tee.geometry.coordinates;
+            const greenCoords = greenCenter.geometry.coordinates;
+
+            // Target landing zone (only for doglegs / drives where target is distinct from tee and green)
+            let targetCoords = null;
+            let d1 = 0, d2 = 0;
+            if (target && target.geometry.coordinates) {
+                const dTeeTarget = haversineDist(teeCoords, target.geometry.coordinates);
+                const dTargetGreen = haversineDist(target.geometry.coordinates, greenCoords);
+                if (dTeeTarget > 25 && dTargetGreen > 25) {
+                    targetCoords = target.geometry.coordinates;
+                    d1 = dTeeTarget;
+                    d2 = dTargetGreen;
+                }
+            }
+
+            const totalDist = targetCoords ? (d1 + d2) : haversineDist(teeCoords, greenCoords);
+            if (!targetCoords) {
+                d2 = totalDist;
+            }
+
+            const gFrontCoords = greenFront ? greenFront.geometry.coordinates : null;
+            const gBackCoords = greenBack ? greenBack.geometry.coordinates : null;
+            const greenDepth = (gFrontCoords && gBackCoords) ? haversineDist(gFrontCoords, gBackCoords) : 30;
+
+            const distToFront = gFrontCoords ? haversineDist(teeCoords, gFrontCoords) : totalDist - 15;
+            const distToBack = gBackCoords ? haversineDist(teeCoords, gBackCoords) : totalDist + 15;
+
+            // Default Par estimation
+            let par = 4;
+            if (totalDist < 230) par = 3;
+            else if (totalDist > 440) par = 5;
+
+            parsedHoles.push({
+                hole: h,
+                par: par,
+                teeCoords: teeCoords,
+                targetCoords: targetCoords,
+                greenCoords: greenCoords,
+                greenFrontCoords: gFrontCoords,
+                greenBackCoords: gBackCoords,
+                totalDist: totalDist,
+                d1: d1,
+                d2: d2,
+                greenDepth: greenDepth,
+                distToFront: distToFront,
+                distToBack: distToBack
+            });
+        }
+
+        // Render UI Carousel
+        buildHoleCarousel();
+
+        // Render 3D Entities on Globe
+        renderCourseEntities();
+
+        // Select Hole 1
+        selectHole(1);
+    }
+
+    function buildHoleCarousel() {
+        const carousel = document.getElementById('holeCarousel');
+        carousel.innerHTML = '';
+
+        parsedHoles.forEach(h => {
+            const btn = document.createElement('button');
+            btn.id = `carouselHoleBtn_${h.hole}`;
+            btn.className = `glass-panel px-3.5 py-2.5 rounded-2xl flex-shrink-0 flex items-center gap-2.5 transition text-left cursor-pointer border ${h.hole === selectedHoleNum ? 'border-emerald-500 bg-emerald-500/15 shadow-lg shadow-emerald-500/20' : 'border-white/5 hover:border-white/20'}`;
+            btn.onclick = () => selectHole(h.hole);
+
+            btn.innerHTML = `
+                <div class="w-7 h-7 rounded-xl ${h.hole === selectedHoleNum ? 'bg-emerald-500 text-slate-950 font-black' : 'bg-white/10 text-slate-300 font-bold'} flex items-center justify-center text-xs font-display">
+                    ${h.hole}
+                </div>
+                <div>
+                    <div class="text-[11px] font-bold text-white font-display">Hole ${h.hole}</div>
+                    <div class="text-[10px] font-mono text-emerald-400 font-semibold">${formatDist(h.totalDist)}</div>
+                </div>
+            `;
+            carousel.appendChild(btn);
+        });
+    }
+
+    function renderCourseEntities() {
+        // Clear previous entities
+        courseEntityCollection.forEach(entity => viewer.entities.remove(entity));
+        courseEntityCollection = [];
+
+        parsedHoles.forEach(h => {
+            const isSelected = h.hole === selectedHoleNum;
+
+            // 1. Tee Box Marker
+            const teeEntity = viewer.entities.add({
+                name: `Tee ${h.hole}`,
+                position: Cesium.Cartesian3.fromDegrees(h.teeCoords[0], h.teeCoords[1]),
+                billboard: {
+                    image: createTeeIconSvg(h.hole),
+                    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                    scale: isSelected ? 0.9 : 0.65,
+                    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 15000.0)
+                },
+                properties: { holeNum: h.hole, type: 'tee' }
+            });
+            courseEntityCollection.push(teeEntity);
+
+            // 2. Fairway Target Marker
+            if (h.targetCoords) {
+                const targetEntity = viewer.entities.add({
+                    name: `Hole ${h.hole} Target`,
+                    position: Cesium.Cartesian3.fromDegrees(h.targetCoords[0], h.targetCoords[1]),
+                    billboard: {
+                        image: createTargetIconSvg(formatDist(h.d1)),
+                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                        heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                        scale: isSelected ? 0.85 : 0.55,
+                        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 10000.0)
+                    },
+                    properties: { holeNum: h.hole, type: 'target' }
+                });
+                courseEntityCollection.push(targetEntity);
+            }
+
+            // 3. Green Pin Flag
+            const greenEntity = viewer.entities.add({
+                name: `Hole ${h.hole} Green`,
+                position: Cesium.Cartesian3.fromDegrees(h.greenCoords[0], h.greenCoords[1]),
+                billboard: {
+                    image: createGreenPinSvg(h.hole, formatDist(h.totalDist)),
+                    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                    scale: isSelected ? 0.95 : 0.7,
+                    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 15000.0)
+                },
+                properties: { holeNum: h.hole, type: 'green' }
+            });
+            courseEntityCollection.push(greenEntity);
+
+            // 4. Ground Route Polyline (Clamped to 3D terrain)
+            const routePositions = [
+                Cesium.Cartesian3.fromDegrees(h.teeCoords[0], h.teeCoords[1])
+            ];
+            if (h.targetCoords) {
+                routePositions.push(Cesium.Cartesian3.fromDegrees(h.targetCoords[0], h.targetCoords[1]));
+            }
+            routePositions.push(Cesium.Cartesian3.fromDegrees(h.greenCoords[0], h.greenCoords[1]));
+
+            const routeEntity = viewer.entities.add({
+                name: `Hole ${h.hole} Fairway Line`,
+                polyline: {
+                    positions: routePositions,
+                    clampToGround: true,
+                    width: isSelected ? 4 : 2,
+                    material: isSelected ? 
+                        new Cesium.PolylineGlowMaterialProperty({
+                            glowPower: 0.25,
+                            taperPower: 0.5,
+                            color: Cesium.Color.fromCssColorString('#10b981')
+                        }) :
+                        new Cesium.PolylineDashMaterialProperty({
+                            color: Cesium.Color.fromCssColorString('#94a3b8').withAlpha(0.6),
+                            dashLength: 16.0
+                        })
+                }
+            });
+            courseEntityCollection.push(routeEntity);
+
+            // 5. Parabolic 3D Shot Trajectory (Selected Hole Only)
+            if (isSelected) {
+                create3DParabolicTrajectories(h);
+            }
+        });
+    }
+
+    function create3DParabolicTrajectories(h) {
+        // Shot 1: Tee -> Target (or Green if straight)
+        const endPt1 = h.targetCoords || h.greenCoords;
+        const arc1 = computeParabolaArc(h.teeCoords, endPt1, Math.min(38, h.d1 > 0 ? h.d1 * 0.14 : h.totalDist * 0.12), 25);
+        
+        const shot1Entity = viewer.entities.add({
+            name: `Hole ${h.hole} Shot 1 Arc`,
+            polyline: {
+                positions: arc1,
+                width: 3,
+                material: new Cesium.PolylineGlowMaterialProperty({
+                    glowPower: 0.3,
+                    color: Cesium.Color.fromCssColorString('#38bdf8')
+                })
+            }
+        });
+        courseEntityCollection.push(shot1Entity);
+
+        // Shot 2: Target -> Green
+        if (h.targetCoords) {
+            const arc2 = computeParabolaArc(h.targetCoords, h.greenCoords, Math.min(30, h.d2 * 0.16), 25);
+            const shot2Entity = viewer.entities.add({
+                name: `Hole ${h.hole} Shot 2 Arc`,
+                polyline: {
+                    positions: arc2,
+                    width: 3,
+                    material: new Cesium.PolylineGlowMaterialProperty({
+                        glowPower: 0.3,
+                        color: Cesium.Color.fromCssColorString('#f59e0b')
+                    })
+                }
+            });
+            courseEntityCollection.push(shot2Entity);
+        }
+    }
+
+    function computeParabolaArc(coordA, coordB, maxApexHeight, steps = 30) {
+        const positions = [];
+        for (let i = 0; i <= steps; i++) {
+            const t = i / steps;
+            const lon = coordA[0] + t * (coordB[0] - coordA[0]);
+            const lat = coordA[1] + t * (coordB[1] - coordA[1]);
+            // Parabola: 4 * h * t * (1 - t)
+            const arcHeight = 4 * maxApexHeight * t * (1 - t) + 1.5;
+            positions.push(Cesium.Cartesian3.fromDegrees(lon, lat, arcHeight));
+        }
+        return positions;
+    }
+
+    /* ==========================================================================
+       7. HOLE SELECTION & TELEMETRY UPDATES
+       ========================================================================== */
+
+    function selectHole(holeNum) {
+        selectedHoleNum = parseInt(holeNum);
+        const h = parsedHoles.find(x => x.hole === selectedHoleNum);
+        if (!h) return;
+
+        // Stop existing flyover
+        stopFlyover();
+
+        // Update Telemetry HUD
+        document.getElementById('hudHoleNumber').innerText = h.hole;
+        document.getElementById('hudHoleTitle').innerText = `Hole ${h.hole}`;
+        document.getElementById('hudHolePar').innerText = `Par ${h.par} • HDCP Index ${(h.hole * 2) % 18 || 18}`;
+        document.getElementById('hudTotalDistance').innerText = formatDist(h.totalDist);
+        document.getElementById('hudTotalDistanceSub').innerText = formatSecondaryDist(h.totalDist);
+
+        document.getElementById('hudTeeTargetDist').innerText = h.targetCoords ? formatDist(h.d1) : 'Direct';
+        document.getElementById('hudTargetGreenDist').innerText = formatDist(h.d2);
+        
+        document.getElementById('hudGreenDepth').innerText = `${Math.round(h.greenDepth)} m (F: ${formatDist(h.distToFront)} / B: ${formatDist(h.distToBack)})`;
+
+        // Update Carousel Buttons
+        parsedHoles.forEach(holeObj => {
+            const btn = document.getElementById(`carouselHoleBtn_${holeObj.hole}`);
+            if (btn) {
+                if (holeObj.hole === selectedHoleNum) {
+                    btn.className = 'glass-panel px-3.5 py-2.5 rounded-2xl flex-shrink-0 flex items-center gap-2.5 transition text-left cursor-pointer border border-emerald-500 bg-emerald-500/15 shadow-lg shadow-emerald-500/20';
+                    btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                } else {
+                    btn.className = 'glass-panel px-3.5 py-2.5 rounded-2xl flex-shrink-0 flex items-center gap-2.5 transition text-left cursor-pointer border border-white/5 hover:border-white/20';
+                }
+            }
+        });
+
+        // Re-render Entities with active hole highlight
+        renderCourseEntities();
+
+        // Smooth camera fly to hole
+        viewHoleCinematic(h);
+    }
+
+    /* ==========================================================================
+       8. CINEMATIC CAMERA MODES (Tee, Green, Flyover, Overview)
+       ========================================================================== */
+
+    function viewHoleCinematic(h) {
+        const targetPoint = h.targetCoords || h.greenCoords;
+        const bearing = calculateBearing(h.teeCoords, targetPoint);
+        const headingRad = Cesium.Math.toRadians(bearing);
+        const pitchRad = Cesium.Math.toRadians(-32.0);
+
+        // Position camera behind tee with comfortable drone elevation
+        const R = 6371e3;
+        const backDist = Math.max(120, h.totalDist * 0.28); // meters behind tee
+        const revBearingRad = Cesium.Math.toRadians((bearing + 180) % 360);
+        const lat1 = h.teeCoords[1] * Math.PI / 180;
+        const lon1 = h.teeCoords[0] * Math.PI / 180;
+
+        const lat2 = Math.asin(Math.sin(lat1)*Math.cos(backDist/R) + Math.cos(lat1)*Math.sin(backDist/R)*Math.cos(revBearingRad));
+        const lon2 = lon1 + Math.atan2(Math.sin(revBearingRad)*Math.sin(backDist/R)*Math.cos(lat1), Math.cos(backDist/R)-Math.sin(lat1)*Math.sin(lat2));
+
+        const cameraAlt = Math.max(110, h.totalDist * 0.35);
+
+        viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(lon2 * 180 / Math.PI, lat2 * 180 / Math.PI, cameraAlt),
+            orientation: {
+                heading: headingRad,
+                pitch: pitchRad,
+                roll: 0.0
+            },
+            duration: 1.8,
+            easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT
+        });
+    }
+
+    function viewTeeBox() {
+        const h = parsedHoles.find(x => x.hole === selectedHoleNum);
+        if (!h) return;
+
+        const targetPoint = h.targetCoords || h.greenCoords;
+        const bearing = calculateBearing(h.teeCoords, targetPoint);
+
+        viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(h.teeCoords[0], h.teeCoords[1], 45),
+            orientation: {
+                heading: Cesium.Math.toRadians(bearing),
+                pitch: Cesium.Math.toRadians(-15.0),
+                roll: 0.0
+            },
+            duration: 1.4
+        });
+    }
+
+    function viewGreenOrbit() {
+        const h = parsedHoles.find(x => x.hole === selectedHoleNum);
+        if (!h) return;
+
+        const targetPoint = h.targetCoords || h.teeCoords;
+        const bearing = calculateBearing(targetPoint, h.greenCoords);
+
+        viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(h.greenCoords[0], h.greenCoords[1], 75),
+            orientation: {
+                heading: Cesium.Math.toRadians((bearing + 180) % 360),
+                pitch: Cesium.Math.toRadians(-40.0),
+                roll: 0.0
+            },
+            duration: 1.5
+        });
+    }
+
+    function viewHoleOverview() {
+        const h = parsedHoles.find(x => x.hole === selectedHoleNum);
+        if (!h) return;
+
+        // Center on midpoint between Tee and Green
+        const midLon = (h.teeCoords[0] + h.greenCoords[0]) / 2;
+        const midLat = (h.teeCoords[1] + h.greenCoords[1]) / 2;
+        const alt = Math.max(380, h.totalDist * 1.25);
+
+        const bearing = calculateBearing(h.teeCoords, h.greenCoords);
+
+        viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(midLon, midLat, alt),
+            orientation: {
+                heading: Cesium.Math.toRadians(bearing),
+                pitch: Cesium.Math.toRadians(-55.0),
+                roll: 0.0
+            },
+            duration: 1.6
+        });
+    }
+
+    function viewCourseOverview() {
+        if (parsedHoles.length === 0) return;
+
+        let minLon = 180, maxLon = -180, minLat = 90, maxLat = -90;
+        parsedHoles.forEach(h => {
+            [h.teeCoords, h.greenCoords].forEach(c => {
+                if (c[0] < minLon) minLon = c[0];
+                if (c[0] > maxLon) maxLon = c[0];
+                if (c[1] < minLat) minLat = c[1];
+                if (c[1] > maxLat) maxLat = c[1];
+            });
+        });
+
+        const centerLon = (minLon + maxLon) / 2;
+        const centerLat = (minLat + maxLat) / 2;
+
+        viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(centerLon, centerLat, 2200),
+            orientation: {
+                heading: 0.0,
+                pitch: Cesium.Math.toRadians(-60.0),
+                roll: 0.0
+            },
+            duration: 2.0
+        });
+    }
+
+    /* ==========================================================================
+       9. SMOOTH CINEMATIC FLYOVER ENGINE (Frame-by-Frame Scrubbable)
+       ========================================================================== */
+
+    function toggleFlyoverPlay() {
+        if (isFlyoverPlaying) {
+            pauseFlyover();
+        } else {
+            playFlyover();
+        }
+    }
+
+    function playFlyover() {
+        isFlyoverPlaying = true;
+        document.getElementById('playLabel').innerText = 'Pause';
+        document.getElementById('playIcon').setAttribute('data-lucide', 'pause');
+        lucide.createIcons();
+
+        lastAnimTimestamp = performance.now();
+        requestAnimationFrame(flyoverAnimationLoop);
+    }
+
+    function pauseFlyover() {
+        isFlyoverPlaying = false;
+        document.getElementById('playLabel').innerText = 'Play Flyover';
+        document.getElementById('playIcon').setAttribute('data-lucide', 'play');
+        lucide.createIcons();
+    }
+
+    function restartFlyover() {
+        flyoverProgress = 0.0;
+        seekFlyover(0);
+        playFlyover();
+    }
+
+    function stopFlyover() {
+        isFlyoverPlaying = false;
+        flyoverProgress = 0.0;
+        document.getElementById('flyoverScrubber').value = 0;
+        document.getElementById('flyoverProgressText').innerText = '0%';
+        document.getElementById('playLabel').innerText = 'Play Flyover';
+        document.getElementById('playIcon').setAttribute('data-lucide', 'play');
+        lucide.createIcons();
+    }
+
+    function cycleFlyoverSpeed() {
+        if (flyoverSpeed === 1.0) flyoverSpeed = 2.0;
+        else if (flyoverSpeed === 2.0) flyoverSpeed = 4.0;
+        else flyoverSpeed = 1.0;
+        document.getElementById('btnFlyoverSpeed').innerText = flyoverSpeed + 'x';
+    }
+
+    function seekFlyover(val) {
+        flyoverProgress = parseFloat(val) / 100.0;
+        document.getElementById('flyoverProgressText').innerText = Math.round(val) + '%';
+        applyFlyoverFrame(flyoverProgress);
+    }
+
+    function flyoverAnimationLoop(timestamp) {
+        if (!isFlyoverPlaying) return;
+
+        const deltaSec = (timestamp - lastAnimTimestamp) / 1000.0;
+        lastAnimTimestamp = timestamp;
+
+        // Advance progress (complete flyover in ~12 seconds at 1x speed)
+        const progressIncrement = (deltaSec / 12.0) * flyoverSpeed;
+        flyoverProgress += progressIncrement;
+
+        if (flyoverProgress >= 1.0) {
+            flyoverProgress = 1.0;
+            document.getElementById('flyoverScrubber').value = 100;
+            document.getElementById('flyoverProgressText').innerText = '100%';
+            pauseFlyover();
+            return;
+        }
+
+        document.getElementById('flyoverScrubber').value = (flyoverProgress * 100).toFixed(1);
+        document.getElementById('flyoverProgressText').innerText = Math.round(flyoverProgress * 100) + '%';
+
+        applyFlyoverFrame(flyoverProgress);
+
+        requestAnimationFrame(flyoverAnimationLoop);
+    }
+
+    function applyFlyoverFrame(t) {
+        const h = parsedHoles.find(x => x.hole === selectedHoleNum);
+        if (!h) return;
+
+        const pTee = h.teeCoords;
+        const pTarget = h.targetCoords || h.greenCoords;
+        const pGreen = h.greenCoords;
+
+        let curLon, curLat, curAlt, heading, pitch;
+
+        if (t < 0.65) {
+            // Phase 1: Tee -> Target -> Green Approach
+            const phaseT = t / 0.65;
+            let startCoord, endCoord, subT;
+
+            if (h.targetCoords) {
+                if (phaseT < 0.6) {
+                    startCoord = pTee;
+                    endCoord = pTarget;
+                    subT = phaseT / 0.6;
+                } else {
+                    startCoord = pTarget;
+                    endCoord = pGreen;
+                    subT = (phaseT - 0.6) / 0.4;
+                }
+            } else {
+                startCoord = pTee;
+                endCoord = pGreen;
+                subT = phaseT;
+            }
+
+            curLon = startCoord[0] + subT * (endCoord[0] - startCoord[0]);
+            curLat = startCoord[1] + subT * (endCoord[1] - startCoord[1]);
+            curAlt = 50 + Math.sin(subT * Math.PI) * 20;
+
+            const brg = calculateBearing(startCoord, endCoord);
+            heading = Cesium.Math.toRadians(brg);
+            pitch = Cesium.Math.toRadians(-24.0);
+
+        } else {
+            // Phase 2: Green Complex Orbit (360 orbit around the flag)
+            const orbitT = (t - 0.65) / 0.35;
+            const orbitAngle = orbitT * Math.PI * 2;
+            const radius = 65; // meters
+
+            const R = 6371e3;
+            const lat1 = pGreen[1] * Math.PI / 180;
+            const lon1 = pGreen[0] * Math.PI / 180;
+
+            const lat2 = Math.asin(Math.sin(lat1)*Math.cos(radius/R) + Math.cos(lat1)*Math.sin(radius/R)*Math.cos(orbitAngle));
+            const lon2 = lon1 + Math.atan2(Math.sin(orbitAngle)*Math.sin(radius/R)*Math.cos(lat1), Math.cos(radius/R)-Math.sin(lat1)*Math.sin(lat2));
+
+            curLon = lon2 * 180 / Math.PI;
+            curLat = lat2 * 180 / Math.PI;
+            curAlt = 45;
+
+            const brgToGreen = calculateBearing([curLon, curLat], pGreen);
+            heading = Cesium.Math.toRadians(brgToGreen);
+            pitch = Cesium.Math.toRadians(-30.0);
+        }
+
+        viewer.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(curLon, curLat, curAlt),
+            orientation: {
+                heading: heading,
+                pitch: pitch,
+                roll: 0.0
+            }
+        });
+    }
+
+    /* ==========================================================================
+       10. INTERACTIVE RANGEFINDER & SHOT PLANNER
+       ========================================================================== */
+
+    function toggleShotPlanner() {
+        isPlannerActive = !isPlannerActive;
+        const hud = document.getElementById('plannerHUD');
+        const btn = document.getElementById('btnPlanner');
+
+        if (isPlannerActive) {
+            hud.classList.remove('hidden');
+            btn.className = 'glass-panel px-3 py-2 rounded-2xl text-xs font-semibold text-white bg-blue-600/40 border border-blue-400/50 shadow-lg shadow-blue-500/20 transition flex items-center gap-1.5';
+            showNotification('Shot Planner Active: Click on the course to measure.', 'info');
+        } else {
+            hud.classList.add('hidden');
+            btn.className = 'glass-panel px-3 py-2 rounded-2xl text-xs font-semibold text-slate-300 hover:text-white transition flex items-center gap-1.5';
+            clearPlannerEntities();
+        }
+    }
+
+    function setupViewerInteractions() {
+        const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+        handler.setInputAction((click) => {
+            // Check if user clicked an entity
+            const pickedObject = viewer.scene.pick(click.position);
+            if (Cesium.defined(pickedObject) && pickedObject.id && pickedObject.id.properties) {
+                const props = pickedObject.id.properties;
+                if (props.holeNum) {
+                    selectHole(props.holeNum.getValue());
+                    return;
+                }
+            }
+
+            // If Planner is active, measure distance to clicked point
+            if (isPlannerActive) {
+                const ray = viewer.camera.getPickRay(click.position);
+                const cartesian = viewer.scene.globe.pick(ray, viewer.scene);
+                if (cartesian) {
+                    updatePlannerPosition(cartesian);
+                }
+            }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
+
+    function updatePlannerPosition(cartesian) {
+        const carto = Cesium.Cartographic.fromCartesian(cartesian);
+        const clickedLon = Cesium.Math.toDegrees(carto.longitude);
+        const clickedLat = Cesium.Math.toDegrees(carto.latitude);
+        const clickedHeight = carto.height;
+
+        const h = parsedHoles.find(x => x.hole === selectedHoleNum);
+        if (!h) return;
+
+        const distFromTee = haversineDist(h.teeCoords, [clickedLon, clickedLat]);
+        const distToGreen = haversineDist([clickedLon, clickedLat], h.greenCoords);
+
+        document.getElementById('rangeTeeDist').innerText = formatDist(distFromTee);
+        document.getElementById('rangeGreenDist').innerText = formatDist(distToGreen);
+        document.getElementById('rangeElevDelta').innerText = (clickedHeight >= 0 ? '+' : '') + Math.round(clickedHeight) + ' m';
+
+        clearPlannerEntities();
+
+        // Add Target Pin
+        plannerTargetEntity = viewer.entities.add({
+            name: 'Planner Target',
+            position: cartesian,
+            point: {
+                pixelSize: 14,
+                color: Cesium.Color.fromCssColorString('#38bdf8'),
+                outlineColor: Cesium.Color.WHITE,
+                outlineWidth: 3,
+                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
+            },
+            label: {
+                text: `${formatDist(distFromTee)} | Pin ${formatDist(distToGreen)}`,
+                font: 'bold 12px monospace',
+                fillColor: Cesium.Color.WHITE,
+                outlineColor: Cesium.Color.BLACK,
+                outlineWidth: 3,
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                pixelOffset: new Cesium.Cartesian2(0, -12),
+                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
+            }
+        });
+
+        // Add measurement lines
+        plannerLineTee = viewer.entities.add({
+            polyline: {
+                positions: [Cesium.Cartesian3.fromDegrees(h.teeCoords[0], h.teeCoords[1]), cartesian],
+                clampToGround: true,
+                width: 3,
+                material: new Cesium.PolylineDashMaterialProperty({
+                    color: Cesium.Color.fromCssColorString('#38bdf8'),
+                    dashLength: 12.0
+                })
+            }
+        });
+
+        plannerLineGreen = viewer.entities.add({
+            polyline: {
+                positions: [cartesian, Cesium.Cartesian3.fromDegrees(h.greenCoords[0], h.greenCoords[1])],
+                clampToGround: true,
+                width: 3,
+                material: new Cesium.PolylineDashMaterialProperty({
+                    color: Cesium.Color.fromCssColorString('#10b981'),
+                    dashLength: 12.0
+                })
+            }
+        });
+    }
+
+    function clearPlannerEntities() {
+        if (plannerTargetEntity) { viewer.entities.remove(plannerTargetEntity); plannerTargetEntity = null; }
+        if (plannerLineTee) { viewer.entities.remove(plannerLineTee); plannerLineTee = null; }
+        if (plannerLineGreen) { viewer.entities.remove(plannerLineGreen); plannerLineGreen = null; }
+    }
+
+    /* ==========================================================================
+       11. COURSE SWITCHING & FILE UPLOAD HANDLERS
+       ========================================================================== */
+
+    function switchCourse(courseKey) {
+        const btnVeck = document.getElementById('btnCourseVeck');
+        const btnNorr = document.getElementById('btnCourseNorr');
+        const btnMVeck = document.getElementById('btnMobileVeck');
+        const btnMNorr = document.getElementById('btnMobileNorr');
+
+        if (courseKey === 'veckefjarden') {
+            btnVeck.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-emerald-600 text-white shadow-md';
+            btnNorr.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition';
+            if (btnMVeck) btnMVeck.className = 'flex-1 py-1.5 rounded-lg text-xs font-semibold transition bg-emerald-600 text-white';
+            if (btnMNorr) btnMNorr.className = 'flex-1 py-1.5 rounded-lg text-xs font-semibold text-slate-300 transition';
+            loadCourseData(VECKEFJARDEN_GEOJSON, 'veckefjarden');
+        } else if (courseKey === 'norrfallsviken') {
+            btnNorr.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-emerald-600 text-white shadow-md';
+            btnVeck.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition';
+            if (btnMNorr) btnMNorr.className = 'flex-1 py-1.5 rounded-lg text-xs font-semibold transition bg-emerald-600 text-white';
+            if (btnMVeck) btnMVeck.className = 'flex-1 py-1.5 rounded-lg text-xs font-semibold text-slate-300 transition';
+            loadCourseData(NORRFALLSVIKEN_GEOJSON, 'norrfallsviken');
+        }
+    }
+
+    function toggleUnits() {
+        unitMode = unitMode === 'METERS' ? 'YARDS' : 'METERS';
+        document.getElementById('unitBadge').innerText = unitMode;
+        buildHoleCarousel();
+        renderCourseEntities();
+        selectHole(selectedHoleNum);
+        showNotification(`Units switched to ${unitMode}`, 'info');
+    }
+
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        processUploadedFile(file);
+    }
+
+    function processUploadedFile(file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const geojson = JSON.parse(e.target.result);
+                if (!geojson.features || !Array.isArray(geojson.features)) {
+                    throw new Error('Invalid GeoJSON: Missing features array.');
+                }
+                loadCourseData(geojson, 'custom');
+                showNotification(`Loaded custom course: ${file.name}`, 'success');
+            } catch (err) {
+                console.error(err);
+                showNotification('Error parsing GeoJSON: ' + err.message, 'error');
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    // Setup Drag-and-Drop
+    window.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        document.getElementById('dropZoneOverlay').classList.remove('hidden');
+    });
+    window.addEventListener('dragleave', (e) => {
+        if (e.clientX <= 0 || e.clientY <= 0) {
+            document.getElementById('dropZoneOverlay').classList.add('hidden');
+        }
+    });
+    window.addEventListener('drop', (e) => {
+        e.preventDefault();
+        document.getElementById('dropZoneOverlay').classList.add('hidden');
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            processUploadedFile(e.dataTransfer.files[0]);
+        }
+    });
+
+    /* ==========================================================================
+       12. SETTINGS MODAL & API KEY MANAGEMENT
+       ========================================================================== */
+
+    function openSettingsModal() {
+        document.getElementById('inputGoogleKey').value = localStorage.getItem('golf_google_api_key') || '';
+        document.getElementById('inputCesiumToken').value = localStorage.getItem('golf_cesium_ion_token') || '';
+        document.getElementById('sliderExaggeration').value = terrainExaggeration;
+        document.getElementById('valExaggeration').innerText = terrainExaggeration + 'x';
+        document.getElementById('settingsModal').classList.remove('hidden');
+    }
+
+    function closeSettingsModal() {
+        document.getElementById('settingsModal').classList.add('hidden');
+    }
+
+    function saveSettings() {
+        const googleKey = document.getElementById('inputGoogleKey').value.trim();
+        const cesiumToken = document.getElementById('inputCesiumToken').value.trim();
+
+        if (googleKey) {
+            localStorage.setItem('golf_google_api_key', googleKey);
+        } else {
+            localStorage.removeItem('golf_google_api_key');
+        }
+
+        if (cesiumToken) {
+            localStorage.setItem('golf_cesium_ion_token', cesiumToken);
+            Cesium.Ion.defaultAccessToken = cesiumToken;
+        } else {
+            localStorage.removeItem('golf_cesium_ion_token');
+        }
+
+        closeSettingsModal();
+
+        // Switch to Google 3D Tiles if key was entered
+        const targetMode = googleKey ? 'google-3d-tiles' : currentTerrainProvider;
+        document.getElementById('terrainSelect').value = targetMode;
+        changeTerrainProvider(targetMode, true);
+    }
+
+    /* ==========================================================================
+       13. NOTIFICATIONS & LOADING HUD
+       ========================================================================== */
+
+    function showNotification(msg, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        
+        let bgClass = 'bg-slate-900/90 border-slate-700 text-white';
+        let icon = 'info';
+
+        if (type === 'success') {
+            bgClass = 'bg-emerald-950/90 border-emerald-500/40 text-emerald-300';
+            icon = 'check-circle';
+        } else if (type === 'warning') {
+            bgClass = 'bg-amber-950/90 border-amber-500/40 text-amber-300';
+            icon = 'alert-triangle';
+        } else if (type === 'error') {
+            bgClass = 'bg-red-950/90 border-red-500/40 text-red-300';
+            icon = 'alert-circle';
+        }
+
+        toast.className = `glass-panel px-4 py-3 rounded-2xl border text-xs font-semibold flex items-center gap-2.5 shadow-2xl transition-all duration-300 transform translate-x-8 opacity-0 pointer-events-auto ${bgClass}`;
+        toast.innerHTML = `<i data-lucide="${icon}" class="w-4 h-4 flex-shrink-0"></i><span>${msg}</span>`;
+        container.appendChild(toast);
+        lucide.createIcons();
+
+        // Animate in
+        setTimeout(() => {
+            toast.classList.remove('translate-x-8', 'opacity-0');
+        }, 10);
+
+        // Auto remove
+        setTimeout(() => {
+            toast.classList.add('translate-x-8', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
+
+    function showLoading(msg) {
+        const screen = document.getElementById('loadingScreen');
+        document.getElementById('loadingStatus').innerText = msg;
+        screen.classList.remove('opacity-0', 'pointer-events-none', 'hidden');
+    }
+
+    function hideLoading() {
+        const screen = document.getElementById('loadingScreen');
+        screen.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => screen.classList.add('hidden'), 500);
+    }
+
+    /* ==========================================================================
+       14. BOOTSTRAP APPLICATION
+       ========================================================================== */
+
+    window.addEventListener('DOMContentLoaded', () => {
+        initCesium();
+    });
+
+</script>
+</body>
+</html>

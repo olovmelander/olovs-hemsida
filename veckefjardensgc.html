@@ -158,11 +158,77 @@ table.sc td.h{color:var(--rim)}
 table.sc tr.tot td{color:var(--ljung);border-top:1px solid var(--line)}
 .close{position:absolute;top:0;right:0;padding:16px 18px;font-family:var(--mono);font-size:11px;color:var(--lav)}
 .sheet{position:relative}
+
+/* ---------- green depth display ---------- */
+.c-greendepth{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:10px;text-align:center}
+.gd-item{background:rgba(11,42,54,.7);border:1px solid var(--line);border-radius:2px;padding:6px 4px}
+.gd-item span{display:block;font-family:var(--mono);font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--lav);margin-bottom:2px}
+.gd-item b{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--bjork)}
+.gd-item.pin{background:rgba(204,107,132,.18);border-color:var(--ljung)}
+.gd-item.pin b{color:var(--rim)}
+.c-depth-tag{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8.5px;color:var(--lav);margin-top:5px;padding:0 2px}
+
+/* ---------- card guide button & tee selection ---------- */
+.c-guide-btn{display:block;width:100%;margin-top:10px;padding:7px 0;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--bjork);background:rgba(185,217,226,.12);border:1px solid rgba(185,217,226,.3);border-radius:2px;cursor:pointer;transition:all .2s;text-align:center}
+.c-guide-btn:hover{background:rgba(185,217,226,.24);border-color:var(--rim)}
+.c-tees div{cursor:pointer;transition:background .15s}
+.c-tees div:hover{background:rgba(241,235,218,.08)}
+.c-tees div.active{background:rgba(204,107,132,.25);border-bottom:2px solid var(--ljung)}
+
+/* ---------- banguide modal ---------- */
+#guide-modal{position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:12px;background:rgba(7,22,27,.88);backdrop-filter:blur(10px)}
+#guide-modal.show{display:grid}
+.guide-sheet{width:min(900px,100%);max-height:92vh;display:flex;flex-direction:column;background:#0B2A36;border:1px solid var(--line);border-top:2px solid var(--ljung);padding:14px 18px 16px;box-shadow:0 20px 50px rgba(0,0,0,.6);position:relative}
+.guide-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.guide-header h2{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.02em;color:var(--bjork)}
+.guide-header span{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--lav)}
+.guide-actions{display:flex;gap:6px;align-items:center}
+.guide-pill{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border:1px solid var(--line);border-radius:2px;background:rgba(241,235,218,.06);color:var(--lav);cursor:pointer;transition:all .18s}
+.guide-pill:hover,.guide-pill.on{background:rgba(204,107,132,.22);border-color:var(--ljung);color:var(--bjork)}
+.guide-viewport{flex:1;min-height:220px;max-height:55vh;overflow:hidden;background:#051419;display:flex;align-items:center;justify-content:center;position:relative;margin:10px 0;border:1px solid rgba(241,235,218,.08);cursor:grab}
+.guide-viewport.grabbing{cursor:grabbing}
+.guide-viewport img{max-width:100%;max-height:100%;object-fit:contain;transition:transform .15s ease-out;user-select:none;-webkit-user-drag:none;transform-origin:center center}
+.guide-info{display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:12px;line-height:1.45;color:rgba(241,235,218,.85);padding:4px 0 8px}
+.guide-note{flex:1;font-size:12.5px}
+.guide-spon{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--lav);white-space:nowrap}
+.guide-nav{display:flex;gap:4px;overflow-x:auto;padding:8px 0 2px;border-top:1px solid var(--line);scrollbar-width:thin}
+.g-tab{font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:5px 8px;border:1px solid var(--line);border-radius:2px;background:rgba(7,22,27,.6);color:var(--lav);white-space:nowrap;cursor:pointer;transition:all .15s}
+.g-tab:hover{background:rgba(241,235,218,.1);color:var(--bjork)}
+.g-tab.on{background:var(--ljung);border-color:var(--ljung);color:var(--natt);font-weight:600}
+
+/* ---------- shot planner HUD ---------- */
+#plan-hud{position:fixed;right:16px;bottom:132px;z-index:22;width:min(290px,calc(100vw - 32px));background:rgba(7,22,27,.92);backdrop-filter:blur(14px);border:1px solid var(--line);border-left:2px solid var(--rim);padding:12px 14px;display:none;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+#plan-hud.show{display:block}
+.ph-head{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--rim);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.ph-x{font-family:var(--mono);font-size:13px;color:var(--lav);cursor:pointer;padding:2px 4px}
+.ph-x:hover{color:var(--bjork)}
+.ph-row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ph-card{background:rgba(11,42,54,.7);border:1px solid var(--line);padding:6px 7px;border-radius:2px}
+.ph-lbl{display:block;font-family:var(--mono);font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--lav);margin-bottom:2px}
+.ph-val{font-family:var(--disp);font-weight:700;font-size:16px;color:var(--bjork)}
+.ph-sub{font-family:var(--mono);font-size:9px;color:var(--lav);margin-top:8px;padding-top:6px;border-top:1px solid var(--line);display:flex;justify-content:space-between}
+.ph-sub b{color:var(--bjork)}
+.ph-playslike{font-family:var(--mono);font-size:10px;color:var(--sand);margin-top:6px;background:rgba(220,199,156,.1);border:1px dashed rgba(220,199,156,.3);padding:4px 6px;border-radius:2px;text-align:center}
+.ph-playslike b{color:var(--bjork);font-size:11px}
+.ph-hint{font-size:9.5px;color:rgba(156,180,155,.8);margin-top:6px;text-align:center;font-style:italic}
+
+/* ---------- flyover controls HUD ---------- */
+#fly-hud{position:fixed;left:50%;transform:translateX(-50%);bottom:132px;z-index:22;background:rgba(7,22,27,.9);backdrop-filter:blur(12px);border:1px solid var(--line);border-bottom:2px solid var(--ljung);padding:8px 14px;border-radius:24px;display:none;align-items:center;gap:14px;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+#fly-hud.show{display:flex}
+.fly-info b{display:block;font-family:var(--disp);font-size:13px;color:var(--bjork);line-height:1}
+.fly-info span{font-family:var(--mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--lav)}
+.fly-btns{display:flex;gap:6px;align-items:center}
+.fly-btns button{font-family:var(--mono);font-size:11px;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:rgba(11,42,54,.8);color:var(--lav);display:flex;align-items:center;justify-content:center;transition:all .15s}
+.fly-btns button:hover{background:var(--ljung);color:var(--natt);border-color:var(--ljung)}
+#fly-speed{width:auto;border-radius:12px;padding:0 8px;font-size:9px}
+
 @media (max-width:640px){
-  #card{left:8px;right:8px;width:auto;bottom:124px;max-height:40vh}
+  #card{left:8px;right:8px;width:auto;bottom:124px;max-height:42vh}
   #read{display:none}
-  .tools{max-width:56vw}
+  .tools{max-width:85vw}
   .bars{height:46px}
+  #plan-hud{left:8px;right:8px;width:auto;bottom:124px}
+  #fly-hud{bottom:124px;width:calc(100vw - 16px);justify-content:space-between}
 }
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
 </style>
@@ -185,6 +251,10 @@ table.sc tr.tot td{color:var(--ljung);border-top:1px solid var(--line)}
     <button class="tool" id="t-view">Tee view</button>
     <button class="tool" id="t-fly">Flyover</button>
     <button class="tool" id="t-all">Whole course</button>
+    <button class="tool" id="t-guide">📖 Banguide</button>
+    <button class="tool" id="t-plan">🎯 Shot Planner</button>
+    <button class="tool" id="t-light" title="Toggle Lighting Preset">☀️ Midsummer</button>
+    <a class="tool" id="t-globe" href="3d_golf_course_viewer.html" target="_blank" style="text-decoration:none">🛰️ 3D Globe</a>
     <button class="tool" id="t-about">Course &amp; sources</button>
   </div>
 </div>
@@ -201,11 +271,91 @@ table.sc tr.tot td{color:var(--ljung);border-top:1px solid var(--line)}
     <canvas id="c-rose" width="46" height="46" aria-hidden="true"></canvas>
     <div class="c-name" id="c-name"></div>
     <p class="c-note" id="c-note"></p>
+    
+    <!-- GPS Green Depths -->
+    <div class="c-greendepth">
+      <div class="gd-item"><span>FRONT</span><b id="c-gfront">—</b></div>
+      <div class="gd-item pin"><span>PIN / MITT</span><b id="c-gpin">—</b></div>
+      <div class="gd-item"><span>BAK</span><b id="c-gback">—</b></div>
+    </div>
+    <div class="c-depth-tag"><span id="c-gdepth">Djup: — m</span> &middot; <span id="c-active-tee">Tee: 65</span></div>
+
     <div class="c-tees" id="c-tees"></div>
+    <button class="c-guide-btn" id="c-guide-btn">📖 Visa banguide-karta</button>
     <div class="c-spon" id="c-spon"></div>
   </div>
 </div>
 <button id="recall">Show hole info</button>
+
+<!-- Shot Planner HUD -->
+<div id="plan-hud">
+  <div class="ph-head">
+    <b>🎯 SHOT PLANNER</b>
+    <button id="ph-close" class="ph-x" aria-label="Close Shot Planner">&times;</button>
+  </div>
+  <div class="ph-body">
+    <div class="ph-row">
+      <div class="ph-card">
+        <span class="ph-lbl">DRIVE / CARRY</span>
+        <b id="ph-carry" class="ph-val">— m</b>
+      </div>
+      <div class="ph-card">
+        <span class="ph-lbl">TILL PIN</span>
+        <b id="ph-approach" class="ph-val">— m</b>
+      </div>
+    </div>
+    <div class="ph-sub">
+      <span>Front: <b id="ph-front">—</b></span> &middot;
+      <span>Bak: <b id="ph-back">—</b></span> &middot;
+      <span>Höjd: <b id="ph-elev">—</b></span>
+    </div>
+    <div class="ph-playslike" id="ph-playslike">Plays like: <b>— m</b></div>
+    <div class="ph-hint">Klicka/dra på banan för att flytta landningsmålet</div>
+  </div>
+</div>
+
+<!-- Flyover Controls HUD -->
+<div id="fly-hud">
+  <div class="fly-info">
+    <b id="fly-title">Hål 1 · Par 4</b>
+    <span id="fly-status">Drone Flyover</span>
+  </div>
+  <div class="fly-btns">
+    <button id="fly-prev" title="Föregående hål">&#9664;&#9664;</button>
+    <button id="fly-pause" title="Pausa / Spela">&#10074;&#10074;</button>
+    <button id="fly-replay" title="Spela om">&#8635;</button>
+    <button id="fly-speed" title="Hastighet">1x</button>
+    <button id="fly-next" title="Nästa hål">&#9654;&#9654;</button>
+    <button id="fly-close" title="Avsluta flyover">&times;</button>
+  </div>
+</div>
+
+<!-- Banguide Map Photo Modal -->
+<div id="guide-modal">
+  <div class="guide-sheet">
+    <div class="guide-header">
+      <div>
+        <h2 id="guide-title">Hål 1 — Two plateaus</h2>
+        <span id="guide-sub">Banguide · Veckefjärdens GC</span>
+      </div>
+      <div class="guide-actions">
+        <button id="guide-overview-btn" class="guide-pill">Översiktskarta</button>
+        <button id="guide-zoom-in" class="guide-pill" title="Zoom in">+</button>
+        <button id="guide-zoom-out" class="guide-pill" title="Zoom out">-</button>
+        <button id="guide-zoom-reset" class="guide-pill" title="Reset 1:1">1:1</button>
+        <button class="close" id="guide-close" aria-label="Stäng">&#10005;</button>
+      </div>
+    </div>
+    <div class="guide-viewport" id="guide-viewport">
+      <img id="guide-img" src="banguide/maps/hole_01.jpg" alt="Banguide karta">
+    </div>
+    <div class="guide-info">
+      <p id="guide-note" class="guide-note"></p>
+      <div id="guide-spon" class="guide-spon"></div>
+    </div>
+    <div class="guide-nav" id="guide-nav"></div>
+  </div>
+</div>
 
 <div id="read">
   <div>Elev <b id="r-elev">—</b></div>
@@ -278,6 +428,28 @@ window.THREE = THREE;
    ========================================================================= */
 const TEE_NAMES = ['65','61','58','55','48','40'];
 const TEE_COLS  = ['#15161A','#E8E4D8','#D9C24B','#3E7BC4','#C6415C','#D98A34'];
+
+/* GPS-calibrated Green depths and Front/Back offsets from Golftraxx survey */
+const GPS_GREENS = [
+  {n:1, front:306, pin:321, back:334, depth:32, fDelta:-15, bDelta:13},
+  {n:2, front:452, pin:467, back:483, depth:32, fDelta:-16, bDelta:15},
+  {n:3, front:359, pin:372, back:386, depth:28, fDelta:-13, bDelta:14},
+  {n:4, front:159, pin:170, back:182, depth:23, fDelta:-11, bDelta:12},
+  {n:5, front:448, pin:466, back:483, depth:35, fDelta:-18, bDelta:17},
+  {n:6, front:357, pin:375, back:392, depth:36, fDelta:-18, bDelta:16},
+  {n:7, front:131, pin:144, back:154, depth:23, fDelta:-12, bDelta:11},
+  {n:8, front:339, pin:349, back:360, depth:22, fDelta:-11, bDelta:11},
+  {n:9, front:368, pin:387, back:406, depth:37, fDelta:-19, bDelta:19},
+  {n:10, front:480, pin:497, back:514, depth:35, fDelta:-17, bDelta:17},
+  {n:11, front:305, pin:325, back:344, depth:41, fDelta:-20, bDelta:20},
+  {n:12, front:153, pin:168, back:185, depth:32, fDelta:-16, bDelta:17},
+  {n:13, front:377, pin:392, back:405, depth:31, fDelta:-15, bDelta:13},
+  {n:14, front:140, pin:153, back:169, depth:29, fDelta:-13, bDelta:16},
+  {n:15, front:222, pin:232, back:241, depth:30, fDelta:-10, bDelta:9},
+  {n:16, front:259, pin:276, back:292, depth:33, fDelta:-17, bDelta:16},
+  {n:17, front:386, pin:405, back:423, depth:37, fDelta:-19, bDelta:18},
+  {n:18, front:512, pin:531, back:548, depth:36, fDelta:-20, bDelta:17}
+];
 
 const HOLES = [
 {n:1,par:4,idx:8,t:[334,325,312,302,254,210],line:[[-112.5,89.9],[-66.6,420.8]],
@@ -711,24 +883,24 @@ function streamAt(x,z){
 function terrainH(x,z){
   let h=baseH(x,z);
   const bk=bucketAt(x,z);
-  /* greens: flatten to a pad, add tiers */
+  /* greens: flatten to a pad, add tiers and smooth collar */
   for(const g of bk.g){
-    const sd=ellipseSD(x,z,g.x,g.z,g.rx+9,g.rz+9,g.rot);
+    const sd=ellipseSD(x,z,g.x,g.z,g.rx+8,g.rz+8,g.rot);
     if(sd<0){
-      const k=smooth(-sd/11);
-      let pad=baseH(g.x,g.z)+(HOLES[g.h-1].rise?HOLES[g.h-1].rise*0.22:0)+1.1;
+      const k=smooth(-sd/10);
+      let pad=baseH(g.x,g.z)+(HOLES[g.h-1].rise?HOLES[g.h-1].rise*0.22:0)+0.9;
       if(g.tiers>1){                       /* two plateaus (hole 1) */
         const a=g.bear,u=(x-g.x)*Math.sin(a)+(z-g.z)*Math.cos(a);
-        pad+=smooth((u+2)/9)*1.5-0.7;
+        pad+=smooth((u+2)/8)*1.4-0.7;
       }
       const a2=g.bear,u2=(x-g.x)*Math.sin(a2)+(z-g.z)*Math.cos(a2);
-      pad+=u2*0.024;                        /* back-to-front tilt */
+      pad+=u2*0.022;                        /* back-to-front tilt */
       h=lerp(h,pad,k);
     }
   }
   for(const t of bk.t){
     const sd=ellipseSD(x,z,t.x,t.z,11,8,t.rot*180/Math.PI);
-    if(sd<0)h=lerp(h,baseH(t.x,t.z)+0.9,smooth(-sd/4));
+    if(sd<0)h=lerp(h,baseH(t.x,t.z)+0.75,smooth(-sd/3.5));
   }
   for(const m of bk.m){
     const d=Math.hypot(x-m.x,z-m.z);
@@ -736,24 +908,24 @@ function terrainH(x,z){
   }
   for(const b of bk.b){
     const sd=ellipseSD(x,z,b.x,b.z,b.rx,b.rz,b.rot);
-    if(sd<3.5){
-      if(sd<0)h+=lerp(-1.55,0,smooth((sd+b.rx*0.55)/(b.rx*0.55)));
-      else h+=smooth(1-sd/3.5)*0.75;       /* lip */
+    if(sd<3.2){
+      if(sd<0)h+=lerp(-1.4,0,smooth((sd+b.rx*0.6)/(b.rx*0.6)));
+      else h+=smooth(1-sd/3.2)*0.65;       /* rolled bunker lip */
     }
   }
   const st=streamAt(x,z);
-  if(st)h-=Math.max(0,1.9*(1-st.d/(st.w*2.6)))+ (st.d<st.w?1.1:0);
-  let gpad=0;                                    /* how much of a green pad is here */
-  for(const g of bk.g)gpad=Math.max(gpad,smooth(-ellipseSD(x,z,g.x,g.z,g.rx+8,g.rz+8,g.rot)/7));
+  if(st)h-=Math.max(0,1.8*(1-st.d/(st.w*2.5)))+(st.d<st.w?0.9:0);
+  let gpad=0;
+  for(const g of bk.g)gpad=Math.max(gpad,smooth(-ellipseSD(x,z,g.x,g.z,g.rx+7,g.rz+7,g.rot)/6));
   const wd=waterDepth(x,z);
-  if(wd>0&&gpad<0.98)h=lerp(h,-wd,smooth(wd/2.2)*(1-gpad));
+  if(wd>0&&gpad<0.98)h=lerp(h,-wd,smooth(wd/2.0)*(1-gpad));
   else{
     const sd=waterSD(x,z);
     if(sd<16){
-      let turf=0;                                    /* keep greens and tees off the beach */
-      for(const g of bk.g)turf=Math.max(turf,smooth(-ellipseSD(x,z,g.x,g.z,g.rx+7,g.rz+7,g.rot)/5));
-      for(const t of bk.t)turf=Math.max(turf,smooth(-ellipseSD(x,z,t.x,t.z,13,10,t.rot*180/Math.PI)/4));
-      h=lerp(h,0.45,smooth(1-sd/10)*0.6*(1-turf));   /* shore bench */
+      let turf=0;
+      for(const g of bk.g)turf=Math.max(turf,smooth(-ellipseSD(x,z,g.x,g.z,g.rx+6,g.rz+6,g.rot)/5));
+      for(const t of bk.t)turf=Math.max(turf,smooth(-ellipseSD(x,z,t.x,t.z,12,9,t.rot*180/Math.PI)/4));
+      h=lerp(h,0.45,smooth(1-sd/10)*0.55*(1-turf));
     }
   }
   return h;
@@ -787,31 +959,30 @@ function pathDist(x,z){
 function surfaceAt(x,z){
   const bk=bucketAt(x,z);
   let fair=0,grn=0,tee=0,sand=0,fringe=0,along=0;
-  const n=fbm(x*1.0,z*1.0,2,1/26,1)*3.4;
+  const n=fbm(x*0.15,z*0.15,2,1/110,1)*3.5;
   for(const sg of bk.f){
     const r=ptSeg(x,z,sg.ax,sg.az,sg.bx,sg.bz);
-    const w=sg.w+Math.sin(r.t*7.3+sg.h)*3.2+n;
-    const k=smooth(1-(r.d-w)/9);
+    const w=sg.w+Math.sin(r.t*3.2+sg.h)*2.0+n;
+    const k=smooth(1-(r.d-w)/14);
     if(k>fair){fair=k;along=r.t*Math.hypot(sg.bx-sg.ax,sg.bz-sg.az);}
   }
   fair=Math.max(fair,lcCov(x,z,2)*0.72);
   for(const g of bk.g){
-    const sd=ellipseSD(x,z,g.rx?g.x:g.x,g.z,g.rx,g.rz,g.rot)+n*0.35;
-    grn=Math.max(grn,smooth(-sd/2.0));
-    fringe=Math.max(fringe,smooth(-(sd-4.5)/2.4));
-    fair=Math.max(fair,smooth(-(sd-11)/7));
+    const sd=ellipseSD(x,z,g.x,g.z,g.rx,g.rz,g.rot);
+    grn=Math.max(grn,smooth(-sd/2.2));
+    fringe=Math.max(fringe,smooth(-(sd-4.5)/2.8));
+    fair=Math.max(fair,smooth(-(sd-11)/8));
   }
   for(const t of bk.t){
     const sd=ellipseSD(x,z,t.x,t.z,10.5,7.5,t.rot*180/Math.PI);
-    tee=Math.max(tee,smooth(-sd/1.6));
+    tee=Math.max(tee,smooth(-sd/1.8));
   }
   for(const b of bk.b){
-    const sd=ellipseSD(x,z,b.x,b.z,b.rx,b.rz,b.rot)+n*0.3;
-    sand=Math.max(sand,smooth(-sd/1.4));
+    const sd=ellipseSD(x,z,b.x,b.z,b.rx,b.rz,b.rot);
+    sand=Math.max(sand,smooth(-sd/1.6));
   }
-  const pd=pathDist(x,z)+n*0.25;
-  const path=smooth(1-(pd-2.1)/1.5);
-  const cut1=Math.max(0,smooth(1-(fair>0?0:1))*0)+smooth((fair*2.4))*0;
+  const pd=pathDist(x,z);
+  const path=smooth(1-(pd-2.2)/1.6);
   return{fair:fair,green:grn,tee:tee,sand:sand,fringe:Math.max(0,fringe-grn),
          path:path,along:along};
 }
@@ -827,26 +998,33 @@ function detailTexture(size,seed){
           p01=hh(m(xi),m(yi+1),s),p11=hh(m(xi+1),m(yi+1),s);
     return (p00+(p10-p00)*a)+((p01+(p11-p01)*a)-(p00+(p10-p00)*a))*b;
   }
-  const fb=(u,v,oct,per,s,ay)=>{let t=0,n=0,am=1,p=per;
-    for(let o=0;o<oct;o++){t+=vn(u,ay?v*1:v,p,s+o)*am;n+=am;am*=0.52;p*=2;}return t/n;};
+  const fb=(u,v,oct,per,s)=>{let t=0,n=0,am=1,p=per;
+    for(let o=0;o<oct;o++){t+=vn(u,v,p,s+o*7)*am;n+=am;am*=0.52;p*=2;}return t/n;};
   for(let y=0;y<size;y++)for(let x=0;x<size;x++){
     const u=x/size,v=y/size,i=(y*size+x)*4;
-    d[i]  =Math.round(fb(u,v,4,16,seed)*255);          // fine grain
-    d[i+1]=Math.round(fb(u,v,3,4,seed+40)*255);        // broad mottle
-    const bl=vn(u,v,64,seed+80)*0.55+vn(u,v,8,seed+90)*0.45;
-    d[i+2]=Math.round(bl*255);                          // blade-scale streak
-    d[i+3]=255;
+    // R: High-frequency micro grass blade fiber
+    const blades=vn(u,v,128,seed+10)*0.6+vn(u,v,256,seed+20)*0.4;
+    d[i]=Math.round(blades*255);
+    // G: Organic clumping, turf patchiness & soil mottle
+    d[i+1]=Math.round(fb(u,v,5,8,seed+50)*255);
+    // B: Soft isotropic grass grain
+    const grass=fb(u,v,4,32,seed+80);
+    d[i+2]=Math.round(grass*255);
+    // A: Quartz micro glints & silica grain for sand
+    const glint=Math.pow(hh(x*4,y*4,seed+120),8.0);
+    d[i+3]=Math.round(glint*255);
   }
   ctx.putImageData(img,0,0);
   const t=new THREE.CanvasTexture(c);
   t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=16;
   return t;
 }
-const DET=detailTexture(512,7), DET2=detailTexture(512,23);
-/* tileable normal map derived from fine height noise - gives close-up relief */
+const DET=detailTexture(1024,7), DET2=detailTexture(1024,23);
+
+/* tileable normal map derived from isotropic multi-octave noise */
 function normalTex(S,cells){
   const hgt=new Float32Array(S*S);
-  const layers=[[cells,0.5],[cells*2,0.28],[cells*4,0.15],[cells*8,0.07]];
+  const layers=[[cells,0.40],[cells*2,0.25],[cells*4,0.18],[cells*8,0.10],[cells*16,0.05],[cells*32,0.02]];
   const gs=layers.map(([n,a])=>{const g=[];for(let j=0;j<n;j++){const r=[];
     for(let i=0;i<n;i++)r.push(Math.random());g.push(r);}return{g:g,n:n,a:a};});
   for(let y=0;y<S;y++)for(let x=0;x<S;x++){
@@ -859,11 +1037,10 @@ function normalTex(S,cells){
       const a=L.g[j0][i0],b=L.g[j0][i1],c=L.g[j1][i0],e=L.g[j1][i1];
       const t1=a+(b-a)*u,t2=c+(e-c)*u; v+=(t1+(t2-t1)*w2)*L.a; sm+=L.a;
     }
-    v/=sm;
-    hgt[y*S+x]=v*0.72+0.28*(0.5+0.5*Math.sin(x*0.9+y*0.22+v*17.0)); /* blade streaks */
+    hgt[y*S+x]=v/sm;
   }
   const cv=document.createElement('canvas');cv.width=cv.height=S;
-  const ctx=cv.getContext('2d'),img=ctx.createImageData(S,S),d=img.data,K=2.6;
+  const ctx=cv.getContext('2d'),img=ctx.createImageData(S,S),d=img.data,K=1.6;
   for(let y=0;y<S;y++)for(let x=0;x<S;x++){
     const hL=hgt[y*S+((x-1+S)%S)],hR=hgt[y*S+((x+1)%S)];
     const hD=hgt[((y-1+S)%S)*S+x],hU=hgt[((y+1)%S)*S+x];
@@ -877,86 +1054,75 @@ function normalTex(S,cells){
   const t=new THREE.CanvasTexture(cv);
   t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=16;return t;
 }
-const NRM=normalTex(512,8);
-/* Lambert + injected multi-scale detail so the ground holds up close to the eye */
+const NRM=normalTex(1024,8);
 
-/* ---- physically-based turf material: roughness varies by surface type ---- */
+/* ---- AAA physically-based turf material with continuous anisotropic sheen & SSS ---- */
 function turfStd(tex,norm,fixedSurf){
   const m=new THREE.MeshStandardMaterial(Object.assign(
-    {vertexColors:true,roughness:0.92,metalness:0.0,envMapIntensity:ENV_INT},
-    norm?{normalMap:norm,normalScale:new THREE.Vector2(0.55,0.55)}:{}));
+    {vertexColors:true,roughness:0.88,metalness:0.02,envMapIntensity:ENV_INT},
+    norm?{normalMap:norm,normalScale:new THREE.Vector2(0.25,0.25)}:{}));
   m.onBeforeCompile=sh=>{
     sh.uniforms.uD={value:tex};
     sh.uniforms.uFix={value:(fixedSurf===undefined?-1:fixedSurf)};
+    sh.uniforms.uSunDir={value:SUNDIR};
     sh.vertexShader=sh.vertexShader
-      .replace('#include <common>','#include <common>\nattribute float surf;\nattribute float aDet;attribute float aBmp;attribute float aGls;attribute float aStr;\nvarying float vSurf;\nvarying vec3 vWP;\nvarying float vDet;varying float vBmp;varying float vGls;varying float vStr;')
-      .replace('#include <begin_vertex>','#include <begin_vertex>\nvSurf=surf;\nvWP=(modelMatrix*vec4(position,1.0)).xyz;\nvDet=aDet;vBmp=aBmp;vGls=aGls;vStr=aStr;');
+      .replace('#include <common>','#include <common>\nattribute float surf;\nattribute float aDet;attribute float aBmp;attribute float aGls;attribute float aStr;\nvarying float vSurf;\nvarying vec3 vWP;\nvarying vec3 vNormalW;\nvarying float vDet;varying float vBmp;varying float vGls;varying float vStr;')
+      .replace('#include <begin_vertex>','#include <begin_vertex>\nvSurf=surf;\nvWP=(modelMatrix*vec4(position,1.0)).xyz;\nvNormalW=normalize((modelMatrix*vec4(normal,0.0)).xyz);\nvDet=aDet;vBmp=aBmp;vGls=aGls;vStr=aStr;');
     sh.fragmentShader=sh.fragmentShader
-      .replace('#include <common>','#include <common>\nuniform sampler2D uD;\nuniform float uFix;\nvarying float vSurf;\nvarying vec3 vWP;\nvarying float vDet;varying float vBmp;varying float vGls;varying float vStr;')
+      .replace('#include <common>','#include <common>\nuniform sampler2D uD;\nuniform float uFix;\nuniform vec3 uSunDir;\nvarying float vSurf;\nvarying vec3 vWP;\nvarying vec3 vNormalW;\nvarying float vDet;varying float vBmp;varying float vGls;varying float vStr;')
       .replace('#include <color_fragment>',`#include <color_fragment>
-        float S = uFix>=0.0 ? uFix : vSurf;
-        vec2 wp=vWP.xz;
-        float cd=length(cameraPosition-vWP);
-        float hi=1.0-smoothstep(45.0,200.0,cd);
-        bool isSand=(S>5.5&&S<6.5), isGreen=(S>2.5&&S<3.5), isFescue=(S<0.5);
-        bool isPan=(S>7.5&&S<8.5);
-        /* surfShade() solves the detail frequency per vertex; the per-id constant is
-           only a fallback for geometry that carries no aDet attribute */
-        float scId = isSand?2.10:(isFescue?0.52:(isGreen?1.75:1.05));
-        float sc = vDet>0.01 ? vDet : scId;
-        float d1=texture2D(uD,wp*sc*0.55).r;
-        float d2=texture2D(uD,wp*sc*2.4).g;
-        float d3=texture2D(uD,wp*0.075).b;
-        float det=mix(d1*0.60+d3*0.40, d1*0.34+d2*0.42+d3*0.24, hi);
-        float amt = isSand?0.30:(isGreen?0.15:(isFescue?0.62:(isPan?0.66:0.50)));
-        diffuseColor.rgb*=mix(1.0,0.62+0.80*det,amt);
-        /* mowing: vStr carries the cut, so fairway, tee and green each read
-           differently instead of the fairway alone being striped */
-        if(vStr>0.01){
-          float b1=sin((wp.x*0.7071+wp.y*0.7071)*0.60);
-          diffuseColor.rgb*=1.0+0.042*sign(b1)*min(vStr,1.0);
-          if(vStr>1.05){                         /* tees and greens cross-cut */
-            float b2=sin((wp.x*0.7071-wp.y*0.7071)*1.35);
-            diffuseColor.rgb*=1.0+0.020*sign(b2)*min(vStr-1.0,1.0);
+        vec2 wp = vWP.xz;
+        vec3 V = normalize(cameraPosition - vWP);
+        vec3 Ldir = normalize(uSunDir);
+        float cd = length(cameraPosition - vWP);
+        float hi = 1.0 - smoothstep(30.0, 180.0, cd);
+
+        float sc = max(vDet, 0.45);
+        vec4 dt = texture2D(uD, wp*sc*0.4);
+        vec4 dtFine = texture2D(uD, wp*sc*2.0);
+        vec4 dtMacro = texture2D(uD, wp*0.05);
+
+        float microDetail = mix(dt.r*0.55 + dtMacro.g*0.45, dtFine.r*0.40 + dt.g*0.35 + dtMacro.b*0.25, hi);
+        float amt = clamp(vBmp * 0.70, 0.15, 0.65);
+        diffuseColor.rgb *= mix(1.0, 0.78 + 0.44*microDetail, amt);
+
+        // Subsurface scattering glow on backlit turf
+        float lum = dot(diffuseColor.rgb, vec3(0.30, 0.59, 0.11));
+        if(lum > 0.06){
+          float sss = pow(clamp(dot(V, -Ldir), 0.0, 1.0), 3.2) * 0.14;
+          diffuseColor.rgb += vec3(0.06, 0.14, 0.03) * sss;
+        }
+
+        // Anisotropic mowing sheen on fairways, greens and tees
+        if(vStr > 0.05){
+          float mowBand = sin((wp.x*0.7071 + wp.y*0.7071)*0.22);
+          float cutDirection = sign(mowBand);
+          vec3 mowDir = vec3(0.7071, 0.0, 0.7071) * cutDirection;
+          float vDotMow = dot(V, mowDir);
+          float lDotMow = dot(Ldir, mowDir);
+          float sheen = (vDotMow * 0.08 + lDotMow * 0.05) * min(vStr, 1.0);
+          diffuseColor.rgb *= 1.0 + sheen;
+          if(vStr > 1.05){ // Cross-cut pattern on greens & tees
+            float crossBand = sin((wp.x*0.7071 - wp.y*0.7071)*0.65);
+            diffuseColor.rgb *= 1.0 + 0.03 * sign(crossBand) * min(vStr - 1.0, 1.0);
           }
         }
-        if(isSand){                              /* raked ripples */
-          float rp=sin(wp.x*0.55+wp.y*0.30+d1*5.0);
-          diffuseColor.rgb*=1.0+0.05*rp*hi;
-        }
-        if(isPan){                               /* dry, cracked hardpan */
-          float ck=smoothstep(0.62,0.78,d2);
-          diffuseColor.rgb*=1.0-0.16*ck*hi;
-        }`)
+      `)
       .replace('#include <roughnessmap_fragment>',`
-        float S2 = uFix>=0.0 ? uFix : vSurf;
-        float roughnessFactor;
-        if(S2<0.5)      roughnessFactor=0.97;   /* deep rough / fescue */
-        else if(S2<1.5) roughnessFactor=0.93;   /* first cut          */
-        else if(S2<2.5) roughnessFactor=0.87;   /* fairway            */
-        else if(S2<3.5) roughnessFactor=0.68;   /* putting green      */
-        else if(S2<4.5) roughnessFactor=0.79;   /* fringe / collar    */
-        else if(S2<5.5) roughnessFactor=0.83;   /* tee box            */
-        else if(S2<6.5) roughnessFactor=0.99;   /* sand               */
-        else if(S2<7.5) roughnessFactor=0.86;   /* cart path          */
-        else if(S2<8.5) roughnessFactor=0.94;   /* dirt / hardpan     */
-        else if(S2<9.5) roughnessFactor=0.98;   /* pine straw         */
-        else            roughnessFactor=0.38;   /* wet shore          */
-        /* surfShade's gloss channel. specularStrength does not exist in the standard
-           BRDF, so the only honest route for it is roughness. */
-        if(vGls>0.001) roughnessFactor*=mix(1.05,0.70,clamp(vGls*1.9,0.0,1.0));`)
+        float roughnessFactor = clamp(0.96 - vGls * 0.65, 0.48, 0.98);
+      `)
       .replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
         { float _nd=length(cameraPosition-vWP);
-          float _nf=1.0-smoothstep(70.0,240.0,_nd);
-          if(_nf>0.001&&vBmp>0.001){             /* micro-relief, per surfShade */
-            vec2 wq=vWP.xz*max(vDet*0.9,0.05);
+          float _nf=1.0-smoothstep(60.0,220.0,_nd);
+          if(_nf>0.001){
+            vec2 wq=vWP.xz*max(vDet*0.85,0.06);
             float h0=texture2D(uD,wq).g;
-            float hx=texture2D(uD,wq+vec2(0.35,0.0)).g;
-            float hy=texture2D(uD,wq+vec2(0.0,0.35)).g;
-            normal=normalize(normal+vec3(h0-hx,0.0,h0-hy)*vBmp*2.0*_nf);
+            float hx=texture2D(uD,wq+vec2(0.32,0.0)).g;
+            float hy=texture2D(uD,wq+vec2(0.0,0.32)).g;
+            normal=normalize(normal+vec3(h0-hx,0.0,h0-hy)*(vBmp>0.001?vBmp:0.8)*2.4*_nf);
           } }`);
   };
-  m.customProgramCacheKey=()=>'std'+(norm?1:0)+'_'+fixedSurf;
+  m.customProgramCacheKey=()=>'std_pbr_aaa_'+(norm?1:0)+'_'+fixedSurf;
   return m;
 }
 function turfMat(tex,sA,sB,sC,amt,stripe,map,norm){
@@ -1016,17 +1182,17 @@ function turfMat(tex,sA,sB,sC,amt,stripe,map,norm){
   m.customProgramCacheKey=()=>'turf2_'+sA+'_'+sB+'_'+sC+'_'+amt+'_'+(map?1:0)+'_'+(norm?1:0);
   return m;
 }
-function lam(o){return stdMat(o);}   /* r185 ColorManagement converts Color(hex) already */
+function lam(o){return stdMat(o);}
 const s2l=v=>v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4);
 const L=a=>[s2l(a[0]),s2l(a[1]),s2l(a[2])];
 const C={
- fair:[0.396,0.549,0.212], fairA:[0.451,0.616,0.243], fairB:[0.325,0.471,0.176],
- green:[0.545,0.714,0.298], fringe:[0.478,0.639,0.263], tee:[0.463,0.620,0.259],
- sand:[0.898,0.816,0.627], rough:[0.267,0.388,0.176], semi:[0.333,0.478,0.208],
- fescue:[0.451,0.435,0.235], heath:[0.345,0.404,0.243], heather:[0.365,0.357,0.302],
- forest:[0.129,0.239,0.145], straw:[0.318,0.243,0.157], dirt:[0.408,0.341,0.243],
- path:[0.545,0.529,0.494], rock:[0.435,0.443,0.427],
- shore:[0.678,0.643,0.522], wet:[0.129,0.235,0.204]
+  fair:[0.29, 0.49, 0.20], fairA:[0.33, 0.54, 0.22], fairB:[0.25, 0.44, 0.17],
+  green:[0.22, 0.54, 0.20], fringe:[0.26, 0.48, 0.18], tee:[0.28, 0.50, 0.20],
+  sand:[0.86, 0.78, 0.62], rough:[0.23, 0.38, 0.16], semi:[0.26, 0.44, 0.18],
+  fescue:[0.36, 0.38, 0.20], heath:[0.28, 0.34, 0.19], heather:[0.30, 0.32, 0.24],
+  forest:[0.13, 0.21, 0.12], straw:[0.26, 0.19, 0.13], dirt:[0.36, 0.29, 0.20],
+  path:[0.50, 0.48, 0.45], rock:[0.42, 0.43, 0.41],
+  shore:[0.54, 0.52, 0.42], wet:[0.10, 0.18, 0.15]
 };
 Object.keys(C).forEach(k=>{C[k]=L(C[k]);});
 function mixc(a,b,t){return[lerp(a[0],b[0],t),lerp(a[1],b[1],t),lerp(a[2],b[2],t)];}
@@ -1035,18 +1201,17 @@ function openness(x,z){
   return clamp(1-lcCov(x,z,3)*0.90,0.05,1);
 }
 
-/* class ids: 0 first-cut 1 fairway 2 green 3 tee 4 sand 5 fescue
-   6 pine straw 7 cart path 8 dirt 9 fringe 10 shore 11 rock */
+/* class ids: 0 rough 1 semi 2 fairway 3 green 4 fringe 5 tee 6 sand 7 path 8 dirt 9 forest 10 shore */
 function groundColor(x,z,h,slope,sfIn){
   const sf=sfIn||surfaceAt(x,z), turf=lcCov(x,z,2), wood=lcCov(x,z,3);
   const fesc=clamp(fbm(x-800,z+400,2,1/95,1)*0.9+0.35,0,1);
-  let c=mixc(C.rough,C.fescue,fesc*0.55);           /* deep rough / fescue */
+  let c=mixc(C.rough,C.fescue,fesc*0.50);           /* deep rough / fescue */
   c=mixc(c,C.straw,smooth(wood*1.10));              /* pine straw under canopy */
   const fw=clamp(Math.max(sf.fair*1.10,turf*0.95),0,1);
   c=mixc(c,C.semi,smooth(clamp(fw*1.9,0,1))*0.75);  /* first cut */
-  if(fw>0.22){                                       /* fairway, mown in bands */
+  if(fw>0.20){                                       /* fairway, mown in bands */
     const band=Math.sin(sf.along/16.5)*0.5+0.5;
-    c=mixc(c,mixc(C.fairB,C.fairA,band),smooth((fw-0.22)/0.58));
+    c=mixc(c,mixc(C.fairB,C.fairA,band),smooth((fw-0.20)/0.60));
   }
   if(sf.fringe>0)c=mixc(c,C.fringe,smooth(sf.fringe));
   if(sf.green>0) c=mixc(c,C.green,smooth(sf.green));
@@ -1054,11 +1219,8 @@ function groundColor(x,z,h,slope,sfIn){
   if(sf.sand>0)  c=mixc(c,C.sand,smooth(sf.sand));
   if(h<1.3&&sf.sand<0.3)c=mixc(c,C.shore,smooth((1.3-h)/1.1)*0.55);
   if(h<0.05)c=mixc(c,C.wet,smooth(-h/1.4));
-  if(slope>0.52&&sf.green<0.3&&sf.sand<0.3)      /* hardpan on steep faces */
-    c=mixc(c,C.dirt,smooth((slope-0.52)/0.34)*0.5);
-  if(sf.path>0)c=mixc(c,C.path,smooth(sf.path)*0.92);   /* cart path */
-  const g=1+fbm(x*3.1,z*3.1,2,1/7,1)*0.05;
-  return[clamp(c[0]*g,0,1),clamp(c[1]*g,0,1),clamp(c[2]*g,0,1)];
+  if(sf.path>0)c=mixc(c,C.path,smooth(sf.path)*0.95);   /* cart path */
+  return[clamp(c[0],0,1),clamp(c[1],0,1),clamp(c[2],0,1)];
 }
 function surfShade(x,z,sfIn){        /* detail scale, micro-relief, gloss, mow bands */
   const sf=sfIn||surfaceAt(x,z), turf=lcCov(x,z,2), wood=lcCov(x,z,3);
@@ -1090,6 +1252,8 @@ function buildTerrain(){
   const nrm=geo.attributes.normal.array;
   const NV=pos.length/3;
   const aD=new Float32Array(NV),aB=new Float32Array(NV),aG=new Float32Array(NV),aS=new Float32Array(NV);
+  const sid=new Float32Array(NV);
+
   for(let i=0,k=0;i<pos.length;i+=3,k++){
     const slope=1-nrm[i+1];
     const sf=surfaceAt(pos[i],pos[i+2]);
@@ -1097,51 +1261,41 @@ function buildTerrain(){
     colors[i]=c[0];colors[i+1]=c[1];colors[i+2]=c[2];
     const p=surfShade(pos[i],pos[i+2],sf);
     aD[k]=p[0];aB[k]=p[1];aG[k]=p[2];aS[k]=p[3];
+
+    // Clean surface classification without false slope artifacts
+    const fw=Math.max(sf.fair,lcCov(pos[i],pos[i+2],2)*0.9);
+    let id=0;
+    if(lcCov(pos[i],pos[i+2],3)>0.5) id=9; // forest
+    if(fw>0.08) id=1; // semi
+    if(fw>0.30) id=2; // fairway
+    if(sf.fringe>0.30) id=4; // fringe
+    if(sf.green>0.35)  id=3; // green
+    if(sf.tee>0.35)    id=5; // tee
+    if(sf.path>0.40)   id=7; // path
+    if(sf.sand>0.35)   id=6; // sand
+    if(pos[i+1]<0.9)   id=10; // shore
+    sid[k]=id;
+
+    // Smooth contact Ambient Occlusion in crevices & ditches
+    let occ=0;
+    for(let a=0;a<6;a++){
+      const th=a*1.0472; let mx=0;
+      for(let ri=0;ri<3;ri++){
+        const r=[6,14,26][ri];
+        mx=Math.max(mx,(sampleH(pos[i]+Math.cos(th)*r,pos[i+2]+Math.sin(th)*r)-pos[i+1])/r);
+      }
+      occ+=clamp(mx*1.4,0,1);
+    }
+    const ao=1-(occ/6)*0.40;
+    colors[i]*=ao; colors[i+1]*=ao; colors[i+2]*=ao;
   }
   geo.setAttribute('color',new THREE.BufferAttribute(colors,3));
-  {                                    /* per-vertex surface id + relief AO */
-    const PA=geo.attributes.position.array, CA=geo.attributes.color.array;
-    const cnt=PA.length/3, sid=new Float32Array(cnt);
-    for(let v=0;v<cnt;v++){
-      const x=PA[v*3], y=PA[v*3+1], z=PA[v*3+2];
-      const sf=surfaceAt(x,z), fw=Math.max(sf.fair,lcCov(x,z,2)*0.9);
-      let id=0;
-      if(lcCov(x,z,3)>0.5) id=9;
-      if(1-nrm[v*3+1]>0.05||(sf.path>0.14&&sf.path<=0.40)) id=8;
-        /* hardpan: eroded ground on the steeper faces, plus the worn margin either
-           side of a cart path. Thresholds measured against the built terrain rather
-           than guessed -- the course is very flat (90th-percentile slope 0.0028), so
-           this legitimately covers only about 0.5% of vertices. */
-      if(fw>0.06) id=1;
-      if(fw>0.28) id=2;
-      if(sf.fringe>0.30) id=4;
-      if(sf.green>0.35)  id=3;
-      if(sf.tee>0.35)    id=5;
-      if(sf.path>0.40)   id=7;
-      if(sf.sand>0.35)   id=6;
-      if(y<0.9)          id=10;
-      sid[v]=id;
-      let occ=0;
-      for(let a=0;a<6;a++){
-        const th=a*1.0472; let mx=0;
-        for(let ri=0;ri<3;ri++){
-          const r=[7,16,30][ri];
-          mx=Math.max(mx,(sampleH(x+Math.cos(th)*r,z+Math.sin(th)*r)-y)/r);
-        }
-        occ+=clamp(mx*1.7,0,1);
-      }
-      const ao=1-(occ/6)*0.50;
-      CA[v*3]*=ao; CA[v*3+1]*=ao; CA[v*3+2]*=ao;
-    }
-    geo.setAttribute('surf',new THREE.Float32BufferAttribute(sid,1));
-    geo.attributes.color.needsUpdate=true;
-  }
+  geo.setAttribute('surf',new THREE.Float32BufferAttribute(sid,1));
   geo.setAttribute('aDet',new THREE.BufferAttribute(aD,1));
   geo.setAttribute('aBmp',new THREE.BufferAttribute(aB,1));
   geo.setAttribute('aGls',new THREE.BufferAttribute(aG,1));
   geo.setAttribute('aStr',new THREE.BufferAttribute(aS,1));
-  {const mid=Math.floor(colors.length/2/3)*3;
-   console.log('turf sample rgb',colors[mid].toFixed(3),colors[mid+1].toFixed(3),colors[mid+2].toFixed(3));}
+
   const uv=new Float32Array(pos.length/3*2);
   for(let i=0,k=0;i<pos.length;i+=3,k+=2){
     uv[k]=((pos[i]/TEXINFO.s+TEXINFO.cx)-TEXINFO.x0)/TEXINFO.w;
@@ -1149,7 +1303,7 @@ function buildTerrain(){
   }
   geo.setAttribute('uv',new THREE.BufferAttribute(uv,2));
   const turfNrm=NRM.clone();turfNrm.wrapS=turfNrm.wrapT=THREE.RepeatWrapping;
-  turfNrm.repeat.set(W/7.5,D/7.5);turfNrm.needsUpdate=true;
+  turfNrm.repeat.set(W/24.0,D/24.0);turfNrm.needsUpdate=true;
   terrain=new THREE.Mesh(geo,turfStd(DET,turfNrm));
   terrain.receiveShadow=true;
   scene.add(terrain);
@@ -1220,16 +1374,14 @@ function ellipseMesh(cx,cz,rx,rz,rotDeg,rings,segs,yFn,colorArr,jitter,params){
 function buildOverlays(){
   const gGeos=[],bGeos=[];
   GREENS.forEach(g=>{
-    gGeos.push(ellipseMesh(g.x,g.z,g.rx,g.rz,g.rot,7,44,
-      (x,z)=>terrainH(x,z)+0.07,
-      (x,z,rr)=>{const n=fbm(x*2.3,z*2.3,2,1/9,1)*0.05;
-        return[clamp(C.green[0]*(1+n),0,1),clamp(C.green[1]*(1+n)*(1-rr*0.04),0,1),clamp(C.green[2]*(1+n),0,1)];},true,[2.9,0.14,0.52,1.7]));
+    gGeos.push(ellipseMesh(g.x,g.z,g.rx,g.rz,g.rot,10,56,
+      (x,z)=>terrainH(x,z)+0.05,
+      (x,z,rr)=>{return[C.green[0],C.green[1]*(1-rr*0.03),C.green[2]];},false,[3.2,0.12,0.60,1.8]));
   });
   BUNKERS.forEach(b=>{
-    bGeos.push(ellipseMesh(b.x,b.z,b.rx,b.rz,b.rot,5,34,
-      (x,z)=>terrainH(x,z)+0.05,
-      (x,z,rr)=>{const n=fbm(x*3.4,z*3.4,2,1/6,1)*0.045+rr*0.05;
-        return[clamp(C.sand[0]*(1+n),0,1),clamp(C.sand[1]*(1+n),0,1),clamp(C.sand[2]*(1+n*1.3),0,1)];},true,[2.3,0.60,0.16,0.0]));
+    bGeos.push(ellipseMesh(b.x,b.z,b.rx,b.rz,b.rot,8,44,
+      (x,z)=>terrainH(x,z)+0.04,
+      (x,z,rr)=>{return[C.sand[0],C.sand[1],C.sand[2]];},false,[2.5,0.65,0.18,0.0]));
   });
   const gMat=turfStd(DET2,null,3), bMat=turfStd(DET,null,6);
   gGeos.forEach(g=>{const m=new THREE.Mesh(g,gMat);m.receiveShadow=true;scene.add(m);});
@@ -1241,38 +1393,52 @@ function buildOverlays(){
    colours must stay raw sRGB. setHex with LinearSRGBColorSpace stores the bytes
    verbatim instead of converting them into the linear working space.              */
 const rawSRGB=h=>new THREE.Color().setHex(h,THREE.LinearSRGBColorSpace);
-const waterUni={t:{value:0},cShallow:{value:rawSRGB(0x3E7E8C)},
-                cDeep:{value:rawSRGB(0x0C2E3E)},sunDir:{value:new THREE.Vector3(-0.42,0.46,0.78)},
+const waterUni={t:{value:0},cShallow:{value:rawSRGB(0x38B5C4)},
+                cDeep:{value:rawSRGB(0x041824)},cRefl:{value:rawSRGB(0xE6F4F8)},
+                sunDir:{value:new THREE.Vector3(-0.42,0.46,0.78)},
                 fogColor:{value:rawSRGB(0xAFCBD2)},fogDensity:{value:0.00038}};
 const waterMat=new THREE.ShaderMaterial({
   uniforms:waterUni,transparent:true,
   vertexShader:`attribute float shore; varying float vS; varying vec3 vW;
     void main(){vS=shore;vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;
       gl_Position=projectionMatrix*viewMatrix*w;}`,
-  fragmentShader:`uniform float t; uniform vec3 cShallow,cDeep,sunDir,fogColor; uniform float fogDensity;
+  fragmentShader:`uniform float t; uniform vec3 cShallow,cDeep,cRefl,sunDir,fogColor; uniform float fogDensity;
     varying float vS; varying vec3 vW;
     void main(){
-      if(vS<=0.5) discard;   // dry land: no water sheet
+      if(vS<=0.3) discard;   // dry land: no water sheet
 
       vec2 p=vW.xz;
-      float w1=sin(p.x*0.062+t*0.9)+sin(p.y*0.048-t*0.7);
-      float w2=sin((p.x+p.y)*0.031+t*0.45)+sin((p.x-p.y)*0.026-t*0.36);
+      float w1=sin(p.x*0.075+t*1.15)+sin(p.y*0.055-t*0.95);
+      float w2=sin((p.x+p.y)*0.036+t*0.62)+sin((p.x-p.y)*0.030-t*0.48);
+      float cap=sin(p.x*0.24+p.y*0.14+t*2.0)*sin(p.x*0.10-p.y*0.22-t*1.5);
       float _wd=length(cameraPosition-vW);
-      float _hf=1.0-smoothstep(140.0,650.0,_wd);
-      float w3=(sin(p.x*0.17-t*1.7)*0.35+sin(p.y*0.155+t*1.5)*0.35)*_hf;
-      vec3 n=normalize(vec3((w1*0.030+w3*0.020),1.0,(w2*0.030+w3*0.018)));
+      float _hf=1.0-smoothstep(120.0,680.0,_wd);
+      float w3=(sin(p.x*0.20-t*2.1)*0.4+sin(p.y*0.18+t*1.7)*0.4)*_hf;
+      float w4=(sin(p.x*0.45+p.y*0.38+t*3.2)*0.25)*_hf;
+      
+      vec3 n=normalize(vec3((w1*0.032+w3*0.022+w4*0.015), 1.0, (w2*0.032+w3*0.018+w4*0.015)));
       vec3 V=normalize(cameraPosition-vW);
-      float fres=pow(1.0-max(dot(n,V),0.0),3.0);
-      float depth=smoothstep(0.0,42.0,vS);
-      vec3 c=mix(cShallow,cDeep,depth);
-      c=mix(c,vec3(0.62,0.76,0.82),fres*0.85);
-      float spec=pow(max(dot(reflect(-normalize(sunDir),n),V),0.0),90.0);
-      c+=vec3(1.0,0.95,0.85)*spec*0.75;
-      float foam=smoothstep(6.0,0.0,vS)*(0.45+0.35*_hf*sin(p.x*0.34+p.y*0.29+t*2.1));
-      c=mix(c,vec3(0.86,0.90,0.90),clamp(foam,0.0,1.0)*0.55);
+      vec3 L=normalize(sunDir);
+
+      float fres=pow(1.0-max(dot(n,V),0.0), 3.8);
+      float depth=smoothstep(0.0, 38.0, vS);
+      vec3 c=mix(cShallow, cDeep, depth);
+      c=mix(c, cRefl, fres*0.88);
+      c+=vec3(0.04, 0.08, 0.10)*cap*(1.0-depth)*_hf;
+
+      // Microfacet specular highlight from sun
+      vec3 H=normalize(L+V);
+      float nDotH=max(dot(n,H), 0.0);
+      float spec=pow(nDotH, 160.0)*1.8 + pow(nDotH, 28.0)*0.3;
+      c+=vec3(1.0, 0.96, 0.88)*spec*0.92;
+
+      // Shoreline foam and shallow water ripple
+      float foam=smoothstep(5.5, 0.1, vS)*(0.45+0.35*_hf*sin(p.x*0.40+p.y*0.34+t*2.6));
+      c=mix(c, vec3(0.90, 0.95, 0.96), clamp(foam, 0.0, 1.0)*0.65);
+      
       float fd=length(cameraPosition-vW)*fogDensity;
-      c=mix(c,fogColor,clamp(1.0-exp(-fd*fd),0.0,1.0));
-      gl_FragColor=vec4(c,mix(0.80,0.94,depth));}`
+      c=mix(c, fogColor, clamp(1.0-exp(-fd*fd), 0.0, 1.0));
+      gl_FragColor=vec4(c, mix(0.82, 0.96, depth));}`
 });
 function polyShape(outer,holes){
   const s=new THREE.Shape(outer.map(p=>new THREE.Vector2(p[0],p[1])));
@@ -1381,30 +1547,36 @@ function merge(parts){
 const M4=(x,y,z,sx,sy,sz)=>new THREE.Matrix4().compose(
   new THREE.Vector3(x,y,z),new THREE.Quaternion(),new THREE.Vector3(sx||1,sy||1,sz||1));
 
-/* ===================== trees ===================== */
+/* ===================== AAA Scandinavian trees & vegetation ===================== */
 function spruceGeo(){
-  const bark=L([0.24,0.19,0.15]),nd=L([0.114,0.216,0.153]),nl=L([0.161,0.286,0.180]);
+  const bark=L([0.22,0.17,0.13]);
+  const nd0=L([0.08,0.16,0.10]), nd1=L([0.11,0.22,0.13]), nd2=L([0.14,0.27,0.16]), tip=L([0.18,0.33,0.19]);
   return merge([
-    {g:new THREE.CylinderGeometry(0.30,0.46,3.0,5,1,true),m:M4(0,1.5,0),c:bark},
-    {g:new THREE.ConeGeometry(3.3,5.6,7,1,true),m:M4(0,4.4,0),c:nd},
-    {g:new THREE.ConeGeometry(2.6,5.2,7,1,true),m:M4(0,7.5,0),c:nl},
-    {g:new THREE.ConeGeometry(1.7,4.6,6,1,true),m:M4(0,10.6,0),c:nl}
+    {g:new THREE.CylinderGeometry(0.32,0.52,4.0,8,1,true),m:M4(0,2.0,0),c:bark},
+    {g:new THREE.ConeGeometry(4.2,5.2,10,1,true),m:M4(0,4.2,0),c:nd0},
+    {g:new THREE.ConeGeometry(3.6,5.0,10,1,true),m:M4(0,6.8,0),c:nd1},
+    {g:new THREE.ConeGeometry(2.9,4.8,9,1,true),m:M4(0,9.4,0),c:nd2},
+    {g:new THREE.ConeGeometry(2.0,4.2,8,1,true),m:M4(0,12.0,0),c:tip},
+    {g:new THREE.ConeGeometry(1.1,3.4,7,1,true),m:M4(0,14.2,0),c:tip}
   ]);
 }
 function pineGeo(){
-  const bark=L([0.35,0.24,0.16]),nd=L([0.184,0.290,0.176]);
+  const bark=L([0.38,0.22,0.14]), barkUp=L([0.48,0.28,0.15]), nd=L([0.13,0.24,0.14]), nd2=L([0.16,0.29,0.17]);
   return merge([
-    {g:new THREE.CylinderGeometry(0.32,0.55,9.0,5,1,true),m:M4(0,4.5,0),c:bark},
-    {g:new THREE.ConeGeometry(3.4,5.0,7,1,true),m:M4(0,10.6,0),c:nd},
-    {g:new THREE.ConeGeometry(2.4,3.4,6,1,true),m:M4(0,13.2,0),c:nd}
+    {g:new THREE.CylinderGeometry(0.36,0.60,8.0,7,1,true),m:M4(0,4.0,0),c:bark},
+    {g:new THREE.CylinderGeometry(0.24,0.36,6.0,6,1,true),m:M4(0,10.0,0),c:barkUp},
+    {g:new THREE.SphereGeometry(3.2,7,5),m:M4(0,12.8,0,1.2,0.7,1.2),c:nd},
+    {g:new THREE.SphereGeometry(2.8,6,5),m:M4(1.4,14.2,0.8,1.1,0.65,1.1),c:nd2},
+    {g:new THREE.SphereGeometry(2.4,6,4),m:M4(-1.2,15.1,-0.6,1.0,0.6,1.0),c:nd2}
   ]);
 }
 function birchGeo(){
-  const bark=L([0.82,0.80,0.74]),lf=L([0.416,0.529,0.263]);
+  const bark=L([0.88,0.86,0.82]), lf0=L([0.36,0.52,0.22]), lf1=L([0.42,0.58,0.26]), lf2=L([0.48,0.64,0.29]);
   return merge([
-    {g:new THREE.CylinderGeometry(0.22,0.34,6.0,5,1,true),m:M4(0,3.0,0),c:bark},
-    {g:new THREE.SphereGeometry(3.0,6,4),m:M4(0,8.4,0,1,1.25,1),c:lf},
-    {g:new THREE.SphereGeometry(2.1,5,3),m:M4(1.5,6.6,-0.8),c:lf}
+    {g:new THREE.CylinderGeometry(0.24,0.38,7.0,6,1,true),m:M4(0,3.5,0),c:bark},
+    {g:new THREE.SphereGeometry(3.2,7,5),m:M4(0,9.0,0,1.0,1.2,1.0),c:lf0},
+    {g:new THREE.SphereGeometry(2.4,6,4),m:M4(1.6,7.8,-0.7,0.9,1.1,0.9),c:lf1},
+    {g:new THREE.SphereGeometry(2.2,6,4),m:M4(-1.4,8.4,0.9,0.9,1.1,0.9),c:lf2}
   ]);
 }
 function oakGeo(){
@@ -1426,20 +1598,20 @@ function turfDist(x,z){
   return best;
 }
 function bushGeo(){
-  const a=[0.235,0.345,0.184],b=[0.302,0.400,0.220];
+  const a=[0.21,0.33,0.16],b=[0.28,0.39,0.20];
   return merge([
-    {g:new THREE.SphereGeometry(1.5,6,4),m:M4(0,1.1,0,1.35,0.82,1.25),c:a},
-    {g:new THREE.SphereGeometry(1.1,5,4),m:M4(1.3,0.85,0.5,1.1,0.8,1.1),c:b},
-    {g:new THREE.SphereGeometry(0.95,5,3),m:M4(-1.1,0.75,-0.6),c:b}]);
+    {g:new THREE.SphereGeometry(1.6,7,5),m:M4(0,1.1,0,1.35,0.85,1.25),c:a},
+    {g:new THREE.SphereGeometry(1.2,6,4),m:M4(1.3,0.9,0.5,1.1,0.8,1.1),c:b},
+    {g:new THREE.SphereGeometry(1.0,5,4),m:M4(-1.1,0.8,-0.6),c:b}]);
 }
 function tuftGeo(){
-  const c=[0.365,0.427,0.208],p=[];
-  for(let i=0;i<5;i++){
-    const a=i*1.257+0.4;
-    p.push({g:new THREE.ConeGeometry(0.17,1.0,3,1,true),
+  const c=[0.34,0.44,0.18],p=[];
+  for(let i=0;i<7;i++){
+    const a=i*(Math.PI*2/7)+0.3;
+    p.push({g:new THREE.ConeGeometry(0.18,1.2,4,1,true),
       m:new THREE.Matrix4().compose(
-        new THREE.Vector3(Math.cos(a)*0.24,0.46,Math.sin(a)*0.24),
-        new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.cos(a)*0.36,a,Math.sin(a)*0.36)),
+        new THREE.Vector3(Math.cos(a)*0.28,0.52,Math.sin(a)*0.28),
+        new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.cos(a)*0.42,a,Math.sin(a)*0.42)),
         new THREE.Vector3(1,1,1)),c:c});
   }
   return merge(p);
@@ -1507,8 +1679,17 @@ function buildTrees(){
   });
 }
 /* ===================== reeds, rocks, flags, tees, buildings ===================== */
+function rockGeo(){
+  const g=new THREE.DodecahedronGeometry(1,0);
+  const pos=g.attributes.position.array;
+  for(let i=0;i<pos.length;i+=3){
+    const n=0.82+hash2((pos[i]*41)|0,(pos[i+1]*53+pos[i+2]*67)|0)*0.46;
+    pos[i]*=n*1.18; pos[i+1]*=(0.55+n*0.35); pos[i+2]*=(0.90+n*0.28);
+  }
+  g.computeVertexNormals(); return g;
+}
 function buildDetail(){
-  const m=new THREE.Matrix4(),q=new THREE.Quaternion(),
+  const m=new THREE.Matrix4(),q=new THREE.Quaternion(),e=new THREE.Euler(),
         v=new THREE.Vector3(),sv=new THREE.Vector3();
   /* tee markers */
   const tg=new THREE.SphereGeometry(0.42,7,5);
@@ -1565,6 +1746,26 @@ function buildDetail(){
     }
   });
   stakes.count=sn;scene.add(stakes);
+
+  /* shoreline, bunker-lip and hazard-border stones */
+  const rocks=[];
+  for(let z=BND.z0+12;z<BND.z1-12;z+=18)for(let x=BND.x0+12;x<BND.x1-12;x+=18){
+    const r=hash2((x*19)|0,(z*23)|0); if(r>0.34)continue;
+    const jx=x+(hash2(x|0,z|0)-0.5)*15, jz=z+(hash2((x+7)|0,(z-9)|0)-0.5)*15;
+    const h=sampleH(jx,jz), sf=surfaceAt(jx,jz); if(h<0.15||sf.green>0.08||sf.tee>0.08||sf.fair>0.22)continue;
+    let dWater=Math.abs(waterSD(jx,jz)), dSand=1e9;
+    for(const b of BUNKERS)dSand=Math.min(dSand,Math.abs(ellipseSD(jx,jz,b.x,b.z,b.rx+1.2,b.rz+1.2,b.rot)));
+    const border=Math.min(dWater,dSand);
+    if(border<3.8 || (sf.path>0.18&&r<0.08))rocks.push([jx,h+0.10,jz,0.55+hash2(x|0,(z+31)|0)*1.35,r*6.283]);
+  }
+  const rg=rockGeo(),rm=stdMat({color:0x77786D,roughness:0.88});
+  const rim=new THREE.InstancedMesh(rg,rm,LOW?Math.min(rocks.length,240):Math.min(rocks.length,520));
+  for(let i=0;i<rim.count;i++){
+    const t=rocks[i]; e.set(hash2(i,2)*0.5,t[4],hash2(i,5)*0.5); q.setFromEuler(e);
+    v.set(t[0],t[1],t[2]); sv.set(t[3]*1.35,t[3]*0.55,t[3]); m.compose(v,q,sv); rim.setMatrixAt(i,m);
+  }
+  rim.castShadow=true; rim.receiveShadow=true; scene.add(rim);
+
 }
 
 /* ===================== stage: renderer, scene, camera, light =====================
@@ -1574,7 +1775,7 @@ function buildDetail(){
      buildWater and buildTrees.  STEP=7 m gives 214 x 280 = 59 920 vertices.      */
 const LOW = Math.min(innerWidth, innerHeight) < 760 || (navigator.hardwareConcurrency || 8) <= 4;
 
-const STEP = 7;                                   /* metres between grid samples  */
+const STEP = LOW ? 5.0 : 3.5;                                   /* metres between grid samples (high density)  */
 const NX = Math.round(W / STEP), NZ = Math.round(D / STEP);
 const heightGrid = new Float32Array((NX + 1) * (NZ + 1));
 let terrain = null;
@@ -1586,9 +1787,9 @@ renderer.setPixelRatio(Math.min(devicePixelRatio || 1, LOW ? 1.25 : 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.22;
+renderer.toneMappingExposure = 1.16;
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFShadowMap;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 
 const SKY = 0xAFCBD2;                             /* == waterUni.fogColor        */
@@ -1601,7 +1802,7 @@ camera.position.set(CX, 600, CZ + 900);
 
 /* sun direction matches the highlight baked into the environment shader below */
 const SUNDIR = new THREE.Vector3(-0.42, 0.46, 0.78).normalize();   /* SW, ~27 deg up */
-const sun = new THREE.DirectionalLight(0xFFF0DA, 4.2);
+const sun = new THREE.DirectionalLight(0xFFF2DE, 4.4);
 sun.position.copy(SUNDIR).multiplyScalar(2600).add(new THREE.Vector3(CX, 0, CZ));
 sun.target.position.set(CX, 0, CZ);
 sun.castShadow = true;
@@ -1611,14 +1812,49 @@ sun.shadow.camera.far = 5200;
 {const c = sun.shadow.camera;                    /* fitted to the casters, not to a
      worst-case azimuth: measured light-space extent is x[-900,834] y[-437,499]      */
  c.left = -1000; c.right = 1000; c.top = 620; c.bottom = -620; c.updateProjectionMatrix();}
-sun.shadow.bias = -0.0005;
-sun.shadow.normalBias = 0.6;                      /* texels are smaller now       */
+sun.shadow.bias = -0.0003;
+sun.shadow.normalBias = 0.04;                      /* smooth soft shadows          */
 scene.add(sun);
 scene.add(sun.target);
 
-const hemi = new THREE.HemisphereLight(0xBFD8F2, 0x4C5A3C, 0.7);
+const hemi = new THREE.HemisphereLight(0xBFD8F2, 0x4C5A3C, 0.75);
 hemi.position.set(CX, 400, CZ);
 scene.add(hemi);
+
+/* ===================== atmospheric sky dome ===================== */
+let skyMesh = null;
+function buildSkyDome(){
+  const g = new THREE.SphereGeometry(14000, 32, 16);
+  const m = new THREE.ShaderMaterial({
+    side: THREE.BackSide,
+    depthWrite: false,
+    uniforms: {
+      uSunDir: {value: SUNDIR},
+      uSkyZenith: {value: new THREE.Color(0x1B4E75)},
+      uSkyHorizon: {value: new THREE.Color(0xB2CDD8)},
+      uSunGlow: {value: new THREE.Color(0xFFE4C4)}
+    },
+    vertexShader: `varying vec3 vWP;
+      void main(){
+        vWP = position;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }`,
+    fragmentShader: `uniform vec3 uSunDir, uSkyZenith, uSkyHorizon, uSunGlow;
+      varying vec3 vWP;
+      void main(){
+        vec3 dir = normalize(vWP);
+        float h = max(dir.y, 0.0);
+        vec3 col = mix(uSkyHorizon, uSkyZenith, pow(h, 0.58));
+        float sunDot = max(dot(dir, normalize(uSunDir)), 0.0);
+        col += uSunGlow * pow(sunDot, 16.0) * 0.48;
+        col += vec3(1.0, 0.95, 0.85) * pow(sunDot, 140.0) * 0.92;
+        gl_FragColor = vec4(col, 1.0);
+      }`
+  });
+  skyMesh = new THREE.Mesh(g, m);
+  skyMesh.renderOrder = -100;
+  scene.add(skyMesh);
+}
 
 /* ===================== camera rig ===================== */
 const rig={tx:0,ty:20,tz:-120,r:900,th:2.5,ph:1.02};
@@ -1644,10 +1880,10 @@ function lookFrom(px,py,pz,tx,ty,tz,dur){
 /* pointer control */
 let drag=null,pinch=null;
 /* ---------- PBR upgrade: filmic response + image-based lighting ---------- */
-const ENV_INT = 0.65;      /* image-based light is fill, not the key light */
+const ENV_INT = 0.70;      /* image-based light is fill, not the key light */
 function stdMat(o){
   o=o||{};
-  if(o.roughness===undefined)o.roughness=0.93;
+  if(o.roughness===undefined)o.roughness=0.90;
   if(o.metalness===undefined)o.metalness=0.0;
   if(o.envMapIntensity===undefined)o.envMapIntensity=ENV_INT;
   delete o.shininess; delete o.specular;
@@ -1658,7 +1894,8 @@ function initPBR(){
   if(PBR_DONE||typeof renderer==='undefined'||!renderer)return;
   PBR_DONE=true;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure=1.22;
+  renderer.toneMappingExposure=1.16;
+  buildSkyDome();
   const pm=new THREE.PMREMGenerator(renderer);
   const es=new THREE.Scene();
   es.add(new THREE.Mesh(new THREE.SphereGeometry(60,24,16),
@@ -1711,10 +1948,11 @@ addEventListener('keydown',e=>{
 });
 
 /* ===================== views ===================== */
-let cur=1,flyMode=false,flyT=0;
+let cur=1, selectedTeeIdx=0, flyMode=false, flyT=0, flyPaused=false, flySpeed=1.0, flyOrbiting=false, flyOrbitAngle=0;
 function holeDir(h,frac){return alongLine(h.line,frac);}
 function teeView(){
-  flyMode=false;const h=HOLES[cur-1],L=h.line;
+  flyMode=false;flyOrbiting=false;if(flyHud)flyHud.classList.remove('show');
+  const h=HOLES[cur-1],L=h.line;
   const b=bearingOf(L[0],L[1]);
   const cx=L[0][0]-Math.sin(b)*46, cz=L[0][1]-Math.cos(b)*46;
   const p=alongLine(L,0.55);
@@ -1722,20 +1960,27 @@ function teeView(){
   setBtn('t-view');
 }
 function greenView(){
-  flyMode=false;const h=HOLES[cur-1],L=h.line,g=L[L.length-1];
+  flyMode=false;flyOrbiting=false;if(flyHud)flyHud.classList.remove('show');
+  const h=HOLES[cur-1],L=h.line,g=L[L.length-1];
   const b=h.bear;
   const cx=g[0]+Math.sin(b)*66, cz=g[1]+Math.cos(b)*66;
   lookFrom(cx,sampleH(cx,cz)+34,cz,g[0],sampleH(g[0],g[1])+2,g[1],1.6);
 }
 function overview(){
-  flyMode=false;
+  flyMode=false;flyOrbiting=false;if(flyHud)flyHud.classList.remove('show');
   flyTo({tx:-555,ty:14,tz:-40,r:1330,th:0.0,ph:0.60},2.0);setBtn('t-all');
 }
-function startFly(){flyMode=true;flyT=0;setBtn('t-fly');}
-function setBtn(id){['t-view','t-fly','t-all'].forEach(i=>
-  document.getElementById(i).classList.toggle('on',i===id));}
+function startFly(){
+  flyMode=true;flyT=0;flyPaused=false;flyOrbiting=false;flyOrbitAngle=0;
+  if(flyHud)flyHud.classList.add('show');
+  updateFlyHud();
+  setBtn('t-fly');
+}
+function setBtn(id){['t-view','t-fly','t-all','t-guide','t-plan'].forEach(i=>{
+  const el=document.getElementById(i);if(el)el.classList.toggle('on',i===id);
+});}
 
-/* ===================== UI ===================== */
+/* ===================== UI & Green Depths ===================== */
 const bars=document.getElementById('bars');
 const parCol={3:'#DCC79C',4:'#9CB49B',5:'#CC6B84'};
 HOLES.forEach(h=>{
@@ -1748,24 +1993,64 @@ HOLES.forEach(h=>{
   b.onclick=()=>{show(h.n);teeView();hideHint();};
   bars.appendChild(b);
 });
+
 function show(n){
   cur=n;const h=HOLES[n-1];
+  const gps=GPS_GREENS[n-1]||{front:h.t[0]-15,pin:h.t[0],back:h.t[0]+15,depth:30,fDelta:-15,bDelta:15};
+  const teeOffset=h.t[0]-h.t[selectedTeeIdx];
+  const activeLen=h.t[selectedTeeIdx];
+
   document.getElementById('c-num').textContent=n;
   document.getElementById('c-par').textContent=h.par;
   document.getElementById('c-idx').textContent=h.idx;
-  document.getElementById('c-len').textContent=h.t[0]+' m \u00b7 plays '+bearingName(h);
+  document.getElementById('c-len').textContent=`${activeLen} m (Tee ${TEE_NAMES[selectedTeeIdx]}) · ${bearingName(h)}`;
+  
+  // GPS Green Depths calibrated to selected tee
+  const fDist=Math.max(10,gps.front-teeOffset);
+  const pDist=Math.max(10,gps.pin-teeOffset);
+  const bDist=Math.max(10,gps.back-teeOffset);
+  document.getElementById('c-gfront').textContent=`${fDist} m`;
+  document.getElementById('c-gpin').textContent=`${pDist} m`;
+  document.getElementById('c-gback').textContent=`${bDist} m`;
+  document.getElementById('c-gdepth').textContent=`Gröndjup: ${gps.depth} m`;
+  document.getElementById('c-active-tee').textContent=`Aktiv Tee: ${TEE_NAMES[selectedTeeIdx]} (${activeLen}m)`;
+
   drawRose(h);
   drawMini();
   document.getElementById('c-name').textContent=h.name;
   document.getElementById('c-note').textContent=h.note;
-  document.getElementById('c-spon').textContent='Hole sponsor · '+h.sp;
+  document.getElementById('c-spon').textContent='Hålpartner · '+h.sp;
+  
+  // Render clickable tees
   document.getElementById('c-tees').innerHTML=h.t.map((m,i)=>
-    `<div style="border-color:${TEE_COLS[i]}">${m}<span>${TEE_NAMES[i]}</span></div>`).join('');
+    `<div class="${i===selectedTeeIdx?'active':''}" style="border-color:${TEE_COLS[i]}" data-tidx="${i}">
+      ${m}<span>${TEE_NAMES[i]}</span>
+    </div>`).join('');
+  
+  // Bind tee selection clicks
+  document.querySelectorAll('#c-tees div').forEach(el=>{
+    el.onclick=e=>{
+      e.stopPropagation();
+      selectedTeeIdx=parseInt(el.getAttribute('data-tidx'),10);
+      show(cur);
+      if(planActive)updatePlannerMath();
+    };
+  });
+
   document.getElementById('card').classList.add('show');
   document.getElementById('card').classList.remove('gone');
   document.getElementById('recall').classList.remove('show');
   [...bars.children].forEach((b,i)=>b.classList.toggle('on',i===n-1));
+
+  // Update 3D globe link with active hole
+  const globeBtn=document.getElementById('t-globe');
+  if(globeBtn)globeBtn.href=`3d_golf_course_viewer.html?course=veckefjarden&hole=${cur}`;
+
+  if(guideModalOpen)loadGuideImage(cur);
+  if(planActive)updatePlannerTargetDefault();
+  updateFlyHud();
 }
+
 const cardEl=document.getElementById('card'), recallEl=document.getElementById('recall');
 document.getElementById('c-head').onclick=()=>{
   const min=cardEl.classList.toggle('min');
@@ -1776,10 +2061,9 @@ document.getElementById('c-x').onclick=e=>{
 };
 recallEl.onclick=()=>{cardEl.classList.remove('gone');recallEl.classList.remove('show');};
 if(innerWidth<700)cardEl.classList.add('min');
+
 /* ---- plan view: where every hole actually sits ---- */
 const COMPASS=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
-/* the guide prints a compass rose on every plan; this is the same thing for the
-   hole on screen -- north up, the pink arm pointing the way the hole plays */
 function drawRose(h){
   const c=document.getElementById('c-rose'); if(!c)return;
   const g=c.getContext('2d'), S=c.width, R=S/2-4;
@@ -1839,6 +2123,305 @@ let drawMini=function(){};
     g.beginPath();g.arc(PX(camera.position.x),PZ(camera.position.z),3.4,0,7);g.stroke();
   };
 })();
+
+/* ===================== Banguide Map Photo Modal ===================== */
+let guideModalOpen=false, guideZoom=1.0, guidePan={x:0,y:0}, isPanning=false, panStart={x:0,y:0};
+const guideModal=document.getElementById('guide-modal');
+const guideImg=document.getElementById('guide-img');
+const guideViewport=document.getElementById('guide-viewport');
+const guideNav=document.getElementById('guide-nav');
+
+function initGuideModal(){
+  if(!guideNav)return;
+  // Build thumbnail buttons
+  let html=`<button class="g-tab" data-hole="0">Banöversikt</button>`;
+  for(let i=1;i<=18;i++){
+    html+=`<button class="g-tab ${i===cur?'on':''}" data-hole="${i}">Hål ${i}</button>`;
+  }
+  guideNav.innerHTML=html;
+  guideNav.querySelectorAll('.g-tab').forEach(btn=>{
+    btn.onclick=()=>{
+      const h=parseInt(btn.getAttribute('data-hole'),10);
+      loadGuideImage(h);
+      if(h>0 && h!==cur){show(h);teeView();}
+    };
+  });
+}
+
+function loadGuideImage(hNum){
+  guideNav.querySelectorAll('.g-tab').forEach(b=>{
+    b.classList.toggle('on',parseInt(b.getAttribute('data-hole'),10)===hNum);
+  });
+  if(hNum===0){
+    guideImg.src='banguide/maps/banguide_oversikt.jpg';
+    document.getElementById('guide-title').textContent='Veckefjärdens GC — Banöversikt';
+    document.getElementById('guide-sub').textContent='Mästerskapsbanan 18 Hål · Tommy Nordström';
+    document.getElementById('guide-note').textContent='Klicka på ett hål nedan eller navigera i 3D-vyn för att inspektera specifika hål och detaljer.';
+    document.getElementById('guide-spon').textContent='Veckefjärdens GC';
+  }else{
+    const pad=String(hNum).padStart(2,'0');
+    guideImg.src=`banguide/maps/hole_${pad}.jpg`;
+    const h=HOLES[hNum-1];
+    document.getElementById('guide-title').textContent=`Hål ${hNum} — ${h.name}`;
+    document.getElementById('guide-sub').textContent=`Par ${h.par} · Index ${h.idx} · ${h.t[0]} m från back-tee`;
+    document.getElementById('guide-note').textContent=h.note;
+    document.getElementById('guide-spon').textContent='Hålpartner: '+h.sp;
+  }
+  resetGuideZoom();
+}
+
+function resetGuideZoom(){
+  guideZoom=1.0;guidePan={x:0,y:0};applyGuideTransform();
+}
+function applyGuideTransform(){
+  if(guideImg)guideImg.style.transform=`translate(${guidePan.x}px, ${guidePan.y}px) scale(${guideZoom})`;
+}
+
+function openGuideModal(holeNum){
+  guideModalOpen=true;
+  initGuideModal();
+  loadGuideImage(holeNum!==undefined?holeNum:cur);
+  guideModal.classList.add('show');
+}
+function closeGuideModal(){
+  guideModalOpen=false;
+  guideModal.classList.remove('show');
+}
+
+document.getElementById('t-guide').onclick=()=>openGuideModal(cur);
+document.getElementById('c-guide-btn').onclick=()=>openGuideModal(cur);
+document.getElementById('guide-close').onclick=()=>closeGuideModal();
+document.getElementById('guide-overview-btn').onclick=()=>loadGuideImage(0);
+document.getElementById('guide-zoom-in').onclick=()=>{guideZoom=Math.min(guideZoom*1.3,3.5);applyGuideTransform();};
+document.getElementById('guide-zoom-out').onclick=()=>{guideZoom=Math.max(guideZoom/1.3,0.7);applyGuideTransform();};
+document.getElementById('guide-zoom-reset').onclick=()=>resetGuideZoom();
+
+guideViewport.addEventListener('mousedown',e=>{
+  isPanning=true;panStart={x:e.clientX-guidePan.x,y:e.clientY-guidePan.y};
+  guideViewport.classList.add('grabbing');
+});
+window.addEventListener('mousemove',e=>{
+  if(!isPanning)return;
+  guidePan.x=e.clientX-panStart.x;guidePan.y=e.clientY-panStart.y;
+  applyGuideTransform();
+});
+window.addEventListener('mouseup',()=>{isPanning=false;guideViewport.classList.remove('grabbing');});
+
+/* ===================== Interactive Shot Planner ===================== */
+let planActive=false, planTargetLocked=false;
+const planHud=document.getElementById('plan-hud');
+const raycaster=new THREE.Raycaster();
+const mouseVec=new THREE.Vector2();
+
+// 3D Visual elements for Shot Planner
+let planMarkerGroup=null, planArcTeeToTarget=null, planArcTargetToPin=null;
+let planTargetPos={x:0, y:0, z:0};
+
+function initPlanner3D(){
+  if(planMarkerGroup)return;
+  planMarkerGroup=new THREE.Group();
+  
+  // Outer glowing ring
+  const ringG=new THREE.RingGeometry(4.5,5.5,32);
+  ringG.rotateX(-Math.PI/2);
+  const ringM=new THREE.MeshBasicMaterial({color:0xB9D9E2,side:THREE.DoubleSide,transparent:true,opacity:0.85});
+  const ringMesh=new THREE.Mesh(ringG,ringM);
+  
+  // Target center post & beacon
+  const postG=new THREE.CylinderGeometry(0.15,0.15,12,8);
+  const postM=new THREE.MeshBasicMaterial({color:0xCC6B84,transparent:true,opacity:0.75});
+  const postMesh=new THREE.Mesh(postG,postM);
+  postMesh.position.y=6;
+  
+  const beadG=new THREE.SphereGeometry(1.2,16,12);
+  const beadM=new THREE.MeshBasicMaterial({color:0xF1EBDA});
+  const beadMesh=new THREE.Mesh(beadG,beadM);
+  beadMesh.position.y=12;
+
+  planMarkerGroup.add(ringMesh);
+  planMarkerGroup.add(postMesh);
+  planMarkerGroup.add(beadMesh);
+  planMarkerGroup.visible=false;
+  scene.add(planMarkerGroup);
+
+  // Flight Arcs
+  const lineMat1=new THREE.LineBasicMaterial({color:0xCC6B84,linewidth:2.5,transparent:true,opacity:0.9});
+  const lineMat2=new THREE.LineBasicMaterial({color:0xB9D9E2,linewidth:2.0,transparent:true,opacity:0.85});
+  planArcTeeToTarget=new THREE.Line(new THREE.BufferGeometry(),lineMat1);
+  planArcTargetToPin=new THREE.Line(new THREE.BufferGeometry(),lineMat2);
+  planArcTeeToTarget.visible=false;
+  planArcTargetToPin.visible=false;
+  scene.add(planArcTeeToTarget);
+  scene.add(planArcTargetToPin);
+}
+
+function updatePlannerTargetDefault(){
+  const h=HOLES[cur-1];
+  const p=alongLine(h.line,h.par===3?0.65:0.55);
+  planTargetPos.x=p.x;planTargetPos.z=p.z;planTargetPos.y=sampleH(p.x,p.z);
+  updatePlannerMath();
+}
+
+function updatePlannerMath(){
+  if(!planActive)return;
+  initPlanner3D();
+  const h=HOLES[cur-1];
+  const L=h.line;
+  const b0=bearingOf(L[0],L[1]);
+  const teeOffset=h.t[0]-h.t[selectedTeeIdx];
+  const teeX=L[0][0]+Math.sin(b0)*teeOffset, teeZ=L[0][1]+Math.cos(b0)*teeOffset;
+  const teeY=sampleH(teeX,teeZ)+1.0;
+
+  const pinX=L[L.length-1][0], pinZ=L[L.length-1][1];
+  const pinY=sampleH(pinX,pinZ)+1.0;
+
+  const tx=planTargetPos.x, tz=planTargetPos.z, ty=sampleH(tx,tz);
+
+  // Position 3D marker
+  planMarkerGroup.position.set(tx,ty+0.2,tz);
+  planMarkerGroup.visible=true;
+
+  // Build Arc from Tee to Target
+  const dCarry=Math.hypot(tx-teeX,tz-teeZ);
+  const apex1=Math.max(teeY,ty)+Math.min(dCarry*0.22,45);
+  const curve1=new THREE.QuadraticBezierCurve3(
+    new THREE.Vector3(teeX,teeY,teeZ),
+    new THREE.Vector3((teeX+tx)/2,apex1,(teeZ+tz)/2),
+    new THREE.Vector3(tx,ty+0.2,tz)
+  );
+  planArcTeeToTarget.geometry.dispose();
+  planArcTeeToTarget.geometry=new THREE.BufferGeometry().setFromPoints(curve1.getPoints(36));
+  planArcTeeToTarget.visible=true;
+
+  // Build Arc from Target to Pin
+  const dApproach=Math.hypot(pinX-tx,pinZ-tz);
+  const apex2=Math.max(ty,pinY)+Math.min(dApproach*0.24,40);
+  const curve2=new THREE.QuadraticBezierCurve3(
+    new THREE.Vector3(tx,ty+0.2,tz),
+    new THREE.Vector3((tx+pinX)/2,apex2,(tz+pinZ)/2),
+    new THREE.Vector3(pinX,pinY,pinZ)
+  );
+  planArcTargetToPin.geometry.dispose();
+  planArcTargetToPin.geometry=new THREE.BufferGeometry().setFromPoints(curve2.getPoints(36));
+  planArcTargetToPin.visible=true;
+
+  // Calculations
+  const gps=GPS_GREENS[cur-1]||{fDelta:-15,bDelta:15};
+  const cDist=Math.round(dCarry);
+  const aDist=Math.round(dApproach);
+  const fDist=Math.max(0,Math.round(dApproach+gps.fDelta));
+  const bDist=Math.max(0,Math.round(dApproach+gps.bDelta));
+  const elevDelta=Math.round(pinY-ty);
+  const playsLike=Math.round(dApproach+elevDelta*0.9);
+
+  document.getElementById('ph-carry').textContent=`${cDist} m`;
+  document.getElementById('ph-approach').textContent=`${aDist} m`;
+  document.getElementById('ph-front').textContent=`${fDist} m`;
+  document.getElementById('ph-back').textContent=`${bDist} m`;
+  document.getElementById('ph-elev').textContent=`${elevDelta>=0?'+':''}${elevDelta} m`;
+  document.getElementById('ph-playslike').innerHTML=`Spelas som: <b>${playsLike} m</b> (${elevDelta>0?'uppför':'nedför'})`;
+}
+
+function toggleShotPlanner(force){
+  planActive=force!==undefined?force:!planActive;
+  initPlanner3D();
+  if(planActive){
+    planHud.classList.add('show');
+    updatePlannerTargetDefault();
+    document.getElementById('t-plan').classList.add('on');
+  }else{
+    planHud.classList.remove('show');
+    if(planMarkerGroup)planMarkerGroup.visible=false;
+    if(planArcTeeToTarget)planArcTeeToTarget.visible=false;
+    if(planArcTargetToPin)planArcTargetToPin.visible=false;
+    document.getElementById('t-plan').classList.remove('on');
+  }
+}
+
+document.getElementById('t-plan').onclick=()=>toggleShotPlanner();
+document.getElementById('ph-close').onclick=()=>toggleShotPlanner(false);
+
+// Canvas raycasting on drag / pointer move
+el.addEventListener('pointerdown',e=>{
+  if(!planActive)return;
+  if(e.target!==el)return;
+  mouseVec.x=(e.clientX/innerWidth)*2-1;
+  mouseVec.y=-(e.clientY/innerHeight)*2+1;
+  raycaster.setFromCamera(mouseVec,camera);
+  if(terrain){
+    const hits=raycaster.intersectObject(terrain);
+    if(hits.length>0){
+      planTargetPos.x=hits[0].point.x;
+      planTargetPos.z=hits[0].point.z;
+      planTargetPos.y=hits[0].point.y;
+      updatePlannerMath();
+    }
+  }
+});
+
+/* ===================== Atmospheric Lighting Presets ===================== */
+const LIGHT_PRESETS=[
+  {name:'☀️ Midsummer', sunCol:0xFFF0DA, sunInt:4.2, hemiSky:0xBFD8F2, hemiGnd:0x4C5A3C, sky:0xAFCBD2, fogD:0.00038},
+  {name:'🌅 Morgondis', sunCol:0xE6F4FF, sunInt:3.8, hemiSky:0xA4CEEC, hemiGnd:0x3D5238, sky:0x88ADC2, fogD:0.00075},
+  {name:'☁️ Mulet',    sunCol:0xD2DDE6, sunInt:2.6, hemiSky:0x98AAB8, hemiGnd:0x404A3C, sky:0x788A96, fogD:0.00050}
+];
+let currentLightIdx=0;
+function cycleLighting(){
+  currentLightIdx=(currentLightIdx+1)%LIGHT_PRESETS.length;
+  const p=LIGHT_PRESETS[currentLightIdx];
+  document.getElementById('t-light').textContent=p.name;
+  sun.color.setHex(p.sunCol);
+  sun.intensity=p.sunInt;
+  hemi.color.setHex(p.hemiSky);
+  hemi.groundColor.setHex(p.hemiGnd);
+  waterUni.fogColor.value=rawSRGB(p.sky);
+  waterUni.fogDensity.value=p.fogD;
+  if(skyMesh && skyMesh.material && skyMesh.material.uniforms){
+    skyMesh.material.uniforms.uSkyHorizon.value.setHex(p.sky);
+    skyMesh.material.uniforms.uSkyZenith.value.setHex(p.hemiSky);
+  }
+}
+document.getElementById('t-light').onclick=()=>cycleLighting();
+
+/* ===================== Flyover Controls HUD ===================== */
+const flyHud=document.getElementById('fly-hud');
+function updateFlyHud(){
+  if(!flyHud)return;
+  const h=HOLES[cur-1];
+  document.getElementById('fly-title').textContent=`Hål ${cur} · Par ${h.par} (${h.t[selectedTeeIdx]} m)`;
+  document.getElementById('fly-status').textContent=flyOrbiting?'Orbiting Green Inspection':(flyPaused?'Pausad':'Flyover Aktiv');
+  document.getElementById('fly-pause').innerHTML=flyPaused?'&#9654;':'&#10074;&#10074;';
+}
+document.getElementById('fly-pause').onclick=()=>{
+  flyPaused=!flyPaused;updateFlyHud();
+};
+document.getElementById('fly-replay').onclick=()=>{
+  flyT=0;flyOrbiting=false;flyPaused=false;updateFlyHud();
+};
+document.getElementById('fly-speed').onclick=()=>{
+  flySpeed=flySpeed===1.0?1.8:(flySpeed===1.8?0.6:1.0);
+  document.getElementById('fly-speed').textContent=`${flySpeed}x`;
+};
+document.getElementById('fly-prev').onclick=()=>{
+  show((cur+16)%18+1);flyT=0;flyOrbiting=false;flyPaused=false;updateFlyHud();
+};
+document.getElementById('fly-next').onclick=()=>{
+  show(cur%18+1);flyT=0;flyOrbiting=false;flyPaused=false;updateFlyHud();
+};
+document.getElementById('fly-close').onclick=()=>teeView();
+
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'){show(cur%18+1);if(!flyMode)teeView();}
+  if(e.key==='ArrowLeft'){show((cur+16)%18+1);if(!flyMode)teeView();}
+  if(e.key==='Escape'){
+    document.getElementById('about').classList.remove('show');
+    closeGuideModal();
+    toggleShotPlanner(false);
+  }
+  if(e.key==='g'||e.key==='G'){openGuideModal(cur);}
+  if(e.key==='p'||e.key==='P'){toggleShotPlanner();}
+});
+
 document.getElementById('t-view').onclick=()=>teeView();
 document.getElementById('t-fly').onclick=()=>startFly();
 document.getElementById('t-all').onclick=()=>overview();
@@ -1861,11 +2444,7 @@ setTimeout(hideHint,9000);
   </table>`;
 })();
 
-/* ============ guide furniture ============
-   The plates out in the fairway are distance-to-green markers, not pin positions:
-   the guide plots red at 100 m, yellow at 150 m and white at 200 m. The Next Tee
-   signs mirror the guide's own, and double as a visible check that the routing
-   actually closes up. */
+/* ============ guide furniture ============ */
 const DIST_PLATES=[{m:100,c:0xC6415C},{m:150,c:0xD9C24B},{m:200,c:0xE8E4D8}];
 function buildFurniture(){
   const mx=new THREE.Matrix4(), qI=new THREE.Quaternion(), one=new THREE.Vector3(1,1,1);
@@ -1876,8 +2455,8 @@ function buildFurniture(){
   for(const dp of DIST_PLATES){
     const spots=[];
     for(const h of HOLES){
-      if(h.par===3)continue;                       /* a par 3 carries no fairway plates */
-      if(h.t[0]<dp.m+70)continue;                  /* too near the tee to be worth one   */
+      if(h.par===3)continue;
+      if(h.t[0]<dp.m+70)continue;
       spots.push(alongLine(h.line,1-dp.m/h.t[0]));
     }
     if(!spots.length)continue;
@@ -1899,7 +2478,7 @@ function buildFurniture(){
   const qR=new THREE.Quaternion(), eu=new THREE.Euler();
   HOLES.forEach((h,i)=>{
     const g=h.line[h.line.length-1], nt=HOLES[(i+1)%N].line[0];
-    const b=Math.atan2(nt[0]-g[0],nt[1]-g[1]);     /* face the next tee */
+    const b=Math.atan2(nt[0]-g[0],nt[1]-g[1]);
     const px=g[0]+Math.sin(b)*(h.gr[0]+9), pz=g[1]+Math.cos(b)*(h.gr[0]+9);
     const y=sampleH(px,pz);
     v.set(px,y+0.8,pz);  mx.compose(v,qI,one); isp.setMatrixAt(i,mx);
@@ -1907,13 +2486,9 @@ function buildFurniture(){
     v.set(px,y+1.85,pz); mx.compose(v,qR,one); ipl.setMatrixAt(i,mx);
   });
   isp.castShadow=true; ipl.castShadow=true; scene.add(isp); scene.add(ipl);
-  console.log('furniture',plates,'distance plates,',N,'next-tee signs');
 }
 
-/* ============ penalty and boundary marking ============
-   Red and yellow trace the margins of the water they mark, so the lines can never
-   drift away from the hazard; white follows the property boundary. Drawn as thin
-   ribbons on the ground with the dashes cut in the fragment shader. */
+/* ============ penalty and boundary marking ============ */
 const MARK_COL={r:0xD8443C, y:0xE8C33A, w:0xF2F0E8};
 function markRing(p){
   const out=[], a=(p.rot||0)*Math.PI/180, ca=Math.cos(a), sa=Math.sin(a);
@@ -1969,7 +2544,6 @@ function buildMarking(){
   for(const s of STREAMS) if(s.pen){ grp[s.pen].push(markBank(s,1)); grp[s.pen].push(markBank(s,-1)); }
   for(const o of OBLINES) grp.w.push(o.p);
   const n=markMesh(grp.r,MARK_COL.r)+markMesh(grp.y,MARK_COL.y)+markMesh(grp.w,MARK_COL.w);
-  console.log('marking runs',n);
 }
 
 /* ===================== boot ===================== */
@@ -2007,18 +2581,35 @@ function animate(){
     for(const key of['tx','ty','tz','r','th','ph'])rig[key]=lerp(from[key],goal[key],k);
     if(tweenT>=1)tweening=false;
   }
-  if(flyMode){
-    flyT+=dt*0.055;
-    if(flyT>=1){flyT=0;cur=cur%18+1;show(cur);}
-    const h=HOLES[cur-1],p=alongLine(h.line,flyT*0.94+0.03);
-    const look=alongLine(h.line,Math.min(0.99,flyT*0.94+0.22));
-    const cx=p.x-Math.sin(p.b)*40, cz=p.z-Math.cos(p.b)*40;
-    const cy=Math.max(sampleH(cx,cz),0)+34;
-    camera.position.lerp(new THREE.Vector3(cx,cy,cz),0.06);
-    camera.lookAt(look.x,sampleH(look.x,look.z)+3,look.z);
-    rig.tx=look.x;rig.tz=look.z;rig.ty=sampleH(look.x,look.z)+3;
-    rig.r=52;rig.th=Math.atan2(cx-look.x,cz-look.z);rig.ph=Math.acos(clamp((cy-rig.ty)/52,-1,1));
-  }else applyRig();
+  if(flyMode && !flyPaused){
+    if(!flyOrbiting){
+      flyT+=dt*0.045*flySpeed;
+      if(flyT>=1){
+        flyT=1;flyOrbiting=true;flyOrbitAngle=0;updateFlyHud();
+      }else{
+        const h=HOLES[cur-1],p=alongLine(h.line,flyT*0.94+0.03);
+        const look=alongLine(h.line,Math.min(0.99,flyT*0.94+0.22));
+        const cx=p.x-Math.sin(p.b)*40, cz=p.z-Math.cos(p.b)*40;
+        const cy=Math.max(sampleH(cx,cz),0)+34;
+        camera.position.lerp(new THREE.Vector3(cx,cy,cz),0.06);
+        camera.lookAt(look.x,sampleH(look.x,look.z)+3,look.z);
+        rig.tx=look.x;rig.tz=look.z;rig.ty=sampleH(look.x,look.z)+3;
+        rig.r=52;rig.th=Math.atan2(cx-look.x,cz-look.z);rig.ph=Math.acos(clamp((cy-rig.ty)/52,-1,1));
+      }
+    }else{
+      // 360 orbit around the green
+      flyOrbitAngle+=dt*0.4*flySpeed;
+      const g=HOLES[cur-1].line[HOLES[cur-1].line.length-1];
+      const radius=55, hgt=24;
+      const ox=g[0]+Math.cos(flyOrbitAngle)*radius, oz=g[1]+Math.sin(flyOrbitAngle)*radius;
+      const oy=sampleH(ox,oz)+hgt;
+      camera.position.lerp(new THREE.Vector3(ox,oy,oz),0.08);
+      camera.lookAt(g[0],sampleH(g[0],g[1])+2,g[1]);
+      if(flyOrbitAngle>=Math.PI*2){
+        flyOrbiting=false;flyT=0;cur=cur%18+1;show(cur);
+      }
+    }
+  }else if(!flyMode) applyRig();
 
   acc+=dt;
   if(acc>0.2){acc=0;
