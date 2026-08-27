@@ -1,0 +1,26 @@
+{
+ "source": "banguide/maps/hole_01.jpg .. hole_18.jpg, the club's official plans, read at full resolution",
+ "note": "Two things here are not in guide-inventory.json. The elevation line each plan prints ('Spelas 28m uppfor') is an independent measurement of the hole's rise, and comparing it against the elevation model is what establishes that the GPS tee and green positions are right: over the 13 holes that print one, the model reproduces the club's own number to a mean 3.1 m. Five plans print no such line (5, 6, 8, 11, 15). The compass roses were also re-read: all 18 are legible, including 11 and 13 which guide-inventory.json records as null, and every previously recorded bearing agrees within 14 degrees, which is the 45-degree quantisation of the earlier reading.",
+ "elevSign": "positive is uphill from tee to green",
+ "upDeg": "compass bearing toward the top of the plan; every plan draws its hole playing bottom-to-top, so this is the hole's play bearing to within the tilt of its centre line",
+ "holes": {
+  "1":  {"elevM": 28,   "upDeg": 180, "shape": "gentle dogleg right; tree-lined down the left, bunkers right of the fairway, elevated green tucked against the forest"},
+  "2":  {"elevM": -41,  "upDeg": 253, "shape": "long par 5, slight dogleg right, narrow forest-lined corridor the whole way, steeply downhill"},
+  "3":  {"elevM": 19,   "upDeg": 44,  "shape": "slight dogleg right; bunkers down the left of the fairway and one front-left of the green, wooded ridge right"},
+  "4":  {"elevM": -12,  "upDeg": 217, "shape": "straight par 3, green flanked by bunkers left and right, sandy waste down the right"},
+  "5":  {"elevM": null, "upDeg": 13,  "shape": "long par 5, essentially straight with a faint left bow; dense forest hard down the left, bunkers around the green"},
+  "6":  {"elevM": null, "upDeg": 324, "shape": "par 4 bending right between two ponds - water left off the tee, larger pond right of the approach; fjord beyond the left"},
+  "7":  {"elevM": 3,    "upDeg": 33,  "shape": "short straight par 3 over heathland; big bunker front-left of the green, second bunker short right"},
+  "8":  {"elevM": null, "upDeg": 139, "shape": "dead straight par 4 through a chute of pines on both sides of the driving zone; bunker front-left of the green"},
+  "9":  {"elevM": 8,    "upDeg": 138, "shape": "long straight par 4 uphill; string of ponds off to the right of the corridor, green up by the clubhouse"},
+  "10": {"elevM": -3,   "upDeg": 314, "shape": "longest par 5 on the card, near-straight with a slight right bow; treeline and houses down the right"},
+  "11": {"elevM": null, "upDeg": 305, "shape": "par 4 bending slightly right; long pond down the left alongside the green, further ponds right beyond the road"},
+  "12": {"elevM": 3,    "upDeg": 307, "shape": "straight par 3 across sandy heath; bunkers left and right of the green, pond well off to the right"},
+  "13": {"elevM": -6,   "upDeg": 151, "shape": "long sweeping dogleg left that curves back right to the green; heavy woodland down the right, fjord beyond"},
+  "14": {"elevM": -6,   "upDeg": 193, "shape": "par 3 all-carry across the fjord to an island green on a promontory, water on three sides"},
+  "15": {"elevM": null, "upDeg": 149, "shape": "short par 4 hugging the shore - fjord all down the right, fairway bends left then turns sharply right to a green on a point with a bunker left"},
+  "16": {"elevM": 8,    "upDeg": 82,  "shape": "short straight par 4; ponds down the left, thick pine belt down the right, green ringed by bunkers by the clubhouse"},
+  "17": {"elevM": -4,   "upDeg": 307, "shape": "long straight par 4 with a big lake down the entire left side of the approach and green; open heath right"},
+  "18": {"elevM": 10,   "upDeg": 133, "shape": "long straight par 5 uphill to the clubhouse; ponds right of the corridor at 100-150, scattered fairway bunkers"}
+ }
+}
