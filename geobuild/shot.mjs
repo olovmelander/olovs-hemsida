@@ -31,6 +31,7 @@ const browser = await chromium.launch({
          '--disable-lcd-text', '--force-device-scale-factor=1'],
 });
 const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: 1 });
+page.setDefaultTimeout(300000);
 
 const problems = [];
 page.on('pageerror', e => problems.push('pageerror: ' + String(e).split('\n')[0].slice(0, 200)));
@@ -56,22 +57,28 @@ await page.route('**/*', async route => {
 const t0 = Date.now();
 await page.goto('file://' + path.resolve(target), { waitUntil: 'load', timeout: 120000 });
 
+const wantHole = flag('hole', null), wantPreset = flag('preset', null), wantCam = flag('cam', null);
 let boot = 'n/a';
 if (/\.html$/.test(target)) {
   try {
     await page.waitForSelector('#boot.done', { timeout: 180000 });
     boot = ((Date.now() - t0) / 1000).toFixed(1) + ' s';
   } catch { problems.push('boot did not complete within 180 s'); boot = 'TIMEOUT'; }
-  const hole = flag('hole', null), preset = flag('preset', null), cam = flag('cam', null);
-  if (preset) await page.evaluate(p => window.V3D?.setPreset?.(p), preset);
-  if (hole) await page.evaluate(n => window.V3D?.goHole?.(+n, true), hole);
-  if (cam) await page.evaluate(c => window.V3D?.setCam?.(c), cam);
-  if (hole || preset || cam) await page.waitForTimeout(1200);
+  /* Move the camera instantly rather than tweening it. Under software rendering the
+     page draws about twice a second, so a 1.5 s tween would still be in its second
+     frame when the shutter opens and every shot would be of the previous view. */
+  if (wantPreset) await page.evaluate(p => window.V3D?.setPreset?.(p), wantPreset);
+  if (wantHole) await page.evaluate(n => window.V3D?.goHole?.(+n, true, true), wantHole);
+  if (wantCam) await page.evaluate(c => window.V3D?.setCam?.(c, true), wantCam);
+  if (wantHole || wantPreset || wantCam) {
+    await page.waitForFunction(() => window.V3D?.settled?.() !== false, null, { timeout: 60000 }).catch(() => {});
+    await page.waitForTimeout(2500);
+  }   // the camera tween runs 1.5 s
 }
 if (WAIT) await page.waitForTimeout(WAIT);
 
 fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
-await page.screenshot({ path: path.resolve(out) });
+await page.screenshot({ path: path.resolve(out), timeout: 300000, animations: 'disabled' });
 
 /* Measure the screenshot rather than the canvas: reading a WebGL drawing buffer back
    needs preserveDrawingBuffer, and a page that does not set it returns black even
@@ -87,11 +94,13 @@ for (let i = 0; i < n; i++) {
 }
 const meanLum = sum / n / 255, pctDark = 100 * dark / n, pctBlown = 100 * blown / n;
 const stats = await page.evaluate(() => window.V3D?.stats || null);
+const camAt = await page.evaluate(() => window.V3D?.camInfo?.() || null);
 await browser.close();
 
 console.log(`${path.basename(target)} -> ${path.relative(process.cwd(), out)}  ${img.width}x${img.height}`);
 console.log(`  boot ${boot}   mean luminance ${meanLum.toFixed(3)}   near-black ${pctDark.toFixed(1)}%   blown ${pctBlown.toFixed(1)}%`);
 if (stats) console.log('  ' + Object.entries(stats).map(([k, v]) => `${k} ${v}`).join('  '));
+if (wantCam || wantHole) console.log('  camera ' + JSON.stringify(camAt));
 if (problems.length) {
   console.log('  problems:');
   for (const p of [...new Set(problems)].slice(0, 12)) console.log('    ' + p);
