@@ -635,7 +635,6 @@ function groundAt(x, z, h) {
     col = col.map((v, i) => lerp(v, C.sand[i] + grain, c.sand));
     if (c.sand > 0.5) sid = S_SAND;
   }
-  if (c.path > 0.02) { col = col.map((v, i) => lerp(v, C.path[i], c.path * 0.9)); if (c.path > 0.5) sid = S_PATH; }
 
   /* the waterline: wet sand, then bleached shore */
   let lvl = null;
@@ -768,13 +767,13 @@ const hemi = new THREE.HemisphereLight(0xdff0ff, 0x4c5842, 1.15);
 scene.add(hemi);
 
 const PRESETS = {
-  golden: { sun: 0xffd8a8, int: 2.7, dir: [-0.55, 0.30, 0.78], hemiS: 0xffe0c2, hemiG: 0x50573f,
-            hemiI: 1.10, fog: 0xa2bcca, dens: 0.00042, exp: 1.20, turb: 4.6, ray: 1.9, cloud: 0.40 },
+  golden: { sun: 0xffcf94, int: 3.1, dir: [-0.56, 0.42, 0.71], hemiS: 0xffdcbb, hemiG: 0x5a5a3c,
+            hemiI: 1.20, fog: 0xb8bfb8, dens: 0.00040, exp: 1.22, turb: 4.2, ray: 2.1, cloud: 0.40 },
   noon:   { sun: 0xfffaf0, int: 3.0, dir: [-0.22, 0.88, 0.42], hemiS: 0xdff0ff, hemiG: 0x56634a,
             hemiI: 1.35, fog: 0xb4cfdc, dens: 0.00033, exp: 1.02, turb: 2.6, ray: 1.1, cloud: 0.26 },
-  mist:   { sun: 0xe7f4f2, int: 1.5, dir: [-0.36, 0.42, 0.82], hemiS: 0xd8edf2, hemiG: 0x4e5a4c,
+  mist:   { sun: 0xe7f4f2, int: 1.5, dir: [-0.36, 0.52, 0.78], hemiS: 0xd8edf2, hemiG: 0x4e5a4c,
             hemiI: 1.55, fog: 0xc3d4d8, dens: 0.00115, exp: 1.04, turb: 6.5, ray: 0.6, cloud: 0.62 },
-  dawn:   { sun: 0xffc9a0, int: 2.2, dir: [0.72, 0.18, -0.62], hemiS: 0xb9cfe8, hemiG: 0x44503e,
+  dawn:   { sun: 0xffc9a0, int: 2.2, dir: [0.70, 0.26, -0.62], hemiS: 0xb9cfe8, hemiG: 0x44503e,
             hemiI: 0.95, fog: 0x8ea4b6, dens: 0.00055, exp: 1.18, turb: 5.4, ray: 2.6, cloud: 0.34 },
 };
 let preset = PRESETS.golden;
@@ -1259,6 +1258,79 @@ const shadeSand = (x, z) => {
   add(M.scenery.bunkers.concat(M.veg.sand), 0.026, 2.6, shadeSand, 5, sandMat);
 }
 
+/* Paths as ribbons, for the same reason the fairways are.
+
+   Painted into a 4 m terrain grid a two-metre cart path cannot be narrower than the
+   cell it lands in, so the whole network bled out to twenty metres of warm brown and
+   read as dry riverbeds running through the course. A strip laid along the polyline
+   is the right width by construction. */
+function ribbonMesh(lines, halfW, lift, shade) {
+  const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], idx = [];
+  for (const L of lines) {
+    if (L.length < 2) continue;
+    /* resample so the ribbon follows the ground rather than spanning its dips */
+    const P = [];
+    for (let i = 0; i < L.length - 1; i++) {
+      const d = hyp(L[i], L[i + 1]);
+      const n = Math.max(1, Math.ceil(d / 5));
+      for (let k = 0; k < n; k++)
+        P.push([lerp(L[i][0], L[i + 1][0], k / n), lerp(L[i][1], L[i + 1][1], k / n)]);
+    }
+    P.push(L[L.length - 1]);
+    if (P.length < 2) continue;
+    const base = pos.length / 3;
+    for (let i = 0; i < P.length; i++) {
+      const a = P[Math.max(0, i - 1)], b = P[Math.min(P.length - 1, i + 1)];
+      let tx = b[0] - a[0], tz = b[1] - a[1];
+      const tl = Math.hypot(tx, tz) || 1;
+      tx /= tl; tz /= tl;
+      const nx = -tz, nz = tx;
+      const w = halfW * (0.85 + fbm(P[i][0] * 0.08, P[i][1] * 0.08, 2) * 0.3);
+      for (const side of [-1, 1]) {
+        const x = P[i][0] + nx * w * side, z = P[i][1] + nz * w * side;
+        const h = terrainH(x, z);
+        const g = shade(x, z, h, Math.abs(side));
+        const ao = horizonAO(x, z, h);
+        pos.push(x, h + lift, z);
+        col.push(g.col[0] * ao, g.col[1] * ao, g.col[2] * ao);
+        det.push(g.det); bmp.push(g.bmp); gls.push(g.gls); str.push(0); mow.push(0, 0);
+      }
+    }
+    for (let i = 0; i < P.length - 1; i++) {
+      const a = base + i * 2;
+      idx.push(a, a + 1, a + 2, a + 2, a + 1, a + 3);
+    }
+  }
+  if (!pos.length) return null;
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  g.setAttribute('aDet', new THREE.Float32BufferAttribute(det, 1));
+  g.setAttribute('aBmp', new THREE.Float32BufferAttribute(bmp, 1));
+  g.setAttribute('aGls', new THREE.Float32BufferAttribute(gls, 1));
+  g.setAttribute('aStr', new THREE.Float32BufferAttribute(str, 1));
+  g.setAttribute('aMow', new THREE.Float32BufferAttribute(mow, 2));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  stats.verts += pos.length / 3; stats.tris += idx.length / 3;
+  return g;
+}
+{
+  const gravel = (x, z) => {
+    const n = fbm(x * 0.22, z * 0.22, 2);
+    return { col: C.path.map(v => v * (0.9 + n * 0.18)), det: 3.2, bmp: 0.34, gls: 0.2 };
+  };
+  for (const [lines, w] of [[M.infra.paths, 1.1], [M.infra.tracks, 1.7],
+                            [M.infra.roads.map(r => r.line), 2.6]]) {
+    const g = ribbonMesh(lines, w, 0.04, gravel);
+    if (!g) continue;
+    const m = new THREE.Mesh(g, turfMat);
+    m.receiveShadow = true; m.renderOrder = 1;
+    scene.add(m);
+    stats.draws++;
+  }
+}
+
 /* ------------------------------------------------------------------- water */
 await tick('fyller vattnet', 0.52);
 /* Water, shaded by hand rather than lit.
@@ -1696,13 +1768,15 @@ await tick('ställer ljuset', 0.86);
 function placeSun() {
   const t = controls.target;
   const d = uSun.value;
-  sun.position.set(t.x + d.x * 900, t.y + d.y * 900, t.z + d.z * 900);
+  sun.position.set(t.x + d.x * 1200, t.y + d.y * 1200, t.z + d.z * 1200);
   sun.target.position.copy(t);
   sun.target.updateMatrixWorld();
-  const R = 340;
+  /* size the shadow box to what the camera can actually see, so a tee view spends
+     all 2048 pixels on the tee and a wide view still has shadows at its edges */
+  const R = clampf(camera.position.distanceTo(t) * 1.15 + 90, 190, 1150);
   const c = sun.shadow.camera;
   c.left = -R; c.right = R; c.top = R; c.bottom = -R;
-  c.near = 200; c.far = 2000;
+  c.near = 200; c.far = 2400;
   c.updateProjectionMatrix();
 }
 
