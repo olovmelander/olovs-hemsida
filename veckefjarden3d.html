@@ -436,15 +436,17 @@ function terrainH(x, z) {
     if (t.base === undefined) { const c = centroidOf(t.ring); t.base = demH(c[0], c[1]); }
     h = lerp(h, t.base + 0.28, w);
   }
-  /* bunkers: a dished floor and a rolled lip, the lip a little proud of grade */
+  /* Bunkers: a dished floor and a rolled lip. Both terms are continuous through the
+     edge, which the first version was not -- it dropped 0.32 m the instant a sample
+     crossed inside and raised 0.34 m just outside, so the rim was a two-thirds-metre
+     cliff. On a 4 m grid that tears into the jagged flaps that were showing up round
+     every bunker. */
   for (const b of BI.at(x, z)) {
     const sd = ringSD(x, z, b.ring);
     if (sd > 5) continue;
-    if (sd < 0) {
-      const r = Math.max(4, Math.min(14, (b.bb.x1 - b.bb.x0 + b.bb.z1 - b.bb.z0) * 0.25));
-      const t = clampf(-sd / r, 0, 1);
-      h -= (0.28 + 0.72 * Math.sqrt(t)) * 1.15;
-    } else h += 0.34 * Math.exp(-sd / 1.6);
+    const r = Math.max(4, Math.min(14, (b.bb.x1 - b.bb.x0 + b.bb.z1 - b.bb.z0) * 0.25));
+    h += 0.36 * Math.exp(-Math.abs(sd) / 1.7);               /* the rolled lip */
+    h -= 1.25 * smooth(0, r * 0.85, -sd);                    /* the dish, zero at the edge */
   }
   /* streams cut, ponds and the fjord hold their own measured level */
   for (const w of WI.at(x, z)) {
@@ -455,15 +457,15 @@ function terrainH(x, z) {
     }
     const sd = ringSD(x, z, w.ring);
     if (sd > 26) continue;
-    if (sd < 0) {
-      /* a bed that deepens away from the bank -- shallow enough that the shallows
-         read as shallows through the water shader */
-      const dep = lerp(0.35, w.isLake ? 5.5 : 2.4, smooth(0, w.isLake ? 55 : 18, -sd));
-      h = Math.min(h, w.level - dep);
-    } else {
-      /* bench the bank toward the waterline so a pond is never a rim of cliff */
-      h = lerp(h, Math.max(h, w.level + 0.35), (1 - smooth(0, 13, sd)) * 0.72);
-    }
+    /* One continuous surface through the waterline: the bed falls away from it going
+       in, the bank rises from it going out, and both are exactly the water's own
+       level at the edge itself. Two separate branches meeting at a step made every
+       shoreline a low cliff, which is a thing the 4 m grid then tore. */
+    const bed = lerp(0, w.isLake ? 5.5 : 2.2, smooth(0, w.isLake ? 55 : 18, -sd));
+    const bank = lerp(0, 0.9, smooth(0, 15, sd));
+    const target = w.level - bed + bank;
+    const wgt = 1 - smooth(0, 26, sd);
+    h = sd < 0 ? Math.min(h, target) : lerp(h, Math.max(h, target), wgt * 0.75);
   }
 
   /* The elevation model is a 2 m product resampled to 4 m, so everything finer than
@@ -760,7 +762,10 @@ const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(2048, 2048);
 sun.shadow.camera.near = 120; sun.shadow.camera.far = 3400;
-sun.shadow.bias = -0.00035; sun.shadow.normalBias = 0.06;
+/* Terrain is a huge, gently-sloped receiver, which is the worst case for shadow
+   acne: at a grazing sun every quad shadows itself unless the sample is pushed well
+   along the normal first. A green view came out uniformly dim because of it. */
+sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.22;
 scene.add(sun, sun.target);
 
 const hemi = new THREE.HemisphereLight(0xdff0ff, 0x4c5842, 1.15);
@@ -1773,7 +1778,7 @@ function placeSun() {
   sun.target.updateMatrixWorld();
   /* size the shadow box to what the camera can actually see, so a tee view spends
      all 2048 pixels on the tee and a wide view still has shadows at its edges */
-  const R = clampf(camera.position.distanceTo(t) * 1.15 + 90, 190, 1150);
+  const R = clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150);
   const c = sun.shadow.camera;
   c.left = -R; c.right = R; c.top = R; c.bottom = -R;
   c.near = 200; c.far = 2400;
@@ -1847,10 +1852,13 @@ function setCam(mode, instant) {
     const aim = alongLine(h.line, 0.72);
     flyTo(V3(x, terrainH(x, z) + 2.4, z), V3(aim.x, terrainH(aim.x, aim.z) + 3, aim.z), DUR);
   } else if (mode === 'green') {
-    const gb = alongLine(h.line, 0.98).b;
-    const G = [Math.sin(gb), Math.cos(gb)];
-    const x = h.pin[0] + G[0] * 52, z = h.pin[1] + G[1] * 52;
-    flyTo(V3(x, terrainH(x, z) + 26, z), V3(h.pin[0], terrainH(h.pin[0], h.pin[1]), h.pin[1]), DUR);
+    /* the approach, not a plan of the green: back down the fairway at the height a
+       ball is at when it lands, so the complex is seen the way it is played */
+    const p = alongLine(h.line, 0.80);
+    const G = [Math.sin(p.b), Math.cos(p.b)];
+    const x = p.x - G[0] * 24 + G[1] * 16, z = p.z - G[1] * 24 - G[0] * 16;
+    flyTo(V3(x, terrainH(x, z) + 15, z),
+          V3(h.pin[0], terrainH(h.pin[0], h.pin[1]) + 1.5, h.pin[1]), DUR);
   } else if (mode === 'top') {
     const m = alongLine(h.line, 0.5);
     flyTo(V3(m.x, terrainH(m.x, m.z) + 330, m.z + 0.1), V3(m.x, terrainH(m.x, m.z), m.z), DUR);
