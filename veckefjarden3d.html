@@ -311,6 +311,28 @@ function fbm(x, z, oct = 3) {
   return s / n;
 }
 
+/* --------------------------------------------------------------------- AO
+   How much of the sky a point can actually see. Without it every slope facing the
+   sun renders at full irradiance and a hillside of dry fescue comes out the colour
+   of a sand dune, because nothing in the lighting model knows that a hillside sits
+   in the bottom of its own landscape. Six directions at two radii, sampled against
+   the elevation model rather than the sculpted surface -- this is the shape of the
+   land occluding itself, and the metre-scale detail neither adds nor removes sky. */
+const AO_DIRS = [];
+for (let i = 0; i < 6; i++) AO_DIRS.push([Math.cos(i / 6 * TAU), Math.sin(i / 6 * TAU)]);
+function horizonAO(x, z, h) {
+  let occ = 0;
+  for (const [dx, dz] of AO_DIRS) {
+    let m = 0;
+    for (const r of [14, 46]) {
+      const s = (demH(x + dx * r, z + dz * r) - h) / r;
+      if (s > m) m = s;
+    }
+    occ += Math.min(1, m * 2.4);
+  }
+  return 1 - (occ / 6) * 0.42;
+}
+
 /* ------------------------------------------------------------ elevation */
 function sampleGrid(G, S, x, z) {
   const fx = (x - S.x0) / S.dx, fz = (z - S.z0) / S.dx;
@@ -452,8 +474,17 @@ function terrainH(x, z) {
      uniformly would be worse than not adding it -- it is the contrast between a
      smooth green and lumpy rough that makes both read correctly. */
   const cls = microClass(x, z);
-  if (cls.amp > 0.001) h += fbm(x / cls.len, z / cls.len, 3) * cls.amp;
+  if (cls.amp > 0.001) h += fbm(x / cls.len, z / cls.len, 3) * cls.amp * seamFade(x, z);
   return h;
+}
+
+/* Fade the added relief out over the last 90 m of the fine grid so that where the
+   coarse mesh shows through, it agrees. */
+let SEAM = null;
+function seamFade(x, z) {
+  if (!SEAM) return 1;
+  const d = Math.min(x - SEAM.x0, SEAM.x1 - x, z - SEAM.z0, SEAM.z1 - z);
+  return smooth(-30, 90, d);
 }
 
 /* how much fine relief a point should have, by what is growing on it */
@@ -475,9 +506,9 @@ function microClass(x, z) {
   if (sand > 0.4) return { amp: 0.0, len: 20 };
   if (green > 0.4) return { amp: 0.05, len: 26 };
   if (tee > 0.4) return { amp: 0.03, len: 22 };
-  if (fair > 0.4) return { amp: 0.22, len: 34 };
-  const base = forest > 0.5 ? 0.85 : 0.55;
-  return { amp: base * (1 - mown * 0.8), len: forest > 0.5 ? 19 : 22 };
+  if (fair > 0.4) return { amp: 0.26, len: 36 };
+  const base = forest > 0.5 ? 1.35 : 1.05;
+  return { amp: base * (1 - mown * 0.8), len: forest > 0.5 ? 23 : 27 };
 }
 
 /* what is at a point, as blend weights -- one call, used for colour and for
@@ -540,11 +571,11 @@ const L = hex => [s2l(((hex >> 16) & 255) / 255), s2l(((hex >> 8) & 255) / 255),
    deeper than the fairway around it. Those three relationships are most of what makes
    mown ground read as mown ground from 200 m away. */
 const C = {
-  rough:  L(0x8a9455), fescue: L(0xa8a468), semi:  L(0x6f9a45),
-  fair:   L(0x649b3f), green:  L(0x4f9c52), fringe:L(0x6a9c46),
-  tee:    L(0x63a04a), sand:   L(0xe6d5a8), path:  L(0xa08e70),
-  heath:  L(0x9a8e56), forest: L(0x44562e), shore: L(0xc9bb92),
-  wet:    L(0x7c8354), rock:   L(0x8b8578),
+  rough:  L(0x62723d), fescue: L(0x847f4c), semi:  L(0x5c8438),
+  fair:   L(0x5c8f3b), green:  L(0x479149), fringe:L(0x628f40),
+  tee:    L(0x5a9040), sand:   L(0xd6c396), path:  L(0x8d7d61),
+  heath:  L(0x776c3f), forest: L(0x334423), shore: L(0xb2a37e),
+  wet:    L(0x6a7046), rock:   L(0x736e63),
 };
 
 /* how each surface is shaded: detail scale, bump strength, gloss, mow anisotropy */
@@ -570,11 +601,18 @@ function groundAt(x, z, h) {
      a hundred hectares of rough from reading as one flat colour, which was what made
      the ground look painted rather than grown. */
   const n3 = fbm(x * 0.0052 + 40, z * 0.0052 - 17, 2);
-  const heath = smooth(0.05, 0.55, n1 * 0.65 + n3 * 0.5) * (1 - c.forest);
+  /* Steep ground is not mown, not grazed and mostly not grass: it is scrub and
+     exposed till. Without this the whole ridge behind the 14th comes out as one
+     enormous pale dune, which is the most obvious thing wrong with a heightfield
+     that has been coloured by rule rather than by what grows on it. */
+  const sl = Math.hypot(demH(x + 6, z) - demH(x - 6, z), demH(x, z + 6) - demH(x, z - 6)) / 12;
+  const steep = smooth(0.30, 0.78, sl);
+  const heath = smooth(0.05, 0.55, n1 * 0.65 + n3 * 0.5) * (1 - c.forest) * (1 - steep * 0.85);
   const damp = smooth(0.30, -0.35, n1 * 0.5 + n3 * 0.75) * (1 - c.forest);
   col = C.rough.map((v, i) => lerp(v, C.fescue[i], smooth(-0.45, 0.55, n2 * 0.5 + n3 * 0.6) * 0.75));
   col = col.map((v, i) => lerp(v, C.heath[i], heath * 0.62));
   col = col.map((v, i) => lerp(v, C.semi[i], damp * 0.38));
+  col = col.map((v, i) => lerp(v, lerp(C.forest[i], C.rock[i], smooth(0.55, 0.95, sl)), steep * 0.55));
   sid = heath > 0.55 ? S_HEATH : S_ROUGH;
   if (c.forest > 0.02) { col = col.map((v, i) => lerp(v, C.forest[i], c.forest * 0.85)); sid = S_FOREST; }
 
@@ -627,7 +665,7 @@ await renderer.init();
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.18;
+renderer.toneMappingExposure = 1.20;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
@@ -719,28 +757,30 @@ const WATERN = canvasTex(512, (g, S) => {
 
 /* ------------------------------------------------------------- lighting */
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
-const sun = new THREE.DirectionalLight(0xfff2de, 3.4);
+const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(2048, 2048);
 sun.shadow.camera.near = 120; sun.shadow.camera.far = 3400;
 sun.shadow.bias = -0.00035; sun.shadow.normalBias = 0.06;
 scene.add(sun, sun.target);
 
-const hemi = new THREE.HemisphereLight(0xdff0ff, 0x1d3324, 0.85);
+const hemi = new THREE.HemisphereLight(0xdff0ff, 0x4c5842, 1.15);
 scene.add(hemi);
 
 const PRESETS = {
-  golden: { sun: 0xffd8a8, int: 3.9, dir: [-0.55, 0.30, 0.78], hemiS: 0xffe2b8, hemiG: 0x1d2c1e,
-            hemiI: 0.85, fog: 0xa8c0c8, dens: 0.00016, exp: 1.24, turb: 4.6, ray: 1.9, cloud: 0.40 },
-  noon:   { sun: 0xfffaf0, int: 4.2, dir: [-0.22, 0.88, 0.42], hemiS: 0xdff0ff, hemiG: 0x24402a,
-            hemiI: 1.0,  fog: 0xbdd6de, dens: 0.00013, exp: 1.08, turb: 2.6, ray: 1.1, cloud: 0.26 },
-  mist:   { sun: 0xe7f4f2, int: 1.7, dir: [-0.36, 0.42, 0.82], hemiS: 0xd8edf2, hemiG: 0x22352f,
-            hemiI: 0.95, fog: 0xc3d4d8, dens: 0.00062, exp: 1.04, turb: 6.5, ray: 0.6, cloud: 0.62 },
-  dawn:   { sun: 0xffc9a0, int: 2.6, dir: [0.72, 0.18, -0.62], hemiS: 0xb9cfe8, hemiG: 0x1b2a24,
-            hemiI: 0.72, fog: 0x93aab8, dens: 0.00024, exp: 1.18, turb: 5.4, ray: 2.6, cloud: 0.34 },
+  golden: { sun: 0xffd8a8, int: 2.7, dir: [-0.55, 0.30, 0.78], hemiS: 0xffe0c2, hemiG: 0x50573f,
+            hemiI: 1.10, fog: 0xa2bcca, dens: 0.00042, exp: 1.20, turb: 4.6, ray: 1.9, cloud: 0.40 },
+  noon:   { sun: 0xfffaf0, int: 3.0, dir: [-0.22, 0.88, 0.42], hemiS: 0xdff0ff, hemiG: 0x56634a,
+            hemiI: 1.35, fog: 0xb4cfdc, dens: 0.00033, exp: 1.02, turb: 2.6, ray: 1.1, cloud: 0.26 },
+  mist:   { sun: 0xe7f4f2, int: 1.5, dir: [-0.36, 0.42, 0.82], hemiS: 0xd8edf2, hemiG: 0x4e5a4c,
+            hemiI: 1.55, fog: 0xc3d4d8, dens: 0.00115, exp: 1.04, turb: 6.5, ray: 0.6, cloud: 0.62 },
+  dawn:   { sun: 0xffc9a0, int: 2.2, dir: [0.72, 0.18, -0.62], hemiS: 0xb9cfe8, hemiG: 0x44503e,
+            hemiI: 0.95, fog: 0x8ea4b6, dens: 0.00055, exp: 1.18, turb: 5.4, ray: 2.6, cloud: 0.34 },
 };
 let preset = PRESETS.golden;
-const fog = new THREE.FogExp2(0xa8c0c8, 0.00016);
+const fog = new THREE.FogExp2(0xa2bcca, 0.00042);
+const uFogC = uniform(new THREE.Color(0xa2bcca));
+const uFogD = uniform(0.00042);
 scene.fog = fog;
 
 /* Sky. The volumetric one only exists on the WebGPU backend; on WebGL2 a gradient
@@ -764,9 +804,11 @@ if (IS_GPU) {
   const up = D.y;
   const sd = saturate(D.dot(uSun));
   const sunUp = uSun.y.max(0.02);
-  const zen = mix(color(0x1d4a86), color(0x2f6fae), sunUp);
-  const hor = mix(color(0xe8c39a), color(0xcfe0e6), smoothstep(0.05, 0.42, sunUp));
-  let c = mix(hor, zen, pow(saturate(up), float(0.40).add(sunUp.mul(0.35))));
+  const zen = mix(color(0x123a72), color(0x1f5f9e), sunUp);
+  const mid = mix(color(0x4d7fa8), color(0x66a0c8), sunUp);
+  const hor = mix(color(0xe6b98a), color(0xbcd3dd), smoothstep(0.05, 0.42, sunUp));
+  let c = mix(hor, mid, pow(saturate(up), 0.72));
+  c = mix(c, zen, pow(saturate(up), float(0.85).add(sunUp.mul(0.5))));
   c = mix(color(0x63705f), c, smoothstep(-0.05, 0.03, up));
   /* aureole: tight and white when the sun is high, wide and orange when it is low */
   c = c.add(mix(color(0xffb060), color(0xfff0d0), sunUp)
@@ -799,7 +841,7 @@ if (IS_GPU) {
   env.add(new THREE.Mesh(new THREE.SphereGeometry(100, 24, 16), m));
   const pm = new THREE.PMREMGenerator(renderer);
   scene.environment = pm.fromScene(env, 0.04).texture;
-  scene.environmentIntensity = 0.62;
+  scene.environmentIntensity = 0.58;
 }
 
 function setPreset(name) {
@@ -810,6 +852,7 @@ function setPreset(name) {
   uSun.value.copy(d);
   hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI;
   fog.color.setHex(p.fog); fog.density = p.dens;
+  uFogC.value.setHex(p.fog, THREE.SRGBColorSpace); uFogD.value = p.dens;
   scene.background = new THREE.Color(p.fog);
   renderer.toneMappingExposure = p.exp;
   if (skyDome?.userData.cover) skyDome.userData.cover.value = 0.62 - p.cloud * 0.55;
@@ -875,7 +918,7 @@ function makeTurf() {
      Part of that is fixed, so the stripes are there at any angle, and part follows
      the view, so they strengthen and fade as you walk round -- which is what tells
      the eye it is grass lying two ways rather than paint. */
-  const sheen = oneMinus(abs(V.y)).mul(0.13).add(0.07);
+  const sheen = oneMinus(abs(V.y)).mul(0.075).add(0.038);
   col = col.mul(float(1).add(band.mul(aStr.min(1.8)).mul(sheen).mul(near.mul(0.45).add(0.55))));
 
   /* light through the blade rather than off it -- the reason turf glows when the
@@ -941,6 +984,7 @@ const MIDR = { dx: 12, x0: snap(HF0.x0 + 8, 36), x1: snap(HF0.x0 + (HF0.nx - 1) 
 const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -6000, z1: 2520 };
 
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0 };
+SEAM = MIDR;
 
 function buildTerrain(R, hole, withDetail) {
   const nx = Math.round((R.x1 - R.x0) / R.dx) + 1, nz = Math.round((R.z1 - R.z0) / R.dx) + 1;
@@ -957,7 +1001,8 @@ function buildTerrain(R, hole, withDetail) {
     pos.push(x, h, z);
     if (withDetail) {
       const g = groundAt(x, z, h);
-      col.push(g.col[0], g.col[1], g.col[2]);
+      const ao = horizonAO(x, z, h);
+      col.push(g.col[0] * ao, g.col[1] * ao, g.col[2] * ao);
       det.push(g.det); bmp.push(g.bmp); gls.push(g.gls); str.push(g.str);
       mow.push(g.mow || 0, g.mowK || 0);
     } else {
@@ -1026,20 +1071,29 @@ function skirt(R, depth, sampler) {
   return g;
 }
 
+/* Each coarse level keeps a ring of itself underneath the finer one instead of
+   stopping at its edge. A skirt hung at the seam works, but it is a vertical wall,
+   and a vertical wall a kilometre away catches the low sun and draws a bright line
+   across the hills that reads as a road cut. Tucking the coarse mesh under the fine
+   one costs one ring of triangles and cannot be seen at all: whatever shows through
+   a crack is the same hillside, one level coarser. */
+const under = (R, by) => ({ x0: R.x0 + by, x1: R.x1 - by, z0: R.z0 + by, z1: R.z1 - by });
+
 const turfMat = makeTurf();
 const coreMesh = new THREE.Mesh(buildTerrain(CORE, null, true), turfMat);
+coreMesh.userData.tag = 'core';
 coreMesh.receiveShadow = true; coreMesh.castShadow = true;
 scene.add(coreMesh);
-scene.add(new THREE.Mesh(skirt(CORE, 4, terrainH), turfMat));
 
 await tick('bygger terrängen', 0.26);
-const midMesh = new THREE.Mesh(buildTerrain(MIDR, CORE, true), turfMat);
+const midMesh = new THREE.Mesh(buildTerrain(MIDR, under(CORE, 24), true), turfMat);
+midMesh.userData.tag = 'mid';
 midMesh.receiveShadow = true;
 scene.add(midMesh);
-scene.add(new THREE.Mesh(skirt(MIDR, 8, terrainH), turfMat));
 
 await tick('bygger horisonten', 0.34);
-const farMesh = new THREE.Mesh(buildTerrain(FARR, MIDR, false), turfMat);
+const farMesh = new THREE.Mesh(buildTerrain(FARR, under(MIDR, 72), false), turfMat);
+farMesh.userData.tag = 'far';
 scene.add(farMesh);
 
 /* ------------------------------------------------- conforming course surfaces
@@ -1089,8 +1143,9 @@ function surfaceMesh(rings, lift, maxEdge, shade) {
     for (const [x, z] of V) {
       const h = terrainH(x, z);
       const g = shade ? shade(x, z, h) : groundAt(x, z, h);
+      const ao = horizonAO(x, z, h);
       pos.push(x, h + lift, z);
-      col.push(g.col[0], g.col[1], g.col[2]);
+      col.push(g.col[0] * ao, g.col[1] * ao, g.col[2] * ao);
       det.push(g.det); bmp.push(g.bmp); gls.push(g.gls); str.push(g.str);
       mow.push(g.mow || 0, g.mowK || 0);
     }
@@ -1197,7 +1252,8 @@ const shadeSand = (x, z) => {
     if (h.bunkers.length) add(h.bunkers.map(b => b.ring), 0.028, 2.2, shadeSand, 5, sandMat);
   }
   /* the short course, the range and the practice green are mown grass too */
-  add(M.scenery.fairways.concat(M.scenery.range), 0.03, 5.0, shadeFair(null), 2);
+  add(M.scenery.fairways.concat(M.scenery.range), 0.03, 5.0,
+      (x, z) => ({ ...shadeFair(null)(x, z), str: 0.35, mowK: 0 }), 2);
   add(M.scenery.greens, 0.06, 1.8, shadeGreen(null), 4);
   add(M.scenery.tees, 0.07, 2.4, shadeTee(), 4);
   add(M.scenery.bunkers.concat(M.veg.sand), 0.026, 2.6, shadeSand, 5, sandMat);
@@ -1205,40 +1261,74 @@ const shadeSand = (x, z) => {
 
 /* ------------------------------------------------------------------- water */
 await tick('fyller vattnet', 0.52);
-function makeWater(level) {
-  const m = new THREE.MeshPhysicalNodeMaterial({
-    transparent: true, roughness: 0.05, metalness: 0.0, clearcoat: 0.85,
-    clearcoatRoughness: 0.08, side: THREE.DoubleSide,
-  });
+/* Water, shaded by hand rather than lit.
+
+   Running it through the standard BRDF makes the reflection colours behave as if they
+   were paint: they get multiplied by the sun and the sky a second time and the fjord
+   comes out as a flat pale sheet you would read as haze. What water actually looks
+   like is almost entirely reflection and almost not at all diffuse, so this computes
+   the four terms that matter -- what colour the depth is, what the sky looks like in
+   the direction you are reflecting toward, where the sun's glare falls, and where the
+   surface runs out into foam -- and writes the answer. */
+function makeWater() {
+  const m = new THREE.MeshBasicNodeMaterial({ transparent: true, side: THREE.DoubleSide });
   const aSh = attribute('aShore', 'float');
+  const aFoam = attribute('aFoam', 'float');
   const wp = positionWorld.xz;
-  const t = time.mul(0.055);
-  /* two normal maps crossing at a slight angle: enough to break up the reflection
-     without the repetition that one scrolling layer always shows */
-  const n1 = texture(WATERN, wp.mul(0.021).add(vec2(t, t.mul(0.62))));
-  const n2 = texture(WATERN, wp.mul(0.052).add(vec2(t.mul(-0.74), t.mul(0.41))));
-  const nrm = n1.xyz.mul(2).sub(1).add(n2.xyz.mul(2).sub(1)).mul(vec3(1, 0.35, 1));
-  const N = normalize(vec3(nrm.x.mul(0.34), float(1), nrm.z.mul(0.34)));
+  const t = time;
+
+  /* Four wave scales crossing at four angles. One scrolling layer repeats visibly;
+     four at incommensurate speeds do not, and the two fine ones fade out with
+     distance where they would otherwise be finer than a pixel and just shimmer. */
+  const cd = cameraPosition.sub(positionWorld).length();
+  const near = oneMinus(smoothstep(90, 900, cd));
+  const n1 = texture(WATERN, wp.mul(0.115).add(vec2(t.mul(0.028), t.mul(0.017)))).xy.sub(0.5);
+  const n2 = texture(WATERN, wp.mul(0.052).add(vec2(t.mul(-0.021), t.mul(0.033)))).xy.sub(0.5);
+  const n3 = texture(WATERN, wp.mul(0.245).add(vec2(t.mul(0.047), t.mul(-0.038)))).xy.sub(0.5);
+  const n4 = texture(WATERN, wp.mul(0.014).add(vec2(t.mul(0.008), t.mul(0.011)))).xy.sub(0.5);
+  /* The fine chop is kept at three tenths out to the horizon rather than faded to
+     nothing. Water seen far off is almost all reflection, and if the reflection is
+     unbroken it is a mirror of a pale sky -- which is to say, indistinguishable from
+     haze. The glitter is the thing that says water. */
+  const ripple = n1.mul(near.mul(0.45).add(0.30)).add(n3.mul(near.mul(0.30).add(0.16)))
+                   .add(n2.mul(0.7)).add(n4.mul(0.9));
+  const N = normalize(vec3(ripple.x.mul(0.55), float(1), ripple.y.mul(0.55)));
+
   const V = normalize(cameraPosition.sub(positionWorld));
-  const fres = pow(oneMinus(saturate(N.dot(V))), 3.4);
+  const fres = pow(oneMinus(saturate(N.dot(V))), 4.2).mul(0.93).add(0.035);
 
-  const shallow = color(0x2f7f84), deep = color(0x08222f);
-  const depth = smoothstep(0, 26, aSh);
-  let c = mix(shallow, deep, depth);
-  c = mix(c, color(0xbfe0e8), fres.mul(0.72));
-  /* the sun's own reflection, which is what tells you the surface is moving */
-  const Hv = normalize(V.add(uSun));
-  c = c.add(color(0xfff0d6).mul(pow(saturate(N.dot(Hv)), 190).mul(2.4)));
-  c = c.add(color(0xdff2f6).mul(pow(saturate(N.dot(Hv)), 26).mul(0.22)));
-  /* foam where the water runs out, broken up so it is a shoreline not a stripe */
-  const foam = smoothstep(3.0, 0.15, aSh).mul(
-    texture(DETAIL, wp.mul(0.32).add(vec2(t.mul(0.5), 0))).g.mul(1.5).add(0.2));
-  c = mix(c, color(0xe8f6f6), saturate(foam).mul(0.72));
+  /* the sky in the mirror direction, built from the same three colours the dome uses
+     so the fjord and the sky above it can never disagree */
+  const R = reflect(V.negate(), N);
+  const up = saturate(R.y);
+  const sunUp = uSun.y.max(0.02);
+  const skyC = mix(mix(color(0xd9c6ad), color(0xcfe0e6), smoothstep(0.05, 0.42, sunUp)),
+                   mix(color(0x21538f), color(0x3479b4), sunUp), pow(up, 0.45));
 
-  m.colorNode = c;
-  m.opacityNode = mix(float(0.72), float(0.965), depth).add(saturate(foam).mul(0.3)).min(1);
-  m.normalNode = THREE.TSL.normalMap ? undefined : undefined;
-  m.roughnessNode = float(0.03).add(saturate(foam).mul(0.5));
+  /* depth: the bed falls away from the bank, so the shallows keep their own colour */
+  const depth = smoothstep(0, 30, aSh);
+  const body = mix(color(0x2c6f6c), color(0x06202c), depth);
+
+  let c = mix(body, skyC, fres.mul(0.88));
+  /* the sun's own reflection -- the single thing that says a surface is moving */
+  const H = normalize(V.add(uSun));
+  c = c.add(color(0xfff2da).mul(pow(saturate(N.dot(H)), 260).mul(3.6)));
+  c = c.add(color(0xdff0f6).mul(pow(saturate(N.dot(H)), 22).mul(0.34)));
+  /* foam, broken up by noise so a shoreline is a shoreline and not a stripe */
+  /* Foam only where there is enough water behind it to make a wave. A metre-deep
+     pond in a field has none at all, and drawing a three-metre white band round every
+     one of them made fifteen ponds look like fifteen holes cut in an ice sheet. The
+     lake gets a thin, broken line -- thresholded against noise so it is a scatter of
+     wash rather than a rim. */
+  const fw = texture(DETAIL, wp.mul(0.55).add(vec2(t.mul(0.035), t.mul(0.02)))).g;
+  const foam = saturate(smoothstep(1.5, 0.15, aSh).mul(smoothstep(0.44, 0.72, fw)))
+                 .mul(aFoam);
+  c = mix(c, color(0xdfeeee), foam.mul(0.62));
+
+  /* fog by hand too, since an unlit material gets none */
+  const fogT = oneMinus(exp(cd.mul(cd).mul(uFogD.mul(uFogD)).negate()));
+  m.colorNode = mix(c, uFogC, saturate(fogT));
+  m.opacityNode = mix(float(0.62), float(0.97), depth).add(foam.mul(0.2)).min(1);
   return m;
 }
 const waterMat = makeWater();
@@ -1250,15 +1340,18 @@ for (const w of M.water) {
   /* big water needs interior vertices for the wave normal to vary across; a pond
      is small enough that its outline already provides them */
   const { V, F } = subdivide(w.ring, faces, w.isLake ? 90 : 26);
-  const pos = [], sh = [], idx = [];
+  const pos = [], sh = [], fm = [], idx = [];
+  const foamy = w.isLake ? 1 : 0;
   for (const [x, z] of V) {
     pos.push(x, w.level, z);
     sh.push(Math.max(0, -ringSD(x, z, w.ring)));
+    fm.push(foamy);
   }
   for (const [a, b, c] of F) idx.push(a, c, b);
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
   g.setAttribute('aShore', new THREE.Float32BufferAttribute(sh, 1));
+  g.setAttribute('aFoam', new THREE.Float32BufferAttribute(fm, 1));
   g.setIndex(idx);
   g.computeVertexNormals();
   const m = new THREE.Mesh(g, waterMat);
@@ -1339,9 +1432,9 @@ const SPECIES = (() => {
   })());
   const trunk = (r0, r1, h) => { const g = new THREE.CylinderGeometry(r0, r1, h, 6); g.translate(0, h / 2, 0); return g; };
   return [
-    { crown: spruce, trunk: trunk(0.18, 0.42, 3.2), cc: 0x1d3d24, tc: 0x33271c, sc: [0.62, 1.16] },
-    { crown: pine, trunk: trunk(0.22, 0.46, 9.0), cc: 0x2c4d2a, tc: 0x6b4326, sc: [0.72, 1.34] },
-    { crown: birch, trunk: trunk(0.16, 0.30, 7.4), cc: 0x50763a, tc: 0xc9c6b2, sc: [0.60, 1.06] },
+    { crown: spruce, trunk: trunk(0.18, 0.42, 3.2), cc: 0x2c5230, tc: 0x3f3122, sc: [0.62, 1.16] },
+    { crown: pine, trunk: trunk(0.22, 0.46, 9.0), cc: 0x3a6134, tc: 0x6b4326, sc: [0.72, 1.34] },
+    { crown: birch, trunk: trunk(0.16, 0.30, 7.4), cc: 0x5f8944, tc: 0xc9c6b2, sc: [0.60, 1.06] },
   ];
 })();
 
@@ -1412,6 +1505,97 @@ for (let s = 0; s < 3; s++) {
     stats.draws++;
   }
   stats.trees += n;
+}
+
+/* ---------------------------------------------------------- ground cover
+   Rough at this scale is a hundred hectares of one colour, and no amount of texture
+   fixes that on its own: what breaks up heathland in life is that it is lumpy with
+   things -- tussocks of fescue, heather, juniper, stones. These are the cheapest
+   possible stand-ins, a few triangles each, but they put an object every few metres
+   where before there was a smooth surface, and that is most of the difference.
+
+   They go only where the ground is neither mown nor wooded, and never inside the
+   playing corridor, because rough this deep is a hazard and the corridor is not. */
+{
+  const tuft = (() => {
+    const g = new THREE.BufferGeometry();
+    const p = [], n = [];
+    for (let i = 0; i < 3; i++) {
+      const a = i / 3 * TAU + 0.4, c = Math.cos(a), sn = Math.sin(a);
+      /* a splayed blade: wide at the base, leaning out, meeting at a tip */
+      p.push(c * 0.14, 0, sn * 0.14, -sn * 0.12, 0, c * 0.12, c * 0.24, 0.30, sn * 0.24);
+      for (let k = 0; k < 3; k++) n.push(-sn, 0.55, c);
+    }
+    g.setAttribute('position', new THREE.Float32BufferAttribute(p, 3));
+    g.setAttribute('normal', new THREE.Float32BufferAttribute(n, 3));
+    return g;
+  })();
+  const bush = new THREE.IcosahedronGeometry(0.62, 0);
+  bush.scale(1, 0.62, 1); bush.translate(0, 0.34, 0);
+  const stone = new THREE.DodecahedronGeometry(0.5, 0);
+  stone.scale(1, 0.55, 0.85); stone.translate(0, 0.16, 0);
+
+  const T = [], B = [], S = [];
+  const GAP = 5.2;
+  const rnd = (i, j, k) => hash2(i * 6151 + k * 97, j * 24593 + k * 13);
+  for (let z = MIDR.z0; z < MIDR.z1; z += GAP) for (let x = MIDR.x0; x < MIDR.x1; x += GAP) {
+    const i = Math.round(x / GAP), j = Math.round(z / GAP);
+    const px = x + (rnd(i, j, 1) - 0.5) * GAP * 1.8, pz = z + (rnd(i, j, 2) - 0.5) * GAP * 1.8;
+    const c = classify(px, pz);
+    if (c.fair > 0.03 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.path > 0.1) continue;
+    if (c.dLine < 24 || c.dLine > 300) continue;
+    if (c.forest > 0.55) continue;                       /* the trees own that ground */
+    const h = terrainH(px, pz);
+    let wet = false;
+    for (const w of WI.at(px, pz)) {
+      if (w.stream) { if (distToLine(px, pz, w.line) < w.w * 3) wet = true; }
+      else if (ringSD(px, pz, w.ring) < 3 || h < w.level + 0.4) wet = true;
+    }
+    if (wet) continue;
+    const clump = fbm(px * 0.045, pz * 0.045, 2) * 0.5 + 0.5;
+    const r = rnd(i, j, 3);
+    const sc = 0.6 + rnd(i, j, 4) * 0.9;
+    const rot = rnd(i, j, 5) * TAU;
+    if (r < 0.52 + clump * 0.34) T.push(px, h, pz, sc, rot);
+    else if (r < 0.90) { if (clump > 0.42) B.push(px, h, pz, sc * (0.7 + clump * 0.7), rot); }
+    else if (rnd(i, j, 6) > 0.72) S.push(px, h - 0.05, pz, sc * 0.8, rot);
+  }
+
+  const place = (geo, mat, arr, shadow) => {
+    const n = arr.length / 5;
+    if (!n) return 0;
+    const im = new THREE.InstancedMesh(geo, mat, n);
+    const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), sv = new THREE.Vector3();
+    for (let k = 0; k < n; k++) {
+      v.set(arr[k * 5], arr[k * 5 + 1], arr[k * 5 + 2]);
+      const sc = arr[k * 5 + 3];
+      sv.set(sc, sc * (0.8 + (k % 5) * 0.09), sc);
+      q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), arr[k * 5 + 4]);
+      im.setMatrixAt(k, m4.compose(v, q, sv));
+    }
+    im.instanceMatrix.needsUpdate = true;
+    im.castShadow = shadow; im.receiveShadow = false;
+    scene.add(im);
+    stats.draws++;
+    return n;
+  };
+  /* tussocks catch the low sun through the blade, the way the turf shader does */
+  const tuftMat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.95, metalness: 0 });
+  {
+    const V = normalize(cameraPosition.sub(positionWorld));
+    const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55);
+    const tint = texture(DETAIL, positionWorld.xz.mul(0.03)).b;
+    tuftMat.colorNode = mix(color(0x4e5730), color(0x6b6a3c), tint).mul(float(1).add(lit.mul(0.45)));
+  }
+  const bushMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: true });
+  bushMat.colorNode = mix(color(0x4a5b32), color(0x6d5f4b),
+    texture(DETAIL, positionWorld.xz.mul(0.017)).g);
+  const stoneMat = new THREE.MeshStandardNodeMaterial({
+    color: new THREE.Color(0x7c766c), roughness: 0.86, metalness: 0, flatShading: true });
+
+  stats.tufts = place(tuft, tuftMat, T, false);
+  stats.bushes = place(bush, bushMat, B, true);
+  stats.stones = place(stone, stoneMat, S, true);
 }
 
 /* ------------------------------------------------------------- furniture */
@@ -1753,9 +1937,21 @@ stats.draws = renderer.info?.render?.drawCalls || stats.draws;
    the instant it appears, and an interface that is not there yet fails silently */
 window.V3D = {
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, backend: IS_GPU ? 'webgpu' : 'webgl2' },
-  goHole, setCam, setPreset, terrainH, demH, classify, HOLES, M,
+  goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M,
   settled: () => !camTween.on,
   probeH: (x, z) => terrainH(x, z),
+  pick: (ndcX, ndcY) => {
+    camera.updateMatrixWorld(true);
+    const rc = new THREE.Raycaster();
+    rc.setFromCamera(new THREE.Vector2(ndcX, ndcY), camera);
+    const hits = rc.intersectObjects(scene.children, true);
+    if (!hits.length) return null;
+    const h = hits[0];
+    return { dist: +h.distance.toFixed(1), point: h.point.toArray().map(v => +v.toFixed(1)),
+             name: h.object.name || h.object.type, order: h.object.renderOrder,
+             tag: h.object.userData.tag || null,
+             mat: h.object.material?.type, inst: h.object.isInstancedMesh || false };
+  },
   camInfo: () => ({ pos: camera.position.toArray().map(v => +v.toFixed(1)),
                     look: controls.target.toArray().map(v => +v.toFixed(1)), mode: camMode }),
   fps: () => fps,
