@@ -17,7 +17,7 @@ const hf = readJSON(path.join(HERE, 'heightfields.json'));
 /* --- frame: the golf plus the clubhouse precinct ------------------------------ */
 const pts = [];
 for (const h of M.holes) { pts.push(...h.line, ...h.green.ring); for (const t of h.tees.pads) pts.push([t.cx, t.cz]); }
-for (const r of M.scenery.range || []) pts.push(...r.ring);
+for (const r of M.scenery.range || []) pts.push(...r);
 const B = bbox(pts);
 const PAD = 170;
 const x0 = B.x0 - PAD, x1 = B.x1 + PAD, z0 = B.z0 - PAD, z1 = B.z1 + PAD;
@@ -87,9 +87,9 @@ push('</g>');
 
 /* --- scenery ------------------------------------------------------------------- */
 push('<g opacity="0.6">');
-for (const r of M.scenery.range || []) push(`<polygon points="${P(r.ring)}" fill="#2c4a2c"/>`);
-for (const g of M.scenery.rangeTargets || []) push(`<circle cx="${X(g.cx)}" cy="${Z(g.cz)}" r="${(g.r * SC).toFixed(1)}" fill="#3f7a42"/>`);
-for (const r of M.scenery.greens || []) push(`<polygon points="${P(r.ring)}" fill="#3f7a42"/>`);
+for (const r of M.scenery.range || []) push(`<polygon points="${P(r)}" fill="#2c4a2c"/>`);
+for (const r of M.scenery.greens || []) push(`<polygon points="${P(r)}" fill="#3f7a42"/>`);
+for (const r of M.scenery.tees || []) push(`<polygon points="${P(r)}" fill="#356b45"/>`);
 push('</g>');
 
 /* --- paths, roads, buildings ---------------------------------------------------- */

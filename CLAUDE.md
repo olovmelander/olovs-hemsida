@@ -1,3 +1,10 @@
+# Two courses in 3D — Veckefjärdens GC and Norrfällsvikens GK
+
+This repo renders two real golf courses as self-contained WebGPU/TSL pages.
+**`norrfallsviken3d.html` + `nvgkbuild/`** is the newer build — see "The
+Norrfällsviken page" near the end of this file. Everything in between is about
+Veckefjärden, whose page donated the entire engine.
+
 # Veckefjärdens GC — Mästerskapsbanan in 3D
 
 Two pages render this course, from two different ideas of where it is.
@@ -386,3 +393,66 @@ regex edits. What works:
   were found, and it would have caught the breakage immediately.
 - Commit before large edits. `git log` on this branch has a checkpoint of the corrupted
   state for reference.
+
+## The Norrfällsviken page — `norrfallsviken3d.html` + `nvgkbuild/`
+
+Norrfällsvikens GK: 18 holes, par 73, on the Mjällom cape in Höga Kusten —
+"en skogsbana med linkskaraktär som ligger seaside", in the club's own words.
+The page is a port of veckefjarden3d.html (same TSL engine, boot, HUD, features,
+disciplines), so every Veckefjärden lesson above about materials, colour
+management, meshH/nudged/chaikin and editing safety applies verbatim. Its own
+frame: ORIGIN {62.98250 N, 18.53250 E}, frozen in `nvgkbuild/lib.mjs`, which
+re-exports geobuild's generic geometry/codec so the pipelines cannot drift.
+
+### Where this course's geometry comes from
+
+**OSM has NO golf mapping here** — one clubhouse polygon and nothing else. The
+fusion is therefore different from Veckefjärden's:
+
+| source | used for |
+|---|---|
+| the club's 2025 scorecard (nvgk.se/scorekort) | all 144 card values, verbatim; twice-confirmed by independent aggregator datasets |
+| the club's GPS survey (`geo_data/norrfallsviken_clean.json`, 18×5 pts) | green centres, back tees |
+| Esri z18 orthoimagery traces (`nvgkbuild/sat-shapes.json`) | every outline: greens, fairways, tee pads, ponds, centerlines — no registration error, a tile's coordinates ARE its georeference |
+| OSM | the coastline (the course's eastern edge), the perched lake, the marsh, beaches, 274 buildings, marina piers+basins, roads, reserves |
+| AWS Terrarium | the ground — INCLUDING real Gulf-of-Bothnia bathymetry (clamped to −6/−8 m; the sea surface is 0 by definition, never "measured" off shore pixels) |
+
+**The 4/8 numbering swap.** The club renumbered at some point: the GPS survey and
+every third-party dataset call the par-5 west corridor "8" and the par-4 east
+corridor "4"; the club's own card is the other way round. The survey also recorded
+the west corridor twice and lost the east corridor entirely (its "4" and "8" share
+one green to 1.5 m). `reconcile.mjs` renumbers to the card and asserts the swap by
+centerline length instead of assuming it.
+
+### Running the pipeline
+
+    node nvgkbuild/fetch-osm.mjs
+    node nvgkbuild/fetch-dem.mjs
+    node nvgkbuild/fetch-sat.mjs           # z17 tree-cover frame + z18 tracing frame
+    node nvgkbuild/parse-osm.mjs           # course hull comes from the GPS survey
+    node nvgkbuild/build-heightfields.mjs
+    node nvgkbuild/reconcile.mjs           # needs sat-shapes.json (the traces)
+    node nvgkbuild/render-design.mjs       # -> design.svg, review before 3D
+    node nvgkbuild/embed.mjs
+    node nvgkbuild/check3d.mjs             # exits non-zero on a regression
+    node geobuild/lint-page.mjs norrfallsviken3d.html
+    node geobuild/shot.mjs norrfallsviken3d.html out.png
+
+`mosaic.py overview|crop` stitches georeferenced views from the tile cache for
+tracing: pixel→world is affine, so a trace made on a crop needs no registration.
+
+### What differs from the Veckefjärden engine
+
+- `GEO.seaLevel` (0) replaces `GEO.lakeLevel`. The SEA is a ring like every other
+  water body: the OSM coastline chains merged and closed offshore by reconcile,
+  isLake/isSea true, so shore benches, wet-sand bands and shallows all just work.
+  The 13th's lake is a perched pond at its measured 29.5 m, NOT isLake.
+- Landmarks: Norrfällsvikens kapell (1649) built bespoke on its OSM footprint
+  (skipped in the generic buildings pass), boats moored along the marina piers.
+  The High Coast horizon — Mjältön, Ulvöarna, Högbonden — is real terrain in the
+  z12 vista heightfield and needs no modelling.
+- The clubhouse keeps the /golfklubb/ name-matched bench+terrace machinery at
+  NVGK proportions (cream walls, red roof, terrace facing east to the greens).
+- Card UI: three tees (Gul/Röd/Orange), not six.
+- The planter is pine-led; there are no OSM forest polygons at all, so the
+  satellite tree-cover raster is the only planting authority.
