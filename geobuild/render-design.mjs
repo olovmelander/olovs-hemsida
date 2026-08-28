@@ -118,15 +118,16 @@ push('</g>');
 
 /* --- the championship holes --------------------------------------------------- */
 for (const h of M.holes) {
-  const synth = h.green.prov !== 'osm';
+  const synth = h.green.prov !== 'osm' && h.green.prov !== 'plan';
+  const fromPlan = h.green.prov === 'plan';
   push(`<g id="hole${h.n}">`);
   for (const r of h.fairway.rings)
-    push(`<polygon points="${P(r)}" fill="${h.fairway.prov === 'osm' ? '#3f8a45' : 'url(#synth)'}" opacity="0.92"/>`);
+    push(`<polygon points="${P(r)}" fill="${h.fairway.prov === 'synth' ? 'url(#synth)' : '#3f8a45'}" ${h.fairway.prov === 'plan' ? 'stroke="#8fd8ff" stroke-width="1.2"' : ''} opacity="0.92"/>`);
   for (const t of h.tees.pads)
     push(`<polygon points="${P(t.ring)}" fill="${t.prov === 'osm' ? '#57a878' : 'url(#synthT)'}"/>`);
   for (const b of h.bunkers)
     push(`<polygon points="${P(b.ring)}" fill="${b.prov === 'osm' ? '#e2cf9a' : '#c9b078'}" stroke="#8a7c53" stroke-width="0.5"/>`);
-  push(`<polygon points="${P(h.green.ring)}" fill="${synth ? '#6fbf74' : '#79d97f'}" stroke="#0d2a12" stroke-width="0.8"/>`);
+  push(`<polygon points="${P(h.green.ring)}" fill="${synth ? '#6fbf74' : '#79d97f'}" stroke="${fromPlan ? '#8fd8ff' : '#0d2a12'}" stroke-width="${fromPlan ? 1.4 : 0.8}"/>`);
   push(`<polyline points="${P(h.line)}" fill="none" stroke="#fff" stroke-width="1.4" stroke-dasharray="${synth ? '6 4' : 'none'}" opacity="0.85"/>`);
   const t0 = h.line[0];
   push(`<circle cx="${X(t0[0])}" cy="${Z(t0[1])}" r="3.2" fill="#f0a23a" stroke="#1a1207" stroke-width="0.8"/>`);
@@ -142,7 +143,7 @@ for (const h of M.holes) {
 /* --- legend ------------------------------------------------------------------- */
 const L = [
   ['#3f8a45', 'fairway, green, tee, bunker as OpenStreetMap has them surveyed'],
-  ['url(#synth)', 'shape built from the card and the guide — holes 1-5 and 7, which OSM never mapped'],
+  ['#8fd8ff', 'outline read off the club\'s own hole plan and registered by its tee and pin — holes 1-5 and 7'],
   ['#79d97f', 'green (solid outline = surveyed, dashed centre line = built)'],
   ['#123b52', 'Veckefjärden and its ponds, each at its own measured level'],
   ['#2c4a2c', 'the nine-hole short course, the range and the practice green — real grass, not holes'],
@@ -162,7 +163,7 @@ push(`<rect x="-10" y="-16" width="296" height="82" rx="7" fill="#08120c" fill-o
 push(`<text x="0" y="0" fill="#eaf3ec" font-size="11" font-weight="700">Agreement</text>`);
 [`all 144 card values match the guide exactly`,
  `18/18 drawn lengths within 0.5% (worst ${worst.lenDev}% on ${worst.n})`,
- `12 greens agree with GPS to ${Math.max(...M.holes.filter(h => h.green.prov === 'osm').map(() => 4.5)).toFixed(1)} m or better`,
+ `12 greens surveyed (OSM), 6 read off the club's plans (blind test: 5-6 m)`,
  `lake surface measured at ${M.lakeLevel} m above sea level`,
 ].forEach((t, i) => push(`<text x="0" y="${16 + i * 13}" fill="#b9cfc0" font-size="9.5">${t}</text>`));
 push('</g>');

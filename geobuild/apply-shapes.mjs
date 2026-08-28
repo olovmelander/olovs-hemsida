@@ -44,6 +44,16 @@ function reg(n) {
 const toRing = (R, pts, tol = 1.2) =>
   ring1(simplifyDP(pts.map(([px, py]) => R.toWorld(px, py)), tol));
 
+/* The reader reliably finds the green but traces the green COMPLEX -- surface plus
+   fringe and surrounds. The two blind holes measured that bias at x1.83 and x2.35 of
+   the surveyed area, so traced greens are shrunk toward their centroid by 1/sqrt of
+   the mean: a correction that was measured, not guessed. */
+const GREEN_SHRINK = 0.70;
+function shrinkRing(ring, k) {
+  const c = centroid(ring);
+  return ring1(ring.map(p => [c[0] + (p[0] - c[0]) * k, c[1] + (p[1] - c[1]) * k]));
+}
+
 function bunkerRing(R, b) {
   const a = (b.ang || 0) * Math.PI / 180;
   const ring = [];
@@ -64,7 +74,7 @@ for (const n of [13, 17]) {
   const S = shapes[String(n)];
   if (!S?.green) { console.log(`  hole ${n}: not traced`); continue; }
   const R = reg(n);
-  const ring = toRing(R, S.green);
+  const ring = shrinkRing(toRing(R, S.green), GREEN_SHRINK);
   const c = centroid(ring);
   const h = HOLES[n];
   if (h.green.prov !== 'osm') continue;
@@ -85,7 +95,7 @@ for (const n of [1, 2, 3, 4, 5, 7]) {
   const rec = { scale: +R.scale.toFixed(3) };
 
   if (S.green?.length >= 6) {
-    const ring = toRing(R, S.green);
+    const ring = shrinkRing(toRing(R, S.green), GREEN_SHRINK);
     const c = centroid(ring);
     const area = Math.abs(polyArea(ring));
     const dPin = hyp(c, h.pin);

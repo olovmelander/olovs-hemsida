@@ -41,9 +41,18 @@ lines measure their card length to 0.02%; the elevation model reproduces the gui
 printed "Spelas 28 m uppför" to a mean of 2.8 m over the 13 holes that print one; and
 every hole points the way its plan's compass rose says, median 2°.
 
-**Holes 1–5 and 7 are not in OSM.** Their fairways, tees and green outlines are built
-from the survey, the card and the guide, and are flagged `prov:"synth"` throughout.
-`geobuild/design.svg` hatches them so they cannot be mistaken for surveyed ground.
+**Holes 1–5 and 7 are not in OSM.** Their greens, fairways and bunkers are instead
+read off the club's own hole plans — which are drawn on aerial photography, making
+them geodata nobody had digitised. Each plan is registered to the world by its two
+known anchors (the back-tee disc and the pin), a similarity transform that the plans'
+own compass roses corroborate to a few degrees. The reading and the mathematics are
+split across `plan-shapes.json` (pixel outlines, read by eye at 4× zoom) and
+`apply-shapes.mjs` (registration + gates). Holes 13 and 17 were traced **blind** and
+compared against their OSM survey to measure the whole chain: green centres land
+5–6 m off, areas within ±15% after a bias correction that was itself measured on
+that pair (the reader traces the green complex at ~2.1× the putting surface, so
+traced greens shrink toward their centroid by 1/√2.1). These carry `prov:"plan"`;
+anything still synthesised carries `prov:"synth"` and is hatched in `design.svg`.
 
 **The card-length fit is a statement about the tee, not a fudge.** Every line came out
 3–10% short of its card. Rather than stretch surveyed geometry, the tee end slides back
@@ -59,6 +68,8 @@ pad on most holes, so it is finding real tees.
     node geobuild/parse-osm.mjs       # -> osm-features.json
     node geobuild/build-heightfields.mjs   # -> heightfields.json, and the water levels
     node geobuild/reconcile.mjs       # -> course-model.json, and the agreement report
+    node geobuild/apply-shapes.mjs    # plan-traced shapes -> traced-holes.json (needs reconcile's frame)
+    node geobuild/reconcile.mjs       # second pass folds the traces in
     node geobuild/render-design.mjs   # -> design.svg, the layout to review before 3D
     node geobuild/embed.mjs           # bake it into the page
     node geobuild/check3d.mjs         # exits non-zero on a regression
