@@ -3131,13 +3131,24 @@ for (const h of HOLES) {
   };
   const roofOf = (cx, cz) => hash2(Math.round(cx / 2) + 7, Math.round(cz / 2) + 3) < 0.6 ? ROOFA : ROOFB;
 
+  /* A house stands on the RENDERED ground, at its highest corner: basing on the
+     lowest raw-DEM corner buried the sheds beside the clubhouse the moment its
+     levelled bench raised the terrain around them. The skirt reaches down past
+     the lowest corner so the downhill side never floats. */
+  function houseBase(ring) {
+    let top = -Infinity, bot = Infinity;
+    for (const p of ring) {
+      const t = terrainH(p[0], p[1]);
+      top = Math.max(top, t); bot = Math.min(bot, t);
+    }
+    return { base: top + 0.06, skirt: Math.max(1.2, top - bot + 0.5) };
+  }
   function house(ring, hgt, wall, roof, hip) {
-    let base = Infinity;
-    for (const p of ring) base = Math.min(base, demH(p[0], p[1]));
+    const { base, skirt } = houseBase(ring);
     const n = ring.length;
     for (let i = 0; i < n; i++) {
       const a = ring[i], b = ring[(i + 1) % n];
-      quad([a[0], base - 1.2, a[1]], [b[0], base - 1.2, b[1]],
+      quad([a[0], base - skirt, a[1]], [b[0], base - skirt, b[1]],
            [b[0], base + hgt, b[1]], [a[0], base + hgt, a[1]], wall);
       /* fascia: outset a touch so it catches its own light */
       const ex = b[0] - a[0], ez = b[1] - a[1];
@@ -3214,8 +3225,8 @@ for (const h of HOLES) {
       const B = obb2(b.ring);
       if (B) {
         const c = Math.cos(B.ang), s = Math.sin(B.ang);
-        let base = Infinity;
-        for (const p of b.ring) base = Math.min(base, demH(p[0], p[1]));
+        /* the same base the walls use, or the windows and terrace drift off them */
+        const { base } = houseBase(b.ring);
         const GLASS = L(0x212830);
         const P = (u, v, y) => [B.cx + u * c - v * s, y, B.cz + u * s + v * c];
         /* windows hang on the ring's own walls, not the bounding box -- the first
