@@ -153,6 +153,7 @@ canvas{display:block;position:fixed;inset:0}
     <button class="btn" data-preset="noon">Dag</button>
     <button class="btn" data-preset="mist">Dis</button>
     <button class="btn" data-preset="dawn">Gryning</button>
+    <button class="btn" data-preset="host">Höst</button>
   </div>
   <div class="grp"><button class="btn" id="flyBtn">Flygtur över hålet</button></div>
   <div id="facts"></div>
@@ -453,6 +454,7 @@ if (M.surround) {
 }
 const RES = (M.infra.reserves || []).map(r => ({ ring: r.ring, bb: ringBBox(r.ring) }));
 const SHAL = ((M.surround && M.surround.shallows) || []).map(r => ({ ring: r, bb: ringBBox(r) }));
+const G14 = M.holes[13].green.c;         /* the island green: its shore is armoured */
 const HV = (M.infra.power ? M.infra.power.lines : []).filter(l => (l.voltage || 0) >= 100000);
 for (const s of M.streams) { const q = { line: s.line, bb: ringBBox(s.line), w: s.w, stream: true }; WI.add(q, q.bb, 14); }
 
@@ -656,6 +658,7 @@ const C = {
   cropA:  L(0xb59a4e), cropB: L(0x7a8f4a), cropC: L(0xa08b62),
   slash:  L(0x8a7a55), hard:  L(0x8a857b), hay:   L(0x9aa159), lawn: L(0x5f8a3f),
   aspT:   L(0x55565a), aspL:  L(0x5d5e60), soil:  L(0x6e6046), ballast: L(0x7a7570),
+  riprap: L(0xa39e94),
 };
 
 /* how each surface is shaded: detail scale, bump strength, gloss, mow anisotropy */
@@ -692,7 +695,9 @@ function groundAt(x, z, h) {
   col = C.rough.map((v, i) => lerp(v, C.fescue[i], smooth(-0.45, 0.55, n2 * 0.5 + n3 * 0.6) * 0.75));
   col = col.map((v, i) => lerp(v, C.heath[i], heath * 0.62));
   col = col.map((v, i) => lerp(v, C.semi[i], damp * 0.38));
-  col = col.map((v, i) => lerp(v, lerp(C.forest[i], C.rock[i], smooth(0.55, 0.95, sl)), steep * 0.55));
+  /* Åsberget shows its granite: the club's aerials have bare grey crag faces on the
+     steep ground, so rock breaks through harder and paler than the first guess */
+  col = col.map((v, i) => lerp(v, lerp(C.forest[i], C.rock[i], smooth(0.45, 0.85, sl)), steep * 0.75));
   sid = heath > 0.55 ? S_HEATH : S_ROUGH;
   if (c.forest > 0.02) { col = col.map((v, i) => lerp(v, C.forest[i], c.forest * 0.85)); sid = S_FOREST; }
   if (c.wet > 0.02) { col = col.map((v, i) => lerp(v, C.wet[i], c.wet * 0.7)); }
@@ -753,8 +758,12 @@ function groundAt(x, z, h) {
     const above = h - lvl;
     if (above < 0.6) {
       const wet = (1 - smooth(-0.15, 0.6, above)) * (1 - smooth(1.5, 4.5, sdW));
-      col = col.map((v, i) => lerp(v, C.shore[i] * (1 - wet * 0.38), wet * 0.85));
-      if (wet > 0.6) sid = S_SHORE;
+      /* the island 14th's shoreline is granite riprap, not sand -- the armour ring
+         every photograph of the hole leads with */
+      const rip = Math.hypot(x - G14[0], z - G14[1]) < 110;
+      const sc = rip ? C.riprap : C.shore;
+      col = col.map((v, i) => lerp(v, sc[i] * (1 - wet * (rip ? 0.15 : 0.38)), wet * 0.85));
+      if (wet > 0.6) sid = rip ? S_PATH : S_SHORE;
     }
   }
   const sh = SHADE[sid];
@@ -865,6 +874,10 @@ const WATERN = canvasTex(512, (g, S) => {
 
 /* ------------------------------------------------------------- lighting */
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
+/* seasonal foliage: the birch crowns and reed heads take their colour from the
+   preset, which is what lets Höst turn the shore gold without a rebuild */
+const uLeaf = uniform(new THREE.Color(0x5f8944));
+const uReedC = uniform(new THREE.Color(0x8d8a52));
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
@@ -889,6 +902,10 @@ const PRESETS = {
             hemiI: 1.55, fog: 0xc3d4d8, dens: 0.00115, exp: 1.04, turb: 6.5, ray: 0.6, cloud: 0.62 },
   dawn:   { sun: 0xffc9a0, int: 2.2, dir: [0.70, 0.26, -0.62], hemiS: 0xb9cfe8, hemiG: 0x44503e,
             hemiI: 0.95, fog: 0x8ea4b6, dens: 0.00055, exp: 1.18, turb: 5.4, ray: 2.6, cloud: 0.34 },
+  /* the club's own October aerial: low gold sun, storm-grey sky, birches turned */
+  host:   { sun: 0xffbe72, int: 2.7, dir: [-0.64, 0.28, 0.58], hemiS: 0xd9cfc2, hemiG: 0x5c5340,
+            hemiI: 1.25, fog: 0xa8a89e, dens: 0.00052, exp: 1.2, turb: 5.2, ray: 2.5, cloud: 0.55,
+            leaf: 0xc8842e, reed: 0xa88a3e },
 };
 let preset = PRESETS.golden;
 const fog = new THREE.FogExp2(0xa2bcca, 0.00042);
@@ -978,6 +995,8 @@ function setPreset(name) {
     if (skyMesh.cloudDensity) skyMesh.cloudDensity.value = 0.36;
     skyMesh.sunPosition.value.copy(d).multiplyScalar(450000);
   }
+  uLeaf.value.setHex(p.leaf ?? 0x5f8944);
+  uReedC.value.setHex(p.reed ?? 0x8d8a52);
   placeSun();
   document.querySelectorAll('[data-preset]').forEach(b => b.classList.toggle('on', b.dataset.preset === name));
 }
@@ -1362,9 +1381,12 @@ const shadeFair = hole => (x, z) => {
            det: 1.55, bmp: 0.44, gls: 0.28, str: 1.0,
            mow: mowCoord(x, z, hole), mowK: 2.30 };
 };
-const shadeGreen = () => (x, z) => ({
+/* greens are mown in rings from the edge in, which is what the club's own aerials
+   show -- the mow coordinate is distance to the green's edge, so the bands close
+   concentrically around the surface instead of striping across it */
+const shadeGreen = hole => (x, z) => ({
   col: C.green.slice(), det: 2.85, bmp: 0.13, gls: 0.42, str: 1.45,
-  mow: (x + z) * 0.7071, mowK: 4.19,
+  mow: hole ? -ringSD(x, z, hole.green.ring) : (x + z) * 0.7071, mowK: 4.19,
 });
 const shadeCollar = hole => (x, z) => ({
   col: C.fringe.slice(), det: 2.0, bmp: 0.3, gls: 0.34, str: 0.8,
@@ -1769,13 +1791,15 @@ function makeWater() {
   /* depth: the bed falls away from the bank, so the shallows keep their own colour.
      The ramp is the water's own scale -- 30 m of shallows suits a fjord, but on a
      pond whose whole radius is ten metres it kept every pixel pale */
+  /* the deep body is the blue the club's aerials show, not steel grey */
   const depth = smoothstep(0.0, 1.0, saturate(aSh.div(mix(float(7), float(30), aFoam))));
-  let body = mix(color(0x2c6f6c), color(0x06202c), depth);
-  /* the regulated fjärd's shallow silt bottom, reading up through thin water --
-     the satellite's wide pale margins are this, not exposed mud */
+  let body = mix(color(0x2b6b78), color(0x0a2b44), depth);
+  /* the regulated fjärd's bottom reading up through thin water: pale silt in the
+     shallowest film, then the dark olive weed the close aerial shows */
   const aDp = attribute('aDepth', 'float');
-  const bed = oneMinus(smoothstep(0.1, 0.8, aDp)).mul(aFoam);
-  body = mix(body, color(0x6b5f46), bed.mul(0.8));
+  const bed = oneMinus(smoothstep(0.12, 1.1, aDp)).mul(aFoam);
+  const bedCol = mix(color(0x8a7a5c), color(0x2e4a35), smoothstep(0.18, 0.6, aDp));
+  body = mix(body, bedCol, bed.mul(0.85));
 
   let c = mix(body, skyC, fres.mul(0.88));
   /* the sun's own reflection -- the single thing that says a surface is moving */
@@ -1880,6 +1904,53 @@ for (const w of M.water) {
     m.castShadow = true; m.renderOrder = 7;
     scene.add(m);
     stats.draws++;
+  }
+}
+
+/* The island 14th is armoured in granite riprap -- a collar of pale boulders at the
+   waterline is the first thing every photograph of the hole shows. Boulders pack
+   along the lake ring wherever it runs near the green. */
+{
+  const lake = M.water.find(w => w.isLake);
+  if (lake) {
+    const pts = [];
+    const ring = lake.ring;
+    for (let i = 0; i < ring.length; i++) {
+      const [ax, az] = ring[i], [bx, bz] = ring[(i + 1) % ring.length];
+      if (Math.hypot(ax - G14[0], az - G14[1]) > 115 && Math.hypot(bx - G14[0], bz - G14[1]) > 115) continue;
+      const segL = Math.hypot(bx - ax, bz - az);
+      const n = Math.max(1, Math.ceil(segL / 0.9));
+      for (let k = 0; k < n; k++) {
+        const t = k / n;
+        for (let s = 0; s < 2; s++) {
+          const jx = ax + (bx - ax) * t + (hash2(i * 31 + k, s * 7 + 1) - 0.5) * 2.6;
+          const jz = az + (bz - az) * t + (hash2(i * 17 + k, s * 13 + 5) - 0.5) * 2.6;
+          const h = terrainH(jx, jz);
+          if (h < lake.level - 0.55 || h > lake.level + 1.2) continue;
+          pts.push(jx, Math.max(h, lake.level - 0.1) - 0.1, jz,
+                   0.55 + hash2(i + k, s + 21) * 0.65, hash2(i + k, s + 47) * TAU);
+        }
+      }
+    }
+    const nR = pts.length / 5;
+    if (nR) {
+      const g = new THREE.DodecahedronGeometry(0.42, 0);
+      g.scale(1, 0.72, 0.88);
+      const im = new THREE.InstancedMesh(g, new THREE.MeshStandardNodeMaterial({
+        color: new THREE.Color(0xa8a49a), roughness: 0.82, metalness: 0, flatShading: true }), nR);
+      const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v3 = new THREE.Vector3(), s3 = new THREE.Vector3();
+      for (let k = 0; k < nR; k++) {
+        v3.set(pts[k * 5], pts[k * 5 + 1], pts[k * 5 + 2]);
+        const sc = pts[k * 5 + 3];
+        s3.set(sc, sc * 0.8, sc * (0.85 + (k % 3) * 0.12));
+        q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), pts[k * 5 + 4]);
+        im.setMatrixAt(k, m4.compose(v3, q, s3));
+      }
+      im.instanceMatrix.needsUpdate = true;
+      im.castShadow = true;
+      scene.add(im);
+      stats.draws++; stats.riprap = nR;
+    }
   }
 }
 
@@ -2042,12 +2113,24 @@ const SHORE = (() => {
     for (let z = bz0; z < bz1; z += G) for (let x = bx0; x < bx1; x += G) {
       const i = Math.floor(x / G), j = Math.floor(z / G);
       const px = x + (hash2(i, j) - 0.5) * G * 1.6, pz = z + (hash2(i + 7, j + 3) - 0.5) * G * 1.6;
-      if (SHORE(px, pz) > 7) continue;
+      const shalBB = SHAL.some(sr => px > sr.bb.x0 && px < sr.bb.x1 && pz > sr.bb.z0 && pz < sr.bb.z1);
+      if (!shalBB && SHORE(px, pz) > 7) continue;
       if (LOWQ && hash2(i + 5, j + 5) < 0.5) continue;
       const h = terrainH(px, pz);
-      /* a reed stands at the waterline, not out on the silt flats */
-      if (h < lake.level - 0.22 || h > lake.level + 0.2) continue;
+      /* on the silt flats reeds gather into offshore islands -- the close aerial of
+         the 14th shows whole beds standing in the shallow water -- while on firm
+         shores they stay a waterline fringe */
+      let inShal = false;
+      if (shalBB) for (const sr of SHAL) if (ringSD(px, pz, sr.ring) < 0) { inShal = true; break; }
+      let bedClump = 0;
+      if (inShal) {
+        if (h < lake.level - 0.42 || h > lake.level + 0.2) continue;
+        const cl = fbm(px * 0.05, pz * 0.05, 2);
+        if (cl < 0.3) continue;
+        bedClump = 1;                       /* inside a bed, reeds stand shoulder to shoulder */
+      } else if (h < lake.level - 0.22 || h > lake.level + 0.2) continue;
       let dens = 0.2 + (fbm(px * 0.02, pz * 0.02, 2) * 0.5 + 0.5) * 0.35;
+      if (bedClump) dens = 0.92;
       if (px < -700) dens *= 1.8;                        /* the reserve's west shore */
       const c = classify(px, pz);
       if (c.dLine < 34) dens *= 0.12;                    /* play stays open -- the moat above all */
@@ -2075,7 +2158,7 @@ const SHORE = (() => {
         const V = normalize(cameraPosition.sub(positionWorld));
         const lit = pow(saturate(V.dot(uSun.negate())), 2.2).mul(0.7);
         const tall = saturate(positionLocal.y.div(2.1)).mul(0.7);
-        mat.colorNode = mix(color(0x53583a), color(0x8d8a52), tall).mul(float(1).add(lit));
+        mat.colorNode = mix(color(0x53583a), uReedC, tall).mul(float(1).add(lit));
       }
       const im = new THREE.InstancedMesh(g, mat, n);
       const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v3 = new THREE.Vector3(), s3 = new THREE.Vector3();
@@ -2190,9 +2273,10 @@ for (let s = 0; s < 3; s++) {
     const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: isCrown ? 0.92 : 0.95, metalness: 0, flatShading: true });
     if (isCrown) {
       /* the same back-lit term the turf uses, so a treeline glows against a low sun
-         instead of reading as a black cutout */
+         instead of reading as a black cutout; birch crowns take the season's colour */
       const V = normalize(cameraPosition.sub(positionWorld));
-      mat.colorNode = color(hex).mul(float(1).add(
+      const cbase = s === 2 ? uLeaf : color(hex);
+      mat.colorNode = cbase.mul(float(1).add(
         pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55)));
     }
     const im = new THREE.InstancedMesh(geo, mat, n);
@@ -2662,8 +2746,9 @@ for (const h of HOLES) {
   const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, 2.6, 6),
     new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2f4f2), roughness: 0.35, metalness: 0.5 }));
   pole.position.y = 1.3; pole.castShadow = true;
+  /* the club flies yellow flags with its badge, not red-and-amber halves */
   const cloth = new THREE.Mesh(new THREE.PlaneGeometry(0.78, 0.5, 8, 3),
-    new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(h.n <= 9 ? 0xe8443c : 0xf0a23a),
+    new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2d24b),
       roughness: 0.85, side: THREE.DoubleSide }));
   cloth.position.set(0.39, 2.28, 0);
   g.add(pole, cloth);
@@ -2758,11 +2843,56 @@ for (const h of HOLES) {
   for (const b of M.infra.buildings) {
     if (b.ring.length < 3) continue;
     const [cx, cz] = centroidOf(b.ring);
-    const hgt = b.h || (b.name && /golfklubb/i.test(b.name) ? 7.2
+    const isClub = !!(b.name && /golfklubb/i.test(b.name));
+    const hgt = b.h || (isClub ? 8.6
               : b.kind === 'industrial' ? 5.5 : b.kind === 'commercial' ? 4.2
               : b.kind === 'house' || b.kind === 'residential' ? 3.0
               : areaOf(b.ring) < 45 ? 2.6 : 3.4);
     house(b.ring, hgt, wallOf(cx, cz, b.kind, b.name), roofOf(cx, cz));
+    if (isClub) {
+      /* the old school wears its three storeys of white-framed windows -- the grid
+         is most of what says "that building" from the 18th fairway */
+      const B = obb2(b.ring);
+      if (B) {
+        const c = Math.cos(B.ang), s = Math.sin(B.ang);
+        let base = Infinity;
+        for (const p of b.ring) base = Math.min(base, demH(p[0], p[1]));
+        const GLASS = L(0x212830);
+        const P = (u, v, y) => [B.cx + u * c - v * s, y, B.cz + u * s + v * c];
+        /* windows hang on the ring's own walls, not the bounding box -- the first
+           two attempts floated them across the gaps where the footprint steps back */
+        for (let e = 0; e < b.ring.length; e++) {
+          const a0 = b.ring[e], a1 = b.ring[(e + 1) % b.ring.length];
+          const ex = a1[0] - a0[0], ez = a1[1] - a0[1];
+          const el = Math.hypot(ex, ez);
+          if (el < 6) continue;
+          const ux = ex / el, uz = ez / el;
+          const nx = -uz, nz = ux;                       /* outward for a CCW-ish ring; DoubleSide forgives */
+          const nWin = Math.floor((el - 2.4) / 2.15);
+          for (const sgn of [1, -1]) for (const row of [1.3, 3.7, 6.1]) {
+            for (let w2 = 0; w2 < nWin; w2++) {
+              const t0 = 1.2 + w2 * 2.15 + 0.35;
+              const W = (tt, off, y) => [a0[0] + ux * tt + nx * off * sgn, y, a0[1] + uz * tt + nz * off * sgn];
+              quad(W(t0 - 0.55, 0.09, base + row - 0.1), W(t0 + 0.55, 0.09, base + row - 0.1),
+                   W(t0 + 0.55, 0.09, base + row + 1.6), W(t0 - 0.55, 0.09, base + row + 1.6), TRIM);
+              quad(W(t0 - 0.42, 0.14, base + row), W(t0 + 0.42, 0.14, base + row),
+                   W(t0 + 0.42, 0.14, base + row + 1.42), W(t0 - 0.42, 0.14, base + row + 1.42), GLASS);
+            }
+          }
+        }
+        /* chimneys on the ridge */
+        const rise = clampf(Math.tan(0.52) * B.hd, 1.2, 3.4);
+        for (const uC of [-B.hw * 0.45, B.hw * 0.45]) {
+          const e = base + hgt + rise - 0.4, tC = e + 1.5;
+          const corners = [[-0.45, -0.45], [0.45, -0.45], [0.45, 0.45], [-0.45, 0.45]];
+          for (let k = 0; k < 4; k++) {
+            const [a0, b0] = corners[k], [a1, b1] = corners[(k + 1) % 4];
+            quad(P(uC + a0, b0, e), P(uC + a1, b1, e), P(uC + a1, b1, tC), P(uC + a0, b0, tC), L(0x8a8378));
+          }
+          quad(P(uC - 0.45, -0.45, tC), P(uC + 0.45, -0.45, tC), P(uC + 0.45, 0.45, tC), P(uC - 0.45, 0.45, tC), ROOFA);
+        }
+      }
+    }
   }
 
   /* Ås has no mapped footprints -- the village the southern holes look straight at
@@ -2852,6 +2982,117 @@ for (const h of HOLES) {
     scene.add(m2);
     stats.draws++; stats.tris += V2.length / 9;
   }
+}
+
+/* --------------------------------------------------- club furniture and landmarks
+   The photographs' recurring props: the flagpole row along the driving range, the
+   fountain in the clubhouse pond, the Varvsberget masts (surveyed OSM nodes), the
+   wind turbines on the western ridge and Själevads kyrka's tower across the water
+   (the church at its real coordinates; the turbines placed on the ridge the dusk
+   photograph shows them on -- vista dressing, not survey). */
+{
+  const V = [], K = [];
+  const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
+  const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
+  const WHITE = L(0xe8eae8), YEL = L(0xd8bc42), GREY = L(0x9a9fa3), DARKR = L(0x3c3f42);
+  const pole = (x, y0, z, h2, r, col) => {
+    for (const [ox, oz] of [[r, 0], [0, r]])
+      quad([x - ox, y0, z - oz], [x + ox, y0, z + oz], [x + ox * 0.6, y0 + h2, z + oz * 0.6], [x - ox * 0.6, y0 + h2, z - oz * 0.6], col);
+  };
+  /* the flagpole row along the range */
+  const rng = (M.scenery.range || [])[0];
+  if (rng) {
+    const B = obb2(rng);
+    if (B) {
+      const c = Math.cos(B.ang), s = Math.sin(B.ang);
+      const side = (() => {
+        const d1 = Math.hypot(B.cx - s * B.hd - 231, B.cz + c * B.hd - -466);
+        const d2 = Math.hypot(B.cx + s * B.hd - 231, B.cz - c * B.hd - -466);
+        return d1 < d2 ? 1 : -1;
+      })();
+      for (let k = 0; k < 10; k++) {
+        const u = -B.hw * 0.85 + (k / 9) * B.hw * 1.7;
+        const x = B.cx + u * c - side * (B.hd + 2) * s, z = B.cz + u * s + side * (B.hd + 2) * c;
+        const y0 = terrainH(x, z);
+        pole(x, y0, z, 9.5, 0.09, WHITE);
+        quad([x, y0 + 8.2, z], [x + s * 1.3, y0 + 8.2, z - c * 1.3],
+             [x + s * 1.3, y0 + 9.1, z - c * 1.3], [x, y0 + 9.1, z], YEL);
+      }
+    }
+  }
+  /* the fountain: a white plume in the pond nearest the clubhouse */
+  let fp = null, fd = 170;
+  for (const w of M.water) {
+    if (w.isLake) continue;
+    const [wx, wz] = centroidOf(w.ring);
+    const d = Math.hypot(wx - 231, wz + 466);
+    if (d < fd) { fd = d; fp = { x: wx, z: wz, level: w.level }; }
+  }
+  if (fp) {
+    const g = new THREE.BufferGeometry();
+    const p = [];
+    for (let k = 0; k < 4; k++) {
+      const a = k / 4 * Math.PI, ca = Math.cos(a), sa = Math.sin(a);
+      p.push(fp.x - ca * 1.1, fp.level, fp.z - sa * 1.1, fp.x + ca * 1.1, fp.level, fp.z + sa * 1.1,
+             fp.x, fp.level + 3.4, fp.z);
+    }
+    g.setAttribute('position', new THREE.Float32BufferAttribute(p, 3));
+    g.computeVertexNormals();
+    const m = new THREE.Mesh(g, new THREE.MeshBasicNodeMaterial({
+      color: new THREE.Color(0xeef4f4), transparent: true, opacity: 0.5,
+      side: THREE.DoubleSide, depthWrite: false }));
+    m.renderOrder = 8;
+    scene.add(m);
+    stats.draws++;
+  }
+  /* the two Varvsberget masts, from their surveyed OSM nodes */
+  for (const [mx, mz] of [[1101, 1224], [1156, 1342]]) {
+    const y0 = demH(mx, mz) - 0.5;
+    pole(mx, y0, mz, 52, 1.1, GREY);
+    quad([mx - 0.5, y0 + 52, mz - 0.5], [mx + 0.5, y0 + 52, mz + 0.5],
+         [mx + 0.5, y0 + 53.2, mz + 0.5], [mx - 0.5, y0 + 53.2, mz - 0.5], L(0x8a2020));
+  }
+  /* Själevads kyrka across the water: nave, tower, dark spire */
+  {
+    const kx = -3630, kz = -390, y0 = demH(-3630, -390) - 0.8;
+    const nave = [[-11, -4.5], [11, -4.5], [11, 4.5], [-11, 4.5]];
+    for (let k = 0; k < 4; k++) {
+      const [a0, b0] = nave[k], [a1, b1] = nave[(k + 1) % 4];
+      quad([kx + a0, y0, kz + b0], [kx + a1, y0, kz + b1], [kx + a1, y0 + 8, kz + b1], [kx + a0, y0 + 8, kz + b0], WHITE);
+    }
+    quad([kx - 11, y0 + 8, kz - 4.5], [kx + 11, y0 + 8, kz - 4.5], [kx + 11, y0 + 11, kz], [kx - 11, y0 + 11, kz], DARKR);
+    quad([kx + 11, y0 + 8, kz + 4.5], [kx - 11, y0 + 8, kz + 4.5], [kx - 11, y0 + 11, kz], [kx + 11, y0 + 11, kz], DARKR);
+    const t0 = [[-3, -3], [3, -3], [3, 3], [-3, 3]];
+    for (let k = 0; k < 4; k++) {
+      const [a0, b0] = t0[k], [a1, b1] = t0[(k + 1) % 4];
+      quad([kx - 14 + a0, y0, kz + b0], [kx - 14 + a1, y0, kz + b1],
+           [kx - 14 + a1, y0 + 15, kz + b1], [kx - 14 + a0, y0 + 15, kz + b0], WHITE);
+      tri([kx - 14 + a0, y0 + 15, kz + b0], [kx - 14 + a1, y0 + 15, kz + b1], [kx - 14, y0 + 24, kz], DARKR);
+    }
+  }
+  /* the wind turbines on the western ridge (dressing: placed where the dusk
+     photograph shows them, on the high ground beyond the fjärd) */
+  for (let k = 0; k < 7; k++) {
+    const tx = -4350 + k * 265 + (hash2(k, 3) - 0.5) * 90;
+    const tz = 520 + Math.sin(k * 1.2) * 260;
+    const y0 = demH(tx, tz);
+    pole(tx, y0, tz, 46, 0.9, WHITE);
+    for (let bl = 0; bl < 3; bl++) {
+      const a = bl / 3 * TAU + k * 0.9;
+      const bx = Math.cos(a) * 17, by = Math.sin(a) * 17;
+      quad([tx, y0 + 46, tz], [tx + 4, y0 + 46, tz + 1.1],
+           [tx + bx * 0.06 + 4, y0 + 46 + by, tz + bx], [tx + bx * 0.06, y0 + 46 + by, tz + bx], WHITE);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(V, 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(K, 3));
+  g.computeVertexNormals();
+  const m = new THREE.Mesh(g, new THREE.MeshStandardNodeMaterial({
+    vertexColors: true, roughness: 0.6, metalness: 0.1, flatShading: true, side: THREE.DoubleSide }));
+  m.castShadow = true;
+  scene.add(m);
+  stats.draws++;
 }
 
 /* ------------------------------------------------------------ post-process */
