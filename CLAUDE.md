@@ -59,9 +59,10 @@ orthophoto (per-plan calibrated darkness + a canopy post-pass that tells shadowe
 conifer, sunlit crowns and the blue-dark shore band apart from dark mottled rough) into
 `tree-cover.json`, a 3 m raster the page's planter reads where OSM drew no forest. The
 club's overview map was tried first and rejected — it is warped 40–70 m locally and
-calls 42% of known mown turf forest. Don't go back to it. The labelled probe set in the
-session notes passes 37/42, and every miss is corridor-adjacent ground the planter's own
-distance guard suppresses anyway.
+calls 42% of known mown turf forest. Don't go back to it. `check-treecover.mjs` holds the
+labelled probe set — places on the plans a person looked at and named — and exits non-zero
+if verified forest stops being forest or the open-ground residual grows past its accepted
+five, all of them corridor-adjacent ground the planter's own distance guard suppresses.
 
 **The card-length fit is a statement about the tee, not a fudge.** Every line came out
 3–10% short of its card. Rather than stretch surveyed geometry, the tee end slides back
@@ -80,6 +81,7 @@ pad on most holes, so it is finding real tees.
     node geobuild/apply-shapes.mjs    # plan-traced shapes -> traced-holes.json (needs reconcile's frame)
     node geobuild/reconcile.mjs       # second pass folds the traces in
     python3 geobuild/build-treecover.py    # hole-plan imagery -> tree-cover.json (the forest raster)
+    node geobuild/check-treecover.mjs # raster vs the labelled imagery probes; exits non-zero
     node geobuild/render-design.mjs   # -> design.svg, the layout to review before 3D
     node geobuild/embed.mjs           # bake it into the page
     node geobuild/check3d.mjs         # exits non-zero on a regression
