@@ -1,0 +1,41 @@
+# Deploy the repository as a static GitHub Pages site.
+#
+# Every page here is self-contained (the 3D course page carries its own data and
+# loads three.js from a CDN), so "the build" is nothing more than uploading the
+# checkout as-is — minus the git history and node_modules, which a browser has
+# no use for. configure-pages tries to enable Pages on the first run so no
+# Settings visit is needed; if the token is not allowed to, enable it once under
+# Settings → Pages → Source: GitHub Actions.
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - run: rm -rf .git node_modules
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4

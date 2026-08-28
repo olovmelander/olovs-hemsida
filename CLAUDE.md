@@ -1,14 +1,187 @@
 # Veckefjärdens GC — Mästerskapsbanan in 3D
 
-One self-contained page, `veckefjardensgc.html`, that renders the championship course
-in three.js. No build step, no dependencies to install. Everything — geometry, terrain,
-shaders, UI — is in that one file.
+Two pages render this course, from two different ideas of where it is.
 
-## Running it
+**`veckefjarden3d.html` is the current one.** It puts the course on the ground it
+actually stands on: real elevation, OpenStreetMap's surveyed outlines, the club's GPS
+survey, and the official guide, reconciled by `geobuild/` and baked into the page. It
+is the one to work on. See "The georeferenced page" below.
 
-Open the file in a browser. It works from `file://`; a server is only nicer for repeated
-reloads (`python3 -m http.server 8000`). It fetches three.js r185 from unpkg and three
-faces from Google Fonts at runtime, so it needs a connection.
+**`veckefjardensgc.html` is the older one**, and everything in this file from "The two
+protected invariants" down to "Editing this file safely" is about it. It draws the same
+course in an arbitrary local frame fitted from the guide, which is the root of every
+alignment problem its notes describe. It still runs, its checks still pass, and its
+`HOLES` prose and hole names were carried into the new page — but new work does not
+belong in it.
+
+One self-contained page each. No build step, no dependencies to install.
+
+## The georeferenced page — `veckefjarden3d.html` + `geobuild/`
+
+Open it in a browser; `file://` is fine. It fetches three.js 0.185.1 from unpkg and two
+faces from Google Fonts, so it needs a connection. It runs on the WebGPU build, which
+also drives its whole node-material pipeline on a WebGL2 backend, and the header says
+which one it got. Boot builds terrain → surfaces → water → forest → light, about two
+seconds on a real GPU.
+
+### Where the geometry comes from
+
+Four independent records, fused by `geobuild/reconcile.mjs`:
+
+| source | covers | used for |
+|---|---|---|
+| OpenStreetMap | 12 of 18 championship holes, the 9-hole short course, the shoreline | every outline it has: greens, fairways, 53 tee pads, 32 bunkers, forest, paths, buildings |
+| the club's GPS survey (`geo_data/`) | all 18 holes, 5 points each | green centres and back tees, and all the geometry on the six holes OSM never mapped |
+| the banguide | all 18 | the card, verbatim; bunkers OSM lacks; hole names and prose |
+| AWS Terrarium elevation | everything | the ground, and every water level |
+
+They agree where they overlap, and each check involves data that never entered the
+thing it checks: GPS green centres land 2.1–4.5 m from the OSM outlines; the drawn
+lines measure their card length to 0.02%; the elevation model reproduces the guide's
+printed "Spelas 28 m uppför" to a mean of 2.8 m over the 13 holes that print one; and
+every hole points the way its plan's compass rose says, median 2°.
+
+**Holes 1–5 and 7 are not in OSM.** Their greens, fairways and bunkers are instead
+read off the club's own hole plans — which are drawn on aerial photography, making
+them geodata nobody had digitised. Each plan is registered to the world by its two
+known anchors (the back-tee disc and the pin), a similarity transform that the plans'
+own compass roses corroborate to a few degrees. The reading and the mathematics are
+split across `plan-shapes.json` (pixel outlines, read by eye at 4× zoom) and
+`apply-shapes.mjs` (registration + gates). Holes 13 and 17 were traced **blind** and
+compared against their OSM survey to measure the whole chain: green centres land
+5–6 m off, areas within ±15% after a bias correction that was itself measured on
+that pair (the reader traces the green complex at ~2.1× the putting surface, so
+traced greens shrink toward their centroid by 1/√2.1). These carry `prov:"plan"`;
+anything still synthesised carries `prov:"synth"` and is hatched in `design.svg`.
+
+**The trees come from satellite imagery, and the imagery is the authority.**
+`fetch-sat.mjs` caches Esri World Imagery tiles (z17, ~0.54 m/px, orthorectified — a
+tile's coordinates ARE its georeference, no registration error at all) and
+`build-treecover.py` classifies them into `tree-cover.json`, the 3 m raster the page's
+planter obeys in BOTH directions: satellite canopy plants where nothing was surveyed,
+and satellite open ground thins an OSM forest polygon to scattered singles — the
+polygons hold real canopy on only ~70% of their area, which is why the render used to
+carry more forest than the course. Two earlier sources are superseded: the club's
+overview map (warped 40–70 m, called mown turf forest) and the hole-plan classification
+(5–6 m registration error, gaps between corridors). Classifier lessons that took
+iterations: mown turf is bright, green AND SMOOTH (sunlit autumn canopy is bright and
+green but violently textured); a tree's long shadow on grass is dark but still
+decisively green and dead smooth. `check-treecover.mjs` holds the labelled probe set —
+now verified against the satellite, which is NEWER than the plans (two probes moved
+where stands have grown or been felled since) — and exits non-zero if verified forest
+stops being forest or the open residual grows past its accepted five.
+
+**The surroundings are data too.** Everything around the course comes from the same OSM
+extract the course does — the E4 as its paired 2+1 one-way roadbeds with a median-wire
+ribbon and shader-painted edge lines, the branch railway with its catenary masts, two
+130 kV corridors tower-by-surveyed-tower (their cleared lanes cut through the planter),
+parking lots with instanced cars, piers, 275 near building footprints plus the distant
+town as oriented boxes, landuse rings that tint fields/gardens/industry and police the
+scatter — plus `geobuild/surroundings-traces.json`, features read off a georeferenced
+satellite screenshot (registration RMS 6.6 m) for the few things OSM lacks: the
+clear-fells (planted at 6% with stumps), the machinery yard, the Ås hayfields, the
+unmapped south parking lot, and the silt shallows that keep the fjärd's pale margins.
+Ås village has no OSM footprints at all, so houses are synthesized inside its
+residential rings, each aligned to its street. Ground truth that shapes the rendering:
+Veckefjärden is a REGULATED FRESHWATER LAKE behind a 1939 lock — its wide pale margins
+are silt bottom under water (drawn by letting the bed read through, never as dry mud),
+and the reserve's Tvillingsta half is grey-alder swamp forest, so the planter goes
+birch-dominant inside the reserve rings.
+
+**The two landmarks the scene must get right** live in the page's landmark block, both
+at surveyed coordinates. Åsmasten — properly "Åsbergsmasten", OSM node 845145336,
+height=259 — stands on Åsberget's 241 m summit at world (−632, −2007), due north:
+guyed body, white radome, aviation lights the dusk bloom picks up. The node sits at
+63.3025 N, just OUTSIDE the fetch bbox's 63.300 edge, which is how an unnamed 35 m
+works mast in Domsjö once wore its name — if a landmark seems to sit on absurd ground,
+check the bbox before trusting the nearest tagged node. Själevads kyrka is at
+63.292833 N, 18.607361 E → world (−3310, −928): the tall white octagon of 1880 with
+its temple portico, and the 1923 crown — copper roof, white bell-storey drum, clock
+lantern, copper spire, gilt cross at ~35 m — drawn from photographs (white and
+verdigris green, NOT a dark roof), in a planter clearing because Kyrkudden is
+churchyard, not forest (the peninsula is outside the OSM extract, so the vista
+scatter would otherwise bury it). The clubhouse ("the old school") has its own
+levelled bench and mown-lawn apron in `CLUB` — the terrain around it must read as
+fresh green turf, never scrub.
+
+**The card-length fit is a statement about the tee, not a fudge.** Every line came out
+3–10% short of its card. Rather than stretch surveyed geometry, the tee end slides back
+along its own axis until the polyline measures what the club prints — which is where a
+back tee is by definition. The slide is 3–31 m and lands within 3–18 m of a mapped tee
+pad on most holes, so it is finding real tees.
+
+### Running the pipeline
+
+    node geobuild/vendor.mjs          # cache the CDN for the screenshot harness
+    node geobuild/fetch-osm.mjs       # api.openstreetmap.org/api/0.6/map, not Overpass
+    node geobuild/fetch-dem.mjs       # Terrarium z15 core + z12 vista
+    node geobuild/parse-osm.mjs       # -> osm-features.json
+    node geobuild/build-heightfields.mjs   # -> heightfields.json, and the water levels
+    node geobuild/reconcile.mjs       # -> course-model.json, and the agreement report
+    node geobuild/apply-shapes.mjs    # plan-traced shapes -> traced-holes.json (needs reconcile's frame)
+    node geobuild/reconcile.mjs       # second pass folds the traces in
+    node geobuild/fetch-sat.mjs       # Esri World Imagery z17 tiles (orthorectified canopy truth)
+    python3 geobuild/build-treecover.py    # satellite -> tree-cover.json (the forest raster)
+    node geobuild/check-treecover.mjs # raster vs the labelled imagery probes; exits non-zero
+    node geobuild/render-design.mjs   # -> design.svg, the layout to review before 3D
+    node geobuild/embed.mjs           # bake it into the page
+    node geobuild/check3d.mjs         # exits non-zero on a regression
+    node geobuild/lint-page.mjs       # eslint no-undef over the page's module body
+    node geobuild/shot.mjs veckefjarden3d.html geobuild/shots/out.png --hole 14 --cam tee
+
+Caches live in `geobuild/cache/` and are gitignored; the reconciled JSON is committed.
+The screenshot harness needs `npm install` once (playwright-core, pinned in
+package.json) and a Chromium whose path `shot.mjs` states at the top — adjust it
+outside this environment. The pages themselves still have no dependencies.
+
+### What check3d protects, and what it only measures
+
+It **exits non-zero** on six things, because each is a claim the page makes about a real
+course that would be false if it broke: the card is the club's card (144 values exact);
+every hole measures its card length to 0.5%; every OSM-sourced green still sits within
+6 m of its OSM outline; no green or tee is under water; the heightfield the page decodes
+is the one geobuild encoded; and the page's embedded data is the current model.
+
+Everything else it prints — elevation and bearing agreement, corridor separation, bunker
+provenance — is a measurement, not a gate. A checker that fails on targets is a checker
+people switch off.
+
+### Things that took a while to find
+
+- **`normalMap` needs UVs and tangents.** These meshes are built from world coordinates
+  and carry neither, so the turf silently had no relief at all. `bumpMap` differentiates
+  the sampled value in screen space and needs nothing.
+- **Detail written as a multiplier around 1 cancels itself.** Three taps averaging 0.5
+  each, applied as `col * (0.82 + micro*0.4)`, came to a half-percent modulation. Centre
+  it on zero first.
+- **Texture scale is most of whether a texture exists.** At a 1.5 m tile the turf
+  detail averaged to flat grey past ten metres, which is where a golfer is looking.
+- **Mow stripes must be per pixel.** Baked into vertices 4 m apart they beat against
+  their own sampling. The mesh carries a mow coordinate; the shader computes the band.
+- **`OrbitControls.maxPolarAngle` forbids the camera from sitting below its target**,
+  which threw it 30 m into the air on the 1st tee — a hole that climbs 26 m. Clamp the
+  camera against the terrain each frame instead.
+- **Every carve must be continuous through its own edge.** The first bunker profile
+  dropped 0.32 m crossing inside and rose 0.34 m just outside; on a 4 m grid that
+  two-thirds-metre cliff tore into jagged flaps around every bunker. Same for shorelines.
+- **A skirt at a level-of-detail seam is a vertical wall**, and a vertical wall a
+  kilometre off catches a low sun and draws a bright line across the hills that reads as
+  a road cut. Tuck each coarse level under the finer one instead.
+- **A 4 m grid cannot hold a 2 m cart path.** Painted into the terrain the path network
+  bled to 20 m of brown and read as dry riverbeds. Paths are ribbons.
+- **Overpass resets on large geometry responses here**; the raw OSM map API does not.
+- **Chromium cannot complete a TLS handshake through this environment's proxy**, so
+  `shot.mjs` replays the CDN from `geobuild/cache/vendor` via `page.route()`. curl works,
+  which is how the cache gets filled.
+- **Under software rendering the page draws about twice a second**, so a 1.5 s camera
+  tween is still in its second frame when the shutter opens. `setCam(mode, true)` moves
+  instantly; the harness uses it.
+
+## Running the older page
+
+Open `veckefjardensgc.html` in a browser. It works from `file://`; a server is only
+nicer for repeated reloads (`python3 -m http.server 8000`). It fetches three.js r185
+from unpkg and three faces from Google Fonts at runtime, so it needs a connection.
 
 First load takes a few seconds: terrain → water → ~1900 trees → detail, then "ready".
 
