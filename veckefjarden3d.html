@@ -535,6 +535,13 @@ function terrainH(x, z) {
     const target = w.level - bed + bank;
     const wgt = 1 - smooth(0, 26, sd);
     h = sd < 0 ? Math.min(h, target) : lerp(h, Math.max(h, target), wgt * 0.75);
+    /* the armoured shore of the island 14th is a berm of dumped stone, not a mown
+       bank: proud of the waterline and lumpy at boulder scale, fading to nothing
+       past the band so the carve stays continuous */
+    if (w.isLake && Math.hypot(x - G14[0], z - G14[1]) < 115) {
+      const band = 1 - smooth(2, 5.5, Math.abs(sd));
+      if (band > 0) h += (0.12 + fbm(x * 0.11, z * 0.11, 2) * 0.18) * band;
+    }
   }
 
   /* The elevation model is a 2 m product resampled to 4 m, so everything finer than
@@ -647,10 +654,12 @@ const L = hex => [s2l(((hex >> 16) & 255) / 255), s2l(((hex >> 8) & 255) / 255),
    fescue in a Swedish August is straw with green in it; and a green is bluer and
    deeper than the fairway around it. Those three relationships are most of what makes
    mown ground read as mown ground from 200 m away. */
+/* nudged against the club's July aerial: the mown surfaces run brighter and
+   greener than the first authoring -- a fresh-cut vividness, not a repaint */
 const C = {
-  rough:  L(0x62723d), fescue: L(0x847f4c), semi:  L(0x5c8438),
-  fair:   L(0x5c8f3b), green:  L(0x479149), fringe:L(0x628f40),
-  tee:    L(0x5a9040), sand:   L(0xd6c396), path:  L(0x757168),
+  rough:  L(0x62723d), fescue: L(0x847f4c), semi:  L(0x588c37),
+  fair:   L(0x60a03e), green:  L(0x489a4c), fringe:L(0x649540),
+  tee:    L(0x5c9d42), sand:   L(0xd6c396), path:  L(0x757168),
   heath:  L(0x776c3f), forest: L(0x334423), shore: L(0xb2a37e),
   wet:    L(0x6a7046), rock:   L(0x736e63),
   /* the surroundings: crop tones for the west-shore fields, slash for the
@@ -2126,7 +2135,7 @@ const SHORE = (() => {
       if (inShal) {
         if (h < lake.level - 0.42 || h > lake.level + 0.2) continue;
         const cl = fbm(px * 0.05, pz * 0.05, 2);
-        if (cl < 0.3) continue;
+        if (cl < 0.22) continue;
         bedClump = 1;                       /* inside a bed, reeds stand shoulder to shoulder */
       } else if (h < lake.level - 0.22 || h > lake.level + 0.2) continue;
       let dens = 0.2 + (fbm(px * 0.02, pz * 0.02, 2) * 0.5 + 0.5) * 0.35;
@@ -2890,6 +2899,37 @@ for (const h of HOLES) {
             quad(P(uC + a0, b0, e), P(uC + a1, b1, e), P(uC + a1, b1, tC), P(uC + a0, b0, tC), L(0x8a8378));
           }
           quad(P(uC - 0.45, -0.45, tC), P(uC + 0.45, -0.45, tC), P(uC + 0.45, 0.45, tC), P(uC - 0.45, 0.45, tC), ROOFA);
+        }
+        /* the white entrance wing: the low glazed veranda the ground photograph
+           leads with, gable out, on the course-facing wall */
+        {
+          let bestE = -1, bestX = 1e9;
+          for (let e2 = 0; e2 < b.ring.length; e2++) {
+            const a0 = b.ring[e2], a1 = b.ring[(e2 + 1) % b.ring.length];
+            if (Math.hypot(a1[0] - a0[0], a1[1] - a0[1]) < 8) continue;
+            const mx = (a0[0] + a1[0]) / 2;
+            if (mx < bestX) { bestX = mx; bestE = e2; }
+          }
+          if (bestE >= 0) {
+            const a0 = b.ring[bestE], a1 = b.ring[(bestE + 1) % b.ring.length];
+            const ex = a1[0] - a0[0], ez = a1[1] - a0[1];
+            const el = Math.hypot(ex, ez);
+            const ux = ex / el, uz = ez / el;
+            let nx = -uz, nz = ux;
+            const mx = (a0[0] + a1[0]) / 2, mz = (a0[1] + a1[1]) / 2;
+            if ((mx + nx - cx) ** 2 + (mz + nz - cz) ** 2 < (mx - cx) ** 2 + (mz - cz) ** 2) { nx = -nx; nz = -nz; }
+            const W2 = 5.2, D = 4.6, hV = 3.8;
+            const A = (t, d, y) => [mx + ux * t + nx * d, y, mz + uz * t + nz * d];
+            quad(A(-W2, 0, base), A(-W2, D, base), A(-W2, D, base + hV), A(-W2, 0, base + hV), TRIM);
+            quad(A(W2, 0, base), A(W2, D, base), A(W2, D, base + hV), A(W2, 0, base + hV), TRIM);
+            quad(A(-W2, D, base), A(W2, D, base), A(W2, D, base + hV), A(-W2, D, base + hV), TRIM);
+            quad(A(-W2 + 0.6, D + 0.06, base + 0.9), A(W2 - 0.6, D + 0.06, base + 0.9),
+                 A(W2 - 0.6, D + 0.06, base + 2.6), A(-W2 + 0.6, D + 0.06, base + 2.6), GLASS);
+            const rV = base + hV + 1.4;
+            quad(A(-W2 - 0.3, -0.2, base + hV), A(0, -0.2, rV), A(0, D + 0.3, rV), A(-W2 - 0.3, D + 0.3, base + hV), ROOFA);
+            quad(A(0, -0.2, rV), A(W2 + 0.3, -0.2, base + hV), A(W2 + 0.3, D + 0.3, base + hV), A(0, D + 0.3, rV), ROOFA);
+            tri(A(-W2, D, base + hV), A(W2, D, base + hV), A(0, D, rV), TRIM);
+          }
         }
       }
     }
