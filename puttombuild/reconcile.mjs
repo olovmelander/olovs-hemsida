@@ -167,9 +167,18 @@ const water = [];
 for (const w of osm.water) {
   const lv = hf.water.find(x => x.id === w.id);
   /* only the two dominant lakes get the wide shore bench; the rest are ponds */
-  water.push({ id: w.id, ring: w.ring, name: w.name || null, area: w.area,
+  water.push({ id: w.id, ring: w.ring, name: w.name || null, area: w.area, c: centroid(w.ring),
                level: lv ? lv.level : null, isLake: w.area > 300000 });
 }
+/* OSM tags no lake here, but the club's own history names them: Stor-Rössjön is the
+   larger lake on the W/NW side (hole 12 plays over a bay of it), Lill-Rössjön the
+   ~14 ha lake in the south-centre. Name the two largest by that geography. */
+{
+  const lakes = water.filter(w => w.isLake).sort((a, b) => b.area - a.area);
+  if (lakes[0]) lakes[0].name = 'Stor-Rössjön';
+  if (lakes[1]) lakes[1].name = 'Lill-Rössjön';
+}
+for (const w of water) delete w.c;
 
 /* --- the model ---------------------------------------------------------------- */
 const model = {

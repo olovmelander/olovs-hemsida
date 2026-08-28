@@ -40,15 +40,17 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
 /* --- 1: the card -------------------------------------------------------------- */
 {
   let bad = 0, checked = 0;
+  const nTee = card.holes[0].t.length;
   for (const ch of card.holes) {
     const h = vec.holes.find(x => x.n === ch.n);
     if (!h) { bad++; continue; }
     if (h.par !== ch.par) bad++;
     if (h.idx !== ch.hcp) bad++;
     checked += 2;
-    for (let k = 0; k < 3; k++) { checked++; if (h.t[k] !== ch.t[k]) bad++; }
+    if (h.t.length !== ch.t.length) bad++;
+    for (let k = 0; k < nTee; k++) { checked++; if (h.t[k] !== ch.t[k]) bad++; }
   }
-  gate(bad === 0 && checked === 90, `card: ${checked} par/index/tee values checked against the club's card, ${bad} mismatches`);
+  gate(bad === 0 && checked === 18 * (2 + nTee), `card: ${checked} par/index/tee values checked against the club's card, ${bad} mismatches`);
 }
 
 /* --- 2: drawn lengths --------------------------------------------------------- */

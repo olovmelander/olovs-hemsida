@@ -1,9 +1,41 @@
 {
  "club": "Örnsköldsviks Golfklubb Puttom",
  "site": "https://puttom.se/",
- "provisional": true,
- "note": "PROVISIONAL card — par split (4 par5 / 10 par4 / 4 par3 = 72) with par-3s at the GPS tee==target holes (3,5,12,15); tee lengths and index are PLACEHOLDERS derived from GPS straight-line distance, to be replaced by the researched club scorecard.",
+ "source": "Club scorecard, twice-confirmed verbatim by caddee.se and golfisverige.com (per-hole par, stroke index and all four tees); Out/In/Total subtotals match the column sums exactly. Built 1967, architect Nils Sköld.",
+ "note": "Four tees, renamed from colours to metre-codes: Vit=61, Gul=57, Röd=48, Orange=41 (61 longest/back). Par 72 (36 out / 36 in). Par 3s: 3, 5, 12, 15. Par 5s: 4, 9, 13, 14.",
+ "ratingDate": "2018-07-25",
+ "slope": {
+  "herrar": {
+   "Vit": [
+    73.1,
+    146
+   ],
+   "Gul": [
+    71.3,
+    142
+   ],
+   "Röd": [
+    67.3,
+    134
+   ]
+  },
+  "damer": {
+   "Gul": [
+    77.6,
+    142
+   ],
+   "Röd": [
+    72.7,
+    131
+   ],
+   "Orange": [
+    67.4,
+    121
+   ]
+  }
+ },
  "teeNames": [
+  "Vit",
   "Gul",
   "Röd",
   "Orange"
@@ -12,21 +44,23 @@
   {
    "n": 1,
    "par": 4,
-   "hcp": 11,
+   "hcp": 15,
    "t": [
-    280,
-    246,
-    202
+    320,
+    305,
+    270,
+    235
    ]
   },
   {
    "n": 2,
    "par": 4,
-   "hcp": 13,
+   "hcp": 5,
    "t": [
-    276,
-    243,
-    199
+    326,
+    310,
+    280,
+    225
    ]
   },
   {
@@ -34,9 +68,10 @@
    "par": 3,
    "hcp": 17,
    "t": [
-    124,
-    109,
-    89
+    137,
+    135,
+    120,
+    120
    ]
   },
   {
@@ -44,69 +79,76 @@
    "par": 5,
    "hcp": 3,
    "t": [
-    391,
-    344,
-    282
+    465,
+    445,
+    380,
+    315
    ]
   },
   {
    "n": 5,
    "par": 3,
-   "hcp": 16,
+   "hcp": 11,
    "t": [
-    147,
-    129,
-    106
+    175,
+    160,
+    130,
+    130
    ]
   },
   {
    "n": 6,
    "par": 4,
-   "hcp": 10,
+   "hcp": 7,
    "t": [
-    293,
-    258,
-    211
+    350,
+    320,
+    285,
+    245
    ]
   },
   {
    "n": 7,
    "par": 4,
-   "hcp": 7,
+   "hcp": 1,
    "t": [
-    323,
-    284,
-    233
+    360,
+    355,
+    295,
+    195
    ]
   },
   {
    "n": 8,
    "par": 4,
-   "hcp": 8,
+   "hcp": 13,
    "t": [
-    311,
-    274,
-    224
+    346,
+    340,
+    275,
+    210
    ]
   },
   {
    "n": 9,
    "par": 5,
-   "hcp": 2,
+   "hcp": 9,
    "t": [
-    415,
-    365,
-    299
+    488,
+    465,
+    405,
+    325
    ]
   },
   {
    "n": 10,
    "par": 4,
-   "hcp": 5,
+   "hcp": 2,
    "t": [
-    332,
-    292,
-    239
+    428,
+    365,
+    330,
+    265
    ]
   },
   {
@@ -114,9 +156,10 @@
    "par": 4,
    "hcp": 12,
    "t": [
-    279,
-    246,
-    201
+    380,
+    305,
+    265,
+    265
    ]
   },
   {
@@ -124,69 +167,76 @@
    "par": 3,
    "hcp": 18,
    "t": [
-    101,
-    89,
-    73
+    122,
+    110,
+    95,
+    60
    ]
   },
   {
    "n": 13,
-   "par": 4,
-   "hcp": 6,
+   "par": 5,
+   "hcp": 8,
    "t": [
-    331,
-    291,
-    238
+    470,
+    460,
+    385,
+    300
    ]
   },
   {
    "n": 14,
    "par": 5,
-   "hcp": 1,
+   "hcp": 10,
    "t": [
-    457,
-    402,
-    329
+    466,
+    465,
+    405,
+    330
    ]
   },
   {
    "n": 15,
    "par": 3,
-   "hcp": 15,
+   "hcp": 14,
    "t": [
-    151,
-    133,
-    109
+    180,
+    165,
+    135,
+    135
    ]
   },
   {
    "n": 16,
    "par": 4,
-   "hcp": 14,
+   "hcp": 6,
    "t": [
-    251,
-    221,
-    181
+    289,
+    280,
+    250,
+    210
    ]
   },
   {
    "n": 17,
-   "par": 5,
+   "par": 4,
    "hcp": 4,
    "t": [
-    351,
-    309,
-    253
+    400,
+    385,
+    335,
+    275
    ]
   },
   {
    "n": 18,
    "par": 4,
-   "hcp": 9,
+   "hcp": 16,
    "t": [
-    306,
-    269,
-    220
+    348,
+    335,
+    310,
+    210
    ]
   }
  ]
