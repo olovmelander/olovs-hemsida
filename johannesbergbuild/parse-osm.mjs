@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {
   CACHE, ROOT, lonLatToXZ, simplifyDP, polyArea, centroid, bbox,
-  ring1, r1, writeJSON, polyLen,
+  ring1, r1, writeJSON, polyLen, pointInPoly,
 } from './lib.mjs';
 
 const files = [path.join(CACHE, 'osm-core.xml')];
@@ -151,9 +151,19 @@ for (const w of ways.values()) {
   const closed = isClosed(w);
 
   if (t.leisure === 'golf_course' && closed) {
-    /* the club's own property line -- the thing white out-of-bounds stakes follow */
+    /* The club's own property line -- the thing white out-of-bounds stakes follow.
+       An extract can hold more than one club's: Johannesberg's also contains Nifsta
+       GK 2.4 km west, and keeping whichever parsed last handed the course its
+       neighbour's boundary. THIS course is the polygon containing ORIGIN; if none
+       does, the largest wins. */
     const ring = ringOf(w, 1.5);
-    if (ring) out.courseBoundary = { id: 'w' + w.id, ring, name: t.name || null };
+    if (ring) {
+      const a = Math.abs(polyArea(ring));
+      const here = pointInPoly(0, 0, ring);
+      const prev = out.courseBoundary;
+      if (!prev || (here && !prev.hasOrigin) || (here === prev.hasOrigin && a > prev.area))
+        out.courseBoundary = { id: 'w' + w.id, ring, name: t.name || null, area: Math.round(a), hasOrigin: here };
+    }
     continue;
   }
   if (t.golf) {

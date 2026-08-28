@@ -1,0 +1,252 @@
+{
+ "club": "Johannesberg Golf & Country Club",
+ "site": "https://johannesbergsgolf.se/",
+ "source": "The club's own 2026 banguide hole plans, read independently by two researchers who agree cell for cell; every tee column reproduces its printed total (6222/5759/5279/4914/4124).",
+ "note": "Par 72 (36 out / 36 in). Five tees Vit/Gul/Blå/Röd/Orange, metres. 27 holes on the estate, all Donald Steel, opened 1991; this is the 18-hole championship course ('Donald Steel-banan'), not the 9-hole Pay & Play (par 34). A SECOND card version circulates — the older RATED lengths (vit 6234, röd 4962, orange 4085) that the published CR/slope figures are keyed to. The two reconcile exactly as a re-teeing: vit -1 on hole 9 and -11 on hole 16, and röd/orange merged onto one pad on 18. The 2026 card is used here because it describes where the tee pads are today, which is what the geometry must match. Par 3s: 6, 9, 13, 17. Par 5s: 3, 7, 16, 18.",
+ "teeNames": [
+  "Vit",
+  "Gul",
+  "Blå",
+  "Röd",
+  "Orange"
+ ],
+ "holes": [
+  {
+   "n": 1,
+   "par": 4,
+   "hcp": 17,
+   "t": [
+    273,
+    262,
+    262,
+    220,
+    220
+   ]
+  },
+  {
+   "n": 2,
+   "par": 4,
+   "hcp": 11,
+   "t": [
+    344,
+    323,
+    323,
+    292,
+    217
+   ]
+  },
+  {
+   "n": 3,
+   "par": 5,
+   "hcp": 7,
+   "t": [
+    492,
+    452,
+    391,
+    391,
+    291
+   ]
+  },
+  {
+   "n": 4,
+   "par": 4,
+   "hcp": 1,
+   "t": [
+    431,
+    399,
+    373,
+    325,
+    220
+   ]
+  },
+  {
+   "n": 5,
+   "par": 4,
+   "hcp": 3,
+   "t": [
+    393,
+    362,
+    326,
+    326,
+    246
+   ]
+  },
+  {
+   "n": 6,
+   "par": 3,
+   "hcp": 9,
+   "t": [
+    190,
+    169,
+    143,
+    143,
+    73
+   ]
+  },
+  {
+   "n": 7,
+   "par": 5,
+   "hcp": 5,
+   "t": [
+    469,
+    436,
+    400,
+    400,
+    326
+   ]
+  },
+  {
+   "n": 8,
+   "par": 4,
+   "hcp": 13,
+   "t": [
+    355,
+    321,
+    299,
+    299,
+    224
+   ]
+  },
+  {
+   "n": 9,
+   "par": 3,
+   "hcp": 15,
+   "t": [
+    172,
+    161,
+    122,
+    122,
+    82
+   ]
+  },
+  {
+   "n": 10,
+   "par": 4,
+   "hcp": 8,
+   "t": [
+    411,
+    360,
+    299,
+    299,
+    189
+   ]
+  },
+  {
+   "n": 11,
+   "par": 4,
+   "hcp": 16,
+   "t": [
+    344,
+    312,
+    312,
+    288,
+    288
+   ]
+  },
+  {
+   "n": 12,
+   "par": 4,
+   "hcp": 6,
+   "t": [
+    374,
+    335,
+    312,
+    312,
+    312
+   ]
+  },
+  {
+   "n": 13,
+   "par": 3,
+   "hcp": 18,
+   "t": [
+    154,
+    154,
+    103,
+    103,
+    103
+   ]
+  },
+  {
+   "n": 14,
+   "par": 4,
+   "hcp": 12,
+   "t": [
+    355,
+    316,
+    316,
+    257,
+    196
+   ]
+  },
+  {
+   "n": 15,
+   "par": 4,
+   "hcp": 2,
+   "t": [
+    381,
+    350,
+    324,
+    273,
+    273
+   ]
+  },
+  {
+   "n": 16,
+   "par": 5,
+   "hcp": 10,
+   "t": [
+    441,
+    441,
+    396,
+    363,
+    363
+   ]
+  },
+  {
+   "n": 17,
+   "par": 3,
+   "hcp": 14,
+   "t": [
+    168,
+    131,
+    131,
+    102,
+    102
+   ]
+  },
+  {
+   "n": 18,
+   "par": 5,
+   "hcp": 4,
+   "t": [
+    475,
+    475,
+    447,
+    399,
+    399
+   ]
+  }
+ ],
+ "slope": {
+  "units": "metres; CR = course rating, then slope",
+  "primary_source": "https://www.golfpass.com/travel-advisor/courses/37222-johannesberg-golf — the only source with a full per-tee rating table. Reproduced to the decimal by Hole19's embedded tee JSON (https://www.hole19golf.com/courses/johannesberg-golf), which may share the same upstream feed rather than being an independent measurement.",
+  "rated_par_all_tees": 72,
+  "vit_men": "74.2 / 135",
+  "vit_women": null,
+  "gul_men": "71.9 / 130",
+  "gul_women": "77.9 / 137",
+  "bla_men": "69.4 / 125",
+  "bla_women": "74.8 / 131",
+  "rod_men": "68.3 / 123",
+  "rod_women": "73.4 / 128",
+  "orange_men": null,
+  "orange_women": "67.3 / 115",
+  "lengths_the_ratings_are_keyed_to": "vit 6234 / gul 5759 / blå 5279 / röd 4962 / orange 4085 m — the RATED card, not the club's 2026 card (vit 6222 / röd 4914 / orange 4124). Hole19 attaches the same ratings to a third length set (vit 6222 / gul 5783 / blå 5279 / röd 5042 / orange 4029).",
+  "conflicting_third_set": "LeadingCourses' rating record gives gul 5783 m CR 72.2 slope 132 and röd 5190 m CR 68.5 slope 125 — different lengths AND different ratings from GolfPass/Hole19 for the same two tees. Unresolved.",
+  "not_a_rating": "LeadingCourses' visible 'Course rating' field is a reviewer score (7.8/10 for the 18-hole layout, 7.7/10 facility over 153 reviews), NOT a USGA/EGA course rating. Easy to misread.",
+  "club_publishes_none": "johannesbergsgolf.se has no slope or course-rating page anywhere — site searches for scorekort, scorecard, slope and banvärde all return 'Hittade inga inlägg', and the sitemap confirms no such page exists. mScorecard's CR/Slope fields are all '---' for anonymous visitors.",
+  "federation_source_not_reached": "The authoritative SGF slope table (gitwidgets.golf.se/slopecalculator) was unreachable from this environment (DNS/proxy failures), and golf.se's course database sits behind Min Golf login. So NO rating here is confirmed against the federation.",
+  "confidence": "LOW-to-MEDIUM. Two renderings of probably one feed, keyed to superseded lengths, contradicted on two tees by a third source. Confirm with the club (golf@johannesbergsgolf.se, +46 8 124 377 63) or the SGF/GIT bandata register before publishing any of it."
+ }
+}
