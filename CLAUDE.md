@@ -456,3 +456,76 @@ tracing: pixel→world is affine, so a trace made on a crop needs no registratio
 - Card UI: three tees (Gul/Röd/Orange), not six.
 - The planter is pine-led; there are no OSM forest polygons at all, so the
   satellite tree-cover raster is the only planting authority.
+
+## The Puttom page — `puttom3d.html` + `puttombuild/`
+
+Örnsköldsviks Golfklubb Puttom: 18 holes, par 72, an inland forest-and-parkland
+course that threads between two lakes at Arnäsvall, north-east of Örnsköldsvik
+(the town near Veckefjärden). Nils Sköld, 1967. The page is the same engine as
+the other two; its own frame is ORIGIN {63.29920 N, 18.94130 E}, frozen in
+`puttombuild/lib.mjs`.
+
+### Where the GPS survey came from — the GolfTraxx pull
+
+Puttom's per-hole survey was pulled from GolfTraxx, the way the user's other
+surveys were, and the method is now a committed, reusable tool:
+`geo_data/golftraxx_extract.py`. Every course in GolfTraxx's directory has an
+id shaped as its postal code + country (Abbekås 27456SW, Norrfällsviken
+28931SW, **Puttom = Örnsköldsviks Golf, Ovansjö 232, Arnäsvall 891 95 =
+89195SW**); find it in the paginated country listing
+`golftraxx.com/courses-by-state?state=SW`, where each row prints the id in a
+cell. The course-map page
+`golftraxx.com/full-layout?coursename=<name>&zipcode=<id>&city=&state=SW` then
+renders the survey inline as Google-Maps markers (no API, no auth) — five points
+per hole, Tee Target + Green Center/Front/Back + TheTipsTee Back Reach — which
+the extractor turns into the same clean FeatureCollection as the other files in
+`geo_data/`. **It is verified exact**: re-extracting 28931SW reproduces
+`norrfallsviken_clean.json` to 0.000 m across all 90 points, which is how the
+Puttom pull was validated before committing. The four par 3s the card names
+(3, 5, 12, 15) fall exactly on the survey's `tee==target` holes — an independent
+cross-check that the extraction and the card agree.
+
+### Where the geometry comes from
+
+Puttom is **fully mapped in OpenStreetMap** (20 greens, 21 fairways, 32 tees,
+41 bunkers, 19 hole lines, a driving range, 13 water bodies, the E4, a railway),
+so the fusion is Veckefjärden's kind, not Norrfällsviken's — OSM polygons are
+the shapes, the GPS survey is the per-hole anchor (no OSM golf feature here
+carries a hole ref, so `reconcile.mjs` matches each unref'd polygon to its hole
+by the surveyed green centre — all 18 land within 12 m), and the card is the
+length each hole line is slid to.
+
+| source | used for |
+|---|---|
+| the club's card (twice-confirmed by caddee.se + golfisverige.com) | all card values; four tees Vit/Gul/Röd/Orange (61/57/48/41) |
+| the GolfTraxx GPS survey (`geo_data/puttom_clean.json`) | the per-hole anchor: green centres and back tees |
+| OpenStreetMap | every shape — greens, fairways, tees, bunkers, hole lines, the two lakes, wetlands, forest, farmland, roads, buildings |
+| AWS Terrarium | the ground (no sea here — the course sits 43–102 m up among several perched lakes) |
+
+### Running the pipeline
+
+    node puttombuild/fetch-osm.mjs
+    node puttombuild/fetch-dem.mjs
+    node puttombuild/fetch-sat.mjs           # only for the tree-cover raster; shapes come from OSM
+    node puttombuild/parse-osm.mjs
+    node puttombuild/build-heightfields.mjs
+    node puttombuild/reconcile.mjs           # OSM polygons + GPS anchor + card
+    python3 puttombuild/build-treecover.py
+    node puttombuild/render-design.mjs
+    node puttombuild/embed.mjs
+    node puttombuild/check3d.mjs
+    node geobuild/lint-page.mjs puttom3d.html
+
+### What differs from the other builds
+
+- No sea: `seaLevel` is just a "nothing below water" floor from the lowest lake;
+  the two dominant lakes (**Stor-Rössjön** NW, **Lill-Rössjön** south-central —
+  named from the club's history, since OSM tags neither) get the wide shore
+  bench, the rest render as ponds at their own measured levels.
+- Four tees, not three or six; `check3d` counts tee columns dynamically.
+- The routing is a **four-leaf clover** returning to the clubhouse after holes
+  4, 9, 13 and 18; holes 7 and 8 are blind (a reviewer wants a semaphore); hole
+  12 is a short par 3 over a bay of Stor-Rössjön. These are in `guide-notes.json`.
+- The NVGK-specific landmarks (chapel, marina boats, far sea) all guard on
+  features Puttom lacks and no-op; a bespoke clubhouse and the blind-hole
+  sighting tower are open polish items.
