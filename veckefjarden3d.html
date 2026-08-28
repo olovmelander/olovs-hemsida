@@ -2398,6 +2398,11 @@ if (M.cover) {
       const pz = z + (rnd2(i + 87, j + 61) - 0.5) * GAP3 * 1.6;
       if (fbm(px * 0.0011, pz * 0.0011, 2) < -0.18) continue;   /* pasture gaps */
       if (openLand(px, pz)) continue;
+      /* Kyrkudden is churchyard and village lawns, not forest -- keep Själevads
+         kyrka's white octagon visible across the fjärd the way it is in life */
+      if (Math.hypot(px + 3310, pz + 928) < 150 + fbm(px * 0.01, pz * 0.01, 2) * 70) continue;
+      /* the cleared works yard around Åsmasten's base */
+      if (Math.hypot(px + 632, pz + 2007) < 40) continue;
       if (rnd2(i + 9, j + 33) > 0.85) continue;
       const h = terrainH(px, pz);
       if (h < GEO.lakeLevel + 1.5) continue;
@@ -3070,15 +3075,16 @@ for (const h of HOLES) {
 
 /* --------------------------------------------------- club furniture and landmarks
    The photographs' recurring props: the flagpole row along the driving range, the
-   fountain in the clubhouse pond, the Varvsberget masts (surveyed OSM nodes), the
-   wind turbines on the western ridge and Själevads kyrka's tower across the water
-   (the church at its real coordinates; the turbines placed on the ridge the dusk
-   photograph shows them on -- vista dressing, not survey). */
+   fountain in the clubhouse pond, Åsmasten on its ridge and the Domsjö mill chimney
+   (both at surveyed OSM nodes), Själevads kyrka's white octagon at its real
+   coordinates across the fjärd, and the wind turbines on the western ridge (those
+   placed where the dusk photograph shows them -- vista dressing, not survey). */
 {
   const V = [], K = [];
   const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
   const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
   const WHITE = L(0xe8eae8), YEL = L(0xd8bc42), GREY = L(0x9a9fa3), DARKR = L(0x3c3f42);
+  const avLights = [];
   const pole = (x, y0, z, h2, r, col) => {
     for (const [ox, oz] of [[r, 0], [0, r]])
       quad([x - ox, y0, z - oz], [x + ox, y0, z + oz], [x + ox * 0.6, y0 + h2, z + oz * 0.6], [x - ox * 0.6, y0 + h2, z - oz * 0.6], col);
@@ -3129,29 +3135,98 @@ for (const h of HOLES) {
     scene.add(m);
     stats.draws++;
   }
-  /* the two Varvsberget masts, from their surveyed OSM nodes */
-  for (const [mx, mz] of [[1101, 1224], [1156, 1342]]) {
-    const y0 = demH(mx, mz) - 0.5;
-    pole(mx, y0, mz, 52, 1.1, GREY);
-    quad([mx - 0.5, y0 + 52, mz - 0.5], [mx + 0.5, y0 + 52, mz + 0.5],
-         [mx + 0.5, y0 + 53.2, mz + 0.5], [mx - 0.5, y0 + 53.2, mz - 0.5], L(0x8a2020));
-  }
-  /* Själevads kyrka across the water: nave, tower, dark spire */
+  /* Åsmasten -- OSM node 845145336, "Åsbergsmasten", height=259 -- Teracom's
+     guyed TV mast on Åsberget's 241 m summit due north of the course, the
+     tallest thing the whole basin sees. A body that thins in three hops, the
+     white antenna radome on top, three guy fans 120 degrees apart. The first
+     fetch bbox stopped at 63.300 N and this node sits at 63.3025, which is how
+     an unnamed 35 m works mast in Domsjö briefly wore its name. */
   {
-    const kx = -3630, kz = -390, y0 = demH(-3630, -390) - 0.8;
-    const nave = [[-11, -4.5], [11, -4.5], [11, 4.5], [-11, 4.5]];
-    for (let k = 0; k < 4; k++) {
-      const [a0, b0] = nave[k], [a1, b1] = nave[(k + 1) % 4];
-      quad([kx + a0, y0, kz + b0], [kx + a1, y0, kz + b1], [kx + a1, y0 + 8, kz + b1], [kx + a0, y0 + 8, kz + b0], WHITE);
+    const mx = -632, mz = -2007, y0 = demH(-632, -2007) - 0.8;
+    for (const [h0, h1, r0, r1] of [[0, 90, 1.7, 1.3], [90, 180, 1.3, 1.0], [180, 246, 1.0, 0.75]])
+      for (const [ox, oz] of [[1, 0], [0, 1]])
+        quad([mx - ox * r0, y0 + h0, mz - oz * r0], [mx + ox * r0, y0 + h0, mz + oz * r0],
+             [mx + ox * r1, y0 + h1, mz + oz * r1], [mx - ox * r1, y0 + h1, mz - oz * r1], GREY);
+    for (const [ox, oz] of [[0.85, 0], [0, 0.85]])
+      quad([mx - ox, y0 + 246, mz - oz], [mx + ox, y0 + 246, mz + oz],
+           [mx + ox, y0 + 259, mz + oz], [mx - ox, y0 + 259, mz - oz], WHITE);
+    for (let a = 0; a < 3; a++) {
+      const ca = Math.cos(a * TAU / 3 + 0.4), sa = Math.sin(a * TAU / 3 + 0.4);
+      for (const [ah, ar] of [[82, 100], [164, 158], [238, 208]]) {
+        const gx = mx + ca * ar, gz = mz + sa * ar, gy = demH(gx, gz);
+        const wx = -sa * 0.17, wz = ca * 0.17;
+        quad([mx - wx, y0 + ah, mz - wz], [mx + wx, y0 + ah, mz + wz],
+             [gx + wx, gy, gz + wz], [gx - wx, gy, gz - wz], GREY);
+      }
     }
-    quad([kx - 11, y0 + 8, kz - 4.5], [kx + 11, y0 + 8, kz - 4.5], [kx + 11, y0 + 11, kz], [kx - 11, y0 + 11, kz], DARKR);
-    quad([kx + 11, y0 + 8, kz + 4.5], [kx - 11, y0 + 8, kz + 4.5], [kx - 11, y0 + 11, kz], [kx + 11, y0 + 11, kz], DARKR);
-    const t0 = [[-3, -3], [3, -3], [3, 3], [-3, 3]];
-    for (let k = 0; k < 4; k++) {
-      const [a0, b0] = t0[k], [a1, b1] = t0[(k + 1) % 4];
-      quad([kx - 14 + a0, y0, kz + b0], [kx - 14 + a1, y0, kz + b1],
-           [kx - 14 + a1, y0 + 15, kz + b1], [kx - 14 + a0, y0 + 15, kz + b0], WHITE);
-      tri([kx - 14 + a0, y0 + 15, kz + b0], [kx - 14 + a1, y0 + 15, kz + b1], [kx - 14, y0 + 24, kz], DARKR);
+    for (const lh of [65, 130, 195, 260]) avLights.push([mx, y0 + lh, mz]);
+  }
+  /* the small works mast at Domsjö, from its surveyed OSM node */
+  {
+    const y0 = demH(1084, 1401) - 0.5;
+    pole(1084, y0, 1401, 52, 1.1, GREY);
+    avLights.push([1084, y0 + 53, 1401]);
+  }
+  /* the Domsjö mill chimney, from its surveyed OSM node (man_made=chimney, 68 m) */
+  {
+    const cx = 1804, cz = 1243, y0 = demH(1804, 1243) - 0.5, CONC = L(0xb3aca1);
+    for (const [ox, oz] of [[1, 0], [0, 1]]) {
+      quad([cx - ox * 2.9, y0, cz - oz * 2.9], [cx + ox * 2.9, y0, cz + oz * 2.9],
+           [cx + ox * 2.1, y0 + 56, cz + oz * 2.1], [cx - ox * 2.1, y0 + 56, cz - oz * 2.1], CONC);
+      quad([cx - ox * 2.1, y0 + 56, cz - oz * 2.1], [cx + ox * 2.1, y0 + 56, cz + oz * 2.1],
+           [cx + ox * 1.9, y0 + 68, cz + oz * 1.9], [cx - ox * 1.9, y0 + 68, cz - oz * 1.9], L(0x8a3a30));
+    }
+    avLights.push([cx, y0 + 69, cz]);
+  }
+  /* Själevads kyrka at its real coordinates: the white octagon of 1880, the dark
+     faceted roof rising through the lantern to the 24 m dome, the columned gable
+     porches, the sacristy the aerial shows on the north-east facet, and the
+     churchyard wall around it all. */
+  {
+    const kx = -3310, kz = -928, y0 = demH(-3310, -928) - 0.6;
+    const oct = a => [Math.cos(a * TAU / 8 + TAU / 16), Math.sin(a * TAU / 8 + TAU / 16)];
+    for (let k = 0; k < 8; k++) {
+      const [c0, s0] = oct(k), [c1, s1] = oct(k + 1);
+      quad([kx + c0 * 11.5, y0, kz + s0 * 11.5], [kx + c1 * 11.5, y0, kz + s1 * 11.5],
+           [kx + c1 * 11.5, y0 + 9, kz + s1 * 11.5], [kx + c0 * 11.5, y0 + 9, kz + s0 * 11.5], WHITE);
+      quad([kx + c0 * 12.2, y0 + 9, kz + s0 * 12.2], [kx + c1 * 12.2, y0 + 9, kz + s1 * 12.2],
+           [kx + c1 * 3.5, y0 + 16, kz + s1 * 3.5], [kx + c0 * 3.5, y0 + 16, kz + s0 * 3.5], DARKR);
+      quad([kx + c0 * 3.5, y0 + 16, kz + s0 * 3.5], [kx + c1 * 3.5, y0 + 16, kz + s1 * 3.5],
+           [kx + c1 * 3.5, y0 + 19.5, kz + s1 * 3.5], [kx + c0 * 3.5, y0 + 19.5, kz + s0 * 3.5], WHITE);
+      tri([kx + c0 * 3.9, y0 + 19.5, kz + s0 * 3.9], [kx + c1 * 3.9, y0 + 19.5, kz + s1 * 3.9],
+          [kx, y0 + 24, kz], DARKR);
+      const wx0 = kx + c0 * 40, wz0 = kz + s0 * 40, wx1 = kx + c1 * 40, wz1 = kz + s1 * 40;
+      const wy0 = demH(wx0, wz0), wy1 = demH(wx1, wz1);
+      quad([wx0, wy0 - 0.4, wz0], [wx1, wy1 - 0.4, wz1], [wx1, wy1 + 1.1, wz1], [wx0, wy0 + 1.1, wz0], L(0xb9b4a8));
+    }
+    pole(kx, y0 + 24, kz, 2.6, 0.12, DARKR);
+    for (const sgn of [1, -1]) {
+      const px = kx + sgn * 12.6;
+      for (const zz of [-3.6, 3.6])
+        quad([px, y0, kz + zz], [px + sgn * 4.2, y0, kz + zz],
+             [px + sgn * 4.2, y0 + 6.5, kz + zz], [px, y0 + 6.5, kz + zz], WHITE);
+      quad([px + sgn * 4.2, y0, kz - 3.6], [px + sgn * 4.2, y0, kz + 3.6],
+           [px + sgn * 4.2, y0 + 6.5, kz + 3.6], [px + sgn * 4.2, y0 + 6.5, kz - 3.6], WHITE);
+      tri([px + sgn * 4.2, y0 + 6.5, kz - 3.6], [px + sgn * 4.2, y0 + 6.5, kz + 3.6],
+          [px + sgn * 4.2, y0 + 8.6, kz], WHITE);
+      for (const zz of [-3.9, 3.9])
+        quad([px - sgn * 0.6, y0 + 6.5, kz + zz], [px + sgn * 4.5, y0 + 6.5, kz + zz],
+             [px + sgn * 4.5, y0 + 8.6, kz], [px - sgn * 0.6, y0 + 8.6, kz], DARKR);
+      for (let c = 0; c < 4; c++)
+        pole(px + sgn * 3.6, y0, kz - 2.7 + c * 1.8, 6.5, 0.28, WHITE);
+    }
+    {
+      const sx = kx + 9.5, sz = kz - 9.5;
+      const box = [[-4, -3], [4, -3], [4, 3], [-4, 3]];
+      for (let k = 0; k < 4; k++) {
+        const [a0, b0] = box[k], [a1, b1] = box[(k + 1) % 4];
+        quad([sx + a0, y0, sz + b0], [sx + a1, y0, sz + b1],
+             [sx + a1, y0 + 4.5, sz + b1], [sx + a0, y0 + 4.5, sz + b0], WHITE);
+      }
+      quad([sx - 4.3, y0 + 4.5, sz - 3.3], [sx + 4.3, y0 + 4.5, sz - 3.3],
+           [sx + 4.3, y0 + 5.8, sz], [sx - 4.3, y0 + 5.8, sz], DARKR);
+      quad([sx + 4.3, y0 + 4.5, sz + 3.3], [sx - 4.3, y0 + 4.5, sz + 3.3],
+           [sx - 4.3, y0 + 5.8, sz], [sx + 4.3, y0 + 5.8, sz], DARKR);
     }
   }
   /* the wind turbines on the western ridge (dressing: placed where the dusk
@@ -3177,6 +3252,22 @@ for (const h of HOLES) {
   m.castShadow = true;
   scene.add(m);
   stats.draws++;
+  /* the aviation lamps on the mast and the chimney: unlit and pushed past white
+     so the bloom picks them out at dusk the way the real lamps read */
+  if (avLights.length) {
+    const P = [];
+    for (const [lx, ly, lz] of avLights)
+      for (const [ox, oz] of [[0.8, 0], [0, 0.8]]) {
+        P.push(lx - ox, ly - 0.7, lz - oz, lx + ox, ly - 0.7, lz + oz, lx, ly + 0.8, lz);
+        P.push(lx - ox, ly + 0.7, lz - oz, lx + ox, ly + 0.7, lz + oz, lx, ly - 0.8, lz);
+      }
+    const lg = new THREE.BufferGeometry();
+    lg.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+    const lm = new THREE.Mesh(lg, new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide }));
+    lm.material.colorNode = vec3(3.0, 0.24, 0.2);
+    scene.add(lm);
+    stats.draws++; stats.tris += P.length / 9;
+  }
 }
 
 /* ------------------------------------------------------------ post-process */

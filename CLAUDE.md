@@ -88,6 +88,18 @@ are silt bottom under water (drawn by letting the bed read through, never as dry
 and the reserve's Tvillingsta half is grey-alder swamp forest, so the planter goes
 birch-dominant inside the reserve rings.
 
+**The two landmarks the scene must get right** live in the page's landmark block, both
+at surveyed coordinates. Åsmasten — properly "Åsbergsmasten", OSM node 845145336,
+height=259 — stands on Åsberget's 241 m summit at world (−632, −2007), due north:
+guyed body, white radome, aviation lights the dusk bloom picks up. The node sits at
+63.3025 N, just OUTSIDE the fetch bbox's 63.300 edge, which is how an unnamed 35 m
+works mast in Domsjö once wore its name — if a landmark seems to sit on absurd ground,
+check the bbox before trusting the nearest tagged node. Själevads kyrka is at
+63.292833 N, 18.607361 E → world (−3310, −928): the white octagon of 1880 with the
+faceted roof, lantern and 24 m dome, in a planter clearing because Kyrkudden is
+churchyard, not forest (the peninsula is outside the OSM extract, so the vista
+scatter would otherwise bury it).
+
 **The card-length fit is a statement about the tee, not a fudge.** Every line came out
 3–10% short of its card. Rather than stretch surveyed geometry, the tee end slides back
 along its own axis until the polyline measures what the club prints — which is where a
