@@ -906,10 +906,14 @@ function groundAt(x, z, h) {
     if (sd < 30 && (lvl === null || w.level > lvl)) lvl = w.level;
     if (sd < sdW) sdW = sd;
   }
-  if (lvl !== null && c.green < 0.4 && sdW < 4.5) {
+  if (lvl !== null && c.green < 0.4 && sdW < 7) {
     const above = h - lvl;
     if (above < 0.6) {
-      const wet = (1 - smooth(-0.15, 0.6, above)) * (1 - smooth(1.5, 4.5, sdW));
+      /* the band's edge wanders with noise: a waterline drawn at one exact
+         distance renders as a hard stair-step on the 4 m grid, and a real
+         shore is never a drawn line */
+      const wn = fbm(x * 0.16, z * 0.16, 2) * 1.8;
+      const wet = (1 - smooth(-0.15, 0.6, above)) * (1 - smooth(1.5 + wn, 4.8 + wn, sdW));
       /* the island 14th's shoreline is granite riprap, not sand -- the armour ring
          every photograph of the hole leads with */
       const rip = Math.hypot(x - G14[0], z - G14[1]) < 110;
@@ -1316,9 +1320,25 @@ function buildTerrain(R, hole, withDetail) {
     map[j * nx + i] = pos.length / 3;
     pos.push(x, h, z);
     if (withDetail) {
+      /* Anti-alias the paint. One colour sample per vertex draws every boundary
+         narrower than the grid -- the wet shore, the bank shading, a landuse
+         edge -- as a sawtooth of whole triangles. Where a probe tap disagrees
+         with the centre, the vertex takes a five-tap average instead, and the
+         stair-steps dissolve into one soft cell. */
       const g = groundAt(x, z, h);
+      let cr = g.col[0], cg = g.col[1], cb = g.col[2];
+      const q = R.dx * 0.42;
+      const g2 = groundAt(x + q, z + q * 0.7, terrainH(x + q, z + q * 0.7));
+      if (Math.abs(cr - g2.col[0]) + Math.abs(cg - g2.col[1]) + Math.abs(cb - g2.col[2]) > 0.02) {
+        const g3 = groundAt(x - q, z + q * 0.8, terrainH(x - q, z + q * 0.8));
+        const g4 = groundAt(x - q * 0.7, z - q, terrainH(x - q * 0.7, z - q));
+        const g5 = groundAt(x + q * 0.8, z - q * 0.9, terrainH(x + q * 0.8, z - q * 0.9));
+        cr = (cr + g2.col[0] + g3.col[0] + g4.col[0] + g5.col[0]) / 5;
+        cg = (cg + g2.col[1] + g3.col[1] + g4.col[1] + g5.col[1]) / 5;
+        cb = (cb + g2.col[2] + g3.col[2] + g4.col[2] + g5.col[2]) / 5;
+      }
       const ao = horizonAO(x, z, h);
-      col.push(g.col[0] * ao, g.col[1] * ao, g.col[2] * ao);
+      col.push(cr * ao, cg * ao, cb * ao);
       det.push(g.det); bmp.push(g.bmp); gls.push(g.gls); str.push(g.str);
       mow.push(g.mow || 0, g.mowK || 0);
     } else {
@@ -1511,10 +1531,30 @@ function meshH(x, z) {
                     : hd + (hc - hd) * (1 - u) + (hb - hd) * (1 - v);
 }
 
+/* Rings arrive as surveyed polygons: straight runs between vertices metres apart,
+   and a mown edge drawn as straight segments reads as a zigzag -- the sharp lines
+   the phone photo of the island 14th circles. Two rounds of corner-cutting turn
+   every overlay boundary into the smooth curve a mower actually leaves. Rings that
+   are already dense stay as they are. */
+function chaikin(ring, rounds = 2) {
+  let r = ring;
+  for (let k = 0; k < rounds && r.length < 220; k++) {
+    const out = [];
+    for (let i = 0; i < r.length; i++) {
+      const a = r[i], b = r[(i + 1) % r.length];
+      out.push([a[0] * 0.75 + b[0] * 0.25, a[1] * 0.75 + b[1] * 0.25],
+               [a[0] * 0.25 + b[0] * 0.75, a[1] * 0.25 + b[1] * 0.75]);
+    }
+    r = out;
+  }
+  return r;
+}
+
 function surfaceMesh(rings, lift, maxEdge, shade, conservative) {
   const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], idx = [];
-  for (const ring of rings) {
-    if (ring.length < 3) continue;
+  for (const ring0 of rings) {
+    if (ring0.length < 3) continue;
+    const ring = chaikin(ring0);
     const faces = triangulate(ring);
     if (!faces.length) continue;
     const { V, F } = subdivide(ring, faces, maxEdge);
