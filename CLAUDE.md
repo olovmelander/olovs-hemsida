@@ -95,10 +95,14 @@ guyed body, white radome, aviation lights the dusk bloom picks up. The node sits
 63.3025 N, just OUTSIDE the fetch bbox's 63.300 edge, which is how an unnamed 35 m
 works mast in Domsjö once wore its name — if a landmark seems to sit on absurd ground,
 check the bbox before trusting the nearest tagged node. Själevads kyrka is at
-63.292833 N, 18.607361 E → world (−3310, −928): the white octagon of 1880 with the
-faceted roof, lantern and 24 m dome, in a planter clearing because Kyrkudden is
+63.292833 N, 18.607361 E → world (−3310, −928): the tall white octagon of 1880 with
+its temple portico, and the 1923 crown — copper roof, white bell-storey drum, clock
+lantern, copper spire, gilt cross at ~35 m — drawn from photographs (white and
+verdigris green, NOT a dark roof), in a planter clearing because Kyrkudden is
 churchyard, not forest (the peninsula is outside the OSM extract, so the vista
-scatter would otherwise bury it).
+scatter would otherwise bury it). The clubhouse ("the old school") has its own
+levelled bench and mown-lawn apron in `CLUB` — the terrain around it must read as
+fresh green turf, never scrub.
 
 **The card-length fit is a statement about the tee, not a fudge.** Every line came out
 3–10% short of its card. Rather than stretch surveyed geometry, the tee end slides back

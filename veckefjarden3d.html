@@ -462,6 +462,24 @@ for (const s of M.streams) { const q = { line: s.line, bb: ringBBox(s.line), w: 
    The elevation model is a 2 m lidar product resampled to 4 m: it knows the hill
    the hole climbs but not the metre-scale shaping a green complex is made of. So
    the ground is the model, and everything a greenkeeper built is added on top. */
+/* The clubhouse stands on a levelled bench with a mown lawn running right up to
+   its terrace -- the ground photographs show fresh green turf on every side, not
+   the scrub slope the raw DEM colouring gave it. One building gets a pad; the
+   bbox guard keeps the cost out of the other million terrainH calls. */
+const CLUB = (() => {
+  const b = (M.infra.buildings || []).find(q => q.name && /golfklubb/i.test(q.name));
+  if (!b) return null;
+  let base = Infinity, x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
+  for (const p of b.ring) {
+    base = Math.min(base, demH(p[0], p[1]));
+    x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]);
+    z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]);
+  }
+  const c = centroidOf(b.ring);
+  return { ring: b.ring, base: base + 0.22, cx: c[0], cz: c[1],
+           bb: { x0: x0 - 36, x1: x1 + 36, z0: z0 - 36, z1: z1 + 36 } };
+})();
+
 function terrainH(x, z) {
   let h = demH(x, z);
 
@@ -490,6 +508,11 @@ function terrainH(x, z) {
     if (w <= 0.001) continue;
     if (t.base === undefined) { const c = centroidOf(t.ring); t.base = demH(c[0], c[1]); }
     h = lerp(h, t.base + 0.28, w);
+  }
+  /* the clubhouse bench: level under the footprint, feathered into its slope */
+  if (CLUB && x > CLUB.bb.x0 && x < CLUB.bb.x1 && z > CLUB.bb.z0 && z < CLUB.bb.z1) {
+    const sd = ringSD(x, z, CLUB.ring);
+    if (sd < 22) h = lerp(h, CLUB.base, 1 - smooth(2.5, 22, sd));
   }
   /* Bunkers: a dished floor and a rolled lip. Both terms are continuous through the
      edge, which the first version was not -- it dropped 0.32 m the instant a sample
@@ -764,6 +787,17 @@ function groundAt(x, z, h) {
     if (q.kind === 'cut') { col = col.map((v, i) => lerp(v, C.slash[i], 0.7)); sid = S_HEATH; }
     else if (q.kind === 'yard') { col = col.map((v, i) => lerp(v, C.hard[i], 0.85)); sid = S_PATH; }
     else if (q.kind === 'hay') { col = col.map((v, i) => lerp(v, C.hay[i], 0.6)); sid = S_SEMI; }
+  }
+  /* the clubhouse lawn: every ground photograph shows fresh mown green running
+     right up to the terrace -- the apron overrides the scrub-and-till colouring
+     the slope rules would otherwise paint around the building */
+  if (CLUB && x > CLUB.bb.x0 && x < CLUB.bb.x1 && z > CLUB.bb.z0 && z < CLUB.bb.z1) {
+    const sd = ringSD(x, z, CLUB.ring);
+    if (sd < 34) {
+      const w = 1 - smooth(8, 34, sd);
+      col = col.map((v, i) => lerp(v, C.lawn[i], w * 0.9));
+      if (w > 0.45) sid = S_SEMI;
+    }
   }
 
   /* semi-rough: a band of first cut hugging the mown ground */
@@ -2522,6 +2556,8 @@ if (M.cover) {
     if (!yard) for (const q of SI.at(px, pz))
       if (q.kind === 'yard' && ringSD(px, pz, q.ring) < 0) { yard = true; break; }
     if (yard) continue;                                  /* mown, cropped or worked ground */
+    /* the clubhouse lawn is mown: no tussocks, no boulders on it */
+    if (CLUB && Math.hypot(px - CLUB.cx, pz - CLUB.cz) < 52) continue;
     /* a clear-fell keeps its stumps: pale cut faces where the stand used to be */
     let cut = false;
     for (const q of SI.at(px, pz)) if (q.kind === 'cut' && ringSD(px, pz, q.ring) < 0) { cut = true; break; }
@@ -2908,7 +2944,7 @@ for (const h of HOLES) {
   };
   const roofOf = (cx, cz) => hash2(Math.round(cx / 2) + 7, Math.round(cz / 2) + 3) < 0.6 ? ROOFA : ROOFB;
 
-  function house(ring, hgt, wall, roof) {
+  function house(ring, hgt, wall, roof, hip) {
     let base = Infinity;
     for (const p of ring) base = Math.min(base, demH(p[0], p[1]));
     const n = ring.length;
@@ -2925,7 +2961,38 @@ for (const h of HOLES) {
     }
     const B = obb2(ring);
     const area = areaOf(ring);
-    if (B && area / (4 * B.hw * B.hd) > 0.68 && B.hd * 2 < 26) {
+    if (hip && B) {
+      /* The clubhouse's shallow hipped roof. The footprint is stepped, so a hip
+         over the whole OBB overhung the notch by ten metres of floating slab --
+         instead the footprint gets an exact flat cap (the rear wing's roof) and
+         the hip rides only the block behind the longest wall. */
+      const capC = roof.map(v => v * 0.8);
+      const faces = triangulate(ring);
+      for (const [a2, b2, c2] of faces)
+        tri([ring[a2][0], base + hgt, ring[a2][1]], [ring[c2][0], base + hgt, ring[c2][1]],
+            [ring[b2][0], base + hgt, ring[b2][1]], capC);
+      let Lb = 0, Ei = 0;
+      for (let i = 0; i < n; i++) {
+        const a = ring[i], b = ring[(i + 1) % n];
+        const el = Math.hypot(b[0] - a[0], b[1] - a[1]);
+        if (el > Lb) { Lb = el; Ei = i; }
+      }
+      const a0 = ring[Ei], a1 = ring[(Ei + 1) % n];
+      const ux = (a1[0] - a0[0]) / Lb, uz = (a1[1] - a0[1]) / Lb;
+      const cen = centroidOf(ring);
+      let nx = -uz, nz = ux;
+      if ((cen[0] - a0[0]) * nx + (cen[1] - a0[1]) * nz < 0) { nx = -nx; nz = -nz; }
+      let dmax = 0;
+      for (const p of ring) dmax = Math.max(dmax, (p[0] - a0[0]) * nx + (p[1] - a0[1]) * nz);
+      const dep = Math.min(dmax, 14);
+      const rise = clampf(dep * 0.24, 1.6, 3.2), rin = dep * 0.45;
+      const P = (u, v, y) => [a0[0] + ux * u + nx * v, y, a0[1] + uz * u + nz * v];
+      const e = base + hgt, r = e + rise, rm = dep / 2;
+      quad(P(-0.5, -0.5, e), P(Lb + 0.5, -0.5, e), P(Lb + 0.5 - rin, rm, r), P(-0.5 + rin, rm, r), roof);
+      quad(P(Lb + 0.5, dep + 0.5, e), P(-0.5, dep + 0.5, e), P(-0.5 + rin, rm, r), P(Lb + 0.5 - rin, rm, r), roof);
+      tri(P(Lb + 0.5, -0.5, e), P(Lb + 0.5, dep + 0.5, e), P(Lb + 0.5 - rin, rm, r), roof);
+      tri(P(-0.5, dep + 0.5, e), P(-0.5, -0.5, e), P(-0.5 + rin, rm, r), roof);
+    } else if (B && area / (4 * B.hw * B.hd) > 0.68 && B.hd * 2 < 26) {
       /* gable: eaves rectangle inflated for overhang, ridge along the long axis */
       const c = Math.cos(B.ang), s = Math.sin(B.ang);
       const hw = B.hw + 0.35, hd = B.hd + 0.35;
@@ -2952,7 +3019,8 @@ for (const h of HOLES) {
               : b.kind === 'industrial' ? 5.5 : b.kind === 'commercial' ? 4.2
               : b.kind === 'house' || b.kind === 'residential' ? 3.0
               : areaOf(b.ring) < 45 ? 2.6 : 3.4);
-    house(b.ring, hgt, wallOf(cx, cz, b.kind, b.name), roofOf(cx, cz));
+    house(b.ring, hgt, wallOf(cx, cz, b.kind, b.name),
+          isClub ? L(0x6f7276) : roofOf(cx, cz), isClub);
     if (isClub) {
       /* the old school wears its three storeys of white-framed windows -- the grid
          is most of what says "that building" from the 18th fairway */
@@ -2984,26 +3052,53 @@ for (const h of HOLES) {
             }
           }
         }
+        /* the roof frame: the same longest-wall block the hip rides in house() */
+        let Lb = 0, Ei = 0;
+        for (let i2 = 0; i2 < b.ring.length; i2++) {
+          const q0 = b.ring[i2], q1 = b.ring[(i2 + 1) % b.ring.length];
+          const el2 = Math.hypot(q1[0] - q0[0], q1[1] - q0[1]);
+          if (el2 > Lb) { Lb = el2; Ei = i2; }
+        }
+        const r0 = b.ring[Ei], r1 = b.ring[(Ei + 1) % b.ring.length];
+        const rux = (r1[0] - r0[0]) / Lb, ruz = (r1[1] - r0[1]) / Lb;
+        let rnx = -ruz, rnz = rux;
+        if ((cx - r0[0]) * rnx + (cz - r0[1]) * rnz < 0) { rnx = -rnx; rnz = -rnz; }
+        let dmax = 0;
+        for (const p of b.ring) dmax = Math.max(dmax, (p[0] - r0[0]) * rnx + (p[1] - r0[1]) * rnz);
+        const dep = Math.min(dmax, 14);
+        const ridgeY = base + hgt + clampf(dep * 0.24, 1.6, 3.2);
+        const RP = u => [r0[0] + rux * u + rnx * dep / 2, r0[1] + ruz * u + rnz * dep / 2];
         /* chimneys on the ridge */
-        const rise = clampf(Math.tan(0.52) * B.hd, 1.2, 3.4);
-        for (const uC of [-B.hw * 0.45, B.hw * 0.45]) {
-          const e = base + hgt + rise - 0.4, tC = e + 1.5;
+        for (const uC of [Lb * 0.28, Lb * 0.72]) {
+          const e = ridgeY - 0.45, tC = ridgeY + 1.1;
+          const cB = RP(uC);
           const corners = [[-0.45, -0.45], [0.45, -0.45], [0.45, 0.45], [-0.45, 0.45]];
           for (let k = 0; k < 4; k++) {
-            const [a0, b0] = corners[k], [a1, b1] = corners[(k + 1) % 4];
-            quad(P(uC + a0, b0, e), P(uC + a1, b1, e), P(uC + a1, b1, tC), P(uC + a0, b0, tC), L(0x8a8378));
+            const [o0, p0] = corners[k], [o1, p1] = corners[(k + 1) % 4];
+            quad([cB[0] + o0, e, cB[1] + p0], [cB[0] + o1, e, cB[1] + p1],
+                 [cB[0] + o1, tC, cB[1] + p1], [cB[0] + o0, tC, cB[1] + p0], L(0x8a8378));
           }
-          quad(P(uC - 0.45, -0.45, tC), P(uC + 0.45, -0.45, tC), P(uC + 0.45, 0.45, tC), P(uC - 0.45, 0.45, tC), ROOFA);
+          quad([cB[0] - 0.45, tC, cB[1] - 0.45], [cB[0] + 0.45, tC, cB[1] - 0.45],
+               [cB[0] + 0.45, tC, cB[1] + 0.45], [cB[0] - 0.45, tC, cB[1] + 0.45], ROOFA);
         }
-        /* the white entrance wing: the low glazed veranda the ground photograph
-           leads with, gable out, on the course-facing wall */
+        /* The garden front the photographs lead with: a white railed terrace
+           running the whole course-facing wall, the broad stair down to the lawn,
+           the flag row on the lawn below, and the Swedish flag on the ridge. */
         {
-          let bestE = -1, bestX = 1e9;
+          /* the garden front faces the course -- south-west, toward the putting
+             green and the 18th, where every ground photograph stands. Picking the
+             west-MOST edge instead hung the terrace on the short gable end. */
+          let bestE = -1, bestS = -1e9;
           for (let e2 = 0; e2 < b.ring.length; e2++) {
             const a0 = b.ring[e2], a1 = b.ring[(e2 + 1) % b.ring.length];
-            if (Math.hypot(a1[0] - a0[0], a1[1] - a0[1]) < 8) continue;
-            const mx = (a0[0] + a1[0]) / 2;
-            if (mx < bestX) { bestX = mx; bestE = e2; }
+            const el2 = Math.hypot(a1[0] - a0[0], a1[1] - a0[1]);
+            if (el2 < 14) continue;
+            const ex2 = (a1[0] - a0[0]) / el2, ez2 = (a1[1] - a0[1]) / el2;
+            let nx2 = -ez2, nz2 = ex2;
+            const mx2 = (a0[0] + a1[0]) / 2, mz2 = (a0[1] + a1[1]) / 2;
+            if ((mx2 - cx) * nx2 + (mz2 - cz) * nz2 < 0) { nx2 = -nx2; nz2 = -nz2; }
+            const s2 = nz2 * 0.75 - nx2 * 0.66;
+            if (s2 > bestS) { bestS = s2; bestE = e2; }
           }
           if (bestE >= 0) {
             const a0 = b.ring[bestE], a1 = b.ring[(bestE + 1) % b.ring.length];
@@ -3013,17 +3108,44 @@ for (const h of HOLES) {
             let nx = -uz, nz = ux;
             const mx = (a0[0] + a1[0]) / 2, mz = (a0[1] + a1[1]) / 2;
             if ((mx + nx - cx) ** 2 + (mz + nz - cz) ** 2 < (mx - cx) ** 2 + (mz - cz) ** 2) { nx = -nx; nz = -nz; }
-            const W2 = 5.2, D = 4.6, hV = 3.8;
             const A = (t, d, y) => [mx + ux * t + nx * d, y, mz + uz * t + nz * d];
-            quad(A(-W2, 0, base), A(-W2, D, base), A(-W2, D, base + hV), A(-W2, 0, base + hV), TRIM);
-            quad(A(W2, 0, base), A(W2, D, base), A(W2, D, base + hV), A(W2, 0, base + hV), TRIM);
-            quad(A(-W2, D, base), A(W2, D, base), A(W2, D, base + hV), A(-W2, D, base + hV), TRIM);
-            quad(A(-W2 + 0.6, D + 0.06, base + 0.9), A(W2 - 0.6, D + 0.06, base + 0.9),
-                 A(W2 - 0.6, D + 0.06, base + 2.6), A(-W2 + 0.6, D + 0.06, base + 2.6), GLASS);
-            const rV = base + hV + 1.4;
-            quad(A(-W2 - 0.3, -0.2, base + hV), A(0, -0.2, rV), A(0, D + 0.3, rV), A(-W2 - 0.3, D + 0.3, base + hV), ROOFA);
-            quad(A(0, -0.2, rV), A(W2 + 0.3, -0.2, base + hV), A(W2 + 0.3, D + 0.3, base + hV), A(0, D + 0.3, rV), ROOFA);
-            tri(A(-W2, D, base + hV), A(W2, D, base + hV), A(0, D, rV), TRIM);
+            const HW = el / 2 - 1.0, D = 3.4, dk = base + 1.0;
+            /* deck slab, front face, end faces */
+            quad(A(-HW, 0, dk), A(HW, 0, dk), A(HW, D, dk), A(-HW, D, dk), TRIM);
+            quad(A(-HW, D, base - 0.4), A(HW, D, base - 0.4), A(HW, D, dk), A(-HW, D, dk), TRIM);
+            quad(A(-HW, 0, base - 0.4), A(-HW, D, base - 0.4), A(-HW, D, dk), A(-HW, 0, dk), TRIM);
+            quad(A(HW, D, base - 0.4), A(HW, 0, base - 0.4), A(HW, 0, dk), A(HW, D, dk), TRIM);
+            /* railing: a top band on posts */
+            quad(A(-HW, D - 0.10, dk + 0.92), A(HW, D - 0.10, dk + 0.92),
+                 A(HW, D - 0.10, dk + 1.06), A(-HW, D - 0.10, dk + 1.06), TRIM);
+            for (let t = -HW + 0.5; t < HW; t += 1.7)
+              quad(A(t - 0.05, D - 0.10, dk), A(t + 0.05, D - 0.10, dk),
+                   A(t + 0.05, D - 0.10, dk + 0.95), A(t - 0.05, D - 0.10, dk + 0.95), TRIM);
+            /* the broad stair down the middle of the terrace */
+            for (let stp = 0; stp < 4; stp++) {
+              const y = dk - (stp + 1) * 0.25, d1 = D + (stp + 1) * 0.36;
+              quad(A(-2.6, d1 - 0.36, y), A(2.6, d1 - 0.36, y), A(2.6, d1, y), A(-2.6, d1, y), TRIM);
+              quad(A(-2.6, d1, y), A(2.6, d1, y), A(2.6, d1, y - 0.25), A(-2.6, d1, y - 0.25), L(0xc9c7bd));
+            }
+            /* the flag row on the lawn below the terrace */
+            for (let k = -2; k <= 2; k++) {
+              const fx = mx + ux * k * 7 + nx * 14, fz = mz + uz * k * 7 + nz * 14;
+              const fy = terrainH(fx, fz);
+              for (const [ox, oz] of [[0.07, 0], [0, 0.07]])
+                quad([fx - ox, fy, fz - oz], [fx + ox, fy, fz + oz],
+                     [fx + ox * 0.7, fy + 8, fz + oz * 0.7], [fx - ox * 0.7, fy + 8, fz - oz * 0.7], TRIM);
+              quad([fx, fy + 6.9, fz], [fx + ux * 1.15, fy + 6.9, fz + uz * 1.15],
+                   [fx + ux * 1.15, fy + 7.7, fz + uz * 1.15], [fx, fy + 7.7, fz], TRIM);
+            }
+            /* the Swedish flag on the ridge */
+            const rc = RP(Lb * 0.5);
+            for (const [ox, oz] of [[0.06, 0], [0, 0.06]])
+              quad([rc[0] - ox, ridgeY, rc[1] - oz], [rc[0] + ox, ridgeY, rc[1] + oz],
+                   [rc[0] + ox, ridgeY + 4.6, rc[1] + oz], [rc[0] - ox, ridgeY + 4.6, rc[1] - oz], TRIM);
+            quad([rc[0], ridgeY + 3.3, rc[1]], [rc[0] + ux * 1.5, ridgeY + 3.3, rc[1] + uz * 1.5],
+                 [rc[0] + ux * 1.5, ridgeY + 4.25, rc[1] + uz * 1.5], [rc[0], ridgeY + 4.25, rc[1]], L(0x2a5fb4));
+            quad([rc[0], ridgeY + 3.68, rc[1]], [rc[0] + ux * 1.5, ridgeY + 3.68, rc[1] + uz * 1.5],
+                 [rc[0] + ux * 1.5, ridgeY + 3.88, rc[1] + uz * 1.5], [rc[0], ridgeY + 3.88, rc[1]], L(0xd8b93c));
           }
         }
       }
@@ -3224,42 +3346,77 @@ for (const h of HOLES) {
     }
     avLights.push([cx, y0 + 69, cz]);
   }
-  /* Själevads kyrka at its real coordinates: the white octagon of 1880, the dark
-     faceted roof rising through the lantern to the 24 m dome, the columned gable
-     porches, the sacristy the aerial shows on the north-east facet, and the
-     churchyard wall around it all. */
+  /* Själevads kyrka at its real coordinates, drawn from photographs of the church
+     itself: the tall white octagon of 1880 with arched windows and a columned
+     temple portico; a shallow copper roof carrying the broad white bell-storey
+     drum; then the copper bell roof, the clock lantern and the copper spire with
+     the gilt ball and cross -- the 1923 crown that makes the silhouette. ~35 m to
+     the cross, white and verdigris, which is what reads across 3 km of water. */
   {
     const kx = -3310, kz = -928, y0 = demH(-3310, -928) - 0.6;
+    const GREENC = L(0x5c7a66), GLK = L(0x2b3138), GOLD = L(0xd8b93c);
     const oct = a => [Math.cos(a * TAU / 8 + TAU / 16), Math.sin(a * TAU / 8 + TAU / 16)];
+    const ring8 = (r0, ya, r1, yb, col) => {
+      for (let k = 0; k < 8; k++) {
+        const [c0, s0] = oct(k), [c1, s1] = oct(k + 1);
+        quad([kx + c0 * r0, ya, kz + s0 * r0], [kx + c1 * r0, ya, kz + s1 * r0],
+             [kx + c1 * r1, yb, kz + s1 * r1], [kx + c0 * r1, yb, kz + s0 * r1], col);
+      }
+    };
+    const facet = (k, r, w, ya, yb, col) => {   /* a panel on facet k's face plane */
+      const fm = k * TAU / 8 + TAU / 8;         /* facet k faces angle k*45+45 deg */
+      const fx = Math.cos(fm), fz = Math.sin(fm), tx = -fz, tz = fx;
+      const px = kx + fx * r, pz = kz + fz * r;
+      quad([px - tx * w, ya, pz - tz * w], [px + tx * w, ya, pz + tz * w],
+           [px + tx * w, yb, pz + tz * w], [px - tx * w, yb, pz - tz * w], col);
+    };
+    ring8(11.5, y0, 11.5, y0 + 11, WHITE);                  /* the body */
+    const RF = 11.5 * Math.cos(TAU / 16) + 0.08;
+    for (let k = 0; k < 8; k++) if (k !== 7) facet(k, RF, 1.15, y0 + 3.6, y0 + 8.6, GLK);
+    ring8(12.4, y0 + 11, 6.6, y0 + 14.8, GREENC);           /* shallow copper roof */
+    ring8(6.3, y0 + 14.8, 6.3, y0 + 20.3, WHITE);           /* the bell-storey drum */
+    const RD = 6.3 * Math.cos(TAU / 16) + 0.08;
+    for (let k = 0; k < 8; k++) facet(k, RD, 0.85, y0 + 15.6, y0 + 19.4, GLK);
+    ring8(6.9, y0 + 20.3, 4.4, y0 + 22.4, GREENC);          /* bell roof in two springs */
+    ring8(4.4, y0 + 22.4, 1.95, y0 + 24.3, GREENC);
+    ring8(1.85, y0 + 24.3, 1.85, y0 + 27.2, WHITE);         /* the clock lantern */
+    const RL = 1.85 * Math.cos(TAU / 16) + 0.05;
+    for (let k = 0; k < 8; k++) facet(k, RL, 0.5, y0 + 25.0, y0 + 26.6, GLK);
+    for (let k = 0; k < 8; k++) {                           /* the copper spire */
+      const [c0, s0] = oct(k), [c1, s1] = oct(k + 1);
+      tri([kx + c0 * 2.05, y0 + 27.2, kz + s0 * 2.05], [kx + c1 * 2.05, y0 + 27.2, kz + s1 * 2.05],
+          [kx, y0 + 33.8, kz], GREENC);
+    }
+    quad([kx - 0.35, y0 + 33.7, kz - 0.35], [kx + 0.35, y0 + 33.7, kz + 0.35],
+         [kx + 0.35, y0 + 34.35, kz + 0.35], [kx - 0.35, y0 + 34.35, kz - 0.35], GOLD);
+    pole(kx, y0 + 34.3, kz, 1.1, 0.09, GOLD);
+    for (const [ox, oz] of [[0.45, 0], [0, 0.45]])
+      quad([kx - ox, y0 + 34.95, kz - oz], [kx + ox, y0 + 34.95, kz + oz],
+           [kx + ox, y0 + 35.15, kz + oz], [kx - ox, y0 + 35.15, kz - oz], GOLD);
+    /* the temple portico on the east facet (k=7 faces +x, toward the fjärd) */
+    {
+      const bx = kx + 11.5 * Math.cos(TAU / 16), px2 = bx + 4.6;
+      for (const zz of [-4.65, -1.55, 1.55, 4.65]) pole(px2, y0, kz + zz, 8.6, 0.34, WHITE);
+      for (const zz of [-5.2, 5.2])
+        quad([bx, y0 + 8.3, kz + zz], [px2 + 0.4, y0 + 8.3, kz + zz],
+             [px2 + 0.4, y0 + 9.1, kz + zz], [bx, y0 + 9.1, kz + zz], WHITE);
+      quad([px2 + 0.4, y0 + 8.3, kz - 5.2], [px2 + 0.4, y0 + 8.3, kz + 5.2],
+           [px2 + 0.4, y0 + 9.1, kz + 5.2], [px2 + 0.4, y0 + 9.1, kz - 5.2], WHITE);
+      tri([px2 + 0.4, y0 + 9.1, kz - 5.2], [px2 + 0.4, y0 + 9.1, kz + 5.2],
+          [px2 + 0.4, y0 + 11.5, kz], WHITE);
+      quad([px2 + 0.5, y0 + 9.1, kz - 5.4], [px2 + 0.5, y0 + 11.5, kz],
+           [bx, y0 + 11.5, kz], [bx, y0 + 9.1, kz - 5.4], GREENC);
+      quad([px2 + 0.5, y0 + 11.5, kz], [px2 + 0.5, y0 + 9.1, kz + 5.4],
+           [bx, y0 + 9.1, kz + 5.4], [bx, y0 + 11.5, kz], GREENC);
+      quad([bx + 0.06, y0, kz - 1.1], [bx + 0.06, y0, kz + 1.1],
+           [bx + 0.06, y0 + 3.4, kz + 1.1], [bx + 0.06, y0 + 3.4, kz - 1.1], GLK);
+    }
+    /* churchyard wall and the north-east sacristy, as the aerial shows them */
     for (let k = 0; k < 8; k++) {
       const [c0, s0] = oct(k), [c1, s1] = oct(k + 1);
-      quad([kx + c0 * 11.5, y0, kz + s0 * 11.5], [kx + c1 * 11.5, y0, kz + s1 * 11.5],
-           [kx + c1 * 11.5, y0 + 9, kz + s1 * 11.5], [kx + c0 * 11.5, y0 + 9, kz + s0 * 11.5], WHITE);
-      quad([kx + c0 * 12.2, y0 + 9, kz + s0 * 12.2], [kx + c1 * 12.2, y0 + 9, kz + s1 * 12.2],
-           [kx + c1 * 3.5, y0 + 16, kz + s1 * 3.5], [kx + c0 * 3.5, y0 + 16, kz + s0 * 3.5], DARKR);
-      quad([kx + c0 * 3.5, y0 + 16, kz + s0 * 3.5], [kx + c1 * 3.5, y0 + 16, kz + s1 * 3.5],
-           [kx + c1 * 3.5, y0 + 19.5, kz + s1 * 3.5], [kx + c0 * 3.5, y0 + 19.5, kz + s0 * 3.5], WHITE);
-      tri([kx + c0 * 3.9, y0 + 19.5, kz + s0 * 3.9], [kx + c1 * 3.9, y0 + 19.5, kz + s1 * 3.9],
-          [kx, y0 + 24, kz], DARKR);
       const wx0 = kx + c0 * 40, wz0 = kz + s0 * 40, wx1 = kx + c1 * 40, wz1 = kz + s1 * 40;
       const wy0 = demH(wx0, wz0), wy1 = demH(wx1, wz1);
       quad([wx0, wy0 - 0.4, wz0], [wx1, wy1 - 0.4, wz1], [wx1, wy1 + 1.1, wz1], [wx0, wy0 + 1.1, wz0], L(0xb9b4a8));
-    }
-    pole(kx, y0 + 24, kz, 2.6, 0.12, DARKR);
-    for (const sgn of [1, -1]) {
-      const px = kx + sgn * 12.6;
-      for (const zz of [-3.6, 3.6])
-        quad([px, y0, kz + zz], [px + sgn * 4.2, y0, kz + zz],
-             [px + sgn * 4.2, y0 + 6.5, kz + zz], [px, y0 + 6.5, kz + zz], WHITE);
-      quad([px + sgn * 4.2, y0, kz - 3.6], [px + sgn * 4.2, y0, kz + 3.6],
-           [px + sgn * 4.2, y0 + 6.5, kz + 3.6], [px + sgn * 4.2, y0 + 6.5, kz - 3.6], WHITE);
-      tri([px + sgn * 4.2, y0 + 6.5, kz - 3.6], [px + sgn * 4.2, y0 + 6.5, kz + 3.6],
-          [px + sgn * 4.2, y0 + 8.6, kz], WHITE);
-      for (const zz of [-3.9, 3.9])
-        quad([px - sgn * 0.6, y0 + 6.5, kz + zz], [px + sgn * 4.5, y0 + 6.5, kz + zz],
-             [px + sgn * 4.5, y0 + 8.6, kz], [px - sgn * 0.6, y0 + 8.6, kz], DARKR);
-      for (let c = 0; c < 4; c++)
-        pole(px + sgn * 3.6, y0, kz - 2.7 + c * 1.8, 6.5, 0.28, WHITE);
     }
     {
       const sx = kx + 9.5, sz = kz - 9.5;
