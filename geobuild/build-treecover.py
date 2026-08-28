@@ -1,33 +1,38 @@
 #!/usr/bin/env python3
-"""Build the tree-cover raster from the eighteen hole plans.
+"""Build the tree-cover raster from orthorectified satellite imagery.
 
-The overview map was the first attempt at knowing where the trees stand and it fails
-three ways at once: it is warped 40-70 m locally (relief displacement in a stitched
-aerial no similarity can undo), its print makes the darkest real crowns bluer than its
-water, and 42% of known mown turf lands in its dark-green class. The hole plans have
-none of these problems -- they are real orthophoto at 0.11-0.37 m per pixel, and each
-one is registered by its tee and pin with an error the blind test measured at 5-6 m.
-Eighteen of them cover nearly the whole property, so the treelines between corridors
-come from the imagery that actually resolves individual crowns.
+Three generations of source, each replacing the last for a reason. The club's
+overview map was warped 40-70 m and called mown turf forest. The eighteen hole
+plans fixed that where they reach, but each plan rides a two-anchor similarity
+with a 5-6 m error bar, they miss the gaps between corridors, and their dark
+mottled rough kept reading as canopy. The Esri World Imagery tiles need no
+registration at all -- a Web Mercator tile's coordinates ARE its georeference --
+they resolve individual crowns at ~0.54 m/px, and they cover the whole frame in
+one exposure.
 
-Trees on an orthophoto are dark AND textured; mown grass is bright and smooth. Both
-cues are calibrated per plan from ground truth in that frame -- the surveyed forest
-rings and the model's turf -- because print exposure varies plan to plan.
+The other correction this pass makes is AUTHORITY. Earlier passes burned OSM's
+forest polygons in as solid trees; the club's own aerials show those polygons
+over-claim badly -- inside them sit heath, scattered singles and thinned stands.
+Now the imagery decides everywhere, the model's mown/water/building rings still
+burn as open (known ground can never be trees), and OSM forest agreement is
+printed as a measurement instead of enforced as a truth.
 
-Cells no plan covers fall back to the overview's dark-green class (far from the
-corridors, where its warp matters least), and the model's own rings are burned in
-last: known turf can never be trees, surveyed forest always is.
+Classification: mown turf is bright and green-dominant; conifer canopy is dark
+and still green-dominant; leafless birch canopy (the capture is autumn) is
+neither, but its crowns cast shadows that make it the most TEXTURED thing in
+the frame. Thresholds calibrate against the model's own turf rings and the
+interiors of OSM forest, then a 3x3 majority vote despeckles.
 
-Run:  python3 geobuild/build-treecover.py     -> geobuild/tree-cover.json
-"""
+Needs:  node geobuild/fetch-sat.mjs   (once; tiles cache under geobuild/cache/sat)
+Run:    python3 geobuild/build-treecover.py     -> geobuild/tree-cover.json        """
 import base64, json, math, os
 import numpy as np
 from PIL import Image, ImageDraw
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 model = json.load(open(os.path.join(ROOT, "geobuild/course-model.json")))
-anchors = json.load(open(os.path.join(ROOT, "geobuild/plan-anchors.json")))
-HOLES = {h["n"]: h for h in model["holes"]}
+SATDIR = os.path.join(ROOT, "geobuild/cache/sat")
+Z = 17
 
 # ---------------------------------------------------------------- raster frame
 CELL = 3.0
@@ -38,238 +43,133 @@ NX = int((max(xs) + 700 - X0) / CELL) + 1
 NZ = int((max(zs) + 700 - Z0) / CELL) + 1
 print(f"tree-cover grid {NX}x{NZ} @ {CELL} m")
 
-cover = np.zeros((NZ, NX), dtype=np.uint8)          # 0 unknown, 2 open, 3 trees
-bestd = np.full((NZ, NX), 1e9)                      # nearest-plan-wins on overlap
-# per-cell channel means from the owning plan, for the canopy post-pass
-cellR = np.zeros((NZ, NX), dtype=np.float32)
-cellG = np.zeros((NZ, NX), dtype=np.float32)
-cellB = np.zeros((NZ, NX), dtype=np.float32)
-cellY = np.zeros((NZ, NX), dtype=np.float32)        # gray
+# ------------------------------------------------------------- satellite mosaic
+LON0, LAT0 = 18.6735, 63.2845
+def merc_px(x, z):
+    lon = x / 50045.09 + LON0
+    lat = LAT0 - z / 111320.0
+    n = 2 ** Z
+    fx = (lon + 180) / 360 * n * 256
+    fy = (1 - math.asinh(math.tan(math.radians(lat))) / math.pi) / 2 * n * 256
+    return fx, fy
 
-# ---------------------------------------------------------------- per-plan pass
-def box_std(gray, k=2):
-    """local std via box filters, no scipy"""
-    pad = np.pad(gray, k, mode="edge")
-    n = (2 * k + 1) ** 2
-    s = np.zeros_like(gray, dtype=np.float64)
-    s2 = np.zeros_like(gray, dtype=np.float64)
-    for dy in range(-k, k + 1):
-        for dx in range(-k, k + 1):
-            w = pad[k + dy:k + dy + gray.shape[0], k + dx:k + dx + gray.shape[1]]
-            s += w; s2 += w * w
-    m = s / n
-    return np.sqrt(np.maximum(0, s2 / n - m * m))
+fx0, fy0 = merc_px(X0, Z0)
+fx1, fy1 = merc_px(X0 + NX * CELL, Z0 + NZ * CELL)
+tx0, tx1 = int(fx0 // 256), int(fx1 // 256)
+ty0, ty1 = int(fy0 // 256), int(fy1 // 256)
+W = (tx1 - tx0 + 1) * 256
+H = (ty1 - ty0 + 1) * 256
+mosaic = np.zeros((H, W, 3), dtype=np.uint8)
+missing = 0
+for ty in range(ty0, ty1 + 1):
+    for tx in range(tx0, tx1 + 1):
+        p = os.path.join(SATDIR, f"{Z}_{tx}_{ty}.jpg")
+        if not os.path.exists(p):
+            missing += 1
+            continue
+        mosaic[(ty - ty0) * 256:(ty - ty0 + 1) * 256,
+               (tx - tx0) * 256:(tx - tx0 + 1) * 256] = np.asarray(Image.open(p).convert("RGB"))
+print(f"mosaic {W}x{H} from {(tx1-tx0+1)*(ty1-ty0+1)} tiles ({missing} missing)")
 
-def ring_mask(rings, to_px, shape):
-    """image-space mask of pixels under any of these world rings, drawn not tested"""
-    m = Image.new("L", (shape[1], shape[0]), 0)
-    d = ImageDraw.Draw(m)
-    for ring in rings:
-        pts = [to_px(x, z) for x, z in ring]
-        if len(pts) >= 3:
-            d.polygon(pts, fill=1)
-    return np.asarray(m, dtype=bool)
+# work at half resolution (~1.1 m/px): plenty for 3 m cells, quarter the memory
+im = mosaic[::2, ::2].astype(np.float32)
+del mosaic
+Rc, Gc, Bc = im[..., 0], im[..., 1], im[..., 2]
+gray = im.mean(axis=2)
 
-forest_rings = model["vegetation"].get("forest", []) + model["vegetation"].get("wood", [])
-def turf_rings_of(h):
-    tr = [h["green"]["ring"]] + h["fairway"]["rings"] + [t["ring"] for t in h["tees"]["pads"]]
-    return tr
-
-# pooled fallback thresholds, refined per plan where ground truth is in frame
-pool_dark, pool_txt = [], []
-
-plans = []
-for n in range(1, 19):
-    A = anchors[str(n)]
-    h = HOLES[n]
-    p1 = complex(*A["teePx"]); p2 = complex(*A["pinPx"])
-    w1 = complex(*h["line"][0]); w2 = complex(*h["pin"])
-    a = (w2 - w1) / (p2 - p1); b = w1 - a * p1
-    im = np.asarray(Image.open(os.path.join(ROOT, f"banguide/maps/hole_{n:02d}.jpg")).convert("RGB"),
-                    dtype=np.float64)
-    Him, Wim, _ = im.shape
-    gray = im.mean(axis=2)
-    R, G, B = im[..., 0], im[..., 1], im[..., 2]
-    paper = (im.min(axis=2) > 200) & (im.max(axis=2) - im.min(axis=2) < 42)
-    veg = (G > R - 16) & (G > B - 10) & ~paper
-    # crowns are dark AND green; dry brown rough is dark and textured but R > G,
-    # and it was landing in the trees class on hole 5 until this gate
-    grn = (G > R - 6) & (G > B - 10) & ~paper
-    # texture at roughly crown scale: 2 m worth of pixels
-    k = max(2, int(round(2.0 / abs(a))))
-    txt = box_std(gray[::2, ::2], k=max(1, k // 2))
-    txt = np.repeat(np.repeat(txt, 2, axis=0), 2, axis=1)[:Him, :Wim]
-
-    # calibrate: dark/texture split between crowns and mown in THIS plan's exposure
-    to_px = lambda x, z: (((complex(x, z) - b) / a).real, ((complex(x, z) - b) / a).imag)
-    fmask = ring_mask(forest_rings, to_px, (Him, Wim)) & ~paper if forest_rings else np.zeros((Him, Wim), bool)
-    tmask = ring_mask(turf_rings_of(h), to_px, (Him, Wim)) & ~paper
-    if fmask.sum() > 4000 and tmask.sum() > 4000:
-        fg, tg = gray[fmask], gray[tmask]
-        ft, tt = txt[fmask], txt[tmask]
-        dark_thr = (np.percentile(fg, 65) + np.percentile(tg, 25)) / 2
-        txt_thr = (np.percentile(ft, 35) + np.percentile(tt, 75)) / 2
-        pool_dark.append(dark_thr); pool_txt.append(txt_thr)
-    else:
-        dark_thr, txt_thr = None, None
-    plans.append((n, a, b, im, gray, txt, veg, grn, paper, dark_thr, txt_thr, (Him, Wim)))
-
-fall_dark = float(np.median(pool_dark)); fall_txt = float(np.median(pool_txt))
-print(f"calibrated on {len(pool_dark)} plans: fallback dark<{fall_dark:.0f}, texture>{fall_txt:.1f}")
-
-def box_mean(mask, k=1):
-    pad = np.pad(mask.astype(np.float32), k, mode="edge")
-    out = np.zeros(mask.shape, dtype=np.float32)
-    for dy in range(-k, k + 1):
-        for dx in range(-k, k + 1):
-            out += pad[k + dy:k + dy + mask.shape[0], k + dx:k + dx + mask.shape[1]]
-    return out / (2 * k + 1) ** 2
-
-for (n, a, b, im, gray, txt, veg, grn, paper, dark_thr, txt_thr, shape) in plans:
-    h = HOLES[n]
-    dk = dark_thr if dark_thr is not None else fall_dark
-    tx_ = txt_thr if txt_thr is not None else fall_txt
-    trees_img = grn & ((gray < dk) | ((txt > tx_) & (gray < dk * 1.25)))
-    open_img = veg & ~trees_img
-    tmean = box_mean(trees_img); omean = box_mean(open_img)
-    Him, Wim = shape
-    line = np.array(h["line"], dtype=float)
-    i0 = max(0, int((line[:, 0].min() - 260 - X0) / CELL)); i1 = min(NX - 1, int((line[:, 0].max() + 260 - X0) / CELL))
-    j0 = max(0, int((line[:, 1].min() - 260 - Z0) / CELL)); j1 = min(NZ - 1, int((line[:, 1].max() + 260 - Z0) / CELL))
-    ii, jj = np.meshgrid(np.arange(i0, i1 + 1), np.arange(j0, j1 + 1))
-    wx = X0 + (ii + 0.5) * CELL
-    wz = Z0 + (jj + 0.5) * CELL
-    # distance to the line decides which plan owns an overlapped cell
-    d = np.full(wx.shape, 1e9)
-    for k_ in range(len(line) - 1):
-        ax, az = line[k_]; bx, bz = line[k_ + 1]
-        dx, dz = bx - ax, bz - az
-        L2 = dx * dx + dz * dz or 1.0
-        t = np.clip(((wx - ax) * dx + (wz - az) * dz) / L2, 0, 1)
-        d = np.minimum(d, np.hypot(wx - (ax + dx * t), wz - (az + dz * t)))
-    ar, ai_, br_, bi_ = a.real, a.imag, b.real, b.imag
-    den = ar * ar + ai_ * ai_
-    px = ((( wx - br_) * ar + (wz - bi_) * ai_) / den).astype(np.int32)
-    py = ((-(wx - br_) * ai_ + (wz - bi_) * ar) / den).astype(np.int32)
-    ok = (px >= 1) & (px < Wim - 1) & (py >= 1) & (py < Him - 1)
-    pxc = np.clip(px, 0, Wim - 1); pyc = np.clip(py, 0, Him - 1)
-    ok &= ~paper[pyc, pxc]
-    ok &= d < bestd[j0:j1 + 1, i0:i1 + 1]
-    wt = tmean[pyc, pxc]; wo = omean[pyc, pxc]
-    tree_c = ok & (wt > 0.45)
-    open_c = ok & ~tree_c & (wo > 0.45)
-    sub_cover = cover[j0:j1 + 1, i0:i1 + 1]
-    sub_best = bestd[j0:j1 + 1, i0:i1 + 1]
-    sub_cover[tree_c] = 3
-    sub_cover[open_c] = 2
-    upd = tree_c | open_c
-    sub_best[upd] = d[upd]
-    R, G, B = im[..., 0], im[..., 1], im[..., 2]
-    for arr, src in ((cellR, R), (cellG, G), (cellB, B), (cellY, gray)):
-        sub = arr[j0:j1 + 1, i0:i1 + 1]
-        sub[upd] = src[pyc, pxc][upd]
-
-covered = (cover > 0).mean()
-print(f"plan imagery decided {covered * 100:.1f}% of cells")
-
-# ------------------------------------------------- canopy post-pass on tree cells
-# Shadowed conifer and dark mottled rough are indistinguishable pixel by pixel in
-# this imagery (both sit near gray 60-70), so tree cells are judged by what their
-# 12 m tree-cell neighbourhood looks like: conifer is green-dark (G<92, R<48),
-# sunlit canopy is high-contrast (bright crowns against their own shadows), the
-# blurred deciduous shore band is blue-dark (B<30). Rough is none of these.
-# Verified against the eyeballed probe set: all true-tree probes satisfy a keep,
-# all five confirmed rough/heath false positives satisfy none.
-def box_sum(a, k):
-    pad = np.pad(a, k, mode="constant")
-    out = np.zeros(a.shape, dtype=np.float64)
+def box(a, k):
+    pad = np.pad(a, k, mode="edge")
+    out = np.zeros_like(a)
     for dy in range(-k, k + 1):
         for dx in range(-k, k + 1):
             out += pad[k + dy:k + dy + a.shape[0], k + dx:k + dx + a.shape[1]]
-    return out
+    return out / (2 * k + 1) ** 2
 
-treem = (cover == 3).astype(np.float64)
-K = 4                                                # 12 m neighbourhood
-cnt = np.maximum(box_sum(treem, K), 1)
-mR = box_sum(cellR * treem, K) / cnt
-mG = box_sum(cellG * treem, K) / cnt
-mB = box_sum(cellB * treem, K) / cnt
-mY = box_sum(cellY * treem, K) / cnt
-sY = np.sqrt(np.maximum(0, box_sum(cellY * cellY * treem, K) / cnt - mY * mY))
-# darkest tree cell in the window: canopy contrast comes with real crown shadows,
-# red-green heath mottle is just as varied but never gets that dark
-def box_min(a, k):
-    pad = np.pad(a, k, mode="constant", constant_values=1e9)
-    out = np.full(a.shape, 1e9)
-    for dy in range(-k, k + 1):
-        for dx in range(-k, k + 1):
-            np.minimum(out, pad[k + dy:k + dy + a.shape[0], k + dx:k + dx + a.shape[1]], out=out)
-    return out
-loY = box_min(np.where(treem > 0, cellY, 1e9), K)
-fmask_w = Image.new("L", (NX, NZ), 0)
-dw = ImageDraw.Draw(fmask_w)
-for ring in forest_rings:
-    pts = [((x - X0) / CELL, (z - Z0) / CELL) for x, z in ring]
-    if len(pts) >= 3:
-        dw.polygon(pts, fill=1)
-osm_near = box_sum(np.asarray(fmask_w, dtype=np.float64), 3) > 0     # within ~9 m
-keep = osm_near | ((mG < 92) & (mR < 48)) | ((sY >= 26) & (loY <= 45)) | (mB < 30)
-drop = (cover == 3) & ~keep
-cover[drop] = 2
-print(f"canopy post-pass reclassified {drop.sum()} tree cells ({drop.sum()*CELL*CELL/1e4:.1f} ha) as open rough")
+mR, mG, mB = box(Rc, 1), box(Gc, 1), box(Bc, 1)
+mY = box(gray, 2)
+sY = np.sqrt(np.maximum(0, box(gray * gray, 2) - box(gray, 2) ** 2))
 
-# ---------------------------------------------------------------- overview fallback
-ov = json.load(open(os.path.join(ROOT, "geobuild/overview-cover.json")))
-raw = np.frombuffer(base64.b64decode(ov["b64"]), dtype=np.uint8)
-bits = np.unpackbits(raw, bitorder="little")
-og = (bits[0::2] + 2 * bits[1::2])[:ov["nx"] * ov["nz"]].reshape(ov["nz"], ov["nx"])
-fell = 0
-for j in range(NZ):
-    z = Z0 + (j + 0.5) * CELL
-    oj = int((z - ov["z0"]) / ov["cell"])
-    if not (0 <= oj < ov["nz"]):
-        continue
-    for i in range(NX):
-        if cover[j, i]:
-            continue
-        x = X0 + (i + 0.5) * CELL
-        oi = int((x - ov["x0"]) / ov["cell"])
-        if 0 <= oi < ov["nx"] and og[oj, oi] == 3:
-            cover[j, i] = 3
-            fell += 1
-print(f"overview supplied {fell} far cells no plan covers")
+# ------------------------------------------------- per-cell gather (world frame)
+jj, ii = np.meshgrid(np.arange(NZ), np.arange(NX), indexing="ij")
+wx = X0 + (ii + 0.5) * CELL
+wz = Z0 + (jj + 0.5) * CELL
+lon = wx / 50045.09 + LON0
+lat = LAT0 - wz / 111320.0
+n2 = 2 ** Z
+px = ((lon + 180) / 360 * n2 * 256 - tx0 * 256) / 2
+py = ((1 - np.arcsinh(np.tan(np.radians(lat))) / math.pi) / 2 * n2 * 256 - ty0 * 256) / 2
+pxi = np.clip(px.astype(np.int32), 0, im.shape[1] - 1)
+pyi = np.clip(py.astype(np.int32), 0, im.shape[0] - 1)
+cR, cG, cB = mR[pyi, pxi], mG[pyi, pxi], mB[pyi, pxi]
+cY, cS = mY[pyi, pxi], sY[pyi, pxi]
 
-# ---------------------------------------------------------------- burn ground truth
-def burn(rings, val):
+# --------------------------------------------------------- calibration masks
+def rings_mask(rings):
     m = Image.new("L", (NX, NZ), 0)
     d = ImageDraw.Draw(m)
     for ring in rings:
-        pts = [((x - X0) / CELL, (z - Z0) / CELL) for x, z in ring]
-        if len(pts) >= 3:
-            d.polygon(pts, fill=1)
-    cover[np.asarray(m, dtype=bool)] = val
+        p = [((x - X0) / CELL, (z - Z0) / CELL) for x, z in ring]
+        if len(p) >= 3:
+            d.polygon(p, fill=1)
+    return np.asarray(m, dtype=bool)
+
+def turf_rings_of(h):
+    return [h["green"]["ring"]] + h["fairway"]["rings"] + [t["ring"] for t in h["tees"]["pads"]]
 
 all_turf = []
 for h in model["holes"]:
-    all_turf += turf_rings_of(h) + [b_["ring"] for b_ in h["bunkers"]]
-for k in ("fairways", "greens", "tees", "grass", "range", "bunkers"):
+    all_turf += turf_rings_of(h) + [b["ring"] for b in h["bunkers"]]
+for k in ("fairways", "greens", "tees", "grass", "range"):
     all_turf += model["scenery"].get(k, [])
-burn(forest_rings, 3)
-burn(all_turf, 2)
-for w in model["water"]:
-    burn([w["ring"]], 2)                             # trees do not stand on water
-for b_ in model["infra"]["buildings"]:
-    burn([b_["ring"]], 2)
+forest_rings = model["vegetation"].get("forest", []) + model["vegetation"].get("wood", [])
+tmask = rings_mask(all_turf)
+fmask = rings_mask(forest_rings)
+wmask = rings_mask([w["ring"] for w in model["water"]])
+bmask = rings_mask([b["ring"] for b in model["infra"]["buildings"]])
+
+gd = cG - np.maximum(cR, cB)                        # green dominance
+bright_thr = np.percentile(cY[tmask], 20) * 0.82    # mown turf is bright...
+gd_thr = np.percentile(gd[tmask], 15) * 0.45        # ...and decisively green
+gd_hi = np.percentile(gd[tmask], 40)                # unambiguously grass-green
+dark_thr = (np.percentile(cY[fmask & ~tmask], 55) + np.percentile(cY[tmask], 10)) / 2
+txt_thr = (np.percentile(cS[fmask & ~tmask], 45) + np.percentile(cS[tmask], 85)) / 2
+print(f"calibrated: mown bright>{bright_thr:.0f} gd>{gd_thr:.0f}/{gd_hi:.0f} / conifer dark<{dark_thr:.0f} / crown texture>{txt_thr:.1f}")
+
+# Two mistakes the first satellite pass made, both fixed by adding SMOOTHNESS to
+# the turf tests: sunlit autumn canopy is bright and green-shifted but violently
+# textured, so 'bright and green' alone swallowed whole clumps as fairway; and a
+# tree's long shadow ON grass is dark but still decisively green and dead smooth,
+# so 'dark and green' alone planted trees down every shadow. Grass is the smooth
+# thing in this frame; canopy never is.
+mown = (gd > gd_thr) & (cY > bright_thr) & (cS < txt_thr * 1.15)
+shadowed_turf = (gd > gd_hi) & (cS < txt_thr * 0.85)
+open_g = mown | shadowed_turf
+conifer = (cG > cR + 4) & (cY < dark_thr) & ~open_g
+crowns = (cS > txt_thr * 0.9) & ~open_g             # leafless canopy: crown-shadow texture
+trees = conifer | crowns
+
+# 3x3 majority vote despeckles both ways
+tv = box(trees.astype(np.float32), 1)
+trees = tv > 0.5
+cover = np.where(trees, 3, 2).astype(np.uint8)
+
+# --------------------------------------------------------- burn known ground
+for m, v in ((tmask, 2), (wmask, 2), (bmask, 2)):
+    cover[m] = v
 
 frac = np.bincount(cover.ravel(), minlength=4) / cover.size
-print(f"final: unknown {frac[0]*100:.1f}%  open {frac[2]*100:.1f}%  trees {frac[3]*100:.1f}%")
+inF = cover[fmask & ~tmask]
+print(f"final: open {frac[2]*100:.1f}%  trees {frac[3]*100:.1f}%")
+print(f"inside OSM forest polygons the imagery sees trees on {(inF==3).mean()*100:.0f}% "
+      f"of cells -- the rest is the over-claim the planter used to fill")
 
 packed = np.packbits(np.unpackbits(cover.reshape(-1, 1), axis=1, count=2, bitorder="little").reshape(-1),
                      bitorder="little")   # crumb k lives at byte k>>2, shift (k&3)*2 -- the page's decode
 json.dump({"cell": CELL, "x0": float(X0), "z0": float(Z0), "nx": int(NX), "nz": int(NZ),
            "b64": base64.b64encode(packed.tobytes()).decode(),
            "legend": {"0": "unknown", "2": "open", "3": "trees"},
-           "source": "hole plans (per-hole tee+pin registration, per-plan calibrated dark+texture); "
-                     "overview dark-green only where no plan reaches; model rings burned last"},
+           "source": "Esri World Imagery z17 (orthorectified, no registration), calibrated on model "
+                     "turf + OSM forest interiors; mown/water/building rings burned open; OSM forest "
+                     "NOT burned -- the imagery is the authority on where canopy stands"},
           open(os.path.join(ROOT, "geobuild/tree-cover.json"), "w"))
 print("wrote geobuild/tree-cover.json")

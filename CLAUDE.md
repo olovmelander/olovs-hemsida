@@ -54,15 +54,22 @@ that pair (the reader traces the green complex at ~2.1× the putting surface, so
 traced greens shrink toward their centroid by 1/√2.1). These carry `prov:"plan"`;
 anything still synthesised carries `prov:"synth"` and is hatched in `design.svg`.
 
-**The trees come from the same plans.** `build-treecover.py` classifies each plan's
-orthophoto (per-plan calibrated darkness + a canopy post-pass that tells shadowed
-conifer, sunlit crowns and the blue-dark shore band apart from dark mottled rough) into
-`tree-cover.json`, a 3 m raster the page's planter reads where OSM drew no forest. The
-club's overview map was tried first and rejected — it is warped 40–70 m locally and
-calls 42% of known mown turf forest. Don't go back to it. `check-treecover.mjs` holds the
-labelled probe set — places on the plans a person looked at and named — and exits non-zero
-if verified forest stops being forest or the open-ground residual grows past its accepted
-five, all of them corridor-adjacent ground the planter's own distance guard suppresses.
+**The trees come from satellite imagery, and the imagery is the authority.**
+`fetch-sat.mjs` caches Esri World Imagery tiles (z17, ~0.54 m/px, orthorectified — a
+tile's coordinates ARE its georeference, no registration error at all) and
+`build-treecover.py` classifies them into `tree-cover.json`, the 3 m raster the page's
+planter obeys in BOTH directions: satellite canopy plants where nothing was surveyed,
+and satellite open ground thins an OSM forest polygon to scattered singles — the
+polygons hold real canopy on only ~70% of their area, which is why the render used to
+carry more forest than the course. Two earlier sources are superseded: the club's
+overview map (warped 40–70 m, called mown turf forest) and the hole-plan classification
+(5–6 m registration error, gaps between corridors). Classifier lessons that took
+iterations: mown turf is bright, green AND SMOOTH (sunlit autumn canopy is bright and
+green but violently textured); a tree's long shadow on grass is dark but still
+decisively green and dead smooth. `check-treecover.mjs` holds the labelled probe set —
+now verified against the satellite, which is NEWER than the plans (two probes moved
+where stands have grown or been felled since) — and exits non-zero if verified forest
+stops being forest or the open residual grows past its accepted five.
 
 **The surroundings are data too.** Everything around the course comes from the same OSM
 extract the course does — the E4 as its paired 2+1 one-way roadbeds with a median-wire
@@ -97,7 +104,8 @@ pad on most holes, so it is finding real tees.
     node geobuild/reconcile.mjs       # -> course-model.json, and the agreement report
     node geobuild/apply-shapes.mjs    # plan-traced shapes -> traced-holes.json (needs reconcile's frame)
     node geobuild/reconcile.mjs       # second pass folds the traces in
-    python3 geobuild/build-treecover.py    # hole-plan imagery -> tree-cover.json (the forest raster)
+    node geobuild/fetch-sat.mjs       # Esri World Imagery z17 tiles (orthorectified canopy truth)
+    python3 geobuild/build-treecover.py    # satellite -> tree-cover.json (the forest raster)
     node geobuild/check-treecover.mjs # raster vs the labelled imagery probes; exits non-zero
     node geobuild/render-design.mjs   # -> design.svg, the layout to review before 3D
     node geobuild/embed.mjs           # bake it into the page

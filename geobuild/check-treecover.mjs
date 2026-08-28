@@ -58,16 +58,21 @@ const PROBES = [
   [8, 560, 850, 'T', 'clump L mid'], [8, 620, 650, 'T', 'clump L N'],
   [8, 1060, 700, 'T', 'clump R'], [8, 980, 880, 'T', 'R clump edge'],
   [8, 560, 300, 'T', 'clump left of green8'], [8, 760, 860, 'O', 'pinch corridor'],
-  [8, 760, 1350, 'O', 'tee-150 scrub'], [8, 580, 1250, 'O', 'scrub L near tee'],
+  [8, 760, 1350, 'O', 'tee-150 scrub'],
+  /* re-verified against current satellite imagery: the scrub left of tee 8 has
+     grown into closed canopy since the plans were photographed */
+  [8, 580, 1250, 'T', 'scrub L near tee (now closed canopy)'],
   [8, 1200, 1000, 'O', 'open R'], [8, 950, 340, 'O', 'open right of green8'],
   [13, 1050, 800, 'T', 'forest R mid'], [13, 1010, 1000, 'T', 'forest lower'],
   [13, 1100, 600, 'T', 'forest R 250'], [13, 790, 700, 'O', 'corridor 150arc'],
   [13, 650, 900, 'O', 'open L h12 side'], [13, 700, 1400, 'O', 'meadow near tee13'],
   [13, 1290, 560, 'T', 'shore band behind houses'], [13, 1430, 980, 'O', 'lawn to shore'],
-  [15, 950, 135, 'T', 'band E behind green15'], [15, 1000, 500, 'O', 'shore strip near green'],
+  [15, 886, 85, 'T', 'band E behind green15 (core, per satellite)'], [15, 1000, 500, 'O', 'shore strip near green'],
   [15, 950, 900, 'O', 'shore mid'], [15, 940, 1430, 'O', 'shore near tee'],
   [15, 700, 600, 'O', 'fairway mid'],
-  [17, 960, 250, 'T', 'forest right of green17'], [17, 950, 650, 'T', 'band R 100'],
+  /* re-verified against current satellite: the plan's 'band' at 100 m out is today
+     scattered scrub; the solid canopy stands ~50 m north, so the probe moved onto it */
+  [17, 960, 250, 'T', 'forest right of green17'], [17, 1107, 530, 'T', 'band R (canopy as it stands)'],
   [17, 760, 780, 'O', 'corridor 150arc'], [17, 1050, 950, 'O', 'open R 200arc'],
   [17, 760, 1430, 'O', 'open near tee17'],
 ];
