@@ -87,19 +87,28 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
     const k = j * P0.nx + i;
     return (H0[k] * (1 - tx) + H0[k + 1] * tx) * (1 - tz) + (H0[k + P0.nx] * (1 - tx) + H0[k + P0.nx + 1] * tx) * tz;
   };
+  /* Submersion is LOCAL. A course can carry water at a dozen levels (Ängsö spans
+     6.5 to 42 m) and its ground can legitimately sit below a distant lake's
+     surface -- Terrarium reads Mälaren's bay 3 m above the greens beside it, which
+     is DEM bias on a flat shore, not a flooded green. So a point is wet only if it
+     lies inside a water ring AND below that ring's own level. The flat-floor test
+     is kept only where there is a real sea, at one level, to catch a hole that has
+     wandered off the map entirely. */
+  const hasSea = vec.water.some(w => w.isSea);
   let wet = 0;
-  for (const h of vec.holes) {
-    if (terr(h.green.c[0], h.green.c[1]) < GEO.seaLevel + 0.4) { wet++; console.log(`       green ${h.n} at ${terr(h.green.c[0], h.green.c[1]).toFixed(2)} m`); }
-    const t0 = h.line[0];
-    if (terr(t0[0], t0[1]) < GEO.seaLevel + 0.4) { wet++; console.log(`       tee ${h.n} at ${terr(t0[0], t0[1]).toFixed(2)} m`); }
+  const check = (label, x, z) => {
+    const h = terr(x, z);
+    if (hasSea && h < GEO.seaLevel + 0.4) { wet++; console.log(`       ${label} at ${h.toFixed(2)} m, below sea level`); return; }
     for (const w of vec.water) {
       if (w.isSea || w.level == null) continue;
       const bb = w.ring.reduce((a, p) => ({ x0: Math.min(a.x0, p[0]), x1: Math.max(a.x1, p[0]), z0: Math.min(a.z0, p[1]), z1: Math.max(a.z1, p[1]) }), { x0: 1e9, x1: -1e9, z0: 1e9, z1: -1e9 });
-      const [gx, gz] = h.green.c;
-      if (gx > bb.x0 - 8 && gx < bb.x1 + 8 && gz > bb.z0 - 8 && gz < bb.z1 + 8 &&
-          pointInPoly(gx, gz, w.ring)) { wet++; console.log(`       green ${h.n} inside water ring`); }
+      if (x < bb.x0 || x > bb.x1 || z < bb.z0 || z > bb.z1) continue;
+      if (pointInPoly(x, z, w.ring) && h < w.level + 0.3) {
+        wet++; console.log(`       ${label} inside water at ${h.toFixed(2)} m vs level ${w.level}`); return;
+      }
     }
-  }
+  };
+  for (const h of vec.holes) { check(`green ${h.n}`, h.green.c[0], h.green.c[1]); check(`tee ${h.n}`, h.line[0][0], h.line[0][1]); }
   gate(wet === 0, `water: no green or tee submerged (${wet} wet)`);
 }
 

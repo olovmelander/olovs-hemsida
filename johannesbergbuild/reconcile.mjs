@@ -180,7 +180,14 @@ const model = {
   origin: { lat: ORIGIN.lat, lon: ORIGIN.lon },
   mPerLat: M_PER_LAT, mPerLon: Math.round(M_PER_LON * 100) / 100,
   frame: 'local metres about ORIGIN; north -z, east +x',
-  seaLevel: hf.seaLevel ?? null,
+  /* The floor below which nothing may sit. With a real sea it is 0; inland it is
+     just under the lowest water the MODEL knows -- which includes traced ponds
+     that build-heightfields never saw, and so can be lower than its estimate. */
+  seaLevel: (() => {
+    const lv = water.map(w => w.level).filter(v => v != null);
+    const sea = water.some(w => w.isSea);
+    return sea ? (hf.seaLevel ?? 0) : (lv.length ? Math.round((Math.min(...lv) - 0.5) * 100) / 100 : (hf.seaLevel ?? null));
+  })(),
   card: { teeNames: card.teeNames, provisional: !!card.provisional },
   holes,
   water,
