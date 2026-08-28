@@ -85,9 +85,13 @@ pad on most holes, so it is finding real tees.
     node geobuild/render-design.mjs   # -> design.svg, the layout to review before 3D
     node geobuild/embed.mjs           # bake it into the page
     node geobuild/check3d.mjs         # exits non-zero on a regression
-    node geobuild/shot.mjs veckefjarden3d.html out.png --hole 14 --cam tee
+    node geobuild/lint-page.mjs       # eslint no-undef over the page's module body
+    node geobuild/shot.mjs veckefjarden3d.html geobuild/shots/out.png --hole 14 --cam tee
 
 Caches live in `geobuild/cache/` and are gitignored; the reconciled JSON is committed.
+The screenshot harness needs `npm install` once (playwright-core, pinned in
+package.json) and a Chromium whose path `shot.mjs` states at the top — adjust it
+outside this environment. The pages themselves still have no dependencies.
 
 ### What check3d protects, and what it only measures
 

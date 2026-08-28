@@ -42,7 +42,7 @@ canvas{display:block;position:fixed;inset:0}
 #card{top:14px;left:50%;transform:translateX(-50%);padding:9px 12px;display:flex;gap:13px;align-items:center}
 #card .no{font-size:26px;font-weight:800;line-height:1;min-width:34px;text-align:center}
 #card .mid{display:flex;flex-direction:column;gap:2px}
-#card .nm{font-size:12.5px;font-weight:600;white-space:nowrap;max-width:210px;overflow:hidden;text-overflow:ellipsis}
+#card .nm{font-size:12.5px;font-weight:600;white-space:nowrap;max-width:min(38vw,340px);overflow:hidden;text-overflow:ellipsis}
 #card .pi{font-size:10px;color:var(--dim);letter-spacing:.05em}
 #tees{display:flex;gap:5px}
 .tee{padding:4px 7px;border-radius:8px;text-align:center;min-width:44px;
@@ -78,10 +78,20 @@ canvas{display:block;position:fixed;inset:0}
 #mini{bottom:14px;right:14px;width:186px;height:186px;padding:7px}
 #mini canvas{position:static;width:100%;height:100%;border-radius:9px}
 
-#hint{position:fixed;bottom:52px;left:50%;transform:translateX(-50%);z-index:19;font-size:10px;
+#hint{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:19;font-size:10px;
   color:var(--faint);letter-spacing:.08em;pointer-events:none;transition:opacity .6s}
-@media(max-width:980px){#mini,#note{display:none}#tees .tee:nth-child(n+4){display:none}}
-@media(max-width:700px){#rail{width:auto;left:14px}#card{flex-direction:column;gap:6px}}
+/* Panels never overlap; each breakpoint takes something away rather than letting the
+   glass stack. Measured, not eyeballed: the header met the card at 913px, and at 420px
+   the old full-width rail buried the card so its tee buttons switched the LIGHTING. */
+@media(max-width:980px){#mini,#note{display:none}#tees .tee:nth-child(n+4){display:none}.hd{display:none}}
+@media(max-width:700px){
+  #card{flex-direction:column;gap:6px;padding:7px 10px}
+  #card .nm{max-width:76vw}
+  #rail{top:auto;bottom:104px;left:auto;right:10px;width:150px;padding:7px}
+  #facts{display:none}
+  #hint{display:none}
+}
+@media(max-width:640px){#holes{flex-wrap:wrap;width:312px;justify-content:center}}
 </style>
 </head>
 <body>
@@ -92,6 +102,28 @@ canvas{display:block;position:fixed;inset:0}
   <div id="bar"><i></i></div>
   <div id="bmsg">startar</div>
 </div></div>
+
+<script>
+/* If three.js never arrives from the CDN the module below simply never runs, and the
+   splash sat on "startar" forever with nothing to say. This is deliberately not a
+   module so it runs regardless. */
+(function () {
+  var say = function (msg) {
+    var b = document.getElementById('boot'), m = document.getElementById('bmsg');
+    if (b && !b.classList.contains('done') && m && m.textContent === 'startar')
+      m.textContent = msg;
+  };
+  var t = setTimeout(function () {
+    say('kunde inte hämta three.js — sidan behöver nätet första gången den öppnas');
+  }, 12000);
+  window.addEventListener('error', function (e) {
+    if (e && e.target && e.target.tagName === 'SCRIPT') {
+      clearTimeout(t);
+      say('kunde inte hämta three.js — kontrollera anslutningen och ladda om');
+    }
+  }, true);
+}());
+</script>
 
 <div class="panel hd">
   <h1>Veckefjärdens GC</h1>
@@ -445,20 +477,26 @@ function terrainH(x, z) {
      every bunker. */
   for (const b of BI.at(x, z)) {
     const sd = ringSD(x, z, b.ring);
-    if (sd > 5) continue;
+    if (sd > 9) continue;
     const r = Math.max(4, Math.min(14, (b.bb.x1 - b.bb.x0 + b.bb.z1 - b.bb.z0) * 0.25));
-    h += 0.36 * Math.exp(-Math.abs(sd) / 1.7);               /* the rolled lip */
+    /* the lip's falloff must be wider than the 4 m grid that carries it: at 1.7 m
+       the core mesh, the sand overlay and the collar each sampled a different lip
+       and the rim came apart into floating flaps */
+    h += 0.30 * Math.exp(-Math.abs(sd) / 3.4);               /* the rolled lip */
     h -= 1.25 * smooth(0, r * 0.85, -sd);                    /* the dish, zero at the edge */
   }
   /* streams cut, ponds and the fjord hold their own measured level */
+  let shoreDamp = 1;
   for (const w of WI.at(x, z)) {
     if (w.stream) {
       const d = distToLine(x, z, w.line);
       if (d < w.w * 3.4) h -= (0.55 + w.w * 0.16) * (1 - smooth(0, w.w * 3.4, d));
+      if (d < w.w * 3.6) shoreDamp = Math.min(shoreDamp, smooth(w.w * 1.6, w.w * 3.6, d));
       continue;
     }
     const sd = ringSD(x, z, w.ring);
     if (sd > 26) continue;
+    shoreDamp = Math.min(shoreDamp, smooth(2, 9, sd));
     /* One continuous surface through the waterline: the bed falls away from it going
        in, the bank rises from it going out, and both are exactly the water's own
        level at the edge itself. Two separate branches meeting at a step made every
@@ -478,7 +516,10 @@ function terrainH(x, z) {
      uniformly would be worse than not adding it -- it is the contrast between a
      smooth green and lumpy rough that makes both read correctly. */
   const cls = microClass(x, z);
-  if (cls.amp > 0.001) h += fbm(x / cls.len, z / cls.len, 3) * cls.amp * seamFade(x, z);
+  /* damped to zero at the waterline: the fbm was added AFTER the shore carve, and
+     around the island 14th it lifted patches of bed back above the fjord's level --
+     slivers of land coplanar with the water, reading as a torn mesh */
+  if (cls.amp > 0.001) h += fbm(x / cls.len, z / cls.len, 3) * cls.amp * seamFade(x, z) * shoreDamp;
   return h;
 }
 
@@ -577,7 +618,7 @@ const L = hex => [s2l(((hex >> 16) & 255) / 255), s2l(((hex >> 8) & 255) / 255),
 const C = {
   rough:  L(0x62723d), fescue: L(0x847f4c), semi:  L(0x5c8438),
   fair:   L(0x5c8f3b), green:  L(0x479149), fringe:L(0x628f40),
-  tee:    L(0x5a9040), sand:   L(0xd6c396), path:  L(0x8b8377),
+  tee:    L(0x5a9040), sand:   L(0xd6c396), path:  L(0x757168),
   heath:  L(0x776c3f), forest: L(0x334423), shore: L(0xb2a37e),
   wet:    L(0x6a7046), rock:   L(0x736e63),
 };
@@ -640,17 +681,21 @@ function groundAt(x, z, h) {
     if (c.sand > 0.5) sid = S_SAND;
   }
 
-  /* the waterline: wet sand, then bleached shore */
-  let lvl = null;
+  /* The waterline: wet sand, then bleached shore. Gated on the horizontal distance
+     to the ring as well as the height, because the shore carve keeps the ground
+     within a metre of the water level for fifteen metres out -- height alone painted
+     the whole island 14th as a mud beach. */
+  let lvl = null, sdW = 1e9;
   for (const w of WI.at(x, z)) {
     if (w.stream) continue;
     const sd = ringSD(x, z, w.ring);
     if (sd < 30 && (lvl === null || w.level > lvl)) lvl = w.level;
+    if (sd < sdW) sdW = sd;
   }
-  if (lvl !== null && c.green < 0.4) {
+  if (lvl !== null && c.green < 0.4 && sdW < 4.5) {
     const above = h - lvl;
-    if (above < 0.75) {
-      const wet = 1 - smooth(-0.15, 0.75, above);
+    if (above < 0.6) {
+      const wet = (1 - smooth(-0.15, 0.6, above)) * (1 - smooth(1.5, 4.5, sdW));
       col = col.map((v, i) => lerp(v, C.shore[i] * (1 - wet * 0.38), wet * 0.85));
       if (wet > 0.6) sid = S_SHORE;
     }
@@ -662,10 +707,13 @@ function groundAt(x, z, h) {
 
 /* ------------------------------------------------------------- scene setup */
 await tick('startar renderaren', 0.10);
+/* ?q=lo is the escape hatch for an integrated GPU: native resolution, smaller
+   shadow map, no bloom, and roughly half the scattered instances */
+const LOWQ = new URLSearchParams(location.search).get('q') === 'lo';
 const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4,
   outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance' });
 await renderer.init();
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setPixelRatio(LOWQ ? 1 : Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.20;
@@ -762,7 +810,7 @@ const WATERN = canvasTex(512, (g, S) => {
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
-sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
 sun.shadow.camera.near = 120; sun.shadow.camera.far = 3400;
 /* Terrain is a huge, gently-sloped receiver, which is the worst case for shadow
    acne: at a grazing sun every quad shadows itself unless the sample is pushed well
@@ -774,8 +822,10 @@ const hemi = new THREE.HemisphereLight(0xdff0ff, 0x4c5842, 1.15);
 scene.add(hemi);
 
 const PRESETS = {
-  golden: { sun: 0xffcf94, int: 3.1, dir: [-0.56, 0.42, 0.71], hemiS: 0xffdcbb, hemiG: 0x5a5a3c,
-            hemiI: 1.20, fog: 0xb8bfb8, dens: 0.00040, exp: 1.22, turb: 4.2, ray: 2.1, cloud: 0.40 },
+  /* hemiI 1.20 left the long evening tree shadows dead black -- the low sun casts
+     30-80 m of shade and the only light inside it is this hemisphere term */
+  golden: { sun: 0xffcf94, int: 3.1, dir: [-0.56, 0.42, 0.71], hemiS: 0xffdcbb, hemiG: 0x6a684c,
+            hemiI: 1.48, fog: 0xb8bfb8, dens: 0.00040, exp: 1.22, turb: 4.2, ray: 2.1, cloud: 0.40 },
   noon:   { sun: 0xfffaf0, int: 3.0, dir: [-0.22, 0.88, 0.42], hemiS: 0xdff0ff, hemiG: 0x56634a,
             hemiI: 1.35, fog: 0xb4cfdc, dens: 0.00033, exp: 1.02, turb: 2.6, ray: 1.1, cloud: 0.26 },
   mist:   { sun: 0xe7f4f2, int: 1.5, dir: [-0.36, 0.52, 0.78], hemiS: 0xd8edf2, hemiG: 0x4e5a4c,
@@ -1283,7 +1333,7 @@ function ribbonMesh(lines, halfW, lift, shade) {
     const P = [];
     for (let i = 0; i < L.length - 1; i++) {
       const d = hyp(L[i], L[i + 1]);
-      const n = Math.max(1, Math.ceil(d / 5));
+      const n = Math.max(1, Math.ceil(d / 3));
       for (let k = 0; k < n; k++)
         P.push([lerp(L[i][0], L[i + 1][0], k / n), lerp(L[i][1], L[i + 1][1], k / n)]);
     }
@@ -1333,7 +1383,9 @@ function ribbonMesh(lines, halfW, lift, shade) {
   };
   for (const [lines, w] of [[M.infra.paths, 1.1], [M.infra.tracks, 1.7],
                             [M.infra.roads.map(r => r.line), 2.6]]) {
-    const g = ribbonMesh(lines, w, 0.04, gravel);
+    /* lifted enough that a span between two 4 m samples cannot dip below the
+       terrain mid-cell -- submerged stretches read as a dashed path */
+    const g = ribbonMesh(lines, w, 0.1, gravel);
     if (!g) continue;
     const m = new THREE.Mesh(g, turfMat);
     m.receiveShadow = true; m.renderOrder = 1;
@@ -1373,8 +1425,11 @@ function makeWater() {
      nothing. Water seen far off is almost all reflection, and if the reflection is
      unbroken it is a mirror of a pale sky -- which is to say, indistinguishable from
      haze. The glitter is the thing that says water. */
+  /* a pond has no fetch: the fjord's chop on a 20 m pond tilted enough normals that
+     the fresnel term fired everywhere and fifteen ponds rendered as ice sheets */
+  const rippleAmp = mix(float(0.38), float(1), aFoam);
   const ripple = n1.mul(near.mul(0.45).add(0.30)).add(n3.mul(near.mul(0.30).add(0.16)))
-                   .add(n2.mul(0.7)).add(n4.mul(0.9));
+                   .add(n2.mul(0.7)).add(n4.mul(0.9)).mul(rippleAmp);
   const N = normalize(vec3(ripple.x.mul(0.55), float(1), ripple.y.mul(0.55)));
 
   const V = normalize(cameraPosition.sub(positionWorld));
@@ -1388,8 +1443,10 @@ function makeWater() {
   const skyC = mix(mix(color(0xd9c6ad), color(0xcfe0e6), smoothstep(0.05, 0.42, sunUp)),
                    mix(color(0x21538f), color(0x3479b4), sunUp), pow(up, 0.45));
 
-  /* depth: the bed falls away from the bank, so the shallows keep their own colour */
-  const depth = smoothstep(0, 30, aSh);
+  /* depth: the bed falls away from the bank, so the shallows keep their own colour.
+     The ramp is the water's own scale -- 30 m of shallows suits a fjord, but on a
+     pond whose whole radius is ten metres it kept every pixel pale */
+  const depth = smoothstep(0.0, 1.0, saturate(aSh.div(mix(float(7), float(30), aFoam))));
   const body = mix(color(0x2c6f6c), color(0x06202c), depth);
 
   let c = mix(body, skyC, fres.mul(0.88));
@@ -1411,7 +1468,10 @@ function makeWater() {
   /* fog by hand too, since an unlit material gets none */
   const fogT = oneMinus(exp(cd.mul(cd).mul(uFogD.mul(uFogD)).negate()));
   m.colorNode = mix(c, uFogC, saturate(fogT));
-  m.opacityNode = mix(float(0.62), float(0.97), depth).add(foam.mul(0.2)).min(1);
+  /* a pond bed a metre down should be a hint, not the picture: ponds start denser */
+  m.opacityNode = mix(mix(float(0.86), float(0.97), depth),
+                      mix(float(0.62), float(0.97), depth), aFoam)
+                    .add(foam.mul(0.2)).min(1);
   return m;
 }
 const waterMat = makeWater();
@@ -1420,9 +1480,10 @@ for (const w of M.water) {
   if (w.ring.length < 3) continue;
   const faces = triangulate(w.ring);
   if (!faces.length) continue;
-  /* big water needs interior vertices for the wave normal to vary across; a pond
-     is small enough that its outline already provides them */
-  const { V, F } = subdivide(w.ring, faces, w.isLake ? 90 : 26);
+  /* big water needs interior vertices for the wave normal to vary across; ponds
+     need them for aShore -- at 26 m nearly every pond vertex sat ON the outline
+     where aShore is zero, so the depth ramp never left the shallows */
+  const { V, F } = subdivide(w.ring, faces, w.isLake ? 90 : 9);
   const pos = [], sh = [], fm = [], idx = [];
   const foamy = w.isLake ? 1 : 0;
   for (const [x, z] of V) {
@@ -1604,6 +1665,7 @@ const trees = [[], [], []];
   };
   for (let z = bb.z0; z < bb.z1; z += GAP) for (let x = bb.x0; x < bb.x1; x += GAP) {
     const i = Math.floor(x / GAP), j = Math.floor(z / GAP);
+    if (LOWQ && rnd(i + 77, j + 55) < 0.45) continue;
     const px = x + (rnd(i, j) - 0.5) * GAP * 1.75;
     const pz = z + (rnd(i + 991, j + 77) - 0.5) * GAP * 1.75;
     let wood = 0, kindScrub = false;
@@ -1696,7 +1758,7 @@ if (M.cover) {
   const rnd2 = (i, j) => hash2(i * 4241 + 5, j * 7573 + 11);
   const cvx1 = cv.x0 + cv.nx * cv.cell, cvz1 = cv.z0 + cv.nz * cv.cell;
   /* the data ring: where the plans or the survey still reach */
-  const GAP2 = 13;
+  const GAP2 = LOWQ ? 18 : 13;
   for (let z = cv.z0; z < cvz1; z += GAP2)
     for (let x = cv.x0; x < cvx1; x += GAP2) {
       if (x > MIDR.x0 + inset && x < MIDR.x1 - inset &&
@@ -1716,7 +1778,7 @@ if (M.cover) {
     }
   /* beyond every record we have, the hills get the forest they carry in life --
      this ring is dressing, not data, and it stays far outside the property */
-  const GAP3 = 30;
+  const GAP3 = LOWQ ? 42 : 30;
   for (let z = FARR.z0; z < FARR.z1; z += GAP3)
     for (let x = FARR.x0; x < FARR.x1; x += GAP3) {
       if (x > cv.x0 && x < cvx1 && z > cv.z0 && z < cvz1) continue;
@@ -1784,6 +1846,7 @@ if (M.cover) {
   const rnd = (i, j, k) => hash2(i * 6151 + k * 97, j * 24593 + k * 13);
   for (let z = MIDR.z0; z < MIDR.z1; z += GAP) for (let x = MIDR.x0; x < MIDR.x1; x += GAP) {
     const i = Math.round(x / GAP), j = Math.round(z / GAP);
+    if (LOWQ && rnd(i, j, 9) < 0.5) continue;
     const px = x + (rnd(i, j, 1) - 0.5) * GAP * 1.8, pz = z + (rnd(i, j, 2) - 0.5) * GAP * 1.8;
     const c = classify(px, pz);
     if (c.fair > 0.03 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.path > 0.1) continue;
@@ -1805,7 +1868,13 @@ if (M.cover) {
     const rot = rnd(i, j, 5) * TAU;
     if (r < 0.52 + clump * 0.34) T.push(px, h, pz, sc, rot);
     else if (r < 0.90) { if (clump > 0.42) B.push(px, h, pz, sc * (0.7 + clump * 0.7), rot); }
-    else if (rnd(i, j, 6) > 0.72) S.push(px, h - 0.05, pz, sc * 0.8, rot);
+    else {
+      /* stones climb with the ground: the boulders belong on the slopes, the way
+         hole 2's own drop carries its outcrops, not scattered evenly on the flats */
+      const sl = Math.hypot(demH(px + 6, pz) - demH(px - 6, pz), demH(px, pz + 6) - demH(px, pz - 6)) / 12;
+      const rocky = smooth(0.20, 0.52, sl);
+      if (rnd(i, j, 6) > 0.72 - rocky * 0.5) S.push(px, h - 0.05, pz, sc * (0.8 + rocky * 1.7), rot);
+    }
   }
 
   const place = (geo, mat, arr, shadow) => {
@@ -2033,7 +2102,7 @@ for (const h of HOLES) {
 
 /* ------------------------------------------------------------ post-process */
 await tick('ställer ljuset', 0.86);
-{
+if (!LOWQ) {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
   const post = new THREE.PostProcessing(renderer);
   const scenePass = pass(scene, camera);
@@ -2199,6 +2268,13 @@ miniBase.width = mini.width; miniBase.height = mini.height;
   for (const h of HOLES) { path2(h.green.ring, true); g.fill(); }
   g.strokeStyle = 'rgba(190,215,196,.30)'; g.lineWidth = 1.2;
   for (const h of HOLES) { path2(h.line, false); g.stroke(); }
+  /* the map is north-up, and says so */
+  g.strokeStyle = 'rgba(240,240,235,.8)'; g.fillStyle = 'rgba(240,240,235,.8)';
+  g.lineWidth = 1.8;
+  g.beginPath(); g.moveTo(337, 42); g.lineTo(337, 22); g.stroke();
+  g.beginPath(); g.moveTo(337, 15); g.lineTo(331.5, 26); g.lineTo(342.5, 26); g.closePath(); g.fill();
+  g.font = '600 13px Outfit,sans-serif'; g.textAlign = 'center';
+  g.fillText('N', 337, 58);
 }
 function drawMini() {
   mctx.clearRect(0, 0, mini.width, mini.height);
