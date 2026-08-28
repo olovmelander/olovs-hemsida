@@ -15,6 +15,8 @@ const outFile = process.argv[3] || inFile;
 
 const model = readJSON(path.join(ROOT, 'geobuild/course-model.json'));
 const hf = readJSON(path.join(ROOT, 'geobuild/heightfields.json'));
+let cover = null;
+try { cover = readJSON(path.join(ROOT, 'geobuild/overview-cover.json')); } catch {}
 
 /* The page needs the shapes, not the audit trail: provenance, per-feature ids and the
    agreement figures belong in course-model.json and the report, where they can be
@@ -34,6 +36,7 @@ const vec = {
   marking: model.marking.map(m => ({ c: m.color, pts: m.pts })),
   streams: model.streams.map(s => ({ line: s.line, w: s.w })),
   veg: model.vegetation,
+  cover,
   infra: model.infra,
   scenery: model.scenery,
 };

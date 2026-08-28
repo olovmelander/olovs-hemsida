@@ -452,7 +452,7 @@ const marking = [];
       for (let i = 0; i < st.line.length - 1; i++) {
         const a = st.line[i], b = st.line[i + 1];
         const seg = hyp(a, b);
-        for (let d = 0; d < seg; d += 8) {
+        for (let d = 0; d < seg; d += 16) {
           const t = d / seg;
           const x = a[0] + (b[0] - a[0]) * t, z = a[1] + (b[1] - a[1]) * t;
           let nx = (b[1] - a[1]), nz = -(b[0] - a[0]);

@@ -25,7 +25,16 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 model = json.load(open(os.path.join(ROOT, "geobuild/course-model.json")))
 anchors = json.load(open(os.path.join(ROOT, "geobuild/plan-anchors.json")))
 guide = json.load(open(os.path.join(ROOT, "geobuild/guide-holes.json")))["holes"]
+inv_bunkers = {int(k): v.get("bunkers", []) for k, v in
+               json.load(open(os.path.join(ROOT, "banguide/guide-inventory.json")))["holes"].items()}
 osm = json.load(open(os.path.join(ROOT, "geobuild/osm-features.json")))
+gps = json.load(open(os.path.join(ROOT, "geo_data/veckefjarden_clean.json")))
+ORIGIN = model["origin"]
+GPSPT = {}
+for f in gps["features"]:
+    pr = f["properties"]; lo, la = f["geometry"]["coordinates"]
+    GPSPT.setdefault(int(pr["hole"]), {})[pr["name"]] = (
+        (lo - ORIGIN["lon"]) * model["mPerLon"], -(la - ORIGIN["lat"]) * model["mPerLat"])
 
 HOLES = {h["n"]: h for h in model["holes"]}
 UNMAPPED = [n for n in range(1, 19) if HOLES[n]["green"]["prov"] != "osm"]
@@ -136,6 +145,18 @@ def corridor_grid(hole):
     nx, nz = int((x1 - x0) / CELL) + 1, int((z1 - z0) / CELL) + 1
     return x0, z0, nx, nz
 
+def feat(rgb):
+    """chromaticity + brightness: the plans are vignetted, so raw RGB mixes 'what
+    colour is this grass' with 'how far from the page centre is it'. Chromaticity is
+    stable under that fade; brightness is kept as a third, weaker axis."""
+    rgb = np.asarray(rgb, dtype=float)
+    tot = rgb.sum(axis=-1, keepdims=True) + 1e-6
+    r = rgb[..., 0:1] / tot * 255.0
+    g = rgb[..., 1:2] / tot * 255.0
+    v = tot / 3.0
+    return np.concatenate([r, g, v * 0.45], axis=-1)
+
+
 def sample_classes(im, reg, hole, cal):
     """classify every corridor cell of the plan into rough/fairway/green/sand"""
     h, w, _ = im.shape
@@ -157,10 +178,15 @@ def sample_classes(im, reg, hole, cal):
         for dx in (-1, 0, 1):
             C += im[pyc + dy, pxc + dx]
     C /= 9.0
+    F = feat(C)
     # nearest calibrated class by variance-scaled distance
     names = list(cal.keys())
-    D = np.stack([(((C - cal[k]["mean"]) / cal[k]["std"]) ** 2).sum(axis=2) for k in names])
+    D = np.stack([(((F - cal[k]["mean"]) / cal[k]["std"]) ** 2).sum(axis=2) for k in names])
     cls = np.argmin(D, axis=0)
+    # the page's own furniture is not ground: the white centre line, the distance
+    # arcs, the vignette that fades everything to paper at the frame's edge
+    paper = (C.min(axis=2) > 192) & (C.max(axis=2) - C.min(axis=2) < 46)
+    cls[paper] = names.index("rough")
     cls[~ok] = names.index("rough")
     # only near the hole: everything else is a neighbouring hole's drawing
     line = hole["line"]
@@ -171,7 +197,7 @@ def sample_classes(im, reg, hole, cal):
                math.hypot(x0 + i - hole["green"]["c"][0], z0 + j - hole["green"]["c"][1]) < 45:
                 near[j, max(0, i - 2):i + 3] = True
     cls[~near] = names.index("rough")
-    return cls, names, (x0, z0, nx, nz)
+    return cls, names, (x0, z0, nx, nz), C, F
 
 
 def binary_clean(mask, close=2, open_=1):
@@ -246,9 +272,16 @@ def boundary(mask):
     return ring
 
 
-def trace_blobs(cls, names, frame, want, min_area, near_pt=None, max_keep=8):
+def trace_blobs(cls, names, frame, want, min_area, near_pt=None, near_r=None,
+                max_keep=8, mask_override=None):
     x0, z0, nx, nz = frame
-    mask = binary_clean(cls == names.index(want), close=2, open_=1)
+    mask = mask_override if mask_override is not None else (cls == names.index(want))
+    if near_pt is not None:
+        gx, gz = np.meshgrid(np.arange(nx), np.arange(nz))
+        wx = x0 + gx * CELL
+        wz = z0 + gz * CELL
+        mask = mask & (np.hypot(wx - near_pt[0], wz - near_pt[1]) < near_r)
+    mask = binary_clean(mask, close=2, open_=1)
     lab, n = components(mask)
     out = []
     for c in range(1, n + 1):
@@ -328,23 +361,220 @@ for n in MAPPED:
 
 cal = {}
 for k, v in samples.items():
-    a = np.array(v, dtype=float)
-    cal[k] = {"mean": a.mean(axis=0), "std": np.maximum(a.std(axis=0), 6.0)}
-    print(f"  {k:8s} n={len(v):5d}  mean {np.round(cal[k]['mean']).astype(int)}  std {np.round(cal[k]['std']).astype(int)}")
+    a = feat(np.array(v, dtype=float))
+    # a wide std makes a class a catch-all under variance-scaled distance: rough's
+    # sample mixes forest with heath and would otherwise swallow every pixel
+    cal[k] = {"mean": a.mean(axis=0),
+              "std": np.clip(a.std(axis=0), [3.0, 3.0, 9.0], [10.0, 12.0, 22.0])}
+    print(f"  {k:8s} n={len(v):5d}  mean {np.round(cal[k]['mean'],1)}  std {np.round(cal[k]['std'],1)}")
 
-# ------------------------------------------------------------------ validation
+def grow(C, F, frame, seeds, tol, rmax_pt=None, rmax=None):
+    """Region-grow a mask from colour seeds. Each seed contributes its own local
+    colour, read off THIS plan at a place that is known to be the target surface --
+    the pin for a green, the centre line for a fairway -- so the classifier
+    recalibrates itself per plan and the vignette and per-page grading stop
+    mattering. The white centre line splits every green it crosses, so seeds are
+    planted on both sides and the halves are closed back together afterwards."""
+    x0, z0, nx, nz = frame
+    paper = (C.min(axis=2) > 192) & (C.max(axis=2) - C.min(axis=2) < 46)
+    mask = np.zeros((nz, nx), bool)
+    tol = np.asarray(tol, dtype=float)
+    for (sx, sz) in seeds:
+        i0, j0 = int((sx - x0) / CELL), int((sz - z0) / CELL)
+        if not (0 <= i0 < nx and 0 <= j0 < nz) or paper[j0, i0]:
+            continue
+        # seed colour: a small disc around the seed, paper excluded
+        ii, jj = np.meshgrid(np.arange(max(0, i0 - 4), min(nx, i0 + 5)),
+                             np.arange(max(0, j0 - 4), min(nz, j0 + 5)))
+        sel = ~paper[jj, ii]
+        if sel.sum() < 4:
+            continue
+        seed_mean = F[jj[sel], ii[sel]].mean(axis=0)
+        ok = ((np.abs(F - seed_mean) / tol) ** 2).sum(axis=2) < 1.0
+        ok &= ~paper
+        if rmax_pt is not None:
+            gx, gz = np.meshgrid(np.arange(nx), np.arange(nz))
+            ok &= np.hypot(x0 + gx * CELL - rmax_pt[0], z0 + gz * CELL - rmax_pt[1]) < rmax
+        if not ok[j0, i0]:
+            continue
+        stack = [(j0, i0)]
+        seen = mask
+        add = np.zeros_like(mask)
+        add[j0, i0] = True
+        while stack:
+            j, i = stack.pop()
+            for dj, di in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                jn, in_ = j + dj, i + di
+                if 0 <= jn < nz and 0 <= in_ < nx and ok[jn, in_] and not add[jn, in_] and not mask[jn, in_]:
+                    add[jn, in_] = True
+                    stack.append((jn, in_))
+        mask |= add
+    return mask
+
+
+TOL_GREEN = [12.5, 13.5, 48.0]
+TOL_FAIR = [10.5, 12.0, 40.0]
+
+def trace_green(C, F, frame, h):
+    """The green is the greenest contiguous ground at the pin. The pin cell itself is
+    useless as a seed -- the flag icon and the centre line's end are drawn right on
+    it -- so the seed colour is read statistically instead: of the ground within 18 m
+    of the pin, the top third by green-chromaticity is the putting surface (the
+    collar and fringe are what dilute the rest), and its mean colour defines the
+    surface that is then grown and traced."""
+    x0, z0, nx, nz = frame
+    px, pz = h["pin"]
+    gx, gz = np.meshgrid(np.arange(nx), np.arange(nz))
+    wx = x0 + gx * CELL
+    wz = z0 + gz * CELL
+    dpin = np.hypot(wx - px, wz - pz)
+    paper = (C.min(axis=2) > 192) & (C.max(axis=2) - C.min(axis=2) < 46)
+    reddish = (C[:, :, 0] > C[:, :, 1] + 30)          # the flag cloth
+    seedable = (dpin < 18) & ~paper & ~reddish
+    if seedable.sum() < 30:
+        return None
+    gch = F[:, :, 1]
+    cut = np.percentile(gch[seedable], 58)
+    core = seedable & (gch >= cut)
+    seed_mean = F[core].mean(axis=0)
+    tol = np.asarray(TOL_GREEN)
+    ok = (((F - seed_mean) / tol) ** 2).sum(axis=2) < 1.0
+    ok &= (dpin < 42)
+    # The plan draws its own furniture over the green: a four-metre-wide white centre
+    # line, the flag, NEXT TEE labels. Those cells are not evidence against the green,
+    # they are just covered, so they may join the mask when the ground around them
+    # does: a covered cell within the pin disc whose neighbourhood is mostly mask
+    # gets filled, iteratively, before components are counted.
+    covered = (paper | reddish) & (dpin < 42)
+    ok &= ~paper & ~reddish
+    m = binary_clean(ok, close=2, open_=1)
+    for _ in range(6):
+        nb = np.zeros(m.shape, dtype=int)
+        nb[1:, :] += m[:-1, :]; nb[:-1, :] += m[1:, :]
+        nb[:, 1:] += m[:, :-1]; nb[:, :-1] += m[:, 1:]
+        nb[1:, 1:] += m[:-1, :-1]; nb[:-1, :-1] += m[1:, 1:]
+        nb[1:, :-1] += m[:-1, 1:]; nb[:-1, 1:] += m[1:, :-1]
+        grownew = covered & (nb >= 3) & ~m
+        if not grownew.any():
+            break
+        m = m | grownew
+    m = binary_clean(m, close=2, open_=1)
+    lab, n = components(m)
+    cands = []
+    for c in range(1, n + 1):
+        blob = lab == c
+        area = int(blob.sum())
+        if area < 110:
+            continue
+        ring_px = boundary(blob)
+        ring = simplify([(x0 + i * CELL, z0 + j * CELL) for j, i in ring_px], 1.2)
+        if len(ring) < 4:
+            continue
+        cx, cz = centroid(ring)
+        cands.append({"ring": [[round(x, 1), round(z, 1)] for x, z in ring],
+                      "area": area, "c": [round(cx, 1), round(cz, 1)],
+                      "d": math.hypot(cx - px, cz - pz)})
+    if os.environ.get("TRACE_DEBUG"):
+        print(f"    [green] ok={int(ok.sum())} m={int(m.sum())} comps={n} cands="
+              + str([(c['area'], round(c['d'], 1)) for c in cands]))
+    cands = [c for c in cands if c["d"] < 30]
+    if not cands:
+        return None
+    # the line and the labels can leave the green in two or three pieces even after
+    # healing; the pieces near the pin are one green, so trace their union
+    if len(cands) > 1:
+        um = np.zeros(m.shape, bool)
+        for c in range(1, n + 1):
+            blob = lab == c
+            area = int(blob.sum())
+            if area < 90:
+                continue
+            js, is_ = np.nonzero(blob)
+            cx = x0 + is_.mean() * CELL; cz = z0 + js.mean() * CELL
+            if math.hypot(cx - px, cz - pz) < 30:
+                um |= blob
+        um = binary_clean(um, close=4, open_=1)
+        lab2, n2 = components(um)
+        sizes = [(int((lab2 == c).sum()), c) for c in range(1, n2 + 1)]
+        if sizes:
+            blob = lab2 == max(sizes)[1]
+            ring_px = boundary(blob)
+            ring = simplify([(x0 + i * CELL, z0 + j * CELL) for j, i in ring_px], 1.2)
+            if len(ring) >= 4:
+                cx, cz = centroid(ring)
+                if math.hypot(cx - px, cz - pz) < 30:
+                    return {"ring": [[round(x, 1), round(z, 1)] for x, z in ring],
+                            "area": int(blob.sum()), "c": [round(cx, 1), round(cz, 1)]}
+    best = max(cands, key=lambda c: c["area"])
+    best.pop("d", None)
+    return best
+
+
+def trace_fairway(C, F, frame, h):
+    """seeded every 25 m down the middle of the hole, each seed with its own local
+    colour; the union is the mown corridor as this plan draws it"""
+    if h["par"] == 3:
+        return []
+    line = h["line"]
+    tot = poly_len(line)
+    seeds = []
+    f = 120.0 / tot if tot > 260 else 0.35
+    while f < 0.93:
+        d = f * tot
+        for i in range(len(line) - 1):
+            seg = math.hypot(line[i+1][0]-line[i][0], line[i+1][1]-line[i][1])
+            if d <= seg:
+                t = d / seg
+                cx = line[i][0] + (line[i+1][0]-line[i][0]) * t
+                cz = line[i][1] + (line[i+1][1]-line[i][1]) * t
+                b = math.atan2(line[i+1][0]-line[i][0], line[i+1][1]-line[i][1])
+                # not ON the line: the centre line is painted white on every plan,
+                # and a seed on paper grows nothing
+                for off in (-14, -8, -4, 4, 8, 14):
+                    seeds.append((cx + -math.cos(b) * off, cz + math.sin(b) * off))
+                break
+            d -= seg
+        f += 25.0 / tot
+    m = grow(C, F, frame, seeds, TOL_FAIR)
+    # keep it a corridor: nothing past 45 m of the line survives into the fairway
+    x0, z0, nx, nz = frame
+    gx, gz = np.meshgrid(np.arange(nx), np.arange(nz))
+    keep = np.zeros((nz, nx), bool)
+    for j in range(nz):
+        for i in range(0, nx, 3):
+            if dist_to_line(x0 + i * CELL, z0 + j * CELL, line) < 45:
+                keep[j, max(0, i - 1):i + 2] = True
+    m &= keep
+    m = binary_clean(m, close=3, open_=1)
+    lab, n = components(m)
+    out = []
+    for c in range(1, n + 1):
+        blob = lab == c
+        area = int(blob.sum())
+        if area < 420:
+            continue
+        ring_px = boundary(blob)
+        ring = simplify([(x0 + i * CELL, z0 + j * CELL) for j, i in ring_px], 1.4)
+        if len(ring) < 4:
+            continue
+        cx, cz = centroid(ring)
+        out.append({"ring": [[round(x, 1), round(z, 1)] for x, z in ring],
+                    "area": area, "c": [round(cx, 1), round(cz, 1)]})
+    out.sort(key=lambda r: -r["area"])
+    return out[:6]
+
+
+# ------------------------------------------------------------------ validation# ------------------------------------------------------------------ validation
 print("\nvalidating the whole chain on the surveyed holes (never entered calibration shapes' positions):")
 val = []
 for n in MAPPED:
     reg, im = regs[n]
     h = HOLES[n]
-    cls, names, frame = sample_classes(im, reg, h, cal)
-    greens = trace_blobs(cls, names, frame, "green", 180)
-    if not greens:
+    cls, names, frame, C, F = sample_classes(im, reg, h, cal)
+    g = trace_green(C, F, frame, h)
+    if not g:
         print(f"  hole {n:2d}: NO green traced")
         continue
-    # the traced green nearest the pin
-    g = min(greens, key=lambda r: math.hypot(r["c"][0] - h["pin"][0], r["c"][1] - h["pin"][1]))
     dc = math.hypot(g["c"][0] - centroid(h["green"]["ring"])[0], g["c"][1] - centroid(h["green"]["ring"])[1])
     ratio = g["area"] / max(1, abs(sum(
         (h["green"]["ring"][j][0] + h["green"]["ring"][i][0]) * (h["green"]["ring"][j][1] - h["green"]["ring"][i][1])
@@ -360,24 +590,59 @@ out = {}
 for n in UNMAPPED:
     reg, im = regs[n]
     h = HOLES[n]
-    cls, names, frame = sample_classes(im, reg, h, cal)
-    greens = trace_blobs(cls, names, frame, "green", 180)
-    fairways = trace_blobs(cls, names, frame, "fairway", 380)
-    bunkers = trace_blobs(cls, names, frame, "sand", 9, max_keep=12)
-    g = None
-    if greens:
-        g = min(greens, key=lambda r: math.hypot(r["c"][0] - h["pin"][0], r["c"][1] - h["pin"][1]))
-        if math.hypot(g["c"][0] - h["pin"][0], g["c"][1] - h["pin"][1]) > 30:
-            g = None
-    # bunkers must be near the corridor and not inside the green
+    cls, names, frame, C, F = sample_classes(im, reg, h, cal)
+    g = trace_green(C, F, frame, h)
+    fairways = trace_fairway(C, F, frame, h)
+    fairways = [f for f in fairways
+                if math.hypot(f["c"][0] - h["pin"][0], f["c"][1] - h["pin"][1]) > 30]
+    bunkers = trace_blobs(cls, names, frame, "sand", 12, max_keep=14)
+    # near the corridor, not on the green, not micro-noise; and the guide knows how
+    # many this hole has, so the count is capped by its inventory rather than by hope
     bunkers = [b for b in bunkers
-               if dist_to_line(b["c"][0], b["c"][1], h["line"]) < 55
+               if b["area"] <= 650
+               and dist_to_line(b["c"][0], b["c"][1], h["line"]) < 48
                and not (g and point_in_poly(b["c"][0], b["c"][1], g["ring"]))]
+    guide_n = len(inv_bunkers.get(n, []))
+    bunkers.sort(key=lambda b: -b["area"])
+    bunkers = bunkers[:max(guide_n + 1, 2)]
+    # the survey knows this green's depth (front to back); a trace that disagrees
+    # badly is a trace of something else, and the GPS ellipse serves instead
+    note = "traced"
+    if g:
+        P = GPSPT[n]
+        F_, B_ = P["Green Front"], P["Green Back"]
+        depth_gps = math.hypot(B_[0] - F_[0], B_[1] - F_[1])
+        ax = math.atan2(B_[0] - F_[0], B_[1] - F_[1])
+        ext = [((q[0] - g["c"][0]) * math.sin(ax) + (q[1] - g["c"][1]) * math.cos(ax)) for q in g["ring"]]
+        depth_traced = max(ext) - min(ext)
+        if depth_gps > 6 and not (0.55 < depth_traced / depth_gps < 1.9):
+            note = f"rejected (depth {depth_traced:.0f} m vs survey {depth_gps:.0f} m)"
+            g = None
     out[str(n)] = {
         "green": g, "fairways": fairways, "bunkers": bunkers,
         "scale": round(reg.scale, 3), "rotErr": round(rot_err[n], 1),
     }
-    print(f"  hole {n:2d}: green {'traced' if g else 'MISSED'}, {len(fairways)} fairway pieces, {len(bunkers)} bunkers")
+    print(f"  hole {n:2d}: green {note if g or 'rejected' in note else 'MISSED'}, {len(fairways)} fairway pieces, {len(bunkers)} bunkers")
+
+# draw what was traced back onto each plan, for the eye
+from PIL import ImageDraw
+SHOTS = os.path.join(ROOT, "geobuild", "shots")
+os.makedirs(SHOTS, exist_ok=True)
+for n in UNMAPPED:
+    reg, im = regs[n]
+    img = Image.fromarray(im.astype(np.uint8))
+    d = ImageDraw.Draw(img)
+    def draw_ring(ring, col, wdt=4):
+        pts = [reg.to_px(*q) for q in ring] + [reg.to_px(*ring[0])]
+        d.line(pts, fill=col, width=wdt)
+    tr = out[str(n)]
+    for f in tr["fairways"]:
+        draw_ring(f["ring"], (60, 120, 255))
+    for b_ in tr["bunkers"]:
+        draw_ring(b_["ring"], (255, 140, 0))
+    if tr["green"]:
+        draw_ring(tr["green"]["ring"], (255, 0, 255))
+    img.resize((800, 1000), Image.LANCZOS).save(os.path.join(SHOTS, f"trace{n:02d}.png"))
 
 json.dump({
     "note": "geometry traced off the club's hole plans, registered by tee+pin anchors; "
