@@ -649,7 +649,9 @@ function classify(x, z) {
   }
   for (const b of BI.at(x, z)) {
     const sd = ringSD(x, z, b.ring);
-    if (sd < 0.6) sand = Math.max(sand, 1 - smooth(-0.8, 0.6, sd));
+    /* a bunker edge is CUT: the old 1.4 m fade left a halo of half-sand grass
+       around every bunker and half-grass sand inside it */
+    if (sd < 0.25) sand = Math.max(sand, 1 - smooth(-0.45, 0.25, sd));
   }
   for (const f of FI.at(x, z)) {
     const sd = ringSD(x, z, f.ring);
@@ -665,7 +667,7 @@ function classify(x, z) {
       if (sd < 2) forest = Math.max(forest, 1 - smooth(-6, 2, sd));
     } else if (v.kind === 'sand') {
       const sd = ringSD(x, z, v.ring);
-      if (sd < 1) sand = Math.max(sand, 1 - smooth(-1.5, 1, sd));
+      if (sd < 0.5) sand = Math.max(sand, 1 - smooth(-0.9, 0.5, sd));
     } else if (v.kind === 'wetland') {
       const sd = ringSD(x, z, v.ring);
       if (sd < 2) wet = Math.max(wet, 1 - smooth(-4, 2, sd));
@@ -814,11 +816,12 @@ function groundAt(x, z, h) {
     col = col.map((v, i) => lerp(v, C.green[i], c.green));
     if (c.green > 0.5) sid = S_GREEN;
   }
-  if (c.sand > 0.02) {
-    const grain = Math.sin(x * 0.9 + z * 0.42) * 0.03;
-    col = col.map((v, i) => lerp(v, C.sand[i] + grain, c.sand));
-    if (c.sand > 0.5) sid = S_SAND;
-  }
+  /* NO sand paint on the terrain mesh: a sand-coloured vertex bleeds a 4 m halo
+     into the surrounding grass however tight the classify window is, and every
+     bunker wore a pale diamond. The overlay mesh draws all the sand -- extended
+     past the ring so it tucks over the seam -- and the ground beneath keeps its
+     turf, the way a cut bunker actually meets its bank. c.sand still guards the
+     scatter and the planter. */
 
   /* The waterline: wet sand, then bleached shore. Gated on the horizontal distance
      to the ring as well as the height, because the shore carve keeps the ground
@@ -1406,7 +1409,31 @@ function obb2(ring) {
   return best;
 }
 
-function surfaceMesh(rings, lift, maxEdge, shade) {
+/* The rendered ground is NOT terrainH: it is terrainH sampled on the 4 m core grid
+   and linearly interpolated across each triangle (split on the b-c diagonal, the
+   same way buildTerrain indexes them). A conforming overlay must hug THAT surface:
+   in a dished bunker the grid's chords ride well above the analytic curve, and an
+   overlay lifted 3 cm off the curve had the terrain's grass triangles surfacing
+   through the middle of the sand. Corner heights are memoised -- neighbouring
+   overlay vertices share cells, so this costs about what one terrainH call did. */
+const meshHCache = new Map();
+function meshH(x, z) {
+  if (x <= CORE.x0 || x >= CORE.x1 || z <= CORE.z0 || z >= CORE.z1) return terrainH(x, z);
+  const gx = Math.floor((x - CORE.x0) / CORE.dx), gz = Math.floor((z - CORE.z0) / CORE.dx);
+  const x0 = CORE.x0 + gx * CORE.dx, z0 = CORE.z0 + gz * CORE.dx;
+  const u = (x - x0) / CORE.dx, v = (z - z0) / CORE.dx;
+  const cH = (i, j) => {
+    const k = i * 65536 + j;
+    let h = meshHCache.get(k);
+    if (h === undefined) { h = terrainH(CORE.x0 + i * CORE.dx, CORE.z0 + j * CORE.dx); meshHCache.set(k, h); }
+    return h;
+  };
+  const ha = cH(gx, gz), hb = cH(gx + 1, gz), hc = cH(gx, gz + 1), hd = cH(gx + 1, gz + 1);
+  return u + v <= 1 ? ha + (hb - ha) * u + (hc - ha) * v
+                    : hd + (hc - hd) * (1 - u) + (hb - hd) * (1 - v);
+}
+
+function surfaceMesh(rings, lift, maxEdge, shade, conservative) {
   const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], idx = [];
   for (const ring of rings) {
     if (ring.length < 3) continue;
@@ -1415,7 +1442,17 @@ function surfaceMesh(rings, lift, maxEdge, shade) {
     const { V, F } = subdivide(ring, faces, maxEdge);
     const base = pos.length / 3;
     for (const [x, z] of V) {
-      const h = terrainH(x, z);
+      /* conservative: matching heights AT the vertices is not enough where the
+         grid surface is convex BETWEEN them -- the bunker lip is a 4 m crease,
+         and an overlay chord crossing it cut below the ridge, so the terrain
+         surfaced through the sand as green gashes. Sampling a small neighbourhood
+         and keeping the max rides the overlay over every crease it can span. */
+      const h = conservative
+        ? Math.max(meshH(x, z),
+                   meshH(x + 1.6, z), meshH(x - 1.6, z), meshH(x, z + 1.6), meshH(x, z - 1.6),
+                   meshH(x + 1.15, z + 1.15), meshH(x - 1.15, z + 1.15),
+                   meshH(x + 1.15, z - 1.15), meshH(x - 1.15, z - 1.15))
+        : meshH(x, z);
       const g = shade ? shade(x, z, h) : groundAt(x, z, h);
       const ao = horizonAO(x, z, h);
       pos.push(x, h + lift, z);
@@ -1505,13 +1542,21 @@ const shadeTee = () => (x, z) => ({
 });
 const shadeSand = (x, z) => {
   const g = fbm(x * 0.3, z * 0.3, 2) * 0.05;
-  return { col: C.sand.map(v => v * (0.95 + g)), det: 2.3, bmp: 0.6, gls: 0.13, str: 0, mow: 0, mowK: 0 };
+  /* the raked centre is palest; toward the wall under the lip the sand darkens
+     and warms -- the occlusion of a cut hazard, which a light grid this coarse
+     cannot shade on its own. sd is distance to the bunker's own edge. */
+  let sd = -9;
+  for (const b of BI.at(x, z)) sd = Math.max(sd, ringSD(x, z, b.ring));
+  const wall = smooth(-1.5, -0.05, sd);
+  const k = 0.95 + g;
+  return { col: [C.sand[0] * k * (1 - wall * 0.14), C.sand[1] * k * (1 - wall * 0.20), C.sand[2] * k * (1 - wall * 0.28)],
+           det: 2.3, bmp: 0.6, gls: 0.13, str: 0, mow: 0, mowK: 0 };
 };
 
 {
   const sandMat = makeSand();
-  const add = (rings, lift, edge, shade, order, mat) => {
-    const g = surfaceMesh(rings, lift, edge, shade);
+  const add = (rings, lift, edge, shade, order, mat, cons) => {
+    const g = surfaceMesh(rings, lift, edge, shade, cons);
     if (!g) return;
     const m = new THREE.Mesh(g, mat || turfMat);
     m.receiveShadow = true;
@@ -1529,14 +1574,14 @@ const shadeSand = (x, z) => {
     add([h.green.ring], 0.072, 1.4, shadeGreen(h), 4);
     add(h.tees.pads.map(t => offsetRing(t.ring, 2.2)), 0.05, 3.0, shadeCollar(h), 3);
     add(h.tees.pads.map(t => t.ring), 0.086, 2.0, shadeTee(), 4);
-    if (h.bunkers.length) add(h.bunkers.map(b => b.ring), 0.028, 2.2, shadeSand, 5, sandMat);
+    if (h.bunkers.length) add(h.bunkers.map(b => offsetRing(b.ring, 0.5)), 0.035, 1.8, shadeSand, 5, sandMat, true);
   }
   /* the short course, the range and the practice green are mown grass too */
   add(M.scenery.fairways.concat(M.scenery.range), 0.03, 5.0,
       (x, z) => ({ ...shadeFair(null)(x, z), str: 0.35, mowK: 0 }), 2);
   add(M.scenery.greens, 0.06, 1.8, shadeGreen(null), 4);
   add(M.scenery.tees, 0.07, 2.4, shadeTee(), 4);
-  add(M.scenery.bunkers.concat(M.veg.sand), 0.026, 2.6, shadeSand, 5, sandMat);
+  add(M.scenery.bunkers.concat(M.veg.sand).map(r => offsetRing(r, 0.5)), 0.035, 2.2, shadeSand, 5, sandMat, true);
 }
 
 /* -------------------------------------------------------------- parking
