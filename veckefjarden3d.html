@@ -1427,6 +1427,19 @@ function skirt(R, depth, sampler) {
 const under = (R, by) => ({ x0: R.x0 + by, x1: R.x1 - by, z0: R.z0 + by, z1: R.z1 - by });
 
 const turfMat = makeTurf();
+/* Every surface that LIES ON the terrain -- mown overlays, sand, roads, paths,
+   parking, ballast, the greengrid -- nudges itself in front of it in DEPTH SPACE,
+   in units of whatever precision the device's depth buffer actually has. The
+   centimetres of world-space lift alone z-fight on a phone's shallow buffer at
+   distance, which is where the speckled fairways in the phone photo came from.
+   Only the three terrain levels themselves stay un-nudged. */
+const nudged = (tier, mk = makeTurf) => {
+  const m = mk();
+  m.polygonOffset = true;
+  m.polygonOffsetFactor = -tier;
+  m.polygonOffsetUnits = -tier * 2;
+  return m;
+};
 const coreMesh = new THREE.Mesh(buildTerrain(CORE, null, true), turfMat);
 coreMesh.userData.tag = 'core';
 coreMesh.receiveShadow = true; coreMesh.castShadow = true;
@@ -1676,23 +1689,11 @@ const shadeSand = (x, z) => {
 };
 
 {
-  /* Each overlay tier pulls itself in front of the layers beneath IN DEPTH SPACE,
-     not only by centimetres of lift: a phone's 16-bit depth buffer cannot tell a
-     2 cm gap apart at four hundred metres, and the mown surfaces came back from
-     one speckled with the layer below fighting through. polygonOffset counts in
-     the buffer's own precision, whatever that is on the device. */
-  const overlayMat = tier => {
-    const m = makeTurf();
-    m.polygonOffset = true;
-    m.polygonOffsetFactor = -tier;
-    m.polygonOffsetUnits = -tier * 2;
-    return m;
-  };
-  const OMATS = [null, overlayMat(1), overlayMat(2), overlayMat(3), overlayMat(4)];
-  const sandMat = makeSand();
-  sandMat.polygonOffset = true;
-  sandMat.polygonOffsetFactor = -5;
-  sandMat.polygonOffsetUnits = -10;
+  /* Each overlay tier pulls itself in front of the layers beneath in depth space:
+     semi first, then fairway, collar, green and tee, sand above all -- so the
+     stack resolves on any depth buffer, not just a deep desktop one. */
+  const OMATS = [null, nudged(1), nudged(2), nudged(3), nudged(4)];
+  const sandMat = nudged(5, makeSand);
   const add = (rings, lift, edge, shade, order, mat, cons) => {
     const g = surfaceMesh(rings, lift, edge, shade, cons);
     if (!g) return;
@@ -1735,7 +1736,7 @@ const carSpots = [];
       return { col: C.hard.map(v => v * (0.95 + n * 0.09)), det: 2.6, bmp: 0.4, gls: 0.12, str: 0 };
     });
     if (g) {
-      const m = new THREE.Mesh(g, turfMat);
+      const m = new THREE.Mesh(g, nudged(3));
       m.receiveShadow = true; m.renderOrder = 3;
       scene.add(m);
       stats.draws++;
@@ -1962,16 +1963,10 @@ function makeAsphalt() {
       asphaltRuns.push({ line: p.line, w: 1.3, paint: 0, lift: 0.07, tone: C.aspL });
     else dirtRuns.push({ line: p.line, w: 0.55, lift: 0.06, tone: C.soil });
   }
-  const asphaltMat = makeAsphalt();
-  asphaltMat.polygonOffset = true;
-  asphaltMat.polygonOffsetFactor = -2;
-  asphaltMat.polygonOffsetUnits = -4;
+  const asphaltMat = nudged(2, makeAsphalt);
   /* the gravel and dirt ribbons shared the terrain's own material, so on a
      shallow depth buffer the ground fought straight through them */
-  const ribbonTurf = makeTurf();
-  ribbonTurf.polygonOffset = true;
-  ribbonTurf.polygonOffsetFactor = -2;
-  ribbonTurf.polygonOffsetUnits = -4;
+  const ribbonTurf = nudged(2);
   for (const [runs, asphalt, mat] of [[asphaltRuns, true, asphaltMat],
                                       [gravelRuns, false, ribbonTurf],
                                       [dirtRuns, false, ribbonTurf]]) {
@@ -2961,7 +2956,7 @@ if (M.cover) {
                                 minH: r.bridge ? ((M.water.find(w => w.isLake) || { level: 22 }).level + 8) : -1e9 }));
     const g = buildRoad(runs, false);
     if (g) {
-      const m = new THREE.Mesh(g, turfMat);
+      const m = new THREE.Mesh(g, nudged(2));
       m.receiveShadow = true; m.renderOrder = 1;
       scene.add(m);
       stats.draws++;
@@ -4033,8 +4028,12 @@ function buildGreenGrid() {
     cols[i * 3] = c[0]; cols[i * 3 + 1] = c[1]; cols[i * 3 + 2] = c[2];
   }
   geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-  gridMesh = new THREE.Mesh(geo, new THREE.MeshBasicNodeMaterial({
-    vertexColors: true, wireframe: true, transparent: true, opacity: 0.8 }));
+  const gm = new THREE.MeshBasicNodeMaterial({
+    vertexColors: true, wireframe: true, transparent: true, opacity: 0.8 });
+  gm.polygonOffset = true;
+  gm.polygonOffsetFactor = -6;
+  gm.polygonOffsetUnits = -12;
+  gridMesh = new THREE.Mesh(geo, gm);
   gridMesh.renderOrder = 7;
   scene.add(gridMesh);
 }
