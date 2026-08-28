@@ -529,3 +529,71 @@ length each hole line is slid to.
 - The NVGK-specific landmarks (chapel, marina boats, far sea) all guard on
   features Puttom lacks and no-op; a bespoke clubhouse and the blind-hole
   sighting tower are open polish items.
+
+## More courses — `angso3d`, `upsala3d`, `johannesberg3d` (+ their `*build/`)
+
+Three more Swedish clubs, built on the same engine and the same disciplines. What
+differs between them is only WHERE THE GEOMETRY COMES FROM, and by now that has
+settled into a spectrum worth stating plainly, because each new course lands
+somewhere on it and the pipeline choice follows:
+
+| course | OSM golf data | GPS survey | so the geometry is |
+|---|---|---|---|
+| Veckefjärden | 12 of 18 holes | full club survey | OSM + club plans |
+| Puttom | everything | full (GolfTraxx) | OSM shapes, GPS anchors them |
+| Upsala | 17 greens, 86 bunkers, no hole lines | hole 1 only | OSM shapes, satellite supplies the ROUTING |
+| Ängsö | 4 of 18 holes (numbered!) | hole 1 only | mostly satellite, 4 holes calibrate it |
+| Norrfällsviken | nothing | full club survey | satellite traces, GPS anchors them |
+| Johannesberg | property outline + 2 greens | none at all | satellite traces, banguide routes them |
+
+**The GolfTraxx pull only works where GolfTraxx has the data.** `geo_data/golftraxx_extract.py`
+is exact where it applies (see the Puttom section), but Ängsö, Upsala and
+Johannesberg return **hole 1 only** — and Johannesberg is not in their Swedish
+directory at all. Check before planning around it. Two traps in that directory:
+ids are NOT unique per course (Ängsö shares 73126SW with Köping; Upsala's three
+entries share two ids), so `coursename` disambiguates and the returned
+coordinates are what confirm you got the right club.
+
+**Linking a banguide to the ground.** With no GPS, the club's own banguide is the
+routing authority and the satellite is the georeference. The strongest method a
+tracing agent found — worth reusing — was to detect all 18 red flags in the
+banguide, convert each flag-pole foot to a world point, and RANSAC-fit a
+similarity against the OSM green centroids: at Upsala 16 of 17 matched at mean
+residual 1.5 m, which then made every hole assignment certain.
+
+**Cards are verified before use, not after.** Every card here was checked to
+reproduce the club's own printed per-tee totals and to carry a 1-18 index
+permutation before any geometry was fitted to it. That caught real things:
+Ängsö's hole 1 has THREE values in circulation (355 / 386 / 396) and only 386
+makes the printed totals add up — the hole was lengthened between the 2020 and
+2023 cards, so expect an old tee pad ~31 m forward of the back tee. Johannesberg
+has two whole card versions, the rated lengths and the 2026 banguide, differing
+in exactly four cells; they reconcile as a re-teeing, and the 2026 one is used
+because geometry must match where the pads are today.
+
+### Things these three taught the pipeline
+
+- **A relation fetch drags in far-away ways.** Mälaren's multipolygon brought a
+  `golf=water_hazard` from a club 43 km east and stretched Ängsö's course hull
+  across half the province. Golf ways and relation rings are now distance-filtered.
+- **An extract can hold more than one club.** Johannesberg's also contains Nifsta
+  GK 2.4 km west, and `parse-osm` kept whichever parsed last — handing the course
+  its neighbour's boundary. It now takes the polygon containing ORIGIN.
+- **`leisure=golf_course` is the best hull there is.** Where OSM has one it bounds
+  the whole property; at Johannesberg two greens would have implied a 100 m course.
+- **Submersion must be tested LOCALLY.** A flat "nothing below sea level" floor is
+  meaningless inland: Ängsö carries water from 6.5 to 42 m, and Terrarium reads
+  the Mälaren bay ~3 m ABOVE the course ground beside it (DEM bias on a flat
+  shore), which failed three perfectly dry greens and tees. A point is wet only if
+  it is inside a water ring AND below THAT ring's level; the flat floor is kept
+  only where there is a real sea at one level. The floor itself is derived in
+  reconcile from every water body the model knows, traced ponds included — the
+  heightfield stage only sees OSM's.
+
+### Ängsö — two facts the render must respect
+
+The club is **not on Ängsön**: it sits on the mainland peninsula immediately north
+of the island, across Spånsundet, the island edge some 700 m south of the
+clubhouse. And its neighbour is **Ängsö naturreservat** in Västmanland, not the
+Ängsö national park of the same name, which is an island 100 km east in Roslagen.
+Both were wrong in the first draft of the page.
