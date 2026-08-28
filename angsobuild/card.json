@@ -1,0 +1,283 @@
+{
+ "club": "Ängsö Golfklubb (Ängsö GK)",
+ "source": "Club scorecard Scorekort-2023.pdf (angsogolfklubb.com), machine-extracted and internally consistent: the per-hole metres reproduce the printed UT 3112 and S:a 6289 (Vit) and 5850 (Gul) exactly. Confirmed hole-by-hole against caddee.se and golfisverige.com, which differ only on hole 1 (see note).",
+ "note": "Par 72 (36 out / 36 in). Five tees, metres. Course by Åke Hultström, opened 1985; club founded 1979. Hole 1 was LENGTHENED between the 2020 and 2023 cards (Vit 355 -> 386, Gul 336 -> 350); the older figures are still served by several third-party sites and by the club's own LiveCaddie banguide. 386 is used here because it is what makes the printed totals add up. Par 3s: 3, 9, 12, 15. Par 5s: 5, 7, 10, 18.",
+ "teeNames": [
+  "Vit",
+  "Gul",
+  "Blå",
+  "Röd",
+  "Ora"
+ ],
+ "holes": [
+  {
+   "n": 1,
+   "par": 4,
+   "hcp": 10,
+   "t": [
+    386,
+    350,
+    319,
+    270,
+    238
+   ]
+  },
+  {
+   "n": 2,
+   "par": 4,
+   "hcp": 6,
+   "t": [
+    348,
+    331,
+    282,
+    253,
+    221
+   ]
+  },
+  {
+   "n": 3,
+   "par": 3,
+   "hcp": 8,
+   "t": [
+    179,
+    171,
+    122,
+    119,
+    92
+   ]
+  },
+  {
+   "n": 4,
+   "par": 4,
+   "hcp": 2,
+   "t": [
+    337,
+    315,
+    305,
+    236,
+    208
+   ]
+  },
+  {
+   "n": 5,
+   "par": 5,
+   "hcp": 18,
+   "t": [
+    493,
+    456,
+    400,
+    339,
+    293
+   ]
+  },
+  {
+   "n": 6,
+   "par": 4,
+   "hcp": 16,
+   "t": [
+    337,
+    317,
+    308,
+    272,
+    201
+   ]
+  },
+  {
+   "n": 7,
+   "par": 5,
+   "hcp": 4,
+   "t": [
+    545,
+    525,
+    445,
+    384,
+    321
+   ]
+  },
+  {
+   "n": 8,
+   "par": 4,
+   "hcp": 14,
+   "t": [
+    344,
+    331,
+    285,
+    257,
+    195
+   ]
+  },
+  {
+   "n": 9,
+   "par": 3,
+   "hcp": 12,
+   "t": [
+    143,
+    122,
+    114,
+    95,
+    55
+   ]
+  },
+  {
+   "n": 10,
+   "par": 5,
+   "hcp": 1,
+   "t": [
+    527,
+    514,
+    438,
+    386,
+    326
+   ]
+  },
+  {
+   "n": 11,
+   "par": 4,
+   "hcp": 17,
+   "t": [
+    340,
+    294,
+    284,
+    233,
+    189
+   ]
+  },
+  {
+   "n": 12,
+   "par": 3,
+   "hcp": 9,
+   "t": [
+    169,
+    160,
+    136,
+    135,
+    65
+   ]
+  },
+  {
+   "n": 13,
+   "par": 4,
+   "hcp": 5,
+   "t": [
+    426,
+    370,
+    351,
+    305,
+    249
+   ]
+  },
+  {
+   "n": 14,
+   "par": 4,
+   "hcp": 11,
+   "t": [
+    350,
+    338,
+    292,
+    261,
+    188
+   ]
+  },
+  {
+   "n": 15,
+   "par": 3,
+   "hcp": 7,
+   "t": [
+    172,
+    145,
+    134,
+    85,
+    63
+   ]
+  },
+  {
+   "n": 16,
+   "par": 4,
+   "hcp": 13,
+   "t": [
+    338,
+    327,
+    292,
+    269,
+    194
+   ]
+  },
+  {
+   "n": 17,
+   "par": 4,
+   "hcp": 3,
+   "t": [
+    358,
+    339,
+    308,
+    274,
+    214
+   ]
+  },
+  {
+   "n": 18,
+   "par": 5,
+   "hcp": 15,
+   "t": [
+    497,
+    445,
+    385,
+    348,
+    285
+   ]
+  }
+ ],
+ "slope": {
+  "parForRating": 72,
+  "ratingDate": "Banan värderad 2023-05-03",
+  "teeSetsRated": 8,
+  "structure": "The tables are split by sex and are deliberately ASYMMETRIC — men are rated from Vit/Gul/Blå/Röd (no Orange), women from Gul/Blå/Röd/Orange (no Vit). This is not a gap in the research: those combinations are genuinely unpublished and are recorded null rather than cross-filled. Hole19 lists exactly the same 8 rated sets (white, yellow m/l, blue m/l, red m/l, orange), and slope.no states '4 tees för herrar och 4 för damer'.",
+  "herrar": {
+   "Vit": {
+    "CR": 73,
+    "slope": 133
+   },
+   "Gul": {
+    "CR": 70.9,
+    "slope": 128
+   },
+   "Blå": {
+    "CR": 67.7,
+    "slope": 121
+   },
+   "Röd": {
+    "CR": 64.2,
+    "slope": 116
+   },
+   "Orange": {
+    "CR": null,
+    "slope": null
+   }
+  },
+  "damer": {
+   "Vit": {
+    "CR": null,
+    "slope": null
+   },
+   "Gul": {
+    "CR": 77,
+    "slope": 130
+   },
+   "Blå": {
+    "CR": 73,
+    "slope": 123
+   },
+   "Röd": {
+    "CR": 68.9,
+    "slope": 114
+   },
+   "Orange": {
+    "CR": 63.3,
+    "slope": 101
+   }
+  },
+  "agreement": "THREE INDEPENDENT PATHS AGREE DIGIT FOR DIGIT on the values above: the club's own Slopetabell-Herrar-2023.pdf and Slopetabell-Damer-2023.pdf (Report A), slope.no checked 2026-08-28, and Hole19's embedded tee JSON (Report B). The club's /slope/ page quotes the two headline figures 'Herrar Gul: 70,9/128. Damer röd: 68,9/114', matching.",
+  "dissenting": "GolfPass alone publishes a uniformly higher set — Vit 74.0/140, Gul 71.9/136, Blå 68.5/129, Röd 65.3/123 for men; 77.4/135, 73.3/126, 69.4/118, 63.8/106 for women. Every value is 0.4-1.0 higher on CR and 5-7 higher on slope, which is the signature of a pre-WHS rating rather than a transcription error. Not adopted.",
+  "caveat": "slope.no names the club's own 2023 PDF as its upstream, so it corroborates rather than independently confirms. Hole19 is the one genuinely separate lineage."
+ }
+}

@@ -164,7 +164,7 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 
 <div id="boot"><div class="inner">
   <h1>Ängsö Golfklubb</h1>
-  <p class="sub">Ängsö · Mälaren</p>
+  <p class="sub">Stora Bodarna · Mälaren</p>
   <div id="bar"><i></i></div>
   <div id="bmsg">startar</div>
 </div></div>
@@ -272,7 +272,7 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 
 <script type="module">
 /* ===========================================================================
-   Ängsö Golfklubb — a course on an island in Mälaren.
+   Ängsö Golfklubb — a course on a Mälaren peninsula at Stora Bodarna.
 
    The geometry in the GEODATA block below is not drawn by hand or generated
    from a description. It is the fusion of the club's card, the four holes
@@ -281,15 +281,23 @@ body.tour::before{top:0}body.tour::after{bottom:0}
    elevation model -- reconciled by angsobuild/, which prints how far they
    disagree.
 
+   Two things about this place are easy to get wrong, and the scene must not.
+   The course is NOT on Ängsön: it sits on the mainland peninsula immediately
+   north of the island, across Spånsundet -- the island's edge is some 700 m
+   south of the clubhouse and the bridge to it a little beyond that. And the
+   reserve next door is Ängsö NATURRESERVAT in Västmanland, not the Ängsö
+   national park of the same name, which is an island 100 km east in the
+   Roslagen archipelago.
+
    Conventions worth knowing before editing:
      - Local metres about ORIGIN. North is -z, east is +x. A compass bearing is
        atan2(dx, -dz). Forward for a bearing b is (sin b, cos b), so the player's
        right hand is (-cos b, sin b). The reflected version of that looks entirely
        plausible and has mirrored every sided feature on a course once before.
-     - Heights are metres above sea level, unshifted. Mälaren surrounds the
-       island; every pond on the course carries its own measured level, which is
-       why they are pools here rather than craters with a sheet of water laid
-       across them.
+     - Heights are metres above sea level, unshifted. Mälaren wraps the
+       peninsula on three sides; every pond on the course carries its own
+       measured level, which is why they are pools here rather than craters with
+       a sheet of water laid across them.
    =========================================================================== */
 
 import * as THREE from 'three/webgpu';
@@ -3063,7 +3071,7 @@ scene.add(furnitureGroup);
 
 /* ------------------------------------------------------------- furniture */
 await tick('sätter ut flaggor', 0.72);
-const TEE_COLS = [0xf4f4ee, 0xf0c93a, 0xe0574a, 0xe08b3a];
+const TEE_COLS = [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a];
 const flagGroup = new THREE.Group();
 scene.add(flagGroup);
 const pins = [];
@@ -3636,7 +3644,7 @@ function placeSun() {
 
 /* ------------------------------------------------------------------- ui */
 let hole = 1, teeIdx = 0, camMode = 'orbit', flying = 0;
-const TEE_NAMES = ['Vit', 'Gul', 'Röd', 'Orange'];
+const TEE_NAMES = ['Vit', 'Gul', 'Blå', 'Röd', 'Ora'];
 
 const holesBar = document.getElementById('holes');
 for (let n = 1; n <= 18; n++) {

@@ -1,6 +1,7 @@
 /* Frame and shared utilities for the angso3d pipeline.
 
-   Ängsö Golfklubb, on the island of Ängsö in Mälaren east of Västerås. ORIGIN is
+   Ängsö Golfklubb at Stora Bodarna -- on the MAINLAND peninsula north of Ängsön,
+   across Spånsundet, east of Västerås; not on the island it is named after. ORIGIN is
    the centre of the WHOLE course as the satellite shows it, not of the four holes
    OpenStreetMap happens to have mapped -- those sit in its southern third. Same
    conventions as the other pipelines (local metres about ORIGIN, north -z,

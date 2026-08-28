@@ -214,7 +214,7 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 
 <div class="panel hd">
   <h1>Upsala GK</h1>
-  <p id="hdsub">Håmö gård · 18 hål</p>
+  <p id="hdsub">Stora banan · 18 hål · par 72</p>
 </div>
 
 <div class="panel" id="card">
@@ -3061,7 +3061,7 @@ scene.add(furnitureGroup);
 
 /* ------------------------------------------------------------- furniture */
 await tick('sätter ut flaggor', 0.72);
-const TEE_COLS = [0xf4f4ee, 0xf0c93a, 0xe0574a, 0xe08b3a];
+const TEE_COLS = [0x1a1a1a, 0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a];
 const flagGroup = new THREE.Group();
 scene.add(flagGroup);
 const pins = [];
@@ -3634,7 +3634,7 @@ function placeSun() {
 
 /* ------------------------------------------------------------------- ui */
 let hole = 1, teeIdx = 0, camMode = 'orbit', flying = 0;
-const TEE_NAMES = ['Vit', 'Gul', 'Röd', 'Orange'];
+const TEE_NAMES = ['62', '59', '56', '51', '47', '42'];
 
 const holesBar = document.getElementById('holes');
 for (let n = 1; n <= 18; n++) {
