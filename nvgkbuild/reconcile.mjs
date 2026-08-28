@@ -27,6 +27,7 @@ import {
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const card = readJSON(path.join(HERE, 'card.json'));
+const notes = readJSON(path.join(HERE, 'guide-notes.json'));
 const osm = readJSON(path.join(HERE, 'osm-features.json'));
 const traces = readJSON(path.join(HERE, 'sat-shapes.json'));
 const hf = readJSON(path.join(HERE, 'heightfields.json'));
@@ -150,6 +151,9 @@ for (const ch of card.holes) {
     bunkers: (tr.bunkers || []).map(b => ({ ring: ring1(b.ring), prov: 'sat' })),
     pin: gc.slice(),
     elev,
+    name: (notes.holes[String(n)] || {}).name || null,
+    note: (notes.holes[String(n)] || {}).note || null,
+    tiers: (notes.holes[String(n)] || {}).tiers || 1,
     gpsGreenDist: (!g.corrupt && g['Green Center'])
       ? r1(Math.hypot(g['Green Center'][0] - centroid(ring)[0], g['Green Center'][1] - centroid(ring)[1])) : null,
     conf: tr.confidence, notes: tr.notes || null,
