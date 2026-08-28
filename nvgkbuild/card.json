@@ -1,0 +1,32 @@
+{
+ "club": "Norrfällsvikens GK",
+ "site": "https://nvgk.se/",
+ "source": "Club scorecard image nvgk.se/storage/2025/07/IMG_20250701_0001_page-0001.jpg (linked from nvgk.se/scorekort/, uploaded 2025-07). Independently confirmed per-hole by golfisverige.com/caddee.se and golfify.io/golfpass.com. Printed UT/IN/TOT rows match column sums exactly. Third-party aggregators swap holes 4 and 8 relative to this official card; the club's card is authoritative. The GPS survey in geo_data/ uses the aggregator numbering, so reconcile swaps its holes 4 and 8.",
+ "note": "Par 73 (36 ut / 37 in). Tees published: Gul, Röd, Orange. A Blå tee is slope-rated but the club publishes no per-hole Blå lengths. Hole 14 Orange 48 m is printed on the card and verified by the Orange IN total. 'En skogsbana med linkskaraktär som ligger seaside mitt i Höga Kusten' — nvgk.se.",
+ "ratingDate": "2018-07-23",
+ "slope": {
+  "herrar": { "Gul": [72.5, 128], "Blå": [70.5, 123], "Röd": [68.9, 121] },
+  "damer": { "Gul": [78.9, 134], "Blå": [76.5, 129], "Röd": [74.6, 125], "Orange": [68.7, 112] }
+ },
+ "teeNames": ["Gul", "Röd", "Orange"],
+ "holes": [
+  { "n": 1,  "par": 4, "hcp": 12, "t": [329, 268, 200] },
+  { "n": 2,  "par": 3, "hcp": 6,  "t": [164, 149, 149] },
+  { "n": 3,  "par": 4, "hcp": 18, "t": [262, 241, 241] },
+  { "n": 4,  "par": 5, "hcp": 10, "t": [440, 392, 283] },
+  { "n": 5,  "par": 4, "hcp": 8,  "t": [331, 268, 268] },
+  { "n": 6,  "par": 4, "hcp": 2,  "t": [378, 342, 254] },
+  { "n": 7,  "par": 3, "hcp": 14, "t": [110, 91, 72] },
+  { "n": 8,  "par": 4, "hcp": 4,  "t": [366, 316, 269] },
+  { "n": 9,  "par": 5, "hcp": 16, "t": [414, 362, 283] },
+  { "n": 10, "par": 5, "hcp": 9,  "t": [480, 431, 314] },
+  { "n": 11, "par": 3, "hcp": 15, "t": [134, 120, 120] },
+  { "n": 12, "par": 4, "hcp": 5,  "t": [354, 287, 287] },
+  { "n": 13, "par": 4, "hcp": 1,  "t": [334, 290, 222] },
+  { "n": 14, "par": 3, "hcp": 13, "t": [139, 117, 48] },
+  { "n": 15, "par": 4, "hcp": 3,  "t": [321, 292, 207] },
+  { "n": 16, "par": 4, "hcp": 7,  "t": [289, 265, 265] },
+  { "n": 17, "par": 5, "hcp": 17, "t": [381, 343, 254] },
+  { "n": 18, "par": 5, "hcp": 11, "t": [405, 356, 281] }
+ ]
+}
