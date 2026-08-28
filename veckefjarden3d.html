@@ -201,7 +201,7 @@ import {
   Fn, float, vec2, vec3, vec4, color, uniform, attribute, varying, texture, uv,
   positionWorld, positionLocal, normalWorld, normalLocal, cameraPosition, time,
   mix, smoothstep, clamp, pow, max, min, abs, sin, cos, dot, normalize, fract,
-  floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance,
+  floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
   normalMap, bumpMap, transformedNormalView,
 } from 'three/tsl';
@@ -592,6 +592,23 @@ function microClass(x, z) {
   return { amp: base * (1 - mown * 0.8), len: forest > 0.5 ? 23 : 27 };
 }
 
+/* The satellite canopy raster, classified and rasterised at 3 m: 0 unknown, 2 open,
+   3 trees. Decoded here, before the ground is coloured, because it has the last word
+   in BOTH directions: the planter reads it for where trees stand, and groundAt reads
+   it so an OSM forest ring the imagery has thinned to scattered singles does not
+   keep a closed-canopy floor. */
+let coverAt = () => 0;
+if (M.cover) {
+  const cv = M.cover;
+  const bytes = Uint8Array.from(atob(cv.b64), c => c.charCodeAt(0));
+  coverAt = (x, z) => {
+    const i = Math.floor((x - cv.x0) / cv.cell), j = Math.floor((z - cv.z0) / cv.cell);
+    if (i < 0 || j < 0 || i >= cv.nx || j >= cv.nz) return 0;
+    const k = j * cv.nx + i;
+    return (bytes[k >> 2] >> ((k & 3) * 2)) & 3;
+  };
+}
+
 /* what is at a point, as blend weights -- one call, used for colour and for
    whether a tree may stand there */
 function classify(x, z) {
@@ -660,7 +677,10 @@ const C = {
   rough:  L(0x62723d), fescue: L(0x847f4c), semi:  L(0x588c37),
   fair:   L(0x60a03e), green:  L(0x489a4c), fringe:L(0x649540),
   tee:    L(0x5c9d42), sand:   L(0xd6c396), path:  L(0x757168),
-  heath:  L(0x776c3f), forest: L(0x334423), shore: L(0xb2a37e),
+  /* the forest floor was 0x334423 -- against fog-lit turf it rendered near-black,
+     and whole hillsides read as burnt ground; this is bilberry-and-litter brown,
+     with the deepest shade kept for ground the satellite says is closed canopy */
+  heath:  L(0x776c3f), forest: L(0x46512e), shore: L(0xb2a37e),
   wet:    L(0x6a7046), rock:   L(0x736e63),
   /* the surroundings: crop tones for the west-shore fields, slash for the
      clear-fells, hard gravel for the machinery yard, hay for the Ås meadows */
@@ -673,7 +693,10 @@ const C = {
 /* how each surface is shaded: detail scale, bump strength, gloss, mow anisotropy */
 const SHADE = {
   [S_ROUGH]: [0.62, 1.25, 0.06, 0], [S_SEMI]: [1.15, 0.62, 0.17, 0.5],
-  [S_FAIR]: [1.55, 0.44, 0.28, 1.0], [S_GREEN]: [2.85, 0.13, 0.54, 1.75],
+  /* the mow hierarchy runs fairway > tee > green: a green's rings are the tightest
+     cut on the course and the QUIETEST -- at 1.75 the signature 14th read as a
+     bullseye that out-shouted its own fairway */
+  [S_FAIR]: [1.55, 0.44, 0.28, 1.15], [S_GREEN]: [2.85, 0.13, 0.54, 0.9],
   [S_FRINGE]: [2.0, 0.30, 0.34, 0.9], [S_TEE]: [2.2, 0.22, 0.40, 1.3],
   [S_SAND]: [2.3, 0.58, 0.14, 0], [S_PATH]: [3.2, 0.34, 0.18, 0],
   [S_HEATH]: [0.85, 1.05, 0.09, 0], [S_FOREST]: [0.55, 1.35, 0.05, 0],
@@ -698,7 +721,11 @@ function groundAt(x, z, h) {
      enormous pale dune, which is the most obvious thing wrong with a heightfield
      that has been coloured by rule rather than by what grows on it. */
   const sl = Math.hypot(demH(x + 6, z) - demH(x - 6, z), demH(x, z + 6) - demH(x, z - 6)) / 12;
-  const steep = smooth(0.30, 0.78, sl);
+  /* ...but a carved bank inside the playing corridor is mown grass, however steep:
+     the 16th tee's first sightline crossed a bank this recolour painted as raw till,
+     and greens sit against faces steeper than the scrub threshold */
+  const inPlay = (1 - smooth(16, 30, c.dLine)) * (1 - c.forest);
+  const steep = smooth(0.30, 0.78, sl) * (1 - inPlay * 0.8);
   const heath = smooth(0.05, 0.55, n1 * 0.65 + n3 * 0.5) * (1 - c.forest) * (1 - steep * 0.85);
   const damp = smooth(0.30, -0.35, n1 * 0.5 + n3 * 0.75) * (1 - c.forest);
   col = C.rough.map((v, i) => lerp(v, C.fescue[i], smooth(-0.45, 0.55, n2 * 0.5 + n3 * 0.6) * 0.75));
@@ -708,7 +735,14 @@ function groundAt(x, z, h) {
      steep ground, so rock breaks through harder and paler than the first guess */
   col = col.map((v, i) => lerp(v, lerp(C.forest[i], C.rock[i], smooth(0.45, 0.85, sl)), steep * 0.75));
   sid = heath > 0.55 ? S_HEATH : S_ROUGH;
-  if (c.forest > 0.02) { col = col.map((v, i) => lerp(v, C.forest[i], c.forest * 0.85)); sid = S_FOREST; }
+  if (c.forest > 0.02) {
+    /* the satellite has the last word: where it reads open inside an OSM forest
+       ring the ground is litter and heath under scattered singles, not the
+       closed-canopy floor -- this is what un-scorches the thinned hillsides */
+    const closed = coverAt(x, z) === 2 ? 0.42 : 1;
+    col = col.map((v, i) => lerp(v, C.forest[i], c.forest * 0.85 * closed));
+    if (closed === 1 || c.forest * closed > 0.35) sid = S_FOREST;
+  }
   if (c.wet > 0.02) { col = col.map((v, i) => lerp(v, C.wet[i], c.wet * 0.7)); }
 
   /* the surroundings' own ground: fields hashed to a crop tone each, garden lawns,
@@ -777,7 +811,7 @@ function groundAt(x, z, h) {
   }
   const sh = SHADE[sid];
   return { col, sid, det: sh[0], bmp: sh[1], gls: sh[2], str: sh[3] * (1 - c.forest),
-           mow: c.dLine, mowK: sid === S_FAIR ? 2.30 : sid === S_SEMI ? 1.05 : 0 };
+           mow: c.dLine, mowK: sid === S_FAIR ? 0.95 : sid === S_SEMI ? 1.05 : 0 };
 }
 
 /* ------------------------------------------------------------- scene setup */
@@ -903,18 +937,29 @@ scene.add(hemi);
 const PRESETS = {
   /* hemiI 1.20 left the long evening tree shadows dead black -- the low sun casts
      30-80 m of shade and the only light inside it is this hemisphere term */
-  golden: { sun: 0xffcf94, int: 3.1, dir: [-0.56, 0.42, 0.71], hemiS: 0xffdcbb, hemiG: 0x6a684c,
-            hemiI: 1.48, fog: 0xb8bfb8, dens: 0.00040, exp: 1.22, turb: 4.2, ray: 2.1, cloud: 0.40 },
+  /* sun y 0.42 was a 25-degree afternoon wearing golden colours: every warm ramp in
+     the dome and the water tops out at 0.42, so the flagship dusk rendered noon-blue.
+     y 0.18 (11 degrees after normalising) is a real 63N golden hour, and the ramps
+     below were rewidened around it */
+  golden: { sun: 0xffc384, int: 3.1, dir: [-0.56, 0.18, 0.71], hemiS: 0xffdcbb, hemiG: 0x716c52,
+            hemiI: 1.60, fog: 0xc4b49c, dens: 0.00040, exp: 1.22, turb: 4.2, ray: 2.1, cloud: 0.40,
+            bloom: 0.20 },
   noon:   { sun: 0xfffaf0, int: 3.0, dir: [-0.22, 0.88, 0.42], hemiS: 0xdff0ff, hemiG: 0x56634a,
-            hemiI: 1.35, fog: 0xb4cfdc, dens: 0.00033, exp: 1.02, turb: 2.6, ray: 1.1, cloud: 0.26 },
+            hemiI: 1.35, fog: 0xb4cfdc, dens: 0.00033, exp: 1.02, turb: 2.6, ray: 1.1, cloud: 0.26,
+            bloom: 0.08 },
   mist:   { sun: 0xe7f4f2, int: 1.5, dir: [-0.36, 0.52, 0.78], hemiS: 0xd8edf2, hemiG: 0x4e5a4c,
-            hemiI: 1.55, fog: 0xc3d4d8, dens: 0.00115, exp: 1.04, turb: 6.5, ray: 0.6, cloud: 0.62 },
-  dawn:   { sun: 0xffc9a0, int: 2.2, dir: [0.70, 0.26, -0.62], hemiS: 0xb9cfe8, hemiG: 0x44503e,
-            hemiI: 0.95, fog: 0x8ea4b6, dens: 0.00055, exp: 1.18, turb: 5.4, ray: 2.6, cloud: 0.34 },
+            hemiI: 1.55, fog: 0xc3d4d8, dens: 0.00115, exp: 1.04, turb: 6.5, ray: 0.6, cloud: 0.62,
+            bloom: 0.10 },
+  /* hemiI 0.95 sat below the 1.20 the golden note above records as dead-black
+     shadows, and the steel-blue fog said overcast, not daybreak: lifted, and shifted
+     to the cold rose a clear northern dawn actually has */
+  dawn:   { sun: 0xffc9a0, int: 2.2, dir: [0.70, 0.26, -0.62], hemiS: 0xc2bed2, hemiG: 0x4c4c42,
+            hemiI: 1.30, fog: 0x9d93a4, dens: 0.00055, exp: 1.18, turb: 5.4, ray: 2.6, cloud: 0.34,
+            bloom: 0.22 },
   /* the club's own October aerial: low gold sun, storm-grey sky, birches turned */
   host:   { sun: 0xffbe72, int: 2.7, dir: [-0.64, 0.28, 0.58], hemiS: 0xd9cfc2, hemiG: 0x5c5340,
             hemiI: 1.25, fog: 0xa8a89e, dens: 0.00052, exp: 1.2, turb: 5.2, ray: 2.5, cloud: 0.55,
-            leaf: 0xc8842e, reed: 0xa88a3e },
+            leaf: 0xc8842e, reed: 0xa88a3e, bloom: 0.16 },
 };
 let preset = PRESETS.golden;
 const fog = new THREE.FogExp2(0xa2bcca, 0.00042);
@@ -945,7 +990,9 @@ if (IS_GPU) {
   const sunUp = uSun.y.max(0.02);
   const zen = mix(color(0x123a72), color(0x1f5f9e), sunUp);
   const mid = mix(color(0x4d7fa8), color(0x66a0c8), sunUp);
-  const hor = mix(color(0xe6b98a), color(0xbcd3dd), smoothstep(0.05, 0.42, sunUp));
+  /* the warm-horizon ramp reaches 0.52 so a 0.2-0.3 sun (golden, dawn, host) still
+     lands well inside it -- at the old 0.42 ceiling those presets rendered noon-blue */
+  const hor = mix(color(0xe6b98a), color(0xbcd3dd), smoothstep(0.10, 0.52, sunUp));
   let c = mix(hor, mid, pow(saturate(up), 0.72));
   c = mix(c, zen, pow(saturate(up), float(0.85).add(sunUp.mul(0.5))));
   c = mix(color(0x63705f), c, smoothstep(-0.05, 0.03, up));
@@ -1006,6 +1053,9 @@ function setPreset(name) {
   }
   uLeaf.value.setHex(p.leaf ?? 0x5f8944);
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
+  /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
+     noon must not have, so the bloom strength follows the preset */
+  if (renderer.__bloomNode) renderer.__bloomNode.strength.value = p.bloom ?? 0.14;
   placeSun();
   document.querySelectorAll('[data-preset]').forEach(b => b.classList.toggle('on', b.dataset.preset === name));
 }
@@ -1054,7 +1104,13 @@ function makeTurf() {
      view-dependent sheen: the stripes appear and vanish as you walk round the green,
      which is the thing that makes them read as grass rather than as paint. */
   const V = normalize(cameraPosition.sub(positionWorld));
-  const band = sin(aMow.x.mul(aMow.y));
+  /* Fade the band out before it aliases, not after: once a stripe cycle is under a
+     few pixels the sin can only moire, and a floor of residual contrast at distance
+     turned the far fairways to shimmer and the green rings to op-art. fwidth of the
+     phase is exactly cycles-per-pixel, so the attenuation is resolution-aware. */
+  const phase = aMow.x.mul(aMow.y);
+  const band = sin(phase);
+  const bandAA = oneMinus(smoothstep(0.55, 1.7, fwidth(phase)));
   /* A band lying toward the light is paler; one lying away is darker and glossier.
      Part of that is fixed, so the stripes are there at any angle, and part follows
      the view, so they strengthen and fade as you walk round -- which is what tells
@@ -1064,7 +1120,7 @@ function makeTurf() {
      sheen yields as the view turns into the sun. */
   const intoSun = pow(saturate(V.negate().dot(uSun)), 3);
   const sheen = oneMinus(abs(V.y)).mul(0.075).add(0.038).mul(oneMinus(intoSun.mul(0.75)));
-  col = col.mul(float(1).add(band.mul(aStr.min(1.8)).mul(sheen).mul(near.mul(0.45).add(0.55))));
+  col = col.mul(float(1).add(band.mul(aStr.min(1.8)).mul(sheen).mul(near.mul(0.35).add(0.65)).mul(bandAA)));
 
   /* light through the blade rather than off it -- the reason turf glows when the
      sun is low and behind it */
@@ -1073,7 +1129,7 @@ function makeTurf() {
 
   m.colorNode = col;
   /* a mown band lying toward you is glossier than one lying away */
-  m.roughnessNode = clamp(float(0.97).sub(aGls.mul(0.62)).sub(band.mul(aStr).mul(0.05)), 0.40, 0.99);
+  m.roughnessNode = clamp(float(0.97).sub(aGls.mul(0.62)).sub(band.mul(bandAA).mul(aStr).mul(0.05)), 0.40, 0.99);
   /* The blade-level relief lives in the normal map, not in the mesh: a 4 m grid
      cannot hold it and a finer one would cost a quarter of a million vertices to
      say the same thing. It fades out with distance because past a couple of
@@ -1386,15 +1442,18 @@ const mowCoord = (x, z, hole) => hole ? distToLine(x, z, hole.line) : (x + z) * 
 const mowBand = (x, z, hole, k) => Math.sin(mowCoord(x, z, hole) * k) * 0.5 + 0.5;
 const shadeFair = hole => (x, z) => {
   const n = fbm(x * 0.06, z * 0.06, 2);
+  /* mowK 2.30 made 1.4 m stripes -- half a real gang mower's width -- which aliased
+     into shimmer at the 150-300 m a player actually reads a fairway. 0.95 is a
+     3.3 m stripe, and the fairway carries the loudest mow on the course */
   return { col: C.fair.map(v => v * (0.97 + n * 0.06)),
-           det: 1.55, bmp: 0.44, gls: 0.28, str: 1.0,
-           mow: mowCoord(x, z, hole), mowK: 2.30 };
+           det: 1.55, bmp: 0.44, gls: 0.28, str: 1.15,
+           mow: mowCoord(x, z, hole), mowK: 0.95 };
 };
 /* greens are mown in rings from the edge in, which is what the club's own aerials
    show -- the mow coordinate is distance to the green's edge, so the bands close
    concentrically around the surface instead of striping across it */
 const shadeGreen = hole => (x, z) => ({
-  col: C.green.slice(), det: 2.85, bmp: 0.13, gls: 0.42, str: 1.45,
+  col: C.green.slice(), det: 2.85, bmp: 0.13, gls: 0.42, str: 0.85,
   mow: hole ? -ringSD(x, z, hole.green.ring) : (x + z) * 0.7071, mowK: 4.19,
 });
 const shadeCollar = hole => (x, z) => ({
@@ -1794,7 +1853,7 @@ function makeWater() {
   const R = reflect(V.negate(), N);
   const up = saturate(R.y);
   const sunUp = uSun.y.max(0.02);
-  const skyC = mix(mix(color(0xd9c6ad), color(0xcfe0e6), smoothstep(0.05, 0.42, sunUp)),
+  const skyC = mix(mix(color(0xd9c6ad), color(0xcfe0e6), smoothstep(0.10, 0.52, sunUp)),
                    mix(color(0x21538f), color(0x3479b4), sunUp), pow(up, 0.45));
 
   /* depth: the bed falls away from the bank, so the shallows keep their own colour.
@@ -2068,22 +2127,9 @@ const SPECIES = (() => {
   ];
 })();
 
-/* The eighteen hole plans -- real orthophoto, each registered by its tee and pin --
-   classified and rasterised at 3 m: 0 unknown, 2 open, 3 trees. OpenStreetMap's
-   forest polygons stop at the property's edge habits, but the treelines BETWEEN
-   corridors -- the thing that makes each hole a room of its own -- are on the
-   plans, and this raster is how they reach the planter. */
-let coverAt = () => 0;
-if (M.cover) {
-  const cv = M.cover;
-  const bytes = Uint8Array.from(atob(cv.b64), c => c.charCodeAt(0));
-  coverAt = (x, z) => {
-    const i = Math.floor((x - cv.x0) / cv.cell), j = Math.floor((z - cv.z0) / cv.cell);
-    if (i < 0 || j < 0 || i >= cv.nx || j >= cv.nz) return 0;
-    const k = j * cv.nx + i;
-    return (bytes[k >> 2] >> ((k & 3) * 2)) & 3;
-  };
-}
+/* coverAt (the satellite canopy raster) is decoded up by classify(), because the
+   ground colour consults it too -- an OSM forest ring the imagery has thinned to
+   scattered singles must not keep a closed-canopy floor. */
 
 /* Where a tree may stand: in the woodland OSM drew or the hole plans show, off
    every mown surface, off the buildings' yards, out of the water -- and at FULL
@@ -3276,8 +3322,10 @@ if (!LOWQ) {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
   const post = new THREE.PostProcessing(renderer);
   const scenePass = pass(scene, camera);
-  post.outputNode = scenePass.add(bloom(scenePass, 0.14, 0.3, 0.86));
+  const bloomNode = bloom(scenePass, 0.14, 0.3, 0.86);
+  post.outputNode = scenePass.add(bloomNode);
   renderer.__post = post;
+  renderer.__bloomNode = bloomNode;   /* strength is per-preset; setPreset sets it */
 }
 
 /* the shadow camera follows the player, because a 2 km ortho frustum spends its
