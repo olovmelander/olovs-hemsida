@@ -82,6 +82,43 @@ canvas{display:block;position:fixed;inset:0}
 #hint{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:19;font-size:10px;
   color:var(--faint);letter-spacing:.08em;pointer-events:none;transition:opacity .6s}
 
+/* ren vy: everything fades, the landscape stays. The ghost button brings it back. */
+.panel,#hint,#uiToggle{transition:opacity .35s}
+body.clean .panel,body.clean #hint,body.clean #uiToggle{opacity:0;pointer-events:none}
+#cleanExit{display:none;position:fixed;top:calc(10px + env(safe-area-inset-top));
+  right:calc(10px + env(safe-area-inset-right));z-index:41;width:34px;height:34px;
+  border-radius:17px;background:rgba(9,18,14,.5);border:1px solid var(--edge);
+  color:var(--dim);font:600 15px/1 Outfit,sans-serif;cursor:pointer;opacity:.55}
+body.clean #cleanExit{display:block}
+
+/* the bansafari's letterbox and title card */
+body.tour::before,body.tour::after{content:"";position:fixed;left:0;right:0;height:7vh;
+  background:#000;z-index:15;pointer-events:none}
+body.tour::before{top:0}body.tour::after{bottom:0}
+#tourCard{position:fixed;left:50%;bottom:12vh;transform:translateX(-50%);z-index:16;
+  text-align:center;opacity:0;transition:opacity .9s;pointer-events:none;max-width:82vw;
+  text-shadow:0 2px 18px rgba(0,0,0,.85)}
+#tourCard.show{opacity:1}
+#tourCard .tno{font-size:14px;color:var(--turf);font-weight:800;letter-spacing:.22em}
+#tourCard .tnm{font-size:25px;font-weight:800;margin-top:2px}
+#tourCard .ttx{font-size:12.5px;color:var(--dim);margin-top:5px;line-height:1.5}
+
+/* kikaren's readout */
+#kikOut{display:none;bottom:180px;left:14px;max-width:300px;padding:9px 12px;
+  font-size:11px;line-height:1.6;color:var(--dim)}
+#kikOut.show{display:block}
+#kikOut b{color:var(--ink);font-family:'JetBrains Mono',monospace;font-weight:600}
+@media(max-width:980px){#kikOut{bottom:auto;top:calc(64px + env(safe-area-inset-top));left:8px}}
+
+#toast{position:fixed;left:50%;bottom:calc(64px + env(safe-area-inset-bottom));
+  transform:translateX(-50%);z-index:40;padding:9px 14px;border-radius:11px;
+  background:var(--glass);backdrop-filter:blur(22px) saturate(1.25);
+  -webkit-backdrop-filter:blur(22px) saturate(1.25);border:1px solid var(--edge);
+  font-size:11.5px;color:var(--ink);opacity:0;pointer-events:none;transition:opacity .4s;
+  max-width:86vw;text-align:center}
+#toast.show{opacity:1;pointer-events:auto}
+#toast a{color:var(--turf)}
+
 /* the mobile Vy/Ljus toggle: the rail is a sheet a thumb opens, not a permanent
    quarter of a phone screen */
 #uiToggle{display:none;position:fixed;z-index:21;right:calc(8px + env(safe-area-inset-right));
@@ -183,7 +220,9 @@ canvas{display:block;position:fixed;inset:0}
     <button class="btn" data-preset="dawn">Gryning</button>
     <button class="btn" data-preset="host">Höst</button>
   </div>
-  <div class="grp"><button class="btn" id="flyBtn">Flygtur över hålet</button></div>
+  <div class="grp"><button class="btn" id="flyBtn">Flygtur</button><button class="btn" id="tourBtn">Bansafari</button></div>
+  <div class="grp"><button class="btn" id="rangeBtn">Kikaren</button><button class="btn" id="gridBtn">Greengrid</button></div>
+  <div class="grp"><button class="btn" id="shareBtn">Dela vyn</button><button class="btn" id="fotoBtn">Foto</button></div>
   <div id="facts"></div>
 </div>
 
@@ -193,6 +232,10 @@ canvas{display:block;position:fixed;inset:0}
 <div class="panel" id="mini"><canvas id="minic" width="360" height="360"></canvas></div>
 <div id="hint">dra för att se dig omkring · rulla för att zooma</div>
 <button id="uiToggle">Vy · Ljus</button>
+<button id="cleanExit" title="visa panelerna">×</button>
+<div id="tourCard"><div class="tno">HÅL 1</div><div class="tnm">—</div><div class="ttx"></div></div>
+<div class="panel" id="kikOut"></div>
+<div id="toast"></div>
 
 <script type="importmap">
 {"imports":{
@@ -885,6 +928,9 @@ await tick('startar renderaren', 0.10);
 /* ?q=lo is the escape hatch for an integrated GPU: native resolution, smaller
    shadow map, no bloom, and roughly half the scattered instances */
 const LOWQ = new URLSearchParams(location.search).get('q') === 'lo';
+/* runtime quality drop (auto-detected weak GPU) and motion preference */
+let lowfx = false;
+const RMOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4,
   outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance' });
 await renderer.init();
@@ -1096,9 +1142,11 @@ if (IS_GPU) {
   scene.environmentIntensity = 0.58;
 }
 
+let presetName = 'golden';
 function setPreset(name) {
   const p = PRESETS[name] || PRESETS.golden;
   preset = p;
+  presetName = PRESETS[name] ? name : 'golden';
   sun.color.setHex(p.sun); sun.intensity = p.int;
   const d = new THREE.Vector3(...p.dir).normalize();
   uSun.value.copy(d);
@@ -1121,9 +1169,10 @@ function setPreset(name) {
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
      noon must not have, so the bloom strength follows the preset */
-  if (renderer.__bloomNode) renderer.__bloomNode.strength.value = p.bloom ?? 0.14;
+  if (renderer.__bloomNode) renderer.__bloomNode.strength.value = lowfx ? 0 : (p.bloom ?? 0.14);
   placeSun();
   document.querySelectorAll('[data-preset]').forEach(b => b.classList.toggle('on', b.dataset.preset === name));
+  syncURL();
 }
 
 /* ------------------------------------------------------------- materials */
@@ -3634,7 +3683,8 @@ const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 
 function setCam(mode, instant) {
   camMode = mode;
-  const DUR = instant ? 0 : 1.5;
+  const DUR = (instant || RMOTION) ? 0 : 1.5;
+  syncURL();
   document.querySelectorAll('[data-cam]').forEach(b => b.classList.toggle('on', b.dataset.cam === mode));
   const h = HOLES[hole - 1];
   const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
@@ -3674,7 +3724,38 @@ function setCam(mode, instant) {
 function goHole(n, recam, instant) {
   hole = Math.min(18, Math.max(1, n));
   drawCard();
+  kikClear();
+  if (gridOn) buildGreenGrid();
   if (recam) setCam(camMode, instant);
+  syncURL();
+}
+
+/* -------------------------------------------------- deep links + delning
+   Any view is a URL: ?hal=14&vy=tee&ljus=host&tee=2. The address bar follows
+   along (best-effort: file:// refuses replaceState and that is fine), so a
+   plain copy-paste always reproduces what is on screen. */
+const VY2CAM = { tee: 'tee', green: 'green', fritt: 'orbit', ovan: 'top' };
+const CAM2VY = { tee: 'tee', green: 'green', orbit: 'fritt', top: 'ovan' };
+const LJUS2P = { kvall: 'golden', dag: 'noon', dis: 'mist', gryning: 'dawn', host: 'host' };
+const P2LJUS = { golden: 'kvall', noon: 'dag', mist: 'dis', dawn: 'gryning', host: 'host' };
+function syncURL() {
+  try {
+    const sp = new URLSearchParams(location.search);
+    sp.set('hal', hole);
+    sp.set('vy', CAM2VY[camMode] || 'fritt');
+    sp.set('ljus', P2LJUS[presetName] || 'kvall');
+    if (teeIdx) sp.set('tee', teeIdx + 1); else sp.delete('tee');
+    sp.delete('kiosk'); sp.delete('ren');
+    window.history.replaceState(null, '', location.pathname + '?' + sp.toString());
+  } catch (e) { /* file:// */ }
+}
+let toastT = 0;
+function toast(msg, ms = 2600) {
+  const el = document.getElementById('toast');
+  el.innerHTML = msg;
+  el.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => el.classList.remove('show'), ms);
 }
 
 document.querySelectorAll('[data-cam]').forEach(b => b.onclick = () => setCam(b.dataset.cam));
@@ -3692,9 +3773,237 @@ document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPre
     b.addEventListener('click', () => { if (window.matchMedia('(max-width:700px)').matches) closeRail(); }));
 }
 document.getElementById('flyBtn').onclick = () => { flying = flying > 0 ? 0 : 1e-4; };
+
+/* ------------------------------------------------------------ ren vy + foto */
+function setClean(on) {
+  document.body.classList.toggle('clean', on);
+}
+document.getElementById('cleanExit').onclick = () => { if (tour) endTour(); else setClean(false); };
+async function takePhoto() {
+  const wasClean = document.body.classList.contains('clean');
+  setClean(true);
+  await new Promise(r => setTimeout(r, 420));
+  /* render and read back in the same task -- neither backend preserves the buffer */
+  (renderer.__post || renderer).render(scene, camera);
+  const blob = await new Promise(r => renderer.domElement.toBlob(r, 'image/png'));
+  if (!wasClean && !tour) setClean(false);
+  if (!blob) { toast('Kunde inte läsa bilden — ta en skärmbild i ren vy'); return; }
+  const name = `veckefjarden-hal${hole}-${P2LJUS[presetName] || 'kvall'}.png`;
+  const file = new window.File([blob], name, { type: 'image/png' });
+  if (window.navigator.canShare && window.navigator.canShare({ files: [file] })) {
+    try { await window.navigator.share({ files: [file], title: 'Veckefjärdens GC' }); return; }
+    catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  const a = document.createElement('a');
+  a.href = window.URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  setTimeout(() => window.URL.revokeObjectURL(a.href), 4000);
+  toast('Foto sparat');
+}
+document.getElementById('fotoBtn').onclick = takePhoto;
+document.getElementById('shareBtn').onclick = async () => {
+  syncURL();
+  const url = location.href;
+  try {
+    if (window.navigator.share) { await window.navigator.share({ title: document.title, url }); return; }
+  } catch (e) { return; }
+  try { await window.navigator.clipboard.writeText(url); toast('Länk kopierad'); }
+  catch (e) { toast(url, 6000); }
+};
+
+/* ------------------------------------------------------- bansafari (kiosk) */
+let tour = 0, tourCardT = 0;
+function showTourCard() {
+  const h = HOLES[hole - 1], el = document.getElementById('tourCard');
+  el.querySelector('.tno').textContent = `HÅL ${h.n} · PAR ${h.par} · ${h.t[0]} M`;
+  el.querySelector('.tnm').textContent = h.name || `Hål ${h.n}`;
+  el.querySelector('.ttx').textContent = h.shape || h.note || '';
+  el.classList.add('show');
+  clearTimeout(tourCardT);
+  tourCardT = setTimeout(() => el.classList.remove('show'), 6500);
+}
+function startTour() {
+  tour = 1;
+  document.body.classList.add('tour');
+  setClean(true);
+  goHole(1, false);
+  showTourCard();
+  flying = 1e-4;
+}
+function endTour() {
+  tour = 0;
+  flying = 0;
+  document.body.classList.remove('tour');
+  document.getElementById('tourCard').classList.remove('show');
+  setClean(false);
+  setCam(camMode);
+}
+document.getElementById('tourBtn').onclick = startTour;
+
+/* --------------------------------------------------------------- kikaren
+   Click the course, get what a caddie would say: the distance, the climb, the
+   plays-like number, the lie out there, and how much of the line is carry over
+   water. The ray marches terrainH so a tree canopy cannot steal the hit. */
+let kik = false, kikGroup = null, kikPt = null;
+const kikBtn = document.getElementById('rangeBtn');
+kikBtn.onclick = () => {
+  kik = !kik;
+  kikBtn.classList.toggle('on', kik);
+  if (!kik) kikClear(); else toast('Tryck på banan för att mäta från aktuell tee');
+};
+function kikClear() {
+  if (kikGroup) {
+    scene.remove(kikGroup);
+    kikGroup.traverse(o => { if (o.geometry) o.geometry.dispose(); });
+    kikGroup = null;
+  }
+  kikPt = null;
+  document.getElementById('kikOut').classList.remove('show');
+}
+function groundHit(clientX, clientY) {
+  camera.updateMatrixWorld(true);
+  const rc = new THREE.Raycaster();
+  rc.setFromCamera(new THREE.Vector2(clientX / innerWidth * 2 - 1, -(clientY / innerHeight) * 2 + 1), camera);
+  const o = rc.ray.origin, d = rc.ray.direction;
+  for (let t = 2; t < 5200; t += 3) {
+    if (o.y + d.y * t - terrainH(o.x + d.x * t, o.z + d.z * t) < 0) {
+      let a = t - 3, b = t;
+      for (let i = 0; i < 14; i++) {
+        const m = (a + b) / 2;
+        if (o.y + d.y * m - terrainH(o.x + d.x * m, o.z + d.z * m) < 0) b = m; else a = m;
+      }
+      const tm = (a + b) / 2;
+      return [o.x + d.x * tm, o.z + d.z * tm];
+    }
+  }
+  return null;
+}
+function kikMeasure(clientX, clientY) {
+  const hit = groundHit(clientX, clientY);
+  if (!hit) return;
+  kikClear();
+  const h = HOLES[hole - 1];
+  const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
+  const [ox, oz] = mk.c, [tx, tz] = hit;
+  const dist = Math.hypot(tx - ox, tz - oz);
+  const oy = terrainH(ox, oz), ty = terrainH(tx, tz);
+  const dh = ty - oy;
+  /* what is out there, and how much of the line is over water */
+  const c = classify(tx, tz);
+  let wet = 0;
+  const steps = Math.max(2, Math.ceil(dist / 4));
+  for (let i = 1; i < steps; i++) {
+    const sx = ox + (tx - ox) * i / steps, sz = oz + (tz - oz) * i / steps;
+    for (const w of WI.at(sx, sz)) {
+      if (!w.stream && ringSD(sx, sz, w.ring) < 0 && terrainH(sx, sz) < w.level + 0.3) { wet++; break; }
+    }
+  }
+  let over = false;
+  for (const w of WI.at(tx, tz)) if (!w.stream && ringSD(tx, tz, w.ring) < 0 && ty < w.level + 0.3) over = true;
+  const lie = over ? 'vatten' : c.green > 0.5 ? 'green' : c.sand > 0.4 ? 'bunker'
+            : c.tee > 0.5 ? 'tee' : c.fair > 0.4 ? 'fairway' : c.path > 0.4 ? 'stig'
+            : c.forest > 0.5 ? 'skog' : 'ruff';
+  const plays = dist + dh;
+  document.getElementById('kikOut').innerHTML =
+    `Till punkten <b>${dist.toFixed(0)} m</b> · ${Math.abs(dh).toFixed(0)} m ${dh >= 0 ? 'uppför' : 'nedför'}` +
+    ` · spelas <b>${plays.toFixed(0)} m</b><br>` +
+    `landar i ${lie}${wet ? ` · bär över vatten ~<b>${wet * 4} m</b>` : ''}`;
+  document.getElementById('kikOut').classList.add('show');
+  kikPt = [tx, tz];
+  /* the arc in the scene */
+  kikGroup = new THREE.Group();
+  const P = [];
+  const rise = Math.min(30, 4 + dist * 0.055);
+  for (let i = 0; i <= 30; i++) {
+    const f = i / 30;
+    const x = ox + (tx - ox) * f, z = oz + (tz - oz) * f;
+    P.push(new THREE.Vector3(x, oy + 1.4 + (ty + 0.4 - oy - 1.4) * f + Math.sin(f * Math.PI) * rise, z));
+  }
+  const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(P),
+    new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0xffdf8a), transparent: true, opacity: 0.95 }));
+  const mark = new THREE.Mesh(new THREE.SphereGeometry(0.9, 10, 8),
+    new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffdf8a) }));
+  mark.position.set(tx, ty + 0.9, tz);
+  kikGroup.add(line, mark);
+  scene.add(kikGroup);
+}
+/* ------------------------------------------------- greengrid (yardage book)
+   The donor app's PGA-yardage-book green reading, carried over: a wireframe
+   grid draped on the putting surface, coloured by how hard the ball breaks --
+   calm cyan, mild green, firm yellow, steep red. This page's greens carry
+   real authored tilt and tiers, so the grid reads the actual break. */
+let gridOn = false, gridMesh = null;
+const gridBtn = document.getElementById('gridBtn');
+function gridClear() {
+  if (gridMesh) { scene.remove(gridMesh); gridMesh.geometry.dispose(); gridMesh = null; }
+}
+function buildGreenGrid() {
+  gridClear();
+  const h = HOLES[hole - 1];
+  let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
+  for (const p of h.green.ring) {
+    x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]);
+    z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]);
+  }
+  const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2;
+  const size = Math.max(x1 - x0, z1 - z0) + 10;
+  const geo = new THREE.PlaneGeometry(size, size, 44, 44);
+  geo.rotateX(-Math.PI / 2);
+  const pos = geo.attributes.position;
+  const cols = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) {
+    const wx = cx + pos.getX(i), wz = cz + pos.getZ(i);
+    pos.setX(i, wx); pos.setZ(i, wz);
+    pos.setY(i, meshH(wx, wz) + 0.12);   /* hug the RENDERED surface, like the sand */
+    const gx = (terrainH(wx + 1, wz) - terrainH(wx - 1, wz)) / 2;
+    const gz = (terrainH(wx, wz + 1) - terrainH(wx, wz - 1)) / 2;
+    const s = Math.hypot(gx, gz);
+    const c = s < 0.022 ? [0.10, 0.80, 0.90] : s < 0.045 ? [0.15, 0.90, 0.25]
+            : s < 0.085 ? [0.95, 0.80, 0.10] : [0.95, 0.22, 0.10];
+    cols[i * 3] = c[0]; cols[i * 3 + 1] = c[1]; cols[i * 3 + 2] = c[2];
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+  gridMesh = new THREE.Mesh(geo, new THREE.MeshBasicNodeMaterial({
+    vertexColors: true, wireframe: true, transparent: true, opacity: 0.8 }));
+  gridMesh.renderOrder = 7;
+  scene.add(gridMesh);
+}
+gridBtn.onclick = () => {
+  gridOn = !gridOn;
+  gridBtn.classList.toggle('on', gridOn);
+  if (gridOn) {
+    buildGreenGrid();
+    /* the donor's inspect move: in over the green, close enough to read the break */
+    setCam('green');
+    const h = HOLES[hole - 1], c = h.green.c;
+    const p = alongLine(h.line, 0.9);
+    const F = [Math.sin(p.b), Math.cos(p.b)];
+    const gy = terrainH(c[0], c[1]);
+    flyTo(V3(c[0] - F[0] * 26, gy + 21, c[1] - F[1] * 26), V3(c[0], gy + 1, c[1]), RMOTION ? 0 : 1.4);
+  } else gridClear();
+};
+
+/* a click is a click only if the pointer did not drag (OrbitControls owns drags) */
+{
+  let px0 = 0, py0 = 0, pt0 = 0;
+  renderer.domElement.addEventListener('pointerdown', e => {
+    px0 = e.clientX; py0 = e.clientY; pt0 = performance.now();
+    if (tour) endTour();
+  });
+  renderer.domElement.addEventListener('pointerup', e => {
+    if (!kik) return;
+    if (performance.now() - pt0 < 450 && Math.hypot(e.clientX - px0, e.clientY - py0) < 8)
+      kikMeasure(e.clientX, e.clientY);
+  });
+}
+
 addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
   if (e.key === 'ArrowRight' || e.key === 'n') goHole(hole + 1, true);
   if (e.key === 'ArrowLeft' || e.key === 'p') goHole(hole - 1, true);
+  if (e.key === 'h') { if (tour) endTour(); else setClean(!document.body.classList.contains('clean')); }
+  if (e.key === 's') takePhoto();
 });
 
 /* --------------------------------------------------------------- minimap */
@@ -3755,6 +4064,10 @@ function drawMini() {
   mctx.beginPath(); mctx.arc(MX(h.line[0][0]), MZ(h.line[0][1]), 4.5, 0, TAU); mctx.fill();
   mctx.fillStyle = '#e8443c';
   mctx.beginPath(); mctx.arc(MX(h.pin[0]), MZ(h.pin[1]), 4.5, 0, TAU); mctx.fill();
+  if (kikPt) {
+    mctx.strokeStyle = '#ffdf8a'; mctx.lineWidth = 2;
+    mctx.beginPath(); mctx.arc(MX(kikPt[0]), MZ(kikPt[1]), 5, 0, TAU); mctx.stroke();
+  }
   /* where the camera is standing and which way it is looking */
   mctx.save();
   mctx.translate(MX(camera.position.x), MZ(camera.position.z));
@@ -3788,7 +4101,11 @@ function frame() {
   }
   if (flying > 0) {
     flying += dt / 15;
-    if (flying >= 1) { flying = 0; setCam(camMode); }
+    if (flying >= 1) {
+      if (tour && hole < 18) { goHole(hole + 1, false); showTourCard(); flying = 1e-4; }
+      else if (tour) { endTour(); }
+      else { flying = 0; setCam(camMode); }
+    }
     else {
       const h = HOLES[hole - 1];
       const p = alongLine(h.line, flying * 1.02 - 0.02);
@@ -3821,9 +4138,18 @@ function frame() {
   (renderer.__post || renderer).render(scene, camera);
 }
 
-setPreset('golden');
-goHole(1, false);
-setCam('orbit', true);
+/* boot state comes from the URL when there is one: ?hal=14&vy=tee&ljus=host&tee=2
+   opens exactly there, ?ren=1 opens clean, ?kiosk=1 starts the bansafari */
+const BOOTQ = new URLSearchParams(location.search);
+{
+  setPreset(LJUS2P[(BOOTQ.get('ljus') || '').toLowerCase()] || 'golden');
+  const ti = parseInt(BOOTQ.get('tee'), 10);
+  if (ti >= 1 && ti <= 6) teeIdx = ti - 1;
+  const n = parseInt(BOOTQ.get('hal'), 10);
+  goHole(Number.isFinite(n) ? n : 1, false);
+  setCam(VY2CAM[(BOOTQ.get('vy') || '').toLowerCase()] || 'orbit', true);
+  if (BOOTQ.get('ren') === '1') setClean(true);
+}
 
 await tick('klar', 1.0);
 renderer.setAnimationLoop(frame);
@@ -3857,10 +4183,36 @@ window.V3D = {
   camInfo: () => ({ pos: camera.position.toArray().map(v => +v.toFixed(1)),
                     look: controls.target.toArray().map(v => +v.toFixed(1)), mode: camMode }),
   fps: () => fps,
+  startTour, endTour, takePhoto, kikMeasure,
 };
 
 bootEl.classList.add('done');
 setTimeout(() => { document.getElementById('hint').style.opacity = 0; }, 6000);
+if (BOOTQ.get('kiosk') === '1') setTimeout(startTour, 1200);
+
+/* Ten seconds of honest measurement, then a decision: a phone crawling at the
+   full treatment gets its pixel ratio and bloom dropped on the fly, and the
+   offer of the lightweight build (which also thins the instanced forest). */
+if (!LOWQ) setTimeout(() => {
+  let checked = 0, bad = 0;
+  const qt = window.setInterval(() => {
+    if (!fps) return;
+    checked++;
+    if (fps < 22) bad++;
+    if (checked >= 10) {
+      window.clearInterval(qt);
+      if (bad >= 6) {
+        lowfx = true;
+        renderer.setPixelRatio(1);
+        renderer.setSize(innerWidth, innerHeight);
+        if (renderer.__bloomNode) renderer.__bloomNode.strength.value = 0;
+        const sp = new URLSearchParams(location.search);
+        sp.set('q', 'lo');
+        toast(`Låg bildfrekvens — förenklade grafiken. <a href="${location.pathname}?${sp.toString()}">Starta i lättviktsläge</a>`, 10000);
+      }
+    }
+  }, 1000);
+}, 4000);
 </script>
 </body>
 </html>
