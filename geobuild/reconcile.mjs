@@ -352,6 +352,118 @@ const streams = osm.waterway.filter(w => w.kind !== 'drain' || true).map(w => ({
 }));
 say(`water: ${water.length} bodies (lake at ${hf.lakeLevel} m, ${water.filter(w => !w.isLake).length} ponds ${Math.min(...water.filter(w => !w.isLake).map(w => w.level))}..${Math.max(...water.map(w => w.level))} m), ${streams.length} watercourses`);
 
+/* --- penalty and boundary marking ---------------------------------------------
+   The one rule that keeps this honest: red and yellow lines trace the margin of the
+   water they mark, so a line can never drift away from its hazard the way a
+   separately-stored one eventually does. White follows the club's own property
+   polygon. The guide's inventory decides colour -- yellow where a hole's water is in
+   play as a carry, red where it is lateral -- and which stretch matters is decided by
+   distance to the corridors: a bank nobody plays along gets no stakes, exactly as on
+   the ground.                                                                     */
+const marking = [];
+{
+  const NEAR = 55;
+  const nearestHole = (x, z) => {
+    let best = null, bd = Infinity;
+    for (const h of holes) { const d = distToLine(x, z, h.line); if (d < bd) { bd = d; best = h; } }
+    return { h: best, d: bd };
+  };
+  /* does this hole's centre line cross the feature? crossing water is a carry */
+  const crosses = (h, ring) => {
+    for (let i = 0; i <= 30; i++) {
+      const p = alongLine(h.line, i / 30);
+      if (pointInPoly(p.x, p.z, ring)) return true;
+    }
+    return false;
+  };
+  const carryWanted = h => (inv[h.n]?.water || []).some(w => w.inPlay === 'carry');
+
+  /* sample a ring at ~8 m, offset outward (onto dry land), keep near-corridor
+     stretches, split where the gap says the stakes should stop */
+  const runsAlongRing = (ring, offset) => {
+    const ccw = polyArea(ring) > 0;
+    const runs = []; let cur = null;
+    const step = 11;
+    let acc = 0;
+    for (let i = 0; i < ring.length; i++) {
+      const a = ring[i], b = ring[(i + 1) % ring.length];
+      const seg = hyp(a, b);
+      for (let d = acc; d < seg; d += step) {
+        const t = d / seg;
+        const x = a[0] + (b[0] - a[0]) * t, z = a[1] + (b[1] - a[1]) * t;
+        let nx = (b[1] - a[1]), nz = -(b[0] - a[0]);
+        const L = Math.hypot(nx, nz) || 1;
+        nx /= L; nz /= L;
+        if (ccw) { nx = -nx; nz = -nz; }
+        const px = x + nx * offset, pz = z + nz * offset;
+        const nh = nearestHole(px, pz);
+        if (nh.d < NEAR) {
+          if (!cur) { cur = { pts: [], hole: nh.h.n }; runs.push(cur); }
+          cur.pts.push([r1(px), r1(pz)]);
+        } else cur = null;
+      }
+      acc = (acc + seg) % step ? 0 : 0;
+    }
+    return runs.filter(r => r.pts.length >= 3);
+  };
+
+  for (const w of water) {
+    for (const run of runsAlongRing(w.ring, 1.4)) {
+      const h = holes[run.hole - 1];
+      const color = crosses(h, w.ring) && carryWanted(h) ? 'y' : 'r';
+      marking.push({ color, hole: run.hole, pts: run.pts, of: w.id });
+    }
+  }
+  /* streams: both banks where they run beside a corridor; the bank a hole must
+     carry is yellow by the same rule */
+  for (const st of streams) {
+    for (const side of [-1, 1]) {
+      let cur = null;
+      for (let i = 0; i < st.line.length - 1; i++) {
+        const a = st.line[i], b = st.line[i + 1];
+        const seg = hyp(a, b);
+        for (let d = 0; d < seg; d += 8) {
+          const t = d / seg;
+          const x = a[0] + (b[0] - a[0]) * t, z = a[1] + (b[1] - a[1]) * t;
+          let nx = (b[1] - a[1]), nz = -(b[0] - a[0]);
+          const L = Math.hypot(nx, nz) || 1;
+          const px = x + nx / L * side * (st.w + 1.4), pz = z + nz / L * side * (st.w + 1.4);
+          const nh = nearestHole(px, pz);
+          if (nh.d < 40) {
+            if (!cur) { cur = { color: 'r', hole: nh.h.n, pts: [], of: st.id }; marking.push(cur); }
+            cur.pts.push([r1(px), r1(pz)]);
+          } else cur = null;
+        }
+      }
+    }
+  }
+  /* white: the property line, on the stretches the guide says a hole is bounded */
+  if (osm.courseBoundary) {
+    const whiteHoles = new Set(
+      Object.entries(inv).filter(([, v]) => (v.boundaries || []).some(b => b.colour === 'white'))
+        .map(([k]) => +k));
+    for (const run of runsAlongRing(osm.courseBoundary.ring, -1.0)) {
+      if (!whiteHoles.has(run.hole)) continue;
+      const pts = run.pts.filter(p => !water.some(w => Math.abs(polySD(p[0], p[1], w.ring)) < 12));
+      if (pts.length >= 3) marking.push({ color: 'w', hole: run.hole, pts, of: 'boundary' });
+    }
+  }
+  /* two features sharing a bank -- the lake and an arm of it, the pond and the
+     boundary -- each contribute a run along the same ground; one stake per spot */
+  const taken = [];
+  for (const m of marking) {
+    m.pts = m.pts.filter(p => {
+      for (const q of taken) if (hyp(p, q) < 5) return false;
+      taken.push(p);
+      return true;
+    });
+  }
+  for (let i = marking.length - 1; i >= 0; i--) if (marking[i].pts.length < 3) marking.splice(i, 1);
+  const count = c => marking.filter(m => m.color === c).length;
+  const stakes = marking.reduce((a, m) => a + m.pts.length, 0);
+  say(`marking: ${marking.length} runs (${count('r')} red, ${count('y')} yellow, ${count('w')} white), ${stakes} stakes; guide lists 63 runs`);
+}
+
 /* --- the model ---------------------------------------------------------------- */
 const model = {
   version: 1,
@@ -360,7 +472,8 @@ const model = {
   frame: 'north=-z, east=+x, bearing=atan2(dx,-dz), right=(-cos b, sin b)',
   lakeLevel: hf.lakeLevel,
   holes,
-  water, streams,
+  water, streams, marking,
+  boundary: osm.courseBoundary ? osm.courseBoundary.ring : null,
   vegetation: {
     forest: osm.forest.map(f => f.ring),
     wood: osm.wood.map(f => f.ring),

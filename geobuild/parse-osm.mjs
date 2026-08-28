@@ -73,6 +73,7 @@ const out = {
   greens: [], fairways: [], tees: [], bunkers: [], roughs: [], holeWays: [], drivingRange: [],
   water: [], waterway: [], forest: [], wood: [], scrub: [], sand: [], rock: [], wetland: [], grass: [],
   paths: [], tracks: [], roads: [], buildings: [],
+  courseBoundary: null,
 };
 
 /* Tee pads run from 5 m² (a single forward-tee box) to 230 m² (a full championship
@@ -84,6 +85,12 @@ for (const w of ways.values()) {
   const t = w.tags;
   const closed = isClosed(w);
 
+  if (t.leisure === 'golf_course' && closed) {
+    /* the club's own property line -- the thing white out-of-bounds stakes follow */
+    const ring = ringOf(w, 1.5);
+    if (ring) out.courseBoundary = { id: 'w' + w.id, ring, name: t.name || null };
+    continue;
+  }
   if (t.golf) {
     const kind = t.golf;
     if (closed) {
