@@ -145,7 +145,14 @@ mown = (gd > gd_thr) & (cY > bright_thr) & (cS < txt_thr * 1.15)
 shadowed_turf = (gd > gd_hi) & (cS < txt_thr * 0.85)
 open_g = mown | shadowed_turf
 conifer = (cG > cR + 4) & (cY < dark_thr) & ~open_g
-crowns = (cS > txt_thr * 0.9) & ~open_g             # leafless canopy: crown-shadow texture
+# Texture alone was not enough: the mottled brown rough between the fairways is as
+# textured as canopy and was planting trees down every strip the club's aerial shows
+# bare. What canopy has and rough never does is SHADOW -- at this sun every real
+# crown stands next to near-black cells -- so textured trees must be anchored by
+# genuine darkness within a few cells.
+dark_anchor = np.percentile(cY[fmask & ~tmask], 28)
+anchored = box((cY < dark_anchor).astype(np.float32), 3) > 0.05
+crowns = (cS > txt_thr * 0.9) & ~open_g & anchored
 trees = conifer | crowns
 
 # 3x3 majority vote despeckles both ways
