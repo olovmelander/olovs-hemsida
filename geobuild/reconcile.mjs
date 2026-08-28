@@ -29,6 +29,16 @@ const card = readJSON(path.join(ROOT, 'banguide/guide-card.json')).holes;
 const inv = readJSON(path.join(ROOT, 'banguide/guide-inventory.json')).holes;
 const gpsRaw = readJSON(path.join(ROOT, 'geo_data/veckefjarden_clean.json'));
 
+/* Geometry traced off the club's hole plans, if trace-plans.py has run. The tracer
+   needs this script's output to know its anchors, so the pipeline is two passes:
+   reconcile fixes the frame, the tracer reads the plans against it, and reconcile
+   picks the traces up on the next run. Absent on the first pass, and that is fine --
+   the six unmapped holes then fall back to the survey-and-guide synthesis. */
+let TRACED = {};
+try {
+  TRACED = readJSON(path.join(ROOT, 'geobuild/traced-holes.json')).holes || {};
+} catch { /* first pass */ }
+
 /* the old page's prose and green rotations are worth keeping; its geometry is not */
 const bg = await import('../banguide/lib.mjs');
 const OLD = bg.load().HOLES;
@@ -157,6 +167,13 @@ function greenFor(n) {
     for (const p of g.ring) rx = Math.max(rx, hyp(p, c));
     return { ring: g.ring, c: c.map(r1), prov: 'osm', area: g.area, id: g.id };
   }
+  /* traced off the club's own plan, when the tracer has run and found it */
+  const tr = TRACED[n];
+  if (tr?.green?.ring?.length >= 4) {
+    const c = centroid(tr.green.ring);
+    return { ring: ring1(tr.green.ring), c: c.map(r1), prov: 'plan',
+             area: Math.round(Math.abs(polyArea(tr.green.ring))) };
+  }
   const F = G[n]['Green Front'], C = grnOf(n), B = G[n]['Green Back'];
   const depth = Math.max(18, hyp(F, B));
   const b = Math.atan2(B[0] - F[0], B[1] - F[1]);
@@ -203,10 +220,18 @@ function teesFor(n, line) {
   return { pads, marks };
 }
 
-/* --- fairway: outlines where mapped, a corridor where not --------------------- */
+/* --- fairway: outlines where mapped, traced where drawn, a corridor last ------ */
 function fairwayFor(n, line) {
   const got = fair.out[n] || [];
   if (got.length) return { rings: got.map(f => f.ring), prov: 'osm', ids: got.map(f => f.id) };
+  const tr = TRACED[n];
+  if (tr?.fairways?.length) {
+    /* keep the traced pieces that actually lie along this hole */
+    const rings = tr.fairways
+      .filter(f => distToLine(f.c[0], f.c[1], line) < 45 && f.area > 350)
+      .map(f => ring1(f.ring));
+    if (rings.length) return { rings, prov: 'plan' };
+  }
   if (card[n].par === 3) return { rings: [], prov: 'none' };
   /* A corridor, tapered at both ends the way a mown fairway is, starting past the
      landing area and stopping short of the green so the collar can take over. */
@@ -232,6 +257,11 @@ const SIZE = { small: [8, 5.5], medium: [11.5, 7.5], large: [15.5, 9.5] };
 function bunkersFor(n, line) {
   const got = (bunk.out[n] || []).map(b => ({ ring: b.ring, c: (b.c || centroid(b.ring)).map(r1), prov: 'osm', id: b.id }));
   const want = (inv[n]?.bunkers) || [];
+  /* traced bunkers beat placed ones: real shapes in real places off the club's plan */
+  const tr = TRACED[n];
+  if (!got.length && tr?.bunkers?.length) {
+    return tr.bunkers.map(b => ({ ring: ring1(b.ring), c: b.c.map(r1), prov: 'plan' }));
+  }
   if (got.length >= want.length || !want.length) return got;
   /* Fill only what OSM is missing, and place it where the guide says: a fraction along
      the hole and a side, read through the page's own lateral normal so a filled bunker
