@@ -39,6 +39,16 @@ try {
   TRACED = readJSON(path.join(ROOT, 'geobuild/traced-holes.json')).holes || {};
 } catch { /* first pass */ }
 
+/* Surroundings read off a georeferenced satellite screenshot (RMS 6.6 m) -- only
+   the things OSM genuinely lacks: the clear-fells, the unmapped south parking lot,
+   the machinery yard, the hayfields. OSM stays the authority everywhere it maps. */
+let SURR = [];
+try {
+  SURR = readJSON(path.join(ROOT, 'geobuild/surroundings-traces.json')).features || [];
+} catch { /* optional */ }
+const traceRings = name => SURR.filter(f => f.name === name && f.world && f.world.length >= 3)
+  .map(f => simplifyDP([...f.world, f.world[0]], 2).slice(0, -1).map(p => p.map(r1)));
+
 /* the old page's prose and green rotations are worth keeping; its geometry is not */
 const bg = await import('../banguide/lib.mjs');
 const OLD = bg.load().HOLES;
@@ -513,10 +523,26 @@ const model = {
     rock: osm.rock.map(f => f.ring),
   },
   infra: {
-    paths: osm.paths.map(p => p.line),
-    tracks: osm.tracks.map(p => p.line),
-    roads: osm.roads.map(p => ({ line: p.line, kind: p.kind })),
+    paths: osm.paths.map(p => ({ line: p.line, kind: p.kind, surface: p.surface || null })),
+    tracks: osm.tracks.map(p => ({ line: p.line, kind: p.kind, surface: p.surface || null })),
+    roads: osm.roads.map(p => ({ line: p.line, kind: p.kind, name: p.name || null,
+      surface: p.surface || null, lanes: p.lanes || null, oneway: !!p.oneway,
+      maxspeed: p.maxspeed || null, lit: !!p.lit })),
     buildings: osm.buildings.map(b => ({ ring: b.ring, h: b.h, kind: b.kind, name: b.name })),
+    farB: osm.farBuildings || [],
+    parking: (osm.parking || []).map(p => ({ ring: p.ring, surface: p.surface || null, prov: 'osm' }))
+      .concat(traceRings('parking-clubhouse-south').map(ring => ({ ring, surface: null, prov: 'trace' }))),
+    piers: osm.piers || [],
+    power: osm.power || { lines: [], towers: [], poles: [] },
+    railway: osm.railway || [],
+    landuse: (osm.landuse || []).map(l => ({ ring: l.ring, kind: l.kind })),
+    reserves: (osm.reserves || []).map(r => ({ ring: r.ring, name: r.name })),
+  },
+  surround: {
+    clearfells: traceRings('clearfell-1').concat(traceRings('clearfell-2')),
+    yard: traceRings('gravel-yard')[0] || null,
+    hayfields: traceRings('as-hayfields-W')[0] || null,
+    shallows: traceRings('mudflat-1').concat(traceRings('mudflat-2')),
   },
   scenery: {
     greens: scenGreens.map(g => g.ring),

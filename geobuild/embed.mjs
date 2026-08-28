@@ -38,6 +38,7 @@ const vec = {
   veg: model.vegetation,
   cover,
   infra: model.infra,
+  surround: model.surround,
   scenery: model.scenery,
 };
 

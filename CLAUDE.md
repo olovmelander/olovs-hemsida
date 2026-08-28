@@ -64,6 +64,23 @@ labelled probe set — places on the plans a person looked at and named — and 
 if verified forest stops being forest or the open-ground residual grows past its accepted
 five, all of them corridor-adjacent ground the planter's own distance guard suppresses.
 
+**The surroundings are data too.** Everything around the course comes from the same OSM
+extract the course does — the E4 as its paired 2+1 one-way roadbeds with a median-wire
+ribbon and shader-painted edge lines, the branch railway with its catenary masts, two
+130 kV corridors tower-by-surveyed-tower (their cleared lanes cut through the planter),
+parking lots with instanced cars, piers, 275 near building footprints plus the distant
+town as oriented boxes, landuse rings that tint fields/gardens/industry and police the
+scatter — plus `geobuild/surroundings-traces.json`, features read off a georeferenced
+satellite screenshot (registration RMS 6.6 m) for the few things OSM lacks: the
+clear-fells (planted at 6% with stumps), the machinery yard, the Ås hayfields, the
+unmapped south parking lot, and the silt shallows that keep the fjärd's pale margins.
+Ås village has no OSM footprints at all, so houses are synthesized inside its
+residential rings, each aligned to its street. Ground truth that shapes the rendering:
+Veckefjärden is a REGULATED FRESHWATER LAKE behind a 1939 lock — its wide pale margins
+are silt bottom under water (drawn by letting the bed read through, never as dry mud),
+and the reserve's Tvillingsta half is grey-alder swamp forest, so the planter goes
+birch-dominant inside the reserve rings.
+
 **The card-length fit is a statement about the tee, not a fudge.** Every line came out
 3–10% short of its card. Rather than stretch surveyed geometry, the tee end slides back
 along its own axis until the polyline measures what the club prints — which is where a
