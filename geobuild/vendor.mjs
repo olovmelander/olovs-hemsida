@@ -12,6 +12,11 @@ import { CACHE } from './lib.mjs';
 
 const THREE = '0.185.1';
 const FILES = [
+  /* the page ships the MIN builds (40% of the bytes, far cheaper to parse on a
+     phone); the dev builds stay cached for reading stack traces against */
+  [`https://unpkg.com/three@${THREE}/build/three.webgpu.min.js`, `three.webgpu.min.js`],
+  [`https://unpkg.com/three@${THREE}/build/three.core.min.js`, `three.core.min.js`],
+  [`https://unpkg.com/three@${THREE}/build/three.tsl.min.js`, `three.tsl.min.js`],
   [`https://unpkg.com/three@${THREE}/build/three.webgpu.js`, `three.webgpu.js`],
   [`https://unpkg.com/three@${THREE}/build/three.core.js`, `three.core.js`],
   [`https://unpkg.com/three@${THREE}/build/three.tsl.js`, `three.tsl.js`],

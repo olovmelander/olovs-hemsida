@@ -6,6 +6,9 @@
 <title>Veckefjärdens GC — Mästerskapsbanan i 3D</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="modulepreload" href="https://unpkg.com/three@0.185.1/build/three.webgpu.min.js">
+<link rel="modulepreload" href="https://unpkg.com/three@0.185.1/build/three.core.min.js">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -169,22 +172,43 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 <script>
 /* If three.js never arrives from the CDN the module below simply never runs, and the
    splash sat on "startar" forever with nothing to say. This is deliberately not a
-   module so it runs regardless. */
+   module so it runs regardless -- and on a browser too old for import maps it is the
+   ONLY script that runs, so it is also where the honest version message lives:
+   before this check, an iPhone on iOS < 16.4 was told to check its network. */
 (function () {
-  var say = function (msg) {
-    var b = document.getElementById('boot'), m = document.getElementById('bmsg');
-    if (b && !b.classList.contains('done') && m && m.textContent === 'startar')
-      m.textContent = msg;
+  var booting = function () {
+    var b = document.getElementById('boot');
+    return b && !b.classList.contains('done');
   };
+  var say = function (msg, onlyIdle) {
+    var m = document.getElementById('bmsg');
+    if (!m || !booting()) return;
+    if (onlyIdle && m.textContent !== 'startar') return;
+    m.textContent = msg;
+  };
+  if (!(window.HTMLScriptElement && HTMLScriptElement.supports &&
+        HTMLScriptElement.supports('importmap')) ||
+      typeof DecompressionStream === 'undefined') {
+    say('webbläsaren är för gammal för den här sidan — uppdatera till iOS 16.4 / en nyare webbläsare');
+    return;
+  }
   var t = setTimeout(function () {
-    say('kunde inte hämta three.js — sidan behöver nätet första gången den öppnas');
+    say('tar ovanligt länge — sidan hämtar ~1,5 MB grafik första gången; kontrollera anslutningen', true);
   }, 12000);
   window.addEventListener('error', function (e) {
     if (e && e.target && e.target.tagName === 'SCRIPT') {
       clearTimeout(t);
       say('kunde inte hämta three.js — kontrollera anslutningen och ladda om');
+    } else if (e && e.message) {
+      clearTimeout(t);
+      say('fel vid start: ' + e.message);
     }
   }, true);
+  window.addEventListener('unhandledrejection', function (e) {
+    clearTimeout(t);
+    var r = e && e.reason;
+    say('fel vid start: ' + (r && r.message ? r.message : r));
+  });
 }());
 </script>
 
@@ -239,9 +263,9 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 
 <script type="importmap">
 {"imports":{
-  "three":"https://unpkg.com/three@0.185.1/build/three.webgpu.js",
-  "three/webgpu":"https://unpkg.com/three@0.185.1/build/three.webgpu.js",
-  "three/tsl":"https://unpkg.com/three@0.185.1/build/three.tsl.js",
+  "three":"https://unpkg.com/three@0.185.1/build/three.webgpu.min.js",
+  "three/webgpu":"https://unpkg.com/three@0.185.1/build/three.webgpu.min.js",
+  "three/tsl":"https://unpkg.com/three@0.185.1/build/three.tsl.min.js",
   "three/addons/":"https://unpkg.com/three@0.185.1/examples/jsm/"
 }}
 </script>
@@ -935,9 +959,20 @@ const LOWQ = new URLSearchParams(location.search).get('q') === 'lo';
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
 let lowfx = false;
 const RMOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4,
-  outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance' });
-await renderer.init();
+/* WebGPU can exist and still fail to start (an OS beta, a driver, a flag): an
+   init that threw left the splash on "startar" forever, blamed on the network.
+   Fall back to the WebGL2 backend instead; ?gl=1 forces it for testing. */
+const FORCE_GL = new URLSearchParams(location.search).get('gl') === '1';
+const mkRenderer = forceWebGL => new THREE.WebGPURenderer({ antialias: true, samples: 4,
+  outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance', forceWebGL });
+let renderer;
+try {
+  renderer = mkRenderer(FORCE_GL);
+  await renderer.init();
+} catch (e) {
+  renderer = mkRenderer(true);
+  await renderer.init();
+}
 renderer.setPixelRatio(LOWQ ? 1 : Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
