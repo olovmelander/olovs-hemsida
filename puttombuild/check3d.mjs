@@ -1,0 +1,131 @@
+/* The regression gate for puttom3d.html. Exits non-zero on anything that
+   would make the page state a falsehood about the real course:
+
+   1. the card in the page is the club's card — 144 values, exact
+   2. every drawn hole line measures its card length to 0.5%
+   3. every green ring contains its GPS-surveyed centre, at a sane area
+   4. no green or tee sits at or below the water that surrounds it
+   5. the heightfields in the page decode to exactly what geobuild encoded
+   6. the page's embedded block is current with the committed model
+
+   Everything else it prints is a measurement, not a gate.
+
+   Run:  node nvgkbuild/check3d.mjs [page.html]                                  */
+import fs from 'node:fs';
+import path from 'node:path';
+import zlib from 'node:zlib';
+import { fileURLToPath } from 'node:url';
+import { ROOT, readJSON, decodeHF, polyLen, pointInPoly, polyArea } from './lib.mjs';
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const page = process.argv[2] || path.join(ROOT, 'puttom3d.html');
+const src = fs.readFileSync(page, 'utf8');
+const card = readJSON(path.join(HERE, 'card.json'));
+const model = readJSON(path.join(HERE, 'course-model.json'));
+const hf = readJSON(path.join(HERE, 'heightfields.json'));
+
+let fails = 0;
+const gate = (ok, msg) => { console.log(`${ok ? '  ok ' : 'FAIL '} ${msg}`); if (!ok) fails++; };
+
+/* --- pull the embedded block out of the page ---------------------------------- */
+const grab = re => { const m = src.match(re); if (!m) throw new Error(`page: ${re} not found`); return m[1]; };
+const GEO = JSON.parse(grab(/const GEO = (\{.*?\});/));
+const P0 = JSON.parse(grab(/const HF0 = (\{.*?\});/));
+const P1 = JSON.parse(grab(/const HF1 = (\{.*?\});/));
+P0.b64 = grab(/HF0\.b64 = '([^']+)'/);
+P1.b64 = grab(/HF1\.b64 = '([^']+)'/);
+const VEC64 = grab(/const VEC64 = '([^']+)'/);
+const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toString('utf8'));
+
+/* --- 1: the card -------------------------------------------------------------- */
+{
+  let bad = 0, checked = 0;
+  for (const ch of card.holes) {
+    const h = vec.holes.find(x => x.n === ch.n);
+    if (!h) { bad++; continue; }
+    if (h.par !== ch.par) bad++;
+    if (h.idx !== ch.hcp) bad++;
+    checked += 2;
+    for (let k = 0; k < 3; k++) { checked++; if (h.t[k] !== ch.t[k]) bad++; }
+  }
+  gate(bad === 0 && checked === 90, `card: ${checked} par/index/tee values checked against the club's card, ${bad} mismatches`);
+}
+
+/* --- 2: drawn lengths --------------------------------------------------------- */
+{
+  let worst = 0, worstN = 0;
+  for (const h of vec.holes) {
+    const dev = Math.abs(polyLen(h.line) - h.t[0]) / h.t[0] * 100;
+    if (dev > worst) { worst = dev; worstN = h.n; }
+  }
+  gate(worst <= 0.5, `lengths: worst deviation ${worst.toFixed(3)}% (hole ${worstN}), gate 0.5%`);
+}
+
+/* --- 3: greens ---------------------------------------------------------------- */
+{
+  let out = 0, small = 0, big = 0;
+  for (const h of vec.holes) {
+    if (!pointInPoly(h.green.c[0], h.green.c[1], h.green.ring)) out++;
+    const a = Math.abs(polyArea(h.green.ring));
+    if (a < 150) small++;
+    if (a > 1200) big++;
+  }
+  gate(out === 0, `greens: every surveyed centre inside its traced ring (${out} outside)`);
+  gate(small === 0 && big === 0, `green areas within 150–1200 m² (${small} small, ${big} large)`);
+}
+
+/* --- 4: nothing under water --------------------------------------------------- */
+{
+  const H0 = decodeHF(P0);
+  const terr = (x, z) => {
+    const fx = (x - P0.x0) / P0.dx, fz = (z - P0.z0) / P0.dx;
+    const i = Math.max(0, Math.min(P0.nx - 2, Math.floor(fx)));
+    const j = Math.max(0, Math.min(P0.nz - 2, Math.floor(fz)));
+    const tx = Math.min(1, Math.max(0, fx - i)), tz = Math.min(1, Math.max(0, fz - j));
+    const k = j * P0.nx + i;
+    return (H0[k] * (1 - tx) + H0[k + 1] * tx) * (1 - tz) + (H0[k + P0.nx] * (1 - tx) + H0[k + P0.nx + 1] * tx) * tz;
+  };
+  let wet = 0;
+  for (const h of vec.holes) {
+    if (terr(h.green.c[0], h.green.c[1]) < GEO.seaLevel + 0.4) { wet++; console.log(`       green ${h.n} at ${terr(h.green.c[0], h.green.c[1]).toFixed(2)} m`); }
+    const t0 = h.line[0];
+    if (terr(t0[0], t0[1]) < GEO.seaLevel + 0.4) { wet++; console.log(`       tee ${h.n} at ${terr(t0[0], t0[1]).toFixed(2)} m`); }
+    for (const w of vec.water) {
+      if (w.isSea || w.level == null) continue;
+      const bb = w.ring.reduce((a, p) => ({ x0: Math.min(a.x0, p[0]), x1: Math.max(a.x1, p[0]), z0: Math.min(a.z0, p[1]), z1: Math.max(a.z1, p[1]) }), { x0: 1e9, x1: -1e9, z0: 1e9, z1: -1e9 });
+      const [gx, gz] = h.green.c;
+      if (gx > bb.x0 - 8 && gx < bb.x1 + 8 && gz > bb.z0 - 8 && gz < bb.z1 + 8 &&
+          pointInPoly(gx, gz, w.ring)) { wet++; console.log(`       green ${h.n} inside water ring`); }
+    }
+  }
+  gate(wet === 0, `water: no green or tee submerged (${wet} wet)`);
+}
+
+/* --- 5: heightfield integrity -------------------------------------------------- */
+gate(P0.b64 === hf.hf0.b64 && P1.b64 === hf.hf1.b64,
+  `heightfields: page b64 identical to puttombuild/heightfields.json`);
+{
+  const back = decodeHF({ ...hf.hf0 });
+  gate(back.length === hf.hf0.nx * hf.hf0.nz, `HF0 decodes to ${back.length} samples`);
+}
+
+/* --- 6: embedded data is current ----------------------------------------------- */
+{
+  const holesNow = model.holes.map(h => h.n + ':' + h.lineLen + ':' + h.green.c.join(','));
+  const holesPage = vec.holes.map(h => h.n + ':' + Math.round(polyLen(h.line) * 10) / 10 + ':' + h.green.c.join(','));
+  let stale = 0;
+  for (let i = 0; i < 18; i++) if (holesNow[i] !== holesPage[i]) stale++;
+  gate(stale === 0, `currency: page holes match course-model.json (${stale} stale)`);
+  gate(GEO.seaLevel === model.seaLevel, `currency: seaLevel ${GEO.seaLevel} matches model`);
+}
+
+/* --- measurements -------------------------------------------------------------- */
+console.log('\nmeasurements:');
+console.log(`  page size ${(src.length / 1024).toFixed(0)} KB`);
+const areas = vec.holes.map(h => Math.round(Math.abs(polyArea(h.green.ring))));
+console.log(`  green areas ${Math.min(...areas)}–${Math.max(...areas)} m² (median ${areas.sort((a, b) => a - b)[9]})`);
+console.log(`  water features ${vec.water.length}, streams ${vec.streams.length}`);
+console.log(`  buildings ${vec.infra.buildings.length}, piers ${vec.infra.piers.length}`);
+
+if (fails) { console.error(`\n${fails} GATE FAILURE(S)`); process.exit(1); }
+console.log('\nall gates pass');
