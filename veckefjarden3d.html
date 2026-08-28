@@ -3257,25 +3257,31 @@ for (const h of HOLES) {
     for (const [ox, oz] of [[r, 0], [0, r]])
       quad([x - ox, y0, z - oz], [x + ox, y0, z + oz], [x + ox * 0.6, y0 + h2, z + oz * 0.6], [x - ox * 0.6, y0 + h2, z - oz * 0.6], col);
   };
-  /* the flagpole row along the range */
+  /* The range's target flags, out in the landing field where a range actually
+     keeps them. The satellite puts the tee shelter (an OSM hut, drawn with the
+     buildings) at the field's NORTH end with the field falling away south of it,
+     so the targets march away from the hut down the slope, staggered off the
+     centre line at real ball-drop distances. The old version strung ten tall
+     poles along the field's edge, which read as a fence across the tee line. */
   const rng = (M.scenery.range || [])[0];
   if (rng) {
-    const B = obb2(rng);
-    if (B) {
-      const c = Math.cos(B.ang), s = Math.sin(B.ang);
-      const side = (() => {
-        const d1 = Math.hypot(B.cx - s * B.hd - 231, B.cz + c * B.hd - -466);
-        const d2 = Math.hypot(B.cx + s * B.hd - 231, B.cz - c * B.hd - -466);
-        return d1 < d2 ? 1 : -1;
-      })();
-      for (let k = 0; k < 10; k++) {
-        const u = -B.hw * 0.85 + (k / 9) * B.hw * 1.7;
-        const x = B.cx + u * c - side * (B.hd + 2) * s, z = B.cz + u * s + side * (B.hd + 2) * c;
-        const y0 = terrainH(x, z);
-        pole(x, y0, z, 9.5, 0.09, WHITE);
-        quad([x, y0 + 8.2, z], [x + s * 1.3, y0 + 8.2, z - c * 1.3],
-             [x + s * 1.3, y0 + 9.1, z - c * 1.3], [x, y0 + 9.1, z], YEL);
-      }
+    const hut = [159, -238];
+    const c0 = centroidOf(rng);
+    let dx = c0[0] - hut[0], dz = c0[1] - hut[1];
+    const dl = Math.hypot(dx, dz) || 1; dx /= dl; dz /= dl;
+    const rx = -dz, rz = dx;
+    const FCOL = [YEL, L(0xc9502e), WHITE];
+    for (let k = 0; k < 6; k++) {
+      const dist = 60 + k * 29;
+      const lat = Math.sin(k * 2.4) * (14 + k * 3.5);
+      let fx = hut[0] + dx * dist + rx * lat, fz = hut[1] + dz * dist + rz * lat;
+      if (ringSD(fx, fz, rng) > -6) { fx = hut[0] + dx * dist; fz = hut[1] + dz * dist; }
+      if (ringSD(fx, fz, rng) > -6) continue;
+      const fy = terrainH(fx, fz);
+      pole(fx, fy, fz, 3.2, 0.06, WHITE);
+      const col = FCOL[k % 3];
+      quad([fx, fy + 2.5, fz], [fx + rx * 1.1, fy + 2.5, fz + rz * 1.1],
+           [fx + rx * 1.1, fy + 3.1, fz + rz * 1.1], [fx, fy + 3.1, fz], col);
     }
   }
   /* the fountain: a white plume in the pond nearest the clubhouse */
