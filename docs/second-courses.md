@@ -135,3 +135,42 @@ drawn; what is inferred is marked as inferred.
 - **The hole count is no longer hard-coded.** `NHOLES` in main.js drives the hole
   strip, the wraparound to the next tee, the goHole clamp and the tour; check-app
   asserts the card's own length. emit-manifest already read it from the card.
+
+## GolfTraxx checked, and it is the documented dead end
+
+CLAUDE.md records that the GolfTraxx pull returns hole 1 only for Ängsö, Upsala
+and Johannesberg. That was checked here rather than assumed, because the club has
+THREE directory entries and one of them is promising:
+
+    Upsala Golfklubb, 9 Hålsbanan    75591SW
+    Upsala Golfklubb, Nya            75591SW
+    Upsala Golfklubb, Gamla          58592SW
+
+The nine's layout page returns **six markers, every one of them at the clubhouse
+coordinate** (59.8414, 17.4956). An entry exists; a survey does not. Johannesberg
+is not in the Swedish directory at all. So there is no GPS anchor for either
+nine, exactly as recorded — worth re-checking once because the entry name looked
+like a survey, worth never checking again now that it is written down.
+
+## Where Mellanbanan actually is, in metres
+
+Read off a 100 m world grid laid over the imagery (`--grid`), the nine's ground
+runs roughly **x 250…1000, z −750…−50** — north-east and east of the clubhouse,
+between the Stora banan's northern cluster and the road, with its own pond at
+about **x 860…950, z −260…−200**. The Stora banan does not touch this ground.
+
+## What is still missing, stated plainly
+
+Everything above is verifiable. What is NOT yet possible to do honestly is assign
+the nine holes' routing. From 0.6 m imagery the mown corridors are visible but
+which corridor is hole 1 and which way it plays is not, and the supplied banguide
+sheets are too small to register reliably against the ground — the detailed one
+has no unambiguous control points, and Johannesberg's is low resolution.
+
+Guessing it would produce invented geometry on a real club's course, which is the
+same class of error as the fabricated posters and is not worth doing for the sake
+of momentum. **What unblocks it is a per-hole banguide** — the club's own hole
+pages or PDF, which show each hole individually with its distances and shape.
+With that plus the frames this tooling already produces, the nine holes can be
+placed the way Johannesberg's eighteen were: the banguide routes, the imagery
+georeferences, the card fixes the lengths.

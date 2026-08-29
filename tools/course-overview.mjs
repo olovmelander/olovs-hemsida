@@ -47,6 +47,32 @@ const px = (x, z) => {
   const [tx, ty] = toTile(la, lo, Z);
   return [(tx - x0) * 256, (ty - y0) * 256];
 };
+/* and back, so the grid can be laid out in whole metres rather than in pixels */
+const pxInv = (ix, iy) => {
+  const n = 2 ** Z, tx = x0 + ix / 256, ty = y0 + iy / 256;
+  const lon = tx / n * 360 - 180;
+  const lat = Math.atan(Math.sinh(Math.PI * (1 - 2 * ty / n))) * 180 / Math.PI;
+  return [(lon - O.lon) * mLon, -(lat - O.lat) * mLat];
+};
+
+/* The world grid, computed here where the projection lives. Reading a position
+   off an aerial by eye and then guessing it back into metres is exactly how
+   registration error gets in; with labelled gridlines the picture states its own
+   coordinates and a trace can be written down directly. */
+const GRID = +flag('grid', 0);
+let gridSpec = null;
+if (GRID > 0) {
+  const S = span * 256;
+  const c0 = pxInv(0, 0), c1 = pxInv(S, S);
+  const xs = [Math.min(c0[0], c1[0]), Math.max(c0[0], c1[0])];
+  const zs = [Math.min(c0[1], c1[1]), Math.max(c0[1], c1[1])];
+  const lines = [];
+  for (let wx = Math.ceil(xs[0] / GRID) * GRID; wx <= xs[1]; wx += GRID)
+    lines.push([wx, null, px(wx, zs[0])[0], 0]);
+  for (let wz = Math.ceil(zs[0] / GRID) * GRID; wz <= zs[1]; wz += GRID)
+    lines.push([null, wz, 0, px(xs[0], wz)[1]]);
+  gridSpec = { lines };
+}
 
 fs.mkdirSync(OUT, { recursive: true });
 const tiles = [];
@@ -65,7 +91,7 @@ const greens = m.holes.map(h => px(h.green.c[0], h.green.c[1]));
 
 const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--no-sandbox'] });
 const page = await browser.newPage({ viewport: { width: 1200, height: 1200 } });
-const png = await page.evaluate(async ([tiles, lines, greens, span, label]) => {
+const png = await page.evaluate(async ([tiles, lines, greens, span, label, grid]) => {
   const S = span * 256;
   const c = document.createElement('canvas');
   c.width = S; c.height = S;
@@ -88,11 +114,29 @@ const png = await page.evaluate(async ([tiles, lines, greens, span, label]) => {
     g.strokeText(String(i + 1), p[0] + 8, p[1] - 8);
     g.fillText(String(i + 1), p[0] + 8, p[1] - 8);
   });
+  /* A WORLD GRID, so positions can be read straight off the picture. Without it
+     a trace has to be done by describing places in words and then guessing them
+     back into metres, which is exactly where registration error comes from. */
+  if (grid) {
+    g.lineWidth = 1;
+    g.font = '16px system-ui';
+    for (const [wx, wz, px2, py] of grid.lines) {
+      g.strokeStyle = (wx !== null ? wx : wz) % 500 === 0 ? 'rgba(255,255,0,.75)' : 'rgba(255,255,255,.32)';
+      g.beginPath();
+      if (wx !== null) { g.moveTo(px2, 0); g.lineTo(px2, S); } else { g.moveTo(0, py); g.lineTo(S, py); }
+      g.stroke();
+      g.fillStyle = 'rgba(0,0,0,.65)';
+      const t = wx !== null ? `x ${wx}` : `z ${wz}`;
+      const tx = wx !== null ? px2 + 3 : 4, ty = wx !== null ? 56 : py - 3;
+      g.fillRect(tx - 2, ty - 14, g.measureText(t).width + 6, 18);
+      g.fillStyle = '#ffe'; g.fillText(t, tx, ty);
+    }
+  }
   g.fillStyle = 'rgba(0,0,0,.7)'; g.fillRect(0, 0, S, 40);
   g.fillStyle = '#fff'; g.font = '20px system-ui';
   g.fillText(label, 12, 27);
-  return c.toDataURL('image/jpeg', 0.82).split(',')[1];
-}, [tiles, lines, greens, span, `${build} — the course we already have is drawn in red`]);
+  return c.toDataURL('image/jpeg', 0.86).split(',')[1];
+}, [tiles, lines, greens, span, `${build} — known course in red` + (GRID ? `, world grid every ${GRID} m` : ''), gridSpec]);
 const tag = flag('tag', `z${Z}`);
 const file = path.join(OUT, `${build}-${tag}.jpg`);
 fs.writeFileSync(file, Buffer.from(png, 'base64'));
