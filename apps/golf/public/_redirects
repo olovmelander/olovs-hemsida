@@ -1,0 +1,21 @@
+# The six standalone page names have been shared and bookmarked. They must keep
+# working, and they must keep their ADDRESS: the router reads the page name out
+# of the URL to know which course was asked for, so these are rewrites (200),
+# never redirects (301). A redirect would strip the very thing being read.
+#
+# tools/check-links.mjs asserts all six, plus the query grammar they carry, and
+# tools/serve.mjs reproduces this rule locally so the legacy half is exercised
+# for real rather than assumed.
+/veckefjarden3d.html    /index.html   200
+/norrfallsviken3d.html  /index.html   200
+/puttom3d.html          /index.html   200
+/angso3d.html           /index.html   200
+/upsala3d.html          /index.html   200
+/johannesberg3d.html    /index.html   200
+
+# There is deliberately NO /* catch-all. The app has no path routes -- a course
+# is chosen with ?bana=, the view with the rest of the query -- so everything
+# outside the six names above is a real static file, and a catch-all would only
+# serve HTML in place of one that is missing. A pack fetched as an HTML page
+# fails on its GPK1 magic instead of on an honest 404, which is a worse hour to
+# spend. tools/serve.mjs makes the same choice, and says so.

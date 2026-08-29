@@ -1,0 +1,39 @@
+# Cloudflare Pages caching. Three rules, and the reasoning behind each matters
+# more than the numbers, because getting one wrong here does not slow the app
+# down -- it breaks it.
+#
+# The manifest is the ONE file that must always be fresh. Everything else is
+# reached through it, and it is the thing that says which pack bytes are correct.
+# Serve a stale manifest and the app opens a course that no longer exists.
+/courses/index.json
+  Cache-Control: no-cache
+  Access-Control-Allow-Origin: *
+
+# Packs are immutable because the loader asks for them BY CONTENT: the URL
+# carries the sha256 prefix, so changed bytes are a changed URL. This is not
+# just an optimisation. The runtime verifies the pack against the manifest's
+# hash, so a CDN handing back yesterday's pack under today's manifest would
+# throw rather than degrade -- the content-addressed URL is what makes a long
+# cache safe at all. 400 KB per course, fetched once, ever.
+/courses/*/pack.bin
+  Cache-Control: public, max-age=31536000, immutable
+
+# Posters are not content-addressed and they are only decoration, so they get a
+# day: long enough that a returning visitor pays nothing, short enough that a
+# re-render reaches people without a deploy trick.
+/courses/*/hero-1.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# Vite content-hashes everything in /assets, so those names already change when
+# the bytes do.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The shell itself must revalidate or a deploy never reaches anyone.
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache

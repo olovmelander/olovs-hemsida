@@ -27,7 +27,15 @@ export async function fetchPack(url, wantSha) {
 export async function loadCourse(slug) {
   const manifest = await (await fetch('/courses/index.json')).json();
   const meta = manifest.courses.find(c => c.slug === slug) || manifest.courses[0];
-  const pack = await fetchPack(meta.packUrl, meta.sha256);
+  /* The pack is asked for by CONTENT, not by name. A pack file keeps one path
+     forever, so a CDN that cached it could hand back yesterday's bytes under
+     today's manifest -- and because the sha is checked above, that does not
+     degrade quietly, it throws and the course refuses to open. Putting the hash
+     in the URL means a changed pack is a different URL, so the cached copy is
+     never the wrong one and every copy can be cached as hard as the CDN likes.
+     The manifest itself is the one thing that must stay fresh (see _headers). */
+  const url = meta.packUrl + (meta.sha256 ? `?v=${meta.sha256.slice(0, 16)}` : '');
+  const pack = await fetchPack(url, meta.sha256);
   if (pack.H.slug !== meta.slug) throw new Error(`pack says ${pack.H.slug}, manifest says ${meta.slug}`);
   return { meta, pack, all: manifest.courses };
 }

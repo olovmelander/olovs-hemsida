@@ -906,6 +906,29 @@ draws tiles from **OpenStreetMap's own servers**, which are donated infrastructu
 whose usage policy rules out being the tile source for an app with real traffic.
 Fine at this scale; needs a provider before the app is public.
 
+### Phase 6 groundwork — the hosting rules, and one that is load-bearing
+
+`apps/golf/public/_headers` and `_redirects` ship with the build, so the hosting
+rules travel with the thing they describe rather than living in a dashboard.
+
+**The pack is fetched by CONTENT, not by name.** `loadCourse` appends
+`?v=<sha256 prefix>` to the pack URL. This is not an optimisation, it is what
+makes caching a pack safe at all: a pack file keeps one path forever, the runtime
+verifies its bytes against the manifest's hash, so a CDN handing back yesterday's
+pack under today's manifest does not degrade quietly — **it throws, and the course
+refuses to open.** With the hash in the URL, changed bytes are a changed URL and
+no cached copy is ever the wrong one, which is why packs can then be `immutable`.
+The manifest is the one file that must stay fresh, and is `no-cache`.
+
+**There is deliberately no `/*` catch-all** in `_redirects`. The app has no path
+routes — a course is `?bana=`, the view is the rest of the query — so the only
+non-file paths are the six legacy page names, and those are **rewrites (200), not
+redirects**, because the router reads the page name out of the URL and a 301
+would strip exactly that. A catch-all would serve HTML in place of a missing
+pack, which then fails on its GPK1 magic instead of on an honest 404.
+`tools/serve.mjs` makes the same two choices, so the local server and the host
+agree and `check-links.mjs` is testing the real rule.
+
 ## Skyltar — the marker layer, on all six pages
 
 `geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures
