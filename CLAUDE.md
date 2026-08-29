@@ -784,6 +784,32 @@ half is exercised for real. Gates: `router.test.mjs` (the mapping, no browser) a
 `tools/check-links.mjs` — twelve URL shapes, half legacy, asserting hole, camera,
 light, tee, markers and clean mode. All twelve pass.
 
+**The 14th's difference was never the water.** The fjärd surface, silt margins and
+shallows are byte-identical between the two engines — measured, 0.00/255 over an
+800x80 patch of deep water. What the phase-4 merge dropped was the island green's
+**granite riprap collar**: the boulders at its waterline, the berm of dumped stone
+under them, and the waterline band painted stone-grey rather than bleached sand.
+Eleven of the club's own photographs put that collar there (commit a3afff0), and
+the tell it left behind was a dead palette entry — `C.riprap` defined in the
+engine and read by nothing.
+
+It is restored as a scenery-module export, the same mechanism as the species rule:
+`armour = { hole, rise, paint, colour }` names the HOLE, not a coordinate, because
+the green centre is already in the pack. Draws went 175 → 176, the count the
+original commit states. A `reedbed` export restores the fjärd's reed box and the
+reserve's west-shore density; reeds went 6020 → 7646, exactly the page's count.
+
+**Measure like with like, or do not measure.** Two shots of the SAME page through
+two different `shot.mjs` paths (`--seq` versus single `--hole/--cam`) differ by
+1.89/255 — larger than the residual being chased. Comparing across paths made the
+fix look like a regression (5.01) when like-for-like it was 3.31, and after the
+reeds 3.14, of which ~1.9 is that harness noise. Always shoot both sides the same way.
+
+Still outstanding: the app plants Norrfällsviken's chapel clearing in the vista
+scatter instead of Veckefjärden's two — Kyrkudden, so Själevads kyrka stays visible
+across the fjärd, and the works yard at Åsmasten's foot. That wants a
+`SCENERY.clearings` export and is the last known course-truth casualty of the merge.
+
 **The id collision worth remembering.** The chooser was first built as `#rail` —
 and the HUD's own control panel is `<div class="panel" id="rail">`. A fullscreen
 overlay's CSS was therefore being applied to the Vy/Ljus rail on every course.

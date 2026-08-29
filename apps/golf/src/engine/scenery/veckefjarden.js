@@ -11,6 +11,15 @@
    draw counter the harness reads back.                                       */
 import { hash2 } from '../geom.js';
 
+/* The island 14th is armoured in granite riprap -- the collar of pale boulders at
+   the waterline is the first thing every photograph of the hole leads with, and
+   the ground under them is a berm of dumped stone, not a mown bank. Eleven club
+   photographs put it there (a3afff0); it is the same kind of course-specific truth
+   as the reserve's alder swamp, and a shared engine has no way to guess it.
+   rise is how far from the green centre the berm and the boulders reach; paint how
+   far the waterline band is stone grey rather than bleached sand. */
+export const armour = { hole: 14, rise: 115, paint: 110, colour: 0xa8a49a };
+
 export function build(ctx) {
   /* tri/quad push into the CALLER's vertex batch -- these landmarks are part of
      the far-scenery mesh, which is one draw call for the whole horizon, and
@@ -180,3 +189,9 @@ export function species({ r, x, z, h, ringSD, RES }) {
   }
   return h > 46 ? (r < 0.66 ? 0 : 1) : r < 0.44 ? 0 : r < 0.80 ? 1 : 2;
 }
+
+/* The fjärd is the only water these reeds belong to, and they thicken along the
+   reserve's west shore. The box is also a phase reference: the reed lattice is
+   stepped from its own start, so a wider box does not merely add reeds, it moves
+   every one of them. */
+export const reedbed = { box: [-2300, 0, -1500, 900], denser: [-700, 1.8] };
