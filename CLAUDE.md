@@ -1086,6 +1086,31 @@ overlay is a real check on the footprint, not decoration. **z19 has no coverage
 in Sweden — z18 is the usable maximum.** It found that Ängsö's footprint covers
 only part of a longer NW–SE building.
 
+**Each clubhouse now carries its own look**, as a `clubhouse` export in
+`src/engine/scenery/<slug>.js` — the same mechanism as `species`, `armour` and
+`clearings`, and for the same reason: it is a fact about one place. The engine's
+defaults are Veckefjärden's (cream render, dark red roof, three window rows),
+because that is the building the clubhouse code was written from; every other
+course overrides them from photographs:
+
+| course | walls | roof | storeys |
+|---|---|---|---|
+| Veckefjärden | cream render | dark red | 3 (the old school) |
+| Norrfällsviken | falurött, white trim | dark red-brown | 1, glazed veranda + terrace |
+| Puttom | falurött, white trim | brown-grey pantile | 2, glazed ground floor, white porch |
+| Ängsö | falurött, white trim | **terracotta pantile** | 1½, dormers, a red COURTYARD |
+| Upsala | **cream render** | orange-brown tile | 1 tall, run of gables |
+| Johannesberg | falurött, white trim | orange-red tile | 1½ |
+
+Two of those needed care. **Ängsö is not one building but a courtyard** — OSM
+carries three footprints all named "Ängsö GK Klubbhus" (546/165/123 m²) and the
+photograph shows exactly that; the largest is drawn as the clubhouse and the
+others come through the generic pass as the outbuildings they are. And at
+**Johannesberg the big white turreted manor is the HOTEL, not the clubhouse** —
+the clubhouse is the long low red range west of it. The manor carries no golf
+name, so it correctly falls to the generic pass; that is the right outcome and
+should not be "fixed".
+
 **Aerial imagery gives a roof; it never gives a facade.** Roof shape, ridge
 direction, roof colour, terrace and surroundings are all readable from above and
 are verifiable. Wall colour, materials, storeys and glazing are not, and guessing

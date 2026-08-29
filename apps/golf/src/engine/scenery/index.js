@@ -22,6 +22,14 @@
 const REGISTRY = {
   veckefjarden: () => import('./veckefjarden.js'),
   norrfallsviken: () => import('./norrfallsviken.js'),
+  /* These four carry only a `clubhouse` spec so far -- what their buildings
+     actually look like, read off photographs, since aerial imagery gives a roof
+     and never a facade. No build() and no landmarks yet, which is why they are
+     a few lines each. */
+  angso: () => import('./angso.js'),
+  upsala: () => import('./upsala.js'),
+  puttom: () => import('./puttom.js'),
+  johannesberg: () => import('./johannesberg.js'),
 };
 
 /* Loaded once, early: a course module may supply BOTH a species rule (which the

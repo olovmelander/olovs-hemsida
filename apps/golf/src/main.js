@@ -298,6 +298,14 @@ const ARM = (() => {
 })();
 /* holes the far-vista forest ring must leave open, declared by the course */
 const CLEARINGS = (SCENERY && SCENERY.clearings) || [];
+/* How this club's clubhouse actually looks. The defaults are Veckefjärden's --
+   the old school, cream render under a dark red roof, three storeys of windows --
+   because that is the building this code was written from. Every other course
+   overrides them from its own photographs; aerial imagery gives a roof but never
+   a facade, so these came from pictures taken on the ground. */
+const CLUB_LOOK = Object.assign(
+  { wall: 0xe7e2d4, roof: 0x9d3f2e, height: 5.4, windowRows: [1.4, 3.5], terrace: true },
+  (SCENERY && SCENERY.clubhouse) || {});
 const HV = (M.infra.power ? M.infra.power.lines : []).filter(l => (l.voltage || 0) >= 100000);
 for (const s of M.streams) { const q = { line: s.line, bb: ringBBox(s.line), w: s.w, stream: true }; WI.add(q, q.bb, 14); }
 
@@ -3252,12 +3260,12 @@ for (const h of HOLES) {
     if (b.amenity === 'place_of_worship') continue;   /* the chapel is bespoke */
     const [cx, cz] = centroidOf(b.ring);
     const isClub = b === clubBuilding;
-    const hgt = b.h || (isClub ? 5.4
+    const hgt = b.h || (isClub ? CLUB_LOOK.height
               : b.kind === 'industrial' ? 5.5 : b.kind === 'commercial' ? 4.2
               : b.kind === 'house' || b.kind === 'residential' ? 3.0
               : areaOf(b.ring) < 45 ? 2.6 : 3.4);
-    house(b.ring, hgt, isClub ? L(0xe7e2d4) : wallOf(cx, cz, b.kind, b.name),
-          isClub ? L(0x9d3f2e) : roofOf(cx, cz), isClub);
+    house(b.ring, hgt, isClub ? L(CLUB_LOOK.wall) : wallOf(cx, cz, b.kind, b.name),
+          isClub ? L(CLUB_LOOK.roof) : roofOf(cx, cz), isClub);
     if (isClub) {
       /* the old school wears its three storeys of white-framed windows -- the grid
          is most of what says "that building" from the 18th fairway */
@@ -3278,7 +3286,7 @@ for (const h of HOLES) {
           const ux = ex / el, uz = ez / el;
           const nx = -uz, nz = ux;                       /* outward for a CCW-ish ring; DoubleSide forgives */
           const nWin = Math.floor((el - 2.4) / 2.15);
-          for (const sgn of [1, -1]) for (const row of [1.4, 3.5]) {
+          for (const sgn of [1, -1]) for (const row of CLUB_LOOK.windowRows) {
             for (let w2 = 0; w2 < nWin; w2++) {
               const t0 = 1.2 + w2 * 2.15 + 0.35;
               const W = (tt, off, y) => [a0[0] + ux * tt + nx * off * sgn, y, a0[1] + uz * tt + nz * off * sgn];
