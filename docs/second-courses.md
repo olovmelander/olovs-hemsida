@@ -174,3 +174,41 @@ pages or PDF, which show each hole individually with its distances and shape.
 With that plus the frames this tooling already produces, the nine holes can be
 placed the way Johannesberg's eighteen were: the banguide routes, the imagery
 georeferences, the card fixes the lengths.
+
+## The banguide was on the web after all, and it changed the card
+
+`banguider.se/upsala-golfklubb/mellanbanan` carries the club's own guide: an
+overview plus **nine per-hole sheets**, each with par, stroke index, five tee
+lengths, carry distances and a compass rose. The overview is the same sheet
+supplied by hand, which confirms the card-based identification independently.
+
+**REGISTERED, AND THE FIT IS CHECKED BY A POINT THAT DID NOT ENTER IT.** The
+drawing is an aerial with its surroundings masked out, so it cannot be matched by
+its edges — but the ponds inside it are in OpenStreetMap with world coordinates
+this build already holds. Three pond centres give a similarity of
+**0.7693 m per pixel, rotation 1.23°** — i.e. the sheet is north-up, which is
+what a course map should be; a fit coming out at 40° would have meant the pairing
+was wrong. Residuals are **3.8, 10.3 and 7.1 m** over more than a kilometre of
+drawing. Two points suffice to solve it, so the third is free evidence.
+
+**AND IT CAUGHT A BAD CARD.** The per-hole sheets confirm the lengths exactly —
+all five tee values on holes 1, 7 and 8, and the pars on all nine. But the STROKE
+INDEX disagrees on **all nine holes**:
+
+| hole | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|---|---|---|---|---|
+| the club | 9 | 7 | 5 | 11 | 17 | 3 | 15 | **1** | 13 |
+| golfisverige | 13 | 9 | 3 | 15 | 11 | **1** | 17 | 5 | 7 |
+
+The aggregator's column is a perfectly valid odd 1–17 permutation and passes
+every arithmetic check this project runs. **That is the lesson: the permutation
+test proves a column is well-formed, not that it is the club's.** The club's own
+guide is authoritative and the card now carries its values — hole 8 is Index 1/2,
+the hardest, and is also the hole the club calls its signature.
+
+Remaining for Mellanbanan: the nine hole lines are read off the overview and six
+of nine land at 0.84–0.94 of their card length, which is expected because the
+numbered disc sits at the tee ground rather than the back marker and the card
+slide is what resolves it. Holes 7 and 8 are misread badly enough to redo from
+their own sheets, which show tee and green unambiguously and carry a compass rose
+per hole.
