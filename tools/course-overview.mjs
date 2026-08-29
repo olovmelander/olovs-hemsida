@@ -93,7 +93,23 @@ const png = await page.evaluate(async ([tiles, lines, greens, span, label]) => {
   g.fillText(label, 12, 27);
   return c.toDataURL('image/jpeg', 0.82).split(',')[1];
 }, [tiles, lines, greens, span, `${build} — the course we already have is drawn in red`]);
-const file = path.join(OUT, `${build}-z${Z}.jpg`);
+const tag = flag('tag', `z${Z}`);
+const file = path.join(OUT, `${build}-${tag}.jpg`);
 fs.writeFileSync(file, Buffer.from(png, 'base64'));
+
+/* The frame's own georeference, written beside it. A trace made on this image is
+   worth nothing without it, and re-deriving it later by eye is how registration
+   error creeps in -- the tiles are orthorectified, so pixel -> world is exactly
+   affine and can simply be stated. Sample two pixels and solve. */
+const p0 = px(0, 0), p1 = px(100, 100);
+const sx = 100 / (p1[0] - p0[0]), sz = 100 / (p1[1] - p0[1]);
+const meta = {
+  build, zoom: Z, tilesAcross: span, imagePx: span * 256,
+  /* world = origin + pixel * scale */
+  pixelToWorld: { x0: -p0[0] * sx, z0: -p0[1] * sz, sx, sz },
+  note: 'world_x = x0 + px_x * sx ; world_z = z0 + px_z * sz. Esri World Imagery is orthorectified, so this is exact and a trace needs no registration.',
+};
+fs.writeFileSync(file.replace(/\.jpg$/, '.json'), JSON.stringify(meta, null, 1) + '\n');
 console.log('->', path.relative(ROOT, file));
+console.log(`   ${meta.pixelToWorld.sx.toFixed(4)} m per pixel; world(0,0) at px ${(-meta.pixelToWorld.x0 / sx).toFixed(0)},${(-meta.pixelToWorld.z0 / sz).toFixed(0)}`);
 await browser.close();

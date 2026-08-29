@@ -127,7 +127,9 @@ async function checkCourse(c) {
     if (!h || h.idx !== ch.hcp) mism++;
     ch.t.forEach((v, i) => { if (!h || h.t[i] !== v) mism++; });
   }
-  gate(mism === 0 && got.holes.length === 18, `card through the app: ${vals} values, ${mism} mismatches`);
+  /* the card's own hole count, not eighteen: the second nines are nines */
+  gate(mism === 0 && got.holes.length === cardHoles.length,
+    `card through the app: ${vals} values over ${got.holes.length} holes, ${mism} mismatches`);
   gate(got.ground.mode === 'atlas', 'runtime ground atlas enabled');
   gate((got.ground.classCounts?.[2] || 0) > 0 && (got.ground.classCounts?.[4] || 0) > 0,
        'atlas contains fairway and green texels');

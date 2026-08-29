@@ -136,6 +136,12 @@ const [b0, b1, bv] = await Promise.all([inflate(PACK.s0), inflate(PACK.s1), infl
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = JSON.parse(new TextDecoder().decode(bv));
 const HOLES = M.holes;
+/* How many holes this course HAS, rather than the eighteen every course here has
+   happened to have. Upsala's Mellanbanan and Johannesberg's nine are nines, and
+   they share their parent's environment as separate courses rather than becoming
+   holes 19-27 of it -- so the hole strip, the wraparound to the next tee, the
+   goHole clamp and the tour all have to read the card instead of assuming. */
+const NHOLES = HOLES.length;
 
 /* --------------------------------------------------------------------- AO
    How much of the sky a point can actually see. Without it every slope facing the
@@ -3337,7 +3343,7 @@ const plateSites = [];
     return t;
   };
   for (const h of HOLES) {
-    const next = HOLES[h.n % 18];
+    const next = HOLES[h.n % NHOLES];
     const to = next.tees.marks[0].c;
     const b = Math.atan2(to[0] - h.pin[0], to[1] - h.pin[1]);
     const gr = Math.max(...h.green.ring.map(q => hyp(q, h.green.c)));
@@ -3965,7 +3971,7 @@ let hole = 1, teeIdx = 0, camMode = 'orbit', flying = 0;
 const TEE_NAMES = CMETA.tees.names;
 
 const holesBar = document.getElementById('holes');
-for (let n = 1; n <= 18; n++) {
+for (let n = 1; n <= NHOLES; n++) {
   const b = document.createElement('button');
   b.className = 'hb'; b.textContent = n;
   b.onclick = () => goHole(n, true);
@@ -4052,7 +4058,7 @@ function setCam(mode, instant) {
   }
 }
 function goHole(n, recam, instant) {
-  hole = Math.min(18, Math.max(1, n));
+  hole = Math.min(NHOLES, Math.max(1, n));
   drawCard();
   kikClear();
   if (gridOn) buildGreenGrid();
@@ -4843,7 +4849,7 @@ function frame() {
   if (flying > 0) {
     flying += dt / 15;
     if (flying >= 1) {
-      if (tour && hole < 18) { goHole(hole + 1, false); showTourCard(); flying = 1e-4; }
+      if (tour && hole < NHOLES) { goHole(hole + 1, false); showTourCard(); flying = 1e-4; }
       else if (tour) { endTour(); }
       else { flying = 0; setCam(camMode); }
     }

@@ -83,3 +83,55 @@ rendered alone will mow only its own corridors — the parent's fairways will re
 as rough unless its shapes are carried into the pack as scenery. That is what
 `M.scenery.fairways` is already for, and it is the right home: on Mellanbanan's
 card the Stora banan is scenery, and vice versa.
+
+## Which banguide is which — settled by the cards, not by eye
+
+The two banguides were supplied without labels, and guessing from the drawings
+would have been a coin toss. The cards settle it decisively:
+
+| | shortest hole | longest hole |
+|---|---|---|
+| Mellanbanan | **h5**, 73–109 m | h6, 455 m |
+| Johannesberg 9 | **h4**, 94–126 m | h8, 399 m |
+
+In the detailed banguide, hole 5 is a short stub while hole 4 is one of the
+longest lines on the sheet. Johannesberg's hole 4 is its *shortest* hole, so that
+sheet cannot be Johannesberg's. It is **Mellanbanan** — and the rest agrees:
+holes 3 and 6 are drawn as the two long lines, and they are its two par 5s.
+The small low-resolution sheet is therefore **Johannesberg's nine**.
+
+## The imagery is harder here than at Veckefjärden, and that changed the plan
+
+`tools/trace-turf.mjs` classifies mown turf from orthoimagery on the criteria
+build-treecover.py arrived at — bright, green AND SMOOTH, with smoothness the
+thing that separates turf from canopy. It does not work off the shelf at these
+two clubs, and the reason is worth recording before anyone retunes it blindly:
+
+- **Different zooms are different captures.** At Johannesberg, z17/z18 is an
+  early-spring flight with dormant, pale grass: the classifier called 73% of the
+  frame turf because a bare field and a fairway are the same colour in March.
+  z16 is a summer capture and separates properly by colour — but it is 1.2 m/px,
+  where the texture threshold (tuned at 0.30 m/px) fires on everything and calls
+  58% of the frame trees. The threshold has to scale with resolution.
+- So a working classifier here needs a labelled probe set per club, the way
+  `check-treecover.mjs` holds one for Veckefjärden. That is a sub-project.
+
+**The plan therefore follows the method this repo already used at Johannesberg's
+eighteen: the banguide is the routing authority and the imagery is the
+georeference.** Register each banguide to the world through features visible in
+both (ponds, the manor, road junctions), read the nine centrelines off it,
+generate greens/fairways/tees around them marked `prov:"synth"`, and let the
+card-length slide fix the lengths. Nothing is invented that the club has not
+drawn; what is inferred is marked as inferred.
+
+## Done so far
+
+- Both cards verified and committed.
+- Both courses located; terrain already covered by the committed heightfields.
+- `tools/course-overview.mjs` — a club's whole property with the known course
+  drawn over it, `--cx/--cz` to zoom, and the frame's exact pixel→world affine
+  written beside it so a trace needs no registration.
+- `tools/trace-turf.mjs` — the classifier, with the calibration caveat above.
+- **The hole count is no longer hard-coded.** `NHOLES` in main.js drives the hole
+  strip, the wraparound to the next tee, the goHole clamp and the tour; check-app
+  asserts the card's own length. emit-manifest already read it from the card.
