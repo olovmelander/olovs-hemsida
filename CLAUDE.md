@@ -817,6 +817,44 @@ The symptom the gate reported was tiny (a chooser open when it should be shut);
 the cause would have wrecked the HUD everywhere. **When adding an element to a
 page this old, grep the id first** — `#chooser` now.
 
+### The ground atlas — live, and what it cost to light up
+
+`docs/ground-atlas-plan.md` (G0–G8) is being executed and the atlas is the app's
+DEFAULT ground path: `src/engine/surface.js` (registry + classifier), `atlas.js`
+(1 m boot-built raster: ids, SDF, route distance — ~350 ms per course), and
+`material.js` (`makeGround`, one material classifying per fragment). In atlas
+mode every mown/sand/parking overlay is skipped (draws 143 → ~31) and
+`?ground=mesh` is the escape hatch, scheduled to die in G7. The bare route now
+boots `src/hub.js` — a chooser with no three.js — and only `?bana=`/legacy URLs
+enter the player (`src/entry.js`); `tools/check-links.mjs` proves both halves.
+`tools/goldens.mjs` captures the 12-view matrix per course (gitignored;
+approval stays human). `check-app` gates atlas presence and green/bunker
+interior probes per course. Lessons that cost real time:
+
+- **WebGPU allows 8 vertex buffers, and the terrain was at exactly 8.** Adding
+  a ninth attribute (`aAO`) made every terrain pipeline fail validation and the
+  whole ground silently vanished — the "white world" was the sky gradient where
+  terrain should be, on WebGPU only (WebGL2 allows 16). The six ground channels
+  now share ONE InterleavedBuffer (`groundChannels()` in main.js); shaders read
+  attributes by name and never noticed. Grep the console for
+  "Vertex buffer count" before blaming a material.
+- **Store coordinates in filtered rasters, never phases.** A wrapped mow-phase
+  byte tears at every 2π seam under linear filtering, and a 1.5 m green stripe
+  cannot live in a 1 m raster at all. The atlas stores the SDF and a 0.25 m
+  route-distance byte; the shader rebuilds phase per fragment (greens/collars
+  ring their own edge via the SDF — which is also exactly the old overlays'
+  `-ringSD × k`). Same lesson as the page's "mow stripes must be per pixel".
+- **Sand outranks green in `SURFACE_PRIORITY`** because the overlay stack drew
+  sand above everything and Ängsö's 9th has a bunker ring overlapping its green
+  trace. Priority parity with the page, locked by a test.
+- **Binary class weights un-smoothed the vertex world.** `classifyAt` feeds
+  `groundAt`, whose forest/wet weights tint CORE vertices; returning 1/0 put a
+  hard 4 m stair where the analytic faded over six metres. The atlas's own SDF
+  replays the ramps (`edgeRamp`), and dLine/hole come from the exact Float32
+  fields, not the quantized texture bytes.
+- **A bunker's centroid can lie outside its own ring** (Upsala's 3rd, a 22-point
+  crescent) — probe interiors with a scanline-span midpoint, not a centroid.
+
 ## Skyltar — the marker layer, on all six pages
 
 `geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures

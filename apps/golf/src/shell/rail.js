@@ -4,7 +4,6 @@
    categories, instant search, and an interactive Sweden OpenStreetMap.
    =========================================================================== */
 import '../styles/shell.css';
-import { createSwedenMap } from './map.js';
 import { ICONS } from './icons.js';
 
 const CATEGORIES = {
@@ -27,7 +26,7 @@ const LINES = {
 
 const TEE_WORD = n => `${n} tees`;
 
-export function buildRail({ courses, current, onPick, isInitialBoot = false }) {
+export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = false }) {
   const el = document.createElement('div');
   el.id = 'chooser';
   el.setAttribute('role', 'dialog');
@@ -195,6 +194,11 @@ export function buildRail({ courses, current, onPick, isInitialBoot = false }) {
       const slug = btn.dataset.slug;
       onPick(slug);
     });
+    if (onIntent) {
+      const hint = () => onIntent(btn.dataset.slug);
+      btn.addEventListener('pointerenter', hint, { once: true });
+      btn.addEventListener('focus', hint, { once: true });
+    }
   });
 
   // Map View Initialization
@@ -206,7 +210,7 @@ export function buildRail({ courses, current, onPick, isInitialBoot = false }) {
 
   let swedenMapInstance = null;
 
-  function switchView(viewMode) {
+  async function switchView(viewMode) {
     if (viewMode === 'map') {
       viewGridBtn.classList.remove('active');
       viewMapBtn.classList.add('active');
@@ -215,6 +219,7 @@ export function buildRail({ courses, current, onPick, isInitialBoot = false }) {
       chooserControls.style.display = 'none';
 
       if (!swedenMapInstance) {
+        const { createSwedenMap } = await import('./map.js');
         swedenMapInstance = createSwedenMap({
           container: mapWrap,
           courses,

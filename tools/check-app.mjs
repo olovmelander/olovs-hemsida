@@ -18,14 +18,15 @@ import { ROOT } from '../geobuild/lib.mjs';
 import { readCard } from '../packages/course-pack/lib.mjs';
 
 const BASE = process.argv[2] || 'http://127.0.0.1:8620';
-const CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
 
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/index.json'), 'utf8'));
 let bad = 0;
 const gate = (ok, msg) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${msg}`); if (!ok) bad++; };
 
 const browser = await chromium.launch({
-  executablePath: CHROME,
+  ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }),
   args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader', '--force-device-scale-factor=1'],
 });
 
@@ -56,9 +57,39 @@ async function checkCourse(c) {
   const got = await page.evaluate(() => ({
     holes: window.V3D.HOLES.map(h => ({ n: h.n, par: h.par, idx: h.idx, t: h.t })),
     teeLabels: [...document.querySelectorAll('#tees .tee i')].map(e => e.textContent),
-    header: document.querySelector('.hd h1').textContent,
+    header: document.querySelector('.hd h1, #hdName, #curCourseName')?.textContent || '',
     title: document.title,
     url: location.search,
+    ground: (() => {
+      const V = window.V3D, info = V.groundInfo();
+      const greenMisses = V.HOLES.filter(h => V.groundSample(h.green.c[0], h.green.c[1])?.surface !== 4).map(h => h.n);
+      /* A crescent bunker's centroid can lie outside its own ring (Upsala's 3rd
+         does), so probe a point that is inside by construction: the midpoint of
+         the widest scanline span through the ring at the centroid's z. */
+      const interiorPoint = (ring, c) => {
+        const zs = ring.map(p => p[1]);
+        const z = Math.min(Math.max(c[1], Math.min(...zs) + 0.01), Math.max(...zs) - 0.01);
+        const xs = [];
+        for (let p = 0, q = ring.length - 1; p < ring.length; q = p++) {
+          const a = ring[q], b = ring[p];
+          if ((a[1] > z) === (b[1] > z)) continue;
+          xs.push(a[0] + (z - a[1]) * (b[0] - a[0]) / (b[1] - a[1]));
+        }
+        xs.sort((a, b) => a - b);
+        let best = null;
+        for (let n = 0; n + 1 < xs.length; n += 2) {
+          if (!best || xs[n + 1] - xs[n] > best[1] - best[0]) best = [xs[n], xs[n + 1]];
+        }
+        return best ? [(best[0] + best[1]) / 2, z] : c;
+      };
+      const bunkerMisses = [];
+      for (const h of V.HOLES) for (const b of h.bunkers) {
+        if (!b._r?.c) continue;
+        const p = interiorPoint(b._r.ring, b._r.c);
+        if (V.groundSample(p[0], p[1])?.surface !== 6) bunkerMisses.push(h.n);
+      }
+      return { ...info, greenMisses, bunkerMisses, perf: V.perf() };
+    })(),
   }));
 
   let mism = 0, vals = 0;
@@ -70,6 +101,12 @@ async function checkCourse(c) {
     ch.t.forEach((v, i) => { if (!h || h.t[i] !== v) mism++; });
   }
   gate(mism === 0 && got.holes.length === 18, `card through the app: ${vals} values, ${mism} mismatches`);
+  gate(got.ground.mode === 'atlas', 'runtime ground atlas enabled');
+  gate((got.ground.classCounts?.[2] || 0) > 0 && (got.ground.classCounts?.[4] || 0) > 0,
+       'atlas contains fairway and green texels');
+  gate(got.ground.greenMisses.length === 0, `green centre probes${got.ground.greenMisses.length ? ' miss holes ' + got.ground.greenMisses.join(',') : ''}`);
+  gate(got.ground.bunkerMisses.length === 0, `bunker centre probes${got.ground.bunkerMisses.length ? ' miss holes ' + got.ground.bunkerMisses.join(',') : ''}`);
+  console.log(`  perf atlas ${got.ground.perf.atlasMs} ms, boot JS ${got.ground.perf.totalMs} ms`);
 
   /* Nothing may be under water. This is the gate the 14th exists for: an island
      green that once sat five metres under the fjärd, and a course whose water

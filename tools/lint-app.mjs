@@ -27,9 +27,13 @@ fs.writeFileSync(cfg, `export default [{
   rules: { 'no-undef': 'error' },
 }];\n`);
 
+/* On Windows npx is npx.cmd, and Node refuses to spawn a .cmd without a shell */
+const win = process.platform === 'win32';
 try {
-  execFileSync('npx', ['--yes', 'eslint', '--config', cfg, ...files], { stdio: 'inherit', cwd: ROOT });
+  execFileSync(win ? 'npx.cmd' : 'npx', ['--yes', 'eslint', '--config', cfg, ...files],
+    { stdio: 'inherit', cwd: ROOT, shell: win });
   console.log('no-undef clean: ' + files.join(', '));
-} catch {
+} catch (e) {
+  if (!e.status) console.error('eslint could not run: ' + e.message);
   process.exit(1);
 }

@@ -46,6 +46,9 @@ import { buildNavDrawer } from './shell/menu.js';
 import { legacyTarget, goToCourse } from './shell/router.js';
 import { inflate, decodeHF } from './engine/codec.js';
 import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
+import { createClassifier, SURFACE } from './engine/surface.js';
+import { createGroundAtlas } from './engine/atlas.js';
+import { makeGround } from './engine/material.js';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
    the flag-cloth wave -- so two boots render the same pixels. Phase 0 proved the
@@ -53,19 +56,29 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, di
    hand-maintained source, so the parity contract lives here as a runtime switch
    instead of a special build. */
 const DET = new URLSearchParams(location.search).get('det') === '1';
+const groundMode = new URLSearchParams(location.search).get('ground') === 'mesh' ? 'mesh' : 'atlas';
 const time = DET ? float(3.25) : __liveTime;
 
 /* ------------------------------------------------------------------ boot ui */
 const bootEl = document.getElementById('boot');
 const barEl = document.querySelector('#bar i');
 const msgEl = document.getElementById('bmsg');
+const bootStarted = performance.now();
+const BOOT_PERF = { marks: [], atlasMs: 0, totalMs: 0 };
 let step0 = 0;
 const STEPS = ['terräng', 'vatten', 'banan', 'skog', 'ljus', 'klar'];
 const tick = (msg, frac) => {
+  BOOT_PERF.marks.push({ name: msg, atMs: +(performance.now() - bootStarted).toFixed(1) });
   msgEl.textContent = msg;
   barEl.style.width = (frac * 100).toFixed(0) + '%';
   return new Promise(r => setTimeout(r, 20));
 };
+let workSliceStarted = performance.now();
+const shouldYieldWork = () => performance.now() - workSliceStarted >= 42;
+const yieldWork = () => new Promise(resolve => setTimeout(() => {
+  workSliceStarted = performance.now();
+  resolve();
+}, 0));
 
 /* the course, fetched: everything below this line is data-driven. Which course
    is the ?bana= deep link; the manifest's first entry stands in until the
@@ -169,8 +182,9 @@ function demH(x, z) {
    course, so terrainH and the classifier are not O(features) per sample */
 const CELL = 24;
 class Grid {
-  constructor() { this.m = new Map(); }
+  constructor() { this.m = new Map(); this.list = []; }
   add(rec, bb, pad = 0) {
+    this.list.push(rec);
     const i0 = Math.floor((bb.x0 - pad) / CELL), i1 = Math.floor((bb.x1 + pad) / CELL);
     const j0 = Math.floor((bb.z0 - pad) / CELL), j1 = Math.floor((bb.z1 + pad) / CELL);
     for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
@@ -183,8 +197,10 @@ class Grid {
 }
 
 /* surface ids -- the roughness and detail tables below are indexed by these */
-const S_ROUGH = 0, S_SEMI = 1, S_FAIR = 2, S_GREEN = 3, S_FRINGE = 4, S_TEE = 5,
-      S_SAND = 6, S_PATH = 7, S_HEATH = 8, S_FOREST = 9, S_SHORE = 10;
+const S_ROUGH = SURFACE.ROUGH, S_SEMI = SURFACE.SEMI, S_FAIR = SURFACE.FAIRWAY,
+      S_GREEN = SURFACE.GREEN, S_FRINGE = SURFACE.FRINGE, S_TEE = SURFACE.TEE,
+      S_SAND = SURFACE.SAND, S_PATH = SURFACE.PATH, S_HEATH = SURFACE.HEATH,
+      S_FOREST = SURFACE.FOREST, S_SHORE = SURFACE.SHORE;
 
 const GI = new Grid();      // greens
 const TI = new Grid();      // tee pads
@@ -384,6 +400,19 @@ function seamFade(x, z) {
 
 /* how much fine relief a point should have, by what is growing on it */
 function microClass(x, z) {
+  if (groundAtlas?.contains(x, z)) {
+    const s = groundAtlas.sampleAt(x, z).surface;
+    if (s === SURFACE.SAND) return { amp: 0.0, len: 20 };
+    if (s === SURFACE.GREEN) return { amp: 0.05, len: 26 };
+    if (s === SURFACE.TEE) return { amp: 0.03, len: 22 };
+    if (s === SURFACE.FAIRWAY) return { amp: 0.26, len: 36 };
+    if (s === SURFACE.FRINGE) return { amp: 0.12, len: 30 };
+    if (s === SURFACE.SEMI) return { amp: 0.48, len: 32 };
+    if (s === SURFACE.FOREST) return { amp: 1.35, len: 23 };
+    /* The atlas proves no mown polygon owns this point, so the old green/tee/
+       bunker/fairway ring walks are unnecessary. */
+    return { amp: 1.05, len: 27 };
+  }
   let green = 0, tee = 0, fair = 0, sand = 0, forest = 0;
   for (const g of GI.at(x, z)) { const sd = ringSD(x, z, g.ring); if (sd < 3) green = Math.max(green, 1 - smooth(-2, 3, sd)); }
   for (const t of TI.at(x, z)) { const sd = ringSD(x, z, t.ring); if (sd < 2) tee = Math.max(tee, 1 - smooth(-1, 2, sd)); }
@@ -423,56 +452,14 @@ if (M.cover) {
   };
 }
 
-/* what is at a point, as blend weights -- one call, used for colour and for
-   whether a tree may stand there */
-function classify(x, z) {
-  let green = 0, fringe = 0, tee = 0, sand = 0, fair = 0, path = 0, forest = 0, wet = 0, along = 0, hole = 0;
-  for (const g of GI.at(x, z)) {
-    const sd = ringSD(x, z, g.ring);
-    if (sd < 0.2) { green = Math.max(green, 1 - smooth(-1.6, 0.2, sd)); hole = g.hole; }
-    if (sd < 4.2) fringe = Math.max(fringe, 1 - smooth(0, 4.2, sd));
-    if (sd < 13) fair = Math.max(fair, (1 - smooth(3, 13, sd)) * 0.85);
-  }
-  for (const t of TI.at(x, z)) {
-    const sd = ringSD(x, z, t.ring);
-    if (sd < 1.2) tee = Math.max(tee, 1 - smooth(-1, 1.2, sd));
-    if (sd < 7) fair = Math.max(fair, (1 - smooth(1, 7, sd)) * 0.7);
-  }
-  for (const b of BI.at(x, z)) {
-    const sd = ringSD(x, z, b.ring);
-    /* a bunker edge is CUT: the old 1.4 m fade left a halo of half-sand grass
-       around every bunker and half-grass sand inside it */
-    if (sd < 0.25) sand = Math.max(sand, 1 - smooth(-0.45, 0.25, sd));
-  }
-  for (const f of FI.at(x, z)) {
-    const sd = ringSD(x, z, f.ring);
-    if (sd < 5) fair = Math.max(fair, 1 - smooth(-2.5, 5, sd));
-  }
-  for (const p of PI.at(x, z)) {
-    const d = distToLine(x, z, p.line);
-    if (d < p.w + 1.2) path = Math.max(path, 1 - smooth(p.w - 0.4, p.w + 1.2, d));
-  }
-  for (const v of VI.at(x, z)) {
-    if (v.kind === 'forest' || v.kind === 'wood' || v.kind === 'scrub') {
-      const sd = ringSD(x, z, v.ring);
-      if (sd < 2) forest = Math.max(forest, 1 - smooth(-6, 2, sd));
-    } else if (v.kind === 'sand') {
-      const sd = ringSD(x, z, v.ring);
-      if (sd < 0.5) sand = Math.max(sand, 1 - smooth(-0.9, 0.5, sd));
-    } else if (v.kind === 'wetland') {
-      const sd = ringSD(x, z, v.ring);
-      if (sd < 2) wet = Math.max(wet, 1 - smooth(-4, 2, sd));
-    }
-  }
-  /* the mow direction: bands run along the hole, which is why they read as a
-     fairway rather than as noise */
-  let bestD = Infinity;
-  for (const h of HOLES) {
-    const d = distToLine(x, z, h.line);
-    if (d < bestD) { bestD = d; along = d; hole = hole || h.n; }
-  }
-  return { green, fringe, tee, sand, fair, path, forest, wet, dLine: bestD, hole };
-}
+/* The analytic classifier remains the oracle. Once the runtime atlas exists,
+   high-volume consumers use its O(1) lookup inside CORE and fall back to the
+   oracle outside it. */
+let groundAtlas = null;
+const classifyAnalytic = createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distToLine, smooth });
+const classify = (x, z) => groundAtlas?.contains(x, z)
+  ? groundAtlas.classifyAt(x, z)
+  : classifyAnalytic(x, z);
 
 /* --------------------------------------------------------------- palette
    Vertex colours go into a raw Float32Array, which r185 reads as linear working
@@ -517,6 +504,9 @@ const SHADE = {
   [S_SAND]: [2.3, 0.58, 0.14, 0], [S_PATH]: [3.2, 0.34, 0.18, 0],
   [S_HEATH]: [0.85, 1.05, 0.09, 0], [S_FOREST]: [0.55, 1.35, 0.05, 0],
   [S_SHORE]: [1.6, 0.75, 0.22, 0],
+  [SURFACE.WETLAND]: [0.72, 0.92, 0.10, 0], [SURFACE.ROCK]: [1.8, 0.48, 0.16, 0],
+  [SURFACE.ASPHALT]: [3.4, 0.18, 0.34, 0], [SURFACE.GRAVEL]: [2.6, 0.46, 0.12, 0],
+  [SURFACE.DIRT]: [1.9, 0.55, 0.08, 0], [SURFACE.MUD]: [1.2, 0.38, 0.30, 0],
 };
 
 /* the colour and the four shading channels at a point */
@@ -648,9 +638,16 @@ function groundAt(x, z, h) {
 
 /* ------------------------------------------------------------- scene setup */
 await tick('startar renderaren', 0.10);
-/* ?q=lo is the escape hatch for an integrated GPU: native resolution, smaller
-   shadow map, no bloom, and roughly half the scattered instances */
-const LOWQ = new URLSearchParams(location.search).get('q') === 'lo';
+/* Choose quality before allocating shadows and instances. The URL always wins;
+   otherwise a previous slow visit and genuinely constrained devices start light
+   instead of spending ten seconds proving they needed to. */
+const qualityParam = new URLSearchParams(location.search).get('q');
+let rememberedQuality = null;
+try { rememberedQuality = localStorage.getItem('banvy-quality'); } catch {}
+const constrainedDevice = (navigator.deviceMemory && navigator.deviceMemory <= 4)
+  || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+const LOWQ = qualityParam === 'lo'
+  || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice));
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
 let lowfx = false;
 const RMOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1041,18 +1038,46 @@ const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -5400, z1: 5400 };
 
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0 };
 SEAM = MIDR;
+const builtTerrain = { core: null, mid: null };
 
-function buildTerrain(R, hole, withDetail) {
+function sampleBuiltHeight(grid, x, z) {
+  if (!grid) return null;
+  const fx = (x - grid.x0) / grid.dx, fz = (z - grid.z0) / grid.dx;
+  if (fx < 0 || fz < 0 || fx >= grid.nx - 1 || fz >= grid.nz - 1) return null;
+  const i = Math.floor(fx), j = Math.floor(fz), tx = fx - i, tz = fz - j;
+  const k = j * grid.nx + i;
+  const a = grid.heights[k], b = grid.heights[k + 1];
+  const c = grid.heights[k + grid.nx], d = grid.heights[k + grid.nx + 1];
+  if (!Number.isFinite(a + b + c + d)) return null;
+  return tx + tz <= 1 ? a + (b - a) * tx + (c - a) * tz
+                      : d + (c - d) * (1 - tx) + (b - d) * (1 - tz);
+}
+
+/* Object placement wants the height of the mesh that was actually built, not a
+   fresh run through every green/bunker/water carve at a random coordinate. */
+function renderedGroundH(x, z) {
+  return sampleBuiltHeight(builtTerrain.core, x, z)
+    ?? sampleBuiltHeight(builtTerrain.mid, x, z)
+    ?? terrainH(x, z);
+}
+
+async function buildTerrain(R, hole, withDetail) {
   const nx = Math.round((R.x1 - R.x0) / R.dx) + 1, nz = Math.round((R.z1 - R.z0) / R.dx) + 1;
-  const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], idx = [];
+  const atlasOwnsSurfaceEdges = groundMode === 'atlas' && groundAtlas && R === CORE;
+  const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], aoArr = [], idx = [];
   const map = new Int32Array(nx * nz).fill(-1);
+  const heights = new Float32Array(nx * nz);
+  heights.fill(NaN);
   const hx0 = hole ? hole.x0 : 0, hx1 = hole ? hole.x1 : 0, hz0 = hole ? hole.z0 : 0, hz1 = hole ? hole.z1 : 0;
   const inHole = (x, z) => hole && x > hx0 + 1e-6 && x < hx1 - 1e-6 && z > hz0 + 1e-6 && z < hz1 - 1e-6;
 
-  for (let j = 0; j < nz; j++) for (let i = 0; i < nx; i++) {
+  for (let j = 0; j < nz; j++) {
+    if (shouldYieldWork()) await yieldWork();
+    for (let i = 0; i < nx; i++) {
     const x = R.x0 + i * R.dx, z = R.z0 + j * R.dx;
     if (inHole(x, z)) continue;
     const h = withDetail ? terrainH(x, z) : demH(x, z);
+    heights[j * nx + i] = h;
     map[j * nx + i] = pos.length / 3;
     pos.push(x, h, z);
     if (withDetail) {
@@ -1063,18 +1088,21 @@ function buildTerrain(R, hole, withDetail) {
          stair-steps dissolve into one soft cell. */
       const g = groundAt(x, z, h);
       let cr = g.col[0], cg = g.col[1], cb = g.col[2];
-      const q = R.dx * 0.42;
-      const g2 = groundAt(x + q, z + q * 0.7, terrainH(x + q, z + q * 0.7));
-      if (Math.abs(cr - g2.col[0]) + Math.abs(cg - g2.col[1]) + Math.abs(cb - g2.col[2]) > 0.02) {
-        const g3 = groundAt(x - q, z + q * 0.8, terrainH(x - q, z + q * 0.8));
-        const g4 = groundAt(x - q * 0.7, z - q, terrainH(x - q * 0.7, z - q));
-        const g5 = groundAt(x + q * 0.8, z - q * 0.9, terrainH(x + q * 0.8, z - q * 0.9));
-        cr = (cr + g2.col[0] + g3.col[0] + g4.col[0] + g5.col[0]) / 5;
-        cg = (cg + g2.col[1] + g3.col[1] + g4.col[1] + g5.col[1]) / 5;
-        cb = (cb + g2.col[2] + g3.col[2] + g4.col[2] + g5.col[2]) / 5;
+      if (!atlasOwnsSurfaceEdges) {
+        const q = R.dx * 0.42;
+        const g2 = groundAt(x + q, z + q * 0.7, terrainH(x + q, z + q * 0.7));
+        if (Math.abs(cr - g2.col[0]) + Math.abs(cg - g2.col[1]) + Math.abs(cb - g2.col[2]) > 0.02) {
+          const g3 = groundAt(x - q, z + q * 0.8, terrainH(x - q, z + q * 0.8));
+          const g4 = groundAt(x - q * 0.7, z - q, terrainH(x - q * 0.7, z - q));
+          const g5 = groundAt(x + q * 0.8, z - q * 0.9, terrainH(x + q * 0.8, z - q * 0.9));
+          cr = (cr + g2.col[0] + g3.col[0] + g4.col[0] + g5.col[0]) / 5;
+          cg = (cg + g2.col[1] + g3.col[1] + g4.col[1] + g5.col[1]) / 5;
+          cb = (cb + g2.col[2] + g3.col[2] + g4.col[2] + g5.col[2]) / 5;
+        }
       }
       const ao = horizonAO(x, z, h);
       col.push(cr * ao, cg * ao, cb * ao);
+      aoArr.push(ao);
       det.push(g.det); bmp.push(g.bmp); gls.push(g.gls); str.push(g.str);
       mow.push(g.mow || 0, g.mowK || 0);
     } else {
@@ -1095,8 +1123,10 @@ function buildTerrain(R, hole, withDetail) {
         break;
       }
       col.push(base[0], base[1], base[2]);
+      aoArr.push(1.0);
       det.push(0.4); bmp.push(0.9); gls.push(0.04); str.push(0);
       mow.push(0, 0);
+    }
     }
   }
   for (let j = 0; j < nz - 1; j++) for (let i = 0; i < nx - 1; i++) {
@@ -1107,21 +1137,41 @@ function buildTerrain(R, hole, withDetail) {
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
   g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-  g.setAttribute('aDet', new THREE.Float32BufferAttribute(det, 1));
-  g.setAttribute('aBmp', new THREE.Float32BufferAttribute(bmp, 1));
-  g.setAttribute('aGls', new THREE.Float32BufferAttribute(gls, 1));
-  g.setAttribute('aStr', new THREE.Float32BufferAttribute(str, 1));
-  g.setAttribute('aMow', new THREE.Float32BufferAttribute(mow, 2));
+  groundChannels(g, det, bmp, gls, str, aoArr, mow);
   g.setIndex(idx);
   g.computeVertexNormals();
   stats.verts += pos.length / 3; stats.tris += idx.length / 3;
+  if (R === CORE) builtTerrain.core = { ...R, nx, nz, heights };
+  else if (R === MIDR) builtTerrain.mid = { ...R, nx, nz, heights };
   return g;
+}
+
+/* WebGPU permits only 8 vertex buffers, and position + color + normal already
+   take three. The six ground channels therefore share ONE interleaved buffer --
+   they count as a single vertex buffer while the shaders keep reading
+   aDet/aBmp/aGls/aStr/aAO/aMow by name, on both backends. A ninth separate
+   attribute is exactly how the terrain silently stopped drawing under WebGPU. */
+function groundChannels(g, det, bmp, gls, str, ao, mow) {
+  const n = det.length;
+  const lace = new Float32Array(n * 7);
+  for (let v = 0; v < n; v++) {
+    const o = v * 7;
+    lace[o] = det[v]; lace[o + 1] = bmp[v]; lace[o + 2] = gls[v]; lace[o + 3] = str[v];
+    lace[o + 4] = ao[v]; lace[o + 5] = mow[v * 2]; lace[o + 6] = mow[v * 2 + 1];
+  }
+  const buf = new THREE.InterleavedBuffer(lace, 7);
+  g.setAttribute('aDet', new THREE.InterleavedBufferAttribute(buf, 1, 0));
+  g.setAttribute('aBmp', new THREE.InterleavedBufferAttribute(buf, 1, 1));
+  g.setAttribute('aGls', new THREE.InterleavedBufferAttribute(buf, 1, 2));
+  g.setAttribute('aStr', new THREE.InterleavedBufferAttribute(buf, 1, 3));
+  g.setAttribute('aAO', new THREE.InterleavedBufferAttribute(buf, 1, 4));
+  g.setAttribute('aMow', new THREE.InterleavedBufferAttribute(buf, 2, 5));
 }
 
 /* A skirt hangs a wall down from a rectangle's edge so a sliver of sky can never
    show through the seam between two levels of detail. */
 function skirt(R, depth, sampler) {
-  const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], idx = [];
+  const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], aoArr = [], idx = [];
   const edge = [];
   const N = 220;
   for (let i = 0; i <= N; i++) edge.push([lerp(R.x0, R.x1, i / N), R.z0]);
@@ -1134,6 +1184,7 @@ function skirt(R, depth, sampler) {
     for (const y of [h + 0.05, h - depth]) {
       pos.push(x, y, z);
       col.push(g.col[0] * 0.8, g.col[1] * 0.8, g.col[2] * 0.8);
+      aoArr.push(1.0);
       det.push(g.det); bmp.push(g.bmp); gls.push(0.02); str.push(0); mow.push(0, 0);
     }
   }
@@ -1144,11 +1195,7 @@ function skirt(R, depth, sampler) {
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
   g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-  g.setAttribute('aDet', new THREE.Float32BufferAttribute(det, 1));
-  g.setAttribute('aBmp', new THREE.Float32BufferAttribute(bmp, 1));
-  g.setAttribute('aGls', new THREE.Float32BufferAttribute(gls, 1));
-  g.setAttribute('aStr', new THREE.Float32BufferAttribute(str, 1));
-  g.setAttribute('aMow', new THREE.Float32BufferAttribute(mow, 2));
+  groundChannels(g, det, bmp, gls, str, aoArr, mow);
   g.setIndex(idx);
   g.computeVertexNormals();
   return g;
@@ -1162,7 +1209,63 @@ function skirt(R, depth, sampler) {
    a crack is the same hillside, one level coarser. */
 const under = (R, by) => ({ x0: R.x0 + by, x1: R.x1 - by, z0: R.z0 + by, z1: R.z1 - by });
 
-const turfMat = makeTurf();
+if (groundMode === 'atlas') {
+  const features = [];
+  const rings = (surface, rs, extra = {}) => {
+    const valid = (rs || []).filter(r => r && r.length >= 3);
+    if (valid.length) features.push({ surface, rings: valid, ...extra });
+  };
+  const line = (surface, item, width) => {
+    if (item?.line?.length > 1) features.push({ surface, line: item.line, width });
+  };
+  const hardSurface = item => {
+    const value = `${item?.surface || ''} ${item?.kind || ''}`.toLowerCase();
+    if (/asphalt|paved|trunk|secondary|tertiary|cycleway/.test(value)) return SURFACE.ASPHALT;
+    if (/mud/.test(value)) return SURFACE.MUD;
+    if (/dirt|ground|earth|soil/.test(value)) return SURFACE.DIRT;
+    return SURFACE.GRAVEL;
+  };
+
+  for (const h of HOLES) {
+    rings(SURFACE.SEMI, h.fairway.rings, { pad: 4.5, hole: h.n });
+    rings(SURFACE.FAIRWAY, h.fairway.rings, { hole: h.n });
+    rings(SURFACE.FRINGE, [h.green.ring], { pad: 3.2, hole: h.n });
+    rings(SURFACE.GREEN, [h.green.ring], { hole: h.n });
+    const tees = h.tees.pads.map(t => t.ring);
+    rings(SURFACE.FRINGE, tees, { pad: 2.2, hole: h.n });
+    rings(SURFACE.TEE, tees, { hole: h.n });
+    rings(SURFACE.SAND, h.bunkers.map(b => b.ring), { pad: 0.5, hole: h.n });
+  }
+  rings(SURFACE.FAIRWAY, M.scenery.fairways.concat(M.scenery.range));
+  rings(SURFACE.GREEN, M.scenery.greens);
+  rings(SURFACE.TEE, M.scenery.tees);
+  rings(SURFACE.SEMI, M.scenery.grass);
+  rings(SURFACE.SAND, M.scenery.bunkers.concat(M.veg.sand || []), { pad: 0.5 });
+
+  for (const [kind, rs] of Object.entries(M.veg || {})) {
+    if (kind === 'sand') continue;
+    const surface = /forest|wood|scrub/.test(kind) ? SURFACE.FOREST
+      : /wet|marsh|bog/.test(kind) ? SURFACE.WETLAND
+      : /rock|stone|scree/.test(kind) ? SURFACE.ROCK
+      : /mud/.test(kind) ? SURFACE.MUD : null;
+    if (surface !== null) rings(surface, rs);
+  }
+  rings(SURFACE.GRAVEL, (M.infra.parking || []).map(p => p.ring));
+  for (const p of M.infra.paths || []) line(hardSurface(p), p, p.kind === 'cycleway' ? 1.3 : 0.65);
+  for (const t of M.infra.tracks || []) line(hardSurface(t), t, t.kind === 'service' ? 1.9 : 1.7);
+  /* Roads and railway still render as raised/graded ribbons, but their atlas class
+     remains useful to tree/scatter exclusion and is hidden beneath that geometry. */
+  for (const r of M.infra.roads || []) line(hardSurface(r), r, r.kind === 'trunk' ? 8 : r.kind === 'secondary' || r.kind === 'tertiary' ? 3.2 : 2.7);
+  for (const r of M.infra.railway || []) line(SURFACE.GRAVEL, r, 4);
+
+  const atlasStarted = performance.now();
+  groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1 });
+  BOOT_PERF.atlasMs = +(performance.now() - atlasStarted).toFixed(1);
+}
+
+const turfMat = groundMode === 'atlas'
+  ? makeGround({ atlas: groundAtlas, DETAIL, SANDN, uSun, C, SHADE })
+  : makeTurf();
 /* Every surface that LIES ON the terrain -- mown overlays, sand, roads, paths,
    parking, ballast, the greengrid -- nudges itself in front of it in DEPTH SPACE,
    in units of whatever precision the device's depth buffer actually has. The
@@ -1176,19 +1279,19 @@ const nudged = (tier, mk = makeTurf) => {
   m.polygonOffsetUnits = -tier * 2;
   return m;
 };
-const coreMesh = new THREE.Mesh(buildTerrain(CORE, null, true), turfMat);
+const coreMesh = new THREE.Mesh(await buildTerrain(CORE, null, true), turfMat);
 coreMesh.userData.tag = 'core';
 coreMesh.receiveShadow = true; coreMesh.castShadow = true;
 scene.add(coreMesh);
 
 await tick('bygger terrängen', 0.26);
-const midMesh = new THREE.Mesh(buildTerrain(MIDR, under(CORE, 24), true), turfMat);
+const midMesh = new THREE.Mesh(await buildTerrain(MIDR, under(CORE, 24), true), turfMat);
 midMesh.userData.tag = 'mid';
 midMesh.receiveShadow = true;
 scene.add(midMesh);
 
 await tick('bygger horisonten', 0.34);
-const farMesh = new THREE.Mesh(buildTerrain(FARR, under(MIDR, 72), false), turfMat);
+const farMesh = new THREE.Mesh(await buildTerrain(FARR, under(MIDR, 72), false), turfMat);
 farMesh.userData.tag = 'far';
 scene.add(farMesh);
 
@@ -1263,21 +1366,8 @@ function obb2(ring) {
    overlay lifted 3 cm off the curve had the terrain's grass triangles surfacing
    through the middle of the sand. Corner heights are memoised -- neighbouring
    overlay vertices share cells, so this costs about what one terrainH call did. */
-const meshHCache = new Map();
 function meshH(x, z) {
-  if (x <= CORE.x0 || x >= CORE.x1 || z <= CORE.z0 || z >= CORE.z1) return terrainH(x, z);
-  const gx = Math.floor((x - CORE.x0) / CORE.dx), gz = Math.floor((z - CORE.z0) / CORE.dx);
-  const x0 = CORE.x0 + gx * CORE.dx, z0 = CORE.z0 + gz * CORE.dx;
-  const u = (x - x0) / CORE.dx, v = (z - z0) / CORE.dx;
-  const cH = (i, j) => {
-    const k = i * 65536 + j;
-    let h = meshHCache.get(k);
-    if (h === undefined) { h = terrainH(CORE.x0 + i * CORE.dx, CORE.z0 + j * CORE.dx); meshHCache.set(k, h); }
-    return h;
-  };
-  const ha = cH(gx, gz), hb = cH(gx + 1, gz), hc = cH(gx, gz + 1), hd = cH(gx + 1, gz + 1);
-  return u + v <= 1 ? ha + (hb - ha) * u + (hc - ha) * v
-                    : hd + (hc - hd) * (1 - u) + (hb - hd) * (1 - v);
+  return renderedGroundH(x, z);
 }
 
 /* Rings arrive as surveyed polygons: straight runs between vertices metres apart,
@@ -1424,7 +1514,7 @@ const shadeSand = (x, z) => {
            det: 2.3, bmp: 0.6, gls: 0.13, str: 0, mow: 0, mowK: 0 };
 };
 
-{
+if (groundMode !== 'atlas') {
   /* Each overlay tier pulls itself in front of the layers beneath in depth space:
      semi first, then fairway, collar, green and tee, sand above all -- so the
      stack resolves on any depth buffer, not just a deep desktop one. */
@@ -1466,7 +1556,7 @@ const shadeSand = (x, z) => {
 const carSpots = [];
 {
   const lots = (M.infra.parking || []).filter(p => p.ring && p.ring.length >= 3);
-  if (lots.length) {
+  if (groundMode !== 'atlas' && lots.length) {
     const g = surfaceMesh(lots.map(p => p.ring), 0.045, 4.0, (x, z) => {
       const n = fbm(x * 0.2, z * 0.2, 2);
       return { col: C.hard.map(v => v * (0.95 + n * 0.09)), det: 2.6, bmp: 0.4, gls: 0.12, str: 0 };
@@ -1690,14 +1780,16 @@ function makeAsphalt() {
       asphaltRuns.push({ line: r.line, w: 2.7, paint: 0, lift: 0.12, tone: C.aspL });
     }
   }
-  for (const t of M.infra.tracks) {
-    if (/asphalt|paved/.test(t.surface || '')) asphaltRuns.push({ line: t.line, w: 1.9, paint: 0, lift: 0.10, tone: C.aspL });
-    else gravelRuns.push({ line: t.line, w: t.kind === 'service' ? 1.9 : 1.7, lift: t.kind === 'service' ? 0.10 : 0.08 });
-  }
-  for (const p of M.infra.paths) {
-    if (p.kind === 'cycleway' || /asphalt|paved/.test(p.surface || ''))
-      asphaltRuns.push({ line: p.line, w: 1.3, paint: 0, lift: 0.07, tone: C.aspL });
-    else dirtRuns.push({ line: p.line, w: 0.55, lift: 0.06, tone: C.soil });
+  if (groundMode !== 'atlas') {
+    for (const t of M.infra.tracks) {
+      if (/asphalt|paved/.test(t.surface || '')) asphaltRuns.push({ line: t.line, w: 1.9, paint: 0, lift: 0.10, tone: C.aspL });
+      else gravelRuns.push({ line: t.line, w: t.kind === 'service' ? 1.9 : 1.7, lift: t.kind === 'service' ? 0.10 : 0.08 });
+    }
+    for (const p of M.infra.paths) {
+      if (p.kind === 'cycleway' || /asphalt|paved/.test(p.surface || ''))
+        asphaltRuns.push({ line: p.line, w: 1.3, paint: 0, lift: 0.07, tone: C.aspL });
+      else dirtRuns.push({ line: p.line, w: 0.55, lift: 0.06, tone: C.soil });
+    }
   }
   const asphaltMat = nudged(2, makeAsphalt);
   /* the gravel and dirt ribbons shared the terrain's own material, so on a
@@ -2184,7 +2276,9 @@ const SHORE = (() => {
     const rb = (SCENERY && SCENERY.reedbed) || null;
     const bx0 = rb ? Math.max(MIDR.x0, rb.box[0]) : MIDR.x0, bx1 = rb ? Math.min(MIDR.x1, rb.box[1]) : MIDR.x1;
     const bz0 = rb ? Math.max(MIDR.z0, rb.box[2]) : MIDR.z0, bz1 = rb ? Math.min(MIDR.z1, rb.box[3]) : MIDR.z1;
-    for (let z = bz0; z < bz1; z += G) for (let x = bx0; x < bx1; x += G) {
+    for (let z = bz0; z < bz1; z += G) {
+      if (shouldYieldWork()) await yieldWork();
+      for (let x = bx0; x < bx1; x += G) {
       const i = Math.floor(x / G), j = Math.floor(z / G);
       const px = x + (hash2(i, j) - 0.5) * G * 1.6, pz = z + (hash2(i + 7, j + 3) - 0.5) * G * 1.6;
       const shalBB = SHAL.some(sr => px > sr.bb.x0 && px < sr.bb.x1 && pz > sr.bb.z0 && pz < sr.bb.z1);
@@ -2212,6 +2306,7 @@ const SHORE = (() => {
       if (c.fair > 0.05 || c.green > 0.02 || c.tee > 0.02 || c.path > 0.1) continue;
       if (hash2(i + 31, j + 17) > dens) continue;
       pts.push(px, h - 0.06, pz, 0.5 + hash2(i + 61, j + 3) * 0.4, hash2(i + 3, j + 41) * TAU);
+      }
     }
     const n = pts.length / 5;
     if (n) {
@@ -2233,6 +2328,15 @@ const SHORE = (() => {
         const lit = pow(saturate(V.dot(uSun.negate())), 2.2).mul(0.7);
         const tall = saturate(positionLocal.y.div(2.1)).mul(0.7);
         mat.colorNode = mix(color(0x53583a), uReedC, tall).mul(float(1).add(lit));
+
+        /* GPU vertex sway for water reeds */
+        const wp = positionWorld.xz;
+        const hNorm = saturate(positionLocal.y.div(2.1));
+        const weight = pow(hNorm, 1.6).mul(0.22);
+        const windPhase = time.mul(2.2).add(wp.x.mul(0.08)).add(wp.y.mul(0.06));
+        const swayX = sin(windPhase).mul(0.18).mul(weight);
+        const swayZ = cos(windPhase.mul(0.9)).mul(0.14).mul(weight);
+        mat.positionNode = positionLocal.add(vec3(swayX, float(0.0), swayZ));
       }
       const im = new THREE.InstancedMesh(g, mat, n);
       const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v3 = new THREE.Vector3(), s3 = new THREE.Vector3();
@@ -2265,7 +2369,9 @@ const trees = [[], [], []];
       if (stakeCell.has((ci + a) + ',' + (cj + b))) return true;
     return false;
   };
-  for (let z = bb.z0; z < bb.z1; z += GAP) for (let x = bb.x0; x < bb.x1; x += GAP) {
+  for (let z = bb.z0; z < bb.z1; z += GAP) {
+    if (shouldYieldWork()) await yieldWork();
+    for (let x = bb.x0; x < bb.x1; x += GAP) {
     const i = Math.floor(x / GAP), j = Math.floor(z / GAP);
     if (LOWQ && rnd(i + 77, j + 55) < 0.45) continue;
     const px = x + (rnd(i, j) - 0.5) * GAP * 1.75;
@@ -2350,6 +2456,7 @@ const trees = [[], [], []];
     let s = SPECIES[sp].sc[0] + rnd(i + 61, j + 3) * (SPECIES[sp].sc[1] - SPECIES[sp].sc[0]);
     if (wood < 0.3) s *= 1.2;                    /* a lone tree grows a full crown */
     trees[sp].push(px, h - 0.25, pz, s * (kindScrub ? 0.42 : 1), rnd(i + 3, j + 41) * TAU);
+    }
   }
 }
 for (let s = 0; s < 3; s++) {
@@ -2366,6 +2473,25 @@ for (let s = 0; s < 3; s++) {
       const cbase = s === 2 ? uLeaf : color(hex);
       mat.colorNode = cbase.mul(attribute('color', 'vec3')).mul(float(1).add(
         pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55)));
+    }
+
+    /* GPU-only harmonic wind sway with zero CPU matrix updates:
+       Trunk roots at y=0 stay rigid, while crown upper branches gently bend */
+    {
+      const wp = positionWorld.xz;
+      const hNorm = saturate(positionLocal.y.div(13.0));
+      const weight = isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10);
+      const windPhase = time.mul(1.35).add(wp.x.mul(0.032)).add(wp.y.mul(0.024));
+      const gust = sin(windPhase.mul(0.55)).mul(0.5).add(0.5);
+
+      const swayX = sin(windPhase.add(positionLocal.y.mul(0.08))).mul(0.24)
+                    .add(sin(windPhase.mul(2.1)).mul(0.06))
+                    .mul(weight).mul(gust.mul(0.4).add(0.6));
+      const swayZ = cos(windPhase.mul(0.82)).mul(0.18)
+                    .add(cos(windPhase.mul(1.8)).mul(0.05))
+                    .mul(weight).mul(gust.mul(0.4).add(0.6));
+
+      mat.positionNode = positionLocal.add(vec3(swayX, float(0.0), swayZ));
     }
     const im = new THREE.InstancedMesh(geo, mat, n);
     im.castShadow = true;
@@ -2404,7 +2530,8 @@ if (M.cover) {
   const cvx1 = cv.x0 + cv.nx * cv.cell, cvz1 = cv.z0 + cv.nz * cv.cell;
   /* the data ring: where the plans or the survey still reach */
   const GAP2 = LOWQ ? 18 : 13;
-  for (let z = cv.z0; z < cvz1; z += GAP2)
+  for (let z = cv.z0; z < cvz1; z += GAP2) {
+    if (shouldYieldWork()) await yieldWork();
     for (let x = cv.x0; x < cvx1; x += GAP2) {
       if (x > MIDR.x0 + inset && x < MIDR.x1 - inset &&
           z > MIDR.z0 + inset && z < MIDR.z1 - inset) continue;
@@ -2424,10 +2551,12 @@ if (M.cover) {
       if (h < GEO.seaLevel + 0.5) continue;
       pts.push(px, h - 0.4, pz, 0.8 + rnd2(i + 5, j + 23) * 0.7);
     }
+  }
   /* beyond every record we have, the hills get the forest they carry in life --
      this ring is dressing, not data, and it stays far outside the property */
   const GAP3 = LOWQ ? 42 : 30;
-  for (let z = FARR.z0; z < FARR.z1; z += GAP3)
+  for (let z = FARR.z0; z < FARR.z1; z += GAP3) {
+    if (shouldYieldWork()) await yieldWork();
     for (let x = FARR.x0; x < FARR.x1; x += GAP3) {
       if (x > cv.x0 && x < cvx1 && z > cv.z0 && z < cvz1) continue;
       const i = Math.floor(x / GAP3), j = Math.floor(z / GAP3);
@@ -2443,6 +2572,7 @@ if (M.cover) {
       if (h < GEO.seaLevel + 1.5) continue;
       pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
     }
+  }
   const n = pts.length / 4;
   if (n) {
     const geo = new THREE.ConeGeometry(3.1, 12, 5);
@@ -2496,7 +2626,9 @@ if (M.cover) {
   const T = [], B = [], S = [], STU = [];
   const GAP = 5.2;
   const rnd = (i, j, k) => hash2(i * 6151 + k * 97, j * 24593 + k * 13);
-  for (let z = MIDR.z0; z < MIDR.z1; z += GAP) for (let x = MIDR.x0; x < MIDR.x1; x += GAP) {
+  for (let z = MIDR.z0; z < MIDR.z1; z += GAP) {
+    if (shouldYieldWork()) await yieldWork();
+    for (let x = MIDR.x0; x < MIDR.x1; x += GAP) {
     const i = Math.round(x / GAP), j = Math.round(z / GAP);
     if (LOWQ && rnd(i, j, 9) < 0.5) continue;
     const px = x + (rnd(i, j, 1) - 0.5) * GAP * 1.8, pz = z + (rnd(i, j, 2) - 0.5) * GAP * 1.8;
@@ -2539,6 +2671,7 @@ if (M.cover) {
       const sl = Math.hypot(demH(px + 6, pz) - demH(px - 6, pz), demH(px, pz + 6) - demH(px, pz - 6)) / 12;
       const rocky = smooth(0.20, 0.52, sl);
       if (rnd(i, j, 6) > 0.72 - rocky * 0.5) S.push(px, h - 0.05, pz, sc * (0.8 + rocky * 1.7), rot);
+    }
     }
   }
 
@@ -4377,6 +4510,7 @@ renderer.setAnimationLoop(frame);
 document.getElementById('hdsub').textContent =
   `${CMETA.tag} · ${IS_GPU ? 'WebGPU' : 'WebGL2'}`;
 stats.draws = renderer.info?.render?.drawCalls || stats.draws;
+BOOT_PERF.totalMs = +(performance.now() - bootStarted).toFixed(1);
 
 /* published before the boot marker, not after: anything waiting on the marker acts
    the instant it appears, and an interface that is not there yet fails silently */
@@ -4386,6 +4520,14 @@ window.V3D = {
            reeds: stats.reeds | 0, cars: stats.cars | 0, pylons: stats.pylons | 0, stumps: stats.stumps | 0,
            draws: stats.draws | 0, backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
+  perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })) }),
+  groundInfo: () => ({
+    mode: groundMode,
+    bounds: groundAtlas ? { ...groundAtlas.bounds } : null,
+    classCounts: groundAtlas ? Array.from(groundAtlas.data.classCounts) : null,
+  }),
+  groundSample: (x, z) => groundAtlas?.sampleAt(x, z) || null,
+  classifyAnalytic,
   course: () => ({ ...CMETA }),
   settled: () => !camTween.on,
   probeH: (x, z) => terrainH(x, z),
@@ -4432,6 +4574,7 @@ if (!LOWQ) setTimeout(() => {
       window.clearInterval(qt);
       if (bad >= 6) {
         lowfx = true;
+        try { localStorage.setItem('banvy-quality', 'lo'); } catch {}
         renderer.setPixelRatio(1);
         renderer.setSize(innerWidth, innerHeight);
         if (renderer.__bloomNode) renderer.__bloomNode.strength.value = 0;
