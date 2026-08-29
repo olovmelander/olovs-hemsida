@@ -300,6 +300,26 @@ it before the water elevation work or the 49 water features get rebuilt twice.
 yellow 150 m, white 200 m. An early reading of the guide took them for pins, which would
 have put the flag in the wrong place on all eighteen holes.
 
+**And a plate has to measure what it says.** They were placed by the arc length
+still to run along the hole polyline, to the line's END — but the plate claims the
+straight-line distance to the CENTRE of the green, and on a dogleg those diverge:
+across the six courses the plates were out by 2.6 m on average, 39 of 252 by over
+five metres, and Ängsö's 14th put its "200" where the green is 233 m away. They are
+now solved for the POST rather than the centre line, because the post stands 15 m
+out to the side and at a dogleg that offset is not perpendicular to the green —
+fixing only the centre-line point still left the post itself up to 10 m out.
+Worst case is now ~1.2 m, and `check-app` gates it at 2 m by measuring the plate
+that was PLANTED (`V3D.plates()`), never by re-deriving where it ought to be.
+
+Two traps that cost time here, both worth knowing:
+- **`hyp(a, b)` in `geom.js` takes two POINTS, not two scalars.** Calling it as
+  `hyp(dx, dz)` returns NaN, every comparison goes false, and in this case every
+  distance plate on all six courses silently disappeared. The new gate is what
+  caught it — a count of zero failed loudly where a picture would not have.
+- The residual is not the search step: at a polyline vertex the bearing jumps, so
+  the post's own distance is discontinuous and no position lands exactly on the
+  label. That is why the gate allows 2 m and not 0.5.
+
 **UI changes need measuring, not eyeballing.** The compass rose in the card header cost
 58 px and silently wrapped the hole line onto two rows. Measure `.c-meta` height against
 its line-height at 1280, 900 and 420 px before and after any card change.
@@ -451,8 +471,14 @@ tracing: pixel→world is affine, so a trace made on a crop needs no registratio
   (skipped in the generic buildings pass), boats moored along the marina piers.
   The High Coast horizon — Mjältön, Ulvöarna, Högbonden — is real terrain in the
   z12 vista heightfield and needs no modelling.
-- The clubhouse keeps the /golfklubb/ name-matched bench+terrace machinery at
-  NVGK proportions (cream walls, red roof, terrace facing east to the greens).
+- The clubhouse keeps the name-matched bench+terrace machinery at NVGK
+  proportions. **Its colours were wrong here until a photograph was looked at:**
+  this note used to say "cream walls, red roof". The club's own photograph shows
+  the opposite emphasis — **Falu red timber walls with white window frames and
+  white corner boards, a dark red-brown roof**, single storey with a gable over
+  the west block, a glazed veranda, and a railed terrace standing above the green
+  it faces. Aerial imagery gives a roof but never a facade; that one needed a
+  picture from the ground.
 - Card UI: three tees (Gul/Röd/Orange), not six.
 - The planter is pine-led; there are no OSM forest polygons at all, so the
   satellite tree-cover raster is the only planting authority.
@@ -901,6 +927,18 @@ interior probes per course. Lessons that cost real time:
   fields, not the quantized texture bytes.
 - **A bunker's centroid can lie outside its own ring** (Upsala's 3rd, a 22-point
   crescent) — probe interiors with a scanline-span midpoint, not a centroid.
+- **`vertexColors: true` multiplies your `colorNode` by the vertex colour, and
+  this engine reads that attribute itself as well.** NodeMaterial does
+  `colorNode = colorNode.mul(vertexColor())`, so `makeTurf`, `makeSand` and every
+  overlay tier have always rendered the vertex colour SQUARED — the palette is
+  tuned to that and it must be matched, not "fixed". It only bit when the atlas
+  arrived, because the atlas's colour comes from the style texture while the
+  implicit multiply still used the TERRAIN vertex under it: `groundAt`
+  deliberately paints no sand on the mesh, so every bunker was
+  `C.sand × turf-green` — olive, and the reason bunkers stopped looking like
+  sand. `makeGround` therefore sets `vertexColors: false` and squares the
+  blended colour itself, so each region squares its OWN colour. Verified against
+  `?ground=mesh`, which is what the appearance is being compared to.
 - **One `import()` with a ternary preloads the UNION of both branches.** The
   bare route was still fetching all of three.js, because
   `import(bare ? './hub.js' : './main.js')` is one call site and the bundler
@@ -1007,6 +1045,58 @@ would strip exactly that. A catch-all would serve HTML in place of a missing
 pack, which then fails on its GPK1 magic instead of on an honest 404.
 `tools/serve.mjs` makes the same two choices, so the local server and the host
 agree and `check-links.mjs` is testing the real rule.
+
+### A tee marker has to stand on a tee
+
+Measured across the six courses, only **24–63% of tee markers had any prepared
+ground under them** — the rest were a pair of coloured balls in the rough, and
+`?vy=tee` opened the hole standing there. The cause is a data gap, not a
+placement bug: each card carries three to six tees while the surveys mapped one
+or two pads a hole. Veckefjärden scored best (63%) purely because its pipeline
+already synthesises a pad per card tee and marks it `prov:"synth"`.
+
+The app now makes that same inference for every course, once, before anything
+reads `h.tees.pads`: a mark no mapped pad covers gets a 10.4 × 8.8 m deck at the
+mark, squared to the hole's bearing (Veckefjärden's own synth-pad proportions).
+Everything downstream then follows for free — `TI` benches it level in
+`terrainH`, the atlas rasterises it as `SURFACE.TEE`, the marker lands on mown
+grass. **All 522 markers on all six courses now stand on tee grass**, gated in
+`check-app` by probing the ATLAS at each marker rather than trusting the model.
+
+What is inferred is the *pad*; what is not inferred is *where the tee is*, which
+the card's own length already fixed. Back-tee marks sit 8–18 m from the mapped
+pads on five of six courses, which is the documented card-slide behaviour.
+
+### The clubhouses, and what a photograph is for
+
+**Two of six were not being drawn as clubhouses at all.** The buildings pass
+matched `/golfklubb/i`, which finds "Veckefjärdens golfklubb" and "Klubbhus
+Norrfällsvikens Golfklubb" but NOT "Ängsö GK Klubbhus" or Johannesberg's plain
+"klubbhus" — so those two rendered as ordinary grey 3.4 m houses with a generic
+roof and none of the clubhouse treatment. It now matches `amenity=clubhouse` or
+`golfklubb|klubbhus`, the same pattern the marker layer already used, and takes
+only the LARGEST match per course: Ängsö tags three separate structures with that
+name and its sheds are not clubhouses. Still kept separate from `CLUB`, which
+shapes terrain — widening that would move ground on shipped courses.
+
+`tools/clubhouse-refs.mjs` builds the reference: it converts each clubhouse
+centroid to lat/lon through the model's own frame, pulls Esri tiles around it,
+and draws the OSM footprint on top. Because the tiles are orthorectified the
+overlay is a real check on the footprint, not decoration. **z19 has no coverage
+in Sweden — z18 is the usable maximum.** It found that Ängsö's footprint covers
+only part of a longer NW–SE building.
+
+**Aerial imagery gives a roof; it never gives a facade.** Roof shape, ridge
+direction, roof colour, terrace and surroundings are all readable from above and
+are verifiable. Wall colour, materials, storeys and glazing are not, and guessing
+them invents an appearance for a real business — the same error as the fabricated
+posters. `geobuild/cache/find-photos.mjs` renders a club's site in Chrome and
+lists the large images it actually loads, which a plain fetch misses entirely
+(most of these sites are JS-rendered). That is how Norrfällsviken's facade was
+established. It does not always work: Upsala, Ängsö and Puttom publish course
+photography rather than pictures of their buildings. Downloaded reference photos
+stay in the gitignored cache and are never committed — they are other people's
+copyright, and some contain identifiable people.
 
 ## Skyltar — the marker layer, on all six pages
 

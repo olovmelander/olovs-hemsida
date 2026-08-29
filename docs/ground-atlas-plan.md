@@ -157,6 +157,36 @@ scenery greens/range turf).
   luminance floor, and a readPixels hue-class probe at green/fairway/rough
   sample points.
 
+## The bunker floor is a SAMPLING problem, and it is only half solved
+
+Measured on Veckefjärden's 55 bunkers, comparing `terrainH`'s analytic carve
+against the bilinear surface the 4 m CORE grid can actually express — which is
+what the eye sees:
+
+| | intended | drawn | flatter than 0.25 m |
+|---|---|---|---|
+| dish zero at the ring (as shipped) | 1.08 m | **0.56 m** | 11 of 55 |
+| hollow starting 2.5 m outside the sand | 1.13 m | **0.79 m** | 4 of 55 |
+
+A dish that reaches zero exactly at the ring has to do all of its falling inside
+the bunker, and a bunker is routinely narrower than two cells of a 4 m grid, so
+half the depth was being averaged away. Starting the fall outside the sand gives
+the grid something to sample and reads as what it is — sand sitting in a hollow.
+It yields to prepared pad (`padW`), so a greenside bunker cannot drag the putting
+surface down with it; there the carve is exactly as it was.
+
+**The four that remain are a grid limit, not a carve limit.** Three span 5.0, 6.2
+and 6.6 m — under two cells, so no vertex can land deep inside them at all, and
+no reshaping of the carve will change that. The real fix is local mesh
+refinement: cut the coarse cells a bunker covers and fill them with a finer
+patch whose outer boundary uses ONLY the coarse grid nodes, so the seam has no
+crack (the same discipline as the LoD skirts). That is a terrain-topology change
+and belongs in its own phase, not smuggled into a shading one.
+
+Do not "fix" this by widening the hollow further: the probe measures rim height a
+little outside the ring, so past about 3 m the rim sample falls INSIDE the hollow
+and the number improves while the picture does not.
+
 ## Phase G5 — sand
 
 Bunker dishes are already carved in `terrainH`; the atlas supplies the sand

@@ -97,7 +97,25 @@ async function checkCourse(c) {
         const p = interiorPoint(b._r.ring, b._r.c);
         if (V.groundSample(p[0], p[1])?.surface !== 6) bunkerMisses.push(h.n);
       }
-      return { ...info, greenMisses, bunkerMisses, perf: V.perf() };
+      /* A yardage plate is a CLAIM: "the middle of that green is this many
+         metres away". Measured on the plate that was actually planted, against
+         the green centre it names -- not against the formula that placed it. */
+      const plates = (V.plates ? V.plates() : []).map(p => {
+        const h = V.HOLES.find(x => x.n === p.hole);
+        const err = Math.hypot(p.x - h.green.c[0], p.z - h.green.c[1]) - p.says;
+        return { hole: p.hole, says: p.says, err: +err.toFixed(2) };
+      });
+      /* Every tee marker must stand on tee grass. Probed through the ATLAS, so
+         it asks what the ground actually is at the marker, not what the model
+         intended -- 5 is SURFACE.TEE, 3 the fringe collar a deck sits in. */
+      const teeMisses = [];
+      let teeMarks = 0;
+      for (const h of V.HOLES) for (const mk of (h.tees.marks || [])) {
+        teeMarks++;
+        const s = V.groundSample(mk.c[0], mk.c[1])?.surface;
+        if (s !== 5 && s !== 3) teeMisses.push(`${h.n}/${mk.teeIdx}:${s}`);
+      }
+      return { ...info, greenMisses, bunkerMisses, plates, teeMarks, teeMisses, perf: V.perf() };
     })(),
   }));
 
@@ -115,6 +133,20 @@ async function checkCourse(c) {
        'atlas contains fairway and green texels');
   gate(got.ground.greenMisses.length === 0, `green centre probes${got.ground.greenMisses.length ? ' miss holes ' + got.ground.greenMisses.join(',') : ''}`);
   gate(got.ground.bunkerMisses.length === 0, `bunker centre probes${got.ground.bunkerMisses.length ? ' miss holes ' + got.ground.bunkerMisses.join(',') : ''}`);
+  gate(got.ground.teeMisses.length === 0,
+    `all ${got.ground.teeMarks} tee markers stand on tee grass` +
+    (got.ground.teeMisses.length ? ` -- ${got.ground.teeMisses.length} do not (hole/tee:surface ${got.ground.teeMisses.slice(0, 4).join(' ')})` : ''));
+  {
+    /* 2 m, not zero: the post sits 15 m off the centre line, so at a polyline
+       vertex the bearing -- and with it the post's own distance -- jumps, and no
+       position along the line lands exactly on the label. Before this was
+       solved the plates were out by 2.6 m on average and up to 32.6 m. */
+    const p = got.ground.plates, bad = p.filter(q => Math.abs(q.err) > 2.0);
+    const worst = p.reduce((a, q) => Math.max(a, Math.abs(q.err)), 0);
+    gate(p.length > 0 && bad.length === 0,
+      `${p.length} distance plates measure their own label (worst ${worst.toFixed(2)} m)` +
+      (bad.length ? ` -- ${bad.length} off, e.g. hole ${bad[0].hole} says ${bad[0].says} at ${bad[0].err > 0 ? '+' : ''}${bad[0].err} m` : ''));
+  }
   console.log(`  perf atlas ${got.ground.perf.atlasMs} ms, boot JS ${got.ground.perf.totalMs} ms`);
 
   /* Nothing may be under water. This is the gate the 14th exists for: an island

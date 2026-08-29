@@ -210,6 +210,40 @@ const WI = new Grid();      // water bodies
 const VI = new Grid();      // forest / scrub / sand / rock
 const PI = new Grid();      // paths and tracks (as polylines)
 
+/* A TEE MARKER HAS TO STAND ON A TEE.
+
+   The card carries three to six tees a hole; the surveys mapped one or two pads.
+   Measured across the six courses, only 24-63% of tee markers had any prepared
+   ground under them at all -- the rest were a pair of coloured balls sitting in
+   the rough, and `?vy=tee` opened the hole standing there. Veckefjärden looked
+   best (63%) for one reason: its pipeline already synthesises a pad per card tee
+   and marks it prov:"synth". The other five never did.
+
+   So the same inference is made here, once, before anything reads the pads: any
+   mark no mapped pad covers gets a deck at the mark, squared to the hole's own
+   bearing. Everything downstream then just works -- TI benches it level in
+   terrainH, the atlas rasterises it as SURFACE.TEE, the marker lands on mown
+   grass. It is an inference and it says so (prov:"synth"); what is NOT invented
+   is where the tee is, which the card's own length fixed.
+
+   Deck size follows Veckefjärden's own synth pads: 10.4 m across the line by
+   8.8 m along it, the shape of a real teeing ground rather than a square. */
+for (const h of HOLES) {
+  const pads = h.tees.pads;
+  for (const mk of h.tees.marks || []) {
+    if (pads.some(p => inRing(mk.c[0], mk.c[1], p.ring))) continue;
+    const b = mk.b * Math.PI / 180;
+    const F = [Math.sin(b), Math.cos(b)], R = [-Math.cos(b), Math.sin(b)];
+    const HW = 5.2, HD = 4.4;
+    pads.push({
+      prov: 'synth', teeIdx: mk.teeIdx, c: [mk.c[0], mk.c[1]],
+      ring: [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([u, v]) =>
+        [mk.c[0] + R[0] * HW * u + F[0] * HD * v,
+         mk.c[1] + R[1] * HW * u + F[1] * HD * v]),
+    });
+  }
+}
+
 for (const h of HOLES) {
   const g = { ring: h.green.ring, bb: ringBBox(h.green.ring), hole: h.n, c: h.green.c };
   GI.add(g, g.bb, 26);
@@ -294,11 +328,16 @@ function terrainH(x, z) {
 
   /* greens: a pad flat enough to putt on, tilted gently back to front, tiered
      where the guide says the green is tiered */
+  /* how much prepared pad (green or tee) is present here -- the bunker hollow
+     below yields to it, so a greenside bunker cannot pull the putting surface
+     down with it */
+  let padW = 0;
   for (const g of GI.at(x, z)) {
     const sd = ringSD(x, z, g.ring);
     if (sd > 22) continue;
     const w = 1 - smooth(-1.5, 14, sd);
     if (w <= 0.001) continue;
+    padW = Math.max(padW, w);
     const base = demH(g.c[0], g.c[1]);
     const hole = HOLES[g.hole - 1];
     const p = alongLine(hole.line, 0.995);
@@ -315,6 +354,7 @@ function terrainH(x, z) {
     if (sd > 9) continue;
     const w = 1 - smooth(-0.5, 6.5, sd);
     if (w <= 0.001) continue;
+    padW = Math.max(padW, w);
     if (t.base === undefined) { const c = centroidOf(t.ring); t.base = demH(c[0], c[1]); }
     h = lerp(h, t.base + 0.28, w);
   }
@@ -336,7 +376,17 @@ function terrainH(x, z) {
        the core mesh, the sand overlay and the collar each sampled a different lip
        and the rim came apart into floating flaps */
     h += 0.30 * Math.exp(-Math.abs(sd) / 3.4);               /* the rolled lip */
-    h -= 1.25 * smooth(0, r * 0.85, -sd);                    /* the dish, zero at the edge */
+    /* The hollow reaches OUTSIDE the sand, and that is a sampling fix, not a
+       style choice. A dish that is zero exactly at the ring has to do all of its
+       falling within the bunker, and a bunker is often narrower than two cells of
+       a 4 m grid -- measured, the mesh was drawing 0.56 m of an intended 1.08 m,
+       and eleven of Veckefjärden's 55 came out flatter than 0.25 m. Starting the
+       fall a couple of metres out gives the grid something it can actually
+       sample, and reads as what it is: sand sitting in a hollow.
+       It yields to prepared pad, so a greenside bunker still cannot drag the
+       putting surface down -- there, this is exactly the old carve. */
+    const outward = 2.5 * (1 - padW);
+    h -= 1.25 * smooth(-outward, r * 0.85, -sd);             /* the dish */
   }
   /* streams cut, ponds and the fjord hold their own measured level */
   let shoreDamp = 1;
@@ -2927,6 +2977,7 @@ if (M.cover) {
    white 200, standing at the edge of the corridor where a player looks for them. */
 const furnitureGroup = new THREE.Group();
 scene.add(furnitureGroup);
+const plateSites = [];
 {
   const plateGeo = new THREE.BoxGeometry(0.4, 0.28, 0.06);
   plateGeo.translate(0, 0.62, 0);
@@ -2934,15 +2985,43 @@ scene.add(furnitureGroup);
   postGeo.translate(0, 0.31, 0);
   const postMat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x6b6154), roughness: 0.9 });
   const PLATES = [[100, 0xd8443c], [150, 0xe8c33a], [200, 0xf2f0e8]];
+  /* A yardage plate states the STRAIGHT-LINE distance to the middle of the
+     green. It was being placed by the arc length still to run along the hole
+     polyline, measured to the line's END -- two different things, and on a
+     dogleg they diverge badly: measured across all six courses the plates were
+     out by 2.6 m on average, 39 of 252 by more than five metres, and Ängsö's
+     14th put its "200" where the green is 233 m away. Walking back from the
+     green until the straight-line distance is the number on the plate is what
+     the plate actually claims.
+     Solved for the POST, not for the centre line: the post stands 15 m out to
+     the side, and on a dogleg that offset is not perpendicular to the green, so
+     placing the centre-line point correctly still left the post itself up to
+     10 m out. What the post claims is the distance from where IT stands. */
+  const plateAt = (line, greenC, dist, side) => {
+    const total = polyLen(line);
+    let best = null, bestErr = Infinity;
+    /* the CLOSEST position, not the first one past the number: the post's own
+       distance jumps at a polyline vertex, so a first-crossing search lands
+       wherever the jump happens to leave it. Minimising picks the best the line
+       can actually offer. */
+    for (let s = 0; s <= total; s += 0.25) {
+      const p = alongLine(line, 1 - s / total);
+      const R = rightOf(p.b);
+      const x = p.x + R[0] * 15 * side, z = p.z + R[1] * 15 * side;
+      const err = Math.abs(hyp([x, z], greenC) - dist);   /* hyp takes two POINTS */
+      if (err < bestErr) { bestErr = err; best = { p, x, z }; }
+    }
+    return bestErr <= 3 ? best : null;
+  };
   for (const h of HOLES) {
     if (h.par < 4) continue;
     const total = polyLen(h.line);
     for (const [dist, col] of PLATES) {
       if (dist > total - 60) continue;
-      const p = alongLine(h.line, 1 - dist / total);
-      const R = rightOf(p.b);
       for (const side of [-1, 1]) {
-        const x = p.x + R[0] * 15 * side, z = p.z + R[1] * 15 * side;
+        const found = plateAt(h.line, h.green.c, dist, side);
+        if (!found) continue;
+        const { p, x, z } = found;
         const c = classify(x, z);
         if (c.sand > 0.1 || c.green > 0.1) continue;
         let wet = false;
@@ -2957,6 +3036,10 @@ scene.add(furnitureGroup);
         plate.castShadow = true;
         g.add(new THREE.Mesh(postGeo, postMat), plate);
         furnitureGroup.add(g);
+        /* recorded where they are PLANTED, so the gate measures the plate that
+           was drawn rather than re-deriving where it ought to be -- a checker
+           that restates the formula agrees with the bug */
+        plateSites.push({ hole: h.n, says: dist, x, z, side });
       }
     }
   }
@@ -3150,16 +3233,30 @@ for (const h of HOLES) {
     }
   }
 
+  /* WHICH building is the clubhouse. Matching only /golfklubb/ found
+     "Veckefjärdens golfklubb" and "Klubbhus Norrfällsvikens Golfklubb" but not
+     "Ängsö GK Klubbhus" or Johannesberg's plain "klubbhus" -- so two of six
+     clubhouses were being drawn as ordinary grey houses, 3.4 m tall with a
+     generic roof and none of the clubhouse treatment. The marker layer already
+     matched the wider pattern; the buildings pass was the odd one out.
+     Only ONE building per course gets it, the largest match: Ängsö tags three
+     separate structures "Ängsö GK Klubbhus", and its outbuildings are not
+     clubhouses. Kept separate from CLUB, which shapes terrain. */
+  const clubBuilding = M.infra.buildings
+    .filter(b => b.ring.length >= 3
+      && (b.amenity === 'clubhouse' || (b.name && /golfklubb|klubbhus/i.test(b.name))))
+    .sort((a, b) => areaOf(b.ring) - areaOf(a.ring))[0] || null;
+
   for (const b of M.infra.buildings) {
     if (b.ring.length < 3) continue;
     if (b.amenity === 'place_of_worship') continue;   /* the chapel is bespoke */
     const [cx, cz] = centroidOf(b.ring);
-    const isClub = !!(b.name && /golfklubb/i.test(b.name));
+    const isClub = b === clubBuilding;
     const hgt = b.h || (isClub ? 5.4
               : b.kind === 'industrial' ? 5.5 : b.kind === 'commercial' ? 4.2
               : b.kind === 'house' || b.kind === 'residential' ? 3.0
               : areaOf(b.ring) < 45 ? 2.6 : 3.4);
-    house(b.ring, hgt, wallOf(cx, cz, b.kind, b.name),
+    house(b.ring, hgt, isClub ? L(0xe7e2d4) : wallOf(cx, cz, b.kind, b.name),
           isClub ? L(0x9d3f2e) : roofOf(cx, cz), isClub);
     if (isClub) {
       /* the old school wears its three storeys of white-framed windows -- the grid
@@ -4554,6 +4651,7 @@ window.V3D = {
   }),
   groundSample: (x, z) => groundAtlas?.sampleAt(x, z) || null,
   classifyAnalytic,
+  plates: () => plateSites.map(p => ({ ...p })),
   course: () => ({ ...CMETA }),
   settled: () => !camTween.on,
   probeH: (x, z) => terrainH(x, z),

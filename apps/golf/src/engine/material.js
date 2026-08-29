@@ -67,7 +67,20 @@ function makeStyleTexture(C, SHADE) {
 }
 
 export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
-  const m = new THREE.MeshStandardNodeMaterial({ metalness: 0, vertexColors: true });
+  /* vertexColors is OFF, and the square below is why.
+     NodeMaterial does `colorNode = colorNode.mul(vertexColor())` whenever
+     vertexColors is true and the geometry has a color attribute. Every material
+     here -- makeTurf, makeSand, every overlay tier -- ALSO reads
+     attribute('color') itself, so this engine has always rendered the vertex
+     colour SQUARED, and the whole palette is tuned to that. It is not a bug to
+     fix; it is the convention to match.
+     What broke was the atlas: its colour comes from the style texture, so the
+     implicit multiply was multiplying SAND by the green terrain vertex under it.
+     C.sand x turf is olive, which is exactly what the bunkers had gone. Taking
+     the multiply into our own hands lets each region square its OWN colour --
+     turf outside the atlas, the class colour inside it, which is what the sand
+     overlay did when it was still geometry. */
+  const m = new THREE.MeshStandardNodeMaterial({ metalness: 0, vertexColors: false });
   const aDet = attribute('aDet', 'float');
   const aBmp = attribute('aBmp', 'float');
   const aGls = attribute('aGls', 'float');
@@ -126,7 +139,7 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
     return m;
   }
 
-  if (!atlas) return finish(vertCol, aDet, aBmp, aGls, aStr, aMow.x.mul(aMow.y));
+  if (!atlas) return finish(vertCol.mul(vertCol), aDet, aBmp, aGls, aStr, aMow.x.mul(aMow.y));
 
   const styleTexture = makeStyleTexture(C, SHADE);
   m.userData.groundStyleTexture = styleTexture;
@@ -160,7 +173,9 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
      vertex colour. Migrated class colours receive the separate horizon AO once. */
   const atlasColor = mix(secColor.rgb, primColor.rgb, primaryWeight).mul(aAO);
   const atlasActive = mix(secMeta.r, primMeta.r, primaryWeight).mul(inBounds);
-  const col = mix(vertCol, atlasColor, atlasActive);
+  /* pick the source colour first, THEN square it -- see the note on the material */
+  const base = mix(vertCol, atlasColor, atlasActive);
+  const col = base.mul(base);
   const shade = mix(secShade, primShade, primaryWeight);
   const det = mix(aDet, shade.r, atlasActive);
   const bmp = mix(aBmp, shade.g, atlasActive);
