@@ -98,7 +98,7 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
             return `
               <li class="card-item" data-slug="${c.slug}" data-category="${cat.id}" data-search="${esc(c.name + ' ' + c.club + ' ' + c.tag + ' ' + (LINES[c.slug] || '')).toLowerCase()}">
                 <button class="card ${isCurrent ? 'is-current' : ''}" type="button" data-slug="${c.slug}">
-                  <div class="shot" style="background-image: url('/courses/${c.slug}/hero-1.png')">
+                  <div class="shot" style="background-image: url('/courses/${c.slug}/hero-1.png'); background-image: image-set(url('/courses/${c.slug}/hero-thumb.webp') type('image/webp'), url('/courses/${c.slug}/hero-1.png') type('image/png'))">
                     <div class="shot-badges">
                       <span class="cat-badge">${iconSvg} <span>${esc(cat.label)}</span></span>
                       ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : ''}

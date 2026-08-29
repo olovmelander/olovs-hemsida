@@ -5,7 +5,12 @@ import { legacyTarget } from './shell/router.js';
 const legacy = legacyTarget(location.pathname, location.search);
 if (legacy) {
   location.replace(legacy);
+} else if (location.search === '' && /(?:\/|\/index\.html)$/.test(location.pathname)) {
+  /* Two separate import() call sites, never one with a ternary: the bundler
+     attaches each call site's dependency preloads to the CALL, so a shared
+     expression preloads the union -- the bare route was fetching all of
+     three.js before the chooser ran. */
+  await import('./hub.js');
 } else {
-  const isBare = location.search === '' && /(?:\/|\/index\.html)$/.test(location.pathname);
-  await import(isBare ? './hub.js' : './main.js');
+  await import('./main.js');
 }
