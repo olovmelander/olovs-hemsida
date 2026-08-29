@@ -209,8 +209,13 @@ const model = {
     power: osm.power || { lines: [], towers: [], poles: [] }, railway: osm.railway || [],
   },
   pois: osm.pois || [],
+  /* The range is TRACED. OSM maps no golf=driving_range anywhere near Ängsö, so
+     osm.drivingRange is empty and sat-shapes.json carries the only record of the
+     practice ground -- same bare-ring shape the other builds emit, so the page's
+     scenery.range[0] means the same thing here as it does there. */
   scenery: { greens: [], fairways: [], tees: [], bunkers: [], grass: [],
-             range: (osm.drivingRange || []).map(r => r.ring) },
+             range: [...(osm.drivingRange || []).map(r => r.ring),
+                     ...(((traces.scenery || {}).range) || []).map(r => ring1(r.ring || r))] },
 };
 writeJSON(path.join(HERE, 'course-model.json'), model);
 
@@ -228,6 +233,13 @@ const bkN = holes.reduce((a, h) => a + h.bunkers.length, 0);
 const fwN = holes.reduce((a, h) => a + h.fairway.rings.length, 0);
 const tpN = holes.reduce((a, h) => a + h.tees.pads.length, 0);
 console.log(`assigned: bunkers ${bkN} (${bunkers.length} from OSM), fairways ${fwN}, tee pads ${tpN}; water ${water.length}`);
+{
+  const club = (model.infra.buildings || []).filter(b => b.amenity === 'clubhouse')
+    .sort((a, b) => Math.abs(polyArea(b.ring)) - Math.abs(polyArea(a.ring)));
+  const cc = club.length ? centroid(club[0].ring).map(r1) : null;
+  console.log(`anchors: clubhouse ${club.length ? `${club.length} footprint(s), largest at ${cc.join(',')} ("${club[0].name}")` : 'MISSING'}` +
+              `; range ${model.scenery.range.length ? `${Math.round(Math.abs(polyArea(model.scenery.range[0])))} m² at ${centroid(model.scenery.range[0]).map(r1).join(',')}` : 'MISSING'}`);
+}
 console.log(`\nhole  tee m  green m  rise`);
 for (const h of holes) console.log(`${String(h.n).padStart(4)}  ${h.elev.tee.toFixed(1).padStart(5)}  ${h.elev.green.toFixed(1).padStart(6)}  ${(h.elev.rise >= 0 ? '+' : '') + h.elev.rise.toFixed(1)}`);
 if (card.provisional) console.log('\nNOTE: card.json is PROVISIONAL.');

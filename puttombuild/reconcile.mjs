@@ -8,7 +8,9 @@
    - card.json          the club's card — every displayed number, verbatim
    - geo_data GPS        green centres + back tees, the per-hole anchor
    - osm-features.json   greens, fairways, tees, bunkers, hole lines, the two
-                         lakes, wetlands, forest, farmland, the E4, the railway   */
+                         lakes, wetlands, forest, farmland, the E4, the railway
+   - sat-traces.json     the few anchors OSM simply has not got — read off the
+                         orthorectified z18 imagery, which needs no registration */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -22,6 +24,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const card = readJSON(path.join(HERE, 'card.json'));
 const notes = (() => { try { return readJSON(path.join(HERE, 'guide-notes.json')); } catch { return { holes: {} }; } })();
 const osm = readJSON(path.join(HERE, 'osm-features.json'));
+const traces = (() => { try { return readJSON(path.join(HERE, 'sat-traces.json')); } catch { return { buildings: [] }; } })();
 const hf = readJSON(path.join(HERE, 'heightfields.json'));
 const gpsRaw = readJSON(path.join(HERE, '..', 'geo_data', 'puttom_clean.json'));
 
@@ -180,6 +183,25 @@ for (const w of osm.water) {
 }
 for (const w of water) delete w.c;
 
+/* --- the clubhouse, and the practice greens ------------------------------------ */
+/* Satellite-traced anchor: OSM maps no clubhouse at Puttom — every one of its 23
+   building footprints here is unnamed and the nearest sits 680 m from the hub — so
+   the club's own building comes from sat-traces.json, read off the orthorectified
+   z18 imagery. It carries a name the page's /golfklubb/ matcher finds, which is what
+   puts the bench, the mown apron and the terrace under it. */
+const tracedBuildings = (traces.buildings || []).map(b => ({
+  id: b.id, ring: ring1(b.ring), h: b.h ?? null,
+  kind: b.kind || 'yes', name: b.name || null,
+  amenity: b.amenity || null, prov: 'trace',
+}));
+
+/* Every OSM green the 18 holes did not claim. Two are left over here, both beside
+   the clubhouse, and one of them is the far end of the 19th OSM hole way — a 73 m
+   pitch, well under the card's shortest hole at 122 m — so they are practice
+   ground, not a hole this pass mis-assigned. They ship as bare rings, the shape
+   geobuild and nvgkbuild use for scenery.greens. */
+const spareGreens = greens.filter(g => !g.used);
+
 /* --- the model ---------------------------------------------------------------- */
 const model = {
   version: 1,
@@ -201,13 +223,17 @@ const model = {
   },
   infra: {
     paths: osm.paths, tracks: osm.tracks, roads: osm.roads,
-    buildings: osm.buildings, farB: osm.farBuildings,
+    buildings: osm.buildings.concat(tracedBuildings), farB: osm.farBuildings,
     parking: osm.parking || [], piers: osm.piers || [], basins: [],
     pitches: [], landuse: osm.landuse || [], reserves: osm.reserves || [],
     power: osm.power || { lines: [], towers: [], poles: [] }, railway: osm.railway || [],
   },
   pois: osm.pois || [],
-  scenery: { greens: [], fairways: [], tees: [], bunkers: [], grass: [], range: (osm.drivingRange || []).map(r => r.ring) },
+  scenery: {
+    greens: spareGreens.map(g => ring1(g.ring)),
+    fairways: [], tees: [], bunkers: [], grass: [],
+    range: (osm.drivingRange || []).map(r => r.ring),
+  },
 };
 
 writeJSON(path.join(HERE, 'course-model.json'), model);
@@ -225,6 +251,16 @@ const fwN = holes.reduce((a, h) => a + h.fairway.rings.length, 0);
 const bkN = holes.reduce((a, h) => a + h.bunkers.length, 0);
 const tpN = holes.reduce((a, h) => a + h.tees.pads.length, 0);
 console.log(`assigned: fairways ${fwN}, bunkers ${bkN}, tee pads ${tpN}; water ${water.length} (${water.filter(w => w.isLake).length} lakes)`);
+console.log(`practice greens: ${spareGreens.length} OSM greens no hole claimed -> scenery.greens`);
+for (const g of spareGreens) {
+  const d = Math.min(...holes.map(h => dist(g.c, h.green.c)));
+  console.log(`  ${g.id}  centre ${g.c.map(r1).join(', ')}  ${Math.round(Math.abs(polyArea(g.ring)))} m²  ${r1(d)} m from the nearest hole green`);
+}
+console.log(`buildings: ${osm.buildings.length} from OSM (none named) + ${tracedBuildings.length} satellite-traced`);
+for (const b of tracedBuildings) {
+  const c = centroid(b.ring);
+  console.log(`  ${b.id}  ${b.name}  centre ${c.map(r1).join(', ')}  ${Math.round(Math.abs(polyArea(b.ring)))} m²`);
+}
 console.log(`\nhole  tee m  green m  rise`);
 for (const h of holes) console.log(`${String(h.n).padStart(4)}  ${h.elev.tee.toFixed(1).padStart(5)}  ${h.elev.green.toFixed(1).padStart(6)}  ${(h.elev.rise >= 0 ? '+' : '') + h.elev.rise.toFixed(1)}`);
 if (card.provisional) console.log('\nNOTE: card.json is PROVISIONAL — tee lengths/index are placeholders.');

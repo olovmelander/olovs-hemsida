@@ -1,0 +1,24 @@
+{
+  "source": "Esri World Imagery z18 (~0.27 m/px here), orthorectified — a tile's coordinates ARE its georeference, so a trace made on a mosaic.py crop converts to world metres exactly, with no registration step. Traced 2026-08 in the frame frozen in puttombuild/lib.mjs (ORIGIN 63.29920 N, 18.94130 E; north -z, east +x).",
+  "buildings": [
+    {
+      "id": "trace-clubhouse",
+      "name": "Klubbhus Örnsköldsviks Golfklubb Puttom",
+      "amenity": "clubhouse",
+      "kind": "yes",
+      "h": null,
+      "ring": [
+        [-142.3, -211.2],
+        [-137.8, -211.9],
+        [-136.5, -206.7],
+        [-130.2, -206.4],
+        [-130.0, -201.0],
+        [-133.4, -200.4],
+        [-130.2, -186.4],
+        [-134.8, -186.0]
+      ],
+      "confidence": "medium",
+      "notes": "OSM has NO clubhouse footprint at Puttom — its 23 buildings here are all unnamed and the nearest one is 680 m from the hub — so this footprint is read off the satellite. The hub crop x -300..50, z -350..-50 shows one building complex, on the west side of the four-leaf-clover hub: three blue-dark roofs, the caravan/motorhome rows immediately west of them (the club advertises 'husvagn- och husbilsparkering med el'), a gravel parking apron east, and the practice putting green 25 m south-east of that apron. This ring is the LARGEST of the three roofs and the only dominant one: 157 m2 against 81 and 69 for its neighbours. It was separated from its own shadow by colour — the roofs read blue-dark (B-R about +20) while shadowed grass stays green-dark (B-R about -3) — and the ring follows the per-row extents of that mask to about 1 m: a 26 m wing running 162 deg with a 6 m eastward head at z -206.5..-200.5 that carries the restaurant front. Two independent records bracket it: OSM's amenity=toilets node at (-128.9,-220.8) sits on the northern roof of the same complex, 23 m away, and hogakusten.com publishes 63.3009979 N, 18.9389251 E for the club = world (-118.9,-200.1), 17 m away on the apron this building faces. Google's own place pin for the club (from the club's contact-page embed) lands at world (62,-190), in the middle of the 13th fairway, and was discarded. Confidence medium: the complex and this building are certain, the wall lines are a 0.27 m/px read."
+    }
+  ]
+}

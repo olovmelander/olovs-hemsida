@@ -8,9 +8,10 @@
 
    - card.json           the club's card: every displayed number, verbatim
    - sat-shapes.json     per hole: the OSM green it belongs to, plus traced
-                         fairways, tees, centrelines and water
-   - osm-features.json   greens, bunkers, water, forest, farmland, roads, the
-                         driving range, buildings
+                         fairways, tees, centrelines and water; and the driving
+                         range, which OSM does not map here at all
+   - osm-features.json   greens, bunkers, water, forest, farmland, roads,
+                         buildings
    - heightfields.json   the ground, and every water level measured                */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -174,6 +175,51 @@ for (const t of traces.holes) for (const w of t.water || []) {
                area: Math.round(Math.abs(polyArea(ring))), level: levelOfRing(ring), isLake: false });
 }
 
+/* --- the driving range --------------------------------------------------------- */
+/* OSM maps no golf=driving_range here — the club's property polygon only mentions
+   one in its description — so the range is traced off the imagery exactly like the
+   holes are, and sat-shapes.json carries the reading. The trace is self-checked:
+   both ends of the hitting line must fall inside the ring it belongs to, and the
+   carry from that line is reported so a ring too small to be a range is obvious.  */
+const rangeRings = (osm.drivingRange || []).map(r => r.ring);
+if (traces.range) {
+  const ring = ring1(traces.range.ring);
+  const c = centroid(ring);
+  if (rangeRings.some(r => pointInPoly(c[0], c[1], r))) {
+    console.log('\nrange: OSM already maps one over this ground — keeping OSM, dropping the trace');
+  } else {
+    const hl = traces.range.hittingLine || [];
+    if (hl.length !== 2) throw new Error('range trace: hittingLine must be two points');
+    for (const p of hl) {
+      if (!pointInPoly(p[0], p[1], ring)) throw new Error(`range trace: hitting-line end ${p} is outside its own ring`);
+    }
+    rangeRings.push(ring);
+    const mid = [(hl[0][0] + hl[1][0]) / 2, (hl[0][1] + hl[1][1]) / 2];
+    const carry = Math.max(...ring.map(p => Math.hypot(p[0] - mid[0], p[1] - mid[1])));
+    let clear = Infinity;
+    for (const h of holes) for (const p of ring) clear = Math.min(clear, distToLine(p[0], p[1], h.line));
+    console.log(`\nrange: traced, ${(Math.abs(polyArea(ring)) / 10000).toFixed(2)} ha, hitting line ${polyLen(hl).toFixed(0)} m`
+              + ` at ${mid.map(r1).join(',')}, carry to the far edge ${carry.toFixed(0)} m,`
+              + ` nearest hole corridor ${clear.toFixed(0)} m  [${traces.range.confidence}]`);
+  }
+}
+
+/* --- the practice greens -------------------------------------------------------- */
+/* Traced like the range, and for the same reason: OSM maps neither. A practice
+   green is only a practice green if it belongs to no hole on the card, so that is
+   what is asserted — anything within 25 m of a card green is that green, mistraced. */
+const practiceGreens = [];
+for (const pg of traces.practiceGreens || []) {
+  const ring = ring1(pg.ring);
+  const c = centroid(ring);
+  let near = Infinity, who = null;
+  for (const h of holes) { const d = dist(c, h.green.c); if (d < near) { near = d; who = h.n; } }
+  if (near < 25) throw new Error(`practice green at ${c.map(r1)} is ${near.toFixed(0)} m from green ${who} — that is a hole's green, not a practice one`);
+  practiceGreens.push(ring);
+  console.log(`practice green '${pg.name}': ${Math.abs(polyArea(ring)).toFixed(0)} m² at ${c.map(r1).join(',')},`
+            + ` nearest card green is ${who} at ${near.toFixed(0)} m  [${pg.confidence}]`);
+}
+
 /* --- the model ---------------------------------------------------------------- */
 const model = {
   version: 1,
@@ -208,8 +254,8 @@ const model = {
     power: osm.power || { lines: [], towers: [], poles: [] }, railway: osm.railway || [],
   },
   pois: osm.pois || [],
-  scenery: { greens: [], fairways: [], tees: [], bunkers: [], grass: [],
-             range: (osm.drivingRange || []).map(r => r.ring) },
+  scenery: { greens: practiceGreens, fairways: [], tees: [], bunkers: [], grass: [],
+             range: rangeRings },
 };
 writeJSON(path.join(HERE, 'course-model.json'), model);
 

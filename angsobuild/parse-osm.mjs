@@ -161,7 +161,13 @@ for (const w of ways.values()) {
     }
     continue;
   }
-  if (t.golf) {
+  /* golf=clubhouse is a BUILDING wearing a golf tag, not a playing feature. Ängsö's
+     three clubhouse ways carry building=yes + golf=clubhouse + name, and swallowing
+     them here matched no `kind` and dropped them on the floor -- the course rendered
+     with no clubhouse at all. nvgkbuild does the same thing: let it fall through to
+     the building branch below, which keeps the footprint and the name and stamps
+     amenity 'clubhouse' on it. */
+  if (t.golf && !(t.golf === 'clubhouse' && t.building)) {
     const kind = t.golf;
     if (closed) {
       const ring = ringOf(w, kind === 'fairway' || kind === 'rough' ? 0.75 : 0.3);
@@ -221,7 +227,8 @@ for (const w of ways.values()) {
       const ring = ringOf(w, 0.5);
       if (ring) out.buildings.push({ id: 'w' + w.id, ring,
         h: t.height ? parseFloat(t.height) : (t['building:levels'] ? 3.1 * parseFloat(t['building:levels']) : null),
-        kind: t.building, name: t.name || null });
+        kind: t.building, name: t.name || null,
+        amenity: t.amenity || (t.golf === 'clubhouse' ? 'clubhouse' : null) });
     } else {
       const ring = ringOf(w, 1.0);
       if (!ring || Math.abs(polyArea(ring)) < 45) continue;

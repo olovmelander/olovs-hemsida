@@ -622,3 +622,95 @@ rather than green, which reads at first glance like the heath band mis-firing on
 Uppland clay course. The satellite says otherwise: that ground genuinely is pale dry
 grass, and the nearest farmland polygon is 238 m away. Measure the imagery before
 retuning shading — this one nearly got "fixed" into being wrong.
+
+## Skyltar — the marker layer, on all six pages
+
+`geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures
+the result and exits non-zero. One anchored patch serves all six because the minimap
+block, the rail markup and the sign furniture are byte-identical across them — 15
+substitutions, each asserting its anchor matches exactly once.
+
+**Numbers sit at the hole's MIDPOINT**, which is not a style choice:
+`banguide/guide-markers.json` measured the discs on the club's own overview map at a
+mean 46 m from the midpoint against 185 m and 190 m from the tee and the green. That is
+also where `render-design.mjs` has always put them. Facilities get a **letter, not a
+pictogram** — under about sixteen displayed pixels a pictogram is a blob and a letter is
+still a letter: **K** klubbhus, **R** drivingrange, **Ö** övningsgreen, with the browser's
+own tooltip naming them because a 360 px canvas has no room for a teckenförklaring.
+
+**One state drives two surfaces.** `skyState` (0 off · 1 numbers · 2 numbers +
+faciliteter) blits the minimap layers and gates a sprite group in the scene, so the map
+and the world can never disagree. It is declared beside `RMOTION` rather than in the
+minimap section for a concrete reason: `setPreset` calls `syncURL` from line ~1214, long
+before the minimap builds, and a `const` read in its temporal dead zone throws. `skyMax`
+drops to 1 on a course with no facility data, so the cycle never promises an empty layer.
+
+**The sprites answer to camera height, not to the view's name** — `smoothstep` over
+110–220 m above ground. Ovan is a real camera 330 m up where a 2.6 m flag is sub-pixel
+and nothing says which hole is which; at eye level the card already names it and a
+number over the fairway is litter. Tying it to height means Flygtur (22–38 m) and the
+Bansafari stay clean without either knowing the layer exists. `takePhoto` hides the
+group outright — `setClean` only hides DOM, so an overlay would otherwise be in the
+photograph.
+
+### What the de-collision actually had to handle
+
+Sliding every crowded disc toward its own tee — the obvious rule — **fails on four of
+the six courses**. It cannot separate a same-direction parallel pair (Johannesberg 6/7),
+and where two holes share a loop hub it drives them *together* (Ängsö gains a 1/4
+collision that did not exist). So each offender moves along its own centreline in
+whichever direction buys the most room, greedily, worst-first, clamped to f ∈ [0.12,
+0.88]; a disc that cannot improve is marked stuck and the rest carry on. Never sideways:
+a number that has left its corridor is worse than one that grazes a neighbour.
+
+**Facilities de-collide on the map only.** Veckefjärden's putting green stands 64 m from
+its clubhouse — fourteen pixels here, one square inside the other. They are pushed apart
+in canvas space and the world sprites stay put, because at 0.223 px/m the same nudge
+would carry the K marker seventy metres off its own roof. The crowding belongs to the
+map, not to the ground.
+
+**Two facts that set every size.** The 360 px backing store displays at 172 CSS px
+(0.48×), so a 30 px disc reads 14 px and its numeral about 6 — which is why `#mini` grows
+to 232 px at ≥1200 px viewports and stays as it was below, where the hole strip is
+already within 100 px of the panel. And a two-digit numeral at the single-digit size
+crosses the rim, so 10–18 draw smaller — the same 0.5-ish font/disc ratio
+`render-design.mjs` uses.
+
+`check-markers.mjs` reads the marker table's **canvas** positions (not world ones
+re-projected, which would not test what is drawn) and gates: no pair closer than the
+disc radius, every disc still on its own line, every marker fully on the canvas,
+the toggle cycling correctly, sprites at zero opacity at eye level and full in Ovan,
+and the HUD not overlapping itself at 1440/1280/1100/1000/900/420 px — plus the open
+phone sheet clearing the top of the screen, since the rail grew a row. It runs with the
+webfont stubbed out, so every measurement is taken in the fallback face on purpose.
+
+### The bug the range data uncovered
+
+The range's target flags marched away from `const hut = [...]`, a coordinate written
+into each page by hand — and **five of the six carried Norrfällsvikens** `[-359, 229]`,
+a leftover from the port. It was invisible while those courses had no range polygon to
+plant flags in; the moment Ängsö and Johannesberg gained traced ranges the flags landed
+in the wrong field entirely (at Ängsö, 5 of 6 were culled by the ring test and the
+survivor stood in a corner instead of down the shot line).
+
+The tee end is derivable and no longer written down: **it is the end of the range you
+walk to from the clubhouse**, which is where the bays are at every club there is. The
+page finds the ring vertex nearest the clubhouse and steps 12% in toward the centroid;
+the old literal survives only as the fallback for a course whose clubhouse is not in the
+data. That line is the one thing not identical across the six pages, so `apply-markers`
+matches it with an **asserted** regex — one match or nothing is written — rather than the
+verbatim text it uses for the other fifteen substitutions.
+
+### Marker data, per course
+
+The anchors come from the models, so three courses needed pipeline work first:
+Ängsö's clubhouse was being swallowed by a blanket `if (t.golf)` branch in its
+`parse-osm` (a golf-tagged *building* now falls through to the buildings bucket, as
+nvgk already did), and its driving range — which OSM lacks — was traced off z18
+imagery. Puttom has no OSM clubhouse footprint at all, so its 157 m² one is a committed
+satellite trace, and `reconcile` stopped hardcoding `scenery.greens: []` over two real
+practice greens. Johannesberg's clubhouse was in the model all along under the name
+`klubbhus`; the page's `/golfklubb/i` matcher simply never looked for it, which is why
+the marker lookup matches `amenity==='clubhouse'` or `/golfklubb|klubbhus/i` — and is
+kept SEPARATE from the `CLUB` const, because `CLUB` shapes terrain and widening it
+would move ground on three shipped courses.
