@@ -685,6 +685,24 @@ its idempotence) and the pack byte layout. Packs exist for all five newer
 courses under `apps/golf/public/courses/<slug>/`, each gated by check-pack
 (byte-identical to its page) and by the phase-0 parity method.
 
+**Phase 3 (manifest)**: `courses/index.json` — written by
+`packages/course-pack/emit-manifest.mjs` — is the pipelines' contract with the
+app. Computed fields come from card.json and the committed pack (par, tee count,
+bytes, sha256 — the loader re-hashes the pack at runtime and refuses a mismatch);
+the display strings the pages used to hard-code (tee names/colours, header
+strings, the per-course tee-hiding breakpoint) live in the generator's table,
+absorbed verbatim from the six pages' headers. The app boots ANY manifest course
+via `?bana=<slug>` (default = first entry, angso, until the phase-5 rail);
+`TEE_NAMES`/`TEE_COLS`/titles/photo-prefix/`hdsub` are all manifest reads, and
+the tee-hiding `nth-child` rule is injected per course at boot because a 6-tee
+card needs room a 3-tee card never uses. The gate is `tools/check-app.mjs`:
+boots every manifest course through the whole path (manifest → integrity hash →
+pack → decode → HUD) and asserts each build's card value-for-value THROUGH THE
+APP, the tee row, headers, deep-link cleanliness, and a luminance floor. All
+five pass — including the 3-tee and 6-tee HUD extremes (upsala has six tees,
+so the extremes exist before the Veckefjärden merge). Harness note: a plain
+`page.screenshot()` times out under SwiftShader — pass `timeout: 300000`.
+
 ## Skyltar — the marker layer, on all six pages
 
 `geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures

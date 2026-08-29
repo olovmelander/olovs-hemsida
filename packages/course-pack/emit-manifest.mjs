@@ -1,0 +1,61 @@
+/* Write the course manifest -- apps/golf/public/courses/index.json, the single
+   contract between the pipelines and the app.
+
+   usage: node packages/course-pack/emit-manifest.mjs
+
+   Everything computable is computed (par and tee count from the build's
+   card.json, bytes and sha256 from the committed pack -- so the manifest IS the
+   currency gate's other half), and the few display strings that used to be
+   page literals live in the table below, absorbed verbatim from the six pages'
+   headers when the app took over. `hideFrom` is each page's own nth-child
+   number: from which tee column the medium-width layout starts hiding.
+   Veckefjarden joins this table at the merge phase, not before.               */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { readPack, sha256 } from './lib.mjs';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const OUT = path.join(ROOT, 'apps/golf/public/courses/index.json');
+
+/* order is presentation order: the first entry is the default course until the
+   phase-5 rail replaces defaults with a choice */
+const COURSES = [
+  { slug: 'angso', build: 'angsobuild', name: 'Ängsö GK', club: 'Ängsö Golfklubb',
+    title: 'Ängsö Golfklubb — Banan i 3D', tag: 'Ängsö', boot: 'Stora Bodarna · Mälaren',
+    tees: { names: ['Vit', 'Gul', 'Blå', 'Röd', 'Ora'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
+  { slug: 'norrfallsviken', build: 'nvgkbuild', name: 'Norrfällsvikens GK', club: 'Norrfällsvikens Golfklubb',
+    title: 'Norrfällsvikens GK — Seaside i Höga Kusten, i 3D', tag: 'Seaside', boot: 'Mjällom · Höga Kusten',
+    tees: { names: ['Gul', 'Röd', 'Orange'], cols: [0xf0c93a, 0xe0574a, 0xe08b3a], hideFrom: 4 } },
+  { slug: 'puttom', build: 'puttombuild', name: 'Puttom', club: 'Örnsköldsviks Golfklubb',
+    title: 'Örnsköldsviks GK Puttom — Skogsbana i 3D', tag: 'Örnsköldsviks GK', boot: 'Arnäsvall · Örnsköldsvik',
+    tees: { names: ['Vit', 'Gul', 'Röd', 'Orange'], cols: [0xf4f4ee, 0xf0c93a, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
+  { slug: 'upsala', build: 'upsalabuild', name: 'Upsala GK', club: 'Upsala Golfklubb',
+    title: 'Upsala Golfklubb — Banan i 3D', tag: 'Stora banan', boot: 'Håmö gård · Läby',
+    tees: { names: ['62', '59', '56', '51', '47', '42'], cols: [0x1a1a1a, 0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
+  { slug: 'johannesberg', build: 'johannesbergbuild', name: 'Johannesberg', club: 'Johannesberg Golf & Country Club',
+    title: 'Johannesberg Golf & CC — Banan i 3D', tag: 'Gottröra', boot: 'Gottröra · Uppland',
+    tees: { names: ['Vit', 'Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
+];
+
+const entries = COURSES.map(c => {
+  const card = JSON.parse(fs.readFileSync(path.join(ROOT, c.build, 'card.json'), 'utf8'));
+  const packFile = path.join(ROOT, 'apps/golf/public/courses', c.slug, 'pack.bin');
+  const buf = fs.readFileSync(packFile);
+  const { header } = readPack(buf);                       /* validates magic + fmt + framing */
+  if (header.slug !== c.slug) throw new Error(`${c.slug}: pack header says ${header.slug}`);
+  const nTee = card.holes[0].t.length;
+  if (nTee !== c.tees.names.length || nTee !== c.tees.cols.length)
+    throw new Error(`${c.slug}: card has ${nTee} tees, display table has ${c.tees.names.length}/${c.tees.cols.length}`);
+  const par = card.holes.reduce((a, h) => a + h.par, 0);
+  return {
+    slug: c.slug, name: c.name, club: c.club, title: c.title, tag: c.tag, boot: c.boot,
+    par, holes: card.holes.length, tees: c.tees,
+    packUrl: `/courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
+  };
+});
+
+fs.writeFileSync(OUT, JSON.stringify({ fmt: 1, courses: entries }, null, 1) + '\n');
+for (const e of entries)
+  console.log(`${e.slug.padEnd(16)} par ${e.par}  ${String(e.tees.names.length)} tees  ${(e.bytes / 1024).toFixed(0).padStart(4)} KB  ${e.sha256.slice(0, 12)}…`);
+console.log(`wrote ${path.relative(ROOT, OUT)}`);

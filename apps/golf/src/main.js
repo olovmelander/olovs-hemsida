@@ -39,7 +39,7 @@ import {
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-import { fetchPack } from './loader/pack.js';
+import { loadCourse } from './loader/pack.js';
 import { inflate, decodeHF } from './engine/codec.js';
 import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
 
@@ -63,8 +63,26 @@ const tick = (msg, frac) => {
   return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 };
 
-/* the course, fetched: everything below this line is data-driven */
-const PACK = await fetchPack('/courses/angso/pack.bin');
+/* the course, fetched: everything below this line is data-driven. Which course
+   is the ?bana= deep link; the manifest's first entry stands in until the
+   phase-5 rail replaces defaults with a choice. */
+const COURSE = await loadCourse(new URLSearchParams(location.search).get('bana'));
+const CMETA = COURSE.meta;
+const PACK = COURSE.pack;
+document.title = CMETA.title;
+document.querySelector('#boot h1').textContent = CMETA.club;
+document.querySelector('#boot .sub').textContent = CMETA.boot;
+document.querySelector('.hd h1').textContent = CMETA.name;
+document.getElementById('hdsub').textContent = `${CMETA.tag} · ${CMETA.holes} hål`;
+{
+  /* the tee-hiding breakpoint is per course (a 6-tee card needs the room a
+     3-tee card never uses), so the rule is written here, not in the stylesheet */
+  const st = document.createElement('style');
+  st.textContent =
+    `@media(max-width:980px){#tees .tee:nth-child(n+${CMETA.tees.hideFrom}){display:none}}` +
+    `@media(max-width:700px){#tees .tee:nth-child(n+${CMETA.tees.hideFrom}){display:block}}`;
+  document.head.append(st);
+}
 const GEO = PACK.H.GEO;
 const HF0 = PACK.H.HF0;
 const HF1 = PACK.H.HF1;
@@ -2722,7 +2740,7 @@ scene.add(furnitureGroup);
 
 /* ------------------------------------------------------------- furniture */
 await tick('sätter ut flaggor', 0.72);
-const TEE_COLS = [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a];
+const TEE_COLS = CMETA.tees.cols;
 const flagGroup = new THREE.Group();
 scene.add(flagGroup);
 const pins = [];
@@ -3308,7 +3326,7 @@ function placeSun() {
 
 /* ------------------------------------------------------------------- ui */
 let hole = 1, teeIdx = 0, camMode = 'orbit', flying = 0;
-const TEE_NAMES = ['Vit', 'Gul', 'Blå', 'Röd', 'Ora'];
+const TEE_NAMES = CMETA.tees.names;
 
 const holesBar = document.getElementById('holes');
 for (let n = 1; n <= 18; n++) {
@@ -3420,6 +3438,7 @@ function syncURL() {
     sp.set('vy', CAM2VY[camMode] || 'fritt');
     sp.set('ljus', P2LJUS[presetName] || 'kvall');
     if (teeIdx) sp.set('tee', teeIdx + 1); else sp.delete('tee');
+    if (CMETA.slug !== COURSE.all[0].slug) sp.set('bana', CMETA.slug); else sp.delete('bana');
     if (skyState !== skyMax) sp.set('skylt', skyState); else sp.delete('skylt');
     sp.delete('kiosk'); sp.delete('ren');
     window.history.replaceState(null, '', location.pathname + '?' + sp.toString());
@@ -3466,10 +3485,10 @@ async function takePhoto() {
   skyHidden = false; updateSky();
   if (!wasClean && !tour) setClean(false);
   if (!blob) { toast('Kunde inte läsa bilden — ta en skärmbild i ren vy'); return; }
-  const name = `angso-hal${hole}-${P2LJUS[presetName] || 'kvall'}.png`;
+  const name = `${CMETA.slug}-hal${hole}-${P2LJUS[presetName] || 'kvall'}.png`;
   const file = new window.File([blob], name, { type: 'image/png' });
   if (window.navigator.canShare && window.navigator.canShare({ files: [file] })) {
-    try { await window.navigator.share({ files: [file], title: 'Ängsö Golfklubb' }); return; }
+    try { await window.navigator.share({ files: [file], title: CMETA.club }); return; }
     catch (e) { if (e && e.name === 'AbortError') return; }
   }
   const a = document.createElement('a');
@@ -4113,7 +4132,7 @@ const BOOTQ = new URLSearchParams(location.search);
 await tick('klar', 1.0);
 renderer.setAnimationLoop(frame);
 document.getElementById('hdsub').textContent =
-  `Ängsö · ${IS_GPU ? 'WebGPU' : 'WebGL2'}`;
+  `${CMETA.tag} · ${IS_GPU ? 'WebGPU' : 'WebGL2'}`;
 stats.draws = renderer.info?.render?.drawCalls || stats.draws;
 
 /* published before the boot marker, not after: anything waiting on the marker acts
