@@ -22,7 +22,8 @@ fs.writeFileSync(cfg, `export default [{
     clearTimeout:'readonly', devicePixelRatio:'readonly', innerWidth:'readonly',
     innerHeight:'readonly', addEventListener:'readonly', OffscreenCanvas:'readonly',
     ImageData:'readonly', Image:'readonly', history:'readonly', localStorage:'readonly', DataView:'readonly',
-    crypto:'readonly',
+    crypto:'readonly', setInterval:'readonly', clearInterval:'readonly',
+    IntersectionObserver:'readonly', requestIdleCallback:'readonly', matchMedia:'readonly',
   } },
   rules: { 'no-undef': 'error' },
 }];\n`);

@@ -937,13 +937,48 @@ woods, until it was re-shot down hole 5 to put the Bothnian horizon behind two
 greens. Ängsö's fresh re-renders lost to the original and it kept it — a
 re-render is not automatically an improvement.
 
-`tools/make-posters.py` builds what ships: 800 px wide (2× the card) in WebP,
-**6.33 MB → 282 KB, 23× smaller**, because six 1600×900 PNGs on the front door is
-the first thing a phone downloads and the brief names Android and iOS before
-desktop. Its docstring carries the measured table rather than a claim — the
-resize is nearly free (0.43–0.48 mean/255) and essentially all loss is the codec,
-and **WebP beat JPEG on both axes at the same quality number**, so there was no
-reason to ship the JPEG. What is not claimed is that the difference is invisible.
+`tools/make-posters.mjs` builds what ships: 800 px wide (2× the card) in WebP,
+because full-size stills on the front door are the first thing a phone downloads
+and the brief names Android and iOS before desktop. Its header carries the
+measured table rather than a claim — the resize is nearly free (0.43–0.48
+mean/255), essentially all loss is the codec, and **WebP beat JPEG on both axes
+at the same quality number**, so there was no reason to ship the JPEG. What is
+not claimed is that the difference is invisible. (It replaced the original
+`make-posters.py`, carrying that measurement over verbatim: the encoding is now
+done by the Chrome the harnesses already drive, so no Python and no image
+library is needed — this machine has neither.)
+
+**Four posters a course, and the card cycles them.** `--candidates` boots each
+course ONCE, shoots eight framings — the signature hole from all four cameras,
+then two more holes in different light — and writes a contact sheet at the card's
+own 400×225 on the chooser's ground; `--write` promotes the picks in `CHOSEN`.
+The signature holes are the clubs' own words out of each build's
+`guide-notes.json`, not a guess: Norrfällsviken's 12th is "Banans signaturhål",
+Johannesberg's 18th is the only plan carrying the "Signaturhål" laurel, Upsala's
+3rd is marked SIGNATURE HOLE, Puttom's 12th plays over a bay of Stor-Rössjön,
+Ängsö's 15th is the water hole with the only drop zone, Veckefjärden's 14th is
+the island green.
+
+**A signature hole is not always the identity, and the contact sheet is how you
+find that out.** Norrfällsviken is a *seaside* club whose signature 12th shows no
+sea at all, so at rest its card said "another forest course". Its coastal holes
+were found by measuring — green 6 is 133 m from the sea ring, the closest on the
+course, which is also the hole the club's own text singles out for *havsvinden* —
+and hole 6 leads the card now, with the 12th second. The `--extra` flag exists
+for exactly this: shoot named framings alongside the standard eight and keep what
+is already captured.
+
+The card keeps hero-1 as the `.shot` background and crossfades the rest above it,
+so a course with one poster is untouched and needs no slideshow. Three costs are
+deliberately controlled: the extras load only once a card has been on screen
+(a phone showing two cards fetches two cards' worth), they load **on idle and one
+at a time** so they never compete with the six posters actually being looked at,
+and `prefers-reduced-motion` gets the resting poster and no fetches at all —
+decoration is exactly what that preference is about. Measured on the built app:
+**the chooser is usable at 542 kB and 117 ms**, with the remaining ~840 kB of
+gallery trickling in behind it. `photos` in the manifest is COUNTED from the
+committed files, like `bytes` and `sha256`, so a course that loses a poster stops
+advertising it instead of cycling to a 404.
 
 One more thing found in the same pass and left in place with a note: `map.js`
 draws tiles from **OpenStreetMap's own servers**, which are donated infrastructure

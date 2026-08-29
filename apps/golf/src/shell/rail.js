@@ -98,7 +98,9 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
             return `
               <li class="card-item" data-slug="${c.slug}" data-category="${cat.id}" data-search="${esc(c.name + ' ' + c.club + ' ' + c.tag + ' ' + (LINES[c.slug] || '')).toLowerCase()}">
                 <button class="card ${isCurrent ? 'is-current' : ''}" type="button" data-slug="${c.slug}">
-                  <div class="shot" style="background-image: url('/courses/${c.slug}/hero-1.webp')">
+                  <div class="shot" data-slug="${c.slug}" data-photos="${c.photos || 1}"
+                       style="background-image: url('/courses/${c.slug}/hero-1.webp')">
+                    <span class="shot-frames" aria-hidden="true"></span>
                     <div class="shot-badges">
                       <span class="cat-badge">${iconSvg} <span>${esc(cat.label)}</span></span>
                       ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : ''}
@@ -200,6 +202,93 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
       btn.addEventListener('focus', hint, { once: true });
     }
   });
+
+  /* ------------------------------------------------------------ card posters
+     Each card carries several stills of its own course and crossfades between
+     them. Three rules keep it from costing anything:
+
+     - hero-1 stays the .shot background, so the resting card is exactly what it
+       was and a course with one poster never enters the slideshow at all.
+     - the rest are fetched only once the card has actually been on screen, so
+       the front door still downloads six images, not twenty-four.
+     - one timer drives every card, each with its own phase, because six cards
+       flipping in unison reads as a glitch rather than as motion.
+
+     Reduced motion gets the resting poster and no fetches: the extra stills are
+     decoration, and decoration is exactly what that preference is about. */
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SLIDE_MS = 5400, STAGGER_MS = 900;
+  const shows = [];
+  if (!REDUCED) {
+    el.querySelectorAll('.shot[data-photos]').forEach((shot, i) => {
+      const count = +shot.dataset.photos || 1;
+      if (count < 2) return;
+      shows.push({ slug: shot.dataset.slug, count, wrap: shot.querySelector('.shot-frames'),
+                   frames: [], idx: 0, phase: i,
+                   nextAt: performance.now() + SLIDE_MS + i * STAGGER_MS,
+                   loaded: false, visible: false });
+    });
+  }
+
+  /* Deferred and ONE AT A TIME. Six cards' worth of extra posters is about a
+     megabyte; fetched eagerly and in parallel it competes with the six that are
+     actually on screen. Idle time, sequentially, means the card the visitor is
+     looking at is never waiting on the ones they are not. */
+  const idle = window.requestIdleCallback || (fn => setTimeout(fn, 700));
+  const ensureFrames = s => {
+    if (s.loaded) return;
+    s.loaded = true;
+    const next = i => {
+      if (i > s.count) return;
+      const url = `/courses/${s.slug}/hero-${i}.webp`;
+      /* decode before it is ever shown -- a frame that fades in while still
+         downloading crossfades to an empty rectangle */
+      const img = new Image();
+      img.onload = () => {
+        const layer = document.createElement('i');
+        layer.style.backgroundImage = `url('${url}')`;
+        s.wrap.append(layer);
+        s.frames.push(layer);
+        idle(() => next(i + 1));
+      };
+      /* a missing poster ends this card's set rather than the whole slideshow */
+      img.onerror = () => {};
+      img.src = url;
+    };
+    idle(() => next(2));
+  };
+
+  if (shows.length) {
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) {
+        const s = shows.find(x => x.wrap === e.target.querySelector('.shot-frames'));
+        if (!s) continue;
+        s.visible = e.isIntersecting;
+        if (e.isIntersecting) ensureFrames(s);
+      }
+    }, { rootMargin: '200px' });
+    el.querySelectorAll('.shot[data-photos]').forEach(shot => io.observe(shot));
+
+    setInterval(() => {
+      /* The chooser is an overlay: when it is shut, or the tab is in the
+         background, nothing here should be animating. Re-arm each card as we
+         wait, keeping its stagger -- otherwise every card comes back owing
+         several turns and they all flip together the moment it reopens, which
+         is the one thing the stagger exists to prevent. */
+      const now = performance.now();
+      if (el.hidden || document.hidden) {
+        for (const s of shows)
+          if (now > s.nextAt) s.nextAt = now + SLIDE_MS + s.phase * STAGGER_MS;
+        return;
+      }
+      for (const s of shows) {
+        if (!s.visible || s.frames.length < 1 || now < s.nextAt) continue;
+        s.nextAt = now + SLIDE_MS;
+        s.idx = (s.idx + 1) % (s.frames.length + 1);
+        s.frames.forEach((f, k) => f.classList.toggle('is-on', k === s.idx - 1));
+      }
+    }, 400);
+  }
 
   // Map View Initialization
   const cardsWrap = el.querySelector('#cardsViewWrap');

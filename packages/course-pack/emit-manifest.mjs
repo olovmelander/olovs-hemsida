@@ -52,9 +52,16 @@ const entries = COURSES.map(c => {
   if (nTee !== c.tees.names.length || nTee !== c.tees.cols.length)
     throw new Error(`${c.slug}: card has ${nTee} tees, display table has ${c.tees.names.length}/${c.tees.cols.length}`);
   const par = cardHoles.reduce((a, h) => a + h.par, 0);
+  /* How many posters the chooser card may cycle through. Counted from what is
+     actually committed rather than declared, so a course that loses a poster
+     stops advertising it and the card simply cycles fewer -- the same reason
+     bytes and sha256 are measured here instead of written down. */
+  const dir = path.join(ROOT, 'apps/golf/public/courses', c.slug);
+  let photos = 0;
+  while (fs.existsSync(path.join(dir, `hero-${photos + 1}.webp`))) photos++;
   return {
     slug: c.slug, name: c.name, club: c.club, title: c.title, tag: c.tag, boot: c.boot,
-    par, holes: cardHoles.length, tees: c.tees,
+    par, holes: cardHoles.length, tees: c.tees, photos,
     packUrl: `/courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
   };
 });
