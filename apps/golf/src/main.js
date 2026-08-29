@@ -40,6 +40,7 @@ import {
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { loadCourse } from './loader/pack.js';
+import { buildScenery } from './engine/scenery/index.js';
 import { inflate, decodeHF } from './engine/codec.js';
 import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
 
@@ -3268,6 +3269,12 @@ for (const h of HOLES) {
       }
     }
   }
+  /* the course's own landmarks, if it has any -- Åsmasten and Själevads kyrka at
+     Veckefjärden, the 1649 chapel at Norrfällsviken. Loaded by slug and handed
+     THIS batch, so a horizon full of bespoke buildings is still one draw call,
+     and a course without a module pays nothing at all. */
+  await buildScenery(CMETA.slug, { THREE, scene, tri, quad, pole, demH, terrainH, L,
+                                   WHITE, GREY, YEL, DARKR, vec3, stats, TAU, avLights });
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(V, 3));
   g.setAttribute('color', new THREE.Float32BufferAttribute(K, 3));
@@ -4142,7 +4149,8 @@ window.V3D = {
            tufts: stats.tufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
            reeds: stats.reeds | 0, cars: stats.cars | 0, pylons: stats.pylons | 0, stumps: stats.stumps | 0,
            draws: stats.draws | 0, backend: IS_GPU ? 'webgpu' : 'webgl2' },
-  goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M,
+  goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
+  course: () => ({ ...CMETA }),
   settled: () => !camTween.on,
   probeH: (x, z) => terrainH(x, z),
   setView: (px, py, pz, lx, ly, lz) => { flyTo(V3(px, py, pz), V3(lx, ly, lz), 0); },

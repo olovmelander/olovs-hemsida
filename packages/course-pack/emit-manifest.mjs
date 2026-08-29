@@ -13,7 +13,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readPack, sha256 } from './lib.mjs';
+import { readPack, sha256, readCard } from './lib.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT = path.join(ROOT, 'apps/golf/public/courses/index.json');
@@ -36,21 +36,25 @@ const COURSES = [
   { slug: 'johannesberg', build: 'johannesbergbuild', name: 'Johannesberg', club: 'Johannesberg Golf & Country Club',
     title: 'Johannesberg Golf & CC — Banan i 3D', tag: 'Gottröra', boot: 'Gottröra · Uppland',
     tees: { names: ['Vit', 'Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
+  /* the six-tee course, and the only one whose card lives in banguide/ */
+  { slug: 'veckefjarden', build: 'geobuild', name: 'Veckefjärdens GC', club: 'Veckefjärdens Golfklubb',
+    title: 'Veckefjärdens GC — Mästerskapsbanan i 3D', tag: 'Mästerskapsbanan', boot: 'Örnsköldsvik · Ångermanland',
+    tees: { names: ['65', '61', '58', '55', '48', '40'], cols: [0x1a1a1a, 0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
 ];
 
 const entries = COURSES.map(c => {
-  const card = JSON.parse(fs.readFileSync(path.join(ROOT, c.build, 'card.json'), 'utf8'));
+  const cardHoles = readCard(ROOT, c.build);
   const packFile = path.join(ROOT, 'apps/golf/public/courses', c.slug, 'pack.bin');
   const buf = fs.readFileSync(packFile);
   const { header } = readPack(buf);                       /* validates magic + fmt + framing */
   if (header.slug !== c.slug) throw new Error(`${c.slug}: pack header says ${header.slug}`);
-  const nTee = card.holes[0].t.length;
+  const nTee = cardHoles[0].t.length;
   if (nTee !== c.tees.names.length || nTee !== c.tees.cols.length)
     throw new Error(`${c.slug}: card has ${nTee} tees, display table has ${c.tees.names.length}/${c.tees.cols.length}`);
-  const par = card.holes.reduce((a, h) => a + h.par, 0);
+  const par = cardHoles.reduce((a, h) => a + h.par, 0);
   return {
     slug: c.slug, name: c.name, club: c.club, title: c.title, tag: c.tag, boot: c.boot,
-    par, holes: card.holes.length, tees: c.tees,
+    par, holes: cardHoles.length, tees: c.tees,
     packUrl: `/courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
   };
 });

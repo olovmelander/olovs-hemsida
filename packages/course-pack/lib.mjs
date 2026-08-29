@@ -14,6 +14,8 @@
    no environment leaks into the file: the same committed build JSON must
    produce the same pack, byte for byte, on any machine, because the currency
    gate is a hash comparison and a hash that moves on its own is no gate.    */
+import fs from 'node:fs';
+import path from 'node:path';
 import zlib from 'node:zlib';
 import { createHash } from 'node:crypto';
 
@@ -47,3 +49,19 @@ export function readPack(buf) {
 
 export const inflateStream = s => zlib.inflateRawSync(s);
 export const sha256 = buf => createHash('sha256').update(buf).digest('hex');
+
+/* The card, whichever shape this course keeps it in. The five newer builds have
+   their own card.json holding an ARRAY of {n,par,hcp,t}; Veckefjarden's card is
+   banguide/guide-card.json, an OBJECT keyed by hole number -- the club's guide
+   transcription, which predates the per-build convention and which geobuild's
+   own reconcile and check3d still read from there. That legacy path is a real
+   dependency of the Veckefjarden pipeline, not just of its data: banguide/ has
+   to stay where geobuild can import it. Returns the array shape either way.  */
+export function readCard(root, buildDir) {
+  const own = path.join(root, buildDir, 'card.json');
+  if (fs.existsSync(own)) return JSON.parse(fs.readFileSync(own, 'utf8')).holes;
+  const guide = JSON.parse(fs.readFileSync(path.join(root, 'banguide/guide-card.json'), 'utf8'));
+  return Object.entries(guide.holes)
+    .map(([n, h]) => ({ n: +n, par: h.par, hcp: h.hcp, t: h.t }))
+    .sort((a, b) => a.n - b.n);
+}

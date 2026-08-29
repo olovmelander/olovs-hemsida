@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
 import { ROOT } from '../geobuild/lib.mjs';
+import { readCard } from '../packages/course-pack/lib.mjs';
 
 const BASE = process.argv[2] || 'http://127.0.0.1:8620';
 const CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
@@ -39,8 +40,9 @@ for (const c of manifest.courses) {
 
 async function checkCourse(c) {
   const build = { angso: 'angsobuild', norrfallsviken: 'nvgkbuild', puttom: 'puttombuild',
-                  upsala: 'upsalabuild', johannesberg: 'johannesbergbuild' }[c.slug];
-  const card = JSON.parse(fs.readFileSync(path.join(ROOT, build, 'card.json'), 'utf8'));
+                  upsala: 'upsalabuild', johannesberg: 'johannesbergbuild',
+                  veckefjarden: 'geobuild' }[c.slug];
+  const cardHoles = readCard(ROOT, build);
 
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
   const errs = [];
@@ -60,7 +62,7 @@ async function checkCourse(c) {
   }));
 
   let mism = 0, vals = 0;
-  for (const ch of card.holes) {
+  for (const ch of cardHoles) {
     const h = got.holes.find(x => x.n === ch.n);
     vals += 2 + ch.t.length;
     if (!h || h.par !== ch.par) mism++;
@@ -68,6 +70,50 @@ async function checkCourse(c) {
     ch.t.forEach((v, i) => { if (!h || h.t[i] !== v) mism++; });
   }
   gate(mism === 0 && got.holes.length === 18, `card through the app: ${vals} values, ${mism} mismatches`);
+
+  /* Nothing may be under water. This is the gate the 14th exists for: an island
+     green that once sat five metres under the fjärd, and a course whose water
+     level is 21.59 m rather than zero -- so the probe is LOCAL, asking the
+     engine's own terrainH at each green and tee against the level of whatever
+     ring contains it, exactly as each build's check3d does for its page. */
+  const wet = await page.evaluate(() => {
+    const V = window.V3D, M = V.M, out = [];
+    const inRing = (x, z, r) => { let i2 = false;
+      for (let i = 0, j = r.length - 1; i < r.length; j = i++) {
+        const xi = r[i][0], zi = r[i][1], xj = r[j][0], zj = r[j][1];
+        if ((zi > z) !== (zj > z) && x < (xj - xi) * (z - zi) / (zj - zi) + xi) i2 = !i2;
+      } return i2; };
+    const hasSea = M.water.some(w => w.isSea);
+    const probe = (label, x, z) => {
+      const h = V.probeH(x, z);
+      if (hasSea && h < V.GEO.seaLevel + 0.4) { out.push(`${label} ${h.toFixed(2)} m (sea)`); return; }
+      for (const w of M.water) {
+        if (w.isSea || w.level == null) continue;
+        if (inRing(x, z, w.ring) && h < w.level + 0.3) out.push(`${label} ${h.toFixed(2)} m in water at ${w.level} m`);
+      }
+    };
+    /* Greens are probed at their centre and must be dry, full stop -- this is the
+       gate the 14th exists for. A TEE is probed at its PAD, the prepared ground a
+       player stands on, because line[0] is a geometric construction: the point the
+       card slide lands on, which at Puttom's 16th falls 1.1 m over a traced
+       shoreline (inside that shoreline's own uncertainty on a 2 m DEM) while the
+       pad sits 14.7 m clear. That graze is still reported, never swallowed. */
+    const notes = [];
+    for (const h of V.HOLES) {
+      probe(`green ${h.n}`, h.green.c[0], h.green.c[1]);
+      const pad = h.tees.pads && h.tees.pads[0];
+      const tp = pad ? [pad.cx, pad.cz] : h.line[0];
+      probe(`tee ${h.n}`, tp[0], tp[1]);
+      if (pad) for (const w of M.water) {
+        if (w.isSea || w.level == null) continue;
+        if (inRing(h.line[0][0], h.line[0][1], w.ring))
+          notes.push(`hole ${h.n}: the slid back-tee point lies in water; its pad is on dry ground`);
+      }
+    }
+    return { out, notes };
+  });
+  for (const n of wet.notes) console.log(`  note ${n}`);
+  gate(wet.out.length === 0, `nothing submerged${wet.out.length ? ' -- ' + wet.out.slice(0, 3).join('; ') : ' (36 probes)'}`);
   gate(JSON.stringify(got.teeLabels) === JSON.stringify(c.tees.names),
     `tee row shows [${got.teeLabels.join(', ')}]`);
   gate(got.header === c.name, `header says "${got.header}"`);

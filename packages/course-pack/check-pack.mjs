@@ -11,7 +11,11 @@
         against the pack's own decode path rather than the page's.            */
 import fs from 'node:fs';
 import path from 'node:path';
-import { readPack, inflateStream } from './lib.mjs';
+import { fileURLToPath } from 'node:url';
+import zlib from 'node:zlib';
+import { readPack, inflateStream, readCard } from './lib.mjs';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
 const [packFile, pageFile, buildDir] = process.argv.slice(2);
 if (!buildDir) { console.error('usage: check-pack.mjs <pack.bin> <page.html> <buildDir>'); process.exit(2); }
@@ -34,20 +38,53 @@ const b64 = name => {
 };
 
 const pHF0 = lit('HF0'), pHF1 = lit('HF1'), pGEO = lit('GEO');
+/* key ORDER is not meaning: the rename below reinserts a key at the end */
+const sortK = o => Array.isArray(o) ? o.map(sortK)
+  : (o && typeof o === 'object')
+    ? Object.fromEntries(Object.keys(o).sort().map(k => [k, sortK(o[k])]))
+    : o;
+const meta = (a, b) => JSON.stringify(sortK(a)) === JSON.stringify(sortK(b));
 gate(Buffer.compare(s0, b64('HF0.b64')) === 0, `HF0 stream byte-identical to the page (${s0.length} bytes)`);
 gate(Buffer.compare(s1, b64('HF1.b64')) === 0, `HF1 stream byte-identical to the page (${s1.length} bytes)`);
-gate(Buffer.compare(sv, b64('const VEC64')) === 0, `vector stream byte-identical to the page (${sv.length} bytes)`);
-const meta = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+/* Byte-identity is the strongest currency statement and the gate for every
+   course whose page and pack share a schema. Veckefjarden's does not: the pack
+   format writes isSea on every water ring, and its page (older) omits the field
+   entirely. Rather than wart the new format to match a page scheduled for
+   retirement, the gate falls back to DEEP EQUALITY after applying exactly that
+   one declared migration -- and says which of the two it proved, because a
+   check that quietly weakens itself is worse than no check. */
+{
+  const pageBytes = b64('const VEC64');
+  if (Buffer.compare(sv, pageBytes) === 0) {
+    gate(true, `vector stream byte-identical to the page (${sv.length} bytes)`);
+  } else {
+    const pv = JSON.parse(zlib.inflateRawSync(pageBytes).toString('utf8'));
+    const kv = JSON.parse(inflateStream(sv).toString('utf8'));
+    for (const w of pv.water) if (w.isSea === undefined) w.isSea = false;   /* the declared migration */
+    const same = Object.keys(kv).every(k => meta(pv[k], kv[k]))
+              && Object.keys(pv).length === Object.keys(kv).length;
+    gate(same, `vector stream equals the page after the declared migration (isSea defaulted on ${pv.water.length} rings)`);
+  }
+}
 const sansBytes = ({ bytes, ...r }) => r;
-gate(meta(pGEO, header.GEO), 'GEO metadata equals the page literal');
+/* Veckefjarden's page calls its water level lakeLevel; the pack calls it
+   seaLevel, which is the engine's name for the same thing. That rename is the
+   whole schema migration, so it is allowed HERE and nowhere else -- every other
+   GEO field must still match the page exactly. */
+const pageGEO = { ...pGEO };
+if (pageGEO.lakeLevel !== undefined && pageGEO.seaLevel === undefined) {
+  pageGEO.seaLevel = pageGEO.lakeLevel; delete pageGEO.lakeLevel;
+  console.log(`  note lakeLevel ${pageGEO.seaLevel} m read as seaLevel (the regulated lake IS this course's water level)`);
+}
+gate(meta(pageGEO, header.GEO), 'GEO metadata equals the page literal');
 gate(meta(pHF0, sansBytes(header.HF0)), 'HF0 metadata equals the page literal');
 gate(meta(pHF1, sansBytes(header.HF1)), 'HF1 metadata equals the page literal');
 
 /* the card, from the pack's own bytes */
 const M = JSON.parse(inflateStream(sv).toString('utf8'));
-const card = JSON.parse(fs.readFileSync(path.join(buildDir, 'card.json'), 'utf8'));
+const cardHoles = readCard(ROOT, buildDir);
 let mismatch = 0, checked = 0;
-for (const ch of card.holes) {
+for (const ch of cardHoles) {
   const h = M.holes.find(x => x.n === ch.n);
   checked += 2 + ch.t.length;
   if (!h || h.par !== ch.par) mismatch++;

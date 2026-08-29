@@ -703,6 +703,43 @@ five pass — including the 3-tee and 6-tee HUD extremes (upsala has six tees,
 so the extremes exist before the Veckefjärden merge). Harness note: a plain
 `page.screenshot()` times out under SwiftShader — pass `timeout: 300000`.
 
+**Phase 4 (the Veckefjärden merge)**: all six courses now boot in the app. The
+schema gap was far smaller than feared — the engine already reads `marking`,
+`surround` and `isSea` defensively, so the merge is a MAPPING, not a rewrite.
+`emit-pack` grew one `OLD` branch: carry `sp`, the real 31 marking runs and the
+real surround traces, and translate `lakeLevel` → `seaLevel`, because the
+engine's `seaLevel` means *the level water sits at* and for a regulated lake
+behind a 1939 lock that is 21.59 m, not zero. The sea machinery keys off
+`water[].isSea`, which no Veckefjärden ring carries, so it correctly no-ops.
+
+Three things worth keeping:
+- **The card lives in `banguide/`.** Veckefjärden has no `card.json`; its card is
+  `banguide/guide-card.json`, an OBJECT keyed by hole where the newer builds
+  hold an array. `readCard()` in course-pack adapts both. This is a real
+  dependency of the pipeline on the legacy directory, not just of its data.
+- **`check-pack` states which of two things it proved.** Byte-identity to the
+  page is the gate for the five newer courses. Veckefjärden's page omits `isSea`
+  where the new format writes `false`, so rather than wart the format for a page
+  scheduled for retirement, the gate falls back to DEEP EQUALITY after applying
+  exactly that one declared migration — and *says so in its output*. A check that
+  quietly weakens itself is worse than no check.
+- **The submersion probe found something real, and it was not the 14th.** The
+  island green is dry. Puttom's hole 16 is the finding: its slid back-tee point
+  lies 1.1 m inside a traced shoreline (well within that shoreline's own
+  uncertainty on a 2 m DEM) while its tee pad sits 14.7 m clear on dry ground.
+  So the gate probes greens at their centre — strictly, that is what the 14th
+  exists for — and tees at their PAD, the prepared ground a player stands on,
+  while still *reporting* the graze every run. Note that each build's own
+  `check3d` never tested tees against local rings at all: only greens.
+
+Per-course bespoke scenery now lives in `src/engine/scenery/<slug>.js`, loaded
+lazily by slug and handed the caller's vertex batch (`tri`/`quad`/`pole`), so a
+horizon of hand-drawn landmarks is still one draw call and a course without a
+module downloads nothing. Only Veckefjärden's are extracted; NVGK's chapel and
+boats still sit inline behind their guards, working — **moving working code for
+symmetry is how a refactor becomes a regression**. The cut boundary matters: the
+first attempt swept up the batch's mesh assembly, which belongs to the caller.
+
 ## Skyltar — the marker layer, on all six pages
 
 `geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures
