@@ -196,6 +196,28 @@ sand/gravel/dirt/rock getting distinct roughness and normal behaviour. Every
 tuning change re-gates against the goldens with the perceptual diff, so tuning
 cannot smuggle in a regression.
 
+**The parity debt is already measured — start here, not from scratch.** The
+atlas drives its shading from the terrain's shared `SHADE` table, but the
+overlays it replaced carried their OWN literals in `shadeFair`/`shadeGreen`/
+`shadeCollar`/`shadeSemi`/`shadeTee`, and they do not fully agree. Read against
+each other (overlay → atlas): green gloss **0.42 → 0.54** and strength
+0.85 → 0.9; collar strength 0.8 → 0.9; semi strength 0.45 → 0.5. Fairway and
+tee match exactly. Fix these in `makeStyleTexture`'s own per-class table, NOT by
+editing `SHADE` — that table also shades every terrain vertex, including the
+non-migrated ground and the whole mesh path, so changing it moves pixels far
+outside the atlas.
+
+**The one real loss is macro colour variation.** `shadeFair` tinted by
+`C.fair × (0.97 + fbm(x·0.06, z·0.06) × 0.06)` and `shadeSemi` by
+`C.semi × (0.94 + fbm(x·0.05, z·0.05) × 0.12)` — 16–20 m wavelength breakup that
+the flat per-class style texel does not reproduce. `makeGround`'s existing
+`dtM` tap (`wp × 0.0085`, ~118 m) is far broader and does not stand in for it.
+This is the "atlas fairways read flatter" gap; it is a fidelity regression
+against the mesh path rather than a taste question, so it belongs to whichever
+phase restores it, and it needs a TSL noise whose wavelength matches — not a
+guess. Do it against approved goldens, since it is exactly the kind of change
+that can hide a regression.
+
 ## Risks, named
 
 | risk | mitigation | measured by |
