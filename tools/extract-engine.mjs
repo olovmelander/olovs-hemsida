@@ -1,17 +1,13 @@
-/* Derive the app's page and engine from a course page. Phase 1 discipline:
-   apps/golf/index.html and apps/golf/src/main.js are GENERATED from the course
-   page, not hand-copied, so while the six pages remain the production build the
-   app can be regenerated after any hotfix with one command and cannot drift.
+/* Extract a course page into app-shaped source -- REFERENCE ONLY since phase 2.
+
+   Phase 1 generated apps/golf/{index.html,src/main.js} with this tool. From
+   phase 2 the app is hand-maintained source (the determinism switch and the
+   module split live there and would be clobbered), so this tool now writes to
+   tools/reference/ instead: when one of the six pages takes a hotfix, extract
+   it here and diff against the app to see exactly what must be mirrored.
 
    usage: node tools/extract-engine.mjs [page.html] [--det]
-
-     - the page's <head> (styles, fonts) and <body> markup become index.html,
-       with the CDN links replaced: fonts point at the self-hosted copies in
-       /fonts/ (run tools/vendor-fonts.mjs once), three.js resolves through the
-       bundler so the importmap and the unpkg preloads go away entirely;
-     - the module body becomes src/main.js with the same pack-fetch substitution
-       make-pack-page.mjs proved pixel-identical in phase 0;
-     - --det pins the two clocks, for parity builds only, never for production. */
+          (writes tools/reference/{index.html,main.js})                        */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -21,7 +17,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2).filter(a => a !== '--det');
 const DET = process.argv.includes('--det');
 const pageFile = path.join(ROOT, args[0] || 'angso3d.html');
-const APP = path.join(ROOT, 'apps/golf');
+const OUT = path.join(ROOT, 'tools/reference');
 
 const src = fs.readFileSync(pageFile, 'utf8');
 const cut = (s, a, b) => {
@@ -78,8 +74,8 @@ const HF1 = PACK.H.HF1;
   }
   body = p.src;
 }
-fs.mkdirSync(path.join(APP, 'src'), { recursive: true });
-fs.writeFileSync(path.join(APP, 'src/main.js'), body);
+fs.mkdirSync(OUT, { recursive: true });
+fs.writeFileSync(path.join(OUT, 'main.js'), body);
 
 /* ---- the document -> index.html -------------------------------------------- */
 let doc = mod.before + '<script type="module" src="/src/main.js"><' + '/script>' + mod.after;
@@ -97,6 +93,6 @@ let doc = mod.before + '<script type="module" src="/src/main.js"><' + '/script>'
       `<link href="/fonts/fonts.css" rel="stylesheet">`);
   doc = p.src;
 }
-fs.writeFileSync(path.join(APP, 'index.html'), doc);
+fs.writeFileSync(path.join(OUT, 'index.html'), doc);
 
-console.log(`apps/golf/index.html + src/main.js from ${path.basename(pageFile)}${DET ? '  [determinism build]' : ''}`);
+console.log(`tools/reference/{index.html,main.js} from ${path.basename(pageFile)}${DET ? '  [determinism build]' : ''}`);
