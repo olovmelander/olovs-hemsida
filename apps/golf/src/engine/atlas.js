@@ -49,14 +49,18 @@ function rasterBounds(bb, bounds, pad = 0) {
   };
 }
 
+/* Mow bands are sin(route distance x k): a 4% chamfer direction error is a
+   visible wobble in every stripe, so the distance is EXACT out to the radius
+   bands can reach (semi's outer falloff ends at 38 m) and the chamfer only
+   serves the far field, where dLine gates broad colour ramps. ~30 ms. */
+const EXACT_ROUTE_RADIUS = 42;
+
 function buildRouteField(bounds, holes) {
   const { x0, z0, w, h, res } = bounds;
   const distance = new Float32Array(w * h);
   const owner = new Uint8Array(w * h);
   distance.fill(INF);
 
-  /* Seed every texel touched by a centreline segment. Each feature is visited once;
-     this replaces the old pixel x all-holes x all-segments projection loop. */
   for (const hole of holes || []) {
     const line = hole.line || [];
     for (let s = 0; s + 1 < line.length; s++) {
@@ -65,13 +69,13 @@ function buildRouteField(bounds, holes) {
         x0: Math.min(a[0], b[0]), x1: Math.max(a[0], b[0]),
         z0: Math.min(a[1], b[1]), z1: Math.max(a[1], b[1]),
       };
-      const r = rasterBounds(bb, bounds, res * 1.1);
+      const r = rasterBounds(bb, bounds, EXACT_ROUTE_RADIUS);
       for (let j = r.j0; j <= r.j1; j++) {
         const wz = z0 + (j + 0.5) * res;
         for (let i = r.i0; i <= r.i1; i++) {
           const wx = x0 + (i + 0.5) * res;
           const d = pointSegmentDistance(wx, wz, a, b);
-          if (d > res * 0.8) continue;
+          if (d > EXACT_ROUTE_RADIUS) continue;
           const k = j * w + i;
           if (d < distance[k]) { distance[k] = d; owner[k] = hole.n || 0; }
         }

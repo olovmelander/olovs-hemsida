@@ -1,5 +1,16 @@
 # The ground plan — one terrain, classified per fragment
 
+> **Status 2026-08-29:** G1–G6 are LIVE and atlas is the app's default ground
+> path (`?ground=mesh` is the escape hatch); all six courses pass check-app
+> through it, on both backends. Executed faster than the phase ladder planned —
+> the overlay skip landed in one sweep — so the remaining discipline debt is
+> G0/G4's per-course HUMAN approval of the golden matrix (`tools/goldens.mjs`
+> captures it, gitignored). G7 (delete the mesh path) waits on that approval;
+> G8 (appearance tuning) after. Field notes from the bring-up — the WebGPU
+> 8-vertex-buffer limit, coordinates-not-phases in filtered rasters, sand over
+> green, the SDF replaying the vertex ramps — live in CLAUDE.md under
+> "The ground atlas — live, and what it cost to light up".
+
 Fairways, greens, tees, sand, paths and parking currently render as overlay
 meshes laid centimetres above the terrain, held apart by five polygonOffset
 tiers, renderOrder 1–8, `meshH` conservative 9-tap sampling and a 6 cm rim
