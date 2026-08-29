@@ -221,19 +221,38 @@ body.tour::before{top:0}body.tour::after{bottom:0}
   var t = setTimeout(function () {
     say('tar ovanligt länge — sidan hämtar ~1,5 MB grafik första gången; kontrollera anslutningen', true);
   }, 12000);
+  /* Banvy is installable, so being offline is a normal state rather than an
+     error state -- a course already opened runs with no network at all. What a
+     person cannot do offline is open a course they have never opened, because
+     its 400 KB pack was never fetched to be cached. That is a sentence, not a
+     TypeError: "Failed to fetch" tells someone standing on a tee with no signal
+     nothing they can act on. */
+  /* The loader already phrases its own failures in words a person can act on
+     (see src/loader/pack.js), because it is the only thing that knows which
+     fetch died. Anything already written for a reader is shown as-is; only the
+     genuinely internal errors get the "fel vid start" prefix. Do NOT reach for
+     navigator.onLine here -- it says whether a network interface exists, not
+     whether anything answers, and it stays true on a dead cell. */
+  var explain = function (msg) {
+    msg = String(msg || 'okänt fel')
+      .replace(/^Uncaught(?: \(in promise\))?(?: [A-Za-z]*Error)?:\s*/, '');
+    /* a message the loader wrote for a reader starts lower-case and has spaces
+       in it; anything else is an internal fault and says so */
+    return /^[a-zåäö]/.test(msg) && msg.indexOf(' ') > 0 ? msg : 'fel vid start: ' + msg;
+  };
   window.addEventListener('error', function (e) {
     if (e && e.target && e.target.tagName === 'SCRIPT') {
       clearTimeout(t);
       say('kunde inte hämta moduler — kontrollera anslutningen och ladda om');
     } else if (e && e.message) {
       clearTimeout(t);
-      say('fel vid start: ' + e.message);
+      say(explain(e.message));
     }
   }, true);
   window.addEventListener('unhandledrejection', function (e) {
     clearTimeout(t);
     var r = e && e.reason;
-    say('fel vid start: ' + (r && r.message ? r.message : r));
+    say(explain(r && r.message ? r.message : String(r)));
   });
 }());
 </script>

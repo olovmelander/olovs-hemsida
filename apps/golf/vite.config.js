@@ -1,0 +1,111 @@
+/* Banvy's build.
+   Two things live here: the PWA, and nothing else -- the app has no aliases, no
+   polyfills and no special resolution, because three.js is a normal dependency
+   and the engine is plain modules.
+
+   WHY A SERVICE WORKER AT ALL. A course is a 400 KB pack plus a 1.4 MB engine,
+   and the brief names Android and iOS before desktop. Installed, Banvy opens a
+   course it has already seen with no network at all -- which is the difference
+   between "a website about golf courses" and something you can open standing on
+   the 1st tee with one bar of signal.
+
+   THE CACHING RULES MIRROR public/_headers ON PURPOSE. The CDN and the service
+   worker are two caches in front of the same files; if they disagree about which
+   ones are immutable, the bug only appears for people who installed the app,
+   which is the worst possible place to find it. Read the two together. */
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
+
+export default defineConfig({
+  plugins: [
+    VitePWA({
+      /* The whole view lives in the URL -- bana, hal, vy, ljus, tee, skylt, ren,
+         q, gl -- so a reload restores exactly the view that was on screen. That
+         is what makes autoUpdate safe here: the update costs a scene rebuild,
+         not your place in the round. */
+      registerType: 'autoUpdate',
+      injectRegister: 'auto',
+
+      /* The tab icon is the SVG; these are the installed-app icons, drawn by
+         tools/make-icons.py from the same three shapes so they cannot drift. */
+      includeAssets: ['favicon.svg'],
+      manifest: {
+        name: 'Banvy — svenska golfbanor i 3D',
+        short_name: 'Banvy',
+        description: 'Sex svenska golfbanor i 3D, mätta mot klubbarnas egna kort och byggda ur verklig terräng.',
+        lang: 'sv',
+        theme_color: '#0b1a13',
+        background_color: '#0b1a13',
+        display: 'standalone',
+        orientation: 'any',        /* a course reads well in both; do not force one */
+        start_url: '/',
+        scope: '/',
+        icons: [
+          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: '/icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
+      },
+
+      workbox: {
+        /* Precache the SHELL only: markup, engine, styles, fonts, icons. The
+           packs are deliberately absent -- six of them is 2.4 MB, and nobody
+           should pay for five courses they did not open. They arrive below, on
+           demand, and then stay. */
+        globPatterns: ['**/*.{js,css,html,svg}', 'icons/*.png', 'fonts/**'],
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,   /* three.tsl is ~1 MB */
+
+        /* No path routes exist, so the only navigations are / and the six legacy
+           page names; those must still open the app offline. Everything under
+           /courses/ is data, never a navigation -- the denylist is what stops a
+           missing pack being answered with the HTML shell, exactly as the absent
+           /* rule in _redirects does on the host. */
+        navigateFallback: 'index.html',
+        navigateFallbackDenylist: [/^\/courses\//],
+
+        runtimeCaching: [
+          {
+            /* The manifest is the one file that must be current: it says which
+               pack bytes are correct. Network first, cache only as the offline
+               fallback. Matches Cache-Control: no-cache in _headers. */
+            urlPattern: ({ url }) => url.pathname === '/courses/index.json',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'banvy-manifest',
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+          {
+            /* Packs are content-addressed -- loadCourse puts the sha256 prefix in
+               the query -- so a cached response can never be the wrong bytes for
+               its URL, and cache-first is both safe and the whole point. This is
+               the rule that makes a course open offline. */
+            urlPattern: ({ url }) => /^\/courses\/[^/]+\/pack\.bin$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-packs',
+              expiration: { maxEntries: 12, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            /* Posters are decoration and are NOT content-addressed, so they get
+               the same treatment as in _headers: serve what we have, refresh
+               behind. A re-render reaches people without a cache-busting trick. */
+            urlPattern: ({ url }) => /^\/courses\/[^/]+\/hero-1\.webp$/.test(url.pathname),
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'banvy-posters',
+              expiration: { maxEntries: 12, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+        ],
+        /* OpenStreetMap's tiles are deliberately NOT cached here. They are
+           someone else's donated infrastructure and their usage policy is not
+           ours to stretch by shipping a service worker that hoards them; the map
+           needs a provider of its own before this is public (see map.js). */
+      },
+    }),
+  ],
+});
