@@ -654,21 +654,36 @@ embedded page across 3 holes × 2 cams × 2 presets — mean difference 0.0000/2
 worst channel delta 0, all 12 pairs. The committed pack lives at
 `apps/golf/public/courses/angso/pack.bin`.
 
-**Phase 1 is done too**: `apps/golf/` is a Vite 8 app (pnpm workspace at the repo
-root) whose `index.html` and `src/main.js` are **GENERATED** from angso3d.html by
-`tools/extract-engine.mjs` — never hand-edited — so while the six pages remain the
-production build the app regenerates after any hotfix and cannot drift. three.js
-0.185.1 resolves through the bundler (the importmap and unpkg preloads are gone)
+**Phase 1**: `apps/golf/` is a Vite 8 app (pnpm workspace at the repo root);
+three.js 0.185.1 resolves through the bundler (importmap and unpkg preloads gone)
 and both faces are self-hosted (`tools/vendor-fonts.mjs` →
 `apps/golf/public/fonts/`): the built app makes **zero third-party requests**.
-The built `dist/`, served by `tools/serve.mjs`, renders pixel-identical to the
+The built `dist/`, served by `tools/serve.mjs`, rendered pixel-identical to the
 original page on the same 12-view matrix — measured with the app's `fonts.css`
 emptied, because the harness has always stubbed Google Fonts to the fallback face
-and the app now ships real Outfit: **a parity gate must compare like with like,
-and the first FAIL you see may be the new build being MORE faithful, not less**
-(all 12 "failures" were HUD glyphs; the scene was identical). Lint:
-`tools/lint-app.mjs` runs the same no-undef gate over the app sources. Build:
-`node tools/extract-engine.mjs && cd apps/golf && npx vite build` (~1 s).
+and the app ships real Outfit: **a parity gate must compare like with like, and
+the first FAIL you see may be the new build being MORE faithful, not less** (all
+12 "failures" were HUD glyphs; the scene was identical). Lint:
+`tools/lint-app.mjs` runs the pages' no-undef gate over real files. Build:
+`cd apps/golf && npx vite build` (~1 s).
+
+**Phase 2 (in progress)**: the app is **hand-maintained source** now.
+`tools/extract-engine.mjs` writes to `tools/reference/` — extract a hotfixed page
+there and diff to see what must be mirrored; it must never again write into
+`src/`. The pages are **hotfix-only** from here: new features land in the app.
+Determinism became `?det=1` at runtime (the TSL `time` pin + the flag-cloth
+clock), so parity stays testable with no special build. Seams split so far, each
+verbatim with zero logic edits, each verified pixel-identical after the move:
+`src/engine/geom.js` (the seventeen pure helpers, TAU→fbm — geobuild's formulas,
+now importable), `src/engine/codec.js` (inflate + decodeHF), `src/loader/pack.js`
+(the fmt:1 fetch). The palette section is NOT cleanly splittable — s2l/L/C/SHADE
+are pure but sit in the same section as `classify`/`groundAt`, which close over
+the spatial index; cutting inside a section needs more care than cutting at one.
+Unit tests: `pnpm test` — vitest over geobuild/lib.mjs invariants (the
+left/right reflection, alongLine's extrapolation band, the codec round-trip and
+its idempotence) and the pack byte layout. Packs exist for all five newer
+courses under `apps/golf/public/courses/<slug>/`, each gated by check-pack
+(byte-identical to its page) and by the phase-0 parity method.
 
 ## Skyltar — the marker layer, on all six pages
 

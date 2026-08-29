@@ -1,7 +1,10 @@
 /* Emit a course pack from a build directory's committed JSON.
 
-   usage: node packages/course-pack/emit-pack.mjs <buildDir> <outDir>
+   usage: node packages/course-pack/emit-pack.mjs <buildDir> <outDir> [slug]
      e.g. node packages/course-pack/emit-pack.mjs angsobuild apps/golf/public/courses/angso
+
+   The header slug defaults to the build dir name minus "build"; pass it
+   explicitly where the two differ (nvgkbuild's course is "norrfallsviken").
 
    This is embed.mjs minus the base64 and the HTML splicing. The vec shape below
    is copied VERBATIM from the builds' embed.mjs -- the five newer builds carry
@@ -19,8 +22,8 @@ import { fileURLToPath } from 'node:url';
 import { writePack, sha256 } from './lib.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const [buildDir, outDir] = process.argv.slice(2);
-if (!buildDir || !outDir) { console.error('usage: emit-pack.mjs <buildDir> <outDir>'); process.exit(2); }
+const [buildDir, outDir, slugArg] = process.argv.slice(2);
+if (!buildDir || !outDir) { console.error('usage: emit-pack.mjs <buildDir> <outDir> [slug]'); process.exit(2); }
 if (buildDir.replace(/\/$/, '') === 'geobuild')
   throw new Error('veckefjarden uses the older model schema; its pack waits for the merge phase');
 
@@ -57,7 +60,7 @@ const vec = {
 const raw = obj => zlib.deflateRawSync(Buffer.from(JSON.stringify(obj), 'utf8'), { level: 9 });
 const b64ToRaw = s => Buffer.from(s, 'base64');
 
-const slug = path.basename(buildDir.replace(/\/$/, '')).replace(/build$/, '');
+const slug = slugArg || path.basename(buildDir.replace(/\/$/, '')).replace(/build$/, '');
 const pack = writePack({
   slug,
   geo: { origin: model.origin, mPerLon: model.mPerLon, seaLevel: model.seaLevel, frame: model.frame },
