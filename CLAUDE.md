@@ -654,6 +654,22 @@ embedded page across 3 holes × 2 cams × 2 presets — mean difference 0.0000/2
 worst channel delta 0, all 12 pairs. The committed pack lives at
 `apps/golf/public/courses/angso/pack.bin`.
 
+**Phase 1 is done too**: `apps/golf/` is a Vite 8 app (pnpm workspace at the repo
+root) whose `index.html` and `src/main.js` are **GENERATED** from angso3d.html by
+`tools/extract-engine.mjs` — never hand-edited — so while the six pages remain the
+production build the app regenerates after any hotfix and cannot drift. three.js
+0.185.1 resolves through the bundler (the importmap and unpkg preloads are gone)
+and both faces are self-hosted (`tools/vendor-fonts.mjs` →
+`apps/golf/public/fonts/`): the built app makes **zero third-party requests**.
+The built `dist/`, served by `tools/serve.mjs`, renders pixel-identical to the
+original page on the same 12-view matrix — measured with the app's `fonts.css`
+emptied, because the harness has always stubbed Google Fonts to the fallback face
+and the app now ships real Outfit: **a parity gate must compare like with like,
+and the first FAIL you see may be the new build being MORE faithful, not less**
+(all 12 "failures" were HUD glyphs; the scene was identical). Lint:
+`tools/lint-app.mjs` runs the same no-undef gate over the app sources. Build:
+`node tools/extract-engine.mjs && cd apps/golf && npx vite build` (~1 s).
+
 ## Skyltar — the marker layer, on all six pages
 
 `geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures
