@@ -258,21 +258,21 @@ for (const h of HOLES) {
    is walked by terrainH for every terrain sample, so making the whole fjärd
    dense would be paid for on ground nobody ever sees. Nothing finer than the
    4 m terrain grid is worth resolving, which is why the split is 3 m. */
-function smoothShore(ring, near) {
-  if (!ring || ring.length < 8) return ring;
+function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
+  if (!ring || ring.length < minPts) return ring;
   const dense = [];
   for (let i = 0; i < ring.length; i++) {
     const a = ring[i], b = ring[(i + 1) % ring.length];
     dense.push(a);
     if (!near(a) && !near(b)) continue;
-    const n = Math.min(24, Math.floor(Math.hypot(b[0] - a[0], b[1] - a[1]) / 3));
+    const n = Math.min(24, Math.floor(Math.hypot(b[0] - a[0], b[1] - a[1]) / step));
     for (let k = 1; k < n; k++)
       dense.push([a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n]);
   }
-  /* three light averaging passes: corner-cutting without the point doubling
-     chaikin would add, and it leaves the far shoreline exactly as traced */
+  /* light averaging passes: corner-cutting without the point doubling chaikin
+     would add, and it leaves anything outside `near` exactly as traced */
   let out = dense;
-  for (let pass = 0; pass < 3; pass++) {
+  for (let pass = 0; pass < passes; pass++) {
     const next = out.slice();
     for (let i = 0; i < out.length; i++) {
       if (!near(out[i])) continue;
@@ -303,6 +303,27 @@ function smoothShore(ring, near) {
      right where the eye is, just off the island 14th. Same treatment. */
   if (M.surround && M.surround.shallows)
     M.surround.shallows = M.surround.shallows.map(r => smoothShore(r, near));
+
+  /* THE MOWN EDGES, for the same reason and at a finer step.
+     Measured across the six courses, fairway rings run a 10-31 m MEDIAN segment
+     and reach 136 m, and a green -- about 20 m across -- carries a 4-7 m median,
+     which makes it a twelve-sided polygon. Those are the longest boundaries on a
+     hole and the most obviously straight.
+
+     The cost lands in different places and that is what makes this affordable:
+     fairway rings are rasterised into the atlas ONCE and are not walked
+     per-sample in atlas mode, so densifying them is nearly free. Green and tee
+     rings ARE walked per terrain sample (their pads, and the scatter apron), so
+     they get a coarser step and fewer passes -- enough to round a polygon, not
+     enough to multiply the ring. */
+  const always = () => true;
+  for (const h of HOLES) {
+    h.green.ring = smoothShore(h.green.ring, always, 2.0, 2, 6);
+    h.fairway.rings = h.fairway.rings.map(r => smoothShore(r, always, 2.5, 3, 6));
+    for (const t of h.tees.pads) if (t.prov !== 'synth') t.ring = smoothShore(t.ring, always, 2.5, 1, 6);
+  }
+  M.scenery.fairways = M.scenery.fairways.map(r => smoothShore(r, always, 2.5, 3, 6));
+  M.scenery.greens = M.scenery.greens.map(r => smoothShore(r, always, 2.0, 2, 6));
 }
 
 for (const h of HOLES) {
@@ -758,20 +779,29 @@ function groundAt(x, z, h) {
     if (sd < 30 && (lvl === null || w.level > lvl)) lvl = w.level;
     if (sd < sdW) sdW = sd;
   }
-  if (lvl !== null && c.green < 0.4 && sdW < 7) {
+  /* an armoured shoreline is granite, not sand: pale stone barely darkened by
+     the wet, wearing the path surface's harder, tighter specular */
+  const rip = !!ARM && lvl !== null && Math.hypot(x - ARM.c[0], z - ARM.c[1]) < ARM.paint;
+  /* THE BANK UNDER THE COLLAR IS STONE, NOT TURF, and it has to be painted that
+     way up the whole face the rock covers. Gated at 0.6 m above the level it
+     stopped a hand's breadth above the water, so the render showed a band of
+     boulders, then a strip of GREEN GRASS, then the water -- rock cannot sit on
+     a lawn and reach the lake. The armoured shore therefore paints to 2.2 m up
+     the bank and 9 m out; everywhere else keeps the tight sand band it had, and
+     a course with no `armour` never enters this at all. */
+  const bandTop = rip ? 0.95 : 0.6, bandOut = rip ? 6 : 7;
+  if (lvl !== null && c.green < 0.4 && sdW < bandOut) {
     const above = h - lvl;
-    if (above < 0.6) {
+    if (above < bandTop) {
       /* the band's edge wanders with noise: a waterline drawn at one exact
          distance renders as a hard stair-step on the 4 m grid, and a real
          shore is never a drawn line */
       const wn = fbm(x * 0.16, z * 0.16, 2) * 1.8;
-      const wet = (1 - smooth(-0.15, 0.6, above)) * (1 - smooth(1.5 + wn, 4.8 + wn, sdW));
-      /* an armoured shoreline is granite, not sand: pale stone barely darkened by
-         the wet, wearing the path surface's harder, tighter specular */
-      const rip = !!ARM && Math.hypot(x - ARM.c[0], z - ARM.c[1]) < ARM.paint;
+      const wet = (1 - smooth(-0.15, bandTop, above))
+                * (1 - smooth((rip ? 3.5 : 1.5) + wn, (rip ? 8.5 : 4.8) + wn, sdW));
       const sc = rip ? C.riprap : C.shore;
-      col = col.map((v, i) => lerp(v, sc[i] * (1 - wet * (rip ? 0.15 : 0.38)), wet * 0.85));
-      if (wet > 0.6) sid = rip ? S_PATH : S_SHORE;
+      col = col.map((v, i) => lerp(v, sc[i] * (1 - wet * (rip ? 0.15 : 0.38)), wet * (rip ? 0.95 : 0.85)));
+      if (wet > 0.45) sid = rip ? S_PATH : S_SHORE;
     }
   }
   const sh = SHADE[sid];
@@ -1218,6 +1248,53 @@ function renderedGroundH(x, z) {
     ?? terrainH(x, z);
 }
 
+/* WHERE THE GROUND NEEDS TO BE FINER THAN 4 METRES.
+
+   The 4 m grid is what makes everything look faceted, and it is not because the
+   data is coarse -- the rings are smooth now -- but because the SURFACE only has
+   a vertex every four metres. Measured consequences: a bunker draws 0.56 m of an
+   intended 1.08 m because there is often no vertex deep enough inside it to hold
+   the dish, and a shoreline steps in 4 m facets however smooth its ring is.
+
+   Refining everything is the wrong trade: a global 2 m CORE is four times the
+   vertices for ground that is mostly a flat fairway with nothing to resolve. The
+   detail lives on FEATURE EDGES, which are a few per cent of the area, so the
+   mask is stamped from the feature perimeters themselves -- cost proportional to
+   how much edge a course has, not to how big it is. Testing every cell against
+   every ring instead would have walked the thousand-point lake ring 147,000
+   times. */
+function buildDetailMask(R) {
+  const nx = Math.round((R.x1 - R.x0) / R.dx) + 1, nz = Math.round((R.z1 - R.z0) / R.dx) + 1;
+  const mask = new Uint8Array(nx * nz);
+  const stamp = (x, z, rad) => {
+    const i0 = Math.max(0, Math.floor((x - rad - R.x0) / R.dx));
+    const i1 = Math.min(nx - 2, Math.ceil((x + rad - R.x0) / R.dx));
+    const j0 = Math.max(0, Math.floor((z - rad - R.z0) / R.dx));
+    const j1 = Math.min(nz - 2, Math.ceil((z + rad - R.z0) / R.dx));
+    for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) mask[j * nx + i] = 1;
+  };
+  const walk = (ring, rad, step) => {
+    if (!ring || ring.length < 2) return;
+    for (let i = 0; i < ring.length; i++) {
+      const a = ring[i], b = ring[(i + 1) % ring.length];
+      const L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      const n = Math.max(1, Math.ceil(L / step));
+      for (let k = 0; k < n; k++)
+        stamp(a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n, rad);
+    }
+  };
+  /* the waterline gets the widest band: it is a silhouette against the sky or
+     the water, which is the least forgiving thing a facet can sit on */
+  for (const w of M.water) if (!w.stream && w.ring) walk(w.ring, 7, 3);
+  for (const h of HOLES) {
+    for (const b of h.bunkers) walk(b.ring, 5, 3);      /* the dish and its lip */
+    walk(h.green.ring, 5, 3);                            /* the pad's shoulder */
+  }
+  let n = 0;
+  for (let k = 0; k < mask.length; k++) n += mask[k];
+  return { mask, nx, nz, cells: n, total: (nx - 1) * (nz - 1) };
+}
+
 async function buildTerrain(R, hole, withDetail) {
   const nx = Math.round((R.x1 - R.x0) / R.dx) + 1, nz = Math.round((R.z1 - R.z0) / R.dx) + 1;
   const atlasOwnsSurfaceEdges = groundMode === 'atlas' && groundAtlas && R === CORE;
@@ -1286,9 +1363,71 @@ async function buildTerrain(R, hole, withDetail) {
     }
     }
   }
+  /* ---- the fine pass, on feature edges only ---------------------------------
+     A refined cell is replaced by a K x K sub-grid. The seam is the whole
+     problem: a fine edge against a COARSE neighbour must lie exactly on that
+     neighbour's straight edge, or a crack of sky opens along it -- the same
+     lesson the LoD skirts taught. So an edge vertex takes the interpolated
+     height when the neighbour is coarse and the true height when it is refined,
+     and both sides of any pair apply the same rule, so they always agree.
+     Vertices are shared through `fineAt`: duplicating them would give the two
+     cells different averaged normals and draw a lit seam down every join. */
+  const fine = (withDetail && R === CORE && DETAIL_MASK) ? DETAIL_MASK.mask : null;
+  const K = 4;
+  const fineAt = new Map();
+  const isFine = (i, j) => !!(fine && i >= 0 && j >= 0 && i < nx - 1 && j < nz - 1 && fine[j * nx + i]);
+  const emitFine = (x, z, h) => {
+    const vi = pos.length / 3;
+    pos.push(x, h, z);
+    const g = groundAt(x, z, h);
+    const ao = horizonAO(x, z, h);
+    col.push(g.col[0] * ao, g.col[1] * ao, g.col[2] * ao);
+    aoArr.push(ao);
+    det.push(g.det); bmp.push(g.bmp); gls.push(g.gls); str.push(g.str);
+    mow.push(g.mow || 0, g.mowK || 0);
+    return vi;
+  };
+  const vertOf = (i, j, u, v) => {
+    const key = (j * K + v) * (nx * K + 1) + (i * K + u);
+    const had = fineAt.get(key);
+    if (had !== undefined) return had;
+    /* a cell corner is a coarse vertex; reuse it so the two meshes are one */
+    if ((u === 0 || u === K) && (v === 0 || v === K)) {
+      const ci = i + (u === K ? 1 : 0), cj = j + (v === K ? 1 : 0);
+      const idx0 = map[cj * nx + ci];
+      if (idx0 >= 0) { fineAt.set(key, idx0); return idx0; }
+    }
+    const x = R.x0 + (i + u / K) * R.dx, z = R.z0 + (j + v / K) * R.dx;
+    const H = (ci, cj) => heights[cj * nx + ci];
+    let h;
+    const onLeft = u === 0, onRight = u === K, onBottom = v === 0, onTop = v === K;
+    const stitch = (onLeft && !isFine(i - 1, j)) || (onRight && !isFine(i + 1, j))
+                || (onBottom && !isFine(i, j - 1)) || (onTop && !isFine(i, j + 1));
+    if (stitch && (onLeft || onRight)) {
+      const ci = i + (onRight ? 1 : 0);
+      h = H(ci, j) + (H(ci, j + 1) - H(ci, j)) * (v / K);
+    } else if (stitch) {
+      const cj = j + (onTop ? 1 : 0);
+      h = H(i, cj) + (H(i + 1, cj) - H(i, cj)) * (u / K);
+    } else {
+      h = terrainH(x, z);
+    }
+    const vi = emitFine(x, z, h);
+    fineAt.set(key, vi);
+    return vi;
+  };
+
   for (let j = 0; j < nz - 1; j++) for (let i = 0; i < nx - 1; i++) {
     const a = map[j * nx + i], b = map[j * nx + i + 1], c = map[(j + 1) * nx + i], d = map[(j + 1) * nx + i + 1];
     if (a < 0 || b < 0 || c < 0 || d < 0) continue;
+    if (isFine(i, j)) {
+      for (let v = 0; v < K; v++) for (let u = 0; u < K; u++) {
+        const p00 = vertOf(i, j, u, v), p10 = vertOf(i, j, u + 1, v);
+        const p01 = vertOf(i, j, u, v + 1), p11 = vertOf(i, j, u + 1, v + 1);
+        idx.push(p00, p01, p10, p10, p01, p11);
+      }
+      continue;
+    }
     idx.push(a, c, b, b, c, d);
   }
   const g = new THREE.BufferGeometry();
@@ -1436,6 +1575,7 @@ const nudged = (tier, mk = makeTurf) => {
   m.polygonOffsetUnits = -tier * 2;
   return m;
 };
+const DETAIL_MASK = buildDetailMask(CORE);
 const coreMesh = new THREE.Mesh(await buildTerrain(CORE, null, true), turfMat);
 coreMesh.userData.tag = 'core';
 coreMesh.receiveShadow = true; coreMesh.castShadow = true;
@@ -2232,24 +2372,53 @@ if (ARM) {
       const segL = Math.hypot(bx - ax, bz - az);
       const ux = (bx - ax) / (segL || 1), uz = (bz - az) / (segL || 1);
       const nx = -uz, nz = ux;                     /* across the shore */
-      const n = Math.max(1, Math.ceil(segL / 0.55));
+      const n = Math.max(1, Math.ceil(segL / 0.40));
       for (let k = 0; k < n; k++) {
         const t = k / n;
+        /* FIND THE BANK, THEN LAY THE COLLAR ON IT.
+           Two earlier rules both failed, and for opposite reasons. Offsets from
+           the traced ring drift, because the shore carve puts the real waterline
+           metres away from the ring — so the band rode up the turf on one side
+           and out into the lake on the other. A pure height window fails too,
+           and worse: the carve holds the bed within a metre of the water level
+           for fifteen metres out, so "near the water level" is a wide flat
+           shelf, and the stones marched off the island onto it.
+           What the collar actually follows is the BANK — the place the ground
+           drops through the water level. So march outward along the shore normal
+           until it does, and lay a narrow band across that crossing. */
+        const px = ax + (bx - ax) * t, pz = az + (bz - az) * t;
+        let cross = null;
+        for (let o = -5; o <= 9; o += 0.4) {
+          if (terrainH(px + nx * o, pz + nz * o) <= lake.level) { cross = o; break; }
+        }
+        if (cross === null) continue;
         for (let s2 = 0; s2 < 5; s2++) {
-          /* -1.6 m inland to +2.8 m into the water: the apron sits mostly below
-             the turf edge, which is what makes it read as dumped rather than set */
-          const off = -1.6 + s2 * 1.1 + (hash2(i * 31 + k, s2 * 7 + 1) - 0.5) * 0.9;
-          const jx = ax + (bx - ax) * t + nx * off + (hash2(i * 13 + k, s2 * 5 + 3) - 0.5) * 0.7;
-          const jz = az + (bz - az) * t + nz * off + (hash2(i * 17 + k, s2 * 13 + 5) - 0.5) * 0.7;
+          const off = cross - 1.7 + s2 * 0.72 + (hash2(i * 31 + k, s2 * 7 + 1) - 0.5) * 0.5;
+          const jx = px + nx * off + (hash2(i * 13 + k, s2 * 5 + 3) - 0.5) * 0.5;
+          const jz = pz + nz * off + (hash2(i * 17 + k, s2 * 13 + 5) - 0.5) * 0.5;
           const hh = terrainH(jx, jz);
-          if (hh < lake.level - 1.5 || hh > lake.level + 1.9) continue;
-          pts.push(jx, Math.max(hh, lake.level - 0.45) - 0.08, jz,
-                   0.42 + hash2(i + k, s2 + 21) * 0.5, hash2(i + k, s2 + 47) * TAU);
+          if (hh < lake.level - 0.6 || hh > lake.level + 1.3) continue;
+          const sz = 0.38 + hash2(i + k, s2 + 21) * 0.44;
+          pts.push(jx, hh - 0.08, jz, sz, hash2(i + k, s2 + 47) * TAU);
+          /* The waterline itself carries the most rock -- it is the face the
+             wash works on, and it is the band the eye reads. A second stone
+             wherever the bank is within a metre of the level packs that zone
+             without thickening the whole apron. */
+          if (Math.abs(hh - lake.level) < 1.0) {
+            const ex = jx + (hash2(i * 23 + k, s2 * 3 + 11) - 0.5) * 1.1;
+            const ez = jz + (hash2(i * 29 + k, s2 * 9 + 17) - 0.5) * 1.1;
+            const eh = terrainH(ex, ez);
+            if (eh > lake.level - 0.6 && eh < lake.level + 1.3)
+              pts.push(ex, eh - 0.08, ez, sz * 0.86, hash2(i + k, s2 + 71) * TAU);
+          }
         }
       }
     }
     const nR = pts.length / 5;
     if (nR) {
+      /* detail 0 on purpose: subdividing turned the riprap into smooth pebbles,
+         and dumped granite is angular. "Less polygonal" is about surfaces that
+         are curved in life -- a shoreline, a green -- not about rock. */
       const g = new THREE.DodecahedronGeometry(0.42, 0);
       g.scale(1, 0.72, 0.88);
       const im = new THREE.InstancedMesh(g, new THREE.MeshStandardNodeMaterial({
@@ -2283,7 +2452,7 @@ function spruceGeo() {
     const t = i / 6;
     const r = 3.6 * (1 - t * 0.82) + 0.5;
     const hh = 3.4 * (1 - t * 0.4);
-    const g = new THREE.ConeGeometry(r, hh, 7, 1, true);
+    const g = new THREE.ConeGeometry(r, hh, 11, 1, true);
     g.translate(0, 3.0 + t * 9.4, 0);
     parts.push(g);
   }
@@ -2338,7 +2507,7 @@ const SPECIES = (() => {
     const p = [];
     for (let i = 0; i < 7; i++) {
       const t = i / 6, r = 3.5 * (1 - t * 0.8) + 0.45, hh = 3.6 * (1 - t * 0.35);
-      const g = new THREE.ConeGeometry(r, hh, 8, 1);
+      const g = new THREE.ConeGeometry(r, hh, 12, 1);
       g.translate(0, 2.6 + t * 9.6, 0);
       p.push(g);
     }
@@ -2348,11 +2517,11 @@ const SPECIES = (() => {
     const p = [];
     for (let i = 0; i < 4; i++) {
       const t = i / 3, r = 4.2 - t * 1.4, hh = 2.8 - t * 0.5;
-      const g = new THREE.ConeGeometry(r, hh, 8, 1);
+      const g = new THREE.ConeGeometry(r, hh, 12, 1);
       g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
       p.push(g);
     }
-    const tuft = new THREE.IcosahedronGeometry(1.5, 0);
+    const tuft = new THREE.IcosahedronGeometry(1.5, 1);
     tuft.translate(0.4, 12.1, -0.2);
     p.push(tuft);
     return p;
@@ -2361,13 +2530,13 @@ const SPECIES = (() => {
     const p = [];
     for (let i = 0; i < 5; i++) {
       const a = i / 5 * TAU;
-      const g = new THREE.IcosahedronGeometry(2.3 - (i % 2) * 0.5, 0);
+      const g = new THREE.IcosahedronGeometry(2.3 - (i % 2) * 0.5, 1);
       g.translate(Math.cos(a) * 1.6, 7.2 + (i % 3) * 1.5, Math.sin(a) * 1.6);
       p.push(g);
     }
     return p;
   })()), 3, 0.22, 0.17);
-  const trunk = (r0, r1, h) => { const g = new THREE.CylinderGeometry(r0, r1, h, 6); g.translate(0, h / 2, 0); return g; };
+  const trunk = (r0, r1, h) => { const g = new THREE.CylinderGeometry(r0, r1, h, 9); g.translate(0, h / 2, 0); return g; };
   return [
     { crown: spruce, trunk: trunk(0.18, 0.42, 3.2), cc: 0x2c5230, tc: 0x3f3122, sc: [0.85, 1.5] },
     { crown: pine, trunk: trunk(0.22, 0.46, 9.0), cc: 0x3a6134, tc: 0x6b4326, sc: [0.72, 1.34] },
