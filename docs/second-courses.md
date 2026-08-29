@@ -212,3 +212,42 @@ numbered disc sits at the tee ground rather than the back marker and the card
 slide is what resolves it. Holes 7 and 8 are misread badly enough to redo from
 their own sheets, which show tee and green unambiguously and carry a compass rose
 per hole.
+
+## Mellanbanan is built and gated
+
+`?bana=upsala-mellanbanan` — par 35, five tees, a 1–9 hole strip. Verified
+through the app: **63 card values over 9 holes, 0 mismatches; 45/45 tee markers
+on tee grass; every green centre probe hits its green; 31 distance plates; no
+page errors.**
+
+Two things that cost time and are worth not repeating:
+
+- **`h.elev` is an object `{tee, green, rise}`**, not a number. Setting it to 0
+  threw on `h.elev.rise.toFixed` before boot finished, from `drawCard`.
+- **The heightfield is not plain little-endian pairs.** It is deflate-raw, then
+  two byte planes, then zigzag deltas against a Paeth-style predictor. Reading it
+  naively produced a perfectly flat course at 21 m — a wrong decode that does not
+  throw, which is the dangerous kind. `apps/golf/src/engine/codec.js` `decodeHF`
+  is the definition; invert that, do not re-derive it.
+
+## Johannesberg's nine — the blocker, precisely
+
+The club confirms it: a full-length Pay & Play nine by Donald Steel, one par 5,
+open year-round. Its ground is visible west and north-west of the manor with its
+own ponds. What does not exist anywhere reachable is a **routing**:
+
+- The club's own `vara-banor/banguide/` carries per-hole sheets `Bana-1` …
+  `Bana-18` — the eighteen only. Its "9 håls banan" section is prose with no map,
+  no scorecard and no hole-by-hole guide.
+- `banguider.se` has Upsala's three courses but no Johannesberg at all.
+- GolfTraxx does not list Johannesberg in its Swedish directory.
+- mScorecard has a page but returns 403.
+
+So the nine's card lengths are from an aggregator and **its stroke index should be
+treated as unverified** — at Mellanbanan the same class of source disagreed with
+the club on all nine holes while still passing every arithmetic check.
+
+What unblocks it: any per-hole guide for the nine, or a scan of the club's
+scorecard, or simply confirmation of which corridor is hole 1 and which way it
+plays. The registration method is built and proven — three ponds were enough at
+Upsala, and Johannesberg's nine has ponds of its own.
