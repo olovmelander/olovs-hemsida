@@ -297,13 +297,22 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 import * as THREE from 'three/webgpu';
 import {
   Fn, float, vec2, vec3, vec4, color, uniform, attribute, varying, texture, uv,
-  positionWorld, positionLocal, normalWorld, normalLocal, cameraPosition, time,
+  positionWorld, positionLocal, normalWorld, normalLocal, cameraPosition, time as __liveTime,
   mix, smoothstep, clamp, pow, max, min, abs, sin, cos, dot, normalize, fract,
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
   normalMap, bumpMap, transformedNormalView,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+/* Determinism, for the screenshot harness only. Two boots of an animated page
+   never render the same pixels -- the sky noise and the flag cloth move -- so a
+   parity or regression shot cannot tell a real change from the clock having
+   moved on. ?det=1 pins the clock; without it this is the live uniform and the
+   page is unchanged. The value 3.25 s is the one the app pins to, because the
+   whole point is that the two can be compared. */
+const DET = new URLSearchParams(location.search).get('det') === '1';
+const time = DET ? float(3.25) : __liveTime;
 
 /* ------------------------------------------------------------------ boot ui */
 const bootEl = document.getElementById('boot');
@@ -4547,7 +4556,7 @@ function frame() {
     }
   }
   /* flag cloth: a travelling wave pinned at the pole */
-  const t = now / 1000;
+  const t = DET ? 3.25 : now / 1000;
   for (const p of pins) {
     const g = p.cloth.geometry, pos = g.attributes.position;
     for (let i = 0; i < pos.count; i++) {

@@ -805,10 +805,57 @@ two different `shot.mjs` paths (`--seq` versus single `--hole/--cam`) differ by
 fix look like a regression (5.01) when like-for-like it was 3.31, and after the
 reeds 3.14, of which ~1.9 is that harness noise. Always shoot both sides the same way.
 
-Still outstanding: the app plants Norrfällsviken's chapel clearing in the vista
-scatter instead of Veckefjärden's two — Kyrkudden, so Själevads kyrka stays visible
-across the fjärd, and the works yard at Åsmasten's foot. That wants a
-`SCENERY.clearings` export and is the last known course-truth casualty of the merge.
+**The vista clearing, and the far ring behind it.** Chasing the last known merge
+casualty — the app punching Norrfällsviken's chapel clearing into Veckefjärden's
+horizon instead of its own two (Kyrkudden, so Själevads kyrka stays visible across
+the fjärd, and the works yard at Åsmasten's foot) — turned up two more things.
+
+First, that hardcoded coordinate was **latent in four other standalone pages**,
+the same way `const hut = [-359, 229]` was: puttom, angso, upsala and
+johannesberg all carried Norrfällsviken's chapel green. It is inert wherever the
+point falls inside the tree-cover raster's box, because the far scatter only runs
+outside it — but at **Upsala it falls outside, and fires**, biting a bald patch
+out of Håmö's far treeline. Measured on `stats.vista`: Upsala +11 cones at `q=lo`
+(so ~22 at full quality), Ängsö +2 where the grid jitter crosses the cover edge,
+Puttom and Johannesberg exactly 0. All six pages now agree with the app
+cone-for-cone. It is a `clearings` export; Norrfällsviken keeps its own in a
+module of its own, with a note saying plainly that it is currently inert there.
+
+Second, and much larger: **`FARR` is course truth and the merge flattened it.**
+Veckefjärden's far ring is `z0:-6000, z1:2520` — deliberately asymmetric, reaching
+6 km north to put Åsberget and the hills on the horizon the course looks at, and
+stopping 2.5 km south rather than spend a quarter of the ring on ground FogExp2
+has already taken. The app had Norrfällsviken's symmetric ±5400. That is 27% more
+ring: it accounted for **6868 of the 6903-cone gap** between app and page, next to
+about 35 for the clearings. It also moved the horizon geometry, since `FARR` bounds
+the vista terrain mesh as well. Restored as a `farRing` export; the vista
+heightfield reaches z −6592…6016, so both edges stand on real elevation either way
+and this is a framing choice rather than a data limit.
+
+### The pages got the app's `?det=1`, and only then could parity be measured
+
+Verifying the above ran straight into the harness. Pinning the app's clock while
+the page's ran live made parity look WORSE (0.062 → 0.138), which is how the gap
+was found: **`det=1` existed only in the app.** The page's sky noise and flag
+cloth run off a live clock, so a page differs from ITSELF, run to run, by
+0.068/255 and 0.71% of pixels — fourteen times the pixel gate. The gate was
+unmeasurable on exactly the views a golfer looks at, and every differing pixel sat
+above y=450: sky and horizon, never ground.
+
+All six pages now carry the same switch (three anchored sites each: the TSL `time`
+import renamed, the `DET` const after the import block, and the flag cloth's own
+JS clock). Absent `?det=1` nothing changes. With it:
+
+| comparison | mean | pixels >2 |
+|---|---|---|
+| page vs itself, unpinned | 0.0676/255 | 0.707% |
+| page vs itself, pinned | **0.0000/255** | **0.000%** |
+| page vs app, pinned | 0.0003/255 | 0.003% |
+
+Bit-identical against itself, and the app inside the gate with a 15× margin. The
+lesson is the sharper form of "measure like with like": **if the reference cannot
+reproduce itself, nothing measured against it means anything.** Build the pin into
+both sides before trusting any number.
 
 **The id collision worth remembering.** The chooser was first built as `#rail` —
 and the HUD's own control panel is `<div class="panel" id="rail">`. A fullscreen

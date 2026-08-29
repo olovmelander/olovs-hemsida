@@ -20,6 +20,26 @@ import { hash2 } from '../geom.js';
    far the waterline band is stone grey rather than bleached sand. */
 export const armour = { hole: 14, rise: 115, paint: 110, colour: 0xa8a49a };
 
+/* Ground beyond every record we have gets a ring of stand-in conifers, and these
+   are the two places in this basin where that ring must NOT close. Kyrkudden is
+   churchyard and village lawn, and the peninsula falls outside the OSM extract,
+   so without the hole the vista scatter buries Själevads kyrka -- the one
+   landmark the course looks across the fjärd at. The second is the cleared works
+   yard at Åsmasten's foot, which is gravel and guy anchors. `wobble` is how much
+   fbm ripples the edge so a clearing does not read as a stamped circle. */
+export const clearings = [
+  { c: [-3310, -928], r: 150, wobble: 70 },
+  { c: [-632, -2007], r: 40, wobble: 0 },
+];
+
+/* The far-vista ring is square everywhere else. Here it is pushed north: the
+   course sits in the south of its own frame and looks up the basin at Åsberget,
+   so the ring reaches 6 km that way to carry the hills, and stops 2520 m south
+   rather than spend a quarter of its geometry on ground that FogExp2 has already
+   taken. The vista heightfield covers z from -6592 to 6016, so both edges stand
+   on real elevation either way -- this is a framing choice, not a data limit. */
+export const farRing = { z0: -6000, z1: 2520 };
+
 export function build(ctx) {
   /* tri/quad push into the CALLER's vertex batch -- these landmarks are part of
      the far-scenery mesh, which is one draw call for the whole horizon, and
