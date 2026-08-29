@@ -1,82 +1,242 @@
-/* The course rail: Banvy's front door.
-
-   It is an OVERLAY over a live course rather than a screen instead of one. That
-   is a deliberate v1 choice and it buys two things: the engine's boot stays the
-   straight line it has always been (the re-entrant loadCourse belongs to the
-   persistent-renderer phase, not here), and the first thing a visitor sees is a
-   real course rendering behind the choice rather than a still page. Picking a
-   course navigates -- teardown by reload -- which is the honest v1 mechanism.
-
-   Each card is a poster: a build-time still of that course's signature hole,
-   its name, the one line that says what kind of golf it is, and the numbers a
-   golfer actually scans. The stills are rendered by the shot harness, so they
-   are pictures of the thing itself and cannot fall out of date with it.        */
+/* ===========================================================================
+   Banvy Course Hub & Main Menu
+   A showcase for Swedish golf courses in 3D with rich hero cards,
+   categories, instant search, and an interactive Sweden OpenStreetMap.
+   =========================================================================== */
 import '../styles/shell.css';
+import { createSwedenMap } from './map.js';
+import { ICONS } from './icons.js';
 
-/* One line per course, in the register the club would use about itself. These
-   are editorial, not derived -- a par count cannot say "seaside links in the
-   High Coast" -- and they live here rather than in the manifest because they
-   are about how the app SPEAKS, which is the shell's business. */
-const LINES = {
-  veckefjarden: 'Mästerskapsbanan vid fjärden, med en ö-green som banan är känd för.',
-  norrfallsviken: 'Skogsbana med linkskaraktär som ligger seaside, ytterst på Mjällomlandet.',
-  puttom: 'Skogs- och parkbana som slingrar mellan två sjöar utanför Örnsköldsvik.',
-  angso: 'Mälarnära bana på fastlandshalvön norr om Ängsön, med fem tee och tung bunkring.',
-  upsala: 'Parkbana på Håmö gårds marker väster om Uppsala, sex tee från 62 till 42.',
-  johannesberg: 'Slottsbana i Gottröra: vatten, ekar och ett avslutningshål vid klubbhuset.',
+const CATEGORIES = {
+  angso: { id: 'kust', label: 'Mälaren · Halvö', iconName: 'wave' },
+  norrfallsviken: { id: 'kust', label: 'Höga Kusten · Seaside', iconName: 'wave' },
+  puttom: { id: 'skog', label: 'Örnsköldsvik · Skog & Sjö', iconName: 'tree' },
+  upsala: { id: 'skog', label: 'Uppsala · Parkbana', iconName: 'tree' },
+  johannesberg: { id: 'slott', label: 'Gottröra · Slottsmiljö', iconName: 'castle' },
+  veckefjarden: { id: 'kust', label: 'Örnsköldsvik · Ö-green', iconName: 'wave' },
 };
 
-const TEE_WORD = n => `${n} tee`;
+const LINES = {
+  veckefjarden: 'Mästerskapsbanan vid fjärden, känd för sin ikoniska ö-green och utmanande vattenhinder.',
+  norrfallsviken: 'Dramatisk skogs- och linkskaraktär på Mjällomlandet med klippor direkt mot Bottenhavet.',
+  puttom: 'Naturskön skogs- och parkbana som slingrar sig elegant mellan två glittrande sjöar.',
+  angso: 'Mälarnära bana på halvön norr om Ängsön med fem tees, mäktiga ekar och strategisk bunkring.',
+  upsala: 'Klassisk svensk mästerskapsparkbana på historiska Håmö gårds böljande marker väster om Uppsala.',
+  johannesberg: 'Slottsbana i rofylld herrgårdsmiljö med dammar, månghundraåriga ekar och ståtligt klubbhus.',
+};
 
-export function buildRail({ courses, current, onPick }) {
+const TEE_WORD = n => `${n} tees`;
+
+export function buildRail({ courses, current, onPick, isInitialBoot = false }) {
   const el = document.createElement('div');
   el.id = 'chooser';
   el.setAttribute('role', 'dialog');
   el.setAttribute('aria-modal', 'true');
   el.setAttribute('aria-label', 'Välj bana');
 
-  const head = document.createElement('div');
-  head.className = 'chooser-head';
-  head.innerHTML = '<div class="wordmark">Ban<i>v</i>y</div>' +
-    '<p>Sex svenska banor, mätta mot klubbarnas egna kort och byggda ur verklig terräng.</p>';
-  el.append(head);
+  const currentCourse = courses.find(c => c.slug === current);
 
-  const scroll = document.createElement('div');
-  scroll.className = 'chooser-scroll';
-  const list = document.createElement('ul');
-  list.className = 'cards';
+  el.innerHTML = `
+    <div class="chooser-top-bar">
+      <div class="chooser-brand">
+        <div class="brand-crest">
+          <span class="crest-dot"></span>
+          <span class="wordmark">Ban<i>v</i>y</span>
+        </div>
+        <span class="hub-pill">3D Golf Experience</span>
+      </div>
 
-  for (const c of courses) {
-    const li = document.createElement('li');
-    const b = document.createElement('button');
-    b.className = 'card';
-    b.type = 'button';
-    b.dataset.slug = c.slug;
-    if (c.slug === current) b.setAttribute('aria-current', 'true');
-    b.innerHTML =
-      `<div class="shot"><div class="on-shot">` +
-        `<p class="where">${esc(c.tag)}</p><h2>${esc(c.name)}</h2></div></div>` +
-      `<div class="body">` +
-        `<p class="line">${esc(LINES[c.slug] || c.club)}</p>` +
-        `<p class="facts"><span><b>Par ${c.par}</b></span>` +
-        `<span>${c.holes} hål</span><span>${TEE_WORD(c.tees.names.length)}</span></p>` +
-      `</div>`;
-    /* the poster is set only once it has actually loaded, so a course whose
-       still has not been rendered yet shows the gradient instead of a gap */
-    const shot = b.querySelector('.shot');
-    const img = new Image();
-    img.onload = () => { shot.style.backgroundImage = `url(${img.src})`; };
-    img.src = `/courses/${c.slug}/hero-1.png`;
+      <div class="chooser-top-actions">
+        <div class="chooser-view-toggle" id="chooserViewToggle">
+          <button class="c-view-btn active" data-view="grid" id="viewGridBtn" title="Visa som kort">
+            ${ICONS.gridCards(14)}
+            <span>Kortvy</span>
+          </button>
+          <button class="c-view-btn" data-view="map" id="viewMapBtn" title="Visa på Sverigekarta">
+            ${ICONS.map(14)}
+            <span>Sverigekarta</span>
+          </button>
+        </div>
 
-    b.addEventListener('click', () => onPick(c.slug));
-    li.append(b);
-    list.append(li);
+        ${!isInitialBoot && currentCourse ? `
+          <button class="chooser-resume-btn" id="chooserResumeBtn">
+            <span>Återgå till ${esc(currentCourse.name)}</span>
+            ${ICONS.close(14)}
+          </button>
+        ` : ''}
+      </div>
+    </div>
+
+    <div class="chooser-head">
+      <div class="chooser-title-wrap">
+        <h1 class="chooser-main-title">Välj golfbana</h1>
+        <p class="chooser-subtitle">Utforska sex unika svenska golfbanor mätta mot klubbarnas originalkort och modellerade i full 3D-terräng.</p>
+      </div>
+
+      <div class="chooser-controls" id="chooserControls">
+        <div class="chooser-search-box">
+          ${ICONS.search(16)}
+          <input type="text" id="courseSearchInput" placeholder="Sök bana, stad eller par..." autocomplete="off" />
+        </div>
+
+        <div class="chooser-filters" id="chooserFilters">
+          <button class="c-filter-btn active" data-filter="all">Alla banor (6)</button>
+          <button class="c-filter-btn" data-filter="kust">${ICONS.wave(13)} Kust & Hav (3)</button>
+          <button class="c-filter-btn" data-filter="skog">${ICONS.tree(13)} Skog & Park (2)</button>
+          <button class="c-filter-btn" data-filter="slott">${ICONS.castle(13)} Slott & Herrgård (1)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chooser-scroll" id="chooserScroll">
+      <!-- Grid Cards View -->
+      <div id="cardsViewWrap" class="cards-view-wrap">
+        <ul class="cards" id="coursesCardList">
+          ${courses.map(c => {
+            const cat = CATEGORIES[c.slug] || { id: 'all', label: c.tag, iconName: 'flag' };
+            const iconSvg = ICONS[cat.iconName] ? ICONS[cat.iconName](13) : ICONS.flag(13);
+            const isCurrent = c.slug === current;
+            return `
+              <li class="card-item" data-slug="${c.slug}" data-category="${cat.id}" data-search="${esc(c.name + ' ' + c.club + ' ' + c.tag + ' ' + (LINES[c.slug] || '')).toLowerCase()}">
+                <button class="card ${isCurrent ? 'is-current' : ''}" type="button" data-slug="${c.slug}">
+                  <div class="shot" style="background-image: url('/courses/${c.slug}/hero-1.png')">
+                    <div class="shot-badges">
+                      <span class="cat-badge">${iconSvg} <span>${esc(cat.label)}</span></span>
+                      ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : ''}
+                    </div>
+                    <div class="on-shot">
+                      <p class="where">${esc(c.club)}</p>
+                      <h2>${esc(c.name)}</h2>
+                    </div>
+                    <div class="shot-hover-action">
+                      <span>${isCurrent ? 'Fortsätt spela' : 'Starta bana'}</span>
+                      <span class="sha-arrow">→</span>
+                    </div>
+                  </div>
+                  <div class="body">
+                    <p class="line">${esc(LINES[c.slug] || c.club)}</p>
+                    <div class="facts">
+                      <div class="fact-item"><span class="f-lbl">Par</span> <b class="f-val">${c.par}</b></div>
+                      <div class="fact-item"><span class="f-lbl">Hål</span> <b class="f-val">${c.holes}</b></div>
+                      <div class="fact-item"><span class="f-lbl">Utslag</span> <b class="f-val">${TEE_WORD(c.tees.names.length)}</b></div>
+                      <div class="fact-item fact-tag"><b>3D</b></div>
+                    </div>
+                  </div>
+                </button>
+              </li>
+            `;
+          }).join('')}
+        </ul>
+        <div id="noCoursesMsg" class="no-courses-msg" style="display:none;">
+          <p>Inga banor matchar din sökning.</p>
+          <button id="resetSearchBtn">Återställ sökning</button>
+        </div>
+      </div>
+
+      <!-- Sweden Map View Wrap -->
+      <div id="mapViewWrap" class="map-view-wrap" style="display: none;"></div>
+    </div>
+  `;
+
+  // Search and Filter Logic
+  const searchInput = el.querySelector('#courseSearchInput');
+  const filterBtns = el.querySelectorAll('.c-filter-btn');
+  const cardItems = el.querySelectorAll('.card-item');
+  const noMsg = el.querySelector('#noCoursesMsg');
+  const resetBtn = el.querySelector('#resetSearchBtn');
+
+  let activeFilter = 'all';
+  let activeQuery = '';
+
+  function applyFilters() {
+    let visibleCount = 0;
+    cardItems.forEach(item => {
+      const matchCat = activeFilter === 'all' || item.dataset.category === activeFilter;
+      const matchQuery = !activeQuery || item.dataset.search.includes(activeQuery);
+      if (matchCat && matchQuery) {
+        item.style.display = '';
+        visibleCount++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    noMsg.style.display = visibleCount === 0 ? 'block' : 'none';
   }
 
-  scroll.append(list);
-  el.append(scroll);
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      applyFilters();
+    });
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      activeQuery = e.target.value.trim().toLowerCase();
+      applyFilters();
+    });
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      activeQuery = '';
+      activeFilter = 'all';
+      filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === 'all'));
+      applyFilters();
+    });
+  }
+
+  // Course Pick Handler
+  el.querySelectorAll('.card').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const slug = btn.dataset.slug;
+      onPick(slug);
+    });
+  });
+
+  // Map View Initialization
+  const cardsWrap = el.querySelector('#cardsViewWrap');
+  const mapWrap = el.querySelector('#mapViewWrap');
+  const viewGridBtn = el.querySelector('#viewGridBtn');
+  const viewMapBtn = el.querySelector('#viewMapBtn');
+  const chooserControls = el.querySelector('#chooserControls');
+
+  let swedenMapInstance = null;
+
+  function switchView(viewMode) {
+    if (viewMode === 'map') {
+      viewGridBtn.classList.remove('active');
+      viewMapBtn.classList.add('active');
+      cardsWrap.style.display = 'none';
+      mapWrap.style.display = 'block';
+      chooserControls.style.display = 'none';
+
+      if (!swedenMapInstance) {
+        swedenMapInstance = createSwedenMap({
+          container: mapWrap,
+          courses,
+          current,
+          onPickCourse: onPick,
+        });
+      }
+      swedenMapInstance.invalidateSize();
+    } else {
+      viewMapBtn.classList.remove('active');
+      viewGridBtn.classList.add('active');
+      mapWrap.style.display = 'none';
+      cardsWrap.style.display = 'block';
+      chooserControls.style.display = 'flex';
+    }
+  }
+
+  viewGridBtn.addEventListener('click', () => switchView('grid'));
+  viewMapBtn.addEventListener('click', () => switchView('map'));
+
   return el;
 }
 
-const esc = s => String(s).replace(/[&<>"]/g, ch =>
+const esc = s => String(s || '').replace(/[&<>"]/g, ch =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
