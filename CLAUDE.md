@@ -864,6 +864,48 @@ The symptom the gate reported was tiny (a chooser open when it should be shut);
 the cause would have wrecked the HUD everywhere. **When adding an element to a
 page this old, grep the id first** — `#chooser` now.
 
+### The posters have to be the courses
+
+The chooser briefly shipped six generated photoreal images as its course cards.
+They are beautiful and they are not these places: pictures of courses that do not
+exist, under the names of six real, operating Swedish golf clubs. The quickest
+tell is `veckefjarden.png`, which puts a flag reading **16** on what is meant to
+be the island 14th, over a green matching nothing in the club's own survey.
+
+A visitor reading a card headed VECKEFJÄRDENS GOLFKLUBB takes the picture above
+it as that club. That is the whole problem, and it is not a matter of taste:
+shipping those images tells six real businesses' customers something untrue about
+those businesses. The rail's own source comment had it right and had stopped
+being true — *"the stills are rendered by the shot harness, so they are pictures
+of the thing itself and cannot fall out of date with it."* Every hero is a real
+still again; the generated set is kept under `docs/concept-art/` with a README
+saying what it is. **A plain picture of the real thing beats a beautiful picture
+of a different thing.** If a course deserves a better poster the fix is a better
+camera, not a different course.
+
+**Judge a poster at the size it is shown.** Six candidate cameras per course,
+composited at the card's own 400×225 on the chooser's ground, changed two picks
+that looked settled at full size. Veckefjärden's island green is the signature
+hole and now renders its restored granite collar — but at card size it is half
+blown-out sky and water, so the poster is the hero fairway instead. And it caught
+a real gap: Norrfällsviken is *seaside* and every candidate was a pond in the
+woods, until it was re-shot down hole 5 to put the Bothnian horizon behind two
+greens. Ängsö's fresh re-renders lost to the original and it kept it — a
+re-render is not automatically an improvement.
+
+`tools/make-posters.py` builds what ships: 800 px wide (2× the card) in WebP,
+**6.33 MB → 282 KB, 23× smaller**, because six 1600×900 PNGs on the front door is
+the first thing a phone downloads and the brief names Android and iOS before
+desktop. Its docstring carries the measured table rather than a claim — the
+resize is nearly free (0.43–0.48 mean/255) and essentially all loss is the codec,
+and **WebP beat JPEG on both axes at the same quality number**, so there was no
+reason to ship the JPEG. What is not claimed is that the difference is invisible.
+
+One more thing found in the same pass and left in place with a note: `map.js`
+draws tiles from **OpenStreetMap's own servers**, which are donated infrastructure
+whose usage policy rules out being the tile source for an app with real traffic.
+Fine at this scale; needs a provider before the app is public.
+
 ## Skyltar — the marker layer, on all six pages
 
 `geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures
