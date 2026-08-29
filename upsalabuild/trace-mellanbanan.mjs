@@ -87,23 +87,52 @@ for (const c of CONTROL) {
   console.log(`  ${c.name.padEnd(30)} ${d.toFixed(1)} m`);
 }
 
+/* Bearings the DRAWING got wrong, taken from the club's own per-hole sheets.
+   Each sheet is rotated so its hole plays up the page and carries a compass
+   rose, so it states a hole's direction unambiguously where the overview -- on
+   which a corridor can disappear under drawn tree canopy -- does not. Hole 8
+   runs south to north with the water off the tee on its left; hole 7 likewise
+   plays north, not east as the overview line appeared to. */
+const BEARING_FROM_SHEET = { 7: 0, 8: 0 };     /* degrees, 0 = north */
+
+/* A hole is placed by its DRAWN MIDPOINT and its CARD LENGTH, not by the length
+   of the line I traced. The drawing is reliable about where a hole is and which
+   way it runs; it is not a measurement, and six of the nine traced lines came out
+   at 0.84-0.94 of their card because the numbered disc sits on the tee ground
+   rather than the back marker. Taking direction from the drawing and length from
+   the club means nothing here is invented: the club drew the routing and the
+   club printed the length. */
 const card = JSON.parse(fs.readFileSync(path.join(ROOT, 'upsalabuild/card-mellanbanan.json'), 'utf8'));
 const polyLen = l => { let s = 0; for (let i = 1; i < l.length; i++) s += Math.hypot(l[i][0] - l[i - 1][0], l[i][1] - l[i - 1][1]); return s; };
 
-console.log('\nhole  card(Vit)  drawn   ratio   par');
+console.log('\nhole  card(Vit)  drawn   bearing  source');
 const out = {};
-let worst = 0;
 for (const h of card.holes) {
   const line = HOLES_PX[h.n].map(T.apply);
   const drawn = polyLen(line);
-  const ratio = drawn / h.t[0];
-  worst = Math.max(worst, Math.abs(1 - ratio));
-  out[h.n] = { par: h.par, hcp: h.hcp, t: h.t, line: line.map(p => [+p[0].toFixed(1), +p[1].toFixed(1)]) };
-  console.log(`${String(h.n).padStart(4)} ${String(h.t[0]).padStart(9)} ${drawn.toFixed(0).padStart(7)} ${ratio.toFixed(2).padStart(7)} ${String(h.par).padStart(5)}`);
+  const a = line[0], b = line[line.length - 1];
+  const mid = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+  /* north is -z, so a compass bearing is atan2(dx, -dz) -- the repo's own rule,
+     and the one that has produced a confident wrong answer when reflected */
+  const sheet = BEARING_FROM_SHEET[h.n];
+  const bearing = sheet !== undefined ? sheet * Math.PI / 180
+                                      : Math.atan2(b[0] - a[0], -(b[1] - a[1]));
+  const F = [Math.sin(bearing), -Math.cos(bearing)];   /* unit vector, tee -> green */
+  const half = h.t[0] / 2;
+  const tee = [mid[0] - F[0] * half, mid[1] - F[1] * half];
+  const green = [mid[0] + F[0] * half, mid[1] + F[1] * half];
+  out[h.n] = {
+    par: h.par, hcp: h.hcp, t: h.t,
+    line: [tee, green].map(p => [+p[0].toFixed(1), +p[1].toFixed(1)]),
+    drawnLine: line.map(p => [+p[0].toFixed(1), +p[1].toFixed(1)]),
+    bearingDeg: +(bearing * 180 / Math.PI).toFixed(1),
+    bearingSource: sheet !== undefined ? 'per-hole sheet' : 'overview line',
+  };
+  console.log(`${String(h.n).padStart(4)} ${String(h.t[0]).padStart(9)} ${drawn.toFixed(0).padStart(7)} ${out[h.n].bearingDeg.toFixed(0).padStart(8)}  ${out[h.n].bearingSource}`);
 }
-console.log(`\nworst length disagreement ${(worst * 100).toFixed(0)}% before the card slide.`);
-console.log('A drawn line is short of its card by design here: the discs sit at the');
-console.log('tee GROUND, not on the back marker, and the card slide is what resolves it.');
+/* every hole now measures its card exactly, by construction */
+const err = card.holes.map(h => Math.abs(polyLen(out[h.n].line) - h.t[0]));
+console.log(`\nlength error against the card: worst ${Math.max(...err).toFixed(3)} m (exact by construction)`);
 
 fs.writeFileSync(path.join(ROOT, 'upsalabuild/mellanbanan-traced.json'), JSON.stringify({
   source: 'banguider.se overview for Upsala GK Mellanbanan, registered to the world through three OSM pond centres',

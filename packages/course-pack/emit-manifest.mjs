@@ -33,6 +33,13 @@ const COURSES = [
   { slug: 'upsala', build: 'upsalabuild', name: 'Upsala GK', club: 'Upsala Golfklubb',
     title: 'Upsala Golfklubb — Banan i 3D', tag: 'Stora banan', boot: 'Håmö gård · Läby',
     tees: { names: ['62', '59', '56', '51', '47', '42'], cols: [0x1a1a1a, 0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
+  /* The first NINE, and the first course to share another's ground: the same
+     terrain, woods and clubhouse as `upsala`, a different set of holes played
+     over them, and the Stora banan carried in its scenery so the championship
+     course still reads as mown from here. */
+  { slug: 'upsala-mellanbanan', build: 'upsalamellanbuild', name: 'Mellanbanan', club: 'Upsala Golfklubb',
+    title: 'Upsala GK Mellanbanan — Nio hål i 3D', tag: 'Mellanbanan', boot: 'Håmö gård · Läby',
+    tees: { names: ['Vit', 'Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
   { slug: 'johannesberg', build: 'johannesbergbuild', name: 'Johannesberg', club: 'Johannesberg Golf & Country Club',
     title: 'Johannesberg Golf & CC — Banan i 3D', tag: 'Gottröra', boot: 'Gottröra · Uppland',
     tees: { names: ['Vit', 'Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
