@@ -7,8 +7,25 @@
    and sha256, which is checked here at runtime: a pack that does not hash to
    what the manifest promises never reaches the decoder. */
 
+/* Why these messages live here and not in the boot screen's error handler: this
+   is the only place that knows WHICH fetch failed, and that is the whole
+   difference between "the app is broken" and "you have not downloaded this
+   course yet". The first instinct was to branch on navigator.onLine in the boot
+   handler, and it is wrong: onLine reports whether the browser has a network
+   interface, not whether anything answers on it. With the server stopped and
+   wifi up it stays true, which is exactly the case a phone on a dead cell hits. */
+async function get(url, what) {
+  let r;
+  try { r = await fetch(url); }
+  catch { throw new Error(what); }
+  if (!r.ok) throw new Error(`${what} (${r.status})`);
+  return r;
+}
+
 export async function fetchPack(url, wantSha) {
-  const buf = await (await fetch(url)).arrayBuffer();
+  const buf = await (await get(url,
+    'banan är inte nedladdad och servern svarar inte — banor du redan öppnat fungerar offline'))
+    .arrayBuffer();
   if (wantSha && crypto.subtle) {
     const got = [...new Uint8Array(await crypto.subtle.digest('SHA-256', buf))]
       .map(b => b.toString(16).padStart(2, '0')).join('');
@@ -25,7 +42,8 @@ export async function fetchPack(url, wantSha) {
 }
 
 export async function loadCourse(slug) {
-  const manifest = await (await fetch('/courses/index.json')).json();
+  const manifest = await (await get('/courses/index.json',
+    'kunde inte nå servern — kontrollera anslutningen och ladda om')).json();
   const meta = manifest.courses.find(c => c.slug === slug) || manifest.courses[0];
   /* The pack is asked for by CONTENT, not by name. A pack file keeps one path
      forever, so a CDN that cached it could hand back yesterday's bytes under
