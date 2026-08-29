@@ -42,6 +42,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { loadCourse } from './loader/pack.js';
 import { buildScenery, loadSceneryModule } from './engine/scenery/index.js';
 import { buildRail } from './shell/rail.js';
+import { buildNavDrawer } from './shell/menu.js';
 import { legacyTarget, goToCourse } from './shell/router.js';
 import { inflate, decodeHF } from './engine/codec.js';
 import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
@@ -63,7 +64,7 @@ const STEPS = ['terräng', 'vatten', 'banan', 'skog', 'ljus', 'klar'];
 const tick = (msg, frac) => {
   msgEl.textContent = msg;
   barEl.style.width = (frac * 100).toFixed(0) + '%';
-  return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  return new Promise(r => setTimeout(r, 20));
 };
 
 /* the course, fetched: everything below this line is data-driven. Which course
@@ -76,14 +77,30 @@ const tick = (msg, frac) => {
   const to = legacyTarget(location.pathname, location.search);
   if (to) { location.replace(to); throw new Error('redirecting to ' + to); }
 }
-const COURSE = await loadCourse(new URLSearchParams(location.search).get('bana'));
+const rawBana = new URLSearchParams(location.search).get('bana');
+const isBareVisit = !rawBana;
+const COURSE = await loadCourse(rawBana);
 const CMETA = COURSE.meta;
 const PACK = COURSE.pack;
-document.title = CMETA.title;
-document.querySelector('#boot h1').textContent = CMETA.club;
-document.querySelector('#boot .sub').textContent = CMETA.boot;
-document.querySelector('.hd h1').textContent = CMETA.name;
-document.getElementById('hdsub').textContent = `${CMETA.tag} · ${CMETA.holes} hål`;
+
+if (isBareVisit) {
+  document.title = 'Banvy 3D — Svenska golfbanor i realtid';
+  const bt = document.getElementById('bootTitle');
+  const bs = document.getElementById('bootSub');
+  if (bt) bt.textContent = 'Banvy 3D';
+  if (bs) bs.textContent = 'Svenska golfbanor i 3D · Förbereder grafik';
+} else {
+  document.title = CMETA.title;
+  const bt = document.getElementById('bootTitle');
+  const bs = document.getElementById('bootSub');
+  if (bt) bt.textContent = CMETA.club;
+  if (bs) bs.textContent = `${CMETA.tag} · ${CMETA.holes} hål · Par ${CMETA.par}`;
+}
+
+const hdNameEl = document.getElementById('hdName');
+if (hdNameEl) hdNameEl.textContent = CMETA.name;
+const hdsubEl = document.getElementById('hdsub');
+if (hdsubEl) hdsubEl.textContent = `${CMETA.tag} · ${CMETA.holes} hål`;
 {
   /* the tee-hiding breakpoint is per course (a 6-tee card needs the room a
      3-tee card never uses), so the rule is written here, not in the stylesheet */
@@ -869,6 +886,7 @@ function setPreset(name) {
   if (renderer.__bloomNode) renderer.__bloomNode.strength.value = lowfx ? 0 : (p.bloom ?? 0.14);
   placeSun();
   document.querySelectorAll('[data-preset]').forEach(b => b.classList.toggle('on', b.dataset.preset === name));
+  if (window.__navDrawer) window.__navDrawer.updateActivePreset(presetName);
   syncURL();
 }
 
@@ -3403,6 +3421,7 @@ function setCam(mode, instant) {
   const DUR = (instant || RMOTION) ? 0 : 1.5;
   syncURL();
   document.querySelectorAll('[data-cam]').forEach(b => b.classList.toggle('on', b.dataset.cam === mode));
+  if (window.__navDrawer) window.__navDrawer.updateActiveCam(mode);
   const h = HOLES[hole - 1];
   const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
   const p0 = alongLine(h.line, 0), p1 = alongLine(h.line, 1);
@@ -3493,45 +3512,11 @@ document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPre
 }
 document.getElementById('flyBtn').onclick = () => { flying = flying > 0 ? 0 : 1e-4; };
 
-/* ------------------------------------------------------------ ren vy + foto */
+/* ------------------------------------------------------------ ren vy */
 function setClean(on) {
   document.body.classList.toggle('clean', on);
 }
 document.getElementById('cleanExit').onclick = () => { if (tour) endTour(); else setClean(false); };
-async function takePhoto() {
-  const wasClean = document.body.classList.contains('clean');
-  setClean(true);
-  await new Promise(r => setTimeout(r, 420));
-  /* render and read back in the same task -- neither backend preserves the buffer */
-  skyHidden = true; updateSky();
-  (renderer.__post || renderer).render(scene, camera);
-  const blob = await new Promise(r => renderer.domElement.toBlob(r, 'image/png'));
-  skyHidden = false; updateSky();
-  if (!wasClean && !tour) setClean(false);
-  if (!blob) { toast('Kunde inte läsa bilden — ta en skärmbild i ren vy'); return; }
-  const name = `${CMETA.slug}-hal${hole}-${P2LJUS[presetName] || 'kvall'}.png`;
-  const file = new window.File([blob], name, { type: 'image/png' });
-  if (window.navigator.canShare && window.navigator.canShare({ files: [file] })) {
-    try { await window.navigator.share({ files: [file], title: CMETA.club }); return; }
-    catch (e) { if (e && e.name === 'AbortError') return; }
-  }
-  const a = document.createElement('a');
-  a.href = window.URL.createObjectURL(blob);
-  a.download = name;
-  a.click();
-  setTimeout(() => window.URL.revokeObjectURL(a.href), 4000);
-  toast('Foto sparat');
-}
-document.getElementById('fotoBtn').onclick = takePhoto;
-document.getElementById('shareBtn').onclick = async () => {
-  syncURL();
-  const url = location.href;
-  try {
-    if (window.navigator.share) { await window.navigator.share({ title: document.title, url }); return; }
-  } catch (e) { return; }
-  try { await window.navigator.clipboard.writeText(url); toast('Länk kopierad'); }
-  catch (e) { toast(url, 6000); }
-};
 
 /* ------------------------------------------------------- bansafari (kiosk) */
 let tour = 0, tourCardT = 0;
@@ -3717,9 +3702,32 @@ gridBtn.onclick = () => {
     if (tour) endTour();
   });
   renderer.domElement.addEventListener('pointerup', e => {
-    if (!kik) return;
-    if (performance.now() - pt0 < 450 && Math.hypot(e.clientX - px0, e.clientY - py0) < 8)
-      kikMeasure(e.clientX, e.clientY);
+    if (performance.now() - pt0 < 450 && Math.hypot(e.clientX - px0, e.clientY - py0) < 8) {
+      if (kik) {
+        kikMeasure(e.clientX, e.clientY);
+        return;
+      }
+      const hitSprite = getSkyHit(e.clientX, e.clientY);
+      if (hitSprite) {
+        if (hitSprite.userData.fac && hitSprite.userData.facility) {
+          viewFacility(hitSprite.userData.facility);
+        } else if (hitSprite.userData.n) {
+          goHole(hitSprite.userData.n, true);
+          toast(`Hål ${hitSprite.userData.n}`);
+        }
+      }
+    }
+  });
+  renderer.domElement.addEventListener('pointermove', e => {
+    if (kik) return;
+    const hitSprite = getSkyHit(e.clientX, e.clientY);
+    if (hitSprite) {
+      renderer.domElement.style.cursor = 'pointer';
+      renderer.domElement.title = hitSprite.userData.fac ? (hitSprite.userData.nm || 'Facilitet') : `Hål ${hitSprite.userData.n}`;
+    } else {
+      renderer.domElement.style.cursor = '';
+      renderer.domElement.title = '';
+    }
   });
 }
 
@@ -3728,7 +3736,6 @@ addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === 'n') goHole(hole + 1, true);
   if (e.key === 'ArrowLeft' || e.key === 'p') goHole(hole - 1, true);
   if (e.key === 'h') { if (tour) endTour(); else setClean(!document.body.classList.contains('clean')); }
-  if (e.key === 's') takePhoto();
   if (e.key === 'm') setSky(skyState + 1);
 });
 
@@ -4007,9 +4014,59 @@ const skySprites = [];
     skySprites.push(s);
     return s;
   };
-  for (const m of SKY.holes) { const s = mk(m.n, m.x, m.z, false, null); s.userData.fac = false; s.userData.n = m.n; }
-  for (const f of SKY.fac) mk(f.ch, f.x, f.z, true, '#e2cf9a').userData.fac = true;
+  for (const m of SKY.holes) {
+    const s = mk(m.n, m.x, m.z, false, null);
+    s.userData.fac = false;
+    s.userData.n = m.n;
+    s.userData.hole = m;
+  }
+  for (const f of SKY.fac) {
+    const s = mk(f.ch, f.x, f.z, true, '#e2cf9a');
+    s.userData.fac = true;
+    s.userData.facility = f;
+    s.userData.nm = f.nm;
+    s.userData.ch = f.ch;
+  }
 }
+
+function viewFacility(fac, dur = 1.5) {
+  if (!fac) return;
+  const fx = fac.x, fz = fac.z;
+  const fy = terrainH(fx, fz);
+  flyTo(V3(fx - 60, fy + 34, fz - 60), V3(fx, fy + 4, fz), RMOTION ? 0 : dur);
+  toast(`${fac.nm}`);
+  const nnm = document.getElementById('nnm');
+  const ntx = document.getElementById('ntx');
+  if (nnm) nnm.textContent = fac.nm;
+  if (ntx) ntx.textContent = `Facilitet på ${CMETA.name}`;
+}
+
+function getSkyHit(clientX, clientY) {
+  if (!skyGroup.visible || skyHidden || skyState < 1) return null;
+  const rect = renderer.domElement.getBoundingClientRect();
+  const mouseX = clientX - rect.left;
+  const mouseY = clientY - rect.top;
+
+  const v = new THREE.Vector3();
+  let bestDist = 34;
+  let bestSprite = null;
+
+  for (const s of skySprites) {
+    if (!s.visible || s.material.opacity < 0.05) continue;
+    v.copy(s.position);
+    v.project(camera);
+    if (v.z > 1 || v.z < -1) continue;
+    const sx = (v.x * 0.5 + 0.5) * rect.width;
+    const sy = (-v.y * 0.5 + 0.5) * rect.height;
+    const d = Math.hypot(mouseX - sx, mouseY - sy);
+    if (d < bestDist) {
+      bestDist = d;
+      bestSprite = s;
+    }
+  }
+  return bestSprite;
+}
+
 function updateSky() {
   const camH = camera.position.y - terrainH(camera.position.x, camera.position.z);
   const a = (skyHidden || skyState < 1) ? 0 : Math.min(1, Math.max(0, (camH - 110) / 110));
@@ -4045,18 +4102,30 @@ const skyNearest = (cx, cy, list, reach) => {
 mini.addEventListener('click', e => {
   if (skyState < 1) return;
   const c = skyCanvasXY(e);
+  if (skyState >= 2) {
+    const f = skyNearest(c[0], c[1], SKY.fac, 2.0);
+    if (f >= 0) {
+      viewFacility(SKY.fac[f]);
+      return;
+    }
+  }
   const i = skyNearest(c[0], c[1], SKY.holes, 2.2);
-  if (i >= 0) goHole(i + 1, true);
+  if (i >= 0) {
+    goHole(i + 1, true);
+    toast(`Hål ${i + 1}`);
+  }
 });
 /* K and R and O are a private code without a legend, and a 360 px canvas has no room
    for one. The browser already owns a way to name a thing under the pointer. */
 mini.addEventListener('pointermove', e => {
-  if (skyState < 1) { mini.title = ''; return; }
+  if (skyState < 1) { mini.title = ''; mini.style.cursor = 'default'; return; }
   const c = skyCanvasXY(e);
-  const f = skyState >= 2 ? skyNearest(c[0], c[1], SKY.fac, 1.1) : -1;
-  if (f >= 0) { mini.title = SKY.fac[f].nm; return; }
-  const i = skyNearest(c[0], c[1], SKY.holes, 1.4);
-  mini.title = i >= 0 ? `H\u00e5l ${SKY.holes[i].n}` : '';
+  const f = skyState >= 2 ? skyNearest(c[0], c[1], SKY.fac, 1.8) : -1;
+  if (f >= 0) { mini.title = SKY.fac[f].nm; mini.style.cursor = 'pointer'; return; }
+  const i = skyNearest(c[0], c[1], SKY.holes, 2.0);
+  if (i >= 0) { mini.title = `Hål ${SKY.holes[i].n}`; mini.style.cursor = 'pointer'; return; }
+  mini.title = '';
+  mini.style.cursor = 'default';
 });
 
 const SKY_MSG = ['Skyltar av', 'Skyltar: halnummer', 'Skyltar: hal och faciliteter'];
@@ -4070,22 +4139,33 @@ function setSky(n, quiet) {
 }
 document.getElementById('skyltBtn').onclick = () => setSky(skyState + 1);
 
-/* ------------------------------------------------------------------- rail
+/* ------------------------------------------------------------------- rail & navigation
    Shown over the running course when no course was asked for by name, and
    whenever someone asks for another one. */
 const railEl = buildRail({
   courses: COURSE.all,
   current: CMETA.slug,
-  onPick: slug => { if (slug === CMETA.slug) closeRail(); else goToCourse(slug); },
+  isInitialBoot: isBareVisit,
+  onPick: slug => {
+    if (slug === CMETA.slug) {
+      closeRail();
+    } else {
+      goToCourse(slug);
+    }
+  },
 });
 document.body.append(railEl);
 let railOpen = false;
+
 function openRail() {
+  if (navDrawer.isOpen()) navDrawer.close();
   railOpen = true;
   railEl.hidden = false;
   railEl.classList.remove('leaving');
-  railEl.querySelector('.card').focus();
+  const firstCard = railEl.querySelector('.card');
+  if (firstCard) firstCard.focus();
 }
+
 function closeRail() {
   if (!railOpen) return;
   railOpen = false;
@@ -4093,10 +4173,44 @@ function closeRail() {
   const done = () => { railEl.hidden = true; railEl.classList.remove('leaving'); };
   if (RMOTION) done(); else setTimeout(done, 380);
 }
+
 railEl.hidden = true;
+const resumeBtn = document.getElementById('chooserResumeBtn');
+if (resumeBtn) resumeBtn.onclick = closeRail;
+
 document.getElementById('bytBtn').onclick = () => (railOpen ? closeRail() : openRail());
 railEl.addEventListener('click', e => { if (e.target === railEl) closeRail(); });
-addEventListener('keydown', e => { if (e.key === 'Escape' && railOpen) closeRail(); });
+
+/* In-game navigation drawer */
+const navDrawer = buildNavDrawer({
+  courses: COURSE.all,
+  current: CMETA.slug,
+  onBackToStart: () => openRail(),
+  onSwitchCourse: (slug) => goToCourse(slug),
+  onAction: (type, val) => {
+    if (type === 'cam') setCam(val);
+    if (type === 'preset') setPreset(val);
+    if (type === 'clean') setClean(true);
+  }
+});
+window.__navDrawer = navDrawer;
+document.body.append(navDrawer.el);
+
+const menuToggleBtn = document.getElementById('menuToggle');
+if (menuToggleBtn) {
+  menuToggleBtn.onclick = () => {
+    if (railOpen) closeRail();
+    if (navDrawer.isOpen()) navDrawer.close();
+    else navDrawer.open();
+  };
+}
+
+addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (navDrawer.isOpen()) { navDrawer.close(); return; }
+    if (railOpen) { closeRail(); return; }
+  }
+});
 /* the webfont lands after the first paint, so every baked glyph is repainted once
    it is really there -- the base map's own N has always raced it */
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {
@@ -4218,7 +4332,7 @@ window.V3D = {
   camInfo: () => ({ pos: camera.position.toArray().map(v => +v.toFixed(1)),
                     look: controls.target.toArray().map(v => +v.toFixed(1)), mode: camMode }),
   fps: () => fps,
-  startTour, endTour, takePhoto, kikMeasure,
+  startTour, endTour, kikMeasure,
   setSky, skyState: () => skyState, eachSky: fn => skySprites.forEach(fn),
   /* the CANVAS positions, not the world ones: where a marker is actually drawn is
      what a collision check has to measure */
