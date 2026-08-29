@@ -1,0 +1,18 @@
+{
+  "club": "Upsala Golfklubb — Mellanbanan",
+  "source": "golfisverige.com's card for Upsala GK Mellanbanan. VERIFIED ARITHMETICALLY before any geometry was fitted to it, which is this project's precondition and not a formality: the nine pars sum to the printed 35, and TWO independent tee columns reproduce their printed Out totals exactly — Orange 221+220+288+178+73+308+113+285+128 = 1814, and Vit 286+335+435+307+109+455+155+338+181 = 2601. The stroke indexes are the odd numbers 1..17 with no repeats, which is what a nine-hole card rated over eighteen must carry; a transcription slip almost always breaks that permutation, so it is a real check and not a coincidence.",
+  "note": "Par 35 over nine holes (par 70 played as eighteen, the same nine twice). Five tees. Upsala GK has three courses: Stora banan (18, par 72 — this repo's `upsala`), Mellanbanan (this card), and a Lilla pay-and-play nine. The holes are NOT mapped in OpenStreetMap: the club's OSM extract carries seventeen greens and the Stora banan consumes sixteen of them, so Mellanbanan's geometry has to be traced from orthoimagery the way Norrfällsviken's and Johannesberg's were. On the ground it lies EAST of the road that runs north-south through the property, opposite the Stora banan.",
+  "teeNames": ["Vit", "Gul", "Blå", "Röd", "Orange"],
+  "printedOut": { "Vit": 2601, "Gul": 2499, "Blå": 2307, "Röd": 2115, "Orange": 1814 },
+  "holes": [
+    { "n": 1, "par": 4, "hcp": 13, "t": [286, 273, 273, 221, 221] },
+    { "n": 2, "par": 4, "hcp": 9,  "t": [335, 329, 329, 291, 220] },
+    { "n": 3, "par": 5, "hcp": 3,  "t": [435, 435, 353, 353, 288] },
+    { "n": 4, "par": 4, "hcp": 15, "t": [307, 300, 248, 248, 178] },
+    { "n": 5, "par": 3, "hcp": 11, "t": [109, 102, 86,  73,  73] },
+    { "n": 6, "par": 5, "hcp": 1,  "t": [455, 442, 428, 368, 308] },
+    { "n": 7, "par": 3, "hcp": 17, "t": [155, 137, 127, 113, 113] },
+    { "n": 8, "par": 4, "hcp": 5,  "t": [338, 338, 320, 320, 285] },
+    { "n": 9, "par": 3, "hcp": 7,  "t": [181, 143, 143, 128, 128] }
+  ]
+}
