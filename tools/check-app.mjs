@@ -60,7 +60,13 @@ async function checkCourse(c) {
   const got = await page.evaluate(() => ({
     holes: window.V3D.HOLES.map(h => ({ n: h.n, par: h.par, idx: h.idx, t: h.t })),
     teeLabels: [...document.querySelectorAll('#tees .tee i')].map(e => e.textContent),
-    header: document.querySelector('.hd h1, #hdName, #curCourseName')?.textContent || '',
+    /* The element that names the course has moved once already: the shell
+       rewrite replaced `.hd h1` with `#hdName`, and because this read the old
+       selector directly it CRASHED the whole course check rather than failing
+       the one assertion it belongs to -- so five other gates went unreported
+       behind it. Both selectors are tried and a miss returns null, which
+       fails the header gate below and leaves everything else measurable. */
+    header: (document.getElementById('hdName') || document.querySelector('.hd h1'))?.textContent ?? null,
     title: document.title,
     url: location.search,
     ground: (() => {

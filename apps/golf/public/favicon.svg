@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Banvy">
+  <!-- A favicon is 16 px on a browser tab, so this is three shapes and no more:
+       the app's own dark ground, a pale pole, and the turf-green pennant that
+       carries the wordmark's accent. Anything finer disappears at that size. -->
+  <rect width="32" height="32" rx="7" fill="#0b1a13"/>
+  <!-- the green, a shallow ellipse the flag stands on -->
+  <ellipse cx="16" cy="25" rx="9.5" ry="2.6" fill="#1e5c33"/>
+  <!-- the pole -->
+  <rect x="14.6" y="6" width="1.9" height="18" rx=".9" fill="#e8f0ea"/>
+  <!-- the pennant -->
+  <path d="M16.5 6.6 L26 10.4 L16.5 14.2 Z" fill="#5fd07a"/>
+</svg>
