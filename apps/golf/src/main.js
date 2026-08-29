@@ -244,6 +244,67 @@ for (const h of HOLES) {
   }
 }
 
+/* A SHORELINE IS A CURVE, AND THE TRACE IS A POLYGON.
+
+   The surveyed water rings run in straight segments -- around Veckefjärden's
+   island 14th they average 15 m and reach 48 m -- and the visible waterline is
+   where terrainH crosses the water level, which that ring carves. So the island
+   came out as a faceted plate with hard corners where the club's photographs
+   show a smooth rounded promontory.
+
+   Two passes, in the order that matters: split the long segments so a curve CAN
+   exist, then average the points so it is one. Only near the played ground --
+   the shoreline that matters is the shoreline you stand next to, and this ring
+   is walked by terrainH for every terrain sample, so making the whole fjärd
+   dense would be paid for on ground nobody ever sees. Nothing finer than the
+   4 m terrain grid is worth resolving, which is why the split is 3 m. */
+function smoothShore(ring, near) {
+  if (!ring || ring.length < 8) return ring;
+  const dense = [];
+  for (let i = 0; i < ring.length; i++) {
+    const a = ring[i], b = ring[(i + 1) % ring.length];
+    dense.push(a);
+    if (!near(a) && !near(b)) continue;
+    const n = Math.min(24, Math.floor(Math.hypot(b[0] - a[0], b[1] - a[1]) / 3));
+    for (let k = 1; k < n; k++)
+      dense.push([a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n]);
+  }
+  /* three light averaging passes: corner-cutting without the point doubling
+     chaikin would add, and it leaves the far shoreline exactly as traced */
+  let out = dense;
+  for (let pass = 0; pass < 3; pass++) {
+    const next = out.slice();
+    for (let i = 0; i < out.length; i++) {
+      if (!near(out[i])) continue;
+      const p = out[(i - 1 + out.length) % out.length], q = out[(i + 1) % out.length];
+      next[i] = [(p[0] + out[i][0] * 2 + q[0]) / 4, (p[1] + out[i][1] * 2 + q[1]) / 4];
+    }
+    out = next;
+  }
+  return out;
+}
+{
+  /* "near" is the played ground plus a margin, which is where a shoreline is
+     ever seen close enough for its facets to show. Derived from the holes
+     themselves because playB is not built until much further down. */
+  let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
+  for (const h of HOLES) for (const p of h.line) {
+    x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]);
+    z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]);
+  }
+  const M0 = 180;
+  const near = p => p[0] > x0 - M0 && p[0] < x1 + M0 && p[1] > z0 - M0 && p[1] < z1 + M0;
+  for (const w of M.water) {
+    if (w.stream || !w.ring) continue;
+    w.ring = smoothShore(w.ring, near);
+  }
+  /* The silt shallows are traced far coarser than the water is -- 12 points with
+     a 64 m median segment and one of 427 m -- and they draw the pale margin
+     right where the eye is, just off the island 14th. Same treatment. */
+  if (M.surround && M.surround.shallows)
+    M.surround.shallows = M.surround.shallows.map(r => smoothShore(r, near));
+}
+
 for (const h of HOLES) {
   const g = { ring: h.green.ring, bb: ringBBox(h.green.ring), hole: h.n, c: h.green.c };
   GI.add(g, g.bb, 26);
@@ -517,9 +578,31 @@ if (M.cover) {
    oracle outside it. */
 let groundAtlas = null;
 const classifyAnalytic = createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distToLine, smooth });
-const classify = (x, z) => groundAtlas?.contains(x, z)
-  ? groundAtlas.classifyAt(x, z)
-  : classifyAnalytic(x, z);
+const classify = (x, z) => {
+  if (!groundAtlas?.contains(x, z)) return classifyAnalytic(x, z);
+  const c = groundAtlas.classifyAt(x, z);
+  /* THE APRON, and it is what keeps things off the mown ground.
+     Every scatter loop -- trees, bushes, tufts, stones -- rejects a candidate
+     whose `fair` is over about 0.05, and the analytic classifier supplied that
+     by fading a fairway apron to 13 m around a green and 7 m around a tee. The
+     atlas cannot: its SDF measures the distance to the ADJACENT class, and a
+     green is ringed by its collar, so out in the rough it reads FRINGE and knows
+     nothing about the green behind it. Losing the apron let trees stand at the
+     very edge of a green -- and on the island 14th, where the green IS the
+     island, that put one on the putting surface.
+     Read from the rings themselves, which is exact. Only greens and tees walk
+     rings here; fairways, bunkers, paths and forest all still come from the
+     atlas, so this is a small fraction of the work the old classifier did. */
+  for (const g of GI.at(x, z)) {
+    const sd = ringSD(x, z, g.ring);
+    if (sd < 13) c.fair = Math.max(c.fair, (1 - smooth(3, 13, sd)) * 0.85);
+  }
+  for (const t of TI.at(x, z)) {
+    const sd = ringSD(x, z, t.ring);
+    if (sd < 7) c.fair = Math.max(c.fair, (1 - smooth(1, 7, sd)) * 0.7);
+  }
+  return c;
+};
 
 /* --------------------------------------------------------------- palette
    Vertex colours go into a raw Float32Array, which r185 reads as linear working
@@ -2140,17 +2223,28 @@ if (ARM) {
     for (let i = 0; i < ring.length; i++) {
       const [ax, az] = ring[i], [bx, bz] = ring[(i + 1) % ring.length];
       if (Math.hypot(ax - ARM.c[0], az - ARM.c[1]) > ARM.rise && Math.hypot(bx - ARM.c[0], bz - ARM.c[1]) > ARM.rise) continue;
+      /* A BAND, NOT A LINE. The club's photographs show a dumped-rock apron
+         several metres wide, packed shoulder to shoulder all the way round the
+         promontory; this was sampling a single jittered line and then throwing
+         most of it away on a narrow height window, which left a sparse necklace
+         of separate boulders. Walk ACROSS the shore normal as well as along it,
+         and let the stones sit wherever the bank happens to be. */
       const segL = Math.hypot(bx - ax, bz - az);
-      const n = Math.max(1, Math.ceil(segL / 0.9));
+      const ux = (bx - ax) / (segL || 1), uz = (bz - az) / (segL || 1);
+      const nx = -uz, nz = ux;                     /* across the shore */
+      const n = Math.max(1, Math.ceil(segL / 0.55));
       for (let k = 0; k < n; k++) {
         const t = k / n;
-        for (let s2 = 0; s2 < 2; s2++) {
-          const jx = ax + (bx - ax) * t + (hash2(i * 31 + k, s2 * 7 + 1) - 0.5) * 2.6;
-          const jz = az + (bz - az) * t + (hash2(i * 17 + k, s2 * 13 + 5) - 0.5) * 2.6;
+        for (let s2 = 0; s2 < 5; s2++) {
+          /* -1.6 m inland to +2.8 m into the water: the apron sits mostly below
+             the turf edge, which is what makes it read as dumped rather than set */
+          const off = -1.6 + s2 * 1.1 + (hash2(i * 31 + k, s2 * 7 + 1) - 0.5) * 0.9;
+          const jx = ax + (bx - ax) * t + nx * off + (hash2(i * 13 + k, s2 * 5 + 3) - 0.5) * 0.7;
+          const jz = az + (bz - az) * t + nz * off + (hash2(i * 17 + k, s2 * 13 + 5) - 0.5) * 0.7;
           const hh = terrainH(jx, jz);
-          if (hh < lake.level - 0.55 || hh > lake.level + 1.2) continue;
-          pts.push(jx, Math.max(hh, lake.level - 0.1) - 0.1, jz,
-                   0.55 + hash2(i + k, s2 + 21) * 0.65, hash2(i + k, s2 + 47) * TAU);
+          if (hh < lake.level - 1.5 || hh > lake.level + 1.9) continue;
+          pts.push(jx, Math.max(hh, lake.level - 0.45) - 0.08, jz,
+                   0.42 + hash2(i + k, s2 + 21) * 0.5, hash2(i + k, s2 + 47) * TAU);
         }
       }
     }

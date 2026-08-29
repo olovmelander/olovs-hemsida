@@ -1046,6 +1046,51 @@ pack, which then fails on its GPK1 magic instead of on an honest 404.
 `tools/serve.mjs` makes the same two choices, so the local server and the host
 agree and `check-links.mjs` is testing the real rule.
 
+### What the island 14th taught about the atlas
+
+Four things went wrong on one hole, and three of them were the atlas quietly
+dropping something the analytic classifier used to supply. Worth reading together
+because they are the same shape of bug.
+
+**The greens had lost their mow rings in the middle.** A green is mown in rings
+from its edge inward, and the atlas took that coordinate from the SDF — which is
+clamped to ±8 m so edges stay crisp. Greens run 20–30 m across, so the whole
+middle saturated at 8 and the rings stopped: a flat disc with a banded rim. The
+field texture's spare fourth channel now carries the same chamfer distance
+UNCLAMPED, 0.16 m over 0–40 m. Coarser than the SDF and it does not matter,
+because a mow ring is 1.5 m wide. Locked by a unit test.
+
+**And they were glossy.** The overlays never shaded from the terrain's `SHADE`
+table — they carried their own literals — so driving everything from `SHADE` gave
+greens gloss 0.54 where the mown overlay used 0.42, which reads washed-out and
+plasticky under sun. `SHADE_OVERRIDE` in material.js restores the overlay's own
+numbers. It lives there and NOT in `SHADE`, which also shades every terrain
+vertex and the whole mesh path.
+
+**A tree stood on the island green.** Every scatter loop rejects a candidate
+whose `fair` exceeds ~0.05, and the analytic classifier supplied that by fading a
+fairway apron to 13 m round a green and 7 m round a tee. The atlas cannot do it:
+its SDF measures the distance to the ADJACENT class, and a green is ringed by its
+collar, so out in the rough it reads FRINGE and knows nothing about the green
+behind it. `classify()` in main.js now adds the apron from the green and tee
+rings themselves — exact, and only those two walk rings, so it is a small
+fraction of the old classifier's work. On the island 14th, where the green IS the
+island, losing it had put a tree on the putting surface.
+
+**The shoreline was a polygon and the riprap was a necklace.** Surveyed water
+rings run in straight segments — around the 14th they averaged 15 m and reached
+48 m — and the visible waterline is where `terrainH` crosses the water level,
+which that ring carves. `smoothShore()` splits the long segments to 3 m and runs
+three light averaging passes, but ONLY near the played ground: this ring is
+walked for every terrain sample, so densifying the whole fjärd would be paid for
+on water nobody sees. Median segment by the island: 15.1 m → 3.14 m. The silt
+shallows needed it more than the water did (12 points, 64 m median, one segment
+of 427 m). The riprap was sampling a single jittered LINE and then discarding
+most of it on a narrow height window; it now walks across the shore normal as
+well as along it, which is what makes it read as a dumped apron rather than
+scattered boulders. **What remains faceted is the 4 m terrain grid**, the same
+limit the bunker dishes hit — see the ground plan.
+
 ### A tee marker has to stand on a tee
 
 Measured across the six courses, only **24–63% of tee markers had any prepared

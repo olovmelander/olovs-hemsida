@@ -18,6 +18,16 @@ const MAX_EDGE_DISTANCE = 8;
    garbage seam per stripe, and a 1.5 m green stripe cannot live in a 1 m raster
    at all -- coordinates interpolate, phases do not. */
 const ROUTE_SCALE = 4;
+/* Distance to a surface's own edge, UNCLAMPED, in the spare field channel.
+   Greens and their collars are mown in rings from the edge inward, and that
+   coordinate used to be taken from the SDF -- which is clamped to +/-8 m for
+   edge precision, so on any green wider than 16 m the whole middle saturated at
+   8 and the rings stopped: a flat disc with a banded rim. Greens here run
+   20-30 m across, so that was most of every green on all six courses. This
+   channel carries the same chamfer distance at 0.16 m over 0-40 m, which is
+   coarser than the SDF and does not care, because a mow ring is 1.5 m wide. */
+const RING_SCALE = 0.16;
+const RING_MAX = 255 * RING_SCALE;
 const INF = 1e20;
 const SQRT2 = Math.SQRT2;
 
@@ -250,7 +260,8 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1 
     fieldData[k * 4] = Math.round((sd + MAX_EDGE_DISTANCE) / (MAX_EDGE_DISTANCE * 2) * 255);
     fieldData[k * 4 + 1] = Math.round(Math.min(255, route.distance[k] * ROUTE_SCALE));
     fieldData[k * 4 + 2] = route.owner[k];
-    fieldData[k * 4 + 3] = 0;
+    const ring = edge.distance[k] >= INF / 2 ? RING_MAX : edge.distance[k];
+    fieldData[k * 4 + 3] = Math.round(Math.min(255, ring / RING_SCALE));
   }
   return { bounds, classes, classCounts, idData, fieldData, signedDistance, routeDistance: route.distance, owner: route.owner };
 }
@@ -310,6 +321,12 @@ export function createGroundAtlas(options) {
     else if (s.surface === SURFACE.FAIRWAY) c.fair = 1;
     else if (s.surface === SURFACE.SEMI) c.fair = 0.35;
     else if ([SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL, SURFACE.DIRT].includes(s.surface)) c.path = 1;
+    /* The apron round a green and a tee is NOT done here, and the reason is worth
+       recording: the SDF measures the distance to the ADJACENT class, and a green
+       is ringed by its fringe collar, so a texel out in the rough reads
+       FRINGE/ROUGH and knows nothing about the green three metres further in.
+       An edgeRamp on GREEN therefore dies at the collar. main.js adds the apron
+       from the green and tee rings themselves, which is exact. */
     c.forest = edgeRamp(s, SURFACE.FOREST, -6, 2);
     c.wet = Math.max(s.surface === SURFACE.MUD ? 1 : 0, edgeRamp(s, SURFACE.WETLAND, -4, 2));
     return c;

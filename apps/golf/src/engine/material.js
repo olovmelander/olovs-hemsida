@@ -34,6 +34,20 @@ const MOW_SOURCE = {
   [SURFACE.SEMI]: [0, 1.05, 0],
 };
 
+/* The overlays this material replaced did NOT shade from the terrain's SHADE
+   table -- they carried their own literals in shadeGreen/shadeCollar/shadeSemi,
+   and the two disagree. Driving everything from SHADE therefore gave greens
+   gloss 0.54 where the mown overlay used 0.42, which reads as a washed-out,
+   plasticky putting surface under sun instead of a deep one. These are the
+   overlay's own numbers, restored. They live HERE and not in SHADE, because
+   SHADE also shades every terrain vertex and the whole mesh path: editing it
+   would move pixels far outside the atlas. */
+const SHADE_OVERRIDE = {
+  [SURFACE.GREEN]: [2.85, 0.13, 0.42, 0.85],
+  [SURFACE.FRINGE]: [2.0, 0.30, 0.34, 0.80],
+  [SURFACE.SEMI]: [1.15, 0.62, 0.17, 0.45],
+};
+
 function makeStyleTexture(C, SHADE) {
   /* Row 0: linear colour + atlas-active flag.
      Row 1: detail scale, bump, gloss, mow strength.
@@ -51,7 +65,8 @@ function makeStyleTexture(C, SHADE) {
   };
   const hard = new Set([SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL, SURFACE.DIRT, SURFACE.ROCK]);
   for (const sid of MIGRATED) {
-    const c = colors[sid] || C.rough, shade = SHADE[sid] || SHADE[SURFACE.ROUGH];
+    const c = colors[sid] || C.rough;
+    const shade = SHADE_OVERRIDE[sid] || SHADE[sid] || SHADE[SURFACE.ROUGH];
     data.set([c[0], c[1], c[2], 1], sid * 4);
     data.set(shade, (STYLE_WIDTH + sid) * 4);
     data.set([1, sid === SURFACE.SAND ? 1 : 0, hard.has(sid) ? 1 : 0, 0], (STYLE_WIDTH * 2 + sid) * 4);
@@ -190,12 +205,15 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
      simply fades with its band strength. */
   const mowK = texture(styleTexture, styleUv(primId, 3));
   const routeDist = fields.g.mul(255 / 4);
+  /* the green's own ring coordinate: distance to its edge, unclamped, so the
+     rings run all the way to the middle instead of stopping at the SDF's 8 m */
+  const ringDist = fields.a.mul(255 * 0.16);
   /* Where the route byte saturates (the range, scenery turf far from any hole
      line) there is no meaningful mow direction: zero the phase so those surfaces
      read as flat cut, as their overlays did, instead of a fixed sin() tint. */
   const routeValid = oneMinus(step(0.999, fields.g));
   const diag = wp.x.sub(wp.y).mul(0.70710678);
-  const atlasPhase = sdf.mul(mowK.r).add(routeDist.mul(mowK.g).mul(routeValid)).add(diag.mul(mowK.b));
+  const atlasPhase = ringDist.mul(mowK.r).add(routeDist.mul(mowK.g).mul(routeValid)).add(diag.mul(mowK.b));
   const phase = mix(aMow.x.mul(aMow.y), atlasPhase, inBounds);
   return finish(col, det, bmp, gls, strength, phase, sandWeight, hardWeight);
 }

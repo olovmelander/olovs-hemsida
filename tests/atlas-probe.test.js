@@ -68,6 +68,28 @@ describe('runtime ground atlas', () => {
     expect(zero).toBeCloseTo(10, 5);
   });
 
+  it('carries an UNCLAMPED ring distance, so a wide green keeps its mow rings', () => {
+    /* The SDF is clamped to +/-8 m for edge precision. Greens run 20-30 m
+       across, so taking the ring coordinate from it left the whole middle of
+       every green saturated at 8 -- a flat disc with a banded rim. */
+    const BIG = { x0: 0, z0: 0, x1: 60, z1: 60 };
+    const data = rasterizeGroundAtlas({
+      CORE: BIG,
+      features: [{ surface: SURFACE.GREEN, rings: [square(10, 10, 50, 50)] }],
+      res: 1,
+    });
+    const at = (x, z) => {
+      const k = Math.floor(z) * data.bounds.w + Math.floor(x);
+      return { sdf: data.signedDistance[k], ring: data.fieldData[k * 4 + 3] * 0.16 };
+    };
+    const middle = at(30, 30);
+    expect(middle.sdf).toBeCloseTo(8, 5);         /* the SDF does saturate */
+    expect(middle.ring).toBeGreaterThan(18);       /* the ring channel does not */
+    /* and it still tracks the edge where the SDF has not saturated */
+    expect(at(13, 30).ring).toBeGreaterThan(2);
+    expect(at(13, 30).ring).toBeLessThan(5);
+  });
+
   it('builds nearest-hole distance once for all CPU consumers', () => {
     const atlas = createGroundAtlas({
       CORE,
