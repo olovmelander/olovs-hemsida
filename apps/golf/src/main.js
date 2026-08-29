@@ -41,6 +41,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { loadCourse } from './loader/pack.js';
 import { buildScenery, loadSceneryModule } from './engine/scenery/index.js';
+import { buildRail } from './shell/rail.js';
+import { legacyTarget, goToCourse } from './shell/router.js';
 import { inflate, decodeHF } from './engine/codec.js';
 import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
 
@@ -67,6 +69,13 @@ const tick = (msg, frac) => {
 /* the course, fetched: everything below this line is data-driven. Which course
    is the ?bana= deep link; the manifest's first entry stands in until the
    phase-5 rail replaces defaults with a choice. */
+/* A link to one of the six standalone pages resolves here, view intact. This
+   runs before the pack is fetched: redirecting after a 400 KB download would
+   work and would still be wrong. */
+{
+  const to = legacyTarget(location.pathname, location.search);
+  if (to) { location.replace(to); throw new Error('redirecting to ' + to); }
+}
 const COURSE = await loadCourse(new URLSearchParams(location.search).get('bana'));
 const CMETA = COURSE.meta;
 const PACK = COURSE.pack;
@@ -4060,6 +4069,34 @@ function setSky(n, quiet) {
   if (!quiet) toast(SKY_MSG[skyState]);
 }
 document.getElementById('skyltBtn').onclick = () => setSky(skyState + 1);
+
+/* ------------------------------------------------------------------- rail
+   Shown over the running course when no course was asked for by name, and
+   whenever someone asks for another one. */
+const railEl = buildRail({
+  courses: COURSE.all,
+  current: CMETA.slug,
+  onPick: slug => { if (slug === CMETA.slug) closeRail(); else goToCourse(slug); },
+});
+document.body.append(railEl);
+let railOpen = false;
+function openRail() {
+  railOpen = true;
+  railEl.hidden = false;
+  railEl.classList.remove('leaving');
+  railEl.querySelector('.card').focus();
+}
+function closeRail() {
+  if (!railOpen) return;
+  railOpen = false;
+  railEl.classList.add('leaving');
+  const done = () => { railEl.hidden = true; railEl.classList.remove('leaving'); };
+  if (RMOTION) done(); else setTimeout(done, 380);
+}
+railEl.hidden = true;
+document.getElementById('bytBtn').onclick = () => (railOpen ? closeRail() : openRail());
+railEl.addEventListener('click', e => { if (e.target === railEl) closeRail(); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && railOpen) closeRail(); });
 /* the webfont lands after the first paint, so every baked glyph is repainted once
    it is really there -- the base map's own N has always raced it */
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {
@@ -4139,6 +4176,10 @@ const BOOTQ = new URLSearchParams(location.search);
   const n = parseInt(BOOTQ.get('hal'), 10);
   goHole(Number.isFinite(n) ? n : 1, false);
   setCam(VY2CAM[(BOOTQ.get('vy') || '').toLowerCase()] || 'orbit', true);
+  /* a bare visit is a choice, not an arbitrary course pretending to be the
+     product -- the default boots behind the rail so there is a real place
+     rendering while you pick */
+  if (!BOOTQ.get('bana') && BOOTQ.get('kiosk') !== '1' && BOOTQ.get('ren') !== '1') openRail();
   const sk = parseInt(BOOTQ.get('skylt'), 10);
   setSky(Number.isFinite(sk) ? sk : skyMax, true);
   if (BOOTQ.get('ren') === '1') setClean(true);

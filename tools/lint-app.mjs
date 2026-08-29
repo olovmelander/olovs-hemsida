@@ -21,7 +21,7 @@ fs.writeFileSync(cfg, `export default [{
     URLSearchParams:'readonly', location:'readonly', setTimeout:'readonly',
     clearTimeout:'readonly', devicePixelRatio:'readonly', innerWidth:'readonly',
     innerHeight:'readonly', addEventListener:'readonly', OffscreenCanvas:'readonly',
-    ImageData:'readonly', history:'readonly', localStorage:'readonly', DataView:'readonly',
+    ImageData:'readonly', Image:'readonly', history:'readonly', localStorage:'readonly', DataView:'readonly',
     crypto:'readonly',
   } },
   rules: { 'no-undef': 'error' },

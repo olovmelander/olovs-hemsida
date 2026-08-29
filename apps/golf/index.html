@@ -22,6 +22,9 @@ canvas{display:block;position:fixed;inset:0}
   background:radial-gradient(120% 90% at 50% 20%,#12242c 0%,#070d10 70%);transition:opacity .7s .2s}
 #boot.done{opacity:0;pointer-events:none}
 #boot .inner{width:min(420px,80vw);text-align:center}
+#boot .mark{font:800 15px/1 Outfit,sans-serif;letter-spacing:.02em;color:var(--dim);
+  margin-bottom:16px}
+#boot .mark i{font-style:normal;color:var(--turf)}
 #boot h1{font-size:19px;font-weight:700;letter-spacing:.01em}
 #boot .sub{font-size:11.5px;color:var(--faint);margin-top:5px;letter-spacing:.14em;text-transform:uppercase}
 #bar{height:2px;background:rgba(255,255,255,.09);border-radius:2px;margin-top:22px;overflow:hidden}
@@ -158,6 +161,7 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 <body>
 
 <div id="boot"><div class="inner">
+  <div class="mark">Ban<i>v</i>y</div>
   <h1>Banvy</h1>
   <p class="sub">laddar banan</p>
   <div id="bar"><i></i></div>
@@ -242,6 +246,7 @@ body.tour::before{top:0}body.tour::after{bottom:0}
   <div class="grp"><button class="btn" id="flyBtn">Flygtur</button><button class="btn" id="tourBtn">Bansafari</button></div>
   <div class="grp"><button class="btn" id="rangeBtn">Kikaren</button><button class="btn" id="gridBtn">Greengrid</button></div>
   <div class="grp"><button class="btn on" id="skyltBtn">Skyltar</button></div>
+  <div class="grp"><button class="btn" id="bytBtn">Byt bana</button></div>
   <div class="grp"><button class="btn" id="shareBtn">Dela vyn</button><button class="btn" id="fotoBtn">Foto</button></div>
   <div id="facts"></div>
 </div>

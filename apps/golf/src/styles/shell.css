@@ -1,0 +1,140 @@
+/* The shell: everything around the canvas that is Banvy rather than a course.
+
+   The course HUD's dusk-glass language is the brand, so the rail is built from
+   the same tokens (--glass, --edge, --ink) rather than a second visual world
+   laid on top of the first. What the rail adds is scale: a course deserves a
+   full-bleed photograph of itself, not a thumbnail. */
+
+#chooser {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(120% 90% at 50% 0%, rgba(10, 22, 16, .82), rgba(4, 9, 7, .96));
+  backdrop-filter: blur(26px) saturate(1.15);
+  -webkit-backdrop-filter: blur(26px) saturate(1.15);
+  opacity: 1;
+  transition: opacity .38s ease;
+}
+#chooser[hidden] { display: none; }
+#chooser.leaving { opacity: 0; pointer-events: none; }
+
+.chooser-head {
+  flex: 0 0 auto;
+  padding: clamp(20px, 4vh, 44px) clamp(18px, 4vw, 54px) 0;
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.wordmark {
+  font: 800 clamp(26px, 3.4vw, 40px)/1 Outfit, sans-serif;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+/* the y carries the accent -- one green letter, the way a flag reads on a green */
+.wordmark i { font-style: normal; color: var(--turf); }
+.chooser-head p {
+  font: 400 clamp(12px, 1.25vw, 14.5px)/1.5 Outfit, sans-serif;
+  color: var(--dim);
+  max-width: 46ch;
+}
+
+.chooser-scroll {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: clamp(14px, 2.6vh, 26px) clamp(18px, 4vw, 54px) clamp(24px, 5vh, 54px);
+  scrollbar-width: thin;
+}
+.cards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: clamp(12px, 1.6vw, 20px);
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--edge);
+  border-radius: 17px;
+  background: var(--glass);
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .22s cubic-bezier(.2, .7, .3, 1), border-color .22s, box-shadow .22s;
+}
+.card:hover, .card:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(95, 208, 122, .5);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, .5);
+  outline: none;
+}
+.card:focus-visible { box-shadow: 0 0 0 2px var(--turf), 0 16px 44px rgba(0, 0, 0, .5); }
+
+.card .shot {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(155deg, #16301f, #0b1a13 60%, #0a1520);
+  background-size: cover;
+  background-position: center;
+}
+/* the poster darkens toward its foot so the name always has ground to sit on,
+   whatever the still happens to be doing down there */
+.card .shot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(4, 9, 7, .92) 0%, rgba(4, 9, 7, .25) 42%, transparent 70%);
+}
+.card .shot .on-shot {
+  position: absolute;
+  left: 15px; right: 15px; bottom: 11px;
+  z-index: 1;
+}
+.card h2 {
+  font: 700 19px/1.15 Outfit, sans-serif;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.card .where {
+  font: 600 10.5px/1 Outfit, sans-serif;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--turf);
+  margin-bottom: 5px;
+}
+.card .body { padding: 12px 15px 14px; }
+.card .line {
+  font: 400 12.5px/1.5 Outfit, sans-serif;
+  color: var(--dim);
+  margin-bottom: 10px;
+  min-height: 2.6em;
+}
+.card .facts {
+  display: flex;
+  gap: 14px;
+  font: 600 11px/1 'JetBrains Mono', monospace;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.card .facts b { color: var(--ink); font-weight: 600; }
+
+/* the button that brings the rail back, parked with the other tools */
+#bytBtn { width: 100%; }
+
+@media (max-width: 620px) {
+  .cards { grid-template-columns: 1fr; }
+  .card .body { padding: 10px 13px 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #chooser, .card { transition: none; }
+  .card:hover, .card:focus-visible { transform: none; }
+}
