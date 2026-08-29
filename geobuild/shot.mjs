@@ -40,10 +40,11 @@ page.on('console', m => {
   if (m.type() === 'error' && !/favicon/.test(t)) problems.push('console: ' + t.slice(0, 200));
 });
 
-/* replay the CDN out of the vendor cache */
+/* replay the CDN out of the vendor cache; localhost is a real server, let it through */
 await page.route('**/*', async route => {
   const url = route.request().url();
   if (url.startsWith('file:')) return route.continue();
+  if (/^http:\/\/(127\.0\.0\.1|localhost)[:/]/.test(url)) return route.continue();
   const base = url.split('?')[0].split('/').pop();
   const local = path.join(vendor, base);
   if (fs.existsSync(local)) {
@@ -55,11 +56,42 @@ await page.route('**/*', async route => {
 });
 
 const t0 = Date.now();
-await page.goto('file://' + path.resolve(target), { waitUntil: 'load', timeout: 120000 });
+const targetUrl = /^https?:\/\//.test(target) ? target : 'file://' + path.resolve(target);
+await page.goto(targetUrl, { waitUntil: 'load', timeout: 120000 });
 
 const wantHole = flag('hole', null), wantPreset = flag('preset', null), wantCam = flag('cam', null);
+const wantSeq = flag('seq', null);
 let boot = 'n/a';
-if (/\.html$/.test(target)) {
+const isPage = /\.html($|\?)/.test(target) || /^https?:/.test(target);
+if (isPage && wantSeq) {
+  /* one boot, many shots: --seq "hole:cam:preset,hole:cam:preset,…" writes
+     out-1.png, out-2.png, … next to the given out path. Twelve views cost one
+     boot instead of twelve, which is what makes a parity matrix affordable. */
+  try {
+    await page.waitForSelector('#boot.done', { timeout: 180000 });
+    boot = ((Date.now() - t0) / 1000).toFixed(1) + ' s';
+  } catch { console.error('boot did not complete within 180 s'); await browser.close(); process.exit(1); }
+  const steps = wantSeq.split(',').map(s => s.split(':'));
+  const base = path.resolve(out).replace(/\.png$/, '');
+  fs.mkdirSync(path.dirname(base), { recursive: true });
+  let k = 0;
+  for (const [h, c, pr] of steps) {
+    k++;
+    await page.evaluate(([hh, cc, pp]) => {
+      if (pp) window.V3D?.setPreset?.(pp);
+      if (hh) window.V3D?.goHole?.(+hh, false, true);
+      if (cc) window.V3D?.setCam?.(cc, true);
+    }, [h, c, pr]);
+    await page.waitForFunction(() => window.V3D?.settled?.() !== false, null, { timeout: 60000 }).catch(() => {});
+    await page.waitForTimeout(1400);
+    await page.screenshot({ path: `${base}-${k}.png`, timeout: 300000, animations: 'disabled' });
+    console.log(`  ${path.basename(base)}-${k}.png  hole ${h} ${c} ${pr}`);
+  }
+  await browser.close();
+  if (problems.length) { console.log('  problems:'); for (const q of [...new Set(problems)].slice(0, 8)) console.log('    ' + q); }
+  process.exit(problems.some(q => q.startsWith('pageerror')) ? 1 : 0);
+}
+if (/\.html$/.test(target) || /^https?:/.test(target)) {
   try {
     await page.waitForSelector('#boot.done', { timeout: 180000 });
     boot = ((Date.now() - t0) / 1000).toFixed(1) + ' s';

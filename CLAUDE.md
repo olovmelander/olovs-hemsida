@@ -623,6 +623,37 @@ Uppland clay course. The satellite says otherwise: that ground genuinely is pale
 grass, and the nearest farmland polygon is 238 m away. Measure the imagery before
 retuning shading — this one nearly got "fixed" into being wrong.
 
+## Banvy — the unified app (working name), and the course pack
+
+The six pages are being consolidated into one application, per the audited plan
+(phases 0–9; the six pages keep building and passing their gates until parity is
+proven). **Phase 0 is done and its claim is strong**: a course's embedded data can
+become a fetched binary pack with zero rendering change.
+
+- `packages/course-pack/` — the fmt:1 pack (`GPK1` magic, JSON header, three raw
+  deflate streams: HF0, HF1, VEC). `emit-pack.mjs <build> <out>` writes it from the
+  committed build JSON — its vec shape is copied verbatim from the builds'
+  embed.mjs (the five newer builds are byte-identical there; geobuild is refused
+  until the Phase-4 merge). `check-pack.mjs` gates: streams byte-identical to the
+  page's embedded base64, metadata equal, card values exact from the pack's own
+  decode path.
+- `tools/make-pack-page.mjs` — anchored patch turning a page copy's GEODATA block
+  into a pack fetch; `--det` pins the two clocks (the TSL `time` uniform and the
+  flag-cloth `now/1000`) because **nothing animated can be screenshot-compared
+  without pinning its clocks** — that determinism hook is what makes parity a gate
+  instead of a vibe.
+- `tools/serve.mjs` (localhost static server — Chromium cannot TLS through the
+  proxy, so http is served, never fetched) and `tools/parity.mjs` (strict pixel
+  gate: mean ≤ 0.10/255, ≤ 0.05% of pixels off by > 2).
+- `geobuild/shot.mjs` grew two additive modes: an `http://127.0.0.1` target (the
+  route interceptor lets localhost through) and `--seq "hole:cam:preset,…"` —
+  twelve views for one boot, which is what makes a parity matrix affordable.
+
+Phase-0 result, for the record: Ängsö's pack renders **pixel-identical** to the
+embedded page across 3 holes × 2 cams × 2 presets — mean difference 0.0000/255,
+worst channel delta 0, all 12 pairs. The committed pack lives at
+`apps/golf/public/courses/angso/pack.bin`.
+
 ## Skyltar — the marker layer, on all six pages
 
 `geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures
