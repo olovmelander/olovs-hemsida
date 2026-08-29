@@ -764,6 +764,33 @@ drops whatever course-specific truth lived in the engine it left. Data gates
 cannot see that — they check the data, which was fine. Only a picture of the
 place, compared against a picture of the same place, can.
 
+**Phase 5 (the shell)**: `src/shell/` and `src/styles/shell.css`. The course
+chooser is a full-bleed poster grid built from the HUD's own tokens — one product,
+not a second visual world — and it is an **overlay over a live course**, which is
+deliberate: the engine's boot stays a straight line (the re-entrant `loadCourse`
+is the persistent-renderer phase's work), and a bare visit shows a real place
+rendering behind the choice. Picking a course navigates; that IS v1 switching.
+Card posters come from `/courses/<slug>/hero-1.png`, set only once the image has
+actually loaded so a course without one shows the gradient rather than a gap.
+
+`src/shell/router.js` is the load-bearing half. **Every historical URL still
+resolves to the same view**: the six page names map to their course and the whole
+grammar carries through — `hal vy ljus tee skylt ren kiosk q gl`. `gl=1` and
+`q=lo` are tested explicitly because an audit found them missing from a plan that
+claimed the grammar was preserved verbatim. The redirect fires BEFORE the pack is
+fetched; redirecting after a 400 KB download would work and still be wrong.
+`tools/serve.mjs` grew the `.html` fallback the host will provide, so the legacy
+half is exercised for real. Gates: `router.test.mjs` (the mapping, no browser) and
+`tools/check-links.mjs` — twelve URL shapes, half legacy, asserting hole, camera,
+light, tee, markers and clean mode. All twelve pass.
+
+**The id collision worth remembering.** The chooser was first built as `#rail` —
+and the HUD's own control panel is `<div class="panel" id="rail">`. A fullscreen
+overlay's CSS was therefore being applied to the Vy/Ljus rail on every course.
+The symptom the gate reported was tiny (a chooser open when it should be shut);
+the cause would have wrecked the HUD everywhere. **When adding an element to a
+page this old, grep the id first** — `#chooser` now.
+
 ## Skyltar — the marker layer, on all six pages
 
 `geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures
