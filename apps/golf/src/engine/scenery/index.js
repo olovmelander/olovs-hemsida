@@ -21,6 +21,7 @@
    them to, and the mechanism below is what they will come across into.       */
 const REGISTRY = {
   veckefjarden: () => import('./veckefjarden.js'),
+  norrfallsviken: () => import('./norrfallsviken.js'),
 };
 
 /* Loaded once, early: a course module may supply BOTH a species rule (which the

@@ -805,10 +805,57 @@ two different `shot.mjs` paths (`--seq` versus single `--hole/--cam`) differ by
 fix look like a regression (5.01) when like-for-like it was 3.31, and after the
 reeds 3.14, of which ~1.9 is that harness noise. Always shoot both sides the same way.
 
-Still outstanding: the app plants Norrfällsviken's chapel clearing in the vista
-scatter instead of Veckefjärden's two — Kyrkudden, so Själevads kyrka stays visible
-across the fjärd, and the works yard at Åsmasten's foot. That wants a
-`SCENERY.clearings` export and is the last known course-truth casualty of the merge.
+**The vista clearing, and the far ring behind it.** Chasing the last known merge
+casualty — the app punching Norrfällsviken's chapel clearing into Veckefjärden's
+horizon instead of its own two (Kyrkudden, so Själevads kyrka stays visible across
+the fjärd, and the works yard at Åsmasten's foot) — turned up two more things.
+
+First, that hardcoded coordinate was **latent in four other standalone pages**,
+the same way `const hut = [-359, 229]` was: puttom, angso, upsala and
+johannesberg all carried Norrfällsviken's chapel green. It is inert wherever the
+point falls inside the tree-cover raster's box, because the far scatter only runs
+outside it — but at **Upsala it falls outside, and fires**, biting a bald patch
+out of Håmö's far treeline. Measured on `stats.vista`: Upsala +11 cones at `q=lo`
+(so ~22 at full quality), Ängsö +2 where the grid jitter crosses the cover edge,
+Puttom and Johannesberg exactly 0. All six pages now agree with the app
+cone-for-cone. It is a `clearings` export; Norrfällsviken keeps its own in a
+module of its own, with a note saying plainly that it is currently inert there.
+
+Second, and much larger: **`FARR` is course truth and the merge flattened it.**
+Veckefjärden's far ring is `z0:-6000, z1:2520` — deliberately asymmetric, reaching
+6 km north to put Åsberget and the hills on the horizon the course looks at, and
+stopping 2.5 km south rather than spend a quarter of the ring on ground FogExp2
+has already taken. The app had Norrfällsviken's symmetric ±5400. That is 27% more
+ring: it accounted for **6868 of the 6903-cone gap** between app and page, next to
+about 35 for the clearings. It also moved the horizon geometry, since `FARR` bounds
+the vista terrain mesh as well. Restored as a `farRing` export; the vista
+heightfield reaches z −6592…6016, so both edges stand on real elevation either way
+and this is a framing choice rather than a data limit.
+
+### The pages got the app's `?det=1`, and only then could parity be measured
+
+Verifying the above ran straight into the harness. Pinning the app's clock while
+the page's ran live made parity look WORSE (0.062 → 0.138), which is how the gap
+was found: **`det=1` existed only in the app.** The page's sky noise and flag
+cloth run off a live clock, so a page differs from ITSELF, run to run, by
+0.068/255 and 0.71% of pixels — fourteen times the pixel gate. The gate was
+unmeasurable on exactly the views a golfer looks at, and every differing pixel sat
+above y=450: sky and horizon, never ground.
+
+All six pages now carry the same switch (three anchored sites each: the TSL `time`
+import renamed, the `DET` const after the import block, and the flag cloth's own
+JS clock). Absent `?det=1` nothing changes. With it:
+
+| comparison | mean | pixels >2 |
+|---|---|---|
+| page vs itself, unpinned | 0.0676/255 | 0.707% |
+| page vs itself, pinned | **0.0000/255** | **0.000%** |
+| page vs app, pinned | 0.0003/255 | 0.003% |
+
+Bit-identical against itself, and the app inside the gate with a 15× margin. The
+lesson is the sharper form of "measure like with like": **if the reference cannot
+reproduce itself, nothing measured against it means anything.** Build the pin into
+both sides before trusting any number.
 
 **The id collision worth remembering.** The chooser was first built as `#rail` —
 and the HUD's own control panel is `<div class="panel" id="rail">`. A fullscreen
@@ -854,6 +901,77 @@ interior probes per course. Lessons that cost real time:
   fields, not the quantized texture bytes.
 - **A bunker's centroid can lie outside its own ring** (Upsala's 3rd, a 22-point
   crescent) — probe interiors with a scanline-span midpoint, not a centroid.
+- **One `import()` with a ternary preloads the UNION of both branches.** The
+  bare route was still fetching all of three.js, because
+  `import(bare ? './hub.js' : './main.js')` is one call site and the bundler
+  attaches one dependency list to it. Two separate call sites give two lists.
+  The dev server hid this completely — it is a BUILD-only failure, so measure
+  the bare route by counting requests against `dist/`, never against Vite.
+
+### The posters have to be the courses
+
+The chooser briefly shipped six generated photoreal images as its course cards.
+They are beautiful and they are not these places: pictures of courses that do not
+exist, under the names of six real, operating Swedish golf clubs. The quickest
+tell is `veckefjarden.png`, which puts a flag reading **16** on what is meant to
+be the island 14th, over a green matching nothing in the club's own survey.
+
+A visitor reading a card headed VECKEFJÄRDENS GOLFKLUBB takes the picture above
+it as that club. That is the whole problem, and it is not a matter of taste:
+shipping those images tells six real businesses' customers something untrue about
+those businesses. The rail's own source comment had it right and had stopped
+being true — *"the stills are rendered by the shot harness, so they are pictures
+of the thing itself and cannot fall out of date with it."* Every hero is a real
+still again; the generated set is kept under `docs/concept-art/` with a README
+saying what it is. **A plain picture of the real thing beats a beautiful picture
+of a different thing.** If a course deserves a better poster the fix is a better
+camera, not a different course.
+
+**Judge a poster at the size it is shown.** Six candidate cameras per course,
+composited at the card's own 400×225 on the chooser's ground, changed two picks
+that looked settled at full size. Veckefjärden's island green is the signature
+hole and now renders its restored granite collar — but at card size it is half
+blown-out sky and water, so the poster is the hero fairway instead. And it caught
+a real gap: Norrfällsviken is *seaside* and every candidate was a pond in the
+woods, until it was re-shot down hole 5 to put the Bothnian horizon behind two
+greens. Ängsö's fresh re-renders lost to the original and it kept it — a
+re-render is not automatically an improvement.
+
+`tools/make-posters.py` builds what ships: 800 px wide (2× the card) in WebP,
+**6.33 MB → 282 KB, 23× smaller**, because six 1600×900 PNGs on the front door is
+the first thing a phone downloads and the brief names Android and iOS before
+desktop. Its docstring carries the measured table rather than a claim — the
+resize is nearly free (0.43–0.48 mean/255) and essentially all loss is the codec,
+and **WebP beat JPEG on both axes at the same quality number**, so there was no
+reason to ship the JPEG. What is not claimed is that the difference is invisible.
+
+One more thing found in the same pass and left in place with a note: `map.js`
+draws tiles from **OpenStreetMap's own servers**, which are donated infrastructure
+whose usage policy rules out being the tile source for an app with real traffic.
+Fine at this scale; needs a provider before the app is public.
+
+### Phase 6 groundwork — the hosting rules, and one that is load-bearing
+
+`apps/golf/public/_headers` and `_redirects` ship with the build, so the hosting
+rules travel with the thing they describe rather than living in a dashboard.
+
+**The pack is fetched by CONTENT, not by name.** `loadCourse` appends
+`?v=<sha256 prefix>` to the pack URL. This is not an optimisation, it is what
+makes caching a pack safe at all: a pack file keeps one path forever, the runtime
+verifies its bytes against the manifest's hash, so a CDN handing back yesterday's
+pack under today's manifest does not degrade quietly — **it throws, and the course
+refuses to open.** With the hash in the URL, changed bytes are a changed URL and
+no cached copy is ever the wrong one, which is why packs can then be `immutable`.
+The manifest is the one file that must stay fresh, and is `no-cache`.
+
+**There is deliberately no `/*` catch-all** in `_redirects`. The app has no path
+routes — a course is `?bana=`, the view is the rest of the query — so the only
+non-file paths are the six legacy page names, and those are **rewrites (200), not
+redirects**, because the router reads the page name out of the URL and a 301
+would strip exactly that. A catch-all would serve HTML in place of a missing
+pack, which then fails on its GPK1 magic instead of on an honest 404.
+`tools/serve.mjs` makes the same two choices, so the local server and the host
+agree and `check-links.mjs` is testing the real rule.
 
 ## Skyltar — the marker layer, on all six pages
 

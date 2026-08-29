@@ -262,6 +262,8 @@ const ARM = (() => {
   const g = a && M.holes[a.hole - 1] && M.holes[a.hole - 1].green;
   return g ? { c: g.c, rise: a.rise, paint: a.paint, colour: a.colour } : null;
 })();
+/* holes the far-vista forest ring must leave open, declared by the course */
+const CLEARINGS = (SCENERY && SCENERY.clearings) || [];
 const HV = (M.infra.power ? M.infra.power.lines : []).filter(l => (l.voltage || 0) >= 100000);
 for (const s of M.streams) { const q = { line: s.line, bb: ringBBox(s.line), w: s.w, stream: true }; WI.add(q, q.bb, 14); }
 
@@ -643,9 +645,15 @@ await tick('startar renderaren', 0.10);
    instead of spending ten seconds proving they needed to. */
 const qualityParam = new URLSearchParams(location.search).get('q');
 let rememberedQuality = null;
-try { rememberedQuality = localStorage.getItem('banvy-quality'); } catch {}
-const constrainedDevice = (navigator.deviceMemory && navigator.deviceMemory <= 4)
-  || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+/* ...but NOT under ?det=1. Instance counts change with quality, so a scene that
+   sniffs the device is a scene that differs between machines -- and det=1 exists
+   to make two boots produce the same pixels. A four-core CI box would otherwise
+   capture goldens no eight-core machine could ever reproduce, and the diff would
+   read as a rendering regression. Under det the URL's own ?q= is the only voice. */
+if (!DET) { try { rememberedQuality = localStorage.getItem('banvy-quality'); } catch {} }
+const constrainedDevice = !DET
+  && ((navigator.deviceMemory && navigator.deviceMemory <= 4)
+   || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4));
 const LOWQ = qualityParam === 'lo'
   || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice));
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
@@ -1032,9 +1040,17 @@ const CORE = { dx: 4, x0: snap(playB.x0 - 150, 36), x1: snap(playB.x1 + 150, 36)
                        z0: snap(playB.z0 - 150, 36), z1: snap(playB.z1 + 150, 36) };
 const MIDR = { dx: 12, x0: snap(HF0.x0 + 8, 36), x1: snap(HF0.x0 + (HF0.nx - 1) * HF0.dx - 8, 36),
                         z0: snap(HF0.z0 + 8, 36), z1: snap(HF0.z0 + (HF0.nz - 1) * HF0.dx - 8, 36) };
-/* the far ring stops well inside the vista field: past it the horizon is open sea
-   and DEM islands whose few kilometres of distance make individual cones invisible */
-const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -5400, z1: 5400 };
+/* The far ring: the vista terrain, and the stand-in forest scattered over it. It
+   stops well inside the vista heightfield, because past a few kilometres the
+   individual cones stop being legible and the DEM is doing all the work.
+
+   Square by default, but a course may say otherwise, and one does: Veckefjärden's
+   ring reaches 6 km NORTH to put Åsberget and the hills behind it on the horizon
+   the course actually looks at, and stops 2.5 km south, where it would only be
+   spending a quarter of the ring on fogged ground. That asymmetry is a fact about
+   where the course stands, so it comes from the course. */
+const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -5400, z1: 5400,
+               ...((SCENERY && SCENERY.farRing) || {}) };
 
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0 };
 SEAM = MIDR;
@@ -2564,9 +2580,13 @@ if (M.cover) {
       const pz = z + (rnd2(i + 87, j + 61) - 0.5) * GAP3 * 1.6;
       if (fbm(px * 0.0011, pz * 0.0011, 2) < -0.18) continue;   /* pasture gaps */
       if (openLand(px, pz)) continue;
-      /* the chapel green and the harbour front are village lawn and rock, not
-         forest -- keep the white chapel visible from the course */
-      if (Math.hypot(px + 551, pz - 1161) < 90 + fbm(px * 0.01, pz * 0.01, 2) * 30) continue;
+      /* a course may declare places this ring must not close over -- a churchyard
+         it looks across at, a cleared works yard. They are facts about one place,
+         so they come from the course's own module, never from the engine: the
+         hardcoded coordinate that used to sit here was Norrfällsviken's, and it
+         was punching that clearing into five other courses' horizons. */
+      if (CLEARINGS.some(cl => Math.hypot(px - cl.c[0], pz - cl.c[1])
+            < cl.r + (cl.wobble ? fbm(px * 0.01, pz * 0.01, 2) * cl.wobble : 0))) continue;
       if (rnd2(i + 9, j + 33) > 0.85) continue;
       const h = terrainH(px, pz);
       if (h < GEO.seaLevel + 1.5) continue;
@@ -4366,6 +4386,11 @@ let railOpen = false;
 function openRail() {
   if (navDrawer.isOpen()) navDrawer.close();
   railOpen = true;
+  /* The chooser is glass over a LIVE course, which is the whole idea -- but the
+     course is what should show through it, not the course's HUD. Left alone, the
+     hole strip and the card sit blurred behind the front door, and blurred UI
+     behind UI reads as a mistake rather than as depth. */
+  document.body.classList.add('choosing');
   railEl.hidden = false;
   railEl.classList.remove('leaving');
   const firstCard = railEl.querySelector('.card');
@@ -4376,6 +4401,7 @@ function closeRail() {
   if (!railOpen) return;
   railOpen = false;
   railEl.classList.add('leaving');
+  document.body.classList.remove('choosing');
   const done = () => { railEl.hidden = true; railEl.classList.remove('leaving'); };
   if (RMOTION) done(); else setTimeout(done, 380);
 }
@@ -4574,7 +4600,9 @@ if (!LOWQ) setTimeout(() => {
       window.clearInterval(qt);
       if (bad >= 6) {
         lowfx = true;
-        try { localStorage.setItem('banvy-quality', 'lo'); } catch {}
+        /* not under det: a harness run on a software rasterizer is always slow,
+           and it must not leave a verdict behind that changes the next visit */
+        if (!DET) { try { localStorage.setItem('banvy-quality', 'lo'); } catch {} }
         renderer.setPixelRatio(1);
         renderer.setSize(innerWidth, innerHeight);
         if (renderer.__bloomNode) renderer.__bloomNode.strength.value = 0;

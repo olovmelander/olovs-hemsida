@@ -17,6 +17,9 @@ import { chromium } from 'playwright-core';
 import { ROOT } from '../geobuild/lib.mjs';
 import { readCard } from '../packages/course-pack/lib.mjs';
 
+/* SwiftShader boots the atlas build in minutes, not seconds; --boot-timeout
+   raises it further when harnesses must share a CPU. */
+const BOOT_TIMEOUT = +(process.env.BANVY_BOOT_TIMEOUT || 420) * 1000;
 const BASE = process.argv[2] || 'http://127.0.0.1:8620';
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
@@ -49,7 +52,7 @@ async function checkCourse(c) {
   const errs = [];
   page.on('pageerror', e => errs.push(String(e).slice(0, 160)));
   await page.goto(`${BASE}/?bana=${c.slug}&det=1`, { waitUntil: 'load', timeout: 120000 });
-  try { await page.waitForSelector('#boot.done', { timeout: 240000 }); }
+  try { await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT }); }
   catch { gate(false, 'boot did not complete'); await page.close(); return; }
 
   gate(errs.length === 0, `no page errors${errs.length ? ' -- ' + errs[0] : ''}`);

@@ -24,6 +24,12 @@ const target = args[0], out = args[1] || path.join(ROOT, 'geobuild/shots/shot.pn
 if (!target) { console.error('usage: shot.mjs <page.html|file.svg> <out.png> [--hole n] [--preset p]'); process.exit(2); }
 
 const WIDTH = +flag('w', 1600), HEIGHT = +flag('h', 900), WAIT = +flag('wait', 0);
+/* How long a boot may take before the shot is called a failure. The atlas made
+   the course build heavier and SwiftShader is roughly an order of magnitude
+   slower than a GPU, so the old hardcoded 180 s failed every course on a machine
+   that renders all six perfectly. Raise it with --boot-timeout when a run has to
+   share the CPU with another harness. */
+const BOOT_TIMEOUT = +flag('boot-timeout', 420) * 1000;
 const vendor = path.join(CACHE, 'vendor');
 
 const browser = await chromium.launch({
@@ -69,9 +75,9 @@ if (isPage && wantSeq) {
      out-1.png, out-2.png, … next to the given out path. Twelve views cost one
      boot instead of twelve, which is what makes a parity matrix affordable. */
   try {
-    await page.waitForSelector('#boot.done', { timeout: 180000 });
+    await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT });
     boot = ((Date.now() - t0) / 1000).toFixed(1) + ' s';
-  } catch { console.error('boot did not complete within 180 s'); await browser.close(); process.exit(1); }
+  } catch { console.error(`boot did not complete within ${BOOT_TIMEOUT/1000} s`); await browser.close(); process.exit(1); }
   const steps = wantSeq.split(',').map(s => s.split(':'));
   const base = path.resolve(out).replace(/\.png$/, '');
   fs.mkdirSync(path.dirname(base), { recursive: true });
@@ -94,9 +100,9 @@ if (isPage && wantSeq) {
 }
 if (/\.html$/.test(target) || /^https?:/.test(target)) {
   try {
-    await page.waitForSelector('#boot.done', { timeout: 180000 });
+    await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT });
     boot = ((Date.now() - t0) / 1000).toFixed(1) + ' s';
-  } catch { problems.push('boot did not complete within 180 s'); boot = 'TIMEOUT'; }
+  } catch { problems.push(`boot did not complete within ${BOOT_TIMEOUT/1000} s`); boot = 'TIMEOUT'; }
   /* Move the camera instantly rather than tweening it. Under software rendering the
      page draws about twice a second, so a 1.5 s tween would still be in its second
      frame when the shutter opens and every shot would be of the previous view. */
