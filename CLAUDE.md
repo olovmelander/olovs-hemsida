@@ -597,3 +597,28 @@ of the island, across Spånsundet, the island edge some 700 m south of the
 clubhouse. And its neighbour is **Ängsö naturreservat** in Västmanland, not the
 Ängsö national park of the same name, which is an island 100 km east in Roslagen.
 Both were wrong in the first draft of the page.
+
+### Johannesberg — the hole the imagery could not show
+
+Every hole traced except one, and hole 12 is worth reading before touching it. Its
+green is certain (the banguide's flagpole converts within 5 m of a vivid green with
+the matching front-left bunker), but the banguide draws the TEE END into ground that
+is dense spruce in the satellite AND in the club's own aerial — no clearing exists at
+either resolution. The registration is not at fault: greens 10, 11, 12 and 14 all land
+within 5 m. The tracer took the only constructed feature at the corridor's west end,
+a rimmed platform at (91, 488), which makes the hole 269 m against a card 374 m.
+
+**The card slide resolved it, and the resolution is the interesting part.** Sliding the
+tee 99.7 m back along its own axis — three times any other hole here — lands it at
+(−7.6, 473), which is **26 m from the banguide's own hole-12 disc**. Two independent
+records that never entered each other therefore agree: the club prints 374 m, and the
+club draws its tee within 26 m of where 374 m puts it. The back tee is a chute cut into
+the spruce that 0.3 m/px orthoimagery cannot resolve, and the traced platform is a
+forward tee. So a slide far outside the usual band is not automatically a bad trace —
+check it against the banguide disc before re-tracing.
+
+**Its dry ground is real.** The rough east and south of the first tee renders as straw
+rather than green, which reads at first glance like the heath band mis-firing on an
+Uppland clay course. The satellite says otherwise: that ground genuinely is pale dry
+grass, and the nearest farmland polygon is 238 m away. Measure the imagery before
+retuning shading — this one nearly got "fixed" into being wrong.
