@@ -1238,3 +1238,15 @@
   #chooser, .nav-drawer, .nav-drawer-panel, .card, #menuToggle { transition: none !important; }
   .card:hover { transform: none !important; }
 }
+
+/* The front door is glass over a live course, and what should show through it is
+   the COURSE. The HUD behind it -- the hole strip, the card, the rails -- blurs
+   into a smear of unreadable UI that reads as a rendering fault rather than as
+   depth, so it steps aside while the chooser is up and comes straight back. It
+   is only ever hidden while an overlay owns the screen, so there is nothing to
+   restore and nothing to get out of sync. */
+body.choosing .panel,
+body.choosing #hint,
+body.choosing #mini,
+body.choosing #uiToggle,
+body.choosing #toast { opacity: 0; pointer-events: none; transition: opacity .22s ease; }

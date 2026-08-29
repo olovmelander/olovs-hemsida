@@ -4247,6 +4247,11 @@ let railOpen = false;
 function openRail() {
   if (navDrawer.isOpen()) navDrawer.close();
   railOpen = true;
+  /* The chooser is glass over a LIVE course, which is the whole idea -- but the
+     course is what should show through it, not the course's HUD. Left alone, the
+     hole strip and the card sit blurred behind the front door, and blurred UI
+     behind UI reads as a mistake rather than as depth. */
+  document.body.classList.add('choosing');
   railEl.hidden = false;
   railEl.classList.remove('leaving');
   const firstCard = railEl.querySelector('.card');
@@ -4257,6 +4262,7 @@ function closeRail() {
   if (!railOpen) return;
   railOpen = false;
   railEl.classList.add('leaving');
+  document.body.classList.remove('choosing');
   const done = () => { railEl.hidden = true; railEl.classList.remove('leaving'); };
   if (RMOTION) done(); else setTimeout(done, 380);
 }

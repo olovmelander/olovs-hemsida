@@ -109,7 +109,12 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
     attributionControl: false,
   });
 
-  // Official OpenStreetMap (OSM) Tiles
+  /* OpenStreetMap's own tile servers. Fine while this is a handful of people
+     looking at six pins, but they are donated infrastructure and their usage
+     policy rules out being the tile source for an app with real traffic --
+     openstreetmap.org/copyright and operations.osmfoundation.org/policies/tiles.
+     Before this goes anywhere public, point it at a provider (or a Cloudflare
+     Worker caching one). The attribution below stays either way. */
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> bidragsgivare',
@@ -126,7 +131,7 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
     previewPanel.innerHTML = `
       <div class="mpp-card">
         <button class="mpp-close-btn" id="mppCloseBtn">${ICONS.close(14)}</button>
-        <div class="mpp-shot" style="background-image: url('/courses/${course.slug}/hero-1.png')">
+        <div class="mpp-shot" style="background-image: url('/courses/${course.slug}/hero-1.webp')">
           <div class="mpp-badges">
             <span class="cat-badge">${iconSvg} <span>${esc(loc.regionTag)}</span></span>
             ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : ''}
