@@ -234,6 +234,18 @@ if (M.surround) {
 }
 const RES = (M.infra.reserves || []).map(r => ({ ring: r.ring, bb: ringBBox(r.ring) }));
 const SHAL = ((M.surround && M.surround.shallows) || []).map(r => ({ ring: r, bb: ringBBox(r) }));
+/* A course may declare that one of its holes stands behind an ARMOURED shore --
+   dumped stone at the waterline rather than a mown bank. Three things follow and
+   the engine asks for all three: the carve stands proud of the water, the
+   waterline band is granite grey instead of bleached sand, and boulders pack
+   along the ring. The hole is NAMED, not the coordinate written down: its green
+   centre is already in the pack, so the module states a fact about the course
+   rather than a number about the frame. */
+const ARM = (() => {
+  const a = SCENERY && SCENERY.armour;
+  const g = a && M.holes[a.hole - 1] && M.holes[a.hole - 1].green;
+  return g ? { c: g.c, rise: a.rise, paint: a.paint, colour: a.colour } : null;
+})();
 const HV = (M.infra.power ? M.infra.power.lines : []).filter(l => (l.voltage || 0) >= 100000);
 for (const s of M.streams) { const q = { line: s.line, bb: ringBBox(s.line), w: s.w, stream: true }; WI.add(q, q.bb, 14); }
 
@@ -337,6 +349,13 @@ function terrainH(x, z) {
     const target = w.level - bed + bank;
     const wgt = 1 - smooth(0, 26, sd);
     h = sd < 0 ? Math.min(h, target) : lerp(h, Math.max(h, target), wgt * 0.75);
+    /* an armoured shore is a berm of dumped stone, not a mown bank: proud of the
+       waterline and lumpy at boulder scale, fading to nothing past the band so the
+       carve stays continuous through its own edge */
+    if (ARM && w.isLake && Math.hypot(x - ARM.c[0], z - ARM.c[1]) < ARM.rise) {
+      const band = 1 - smooth(2, 5.5, Math.abs(sd));
+      if (band > 0) h += (0.12 + fbm(x * 0.11, z * 0.11, 2) * 0.18) * band;
+    }
   }
 
   /* The elevation model is a 2 m product resampled to 4 m, so everything finer than
@@ -614,8 +633,12 @@ function groundAt(x, z, h) {
          shore is never a drawn line */
       const wn = fbm(x * 0.16, z * 0.16, 2) * 1.8;
       const wet = (1 - smooth(-0.15, 0.6, above)) * (1 - smooth(1.5 + wn, 4.8 + wn, sdW));
-      col = col.map((v, i) => lerp(v, C.shore[i] * (1 - wet * 0.38), wet * 0.85));
-      if (wet > 0.6) sid = S_SHORE;
+      /* an armoured shoreline is granite, not sand: pale stone barely darkened by
+         the wet, wearing the path surface's harder, tighter specular */
+      const rip = !!ARM && Math.hypot(x - ARM.c[0], z - ARM.c[1]) < ARM.paint;
+      const sc = rip ? C.riprap : C.shore;
+      col = col.map((v, i) => lerp(v, sc[i] * (1 - wet * (rip ? 0.15 : 0.38)), wet * 0.85));
+      if (wet > 0.6) sid = rip ? S_PATH : S_SHORE;
     }
   }
   const sh = SHADE[sid];
@@ -1940,7 +1963,52 @@ if (M.water.some(w => w.isSea)) {
   }
 }
 
-
+/* An armoured shore wears a collar of pale boulders at the waterline. They pack
+   along the lake ring wherever it runs near the declared hole's green -- one
+   instanced draw for the whole necklace. */
+if (ARM) {
+  const lake = M.water.find(w => w.isLake);
+  if (lake) {
+    const pts = [];
+    const ring = lake.ring;
+    for (let i = 0; i < ring.length; i++) {
+      const [ax, az] = ring[i], [bx, bz] = ring[(i + 1) % ring.length];
+      if (Math.hypot(ax - ARM.c[0], az - ARM.c[1]) > ARM.rise && Math.hypot(bx - ARM.c[0], bz - ARM.c[1]) > ARM.rise) continue;
+      const segL = Math.hypot(bx - ax, bz - az);
+      const n = Math.max(1, Math.ceil(segL / 0.9));
+      for (let k = 0; k < n; k++) {
+        const t = k / n;
+        for (let s2 = 0; s2 < 2; s2++) {
+          const jx = ax + (bx - ax) * t + (hash2(i * 31 + k, s2 * 7 + 1) - 0.5) * 2.6;
+          const jz = az + (bz - az) * t + (hash2(i * 17 + k, s2 * 13 + 5) - 0.5) * 2.6;
+          const hh = terrainH(jx, jz);
+          if (hh < lake.level - 0.55 || hh > lake.level + 1.2) continue;
+          pts.push(jx, Math.max(hh, lake.level - 0.1) - 0.1, jz,
+                   0.55 + hash2(i + k, s2 + 21) * 0.65, hash2(i + k, s2 + 47) * TAU);
+        }
+      }
+    }
+    const nR = pts.length / 5;
+    if (nR) {
+      const g = new THREE.DodecahedronGeometry(0.42, 0);
+      g.scale(1, 0.72, 0.88);
+      const im = new THREE.InstancedMesh(g, new THREE.MeshStandardNodeMaterial({
+        color: new THREE.Color(ARM.colour), roughness: 0.82, metalness: 0, flatShading: true }), nR);
+      const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v3 = new THREE.Vector3(), s3 = new THREE.Vector3();
+      for (let k = 0; k < nR; k++) {
+        v3.set(pts[k * 5], pts[k * 5 + 1], pts[k * 5 + 2]);
+        const sc = pts[k * 5 + 3];
+        s3.set(sc, sc * 0.8, sc * (0.85 + (k % 3) * 0.12));
+        q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), pts[k * 5 + 4]);
+        im.setMatrixAt(k, m4.compose(v3, q, s3));
+      }
+      im.instanceMatrix.needsUpdate = true;
+      im.castShadow = true;
+      scene.add(im);
+      stats.draws++; stats.riprap = nR;
+    }
+  }
+}
 
 /* --------------------------------------------------------------- vegetation */
 await tick('planterar skogen', 0.60);
@@ -2110,8 +2178,12 @@ const SHORE = (() => {
   if (lake) {
     const pts = [];
     const G = 1.7;
-    const bx0 = MIDR.x0, bx1 = MIDR.x1;
-    const bz0 = MIDR.z0, bz1 = MIDR.z1;
+    /* the reed scan is boxed to the water body the course actually stands on --
+       and the box matters beyond its cost: the 1.7 m lattice is phased from its
+       own start, so moving the start moves every reed */
+    const rb = (SCENERY && SCENERY.reedbed) || null;
+    const bx0 = rb ? Math.max(MIDR.x0, rb.box[0]) : MIDR.x0, bx1 = rb ? Math.min(MIDR.x1, rb.box[1]) : MIDR.x1;
+    const bz0 = rb ? Math.max(MIDR.z0, rb.box[2]) : MIDR.z0, bz1 = rb ? Math.min(MIDR.z1, rb.box[3]) : MIDR.z1;
     for (let z = bz0; z < bz1; z += G) for (let x = bx0; x < bx1; x += G) {
       const i = Math.floor(x / G), j = Math.floor(z / G);
       const px = x + (hash2(i, j) - 0.5) * G * 1.6, pz = z + (hash2(i + 7, j + 3) - 0.5) * G * 1.6;
@@ -2133,6 +2205,7 @@ const SHORE = (() => {
       } else if (h < lake.level - 0.22 || h > lake.level + 0.2) continue;
       let dens = 0.2 + (fbm(px * 0.02, pz * 0.02, 2) * 0.5 + 0.5) * 0.35;
       if (bedClump) dens = 0.92;
+      if (rb && rb.denser && px < rb.denser[0]) dens *= rb.denser[1];
       const c = classify(px, pz);
       if (c.dLine < 34) dens *= 0.12;                    /* play stays open -- the moat above all */
       if (c.wet > 0.3) dens *= 2.2;                      /* the mapped reedbed */

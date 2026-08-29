@@ -764,6 +764,59 @@ drops whatever course-specific truth lived in the engine it left. Data gates
 cannot see that — they check the data, which was fine. Only a picture of the
 place, compared against a picture of the same place, can.
 
+**Phase 5 (the shell)**: `src/shell/` and `src/styles/shell.css`. The course
+chooser is a full-bleed poster grid built from the HUD's own tokens — one product,
+not a second visual world — and it is an **overlay over a live course**, which is
+deliberate: the engine's boot stays a straight line (the re-entrant `loadCourse`
+is the persistent-renderer phase's work), and a bare visit shows a real place
+rendering behind the choice. Picking a course navigates; that IS v1 switching.
+Card posters come from `/courses/<slug>/hero-1.png`, set only once the image has
+actually loaded so a course without one shows the gradient rather than a gap.
+
+`src/shell/router.js` is the load-bearing half. **Every historical URL still
+resolves to the same view**: the six page names map to their course and the whole
+grammar carries through — `hal vy ljus tee skylt ren kiosk q gl`. `gl=1` and
+`q=lo` are tested explicitly because an audit found them missing from a plan that
+claimed the grammar was preserved verbatim. The redirect fires BEFORE the pack is
+fetched; redirecting after a 400 KB download would work and still be wrong.
+`tools/serve.mjs` grew the `.html` fallback the host will provide, so the legacy
+half is exercised for real. Gates: `router.test.mjs` (the mapping, no browser) and
+`tools/check-links.mjs` — twelve URL shapes, half legacy, asserting hole, camera,
+light, tee, markers and clean mode. All twelve pass.
+
+**The 14th's difference was never the water.** The fjärd surface, silt margins and
+shallows are byte-identical between the two engines — measured, 0.00/255 over an
+800x80 patch of deep water. What the phase-4 merge dropped was the island green's
+**granite riprap collar**: the boulders at its waterline, the berm of dumped stone
+under them, and the waterline band painted stone-grey rather than bleached sand.
+Eleven of the club's own photographs put that collar there (commit a3afff0), and
+the tell it left behind was a dead palette entry — `C.riprap` defined in the
+engine and read by nothing.
+
+It is restored as a scenery-module export, the same mechanism as the species rule:
+`armour = { hole, rise, paint, colour }` names the HOLE, not a coordinate, because
+the green centre is already in the pack. Draws went 175 → 176, the count the
+original commit states. A `reedbed` export restores the fjärd's reed box and the
+reserve's west-shore density; reeds went 6020 → 7646, exactly the page's count.
+
+**Measure like with like, or do not measure.** Two shots of the SAME page through
+two different `shot.mjs` paths (`--seq` versus single `--hole/--cam`) differ by
+1.89/255 — larger than the residual being chased. Comparing across paths made the
+fix look like a regression (5.01) when like-for-like it was 3.31, and after the
+reeds 3.14, of which ~1.9 is that harness noise. Always shoot both sides the same way.
+
+Still outstanding: the app plants Norrfällsviken's chapel clearing in the vista
+scatter instead of Veckefjärden's two — Kyrkudden, so Själevads kyrka stays visible
+across the fjärd, and the works yard at Åsmasten's foot. That wants a
+`SCENERY.clearings` export and is the last known course-truth casualty of the merge.
+
+**The id collision worth remembering.** The chooser was first built as `#rail` —
+and the HUD's own control panel is `<div class="panel" id="rail">`. A fullscreen
+overlay's CSS was therefore being applied to the Vy/Ljus rail on every course.
+The symptom the gate reported was tiny (a chooser open when it should be shut);
+the cause would have wrecked the HUD everywhere. **When adding an element to a
+page this old, grep the id first** — `#chooser` now.
+
 ## Skyltar — the marker layer, on all six pages
 
 `geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures
