@@ -23,8 +23,18 @@ const REGISTRY = {
   veckefjarden: () => import('./veckefjarden.js'),
 };
 
-export async function buildScenery(slug, ctx) {
+/* Loaded once, early: a course module may supply BOTH a species rule (which the
+   planter needs, and the planter runs long before any landmark) and a build()
+   for its landmarks. Cached so the two callers share one import. */
+let cached = { slug: null, mod: null };
+export async function loadSceneryModule(slug) {
+  if (cached.slug === slug) return cached.mod;
   const load = REGISTRY[slug];
-  if (!load) return 0;
-  return (await load()).build(ctx) || 0;
+  cached = { slug, mod: load ? await load() : null };
+  return cached.mod;
+}
+
+export async function buildScenery(slug, ctx) {
+  const mod = await loadSceneryModule(slug);
+  return (mod && mod.build) ? (mod.build(ctx) || 0) : 0;
 }

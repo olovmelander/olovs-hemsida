@@ -740,6 +740,30 @@ boats still sit inline behind their guards, working — **moving working code fo
 symmetry is how a refactor becomes a regression**. The cut boundary matters: the
 first attempt swept up the batch's mesh assembly, which belongs to the caller.
 
+### The parity gate caught what every other gate passed
+
+Veckefjärden's card, submersion, tee row and header all passed while its **forest
+was wrong**, and only the pixel comparison against its own standalone page found
+it. The cause is the thing the merge does on purpose: the app runs the NEWER
+engine, and the two pages are not one engine — Veckefjärden's differs by ~411
+lines, among them its planter. So the app was planting Norrfällsviken's High
+Coast pine country on an Ångermanland lake shore.
+
+That is not a cosmetic difference. CLAUDE.md's own ground truth says the
+reserve's Tvillingsta half is **grey-alder swamp forest**, which is why the
+planter goes birch-dominant inside the reserve rings, with spruce and pine above
+~46 m. Rendering it as pine says something untrue about the place.
+
+The fix generalises the scenery module: it may export `species({r,x,z,h,ringSD,
+RES})` as well as `build(ctx)`, and it is resolved ONCE early — the planter runs
+long before any landmark does. The engine's default stays the pine mix; a course
+whose woods are genuinely another kind of woods says so.
+
+**The lesson for the phases still to come**: a merge onto a shared engine silently
+drops whatever course-specific truth lived in the engine it left. Data gates
+cannot see that — they check the data, which was fine. Only a picture of the
+place, compared against a picture of the same place, can.
+
 ## Skyltar — the marker layer, on all six pages
 
 `geobuild/apply-markers.mjs` patches every page; `geobuild/check-markers.mjs` measures

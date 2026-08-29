@@ -40,7 +40,7 @@ import {
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { loadCourse } from './loader/pack.js';
-import { buildScenery } from './engine/scenery/index.js';
+import { buildScenery, loadSceneryModule } from './engine/scenery/index.js';
 import { inflate, decodeHF } from './engine/codec.js';
 import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
 
@@ -84,6 +84,9 @@ document.getElementById('hdsub').textContent = `${CMETA.tag} · ${CMETA.holes} h
     `@media(max-width:700px){#tees .tee:nth-child(n+${CMETA.tees.hideFrom}){display:block}}`;
   document.head.append(st);
 }
+/* resolved here because the PLANTER needs it, and the planter runs long before
+   the landmarks do: a course whose forest is not the engine's default says so. */
+const SCENERY = await loadSceneryModule(CMETA.slug);
 const GEO = PACK.H.GEO;
 const HF0 = PACK.H.HF0;
 const HF1 = PACK.H.HF1;
@@ -2234,11 +2237,16 @@ const trees = [[], [], []];
     const clump = fbm(px * 0.0165, pz * 0.0165, 2) * 0.5 + 0.5;
     if (rnd(i + 5, j + 5) > wood * (0.42 + clump * 0.86)) continue;
     const r = rnd(i + 31, j + 17);
-    /* the High Coast cape is pine country: pine on the rock and sand, spruce in
-       the hollows, birch scattered through and fringing the shores */
+    /* The default is the High Coast cape's pine country: pine on the rock and
+       sand, spruce in the hollows, birch scattered through and fringing the
+       shores. A course whose woods are genuinely another kind of woods overrides
+       it -- Veckefjärden's reserve is grey-alder swamp forest, and rendering it
+       as pine would be a statement about the place that is simply untrue. */
     const sp = kindScrub ? 2
              : (belt && r < 0.7) ? 2
-             : (r < 0.56 ? 1 : r < 0.83 ? 0 : 2);
+             : SCENERY && SCENERY.species
+               ? SCENERY.species({ r, x: px, z: pz, h, ringSD, RES })
+               : (r < 0.56 ? 1 : r < 0.83 ? 0 : 2);
     let s = SPECIES[sp].sc[0] + rnd(i + 61, j + 3) * (SPECIES[sp].sc[1] - SPECIES[sp].sc[0]);
     if (wood < 0.3) s *= 1.2;                    /* a lone tree grows a full crown */
     trees[sp].push(px, h - 0.25, pz, s * (kindScrub ? 0.42 : 1), rnd(i + 3, j + 41) * TAU);

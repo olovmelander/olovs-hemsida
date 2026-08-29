@@ -164,3 +164,19 @@ export function build(ctx) {
 
   return stats.draws - before;
 }
+
+/* The forest here is not the engine's default forest, and the difference is a
+   fact about the ground rather than a preference: the reserve's Tvillingsta half
+   is GREY-ALDER SWAMP FOREST -- deciduous, softer green, a scatter of old spruce
+   -- so the planter goes birch-dominant inside the reserve rings. Above about
+   46 m the ridge turns to spruce and pine. Rendering either as the High Coast's
+   pine country would say something untrue about the place.
+
+   Species ids match the engine's SPECIES table: 0 spruce, 1 pine, 2 birch.   */
+export function species({ r, x, z, h, ringSD, RES }) {
+  for (const rr of RES) {
+    if (x < rr.bb.x0 || x > rr.bb.x1 || z < rr.bb.z0 || z > rr.bb.z1) continue;
+    if (ringSD(x, z, rr.ring) < 0) return r < 0.78 ? 2 : 0;
+  }
+  return h > 46 ? (r < 0.66 ? 0 : 1) : r < 0.44 ? 0 : r < 0.80 ? 1 : 2;
+}
