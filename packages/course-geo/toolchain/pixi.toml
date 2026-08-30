@@ -1,0 +1,25 @@
+[workspace]
+name = "course-geo-toolchain"
+version = "0.1.0"
+description = "Pinned offline compiler toolchain for the course digital twin"
+channels = ["conda-forge"]
+platforms = ["linux-64", "win-64", "osx-64", "osx-arm64"]
+
+[dependencies]
+libgdal-core = "==3.13.3"
+proj = "==9.8.1"
+libpdal-core = "==2.10.2"
+
+[activation.env]
+PROJ_NETWORK = "OFF"
+
+[tasks]
+fetch-grid = "node ../fetch-proj-grid.mjs"
+verify = { cmd = "node ../verify-toolchain.mjs", depends-on = ["fetch-grid"] }
+test-controls = { cmd = "node --test ../proj-controls.node-test.mjs", depends-on = ["fetch-grid"] }
+migrate-legacy = { cmd = "node ../migrate-legacy.mjs --write", depends-on = ["verify", "test-controls"] }
+check-migration = { cmd = "node ../migrate-legacy.mjs --check", depends-on = ["verify", "test-controls"] }
+discover-pilots = { cmd = "node ../acquisition/discover-pilots.mjs --write", depends-on = ["verify", "test-controls"] }
+check-discovery = "node ../acquisition/check-discovery.mjs"
+test-acquisition = "node --test ../acquisition/acquisition.node-test.mjs"
+acquire-pilot = { cmd = "node ../acquisition/acquire-pilot.mjs", depends-on = ["verify", "test-controls", "check-discovery"] }

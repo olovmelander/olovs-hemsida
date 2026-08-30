@@ -15,8 +15,17 @@ jobs:
   lantmateriet-access:
     name: Lantmäteriet access preflight
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
+      - uses: actions/checkout@v4
+
+      - uses: prefix-dev/setup-pixi@v0.10.2
+        with:
+          pixi-version: v0.78.0
+          working-directory: packages/course-geo/toolchain
+          frozen: true
+          cache: true
+
       - name: Verify repository secrets are configured
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
@@ -28,6 +37,7 @@ jobs:
           fi
 
       - name: Verify authenticated STAC-hojd access
+        id: terrain-source
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
@@ -133,6 +143,13 @@ jobs:
              (tiffHeader[0] === 0x4d && tiffHeader[1] === 0x4d && tiffHeader[2] === 0x00 && [0x2a, 0x2b].includes(tiffHeader[3])));
           if (!isTiff) throw new Error('Terrain asset does not have a TIFF or BigTIFF header');
 
+          if (assetUrl.search || assetUrl.hash || assetUrl.username || assetUrl.password ||
+              /[\r\n]/.test(assetUrl.href)) {
+            throw new Error('Terrain asset URL is not safe for a workflow output');
+          }
+          const { appendFileSync } = await import('node:fs');
+          appendFileSync(process.env.GITHUB_OUTPUT, `asset_url=${assetUrl.href}\n`, 'utf8');
+
           console.log(JSON.stringify({
             ready: true,
             endpoint,
@@ -150,5 +167,78 @@ jobs:
               tiffHeaderValid: true,
             },
             note: 'No credentials or authorization header were serialized.',
+          }, null, 2));
+          NODE
+
+      - name: Compile bounded 1 m terrain COG
+        env:
+          CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .tif
+          CPL_VSIL_CURL_CACHE_SIZE: "67108864"
+          GDAL_DISABLE_READDIR_ON_OPEN: EMPTY_DIR
+          GDAL_HTTP_USERPWD: ${{ secrets.LANTMATERIET_USERNAME }}:${{ secrets.LANTMATERIET_PASSWORD }}
+          PROJ_NETWORK: "OFF"
+          TERRAIN_ASSET_URL: ${{ steps.terrain-source.outputs.asset_url }}
+          VSI_CACHE: "TRUE"
+          VSI_CACHE_SIZE: "67108864"
+        run: |
+          terrain_output="$RUNNER_TEMP/puttom-terrain-1024m.tif"
+          terrain_info="$RUNNER_TEMP/puttom-terrain-1024m.json"
+          terrain_started="$(date +%s)"
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
+            gdal_translate \
+            -of COG \
+            -co BLOCKSIZE=512 \
+            -co COMPRESS=ZSTD \
+            -co LEVEL=9 \
+            -co NUM_THREADS=ALL_CPUS \
+            -projwin_srs EPSG:3006 \
+            -projwin 696916 7025595 697940 7024571 \
+            "/vsicurl/$TERRAIN_ASSET_URL" \
+            "$terrain_output"
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
+            gdalinfo -json -stats "$terrain_output" > "$terrain_info"
+          TERRAIN_ELAPSED_SECONDS="$(( $(date +%s) - terrain_started ))" \
+          TERRAIN_INFO="$terrain_info" \
+          TERRAIN_OUTPUT="$terrain_output" \
+            node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto';
+          import { readFileSync, statSync } from 'node:fs';
+
+          const output = process.env.TERRAIN_OUTPUT;
+          const info = JSON.parse(readFileSync(process.env.TERRAIN_INFO, 'utf8'));
+          const bytes = readFileSync(output);
+          const band = info.bands?.[0];
+          if (info.size?.[0] !== 1024 || info.size?.[1] !== 1024 || !band) {
+            throw new Error(`Unexpected terrain window ${info.size?.join('x') || '<missing>'}`);
+          }
+          const imageStructure = info.metadata?.IMAGE_STRUCTURE || {};
+          if (imageStructure.LAYOUT !== 'COG') {
+            throw new Error('Compiled terrain output is not identified as a COG');
+          }
+          const wkt = info.coordinateSystem?.wkt || '';
+          if (!wkt.startsWith('COMPOUNDCRS') || !wkt.includes('SWEREF99') || !wkt.includes('RH2000')) {
+            throw new Error('Compiled terrain output lost SWEREF 99 or RH 2000');
+          }
+          console.log(JSON.stringify({
+            ready: true,
+            groundId: 'puttom',
+            sampleMetres: [1024, 1024],
+            rasterPixels: info.size,
+            resolutionMetres: [Math.abs(info.geoTransform?.[1]), Math.abs(info.geoTransform?.[5])],
+            compoundCrs: 'EPSG:5845',
+            cog: true,
+            compression: imageStructure.COMPRESSION,
+            outputBytes: statSync(output).size,
+            sha256: createHash('sha256').update(bytes).digest('hex'),
+            elevationMetres: {
+              minimum: band.minimum,
+              maximum: band.maximum,
+              mean: band.mean,
+              standardDeviation: band.stdDev,
+              noDataValue: band.noDataValue,
+            },
+            elapsedSeconds: Number(process.env.TERRAIN_ELAPSED_SECONDS),
+            retained: false,
+            note: 'The source and compiled sample remain ephemeral on the GitHub runner.',
           }, null, 2));
           NODE
