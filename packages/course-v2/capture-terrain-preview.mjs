@@ -185,11 +185,34 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
     await page.screenshot({ path: file, animations: 'disabled', timeout: timeoutMilliseconds });
     const pixels = await pixelStats(file);
     if (pixels.meanLuminance < 0.03 || pixels.nearBlackPercent > 88 || pixels.foregroundPercent < 2) {
+      const diagnosticVariants = {};
+      if (actualBackend === 'webgpu') {
+        for (const mode of ['flat-terrain', 'flat-single-tile', 'canary']) {
+          await page.evaluate(async diagnosticMode => {
+            if (typeof window.V3D?.diagnose !== 'function') {
+              throw new Error('terrain preview does not expose WebGPU diagnostics');
+            }
+            await window.V3D.diagnose(diagnosticMode);
+          }, mode);
+          const diagnosticImage = `puttom-webgpu-${mode}.png`;
+          const diagnosticFile = join(output, diagnosticImage);
+          await page.screenshot({
+            path: diagnosticFile,
+            animations: 'disabled',
+            timeout: timeoutMilliseconds,
+          });
+          diagnosticVariants[mode] = {
+            image: diagnosticImage,
+            ...(await pixelStats(diagnosticFile)),
+          };
+        }
+      }
       const error = new Error('terrain preview screenshot has no visible terrain foreground');
       error.captureDiagnostics = {
         stats: state.stats,
         pixels,
         problems: [...new Set(problems)].slice(0, 12),
+        diagnosticVariants,
         shader: state.shader,
       };
       throw error;

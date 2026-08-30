@@ -1,4 +1,5 @@
 import * as THREE from 'three/webgpu';
+import { Fn, attribute, positionLocal, vec3 } from 'three/tsl';
 import { TerrainTileBatchSet } from './v2-terrain-batch.mjs';
 import { loadTerrainPreview } from './v2-terrain-preview-loader.mjs';
 
@@ -84,6 +85,19 @@ function sameOriginPreviewUrl(value) {
   return url.href;
 }
 
+function flatDiagnosticMaterial() {
+  const material = new THREE.MeshBasicNodeMaterial({ color: 0xd06a2f });
+  material.positionNode = Fn(() => {
+    const frame = attribute('aTerrainFrame', 'vec4');
+    return vec3(
+      frame.x.add(positionLocal.x.mul(frame.w)),
+      frame.z,
+      frame.y.add(positionLocal.z.mul(frame.w)),
+    );
+  })();
+  return material;
+}
+
 async function main() {
   const params = new URLSearchParams(location.search);
   const previewParameter = params.get('preview');
@@ -159,6 +173,14 @@ async function main() {
   const renderInfo = renderer.info?.render || {};
   backendLabel.textContent = `${backend.toUpperCase()} · ${loaded.resources.length} tiles · ${terrain.stats().drawCalls} draw call`;
   document.getElementById('boot').classList.add('done');
+  let diagnosticCanary = null;
+  const diagnosticMaterials = [];
+  const prepareCapture = async () => {
+    renderer.render(scene, camera);
+    if (renderer.backend?.isWebGPUBackend) {
+      await renderer.backend.device.queue.onSubmittedWorkDone();
+    }
+  };
   window.V3D = {
     stats: {
       ...terrain.stats(), backend, synthetic: loaded.synthetic,
@@ -168,14 +190,50 @@ async function main() {
     },
     settled: () => true,
     render: () => renderer.render(scene, camera),
-    prepareCapture: async () => {
-      renderer.render(scene, camera);
-      if (renderer.backend?.isWebGPUBackend) {
-        await renderer.backend.device.queue.onSubmittedWorkDone();
+    prepareCapture,
+    diagnose: async mode => {
+      if (mode === 'flat-terrain' || mode === 'flat-single-tile') {
+        diagnosticCanary?.removeFromParent();
+        terrain.group.visible = true;
+        for (const batch of terrain.batches.values()) {
+          if (!batch.mesh.userData.originalMaterial) {
+            batch.mesh.userData.originalMaterial = batch.mesh.material;
+          }
+          const material = flatDiagnosticMaterial();
+          diagnosticMaterials.push(material);
+          batch.mesh.material = material;
+          if (mode === 'flat-single-tile') {
+            batch.geometry.instanceCount = Math.min(1, batch.geometry.instanceCount);
+          }
+        }
+      } else if (mode === 'canary') {
+        terrain.group.visible = false;
+        if (!diagnosticCanary) {
+          const size = span * 0.22;
+          diagnosticCanary = new THREE.Mesh(
+            new THREE.BoxGeometry(size, size, size),
+            new THREE.MeshBasicNodeMaterial({ color: 0xd100ff }),
+          );
+          diagnosticCanary.position.set(view.target[0], view.target[1], view.target[2]);
+          diagnosticCanary.frustumCulled = false;
+          diagnosticCanary.name = 'webgpu-capture-canary';
+          scene.add(diagnosticCanary);
+        }
+      } else {
+        throw new Error(`unknown terrain diagnostic ${mode}`);
       }
+      await renderer.compileAsync(scene, camera);
+      await prepareCapture();
+      return { mode, backend };
     },
     shader,
   };
+
+  addEventListener('pagehide', () => {
+    for (const material of diagnosticMaterials) material.dispose();
+    diagnosticCanary?.geometry.dispose();
+    diagnosticCanary?.material.dispose();
+  }, { once: true });
 
   addEventListener('resize', () => {
     camera.aspect = innerWidth / innerHeight;
