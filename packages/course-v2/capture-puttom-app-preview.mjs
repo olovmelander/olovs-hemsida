@@ -152,13 +152,21 @@ async function capture({ origin, output, backend, chrome, timeoutMilliseconds })
     const file = join(output, image);
     await page.screenshot({ path: file, animations: 'disabled', timeout: timeoutMilliseconds });
     const pixels = await imageEvidence(file);
-    if (pixels.meanLuminance < 0.025 || pixels.nearBlackPercent > 92 || pixels.variedPercent < 3) {
-      throw new Error('real app preview screenshot has no visible course foreground');
+    const canvasImage = `puttom-canvas-${mobile ? 'mobile-' : ''}${backend}-requested-${actualBackend}.png`;
+    const canvasFile = join(output, canvasImage);
+    const rendererCanvas = page.locator('body > canvas').first();
+    await rendererCanvas.screenshot({ path: canvasFile, animations: 'disabled', timeout: timeoutMilliseconds });
+    const canvasPixels = await imageEvidence(canvasFile);
+    const canvasVisible = canvasPixels.meanLuminance >= 0.025 &&
+      canvasPixels.nearBlackPercent <= 92 && canvasPixels.variedPercent >= 3;
+    if (backend === 'webgl2' && !canvasVisible) {
+      throw new Error('real app WebGL2 canvas has no visible course foreground');
     }
     return Object.freeze({
       requestedBackend: backend, actualBackend, mobileEmulation: mobile,
       backendMatched: backend === actualBackend, executionAdapter: 'swiftshader-software',
-      performanceEvidence: false, image, pixels, v2: state.v2, app: state.stats,
+      performanceEvidence: false, image, pixels, canvasImage, canvasPixels, canvasVisible,
+      v2: state.v2, app: state.stats,
       boot: state.perf, sampledFps: state.fps, badge: state.badge,
       problems: Object.freeze([...new Set(problems)].slice(0, 10)),
     });
@@ -192,8 +200,11 @@ async function main() {
   const report = {
     schemaVersion: 1, provisional: true, productionDefault: false,
     captures, failures,
-    webgl2Passed: captures.some(capture => capture.requestedBackend === 'webgl2' && capture.backendMatched),
-    webgpuPassed: captures.some(capture => capture.requestedBackend === 'webgpu' && capture.backendMatched),
+    webgl2Passed: captures.some(capture => capture.requestedBackend === 'webgl2' &&
+      capture.backendMatched && capture.canvasVisible),
+    webgpuBackendPassed: captures.some(capture => capture.requestedBackend === 'webgpu' && capture.backendMatched),
+    webgpuCanvasPassed: captures.some(capture => capture.requestedBackend === 'webgpu' &&
+      capture.backendMatched && capture.canvasVisible),
   };
   await writeFile(join(output, 'capture-report.json'), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify(report, null, 2));

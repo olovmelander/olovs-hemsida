@@ -149,7 +149,7 @@ const M = JSON.parse(new TextDecoder().decode(bv));
 const HOLES = M.holes;
 
 const terrainPreviewBadge = document.getElementById('v2TerrainBadge');
-function setTerrainPreviewBadge(backend = null, renderState = null) {
+function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres = null) {
   if (!terrainPreviewBadge || !TERRAIN_PREVIEW.requested) return;
   terrainPreviewBadge.hidden = false;
   const title = terrainPreviewBadge.querySelector('b');
@@ -161,6 +161,7 @@ function setTerrainPreviewBadge(backend = null, renderState = null) {
       'Puttom',
       `${TERRAIN_PREVIEW.resources.length} verifierade tiles`,
       backend,
+      meshMetres ? `1 m höjd · ${meshMetres} m mesh` : null,
     ].filter(Boolean).join(' · ');
   } else {
     terrainPreviewBadge.dataset.state = 'fallback';
@@ -1663,22 +1664,31 @@ let terrainPreviewRender = Object.freeze({ status: TERRAIN_PREVIEW.ready ? 'pend
 if (TERRAIN_PREVIEW.ready) {
   try {
     const { TerrainTileBatchSet } = await import('./engine/v2-terrain-batch.mjs');
+    /* Low-quality WebGL2 keeps exact 1 m CPU sampling but submits every second
+       source vertex. That cuts the pilot from ~2.1 M to ~0.52 M triangles while
+       preserving the same bounds, tile identities and single draw call. */
+    const renderStride = !IS_GPU && LOWQ ? 2 : 1;
+    const renderResources = TERRAIN_PREVIEW.renderResources(renderStride);
     terrainPreviewBatch = new TerrainTileBatchSet({
-      maximumTiles: TERRAIN_PREVIEW.resources.length,
+      maximumTiles: renderResources.length,
       morphDurationMilliseconds: 0,
       decorateMaterial: createV2GroundMaterialDecorator({
         atlas: groundAtlas, DETAIL, C, SHADE,
       }),
     });
-    terrainPreviewBatch.sync(TERRAIN_PREVIEW.resources);
+    terrainPreviewBatch.sync(renderResources);
     scene.add(terrainPreviewBatch.group);
     const cut = cutTerrainPreviewRect(coreMesh.geometry, TERRAIN_PREVIEW.bounds);
     terrainPreviewRender = Object.freeze({
       status: 'ready',
+      renderStride,
+      meshResolutionMetres: renderResources[0].sampleSpacingMetres,
       ...cut,
       ...terrainPreviewBatch.stats(),
     });
-    setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'ready');
+    setTerrainPreviewBadge(
+      IS_GPU ? 'WebGPU' : 'WebGL2', 'ready', renderResources[0].sampleSpacingMetres,
+    );
   } catch (error) {
     terrainPreviewBatch?.dispose();
     terrainPreviewBatch = null;

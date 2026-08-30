@@ -57,4 +57,13 @@ describe('real terrain preview loader', () => {
       cryptoImpl: webcrypto,
     })).rejects.toThrow(/integrity mismatch/);
   });
+
+  it('locks a published descriptor to its reviewed SHA-256', async () => {
+    const { compiled, descriptor } = fixture();
+    await expect(loadTerrainPreview('https://proof.test/preview.json', {
+      fetchImpl: fetcher(compiled, descriptor),
+      cryptoImpl: webcrypto,
+      expectedDescriptorSha256: '0'.repeat(64),
+    })).rejects.toThrow(/descriptor integrity mismatch/);
+  });
 });

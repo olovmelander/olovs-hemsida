@@ -2,6 +2,8 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   slug: 'puttom',
   descriptorPath: 'v2/puttom/preview.json',
   label: 'Puttom · Lantmäteriet 1 m terräng',
+  descriptorSha256: '398b0b70b7d9ed9793e189bc66bd8c94060741990271cceacbea97b1f3278eb1',
+  frameFingerprint: 'ee406f792b7e59817667d6f6fc8cf6e6b271bf5f7efabb58f3907928f741bef3',
   packOriginWgs84: Object.freeze({ latitude: 63.2992, longitude: 18.9413 }),
   /* EPSG:3006 projection of the immutable GPK1 WGS84 origin. This bridge keeps
      the legacy +x east/-z north frame while the preview remains provisional. */
@@ -12,8 +14,10 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   expectedBoundsEpsg5845: Object.freeze({
     minEasting: 696916.5,
     minNorthing: 7024570.5,
+    minHeightRH2000: 37.24201202392578,
     maxEasting: 697940.5,
     maxNorthing: 7025594.5,
+    maxHeightRH2000: 70.53581237792969,
   }),
   expectedTileCount: 16,
 });
@@ -35,9 +39,41 @@ function immutableState(value) {
     bounds: null,
     bridge: null,
     heightAt: () => Number.NaN,
+    renderResources: () => Object.freeze([]),
     stats: () => Object.freeze({ renderedTiles: 0, encodedBytes: 0, decodedBytes: 0, gpuBytes: 0 }),
     ...value,
   });
+}
+
+export function decimateTerrainRenderResources(resources, stride = 1) {
+  if (!Array.isArray(resources) || !resources.length) throw new TypeError('terrain resources are required');
+  if (!Number.isSafeInteger(stride) || stride < 1 || stride > 8 || (stride & (stride - 1)) !== 0) {
+    throw new RangeError('terrain render stride must be a power-of-two integer from 1 to 8');
+  }
+  if (stride === 1) return Object.freeze([...resources]);
+  return Object.freeze(resources.map(resource => {
+    const segmentsX = resource.width - 1, segmentsZ = resource.height - 1;
+    if (segmentsX % stride !== 0 || segmentsZ % stride !== 0) {
+      throw new Error(`terrain tile ${resource.tileId} cannot use render stride ${stride}`);
+    }
+    const width = segmentsX / stride + 1, height = segmentsZ / stride + 1;
+    const textureData = new Uint8Array(width * height * 8);
+    for (let row = 0; row < height; row++) for (let column = 0; column < width; column++) {
+      const source = ((row * stride) * resource.width + column * stride) * 8;
+      const target = (row * width + column) * 8;
+      textureData.set(resource.textureData.subarray(source, source + 8), target);
+    }
+    return Object.freeze({
+      ...resource,
+      width,
+      height,
+      textureData,
+      sampleSpacingMetres: resource.sampleSpacingMetres * stride,
+      geometricErrorMetres: Math.max(resource.geometricErrorMetres, resource.maximumMorphDeltaMetres),
+      decodedSha256: `${resource.decodedSha256}:render-stride-${stride}`,
+      gpuBytes: textureData.byteLength,
+    });
+  }));
 }
 
 export function puttomPreviewRequested(slug, search = globalThis.location?.search || '') {
@@ -50,6 +86,10 @@ function validatePuttomDescriptor(descriptor, geo) {
   }
   if (descriptor.tiles.length !== PUTTOM_PREVIEW_CONFIG.expectedTileCount) {
     throw new Error(`Puttom preview has ${descriptor.tiles.length} tiles; expected 16`);
+  }
+  if (descriptor.frame.fingerprint !== PUTTOM_PREVIEW_CONFIG.frameFingerprint ||
+      !near(descriptor.frame.origin.heightRH2000, 37.24)) {
+    throw new Error('Puttom preview frame fingerprint does not match the reviewed pilot');
   }
   for (const [field, expected] of Object.entries(PUTTOM_PREVIEW_CONFIG.expectedBoundsEpsg5845)) {
     if (!near(descriptor.bounds[field], expected)) {
@@ -190,7 +230,10 @@ export async function loadPuttomTerrainPreview({
   try {
     const descriptorUrl = new URL(PUTTOM_PREVIEW_CONFIG.descriptorPath, new URL(baseUrl, locationHref));
     const { loadTerrainPreview } = await import('./v2-terrain-preview-loader.mjs');
-    const loaded = await loadTerrainPreview(descriptorUrl.href, loaderOptions);
+    const loaded = await loadTerrainPreview(descriptorUrl.href, {
+      ...loaderOptions,
+      expectedDescriptorSha256: PUTTOM_PREVIEW_CONFIG.descriptorSha256,
+    });
     validatePuttomDescriptor(loaded.descriptor, geo);
     const aligned = alignTerrainPreviewToLegacyFrame(
       loaded,
@@ -199,6 +242,7 @@ export async function loadPuttomTerrainPreview({
     const encodedBytes = loaded.descriptor.tiles.reduce((sum, tile) => sum + tile.reference.bytes, 0);
     const decodedBytes = loaded.descriptor.tiles.reduce((sum, tile) => sum + tile.reference.decodedBytes, 0);
     const gpuBytes = aligned.resources.reduce((sum, resource) => sum + resource.gpuBytes, 0);
+    const renderFrontiers = new Map([[1, aligned.resources]]);
     return immutableState({
       requested: true,
       ready: true,
@@ -210,6 +254,12 @@ export async function loadPuttomTerrainPreview({
       bounds: aligned.bounds,
       bridge: aligned.bridge,
       heightAt: aligned.sample,
+      renderResources: stride => {
+        if (!renderFrontiers.has(stride)) {
+          renderFrontiers.set(stride, decimateTerrainRenderResources(aligned.resources, stride));
+        }
+        return renderFrontiers.get(stride);
+      },
       stats: () => Object.freeze({
         renderedTiles: aligned.resources.length,
         encodedBytes,

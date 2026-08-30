@@ -6,6 +6,7 @@ import { verifyChunkAsset } from '../../../../packages/course-v2/chunk-node.mjs'
 import {
   alignTerrainPreviewToLegacyFrame,
   createTerrainResourceSampler,
+  decimateTerrainRenderResources,
   loadPuttomTerrainPreview,
   puttomPreviewRequested,
 } from './v2-puttom-preview.mjs';
@@ -77,5 +78,19 @@ describe('Puttom interactive terrain preview bridge', () => {
     expect(aligned.sample(4, 4)).toBeCloseTo(74, 2);
     expect(aligned.sample(4 - 1e-7, 4)).toBeCloseTo(aligned.sample(4 + 1e-7, 4), 5);
     expect(createTerrainResourceSampler(aligned.resources).bounds).toEqual(aligned.bounds);
+  });
+
+  it('keeps 1 m CPU truth while producing a four-times-lighter 2 m render frontier', () => {
+    const aligned = alignTerrainPreviewToLegacyFrame(fixture(), {
+      easting: 650000, northing: 6640008,
+    });
+    const reduced = decimateTerrainRenderResources(aligned.resources, 2);
+    expect(reduced).toHaveLength(4);
+    expect(reduced[0]).toMatchObject({ width: 3, height: 3, sampleSpacingMetres: 2 });
+    expect(reduced[0].textureData.byteLength).toBe(aligned.resources[0].textureData.byteLength * 9 / 25);
+    const reducedSampler = createTerrainResourceSampler(reduced);
+    expect(reducedSampler.bounds).toEqual(aligned.bounds);
+    expect(reducedSampler.sample(4, 4)).toBeCloseTo(aligned.sample(4, 4), 2);
+    expect(() => decimateTerrainRenderResources(aligned.resources, 3)).toThrow(/power-of-two/);
   });
 });

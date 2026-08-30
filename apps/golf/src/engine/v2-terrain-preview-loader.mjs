@@ -73,6 +73,7 @@ export async function loadTerrainPreview(descriptorUrl, {
   fetchImpl = globalThis.fetch,
   cryptoImpl = globalThis.crypto,
   DecompressionStreamImpl = globalThis.DecompressionStream,
+  expectedDescriptorSha256 = null,
 } = {}) {
   if (typeof fetchImpl !== 'function') throw new TypeError('fetchImpl must be a function');
   const base = new URL(descriptorUrl, globalThis.location?.href);
@@ -83,6 +84,16 @@ export async function loadTerrainPreview(descriptorUrl, {
     cache: 'no-store', credentials: 'same-origin', redirect: 'error',
   });
   const descriptorBytes = await responseBytes(descriptorResponse, MAX_DESCRIPTOR_BYTES);
+  if (expectedDescriptorSha256 !== null) {
+    if (!/^[a-f0-9]{64}$/.test(expectedDescriptorSha256 || '') || !cryptoImpl?.subtle?.digest) {
+      throw new Error('terrain preview expected descriptor SHA-256 is invalid or unavailable');
+    }
+    const digest = new Uint8Array(await cryptoImpl.subtle.digest('SHA-256', descriptorBytes));
+    const actual = [...digest].map(byte => byte.toString(16).padStart(2, '0')).join('');
+    if (actual !== expectedDescriptorSha256) {
+      throw new Error(`terrain preview descriptor integrity mismatch: ${actual} != ${expectedDescriptorSha256}`);
+    }
+  }
   let descriptor;
   try { descriptor = JSON.parse(decoder.decode(descriptorBytes)); }
   catch (error) { throw new Error(`invalid terrain preview JSON: ${error.message}`); }

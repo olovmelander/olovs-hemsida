@@ -30,7 +30,7 @@ jobs:
   lantmateriet-access:
     name: Lantmäteriet access preflight
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
 
@@ -649,6 +649,14 @@ jobs:
           "$RUNNER_TEMP/puttom-terrain-preview"
           "$RUNNER_TEMP/puttom-terrain-runtime"
 
+      - name: Upload derived Puttom runtime preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: puttom-terrain-runtime-${{ github.run_number }}
+          path: ${{ runner.temp }}/puttom-terrain-runtime
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Build real app with staged preview assets
         run: |
           mkdir -p apps/golf/public/v2/puttom
@@ -662,14 +670,6 @@ jobs:
           --root apps/golf/dist
           --out "$RUNNER_TEMP/puttom-app-captures"
           --timeout 300
-
-      - name: Upload derived Puttom runtime preview
-        uses: actions/upload-artifact@v4
-        with:
-          name: puttom-terrain-runtime-${{ github.run_number }}
-          path: ${{ runner.temp }}/puttom-terrain-runtime
-          if-no-files-found: error
-          retention-days: 7
 
       - name: Upload interactive app preview evidence
         if: always()

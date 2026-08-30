@@ -120,6 +120,12 @@ the runner with only the strict provisional descriptor and its 16 referenced
 finest-level BVCH tiles for the opt-in interactive preview. The authenticated
 COG, XYZ samples, shell and coarser LOD tiles remain ephemeral. This is not an
 authoritative v2 publication; D1 origin approval remains a production gate.
+The reviewed run-29 bundle is retained under `apps/golf/public/v2/puttom/`:
+an 8,080-byte descriptor plus 16 full-SHA BVCH files (1,074,238 encoded
+bytes). The app locks the descriptor SHA-256 and frame fingerprint before any
+legacy mesh is replaced. Low-quality WebGL2 keeps the full 1 m CPU sampler but
+uses a 2 m render frontier (129 x 129 samples per tile), reducing the terrain
+submission from 2,129,920 to 540,672 triangles without adding draw calls.
 
 ## D4 terrain-pyramid foundation
 

@@ -16,6 +16,7 @@ const MIGRATED = [
   SURFACE.GRAVEL, SURFACE.DIRT, SURFACE.MUD, SURFACE.ROCK,
   SURFACE.WETLAND, SURFACE.SHORE,
 ];
+const PREVIEW_NATURAL = [SURFACE.ROUGH, SURFACE.FOREST, SURFACE.HEATH];
 
 const STYLE_WIDTH = 32;
 const STYLE_ROWS = 4;
@@ -48,13 +49,15 @@ const SHADE_OVERRIDE = {
   [SURFACE.SEMI]: [1.15, 0.62, 0.17, 0.45],
 };
 
-function makeStyleTexture(C, SHADE) {
+function makeStyleTexture(C, SHADE, { includeNatural = false } = {}) {
   /* Row 0: linear colour + atlas-active flag.
      Row 1: detail scale, bump, gloss, mow strength.
      Row 2: active, sand weight, hard-surface weight, spare.
      Row 3: mow phase source coefficients [k_sdf, k_route, k_diag]. */
   const data = new Float32Array(STYLE_WIDTH * STYLE_ROWS * 4);
   const colors = {
+    [SURFACE.ROUGH]: C.rough, [SURFACE.FOREST]: C.forest,
+    [SURFACE.HEATH]: C.heath,
     [SURFACE.SEMI]: C.semi, [SURFACE.FAIRWAY]: C.fair,
     [SURFACE.FRINGE]: C.fringe, [SURFACE.GREEN]: C.green,
     [SURFACE.TEE]: C.tee, [SURFACE.SAND]: C.sand,
@@ -64,7 +67,7 @@ function makeStyleTexture(C, SHADE) {
     [SURFACE.WETLAND]: C.wet, [SURFACE.SHORE]: C.shore,
   };
   const hard = new Set([SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL, SURFACE.DIRT, SURFACE.ROCK]);
-  for (const sid of MIGRATED) {
+  for (const sid of includeNatural ? [...MIGRATED, ...PREVIEW_NATURAL] : MIGRATED) {
     const c = colors[sid] || C.rough;
     const shade = SHADE_OVERRIDE[sid] || SHADE[sid] || SHADE[SURFACE.ROUGH];
     data.set([c[0], c[1], c[2], 1], sid * 4);
@@ -225,7 +228,7 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
    provisional raw DTM read as the same golf course instead of a green slab. */
 export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
   if (!atlas?.texID || !atlas?.texF) throw new TypeError('the v2 terrain material requires a ground atlas');
-  const styleTexture = makeStyleTexture(C, SHADE);
+  const styleTexture = makeStyleTexture(C, SHADE, { includeNatural: true });
   return material => {
     const wp = positionWorld.xz;
     const b = atlas.bounds;
@@ -279,7 +282,11 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
       .add(diagonal.mul(mowK.b));
     const mow = sin(phase).mul(strength).mul(0.045)
       .mul(oneMinus(smoothstep(0.55, 1.7, fwidth(phase))));
-    material.colorNode = base.mul(base).mul(float(1).add(surfaceDetail).add(mow));
+    /* The legacy mesh deliberately squares its authored vertex colour. BVCH has
+       no procedural vertex colour beneath the atlas, so a small linear share
+       restores the missing ambient body without flattening class contrast. */
+    const litBase = mix(base.mul(base), base, 0.18);
+    material.colorNode = litBase.mul(float(1).add(surfaceDetail).add(mow));
     material.roughnessNode = clamp(float(0.97).sub(shade.z.mul(0.62)), 0.42, 0.99);
     material.metalness = 0;
     material.userData.terrainPreviewTextures = [styleTexture];
