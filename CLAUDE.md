@@ -1044,6 +1044,31 @@ saying what it is. **A plain picture of the real thing beats a beautiful picture
 of a different thing.** If a course deserves a better poster the fix is a better
 camera, not a different course.
 
+**The nine-hole courses needed different recipes, and said so.** Fifteen
+candidates for the three second courses, judged at 400x225 like the rest, turned
+up two things that are about the courses and not about the tool. The `top`+`noon`
+framing that works on the eighteens **blows their ponds to flat white** — at card
+size that reads as a rendering fault rather than a photograph, so none of the
+three ships it. And at ground level under an evening sun these forest corridors
+go too dark to read small: orbit does the work. All eight shipped frames are
+`golden`, and `POSTERS` in `tools/make-posters.mjs` records which framing each one
+is, so a re-shoot a year from now is the same picture.
+
+Korthålsbanan's pick is the one worth remembering: its 3rd is the **only** framing
+on the nine that shows the fjärd, and a Veckefjärden course whose card hides the
+fjärd is selling itself as a forest course. Mellanbanan ships **two** posters, not
+four — its ground-level framings were genuinely weak, and two good pictures beat
+three with a poor one. The card cycles however many exist, so shipping fewer is a
+choice the shell already supports.
+
+**A front door that counts is a front door that stays true.** The chooser's header
+read *"sex unika svenska golfbanor"* while nine cards were on screen, and every
+filter count was a literal that had been wrong since the day a course was added.
+They are derived from `courses` now. The same omission left the three nines with
+no category and no editorial line, so Mellanbanan's card carried a bare club name
+where every other card describes itself. **When a list grows, grep for the number
+that describes it** — nobody edits a string that is not obviously code.
+
 **Judge a poster at the size it is shown.** Six candidate cameras per course,
 composited at the card's own 400×225 on the chooser's ground, changed two picks
 that looked settled at full size. Veckefjärden's island green is the signature
