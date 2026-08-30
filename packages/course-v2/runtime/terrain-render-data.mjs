@@ -107,10 +107,22 @@ function decodeUpperOctahedron(encoded) {
   return [x / length, y / length, z / length];
 }
 
+function writeUint16LittleEndian(target, offset, value) {
+  target[offset] = value & 0xff;
+  target[offset + 1] = value >>> 8;
+}
+
+function readUint16LittleEndian(source, offset) {
+  return source[offset] | source[offset + 1] << 8;
+}
+
 /**
- * Prepare one verified uint16 terrain tile for a single vertex texture fetch.
- * RG stores fine and even-sample parent heights; BA stores an upper-octahedral
- * normal. This work is Three.js-independent and runs in the decode Worker.
+ * Prepare one verified uint16 terrain tile for two portable RGBA8 vertex
+ * texture loads. The first texel stores little-endian fine/parent heights and
+ * the second stores the two little-endian upper-octahedral normal components.
+ * RGBA8 avoids optional normalized-16 and integer-texture paths on WebGL2
+ * mobile without increasing the eight bytes used by each terrain sample.
+ * This work is Three.js-independent and runs in the decode Worker.
  */
 export function prepareTerrainRenderData(decoded) {
   const header = terrainHeader(decoded);
@@ -122,7 +134,7 @@ export function prepareTerrainRenderData(decoded) {
   }
   const count = width * height;
   const source = quantizedSamples(decoded.payload, count);
-  const textureData = new Uint16Array(count * 4);
+  const textureData = new Uint8Array(count * 8);
   let noDataCount = 0;
   let maximumMorphDeltaMetres = 0;
   let maximumNormalEncodingErrorDegrees = 0;
@@ -139,11 +151,11 @@ export function prepareTerrainRenderData(decoded) {
         heightScaleMetres, sampleSpacingMetres,
       );
       const oct = encodeUpperOctahedron(normal);
-      const offset = index * 4;
-      textureData[offset] = fine;
-      textureData[offset + 1] = parent;
-      textureData[offset + 2] = oct[0];
-      textureData[offset + 3] = oct[1];
+      const offset = index * 8;
+      writeUint16LittleEndian(textureData, offset, fine);
+      writeUint16LittleEndian(textureData, offset + 2, parent);
+      writeUint16LittleEndian(textureData, offset + 4, oct[0]);
+      writeUint16LittleEndian(textureData, offset + 6, oct[1]);
       if (fine === noDataValue) {
         noDataCount++;
       } else {
@@ -173,7 +185,7 @@ export function prepareTerrainRenderData(decoded) {
     maximumMorphDeltaMetres,
     maximumNormalEncodingErrorDegrees,
     gpuBytes: textureData.byteLength,
-    layout: 'rgba16ui-height-parent-octnormal-v1',
+    layout: 'rgba8x2-height-parent-octnormal-v1',
   });
 }
 
@@ -207,8 +219,8 @@ export function createTerrainRenderResource({ tileId, decoded, frame, requireCom
   const renderData = decoded.terrainRenderData || prepareTerrainRenderData(decoded);
   if (renderData.tileId !== tileId || renderData.width !== header.grid.width ||
       renderData.height !== header.grid.height ||
-      !(renderData.textureData instanceof Uint16Array) ||
-      renderData.textureData.length !== header.grid.width * header.grid.height * 4) {
+      !(renderData.textureData instanceof Uint8Array) ||
+      renderData.textureData.length !== header.grid.width * header.grid.height * 8) {
     throw new Error(`terrain render payload for ${tileId} is inconsistent`);
   }
   if (requireCompleteCoverage && renderData.noDataCount) {
@@ -257,7 +269,10 @@ export function sampleTerrainRenderResource(resource, worldX, worldZ) {
   const west = Math.floor(x), east = Math.min(resource.width - 1, west + 1);
   const north = Math.floor(y), south = Math.min(resource.height - 1, north + 1);
   const at = (columnIndex, rowIndex) => {
-    const quantized = resource.textureData[(rowIndex * resource.width + columnIndex) * 4];
+    const quantized = readUint16LittleEndian(
+      resource.textureData,
+      (rowIndex * resource.width + columnIndex) * 8,
+    );
     return quantized === resource.noDataValue
       ? Number.NaN
       : resource.heightOffsetWorld + quantized * resource.heightScaleMetres;

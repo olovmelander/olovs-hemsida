@@ -68,7 +68,7 @@ export class ChunkWorkerClient {
       const terrainRenderData = message.terrainRenderData?.textureData instanceof ArrayBuffer
         ? {
             ...message.terrainRenderData,
-            textureData: new Uint16Array(message.terrainRenderData.textureData),
+            textureData: new Uint8Array(message.terrainRenderData.textureData),
           }
         : null;
       pending.resolve({

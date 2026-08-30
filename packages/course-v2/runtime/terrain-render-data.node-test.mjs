@@ -28,21 +28,26 @@ function syntheticFrame() {
   return JSON.parse(graph.resources.get(course.groundManifest.url)).frame;
 }
 
-test('terrain render preparation packs height, parent morph and octahedral normal in one texel', () => {
+function uint16At(bytes, offset) {
+  return bytes[offset] | bytes[offset + 1] << 8;
+}
+
+test('terrain render preparation packs height, parent morph and octahedral normal in portable RGBA8 texels', () => {
   const decoded = syntheticTerrain();
   const prepared = prepareTerrainRenderData(decoded);
-  assert.equal(prepared.layout, 'rgba16ui-height-parent-octnormal-v1');
+  assert.equal(prepared.layout, 'rgba8x2-height-parent-octnormal-v1');
   assert.equal(prepared.width, 3);
   assert.equal(prepared.height, 3);
-  assert.equal(prepared.textureData.length, 3 * 3 * 4);
+  assert.ok(prepared.textureData instanceof Uint8Array);
+  assert.equal(prepared.textureData.length, 3 * 3 * 8);
   assert.equal(prepared.noDataCount, 0);
   assert.equal(prepared.gpuBytes, 72);
 
   const source = new DataView(decoded.payload.buffer, decoded.payload.byteOffset, decoded.payload.byteLength);
   const quantized = index => source.getUint16(index * 2, true);
-  const centreOffset = 4 * 4;
-  assert.equal(prepared.textureData[centreOffset], quantized(4));
-  assert.equal(prepared.textureData[centreOffset + 1], Math.round(
+  const centreOffset = 4 * 8;
+  assert.equal(uint16At(prepared.textureData, centreOffset), quantized(4));
+  assert.equal(uint16At(prepared.textureData, centreOffset + 2), Math.round(
     (quantized(0) + quantized(2) + quantized(6) + quantized(8)) / 4,
   ));
   assert.ok(prepared.maximumMorphDeltaMetres > 0);

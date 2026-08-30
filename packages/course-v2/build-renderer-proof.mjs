@@ -29,7 +29,7 @@ export async function buildRendererProof(outputDirectory, { emptyOutDir = true }
   if (!html.includes(chunks[0])) throw new Error('renderer proof HTML does not reference its module');
   const chunkPath = join(output, 'assets', chunks[0]);
   const source = await readFile(chunkPath, 'utf8');
-  if (!source.includes('rgba16ui-height-parent-octnormal-v1') ||
+  if (!source.includes('rgba8x2-height-parent-octnormal-v1') ||
       !source.includes('banvy-terrain-preview-v1')) {
     throw new Error('renderer proof did not bundle the terrain or retained-preview contracts');
   }

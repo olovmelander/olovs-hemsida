@@ -126,9 +126,9 @@ test('worker prepares compact terrain GPU texels off the main thread', async () 
   await scope.dispatch({ type: 'decode', id: 8, reference, buffer: exact });
   const message = scope.messages[0];
   assert.equal(message.type, 'decoded');
-  assert.equal(message.terrainRenderData.layout, 'rgba16ui-height-parent-octnormal-v1');
+  assert.equal(message.terrainRenderData.layout, 'rgba8x2-height-parent-octnormal-v1');
   assert.ok(message.terrainRenderData.textureData instanceof ArrayBuffer);
-  assert.equal(message.terrainRenderData.textureData.byteLength, 3 * 3 * 4 * 2);
+  assert.equal(message.terrainRenderData.textureData.byteLength, 3 * 3 * 8);
   uninstall();
 });
 

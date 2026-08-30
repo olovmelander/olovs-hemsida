@@ -42,7 +42,7 @@ describe('real terrain preview loader', () => {
     });
     expect(loaded.descriptor.provisional).toBe(true);
     expect(loaded.resources).toHaveLength(4);
-    expect(loaded.resources.every(resource => resource.layout === 'rgba16ui-height-parent-octnormal-v1')).toBe(true);
+    expect(loaded.resources.every(resource => resource.layout === 'rgba8x2-height-parent-octnormal-v1')).toBe(true);
     expect(loaded.resources.every(resource => resource.noDataCount === 0)).toBe(true);
   });
 

@@ -1,7 +1,7 @@
 import * as THREE from 'three/webgpu';
 import {
   Fn, abs, attribute, float, int, ivec2, max, mix, normalize,
-  positionLocal, textureLoad, transformNormalToView, vec3, varyingProperty,
+  positionLocal, round, textureLoad, transformNormalToView, vec3, varyingProperty,
 } from 'three/tsl';
 import { createTerrainGridTopology } from '../../../../packages/course-v2/runtime/terrain-grid-topology.mjs';
 
@@ -32,11 +32,12 @@ function topologyGeometry(topology) {
 }
 
 function heightTexture(width, height, capacity) {
-  const data = new Uint16Array(width * height * capacity * 4);
-  const texture = new THREE.DataArrayTexture(data, width, height, capacity);
-  texture.name = `banvy-v2-terrain-${width}x${height}x${capacity}`;
-  texture.format = THREE.RGBAIntegerFormat;
-  texture.type = THREE.UnsignedShortType;
+  const textureWidth = width * 2;
+  const data = new Uint8Array(textureWidth * height * capacity * 4);
+  const texture = new THREE.DataArrayTexture(data, textureWidth, height, capacity);
+  texture.name = `banvy-v2-terrain-${textureWidth}x${height}x${capacity}-rgba8`;
+  texture.format = THREE.RGBAFormat;
+  texture.type = THREE.UnsignedByteType;
   texture.minFilter = THREE.NearestFilter;
   texture.magFilter = THREE.NearestFilter;
   texture.generateMipmaps = false;
@@ -69,10 +70,19 @@ function terrainMaterial(texture, decorateMaterial) {
   material.positionNode = Fn(() => {
     const frame = attribute('aTerrainFrame', 'vec4');
     const params = attribute('aTerrainParams', 'vec4');
-    const coordinate = ivec2(int(positionLocal.x), int(positionLocal.z));
-    const texel = textureLoad(texture, coordinate).depth(int(params.w));
-    const quantized = mix(texel.r.toFloat(), texel.g.toFloat(), params.z);
-    const oct = texel.ba.toFloat().div(UINT16_MAX).mul(2).sub(1);
+    const coordinate = ivec2(int(positionLocal.x).mul(2), int(positionLocal.z));
+    const heightBytes = round(textureLoad(texture, coordinate).depth(int(params.w)).mul(255));
+    const normalBytes = round(textureLoad(
+      texture, coordinate.add(ivec2(1, 0)),
+    ).depth(int(params.w)).mul(255));
+    const fine = heightBytes.r.add(heightBytes.g.mul(256));
+    const parent = heightBytes.b.add(heightBytes.a.mul(256));
+    const quantized = mix(fine, parent, params.z);
+    const oct = vec3(
+      normalBytes.r.add(normalBytes.g.mul(256)),
+      float(0),
+      normalBytes.b.add(normalBytes.a.mul(256)),
+    ).xz.div(UINT16_MAX).mul(2).sub(1);
     const normalWorld = normalize(vec3(
       oct.x,
       max(float(1e-6), float(1).sub(abs(oct.x).add(abs(oct.y)))),
@@ -155,9 +165,9 @@ export class TerrainTextureBatch {
     if (resource.width !== this.width || resource.height !== this.height) {
       throw new Error(`terrain tile ${resource.tileId} does not match batch dimensions`);
     }
-    if (resource.layout !== 'rgba16ui-height-parent-octnormal-v1' ||
-        !(resource.textureData instanceof Uint16Array) ||
-        resource.textureData.length !== this.width * this.height * 4) {
+    if (resource.layout !== 'rgba8x2-height-parent-octnormal-v1' ||
+        !(resource.textureData instanceof Uint8Array) ||
+        resource.textureData.length !== this.width * this.height * 8) {
       throw new Error(`terrain tile ${resource.tileId} has an unsupported GPU layout`);
     }
     for (const field of [

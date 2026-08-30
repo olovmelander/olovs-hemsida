@@ -166,8 +166,10 @@ camera/hole requests, keeps decoded/GPU resources bounded and applies
 exponential retry backoff.
 
 `runtime/terrain-render-data.mjs` performs the GPU preparation in the verified
-decode Worker. One RGBA16UI texel stores the fine uint16 height, its
-even-sample parent height and an upper-octahedral two-component normal. The
+decode Worker. Two adjacent standard RGBA8 texels store little-endian fine and
+even-sample parent uint16 heights plus an upper-octahedral two-component
+normal. This uses the same eight bytes per sample as RGBA16UI while avoiding
+optional normalized-16 and fragile integer-texture paths on WebGL2 mobile. The
 main thread therefore installs a ready-to-upload buffer instead of expanding a
 257 x 257 tile into positions and normals. Nodata is rejected before a terrain
 pit can be rendered, and the same retained resource supplies the CPU height

@@ -7,6 +7,11 @@ const SPACING = 4;
 const SCALE = 0.01;
 const UINT16_MAX = 65_535;
 
+function writeUint16LittleEndian(target, offset, value) {
+  target[offset] = value & 0xff;
+  target[offset + 1] = value >>> 8;
+}
+
 function heightAt(x, z) {
   const hill = 13 * Math.exp(-(x * x + z * z) / 34_000);
   const shoulder = 7 * Math.exp(-((x + 145) ** 2 + (z - 70) ** 2) / 12_000);
@@ -28,21 +33,21 @@ function octNormal(x, z) {
 }
 
 function syntheticTile(tileId, worldOriginX, worldOriginZ) {
-  const textureData = new Uint16Array(SIZE * SIZE * 4);
+  const textureData = new Uint8Array(SIZE * SIZE * 8);
   for (let row = 0; row < SIZE; row++) for (let column = 0; column < SIZE; column++) {
     const x = worldOriginX + column * SPACING;
     const z = worldOriginZ + row * SPACING;
     const quantized = Math.round(heightAt(x, z) / SCALE);
     const oct = octNormal(x, z);
-    const offset = (row * SIZE + column) * 4;
-    textureData[offset] = quantized;
-    textureData[offset + 1] = quantized;
-    textureData[offset + 2] = oct[0];
-    textureData[offset + 3] = oct[1];
+    const offset = (row * SIZE + column) * 8;
+    writeUint16LittleEndian(textureData, offset, quantized);
+    writeUint16LittleEndian(textureData, offset + 2, quantized);
+    writeUint16LittleEndian(textureData, offset + 4, oct[0]);
+    writeUint16LittleEndian(textureData, offset + 6, oct[1]);
   }
   return {
     tileId, width: SIZE, height: SIZE, textureData,
-    layout: 'rgba16ui-height-parent-octnormal-v1',
+    layout: 'rgba8x2-height-parent-octnormal-v1',
     worldOriginX, worldOriginZ,
     heightOffsetWorld: 0,
     heightScaleMetres: SCALE,
