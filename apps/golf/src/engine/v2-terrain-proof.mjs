@@ -137,6 +137,14 @@ async function main() {
     await renderer.renderAsync(scene, camera);
     await new Promise(resolve => requestAnimationFrame(resolve));
   }
+  /* renderAsync resolves after command submission in r185. A hardware adapter
+     usually presents before the next frame, but the deterministic WebGPU
+     SwiftShader proof can still be processing the two-million-triangle batch.
+     Do not declare the canvas ready until its submitted queue is complete. */
+  if (renderer.backend?.isWebGPUBackend) {
+    await renderer.backend.device.queue.onSubmittedWorkDone();
+    await new Promise(resolve => requestAnimationFrame(resolve));
+  }
   const backend = renderer.backend?.isWebGPUBackend ? 'webgpu' : 'webgl2';
   const renderInfo = renderer.info?.render || {};
   backendLabel.textContent = `${backend.toUpperCase()} · ${loaded.resources.length} tiles · ${terrain.stats().drawCalls} draw call`;
