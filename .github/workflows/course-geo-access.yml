@@ -406,9 +406,9 @@ jobs:
                 headers: { Authorization: authorization },
               },
               bounds: `([${bounds[0]},${bounds[2]}],[${bounds[1]},${bounds[3]}])`,
-              count: maximumPoints,
               requests: 4,
             },
+            { type: 'filters.head', count: maximumPoints },
             {
               type: 'filters.stats',
               dimensions: 'Z,Classification,ReturnNumber,NumberOfReturns',

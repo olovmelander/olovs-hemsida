@@ -201,8 +201,8 @@ export function laserStatisticsFromMetadata(metadata, maximumPoints) {
   const byName = new Map(stats.statistic.map(item => [item.name, item]));
   const z = byName.get('Z');
   const pointCount = Number(z?.count);
-  if (!Number.isSafeInteger(pointCount) || pointCount < 1 || pointCount > maximumPoints) {
-    throw new Error(`bounded COPC point count ${pointCount} is outside 1..${maximumPoints}`);
+  if (!Number.isSafeInteger(pointCount) || pointCount < 1 || pointCount >= maximumPoints) {
+    throw new Error(`bounded COPC point count ${pointCount} is outside 1..${maximumPoints - 1}`);
   }
   const enumeration = dimension => {
     const item = byName.get(dimension);
@@ -255,9 +255,9 @@ export function copcStatsPipeline(plan, credentials) {
         headers: header,
       }),
       bounds: `([${minX},${maxX}],[${minY},${maxY}])`,
-      count: plan.maximumPoints,
       requests: 4,
     }),
+    Object.freeze({ type: 'filters.head', count: plan.maximumPoints }),
     Object.freeze({
       type: 'filters.stats',
       dimensions: 'Z,Classification,ReturnNumber,NumberOfReturns',

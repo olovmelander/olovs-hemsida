@@ -255,8 +255,10 @@ test('Laserdata Skog plan prefers the AOI centre, then the newest containing COP
     'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/centred.copc.laz');
   assert.match(pipeline[0].filename.headers.Authorization, /^Basic /);
   assert.equal(pipeline[0].bounds, '([436,564],[486,614])');
-  assert.equal(pipeline[0].count, 500_000);
-  assert.equal(pipeline[1].count, 'Classification,ReturnNumber,NumberOfReturns');
+  assert.equal(pipeline[0].count, undefined);
+  assert.equal(pipeline[1].type, 'filters.head');
+  assert.equal(pipeline[1].count, 500_000);
+  assert.equal(pipeline[2].count, 'Classification,ReturnNumber,NumberOfReturns');
   assert.doesNotMatch(JSON.stringify(plan), /user|secret|Basic /);
 });
 
@@ -300,7 +302,8 @@ test('Laserdata Skog aggregates reject malformed or over-budget PDAL metadata', 
     { name: 'ReturnNumber', counts: [`1.000000/${count}`] },
     { name: 'NumberOfReturns', counts: [`1.000000/${count}`] },
   ] });
-  assert.throws(() => laserStatisticsFromMetadata(metadata(11), 10), /outside 1\.\.10/);
+  assert.throws(() => laserStatisticsFromMetadata(metadata(10), 10), /outside 1\.\.9/);
+  assert.throws(() => laserStatisticsFromMetadata(metadata(11), 10), /outside 1\.\.9/);
   assert.throws(() => laserStatisticsFromMetadata(metadata(2), 10), /invalid Classification count/);
 });
 
