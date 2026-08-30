@@ -327,7 +327,8 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
     holeCount: 135,
     uniqueGroundWindowCount: 177,
     requestedWindowReferences: 655,
-    groundsWithDiscovery: 3,
+    groundsWithDiscovery: plan.grounds.filter(ground =>
+      ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,
   });
   assert.deepEqual(
