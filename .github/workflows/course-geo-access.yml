@@ -11,13 +11,29 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: course-geo-provider-access-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lantmateriet-access:
     name: Lantmäteriet access preflight
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install locked renderer dependencies
+        run: pnpm install --frozen-lockfile
 
       - uses: prefix-dev/setup-pixi@v0.10.2
         with:
@@ -170,6 +186,9 @@ jobs:
           }, null, 2));
           NODE
 
+      - name: Build isolated Three r185 terrain proof
+        run: node packages/course-v2/build-renderer-proof.mjs "$RUNNER_TEMP/puttom-terrain-preview"
+
       - name: Compile bounded 1 m terrain COG and BVCH pyramid
         env:
           CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .tif
@@ -178,6 +197,7 @@ jobs:
           GDAL_HTTP_USERPWD: ${{ secrets.LANTMATERIET_USERNAME }}:${{ secrets.LANTMATERIET_PASSWORD }}
           PROJ_NETWORK: "OFF"
           TERRAIN_ASSET_URL: ${{ steps.terrain-source.outputs.asset_url }}
+          TERRAIN_PREVIEW_ROOT: ${{ runner.temp }}/puttom-terrain-preview
           VSI_CACHE: "TRUE"
           VSI_CACHE_SIZE: "67108864"
         run: |
@@ -209,6 +229,7 @@ jobs:
           import { createReadStream, readFileSync, statSync } from 'node:fs';
           import { createInterface } from 'node:readline';
           import { compileTerrainAssets } from './packages/course-v2/terrain-compiler-node.mjs';
+          import { writeTerrainPreviewBundle } from './packages/course-v2/terrain-preview-node.mjs';
 
           const output = process.env.TERRAIN_OUTPUT;
           const info = JSON.parse(readFileSync(process.env.TERRAIN_INFO, 'utf8'));
@@ -275,6 +296,9 @@ jobs:
               compiled.stats.tileChunks !== 21 || compiled.resources.size !== 22) {
             throw new Error(`Unexpected BVCH pyramid ${JSON.stringify(compiled.stats)}`);
           }
+          await writeTerrainPreviewBundle(process.env.TERRAIN_PREVIEW_ROOT, compiled, {
+            label: 'Puttom · Lantmäteriet 1 m terräng',
+          });
           console.log(JSON.stringify({
             ready: true,
             groundId: 'puttom',
@@ -312,3 +336,19 @@ jobs:
             note: 'The source and compiled sample remain ephemeral on the GitHub runner.',
           }, null, 2));
           NODE
+
+      - name: Capture retained pilot in forced WebGL2 and WebGPU-preferred modes
+        run: >-
+          node packages/course-v2/capture-terrain-preview.mjs
+          --root "$RUNNER_TEMP/puttom-terrain-preview"
+          --out "$RUNNER_TEMP/puttom-terrain-captures"
+          --timeout 240
+
+      - name: Upload screenshots and backend report only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: puttom-terrain-visual-proof-${{ github.run_number }}
+          path: ${{ runner.temp }}/puttom-terrain-captures
+          if-no-files-found: warn
+          retention-days: 7

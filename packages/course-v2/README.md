@@ -111,11 +111,12 @@ missing public v2 root is therefore an honest 404 rather than fake production
 data. The debug chunk is excluded from the PWA precache and a production-build
 gate keeps it below 64 KiB and out of both initial HTML and the service worker.
 
-The next D4 work package is one retained real coarse shell and active-hole
-visual proof behind the existing URL flag. Authenticated D2 terrain access and
-the backend-common renderer adapter are now proven independently;
-authoritative publication still waits for D1 origin approval and a tile-aligned
-retained pilot build.
+The next D4 gate is the retained real-course visual proof. The provider-access
+workflow now builds a short-lived Puttom preview from authenticated terrain,
+verifies every BVCH in the browser and captures forced WebGL2 plus
+WebGPU-preferred views. Only PNG files and a backend report may leave the
+runner; COG, XYZ, preview manifests and BVCH files remain ephemeral.
+Authoritative publication and live selection still wait for D1 origin approval.
 
 ## D4 terrain-pyramid foundation
 
@@ -184,8 +185,13 @@ capacity before allocation.
 `apps/golf/src/engine/v2-terrain-runtime.mjs` wires that batch to the verified
 asset loader, SSE manager and stream controller, converts the Banvy camera back
 to EPSG:5845, forces active-hole tiles, frustum-culls requests and exposes the
-finest ready CPU height. `v2-terrain-proof.html` is a non-production synthetic
-shader/build harness; `node packages/course-v2/check-renderer-build.mjs` bundles it against the
-installed Three.js r185 API. The production selector still reports
+finest ready CPU height. `v2-terrain-proof.html` is a non-production shader
+harness: without input it renders an explicitly labelled synthetic fixture;
+with a strict provisional preview descriptor it bounds, hashes, decompresses
+and verifies real BVCH tiles before rendering. `terrain-preview-node.mjs`
+creates that ephemeral bundle, while `capture-terrain-preview.mjs` refuses
+synthetic, non-provisional, blank or non-WebGL2 forced captures.
+`node packages/course-v2/check-renderer-build.mjs` bundles the complete path
+against the installed Three.js r185 API. The production selector still reports
 `rendererAvailable: false`: activation waits for a retained real pilot,
 WebGPU/forced-WebGL2 screenshots and approved canonical origin.

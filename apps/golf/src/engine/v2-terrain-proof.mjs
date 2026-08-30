@@ -1,5 +1,6 @@
 import * as THREE from 'three/webgpu';
 import { TerrainTileBatchSet } from './v2-terrain-batch.mjs';
+import { loadTerrainPreview } from './v2-terrain-preview-loader.mjs';
 
 const SIZE = 65;
 const SPACING = 4;
@@ -26,7 +27,7 @@ function octNormal(x, z) {
   ];
 }
 
-function tile(tileId, worldOriginX, worldOriginZ) {
+function syntheticTile(tileId, worldOriginX, worldOriginZ) {
   const textureData = new Uint16Array(SIZE * SIZE * 4);
   for (let row = 0; row < SIZE; row++) for (let column = 0; column < SIZE; column++) {
     const x = worldOriginX + column * SPACING;
@@ -52,43 +53,103 @@ function tile(tileId, worldOriginX, worldOriginZ) {
   };
 }
 
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xb9cbbb);
-scene.fog = new THREE.FogExp2(0xb9cbbb, 0.00125);
-const camera = new THREE.PerspectiveCamera(43, innerWidth / innerHeight, 1, 3000);
-camera.position.set(430, 245, 470);
-camera.lookAt(0, 18, 0);
-scene.add(new THREE.HemisphereLight(0xe7f1ea, 0x41523f, 2.2));
-const sun = new THREE.DirectionalLight(0xfff1cc, 4.2);
-sun.position.set(-260, 420, 190);
-scene.add(sun);
+function syntheticPreview() {
+  return {
+    descriptor: {
+      label: 'instansierad terräng',
+      provisional: true,
+      camera: {
+        position: [430, 245, 470], target: [0, 18, 0],
+        fovDegrees: 43, nearMetres: 1, farMetres: 3000,
+      },
+    },
+    resources: [
+      syntheticTile('l0/0/0', -256, -256), syntheticTile('l0/1/0', 0, -256),
+      syntheticTile('l0/0/1', -256, 0), syntheticTile('l0/1/1', 0, 0),
+    ],
+    synthetic: true,
+  };
+}
 
-const terrain = new TerrainTileBatchSet({ maximumTiles: 4, morphDurationMilliseconds: 0 });
-scene.add(terrain.group);
-terrain.sync([
-  tile('l0/0/0', -256, -256), tile('l0/1/0', 0, -256),
-  tile('l0/0/1', -256, 0), tile('l0/1/1', 0, 0),
-], { now: 0 });
+function sameOriginPreviewUrl(value) {
+  const url = new URL(value, location.href);
+  if (url.origin !== location.origin || url.username || url.password || url.hash) {
+    throw new Error('preview descriptor must be a clean same-origin URL');
+  }
+  return url.href;
+}
 
-const forceWebGL = new URLSearchParams(location.search).get('gl') === '1';
-const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, forceWebGL });
-renderer.setPixelRatio(1);
-renderer.setSize(innerWidth, innerHeight);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.1;
-document.body.prepend(renderer.domElement);
-await renderer.init();
-await renderer.compileAsync(scene, camera);
-await renderer.renderAsync(scene, camera);
-document.getElementById('boot').classList.add('done');
-window.V3D = {
-  stats: { ...terrain.stats(), backend: renderer.backend?.isWebGPUBackend ? 'webgpu' : 'webgl2' },
-  settled: () => true,
-};
+async function main() {
+  const params = new URLSearchParams(location.search);
+  const previewParameter = params.get('preview');
+  const loaded = previewParameter
+    ? { ...(await loadTerrainPreview(sameOriginPreviewUrl(previewParameter))), synthetic: false }
+    : syntheticPreview();
 
-addEventListener('resize', () => {
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
+  const title = document.getElementById('proof-title');
+  const detail = document.getElementById('proof-detail');
+  const backendLabel = document.getElementById('proof-backend');
+  title.textContent = `D4 · ${loaded.descriptor.label}`;
+  detail.textContent = loaded.synthetic
+    ? 'Syntetiskt teknikbevis — inte en golfbana'
+    : 'Verifierade BVCH-tiles · provisorisk visuell QA · produktion av';
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xb9cbbb);
+  scene.fog = new THREE.FogExp2(0xb9cbbb, loaded.synthetic ? 0.00125 : 0.00075);
+  const view = loaded.descriptor.camera;
+  const camera = new THREE.PerspectiveCamera(
+    view.fovDegrees, innerWidth / innerHeight, view.nearMetres, view.farMetres,
+  );
+  camera.position.fromArray(view.position);
+  camera.lookAt(...view.target);
+  scene.add(new THREE.HemisphereLight(0xe7f1ea, 0x35443a, 2.35));
+  const sun = new THREE.DirectionalLight(0xffedc5, 4.5);
+  const span = Math.max(400, Math.hypot(view.position[0], view.position[2]));
+  sun.position.set(-span * 0.65, span, span * 0.42);
+  scene.add(sun);
+
+  const terrain = new TerrainTileBatchSet({
+    maximumTiles: loaded.resources.length,
+    morphDurationMilliseconds: 0,
+  });
+  scene.add(terrain.group);
+  terrain.sync(loaded.resources, { now: 0 });
+
+  const forceWebGL = params.get('gl') === '1';
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, forceWebGL });
+  renderer.setPixelRatio(1);
   renderer.setSize(innerWidth, innerHeight);
-  void renderer.renderAsync(scene, camera);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.12;
+  document.body.prepend(renderer.domElement);
+  await renderer.init();
+  await renderer.compileAsync(scene, camera);
+  await renderer.renderAsync(scene, camera);
+  const backend = renderer.backend?.isWebGPUBackend ? 'webgpu' : 'webgl2';
+  backendLabel.textContent = `${backend.toUpperCase()} · ${loaded.resources.length} tiles · ${terrain.stats().drawCalls} draw call`;
+  document.getElementById('boot').classList.add('done');
+  window.V3D = {
+    stats: {
+      ...terrain.stats(), backend, synthetic: loaded.synthetic,
+      provisional: Boolean(loaded.descriptor.provisional),
+    },
+    settled: () => true,
+  };
+
+  addEventListener('resize', () => {
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+    void renderer.renderAsync(scene, camera);
+  });
+}
+
+main().catch(error => {
+  const message = String(error?.message || error || 'Okänt renderfel');
+  document.getElementById('proof-title').textContent = 'D4 · renderfel';
+  document.getElementById('proof-detail').textContent = message.slice(0, 180);
+  document.getElementById('boot').classList.add('error');
+  window.V3D = { error: message, settled: () => true };
+  queueMicrotask(() => { throw error; });
 });
