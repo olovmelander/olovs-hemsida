@@ -196,28 +196,123 @@ jobs:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
         run: |
-          node packages/course-geo/acquisition/access-preflight.mjs \
-            --ground puttom \
-            --provider lantmateriet \
-            --json > "$RUNNER_TEMP/lantmateriet-height-access.json"
           node --input-type=module <<'NODE'
-          import { readFileSync } from 'node:fs';
-          const report = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/lantmateriet-height-access.json`, 'utf8'));
-          const laser = report.providers?.lantmateriet?.laser;
-          if (!report.ready || !laser?.ready || laser.bytesRead !== 589 || !laser.rangeSupported) {
-            throw new Error('Laserdata Skog authenticated COPC access was not proven');
+          const endpoint = 'https://api.lantmateriet.se/stac-hojd/v1';
+          const authorization = `Basic ${Buffer.from(
+            `${process.env.LANTMATERIET_USERNAME}:${process.env.LANTMATERIET_PASSWORD}`,
+            'utf8',
+          ).toString('base64')}`;
+
+          async function readBounded(response, maximumBytes, label) {
+            const declared = Number(response.headers.get('content-length'));
+            if (Number.isFinite(declared) && declared > maximumBytes) {
+              await response.body?.cancel(`${label} exceeds probe limit`);
+              throw new Error(`${label} exceeds ${maximumBytes} byte probe limit`);
+            }
+            const reader = response.body?.getReader();
+            if (!reader) throw new Error(`${label} has no readable response body`);
+            const chunks = [];
+            let total = 0;
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              total += value.byteLength;
+              if (total > maximumBytes) {
+                await reader.cancel(`${label} exceeds probe limit`);
+                throw new Error(`${label} exceeds ${maximumBytes} byte probe limit`);
+              }
+              chunks.push(value);
+            }
+            const result = new Uint8Array(total);
+            let offset = 0;
+            for (const chunk of chunks) {
+              result.set(chunk, offset);
+              offset += chunk.byteLength;
+            }
+            return result;
           }
+
+          const searchUrl = new URL(`${endpoint}/search`);
+          searchUrl.searchParams.set('bbox', '18.9,63.28,18.98,63.32');
+          searchUrl.searchParams.set('collections', 'dsm-skoglig-copc');
+          searchUrl.searchParams.set('limit', '10');
+          const searchResponse = await fetch(searchUrl, {
+            headers: {
+              Accept: 'application/geo+json, application/json',
+              Authorization: authorization,
+            },
+            redirect: 'error',
+            signal: AbortSignal.timeout(20_000),
+          });
+          if (!searchResponse.ok) {
+            throw new Error(`Laserdata Skog STAC search denied the configured account (HTTP ${searchResponse.status})`);
+          }
+          const searchBytes = await readBounded(searchResponse, 1024 * 1024, 'Laserdata Skog STAC search');
+          const search = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(searchBytes));
+          const candidates = (search.features || []).filter(feature =>
+            feature?.collection === 'dsm-skoglig-copc' &&
+            typeof feature?.assets?.data?.href === 'string' &&
+            Number.isSafeInteger(feature?.assets?.data?.['file:size']),
+          ).sort((left, right) => String(
+            right.properties?.data_modified || right.properties?.datetime || '',
+          ).localeCompare(String(
+            left.properties?.data_modified || left.properties?.datetime || '',
+          )) || String(left.id).localeCompare(String(right.id)));
+          const feature = candidates[0];
+          const asset = feature?.assets?.data;
+          if (!feature?.id || asset?.type !== 'application/vnd.laszip+copc') {
+            throw new Error('Laserdata Skog STAC search returned no COPC asset');
+          }
+          const assetUrl = new URL(asset.href);
+          if (assetUrl.protocol !== 'https:' || assetUrl.hostname !== 'dl1.lantmateriet.se' ||
+              !assetUrl.pathname.startsWith('/hojd/data/pointcloud/sls/') ||
+              !assetUrl.pathname.endsWith('.copc.laz') || assetUrl.search || assetUrl.hash ||
+              assetUrl.username || assetUrl.password || /[\r\n]/.test(assetUrl.href)) {
+            throw new Error('Laserdata Skog returned an unexpected COPC asset URL');
+          }
+          const rangeResponse = await fetch(assetUrl, {
+            headers: {
+              Accept: 'application/vnd.laszip+copc, application/octet-stream',
+              Authorization: authorization,
+              Range: 'bytes=0-588',
+            },
+            redirect: 'error',
+            signal: AbortSignal.timeout(20_000),
+          });
+          if (rangeResponse.status !== 206) {
+            await rangeResponse.body?.cancel('byte-range response required');
+            throw new Error(`Laserdata Skog COPC did not provide a byte range (HTTP ${rangeResponse.status})`);
+          }
+          const contentRange = rangeResponse.headers.get('content-range') || '';
+          const rangeMatch = contentRange.match(/^bytes 0-(\d+)\/(\d+)$/i);
+          if (!rangeMatch || Number(rangeMatch[1]) !== 588 ||
+              Number(rangeMatch[2]) !== asset['file:size']) {
+            throw new Error('Laserdata Skog COPC returned an invalid Content-Range');
+          }
+          const header = await readBounded(rangeResponse, 589, 'Laserdata Skog COPC header');
+          const ascii = new TextDecoder('ascii');
+          const pointDataRecordFormat = header[104] & 0x3f;
+          const infoRecordLength = header[395] | (header[396] << 8);
+          const validCopc = header.byteLength === 589 &&
+            ascii.decode(header.subarray(0, 4)) === 'LASF' &&
+            header[24] === 1 && header[25] === 4 &&
+            [6, 7, 8].includes(pointDataRecordFormat) &&
+            ascii.decode(header.subarray(377, 381)) === 'copc' &&
+            header[393] === 1 && header[394] === 0 && infoRecordLength === 160;
+          if (!validCopc) throw new Error('Laserdata Skog asset does not have a valid COPC 1.0 header');
+
           console.log(JSON.stringify({
             ready: true,
-            collection: laser.collection,
-            assetId: laser.assetId,
-            httpStatus: laser.httpStatus,
-            rangeSupported: laser.rangeSupported,
-            bytesRead: laser.bytesRead,
-            sourceBytes: laser.sourceBytes,
-            pointDataRecordFormat: laser.pointDataRecordFormat,
-            advertisedPointCount: laser.advertisedPointCount,
-            pointDensityPerSquareMetre: laser.pointDensityPerSquareMetre,
+            collection: feature.collection,
+            itemId: feature.id,
+            httpStatus: rangeResponse.status,
+            rangeSupported: true,
+            bytesRead: header.byteLength,
+            sourceBytes: Number(rangeMatch[2]),
+            pointDataRecordFormat,
+            advertisedPointCount: feature.properties?.['pc:count'] ?? null,
+            pointDensityPerSquareMetre: feature.properties?.['pc:density'] ??
+              feature.properties?.punkttathet ?? null,
             note: 'No credentials, authorization headers or point-cloud bytes were serialized.',
           }, null, 2));
           NODE
