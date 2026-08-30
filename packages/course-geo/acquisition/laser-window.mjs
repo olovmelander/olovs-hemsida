@@ -208,11 +208,13 @@ export function copcStatsPipeline(plan, credentials) {
   return Object.freeze([
     Object.freeze({
       type: 'readers.copc',
-      filename: plan.source.sourceUrl,
+      filename: Object.freeze({
+        path: plan.source.sourceUrl,
+        headers: header,
+      }),
       bounds: `([${minX},${maxX}],[${minY},${maxY}])`,
       count: plan.maximumPoints,
       requests: 4,
-      header,
     }),
     Object.freeze({
       type: 'filters.stats',
@@ -231,7 +233,7 @@ export function acquireLaserWindow(report, {
 } = {}) {
   const plan = laserWindowPlan(report, { spanMetres, maximumPoints });
   const pipeline = copcStatsPipeline(plan, credentials);
-  const authorization = Object.values(pipeline[0].header);
+  const authorization = Object.values(pipeline[0].filename.headers);
   const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'banvy-copc-stats-'));
   const metadataFile = path.join(temporaryDirectory, 'metadata.json');
   const started = performance.now();

@@ -231,6 +231,9 @@ test('Laserdata Skog plan selects the newest containing COPC and bounds the poin
     type: 'basic', username: 'user', password: 'secret',
   });
   assert.equal(pipeline[0].type, 'readers.copc');
+  assert.equal(pipeline[0].filename.path,
+    'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/new.copc.laz');
+  assert.match(pipeline[0].filename.headers.Authorization, /^Basic /);
   assert.equal(pipeline[0].bounds, '([436,564],[372,500])');
   assert.equal(pipeline[0].count, 500_000);
   assert.equal(pipeline[1].count, 'Classification,ReturnNumber,NumberOfReturns');

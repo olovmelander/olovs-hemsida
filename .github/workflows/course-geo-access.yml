@@ -381,11 +381,13 @@ jobs:
           const pipeline = [
             {
               type: 'readers.copc',
-              filename: assetUrl.href,
+              filename: {
+                path: assetUrl.href,
+                headers: { Authorization: authorization },
+              },
               bounds: `([${bounds[0]},${bounds[2]}],[${bounds[1]},${bounds[3]}])`,
               count: maximumPoints,
               requests: 4,
-              header: { Authorization: authorization },
             },
             {
               type: 'filters.stats',
