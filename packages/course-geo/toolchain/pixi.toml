@@ -22,5 +22,6 @@ check-migration = { cmd = "node ../migrate-legacy.mjs --check", depends-on = ["v
 discover-pilots = { cmd = "node ../acquisition/discover-pilots.mjs --write", depends-on = ["verify", "test-controls"] }
 check-discovery = "node ../acquisition/check-discovery.mjs"
 test-acquisition = "node --test ../acquisition/acquisition.node-test.mjs"
+plan-hole-controls = { cmd = "node ../acquisition/plan-hole-source-controls.mjs", depends-on = ["verify", "test-controls"] }
 acquire-pilot = { cmd = "node ../acquisition/acquire-pilot.mjs", depends-on = ["verify", "test-controls", "check-discovery"] }
 run-hole-controls = { cmd = "node ../acquisition/run-hole-source-controls.mjs", depends-on = ["verify", "test-controls"] }
