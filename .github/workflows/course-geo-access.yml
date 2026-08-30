@@ -183,7 +183,7 @@ jobs:
         run: |
           terrain_output="$RUNNER_TEMP/puttom-terrain-1025px.tif"
           terrain_info="$RUNNER_TEMP/puttom-terrain-1025px.json"
-          terrain_raw="$RUNNER_TEMP/puttom-terrain-1025px.f32"
+          terrain_xyz="$RUNNER_TEMP/puttom-terrain-1025px.xyz"
           terrain_started="$(date +%s)"
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
             gdal_translate \
@@ -199,19 +199,16 @@ jobs:
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
             gdalinfo -json -stats "$terrain_output" > "$terrain_info"
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
-            gdal_translate -of ENVI -ot Float32 -a_srs EPSG:3006 -co INTERLEAVE=BSQ \
-            "$terrain_output" "$terrain_raw"
+            gdal_translate -of XYZ "$terrain_output" "$terrain_xyz"
           TERRAIN_ELAPSED_SECONDS="$(( $(date +%s) - terrain_started ))" \
           TERRAIN_INFO="$terrain_info" \
           TERRAIN_OUTPUT="$terrain_output" \
-          TERRAIN_RAW="$terrain_raw" \
+          TERRAIN_XYZ="$terrain_xyz" \
             node --input-type=module <<'NODE'
           import { createHash } from 'node:crypto';
-          import { readFileSync, statSync } from 'node:fs';
-          import {
-            compileTerrainAssets,
-            readFloat32TerrainFile,
-          } from './packages/course-v2/terrain-compiler-node.mjs';
+          import { createReadStream, readFileSync, statSync } from 'node:fs';
+          import { createInterface } from 'node:readline';
+          import { compileTerrainAssets } from './packages/course-v2/terrain-compiler-node.mjs';
 
           const output = process.env.TERRAIN_OUTPUT;
           const info = JSON.parse(readFileSync(process.env.TERRAIN_INFO, 'utf8'));
@@ -234,17 +231,40 @@ jobs:
             Math.abs(value - expectedTransform[index]) > 1e-9)) {
             throw new Error(`Unexpected terrain geotransform ${JSON.stringify(transform)}`);
           }
-          const raster = await readFloat32TerrainFile(process.env.TERRAIN_RAW, {
-            width: 1025,
-            height: 1025,
-            noDataValue: band.noDataValue,
+          const rasterWidth = 1025;
+          const rasterHeight = 1025;
+          const heights = new Float32Array(rasterWidth * rasterHeight);
+          let sampleIndex = 0;
+          const lines = createInterface({
+            input: createReadStream(process.env.TERRAIN_XYZ, { encoding: 'utf8' }),
+            crlfDelay: Infinity,
           });
+          for await (const line of lines) {
+            if (!line) continue;
+            if (sampleIndex >= heights.length) throw new Error('XYZ terrain contains too many samples');
+            const parts = line.trim().split(/\s+/);
+            if (parts.length !== 3) throw new Error(`Invalid XYZ terrain line ${sampleIndex + 1}`);
+            const [easting, northing, sourceHeight] = parts.map(Number);
+            const column = sampleIndex % rasterWidth;
+            const row = Math.floor(sampleIndex / rasterWidth);
+            const expectedEasting = transform[0] + transform[1] * (column + 0.5);
+            const expectedNorthing = transform[3] + transform[5] * (row + 0.5);
+            if (Math.abs(easting - expectedEasting) > 1e-6 ||
+                Math.abs(northing - expectedNorthing) > 1e-6) {
+              throw new Error(`XYZ terrain sample ${sampleIndex} is out of row-major grid order`);
+            }
+            if (!Number.isFinite(sourceHeight)) throw new Error(`XYZ terrain sample ${sampleIndex} is not finite`);
+            heights[sampleIndex++] = sourceHeight === band.noDataValue ? Number.NaN : sourceHeight;
+          }
+          if (sampleIndex !== heights.length) {
+            throw new Error(`XYZ terrain contains ${sampleIndex} samples; expected ${heights.length}`);
+          }
           const compiled = compileTerrainAssets({
             groundId: 'puttom',
             courseSlugs: ['puttom'],
-            heights: raster.heights,
-            width: raster.width,
-            height: raster.height,
+            heights,
+            width: rasterWidth,
+            height: rasterHeight,
             originEasting: transform[0] + transform[1] / 2,
             originNorthing: transform[3] + transform[5] / 2,
             sampleSpacingMetres: 1,
