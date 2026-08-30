@@ -17,11 +17,17 @@ export const COURSE_MODEL_PATHS = Object.freeze({
   'veckefjarden-korthalsbanan': 'geo_data/course-v2/veckefjarden/migration/short-course-model.epsg3006.json',
 });
 
-// These two migrated secondary-course models are intentionally checksummed
-// here until their broader source-manifest metadata receives a separate
-// publication review.
-export const SUPPLEMENTAL_COURSE_MODEL_SHA256 = Object.freeze({
+// Keep the immutable migration candidates fail-closed even when CI has to
+// reconstruct a model from an already committed legacy course model.
+export const COURSE_MODEL_SHA256 = Object.freeze({
+  angso: '96d5ff2f155c5628d22c8dc8358d57e94cadf23503fffd8f45469b9892ff05d0',
+  norrfallsviken: '65bdbad84aee8ce3cbc473e6f8c340a1ce90a17604cf06f2076197ad228a977d',
+  puttom: '75c5223c0405f6bd1fefa51e8870a3dacb9ffebbc05b8f0df5a10fe7f189581c',
+  upsala: 'f01fa7c184e53925b3792f221b1a20caf8831e9d13d927435ff5dc46f7582bd4',
+  'upsala-mellanbanan': '547da39c0f83bbe9caeb276d198ae2becf1cfd235c7cdff211abe897496f526d',
+  johannesberg: '2e6b367489a4b75045dcfd382365b8e8a9f31cfac9d23f7b48e10e1123b349fd',
   'johannesberg-9': '0cfac27372792daeefa75ffa033dcac98025265fccf29dd032dde999d2f4bdfd',
+  veckefjarden: '605f8cfff7354929ff291b3c522919573f5ecb452656819180573520b6ce191a',
   'veckefjarden-korthalsbanan': 'e466d83d28fb501f8dc0ebcc294e8fc171bd9e9db529e08e57eae1370b2cc8b1',
 });
 
