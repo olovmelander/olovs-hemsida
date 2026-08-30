@@ -215,3 +215,12 @@ export function species({ r, x, z, h, ringSD, RES }) {
    stepped from its own start, so a wider box does not merely add reeds, it moves
    every one of them. */
 export const reedbed = { box: [-2300, 0, -1500, 900], denser: [-700, 1.8] };
+
+/* The old school: cream render under a dark red roof, three storeys of
+   white-framed windows, the railed garden terrace facing the 18th. These are the
+   engine's defaults because this is the building the clubhouse code was written
+   from -- stated here anyway, so no course is silently relying on a default. */
+export const clubhouse = {
+  wall: 0xe7e2d4, roof: 0x9d3f2e, height: 5.4,
+  windowRows: [1.4, 3.5], terrace: true,
+};

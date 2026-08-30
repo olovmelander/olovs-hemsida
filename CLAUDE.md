@@ -300,6 +300,26 @@ it before the water elevation work or the 49 water features get rebuilt twice.
 yellow 150 m, white 200 m. An early reading of the guide took them for pins, which would
 have put the flag in the wrong place on all eighteen holes.
 
+**And a plate has to measure what it says.** They were placed by the arc length
+still to run along the hole polyline, to the line's END — but the plate claims the
+straight-line distance to the CENTRE of the green, and on a dogleg those diverge:
+across the six courses the plates were out by 2.6 m on average, 39 of 252 by over
+five metres, and Ängsö's 14th put its "200" where the green is 233 m away. They are
+now solved for the POST rather than the centre line, because the post stands 15 m
+out to the side and at a dogleg that offset is not perpendicular to the green —
+fixing only the centre-line point still left the post itself up to 10 m out.
+Worst case is now ~1.2 m, and `check-app` gates it at 2 m by measuring the plate
+that was PLANTED (`V3D.plates()`), never by re-deriving where it ought to be.
+
+Two traps that cost time here, both worth knowing:
+- **`hyp(a, b)` in `geom.js` takes two POINTS, not two scalars.** Calling it as
+  `hyp(dx, dz)` returns NaN, every comparison goes false, and in this case every
+  distance plate on all six courses silently disappeared. The new gate is what
+  caught it — a count of zero failed loudly where a picture would not have.
+- The residual is not the search step: at a polyline vertex the bearing jumps, so
+  the post's own distance is discontinuous and no position lands exactly on the
+  label. That is why the gate allows 2 m and not 0.5.
+
 **UI changes need measuring, not eyeballing.** The compass rose in the card header cost
 58 px and silently wrapped the hole line onto two rows. Measure `.c-meta` height against
 its line-height at 1280, 900 and 420 px before and after any card change.
@@ -451,8 +471,14 @@ tracing: pixel→world is affine, so a trace made on a crop needs no registratio
   (skipped in the generic buildings pass), boats moored along the marina piers.
   The High Coast horizon — Mjältön, Ulvöarna, Högbonden — is real terrain in the
   z12 vista heightfield and needs no modelling.
-- The clubhouse keeps the /golfklubb/ name-matched bench+terrace machinery at
-  NVGK proportions (cream walls, red roof, terrace facing east to the greens).
+- The clubhouse keeps the name-matched bench+terrace machinery at NVGK
+  proportions. **Its colours were wrong here until a photograph was looked at:**
+  this note used to say "cream walls, red roof". The club's own photograph shows
+  the opposite emphasis — **Falu red timber walls with white window frames and
+  white corner boards, a dark red-brown roof**, single storey with a gable over
+  the west block, a glazed veranda, and a railed terrace standing above the green
+  it faces. Aerial imagery gives a roof but never a facade; that one needed a
+  picture from the ground.
 - Card UI: three tees (Gul/Röd/Orange), not six.
 - The planter is pine-led; there are no OSM forest polygons at all, so the
   satellite tree-cover raster is the only planting authority.
@@ -864,6 +890,62 @@ The symptom the gate reported was tiny (a chooser open when it should be shut);
 the cause would have wrecked the HUD everywhere. **When adding an element to a
 page this old, grep the id first** — `#chooser` now.
 
+### The ground atlas — live, and what it cost to light up
+
+`docs/ground-atlas-plan.md` (G0–G8) is being executed and the atlas is the app's
+DEFAULT ground path: `src/engine/surface.js` (registry + classifier), `atlas.js`
+(1 m boot-built raster: ids, SDF, route distance — ~350 ms per course), and
+`material.js` (`makeGround`, one material classifying per fragment). In atlas
+mode every mown/sand/parking overlay is skipped (draws 143 → ~31) and
+`?ground=mesh` is the escape hatch, scheduled to die in G7. The bare route now
+boots `src/hub.js` — a chooser with no three.js — and only `?bana=`/legacy URLs
+enter the player (`src/entry.js`); `tools/check-links.mjs` proves both halves.
+`tools/goldens.mjs` captures the 12-view matrix per course (gitignored;
+approval stays human). `check-app` gates atlas presence and green/bunker
+interior probes per course. Lessons that cost real time:
+
+- **WebGPU allows 8 vertex buffers, and the terrain was at exactly 8.** Adding
+  a ninth attribute (`aAO`) made every terrain pipeline fail validation and the
+  whole ground silently vanished — the "white world" was the sky gradient where
+  terrain should be, on WebGPU only (WebGL2 allows 16). The six ground channels
+  now share ONE InterleavedBuffer (`groundChannels()` in main.js); shaders read
+  attributes by name and never noticed. Grep the console for
+  "Vertex buffer count" before blaming a material.
+- **Store coordinates in filtered rasters, never phases.** A wrapped mow-phase
+  byte tears at every 2π seam under linear filtering, and a 1.5 m green stripe
+  cannot live in a 1 m raster at all. The atlas stores the SDF and a 0.25 m
+  route-distance byte; the shader rebuilds phase per fragment (greens/collars
+  ring their own edge via the SDF — which is also exactly the old overlays'
+  `-ringSD × k`). Same lesson as the page's "mow stripes must be per pixel".
+- **Sand outranks green in `SURFACE_PRIORITY`** because the overlay stack drew
+  sand above everything and Ängsö's 9th has a bunker ring overlapping its green
+  trace. Priority parity with the page, locked by a test.
+- **Binary class weights un-smoothed the vertex world.** `classifyAt` feeds
+  `groundAt`, whose forest/wet weights tint CORE vertices; returning 1/0 put a
+  hard 4 m stair where the analytic faded over six metres. The atlas's own SDF
+  replays the ramps (`edgeRamp`), and dLine/hole come from the exact Float32
+  fields, not the quantized texture bytes.
+- **A bunker's centroid can lie outside its own ring** (Upsala's 3rd, a 22-point
+  crescent) — probe interiors with a scanline-span midpoint, not a centroid.
+- **`vertexColors: true` multiplies your `colorNode` by the vertex colour, and
+  this engine reads that attribute itself as well.** NodeMaterial does
+  `colorNode = colorNode.mul(vertexColor())`, so `makeTurf`, `makeSand` and every
+  overlay tier have always rendered the vertex colour SQUARED — the palette is
+  tuned to that and it must be matched, not "fixed". It only bit when the atlas
+  arrived, because the atlas's colour comes from the style texture while the
+  implicit multiply still used the TERRAIN vertex under it: `groundAt`
+  deliberately paints no sand on the mesh, so every bunker was
+  `C.sand × turf-green` — olive, and the reason bunkers stopped looking like
+  sand. `makeGround` therefore sets `vertexColors: false` and squares the
+  blended colour itself, so each region squares its OWN colour. Verified against
+  `?ground=mesh`, which is what the appearance is being compared to.
+- **One `import()` with a ternary preloads the UNION of both branches.** The
+  bare route was still fetching all of three.js, because
+  `import(bare ? './hub.js' : './main.js')` is one call site and the bundler
+  attaches one dependency list to it. Two separate call sites give two lists.
+  The dev server hid this completely — it is a BUILD-only failure, so measure
+  the bare route by counting requests against `dist/`, never against Vite.
+
 ### The posters have to be the courses
 
 The chooser briefly shipped six generated photoreal images as its course cards.
@@ -893,13 +975,48 @@ woods, until it was re-shot down hole 5 to put the Bothnian horizon behind two
 greens. Ängsö's fresh re-renders lost to the original and it kept it — a
 re-render is not automatically an improvement.
 
-`tools/make-posters.py` builds what ships: 800 px wide (2× the card) in WebP,
-**6.33 MB → 282 KB, 23× smaller**, because six 1600×900 PNGs on the front door is
-the first thing a phone downloads and the brief names Android and iOS before
-desktop. Its docstring carries the measured table rather than a claim — the
-resize is nearly free (0.43–0.48 mean/255) and essentially all loss is the codec,
-and **WebP beat JPEG on both axes at the same quality number**, so there was no
-reason to ship the JPEG. What is not claimed is that the difference is invisible.
+`tools/make-posters.mjs` builds what ships: 800 px wide (2× the card) in WebP,
+because full-size stills on the front door are the first thing a phone downloads
+and the brief names Android and iOS before desktop. Its header carries the
+measured table rather than a claim — the resize is nearly free (0.43–0.48
+mean/255), essentially all loss is the codec, and **WebP beat JPEG on both axes
+at the same quality number**, so there was no reason to ship the JPEG. What is
+not claimed is that the difference is invisible. (It replaced the original
+`make-posters.py`, carrying that measurement over verbatim: the encoding is now
+done by the Chrome the harnesses already drive, so no Python and no image
+library is needed — this machine has neither.)
+
+**Four posters a course, and the card cycles them.** `--candidates` boots each
+course ONCE, shoots eight framings — the signature hole from all four cameras,
+then two more holes in different light — and writes a contact sheet at the card's
+own 400×225 on the chooser's ground; `--write` promotes the picks in `CHOSEN`.
+The signature holes are the clubs' own words out of each build's
+`guide-notes.json`, not a guess: Norrfällsviken's 12th is "Banans signaturhål",
+Johannesberg's 18th is the only plan carrying the "Signaturhål" laurel, Upsala's
+3rd is marked SIGNATURE HOLE, Puttom's 12th plays over a bay of Stor-Rössjön,
+Ängsö's 15th is the water hole with the only drop zone, Veckefjärden's 14th is
+the island green.
+
+**A signature hole is not always the identity, and the contact sheet is how you
+find that out.** Norrfällsviken is a *seaside* club whose signature 12th shows no
+sea at all, so at rest its card said "another forest course". Its coastal holes
+were found by measuring — green 6 is 133 m from the sea ring, the closest on the
+course, which is also the hole the club's own text singles out for *havsvinden* —
+and hole 6 leads the card now, with the 12th second. The `--extra` flag exists
+for exactly this: shoot named framings alongside the standard eight and keep what
+is already captured.
+
+The card keeps hero-1 as the `.shot` background and crossfades the rest above it,
+so a course with one poster is untouched and needs no slideshow. Three costs are
+deliberately controlled: the extras load only once a card has been on screen
+(a phone showing two cards fetches two cards' worth), they load **on idle and one
+at a time** so they never compete with the six posters actually being looked at,
+and `prefers-reduced-motion` gets the resting poster and no fetches at all —
+decoration is exactly what that preference is about. Measured on the built app:
+**the chooser is usable at 542 kB and 117 ms**, with the remaining ~840 kB of
+gallery trickling in behind it. `photos` in the manifest is COUNTED from the
+committed files, like `bytes` and `sha256`, so a course that loses a poster stops
+advertising it instead of cycling to a 404.
 
 One more thing found in the same pass and left in place with a note: `map.js`
 draws tiles from **OpenStreetMap's own servers**, which are donated infrastructure
@@ -928,6 +1045,128 @@ would strip exactly that. A catch-all would serve HTML in place of a missing
 pack, which then fails on its GPK1 magic instead of on an honest 404.
 `tools/serve.mjs` makes the same two choices, so the local server and the host
 agree and `check-links.mjs` is testing the real rule.
+
+### What the island 14th taught about the atlas
+
+Four things went wrong on one hole, and three of them were the atlas quietly
+dropping something the analytic classifier used to supply. Worth reading together
+because they are the same shape of bug.
+
+**The greens had lost their mow rings in the middle.** A green is mown in rings
+from its edge inward, and the atlas took that coordinate from the SDF — which is
+clamped to ±8 m so edges stay crisp. Greens run 20–30 m across, so the whole
+middle saturated at 8 and the rings stopped: a flat disc with a banded rim. The
+field texture's spare fourth channel now carries the same chamfer distance
+UNCLAMPED, 0.16 m over 0–40 m. Coarser than the SDF and it does not matter,
+because a mow ring is 1.5 m wide. Locked by a unit test.
+
+**And they were glossy.** The overlays never shaded from the terrain's `SHADE`
+table — they carried their own literals — so driving everything from `SHADE` gave
+greens gloss 0.54 where the mown overlay used 0.42, which reads washed-out and
+plasticky under sun. `SHADE_OVERRIDE` in material.js restores the overlay's own
+numbers. It lives there and NOT in `SHADE`, which also shades every terrain
+vertex and the whole mesh path.
+
+**A tree stood on the island green.** Every scatter loop rejects a candidate
+whose `fair` exceeds ~0.05, and the analytic classifier supplied that by fading a
+fairway apron to 13 m round a green and 7 m round a tee. The atlas cannot do it:
+its SDF measures the distance to the ADJACENT class, and a green is ringed by its
+collar, so out in the rough it reads FRINGE and knows nothing about the green
+behind it. `classify()` in main.js now adds the apron from the green and tee
+rings themselves — exact, and only those two walk rings, so it is a small
+fraction of the old classifier's work. On the island 14th, where the green IS the
+island, losing it had put a tree on the putting surface.
+
+**The shoreline was a polygon and the riprap was a necklace.** Surveyed water
+rings run in straight segments — around the 14th they averaged 15 m and reached
+48 m — and the visible waterline is where `terrainH` crosses the water level,
+which that ring carves. `smoothShore()` splits the long segments to 3 m and runs
+three light averaging passes, but ONLY near the played ground: this ring is
+walked for every terrain sample, so densifying the whole fjärd would be paid for
+on water nobody sees. Median segment by the island: 15.1 m → 3.14 m. The silt
+shallows needed it more than the water did (12 points, 64 m median, one segment
+of 427 m). The riprap was sampling a single jittered LINE and then discarding
+most of it on a narrow height window; it now walks across the shore normal as
+well as along it, which is what makes it read as a dumped apron rather than
+scattered boulders. **What remains faceted is the 4 m terrain grid**, the same
+limit the bunker dishes hit — see the ground plan.
+
+### A tee marker has to stand on a tee
+
+Measured across the six courses, only **24–63% of tee markers had any prepared
+ground under them** — the rest were a pair of coloured balls in the rough, and
+`?vy=tee` opened the hole standing there. The cause is a data gap, not a
+placement bug: each card carries three to six tees while the surveys mapped one
+or two pads a hole. Veckefjärden scored best (63%) purely because its pipeline
+already synthesises a pad per card tee and marks it `prov:"synth"`.
+
+The app now makes that same inference for every course, once, before anything
+reads `h.tees.pads`: a mark no mapped pad covers gets a 10.4 × 8.8 m deck at the
+mark, squared to the hole's bearing (Veckefjärden's own synth-pad proportions).
+Everything downstream then follows for free — `TI` benches it level in
+`terrainH`, the atlas rasterises it as `SURFACE.TEE`, the marker lands on mown
+grass. **All 522 markers on all six courses now stand on tee grass**, gated in
+`check-app` by probing the ATLAS at each marker rather than trusting the model.
+
+What is inferred is the *pad*; what is not inferred is *where the tee is*, which
+the card's own length already fixed. Back-tee marks sit 8–18 m from the mapped
+pads on five of six courses, which is the documented card-slide behaviour.
+
+### The clubhouses, and what a photograph is for
+
+**Two of six were not being drawn as clubhouses at all.** The buildings pass
+matched `/golfklubb/i`, which finds "Veckefjärdens golfklubb" and "Klubbhus
+Norrfällsvikens Golfklubb" but NOT "Ängsö GK Klubbhus" or Johannesberg's plain
+"klubbhus" — so those two rendered as ordinary grey 3.4 m houses with a generic
+roof and none of the clubhouse treatment. It now matches `amenity=clubhouse` or
+`golfklubb|klubbhus`, the same pattern the marker layer already used, and takes
+only the LARGEST match per course: Ängsö tags three separate structures with that
+name and its sheds are not clubhouses. Still kept separate from `CLUB`, which
+shapes terrain — widening that would move ground on shipped courses.
+
+`tools/clubhouse-refs.mjs` builds the reference: it converts each clubhouse
+centroid to lat/lon through the model's own frame, pulls Esri tiles around it,
+and draws the OSM footprint on top. Because the tiles are orthorectified the
+overlay is a real check on the footprint, not decoration. **z19 has no coverage
+in Sweden — z18 is the usable maximum.** It found that Ängsö's footprint covers
+only part of a longer NW–SE building.
+
+**Each clubhouse now carries its own look**, as a `clubhouse` export in
+`src/engine/scenery/<slug>.js` — the same mechanism as `species`, `armour` and
+`clearings`, and for the same reason: it is a fact about one place. The engine's
+defaults are Veckefjärden's (cream render, dark red roof, three window rows),
+because that is the building the clubhouse code was written from; every other
+course overrides them from photographs:
+
+| course | walls | roof | storeys |
+|---|---|---|---|
+| Veckefjärden | cream render | dark red | 3 (the old school) |
+| Norrfällsviken | falurött, white trim | dark red-brown | 1, glazed veranda + terrace |
+| Puttom | falurött, white trim | brown-grey pantile | 2, glazed ground floor, white porch |
+| Ängsö | falurött, white trim | **terracotta pantile** | 1½, dormers, a red COURTYARD |
+| Upsala | **cream render** | orange-brown tile | 1 tall, run of gables |
+| Johannesberg | falurött, white trim | orange-red tile | 1½ |
+
+Two of those needed care. **Ängsö is not one building but a courtyard** — OSM
+carries three footprints all named "Ängsö GK Klubbhus" (546/165/123 m²) and the
+photograph shows exactly that; the largest is drawn as the clubhouse and the
+others come through the generic pass as the outbuildings they are. And at
+**Johannesberg the big white turreted manor is the HOTEL, not the clubhouse** —
+the clubhouse is the long low red range west of it. The manor carries no golf
+name, so it correctly falls to the generic pass; that is the right outcome and
+should not be "fixed".
+
+**Aerial imagery gives a roof; it never gives a facade.** Roof shape, ridge
+direction, roof colour, terrace and surroundings are all readable from above and
+are verifiable. Wall colour, materials, storeys and glazing are not, and guessing
+them invents an appearance for a real business — the same error as the fabricated
+posters. `geobuild/cache/find-photos.mjs` renders a club's site in Chrome and
+lists the large images it actually loads, which a plain fetch misses entirely
+(most of these sites are JS-rendered). That is how Norrfällsviken's facade was
+established. It does not always work: Upsala, Ängsö and Puttom publish course
+photography rather than pictures of their buildings. Downloaded reference photos
+stay in the gitignored cache and are never committed — they are other people's
+copyright, and some contain identifiable people.
 
 ## Skyltar — the marker layer, on all six pages
 

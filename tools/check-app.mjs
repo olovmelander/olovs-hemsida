@@ -17,15 +17,19 @@ import { chromium } from 'playwright-core';
 import { ROOT } from '../geobuild/lib.mjs';
 import { readCard } from '../packages/course-pack/lib.mjs';
 
+/* SwiftShader boots the atlas build in minutes, not seconds; --boot-timeout
+   raises it further when harnesses must share a CPU. */
+const BOOT_TIMEOUT = +(process.env.BANVY_BOOT_TIMEOUT || 420) * 1000;
 const BASE = process.argv[2] || 'http://127.0.0.1:8620';
-const CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
 
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/index.json'), 'utf8'));
 let bad = 0;
 const gate = (ok, msg) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${msg}`); if (!ok) bad++; };
 
 const browser = await chromium.launch({
-  executablePath: CHROME,
+  ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }),
   args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader', '--force-device-scale-factor=1'],
 });
 
@@ -48,7 +52,7 @@ async function checkCourse(c) {
   const errs = [];
   page.on('pageerror', e => errs.push(String(e).slice(0, 160)));
   await page.goto(`${BASE}/?bana=${c.slug}&det=1`, { waitUntil: 'load', timeout: 120000 });
-  try { await page.waitForSelector('#boot.done', { timeout: 240000 }); }
+  try { await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT }); }
   catch { gate(false, 'boot did not complete'); await page.close(); return; }
 
   gate(errs.length === 0, `no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
@@ -65,6 +69,54 @@ async function checkCourse(c) {
     header: (document.getElementById('hdName') || document.querySelector('.hd h1'))?.textContent ?? null,
     title: document.title,
     url: location.search,
+    ground: (() => {
+      const V = window.V3D, info = V.groundInfo();
+      const greenMisses = V.HOLES.filter(h => V.groundSample(h.green.c[0], h.green.c[1])?.surface !== 4).map(h => h.n);
+      /* A crescent bunker's centroid can lie outside its own ring (Upsala's 3rd
+         does), so probe a point that is inside by construction: the midpoint of
+         the widest scanline span through the ring at the centroid's z. */
+      const interiorPoint = (ring, c) => {
+        const zs = ring.map(p => p[1]);
+        const z = Math.min(Math.max(c[1], Math.min(...zs) + 0.01), Math.max(...zs) - 0.01);
+        const xs = [];
+        for (let p = 0, q = ring.length - 1; p < ring.length; q = p++) {
+          const a = ring[q], b = ring[p];
+          if ((a[1] > z) === (b[1] > z)) continue;
+          xs.push(a[0] + (z - a[1]) * (b[0] - a[0]) / (b[1] - a[1]));
+        }
+        xs.sort((a, b) => a - b);
+        let best = null;
+        for (let n = 0; n + 1 < xs.length; n += 2) {
+          if (!best || xs[n + 1] - xs[n] > best[1] - best[0]) best = [xs[n], xs[n + 1]];
+        }
+        return best ? [(best[0] + best[1]) / 2, z] : c;
+      };
+      const bunkerMisses = [];
+      for (const h of V.HOLES) for (const b of h.bunkers) {
+        if (!b._r?.c) continue;
+        const p = interiorPoint(b._r.ring, b._r.c);
+        if (V.groundSample(p[0], p[1])?.surface !== 6) bunkerMisses.push(h.n);
+      }
+      /* A yardage plate is a CLAIM: "the middle of that green is this many
+         metres away". Measured on the plate that was actually planted, against
+         the green centre it names -- not against the formula that placed it. */
+      const plates = (V.plates ? V.plates() : []).map(p => {
+        const h = V.HOLES.find(x => x.n === p.hole);
+        const err = Math.hypot(p.x - h.green.c[0], p.z - h.green.c[1]) - p.says;
+        return { hole: p.hole, says: p.says, err: +err.toFixed(2) };
+      });
+      /* Every tee marker must stand on tee grass. Probed through the ATLAS, so
+         it asks what the ground actually is at the marker, not what the model
+         intended -- 5 is SURFACE.TEE, 3 the fringe collar a deck sits in. */
+      const teeMisses = [];
+      let teeMarks = 0;
+      for (const h of V.HOLES) for (const mk of (h.tees.marks || [])) {
+        teeMarks++;
+        const s = V.groundSample(mk.c[0], mk.c[1])?.surface;
+        if (s !== 5 && s !== 3) teeMisses.push(`${h.n}/${mk.teeIdx}:${s}`);
+      }
+      return { ...info, greenMisses, bunkerMisses, plates, teeMarks, teeMisses, perf: V.perf() };
+    })(),
   }));
 
   let mism = 0, vals = 0;
@@ -75,7 +127,29 @@ async function checkCourse(c) {
     if (!h || h.idx !== ch.hcp) mism++;
     ch.t.forEach((v, i) => { if (!h || h.t[i] !== v) mism++; });
   }
-  gate(mism === 0 && got.holes.length === 18, `card through the app: ${vals} values, ${mism} mismatches`);
+  /* the card's own hole count, not eighteen: the second nines are nines */
+  gate(mism === 0 && got.holes.length === cardHoles.length,
+    `card through the app: ${vals} values over ${got.holes.length} holes, ${mism} mismatches`);
+  gate(got.ground.mode === 'atlas', 'runtime ground atlas enabled');
+  gate((got.ground.classCounts?.[2] || 0) > 0 && (got.ground.classCounts?.[4] || 0) > 0,
+       'atlas contains fairway and green texels');
+  gate(got.ground.greenMisses.length === 0, `green centre probes${got.ground.greenMisses.length ? ' miss holes ' + got.ground.greenMisses.join(',') : ''}`);
+  gate(got.ground.bunkerMisses.length === 0, `bunker centre probes${got.ground.bunkerMisses.length ? ' miss holes ' + got.ground.bunkerMisses.join(',') : ''}`);
+  gate(got.ground.teeMisses.length === 0,
+    `all ${got.ground.teeMarks} tee markers stand on tee grass` +
+    (got.ground.teeMisses.length ? ` -- ${got.ground.teeMisses.length} do not (hole/tee:surface ${got.ground.teeMisses.slice(0, 4).join(' ')})` : ''));
+  {
+    /* 2 m, not zero: the post sits 15 m off the centre line, so at a polyline
+       vertex the bearing -- and with it the post's own distance -- jumps, and no
+       position along the line lands exactly on the label. Before this was
+       solved the plates were out by 2.6 m on average and up to 32.6 m. */
+    const p = got.ground.plates, bad = p.filter(q => Math.abs(q.err) > 2.0);
+    const worst = p.reduce((a, q) => Math.max(a, Math.abs(q.err)), 0);
+    gate(p.length > 0 && bad.length === 0,
+      `${p.length} distance plates measure their own label (worst ${worst.toFixed(2)} m)` +
+      (bad.length ? ` -- ${bad.length} off, e.g. hole ${bad[0].hole} says ${bad[0].says} at ${bad[0].err > 0 ? '+' : ''}${bad[0].err} m` : ''));
+  }
+  console.log(`  perf atlas ${got.ground.perf.atlasMs} ms, boot JS ${got.ground.perf.totalMs} ms`);
 
   /* Nothing may be under water. This is the gate the 14th exists for: an island
      green that once sat five metres under the fjärd, and a course whose water

@@ -30,7 +30,7 @@ export const LEGACY_PAGES = {
 };
 
 /* the whole grammar, and nothing invented: these are the keys the pages read */
-export const VIEW_KEYS = ['hal', 'vy', 'ljus', 'tee', 'skylt', 'ren', 'kiosk', 'q', 'gl'];
+export const VIEW_KEYS = ['hal', 'vy', 'ljus', 'tee', 'skylt', 'ren', 'kiosk', 'q', 'gl', 'ground'];
 
 /* Given a legacy location, the app URL that shows the same thing. Returns null
    when the path is not one of the six pages, so a caller can tell "not a legacy

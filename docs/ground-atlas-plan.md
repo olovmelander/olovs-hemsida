@@ -1,5 +1,16 @@
 # The ground plan — one terrain, classified per fragment
 
+> **Status 2026-08-29:** G1–G6 are LIVE and atlas is the app's default ground
+> path (`?ground=mesh` is the escape hatch); all six courses pass check-app
+> through it, on both backends. Executed faster than the phase ladder planned —
+> the overlay skip landed in one sweep — so the remaining discipline debt is
+> G0/G4's per-course HUMAN approval of the golden matrix (`tools/goldens.mjs`
+> captures it, gitignored). G7 (delete the mesh path) waits on that approval;
+> G8 (appearance tuning) after. Field notes from the bring-up — the WebGPU
+> 8-vertex-buffer limit, coordinates-not-phases in filtered rasters, sand over
+> green, the SDF replaying the vertex ramps — live in CLAUDE.md under
+> "The ground atlas — live, and what it cost to light up".
+
 Fairways, greens, tees, sand, paths and parking currently render as overlay
 meshes laid centimetres above the terrain, held apart by five polygonOffset
 tiers, renderOrder 1–8, `meshH` conservative 9-tap sampling and a 6 cm rim
@@ -146,6 +157,36 @@ scenery greens/range turf).
   luminance floor, and a readPixels hue-class probe at green/fairway/rough
   sample points.
 
+## The bunker floor is a SAMPLING problem, and it is only half solved
+
+Measured on Veckefjärden's 55 bunkers, comparing `terrainH`'s analytic carve
+against the bilinear surface the 4 m CORE grid can actually express — which is
+what the eye sees:
+
+| | intended | drawn | flatter than 0.25 m |
+|---|---|---|---|
+| dish zero at the ring (as shipped) | 1.08 m | **0.56 m** | 11 of 55 |
+| hollow starting 2.5 m outside the sand | 1.13 m | **0.79 m** | 4 of 55 |
+
+A dish that reaches zero exactly at the ring has to do all of its falling inside
+the bunker, and a bunker is routinely narrower than two cells of a 4 m grid, so
+half the depth was being averaged away. Starting the fall outside the sand gives
+the grid something to sample and reads as what it is — sand sitting in a hollow.
+It yields to prepared pad (`padW`), so a greenside bunker cannot drag the putting
+surface down with it; there the carve is exactly as it was.
+
+**The four that remain are a grid limit, not a carve limit.** Three span 5.0, 6.2
+and 6.6 m — under two cells, so no vertex can land deep inside them at all, and
+no reshaping of the carve will change that. The real fix is local mesh
+refinement: cut the coarse cells a bunker covers and fill them with a finer
+patch whose outer boundary uses ONLY the coarse grid nodes, so the seam has no
+crack (the same discipline as the LoD skirts). That is a terrain-topology change
+and belongs in its own phase, not smuggled into a shading one.
+
+Do not "fix" this by widening the hollow further: the probe measures rim height a
+little outside the ring, so past about 3 m the rim sample falls INSIDE the hollow
+and the number improves while the picture does not.
+
 ## Phase G5 — sand
 
 Bunker dishes are already carved in `terrainH`; the atlas supplies the sand
@@ -184,6 +225,28 @@ slower; bump fading with distance (already in place — retune, don't add);
 sand/gravel/dirt/rock getting distinct roughness and normal behaviour. Every
 tuning change re-gates against the goldens with the perceptual diff, so tuning
 cannot smuggle in a regression.
+
+**The parity debt is already measured — start here, not from scratch.** The
+atlas drives its shading from the terrain's shared `SHADE` table, but the
+overlays it replaced carried their OWN literals in `shadeFair`/`shadeGreen`/
+`shadeCollar`/`shadeSemi`/`shadeTee`, and they do not fully agree. Read against
+each other (overlay → atlas): green gloss **0.42 → 0.54** and strength
+0.85 → 0.9; collar strength 0.8 → 0.9; semi strength 0.45 → 0.5. Fairway and
+tee match exactly. Fix these in `makeStyleTexture`'s own per-class table, NOT by
+editing `SHADE` — that table also shades every terrain vertex, including the
+non-migrated ground and the whole mesh path, so changing it moves pixels far
+outside the atlas.
+
+**The one real loss is macro colour variation.** `shadeFair` tinted by
+`C.fair × (0.97 + fbm(x·0.06, z·0.06) × 0.06)` and `shadeSemi` by
+`C.semi × (0.94 + fbm(x·0.05, z·0.05) × 0.12)` — 16–20 m wavelength breakup that
+the flat per-class style texel does not reproduce. `makeGround`'s existing
+`dtM` tap (`wp × 0.0085`, ~118 m) is far broader and does not stand in for it.
+This is the "atlas fairways read flatter" gap; it is a fidelity regression
+against the mesh path rather than a taste question, so it belongs to whichever
+phase restores it, and it needs a TSL noise whose wavelength matches — not a
+guess. Do it against approved goldens, since it is exactly the kind of change
+that can hide a regression.
 
 ## Risks, named
 

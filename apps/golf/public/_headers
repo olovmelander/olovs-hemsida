@@ -20,8 +20,10 @@
 
 # Posters are not content-addressed and they are only decoration, so they get a
 # day: long enough that a returning visitor pays nothing, short enough that a
-# re-render reaches people without a deploy trick.
-/courses/*/hero-1.webp
+# re-render reaches people without a deploy trick. The glob covers hero-1 and
+# every frame the card cycles to -- naming only hero-1 left three quarters of
+# the gallery with no rule at all.
+/courses/*/hero-*.webp
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 
 # Vite content-hashes everything in /assets, so those names already change when

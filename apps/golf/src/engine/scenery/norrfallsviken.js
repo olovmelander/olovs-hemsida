@@ -19,3 +19,18 @@
 export const clearings = [
   { c: [-551, 1161], r: 90, wobble: 30 },
 ];
+
+/* The clubhouse, from the club's own photograph.
+
+   These notes previously said "cream walls, red roof", which is the wrong way
+   round: it is a Falu red timber building with WHITE window frames and corner
+   boards under a dark red-brown roof, single storey, with a glazed veranda and
+   a railed terrace standing above the green it looks over. Aerial imagery gives
+   a roof and never a facade -- this one needed a picture from the ground. */
+export const clubhouse = {
+  wall: 0x8b3a2c,          /* falurött */
+  roof: 0x5c3a30,          /* dark red-brown */
+  height: 3.6,             /* one storey; the terrace does the rest */
+  windowRows: [1.3],
+  terrace: true,
+};

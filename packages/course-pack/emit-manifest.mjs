@@ -33,6 +33,13 @@ const COURSES = [
   { slug: 'upsala', build: 'upsalabuild', name: 'Upsala GK', club: 'Upsala Golfklubb',
     title: 'Upsala Golfklubb — Banan i 3D', tag: 'Stora banan', boot: 'Håmö gård · Läby',
     tees: { names: ['62', '59', '56', '51', '47', '42'], cols: [0x1a1a1a, 0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
+  /* The first NINE, and the first course to share another's ground: the same
+     terrain, woods and clubhouse as `upsala`, a different set of holes played
+     over them, and the Stora banan carried in its scenery so the championship
+     course still reads as mown from here. */
+  { slug: 'upsala-mellanbanan', build: 'upsalamellanbuild', name: 'Mellanbanan', club: 'Upsala Golfklubb',
+    title: 'Upsala GK Mellanbanan — Nio hål i 3D', tag: 'Mellanbanan', boot: 'Håmö gård · Läby',
+    tees: { names: ['Vit', 'Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
   { slug: 'johannesberg', build: 'johannesbergbuild', name: 'Johannesberg', club: 'Johannesberg Golf & Country Club',
     title: 'Johannesberg Golf & CC — Banan i 3D', tag: 'Gottröra', boot: 'Gottröra · Uppland',
     tees: { names: ['Vit', 'Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
@@ -52,9 +59,16 @@ const entries = COURSES.map(c => {
   if (nTee !== c.tees.names.length || nTee !== c.tees.cols.length)
     throw new Error(`${c.slug}: card has ${nTee} tees, display table has ${c.tees.names.length}/${c.tees.cols.length}`);
   const par = cardHoles.reduce((a, h) => a + h.par, 0);
+  /* How many posters the chooser card may cycle through. Counted from what is
+     actually committed rather than declared, so a course that loses a poster
+     stops advertising it and the card simply cycles fewer -- the same reason
+     bytes and sha256 are measured here instead of written down. */
+  const dir = path.join(ROOT, 'apps/golf/public/courses', c.slug);
+  let photos = 0;
+  while (fs.existsSync(path.join(dir, `hero-${photos + 1}.webp`))) photos++;
   return {
     slug: c.slug, name: c.name, club: c.club, title: c.title, tag: c.tag, boot: c.boot,
-    par, holes: cardHoles.length, tees: c.tees,
+    par, holes: cardHoles.length, tees: c.tees, photos,
     /* RELATIVE, with no leading slash: the manifest is data, and data does not
        get to know where the site is mounted. The app prefixes its own base
        (import.meta.env.BASE_URL), so the same manifest serves a domain root and

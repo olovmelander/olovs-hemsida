@@ -17,14 +17,18 @@ import path from 'node:path';
 import { chromium } from 'playwright-core';
 import { ROOT } from '../geobuild/lib.mjs';
 
+/* SwiftShader boots the atlas build in minutes, not seconds; --boot-timeout
+   raises it further when harnesses must share a CPU. */
+const BOOT_TIMEOUT = +(process.env.BANVY_BOOT_TIMEOUT || 420) * 1000;
 const BASE = process.argv[2] || 'http://127.0.0.1:8620';
-const CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/index.json'), 'utf8'));
 const DEFAULT_SLUG = manifest.courses[0].slug;
 
 /* url -> what the view must be. `rail` says whether the chooser should be open. */
 const CASES = [
-  { url: '/', want: { slug: DEFAULT_SLUG, rail: true }, why: 'a bare visit opens the chooser over a live course' },
+  { url: '/', want: { slug: null, rail: true, lightweight: true }, why: 'a bare visit opens the lightweight chooser without booting a course' },
   { url: '/?bana=puttom', want: { slug: 'puttom', rail: false }, why: 'naming a course goes straight to it' },
   { url: '/?bana=veckefjarden&hal=14&vy=green&ljus=host', want: { slug: 'veckefjarden', hole: 14, cam: 'green', preset: 'host', rail: false }, why: 'the full view grammar' },
   { url: '/?bana=upsala&tee=6', want: { slug: 'upsala', tee: 5, rail: false }, why: 'the sixth tee on a six-tee card' },
@@ -43,7 +47,7 @@ let bad = 0;
 const gate = (ok, msg) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${msg}`); if (!ok) bad++; };
 
 const browser = await chromium.launch({
-  executablePath: CHROME,
+  ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }),
   args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader', '--force-device-scale-factor=1'],
 });
 
@@ -54,17 +58,26 @@ for (const c of CASES) {
   await page.goto(BASE + c.url, { waitUntil: 'load', timeout: 120000 });
   let got;
   try {
-    await page.waitForSelector('#boot.done', { timeout: 240000 });
-    got = await page.evaluate(() => ({
-      slug: window.V3D.course().slug,
-      hole: window.V3D.camInfo ? +document.getElementById('cno').textContent : null,
-      cam: window.V3D.camInfo().mode,
-      preset: [...document.querySelectorAll('[data-preset]')].find(b => b.classList.contains('on'))?.dataset.preset,
-      tee: [...document.querySelectorAll('#tees .tee')].findIndex(e => e.classList.contains('on')),
-      skylt: window.V3D.skyState(),
-      clean: document.body.classList.contains('clean'),
-      rail: !document.getElementById('chooser').hidden,
-    }));
+    await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT });
+    got = await page.evaluate(() => {
+      const V = window.V3D;
+      if (!V) return {
+        slug: null,
+        rail: !!document.getElementById('chooser') && !document.getElementById('chooser').hidden,
+        lightweight: true,
+      };
+      return {
+        slug: V.course().slug,
+        hole: V.camInfo ? +document.getElementById('cno').textContent : null,
+        cam: V.camInfo().mode,
+        preset: [...document.querySelectorAll('[data-preset]')].find(b => b.classList.contains('on'))?.dataset.preset,
+        tee: [...document.querySelectorAll('#tees .tee')].findIndex(e => e.classList.contains('on')),
+        skylt: V.skyState(),
+        clean: document.body.classList.contains('clean'),
+        rail: !document.getElementById('chooser').hidden,
+        lightweight: false,
+      };
+    });
   } catch (e) {
     gate(false, `${c.url} — ${String(e).split('\n')[0].slice(0, 90)}`);
     await page.close(); continue;
