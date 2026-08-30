@@ -192,7 +192,10 @@ harness: without input it renders an explicitly labelled synthetic fixture;
 with a strict provisional preview descriptor it bounds, hashes, decompresses
 and verifies real BVCH tiles before rendering. `terrain-preview-node.mjs`
 creates that ephemeral bundle, while `capture-terrain-preview.mjs` refuses
-synthetic, non-provisional, blank or non-WebGL2 forced captures.
+synthetic, non-provisional, blank or non-WebGL2 forced captures. Its acceptance
+gate combines verified retained tiles, a positive one-draw topology and measured
+PNG foreground; r185 fallback `renderer.info` counters remain diagnostic because
+headless WebGL2 can report zero triangles after presenting visible geometry.
 `node packages/course-v2/check-renderer-build.mjs` bundles the complete path
 against the installed Three.js r185 API. The production selector still reports
 `rendererAvailable: false`: activation waits for a retained real pilot,

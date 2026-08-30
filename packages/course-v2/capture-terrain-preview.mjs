@@ -154,6 +154,11 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
     if (requestedBackend === 'webgl2' && state.stats.backend !== 'webgl2') {
       throw new Error(`forced WebGL2 capture initialized ${state.stats.backend}`);
     }
+    if (!Number.isSafeInteger(state.stats.renderedTiles) || state.stats.renderedTiles < 1 ||
+        !Number.isFinite(state.stats.triangles) || state.stats.triangles <= 0 ||
+        state.stats.drawCalls !== 1) {
+      throw new Error('terrain preview did not retain a positive one-draw topology');
+    }
     const actualBackend = state.stats.backend;
     const fileName = requestedBackend === actualBackend
       ? `puttom-${actualBackend}.png`
@@ -163,9 +168,6 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
     const pixels = await pixelStats(file);
     if (pixels.meanLuminance < 0.03 || pixels.nearBlackPercent > 88 || pixels.foregroundPercent < 2) {
       throw new Error('terrain preview screenshot has no visible terrain foreground');
-    }
-    if (Number.isFinite(state.stats.actualTriangles) && state.stats.actualTriangles <= 0) {
-      throw new Error('Three.js reported no rendered terrain triangles');
     }
     return Object.freeze({
       requestedBackend,
@@ -177,6 +179,9 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
       drawCalls: state.stats.drawCalls,
       actualDrawCalls: state.stats.actualDrawCalls,
       actualTriangles: state.stats.actualTriangles,
+      rendererCountersReliable: Number.isFinite(state.stats.actualDrawCalls) &&
+        state.stats.actualDrawCalls > 0 && Number.isFinite(state.stats.actualTriangles) &&
+        state.stats.actualTriangles > 0,
       problems: Object.freeze([...new Set(problems)].slice(0, 8)),
     });
   } finally {
