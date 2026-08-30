@@ -1,0 +1,79 @@
+name: course geo provider access
+
+on:
+  push:
+    branches:
+      - claude/veckefjarden-terrain-alignment-w2mexk
+    paths:
+      - ".github/workflows/course-geo-access.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lantmateriet-access:
+    name: Lantmäteriet access preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify repository secrets are configured
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          if [ -z "$LANTMATERIET_USERNAME" ] || [ -z "$LANTMATERIET_PASSWORD" ]; then
+            echo "Required Lantmäteriet repository secrets are missing" >&2
+            exit 1
+          fi
+
+      - name: Verify authenticated STAC-hojd access
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          const endpoint = 'https://api.lantmateriet.se/stac-hojd/v1';
+          const credentials = Buffer.from(
+            `${process.env.LANTMATERIET_USERNAME}:${process.env.LANTMATERIET_PASSWORD}`,
+            'utf8',
+          ).toString('base64');
+          const response = await fetch(endpoint, {
+            headers: {
+              Accept: 'application/json',
+              Authorization: `Basic ${credentials}`,
+            },
+            redirect: 'error',
+            signal: AbortSignal.timeout(20_000),
+          });
+          if (!response.ok) {
+            throw new Error(`STAC-hojd denied the configured account (HTTP ${response.status})`);
+          }
+          const maximumBytes = 1024 * 1024;
+          const declaredBytes = Number(response.headers.get('content-length'));
+          if (Number.isFinite(declaredBytes) && declaredBytes > maximumBytes) {
+            await response.body?.cancel('response exceeds access-probe limit');
+            throw new Error(`STAC-hojd root exceeds ${maximumBytes} byte probe limit`);
+          }
+          const body = new Uint8Array(await response.arrayBuffer());
+          if (body.byteLength > maximumBytes) {
+            throw new Error(`STAC-hojd root exceeds ${maximumBytes} byte probe limit`);
+          }
+          const root = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(body));
+          if (typeof root.stac_version !== 'string' || !Array.isArray(root.links)) {
+            throw new Error('STAC-hojd returned an invalid STAC root');
+          }
+          console.log(JSON.stringify({
+            ready: true,
+            endpoint,
+            httpStatus: response.status,
+            stacVersion: root.stac_version,
+            bytesRead: body.byteLength,
+            note: 'No credentials or authorization header were serialized.',
+          }, null, 2));
+          NODE
