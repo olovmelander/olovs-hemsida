@@ -152,6 +152,16 @@ async function main() {
   await renderer.init();
   await renderer.compileAsync(scene, camera);
   const backend = renderer.backend?.isWebGPUBackend ? 'webgpu' : 'webgl2';
+  const readbackTarget = backend === 'webgpu'
+    ? new THREE.RenderTarget(innerWidth, innerHeight, {
+      depthBuffer: true,
+      stencilBuffer: false,
+      format: THREE.RGBAFormat,
+      type: THREE.UnsignedByteType,
+      samples: 1,
+    })
+    : null;
+  if (readbackTarget) readbackTarget.texture.colorSpace = THREE.SRGBColorSpace;
   /* Shader inspection can touch backend compilation state. Collect it before
      the frames that are intended for presentation, never after the last draw. */
   const shader = backend === 'webgpu'
@@ -181,6 +191,53 @@ async function main() {
       await renderer.backend.device.queue.onSubmittedWorkDone();
     }
   };
+  const captureReadback = readbackTarget ? async () => {
+    const width = readbackTarget.width;
+    const height = readbackTarget.height;
+    const previousTarget = renderer.getRenderTarget();
+    try {
+      renderer.setRenderTarget(readbackTarget);
+      renderer.render(scene, camera);
+      await renderer.backend.device.queue.onSubmittedWorkDone();
+      const pixels = await renderer.readRenderTargetPixelsAsync(
+        readbackTarget, 0, 0, width, height,
+      );
+      if (!(pixels instanceof Uint8Array) || pixels.byteLength !== width * height * 4) {
+        throw new Error(`unexpected WebGPU readback size ${pixels?.byteLength || 0}`);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext('2d', { alpha: false });
+      if (!context) throw new Error('WebGPU readback cannot create a 2D encoder');
+      context.putImageData(new ImageData(
+        new Uint8ClampedArray(pixels.buffer, pixels.byteOffset, pixels.byteLength),
+        width,
+        height,
+      ), 0, 0);
+      const blob = await new Promise((resolve, reject) => canvas.toBlob(
+        value => value ? resolve(value) : reject(new Error('WebGPU PNG encoding failed')),
+        'image/png',
+      ));
+      const encoded = new Uint8Array(await blob.arrayBuffer());
+      let binary = '';
+      for (let offset = 0; offset < encoded.length; offset += 32_768) {
+        binary += String.fromCharCode(...encoded.subarray(offset, offset + 32_768));
+      }
+      return Object.freeze({
+        width,
+        height,
+        mimeType: 'image/png',
+        base64: btoa(binary),
+        sourceBytes: pixels.byteLength,
+        encodedBytes: encoded.byteLength,
+      });
+    } finally {
+      renderer.setRenderTarget(previousTarget);
+      renderer.render(scene, camera);
+      await renderer.backend.device.queue.onSubmittedWorkDone();
+    }
+  } : null;
   window.V3D = {
     stats: {
       ...terrain.stats(), backend, synthetic: loaded.synthetic,
@@ -191,6 +248,7 @@ async function main() {
     settled: () => true,
     render: () => renderer.render(scene, camera),
     prepareCapture,
+    captureReadback,
     diagnose: async mode => {
       if (mode === 'flat-terrain' || mode === 'flat-single-tile') {
         diagnosticCanary?.removeFromParent();
@@ -230,6 +288,7 @@ async function main() {
   };
 
   addEventListener('pagehide', () => {
+    readbackTarget?.dispose();
     for (const material of diagnosticMaterials) material.dispose();
     diagnosticCanary?.geometry.dispose();
     diagnosticCanary?.material.dispose();
@@ -239,6 +298,7 @@ async function main() {
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth, innerHeight);
+    readbackTarget?.setSize(innerWidth, innerHeight);
     renderer.render(scene, camera);
   });
 }

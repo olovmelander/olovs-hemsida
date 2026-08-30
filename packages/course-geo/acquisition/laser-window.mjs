@@ -94,25 +94,67 @@ export function laserWindowPlan(report, {
       sourceUrl: safeLaserAsset(asset.href).href,
       projectedBbox: projected,
     };
-  }).sort((left, right) => right.capturedAt.localeCompare(left.capturedAt) ||
-    left.id.localeCompare(right.id));
+  });
 
+  const viable = [];
+  const aoiCentreX = (aoi[0] + aoi[2]) / 2;
+  const aoiCentreY = (aoi[1] + aoi[3]) / 2;
   for (const source of candidates) {
     const overlap = intersection(aoi, source.projectedBbox);
     const bounds = overlap && boundedSquare(overlap, aoi, spanMetres);
     if (!bounds) continue;
-    return Object.freeze({
-      schemaVersion: 1,
-      groundId: report.groundId,
-      collection: report.laser.collection,
-      source: Object.freeze(source),
-      boundsEpsg3006: Object.freeze(bounds),
-      spanMetres,
-      areaSquareMetres: spanMetres * spanMetres,
-      maximumPoints,
+    const windowCentreX = (bounds[0] + bounds[2]) / 2;
+    const windowCentreY = (bounds[1] + bounds[3]) / 2;
+    viable.push({
+      source,
+      bounds,
+      centreDistanceSquared: (windowCentreX - aoiCentreX) ** 2 +
+        (windowCentreY - aoiCentreY) ** 2,
     });
   }
+  viable.sort((left, right) => left.centreDistanceSquared - right.centreDistanceSquared ||
+    right.source.capturedAt.localeCompare(left.source.capturedAt) ||
+    left.source.id.localeCompare(right.source.id));
+  const selected = viable[0];
+  if (selected) return Object.freeze({
+    schemaVersion: 1,
+    groundId: report.groundId,
+    collection: report.laser.collection,
+    source: Object.freeze(selected.source),
+    boundsEpsg3006: Object.freeze(selected.bounds),
+    spanMetres,
+    areaSquareMetres: spanMetres * spanMetres,
+    maximumPoints,
+    selection: 'nearest-aoi-centre-then-newest',
+  });
   throw new Error(`no Laserdata Skog item contains a ${spanMetres} m bounded AOI window`);
+}
+
+export function laserDensityEvidence(plan, pointCount, { minimumAdvertisedRatio = 0.1 } = {}) {
+  if (!Number.isSafeInteger(pointCount) || pointCount < 1) {
+    throw new Error('bounded COPC density requires a positive point count');
+  }
+  if (!Number.isFinite(minimumAdvertisedRatio) || minimumAdvertisedRatio <= 0 ||
+      minimumAdvertisedRatio > 1) {
+    throw new Error('minimumAdvertisedRatio must be greater than zero and at most one');
+  }
+  const advertised = plan.source.pointDensityPerSquareMetre;
+  if (!Number.isFinite(advertised) || advertised <= 0) {
+    throw new Error('Laserdata Skog source lacks a positive advertised point density');
+  }
+  const observed = pointCount / plan.areaSquareMetres;
+  const ratio = observed / advertised;
+  if (ratio < minimumAdvertisedRatio) {
+    throw new Error(
+      `bounded COPC density ratio ${ratio.toFixed(4)} is below ${minimumAdvertisedRatio}`,
+    );
+  }
+  return Object.freeze({
+    observedPointDensityPerSquareMetre: observed,
+    advertisedPointDensityPerSquareMetre: advertised,
+    advertisedDensityRatio: ratio,
+    minimumAdvertisedDensityRatio: minimumAdvertisedRatio,
+  });
 }
 
 function findStatsMetadata(value) {
@@ -251,6 +293,7 @@ export function acquireLaserWindow(report, {
     fs.rmSync(temporaryDirectory, { recursive: true, force: true });
   }
   const statistics = laserStatisticsFromMetadata(metadata, plan.maximumPoints);
+  const density = laserDensityEvidence(plan, statistics.pointCount);
   return Object.freeze({
     schemaVersion: 1,
     phase: 'D2-authenticated-laser-window',
@@ -268,6 +311,7 @@ export function acquireLaserWindow(report, {
     spanMetres: plan.spanMetres,
     areaSquareMetres: plan.areaSquareMetres,
     ...statistics,
+    ...density,
     elapsedMilliseconds: Math.round(performance.now() - started),
     retainedPointCloudBytes: 0,
     note: 'COPC was range-streamed; only aggregate statistics are retained.',

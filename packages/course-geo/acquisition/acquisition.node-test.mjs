@@ -21,6 +21,7 @@ import {
 } from './access-preflight.mjs';
 import {
   copcStatsPipeline,
+  laserDensityEvidence,
   laserStatisticsFromMetadata,
   laserWindowPlan,
 } from './laser-window.mjs';
@@ -195,7 +196,7 @@ test('tree-height export is split into bounded exact-resolution requests', () =>
   assert.deepEqual(JSON.parse(url.searchParams.get('renderingRule')), { rasterFunction: 'None' });
 });
 
-test('Laserdata Skog plan selects the newest containing COPC and bounds the point window', () => {
+test('Laserdata Skog plan prefers the AOI centre, then the newest containing COPC', () => {
   const report = {
     groundId: 'puttom',
     aoi: { bboxEpsg3006: [0, 0, 1000, 1100] },
@@ -220,24 +221,54 @@ test('Laserdata Skog plan selects the newest containing COPC and bounds the poin
             type: 'application/vnd.laszip+copc', bytes: 3000, sha256: HASH_A,
           } },
         },
+        {
+          id: 'newest-centred', collection: 'dsm-skoglig-copc', capturedAt: '2025-08-12',
+          projBbox: [-500, -500, 1500, 1500], pointCount: 300,
+          pointDensityPerSquareMetre: 1.9,
+          assets: { data: {
+            href: 'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/centred.copc.laz',
+            type: 'application/vnd.laszip+copc', bytes: 4000, sha256: HASH_A,
+          } },
+        },
+        {
+          id: 'older-centred', collection: 'dsm-skoglig-copc', capturedAt: '2024-08-12',
+          projBbox: [-500, -500, 1500, 1500], pointCount: 300,
+          pointDensityPerSquareMetre: 1.8,
+          assets: { data: {
+            href: 'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/older-centred.copc.laz',
+            type: 'application/vnd.laszip+copc', bytes: 3500, sha256: HASH_A,
+          } },
+        },
       ],
     },
   };
   const plan = laserWindowPlan(report, { spanMetres: 128, maximumPoints: 500_000 });
-  assert.equal(plan.source.id, 'newer-south');
-  assert.deepEqual(plan.boundsEpsg3006, [436, 372, 564, 500]);
+  assert.equal(plan.source.id, 'newest-centred');
+  assert.deepEqual(plan.boundsEpsg3006, [436, 486, 564, 614]);
+  assert.equal(plan.selection, 'nearest-aoi-centre-then-newest');
   assert.equal(plan.areaSquareMetres, 16_384);
   const pipeline = copcStatsPipeline(plan, {
     type: 'basic', username: 'user', password: 'secret',
   });
   assert.equal(pipeline[0].type, 'readers.copc');
   assert.equal(pipeline[0].filename.path,
-    'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/new.copc.laz');
+    'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/centred.copc.laz');
   assert.match(pipeline[0].filename.headers.Authorization, /^Basic /);
-  assert.equal(pipeline[0].bounds, '([436,564],[372,500])');
+  assert.equal(pipeline[0].bounds, '([436,564],[486,614])');
   assert.equal(pipeline[0].count, 500_000);
   assert.equal(pipeline[1].count, 'Classification,ReturnNumber,NumberOfReturns');
   assert.doesNotMatch(JSON.stringify(plan), /user|secret|Basic /);
+});
+
+test('Laserdata Skog density gate detects an empty tile edge', () => {
+  const plan = {
+    areaSquareMetres: 65_536,
+    source: { pointDensityPerSquareMetre: 0.6 },
+  };
+  assert.throws(() => laserDensityEvidence(plan, 315), /density ratio .* below 0\.1/);
+  const evidence = laserDensityEvidence(plan, 39_322);
+  assert.ok(Math.abs(evidence.observedPointDensityPerSquareMetre - 0.6) < 0.001);
+  assert.ok(evidence.advertisedDensityRatio > 0.99);
 });
 
 test('Laserdata Skog aggregates parse PDAL category counts without retaining points', () => {

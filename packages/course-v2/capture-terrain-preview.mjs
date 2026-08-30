@@ -187,8 +187,42 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
       await window.V3D.prepareCapture();
     });
     await page.screenshot({ path: file, animations: 'disabled', timeout: timeoutMilliseconds });
-    const pixels = await pixelStats(file);
-    if (pixels.meanLuminance < 0.03 || pixels.nearBlackPercent > 88 || pixels.foregroundPercent < 2) {
+    const canvasPixels = await pixelStats(file);
+    const visible = value => value.meanLuminance >= 0.03 && value.nearBlackPercent <= 88 &&
+      value.foregroundPercent >= 2;
+    let pixels = canvasPixels;
+    let acceptedImage = fileName;
+    let captureMethod = 'canvas-screenshot';
+    let canvasPresentationVisible = visible(canvasPixels);
+    let readbackFailure = null;
+    if (!canvasPresentationVisible && actualBackend === 'webgpu') {
+      try {
+        const readback = await page.evaluate(async () => {
+          if (typeof window.V3D?.captureReadback !== 'function') {
+            throw new Error('terrain preview does not expose WebGPU render-target readback');
+          }
+          return window.V3D.captureReadback();
+        });
+        if (readback?.mimeType !== 'image/png' || readback.width !== 1600 ||
+            readback.height !== 900 || !Number.isSafeInteger(readback.encodedBytes) ||
+            readback.encodedBytes < 100 || readback.encodedBytes > 20 * 1024 * 1024 ||
+            typeof readback.base64 !== 'string') {
+          throw new Error('WebGPU render-target readback returned an invalid bounded PNG');
+        }
+        const bytes = Buffer.from(readback.base64, 'base64');
+        if (bytes.byteLength !== readback.encodedBytes ||
+            bytes[0] !== 0x89 || bytes[1] !== 0x50 || bytes[2] !== 0x4e || bytes[3] !== 0x47) {
+          throw new Error('WebGPU render-target readback PNG failed byte validation');
+        }
+        acceptedImage = 'puttom-webgpu-render-target.png';
+        await writeFile(join(output, acceptedImage), bytes);
+        pixels = await pixelStats(join(output, acceptedImage));
+        captureMethod = 'render-target-readback';
+      } catch (error) {
+        readbackFailure = String(error?.message || error).slice(0, 300);
+      }
+    }
+    if (!visible(pixels)) {
       const diagnosticVariants = {};
       if (actualBackend === 'webgpu') {
         for (const mode of ['flat-terrain', 'flat-single-tile', 'canary']) {
@@ -214,7 +248,8 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
       const error = new Error('terrain preview screenshot has no visible terrain foreground');
       error.captureDiagnostics = {
         stats: state.stats,
-        pixels,
+        pixels: canvasPixels,
+        ...(readbackFailure ? { readbackFailure } : {}),
         problems: [...new Set(problems)].slice(0, 12),
         diagnosticVariants,
         shader: state.shader,
@@ -227,7 +262,10 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
       backendMatched: requestedBackend === actualBackend,
       executionAdapter: 'swiftshader-software',
       performanceEvidence: false,
-      image: fileName,
+      image: acceptedImage,
+      captureMethod,
+      canvasPresentationVisible,
+      ...(captureMethod === 'render-target-readback' ? { canvasPixels } : {}),
       ...pixels,
       renderedTiles: state.stats.renderedTiles,
       drawCalls: state.stats.drawCalls,
@@ -288,6 +326,8 @@ async function main() {
     failures,
     webgl2Passed: captures.some(item => item.requestedBackend === 'webgl2' && item.backendMatched),
     webgpuPassed: captures.some(item => item.requestedBackend === 'webgpu' && item.backendMatched),
+    webgpuCanvasPassed: captures.some(item => item.requestedBackend === 'webgpu' &&
+      item.backendMatched && item.canvasPresentationVisible),
   };
   await writeFile(join(output, 'capture-report.json'), JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify(report, null, 2));

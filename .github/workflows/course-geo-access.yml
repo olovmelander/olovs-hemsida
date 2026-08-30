@@ -250,20 +250,52 @@ jobs:
           }
           const searchBytes = await readBounded(searchResponse, 1024 * 1024, 'Laserdata Skog STAC search');
           const search = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(searchBytes));
-          const candidates = (search.features || []).filter(feature =>
-            feature?.collection === 'dsm-skoglig-copc' &&
-            typeof feature?.assets?.data?.href === 'string' &&
-            Number.isSafeInteger(feature?.assets?.data?.['file:size']),
-          ).sort((left, right) => String(
-            right.properties?.data_modified || right.properties?.datetime || '',
-          ).localeCompare(String(
-            left.properties?.data_modified || left.properties?.datetime || '',
-          )) || String(left.id).localeCompare(String(right.id)));
-          const feature = candidates[0];
-          const asset = feature?.assets?.data;
-          if (!feature?.id || asset?.type !== 'application/vnd.laszip+copc') {
+          const courseBbox = [696916, 7024570, 697941, 7025595];
+          const span = 256;
+          const centreX = (courseBbox[0] + courseBbox[2]) / 2;
+          const centreY = (courseBbox[1] + courseBbox[3]) / 2;
+          const candidates = (search.features || []).map(feature => {
+            const asset = feature?.assets?.data;
+            const projectedBbox = feature?.properties?.['proj:bbox'] || asset?.['proj:bbox'];
+            const advertisedDensity = Number(
+              feature?.properties?.['pc:density'] ?? feature?.properties?.punkttathet,
+            );
+            if (!feature?.id || feature.collection !== 'dsm-skoglig-copc' ||
+                asset?.type !== 'application/vnd.laszip+copc' ||
+                typeof asset.href !== 'string' || !Number.isSafeInteger(asset['file:size']) ||
+                !Number.isFinite(advertisedDensity) || advertisedDensity <= 0 ||
+                !Array.isArray(projectedBbox) || projectedBbox.length !== 4 ||
+                projectedBbox.some(value => !Number.isFinite(value))) return null;
+            const overlap = [
+              Math.max(projectedBbox[0], courseBbox[0]),
+              Math.max(projectedBbox[1], courseBbox[1]),
+              Math.min(projectedBbox[2], courseBbox[2]),
+              Math.min(projectedBbox[3], courseBbox[3]),
+            ];
+            if (overlap[2] - overlap[0] < span || overlap[3] - overlap[1] < span) return null;
+            const minX = Math.round(Math.min(Math.max(centreX - span / 2, overlap[0]), overlap[2] - span));
+            const minY = Math.round(Math.min(Math.max(centreY - span / 2, overlap[1]), overlap[3] - span));
+            const bounds = [minX, minY, minX + span, minY + span];
+            return {
+              feature,
+              asset,
+              advertisedDensity,
+              bounds,
+              centreDistanceSquared: ((bounds[0] + bounds[2]) / 2 - centreX) ** 2 +
+                ((bounds[1] + bounds[3]) / 2 - centreY) ** 2,
+              capturedAt: String(
+                feature.properties?.data_modified || feature.properties?.datetime || '',
+              ),
+            };
+          }).filter(Boolean).sort((left, right) =>
+            left.centreDistanceSquared - right.centreDistanceSquared ||
+            right.capturedAt.localeCompare(left.capturedAt) ||
+            String(left.feature.id).localeCompare(String(right.feature.id)));
+          const selected = candidates[0];
+          if (!selected) {
             throw new Error('Laserdata Skog STAC search returned no COPC asset');
           }
+          const { feature, asset, advertisedDensity, bounds } = selected;
           const assetUrl = new URL(asset.href);
           if (assetUrl.protocol !== 'https:' || assetUrl.hostname !== 'dl1.lantmateriet.se' ||
               !assetUrl.pathname.startsWith('/hojd/data/pointcloud/sls/') ||
@@ -302,30 +334,10 @@ jobs:
             header[393] === 1 && header[394] === 0 && infoRecordLength === 160;
           if (!validCopc) throw new Error('Laserdata Skog asset does not have a valid COPC 1.0 header');
 
-          const projectedBbox = feature.properties?.['proj:bbox'] || asset['proj:bbox'];
-          if (!Array.isArray(projectedBbox) || projectedBbox.length !== 4 ||
-              projectedBbox.some(value => !Number.isFinite(value))) {
-            throw new Error('Laserdata Skog item lacks a finite projected bbox');
-          }
-          const courseBbox = [696916, 7024570, 697941, 7025595];
-          const overlap = [
-            Math.max(projectedBbox[0], courseBbox[0]),
-            Math.max(projectedBbox[1], courseBbox[1]),
-            Math.min(projectedBbox[2], courseBbox[2]),
-            Math.min(projectedBbox[3], courseBbox[3]),
-          ];
-          const span = 256;
-          if (overlap[2] - overlap[0] < span || overlap[3] - overlap[1] < span) {
-            throw new Error('Laserdata Skog item does not contain the bounded Puttom pilot window');
-          }
-          const centreX = (courseBbox[0] + courseBbox[2]) / 2;
-          const centreY = (courseBbox[1] + courseBbox[3]) / 2;
-          const minX = Math.round(Math.min(Math.max(centreX - span / 2, overlap[0]), overlap[2] - span));
-          const minY = Math.round(Math.min(Math.max(centreY - span / 2, overlap[1]), overlap[3] - span));
-          const bounds = [minX, minY, minX + span, minY + span];
           const { appendFileSync } = await import('node:fs');
           appendFileSync(process.env.GITHUB_OUTPUT, `asset_url=${assetUrl.href}\n`, 'utf8');
           appendFileSync(process.env.GITHUB_OUTPUT, `bounds=${bounds.join(',')}\n`, 'utf8');
+          appendFileSync(process.env.GITHUB_OUTPUT, `point_density=${advertisedDensity}\n`, 'utf8');
 
           console.log(JSON.stringify({
             ready: true,
@@ -337,9 +349,13 @@ jobs:
             sourceBytes: Number(rangeMatch[2]),
             pointDataRecordFormat,
             advertisedPointCount: feature.properties?.['pc:count'] ?? null,
-            pointDensityPerSquareMetre: feature.properties?.['pc:density'] ??
-              feature.properties?.punkttathet ?? null,
-            boundedPilot: { spanMetres: span, boundsEpsg3006: bounds },
+            pointDensityPerSquareMetre: advertisedDensity,
+            boundedPilot: {
+              spanMetres: span,
+              boundsEpsg3006: bounds,
+              centreDistanceMetres: Math.sqrt(selected.centreDistanceSquared),
+              selection: 'nearest-course-centre-then-newest',
+            },
             note: 'No credentials, authorization headers or point-cloud bytes were serialized.',
           }, null, 2));
           NODE
@@ -350,6 +366,7 @@ jobs:
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
           LASER_ASSET_URL: ${{ steps.laser-source.outputs.asset_url }}
           LASER_BOUNDS: ${{ steps.laser-source.outputs.bounds }}
+          LASER_ADVERTISED_DENSITY: ${{ steps.laser-source.outputs.point_density }}
         run: |
           node --input-type=module <<'NODE'
           import { spawnSync } from 'node:child_process';
@@ -357,7 +374,10 @@ jobs:
           import os from 'node:os';
           import path from 'node:path';
           import { performance } from 'node:perf_hooks';
-          import { laserStatisticsFromMetadata } from './packages/course-geo/acquisition/laser-window.mjs';
+          import {
+            laserDensityEvidence,
+            laserStatisticsFromMetadata,
+          } from './packages/course-geo/acquisition/laser-window.mjs';
 
           const encodedCredentials = Buffer.from(
             `${process.env.LANTMATERIET_USERNAME}:${process.env.LANTMATERIET_PASSWORD}`,
@@ -422,6 +442,12 @@ jobs:
               JSON.parse(readFileSync(metadataFile, 'utf8')),
               maximumPoints,
             );
+            const density = laserDensityEvidence({
+              areaSquareMetres: 256 * 256,
+              source: {
+                pointDensityPerSquareMetre: Number(process.env.LASER_ADVERTISED_DENSITY),
+              },
+            }, statistics.pointCount);
             console.log(JSON.stringify({
               ready: true,
               source: 'Laserdata Nedladdning, skog',
@@ -429,6 +455,7 @@ jobs:
               boundsEpsg3006: bounds,
               spanMetres: 256,
               ...statistics,
+              ...density,
               elapsedMilliseconds: Math.round(performance.now() - started),
               retainedPointCloudBytes: 0,
               note: 'The authenticated COPC was range-streamed and only aggregate statistics were retained.',
