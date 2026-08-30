@@ -104,7 +104,9 @@ jobs:
           cache: true
 
       - name: Verify all-course inventory before provider access
-        run: node packages/course-geo/acquisition/plan-hole-source-controls.mjs
+        run: >-
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
+          plan-hole-controls
 
       - name: Verify selected provider secrets
         env:
