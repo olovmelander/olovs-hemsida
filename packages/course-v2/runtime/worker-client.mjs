@@ -65,11 +65,18 @@ export class ChunkWorkerClient {
     this.pending.delete(message.id);
     pending.signal?.removeEventListener('abort', pending.abort);
     if (message.type === 'decoded' && message.payload instanceof ArrayBuffer) {
+      const terrainRenderData = message.terrainRenderData?.textureData instanceof ArrayBuffer
+        ? {
+            ...message.terrainRenderData,
+            textureData: new Uint16Array(message.terrainRenderData.textureData),
+          }
+        : null;
       pending.resolve({
         header: message.header,
         payload: new Uint8Array(message.payload),
         content: message.content,
         inspection: message.inspection,
+        terrainRenderData,
       });
     } else if (message.type === 'cancelled') {
       pending.reject(abortError());
@@ -96,4 +103,3 @@ export class ChunkWorkerClient {
     this.worker.terminate?.();
   }
 }
-

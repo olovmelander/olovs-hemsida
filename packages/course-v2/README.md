@@ -111,10 +111,11 @@ missing public v2 root is therefore an honest 404 rather than fake production
 data. The debug chunk is excluded from the PWA precache and a production-build
 gate keeps it below 64 KiB and out of both initial HTML and the service worker.
 
-The next D4 work package is one real coarse shell and active-hole terrain
-renderer spike behind the existing URL flag. Authenticated D2 terrain access is
-now proven; authoritative publication still waits for D1 origin approval and a
-tile-aligned retained pilot build.
+The next D4 work package is one retained real coarse shell and active-hole
+visual proof behind the existing URL flag. Authenticated D2 terrain access and
+the backend-common renderer adapter are now proven independently;
+authoritative publication still waits for D1 origin approval and a tile-aligned
+retained pilot build.
 
 ## D4 terrain-pyramid foundation
 
@@ -161,6 +162,30 @@ truth or a separate renderer architecture.
 verified request scheduler and resource pool. It progresses coherently from
 shell to parent to fine tiles, reprioritizes in-flight work, aborts obsolete
 camera/hole requests, keeps decoded/GPU resources bounded and applies
-exponential retry backoff. The controller is renderer-agnostic: the forthcoming
-Three.js adapter supplies resource creation/disposal while both backends retain
-the same loading, cancellation and residency behavior.
+exponential retry backoff.
+
+`runtime/terrain-render-data.mjs` performs the GPU preparation in the verified
+decode Worker. One RGBA16UI texel stores the fine uint16 height, its
+even-sample parent height and an upper-octahedral two-component normal. The
+main thread therefore installs a ready-to-upload buffer instead of expanding a
+257 x 257 tile into positions and normals. Nodata is rejected before a terrain
+pit can be rendered, and the same retained resource supplies the CPU height
+sampler.
+
+`apps/golf/src/engine/v2-terrain-batch.mjs` is the Three.js r185 adapter shared
+by WebGPU and the renderer's WebGL2 backend. Regular tiles use one grid/index
+topology, one partially updated `DataArrayTexture` and one `InstancedMesh` draw.
+Two packed instance buffers keep the layout below WebGPU's vertex-buffer limit.
+New child tiles start at their parent surface and geomorph to full detail;
+shared boundary samples are primary seam control and a bounded skirt remains
+the final crack guard. The desktop/mobile tile budgets set texture-array
+capacity before allocation.
+
+`apps/golf/src/engine/v2-terrain-runtime.mjs` wires that batch to the verified
+asset loader, SSE manager and stream controller, converts the Banvy camera back
+to EPSG:5845, forces active-hole tiles, frustum-culls requests and exposes the
+finest ready CPU height. `v2-terrain-proof.html` is a non-production synthetic
+shader/build harness; `node packages/course-v2/check-renderer-build.mjs` bundles it against the
+installed Three.js r185 API. The production selector still reports
+`rendererAvailable: false`: activation waits for a retained real pilot,
+WebGPU/forced-WebGL2 screenshots and approved canonical origin.

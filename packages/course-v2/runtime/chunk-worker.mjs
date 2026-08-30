@@ -1,4 +1,5 @@
 import { abortError, verifyChunkAssetWeb } from './decode-web.mjs';
+import { prepareTerrainRenderData } from './terrain-render-data.mjs';
 
 function messageError(error) {
   return {
@@ -34,6 +35,15 @@ export function installChunkWorker(scope = globalThis) {
       });
       if (controller.signal.aborted) throw abortError();
       const payload = result.payload.buffer;
+      const prepared = result.header.payloadFormat === 'terrain-grid-u16-le-v1'
+        ? prepareTerrainRenderData(result)
+        : null;
+      const terrainRenderData = prepared ? {
+        ...prepared,
+        textureData: prepared.textureData.buffer,
+      } : null;
+      const transfer = [payload];
+      if (terrainRenderData) transfer.push(terrainRenderData.textureData);
       scope.postMessage({
         type: 'decoded',
         id: message.id,
@@ -41,7 +51,8 @@ export function installChunkWorker(scope = globalThis) {
         content: result.content,
         inspection: result.inspection,
         payload,
-      }, [payload]);
+        terrainRenderData,
+      }, transfer);
     } catch (error) {
       scope.postMessage({
         type: error?.name === 'AbortError' ? 'cancelled' : 'decode-error',

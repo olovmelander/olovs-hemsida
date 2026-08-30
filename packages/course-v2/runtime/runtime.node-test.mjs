@@ -118,6 +118,20 @@ test('worker protocol returns transferable verified payloads and explicit protoc
   uninstall();
 });
 
+test('worker prepares compact terrain GPU texels off the main thread', async () => {
+  const scope = new WorkerScope();
+  const uninstall = installChunkWorker(scope);
+  const { data, reference } = fixtureChunk('terrain');
+  const exact = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
+  await scope.dispatch({ type: 'decode', id: 8, reference, buffer: exact });
+  const message = scope.messages[0];
+  assert.equal(message.type, 'decoded');
+  assert.equal(message.terrainRenderData.layout, 'rgba16ui-height-parent-octnormal-v1');
+  assert.ok(message.terrainRenderData.textureData instanceof ArrayBuffer);
+  assert.equal(message.terrainRenderData.textureData.byteLength, 3 * 3 * 4 * 2);
+  uninstall();
+});
+
 test('worker client aborts one request, ignores its late reply and disposes all pending work', async () => {
   const worker = new ManualWorker();
   const client = new ChunkWorkerClient(worker);
