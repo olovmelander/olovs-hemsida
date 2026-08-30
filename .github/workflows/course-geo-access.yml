@@ -199,7 +199,7 @@ jobs:
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
             gdalinfo -json -stats "$terrain_output" > "$terrain_info"
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
-            gdal_translate -of ENVI -ot Float32 -co INTERLEAVE=BSQ \
+            gdal_translate -of ENVI -ot Float32 -a_srs EPSG:3006 -co INTERLEAVE=BSQ \
             "$terrain_output" "$terrain_raw"
           TERRAIN_ELAPSED_SECONDS="$(( $(date +%s) - terrain_started ))" \
           TERRAIN_INFO="$terrain_info" \
