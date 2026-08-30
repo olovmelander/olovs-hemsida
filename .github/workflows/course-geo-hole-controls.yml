@@ -108,7 +108,8 @@ jobs:
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
           plan-hole-controls
 
-      - name: Verify selected provider secrets
+      - name: Resolve available provider credentials
+        id: providers
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
@@ -116,18 +117,34 @@ jobs:
           SKOGSSTYRELSEN_PASSWORD: ${{ secrets.SKOGSSTYRELSEN_PASSWORD }}
         shell: bash
         run: |
+          laser_available=false
+          tree_height_available=false
           if [ "$CONTROL_PROVIDERS" = "both" ] || [ "$CONTROL_PROVIDERS" = "laser" ]; then
             if [ -z "$LANTMATERIET_USERNAME" ] || [ -z "$LANTMATERIET_PASSWORD" ]; then
-              echo "Required Lantmäteriet repository secrets are missing" >&2
-              exit 1
+              echo "::warning::Lantmäteriet repository secrets are missing; Laserdata checks will be skipped"
+            else
+              laser_available=true
             fi
           fi
           if [ "$CONTROL_PROVIDERS" = "both" ] || [ "$CONTROL_PROVIDERS" = "tree-height" ]; then
             if [ -z "$SKOGSSTYRELSEN_USERNAME" ] || [ -z "$SKOGSSTYRELSEN_PASSWORD" ]; then
-              echo "Required Skogsstyrelsen repository secrets are missing" >&2
-              exit 1
+              echo "::warning::Skogsstyrelsen repository secrets are missing; tree-height checks will be skipped"
+            else
+              tree_height_available=true
             fi
           fi
+          if [ "$laser_available" = true ] && [ "$tree_height_available" = true ]; then
+            effective=both
+          elif [ "$laser_available" = true ]; then
+            effective=laser
+          elif [ "$tree_height_available" = true ]; then
+            effective=tree-height
+          else
+            echo "No requested provider has a complete repository-secret pair" >&2
+            exit 1
+          fi
+          echo "effective=$effective" >> "$GITHUB_OUTPUT"
+          echo "Executing provider controls: $effective"
 
       - name: Run bounded per-hole source controls
         env:
@@ -140,7 +157,7 @@ jobs:
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
           run-hole-controls --
           --ground "${{ matrix.ground }}"
-          --providers "$CONTROL_PROVIDERS"
+          --providers "${{ steps.providers.outputs.effective }}"
           --batch-count "$CONTROL_BATCH_COUNT"
           --batch-index "$CONTROL_BATCH_INDEX"
           --output "$EVIDENCE_FILE"
