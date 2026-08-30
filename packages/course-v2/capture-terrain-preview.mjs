@@ -37,17 +37,18 @@ function browserOptions(explicitChrome, requestedBackend) {
     '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
   ].filter(Boolean);
   const executablePath = candidates.find(candidate => existsSync(candidate));
-  const common = ['--no-sandbox', '--disable-lcd-text', '--force-device-scale-factor=1'];
+  const common = [
+    '--no-sandbox', '--headless=new', '--disable-lcd-text',
+    '--force-device-scale-factor=1',
+  ];
   /* Chrome's documented Linux headless WebGPU path uses ANGLE/Vulkan plus
      surface-less presentation. The hosted runner has no physical adapter, so
      both modes remain software correctness proofs, never performance evidence. */
   const backend = requestedBackend === 'webgl2'
     ? ['--enable-unsafe-swiftshader', '--use-angle=swiftshader']
     : [
-        '--enable-unsafe-webgpu', '--enable-webgpu-developer-features',
-        '--enable-experimental-web-platform-features', '--ignore-gpu-blocklist',
-        '--enable-features=Vulkan', '--use-angle=vulkan',
-        '--disable-vulkan-surface', '--enable-unsafe-swiftshader',
+        '--use-angle=vulkan', '--enable-features=Vulkan',
+        '--disable-vulkan-surface', '--enable-unsafe-webgpu',
       ];
   return {
     ...(executablePath ? { executablePath } : { channel: 'chrome' }),
