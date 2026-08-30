@@ -84,7 +84,6 @@ jobs:
       CONTROL_PROVIDERS: ${{ github.event_name == 'schedule' && 'both' || inputs.providers }}
       CONTROL_BATCH_COUNT: ${{ github.event_name == 'schedule' && '1' || inputs.batch_count }}
       CONTROL_BATCH_INDEX: ${{ github.event_name == 'schedule' && '0' || inputs.batch_index }}
-      EVIDENCE_FILE: ${{ runner.temp }}/hole-source-evidence-${{ matrix.ground }}.json
     steps:
       - uses: actions/checkout@v4
 
@@ -129,6 +128,7 @@ jobs:
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
           SKOGSSTYRELSEN_USERNAME: ${{ secrets.SKOGSSTYRELSEN_USERNAME }}
           SKOGSSTYRELSEN_PASSWORD: ${{ secrets.SKOGSSTYRELSEN_PASSWORD }}
+          EVIDENCE_FILE: ${{ runner.temp }}/hole-source-evidence-${{ matrix.ground }}.json
         run: >-
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
           run-hole-controls --
@@ -140,6 +140,8 @@ jobs:
 
       - name: Add safe aggregate summary
         if: always()
+        env:
+          EVIDENCE_FILE: ${{ runner.temp }}/hole-source-evidence-${{ matrix.ground }}.json
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
@@ -165,6 +167,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: hole-source-evidence-${{ matrix.ground }}-${{ github.run_number }}
-          path: ${{ env.EVIDENCE_FILE }}
+          path: ${{ runner.temp }}/hole-source-evidence-${{ matrix.ground }}.json
           if-no-files-found: warn
           retention-days: 14
