@@ -15,6 +15,11 @@
       view, and gl=1 and q=lo are in the list because an audit found them
       missing from a plan that claimed the grammar was preserved verbatim.   */
 
+/* Where the app is mounted. import.meta.env is absent when these pure functions
+   are exercised by the unit tests outside a bundle, so it falls back to a root
+   mount -- which is also the right answer for the Cloudflare deployment. */
+const BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/';
+
 export const LEGACY_PAGES = {
   'veckefjarden3d.html': 'veckefjarden',
   'norrfallsviken3d.html': 'norrfallsviken',
@@ -30,7 +35,7 @@ export const VIEW_KEYS = ['hal', 'vy', 'ljus', 'tee', 'skylt', 'ren', 'kiosk', '
 /* Given a legacy location, the app URL that shows the same thing. Returns null
    when the path is not one of the six pages, so a caller can tell "not a legacy
    link" from "a legacy link that maps to nothing". */
-export function legacyTarget(pathname, search) {
+export function legacyTarget(pathname, search, base = BASE) {
   const file = pathname.split('/').pop();
   const slug = LEGACY_PAGES[file];
   if (!slug) return null;
@@ -38,7 +43,11 @@ export function legacyTarget(pathname, search) {
   const to = new URLSearchParams();
   to.set('bana', slug);
   for (const k of VIEW_KEYS) if (from.has(k)) to.set(k, from.get(k));
-  return '/?' + to.toString();
+  /* base, not '/'. On a subpath host a bare '/' is the top of somebody else's
+     site -- on GitHub Pages, github.io itself. It is a parameter so the pure
+     unit tests can pin it, and so this stays honest about the one thing the
+     function cannot know on its own. */
+  return base + '?' + to.toString();
 }
 
 export function currentSlug(search = location.search) {

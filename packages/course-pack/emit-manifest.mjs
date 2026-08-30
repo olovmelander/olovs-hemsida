@@ -88,7 +88,11 @@ const entries = COURSES.map(c => {
        pipeline built a course is part of that contract. */
     build: c.build,
     par, holes: cardHoles.length, tees: c.tees, photos,
-    packUrl: `/courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
+    /* RELATIVE, with no leading slash: the manifest is data, and data does not
+       get to know where the site is mounted. The app prefixes its own base
+       (import.meta.env.BASE_URL), so the same manifest serves a domain root and
+       a GitHub Pages subpath without being regenerated per host. */
+    packUrl: `courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
   };
 });
 

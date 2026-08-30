@@ -16,7 +16,21 @@
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
+/* Cloudflare would serve this at a domain root; GitHub Pages serves it under the
+   repository name. Vite rewrites the tags in index.html and every asset URL it
+   processes, but it cannot touch three things, and all three are below: the web
+   app manifest's own fields, the service worker's route patterns, and any URL
+   the app builds at runtime (those read import.meta.env.BASE_URL instead). */
+const BASE = process.env.BANVY_BASE || '/';
+
 export default defineConfig({
+  /* Where this build will be served from. Cloudflare would serve it at a domain
+     root ('/'); GitHub Pages serves it under the repository name
+     ('/olovs-hemsida/'). One config, both hosts -- and nothing in the app may
+     assume either, which is why the runtime reads import.meta.env.BASE_URL
+     instead of writing a leading slash. Vite guarantees that value ends in '/'. */
+  base: BASE,
+
   plugins: [
     VitePWA({
       /* The whole view lives in the URL -- bana, hal, vy, ljus, tee, skylt, ren,
@@ -38,12 +52,15 @@ export default defineConfig({
         background_color: '#0b1a13',
         display: 'standalone',
         orientation: 'any',        /* a course reads well in both; do not force one */
-        start_url: '/',
-        scope: '/',
+        /* NOT '/': on a subpath host that is someone else's site.
+           An installed app opening the wrong page is the worst kind of
+           bug, because it only appears once the app is installed. */
+        start_url: BASE,
+        scope: BASE,
         icons: [
-          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: '/icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          { src: `${BASE}icons/icon-192.png`, sizes: '192x192', type: 'image/png' },
+          { src: `${BASE}icons/icon-512.png`, sizes: '512x512', type: 'image/png' },
+          { src: `${BASE}icons/icon-maskable-512.png`, sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
 
@@ -61,14 +78,17 @@ export default defineConfig({
            missing pack being answered with the HTML shell, exactly as the absent
            /* rule in _redirects does on the host. */
         navigateFallback: 'index.html',
-        navigateFallbackDenylist: [/^\/courses\//],
+        /* not anchored with ^: under a subpath the pathname is
+           /olovs-hemsida/courses/... and an anchored pattern silently
+           never matches, which would quietly disable offline packs */
+        navigateFallbackDenylist: [/\/courses\//],
 
         runtimeCaching: [
           {
             /* The manifest is the one file that must be current: it says which
                pack bytes are correct. Network first, cache only as the offline
                fallback. Matches Cache-Control: no-cache in _headers. */
-            urlPattern: ({ url }) => url.pathname === '/courses/index.json',
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && url.pathname.endsWith('/courses/index.json'),
             handler: 'NetworkFirst',
             options: {
               cacheName: 'banvy-manifest',
@@ -81,7 +101,7 @@ export default defineConfig({
                the query -- so a cached response can never be the wrong bytes for
                its URL, and cache-first is both safe and the whole point. This is
                the rule that makes a course open offline. */
-            urlPattern: ({ url }) => /^\/courses\/[^/]+\/pack\.bin$/.test(url.pathname),
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/pack\.bin$/.test(url.pathname),
             handler: 'CacheFirst',
             options: {
               cacheName: 'banvy-packs',
@@ -93,7 +113,7 @@ export default defineConfig({
             /* Posters are decoration and are NOT content-addressed, so they get
                the same treatment as in _headers: serve what we have, refresh
                behind. A re-render reaches people without a cache-busting trick. */
-            urlPattern: ({ url }) => /^\/courses\/[^/]+\/hero-1\.webp$/.test(url.pathname),
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/hero-1\.webp$/.test(url.pathname),
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'banvy-posters',

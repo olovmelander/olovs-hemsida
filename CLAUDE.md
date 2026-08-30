@@ -1102,6 +1102,51 @@ draws tiles from **OpenStreetMap's own servers**, which are donated infrastructu
 whose usage policy rules out being the tile source for an app with real traffic.
 Fine at this scale; needs a provider before the app is public.
 
+### The site is live on GitHub Pages, and the app had to learn it is not at `/`
+
+`https://olovmelander.github.io/olovs-hemsida/` — deployed by
+`.github/workflows/pages.yml` **from `main`**, which is the thing to remember:
+work sitting on a feature branch is not published, however green its gates are.
+
+Two things are published, differently. The app is a Vite build, so it is BUILT;
+the seven standalone pages are self-contained (verified: zero same-origin
+fetches between them) and are copied as REAL FILES beside it. That last choice is
+forced — GitHub Pages has no rewrite rules, so the `_redirects` trick that maps
+those names into the app on Cloudflare cannot work here. Serving the actual
+pages is better anyway: whoever bookmarked one gets what they bookmarked.
+
+**A project site is served from `/<repo>/`, not `/`, and that breaks things
+silently.** Vite rewrites the tags in `index.html` and every asset it processes,
+which is exactly what makes the remainder dangerous — nothing errors, it just
+resolves to the host's root, which is somebody else's site. `base` is
+`BANVY_BASE` (one config, both hosts) and everything that builds a URL at
+runtime reads `import.meta.env.BASE_URL`. What was actually wrong:
+
+- the web app manifest's `start_url` and `scope` were `/`. An **installed** app
+  would have opened github.io's root instead of Banvy — a bug that only appears
+  after someone installs it.
+- the service worker's `runtimeCaching` patterns were anchored `^/courses/`,
+  which under a subpath never matches: offline would have stopped working with
+  no error anywhere. They are unanchored and `sameOrigin`-guarded now. Note they
+  are **serialised into sw.js**, so they cannot close over a base constant —
+  they have to be written so they never need to know the base.
+- `fonts.css` is copied verbatim out of `public/`, so Vite rewrote the `<link>`
+  pointing AT it and not one url INSIDE it. Every face 404s and the page renders
+  in a fallback font with nothing in the console. The urls are relative now —
+  and `tools/vendor-fonts.mjs`, which regenerates that file and would have
+  silently undone the fix on its next run, emits relative urls too. **A
+  generator that disagrees with the fix will quietly restore the bug**, the same
+  trap as the checker that agreed with the left/right normal.
+- `legacyTarget` returned `'/?bana=…'`, and `packUrl` was baked absolute into
+  the committed manifest. The manifest is data; data does not get to know where
+  the site is mounted, so `packUrl` is relative and the loader prefixes its base.
+
+`tools/check-basepath.mjs` is the gate, and it exists because **none of that is
+findable by reading the source** — it builds for a base, assembles the site the
+way the workflow does, serves it AT that path and drives it. Its sharpest
+assertion is `document.fonts.check('12px Outfit')`: the fonts failed while every
+other check passed, because a fallback font is not an error.
+
 ### Phase 6 groundwork — the hosting rules, and one that is load-bearing
 
 `apps/golf/public/_headers` and `_redirects` ship with the build, so the hosting

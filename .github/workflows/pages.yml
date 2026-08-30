@@ -1,11 +1,22 @@
-# Deploy the repository as a static GitHub Pages site.
+# Publish the site to GitHub Pages.
 #
-# Every page here is self-contained (the 3D course page carries its own data and
-# loads three.js from a CDN), so "the build" is nothing more than uploading the
-# checkout as-is — minus the git history and node_modules, which a browser has
-# no use for. configure-pages tries to enable Pages on the first run so no
-# Settings visit is needed; if the token is not allowed to, enable it once under
-# Settings → Pages → Source: GitHub Actions.
+# Two things live at this address and they are published differently.
+#
+#   /                       the Banvy app -- a Vite build, so it must be BUILT
+#   /veckefjarden3d.html    the seven standalone pages -- self-contained files,
+#   /norrfallsviken3d.html  copied as-is (verified: zero same-origin fetches
+#   ...                     between them, so a copy is genuinely all they need)
+#
+# The standalone pages are published as REAL FILES on purpose. They have been
+# shared and bookmarked, and GitHub Pages has no rewrite rules -- so the trick
+# the Cloudflare deploy uses (_redirects rewriting those names into the app)
+# cannot work here. Serving the actual pages is better anyway: the person who
+# bookmarked one gets the thing they bookmarked.
+#
+# The app is built with BANVY_BASE because Pages serves it from a SUBPATH
+# (/olovs-hemsida/), while Cloudflare would serve it from a domain root. One
+# build config, two hosts, and the app reads import.meta.env.BASE_URL at runtime
+# rather than assuming either.
 name: pages
 
 on:
@@ -30,12 +41,47 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/configure-pages@v5
+        id: pages
         with:
           enablement: true
-      - run: rm -rf .git node_modules
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # base_path from configure-pages is "/olovs-hemsida" (no trailing slash);
+      # Vite wants one, and BASE_URL is documented to always end in a slash.
+      - name: Build the app for this site's base path
+        env:
+          BANVY_BASE: ${{ steps.pages.outputs.base_path }}/
+        run: pnpm --filter @banvy/golf build
+
+      - name: Assemble the site
+        run: |
+          set -euo pipefail
+          rm -rf _site && mkdir -p _site
+          cp -r apps/golf/dist/. _site/
+          # the standalone pages, beside the app rather than instead of it
+          cp veckefjardensgc.html _site/
+          for p in veckefjarden norrfallsviken puttom angso upsala johannesberg; do
+            cp "${p}3d.html" _site/
+          done
+          # Pages is served by a Jekyll-free static host; the marker stops any
+          # future underscore-prefixed file from being silently dropped
+          touch _site/.nojekyll
+          echo "--- published ---" && ls _site
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
+
       - id: deployment
         uses: actions/deploy-pages@v4

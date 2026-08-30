@@ -99,7 +99,7 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
               <li class="card-item" data-slug="${c.slug}" data-category="${cat.id}" data-search="${esc(c.name + ' ' + c.club + ' ' + c.tag + ' ' + (LINES[c.slug] || '')).toLowerCase()}">
                 <button class="card ${isCurrent ? 'is-current' : ''}" type="button" data-slug="${c.slug}">
                   <div class="shot" data-slug="${c.slug}" data-photos="${c.photos || 1}"
-                       style="background-image: url('/courses/${c.slug}/hero-1.webp')">
+                       style="background-image: url('${import.meta.env.BASE_URL}courses/${c.slug}/hero-1.webp')">
                     <span class="shot-frames" aria-hidden="true"></span>
                     <div class="shot-badges">
                       <span class="cat-badge">${iconSvg} <span>${esc(cat.label)}</span></span>
@@ -240,7 +240,7 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
     s.loaded = true;
     const next = i => {
       if (i > s.count) return;
-      const url = `/courses/${s.slug}/hero-${i}.webp`;
+      const url = `${import.meta.env.BASE_URL}courses/${s.slug}/hero-${i}.webp`;
       /* decode before it is ever shown -- a frame that fades in while still
          downloading crossfades to an empty rectangle */
       const img = new Image();

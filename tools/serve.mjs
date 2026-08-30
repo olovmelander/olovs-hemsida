@@ -25,7 +25,14 @@ const MIME = {
 
 http.createServer((req, res) => {
   const clean = decodeURIComponent((req.url || '/').split('?')[0]);
-  const file = path.join(ROOT, clean === '/' ? 'index.html' : clean);
+  let file = path.join(ROOT, clean === '/' ? 'index.html' : clean);
+  /* a directory serves its index.html, the way every static host does -- without
+     this the app is unreachable at a SUBPATH mount like /olovs-hemsida/, which
+     is exactly where GitHub Pages serves it from */
+  if (file.startsWith(ROOT) && fs.existsSync(file) && fs.statSync(file).isDirectory()) {
+    const idx = path.join(file, 'index.html');
+    if (fs.existsSync(idx)) file = idx;
+  }
   if (!file.startsWith(ROOT) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
     /* SPA fallback for .html paths: the app handles legacy page names itself
        (see src/shell/router.js), so the server's job is only to put the app in

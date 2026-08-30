@@ -8,7 +8,7 @@ const bar = document.querySelector('#bar i');
 try {
   if (message) message.textContent = 'laddar banor';
   if (bar) bar.style.width = '45%';
-  const response = await fetch('/courses/index.json');
+  const response = await fetch(`${import.meta.env.BASE_URL}courses/index.json`);
   if (!response.ok) throw new Error(`course manifest ${response.status}`);
   const manifest = await response.json();
   const courses = manifest.courses || [];
