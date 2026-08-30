@@ -1,6 +1,11 @@
 name: course geo per-hole source controls
 
 on:
+  push:
+    branches:
+      - claude/veckefjarden-terrain-alignment-w2mexk
+    paths:
+      - .github/workflows/course-geo-hole-controls.yml
   workflow_dispatch:
     inputs:
       ground:
@@ -61,7 +66,7 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const grounds = ['angso', 'johannesberg', 'norrfallsviken', 'puttom', 'upsala', 'veckefjarden'];
-          const selected = process.env.EVENT_NAME === 'schedule' || process.env.SELECTED_GROUND === 'all'
+          const selected = process.env.EVENT_NAME !== 'workflow_dispatch' || process.env.SELECTED_GROUND === 'all'
             ? grounds
             : grounds.includes(process.env.SELECTED_GROUND)
               ? [process.env.SELECTED_GROUND]
@@ -81,9 +86,9 @@ jobs:
       matrix:
         ground: ${{ fromJSON(needs.prepare.outputs.grounds) }}
     env:
-      CONTROL_PROVIDERS: ${{ github.event_name == 'schedule' && 'both' || inputs.providers }}
-      CONTROL_BATCH_COUNT: ${{ github.event_name == 'schedule' && '1' || inputs.batch_count }}
-      CONTROL_BATCH_INDEX: ${{ github.event_name == 'schedule' && '0' || inputs.batch_index }}
+      CONTROL_PROVIDERS: ${{ github.event_name != 'workflow_dispatch' && 'both' || inputs.providers }}
+      CONTROL_BATCH_COUNT: ${{ github.event_name != 'workflow_dispatch' && '1' || inputs.batch_count }}
+      CONTROL_BATCH_INDEX: ${{ github.event_name != 'workflow_dispatch' && '0' || inputs.batch_index }}
     steps:
       - uses: actions/checkout@v4
 
