@@ -17,10 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
       - name: Verify repository secrets are configured
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
@@ -43,37 +39,116 @@ jobs:
             `${process.env.LANTMATERIET_USERNAME}:${process.env.LANTMATERIET_PASSWORD}`,
             'utf8',
           ).toString('base64');
-          const response = await fetch(endpoint, {
+          const maximumBytes = 1024 * 1024;
+          const authorization = `Basic ${credentials}`;
+
+          async function readBounded(response, limit, label) {
+            const declaredBytes = Number(response.headers.get('content-length'));
+            if (Number.isFinite(declaredBytes) && declaredBytes > limit) {
+              await response.body?.cancel(`${label} exceeds access-probe limit`);
+              throw new Error(`${label} exceeds ${limit} byte probe limit`);
+            }
+            const reader = response.body?.getReader();
+            if (!reader) throw new Error(`${label} has no readable response body`);
+            const chunks = [];
+            let total = 0;
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              total += value.byteLength;
+              if (total > limit) {
+                await reader.cancel(`${label} exceeds access-probe limit`);
+                throw new Error(`${label} exceeds ${limit} byte probe limit`);
+              }
+              chunks.push(value);
+            }
+            const bytes = new Uint8Array(total);
+            let offset = 0;
+            for (const chunk of chunks) {
+              bytes.set(chunk, offset);
+              offset += chunk.byteLength;
+            }
+            return bytes;
+          }
+
+          async function fetchJson(url, label) {
+            const response = await fetch(url, {
+              headers: { Accept: 'application/geo+json, application/json', Authorization: authorization },
+              redirect: 'error',
+              signal: AbortSignal.timeout(20_000),
+            });
+            if (!response.ok) {
+              throw new Error(`${label} denied the configured account (HTTP ${response.status})`);
+            }
+            const bytes = await readBounded(response, maximumBytes, label);
+            return {
+              bytesRead: bytes.byteLength,
+              httpStatus: response.status,
+              value: JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)),
+            };
+          }
+
+          const rootProbe = await fetchJson(endpoint, 'STAC-hojd root');
+          const root = rootProbe.value;
+          if (typeof root.stac_version !== 'string' || !Array.isArray(root.links)) {
+            throw new Error('STAC-hojd returned an invalid STAC root');
+          }
+
+          const searchUrl = new URL(`${endpoint}/search`);
+          searchUrl.searchParams.set('bbox', '18.9,63.28,18.98,63.32');
+          searchUrl.searchParams.set('collections', 'dtm-cog');
+          searchUrl.searchParams.set('limit', '1');
+          const searchProbe = await fetchJson(searchUrl, 'STAC-hojd search');
+          const feature = searchProbe.value?.features?.[0];
+          const asset = feature?.assets?.data;
+          if (!feature?.id || typeof asset?.href !== 'string') {
+            throw new Error('STAC-hojd search returned no terrain data asset');
+          }
+          const assetUrl = new URL(asset.href);
+          if (assetUrl.protocol !== 'https:' || assetUrl.hostname !== 'dl1.lantmateriet.se' ||
+              !assetUrl.pathname.startsWith('/hojd/')) {
+            throw new Error('STAC-hojd returned an unexpected terrain asset origin');
+          }
+          const rangeResponse = await fetch(assetUrl, {
             headers: {
-              Accept: 'application/json',
-              Authorization: `Basic ${credentials}`,
+              Accept: 'image/tiff, application/octet-stream',
+              Authorization: authorization,
+              Range: 'bytes=0-15',
             },
             redirect: 'error',
             signal: AbortSignal.timeout(20_000),
           });
-          if (!response.ok) {
-            throw new Error(`STAC-hojd denied the configured account (HTTP ${response.status})`);
+          if (rangeResponse.status !== 206) {
+            await rangeResponse.body?.cancel('byte-range response required');
+            throw new Error(`Terrain asset did not provide a byte range (HTTP ${rangeResponse.status})`);
           }
-          const maximumBytes = 1024 * 1024;
-          const declaredBytes = Number(response.headers.get('content-length'));
-          if (Number.isFinite(declaredBytes) && declaredBytes > maximumBytes) {
-            await response.body?.cancel('response exceeds access-probe limit');
-            throw new Error(`STAC-hojd root exceeds ${maximumBytes} byte probe limit`);
+          const contentRange = rangeResponse.headers.get('content-range') || '';
+          const rangeMatch = contentRange.match(/^bytes 0-(\d+)\/(\d+)$/i);
+          if (!rangeMatch || Number(rangeMatch[1]) > 63) {
+            throw new Error('Terrain asset returned an invalid Content-Range');
           }
-          const body = new Uint8Array(await response.arrayBuffer());
-          if (body.byteLength > maximumBytes) {
-            throw new Error(`STAC-hojd root exceeds ${maximumBytes} byte probe limit`);
-          }
-          const root = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(body));
-          if (typeof root.stac_version !== 'string' || !Array.isArray(root.links)) {
-            throw new Error('STAC-hojd returned an invalid STAC root');
-          }
+          const tiffHeader = await readBounded(rangeResponse, 64, 'terrain TIFF header');
+          const isTiff = tiffHeader.length >= 4 &&
+            ((tiffHeader[0] === 0x49 && tiffHeader[1] === 0x49 && [0x2a, 0x2b].includes(tiffHeader[2]) && tiffHeader[3] === 0x00) ||
+             (tiffHeader[0] === 0x4d && tiffHeader[1] === 0x4d && tiffHeader[2] === 0x00 && [0x2a, 0x2b].includes(tiffHeader[3])));
+          if (!isTiff) throw new Error('Terrain asset does not have a TIFF or BigTIFF header');
+
           console.log(JSON.stringify({
             ready: true,
             endpoint,
-            httpStatus: response.status,
+            httpStatus: rootProbe.httpStatus,
             stacVersion: root.stac_version,
-            bytesRead: body.byteLength,
+            rootBytesRead: rootProbe.bytesRead,
+            searchBytesRead: searchProbe.bytesRead,
+            terrain: {
+              collection: feature.collection,
+              itemId: feature.id,
+              httpStatus: rangeResponse.status,
+              rangeSupported: true,
+              bytesRead: tiffHeader.byteLength,
+              sourceBytes: Number(rangeMatch[2]),
+              tiffHeaderValid: true,
+            },
             note: 'No credentials or authorization header were serialized.',
           }, null, 2));
           NODE
