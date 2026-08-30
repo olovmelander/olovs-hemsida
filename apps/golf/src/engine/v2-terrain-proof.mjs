@@ -146,6 +146,9 @@ async function main() {
     await new Promise(resolve => requestAnimationFrame(resolve));
   }
   const backend = renderer.backend?.isWebGPUBackend ? 'webgpu' : 'webgl2';
+  const shader = backend === 'webgpu'
+    ? await renderer.debug.getShaderAsync(scene, camera, terrain.group.children[0])
+    : null;
   const renderInfo = renderer.info?.render || {};
   backendLabel.textContent = `${backend.toUpperCase()} · ${loaded.resources.length} tiles · ${terrain.stats().drawCalls} draw call`;
   document.getElementById('boot').classList.add('done');
@@ -158,6 +161,7 @@ async function main() {
     },
     settled: () => true,
     render: () => renderer.renderAsync(scene, camera),
+    shader,
   };
 
   addEventListener('resize', () => {

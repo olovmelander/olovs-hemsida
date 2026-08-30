@@ -136,7 +136,9 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
   const problems = [];
   page.on('pageerror', error => problems.push(String(error).split('\n')[0].slice(0, 240)));
   page.on('console', message => {
-    if (message.type() === 'error') problems.push(message.text().slice(0, 240));
+    if (message.type() === 'error' || message.type() === 'warning') {
+      problems.push(`${message.type()}: ${message.text()}`.slice(0, 240));
+    }
   });
   try {
     const query = new URLSearchParams({ preview: '/preview.json' });
@@ -152,6 +154,7 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
       failed: document.getElementById('boot')?.classList.contains('error'),
       error: window.V3D?.error || null,
       stats: window.V3D?.stats || null,
+      shader: window.V3D?.shader || null,
     }));
     if (state.failed || !state.stats) throw new Error(state.error || 'terrain preview did not publish renderer stats');
     if (state.stats.synthetic || !state.stats.provisional) {
@@ -173,7 +176,14 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
     await page.screenshot({ path: file, animations: 'disabled', timeout: timeoutMilliseconds });
     const pixels = await pixelStats(file);
     if (pixels.meanLuminance < 0.03 || pixels.nearBlackPercent > 88 || pixels.foregroundPercent < 2) {
-      throw new Error('terrain preview screenshot has no visible terrain foreground');
+      const error = new Error('terrain preview screenshot has no visible terrain foreground');
+      error.captureDiagnostics = {
+        stats: state.stats,
+        pixels,
+        problems: [...new Set(problems)].slice(0, 12),
+        shader: state.shader,
+      };
+      throw error;
     }
     return Object.freeze({
       requestedBackend,
@@ -215,7 +225,10 @@ async function main() {
         timeoutMilliseconds: options.timeoutSeconds * 1000,
       }));
     } catch (error) {
-      failures.push({ requestedBackend: 'webgl2', error: String(error.message || error).slice(0, 300) });
+      failures.push({
+        requestedBackend: 'webgl2', error: String(error.message || error).slice(0, 300),
+        ...(error.captureDiagnostics ? { diagnostics: error.captureDiagnostics } : {}),
+      });
     }
     try {
       captures.push(await capture({
@@ -223,7 +236,10 @@ async function main() {
         timeoutMilliseconds: options.timeoutSeconds * 1000,
       }));
     } catch (error) {
-      failures.push({ requestedBackend: 'webgpu', error: String(error.message || error).slice(0, 300) });
+      failures.push({
+        requestedBackend: 'webgpu', error: String(error.message || error).slice(0, 300),
+        ...(error.captureDiagnostics ? { diagnostics: error.captureDiagnostics } : {}),
+      });
     }
   } finally {
     await server.close();
