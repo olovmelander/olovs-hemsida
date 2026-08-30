@@ -38,17 +38,16 @@ function browserOptions(explicitChrome, requestedBackend) {
   ].filter(Boolean);
   const executablePath = candidates.find(candidate => existsSync(candidate));
   const common = ['--no-sandbox', '--disable-lcd-text', '--force-device-scale-factor=1'];
-  /* Chromium's own WebGPU SwiftShader test mode. The hosted runner has no
-     physical adapter, so both capture modes are deterministic software shader
-     proofs and must never be presented as device-performance evidence. */
+  /* Chrome's documented Linux headless WebGPU path uses ANGLE/Vulkan plus
+     surface-less presentation. The hosted runner has no physical adapter, so
+     both modes remain software correctness proofs, never performance evidence. */
   const backend = requestedBackend === 'webgl2'
     ? ['--enable-unsafe-swiftshader', '--use-angle=swiftshader']
     : [
         '--enable-unsafe-webgpu', '--enable-webgpu-developer-features',
         '--enable-experimental-web-platform-features', '--ignore-gpu-blocklist',
-        '--enable-features=Vulkan', '--use-angle=swiftshader',
-        '--use-vulkan=swiftshader', '--use-webgpu-adapter=swiftshader',
-        '--disable-vulkan-surface',
+        '--enable-features=Vulkan', '--use-angle=vulkan',
+        '--disable-vulkan-surface', '--enable-unsafe-swiftshader',
       ];
   return {
     ...(executablePath ? { executablePath } : { channel: 'chrome' }),
