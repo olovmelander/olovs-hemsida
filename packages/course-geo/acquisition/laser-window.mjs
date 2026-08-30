@@ -43,10 +43,9 @@ function safeLaserAsset(value) {
   return url;
 }
 
-function boundedSquare(overlap, aoi, span) {
+function boundedSquare(overlap, focus, span) {
   if (overlap[2] - overlap[0] < span || overlap[3] - overlap[1] < span) return null;
-  const centreX = (aoi[0] + aoi[2]) / 2;
-  const centreY = (aoi[1] + aoi[3]) / 2;
+  const [centreX, centreY] = focus;
   const minX = Math.round(Math.min(
     Math.max(centreX - span / 2, overlap[0]),
     overlap[2] - span,
@@ -61,6 +60,7 @@ function boundedSquare(overlap, aoi, span) {
 export function laserWindowPlan(report, {
   spanMetres = DEFAULT_SPAN_METRES,
   maximumPoints = MAXIMUM_POINTS,
+  focusEpsg3006 = null,
 } = {}) {
   safeGroundId(report?.groundId);
   if (!Number.isSafeInteger(spanMetres) || spanMetres < 32 || spanMetres > MAXIMUM_SPAN_METRES) {
@@ -70,6 +70,13 @@ export function laserWindowPlan(report, {
     throw new Error(`maximumPoints must be an integer from 1 to ${MAXIMUM_POINTS}`);
   }
   const aoi = finiteBbox(report.aoi?.bboxEpsg3006, 'laser AOI');
+  const focus = focusEpsg3006 === null
+    ? [(aoi[0] + aoi[2]) / 2, (aoi[1] + aoi[3]) / 2]
+    : focusEpsg3006;
+  if (!Array.isArray(focus) || focus.length !== 2 || focus.some(value => !Number.isFinite(value)) ||
+      focus[0] < aoi[0] || focus[0] > aoi[2] || focus[1] < aoi[1] || focus[1] > aoi[3]) {
+    throw new Error('focusEpsg3006 must be a finite [easting,northing] point inside the laser AOI');
+  }
   if (report.laser?.collection !== 'dsm-skoglig-copc') {
     throw new Error('laser discovery must use dsm-skoglig-copc');
   }
@@ -97,19 +104,18 @@ export function laserWindowPlan(report, {
   });
 
   const viable = [];
-  const aoiCentreX = (aoi[0] + aoi[2]) / 2;
-  const aoiCentreY = (aoi[1] + aoi[3]) / 2;
+  const [focusX, focusY] = focus;
   for (const source of candidates) {
     const overlap = intersection(aoi, source.projectedBbox);
-    const bounds = overlap && boundedSquare(overlap, aoi, spanMetres);
+    const bounds = overlap && boundedSquare(overlap, focus, spanMetres);
     if (!bounds) continue;
     const windowCentreX = (bounds[0] + bounds[2]) / 2;
     const windowCentreY = (bounds[1] + bounds[3]) / 2;
     viable.push({
       source,
       bounds,
-      centreDistanceSquared: (windowCentreX - aoiCentreX) ** 2 +
-        (windowCentreY - aoiCentreY) ** 2,
+      centreDistanceSquared: (windowCentreX - focusX) ** 2 +
+        (windowCentreY - focusY) ** 2,
     });
   }
   viable.sort((left, right) => left.centreDistanceSquared - right.centreDistanceSquared ||
@@ -122,10 +128,13 @@ export function laserWindowPlan(report, {
     collection: report.laser.collection,
     source: Object.freeze(selected.source),
     boundsEpsg3006: Object.freeze(selected.bounds),
+    focusEpsg3006: Object.freeze([...focus]),
     spanMetres,
     areaSquareMetres: spanMetres * spanMetres,
     maximumPoints,
-    selection: 'nearest-aoi-centre-then-newest',
+    selection: focusEpsg3006 === null
+      ? 'nearest-aoi-centre-then-newest'
+      : 'nearest-focus-then-newest',
   });
   throw new Error(`no Laserdata Skog item contains a ${spanMetres} m bounded AOI window`);
 }
@@ -272,8 +281,9 @@ export function acquireLaserWindow(report, {
   credentials,
   spanMetres = DEFAULT_SPAN_METRES,
   maximumPoints = MAXIMUM_POINTS,
+  focusEpsg3006 = null,
 } = {}) {
-  const plan = laserWindowPlan(report, { spanMetres, maximumPoints });
+  const plan = laserWindowPlan(report, { spanMetres, maximumPoints, focusEpsg3006 });
   const pipeline = copcStatsPipeline(plan, credentials);
   const authorization = Object.values(pipeline[0].filename.headers);
   const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'banvy-copc-stats-'));
@@ -308,6 +318,7 @@ export function acquireLaserWindow(report, {
       advertisedPointDensityPerSquareMetre: plan.source.pointDensityPerSquareMetre,
     }),
     boundsEpsg3006: plan.boundsEpsg3006,
+    focusEpsg3006: plan.focusEpsg3006,
     spanMetres: plan.spanMetres,
     areaSquareMetres: plan.areaSquareMetres,
     ...statistics,

@@ -251,14 +251,19 @@ jobs:
           const searchBytes = await readBounded(searchResponse, 1024 * 1024, 'Laserdata Skog STAC search');
           const search = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(searchBytes));
           const courseBbox = [696916, 7024570, 697941, 7025595];
+          // A playable hole-1 focus avoids the sparse seam between the two flight campaigns.
+          const pilotCentre = [697337, 7025389];
           const span = 256;
-          const centreX = (courseBbox[0] + courseBbox[2]) / 2;
-          const centreY = (courseBbox[1] + courseBbox[3]) / 2;
+          const [centreX, centreY] = pilotCentre;
+          if (centreX < courseBbox[0] || centreX > courseBbox[2] ||
+              centreY < courseBbox[1] || centreY > courseBbox[3]) {
+            throw new Error('Laserdata Skog pilot focus is outside the playable course bbox');
+          }
           const candidates = (search.features || []).map(feature => {
             const asset = feature?.assets?.data;
             const projectedBbox = feature?.properties?.['proj:bbox'] || asset?.['proj:bbox'];
             const advertisedDensity = Number(
-              feature?.properties?.['pc:density'] ?? feature?.properties?.punkttathet,
+              feature?.properties?.punkttathet ?? feature?.properties?.['pc:density'],
             );
             if (!feature?.id || feature.collection !== 'dsm-skoglig-copc' ||
                 asset?.type !== 'application/vnd.laszip+copc' ||
@@ -352,9 +357,10 @@ jobs:
             pointDensityPerSquareMetre: advertisedDensity,
             boundedPilot: {
               spanMetres: span,
+              focusEpsg3006: pilotCentre,
               boundsEpsg3006: bounds,
               centreDistanceMetres: Math.sqrt(selected.centreDistanceSquared),
-              selection: 'nearest-course-centre-then-newest',
+              selection: 'nearest-playable-hole-focus-then-newest',
             },
             note: 'No credentials, authorization headers or point-cloud bytes were serialized.',
           }, null, 2));
@@ -442,6 +448,9 @@ jobs:
               JSON.parse(readFileSync(metadataFile, 'utf8')),
               maximumPoints,
             );
+            console.log(JSON.stringify({
+              boundedAggregateBeforeDensityGate: statistics,
+            }, null, 2));
             const density = laserDensityEvidence({
               areaSquareMetres: 256 * 256,
               source: {

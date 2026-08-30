@@ -245,6 +245,7 @@ test('Laserdata Skog plan prefers the AOI centre, then the newest containing COP
   const plan = laserWindowPlan(report, { spanMetres: 128, maximumPoints: 500_000 });
   assert.equal(plan.source.id, 'newest-centred');
   assert.deepEqual(plan.boundsEpsg3006, [436, 486, 564, 614]);
+  assert.deepEqual(plan.focusEpsg3006, [500, 550]);
   assert.equal(plan.selection, 'nearest-aoi-centre-then-newest');
   assert.equal(plan.areaSquareMetres, 16_384);
   const pipeline = copcStatsPipeline(plan, {
@@ -260,6 +261,35 @@ test('Laserdata Skog plan prefers the AOI centre, then the newest containing COP
   assert.equal(pipeline[1].count, 500_000);
   assert.equal(pipeline[2].count, 'Classification,ReturnNumber,NumberOfReturns');
   assert.doesNotMatch(JSON.stringify(plan), /user|secret|Basic /);
+});
+
+test('Laserdata Skog plan can centre a bounded window on a playable hole focus', () => {
+  const report = {
+    groundId: 'puttom',
+    aoi: { bboxEpsg3006: [0, 0, 1000, 1000] },
+    laser: {
+      collection: 'dsm-skoglig-copc',
+      items: [{
+        id: 'north', collection: 'dsm-skoglig-copc', capturedAt: '2025-01-01',
+        projBbox: [0, 500, 1000, 1000], pointCount: 100,
+        pointDensityPerSquareMetre: 1.1,
+        assets: { data: {
+          href: 'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/north.copc.laz',
+          type: 'application/vnd.laszip+copc', bytes: 2000, sha256: HASH_A,
+        } },
+      }],
+    },
+  };
+  const plan = laserWindowPlan(report, {
+    spanMetres: 256,
+    focusEpsg3006: [337, 889],
+  });
+  assert.deepEqual(plan.boundsEpsg3006, [209, 744, 465, 1000]);
+  assert.deepEqual(plan.focusEpsg3006, [337, 889]);
+  assert.equal(plan.selection, 'nearest-focus-then-newest');
+  assert.throws(() => laserWindowPlan(report, {
+    focusEpsg3006: [1001, 500],
+  }), /inside the laser AOI/);
 });
 
 test('Laserdata Skog density gate detects an empty tile edge', () => {
