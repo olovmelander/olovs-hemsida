@@ -191,6 +191,37 @@ jobs:
           }, null, 2));
           NODE
 
+      - name: Verify authenticated Laserdata Skog COPC access
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          node packages/course-geo/acquisition/access-preflight.mjs \
+            --ground puttom \
+            --provider lantmateriet \
+            --json > "$RUNNER_TEMP/lantmateriet-height-access.json"
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          const report = JSON.parse(readFileSync(`${process.env.RUNNER_TEMP}/lantmateriet-height-access.json`, 'utf8'));
+          const laser = report.providers?.lantmateriet?.laser;
+          if (!report.ready || !laser?.ready || laser.bytesRead !== 589 || !laser.rangeSupported) {
+            throw new Error('Laserdata Skog authenticated COPC access was not proven');
+          }
+          console.log(JSON.stringify({
+            ready: true,
+            collection: laser.collection,
+            assetId: laser.assetId,
+            httpStatus: laser.httpStatus,
+            rangeSupported: laser.rangeSupported,
+            bytesRead: laser.bytesRead,
+            sourceBytes: laser.sourceBytes,
+            pointDataRecordFormat: laser.pointDataRecordFormat,
+            advertisedPointCount: laser.advertisedPointCount,
+            pointDensityPerSquareMetre: laser.pointDensityPerSquareMetre,
+            note: 'No credentials, authorization headers or point-cloud bytes were serialized.',
+          }, null, 2));
+          NODE
+
       - name: Build isolated Three r185 terrain proof
         run: node packages/course-v2/build-renderer-proof.mjs "$RUNNER_TEMP/puttom-terrain-preview"
 

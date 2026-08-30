@@ -122,7 +122,14 @@ async function main() {
   terrain.sync(loaded.resources, { now: 0 });
 
   const forceWebGL = params.get('gl') === '1';
-  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, forceWebGL });
+  /* SwiftShader's WebGPU capture is a shader-correctness gate, not a device
+     quality or performance run. Keep its presentation target single-sampled;
+     forced WebGL2 retains the four-sample path exercised on mobile fallback. */
+  const renderer = new THREE.WebGPURenderer({
+    antialias: forceWebGL,
+    samples: forceWebGL ? 4 : 1,
+    forceWebGL,
+  });
   renderer.setPixelRatio(1);
   renderer.setSize(innerWidth, innerHeight);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -134,11 +141,10 @@ async function main() {
      operations on some WebGL2/SwiftShader devices. Capture only after two
      presented frames, never the correctly-cleared but not-yet-drawn first one. */
   for (let frame = 0; frame < 3; frame++) {
-    await renderer.renderAsync(scene, camera);
+    renderer.render(scene, camera);
     await new Promise(resolve => requestAnimationFrame(resolve));
   }
-  /* renderAsync resolves after command submission in r185. A hardware adapter
-     usually presents before the next frame, but the deterministic WebGPU
+  /* A hardware adapter usually presents before the next frame, but the deterministic WebGPU
      SwiftShader proof can still be processing the two-million-triangle batch.
      Do not declare the canvas ready until its submitted queue is complete. */
   if (renderer.backend?.isWebGPUBackend) {
@@ -160,7 +166,7 @@ async function main() {
       actualTriangles: renderInfo.triangles ?? null,
     },
     settled: () => true,
-    render: () => renderer.renderAsync(scene, camera),
+    render: () => renderer.render(scene, camera),
     shader,
   };
 
@@ -168,7 +174,7 @@ async function main() {
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth, innerHeight);
-    void renderer.renderAsync(scene, camera);
+    renderer.render(scene, camera);
   });
 }
 
