@@ -33,11 +33,16 @@ if (!buildDir || !outDir) { console.error('usage: emit-pack.mjs <buildDir> <outD
    GEO.seaLevel means "the level water sits at", and for a regulated lake behind
    a 1939 lock that is 21.59 m, not zero. The sea machinery is keyed off
    water[].isSea, which no Veckefjarden ring carries, so it correctly no-ops. */
-const OLD = buildDir.replace(/\/$/, '') === 'geobuild';
-
 const HERE = path.join(ROOT, buildDir);
 const readJSON = p => JSON.parse(fs.readFileSync(p, 'utf8'));
 const model = readJSON(path.join(HERE, 'course-model.json'));
+/* Which schema this is, asked of the MODEL rather than of the directory name.
+   It used to be `buildDir === 'geobuild'`, which was true while geobuild was the
+   only holder of the older shape -- but Veckefjarden's korthalsbana is a second
+   course built on that same model, in its own directory, and a name test would
+   have silently emptied its penalty marking and its silt shallows and left its
+   water level undefined. The distinguishing fact is the field itself.        */
+const OLD = model.lakeLevel !== undefined;
 const hf = readJSON(path.join(HERE, 'heightfields.json'));
 let cover = null;
 try { cover = readJSON(path.join(HERE, 'tree-cover.json')); } catch {}

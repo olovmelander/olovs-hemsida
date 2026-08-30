@@ -36,6 +36,11 @@ const CASES = [
   { url: '/?bana=angso&ren=1', want: { slug: 'angso', clean: true, rail: false }, why: 'clean view, and the chooser stays out of it' },
   { url: '/?bana=johannesberg&gl=1', want: { slug: 'johannesberg', rail: false }, why: 'gl=1 still forces the WebGL2 backend' },
   { url: '/?bana=norrfallsviken&q=lo', want: { slug: 'norrfallsviken', rail: false }, why: 'q=lo still selects the light build' },
+  /* The second courses: a hyphenated slug, the two-tee extreme (every other
+     course has four to six), and a hole number past the end of a NINE-hole
+     card, which is what NHOLES exists to clamp. */
+  { url: '/?bana=johannesberg-9&tee=2', want: { slug: 'johannesberg-9', tee: 1, rail: false }, why: 'a hyphenated slug, and the second of only two tees' },
+  { url: '/?bana=veckefjarden-korthalsbanan&hal=12', want: { slug: 'veckefjarden-korthalsbanan', hole: 9, rail: false }, why: 'hole 12 of a nine clamps to 9 rather than erroring' },
   /* the legacy half: the page name carries the course, the query the view */
   { url: '/veckefjarden3d.html?hal=14&vy=green', want: { slug: 'veckefjarden', hole: 14, cam: 'green', rail: false }, why: 'a shared link to the old page' },
   { url: '/norrfallsviken3d.html?hal=3&ljus=dag&tee=2', want: { slug: 'norrfallsviken', hole: 3, preset: 'noon', tee: 1, rail: false }, why: 'an old link with light and tee' },

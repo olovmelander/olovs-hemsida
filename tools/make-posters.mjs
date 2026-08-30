@@ -75,6 +75,16 @@ const PLAN = {
   upsala:         { sig: 3,  s2: 9,  s3: 12 },
   johannesberg:   { sig: 18, s2: 11, s3: 4  },
   angso:          { sig: 15, s2: 2,  s3: 17 },
+  /* The second courses. Mellanbanan's 8th is the club's OWN signature, played
+     from a tee looking out over the Stora banan, and its 4th green stands 20 m
+     from the big pond. Johannesberg's nine names no signature, so it was
+     measured instead: a 19 300 m2 pond runs through the middle of it and the
+     2nd drops 12.5 m to a green 5 m off the water -- the only real identity the
+     nine has. The korthalsbana has no water within 186 m of any green, so it
+     leads with its longest hole and its compact loop from above. */
+  'upsala-mellanbanan':          { sig: 8, s2: 4, s3: 6 },
+  'johannesberg-9':              { sig: 2, s2: 7, s3: 8 },
+  'veckefjarden-korthalsbanan':  { sig: 1, s2: 3, s3: 9 },
 };
 
 /* Eight framings per course: the signature hole from all four cameras, then the

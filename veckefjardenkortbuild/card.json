@@ -1,0 +1,101 @@
+{
+  "club": "Veckefjärdens GC — Korthålsbanan",
+  "source": "GolfPass per-hole card for Veckefjärdens Golf Club Short Course (9 × par 3), cross-read against the club's own play page and 1golf.eu, which both identify a separate nine-hole par-27 short course.",
+  "verification": "NOT FULLY VERIFIED, and this is the weakest card in the repo. The nine pars sum to the printed 27, but NEITHER tee column reproduces its printed total: the Gul cells sum to 932 against a printed 936, and Röd to 770 against a printed 776. A 4 m and 6 m shortfall over nine holes is what per-hole rounding looks like, so the cells are plausible — but they are not confirmed, and this repo's rule is that a card is verified before geometry is fitted to it. The club's own prose says the holes are 60–120 m, which contradicts Gul hole 1 at 136 m. Treat every length here as provisional and replace it from the club's scorecard when one can be read.",
+  "note": "Veckefjärdens korthålsbana: nine par 3s beside the Mästerskapsbanan, on the same ground. NO STROKE INDEX IS PUBLISHED AND NONE IS INVENTED HERE: the only index column found runs 1,2,3,4,5,6,7,8,9, which is exactly the hole order and is therefore almost certainly a scrape artifact rather than the club's index. hcp is null on every hole and the card UI prints the par alone. A korthålsbana is commonly unrated, so an absent index is the expected state rather than a gap in the research.",
+  "teeNames": [
+    "Gul",
+    "Röd"
+  ],
+  "printedOut": {
+    "Gul": 936,
+    "Röd": 776
+  },
+  "cellSums": {
+    "Gul": 932,
+    "Röd": 770
+  },
+  "holes": [
+    {
+      "n": 1,
+      "par": 3,
+      "hcp": null,
+      "t": [
+        136,
+        115
+      ]
+    },
+    {
+      "n": 2,
+      "par": 3,
+      "hcp": null,
+      "t": [
+        96,
+        78
+      ]
+    },
+    {
+      "n": 3,
+      "par": 3,
+      "hcp": null,
+      "t": [
+        82,
+        64
+      ]
+    },
+    {
+      "n": 4,
+      "par": 3,
+      "hcp": null,
+      "t": [
+        125,
+        103
+      ]
+    },
+    {
+      "n": 5,
+      "par": 3,
+      "hcp": null,
+      "t": [
+        100,
+        90
+      ]
+    },
+    {
+      "n": 6,
+      "par": 3,
+      "hcp": null,
+      "t": [
+        70,
+        60
+      ]
+    },
+    {
+      "n": 7,
+      "par": 3,
+      "hcp": null,
+      "t": [
+        111,
+        90
+      ]
+    },
+    {
+      "n": 8,
+      "par": 3,
+      "hcp": null,
+      "t": [
+        96,
+        74
+      ]
+    },
+    {
+      "n": 9,
+      "par": 3,
+      "hcp": null,
+      "t": [
+        116,
+        96
+      ]
+    }
+  ]
+}

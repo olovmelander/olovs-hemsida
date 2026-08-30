@@ -3983,7 +3983,11 @@ function drawCard() {
   const h = HOLES[hole - 1];
   document.getElementById('cno').textContent = h.n;
   document.getElementById('cnm').textContent = h.name || `Hål ${h.n}`;
-  document.getElementById('cpi').textContent = `Par ${h.par} · Index ${h.idx}`;
+  /* A korthalsbana is not rated, so it has no stroke index and none is invented:
+     h.idx is null there and the line is just the par. Printing "Index null"
+     would state something about a real club that no source supports. */
+  document.getElementById('cpi').textContent =
+    h.idx == null ? `Par ${h.par}` : `Par ${h.par} · Index ${h.idx}`;
   teesEl.innerHTML = '';
   h.t.forEach((m, k) => {
     const d = document.createElement('div');

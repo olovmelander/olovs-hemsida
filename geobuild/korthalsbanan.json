@@ -1,0 +1,10 @@
+{
+  "slug": "veckefjarden-korthalsbanan",
+  "parentBuild": "geobuild",
+  "outBuild": "veckefjardenkortbuild",
+  "card": "geobuild/card-korthalsbanan.json",
+  "routes": "geobuild/korthalsbanan-routes.geojson",
+  "lineSrc": "published 18Birdies hole route (korthalsbanan-routes.geojson), tee end slid to the card Gul length",
+  "conf": "provisional: routing from published GPS routes, shapes synthesised, card lengths unconfirmed",
+  "note": "Veckefjärdens GC korthålsbana, nine par 3s. Environment shared verbatim with the Mästerskapsbanan (geobuild/course-model.json), INCLUDING its penalty marking, its silt shallows and the regulated lake level of 21.59 m; the eighteen is carried here as scenery. Routing from published GPS routes; lengths from a card that does not reconcile with its own printed totals (see card-korthalsbanan.json). Greens, fairways and tee pads are synthesised and marked prov:\"synth\"."
+}

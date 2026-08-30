@@ -20,7 +20,12 @@ import { readCard } from '../packages/course-pack/lib.mjs';
 /* SwiftShader boots the atlas build in minutes, not seconds; --boot-timeout
    raises it further when harnesses must share a CPU. */
 const BOOT_TIMEOUT = +(process.env.BANVY_BOOT_TIMEOUT || 420) * 1000;
-const BASE = process.argv[2] || 'http://127.0.0.1:8620';
+const BASE = process.argv.slice(2).find(a => !a.startsWith('--')) || 'http://127.0.0.1:8620';
+/* `--only=slug[,slug]` checks a subset. Nine courses is half an hour under
+   SwiftShader, which makes iterating on one course's failure prohibitively slow
+   -- and a gate too slow to re-run is a gate that gets skipped. CI passes no
+   flag and still checks everything. */
+const ONLY = (process.argv.find(a => a.startsWith('--only=')) || '').slice(7).split(',').filter(Boolean);
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
 
@@ -33,7 +38,11 @@ const browser = await chromium.launch({
   args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader', '--force-device-scale-factor=1'],
 });
 
-for (const c of manifest.courses) {
+const courses = ONLY.length ? manifest.courses.filter(c => ONLY.includes(c.slug)) : manifest.courses;
+if (ONLY.length && courses.length !== ONLY.length)
+  throw new Error(`--only names a course the manifest does not have: ${ONLY.filter(s => !manifest.courses.some(c => c.slug === s)).join(', ')}`);
+
+for (const c of courses) {
   console.log(`\n${c.slug}`);
   try {
     await checkCourse(c);
@@ -43,9 +52,10 @@ for (const c of manifest.courses) {
 }
 
 async function checkCourse(c) {
-  const build = { angso: 'angsobuild', norrfallsviken: 'nvgkbuild', puttom: 'puttombuild',
-                  upsala: 'upsalabuild', johannesberg: 'johannesbergbuild',
-                  veckefjarden: 'geobuild' }[c.slug];
+  /* read out of the manifest, not restated here: a gate that keeps its own copy
+     of the slug->build mapping agrees with itself and goes stale in silence */
+  const build = c.build;
+  if (!build) throw new Error(`${c.slug}: manifest carries no build directory`);
   const cardHoles = readCard(ROOT, build);
 
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
@@ -145,9 +155,23 @@ async function checkCourse(c) {
        solved the plates were out by 2.6 m on average and up to 32.6 m. */
     const p = got.ground.plates, bad = p.filter(q => Math.abs(q.err) > 2.0);
     const worst = p.reduce((a, q) => Math.max(a, Math.abs(q.err)), 0);
-    gate(p.length > 0 && bad.length === 0,
-      `${p.length} distance plates measure their own label (worst ${worst.toFixed(2)} m)` +
-      (bad.length ? ` -- ${bad.length} off, e.g. hole ${bad[0].hole} says ${bad[0].says} at ${bad[0].err > 0 ? '+' : ''}${bad[0].err} m` : ''));
+    /* Whether this course should carry ANY plate, derived from the card by the
+       engine's own two rules: par 3s get none (the same reason they get no
+       fairway), and the shortest plate is 100 m and needs `dist <= total - 60`.
+       The count-above-zero half of this gate exists because a NaN once made
+       every plate on every course vanish silently -- but Veckefjarden's
+       korthalsbana is NINE PAR 3s, where zero is the only correct answer, and a
+       gate that fails on a correct result is a gate people switch off. So the
+       expectation is computed rather than assumed, and a course with no
+       eligible hole is asserted to have exactly zero -- which still catches
+       plates being invented where none belong. */
+    const eligible = cardHoles.filter(h => h.par >= 4 && h.t[0] > 160).length;
+    const ok = eligible ? (p.length > 0 && bad.length === 0) : p.length === 0;
+    gate(ok, eligible
+      ? `${p.length} distance plates measure their own label (worst ${worst.toFixed(2)} m)` +
+        (bad.length ? ` -- ${bad.length} off, e.g. hole ${bad[0].hole} says ${bad[0].says} at ${bad[0].err > 0 ? '+' : ''}${bad[0].err} m` : '')
+      : `no distance plates, and none is due: ${cardHoles.length} holes, none par 4+ over 160 m` +
+        (p.length ? ` -- but ${p.length} were planted` : ''));
   }
   console.log(`  perf atlas ${got.ground.perf.atlasMs} ms, boot JS ${got.ground.perf.totalMs} ms`);
 

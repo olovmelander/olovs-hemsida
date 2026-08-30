@@ -1,0 +1,1845 @@
+{
+  "type": "FeatureCollection",
+  "name": "Johannesberg Golfklubb — 9-Hålsbanan",
+  "metadata": {
+    "generated_at": "2026-08-30",
+    "purpose": "Research-derived 9-hole routing and scorecard data for import into a golf visualizer.",
+    "course": {
+      "name": "Johannesberg Golfklubb — 9-Hålsbanan",
+      "holes": 9,
+      "par_9": 34,
+      "yellow_total_m": 2259,
+      "red_total_m": 1909,
+      "configuration_when_played_twice": {
+        "holes": 18,
+        "par": 68,
+        "yellow_total_m": 4518,
+        "red_total_m": 3818
+      }
+    },
+    "sources": {
+      "eighteenBirdies": "https://18birdies.com/golf-courses/club/7d945ed0-86ac-11e4-8c28-020000005b00/johannesberg-golf",
+      "golfPass": "https://www.golfpass.com/travel-advisor/courses/37223-johannesberg-golf-9-holes-course/scorecard-and-layout",
+      "caddee": "https://www.caddee.se/klubb/johannesberg-golfklubb",
+      "golfISverige": "https://www.golfisverige.com/klubb/johannesberg-golfklubb/",
+      "mScorecard": "https://www.mscorecard.com/mscorecard/showcourse.php?cid=141519731894299972"
+    },
+    "scorecard_verification": {
+      "status": "High confidence",
+      "evidence": [
+        "Caddee, Golf i Sverige and GolfPass agree on par, stroke index and red/yellow lengths for holes 1–9.",
+        "mScorecard independently reports the same 9-hole par and lengths and advertises 50 stored coordinate points, but its point list requires login."
+      ]
+    },
+    "gps_provenance": {
+      "source": "18Birdies public course profile",
+      "extraction_note": "The public page's serialized course record contains nine contiguous GPS route geometries west of the manor. Each green-side endpoint is 15–73 m from the following tee-side endpoint, including the hole 9 → hole 1 closure.",
+      "exactness": "Coordinates below are published route geometry, not a surveyed club export. The endpoint roles are inferred from topological order and published yellow distances.",
+      "known_gap": "No verified red tee or green front/centre/back coordinates were published in the accessible sources."
+    },
+    "banguide_caution": "The accessible Caddee and Golf i Sverige scorecard entries are useful, but their rendered 9-hole image widgets appeared to mix in 18-hole graphics during verification. Do not use those raster guides as the spatial authority for this data."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "stroke_index": 5,
+        "yellow_length_m": 302,
+        "red_length_m": 261,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 306.4,
+        "source_route_vs_scorecard_m": 4.4,
+        "role": "published_hole_route",
+        "coordinate_confidence": "medium",
+        "route_point_count": 5,
+        "description": "Ordered geometry from the published tee-side endpoint to the green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.1873083832,
+            59.734599585
+          ],
+          [
+            18.1847387951,
+            59.734715772
+          ],
+          [
+            18.1824266077,
+            59.7348158098
+          ],
+          [
+            18.1821691905,
+            59.734832005
+          ],
+          [
+            18.1818634404,
+            59.7348428965
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "stroke_index": 5,
+        "yellow_length_m": 302,
+        "red_length_m": 261,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 306.4,
+        "source_route_vs_scorecard_m": 4.4,
+        "role": "yellow_tee",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published start endpoint of the hole route",
+        "description": "Use as the yellow-tee proxy. It is topologically consistent with the prior hole's green-side endpoint."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1873083832,
+          59.734599585
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "stroke_index": 5,
+        "yellow_length_m": 302,
+        "red_length_m": 261,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 306.4,
+        "source_route_vs_scorecard_m": 4.4,
+        "role": "green_endpoint_proxy",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published end endpoint of the hole route; not verified as the exact green centre",
+        "description": "Suitable as a provisional green centre in a visualizer; do not relabel as surveyed green front/centre/back."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1818634404,
+          59.7348428965
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "stroke_index": 5,
+        "yellow_length_m": 302,
+        "red_length_m": 261,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 306.4,
+        "source_route_vs_scorecard_m": 4.4,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 1,
+        "nominal_label": "50m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.18298173285765,
+          59.73479525612619
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "stroke_index": 5,
+        "yellow_length_m": 302,
+        "red_length_m": 261,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 306.4,
+        "source_route_vs_scorecard_m": 4.4,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 2,
+        "nominal_label": "100m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.183794273428987,
+          59.73475850223628
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "stroke_index": 5,
+        "yellow_length_m": 302,
+        "red_length_m": 261,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 306.4,
+        "source_route_vs_scorecard_m": 4.4,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 3,
+        "nominal_label": "150m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.18460681221378,
+          59.734721743330326
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "stroke_index": 5,
+        "yellow_length_m": 302,
+        "red_length_m": 261,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 306.4,
+        "source_route_vs_scorecard_m": 4.4,
+        "role": "red_tee_estimate",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Interpolated along the published route using the official red/yellow scorecard-length ratio",
+        "do_not_use_as_verified": true,
+        "description": "Convenience estimate only. Replace with a club scorecard/photo/surveyed tee point when available."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1865692088899,
+          59.73463300765072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 2,
+        "par": 4,
+        "stroke_index": 11,
+        "yellow_length_m": 270,
+        "red_length_m": 234,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 288.3,
+        "source_route_vs_scorecard_m": 18.3,
+        "role": "published_hole_route",
+        "coordinate_confidence": "medium",
+        "route_point_count": 5,
+        "description": "Ordered geometry from the published tee-side endpoint to the green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.1814718684,
+            59.7347941097
+          ],
+          [
+            18.1800127238,
+            59.7338154251
+          ],
+          [
+            18.1786823267,
+            59.7329177762
+          ],
+          [
+            18.1785535432,
+            59.7328366623
+          ],
+          [
+            18.1783765684,
+            59.7327231762
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 2,
+        "par": 4,
+        "stroke_index": 11,
+        "yellow_length_m": 270,
+        "red_length_m": 234,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 288.3,
+        "source_route_vs_scorecard_m": 18.3,
+        "role": "yellow_tee",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published start endpoint of the hole route",
+        "description": "Use as the yellow-tee proxy. It is topologically consistent with the prior hole's green-side endpoint."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1814718684,
+          59.7347941097
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 2,
+        "par": 4,
+        "stroke_index": 11,
+        "yellow_length_m": 270,
+        "red_length_m": 234,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 288.3,
+        "source_route_vs_scorecard_m": 18.3,
+        "role": "green_endpoint_proxy",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published end endpoint of the hole route; not verified as the exact green centre",
+        "description": "Suitable as a provisional green centre in a visualizer; do not relabel as surveyed green front/centre/back."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1783765684,
+          59.7327231762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 2,
+        "par": 4,
+        "stroke_index": 11,
+        "yellow_length_m": 270,
+        "red_length_m": 234,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 288.3,
+        "source_route_vs_scorecard_m": 18.3,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 1,
+        "nominal_label": "50m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.179043589640063,
+          59.733165374992254
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 2,
+        "par": 4,
+        "stroke_index": 11,
+        "yellow_length_m": 270,
+        "red_length_m": 234,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 288.3,
+        "source_route_vs_scorecard_m": 18.3,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 2,
+        "nominal_label": "100m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.179533645715455,
+          59.73349408585986
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 2,
+        "par": 4,
+        "stroke_index": 11,
+        "yellow_length_m": 270,
+        "red_length_m": 234,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 288.3,
+        "source_route_vs_scorecard_m": 18.3,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 3,
+        "nominal_label": "150m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.180023711426426,
+          59.73382279490282
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 2,
+        "par": 4,
+        "stroke_index": 11,
+        "yellow_length_m": 270,
+        "red_length_m": 234,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 288.3,
+        "source_route_vs_scorecard_m": 18.3,
+        "role": "red_tee_estimate",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Interpolated along the published route using the official red/yellow scorecard-length ratio",
+        "do_not_use_as_verified": true,
+        "description": "Convenience estimate only. Replace with a club scorecard/photo/surveyed tee point when available."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.18105980122363,
+          59.73451772598883
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 3,
+        "par": 4,
+        "stroke_index": 9,
+        "yellow_length_m": 248,
+        "red_length_m": 208,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 266.4,
+        "source_route_vs_scorecard_m": 18.4,
+        "role": "published_hole_route",
+        "coordinate_confidence": "medium",
+        "route_point_count": 5,
+        "description": "Ordered geometry from the published tee-side endpoint to the green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.1779742667,
+            59.7327906543
+          ],
+          [
+            18.178768164,
+            59.7342210505
+          ],
+          [
+            18.178644775,
+            59.7348509823
+          ],
+          [
+            18.178623385,
+            59.7350050519
+          ],
+          [
+            18.1785857101,
+            59.7351267088
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 3,
+        "par": 4,
+        "stroke_index": 9,
+        "yellow_length_m": 248,
+        "red_length_m": 208,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 266.4,
+        "source_route_vs_scorecard_m": 18.4,
+        "role": "yellow_tee",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published start endpoint of the hole route",
+        "description": "Use as the yellow-tee proxy. It is topologically consistent with the prior hole's green-side endpoint."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1779742667,
+          59.7327906543
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 3,
+        "par": 4,
+        "stroke_index": 9,
+        "yellow_length_m": 248,
+        "red_length_m": 208,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 266.4,
+        "source_route_vs_scorecard_m": 18.4,
+        "role": "green_endpoint_proxy",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published end endpoint of the hole route; not verified as the exact green centre",
+        "description": "Suitable as a provisional green centre in a visualizer; do not relabel as surveyed green front/centre/back."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1785857101,
+          59.7351267088
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 3,
+        "par": 4,
+        "stroke_index": 9,
+        "yellow_length_m": 248,
+        "red_length_m": 208,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 266.4,
+        "source_route_vs_scorecard_m": 18.4,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 1,
+        "nominal_label": "50m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.17869898839089,
+          59.73459565207451
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 3,
+        "par": 4,
+        "stroke_index": 9,
+        "yellow_length_m": 248,
+        "red_length_m": 208,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 266.4,
+        "source_route_vs_scorecard_m": 18.4,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 2,
+        "nominal_label": "100m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.178774589930303,
+          59.73418625220558
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 3,
+        "par": 4,
+        "stroke_index": 9,
+        "yellow_length_m": 248,
+        "red_length_m": 208,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 266.4,
+        "source_route_vs_scorecard_m": 18.4,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 3,
+        "nominal_label": "150m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.17885018961832,
+          59.73377685229323
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 3,
+        "par": 4,
+        "stroke_index": 9,
+        "yellow_length_m": 248,
+        "red_length_m": 208,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 266.4,
+        "source_route_vs_scorecard_m": 18.4,
+        "role": "red_tee_estimate",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Interpolated along the published route using the official red/yellow scorecard-length ratio",
+        "do_not_use_as_verified": true,
+        "description": "Convenience estimate only. Replace with a club scorecard/photo/surveyed tee point when available."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.178180814505563,
+          59.733162799659596
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 4,
+        "par": 3,
+        "stroke_index": 15,
+        "yellow_length_m": 126,
+        "red_length_m": 94,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 133.4,
+        "source_route_vs_scorecard_m": 7.4,
+        "role": "published_hole_route",
+        "coordinate_confidence": "medium",
+        "route_point_count": 5,
+        "description": "Ordered geometry from the published tee-side endpoint to the green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.1786608987,
+            59.7352592856
+          ],
+          [
+            18.1796559938,
+            59.7350550408
+          ],
+          [
+            18.1804096838,
+            59.7348996514
+          ],
+          [
+            18.1806510938,
+            59.73485092
+          ],
+          [
+            18.1808710767,
+            59.7348158201
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 4,
+        "par": 3,
+        "stroke_index": 15,
+        "yellow_length_m": 126,
+        "red_length_m": 94,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 133.4,
+        "source_route_vs_scorecard_m": 7.4,
+        "role": "yellow_tee",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published start endpoint of the hole route",
+        "description": "Use as the yellow-tee proxy. It is topologically consistent with the prior hole's green-side endpoint."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1786608987,
+          59.7352592856
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 4,
+        "par": 3,
+        "stroke_index": 15,
+        "yellow_length_m": 126,
+        "red_length_m": 94,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 133.4,
+        "source_route_vs_scorecard_m": 7.4,
+        "role": "green_endpoint_proxy",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published end endpoint of the hole route; not verified as the exact green centre",
+        "description": "Suitable as a provisional green centre in a visualizer; do not relabel as surveyed green front/centre/back."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1808710767,
+          59.7348158201
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 4,
+        "par": 3,
+        "stroke_index": 15,
+        "yellow_length_m": 126,
+        "red_length_m": 94,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 133.4,
+        "source_route_vs_scorecard_m": 7.4,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 1,
+        "nominal_label": "50m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.17989547007794,
+          59.73500591892402
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 4,
+        "par": 3,
+        "stroke_index": 15,
+        "yellow_length_m": 126,
+        "red_length_m": 94,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 133.4,
+        "source_route_vs_scorecard_m": 7.4,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 2,
+        "nominal_label": "100m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.179139839349855,
+          59.73516091351003
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 4,
+        "par": 3,
+        "stroke_index": 15,
+        "yellow_length_m": 126,
+        "red_length_m": 94,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 133.4,
+        "source_route_vs_scorecard_m": 7.4,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 3,
+        "nominal_label": "150m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.17838420161583,
+          59.73531590375802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 4,
+        "par": 3,
+        "stroke_index": 15,
+        "yellow_length_m": 126,
+        "red_length_m": 94,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 133.4,
+        "source_route_vs_scorecard_m": 7.4,
+        "role": "red_tee_estimate",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Interpolated along the published route using the official red/yellow scorecard-length ratio",
+        "do_not_use_as_verified": true,
+        "description": "Convenience estimate only. Replace with a club scorecard/photo/surveyed tee point when available."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.17922059962773,
+          59.73514440612361
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 5,
+        "par": 4,
+        "stroke_index": 13,
+        "yellow_length_m": 271,
+        "red_length_m": 240,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 315.1,
+        "source_route_vs_scorecard_m": 44.1,
+        "role": "published_hole_route",
+        "coordinate_confidence": "medium",
+        "route_point_count": 5,
+        "description": "Ordered geometry from the published tee-side endpoint to the green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.1811714297,
+            59.734502169
+          ],
+          [
+            18.1845402321,
+            59.7338695646
+          ],
+          [
+            18.1858491446,
+            59.7342615334
+          ],
+          [
+            18.1861174198,
+            59.7343372356
+          ],
+          [
+            18.1862944041,
+            59.7343805778
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 5,
+        "par": 4,
+        "stroke_index": 13,
+        "yellow_length_m": 271,
+        "red_length_m": 240,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 315.1,
+        "source_route_vs_scorecard_m": 44.1,
+        "role": "yellow_tee",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published start endpoint of the hole route",
+        "description": "Use as the yellow-tee proxy. It is topologically consistent with the prior hole's green-side endpoint."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1811714297,
+          59.734502169
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 5,
+        "par": 4,
+        "stroke_index": 13,
+        "yellow_length_m": 271,
+        "red_length_m": 240,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 315.1,
+        "source_route_vs_scorecard_m": 44.1,
+        "role": "green_endpoint_proxy",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published end endpoint of the hole route; not verified as the exact green centre",
+        "description": "Suitable as a provisional green centre in a visualizer; do not relabel as surveyed green front/centre/back."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1862944041,
+          59.7343805778
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 5,
+        "par": 4,
+        "stroke_index": 13,
+        "yellow_length_m": 271,
+        "red_length_m": 240,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 315.1,
+        "source_route_vs_scorecard_m": 44.1,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 1,
+        "nominal_label": "50m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.185414283585462,
+          59.73412874412788
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 5,
+        "par": 4,
+        "stroke_index": 13,
+        "yellow_length_m": 271,
+        "red_length_m": 240,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 315.1,
+        "source_route_vs_scorecard_m": 44.1,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 2,
+        "nominal_label": "100m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.184711156140033,
+          59.73392024889953
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 5,
+        "par": 4,
+        "stroke_index": 13,
+        "yellow_length_m": 271,
+        "red_length_m": 240,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 315.1,
+        "source_route_vs_scorecard_m": 44.1,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 3,
+        "nominal_label": "150m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.18400803746368,
+          59.733711749915
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 5,
+        "par": 4,
+        "stroke_index": 13,
+        "yellow_length_m": 271,
+        "red_length_m": 240,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 315.1,
+        "source_route_vs_scorecard_m": 44.1,
+        "role": "red_tee_estimate",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Interpolated along the published route using the official red/yellow scorecard-length ratio",
+        "do_not_use_as_verified": true,
+        "description": "Convenience estimate only. Replace with a club scorecard/photo/surveyed tee point when available."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.181774044245735,
+          59.734389008129206
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 6,
+        "par": 4,
+        "stroke_index": 3,
+        "yellow_length_m": 319,
+        "red_length_m": 284,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 311,
+        "source_route_vs_scorecard_m": -8,
+        "role": "published_hole_route",
+        "coordinate_confidence": "medium",
+        "route_point_count": 5,
+        "description": "Ordered geometry from the published tee-side endpoint to the green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.1866860832,
+            59.7340587182
+          ],
+          [
+            18.1839770931,
+            59.7330286751
+          ],
+          [
+            18.1823998284,
+            59.7332963962
+          ],
+          [
+            18.1821960976,
+            59.7333341707
+          ],
+          [
+            18.1819331825,
+            59.7333720887
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 6,
+        "par": 4,
+        "stroke_index": 3,
+        "yellow_length_m": 319,
+        "red_length_m": 284,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 311,
+        "source_route_vs_scorecard_m": -8,
+        "role": "yellow_tee",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published start endpoint of the hole route",
+        "description": "Use as the yellow-tee proxy. It is topologically consistent with the prior hole's green-side endpoint."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1866860832,
+          59.7340587182
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 6,
+        "par": 4,
+        "stroke_index": 3,
+        "yellow_length_m": 319,
+        "red_length_m": 284,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 311,
+        "source_route_vs_scorecard_m": -8,
+        "role": "green_endpoint_proxy",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published end endpoint of the hole route; not verified as the exact green centre",
+        "description": "Suitable as a provisional green centre in a visualizer; do not relabel as surveyed green front/centre/back."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1819331825,
+          59.7333720887
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 6,
+        "par": 4,
+        "stroke_index": 3,
+        "yellow_length_m": 319,
+        "red_length_m": 284,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 311,
+        "source_route_vs_scorecard_m": -8,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 1,
+        "nominal_label": "50m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.18296837257587,
+          59.73320170539304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 6,
+        "par": 4,
+        "stroke_index": 3,
+        "yellow_length_m": 319,
+        "red_length_m": 284,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 311,
+        "source_route_vs_scorecard_m": -8,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 2,
+        "nominal_label": "100m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.183740641432607,
+          59.73306923555471
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 6,
+        "par": 4,
+        "stroke_index": 3,
+        "yellow_length_m": 319,
+        "red_length_m": 284,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 311,
+        "source_route_vs_scorecard_m": -8,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 3,
+        "nominal_label": "150m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.18451290417008,
+          59.7329367611851
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 6,
+        "par": 4,
+        "stroke_index": 3,
+        "yellow_length_m": 319,
+        "red_length_m": 284,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 311,
+        "source_route_vs_scorecard_m": -8,
+        "role": "red_tee_estimate",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Interpolated along the published route using the official red/yellow scorecard-length ratio",
+        "do_not_use_as_verified": true,
+        "description": "Convenience estimate only. Replace with a club scorecard/photo/surveyed tee point when available."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.186200115395987,
+          59.73387393798122
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 7,
+        "par": 3,
+        "stroke_index": 17,
+        "yellow_length_m": 161,
+        "red_length_m": 134,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 182.3,
+        "source_route_vs_scorecard_m": 21.3,
+        "role": "published_hole_route",
+        "coordinate_confidence": "medium",
+        "route_point_count": 5,
+        "description": "Ordered geometry from the published tee-side endpoint to the green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.1814718877,
+            59.7339533084
+          ],
+          [
+            18.1805250734,
+            59.7333828209
+          ],
+          [
+            18.1797122884,
+            59.7328988215
+          ],
+          [
+            18.1795781787,
+            59.7328123226
+          ],
+          [
+            18.1793904877,
+            59.7326933942
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 7,
+        "par": 3,
+        "stroke_index": 17,
+        "yellow_length_m": 161,
+        "red_length_m": 134,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 182.3,
+        "source_route_vs_scorecard_m": 21.3,
+        "role": "yellow_tee",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published start endpoint of the hole route",
+        "description": "Use as the yellow-tee proxy. It is topologically consistent with the prior hole's green-side endpoint."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1814718877,
+          59.7339533084
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 7,
+        "par": 3,
+        "stroke_index": 17,
+        "yellow_length_m": 161,
+        "red_length_m": 134,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 182.3,
+        "source_route_vs_scorecard_m": 21.3,
+        "role": "green_endpoint_proxy",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published end endpoint of the hole route; not verified as the exact green centre",
+        "description": "Suitable as a provisional green centre in a visualizer; do not relabel as surveyed green front/centre/back."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1793904877,
+          59.7326933942
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 7,
+        "par": 3,
+        "stroke_index": 17,
+        "yellow_length_m": 161,
+        "red_length_m": 134,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 182.3,
+        "source_route_vs_scorecard_m": 21.3,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 1,
+        "nominal_label": "50m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.180101609500465,
+          59.73312768972342
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 7,
+        "par": 3,
+        "stroke_index": 17,
+        "yellow_length_m": 161,
+        "red_length_m": 134,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 182.3,
+        "source_route_vs_scorecard_m": 21.3,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 2,
+        "nominal_label": "100m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.180625050174793,
+          59.73344305476513
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 7,
+        "par": 3,
+        "stroke_index": 17,
+        "yellow_length_m": 161,
+        "red_length_m": 134,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 182.3,
+        "source_route_vs_scorecard_m": 21.3,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 3,
+        "nominal_label": "150m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.181148500723232,
+          59.73375841772512
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 7,
+        "par": 3,
+        "stroke_index": 17,
+        "yellow_length_m": 161,
+        "red_length_m": 134,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 182.3,
+        "source_route_vs_scorecard_m": 21.3,
+        "role": "red_tee_estimate",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Interpolated along the published route using the official red/yellow scorecard-length ratio",
+        "do_not_use_as_verified": true,
+        "description": "Convenience estimate only. Replace with a club scorecard/photo/surveyed tee point when available."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.181121856641397,
+          59.73374240289979
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 8,
+        "par": 5,
+        "stroke_index": 1,
+        "yellow_length_m": 399,
+        "red_length_m": 350,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 429.7,
+        "source_route_vs_scorecard_m": 30.7,
+        "role": "published_hole_route",
+        "coordinate_confidence": "medium",
+        "route_point_count": 5,
+        "description": "Ordered geometry from the published tee-side endpoint to the green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.1800127547,
+            59.7325987138
+          ],
+          [
+            18.1844276623,
+            59.7325825163
+          ],
+          [
+            18.1872278189,
+            59.7321552104
+          ],
+          [
+            18.1873995287,
+            59.7321255819
+          ],
+          [
+            18.1875336681,
+            59.7320985821
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 8,
+        "par": 5,
+        "stroke_index": 1,
+        "yellow_length_m": 399,
+        "red_length_m": 350,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 429.7,
+        "source_route_vs_scorecard_m": 30.7,
+        "role": "yellow_tee",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published start endpoint of the hole route",
+        "description": "Use as the yellow-tee proxy. It is topologically consistent with the prior hole's green-side endpoint."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1800127547,
+          59.7325987138
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 8,
+        "par": 5,
+        "stroke_index": 1,
+        "yellow_length_m": 399,
+        "red_length_m": 350,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 429.7,
+        "source_route_vs_scorecard_m": 30.7,
+        "role": "green_endpoint_proxy",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published end endpoint of the hole route; not verified as the exact green centre",
+        "description": "Suitable as a provisional green centre in a visualizer; do not relabel as surveyed green front/centre/back."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1875336681,
+          59.7320985821
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 8,
+        "par": 5,
+        "stroke_index": 1,
+        "yellow_length_m": 399,
+        "red_length_m": 350,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 429.7,
+        "source_route_vs_scorecard_m": 30.7,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 1,
+        "nominal_label": "50m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.186619283462672,
+          59.73224555492043
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 8,
+        "par": 5,
+        "stroke_index": 1,
+        "yellow_length_m": 399,
+        "red_length_m": 350,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 429.7,
+        "source_route_vs_scorecard_m": 30.7,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 2,
+        "nominal_label": "100m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.18583903262647,
+          59.732365523315295
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 8,
+        "par": 5,
+        "stroke_index": 1,
+        "yellow_length_m": 399,
+        "red_length_m": 350,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 429.7,
+        "source_route_vs_scorecard_m": 30.7,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 3,
+        "nominal_label": "150m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.185058776191525,
+          59.73248548708462
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 8,
+        "par": 5,
+        "stroke_index": 1,
+        "yellow_length_m": 399,
+        "red_length_m": 350,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 429.7,
+        "source_route_vs_scorecard_m": 30.7,
+        "role": "red_tee_estimate",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Interpolated along the published route using the official red/yellow scorecard-length ratio",
+        "do_not_use_as_verified": true,
+        "description": "Convenience estimate only. Replace with a club scorecard/photo/surveyed tee point when available."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.180954248918486,
+          59.73259525962746
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 9,
+        "par": 3,
+        "stroke_index": 7,
+        "yellow_length_m": 163,
+        "red_length_m": 104,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 198.9,
+        "source_route_vs_scorecard_m": 35.9,
+        "role": "published_hole_route",
+        "coordinate_confidence": "medium",
+        "route_point_count": 5,
+        "description": "Ordered geometry from the published tee-side endpoint to the green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.1873619842,
+            59.7326203246
+          ],
+          [
+            18.1874129304,
+            59.7334801882
+          ],
+          [
+            18.1874746155,
+            59.7342372981
+          ],
+          [
+            18.187463857,
+            59.7343399113
+          ],
+          [
+            18.1874692562,
+            59.7344075947
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 9,
+        "par": 3,
+        "stroke_index": 7,
+        "yellow_length_m": 163,
+        "red_length_m": 104,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 198.9,
+        "source_route_vs_scorecard_m": 35.9,
+        "role": "yellow_tee",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published start endpoint of the hole route",
+        "description": "Use as the yellow-tee proxy. It is topologically consistent with the prior hole's green-side endpoint."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1873619842,
+          59.7326203246
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 9,
+        "par": 3,
+        "stroke_index": 7,
+        "yellow_length_m": 163,
+        "red_length_m": 104,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 198.9,
+        "source_route_vs_scorecard_m": 35.9,
+        "role": "green_endpoint_proxy",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published end endpoint of the hole route; not verified as the exact green centre",
+        "description": "Suitable as a provisional green centre in a visualizer; do not relabel as surveyed green front/centre/back."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1874692562,
+          59.7344075947
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 9,
+        "par": 3,
+        "stroke_index": 7,
+        "yellow_length_m": 163,
+        "red_length_m": 104,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 198.9,
+        "source_route_vs_scorecard_m": 35.9,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 1,
+        "nominal_label": "50m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.187439511478797,
+          59.73392892517621
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 9,
+        "par": 3,
+        "stroke_index": 7,
+        "yellow_length_m": 163,
+        "red_length_m": 104,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 198.9,
+        "source_route_vs_scorecard_m": 35.9,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 2,
+        "nominal_label": "100m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.187415166556093,
+          59.73351793904789
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 9,
+        "par": 3,
+        "stroke_index": 7,
+        "yellow_length_m": 163,
+        "red_length_m": 104,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 198.9,
+        "source_route_vs_scorecard_m": 35.9,
+        "role": "fairway_distance_marker",
+        "marker_order_from_green": 3,
+        "nominal_label": "150m (approx.)",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Published auxiliary route points; their nominal 50/100/150m labels are inferred from position, not explicitly encoded.",
+        "description": "Auxiliary marker along the hole route."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.187390822231865,
+          59.733106952915094
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 9,
+        "par": 3,
+        "stroke_index": 7,
+        "yellow_length_m": 163,
+        "red_length_m": 104,
+        "source": "18Birdies public serialized course geometry + independently matched scorecard",
+        "route_geometry_status": "Published GPS route; not an official tee/green-front/center/back export",
+        "source_route_length_m": 198.9,
+        "source_route_vs_scorecard_m": 35.9,
+        "role": "red_tee_estimate",
+        "coordinate_confidence": "low",
+        "coordinate_status": "Interpolated along the published route using the official red/yellow scorecard-length ratio",
+        "do_not_use_as_verified": true,
+        "description": "Convenience estimate only. Replace with a club scorecard/photo/surveyed tee point when available."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.187400323081018,
+          59.733267403445005
+        ]
+      }
+    }
+  ]
+}
+

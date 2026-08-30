@@ -1,0 +1,452 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "generated_at": "2026-08-30",
+    "purpose": "Research-derived 9-hole routing and cautiously estimated tee data for import into a golf visualizer.",
+    "course": {
+      "name": "Veckefjärdens Golf Club — Korthålsbanan (Par 3)",
+      "aliases": [
+        "Veckefjärdens korthålsbana",
+        "Veckefjardens Golf Club - Short Course",
+        "Veckefjardens (Par 3)"
+      ],
+      "physical_holes": 9,
+      "par_9": 27,
+      "published_tee_totals_m": {
+        "yellow": 936,
+        "red": 776
+      }
+    },
+    "sources": {
+      "club_play_page": "https://veckefjarden.com/spela/",
+      "club_banguide": "https://veckefjarden.com/banguide/",
+      "golfpass_scorecard": "https://www.golfpass.com/travel-advisor/courses/37601-veckefjardens-golf-club-short-course/scorecard-and-layout",
+      "one_golf_course_page": "https://www.1golf.eu/en/club/veckefjaerdens-golf-club/",
+      "eighteen_birdies_course_profile": "https://18birdies.com/golf-courses/club/f6ac17f0-86ba-11e4-8f92-020000005b00/veckefjardens",
+      "excluded_golftraxx_page": "https://golftraxx.com/full-layout?city=%C3%96rnsk%C3%B6ldsvik&coursename=Veckefj%C3%A4rdens+Golfklubb,+Par+3&state=SW&static=true&zipcode=62230SW"
+    },
+    "scorecard_verification": {
+      "course_identity": "The club describes a separate nine-hole short course; 1Golf and GolfPass identify it as a Par-27/Par-3 course.",
+      "lengths": "GolfPass shows Yellow per-hole values [136,96,82,125,100,70,111,96,116] m and Red [115,78,64,103,90,60,90,74,96] m. Its rounded individual cells total 933/770 m while the tee totals shown are 936/776 m. The club prose says holes are 60–120 m, which conflicts with GolfPass Yellow hole 1 at 136 m.",
+      "stroke_index": "GolfPass shows HCP 1–9, but no independent source was found. Generic stroke_index is intentionally null."
+    },
+    "gps_provenance": {
+      "source": "18Birdies public serialized course profile, Veckefjardens (Par 3) course entry",
+      "exactness": "Nine coherent public routes, but no direct coloured teeGeoPoints. These are third-party route geometries, not a surveyed club export.",
+      "validation": "The public route endpoints form a coherent nine-hole loop; end-to-next-start transitions range from 17.5 to 74.9 m. Each route is 13.3–17.2 m longer than the corresponding GolfPass Yellow length, consistently suggesting a source route start behind the listed Yellow tee.",
+      "excluded_data": "GolfTraxx public Par-3 static pages resolved to main 18-hole-course values, so they were deliberately excluded from all spatial data."
+    },
+    "import_guidance": {
+      "coordinate_order": "[longitude, latitude]",
+      "safe_roles": [
+        "published_hole_route",
+        "route_start_proxy",
+        "green_endpoint_proxy"
+      ],
+      "low_confidence_roles": [
+        "yellow_tee_estimate",
+        "red_tee_estimate"
+      ],
+      "tee_estimate_method": "Each estimate is interpolated along the public route so its along-route distance to the green endpoint proxy equals the displayed GolfPass per-hole length. It assumes the public route begins at a back-tee-side point and follows the current hole path.",
+      "do_not_promote": "Do not treat estimates as field-verified tee locations or proxies as exact green centre/front/back without new club or field evidence."
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_golfpass_unverified": 1,
+        "stroke_index_status": "Only GolfPass public scorecard; unverified.",
+        "yellow_length_m": 136,
+        "red_length_m": 115,
+        "source": "18Birdies public serialized Par 3 course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 151.8,
+        "source_route_vs_yellow_scorecard_m": 15.8,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from route-start side toward green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[18.6738985855, 63.2870764276], [18.6735257296, 63.2864712823], [18.6732199606, 63.2859756064], [18.6731529593, 63.2858659437], [18.6730885313, 63.2857610822]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 1, "par": 3, "role": "route_start_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route start; no tee colour or exact tee box is attached to this point.", "description": "Use only as a route-origin proxy, not as a confirmed tee."},
+      "geometry": {"type": "Point", "coordinates": [18.6738985855, 63.2870764276]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 1, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route endpoint; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [18.6730885313, 63.2857610822]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 1, "par": 3, "role": "yellow_tee_estimate", "yellow_length_m": 136, "source": "Interpolation along 18Birdies route using GolfPass Yellow scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Yellow tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Yellow tee estimate; estimate-to-green along-route distance is 136 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6738144201, 63.2869398271]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 1, "par": 3, "role": "red_tee_estimate", "red_length_m": 115, "source": "Interpolation along 18Birdies route using GolfPass Red scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Red tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Red tee estimate; estimate-to-green along-route distance is 115 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6737022788, 63.2867578217]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 2,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_golfpass_unverified": 2,
+        "stroke_index_status": "Only GolfPass public scorecard; unverified.",
+        "yellow_length_m": 96,
+        "red_length_m": 78,
+        "source": "18Birdies public serialized Par 3 course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 113.2,
+        "source_route_vs_yellow_scorecard_m": 17.2,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from route-start side toward green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[18.6731368044, 63.2855970326], [18.6721645717, 63.2855843605], [18.671473813, 63.2855801743], [18.6711922957, 63.2855717689], [18.670873015, 63.285565687]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 2, "par": 3, "role": "route_start_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route start; no tee colour or exact tee box is attached to this point.", "description": "Use only as a route-origin proxy, not as a confirmed tee."},
+      "geometry": {"type": "Point", "coordinates": [18.6731368044, 63.2855970326]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 2, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route endpoint; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [18.670873015, 63.285565687]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 2, "par": 3, "role": "yellow_tee_estimate", "yellow_length_m": 96, "source": "Interpolation along 18Birdies route using GolfPass Yellow scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Yellow tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Yellow tee estimate; estimate-to-green along-route distance is 96 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6727922814, 63.2855925421]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 2, "par": 3, "role": "red_tee_estimate", "red_length_m": 78, "source": "Interpolation along 18Birdies route using GolfPass Red scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Red tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Red tee estimate; estimate-to-green along-route distance is 78 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6724323389, 63.2855878506]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 3,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_golfpass_unverified": 3,
+        "stroke_index_status": "Only GolfPass public scorecard; unverified.",
+        "yellow_length_m": 82,
+        "red_length_m": 64,
+        "source": "18Birdies public serialized Par 3 course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 98.8,
+        "source_route_vs_yellow_scorecard_m": 16.8,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from route-start side toward green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[18.6711251231, 63.2852980594], [18.6703258437, 63.2851394078], [18.6697250289, 63.285014639], [18.669526576, 63.2849808147], [18.6693200192, 63.2849362576]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 3, "par": 3, "role": "route_start_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route start; no tee colour or exact tee box is attached to this point.", "description": "Use only as a route-origin proxy, not as a confirmed tee."},
+      "geometry": {"type": "Point", "coordinates": [18.6711251231, 63.2852980594]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 3, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route endpoint; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [18.6693200192, 63.2849362576]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 3, "par": 3, "role": "yellow_tee_estimate", "yellow_length_m": 82, "source": "Interpolation along 18Birdies route using GolfPass Yellow scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Yellow tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Yellow tee estimate; estimate-to-green along-route distance is 82 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6708173044, 63.2852369595]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 3, "par": 3, "role": "red_tee_estimate", "red_length_m": 64, "source": "Interpolation along 18Birdies route using GolfPass Red scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Red tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Red tee estimate; estimate-to-green along-route distance is 64 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6704878964, 63.2851715742]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 4,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_golfpass_unverified": 4,
+        "stroke_index_status": "Only GolfPass public scorecard; unverified.",
+        "yellow_length_m": 125,
+        "red_length_m": 103,
+        "source": "18Birdies public serialized Par 3 course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 142.2,
+        "source_route_vs_yellow_scorecard_m": 17.2,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from route-start side toward green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[18.6688828586, 63.2848952192], [18.6693924845, 63.2854264302], [18.6697867559, 63.2858430462], [18.66990207, 63.2859575754], [18.6700040086, 63.2860709406]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 4, "par": 3, "role": "route_start_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route start; no tee colour or exact tee box is attached to this point.", "description": "Use only as a route-origin proxy, not as a confirmed tee."},
+      "geometry": {"type": "Point", "coordinates": [18.6688828586, 63.2848952192]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 4, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route endpoint; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [18.6700040086, 63.2860709406]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 4, "par": 3, "role": "yellow_tee_estimate", "yellow_length_m": 125, "source": "Interpolation along 18Birdies route using GolfPass Yellow scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Yellow tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Yellow tee estimate; estimate-to-green along-route distance is 125 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6690194906, 63.2850376382]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 4, "par": 3, "role": "red_tee_estimate", "red_length_m": 103, "source": "Interpolation along 18Birdies route using GolfPass Red scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Red tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Red tee estimate; estimate-to-green along-route distance is 103 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6691937831, 63.2852193128]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 5,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_golfpass_unverified": 5,
+        "stroke_index_status": "Only GolfPass public scorecard; unverified.",
+        "yellow_length_m": 100,
+        "red_length_m": 90,
+        "source": "18Birdies public serialized Par 3 course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 116.3,
+        "source_route_vs_yellow_scorecard_m": 16.3,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from route-start side toward green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[18.6696982, 63.2862746583], [18.670170374, 63.2866978018], [18.6704894426, 63.2869969886], [18.6706423445, 63.287121063], [18.6707389681, 63.2872103228]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 5, "par": 3, "role": "route_start_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route start; no tee colour or exact tee box is attached to this point.", "description": "Use only as a route-origin proxy, not as a confirmed tee."},
+      "geometry": {"type": "Point", "coordinates": [18.6696982, 63.2862746583]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 5, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route endpoint; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [18.6707389681, 63.2872103228]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 5, "par": 3, "role": "yellow_tee_estimate", "yellow_length_m": 100, "source": "Interpolation along 18Birdies route using GolfPass Yellow scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Yellow tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Yellow tee estimate; estimate-to-green along-route distance is 100 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6698447912, 63.2864060275]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 5, "par": 3, "role": "red_tee_estimate", "red_length_m": 90, "source": "Interpolation along 18Birdies route using GolfPass Red scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Red tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Red tee estimate; estimate-to-green along-route distance is 90 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6699344914, 63.2864864132]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 6,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_golfpass_unverified": 6,
+        "stroke_index_status": "Only GolfPass public scorecard; unverified.",
+        "yellow_length_m": 70,
+        "red_length_m": 60,
+        "source": "18Birdies public serialized Par 3 course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 84.2,
+        "source_route_vs_yellow_scorecard_m": 14.2,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from route-start side toward green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[18.670996436, 63.2871042707], [18.6716790943, 63.2872054968], [18.6721390783, 63.2872754154], [18.6723616548, 63.2873067282], [18.6725977349, 63.2873381569]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 6, "par": 3, "role": "route_start_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route start; no tee colour or exact tee box is attached to this point.", "description": "Use only as a route-origin proxy, not as a confirmed tee."},
+      "geometry": {"type": "Point", "coordinates": [18.670996436, 63.2871042707]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 6, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route endpoint; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [18.6725977349, 63.2873381569]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 6, "par": 3, "role": "yellow_tee_estimate", "yellow_length_m": 70, "source": "Interpolation along 18Birdies route using GolfPass Yellow scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Yellow tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Yellow tee estimate; estimate-to-green along-route distance is 70 m."},
+      "geometry": {"type": "Point", "coordinates": [18.671265575, 63.2871441792]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 6, "par": 3, "role": "red_tee_estimate", "red_length_m": 60, "source": "Interpolation along 18Birdies route using GolfPass Red scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Red tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Red tee estimate; estimate-to-green along-route distance is 60 m."},
+      "geometry": {"type": "Point", "coordinates": [18.671455568, 63.2871723518]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 7,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_golfpass_unverified": 7,
+        "stroke_index_status": "Only GolfPass public scorecard; unverified.",
+        "yellow_length_m": 111,
+        "red_length_m": 90,
+        "source": "18Birdies public serialized Par 3 course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 127.5,
+        "source_route_vs_yellow_scorecard_m": 16.5,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from route-start side toward green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[18.6720934808, 63.2870825536], [18.6712807954, 63.2867352763], [18.6706531743, 63.2864687351], [18.6704680329, 63.2863880691], [18.6702427559, 63.2862939373]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 7, "par": 3, "role": "route_start_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route start; no tee colour or exact tee box is attached to this point.", "description": "Use only as a route-origin proxy, not as a confirmed tee."},
+      "geometry": {"type": "Point", "coordinates": [18.6720934808, 63.2870825536]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 7, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route endpoint; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [18.6702427559, 63.2862939373]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 7, "par": 3, "role": "yellow_tee_estimate", "yellow_length_m": 111, "source": "Interpolation along 18Birdies route using GolfPass Yellow scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Yellow tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Yellow tee estimate; estimate-to-green along-route distance is 111 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6718547097, 63.2869805218]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 7, "par": 3, "role": "red_tee_estimate", "red_length_m": 90, "source": "Interpolation along 18Birdies route using GolfPass Red scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Red tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Red tee estimate; estimate-to-green along-route distance is 90 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6715502093, 63.2868504024]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 8,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_golfpass_unverified": 8,
+        "stroke_index_status": "Only GolfPass public scorecard; unverified.",
+        "yellow_length_m": 96,
+        "red_length_m": 74,
+        "source": "18Birdies public serialized Par 3 course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 109.3,
+        "source_route_vs_yellow_scorecard_m": 13.3,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from route-start side toward green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[18.6704707505, 63.2857779727], [18.6713665216, 63.2859364218], [18.671988821, 63.2860407732], [18.6722624411, 63.2860950839], [18.6725065135, 63.286136031]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 8, "par": 3, "role": "route_start_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route start; no tee colour or exact tee box is attached to this point.", "description": "Use only as a route-origin proxy, not as a confirmed tee."},
+      "geometry": {"type": "Point", "coordinates": [18.6704707505, 63.2857779727]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 8, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route endpoint; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [18.6725065135, 63.286136031]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 8, "par": 3, "role": "yellow_tee_estimate", "yellow_length_m": 96, "source": "Interpolation along 18Birdies route using GolfPass Yellow scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Yellow tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Yellow tee estimate; estimate-to-green along-route distance is 96 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6707181865, 63.2858217406]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 8, "par": 3, "role": "red_tee_estimate", "red_length_m": 74, "source": "Interpolation along 18Birdies route using GolfPass Red scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Red tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Red tee estimate; estimate-to-green along-route distance is 74 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6711277405, 63.2858941848]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 9,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_golfpass_unverified": 9,
+        "stroke_index_status": "Only GolfPass public scorecard; unverified.",
+        "yellow_length_m": 116,
+        "red_length_m": 96,
+        "source": "18Birdies public serialized Par 3 course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 132.8,
+        "source_route_vs_yellow_scorecard_m": 16.8,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from route-start side toward green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[18.6711654656, 63.2864374603], [18.6721095735, 63.2867437576], [18.6728310715, 63.2869800858], [18.6730536318, 63.2870499906], [18.6733138934, 63.2871403016]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 9, "par": 3, "role": "route_start_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route start; no tee colour or exact tee box is attached to this point.", "description": "Use only as a route-origin proxy, not as a confirmed tee."},
+      "geometry": {"type": "Point", "coordinates": [18.6711654656, 63.2864374603]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 9, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized Par 3 course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published route endpoint; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [18.6733138934, 63.2871403016]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 9, "par": 3, "role": "yellow_tee_estimate", "yellow_length_m": 116, "source": "Interpolation along 18Birdies route using GolfPass Yellow scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Yellow tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Yellow tee estimate; estimate-to-green along-route distance is 116 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6714384201, 63.2865260151]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 9, "par": 3, "role": "red_tee_estimate", "red_length_m": 96, "source": "Interpolation along 18Birdies route using GolfPass Red scorecard length", "coordinate_confidence": "low", "coordinate_status": "Estimated; not a published or surveyed Red tee.", "assumption": "18Birdies route begins at a back-tee-side point on the current hole path.", "do_not_use_as_verified": true, "description": "Low-confidence Red tee estimate; estimate-to-green along-route distance is 96 m."},
+      "geometry": {"type": "Point", "coordinates": [18.6717628659, 63.2866312751]}
+    }
+  ]
+}

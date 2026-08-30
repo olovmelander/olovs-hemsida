@@ -3,17 +3,95 @@
   "source": "golfisverige.com's card for Johannesberg's nine, since confirmed to agree hole-for-hole with caddee.se and GolfPass on par, stroke index and both tee columns. VERIFIED ARITHMETICALLY before any geometry was fitted to it: the nine pars sum to the printed 34, and BOTH tee columns reproduce their printed Out totals exactly — Röd 261+234+208+94+240+284+134+350+104 = 1909, and Gul 302+270+248+126+271+319+161+399+163 = 2259. The stroke indexes are the odd numbers 1..17 with no repeats, which is what a nine-hole card rated over eighteen must carry.",
   "indexCaveat": "THE STROKE INDEX IS NOT CONFIRMED AGAINST THE CLUB. Three aggregators agree on it, which is worth more than one — but aggregators commonly share a feed, so their agreement is not independence. At Mellanbanan a card that passed every arithmetic check here, and was carried by three aggregators, disagreed with the club's own per-hole sheets on ALL NINE holes: a valid odd 1..17 permutation proves a column is well-formed, never that it is the club's. Johannesberg publishes no per-hole guide for this nine (its banguide carries Bana-1..18, the eighteen only), banguider.se does not have the club, GolfTraxx does not list it and mScorecard 403s — so there is nothing to check against. Replace this column from a club scorecard or hole sheet if one becomes readable. The lengths are on firmer ground: they reproduce the printed totals exactly and are corroborated in the world by the published routes.",
   "note": "Par 34 over nine holes (par 68 played as eighteen). A full-length Pay & Play nine by Donald Steel, the same architect as the eighteen — the club is 27 holes in total. Only two tees are published (Gul, Röd). The holes are NOT in OpenStreetMap: the club's whole extract carries two greens and no fairways, tees or bunkers at all, so this nine has to be traced from orthoimagery exactly as the eighteen was. On the ground it lies WEST and NORTH-WEST of the manor, between the manor buildings and the farmland, with its own small ponds.",
-  "teeNames": ["Gul", "Röd"],
-  "printedOut": { "Gul": 2259, "Röd": 1909 },
+  "teeNames": [
+    "Gul",
+    "Röd"
+  ],
+  "printedOut": {
+    "Gul": 2259,
+    "Röd": 1909
+  },
   "holes": [
-    { "n": 1, "par": 4, "hcp": 5,  "t": [302, 261] },
-    { "n": 2, "par": 4, "hcp": 11, "t": [270, 234] },
-    { "n": 3, "par": 4, "hcp": 9,  "t": [248, 208] },
-    { "n": 4, "par": 3, "hcp": 15, "t": [126, 94] },
-    { "n": 5, "par": 4, "hcp": 13, "t": [271, 240] },
-    { "n": 6, "par": 4, "hcp": 3,  "t": [319, 284] },
-    { "n": 7, "par": 3, "hcp": 17, "t": [161, 134] },
-    { "n": 8, "par": 5, "hcp": 1,  "t": [399, 350] },
-    { "n": 9, "par": 3, "hcp": 7,  "t": [163, 104] }
+    {
+      "n": 1,
+      "par": 4,
+      "hcp": 5,
+      "t": [
+        302,
+        261
+      ]
+    },
+    {
+      "n": 2,
+      "par": 4,
+      "hcp": 11,
+      "t": [
+        270,
+        234
+      ]
+    },
+    {
+      "n": 3,
+      "par": 4,
+      "hcp": 9,
+      "t": [
+        248,
+        208
+      ]
+    },
+    {
+      "n": 4,
+      "par": 3,
+      "hcp": 15,
+      "t": [
+        126,
+        94
+      ]
+    },
+    {
+      "n": 5,
+      "par": 4,
+      "hcp": 13,
+      "t": [
+        271,
+        240
+      ]
+    },
+    {
+      "n": 6,
+      "par": 4,
+      "hcp": 3,
+      "t": [
+        319,
+        284
+      ]
+    },
+    {
+      "n": 7,
+      "par": 3,
+      "hcp": 17,
+      "t": [
+        161,
+        134
+      ]
+    },
+    {
+      "n": 8,
+      "par": 5,
+      "hcp": 1,
+      "t": [
+        399,
+        350
+      ]
+    },
+    {
+      "n": 9,
+      "par": 3,
+      "hcp": 7,
+      "t": [
+        163,
+        104
+      ]
+    }
   ]
 }

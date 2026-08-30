@@ -251,3 +251,146 @@ What unblocks it: any per-hole guide for the nine, or a scan of the club's
 scorecard, or simply confirmation of which corridor is hole 1 and which way it
 plays. The registration method is built and proven — three ponds were enough at
 Upsala, and Johannesberg's nine has ponds of its own.
+
+---
+
+# Resolved — three second courses, all three built
+
+August 2026. Published GPS hole routes arrived for all three second courses at
+once, and they turned every blocker above into a build. `tools/build-nine.mjs`
+does all three, because they are one method and not three:
+
+    a verified card  +  published GPS hole routes  +  the parent's environment
+
+| course | slug | par | tees | walks (median) | loop closes |
+|---|---|---|---|---|---|
+| Upsala Mellanbanan | `upsala-mellanbanan` | 35 | 5 | 106 m | 136 m |
+| Johannesberg niohålsbanan | `johannesberg-9` | 34 | 2 | 61 m | 26 m |
+| Veckefjärden korthålsbanan | `veckefjarden-korthalsbanan` | 27 | 2 | 37 m | 34 m |
+
+All three set every hole to its card length to **0.00 m**, put no green or tee
+under water, and clear their parent course by 33–72 m.
+
+## The routes are third-party geometry, so they are believed only as far as
+## something else agrees with them
+
+None of these is a club survey, and the sources say so. What makes them usable
+is that each one can be checked against data that never entered it:
+
+- **Johannesberg's nine lands in the box predicted from the aerial overview
+  months earlier** — `x -783..-252, z -880..-531` against a prediction of
+  `x -800..-250, z -900..-450` — and it **closes**, green 9 returning to tee 1 in
+  26 m with walks of 16–95 m. Nine unrelated lines do not close.
+- **Mellanbanan agrees with the independent banguide trace on seven of nine
+  holes** (green centres 8–37 m apart, bearings 0–12°) and disagrees on exactly
+  the two the trace had already flagged as drawn under canopy.
+- **Every route on every course is longer than its card by a consistent,
+  one-sided margin** — Mellanbanan 13–23 m, korthålsbanan 13.4–17.4 m. That is
+  what a uniform offset between the route start and the marker looks like, and a
+  wrong hole-to-route assignment would scatter instead.
+- After the card slide, the synthesised back tees land **1–23 m** (Mellanbanan)
+  and **5–42 m** (Johannesberg) from the published tee points, which the slide
+  never used.
+
+## The stroke index, settled at the source rather than argued about
+
+The August research pass marked Mellanbanan's index `null` because three source
+series conflict, and attributed the series `[13,9,3,15,11,1,17,5,7]` to the
+club-linked banguide. **That attribution is inverted**, and it is settled by
+reading the club's own per-hole sheets, which are images on banguider.se
+(cached, gitignored, under `geobuild/cache/banguider/`):
+
+- hole 1: **"Par 4 · Index 9 / 10"**, tees 286/273/273/221/221
+- hole 6: **"Par 5 · Index 3 / 4"**, tees 455/442/428/368/308
+- hole 8: **"Par 4 · Index 1 / 2"**, tees 338/338/320/320/285
+
+All three match this repo's card exactly, on the index *and* on all five tee
+lengths.
+
+Hole 1's sheet also confirms, from a club that never entered it, a rule this
+repo already worked out the hard way: **"FW-markeringar anger avstånd till
+greenens mitt. 100 · 150 · 200"** — the fairway plates measure to the *centre*
+of the green, red 100 / yellow 150 / white 200. That is exactly what
+`plateAt()` solves for, and an early reading that took them for pin positions
+would have put the flag in the wrong place on every hole.
+So the card stands as committed. The general lesson from the first pass still
+holds and is now doubly earned: a valid odd 1–17 permutation proves a column is
+well-formed, never that it is the club's — and the way to settle it is to look
+at the club's own sheet, not to weigh aggregators against each other.
+
+## The long walks at Mellanbanan are the course, not the data
+
+Median 106 m, with 2→3 at 173 m, 5→6 at 181 m and 8→9 at 255 m, against a real
+course's 20–80 m. That reads like a bad routing until you notice the banguide
+trace and the GPS routing — which disagree about where two entire holes are —
+produce the **same** profile (166 / 198 / 212 m for those three). It is a nine
+woven through a large property alongside the Stora banan. The GPS routing
+actually shortens 6→7 from 132 m to 51 m.
+
+## Veckefjärden's korthålsbana ships with an unverified card, and says so
+
+It is the only course here whose card fails this repo's own rule. The pars sum
+to the printed 27, but **neither tee column reproduces its printed total** (Gul
+932 against 936, Röd 770 against 776), the club's prose says 60–120 m while Gul
+hole 1 is 136 m, and **no stroke index is published**: the only column found runs
+1,2,3,4,5,6,7,8,9, which is the hole order and so is almost certainly a scrape
+artifact. `hcp` is `null` on every hole, the card UI prints the par alone, and
+nothing was invented to fill the column. A korthålsbana is commonly unrated, so
+an absent index is the expected state.
+
+The one thing arguing for the cells is the slide consistency: −13.4 to −17.4 m
+across nine holes, a 4 m spread. Wrong cells would not do that. It does not
+explain the shortfall in the totals, which stays open.
+
+## Two pieces of plumbing this needed, both of them de-duplications
+
+- **`emit-pack` asks the MODEL which schema it is**, not the directory name. It
+  used to test `buildDir === 'geobuild'`; the korthålsbana is built on that same
+  older model in its own directory, and the name test would have silently emptied
+  its penalty marking and its silt shallows and left its water level undefined.
+  The distinguishing fact is `model.lakeLevel` itself. Verified inert: geobuild's
+  own pack is byte-identical after the change.
+- **`check-app` reads the slug→build mapping out of the manifest.** It kept its
+  own copy, which no rule can derive (`norrfallsviken` comes from `nvgkbuild`,
+  `veckefjarden` from `geobuild`) and which therefore went stale in silence every
+  time a course was added — it had never learned `upsala-mellanbanan`. The
+  manifest is the pipelines' contract with the app, and which pipeline built a
+  course belongs in it.
+
+## Still open
+
+- **No bunkers on any of the three.** Nothing published shows where they are.
+  That is a gap in the sources, not a claim that these courses have none.
+- **Greens, fairways and tee pads are synthesised** and marked `prov:"synth"`.
+  The published route endpoints are not surveyed green centres and are not
+  relabelled as such anywhere in the pipeline.
+- **Posters.** The three new courses have no hero stills yet, so their chooser
+  cards show the gradient. `photos` is counted from committed files, so they
+  advertise zero rather than cycling to a 404 — but they should be shot with
+  `tools/make-posters.mjs --candidates`, and judged at the card's own 400×225.
+
+## The one gate that failed, and why it was the gate that was wrong
+
+Eight of the nine courses passed `check-app` outright. The korthålsbana failed on:
+
+    FAIL 0 distance plates measure their own label
+
+That gate asserts `plates.length > 0`, and it earned its place: a `hyp(dx, dz)`
+call that should have taken two POINTS once returned NaN and made **every
+distance plate on all six courses disappear**, which a count caught and a
+screenshot would not have.
+
+But the engine's own placement rule is `if (h.par < 4) continue`, and the
+shortest plate is 100 m needing `dist <= total - 60`. **The korthålsbana is nine
+par 3s**, so zero plates is not a regression, it is the only correct answer —
+the same reason a par 3 gets no fairway.
+
+The fix is not to weaken the gate but to compute what it should expect, from the
+card, by the engine's two rules: a course with an eligible hole must have plates
+and they must all measure their label; a course with none must have **exactly
+zero**, which still catches plates being invented where none belong. A checker
+that fails on a correct result is a checker people switch off.
+
+`check-app` also grew `--only=slug[,slug]`. Nine courses is about half an hour
+under SwiftShader, which made iterating on a single course's failure slow enough
+to discourage re-running the gate at all.

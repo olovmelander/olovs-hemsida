@@ -1,0 +1,574 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "generated_at": "2026-08-30",
+    "purpose": "Research-derived 9-hole routing, tee, and scorecard data for import into a golf visualizer.",
+    "course": {
+      "name": "Upsala Golfklubb — Mellanbanan",
+      "aliases": [
+        "Uppsala GK Mellanbanan",
+        "Upsala GK Intermediate"
+      ],
+      "physical_holes": 9,
+      "par_9": 35,
+      "played_twice": {
+        "holes": 18,
+        "par": 70
+      }
+    },
+    "sources": {
+      "club_course_page": "https://upsalagk.se/spela-golf/golfbanor/mellanbanan/",
+      "club_linked_banguide": "https://banguider.se/upsala-golfklubb/mellanbanan",
+      "club_slope_page": "https://upsalagk.se/spela-golf/golfbanor/mellanbanan/slope/",
+      "golfpass_scorecard": "https://www.golfpass.com/travel-advisor/courses/37577-upsala-golf-club-intermediate-course/scorecard-and-layout",
+      "golf_i_sverige_scorecard": "https://www.golfisverige.com/klubb/upsala-golfklubb/en/",
+      "caddee_scorecard": "https://www.caddee.se/klubb/upsala-golfklubb",
+      "eighteen_birdies_course_profile": "https://18birdies.com/golf-courses/club/7cf64a10-86ac-11e4-8c28-020000005b00/upsala-golfklubb",
+      "golfify_scorecard": "https://www.golfify.io/courses/upsala-golfklubb-mellan"
+    },
+    "scorecard_verification": {
+      "par_and_tee_lengths": "Par and most tee lengths agree across GolfPass, Golfify, 18Birdies, and the club-linked guide. Yellow hole 3 differs: 420 m in the GolfPass/Golfify/18Birdies source group versus 435 m in the club-linked guide.",
+      "stroke_index": "UNVERIFIED — source conflict. 18Birdies/GolfPass/Golfify give [9,7,5,11,17,3,15,1,13]. The club-linked guide gives first-loop [13,9,3,15,11,1,17,5,7] and second-loop [14,10,4,16,12,2,18,6,8]. The generic stroke_index field is intentionally null."
+    },
+    "gps_provenance": {
+      "source": "18Birdies public serialized course profile, Intermediate nine-hole set",
+      "extraction_note": "Each hole has a five-point public route and direct published teeGeoPoints. Route starts sit 2.8–21.7 m from the published white tee points, and the ordered routes form a coherent nine-hole loop.",
+      "exactness": "Published third-party geometry, not a surveyed club export. Route endpoints must not be relabelled as surveyed green front, centre, or back."
+    },
+    "import_guidance": {
+      "coordinate_order": "[longitude, latitude]",
+      "safe_roles": [
+        "published_hole_route",
+        "white_tee",
+        "yellow_tee",
+        "blue_tee",
+        "red_tee",
+        "green_endpoint_proxy"
+      ],
+      "do_not_promote": "Do not promote green_endpoint_proxy to an exact green centre/front/back without new club or field evidence."
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "stroke_index": null,
+        "stroke_index_status": "Conflicting source series; do not use as verified.",
+        "stroke_index_18birdies_golfpass_golfify": 9,
+        "stroke_index_club_banguide_first_loop": 13,
+        "stroke_index_club_banguide_second_loop": 14,
+        "white_length_m": 286,
+        "yellow_length_m": 273,
+        "yellow_length_m_club_linked_banguide": 273,
+        "blue_length_m": 273,
+        "red_length_m": 221,
+        "source": "18Birdies public serialized course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 305.4,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from a tee-side route start toward a green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[17.4978840052, 59.8416995775], [17.5008398986, 59.8412899036], [17.5026422657, 59.8412670047], [17.5029829721, 59.8412400599], [17.5032350054, 59.8412413861]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "role": "white_tee",
+        "white_length_m": 286,
+        "source": "18Birdies public serialized course profile",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.",
+        "description": "Published white tee point."
+      },
+      "geometry": {"type": "Point", "coordinates": [17.4979859291, 59.841667237]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "role": "yellow_tee",
+        "yellow_length_m": 273,
+        "source": "18Birdies public serialized course profile",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.",
+        "description": "Published yellow tee point."
+      },
+      "geometry": {"type": "Point", "coordinates": [17.4980985819, 59.8416483718]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "role": "blue_tee",
+        "blue_length_m": 273,
+        "source": "18Birdies public serialized course profile",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.",
+        "description": "Published blue tee point."
+      },
+      "geometry": {"type": "Point", "coordinates": [17.4980985819, 59.841667237]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "role": "red_tee",
+        "red_length_m": 221,
+        "source": "18Birdies public serialized course profile",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.",
+        "description": "Published red tee point."
+      },
+      "geometry": {"type": "Point", "coordinates": [17.4990319906, 59.84153518]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 1,
+        "par": 4,
+        "role": "green_endpoint_proxy",
+        "source": "18Birdies public serialized course geometry",
+        "coordinate_confidence": "medium",
+        "coordinate_status": "Published end endpoint of the hole route; not verified as exact green centre/front/back.",
+        "description": "Use only as a provisional green-side point."
+      },
+      "geometry": {"type": "Point", "coordinates": [17.5032350054, 59.8412413861]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 2,
+        "par": 4,
+        "stroke_index": null,
+        "stroke_index_status": "Conflicting source series; do not use as verified.",
+        "stroke_index_18birdies_golfpass_golfify": 7,
+        "stroke_index_club_banguide_first_loop": 9,
+        "stroke_index_club_banguide_second_loop": 10,
+        "white_length_m": 335,
+        "yellow_length_m": 329,
+        "yellow_length_m_club_linked_banguide": 329,
+        "blue_length_m": 329,
+        "red_length_m": 291,
+        "source": "18Birdies public serialized course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 347.8,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from a tee-side route start toward a green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[17.503299407, 59.8417601907], [17.5065636661, 59.8406969625], [17.5083876158, 59.8405070316], [17.508674561, 59.8405191112], [17.5088382606, 59.8404759369]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 2, "par": 4, "role": "white_tee", "white_length_m": 335, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published white tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5033798733, 59.8417251553]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 2, "par": 4, "role": "yellow_tee", "yellow_length_m": 329, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published yellow tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5034335175, 59.8417009]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 2, "par": 4, "role": "blue_tee", "blue_length_m": 329, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published blue tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5034603396, 59.8416982049]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 2, "par": 4, "role": "red_tee", "red_length_m": 291, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published red tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5039699593, 59.8415230272]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 2, "par": 4, "role": "green_endpoint_proxy", "source": "18Birdies public serialized course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published end endpoint of the hole route; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [17.5088382606, 59.8404759369]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 3,
+        "par": 5,
+        "stroke_index": null,
+        "stroke_index_status": "Conflicting source series; do not use as verified.",
+        "stroke_index_18birdies_golfpass_golfify": 5,
+        "stroke_index_club_banguide_first_loop": 3,
+        "stroke_index_club_banguide_second_loop": 4,
+        "white_length_m": 435,
+        "yellow_length_m": 420,
+        "yellow_length_m_club_linked_banguide": 435,
+        "blue_length_m": 353,
+        "red_length_m": 353,
+        "source": "18Birdies public serialized course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 447.7,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from a tee-side route start toward a green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[17.5088488858, 59.8420607196], [17.5133550038, 59.8407778015], [17.5157636329, 59.8406295792], [17.515964805, 59.8405891331], [17.5161337304, 59.8405434005]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 3, "par": 5, "role": "white_tee", "white_length_m": 435, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published white tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5092029374, 59.8419812168]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 3, "par": 5, "role": "yellow_tee", "yellow_length_m": 420, "yellow_length_m_club_linked_banguide": 435, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published yellow tee point; source-group length conflict is recorded."},
+      "geometry": {"type": "Point", "coordinates": [17.5094577473, 59.841923274]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 3, "par": 5, "role": "blue_tee", "blue_length_m": 353, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published blue tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5105681818, 59.8416915018]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 3, "par": 5, "role": "red_tee", "red_length_m": 353, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published red tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.510570864, 59.8416834167]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 3, "par": 5, "role": "green_endpoint_proxy", "source": "18Birdies public serialized course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published end endpoint of the hole route; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [17.5161337304, 59.8405434005]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 4,
+        "par": 4,
+        "stroke_index": null,
+        "stroke_index_status": "Conflicting source series; do not use as verified.",
+        "stroke_index_18birdies_golfpass_golfify": 11,
+        "stroke_index_club_banguide_first_loop": 15,
+        "stroke_index_club_banguide_second_loop": 16,
+        "white_length_m": 307,
+        "yellow_length_m": 300,
+        "yellow_length_m_club_linked_banguide": 300,
+        "blue_length_m": 248,
+        "red_length_m": 248,
+        "source": "18Birdies public serialized course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 322.5,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from a tee-side route start toward a green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[17.5160479558, 59.8399180864], [17.5120998046, 59.8399639174], [17.5108445397, 59.8401593021], [17.5105682091, 59.8402213338], [17.5103617229, 59.8402212307]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 4, "par": 4, "role": "white_tee", "white_length_m": 307, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published white tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.515999676, 59.8399396478]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 4, "par": 4, "role": "yellow_tee", "yellow_length_m": 300, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published yellow tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.51587093, 59.8399396478]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 4, "par": 4, "role": "blue_tee", "blue_length_m": 248, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published blue tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5150126231, 59.8402307256]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 4, "par": 4, "role": "red_tee", "red_length_m": 248, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published red tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5149965298, 59.8402037741]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 4, "par": 4, "role": "green_endpoint_proxy", "source": "18Birdies public serialized course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published end endpoint of the hole route; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [17.5103617229, 59.8402212307]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 5,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_status": "Conflicting source series; do not use as verified.",
+        "stroke_index_18birdies_golfpass_golfify": 17,
+        "stroke_index_club_banguide_first_loop": 11,
+        "stroke_index_club_banguide_second_loop": 12,
+        "white_length_m": 109,
+        "yellow_length_m": 102,
+        "yellow_length_m_club_linked_banguide": 102,
+        "blue_length_m": 86,
+        "red_length_m": 73,
+        "source": "18Birdies public serialized course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 131.9,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from a tee-side route start toward a green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[17.5089964043, 59.8396701878], [17.5080791959, 59.8393897891], [17.507317327, 59.8393264486], [17.5072864461, 59.83919778], [17.507269107, 59.8390684471]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 5, "par": 3, "role": "white_tee", "white_length_m": 109, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published white tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5089642178, 59.8396472786]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 5, "par": 3, "role": "yellow_tee", "yellow_length_m": 102, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published yellow tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5088971626, 59.8396243694]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 5, "par": 3, "role": "blue_tee", "blue_length_m": 86, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published blue tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5086369883, 59.8395138659]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 5, "par": 3, "role": "red_tee", "red_length_m": 73, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published red tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5084170472, 59.8394707425]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 5, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published end endpoint of the hole route; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [17.507269107, 59.8390684471]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 6,
+        "par": 5,
+        "stroke_index": null,
+        "stroke_index_status": "Conflicting source series; do not use as verified.",
+        "stroke_index_18birdies_golfpass_golfify": 3,
+        "stroke_index_club_banguide_first_loop": 1,
+        "stroke_index_club_banguide_second_loop": 2,
+        "white_length_m": 455,
+        "yellow_length_m": 442,
+        "yellow_length_m_club_linked_banguide": 442,
+        "blue_length_m": 428,
+        "red_length_m": 368,
+        "source": "18Birdies public serialized course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 468.6,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from a tee-side route start toward a green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[17.5090567897, 59.8378023201], [17.5059843095, 59.8359882674], [17.5028113188, 59.8358939129], [17.5026127254, 59.8358602887], [17.5023686538, 59.8358170699]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 6, "par": 5, "role": "white_tee", "white_length_m": 455, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published white tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.509033991, 59.8377800835]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 6, "par": 5, "role": "yellow_tee", "yellow_length_m": 442, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published yellow tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5089401136, 59.8377295456]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 6, "par": 5, "role": "blue_tee", "blue_length_m": 428, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published blue tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.508881105, 59.837635208]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 6, "par": 5, "role": "red_tee", "red_length_m": 368, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published red tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5078618656, 59.8372147287]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 6, "par": 5, "role": "green_endpoint_proxy", "source": "18Birdies public serialized course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published end endpoint of the hole route; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [17.5023686538, 59.8358170699]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 7,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_status": "Conflicting source series; do not use as verified.",
+        "stroke_index_18birdies_golfpass_golfify": 15,
+        "stroke_index_club_banguide_first_loop": 17,
+        "stroke_index_club_banguide_second_loop": 18,
+        "white_length_m": 155,
+        "yellow_length_m": 137,
+        "yellow_length_m_club_linked_banguide": 137,
+        "blue_length_m": 127,
+        "red_length_m": 113,
+        "source": "18Birdies public serialized course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 175.2,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from a tee-side route start toward a green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[17.5020924597, 59.8362282573], [17.5037259166, 59.8364814998], [17.5044365997, 59.8367012421], [17.5047102478, 59.8367267509], [17.5050159908, 59.8366904023]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 7, "par": 3, "role": "white_tee", "white_length_m": 155, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published white tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5022077947, 59.8362619507]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 7, "par": 3, "role": "yellow_tee", "yellow_length_m": 137, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published yellow tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.502454558, 59.8362579075]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 7, "par": 3, "role": "blue_tee", "blue_length_m": 127, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published blue tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.50271205, 59.8362821668]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 7, "par": 3, "role": "red_tee", "red_length_m": 113, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published red tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5029695421, 59.8362956441]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 7, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published end endpoint of the hole route; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [17.5050159908, 59.8366904023]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 8,
+        "par": 4,
+        "stroke_index": null,
+        "stroke_index_status": "Conflicting source series; do not use as verified.",
+        "stroke_index_18birdies_golfpass_golfify": 1,
+        "stroke_index_club_banguide_first_loop": 5,
+        "stroke_index_club_banguide_second_loop": 6,
+        "white_length_m": 338,
+        "yellow_length_m": 338,
+        "yellow_length_m_club_linked_banguide": 338,
+        "blue_length_m": 320,
+        "red_length_m": 320,
+        "source": "18Birdies public serialized course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 354.7,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from a tee-side route start toward a green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[17.5041846234, 59.8373441151], [17.5045412096, 59.8391553429], [17.5060406554, 59.8399720362], [17.5062659071, 59.8400555298], [17.506383984, 59.8401578903]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 8, "par": 4, "role": "white_tee", "white_length_m": 338, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published white tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5042114455, 59.8373818505]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 8, "par": 4, "role": "yellow_tee", "yellow_length_m": 338, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published yellow tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5042007167, 59.8373818505]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 8, "par": 4, "role": "blue_tee", "blue_length_m": 320, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published blue tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5042060811, 59.8375934375]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 8, "par": 4, "role": "red_tee", "red_length_m": 320, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published red tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5042221744, 59.8376257819]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 8, "par": 4, "role": "green_endpoint_proxy", "source": "18Birdies public serialized course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published end endpoint of the hole route; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [17.506383984, 59.8401578903]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "hole": 9,
+        "par": 3,
+        "stroke_index": null,
+        "stroke_index_status": "Conflicting source series; do not use as verified.",
+        "stroke_index_18birdies_golfpass_golfify": 13,
+        "stroke_index_club_banguide_first_loop": 7,
+        "stroke_index_club_banguide_second_loop": 8,
+        "white_length_m": 181,
+        "yellow_length_m": 143,
+        "yellow_length_m_club_linked_banguide": 143,
+        "blue_length_m": 143,
+        "red_length_m": 128,
+        "source": "18Birdies public serialized course geometry",
+        "role": "published_hole_route",
+        "route_geometry_status": "Published GPS route; not a surveyed club export.",
+        "source_route_length_m": 204.1,
+        "route_point_count": 5,
+        "coordinate_confidence": "medium",
+        "description": "Ordered public geometry from a tee-side route start toward a green-side endpoint."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[17.5023686857, 59.8407859226], [17.5000512246, 59.8407130615], [17.499455771, 59.8406283343], [17.4990937321, 59.8405675843], [17.4988201037, 59.8404746082]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 9, "par": 3, "role": "white_tee", "white_length_m": 181, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published white tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5022774906, 59.8407805324]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 9, "par": 3, "role": "yellow_tee", "yellow_length_m": 143, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published yellow tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5015962095, 59.840794008]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 9, "par": 3, "role": "blue_tee", "blue_length_m": 143, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published blue tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5015425653, 59.8408047884]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 9, "par": 3, "role": "red_tee", "red_length_m": 128, "source": "18Birdies public serialized course profile", "coordinate_confidence": "medium", "coordinate_status": "Published teeGeoPoint. Colour follows the source tee-index mapping; not a surveyed club export.", "description": "Published red tee point."},
+      "geometry": {"type": "Point", "coordinates": [17.5014781923, 59.8407724471]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"hole": 9, "par": 3, "role": "green_endpoint_proxy", "source": "18Birdies public serialized course geometry", "coordinate_confidence": "medium", "coordinate_status": "Published end endpoint of the hole route; not verified as exact green centre/front/back.", "description": "Use only as a provisional green-side point."},
+      "geometry": {"type": "Point", "coordinates": [17.4988201037, 59.8404746082]}
+    }
+  ]
+}

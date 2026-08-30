@@ -43,10 +43,22 @@ const COURSES = [
   { slug: 'johannesberg', build: 'johannesbergbuild', name: 'Johannesberg', club: 'Johannesberg Golf & Country Club',
     title: 'Johannesberg Golf & CC — Banan i 3D', tag: 'Gottröra', boot: 'Gottröra · Uppland',
     tees: { names: ['Vit', 'Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
+  /* Johannesberg is 27 holes: this is the other Donald Steel nine, west and
+     north-west of the manor, on the eighteen's ground. Only two tees exist. */
+  { slug: 'johannesberg-9', build: 'johannesberg9build', name: 'Johannesberg 9', club: 'Johannesberg Golf & Country Club',
+    title: 'Johannesberg Golf & CC — Niohålsbanan i 3D', tag: 'Niohålsbanan', boot: 'Gottröra · Uppland',
+    tees: { names: ['Gul', 'Röd'], cols: [0xf0c93a, 0xe0574a], hideFrom: 3 } },
   /* the six-tee course, and the only one whose card lives in banguide/ */
   { slug: 'veckefjarden', build: 'geobuild', name: 'Veckefjärdens GC', club: 'Veckefjärdens Golfklubb',
     title: 'Veckefjärdens GC — Mästerskapsbanan i 3D', tag: 'Mästerskapsbanan', boot: 'Örnsköldsvik · Ångermanland',
     tees: { names: ['65', '61', '58', '55', '48', '40'], cols: [0x1a1a1a, 0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
+  /* nine par 3s on the Mästerskapsbanan's ground, and the only course here whose
+     card does not reconcile with its own printed totals -- see
+     geobuild/card-korthalsbanan.json, which says so in its own note. It is also
+     the only unrated one, so every hcp is null and the card prints par alone. */
+  { slug: 'veckefjarden-korthalsbanan', build: 'veckefjardenkortbuild', name: 'Korthålsbanan', club: 'Veckefjärdens Golfklubb',
+    title: 'Veckefjärdens GC — Korthålsbanan i 3D', tag: 'Korthålsbanan', boot: 'Örnsköldsvik · Ångermanland',
+    tees: { names: ['Gul', 'Röd'], cols: [0xf0c93a, 0xe0574a], hideFrom: 3 } },
 ];
 
 const entries = COURSES.map(c => {
@@ -68,6 +80,13 @@ const entries = COURSES.map(c => {
   while (fs.existsSync(path.join(dir, `hero-${photos + 1}.webp`))) photos++;
   return {
     slug: c.slug, name: c.name, club: c.club, title: c.title, tag: c.tag, boot: c.boot,
+    /* Which build directory produced this course. The app ignores it; the gates
+       need it, and they used to keep a SECOND copy of this mapping -- which no
+       rule can derive (norrfallsviken comes from nvgkbuild, veckefjarden from
+       geobuild) and which therefore silently went stale every time a course was
+       added. The manifest is the pipelines' contract with the app, and which
+       pipeline built a course is part of that contract. */
+    build: c.build,
     par, holes: cardHoles.length, tees: c.tees, photos,
     packUrl: `/courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
   };

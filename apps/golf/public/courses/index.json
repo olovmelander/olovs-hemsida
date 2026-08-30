@@ -8,6 +8,7 @@
    "title": "Ängsö Golfklubb — Banan i 3D",
    "tag": "Ängsö",
    "boot": "Stora Bodarna · Mälaren",
+   "build": "angsobuild",
    "par": 72,
    "holes": 18,
    "tees": {
@@ -39,6 +40,7 @@
    "title": "Norrfällsvikens GK — Seaside i Höga Kusten, i 3D",
    "tag": "Seaside",
    "boot": "Mjällom · Höga Kusten",
+   "build": "nvgkbuild",
    "par": 73,
    "holes": 18,
    "tees": {
@@ -66,6 +68,7 @@
    "title": "Örnsköldsviks GK Puttom — Skogsbana i 3D",
    "tag": "Örnsköldsviks GK",
    "boot": "Arnäsvall · Örnsköldsvik",
+   "build": "puttombuild",
    "par": 72,
    "holes": 18,
    "tees": {
@@ -95,6 +98,7 @@
    "title": "Upsala Golfklubb — Banan i 3D",
    "tag": "Stora banan",
    "boot": "Håmö gård · Läby",
+   "build": "upsalabuild",
    "par": 72,
    "holes": 18,
    "tees": {
@@ -128,6 +132,7 @@
    "title": "Upsala GK Mellanbanan — Nio hål i 3D",
    "tag": "Mellanbanan",
    "boot": "Håmö gård · Läby",
+   "build": "upsalamellanbuild",
    "par": 35,
    "holes": 9,
    "tees": {
@@ -149,8 +154,8 @@
    },
    "photos": 0,
    "packUrl": "/courses/upsala-mellanbanan/pack.bin",
-   "bytes": 428971,
-   "sha256": "e21fa17d26cf24d51ae155fc243dc391c3e1f836613d94398f3319f40151b8f2"
+   "bytes": 429247,
+   "sha256": "02ba0307c47535b9badfc6b3cc377b3a3bd137a349869ef2a2010eedb4950ef6"
   },
   {
    "slug": "johannesberg",
@@ -159,6 +164,7 @@
    "title": "Johannesberg Golf & CC — Banan i 3D",
    "tag": "Gottröra",
    "boot": "Gottröra · Uppland",
+   "build": "johannesbergbuild",
    "par": 72,
    "holes": 18,
    "tees": {
@@ -184,12 +190,39 @@
    "sha256": "98e660a473c68e3e88a24317634da69fb01eebe3b1a3ba49e2591f0020f7a8a4"
   },
   {
+   "slug": "johannesberg-9",
+   "name": "Johannesberg 9",
+   "club": "Johannesberg Golf & Country Club",
+   "title": "Johannesberg Golf & CC — Niohålsbanan i 3D",
+   "tag": "Niohålsbanan",
+   "boot": "Gottröra · Uppland",
+   "build": "johannesberg9build",
+   "par": 34,
+   "holes": 9,
+   "tees": {
+    "names": [
+     "Gul",
+     "Röd"
+    ],
+    "cols": [
+     15780154,
+     14702410
+    ],
+    "hideFrom": 3
+   },
+   "photos": 0,
+   "packUrl": "/courses/johannesberg-9/pack.bin",
+   "bytes": 351964,
+   "sha256": "74b011037e1e2a1c998da5a864e7e9a69f8fd00f5a17348422f697e3fdc2f623"
+  },
+  {
    "slug": "veckefjarden",
    "name": "Veckefjärdens GC",
    "club": "Veckefjärdens Golfklubb",
    "title": "Veckefjärdens GC — Mästerskapsbanan i 3D",
    "tag": "Mästerskapsbanan",
    "boot": "Örnsköldsvik · Ångermanland",
+   "build": "geobuild",
    "par": 72,
    "holes": 18,
    "tees": {
@@ -215,6 +248,32 @@
    "packUrl": "/courses/veckefjarden/pack.bin",
    "bytes": 342720,
    "sha256": "f6fc50f78fa9092715449c1d950ac68f4c869539bc10d1659b0586b600315b05"
+  },
+  {
+   "slug": "veckefjarden-korthalsbanan",
+   "name": "Korthålsbanan",
+   "club": "Veckefjärdens Golfklubb",
+   "title": "Veckefjärdens GC — Korthålsbanan i 3D",
+   "tag": "Korthålsbanan",
+   "boot": "Örnsköldsvik · Ångermanland",
+   "build": "veckefjardenkortbuild",
+   "par": 27,
+   "holes": 9,
+   "tees": {
+    "names": [
+     "Gul",
+     "Röd"
+    ],
+    "cols": [
+     15780154,
+     14702410
+    ],
+    "hideFrom": 3
+   },
+   "photos": 0,
+   "packUrl": "/courses/veckefjarden-korthalsbanan/pack.bin",
+   "bytes": 338262,
+   "sha256": "8c065dcc8598b85b3bc6496f126747dd71632d5bca38c7bb02d136b70fe6fdb4"
   }
  ]
 }

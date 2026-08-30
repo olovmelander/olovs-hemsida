@@ -649,6 +649,85 @@ Uppland clay course. The satellite says otherwise: that ground genuinely is pale
 grass, and the nearest farmland polygon is 238 m away. Measure the imagery before
 retuning shading — this one nearly got "fixed" into being wrong.
 
+## The second courses — three clubs here have a course we were not rendering
+
+Upsala GK has three courses, Johannesberg has 27 holes, and Veckefjärden has a
+korthålsbana beside the Mästerskapsbanan. All three are now built, all three by
+one tool — `tools/build-nine.mjs` — because they are one method:
+
+    a verified card  +  published GPS hole routes  +  the parent's environment
+
+| course | slug | par | tees | parent |
+|---|---|---|---|---|
+| Mellanbanan | `upsala-mellanbanan` | 35 | 5 | `upsalabuild` |
+| Johannesberg niohålsbanan | `johannesberg-9` | 34 | 2 | `johannesbergbuild` |
+| Veckefjärden korthålsbanan | `veckefjarden-korthalsbanan` | 27 | 2 | `geobuild` |
+
+    node tools/build-nine.mjs johannesbergbuild/nio.json     # or upsalabuild/mellanbanan.json,
+    node packages/course-pack/emit-pack.mjs <build> apps/golf/public/courses/<slug> <slug>
+    node packages/course-pack/emit-manifest.mjs
+
+**A second course shares its parent's GROUND but not its PLAY.** Terrain, water,
+woods, roads, buildings and the clubhouse are reused verbatim; the parent's own
+holes are carried into `scenery` so its mown turf still reads as mown from the
+nine, and the relationship is symmetric. `heightfields.json` and `tree-cover.json`
+are copied rather than shared, because a pack is self-contained by design.
+
+**Published routes are third-party geometry, and are believed only as far as
+something that never entered them agrees.** Each of these was measured after the
+fact: Johannesberg's nine landed inside the box predicted from its aerial months
+earlier and **closes** (green 9 → tee 1 in 26 m, walks 16–95 m); Mellanbanan
+agrees with the independent banguide trace on seven of nine holes and disagrees
+on exactly the two that trace had flagged as drawn under canopy; and after the
+card slide the synthesised back tees land 1–23 m and 5–42 m from published tee
+points the slide never used. Route endpoints stay provisional — they are **not**
+surveyed green centres and are never relabelled as such.
+
+**A one-sided, consistent length offset is evidence the hole assignment is
+right.** Every Mellanbanan route runs 13–23 m longer than its card, and every
+korthålsbana route 13.4–17.4 m. A uniform offset is what a real route start
+behind the marker looks like; a wrong assignment scatters.
+
+**A long walk is not automatically a bad routing.** Mellanbanan's walks are
+median 106 m against a real course's 20–80, which reads as broken — until you
+see that the banguide trace and the GPS routing, which disagree about where two
+whole holes are, produce the *same* profile. The transfers belong to the course.
+
+**The permutation test proves a column is well-formed, never that it is the
+club's** — and this bit twice. Mellanbanan's stroke index has two series in
+circulation, both valid odd 1–17 permutations, disagreeing on all nine holes. It
+was settled by reading the club's own per-hole sheets, which are images on
+banguider.se: hole 8 is **"Par 4 · Index 1 / 2"** and hole 6 **"Par 5 · Index
+3 / 4"**, both matching this repo's card on the index and on all five tee
+lengths. A later research pass credited the *other* series to the club and had
+the attribution inverted. Go to the club's sheet; do not weigh aggregators.
+
+**Veckefjärden's korthålsbana ships with an UNVERIFIED card and says so** — the
+only one here that fails the repo's own rule. Pars sum to the printed 27, but
+neither tee column reproduces its printed total (Gul 932/936, Röd 770/776), and
+no stroke index is published: the only column found runs 1,2,3,4,5,6,7,8,9,
+which is the hole order and so is a scrape artifact. `hcp` is `null` on every
+hole and `drawCard` prints the par alone — **nothing was invented to fill the
+column**, because a korthålsbana is commonly unrated and an absent index is the
+expected state, not a gap.
+
+Two de-duplications this needed, both of the same shape as the `hut` coordinate:
+
+- **`emit-pack` asks the MODEL which schema it is** (`model.lakeLevel !==
+  undefined`), not the directory name. The korthålsbana is built on Veckefjärden's
+  older model in its own directory, and the old `buildDir === 'geobuild'` test
+  would have silently emptied its marking and silt shallows and left its water
+  level undefined. Verified inert: geobuild's pack is byte-identical after it.
+- **`check-app` reads slug→build out of the manifest**, which now carries
+  `build`. It kept a private copy that no rule can derive (`norrfallsviken` from
+  `nvgkbuild`, `veckefjarden` from `geobuild`) and that went stale in silence on
+  every new course — it had never learned `upsala-mellanbanan`.
+
+Open on all three: **no bunkers** (nothing published shows where they are — a
+gap in the sources, not a claim the courses have none), greens/fairways/tee pads
+synthesised and marked `prov:"synth"`, and **no posters yet**, so their chooser
+cards show the gradient until `make-posters.mjs --candidates` is run.
+
 ## Banvy — the unified app (working name), and the course pack
 
 The six pages are being consolidated into one application, per the audited plan
