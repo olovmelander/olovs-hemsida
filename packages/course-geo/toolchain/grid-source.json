@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "se-lantmateriet-swen17-rh2000",
+  "fileName": "se_lantmateriet_SWEN17_RH2000.tif",
+  "url": "https://cdn.proj.org/se_lantmateriet_SWEN17_RH2000.tif",
+  "sha256": "c5160019c9d2f64e0379e7725be795952b5005759e6f51e5322f6607af92a5a3",
+  "sizeBytes": 2317290,
+  "publisher": "Lantmateriet",
+  "registry": "OSGeo PROJ-data",
+  "licence": "CC0-1.0",
+  "purpose": "SWEREF 99 ellipsoid height to RH 2000 height transformation",
+  "control": {
+    "checkedOn": "2026-08-30",
+    "input": {
+      "latitude": 60.666369395,
+      "longitude": 17.132577526,
+      "ellipsoidHeight": 42.0
+    },
+    "expectedCurrentService": {
+      "northing": 6727518.0,
+      "easting": 616536.0,
+      "heightRH2000": 16.923
+    },
+    "publishedPdfHeight": 16.993,
+    "note": "Lantmateriet's live coordinate service agrees with this checksummed PROJ grid at 16.923 m. Its 2025 PROJ PDF currently prints 16.993 m for the same example; that discrepancy must not be hidden by widening the test tolerance."
+  }
+}

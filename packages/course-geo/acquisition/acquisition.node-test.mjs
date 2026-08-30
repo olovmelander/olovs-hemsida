@@ -19,6 +19,11 @@ import {
   probeLantmaterietLaserAccess,
   probeProviderAccess,
 } from './access-preflight.mjs';
+import {
+  copcStatsPipeline,
+  laserStatisticsFromMetadata,
+  laserWindowPlan,
+} from './laser-window.mjs';
 import { terrainWindowPlan } from './terrain-window.mjs';
 import { treeHeightExportUrl, treeHeightTiles } from './tree-height.mjs';
 
@@ -188,6 +193,100 @@ test('tree-height export is split into bounded exact-resolution requests', () =>
   assert.equal(url.searchParams.get('bboxSR'), '3006');
   assert.equal(url.searchParams.get('pixelType'), 'S16');
   assert.deepEqual(JSON.parse(url.searchParams.get('renderingRule')), { rasterFunction: 'None' });
+});
+
+test('Laserdata Skog plan selects the newest containing COPC and bounds the point window', () => {
+  const report = {
+    groundId: 'puttom',
+    aoi: { bboxEpsg3006: [0, 0, 1000, 1100] },
+    laser: {
+      collection: 'dsm-skoglig-copc',
+      items: [
+        {
+          id: 'older-north', collection: 'dsm-skoglig-copc', capturedAt: '2023-06-04',
+          projBbox: [0, 500, 2000, 1500], pointCount: 100,
+          pointDensityPerSquareMetre: 1.1,
+          assets: { data: {
+            href: 'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/old.copc.laz',
+            type: 'application/vnd.laszip+copc', bytes: 2000, sha256: HASH_A,
+          } },
+        },
+        {
+          id: 'newer-south', collection: 'dsm-skoglig-copc', capturedAt: '2026-06-11',
+          projBbox: [0, -500, 2000, 500], pointCount: 200,
+          pointDensityPerSquareMetre: 1.7,
+          assets: { data: {
+            href: 'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/new.copc.laz',
+            type: 'application/vnd.laszip+copc', bytes: 3000, sha256: HASH_A,
+          } },
+        },
+      ],
+    },
+  };
+  const plan = laserWindowPlan(report, { spanMetres: 128, maximumPoints: 500_000 });
+  assert.equal(plan.source.id, 'newer-south');
+  assert.deepEqual(plan.boundsEpsg3006, [436, 372, 564, 500]);
+  assert.equal(plan.areaSquareMetres, 16_384);
+  const pipeline = copcStatsPipeline(plan, {
+    type: 'basic', username: 'user', password: 'secret',
+  });
+  assert.equal(pipeline[0].type, 'readers.copc');
+  assert.equal(pipeline[0].bounds, '([436,564],[372,500])');
+  assert.equal(pipeline[0].count, 500_000);
+  assert.equal(pipeline[1].count, 'Classification,ReturnNumber,NumberOfReturns');
+  assert.doesNotMatch(JSON.stringify(plan), /user|secret|Basic /);
+});
+
+test('Laserdata Skog aggregates parse PDAL category counts without retaining points', () => {
+  const statistics = laserStatisticsFromMetadata({
+    stages: {
+      'filters.stats': {
+        statistic: [
+          { name: 'Z', count: 4, minimum: 10, maximum: 17, average: 13, stddev: 2.5 },
+          { name: 'Classification', counts: ['2.000000/1', '3.000000/2', '5.000000/1'] },
+          { name: 'ReturnNumber', counts: ['1.000000/3', '2.000000/1'] },
+          { name: 'NumberOfReturns', counts: ['1.000000/2', '2.000000/2'] },
+        ],
+      },
+    },
+  }, 10);
+  assert.equal(statistics.pointCount, 4);
+  assert.deepEqual(statistics.classificationCounts, [
+    { value: 2, count: 1 }, { value: 3, count: 2 }, { value: 5, count: 1 },
+  ]);
+  assert.deepEqual(statistics.returnNumberCounts, [
+    { value: 1, count: 3 }, { value: 2, count: 1 },
+  ]);
+});
+
+test('Laserdata Skog aggregates reject malformed or over-budget PDAL metadata', () => {
+  const metadata = count => ({ statistic: [
+    { name: 'Z', count, minimum: 1, maximum: 2, average: 1.5, stddev: 0.5 },
+    { name: 'Classification', counts: ['not-a-count'] },
+    { name: 'ReturnNumber', counts: [`1.000000/${count}`] },
+    { name: 'NumberOfReturns', counts: [`1.000000/${count}`] },
+  ] });
+  assert.throws(() => laserStatisticsFromMetadata(metadata(11), 10), /outside 1\.\.10/);
+  assert.throws(() => laserStatisticsFromMetadata(metadata(2), 10), /invalid Classification count/);
+});
+
+test('Laserdata Skog plan rejects an asset URL with ambient query credentials', () => {
+  const report = {
+    groundId: 'puttom',
+    aoi: { bboxEpsg3006: [0, 0, 100, 100] },
+    laser: {
+      collection: 'dsm-skoglig-copc',
+      items: [{
+        id: 'laser', collection: 'dsm-skoglig-copc', capturedAt: '2026-01-01',
+        projBbox: [0, 0, 100, 100],
+        assets: { data: {
+          href: 'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/a.copc.laz?token=secret',
+          type: 'application/vnd.laszip+copc', bytes: 1000, sha256: HASH_A,
+        } },
+      }],
+    },
+  };
+  assert.throws(() => laserWindowPlan(report, { spanMetres: 32 }), /refusing non-Laserdata/);
 });
 
 function accessReport() {

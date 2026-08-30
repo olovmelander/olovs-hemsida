@@ -192,6 +192,7 @@ jobs:
           NODE
 
       - name: Verify authenticated Laserdata Skog COPC access
+        id: laser-source
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
@@ -301,6 +302,31 @@ jobs:
             header[393] === 1 && header[394] === 0 && infoRecordLength === 160;
           if (!validCopc) throw new Error('Laserdata Skog asset does not have a valid COPC 1.0 header');
 
+          const projectedBbox = feature.properties?.['proj:bbox'] || asset['proj:bbox'];
+          if (!Array.isArray(projectedBbox) || projectedBbox.length !== 4 ||
+              projectedBbox.some(value => !Number.isFinite(value))) {
+            throw new Error('Laserdata Skog item lacks a finite projected bbox');
+          }
+          const courseBbox = [696916, 7024570, 697941, 7025595];
+          const overlap = [
+            Math.max(projectedBbox[0], courseBbox[0]),
+            Math.max(projectedBbox[1], courseBbox[1]),
+            Math.min(projectedBbox[2], courseBbox[2]),
+            Math.min(projectedBbox[3], courseBbox[3]),
+          ];
+          const span = 256;
+          if (overlap[2] - overlap[0] < span || overlap[3] - overlap[1] < span) {
+            throw new Error('Laserdata Skog item does not contain the bounded Puttom pilot window');
+          }
+          const centreX = (courseBbox[0] + courseBbox[2]) / 2;
+          const centreY = (courseBbox[1] + courseBbox[3]) / 2;
+          const minX = Math.round(Math.min(Math.max(centreX - span / 2, overlap[0]), overlap[2] - span));
+          const minY = Math.round(Math.min(Math.max(centreY - span / 2, overlap[1]), overlap[3] - span));
+          const bounds = [minX, minY, minX + span, minY + span];
+          const { appendFileSync } = await import('node:fs');
+          appendFileSync(process.env.GITHUB_OUTPUT, `asset_url=${assetUrl.href}\n`, 'utf8');
+          appendFileSync(process.env.GITHUB_OUTPUT, `bounds=${bounds.join(',')}\n`, 'utf8');
+
           console.log(JSON.stringify({
             ready: true,
             collection: feature.collection,
@@ -313,8 +339,101 @@ jobs:
             advertisedPointCount: feature.properties?.['pc:count'] ?? null,
             pointDensityPerSquareMetre: feature.properties?.['pc:density'] ??
               feature.properties?.punkttathet ?? null,
+            boundedPilot: { spanMetres: span, boundsEpsg3006: bounds },
             note: 'No credentials, authorization headers or point-cloud bytes were serialized.',
           }, null, 2));
+          NODE
+
+      - name: Stream bounded Laserdata Skog classification statistics
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+          LASER_ASSET_URL: ${{ steps.laser-source.outputs.asset_url }}
+          LASER_BOUNDS: ${{ steps.laser-source.outputs.bounds }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { spawnSync } from 'node:child_process';
+          import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+          import os from 'node:os';
+          import path from 'node:path';
+          import { performance } from 'node:perf_hooks';
+          import { laserStatisticsFromMetadata } from './packages/course-geo/acquisition/laser-window.mjs';
+
+          const encodedCredentials = Buffer.from(
+            `${process.env.LANTMATERIET_USERNAME}:${process.env.LANTMATERIET_PASSWORD}`,
+            'utf8',
+          ).toString('base64');
+          const authorization = `Basic ${encodedCredentials}`;
+          process.stdout.write(`::add-mask::${encodedCredentials}\n::add-mask::${authorization}\n`);
+
+          const assetUrl = new URL(process.env.LASER_ASSET_URL);
+          if (assetUrl.protocol !== 'https:' || assetUrl.hostname !== 'dl1.lantmateriet.se' ||
+              !assetUrl.pathname.startsWith('/hojd/data/pointcloud/sls/') ||
+              !assetUrl.pathname.endsWith('.copc.laz') || assetUrl.search || assetUrl.hash) {
+            throw new Error('refusing unexpected bounded COPC source');
+          }
+          const bounds = String(process.env.LASER_BOUNDS || '').split(',').map(Number);
+          if (bounds.length !== 4 || bounds.some(value => !Number.isSafeInteger(value)) ||
+              bounds[2] - bounds[0] !== 256 || bounds[3] - bounds[1] !== 256) {
+            throw new Error('bounded COPC probe must be an exact 256 m EPSG:3006 square');
+          }
+          const maximumPoints = 1_000_000;
+          const pipeline = [
+            {
+              type: 'readers.copc',
+              filename: assetUrl.href,
+              bounds: `([${bounds[0]},${bounds[2]}],[${bounds[1]},${bounds[3]}])`,
+              count: maximumPoints,
+              requests: 4,
+              header: { Authorization: authorization },
+            },
+            {
+              type: 'filters.stats',
+              dimensions: 'Z,Classification,ReturnNumber,NumberOfReturns',
+              count: 'Classification,ReturnNumber,NumberOfReturns',
+            },
+            { type: 'writers.null' },
+          ];
+          const temporaryDirectory = mkdtempSync(path.join(os.tmpdir(), 'banvy-copc-ci-'));
+          const metadataFile = path.join(temporaryDirectory, 'metadata.json');
+          const started = performance.now();
+          try {
+            const result = spawnSync('pixi', [
+              'run', '--manifest-path', 'packages/course-geo/toolchain/pixi.toml', '--frozen',
+              'pdal', 'pipeline', '--stdin', '--stream', '--metadata', metadataFile,
+            ], {
+              encoding: 'utf8',
+              input: JSON.stringify(pipeline),
+              maxBuffer: 128 * 1024 * 1024,
+              env: { ...process.env, PROJ_NETWORK: 'OFF' },
+            });
+            if (result.error || result.status !== 0) {
+              const unsafe = [result.error?.message, result.stdout, result.stderr].filter(Boolean).join('\n');
+              const safe = unsafe
+                .replaceAll(authorization, '<redacted>')
+                .replaceAll(encodedCredentials, '<redacted>')
+                .replaceAll(process.env.LANTMATERIET_USERNAME, '<redacted>')
+                .replaceAll(process.env.LANTMATERIET_PASSWORD, '<redacted>');
+              throw new Error(`bounded PDAL stream failed (${result.status ?? 'start'}): ${safe.slice(0, 2000)}`);
+            }
+            const statistics = laserStatisticsFromMetadata(
+              JSON.parse(readFileSync(metadataFile, 'utf8')),
+              maximumPoints,
+            );
+            console.log(JSON.stringify({
+              ready: true,
+              source: 'Laserdata Nedladdning, skog',
+              format: 'COPC LAZ 1.4',
+              boundsEpsg3006: bounds,
+              spanMetres: 256,
+              ...statistics,
+              elapsedMilliseconds: Math.round(performance.now() - started),
+              retainedPointCloudBytes: 0,
+              note: 'The authenticated COPC was range-streamed and only aggregate statistics were retained.',
+            }, null, 2));
+          } finally {
+            rmSync(temporaryDirectory, { recursive: true, force: true });
+          }
           NODE
 
       - name: Build isolated Three r185 terrain proof

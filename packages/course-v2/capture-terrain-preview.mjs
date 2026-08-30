@@ -41,14 +41,18 @@ function browserOptions(explicitChrome, requestedBackend) {
     '--no-sandbox', '--headless=new', '--disable-lcd-text',
     '--force-device-scale-factor=1',
   ];
-  /* Chrome's documented Linux headless WebGPU path uses ANGLE/Vulkan plus
-     surface-less presentation. The hosted runner has no physical adapter, so
-     both modes remain software correctness proofs, never performance evidence. */
+  /* Chromium's own Linux WebGPU pixel tests pair ANGLE and Dawn SwiftShader,
+     enable Skia's Vulkan renderer and use surface-less presentation. The
+     hosted runner has no physical adapter, so this remains a software
+     correctness proof and never device-performance evidence. */
   const backend = requestedBackend === 'webgl2'
     ? ['--enable-unsafe-swiftshader', '--use-angle=swiftshader']
     : [
-        '--use-angle=vulkan', '--enable-features=Vulkan',
-        '--disable-vulkan-surface', '--enable-unsafe-webgpu',
+        '--enable-unsafe-webgpu', '--enable-webgpu-developer-features',
+        '--enable-experimental-web-platform-features', '--use-gpu-in-tests',
+        '--enable-features=UseSkiaRenderer,Vulkan', '--use-angle=swiftshader',
+        '--use-vulkan=swiftshader', '--use-webgpu-adapter=swiftshader',
+        '--disable-vulkan-surface',
       ];
   return {
     ...(executablePath ? { executablePath } : { channel: 'chrome' }),

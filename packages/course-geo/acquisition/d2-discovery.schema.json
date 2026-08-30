@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://olovs-hemsida.invalid/schema/d2-discovery-v1.json",
+  "title": "D2 authoritative-source discovery evidence",
+  "type": "object",
+  "required": [
+    "schemaVersion", "phase", "groundId", "groundName", "courseSlugs",
+    "observedOn", "state", "aoi", "sourceContracts", "terrain",
+    "waterBreakGeometry", "laser", "orthophoto", "treeHeight",
+    "metadataEvidence", "measurements", "gate"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "phase": { "const": "D2-authoritative-acquisition-spike" },
+    "groundId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "groundName": { "type": "string", "minLength": 1 },
+    "courseSlugs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } },
+    "observedOn": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "state": { "const": "discovery-evidence-only" },
+    "aoi": { "$ref": "#/$defs/aoi" },
+    "sourceContracts": { "type": "object" },
+    "terrain": { "$ref": "#/$defs/sourceResult" },
+    "waterBreakGeometry": { "type": "object" },
+    "laser": { "$ref": "#/$defs/sourceResult" },
+    "orthophoto": { "$ref": "#/$defs/sourceResult" },
+    "treeHeight": { "type": "object" },
+    "metadataEvidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "itemId", "collection", "asset", "href", "status", "bytes",
+          "expectedBytes", "sha256", "expectedSha256", "sizeVerified",
+          "checksumVerified", "elapsedMilliseconds"
+        ]
+      }
+    },
+    "measurements": { "type": "object" },
+    "gate": {
+      "type": "object",
+      "required": ["discoveryReady", "acquisitionComplete", "blockers"],
+      "properties": {
+        "discoveryReady": { "type": "boolean" },
+        "acquisitionComplete": { "type": "boolean" },
+        "blockers": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    }
+  },
+  "$defs": {
+    "bbox": {
+      "type": "array",
+      "prefixItems": [
+        { "type": "number" }, { "type": "number" },
+        { "type": "number" }, { "type": "number" }
+      ],
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "aoi": {
+      "type": "object",
+      "required": ["bboxWgs84", "bboxEpsg3006", "widthMetres", "heightMetres", "squareMetres"],
+      "properties": {
+        "bboxWgs84": { "$ref": "#/$defs/bbox" },
+        "bboxEpsg3006": { "$ref": "#/$defs/bbox" },
+        "widthMetres": { "type": "number", "exclusiveMinimum": 0 },
+        "heightMetres": { "type": "number", "exclusiveMinimum": 0 },
+        "squareMetres": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["requiredSquareMetres", "coveredSquareMetres", "ratio", "complete"],
+      "properties": {
+        "requiredSquareMetres": { "type": "number", "exclusiveMinimum": 0 },
+        "coveredSquareMetres": { "type": "number", "minimum": 0 },
+        "ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+        "complete": { "type": "boolean" }
+      }
+    },
+    "sourceResult": {
+      "type": "object",
+      "required": ["itemCount", "coverage", "items", "state"],
+      "properties": {
+        "itemCount": { "type": "integer", "minimum": 0 },
+        "coverage": { "$ref": "#/$defs/coverage" },
+        "items": { "type": "array" },
+        "state": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
