@@ -146,6 +146,36 @@ const POSTERS = {
     { hole: 18, cam: 'top', preset: 'noon' },
     { hole: 11, cam: 'orbit', preset: 'golden' },
   ],
+  /* THE THREE SECOND COURSES. All golden: these are nines in forest, and the
+     top+noon recipe that works on the eighteens blows their ponds to flat white
+     -- at card size it reads as a rendering fault rather than a photograph, so
+     none of them uses it. Orbit does the work here; at ground level under an
+     evening sun these corridors go too dark to read at 400x225. */
+
+  /* the 8th's pond and corridors, then the 4th -- the only green on the nine
+     within 20 m of water, which is the closest anything gets */
+  'upsala-mellanbanan': [
+    { hole: 8, cam: 'orbit', preset: 'golden' },
+    { hole: 4, cam: 'orbit', preset: 'golden' },
+  ],
+  /* the 8th leads, not the signature 2nd: it is the frame that carries the
+     estate -- corridors, a bunker, the pond curving through and the buildings
+     on the horizon. Then the 2nd's green across the water it drops to. */
+  'johannesberg-9': [
+    { hole: 8, cam: 'orbit', preset: 'golden' },
+    { hole: 2, cam: 'green', preset: 'golden' },
+    { hole: 2, cam: 'orbit', preset: 'golden' },
+  ],
+  /* the 3rd leads because it is the ONLY framing on this nine that shows the
+     fjärd, and a Veckefjärden course whose card does not show the fjärd is
+     selling itself as a forest course. Then the 9th with the red clubhouse on
+     the ridge, and the 1st's green under raking evening light. */
+  'veckefjarden-korthalsbanan': [
+    { hole: 3, cam: 'orbit', preset: 'golden' },
+    { hole: 9, cam: 'orbit', preset: 'golden' },
+    { hole: 1, cam: 'green', preset: 'golden' },
+  ],
+
   /* the water hole and its drop zone, then the 17th, the wettest on the card */
   angso: [
     { hole: 15, cam: 'green', preset: 'golden' },
