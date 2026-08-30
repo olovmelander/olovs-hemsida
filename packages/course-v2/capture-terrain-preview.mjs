@@ -38,11 +38,15 @@ function browserOptions(explicitChrome, requestedBackend) {
   ].filter(Boolean);
   const executablePath = candidates.find(candidate => existsSync(candidate));
   const common = ['--no-sandbox', '--disable-lcd-text', '--force-device-scale-factor=1'];
+  /* Chrome's documented Linux-headless WebGPU launch set. Do not add
+     --use-vulkan=swiftshader here: it selects the compositor Vulkan driver,
+     not a WebGPU adapter, and can leave Three's honest WebGL fallback without
+     a context on hosted runners. */
   const backend = requestedBackend === 'webgl2'
     ? ['--enable-unsafe-swiftshader', '--use-angle=swiftshader']
     : [
-        '--enable-unsafe-webgpu', '--enable-features=Vulkan,WebGPUDeveloperFeatures',
-        '--use-angle=vulkan', '--use-vulkan=swiftshader', '--disable-vulkan-surface',
+        '--enable-unsafe-webgpu', '--ignore-gpu-blocklist', '--enable-features=Vulkan',
+        '--use-angle=vulkan', '--disable-vulkan-surface',
       ];
   return {
     ...(executablePath ? { executablePath } : { channel: 'chrome' }),
