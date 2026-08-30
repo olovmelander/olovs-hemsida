@@ -2,33 +2,132 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { EXPECTED_GROUNDS, readJson, sha256File } from '../manifest.mjs';
 import {
+  collectCoordinatePairs,
+  localToLatLon,
+  roundedCoordinate,
+} from '../migration.mjs';
+import { latLonToSweref99Tm } from '../proj.mjs';
+import {
+  COURSE_MODEL_SHA256,
   COURSE_MODEL_PATHS,
-  SUPPLEMENTAL_COURSE_MODEL_SHA256,
   allCourseHoleSourceControlPlan,
   groundHoleSourceControlPlan,
 } from './hole-source-controls.mjs';
 import { COURSE_DATA_DIR, REPO_ROOT } from './pilots.mjs';
 
+export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
+  angso: Object.freeze({
+    path: 'angsobuild/course-model.json',
+    sha256: 'f163f2b3fcd5f032149129a0b03c5411cb3485a3454018a5976a1c0306b0059e',
+  }),
+  norrfallsviken: Object.freeze({
+    path: 'nvgkbuild/course-model.json',
+    sha256: '1adf3129f434d6f573d7662cc190ec5be7938303382876cbb6f4460aa13b9239',
+  }),
+  puttom: Object.freeze({
+    path: 'puttombuild/course-model.json',
+    sha256: 'ce192fe669ba2a5256451287554f5c80d1de95416b84b176cd6c9598b1751176',
+  }),
+  upsala: Object.freeze({
+    path: 'upsalabuild/course-model.json',
+    sha256: 'c9bf4a776cb1a9d55098e626ccac99400581427839292552e705d4f57d45b33c',
+  }),
+  'upsala-mellanbanan': Object.freeze({
+    path: 'upsalabuild/mellanbanan-model.json',
+    sha256: '7682f5f4803a822c39a1827a4089e2abd26d29f1c50f0f9c8dd4ea3d6683cd23',
+  }),
+  johannesberg: Object.freeze({
+    path: 'johannesbergbuild/course-model.json',
+    sha256: '066f0cc3e7a2bddd99d3c34f18002ec9d2f9aa3e754592924f8beff939916839',
+  }),
+  'johannesberg-9': Object.freeze({
+    path: 'johannesberg9build/course-model.json',
+    sha256: '5ce19f44e8b1328e44f96a6438439d4e5f9a0f1c6faedbad5f5a04f7076fed1d',
+  }),
+  veckefjarden: Object.freeze({
+    path: 'geobuild/course-model.json',
+    sha256: 'e4aac565ed63e750401923663922cb640930a65acd3479a28e63a2ae47341728',
+  }),
+  'veckefjarden-korthalsbanan': Object.freeze({
+    path: 'veckefjardenkortbuild/course-model.json',
+    sha256: '69628371287d5793a57a893d37261a31a077990d51e50be0cd1e388bffd7d840',
+  }),
+});
+
+function transientEpsg3006Model(groundId, courseSlug, legacyModel, source) {
+  const frame = {
+    originWgs84: {
+      latitude: legacyModel.origin?.lat,
+      longitude: legacyModel.origin?.lon,
+    },
+    metresPerLatitude: legacyModel.mPerLat,
+    metresPerLongitude: legacyModel.mPerLon,
+  };
+  if (!Array.isArray(legacyModel.holes) || !legacyModel.holes.length ||
+      !Object.values(frame.originWgs84).every(Number.isFinite) ||
+      ![frame.metresPerLatitude, frame.metresPerLongitude].every(Number.isFinite)) {
+    throw new Error(`${source.path} lacks a finite legacy frame or playable holes`);
+  }
+  const geometry = { holes: structuredClone(legacyModel.holes) };
+  const collected = collectCoordinatePairs(geometry);
+  const geographic = collected.coordinates.map(({ pair }) => localToLatLon(pair, frame));
+  const projected = latLonToSweref99Tm(geographic, { decimals: 6 });
+  collected.coordinates.forEach(({ pair }, index) => {
+    pair[0] = roundedCoordinate(projected[index].easting);
+    pair[1] = roundedCoordinate(projected[index].northing);
+  });
+  return {
+    schemaVersion: 1,
+    generator: 'course-geo/transient-hole-vector-migrator@1',
+    groundId,
+    source: { path: source.path, sha256: source.sha256 },
+    target: {
+      horizontalCrs: 'EPSG:3006',
+      coordinateOrder: ['easting', 'northing'],
+      verticalStatus: 'legacy-height-datum-unknown-not-converted',
+      approvalStatus: 'migration-only-pending-independent-control',
+    },
+    geometry,
+  };
+}
+
+function loadCourseModel(groundId, courseSlug) {
+  const relativePath = COURSE_MODEL_PATHS[courseSlug];
+  const expectedSha256 = COURSE_MODEL_SHA256[courseSlug];
+  if (!relativePath || !expectedSha256) {
+    throw new Error(`no immutable EPSG:3006 model is registered for ${courseSlug}`);
+  }
+  const file = path.join(REPO_ROOT, relativePath);
+  if (fs.existsSync(file)) {
+    const actualSha256 = sha256File(file);
+    if (actualSha256 !== expectedSha256) {
+      throw new Error(`${courseSlug} EPSG:3006 model checksum drifted`);
+    }
+    return { path: relativePath, sha256: actualSha256, model: readJson(file) };
+  }
+
+  const source = LEGACY_COURSE_MODEL_SOURCES[courseSlug];
+  if (!source) throw new Error(`no reviewed legacy fallback is registered for ${courseSlug}`);
+  const sourceFile = path.join(REPO_ROOT, source.path);
+  const actualSourceSha256 = sha256File(sourceFile);
+  if (actualSourceSha256 !== source.sha256) {
+    throw new Error(`${courseSlug} legacy course model checksum drifted`);
+  }
+  return {
+    path: `${source.path}#transient-epsg3006`,
+    sha256: actualSourceSha256,
+    model: transientEpsg3006Model(groundId, courseSlug, readJson(sourceFile), source),
+  };
+}
+
 export function loadGroundHoleSourceControlPlan(groundId, {
   discovery = undefined,
 } = {}) {
   if (!EXPECTED_GROUNDS[groundId]) throw new Error(`unknown physical ground ${groundId}`);
-  const manifest = readJson(path.join(COURSE_DATA_DIR, groundId, 'source-manifest.json'));
+  const manifest = { groundId, courseSlugs: EXPECTED_GROUNDS[groundId] };
   const courseModels = {};
   for (const courseSlug of EXPECTED_GROUNDS[groundId]) {
-    const relativePath = COURSE_MODEL_PATHS[courseSlug];
-    if (!relativePath) throw new Error(`no EPSG:3006 model path is registered for ${courseSlug}`);
-    const file = path.join(REPO_ROOT, relativePath);
-    const actualSha256 = sha256File(file);
-    const supplementalSha256 = SUPPLEMENTAL_COURSE_MODEL_SHA256[courseSlug];
-    if (supplementalSha256 && actualSha256 !== supplementalSha256) {
-      throw new Error(`${courseSlug} supplemental EPSG:3006 model checksum drifted`);
-    }
-    courseModels[courseSlug] = {
-      path: relativePath,
-      sha256: actualSha256,
-      model: readJson(file),
-    };
+    courseModels[courseSlug] = loadCourseModel(groundId, courseSlug);
   }
   let resolvedDiscovery = discovery;
   if (resolvedDiscovery === undefined) {
