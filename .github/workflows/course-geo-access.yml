@@ -381,7 +381,7 @@ jobs:
           import path from 'node:path';
           import { performance } from 'node:perf_hooks';
           import {
-            laserDensityEvidence,
+            laserDensityAssessment,
             laserStatisticsFromMetadata,
           } from './packages/course-geo/acquisition/laser-window.mjs';
 
@@ -417,7 +417,7 @@ jobs:
             { type: 'filters.head', count: maximumPoints },
             {
               type: 'filters.stats',
-              dimensions: 'Z,Classification,ReturnNumber,NumberOfReturns',
+              dimensions: 'X,Y,Z,Classification,ReturnNumber,NumberOfReturns',
               count: 'Classification,ReturnNumber,NumberOfReturns',
             },
             { type: 'writers.null' },
@@ -447,16 +447,20 @@ jobs:
             const statistics = laserStatisticsFromMetadata(
               JSON.parse(readFileSync(metadataFile, 'utf8')),
               maximumPoints,
+              { expectedBoundsEpsg3006: bounds },
             );
             console.log(JSON.stringify({
               boundedAggregateBeforeDensityGate: statistics,
             }, null, 2));
-            const density = laserDensityEvidence({
+            const density = laserDensityAssessment({
               areaSquareMetres: 256 * 256,
               source: {
                 pointDensityPerSquareMetre: Number(process.env.LASER_ADVERTISED_DENSITY),
               },
             }, statistics.pointCount);
+            if (!density.usable) {
+              console.log('::warning::Laserdata Skog has insufficient local point coverage; no laser-derived runtime asset will be compiled for this window.');
+            }
             console.log(JSON.stringify({
               ready: true,
               source: 'Laserdata Nedladdning, skog',
@@ -465,6 +469,7 @@ jobs:
               spanMetres: 256,
               ...statistics,
               ...density,
+              disposition: density.usable ? 'eligible-for-derived-assets' : 'coverage-gap-fallback-required',
               elapsedMilliseconds: Math.round(performance.now() - started),
               retainedPointCloudBytes: 0,
               note: 'The authenticated COPC was range-streamed and only aggregate statistics were retained.',

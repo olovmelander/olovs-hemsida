@@ -139,7 +139,7 @@ export function laserWindowPlan(report, {
   throw new Error(`no Laserdata Skog item contains a ${spanMetres} m bounded AOI window`);
 }
 
-export function laserDensityEvidence(plan, pointCount, { minimumAdvertisedRatio = 0.1 } = {}) {
+export function laserDensityAssessment(plan, pointCount, { minimumAdvertisedRatio = 0.1 } = {}) {
   if (!Number.isSafeInteger(pointCount) || pointCount < 1) {
     throw new Error('bounded COPC density requires a positive point count');
   }
@@ -153,17 +153,24 @@ export function laserDensityEvidence(plan, pointCount, { minimumAdvertisedRatio 
   }
   const observed = pointCount / plan.areaSquareMetres;
   const ratio = observed / advertised;
-  if (ratio < minimumAdvertisedRatio) {
-    throw new Error(
-      `bounded COPC density ratio ${ratio.toFixed(4)} is below ${minimumAdvertisedRatio}`,
-    );
-  }
   return Object.freeze({
     observedPointDensityPerSquareMetre: observed,
     advertisedPointDensityPerSquareMetre: advertised,
     advertisedDensityRatio: ratio,
     minimumAdvertisedDensityRatio: minimumAdvertisedRatio,
+    usable: ratio >= minimumAdvertisedRatio,
   });
+}
+
+export function laserDensityEvidence(plan, pointCount, options) {
+  const assessment = laserDensityAssessment(plan, pointCount, options);
+  if (!assessment.usable) {
+    throw new Error(
+      `bounded COPC density ratio ${assessment.advertisedDensityRatio.toFixed(4)} is below ` +
+      assessment.minimumAdvertisedDensityRatio,
+    );
+  }
+  return assessment;
 }
 
 function findStatsMetadata(value) {
@@ -204,7 +211,9 @@ function enumeratedCounts(value, dimension) {
   }));
 }
 
-export function laserStatisticsFromMetadata(metadata, maximumPoints) {
+export function laserStatisticsFromMetadata(metadata, maximumPoints, {
+  expectedBoundsEpsg3006 = null,
+} = {}) {
   const stats = findStatsMetadata(metadata);
   if (!stats) throw new Error('PDAL did not return filters.stats metadata');
   const byName = new Map(stats.statistic.map(item => [item.name, item]));
@@ -230,8 +239,28 @@ export function laserStatisticsFromMetadata(metadata, maximumPoints) {
       throw new Error(`PDAL ${dimension} counts cover ${countedPoints} of ${pointCount} points`);
     }
   }
+  let observedBoundsEpsg3006 = null;
+  const x = byName.get('X');
+  const y = byName.get('Y');
+  if (x || y || expectedBoundsEpsg3006) {
+    const values = [x?.minimum, y?.minimum, x?.maximum, y?.maximum].map(Number);
+    if (values.some(value => !Number.isFinite(value)) || Number(x?.count) !== pointCount ||
+        Number(y?.count) !== pointCount || values[0] > values[2] || values[1] > values[3]) {
+      throw new Error('PDAL returned invalid bounded X/Y statistics');
+    }
+    observedBoundsEpsg3006 = Object.freeze(values);
+    if (expectedBoundsEpsg3006) {
+      const expected = finiteBbox(expectedBoundsEpsg3006, 'expected COPC bounds');
+      const tolerance = 0.02;
+      if (values[0] < expected[0] - tolerance || values[1] < expected[1] - tolerance ||
+          values[2] > expected[2] + tolerance || values[3] > expected[3] + tolerance) {
+        throw new Error('PDAL returned points outside the requested COPC bounds');
+      }
+    }
+  }
   return Object.freeze({
     pointCount,
+    observedBoundsEpsg3006,
     heightRH2000Metres: Object.freeze({
       minimum: finiteOrNull(z.minimum),
       maximum: finiteOrNull(z.maximum),
@@ -269,7 +298,7 @@ export function copcStatsPipeline(plan, credentials) {
     Object.freeze({ type: 'filters.head', count: plan.maximumPoints }),
     Object.freeze({
       type: 'filters.stats',
-      dimensions: 'Z,Classification,ReturnNumber,NumberOfReturns',
+      dimensions: 'X,Y,Z,Classification,ReturnNumber,NumberOfReturns',
       count: 'Classification,ReturnNumber,NumberOfReturns',
     }),
     Object.freeze({ type: 'writers.null' }),
@@ -302,7 +331,9 @@ export function acquireLaserWindow(report, {
   } finally {
     fs.rmSync(temporaryDirectory, { recursive: true, force: true });
   }
-  const statistics = laserStatisticsFromMetadata(metadata, plan.maximumPoints);
+  const statistics = laserStatisticsFromMetadata(metadata, plan.maximumPoints, {
+    expectedBoundsEpsg3006: plan.boundsEpsg3006,
+  });
   const density = laserDensityEvidence(plan, statistics.pointCount);
   return Object.freeze({
     schemaVersion: 1,

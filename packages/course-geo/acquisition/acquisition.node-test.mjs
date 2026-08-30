@@ -21,6 +21,7 @@ import {
 } from './access-preflight.mjs';
 import {
   copcStatsPipeline,
+  laserDensityAssessment,
   laserDensityEvidence,
   laserStatisticsFromMetadata,
   laserWindowPlan,
@@ -297,8 +298,11 @@ test('Laserdata Skog density gate detects an empty tile edge', () => {
     areaSquareMetres: 65_536,
     source: { pointDensityPerSquareMetre: 0.6 },
   };
+  const sparse = laserDensityAssessment(plan, 315);
+  assert.equal(sparse.usable, false);
   assert.throws(() => laserDensityEvidence(plan, 315), /density ratio .* below 0\.1/);
   const evidence = laserDensityEvidence(plan, 39_322);
+  assert.equal(evidence.usable, true);
   assert.ok(Math.abs(evidence.observedPointDensityPerSquareMetre - 0.6) < 0.001);
   assert.ok(evidence.advertisedDensityRatio > 0.99);
 });
@@ -308,6 +312,8 @@ test('Laserdata Skog aggregates parse PDAL category counts without retaining poi
     stages: {
       'filters.stats': {
         statistic: [
+          { name: 'X', count: 4, minimum: 100, maximum: 102 },
+          { name: 'Y', count: 4, minimum: 200, maximum: 203 },
           { name: 'Z', count: 4, minimum: 10, maximum: 17, average: 13, stddev: 2.5 },
           { name: 'Classification', counts: ['2.000000/1', '3.000000/2', '5.000000/1'] },
           { name: 'ReturnNumber', counts: ['1.000000/3', '2.000000/1'] },
@@ -315,14 +321,23 @@ test('Laserdata Skog aggregates parse PDAL category counts without retaining poi
         ],
       },
     },
-  }, 10);
+  }, 10, { expectedBoundsEpsg3006: [99, 199, 103, 204] });
   assert.equal(statistics.pointCount, 4);
+  assert.deepEqual(statistics.observedBoundsEpsg3006, [100, 200, 102, 203]);
   assert.deepEqual(statistics.classificationCounts, [
     { value: 2, count: 1 }, { value: 3, count: 2 }, { value: 5, count: 1 },
   ]);
   assert.deepEqual(statistics.returnNumberCounts, [
     { value: 1, count: 3 }, { value: 2, count: 1 },
   ]);
+  assert.throws(() => laserStatisticsFromMetadata({ statistic: [
+    { name: 'X', count: 4, minimum: 98, maximum: 102 },
+    { name: 'Y', count: 4, minimum: 200, maximum: 203 },
+    { name: 'Z', count: 4 },
+    { name: 'Classification', counts: ['2/4'] },
+    { name: 'ReturnNumber', counts: ['1/4'] },
+    { name: 'NumberOfReturns', counts: ['1/4'] },
+  ] }, 10, { expectedBoundsEpsg3006: [99, 199, 103, 204] }), /outside the requested/);
 });
 
 test('Laserdata Skog aggregates reject malformed or over-budget PDAL metadata', () => {
