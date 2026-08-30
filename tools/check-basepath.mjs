@@ -111,10 +111,31 @@ gate((cached['banvy-manifest'] || []).length === 1, 'and so does the manifest');
 /* the bookmarked standalone pages sit beside the app, as real files */
 const q = await ctx.newPage();
 q.setDefaultTimeout(300000);
-await q.goto(`${URLB}/veckefjarden3d.html?hal=3`, { waitUntil: 'load', timeout: 120000 });
-await q.waitForSelector('#boot.done', { timeout: 300000 });
-const legacy = await q.evaluate(() => ({ t: document.title, h: document.getElementById('cno')?.textContent }));
-gate(/Veckefj/.test(legacy.t) && legacy.h === '3', `a bookmarked page still opens itself on hole ${legacy.h}`);
+await q.goto(`${URLB}/veckefjarden3d.html?hal=3`, { waitUntil: 'domcontentloaded', timeout: 120000 });
+/* deliberately NOT waiting for #boot.done: the standalone pages fetch three.js
+   from a CDN, which this sandbox blocks, so they cannot finish booting here.
+   That is also how the fix was confirmed -- while the worker was hijacking this
+   URL the app shell answered it and booted fine, which is precisely why the old
+   assertion passed. Identity is what is being tested, and the document is enough
+   to establish it. */
+await q.waitForTimeout(1500);
+/* IDENTITY, not title. The service worker's navigation fallback will happily
+   answer this URL with the app shell, and the app then redirects to the same
+   course on the same hole wearing the same title -- so an assertion on title
+   and hole passes while the bookmarked page has quietly been replaced. Measured:
+   before the worker installed this served the real page; after, it landed on
+   /?bana=veckefjarden&hal=3 carrying the app's bundle. Ask what we actually got.
+   This runs AFTER the reload above, so the worker is installed and controlling;
+   a first visit would go to the network and prove nothing about the fallback. */
+const legacy = await q.evaluate(() => ({
+  t: document.title,
+  path: location.pathname,
+  appBundle: !!document.querySelector('script[src*="assets/index-"]'),
+  /* the standalone pages carry their own course data inline -- the app never does */
+  ownData: /@GEODATA|GEODATA\*\//.test(document.documentElement.innerHTML) }));
+gate(legacy.path.endsWith('/veckefjarden3d.html') && !legacy.appBundle,
+  `a bookmarked page still opens ITSELF ("${legacy.t.slice(0, 34)}")` +
+  (legacy.appBundle ? ` -- HIJACKED by the app shell, now at ${legacy.path}` : ''));
 
 await browser.close();
 console.log(bad ? `\n${bad} failed at base ${BASE}` : `\nthe app works mounted at ${BASE}`);

@@ -81,7 +81,25 @@ export default defineConfig({
         /* not anchored with ^: under a subpath the pathname is
            /olovs-hemsida/courses/... and an anchored pattern silently
            never matches, which would quietly disable offline packs */
-        navigateFallbackDenylist: [/\/courses\//],
+        navigateFallbackDenylist: [
+          /\/courses\//,
+          /* The seven standalone pages are REAL FILES on GitHub Pages -- pages.yml
+             copies them beside the app, because that host has no rewrite rules --
+             and they sit inside this worker's scope. Without this the navigation
+             fallback answers them with the app shell, and a bookmarked link
+             silently stops being the page that was bookmarked. MEASURED: before
+             the worker installs, /veckefjarden3d.html?hal=3 serves the real page;
+             after it installs, the same URL landed on /?bana=veckefjarden&hal=3
+             carrying the app's bundle. The old gate could not see it, because the
+             app redirects to the same hole and wears the same title.
+
+             Matched with (\?|$) because workbox tests pathname AND SEARCH, so a
+             bare $ would miss every shared link carrying the view grammar --
+             exactly the links worth protecting. Only on a subpath: at a domain
+             root these names are _redirects rewrites INTO the app, no file
+             exists, and denying them would only cost the offline shell. */
+          ...(BASE !== '/' ? [/\/[a-z]+3d\.html(\?|$)/, /\/veckefjardensgc\.html(\?|$)/] : []),
+        ],
 
         runtimeCaching: [
           {
