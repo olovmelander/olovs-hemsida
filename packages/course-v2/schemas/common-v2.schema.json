@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "common-v2.schema.json",
+  "title": "Banvy v2 shared manifest types",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "tileId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[a-z0-9._/-]*[a-z0-9])?$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "feature": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*-v[1-9][0-9]*$"
+    },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/feature" }
+    },
+    "relativeUrl": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^/\\\\?#]+(?:/[^/\\\\?#]+)*$"
+    },
+    "bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minEasting", "minNorthing", "minHeightRH2000",
+        "maxEasting", "maxNorthing", "maxHeightRH2000"
+      ],
+      "properties": {
+        "minEasting": { "type": "number" },
+        "minNorthing": { "type": "number" },
+        "minHeightRH2000": { "type": "number" },
+        "maxEasting": { "type": "number" },
+        "maxNorthing": { "type": "number" },
+        "maxHeightRH2000": { "type": "number" }
+      }
+    },
+    "assetReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind", "url", "mediaType", "bytes", "sha256",
+        "decodedBytes", "decodedSha256", "requiredFeatures"
+      ],
+      "properties": {
+        "kind": { "enum": ["terrain", "surface", "objects", "routing"] },
+        "url": { "$ref": "#/$defs/relativeUrl" },
+        "mediaType": { "const": "application/vnd.banvy.chunk-v2" },
+        "bytes": { "type": "integer", "minimum": 16, "maximum": 16777216 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "decodedBytes": { "type": "integer", "minimum": 0, "maximum": 67108864 },
+        "decodedSha256": { "$ref": "#/$defs/sha256" },
+        "requiredFeatures": { "$ref": "#/$defs/features" }
+      }
+    },
+    "courseManifestReference": {
+      "type": "object",
+      "$ref": "#/$defs/manifestReference",
+      "properties": {
+        "mediaType": { "const": "application/vnd.banvy.course-manifest-v2+json" }
+      }
+    },
+    "groundManifestReference": {
+      "type": "object",
+      "$ref": "#/$defs/manifestReference",
+      "properties": {
+        "mediaType": { "const": "application/vnd.banvy.ground-manifest-v2+json" }
+      }
+    },
+    "manifestReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "mediaType", "bytes", "sha256"],
+      "properties": {
+        "url": { "$ref": "#/$defs/relativeUrl" },
+        "mediaType": { "type": "string" },
+        "bytes": { "type": "integer", "minimum": 2, "maximum": 4194304 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "fallbackV1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "packUrl", "bytes", "sha256"],
+      "properties": {
+        "format": { "const": 1 },
+        "packUrl": { "$ref": "#/$defs/relativeUrl" },
+        "bytes": { "type": "integer", "minimum": 1, "maximum": 16777216 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compoundCrs", "horizontalCrs", "verticalCrs", "origin", "axisMapping", "fingerprint"
+      ],
+      "properties": {
+        "compoundCrs": { "const": "EPSG:5845" },
+        "horizontalCrs": { "const": "EPSG:3006" },
+        "verticalCrs": { "const": "EPSG:5613" },
+        "origin": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["easting", "northing", "heightRH2000"],
+          "properties": {
+            "easting": { "type": "number" },
+            "northing": { "type": "number" },
+            "heightRH2000": { "type": "number" }
+          }
+        },
+        "axisMapping": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["worldX", "worldY", "worldZ"],
+          "properties": {
+            "worldX": { "const": "easting - originEasting" },
+            "worldY": { "const": "heightRH2000 - originHeightRH2000" },
+            "worldZ": { "const": "originNorthing - northing" }
+          }
+        },
+        "fingerprint": { "$ref": "#/$defs/sha256" }
+      }
+    }
+  }
+}

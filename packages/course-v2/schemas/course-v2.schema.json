@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "course-v2.schema.json",
+  "title": "Banvy v2 course manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema", "schemaVersion", "courseFormat", "groundFormat", "slug", "groundId",
+    "requiredFeatures", "groundManifest", "routing", "holes", "fallbackV1"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 2 },
+    "courseFormat": { "const": 2 },
+    "groundFormat": { "const": 2 },
+    "slug": { "$ref": "common-v2.schema.json#/$defs/id" },
+    "groundId": { "$ref": "common-v2.schema.json#/$defs/id" },
+    "requiredFeatures": { "$ref": "common-v2.schema.json#/$defs/features" },
+    "groundManifest": { "$ref": "common-v2.schema.json#/$defs/groundManifestReference" },
+    "routing": {
+      "allOf": [
+        { "$ref": "common-v2.schema.json#/$defs/assetReference" },
+        { "type": "object", "properties": { "kind": { "const": "routing" } } }
+      ]
+    },
+    "holes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["number", "par", "strokeIndex", "strokeIndexStatus", "tileIds", "accuracyTier"],
+        "properties": {
+          "number": { "type": "integer", "minimum": 1, "maximum": 99 },
+          "par": { "type": "integer", "minimum": 3, "maximum": 6 },
+          "strokeIndex": {
+            "anyOf": [
+              { "type": "integer", "minimum": 1, "maximum": 99 },
+              { "type": "null" }
+            ]
+          },
+          "strokeIndexStatus": { "enum": ["verified", "unverified", "not-applicable"] },
+          "tileIds": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "$ref": "common-v2.schema.json#/$defs/tileId" }
+          },
+          "accuracyTier": { "enum": ["A", "B", "C", "D", "E", "unrated"] }
+        }
+      }
+    },
+    "fallbackV1": { "$ref": "common-v2.schema.json#/$defs/fallbackV1" }
+  }
+}

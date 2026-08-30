@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "root-v2.schema.json",
+  "title": "Banvy v2 course root index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "courses"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 2 },
+    "courses": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slug", "name", "groundId", "courseFormat", "groundFormat", "manifest", "fallbackV1"
+        ],
+        "properties": {
+          "slug": { "$ref": "common-v2.schema.json#/$defs/id" },
+          "name": { "type": "string", "minLength": 1 },
+          "groundId": { "$ref": "common-v2.schema.json#/$defs/id" },
+          "courseFormat": { "const": 2 },
+          "groundFormat": { "const": 2 },
+          "manifest": { "$ref": "common-v2.schema.json#/$defs/courseManifestReference" },
+          "fallbackV1": { "$ref": "common-v2.schema.json#/$defs/fallbackV1" }
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "chunk-header-v2.schema.json",
+  "title": "Banvy v2 binary chunk canonical header",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "id", "kind", "owner", "bounds", "payloadFormat",
+    "decodedBytes", "decodedSha256", "requiredFeatures"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "id": { "$ref": "common-v2.schema.json#/$defs/tileId" },
+    "kind": { "enum": ["terrain", "surface", "objects", "routing"] },
+    "owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id"],
+      "properties": {
+        "type": { "enum": ["ground", "course"] },
+        "id": { "$ref": "common-v2.schema.json#/$defs/id" }
+      }
+    },
+    "bounds": { "$ref": "common-v2.schema.json#/$defs/bounds" },
+    "payloadFormat": { "enum": ["terrain-grid-u16-le-v1", "json-canonical-v1"] },
+    "decodedBytes": { "type": "integer", "minimum": 0, "maximum": 67108864 },
+    "decodedSha256": { "$ref": "common-v2.schema.json#/$defs/sha256" },
+    "requiredFeatures": { "$ref": "common-v2.schema.json#/$defs/features" },
+    "grid": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width", "height", "sampleSpacingMetres", "heightOffsetMetres", "heightScaleMetres",
+        "noDataValue", "rowOrder", "columnOrder", "geometricErrorMetres"
+      ],
+      "properties": {
+        "width": { "type": "integer", "minimum": 2, "maximum": 4097 },
+        "height": { "type": "integer", "minimum": 2, "maximum": 4097 },
+        "sampleSpacingMetres": { "type": "number", "minimum": 0.01, "maximum": 10000 },
+        "heightOffsetMetres": { "type": "number" },
+        "heightScaleMetres": { "type": "number", "minimum": 0.0001, "maximum": 10 },
+        "noDataValue": { "type": "integer", "minimum": 0, "maximum": 65535 },
+        "rowOrder": { "const": "north-to-south" },
+        "columnOrder": { "const": "west-to-east" },
+        "geometricErrorMetres": { "type": "number", "minimum": 0 }
+      }
+    },
+    "records": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content", "count"],
+      "properties": {
+        "content": { "type": "string", "minLength": 1 },
+        "count": { "type": "integer", "minimum": 0, "maximum": 10000000 }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "required": ["grid"],
+      "properties": {
+        "payloadFormat": { "const": "terrain-grid-u16-le-v1" },
+        "kind": { "const": "terrain" },
+        "requiredFeatures": { "type": "array", "contains": { "const": "terrain-grid-u16-v1" } },
+        "grid": true
+      }
+    },
+    {
+      "type": "object",
+      "required": ["records"],
+      "properties": {
+        "payloadFormat": { "const": "json-canonical-v1" },
+        "kind": { "const": "routing" },
+        "requiredFeatures": { "type": "array", "contains": { "const": "course-routing-json-v1" } },
+        "records": true
+      }
+    }
+  ]
+}

@@ -170,7 +170,7 @@ jobs:
           }, null, 2));
           NODE
 
-      - name: Compile bounded 1 m terrain COG
+      - name: Compile bounded 1 m terrain COG and BVCH pyramid
         env:
           CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .tif
           CPL_VSIL_CURL_CACHE_SIZE: "67108864"
@@ -181,8 +181,9 @@ jobs:
           VSI_CACHE: "TRUE"
           VSI_CACHE_SIZE: "67108864"
         run: |
-          terrain_output="$RUNNER_TEMP/puttom-terrain-1024m.tif"
-          terrain_info="$RUNNER_TEMP/puttom-terrain-1024m.json"
+          terrain_output="$RUNNER_TEMP/puttom-terrain-1025px.tif"
+          terrain_info="$RUNNER_TEMP/puttom-terrain-1025px.json"
+          terrain_raw="$RUNNER_TEMP/puttom-terrain-1025px.f32"
           terrain_started="$(date +%s)"
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
             gdal_translate \
@@ -192,23 +193,31 @@ jobs:
             -co LEVEL=9 \
             -co NUM_THREADS=ALL_CPUS \
             -projwin_srs EPSG:3006 \
-            -projwin 696916 7025595 697940 7024571 \
+            -projwin 696916 7025595 697941 7024570 \
             "/vsicurl/$TERRAIN_ASSET_URL" \
             "$terrain_output"
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
             gdalinfo -json -stats "$terrain_output" > "$terrain_info"
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
+            gdal_translate -of ENVI -ot Float32 -co INTERLEAVE=BSQ \
+            "$terrain_output" "$terrain_raw"
           TERRAIN_ELAPSED_SECONDS="$(( $(date +%s) - terrain_started ))" \
           TERRAIN_INFO="$terrain_info" \
           TERRAIN_OUTPUT="$terrain_output" \
+          TERRAIN_RAW="$terrain_raw" \
             node --input-type=module <<'NODE'
           import { createHash } from 'node:crypto';
           import { readFileSync, statSync } from 'node:fs';
+          import {
+            compileTerrainAssets,
+            readFloat32TerrainFile,
+          } from './packages/course-v2/terrain-compiler-node.mjs';
 
           const output = process.env.TERRAIN_OUTPUT;
           const info = JSON.parse(readFileSync(process.env.TERRAIN_INFO, 'utf8'));
           const bytes = readFileSync(output);
           const band = info.bands?.[0];
-          if (info.size?.[0] !== 1024 || info.size?.[1] !== 1024 || !band) {
+          if (info.size?.[0] !== 1025 || info.size?.[1] !== 1025 || !band) {
             throw new Error(`Unexpected terrain window ${info.size?.join('x') || '<missing>'}`);
           }
           const imageStructure = info.metadata?.IMAGE_STRUCTURE || {};
@@ -219,10 +228,37 @@ jobs:
           if (!wkt.startsWith('COMPOUNDCRS') || !wkt.includes('SWEREF99') || !wkt.includes('RH2000')) {
             throw new Error('Compiled terrain output lost SWEREF 99 or RH 2000');
           }
+          const transform = info.geoTransform || [];
+          const expectedTransform = [696916, 1, 0, 7025595, 0, -1];
+          if (transform.length !== 6 || transform.some((value, index) =>
+            Math.abs(value - expectedTransform[index]) > 1e-9)) {
+            throw new Error(`Unexpected terrain geotransform ${JSON.stringify(transform)}`);
+          }
+          const raster = await readFloat32TerrainFile(process.env.TERRAIN_RAW, {
+            width: 1025,
+            height: 1025,
+            noDataValue: band.noDataValue,
+          });
+          const compiled = compileTerrainAssets({
+            groundId: 'puttom',
+            courseSlugs: ['puttom'],
+            heights: raster.heights,
+            width: raster.width,
+            height: raster.height,
+            originEasting: transform[0] + transform[1] / 2,
+            originNorthing: transform[3] + transform[5] / 2,
+            sampleSpacingMetres: 1,
+            tileSegments: 256,
+            heightScaleMetres: 0.01,
+          });
+          if (compiled.stats.rootTiles !== 1 || compiled.stats.levels.length !== 3 ||
+              compiled.stats.tileChunks !== 21 || compiled.resources.size !== 22) {
+            throw new Error(`Unexpected BVCH pyramid ${JSON.stringify(compiled.stats)}`);
+          }
           console.log(JSON.stringify({
             ready: true,
             groundId: 'puttom',
-            sampleMetres: [1024, 1024],
+            sampleSpanMetres: [1024, 1024],
             rasterPixels: info.size,
             resolutionMetres: [Math.abs(info.geoTransform?.[1]), Math.abs(info.geoTransform?.[5])],
             compoundCrs: 'EPSG:5845',
@@ -236,6 +272,20 @@ jobs:
               mean: band.mean,
               standardDeviation: band.stdDev,
               noDataValue: band.noDataValue,
+            },
+            bvch: {
+              tileSegments: 256,
+              lodLevels: compiled.stats.levels.length,
+              tileChunks: compiled.stats.tileChunks,
+              rootTiles: compiled.stats.rootTiles,
+              uniqueChunks: compiled.stats.uniqueChunks,
+              encodedBytes: compiled.stats.encodedBytes,
+              decodedBytes: compiled.stats.decodedBytes,
+              shellEncodedBytes: compiled.stats.shellEncodedBytes,
+              sharedHeightOffsetMetres: compiled.pyramid.commonHeightOffsetMetres,
+              heightScaleMetres: compiled.pyramid.heightScaleMetres,
+              seamsVerified: compiled.pyramid.seamsVerified,
+              morphMethod: compiled.pyramid.morphMethod,
             },
             elapsedSeconds: Number(process.env.TERRAIN_ELAPSED_SECONDS),
             retained: false,
