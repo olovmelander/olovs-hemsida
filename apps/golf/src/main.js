@@ -48,7 +48,8 @@ import { inflate, decodeHF } from './engine/codec.js';
 import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
-import { makeGround } from './engine/material.js';
+import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
+import { loadPuttomTerrainPreview } from './engine/v2-puttom-preview.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
    the flag-cloth wave -- so two boots render the same pixels. Phase 0 proved the
@@ -130,12 +131,46 @@ const GEO = PACK.H.GEO;
 const HF0 = PACK.H.HF0;
 const HF1 = PACK.H.HF1;
 
-
 await tick('läser terrängdata', 0.04);
-const [b0, b1, bv] = await Promise.all([inflate(PACK.s0), inflate(PACK.s1), inflate(PACK.sv)]);
+/* The preview is opt-in and dynamically imports its verifier only for
+   ?bana=puttom&v2=1. Start its bounded tile requests beside GPK1 inflation so
+   the integrity work does not serialize the boot. A failed or absent preview
+   resolves to an explicit fallback state and never blocks the normal course. */
+const terrainPreviewPromise = loadPuttomTerrainPreview({
+  slug: CMETA.slug,
+  geo: GEO,
+  search: location.search,
+});
+const [b0, b1, bv, TERRAIN_PREVIEW] = await Promise.all([
+  inflate(PACK.s0), inflate(PACK.s1), inflate(PACK.sv), terrainPreviewPromise,
+]);
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = JSON.parse(new TextDecoder().decode(bv));
 const HOLES = M.holes;
+
+const terrainPreviewBadge = document.getElementById('v2TerrainBadge');
+function setTerrainPreviewBadge(backend = null, renderState = null) {
+  if (!terrainPreviewBadge || !TERRAIN_PREVIEW.requested) return;
+  terrainPreviewBadge.hidden = false;
+  const title = terrainPreviewBadge.querySelector('b');
+  const detail = terrainPreviewBadge.querySelector('span');
+  if (TERRAIN_PREVIEW.ready && renderState !== 'failed') {
+    terrainPreviewBadge.dataset.state = renderState === 'ready' ? 'ready' : 'loading';
+    title.textContent = '1 M TERRÄNG · PREVIEW';
+    detail.textContent = [
+      'Puttom',
+      `${TERRAIN_PREVIEW.resources.length} verifierade tiles`,
+      backend,
+    ].filter(Boolean).join(' · ');
+  } else {
+    terrainPreviewBadge.dataset.state = 'fallback';
+    title.textContent = 'STANDARDTERRÄNG · FALLBACK';
+    detail.textContent = CMETA.slug === 'puttom'
+      ? '1 m-previewn kunde inte verifieras'
+      : '1 m-previewn är ännu bara aktiverad för Puttom';
+  }
+}
+setTerrainPreviewBadge();
 /* How many holes this course HAS, rather than the eighteen every course here has
    happened to have. Upsala's Mellanbanan and Johannesberg's nine are nines, and
    they share their parent's environment as separate courses rather than becoming
@@ -175,6 +210,8 @@ function sampleGrid(G, S, x, z) {
 /* the course at 4 m, the vista at 32 m, cross-faded over the last 130 m of the
    fine grid so the join is a slope rather than a step */
 function demH(x, z) {
+  const previewHeight = TERRAIN_PREVIEW.heightAt(x, z);
+  if (Number.isFinite(previewHeight)) return previewHeight;
   const a = sampleGrid(H0, HF0, x, z);
   const b = sampleGrid(H1, HF1, x, z) ?? a ?? 0;
   if (a === null) return b;
@@ -1597,6 +1634,62 @@ await tick('bygger horisonten', 0.34);
 const farMesh = new THREE.Mesh(await buildTerrain(FARR, under(MIDR, 72), false), turfMat);
 farMesh.userData.tag = 'far';
 scene.add(farMesh);
+
+/* Replace only the rectangular part of the legacy core for which all 16
+   verified 1 m tiles exist. Triangles outside that pilot remain the seamless
+   GPK1 fallback; boundary skirts on the BVCH topology seal the sub-grid cut. */
+function cutTerrainPreviewRect(geometry, bounds) {
+  const position = geometry.getAttribute('position');
+  const source = geometry.getIndex()?.array;
+  if (!position || !source || !bounds) return Object.freeze({ removedTriangles: 0 });
+  const retained = new source.constructor(source.length);
+  let write = 0, removedTriangles = 0;
+  for (let index = 0; index < source.length; index += 3) {
+    const a = source[index], b = source[index + 1], c = source[index + 2];
+    const x = (position.getX(a) + position.getX(b) + position.getX(c)) / 3;
+    const z = (position.getZ(a) + position.getZ(b) + position.getZ(c)) / 3;
+    if (x > bounds.x0 && x < bounds.x1 && z > bounds.z0 && z < bounds.z1) {
+      removedTriangles++;
+      continue;
+    }
+    retained[write++] = a; retained[write++] = b; retained[write++] = c;
+  }
+  geometry.setIndex(new THREE.BufferAttribute(retained.slice(0, write), 1));
+  return Object.freeze({ removedTriangles });
+}
+
+let terrainPreviewBatch = null;
+let terrainPreviewRender = Object.freeze({ status: TERRAIN_PREVIEW.ready ? 'pending' : 'fallback' });
+if (TERRAIN_PREVIEW.ready) {
+  try {
+    const { TerrainTileBatchSet } = await import('./engine/v2-terrain-batch.mjs');
+    terrainPreviewBatch = new TerrainTileBatchSet({
+      maximumTiles: TERRAIN_PREVIEW.resources.length,
+      morphDurationMilliseconds: 0,
+      decorateMaterial: createV2GroundMaterialDecorator({
+        atlas: groundAtlas, DETAIL, C, SHADE,
+      }),
+    });
+    terrainPreviewBatch.sync(TERRAIN_PREVIEW.resources);
+    scene.add(terrainPreviewBatch.group);
+    const cut = cutTerrainPreviewRect(coreMesh.geometry, TERRAIN_PREVIEW.bounds);
+    terrainPreviewRender = Object.freeze({
+      status: 'ready',
+      ...cut,
+      ...terrainPreviewBatch.stats(),
+    });
+    setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'ready');
+  } catch (error) {
+    terrainPreviewBatch?.dispose();
+    terrainPreviewBatch = null;
+    terrainPreviewRender = Object.freeze({
+      status: 'failed',
+      error: String(error?.message || error).slice(0, 300),
+    });
+    console.warn('Puttom 1 m terrain renderer fell back to the GPK1 mesh:', error);
+    setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'failed');
+  }
+}
 
 /* ------------------------------------------------- conforming course surfaces
    A 4 m grid cannot hold the edge of a green: it would be a staircase. So every
@@ -4839,6 +4932,7 @@ addEventListener('resize', () => {
 let last = performance.now(), acc = 0, frames = 0, fps = 0;
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
+  terrainPreviewBatch?.tick(now);
   last = now; frames++; acc += dt;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
 
@@ -4912,7 +5006,7 @@ const BOOTQ = new URLSearchParams(location.search);
 await tick('klar', 1.0);
 renderer.setAnimationLoop(frame);
 document.getElementById('hdsub').textContent =
-  `${CMETA.tag} · ${IS_GPU ? 'WebGPU' : 'WebGL2'}`;
+  `${CMETA.tag} · ${IS_GPU ? 'WebGPU' : 'WebGL2'}${terrainPreviewRender.status === 'ready' ? ' · 1 m preview' : ''}`;
 stats.draws = renderer.info?.render?.drawCalls || stats.draws;
 BOOT_PERF.totalMs = +(performance.now() - bootStarted).toFixed(1);
 
@@ -4931,6 +5025,18 @@ window.V3D = {
     classCounts: groundAtlas ? Array.from(groundAtlas.data.classCounts) : null,
   }),
   groundSample: (x, z) => groundAtlas?.sampleAt(x, z) || null,
+  v2Terrain: () => ({
+    requested: TERRAIN_PREVIEW.requested,
+    ready: TERRAIN_PREVIEW.ready,
+    status: terrainPreviewRender.status,
+    reason: TERRAIN_PREVIEW.reason,
+    label: TERRAIN_PREVIEW.descriptor?.label || null,
+    bounds: TERRAIN_PREVIEW.bounds ? { ...TERRAIN_PREVIEW.bounds } : null,
+    bridge: TERRAIN_PREVIEW.bridge ? { ...TERRAIN_PREVIEW.bridge } : null,
+    source: TERRAIN_PREVIEW.stats(),
+    renderer: { ...terrainPreviewRender },
+    backend: IS_GPU ? 'webgpu' : 'webgl2',
+  }),
   classifyAnalytic,
   plates: () => plateSites.map(p => ({ ...p })),
   course: () => ({ ...CMETA }),

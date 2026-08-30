@@ -154,6 +154,19 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 #toast.show{opacity:1;pointer-events:auto}
 #toast a{color:var(--turf)}
 
+#v2TerrainBadge{position:fixed;left:14px;top:72px;z-index:18;display:flex;
+  flex-direction:column;gap:2px;padding:8px 11px;border-radius:10px;
+  background:rgba(8,20,13,.78);border:1px solid rgba(128,217,145,.28);
+  box-shadow:0 8px 28px rgba(0,0,0,.28);backdrop-filter:blur(16px) saturate(1.2);
+  -webkit-backdrop-filter:blur(16px) saturate(1.2);pointer-events:none}
+#v2TerrainBadge[hidden],body.clean #v2TerrainBadge{display:none}
+#v2TerrainBadge b{font:700 10px/1.2 'JetBrains Mono',monospace;letter-spacing:.08em;color:#9af0aa}
+#v2TerrainBadge span{font-size:10px;line-height:1.25;color:var(--dim)}
+#v2TerrainBadge[data-state="fallback"]{border-color:rgba(226,178,89,.35)}
+#v2TerrainBadge[data-state="fallback"] b{color:#efc676}
+@media(max-width:700px){#v2TerrainBadge{left:8px;top:calc(64px + env(safe-area-inset-top));
+  max-width:calc(100vw - 16px);padding:7px 9px}}
+
 /* the mobile Vy/Ljus toggle */
 #uiToggle{display:none;position:fixed;z-index:21;right:calc(8px + env(safe-area-inset-right));
   bottom:calc(104px + env(safe-area-inset-bottom));padding:10px 14px;border-radius:21px;
@@ -316,6 +329,7 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 <button id="cleanExit" title="visa panelerna">×</button>
 <div id="tourCard"><div class="tno">HÅL 1</div><div class="tnm">—</div><div class="ttx"></div></div>
 <div class="panel" id="kikOut"></div>
+<div id="v2TerrainBadge" role="status" aria-live="polite" hidden><b></b><span></span></div>
 <div id="toast"></div>
 
 <script type="module" src="/src/entry.js"></script>

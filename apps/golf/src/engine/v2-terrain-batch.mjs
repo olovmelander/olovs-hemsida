@@ -288,6 +288,7 @@ export class TerrainTextureBatch {
     this.disposed = true;
     this.mesh.removeFromParent();
     this.geometry.dispose();
+    for (const texture of this.material.userData.terrainPreviewTextures || []) texture.dispose();
     this.material.dispose();
     this.texture.dispose();
     this.layersByTile.clear();

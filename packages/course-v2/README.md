@@ -102,14 +102,16 @@ truth.
   corrupt cached copy is evicted and fetched once from the network;
 - `ResourceLeasePool` reference-counts and LRU-evicts decoded/GPU resources.
 
-The player keeps this code out of its default critical path. `?v2=1` dynamically
-loads the v2 selector, validates any published root/course/ground graph and then
-uses the root's exact GPK1 fallback while the D4 renderer remains unavailable.
-`?v2=require` fails closed on a missing, corrupt, unsupported or currently
-unrenderable v2 graph. No synthetic fixture is copied into `public/`, and a
-missing public v2 root is therefore an honest 404 rather than fake production
-data. The debug chunk is excluded from the PWA precache and a production-build
-gate keeps it below 64 KiB and out of both initial HTML and the service worker.
+The player keeps this code out of its default critical path. On Puttom only,
+`?v2=1` dynamically loads the strict provisional descriptor and all 16 finest
+BVCH tiles, verifies encoded and decoded identities, and translates their
+EPSG:5845 frame into the current GPK1 +x-east/-z-north coordinates. The same
+indexed 1 m CPU sampler then feeds terrain, camera and object placement while a
+one-draw texture-array batch renders on both WebGPU and WebGL2. Missing,
+misaligned or corrupt data falls back to GPK1 before the legacy core is cut.
+The dynamic loader/renderer chunks and BVCH data are excluded from install-time
+PWA precache and cached only after the explicit opt-in. A production-build gate
+keeps both dynamic chunks below 64 KiB and out of initial HTML/service worker.
 
 The provider-access workflow builds a short-lived Puttom preview from
 authenticated terrain, verifies every BVCH in the browser and captures forced

@@ -8,8 +8,14 @@ on:
       - ".github/workflows/course-geo-access.yml"
       - "packages/course-v2/build-renderer-proof.mjs"
       - "packages/course-v2/capture-terrain-preview.mjs"
+      - "packages/course-v2/capture-puttom-app-preview.mjs"
       - "packages/course-v2/terrain-preview*.mjs"
       - "apps/golf/src/engine/v2-terrain-*.mjs"
+      - "apps/golf/src/engine/v2-puttom-preview.mjs"
+      - "apps/golf/src/engine/material.js"
+      - "apps/golf/src/main.js"
+      - "apps/golf/index.html"
+      - "apps/golf/vite.config.js"
       - "apps/golf/v2-terrain-proof.html"
   workflow_dispatch:
 
@@ -643,12 +649,35 @@ jobs:
           "$RUNNER_TEMP/puttom-terrain-preview"
           "$RUNNER_TEMP/puttom-terrain-runtime"
 
+      - name: Build real app with staged preview assets
+        run: |
+          mkdir -p apps/golf/public/v2/puttom
+          cp -R "$RUNNER_TEMP/puttom-terrain-runtime/." apps/golf/public/v2/puttom/
+          pnpm --filter @banvy/golf build
+          node packages/course-v2/check-app-build.mjs
+
+      - name: Capture interactive Puttom preview in the real app
+        run: >-
+          node packages/course-v2/capture-puttom-app-preview.mjs
+          --root apps/golf/dist
+          --out "$RUNNER_TEMP/puttom-app-captures"
+          --timeout 300
+
       - name: Upload derived Puttom runtime preview
         uses: actions/upload-artifact@v4
         with:
           name: puttom-terrain-runtime-${{ github.run_number }}
           path: ${{ runner.temp }}/puttom-terrain-runtime
           if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload interactive app preview evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: puttom-interactive-app-preview-${{ github.run_number }}
+          path: ${{ runner.temp }}/puttom-app-captures
+          if-no-files-found: warn
           retention-days: 7
 
       - name: Upload screenshots and backend report only

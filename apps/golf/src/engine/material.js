@@ -217,3 +217,71 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
   const phase = mix(aMow.x.mul(aMow.y), atlasPhase, inBounds);
   return finish(col, det, bmp, gls, strength, phase, sandWeight, hardWeight);
 }
+
+/* The BVCH terrain has its own vertex texture and geometric normals, so it
+   cannot reuse makeGround's legacy per-vertex colour attributes. It can reuse
+   the same 1 m surface atlas, palette and mowing coordinates, though. This
+   decorator keeps the one-draw WebGPU/WebGL2 terrain batch while making the
+   provisional raw DTM read as the same golf course instead of a green slab. */
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
+  if (!atlas?.texID || !atlas?.texF) throw new TypeError('the v2 terrain material requires a ground atlas');
+  const styleTexture = makeStyleTexture(C, SHADE);
+  return material => {
+    const wp = positionWorld.xz;
+    const b = atlas.bounds;
+    const uvAtlas = vec2(
+      wp.x.sub(float(b.x0)).add(b.res * 0.5).div(b.x1 - b.x0),
+      wp.y.sub(float(b.z0)).add(b.res * 0.5).div(b.z1 - b.z0),
+    );
+    const inBounds = step(0, uvAtlas.x).mul(step(uvAtlas.x, 1))
+      .mul(step(0, uvAtlas.y)).mul(step(uvAtlas.y, 1));
+    const ids = texture(atlas.texID, uvAtlas);
+    const fields = texture(atlas.texF, uvAtlas);
+    const primaryId = ids.r.mul(255);
+    const secondaryId = ids.g.mul(255);
+    const sdf = fields.r.mul(16).sub(8);
+    const edgeWidth = fwidth(sdf).mul(0.75).max(0.12);
+    const primaryWeight = smoothstep(edgeWidth.negate(), edgeWidth, sdf);
+    const styleUv = (id, row) => vec2(id.add(0.5).div(STYLE_WIDTH), float((row + 0.5) / STYLE_ROWS));
+    const primaryColor = texture(styleTexture, styleUv(primaryId, 0));
+    const secondaryColor = texture(styleTexture, styleUv(secondaryId, 0));
+    const primaryShade = texture(styleTexture, styleUv(primaryId, 1));
+    const secondaryShade = texture(styleTexture, styleUv(secondaryId, 1));
+    const primaryMeta = texture(styleTexture, styleUv(primaryId, 2));
+    const secondaryMeta = texture(styleTexture, styleUv(secondaryId, 2));
+    const active = mix(secondaryMeta.r, primaryMeta.r, primaryWeight).mul(inBounds);
+    const roughColor = vec3(C.rough[0], C.rough[1], C.rough[2]);
+    const classColor = mix(secondaryColor.rgb, primaryColor.rgb, primaryWeight);
+    const base = mix(roughColor, classColor, active);
+    const roughShade = vec3(
+      SHADE[SURFACE.ROUGH][0], SHADE[SURFACE.ROUGH][1], SHADE[SURFACE.ROUGH][2],
+    );
+    const classShade = mix(secondaryShade.rgb, primaryShade.rgb, primaryWeight);
+    const shade = mix(roughShade, classShade, active);
+    const strength = mix(float(0), mix(secondaryShade.a, primaryShade.a, primaryWeight), active);
+    const meta = mix(secondaryMeta, primaryMeta, primaryWeight).mul(inBounds);
+
+    const detailScale = shade.x.max(0.45);
+    const fine = texture(DETAIL, wp.mul(detailScale.mul(0.11))).r.sub(0.5);
+    const macro = texture(DETAIL, wp.mul(0.0085)).b.sub(0.5);
+    const turfDetail = fine.mul(0.30).add(macro.mul(0.18));
+    const sandDetail = texture(DETAIL, wp.mul(0.22)).r.sub(0.5).mul(0.16);
+    const hardDetail = texture(DETAIL, wp.mul(0.13)).g.sub(0.5).mul(0.13);
+    const surfaceDetail = mix(mix(turfDetail, sandDetail, meta.g), hardDetail, meta.b);
+
+    const mowK = texture(styleTexture, styleUv(primaryId, 3));
+    const routeDistance = fields.g.mul(255 / 4);
+    const ringDistance = fields.a.mul(255 * 0.16);
+    const routeValid = oneMinus(step(0.999, fields.g));
+    const diagonal = wp.x.sub(wp.y).mul(0.70710678);
+    const phase = ringDistance.mul(mowK.r)
+      .add(routeDistance.mul(mowK.g).mul(routeValid))
+      .add(diagonal.mul(mowK.b));
+    const mow = sin(phase).mul(strength).mul(0.045)
+      .mul(oneMinus(smoothstep(0.55, 1.7, fwidth(phase))));
+    material.colorNode = base.mul(base).mul(float(1).add(surfaceDetail).add(mow));
+    material.roughnessNode = clamp(float(0.97).sub(shade.z.mul(0.62)), 0.42, 0.99);
+    material.metalness = 0;
+    material.userData.terrainPreviewTextures = [styleTexture];
+  };
+}

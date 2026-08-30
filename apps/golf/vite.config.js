@@ -70,6 +70,14 @@ export default defineConfig({
            should pay for five courses they did not open. They arrive below, on
            demand, and then stay. */
         globPatterns: ['**/*.{js,css,html,svg}', 'icons/*.png', 'fonts/**'],
+        /* These chunks are reachable only through the explicit Puttom v2
+           preview. Keeping them out of install-time precache preserves the
+           normal mobile player's critical path; content-addressed BVCH data is
+           cached on demand below. */
+        globIgnores: [
+          'assets/v2-terrain-*.js',
+          'assets/terrain-render-data-*.js',
+        ],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,   /* three.tsl is ~1 MB */
 
         /* No path routes exist, so the only navigations are / and the six legacy
@@ -83,6 +91,7 @@ export default defineConfig({
            never matches, which would quietly disable offline packs */
         navigateFallbackDenylist: [
           /\/courses\//,
+          /\/v2\//,
           /* The seven standalone pages are REAL FILES on GitHub Pages -- pages.yml
              copies them beside the app, because that host has no rewrite rules --
              and they sit inside this worker's scope. Without this the navigation
@@ -102,6 +111,30 @@ export default defineConfig({
         ],
 
         runtimeCaching: [
+          {
+            /* The descriptor is provisional and may be replaced after a newly
+               reviewed terrain build, so revalidate it before using cache. */
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/v2\/[^/]+\/preview\.json$/.test(url.pathname),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'banvy-v2-preview-manifests',
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            /* BVCH names are full SHA-256 identities and are verified again by
+               the runtime, making year-long cache-first safe and fast. */
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/v2\/[^/]+\/grounds\/[^/]+\/terrain\/[a-f0-9]{64}\.bvch$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-v2-terrain',
+              expiration: { maxEntries: 96, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
           {
             /* The manifest is the one file that must be current: it says which
                pack bytes are correct. Network first, cache only as the offline

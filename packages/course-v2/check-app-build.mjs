@@ -10,18 +10,30 @@ const ASSETS = path.join(DIST, 'assets');
 if (!fs.existsSync(path.join(DIST, 'sw.js'))) {
   throw new Error('golf production build is missing; run the Vite build first');
 }
-const chunks = fs.readdirSync(ASSETS).filter(file => /^v2-selection-[A-Za-z0-9_-]+\.js$/.test(file));
-if (chunks.length !== 1) throw new Error(`expected one isolated v2 selection chunk, found ${chunks.length}`);
-const chunk = chunks[0];
-const bytes = fs.statSync(path.join(ASSETS, chunk)).size;
-if (bytes > 64 * 1024) throw new Error(`v2 selection chunk is ${bytes} bytes; budget is 65536`);
+const assets = fs.readdirSync(ASSETS);
+const expected = [
+  /^v2-terrain-preview-loader-[A-Za-z0-9_-]+\.js$/,
+  /^v2-terrain-batch-[A-Za-z0-9_-]+\.js$/,
+];
+const chunks = expected.map(pattern => {
+  const matches = assets.filter(file => pattern.test(file));
+  if (matches.length !== 1) throw new Error(`expected one isolated ${pattern} chunk, found ${matches.length}`);
+  return matches[0];
+});
+for (const chunk of chunks) {
+  const bytes = fs.statSync(path.join(ASSETS, chunk)).size;
+  if (bytes > 64 * 1024) throw new Error(`${chunk} is ${bytes} bytes; budget is 65536`);
+}
 
 const serviceWorker = fs.readFileSync(path.join(DIST, 'sw.js'), 'utf8');
-if (serviceWorker.includes(chunk) || serviceWorker.includes('v2-selection-')) {
-  throw new Error('v2 selection debug chunk leaked into the production PWA precache');
+if (chunks.some(chunk => serviceWorker.includes(chunk)) ||
+    serviceWorker.includes('v2-terrain-preview-loader-') ||
+    serviceWorker.includes('v2-terrain-batch-') ||
+    serviceWorker.includes('terrain-render-data-')) {
+  throw new Error('v2 terrain preview chunks leaked into the production PWA precache');
 }
 const html = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
-if (html.includes(chunk) || html.includes('v2-selection-')) {
-  throw new Error('v2 selection debug chunk leaked into initial HTML');
+if (chunks.some(chunk => html.includes(chunk))) {
+  throw new Error('v2 terrain preview chunks leaked into initial HTML');
 }
-console.log(`course-v2 app isolation passed: ${chunk}, ${bytes} bytes, not precached`);
+console.log(`course-v2 app isolation passed: ${chunks.join(', ')}, not precached`);
