@@ -1,6 +1,11 @@
 name: course geo per-hole source controls
 
 on:
+  push:
+    branches:
+      - claude/veckefjarden-terrain-alignment-w2mexk
+    paths:
+      - .github/workflows/course-geo-hole-controls.yml
   workflow_dispatch:
     inputs:
       ground:
@@ -70,9 +75,70 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `grounds=${JSON.stringify(selected)}\n`, 'utf8');
           NODE
 
+  preflight:
+    name: Resolve and probe provider access
+    runs-on: ubuntu-latest
+    outputs:
+      effective: ${{ steps.providers.outputs.effective }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Probe requested provider credentials
+        id: providers
+        env:
+          CONTROL_PROVIDERS: ${{ github.event_name != 'workflow_dispatch' && 'both' || inputs.providers }}
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+          SKOGSSTYRELSEN_USERNAME: ${{ secrets.SKOGSSTYRELSEN_USERNAME }}
+          SKOGSSTYRELSEN_PASSWORD: ${{ secrets.SKOGSSTYRELSEN_PASSWORD }}
+        shell: bash
+        run: |
+          laser_available=false
+          tree_height_available=false
+
+          if [ "$CONTROL_PROVIDERS" = "both" ] || [ "$CONTROL_PROVIDERS" = "laser" ]; then
+            if [ -z "$LANTMATERIET_USERNAME" ] || [ -z "$LANTMATERIET_PASSWORD" ]; then
+              echo "::warning::Lantmäteriet repository secrets are missing; Laserdata checks will be skipped"
+            elif node packages/course-geo/acquisition/access-preflight.mjs \
+              --ground puttom --provider lantmateriet; then
+              laser_available=true
+            else
+              echo "::warning::Lantmäteriet access preflight failed; Laserdata checks will be skipped"
+            fi
+          fi
+
+          if [ "$CONTROL_PROVIDERS" = "both" ] || [ "$CONTROL_PROVIDERS" = "tree-height" ]; then
+            if [ -z "$SKOGSSTYRELSEN_USERNAME" ] || [ -z "$SKOGSSTYRELSEN_PASSWORD" ]; then
+              echo "::warning::Skogsstyrelsen repository secrets are missing; tree-height checks will be skipped"
+            elif node packages/course-geo/acquisition/access-preflight.mjs \
+              --ground puttom --provider skogsstyrelsen; then
+              tree_height_available=true
+            else
+              echo "::warning::Skogsstyrelsen access preflight failed; tree-height checks will be skipped"
+            fi
+          fi
+
+          if [ "$laser_available" = true ] && [ "$tree_height_available" = true ]; then
+            effective=both
+          elif [ "$laser_available" = true ]; then
+            effective=laser
+          elif [ "$tree_height_available" = true ]; then
+            effective=tree-height
+          else
+            echo "No requested provider passed its bounded access preflight" >&2
+            exit 1
+          fi
+
+          echo "effective=$effective" >> "$GITHUB_OUTPUT"
+          echo "Executing provider controls: $effective"
+
   controls:
     name: ${{ matrix.ground }} Laserdata/tree height
-    needs: prepare
+    needs: [prepare, preflight]
     runs-on: ubuntu-latest
     timeout-minutes: 90
     strategy:
@@ -81,7 +147,7 @@ jobs:
       matrix:
         ground: ${{ fromJSON(needs.prepare.outputs.grounds) }}
     env:
-      CONTROL_PROVIDERS: ${{ github.event_name != 'workflow_dispatch' && 'both' || inputs.providers }}
+      CONTROL_PROVIDERS: ${{ needs.preflight.outputs.effective }}
       CONTROL_BATCH_COUNT: ${{ github.event_name != 'workflow_dispatch' && '1' || inputs.batch_count }}
       CONTROL_BATCH_INDEX: ${{ github.event_name != 'workflow_dispatch' && '0' || inputs.batch_index }}
     steps:
@@ -103,44 +169,6 @@ jobs:
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
           plan-hole-controls
 
-      - name: Resolve available provider credentials
-        id: providers
-        env:
-          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
-          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
-          SKOGSSTYRELSEN_USERNAME: ${{ secrets.SKOGSSTYRELSEN_USERNAME }}
-          SKOGSSTYRELSEN_PASSWORD: ${{ secrets.SKOGSSTYRELSEN_PASSWORD }}
-        shell: bash
-        run: |
-          laser_available=false
-          tree_height_available=false
-          if [ "$CONTROL_PROVIDERS" = "both" ] || [ "$CONTROL_PROVIDERS" = "laser" ]; then
-            if [ -z "$LANTMATERIET_USERNAME" ] || [ -z "$LANTMATERIET_PASSWORD" ]; then
-              echo "::warning::Lantmäteriet repository secrets are missing; Laserdata checks will be skipped"
-            else
-              laser_available=true
-            fi
-          fi
-          if [ "$CONTROL_PROVIDERS" = "both" ] || [ "$CONTROL_PROVIDERS" = "tree-height" ]; then
-            if [ -z "$SKOGSSTYRELSEN_USERNAME" ] || [ -z "$SKOGSSTYRELSEN_PASSWORD" ]; then
-              echo "::warning::Skogsstyrelsen repository secrets are missing; tree-height checks will be skipped"
-            else
-              tree_height_available=true
-            fi
-          fi
-          if [ "$laser_available" = true ] && [ "$tree_height_available" = true ]; then
-            effective=both
-          elif [ "$laser_available" = true ]; then
-            effective=laser
-          elif [ "$tree_height_available" = true ]; then
-            effective=tree-height
-          else
-            echo "No requested provider has a complete repository-secret pair" >&2
-            exit 1
-          fi
-          echo "effective=$effective" >> "$GITHUB_OUTPUT"
-          echo "Executing provider controls: $effective"
-
       - name: Run bounded per-hole source controls
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
@@ -152,7 +180,7 @@ jobs:
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
           run-hole-controls --
           --ground "${{ matrix.ground }}"
-          --providers "${{ steps.providers.outputs.effective }}"
+          --providers "$CONTROL_PROVIDERS"
           --batch-count "$CONTROL_BATCH_COUNT"
           --batch-index "$CONTROL_BATCH_INDEX"
           --output "$EVIDENCE_FILE"
