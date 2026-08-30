@@ -157,9 +157,17 @@ const POSTERS = {
 
 const slugs = ONLY ? [ONLY] : Object.keys(PLAN);
 
+/* Prefer a system Chrome for its real GPU -- a poster wants the good renderer --
+   but fall back to the bundled Chromium on swiftshader where there is none, the
+   same way tools/check-app.mjs does. Without this the tool cannot run at all in
+   a container, which is where the second courses' posters had to be shot. */
+const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const HAVE_BUNDLED = fs.existsSync(LINUX_CHROME);
 const browser = await chromium.launch({
-  channel: 'chrome', headless: true,
-  args: ['--no-sandbox', '--force-device-scale-factor=1'],
+  ...(HAVE_BUNDLED ? { executablePath: LINUX_CHROME } : { channel: 'chrome' }),
+  headless: true,
+  args: ['--no-sandbox', '--force-device-scale-factor=1',
+         ...(HAVE_BUNDLED ? ['--enable-unsafe-swiftshader', '--use-angle=swiftshader'] : [])],
 });
 
 /* Downscale + encode inside the browser that already has the pixels: no image
