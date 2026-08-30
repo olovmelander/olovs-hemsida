@@ -47,7 +47,9 @@ describe('Three r185 v2 terrain batching', () => {
       textureUploads: 2,
     });
     const batch = [...layer.batches.values()][0];
-    expect(batch.mesh.count).toBe(2);
+    expect(batch.mesh.isInstancedMesh).not.toBe(true);
+    expect(batch.geometry.isInstancedBufferGeometry).toBe(true);
+    expect(batch.geometry.instanceCount).toBe(2);
     expect(batch.geometry.getAttribute('position')).toBeTruthy();
     expect(batch.geometry.getAttribute('normal')).toBeTruthy();
     expect(batch.geometry.getAttribute('aTerrainFrame').itemSize).toBe(4);

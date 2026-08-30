@@ -24,7 +24,7 @@ function nowMilliseconds() {
 }
 
 function topologyGeometry(topology) {
-  const geometry = new THREE.BufferGeometry();
+  const geometry = new THREE.InstancedBufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(topology.positions, 3));
   geometry.setAttribute('normal', new THREE.Int8BufferAttribute(topology.normals, 3, true));
   geometry.setIndex(new THREE.BufferAttribute(topology.indices, 1));
@@ -47,9 +47,9 @@ function heightTexture(width, height, capacity) {
   return texture;
 }
 
-/* Two packed instance buffers keep the complete terrain path at five vertex
-   buffers including Three's identity instance matrix. r185's WebGPU backend
-   permits eight; adding one buffer per scalar silently crosses that limit. */
+/* Two packed instance buffers carry the complete tile transform. Geometry-level
+   instancing avoids the redundant identity-matrix uniform that InstancedMesh
+   adds in r185 WebGPU while retaining one draw on both backends. */
 function installInstanceAttributes(geometry, capacity) {
   const frame = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 4), 4);
   const params = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 4), 4);
@@ -144,11 +144,10 @@ export class TerrainTextureBatch {
     this.geometry = topologyGeometry(this.topology);
     this.attributes = installInstanceAttributes(this.geometry, capacity);
     this.material = terrainMaterial(this.texture, decorateMaterial);
-    this.mesh = new THREE.InstancedMesh(this.geometry, this.material, capacity);
-    this.mesh.instanceMatrix.needsUpdate = true;
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.name = tag;
     this.mesh.userData.tag = tag;
-    this.mesh.count = 0;
+    this.geometry.instanceCount = 0;
     this.mesh.frustumCulled = false;
     this.mesh.receiveShadow = true;
     this.layersByTile = new Map();
@@ -262,11 +261,11 @@ export class TerrainTextureBatch {
         layer,
       ], index * 4);
     }
-    this.mesh.count = this.current.length;
-    this.mesh.visible = this.mesh.count > 0;
-    this.attributes.frame.needsUpdate = this.mesh.count > 0;
-    this.attributes.params.needsUpdate = this.mesh.count > 0;
-    return Object.freeze({ count: this.mesh.count, morphing });
+    this.geometry.instanceCount = this.current.length;
+    this.mesh.visible = this.geometry.instanceCount > 0;
+    this.attributes.frame.needsUpdate = this.geometry.instanceCount > 0;
+    this.attributes.params.needsUpdate = this.geometry.instanceCount > 0;
+    return Object.freeze({ count: this.geometry.instanceCount, morphing });
   }
 
   stats() {
@@ -274,13 +273,13 @@ export class TerrainTextureBatch {
       width: this.width,
       height: this.height,
       capacity: this.capacity,
-      renderedTiles: this.mesh.count,
+      renderedTiles: this.geometry.instanceCount,
       residentLayers: this.layersByTile.size,
       textureUploads: this.textureUploads,
       textureCapacityBytes: this.texture.image.data.byteLength,
       topologyBytes: this.topology.cpuBytes,
-      triangles: this.mesh.count * this.topology.triangleCount,
-      drawCalls: this.mesh.count ? 1 : 0,
+      triangles: this.geometry.instanceCount * this.topology.triangleCount,
+      drawCalls: this.geometry.instanceCount ? 1 : 0,
     });
   }
 

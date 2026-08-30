@@ -177,8 +177,12 @@ sampler.
 
 `apps/golf/src/engine/v2-terrain-batch.mjs` is the Three.js r185 adapter shared
 by WebGPU and the renderer's WebGL2 backend. Regular tiles use one grid/index
-topology, one partially updated `DataArrayTexture` and one `InstancedMesh` draw.
-Two packed instance buffers keep the layout below WebGPU's vertex-buffer limit.
+topology, one partially updated `DataArrayTexture` and one geometry-instanced
+draw.
+The draw uses `InstancedBufferGeometry` with a regular `Mesh`, avoiding r185's
+redundant identity-matrix binding because two packed instance buffers already
+contain the full tile transform. This also keeps the layout below WebGPU's
+vertex-buffer limit.
 New child tiles start at their parent surface and geomorph to full detail;
 shared boundary samples are primary seam control and a bounded skirt remains
 the final crack guard. The desktop/mobile tile budgets set texture-array
