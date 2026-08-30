@@ -157,6 +157,7 @@ const POSTERS = {
   'upsala-mellanbanan': [
     { hole: 8, cam: 'orbit', preset: 'golden' },
     { hole: 4, cam: 'orbit', preset: 'golden' },
+    { hole: 1, cam: 'orbit', preset: 'golden' },
   ],
   /* the 8th leads, not the signature 2nd: it is the frame that carries the
      estate -- corridors, a bunker, the pond curving through and the buildings
