@@ -125,16 +125,26 @@ async function main() {
   document.body.prepend(renderer.domElement);
   await renderer.init();
   await renderer.compileAsync(scene, camera);
-  await renderer.renderAsync(scene, camera);
+  /* Texture-array creation and the first compositor presentation are separate
+     operations on some WebGL2/SwiftShader devices. Capture only after two
+     presented frames, never the correctly-cleared but not-yet-drawn first one. */
+  for (let frame = 0; frame < 3; frame++) {
+    await renderer.renderAsync(scene, camera);
+    await new Promise(resolve => requestAnimationFrame(resolve));
+  }
   const backend = renderer.backend?.isWebGPUBackend ? 'webgpu' : 'webgl2';
+  const renderInfo = renderer.info?.render || {};
   backendLabel.textContent = `${backend.toUpperCase()} · ${loaded.resources.length} tiles · ${terrain.stats().drawCalls} draw call`;
   document.getElementById('boot').classList.add('done');
   window.V3D = {
     stats: {
       ...terrain.stats(), backend, synthetic: loaded.synthetic,
       provisional: Boolean(loaded.descriptor.provisional),
+      actualDrawCalls: renderInfo.calls ?? null,
+      actualTriangles: renderInfo.triangles ?? null,
     },
     settled: () => true,
+    render: () => renderer.renderAsync(scene, camera),
   };
 
   addEventListener('resize', () => {

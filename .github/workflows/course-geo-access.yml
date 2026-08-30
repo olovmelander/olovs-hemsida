@@ -6,6 +6,11 @@ on:
       - claude/veckefjarden-terrain-alignment-w2mexk
     paths:
       - ".github/workflows/course-geo-access.yml"
+      - "packages/course-v2/build-renderer-proof.mjs"
+      - "packages/course-v2/capture-terrain-preview.mjs"
+      - "packages/course-v2/terrain-preview*.mjs"
+      - "apps/golf/src/engine/v2-terrain-*.mjs"
+      - "apps/golf/v2-terrain-proof.html"
   workflow_dispatch:
 
 permissions:

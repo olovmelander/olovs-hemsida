@@ -93,19 +93,33 @@ async function staticServer(root) {
 function pixelStats(file) {
   return readFile(file).then(bytes => {
     const image = decodePNG(bytes);
-    let luminance = 0, dark = 0;
+    let luminance = 0, dark = 0, foreground = 0, inspected = 0;
     const count = image.width * image.height;
+    const cornerOffset = ((image.height - 1) * image.width + image.width - 1) * image.channels;
+    const background = [image.data[cornerOffset], image.data[cornerOffset + 1], image.data[cornerOffset + 2]];
     for (let index = 0; index < count; index++) {
       const offset = index * image.channels;
       const value = 0.2126 * image.data[offset] + 0.7152 * image.data[offset + 1] + 0.0722 * image.data[offset + 2];
       luminance += value;
       if (value < 8) dark++;
+      const x = index % image.width, y = Math.floor(index / image.width);
+      /* Exclude the proof label. A cleared canvas otherwise passed the old
+         non-black check because its pastel clear colour is intentionally bright. */
+      if (x < image.width * 0.34 && y < image.height * 0.16) continue;
+      inspected++;
+      const difference = Math.max(
+        Math.abs(image.data[offset] - background[0]),
+        Math.abs(image.data[offset + 1] - background[1]),
+        Math.abs(image.data[offset + 2] - background[2]),
+      );
+      if (difference >= 8) foreground++;
     }
     return Object.freeze({
       width: image.width,
       height: image.height,
       meanLuminance: Number((luminance / count / 255).toFixed(4)),
       nearBlackPercent: Number((100 * dark / count).toFixed(2)),
+      foregroundPercent: Number((100 * foreground / inspected).toFixed(2)),
     });
   });
 }
@@ -147,8 +161,11 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
     const file = join(output, fileName);
     await page.screenshot({ path: file, animations: 'disabled', timeout: timeoutMilliseconds });
     const pixels = await pixelStats(file);
-    if (pixels.meanLuminance < 0.03 || pixels.nearBlackPercent > 88) {
-      throw new Error('terrain preview screenshot is blank or near-black');
+    if (pixels.meanLuminance < 0.03 || pixels.nearBlackPercent > 88 || pixels.foregroundPercent < 2) {
+      throw new Error('terrain preview screenshot has no visible terrain foreground');
+    }
+    if (Number.isFinite(state.stats.actualTriangles) && state.stats.actualTriangles <= 0) {
+      throw new Error('Three.js reported no rendered terrain triangles');
     }
     return Object.freeze({
       requestedBackend,
@@ -158,6 +175,8 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
       ...pixels,
       renderedTiles: state.stats.renderedTiles,
       drawCalls: state.stats.drawCalls,
+      actualDrawCalls: state.stats.actualDrawCalls,
+      actualTriangles: state.stats.actualTriangles,
       problems: Object.freeze([...new Set(problems)].slice(0, 8)),
     });
   } finally {

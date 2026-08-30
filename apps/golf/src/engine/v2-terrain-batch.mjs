@@ -135,6 +135,7 @@ export class TerrainTextureBatch {
     this.attributes = installInstanceAttributes(this.geometry, capacity);
     this.material = terrainMaterial(this.texture, decorateMaterial);
     this.mesh = new THREE.InstancedMesh(this.geometry, this.material, capacity);
+    this.mesh.instanceMatrix.needsUpdate = true;
     this.mesh.name = tag;
     this.mesh.userData.tag = tag;
     this.mesh.count = 0;
