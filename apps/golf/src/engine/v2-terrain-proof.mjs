@@ -137,6 +137,12 @@ async function main() {
   document.body.prepend(renderer.domElement);
   await renderer.init();
   await renderer.compileAsync(scene, camera);
+  const backend = renderer.backend?.isWebGPUBackend ? 'webgpu' : 'webgl2';
+  /* Shader inspection can touch backend compilation state. Collect it before
+     the frames that are intended for presentation, never after the last draw. */
+  const shader = backend === 'webgpu'
+    ? await renderer.debug.getShaderAsync(scene, camera, terrain.group.children[0])
+    : null;
   /* Texture-array creation and the first compositor presentation are separate
      operations on some WebGL2/SwiftShader devices. Capture only after two
      presented frames, never the correctly-cleared but not-yet-drawn first one. */
@@ -149,12 +155,7 @@ async function main() {
      Do not declare the canvas ready until its submitted queue is complete. */
   if (renderer.backend?.isWebGPUBackend) {
     await renderer.backend.device.queue.onSubmittedWorkDone();
-    await new Promise(resolve => requestAnimationFrame(resolve));
   }
-  const backend = renderer.backend?.isWebGPUBackend ? 'webgpu' : 'webgl2';
-  const shader = backend === 'webgpu'
-    ? await renderer.debug.getShaderAsync(scene, camera, terrain.group.children[0])
-    : null;
   const renderInfo = renderer.info?.render || {};
   backendLabel.textContent = `${backend.toUpperCase()} · ${loaded.resources.length} tiles · ${terrain.stats().drawCalls} draw call`;
   document.getElementById('boot').classList.add('done');
@@ -167,6 +168,12 @@ async function main() {
     },
     settled: () => true,
     render: () => renderer.render(scene, camera),
+    prepareCapture: async () => {
+      renderer.render(scene, camera);
+      if (renderer.backend?.isWebGPUBackend) {
+        await renderer.backend.device.queue.onSubmittedWorkDone();
+      }
+    },
     shader,
   };
 

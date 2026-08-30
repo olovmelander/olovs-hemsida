@@ -173,6 +173,15 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
       ? `puttom-${actualBackend}.png`
       : `puttom-${requestedBackend}-requested-${actualBackend}.png`;
     const file = join(output, fileName);
+    /* A WebGPU canvas presents a fresh swap texture. Submit and flush one draw
+       immediately before capture so a later compositor frame cannot replace
+       the verified terrain image with a cleared presentation texture. */
+    await page.evaluate(async () => {
+      if (typeof window.V3D?.prepareCapture !== 'function') {
+        throw new Error('terrain preview does not expose a capture barrier');
+      }
+      await window.V3D.prepareCapture();
+    });
     await page.screenshot({ path: file, animations: 'disabled', timeout: timeoutMilliseconds });
     const pixels = await pixelStats(file);
     if (pixels.meanLuminance < 0.03 || pixels.nearBlackPercent > 88 || pixels.foregroundPercent < 2) {
