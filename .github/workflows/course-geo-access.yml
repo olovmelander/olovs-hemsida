@@ -637,6 +637,20 @@ jobs:
           --out "$RUNNER_TEMP/puttom-terrain-captures"
           --timeout 240
 
+      - name: Stage verified runtime preview assets only
+        run: >-
+          node packages/course-v2/terrain-preview-release-node.mjs
+          "$RUNNER_TEMP/puttom-terrain-preview"
+          "$RUNNER_TEMP/puttom-terrain-runtime"
+
+      - name: Upload derived Puttom runtime preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: puttom-terrain-runtime-${{ github.run_number }}
+          path: ${{ runner.temp }}/puttom-terrain-runtime
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Upload screenshots and backend report only
         if: always()
         uses: actions/upload-artifact@v4

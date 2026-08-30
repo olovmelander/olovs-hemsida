@@ -111,12 +111,13 @@ missing public v2 root is therefore an honest 404 rather than fake production
 data. The debug chunk is excluded from the PWA precache and a production-build
 gate keeps it below 64 KiB and out of both initial HTML and the service worker.
 
-The next D4 gate is the retained real-course visual proof. The provider-access
-workflow now builds a short-lived Puttom preview from authenticated terrain,
-verifies every BVCH in the browser and captures forced WebGL2 plus
-WebGPU-preferred views. Only PNG files and a backend report may leave the
-runner; COG, XYZ, preview manifests and BVCH files remain ephemeral.
-Authoritative publication and live selection still wait for D1 origin approval.
+The provider-access workflow builds a short-lived Puttom preview from
+authenticated terrain, verifies every BVCH in the browser and captures forced
+WebGL2 plus WebGPU-preferred views. A separate allow-listed artifact may leave
+the runner with only the strict provisional descriptor and its 16 referenced
+finest-level BVCH tiles for the opt-in interactive preview. The authenticated
+COG, XYZ samples, shell and coarser LOD tiles remain ephemeral. This is not an
+authoritative v2 publication; D1 origin approval remains a production gate.
 
 ## D4 terrain-pyramid foundation
 
