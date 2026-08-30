@@ -12,7 +12,7 @@
     "geo:discover": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen discover-pilots",
     "check:geo-discovery": "node packages/course-geo/acquisition/check-discovery.mjs",
     "geo:check-access": "node packages/course-geo/acquisition/access-preflight.mjs",
-    "geo:plan-hole-controls": "node packages/course-geo/acquisition/plan-hole-source-controls.mjs",
+    "geo:plan-hole-controls": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen plan-hole-controls",
     "geo:run-hole-controls": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen run-hole-controls",
     "geo:acquire-pilot": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen acquire-pilot",
     "check:course-v2": "node packages/course-v2/check-synthetic.mjs",
