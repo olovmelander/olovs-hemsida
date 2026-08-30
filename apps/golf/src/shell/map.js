@@ -131,7 +131,7 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
     previewPanel.innerHTML = `
       <div class="mpp-card">
         <button class="mpp-close-btn" id="mppCloseBtn">${ICONS.close(14)}</button>
-        <div class="mpp-shot" style="background-image: url('/courses/${course.slug}/hero-1.webp')">
+        <div class="mpp-shot" style="background-image: url('${import.meta.env.BASE_URL}courses/${course.slug}/hero-1.webp')">
           <div class="mpp-badges">
             <span class="cat-badge">${iconSvg} <span>${esc(loc.regionTag)}</span></span>
             ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : ''}

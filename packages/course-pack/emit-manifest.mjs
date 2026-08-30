@@ -55,7 +55,11 @@ const entries = COURSES.map(c => {
   return {
     slug: c.slug, name: c.name, club: c.club, title: c.title, tag: c.tag, boot: c.boot,
     par, holes: cardHoles.length, tees: c.tees,
-    packUrl: `/courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
+    /* RELATIVE, with no leading slash: the manifest is data, and data does not
+       get to know where the site is mounted. The app prefixes its own base
+       (import.meta.env.BASE_URL), so the same manifest serves a domain root and
+       a GitHub Pages subpath without being regenerated per host. */
+    packUrl: `courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
   };
 });
 

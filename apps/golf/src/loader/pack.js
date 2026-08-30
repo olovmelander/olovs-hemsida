@@ -41,8 +41,14 @@ export async function fetchPack(url, wantSha) {
   return { H, s0: take(H.HF0.bytes), s1: take(H.HF1.bytes), sv: take(H.VEC.bytes) };
 }
 
+/* Where this app is mounted. Vite injects BASE_URL and guarantees a trailing
+   slash: '/' on a domain root (Cloudflare), '/olovs-hemsida/' on GitHub Pages.
+   Nothing here may write a leading slash of its own -- on a subpath host that
+   points at somebody else's site, not at us. */
+const BASE = import.meta.env.BASE_URL;
+
 export async function loadCourse(slug) {
-  const manifest = await (await get('/courses/index.json',
+  const manifest = await (await get(`${BASE}courses/index.json`,
     'kunde inte nå servern — kontrollera anslutningen och ladda om')).json();
   const meta = manifest.courses.find(c => c.slug === slug) || manifest.courses[0];
   /* The pack is asked for by CONTENT, not by name. A pack file keeps one path
@@ -52,7 +58,11 @@ export async function loadCourse(slug) {
      in the URL means a changed pack is a different URL, so the cached copy is
      never the wrong one and every copy can be cached as hard as the CDN likes.
      The manifest itself is the one thing that must stay fresh (see _headers). */
-  const url = meta.packUrl + (meta.sha256 ? `?v=${meta.sha256.slice(0, 16)}` : '');
+  /* packUrl is stored RELATIVE in the manifest, because the manifest is data
+     and data does not get to know where the site is mounted. A leading slash is
+     tolerated so an older manifest still loads. */
+  const rel = String(meta.packUrl).replace(/^\//, '');
+  const url = BASE + rel + (meta.sha256 ? `?v=${meta.sha256.slice(0, 16)}` : '');
   const pack = await fetchPack(url, meta.sha256);
   if (pack.H.slug !== meta.slug) throw new Error(`pack says ${pack.H.slug}, manifest says ${meta.slug}`);
   return { meta, pack, all: manifest.courses };
