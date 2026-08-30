@@ -103,7 +103,7 @@ jobs:
           frozen: true
           cache: true
 
-      - name: Verify all-course inventory before provider access
+      - name: Verify self-contained all-course inventory before provider access
         run: >-
           pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
           plan-hole-controls
