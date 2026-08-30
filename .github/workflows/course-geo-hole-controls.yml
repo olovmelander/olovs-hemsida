@@ -1,0 +1,170 @@
+name: course geo per-hole source controls
+
+on:
+  workflow_dispatch:
+    inputs:
+      ground:
+        description: Physical ground to check
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - angso
+          - johannesberg
+          - norrfallsviken
+          - puttom
+          - upsala
+          - veckefjarden
+      providers:
+        description: Authoritative sources to check
+        required: true
+        default: both
+        type: choice
+        options:
+          - both
+          - laser
+          - tree-height
+      batch_count:
+        description: Deterministic shards per physical ground
+        required: true
+        default: 1
+        type: number
+      batch_index:
+        description: Zero-based shard to run
+        required: true
+        default: 0
+        type: number
+  schedule:
+    - cron: "17 3 1 * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: course-geo-hole-controls-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Select physical grounds
+    runs-on: ubuntu-latest
+    outputs:
+      grounds: ${{ steps.matrix.outputs.grounds }}
+    steps:
+      - name: Build validated ground matrix
+        id: matrix
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          SELECTED_GROUND: ${{ inputs.ground }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const grounds = ['angso', 'johannesberg', 'norrfallsviken', 'puttom', 'upsala', 'veckefjarden'];
+          const selected = process.env.EVENT_NAME === 'schedule' || process.env.SELECTED_GROUND === 'all'
+            ? grounds
+            : grounds.includes(process.env.SELECTED_GROUND)
+              ? [process.env.SELECTED_GROUND]
+              : null;
+          if (!selected) throw new Error('workflow selected an unknown physical ground');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `grounds=${JSON.stringify(selected)}\n`, 'utf8');
+          NODE
+
+  controls:
+    name: ${{ matrix.ground }} Laserdata/tree height
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        ground: ${{ fromJSON(needs.prepare.outputs.grounds) }}
+    env:
+      CONTROL_PROVIDERS: ${{ github.event_name == 'schedule' && 'both' || inputs.providers }}
+      CONTROL_BATCH_COUNT: ${{ github.event_name == 'schedule' && '1' || inputs.batch_count }}
+      CONTROL_BATCH_INDEX: ${{ github.event_name == 'schedule' && '0' || inputs.batch_index }}
+      EVIDENCE_FILE: ${{ runner.temp }}/hole-source-evidence-${{ matrix.ground }}.json
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: prefix-dev/setup-pixi@v0.10.2
+        with:
+          pixi-version: v0.78.0
+          working-directory: packages/course-geo/toolchain
+          frozen: true
+          cache: true
+
+      - name: Verify all-course inventory before provider access
+        run: node packages/course-geo/acquisition/plan-hole-source-controls.mjs
+
+      - name: Verify selected provider secrets
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+          SKOGSSTYRELSEN_USERNAME: ${{ secrets.SKOGSSTYRELSEN_USERNAME }}
+          SKOGSSTYRELSEN_PASSWORD: ${{ secrets.SKOGSSTYRELSEN_PASSWORD }}
+        shell: bash
+        run: |
+          if [ "$CONTROL_PROVIDERS" = "both" ] || [ "$CONTROL_PROVIDERS" = "laser" ]; then
+            if [ -z "$LANTMATERIET_USERNAME" ] || [ -z "$LANTMATERIET_PASSWORD" ]; then
+              echo "Required Lantmäteriet repository secrets are missing" >&2
+              exit 1
+            fi
+          fi
+          if [ "$CONTROL_PROVIDERS" = "both" ] || [ "$CONTROL_PROVIDERS" = "tree-height" ]; then
+            if [ -z "$SKOGSSTYRELSEN_USERNAME" ] || [ -z "$SKOGSSTYRELSEN_PASSWORD" ]; then
+              echo "Required Skogsstyrelsen repository secrets are missing" >&2
+              exit 1
+            fi
+          fi
+
+      - name: Run bounded per-hole source controls
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+          SKOGSSTYRELSEN_USERNAME: ${{ secrets.SKOGSSTYRELSEN_USERNAME }}
+          SKOGSSTYRELSEN_PASSWORD: ${{ secrets.SKOGSSTYRELSEN_PASSWORD }}
+        run: >-
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
+          run-hole-controls --
+          --ground "${{ matrix.ground }}"
+          --providers "$CONTROL_PROVIDERS"
+          --batch-count "$CONTROL_BATCH_COUNT"
+          --batch-index "$CONTROL_BATCH_INDEX"
+          --output "$EVIDENCE_FILE"
+
+      - name: Add safe aggregate summary
+        if: always()
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          if (!fs.existsSync(process.env.EVIDENCE_FILE)) process.exit(0);
+          const evidence = JSON.parse(fs.readFileSync(process.env.EVIDENCE_FILE, 'utf8'));
+          const summary = [
+            `### ${evidence.groundId} per-hole source controls`,
+            '',
+            `- Checked windows: ${evidence.summary.checkedWindowCount}`,
+            `- Laserdata usable: ${evidence.summary.laserUsableCount}`,
+            `- Tree height usable: ${evidence.summary.treeHeightUsableCount}`,
+            `- Automatic object candidates: ${evidence.summary.automaticEligibleCount}`,
+            `- Fallback/manual review: ${evidence.summary.fallbackOrReviewCount}`,
+            `- Technical errors: ${evidence.summary.technicalErrorCount}`,
+            `- Production enabled: ${evidence.summary.productionEnabled}`,
+            '',
+          ].join('\n');
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary, 'utf8');
+          NODE
+
+      - name: Upload aggregate evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hole-source-evidence-${{ matrix.ground }}-${{ github.run_number }}
+          path: ${{ env.EVIDENCE_FILE }}
+          if-no-files-found: warn
+          retention-days: 14

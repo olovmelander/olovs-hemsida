@@ -3,9 +3,24 @@
   "private": true,
   "description": "The pages themselves have no build step and no dependencies. This file exists for the geobuild/ verification harness only: shot.mjs and check-headless tooling drive a headless Chromium through playwright-core.",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run && node --test packages/course-geo/frame.node-test.mjs packages/course-geo/manifest.node-test.mjs packages/course-geo/migration.node-test.mjs packages/course-geo/acquisition/acquisition.node-test.mjs packages/course-v2/course-v2.node-test.mjs packages/course-v2/terrain-pyramid.node-test.mjs packages/course-v2/terrain-compiler.node-test.mjs packages/course-v2/runtime/runtime.node-test.mjs packages/course-v2/runtime/terrain-grid-topology.node-test.mjs packages/course-v2/runtime/terrain-render-data.node-test.mjs packages/course-v2/runtime/terrain-tile-manager.node-test.mjs packages/course-v2/runtime/terrain-stream-controller.node-test.mjs",
+    "check:geo-sources": "node packages/course-geo/check-manifests.mjs",
+    "geo:toolchain:verify": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen verify",
+    "geo:controls": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen test-controls",
+    "geo:migrate": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen migrate-legacy",
+    "check:geo-migration": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen check-migration",
+    "geo:discover": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen discover-pilots",
+    "check:geo-discovery": "node packages/course-geo/acquisition/check-discovery.mjs",
+    "geo:check-access": "node packages/course-geo/acquisition/access-preflight.mjs",
+    "geo:plan-hole-controls": "node packages/course-geo/acquisition/plan-hole-source-controls.mjs",
+    "geo:run-hole-controls": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen run-hole-controls",
+    "geo:acquire-pilot": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen acquire-pilot",
+    "check:course-v2": "node packages/course-v2/check-synthetic.mjs",
+    "check:course-v2-app": "node packages/course-v2/check-app-build.mjs",
+    "check:course-v2-renderer": "node packages/course-v2/check-renderer-build.mjs"
   },
   "devDependencies": {
+    "ajv": "8.20.0",
     "playwright-core": "1.55.0",
     "vitest": "^4.1.11"
   }

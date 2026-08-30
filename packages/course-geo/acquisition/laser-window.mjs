@@ -140,8 +140,8 @@ export function laserWindowPlan(report, {
 }
 
 export function laserDensityAssessment(plan, pointCount, { minimumAdvertisedRatio = 0.1 } = {}) {
-  if (!Number.isSafeInteger(pointCount) || pointCount < 1) {
-    throw new Error('bounded COPC density requires a positive point count');
+  if (!Number.isSafeInteger(pointCount) || pointCount < 0) {
+    throw new Error('bounded COPC density requires a non-negative point count');
   }
   if (!Number.isFinite(minimumAdvertisedRatio) || minimumAdvertisedRatio <= 0 ||
       minimumAdvertisedRatio > 1) {
@@ -311,6 +311,7 @@ export function acquireLaserWindow(report, {
   spanMetres = DEFAULT_SPAN_METRES,
   maximumPoints = MAXIMUM_POINTS,
   focusEpsg3006 = null,
+  allowSparse = false,
 } = {}) {
   const plan = laserWindowPlan(report, { spanMetres, maximumPoints, focusEpsg3006 });
   const pipeline = copcStatsPipeline(plan, credentials);
@@ -334,7 +335,9 @@ export function acquireLaserWindow(report, {
   const statistics = laserStatisticsFromMetadata(metadata, plan.maximumPoints, {
     expectedBoundsEpsg3006: plan.boundsEpsg3006,
   });
-  const density = laserDensityEvidence(plan, statistics.pointCount);
+  const density = allowSparse
+    ? laserDensityAssessment(plan, statistics.pointCount)
+    : laserDensityEvidence(plan, statistics.pointCount);
   return Object.freeze({
     schemaVersion: 1,
     phase: 'D2-authenticated-laser-window',
@@ -354,6 +357,7 @@ export function acquireLaserWindow(report, {
     areaSquareMetres: plan.areaSquareMetres,
     ...statistics,
     ...density,
+    disposition: density.usable ? 'eligible-for-derived-assets' : 'coverage-gap-fallback-required',
     elapsedMilliseconds: Math.round(performance.now() - started),
     retainedPointCloudBytes: 0,
     note: 'COPC was range-streamed; only aggregate statistics are retained.',

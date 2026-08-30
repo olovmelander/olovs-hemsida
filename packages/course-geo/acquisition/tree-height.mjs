@@ -18,6 +18,54 @@ function parseJsonCommand(command, args) {
   return JSON.parse(stdout);
 }
 
+function bboxFromGeoTransform(transform, width, height) {
+  if (!Array.isArray(transform) || transform.length !== 6 ||
+      transform.some(value => !Number.isFinite(value))) return null;
+  const points = [[0, 0], [width, 0], [0, height], [width, height]].map(([column, row]) => [
+    transform[0] + column * transform[1] + row * transform[2],
+    transform[3] + column * transform[4] + row * transform[5],
+  ]);
+  return [
+    Math.min(...points.map(point => point[0])),
+    Math.min(...points.map(point => point[1])),
+    Math.max(...points.map(point => point[0])),
+    Math.max(...points.map(point => point[1])),
+  ];
+}
+
+export function treeHeightRasterEvidence(info, window, {
+  compressedBytes = null,
+  sha256 = null,
+} = {}) {
+  const request = window?.treeHeight?.request;
+  if (!request) throw new Error('tree-height control request is required');
+  const width = info?.size?.[0] ?? null;
+  const height = info?.size?.[1] ?? null;
+  const band = info?.bands?.[0] || {};
+  const transform = Array.isArray(info?.geoTransform) ? info.geoTransform : null;
+  const northUpResolution = transform && transform[2] === 0 && transform[4] === 0 &&
+    Math.abs(Math.abs(transform[1]) - Math.abs(transform[5])) <= 1e-9
+    ? Math.abs(transform[1])
+    : null;
+  const wkt = String(info?.coordinateSystem?.wkt || '');
+  return Object.freeze({
+    width,
+    height,
+    horizontalCrs: /ID\["EPSG",3006\]/.test(wkt) ? 'EPSG:3006' : 'unknown',
+    type: band.type === 'Int16' ? 'S16' : band.type || null,
+    resolutionMetres: northUpResolution,
+    nodata: band.noDataValue ?? null,
+    bboxEpsg3006: bboxFromGeoTransform(transform, width, height),
+    geoTransform: transform ? Object.freeze([...transform]) : null,
+    minimumDecimetres: band.minimum ?? null,
+    maximumDecimetres: band.maximum ?? null,
+    meanDecimetres: band.mean ?? null,
+    standardDeviationDecimetres: band.stdDev ?? null,
+    compressedBytes,
+    sha256,
+  });
+}
+
 function isTiff(bytes) {
   return bytes.length >= 4 &&
     ((bytes[0] === 0x49 && bytes[1] === 0x49 && bytes[2] === 0x2a && bytes[3] === 0x00) ||
@@ -68,6 +116,7 @@ export function treeHeightExportUrl(tile) {
 async function authenticatedJson(url, credentials, fetchImpl) {
   const response = await fetchImpl(url, {
     headers: { Accept: 'application/json', ...authorizationHeaders(credentials) },
+    redirect: 'error',
     signal: AbortSignal.timeout(60_000),
   });
   if (!response.ok) throw new Error(`GET ${url} returned HTTP ${response.status}`);
@@ -100,15 +149,39 @@ function serviceUrl() {
 async function downloadTile(tile, output, credentials, fetchImpl) {
   const url = treeHeightExportUrl(tile);
   const started = performance.now();
+  const maximumBytes = tile.width * tile.height * 4 + 4 * 1024 * 1024;
   const response = await fetchImpl(url, {
     headers: { Accept: 'image/tiff, application/octet-stream', ...authorizationHeaders(credentials) },
+    redirect: 'error',
     signal: AbortSignal.timeout(180_000),
   });
   if (!response.ok) throw new Error(`tree-height export ${tile.index} returned HTTP ${response.status}`);
-  const bytes = new Uint8Array(await response.arrayBuffer());
+  const declaredBytes = Number(response.headers.get('content-length'));
+  if (Number.isFinite(declaredBytes) && declaredBytes > maximumBytes) {
+    await response.body?.cancel('tree-height response exceeds safety limit');
+    throw new Error(`tree-height export ${tile.index} exceeds safety limit`);
+  }
+  const reader = response.body?.getReader();
+  if (!reader) throw new Error(`tree-height export ${tile.index} has no readable body`);
+  const chunks = [];
+  let total = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > maximumBytes) {
+      await reader.cancel('tree-height response exceeds safety limit');
+      throw new Error(`tree-height export ${tile.index} exceeds safety limit`);
+    }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
   if (!isTiff(bytes)) throw new Error(`tree-height export ${tile.index} did not return a TIFF`);
-  const maximumBytes = tile.width * tile.height * 4 + 16 * 1024 * 1024;
-  if (bytes.byteLength > maximumBytes) throw new Error(`tree-height export ${tile.index} exceeds safety limit`);
   fs.writeFileSync(output, bytes);
   return {
     index: tile.index,
@@ -120,6 +193,45 @@ async function downloadTile(tile, output, credentials, fetchImpl) {
     elapsedMilliseconds: round(performance.now() - started),
     path: output,
   };
+}
+
+/** Download and inspect exactly one planned per-hole tree-height control window. */
+export async function acquireTreeHeightControlWindow(window, {
+  credentials,
+  workDirectory,
+  fetchImpl = globalThis.fetch,
+  runCommand = runGeoCommand,
+} = {}) {
+  if (!credentials) throw new Error('Skogsstyrelsen credentials are required for tree-height control');
+  if (!workDirectory) throw new Error('tree-height control workDirectory is required');
+  const request = window?.treeHeight?.request;
+  if (!request || request.horizontalCrs !== 'EPSG:3006' || request.resolutionMetres !== 1 ||
+      request.width !== 256 || request.height !== 256 || request.pixelType !== 'S16' ||
+      request.nodata !== 0 || !Array.isArray(request.bboxEpsg3006)) {
+    throw new Error('tree-height control requires an exact 256x256 metre EPSG:3006 S16 request');
+  }
+  fs.mkdirSync(workDirectory, { recursive: true });
+  const output = path.join(workDirectory, 'tree-height-control.tif');
+  const started = performance.now();
+  const tile = await downloadTile({
+    index: 0,
+    bbox: request.bboxEpsg3006,
+    width: request.width,
+    height: request.height,
+  }, output, credentials, fetchImpl);
+  const inspection = runCommand('gdalinfo', ['-json', '-stats', output]);
+  const info = JSON.parse(inspection.stdout);
+  return Object.freeze({
+    schemaVersion: 1,
+    phase: 'D2-authenticated-per-hole-tree-height-control',
+    raster: treeHeightRasterEvidence(info, window, {
+      compressedBytes: tile.bytes,
+      sha256: tile.sha256,
+    }),
+    elapsedMilliseconds: round(performance.now() - started),
+    cachePath: output,
+    retainedAfterControl: false,
+  });
 }
 
 export async function acquireTreeHeight(report, {

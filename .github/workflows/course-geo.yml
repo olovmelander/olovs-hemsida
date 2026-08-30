@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/course-geo.yml"
+      - ".github/workflows/course-geo-hole-controls.yml"
       - "package.json"
       - "pnpm-lock.yaml"
       - "packages/course-geo/**"
@@ -19,6 +20,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/course-geo.yml"
+      - ".github/workflows/course-geo-hole-controls.yml"
       - "package.json"
       - "pnpm-lock.yaml"
       - "packages/course-geo/**"
@@ -69,6 +71,9 @@ jobs:
 
       - name: Test shared geospatial modules
         run: node --test packages/course-geo/frame.node-test.mjs packages/course-geo/manifest.node-test.mjs packages/course-geo/migration.node-test.mjs packages/course-geo/acquisition/acquisition.node-test.mjs
+
+      - name: Verify every-course per-hole source controls
+        run: node packages/course-geo/acquisition/plan-hole-source-controls.mjs
 
       - name: Test v2 asset graph and codecs
         run: node --test packages/course-v2/course-v2.node-test.mjs packages/course-v2/terrain-pyramid.node-test.mjs packages/course-v2/terrain-compiler.node-test.mjs packages/course-v2/terrain-preview.node-test.mjs packages/course-v2/runtime/runtime.node-test.mjs packages/course-v2/runtime/terrain-grid-topology.node-test.mjs packages/course-v2/runtime/terrain-render-data.node-test.mjs packages/course-v2/runtime/terrain-tile-manager.node-test.mjs packages/course-v2/runtime/terrain-stream-controller.node-test.mjs && node packages/course-v2/check-synthetic.mjs

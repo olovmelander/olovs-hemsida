@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
+import { EXPECTED_GROUNDS } from '../manifest.mjs';
 import {
   coverageSummary,
   rectangleUnionArea,
@@ -27,7 +28,21 @@ import {
   laserWindowPlan,
 } from './laser-window.mjs';
 import { terrainWindowPlan } from './terrain-window.mjs';
-import { treeHeightExportUrl, treeHeightTiles } from './tree-height.mjs';
+import {
+  treeHeightExportUrl,
+  treeHeightRasterEvidence,
+  treeHeightTiles,
+} from './tree-height.mjs';
+import {
+  alignedControlWindows,
+  sourceControlDisposition,
+  treeHeightQualityAssessment,
+} from './hole-source-controls.mjs';
+import { loadRepositoryHoleSourceControlPlan } from './hole-source-inventory.mjs';
+import {
+  discoverGroundLaserControl,
+  executeGroundHoleSourceControls,
+} from './hole-source-runner.mjs';
 
 const HASH_A = 'a'.repeat(64);
 
@@ -197,6 +212,239 @@ test('tree-height export is split into bounded exact-resolution requests', () =>
   assert.deepEqual(JSON.parse(url.searchParams.get('renderingRule')), { rasterFunction: 'None' });
 });
 
+test('per-hole controls use deterministic shared 256 metre EPSG:3006 windows', () => {
+  const windows = alignedControlWindows([100, 100, 400, 400]);
+  assert.deepEqual(windows.map(window => window.id), [
+    'w256-0-0',
+    'w256-256-0',
+    'w256-0-256',
+    'w256-256-256',
+  ]);
+  assert.ok(windows.every(window =>
+    window.spanMetres === 256 &&
+    window.areaSquareMetres === 65_536 &&
+    window.bboxEpsg3006.every(value => value % 256 === 0)));
+});
+
+test('tree-height quality keeps valid zero-height open ground and blocks invalid rasters', () => {
+  const window = {
+    treeHeight: {
+      request: {
+        bboxEpsg3006: [1000, 2000, 1256, 2256],
+        width: 256,
+        height: 256,
+        horizontalCrs: 'EPSG:3006',
+        pixelType: 'S16',
+        resolutionMetres: 1,
+        nodata: 0,
+      },
+    },
+  };
+  const valid = treeHeightQualityAssessment(window, {
+    width: 256,
+    height: 256,
+    horizontalCrs: 'EPSG:3006',
+    type: 'S16',
+    resolutionMetres: 1,
+    nodata: 0,
+    bboxEpsg3006: [1000, 2000, 1256, 2256],
+    geoTransform: [1000, 1, 0, 2256, 0, -1],
+    minimumDecimetres: 0,
+    maximumDecimetres: 321,
+  });
+  assert.equal(valid.usable, true);
+  assert.equal(valid.minimumMetres, 0);
+  assert.equal(valid.maximumMetres, 32.1);
+
+  const invalid = treeHeightQualityAssessment(window, {
+    width: 128,
+    height: 256,
+    horizontalCrs: 'EPSG:3006',
+    type: 'S16',
+    resolutionMetres: 2,
+    nodata: 0,
+    bboxEpsg3006: [1000, 2000, 1256, 2256],
+    geoTransform: [1000, 1, 0, 2256, 0, -1],
+    minimumDecimetres: 0,
+    maximumDecimetres: 900,
+  });
+  assert.equal(invalid.usable, false);
+  assert.deepEqual(invalid.reasons, [
+    'unexpected-raster-size',
+    'unexpected-resolution',
+    'implausible-tree-height',
+  ]);
+});
+
+test('gdal tree-height evidence preserves exact EPSG:3006 pixel alignment', () => {
+  const window = {
+    treeHeight: { request: {
+      bboxEpsg3006: [1000, 2000, 1256, 2256],
+      width: 256,
+      height: 256,
+      horizontalCrs: 'EPSG:3006',
+      pixelType: 'S16',
+      resolutionMetres: 1,
+      nodata: 0,
+    } },
+  };
+  const evidence = treeHeightRasterEvidence({
+    size: [256, 256],
+    coordinateSystem: { wkt: 'PROJCRS["SWEREF99 TM",ID["EPSG",3006]]' },
+    geoTransform: [1000, 1, 0, 2256, 0, -1],
+    bands: [{
+      type: 'Int16', noDataValue: 0, minimum: 0, maximum: 287,
+      mean: 105.4, stdDev: 70.2,
+    }],
+  }, window, { compressedBytes: 1234, sha256: HASH_A });
+  assert.equal(evidence.type, 'S16');
+  assert.deepEqual(evidence.bboxEpsg3006, [1000, 2000, 1256, 2256]);
+  assert.equal(evidence.resolutionMetres, 1);
+  assert.equal(treeHeightQualityAssessment(window, evidence).usable, true);
+});
+
+test('automatic object candidates require both usable Laserdata and tree height', () => {
+  assert.deepEqual(sourceControlDisposition({
+    laserAssessments: [{ usable: false }],
+    treeHeightAssessment: { usable: true },
+  }), {
+    laserUsable: false,
+    treeHeightUsable: true,
+    state: 'tree-height-with-dtm-ortho-fallback',
+    eligibleForAutomaticObjectCandidates: false,
+  });
+  assert.equal(sourceControlDisposition({
+    laserAssessments: [{ usable: true }],
+    treeHeightAssessment: { usable: true },
+  }).eligibleForAutomaticObjectCandidates, true);
+});
+
+test('repository inventory plans Laserdata and tree-height controls for every hole on every course', () => {
+  const plan = loadRepositoryHoleSourceControlPlan();
+  assert.deepEqual(plan.summary, {
+    groundCount: 6,
+    courseCount: 9,
+    holeCount: 135,
+    uniqueGroundWindowCount: 177,
+    requestedWindowReferences: 655,
+    groundsWithDiscovery: 3,
+    productionEnabled: false,
+  });
+  assert.deepEqual(
+    plan.grounds.flatMap(ground => ground.courseSlugs).sort(),
+    Object.values(EXPECTED_GROUNDS).flat().sort(),
+  );
+  for (const ground of plan.grounds) {
+    for (const course of ground.courses) {
+      assert.equal(course.holes.length, course.holeCount);
+      assert.ok(course.holes.every(hole => hole.controlWindowIds.length > 0));
+    }
+    for (const window of ground.windows) {
+      assert.ok(window.bboxEpsg3006.every(value => value % 256 === 0));
+      assert.equal(window.treeHeight.request.resolutionMetres, 1);
+      assert.equal(window.treeHeight.request.horizontalCrs, 'EPSG:3006');
+      assert.equal(window.laser.requiresLocalDensityCheck, true);
+      assert.equal(window.laser.eligibleForDerivedAssets, false);
+      assert.ok(window.consumers.length > 0);
+    }
+  }
+});
+
+test('live Laserdata control discovery covers the complete expanded ground window extent', async () => {
+  const item = feature('laser-control-a', 'dsm-skoglig-copc', [0, 0, 512, 256], '2026-01-01', {
+    punkttathet: 1.7,
+    'pc:count': 1000,
+  });
+  item.assets.data.type = 'application/vnd.laszip+copc';
+  const result = await discoverGroundLaserControl({
+    groundId: 'puttom',
+    windows: [
+      { bboxEpsg3006: [0, 0, 256, 256] },
+      { bboxEpsg3006: [256, 0, 512, 256] },
+    ],
+  }, {
+    toLatLon: points => points.map(point => ({
+      latitude: point.northing / 1000,
+      longitude: point.easting / 1000,
+    })),
+    fetchImpl: async () => ({ ok: true, json: async () => ({ features: [item], links: [] }) }),
+  });
+  assert.deepEqual(result.aoi.bboxEpsg3006, [0, 0, 512, 256]);
+  assert.equal(result.laser.coverage.complete, true);
+  assert.equal(result.laser.items[0].pointDensityPerSquareMetre, 1.7);
+  assert.equal(result.laser.items[0].assets.data.type, 'application/vnd.laszip+copc');
+});
+
+test('authenticated control evidence omits window coordinates and raw provider payloads', async () => {
+  const request = bboxEpsg3006 => ({
+    bboxEpsg3006,
+    horizontalCrs: 'EPSG:3006',
+    width: 256,
+    height: 256,
+    resolutionMetres: 1,
+    pixelType: 'S16',
+    nodata: 0,
+  });
+  const windows = [
+    {
+      id: 'w256-1024-2048',
+      bboxEpsg3006: [1024, 2048, 1280, 2304],
+      consumers: [{ courseSlug: 'puttom', holeNumber: 1 }],
+      treeHeight: { request: request([1024, 2048, 1280, 2304]) },
+    },
+    {
+      id: 'w256-1280-2048',
+      bboxEpsg3006: [1280, 2048, 1536, 2304],
+      consumers: [{ courseSlug: 'puttom', holeNumber: 2 }],
+      treeHeight: { request: request([1280, 2048, 1536, 2304]) },
+    },
+  ];
+  const groundPlan = {
+    groundId: 'puttom',
+    courses: [{
+      courseSlug: 'puttom', model: { sha256: HASH_A }, holeCount: 18,
+    }],
+    windows,
+    summary: {
+      courseCount: 1, holeCount: 18, uniqueWindowCount: 2, requestedWindowReferences: 2,
+    },
+  };
+  const evidence = await executeGroundHoleSourceControls(groundPlan, {
+    executedAt: '2026-08-30T12:00:00.000Z',
+    checkLaser: async window => ({
+      usable: window === windows[0],
+      state: window === windows[0] ? 'usable' : 'local-density-gap',
+      source: { itemId: 'laser-a', capturedAt: '2025-01-01', sourceSha256: HASH_A },
+      pointCount: window === windows[0] ? 1000 : 10,
+      observedPointDensityPerSquareMetre: window === windows[0] ? 1.5 : 0.001,
+      advertisedPointDensityPerSquareMetre: 1.5,
+      advertisedDensityRatio: window === windows[0] ? 1 : 0.0007,
+      classificationCounts: [{ value: 2, count: 10 }],
+      returnNumberCounts: [{ value: 1, count: 10 }],
+      numberOfReturnsCounts: [{ value: 1, count: 10 }],
+      elapsedMilliseconds: 10,
+    }),
+    checkTreeHeight: async window => ({
+      acquisition: { raster: {
+        meanDecimetres: 100,
+        standardDeviationDecimetres: 50,
+        compressedBytes: 2000,
+        sha256: HASH_A,
+      }, elapsedMilliseconds: 5 },
+      assessment: {
+        usable: true, reasons: [], minimumMetres: 0, maximumMetres: 30,
+      },
+    }),
+  });
+  assert.equal(evidence.summary.checkedWindowCount, 2);
+  assert.equal(evidence.summary.automaticEligibleCount, 1);
+  assert.equal(evidence.summary.fallbackOrReviewCount, 1);
+  assert.equal(evidence.summary.productionEnabled, false);
+  assert.ok(evidence.windows.every(window => /^[a-f0-9]{24}$/.test(window.controlKey)));
+  const serialized = JSON.stringify(evidence);
+  assert.doesNotMatch(serialized, /w256-|bboxEpsg3006|cachePath|sourceUrl|Authorization/);
+});
+
 test('Laserdata Skog plan prefers the AOI centre, then the newest containing COPC', () => {
   const report = {
     groundId: 'puttom',
@@ -300,6 +548,7 @@ test('Laserdata Skog density gate detects an empty tile edge', () => {
   };
   const sparse = laserDensityAssessment(plan, 315);
   assert.equal(sparse.usable, false);
+  assert.equal(laserDensityAssessment(plan, 0).usable, false);
   assert.throws(() => laserDensityEvidence(plan, 315), /density ratio .* below 0\.1/);
   const evidence = laserDensityEvidence(plan, 39_322);
   assert.equal(evidence.usable, true);
