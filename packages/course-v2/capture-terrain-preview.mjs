@@ -38,15 +38,17 @@ function browserOptions(explicitChrome, requestedBackend) {
   ].filter(Boolean);
   const executablePath = candidates.find(candidate => existsSync(candidate));
   const common = ['--no-sandbox', '--disable-lcd-text', '--force-device-scale-factor=1'];
-  /* Chrome's documented Linux-headless WebGPU launch set. Do not add
-     --use-vulkan=swiftshader here: it selects the compositor Vulkan driver,
-     not a WebGPU adapter, and can leave Three's honest WebGL fallback without
-     a context on hosted runners. */
+  /* Chromium's own WebGPU SwiftShader test mode. The hosted runner has no
+     physical adapter, so both capture modes are deterministic software shader
+     proofs and must never be presented as device-performance evidence. */
   const backend = requestedBackend === 'webgl2'
     ? ['--enable-unsafe-swiftshader', '--use-angle=swiftshader']
     : [
-        '--enable-unsafe-webgpu', '--ignore-gpu-blocklist', '--enable-features=Vulkan',
-        '--use-angle=vulkan', '--disable-vulkan-surface',
+        '--enable-unsafe-webgpu', '--enable-webgpu-developer-features',
+        '--enable-experimental-web-platform-features', '--ignore-gpu-blocklist',
+        '--enable-features=Vulkan', '--use-angle=swiftshader',
+        '--use-vulkan=swiftshader', '--use-webgpu-adapter=swiftshader',
+        '--disable-vulkan-surface',
       ];
   return {
     ...(executablePath ? { executablePath } : { channel: 'chrome' }),
@@ -177,6 +179,8 @@ async function capture({ origin, output, requestedBackend, chrome, timeoutMillis
       requestedBackend,
       actualBackend,
       backendMatched: requestedBackend === actualBackend,
+      executionAdapter: 'swiftshader-software',
+      performanceEvidence: false,
       image: fileName,
       ...pixels,
       renderedTiles: state.stats.renderedTiles,
