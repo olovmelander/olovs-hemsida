@@ -124,9 +124,11 @@ and WebGL2. Its material adapter reads verified surface tiles; it does not use a
 second hand-written material. Missing, misaligned, corrupt or source-mismatched
 data falls back to GPK1 before the legacy core is cut. The batch, material and
 no-data-free 16-tile frontier are compiled and drawn offscreen before legacy
-CORE construction. A ready Puttom preview then omits 63,504 of 126,100 legacy
-base-grid points behind an 8 m guard. Capture acceptance reads the builder's
-actual emitted/skipped counts. Any later installation failure disables v2
+CORE construction. A ready Puttom preview then omits 63,504 of 123,175 legacy
+base-grid points (51.56%) behind an 8 m guard. The reviewed post-normalisation
+CORE is also pinned to its exact bounds, 4 m spacing and 325 by 379 dimensions;
+capture acceptance reads that grid and the builder's actual emitted/skipped
+counts. Any later installation failure disables v2
 height sampling and rebuilds the full GPK1 CORE before boot continues. This is a partial pilot optimization,
 not removal of the remaining legacy CORE, MID or FAR meshes. The dynamic
 loader/renderer chunks and BVCH data are excluded from install-time PWA precache

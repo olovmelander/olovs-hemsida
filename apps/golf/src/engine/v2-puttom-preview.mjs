@@ -29,8 +29,20 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   legacyCoreCutout: Object.freeze({
     guardCells: 2,
     guardMetres: 8,
+    /* Reviewed after main.js has normalised the mown-edge geometry. The
+       post-normalisation Puttom z minimum snaps to -756, not the raw pack's
+       -792, so this spatial contract deliberately accompanies the counts. */
+    expectedCoreGrid: Object.freeze({
+      dx: 4,
+      x0: -648,
+      x1: 648,
+      z0: -756,
+      z1: 756,
+      nx: 325,
+      nz: 379,
+    }),
     expectedSkippedBasePoints: 63_504,
-    expectedTotalBasePoints: 126_100,
+    expectedTotalBasePoints: 123_175,
   }),
 });
 

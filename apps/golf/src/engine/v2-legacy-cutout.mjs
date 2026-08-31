@@ -124,3 +124,41 @@ export function planV2LegacyCutout({
     skippedBasePoints,
   });
 }
+
+/**
+ * Bind a planned cutout to the separately reviewed legacy grid. Planner versus
+ * builder equality proves internal consistency; this additional check proves
+ * that both still operate on the approved spatial footprint. Expected values
+ * therefore remain explicit instead of being derived from the runtime plan.
+ */
+export function assertV2LegacyCutoutContract({ grid, plan, contract } = {}) {
+  const expected = contract?.expectedCoreGrid;
+  if (!expected || typeof expected !== 'object') {
+    throw new TypeError('v2 legacy cutout requires a reviewed expectedCoreGrid');
+  }
+  if (!grid || typeof grid !== 'object' || !plan || typeof plan !== 'object') {
+    throw new TypeError('v2 legacy cutout contract requires the runtime grid and plan');
+  }
+
+  const actualValues = [
+    grid.dx, grid.x0, grid.x1, grid.z0, grid.z1, plan.nx, plan.nz,
+    plan.skippedBasePoints, plan.totalBasePoints,
+  ];
+  const expectedValues = [
+    expected.dx, expected.x0, expected.x1, expected.z0, expected.z1,
+    expected.nx, expected.nz,
+    contract.expectedSkippedBasePoints, contract.expectedTotalBasePoints,
+  ];
+  const exact = actualValues.every((value, index) =>
+    Number.isFinite(value) && value === expectedValues[index]);
+  if (!exact) {
+    throw new Error(
+      `v2 legacy CORE contract expected ${expected.nx}x${expected.nz} ` +
+      `${contract.expectedSkippedBasePoints}/${contract.expectedTotalBasePoints} skipped/total ` +
+      `at [${expected.x0},${expected.x1}]x[${expected.z0},${expected.z1}] @${expected.dx}; got ` +
+      `${plan.nx}x${plan.nz} ${plan.skippedBasePoints}/${plan.totalBasePoints} ` +
+      `at [${grid.x0},${grid.x1}]x[${grid.z0},${grid.z1}] @${grid.dx}`,
+    );
+  }
+  return plan;
+}

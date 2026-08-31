@@ -1,12 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { planV2LegacyCutout } from './v2-legacy-cutout.mjs';
+import {
+  assertV2LegacyCutoutContract,
+  planV2LegacyCutout,
+} from './v2-legacy-cutout.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from './v2-puttom-preview.mjs';
 
+/* Runtime CORE after main.js has smoothed mown edges. The raw pack would snap
+   z0 to -792; the reviewed contract below intentionally rejects that stale
+   pre-normalisation footprint. */
 const PUTTOM_CORE = Object.freeze({
   dx: 4,
   x0: -648,
   x1: 648,
-  z0: -792,
+  z0: -756,
   z1: 756,
 });
 
@@ -48,17 +54,31 @@ describe('v2 legacy CORE cutout planner', () => {
       guardCells: 2,
       guardMetres: 8,
       nx: 325,
-      nz: 388,
-      totalBasePoints: 126_100,
+      nz: 379,
+      totalBasePoints: 123_175,
       skippedBasePoints: 63_504,
     });
-    expect(plan.skippedBasePoints / plan.totalBasePoints * 100).toBeCloseTo(50.36, 2);
+    expect(plan.skippedBasePoints / plan.totalBasePoints * 100).toBeCloseTo(51.56, 2);
     expect(PUTTOM_PREVIEW_CONFIG.legacyCoreCutout).toEqual({
       guardCells: 2,
       guardMetres: 8,
+      expectedCoreGrid: {
+        dx: 4,
+        x0: -648,
+        x1: 648,
+        z0: -756,
+        z1: 756,
+        nx: 325,
+        nz: 379,
+      },
       expectedSkippedBasePoints: 63_504,
-      expectedTotalBasePoints: 126_100,
+      expectedTotalBasePoints: 123_175,
     });
+    expect(assertV2LegacyCutoutContract({
+      grid: PUTTOM_CORE,
+      plan,
+      contract: PUTTOM_PREVIEW_CONFIG.legacyCoreCutout,
+    })).toBe(plan);
 
     let strictCount = 0;
     for (let j = 0; j < plan.nz; j++) for (let i = 0; i < plan.nx; i++) {
@@ -68,6 +88,36 @@ describe('v2 legacy CORE cutout planner', () => {
           z > plan.innerBounds.z0 + 1e-6 && z < plan.innerBounds.z1 - 1e-6) strictCount++;
     }
     expect(strictCount).toBe(plan.skippedBasePoints);
+  });
+
+  it('rejects stale or shape-colliding CORE footprints despite matching counts', () => {
+    const contract = PUTTOM_PREVIEW_CONFIG.legacyCoreCutout;
+    const staleCore = { ...PUTTOM_CORE, z0: -792 };
+    const stalePlan = planV2LegacyCutout({
+      enabled: true,
+      preflightStatus: 'ready',
+      grid: staleCore,
+      previewBounds: PUTTOM_PREVIEW_BOUNDS,
+    });
+    expect(stalePlan.skippedBasePoints).toBe(contract.expectedSkippedBasePoints);
+    expect(() => assertV2LegacyCutoutContract({
+      grid: staleCore, plan: stalePlan, contract,
+    })).toThrow(/expected 325x379.*got 325x388/);
+
+    const collidingCore = {
+      dx: 4, x0: -756, x1: 756, z0: -648, z1: 648,
+    };
+    const collidingPlan = planV2LegacyCutout({
+      enabled: true,
+      preflightStatus: 'ready',
+      grid: collidingCore,
+      previewBounds: PUTTOM_PREVIEW_BOUNDS,
+    });
+    expect(collidingPlan.totalBasePoints).toBe(contract.expectedTotalBasePoints);
+    expect(collidingPlan.skippedBasePoints).toBe(contract.expectedSkippedBasePoints);
+    expect(() => assertV2LegacyCutoutContract({
+      grid: collidingCore, plan: collidingPlan, contract,
+    })).toThrow(/expected 325x379.*got 379x325/);
   });
 
   it('fails closed on invalid grids and preview bounds outside CORE', () => {

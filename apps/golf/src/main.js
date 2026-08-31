@@ -55,7 +55,10 @@ import {
   loadPuttomTerrainPreview,
   PUTTOM_PREVIEW_CONFIG,
 } from './engine/v2-puttom-preview.mjs';
-import { planV2LegacyCutout } from './engine/v2-legacy-cutout.mjs';
+import {
+  assertV2LegacyCutoutContract,
+  planV2LegacyCutout,
+} from './engine/v2-legacy-cutout.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
@@ -1780,11 +1783,10 @@ if (TERRAIN_PREVIEW.ready) {
       previewBounds: TERRAIN_PREVIEW.bounds,
       guardCells: cutout.guardCells,
     });
-    if (plan.guardMetres !== cutout.guardMetres ||
-        plan.skippedBasePoints !== cutout.expectedSkippedBasePoints ||
-        plan.totalBasePoints !== cutout.expectedTotalBasePoints) {
-      throw new Error('Puttom legacy CORE cutout differs from the reviewed exact counts');
+    if (plan.guardMetres !== cutout.guardMetres) {
+      throw new Error('Puttom legacy CORE cutout differs from the reviewed guard');
     }
+    assertV2LegacyCutoutContract({ grid: CORE, plan, contract: cutout });
     terrainPreviewHeightSourceEnabled = true;
     terrainPreviewPrepared = Object.freeze({
       plan, renderStride, renderResources, batchStats,
@@ -1819,7 +1821,9 @@ if (terrainPreviewPrepared) {
        full-preview clip hides it before the v2 batch is installed. */
     coreGeometry = await buildTerrain(CORE, terrainPreviewPrepared.plan.innerBounds, true);
     const legacyBuild = coreGeometry.userData.legacyBaseGrid;
-    if (legacyBuild?.skippedBasePoints !== terrainPreviewPrepared.plan.skippedBasePoints ||
+    if (legacyBuild?.nx !== terrainPreviewPrepared.plan.nx ||
+        legacyBuild.nz !== terrainPreviewPrepared.plan.nz ||
+        legacyBuild.skippedBasePoints !== terrainPreviewPrepared.plan.skippedBasePoints ||
         legacyBuild.totalBasePoints !== terrainPreviewPrepared.plan.totalBasePoints ||
         legacyBuild.emittedBasePoints !== legacyBuild.totalBasePoints - legacyBuild.skippedBasePoints) {
       throw new Error('legacy CORE builder did not apply the reviewed omission plan exactly');
@@ -1837,6 +1841,10 @@ if (terrainPreviewPrepared) {
       skippedBasePoints: legacyBuild.skippedBasePoints,
       emittedBasePoints: legacyBuild.emittedBasePoints,
       totalBasePoints: legacyBuild.totalBasePoints,
+      coreGrid: Object.freeze({
+        dx: CORE.dx, x0: CORE.x0, x1: CORE.x1, z0: CORE.z0, z1: CORE.z1,
+        nx: legacyBuild.nx, nz: legacyBuild.nz,
+      }),
       guardMetres: terrainPreviewPrepared.plan.guardMetres,
       fallbackRebuilt: false,
       ...cut,

@@ -5,7 +5,7 @@
 > terrain BVCH tiles and 16 matching migration-surface BVCH tiles replace the
 > matching legacy core in one logical terrain draw. The renderer now compiles
 > and draws that complete v2 batch offscreen before legacy construction and
-> omits 63,504 of Puttom's 126,100 CORE base-grid points behind an 8 m normal/
+> omits 63,504 of Puttom's 123,175 CORE base-grid points behind an 8 m normal/
 > detail guard. Actual builder omissions, not planned counts, enter the capture
 > gate. Any later install failure disables v2 heights, disposes v2 and rebuilds
 > the full GPK1 CORE before boot continues. The accepted provider-run evidence remains 58.19%
@@ -1042,8 +1042,10 @@ Deliverables:
   error fails CI. The report retains only bounded raw/tight/encoded byte counts
   and the padding decision, never the raw pixel buffer.
 - [x] Construction-time retained-pilot legacy cutout after complete surface and
-  backend compile/draw preflight: 63,504 of 126,100 Puttom CORE base points are omitted
-  behind an 8 m guard, while any post-decision failure rebuilds the complete
+  backend compile/draw preflight: 63,504 of 123,175 Puttom CORE base points
+  (51.56%) are omitted behind an 8 m guard. The reviewed post-normalisation CORE
+  is pinned to `[-648,648] × [-756,756]`, 4 m and 325 × 379 points, while any
+  post-decision failure rebuilds the complete
   GPK1 CORE from GPK1 heights. All three real-app captures require actual builder
   telemetry rather than planned counts.
 - [ ] Live adapter selection behind the existing v2 flag after both visual

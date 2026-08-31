@@ -188,7 +188,13 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
       .filter(({ id }) => !presentClasses.has(id)).map(({ label }) => label);
     if (missingClasses.length) throw new Error(`surface frontier is missing ${missingClasses.join(', ')}`);
     const expectedCutout = PUTTOM_PREVIEW_CONFIG.legacyCoreCutout;
+    const expectedCore = expectedCutout.expectedCoreGrid;
+    const actualCore = state.v2.renderer?.coreGrid;
     const legacyCoreCutoutPassed = state.v2.renderer?.status === 'ready' &&
+      actualCore?.dx === expectedCore.dx &&
+      actualCore?.x0 === expectedCore.x0 && actualCore?.x1 === expectedCore.x1 &&
+      actualCore?.z0 === expectedCore.z0 && actualCore?.z1 === expectedCore.z1 &&
+      actualCore?.nx === expectedCore.nx && actualCore?.nz === expectedCore.nz &&
       state.v2.renderer.skippedBasePoints === expectedCutout.expectedSkippedBasePoints &&
       state.v2.renderer.totalBasePoints === expectedCutout.expectedTotalBasePoints &&
       state.v2.renderer.emittedBasePoints ===
