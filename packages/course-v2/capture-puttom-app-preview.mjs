@@ -186,10 +186,18 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
     if (!liveAdapterPassed) {
       throw new Error('real app did not activate the fail-closed v2 live adapter');
     }
+    /* Puttom's graph is published and registered, so selection must resolve it
+       through the real manifest loader — root, course manifest, ground
+       manifest and the exact live GPK1 fallback identity — and still render
+       from the frontier that passed the adapter contract. */
     const selectionPassed = state.v2.selection?.mode === 'fixed-frontier' &&
       state.v2.selection.requestMode === 'opt-in' &&
       state.v2.selection.graphError === null &&
-      Array.isArray(state.v2.selection.publishedGraphSlugs);
+      state.v2.selection.publishedGraphSlugs?.includes('puttom') === true &&
+      state.v2.selection.graph?.slug === 'puttom' &&
+      state.v2.selection.graph.groundId === 'puttom' &&
+      state.v2.selection.graph.tiles === 85 &&
+      state.v2.selection.graph.holes === 18;
     if (!selectionPassed) {
       throw new Error(`real app did not route the pilot through the generic v2 selection boundary: ${
         JSON.stringify(state.v2.selection || null)}`);

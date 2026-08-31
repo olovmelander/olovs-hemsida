@@ -31,11 +31,16 @@
 > becomes an explicit boot error instead of a silent GPK1 downgrade, and the
 > capture harness now proves at runtime that a flagless visit makes zero v2
 > requests and loads zero v2 code chunks. The generic
-> manifest-driven streaming renderer remains unselected because no real public
-> course/ground graph yet supplies its required shell and parent hierarchy —
-> the bounded 1,024 m Puttom window cannot honestly cover the whole course
-> (hole 16 lies wholly outside it), so real publication waits on the remaining
-> authenticated D2 windows. D5 now has
+> manifest-driven streaming renderer remains unselected, but no longer for want
+> of data: the full aligned Puttom AOI is now acquired, compiled and published
+> as a real course/ground graph that the live app resolves and verifies. The
+> retained 1,024 m window could not describe the whole course — hole 16 lay
+> wholly outside it — so a second 2,049 m window was taken from the same
+> authenticated DTM item, and the retained pilot is an exact subgrid of it:
+> 1,056,778 of 1,056,784 samples identical, the remaining six tied at one
+> centimetre quantum between two compilations with different quantization
+> origins. Activating the streaming renderer against that graph is now a
+> rendering-evidence question, not an acquisition one. D5 now has
 > a strict 14-byte lossless
 > surface-grid contract for primary/secondary class IDs, signed boundary
 > distance, owning feature, mow fields and material fields. Its first Puttom
@@ -1005,7 +1010,10 @@ Deliverables:
 - [x] Worker decode, cancellation, priority queue and resource-recycling
   harness. Production renderer installation remains gated on a real pilot.
 - Parent-ground sharing for the three secondary courses. The contract and
-  synthetic sharing gate pass; real-course manifests remain to be emitted.
+  synthetic sharing gate pass; the first REAL course/ground manifest pair is
+  now published for `puttom`, and the remaining grounds follow the same
+  emitter. Sharing itself is still only proven synthetically, because no
+  secondary slug has a compiled parent ground yet.
 - [x] Cache strategy for immutable chunks and fresh manifests: verified bytes
   enter Cache Storage only after Worker acceptance, while the root is
   network-first with validated offline fallback. Service-worker route exposure
@@ -1083,11 +1091,22 @@ Deliverables:
   live-GPK1 fallback identity, restored `?v2=require` fail-closed semantics,
   a runtime no-request proof for flagless visits, and a build gate that keeps
   the published-slug registry and the built v2 root in lockstep.
-- [ ] Generic manifest-driven streaming-renderer activation after real course/
-  ground manifests, shell and parent hierarchy are published and pass the same
-  adapter contract. Blocked on data, not wiring: the bounded 1,024 m Puttom
-  window cannot honestly describe the whole ground (hole 16 lies wholly
-  outside it), so the remaining authenticated D2 windows come first.
+- [x] Real published course/ground graph for the first ground. The aligned
+  full-course Puttom AOI — 8 x 8 tiles, 2,049 x 2,049 samples at 1 m from the
+  same authenticated Lantmäteriet DTM item — compiles to 85 terrain chunks
+  plus a bounded shell, and its emitted root/course/ground manifests and
+  routing chunk are published and resolved by the live app. Every sample is
+  real source (4,198,401 of 4,198,401 finite, declared nodata, 26.12-103.22 m
+  RH 2000), and all 1,056,784 retained-preview samples agree with the fresh
+  compilation on the shared 1 cm lattice: 1,056,778 exactly equal and 6 tied
+  at one quantum, from two independent windows with different quantization
+  origins. The frame remains the provisional convention, not a D1 approval.
+- [ ] Generic manifest-driven streaming-renderer activation. The graph now
+  resolves in the live app (root, course and ground manifests verified, exact
+  live-GPK1 fallback identity), but selection deliberately keeps rendering on
+  the frontier that passed the adapter contract: activating the streaming
+  renderer needs its own shell/active-hole performance evidence and the same
+  three-backend capture proof.
 - [x] Height-sensitive camera, water, ball/interactions, surface and object
   placement migrated to the visible-ground sampler in the live app path.
 - [ ] Removal of full-course synchronous terrain mesh construction for v2.

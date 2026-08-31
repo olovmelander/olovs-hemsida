@@ -51,6 +51,10 @@ test('the no-request policy recognises the real v2 data, root and chunk names', 
     'https://banvy.test/olovs-hemsida/courses/v2-index.json?fresh=1',
     'http://127.0.0.1:8080/assets/v2-graph-source-DZYLfcdi.js',
     'http://127.0.0.1:8080/assets/v2-terrain-preview-loader-BJYsvHda.js',
+    `http://127.0.0.1:8080/grounds/puttom/ground-v2-${'a'.repeat(64)}.json`,
+    `http://127.0.0.1:8080/grounds/puttom/terrain/${'b'.repeat(64)}.bvch`,
+    `http://127.0.0.1:8080/courses/puttom/course-v2-${'c'.repeat(64)}.json`,
+    `http://127.0.0.1:8080/courses/puttom/routing/${'d'.repeat(64)}.bvch`,
   ]) assert.equal(isV2RequestUrl(url), true, url);
   for (const url of [
     'http://127.0.0.1:8080/assets/main-BSyUpNlO.js',

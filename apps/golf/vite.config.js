@@ -96,6 +96,10 @@ export default defineConfig({
         navigateFallbackDenylist: [
           /\/courses\//,
           /\/v2\//,
+          /* The published v2 graph puts ground assets outside /courses/, and a
+             missing chunk must be an honest 404 rather than the app shell --
+             which would fail later on its GPK1/BVCH magic instead. */
+          /\/grounds\//,
           /* The seven standalone pages are REAL FILES on GitHub Pages -- pages.yml
              copies them beside the app, because that host has no rewrite rules --
              and they sit inside this worker's scope. Without this the navigation
@@ -150,6 +154,39 @@ export default defineConfig({
             options: {
               cacheName: 'banvy-v2-surface',
               expiration: { maxEntries: 96, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            /* The v2 graph's root, and the only mutable file in it. Network
+               first for the same reason the GPK1 manifest is: it names the
+               hashes everything else is fetched and verified by, so a stale
+               root would pair new terrain with an outdated course identity --
+               which selection then refuses, turning a cache artefact into a
+               course that will not open. check-app-build requires this exact
+               strategy and cache name before a graph may be registered. */
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && url.pathname.endsWith('/courses/v2-index.json'),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'banvy-v2-index',
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            /* Graph manifests and chunks carry their full SHA-256 in the name
+               and are verified again after download, so cache-first is both
+               safe and the whole point of content addressing. */
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              (/\/courses\/[^/]+\/course-v2-[a-f0-9]{64}\.json$/.test(url.pathname) ||
+               /\/grounds\/[^/]+\/ground-v2-[a-f0-9]{64}\.json$/.test(url.pathname) ||
+               /\/(?:courses|grounds)\/[^/]+\/(?:routing|terrain|surface|objects)\/[a-f0-9]{64}\.bvch$/
+                 .test(url.pathname)),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-v2-graph',
+              expiration: { maxEntries: 256, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

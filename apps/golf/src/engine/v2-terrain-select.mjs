@@ -8,8 +8,15 @@ import {
    the public v2 root. The generic manifest resolver runs ONLY for these slugs,
    so an unpublished course never probes the network for a root that cannot
    exist. check-app-build fails the build when this list and the published root
-   disagree in either direction, so the list cannot silently go stale. */
-export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze([]);
+   disagree in either direction, so the list cannot silently go stale.
+
+   Puttom's graph is the full aligned 2,049 m AOI compiled from the same
+   authenticated Lantmäteriet DTM item as the retained pilot, whose 16 verified
+   tiles are an exact subgrid of it. Registering a slug publishes its graph for
+   RESOLUTION only: the generic streaming renderer stays gated, so a resolved
+   graph is reported and the course keeps rendering from the strongest source
+   that has passed the adapter contract. */
+export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze(['puttom']);
 
 export const V2_GRAPH_RENDERER_GATE = 'graph-renderer-not-activated';
 

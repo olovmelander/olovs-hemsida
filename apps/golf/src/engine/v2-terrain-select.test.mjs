@@ -33,8 +33,13 @@ describe('v2RequestMode', () => {
 });
 
 describe('selectV2TerrainSource', () => {
-  it('ships with no published graphs', () => {
-    expect(V2_PUBLISHED_GRAPH_SLUGS).toEqual([]);
+  /* The registry is the one value here that tracks published data, so it is
+     asserted in exactly one place; every other test pins it explicitly rather
+     than inheriting it, so publishing a course cannot quietly change what
+     those tests mean. check-app-build is what keeps this list honest against
+     the built root. */
+  it('registers exactly the courses whose graph is published', () => {
+    expect(V2_PUBLISHED_GRAPH_SLUGS).toEqual(['puttom']);
     expect(Object.isFrozen(V2_PUBLISHED_GRAPH_SLUGS)).toBe(true);
   });
 
@@ -62,12 +67,15 @@ describe('selectV2TerrainSource', () => {
 
   it('keeps an unpublished non-pilot course on the explicit fallback without probing the network', async () => {
     const graphResolver = neverResolveGraph();
+    /* The real registry, not a stub: a course with no published graph must
+       stay off the network even while another course has one. */
     const selection = await selectV2TerrainSource({
       slug: 'angso',
       packMeta: { ...PACK_META, slug: 'angso' },
       search: '?v2=1',
       graphResolver,
     });
+    expect(V2_PUBLISHED_GRAPH_SLUGS).not.toContain('angso');
     expect(selection.mode).toBe('fallback');
     expect(selection.requested).toBe(true);
     expect(selection.graph).toBe(null);
@@ -84,6 +92,7 @@ describe('selectV2TerrainSource', () => {
       geo: { origin: { lat: 63.2992, lon: 18.9413 } },
       packMeta: PACK_META,
       search: '?v2=1',
+      publishedGraphSlugs: Object.freeze([]),
       previewLoader,
       graphResolver: neverResolveGraph(),
     });
@@ -102,6 +111,7 @@ describe('selectV2TerrainSource', () => {
       slug: 'angso',
       packMeta: { ...PACK_META, slug: 'angso' },
       search: '?v2=require',
+      publishedGraphSlugs: Object.freeze([]),
     })).rejects.toThrow(/v2 krävdes men ingen verifierad v2-terräng finns för angso/);
 
     const failedPreview = vi.fn(async options => Object.freeze({
@@ -112,6 +122,18 @@ describe('selectV2TerrainSource', () => {
       slug: 'puttom',
       packMeta: PACK_META,
       search: '?v2=require',
+      publishedGraphSlugs: Object.freeze([]),
+      previewLoader: failedPreview,
+    })).rejects.toThrow(/descriptor hash mismatch/);
+
+    /* And with the graph published: a pilot whose preview cannot verify is
+       still a boot error under require, even though its graph resolved. */
+    await expect(selectV2TerrainSource({
+      slug: 'puttom',
+      packMeta: PACK_META,
+      search: '?v2=require',
+      publishedGraphSlugs: Object.freeze(['puttom']),
+      graphResolver: vi.fn(async () => ({ slug: 'puttom', summary: { tiles: 85 } })),
       previewLoader: failedPreview,
     })).rejects.toThrow(/descriptor hash mismatch/);
   });

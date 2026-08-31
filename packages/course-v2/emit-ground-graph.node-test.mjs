@@ -132,12 +132,22 @@ test('writeGroundGraphFiles persists byte-exact immutable resources plus the roo
       assert.equal(onDisk.equals(Buffer.from(bytes)), true, relativeUrl);
     }
     const root = await readFile(join(directory, 'courses/v2-index.json'));
-    assert.equal(root.toString('utf8'), `${canonicalJson(graph.root)}\n`);
-    /* The reported root hash must digest the bytes a client actually fetches:
-       hashing the canonical JSON without its trailing newline would name a
-       file that does not exist anywhere. */
+    /* The runtime's root store re-serialises what it parsed and refuses the
+       manifest unless the fetched text matches byte for byte, so the published
+       root must be canonical JSON with nothing appended — not even the
+       trailing newline a committed JSON file usually carries. */
+    const text = root.toString('utf8');
+    assert.equal(text, canonicalJson(graph.root));
+    assert.equal(canonicalJson(JSON.parse(text)), text, 'published root must survive a byte-exact reparse');
+    /* And the reported hash must digest exactly those bytes: a digest over a
+       second rendering names a file nobody can fetch. */
     assert.equal(createHash('sha256').update(root).digest('hex'), graph.report.rootSha256);
     assert.equal(root.byteLength, graph.report.rootBytes);
+
+    for (const url of [graph.references.course.url, graph.references.ground.url]) {
+      const manifest = await readFile(join(directory, url), 'utf8');
+      assert.equal(canonicalJson(JSON.parse(manifest)), manifest, `${url} must be byte-exact canonical JSON`);
+    }
     await writeGroundGraphFiles(directory, graph);
   } finally {
     await rm(directory, { recursive: true, force: true });

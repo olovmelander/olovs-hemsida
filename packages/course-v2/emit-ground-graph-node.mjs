@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, relative, resolve, sep } from 'node:path';
-import { canonicalJson, canonicalJsonBytes } from './canonical-json.mjs';
+import { canonicalJsonBytes } from './canonical-json.mjs';
 import {
   assetReferenceForChunk,
   sha256Bytes,
@@ -273,11 +273,15 @@ export function emitGroundGraph({
     supportedFeatures: V2_SUPPORTED_FEATURES,
     strictResources: true,
   });
-  /* The root is the one mutable file, so it is not content-addressed by name.
-     Its reported hash must therefore be over exactly the bytes that reach
-     disk — hashing the canonical JSON while writing it with a trailing
-     newline gives a digest that matches no file anyone can fetch. */
-  const rootBytes = Buffer.from(`${canonicalJson(root)}\n`, 'utf8');
+  /* The root is the one mutable file, so it is not content-addressed by name
+     and its reported hash must be over exactly the bytes that reach disk.
+     Those bytes are canonical JSON with NOTHING appended: the runtime's
+     network-first root store re-serialises what it parsed and rejects the
+     manifest unless the text matches byte for byte, so a trailing newline —
+     the ordinary courtesy for a committed JSON file — makes the published
+     root unloadable. Every other manifest in the graph is written through
+     canonicalJsonBytes for the same reason. */
+  const rootBytes = canonicalJsonBytes(root);
   return Object.freeze({
     root,
     rootBytes,

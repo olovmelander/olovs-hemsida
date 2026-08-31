@@ -10,6 +10,7 @@ import {
 } from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
 import { createSurfacePreviewAtlas } from '../../apps/golf/src/engine/v2-surface-preview-atlas.mjs';
 import { V2_PUBLISHED_GRAPH_SLUGS } from '../../apps/golf/src/engine/v2-terrain-select.mjs';
+import { canonicalJson } from './canonical-json.mjs';
 import { verifyChunkAsset } from './chunk-node.mjs';
 import { verifyAssetGraph } from './graph-node.mjs';
 import { V2_SUPPORTED_FEATURES } from './schema.mjs';
@@ -158,7 +159,16 @@ if (V2_PUBLISHED_GRAPH_SLUGS.length === 0) {
   if (!rootExists) {
     throw new Error(`V2_PUBLISHED_GRAPH_SLUGS lists ${V2_PUBLISHED_GRAPH_SLUGS.join(', ')} but dist has no courses/v2-index.json`);
   }
-  const root = JSON.parse(fs.readFileSync(rootPath, 'utf8'));
+  /* The runtime rejects any manifest whose fetched text is not byte-exact
+     canonical JSON — it re-serialises what it parsed and compares. A
+     structurally valid graph whose root carries so much as a trailing newline
+     is therefore unloadable in the browser while passing every other check
+     here, which is exactly how it once shipped. */
+  const rootText = fs.readFileSync(rootPath, 'utf8');
+  const root = JSON.parse(rootText);
+  if (canonicalJson(root) !== rootText) {
+    throw new Error('published courses/v2-index.json is not byte-exact canonical JSON; the runtime root store will refuse it');
+  }
   const rootSlugs = (root.courses || []).map(course => course?.slug).sort();
   const registered = [...V2_PUBLISHED_GRAPH_SLUGS].sort();
   if (JSON.stringify(rootSlugs) !== JSON.stringify(registered)) {
@@ -174,13 +184,20 @@ if (V2_PUBLISHED_GRAPH_SLUGS.length === 0) {
     resources.set(url, fs.readFileSync(file));
     return url;
   };
+  const assertCanonical = (url, bytes) => {
+    const text = bytes.toString('utf8');
+    if (canonicalJson(JSON.parse(text)) !== text) {
+      throw new Error(`published ${url} is not byte-exact canonical JSON; the runtime manifest store will refuse it`);
+    }
+    return JSON.parse(text);
+  };
   for (const entry of root.courses) {
     const slug = entry?.slug || 'unknown-course';
     const courseUrl = loadResource(entry?.manifest?.url, `course ${slug} manifest`);
-    const course = JSON.parse(resources.get(courseUrl).toString('utf8'));
+    const course = assertCanonical(courseUrl, resources.get(courseUrl));
     loadResource(course?.routing?.url, `course ${slug} routing`);
     const groundUrl = loadResource(course?.groundManifest?.url, `course ${slug} ground manifest`);
-    const ground = JSON.parse(resources.get(groundUrl).toString('utf8'));
+    const ground = assertCanonical(groundUrl, resources.get(groundUrl));
     loadResource(ground?.shell?.url, `ground ${ground?.groundId || slug} shell`);
     for (const tile of ground?.tiles || []) {
       for (const kind of ['terrain', 'surface', 'objects']) {

@@ -125,7 +125,13 @@ an unpublished course never probes the network for a root that cannot exist;
 `check-app-build` fails when that registry and the built
 `courses/v2-index.json` disagree in either direction, and additionally verifies
 a registered graph offline chunk-by-chunk against the live GPK1 index before it
-can ship. A resolved graph must declare the exact live GPK1 pack as its v1
+can ship. `puttom` is registered: its full-AOI graph is published under
+`courses/` and `grounds/` and resolves in the live app. Every manifest in the
+graph must be BYTE-EXACT canonical JSON, because the runtime re-serialises what
+it parsed and refuses anything that differs — a trailing newline on the root,
+the ordinary courtesy for a committed JSON file, makes the whole graph
+unloadable while passing every structural check, so `check-app-build` now
+asserts the bytes as well as the schema. A resolved graph must declare the exact live GPK1 pack as its v1
 fallback or selection refuses it. Because the generic streaming renderer has
 not yet passed the adapter contract on real published data, a verified graph is
 reported (`mode: 'graph'`, reason `graph-renderer-not-activated`) and the

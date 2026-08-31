@@ -11,6 +11,12 @@ export const V2_REQUEST_URL_PATTERNS = Object.freeze([
   /\/v2\//,
   /\/courses\/v2-index\.json(?:$|[?#])/,
   /\/assets\/v2-[a-z-]+-[A-Za-z0-9_-]+\.js(?:$|[?#])/,
+  /* The published graph lives beside the GPK1 packs and under its own
+     /grounds/ tree, so those paths count too: a flagless visit must not fetch
+     a course manifest, a ground manifest or any graph chunk either. */
+  /\/grounds\//,
+  /\/courses\/[^/]+\/course-v2-[a-f0-9]{64}\.json(?:$|[?#])/,
+  /\/courses\/[^/]+\/routing\/[a-f0-9]{64}\.bvch(?:$|[?#])/,
 ]);
 
 export function isV2RequestUrl(url) {
