@@ -3,7 +3,6 @@ import {
   V2_STREAM_PROBE_BUDGETS,
   compareStreamHeights,
   summarizeStreamProbe,
-  v2StreamProbeRequested,
 } from './v2-stream-probe.mjs';
 
 const BOUNDS = Object.freeze({ x0: -100, x1: 100, z0: -100, z1: 100 });
@@ -24,15 +23,6 @@ function snapshot(overrides = {}) {
     ...overrides,
   };
 }
-
-describe('v2StreamProbeRequested', () => {
-  it('needs its own explicit flag', () => {
-    expect(v2StreamProbeRequested('?v2=1')).toBe(false);
-    expect(v2StreamProbeRequested('?v2=1&v2stream=1')).toBe(true);
-    expect(v2StreamProbeRequested('?v2stream=0')).toBe(false);
-    expect(v2StreamProbeRequested('')).toBe(false);
-  });
-});
 
 describe('compareStreamHeights', () => {
   it('reports full agreement when both samplers describe the same ground', () => {

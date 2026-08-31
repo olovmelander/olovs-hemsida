@@ -52,8 +52,11 @@ import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
-import { selectV2TerrainSource, V2_GRAPH_RENDERER_GATE } from './engine/v2-terrain-select.mjs';
-import { v2StreamProbeRequested } from './engine/v2-stream-probe.mjs';
+import {
+  selectV2TerrainSource,
+  v2StreamProbeRequested,
+  V2_GRAPH_RENDERER_GATE,
+} from './engine/v2-terrain-select.mjs';
 import { V2TerrainLiveAdapter } from './engine/v2-terrain-live-adapter.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 

@@ -106,9 +106,10 @@ const expected = [
   /^v2-surface-preview-loader-[A-Za-z0-9_-]+\.js$/,
   /^v2-surface-preview-atlas-[A-Za-z0-9_-]+\.js$/,
   /^v2-graph-source-[A-Za-z0-9_-]+\.js$/,
-  /* the summariser and its driver are separate chunks, so the first pattern
-     must not also match the second's name */
-  /^v2-stream-probe-(?!run-)[A-Za-z0-9_-]+\.js$/,
+  /* The summariser has one importer — its own driver — so the bundler folds it
+     in and there is no separate chunk to require. Which chunk it lands in is
+     the bundler's decision; that it never lands in the entry graph is the
+     invariant, and the marker sweep below is what asserts it. */
   /^v2-stream-probe-run-[A-Za-z0-9_-]+\.js$/,
   /^surface-grid-[A-Za-z0-9_-]+\.js$/,
   /^decode-web-[A-Za-z0-9_-]+\.js$/,
@@ -139,6 +140,83 @@ const chunks = expected.map(pattern => {
 for (const chunk of chunks) {
   const bytes = fs.statSync(path.join(ASSETS, chunk)).size;
   if (bytes > 64 * 1024) throw new Error(`${chunk} is ${bytes} bytes; budget is 65536`);
+}
+
+/* What a flagless visit actually downloads: a root module plus the transitive
+   closure of its STATIC imports. A dynamic import() is not in it — that is the
+   whole point of the split. The set is computed rather than assumed because
+   the regression it exists to catch looked like nothing at all in the source:
+   main.js imported one tiny flag helper from the probe module, so every course
+   visitor pulled a v2 chunk while each per-chunk assertion above still passed.
+   Only the browser's no-request proof saw it, twenty minutes into CI. */
+function staticClosure(roots, label) {
+  const seen = new Set();
+  const queue = [...roots];
+  while (queue.length) {
+    const file = queue.pop();
+    if (seen.has(file)) continue;
+    const onDisk = path.join(ASSETS, file);
+    if (!fs.existsSync(onDisk)) throw new Error(`${label} references ${file}, which was not emitted`);
+    seen.add(file);
+    const body = fs.readFileSync(onDisk, 'utf8');
+    /* Static edges only. Backticks and parens are excluded so a minified
+       `import(`./x.js`)` sitting on the same line as a later `from"./y.js"`
+       cannot be read as one static import of the wrong chunk. */
+    for (const [, specifier] of body.matchAll(/(?:^|[\s;}])(?:import|export)[^;'"`()]*?from\s*["']\.\/([^"']+)["']/g)) {
+      queue.push(specifier);
+    }
+    for (const [, specifier] of body.matchAll(/(?:^|[\s;}])import\s*["']\.\/([^"']+)["']/g)) queue.push(specifier);
+  }
+  return seen;
+}
+function dynamicTargets(files) {
+  const targets = new Set();
+  for (const file of files) {
+    const body = fs.readFileSync(path.join(ASSETS, file), 'utf8');
+    for (const [, specifier] of body.matchAll(/import\(\s*[`"']\.\/([^`"']+)[`"']/g)) targets.add(specifier);
+  }
+  return targets;
+}
+const indexHtml = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
+const htmlRoots = [...indexHtml.matchAll(/(?:src|href)="[^"]*\/assets\/([^"/]+\.js)"/g)].map(match => match[1]);
+if (!htmlRoots.length) throw new Error('built index.html references no entry module; the closure proof cannot run');
+/* The entry boots the chooser or the player through two separate dynamic
+   imports, so the HTML closure alone describes a visitor who never opened a
+   course — and the flagless visit under test opens one. The entry's OWN
+   dynamic imports are its routes, so take them as additional roots rather than
+   naming chunks: with only the HTML roots the real regression walked straight
+   through this proof. */
+const routeRoots = [...dynamicTargets(staticClosure(htmlRoots, 'built index.html'))];
+if (!routeRoots.some(file => /^main-[A-Za-z0-9_-]+\.js$/.test(file))) {
+  throw new Error(`the built entry no longer routes to a player chunk (${routeRoots.join(', ') || 'no routes'}); without it this proof only measures the chooser`);
+}
+const flaglessClosure = staticClosure([...htmlRoots, ...routeRoots], 'the built app');
+for (const file of flaglessClosure) {
+  if (/^(?:v2-|chunk-worker-)/.test(file)) {
+    throw new Error(`${file} is reachable by static import from ${htmlRoots.concat(routeRoots).join(' / ')}; every v2 module must stay behind a dynamic import so a flagless visit fetches none of them`);
+  }
+}
+/* A chunk-name test cannot see a v2 module INLINED into that closure, which is
+   the same failure wearing a different hat, so each dynamic-only module also
+   carries a literal of its own. Leaking is reported before rot, because the
+   two look alike from here — a leak moves the marker out of its home chunk —
+   and only one of them is fixed by touching this table. */
+for (const { marker, home } of [
+  { marker: 'agreedFraction', home: /^v2-stream-probe-run-/ },
+  { marker: 'v2-index.json', home: /^v2-graph-source-/ },
+]) {
+  const carriers = assets.filter(file => file.endsWith('.js') &&
+    fs.readFileSync(path.join(ASSETS, file), 'utf8').includes(marker));
+  const leaked = carriers.filter(file => flaglessClosure.has(file));
+  if (leaked.length) {
+    throw new Error(`${marker} reached the flagless closure (${leaked.join(', ')}); a visit without ?v2 must carry no v2 code`);
+  }
+  /* Absence only means something once the marker has been found where it
+     belongs: one that has rotted away would pass this sweep by matching
+     nothing at all. */
+  if (!carriers.some(file => home.test(file))) {
+    throw new Error(`marker ${marker} no longer appears in a ${home} chunk; re-anchor it before this sweep can mean anything`);
+  }
 }
 
 /* The v2 decode Worker must be BUNDLED, not copied. A bundler that fails to

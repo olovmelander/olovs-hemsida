@@ -4,6 +4,7 @@ import {
   V2_PUBLISHED_GRAPH_SLUGS,
   selectV2TerrainSource,
   v2RequestMode,
+  v2StreamProbeRequested,
 } from './v2-terrain-select.mjs';
 
 const PACK_META = Object.freeze({
@@ -29,6 +30,18 @@ describe('v2RequestMode', () => {
     expect(v2RequestMode('?v2=require')).toBe('require');
     expect(v2RequestMode('?v2=0')).toBe('off');
     expect(v2RequestMode('?v2=2')).toBe('off');
+  });
+});
+
+describe('v2StreamProbeRequested', () => {
+  /* Lives beside v2RequestMode so the player can read it without importing
+     the probe -- a static import of the probe module put a v2 chunk in front
+     of every ordinary visitor. */
+  it('needs its own explicit flag', () => {
+    expect(v2StreamProbeRequested('?v2=1')).toBe(false);
+    expect(v2StreamProbeRequested('?v2=1&v2stream=1')).toBe(true);
+    expect(v2StreamProbeRequested('?v2stream=0')).toBe(false);
+    expect(v2StreamProbeRequested('')).toBe(false);
   });
 });
 

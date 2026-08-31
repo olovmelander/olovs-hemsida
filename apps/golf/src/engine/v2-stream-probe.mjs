@@ -17,10 +17,6 @@ export const V2_STREAM_PROBE_BUDGETS = Object.freeze({
 
 export const V2_STREAM_PARITY_TOLERANCE_METRES = 0.011;
 
-export function v2StreamProbeRequested(search = globalThis.location?.search || '') {
-  return new URLSearchParams(search).get('v2stream') === '1';
-}
-
 function finiteOrNull(value) {
   return Number.isFinite(value) ? +value.toFixed(1) : null;
 }

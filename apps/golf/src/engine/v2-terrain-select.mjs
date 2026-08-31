@@ -27,6 +27,15 @@ export function v2RequestMode(search = globalThis.location?.search || '') {
   return 'off';
 }
 
+/* Every "what did the URL ask for" answer lives here, in a module the player
+   already loads, precisely so asking the question costs no chunk. Reading this
+   flag from the probe's own module instead made main.js a static importer of
+   it, and a v2 chunk then reached every ordinary visitor — caught by the
+   flagless no-request proof, which is the only gate that could see it. */
+export function v2StreamProbeRequested(search = globalThis.location?.search || '') {
+  return new URLSearchParams(search).get('v2stream') === '1';
+}
+
 function errorText(error) {
   return String(error?.message || error).slice(0, 300);
 }

@@ -1168,6 +1168,21 @@ Deliverables:
   measurement itself: a software rasteriser cannot complete the probe at any
   deadline, because one `update()` uploading a 257x257 texture array can block
   for minutes there — so streaming timings must come from hardware.
+  **A third finding, from the probe's own flag:** reading `?v2stream=1`
+  through a helper exported by the probe module made `main.js` a static
+  importer of it, so the bundler put a v2 chunk in front of every ordinary
+  course visitor. Every per-chunk build assertion still passed; only the
+  runtime no-request proof failed, and it failed twenty minutes into CI with
+  an otherwise green report. The helper now lives beside `v2RequestMode` in
+  the selection module the player already loads, and `check-app-build` gained
+  the build-time form of that proof: it walks the static-import closure of the
+  entry AND of the routes the entry dynamically enters, and fails if any
+  `v2-`/`chunk-worker-` chunk is reachable from it, or if a marker literal
+  from a dynamic-only module has been inlined into it. Both branches were
+  verified by reintroducing the regression and watching them fire. The
+  isolation list no longer demands a separate chunk for the probe summariser:
+  it has one importer, so where the bundler puts it is the bundler's business
+  and only its absence from the flagless closure is ours.
 - [ ] Generic manifest-driven streaming-renderer activation. The graph now
   resolves in the live app (root, course and ground manifests verified, exact
   live-GPK1 fallback identity), but selection deliberately keeps rendering on
