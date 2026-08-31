@@ -226,6 +226,46 @@ and registering the slug is a separate, gated publication step. The emitted
 frame follows the shared provisional convention and is not a D1 origin
 approval.
 
+### What the height model can and cannot say about golf surfaces
+
+```sh
+node packages/course-v2/analyse-puttom-derivatives.mjs \
+  --out geo_data/course-v2/puttom/analysis/dtm-derivative-probe.json
+```
+
+`terrain-derivatives.mjs` derives slope (Horn), ruggedness, priority-flood
+depression filling, local relief and closed-depression candidates — pure
+functions over bytes already downloaded and verified, so no new source and no
+new licence. The probe runs them over the published Puttom LOD0 tiles and is
+fully offline: no credentials, no network, reproducible by anyone with the
+repo.
+
+**It was written to confirm that a 1 m DTM can find bunkers, and it proved the
+opposite.** Bunkers are cut hollows, so the reasoning seemed safe. Measured
+over all 41 OSM bunker positions — a source that never entered the height
+model — against 256 control points on the same played ground:
+
+| | median relief | 90th pct | maximum |
+|---|---:|---:|---:|
+| at known bunkers | 0.429 m | 0.66 m | 0.817 m |
+| ordinary course ground | 0.273 m | **0.726 m** | 2.114 m |
+
+There is a real shift, and it is useless: ordinary ground's 90th percentile
+passes the bunkers' median and all but reaches their deepest, so no depth
+threshold separates them. The detector's 28 strongest depressions match none
+of the 41 within 12 m, and the median distance from a bunker to the nearest
+candidate is 148 m — the detector finds natural hollows at the AOI edges,
+because those are the only depressions that stand out. The national DTM is a
+smoothed bare-earth grid built from sparse returns; a 5–20 m wide, half-metre
+feature does not survive it.
+
+The control is what makes this trustworthy. `reliefSeparability()` therefore
+takes control points as a required argument and reports `separable: false`
+rather than a number a reader could mistake for a detection rate. The lesson
+generalises: **shape cannot deliver a mowing boundary, and here it cannot
+deliver a bunker either.** Surface truth needs reflectance — the orthophoto —
+or the club's own drawings.
+
 ### Streaming-runtime probe
 
 `?bana=puttom&v2=1&v2stream=1` runs `CourseV2TerrainRuntime` against the

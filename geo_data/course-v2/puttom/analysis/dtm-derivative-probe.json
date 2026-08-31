@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "kind": "puttom-terrain-derivatives",
+  "accuracyTier": "C",
+  "claim": "geometric candidates from the published 1 m height model; not surveyed sand outlines",
+  "verdict": "the height model does NOT resolve these bunkers: their local relief overlaps ordinary course ground, so no depth threshold can isolate them. Surface boundaries need a source that measures reflectance, not shape.",
+  "source": {
+    "groundManifestSha256": "d91b128eef40b86139a9a9b61a0f3bb5e4e2ae95f81ca650b6b424faefbb43f7",
+    "lod0Tiles": 64,
+    "width": 2049,
+    "height": 2049,
+    "sampleSpacingMetres": 1,
+    "originEasting": 696404.5,
+    "originNorthing": 7025850.5
+  },
+  "derivatives": {
+    "slopeRise": {
+      "finite": 4190209,
+      "minimum": 0,
+      "maximum": 5.634,
+      "mean": 0.121,
+      "percentiles": {
+        "0.5": 0.0881,
+        "0.9": 0.2541,
+        "0.99": 0.6075
+      }
+    },
+    "ruggednessMetres": {
+      "finite": 4190209,
+      "minimum": 0,
+      "maximum": 5.9763,
+      "mean": 0.1048,
+      "percentiles": {
+        "0.5": 0.0813,
+        "0.9": 0.205,
+        "0.99": 0.4763
+      }
+    }
+  },
+  "bunkerCandidates": {
+    "settings": {
+      "minimumDepthMetres": 0.35,
+      "maximumDepthMetres": 3.5,
+      "minimumAreaSquareMetres": 12,
+      "maximumAreaSquareMetres": 900,
+      "minimumCompactness": 0.35
+    },
+    "closedDepressions": 70,
+    "candidates": 28,
+    "strongest": [
+      {
+        "cells": 70,
+        "areaSquareMetres": 70,
+        "maximumDepthMetres": 1.33,
+        "floorHeightRH2000": 43.08,
+        "easting": 697782.386,
+        "northing": 7025021.971,
+        "spanEasting": 12,
+        "spanNorthing": 10,
+        "compactness": 0.583
+      },
+      {
+        "cells": 120,
+        "areaSquareMetres": 120,
+        "maximumDepthMetres": 1.16,
+        "floorHeightRH2000": 47.71,
+        "easting": 696486.725,
+        "northing": 7025788.067,
+        "spanEasting": 16,
+        "spanNorthing": 19,
+        "compactness": 0.395
+      },
+      {
+        "cells": 32,
+        "areaSquareMetres": 32,
+        "maximumDepthMetres": 1.04,
+        "floorHeightRH2000": 44.14,
+        "easting": 696988.656,
+        "northing": 7024505.813,
+        "spanEasting": 5,
+        "spanNorthing": 10,
+        "compactness": 0.64
+      },
+      {
+        "cells": 176,
+        "areaSquareMetres": 176,
+        "maximumDepthMetres": 0.97,
+        "floorHeightRH2000": 46.25,
+        "easting": 696902.278,
+        "northing": 7025840.693,
+        "spanEasting": 23,
+        "spanNorthing": 14,
+        "compactness": 0.547
+      },
+      {
+        "cells": 57,
+        "areaSquareMetres": 57,
+        "maximumDepthMetres": 0.85,
+        "floorHeightRH2000": 51.52,
+        "easting": 697228.868,
+        "northing": 7024211.061,
+        "spanEasting": 4,
+        "spanNorthing": 25,
+        "compactness": 0.57
+      },
+      {
+        "cells": 110,
+        "areaSquareMetres": 110,
+        "maximumDepthMetres": 0.82,
+        "floorHeightRH2000": 46.81,
+        "easting": 696910.209,
+        "northing": 7025818.709,
+        "spanEasting": 39,
+        "spanNorthing": 8,
+        "compactness": 0.353
+      },
+      {
+        "cells": 17,
+        "areaSquareMetres": 17,
+        "maximumDepthMetres": 0.74,
+        "floorHeightRH2000": 52.25,
+        "easting": 697212.206,
+        "northing": 7024279.853,
+        "spanEasting": 7,
+        "spanNorthing": 6,
+        "compactness": 0.405
+      },
+      {
+        "cells": 18,
+        "areaSquareMetres": 18,
+        "maximumDepthMetres": 0.66,
+        "floorHeightRH2000": 47.12,
+        "easting": 696983.667,
+        "northing": 7025818.222,
+        "spanEasting": 7,
+        "spanNorthing": 6,
+        "compactness": 0.429
+      },
+      {
+        "cells": 12,
+        "areaSquareMetres": 12,
+        "maximumDepthMetres": 0.66,
+        "floorHeightRH2000": 64.04,
+        "easting": 697694.75,
+        "northing": 7025608.417,
+        "spanEasting": 5,
+        "spanNorthing": 5,
+        "compactness": 0.48
+      },
+      {
+        "cells": 21,
+        "areaSquareMetres": 21,
+        "maximumDepthMetres": 0.63,
+        "floorHeightRH2000": 39.96,
+        "easting": 697708.452,
+        "northing": 7025090.786,
+        "spanEasting": 10,
+        "spanNorthing": 6,
+        "compactness": 0.35
+      }
+    ]
+  },
+  "separability": {
+    "question": "is a bunker distinguishable from ordinary course ground by local relief alone?",
+    "referenceReliefMetres": {
+      "count": 41,
+      "median": 0.429,
+      "p90": 0.66,
+      "maximum": 0.817
+    },
+    "controlReliefMetres": {
+      "count": 256,
+      "median": 0.273,
+      "p90": 0.726,
+      "maximum": 2.114
+    },
+    "medianExcessMetres": 0.156,
+    "separable": false,
+    "controlPoints": 256
+  },
+  "crossCheck": {
+    "referenceSource": "geo_data/course-v2/puttom/migration/course-model.epsg3006.json (OSM-derived, never entered the height model)",
+    "referenceBunkers": 41,
+    "referenceInsideWindow": 41,
+    "toleranceMetres": 12,
+    "candidates": 28,
+    "reference": 41,
+    "matched": 0,
+    "unmatchedCandidates": 28,
+    "unmatchedReference": 41,
+    "recall": 0,
+    "precision": 0,
+    "medianDistanceMetres": null,
+    "maximumDistanceMetres": null
+  },
+  "elapsedMilliseconds": 12815
+}

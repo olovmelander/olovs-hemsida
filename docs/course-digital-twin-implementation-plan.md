@@ -952,6 +952,21 @@ Deliverables:
   size/CRS/geotransform/value gates, deterministic sharding and coordinate-free
   evidence. Monthly/manual Actions automation is present; its first full
   provider run is still pending.
+- [x] Geomorphometry from the compiled height model — slope, ruggedness,
+  priority-flood depression filling, local relief and a closed-depression
+  candidate detector — with a reproducible offline probe over the published
+  Puttom LOD0 tiles (`analyse-puttom-derivatives.mjs`). **It settles a
+  question that was about to be assumed:** a 1 m DTM cannot find this course's
+  bunkers. Measured over all 41 OSM bunker positions against 256 control
+  points on the same played ground, local relief is 0.429 m median at bunkers
+  versus 0.273 m at ordinary ground — a real shift, but the control's 90th
+  percentile (0.726 m) passes the bunkers' median and nearly reaches their
+  deepest (0.817 m). The detector's 28 strongest depressions match none of the
+  41 within 12 m; median nearest distance 148 m. No depth threshold can
+  isolate them, so DTM-derived bunker geometry is not a path to surface truth
+  here, and surface boundaries need a source that measures reflectance rather
+  than shape. The derivatives remain useful for terrain QA and as D6
+  rock/outcrop input.
 - [ ] Compile laser-derived vegetation/object candidates only for per-hole
   windows that pass the local density and coordinate-bounds gates; use
   Markhöjdmodell, tree height and orthophoto fallback elsewhere.
