@@ -910,6 +910,10 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 const IS_GPU = renderer.backend?.isWebGPUBackend === true;
+/* Allocated lazily by the CI/readback hook only. Normal visits, including the
+   opt-in preview, must not pay for a second full-size color target. */
+let captureReadbackTarget = null;
+let captureRenderLocked = false;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.5, 22000);
@@ -4033,12 +4037,21 @@ for (const h of HOLES) {
 await tick('ställer ljuset', 0.86);
 if (!LOWQ) {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
-  const post = new THREE.PostProcessing(renderer);
+  const post = new THREE.RenderPipeline(renderer);
   const scenePass = pass(scene, camera);
-  const bloomNode = bloom(scenePass, 0.14, 0.3, 0.86);
-  post.outputNode = scenePass.add(bloomNode);
+  const sceneColor = scenePass.getTextureNode('output');
+  const bloomNode = bloom(sceneColor, 0.14, 0.3, 0.86);
+  post.outputNode = sceneColor.add(bloomNode);
   renderer.__post = post;
   renderer.__bloomNode = bloomNode;   /* strength is per-preset; setPreset sets it */
+}
+
+/* RenderPipeline.render() intentionally takes no scene/camera arguments; the
+   scene pass owns them. Keeping this call in one place prevents the WebGPU and
+   forced-WebGL paths from quietly exercising different post-processing code. */
+function renderActivePipeline() {
+  if (renderer.__post) renderer.__post.render();
+  else renderer.render(scene, camera);
 }
 
 /* the shadow camera follows the player, because a 2 km ortho frustum spends its
@@ -4926,6 +4939,7 @@ addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
+  captureReadbackTarget?.setSize(innerWidth, innerHeight);
 });
 
 let last = performance.now(), acc = 0, frames = 0, fps = 0;
@@ -4980,7 +4994,7 @@ function frame() {
   if (skyDome) skyDome.position.copy(camera.position);
   updateSky();
   drawMini();
-  (renderer.__post || renderer).render(scene, camera);
+  if (!captureRenderLocked) renderActivePipeline();
 }
 
 /* boot state comes from the URL when there is one: ?hal=14&vy=tee&ljus=host&tee=2
@@ -5009,6 +5023,91 @@ document.getElementById('hdsub').textContent =
 stats.draws = renderer.info?.render?.drawCalls || stats.draws;
 BOOT_PERF.totalMs = +(performance.now() - bootStarted).toFixed(1);
 
+async function waitForSubmittedGpuWork() {
+  const queue = renderer.backend?.device?.queue;
+  if (queue?.onSubmittedWorkDone) await queue.onSubmittedWorkDone();
+}
+
+/* Presentation screenshots are unreliable on headless WebGPU/SwiftShader: the
+   browser can expose a fresh transparent swap texture even though the real app
+   rendered correctly. These bounded hooks prove the active app pipeline itself
+   without pretending that a software-adapter readback is hardware evidence. */
+async function prepareCapture() {
+  captureRenderLocked = true;
+  try {
+    renderer.setRenderTarget(null);
+    renderActivePipeline();
+    await waitForSubmittedGpuWork();
+  } finally {
+    captureRenderLocked = false;
+  }
+}
+
+async function captureReadback() {
+  if (!IS_GPU) throw new Error('render-target readback is only available for WebGPU');
+  if (!captureReadbackTarget) {
+    captureReadbackTarget = new THREE.RenderTarget(innerWidth, innerHeight, {
+      depthBuffer: true,
+      stencilBuffer: false,
+      format: THREE.RGBAFormat,
+      type: THREE.UnsignedByteType,
+      samples: 1,
+    });
+    captureReadbackTarget.texture.colorSpace = THREE.SRGBColorSpace;
+  } else if (captureReadbackTarget.width !== innerWidth || captureReadbackTarget.height !== innerHeight) {
+    captureReadbackTarget.setSize(innerWidth, innerHeight);
+  }
+  const width = captureReadbackTarget.width;
+  const height = captureReadbackTarget.height;
+  const previousTarget = renderer.getRenderTarget();
+  captureRenderLocked = true;
+  try {
+    renderer.setRenderTarget(captureReadbackTarget);
+    renderActivePipeline();
+    await waitForSubmittedGpuWork();
+    const pixels = await renderer.readRenderTargetPixelsAsync(
+      captureReadbackTarget, 0, 0, width, height,
+    );
+    if (!(pixels instanceof Uint8Array) || pixels.byteLength !== width * height * 4) {
+      throw new Error(`unexpected app WebGPU readback size ${pixels?.byteLength || 0}`);
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d', { alpha: false });
+    if (!context) throw new Error('app WebGPU readback cannot create a 2D encoder');
+    context.putImageData(new ImageData(
+      new Uint8ClampedArray(pixels.buffer, pixels.byteOffset, pixels.byteLength),
+      width,
+      height,
+    ), 0, 0);
+    const blob = await new Promise((resolve, reject) => canvas.toBlob(
+      value => value ? resolve(value) : reject(new Error('app WebGPU PNG encoding failed')),
+      'image/png',
+    ));
+    const encoded = new Uint8Array(await blob.arrayBuffer());
+    let binary = '';
+    for (let offset = 0; offset < encoded.length; offset += 32_768) {
+      binary += String.fromCharCode(...encoded.subarray(offset, offset + 32_768));
+    }
+    return Object.freeze({
+      width,
+      height,
+      mimeType: 'image/png',
+      base64: btoa(binary),
+      sourceBytes: pixels.byteLength,
+      encodedBytes: encoded.byteLength,
+      provisional: true,
+      performanceEvidence: false,
+    });
+  } finally {
+    renderer.setRenderTarget(previousTarget);
+    captureRenderLocked = false;
+    renderActivePipeline();
+    await waitForSubmittedGpuWork();
+  }
+}
+
 /* published before the boot marker, not after: anything waiting on the marker acts
    the instant it appears, and an interface that is not there yet fails silently */
 window.V3D = {
@@ -5035,6 +5134,11 @@ window.V3D = {
       provisional: TERRAIN_PREVIEW.surfaceDescriptor.provisional,
       reason: TERRAIN_PREVIEW.surfaceDescriptor.provisionalReason,
       sourcePackSha256: TERRAIN_PREVIEW.surfaceDescriptor.source.packSha256,
+      tileCount: TERRAIN_PREVIEW.surfaceAtlas?.data?.tileIds?.length || 0,
+      classes: TERRAIN_PREVIEW.surfaceAtlas?.data?.classCounts
+        ? Array.from(TERRAIN_PREVIEW.surfaceAtlas.data.classCounts, (count, id) => ({ id, count }))
+          .filter(item => item.count > 0)
+        : [],
     } : null,
     bounds: TERRAIN_PREVIEW.bounds ? { ...TERRAIN_PREVIEW.bounds } : null,
     bridge: TERRAIN_PREVIEW.bridge ? { ...TERRAIN_PREVIEW.bridge } : null,
@@ -5064,6 +5168,8 @@ window.V3D = {
   camInfo: () => ({ pos: camera.position.toArray().map(v => +v.toFixed(1)),
                     look: controls.target.toArray().map(v => +v.toFixed(1)), mode: camMode }),
   fps: () => fps,
+  prepareCapture,
+  captureReadback: IS_GPU ? captureReadback : null,
   startTour, endTour, kikMeasure,
   setSky, skyState: () => skyState, eachSky: fn => skySprites.forEach(fn),
   /* the CANVAS positions, not the world ones: where a marker is actually drawn is
@@ -5073,6 +5179,11 @@ window.V3D = {
     holes: SKY.holes.map(m => { const p = skyXY(m); return { id: String(m.n), f: +m.f.toFixed(3), px: +p[0].toFixed(1), py: +p[1].toFixed(1) }; }),
     fac: SKY.fac.map(f => { const p = skyXY(f); return { id: f.ch, px: +p[0].toFixed(1), py: +p[1].toFixed(1) }; }) }),
 };
+
+addEventListener('pagehide', () => {
+  captureReadbackTarget?.dispose();
+  captureReadbackTarget = null;
+}, { once: true });
 
 bootEl.classList.add('done');
 setTimeout(() => { document.getElementById('hint').style.opacity = 0; }, 6000);

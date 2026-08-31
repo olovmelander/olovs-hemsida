@@ -255,12 +255,17 @@ harness: without input it renders an explicitly labelled synthetic fixture;
 with a strict provisional preview descriptor it bounds, hashes, decompresses
 and verifies real BVCH tiles before rendering. `terrain-preview-node.mjs`
 creates that ephemeral bundle, while `capture-terrain-preview.mjs` refuses
-synthetic, non-provisional, blank or non-WebGL2 forced captures. Its acceptance
+synthetic, non-provisional, blank or missing WebGL2/WebGPU captures. Its acceptance
 gate combines verified retained tiles, a positive one-draw topology and measured
 PNG foreground; r185 fallback `renderer.info` counters remain diagnostic because
 headless WebGL2 can report zero triangles after presenting visible geometry.
 Actions uses explicit SwiftShader WebGPU/WebGL2 adapters for deterministic shader
 parity only; hardware performance remains a separate reference-device gate.
+`capture-puttom-app-preview.mjs` separately exercises the real app in mobile and
+desktop forced-WebGL2 plus desktop WebGPU. It hides the HUD before presentation
+analysis, rejects uniform central frames, requires the 16-tile provisional
+surface frontier and uses a bounded RGBA8 active-pipeline readback for WebGPU.
+A readback never claims that the headless or hardware canvas presented pixels.
 `node packages/course-v2/check-renderer-build.mjs` bundles the complete path
 against the installed Three.js r185 API. The production selector still reports
 `rendererAvailable: false`: activation waits for a retained real pilot,

@@ -29,7 +29,14 @@
 > synthetic proof tiles but Puttom correctly fails because those approvals and
 > source polygons do not yet exist. The preview loader also no longer retains a
 > redundant decoded channel copy, removing about 32.25 MiB of transient Puttom
-> startup allocation. Candidate origins remain unapproved, authenticated source rollout
+> startup allocation. The real-app proof is now fail-closed across mobile and
+> desktop forced WebGL2 plus desktop WebGPU: it captures an explicit noon/overhead
+> view, removes HUD pixels from presentation evidence, analyses distributed
+> central image structure and requires a bounded RGBA8 readback of the active
+> WebGPU pipeline. A blank SwiftShader swap surface stays recorded as blank and
+> can no longer pass because its surrounding UI happens to vary. The capture is
+> deterministic software-adapter shader evidence, never hardware performance or
+> production approval. Candidate origins remain unapproved, authenticated source rollout
 > remains incomplete, and hardware canvas/performance evidence is still a
 > release gate. `GPK1` remains the production default. This plan extends,
 > rather than reopens, the completed work in `docs/ground-atlas-plan.md`.
@@ -1015,6 +1022,11 @@ Deliverables:
   16 verified real BVCH tiles, one logical terrain draw and 58.15% visible
   foreground. The SwiftShader canvas compositor remains blank; hardware-device
   canvas presentation and performance evidence remain separate gates.
+- [x] Real-app visual/semantic capture policy requires mobile and desktop
+  forced-WebGL2 plus desktop WebGPU, an explicit noon/overhead camera, 16 bound
+  provisional surface tiles with rough/fairway/green/tee/sand classes and a
+  renderer-only image. WebGPU is accepted only from a bounded active-pipeline
+  RGBA8 readback; missing, blank or browser-error cases fail CI.
 - [ ] Live adapter selection behind the existing v2 flag after both visual
   paths pass.
 - [x] Height-sensitive camera, water, ball/interactions, surface and object

@@ -329,9 +329,12 @@ async function main() {
     webgpuCanvasPassed: captures.some(item => item.requestedBackend === 'webgpu' &&
       item.backendMatched && item.canvasPresentationVisible),
   };
+  report.requiredBackendsPassed = report.webgl2Passed && report.webgpuPassed && failures.length === 0;
   await writeFile(join(output, 'capture-report.json'), JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify(report, null, 2));
-  if (!report.webgl2Passed) throw new Error('forced WebGL2 retained-pilot capture failed');
+  if (!report.requiredBackendsPassed) {
+    throw new Error('retained-pilot WebGL2/WebGPU proof failed closed');
+  }
 }
 
 main().catch(error => {

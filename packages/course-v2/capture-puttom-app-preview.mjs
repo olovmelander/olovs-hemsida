@@ -5,6 +5,11 @@ import { createServer } from 'node:http';
 import { extname, join, resolve, sep } from 'node:path';
 import { chromium } from 'playwright-core';
 import { decodePNG } from '../../geobuild/png.mjs';
+import {
+  PUTTOM_APP_CAPTURE_CASES,
+  summarizePuttomAppCaptureProof,
+} from './capture-proof-policy.mjs';
+import { isCourseFrameVisible, rendererImageEvidence } from './visual-evidence.mjs';
 
 const MIME = new Map([
   ['.html', 'text/html; charset=utf-8'], ['.js', 'text/javascript; charset=utf-8'],
@@ -85,35 +90,35 @@ async function serve(root) {
 }
 
 async function imageEvidence(file) {
-  const image = decodePNG(await readFile(file));
-  let dark = 0, luminance = 0, varied = 0;
-  const count = image.width * image.height;
-  const referenceOffset = ((image.height - 2) * image.width + image.width - 2) * image.channels;
-  const reference = [image.data[referenceOffset], image.data[referenceOffset + 1], image.data[referenceOffset + 2]];
-  for (let index = 0; index < count; index++) {
-    const offset = index * image.channels;
-    const value = 0.2126 * image.data[offset] + 0.7152 * image.data[offset + 1] + 0.0722 * image.data[offset + 2];
-    luminance += value;
-    if (value < 8) dark++;
-    if (Math.max(
-      Math.abs(image.data[offset] - reference[0]),
-      Math.abs(image.data[offset + 1] - reference[1]),
-      Math.abs(image.data[offset + 2] - reference[2]),
-    ) >= 10) varied++;
-  }
-  return Object.freeze({
-    width: image.width, height: image.height,
-    meanLuminance: +(luminance / count / 255).toFixed(4),
-    nearBlackPercent: +(dark / count * 100).toFixed(2),
-    variedPercent: +(varied / count * 100).toFixed(2),
-  });
+  return rendererImageEvidence(decodePNG(await readFile(file)));
 }
 
-async function capture({ origin, output, backend, chrome, timeoutMilliseconds }) {
+const REQUIRED_SURFACE_CLASSES = Object.freeze(new Map([
+  [0, 'rough'], [2, 'fairway'], [4, 'green'], [5, 'tee'], [6, 'sand'],
+]));
+
+function assertPngReadback(readback, viewport) {
+  if (readback?.mimeType !== 'image/png' || readback.width !== viewport.width ||
+      readback.height !== viewport.height || readback.provisional !== true ||
+      readback.performanceEvidence !== false || !Number.isSafeInteger(readback.encodedBytes) ||
+      readback.encodedBytes < 100 || readback.encodedBytes > 20 * 1024 * 1024 ||
+      typeof readback.base64 !== 'string') {
+    throw new Error('real app WebGPU readback returned invalid or overstated evidence');
+  }
+  const bytes = Buffer.from(readback.base64, 'base64');
+  if (bytes.byteLength !== readback.encodedBytes || bytes[0] !== 0x89 || bytes[1] !== 0x50 ||
+      bytes[2] !== 0x4e || bytes[3] !== 0x47) {
+    throw new Error('real app WebGPU readback PNG failed bounded byte validation');
+  }
+  return bytes;
+}
+
+async function capture({ origin, output, captureCase, chrome, timeoutMilliseconds }) {
+  const { id: caseId, backend, mobile, quality } = captureCase;
   const browser = await chromium.launch(launchOptions(chrome, backend));
-  const mobile = backend === 'webgl2';
+  const viewport = mobile ? { width: 412, height: 915 } : { width: 1440, height: 900 };
   const page = await browser.newPage({
-    viewport: mobile ? { width: 412, height: 915 } : { width: 1440, height: 900 },
+    viewport,
     deviceScaleFactor: 1,
     isMobile: mobile,
     hasTouch: mobile,
@@ -125,8 +130,8 @@ async function capture({ origin, output, backend, chrome, timeoutMilliseconds })
   });
   try {
     const query = new URLSearchParams({
-      bana: 'puttom', v2: '1', det: '1', q: mobile ? 'lo' : 'hi',
-      hal: '1', vy: 'top', skylt: '0',
+      bana: 'puttom', v2: '1', det: '1', q: quality,
+      hal: '1', vy: 'ovan', ljus: 'dag', skylt: '0',
     });
     if (backend === 'webgl2') query.set('gl', '1');
     await page.goto(`${origin}/?${query}`, { waitUntil: 'load', timeout: timeoutMilliseconds });
@@ -140,32 +145,82 @@ async function capture({ origin, output, backend, chrome, timeoutMilliseconds })
     const state = await page.evaluate(() => ({
       v2: window.V3D.v2Terrain(), stats: window.V3D.stats,
       perf: window.V3D.perf(), fps: window.V3D.fps(),
+      camera: window.V3D.camInfo(),
       badge: document.getElementById('v2TerrainBadge')?.textContent?.trim() || null,
     }));
     if (!state.v2.ready || state.v2.status !== 'ready' || state.v2.source.renderedTiles !== 16 ||
         state.v2.renderer.drawCalls !== 1) throw new Error('real app did not retain the verified 16-tile one-draw preview');
-    if (backend === 'webgl2' && state.stats.backend !== 'webgl2') {
-      throw new Error(`forced WebGL2 app capture initialized ${state.stats.backend}`);
+    if (state.v2.surface?.tileCount !== 16 || state.v2.surface.provisional !== true ||
+        state.v2.surface.reason !== 'migration-vectors-not-survey-approved') {
+      throw new Error('real app did not retain the bound 16-tile provisional surface frontier');
     }
+    const presentClasses = new Set((state.v2.surface.classes || [])
+      .filter(item => Number.isSafeInteger(item?.count) && item.count > 0).map(item => item.id));
+    const missingClasses = [...REQUIRED_SURFACE_CLASSES]
+      .filter(([surfaceId]) => !presentClasses.has(surfaceId)).map(([, label]) => label);
+    if (missingClasses.length) throw new Error(`surface frontier is missing ${missingClasses.join(', ')}`);
+    if (state.stats.backend !== backend || state.v2.backend !== backend) {
+      throw new Error(`${caseId} initialized ${state.stats.backend}/${state.v2.backend}`);
+    }
+    if (state.camera.mode !== 'top') throw new Error(`${caseId} did not retain the canonical overhead camera`);
+    await page.evaluate(async () => {
+      if (typeof window.V3D?.prepareCapture !== 'function') {
+        throw new Error('real app does not expose a capture barrier');
+      }
+      await window.V3D.prepareCapture();
+    });
     const actualBackend = state.stats.backend;
-    const image = `puttom-app-${mobile ? 'mobile-' : ''}${backend}-requested-${actualBackend}.png`;
-    const file = join(output, image);
-    await page.screenshot({ path: file, animations: 'disabled', timeout: timeoutMilliseconds });
-    const pixels = await imageEvidence(file);
-    const canvasImage = `puttom-canvas-${mobile ? 'mobile-' : ''}${backend}-requested-${actualBackend}.png`;
-    const canvasFile = join(output, canvasImage);
-    const rendererCanvas = page.locator('body > canvas').first();
-    await rendererCanvas.screenshot({ path: canvasFile, animations: 'disabled', timeout: timeoutMilliseconds });
-    const canvasPixels = await imageEvidence(canvasFile);
-    const canvasVisible = canvasPixels.meanLuminance >= 0.025 &&
-      canvasPixels.nearBlackPercent <= 92 && canvasPixels.variedPercent >= 3;
-    if (backend === 'webgl2' && !canvasVisible) {
-      throw new Error('real app WebGL2 canvas has no visible course foreground');
+    const appImage = `puttom-app-${caseId}-requested-${actualBackend}.png`;
+    const appFile = join(output, appImage);
+    await page.screenshot({ path: appFile, animations: 'disabled', timeout: timeoutMilliseconds });
+    const appPixels = await imageEvidence(appFile);
+
+    /* Element screenshots include composited siblings above a full-viewport
+       canvas. Hide the HUD before collecting presentation evidence so a menu or
+       minimap can never turn a transparent swap texture into a passing frame. */
+    const presentationImage = `puttom-renderer-${caseId}-requested-${actualBackend}.png`;
+    const presentationFile = join(output, presentationImage);
+    const canvasOnlyStyle = await page.addStyleTag({
+      content: 'body > :not(canvas) { visibility: hidden !important; }',
+    });
+    try {
+      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => resolve())));
+      await page.screenshot({ path: presentationFile, animations: 'disabled', timeout: timeoutMilliseconds });
+    } finally {
+      await canvasOnlyStyle.evaluate(node => node.remove());
     }
+    const presentationPixels = await imageEvidence(presentationFile);
+    const canvasPresentationVisible = isCourseFrameVisible(presentationPixels);
+
+    let acceptedImage = presentationImage;
+    let acceptedPixels = presentationPixels;
+    let captureMethod = 'clean-canvas-presentation';
+    let sceneReadbackPassed = null;
+    if (actualBackend === 'webgpu') {
+      const readback = await page.evaluate(async () => {
+        if (typeof window.V3D?.captureReadback !== 'function') {
+          throw new Error('real app does not expose WebGPU render-target readback');
+        }
+        return window.V3D.captureReadback();
+      });
+      const bytes = assertPngReadback(readback, viewport);
+      acceptedImage = `puttom-render-target-${caseId}.png`;
+      await writeFile(join(output, acceptedImage), bytes);
+      acceptedPixels = await imageEvidence(join(output, acceptedImage));
+      captureMethod = 'active-pipeline-render-target-readback';
+      sceneReadbackPassed = isCourseFrameVisible(acceptedPixels);
+    }
+    const acceptedFrameVisible = isCourseFrameVisible(acceptedPixels);
+    if (!acceptedFrameVisible) throw new Error(`${caseId} has no distributed course pixels`);
+    const fatalProblems = problems.filter(problem => /^(page|error):/.test(problem));
+    if (fatalProblems.length) throw new Error(`${caseId} emitted ${fatalProblems[0]}`);
     return Object.freeze({
-      requestedBackend: backend, actualBackend, mobileEmulation: mobile,
+      caseId, requestedBackend: backend, actualBackend, mobileEmulation: mobile, quality,
       backendMatched: backend === actualBackend, executionAdapter: 'swiftshader-software',
-      performanceEvidence: false, image, pixels, canvasImage, canvasPixels, canvasVisible,
+      performanceEvidence: false, lighting: 'noon', cameraMode: state.camera.mode,
+      appImage, appPixels, presentationImage, presentationPixels, canvasPresentationVisible,
+      image: acceptedImage, pixels: acceptedPixels, captureMethod, acceptedFrameVisible,
+      sceneReadbackPassed,
       v2: state.v2, app: state.stats,
       boot: state.perf, sampledFps: state.fps, badge: state.badge,
       problems: Object.freeze([...new Set(problems)].slice(0, 10)),
@@ -184,31 +239,35 @@ async function main() {
   await mkdir(output, { recursive: true });
   const server = await serve(root), captures = [], failures = [];
   try {
-    for (const backend of ['webgl2', 'webgpu']) {
+    for (const captureCase of PUTTOM_APP_CAPTURE_CASES) {
       try {
         captures.push(await capture({
-          origin: server.origin, output, backend, chrome: options.chrome,
+          origin: server.origin, output, captureCase, chrome: options.chrome,
           timeoutMilliseconds: options.timeoutSeconds * 1000,
         }));
       } catch (error) {
-        failures.push({ backend, error: String(error?.message || error).slice(0, 400) });
+        failures.push({
+          caseId: captureCase.id,
+          backend: captureCase.backend,
+          error: String(error?.message || error).slice(0, 400),
+        });
       }
     }
   } finally {
     await server.close();
   }
+  const proof = summarizePuttomAppCaptureProof(captures, failures);
   const report = {
-    schemaVersion: 1, provisional: true, productionDefault: false,
+    schemaVersion: 2, provisional: true, productionDefault: false,
+    hardwarePerformanceEvidence: false,
     captures, failures,
-    webgl2Passed: captures.some(capture => capture.requestedBackend === 'webgl2' &&
-      capture.backendMatched && capture.canvasVisible),
-    webgpuBackendPassed: captures.some(capture => capture.requestedBackend === 'webgpu' && capture.backendMatched),
-    webgpuCanvasPassed: captures.some(capture => capture.requestedBackend === 'webgpu' &&
-      capture.backendMatched && capture.canvasVisible),
+    ...proof,
   };
   await writeFile(join(output, 'capture-report.json'), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify(report, null, 2));
-  if (!report.webgl2Passed) throw new Error('interactive Puttom mobile WebGL2 capture failed');
+  if (!report.requiredCasesPassed) {
+    throw new Error('interactive Puttom visual/semantic proof failed closed');
+  }
 }
 
 main().catch(error => {

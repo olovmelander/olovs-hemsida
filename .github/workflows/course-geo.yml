@@ -85,11 +85,13 @@ jobs:
           node --test
           packages/course-v2/course-v2.node-test.mjs
           packages/course-v2/authoritative-surface-source.node-test.mjs
+          packages/course-v2/capture-proof-policy.node-test.mjs
           packages/course-v2/surface-object-contract.node-test.mjs
           packages/course-v2/surface-preview.node-test.mjs
           packages/course-v2/terrain-pyramid.node-test.mjs
           packages/course-v2/terrain-compiler.node-test.mjs
           packages/course-v2/terrain-preview-release.node-test.mjs
+          packages/course-v2/visual-evidence.node-test.mjs
           packages/course-v2/runtime/runtime.node-test.mjs
           packages/course-v2/runtime/terrain-grid-topology.node-test.mjs
           packages/course-v2/runtime/terrain-render-data.node-test.mjs
