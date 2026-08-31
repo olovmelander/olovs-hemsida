@@ -133,7 +133,11 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
   const problems = [];
   page.on('pageerror', error => problems.push(`page: ${String(error.message || error)}`.slice(0, 240)));
   page.on('console', message => {
-    if (['error', 'warning'].includes(message.type())) problems.push(`${message.type()}: ${message.text()}`.slice(0, 240));
+    if (['error', 'warning'].includes(message.type())) {
+      const problem = `${message.type()}: ${message.text()}`.slice(0, 240);
+      problems.push(problem);
+      console.warn(`[${caseId}] ${problem}`);
+    }
   });
   try {
     const query = new URLSearchParams({
@@ -142,9 +146,26 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
     });
     if (backend === 'webgl2') query.set('gl', '1');
     await page.goto(`${origin}/?${query}`, { waitUntil: 'load', timeout: timeoutMilliseconds });
-    await page.waitForFunction(() => window.V3D?.v2Terrain?.().status === 'ready', null, {
+    await page.waitForFunction(() => {
+      const status = window.V3D?.v2Terrain?.().status;
+      const badge = document.getElementById('v2TerrainBadge');
+      return status === 'ready' || status === 'failed' || status === 'fallback' ||
+        badge?.dataset.state === 'fallback';
+    }, null, {
       timeout: timeoutMilliseconds,
     });
+    const terminalPreview = await page.evaluate(() => {
+      const badge = document.getElementById('v2TerrainBadge');
+      return {
+        status: window.V3D?.v2Terrain?.().status || badge?.dataset.state || null,
+        error: window.V3D?.v2Terrain?.().renderer?.error || badge?.dataset.error || null,
+      };
+    });
+    if (terminalPreview.status !== 'ready') {
+      const browserProblem = problems.at(-1);
+      throw new Error(`${caseId} v2 preview reached ${terminalPreview.status || 'unknown'}: ${
+        terminalPreview.error || browserProblem || 'no browser diagnostic'}`);
+    }
     await page.waitForFunction(() => window.V3D?.settled?.() === true, null, {
       timeout: timeoutMilliseconds,
     });

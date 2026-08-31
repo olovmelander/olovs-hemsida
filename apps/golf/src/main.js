@@ -1798,6 +1798,7 @@ if (TERRAIN_PREVIEW.ready) {
       status: 'failed', fallbackRebuilt: false,
       error: String(error?.message || error).slice(0, 300),
     });
+    if (terrainPreviewBadge) terrainPreviewBadge.dataset.error = terrainPreviewRender.error;
     console.warn('Puttom 1 m terrain preflight fell back to the full GPK1 mesh:', error);
     setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'failed');
   }
@@ -1865,6 +1866,7 @@ if (terrainPreviewPrepared) {
       status: 'failed', fallbackRebuilt: true,
       error: String(error?.message || error).slice(0, 300),
     });
+    if (terrainPreviewBadge) terrainPreviewBadge.dataset.error = terrainPreviewRender.error;
     console.warn('Puttom 1 m terrain renderer rebuilt the full GPK1 mesh:', error);
     setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'failed');
   }
