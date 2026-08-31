@@ -8,6 +8,7 @@ const capture = (caseId, extra = {}) => ({
   acceptedFrameVisible: true,
   surfaceEvidencePassed: true,
   legacyCoreCutoutPassed: true,
+  liveAdapterPassed: true,
   ...extra,
 });
 
@@ -28,6 +29,7 @@ test('all required app captures pass with bounded WebGPU readback', () => {
   assert.equal(proof.webgpuCanvasPassed, false, 'software readback must not imply canvas presentation');
   assert.equal(proof.surfaceEvidencePassed, true);
   assert.equal(proof.legacyCoreCutoutPassed, true);
+  assert.equal(proof.liveAdapterPassed, true);
   assert.equal(proof.requiredCasesPassed, true);
 });
 
@@ -61,6 +63,14 @@ test('missing construction-time legacy cutout evidence fails every backend proof
   captures[0] = capture('webgl2-mobile', { legacyCoreCutoutPassed: false });
   const proof = summarizePuttomAppCaptureProof(captures, []);
   assert.equal(proof.legacyCoreCutoutPassed, false);
+  assert.equal(proof.requiredCasesPassed, false);
+});
+
+test('a renderer bypassing the live adapter fails every backend proof', () => {
+  const captures = complete();
+  captures[1] = capture('webgl2-desktop', { liveAdapterPassed: false });
+  const proof = summarizePuttomAppCaptureProof(captures, []);
+  assert.equal(proof.liveAdapterPassed, false);
   assert.equal(proof.requiredCasesPassed, false);
 });
 

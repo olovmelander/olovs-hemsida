@@ -2,9 +2,9 @@
 
 This package is the D3 distribution-format and streaming-loader foundation. It
 is an offline/runtime contract shared by WebGPU and WebGL2. The retained Puttom
-pilot has an isolated opt-in `?v2=1` renderer, while the generic production
-selector remains disabled. `GPK1` stays the default course path until every
-activation gate passes.
+pilot is selected through a fail-closed live adapter only for opt-in `?v2=1`,
+while the generic manifest-driven production runtime remains disabled. `GPK1`
+stays the default course path until every activation gate passes.
 
 ## Graph contract
 
@@ -124,8 +124,10 @@ and WebGL2. Its material adapter reads verified surface tiles; it does not use a
 second hand-written material. Missing, misaligned, corrupt or source-mismatched
 data falls back to GPK1 before the legacy core is cut. The batch, material and
 no-data-free 16-tile frontier are compiled and drawn offscreen before legacy
-CORE construction. A ready Puttom preview then omits 63,504 of 123,175 legacy
-base-grid points (51.56%) behind an 8 m guard. The reviewed post-normalisation
+CORE construction. `V2TerrainLiveAdapter` owns this frontier validation, batch
+lifecycle and the separate construction/visible-height gates. A ready Puttom
+preview then omits 63,504 of 123,175 legacy base-grid points (51.56%) behind an
+8 m guard. The reviewed post-normalisation
 CORE is also pinned to its exact bounds, 4 m spacing and 325 by 379 dimensions;
 capture acceptance reads that grid and the builder's actual emitted/skipped
 counts. Any later installation failure disables v2
@@ -280,6 +282,8 @@ row padding before PNG encoding. Its report retains the bounded raw, tight and
 encoded byte counts plus the padding decision, not the pixel buffer.
 A readback never claims that the headless or hardware canvas presented pixels.
 `node packages/course-v2/check-renderer-build.mjs` bundles the complete path
-against the installed Three.js r185 API. The production selector still reports
-`rendererAvailable: false`: activation waits for a retained real pilot,
-WebGPU/forced-WebGL2 screenshots and approved canonical origin.
+against the installed Three.js r185 API. The retained fixed-frontier adapter is
+now live behind the explicit flag after its WebGPU/forced-WebGL2 proofs. The
+generic `CourseV2TerrainRuntime` remains unselected until real public course and
+ground manifests, a coarse shell, a full parent hierarchy and an approved
+canonical origin exist.

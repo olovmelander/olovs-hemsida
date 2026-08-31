@@ -178,6 +178,13 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
     }));
     if (!state.v2.ready || state.v2.status !== 'ready' || state.v2.source.renderedTiles !== 16 ||
         state.v2.renderer.drawCalls !== 1) throw new Error('real app did not retain the verified 16-tile one-draw preview');
+    const liveAdapterPassed = state.v2.adapter?.kind === 'fixed-frontier' &&
+      state.v2.adapter.phase === 'ready' && state.v2.adapter.requested === true &&
+      state.v2.adapter.sourceReady === true && state.v2.adapter.preflightReady === true &&
+      state.v2.adapter.active === true && state.v2.adapter.renderer?.status === 'ready';
+    if (!liveAdapterPassed) {
+      throw new Error('real app did not activate the fail-closed v2 live adapter');
+    }
     if (state.v2.surface?.tileCount !== 16 || state.v2.surface.provisional !== true ||
         state.v2.surface.reason !== 'migration-vectors-not-survey-approved') {
       throw new Error('real app did not retain the bound 16-tile provisional surface frontier');
@@ -275,7 +282,7 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
       appImage, appPixels, presentationImage, presentationPixels, canvasPresentationVisible,
       image: acceptedImage, pixels: acceptedPixels, captureMethod, acceptedFrameVisible,
       sceneReadbackPassed, readbackEvidence, surfaceEvidencePassed: true,
-      legacyCoreCutoutPassed,
+      legacyCoreCutoutPassed, liveAdapterPassed,
       v2: state.v2, app: state.stats,
       boot: state.perf, sampledFps: state.fps, badge: state.badge,
       problems: Object.freeze([...new Set(problems)].slice(0, 10)),

@@ -77,8 +77,10 @@ function createWorkerClient(workerFactory) {
 }
 
 /**
- * Isolated end-to-end D4 runtime. It is deliberately not imported by main.js
- * until rendererAvailable can pass a retained, visually approved pilot.
+ * Manifest-driven end-to-end D4 runtime. The live app now owns a common
+ * height/tick/snapshot adapter boundary, but this streaming implementation is
+ * not selected until a real public course/ground graph supplies its required
+ * shell, hierarchy and routing manifests.
  */
 export class CourseV2TerrainRuntime {
   constructor({

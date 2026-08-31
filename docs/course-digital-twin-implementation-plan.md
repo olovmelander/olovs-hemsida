@@ -15,7 +15,12 @@
 > camera constraints, ball/interactions and scenery placement after the meshes
 > are installed. It selects the verified v2 height only after the preview batch
 > and legacy cut both succeed, then falls back to the rendered legacy mesh and
-> finally the analytic legacy terrain. D5 now has a strict 14-byte lossless
+> finally the analytic legacy terrain. A tested `V2TerrainLiveAdapter` now owns
+> the retained frontier's validation, one-draw batch lifecycle, two-stage height
+> gates, fallback state and telemetry behind the existing flag. The generic
+> manifest-driven runtime remains unselected because no real public course/
+> ground graph yet supplies its required shell and parent hierarchy. D5 now has
+> a strict 14-byte lossless
 > surface-grid contract for primary/secondary class IDs, signed boundary
 > distance, owning feature, mow fields and material fields. Its first Puttom
 > compiler runs the existing GPK1 migration vectors through the same precedence
@@ -52,8 +57,9 @@
 
 ## Immediate continuation order
 
-1. Keep the shared height sampler, D5/D6 contracts and the Puttom surface
-   migration preview green in CI; normal visits must continue to make no v2 request.
+1. Keep the live-adapter boundary, shared height sampler, D5/D6 contracts and
+   the Puttom surface migration preview green in CI; normal visits must continue
+   to make no v2 request.
 2. Obtain and review authoritative Puttom surface polygons (club CAD/GIS,
    maintenance drawing or independently validated field survey), record licence,
    date and accuracy, then replace—not merge with—the migration source.
@@ -129,12 +135,12 @@ Current implementation evidence:
   decompression, transferable-buffer decode, stable priority scheduling,
   per-scope cancellation, stale-reply suppression, verified immutable caching,
   network-first root loading and reference-counted LRU resource recycling.
-- The app dynamically imports v2 only after an explicit URL flag, verifies
-  content-addressed course/ground manifests, capability-negotiates every
-  referenced asset and requires the v2 fallback to exactly match the current
-  GPK1 manifest. HTTP 404 never revives a stale cached root. Production visits
-  make no v2 request: its bounded dynamic chunk is excluded from initial HTML
-  and the PWA precache. The v2 terrain renderer remains gated on D4.
+- The generic browser loader verifies content-addressed course/ground manifests,
+  capability-negotiates every referenced asset and requires the v2 fallback to
+  exactly match the current GPK1 manifest. HTTP 404 never revives a stale cached
+  root. The live app dynamically imports retained v2 payload/renderer code only
+  after an explicit URL flag. Normal production visits make no v2 request: its
+  bounded dynamic chunks are excluded from initial HTML and the PWA precache.
 - `access-preflight.mjs` verifies configured provider access with one 16-byte
   COG range and one 16-by-16 tree-height sample without writing source bytes or
   serializing secrets.
@@ -156,9 +162,10 @@ Current implementation evidence:
   `v2-terrain-batch.mjs`/`v2-terrain-runtime.mjs` implement Worker-side packed
   GPU data, shared topology, partial texture-array uploads, instanced one-draw
   regular-tile rendering, parent geomorph, bounded skirts, frustum/SSE streaming
-  and finest-ready CPU height parity for both renderer backends. The adapter is
-  intentionally not selectable until a retained pilot passes visual/device
-  gates.
+  and finest-ready CPU height parity for both renderer backends. The retained
+  fixed-frontier adapter is now selected only for the visually approved Puttom
+  opt-in path; generic manifest-driven selection remains blocked on real public
+  manifests, shell/hierarchy assets and the remaining release gates.
 - `pnpm check:geo-sources` is the reproducible gate. D0 telemetry and D1
   independent control/origin approval remain open.
 
@@ -1048,8 +1055,12 @@ Deliverables:
   post-decision failure rebuilds the complete
   GPK1 CORE from GPK1 heights. All three real-app captures require actual builder
   telemetry rather than planned counts.
-- [ ] Live adapter selection behind the existing v2 flag after both visual
-  paths pass.
+- [x] Fail-closed fixed-frontier live adapter selection behind the existing v2
+  flag after both visual paths passed. It owns validation, batch lifecycle,
+  construction/visible-height gates, fallback and telemetry for the retained
+  Puttom pilot.
+- [ ] Generic manifest-driven live selection after real course/ground manifests,
+  shell and parent hierarchy are published and pass the same adapter contract.
 - [x] Height-sensitive camera, water, ball/interactions, surface and object
   placement migrated to the visible-ground sampler in the live app path.
 - [ ] Removal of full-course synchronous terrain mesh construction for v2.

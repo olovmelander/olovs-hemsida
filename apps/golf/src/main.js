@@ -55,10 +55,7 @@ import {
   loadPuttomTerrainPreview,
   PUTTOM_PREVIEW_CONFIG,
 } from './engine/v2-puttom-preview.mjs';
-import {
-  assertV2LegacyCutoutContract,
-  planV2LegacyCutout,
-} from './engine/v2-legacy-cutout.mjs';
+import { V2TerrainLiveAdapter } from './engine/v2-terrain-live-adapter.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
@@ -158,10 +155,16 @@ const [b0, b1, bv, TERRAIN_PREVIEW] = await Promise.all([
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = JSON.parse(new TextDecoder().decode(bv));
 const HOLES = M.holes;
-/* A verified descriptor alone may be sampled for renderer preparation, but it
-   must not alter the legacy fallback. This becomes true only after the batch
-   has completed a real backend compile/draw preflight. */
-let terrainPreviewHeightSourceEnabled = false;
+/* A verified descriptor alone may not alter either construction or visible
+   ground. The adapter opens those gates separately after backend preflight and
+   after successful scene installation/legacy cut respectively. */
+const terrainV2 = new V2TerrainLiveAdapter({
+  source: TERRAIN_PREVIEW,
+  courseSlug: CMETA.slug,
+  expectedCourseSlug: PUTTOM_PREVIEW_CONFIG.slug,
+  expectedTileCount: PUTTOM_PREVIEW_CONFIG.expectedTileCount,
+  cutoutContract: PUTTOM_PREVIEW_CONFIG.legacyCoreCutout,
+});
 
 const terrainPreviewBadge = document.getElementById('v2TerrainBadge');
 function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres = null) {
@@ -226,9 +229,7 @@ function sampleGrid(G, S, x, z) {
 /* the course at 4 m, the vista at 32 m, cross-faded over the last 130 m of the
    fine grid so the join is a slope rather than a step */
 function demH(x, z) {
-  const previewHeight = terrainPreviewHeightSourceEnabled
-    ? TERRAIN_PREVIEW.heightAt(x, z)
-    : Number.NaN;
+  const previewHeight = terrainV2.constructionHeightAt(x, z);
   if (Number.isFinite(previewHeight)) return previewHeight;
   const a = sampleGrid(H0, HF0, x, z);
   const b = sampleGrid(H1, HF1, x, z) ?? a ?? 0;
@@ -520,7 +521,7 @@ function legacyTerrainH(x, z) {
     padW = Math.max(padW, w);
     let bases = teeBaseHeights.get(t);
     if (!bases) { bases = []; teeBaseHeights.set(t, bases); }
-    const source = terrainPreviewHeightSourceEnabled ? 1 : 0;
+    const source = terrainV2.preflightReady ? 1 : 0;
     if (bases[source] === undefined) {
       const c = centroidOf(t.ring);
       bases[source] = demH(c[0], c[1]);
@@ -1309,7 +1310,6 @@ const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -5400, z1: 5400,
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0 };
 SEAM = MIDR;
 const builtTerrain = { core: null, mid: null };
-let terrainPreviewGroundActive = false;
 
 function sampleBuiltHeight(grid, x, z) {
   if (!grid) return null;
@@ -1325,8 +1325,8 @@ function sampleBuiltHeight(grid, x, z) {
 }
 
 const groundHeightSampler = createGroundHeightSampler({
-  previewActive: () => terrainPreviewGroundActive,
-  previewHeightAt: (x, z) => TERRAIN_PREVIEW.heightAt(x, z),
+  previewActive: () => terrainV2.active,
+  previewHeightAt: (x, z) => terrainV2.heightAt(x, z),
   legacyMeshHeightAt: (x, z) => sampleBuiltHeight(builtTerrain.core, x, z)
     ?? sampleBuiltHeight(builtTerrain.mid, x, z),
   fallbackHeightAt: legacyTerrainH,
@@ -1629,9 +1629,6 @@ const nudged = (tier, mk = makeTurf) => {
   return m;
 };
 const DETAIL_MASK = buildDetailMask(CORE);
-let terrainPreviewBatch = null;
-let terrainPreviewRender = Object.freeze({ status: TERRAIN_PREVIEW.ready ? 'pending' : 'fallback' });
-let terrainPreviewPrepared = null;
 
 /* CPU validation cannot prove that TSL compiled for the selected backend. Draw
    the complete batch once into a tiny offscreen target before allowing the
@@ -1725,83 +1722,22 @@ async function preflightTerrainPreviewGpu(batch) {
 /* Do not omit a single legacy vertex until the complete, material-decorated
    v2 frontier has proved that it can be installed as one draw. */
 if (TERRAIN_PREVIEW.ready) {
-  try {
-    const expectedTiles = PUTTOM_PREVIEW_CONFIG.expectedTileCount;
-    /* Low-quality WebGL2 keeps exact 1 m CPU sampling but submits every second
-       source vertex. Both frontiers must still preflight as the same 16 tiles
-       and one logical draw before legacy construction can omit anything. */
-    const renderStride = !IS_GPU && LOWQ ? 2 : 1;
-    const renderResources = TERRAIN_PREVIEW.renderResources(renderStride);
-    const surfaceAtlas = TERRAIN_PREVIEW.surfaceAtlas;
-    const terrainTileIds = renderResources.map(resource => resource.tileId).sort();
-    const surfaceTileIds = [...(surfaceAtlas?.data?.tileIds || [])].sort();
-    const surfaceSamples = surfaceAtlas?.data?.bounds?.w * surfaceAtlas?.data?.bounds?.h;
-    const classifiedSamples = surfaceAtlas?.data?.classCounts
-      ? Array.from(surfaceAtlas.data.classCounts).reduce((sum, count) => sum + count, 0)
-      : -1;
-    if (CMETA.slug !== PUTTOM_PREVIEW_CONFIG.slug || expectedTiles !== 16 ||
-        TERRAIN_PREVIEW.descriptor?.tiles?.length !== expectedTiles ||
-        TERRAIN_PREVIEW.surfaceDescriptor?.tiles?.length !== expectedTiles ||
-        renderResources.length !== expectedTiles ||
-        new Set(terrainTileIds).size !== expectedTiles ||
-        renderResources.some(resource => resource.noDataCount !== 0) ||
-        surfaceTileIds.length !== expectedTiles ||
-        surfaceTileIds.some((tileId, index) => tileId !== terrainTileIds[index]) ||
-        surfaceAtlas?.data?.noDataCount !== 0 ||
-        !Number.isSafeInteger(surfaceSamples) || classifiedSamples !== surfaceSamples ||
-        !surfaceAtlas?.contains(TERRAIN_PREVIEW.bounds.x0, TERRAIN_PREVIEW.bounds.z0) ||
-        !surfaceAtlas?.contains(TERRAIN_PREVIEW.bounds.x1, TERRAIN_PREVIEW.bounds.z1)) {
-      throw new Error('Puttom terrain preflight requires 16 complete matching terrain/surface tiles');
-    }
-
-    const { TerrainTileBatchSet } = await import('./engine/v2-terrain-batch.mjs');
-    terrainPreviewBatch = new TerrainTileBatchSet({
-      maximumTiles: expectedTiles,
-      morphDurationMilliseconds: 0,
-      decorateMaterial: createV2GroundMaterialDecorator({
-        atlas: surfaceAtlas, DETAIL, C, SHADE,
-      }),
-    });
-    const syncState = terrainPreviewBatch.sync(renderResources);
-    const batchStats = terrainPreviewBatch.stats();
-    if (syncState.renderedTiles !== expectedTiles ||
-        batchStats.renderedTiles !== expectedTiles ||
-        batchStats.residentLayers !== expectedTiles ||
-        batchStats.drawCalls !== 1 || batchStats.batches.length !== 1) {
-      throw new Error('Puttom terrain preflight did not produce one complete draw');
-    }
-    await preflightTerrainPreviewGpu(terrainPreviewBatch);
-
-    const cutout = PUTTOM_PREVIEW_CONFIG.legacyCoreCutout;
-    if (cutout?.guardCells !== 2 || cutout.guardMetres !== 8) {
-      throw new Error('Puttom legacy CORE cutout is not the reviewed 8 m contract');
-    }
-    const plan = planV2LegacyCutout({
-      enabled: true,
-      preflightStatus: TERRAIN_PREVIEW.status,
-      grid: CORE,
-      previewBounds: TERRAIN_PREVIEW.bounds,
-      guardCells: cutout.guardCells,
-    });
-    if (plan.guardMetres !== cutout.guardMetres) {
-      throw new Error('Puttom legacy CORE cutout differs from the reviewed guard');
-    }
-    assertV2LegacyCutoutContract({ grid: CORE, plan, contract: cutout });
-    terrainPreviewHeightSourceEnabled = true;
-    terrainPreviewPrepared = Object.freeze({
-      plan, renderStride, renderResources, batchStats,
-    });
-  } catch (error) {
-    terrainPreviewHeightSourceEnabled = false;
-    terrainPreviewBatch?.dispose();
-    terrainPreviewBatch = null;
-    TERRAIN_PREVIEW.surfaceAtlas?.dispose?.();
-    terrainPreviewRender = Object.freeze({
-      status: 'failed', fallbackRebuilt: false,
-      error: String(error?.message || error).slice(0, 300),
-    });
-    if (terrainPreviewBadge) terrainPreviewBadge.dataset.error = terrainPreviewRender.error;
-    console.warn('Puttom 1 m terrain preflight fell back to the full GPK1 mesh:', error);
+  /* Low-quality WebGL2 keeps exact 1 m CPU sampling but submits every second
+     source vertex. Both frontiers must still preflight as the same 16 tiles
+     and one logical draw before legacy construction can omit anything. */
+  const renderStride = !IS_GPU && LOWQ ? 2 : 1;
+  const preparation = await terrainV2.prepare({
+    coreGrid: CORE,
+    renderStride,
+    decorateMaterial: createV2GroundMaterialDecorator({
+      atlas: TERRAIN_PREVIEW.surfaceAtlas, DETAIL, C, SHADE,
+    }),
+    preflight: preflightTerrainPreviewGpu,
+  });
+  if (!preparation.ok) {
+    const failure = terrainV2.rendererState;
+    if (terrainPreviewBadge) terrainPreviewBadge.dataset.error = failure.error;
+    console.warn('Puttom 1 m terrain preflight fell back to the full GPK1 mesh:', failure.error);
     setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'failed');
   }
 }
@@ -1815,65 +1751,35 @@ const makeCoreMesh = geometry => {
 const coreStatsBefore = Object.freeze({ verts: stats.verts, tris: stats.tris });
 let coreGeometry = null;
 let coreMesh = null;
-if (terrainPreviewPrepared) {
+if (terrainV2.preparation) {
   try {
+    const terrainPreviewPrepared = terrainV2.preparation;
     /* The 8 m legacy guard participates in normal generation, then the existing
        full-preview clip hides it before the v2 batch is installed. */
     coreGeometry = await buildTerrain(CORE, terrainPreviewPrepared.plan.innerBounds, true);
     const legacyBuild = coreGeometry.userData.legacyBaseGrid;
-    if (legacyBuild?.nx !== terrainPreviewPrepared.plan.nx ||
-        legacyBuild.nz !== terrainPreviewPrepared.plan.nz ||
-        legacyBuild.skippedBasePoints !== terrainPreviewPrepared.plan.skippedBasePoints ||
-        legacyBuild.totalBasePoints !== terrainPreviewPrepared.plan.totalBasePoints ||
-        legacyBuild.emittedBasePoints !== legacyBuild.totalBasePoints - legacyBuild.skippedBasePoints) {
-      throw new Error('legacy CORE builder did not apply the reviewed omission plan exactly');
-    }
     const cut = cutTerrainPreviewRect(coreGeometry, TERRAIN_PREVIEW.bounds);
-    if (cut.removedTriangles < 1) throw new Error('guarded legacy CORE did not overlap the v2 preview');
     stats.tris -= cut.removedTriangles;
     coreMesh = makeCoreMesh(coreGeometry);
-    scene.add(coreMesh, terrainPreviewBatch.group);
-    terrainPreviewGroundActive = true;
-    terrainPreviewRender = Object.freeze({
-      status: 'ready',
-      renderStride: terrainPreviewPrepared.renderStride,
-      meshResolutionMetres: terrainPreviewPrepared.renderResources[0].sampleSpacingMetres,
-      skippedBasePoints: legacyBuild.skippedBasePoints,
-      emittedBasePoints: legacyBuild.emittedBasePoints,
-      totalBasePoints: legacyBuild.totalBasePoints,
-      coreGrid: Object.freeze({
-        dx: CORE.dx, x0: CORE.x0, x1: CORE.x1, z0: CORE.z0, z1: CORE.z1,
-        nx: legacyBuild.nx, nz: legacyBuild.nz,
-      }),
-      guardMetres: terrainPreviewPrepared.plan.guardMetres,
-      fallbackRebuilt: false,
-      ...cut,
-      ...terrainPreviewPrepared.batchStats,
-    });
+    scene.add(coreMesh, terrainV2.group);
+    const terrainPreviewRender = terrainV2.activate({ legacyBuild, cut });
     setTerrainPreviewBadge(
       IS_GPU ? 'WebGPU' : 'WebGL2', 'ready',
-      terrainPreviewPrepared.renderResources[0].sampleSpacingMetres,
+      terrainPreviewRender.meshResolutionMetres,
     );
   } catch (error) {
-    terrainPreviewGroundActive = false;
-    terrainPreviewHeightSourceEnabled = false;
+    terrainV2.fail(error);
     coreMesh?.removeFromParent();
     coreGeometry?.dispose();
     coreMesh = null;
     coreGeometry = null;
-    terrainPreviewBatch?.dispose();
-    terrainPreviewBatch = null;
-    TERRAIN_PREVIEW.surfaceAtlas?.dispose?.();
     stats.verts = coreStatsBefore.verts;
     stats.tris = coreStatsBefore.tris;
     builtTerrain.core = null;
     coreGeometry = await buildTerrain(CORE, null, true);
     coreMesh = makeCoreMesh(coreGeometry);
     scene.add(coreMesh);
-    terrainPreviewRender = Object.freeze({
-      status: 'failed', fallbackRebuilt: true,
-      error: String(error?.message || error).slice(0, 300),
-    });
+    const terrainPreviewRender = terrainV2.confirmFallbackRebuilt();
     if (terrainPreviewBadge) terrainPreviewBadge.dataset.error = terrainPreviewRender.error;
     console.warn('Puttom 1 m terrain renderer rebuilt the full GPK1 mesh:', error);
     setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'failed');
@@ -5173,7 +5079,7 @@ addEventListener('resize', () => {
 let last = performance.now(), acc = 0, frames = 0, fps = 0;
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
-  terrainPreviewBatch?.tick(now);
+  terrainV2.tick(now);
   last = now; frames++; acc += dt;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
 
@@ -5247,7 +5153,7 @@ const BOOTQ = new URLSearchParams(location.search);
 await tick('klar', 1.0);
 renderer.setAnimationLoop(frame);
 document.getElementById('hdsub').textContent =
-  `${CMETA.tag} · ${IS_GPU ? 'WebGPU' : 'WebGL2'}${terrainPreviewRender.status === 'ready' ? ' · 1 m preview' : ''}`;
+  `${CMETA.tag} · ${IS_GPU ? 'WebGPU' : 'WebGL2'}${terrainV2.rendererState.status === 'ready' ? ' · 1 m preview' : ''}`;
 stats.draws = renderer.info?.render?.drawCalls || stats.draws;
 BOOT_PERF.totalMs = +(performance.now() - bootStarted).toFixed(1);
 
@@ -5354,7 +5260,7 @@ window.V3D = {
   v2Terrain: () => ({
     requested: TERRAIN_PREVIEW.requested,
     ready: TERRAIN_PREVIEW.ready,
-    status: terrainPreviewRender.status,
+    status: terrainV2.rendererState.status,
     reason: TERRAIN_PREVIEW.reason,
     label: TERRAIN_PREVIEW.descriptor?.label || null,
     surface: TERRAIN_PREVIEW.surfaceDescriptor ? {
@@ -5376,7 +5282,8 @@ window.V3D = {
     bounds: TERRAIN_PREVIEW.bounds ? { ...TERRAIN_PREVIEW.bounds } : null,
     bridge: TERRAIN_PREVIEW.bridge ? { ...TERRAIN_PREVIEW.bridge } : null,
     source: TERRAIN_PREVIEW.stats(),
-    renderer: { ...terrainPreviewRender },
+    adapter: terrainV2.snapshot(),
+    renderer: { ...terrainV2.rendererState },
     backend: IS_GPU ? 'webgpu' : 'webgl2',
   }),
   classifyAnalytic,
