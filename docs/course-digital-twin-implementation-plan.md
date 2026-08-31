@@ -92,7 +92,9 @@
    returns HTTP 403 to this account on every asset, because Ortofoto
    Nedladdning is a separate Geotorget order. Two human actions therefore gate
    D5, and no amount of code substitutes for either: place the orthophoto
-   order, and ask the club for its drawings.
+   order, and ask the club for its drawings. A third account problem sits
+   beside them, smaller only because it blocks canopy rather than surface:
+   Skogsstyrelsen has answered HTTP 401 to every tree-height probe so far.
 3. Verify authoritative centre/edge/seam probes and approve WebGPU plus
    forced-WebGL2 grazing-angle goldens before any course can use v2 by default.
 4. Compile one real Puttom object tile from allowed sources, review every zone-A
@@ -1004,6 +1006,22 @@ Deliverables:
   pipeline can grant this; someone must place the order. Until then the
   surface question stays open, because the DTM has now been measured and
   cannot answer it.
+- [ ] **A second source is refused, and it has been refused all along:
+  Skogsstyrelsen answers HTTP 401 to the configured tree-height account.**
+  Every per-hole-controls run has logged it; the workflow simply never failed
+  on it, because it requests `both` providers and Lantmäteriet alone was
+  enough to proceed with `effective=laser`. It surfaced only when Lantmäteriet
+  was briefly unreachable in the same run and no provider passed — which is
+  the fail-closed path working, on a red herring. So the tree-height half of
+  the canopy plan has produced no authenticated data at all, and the run that
+  finally exposed it was a network blip.
+  Two things came out of that. A denial is now labelled `denied` and printed
+  as `DENIED` rather than sharing a line with weather, because one is an order
+  to place and the other is a run to repeat. And `fetch failed` — undici's
+  single phrase for DNS, TLS, a reset socket and a refused connection alike —
+  is unwrapped through its `cause` chain, since a log that cannot tell an
+  outage from a lost entitlement invites blaming whatever commit happened to
+  be under it.
 - [ ] Run authenticated tree-height and remaining DTM/break windows for all
   three pilots and persist their real compressed/decoded sizes and timings.
 - [ ] Produce side-by-side residuals against current Terrarium, tree cover and

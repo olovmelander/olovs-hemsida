@@ -732,6 +732,36 @@ test('provider preflight is a no-network readiness report while credentials are 
   assert.equal(calls, 0);
 });
 
+test('provider preflight separates a denied account from an unreachable provider', async () => {
+  /* CI once failed with nothing but `lantmateriet: fetch failed`, which is
+     what undici says for DNS, TLS, a reset and a refused socket alike. The
+     run before it had passed, so the failure was weather -- but the log could
+     not say so, and an outage and a lost entitlement need opposite responses
+     from a human. */
+  const outage = await probeProviderAccess(accessReport(), {
+    providers: ['lantmateriet'],
+    env: { LANTMATERIET_USERNAME: 'lm-user', LANTMATERIET_PASSWORD: 'lm-secret' },
+    fetchImpl: async () => {
+      throw new TypeError('fetch failed', {
+        cause: Object.assign(new Error('getaddrinfo EAI_AGAIN dl1.lantmateriet.se'), { code: 'EAI_AGAIN' }),
+      });
+    },
+  });
+  assert.equal(outage.ready, false);
+  assert.equal(outage.providers.lantmateriet.denied, false);
+  assert.match(outage.providers.lantmateriet.reason, /fetch failed <- EAI_AGAIN: getaddrinfo/);
+
+  const denied = await probeProviderAccess(accessReport(), {
+    providers: ['skogsstyrelsen'],
+    env: { SKOGSSTYRELSEN_USERNAME: 'sks-user', SKOGSSTYRELSEN_PASSWORD: 'sks-secret' },
+    fetchImpl: async () => new Response('no', { status: 401 }),
+  });
+  assert.equal(denied.ready, false);
+  assert.equal(denied.providers.skogsstyrelsen.denied, true);
+  assert.match(denied.providers.skogsstyrelsen.reason, /denied the configured account \(HTTP 401\)/);
+  assert.doesNotMatch(JSON.stringify(denied), /sks-user|sks-secret|Basic /);
+});
+
 test('provider preflight can approve Lantmäteriet independently while Skogsstyrelsen is pending', async () => {
   let calls = 0;
   const result = await probeProviderAccess(accessReport(), {

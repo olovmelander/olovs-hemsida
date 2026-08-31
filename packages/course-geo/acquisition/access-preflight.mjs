@@ -264,11 +264,32 @@ export async function probeSkogsstyrelsenAccess(report, {
   });
 }
 
+/* undici reports every transport failure as the same three words, `fetch
+   failed`, and puts the actual reason — DNS, TLS, a reset connection, a
+   refused socket — in `error.cause`. Without unwrapping it, a provider outage
+   and a broken configuration are indistinguishable in CI, and a run that fails
+   because Lantmäteriet was briefly unreachable reads exactly like one that
+   fails because the account lost its entitlement. Those need different
+   responses from a human, so the chain is walked and named. */
+function failureReason(error) {
+  const chain = [];
+  for (let current = error, depth = 0; current && depth < 4; current = current.cause, depth++) {
+    const name = current?.code || current?.name;
+    const message = String(current?.message || current || '').trim();
+    const described = name && !message.startsWith(name) ? `${name}: ${message}` : message;
+    if (described && !chain.includes(described)) chain.push(described);
+  }
+  return (chain.join(' <- ') || String(error)).slice(0, 500);
+}
+
 function safeFailure(error, credentials) {
   return Object.freeze({
     ready: false,
     credentialState: credentialState(credentials),
-    reason: String(error?.message || error).slice(0, 500),
+    /* Denial is the one state a maintainer must never mistake for weather:
+       it is the only one no amount of waiting fixes. */
+    denied: /\(HTTP 40[13]\)/.test(String(error?.message || '')),
+    reason: failureReason(error),
   });
 }
 
@@ -342,7 +363,11 @@ async function main() {
   else {
     console.log(`provider access preflight: ${result.groundId}`);
     for (const [provider, state] of Object.entries(result.providers)) {
-      console.log(`  ${provider}: ${state.ready ? 'ready' : state.skipped ? 'not requested' : state.reason}`);
+      if (state.ready) { console.log(`  ${provider}: ready`); continue; }
+      if (state.skipped) { console.log(`  ${provider}: not requested`); continue; }
+      /* Say which kind of failure this is in the same breath as the reason:
+         a denial is an order to place, an outage is a run to repeat. */
+      console.log(`  ${provider}: ${state.denied ? 'DENIED' : 'unavailable'} — ${state.reason}`);
     }
   }
   if (!result.ready) process.exitCode = 2;
