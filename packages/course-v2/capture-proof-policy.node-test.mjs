@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { summarizePuttomAppCaptureProof } from './capture-proof-policy.mjs';
+import { isV2RequestUrl, summarizePuttomAppCaptureProof } from './capture-proof-policy.mjs';
 
 const capture = (caseId, extra = {}) => ({
   caseId,
@@ -9,6 +9,7 @@ const capture = (caseId, extra = {}) => ({
   surfaceEvidencePassed: true,
   legacyCoreCutoutPassed: true,
   liveAdapterPassed: true,
+  selectionPassed: true,
   ...extra,
 });
 
@@ -30,7 +31,33 @@ test('all required app captures pass with bounded WebGPU readback', () => {
   assert.equal(proof.surfaceEvidencePassed, true);
   assert.equal(proof.legacyCoreCutoutPassed, true);
   assert.equal(proof.liveAdapterPassed, true);
+  assert.equal(proof.selectionPassed, true);
   assert.equal(proof.requiredCasesPassed, true);
+});
+
+test('a pilot served outside the generic selection boundary fails every backend proof', () => {
+  const captures = complete();
+  captures[0] = capture('webgl2-mobile', { selectionPassed: false });
+  const proof = summarizePuttomAppCaptureProof(captures, []);
+  assert.equal(proof.selectionPassed, false);
+  assert.equal(proof.requiredCasesPassed, false);
+});
+
+test('the no-request policy recognises the real v2 data, root and chunk names', () => {
+  for (const url of [
+    'http://127.0.0.1:8080/v2/puttom/preview.json',
+    'http://127.0.0.1:8080/v2/puttom/grounds/puttom/terrain/0123456789abcdef.bvch',
+    'https://banvy.test/olovs-hemsida/courses/v2-index.json',
+    'https://banvy.test/olovs-hemsida/courses/v2-index.json?fresh=1',
+    'http://127.0.0.1:8080/assets/v2-graph-source-DZYLfcdi.js',
+    'http://127.0.0.1:8080/assets/v2-terrain-preview-loader-BJYsvHda.js',
+  ]) assert.equal(isV2RequestUrl(url), true, url);
+  for (const url of [
+    'http://127.0.0.1:8080/assets/main-BSyUpNlO.js',
+    'http://127.0.0.1:8080/courses/index.json',
+    'http://127.0.0.1:8080/courses/puttom/pack.bin?v=abc',
+    'http://127.0.0.1:8080/assets/three.tsl-CydnvXmQ.js',
+  ]) assert.equal(isV2RequestUrl(url), false, url);
 });
 
 test('a missing WebGPU capture fails closed', () => {

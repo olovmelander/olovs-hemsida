@@ -1,9 +1,12 @@
 # Banvy course-v2 asset graph
 
 This package is the D3 distribution-format and streaming-loader foundation. It
-is an offline/runtime contract shared by WebGPU and WebGL2. The retained Puttom
-pilot is selected through a fail-closed live adapter only for opt-in `?v2=1`,
-while the generic manifest-driven production runtime remains disabled. `GPK1`
+is an offline/runtime contract shared by WebGPU and WebGL2. A single generic
+selection boundary in the app decides the v2 terrain source per course behind
+the explicit flag (`?v2=1` falls back explicitly, `?v2=require` fails closed);
+today it serves the retained Puttom pilot through its fail-closed live adapter,
+while the generic manifest-driven streaming renderer stays gated until a real
+published course/ground graph passes the same adapter contract. `GPK1`
 stays the default course path until every activation gate passes.
 
 ## Graph contract
@@ -112,7 +115,28 @@ cannot accidentally promote third-party geometry to surveyed truth.
   corrupt cached copy is evicted and fetched once from the network;
 - `ResourceLeasePool` reference-counts and LRU-evicts decoded/GPU resources.
 
-The player keeps this code out of its default critical path. On Puttom only,
+The player keeps this code out of its default critical path. One selection
+boundary (`v2-terrain-select.mjs`) decides which v2 terrain source serves a
+course: a published, verified course/ground graph first, then the retained
+Puttom fixed-frontier preview, then the explicit GPK1 fallback state. The
+generic manifest resolver (`v2-graph-source.mjs`, a dynamic chunk over
+`CourseV2ManifestLoader`) runs only for slugs in `V2_PUBLISHED_GRAPH_SLUGS`, so
+an unpublished course never probes the network for a root that cannot exist;
+`check-app-build` fails when that registry and the built
+`courses/v2-index.json` disagree in either direction, and additionally verifies
+a registered graph offline chunk-by-chunk against the live GPK1 index before it
+can ship. A resolved graph must declare the exact live GPK1 pack as its v1
+fallback or selection refuses it. Because the generic streaming renderer has
+not yet passed the adapter contract on real published data, a verified graph is
+reported (`mode: 'graph'`, reason `graph-renderer-not-activated`) and the
+course stays on the strongest source that can actually serve. `?v2=require`
+fails closed instead of quietly serving GPK1: a corrupt or missing published
+graph, a preview that cannot verify, a gated graph renderer with no ready
+pilot, or a later preflight/installation fallback each become an explicit boot
+error rather than a silent downgrade. Without the flag the selection makes no
+request and loads no v2 chunk — proven at runtime by the capture harness's
+no-flag boot, which fails the proof on any `/v2/`, root-manifest or v2-chunk
+request. On Puttom,
 `?v2=1` dynamically loads both the strict provisional terrain descriptor and
 the matching migration-surface descriptor, then all 16 finest terrain and
 surface BVCH tiles. It verifies encoded and decoded identities, the common

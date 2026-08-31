@@ -8,6 +8,7 @@ import {
   assertPuttomSurfaceCoverage,
   createTerrainResourceSampler,
   decimateTerrainRenderResources,
+  fallbackTerrainPreviewState,
   loadPuttomTerrainPreview,
   puttomPreviewRequested,
   verifiedSurfaceClassIds,
@@ -48,6 +49,18 @@ describe('Puttom interactive terrain preview bridge', () => {
     expect(off).toMatchObject({ requested: false, ready: false, status: 'off' });
     const other = await loadPuttomTerrainPreview({ slug: 'upsala', search: '?v2=1' });
     expect(other).toMatchObject({ requested: true, ready: false, status: 'fallback', reason: 'course-not-enabled' });
+  });
+
+  it('lets the selection boundary decide the request explicitly', async () => {
+    const forcedOff = await loadPuttomTerrainPreview({ slug: 'puttom', search: '?v2=1', requested: false });
+    expect(forcedOff).toMatchObject({ requested: false, status: 'off' });
+    const forcedOn = await loadPuttomTerrainPreview({ slug: 'upsala', search: '?v2=require', requested: true });
+    expect(forcedOn).toMatchObject({ requested: true, status: 'fallback', reason: 'course-not-enabled' });
+    await expect(loadPuttomTerrainPreview({ slug: 'puttom', requested: 1 })).rejects.toThrow(/boolean/);
+    const fallback = fallbackTerrainPreviewState({ slug: 'angso', reason: 'graph-renderer-not-activated' });
+    expect(fallback).toMatchObject({ requested: true, ready: false, status: 'fallback', reason: 'graph-renderer-not-activated' });
+    expect(Number.isNaN(fallback.heightAt(0, 0))).toBe(true);
+    expect(() => fallbackTerrainPreviewState({ slug: 'angso' })).toThrow(/reason/);
   });
 
   it('uses the verified primary/secondary union for the required surface inventory', () => {

@@ -11,6 +11,7 @@ import {
 } from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
 import {
   PUTTOM_APP_CAPTURE_CASES,
+  isV2RequestUrl,
   summarizePuttomAppCaptureProof,
 } from './capture-proof-policy.mjs';
 import { isCourseFrameVisible, rendererImageEvidence } from './visual-evidence.mjs';
@@ -185,6 +186,14 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
     if (!liveAdapterPassed) {
       throw new Error('real app did not activate the fail-closed v2 live adapter');
     }
+    const selectionPassed = state.v2.selection?.mode === 'fixed-frontier' &&
+      state.v2.selection.requestMode === 'opt-in' &&
+      state.v2.selection.graphError === null &&
+      Array.isArray(state.v2.selection.publishedGraphSlugs);
+    if (!selectionPassed) {
+      throw new Error(`real app did not route the pilot through the generic v2 selection boundary: ${
+        JSON.stringify(state.v2.selection || null)}`);
+    }
     if (state.v2.surface?.tileCount !== 16 || state.v2.surface.provisional !== true ||
         state.v2.surface.reason !== 'migration-vectors-not-survey-approved') {
       throw new Error('real app did not retain the bound 16-tile provisional surface frontier');
@@ -282,11 +291,41 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
       appImage, appPixels, presentationImage, presentationPixels, canvasPresentationVisible,
       image: acceptedImage, pixels: acceptedPixels, captureMethod, acceptedFrameVisible,
       sceneReadbackPassed, readbackEvidence, surfaceEvidencePassed: true,
-      legacyCoreCutoutPassed, liveAdapterPassed,
+      legacyCoreCutoutPassed, liveAdapterPassed, selectionPassed,
       v2: state.v2, app: state.stats,
       boot: state.perf, sampledFps: state.fps, badge: state.badge,
       problems: Object.freeze([...new Set(problems)].slice(0, 10)),
     });
+  } finally {
+    await browser.close();
+  }
+}
+
+/* The no-request contract, proven at runtime rather than only by static chunk
+   exclusion: a normal visit without the v2 flag must neither request any /v2/
+   data or v2 root manifest nor load a single v2-* code chunk. */
+async function verifyNormalVisitMakesNoV2Request({ origin, chrome, timeoutMilliseconds }) {
+  const browser = await chromium.launch(launchOptions(chrome, 'webgl2'));
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+  const v2Requests = [];
+  page.on('request', request => {
+    const url = request.url();
+    if (isV2RequestUrl(url)) v2Requests.push(url.slice(0, 200));
+  });
+  try {
+    const query = new URLSearchParams({ bana: 'puttom', det: '1', q: 'lo', hal: '1', vy: 'ovan' });
+    await page.goto(`${origin}/?${query}`, { waitUntil: 'load', timeout: timeoutMilliseconds });
+    const selection = await page.waitForFunction(() => {
+      const v2 = window.V3D?.v2Terrain?.();
+      return v2?.selection ? JSON.stringify(v2.selection) : false;
+    }, null, { timeout: timeoutMilliseconds }).then(handle => handle.jsonValue()).then(JSON.parse);
+    if (selection.mode !== 'off' || selection.requestMode !== 'off') {
+      throw new Error(`normal visit selected v2 mode ${selection.mode}/${selection.requestMode}`);
+    }
+    if (v2Requests.length) {
+      throw new Error(`normal visit made ${v2Requests.length} v2 request(s): ${v2Requests[0]}`);
+    }
+    return Object.freeze({ passed: true, selectionMode: selection.mode, v2Requests: 0 });
   } finally {
     await browser.close();
   }
@@ -300,7 +339,22 @@ async function main() {
   }
   await mkdir(output, { recursive: true });
   const server = await serve(root), captures = [], failures = [];
+  let normalVisit = null;
   try {
+    /* A no-flag proof failure must not abort the run before the report exists:
+       every outcome, this one included, lands in capture-report.json and the
+       final fail-closed gate below decides. */
+    try {
+      normalVisit = await verifyNormalVisitMakesNoV2Request({
+        origin: server.origin, chrome: options.chrome,
+        timeoutMilliseconds: options.timeoutSeconds * 1000,
+      });
+    } catch (error) {
+      normalVisit = Object.freeze({
+        passed: false,
+        error: String(error?.message || error).slice(0, 400),
+      });
+    }
     for (const captureCase of PUTTOM_APP_CAPTURE_CASES) {
       try {
         captures.push(await capture({
@@ -322,12 +376,13 @@ async function main() {
   const report = {
     schemaVersion: 2, provisional: true, productionDefault: false,
     hardwarePerformanceEvidence: false,
+    normalVisit,
     captures, failures,
     ...proof,
   };
   await writeFile(join(output, 'capture-report.json'), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify(report, null, 2));
-  if (!report.requiredCasesPassed) {
+  if (!report.requiredCasesPassed || report.normalVisit?.passed !== true) {
     throw new Error('interactive Puttom visual/semantic proof failed closed');
   }
 }

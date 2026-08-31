@@ -4,10 +4,24 @@ export const PUTTOM_APP_CAPTURE_CASES = Object.freeze([
   Object.freeze({ id: 'webgpu-desktop', backend: 'webgpu', mobile: false, quality: 'hi' }),
 ]);
 
+/* What counts as a v2 request is release policy, not orchestration detail: the
+   flagless no-request proof is vacuous if these drift from the real chunk and
+   root names, so they live here where the node tests pin them. */
+export const V2_REQUEST_URL_PATTERNS = Object.freeze([
+  /\/v2\//,
+  /\/courses\/v2-index\.json(?:$|[?#])/,
+  /\/assets\/v2-[a-z-]+-[A-Za-z0-9_-]+\.js(?:$|[?#])/,
+]);
+
+export function isV2RequestUrl(url) {
+  const value = String(url);
+  return V2_REQUEST_URL_PATTERNS.some(pattern => pattern.test(value));
+}
+
 function passed(capture) {
   return capture?.backendMatched === true && capture.acceptedFrameVisible === true &&
     capture.surfaceEvidencePassed === true && capture.legacyCoreCutoutPassed === true &&
-    capture.liveAdapterPassed === true;
+    capture.liveAdapterPassed === true && capture.selectionPassed === true;
 }
 
 /** Keep the release decision separate from Playwright orchestration so a
@@ -43,6 +57,8 @@ export function summarizePuttomAppCaptureProof(captures, failures) {
     .every(item => capturesByCase.get(item.id)?.legacyCoreCutoutPassed === true);
   const liveAdapterPassed = PUTTOM_APP_CAPTURE_CASES
     .every(item => capturesByCase.get(item.id)?.liveAdapterPassed === true);
+  const selectionPassed = PUTTOM_APP_CAPTURE_CASES
+    .every(item => capturesByCase.get(item.id)?.selectionPassed === true);
   return Object.freeze({
     webgl2MobilePassed,
     webgl2DesktopPassed,
@@ -53,6 +69,7 @@ export function summarizePuttomAppCaptureProof(captures, failures) {
     surfaceEvidencePassed,
     legacyCoreCutoutPassed,
     liveAdapterPassed,
+    selectionPassed,
     requiredCasesPassed: captureSetValid &&
       PUTTOM_APP_CAPTURE_CASES.every(item => passed(capturesByCase.get(item.id))) &&
       webgpuReadbackPassed && failures.length === 0,

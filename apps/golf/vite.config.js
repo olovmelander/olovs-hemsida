@@ -77,6 +77,7 @@ export default defineConfig({
         globIgnores: [
           'assets/v2-terrain-*.js',
           'assets/v2-surface-preview-*.js',
+          'assets/v2-graph-source-*.js',
           'assets/terrain-render-data-*.js',
           'assets/surface-grid-*.js',
           'assets/decode-web-*.js',

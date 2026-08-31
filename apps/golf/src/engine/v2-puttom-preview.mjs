@@ -152,6 +152,15 @@ export function puttomPreviewRequested(slug, search = globalThis.location?.searc
   return slug === PUTTOM_PREVIEW_CONFIG.slug && new URLSearchParams(search).get('v2') === '1';
 }
 
+/* The explicit not-loaded state the selection boundary hands the app when a v2
+   request cannot (yet) be served by this retained pilot, so every consumer of
+   the preview interface sees one shape whatever the selection outcome was. */
+export function fallbackTerrainPreviewState({ slug, reason }) {
+  if (typeof slug !== 'string' || !slug) throw new TypeError('slug is required');
+  if (typeof reason !== 'string' || !reason) throw new TypeError('an explicit fallback reason is required');
+  return immutableState({ requested: true, status: 'fallback', reason, slug });
+}
+
 function validatePuttomDescriptor(descriptor, geo) {
   if (descriptor.label !== PUTTOM_PREVIEW_CONFIG.label) {
     throw new Error('Puttom preview label does not match the approved pilot');
@@ -313,8 +322,14 @@ export async function loadPuttomTerrainPreview({
   locationHref = globalThis.location?.href || 'https://banvy.invalid/',
   loaderOptions,
   surfaceLoaderOptions,
+  requested,
 } = {}) {
-  const parameterRequested = new URLSearchParams(search).get('v2') === '1';
+  if (requested !== undefined && typeof requested !== 'boolean') {
+    throw new TypeError('requested must be boolean when provided');
+  }
+  /* The selection boundary passes the flag decision explicitly so `?v2=require`
+     reaches this loader too; a direct call still reads `?v2=1` from the URL. */
+  const parameterRequested = requested ?? (new URLSearchParams(search).get('v2') === '1');
   if (!parameterRequested) return immutableState({ slug });
   if (slug !== PUTTOM_PREVIEW_CONFIG.slug) {
     return immutableState({ requested: true, status: 'fallback', reason: 'course-not-enabled', slug });

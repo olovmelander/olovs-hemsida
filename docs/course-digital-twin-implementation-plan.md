@@ -17,9 +17,25 @@
 > and legacy cut both succeed, then falls back to the rendered legacy mesh and
 > finally the analytic legacy terrain. A tested `V2TerrainLiveAdapter` now owns
 > the retained frontier's validation, one-draw batch lifecycle, two-stage height
-> gates, fallback state and telemetry behind the existing flag. The generic
-> manifest-driven runtime remains unselected because no real public course/
-> ground graph yet supplies its required shell and parent hierarchy. D5 now has
+> gates, fallback state and telemetry behind the existing flag. One generic,
+> tested selection boundary now decides the v2 source per course behind that
+> flag: a published graph resolved through `CourseV2ManifestLoader` and refused
+> unless its declared v1 fallback is byte-for-byte the live GPK1 pack, then the
+> retained pilot, then the explicit GPK1 fallback state. Graph resolution is
+> gated on a build-time registry of published slugs — empty today — so no
+> visit probes for a root that is not there, and `check-app-build` fails when
+> the registry and the built `courses/v2-index.json` disagree in either
+> direction, verifying a registered graph offline chunk-by-chunk against the
+> live GPK1 index. `?v2=require` fails closed again as once documented: any
+> fallback on the required path, terrain preflight and installation included,
+> becomes an explicit boot error instead of a silent GPK1 downgrade, and the
+> capture harness now proves at runtime that a flagless visit makes zero v2
+> requests and loads zero v2 code chunks. The generic
+> manifest-driven streaming renderer remains unselected because no real public
+> course/ground graph yet supplies its required shell and parent hierarchy —
+> the bounded 1,024 m Puttom window cannot honestly cover the whole course
+> (hole 16 lies wholly outside it), so real publication waits on the remaining
+> authenticated D2 windows. D5 now has
 > a strict 14-byte lossless
 > surface-grid contract for primary/secondary class IDs, signed boundary
 > distance, owning feature, mow fields and material fields. Its first Puttom
@@ -996,7 +1012,10 @@ Deliverables:
   waits until v2 public assets exist.
 - [x] V1 fallback in the same application build. The exact fallback reference
   is mandatory in the schema and compared against the live GPK1 index before
-  selection. `?v2=1` falls back explicitly; `?v2=require` fails closed. The
+  selection — now enforced at runtime by the generic selection boundary
+  (`v2-terrain-select.mjs`/`v2-graph-source.mjs`) and offline by
+  `check-app-build`'s registry/root gate. `?v2=1` falls back explicitly;
+  `?v2=require` fails closed. The
   actual v2 terrain renderer remains a D4 deliverable.
 
 Gate: a synthetic and one real course stream progressively on both backends;
@@ -1059,8 +1078,16 @@ Deliverables:
   flag after both visual paths passed. It owns validation, batch lifecycle,
   construction/visible-height gates, fallback and telemetry for the retained
   Puttom pilot.
-- [ ] Generic manifest-driven live selection after real course/ground manifests,
-  shell and parent hierarchy are published and pass the same adapter contract.
+- [x] Generic, fail-closed v2 source selection boundary behind the existing
+  flag: registry-gated `CourseV2ManifestLoader` graph resolution with exact
+  live-GPK1 fallback identity, restored `?v2=require` fail-closed semantics,
+  a runtime no-request proof for flagless visits, and a build gate that keeps
+  the published-slug registry and the built v2 root in lockstep.
+- [ ] Generic manifest-driven streaming-renderer activation after real course/
+  ground manifests, shell and parent hierarchy are published and pass the same
+  adapter contract. Blocked on data, not wiring: the bounded 1,024 m Puttom
+  window cannot honestly describe the whole ground (hole 16 lies wholly
+  outside it), so the remaining authenticated D2 windows come first.
 - [x] Height-sensitive camera, water, ball/interactions, surface and object
   placement migrated to the visible-ground sampler in the live app path.
 - [ ] Removal of full-course synchronous terrain mesh construction for v2.

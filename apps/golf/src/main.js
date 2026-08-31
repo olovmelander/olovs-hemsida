@@ -51,10 +51,8 @@ import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
-import {
-  loadPuttomTerrainPreview,
-  PUTTOM_PREVIEW_CONFIG,
-} from './engine/v2-puttom-preview.mjs';
+import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
+import { selectV2TerrainSource, V2_GRAPH_RENDERER_GATE } from './engine/v2-terrain-select.mjs';
 import { V2TerrainLiveAdapter } from './engine/v2-terrain-live-adapter.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 
@@ -139,19 +137,23 @@ const HF0 = PACK.H.HF0;
 const HF1 = PACK.H.HF1;
 
 await tick('läser terrängdata', 0.04);
-/* The preview is opt-in and dynamically imports its verifier only for
-   ?bana=puttom&v2=1. Start its bounded tile requests beside GPK1 inflation so
-   the integrity work does not serialize the boot. A failed or absent preview
-   resolves to an explicit fallback state and never blocks the normal course. */
-const terrainPreviewPromise = loadPuttomTerrainPreview({
+/* V2 selection is opt-in and dynamically imports its verifiers only after an
+   explicit v2 flag. One boundary decides the source: a published, verified
+   course/ground graph first, then the retained Puttom preview, then the
+   explicit GPK1 fallback state. Start it beside GPK1 inflation so the
+   integrity work does not serialize the boot. Under ?v2=1 a failed or absent
+   source resolves to an explicit fallback and never blocks the normal course;
+   under ?v2=require the selection throws instead of quietly serving GPK1. */
+const terrainPreviewPromise = selectV2TerrainSource({
   slug: CMETA.slug,
   geo: GEO,
-  packSha256: CMETA.sha256,
+  packMeta: CMETA,
   search: location.search,
 });
-const [b0, b1, bv, TERRAIN_PREVIEW] = await Promise.all([
+const [b0, b1, bv, V2_SELECTION] = await Promise.all([
   inflate(PACK.s0), inflate(PACK.s1), inflate(PACK.sv), terrainPreviewPromise,
 ]);
+const TERRAIN_PREVIEW = V2_SELECTION.source;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = JSON.parse(new TextDecoder().decode(bv));
 const HOLES = M.holes;
@@ -184,9 +186,11 @@ function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres =
   } else {
     terrainPreviewBadge.dataset.state = 'fallback';
     title.textContent = 'STANDARDTERRÄNG · FALLBACK';
-    detail.textContent = CMETA.slug === 'puttom'
-      ? '1 m-previewn kunde inte verifieras'
-      : '1 m-previewn är ännu bara aktiverad för Puttom';
+    detail.textContent = TERRAIN_PREVIEW.reason === V2_GRAPH_RENDERER_GATE
+      ? 'v2-grafen är verifierad men den generella renderaren är inte aktiverad'
+      : CMETA.slug === 'puttom'
+        ? '1 m-previewn kunde inte verifieras'
+        : '1 m-previewn är ännu bara aktiverad för Puttom';
   }
 }
 setTerrainPreviewBadge();
@@ -1736,6 +1740,11 @@ if (TERRAIN_PREVIEW.ready) {
   });
   if (!preparation.ok) {
     const failure = terrainV2.rendererState;
+    /* ?v2=require means diagnose, never mask: refuse to present the GPK1
+       rebuild as if the required v2 terrain were serving. */
+    if (V2_SELECTION.require) {
+      throw new Error(`v2 krävdes men terrängpreflighten föll tillbaka: ${failure.error}`);
+    }
     if (terrainPreviewBadge) terrainPreviewBadge.dataset.error = failure.error;
     console.warn('Puttom 1 m terrain preflight fell back to the full GPK1 mesh:', failure.error);
     setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'failed');
@@ -1776,6 +1785,11 @@ if (terrainV2.preparation) {
     stats.verts = coreStatsBefore.verts;
     stats.tris = coreStatsBefore.tris;
     builtTerrain.core = null;
+    /* Under ?v2=require the transaction still rolls back, but the GPK1 rebuild
+       must not happen: required v2 that cannot install is a boot error. */
+    if (V2_SELECTION.require) {
+      throw new Error(`v2 krävdes men terränginstallationen föll tillbaka: ${String(error?.message || error).slice(0, 300)}`);
+    }
     coreGeometry = await buildTerrain(CORE, null, true);
     coreMesh = makeCoreMesh(coreGeometry);
     scene.add(coreMesh);
@@ -5262,6 +5276,13 @@ window.V3D = {
     ready: TERRAIN_PREVIEW.ready,
     status: terrainV2.rendererState.status,
     reason: TERRAIN_PREVIEW.reason,
+    selection: {
+      mode: V2_SELECTION.mode,
+      requestMode: V2_SELECTION.requestMode,
+      publishedGraphSlugs: [...V2_SELECTION.publishedGraphSlugs],
+      graph: V2_SELECTION.graph ? { slug: V2_SELECTION.graph.slug, ...V2_SELECTION.graph.summary } : null,
+      graphError: V2_SELECTION.graphError,
+    },
     label: TERRAIN_PREVIEW.descriptor?.label || null,
     surface: TERRAIN_PREVIEW.surfaceDescriptor ? {
       label: TERRAIN_PREVIEW.surfaceDescriptor.label,
