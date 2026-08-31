@@ -266,6 +266,20 @@ generalises: **shape cannot deliver a mowing boundary, and here it cannot
 deliver a bunker either.** Surface truth needs reflectance — the orthophoto —
 or the club's own drawings.
 
+**And the orthophoto is not ours to read yet.** The first authenticated run
+returned HTTP 403 on all four `orto-u2-2024` assets, using the same
+credentials that read Markhöjdmodell successfully seconds earlier in the same
+job. Ortofoto Nedladdning is ordered and legally reviewed separately at
+Geotorget: an account can hold complete image metadata and be refused every
+pixel, which is precisely what the discovery snapshot shows — `sha256: null`
+on every image asset while terrain assets carry real checksums.
+`probeOrthoAccess()` now asks that question directly with one bounded range
+request per asset, so the answer is a recorded entitlement finding rather than
+four GDAL warnings and a bare exit 1, and it distinguishes a 403 from a 503
+because only one of those is about the account. The measurement step is
+`continue-on-error`: an exploratory probe must never decide whether the
+release capture runs, which is exactly what it did on its first attempt.
+
 ### Streaming-runtime probe
 
 `?bana=puttom&v2=1&v2stream=1` runs `CourseV2TerrainRuntime` against the

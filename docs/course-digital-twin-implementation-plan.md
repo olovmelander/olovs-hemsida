@@ -84,6 +84,15 @@
 2. Obtain and review authoritative Puttom surface polygons (club CAD/GIS,
    maintenance drawing or independently validated field survey), record licence,
    date and accuracy, then replace—not merge with—the migration source.
+   **Both remote routes to surface truth are now measured and closed.** The
+   1 m DTM cannot resolve this course's bunkers: local relief at all 41 is
+   0.429 m median against 0.273 m on ordinary ground, whose 90th percentile
+   (0.726 m) passes the bunkers' median, so no threshold separates them. And
+   the orthophoto — the source that measures reflectance rather than shape —
+   returns HTTP 403 to this account on every asset, because Ortofoto
+   Nedladdning is a separate Geotorget order. Two human actions therefore gate
+   D5, and no amount of code substitutes for either: place the orthophoto
+   order, and ask the club for its drawings.
 3. Verify authoritative centre/edge/seam probes and approve WebGPU plus
    forced-WebGL2 grazing-angle goldens before any course can use v2 by default.
 4. Compile one real Puttom object tile from allowed sources, review every zone-A
@@ -983,6 +992,18 @@ Deliverables:
   runner: the window and every derived raster stay there, because Ortofoto
   Nedladdning carries special access and GDPR terms and a derivative needs its
   own redistribution decision.
+- [ ] **BLOCKED, and not by code: this account cannot read the orthophoto.**
+  The first authenticated run returned HTTP 403 on all four `orto-u2-2024`
+  assets, using the same credentials that read Markhöjdmodell successfully
+  seconds earlier in the same job. Ortofoto Nedladdning is ordered and legally
+  reviewed separately at Geotorget, so an account can hold complete image
+  metadata — extent, resolution, capture dates, which is exactly what the
+  discovery snapshot recorded — and still be refused every pixel. The
+  discovery report was already honest about this: it lists `sha256: null` for
+  every image asset while terrain assets carry real checksums. Nothing in the
+  pipeline can grant this; someone must place the order. Until then the
+  surface question stays open, because the DTM has now been measured and
+  cannot answer it.
 - [ ] Run authenticated tree-height and remaining DTM/break windows for all
   three pilots and persist their real compressed/decoded sizes and timings.
 - [ ] Produce side-by-side residuals against current Terrarium, tree cover and

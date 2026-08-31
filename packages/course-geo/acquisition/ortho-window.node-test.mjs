@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { orthoWindowPlan } from './ortho-window.mjs';
+import { orthoWindowPlan, probeOrthoAccess } from './ortho-window.mjs';
 
 const HASH = 'a'.repeat(64);
 
@@ -107,4 +107,48 @@ test('incomplete coverage is refused before any request is planned', () => {
   assert.throws(() => orthoWindowPlan(partial, '/tmp/cache', {
     bboxEpsg3006: [697000, 7024800, 697512, 7025312],
   }), /does not cover the AOI/);
+});
+
+test('an entitlement gap is separated from a transport failure', async () => {
+  const report = discoveryReport();
+  report.orthophoto.items.push({
+    id: 'orto-item-2',
+    assets: { data: { href: 'https://dl1.lantmateriet.se/bild/orto/item-2.tif', bytes: 2048, sha256: null } },
+  });
+
+  /* Credentials that read another product but not this one. A 403 on every
+     asset is an answer about the account, not a broken pipeline, and the
+     probe must say so rather than leaving GDAL to fail with a bare exit 1. */
+  const forbidden = await probeOrthoAccess(report, {
+    credentials: { type: 'basic', username: 'u', password: 'p' },
+    fetchImpl: async () => new Response('denied', { status: 403 }),
+  });
+  assert.equal(forbidden.authorized, false);
+  assert.equal(forbidden.forbidden, true);
+  assert.equal(forbidden.readable, 0);
+  assert.equal(forbidden.total, 2);
+
+  const granted = await probeOrthoAccess(report, {
+    credentials: { type: 'basic', username: 'u', password: 'p' },
+    fetchImpl: async () => new Response(new Uint8Array(16), { status: 206 }),
+  });
+  assert.equal(granted.authorized, true);
+  assert.equal(granted.forbidden, false);
+
+  /* A server that is merely down is NOT an entitlement answer. */
+  const outage = await probeOrthoAccess(report, {
+    credentials: { type: 'basic', username: 'u', password: 'p' },
+    fetchImpl: async () => new Response('busy', { status: 503 }),
+  });
+  assert.equal(outage.authorized, false);
+  assert.equal(outage.forbidden, false);
+
+  /* The probe sends credentials and asks for a bounded range, never the file. */
+  let seen = null;
+  await probeOrthoAccess(report, {
+    credentials: { type: 'basic', username: 'u', password: 'p' },
+    fetchImpl: async (url, options) => { seen = options; return new Response(null, { status: 206 }); },
+  });
+  assert.equal(seen.headers.Range, 'bytes=0-15');
+  assert.ok(String(seen.headers.Authorization).startsWith('Basic '));
 });

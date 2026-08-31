@@ -16,7 +16,7 @@ import { createReadStream } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { separabilitySummary } from '../../course-v2/terrain-derivatives.mjs';
 import { lantmaterietCredentials } from './credentials.mjs';
-import { acquireOrthoWindow } from './ortho-window.mjs';
+import { acquireOrthoWindow, probeOrthoAccess } from './ortho-window.mjs';
 import { runGeoCommand } from '../proj.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
@@ -118,9 +118,37 @@ async function main() {
   const everything = [...surfaces.greens, ...surfaces.fairways, ...surfaces.bunkers];
   if (everything.length < 10) throw new Error('the migration model has too few recorded surfaces to measure');
   const window = boundingBox(everything, 60);
+  const credentials = lantmaterietCredentials();
+
+  /* Entitlement first. Ortofoto Nedladdning is ordered and legally reviewed
+     separately from Markhöjdmodell, so an account can hold every byte of
+     image metadata and be refused every pixel. Asked here it is a recorded
+     answer; discovered inside GDAL it is a warning per tile and exit 1. */
+  const access = await probeOrthoAccess(report, { credentials });
+  if (!access.authorized) {
+    const blocked = {
+      schemaVersion: 1,
+      kind: 'puttom-ortho-separability',
+      measured: false,
+      blocked: 'source-not-authorized',
+      access,
+      /* An entitlement gap is a fact about the account, not a broken build:
+         it is reported and the run continues. */
+      note: access.forbidden
+        ? 'every orthophoto asset returned HTTP 403 to credentials that read Markhöjdmodell in the same run: this account has not completed the separate Ortofoto Nedladdning order and legal review at Geotorget'
+        : 'the orthophoto campaign could not be read with the configured credentials',
+      nextAction: 'order Ortofoto Nedladdning for this account at geotorget.lantmateriet.se and re-run; no code change will grant access',
+    };
+    if (out) {
+      fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
+      fs.writeFileSync(path.resolve(out), `${JSON.stringify(blocked, null, 2)}\n`);
+    }
+    console.log(JSON.stringify(blocked, null, 2));
+    return;
+  }
 
   const acquisition = await acquireOrthoWindow(report, {
-    credentials: lantmaterietCredentials(),
+    credentials,
     cacheRoot,
     bboxEpsg3006: window,
     targetResolutionMetres: TARGET_RESOLUTION_METRES,
@@ -181,6 +209,8 @@ async function main() {
       compressedBytes: acquisition.compressedBytes,
       elapsedMilliseconds: acquisition.measurements.totalMilliseconds,
     },
+    measured: true,
+    access,
     counts: {
       greens: surfaces.greens.length,
       fairways: surfaces.fairways.length,

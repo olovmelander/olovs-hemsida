@@ -695,6 +695,11 @@ jobs:
           retention-days: 7
 
       - name: Measure orthophoto surface separability
+        # An exploratory measurement must never decide whether the release
+        # evidence runs. Its first attempt failed on an entitlement gap and
+        # took the whole capture matrix down with it; the capture is what the
+        # activation gates read, so this step reports and steps aside.
+        continue-on-error: true
         env:
           CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .tif
           CPL_VSIL_CURL_CACHE_SIZE: "67108864"

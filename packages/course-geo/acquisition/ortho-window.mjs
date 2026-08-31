@@ -3,7 +3,7 @@ import path from 'node:path';
 import { performance } from 'node:perf_hooks';
 import { runGeoCommand } from '../proj.mjs';
 import { sha256File } from '../manifest.mjs';
-import { gdalHttpEnvironment } from './credentials.mjs';
+import { authorizationHeaders, gdalHttpEnvironment } from './credentials.mjs';
 
 /* A bounded orthophoto window, acquired the way the terrain window is: read
    through /vsicurl with credentials that are never serialised, clipped to a
@@ -130,6 +130,46 @@ function parseJsonCommand(command, args) {
   const { stdout } = runGeoCommand(command, args);
   try { return JSON.parse(stdout); }
   catch (error) { throw new Error(`${command} did not return JSON: ${error.message}`); }
+}
+
+/**
+ * Ask whether this account may actually read the campaign's bytes, with one
+ * bounded range request per asset, before GDAL is invoked at all. Ortofoto
+ * Nedladdning is ordered and legally reviewed separately from Markhöjdmodell,
+ * so an account with height access can hold complete image METADATA — extent,
+ * resolution, capture dates — and still be refused every pixel. Discovered
+ * through gdalbuildvrt that arrives as a warning per tile and a bare exit 1;
+ * asked directly it is an answer worth recording.
+ */
+export async function probeOrthoAccess(report, { credentials, fetchImpl = globalThis.fetch } = {}) {
+  const items = report?.orthophoto?.items || [];
+  if (!items.length) throw new Error('orthophoto selection has no data assets to probe');
+  const headers = { ...authorizationHeaders(credentials), Range: 'bytes=0-15' };
+  const assets = [];
+  for (const item of items) {
+    const url = safeOrthoAsset(item.assets?.data?.href);
+    let status = null;
+    let error = null;
+    try {
+      const response = await fetchImpl(url, { headers, redirect: 'error', signal: AbortSignal.timeout(20_000) });
+      status = response.status;
+      await response.body?.cancel('bounded access probe');
+    } catch (cause) {
+      error = String(cause?.message || cause).slice(0, 200);
+    }
+    assets.push(Object.freeze({ id: item.id, status, error, readable: status === 206 || status === 200 }));
+  }
+  const readable = assets.filter(asset => asset.readable).length;
+  return Object.freeze({
+    collection: report.orthophoto.collection,
+    assets: Object.freeze(assets),
+    readable,
+    total: assets.length,
+    authorized: readable === assets.length,
+    /* 403 with valid credentials that work for another product is an
+       entitlement answer, not a transport failure. */
+    forbidden: assets.every(asset => asset.status === 403),
+  });
 }
 
 /** Acquire the planned window. The raster stays on the runner; the caller
