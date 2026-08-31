@@ -95,6 +95,48 @@ pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
   acquire-pilot -- --ground puttom --laser-only
 ```
 
+## All-course per-hole source controls
+
+The offline inventory covers all six physical grounds, all nine course slugs
+and all 135 holes. Hole geometry plus a 48 m review margin produces 655
+references to 177 deduplicated, grid-aligned 256 x 256 m EPSG:3006 control
+windows:
+
+```sh
+node packages/course-geo/acquisition/plan-hole-source-controls.mjs
+```
+
+With both provider credential pairs configured, run one physical ground through
+the authenticated controls. The output is a safe aggregate evidence file; raw
+COPC and tree-height TIFF bytes are deleted after each window, and exact window
+coordinates are not serialized:
+
+```sh
+pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
+  run-hole-controls -- \
+  --ground puttom \
+  --providers both \
+  --output /tmp/puttom-hole-source-evidence.json
+```
+
+Large grounds can be split deterministically, for example with
+`--batch-count 4 --batch-index 0`. Every shard retains the full inventory
+fingerprint and its selected-window count. Laserdata is eligible only after a
+complete catalog window and a local PDAL density check; tree height must match
+the exact size, EPSG:3006 CRS, 1 m resolution, bounding box, geotransform,
+signed-Int16 type, nodata and plausible 0–80 m value range. Automatic object
+candidates require both controls to pass. A gap selects the DTM/orthophoto/
+manual-review path instead of weakening a tolerance.
+
+`.github/workflows/course-geo-hole-controls.yml` exposes the same run for one
+or all grounds and runs all six monthly with at most two simultaneous provider
+jobs. Changes to the integration branch run a fresh Puttom-only `both` control
+after the bounded provider preflight, so newly restored manifests or credentials
+are exercised before object work continues. It uploads only the coordinate-free
+aggregate JSON for 14 days. This
+evidence cannot approve a canonical origin or activate runtime assets by
+itself.
+
 `LANTMATERIET_BEARER_TOKEN` can replace the Lantmäteriet username/password
 pair. The preflight reads only a 16-byte COG range, the 589-byte COPC 1.0
 header and one 16-by-16 tree-height sample, rejects redirects/full-body

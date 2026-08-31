@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-30",
+  "groundId": "puttom",
+  "status": "passed",
+  "workflow": {
+    "commit": "80b4b3e7781a801e32458fb62f32ef7f19c42b23",
+    "runId": 33315584493,
+    "url": "https://github.com/olovmelander/olovs-hemsida/actions/runs/33315584493"
+  },
+  "provider": {
+    "name": "Lantmäteriet",
+    "endpoint": "https://api.lantmateriet.se/stac-hojd/v1",
+    "authenticated": true,
+    "credentialsSerialized": false
+  },
+  "source": {
+    "collection": "dtm-cog",
+    "itemId": "702_69",
+    "bytes": 276884943,
+    "rangeRequest": {
+      "httpStatus": 206,
+      "bytesRead": 16,
+      "supported": true,
+      "tiffHeaderValid": true
+    }
+  },
+  "window": {
+    "compoundCrs": "EPSG:5845",
+    "rasterOuterBounds": {
+      "minEasting": 696916,
+      "minNorthing": 7024570,
+      "maxEasting": 697941,
+      "maxNorthing": 7025595
+    },
+    "sampleBounds": {
+      "minEasting": 696916.5,
+      "minNorthing": 7024570.5,
+      "maxEasting": 697940.5,
+      "maxNorthing": 7025594.5
+    },
+    "widthMetres": 1024,
+    "heightMetres": 1024,
+    "rasterWidth": 1025,
+    "rasterHeight": 1025,
+    "resolutionMetres": 1
+  },
+  "derivedCog": {
+    "compression": "ZSTD",
+    "bytes": 3739601,
+    "sha256": "e4124a9bb4a4315e2c1a7ec6ca36dc8ff86c4e1044b8cf5327342aa665fcad88",
+    "elapsedSeconds": 10,
+    "elevationRH2000Metres": {
+      "minimum": 37.242,
+      "maximum": 70.536,
+      "mean": 45.974,
+      "standardDeviation": 8.246,
+      "noDataValue": -9999
+    }
+  },
+  "bvch": {
+    "tileSegments": 256,
+    "lodLevels": 3,
+    "tileChunks": 21,
+    "rootTiles": 1,
+    "uniqueChunksIncludingShell": 22,
+    "encodedBytes": 1548860,
+    "decodedBytes": 2906156,
+    "shellEncodedBytes": 84259,
+    "sharedHeightOffsetMetres": 37.24,
+    "heightScaleMetres": 0.01,
+    "seamsVerified": true,
+    "morphMethod": "bilinear-even-samples-v1"
+  },
+  "retention": {
+    "sourceBytesRetained": false,
+    "derivedBytesRetained": false,
+    "reason": "Bounded provider-access and compiler evidence only; no terrain geometry is published by this probe."
+  }
+}

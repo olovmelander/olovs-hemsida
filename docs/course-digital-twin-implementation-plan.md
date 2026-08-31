@@ -23,7 +23,13 @@
 > placement and tiers below C. Both new asset kinds pass Node and browser-path
 > decoding in the synthetic shared-ground graph. They are format foundations,
 > not claims that real surface polygons or object inventories have been
-> compiled. Candidate origins remain unapproved, authenticated source rollout
+> compiled. A separate authoritative-surface intake now requires an approved
+> source manifest, licence, checksum, dates, measured accuracy, canonical frame,
+> human review and valid multipolygon topology; it deterministically compiles
+> synthetic proof tiles but Puttom correctly fails because those approvals and
+> source polygons do not yet exist. The preview loader also no longer retains a
+> redundant decoded channel copy, removing about 32.25 MiB of transient Puttom
+> startup allocation. Candidate origins remain unapproved, authenticated source rollout
 > remains incomplete, and hardware canvas/performance evidence is still a
 > release gate. `GPK1` remains the production default. This plan extends,
 > rather than reopens, the completed work in `docs/ground-atlas-plan.md`.
@@ -70,6 +76,10 @@ Current implementation evidence:
 - `packages/course-geo/manifest.mjs` validates provenance, licence state,
   checksums, accuracy tiers, CRS/axis order, canonical-origin approval and the
   exact six-ground/nine-slug inventory.
+- `packages/course-v2/authoritative-surface-source.mjs` and its dedicated
+  compiler form a replacement-only intake boundary for future reviewed surface
+  polygons. Migration, OSM, GolfTraxx, legacy imagery and course-guide sources
+  cannot be promoted through it as sole authority.
 - `packages/course-geo/frame.mjs` implements the shared national-to-Three.js
   mapping, round trips and immutable frame fingerprint, while refusing every
   origin that has not passed control approval.
@@ -1019,9 +1029,13 @@ budgets are met on the pilot grounds.
 Deliverables:
 
 - [ ] Reviewed surface polygons in canonical coordinates.
+- [x] Fail-closed authoritative surface intake with source-manifest/licence/
+  checksum/date/accuracy/review/frame gates, strict polygon topology and
+  deterministic synthetic seam proof. No real Puttom source has passed it.
 - [x] Fixed, lossless ID/SDF/field BVCH contract, encoder, decoder, strict
   bounds/nodata validation and browser parity. Real-ground compilation remains.
-- [ ] Shader adapter into the existing `makeGround()` material family.
+- [x] Shader adapter into the existing `makeGround()` material family for the
+  retained migration preview; authoritative activation remains gated.
 - [ ] Green, fringe, fairway, tee, rough, bunker, path, rock and forest-floor
   appearance pass.
 - [ ] Per-hole material and grazing-angle goldens.
@@ -1113,9 +1127,11 @@ The first implementation pull requests should be small and reversible:
 7. CPU height-sampler parity tests. **Implemented in the app path:** v2 preview,
    rendered legacy mesh and analytic fallback are deterministic, and the shared
    result now drives camera/water/ball/interactions/surface/object consumers.
-8. Surface-tile adapter into the existing ground material. **Contract
-   implemented:** fixed lossless packing and strict Node/browser decoding pass;
-   real compilation and shader adaptation remain.
+8. Surface-tile adapter into the existing ground material. **Migration path
+   implemented:** fixed lossless packing, strict Node/browser decoding, Puttom
+   compilation and material adaptation pass. The authoritative intake/compiler
+   boundary is also implemented, but no real reviewed polygon source has passed
+   its release gates.
 9. Object registry schema and one reviewed tree/boulder tile. **Synthetic
    contract implemented:** source/review/accuracy metadata and zone-A policy
    pass end-to-end; a real reviewed tile remains.

@@ -1,0 +1,182 @@
+{
+  "$schema": "../../packages/course-geo/source-catalog.schema.json",
+  "schemaVersion": 1,
+  "products": [
+    {
+      "id": "lantmateriet-markhojdmodell-1m",
+      "provider": "Lantmäteriet",
+      "product": "Markhöjdmodell Nedladdning, grid 1 m",
+      "homepage": "https://geotorget.lantmateriet.se/dokument/projects/markhoejdmodell-nedladdning/released/1/",
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": "EPSG:5613",
+      "licence": {
+        "id": "CC-BY-4.0",
+        "attribution": "Markhöjdmodell Nedladdning, © Lantmäteriet, bearbetad information, CC BY 4.0.",
+        "redistribution": "Raw and derived data may be redistributed under CC BY 4.0 with product name, © Lantmäteriet, processing notice and licence attribution.",
+        "derivatives": "Commercial modification and derivative publication are permitted under CC BY 4.0 with the required attribution.",
+        "reviewStatus": "approved",
+        "notes": "Terms LM2025/009266 version 1.0 dated 2025-02-01 were verified on 2026-08-30; authenticated access still requires a free product order."
+      }
+    },
+    {
+      "id": "lantmateriet-ortofoto",
+      "provider": "Lantmäteriet",
+      "product": "Ortofoto Nedladdning",
+      "homepage": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": null,
+      "licence": {
+        "id": "CC-BY-4.0 with special access terms",
+        "attribution": "© Lantmäteriet",
+        "redistribution": "Record the terms and acquisition metadata before storing or redistributing imagery.",
+        "derivatives": "Review whether extracted vectors and classified rasters can be distributed in the intended form.",
+        "reviewStatus": "pending",
+        "notes": "The official STAC catalog states CC BY 4.0, but access is subject to legal/GDPR review and special terms. Keep imagery as compiler input and do not ship it as a draped runtime texture until that review is recorded."
+      }
+    },
+    {
+      "id": "lantmateriet-laserdata-skog",
+      "provider": "Lantmäteriet",
+      "product": "Laserdata Nedladdning, skog",
+      "homepage": "https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/",
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": "EPSG:5613",
+      "licence": {
+        "id": "CC-BY-4.0",
+        "attribution": "Laserdata Nedladdning, skog, © Lantmäteriet, bearbetad information, CC BY 4.0.",
+        "redistribution": "Raw and derived data may be redistributed under CC BY 4.0 with product name, © Lantmäteriet, processing notice and licence attribution; GDPR obligations remain with the licensee.",
+        "derivatives": "Commercial modification and derivative publication are permitted under CC BY 4.0, subject to attribution and lawful personal-data processing.",
+        "reviewStatus": "approved",
+        "notes": "Terms LM2026/077164 version 1.0 dated 2026-05-20 were verified on 2026-08-30. Use for canopy, recency and difficult terrain QA; it is not automatically a better DTM than the finished height model."
+      }
+    },
+    {
+      "id": "lantmateriet-topografi-10",
+      "provider": "Lantmäteriet",
+      "product": "Topografi 10 Nedladdning, vektor",
+      "homepage": "https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/",
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": null,
+      "licence": {
+        "id": "CC-BY-4.0 with special access terms",
+        "attribution": "© Lantmäteriet",
+        "redistribution": "Persist the exact terms supplied at acquisition.",
+        "derivatives": "Review distribution of generalized and combined vector derivatives.",
+        "reviewStatus": "pending",
+        "notes": "The 2026.05 product page states CC BY 4.0, but access requires legal/GDPR review and special terms. Supporting source for hydrology, infrastructure and general land cover."
+      }
+    },
+    {
+      "id": "skogsstyrelsen-tradhojd",
+      "provider": "Skogsstyrelsen",
+      "product": "Trädhöjd från Laserdata Skog, raster",
+      "homepage": "https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf",
+      "horizontalCrs": "Record from acquired asset metadata",
+      "verticalCrs": "Height above ground",
+      "licence": {
+        "id": "CC0-1.0",
+        "attribution": "Source: Skogsstyrelsen (requested by the provider although CC0 does not require attribution).",
+        "redistribution": "May be copied and redistributed under CC0 unless an acquired asset supplies an explicit product-specific exception.",
+        "derivatives": "May be modified and used commercially under CC0; retain source/date metadata for scientific provenance.",
+        "reviewStatus": "approved",
+        "notes": "Skogsstyrelsen's general geodata terms, updated 2026-05-13 and verified 2026-08-30, state CC0 unless otherwise noted; no exception is stated in the 2026-05-13 tree-height technical specification. Supporting canopy-height evidence, not an individual stem survey."
+      }
+    },
+    {
+      "id": "controlled-course-survey",
+      "provider": "Course owner or contracted surveyor",
+      "product": "Controlled GNSS, total-station, drone LiDAR or photogrammetry survey",
+      "homepage": "project://survey-contract",
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": "EPSG:5613",
+      "licence": {
+        "id": "Per-survey contract",
+        "attribution": "Record surveyor, client, equipment and campaign identifier.",
+        "redistribution": "Must be granted by the survey contract.",
+        "derivatives": "Must be granted by the survey contract.",
+        "reviewStatus": "pending",
+        "notes": "The contract must permit application distribution of normalized and derived data."
+      }
+    },
+    {
+      "id": "openstreetmap",
+      "provider": "OpenStreetMap contributors",
+      "product": "OpenStreetMap database extract",
+      "homepage": "https://www.openstreetmap.org/copyright",
+      "horizontalCrs": "EPSG:4326",
+      "verticalCrs": null,
+      "licence": {
+        "id": "ODbL-1.0",
+        "attribution": "© OpenStreetMap contributors",
+        "redistribution": "Database redistribution remains subject to ODbL.",
+        "derivatives": "Keep OSM lineage isolated so database and produced-work obligations can be evaluated.",
+        "reviewStatus": "approved",
+        "notes": "Approved only as a supplementary source with attribution; it is not automatically authoritative for golf surfaces."
+      }
+    },
+    {
+      "id": "aws-terrarium",
+      "provider": "Mapzen terrain tiles via AWS Open Data",
+      "product": "Terrarium elevation tiles",
+      "homepage": "https://registry.opendata.aws/terrain-tiles/",
+      "horizontalCrs": "Web Mercator tile matrix",
+      "verticalCrs": "Legacy build did not persist the source vertical datum",
+      "licence": {
+        "id": "Mixed upstream source terms",
+        "attribution": "Not recorded by the legacy build.",
+        "redistribution": "Not approved for the v2 source-of-truth chain.",
+        "derivatives": "Keep current derivatives migration-only until replaced.",
+        "reviewStatus": "pending",
+        "notes": "Legacy caches are absent and their tile-level acquisition metadata and checksums were not committed."
+      }
+    },
+    {
+      "id": "esri-world-imagery",
+      "provider": "Esri and World Imagery contributors",
+      "product": "World Imagery tile service",
+      "homepage": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+      "horizontalCrs": "Web Mercator tile matrix",
+      "verticalCrs": null,
+      "licence": {
+        "id": "Esri service and contributor-specific terms",
+        "attribution": "Legacy builds did not persist the tile-level contributor attribution.",
+        "redistribution": "Not approved for v2 source or derivative redistribution.",
+        "derivatives": "Existing traces and classifications are migration comparison material only.",
+        "reviewStatus": "blocked",
+        "notes": "Replace with licensed Lantmäteriet imagery or club-owned survey imagery."
+      }
+    },
+    {
+      "id": "golftraxx-layout",
+      "provider": "GolfTraxx and contributing clubs",
+      "product": "Course layout coordinates extracted from public layout pages",
+      "homepage": "https://golftraxx.com/",
+      "horizontalCrs": "EPSG:4326",
+      "verticalCrs": null,
+      "licence": {
+        "id": "Unverified third-party terms",
+        "attribution": "Source and contributing club must be recorded.",
+        "redistribution": "Not approved.",
+        "derivatives": "Existing coordinates are migration comparison material until rights are confirmed or replaced.",
+        "reviewStatus": "blocked",
+        "notes": "Do not promote these coordinates into the v2 authoritative layer."
+      }
+    },
+    {
+      "id": "club-course-guide",
+      "provider": "Individual golf club",
+      "product": "Course guide, scorecard and maintenance material",
+      "homepage": "project://course-guide-register",
+      "horizontalCrs": "Usually unreferenced imagery or prose",
+      "verticalCrs": null,
+      "licence": {
+        "id": "Club-specific permission required",
+        "attribution": "Record club, document title, edition and publication date.",
+        "redistribution": "Requires explicit club permission where copyrighted content is retained.",
+        "derivatives": "Review traced and registered geometry before production use.",
+        "reviewStatus": "pending",
+        "notes": "Useful as corroboration and for card/routing, but never a survey merely because it is official."
+      }
+    }
+  ]
+}

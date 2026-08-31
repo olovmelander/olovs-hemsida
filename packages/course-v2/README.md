@@ -25,8 +25,9 @@ fresh root index
     v1 fallback (GPK1)
 ```
 
-The six JSON Schema documents in `schemas/` (one shared type library plus
-root/ground/course/chunk and published-object contracts) describe the
+The seven JSON Schema documents in `schemas/` (one shared type library plus
+root/ground/course/chunk, published-object and authoritative-surface intake
+contracts) describe the
 interchange contract. The
 strict semantic validators in `schema.mjs` additionally enforce relationships
 that JSON Schema cannot express conveniently: canonical CRS and axis mapping,
@@ -74,6 +75,7 @@ column direction are explicit, never inferred.
 
 ```sh
 node --test packages/course-v2/course-v2.node-test.mjs
+node --test packages/course-v2/authoritative-surface-source.node-test.mjs
 node --test packages/course-v2/surface-object-contract.node-test.mjs
 node --test packages/course-v2/surface-preview.node-test.mjs
 node --test packages/course-v2/terrain-pyramid.node-test.mjs
@@ -156,6 +158,24 @@ hash-verified `courses/puttom/pack.bin`, recreates the shared runtime surface
 precedence, writes only full-SHA surface BVCH paths and refuses to replace a
 different existing artifact. It is reproducible migration output, not a route
 to promote the vectors to surveyed truth.
+
+### Authoritative surface intake boundary
+
+`authoritative-surface-source.mjs` is the separate fail-closed route for future
+club CAD/GIS, controlled survey or approved orthophoto-derived polygons. Its
+canonical EPSG:5845 contract requires an approved source-manifest entry,
+approved derivative licence, immutable upstream checksum, capture/acquisition
+dates, measured accuracy, human review, stable feature ownership and valid
+closed non-self-intersecting multipolygons. It rejects migration-only, OSM,
+GolfTraxx, legacy imagery and course-guide data as sole surface authority.
+
+The matching Node compiler proves deterministic, shared-edge-identical surface
+BVCH output but creates no preview descriptor and writes nothing. It uses the
+approved canonical origin directly, requires an exact terrain-frame binding,
+replaces rather than merges the migration layer, and stores zero only for mow
+and environmental fields explicitly declared unmeasured. Puttom's current
+source manifest intentionally fails this gate until its origin, source asset,
+accuracy and redistribution decision are approved.
 
 ## D4 terrain-pyramid foundation
 

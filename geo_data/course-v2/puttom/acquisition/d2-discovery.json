@@ -1,0 +1,875 @@
+{
+  "$schema": "../../../../packages/course-geo/acquisition/d2-discovery.schema.json",
+  "schemaVersion": 1,
+  "phase": "D2-authoritative-acquisition-spike",
+  "groundId": "puttom",
+  "groundName": "Puttom Golfklubb",
+  "courseSlugs": [
+    "puttom"
+  ],
+  "observedOn": "2026-08-30",
+  "state": "discovery-evidence-only",
+  "aoi": {
+    "bboxWgs84": [
+      18.9,
+      63.28,
+      18.98,
+      63.32
+    ],
+    "bboxEpsg3006": [
+      695289.437,
+      7022734.805,
+      699568.189,
+      7027431.813
+    ],
+    "widthMetres": 4278.752,
+    "heightMetres": 4697.008,
+    "squareMetres": 20097332.374
+  },
+  "sourceContracts": {
+    "terrain": {
+      "provider": "Lantmäteriet",
+      "product": "Markhöjdmodell Nedladdning",
+      "discovery": "https://api.lantmateriet.se/stac-hojd/v1/",
+      "collection": "dtm-cog",
+      "dataAccess": "authenticated Basic or OAuth2 access after a free product order",
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": "EPSG:5613 (RH 2000)",
+      "compoundCrs": "EPSG:5845",
+      "licence": "CC-BY-4.0",
+      "terms": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder.pdf",
+      "termsVersion": "LM2025/009266 version 1.0, 2025-02-01"
+    },
+    "laser": {
+      "provider": "Lantmäteriet",
+      "product": "Laserdata Nedladdning, skog",
+      "discovery": "https://api.lantmateriet.se/stac-hojd/v1/",
+      "collection": "dsm-skoglig-copc",
+      "dataAccess": "authenticated Basic or OAuth2 access after a free product order",
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": "EPSG:5613 (RH 2000)",
+      "compoundCrs": "EPSG:5845",
+      "licence": "CC-BY-4.0",
+      "terms": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor-for-laserdata-nedladdning-skog.pdf",
+      "termsVersion": "LM2026/077164 version 1.0, 2026-05-20"
+    },
+    "orthophoto": {
+      "provider": "Lantmäteriet",
+      "product": "Ortofoto Nedladdning",
+      "discovery": "https://api.lantmateriet.se/stac-bild/v1/",
+      "collection": "selected dynamically from the newest complete campaign",
+      "dataAccess": "authenticated access after a free order and legal review",
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": null,
+      "licence": "CC-BY-4.0 with special access/GDPR terms",
+      "terms": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "termsVersion": "current terms must be captured when access is approved"
+    },
+    "treeHeight": {
+      "provider": "Skogsstyrelsen",
+      "product": "Trädhöjd från Laserdata skog",
+      "discovery": "https://geodata.skogsstyrelsen.se/arcgis/rest/services/Publikt/Tradhojd_3_2/ImageServer",
+      "dataAccess": "authenticated REST/WMS account or the published FTPS distribution",
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": "height-above-ground",
+      "licence": "CC0-1.0 unless a product-specific exception is supplied",
+      "terms": "https://www.skogsstyrelsen.se/e-tjanster-och-kartor/karttjanster/geodatatjanster/villkor/",
+      "termsVersion": "official page updated 2026-05-13"
+    }
+  },
+  "terrain": {
+    "collection": "dtm-cog",
+    "itemCount": 1,
+    "coverage": {
+      "requiredSquareMetres": 20097332.374,
+      "coveredSquareMetres": 20097332.374,
+      "ratio": 1,
+      "complete": true
+    },
+    "crsValidated": true,
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613 (RH 2000)",
+    "resolutionMetres": 1,
+    "fullSourceCompressedBytes": 276884943,
+    "captureRange": {
+      "first": "2020-06-16T00:00:00Z",
+      "last": "2024-06-27T00:00:00Z"
+    },
+    "items": [
+      {
+        "id": "702_69",
+        "collection": "dtm-cog",
+        "bboxWgs84": [
+          18.786188067654876,
+          63.25306672038288,
+          18.997300296791952,
+          63.34805032047732
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          690000,
+          7020000,
+          700000,
+          7030000
+        ],
+        "capturedAt": "2022-06-22T00:00:00Z",
+        "captureStart": "2020-06-16T00:00:00Z",
+        "captureEnd": "2024-06-27T00:00:00Z",
+        "modifiedAt": "2024-12-09T00:00:00Z",
+        "resolutionMetres": 1,
+        "horizontalUncertaintyMetres": 0.3,
+        "verticalUncertaintyMetres": 0.1,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": null,
+        "assets": {
+          "breakgeometry": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_6/m702_69_brytgeometri.gpkg",
+            "type": "application/geopackage+sqlite3",
+            "title": "m702_69_brytgeometri.gpkg",
+            "roles": [
+              "data"
+            ],
+            "bytes": 458752,
+            "stacChecksum": "12204df9d9b17ab0425b23d4ab58b3eca6220c89b64b603db7d7ec6e40f233714eb2",
+            "sha256": "4df9d9b17ab0425b23d4ab58b3eca6220c89b64b603db7d7ec6e40f233714eb2",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          },
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_6/m702_69.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "m702_69.tif",
+            "roles": [
+              "data"
+            ],
+            "bytes": 276884943,
+            "stacChecksum": "12207a482ddca6dcc703f59732ad2b4517956e90411d23db279755c81e7e35b5a6b1",
+            "sha256": "7a482ddca6dcc703f59732ad2b4517956e90411d23db279755c81e7e35b5a6b1",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              690000,
+              7020000,
+              700000,
+              7030000
+            ],
+            "projShape": [
+              10000,
+              10000
+            ]
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/grid/mhm/70_6/m702_69_info.json",
+            "type": "application/json",
+            "title": "m702_69_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 4340,
+            "stacChecksum": "12206b40e4a99b941726ed4e1454088383e69fcc3ea72dc6ea67929a31a05e6c845a",
+            "sha256": "6b40e4a99b941726ed4e1454088383e69fcc3ea72dc6ea67929a31a05e6c845a",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/grid/mhm/70_6/m702_69_ursprung.json",
+            "type": "application/json",
+            "title": "m702_69_ursprung.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 123397,
+            "stacChecksum": "12205b92199ecbb3f7615ffd190a6f99ec7dd9606fbb54e42f16c1572bf3f45de35b",
+            "sha256": "5b92199ecbb3f7615ffd190a6f99ec7dd9606fbb54e42f16c1572bf3f45de35b",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      }
+    ],
+    "state": "coverage-and-metadata-discovered-cog-window-pending",
+    "cogWindow": {
+      "state": "blocked-missing-data-credentials",
+      "transferredBytes": null,
+      "outputCompressedBytes": null,
+      "outputSha256": null,
+      "elapsedMilliseconds": null
+    }
+  },
+  "waterBreakGeometry": {
+    "itemCount": 1,
+    "allTerrainItemsAdvertiseAsset": true,
+    "fullSourceCompressedBytes": 458752,
+    "state": "discovered-authenticated-ingest-pending"
+  },
+  "laser": {
+    "collection": "dsm-skoglig-copc",
+    "itemCount": 2,
+    "coverage": {
+      "requiredSquareMetres": 20097332.374,
+      "coveredSquareMetres": 20097332.374,
+      "ratio": 1,
+      "complete": true
+    },
+    "crsValidated": true,
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613 (RH 2000)",
+    "fullSourceCompressedBytes": 1792404543,
+    "advertisedPointCount": 315266635,
+    "captureRange": {
+      "first": "2023-06-01T00:00:00Z",
+      "last": "2026-06-21T00:00:00Z"
+    },
+    "items": [
+      {
+        "id": "23f028-702_69",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.792071443187393,
+          63.297832702689334,
+          18.997300296791952,
+          63.34805032047732
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          690000,
+          7025000,
+          700000,
+          7030000
+        ],
+        "capturedAt": "2023-06-04T00:00:00Z",
+        "captureStart": "2023-06-01T00:00:00Z",
+        "captureEnd": "2023-06-07T00:00:00Z",
+        "modifiedAt": "2024-02-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.1,
+        "pointCount": 172835421,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/23f028/m23f028-702_69.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "m23f028-702_69.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 1061579823,
+            "stacChecksum": "12208df6ef5bbde3fc49a9dff11d0abee5fe50c956acdb76c80ab9386d9d3d05be6b",
+            "sha256": "8df6ef5bbde3fc49a9dff11d0abee5fe50c956acdb76c80ab9386d9d3d05be6b",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              690000,
+              7025000,
+              700000,
+              7030000
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/23f028/m23f028-702_69_info.json",
+            "type": "application/json",
+            "title": "m23f028-702_69_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 23642,
+            "stacChecksum": "1220301e94c5199da607f0ae0f70ca3c245515c1009ed510f6da866c5c06a07b9d3b",
+            "sha256": "301e94c5199da607f0ae0f70ca3c245515c1009ed510f6da866c5c06a07b9d3b",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "26f015-702_69",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.786188067654876,
+          63.25306672038288,
+          18.99108841794243,
+          63.303274396000205
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          690000,
+          7020000,
+          700000,
+          7025000
+        ],
+        "capturedAt": "2026-06-11T00:00:00Z",
+        "captureStart": "2026-06-01T00:00:00Z",
+        "captureEnd": "2026-06-21T00:00:00Z",
+        "modifiedAt": "2026-08-25T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.7,
+        "pointCount": 142431214,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/26f015/m26f015-702_69.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "m26f015-702_69.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 730824720,
+            "stacChecksum": "1220f81dff91febeb527532985d267274f0e13e020d62c58fabb4c164e470b09888b",
+            "sha256": "f81dff91febeb527532985d267274f0e13e020d62c58fabb4c164e470b09888b",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              690000,
+              7020000,
+              700000,
+              7025000
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/26f015/m26f015-702_69_info.json",
+            "type": "application/json",
+            "title": "m26f015-702_69_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 25572,
+            "stacChecksum": "1220a276fb7210f51878c8bb2dcf965a99eecf1f8a0bf29a3457c3d5907d7a7aab51",
+            "sha256": "a276fb7210f51878c8bb2dcf965a99eecf1f8a0bf29a3457c3d5907d7a7aab51",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      }
+    ],
+    "state": "metadata-discovered-copc-window-pending"
+  },
+  "orthophoto": {
+    "collection": "orto-u2-2024",
+    "primaryItemCount": 4,
+    "itemCount": 4,
+    "primaryCoverage": {
+      "requiredSquareMetres": 20097332.374,
+      "coveredSquareMetres": 20097332.374,
+      "ratio": 1,
+      "complete": true
+    },
+    "coverage": {
+      "requiredSquareMetres": 20097332.374,
+      "coveredSquareMetres": 20097332.374,
+      "ratio": 1,
+      "complete": true
+    },
+    "fallbackCollections": [],
+    "completeCampaignAvailable": true,
+    "crsValidated": true,
+    "horizontalCrs": "EPSG:3006",
+    "resolutionMetres": 0.16,
+    "spectralType": "rgbi",
+    "fullSourceCompressedBytes": 2980973953,
+    "captureRange": {
+      "first": "2024-06-27T15:07:35Z",
+      "last": "2024-06-27T15:19:26Z"
+    },
+    "items": [
+      {
+        "id": "o70225_6950_25_mr24",
+        "collection": "orto-u2-2024",
+        "bboxWgs84": [
+          18.88856944443991,
+          63.27683489393747,
+          18.941342135982143,
+          63.30058825017895
+        ],
+        "projCode": "EPSG:3006",
+        "projBbox": [
+          695000,
+          7022500,
+          697500,
+          7025000
+        ],
+        "capturedAt": "2024-06-27T15:07:43Z",
+        "captureStart": "2024-06-27T15:07:35Z",
+        "captureEnd": "2024-06-27T15:19:26Z",
+        "modifiedAt": null,
+        "resolutionMetres": 0.16,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": "rgbi",
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70225_6950_25_mr24.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "o70225_6950_25_mr24",
+            "roles": [
+              "data"
+            ],
+            "bytes": 749254585,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": "EPSG:3006",
+            "projBbox": [
+              695000,
+              7022500,
+              697500,
+              7025000
+            ],
+            "projShape": [
+              15625,
+              15625
+            ]
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70225_6950_25_mr24_flygbild.json",
+            "type": "application/geo+json",
+            "title": "o70225_6950_25_mr24_flygbild",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "o70225_6975_25_mr24",
+        "collection": "orto-u2-2024",
+        "bboxWgs84": [
+          18.938282698375755,
+          63.27544978912935,
+          18.99108841794243,
+          63.29921914989591
+        ],
+        "projCode": "EPSG:3006",
+        "projBbox": [
+          697500,
+          7022500,
+          700000,
+          7025000
+        ],
+        "capturedAt": "2024-06-27T15:19:09Z",
+        "captureStart": "2024-06-27T15:07:51Z",
+        "captureEnd": "2024-06-27T15:19:26Z",
+        "modifiedAt": null,
+        "resolutionMetres": 0.16,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": "rgbi",
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70225_6975_25_mr24.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "o70225_6975_25_mr24",
+            "roles": [
+              "data"
+            ],
+            "bytes": 749400749,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": "EPSG:3006",
+            "projBbox": [
+              697500,
+              7022500,
+              700000,
+              7025000
+            ],
+            "projShape": [
+              15625,
+              15625
+            ]
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70225_6975_25_mr24_flygbild.json",
+            "type": "application/geo+json",
+            "title": "o70225_6975_25_mr24_flygbild",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "o70250_6950_25_mr24",
+        "collection": "orto-u2-2024",
+        "bboxWgs84": [
+          18.891590501805787,
+          63.29921914989591,
+          18.94440692581205,
+          63.32297368064156
+        ],
+        "projCode": "EPSG:3006",
+        "projBbox": [
+          695000,
+          7025000,
+          697500,
+          7027500
+        ],
+        "capturedAt": "2024-06-27T15:08:07Z",
+        "captureStart": "2024-06-27T15:07:59Z",
+        "captureEnd": "2024-06-27T15:19:01Z",
+        "modifiedAt": null,
+        "resolutionMetres": 0.16,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": "rgbi",
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70250_6950_25_mr24.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "o70250_6950_25_mr24",
+            "roles": [
+              "data"
+            ],
+            "bytes": 725998954,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": "EPSG:3006",
+            "projBbox": [
+              695000,
+              7025000,
+              697500,
+              7027500
+            ],
+            "projShape": [
+              15625,
+              15625
+            ]
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70250_6950_25_mr24_flygbild.json",
+            "type": "application/geo+json",
+            "title": "o70250_6950_25_mr24_flygbild",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "o70250_6975_25_mr24",
+        "collection": "orto-u2-2024",
+        "bboxWgs84": [
+          18.941342135982143,
+          63.297832702689334,
+          18.99419164120889,
+          63.32160325257587
+        ],
+        "projCode": "EPSG:3006",
+        "projBbox": [
+          697500,
+          7025000,
+          700000,
+          7027500
+        ],
+        "capturedAt": "2024-06-27T15:18:53Z",
+        "captureStart": "2024-06-27T15:07:59Z",
+        "captureEnd": "2024-06-27T15:19:01Z",
+        "modifiedAt": null,
+        "resolutionMetres": 0.16,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": null,
+        "pointCount": null,
+        "spectralType": "rgbi",
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o70250_6975_25_mr24.tif",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "title": "o70250_6975_25_mr24",
+            "roles": [
+              "data"
+            ],
+            "bytes": 756319665,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": "EPSG:3006",
+            "projBbox": [
+              697500,
+              7025000,
+              700000,
+              7027500
+            ],
+            "projShape": [
+              15625,
+              15625
+            ]
+          },
+          "metadata": {
+            "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70250_6975_25_mr24_flygbild.json",
+            "type": "application/geo+json",
+            "title": "o70250_6975_25_mr24_flygbild",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": null,
+            "stacChecksum": null,
+            "sha256": null,
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      }
+    ],
+    "alternativeCampaigns": [
+      {
+        "collection": "orto-u2-2024",
+        "rank": "2024-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-u2-2022",
+        "rank": "2022-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-u2-2020",
+        "rank": "2020-12-31",
+        "itemCount": 4,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-u2-2018",
+        "rank": "2018-12-31",
+        "itemCount": 8,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      },
+      {
+        "collection": "orto-u2-2016",
+        "rank": "2016-12-31",
+        "itemCount": 8,
+        "coverage": {
+          "requiredSquareMetres": 20097332.374,
+          "coveredSquareMetres": 20097332.374,
+          "ratio": 1,
+          "complete": true
+        }
+      }
+    ],
+    "state": "latest-complete-campaign-discovered-data-access-pending"
+  },
+  "treeHeight": {
+    "service": "https://geodata.skogsstyrelsen.se/arcgis/rest/services/Publikt/Tradhojd_3_2/ImageServer",
+    "metadataService": "https://geodpags.skogsstyrelsen.se/arcgis/rest/services/Geodataportal/GeodataportalVisaSkogligaGrunddataMetadata/MapServer",
+    "horizontalCrs": "EPSG:3006",
+    "verticalMeasure": "height-above-ground",
+    "resolutionMetres": 1,
+    "dataType": "signed-int16",
+    "unit": "decimetre",
+    "nodataMeaning": "0 means no Laserdata skog return",
+    "coverage": null,
+    "capturedAt": null,
+    "state": "blocked-missing-skogsstyrelsen-raster-credentials"
+  },
+  "metadataEvidence": [
+    {
+      "itemId": "702_69",
+      "collection": "dtm-cog",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/grid/mhm/70_6/m702_69_info.json",
+      "status": "verified",
+      "bytes": 4340,
+      "expectedBytes": 4340,
+      "sha256": "6b40e4a99b941726ed4e1454088383e69fcc3ea72dc6ea67929a31a05e6c845a",
+      "expectedSha256": "6b40e4a99b941726ed4e1454088383e69fcc3ea72dc6ea67929a31a05e6c845a",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 9918.337
+    },
+    {
+      "itemId": "702_69",
+      "collection": "dtm-cog",
+      "asset": "metadata",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/grid/mhm/70_6/m702_69_ursprung.json",
+      "status": "verified",
+      "bytes": 123397,
+      "expectedBytes": 123397,
+      "sha256": "5b92199ecbb3f7615ffd190a6f99ec7dd9606fbb54e42f16c1572bf3f45de35b",
+      "expectedSha256": "5b92199ecbb3f7615ffd190a6f99ec7dd9606fbb54e42f16c1572bf3f45de35b",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 10754.513
+    },
+    {
+      "itemId": "23f028-702_69",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/23f028/m23f028-702_69_info.json",
+      "status": "verified",
+      "bytes": 23642,
+      "expectedBytes": 23642,
+      "sha256": "301e94c5199da607f0ae0f70ca3c245515c1009ed510f6da866c5c06a07b9d3b",
+      "expectedSha256": "301e94c5199da607f0ae0f70ca3c245515c1009ed510f6da866c5c06a07b9d3b",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 10288.846
+    },
+    {
+      "itemId": "26f015-702_69",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/26f015/m26f015-702_69_info.json",
+      "status": "verified",
+      "bytes": 25572,
+      "expectedBytes": 25572,
+      "sha256": "a276fb7210f51878c8bb2dcf965a99eecf1f8a0bf29a3457c3d5907d7a7aab51",
+      "expectedSha256": "a276fb7210f51878c8bb2dcf965a99eecf1f8a0bf29a3457c3d5907d7a7aab51",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 10097.233
+    },
+    {
+      "itemId": "o70225_6950_25_mr24",
+      "collection": "orto-u2-2024",
+      "asset": "metadata",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70225_6950_25_mr24_flygbild.json",
+      "status": "verified",
+      "bytes": 101322,
+      "expectedBytes": null,
+      "sha256": "b98048259b74b98806d2251c5622a89b68d784a064c3b02bbc9f3249cd4df9d1",
+      "expectedSha256": null,
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 10764.884
+    },
+    {
+      "itemId": "o70225_6975_25_mr24",
+      "collection": "orto-u2-2024",
+      "asset": "metadata",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70225_6975_25_mr24_flygbild.json",
+      "status": "verified",
+      "bytes": 95449,
+      "expectedBytes": null,
+      "sha256": "85a6aed4421f8900e5d9f5a5d1da18900e8d963c14fb7085c309e654f002f033",
+      "expectedSha256": null,
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 10421.169
+    },
+    {
+      "itemId": "o70250_6950_25_mr24",
+      "collection": "orto-u2-2024",
+      "asset": "metadata",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70250_6950_25_mr24_flygbild.json",
+      "status": "verified",
+      "bytes": 87444,
+      "expectedBytes": null,
+      "sha256": "b4ae078a5840375b1785ecb637571e107c3d90b69e7302b90e65b8ecb9464140",
+      "expectedSha256": null,
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 10845.042
+    },
+    {
+      "itemId": "o70250_6975_25_mr24",
+      "collection": "orto-u2-2024",
+      "asset": "metadata",
+      "href": "https://dl1.lantmateriet.se/bild/pub/orto/se0_16m_sweref/2024_U2/o70250_6975_25_mr24_flygbild.json",
+      "status": "verified",
+      "bytes": 48285,
+      "expectedBytes": null,
+      "sha256": "42c644efa293c85ef9b9c9464c74ff6cd776a315ee803c0f07a710982cebf0e0",
+      "expectedSha256": null,
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 364.165
+    }
+  ],
+  "measurements": {
+    "discoveryElapsedMilliseconds": 29655.299,
+    "metadataFetchElapsedMilliseconds": 20764.246,
+    "metadata": {
+      "requestedAssets": 8,
+      "verifiedAssets": 8,
+      "downloadedBytes": 509451,
+      "elapsedMilliseconds": 73454.189,
+      "complete": true
+    },
+    "decodedAoiBudgets": {
+      "terrainFloat32": {
+        "resolutionMetres": 1,
+        "pixelWidth": 4279,
+        "pixelHeight": 4698,
+        "pixels": 20102742,
+        "decodedBytes": 80410968
+      },
+      "treeHeightInt16": {
+        "resolutionMetres": 1,
+        "pixelWidth": 4279,
+        "pixelHeight": 4698,
+        "pixels": 20102742,
+        "decodedBytes": 40205484
+      },
+      "orthophotoRgba": {
+        "resolutionMetres": 0.16,
+        "pixelWidth": 26743,
+        "pixelHeight": 29357,
+        "pixels": 785094251,
+        "decodedBytes": 3140377004
+      }
+    },
+    "note": "Decoded AOI values are offline whole-bbox upper bounds, not proposed runtime payloads. COG range-transfer and compressed clip measurements require authenticated asset access."
+  },
+  "gate": {
+    "discoveryReady": true,
+    "acquisitionComplete": false,
+    "blockers": [
+      "Lantmäteriet data assets require ordered credentials before COG/COPC and break-geometry reads.",
+      "Skogsstyrelsen tree-height REST/WMS requires a separate raster account (or FTPS ingestion).",
+      "Independent course control points are still required before any source is promoted to authoritative."
+    ]
+  }
+}

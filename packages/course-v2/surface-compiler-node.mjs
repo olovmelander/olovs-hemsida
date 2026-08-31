@@ -187,7 +187,7 @@ function materialCoordinate(surface, fields, index) {
   return 0;
 }
 
-function tilePayload({ raster, tile, extent, spacing }) {
+function tilePayload({ raster, tile, extent, spacing, mowCoordinateMode }) {
   const count = tile.width * tile.height;
   const primarySurfaceIds = new Uint8Array(count);
   const secondarySurfaceIds = new Uint8Array(count);
@@ -210,7 +210,9 @@ function tilePayload({ raster, tile, extent, spacing }) {
       secondarySurfaceIds[target] = secondary === primary ? 255 : secondary;
       boundaryDistancesMetres[target] = raster.signedDistance[source];
       ownerFeatureIds[target] = raster.owner[source];
-      mowCoordinatesMetres[target] = materialCoordinate(primary, raster.fieldData, source);
+      mowCoordinatesMetres[target] = mowCoordinateMode === 'unmeasured-zero'
+        ? 0
+        : materialCoordinate(primary, raster.fieldData, source);
     }
   }
   return encodeSurfaceGrid({
@@ -261,6 +263,7 @@ export function compileSurfacePreviewAssets({
   features = [],
   assetDirectory,
   codec = 'deflate-raw',
+  mowCoordinateMode = 'legacy-route',
 } = {}) {
   const groundId = id(requestedGroundId, 'groundId');
   const frame = previewFrame(requestedFrame);
@@ -268,6 +271,9 @@ export function compileSurfacePreviewAssets({
   const tiles = normalizeTiles(terrainTiles);
   if (!Array.isArray(holes) || !Array.isArray(features)) {
     throw new TypeError('holes and features must be arrays');
+  }
+  if (!['legacy-route', 'unmeasured-zero'].includes(mowCoordinateMode)) {
+    throw new TypeError('mowCoordinateMode must be legacy-route or unmeasured-zero');
   }
   const spacing = tiles[0].sampleSpacingMetres;
   if (!tiles.every(tile => near(tile.sampleSpacingMetres, spacing))) {
@@ -302,7 +308,7 @@ export function compileSurfacePreviewAssets({
   const resources = new Map();
   const tilesOut = [];
   for (const tile of tiles) {
-    const encoded = tilePayload({ raster, tile, extent, spacing });
+    const encoded = tilePayload({ raster, tile, extent, spacing, mowCoordinateMode });
     const asset = surfaceChunk({ groundId, tile, encoded, assetDirectory: directory, codec });
     const prior = resources.get(asset.reference.url);
     if (prior && !Buffer.from(prior).equals(Buffer.from(asset.chunk))) {
@@ -330,6 +336,7 @@ export function compileSurfacePreviewAssets({
       previewWidth: extent.width,
       previewHeight: extent.height,
       maximumBoundaryDistanceMetres: EDGE_DISTANCE_LIMIT_METRES,
+      mowCoordinateMode,
     }),
   });
 }

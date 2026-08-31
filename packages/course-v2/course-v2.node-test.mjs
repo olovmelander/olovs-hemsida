@@ -227,6 +227,7 @@ test('strict Draft 2020-12 schemas compile and validate every synthetic document
   const schemaDir = path.join(DIR, 'schemas');
   const files = readdirSync(schemaDir).filter(file => file.endsWith('.json')).sort();
   assert.deepEqual(files, [
+    'authoritative-surface-source-v1.schema.json',
     'chunk-header-v2.schema.json',
     'common-v2.schema.json',
     'course-v2.schema.json',
@@ -246,6 +247,7 @@ test('strict Draft 2020-12 schemas compile and validate every synthetic document
 
   const graph = createSyntheticAssetGraph();
   const documents = {
+    'authoritative-surface-source-v1.schema.json': [],
     'root-v2.schema.json': [graph.root],
     'ground-v2.schema.json': [],
     'course-v2.schema.json': [],

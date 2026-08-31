@@ -56,14 +56,15 @@ function fetcher(compiled, descriptor, mutate = bytes => bytes) {
 }
 
 describe('real surface preview loader', () => {
-  it('verifies and decodes every retained surface BVCH before returning it', async () => {
+  it('verifies every retained surface BVCH without duplicating decoded channel arrays', async () => {
     const { compiled, descriptor } = fixture();
     const loaded = await loadSurfacePreview('https://proof.test/surface-preview.json', {
       fetchImpl: fetcher(compiled, descriptor), cryptoImpl: webcrypto,
     });
     expect(loaded.descriptor.provisional).toBe(true);
     expect(loaded.resources).toHaveLength(1);
-    expect(loaded.resources[0].values.primarySurfaceIds).toContain(SURFACE.GREEN);
+    expect(loaded.resources[0].inspection.surfaceIds).toContain(SURFACE.GREEN);
+    expect(loaded.resources[0]).not.toHaveProperty('values');
   });
 
   it('fails closed on a corrupted retained surface payload', async () => {

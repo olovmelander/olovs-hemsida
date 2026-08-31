@@ -1,6 +1,15 @@
 name: course geo per-hole source controls
 
 on:
+  push:
+    branches:
+      - codex/terrain-v2-runtime-integration
+    paths:
+      - ".github/workflows/course-geo-hole-controls.yml"
+      - "geo_data/course-v2/puttom/**"
+      - "geo_data/course-v2/source-catalog.json"
+      - "packages/course-geo/acquisition/**"
+      - "packages/course-geo/toolchain/**"
   workflow_dispatch:
     inputs:
       ground:
@@ -61,11 +70,13 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const grounds = ['angso', 'johannesberg', 'norrfallsviken', 'puttom', 'upsala', 'veckefjarden'];
-          const selected = process.env.EVENT_NAME !== 'workflow_dispatch' || process.env.SELECTED_GROUND === 'all'
-            ? grounds
-            : grounds.includes(process.env.SELECTED_GROUND)
-              ? [process.env.SELECTED_GROUND]
-              : null;
+          const selected = process.env.EVENT_NAME === 'push'
+            ? ['puttom']
+            : process.env.EVENT_NAME !== 'workflow_dispatch' || process.env.SELECTED_GROUND === 'all'
+              ? grounds
+              : grounds.includes(process.env.SELECTED_GROUND)
+                ? [process.env.SELECTED_GROUND]
+                : null;
           if (!selected) throw new Error('workflow selected an unknown physical ground');
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `grounds=${JSON.stringify(selected)}\n`, 'utf8');
           NODE

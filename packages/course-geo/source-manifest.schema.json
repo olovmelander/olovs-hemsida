@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://olovs-hemsida.invalid/schema/course-source-manifest-v1.json",
+  "title": "Course digital-twin source manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "groundId", "groundName", "courseSlugs",
+    "targetBboxWgs84", "legacyFrame", "canonicalFrame", "sources",
+    "artifacts", "blockers"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "groundId": { "$ref": "#/$defs/id" },
+    "groundName": { "type": "string", "minLength": 1 },
+    "courseSlugs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/id" }
+    },
+    "targetBboxWgs84": { "$ref": "#/$defs/bbox" },
+    "legacyFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "buildDirectory", "originWgs84", "metresPerLatitude",
+        "metresPerLongitude", "heightReference", "frame"
+      ],
+      "properties": {
+        "buildDirectory": { "type": "string", "minLength": 1 },
+        "originWgs84": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["latitude", "longitude"],
+          "properties": {
+            "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+            "longitude": { "type": "number", "minimum": -180, "maximum": 180 }
+          }
+        },
+        "metresPerLatitude": { "type": "number", "exclusiveMinimum": 0 },
+        "metresPerLongitude": { "type": "number", "exclusiveMinimum": 0 },
+        "heightReference": { "type": "string", "minLength": 1 },
+        "frame": { "type": "string", "minLength": 1 }
+      }
+    },
+    "canonicalFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compoundCrs", "horizontalCrs", "verticalCrs", "originStatus",
+        "origin", "axisMapping"
+      ],
+      "properties": {
+        "compoundCrs": { "const": "EPSG:5845" },
+        "horizontalCrs": { "const": "EPSG:3006" },
+        "verticalCrs": { "const": "EPSG:5613" },
+        "originStatus": {
+          "enum": ["pending-control-approval", "approved"]
+        },
+        "origin": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["easting", "northing", "heightRH2000"],
+          "properties": {
+            "easting": { "type": ["number", "null"] },
+            "northing": { "type": ["number", "null"] },
+            "heightRH2000": { "type": ["number", "null"] }
+          }
+        },
+        "axisMapping": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["worldX", "worldZ", "worldY"],
+          "properties": {
+            "worldX": { "const": "easting - originEasting" },
+            "worldZ": { "const": "originNorthing - northing" },
+            "worldY": { "const": "heightRH2000 - originHeightRH2000" }
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/blocker" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "bbox": {
+      "type": "array",
+      "prefixItems": [
+        { "type": "number", "minimum": -180, "maximum": 180 },
+        { "type": "number", "minimum": -90, "maximum": 90 },
+        { "type": "number", "minimum": -180, "maximum": 180 },
+        { "type": "number", "minimum": -90, "maximum": 90 }
+      ],
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "date": {
+      "type": ["string", "null"],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "checksum": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "terrain", "surface", "imagery", "topography", "canopy",
+          "object", "hydrology", "routing", "control", "course-guide"
+        ]
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "productId", "roles", "lifecycle", "use", "sourceUri",
+        "localPath", "bboxWgs84", "acquiredAt", "capturedAt", "checksum",
+        "checksumReason", "replacementSourceId", "accuracyTier",
+        "horizontalAccuracyMetres", "verticalAccuracyMetres", "notes"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "productId": { "$ref": "#/$defs/id" },
+        "roles": { "$ref": "#/$defs/roles" },
+        "lifecycle": {
+          "enum": ["planned", "legacy", "acquired", "approved"]
+        },
+        "use": {
+          "enum": [
+            "candidate", "supporting", "supplemental", "reference-only",
+            "migration-only", "authoritative"
+          ]
+        },
+        "sourceUri": { "type": "string", "minLength": 1 },
+        "localPath": { "type": ["string", "null"] },
+        "bboxWgs84": {
+          "oneOf": [
+            { "$ref": "#/$defs/bbox" },
+            { "type": "null" }
+          ]
+        },
+        "acquiredAt": { "$ref": "#/$defs/date" },
+        "capturedAt": { "$ref": "#/$defs/date" },
+        "checksum": { "$ref": "#/$defs/checksum" },
+        "checksumReason": { "type": ["string", "null"] },
+        "replacementSourceId": { "type": ["string", "null"] },
+        "accuracyTier": {
+          "enum": ["A", "B", "C", "D", "E", "unrated"]
+        },
+        "horizontalAccuracyMetres": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "verticalAccuracyMetres": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "notes": { "type": "string", "minLength": 1 }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "kind", "path", "sha256", "derivedFrom", "use", "notes"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": {
+          "enum": [
+            "terrain", "surface", "canopy", "topography", "routing",
+            "control", "composite", "acquisition"
+          ]
+        },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "derivedFrom": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "use": { "enum": ["migration-only", "discovery-evidence"] },
+        "notes": { "type": "string", "minLength": 1 }
+      }
+    },
+    "blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "severity", "description", "exitGate"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "severity": {
+          "enum": ["release-blocking", "quality", "follow-up"]
+        },
+        "description": { "type": "string", "minLength": 1 },
+        "exitGate": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

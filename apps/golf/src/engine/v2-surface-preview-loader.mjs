@@ -1,5 +1,4 @@
 import { verifyChunkAssetWeb } from '../../../../packages/course-v2/runtime/decode-web.mjs';
-import { decodeSurfaceGrid } from '../../../../packages/course-v2/surface-grid.mjs';
 import {
   assertSurfacePreview,
   resolveSurfacePreviewAssetUrl,
@@ -129,7 +128,11 @@ export async function loadSurfacePreview(descriptorUrl, {
         tileId: tile.id,
         header: Object.freeze(decoded.header),
         payload: decoded.payload,
-        values: decodeSurfaceGrid(decoded.payload, decoded.header.surfaceGrid),
+        /* verifyChunkAssetWeb has already walked and validated every sample.
+           Retaining a second fully decoded set of channel arrays added more
+           than 32 MiB of transient allocations for Puttom, while the atlas
+           consumes the verified interleaved payload directly. */
+        inspection: Object.freeze(decoded.inspection),
       });
     },
   );

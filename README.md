@@ -46,4 +46,21 @@ dependencies — and every one of these URLs keeps working:
 `CLAUDE.md` is the working notebook: where each course's geometry comes from,
 what each gate protects, and the mistakes that are worth not repeating.
 
+## Measured course-v2 programme
+
+The survey-grade terrain, surface and real-object rollout is tracked in
+[`docs/course-digital-twin-implementation-plan.md`](docs/course-digital-twin-implementation-plan.md).
+Its source/licence register covers all six physical grounds and all nine course
+slugs. Puttom's retained Three.js r185 WebGPU/WebGL2 1 m terrain and matching
+migration-surface preview remains opt-in and explicitly provisional. The
+authoritative surface intake, object registry and all-course source controls are
+implemented as fail-closed foundations; real surface polygons and reviewed
+object tiles still require their independent geodetic, licence, visual,
+human-review and reference-device gates.
+
+    pnpm check:geo-sources                 # six grounds, nine slugs, checksums/licences
+    pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen test-controls
+    pnpm check:course-v2                   # synthetic content-addressed graph
+    pnpm check:course-v2-app               # built Puttom preview and PWA isolation
+
 Deployed by `.github/workflows/pages.yml` on every push to `main`.

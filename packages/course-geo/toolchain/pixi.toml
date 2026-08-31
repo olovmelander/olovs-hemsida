@@ -24,4 +24,4 @@ check-discovery = "node ../acquisition/check-discovery.mjs"
 test-acquisition = "node --test ../acquisition/acquisition.node-test.mjs"
 plan-hole-controls = "node ../acquisition/plan-hole-source-controls.mjs"
 acquire-pilot = { cmd = "node ../acquisition/acquire-pilot.mjs", depends-on = ["verify", "test-controls", "check-discovery"] }
-run-hole-controls = "node ../acquisition/run-hole-source-controls.mjs"
+run-hole-controls = { cmd = "node ../acquisition/run-hole-source-controls.mjs", depends-on = ["verify", "test-controls"] }

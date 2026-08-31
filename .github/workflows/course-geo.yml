@@ -17,7 +17,7 @@ on:
       - "**build/course-model.json"
       - "upsalabuild/mellanbanan-model.json"
   push:
-    branches: [main]
+    branches: [main, codex/terrain-v2-runtime-integration]
     paths:
       - ".github/workflows/course-geo.yml"
       - ".github/workflows/course-geo-hole-controls.yml"
@@ -70,16 +70,37 @@ jobs:
         working-directory: packages/course-geo/toolchain
 
       - name: Test shared geospatial modules
-        run: node --test packages/course-geo/frame.node-test.mjs packages/course-geo/manifest.node-test.mjs packages/course-geo/migration.node-test.mjs packages/course-geo/acquisition/acquisition.node-test.mjs
+        run: |
+          node --test \
+            packages/course-geo/frame.node-test.mjs \
+            packages/course-geo/manifest.node-test.mjs \
+            packages/course-geo/migration.node-test.mjs
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen test-acquisition
 
       - name: Verify every-course per-hole source controls
-        run: node packages/course-geo/acquisition/plan-hole-source-controls.mjs
+        run: pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen plan-hole-controls
 
       - name: Test v2 asset graph and codecs
-        run: node --test packages/course-v2/course-v2.node-test.mjs packages/course-v2/terrain-pyramid.node-test.mjs packages/course-v2/terrain-compiler.node-test.mjs packages/course-v2/terrain-preview.node-test.mjs packages/course-v2/runtime/runtime.node-test.mjs packages/course-v2/runtime/terrain-grid-topology.node-test.mjs packages/course-v2/runtime/terrain-render-data.node-test.mjs packages/course-v2/runtime/terrain-tile-manager.node-test.mjs packages/course-v2/runtime/terrain-stream-controller.node-test.mjs && node packages/course-v2/check-synthetic.mjs
+        run: >-
+          node --test
+          packages/course-v2/course-v2.node-test.mjs
+          packages/course-v2/authoritative-surface-source.node-test.mjs
+          packages/course-v2/surface-object-contract.node-test.mjs
+          packages/course-v2/surface-preview.node-test.mjs
+          packages/course-v2/terrain-pyramid.node-test.mjs
+          packages/course-v2/terrain-compiler.node-test.mjs
+          packages/course-v2/terrain-preview-release.node-test.mjs
+          packages/course-v2/runtime/runtime.node-test.mjs
+          packages/course-v2/runtime/terrain-grid-topology.node-test.mjs
+          packages/course-v2/runtime/terrain-render-data.node-test.mjs
+          packages/course-v2/runtime/terrain-tile-manager.node-test.mjs
+          packages/course-v2/runtime/terrain-stream-controller.node-test.mjs
 
-      - name: Test player v2 selection and GPK1 fallback
-        run: pnpm exec vitest run apps/golf/src/loader/pack.test.mjs apps/golf/src/loader/v2-selection.test.mjs apps/golf/src/engine/v2-terrain-batch.test.mjs apps/golf/src/engine/v2-terrain-runtime.test.mjs apps/golf/src/engine/v2-terrain-preview-loader.test.mjs
+      - name: Verify synthetic v2 graph
+        run: node packages/course-v2/check-synthetic.mjs
+
+      - name: Test player v1 fallback and isolated v2 runtime
+        run: pnpm exec vitest run
 
       - name: Build isolated Three r185 renderer proof
         run: node packages/course-v2/check-renderer-build.mjs

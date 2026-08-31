@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "phase": "D2-authoritative-acquisition-spike",
+  "observedOn": "2026-08-30",
+  "state": "discovery-evidence-only",
+  "source": "official Lantmäteriet STAC and public metadata endpoints",
+  "reports": [
+    {
+      "groundId": "norrfallsviken",
+      "observedOn": "2026-08-30",
+      "discoveryReady": true,
+      "acquisitionComplete": false,
+      "aoiSquareMetres": 19364553.41,
+      "terrain": {
+        "items": 4,
+        "coverage": 1,
+        "sourceBytes": 538676994,
+        "decodedBytes": 77478192
+      },
+      "waterBreakGeometry": {
+        "items": 4,
+        "sourceBytes": 1400832
+      },
+      "laser": {
+        "items": 3,
+        "coverage": 0.977902873,
+        "sourceBytes": 3612942410,
+        "advertisedPointCount": 661842973
+      },
+      "orthophoto": {
+        "campaign": "orto-u2-2024",
+        "items": 9,
+        "coverage": 1,
+        "resolutionMetres": 0.16,
+        "sourceBytes": 4310327664,
+        "decodedBytes": 3025851408
+      },
+      "treeHeight": "blocked-missing-skogsstyrelsen-raster-credentials",
+      "blockers": [
+        "Lantmäteriet data assets require ordered credentials before COG/COPC and break-geometry reads.",
+        "Skogsstyrelsen tree-height REST/WMS requires a separate raster account (or FTPS ingestion).",
+        "Independent course control points are still required before any source is promoted to authoritative.",
+        "The newest Laserdata skog selection does not cover the entire target bbox."
+      ]
+    },
+    {
+      "groundId": "puttom",
+      "observedOn": "2026-08-30",
+      "discoveryReady": true,
+      "acquisitionComplete": false,
+      "aoiSquareMetres": 20097332.374,
+      "terrain": {
+        "items": 1,
+        "coverage": 1,
+        "sourceBytes": 276884943,
+        "decodedBytes": 80410968
+      },
+      "waterBreakGeometry": {
+        "items": 1,
+        "sourceBytes": 458752
+      },
+      "laser": {
+        "items": 2,
+        "coverage": 1,
+        "sourceBytes": 1792404543,
+        "advertisedPointCount": 315266635
+      },
+      "orthophoto": {
+        "campaign": "orto-u2-2024",
+        "items": 4,
+        "coverage": 1,
+        "resolutionMetres": 0.16,
+        "sourceBytes": 2980973953,
+        "decodedBytes": 3140377004
+      },
+      "treeHeight": "blocked-missing-skogsstyrelsen-raster-credentials",
+      "blockers": [
+        "Lantmäteriet data assets require ordered credentials before COG/COPC and break-geometry reads.",
+        "Skogsstyrelsen tree-height REST/WMS requires a separate raster account (or FTPS ingestion).",
+        "Independent course control points are still required before any source is promoted to authoritative."
+      ]
+    },
+    {
+      "groundId": "upsala",
+      "observedOn": "2026-08-30",
+      "discoveryReady": true,
+      "acquisitionComplete": false,
+      "aoiSquareMetres": 28964557.371,
+      "terrain": {
+        "items": 2,
+        "coverage": 1,
+        "sourceBytes": 627241983,
+        "decodedBytes": 115888704
+      },
+      "waterBreakGeometry": {
+        "items": 2,
+        "sourceBytes": 491520
+      },
+      "laser": {
+        "items": 2,
+        "coverage": 1,
+        "sourceBytes": 2083712632,
+        "advertisedPointCount": 446389318
+      },
+      "orthophoto": {
+        "campaign": "orto-o2-2025",
+        "items": 9,
+        "coverage": 1,
+        "resolutionMetres": 0.16,
+        "sourceBytes": 6035612858,
+        "decodedBytes": 4525805388
+      },
+      "treeHeight": "blocked-missing-skogsstyrelsen-raster-credentials",
+      "blockers": [
+        "Lantmäteriet data assets require ordered credentials before COG/COPC and break-geometry reads.",
+        "Skogsstyrelsen tree-height REST/WMS requires a separate raster account (or FTPS ingestion).",
+        "Independent course control points are still required before any source is promoted to authoritative."
+      ]
+    }
+  ],
+  "gate": {
+    "discoveryReady": true,
+    "acquisitionComplete": false,
+    "note": "A false acquisition gate is expected until authenticated COG, break geometry and tree-height windows have been measured."
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "authoritative-surface-source-v1.schema.json",
+  "title": "Banvy authoritative canonical surface source",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "kind", "groundId", "sourceId", "sourceSha256",
+    "frame", "replaceMigration", "unmeasuredFields", "review", "features"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "banvy-authoritative-surface-source-v1" },
+    "groundId": { "$ref": "#/$defs/id" },
+    "sourceId": { "$ref": "#/$defs/id" },
+    "sourceSha256": { "$ref": "#/$defs/sha256" },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compoundCrs", "horizontalCrs", "verticalCrs", "fingerprint"],
+      "properties": {
+        "compoundCrs": { "const": "EPSG:5845" },
+        "horizontalCrs": { "const": "EPSG:3006" },
+        "verticalCrs": { "const": "EPSG:5613" },
+        "fingerprint": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "replaceMigration": { "const": true },
+    "unmeasuredFields": {
+      "const": [
+        "exposure", "moisture", "mow-coordinate", "mow-direction",
+        "vegetation-density", "wear"
+      ]
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewedAt", "reviewerId", "notes"],
+      "properties": {
+        "status": { "const": "approved" },
+        "reviewedAt": { "$ref": "#/$defs/date" },
+        "reviewerId": { "$ref": "#/$defs/id" },
+        "notes": { "type": "string", "minLength": 1 }
+      }
+    },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/feature" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "position": {
+      "type": "array",
+      "prefixItems": [
+        { "type": "number", "minimum": 100000, "maximum": 1000000 },
+        { "type": "number", "minimum": 6000000, "maximum": 8000000 }
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "ring": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/position" }
+    },
+    "polygon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outer", "holes"],
+      "properties": {
+        "outer": { "$ref": "#/$defs/ring" },
+        "holes": {
+          "type": "array",
+          "maxItems": 128,
+          "items": { "$ref": "#/$defs/ring" }
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "polygons"],
+      "properties": {
+        "type": { "const": "MultiPolygon" },
+        "polygons": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "items": { "$ref": "#/$defs/polygon" }
+        }
+      }
+    },
+    "feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "surfaceClass", "ownerFeatureId", "holeNumber", "accuracyTier",
+        "horizontalAccuracyMetres", "reviewStatus", "geometry"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "surfaceClass": {
+          "enum": [
+            "rough", "semi-rough", "fairway", "fringe", "green", "tee",
+            "bunker-sand", "path", "forest-floor", "heath", "shore-sand",
+            "wetland", "rock", "asphalt", "gravel", "dirt", "mud"
+          ]
+        },
+        "ownerFeatureId": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "holeNumber": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "maximum": 255
+        },
+        "accuracyTier": { "enum": ["A", "B", "C"] },
+        "horizontalAccuracyMetres": { "type": "number", "minimum": 0 },
+        "reviewStatus": { "const": "approved" },
+        "geometry": { "$ref": "#/$defs/geometry" }
+      }
+    }
+  }
+}

@@ -68,7 +68,11 @@ const EXACT_ROUTE_RADIUS = 42;
 function buildRouteField(bounds, holes) {
   const { x0, z0, w, h, res } = bounds;
   const distance = new Float32Array(w * h);
-  const owner = new Uint8Array(w * h);
+  /* Surface tiles reserve 16 bits for a stable owning feature id. The legacy
+     material texture still narrows its hole owner to one byte at upload time,
+     but keeping the raster authoritative avoids silently wrapping compiler
+     feature ids above 255. */
+  const owner = new Uint16Array(w * h);
   distance.fill(INF);
 
   for (const hole of holes || []) {
@@ -217,6 +221,42 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1 
     }
   }
 
+  function fillPolygon(rings, feature) {
+    if (!Array.isArray(rings) || !rings.length) return;
+    if (feature.pad > 0) {
+      throw new Error('polygon-with-holes features do not support implicit padding');
+    }
+    const valid = rings.filter(ring => Array.isArray(ring) && ring.length >= 3);
+    if (!valid.length) return;
+    const boxes = valid.map(ringBBox);
+    const area = rasterBounds({
+      x0: Math.min(...boxes.map(box => box.x0)),
+      x1: Math.max(...boxes.map(box => box.x1)),
+      z0: Math.min(...boxes.map(box => box.z0)),
+      z1: Math.max(...boxes.map(box => box.z1)),
+    }, bounds);
+    /* Even/odd fill across all rings preserves explicit interior holes. This
+       path is used by canonical surface intake; the legacy ring path above is
+       left byte-for-byte equivalent for existing GPK1 previews. */
+    for (let j = area.j0; j <= area.j1; j++) {
+      const wz = bounds.z0 + (j + 0.5) * res;
+      const xs = [];
+      for (const ring of valid) {
+        for (let p = 0, q = ring.length - 1; p < ring.length; q = p++) {
+          const a = ring[q], b = ring[p];
+          if ((a[1] > wz) === (b[1] > wz)) continue;
+          xs.push(a[0] + (wz - a[1]) * (b[0] - a[0]) / (b[1] - a[1]));
+        }
+      }
+      xs.sort((a, b) => a - b);
+      for (let n = 0; n + 1 < xs.length; n += 2) {
+        const i0 = clamp(Math.ceil((xs[n] - bounds.x0) / res - 0.5), 0, w - 1);
+        const i1 = clamp(Math.floor((xs[n + 1] - bounds.x0) / res - 0.5), 0, w - 1);
+        for (let i = i0; i <= i1; i++) paint(i, j, feature);
+      }
+    }
+  }
+
   function strokeLine(line, feature) {
     if (!line || line.length < 2) return;
     const half = Math.max(res * 0.5, feature.width || 1);
@@ -237,6 +277,7 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1 
   for (const feature of features) {
     if (!Number.isInteger(feature.surface)) continue;
     for (const ring of feature.rings || []) fillRing(ring, feature);
+    for (const polygon of feature.polygons || []) fillPolygon(polygon?.rings, feature);
     if (feature.line) strokeLine(feature.line, feature);
   }
 

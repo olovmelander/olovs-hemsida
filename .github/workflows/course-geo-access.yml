@@ -3,14 +3,19 @@ name: course geo provider access
 on:
   push:
     branches:
-      - claude/veckefjarden-terrain-alignment-w2mexk
+      - codex/terrain-v2-runtime-integration
     paths:
       - ".github/workflows/course-geo-access.yml"
       - "packages/course-v2/build-renderer-proof.mjs"
       - "packages/course-v2/capture-terrain-preview.mjs"
       - "packages/course-v2/capture-puttom-app-preview.mjs"
       - "packages/course-v2/terrain-preview*.mjs"
+      - "packages/course-v2/*surface*.mjs"
+      - "packages/course-v2/schemas/authoritative-surface-source-v1.schema.json"
+      - "packages/course-geo/**"
+      - "geo_data/course-v2/**"
       - "apps/golf/src/engine/v2-terrain-*.mjs"
+      - "apps/golf/src/engine/v2-surface-*.mjs"
       - "apps/golf/src/engine/v2-puttom-preview.mjs"
       - "apps/golf/src/engine/material.js"
       - "apps/golf/src/main.js"
