@@ -3,8 +3,13 @@
 > **Status 2026-08-31:** D0–D4 foundations are implemented and the retained
 > Puttom pilot now has an interactive, opt-in `?v2=1` preview: 16 verified 1 m
 > terrain BVCH tiles and 16 matching migration-surface BVCH tiles replace the
-> matching legacy core in one logical terrain draw. The
-> accepted provider-run evidence remains 58.19% visible foreground in forced
+> matching legacy core in one logical terrain draw. The renderer now compiles
+> and draws that complete v2 batch offscreen before legacy construction and
+> omits 63,504 of Puttom's 126,100 CORE base-grid points behind an 8 m normal/
+> detail guard. Actual builder omissions, not planned counts, enter the capture
+> gate. Any later install failure disables v2 heights, disposes v2 and rebuilds
+> the full GPK1 CORE before boot continues. The accepted provider-run evidence remains 58.19%
+> visible foreground in forced
 > WebGL2 and 58.15% through the WebGPU render-target readback. In this branch a
 > single visible-ground sampler now feeds surface construction, water probes,
 > camera constraints, ball/interactions and scenery placement after the meshes
@@ -1034,7 +1039,13 @@ Deliverables:
   material histogram. WebGPU is accepted only from a bounded active-pipeline
   RGBA8 readback. Three r185's exact 256-byte WebGPU row padding is removed
   before PNG encoding; every other buffer layout, missing/blank frame or browser
-  error fails CI.
+  error fails CI. The report retains only bounded raw/tight/encoded byte counts
+  and the padding decision, never the raw pixel buffer.
+- [x] Construction-time retained-pilot legacy cutout after complete surface and
+  backend compile/draw preflight: 63,504 of 126,100 Puttom CORE base points are omitted
+  behind an 8 m guard, while any post-decision failure rebuilds the complete
+  GPK1 CORE from GPK1 heights. All three real-app captures require actual builder
+  telemetry rather than planned counts.
 - [ ] Live adapter selection behind the existing v2 flag after both visual
   paths pass.
 - [x] Height-sensitive camera, water, ball/interactions, surface and object

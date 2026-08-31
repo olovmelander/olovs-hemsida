@@ -4,10 +4,9 @@ export const PUTTOM_APP_CAPTURE_CASES = Object.freeze([
   Object.freeze({ id: 'webgpu-desktop', backend: 'webgpu', mobile: false, quality: 'hi' }),
 ]);
 
-function passed(captures, caseId) {
-  return captures.some(capture => capture?.caseId === caseId &&
-    capture.backendMatched === true && capture.acceptedFrameVisible === true &&
-    capture.surfaceEvidencePassed === true);
+function passed(capture) {
+  return capture?.backendMatched === true && capture.acceptedFrameVisible === true &&
+    capture.surfaceEvidencePassed === true && capture.legacyCoreCutoutPassed === true;
 }
 
 /** Keep the release decision separate from Playwright orchestration so a
@@ -16,15 +15,31 @@ export function summarizePuttomAppCaptureProof(captures, failures) {
   if (!Array.isArray(captures) || !Array.isArray(failures)) {
     throw new TypeError('capture proof requires capture and failure arrays');
   }
-  const webgl2MobilePassed = passed(captures, 'webgl2-mobile');
-  const webgl2DesktopPassed = passed(captures, 'webgl2-desktop');
-  const webgpuCapture = captures.find(capture => capture?.caseId === 'webgpu-desktop');
-  const webgpuBackendPassed = Boolean(webgpuCapture?.backendMatched);
+  const requiredIds = new Set(PUTTOM_APP_CAPTURE_CASES.map(item => item.id));
+  const capturesByCase = new Map();
+  let captureSetValid = true;
+  for (const capture of captures) {
+    if (!capture || !requiredIds.has(capture.caseId) || capturesByCase.has(capture.caseId)) {
+      captureSetValid = false;
+      continue;
+    }
+    capturesByCase.set(capture.caseId, capture);
+  }
+  captureSetValid = captureSetValid &&
+    capturesByCase.size === PUTTOM_APP_CAPTURE_CASES.length;
+
+  const webgl2Mobile = capturesByCase.get('webgl2-mobile');
+  const webgl2Desktop = capturesByCase.get('webgl2-desktop');
+  const webgpuCapture = capturesByCase.get('webgpu-desktop');
+  const webgl2MobilePassed = passed(webgl2Mobile);
+  const webgl2DesktopPassed = passed(webgl2Desktop);
+  const webgpuBackendPassed = webgpuCapture?.backendMatched === true;
   const webgpuReadbackPassed = webgpuCapture?.sceneReadbackPassed === true;
   const webgpuCanvasPassed = webgpuCapture?.canvasPresentationVisible === true;
   const surfaceEvidencePassed = PUTTOM_APP_CAPTURE_CASES
-    .every(item => captures.some(capture => capture?.caseId === item.id &&
-      capture.surfaceEvidencePassed === true));
+    .every(item => capturesByCase.get(item.id)?.surfaceEvidencePassed === true);
+  const legacyCoreCutoutPassed = PUTTOM_APP_CAPTURE_CASES
+    .every(item => capturesByCase.get(item.id)?.legacyCoreCutoutPassed === true);
   return Object.freeze({
     webgl2MobilePassed,
     webgl2DesktopPassed,
@@ -33,7 +48,9 @@ export function summarizePuttomAppCaptureProof(captures, failures) {
     webgpuReadbackPassed,
     webgpuCanvasPassed,
     surfaceEvidencePassed,
-    requiredCasesPassed: PUTTOM_APP_CAPTURE_CASES.every(item => passed(captures, item.id)) &&
+    legacyCoreCutoutPassed,
+    requiredCasesPassed: captureSetValid &&
+      PUTTOM_APP_CAPTURE_CASES.every(item => passed(capturesByCase.get(item.id))) &&
       webgpuReadbackPassed && failures.length === 0,
   });
 }

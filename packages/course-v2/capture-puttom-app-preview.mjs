@@ -5,7 +5,10 @@ import { createServer } from 'node:http';
 import { extname, join, resolve, sep } from 'node:path';
 import { chromium } from 'playwright-core';
 import { decodePNG } from '../../geobuild/png.mjs';
-import { PUTTOM_PREVIEW_REQUIRED_SURFACE_CLASSES } from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
+import {
+  PUTTOM_PREVIEW_CONFIG,
+  PUTTOM_PREVIEW_REQUIRED_SURFACE_CLASSES,
+} from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
 import {
   PUTTOM_APP_CAPTURE_CASES,
   summarizePuttomAppCaptureProof,
@@ -163,6 +166,19 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
     const missingClasses = PUTTOM_PREVIEW_REQUIRED_SURFACE_CLASSES
       .filter(({ id }) => !presentClasses.has(id)).map(({ label }) => label);
     if (missingClasses.length) throw new Error(`surface frontier is missing ${missingClasses.join(', ')}`);
+    const expectedCutout = PUTTOM_PREVIEW_CONFIG.legacyCoreCutout;
+    const legacyCoreCutoutPassed = state.v2.renderer?.status === 'ready' &&
+      state.v2.renderer.skippedBasePoints === expectedCutout.expectedSkippedBasePoints &&
+      state.v2.renderer.totalBasePoints === expectedCutout.expectedTotalBasePoints &&
+      state.v2.renderer.emittedBasePoints ===
+        expectedCutout.expectedTotalBasePoints - expectedCutout.expectedSkippedBasePoints &&
+      Number.isSafeInteger(state.v2.renderer.removedTriangles) &&
+      state.v2.renderer.removedTriangles > 0 &&
+      state.v2.renderer.guardMetres === expectedCutout.guardMetres &&
+      state.v2.renderer.fallbackRebuilt === false;
+    if (!legacyCoreCutoutPassed) {
+      throw new Error(`${caseId} did not retain the verified construction-time legacy CORE cutout`);
+    }
     if (state.stats.backend !== backend || state.v2.backend !== backend) {
       throw new Error(`${caseId} initialized ${state.stats.backend}/${state.v2.backend}`);
     }
@@ -200,6 +216,7 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
     let acceptedPixels = presentationPixels;
     let captureMethod = 'clean-canvas-presentation';
     let sceneReadbackPassed = null;
+    let readbackEvidence = null;
     if (actualBackend === 'webgpu') {
       const readback = await page.evaluate(async () => {
         if (typeof window.V3D?.captureReadback !== 'function') {
@@ -208,6 +225,12 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
         return window.V3D.captureReadback();
       });
       const bytes = assertPngReadback(readback, viewport);
+      readbackEvidence = Object.freeze({
+        sourceBytes: readback.sourceBytes,
+        readbackBytes: readback.readbackBytes,
+        rowPaddingStripped: readback.rowPaddingStripped,
+        encodedBytes: readback.encodedBytes,
+      });
       acceptedImage = `puttom-render-target-${caseId}.png`;
       await writeFile(join(output, acceptedImage), bytes);
       acceptedPixels = await imageEvidence(join(output, acceptedImage));
@@ -224,7 +247,8 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
       performanceEvidence: false, lighting: 'noon', cameraMode: state.camera.mode,
       appImage, appPixels, presentationImage, presentationPixels, canvasPresentationVisible,
       image: acceptedImage, pixels: acceptedPixels, captureMethod, acceptedFrameVisible,
-      sceneReadbackPassed, surfaceEvidencePassed: true,
+      sceneReadbackPassed, readbackEvidence, surfaceEvidencePassed: true,
+      legacyCoreCutoutPassed,
       v2: state.v2, app: state.stats,
       boot: state.perf, sampledFps: state.fps, badge: state.badge,
       problems: Object.freeze([...new Set(problems)].slice(0, 10)),

@@ -26,6 +26,12 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
     maxHeightRH2000: 70.53581237792969,
   }),
   expectedTileCount: 16,
+  legacyCoreCutout: Object.freeze({
+    guardCells: 2,
+    guardMetres: 8,
+    expectedSkippedBasePoints: 63_504,
+    expectedTotalBasePoints: 126_100,
+  }),
 });
 
 export const PUTTOM_PREVIEW_REQUIRED_SURFACE_CLASSES = Object.freeze([

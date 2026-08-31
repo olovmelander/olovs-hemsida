@@ -122,7 +122,13 @@ coordinates. The same indexed 1 m CPU sampler then feeds terrain, camera and
 object placement while a one-draw texture-array batch renders on both WebGPU
 and WebGL2. Its material adapter reads verified surface tiles; it does not use a
 second hand-written material. Missing, misaligned, corrupt or source-mismatched
-data falls back to GPK1 before the legacy core is cut. The dynamic
+data falls back to GPK1 before the legacy core is cut. The batch, material and
+no-data-free 16-tile frontier are compiled and drawn offscreen before legacy
+CORE construction. A ready Puttom preview then omits 63,504 of 126,100 legacy
+base-grid points behind an 8 m guard. Capture acceptance reads the builder's
+actual emitted/skipped counts. Any later installation failure disables v2
+height sampling and rebuilds the full GPK1 CORE before boot continues. This is a partial pilot optimization,
+not removal of the remaining legacy CORE, MID or FAR meshes. The dynamic
 loader/renderer chunks and BVCH data are excluded from install-time PWA precache
 and cached only after the explicit opt-in. A production-build gate keeps all v2
 preview chunks below 64 KiB and out of initial HTML/service worker.
@@ -268,7 +274,8 @@ surface frontier, inventories each verified tile's primary/secondary ID union
 and requires non-zero signed/current coverage for every mandatory class. The
 primary-only shader histogram remains diagnostic. It uses a bounded RGBA8
 active-pipeline readback for WebGPU and strictly removes Three r185's 256-byte
-row padding before PNG encoding.
+row padding before PNG encoding. Its report retains the bounded raw, tight and
+encoded byte counts plus the padding decision, not the pixel buffer.
 A readback never claims that the headless or hardware canvas presented pixels.
 `node packages/course-v2/check-renderer-build.mjs` bundles the complete path
 against the installed Three.js r185 API. The production selector still reports
