@@ -187,6 +187,22 @@ and environmental fields explicitly declared unmeasured. Puttom's current
 source manifest intentionally fails this gate until its origin, source asset,
 accuracy and redistribution decision are approved.
 
+### Puttom authoritative-surface preflight
+
+```sh
+pnpm course-v2:puttom-surface-preflight
+pnpm course-v2:puttom-surface-preflight -- --source /absolute/path/reviewed-puttom-surfaces.json --require-ready
+```
+
+The first command is intentionally successful while reporting the current
+release blockers. It does not promote the retained preview. The second command
+adds a reviewed `authoritative-surface-source-v1` document and fails its process
+only when `--require-ready` is requested. In both cases it reports the exact
+canonical-origin, terrain-frame, source licence/checksum/date/accuracy and
+review blockers in machine-readable JSON. A provisional terrain preview can
+never make this check ready; an approved ground manifest and terrain frontier
+remain required for publication.
+
 ## D4 terrain-pyramid foundation
 
 `terrain-pyramid.mjs` compiles an aligned north-to-south Float64/Float32 height

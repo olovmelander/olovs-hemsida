@@ -1076,6 +1076,9 @@ Deliverables:
 - [x] Fail-closed authoritative surface intake with source-manifest/licence/
   checksum/date/accuracy/review/frame gates, strict polygon topology and
   deterministic synthetic seam proof. No real Puttom source has passed it.
+- [x] Puttom authoritative-surface preflight/report that exposes the exact
+  origin, terrain-frame, source, licence and human-review blockers without
+  promoting the retained migration preview.
 - [x] Fixed, lossless ID/SDF/field BVCH contract, encoder, decoder, strict
   bounds/nodata validation and browser parity. Real-ground compilation remains.
 - [x] Shader adapter into the existing `makeGround()` material family for the

@@ -17,7 +17,8 @@
     "geo:acquire-pilot": "pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen acquire-pilot",
     "check:course-v2": "node packages/course-v2/check-synthetic.mjs",
     "check:course-v2-app": "node packages/course-v2/check-app-build.mjs",
-    "check:course-v2-renderer": "node packages/course-v2/check-renderer-build.mjs"
+    "check:course-v2-renderer": "node packages/course-v2/check-renderer-build.mjs",
+    "course-v2:puttom-surface-preflight": "node packages/course-v2/puttom-authoritative-surface-preflight.mjs"
   },
   "devDependencies": {
     "ajv": "8.20.0",

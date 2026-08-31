@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import Ajv2020 from 'ajv/dist/2020.js';
 import { compileAuthoritativeSurfaceAssets } from './authoritative-surface-compiler-node.mjs';
+import { evaluateAuthoritativeSurfacePreflight } from './authoritative-surface-preflight.mjs';
 import {
   assertAuthoritativeSurfaceSource,
   AUTHORITATIVE_SURFACE_UNMEASURED_FIELDS,
@@ -286,4 +287,63 @@ test('surface intake rejects unsorted or duplicate stable ids and wrong frame bi
   assert.ok(errors.some(error => /sorted by id/.test(error)));
   assert.ok(errors.some(error => /ownerFeatureId.*duplicated/.test(error)));
   assert.ok(errors.some(error => /does not match the terrain frame/.test(error)));
+});
+
+test('authoritative surface preflight becomes ready only with a bound, approved frontier and source', () => {
+  const value = fixture();
+  const report = evaluateAuthoritativeSurfacePreflight({
+    manifest: value.manifest,
+    catalog: value.catalog,
+    frame: value.frame,
+    terrainBounds: {
+      minEasting: 650000,
+      minNorthing: 6640000,
+      maxEasting: 650008,
+      maxNorthing: 6640004,
+    },
+    source: value.source,
+  });
+  assert.equal(report.ready, true);
+  assert.equal(report.originApproved, true);
+  assert.equal(report.terrainFrameBound, true);
+  assert.equal(report.terrainBoundsValid, true);
+  assert.equal(report.candidates[0].eligible, true);
+  assert.equal(report.source.valid, true);
+  assert.deepEqual(report.blockers, []);
+});
+
+test('Puttom preflight records its intentional source and origin blockers without promotion', () => {
+  const manifest = JSON.parse(readFileSync(new URL('../../geo_data/course-v2/puttom/source-manifest.json', import.meta.url)));
+  const catalog = JSON.parse(readFileSync(new URL('../../geo_data/course-v2/source-catalog.json', import.meta.url)));
+  const terrain = JSON.parse(readFileSync(new URL('../../apps/golf/public/v2/puttom/preview.json', import.meta.url)));
+  const report = evaluateAuthoritativeSurfacePreflight({
+    manifest,
+    catalog,
+    frame: terrain.frame,
+    terrainBounds: terrain.bounds,
+    terrainProvisional: terrain.provisional,
+  });
+  assert.equal(report.ready, false);
+  assert.equal(report.originApproved, false);
+  assert.equal(report.terrainFrameBound, false);
+  assert.equal(report.terrainProvisional, true);
+  assert.equal(report.source.present, false);
+  assert.equal(report.candidates.some(candidate => candidate.eligible), false);
+  assert.deepEqual(report.blockers.map(item => item.id), [
+    'canonical-origin', 'terrain-frame', 'terrain-provisional', 'surface-source', 'surface-review',
+  ]);
+});
+
+test('surface preflight reports malformed catalogs as blockers instead of throwing', () => {
+  const report = evaluateAuthoritativeSurfacePreflight({
+    catalog: { schemaVersion: 1, products: [null] },
+    manifest: null,
+    frame: null,
+    terrainBounds: null,
+  });
+  assert.equal(report.ready, false);
+  assert.deepEqual(report.blockers.map(item => item.id), [
+    'source-catalog', 'source-manifest', 'canonical-origin', 'terrain-frame',
+    'terrain-frontier', 'surface-source', 'surface-review',
+  ]);
 });
