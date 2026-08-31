@@ -9,6 +9,8 @@ export const MAX_CHUNK_DECODED_BYTES = 64 * 1024 * 1024;
 export const V2_SUPPORTED_FEATURES = Object.freeze([
   'chunk-envelope-v2',
   'course-routing-json-v1',
+  'object-registry-json-v1',
+  'surface-grid-u8-i16-v1',
   'terrain-grid-u16-v1',
 ]);
 
@@ -313,7 +315,7 @@ export function validateChunkHeader(value) {
   if (!object(value)) return ['chunk: must be an object'];
   exactKeys(value, new Set([
     'schemaVersion', 'id', 'kind', 'owner', 'bounds', 'payloadFormat',
-    'decodedBytes', 'decodedSha256', 'requiredFeatures', 'grid', 'records',
+    'decodedBytes', 'decodedSha256', 'requiredFeatures', 'grid', 'surfaceGrid', 'records',
   ]), at, fail);
   if (value.schemaVersion !== 2) fail(`${at}.schemaVersion`, 'must be 2');
   tileId(value.id, `${at}.id`, fail);
@@ -323,7 +325,9 @@ export function validateChunkHeader(value) {
     exactKeys(value.owner, new Set(['type', 'id']), `${at}.owner`, fail);
     if (!['ground', 'course'].includes(value.owner.type)) fail(`${at}.owner.type`, 'must be ground or course');
     id(value.owner.id, `${at}.owner.id`, fail);
-    if (value.kind === 'terrain' && value.owner.type !== 'ground') fail(`${at}.owner.type`, 'terrain must belong to a ground');
+    if (['terrain', 'surface', 'objects'].includes(value.kind) && value.owner.type !== 'ground') {
+      fail(`${at}.owner.type`, `${value.kind} must belong to a ground`);
+    }
     if (value.kind === 'routing' && value.owner.type !== 'course') fail(`${at}.owner.type`, 'routing must belong to a course');
   }
   bounds(value.bounds, `${at}.bounds`, fail);
@@ -360,11 +364,54 @@ export function validateChunkHeader(value) {
     if (Array.isArray(value.requiredFeatures) && !value.requiredFeatures.includes('terrain-grid-u16-v1')) {
       fail(`${at}.requiredFeatures`, 'terrain grids must require terrain-grid-u16-v1');
     }
+    if (value.surfaceGrid !== undefined) fail(`${at}.surfaceGrid`, 'is not allowed for a terrain grid');
     if (value.records !== undefined) fail(`${at}.records`, 'is not allowed for a terrain grid');
+  } else if (value.payloadFormat === 'surface-grid-u8-i16-le-v1') {
+    if (value.kind !== 'surface') fail(`${at}.kind`, 'must be surface for a surface grid');
+    if (!object(value.surfaceGrid)) fail(`${at}.surfaceGrid`, 'is required for a surface grid');
+    else {
+      exactKeys(value.surfaceGrid, new Set([
+        'width', 'height', 'sampleSpacingMetres', 'bytesPerSample',
+        'distanceScaleMetres', 'mowCoordinateScaleMetres', 'noDataSurfaceId',
+        'surfaceRegistryVersion', 'rowOrder', 'columnOrder',
+        'mowDirectionEncoding', 'continuousEncoding',
+      ]), `${at}.surfaceGrid`, fail);
+      integer(value.surfaceGrid.width, `${at}.surfaceGrid.width`, fail, 2, 4097);
+      integer(value.surfaceGrid.height, `${at}.surfaceGrid.height`, fail, 2, 4097);
+      finite(value.surfaceGrid.sampleSpacingMetres, `${at}.surfaceGrid.sampleSpacingMetres`, fail, 0.01, 10000);
+      if (value.surfaceGrid.bytesPerSample !== 14) fail(`${at}.surfaceGrid.bytesPerSample`, 'must be 14');
+      finite(value.surfaceGrid.distanceScaleMetres, `${at}.surfaceGrid.distanceScaleMetres`, fail, 0.001, 10);
+      finite(value.surfaceGrid.mowCoordinateScaleMetres, `${at}.surfaceGrid.mowCoordinateScaleMetres`, fail, 0.001, 100);
+      if (value.surfaceGrid.noDataSurfaceId !== 255) fail(`${at}.surfaceGrid.noDataSurfaceId`, 'must be 255');
+      integer(value.surfaceGrid.surfaceRegistryVersion, `${at}.surfaceGrid.surfaceRegistryVersion`, fail, 1, 65535);
+      if (value.surfaceGrid.rowOrder !== 'north-to-south') {
+        fail(`${at}.surfaceGrid.rowOrder`, 'must be north-to-south');
+      }
+      if (value.surfaceGrid.columnOrder !== 'west-to-east') {
+        fail(`${at}.surfaceGrid.columnOrder`, 'must be west-to-east');
+      }
+      if (value.surfaceGrid.mowDirectionEncoding !== 'turn-u16') {
+        fail(`${at}.surfaceGrid.mowDirectionEncoding`, 'must be turn-u16');
+      }
+      if (value.surfaceGrid.continuousEncoding !== 'unorm8') {
+        fail(`${at}.surfaceGrid.continuousEncoding`, 'must be unorm8');
+      }
+      if (Number.isSafeInteger(value.surfaceGrid.width) && Number.isSafeInteger(value.surfaceGrid.height) &&
+          value.decodedBytes !== value.surfaceGrid.width * value.surfaceGrid.height * 14) {
+        fail(`${at}.decodedBytes`, 'must equal width * height * 14');
+      }
+    }
+    if (Array.isArray(value.requiredFeatures) && !value.requiredFeatures.includes('surface-grid-u8-i16-v1')) {
+      fail(`${at}.requiredFeatures`, 'surface grids must require surface-grid-u8-i16-v1');
+    }
+    if (value.grid !== undefined) fail(`${at}.grid`, 'is not allowed for a surface grid');
+    if (value.records !== undefined) fail(`${at}.records`, 'is not allowed for a surface grid');
   } else if (value.payloadFormat === 'json-canonical-v1') {
-    if (value.kind === 'terrain') fail(`${at}.payloadFormat`, 'terrain must use terrain-grid-u16-le-v1');
-    if (value.kind === 'surface' || value.kind === 'objects') {
-      fail(`${at}.kind`, 'surface and object codecs are not defined in schema version 2 yet');
+    if (value.kind === 'terrain' || value.kind === 'surface') {
+      fail(`${at}.payloadFormat`, `${value.kind} must use its binary grid payload`);
+    }
+    if (!['routing', 'objects'].includes(value.kind)) {
+      fail(`${at}.kind`, 'canonical JSON is supported only for routing and objects');
     }
     if (!object(value.records)) fail(`${at}.records`, 'is required for canonical JSON');
     else {
@@ -376,7 +423,18 @@ export function validateChunkHeader(value) {
         !value.requiredFeatures.includes('course-routing-json-v1')) {
       fail(`${at}.requiredFeatures`, 'routing chunks must require course-routing-json-v1');
     }
+    if (value.kind === 'routing' && value.records?.content !== 'course-routing') {
+      fail(`${at}.records.content`, 'routing chunks must contain course-routing');
+    }
+    if (value.kind === 'objects' && Array.isArray(value.requiredFeatures) &&
+        !value.requiredFeatures.includes('object-registry-json-v1')) {
+      fail(`${at}.requiredFeatures`, 'object chunks must require object-registry-json-v1');
+    }
+    if (value.kind === 'objects' && value.records?.content !== 'object-registry') {
+      fail(`${at}.records.content`, 'object chunks must contain object-registry');
+    }
     if (value.grid !== undefined) fail(`${at}.grid`, 'is not allowed for canonical JSON');
+    if (value.surfaceGrid !== undefined) fail(`${at}.surfaceGrid`, 'is not allowed for canonical JSON');
   } else {
     fail(`${at}.payloadFormat`, 'is not supported by schema version 2');
   }

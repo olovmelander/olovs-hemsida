@@ -9,6 +9,7 @@ import {
   V2_COURSE_MEDIA_TYPE,
   V2_GROUND_MEDIA_TYPE,
 } from './schema.mjs';
+import { encodeSurfaceGrid } from './surface-grid.mjs';
 import { encodeTerrainGrid } from './terrain-grid.mjs';
 
 const HASH_A = sha256Bytes(new TextEncoder().encode('synthetic v1 main fallback'));
@@ -85,6 +86,100 @@ function routingChunk(resources, slug, holes, bounds) {
   return addChunk(resources, chunk, 'routing');
 }
 
+function surfaceChunk(resources, { id, bounds, width, height, spacing }) {
+  const encoded = encodeSurfaceGrid({
+    width,
+    height,
+    sampleSpacingMetres: spacing,
+    primarySurfaceIds: [1, 1, 2, 1, 3, 2, 4, 4, 255],
+    secondarySurfaceIds: [255, 2, 1, 3, 1, 3, 255, 1, 255],
+    boundaryDistancesMetres: [12, 0.25, -0.5, 1, -2, 0.75, 8, 0.5, 0],
+    ownerFeatureIds: [1, 1, 1, 1, 2, 1, 3, 3, 0],
+    mowCoordinatesMetres: [0, 4, 8, 12, 16, 20, 0, 2, 0],
+    mowDirectionsTurns: [0.125, 0.125, 0, 0.25, 0.25, 0, 0, 0.5, 0],
+    moisture: [0.2, 0.2, 0.3, 0.2, 0.25, 0.35, 0.1, 0.15, 0],
+    wear: [0.1, 0.1, 0, 0.2, 0.3, 0, 0, 0, 0],
+    exposure: [0, 0, 0.1, 0, 0, 0.1, 0.8, 0.6, 0],
+    vegetationDensity: [0.2, 0.2, 0.8, 0.2, 0.1, 0.8, 0, 0.1, 0],
+  });
+  const chunk = writeChunk({
+    header: {
+      schemaVersion: 2,
+      id,
+      kind: 'surface',
+      owner: { type: 'ground', id: 'synthetic-ground' },
+      bounds,
+      payloadFormat: 'surface-grid-u8-i16-le-v1',
+      requiredFeatures: ['chunk-envelope-v2', 'surface-grid-u8-i16-v1'],
+      surfaceGrid: encoded.surfaceGrid,
+    },
+    payload: encoded.payload,
+  });
+  return addChunk(resources, chunk, 'surface');
+}
+
+function objectChunk(resources, { id, bounds }) {
+  const records = [
+    {
+      id: 'boulder-001',
+      groundId: 'synthetic-ground',
+      class: 'boulder',
+      subtype: 'granite',
+      easting: 650024,
+      northing: 6640028,
+      heightRH2000: 20.15,
+      objectHeightMetres: 1.2,
+      radiusMetres: 0.9,
+      headingDegrees: 18,
+      sourceId: 'synthetic-survey',
+      capturedAt: '2025-06-01',
+      accuracyTier: 'A',
+      horizontalAccuracyMetres: 0.03,
+      verticalAccuracyMetres: 0.03,
+      confidence: 1,
+      reviewStatus: 'approved',
+      truthZone: 'A',
+      placementMethod: 'survey',
+    },
+    {
+      id: 'tree-001',
+      groundId: 'synthetic-ground',
+      class: 'tree',
+      subtype: 'deciduous-unknown',
+      easting: 650086,
+      northing: 6640090,
+      heightRH2000: 21.1,
+      objectHeightMetres: 12,
+      radiusMetres: 3.5,
+      headingDegrees: 42,
+      sourceId: 'synthetic-lidar',
+      capturedAt: '2024-05-15T09:30:00Z',
+      accuracyTier: 'B',
+      horizontalAccuracyMetres: 0.5,
+      verticalAccuracyMetres: 0.15,
+      confidence: 0.91,
+      reviewStatus: 'approved',
+      truthZone: 'A',
+      placementMethod: 'derived-lidar',
+    },
+  ];
+  const value = { schemaVersion: 1, groundId: 'synthetic-ground', tileId: id, records };
+  const chunk = writeCanonicalJsonChunk({
+    header: {
+      schemaVersion: 2,
+      id,
+      kind: 'objects',
+      owner: { type: 'ground', id: 'synthetic-ground' },
+      bounds,
+      payloadFormat: 'json-canonical-v1',
+      requiredFeatures: ['chunk-envelope-v2', 'object-registry-json-v1'],
+      records: { content: 'object-registry', count: records.length },
+    },
+    value,
+  });
+  return addChunk(resources, chunk, 'objects');
+}
+
 function addManifest(resources, document, { directory, name, mediaType }) {
   const data = Buffer.from(canonicalJsonBytes(document));
   const sha256 = sha256Bytes(data);
@@ -131,6 +226,14 @@ export function createSyntheticAssetGraph() {
     spacing: 64,
     geometricError: 0.25,
   });
+  const tileASurface = surfaceChunk(resources, {
+    id: 'l0/0/0',
+    bounds: tileA.bounds,
+    width: 3,
+    height: 3,
+    spacing: 64,
+  });
+  const tileAObjects = objectChunk(resources, { id: 'l0/0/0', bounds: tileA.bounds });
   const groundBounds = {
     minEasting: 650000,
     minNorthing: 6640000,
@@ -144,7 +247,12 @@ export function createSyntheticAssetGraph() {
     schemaVersion: 2,
     groundFormat: 2,
     groundId: 'synthetic-ground',
-    requiredFeatures: ['chunk-envelope-v2', 'terrain-grid-u16-v1'],
+    requiredFeatures: [
+      'chunk-envelope-v2',
+      'object-registry-json-v1',
+      'surface-grid-u8-i16-v1',
+      'terrain-grid-u16-v1',
+    ],
     frame: {
       compoundCrs: 'EPSG:5845',
       horizontalCrs: 'EPSG:3006',
@@ -167,7 +275,7 @@ export function createSyntheticAssetGraph() {
         bounds: tileA.bounds,
         geometricErrorMetres: 0.25,
         courses: ['synthetic-main', 'synthetic-short'],
-        layers: { terrain: tileA.reference, surface: null, objects: null },
+        layers: { terrain: tileA.reference, surface: tileASurface, objects: tileAObjects },
       },
       {
         id: 'l0/1/0',
@@ -201,7 +309,13 @@ export function createSyntheticAssetGraph() {
     courseFormat: 2,
     groundFormat: 2,
     groundId: 'synthetic-ground',
-    requiredFeatures: ['chunk-envelope-v2', 'course-routing-json-v1', 'terrain-grid-u16-v1'],
+    requiredFeatures: [
+      'chunk-envelope-v2',
+      'course-routing-json-v1',
+      'object-registry-json-v1',
+      'surface-grid-u8-i16-v1',
+      'terrain-grid-u16-v1',
+    ],
     groundManifest: groundReference,
   };
   const mainCourse = {
@@ -255,4 +369,3 @@ export function createSyntheticAssetGraph() {
   };
   return { root, resources };
 }
-

@@ -5,6 +5,8 @@ import {
   assertSupported,
   assertValidAssetReference,
 } from '../schema.mjs';
+import { inspectObjectRegistryPayload } from '../object-registry.mjs';
+import { inspectSurfacePayload } from '../surface-grid.mjs';
 import { inspectTerrainPayload } from '../terrain-grid.mjs';
 
 const decoder = new TextDecoder('utf-8', { fatal: true });
@@ -74,7 +76,10 @@ function inspectJsonPayload(payload, header) {
   if (count !== header.records.count) {
     throw new Error(`JSON chunk record count ${count} does not match header ${header.records.count}`);
   }
-  return content;
+  const inspection = header.kind === 'objects'
+    ? inspectObjectRegistryPayload(content, header)
+    : null;
+  return { content, inspection };
 }
 
 export async function verifyChunkAssetWeb(reference, input, options = {}) {
@@ -122,9 +127,10 @@ export async function verifyChunkAssetWeb(reference, input, options = {}) {
   let inspection = null;
   if (envelope.header.payloadFormat === 'terrain-grid-u16-le-v1') {
     inspection = inspectTerrainPayload(payload, envelope.header);
+  } else if (envelope.header.payloadFormat === 'surface-grid-u8-i16-le-v1') {
+    inspection = inspectSurfacePayload(payload, envelope.header);
   } else if (envelope.header.payloadFormat === 'json-canonical-v1') {
-    content = inspectJsonPayload(payload, envelope.header);
+    ({ content, inspection } = inspectJsonPayload(payload, envelope.header));
   }
   return { header: envelope.header, payload, content, inspection };
 }
-

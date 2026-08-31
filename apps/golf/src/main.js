@@ -49,6 +49,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, di
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
+import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { loadPuttomTerrainPreview } from './engine/v2-puttom-preview.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
@@ -457,7 +458,15 @@ const CLUB = (() => {
            bb: { x0: x0 - 36, x1: x1 + 36, z0: z0 - 36, z1: z1 + 36 } };
 })();
 
+/* Before the terrain meshes exist this is the legacy analytic sculpt used to
+   build them. Once the meshes are installed, terrainH is switched to the shared
+   visible-ground sampler below so camera, water, surfaces and objects cannot
+   disagree with the terrain that the renderer actually presents. */
+let visibleGroundHeightAt = null;
 function terrainH(x, z) {
+  return visibleGroundHeightAt ? visibleGroundHeightAt(x, z) : legacyTerrainH(x, z);
+}
+function legacyTerrainH(x, z) {
   let h = demH(x, z);
 
   /* greens: a pad flat enough to putt on, tilted gently back to front, tiered
@@ -1270,6 +1279,7 @@ const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -5400, z1: 5400,
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0 };
 SEAM = MIDR;
 const builtTerrain = { core: null, mid: null };
+let terrainPreviewGroundActive = false;
 
 function sampleBuiltHeight(grid, x, z) {
   if (!grid) return null;
@@ -1284,12 +1294,19 @@ function sampleBuiltHeight(grid, x, z) {
                       : d + (c - d) * (1 - tx) + (b - d) * (1 - tz);
 }
 
-/* Object placement wants the height of the mesh that was actually built, not a
-   fresh run through every green/bunker/water carve at a random coordinate. */
+const groundHeightSampler = createGroundHeightSampler({
+  previewActive: () => terrainPreviewGroundActive,
+  previewHeightAt: (x, z) => TERRAIN_PREVIEW.heightAt(x, z),
+  legacyMeshHeightAt: (x, z) => sampleBuiltHeight(builtTerrain.core, x, z)
+    ?? sampleBuiltHeight(builtTerrain.mid, x, z),
+  fallbackHeightAt: legacyTerrainH,
+});
+
+/* Height-sensitive consumers always use the same frontier as the renderer:
+   verified v2 when installed, otherwise the built legacy triangles, then the
+   analytic legacy terrain only beyond both mesh extents. */
 function renderedGroundH(x, z) {
-  return sampleBuiltHeight(builtTerrain.core, x, z)
-    ?? sampleBuiltHeight(builtTerrain.mid, x, z)
-    ?? terrainH(x, z);
+  return groundHeightSampler.heightAt(x, z);
 }
 
 /* WHERE THE GROUND NEEDS TO BE FINER THAN 4 METRES.
@@ -1660,6 +1677,7 @@ function cutTerrainPreviewRect(geometry, bounds) {
 }
 
 let terrainPreviewBatch = null;
+let terrainPreviewLegacyIndex = null;
 let terrainPreviewRender = Object.freeze({ status: TERRAIN_PREVIEW.ready ? 'pending' : 'fallback' });
 if (TERRAIN_PREVIEW.ready) {
   try {
@@ -1678,7 +1696,12 @@ if (TERRAIN_PREVIEW.ready) {
     });
     terrainPreviewBatch.sync(renderResources);
     scene.add(terrainPreviewBatch.group);
+    terrainPreviewLegacyIndex = coreMesh.geometry.getIndex();
     const cut = cutTerrainPreviewRect(coreMesh.geometry, TERRAIN_PREVIEW.bounds);
+    if (cut.removedTriangles < 1) {
+      throw new Error('verified terrain preview did not overlap the legacy core mesh');
+    }
+    terrainPreviewGroundActive = true;
     terrainPreviewRender = Object.freeze({
       status: 'ready',
       renderStride,
@@ -1690,8 +1713,10 @@ if (TERRAIN_PREVIEW.ready) {
       IS_GPU ? 'WebGPU' : 'WebGL2', 'ready', renderResources[0].sampleSpacingMetres,
     );
   } catch (error) {
+    terrainPreviewGroundActive = false;
     terrainPreviewBatch?.dispose();
     terrainPreviewBatch = null;
+    if (terrainPreviewLegacyIndex) coreMesh.geometry.setIndex(terrainPreviewLegacyIndex);
     terrainPreviewRender = Object.freeze({
       status: 'failed',
       error: String(error?.message || error).slice(0, 300),
@@ -1700,6 +1725,10 @@ if (TERRAIN_PREVIEW.ready) {
     setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'failed');
   }
 }
+
+/* From here onward every surface, water-depth probe, vegetation/object base,
+   camera constraint and interaction ray follows the visible ground contract. */
+visibleGroundHeightAt = groundHeightSampler.heightAt;
 
 /* ------------------------------------------------- conforming course surfaces
    A 4 m grid cannot hold the edge of a green: it would be a staircase. So every
@@ -5051,7 +5080,8 @@ window.V3D = {
   plates: () => plateSites.map(p => ({ ...p })),
   course: () => ({ ...CMETA }),
   settled: () => !camTween.on,
-  probeH: (x, z) => terrainH(x, z),
+  heightSample: (x, z) => groundHeightSampler.inspectAt(x, z),
+  probeH: (x, z) => renderedGroundH(x, z),
   setView: (px, py, pz, lx, ly, lz) => { flyTo(V3(px, py, pz), V3(lx, ly, lz), 0); },
   pick: (ndcX, ndcY) => {
     camera.updateMatrixWorld(true);

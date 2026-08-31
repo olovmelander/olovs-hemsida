@@ -152,13 +152,13 @@ test('configured decoded-byte budget is enforced before payload inflation', () =
   assert.throws(() => readChunk(data, { maxDecodedBytes: 8 }), /decoded-byte budget/);
 });
 
-test('synthetic graph proves two courses share one parent ground and five unique chunks', () => {
+test('synthetic graph proves two courses share one parent ground and seven typed chunks', () => {
   const result = verifyAssetGraph(createSyntheticAssetGraph());
   assert.equal(result.courses, 2);
   assert.equal(result.grounds, 1);
-  assert.equal(result.chunks, 5);
+  assert.equal(result.chunks, 7);
   assert.equal(result.v1Fallbacks, 2);
-  assert.equal(result.decodedChunkBytes, 371);
+  assert.equal(result.decodedChunkBytes, 1458);
   assert.ok(result.encodedChunkBytes < 16 * 1024);
 });
 
@@ -194,7 +194,11 @@ test('graph rejects missing tile references and unsupported required features', 
   });
   assert.throws(() => verifyAssetGraph(future), /unsupported features: future-mesh-v9/);
   assert.deepEqual(V2_SUPPORTED_FEATURES, [
-    'chunk-envelope-v2', 'course-routing-json-v1', 'terrain-grid-u16-v1',
+    'chunk-envelope-v2',
+    'course-routing-json-v1',
+    'object-registry-json-v1',
+    'surface-grid-u8-i16-v1',
+    'terrain-grid-u16-v1',
   ]);
 });
 
@@ -227,6 +231,7 @@ test('strict Draft 2020-12 schemas compile and validate every synthetic document
     'common-v2.schema.json',
     'course-v2.schema.json',
     'ground-v2.schema.json',
+    'object-registry-v1.schema.json',
     'root-v2.schema.json',
   ]);
   const schemas = new Map();
@@ -245,11 +250,18 @@ test('strict Draft 2020-12 schemas compile and validate every synthetic document
     'ground-v2.schema.json': [],
     'course-v2.schema.json': [],
     'chunk-header-v2.schema.json': [],
+    'object-registry-v1.schema.json': [],
   };
   for (const [url, data] of graph.resources) {
     if (url.includes('ground-v2-')) documents['ground-v2.schema.json'].push(JSON.parse(data));
     else if (url.includes('course-v2-')) documents['course-v2.schema.json'].push(JSON.parse(data));
-    else if (url.endsWith('.bvch')) documents['chunk-header-v2.schema.json'].push(parseChunkEnvelope(data).header);
+    else if (url.endsWith('.bvch')) {
+      const header = parseChunkEnvelope(data).header;
+      documents['chunk-header-v2.schema.json'].push(header);
+      if (header.kind === 'objects') {
+        documents['object-registry-v1.schema.json'].push(readChunk(data).content);
+      }
+    }
   }
   for (const [schemaId, values] of Object.entries(documents)) {
     const validate = ajv.getSchema(schemaId);

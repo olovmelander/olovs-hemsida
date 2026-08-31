@@ -91,7 +91,7 @@ test('browser verifier matches the Node verifier for every synthetic chunk', asy
     assert.deepEqual(web.inspection, node.inspection);
     checked++;
   }
-  assert.equal(checked, 5);
+  assert.equal(checked, 7);
 });
 
 test('browser verifier fails closed on abort and corrupted encoded bytes', async () => {

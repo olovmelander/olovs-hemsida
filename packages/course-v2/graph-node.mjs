@@ -87,6 +87,21 @@ function validateRoutingChunk(chunk, course, label) {
   });
 }
 
+function validateSurfaceChunk(chunk, label) {
+  if (chunk.header.kind !== 'surface' || chunk.header.payloadFormat !== 'surface-grid-u8-i16-le-v1' ||
+      !chunk.inspection || chunk.inspection.validCount < 1) {
+    throw new Error(`${label} is not a classified surface-grid chunk`);
+  }
+}
+
+function validateObjectChunk(chunk, groundId, tileId, label) {
+  if (chunk.header.kind !== 'objects' || chunk.header.records.content !== 'object-registry' ||
+      chunk.content?.schemaVersion !== 1 || chunk.content?.groundId !== groundId ||
+      chunk.content?.tileId !== tileId || !Array.isArray(chunk.content?.records) || !chunk.inspection) {
+    throw new Error(`${label} is not an object-registry chunk for its ground tile`);
+  }
+}
+
 export function verifyAssetGraph({ root, resources, supportedFeatures, strictResources = true }) {
   assertValid('v2 root index', validateRootIndex(root));
   if (!(resources instanceof Map)) throw new TypeError('resources must be a Map keyed by relative URL');
@@ -146,9 +161,13 @@ export function verifyAssetGraph({ root, resources, supportedFeatures, strictRes
           throw new Error(`ground ${entry.groundId} tile ${tile.id} geometric error does not match its chunk`);
         }
         for (const kind of ['surface', 'objects']) {
-          if (tile.layers[kind]) collectAsset(tile.layers[kind], state, `ground ${entry.groundId} tile ${tile.id} ${kind}`, {
+          if (!tile.layers[kind]) continue;
+          const label = `ground ${entry.groundId} tile ${tile.id} ${kind}`;
+          const chunk = collectAsset(tile.layers[kind], state, label, {
             ownerType: 'ground', ownerId: entry.groundId, id: tile.id, bounds: tile.bounds,
           });
+          if (kind === 'surface') validateSurfaceChunk(chunk, label);
+          else validateObjectChunk(chunk, entry.groundId, tile.id, label);
         }
       }
     } else if (ground.groundId !== entry.groundId) {
@@ -186,4 +205,3 @@ export function verifyAssetGraph({ root, resources, supportedFeatures, strictRes
     v1Fallbacks: root.courses.length,
   });
 }
-

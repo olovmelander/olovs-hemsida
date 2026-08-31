@@ -1,10 +1,10 @@
 # Banvy course-v2 asset graph
 
 This package is the D3 distribution-format and streaming-loader foundation. It
-is an offline/runtime contract shared by WebGPU and WebGL2. The production
-selector now has an isolated opt-in validation path, but the v2 terrain renderer
-is not enabled. `GPK1` remains the only rendered course path until a real pilot
-and the D3/D4 streaming gates pass.
+is an offline/runtime contract shared by WebGPU and WebGL2. The retained Puttom
+pilot has an isolated opt-in `?v2=1` renderer, while the generic production
+selector remains disabled. `GPK1` stays the default course path until every
+activation gate passes.
 
 ## Graph contract
 
@@ -25,8 +25,9 @@ fresh root index
     v1 fallback (GPK1)
 ```
 
-The five JSON Schema documents in `schemas/` (one shared type library and four
-root/ground/course/chunk contracts) describe the interchange contract. The
+The six JSON Schema documents in `schemas/` (one shared type library plus
+root/ground/course/chunk and published-object contracts) describe the
+interchange contract. The
 strict semantic validators in `schema.mjs` additionally enforce relationships
 that JSON Schema cannot express conveniently: canonical CRS and axis mapping,
 sorted capabilities, safe relative URLs, full hashes in immutable filenames,
@@ -61,13 +62,19 @@ ordered before expensive or dangerous work:
 
 An individual chunk is capped at 16 MiB encoded and 64 MiB decoded. The terrain
 spike uses little-endian uint16 RH 2000 heights with an explicit offset and
-scale; the 1 cm test profile has a maximum quantization error of 5 mm. Nodata,
-row direction and column direction are explicit, never inferred.
+scale; the 1 cm test profile has a maximum quantization error of 5 mm. Surface
+tiles use a fixed 14-byte sample with lossless primary/secondary class IDs,
+signed boundary distance, owning feature, mow coordinates/direction and four
+normalized material fields. Object chunks use canonical JSON with stable IDs,
+source date, confidence, accuracy and review metadata; zone A rejects
+procedural placement and accuracy tiers below C. Nodata, row direction and
+column direction are explicit, never inferred.
 
 ## Executable synthetic gate
 
 ```sh
 node --test packages/course-v2/course-v2.node-test.mjs
+node --test packages/course-v2/surface-object-contract.node-test.mjs
 node --test packages/course-v2/terrain-pyramid.node-test.mjs
 node --test packages/course-v2/terrain-compiler.node-test.mjs
 node --test packages/course-v2/runtime/runtime.node-test.mjs
@@ -77,10 +84,10 @@ node packages/course-v2/check-synthetic.mjs
 ```
 
 The fixture creates two courses, one shared ground, a coarse shell, two terrain
-tiles and two separate routing chunks entirely in memory. Its routing accuracy
-is deliberately `unrated` and stroke indexes are unverified/not applicable; a
-test fixture cannot accidentally promote third-party geometry to surveyed
-truth.
+tiles, one surface tile, one approved zone-A object registry and two separate
+routing chunks entirely in memory. Its routing accuracy is deliberately
+`unrated` and stroke indexes are unverified/not applicable; a test fixture
+cannot accidentally promote third-party geometry to surveyed truth.
 
 ## Worker and cache harness
 

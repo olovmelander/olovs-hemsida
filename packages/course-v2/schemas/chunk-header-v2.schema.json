@@ -22,7 +22,9 @@
       }
     },
     "bounds": { "$ref": "common-v2.schema.json#/$defs/bounds" },
-    "payloadFormat": { "enum": ["terrain-grid-u16-le-v1", "json-canonical-v1"] },
+    "payloadFormat": {
+      "enum": ["terrain-grid-u16-le-v1", "surface-grid-u8-i16-le-v1", "json-canonical-v1"]
+    },
     "decodedBytes": { "type": "integer", "minimum": 0, "maximum": 67108864 },
     "decodedSha256": { "$ref": "common-v2.schema.json#/$defs/sha256" },
     "requiredFeatures": { "$ref": "common-v2.schema.json#/$defs/features" },
@@ -45,6 +47,30 @@
         "geometricErrorMetres": { "type": "number", "minimum": 0 }
       }
     },
+    "surfaceGrid": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width", "height", "sampleSpacingMetres", "bytesPerSample",
+        "distanceScaleMetres", "mowCoordinateScaleMetres", "noDataSurfaceId",
+        "surfaceRegistryVersion", "rowOrder", "columnOrder",
+        "mowDirectionEncoding", "continuousEncoding"
+      ],
+      "properties": {
+        "width": { "type": "integer", "minimum": 2, "maximum": 4097 },
+        "height": { "type": "integer", "minimum": 2, "maximum": 4097 },
+        "sampleSpacingMetres": { "type": "number", "minimum": 0.01, "maximum": 10000 },
+        "bytesPerSample": { "const": 14 },
+        "distanceScaleMetres": { "type": "number", "minimum": 0.001, "maximum": 10 },
+        "mowCoordinateScaleMetres": { "type": "number", "minimum": 0.001, "maximum": 100 },
+        "noDataSurfaceId": { "const": 255 },
+        "surfaceRegistryVersion": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "rowOrder": { "const": "north-to-south" },
+        "columnOrder": { "const": "west-to-east" },
+        "mowDirectionEncoding": { "const": "turn-u16" },
+        "continuousEncoding": { "const": "unorm8" }
+      }
+    },
     "records": {
       "type": "object",
       "additionalProperties": false,
@@ -62,8 +88,32 @@
       "properties": {
         "payloadFormat": { "const": "terrain-grid-u16-le-v1" },
         "kind": { "const": "terrain" },
+        "owner": {
+          "type": "object",
+          "required": ["type"],
+          "properties": { "type": { "const": "ground" } }
+        },
         "requiredFeatures": { "type": "array", "contains": { "const": "terrain-grid-u16-v1" } },
-        "grid": true
+        "grid": true,
+        "surfaceGrid": false,
+        "records": false
+      }
+    },
+    {
+      "type": "object",
+      "required": ["surfaceGrid"],
+      "properties": {
+        "payloadFormat": { "const": "surface-grid-u8-i16-le-v1" },
+        "kind": { "const": "surface" },
+        "owner": {
+          "type": "object",
+          "required": ["type"],
+          "properties": { "type": { "const": "ground" } }
+        },
+        "requiredFeatures": { "type": "array", "contains": { "const": "surface-grid-u8-i16-v1" } },
+        "grid": false,
+        "surfaceGrid": true,
+        "records": false
       }
     },
     {
@@ -72,8 +122,40 @@
       "properties": {
         "payloadFormat": { "const": "json-canonical-v1" },
         "kind": { "const": "routing" },
+        "owner": {
+          "type": "object",
+          "required": ["type"],
+          "properties": { "type": { "const": "course" } }
+        },
         "requiredFeatures": { "type": "array", "contains": { "const": "course-routing-json-v1" } },
-        "records": true
+        "grid": false,
+        "surfaceGrid": false,
+        "records": {
+          "type": "object",
+          "required": ["content"],
+          "properties": { "content": { "const": "course-routing" } }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["records"],
+      "properties": {
+        "payloadFormat": { "const": "json-canonical-v1" },
+        "kind": { "const": "objects" },
+        "owner": {
+          "type": "object",
+          "required": ["type"],
+          "properties": { "type": { "const": "ground" } }
+        },
+        "requiredFeatures": { "type": "array", "contains": { "const": "object-registry-json-v1" } },
+        "grid": false,
+        "surfaceGrid": false,
+        "records": {
+          "type": "object",
+          "required": ["content"],
+          "properties": { "content": { "const": "object-registry" } }
+        }
       }
     }
   ]
