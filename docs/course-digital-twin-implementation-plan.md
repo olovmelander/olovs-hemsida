@@ -2,7 +2,8 @@
 
 > **Status 2026-08-31:** D0–D4 foundations are implemented and the retained
 > Puttom pilot now has an interactive, opt-in `?v2=1` preview: 16 verified 1 m
-> BVCH tiles replace the matching legacy core in one logical terrain draw. The
+> terrain BVCH tiles and 16 matching migration-surface BVCH tiles replace the
+> matching legacy core in one logical terrain draw. The
 > accepted provider-run evidence remains 58.19% visible foreground in forced
 > WebGL2 and 58.15% through the WebGPU render-target readback. In this branch a
 > single visible-ground sampler now feeds surface construction, water probes,
@@ -11,7 +12,12 @@
 > and legacy cut both succeed, then falls back to the rendered legacy mesh and
 > finally the analytic legacy terrain. D5 now has a strict 14-byte lossless
 > surface-grid contract for primary/secondary class IDs, signed boundary
-> distance, owning feature, mow fields and material fields. D6 now has a
+> distance, owning feature, mow fields and material fields. Its first Puttom
+> compiler runs the existing GPK1 migration vectors through the same precedence
+> raster as the live atlas, preserves shared 1 m seams, hashes every output and
+> binds the descriptor to both the terrain descriptor and the verified GPK1
+> pack. The four continuous environmental fields are explicitly zero/unmeasured.
+> It is **not** surveyed surface truth and remains opt-in. D6 now has a
 > canonical object-registry contract with stable IDs, source date, confidence,
 > accuracy, review state and zone; published zone-A records reject procedural
 > placement and tiers below C. Both new asset kinds pass Node and browser-path
@@ -24,11 +30,13 @@
 
 ## Immediate continuation order
 
-1. Land the shared height sampler and D5/D6 contracts with CI green.
-2. Compile one reviewed Puttom hole surface tile from canonical vectors and
-   verify centre/edge/seam probes before touching material appearance.
-3. Feed that surface tile through the existing `makeGround()` semantic inputs
-   and approve WebGPU plus forced-WebGL2 grazing-angle goldens.
+1. Keep the shared height sampler, D5/D6 contracts and the Puttom surface
+   migration preview green in CI; normal visits must continue to make no v2 request.
+2. Obtain and review authoritative Puttom surface polygons (club CAD/GIS,
+   maintenance drawing or independently validated field survey), record licence,
+   date and accuracy, then replace—not merge with—the migration source.
+3. Verify authoritative centre/edge/seam probes and approve WebGPU plus
+   forced-WebGL2 grazing-angle goldens before any course can use v2 by default.
 4. Compile one real Puttom object tile from allowed sources, review every zone-A
    tree/boulder record and verify its base against the shared height sampler.
 5. Expand the same measured pipeline to the remaining pilot grounds, then all
@@ -542,6 +550,33 @@ During migration:
 4. Existing analytic `classify()` remains available for debug probes and v1.
 5. Once all courses pass, course-wide boot rasterization becomes the v1-only
    compatibility path and can later be removed with `GPK1`.
+
+### Implemented Puttom migration preview (not a release approval)
+
+The current pilot adds a separate `surface-preview.json` beside the terrain
+preview. It contains 16 content-addressed surface BVCH tiles aligned to the
+same 1,025 x 1,025 sample frontier. The compiler uses the current GPK1 vectors
+only to reproduce the already-visible legacy atlas semantics; it does not infer
+new boundaries from imagery and it does not label the result as field data.
+
+- The descriptor is pinned by SHA-256 in the app and also pins the terrain
+  descriptor hash, frame fingerprint and verified Puttom GPK1 pack hash.
+- The preview only loads with `?bana=puttom&v2=1`. A missing, modified,
+  mismatched or non-seam-identical surface tile aborts the entire v2 preview and
+  retains the normal GPK1 terrain/material path.
+- The material adapter uses the decoded surface tiles instead of the boot-time
+  atlas only inside the replaced v2 terrain rectangle. Legacy course rendering
+  and gameplay classification retain their existing atlas/analytic fallbacks.
+- Moisture, wear, exposure and vegetation-density fields are present in the
+  binary contract but set to zero and declared unmeasured. They must not be
+  populated procedurally merely to make the terrain look more detailed.
+- The PWA caches the descriptor network-first and the hash-named surface tiles
+  cache-first only after the opt-in request. Neither the decoder nor surface
+  material adapter is part of install-time precache.
+
+This preview is a wiring, integrity and performance proof. Replacing it with
+authoritative surfaces requires the source/licence/evidence gates in this plan,
+fresh descriptor hashes and backend visual validation.
 
 ## Vegetation and object compiler
 

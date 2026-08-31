@@ -1,0 +1,218 @@
+/* Stitch verified, north-up surface BVCH tiles into the atlas interface shared
+   by the existing TSL materials. This is a preview adapter only: its caller has
+   already checked the descriptor's migration provenance and source pack hash. */
+
+import * as THREE from 'three/webgpu';
+import { SURFACE } from './surface.js';
+import { SURFACE_NO_DATA_ID } from '../../../../packages/course-v2/surface-grid.mjs';
+
+const EPSILON = 1e-6;
+const MATERIAL_EDGE_LIMIT_METRES = 8;
+const ROUTE_DISTANCE_SCALE = 4;
+const RING_DISTANCE_SCALE = 0.16;
+
+function near(left, right) {
+  return Number.isFinite(left) && Number.isFinite(right) && Math.abs(left - right) <= EPSILON;
+}
+
+function finite(value, label) {
+  if (!Number.isFinite(value)) throw new TypeError(`${label} must be finite`);
+  return value;
+}
+
+function sortedUnique(values) {
+  return [...values].sort((left, right) => left - right).filter((value, index, all) =>
+    index === 0 || !near(value, all[index - 1]));
+}
+
+function resourceInfo(resource, frame, bridge) {
+  const header = resource?.header;
+  const grid = header?.surfaceGrid;
+  if (header?.kind !== 'surface' || header?.payloadFormat !== 'surface-grid-u8-i16-le-v1') {
+    throw new TypeError('surface preview resource must be a verified surface grid');
+  }
+  const width = grid?.width, height = grid?.height, spacing = grid?.sampleSpacingMetres;
+  if (!Number.isSafeInteger(width) || width < 2 || !Number.isSafeInteger(height) || height < 2 ||
+      !(spacing > 0) || !(resource.payload instanceof Uint8Array) ||
+      resource.payload.byteLength !== width * height * 14) {
+    throw new Error(`surface preview tile ${header.id} has an invalid payload/grid`);
+  }
+  const bounds = header.bounds || {};
+  const spanX = (width - 1) * spacing;
+  const spanZ = (height - 1) * spacing;
+  if (!near(bounds.maxEasting - bounds.minEasting, spanX) ||
+      !near(bounds.maxNorthing - bounds.minNorthing, spanZ)) {
+    throw new Error(`surface preview tile ${header.id} bounds do not match its grid`);
+  }
+  const originX = finite(bounds.minEasting, `${header.id}.bounds.minEasting`) - frame.origin.easting + bridge.translateX;
+  const originZ = frame.origin.northing - finite(bounds.maxNorthing, `${header.id}.bounds.maxNorthing`) + bridge.translateZ;
+  return Object.freeze({
+    id: header.id,
+    width,
+    height,
+    spacing,
+    spanX,
+    spanZ,
+    originX,
+    originZ,
+    payload: resource.payload,
+  });
+}
+
+function makeTexture(data, width, height, format, filter) {
+  const texture = new THREE.DataTexture(data, width, height, format, THREE.UnsignedByteType);
+  texture.minFilter = filter;
+  texture.magFilter = filter;
+  texture.generateMipmaps = false;
+  texture.flipY = false;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+/**
+ * Return a material-compatible atlas, rejecting gapped, overlapping or
+ * semantically inconsistent tiles before a terrain batch can be rendered.
+ */
+export function createSurfacePreviewAtlas({ resources, frame, bridge } = {}) {
+  if (!Array.isArray(resources) || !resources.length) throw new TypeError('surface preview resources are required');
+  if (!frame?.origin || !bridge) throw new TypeError('surface preview frame and bridge are required');
+  finite(frame.origin.easting, 'frame.origin.easting');
+  finite(frame.origin.northing, 'frame.origin.northing');
+  finite(bridge.translateX, 'bridge.translateX');
+  finite(bridge.translateZ, 'bridge.translateZ');
+
+  const tiles = resources.map(resource => resourceInfo(resource, frame, bridge));
+  const first = tiles[0];
+  if (!tiles.every(tile => tile.width === first.width && tile.height === first.height && near(tile.spacing, first.spacing))) {
+    throw new Error('surface preview tiles must have a common regular grid');
+  }
+  const distanceScale = resources[0].header.surfaceGrid.distanceScaleMetres;
+  const mowScale = resources[0].header.surfaceGrid.mowCoordinateScaleMetres;
+  if (!resources.every(resource => near(resource.header.surfaceGrid.distanceScaleMetres, distanceScale) &&
+      near(resource.header.surfaceGrid.mowCoordinateScaleMetres, mowScale))) {
+    throw new Error('surface preview tiles must use common field encodings');
+  }
+  const originsX = sortedUnique(tiles.map(tile => tile.originX));
+  const originsZ = sortedUnique(tiles.map(tile => tile.originZ));
+  const byCell = new Map();
+  for (const tile of tiles) {
+    const column = originsX.findIndex(value => near(value, tile.originX));
+    const row = originsZ.findIndex(value => near(value, tile.originZ));
+    const key = `${column},${row}`;
+    if (column < 0 || row < 0 || byCell.has(key)) throw new Error(`surface preview tile grid is ambiguous at ${tile.id}`);
+    byCell.set(key, tile);
+  }
+  if (byCell.size !== originsX.length * originsZ.length) {
+    throw new Error('surface preview tile grid has missing cells');
+  }
+  for (let index = 1; index < originsX.length; index++) {
+    if (!near(originsX[index] - originsX[index - 1], first.spanX)) throw new Error('surface preview has an easting gap');
+  }
+  for (let index = 1; index < originsZ.length; index++) {
+    if (!near(originsZ[index] - originsZ[index - 1], first.spanZ)) throw new Error('surface preview has a northing gap');
+  }
+
+  const width = first.width + (originsX.length - 1) * (first.width - 1);
+  const height = first.height + (originsZ.length - 1) * (first.height - 1);
+  const samples = width * height;
+  const raw = new Uint8Array(samples * 14);
+  const written = new Uint8Array(samples);
+  for (const [key, tile] of byCell) {
+    const [column, row] = key.split(',').map(Number);
+    const destinationColumn = column * (first.width - 1);
+    const destinationRow = row * (first.height - 1);
+    for (let sourceRow = 0; sourceRow < first.height; sourceRow++) {
+      for (let sourceColumn = 0; sourceColumn < first.width; sourceColumn++) {
+        const source = (sourceRow * first.width + sourceColumn) * 14;
+        const destinationIndex = (destinationRow + sourceRow) * width + destinationColumn + sourceColumn;
+        const destination = destinationIndex * 14;
+        if (written[destinationIndex]) {
+          for (let byte = 0; byte < 14; byte++) {
+            if (raw[destination + byte] !== tile.payload[source + byte]) {
+              throw new Error(`surface preview seam mismatch at ${tile.id}`);
+            }
+          }
+        } else {
+          raw.set(tile.payload.subarray(source, source + 14), destination);
+          written[destinationIndex] = 1;
+        }
+      }
+    }
+  }
+  if (written.some(value => value === 0)) throw new Error('surface preview atlas has an unwritten sample');
+
+  const idData = new Uint8Array(samples * 2);
+  const fieldData = new Uint8Array(samples * 4);
+  const classCounts = new Uint32Array(256);
+  const view = new DataView(raw.buffer, raw.byteOffset, raw.byteLength);
+  for (let index = 0; index < samples; index++) {
+    const source = index * 14;
+    const primary = raw[source];
+    const secondary = raw[source + 1];
+    const target = index * 2;
+    const fields = index * 4;
+    if (primary === SURFACE_NO_DATA_ID) {
+      idData[target] = SURFACE.ROUGH;
+      idData[target + 1] = SURFACE.ROUGH;
+      fieldData[fields] = 255;
+      classCounts[SURFACE.ROUGH]++;
+      continue;
+    }
+    if (secondary === primary) throw new Error(`surface preview sample ${index} has ambiguous secondary id`);
+    const signedDistance = view.getInt16(source + 2, true) * distanceScale;
+    const mowCoordinate = view.getUint16(source + 6, true) * mowScale;
+    const owner = view.getUint16(source + 4, true);
+    if (owner > 255) throw new Error(`surface preview owner ${owner} exceeds the material's 8-bit owner channel`);
+    idData[target] = primary;
+    idData[target + 1] = secondary === SURFACE_NO_DATA_ID ? primary : secondary;
+    fieldData[fields] = Math.round((Math.max(-MATERIAL_EDGE_LIMIT_METRES,
+      Math.min(MATERIAL_EDGE_LIMIT_METRES, signedDistance)) + MATERIAL_EDGE_LIMIT_METRES) /
+      (MATERIAL_EDGE_LIMIT_METRES * 2) * 255);
+    fieldData[fields + 1] = Math.round(Math.min(255, mowCoordinate * ROUTE_DISTANCE_SCALE));
+    fieldData[fields + 2] = owner;
+    fieldData[fields + 3] = Math.round(Math.min(255, mowCoordinate / RING_DISTANCE_SCALE));
+    classCounts[primary]++;
+  }
+
+  const bounds = Object.freeze({
+    x0: originsX[0] - first.spacing * 0.5,
+    z0: originsZ[0] - first.spacing * 0.5,
+    x1: originsX.at(-1) + first.spanX + first.spacing * 0.5,
+    z1: originsZ.at(-1) + first.spanZ + first.spacing * 0.5,
+    w: width,
+    h: height,
+    res: first.spacing,
+  });
+  const texID = makeTexture(idData, width, height, THREE.RGFormat, THREE.NearestFilter);
+  const texF = makeTexture(fieldData, width, height, THREE.RGBAFormat, THREE.LinearFilter);
+  const indexAt = (x, z) => {
+    const column = Math.floor((x - bounds.x0) / bounds.res);
+    const row = Math.floor((z - bounds.z0) / bounds.res);
+    return column < 0 || row < 0 || column >= width || row >= height ? -1 : row * width + column;
+  };
+  const sampleAt = (x, z) => {
+    const index = indexAt(x, z);
+    if (index < 0) return { inBounds: false, surface: SURFACE.ROUGH };
+    return Object.freeze({
+      inBounds: true,
+      surface: idData[index * 2],
+      primary: idData[index * 2],
+      secondary: idData[index * 2 + 1],
+    });
+  };
+  return Object.freeze({
+    texID,
+    texF,
+    bounds,
+    contains: (x, z) => indexAt(x, z) >= 0,
+    sampleAt,
+    dispose: () => { texID.dispose(); texF.dispose(); },
+    data: Object.freeze({
+      bounds,
+      classCounts,
+      tileIds: Object.freeze(tiles.map(tile => tile.id).sort()),
+      decodedBytes: resources.reduce((sum, resource) => sum + resource.payload.byteLength, 0),
+      textureBytes: idData.byteLength + fieldData.byteLength,
+    }),
+  });
+}

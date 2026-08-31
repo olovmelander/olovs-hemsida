@@ -75,6 +75,7 @@ column direction are explicit, never inferred.
 ```sh
 node --test packages/course-v2/course-v2.node-test.mjs
 node --test packages/course-v2/surface-object-contract.node-test.mjs
+node --test packages/course-v2/surface-preview.node-test.mjs
 node --test packages/course-v2/terrain-pyramid.node-test.mjs
 node --test packages/course-v2/terrain-compiler.node-test.mjs
 node --test packages/course-v2/runtime/runtime.node-test.mjs
@@ -110,15 +111,19 @@ cannot accidentally promote third-party geometry to surveyed truth.
 - `ResourceLeasePool` reference-counts and LRU-evicts decoded/GPU resources.
 
 The player keeps this code out of its default critical path. On Puttom only,
-`?v2=1` dynamically loads the strict provisional descriptor and all 16 finest
-BVCH tiles, verifies encoded and decoded identities, and translates their
-EPSG:5845 frame into the current GPK1 +x-east/-z-north coordinates. The same
-indexed 1 m CPU sampler then feeds terrain, camera and object placement while a
-one-draw texture-array batch renders on both WebGPU and WebGL2. Missing,
-misaligned or corrupt data falls back to GPK1 before the legacy core is cut.
-The dynamic loader/renderer chunks and BVCH data are excluded from install-time
-PWA precache and cached only after the explicit opt-in. A production-build gate
-keeps both dynamic chunks below 64 KiB and out of initial HTML/service worker.
+`?v2=1` dynamically loads both the strict provisional terrain descriptor and
+the matching migration-surface descriptor, then all 16 finest terrain and
+surface BVCH tiles. It verifies encoded and decoded identities, the common
+frame/frontier, the terrain-descriptor SHA and the already verified active GPK1
+pack SHA before translating EPSG:5845 into the current GPK1 +x-east/-z-north
+coordinates. The same indexed 1 m CPU sampler then feeds terrain, camera and
+object placement while a one-draw texture-array batch renders on both WebGPU
+and WebGL2. Its material adapter reads verified surface tiles; it does not use a
+second hand-written material. Missing, misaligned, corrupt or source-mismatched
+data falls back to GPK1 before the legacy core is cut. The dynamic
+loader/renderer chunks and BVCH data are excluded from install-time PWA precache
+and cached only after the explicit opt-in. A production-build gate keeps all v2
+preview chunks below 64 KiB and out of initial HTML/service worker.
 
 The provider-access workflow builds a short-lived Puttom preview from
 authenticated terrain, verifies every BVCH in the browser and captures forced
@@ -127,12 +132,30 @@ the runner with only the strict provisional descriptor and its 16 referenced
 finest-level BVCH tiles for the opt-in interactive preview. The authenticated
 COG, XYZ samples, shell and coarser LOD tiles remain ephemeral. This is not an
 authoritative v2 publication; D1 origin approval remains a production gate.
-The reviewed run-29 bundle is retained under `apps/golf/public/v2/puttom/`:
-an 8,080-byte descriptor plus 16 full-SHA BVCH files (1,074,238 encoded
-bytes). The app locks the descriptor SHA-256 and frame fingerprint before any
-legacy mesh is replaced. Low-quality WebGL2 keeps the full 1 m CPU sampler but
-uses a 2 m render frontier (129 x 129 samples per tile), reducing the terrain
-submission from 2,129,920 to 540,672 triangles without adding draw calls.
+The reviewed run-29 terrain bundle is retained under
+`apps/golf/public/v2/puttom/`: an 8,080-byte descriptor plus 16 full-SHA BVCH
+files (1,074,238 encoded bytes). A matching 16-tile surface bundle is generated
+from the current GPK1 migration vectors with 14,794,976 decoded bytes and
+589,871 encoded bytes. Its descriptor labels the source as
+`gpk1-vector-migration-v1`, pins the current pack SHA and marks moisture, wear,
+exposure and vegetation density as unmeasured zero fields. It is a material,
+integrity and seam proof—not authoritative planimetric surface publication.
+The app locks both descriptor hashes and the common frame before any legacy mesh
+is replaced. Low-quality WebGL2 keeps the full 1 m CPU sampler but uses a 2 m
+render frontier (129 x 129 samples per tile), reducing the terrain submission
+from 2,129,920 to 540,672 triangles without adding draw calls.
+
+### Puttom migration-surface compiler
+
+```sh
+node packages/course-v2/compile-puttom-surface-preview.mjs
+```
+
+The command reads the already retained terrain-preview frontier and the current
+hash-verified `courses/puttom/pack.bin`, recreates the shared runtime surface
+precedence, writes only full-SHA surface BVCH paths and refuses to replace a
+different existing artifact. It is reproducible migration output, not a route
+to promote the vectors to surveyed truth.
 
 ## D4 terrain-pyramid foundation
 

@@ -48,6 +48,7 @@ import { inflate, decodeHF } from './engine/codec.js';
 import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
+import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { loadPuttomTerrainPreview } from './engine/v2-puttom-preview.mjs';
@@ -140,6 +141,7 @@ await tick('läser terrängdata', 0.04);
 const terrainPreviewPromise = loadPuttomTerrainPreview({
   slug: CMETA.slug,
   geo: GEO,
+  packSha256: CMETA.sha256,
   search: location.search,
 });
 const [b0, b1, bv, TERRAIN_PREVIEW] = await Promise.all([
@@ -1567,53 +1569,7 @@ function skirt(R, depth, sampler) {
 const under = (R, by) => ({ x0: R.x0 + by, x1: R.x1 - by, z0: R.z0 + by, z1: R.z1 - by });
 
 if (groundMode === 'atlas') {
-  const features = [];
-  const rings = (surface, rs, extra = {}) => {
-    const valid = (rs || []).filter(r => r && r.length >= 3);
-    if (valid.length) features.push({ surface, rings: valid, ...extra });
-  };
-  const line = (surface, item, width) => {
-    if (item?.line?.length > 1) features.push({ surface, line: item.line, width });
-  };
-  const hardSurface = item => {
-    const value = `${item?.surface || ''} ${item?.kind || ''}`.toLowerCase();
-    if (/asphalt|paved|trunk|secondary|tertiary|cycleway/.test(value)) return SURFACE.ASPHALT;
-    if (/mud/.test(value)) return SURFACE.MUD;
-    if (/dirt|ground|earth|soil/.test(value)) return SURFACE.DIRT;
-    return SURFACE.GRAVEL;
-  };
-
-  for (const h of HOLES) {
-    rings(SURFACE.SEMI, h.fairway.rings, { pad: 4.5, hole: h.n });
-    rings(SURFACE.FAIRWAY, h.fairway.rings, { hole: h.n });
-    rings(SURFACE.FRINGE, [h.green.ring], { pad: 3.2, hole: h.n });
-    rings(SURFACE.GREEN, [h.green.ring], { hole: h.n });
-    const tees = h.tees.pads.map(t => t.ring);
-    rings(SURFACE.FRINGE, tees, { pad: 2.2, hole: h.n });
-    rings(SURFACE.TEE, tees, { hole: h.n });
-    rings(SURFACE.SAND, h.bunkers.map(b => b.ring), { pad: 0.5, hole: h.n });
-  }
-  rings(SURFACE.FAIRWAY, M.scenery.fairways.concat(M.scenery.range));
-  rings(SURFACE.GREEN, M.scenery.greens);
-  rings(SURFACE.TEE, M.scenery.tees);
-  rings(SURFACE.SEMI, M.scenery.grass);
-  rings(SURFACE.SAND, M.scenery.bunkers.concat(M.veg.sand || []), { pad: 0.5 });
-
-  for (const [kind, rs] of Object.entries(M.veg || {})) {
-    if (kind === 'sand') continue;
-    const surface = /forest|wood|scrub/.test(kind) ? SURFACE.FOREST
-      : /wet|marsh|bog/.test(kind) ? SURFACE.WETLAND
-      : /rock|stone|scree/.test(kind) ? SURFACE.ROCK
-      : /mud/.test(kind) ? SURFACE.MUD : null;
-    if (surface !== null) rings(surface, rs);
-  }
-  rings(SURFACE.GRAVEL, (M.infra.parking || []).map(p => p.ring));
-  for (const p of M.infra.paths || []) line(hardSurface(p), p, p.kind === 'cycleway' ? 1.3 : 0.65);
-  for (const t of M.infra.tracks || []) line(hardSurface(t), t, t.kind === 'service' ? 1.9 : 1.7);
-  /* Roads and railway still render as raised/graded ribbons, but their atlas class
-     remains useful to tree/scatter exclusion and is hidden beneath that geometry. */
-  for (const r of M.infra.roads || []) line(hardSurface(r), r, r.kind === 'trunk' ? 8 : r.kind === 'secondary' || r.kind === 'tertiary' ? 3.2 : 2.7);
-  for (const r of M.infra.railway || []) line(SURFACE.GRAVEL, r, 4);
+  const features = buildGroundSurfaceFeatures({ holes: HOLES, model: M });
 
   const atlasStarted = performance.now();
   groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1 });
@@ -1691,7 +1647,10 @@ if (TERRAIN_PREVIEW.ready) {
       maximumTiles: renderResources.length,
       morphDurationMilliseconds: 0,
       decorateMaterial: createV2GroundMaterialDecorator({
-        atlas: groundAtlas, DETAIL, C, SHADE,
+        /* A ready preview has verified both its height and migration-labelled
+           surface tile frontier. Its material never silently falls back to an
+           unbound runtime atlas inside the replaced terrain rectangle. */
+        atlas: TERRAIN_PREVIEW.surfaceAtlas, DETAIL, C, SHADE,
       }),
     });
     terrainPreviewBatch.sync(renderResources);
@@ -1716,6 +1675,7 @@ if (TERRAIN_PREVIEW.ready) {
     terrainPreviewGroundActive = false;
     terrainPreviewBatch?.dispose();
     terrainPreviewBatch = null;
+    TERRAIN_PREVIEW.surfaceAtlas?.dispose?.();
     if (terrainPreviewLegacyIndex) coreMesh.geometry.setIndex(terrainPreviewLegacyIndex);
     terrainPreviewRender = Object.freeze({
       status: 'failed',
@@ -5070,6 +5030,12 @@ window.V3D = {
     status: terrainPreviewRender.status,
     reason: TERRAIN_PREVIEW.reason,
     label: TERRAIN_PREVIEW.descriptor?.label || null,
+    surface: TERRAIN_PREVIEW.surfaceDescriptor ? {
+      label: TERRAIN_PREVIEW.surfaceDescriptor.label,
+      provisional: TERRAIN_PREVIEW.surfaceDescriptor.provisional,
+      reason: TERRAIN_PREVIEW.surfaceDescriptor.provisionalReason,
+      sourcePackSha256: TERRAIN_PREVIEW.surfaceDescriptor.source.packSha256,
+    } : null,
     bounds: TERRAIN_PREVIEW.bounds ? { ...TERRAIN_PREVIEW.bounds } : null,
     bridge: TERRAIN_PREVIEW.bridge ? { ...TERRAIN_PREVIEW.bridge } : null,
     source: TERRAIN_PREVIEW.stats(),

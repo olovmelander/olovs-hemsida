@@ -32,7 +32,13 @@
 /v2/*/preview.json
   Cache-Control: no-cache
 
+/v2/*/surface-preview.json
+  Cache-Control: no-cache
+
 /v2/*/grounds/*/terrain/*.bvch
+  Cache-Control: public, max-age=31536000, immutable
+
+/v2/*/grounds/*/surface/*.bvch
   Cache-Control: public, max-age=31536000, immutable
 
 # Vite content-hashes everything in /assets, so those names already change when

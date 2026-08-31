@@ -71,12 +71,15 @@ export default defineConfig({
            demand, and then stay. */
         globPatterns: ['**/*.{js,css,html,svg}', 'icons/*.png', 'fonts/**'],
         /* These chunks are reachable only through the explicit Puttom v2
-           preview. Keeping them out of install-time precache preserves the
-           normal mobile player's critical path; content-addressed BVCH data is
-           cached on demand below. */
+           preview. Keeping terrain AND its matching surface decoder/material
+           out of install-time precache preserves the normal mobile player's
+           critical path; content-addressed BVCH data is cached on demand below. */
         globIgnores: [
           'assets/v2-terrain-*.js',
+          'assets/v2-surface-preview-*.js',
           'assets/terrain-render-data-*.js',
+          'assets/surface-grid-*.js',
+          'assets/decode-web-*.js',
         ],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,   /* three.tsl is ~1 MB */
 
@@ -114,7 +117,8 @@ export default defineConfig({
           {
             /* The descriptor is provisional and may be replaced after a newly
                reviewed terrain build, so revalidate it before using cache. */
-            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/v2\/[^/]+\/preview\.json$/.test(url.pathname),
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/v2\/[^/]+\/(?:surface-)?preview\.json$/.test(url.pathname),
             handler: 'NetworkFirst',
             options: {
               cacheName: 'banvy-v2-preview-manifests',
@@ -131,6 +135,19 @@ export default defineConfig({
             handler: 'CacheFirst',
             options: {
               cacheName: 'banvy-v2-terrain',
+              expiration: { maxEntries: 96, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
+            /* Surface tiles have the same content-addressed integrity contract
+               as terrain but stay separately budgeted so a future surface
+               migration cannot evict the height pilot behind its back. */
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/v2\/[^/]+\/grounds\/[^/]+\/surface\/[a-f0-9]{64}\.bvch$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-v2-surface',
               expiration: { maxEntries: 96, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [0, 200] },
             },

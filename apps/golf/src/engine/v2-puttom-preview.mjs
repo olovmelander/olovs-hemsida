@@ -3,6 +3,10 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   descriptorPath: 'v2/puttom/preview.json',
   label: 'Puttom · Lantmäteriet 1 m terräng',
   descriptorSha256: '398b0b70b7d9ed9793e189bc66bd8c94060741990271cceacbea97b1f3278eb1',
+  surfaceDescriptorPath: 'v2/puttom/surface-preview.json',
+  surfaceLabel: 'Puttom · migrerade ytor (ej inmätta)',
+  surfaceDescriptorSha256: '5b36434ebda4238397587811ae090bee24cb9e017f2c1c7f671b7c5fe70a23f0',
+  surfaceProvisionalReason: 'migration-vectors-not-survey-approved',
   frameFingerprint: 'ee406f792b7e59817667d6f6fc8cf6e6b271bf5f7efabb58f3907928f741bef3',
   packOriginWgs84: Object.freeze({ latitude: 63.2992, longitude: 18.9413 }),
   /* EPSG:3006 projection of the immutable GPK1 WGS84 origin. This bridge keeps
@@ -35,6 +39,8 @@ function immutableState(value) {
     status: 'off',
     reason: null,
     descriptor: null,
+    surfaceDescriptor: null,
+    surfaceAtlas: null,
     resources: Object.freeze([]),
     bounds: null,
     bridge: null,
@@ -108,6 +114,24 @@ function validatePuttomDescriptor(descriptor, geo) {
       !near(geo?.origin?.lon, PUTTOM_PREVIEW_CONFIG.packOriginWgs84.longitude) ||
       geo?.frame !== 'local metres about ORIGIN; north -z, east +x') {
     throw new Error('Puttom GPK1 frame changed; the provisional EPSG:3006 bridge must be recalculated');
+  }
+}
+
+function validatePuttomSurfaceDescriptor(descriptor, terrainDescriptor, packSha256) {
+  if (descriptor.label !== PUTTOM_PREVIEW_CONFIG.surfaceLabel ||
+      descriptor.provisionalReason !== PUTTOM_PREVIEW_CONFIG.surfaceProvisionalReason) {
+    throw new Error('Puttom surface preview does not retain its migration provenance');
+  }
+  if (descriptor.terrainDescriptorSha256 !== PUTTOM_PREVIEW_CONFIG.descriptorSha256 ||
+      descriptor.frameFingerprint !== terrainDescriptor.frame.fingerprint) {
+    throw new Error('Puttom surface preview is not bound to the active terrain preview frame');
+  }
+  if (!/^[a-f0-9]{64}$/.test(packSha256 || '') || descriptor.source.packSha256 !== packSha256) {
+    throw new Error('Puttom surface preview was not derived from the verified active GPK1 pack');
+  }
+  if (descriptor.tiles.length !== terrainDescriptor.tiles.length ||
+      descriptor.tiles.some((tile, index) => tile.id !== terrainDescriptor.tiles[index]?.id)) {
+    throw new Error('Puttom surface preview does not match the terrain preview frontier');
   }
 }
 
@@ -217,10 +241,12 @@ export function alignTerrainPreviewToLegacyFrame(loaded, legacyOriginEpsg3006) {
 export async function loadPuttomTerrainPreview({
   slug,
   geo,
+  packSha256,
   search = globalThis.location?.search || '',
   baseUrl = import.meta.env?.BASE_URL || '/',
   locationHref = globalThis.location?.href || 'https://banvy.invalid/',
   loaderOptions,
+  surfaceLoaderOptions,
 } = {}) {
   const parameterRequested = new URLSearchParams(search).get('v2') === '1';
   if (!parameterRequested) return immutableState({ slug });
@@ -229,19 +255,41 @@ export async function loadPuttomTerrainPreview({
   }
   try {
     const descriptorUrl = new URL(PUTTOM_PREVIEW_CONFIG.descriptorPath, new URL(baseUrl, locationHref));
-    const { loadTerrainPreview } = await import('./v2-terrain-preview-loader.mjs');
-    const loaded = await loadTerrainPreview(descriptorUrl.href, {
-      ...loaderOptions,
-      expectedDescriptorSha256: PUTTOM_PREVIEW_CONFIG.descriptorSha256,
-    });
+    const surfaceDescriptorUrl = new URL(
+      PUTTOM_PREVIEW_CONFIG.surfaceDescriptorPath, new URL(baseUrl, locationHref),
+    );
+    const [{ loadTerrainPreview }, { loadSurfacePreview }] = await Promise.all([
+      import('./v2-terrain-preview-loader.mjs'),
+      import('./v2-surface-preview-loader.mjs'),
+    ]);
+    const [loaded, loadedSurface] = await Promise.all([
+      loadTerrainPreview(descriptorUrl.href, {
+        ...loaderOptions,
+        expectedDescriptorSha256: PUTTOM_PREVIEW_CONFIG.descriptorSha256,
+      }),
+      loadSurfacePreview(surfaceDescriptorUrl.href, {
+        ...(surfaceLoaderOptions ?? loaderOptions),
+        expectedDescriptorSha256: PUTTOM_PREVIEW_CONFIG.surfaceDescriptorSha256,
+      }),
+    ]);
     validatePuttomDescriptor(loaded.descriptor, geo);
+    validatePuttomSurfaceDescriptor(loadedSurface.descriptor, loaded.descriptor, packSha256);
     const aligned = alignTerrainPreviewToLegacyFrame(
       loaded,
       PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006,
     );
-    const encodedBytes = loaded.descriptor.tiles.reduce((sum, tile) => sum + tile.reference.bytes, 0);
-    const decodedBytes = loaded.descriptor.tiles.reduce((sum, tile) => sum + tile.reference.decodedBytes, 0);
-    const gpuBytes = aligned.resources.reduce((sum, resource) => sum + resource.gpuBytes, 0);
+    const { createSurfacePreviewAtlas } = await import('./v2-surface-preview-atlas.mjs');
+    const surfaceAtlas = createSurfacePreviewAtlas({
+      resources: loadedSurface.resources,
+      frame: loaded.descriptor.frame,
+      bridge: aligned.bridge,
+    });
+    const terrainEncodedBytes = loaded.descriptor.tiles.reduce((sum, tile) => sum + tile.reference.bytes, 0);
+    const terrainDecodedBytes = loaded.descriptor.tiles.reduce((sum, tile) => sum + tile.reference.decodedBytes, 0);
+    const encodedBytes = terrainEncodedBytes + loadedSurface.encodedBytes;
+    const decodedBytes = terrainDecodedBytes + loadedSurface.decodedBytes;
+    const terrainGpuBytes = aligned.resources.reduce((sum, resource) => sum + resource.gpuBytes, 0);
+    const gpuBytes = terrainGpuBytes + surfaceAtlas.data.textureBytes;
     const renderFrontiers = new Map([[1, aligned.resources]]);
     return immutableState({
       requested: true,
@@ -250,6 +298,8 @@ export async function loadPuttomTerrainPreview({
       reason: null,
       slug,
       descriptor: loaded.descriptor,
+      surfaceDescriptor: loadedSurface.descriptor,
+      surfaceAtlas,
       resources: aligned.resources,
       bounds: aligned.bounds,
       bridge: aligned.bridge,
@@ -265,6 +315,12 @@ export async function loadPuttomTerrainPreview({
         encodedBytes,
         decodedBytes,
         gpuBytes,
+        terrainEncodedBytes,
+        terrainDecodedBytes,
+        terrainGpuBytes,
+        surfaceEncodedBytes: loadedSurface.encodedBytes,
+        surfaceDecodedBytes: loadedSurface.decodedBytes,
+        surfaceTextureBytes: surfaceAtlas.data.textureBytes,
       }),
     });
   } catch (error) {
