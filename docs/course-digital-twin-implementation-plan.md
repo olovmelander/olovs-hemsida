@@ -1032,7 +1032,9 @@ Deliverables:
   renderer-only image. Class IDs use the verified primary/secondary union, while
   acceptance uses non-zero signed/current coverage rather than the primary-only
   material histogram. WebGPU is accepted only from a bounded active-pipeline
-  RGBA8 readback; missing, blank or browser-error cases fail CI.
+  RGBA8 readback. Three r185's exact 256-byte WebGPU row padding is removed
+  before PNG encoding; every other buffer layout, missing/blank frame or browser
+  error fails CI.
 - [ ] Live adapter selection behind the existing v2 flag after both visual
   paths pass.
 - [x] Height-sensitive camera, water, ball/interactions, surface and object

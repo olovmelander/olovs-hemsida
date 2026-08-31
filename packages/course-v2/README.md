@@ -267,7 +267,8 @@ analysis, rejects uniform central frames, requires the 16-tile provisional
 surface frontier, inventories each verified tile's primary/secondary ID union
 and requires non-zero signed/current coverage for every mandatory class. The
 primary-only shader histogram remains diagnostic. It uses a bounded RGBA8
-active-pipeline readback for WebGPU.
+active-pipeline readback for WebGPU and strictly removes Three r185's 256-byte
+row padding before PNG encoding.
 A readback never claims that the headless or hardware canvas presented pixels.
 `node packages/course-v2/check-renderer-build.mjs` bundles the complete path
 against the installed Three.js r185 API. The production selector still reports

@@ -52,6 +52,7 @@ import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { loadPuttomTerrainPreview } from './engine/v2-puttom-preview.mjs';
+import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
    the flag-cloth wave -- so two boots render the same pixels. Phase 0 proved the
@@ -5065,12 +5066,10 @@ async function captureReadback() {
     renderer.setRenderTarget(captureReadbackTarget);
     renderActivePipeline();
     await waitForSubmittedGpuWork();
-    const pixels = await renderer.readRenderTargetPixelsAsync(
+    const rawPixels = await renderer.readRenderTargetPixelsAsync(
       captureReadbackTarget, 0, 0, width, height,
     );
-    if (!(pixels instanceof Uint8Array) || pixels.byteLength !== width * height * 4) {
-      throw new Error(`unexpected app WebGPU readback size ${pixels?.byteLength || 0}`);
-    }
+    const pixels = contiguousRgba8Readback(rawPixels, width, height);
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
@@ -5096,6 +5095,8 @@ async function captureReadback() {
       mimeType: 'image/png',
       base64: btoa(binary),
       sourceBytes: pixels.byteLength,
+      readbackBytes: rawPixels.byteLength,
+      rowPaddingStripped: rawPixels.byteLength !== pixels.byteLength,
       encodedBytes: encoded.byteLength,
       provisional: true,
       performanceEvidence: false,

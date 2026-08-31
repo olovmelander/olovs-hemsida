@@ -95,9 +95,16 @@ async function imageEvidence(file) {
 }
 
 function assertPngReadback(readback, viewport) {
+  const sourceBytes = viewport.width * viewport.height * 4;
+  const rowBytes = viewport.width * 4;
+  const paddedRowBytes = Math.ceil(rowBytes / 256) * 256;
+  const paddedBytes = (viewport.height - 1) * paddedRowBytes + rowBytes;
   if (readback?.mimeType !== 'image/png' || readback.width !== viewport.width ||
       readback.height !== viewport.height || readback.provisional !== true ||
       readback.performanceEvidence !== false || !Number.isSafeInteger(readback.encodedBytes) ||
+      readback.sourceBytes !== sourceBytes ||
+      ![sourceBytes, paddedBytes].includes(readback.readbackBytes) ||
+      readback.rowPaddingStripped !== (readback.readbackBytes !== readback.sourceBytes) ||
       readback.encodedBytes < 100 || readback.encodedBytes > 20 * 1024 * 1024 ||
       typeof readback.base64 !== 'string') {
     throw new Error('real app WebGPU readback returned invalid or overstated evidence');
