@@ -1,3 +1,5 @@
+import { SURFACE } from './surface.js';
+
 export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   slug: 'puttom',
   descriptorPath: 'v2/puttom/preview.json',
@@ -26,6 +28,51 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   expectedTileCount: 16,
 });
 
+export const PUTTOM_PREVIEW_REQUIRED_SURFACE_CLASSES = Object.freeze([
+  Object.freeze({ id: SURFACE.ROUGH, label: 'rough' }),
+  Object.freeze({ id: SURFACE.FAIRWAY, label: 'fairway' }),
+  Object.freeze({ id: SURFACE.GREEN, label: 'green' }),
+  Object.freeze({ id: SURFACE.TEE, label: 'tee' }),
+  Object.freeze({ id: SURFACE.SAND, label: 'sand' }),
+]);
+
+/* inspectSurfacePayload() inventories both the primary material and its
+   non-no-data secondary neighbour. That union is the semantic surface
+   contract: the signed-distance shader can legitimately promote the
+   higher-priority neighbour to primary across an entire narrow class, as it
+   does for Puttom rough. A primary-only histogram is therefore diagnostic
+   coverage, never proof that a class is absent. */
+export function verifiedSurfaceClassIds(resources) {
+  if (!Array.isArray(resources) || !resources.length) {
+    throw new TypeError('verified surface resources are required');
+  }
+  const ids = new Set();
+  for (const resource of resources) {
+    const surfaceIds = resource?.inspection?.surfaceIds;
+    if (!Array.isArray(surfaceIds) || !surfaceIds.length) {
+      throw new Error(`surface resource ${resource?.tileId || 'unknown'} has no verified class inventory`);
+    }
+    for (const surfaceId of surfaceIds) {
+      if (!Number.isSafeInteger(surfaceId) || surfaceId < 0 || surfaceId >= 255) {
+        throw new Error(`surface resource ${resource?.tileId || 'unknown'} has invalid class id ${surfaceId}`);
+      }
+      ids.add(surfaceId);
+    }
+  }
+  return Object.freeze([...ids].sort((left, right) => left - right));
+}
+
+export function assertPuttomSurfaceCoverage(classCounts) {
+  if ((!Array.isArray(classCounts) && !ArrayBuffer.isView(classCounts)) || classCounts.length < 1) {
+    throw new TypeError('classified surface coverage counts are required');
+  }
+  const missing = PUTTOM_PREVIEW_REQUIRED_SURFACE_CLASSES
+    .filter(({ id }) => !Number.isSafeInteger(classCounts[id]) || classCounts[id] < 1)
+    .map(({ label }) => label);
+  if (missing.length) throw new Error(`Puttom surface preview is missing ${missing.join(', ')}`);
+  return classCounts;
+}
+
 const EPSILON = 1e-6;
 
 function near(actual, expected) {
@@ -41,6 +88,7 @@ function immutableState(value) {
     descriptor: null,
     surfaceDescriptor: null,
     surfaceAtlas: null,
+    surfaceClassIds: Object.freeze([]),
     resources: Object.freeze([]),
     bounds: null,
     bridge: null,
@@ -274,6 +322,7 @@ export async function loadPuttomTerrainPreview({
     ]);
     validatePuttomDescriptor(loaded.descriptor, geo);
     validatePuttomSurfaceDescriptor(loadedSurface.descriptor, loaded.descriptor, packSha256);
+    const surfaceClassIds = verifiedSurfaceClassIds(loadedSurface.resources);
     const aligned = alignTerrainPreviewToLegacyFrame(
       loaded,
       PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006,
@@ -284,6 +333,12 @@ export async function loadPuttomTerrainPreview({
       frame: loaded.descriptor.frame,
       bridge: aligned.bridge,
     });
+    try {
+      assertPuttomSurfaceCoverage(surfaceAtlas.data.classCounts);
+    } catch (error) {
+      surfaceAtlas.dispose();
+      throw error;
+    }
     const terrainEncodedBytes = loaded.descriptor.tiles.reduce((sum, tile) => sum + tile.reference.bytes, 0);
     const terrainDecodedBytes = loaded.descriptor.tiles.reduce((sum, tile) => sum + tile.reference.decodedBytes, 0);
     const encodedBytes = terrainEncodedBytes + loadedSurface.encodedBytes;
@@ -300,6 +355,7 @@ export async function loadPuttomTerrainPreview({
       descriptor: loaded.descriptor,
       surfaceDescriptor: loadedSurface.descriptor,
       surfaceAtlas,
+      surfaceClassIds,
       resources: aligned.resources,
       bounds: aligned.bounds,
       bridge: aligned.bridge,

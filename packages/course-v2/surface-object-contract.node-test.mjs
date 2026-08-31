@@ -27,7 +27,7 @@ function surfaceFixture() {
     height: 2,
     sampleSpacingMetres: 1,
     primarySurfaceIds: [1, 2, 255, 3],
-    secondarySurfaceIds: [2, 255, 255, 1],
+    secondarySurfaceIds: [4, 255, 255, 1],
     boundaryDistancesMetres: [0.123, -1, 0, 3.45],
     ownerFeatureIds: [1, 2, 0, 3],
     mowCoordinatesMetres: [2.345, 0, 0, 8],
@@ -90,7 +90,7 @@ test('surface grid round-trips lossless identifiers and bounded material fields'
   assert.equal(encoded.maximumContinuousError, 1 / 510);
   const decoded = decodeSurfaceGrid(encoded.payload, encoded.surfaceGrid);
   assert.deepEqual([...decoded.primarySurfaceIds], [1, 2, 255, 3]);
-  assert.deepEqual([...decoded.secondarySurfaceIds], [2, 255, 255, 1]);
+  assert.deepEqual([...decoded.secondarySurfaceIds], [4, 255, 255, 1]);
   assert.deepEqual([...decoded.ownerFeatureIds], [1, 2, 0, 3]);
   assert.ok(Math.abs(decoded.boundaryDistancesMetres[0] - 0.12) < 1e-6);
   assert.ok(Math.abs(decoded.mowCoordinatesMetres[0] - 2.35) < 1e-6);
@@ -103,7 +103,7 @@ test('surface inspection checks declared extent, no-data normalization and class
   assert.deepEqual(inspectSurfacePayload(encoded.payload, header), {
     validCount: 3,
     noDataCount: 1,
-    surfaceIds: [1, 2, 3],
+    surfaceIds: [1, 2, 3, 4],
     minBoundaryDistanceMetres: -1,
     maxBoundaryDistanceMetres: 3.45,
   });

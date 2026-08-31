@@ -33,7 +33,11 @@
 > desktop forced WebGL2 plus desktop WebGPU: it captures an explicit noon/overhead
 > view, removes HUD pixels from presentation evidence, analyses distributed
 > central image structure and requires a bounded RGBA8 readback of the active
-> WebGPU pipeline. A blank SwiftShader swap surface stays recorded as blank and
+> WebGPU pipeline. Surface IDs are inventoried from each verified tile's union
+> of primary and secondary channels, while acceptance requires non-zero class
+> coverage reconstructed from the signed distance. Primary shader coverage is
+> kept separate so Puttom rough cannot be falsely reported absent. A blank
+> SwiftShader swap surface stays recorded as blank and
 > can no longer pass because its surrounding UI happens to vary. The capture is
 > deterministic software-adapter shader evidence, never hardware performance or
 > production approval. Candidate origins remain unapproved, authenticated source rollout
@@ -1025,7 +1029,9 @@ Deliverables:
 - [x] Real-app visual/semantic capture policy requires mobile and desktop
   forced-WebGL2 plus desktop WebGPU, an explicit noon/overhead camera, 16 bound
   provisional surface tiles with rough/fairway/green/tee/sand classes and a
-  renderer-only image. WebGPU is accepted only from a bounded active-pipeline
+  renderer-only image. Class IDs use the verified primary/secondary union, while
+  acceptance uses non-zero signed/current coverage rather than the primary-only
+  material histogram. WebGPU is accepted only from a bounded active-pipeline
   RGBA8 readback; missing, blank or browser-error cases fail CI.
 - [ ] Live adapter selection behind the existing v2 flag after both visual
   paths pass.

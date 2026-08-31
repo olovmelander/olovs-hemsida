@@ -5135,8 +5135,13 @@ window.V3D = {
       reason: TERRAIN_PREVIEW.surfaceDescriptor.provisionalReason,
       sourcePackSha256: TERRAIN_PREVIEW.surfaceDescriptor.source.packSha256,
       tileCount: TERRAIN_PREVIEW.surfaceAtlas?.data?.tileIds?.length || 0,
+      classIds: Array.from(TERRAIN_PREVIEW.surfaceClassIds || []),
       classes: TERRAIN_PREVIEW.surfaceAtlas?.data?.classCounts
         ? Array.from(TERRAIN_PREVIEW.surfaceAtlas.data.classCounts, (count, id) => ({ id, count }))
+          .filter(item => item.count > 0)
+        : [],
+      primaryClasses: TERRAIN_PREVIEW.surfaceAtlas?.data?.primaryClassCounts
+        ? Array.from(TERRAIN_PREVIEW.surfaceAtlas.data.primaryClassCounts, (count, id) => ({ id, count }))
           .filter(item => item.count > 0)
         : [],
     } : null,

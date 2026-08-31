@@ -3,7 +3,12 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PUTTOM_PREVIEW_CONFIG } from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
+import {
+  assertPuttomSurfaceCoverage,
+  PUTTOM_PREVIEW_CONFIG,
+  verifiedSurfaceClassIds,
+} from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
+import { createSurfacePreviewAtlas } from '../../apps/golf/src/engine/v2-surface-preview-atlas.mjs';
 import { verifyChunkAsset } from './chunk-node.mjs';
 import { assertSurfacePreview } from './surface-preview.mjs';
 import { assertTerrainPreview } from './terrain-preview.mjs';
@@ -61,12 +66,28 @@ if (surface.label !== PUTTOM_PREVIEW_CONFIG.surfaceLabel ||
   throw new Error('built Puttom surface preview is not bound to its terrain frame and verified GPK1 source');
 }
 const referencedSurface = new Set();
+const verifiedSurfaceResources = [];
 for (const tile of surface.tiles) {
   const file = path.resolve(previewRoot, tile.reference.url);
   if (!file.startsWith(`${previewRoot}${path.sep}`)) throw new Error('built Puttom surface asset escaped its root');
-  verifyChunkAsset(tile.reference, fs.readFileSync(file));
+  verifiedSurfaceResources.push({
+    tileId: tile.id,
+    ...verifyChunkAsset(tile.reference, fs.readFileSync(file)),
+  });
   referencedSurface.add(path.relative(previewRoot, file));
 }
+const surfaceClassIds = verifiedSurfaceClassIds(verifiedSurfaceResources);
+const surfaceAtlas = createSurfacePreviewAtlas({
+  resources: verifiedSurfaceResources,
+  frame: preview.frame,
+  bridge: {
+    translateX: preview.frame.origin.easting - PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006.easting,
+    translateY: preview.frame.origin.heightRH2000,
+    translateZ: PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006.northing - preview.frame.origin.northing,
+  },
+});
+assertPuttomSurfaceCoverage(surfaceAtlas.data.classCounts);
+surfaceAtlas.dispose();
 const surfaceDirectory = path.join(previewRoot, 'grounds/puttom/surface');
 const retainedSurface = fs.readdirSync(surfaceDirectory)
   .filter(file => file.endsWith('.bvch'))
@@ -115,4 +136,4 @@ for (const requiredRule of [
 ]) {
   if (!headers.includes(requiredRule)) throw new Error(`built cache headers are missing ${requiredRule.split('\n')[0]}`);
 }
-console.log(`course-v2 app isolation passed: ${chunks.join(', ')}, surface/terrain previews verified and not precached`);
+console.log(`course-v2 app isolation passed: ${chunks.join(', ')}, surface classes ${surfaceClassIds.join('/')}, surface/terrain previews verified and not precached`);

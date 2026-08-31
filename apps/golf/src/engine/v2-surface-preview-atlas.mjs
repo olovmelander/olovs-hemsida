@@ -144,6 +144,8 @@ export function createSurfacePreviewAtlas({ resources, frame, bridge } = {}) {
   const idData = new Uint8Array(samples * 2);
   const fieldData = new Uint8Array(samples * 4);
   const classCounts = new Uint32Array(256);
+  const primaryClassCounts = new Uint32Array(256);
+  let noDataCount = 0;
   const view = new DataView(raw.buffer, raw.byteOffset, raw.byteLength);
   for (let index = 0; index < samples; index++) {
     const source = index * 14;
@@ -155,7 +157,7 @@ export function createSurfacePreviewAtlas({ resources, frame, bridge } = {}) {
       idData[target] = SURFACE.ROUGH;
       idData[target + 1] = SURFACE.ROUGH;
       fieldData[fields] = 255;
-      classCounts[SURFACE.ROUGH]++;
+      noDataCount++;
       continue;
     }
     if (secondary === primary) throw new Error(`surface preview sample ${index} has ambiguous secondary id`);
@@ -171,7 +173,12 @@ export function createSurfacePreviewAtlas({ resources, frame, bridge } = {}) {
     fieldData[fields + 1] = Math.round(Math.min(255, mowCoordinate * ROUTE_DISTANCE_SCALE));
     fieldData[fields + 2] = owner;
     fieldData[fields + 3] = Math.round(Math.min(255, mowCoordinate / RING_DISTANCE_SCALE));
-    classCounts[primary]++;
+    /* Primary is the higher-priority shader side, not necessarily the class
+       occupying this sample. A negative signed distance means the encoded
+       secondary is the current class (notably rough around Puttom edges). */
+    const current = signedDistance < 0 && secondary !== SURFACE_NO_DATA_ID ? secondary : primary;
+    classCounts[current]++;
+    primaryClassCounts[primary]++;
   }
 
   const bounds = Object.freeze({
@@ -193,11 +200,14 @@ export function createSurfacePreviewAtlas({ resources, frame, bridge } = {}) {
   const sampleAt = (x, z) => {
     const index = indexAt(x, z);
     if (index < 0) return { inBounds: false, surface: SURFACE.ROUGH };
+    const primary = idData[index * 2];
+    const secondary = idData[index * 2 + 1];
+    const surface = fieldData[index * 4] < 128 ? secondary : primary;
     return Object.freeze({
       inBounds: true,
-      surface: idData[index * 2],
-      primary: idData[index * 2],
-      secondary: idData[index * 2 + 1],
+      surface,
+      primary,
+      secondary,
     });
   };
   return Object.freeze({
@@ -210,6 +220,8 @@ export function createSurfacePreviewAtlas({ resources, frame, bridge } = {}) {
     data: Object.freeze({
       bounds,
       classCounts,
+      primaryClassCounts,
+      noDataCount,
       tileIds: Object.freeze(tiles.map(tile => tile.id).sort()),
       decodedBytes: resources.reduce((sum, resource) => sum + resource.payload.byteLength, 0),
       textureBytes: idData.byteLength + fieldData.byteLength,

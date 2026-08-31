@@ -6,7 +6,8 @@ export const PUTTOM_APP_CAPTURE_CASES = Object.freeze([
 
 function passed(captures, caseId) {
   return captures.some(capture => capture?.caseId === caseId &&
-    capture.backendMatched === true && capture.acceptedFrameVisible === true);
+    capture.backendMatched === true && capture.acceptedFrameVisible === true &&
+    capture.surfaceEvidencePassed === true);
 }
 
 /** Keep the release decision separate from Playwright orchestration so a
@@ -21,6 +22,9 @@ export function summarizePuttomAppCaptureProof(captures, failures) {
   const webgpuBackendPassed = Boolean(webgpuCapture?.backendMatched);
   const webgpuReadbackPassed = webgpuCapture?.sceneReadbackPassed === true;
   const webgpuCanvasPassed = webgpuCapture?.canvasPresentationVisible === true;
+  const surfaceEvidencePassed = PUTTOM_APP_CAPTURE_CASES
+    .every(item => captures.some(capture => capture?.caseId === item.id &&
+      capture.surfaceEvidencePassed === true));
   return Object.freeze({
     webgl2MobilePassed,
     webgl2DesktopPassed,
@@ -28,6 +32,7 @@ export function summarizePuttomAppCaptureProof(captures, failures) {
     webgpuBackendPassed,
     webgpuReadbackPassed,
     webgpuCanvasPassed,
+    surfaceEvidencePassed,
     requiredCasesPassed: PUTTOM_APP_CAPTURE_CASES.every(item => passed(captures, item.id)) &&
       webgpuReadbackPassed && failures.length === 0,
   });

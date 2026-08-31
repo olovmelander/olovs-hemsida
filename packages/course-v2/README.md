@@ -264,7 +264,10 @@ parity only; hardware performance remains a separate reference-device gate.
 `capture-puttom-app-preview.mjs` separately exercises the real app in mobile and
 desktop forced-WebGL2 plus desktop WebGPU. It hides the HUD before presentation
 analysis, rejects uniform central frames, requires the 16-tile provisional
-surface frontier and uses a bounded RGBA8 active-pipeline readback for WebGPU.
+surface frontier, inventories each verified tile's primary/secondary ID union
+and requires non-zero signed/current coverage for every mandatory class. The
+primary-only shader histogram remains diagnostic. It uses a bounded RGBA8
+active-pipeline readback for WebGPU.
 A readback never claims that the headless or hardware canvas presented pixels.
 `node packages/course-v2/check-renderer-build.mjs` bundles the complete path
 against the installed Three.js r185 API. The production selector still reports

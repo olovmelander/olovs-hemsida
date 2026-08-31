@@ -5,10 +5,12 @@ import { createTerrainRenderResource, prepareTerrainRenderData } from '../../../
 import { verifyChunkAsset } from '../../../../packages/course-v2/chunk-node.mjs';
 import {
   alignTerrainPreviewToLegacyFrame,
+  assertPuttomSurfaceCoverage,
   createTerrainResourceSampler,
   decimateTerrainRenderResources,
   loadPuttomTerrainPreview,
   puttomPreviewRequested,
+  verifiedSurfaceClassIds,
 } from './v2-puttom-preview.mjs';
 
 function fixture() {
@@ -46,6 +48,22 @@ describe('Puttom interactive terrain preview bridge', () => {
     expect(off).toMatchObject({ requested: false, ready: false, status: 'off' });
     const other = await loadPuttomTerrainPreview({ slug: 'upsala', search: '?v2=1' });
     expect(other).toMatchObject({ requested: true, ready: false, status: 'fallback', reason: 'course-not-enabled' });
+  });
+
+  it('uses the verified primary/secondary union for the required surface inventory', () => {
+    const resources = [
+      { tileId: 'a', inspection: { surfaceIds: [2, 4, 5] } },
+      { tileId: 'b', inspection: { surfaceIds: [0, 2, 6] } },
+    ];
+    expect(verifiedSurfaceClassIds(resources)).toEqual([0, 2, 4, 5, 6]);
+    const coverage = new Uint32Array(256);
+    for (const id of [0, 2, 4, 5, 6]) coverage[id] = 1;
+    expect(assertPuttomSurfaceCoverage(coverage)).toBe(coverage);
+    /* A secondary neighbour can make the verified union contain rough without
+       rough occupying a signed/current sample. That must remain diagnostic and
+       cannot satisfy the fail-closed coverage gate. */
+    coverage[0] = 0;
+    expect(() => assertPuttomSurfaceCoverage(coverage)).toThrow(/missing rough/);
   });
 
   it('turns a missing preview into a non-throwing GPK1 fallback', async () => {

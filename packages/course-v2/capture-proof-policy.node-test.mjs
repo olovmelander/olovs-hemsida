@@ -6,6 +6,7 @@ const capture = (caseId, extra = {}) => ({
   caseId,
   backendMatched: true,
   acceptedFrameVisible: true,
+  surfaceEvidencePassed: true,
   ...extra,
 });
 
@@ -24,6 +25,7 @@ test('all required app captures pass with bounded WebGPU readback', () => {
   assert.equal(proof.webgpuBackendPassed, true);
   assert.equal(proof.webgpuReadbackPassed, true);
   assert.equal(proof.webgpuCanvasPassed, false, 'software readback must not imply canvas presentation');
+  assert.equal(proof.surfaceEvidencePassed, true);
   assert.equal(proof.requiredCasesPassed, true);
 });
 
@@ -44,4 +46,10 @@ test('any captured browser failure fails the proof', () => {
   assert.equal(summarizePuttomAppCaptureProof(complete(), [
     { caseId: 'webgpu-desktop', error: 'shader compilation failed' },
   ]).requiredCasesPassed, false);
+});
+
+test('missing semantic surface evidence fails even with visible backend frames', () => {
+  const captures = complete();
+  captures[1] = capture('webgl2-desktop', { surfaceEvidencePassed: false });
+  assert.equal(summarizePuttomAppCaptureProof(captures, []).requiredCasesPassed, false);
 });

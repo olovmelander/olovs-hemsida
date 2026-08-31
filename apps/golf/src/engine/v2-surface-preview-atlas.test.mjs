@@ -56,6 +56,14 @@ describe('v2 surface preview atlas', () => {
     expect(atlas.bounds).toMatchObject({ x0: -1.5, z0: -6.5, x1: 7.5, z1: 2.5, w: 9, h: 9, res: 1 });
     expect(atlas.data.tileIds).toEqual(['l0/0/0', 'l0/0/1', 'l0/1/0', 'l0/1/1']);
     expect(atlas.data.classCounts[SURFACE.GREEN]).toBeGreaterThan(0);
+    expect(atlas.data.classCounts[SURFACE.ROUGH]).toBeGreaterThan(0);
+    expect(atlas.data.primaryClassCounts[SURFACE.ROUGH]).toBe(0);
+    expect(atlas.sampleAt(-1, -6)).toMatchObject({
+      inBounds: true,
+      surface: SURFACE.ROUGH,
+      primary: SURFACE.GREEN,
+      secondary: SURFACE.ROUGH,
+    });
     expect(atlas.sampleAt(3, -2)).toMatchObject({ inBounds: true, surface: SURFACE.GREEN });
     expect(atlas.sampleAt(100, 100)).toMatchObject({ inBounds: false, surface: SURFACE.ROUGH });
     atlas.dispose();

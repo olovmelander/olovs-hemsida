@@ -5,6 +5,7 @@ import { createServer } from 'node:http';
 import { extname, join, resolve, sep } from 'node:path';
 import { chromium } from 'playwright-core';
 import { decodePNG } from '../../geobuild/png.mjs';
+import { PUTTOM_PREVIEW_REQUIRED_SURFACE_CLASSES } from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
 import {
   PUTTOM_APP_CAPTURE_CASES,
   summarizePuttomAppCaptureProof,
@@ -93,10 +94,6 @@ async function imageEvidence(file) {
   return rendererImageEvidence(decodePNG(await readFile(file)));
 }
 
-const REQUIRED_SURFACE_CLASSES = Object.freeze(new Map([
-  [0, 'rough'], [2, 'fairway'], [4, 'green'], [5, 'tee'], [6, 'sand'],
-]));
-
 function assertPngReadback(readback, viewport) {
   if (readback?.mimeType !== 'image/png' || readback.width !== viewport.width ||
       readback.height !== viewport.height || readback.provisional !== true ||
@@ -156,8 +153,8 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
     }
     const presentClasses = new Set((state.v2.surface.classes || [])
       .filter(item => Number.isSafeInteger(item?.count) && item.count > 0).map(item => item.id));
-    const missingClasses = [...REQUIRED_SURFACE_CLASSES]
-      .filter(([surfaceId]) => !presentClasses.has(surfaceId)).map(([, label]) => label);
+    const missingClasses = PUTTOM_PREVIEW_REQUIRED_SURFACE_CLASSES
+      .filter(({ id }) => !presentClasses.has(id)).map(({ label }) => label);
     if (missingClasses.length) throw new Error(`surface frontier is missing ${missingClasses.join(', ')}`);
     if (state.stats.backend !== backend || state.v2.backend !== backend) {
       throw new Error(`${caseId} initialized ${state.stats.backend}/${state.v2.backend}`);
@@ -220,7 +217,7 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
       performanceEvidence: false, lighting: 'noon', cameraMode: state.camera.mode,
       appImage, appPixels, presentationImage, presentationPixels, canvasPresentationVisible,
       image: acceptedImage, pixels: acceptedPixels, captureMethod, acceptedFrameVisible,
-      sceneReadbackPassed,
+      sceneReadbackPassed, surfaceEvidencePassed: true,
       v2: state.v2, app: state.stats,
       boot: state.perf, sampledFps: state.fps, badge: state.badge,
       problems: Object.freeze([...new Set(problems)].slice(0, 10)),
