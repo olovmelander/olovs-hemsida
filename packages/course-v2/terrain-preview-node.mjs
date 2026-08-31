@@ -24,15 +24,19 @@ function finiteBounds(bounds) {
   return Object.freeze(Object.fromEntries(fields.map(field => [field, bounds[field]])));
 }
 
-function previewFrame(bounds) {
+/* One deterministic provisional-frame convention for every compiled extent:
+   window-centred origin, centimetre-floored height origin, fingerprint over
+   the canonical frame. This is a frame statement, never a D1 origin approval. */
+export function createProvisionalFrame(bounds) {
+  const checked = finiteBounds(bounds);
   const frame = {
     compoundCrs: 'EPSG:5845',
     horizontalCrs: 'EPSG:3006',
     verticalCrs: 'EPSG:5613',
     origin: {
-      easting: (bounds.minEasting + bounds.maxEasting) / 2,
-      northing: (bounds.minNorthing + bounds.maxNorthing) / 2,
-      heightRH2000: Math.floor(bounds.minHeightRH2000 * 100) / 100,
+      easting: (checked.minEasting + checked.maxEasting) / 2,
+      northing: (checked.minNorthing + checked.maxNorthing) / 2,
+      heightRH2000: Math.floor(checked.minHeightRH2000 * 100) / 100,
     },
     axisMapping: {
       worldX: 'easting - originEasting',
@@ -74,7 +78,7 @@ export function createTerrainPreviewDescriptor(compilation, { label = 'Terrängp
       throw new Error(`terrain compilation is missing ${tile.reference.url}`);
     }
   }
-  const frame = previewFrame(bounds);
+  const frame = createProvisionalFrame(bounds);
   return Object.freeze(assertTerrainPreview({
     schemaVersion: 1,
     kind: TERRAIN_PREVIEW_KIND,

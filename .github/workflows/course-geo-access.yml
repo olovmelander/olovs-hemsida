@@ -10,6 +10,8 @@ on:
       - "packages/course-v2/capture-terrain-preview.mjs"
       - "packages/course-v2/capture-puttom-app-preview.mjs"
       - "packages/course-v2/terrain-preview*.mjs"
+      - "packages/course-v2/*ground-graph*.mjs"
+      - "packages/course-v2/emit-ground-graph-node.mjs"
       - "packages/course-v2/*surface*.mjs"
       - "packages/course-v2/schemas/authoritative-surface-source-v1.schema.json"
       - "packages/course-geo/**"
@@ -179,8 +181,12 @@ jobs:
               /[\r\n]/.test(assetUrl.href)) {
             throw new Error('Terrain asset URL is not safe for a workflow output');
           }
+          if (!/^[A-Za-z0-9_-]{1,64}$/.test(feature.id)) {
+            throw new Error('Terrain item id is not safe for a workflow output');
+          }
           const { appendFileSync } = await import('node:fs');
           appendFileSync(process.env.GITHUB_OUTPUT, `asset_url=${assetUrl.href}\n`, 'utf8');
+          appendFileSync(process.env.GITHUB_OUTPUT, `item_id=${feature.id}\n`, 'utf8');
 
           console.log(JSON.stringify({
             ready: true,
@@ -640,6 +646,53 @@ jobs:
             note: 'The source and compiled sample remain ephemeral on the GitHub runner.',
           }, null, 2));
           NODE
+
+      - name: Compile full-AOI Puttom terrain and emit the v2 ground graph
+        env:
+          CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .tif
+          CPL_VSIL_CURL_CACHE_SIZE: "67108864"
+          GDAL_DISABLE_READDIR_ON_OPEN: EMPTY_DIR
+          GDAL_HTTP_USERPWD: ${{ secrets.LANTMATERIET_USERNAME }}:${{ secrets.LANTMATERIET_PASSWORD }}
+          PROJ_NETWORK: "OFF"
+          TERRAIN_ASSET_URL: ${{ steps.terrain-source.outputs.asset_url }}
+          TERRAIN_ITEM_ID: ${{ steps.terrain-source.outputs.item_id }}
+          VSI_CACHE: "TRUE"
+          VSI_CACHE_SIZE: "67108864"
+        run: |
+          graph_cog="$RUNNER_TEMP/puttom-aoi-2049px.tif"
+          graph_info="$RUNNER_TEMP/puttom-aoi-2049px.json"
+          graph_xyz="$RUNNER_TEMP/puttom-aoi-2049px.xyz"
+          # Reviewed aligned full-course window; compile-puttom-ground-graph.mjs
+          # re-derives these edges from the committed CORE/preview contract and
+          # fails closed if this projwin ever disagrees with it.
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
+            gdal_translate \
+            -of COG \
+            -co BLOCKSIZE=512 \
+            -co COMPRESS=ZSTD \
+            -co LEVEL=9 \
+            -co NUM_THREADS=ALL_CPUS \
+            -projwin_srs EPSG:3006 \
+            -projwin 696404 7025851 698453 7023802 \
+            "/vsicurl/$TERRAIN_ASSET_URL" \
+            "$graph_cog"
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
+            gdalinfo -json -stats "$graph_cog" > "$graph_info"
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
+            gdal_translate -of XYZ "$graph_cog" "$graph_xyz"
+          node packages/course-v2/compile-puttom-ground-graph.mjs \
+            --xyz "$graph_xyz" \
+            --info "$graph_info" \
+            --out "$RUNNER_TEMP/puttom-ground-graph" \
+            --item-id "$TERRAIN_ITEM_ID"
+
+      - name: Upload emitted Puttom v2 ground graph
+        uses: actions/upload-artifact@v4
+        with:
+          name: puttom-ground-graph-${{ github.run_number }}
+          path: ${{ runner.temp }}/puttom-ground-graph
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Capture retained pilot in forced WebGL2 and WebGPU-preferred modes
         run: >-

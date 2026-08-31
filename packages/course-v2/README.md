@@ -193,6 +193,33 @@ precedence, writes only full-SHA surface BVCH paths and refuses to replace a
 different existing artifact. It is reproducible migration output, not a route
 to promote the vectors to surveyed truth.
 
+### Full-AOI Puttom ground-graph compiler
+
+```sh
+node packages/course-v2/compile-puttom-ground-graph.mjs \
+  --xyz <aoi.xyz> --info <gdalinfo.json> --out <dir> --item-id 702_69
+```
+
+Runs on the authenticated provider workflow against the reviewed aligned
+full-course window (8 x 8 tiles, 2,049 x 2,049 samples at 1 m, anchored to the
+retained preview's tile lattice so the verified 16-tile frontier is an exact
+subgrid at column offset 2, row offset 1). The window is derived from the
+committed CORE cutout contract and preview constants — never typed twice — and
+the CLI fails closed if the workflow's projwin, the STAC item id, the
+geotransform or the pyramid shape disagree with the reviewed values. Before
+anything is emitted, every committed preview sample (1,056,784 of them) must
+agree with the freshly compiled master on the shared 1 cm quantization
+lattice: zero no-data mismatches, at most one quantum of float-tie drift and
+at least 99.9% exact equality. `emit-ground-graph-node.mjs` then assembles the
+publishable root/course/ground graph — routing heights sampled from the
+compiled pyramid, hole-to-tile priority mapping behind an 80 m buffer, the
+exact live GPK1 fallback identity — and self-verifies it through the same
+`verifyAssetGraph` gate as the synthetic contract. The workflow uploads the
+tree as the `puttom-ground-graph-*` artifact; committing it to the public app
+and registering the slug is a separate, gated publication step. The emitted
+frame follows the shared provisional convention and is not a D1 origin
+approval.
+
 ### Authoritative surface intake boundary
 
 `authoritative-surface-source.mjs` is the separate fail-closed route for future
