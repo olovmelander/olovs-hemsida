@@ -106,17 +106,64 @@ const expected = [
   /^v2-surface-preview-loader-[A-Za-z0-9_-]+\.js$/,
   /^v2-surface-preview-atlas-[A-Za-z0-9_-]+\.js$/,
   /^v2-graph-source-[A-Za-z0-9_-]+\.js$/,
+  /* the summariser and its driver are separate chunks, so the first pattern
+     must not also match the second's name */
+  /^v2-stream-probe-(?!run-)[A-Za-z0-9_-]+\.js$/,
+  /^v2-stream-probe-run-[A-Za-z0-9_-]+\.js$/,
   /^surface-grid-[A-Za-z0-9_-]+\.js$/,
   /^decode-web-[A-Za-z0-9_-]+\.js$/,
 ];
+/* One substantive chunk per module, but a second dynamic-import site makes the
+   bundler emit a tiny re-export facade beside it. That is not duplication —
+   the code still exists once — so the gate asserts what actually matters: a
+   single chunk carrying the module, and every other match being a facade that
+   re-exports precisely that chunk. Two real copies still fail. */
+const FACADE_MAX_BYTES = 512;
 const chunks = expected.map(pattern => {
   const matches = assets.filter(file => pattern.test(file));
-  if (matches.length !== 1) throw new Error(`expected one isolated ${pattern} chunk, found ${matches.length}`);
-  return matches[0];
+  if (!matches.length) throw new Error(`expected an isolated ${pattern} chunk, found none`);
+  const sized = matches.map(file => ({ file, bytes: fs.statSync(path.join(ASSETS, file)).size }));
+  const substantive = sized.filter(entry => entry.bytes > FACADE_MAX_BYTES);
+  if (substantive.length !== 1) {
+    throw new Error(`expected one substantive ${pattern} chunk, found ${substantive.length}: ${
+      sized.map(entry => `${entry.file} (${entry.bytes} B)`).join(', ')}`);
+  }
+  for (const facade of sized.filter(entry => entry !== substantive[0])) {
+    const body = fs.readFileSync(path.join(ASSETS, facade.file), 'utf8');
+    if (!body.includes(substantive[0].file)) {
+      throw new Error(`${facade.file} is not a re-export facade for ${substantive[0].file}`);
+    }
+  }
+  return substantive[0].file;
 });
 for (const chunk of chunks) {
   const bytes = fs.statSync(path.join(ASSETS, chunk)).size;
   if (bytes > 64 * 1024) throw new Error(`${chunk} is ${bytes} bytes; budget is 65536`);
+}
+
+/* The v2 decode Worker must be BUNDLED, not copied. A bundler that fails to
+   recognise the worker construction emits the ~90-byte entry verbatim — or
+   inlines it as a base64 data URL — and its own relative import then resolves
+   to a file that was never emitted. The worker dies on load and every decode
+   job hangs forever with nothing thrown, which no unit test sees because they
+   all inject a loader. Assert the emitted worker is real and self-contained. */
+const workerChunks = assets.filter(file => /^chunk-worker-entry-[A-Za-z0-9_-]+\.(?:m?js)$/.test(file));
+if (workerChunks.length !== 1) {
+  throw new Error(`expected exactly one bundled v2 decode worker chunk, found ${workerChunks.length}`);
+}
+const workerSource = fs.readFileSync(path.join(ASSETS, workerChunks[0]), 'utf8');
+if (workerSource.length < 4096) {
+  throw new Error(`v2 decode worker ${workerChunks[0]} is ${workerSource.length} bytes; it was copied, not bundled`);
+}
+for (const [, specifier] of workerSource.matchAll(/(?:^|[\s;])(?:import|export)[^'"]*?from\s*["']([^"']+)["']/g)) {
+  if (!specifier.startsWith('http')) {
+    throw new Error(`v2 decode worker still imports ${specifier}; a copied entry cannot resolve it at runtime`);
+  }
+}
+for (const otherChunk of assets.filter(file => /^v2-stream-probe-run-/.test(file))) {
+  if (fs.readFileSync(path.join(ASSETS, otherChunk), 'utf8').includes('data:text/javascript;base64')) {
+    throw new Error(`${otherChunk} inlines a worker as a base64 data URL; its relative imports cannot resolve`);
+  }
 }
 
 const serviceWorker = fs.readFileSync(path.join(DIST, 'sw.js'), 'utf8');
@@ -126,6 +173,8 @@ if (chunks.some(chunk => serviceWorker.includes(chunk)) ||
     serviceWorker.includes('v2-surface-preview-loader-') ||
     serviceWorker.includes('v2-surface-preview-atlas-') ||
     serviceWorker.includes('v2-graph-source-') ||
+    serviceWorker.includes('v2-stream-probe-') ||
+    serviceWorker.includes('chunk-worker-') ||
     serviceWorker.includes('terrain-render-data-') ||
     serviceWorker.includes('surface-grid-') ||
     serviceWorker.includes('decode-web-')) {

@@ -63,16 +63,24 @@ function tileWorldBox(tile, frame, target) {
 }
 
 function createWorkerClient(workerFactory) {
-  const WorkerImpl = globalThis.Worker;
-  if (!workerFactory && typeof WorkerImpl !== 'function') {
+  if (workerFactory) return new ChunkWorkerClient(workerFactory());
+  if (typeof globalThis.Worker !== 'function') {
     throw new Error('Web Worker is unavailable for v2 terrain decoding');
   }
-  const worker = workerFactory
-    ? workerFactory()
-    : new WorkerImpl(
-        new URL('../../../../packages/course-v2/runtime/chunk-worker-entry.mjs', import.meta.url),
-        { type: 'module', name: 'banvy-course-v2' },
-      );
+  /* The LITERAL `new Worker(new URL(..., import.meta.url), {type:'module'})`
+     is the only shape a bundler statically detects and bundles. Constructing
+     through an alias -- `const WorkerImpl = globalThis.Worker`, which reads
+     like harmless indirection for testability -- leaves the bundler seeing
+     just an asset reference: it copies the entry VERBATIM, the entry's own
+     relative import resolves to a file that was never emitted, the worker
+     dies on load, and every decode job then hangs forever with nothing
+     thrown anywhere. Measured: 0 of 18 tiles resident after 180 s, two jobs
+     "running" that never complete. Injection for tests stays above, before
+     this line, so the literal survives. */
+  const worker = new Worker(
+    new URL('../../../../packages/course-v2/runtime/chunk-worker-entry.mjs', import.meta.url),
+    { type: 'module', name: 'banvy-course-v2' },
+  );
   return new ChunkWorkerClient(worker);
 }
 

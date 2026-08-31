@@ -53,6 +53,7 @@ import { createV2GroundMaterialDecorator, makeGround } from './engine/material.j
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import { selectV2TerrainSource, V2_GRAPH_RENDERER_GATE } from './engine/v2-terrain-select.mjs';
+import { v2StreamProbeRequested } from './engine/v2-stream-probe.mjs';
 import { V2TerrainLiveAdapter } from './engine/v2-terrain-live-adapter.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 
@@ -5171,6 +5172,11 @@ document.getElementById('hdsub').textContent =
 stats.draws = renderer.info?.render?.drawCalls || stats.draws;
 BOOT_PERF.totalMs = +(performance.now() - bootStarted).toFixed(1);
 
+/* The manifest-driven streaming runtime is measured, not selected. Declared
+   here and STARTED below the V3D assignment: a measurement must never be what
+   stands between a harness and the debug surface it is waiting on. */
+let v2StreamProbe = null;
+
 async function waitForSubmittedGpuWork() {
   const queue = renderer.backend?.device?.queue;
   if (queue?.onSubmittedWorkDone) await queue.onSubmittedWorkDone();
@@ -5305,6 +5311,7 @@ window.V3D = {
     source: TERRAIN_PREVIEW.stats(),
     adapter: terrainV2.snapshot(),
     renderer: { ...terrainV2.rendererState },
+    stream: v2StreamProbe,
     backend: IS_GPU ? 'webgpu' : 'webgl2',
   }),
   classifyAnalytic,
@@ -5340,6 +5347,32 @@ window.V3D = {
     holes: SKY.holes.map(m => { const p = skyXY(m); return { id: String(m.n), f: +m.f.toFixed(3), px: +p[0].toFixed(1), py: +p[1].toFixed(1) }; }),
     fac: SKY.fac.map(f => { const p = skyXY(f); return { id: f.ch, px: +p[0].toFixed(1), py: +p[1].toFixed(1) }; }) }),
 };
+
+/* Only for ?v2stream=1 on a course whose graph resolved, only after boot has
+   finished so it cannot colour boot timings, and only into a detached scene.
+   Activation needs shell/active-hole evidence plus a statement that the
+   streaming worker decode reproduces the heights the verified pilot already
+   renders — both obtainable without putting one streamed triangle in front of
+   anyone. V3D is already published above, so a harness can see the debug
+   surface immediately and wait for `stream` to become non-null. */
+if (V2_SELECTION.graph && v2StreamProbeRequested(location.search)) {
+  const { runV2StreamProbe } = await import('./engine/v2-stream-probe-run.mjs');
+  v2StreamProbe = await runV2StreamProbe({
+    graph: V2_SELECTION.graph,
+    camera,
+    backend: IS_GPU ? 'webgpu' : 'webgl2',
+    mobile: LOWQ,
+    baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
+    activeHoleNumber: hole,
+    viewportHeightPixels: Math.max(1, Math.round(innerHeight)),
+    pilotBounds: TERRAIN_PREVIEW.bounds,
+    pilotHeightAt: (x, z) => {
+      const sample = terrainV2.heightAt(x, z);
+      return Number.isFinite(sample) ? sample : sample?.height ?? Number.NaN;
+    },
+  });
+  console.info('v2 streaming probe:', v2StreamProbe);
+}
 
 addEventListener('pagehide', () => {
   captureReadbackTarget?.dispose();

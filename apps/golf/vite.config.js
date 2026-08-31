@@ -24,6 +24,10 @@ import { VitePWA } from 'vite-plugin-pwa';
 const BASE = process.env.BANVY_BASE || '/';
 
 export default defineConfig({
+  /* The v2 decode Worker is a module worker, so its bundle must be ESM: an
+     IIFE build cannot carry the entry's own imports. */
+  worker: { format: 'es' },
+
   /* Where this build will be served from. Cloudflare would serve it at a domain
      root ('/'); GitHub Pages serves it under the repository name
      ('/olovs-hemsida/'). One config, both hosts -- and nothing in the app may
@@ -78,6 +82,8 @@ export default defineConfig({
           'assets/v2-terrain-*.js',
           'assets/v2-surface-preview-*.js',
           'assets/v2-graph-source-*.js',
+          'assets/v2-stream-probe-*.js',
+          'assets/chunk-worker-*.js',
           'assets/terrain-render-data-*.js',
           'assets/surface-grid-*.js',
           'assets/decode-web-*.js',

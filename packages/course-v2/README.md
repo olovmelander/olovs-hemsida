@@ -226,6 +226,38 @@ and registering the slug is a separate, gated publication step. The emitted
 frame follows the shared provisional convention and is not a D1 origin
 approval.
 
+### Streaming-runtime probe
+
+`?bana=puttom&v2=1&v2stream=1` runs `CourseV2TerrainRuntime` against the
+published graph inside the real app: after boot, into a detached scene, behind
+its own flag, rendering nothing and selecting nothing. It records the plan's
+budget quantities — time to first resident tile, time to a refined active
+hole, resident tiles, draw calls, request stats — and compares its CPU heights
+against the verified pilot sampler over the ground both cover, so the worker
+decode and tile selection are checked against heights that have already been
+accepted rather than asserted. Correctness and speed are reported separately:
+a run that ran out of time says so.
+
+**A software rasteriser cannot complete this, at any deadline.** A single
+`update()` uploads a texture array of 257x257 layers, and under SwiftShader
+that one synchronous call can block for minutes — so the probe times out no
+matter how long it is given, and its timings are never performance evidence.
+Every wait is nonetheless raced against a timer, because a deadline checked
+only between frames bounds nothing: the first version parked for 21 minutes
+inside an await that a stalled rAF never resolved.
+
+**What the starved run still proved is why the probe exists.** Before it, the
+streaming path had never run in a build — every unit test injects its own
+loader, so the decode Worker was never exercised. The probe found it dead:
+`new Worker(...)` was reached through an alias, which the bundler does not
+recognise as a worker, so the ~90-byte entry was emitted verbatim (earlier,
+inlined as a base64 data URL) and its own relative import resolved to a file
+that was never built. The worker died on load, every decode job hung forever,
+and nothing threw anywhere — 0 of 18 tiles resident after 180 s, two jobs
+"running" that never finished. The construction is now the literal form a
+bundler detects, and `check-app-build` asserts the emitted worker is real and
+carries no unresolved imports.
+
 ### Authoritative surface intake boundary
 
 `authoritative-surface-source.mjs` is the separate fail-closed route for future

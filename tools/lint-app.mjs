@@ -21,6 +21,9 @@ fs.writeFileSync(cfg, `export default [{
     URLSearchParams:'readonly', location:'readonly', setTimeout:'readonly',
     clearTimeout:'readonly', devicePixelRatio:'readonly', innerWidth:'readonly',
     innerHeight:'readonly', addEventListener:'readonly', OffscreenCanvas:'readonly',
+    /* the v2 decode worker must be constructed through the literal global so
+       the bundler detects and bundles it -- see v2-terrain-runtime.mjs */
+    Worker:'readonly',
     ImageData:'readonly', Image:'readonly', history:'readonly', localStorage:'readonly', DataView:'readonly',
     crypto:'readonly', setInterval:'readonly', clearInterval:'readonly',
     IntersectionObserver:'readonly', requestIdleCallback:'readonly', matchMedia:'readonly',

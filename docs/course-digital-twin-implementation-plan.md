@@ -1101,12 +1101,30 @@ Deliverables:
   compilation on the shared 1 cm lattice: 1,056,778 exactly equal and 6 tied
   at one quantum, from two independent windows with different quantization
   origins. The frame remains the provisional convention, not a D1 approval.
+- [x] Streaming-runtime probe: `?v2stream=1` runs the manifest-driven runtime
+  against the published graph inside the real app, after boot and into a
+  detached scene, recording time-to-first-resident, time-to-active-hole,
+  resident tiles, draw calls and request stats, plus a height-parity
+  comparison against the verified pilot sampler. It renders nothing and
+  selects nothing; a timeout is reported as a timeout rather than as an empty
+  stream. **What it found immediately: the streaming path had never worked in
+  a build.** Every unit test injects its own loader, so the decode Worker was
+  never exercised; in the built app it was constructed through an alias, which
+  a bundler does not recognise as a worker, so the entry was emitted verbatim
+  (earlier, inlined as a base64 data URL) with an import that resolved to a
+  file that was never built. The worker died on load and every decode job hung
+  forever with nothing thrown. Fixed by using the literal construction a
+  bundler detects, and gated in `check-app-build`, which now requires a real
+  bundled worker chunk with no unresolved imports. A second finding is about
+  measurement itself: a software rasteriser cannot complete the probe at any
+  deadline, because one `update()` uploading a 257x257 texture array can block
+  for minutes there — so streaming timings must come from hardware.
 - [ ] Generic manifest-driven streaming-renderer activation. The graph now
   resolves in the live app (root, course and ground manifests verified, exact
   live-GPK1 fallback identity), but selection deliberately keeps rendering on
-  the frontier that passed the adapter contract: activating the streaming
-  renderer needs its own shell/active-hole performance evidence and the same
-  three-backend capture proof.
+  the frontier that passed the adapter contract. Activation needs the probe's
+  correctness result plus shell/active-hole timings from real hardware and the
+  same three-backend capture proof.
 - [x] Height-sensitive camera, water, ball/interactions, surface and object
   placement migrated to the visible-ground sampler in the live app path.
 - [ ] Removal of full-course synchronous terrain mesh construction for v2.
