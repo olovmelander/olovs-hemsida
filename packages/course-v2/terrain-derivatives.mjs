@@ -381,9 +381,45 @@ function quantiles(values) {
   return {
     count: sorted.length,
     median: +at(0.5).toFixed(3),
+    p10: +at(0.1).toFixed(3),
     p90: +at(0.9).toFixed(3),
+    minimum: +sorted[0].toFixed(3),
     maximum: +sorted.at(-1).toFixed(3),
   };
+}
+
+/**
+ * The one statistic every "can this source see that feature?" question needs,
+ * kept generic so answers from different sources are directly comparable: is
+ * the feature's typical value beyond where ordinary ground's tail reaches?
+ *
+ * `direction` says which way the feature is expected to differ — deeper for
+ * relief, but lower for a mown surface's vegetation index — so a source is
+ * never credited for a difference pointing the wrong way.
+ */
+export function separabilitySummary(referenceValues, controlValues, { direction = 'greater' } = {}) {
+  const reference = [...referenceValues].filter(Number.isFinite);
+  const control = [...controlValues].filter(Number.isFinite);
+  if (!reference.length || !control.length) {
+    throw new Error('separability needs finite samples on both sides');
+  }
+  if (!['greater', 'less'].includes(direction)) throw new RangeError('direction must be greater or less');
+  const referenceStats = quantiles(reference);
+  const controlStats = quantiles(control);
+  const excess = direction === 'greater'
+    ? referenceStats.median - controlStats.median
+    : controlStats.median - referenceStats.median;
+  return Object.freeze({
+    direction,
+    reference: Object.freeze(referenceStats),
+    control: Object.freeze(controlStats),
+    medianExcess: +excess.toFixed(3),
+    /* A threshold can isolate the feature only if ordinary ground's tail stops
+       short of the feature's typical value. */
+    separable: direction === 'greater'
+      ? controlStats.p90 < referenceStats.median
+      : controlStats.p10 > referenceStats.median,
+  });
 }
 
 /**
@@ -400,20 +436,12 @@ export function reliefSeparability({ grid, reference, control, options }) {
   const measure = points => points
     .map(point => localRelief(grid, point, options))
     .filter(Number.isFinite);
-  const referenceRelief = measure(reference);
-  const controlRelief = measure(control);
-  if (!referenceRelief.length || !controlRelief.length) {
-    throw new Error('relief separability needs finite samples on both sides');
-  }
-  const referenceStats = quantiles(referenceRelief);
-  const controlStats = quantiles(controlRelief);
+  const summary = separabilitySummary(measure(reference), measure(control), { direction: 'greater' });
   return Object.freeze({
-    reference: Object.freeze(referenceStats),
-    control: Object.freeze(controlStats),
-    medianExcessMetres: +(referenceStats.median - controlStats.median).toFixed(3),
-    /* The plain-language verdict: a threshold can only isolate the features
-       if ordinary ground stays below their typical depth. */
-    separable: controlStats.p90 < referenceStats.median,
+    reference: summary.reference,
+    control: summary.control,
+    medianExcessMetres: summary.medianExcess,
+    separable: summary.separable,
   });
 }
 

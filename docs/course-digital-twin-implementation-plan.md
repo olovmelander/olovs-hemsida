@@ -970,6 +970,19 @@ Deliverables:
 - [ ] Compile laser-derived vegetation/object candidates only for per-hole
   windows that pass the local density and coordinate-bounds gates; use
   Markhöjdmodell, tree height and orthophoto fallback elsewhere.
+- [x] Bounded authenticated orthophoto window reader plus the measurement the
+  DTM result made necessary: `ortho-window.mjs` clips one RGBI window from the
+  discovered campaign through `/vsicurl`, refuses any asset that is not a
+  checked Lantmäteriet image, enforces a megapixel budget (the full Puttom AOI
+  at 16 cm is 785 Mpx / 3.1 GiB decoded, which is precisely why imagery is an
+  offline source) and may resample when the question is about metres-scale
+  boundaries. `measure-ortho-separability.mjs` then derives NDVI and asks
+  whether reflectance separates recorded greens, fairways and bunkers from
+  ordinary course ground, using the same separability statistic as the DTM
+  probe so the two answers are directly comparable. Only statistics leave the
+  runner: the window and every derived raster stay there, because Ortofoto
+  Nedladdning carries special access and GDPR terms and a derivative needs its
+  own redistribution decision.
 - [ ] Run authenticated tree-height and remaining DTM/break windows for all
   three pilots and persist their real compressed/decoded sizes and timings.
 - [ ] Produce side-by-side residuals against current Terrarium, tree cover and

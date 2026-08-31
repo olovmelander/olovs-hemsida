@@ -694,6 +694,31 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      - name: Measure orthophoto surface separability
+        env:
+          CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .tif
+          CPL_VSIL_CURL_CACHE_SIZE: "67108864"
+          GDAL_DISABLE_READDIR_ON_OPEN: EMPTY_DIR
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+          PROJ_NETWORK: "OFF"
+          VSI_CACHE: "TRUE"
+          VSI_CACHE_SIZE: "67108864"
+        run: >-
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
+          node packages/course-geo/acquisition/measure-ortho-separability.mjs
+          --cache "$RUNNER_TEMP/puttom-ortho"
+          --out "$RUNNER_TEMP/puttom-ortho-separability.json"
+
+      - name: Upload orthophoto separability statistics only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: puttom-ortho-separability-${{ github.run_number }}
+          path: ${{ runner.temp }}/puttom-ortho-separability.json
+          if-no-files-found: warn
+          retention-days: 7
+
       - name: Capture retained pilot in forced WebGL2 and WebGPU-preferred modes
         run: >-
           node packages/course-v2/capture-terrain-preview.mjs
