@@ -1210,6 +1210,40 @@ Deliverables:
 - [x] Height-sensitive camera, water, ball/interactions, surface and object
   placement migrated to the visible-ground sampler in the live app path.
 - [ ] Removal of full-course synchronous terrain mesh construction for v2.
+  **Scoped, and the blocker is not where it looks.** The legacy builder is one
+  function, `buildTerrain`, run three times at boot for three complementary
+  tiers: CORE at 4 m over the play area, MID at 12 m over the rest of the GPK1
+  fine field, and the FAR vista ring at 36 m. Only CORE is cut today, and only
+  by the retained pilot's 1024 m frontier — 63,504 of 123,175 base points. In
+  v2 mode the app still constructs roughly 208,700 legacy base points
+  synchronously, so the cutout is about 23% of the whole.
+  What makes the rest hard is not the builder. It is that **the v2 frontier is
+  smaller than CORE**: 1024 × 1024 m against 1296 × 1512 m, so the surviving
+  48% of CORE is real ground that nothing else draws. The data to replace it
+  already exists and was verified against the committed manifest — the
+  published 85-chunk graph covers the whole legacy CORE with margins of
+  445.5/306.5/96.8/439.2 m west/east/north/south, because
+  `puttomRequiredBoundsEpsg3006()` derives its AOI from the cutout contract's
+  own `expectedCoreGrid`. What does not exist is a renderer that will draw it:
+  the generic streaming path above is gated, and its activation needs timings
+  a software rasteriser cannot produce. So this deliverable is downstream of
+  hardware, not of more code in `main.js`.
+  Three specifics found while scoping, none of them recorded before:
+  - **Almost nothing reads the legacy mesh.** Water, scatter, roads, buildings,
+    camera, interactions and the overlays all read the height *sampler*, which
+    is fed by a `Float32Array` `buildTerrain` leaves behind rather than by the
+    `BufferGeometry`. The genuine mesh readers are the index cut, the adapter's
+    activation contract, and shadow casting.
+  - **Terrain shadow casting would be lost.** The legacy CORE mesh sets both
+    `castShadow` and `receiveShadow`; the v2 batch sets only `receiveShadow`.
+    The cutout hides this today because the surviving CORE annulus still casts.
+  - **MID's hole is punched under CORE, not under the v2 frontier.** Widening
+    the cutout to all of CORE leaves an annulus with no rendered ground, and
+    the tuck-under that would seal that seam does not exist (`skirt()` is dead
+    code; the v2 batch's skirts only seal its own sub-grid cut).
+  The atlas rasterisation and the detail mask are full-course synchronous boot
+  work too, but they are not mesh construction and are not v2-specific, so they
+  are deliberately outside this checkbox rather than quietly inside it.
 
 Gate: terrain accuracy/seam checks pass and the shell/active-hole performance
 budgets are met on the pilot grounds.

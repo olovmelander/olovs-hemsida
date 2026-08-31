@@ -271,12 +271,17 @@ export async function probeSkogsstyrelsenAccess(report, {
    because Lantmäteriet was briefly unreachable reads exactly like one that
    fails because the account lost its entitlement. Those need different
    responses from a human, so the chain is walked and named. */
+/* `Error` and `TypeError` label nothing a reader did not already assume, so
+   only a syscall code or a specific error type earns a prefix. */
+const UNINFORMATIVE_ERROR_NAMES = new Set(['Error', 'TypeError', 'RangeError', 'AggregateError']);
+
 function failureReason(error) {
   const chain = [];
   for (let current = error, depth = 0; current && depth < 4; current = current.cause, depth++) {
-    const name = current?.code || current?.name;
-    const message = String(current?.message || current || '').trim();
-    const described = name && !message.startsWith(name) ? `${name}: ${message}` : message;
+    const label = current.code ||
+      (UNINFORMATIVE_ERROR_NAMES.has(current.name) ? null : current.name);
+    const message = String(current.message || current || '').trim();
+    const described = label && !message.startsWith(label) ? `${label}: ${message}` : message;
     if (described && !chain.includes(described)) chain.push(described);
   }
   return (chain.join(' <- ') || String(error)).slice(0, 500);

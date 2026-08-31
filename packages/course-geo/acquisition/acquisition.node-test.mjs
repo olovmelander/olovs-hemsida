@@ -749,7 +749,11 @@ test('provider preflight separates a denied account from an unreachable provider
   });
   assert.equal(outage.ready, false);
   assert.equal(outage.providers.lantmateriet.denied, false);
-  assert.match(outage.providers.lantmateriet.reason, /fetch failed <- EAI_AGAIN: getaddrinfo/);
+  assert.equal(outage.providers.lantmateriet.reason,
+    'fetch failed <- EAI_AGAIN: getaddrinfo EAI_AGAIN dl1.lantmateriet.se');
+  /* An unwrapped cause chain is new text in the report, so it gets the same
+     no-secrets assertion every other serialized path here already carries. */
+  assert.doesNotMatch(JSON.stringify(outage), /lm-user|lm-secret|Basic /);
 
   const denied = await probeProviderAccess(accessReport(), {
     providers: ['skogsstyrelsen'],
@@ -758,7 +762,9 @@ test('provider preflight separates a denied account from an unreachable provider
   });
   assert.equal(denied.ready, false);
   assert.equal(denied.providers.skogsstyrelsen.denied, true);
-  assert.match(denied.providers.skogsstyrelsen.reason, /denied the configured account \(HTTP 401\)/);
+  /* No `Error:` in front of it: a generic error name labels nothing. */
+  assert.equal(denied.providers.skogsstyrelsen.reason,
+    'Skogsstyrelsen denied the configured account (HTTP 401)');
   assert.doesNotMatch(JSON.stringify(denied), /sks-user|sks-secret|Basic /);
 });
 
