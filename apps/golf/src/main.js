@@ -380,6 +380,48 @@ function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
   }
   const M0 = 180;
   const near = p => p[0] > x0 - M0 && p[0] < x1 + M0 && p[1] > z0 - M0 && p[1] < z1 + M0;
+
+  /* A BETTER GROUND MODEL INVALIDATES THE WATER LEVELS, and by less than it
+     sounds. Each level in the model was measured off its own shoreline against
+     the LEGACY dem -- build-heightfields' `levelOfPts`, the 30th percentile of
+     the ground sampled at the ring's own points. Under v2 the ground moves, on
+     Puttom by 0.1-0.3 m beneath two lakes, and that is enough to lift an entire
+     lake bed ABOVE its own water plane: the surface is then hidden underneath
+     and the lake renders as brown bed. A player reported exactly that before
+     any gate did, because every gate compares the model with itself.
+
+     So re-measure with the SAME RULE against the ground that will be drawn.
+     Only the source changes, never the method -- same ring points, same
+     percentile, before smoothShore densifies them so the sample set is the one
+     the original rule used. A ring the frontier does not substantially cover
+     keeps its committed level: a percentile of three points is worse evidence
+     than a percentile of ten, and inventing precision is how a pilot starts
+     lying about a place.
+
+     Gated on `ready` rather than `active` because the level must be settled
+     before WI indexes it, which is long before the batch installs. If the
+     install then fails, these levels stay v2-derived over legacy ground: on
+     this course at most 0.5 m out, and every body still renders as water. */
+  if (TERRAIN_PREVIEW.ready && typeof TERRAIN_PREVIEW.heightAt === 'function') {
+    const COVERAGE = 0.6, PERCENTILE = 0.30;
+    const remeasured = [];
+    for (const w of M.water) {
+      if (w.stream || !w.ring?.length) continue;
+      const heights = [];
+      for (const p of w.ring) {
+        const probe = TERRAIN_PREVIEW.heightAt(p[0], p[1]);
+        const h = Number.isFinite(probe) ? probe : probe?.height;
+        if (Number.isFinite(h)) heights.push(h);
+      }
+      if (heights.length < w.ring.length * COVERAGE) continue;
+      heights.sort((a, b) => a - b);
+      const level = Math.round(heights[Math.floor(heights.length * PERCENTILE)] * 100) / 100;
+      if (level !== w.level) remeasured.push(`${w.name || w.id} ${w.level}->${level}`);
+      w.level = level;
+    }
+    if (remeasured.length) console.info('v2 water levels re-measured:', remeasured.join(', '));
+  }
+
   for (const w of M.water) {
     if (w.stream || !w.ring) continue;
     w.ring = smoothShore(w.ring, near);
