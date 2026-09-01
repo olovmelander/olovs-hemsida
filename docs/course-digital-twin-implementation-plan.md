@@ -1142,11 +1142,11 @@ Deliverables:
   1.7 pts/m² ever arrived. Ground points existed (81 of class 2) and `hag_nn`
   worked on what it was given; the window simply came back nearly empty.
   The one structural difference from the sibling statistics pipeline — same
-  reader configuration, and dense enough to pass a 10%-of-advertised gate — is
-  that it runs `--stream` and this could not, because `hag_nn` must see the
-  ground returns before it can measure anything above them. So the read is now
-  a separate streamed pass to a local file and the derivation runs against
-  that, which also leaves the second pass with no credentials in it at all.
+  reader configuration — is that it runs `--stream` and this could not, because
+  `hag_nn` must see the ground returns before it can measure anything above
+  them. So the read is now a separate streamed pass to a local file and the
+  derivation runs against that, which also leaves the second pass with no
+  credentials in it at all.
   A third finding from the same run, about diagnostics rather than canopy:
   `classificationCounts` had been reporting `{}` because the parser read only
   PDAL's packed `"value/count"` form while this build emits `{value, count}`.
@@ -1168,6 +1168,32 @@ Deliverables:
   been made**; what run 59 proved is only that the account still reads
   Markhöjdmodell and Laserdata Skog and still gets 403 on every orthophoto
   asset.
+- [ ] **The thin read is upstream of the canopy pipeline, and an earlier claim
+  in this plan was wrong.** With the timeout floored, run 60 completed the
+  canopy measurement and the sufficiency gate did its job: `measured: false`,
+  `blocked: insufficient-canopy-coverage`, canopy coverage 2.64%, and full
+  diagnostics — `pointsFromReader: 358`, `pointsReachingWriter: 285`,
+  classification 214/81/63 for unclassified/ground/water, heights above ground
+  0–25.25 m, mean 8.68. **Exactly the 358 the single-pipeline version read**, so
+  splitting the read out did not change it and the two-pass design was not the
+  cause.
+  What settles the direction is the sibling statistics step in the same run.
+  This plan said it was "dense enough to pass a 10%-of-advertised gate". It is
+  not: it reads **52 points over a 256 × 256 m window** at an advertised
+  1.1 pts/m², its own density gate returns `usable: false`, and the step passes
+  only because that is a warning rather than an error. So **both pipelines read
+  about 0.07% of the advertised density with identical reader configuration** —
+  0.0014 pts/m², which is the order a COPC octree ROOT NODE holds for a whole
+  tile, not what a bounded window of a 1.1–1.7 pts/m² cloud should return.
+  Two readings tell a sparse file from a truncated read, and both are now taken
+  before the window and reported as `delivery`: the COPC **header**, which says
+  how many points the file itself claims and over what extent, and an
+  HTTP **Range** probe, which says whether partial requests work at all. A
+  reader that cannot range-request can only ever see the root page however
+  small a window it asks for. Neither probe retains a byte of the cloud and
+  neither can carry a credential into the report — asserted in the tests.
+  Until those two numbers are in hand, "Laserdata Skog is authorized and covers
+  the whole AOI" is a statement about entitlement, not about delivery.
 - [ ] **The one surface route left that needs no permission: LiDAR intensity
   as a pseudo-NIR band.** With a club relationship ruled out, the ledger is:
   shape exhausted, Esri RGB measured and useless, orthophoto behind an order,
@@ -1799,9 +1825,18 @@ fix that is smaller than it sounds:
   rotation the axis-aligned share of CORE it can omit is 45.60% rather than
   51.56%.
 - It does not improve the terrain that ships. GPK1 still carries Terrarium at
-  4 m, and the ranked levers above are unchanged: **the CORE grid from 4 m to
-  1–2 m is still the largest one**, because a bunker spanning 2.7 samples is a
-  dimple whatever frame it is in.
+  4 m, and for the default page the ranked levers above are unchanged: **the
+  CORE grid from 4 m to 1–2 m is still the largest one**, because a bunker
+  spanning 2.7 samples is a dimple whatever frame it is in.
+
+  What HAS changed is what the opt-in pilot is worth, and it is more than this
+  plan credited it with. The 16 tiles render at 1 m, and now that they are in
+  the right place the rotated footprint contains **15 of Puttom's 18 greens,
+  37 of 41 bunkers, 24 of 29 tee pads and 86.8% of the hole centre lines**. So
+  the 4 m constraint is a statement about the DEFAULT page, not about the data
+  path: inside `?v2=1` most of this course already meshes at 1 m, which is 11
+  samples across a median bunker instead of 2.7. The remaining lever for the
+  pilot is coverage, not resolution.
 - It does not touch the six standalone pages, which are single-frame and were
   never affected.
 

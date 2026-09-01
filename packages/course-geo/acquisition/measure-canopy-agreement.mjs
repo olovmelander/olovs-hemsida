@@ -33,6 +33,9 @@ import {
   canopyHeightPipeline,
   canopyWindowStreamPipeline,
   chooseBalancedWindow,
+  copcHeaderPipeline,
+  copcHeaderSummary,
+  probeRangeSupport,
   classifyProbes,
   probeLattice,
   treeCoverIndex,
@@ -264,13 +267,30 @@ async function main() {
   let totalCells = 0;
   let diagnostics;
   let streamedBytes = 0;
+  /* Read before the window, because a thin window is exactly when these two
+     answers are needed, and neither costs more than a header. */
+  const transport = { header: null, range: null };
+  try {
+    const headerMetadata = path.join(temporaryDirectory, 'header.json');
+    runGeoCommand('pdal', ['pipeline', '--stdin', '--metadata', headerMetadata], {
+      input: JSON.stringify(copcHeaderPipeline(plan, credentials, { authorizationHeaders })),
+      timeoutMilliseconds: 60_000,
+    });
+    transport.header = copcHeaderSummary(JSON.parse(fs.readFileSync(headerMetadata, 'utf8')));
+  } catch (error) {
+    transport.header = { available: false, note: redact(String(error?.message || error)).slice(0, 200) };
+  }
+  transport.range = await probeRangeSupport(plan.source.sourceUrl, credentials, { authorizationHeaders });
   try {
     const remaining = () => Math.max(1000, DEADLINE_MILLISECONDS - (performance.now() - started));
     try {
-      /* Streamed, exactly the way the working statistics path streams it. The
-         single-pipeline version could not stream -- hag_nn has to see the
-         window's ground returns first -- and returned 358 points where the
-         advertised density predicts hundreds of thousands. */
+      /* Streamed, the way the statistics path streams it -- and note that this
+         did NOT change the point count. Both read 358 points where the
+         advertised density predicts hundreds of thousands, and so does the
+         statistics path in its own window (52 over 256 m). Splitting the read
+         out was still right, because hag_nn cannot stream and the second pass
+         now carries no credentials, but the thin read is upstream of both.
+         That is what `delivery` above is for. */
       runGeoCommand('pdal', ['pipeline', '--stdin', '--stream'], {
         input: JSON.stringify(streamPipeline),
         timeoutMilliseconds: remaining(),
@@ -306,6 +326,7 @@ async function main() {
       deadlineMilliseconds: DEADLINE_MILLISECONDS,
       elapsedMilliseconds: Math.round(performance.now() - started),
       streamedWindowBytes: streamedBytes,
+      delivery: transport,
       window: {
         boundsEpsg3006: plan.boundsEpsg3006,
         spanMetres: plan.spanMetres,
@@ -356,6 +377,12 @@ async function main() {
     rasterCells: totalCells,
     canopyCoverage,
     pipeline: diagnostics,
+    /* Two readings that say whether the thin result is the cloud or the read.
+       The header is what the FILE claims; the range probe is whether partial
+       requests work at all. A COPC reader that cannot range-request sees only
+       the octree root, and 0.0014 pts/m2 over a whole tile is about what a
+       root node holds. */
+    delivery: transport,
     unusableProbes: split.unusable,
     missingCanopyProbes: missingCanopy,
     treeProbes: treeHeights.length,

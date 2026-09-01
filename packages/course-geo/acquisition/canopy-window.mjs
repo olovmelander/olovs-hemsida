@@ -382,3 +382,109 @@ export function canopyAgreement({ treeHeights, openHeights, thresholdMetres = CA
     fitted: Object.freeze({ ...best, note: 'chosen after seeing these samples; weaker evidence than the declared threshold' }),
   });
 }
+
+/* ------------------------------------------------- is it sparse, or truncated?
+
+   Both the canopy pipeline and the older statistics pipeline read about 0.07%
+   of the advertised point density from this delivery: 358 points over 512 m,
+   52 over 256 m. Identical reader configuration, so it is not the canopy
+   pipeline's doing -- and 0.0014 pts/m² over a whole tile is roughly what a
+   COPC octree ROOT NODE holds. Two readings tell those apart, and neither
+   retains a byte of the cloud.
+
+   The header says how many points the file claims in total, and over what
+   extent. Sparse data has a small header count; a truncated read has a large
+   one and returns almost none of it. */
+export function copcHeaderPipeline(plan, credentials, { authorizationHeaders } = {}) {
+  if (!credentials) throw new Error('Lantmäteriet credentials are required for Laserdata Skog');
+  if (typeof authorizationHeaders !== 'function') {
+    throw new TypeError('authorizationHeaders builder is required');
+  }
+  if (!plan?.source?.sourceUrl) throw new TypeError('a laser window plan with a source URL is required');
+  return Object.freeze([
+    Object.freeze({
+      type: 'readers.copc',
+      filename: Object.freeze({
+        path: plan.source.sourceUrl,
+        headers: authorizationHeaders(credentials),
+      }),
+      /* No `bounds`: the question is what the FILE declares, not what a window
+         of it contains. */
+      requests: 1,
+    }),
+    /* One point is enough to make PDAL open the file and publish its header;
+       everything reported comes from that header, not from the point. */
+    Object.freeze({ type: 'filters.head', count: 1 }),
+    Object.freeze({ type: 'writers.null' }),
+  ]);
+}
+
+/** Read the declared totals out of a `pdal pipeline --metadata` document. */
+export function copcHeaderSummary(metadata) {
+  const stack = [metadata];
+  while (stack.length) {
+    const node = stack.pop();
+    if (!node || typeof node !== 'object') continue;
+    if (Array.isArray(node)) { stack.push(...node); continue; }
+    const looksLikeReader = typeof node.count === 'number'
+      && ['minx', 'maxx', 'miny', 'maxy'].every(key => Number.isFinite(node[key]));
+    if (looksLikeReader) {
+      const area = Math.max(1, (node.maxx - node.minx) * (node.maxy - node.miny));
+      return Object.freeze({
+        available: true,
+        declaredPointCount: node.count,
+        boundsEpsg3006: Object.freeze([node.minx, node.miny, node.maxx, node.maxy]),
+        declaredDensityPerSquareMetre: +(node.count / area).toFixed(4),
+        softwareId: typeof node.software_id === 'string' ? node.software_id : null,
+      });
+    }
+    stack.push(...Object.values(node));
+  }
+  return Object.freeze({ available: false, note: 'PDAL published no reader header metadata' });
+}
+
+/**
+ * Does the delivery honour HTTP Range at all? A COPC reader that cannot make
+ * partial requests can only ever see the root page, whatever it asks for.
+ *
+ * Returns status and range headers only -- never a byte of the body, and never
+ * anything derived from the credentials.
+ */
+export async function probeRangeSupport(url, credentials, {
+  authorizationHeaders,
+  fetchImpl = globalThis.fetch,
+  timeoutMilliseconds = 20_000,
+} = {}) {
+  if (typeof authorizationHeaders !== 'function') {
+    throw new TypeError('authorizationHeaders builder is required');
+  }
+  if (typeof fetchImpl !== 'function') throw new TypeError('fetchImpl must be a function');
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMilliseconds);
+  try {
+    const response = await fetchImpl(url, {
+      headers: { ...authorizationHeaders(credentials), Range: 'bytes=0-1' },
+      redirect: 'follow',
+      signal: controller.signal,
+    });
+    await response.body?.cancel?.('only the headers are wanted');
+    const header = name => response.headers?.get?.(name) ?? null;
+    return Object.freeze({
+      available: true,
+      status: response.status,
+      /* 206 means partial reads work; 200 means the server ignored the range
+         and would hand PDAL the whole file for every request it makes. */
+      partialContent: response.status === 206,
+      acceptRanges: header('accept-ranges'),
+      contentRange: header('content-range'),
+      contentLength: header('content-length'),
+    });
+  } catch (error) {
+    return Object.freeze({
+      available: false,
+      error: error?.name === 'AbortError' ? 'range probe timed out' : 'range probe failed',
+    });
+  } finally {
+    clearTimeout(timer);
+  }
+}

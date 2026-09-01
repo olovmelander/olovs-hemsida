@@ -10,6 +10,9 @@ import {
   canopyAgreement,
   canopyHeightPipeline,
   canopyWindowStreamPipeline,
+  copcHeaderPipeline,
+  copcHeaderSummary,
+  probeRangeSupport,
   SURFACE_INTENSITY_MAX_HAG_METRES,
   SURFACE_INTENSITY_RESOLUTION_METRES,
   chooseBalancedWindow,
@@ -315,4 +318,86 @@ test('a bounded run survives the fractional deadline its caller computes', () =>
     }),
     error => error.code === 'GEO_COMMAND_TIMEOUT',
   );
+});
+
+test('the COPC header probe asks the file what it holds, and leaks nothing', () => {
+  const plan = {
+    source: { sourceUrl: 'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/x.copc.laz' },
+  };
+  const pipeline = copcHeaderPipeline(plan, CREDENTIALS, { authorizationHeaders });
+  const [reader, head, writer] = pipeline;
+  assert.equal(reader.type, 'readers.copc');
+  /* no bounds: what the FILE declares, not what a window of it contains */
+  assert.equal(reader.bounds, undefined);
+  assert.match(reader.filename.headers.Authorization, /^Basic /);
+  assert.equal(head.type, 'filters.head');
+  assert.equal(head.count, 1);
+  assert.equal(writer.type, 'writers.null');
+  /* nothing is written anywhere, so no point can escape the runner */
+  assert.equal(pipeline.filter(stage => /^writers\./.test(stage.type)).length, 1);
+  assert.throws(() => copcHeaderPipeline(plan, null, { authorizationHeaders }), /credentials/);
+  assert.throws(() => copcHeaderPipeline({}, CREDENTIALS, { authorizationHeaders }), /source URL/);
+});
+
+test('the header summary separates a sparse file from a truncated read', () => {
+  const metadata = {
+    stages: {
+      'readers.copc': {
+        count: 12_500_000, minx: 695_000, maxx: 697_500, miny: 7_022_500, maxy: 7_025_000,
+        software_id: 'PDAL',
+      },
+    },
+  };
+  const summary = copcHeaderSummary(metadata);
+  assert.equal(summary.available, true);
+  assert.equal(summary.declaredPointCount, 12_500_000);
+  assert.deepEqual(summary.boundsEpsg3006, [695_000, 7_022_500, 697_500, 7_025_000]);
+  /* 12.5 M points over 2500 x 2500 m is 2 pts/m2 -- so a window that returns
+     0.0014 pts/m2 is not reading what the file says it holds. */
+  assert.equal(summary.declaredDensityPerSquareMetre, 2);
+  assert.equal(copcHeaderSummary({ stages: {} }).available, false);
+});
+
+test('the range probe reports the transport and never the body', async () => {
+  let seen = null;
+  const cancelled = [];
+  const response = status => ({
+    status,
+    headers: new Map([
+      ['accept-ranges', status === 206 ? 'bytes' : 'none'],
+      ['content-range', status === 206 ? 'bytes 0-1/1048576' : null],
+      ['content-length', status === 206 ? '2' : '1048576'],
+    ]),
+    body: { cancel: reason => { cancelled.push(reason); } },
+  });
+  response.prototype = undefined;
+  const withGet = value => ({ ...value, headers: { get: name => value.headers.get(name) ?? null } });
+
+  const partial = await probeRangeSupport('https://example.invalid/x.copc.laz', CREDENTIALS, {
+    authorizationHeaders,
+    fetchImpl: async (url, init) => { seen = init; return withGet(response(206)); },
+  });
+  assert.equal(seen.headers.Range, 'bytes=0-1');
+  assert.match(seen.headers.Authorization, /^Basic /);
+  assert.equal(partial.partialContent, true);
+  assert.equal(partial.acceptRanges, 'bytes');
+  assert.equal(partial.contentRange, 'bytes 0-1/1048576');
+  assert.equal(cancelled.length, 1);
+  /* nothing derived from the body, and no header value carrying a secret */
+  assert.doesNotMatch(JSON.stringify(partial), /Basic |lm-secret|lm-user/);
+
+  const whole = await probeRangeSupport('https://example.invalid/x.copc.laz', CREDENTIALS, {
+    authorizationHeaders,
+    fetchImpl: async () => withGet(response(200)),
+  });
+  assert.equal(whole.partialContent, false);
+  assert.equal(whole.status, 200);
+
+  const failed = await probeRangeSupport('https://example.invalid/x.copc.laz', CREDENTIALS, {
+    authorizationHeaders,
+    fetchImpl: async () => { throw new Error('lm-secret leaked into the message'); },
+  });
+  assert.equal(failed.available, false);
+  assert.equal(failed.error, 'range probe failed');
+  assert.doesNotMatch(JSON.stringify(failed), /lm-secret/);
 });
