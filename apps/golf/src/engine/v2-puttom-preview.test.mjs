@@ -166,13 +166,19 @@ describe('Puttom interactive terrain preview bridge', () => {
     const legacy = { easting: 650000, northing: 6640008 };
     const straight = alignTerrainPreviewToLegacyFrame(fixture(), legacy, STRAIGHT_FRAME);
     const rotated = alignTerrainPreviewToLegacyFrame(fixture(), legacy, PUTTOM_PREVIEW_CONFIG.legacyFrame);
+    /* This test is about WHERE the sample is taken, and the Puttom frame also
+       lifts the result onto the legacy vertical datum, so that term is taken
+       back out rather than left to confound the comparison. */
+    const datum = rotated.bridge.verticalDatumOffsetMetres;
+    expect(datum).toBeGreaterThan(20);
+    const level = (x, z) => rotated.sample(x, z) - datum;
     /* the origin is the rotation's fixed point, so only distance can differ */
-    expect(rotated.sample(0, 0)).toBeCloseTo(straight.sample(0, 0), 6);
+    expect(level(0, 0)).toBeCloseTo(straight.sample(0, 0), 6);
     /* 4 m out, 3.52 degrees is a quarter of a metre -- on this ramp fixture
        that is a different height, which is the whole point */
     const [gx, gz] = rotated.bridge.toGrid(4, 4);
     expect(Math.hypot(gx - 4, gz - 4)).toBeGreaterThan(0.2);
-    expect(rotated.sample(4, 4)).toBeCloseTo(straight.sample(gx, gz), 6);
+    expect(level(4, 4)).toBeCloseTo(straight.sample(gx, gz), 6);
   });
 
   it('hands the legacy cutout an inscribed rectangle, never the grid one', () => {

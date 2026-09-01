@@ -29,6 +29,25 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
     longitude: 18.9413,
     metresPerLatitude: 111320,
     metresPerLongitude: 111320 * Math.cos(63.2992 * Math.PI / 180),
+    /* ------------------------------------------------ MEASURED, not derived.
+       The horizontal bridge comes out of the frames' own constants and is exact.
+       This one cannot: the legacy heights are AWS Terrarium and the pack never
+       recorded what datum they are on -- every migration file in this repo says
+       so, `"vertical datum was not persisted"`. There is nothing to derive an
+       offset TO. So it is measured, and it says it was measured.
+
+       Legacy minus v2, sampled through the shipped bridge on the played ground
+       where both products describe the same mown surface: median 23.6263 m over
+       5,319 samples, MAD 0.2432 m. The whole overlap gives 23.6704 m, which
+       agrees to four centimetres and is corroboration rather than the source.
+       The value is the played-ground median because that is the ground a player
+       stands on and the ground the two models actually agree about.
+
+       It is about the geoid height at Puttom, which is what a Terrarium-versus-
+       RH 2000 difference should be, but that is a sanity check on the number and
+       NOT how it was obtained. Re-measure it per course; the geoid runs from
+       roughly 17 to 37 m across Sweden and no other course has a pilot yet. */
+    verticalDatumOffsetMetres: 23.6263,
   }),
   expectedBoundsEpsg5845: Object.freeze({
     minEasting: 696916.5,
@@ -346,9 +365,18 @@ export function alignTerrainPreviewToLegacyFrame(loaded, legacyOriginEpsg3006, l
     throw new TypeError('a finite EPSG:3006 legacy origin is required');
   }
   const geodetic = legacyGridBridge(legacyFrame ?? {});
+  /* Deliberately applied here and NOT inside geodetic-frame.mjs: everything in
+     that module is derived from declared constants and exact, and mixing a
+     measured term into it would blur the one distinction worth keeping. */
+  const verticalDatumOffsetMetres = legacyFrame?.verticalDatumOffsetMetres ?? 0;
+  if (!Number.isFinite(verticalDatumOffsetMetres)) {
+    throw new TypeError('verticalDatumOffsetMetres must be finite when provided');
+  }
   const bridge = Object.freeze({
     translateX: descriptor.frame.origin.easting - legacyOriginEpsg3006.easting,
-    translateY: descriptor.frame.origin.heightRH2000,
+    /* tile height -> absolute RH 2000 -> the legacy frame's own datum */
+    translateY: descriptor.frame.origin.heightRH2000 + verticalDatumOffsetMetres,
+    verticalDatumOffsetMetres,
     translateZ: legacyOriginEpsg3006.northing - descriptor.frame.origin.northing,
     rotationRadians: geodetic.rotationRadians,
     scaleX: geodetic.scaleX,
