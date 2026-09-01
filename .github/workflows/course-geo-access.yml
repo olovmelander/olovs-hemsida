@@ -761,6 +761,31 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+      - name: Measure surface separability from LiDAR intensity
+        # The last route to surface outlines needing no new permission: every
+        # other one is closed. Bounded and continue-on-error for the same
+        # reason as the two steps above -- an exploratory measurement must not
+        # decide whether the release evidence runs.
+        timeout-minutes: 8
+        continue-on-error: true
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+          PROJ_NETWORK: "OFF"
+        run: >-
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
+          node packages/course-geo/acquisition/measure-surface-intensity.mjs
+          --out "$RUNNER_TEMP/puttom-surface-intensity.json"
+
+      - name: Upload surface intensity statistics only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: puttom-surface-intensity-${{ github.run_number }}
+          path: ${{ runner.temp }}/puttom-surface-intensity.json
+          if-no-files-found: warn
+          retention-days: 7
+
       - name: Capture retained pilot in forced WebGL2 and WebGPU-preferred modes
         run: >-
           node packages/course-v2/capture-terrain-preview.mjs

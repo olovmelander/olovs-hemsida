@@ -137,6 +137,64 @@ export function canopyHeightPipeline(localPath, {
   ]);
 }
 
+/* Ground returns only: a crown's reflectance says nothing about the turf under
+   it, and 0.5 m keeps mown grass while dropping scrub and branches. */
+export const SURFACE_INTENSITY_MAX_HAG_METRES = 0.5;
+export const SURFACE_INTENSITY_RESOLUTION_METRES = 2;
+
+/**
+ * Surface reflectance from the point cloud we can already read.
+ *
+ * This exists because every other route to surface outlines is closed without
+ * a club relationship: the 1 m height model resolves no surface class, Esri is
+ * RGB and separates nothing, and the orthophoto needs an order. But a LiDAR
+ * return carries INTENSITY, and Laserdata Skog is flown at 1064 nm — the near
+ * infrared the orthophoto's NDVI would have used. Healthy turf reflects far
+ * more there than dry sand, so intensity is a pseudo-NIR band on a source this
+ * account is already entitled to.
+ *
+ * Two honest limits, stated in the report rather than buried: intensity is not
+ * radiometrically calibrated between flight lines, so only relative
+ * comparisons inside one window mean anything; and this is a FOREST product,
+ * so its intensity handling is tuned for canopy, not turf.
+ */
+export function surfaceIntensityPipeline(localPath, {
+  resolutionMetres = SURFACE_INTENSITY_RESOLUTION_METRES,
+  outputPath,
+} = {}) {
+  if (typeof localPath !== 'string' || !localPath) throw new TypeError('localPath is required');
+  if (typeof outputPath !== 'string' || !outputPath) throw new TypeError('outputPath is required');
+  finitePositive(resolutionMetres, 'resolutionMetres');
+  return Object.freeze([
+    Object.freeze({ type: 'readers.las', filename: localPath }),
+    Object.freeze({ type: 'filters.hag_nn', count: 1, allow_extrapolation: false }),
+    /* Ground-level returns only. Without this the raster measures whatever
+       stands on the ground rather than the ground itself. */
+    Object.freeze({
+      type: 'filters.range',
+      limits: `HeightAboveGround[0:${SURFACE_INTENSITY_MAX_HAG_METRES}]`,
+    }),
+    Object.freeze({
+      type: 'filters.stats',
+      tag: 'beforeWriter',
+      dimensions: 'X,Y,Z,Intensity,HeightAboveGround,Classification',
+      count: 'Classification',
+    }),
+    Object.freeze({
+      type: 'writers.gdal',
+      filename: outputPath,
+      gdaldriver: 'GTiff',
+      dimension: 'Intensity',
+      /* Mean, not max: a single specular return would otherwise decide a cell,
+         and reflectance is the average property of the surface. */
+      output_type: 'mean',
+      resolution: resolutionMetres,
+      nodata: -9999,
+      radius: +(resolutionMetres * Math.SQRT2).toFixed(4),
+    }),
+  ]);
+}
+
 export const CANOPY_GROUND_CLASS = CANOPY_GROUND_CLASSIFICATION;
 
 /**

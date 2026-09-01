@@ -1145,6 +1145,25 @@ Deliverables:
   An empty histogram read as "no classification data" when it meant "the parser
   did not understand it" — the worst thing a diagnostic can do, and the reason
   the first instrumented run could not finish the diagnosis.
+- [ ] **The one surface route left that needs no permission: LiDAR intensity
+  as a pseudo-NIR band.** With a club relationship ruled out, the ledger is:
+  shape exhausted, Esri RGB measured and useless, orthophoto behind an order,
+  Skogsstyrelsen 401. What remains is a dimension of a source we are ALREADY
+  entitled to — Laserdata Skog is flown at **1064 nm**, which is the near
+  infrared the orthophoto's NDVI would have used, and healthy turf reflects
+  far more there than dry sand. `surfaceIntensityPipeline` rasterises
+  Intensity as a 2 m mean from ground returns only (below 0.5 m above ground,
+  so a crown cannot stand in for the turf beneath it), and
+  `measure-surface-intensity.mjs` compares greens, fairways and bunkers
+  against a mown control in the same statistic as every other probe.
+  Its window is centred on the played ground by rule — the surfaces under test
+  ARE the course, so unlike the canopy window there is nothing to choose and no
+  room to fit anything.
+  Two caveats travel in the report rather than being discovered later:
+  intensity is not radiometrically calibrated between flight lines, so only
+  relative comparisons within one window mean anything; and Laserdata Skog is
+  a FOREST product whose intensity handling is tuned for canopy, not turf. No
+  verdict is claimed until CI runs it.
 - [x] **With a club relationship ruled out, the height model was re-asked
   properly — and it closes the shape route for good.** The committed probe had
   tested BUNKERS ONLY, against the same forest-contaminated lattice as the

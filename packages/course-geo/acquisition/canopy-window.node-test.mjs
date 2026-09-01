@@ -10,9 +10,12 @@ import {
   canopyAgreement,
   canopyHeightPipeline,
   canopyWindowStreamPipeline,
+  SURFACE_INTENSITY_MAX_HAG_METRES,
+  SURFACE_INTENSITY_RESOLUTION_METRES,
   chooseBalancedWindow,
   classifyProbes,
   probeLattice,
+  surfaceIntensityPipeline,
   treeCoverIndex,
 } from './canopy-window.mjs';
 import { authorizationHeaders } from './credentials.mjs';
@@ -265,4 +268,30 @@ test('a window pinned to the edge of its own search is reported, not passed off 
      refuses rather than returning a one-sided window. */
   assert.throws(() => chooseBalancedWindow({ ...common, searchRadiusMetres: 40 }),
     /both tree and open probes/);
+});
+
+test('intensity is read as a pseudo-NIR band from ground returns only, with no credentials', () => {
+  /* Every other route to surface outlines is closed without a club: the 1 m
+     height model resolves no class, Esri is RGB and separates nothing, the
+     orthophoto needs an order. Laserdata Skog is already entitled and flown at
+     1064 nm, which is the near infrared NDVI would have used. */
+  const pipeline = surfaceIntensityPipeline('/tmp/window.laz', { outputPath: '/tmp/intensity.tif' });
+  const [reader, hag, range, stats, writer] = pipeline;
+  assert.equal(reader.type, 'readers.las');
+  assert.equal(hag.type, 'filters.hag_nn');
+  /* Ground returns only: a crown's reflectance says nothing about the turf
+     under it. */
+  assert.equal(range.limits, `HeightAboveGround[0:${SURFACE_INTENSITY_MAX_HAG_METRES}]`);
+  assert.match(stats.dimensions, /Intensity/);
+  assert.equal(writer.dimension, 'Intensity');
+  /* Mean, not max: one specular return must not decide a cell. */
+  assert.equal(writer.output_type, 'mean');
+  assert.equal(writer.resolution, SURFACE_INTENSITY_RESOLUTION_METRES);
+  assert.equal(writer.nodata, -9999);
+  /* The derivation runs on a local file; nothing authenticating goes near it. */
+  assert.doesNotMatch(JSON.stringify(pipeline), /authorization|Basic |password/i);
+  for (const stage of pipeline) assert.notEqual(stage.type, 'filters.head');
+
+  assert.throws(() => surfaceIntensityPipeline('', { outputPath: '/tmp/i.tif' }), /localPath/);
+  assert.throws(() => surfaceIntensityPipeline('/tmp/w.laz', {}), /outputPath/);
 });
