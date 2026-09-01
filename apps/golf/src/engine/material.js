@@ -230,6 +230,15 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
   if (!atlas?.texID || !atlas?.texF) throw new TypeError('the v2 terrain material requires a ground atlas');
   const styleTexture = makeStyleTexture(C, SHADE, { includeNatural: true });
   return material => {
+    /* Sampled with the LEGACY world position, deliberately, even though the
+       mesh under it is drawn rotated out of EPSG:3006. The two v2 artefacts are
+       not in the same frame: the terrain tiles are real grid-north DTM, but the
+       surface atlas is the pack's own legacy vectors rasterised onto the tile
+       lattice by compile-puttom-surface-preview.mjs with a translation and
+       nothing else. So a green sits in this raster at its LEGACY coordinate,
+       and reading it there is what puts the pack's green on the ground that is
+       genuinely under it. Measured: addressed this way 14 of 18 green centres
+       land on green, addressed through the bridge only 3 of 18. */
     const wp = positionWorld.xz;
     const b = atlas.bounds;
     const uvAtlas = vec2(

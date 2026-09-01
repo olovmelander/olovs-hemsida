@@ -4,6 +4,7 @@ import { createTerrainPreviewDescriptor } from '../../../../packages/course-v2/t
 import { createTerrainRenderResource, prepareTerrainRenderData } from '../../../../packages/course-v2/runtime/terrain-render-data.mjs';
 import { verifyChunkAsset } from '../../../../packages/course-v2/chunk-node.mjs';
 import {
+  PUTTOM_PREVIEW_CONFIG,
   alignTerrainPreviewToLegacyFrame,
   assertPuttomSurfaceCoverage,
   createTerrainResourceSampler,
@@ -13,6 +14,26 @@ import {
   puttomPreviewRequested,
   verifiedSurfaceClassIds,
 } from './v2-puttom-preview.mjs';
+import {
+  ellipsoidMetresPerDegree,
+  transverseMercatorPointScale,
+} from './geodetic-frame.mjs';
+
+/* A frame that is metric-true and sits on the central meridian, so its bridge
+   is a pure translation. The assertions below were written for that bridge and
+   still measure exactly what they were written to measure; the real Puttom
+   frame, which rotates, gets its own test at the end. */
+const STRAIGHT_FRAME = (() => {
+  const latitude = 63.2992, longitude = 15;
+  const ellipsoid = ellipsoidMetresPerDegree(latitude);
+  const k = transverseMercatorPointScale(latitude, longitude);
+  return Object.freeze({
+    latitude,
+    longitude,
+    metresPerLatitude: ellipsoid.perLatitude * k,
+    metresPerLongitude: ellipsoid.perLongitude * k,
+  });
+})();
 
 function fixture() {
   const size = 9;
@@ -93,7 +114,7 @@ describe('Puttom interactive terrain preview bridge', () => {
   it('translates EPSG:5845 resources into legacy x/y/z without changing terrain height', () => {
     const loaded = fixture();
     const legacy = { easting: 650003, northing: 6640005 };
-    const aligned = alignTerrainPreviewToLegacyFrame(loaded, legacy);
+    const aligned = alignTerrainPreviewToLegacyFrame(loaded, legacy, STRAIGHT_FRAME);
     expect(aligned.resources).toHaveLength(4);
     expect(aligned.bridge.translateX).toBeCloseTo(1, 9);
     expect(aligned.bridge.translateZ).toBeCloseTo(1, 9);
@@ -105,7 +126,7 @@ describe('Puttom interactive terrain preview bridge', () => {
   it('samples shared tile boundaries continuously', () => {
     const aligned = alignTerrainPreviewToLegacyFrame(fixture(), {
       easting: 650000, northing: 6640008,
-    });
+    }, STRAIGHT_FRAME);
     expect(aligned.sample(4, 4)).toBeCloseTo(74, 2);
     expect(aligned.sample(4 - 1e-7, 4)).toBeCloseTo(aligned.sample(4 + 1e-7, 4), 5);
     expect(createTerrainResourceSampler(aligned.resources).bounds).toEqual(aligned.bounds);
@@ -114,7 +135,7 @@ describe('Puttom interactive terrain preview bridge', () => {
   it('keeps 1 m CPU truth while producing a four-times-lighter 2 m render frontier', () => {
     const aligned = alignTerrainPreviewToLegacyFrame(fixture(), {
       easting: 650000, northing: 6640008,
-    });
+    }, STRAIGHT_FRAME);
     const reduced = decimateTerrainRenderResources(aligned.resources, 2);
     expect(reduced).toHaveLength(4);
     expect(reduced[0]).toMatchObject({ width: 3, height: 3, sampleSpacingMetres: 2 });
@@ -123,5 +144,59 @@ describe('Puttom interactive terrain preview bridge', () => {
     expect(reducedSampler.bounds).toEqual(aligned.bounds);
     expect(reducedSampler.sample(4, 4)).toBeCloseTo(aligned.sample(4, 4), 2);
     expect(() => decimateTerrainRenderResources(aligned.resources, 3)).toThrow(/power-of-two/);
+  });
+
+  /* ------------------------------------------------- the real Puttom bridge
+     Everything above uses a frame whose bridge is a pure translation, which is
+     the wrong bridge for Puttom and was the shipped one until this. */
+
+  it('turns the pilot onto true north, and says by how much', () => {
+    const aligned = alignTerrainPreviewToLegacyFrame(fixture(), {
+      easting: 650000, northing: 6640008,
+    }, PUTTOM_PREVIEW_CONFIG.legacyFrame);
+    expect(aligned.bridge.rotationRadians * 180 / Math.PI).toBeCloseTo(3.522145, 5);
+    expect(aligned.bridge.scaleX).toBeCloseTo(0.99725207, 7);
+    expect(aligned.bridge.scaleZ).toBeCloseTo(0.99860903, 7);
+    /* the frame constants the bridge was derived for are the pack's own */
+    expect(PUTTOM_PREVIEW_CONFIG.legacyFrame.metresPerLatitude).toBe(111320);
+    expect(Math.round(PUTTOM_PREVIEW_CONFIG.legacyFrame.metresPerLongitude * 100) / 100).toBe(50019.58);
+  });
+
+  it('samples the ground a rotated query lands on, not the one below it', () => {
+    const legacy = { easting: 650000, northing: 6640008 };
+    const straight = alignTerrainPreviewToLegacyFrame(fixture(), legacy, STRAIGHT_FRAME);
+    const rotated = alignTerrainPreviewToLegacyFrame(fixture(), legacy, PUTTOM_PREVIEW_CONFIG.legacyFrame);
+    /* the origin is the rotation's fixed point, so only distance can differ */
+    expect(rotated.sample(0, 0)).toBeCloseTo(straight.sample(0, 0), 6);
+    /* 4 m out, 3.52 degrees is a quarter of a metre -- on this ramp fixture
+       that is a different height, which is the whole point */
+    const [gx, gz] = rotated.bridge.toGrid(4, 4);
+    expect(Math.hypot(gx - 4, gz - 4)).toBeGreaterThan(0.2);
+    expect(rotated.sample(4, 4)).toBeCloseTo(straight.sample(gx, gz), 6);
+  });
+
+  it('hands the legacy cutout an inscribed rectangle, never the grid one', () => {
+    const aligned = alignTerrainPreviewToLegacyFrame(fixture(), {
+      easting: 650000, northing: 6640008,
+    }, PUTTOM_PREVIEW_CONFIG.legacyFrame);
+    /* narrower on both axes -- the rotation overhang, given back to GPK1.
+       Not `x0 > x0`: where the footprint does not straddle the origin the
+       rotation carries the whole rectangle sideways, so only the extent is a
+       reliable statement. */
+    expect(aligned.legacyBounds.x1 - aligned.legacyBounds.x0)
+      .toBeLessThan(aligned.bounds.x1 - aligned.bounds.x0);
+    expect(aligned.legacyBounds.z1 - aligned.legacyBounds.z0)
+      .toBeLessThan(aligned.bounds.z1 - aligned.bounds.z0);
+    for (const [x, z] of [
+      [aligned.legacyBounds.x0, aligned.legacyBounds.z0],
+      [aligned.legacyBounds.x1, aligned.legacyBounds.z1],
+      [aligned.legacyBounds.x0, aligned.legacyBounds.z1],
+      [aligned.legacyBounds.x1, aligned.legacyBounds.z0],
+    ]) expect(Number.isFinite(aligned.sample(x, z))).toBe(true);
+  });
+
+  it('refuses to bridge without a declared legacy frame', () => {
+    expect(() => alignTerrainPreviewToLegacyFrame(fixture(), { easting: 1, northing: 2 }))
+      .toThrow(/latitude must be finite/);
   });
 });

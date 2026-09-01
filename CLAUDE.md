@@ -364,6 +364,17 @@ the middle of hole 3.
 what the page's own `bearingName` does. Using `atan2(dx, dz)` reflects every angle and
 looks plausible — it produced a confident, wrong conclusion once already.
 
+**And that north is TRUE north, which SWEREF 99 TM's is not.** Every build here is a
+flat-earth frame about its own origin, `x = (lon−lon0)·mPerLon`, `z = (lat0−lat)·mPerLat`,
+so its −z points at the pole. EPSG:3006 northing points at **grid** north, and the two
+differ by the meridian convergence — 1.61° at Ängsö up to 3.52° at Puttom, all of Swedish
+golf being east of the 15° central meridian. That is 30 m at 500 m out. The frame's metre
+is off too: `mPerLat = 111320` is a sphere of the equatorial radius, which at 63° N runs
+0.13% short in latitude and 0.34% in longitude. Bringing any EPSG:3006 product into a page
+needs all three terms — `apps/golf/src/engine/geodetic-frame.mjs` derives them from the
+frame's own constants, and it is the only place that should. A translation-only bridge is
+right at the origin and 45 m wrong at the corner, which is why an origin check passes.
+
 **Left and right**, which is a different thing from the bearing. `alongLine` returns an angle
 `b` for which **forward is `(sin b, cos b)`**. North being −z, the player's right hand is
 `(-Fz, Fx)` = **`(-cos b, sin b)`**. The page used `(cos b, -sin b)` and called it the

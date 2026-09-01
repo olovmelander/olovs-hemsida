@@ -3,6 +3,7 @@ import {
   assertV2LegacyCutoutContract,
   planV2LegacyCutout,
 } from './v2-legacy-cutout.mjs';
+import { inscribedLegacyBounds, legacyGridBridge } from './geodetic-frame.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from './v2-puttom-preview.mjs';
 
 /* Runtime CORE after main.js has smoothed mown edges. The raw pack would snap
@@ -25,6 +26,16 @@ const PUTTOM_PREVIEW_BOUNDS = Object.freeze({
   z1: 427.23945899959654,
 });
 
+/* What the adapter actually plans against: the largest axis-aligned legacy
+   rectangle still inside that grid rectangle once the frame bridge has rotated
+   it 3.52 degrees. Derived here from the shipped bridge rather than copied, so
+   a change to either one shows up as a changed count instead of agreeing with
+   itself. */
+const PUTTOM_LEGACY_BOUNDS = inscribedLegacyBounds(
+  legacyGridBridge(PUTTOM_PREVIEW_CONFIG.legacyFrame),
+  PUTTOM_PREVIEW_BOUNDS,
+);
+
 describe('v2 legacy CORE cutout planner', () => {
   it('does not validate or cut anything unless explicitly enabled', () => {
     expect(planV2LegacyCutout()).toBeNull();
@@ -41,24 +52,24 @@ describe('v2 legacy CORE cutout planner', () => {
       enabled: true,
       preflightStatus: 'ready',
       grid: PUTTOM_CORE,
-      previewBounds: PUTTOM_PREVIEW_BOUNDS,
+      previewBounds: PUTTOM_LEGACY_BOUNDS,
     });
 
     expect(plan).toEqual({
       innerBounds: {
-        x0: -573.5217079999857,
-        x1: 434.47829200001433,
-        z0: -588.7605410004035,
-        z1: 419.23945899959654,
+        x0: -537.8292806781035,
+        x1: 409.8156542660675,
+        z0: -563.3064401972929,
+        z1: 385.8107585801303,
       },
       guardCells: 2,
       guardMetres: 8,
       nx: 325,
       nz: 379,
       totalBasePoints: 123_175,
-      skippedBasePoints: 63_504,
+      skippedBasePoints: 56_169,
     });
-    expect(plan.skippedBasePoints / plan.totalBasePoints * 100).toBeCloseTo(51.56, 2);
+    expect(plan.skippedBasePoints / plan.totalBasePoints * 100).toBeCloseTo(45.60, 2);
     expect(PUTTOM_PREVIEW_CONFIG.legacyCoreCutout).toEqual({
       guardCells: 2,
       guardMetres: 8,
@@ -71,7 +82,7 @@ describe('v2 legacy CORE cutout planner', () => {
         nx: 325,
         nz: 379,
       },
-      expectedSkippedBasePoints: 63_504,
+      expectedSkippedBasePoints: 56_169,
       expectedTotalBasePoints: 123_175,
     });
     expect(assertV2LegacyCutoutContract({
@@ -97,7 +108,7 @@ describe('v2 legacy CORE cutout planner', () => {
       enabled: true,
       preflightStatus: 'ready',
       grid: staleCore,
-      previewBounds: PUTTOM_PREVIEW_BOUNDS,
+      previewBounds: PUTTOM_LEGACY_BOUNDS,
     });
     expect(stalePlan.skippedBasePoints).toBe(contract.expectedSkippedBasePoints);
     expect(() => assertV2LegacyCutoutContract({
@@ -111,7 +122,7 @@ describe('v2 legacy CORE cutout planner', () => {
       enabled: true,
       preflightStatus: 'ready',
       grid: collidingCore,
-      previewBounds: PUTTOM_PREVIEW_BOUNDS,
+      previewBounds: PUTTOM_LEGACY_BOUNDS,
     });
     expect(collidingPlan.totalBasePoints).toBe(contract.expectedTotalBasePoints);
     expect(collidingPlan.skippedBasePoints).toBe(contract.expectedSkippedBasePoints);
@@ -125,7 +136,7 @@ describe('v2 legacy CORE cutout planner', () => {
       enabled: true,
       preflightStatus: 'ready',
       grid: PUTTOM_CORE,
-      previewBounds: PUTTOM_PREVIEW_BOUNDS,
+      previewBounds: PUTTOM_LEGACY_BOUNDS,
     };
     expect(() => planV2LegacyCutout({ ...enabled, grid: { ...PUTTOM_CORE, dx: 0 } }))
       .toThrow(/grid\.dx must be positive/);
@@ -146,7 +157,7 @@ describe('v2 legacy CORE cutout planner', () => {
       enabled: true,
       preflightStatus: 'ready',
       grid: PUTTOM_CORE,
-      previewBounds: PUTTOM_PREVIEW_BOUNDS,
+      previewBounds: PUTTOM_LEGACY_BOUNDS,
     };
     expect(() => planV2LegacyCutout({ ...enabled, preflightStatus: false }))
       .toThrow(/ready verified preview preflight/);

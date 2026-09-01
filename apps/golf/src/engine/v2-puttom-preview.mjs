@@ -1,3 +1,4 @@
+import { inscribedLegacyBounds, legacyGridBridge } from './geodetic-frame.mjs';
 import { SURFACE } from './surface.js';
 
 export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
@@ -12,10 +13,22 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   frameFingerprint: 'ee406f792b7e59817667d6f6fc8cf6e6b271bf5f7efabb58f3907928f741bef3',
   packOriginWgs84: Object.freeze({ latitude: 63.2992, longitude: 18.9413 }),
   /* EPSG:3006 projection of the immutable GPK1 WGS84 origin. This bridge keeps
-     the legacy +x east/-z north frame while the preview remains provisional. */
+     the legacy +x east/-z TRUE north frame while the preview remains
+     provisional -- and true north is not the grid north the tiles are cut on,
+     which is what geodetic-frame.mjs exists to reconcile. */
   legacyOriginEpsg3006: Object.freeze({
     easting: 697498.021708,
     northing: 7024997.739459,
+  }),
+  /* The pack's OWN flat-earth constants, as puttombuild/lib.mjs declares them.
+     They are not the ellipsoid's, and the bridge needs the difference; the
+     pack's `geo.mPerLon` is checked against them on every boot so a build that
+     changes its frame cannot slip past a bridge computed for the old one. */
+  legacyFrame: Object.freeze({
+    latitude: 63.2992,
+    longitude: 18.9413,
+    metresPerLatitude: 111320,
+    metresPerLongitude: 111320 * Math.cos(63.2992 * Math.PI / 180),
   }),
   expectedBoundsEpsg5845: Object.freeze({
     minEasting: 696916.5,
@@ -41,7 +54,12 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
       nx: 325,
       nz: 379,
     }),
-    expectedSkippedBasePoints: 63_504,
+    /* Planned on the INSCRIBED legacy rectangle, not on the grid rectangle:
+       the frame bridge rotates the v2 footprint 3.52 degrees, and the legacy
+       builder can only omit an axis-aligned one. That is what took this from
+       63,504 to 56,169 -- the rotation overhang given back to GPK1, not a
+       smaller pilot. */
+    expectedSkippedBasePoints: 56_169,
     expectedTotalBasePoints: 123_175,
   }),
 });
@@ -109,8 +127,10 @@ function immutableState(value) {
     surfaceClassIds: Object.freeze([]),
     resources: Object.freeze([]),
     bounds: null,
+    legacyBounds: null,
     bridge: null,
     heightAt: () => Number.NaN,
+    heightAtGrid: () => Number.NaN,
     renderResources: () => Object.freeze([]),
     stats: () => Object.freeze({ renderedTiles: 0, encodedBytes: 0, decodedBytes: 0, gpuBytes: 0 }),
     ...value,
@@ -189,6 +209,14 @@ function validatePuttomDescriptor(descriptor, geo) {
       !near(geo?.origin?.lon, PUTTOM_PREVIEW_CONFIG.packOriginWgs84.longitude) ||
       geo?.frame !== 'local metres about ORIGIN; north -z, east +x') {
     throw new Error('Puttom GPK1 frame changed; the provisional EPSG:3006 bridge must be recalculated');
+  }
+  /* reconcile.mjs rounds mPerLon to two decimals on the way into the pack, so
+     compare at that resolution and no finer. */
+  const declaredMetresPerLongitude = Math.round(PUTTOM_PREVIEW_CONFIG.legacyFrame.metresPerLongitude * 100) / 100;
+  if (Math.abs(geo?.mPerLon - declaredMetresPerLongitude) > 0.005) {
+    throw new Error(
+      `Puttom GPK1 frame scale changed: pack says ${geo?.mPerLon} m/deg, the bridge was derived for ${declaredMetresPerLongitude}`,
+    );
   }
 }
 
@@ -290,7 +318,26 @@ export function createTerrainResourceSampler(resources) {
   return Object.freeze({ bounds, sample });
 }
 
-export function alignTerrainPreviewToLegacyFrame(loaded, legacyOriginEpsg3006) {
+/**
+ * Bridge a loaded EPSG:3006 preview into a legacy pack world.
+ *
+ * The tiles stay on their own axis-aligned grid: only the translation is baked
+ * into them, so the sampler and the tile lattice keep working in GRID space
+ * where they are rectangles. Rotation and frame scale live in the bridge,
+ * applied at the two places that face the legacy world -- `sample()`, which
+ * takes legacy coordinates, and the render group's matrix.
+ *
+ * The surface atlas is a third thing and is NOT bridged: it is the pack's own
+ * legacy vectors rasterised onto this lattice, so its cells are legacy metres
+ * that merely happen to share these numbers. See the note in
+ * engine/material.js, which measured it.
+ *
+ * `bounds` is therefore still the grid-frame rectangle. `legacyBounds` is the
+ * axis-aligned legacy rectangle inscribed in the rotated footprint, which is
+ * what anything that can only omit a rectangle (the legacy CORE cutout) must
+ * be given instead.
+ */
+export function alignTerrainPreviewToLegacyFrame(loaded, legacyOriginEpsg3006, legacyFrame) {
   const { descriptor, resources } = loaded || {};
   if (!descriptor?.frame?.origin || !Array.isArray(resources) || !resources.length) {
     throw new TypeError('a loaded terrain preview is required');
@@ -298,10 +345,16 @@ export function alignTerrainPreviewToLegacyFrame(loaded, legacyOriginEpsg3006) {
   if (!Number.isFinite(legacyOriginEpsg3006?.easting) || !Number.isFinite(legacyOriginEpsg3006?.northing)) {
     throw new TypeError('a finite EPSG:3006 legacy origin is required');
   }
+  const geodetic = legacyGridBridge(legacyFrame ?? {});
   const bridge = Object.freeze({
     translateX: descriptor.frame.origin.easting - legacyOriginEpsg3006.easting,
     translateY: descriptor.frame.origin.heightRH2000,
     translateZ: legacyOriginEpsg3006.northing - descriptor.frame.origin.northing,
+    rotationRadians: geodetic.rotationRadians,
+    scaleX: geodetic.scaleX,
+    scaleZ: geodetic.scaleZ,
+    toLegacy: geodetic.toLegacy,
+    toGrid: geodetic.toGrid,
   });
   const aligned = resources.map(resource => Object.freeze({
     ...resource,
@@ -310,7 +363,15 @@ export function alignTerrainPreviewToLegacyFrame(loaded, legacyOriginEpsg3006) {
     heightOffsetWorld: resource.heightOffsetWorld + bridge.translateY,
   }));
   const sampler = createTerrainResourceSampler(aligned);
-  return Object.freeze({ resources: Object.freeze(aligned), bridge, ...sampler });
+  const legacyBounds = inscribedLegacyBounds(geodetic, sampler.bounds);
+  return Object.freeze({
+    resources: Object.freeze(aligned),
+    bridge,
+    bounds: sampler.bounds,
+    legacyBounds,
+    sampleGrid: sampler.sample,
+    sample: (legacyX, legacyZ) => sampler.sample(...bridge.toGrid(legacyX, legacyZ)),
+  });
 }
 
 export async function loadPuttomTerrainPreview({
@@ -359,6 +420,7 @@ export async function loadPuttomTerrainPreview({
     const aligned = alignTerrainPreviewToLegacyFrame(
       loaded,
       PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006,
+      PUTTOM_PREVIEW_CONFIG.legacyFrame,
     );
     const { createSurfacePreviewAtlas } = await import('./v2-surface-preview-atlas.mjs');
     const surfaceAtlas = createSurfacePreviewAtlas({
@@ -391,8 +453,13 @@ export async function loadPuttomTerrainPreview({
       surfaceClassIds,
       resources: aligned.resources,
       bounds: aligned.bounds,
+      legacyBounds: aligned.legacyBounds,
       bridge: aligned.bridge,
       heightAt: aligned.sample,
+      /* the same terrain addressed on its own EPSG:3006 grid, for the one
+         caller that compares v2 against v2 and must not go round the bridge
+         twice: the streaming probe */
+      heightAtGrid: aligned.sampleGrid,
       renderResources: stride => {
         if (!renderFrontiers.has(stride)) {
           renderFrontiers.set(stride, decimateTerrainRenderResources(aligned.resources, stride));

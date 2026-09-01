@@ -179,11 +179,18 @@ export class V2TerrainLiveAdapter {
       if (!Number.isSafeInteger(guardCells) || guardCells < 0 || !Number.isFinite(expectedGuardMetres)) {
         throw new Error('v2 legacy CORE cutout has no reviewed guard contract');
       }
+      /* The v2 footprint is a rotated rectangle in the legacy world, and the
+         legacy CORE builder can only omit an axis-aligned one -- so the cutout
+         is planned on the INSCRIBED legacy rectangle. Anything wider would
+         punch a hole the rotated v2 mesh does not reach. */
+      if (!Number.isFinite(this.source.legacyBounds?.x0)) {
+        throw new Error('v2 terrain source has no bridged legacy bounds to cut against');
+      }
       const plan = planV2LegacyCutout({
         enabled: true,
         preflightStatus: 'ready',
         grid: coreGrid,
-        previewBounds: this.source.bounds,
+        previewBounds: this.source.legacyBounds,
         guardCells,
       });
       if (plan.guardMetres !== expectedGuardMetres) {

@@ -5,8 +5,10 @@
 > terrain BVCH tiles and 16 matching migration-surface BVCH tiles replace the
 > matching legacy core in one logical terrain draw. The renderer now compiles
 > and draws that complete v2 batch offscreen before legacy construction and
-> omits 63,504 of Puttom's 123,175 CORE base-grid points behind an 8 m normal/
-> detail guard. Actual builder omissions, not planned counts, enter the capture
+> omits 56,169 of Puttom's 123,175 CORE base-grid points behind an 8 m normal/
+> detail guard. The bridge into the legacy frame now carries the derived
+> meridian convergence and the frame's own scale, which took the pilot's
+> disagreement with PROJ from a 21 m median to 1.7 cm. Actual builder omissions, not planned counts, enter the capture
 > gate. Any later install failure disables v2 heights, disposes v2 and rebuilds
 > the full GPK1 CORE before boot continues. The accepted provider-run evidence remains 58.19%
 > visible foreground in forced
@@ -1377,8 +1379,9 @@ Deliverables:
   error fails CI. The report retains only bounded raw/tight/encoded byte counts
   and the padding decision, never the raw pixel buffer.
 - [x] Construction-time retained-pilot legacy cutout after complete surface and
-  backend compile/draw preflight: 63,504 of 123,175 Puttom CORE base points
-  (51.56%) are omitted behind an 8 m guard. The reviewed post-normalisation CORE
+  backend compile/draw preflight: 56,169 of 123,175 Puttom CORE base points
+  (45.60%) are omitted behind an 8 m guard, planned on the legacy rectangle
+  inscribed in the rotated v2 footprint. The reviewed post-normalisation CORE
   is pinned to `[-648,648] × [-756,756]`, 4 m and 325 × 379 points, while any
   post-decision failure rebuilds the complete
   GPK1 CORE from GPK1 heights. All three real-app captures require actual builder
@@ -1448,9 +1451,10 @@ Deliverables:
   function, `buildTerrain`, run three times at boot for three complementary
   tiers: CORE at 4 m over the play area, MID at 12 m over the rest of the GPK1
   fine field, and the FAR vista ring at 36 m. Only CORE is cut today, and only
-  by the retained pilot's 1024 m frontier — 63,504 of 123,175 base points. In
-  v2 mode the app still constructs roughly 208,700 legacy base points
-  synchronously, so the cutout is about 23% of the whole.
+  by the retained pilot's 1024 m frontier — 56,169 of 123,175 base points, the
+  frontier's axis-aligned inscribed rectangle once the frame bridge rotates it.
+  In v2 mode the app still constructs roughly 208,700 legacy base points
+  synchronously, so the cutout is about 21% of the whole.
   What makes the rest hard is not the builder. It is that **the v2 frontier is
   smaller than CORE**: 1024 × 1024 m against 1296 × 1512 m, so the surviving
   48% of CORE is real ground that nothing else draws. The data to replace it
@@ -1602,7 +1606,8 @@ meet, which today is the opt-in `?v2=1` terrain path on Puttom — and it IS
 manifesting there, by the table above. It is exactly what "must work with GPS"
 depends on, and what would break the moment v2 becomes the default in D8.
 **Until it is fixed the pilot should not be shown as a preview of the new
-terrain**, because what it shows is the defect.
+terrain**, because what it shows is the defect. *(Fixed — the next section
+records what shipped and what it measures.)*
 
 Two consequences worth writing down before anyone designs the fix:
 
@@ -1621,10 +1626,152 @@ Two consequences worth writing down before anyone designs the fix:
   shipped pages and all their committed data. Do the rotation first; treat the
   reprojection as a separate decision about which frame is canonical.
 - The rotation must be **derived, not fitted**. Meridian convergence is
-  computable from the frame's own origin, γ = arctan(tan Δλ · sin φ); the
-  measured −3.47° is then a CHECK on that derivation rather than the source of
-  it. A constant tuned to make one course look right would silently be wrong
-  on the other five, which sit at 1.61° to 3.52°.
+  computable from the frame's own origin; the measured −3.47° is then a CHECK
+  on that derivation rather than the source of it. A constant tuned to make one
+  course look right would silently be wrong on the other five, which sit at
+  1.61° to 3.52°. *(Done — see the next section. The derivation also found a
+  second term this note missed: the legacy frame's own metre-per-degree is
+  0.13–0.34% short of the ellipsoid's, worth another 1.6 m at the corner.)*
+
+### The frame rotation is fixed, and it was bigger than the fit said
+
+`apps/golf/src/engine/geodetic-frame.mjs` now derives the whole transform from
+the frames' own declared constants and nothing else. Three terms, each one
+computable, none of them tuned:
+
+| term | what it is | Puttom | closes |
+|---|---|---:|---:|
+| meridian convergence γ | grid north → true north | 3.522145° | 45.2 → 1.6 m |
+| frame scale | the pack's metre is not the ellipsoid's | 0.99725 x, 0.99861 z | 1.6 → 0.09 m |
+| point scale k | grid metres → ground metres | 1.0000777 | (inside the scale) |
+
+**The second term is the part that needed thinking about, so it is written out
+in the module.** The legacy frame uses a sphere of the equatorial radius, so at
+63° N its metre-per-degree runs 0.13% short in latitude and 0.34% short in
+longitude. Every green, tee and hole line in a pack was written through those
+same constants, and so is the conversion a GPS fix takes to enter that world —
+the compression is self-consistent INSIDE the frame and cancels. It is visible
+only to something arriving by another route, which is exactly what an EPSG:3006
+tile is. Matching it completes the change of frame; it does not make the legacy
+frame metric-true, and that remains the reason D1's origin question is open.
+
+**Derived, not fitted, and then checked four ways.** Each check uses data that
+never entered the derivation:
+
+1. **Against the projection itself.** A Krüger forward EPSG:3006, validated in
+   the test to 0.24 µm against the one PROJ-produced point the repo already
+   held, differentiated numerically for the grid bearing of true north:
+   **0.0001 arcsec** from the analytic series.
+2. **Against 4,275 PROJ-projected course coordinates**, the committed
+   `geo_data/course-v2/*/migration/` playing geometry — the sharpest available
+   statement of what the bridge is worth, and now a gate
+   (`geodetic-frame.migration.test.mjs`):
+
+   | ground | pairs | translation only, p50 / max | derived bridge, p50 / max |
+   |---|---:|---:|---:|
+   | Puttom | 772 | 21.41 / 47.41 m | **0.017 / 0.091 m** |
+   | Ängsö | 677 | 17.14 / 40.42 m | 0.025 / 0.141 m |
+   | Veckefjärden | 823 | 40.19 / 80.45 m | 0.035 / 0.283 m |
+   | Norrfällsviken | 661 | 20.32 / 37.42 m | 0.011 / 0.057 m |
+   | Upsala | 693 | 15.40 / 23.95 m | 0.014 / 0.051 m |
+   | Johannesberg | 649 | 22.25 / 47.34 m | 0.016 / 0.078 m |
+
+3. **Against a fit nobody had read.** Those same migration directories already
+   carried a similarity fitted over the same geometry, and its rotation column
+   is the convergence: −3.5262° at Puttom against a derived 3.5221°, and every
+   other ground within 86 arcsec. **The number was already measured, committed
+   and sitting in the repository the whole time this was being called an open
+   question. Nobody had read that column.**
+4. **Against the legacy terrain**, sampled through the shipped bridge on the
+   played ground — greens, fairways and tee pads, where both products describe
+   the same mown surface:
+
+   | bridge | MAD | p90 |
+   |---|---:|---:|
+   | translation only | 0.745 m | 2.33 m |
+   | derived | **0.243 m** | **0.895 m** |
+
+**Why check 3 is 86 arcsec off and check 1 is 0.0001, tested rather than
+asserted.** The first guess — that the fit recovers γ at the geometry's
+centroid rather than at the origin — is WRONG: moving to the centroid changes γ
+by two arcseconds. The actual cause is that the committed fit has ONE scale
+where the truth has two. Feeding the same coordinates through the derived
+bridge alone and re-fitting a uniform-scale similarity reproduces the committed
+rotation to 5–25 arcsec, so the offset is the fit's, not the derivation's. This
+is also why the derived bridge beats that fit by an order of magnitude on
+residual (Puttom 0.017 m median against its 0.26 m RMSE): it carries the
+anisotropy the similarity cannot express.
+
+**The sign, settled.** An earlier note in this plan recorded "−3.47°" and read
+as a contradiction of the +3.52° predicted by the formula. It was not: γ is
+**+3.522145°** (grid north stands that far east of true north at Puttom), and
+the three.js group that draws the v2 tiles therefore rotates by **−γ**. Same
+fact, two frames. The 0.05° gap to the old 3.47° was the DEM fit's own
+resolution — the MAD curve is flat to ±0.5° — which is the whole argument for
+deriving rather than fitting.
+
+**What it touched, and what it deliberately did not.**
+
+- `alignTerrainPreviewToLegacyFrame` keeps the tiles on their own axis-aligned
+  grid and puts rotation and scale in the bridge, so the sampler, the tile
+  lattice and the surface atlas all keep working in grid space where they are
+  still rectangles. Only the two surfaces that face the legacy world convert:
+  `sample()`, and the render group's matrix.
+- The group's matrix is composed as **scale after rotation**, which a Group's
+  own `T·R·S` cannot express once the scale is anisotropic.
+- The legacy CORE cutout now plans against the INSCRIBED legacy rectangle,
+  because a rotated footprint has no axis-aligned corners and the legacy
+  builder can only omit a rectangle. The reviewed contract went **63,504 →
+  56,169** skipped base points: the rotation overhang handed back to GPK1, not
+  a smaller pilot. Verified live in Chromium — `skippedBasePoints: 56169`,
+  `removedTriangles: 28133`, one draw call, 16 tiles.
+- The surface atlas is **left alone**, and finding out why is the second
+  lesson of this stage — see below.
+- The streaming probe stays wholly in the grid frame. It compares v2 against
+  v2, and crossing the bridge on one side only is precisely how a 3.5° rotation
+  would read as a terrain mismatch.
+- GPK1 remains the default and no pack, page or committed model changed. The
+  six standalone pages are single-frame and were never affected.
+
+**The two v2 artefacts are not in the same frame, and the obvious change was
+wrong.** The first version of this work also ran the bridge backwards in the
+shader before the atlas lookup, on the reasoning that the atlas is v2 and v2 is
+EPSG:3006. It is not. `compile-puttom-surface-preview.mjs` reads the GPK1
+pack's own `model.holes` — LEGACY vectors — and rasterises them onto the tile
+lattice with a translation and nothing else. So a green sits in that raster at
+its legacy coordinate, and the correct lookup is the legacy world position,
+unbridged. Measured on the 18 green centres and 41 bunkers the pack carries:
+
+| atlas addressed by | greens on green | bunkers on sand |
+|---|---:|---:|
+| legacy world position | **14 / 18** | **36 / 41** |
+| through the bridge | 3 / 18 | 7 / 41 |
+
+The terrain tiles are grid-north DTM and must be bridged; the surface atlas is
+legacy vectors and must not be. Bridging both would have moved the paint with
+the ground and looked entirely plausible — greens still on greens — while
+putting every green 20 m from the ground it belongs to, which is the defect
+this whole stage exists to remove. **Being v2 is not the same as being in the
+v2 frame.**
+
+Two consequences, both small and both stated rather than hidden. The atlas
+rectangle is axis-aligned in legacy numbers while the mesh footprint is now
+rotated, so **2.95% of the drawn v2 area — a band at the frontier corners,
+none of it on the course — falls outside the atlas and paints rough**. And
+176 of the 1241 played-geometry vertices sit outside that rectangle, but that
+is the 1024 m pilot being smaller than the course and is unchanged by this
+work. The clean fix for both is to compile the surface raster in the grid
+frame like the terrain, which costs a recompile and new asset hashes; it
+belongs with the streaming surface chunks, which will be grid-frame anyway.
+
+**One hour lost to a name.** The decorator declared `const cos, sin` for the
+inverse rotation, forty lines above a `sin(phase)` that is a **TSL import** in
+the same function. The material failed to build with `sin is not a function`,
+the adapter fell back closed exactly as designed, and the only symptom the
+capture harness reported was a minified `u is not a function`. Fail-closed
+worked; the diagnosis came from re-running an unminified build in Chromium and
+reading the console. Shadowing an imported node-graph builtin with a scalar is
+invisible to `no-undef`.
 
 ### The visual target is not the data target
 

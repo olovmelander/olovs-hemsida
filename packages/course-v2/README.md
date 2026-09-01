@@ -147,8 +147,12 @@ request. On Puttom,
 the matching migration-surface descriptor, then all 16 finest terrain and
 surface BVCH tiles. It verifies encoded and decoded identities, the common
 frame/frontier, the terrain-descriptor SHA and the already verified active GPK1
-pack SHA before translating EPSG:5845 into the current GPK1 +x-east/-z-north
-coordinates. The same indexed 1 m CPU sampler then feeds terrain, camera and
+pack SHA before bridging EPSG:5845 into the current GPK1 +x-east/-z-north
+coordinates. That bridge is a translation, a meridian-convergence rotation and
+the legacy frame's own metre-per-degree scale, all derived in
+`apps/golf/src/engine/geodetic-frame.mjs` from the two frames' declared
+constants -- grid north is 3.52 degrees off true north at Puttom, so a
+translation alone lands the pilot 47 m out at the corner of the course. The same indexed 1 m CPU sampler then feeds terrain, camera and
 object placement while a one-draw texture-array batch renders on both WebGPU
 and WebGL2. Its material adapter reads verified surface tiles; it does not use a
 second hand-written material. Missing, misaligned, corrupt or source-mismatched
@@ -156,8 +160,10 @@ data falls back to GPK1 before the legacy core is cut. The batch, material and
 no-data-free 16-tile frontier are compiled and drawn offscreen before legacy
 CORE construction. `V2TerrainLiveAdapter` owns this frontier validation, batch
 lifecycle and the separate construction/visible-height gates. A ready Puttom
-preview then omits 63,504 of 123,175 legacy base-grid points (51.56%) behind an
-8 m guard. The reviewed post-normalisation
+preview then omits 56,169 of 123,175 legacy base-grid points (45.60%) behind an
+8 m guard -- planned on the axis-aligned rectangle INSCRIBED in the rotated v2
+footprint, since the legacy builder can only omit a rectangle and anything
+wider would punch a hole the rotated mesh does not reach. The reviewed post-normalisation
 CORE is also pinned to its exact bounds, 4 m spacing and 325 by 379 dimensions;
 capture acceptance reads that grid and the builder's actual emitted/skipped
 counts. Any later installation failure disables v2

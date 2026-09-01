@@ -1771,9 +1771,12 @@ if (terrainV2.preparation) {
        full-preview clip hides it before the v2 batch is installed. */
     coreGeometry = await buildTerrain(CORE, terrainPreviewPrepared.plan.innerBounds, true);
     const legacyBuild = coreGeometry.userData.legacyBaseGrid;
-    const cut = cutTerrainPreviewRect(coreGeometry, TERRAIN_PREVIEW.bounds);
+    const cut = cutTerrainPreviewRect(
+      coreGeometry, TERRAIN_PREVIEW.bounds, TERRAIN_PREVIEW.bridge,
+    );
     stats.tris -= cut.removedTriangles;
     coreMesh = makeCoreMesh(coreGeometry);
+    applyV2BridgeTransform(terrainV2.group, TERRAIN_PREVIEW.bridge);
     scene.add(coreMesh, terrainV2.group);
     const terrainPreviewRender = terrainV2.activate({ legacyBuild, cut });
     setTerrainPreviewBadge(
@@ -1819,19 +1822,47 @@ const farMesh = new THREE.Mesh(await buildTerrain(FARR, under(MIDR, 72), false),
 farMesh.userData.tag = 'far';
 scene.add(farMesh);
 
-/* Replace only the rectangular part of the legacy core for which all 16
-   verified 1 m tiles exist. Triangles outside that pilot remain the seamless
-   GPK1 fallback; boundary skirts on the BVCH topology seal the sub-grid cut. */
-function cutTerrainPreviewRect(geometry, bounds) {
+/* Place the v2 batch in the legacy world. The tiles are cut on the EPSG:3006
+   grid, whose north is 3.5 degrees off the legacy frame's true north here, and
+   whose metre differs from the legacy frame's by a few parts in ten thousand --
+   see engine/geodetic-frame.mjs. Composed as scale-after-rotation, which a
+   Group's own T*R*S cannot express when the scale is anisotropic. */
+function applyV2BridgeTransform(group, bridge) {
+  if (!group) return;
+  if (!Number.isFinite(bridge?.rotationRadians) || !Number.isFinite(bridge?.scaleX) ||
+      !Number.isFinite(bridge?.scaleZ)) {
+    throw new TypeError('the v2 terrain group needs the legacy grid bridge');
+  }
+  const cos = Math.cos(bridge.rotationRadians), sin = Math.sin(bridge.rotationRadians);
+  group.matrix.set(
+    bridge.scaleX * cos, 0, -bridge.scaleX * sin, 0,
+    0, 1, 0, 0,
+    bridge.scaleZ * sin, 0, bridge.scaleZ * cos, 0,
+    0, 0, 0, 1,
+  );
+  group.matrixAutoUpdate = false;
+  group.updateMatrixWorld(true);
+}
+
+/* Replace only the part of the legacy core for which all 16 verified 1 m tiles
+   exist. Triangles outside that pilot remain the seamless GPK1 fallback;
+   boundary skirts on the BVCH topology seal the sub-grid cut. */
+function cutTerrainPreviewRect(geometry, bounds, bridge) {
   const position = geometry.getAttribute('position');
   const source = geometry.getIndex()?.array;
   if (!position || !source || !bounds) return Object.freeze({ removedTriangles: 0 });
+  if (typeof bridge?.toGrid !== 'function') throw new TypeError('the v2 cut needs the legacy grid bridge');
   const retained = new source.constructor(source.length);
   let write = 0, removedTriangles = 0;
   for (let index = 0; index < source.length; index += 3) {
     const a = source[index], b = source[index + 1], c = source[index + 2];
-    const x = (position.getX(a) + position.getX(b) + position.getX(c)) / 3;
-    const z = (position.getZ(a) + position.getZ(b) + position.getZ(c)) / 3;
+    /* `bounds` is the v2 grid rectangle, so the test runs in grid space: the
+       removed region is then exactly the rotated footprint the batch covers,
+       with no corner left doubled and none left bare. */
+    const [x, z] = bridge.toGrid(
+      (position.getX(a) + position.getX(b) + position.getX(c)) / 3,
+      (position.getZ(a) + position.getZ(b) + position.getZ(c)) / 3,
+    );
     if (x > bounds.x0 && x < bounds.x1 && z > bounds.z0 && z < bounds.z1) {
       removedTriangles++;
       continue;
@@ -5309,8 +5340,20 @@ window.V3D = {
           .filter(item => item.count > 0)
         : [],
     } : null,
+    /* two rectangles, deliberately: `bounds` is the tiles' own EPSG:3006
+       rectangle, `legacyBounds` the axis-aligned legacy one inscribed in it
+       once the bridge has rotated it -- which is the region the legacy CORE
+       actually gave up. */
     bounds: TERRAIN_PREVIEW.bounds ? { ...TERRAIN_PREVIEW.bounds } : null,
-    bridge: TERRAIN_PREVIEW.bridge ? { ...TERRAIN_PREVIEW.bridge } : null,
+    legacyBounds: TERRAIN_PREVIEW.legacyBounds ? { ...TERRAIN_PREVIEW.legacyBounds } : null,
+    bridge: TERRAIN_PREVIEW.bridge ? {
+      translateX: TERRAIN_PREVIEW.bridge.translateX,
+      translateY: TERRAIN_PREVIEW.bridge.translateY,
+      translateZ: TERRAIN_PREVIEW.bridge.translateZ,
+      rotationRadians: TERRAIN_PREVIEW.bridge.rotationRadians,
+      scaleX: TERRAIN_PREVIEW.bridge.scaleX,
+      scaleZ: TERRAIN_PREVIEW.bridge.scaleZ,
+    } : null,
     source: TERRAIN_PREVIEW.stats(),
     adapter: terrainV2.snapshot(),
     renderer: { ...terrainV2.rendererState },
@@ -5368,9 +5411,14 @@ if (V2_SELECTION.graph && v2StreamProbeRequested(location.search)) {
     baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
     activeHoleNumber: hole,
     viewportHeightPixels: Math.max(1, Math.round(innerHeight)),
+    /* v2 against v2: the streamed chunks and the pilot tiles are cut on the
+       same EPSG:3006 grid, so this parity comparison stays in that frame and
+       never crosses the legacy bridge. Crossing it on one side only is how a
+       3.5 degree rotation would read as a terrain mismatch. */
     pilotBounds: TERRAIN_PREVIEW.bounds,
     pilotHeightAt: (x, z) => {
-      const sample = terrainV2.heightAt(x, z);
+      if (!terrainV2.active) return Number.NaN;
+      const sample = TERRAIN_PREVIEW.heightAtGrid(x, z);
       return Number.isFinite(sample) ? sample : sample?.height ?? Number.NaN;
     },
   });

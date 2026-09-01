@@ -28,6 +28,9 @@ function fixture({ ready = true, surfaceTileIds = ['l0/0/0', 'l0/1/0'] } = {}) {
     ready,
     status: ready ? 'ready' : 'fallback',
     bounds: BOUNDS,
+    /* The fixture's frame bridge is the identity, so its inscribed legacy
+       rectangle is its grid rectangle; a real course's is smaller. */
+    legacyBounds: BOUNDS,
     descriptor: { tiles: resources.map(resource => ({ id: resource.tileId })) },
     surfaceDescriptor: { tiles: resources.map(resource => ({ id: resource.tileId })) },
     surfaceAtlas: {
@@ -177,5 +180,16 @@ describe('v2 terrain live adapter', () => {
     expect(adapter.active).toBe(false);
     adapter.fail(new Error('install rejected'));
     expect(batch.dispose).toHaveBeenCalledTimes(1);
+  });
+
+  it('refuses to cut against a source that never bridged its bounds', async () => {
+    const { adapter, source, disposeSurface } = fixture();
+    delete source.legacyBounds;
+    const result = await adapter.prepare({ coreGrid: CORE, preflight: vi.fn(async () => {}) });
+    expect(result.ok).toBe(false);
+    expect(result.error).toMatch(/no bridged legacy bounds/);
+    expect(adapter.active).toBe(false);
+    expect(adapter.constructionHeightAt(0, 0)).toBeNaN();
+    expect(disposeSurface).toHaveBeenCalledTimes(1);
   });
 });
