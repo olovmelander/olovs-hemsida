@@ -1239,6 +1239,20 @@ Deliverables:
   option is ruled out and the next suspect is the hierarchy fetch. **Note that
   this affects the sibling statistics pipeline identically**, so whatever it
   finds applies to every bounded Laserdata read this repo makes.
+- [ ] **The pyramid option is ruled out, and the arithmetic says root node.**
+  The sweep came back identical at every level: **15 points at resolution 0, 1,
+  0.5 and 0.25 m** over the same 128 m box, where the header's declared density
+  predicts 46,700. `readers.copc` is not stopping at a level it was told to.
+  Across the three window sizes the read is uniformly thin — 15 points in 128 m,
+  52 in 256 m, 358 in 512 m, about **0.001 pts/m² however wide you ask**. Over
+  the tile's own 50 km² that is roughly **50,000 points, which is what a COPC
+  root node holds.** The reader returns the root and never descends, and one
+  candidate is left: the octree hierarchy fetch. A redirect that drops the
+  Authorization header would produce exactly this, and so would a hierarchy page
+  request that fails in a way PDAL reads as "no children". The next probe is
+  whether the delivery redirects at all — reported as a status and the presence
+  of a Location header, never its value, since a signed redirect target is a
+  credential.
 - [ ] **The one surface route left that needs no permission: LiDAR intensity
   as a pseudo-NIR band.** With a club relationship ruled out, the ledger is:
   shape exhausted, Esri RGB measured and useless, orthophoto behind an order,
@@ -1966,6 +1980,28 @@ horizontal bridge makes and the code should not pretend otherwise.
 **So the order of work is fixed by this.** Widening the pilot to 2048 m before
 repairing the datum would quadruple the length of the cliff and move it from
 the treeline onto played ground.
+
+**Fixed, and confirmed in the running app.** The offset is applied in the
+preview bridge and deliberately not in `geodetic-frame.mjs`, whose every term is
+derived and exact. Probed at the same three points:
+
+| at | step before | step after |
+|---|---:|---:|
+| z = −335 | 40.9 m | **17.3 m** |
+| z = −36 | 44.7 m | **21.0 m** |
+| z = +264 | 37.0 m | **13.4 m** |
+
+23.6 m gone everywhere, exactly as measured. **What is left is canopy.** Those
+three points sit in the treeline, where Terrarium carries treetops and the 1 m
+DTM is bare earth — the same 14 m the residual's 95th percentile reports. It is
+a real disagreement in which the LEGACY side is the wrong one, and it must not
+be smoothed: hiding a 15 m difference between two products is the seam-invisible
+move, not a fix. It shrinks when the frontier leaves played ground and goes when
+v2 replaces the legacy terrain outright.
+
+The gate measures the step on mown ground — median under 0.10 m, MAD under 0.40
+— and reports the forest residual without gating it, because the residual is
+true.
 
 ### The full-coverage pilot needs no new bytes
 
