@@ -4968,8 +4968,26 @@ const skyGroup = new THREE.Group();
 scene.add(skyGroup);
 const skySprites = [];
 {
+  /* The puck is drawn into a canvas and then magnified by perspective, so its
+     texture has to be sized against the biggest it is ever SEEN at, not against
+     what looks generous in source. Measured on a phone (412 CSS px, DPR 2.625,
+     full quality) with the camera in the band where these fade in at all --
+     110 m to 220 m above ground -- the nearest marker spans:
+
+       130 m   ~330 px      160 m   ~265 px
+       220 m   ~250 px      264 m   ~215 px      330 m   ~130 px
+
+     Against 128 px that is a 1.7-2.6x blow-up right where the marker is most
+     opaque, and it reads exactly as the soft, unreadable disc a player
+     reported. 256 covers the full-opacity end at about 1:1; the fainter,
+     closer end stays soft, which is the right place for the residue, since the
+     marker is nearly transparent there.
+
+     Gated on DPR because it is four times the texture memory (21 sprites, 256
+     KB each) and a 1x display does not need it: the same view gives ~82 px
+     there, well inside 128. */
   const mk = (ch, x, z, square, ink) => {
-    const S = 128, c = document.createElement('canvas');
+    const S = devicePixelRatio > 1.5 ? 256 : 128, c = document.createElement('canvas');
     c.width = c.height = S;
     const paint = () => {
       const g = c.getContext('2d');
