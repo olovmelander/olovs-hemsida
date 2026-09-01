@@ -1019,6 +1019,12 @@ Deliverables:
   runner: the window and every derived raster stay there, because Ortofoto
   Nedladdning carries special access and GDPR terms and a derivative needs its
   own redistribution decision.
+- [ ] **DEFERRED BY DECISION (owner, this session): the orthophoto order is
+  not being placed for now.** Nothing depends on it — OSM's greens were
+  measured against the GPS survey at 2.1 m median once the frames are made
+  parallel, which is well inside what the render can express. The CI step
+  stays in place and keeps reporting `blocked` cheaply, so the day the order
+  lands the measurement runs with no further work. Details of the block below.
 - [ ] **BLOCKED, and not by code: this account cannot read the orthophoto.**
   The first authenticated run returned HTTP 403 on all four `orto-u2-2024`
   assets, using the same credentials that read Markhöjdmodell successfully
@@ -1604,11 +1610,21 @@ Two consequences worth writing down before anyone designs the fix:
   origin. The error is a rotation about the origin; it is zero at the origin
   and grows linearly outward, which is why an origin check would pass and a
   corner would still be 40 m out.
-- The honest repair is to stop maintaining two frames. Either the legacy
-  geometry is reprojected into EPSG:3006 once and for all — which is what the
-  migration already does correctly, via `cs2cs` — or the bridge carries a
-  rotation. The first is the one that makes GPS work; the second only makes
-  the seam invisible.
+- There are two repairs and an earlier draft of this section was unfair to the
+  smaller one. **Rotating the bridge is a real fix, not a cosmetic one:** the
+  legacy frame is a documented flat-earth transform about a known origin, it
+  already agrees with the GPS survey to a 4.9 m median, and over a 1.4 km
+  course its own scale error is negligible. Landing v2 data correctly inside it
+  makes the world self-consistent and GPS-addressable. **Reprojecting
+  everything into EPSG:3006** is the geodetically cleaner end state and is
+  what D1's open origin item is really about, but it is a refactor of six
+  shipped pages and all their committed data. Do the rotation first; treat the
+  reprojection as a separate decision about which frame is canonical.
+- The rotation must be **derived, not fitted**. Meridian convergence is
+  computable from the frame's own origin, γ = arctan(tan Δλ · sin φ); the
+  measured −3.47° is then a CHECK on that derivation rather than the source of
+  it. A constant tuned to make one course look right would silently be wrong
+  on the other five, which sit at 1.61° to 3.52°.
 
 ### The visual target is not the data target
 
