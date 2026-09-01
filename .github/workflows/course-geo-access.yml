@@ -699,6 +699,10 @@ jobs:
         # evidence runs. Its first attempt failed on an entitlement gap and
         # took the whole capture matrix down with it; the capture is what the
         # activation gates read, so this step reports and steps aside.
+        # Bounded for the same reason as the canopy step below: it is fast only
+        # while the account is refused, and a granted order makes it read real
+        # imagery on somebody else's schedule.
+        timeout-minutes: 8
         continue-on-error: true
         env:
           CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .tif
@@ -731,6 +735,13 @@ jobs:
         # cloud, so a lost entitlement shows as a red step -- and the hard gate
         # for that lives further up, in the Laserdata Skog access check, which
         # is not continue-on-error.
+        #
+        # continue-on-error covers a step that FAILS. It does nothing about one
+        # that simply eats the job's 35 minutes, and this step streams a real
+        # point window whose cost is not ours to control -- so it gets its own
+        # budget. Exceeding it is the same outcome as failing: reported, and
+        # the capture evidence still runs.
+        timeout-minutes: 8
         continue-on-error: true
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
