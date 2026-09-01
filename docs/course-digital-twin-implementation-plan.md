@@ -1847,6 +1847,25 @@ fix that is smaller than it sounds:
   path: inside `?v2=1` most of this course already meshes at 1 m, which is 11
   samples across a median bunker instead of 2.7. The remaining lever for the
   pilot is coverage, not resolution.
+
+  **And what the 1 m data actually finds there is worth stating, because it is
+  less than "1 m" suggests.** Sampling the same OSM rings at 1 m steps through
+  both terrains — rim mean minus floor minimum, on the raw heightfields before
+  any runtime carving:
+
+  | feature | legacy Terrarium @4 m | Lantmäteriet @1 m |
+  |---|---:|---:|
+  | bunker, median relief | 0.24 m | **0.37 m** |
+  | green, median spread | 0.68 m | **0.42 m** |
+
+  The bunkers gain 54% and the greens LOSE 38%, and both go the right way: a
+  bunker is a real hollow that a coarse noisy grid cannot hold, while a green
+  is not a hollow at all, so the larger legacy number there is its documented
+  0.1 m quantisation rather than contour. **But a median bunker still reads
+  0.37 m deep at 1 m, and a real bunker is not 0.37 m deep.** Either the OSM
+  bunker rings do not sit where the sand does, or a bare-earth DTM smooths a
+  sand hollow, or both — so "the pilot resolves bunker depth" is not a claim
+  this supports yet. It is a measurement, not a gate.
 - It does not touch the six standalone pages, which are single-frame and were
   never affected.
 

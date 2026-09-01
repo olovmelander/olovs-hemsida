@@ -59,6 +59,10 @@ export function assertApprovedCanonicalFrame(manifest) {
   });
 }
 
+/* Within the canonical EPSG:5845 frame, whose world axes ARE the grid's, so a
+   translation is the whole transform. This is NOT the way into a legacy page's
+   world: that frame's -z is TRUE north and its metre is a sphere's, and the
+   three terms between them live in apps/golf/src/engine/geodetic-frame.mjs. */
 export function canonicalToWorld(point, origin) {
   const p = canonicalPoint(point);
   const o = canonicalPoint(origin, 'origin');
