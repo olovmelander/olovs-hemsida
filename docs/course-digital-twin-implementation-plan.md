@@ -1883,6 +1883,41 @@ provider-access workflow does, and the top-level `requiredCasesPassed` stays
 false locally because of it. A harness that cannot run a backend is not
 evidence that the backend works.
 
+### A gate that crashes has stopped being a gate
+
+Running `tools/check-app.mjs` over the six courses as part of validating the
+frame work, it died on the FIRST one — Ängsö — with
+`TypeError: worldX must be finite`, after its card, atlas, green, bunker, tee
+marker and distance-plate checks had all passed. Everything from the
+submersion probe onward — nothing submerged, the tee row, the header, the deep
+link, the luminance floor — had therefore not been running, on any course.
+
+The cause is a shape, not a coordinate. The submersion probe reads `pad.cx` to
+probe the prepared ground a player stands on, which is right and is why it was
+written that way: a hole's `line[0]` is the geometric point the card slide
+lands on, and at Puttom's 16th that falls 1.1 m over a traced shoreline while
+the pad sits 14.7 m clear. But `emit-pack.mjs` writes
+`pads: [{ ring }]` and nothing else. Checked in the bytes: **all nine packs,
+all 162 holes, have no `cx` on `pads[0]`.** So the probe was calling
+`probeH(undefined, undefined)` every time, and `ground-height-sampler`'s own
+finiteness check — which is correct and has a test — threw.
+
+The pack is not at fault: a pad's centre is derivable from its ring, and
+storing it twice is what lets the two disagree. So the app derives it once when
+it normalises pads, for mapped and synthesised pads alike, as the vertex mean —
+which reproduces the builds' own stored `cx`/`cz` exactly on the quads they
+store (Ängsö's 1st: −61.5 / 388.4, the model's numbers to the decimal). And the
+gate now names the hole and the value it could not probe instead of throwing
+out of the sampler three frames down.
+
+Two things worth keeping from this. **The check that passed immediately before
+the crash was "all 90 tee markers stand on tee grass"** — the markers were
+fine, the probe's ACCESS to them was not, and a passing neighbour says nothing
+about the one beside it. And the crash was invisible because it was per-course
+and caught: the run printed `FAIL course check crashed` and carried on to the
+next course, so the exit code was right and the missing coverage was not
+mentioned by anyone. **A gate should say what it did not manage to check.**
+
 ### The visual target is not the data target
 
 Stated by the project owner, and it reframes what the surface work is FOR:

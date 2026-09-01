@@ -312,6 +312,21 @@ for (const h of HOLES) {
          mk.c[1] + R[1] * HW * u + F[1] * HD * v]),
     });
   }
+  /* A pad's centre, derived from its own ring rather than carried beside it.
+     The builds store `cx`/`cz` and emit-pack drops them -- correctly, they are
+     redundant bytes -- but that left every pad in every pack without one, and
+     the submersion gate reads `pad.cx` to probe the ground a player stands on.
+     It was probing `undefined` and crashing on the first course, so that gate
+     and everything after it had stopped running. Derived here, once, for
+     mapped and synthesised pads alike: the vertex mean, which reproduces the
+     builds' own value exactly on the quads they store. */
+  for (const pad of pads) {
+    if (Number.isFinite(pad.cx) && Number.isFinite(pad.cz)) continue;
+    let sx = 0, sz = 0;
+    for (const [x, z] of pad.ring) { sx += x; sz += z; }
+    pad.cx = sx / pad.ring.length;
+    pad.cz = sz / pad.ring.length;
+  }
 }
 
 /* A SHORELINE IS A CURVE, AND THE TRACE IS A POLYGON.

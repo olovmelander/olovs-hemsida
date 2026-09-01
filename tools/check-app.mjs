@@ -206,7 +206,14 @@ async function checkCourse(c) {
     for (const h of V.HOLES) {
       probe(`green ${h.n}`, h.green.c[0], h.green.c[1]);
       const pad = h.tees.pads && h.tees.pads[0];
-      const tp = pad ? [pad.cx, pad.cz] : h.line[0];
+      const tp = pad && Number.isFinite(pad.cx) ? [pad.cx, pad.cz] : h.line[0];
+      /* Say which hole and which value, rather than throwing a bare "worldX
+         must be finite" out of the sampler three frames down. A gate that
+         crashes stops being a gate, and this one did. */
+      if (!Number.isFinite(tp?.[0]) || !Number.isFinite(tp?.[1])) {
+        out.push(`tee ${h.n} has no probeable point (pad ${JSON.stringify(pad && [pad.cx, pad.cz])}, line0 ${JSON.stringify(h.line[0])})`);
+        continue;
+      }
       probe(`tee ${h.n}`, tp[0], tp[1]);
       if (pad) for (const w of M.water) {
         if (w.isSea || w.level == null) continue;
