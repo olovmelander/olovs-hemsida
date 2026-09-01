@@ -108,6 +108,34 @@ const packs = cached['banvy-packs'] || [];
 gate(packs.length >= 1 && packs[0].startsWith(BASE), `the pack caches under the base: ${packs[0] || '(none)'}`);
 gate((cached['banvy-manifest'] || []).length === 1, 'and so does the manifest');
 
+/* The v2 pilot, which is the one thing on this site whose assets are fetched
+   by a URL the app BUILDS rather than one Vite rewrote. Its descriptor path is
+   a bare 'grounds/puttom/preview.json' resolved against import.meta.env.BASE_URL,
+   and every chunk after it resolves against the descriptor -- so if the base
+   were dropped anywhere in that chain the whole pilot would 404 and fall back
+   to GPK1 silently, which looks exactly like "v2 is off" rather than like a
+   bug. Nothing else here covered it: the gate drove veckefjarden, and the v2
+   flag is opt-in, so the one course that ships a pilot was never asked. */
+const v = await ctx.newPage();
+v.setDefaultTimeout(300000);
+const v404 = [];
+v.on('response', r => { if (r.status() >= 400) v404.push(`${r.status()} ${new URL(r.url()).pathname}`); });
+await v.goto(`${URLB}/?bana=puttom&v2=require&q=lo&det=1`, { waitUntil: 'load', timeout: 300000 });
+await v.waitForSelector('#boot.done, #boot.error', { timeout: 600000 });
+const pilot = await v.evaluate(() => {
+  const t = window.V3D?.v2Terrain?.();
+  return t ? {
+    status: t.status, reason: t.reason, tiles: t.source?.renderedTiles ?? 0,
+    surface: t.surface?.tileCount ?? 0, draws: t.renderer?.drawCalls ?? null,
+  } : null;
+});
+gate(pilot?.status === 'ready',
+  `the v2 pilot loads under the base: ${JSON.stringify(pilot)}`);
+gate(pilot?.tiles === 64 && pilot?.surface === 30 && pilot?.draws === 1,
+  `and renders 64 terrain + 30 surface tiles in one draw`);
+gate(v404.length === 0, `no 404 on the pilot's own chunks${v404.length ? `: ${v404.slice(0, 3).join(', ')}` : ''}`);
+await v.close();
+
 /* the bookmarked standalone pages sit beside the app, as real files */
 const q = await ctx.newPage();
 q.setDefaultTimeout(300000);
