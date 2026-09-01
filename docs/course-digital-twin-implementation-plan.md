@@ -651,10 +651,16 @@ During migration:
 ### Implemented Puttom migration preview (not a release approval)
 
 The current pilot adds a separate `surface-preview.json` beside the terrain
-preview. It contains 16 content-addressed surface BVCH tiles aligned to the
-same 1,025 x 1,025 sample frontier. The compiler uses the current GPK1 vectors
-only to reproduce the already-visible legacy atlas semantics; it does not infer
-new boundaries from imagery and it does not label the result as field data.
+preview. It contains **30 content-addressed surface BVCH tiles**, a rectangular
+subset of the terrain frontier's 64 covering every tile the played ground
+touches plus a 32 m margin, cut on the same 1 m lattice and sharing its seams.
+It is a subset rather than the whole frontier because all 64 decode to ~56 MiB
+against the compiler's 32 MiB active budget, and three fifths of those bytes
+would describe rough; coarsening the raster instead would blunt a green's edge,
+which is the one thing this layer exists to carry. The compiler uses the
+current GPK1 vectors only to reproduce the already-visible legacy atlas
+semantics; it does not infer new boundaries from imagery and it does not label
+the result as field data.
 
 - The descriptor is pinned by SHA-256 in the app and also pins the terrain
   descriptor hash, frame fingerprint and verified Puttom GPK1 pack hash.
