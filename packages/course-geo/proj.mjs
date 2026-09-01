@@ -26,7 +26,7 @@ export function sha256File(path) {
   return sha256Bytes(readFileSync(path));
 }
 
-export function runGeoCommand(command, args, { input = '', env = {} } = {}) {
+export function runGeoCommand(command, args, { input = '', env = {}, timeoutMilliseconds = 0 } = {}) {
   const result = spawnSync(command, args, {
     cwd: PACKAGE_DIR,
     encoding: 'utf8',
@@ -34,8 +34,16 @@ export function runGeoCommand(command, args, { input = '', env = {} } = {}) {
     env: { ...process.env, PROJ_NETWORK: 'OFF', ...env },
     maxBuffer: 128 * 1024 * 1024,
     windowsHide: true,
+    ...(timeoutMilliseconds > 0 ? { timeout: timeoutMilliseconds, killSignal: 'SIGKILL' } : {}),
   });
 
+  /* A caller that set a bound wants to know it was hit, not to read
+     "failed to start" about a command that started fine and ran too long. */
+  if (timeoutMilliseconds > 0 && (result.error?.code === 'ETIMEDOUT' || result.signal)) {
+    const timeout = new Error(`${command} exceeded its ${Math.round(timeoutMilliseconds / 1000)} s budget`);
+    timeout.code = 'GEO_COMMAND_TIMEOUT';
+    throw timeout;
+  }
   if (result.error) {
     const hint = result.error.code === 'ENOENT'
       ? ` Run this command through packages/course-geo/toolchain/pixi.toml.`

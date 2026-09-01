@@ -57,6 +57,11 @@ const PROBE_SAMPLE_RADIUS_METRES = 3;
    diagnostics and no verdict. */
 const MINIMUM_PROBES_PER_CLASS = 60;
 const MINIMUM_CANOPY_COVERAGE = 0.5;
+/* Inside the CI step's own budget, so the SCRIPT is what runs out of time and
+   writes a report. A runner-killed step leaves no artifact and teaches
+   nothing, which is the same failure the streaming probe hit: a run that ran
+   out of time is a timeout, not a failure and not a zero. */
+const DEADLINE_MILLISECONDS = 7 * 60 * 1000;
 
 /** PDAL nests filters.stats output differently across versions and keys the
     stages by tag; collect every statistic block it emitted rather than
@@ -258,25 +263,64 @@ async function main() {
   let values;
   let totalCells = 0;
   let diagnostics;
+  let streamedBytes = 0;
   try {
+    const remaining = () => Math.max(1000, DEADLINE_MILLISECONDS - (performance.now() - started));
     try {
       /* Streamed, exactly the way the working statistics path streams it. The
          single-pipeline version could not stream -- hag_nn has to see the
          window's ground returns first -- and returned 358 points where the
          advertised density predicts hundreds of thousands. */
-      runGeoCommand('pdal', ['pipeline', '--stdin', '--stream'], { input: JSON.stringify(streamPipeline) });
+      runGeoCommand('pdal', ['pipeline', '--stdin', '--stream'], {
+        input: JSON.stringify(streamPipeline),
+        timeoutMilliseconds: remaining(),
+      });
     } catch (error) {
+      if (error.code === 'GEO_COMMAND_TIMEOUT') { error.stage = 'stream'; throw error; }
       throw new Error(`PDAL bounded COPC stream failed: ${redact(error.message)}`);
     }
+    streamedBytes = fs.existsSync(windowPath) ? fs.statSync(windowPath).size : 0;
     /* Second pass, over a local file and with no credentials anywhere in it. */
-    runGeoCommand('pdal', ['pipeline', '--stdin', '--metadata', metadataFile], {
-      input: JSON.stringify(canopyHeightPipeline(windowPath, { outputPath: rasterPath })),
-    });
+    try {
+      runGeoCommand('pdal', ['pipeline', '--stdin', '--metadata', metadataFile], {
+        input: JSON.stringify(canopyHeightPipeline(windowPath, { outputPath: rasterPath })),
+        timeoutMilliseconds: remaining(),
+      });
+    } catch (error) {
+      if (error.code === 'GEO_COMMAND_TIMEOUT') { error.stage = 'derive'; throw error; }
+      throw error;
+    }
     diagnostics = pipelineDiagnostics(JSON.parse(fs.readFileSync(metadataFile, 'utf8')));
     runGeoCommand('gdal_translate', ['-of', 'XYZ', rasterPath, xyzPath]);
     const grid = await readGrid(xyzPath, CANOPY_RESOLUTION_METRES);
     values = grid.values;
     totalCells = grid.totalCells;
+  } catch (error) {
+    if (error.code !== 'GEO_COMMAND_TIMEOUT') throw error;
+    const timedOut = {
+      schemaVersion: 1,
+      kind: 'puttom-canopy-agreement',
+      measured: false,
+      blocked: 'acquisition-timeout',
+      stage: error.stage || 'unknown',
+      deadlineMilliseconds: DEADLINE_MILLISECONDS,
+      elapsedMilliseconds: Math.round(performance.now() - started),
+      streamedWindowBytes: streamedBytes,
+      window: {
+        boundsEpsg3006: plan.boundsEpsg3006,
+        spanMetres: plan.spanMetres,
+        sourceItemId: plan.source.id,
+        advertisedPointDensityPerSquareMetre: plan.source.pointDensityPerSquareMetre,
+      },
+      note: 'the bounded read or the height derivation ran past this script\'s own deadline; a timeout is not a measurement of zero, and the bytes streamed before it say how far the read got',
+    };
+    if (out) {
+      fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
+      fs.writeFileSync(path.resolve(out), `${JSON.stringify(timedOut, null, 2)}\n`);
+    }
+    console.log(JSON.stringify(timedOut, null, 2));
+    process.exitCode = 1;
+    return;
   } finally {
     fs.rmSync(temporaryDirectory, { recursive: true, force: true });
   }
