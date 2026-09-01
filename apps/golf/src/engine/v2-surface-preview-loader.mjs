@@ -3,6 +3,7 @@ import {
   assertSurfacePreview,
   resolveSurfacePreviewAssetUrl,
 } from '../../../../packages/course-v2/surface-preview.mjs';
+import { verifyJsonDescriptorIntegrity } from './descriptor-integrity.mjs';
 
 const MAX_DESCRIPTOR_BYTES = 256 * 1024;
 const MAX_DECODED_BYTES = 32 * 1024 * 1024;
@@ -96,12 +97,6 @@ async function mapConcurrent(items, concurrency, operation) {
   return result;
 }
 
-async function sha256Hex(bytes, cryptoImpl) {
-  if (!cryptoImpl?.subtle?.digest) throw new Error('surface preview Web Crypto SHA-256 is unavailable');
-  const digest = new Uint8Array(await cryptoImpl.subtle.digest('SHA-256', bytes));
-  return [...digest].map(byte => byte.toString(16).padStart(2, '0')).join('');
-}
-
 /** Fetch, integrity-check and decode every retained preview tile before any of
     its data can reach a render texture. */
 export async function loadSurfacePreview(descriptorUrl, {
@@ -120,13 +115,9 @@ export async function loadSurfacePreview(descriptorUrl, {
   });
   const descriptorBytes = await responseBytes(response, MAX_DESCRIPTOR_BYTES);
   if (expectedDescriptorSha256 !== null) {
-    if (!/^[a-f0-9]{64}$/.test(expectedDescriptorSha256 || '')) {
-      throw new Error('surface preview expected descriptor SHA-256 is invalid');
-    }
-    const actual = await sha256Hex(descriptorBytes, cryptoImpl);
-    if (actual !== expectedDescriptorSha256) {
-      throw new Error(`surface preview descriptor integrity mismatch: ${actual} != ${expectedDescriptorSha256}`);
-    }
+    await verifyJsonDescriptorIntegrity(
+      descriptorBytes, expectedDescriptorSha256, cryptoImpl, 'surface preview',
+    );
   }
   let descriptor;
   try { descriptor = JSON.parse(decoder.decode(descriptorBytes)); }

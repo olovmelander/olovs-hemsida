@@ -6,7 +6,7 @@
 
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
-import { resolve, join } from 'node:path';
+import { resolve, join, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildGroundSurfaceFeatures } from '../../apps/golf/src/engine/surface-features.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
@@ -31,7 +31,9 @@ function hash(value) {
 function terrainTiles(preview, root) {
   return preview.tiles.map(tile => {
     const file = resolve(root, tile.reference.url);
-    if (!file.startsWith(`${root}/`)) throw new Error(`terrain tile escapes preview root: ${tile.id}`);
+    if (file !== root && !file.startsWith(`${root}${sep}`)) {
+      throw new Error(`terrain tile escapes preview root: ${tile.id}`);
+    }
     return { tile, file };
   });
 }
@@ -104,6 +106,9 @@ export async function compilePuttomSurfacePreview({
     holes: model.holes,
     features,
     assetDirectory: 'surface',
+    /* Preserve the 1 m payload/terrain contract, but derive its signed edge
+       field from the migration vectors on a 25 cm lattice. */
+    boundaryOversample: 4,
   });
   const bundle = await writeSurfacePreviewBundle(root, compilation, {
     label: 'Puttom · migrerade ytor (ej inmätta)',

@@ -18,6 +18,11 @@ import { readPack, sha256, readCard } from './lib.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT = path.join(ROOT, 'apps/golf/public/courses/index.json');
 
+/* The yellow tee's colour. Every course's table below carries it, and `def` --
+   which tee the app opens on -- is derived from it rather than written per
+   course, so it cannot drift from the swatch the HUD actually draws. */
+const TEE_YELLOW = 0xf0c93a;
+
 /* order is presentation order: the first entry is the default course until the
    phase-5 rail replaces defaults with a choice */
 const COURSES = [
@@ -70,6 +75,14 @@ const entries = COURSES.map(c => {
   const nTee = cardHoles[0].t.length;
   if (nTee !== c.tees.names.length || nTee !== c.tees.cols.length)
     throw new Error(`${c.slug}: card has ${nTee} tees, display table has ${c.tees.names.length}/${c.tees.cols.length}`);
+  /* Which tee a course OPENS on: the yellow one, the tee most members play.
+     Found by COLOUR, never by name -- two courses name their tees by course
+     rating (Upsala's yellow is '56', Veckefjardens '58') and a name match would
+     quietly open those two on the back tee. A course with no yellow is an error
+     rather than a fallback, because the default would then be a guess and this
+     table is where that decision belongs. */
+  const def = c.tees.cols.indexOf(TEE_YELLOW);
+  if (def < 0) throw new Error(`${c.slug}: no yellow tee in the display table, so no default tee`);
   const par = cardHoles.reduce((a, h) => a + h.par, 0);
   /* How many posters the chooser card may cycle through. Counted from what is
      actually committed rather than declared, so a course that loses a poster
@@ -87,7 +100,7 @@ const entries = COURSES.map(c => {
        added. The manifest is the pipelines' contract with the app, and which
        pipeline built a course is part of that contract. */
     build: c.build,
-    par, holes: cardHoles.length, tees: c.tees, photos,
+    par, holes: cardHoles.length, tees: { ...c.tees, def }, photos,
     /* RELATIVE, with no leading slash: the manifest is data, and data does not
        get to know where the site is mounted. The app prefixes its own base
        (import.meta.env.BASE_URL), so the same manifest serves a domain root and

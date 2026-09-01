@@ -14,7 +14,7 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   descriptorSha256: 'be3d4676c7580e75e612ddfe3585be1b905f4c6da4bcfdb34456f1b9673657ed',
   surfaceDescriptorPath: 'grounds/puttom/surface-preview.json',
   surfaceLabel: 'Puttom · migrerade ytor (ej inmätta)',
-  surfaceDescriptorSha256: 'f64d662114a13b24ea47e73b686a20dfd3f16d88cda6468cdaa56515bd286a09',
+  surfaceDescriptorSha256: 'e0c0ba27322d7426f50a1c1890788a43914ff6ab573d6f31f6c40158887eff1c',
   surfaceProvisionalReason: 'migration-vectors-not-survey-approved',
   frameFingerprint: '07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8',
   packOriginWgs84: Object.freeze({ latitude: 63.2992, longitude: 18.9413 }),

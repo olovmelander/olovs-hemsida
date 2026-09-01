@@ -45,7 +45,7 @@ import { buildRail } from './shell/rail.js';
 import { buildNavDrawer } from './shell/menu.js';
 import { legacyTarget, goToCourse } from './shell/router.js';
 import { inflate, decodeHF } from './engine/codec.js';
-import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
+import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearingAt, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
@@ -280,6 +280,36 @@ const FI = new Grid();      // fairways + mown scenery
 const WI = new Grid();      // water bodies
 const VI = new Grid();      // forest / scrub / sand / rock
 const PI = new Grid();      // paths and tracks (as polylines)
+
+/* A TEE MARKER HAS TO STAND ACROSS THE LINE, AND `mk.b` COULD NOT SAY WHERE.
+
+   A pair of tee markers straddles the teeing ground: the axis between them is
+   PERPENDICULAR to the direction of play, because the player stands between
+   them and hits through. Measured over the shipped packs, only Veckefjarden's
+   603 marks did that. On the other eight courses the pair's axis was a mean
+   35-47 degrees off perpendicular and up to 89 -- Puttom's 6th had its two
+   balls strung out ALONG the fairway, one behind the other.
+
+   The cause is two conventions with one name. `mk.b` is written by the
+   pipelines as a COMPASS bearing, `atan2(dx, -dz)` (geobuild/lib.mjs's
+   `bearing`), by every build except geobuild -- which writes `alongLine`'s
+   `atan2(dx, dz)` instead. The engine reads it as the latter, so `rightOf(b)`
+   returned the true right only where the two agree. They differ by a mirror in
+   z, so the error is `asin|sin 2b|`: exactly zero on a hole running due north
+   or due east, exactly 90 degrees on one running north-east. That is why this
+   looked fine on some holes and absurd on others, and why no gate caught it --
+   the marker pair and the tee deck under it were squared to the SAME wrong
+   bearing, so the "every marker stands on tee grass" check compared the data
+   with itself and passed.
+
+   So the bearing is not read any more, it is DERIVED from the hole line the
+   engine itself draws -- the same authority `setCam('tee')` already used for
+   the camera, which is why the view looked down the hole while the markers did
+   not. `mk.b` is overwritten here, once, before anything reads it: on
+   Veckefjarden it lands on the value already there.                          */
+for (const h of HOLES) {
+  for (const mk of h.tees.marks || []) mk.b = lineBearingAt(h.line, mk.c) * 180 / Math.PI;
+}
 
 /* A TEE MARKER HAS TO STAND ON A TEE.
 
@@ -811,20 +841,20 @@ const s2l = c => c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
 const L = hex => [s2l(((hex >> 16) & 255) / 255), s2l(((hex >> 8) & 255) / 255), s2l((hex & 255) / 255)];
 /* Authored as the colours grass actually is in daylight rather than the colours grass
    looks like in a photograph of a dark screen. A fairway is a yellow-green, not a
-   forest green; the rough is browner and paler than the fairway, not darker, because
-   fescue in a Swedish August is straw with green in it; and a green is bluer and
+   forest green; the rough is the leaf-green of full summer, with only a restrained
+   dry fescue variation; and a green is bluer and
    deeper than the fairway around it. Those three relationships are most of what makes
    mown ground read as mown ground from 200 m away. */
 /* nudged against the club's July aerial: the mown surfaces run brighter and
    greener than the first authoring -- a fresh-cut vividness, not a repaint */
 const C = {
-  rough:  L(0x62723d), fescue: L(0x847f4c), semi:  L(0x588c37),
+  rough:  L(0x6f9348), fescue: L(0x82924f), semi:  L(0x659b42),
   fair:   L(0x60a03e), green:  L(0x489a4c), fringe:L(0x649540),
   tee:    L(0x5c9d42), sand:   L(0xd6c396), path:  L(0x757168),
   /* the forest floor was 0x334423 -- against fog-lit turf it rendered near-black,
      and whole hillsides read as burnt ground; this is bilberry-and-litter brown,
      with the deepest shade kept for ground the satellite says is closed canopy */
-  heath:  L(0x776c3f), forest: L(0x46512e), shore: L(0xb2a37e),
+  heath:  L(0x6d8142), forest: L(0x46512e), shore: L(0xb2a37e),
   wet:    L(0x6a7046), rock:   L(0x736e63),
   /* the surroundings: crop tones for the west-shore fields, slash for the
      clear-fells, hard gravel for the machinery yard, hay for the Ås meadows */
@@ -2075,7 +2105,9 @@ function chaikin(ring, rounds = 2) {
 
 function surfaceMesh(rings, lift, maxEdge, shade, conservative) {
   const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], idx = [];
-  for (const ring0 of rings) {
+  for (const surface of rings) {
+    const ring0 = Array.isArray(surface) ? surface : surface.ring;
+    const surfaceShade = Array.isArray(surface) ? shade : (surface.shade || shade);
     if (ring0.length < 3) continue;
     const ring = chaikin(ring0);
     const faces = triangulate(ring);
@@ -2094,7 +2126,7 @@ function surfaceMesh(rings, lift, maxEdge, shade, conservative) {
                    meshH(x + 1.15, z + 1.15), meshH(x - 1.15, z + 1.15),
                    meshH(x + 1.15, z - 1.15), meshH(x - 1.15, z - 1.15))
         : meshH(x, z);
-      const g = shade ? shade(x, z, h) : groundAt(x, z, h);
+      const g = surfaceShade ? surfaceShade(x, z, h) : groundAt(x, z, h);
       const ao = horizonAO(x, z, h);
       /* the rim seals: a boundary vertex tucks below the terrain instead of
          floating a lift above it, so a grazing view never sees the dark gap
@@ -2198,7 +2230,8 @@ const shadeSand = (x, z) => {
            det: 2.3, bmp: 0.6, gls: 0.13, str: 0, mow: 0, mowK: 0 };
 };
 
-if (groundMode !== 'atlas') {
+const vectorSurfaceOverlays = groundMode !== 'atlas' || terrainV2.rendererState.status === 'ready';
+if (vectorSurfaceOverlays) {
   /* Each overlay tier pulls itself in front of the layers beneath in depth space:
      semi first, then fairway, collar, green and tee, sand above all -- so the
      stack resolves on any depth buffer, not just a deep desktop one. */
@@ -2213,24 +2246,44 @@ if (groundMode !== 'atlas') {
     scene.add(m);
     stats.draws++;
   };
-  /* laid in the order a mower would: the widest cut first, the tightest last */
+  /* Batch by mower tier, not by hole. These are the original curved rings, but
+     six course-wide meshes keep their cost bounded to six draw calls. */
+  const semi = [], fair = [], collar = [], green = [], tee = [], sand = [];
   for (const h of HOLES) {
-    if (h.fairway.rings.length) {
-      add(h.fairway.rings.map(r => offsetRing(r, 4.5)), 0.018, 5.5, shadeSemi(h), 1);
-      add(h.fairway.rings, 0.036, 3.6, shadeFair(h), 2);
+    const semiShade = shadeSemi(h), fairShade = shadeFair(h);
+    for (const ring of h.fairway.rings) {
+      semi.push({ ring: offsetRing(ring, 4.5), shade: semiShade });
+      fair.push({ ring, shade: fairShade });
     }
-    add([offsetRing(h.green.ring, 3.2)], 0.052, 2.2, shadeCollar(h), 3);
-    add([h.green.ring], 0.072, 1.4, shadeGreen(h), 4);
-    add(h.tees.pads.map(t => offsetRing(t.ring, 2.2)), 0.05, 3.0, shadeCollar(h), 3);
-    add(h.tees.pads.map(t => t.ring), 0.086, 2.0, shadeTee(), 4);
-    if (h.bunkers.length) add(h.bunkers.map(b => offsetRing(b.ring, 0.5)), 0.035, 1.8, shadeSand, 5, sandMat, true);
+    const collarShade = shadeCollar(h);
+    collar.push({ ring: offsetRing(h.green.ring, 3.2), shade: collarShade });
+    green.push({ ring: h.green.ring, shade: shadeGreen(h) });
+    const teeShade = shadeTee();
+    for (const pad of h.tees.pads) {
+      collar.push({ ring: offsetRing(pad.ring, 2.2), shade: collarShade });
+      tee.push({ ring: pad.ring, shade: teeShade });
+    }
+    for (const bunker of h.bunkers) {
+      sand.push({ ring: offsetRing(bunker.ring, 0.5), shade: shadeSand });
+    }
   }
-  /* the short course, the range and the practice green are mown grass too */
-  add(M.scenery.fairways.concat(M.scenery.range), 0.03, 5.0,
-      (x, z) => ({ ...shadeFair(null)(x, z), str: 0.35, mowK: 0 }), 2);
-  add(M.scenery.greens, 0.06, 1.8, shadeGreen(null), 4);
-  add(M.scenery.tees, 0.07, 2.4, shadeTee(), 4);
-  add(M.scenery.bunkers.concat(M.veg.sand).map(r => offsetRing(r, 0.5)), 0.035, 2.2, shadeSand, 5, sandMat, true);
+  const quietFair = shadeFair(null);
+  const sceneryFairShade = (x, z) => ({ ...quietFair(x, z), str: 0.35, mowK: 0 });
+  for (const ring of M.scenery.fairways.concat(M.scenery.range)) {
+    fair.push({ ring, shade: sceneryFairShade });
+  }
+  for (const ring of M.scenery.greens) green.push({ ring, shade: shadeGreen(null) });
+  for (const ring of M.scenery.tees) tee.push({ ring, shade: shadeTee() });
+  for (const ring of M.scenery.bunkers.concat(M.veg.sand)) {
+    sand.push({ ring: offsetRing(ring, 0.5), shade: shadeSand });
+  }
+  /* laid in the order a mower would: the widest cut first, the tightest last */
+  add(semi, 0.018, 5.5, null, 1);
+  add(fair, 0.036, 3.6, null, 2);
+  add(collar, 0.052, 2.2, null, 3);
+  add(green, 0.072, 1.4, null, 4);
+  add(tee, 0.086, 2.0, null, 4);
+  add(sand, 0.035, 1.8, null, 5, sandMat, true);
 }
 
 /* -------------------------------------------------------------- parking
@@ -4357,7 +4410,12 @@ function placeSun() {
 }
 
 /* ------------------------------------------------------------------- ui */
-let hole = 1, teeIdx = 0, camMode = 'orbit', flying = 0;
+/* A course opens on its YELLOW tee -- the tee most members play -- which the
+   manifest names per course as `tees.def`, since the yellow one is second on a
+   five-tee card, first at Norrfallsviken and third on the two six-tee cards.
+   An old manifest without the field still opens on the back tee. */
+const DEF_TEE = CMETA.tees.def ?? 0;
+let hole = 1, teeIdx = DEF_TEE, camMode = 'orbit', flying = 0;
 const TEE_NAMES = CMETA.tees.names;
 
 const holesBar = document.getElementById('holes');
@@ -4474,7 +4532,7 @@ function syncURL() {
     sp.set('hal', hole);
     sp.set('vy', CAM2VY[camMode] || 'fritt');
     sp.set('ljus', P2LJUS[presetName] || 'kvall');
-    if (teeIdx) sp.set('tee', teeIdx + 1); else sp.delete('tee');
+    if (teeIdx !== DEF_TEE) sp.set('tee', teeIdx + 1); else sp.delete('tee');
     if (CMETA.slug !== COURSE.all[0].slug) sp.set('bana', CMETA.slug); else sp.delete('bana');
     if (skyState !== skyMax) sp.set('skylt', skyState); else sp.delete('skylt');
     sp.delete('kiosk'); sp.delete('ren');

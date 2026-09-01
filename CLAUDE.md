@@ -1300,6 +1300,26 @@ What is inferred is the *pad*; what is not inferred is *where the tee is*, which
 the card's own length already fixed. Back-tee marks sit 8–18 m from the mapped
 pads on five of six courses, which is the documented card-slide behaviour.
 
+**And the app opens on the yellow tee**, on every course, because that is the tee
+most members actually play — a bare visit used to start on the back tee, which on
+Upsala and Veckefjärden is a championship 6192 m and 6436 m against 5565 m
+and 5804 m off the yellow. Which index that is differs per
+course (first at Norrfällsviken, second on the five-tee cards, third on the two
+six-tee ones), so it is DATA: `emit-manifest` derives `tees.def` from the colour
+`0xf0c93a` in each course's own swatch table, and the app reads
+`CMETA.tees.def ?? 0`. **By colour, never by name** — Upsala and Veckefjärden name
+their tees by course rating ('56', '58'), so a name match would have silently left
+exactly those two on the back tee. `check-app` gates it against the manifest's
+colours rather than against `def`, so the gate and the generator cannot agree with
+each other while both are wrong. A course with no yellow throws at generation
+instead of falling back, because the fallback would be a guess.
+
+`syncURL` omits `tee=` at the default rather than at index 0, so a shared link
+still round-trips; every historical `?tee=N` link is untouched, N being an
+absolute column. The **standalone pages still open on their back tee** — they are
+hotfix-only — so a parity run comparing app against page must now pass the same
+`?tee=` to both sides. Same rule as everywhere else here: measure like with like.
+
 ### The clubhouses, and what a photograph is for
 
 **Two of six were not being drawn as clubhouses at all.** The buildings pass

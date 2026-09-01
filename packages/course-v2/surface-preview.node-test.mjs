@@ -29,7 +29,7 @@ function bounds(minEasting, minNorthing, maxEasting, maxNorthing) {
   return { minEasting, minNorthing, minHeightRH2000: 20, maxEasting, maxNorthing, maxHeightRH2000: 23 };
 }
 
-function fixture() {
+function fixture({ boundaryOversample = 1 } = {}) {
   const terrainTiles = [
     { id: 'l0/0/0', bounds: bounds(650000, 6640004, 650004, 6640008), sampleSpacingMetres: 1 },
     { id: 'l0/0/1', bounds: bounds(650000, 6640000, 650004, 6640004), sampleSpacingMetres: 1 },
@@ -45,6 +45,7 @@ function fixture() {
       { surface: SURFACE.GREEN, rings: [ring], hole: 1 },
     ],
     codec: 'raw',
+    boundaryOversample,
   });
 }
 
@@ -82,6 +83,25 @@ test('surface compiler produces deterministic, seam-identical BVCH tiles', () =>
   for (let column = 0; column < 5; column++) {
     assert.deepEqual(north.subarray((4 * 5 + column) * 14, (4 * 5 + column + 1) * 14), south.subarray(column * 14, (column + 1) * 14));
   }
+});
+
+test('surface compiler supersamples vector boundaries without enlarging the payload grid', () => {
+  const coarse = fixture();
+  const refined = fixture({ boundaryOversample: 4 });
+  const distances = compilation => compilation.tiles.flatMap(tile => {
+    const decoded = verifyChunkAsset(tile.reference, compilation.resources.get(tile.reference.url));
+    const values = decodeSurfaceGrid(decoded.payload, decoded.header.surfaceGrid);
+    return Array.from(values.boundaryDistancesMetres, (distance, index) =>
+      values.secondarySurfaceIds[index] === 255 ? null : Math.abs(distance)).filter(Number.isFinite);
+  });
+  const coarseMinimum = Math.min(...distances(coarse));
+  const refinedMinimum = Math.min(...distances(refined));
+  assert.equal(coarse.stats.sampleSpacingMetres, refined.stats.sampleSpacingMetres);
+  assert.equal(coarse.stats.previewWidth, refined.stats.previewWidth);
+  assert.equal(coarse.stats.previewHeight, refined.stats.previewHeight);
+  assert.equal(refined.stats.boundarySampleSpacingMetres, 0.25);
+  assert.ok(refinedMinimum < coarseMinimum,
+    `expected a sub-texel edge distance, got ${refinedMinimum} >= ${coarseMinimum}`);
 });
 
 test('surface preview descriptor locks migration provenance and immutable output', async () => {
