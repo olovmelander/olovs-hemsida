@@ -403,7 +403,7 @@ function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
      install then fails, these levels stay v2-derived over legacy ground: on
      this course at most 0.5 m out, and every body still renders as water. */
   if (TERRAIN_PREVIEW.ready && typeof TERRAIN_PREVIEW.heightAt === 'function') {
-    const COVERAGE = 0.6, PERCENTILE = 0.30;
+    const COVERAGE = 0.6, PERCENTILE = 0.30, MIN_POINTS = 3;
     const remeasured = [];
     for (const w of M.water) {
       if (w.stream || !w.ring?.length) continue;
@@ -413,9 +413,23 @@ function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
         const h = Number.isFinite(probe) ? probe : probe?.height;
         if (Number.isFinite(h)) heights.push(h);
       }
-      if (heights.length < w.ring.length * COVERAGE) continue;
+      if (heights.length < MIN_POINTS) continue;
       heights.sort((a, b) => a - b);
-      const level = Math.round(heights[Math.floor(heights.length * PERCENTILE)] * 100) / 100;
+      const measured = Math.round(heights[Math.floor(heights.length * PERCENTILE)] * 100) / 100;
+      /* Enough of the shoreline is on the frontier to replace the measurement
+         outright. Below that the committed level is the better estimate of the
+         two -- but the few covered points still prove the v2 bed sits higher
+         than it, so the plane is RAISED to clear that bed and never lowered on
+         thin evidence. A body straddling the frontier has one water surface
+         over two ground models, and it has to stay above both.
+
+         Measured, and this is why the rule has two halves: w185976262 has 3 of
+         10 shore points on the frontier. Left alone it went from 1% of its bed
+         dry under GPK1 to 11% under v2 -- a regression the coverage rule alone
+         happily allowed, because refusing to act is not the same as doing no
+         harm. */
+      const level = heights.length >= w.ring.length * COVERAGE
+        ? measured : Math.max(w.level, measured);
       if (level !== w.level) remeasured.push(`${w.name || w.id || 'vatten'} ${w.level}->${level}`);
       w.level = level;
     }
