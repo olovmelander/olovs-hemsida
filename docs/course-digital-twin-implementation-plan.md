@@ -1021,6 +1021,22 @@ Deliverables:
   could be committed with attribution rather than statistics only; the
   retention caution stays for GDPR, which applies to high-resolution aerial
   imagery whatever the copyright terms say.
+  **And the "legal review" this plan kept asserting is real — now checked
+  rather than repeated.** It had been travelling on one unverified contract
+  field whose own `termsVersion` read "current terms must be captured when
+  access is approved", while its Laserdata sibling carried a real document and
+  a real version. Lantmäteriet's product page states it directly: *"Produkten
+  är avgiftsfri"* and *"Din användning kommer att prövas juridiskt i enlighet
+  med dataskyddsförordningen och du behöver godkänna särskilda
+  användningsvillkor."*
+  So the order costs nothing, and what is reviewed is the intended USE, under
+  data protection law — not copyright, which is CC-BY-4.0 and open. That is
+  coherent: 0.16 m aerial imagery can show people, vehicles and private ground.
+  It also means the reviewable question is ours to answer plainly — deriving
+  vegetation indices over a golf course to classify turf and sand, publishing
+  statistics and a rendering of the course — and it is the account holder who
+  must declare it, which is the one place in this whole chain where the
+  project owner's approval is the thing that actually moves it.
 - [x] **Canopy from the one source this account can actually read.** With the
   bare-earth DTM measured and unable to resolve golf surfaces, the orthophoto
   refused and Skogsstyrelsen's tree-height raster answering 401, Laserdata Skog

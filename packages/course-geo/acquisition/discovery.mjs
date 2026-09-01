@@ -54,12 +54,22 @@ export const SOURCE_CONTRACTS = Object.freeze({
     product: 'Ortofoto Nedladdning',
     discovery: STAC_ENDPOINTS.imagery,
     collection: 'selected dynamically from the newest complete campaign',
-    dataAccess: 'authenticated access after a free order and legal review',
+    /* Verified against Lantmäteriet's own product page rather than inferred
+       from the 403. It states, verbatim: "Produkten är avgiftsfri" and "Din
+       användning kommer att prövas juridiskt i enlighet med
+       dataskyddsförordningen och du behöver godkänna särskilda
+       användningsvillkor."
+       So the review is of the USE, under data protection law, and it is free.
+       That is consistent with the catalogue licence being CC-BY-4.0: copyright
+       is open, and 0.16 m aerial imagery is reviewed because it can show
+       people, vehicles and private ground. Nothing here is a copyright
+       restriction, and the two must not be conflated. */
+    dataAccess: 'authenticated access after a free order; Lantmäteriet reviews the intended USE under GDPR and requires accepting särskilda användningsvillkor',
     horizontalCrs: 'EPSG:3006',
     verticalCrs: null,
-    licence: 'CC-BY-4.0 with special access/GDPR terms',
+    licence: 'CC-BY-4.0 (catalogue), with a GDPR use review and special terms on delivery',
     terms: 'https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/',
-    termsVersion: 'current terms must be captured when access is approved',
+    termsVersion: 'Geotorget product page 2025.02, read 2026-09-01: avgiftsfri, GDPR use review, särskilda användningsvillkor',
   },
   treeHeight: {
     provider: 'Skogsstyrelsen',

@@ -269,7 +269,8 @@ or the club's own drawings.
 **And the orthophoto is not ours to read yet.** The first authenticated run
 returned HTTP 403 on all four `orto-u2-2024` assets, using the same
 credentials that read Markhöjdmodell successfully seconds earlier in the same
-job. Ortofoto Nedladdning is ordered and legally reviewed separately at
+job. Ortofoto Nedladdning is a separate, free order whose intended USE
+Lantmäteriet reviews under GDPR, at
 Geotorget: an account can hold complete image metadata and be refused every
 pixel, which is precisely what the discovery snapshot shows — `sha256: null`
 on every image asset while terrain assets carry real checksums.

@@ -135,7 +135,8 @@ function parseJsonCommand(command, args) {
 /**
  * Ask whether this account may actually read the campaign's bytes, with one
  * bounded range request per asset, before GDAL is invoked at all. Ortofoto
- * Nedladdning is ordered and legally reviewed separately from Markhöjdmodell,
+ * Nedladdning is ordered separately from Markhöjdmodell, and Lantmäteriet
+ * reviews the intended USE under GDPR before granting it,
  * so an account with height access can hold complete image METADATA — extent,
  * resolution, capture dates — and still be refused every pixel. Discovered
  * through gdalbuildvrt that arrives as a warning per tile and a bare exit 1;

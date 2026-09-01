@@ -120,7 +120,8 @@ async function main() {
   const window = boundingBox(everything, 60);
   const credentials = lantmaterietCredentials();
 
-  /* Entitlement first. Ortofoto Nedladdning is ordered and legally reviewed
+  /* Entitlement first. Ortofoto Nedladdning is a separate free order whose
+     intended use Lantmäteriet reviews under GDPR, and it is reviewed
      separately from Markhöjdmodell, so an account can hold every byte of
      image metadata and be refused every pixel. Asked here it is a recorded
      answer; discovered inside GDAL it is a warning per tile and exit 1. */
