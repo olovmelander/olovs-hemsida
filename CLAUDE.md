@@ -1183,6 +1183,25 @@ way the workflow does, serves it AT that path and drives it. Its sharpest
 assertion is `document.fonts.check('12px Outfit')`: the fonts failed while every
 other check passed, because a fallback font is not an error.
 
+**And the gate is only as honest as the server under it.** `tools/serve.mjs`
+used to stream every file with neither `Content-Length` nor `Content-Encoding`
+— a shape almost no real host produces — and that cost two live failures in one
+day. First an absent `Content-Length` was read as a declared **zero**
+(`Number(null)` is 0 and `Number.isFinite(0)` is true), refusing every v2 chunk.
+Then **GitHub Pages turned out to gzip `.bvch`**, declaring the *compressed*
+length — 81628 against an expected 81751 — so the published pilot fell back to
+GPK1 while every gate here passed. The data was never wrong: pulled from the
+live site the chunk is 81751 bytes and its sha256 equals its own filename. Only
+the header comparison failed, and `fetch()` decodes transparently, so a
+content-encoded length can never be compared with a decoded expectation.
+
+Both were invisible locally because the local server behaved like no host. It
+now always sends a length and gzips when asked, and the difference is
+measurable: with the old loader against it the pilot reports
+`{status:"fallback", reason:"load-failed", tiles:0}`, with the fix
+`{status:"ready", tiles:64}`. **Do not reason about what a host ought to do —
+ask it**, and point the harness at something shaped like the real one.
+
 ### Phase 6 groundwork — the hosting rules, and one that is load-bearing
 
 `apps/golf/public/_headers` and `_redirects` ship with the build, so the hosting
