@@ -1928,6 +1928,81 @@ provider-access workflow does, and the top-level `requiredCasesPassed` stays
 false locally because of it. A harness that cannot run a backend is not
 evidence that the backend works.
 
+### The pilot has a forty-metre cliff around it, and it is a datum
+
+Chasing full course coverage turned up something that has to be fixed before
+the coverage is widened. Probed in the running app, four metres either side of
+the pilot's western frontier:
+
+| at | outside the pilot | inside | step |
+|---|---:|---:|---:|
+| z = −335 | 82.27 m | 41.36 m | **40.9 m** |
+| z = −36 | 86.40 m | 41.74 m | **44.7 m** |
+| z = +264 | 81.15 m | 44.14 m | **37.0 m** |
+
+**The `?v2=1` pilot drops off a cliff around its whole perimeter**, and has
+since it shipped. The captures never saw it because they frame holes inside the
+pilot, and no gate measures a height across the frontier.
+
+It is a vertical datum, and the repository had already written it down without
+connecting it to the pilot: every migration file says
+`"heightReference": "Terrarium-derived legacy heights; vertical datum was not
+persisted"` and `"verticalStatus": "legacy-height-datum-unknown-not-converted"`.
+The legacy heights are AWS Terrarium and behave as ellipsoidal; Lantmäteriet's
+Markhöjdmodell is RH 2000 orthometric. The difference is the geoid height, which
+around Puttom runs to about 23 m — and measured over the whole overlap after the
+rotation fix it is **23.5 m with a 0.24 m MAD across 50,000 samples**. A nearly
+constant offset with two decimetres of spread is two measurements of the same
+ground on two datums, and nothing else. At the frontier the step reads 40 m
+rather than 23 because the legacy ground climbs steeply exactly there.
+
+`bridge.translateY` carries a tile's height to absolute RH 2000 and stops. It
+has to go one term further, into the legacy frame's own vertical datum — and
+here, unlike the rotation, **that term cannot be derived**: the legacy datum was
+never recorded, so there is nothing to derive it from. It has to be measured,
+and it has to say that it was measured. That is a weaker claim than the
+horizontal bridge makes and the code should not pretend otherwise.
+
+**So the order of work is fixed by this.** Widening the pilot to 2048 m before
+repairing the datum would quadruple the length of the cliff and move it from
+the treeline onto played ground.
+
+### The full-coverage pilot needs no new bytes
+
+The 16-tile pilot cannot reach the whole course at any placement: measured over
+every played vertex, the best 1024 m window still leaves **183 outside**, among
+them three greens, four bunkers and five tee pads. The compiler requires
+power-of-two tile counts, so the candidate windows are 1024 and 2048 m and
+nothing between; only **2048 × 2048** covers everything.
+
+That window already exists and is already published. `alignTerrainGridExtent`
+derives it from the CORE contract, CI compiles it on every run, and the result
+is the 85-chunk ground graph sitting in `apps/golf/public/grounds/puttom/` —
+**64 finest tiles at 256 m plus a full pyramid**, whose `layers.terrain` is byte
+for byte the shape a preview `reference` takes. `MAX_TERRAIN_PREVIEW_TILES` is
+64, so the format was already sized for it.
+
+`packages/course-v2/derive-preview-from-graph.mjs` therefore lists those chunks
+as a preview rather than extracting anything: 64 tiles, 5.25 MB encoded, the
+frame fingerprint identical to the graph's — asserted, because a different
+origin would move every tile. The descriptor is written beside the graph and
+not under `v2/`, since `resolveTerrainPreviewAssetUrl` refuses an asset outside
+its own directory, correctly: a pilot pointing at `../../grounds` is a path
+traversal wearing a relative URL.
+
+Geometrically the wide footprint is the simpler arrangement, not the harder
+one. Rotated into the legacy frame it inscribes **1927 × 1930 m**, which
+**swallows CORE whole** (±648 × ±756) and still **sits inside MID** with
+289/448/785/416 m to spare. So the tiers become: CORE is not built at all, MID
+opens its hole under the v2 footprint instead of under CORE, FAR is untouched.
+No rectangle arithmetic, no partial cut, no overlap to police — which is
+exactly the shape D4 has been describing as its endpoint.
+
+What is still open: the vertical datum above, the surface atlas over the wider
+window, and the triangle budget — 64 tiles at 1 m is 8.5 M triangles against
+today's 2.1 M, which the render stride can absorb without touching either the
+1 m CPU sampler or the 1 m atlas.
+
 ### A gate that crashes has stopped being a gate
 
 Running `tools/check-app.mjs` over the six courses as part of validating the
