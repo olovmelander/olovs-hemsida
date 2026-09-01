@@ -73,6 +73,15 @@ export function canopyHeightPipeline(plan, credentials, {
       type: 'filters.range',
       limits: `HeightAboveGround[0:${CANOPY_MAXIMUM_HEIGHT_METRES}]`,
     }),
+    /* What actually survived to the writer. The first run produced a raster
+       that was 98.7% nodata, and nothing in the output could say whether that
+       was a thin point stream, a missing ground class or a filter eating
+       everything -- so the pipeline now reports its own middle. */
+    Object.freeze({
+      type: 'filters.stats',
+      dimensions: 'X,Y,Z,HeightAboveGround,Classification',
+      count: 'Classification',
+    }),
     Object.freeze({
       type: 'writers.gdal',
       filename: outputPath,
@@ -81,10 +90,12 @@ export function canopyHeightPipeline(plan, credentials, {
       output_type: 'max',
       resolution: resolutionMetres,
       nodata: -9999,
-      /* One cell radius: a cell with no return stays nodata rather than
-         borrowing its neighbour's crown. An invented tree is worse than a
-         recorded gap. */
-      radius: resolutionMetres,
+      /* PDAL's own default, resolution*sqrt(2) -- the circle that just covers
+         a cell's diagonal. Narrower than this leaves corners unreachable and
+         starts punching nodata into ground that was actually surveyed; wider
+         starts letting a neighbouring crown fill an empty cell, and an
+         invented tree is worse than a recorded gap. */
+      radius: +(resolutionMetres * Math.SQRT2).toFixed(4),
     }),
   ]);
 }

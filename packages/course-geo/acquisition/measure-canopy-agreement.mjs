@@ -49,6 +49,46 @@ const PROBE_UNIFORM_RADIUS_METRES = 6;
 /* The canopy value at a probe is the median over a small disc, so one missing
    cell or one unusually tall crown does not decide a probe on its own. */
 const PROBE_SAMPLE_RADIUS_METRES = 3;
+/* A verdict needs enough of both classes to mean anything. The first run
+   returned 108 tree and 21 open probes out of 1890 because the canopy raster
+   came back 98.7% nodata, and an agreement figure computed on 21 samples reads
+   like a finding while being nearly noise. Below these it reports the
+   diagnostics and no verdict. */
+const MINIMUM_PROBES_PER_CLASS = 60;
+const MINIMUM_CANOPY_COVERAGE = 0.5;
+
+/** PDAL nests filters.stats output differently across versions; find the one
+    object carrying a statistic array rather than assuming a path. */
+function findStatistics(node, depth = 0) {
+  if (!node || typeof node !== 'object' || depth > 8) return null;
+  if (Array.isArray(node.statistic)) return node.statistic;
+  for (const value of Object.values(node)) {
+    const found = findStatistics(value, depth + 1);
+    if (found) return found;
+  }
+  return null;
+}
+
+function pipelineDiagnostics(metadata) {
+  const statistic = findStatistics(metadata);
+  if (!statistic) return { available: false, note: 'PDAL returned no filters.stats metadata' };
+  const byName = new Map(statistic.map(item => [item.name, item]));
+  const hag = byName.get('HeightAboveGround');
+  const classification = byName.get('Classification');
+  const counts = {};
+  for (const entry of classification?.counts || []) {
+    const [value, count] = String(entry.value ?? '').split('/');
+    if (value !== undefined && count !== undefined) counts[Number(value)] = Number(count);
+  }
+  return {
+    available: true,
+    pointsReachingWriter: Number(hag?.count ?? byName.get('Z')?.count ?? 0),
+    heightAboveGroundMetres: hag ? {
+      minimum: hag.minimum, maximum: hag.maximum, mean: hag.average,
+    } : null,
+    classificationCounts: counts,
+  };
+}
 
 function argumentValue(name, fallback = null) {
   const index = process.argv.indexOf(name);
@@ -81,6 +121,7 @@ function courseCentre(model) {
 
 async function readGrid(xyzPath, resolutionMetres) {
   const values = new Map();
+  let totalCells = 0;
   const lines = createInterface({
     input: createReadStream(xyzPath, { encoding: 'utf8' }),
     crlfDelay: Infinity,
@@ -89,13 +130,15 @@ async function readGrid(xyzPath, resolutionMetres) {
     if (!line) continue;
     const parts = line.trim().split(/\s+/);
     if (parts.length !== 3) continue;
+    totalCells++;
     const value = Number(parts[2]);
     /* writers.gdal writes -9999 where no return landed. A nodata cell is a
-       gap in the record, never a canopy height of zero. */
+       gap in the record, never a canopy height of zero -- and the ratio of the
+       two is what says whether this window was surveyed or merely requested. */
     if (!Number.isFinite(value) || value <= -9998) continue;
     values.set(`${Math.round(Number(parts[0]) / resolutionMetres)}/${Math.round(Number(parts[1]) / resolutionMetres)}`, value);
   }
-  return values;
+  return { values, totalCells };
 }
 
 function sampleDisc(values, easting, northing, resolutionMetres, radiusMetres) {
@@ -178,19 +221,25 @@ async function main() {
     for (const secret of secrets.filter(Boolean)) text = text.replaceAll(secret, '<redacted>');
     return text;
   };
+  const metadataFile = path.join(temporaryDirectory, 'pdal.json');
   const started = performance.now();
   let values;
+  let totalCells = 0;
+  let diagnostics;
   try {
     try {
       /* No --stream, unlike the sibling statistics pipeline: hag_nn has to see
          the window's ground returns before it can measure anything above
          them, so it cannot run point-at-a-time. */
-      runGeoCommand('pdal', ['pipeline', '--stdin'], { input: JSON.stringify(pipeline) });
+      runGeoCommand('pdal', ['pipeline', '--stdin', '--metadata', metadataFile], { input: JSON.stringify(pipeline) });
     } catch (error) {
       throw new Error(`PDAL canopy rasterisation failed: ${redact(error.message)}`);
     }
+    diagnostics = pipelineDiagnostics(JSON.parse(fs.readFileSync(metadataFile, 'utf8')));
     runGeoCommand('gdal_translate', ['-of', 'XYZ', rasterPath, xyzPath]);
-    values = await readGrid(xyzPath, CANOPY_RESOLUTION_METRES);
+    const grid = await readGrid(xyzPath, CANOPY_RESOLUTION_METRES);
+    values = grid.values;
+    totalCells = grid.totalCells;
   } finally {
     fs.rmSync(temporaryDirectory, { recursive: true, force: true });
   }
@@ -220,8 +269,52 @@ async function main() {
       sink.push(height);
     }
   }
-  if (treeHeights.length < 20 || openHeights.length < 20) {
-    throw new Error(`this window yielded ${treeHeights.length} tree and ${openHeights.length} open probes; too few of either to measure`);
+  const canopyCoverage = totalCells ? +(values.size / totalCells).toFixed(4) : 0;
+  const diagnosticBlock = {
+    canopyCells: values.size,
+    rasterCells: totalCells,
+    canopyCoverage,
+    pipeline: diagnostics,
+    unusableProbes: split.unusable,
+    missingCanopyProbes: missingCanopy,
+    treeProbes: treeHeights.length,
+    openProbes: openHeights.length,
+  };
+  /* A thin raster must not be dressed up as a finding. Report what was
+     measured about the INSTRUMENT and stop, rather than publish an agreement
+     figure computed on a handful of probes. */
+  if (canopyCoverage < MINIMUM_CANOPY_COVERAGE ||
+      treeHeights.length < MINIMUM_PROBES_PER_CLASS ||
+      openHeights.length < MINIMUM_PROBES_PER_CLASS) {
+    const thin = {
+      schemaVersion: 1,
+      kind: 'puttom-canopy-agreement',
+      measured: false,
+      blocked: 'insufficient-canopy-coverage',
+      window: {
+        boundsEpsg3006: plan.boundsEpsg3006,
+        spanMetres: plan.spanMetres,
+        canopyResolutionMetres: CANOPY_RESOLUTION_METRES,
+        sourceItemId: plan.source.id,
+        advertisedPointDensityPerSquareMetre: plan.source.pointDensityPerSquareMetre,
+        elapsedMilliseconds: Math.round(performance.now() - started),
+      },
+      expected: {
+        canopyCoverage: MINIMUM_CANOPY_COVERAGE,
+        probesPerClass: MINIMUM_PROBES_PER_CLASS,
+        predictedTreeProbes: chosen.treeProbes,
+        predictedOpenProbes: chosen.openProbes,
+      },
+      observed: diagnosticBlock,
+      note: 'the point cloud was read and rasterised, but too little of the window carries canopy height for an agreement figure to mean anything; the diagnostics above say which stage lost it',
+    };
+    if (out) {
+      fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
+      fs.writeFileSync(path.resolve(out), `${JSON.stringify(thin, null, 2)}\n`);
+    }
+    console.log(JSON.stringify(thin, null, 2));
+    process.exitCode = 1;
+    return;
   }
 
   const separability = separabilitySummary(treeHeights, openHeights, { direction: 'greater' });
@@ -266,6 +359,9 @@ async function main() {
       uniformRadiusMetres: PROBE_UNIFORM_RADIUS_METRES,
       unusableProbes: split.unusable,
       missingCanopyProbes: missingCanopy,
+      canopyCoverage,
+      rasterCells: totalCells,
+      pipeline: diagnostics,
     },
     canopyHeightMetres: {
       trees: separability.reference,

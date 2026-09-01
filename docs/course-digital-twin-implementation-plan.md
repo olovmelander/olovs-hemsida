@@ -1050,9 +1050,27 @@ Deliverables:
   `candidateOrigin`, whose status is `horizontal-seed-only-pending-independent-control`
   — so a few metres of any disagreement may be the origin rather than the trees,
   and the report carries that status rather than hiding it.
-- [ ] Read the canopy verdict from CI and record it here. The instrument is
-  built and unit-tested offline; the numbers do not exist yet, and no claim
-  about what the point cloud can resolve belongs here until they do.
+- [ ] **First canopy run: no verdict, because the instrument under-sampled.**
+  The pipeline read the cloud and produced a canopy raster, and the raster came
+  back **98.7% nodata** — 881 cells of about 65,000 over a 512 m window at 2 m.
+  Of 1,890 usable probes, 1,761 found no canopy height, leaving 108 tree and 21
+  open. It did print an agreement (0.713 balanced at the declared 2 m
+  threshold) and that number is **not recorded as a finding**: on 21 open
+  probes it is nearly noise, and printing it beside the DTM and orthophoto
+  results would put a measurement and an artefact in the same table.
+  The run was still worth having, because it showed the output could not
+  explain itself — nothing distinguished a thin point stream from a missing
+  ground class from a filter eating everything. Two changes follow:
+  - the pipeline reports its own middle (`filters.stats` before the writer:
+    points reaching it, the classification histogram, the height-above-ground
+    range), and the driver reports the raster's valid-cell fraction rather than
+    just its valid-cell count;
+  - a run below 50% canopy coverage or 60 probes per class now **refuses to
+    publish an agreement** and writes the diagnostics instead, exiting
+    non-zero. A thin result that reads like a finding is worse than a loud gap.
+  One likely contributor is already fixed: `writers.gdal` was given a 2 m
+  radius where PDAL's own default is `resolution × √2`, so cell corners were
+  unreachable and nodata was being punched into ground that had been surveyed.
 - [ ] **A second source is refused, and it has been refused all along:
   Skogsstyrelsen answers HTTP 401 to the configured tree-height account.**
   Every per-hole-controls run has logged it; the workflow simply never failed
