@@ -56,7 +56,7 @@ function assertFixedFrontier({
 
   if (courseSlug !== expectedCourseSlug ||
       source.descriptor?.tiles?.length !== expectedTileCount ||
-      source.surfaceDescriptor?.tiles?.length !== expectedTileCount ||
+      source.surfaceDescriptor?.tiles?.length !== expectedSurfaceTileCount ||
       renderResources.length !== expectedTileCount ||
       new Set(terrainTileIds).size !== expectedTileCount ||
       renderResources.some(resource => resource.noDataCount !== 0) ||
