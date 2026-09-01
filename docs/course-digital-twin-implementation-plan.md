@@ -1929,6 +1929,10 @@ store (Ängsö's 1st: −61.5 / 388.4, the model's numbers to the decimal). And 
 gate now names the hole and the value it could not probe instead of throwing
 out of the sampler three frames down.
 
+**With the pad given its centre, the gate ran end to end for the first time:
+`all courses boot correctly through the app` — nine courses, 126 checks, zero
+failures, and the submersion probe clearing 36 probes on every one of them.**
+
 Two things worth keeping from this. **The check that passed immediately before
 the crash was "all 90 tee markers stand on tee grass"** — the markers were
 fine, the probe's ACCESS to them was not, and a passing neighbour says nothing
