@@ -403,7 +403,23 @@ function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
      install then fails, these levels stay v2-derived over legacy ground: on
      this course at most 0.5 m out, and every body still renders as water. */
   if (TERRAIN_PREVIEW.ready && typeof TERRAIN_PREVIEW.heightAt === 'function') {
-    const COVERAGE = 0.6, PERCENTILE = 0.30, MIN_POINTS = 3;
+    /* CLEARANCE, and it is not a fudge. Lantmateriet's Markhojdmodell over
+       water is the WATER SURFACE -- laser does not penetrate -- so the "ground"
+       the frontier reports inside a lake ring IS the surface, and there is no
+       bathymetry anywhere in this data. Place the plane exactly on the measured
+       value and it lands coplanar with the bed that is drawn beneath it: the
+       depth buffer cannot separate them and the lake flickers, which is what
+       shipping the bare measurement did. Measured after that change, the three
+       re-levelled bodies had a median clearance of 0.00, 0.00 and 0.03 m, while
+       the one left alone kept 0.55 m and never flickered.
+
+       The legacy build never hit this because its terrain builder CARVES a bed
+       below the water; the v2 mesh is the verified DTM and is not carved. So
+       the surface is lifted by a nominal amount instead, which lands inside the
+       0.16-0.41 m clearance the legacy terrain happened to have. It makes the
+       water up to a quarter-metre too high, and that is the honest trade: a
+       stated 0.25 m error against a defect visible on every lake. */
+    const COVERAGE = 0.6, PERCENTILE = 0.30, MIN_POINTS = 3, CLEARANCE = 0.25;
     const remeasured = [];
     for (const w of M.water) {
       if (w.stream || !w.ring?.length) continue;
@@ -415,7 +431,8 @@ function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
       }
       if (heights.length < MIN_POINTS) continue;
       heights.sort((a, b) => a - b);
-      const measured = Math.round(heights[Math.floor(heights.length * PERCENTILE)] * 100) / 100;
+      const measured =
+        Math.round((heights[Math.floor(heights.length * PERCENTILE)] + CLEARANCE) * 100) / 100;
       /* Enough of the shoreline is on the frontier to replace the measurement
          outright. Below that the committed level is the better estimate of the
          two -- but the few covered points still prove the v2 bed sits higher
