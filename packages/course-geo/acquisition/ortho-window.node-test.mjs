@@ -194,3 +194,22 @@ test('401 and 403 are different problems and are reported as such', async () => 
   assert.equal(granted.forbidden, false);
   assert.equal(granted.unauthenticated, false);
 });
+
+test('every recorded surface class is found in the committed model', async () => {
+  /* A fairway carries `rings`, PLURAL -- a fairway can be split by a road or
+     a stand of trees -- while a green carries `ring`. Reading `fairway.ring`
+     found zero fairways on all eighteen holes, and an empty reference set
+     makes separabilitySummary throw, so this measurement would have crashed
+     the first time the Geotorget order granted it access. It looked healthy
+     only because the entitlement check returned early on every run. */
+  const { recordedSurfaces } = await import('./measure-ortho-separability.mjs');
+  const surfaces = recordedSurfaces();
+  assert.ok(surfaces.greens.length >= 18, `greens ${surfaces.greens.length}`);
+  assert.ok(surfaces.fairways.length >= 18, `fairways ${surfaces.fairways.length}`);
+  assert.ok(surfaces.bunkers.length >= 40, `bunkers ${surfaces.bunkers.length}`);
+  for (const [name, points] of Object.entries(surfaces)) {
+    for (const point of points) {
+      assert.ok(Number.isFinite(point.easting) && Number.isFinite(point.northing), `${name} centroid`);
+    }
+  }
+});

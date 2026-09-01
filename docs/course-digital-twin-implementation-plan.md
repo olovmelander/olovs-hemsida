@@ -1120,6 +1120,51 @@ Deliverables:
   An empty histogram read as "no classification data" when it meant "the parser
   did not understand it" — the worst thing a diagnostic can do, and the reason
   the first instrumented run could not finish the diagnosis.
+- [x] **Asked whether another imagery source could start the work now, and
+  measured it rather than guessed: Esri World Imagery cannot do this job.**
+  It is already in this repo as the canopy authority for all six courses, it
+  is orthorectified, free, needs no credentials, and at this latitude z18 is
+  0.268 m/px — close to Lantmäteriet's 0.16 m. But it is **RGB only**, so NDVI
+  is impossible; the visible-band substitutes (GLI, ExG) and plain brightness
+  were all tried against a forest-free control over the played extent:
+
+  | index | bunkers | greens | fairways | control median | control p90 |
+  |---|---:|---:|---:|---:|---:|
+  | GLI | 0.162 | 0.179 | 0.226 | 0.183 | 0.509 |
+  | ExG | 0.229 | 0.255 | 0.327 | 0.260 | 0.818 |
+  | brightness | 82.3 | 83.0 | 73.3 | 71.3 | 106.7 |
+
+  Nothing separates. The ordering is at least physical — fairways greenest,
+  bunkers least green, bunkers brightest — so the indices measure something
+  real; the signal just never beats ordinary course ground, whose p90 sits far
+  past every reference median. A 0.27 m JPEG mosaic of mixed capture dates and
+  uncontrolled radiometry is the likely reason, and it is worth noting that
+  Lantmäteriet says the same of its own product: *"det inte är möjligt att
+  göra korrekta radiometriska mätningar i ett ortofoto"*. So the authoritative
+  route is a relative comparison too — but on one radiometrically corrected
+  campaign rather than a mosaic.
+  Esri stays what it already is, a coarse forest/open call over 3 m cells. It
+  is not a surface source, and the plan's tier rules would forbid marking it
+  one regardless.
+- [x] **That experiment found two defects in the committed orthophoto
+  measurement, both of which would only have surfaced after the order landed.**
+  - A fairway carries `rings`, PLURAL — it can be split by a road or a stand
+    of trees — while a green carries `ring`. The script read `fairway.ring`,
+    found **zero fairways on all eighteen holes**, and an empty reference set
+    makes `separabilitySummary` throw. The measurement would have crashed on
+    its first authorised run. It looked healthy only because the entitlement
+    check returned early every time — the same shape as the Skogsstyrelsen 401
+    the workflow absorbed for weeks.
+  - The control lattice was **45.3% forest**, measured against the committed
+    tree-cover raster. Conifer is the greenest thing for miles, so a green
+    compared against that control would have read "not separable" for entirely
+    the wrong reason. The control is now restricted to open ground, and the
+    report carries how many points were rejected and by what rule.
+  An empty group is now reported as `unmeasured` with its sample counts rather
+  than throwing, because that is a gap in the recorded model and not a
+  property of the imagery. `main()` is guarded so the module can be imported,
+  which is why the fairway bug could finally get a test: nothing could import
+  this file before.
 - [ ] **A second source is refused, and it has been refused all along:
   Skogsstyrelsen answers HTTP 401 to the configured tree-height account.**
   Every per-hole-controls run has logged it; the workflow simply never failed

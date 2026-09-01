@@ -15,6 +15,7 @@ import { createInterface } from 'node:readline';
 import { createReadStream } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { separabilitySummary } from '../../course-v2/terrain-derivatives.mjs';
+import { treeCoverIndex } from './canopy-window.mjs';
 import { lantmaterietCredentials } from './credentials.mjs';
 import { acquireOrthoWindow, probeOrthoAccess } from './ortho-window.mjs';
 import { runGeoCommand } from '../proj.mjs';
@@ -22,7 +23,10 @@ import { runGeoCommand } from '../proj.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const MODEL = path.join(ROOT, 'geo_data/course-v2/puttom/migration/course-model.epsg3006.json');
 const TARGET_RESOLUTION_METRES = 0.5;
-const CONTROL_LATTICE = 16;
+const CONTROL_LATTICE = 22;
+const TREE_COVER = path.join(ROOT, 'puttombuild/tree-cover.json');
+/* The tree-cover raster's own legend: 0 unknown, 2 open, 3 trees. */
+const OPEN_GROUND_CLASS = 2;
 
 function argumentValue(name, fallback = null) {
   const index = process.argv.indexOf(name);
@@ -40,22 +44,28 @@ function centroid(ring) {
 }
 
 /** Recorded surface positions. OSM-derived and approximate, which is exactly
-    why the index is sampled over a small disc rather than a single pixel. */
-function recordedSurfaces() {
+    why the index is sampled over a small disc rather than a single pixel.
+ *
+ * A green carries `ring`; a fairway carries `rings`, PLURAL, because a fairway
+ * can be split by a road or a stand of trees. Reading `fairway.ring` here
+ * silently produced zero fairways on every Puttom hole, and an empty reference
+ * set makes separabilitySummary throw -- so this measurement would have
+ * crashed the first time the Geotorget order granted it access, having looked
+ * healthy for as long as the entitlement check returned early. */
+export function recordedSurfaces() {
   const model = JSON.parse(fs.readFileSync(MODEL, 'utf8'));
   const greens = [];
   const fairways = [];
   const bunkers = [];
+  const usable = ring => Array.isArray(ring) && ring.length >= 3;
   for (const hole of model.geometry.holes) {
-    if (Array.isArray(hole.green?.ring) && hole.green.ring.length >= 3) {
-      greens.push(centroid(hole.green.ring));
-    }
-    if (Array.isArray(hole.fairway?.ring) && hole.fairway.ring.length >= 3) {
-      fairways.push(centroid(hole.fairway.ring));
+    if (usable(hole.green?.ring)) greens.push(centroid(hole.green.ring));
+    for (const ring of hole.fairway?.rings || (usable(hole.fairway?.ring) ? [hole.fairway.ring] : [])) {
+      if (usable(ring)) fairways.push(centroid(ring));
     }
     for (const bunker of hole.bunkers || []) {
       const ring = bunker.ring || bunker;
-      if (Array.isArray(ring) && ring.length >= 3) bunkers.push(centroid(ring));
+      if (usable(ring)) bunkers.push(centroid(ring));
     }
   }
   return { greens, fairways, bunkers };
@@ -183,23 +193,41 @@ async function main() {
   const sampleAll = (points, radiusMetres) => points
     .map(point => sampleDisc(values, point, TARGET_RESOLUTION_METRES, radiusMetres))
     .filter(Number.isFinite);
+  /* "Ordinary course ground" has to mean mown ground. A plain lattice over the
+     played extent is 45.3% FOREST here, measured against the committed
+     tree-cover raster -- and conifer is the greenest thing for miles, so
+     comparing a green against that control would report "not separable" for
+     entirely the wrong reason. Forest and unknown cells are dropped. */
+  const cover = treeCoverIndex(JSON.parse(fs.readFileSync(TREE_COVER, 'utf8')));
+  const origin = JSON.parse(fs.readFileSync(MODEL, 'utf8')).candidateOrigin;
   const controlPoints = [];
+  let forestRejected = 0;
   for (let row = 0; row < CONTROL_LATTICE; row++) {
     for (let column = 0; column < CONTROL_LATTICE; column++) {
-      controlPoints.push({
-        easting: window[0] + (column + 0.5) * (window[2] - window[0]) / CONTROL_LATTICE,
-        northing: window[1] + (row + 0.5) * (window[3] - window[1]) / CONTROL_LATTICE,
-      });
+      const easting = window[0] + (column + 0.5) * (window[2] - window[0]) / CONTROL_LATTICE;
+      const northing = window[1] + (row + 0.5) * (window[3] - window[1]) / CONTROL_LATTICE;
+      if (cover.classAt(easting - origin.easting, origin.northing - northing) !== OPEN_GROUND_CLASS) {
+        forestRejected++;
+        continue;
+      }
+      controlPoints.push({ easting, northing });
     }
   }
   const control = sampleAll(controlPoints, 3);
 
+  /* A group with no recorded surfaces is a gap in the MODEL, and saying so is
+     more useful than throwing out of separabilitySummary with "needs finite
+     samples on both sides" -- which is what a missing fairway ring produced. */
+  const compare = (values, direction, label) => (values.length && control.length
+    ? separabilitySummary(values, control, { direction })
+    : { unmeasured: true, direction, referenceSamples: values.length, controlSamples: control.length,
+        note: `${label} had too few samples to compare; this is a gap in the recorded model, not a property of the imagery` });
   const measurements = {
     /* Sand is bare: its index should sit BELOW ordinary ground, so the
        direction is stated rather than inferred from whichever way helps. */
-    bunkerVersusGround: separabilitySummary(sampleAll(surfaces.bunkers, 3), control, { direction: 'less' }),
-    greenVersusGround: separabilitySummary(sampleAll(surfaces.greens, 4), control, { direction: 'greater' }),
-    fairwayVersusGround: separabilitySummary(sampleAll(surfaces.fairways, 5), control, { direction: 'greater' }),
+    bunkerVersusGround: compare(sampleAll(surfaces.bunkers, 3), 'less', 'bunkers'),
+    greenVersusGround: compare(sampleAll(surfaces.greens, 4), 'greater', 'greens'),
+    fairwayVersusGround: compare(sampleAll(surfaces.fairways, 5), 'greater', 'fairways'),
   };
 
   const result = {
@@ -227,10 +255,15 @@ async function main() {
       fairways: surfaces.fairways.length,
       bunkers: surfaces.bunkers.length,
       controlPoints: control.length,
+      controlForestRejected: forestRejected,
+      controlRule: 'lattice over the played extent, restricted to open ground by the committed tree-cover raster',
     },
     measurements,
     verdict: Object.entries(measurements)
-      .filter(([, value]) => value.separable)
+      .filter(([, value]) => value.separable === true)
+      .map(([key]) => key),
+    unmeasured: Object.entries(measurements)
+      .filter(([, value]) => value.unmeasured)
       .map(([key]) => key),
   };
   if (out) {
@@ -240,7 +273,12 @@ async function main() {
   console.log(JSON.stringify(result, null, 2));
 }
 
-main().catch(error => {
-  console.error(`orthophoto separability measurement failed: ${error.message}`);
-  process.exitCode = 1;
-});
+/* Guarded so the module can be imported and its surface extraction tested
+   without running a network measurement -- the fairway bug lived here
+   untested precisely because nothing could import this file. */
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch(error => {
+    console.error(`orthophoto separability measurement failed: ${error.message}`);
+    process.exitCode = 1;
+  });
+}
