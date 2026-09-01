@@ -6,7 +6,9 @@ import { decodeTerrainGrid } from './terrain-grid.mjs';
    reviewed and committed: the post-normalisation CORE contract gives the
    required course extent in the legacy frame, the legacy EPSG:3006 origin
    projects it, and the retained preview's north-west sample anchors the tile
-   lattice so the verified 16-tile frontier is an exact subgrid of this graph.
+   lattice so the verified frontier is an exact subgrid of this graph. Since
+   the widening that frontier IS the graph's own finest level -- 8 x 8 tiles at
+   the AOI origin -- rather than a 4 x 4 window inside it.
    The expected outcome is pinned so source or code drift fails loudly. */
 export const PUTTOM_GROUND_GRAPH_CONFIG = Object.freeze({
   groundId: 'puttom',
@@ -29,7 +31,15 @@ export const PUTTOM_GROUND_GRAPH_CONFIG = Object.freeze({
     east: 698453,
     south: 7023802,
   }),
-  previewLatticeOffset: Object.freeze({ column: 2, row: 1 }),
+  /* Where the committed preview's north-west tile sits in the AOI lattice.
+     This was { column: 2, row: 1 } and described the retired 1024 m pilot; the
+     widening moved the preview to the AOI origin and left the constant behind,
+     which is what has failed every CI run since. It stays a REVIEWED constant
+     rather than being derived from the preview it checks -- a gate that reads
+     its expectation out of its subject cannot fail -- but the assertion now
+     also refuses an offset the lattice cannot hold, which is arithmetic and
+     would have named this immediately: 2 + 8 > 8. */
+  previewLatticeOffset: Object.freeze({ column: 0, row: 0 }),
   expectedCompile: Object.freeze({
     levels: 4,
     tileChunks: 85,

@@ -121,11 +121,30 @@ function assertPreviewLattice(previewTiles, aligned) {
   const span = PUTTOM_GROUND_GRAPH_CONFIG.tileSegments * PUTTOM_GROUND_GRAPH_CONFIG.sampleSpacingMetres;
   const first = previewTiles.find(tile => tile.id === 'l0/0/0');
   if (!first) throw new Error('committed preview is missing tile l0/0/0');
+
+  /* Refuse an offset the lattice cannot hold, before comparing coordinates.
+     The stale { column: 2, row: 1 } against an 8-wide preview in an 8-wide AOI
+     is 2 + 8 > 8, an impossibility the old check could only report as "not the
+     reviewed subgrid" -- true, but it named neither the offset nor the size,
+     and reading which of the two was wrong took a log dig. */
+  const indices = previewTiles.map(tile => tile.id.split('/'));
+  const previewTilesX = Math.max(...indices.map(part => Number(part[1]))) + 1;
+  const previewTilesY = Math.max(...indices.map(part => Number(part[2]))) + 1;
+  if (column + previewTilesX > aligned.tilesX || row + previewTilesY > aligned.tilesY) {
+    throw new Error(
+      `reviewed preview lattice offset (${column},${row}) cannot hold a ` +
+      `${previewTilesX}x${previewTilesY} preview inside a ${aligned.tilesX}x${aligned.tilesY} AOI`);
+  }
+
   const expectedEasting = aligned.originEasting + column * span;
   const expectedNorthing = aligned.originNorthing - row * span;
   if (Math.abs(first.bounds.minEasting - expectedEasting) > 1e-9 ||
       Math.abs(first.bounds.maxNorthing - expectedNorthing) > 1e-9) {
-    throw new Error('retained preview lattice is not the reviewed subgrid of the aligned AOI');
+    /* Say what was found, not only that it disagreed. */
+    throw new Error(
+      'retained preview lattice is not the reviewed subgrid of the aligned AOI: ' +
+      `tile l0/0/0 is at ${first.bounds.minEasting}/${first.bounds.maxNorthing}, ` +
+      `offset (${column},${row}) expects ${expectedEasting}/${expectedNorthing}`);
   }
 }
 

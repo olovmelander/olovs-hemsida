@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import {
   PUTTOM_GROUND_GRAPH_CONFIG,
@@ -83,10 +84,26 @@ test('the aligned Puttom AOI reproduces its reviewed window exactly', () => {
   assert.ok(aligned.bounds.maxEasting >= required.maxEasting + 80);
   assert.ok(aligned.bounds.maxNorthing >= required.maxNorthing + 80);
   assert.ok(aligned.bounds.minNorthing <= required.minNorthing - 80);
-  const previewSpan = PUTTOM_GROUND_GRAPH_CONFIG.tileSegments;
+  /* The reviewed lattice offset must agree with the COMMITTED PREVIEW, which
+     is what CI compares it to -- not with a literal restating what the offset
+     already computes. This test used to assert 696916.5 / 7025594.5, the exact
+     output of offset (2,1); when the widening moved the preview to the AOI
+     origin the constant went stale, this stayed green because it was checking
+     the constant against itself, and every CI run failed at
+     `assertPreviewLattice` instead. Same shape as the checker that hardcoded
+     the left/right normal and agreed with the bug. */
+  const previewSpan = PUTTOM_GROUND_GRAPH_CONFIG.tileSegments *
+    PUTTOM_GROUND_GRAPH_CONFIG.sampleSpacingMetres;
   const offset = PUTTOM_GROUND_GRAPH_CONFIG.previewLatticeOffset;
-  assert.equal(aligned.originEasting + offset.column * previewSpan, 696916.5);
-  assert.equal(aligned.originNorthing - offset.row * previewSpan, 7025594.5);
+  const preview = JSON.parse(readFileSync(
+    new URL('../../apps/golf/public/grounds/puttom/preview.json', import.meta.url), 'utf8'));
+  assert.equal(aligned.originEasting + offset.column * previewSpan, preview.bounds.minEasting);
+  assert.equal(aligned.originNorthing - offset.row * previewSpan, preview.bounds.maxNorthing);
+  /* and it has to fit: 2 + 8 > 8 was the impossibility nothing was asking about */
+  const columns = preview.tiles.map(tile => Number(tile.id.split('/')[1]));
+  const rows = preview.tiles.map(tile => Number(tile.id.split('/')[2]));
+  assert.ok(offset.column + Math.max(...columns) + 1 <= aligned.tilesX);
+  assert.ok(offset.row + Math.max(...rows) + 1 <= aligned.tilesY);
 
   /* projwin states pixel EDGES around sample CENTRES, so it must be derived
      from the spacing: each side moves out half a sample and the span is the
