@@ -1476,6 +1476,64 @@ Deliverables:
 Gate: terrain accuracy/seam checks pass and the shell/active-hole performance
 budgets are met on the pilot grounds.
 
+### The largest alignment error in the system is a 3.5° frame rotation
+
+Found while measuring whether OSM greens are accurate enough to skip the
+orthophoto. They are — but the measurement turned up something bigger.
+
+**Two frames are in use and they are not parallel.**
+
+- The **legacy frame** every page and every build directory uses is a
+  flat-earth approximation about `originWgs84`: `x = (lon − lon0)·mPerLon`,
+  `z = (lat0 − lat)·mPerLat`. That is aligned to **true north**.
+- The **v2 frame** is EPSG:5845/3006: `worldX = easting − originEasting`,
+  `worldZ = originNorthing − northing`. That is aligned to **grid north**.
+
+SWEREF 99 TM has its central meridian at 15° E, so grid north and true north
+diverge by the meridian convergence γ ≈ (λ − 15°)·sin φ. Sweden's golf is east
+of 15°, so every ground here is affected:
+
+| ground | γ | displacement @500 m | @700 m | @1000 m |
+|---|---:|---:|---:|---:|
+| Ängsö | 1.61° | 14.1 m | 19.7 m | 28.1 m |
+| Upsala | 2.16° | 18.8 m | 26.4 m | 37.7 m |
+| Johannesberg | 2.76° | 24.1 m | 33.7 m | 48.2 m |
+| Norrfällsviken | 3.14° | 27.5 m | 38.4 m | 54.9 m |
+| Veckefjärden | 3.28° | 28.6 m | 40.1 m | 57.2 m |
+| Puttom | 3.52° | 30.8 m | 43.1 m | 61.5 m |
+
+**Measured, not derived from the formula alone.** Fitting a rotation between
+the GolfTraxx GPS survey and the migration model's EPSG:3006 greens at Puttom
+gives **3.47°** against a predicted 3.52° — agreement to 0.05°. And the
+residual after removing it collapses from a 24.1 m median to **2.1 m median,
+5.2 m max**. Two independent records that never entered each other agree to
+two metres once the frames are made parallel.
+
+So the underlying data is good. OSM's greens are fine. What is wrong is the
+join: **`alignTerrainPreviewToLegacyFrame` bridges v2 into the legacy world
+with `translateX/translateY/translateZ` and no rotation**, and the string
+"convergence" appears nowhere in the repository.
+
+Scope, stated carefully so this is not read as worse than it is: the shipped
+GPK1 pages are entirely in the legacy frame and are self-consistent — the
+legacy model agrees with the GPS survey to a 4.9 m median, which is OSM's own
+tracing error, not a frame error. The rotation only bites where the two frames
+meet, which today is the opt-in `?v2=1` terrain path on Puttom. But it is
+exactly what "must work with GPS" depends on, and it is what would break the
+moment v2 becomes the default in D8.
+
+Two consequences worth writing down before anyone designs the fix:
+
+- A translation-only bridge cannot be made correct by choosing a better
+  origin. The error is a rotation about the origin; it is zero at the origin
+  and grows linearly outward, which is why an origin check would pass and a
+  corner would still be 40 m out.
+- The honest repair is to stop maintaining two frames. Either the legacy
+  geometry is reprojected into EPSG:3006 once and for all — which is what the
+  migration already does correctly, via `cs2cs` — or the bridge carries a
+  rotation. The first is the one that makes GPS work; the second only makes
+  the seam invisible.
+
 ### The visual target is not the data target
 
 Stated by the project owner, and it reframes what the surface work is FOR:
