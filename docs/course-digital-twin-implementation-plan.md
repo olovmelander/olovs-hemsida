@@ -1972,6 +1972,51 @@ provider-access workflow does, and the top-level `requiredCasesPassed` stays
 false locally because of it. A harness that cannot run a backend is not
 evidence that the backend works.
 
+### Puttom's 7th is not that hilly, and a player noticed before any gate did
+
+Asked to look at hole 7 because it "feels very hilly", and it is: the shipped
+GPK1 terrain renders it as a rollercoaster. Measured in the running app through
+`V3D.terrainH` along the hole's own centre line, 20 m apart:
+
+| | relief | climb | range |
+|---|---:|---:|---|
+| GPK1 (the default) | 20.3 m | 36.5 m | 79.9 – 100.2 m |
+| v2, 1 m Lantmäteriet | **6.0 m** | **8.5 m** | 74.3 – 80.3 m |
+
+36.5 m of climb on a 360 m par 4 would make it one of the steepest holes in the
+country. The GPK1 profile also saw-tooths — 90, 89, 95, 88, 80, 95, 98 — ±10 m
+between samples 20 m apart, which no ground does. `demH` and `terrainH` track
+each other throughout, so this is the height field itself, not shaping.
+
+**It is exactly one hole.** Median (legacy − bare earth) along each centre line:
+seventeen holes fall in −0.40 … +0.56 m; the 7th is **+16.61 m**, peaking at
++24.0 m. Nothing else on the course disagrees at all.
+
+What the club says corroborates the v2 shape rather than the GPK1 one: hole 7 is
+*"Blint hål — sikten mot spelare framför är skymd. Banans svåraste, index 1."*
+A blind hole needs a crest, and v2 has one — 80.3 m at 160 m, 3.3 m above the
+tee, then back down. That is a hole you cannot see over. It is not a mountain.
+
+**Two explanations tested and rejected, which is the part worth keeping.**
+Canopy was the obvious one, since Terrarium carries treetops and that is already
+documented here. It does not survive measurement: hole 7's centre line has 1%
+canopy within 15 m — the same as the other seventeen — and across all 1,533
+centre-line samples the correlation between nearby canopy fraction and the
+height error is **r = −0.019**. A tile seam was the second: the step at
+x ≈ 404–412 is a ramp over 12 m, not an edge. Why Terrarium spikes precisely
+there is **not established**, and is not guessed at here.
+
+The hole is where it should be, so the v2 ground under it is the right ground:
+the GPS-surveyed green sits 17 m from the model's line end and the surveyed
+waypoint 36 m from its start, the latter being the documented card slide.
+
+Two things follow. The 1 m pilot is not only more precise than GPK1, it is
+correcting a **visible, gameplay-relevant error** on a shipped course — the
+first time the difference has been something a player would notice rather than
+something a checker would. And no gate could have caught this: every Puttom
+check passes, because they all test the model against itself. It took someone
+looking at the hole.
+
 ### The pilot has a forty-metre cliff around it, and it is a datum
 
 Chasing full course coverage turned up something that has to be fixed before
