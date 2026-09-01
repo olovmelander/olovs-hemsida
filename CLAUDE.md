@@ -1183,6 +1183,15 @@ way the workflow does, serves it AT that path and drives it. Its sharpest
 assertion is `document.fonts.check('12px Outfit')`: the fonts failed while every
 other check passed, because a fallback font is not an error.
 
+**Taking another course to 1 m v2 terrain**: `docs/v2-course-runbook.md` is the
+per-course recipe — what is generic and what is still Puttom-shaped code, which
+constants are derived vs reviewed vs MEASURED (the vertical datum offset is
+23.6263 m at Puttom and is wrong everywhere else), the order to run things in,
+the targets a healthy course hits, and the traps. Read it before starting the
+second course, because the first real task there is not data: it is turning
+`PUTTOM_PREVIEW_CONFIG` into a per-course record and threading a slug through
+the six files that import it.
+
 **And the gate is only as honest as the server under it.** `tools/serve.mjs`
 used to stream every file with neither `Content-Length` nor `Content-Encoding`
 — a shape almost no real host produces — and that cost two live failures in one

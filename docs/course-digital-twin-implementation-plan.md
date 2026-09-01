@@ -1,5 +1,10 @@
 # Course digital twin — terrain, surfaces and real-world objects
 
+> **Doing this for another course?** `docs/v2-course-runbook.md` is the recipe
+> distilled from Puttom: the generic/Puttom-shaped split, the constants and how
+> each is obtained, the running order, the numbers a healthy course hits, and
+> the traps that cost time here. This file is the *why*; that one is the *how*.
+
 > **Status 2026-09-01:** D0–D4 foundations are implemented and the retained
 > Puttom pilot now has an interactive, opt-in `?v2=1` preview that covers the
 > **whole course**: 64 verified 1 m terrain BVCH tiles over 2,048 × 2,048 m and
