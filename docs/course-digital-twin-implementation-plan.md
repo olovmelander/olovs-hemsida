@@ -1805,6 +1805,20 @@ fix that is smaller than it sounds:
 - It does not touch the six standalone pages, which are single-frame and were
   never affected.
 
+**Local acceptance, stated for exactly what it covers.** The interactive
+capture harness passes both WebGL2 cases on the rotated build — mobile and
+desktop, each with `surfaceEvidencePassed`, `legacyCoreCutoutPassed`,
+`liveAdapterPassed` and `selectionPassed` all true, the badge reading
+*16 verifierade tiles · WebGL2 · 1 m höjd · 1 m mesh*, and the adapter
+reporting `skippedBasePoints: 56169`, `emittedBasePoints: 67006`,
+`removedTriangles: 28133`, one draw call over 16 tiles. The **WebGPU case is
+unverified locally**: SwiftShader's Vulkan path does not finish a boot inside
+480 s in this container, and did not before this change either — the WebGL2
+boot alone takes 39.9 s here. That case is CI's to prove, which is what the
+provider-access workflow does, and the top-level `requiredCasesPassed` stays
+false locally because of it. A harness that cannot run a backend is not
+evidence that the backend works.
+
 ### The visual target is not the data target
 
 Stated by the project owner, and it reframes what the surface work is FOR:

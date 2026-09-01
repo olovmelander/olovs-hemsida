@@ -19,6 +19,8 @@ on:
       - "apps/golf/src/engine/v2-terrain-*.mjs"
       - "apps/golf/src/engine/v2-surface-*.mjs"
       - "apps/golf/src/engine/v2-puttom-preview.mjs"
+      # the frame bridge the pilot is placed by: a change here moves the terrain
+      - "apps/golf/src/engine/geodetic-frame*.mjs"
       - "apps/golf/src/engine/material.js"
       - "apps/golf/src/main.js"
       - "apps/golf/index.html"
