@@ -1570,13 +1570,33 @@ join: **`alignTerrainPreviewToLegacyFrame` bridges v2 into the legacy world
 with `translateX/translateY/translateZ` and no rotation**, and the string
 "convergence" appears nowhere in the repository.
 
+**Confirmed a second time, on terrain rather than greens, and it corrects the
+sign.** Sampling the published v2 grid through the shipped translation-only
+bridge and through rotated variants, scored against the legacy heights with
+the datum offset removed:
+
+| bridge | spread (MAD) | p90 |
+|---|---:|---:|
+| 0° — as shipped | 1.85 m | 13.64 m |
+| +3.47° | 2.91 m | 14.58 m |
+| **−3.47°** | **0.83 m** | **12.97 m** |
+
+The correct rotation is **−3.47°**, not +3.47° as first written here — the
+magnitude matched the greens measurement but the sign did not, and only the
+A/B against terrain settled it. It more than halves the disagreement, and the
+0.83 m that remains is the genuine Terrarium-versus-1 m-DTM difference. Two
+completely independent records — a GPS survey against OSM greens, and legacy
+terrain against the v2 grid — give the same magnitude.
+
 Scope, stated carefully so this is not read as worse than it is: the shipped
 GPK1 pages are entirely in the legacy frame and are self-consistent — the
 legacy model agrees with the GPS survey to a 4.9 m median, which is OSM's own
-tracing error, not a frame error. The rotation only bites where the two frames
-meet, which today is the opt-in `?v2=1` terrain path on Puttom. But it is
-exactly what "must work with GPS" depends on, and it is what would break the
-moment v2 becomes the default in D8.
+tracing error, not a frame error. The rotation bites where the two frames
+meet, which today is the opt-in `?v2=1` terrain path on Puttom — and it IS
+manifesting there, by the table above. It is exactly what "must work with GPS"
+depends on, and what would break the moment v2 becomes the default in D8.
+**Until it is fixed the pilot should not be shown as a preview of the new
+terrain**, because what it shows is the defect.
 
 Two consequences worth writing down before anyone designs the fix:
 
