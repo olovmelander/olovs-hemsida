@@ -275,9 +275,18 @@ function validatePuttomSurfaceDescriptor(descriptor, terrainDescriptor, packSha2
   if (!/^[a-f0-9]{64}$/.test(packSha256 || '') || descriptor.source.packSha256 !== packSha256) {
     throw new Error('Puttom surface preview was not derived from the verified active GPK1 pack');
   }
-  if (descriptor.tiles.length !== terrainDescriptor.tiles.length ||
-      descriptor.tiles.some((tile, index) => tile.id !== terrainDescriptor.tiles[index]?.id)) {
-    throw new Error('Puttom surface preview does not match the terrain preview frontier');
+  /* The surface frontier is a rectangular SUBSET of the terrain frontier -- see
+     surfaceWindowEpsg3006 -- so it is checked as a subset drawn from it, at its
+     own reviewed count. Equality here is what caught this change when the
+     adapter and the build gate had already been taught the subset and the
+     loader had not; the count is what stops the subset from quietly shrinking. */
+  const terrainIds = new Set(terrainDescriptor.tiles.map(tile => tile.id));
+  if (descriptor.tiles.length !== PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount ||
+      descriptor.tiles.some(tile => !terrainIds.has(tile.id))) {
+    throw new Error(
+      `Puttom surface preview has ${descriptor.tiles.length} tiles drawn from the terrain frontier; ` +
+      `expected ${PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount}`,
+    );
   }
 }
 
