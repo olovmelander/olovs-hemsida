@@ -118,7 +118,7 @@ test('the canopy pipeline reads one bounded window and never differences two pro
     outputPath: '/tmp/chm.tif',
     authorizationHeaders,
   });
-  const [reader, hag, range, stats, writer] = pipeline;
+  const [reader, readerStats, hag, range, writerStats, writer] = pipeline;
   assert.equal(reader.type, 'readers.copc');
   assert.equal(reader.bounds, '([697200,697712],[7024700,7025212])');
   assert.match(reader.filename.path, /^https:\/\/dl1\.lantmateriet\.se\/hojd\//);
@@ -134,10 +134,15 @@ test('the canopy pipeline reads one bounded window and never differences two pro
   /* PDAL's own default radius. A narrower one leaves cell corners unreachable
      and punches nodata into surveyed ground. */
   assert.equal(writer.radius, +(CANOPY_RESOLUTION_METRES * Math.SQRT2).toFixed(4));
-  /* The pipeline reports its own middle, so a thin raster can be explained. */
-  assert.equal(stats.type, 'filters.stats');
-  assert.match(stats.dimensions, /HeightAboveGround/);
-  assert.match(stats.count, /Classification/);
+  /* Counted on BOTH sides of hag_nn, so a thin raster says whether the points
+     never arrived or were eaten on the way. One stats stage cannot. */
+  assert.equal(readerStats.type, 'filters.stats');
+  assert.equal(readerStats.tag, 'afterReader');
+  assert.doesNotMatch(readerStats.dimensions, /HeightAboveGround/);
+  assert.equal(writerStats.type, 'filters.stats');
+  assert.equal(writerStats.tag, 'beforeWriter');
+  assert.match(writerStats.dimensions, /HeightAboveGround/);
+  for (const stage of [readerStats, writerStats]) assert.match(stage.count, /Classification/);
   assert.equal(writer.nodata, -9999);
   /* No head filter anywhere: truncating a point stream punches holes in a
      raster and nothing downstream can tell those from real clearings. */

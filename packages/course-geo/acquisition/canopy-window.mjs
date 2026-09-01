@@ -64,6 +64,18 @@ export function canopyHeightPipeline(plan, credentials, {
       bounds: `([${minX},${maxX}],[${minY},${maxY}])`,
       requests: 4,
     }),
+    /* Count what the READER returned, before anything can eat it. The first
+       instrumented run showed 285 points reaching the writer where the
+       advertised density predicts hundreds of thousands, with sensible
+       heights on all 285 -- so the filters were working and the question was
+       entirely whether the points ever arrived. One stats stage could not
+       tell those apart; two can. */
+    Object.freeze({
+      type: 'filters.stats',
+      tag: 'afterReader',
+      dimensions: 'X,Y,Z,Classification',
+      count: 'Classification',
+    }),
     Object.freeze({
       type: 'filters.hag_nn',
       count: 1,
@@ -79,6 +91,7 @@ export function canopyHeightPipeline(plan, credentials, {
        everything -- so the pipeline now reports its own middle. */
     Object.freeze({
       type: 'filters.stats',
+      tag: 'beforeWriter',
       dimensions: 'X,Y,Z,HeightAboveGround,Classification',
       count: 'Classification',
     }),

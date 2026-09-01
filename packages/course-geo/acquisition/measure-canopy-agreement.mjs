@@ -57,36 +57,66 @@ const PROBE_SAMPLE_RADIUS_METRES = 3;
 const MINIMUM_PROBES_PER_CLASS = 60;
 const MINIMUM_CANOPY_COVERAGE = 0.5;
 
-/** PDAL nests filters.stats output differently across versions; find the one
-    object carrying a statistic array rather than assuming a path. */
-function findStatistics(node, depth = 0) {
-  if (!node || typeof node !== 'object' || depth > 8) return null;
-  if (Array.isArray(node.statistic)) return node.statistic;
-  for (const value of Object.values(node)) {
-    const found = findStatistics(value, depth + 1);
-    if (found) return found;
+/** PDAL nests filters.stats output differently across versions and keys the
+    stages by tag; collect every statistic block it emitted rather than
+    assuming a path, and keep the tag when there is one. */
+function collectStatistics(node, found = [], tag = null, depth = 0) {
+  if (!node || typeof node !== 'object' || depth > 8) return found;
+  if (Array.isArray(node.statistic)) found.push({ tag, statistic: node.statistic });
+  for (const [key, value] of Object.entries(node)) {
+    collectStatistics(value, found, /^[a-zA-Z]/.test(key) ? key : tag, depth + 1);
   }
-  return null;
+  return found;
 }
 
-function pipelineDiagnostics(metadata) {
-  const statistic = findStatistics(metadata);
-  if (!statistic) return { available: false, note: 'PDAL returned no filters.stats metadata' };
+/** filters.stats reports enumerated counts as either {value, count} or a
+    packed "value/count" string depending on version; the first parser read
+    only the packed form and reported an empty histogram, which is exactly the
+    kind of silent blank a diagnostic must not produce. */
+function enumeratedCounts(item) {
+  const counts = {};
+  for (const entry of item?.counts || []) {
+    if (entry && typeof entry === 'object' && entry.value !== undefined && entry.count !== undefined) {
+      counts[Number(entry.value)] = Number(entry.count);
+      continue;
+    }
+    const [value, count] = String(entry?.value ?? entry ?? '').split('/');
+    if (value !== undefined && count !== undefined && value !== '') counts[Number(value)] = Number(count);
+  }
+  return counts;
+}
+
+function summarizeStatistics({ tag, statistic }) {
   const byName = new Map(statistic.map(item => [item.name, item]));
   const hag = byName.get('HeightAboveGround');
-  const classification = byName.get('Classification');
-  const counts = {};
-  for (const entry of classification?.counts || []) {
-    const [value, count] = String(entry.value ?? '').split('/');
-    if (value !== undefined && count !== undefined) counts[Number(value)] = Number(count);
-  }
   return {
-    available: true,
-    pointsReachingWriter: Number(hag?.count ?? byName.get('Z')?.count ?? 0),
+    tag,
+    points: Number(hag?.count ?? byName.get('Z')?.count ?? 0),
     heightAboveGroundMetres: hag ? {
       minimum: hag.minimum, maximum: hag.maximum, mean: hag.average,
     } : null,
-    classificationCounts: counts,
+    classificationCounts: enumeratedCounts(byName.get('Classification')),
+  };
+}
+
+function pipelineDiagnostics(metadata) {
+  const blocks = collectStatistics(metadata);
+  if (!blocks.length) return { available: false, note: 'PDAL returned no filters.stats metadata' };
+  const stages = blocks.map(summarizeStatistics);
+  /* The reader stage is the one with no HeightAboveGround: that dimension does
+     not exist until hag_nn has run. */
+  const afterReader = stages.find(stage => !stage.heightAboveGroundMetres) || null;
+  const beforeWriter = stages.find(stage => stage.heightAboveGroundMetres) || null;
+  return {
+    available: true,
+    pointsFromReader: afterReader?.points ?? null,
+    pointsReachingWriter: beforeWriter?.points ?? null,
+    /* Which side of hag_nn lost them, stated rather than inferred by a reader
+       of this report. */
+    lostInFilters: afterReader && beforeWriter ? afterReader.points - beforeWriter.points : null,
+    readerClassificationCounts: afterReader?.classificationCounts ?? null,
+    heightAboveGroundMetres: beforeWriter?.heightAboveGroundMetres ?? null,
+    stages,
   };
 }
 
