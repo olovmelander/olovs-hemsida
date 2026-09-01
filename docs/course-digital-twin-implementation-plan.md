@@ -1732,6 +1732,16 @@ never entered the derivation:
    | translation only | 0.745 m | 2.33 m |
    | derived | **0.243 m** | **0.895 m** |
 
+5. **Against the GPS survey, end to end**, since "must work with GPS" is what
+   this is for. Taking GolfTraxx's 18 surveyed green centres through the pack's
+   own flat-earth rule into the world: 13 of 18 land on `SURFACE.GREEN` in the
+   surface atlas, and the survey sits a median 4.94 m (max 11.93 m) from the
+   model's own green centres — the documented OSM tracing error, and unchanged
+   by the bridge, correctly, because both sides of that comparison are legacy
+   vectors. What the bridge does change is how many surveyed greens have v2
+   terrain under them at all: **13 → 15 of 18**, because the rotation moved the
+   pilot footprint onto the course rather than 20 m off it.
+
 **Why check 3 is 86 arcsec off and check 1 is 0.0001, tested rather than
 asserted.** The first guess — that the fit recovers γ at the geometry's
 centroid rather than at the origin — is WRONG: moving to the centroid changes γ
