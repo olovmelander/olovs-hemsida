@@ -23,6 +23,16 @@ const decoder = new TextDecoder('utf-8', { fatal: true });
    below -- measured on the bytes that actually arrived -- and the chunk's
    sha256 is verified after that. The header only buys an early abort. */
 function declaredResponseBytes(response) {
+  /* A CONTENT-ENCODED response declares the length of the ENCODED body, while
+     expectedBytes is the decoded size -- and fetch() decodes transparently, so
+     the two describe different things and comparing them always fails.
+     GitHub Pages gzips .bvch: 81628 declared against 81751 expected, which
+     failed the whole pilot closed on the live site while every local harness
+     passed. The morning's note dismissed exactly this case on the reasoning
+     that a sane host would not gzip an already-deflated binary. Pages does,
+     for a 0.15% saving. Do not reason about what a host ought to do; ask it. */
+  const encoding = response?.headers?.get?.('content-encoding');
+  if (encoding && encoding.trim().toLowerCase() !== 'identity') return null;
   const raw = response?.headers?.get?.('content-length');
   if (raw === null || raw === undefined || String(raw).trim() === '') return null;
   const value = Number(raw);

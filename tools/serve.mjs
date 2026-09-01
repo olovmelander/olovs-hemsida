@@ -8,6 +8,7 @@
    which is what a verification harness wants and a CDN would ruin.            */
 import fs from 'node:fs';
 import http from 'node:http';
+import zlib from 'node:zlib';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -45,7 +46,30 @@ http.createServer((req, res) => {
     }
     res.writeHead(404); res.end('not found'); return;
   }
-  res.writeHead(200, { 'content-type': MIME[path.extname(file)] || 'application/octet-stream',
-                       'cache-control': 'no-store' });
-  fs.createReadStream(file).pipe(res);
+  /* Answer the way a real static host answers, because the harnesses pointed
+     at this server are supposed to be testing the real thing.
+
+     It used to stream every file with neither Content-Length nor
+     Content-Encoding, which is a shape almost no host produces, and that cost
+     two live failures in one day. Absent Content-Length was read as a declared
+     zero and refused every chunk. Then GitHub Pages turned out to GZIP .bvch --
+     declaring the compressed length, 81628 against an expected 81751 -- and
+     the v2 pilot failed closed on the published site while every gate here
+     passed. Neither was findable against a server that sends neither header.
+
+     So: always Content-Length, and gzip whenever the client asks for it, which
+     is what Pages does. The absent-header case keeps its coverage in the
+     loaders' own unit tests, where it belongs. */
+  const body = fs.readFileSync(file);
+  const type = MIME[path.extname(file)] || 'application/octet-stream';
+  const wantsGzip = /\bgzip\b/.test(String(req.headers['accept-encoding'] || ''));
+  if (wantsGzip) {
+    const packed = zlib.gzipSync(body);
+    res.writeHead(200, { 'content-type': type, 'cache-control': 'no-store',
+                         'content-encoding': 'gzip', 'content-length': String(packed.length) });
+    res.end(packed); return;
+  }
+  res.writeHead(200, { 'content-type': type, 'cache-control': 'no-store',
+                       'content-length': String(body.length) });
+  res.end(body);
 }).listen(PORT, '127.0.0.1', () => console.log(`serving ${ROOT} on http://127.0.0.1:${PORT}`));

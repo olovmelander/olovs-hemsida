@@ -67,6 +67,32 @@ describe('real terrain preview loader', () => {
     expect(loaded.resources).toHaveLength(4);
   });
 
+  it('loads from a host that gzips the chunk, as GitHub Pages does', async () => {
+    /* The live failure this file could not see. Pages answers .bvch with
+       content-encoding: gzip and a content-length describing the COMPRESSED
+       body -- 81628 where the descriptor says 81751. fetch() hands back the
+       decoded bytes, so the payload is right and only the header disagrees;
+       comparing them failed the pilot closed on the real site while every
+       local harness passed, because tools/serve.mjs sends neither header. */
+    const { compiled, descriptor } = fixture();
+    const withHeader = fetcher(compiled, descriptor);
+    const loaded = await loadTerrainPreview('https://proof.test/preview.json', {
+      fetchImpl: async (input, init) => {
+        const response = await withHeader(input, init);
+        const bytes = new Uint8Array(await response.arrayBuffer());
+        const headers = new Headers(response.headers);
+        if (headers.has('content-length')) {
+          /* what a gzipping host reports: encoded length, decoded body */
+          headers.set('content-encoding', 'gzip');
+          headers.set('content-length', String(bytes.byteLength - 123));
+        }
+        return new Response(bytes, { status: response.status, headers });
+      },
+      cryptoImpl: webcrypto,
+    });
+    expect(loaded.resources).toHaveLength(4);
+  });
+
   it('still rejects a declared byte count that disagrees with the descriptor', async () => {
     const { compiled, descriptor } = fixture();
     const withHeader = fetcher(compiled, descriptor);
