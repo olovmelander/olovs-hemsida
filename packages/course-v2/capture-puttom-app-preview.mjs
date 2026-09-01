@@ -177,8 +177,17 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
       camera: window.V3D.camInfo(),
       badge: document.getElementById('v2TerrainBadge')?.textContent?.trim() || null,
     }));
-    if (!state.v2.ready || state.v2.status !== 'ready' || state.v2.source.renderedTiles !== 16 ||
-        state.v2.renderer.drawCalls !== 1) throw new Error('real app did not retain the verified 16-tile one-draw preview');
+    /* Counts come from the reviewed config, never restated here. The pilot has
+       gone 16 -> 64 terrain tiles and its surface is now a 30-tile subset of
+       them, and a second copy of either number in this file would have failed
+       CI for the wrong reason -- or worse, kept passing against the old one. */
+    const expectedTiles = PUTTOM_PREVIEW_CONFIG.expectedTileCount;
+    const expectedSurfaceTiles = PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount;
+    if (!state.v2.ready || state.v2.status !== 'ready' ||
+        state.v2.source.renderedTiles !== expectedTiles ||
+        state.v2.renderer.drawCalls !== 1) {
+      throw new Error(`real app did not retain the verified ${expectedTiles}-tile one-draw preview`);
+    }
     const liveAdapterPassed = state.v2.adapter?.kind === 'fixed-frontier' &&
       state.v2.adapter.phase === 'ready' && state.v2.adapter.requested === true &&
       state.v2.adapter.sourceReady === true && state.v2.adapter.preflightReady === true &&
@@ -202,9 +211,10 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
       throw new Error(`real app did not route the pilot through the generic v2 selection boundary: ${
         JSON.stringify(state.v2.selection || null)}`);
     }
-    if (state.v2.surface?.tileCount !== 16 || state.v2.surface.provisional !== true ||
+    if (state.v2.surface?.tileCount !== expectedSurfaceTiles || state.v2.surface.provisional !== true ||
         state.v2.surface.reason !== 'migration-vectors-not-survey-approved') {
-      throw new Error('real app did not retain the bound 16-tile provisional surface frontier');
+      throw new Error(
+        `real app did not retain the bound ${expectedSurfaceTiles}-tile provisional surface frontier`);
     }
     const presentClasses = new Set((state.v2.surface.classes || [])
       .filter(item => Number.isSafeInteger(item?.count) && item.count > 0).map(item => item.id));
@@ -342,7 +352,11 @@ async function verifyNormalVisitMakesNoV2Request({ origin, chrome, timeoutMillis
 async function main() {
   const options = argumentsFrom(process.argv.slice(2));
   const root = resolve(options.root), output = resolve(options.out);
-  for (const required of ['index.html', 'v2/puttom/preview.json']) {
+  /* The pilot moved out of /v2/ and into the published graph's own directory,
+     so requiring the old path here would only ever have been satisfied by CI
+     copying an abandoned 1024 m staging tree into the build. Ask the reviewed
+     config where the descriptor is instead of restating a path. */
+  for (const required of ['index.html', PUTTOM_PREVIEW_CONFIG.descriptorPath]) {
     if (!(await stat(join(root, required))).isFile()) throw new Error(`app capture root is missing ${required}`);
   }
   await mkdir(output, { recursive: true });

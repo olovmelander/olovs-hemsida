@@ -8,6 +8,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { evaluateAuthoritativeSurfacePreflight } from './authoritative-surface-preflight.mjs';
 import { assertTerrainPreview } from './terrain-preview.mjs';
+import { PUTTOM_PREVIEW_CONFIG } from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
 
 const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 
@@ -15,7 +16,10 @@ function defaultOptions() {
   return {
     manifest: resolve(ROOT, 'geo_data/course-v2/puttom/source-manifest.json'),
     catalog: resolve(ROOT, 'geo_data/course-v2/source-catalog.json'),
-    terrainPreview: resolve(ROOT, 'apps/golf/public/v2/puttom/preview.json'),
+    /* Where the pilot descriptor lives is the reviewed config's to say; this
+       default pointed at apps/golf/public/v2/puttom/preview.json, which the
+       widening deleted, so the preflight had been reading a missing file. */
+    terrainPreview: resolve(ROOT, 'apps/golf/public', PUTTOM_PREVIEW_CONFIG.descriptorPath),
     source: null,
     requireReady: false,
   };

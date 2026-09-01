@@ -809,10 +809,16 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-      - name: Build real app with staged preview assets
+      # The app reads the pilot from the published graph's own directory
+      # (apps/golf/public/grounds/puttom), which is committed. Copying the
+      # freshly staged 1024 m window into apps/golf/public/v2/puttom used to be
+      # how the app got its preview; since the widening nothing reads that path,
+      # so the copy only shipped ~1.7 MB of unreferenced chunks into the build.
+      # The staging step above still runs and still uploads its artefact --
+      # that proves the release stager on a freshly compiled window, which is a
+      # different claim from what the app renders.
+      - name: Build real app
         run: |
-          mkdir -p apps/golf/public/v2/puttom
-          cp -R "$RUNNER_TEMP/puttom-terrain-runtime/." apps/golf/public/v2/puttom/
           pnpm --filter @banvy/golf build
           node packages/course-v2/check-app-build.mjs
 
