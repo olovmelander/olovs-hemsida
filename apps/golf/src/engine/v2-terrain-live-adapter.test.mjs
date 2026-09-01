@@ -3,6 +3,24 @@ import { V2TerrainLiveAdapter } from './v2-terrain-live-adapter.mjs';
 
 const CORE = Object.freeze({ dx: 4, x0: -12, x1: 12, z0: -12, z1: 12 });
 const BOUNDS = Object.freeze({ x0: -8, x1: 8, z0: -8, z1: 8 });
+
+/* The surface raster is a SUBSET of the terrain frontier and is addressed the
+   way the real atlas addresses it: floor((x - x0) / res) into a w x h grid, so
+   the upper bound is EXCLUSIVE and the last sample sits one step inside it.
+   The fixture reproduced neither for a long time -- inclusive corners and no
+   res at all -- which let it agree with a preflight that asked for a corner no
+   real atlas has ever contained. Same trap as the checker that hardcoded the
+   left/right normal: a fixture that restates the rule cannot test it, so this
+   one restates the INDEXING and lets the rule be read off it. */
+const SURFACE_BOUNDS = Object.freeze({
+  x0: BOUNDS.x0, z0: BOUNDS.z0, x1: BOUNDS.x0 + 4, z1: BOUNDS.z0 + 2, w: 4, h: 2, res: 1,
+});
+const surfaceIndexAt = (x, z) => {
+  const column = Math.floor((x - SURFACE_BOUNDS.x0) / SURFACE_BOUNDS.res);
+  const row = Math.floor((z - SURFACE_BOUNDS.z0) / SURFACE_BOUNDS.res);
+  return column < 0 || row < 0 || column >= SURFACE_BOUNDS.w || row >= SURFACE_BOUNDS.h
+    ? -1 : row * SURFACE_BOUNDS.w + column;
+};
 const CUTOUT = Object.freeze({
   guardCells: 1,
   guardMetres: 4,
@@ -36,12 +54,12 @@ function fixture({ ready = true, surfaceTileIds = ['l0/0/0', 'l0/1/0'] } = {}) {
     surfaceAtlas: {
       data: {
         tileIds: surfaceTileIds,
-        bounds: { w: 4, h: 2 },
+        bounds: SURFACE_BOUNDS,
         classCounts: Uint32Array.from([2, 3, 3]),
         noDataCount: 0,
       },
-      bounds: BOUNDS,
-      contains: (x, z) => x >= BOUNDS.x0 && x <= BOUNDS.x1 && z >= BOUNDS.z0 && z <= BOUNDS.z1,
+      bounds: SURFACE_BOUNDS,
+      contains: (x, z) => surfaceIndexAt(x, z) >= 0,
       dispose: disposeSurface,
     },
     renderResources: vi.fn(() => resources),
@@ -148,6 +166,24 @@ describe('v2 terrain live adapter', () => {
       status: 'failed', fallbackRebuilt: false, error: 'shader rejected',
     });
     expect(adapter.confirmFallbackRebuilt()).toMatchObject({ fallbackRebuilt: true });
+  });
+
+  it('rejects a surface atlas that cannot address its own last sample', async () => {
+    /* The corner check was relaxed once, from the terrain frontier to the
+       atlas's own extent, because the surface became a subset. This is what
+       stops that relaxation becoming no check at all: a raster truncated by a
+       row still reports its full bounds, and only asking it to resolve the
+       sample those bounds promise catches it. */
+    const { adapter, source, batchFactory, disposeSurface } = fixture();
+    const whole = source.surfaceAtlas.contains;
+    source.surfaceAtlas.contains = (x, z) => whole(x, z) && z < SURFACE_BOUNDS.z1 - SURFACE_BOUNDS.res;
+    const result = await adapter.prepare({ coreGrid: CORE, preflight: vi.fn() });
+    expect(result).toMatchObject({ ok: false, status: 'failed' });
+    expect(result.error).toMatch(/fixed-frontier preflight requires/);
+    expect(batchFactory).not.toHaveBeenCalled();
+    expect(disposeSurface).toHaveBeenCalledTimes(1);
+    expect(adapter.active).toBe(false);
+    expect(adapter.heightAt(0, 0)).toBeNaN();
   });
 
   it('rejects incomplete terrain/surface agreement before creating GPU resources', async () => {

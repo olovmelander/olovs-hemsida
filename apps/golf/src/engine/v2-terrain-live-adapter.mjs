@@ -68,8 +68,19 @@ function assertFixedFrontier({
       !surfaceTileIds.every(tileId => terrainTileIds.includes(tileId)) ||
       surfaceAtlas?.data?.noDataCount !== 0 ||
       !Number.isSafeInteger(surfaceSamples) || classifiedSamples !== surfaceSamples ||
+      /* Both ends of the raster must actually address, which catches a
+         truncated atlas. The upper bound is EXCLUSIVE -- the last sample sits
+         one resolution step inside it -- so this asks for that sample and not
+         for the corner beyond it, which never resolves and would fail every
+         run. It replaces a check that asked whether the atlas covered the
+         TERRAIN frontier, a question that stopped meaning anything once the
+         surface became a subset of it; whether the atlas covers the played
+         ground is asserted where the played ground is known, in the tests. */
       !surfaceAtlas?.contains(surfaceAtlas.bounds?.x0, surfaceAtlas.bounds?.z0) ||
-      !surfaceAtlas?.contains(surfaceAtlas.bounds?.x1, surfaceAtlas.bounds?.z1)) {
+      !surfaceAtlas?.contains(
+        surfaceAtlas.bounds?.x1 - surfaceAtlas.bounds?.res,
+        surfaceAtlas.bounds?.z1 - surfaceAtlas.bounds?.res,
+      )) {
     throw new Error(
       `v2 fixed-frontier preflight requires ${expectedTileCount} terrain tiles and ` +
       `${expectedSurfaceTileCount} surface tiles drawn from them`,
