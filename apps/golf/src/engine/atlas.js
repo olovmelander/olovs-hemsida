@@ -163,14 +163,17 @@ function buildBoundaryField(bounds, classes) {
 }
 
 /** Pure, Node-testable raster half of createGroundAtlas(). */
-export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1 }) {
+export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1, boundaryOnly = false }) {
   if (!(res > 0)) throw new Error('ground atlas resolution must be positive');
   const w = Math.max(1, Math.ceil((CORE.x1 - CORE.x0) / res));
   const h = Math.max(1, Math.ceil((CORE.z1 - CORE.z0) / res));
   const bounds = { x0: CORE.x0, z0: CORE.z0, x1: CORE.x0 + w * res, z1: CORE.z0 + h * res, w, h, res };
   const classes = new Uint8Array(w * h);
   const ranks = new Uint8Array(w * h);
-  const route = buildRouteField(bounds, HOLES);
+  /* Surface compilation may ask only for a supersampled material boundary.
+     Skipping route/owner fields keeps a 4x boundary pass bounded in memory and
+     avoids recomputing mowing coordinates that already exist on the 1 m pass. */
+  const route = boundaryOnly ? null : buildRouteField(bounds, HOLES);
   ranks.fill(PRIORITY[SURFACE.ROUGH]);
 
   const paint = (i, j, feature) => {
@@ -179,7 +182,7 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1 
     if (rank < ranks[k]) return;
     classes[k] = feature.surface;
     ranks[k] = rank;
-    if (feature.hole) route.owner[k] = feature.hole;
+    if (feature.hole && route) route.owner[k] = feature.hole;
   };
 
   function fillRing(ring, feature) {
@@ -282,6 +285,14 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1 
   }
 
   const edge = buildBoundaryField(bounds, classes);
+  if (boundaryOnly) {
+    return {
+      bounds,
+      classes,
+      boundaryDistance: edge.distance,
+      boundaryNeighbour: edge.neighbour,
+    };
+  }
   const idData = new Uint8Array(w * h * 2);
   const fieldData = new Uint8Array(w * h * 4);
   const signedDistance = new Float32Array(w * h);

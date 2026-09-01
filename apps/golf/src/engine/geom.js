@@ -7,6 +7,23 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const smooth = (e0, e1, x) => { const t = clampf((x - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
 const rightOf = b => [-Math.cos(b), Math.sin(b)];
 
+/* The direction of play at a point that lies on a hole line: the heading of the
+   nearest segment, in alongLine's convention -- forward is (sin b, cos b), so
+   rightOf(b) is the player's right hand. It exists because `mk.b` in the packs
+   is NOT in this convention on eight of nine courses (the pipelines write a
+   compass bearing, atan2(dx,-dz)), and a bearing that must agree with the line
+   is better derived from the line than believed from a field beside it. */
+function lineBearingAt(L, c) {
+  let best = Infinity, b = 0;
+  for (let i = 0; i < L.length - 1; i++) {
+    const dx = L[i + 1][0] - L[i][0], dz = L[i + 1][1] - L[i][1];
+    if (!(dx * dx + dz * dz)) continue;
+    const d = ptSegD(c[0], c[1], L[i][0], L[i][1], L[i + 1][0], L[i + 1][1]);
+    if (d < best) { best = d; b = Math.atan2(dx, dz); }
+  }
+  return b;
+}
+
 function polyLen(L) { let t = 0; for (let i = 0; i < L.length - 1; i++) t += hyp(L[i], L[i + 1]); return t; }
 function alongLine(L, f) {
   const seg = []; let tot = 0;
@@ -79,4 +96,4 @@ function fbm(x, z, oct = 3) {
   return s / n;
 }
 
-export { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm };
+export { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearingAt, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm };

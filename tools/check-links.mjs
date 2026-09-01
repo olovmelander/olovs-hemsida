@@ -16,6 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
 import { ROOT } from '../geobuild/lib.mjs';
+import { browserArgs } from './browser-args.mjs';
 
 /* SwiftShader boots the atlas build in minutes, not seconds; --boot-timeout
    raises it further when harnesses must share a CPU. */
@@ -53,7 +54,7 @@ const gate = (ok, msg) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${msg}`); if 
 
 const browser = await chromium.launch({
   ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }),
-  args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader', '--force-device-scale-factor=1'],
+  args: browserArgs(),
 });
 
 for (const c of CASES) {

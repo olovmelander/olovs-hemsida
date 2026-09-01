@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve, sep } from 'node:path';
 import { rasterizeGroundAtlas } from '../../apps/golf/src/engine/atlas.js';
-import { SURFACE } from '../../apps/golf/src/engine/surface.js';
+import { SURFACE, SURFACE_PRIORITY } from '../../apps/golf/src/engine/surface.js';
 import { canonicalJson } from './canonical-json.mjs';
 import { assetReferenceForChunk, verifyChunkAsset, writeChunk } from './chunk-node.mjs';
 import { encodeSurfaceGrid } from './surface-grid.mjs';
@@ -17,6 +17,10 @@ const EDGE_DISTANCE_LIMIT_METRES = 8;
 const ROUTE_DISTANCE_SCALE = 4;
 const RING_DISTANCE_SCALE = 0.16;
 const EPSILON = 1e-6;
+const SURFACE_RANK = new Uint8Array(256);
+for (let index = 0; index < SURFACE_PRIORITY.length; index++) {
+  SURFACE_RANK[SURFACE_PRIORITY[index]] = SURFACE_PRIORITY.length - index;
+}
 
 function id(value, label) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value || '')) {
@@ -187,7 +191,17 @@ function materialCoordinate(surface, fields, index) {
   return 0;
 }
 
-function tilePayload({ raster, tile, extent, spacing, mowCoordinateMode }) {
+function boundarySample(raster, index) {
+  const current = raster.classes[index];
+  const other = raster.boundaryNeighbour[index];
+  const distance = Math.min(EDGE_DISTANCE_LIMIT_METRES, raster.boundaryDistance[index]);
+  if (other !== current && SURFACE_RANK[other] > SURFACE_RANK[current]) {
+    return { primary: other, secondary: current, signedDistance: -distance };
+  }
+  return { primary: current, secondary: other, signedDistance: distance };
+}
+
+function tilePayload({ raster, boundaryRaster, boundaryOversample, tile, extent, spacing, mowCoordinateMode }) {
   const count = tile.width * tile.height;
   const primarySurfaceIds = new Uint8Array(count);
   const secondarySurfaceIds = new Uint8Array(count);
@@ -200,15 +214,19 @@ function tilePayload({ raster, tile, extent, spacing, mowCoordinateMode }) {
   for (let row = 0; row < tile.height; row++) {
     for (let column = 0; column < tile.width; column++) {
       const source = (row0 + row) * extent.width + column0 + column;
+      const boundarySource = ((row0 + row) * boundaryOversample) * boundaryRaster.bounds.w +
+        (column0 + column) * boundaryOversample;
       const target = row * tile.width + column;
       if (source < 0 || source >= raster.classes.length) throw new Error(`${tile.id} slice escapes the preview raster`);
-      const primary = raster.idData[source * 2];
-      const secondary = raster.idData[source * 2 + 1];
+      if (boundarySource < 0 || boundarySource >= boundaryRaster.classes.length) {
+        throw new Error(`${tile.id} slice escapes the supersampled boundary raster`);
+      }
+      const { primary, secondary, signedDistance } = boundarySample(boundaryRaster, boundarySource);
       primarySurfaceIds[target] = primary;
       /* The surface contract denotes no adjacent material with 255. The legacy
          shader had repeated ids internally, so normalize only at this boundary. */
       secondarySurfaceIds[target] = secondary === primary ? 255 : secondary;
-      boundaryDistancesMetres[target] = raster.signedDistance[source];
+      boundaryDistancesMetres[target] = signedDistance;
       ownerFeatureIds[target] = raster.owner[source];
       mowCoordinatesMetres[target] = mowCoordinateMode === 'unmeasured-zero'
         ? 0
@@ -264,6 +282,7 @@ export function compileSurfacePreviewAssets({
   assetDirectory,
   codec = 'deflate-raw',
   mowCoordinateMode = 'legacy-route',
+  boundaryOversample = 1,
 } = {}) {
   const groundId = id(requestedGroundId, 'groundId');
   const frame = previewFrame(requestedFrame);
@@ -274,6 +293,9 @@ export function compileSurfacePreviewAssets({
   }
   if (!['legacy-route', 'unmeasured-zero'].includes(mowCoordinateMode)) {
     throw new TypeError('mowCoordinateMode must be legacy-route or unmeasured-zero');
+  }
+  if (![1, 2, 4].includes(boundaryOversample)) {
+    throw new TypeError('boundaryOversample must be 1, 2, or 4');
   }
   const spacing = tiles[0].sampleSpacingMetres;
   if (!tiles.every(tile => near(tile.sampleSpacingMetres, spacing))) {
@@ -303,12 +325,42 @@ export function compileSurfacePreviewAssets({
   if (raster.bounds.w !== extent.width || raster.bounds.h !== extent.height) {
     throw new Error('surface preview raster dimensions do not match the terrain frontier');
   }
+  const boundarySpacing = spacing / boundaryOversample;
+  const boundaryRaster = boundaryOversample === 1 ? Object.freeze({
+    bounds: raster.bounds,
+    classes: raster.classes,
+    boundaryDistance: Float32Array.from(raster.signedDistance, Math.abs),
+    boundaryNeighbour: Uint8Array.from(raster.idData, (_, index) => {
+      const sample = Math.floor(index / 2);
+      const current = raster.classes[sample];
+      const primary = raster.idData[sample * 2];
+      const secondary = raster.idData[sample * 2 + 1];
+      return index % 2 === 0 ? (primary === current ? secondary : primary) : 0;
+    }).filter((_, index) => index % 2 === 0),
+  }) : rasterizeGroundAtlas({
+    CORE: {
+      x0: globalBounds.x0 - boundarySpacing * 0.5,
+      x1: globalBounds.x1 + boundarySpacing * 0.5,
+      z0: globalBounds.z0 - boundarySpacing * 0.5,
+      z1: globalBounds.z1 + boundarySpacing * 0.5,
+    },
+    HOLES: holes,
+    features,
+    res: boundarySpacing,
+    boundaryOnly: true,
+  });
+  if (boundaryRaster.bounds.w !== (extent.width - 1) * boundaryOversample + 1 ||
+      boundaryRaster.bounds.h !== (extent.height - 1) * boundaryOversample + 1) {
+    throw new Error('supersampled boundary raster dimensions do not match the terrain frontier');
+  }
 
   const directory = assetDirectory || `grounds/${groundId}/surface`;
   const resources = new Map();
   const tilesOut = [];
   for (const tile of tiles) {
-    const encoded = tilePayload({ raster, tile, extent, spacing, mowCoordinateMode });
+    const encoded = tilePayload({
+      raster, boundaryRaster, boundaryOversample, tile, extent, spacing, mowCoordinateMode,
+    });
     const asset = surfaceChunk({ groundId, tile, encoded, assetDirectory: directory, codec });
     const prior = resources.get(asset.reference.url);
     if (prior && !Buffer.from(prior).equals(Buffer.from(asset.chunk))) {
@@ -336,6 +388,7 @@ export function compileSurfacePreviewAssets({
       previewWidth: extent.width,
       previewHeight: extent.height,
       maximumBoundaryDistanceMetres: EDGE_DISTANCE_LIMIT_METRES,
+      boundarySampleSpacingMetres: boundarySpacing,
       mowCoordinateMode,
     }),
   });

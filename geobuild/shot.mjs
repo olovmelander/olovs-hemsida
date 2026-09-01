@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
 import { ROOT, CACHE } from './lib.mjs';
+import { browserArgs } from '../tools/browser-args.mjs';
 
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
@@ -34,8 +35,7 @@ const vendor = path.join(CACHE, 'vendor');
 
 const browser = await chromium.launch({
   ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }),
-  args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader',
-         '--disable-lcd-text', '--force-device-scale-factor=1'],
+  args: browserArgs(),
 });
 const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: 1 });
 page.setDefaultTimeout(300000);

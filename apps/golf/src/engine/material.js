@@ -17,6 +17,10 @@ const MIGRATED = [
   SURFACE.WETLAND, SURFACE.SHORE,
 ];
 const PREVIEW_NATURAL = [SURFACE.ROUGH, SURFACE.FOREST, SURFACE.HEATH];
+const VECTOR_OVERLAY = new Set([
+  SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE,
+  SURFACE.GREEN, SURFACE.TEE, SURFACE.SAND,
+]);
 
 const STYLE_WIDTH = 32;
 const STYLE_ROWS = 4;
@@ -73,8 +77,10 @@ function makeStyleTexture(C, SHADE, { includeNatural = false } = {}) {
     data.set([c[0], c[1], c[2], 1], sid * 4);
     data.set(shade, (STYLE_WIDTH + sid) * 4);
     data.set([1, sid === SURFACE.SAND ? 1 : 0, hard.has(sid) ? 1 : 0, 0], (STYLE_WIDTH * 2 + sid) * 4);
-    const mowSource = MOW_SOURCE[sid];
-    if (mowSource) data.set([mowSource[0], mowSource[1], mowSource[2], 0], (STYLE_WIDTH * 3 + sid) * 4);
+    const mowSource = MOW_SOURCE[sid] || [0, 0, 0];
+    data.set([
+      mowSource[0], mowSource[1], mowSource[2], VECTOR_OVERLAY.has(sid) ? 1 : 0,
+    ], (STYLE_WIDTH * 3 + sid) * 4);
   }
   const tex = new THREE.DataTexture(data, STYLE_WIDTH, STYLE_ROWS, THREE.RGBAFormat, THREE.FloatType);
   tex.minFilter = THREE.NearestFilter;
@@ -82,6 +88,23 @@ function makeStyleTexture(C, SHADE, { includeNatural = false } = {}) {
   tex.generateMipmaps = false;
   tex.needsUpdate = true;
   return tex;
+}
+
+/* Surface ids must remain nearest-filtered integers, but their 1 m raster must
+   not become the visible outline of a fairway or green. Reconstruct the signed
+   distance with a small cross filter before applying the material transition.
+   The centre-heavy kernel removes one-texel staircase corners without moving a
+   reviewed edge by more than the source grid can actually resolve. */
+function filteredSurfaceDistance(fieldTexture, uvAtlas, texel, centreFields) {
+  const decode = sample => sample.r.mul(16).sub(8);
+  const centre = decode(centreFields).mul(0.5);
+  const horizontal = decode(texture(fieldTexture, uvAtlas.sub(vec2(texel.x, 0))))
+    .add(decode(texture(fieldTexture, uvAtlas.add(vec2(texel.x, 0)))))
+    .mul(0.125);
+  const vertical = decode(texture(fieldTexture, uvAtlas.sub(vec2(0, texel.y))))
+    .add(decode(texture(fieldTexture, uvAtlas.add(vec2(0, texel.y)))))
+    .mul(0.125);
+  return centre.add(horizontal).add(vertical);
 }
 
 export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
@@ -176,8 +199,12 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
   const fields = texture(atlas.texF, uvAtlas);
   const primId = ids.r.mul(255);
   const secId = ids.g.mul(255);
-  const sdf = fields.r.mul(16).sub(8);
-  const edgeWidth = fwidth(sdf).mul(0.75).max(0.12);
+  const texel = vec2(1 / b.w, 1 / b.h);
+  const sdf = filteredSurfaceDistance(atlas.texF, uvAtlas, texel, fields);
+  /* Half a source texel is the honest minimum uncertainty of a centre-sampled
+     raster. Blending over that footprint gives cut grass a soft natural edge;
+     screen derivatives widen it further when the course recedes. */
+  const edgeWidth = fwidth(sdf).max(b.res * 0.55);
   const primaryWeight = smoothstep(edgeWidth.negate(), edgeWidth, sdf);
 
   const styleUv = (id, row) => vec2(id.add(0.5).div(STYLE_WIDTH), float((row + 0.5) / STYLE_ROWS));
@@ -242,8 +269,10 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
     const wp = positionWorld.xz;
     const b = atlas.bounds;
     const uvAtlas = vec2(
-      wp.x.sub(float(b.x0)).add(b.res * 0.5).div(b.x1 - b.x0),
-      wp.y.sub(float(b.z0)).add(b.res * 0.5).div(b.z1 - b.z0),
+      /* v2 bounds already start half a sample before the first texel centre.
+         Adding another half sample here shifted every surface 0.5 m. */
+      wp.x.sub(float(b.x0)).div(b.x1 - b.x0),
+      wp.y.sub(float(b.z0)).div(b.z1 - b.z0),
     );
     const inBounds = step(0, uvAtlas.x).mul(step(uvAtlas.x, 1))
       .mul(step(0, uvAtlas.y)).mul(step(uvAtlas.y, 1));
@@ -251,8 +280,11 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
     const fields = texture(atlas.texF, uvAtlas);
     const primaryId = ids.r.mul(255);
     const secondaryId = ids.g.mul(255);
+    /* This distance was compiled from the source vectors on a 25 cm grid, then
+       sampled onto the 1 m payload. Keep the close transition narrow; fwidth
+       expands it only when required for screen-space antialiasing. */
     const sdf = fields.r.mul(16).sub(8);
-    const edgeWidth = fwidth(sdf).mul(0.75).max(0.12);
+    const edgeWidth = fwidth(sdf).mul(0.75).max(0.22);
     const primaryWeight = smoothstep(edgeWidth.negate(), edgeWidth, sdf);
     const styleUv = (id, row) => vec2(id.add(0.5).div(STYLE_WIDTH), float((row + 0.5) / STYLE_ROWS));
     const primaryColor = texture(styleTexture, styleUv(primaryId, 0));
@@ -261,17 +293,40 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
     const secondaryShade = texture(styleTexture, styleUv(secondaryId, 1));
     const primaryMeta = texture(styleTexture, styleUv(primaryId, 2));
     const secondaryMeta = texture(styleTexture, styleUv(secondaryId, 2));
+    const primaryMow = texture(styleTexture, styleUv(primaryId, 3));
+    const secondaryMow = texture(styleTexture, styleUv(secondaryId, 3));
+    /* Curved vector meshes own the visible cut-grass and bunker silhouettes.
+       Remove those six classes from the coarse base atlas so no 1 m protrusion
+       can peek out beyond an exact overlay boundary. Natural and hard surfaces
+       remain atlas-driven. */
+    const vectorOverlayWeight = mix(secondaryMow.a, primaryMow.a, primaryWeight);
+    const nonOverlayAvailable = oneMinus(primaryMow.a.mul(secondaryMow.a));
     const active = mix(secondaryMeta.r, primaryMeta.r, primaryWeight).mul(inBounds);
     const roughColor = vec3(C.rough[0], C.rough[1], C.rough[2]);
     const classColor = mix(secondaryColor.rgb, primaryColor.rgb, primaryWeight);
-    const base = mix(roughColor, classColor, active);
+    const nonOverlayColor = mix(primaryColor.rgb, secondaryColor.rgb, primaryMow.a);
+    const underlayColor = mix(roughColor, nonOverlayColor, nonOverlayAvailable);
+    const base = mix(roughColor, mix(classColor, underlayColor, vectorOverlayWeight), active);
     const roughShade = vec3(
       SHADE[SURFACE.ROUGH][0], SHADE[SURFACE.ROUGH][1], SHADE[SURFACE.ROUGH][2],
     );
-    const classShade = mix(secondaryShade.rgb, primaryShade.rgb, primaryWeight);
-    const shade = mix(roughShade, classShade, active);
-    const strength = mix(float(0), mix(secondaryShade.a, primaryShade.a, primaryWeight), active);
-    const meta = mix(secondaryMeta, primaryMeta, primaryWeight).mul(inBounds);
+    const classShade = mix(secondaryShade, primaryShade, primaryWeight);
+    const nonOverlayShade = mix(primaryShade, secondaryShade, primaryMow.a);
+    const underlayShade = mix(roughShade, nonOverlayShade.rgb, nonOverlayAvailable);
+    const shade = mix(
+      roughShade,
+      mix(classShade.rgb, underlayShade, vectorOverlayWeight),
+      active,
+    );
+    const underlayStrength = nonOverlayShade.a.mul(nonOverlayAvailable);
+    const strength = mix(
+      float(0),
+      mix(classShade.a, underlayStrength, vectorOverlayWeight),
+      active,
+    );
+    const classMeta = mix(secondaryMeta, primaryMeta, primaryWeight);
+    const nonOverlayMeta = mix(primaryMeta, secondaryMeta, primaryMow.a).mul(nonOverlayAvailable);
+    const meta = mix(classMeta, nonOverlayMeta, vectorOverlayWeight).mul(inBounds);
 
     const detailScale = shade.x.max(0.45);
     const fine = texture(DETAIL, wp.mul(detailScale.mul(0.11))).r.sub(0.5);
@@ -281,7 +336,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
     const hardDetail = texture(DETAIL, wp.mul(0.13)).g.sub(0.5).mul(0.13);
     const surfaceDetail = mix(mix(turfDetail, sandDetail, meta.g), hardDetail, meta.b);
 
-    const mowK = texture(styleTexture, styleUv(primaryId, 3));
+    const mowK = primaryMow;
     const routeDistance = fields.g.mul(255 / 4);
     const ringDistance = fields.a.mul(255 * 0.16);
     const routeValid = oneMinus(step(0.999, fields.g));

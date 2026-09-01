@@ -7,6 +7,7 @@ import {
   assertTerrainPreview,
   resolveTerrainPreviewAssetUrl,
 } from '../../../../packages/course-v2/terrain-preview.mjs';
+import { verifyJsonDescriptorIntegrity } from './descriptor-integrity.mjs';
 
 const MAX_DESCRIPTOR_BYTES = 256 * 1024;
 const MAX_CONCURRENT_PREVIEW_REQUESTS = 4;
@@ -115,14 +116,9 @@ export async function loadTerrainPreview(descriptorUrl, {
   });
   const descriptorBytes = await responseBytes(descriptorResponse, MAX_DESCRIPTOR_BYTES);
   if (expectedDescriptorSha256 !== null) {
-    if (!/^[a-f0-9]{64}$/.test(expectedDescriptorSha256 || '') || !cryptoImpl?.subtle?.digest) {
-      throw new Error('terrain preview expected descriptor SHA-256 is invalid or unavailable');
-    }
-    const digest = new Uint8Array(await cryptoImpl.subtle.digest('SHA-256', descriptorBytes));
-    const actual = [...digest].map(byte => byte.toString(16).padStart(2, '0')).join('');
-    if (actual !== expectedDescriptorSha256) {
-      throw new Error(`terrain preview descriptor integrity mismatch: ${actual} != ${expectedDescriptorSha256}`);
-    }
+    await verifyJsonDescriptorIntegrity(
+      descriptorBytes, expectedDescriptorSha256, cryptoImpl, 'terrain preview',
+    );
   }
   let descriptor;
   try { descriptor = JSON.parse(decoder.decode(descriptorBytes)); }

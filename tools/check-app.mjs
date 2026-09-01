@@ -16,6 +16,7 @@ import path from 'node:path';
 import { chromium } from 'playwright-core';
 import { ROOT } from '../geobuild/lib.mjs';
 import { readCard } from '../packages/course-pack/lib.mjs';
+import { browserArgs } from './browser-args.mjs';
 
 /* SwiftShader boots the atlas build in minutes, not seconds; --boot-timeout
    raises it further when harnesses must share a CPU. */
@@ -35,7 +36,7 @@ const gate = (ok, msg) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${msg}`); if 
 
 const browser = await chromium.launch({
   ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }),
-  args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader', '--force-device-scale-factor=1'],
+  args: browserArgs(),
 });
 
 const courses = ONLY.length ? manifest.courses.filter(c => ONLY.includes(c.slug)) : manifest.courses;
@@ -70,6 +71,7 @@ async function checkCourse(c) {
   const got = await page.evaluate(() => ({
     holes: window.V3D.HOLES.map(h => ({ n: h.n, par: h.par, idx: h.idx, t: h.t })),
     teeLabels: [...document.querySelectorAll('#tees .tee i')].map(e => e.textContent),
+    teeOn: [...document.querySelectorAll('#tees .tee')].findIndex(e => e.classList.contains('on')),
     /* The element that names the course has moved once already: the shell
        rewrite replaced `.hd h1` with `#hdName`, and because this read the old
        selector directly it CRASHED the whole course check rather than failing
@@ -125,7 +127,39 @@ async function checkCourse(c) {
         const s = V.groundSample(mk.c[0], mk.c[1])?.surface;
         if (s !== 5 && s !== 3) teeMisses.push(`${h.n}/${mk.teeIdx}:${s}`);
       }
-      return { ...info, greenMisses, bunkerMisses, plates, teeMarks, teeMisses, perf: V.perf() };
+      /* A tee's two markers straddle the line: the axis between them must be
+         PERPENDICULAR to the direction of play. Measured against the hole line
+         at each mark, and -- because that is the same geometry the engine
+         derives the bearing from -- ALSO against the independent tee-to-green
+         vector, which comes from the GPS survey and never enters the bearing.
+         The first is the definition and is gated; the second cannot be exact on
+         a dogleg, so it is reported and gated only loosely. */
+      const axis = [];
+      for (const h of V.HOLES) {
+        const g = h.green && h.green.c;
+        for (const mk of (h.tees.marks || [])) {
+          const b = mk.b * Math.PI / 180;
+          const R = [-Math.cos(b), Math.sin(b)];
+          let best = Infinity, F = null;
+          for (let i = 0; i < h.line.length - 1; i++) {
+            const [x0, z0] = h.line[i], [x1, z1] = h.line[i + 1];
+            const dx = x1 - x0, dz = z1 - z0, L2 = dx * dx + dz * dz;
+            if (!L2) continue;
+            const t = Math.max(0, Math.min(1, ((mk.c[0] - x0) * dx + (mk.c[1] - z0) * dz) / L2));
+            const d = Math.hypot(mk.c[0] - (x0 + dx * t), mk.c[1] - (z0 + dz * t));
+            if (d < best) { best = d; F = [dx / Math.sqrt(L2), dz / Math.sqrt(L2)]; }
+          }
+          if (!F) continue;
+          const off = a => Math.abs(90 - Math.acos(Math.min(1, Math.abs(a))) * 180 / Math.PI);
+          const rec = { n: h.n, tee: mk.teeIdx, line: off(R[0] * F[0] + R[1] * F[1]) };
+          if (g) {
+            const gx = g[0] - mk.c[0], gz = g[1] - mk.c[1], gl = Math.hypot(gx, gz);
+            if (gl > 1) rec.green = off((R[0] * gx + R[1] * gz) / gl);
+          }
+          axis.push(rec);
+        }
+      }
+      return { ...info, greenMisses, bunkerMisses, plates, teeMarks, teeMisses, axis, perf: V.perf() };
     })(),
   }));
 
@@ -145,6 +179,19 @@ async function checkCourse(c) {
        'atlas contains fairway and green texels');
   gate(got.ground.greenMisses.length === 0, `green centre probes${got.ground.greenMisses.length ? ' miss holes ' + got.ground.greenMisses.join(',') : ''}`);
   gate(got.ground.bunkerMisses.length === 0, `bunker centre probes${got.ground.bunkerMisses.length ? ' miss holes ' + got.ground.bunkerMisses.join(',') : ''}`);
+  {
+    const ax = got.ground.axis;
+    const offLine = ax.filter(a => a.line > 1);
+    gate(offLine.length === 0,
+      `all ${ax.length} tee-marker pairs stand square across the line` +
+      (offLine.length ? ` -- ${offLine.length} do not (worst hole ${offLine.sort((p, q) => q.line - p.line)[0].n} at ${offLine[0].line.toFixed(1)}°)` : ''));
+    /* the independent half: the survey's own green direction. A dogleg legitimately
+       separates the two, so this is loose -- it is here to catch a bearing that is
+       square to the line while the line itself points somewhere absurd. */
+    const g = ax.filter(a => a.green != null).map(a => a.green).sort((p, q) => p - q);
+    const med = g.length ? g[g.length >> 1] : 0;
+    gate(med <= 25, `marker axes square to the surveyed green direction too (median ${med.toFixed(1)}°, worst ${(g[g.length - 1] || 0).toFixed(1)}°)`);
+  }
   gate(got.ground.teeMisses.length === 0,
     `all ${got.ground.teeMarks} tee markers stand on tee grass` +
     (got.ground.teeMisses.length ? ` -- ${got.ground.teeMisses.length} do not (hole/tee:surface ${got.ground.teeMisses.slice(0, 4).join(' ')})` : ''));
@@ -227,6 +274,12 @@ async function checkCourse(c) {
   gate(wet.out.length === 0, `nothing submerged${wet.out.length ? ' -- ' + wet.out.slice(0, 3).join('; ') : ' (36 probes)'}`);
   gate(JSON.stringify(got.teeLabels) === JSON.stringify(c.tees.names),
     `tee row shows [${got.teeLabels.join(', ')}]`);
+  /* A bare visit opens on the yellow tee, on every course. Asserted against the
+     manifest's own colour rather than its `def` index, so the gate and the
+     generator cannot agree with each other while both being wrong -- and by
+     COLOUR rather than name, since two cards name their tees by course rating. */
+  gate(got.teeOn === c.tees.cols.indexOf(0xf0c93a),
+    `opens on the yellow tee (${c.tees.names[got.teeOn]})`);
   gate(got.header === c.name, `header says "${got.header}"`);
   gate(got.title === c.title, 'document title set from the manifest');
   const isDefault = c.slug === manifest.courses[0].slug;
