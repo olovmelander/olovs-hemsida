@@ -1006,6 +1006,21 @@ Deliverables:
   pipeline can grant this; someone must place the order. Until then the
   surface question stays open, because the DTM has now been measured and
   cannot answer it.
+  **Checked again, and the licence is not the obstacle.** The imagery STAC
+  catalogue answers unauthenticated, lists 731 collections, and every one of
+  them — `orto-u2-2024` included — is **CC-BY-4.0**. Thirteen campaigns cover
+  this AOI, 1958 to 2024. The collection carries no alternative access link:
+  `dl1.lantmateriet.se` is the only channel, and it answers **401 with no
+  credentials and 403 with ours**. So the data is openly licensed and the
+  DELIVERY is what is gated, which is a different sentence from the one this
+  plan had been carrying.
+  Two things follow. The 401/403 split is now reported separately rather than
+  sharing a `forbidden` flag, because one is a missing secret on our side and
+  the other is an unplaced order — and sending someone to Geotorget to fix a
+  secrets problem wastes a week. And after the order lands, derived rasters
+  could be committed with attribution rather than statistics only; the
+  retention caution stays for GDPR, which applies to high-resolution aerial
+  imagery whatever the copyright terms say.
 - [x] **Canopy from the one source this account can actually read.** With the
   bare-earth DTM measured and unable to resolve golf surfaces, the orthophoto
   refused and Skogsstyrelsen's tree-height raster answering 401, Laserdata Skog

@@ -166,9 +166,14 @@ export async function probeOrthoAccess(report, { credentials, fetchImpl = global
     readable,
     total: assets.length,
     authorized: readable === assets.length,
-    /* 403 with valid credentials that work for another product is an
-       entitlement answer, not a transport failure. */
+    /* Measured, not assumed: the same asset answers 401 with no credentials
+       and 403 with credentials that read Markhöjdmodell in the same run. So
+       the two codes name different problems and must not share a field --
+       401 is a secrets problem on our side, 403 is an order that has not been
+       placed at Geotorget. Telling someone to place an order when the real
+       fault is a missing secret wastes a week. */
     forbidden: assets.every(asset => asset.status === 403),
+    unauthenticated: assets.every(asset => asset.status === 401),
   });
 }
 

@@ -152,3 +152,45 @@ test('an entitlement gap is separated from a transport failure', async () => {
   assert.equal(seen.headers.Range, 'bytes=0-15');
   assert.ok(String(seen.headers.Authorization).startsWith('Basic '));
 });
+
+test('401 and 403 are different problems and are reported as such', async () => {
+  /* Measured against the live service: the same asset answers 401 with no
+     credentials and 403 with credentials that read Markhöjdmodell in the same
+     run. Telling someone to place a Geotorget order when the real fault is a
+     missing secret wastes a week, so the two never share a field. */
+  const report = {
+    orthophoto: {
+      collection: 'orto-u2-2024',
+      items: [
+        { id: 'a', assets: { data: { href: 'https://dl1.lantmateriet.se/bild/data/orto/x/a.tif' } } },
+        { id: 'b', assets: { data: { href: 'https://dl1.lantmateriet.se/bild/data/orto/x/b.tif' } } },
+      ],
+    },
+  };
+  const answering = status => async () => new Response(null, { status });
+
+  const denied = await probeOrthoAccess(report, {
+    credentials: { type: 'basic', username: 'u', password: 'p' },
+    fetchImpl: answering(403),
+  });
+  assert.equal(denied.authorized, false);
+  assert.equal(denied.forbidden, true);
+  assert.equal(denied.unauthenticated, false);
+
+  const anonymous = await probeOrthoAccess(report, {
+    credentials: { type: 'basic', username: 'u', password: 'p' },
+    fetchImpl: answering(401),
+  });
+  assert.equal(anonymous.authorized, false);
+  assert.equal(anonymous.forbidden, false);
+  assert.equal(anonymous.unauthenticated, true);
+
+  /* And a granted order reads: neither flag is set. */
+  const granted = await probeOrthoAccess(report, {
+    credentials: { type: 'basic', username: 'u', password: 'p' },
+    fetchImpl: async () => new Response(new Uint8Array(16), { status: 206 }),
+  });
+  assert.equal(granted.authorized, true);
+  assert.equal(granted.forbidden, false);
+  assert.equal(granted.unauthenticated, false);
+});

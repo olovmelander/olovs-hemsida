@@ -135,9 +135,19 @@ async function main() {
       /* An entitlement gap is a fact about the account, not a broken build:
          it is reported and the run continues. */
       note: access.forbidden
-        ? 'every orthophoto asset returned HTTP 403 to credentials that read Markhöjdmodell in the same run: this account has not completed the separate Ortofoto Nedladdning order and legal review at Geotorget'
-        : 'the orthophoto campaign could not be read with the configured credentials',
-      nextAction: 'order Ortofoto Nedladdning for this account at geotorget.lantmateriet.se and re-run; no code change will grant access',
+        ? 'every orthophoto asset returned HTTP 403 to credentials that read Markhöjdmodell in the same run: this account is authenticated but has not completed the separate Ortofoto Nedladdning order at Geotorget'
+        : access.unauthenticated
+          ? 'every orthophoto asset returned HTTP 401, which is what the service answers with no credentials at all: this is a secrets problem on our side, not an entitlement one'
+          : 'the orthophoto campaign could not be read with the configured credentials',
+      nextAction: access.unauthenticated
+        ? 'check that LANTMATERIET_USERNAME and LANTMATERIET_PASSWORD reached this step before assuming anything about entitlement'
+        : 'order Ortofoto Nedladdning for this account at geotorget.lantmateriet.se and re-run; no code change will grant access',
+      /* The collection metadata says CC-BY-4.0, so the licence is open and the
+         DELIVERY is what is gated. That distinction matters after the order
+         lands: derived rasters could then be committed with attribution
+         instead of statistics only. It does not touch GDPR, which applies to
+         high-resolution aerial imagery regardless of copyright terms. */
+      licence: 'CC-BY-4.0 per the STAC collection; open licence, gated delivery',
     };
     if (out) {
       fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
