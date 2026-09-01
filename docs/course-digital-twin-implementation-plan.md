@@ -2052,6 +2052,9 @@ window, and the triangle budget — 64 tiles at 1 m is 8.5 M triangles against
 today's 2.1 M, which the render stride can absorb without touching either the
 1 m CPU sampler or the 1 m atlas.
 
+*(Written before the widening shipped. All three were settled; the section
+below says how, and which of this section's predictions turned out wrong.)*
+
 ### The wide pilot shipped, and three of its four predictions held
 
 It is live behind `?v2=1`, measured in Chromium against the built app rather
