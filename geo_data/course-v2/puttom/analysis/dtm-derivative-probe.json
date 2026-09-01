@@ -3,7 +3,7 @@
   "kind": "puttom-terrain-derivatives",
   "accuracyTier": "C",
   "claim": "geometric candidates from the published 1 m height model; not surveyed sand outlines",
-  "verdict": "the height model does NOT resolve these bunkers: their local relief overlaps ordinary course ground, so no depth threshold can isolate them. Surface boundaries need a source that measures reflectance, not shape.",
+  "verdict": "the height model does NOT resolve ANY of these surface classes: bunkers overlap ordinary course ground on relief, and greens, fairways and bunkers all overlap it on smoothness, against a control restricted to mown ground. Greens are genuinely flatter at the median, but ordinary course ground has a flat tail of its own, so no threshold isolates them. Surface boundaries need a source that measures reflectance, not shape.",
   "source": {
     "groundManifestSha256": "d91b128eef40b86139a9a9b61a0f3bb5e4e2ae95f81ca650b6b424faefbb43f7",
     "lod0Tiles": 64,
@@ -162,6 +162,8 @@
   },
   "separability": {
     "question": "is a bunker distinguishable from ordinary course ground by local relief alone?",
+    "controlRule": "lattice over the played extent, restricted to open ground by the committed tree-cover raster",
+    "controlForestRejected": 184,
     "referenceReliefMetres": {
       "count": 41,
       "median": 0.429,
@@ -171,16 +173,84 @@
       "maximum": 0.817
     },
     "controlReliefMetres": {
-      "count": 256,
-      "median": 0.273,
+      "count": 300,
+      "median": 0.19,
       "p10": 0,
-      "p90": 0.726,
-      "minimum": -0.678,
-      "maximum": 2.114
+      "p90": 0.605,
+      "minimum": -0.253,
+      "maximum": 1.894
     },
-    "medianExcessMetres": 0.156,
+    "medianExcessMetres": 0.239,
     "separable": false,
-    "controlPoints": 256
+    "controlPoints": 300
+  },
+  "surfaceSmoothness": {
+    "question": "can terrain ruggedness tell a green, a fairway or a bunker from ordinary MOWN course ground?",
+    "statistic": "mean absolute height difference to the eight neighbours, median over a 4 m disc",
+    "controlRuggednessMetres": 300,
+    "greens": {
+      "direction": "less",
+      "reference": {
+        "count": 18,
+        "median": 0.032,
+        "p10": 0.019,
+        "p90": 0.045,
+        "minimum": 0.014,
+        "maximum": 0.05
+      },
+      "control": {
+        "count": 300,
+        "median": 0.049,
+        "p10": 0,
+        "p90": 0.118,
+        "minimum": 0,
+        "maximum": 0.307
+      },
+      "medianExcess": 0.017,
+      "separable": false
+    },
+    "fairways": {
+      "direction": "less",
+      "reference": {
+        "count": 20,
+        "median": 0.05,
+        "p10": 0.035,
+        "p90": 0.097,
+        "minimum": 0.025,
+        "maximum": 0.116
+      },
+      "control": {
+        "count": 300,
+        "median": 0.049,
+        "p10": 0,
+        "p90": 0.118,
+        "minimum": 0,
+        "maximum": 0.307
+      },
+      "medianExcess": -0.001,
+      "separable": false
+    },
+    "bunkers": {
+      "direction": "greater",
+      "reference": {
+        "count": 41,
+        "median": 0.087,
+        "p10": 0.054,
+        "p90": 0.144,
+        "minimum": 0.033,
+        "maximum": 0.169
+      },
+      "control": {
+        "count": 300,
+        "median": 0.049,
+        "p10": 0,
+        "p90": 0.118,
+        "minimum": 0,
+        "maximum": 0.307
+      },
+      "medianExcess": 0.038,
+      "separable": false
+    }
   },
   "crossCheck": {
     "referenceSource": "geo_data/course-v2/puttom/migration/course-model.epsg3006.json (OSM-derived, never entered the height model)",
@@ -197,5 +267,5 @@
     "medianDistanceMetres": null,
     "maximumDistanceMetres": null
   },
-  "elapsedMilliseconds": 12295
+  "elapsedMilliseconds": 14187
 }

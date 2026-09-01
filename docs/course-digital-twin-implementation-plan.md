@@ -1145,6 +1145,31 @@ Deliverables:
   An empty histogram read as "no classification data" when it meant "the parser
   did not understand it" — the worst thing a diagnostic can do, and the reason
   the first instrumented run could not finish the diagnosis.
+- [x] **With a club relationship ruled out, the height model was re-asked
+  properly — and it closes the shape route for good.** The committed probe had
+  tested BUNKERS ONLY, against the same forest-contaminated lattice as the
+  orthophoto script (39% here), and its verdict was then quoted as if it
+  covered surfaces generally. Re-run against a control restricted to mown
+  ground, and extended to greens and fairways by the statistic that suits them
+  — a green is a graded PLATFORM, so smoothness, not depth; local relief is an
+  annulus measure built for depressions and correctly reads ~0 over a flat
+  green:
+
+  | class | ruggedness median | mown control median | control p10 | control p90 | separable |
+  |---|---:|---:|---:|---:|---|
+  | greens | 0.032 | 0.049 | 0.000 | 0.118 | no |
+  | fairways | 0.050 | 0.049 | 0.000 | 0.118 | no |
+  | bunkers | 0.087 | 0.049 | 0.000 | 0.118 | no |
+
+  Every direction is physically right — greens smoothest, bunkers roughest —
+  and none separates. Greens really are flatter at the median, but mown course
+  ground has a flat tail of its own (control p10 is 0.000), so no threshold
+  isolates them. The bunker relief verdict also SURVIVES the clean control
+  (0.429 against 0.186, control p90 0.590), so that finding was robust; it was
+  simply narrower than it had been quoted as.
+  The practical consequence: shape is exhausted. No amount of cleverness with
+  the 1 m DTM will produce surface outlines, and the plan should stop leaving
+  that door ajar.
 - [x] **Asked whether another imagery source could start the work now, and
   measured it rather than guessed: Esri World Imagery cannot do this job.**
   It is already in this repo as the canopy authority for all six courses, it
