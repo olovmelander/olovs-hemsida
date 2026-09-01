@@ -1557,15 +1557,20 @@ Deliverables:
   tiers: CORE at 4 m over the play area, MID at 12 m over the rest of the GPK1
   fine field, and the FAR vista ring at 36 m. Only CORE is cut, but it is now
   cut almost entirely: **118,987 of 123,175 base points, 96.6%**, measured live
-  in Chromium and not planned. The 4,188 that survive are the corners the
-  rotation leaves outside the frontier's axis-aligned inscribed rectangle.
+  in Chromium and not planned.
   **What used to make the rest hard has gone.** The blocker recorded here was
   that the v2 frontier was SMALLER than CORE — 1024 × 1024 m against
   1296 × 1512 m, leaving 48% of CORE as real ground nothing else drew. Widening
-  the pilot to the published graph's own 2,048 m window removed that: the
-  frontier now contains CORE rather than sitting inside it, and the clamped
-  cutout takes everything the bridge's rotation allows. What remains is
-  arithmetic on a rotated rectangle, not missing data.
+  the pilot to the published graph's own 2,048 m window removed that: rotated
+  into the legacy frame it inscribes 1927 × 1930 m, which contains CORE whole,
+  so the intersection the planner cuts IS CORE.
+  **The 4,188 points that survive are not a shortfall.** 319 × 373 of 325 × 379
+  is exactly CORE minus a three-point border, and that border is the 8 m
+  normal/detail guard doing its job: the legacy mesh has to still exist along
+  the seam for normals and detail to blend into it. So for CORE the answer to
+  "can v2 stand alone" is yes, and 96.6% is what standing alone looks like with
+  a stitching allowance — not 96.6% of the way there. Driving it to 100% would
+  mean deleting the seam, which would show as a visible edge.
   What the app still constructs synchronously in v2 mode is MID and FAR, plus
   those 4,188 CORE corners — down from 67,006. MID also shrank, because it is
   now excluded against the same wider frontier. Neither tier's total has been
@@ -2069,13 +2074,17 @@ surface atlas is new bytes. The triangle prediction held exactly — 2,162,688 a
 render stride 2, against the 8.5 M the section above warned of at stride 1.
 
 **The prediction that did not hold is "CORE is not built at all."** 118,987 of
-123,175 base points are omitted — 96.6%, not 100%. The frontier does swallow
-CORE, but the legacy builder can only omit an axis-aligned rectangle, and the
-bridge rotates the footprint 3.5°, so the inscribed rectangle leaves 4,188
-points in the corners. `planV2LegacyCutout` now clamps its rectangle to the
-grid rather than refusing a frontier larger than CORE, which is what makes the
-96.6% possible at all; the residue is arithmetic on a rotated rectangle and
-nothing is missing.
+123,175 base points are omitted — 96.6%, not 100% — and the reason is worth
+being precise about, because the obvious explanation is wrong. It is *not* the
+3.5° rotation leaving corners: the frontier inscribes 1927 × 1930 m and
+swallows CORE whole, so the intersection the planner cuts is CORE itself.
+319 × 373 against 325 × 379 is CORE minus a **three-point border**, which is
+the 8 m normal/detail guard. The legacy mesh must still exist along the seam
+for normals and detail to blend into it, so those 4,188 points are the
+stitching allowance, not a residue. `planV2LegacyCutout` had to learn to clamp
+its rectangle to the grid rather than refuse a frontier larger than CORE, which
+is what makes even 96.6% reachable; driving it to 100% would mean deleting the
+seam and would show as a visible edge.
 
 **The surface layer could not take the terrain layer's extent, and saying so
 cost three fall-backs.** All 64 tiles of 1 m surface decode to ~56 MiB against
