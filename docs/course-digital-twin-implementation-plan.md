@@ -1,12 +1,13 @@
 # Course digital twin — terrain, surfaces and real-world objects
 
-> **Status 2026-08-31:** D0–D4 foundations are implemented and the retained
-> Puttom pilot now has an interactive, opt-in `?v2=1` preview: 16 verified 1 m
-> terrain BVCH tiles and 16 matching migration-surface BVCH tiles replace the
-> matching legacy core in one logical terrain draw. The renderer now compiles
-> and draws that complete v2 batch offscreen before legacy construction and
-> omits 56,169 of Puttom's 123,175 CORE base-grid points behind an 8 m normal/
-> detail guard. The bridge into the legacy frame now carries the derived
+> **Status 2026-09-01:** D0–D4 foundations are implemented and the retained
+> Puttom pilot now has an interactive, opt-in `?v2=1` preview that covers the
+> **whole course**: 64 verified 1 m terrain BVCH tiles over 2,048 × 2,048 m and
+> 30 matching migration-surface BVCH tiles over the played window inside them,
+> replacing the matching legacy core in one logical terrain draw. The renderer
+> compiles and draws that complete v2 batch offscreen before legacy
+> construction and omits **118,987 of Puttom's 123,175** CORE base-grid points
+> — 96.6% — behind an 8 m normal/detail guard, leaving 4,188 for GPK1. The bridge into the legacy frame now carries the derived
 > meridian convergence and the frame's own scale, which took the pilot's
 > disagreement with PROJ from a 21 m median to 1.7 cm. Actual builder omissions, not planned counts, enter the capture
 > gate. Any later install failure disables v2 heights, disposes v2 and rebuilds
@@ -38,11 +39,15 @@
 > as a real course/ground graph that the live app resolves and verifies. The
 > retained 1,024 m window could not describe the whole course — hole 16 lay
 > wholly outside it — so a second 2,049 m window was taken from the same
-> authenticated DTM item, and the retained pilot is an exact subgrid of it:
+> authenticated DTM item, and the retained pilot was an exact subgrid of it:
 > 1,056,778 of 1,056,784 samples identical, the remaining six tied at one
 > centimetre quantum between two compilations with different quantization
-> origins. Activating the streaming renderer against that graph is now a
-> rendering-evidence question, not an acquisition one. D5 now has
+> origins. **The pilot is now that wider window itself.** Rather than carry a
+> second extraction of the same ground, it lists the published graph's own 64
+> finest chunks, which made the repository smaller — 1.68 MB to 0.73 MB —
+> because only the surface atlas is new bytes. Activating the streaming
+> renderer against that graph is now a rendering-evidence question, not an
+> acquisition one. D5 now has
 > a strict 14-byte lossless
 > surface-grid contract for primary/secondary class IDs, signed boundary
 > distance, owning feature, mow fields and material fields. Its first Puttom
@@ -1550,22 +1555,25 @@ Deliverables:
   **Scoped, and the blocker is not where it looks.** The legacy builder is one
   function, `buildTerrain`, run three times at boot for three complementary
   tiers: CORE at 4 m over the play area, MID at 12 m over the rest of the GPK1
-  fine field, and the FAR vista ring at 36 m. Only CORE is cut today, and only
-  by the retained pilot's 1024 m frontier — 56,169 of 123,175 base points, the
-  frontier's axis-aligned inscribed rectangle once the frame bridge rotates it.
-  In v2 mode the app still constructs roughly 208,700 legacy base points
-  synchronously, so the cutout is about 21% of the whole.
-  What makes the rest hard is not the builder. It is that **the v2 frontier is
-  smaller than CORE**: 1024 × 1024 m against 1296 × 1512 m, so the surviving
-  48% of CORE is real ground that nothing else draws. The data to replace it
-  already exists and was verified against the committed manifest — the
-  published 85-chunk graph covers the whole legacy CORE with margins of
-  445.5/306.5/96.8/439.2 m west/east/north/south, because
-  `puttomRequiredBoundsEpsg3006()` derives its AOI from the cutout contract's
-  own `expectedCoreGrid`. What does not exist is a renderer that will draw it:
-  the generic streaming path above is gated, and its activation needs timings
-  a software rasteriser cannot produce. So this deliverable is downstream of
-  hardware, not of more code in `main.js`.
+  fine field, and the FAR vista ring at 36 m. Only CORE is cut, but it is now
+  cut almost entirely: **118,987 of 123,175 base points, 96.6%**, measured live
+  in Chromium and not planned. The 4,188 that survive are the corners the
+  rotation leaves outside the frontier's axis-aligned inscribed rectangle.
+  **What used to make the rest hard has gone.** The blocker recorded here was
+  that the v2 frontier was SMALLER than CORE — 1024 × 1024 m against
+  1296 × 1512 m, leaving 48% of CORE as real ground nothing else drew. Widening
+  the pilot to the published graph's own 2,048 m window removed that: the
+  frontier now contains CORE rather than sitting inside it, and the clamped
+  cutout takes everything the bridge's rotation allows. What remains is
+  arithmetic on a rotated rectangle, not missing data.
+  What the app still constructs synchronously in v2 mode is MID and FAR, plus
+  those 4,188 CORE corners — down from 67,006. MID also shrank, because it is
+  now excluded against the same wider frontier. Neither tier's total has been
+  measured since the widening and neither is claimed here; both describe ground
+  outside the course, which the pilot does not cover and should not cut. So the
+  deliverable as written is essentially done for CORE, and what is left of it
+  is the generic streaming path, still gated, whose activation needs timings a
+  software rasteriser cannot produce.
   Three specifics found while scoping, none of them recorded before:
   - **Almost nothing reads the legacy mesh.** Water, scatter, roads, buildings,
     camera, interactions and the overlays all read the height *sampler*, which
@@ -2038,6 +2046,75 @@ What is still open: the vertical datum above, the surface atlas over the wider
 window, and the triangle budget — 64 tiles at 1 m is 8.5 M triangles against
 today's 2.1 M, which the render stride can absorb without touching either the
 1 m CPU sampler or the 1 m atlas.
+
+### The wide pilot shipped, and three of its four predictions held
+
+It is live behind `?v2=1`, measured in Chromium against the built app rather
+than against JSON: `status: ready`, 64 tiles, **one draw call**, and every
+played feature standing on 1 m Lantmäteriet terrain. `V3D.heightSample` reports
+which of the three height sources each point actually resolved to, so this is
+the renderer's own answer and not the model's:
+
+| feature | on `v2-preview` |
+|---|---:|
+| greens | 18 / 18 |
+| bunkers | 41 / 41 |
+| tee pads (runtime, incl. the per-card-tee inference) | 72 / 72 |
+| hole centre-line vertices | 53 / 53 |
+| green centres painted GREEN in the atlas | 18 / 18 |
+
+The repository got **smaller**: 1.68 MB to 0.73 MB, because the pilot lists the
+published graph's chunks instead of carrying a second extraction, and only the
+surface atlas is new bytes. The triangle prediction held exactly — 2,162,688 at
+render stride 2, against the 8.5 M the section above warned of at stride 1.
+
+**The prediction that did not hold is "CORE is not built at all."** 118,987 of
+123,175 base points are omitted — 96.6%, not 100%. The frontier does swallow
+CORE, but the legacy builder can only omit an axis-aligned rectangle, and the
+bridge rotates the footprint 3.5°, so the inscribed rectangle leaves 4,188
+points in the corners. `planV2LegacyCutout` now clamps its rectangle to the
+grid rather than refusing a frontier larger than CORE, which is what makes the
+96.6% possible at all; the residue is arithmetic on a rotated rectangle and
+nothing is missing.
+
+**The surface layer could not take the terrain layer's extent, and saying so
+cost three fall-backs.** All 64 tiles of 1 m surface decode to ~56 MiB against
+the compiler's 32 MiB active budget, and three fifths of those bytes would
+describe rough. Coarsening the raster would be the wrong economy — a green's
+edge is the entire point of that layer — so the surface covers only the tiles
+the played ground touches plus a 32 m margin: **30 tiles**, 0.73 MB encoded,
+26.5 MiB decoded. Making it a subset then failed closed in four separate
+places, each of which had quietly encoded "surface count == terrain count":
+the loader's descriptor validation, the adapter's descriptor check, the
+adapter's render-resource check, and the build gate. That is the fail-closed
+contract working exactly as intended — every one of them refused to render
+something half-verified rather than guess — but it is worth recording that a
+single reviewed number living in four files is a design smell, and that each
+one only surfaced once the one before it was fixed.
+
+A fifth place was worse and was not about counts at all: the preflight asked
+the surface atlas whether it contained the corner at `(bounds.x1,
+bounds.z1)`. No atlas has ever contained that point — `indexAt` floors into a
+`w × h` grid, so `x1` is one resolution step past the last addressable sample.
+The check had only ever passed by short-circuit. Its fixture described an atlas
+that does not exist, inclusive at both ends and carrying no `res`, which is the
+same trap as a checker that hardcodes the rule it is checking: it agreed with
+the bug and would have agreed just as readily with the fix.
+
+**And a transport bug the wide pilot surfaced by accident.** Both preview
+loaders read `content-length` with `Number()`. `Number(null)` is 0 and finite,
+so a host that does not declare a length — every host answering with chunked
+transfer encoding, this repo's own `tools/serve.mjs` among them — had every
+chunk rejected as "declares 0 bytes" and the whole v2 path fell back to GPK1.
+It was invisible because the two capture harnesses both set the header and
+every loader fixture built its `Response` with one. Nothing was weakened by
+fixing it: the budget is still enforced on the stream, the authoritative count
+is still the bytes that arrived, and the sha256 is still verified after that.
+
+Still open, unchanged: the canopy residual in the vertical datum (Terrarium
+carries treetops, so the legacy comparison in forest is not a datum error), and
+the generic streaming renderer, still gated on timings a software rasteriser
+cannot produce.
 
 ### A gate that crashes has stopped being a gate
 
