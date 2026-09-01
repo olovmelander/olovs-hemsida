@@ -1476,6 +1476,62 @@ Deliverables:
 Gate: terrain accuracy/seam checks pass and the shell/active-hole performance
 budgets are met on the pilot grounds.
 
+### How good the terrain actually is, measured
+
+Asked directly: hills, hollows, slope, heights, depths. Three separate answers,
+because the data, the shipped product and the render grid are not the same
+thing.
+
+**Heights and landform: good.** Lantmäteriet's Markhöjdmodell at 1 m declares
+0.1 m vertical and 0.3 m horizontal uncertainty (tier B) — and the source
+manifest already says the right thing about it, that these are
+*source-advertised uncertainty, not independent course residuals*. Nobody has
+checked it against controls on these courses. Tee-to-green rises run −12.9 m
+to +12.5 m, which are plausible course numbers.
+
+**But that is not what ships.** The default GPK1 pages carry AWS Terrarium
+heights, stored at 4 m and **quantised to 0.1 m steps**. Compared against the
+1 m DTM resampled to the same 4 m grid, so the comparison is fair:
+
+| | slope median | slope p90 | curvature median | curvature p99 |
+|---|---:|---:|---:|---:|
+| legacy Terrarium @4 m | 12.37% | 37.79% | 0.150 m | 0.750 m |
+| Lantmäteriet 1 m @4 m | 7.71% | 22.36% | 0.150 m | 1.245 m |
+
+Legacy is **noisier everywhere and flatter at the extremes** — its fine texture
+is largely quantisation and resampling artefact, while the genuine sharp
+features of the real ground (banks, ditch edges, breaks) are missing from it.
+A 0.1 m step on a 4 m grid is a 2.5% slope artefact on its own, which is most
+of that inflated median.
+
+**And the binding constraint is the render grid, not the data.** CORE samples
+at 4 m whatever the source:
+
+| feature | median size | samples at 4 m | at 1 m |
+|---|---:|---:|---:|
+| green | 32.8 m | 8.2 | 33 |
+| bunker | 11.0 m | **2.7** | 11 |
+| smallest bunker | 7.2 m | **1.8** | 7 |
+
+A bunker spanning 2.7 terrain samples cannot have a lip, a floor and a back
+wall; it can only be a dimple. Green contouring — breaks of 0.2–0.5 m over
+5–15 m — needs several samples per break and gets eight across the whole
+green. Resampling the 1 m data to 4 m also *raises* measured median curvature
+from 0.055 m to 0.150 m, which is aliasing: the coarse mesh inventing
+roughness it cannot resolve.
+
+So, ranked honestly: elevation and landform are good, slope is currently
+overstated by legacy noise, and hollows, swales, green contour and bunker
+depth are effectively absent — not because the data lacks them, but because
+the pipeline discards them twice, once by shipping Terrarium and once by
+meshing at 4 m.
+
+**The largest single lever for terrain realism is therefore the CORE grid, not
+the data source.** Taking the play corridor from 4 m to 1–2 m is what makes a
+bunker a bunker. It is also the change that the terrain-mesh work in D4 has to
+account for, and it interacts with the memory budget the tile manager exists
+to hold.
+
 ### The largest alignment error in the system is a 3.5° frame rotation
 
 Found while measuring whether OSM greens are accurate enough to skip the
