@@ -95,6 +95,31 @@
    order, and ask the club for its drawings. A third account problem sits
    beside them, smaller only because it blocks canopy rather than surface:
    Skogsstyrelsen has answered HTTP 401 to every tree-height probe so far.
+   **And "ask the club" is now a much more specific question than it was.**
+   LiveCaddie is Mapping Industries AB of Västervik — 25 years of golf mapping
+   and 3D modelling, selling mapping-as-a-service plus MiCourse, MiRate and a
+   pin-placement system to clubs, federations and course architects, across 738
+   courses in 14 countries. Their accuracy is not a dataset we are failing to
+   find; it is a commercial relationship that puts surveyors on the property.
+   Two of our six clubs are already their customers: the listing carries
+   **"Veckefjärdens Golf Club"**, **"Örnsköldsviks Golfklubb Puttom"** and
+   **"Puttoms 18 hål"** — the two grounds this project has taken furthest.
+   So for those two the surveyed geometry already exists and the club is the
+   paying customer, which is standing we do not have. The ask stops being "do
+   you have any drawings?" and becomes "you have commissioned course mapping;
+   may we have the underlying geometry, or may your supplier release it to us?"
+   What that would actually buy is worth stating so nobody over-expects it.
+   Their product is 2D polygons, distances and a flyover; flyover relief can
+   come from the same national DEM we already hold. On TERRAIN we are probably
+   at or above them — 1 m Lantmäteriet DTM in RH 2000, agreeing with the
+   retained preview to the centimetre across a million samples. What we would
+   gain is precisely the open D5 gap: surveyed green, fairway and bunker
+   outlines. That is the "perfectly aligned" part, and nothing else on the
+   table supplies it.
+   What is NOT a route: harvesting their app or web viewer. That is another
+   company's per-club commercial product, and this plan's own tier rules
+   forbid dressing someone else's proprietary geometry as an authoritative
+   source. The legitimate path runs through the club.
 3. Verify authoritative centre/edge/seam probes and approve WebGPU plus
    forced-WebGL2 grazing-angle goldens before any course can use v2 by default.
 4. Compile one real Puttom object tile from allowed sources, review every zone-A
