@@ -1720,9 +1720,9 @@ never entered the derivation:
 3. **Against a fit nobody had read.** Those same migration directories already
    carried a similarity fitted over the same geometry, and its rotation column
    is the convergence: −3.5262° at Puttom against a derived 3.5221°, and every
-   other ground within 86 arcsec. **The number was already measured, committed
-   and sitting in the repository the whole time this was being called an open
-   question. Nobody had read that column.**
+   other ground within 86 arcsec. **It was already measured and committed while
+   the rotation was still being written up here as an open question — nobody
+   had read that column.**
 4. **Against the legacy terrain**, sampled through the shipped bridge on the
    played ground — greens, fairways and tee pads, where both products describe
    the same mown surface:
@@ -1754,10 +1754,10 @@ deriving rather than fitting.
 **What it touched, and what it deliberately did not.**
 
 - `alignTerrainPreviewToLegacyFrame` keeps the tiles on their own axis-aligned
-  grid and puts rotation and scale in the bridge, so the sampler, the tile
-  lattice and the surface atlas all keep working in grid space where they are
-  still rectangles. Only the two surfaces that face the legacy world convert:
-  `sample()`, and the render group's matrix.
+  grid and puts rotation and scale in the bridge, so the sampler and the tile
+  lattice keep working in grid space where they are still rectangles. Only the
+  two surfaces that face the legacy world convert: `sample()`, and the render
+  group's matrix.
 - The group's matrix is composed as **scale after rotation**, which a Group's
   own `T·R·S` cannot express once the scale is anisotropic.
 - The legacy CORE cutout now plans against the INSCRIBED legacy rectangle,
