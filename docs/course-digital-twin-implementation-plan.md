@@ -1497,6 +1497,17 @@ Deliverables:
   post-decision failure rebuilds the complete
   GPK1 CORE from GPK1 heights. All three real-app captures require actual builder
   telemetry rather than planned counts.
+- [x] **Whole-course pilot coverage.** The frontier is 64 verified terrain BVCH
+  tiles over 2,048 × 2,048 m — the published graph's own finest level, listed
+  rather than re-extracted — with a 30-tile surface subset over the played
+  window. Measured live in Chromium through `V3D.heightSample`, which reports
+  the source each height actually resolved to: 18/18 greens, 41/41 bunkers,
+  72/72 runtime tee pads and 53/53 hole centre-line vertices stand on
+  `v2-preview`, and 18/18 green centres are painted GREEN in the surface atlas.
+  The CORE cutout rose to 118,987 of 123,175 base points (96.60%); the 4,188
+  that remain are the three-point stitching border the 8 m normal/detail guard
+  requires, not uncovered ground. The earlier 16-tile entries below record what
+  was true when they were measured and are left as written.
 - [x] Fail-closed fixed-frontier live adapter selection behind the existing v2
   flag after both visual paths passed. It owns validation, batch lifecycle,
   construction/visible-height gates, fallback and telemetry for the retained
