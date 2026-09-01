@@ -5,6 +5,25 @@
 > be stabilized first, and the replacement path must pass the gates below before
 > becoming the default.
 
+### Implementation checkpoint — 2026-09-01
+
+- Phase 0's dual-surface regression is removed: ready v2 terrain now creates
+  zero course-surface overlay meshes, and the terrain material no longer
+  suppresses the six former overlay-owned classes.
+- The committed 30-tile preview surface generation is internally atomic and
+  remains pinned to descriptor SHA-256 `e0c0ba27322d7426f50a1c1890788a43914ff6ab573d6f31f6c40158887eff1c`.
+  It was not rolled back as part of stabilization.
+- Phase 1 foundations are available behind `surfaceDebug=weights`: an unlit
+  categorical view of the current normalized `pair-sdf-v1` weights and a
+  shader-equivalent `V3D.v2SurfaceProbe(x, z)` diagnostic.
+- The exact `?bana=puttom&v2=require` path passes mobile and desktop WebGL2
+  software capture with one v2 terrain draw and zero course-surface overlays.
+  The local software-WebGPU run timed out before reaching terminal state, so
+  WebGPU capture/readback remains an open fail-closed gate rather than accepted
+  evidence.
+- The final per-class SDF payload, exact EDT compiler, multi-class shader,
+  visual matrix, and measured hardware performance gates remain pending.
+
 ## Executive decision
 
 Puttom's fairways, semi-rough, fringes, greens, tees, bunkers, and natural
@@ -557,4 +576,3 @@ not acceptable.
 - [Felzenszwalb reference distance-transform implementation](https://cs.brown.edu/people/pfelzens/dt/index.html)
 - [Three.js Texture filtering and anisotropy](https://threejs.org/docs/pages/Texture.html)
 - [OGC Simple Feature Access](https://www.ogc.org/standards/sfa/)
-

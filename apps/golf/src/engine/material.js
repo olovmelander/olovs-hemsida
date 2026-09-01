@@ -17,10 +17,6 @@ const MIGRATED = [
   SURFACE.WETLAND, SURFACE.SHORE,
 ];
 const PREVIEW_NATURAL = [SURFACE.ROUGH, SURFACE.FOREST, SURFACE.HEATH];
-const VECTOR_OVERLAY = new Set([
-  SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE,
-  SURFACE.GREEN, SURFACE.TEE, SURFACE.SAND,
-]);
 
 const STYLE_WIDTH = 32;
 const STYLE_ROWS = 4;
@@ -53,7 +49,7 @@ const SHADE_OVERRIDE = {
   [SURFACE.SEMI]: [1.15, 0.62, 0.17, 0.45],
 };
 
-function makeStyleTexture(C, SHADE, { includeNatural = false } = {}) {
+export function createGroundStyleData(C, SHADE, { includeNatural = false } = {}) {
   /* Row 0: linear colour + atlas-active flag.
      Row 1: detail scale, bump, gloss, mow strength.
      Row 2: active, sand weight, hard-surface weight, spare.
@@ -77,12 +73,41 @@ function makeStyleTexture(C, SHADE, { includeNatural = false } = {}) {
     data.set([c[0], c[1], c[2], 1], sid * 4);
     data.set(shade, (STYLE_WIDTH + sid) * 4);
     data.set([1, sid === SURFACE.SAND ? 1 : 0, hard.has(sid) ? 1 : 0, 0], (STYLE_WIDTH * 2 + sid) * 4);
-    const mowSource = MOW_SOURCE[sid] || [0, 0, 0];
-    data.set([
-      mowSource[0], mowSource[1], mowSource[2], VECTOR_OVERLAY.has(sid) ? 1 : 0,
-    ], (STYLE_WIDTH * 3 + sid) * 4);
+    const mowSource = MOW_SOURCE[sid];
+    if (mowSource) {
+      data.set([mowSource[0], mowSource[1], mowSource[2], 0], (STYLE_WIDTH * 3 + sid) * 4);
+    }
   }
-  const tex = new THREE.DataTexture(data, STYLE_WIDTH, STYLE_ROWS, THREE.RGBAFormat, THREE.FloatType);
+  return Object.freeze({ data, width: STYLE_WIDTH, height: STYLE_ROWS });
+}
+
+function makeStyleTexture(C, SHADE, options) {
+  const { data, width, height } = createGroundStyleData(C, SHADE, options);
+  const tex = new THREE.DataTexture(data, width, height, THREE.RGBAFormat, THREE.FloatType);
+  tex.minFilter = THREE.NearestFilter;
+  tex.magFilter = THREE.NearestFilter;
+  tex.generateMipmaps = false;
+  tex.needsUpdate = true;
+  return tex;
+}
+
+function makeSurfaceDebugPaletteTexture() {
+  const data = new Float32Array(STYLE_WIDTH * 4);
+  for (let surfaceId = 0; surfaceId < STYLE_WIDTH; surfaceId++) {
+    /* A golden-ratio hue walk keeps neighbouring numeric ids visibly distinct.
+       These are diagnostic labels, never authored material colours. */
+    const hue = (surfaceId * 0.61803398875) % 1;
+    const sector = hue * 6;
+    const x = 0.22 + 0.73 * (1 - Math.abs(sector % 2 - 1));
+    const rgb = sector < 1 ? [0.95, x, 0.22]
+      : sector < 2 ? [x, 0.95, 0.22]
+        : sector < 3 ? [0.22, 0.95, x]
+          : sector < 4 ? [0.22, x, 0.95]
+            : sector < 5 ? [x, 0.22, 0.95]
+              : [0.95, 0.22, x];
+    data.set([...rgb, 1], surfaceId * 4);
+  }
+  const tex = new THREE.DataTexture(data, STYLE_WIDTH, 1, THREE.RGBAFormat, THREE.FloatType);
   tex.minFilter = THREE.NearestFilter;
   tex.magFilter = THREE.NearestFilter;
   tex.generateMipmaps = false;
@@ -253,9 +278,11 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
    the same 1 m surface atlas, palette and mowing coordinates, though. This
    decorator keeps the one-draw WebGPU/WebGL2 terrain batch while making the
    provisional raw DTM read as the same golf course instead of a green slab. */
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off' }) {
   if (!atlas?.texID || !atlas?.texF) throw new TypeError('the v2 terrain material requires a ground atlas');
+  if (!['off', 'weights'].includes(debugMode)) throw new TypeError(`unknown surface debug mode: ${debugMode}`);
   const styleTexture = makeStyleTexture(C, SHADE, { includeNatural: true });
+  const debugPaletteTexture = debugMode === 'weights' ? makeSurfaceDebugPaletteTexture() : null;
   return material => {
     /* Sampled with the LEGACY world position, deliberately, even though the
        mesh under it is drawn rotated out of EPSG:3006. The two v2 artefacts are
@@ -293,40 +320,37 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
     const secondaryShade = texture(styleTexture, styleUv(secondaryId, 1));
     const primaryMeta = texture(styleTexture, styleUv(primaryId, 2));
     const secondaryMeta = texture(styleTexture, styleUv(secondaryId, 2));
-    const primaryMow = texture(styleTexture, styleUv(primaryId, 3));
-    const secondaryMow = texture(styleTexture, styleUv(secondaryId, 3));
-    /* Curved vector meshes own the visible cut-grass and bunker silhouettes.
-       Remove those six classes from the coarse base atlas so no 1 m protrusion
-       can peek out beyond an exact overlay boundary. Natural and hard surfaces
-       remain atlas-driven. */
-    const vectorOverlayWeight = mix(secondaryMow.a, primaryMow.a, primaryWeight);
-    const nonOverlayAvailable = oneMinus(primaryMow.a.mul(secondaryMow.a));
+    if (debugPaletteTexture) {
+      const primaryDebug = texture(
+        debugPaletteTexture, vec2(primaryId.add(0.5).div(STYLE_WIDTH), 0.5),
+      );
+      const secondaryDebug = texture(
+        debugPaletteTexture, vec2(secondaryId.add(0.5).div(STYLE_WIDTH), 0.5),
+      );
+      /* The pair weights are normalized by construction. Rendering them through
+         an emissive categorical palette removes lighting, scenery material and
+         geometric-normal variation from surface-boundary review. */
+      const debugColor = mix(secondaryDebug.rgb, primaryDebug.rgb, primaryWeight);
+      material.colorNode = vec3(0, 0, 0);
+      material.emissiveNode = mix(vec3(0.015, 0.015, 0.015), debugColor, inBounds);
+      material.roughnessNode = float(1);
+      material.metalness = 0;
+      material.userData.surfaceDebugMode = debugMode;
+      material.userData.surfaceRepresentation = 'pair-sdf-v1';
+      material.userData.terrainPreviewTextures = [styleTexture, debugPaletteTexture];
+      return material;
+    }
     const active = mix(secondaryMeta.r, primaryMeta.r, primaryWeight).mul(inBounds);
     const roughColor = vec3(C.rough[0], C.rough[1], C.rough[2]);
     const classColor = mix(secondaryColor.rgb, primaryColor.rgb, primaryWeight);
-    const nonOverlayColor = mix(primaryColor.rgb, secondaryColor.rgb, primaryMow.a);
-    const underlayColor = mix(roughColor, nonOverlayColor, nonOverlayAvailable);
-    const base = mix(roughColor, mix(classColor, underlayColor, vectorOverlayWeight), active);
+    const base = mix(roughColor, classColor, active);
     const roughShade = vec3(
       SHADE[SURFACE.ROUGH][0], SHADE[SURFACE.ROUGH][1], SHADE[SURFACE.ROUGH][2],
     );
-    const classShade = mix(secondaryShade, primaryShade, primaryWeight);
-    const nonOverlayShade = mix(primaryShade, secondaryShade, primaryMow.a);
-    const underlayShade = mix(roughShade, nonOverlayShade.rgb, nonOverlayAvailable);
-    const shade = mix(
-      roughShade,
-      mix(classShade.rgb, underlayShade, vectorOverlayWeight),
-      active,
-    );
-    const underlayStrength = nonOverlayShade.a.mul(nonOverlayAvailable);
-    const strength = mix(
-      float(0),
-      mix(classShade.a, underlayStrength, vectorOverlayWeight),
-      active,
-    );
-    const classMeta = mix(secondaryMeta, primaryMeta, primaryWeight);
-    const nonOverlayMeta = mix(primaryMeta, secondaryMeta, primaryMow.a).mul(nonOverlayAvailable);
-    const meta = mix(classMeta, nonOverlayMeta, vectorOverlayWeight).mul(inBounds);
+    const classShade = mix(secondaryShade.rgb, primaryShade.rgb, primaryWeight);
+    const shade = mix(roughShade, classShade, active);
+    const strength = mix(float(0), mix(secondaryShade.a, primaryShade.a, primaryWeight), active);
+    const meta = mix(secondaryMeta, primaryMeta, primaryWeight).mul(inBounds);
 
     const detailScale = shade.x.max(0.45);
     const fine = texture(DETAIL, wp.mul(detailScale.mul(0.11))).r.sub(0.5);
@@ -336,7 +360,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
     const hardDetail = texture(DETAIL, wp.mul(0.13)).g.sub(0.5).mul(0.13);
     const surfaceDetail = mix(mix(turfDetail, sandDetail, meta.g), hardDetail, meta.b);
 
-    const mowK = primaryMow;
+    const mowK = texture(styleTexture, styleUv(primaryId, 3));
     const routeDistance = fields.g.mul(255 / 4);
     const ringDistance = fields.a.mul(255 * 0.16);
     const routeValid = oneMinus(step(0.999, fields.g));
@@ -354,5 +378,8 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE }) {
     material.roughnessNode = clamp(float(0.97).sub(shade.z.mul(0.62)), 0.42, 0.99);
     material.metalness = 0;
     material.userData.terrainPreviewTextures = [styleTexture];
+    material.userData.surfaceDebugMode = debugMode;
+    material.userData.surfaceRepresentation = 'pair-sdf-v1';
+    return material;
   };
 }

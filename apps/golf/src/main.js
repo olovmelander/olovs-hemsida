@@ -49,6 +49,10 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
+import {
+  requestedSurfaceDebugMode,
+  shouldRenderLegacySurfaceOverlays,
+} from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
@@ -67,6 +71,7 @@ import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
    instead of a special build. */
 const DET = new URLSearchParams(location.search).get('det') === '1';
 const groundMode = new URLSearchParams(location.search).get('ground') === 'mesh' ? 'mesh' : 'atlas';
+const surfaceDebugMode = requestedSurfaceDebugMode(location.search);
 const time = DET ? float(3.25) : __liveTime;
 
 /* ------------------------------------------------------------------ boot ui */
@@ -1434,7 +1439,7 @@ const MIDR = { dx: 12, x0: snap(HF0.x0 + 8, 36), x1: snap(HF0.x0 + (HF0.nx - 1) 
 const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -5400, z1: 5400,
                ...((SCENERY && SCENERY.farRing) || {}) };
 
-const stats = { verts: 0, tris: 0, trees: 0, draws: 0 };
+const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
 SEAM = MIDR;
 const builtTerrain = { core: null, mid: null };
 
@@ -1858,6 +1863,7 @@ if (TERRAIN_PREVIEW.ready) {
     renderStride,
     decorateMaterial: createV2GroundMaterialDecorator({
       atlas: TERRAIN_PREVIEW.surfaceAtlas, DETAIL, C, SHADE,
+      debugMode: surfaceDebugMode,
     }),
     preflight: preflightTerrainPreviewGpu,
   });
@@ -2230,8 +2236,11 @@ const shadeSand = (x, z) => {
            det: 2.3, bmp: 0.6, gls: 0.13, str: 0, mow: 0, mowK: 0 };
 };
 
-const vectorSurfaceOverlays = groundMode !== 'atlas' || terrainV2.rendererState.status === 'ready';
-if (vectorSurfaceOverlays) {
+const legacySurfaceOverlays = shouldRenderLegacySurfaceOverlays({
+  groundMode,
+  v2Active: terrainV2.active,
+});
+if (legacySurfaceOverlays) {
   /* Each overlay tier pulls itself in front of the layers beneath in depth space:
      semi first, then fairway, collar, green and tee, sand above all -- so the
      stack resolves on any depth buffer, not just a deep desktop one. */
@@ -2243,8 +2252,10 @@ if (vectorSurfaceOverlays) {
     const m = new THREE.Mesh(g, mat || OMATS[Math.min(order, 4)]);
     m.receiveShadow = true;
     m.renderOrder = order;
+    m.userData.tag = 'legacy-surface-overlay';
     scene.add(m);
     stats.draws++;
+    stats.surfaceOverlays++;
   };
   /* Batch by mower tier, not by hole. These are the original curved rings, but
      six course-wide meshes keep their cost bounded to six draw calls. */
@@ -5462,7 +5473,8 @@ window.V3D = {
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
            tufts: stats.tufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
            reeds: stats.reeds | 0, cars: stats.cars | 0, pylons: stats.pylons | 0, stumps: stats.stumps | 0,
-           draws: stats.draws | 0, backend: IS_GPU ? 'webgpu' : 'webgl2' },
+           draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
+           backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })) }),
   groundInfo: () => ({
@@ -5471,10 +5483,14 @@ window.V3D = {
     classCounts: groundAtlas ? Array.from(groundAtlas.data.classCounts) : null,
   }),
   groundSample: (x, z) => groundAtlas?.sampleAt(x, z) || null,
+  v2SurfaceProbe: (x, z) => TERRAIN_PREVIEW.surfaceAtlas?.probeAt(x, z) || null,
   v2Terrain: () => ({
     requested: TERRAIN_PREVIEW.requested,
     ready: TERRAIN_PREVIEW.ready,
     status: terrainV2.rendererState.status,
+    courseSurfaceOverlayMeshes: stats.surfaceOverlays | 0,
+    surfaceDebugMode,
+    surfaceRepresentation: TERRAIN_PREVIEW.surfaceAtlas?.data?.representation || null,
     reason: TERRAIN_PREVIEW.reason,
     selection: {
       mode: V2_SELECTION.mode,

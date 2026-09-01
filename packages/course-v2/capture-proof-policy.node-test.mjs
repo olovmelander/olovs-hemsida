@@ -7,6 +7,7 @@ const capture = (caseId, extra = {}) => ({
   backendMatched: true,
   acceptedFrameVisible: true,
   surfaceEvidencePassed: true,
+  singleTerrainSurfacePassed: true,
   legacyCoreCutoutPassed: true,
   liveAdapterPassed: true,
   selectionPassed: true,
@@ -29,6 +30,7 @@ test('all required app captures pass with bounded WebGPU readback', () => {
   assert.equal(proof.webgpuReadbackPassed, true);
   assert.equal(proof.webgpuCanvasPassed, false, 'software readback must not imply canvas presentation');
   assert.equal(proof.surfaceEvidencePassed, true);
+  assert.equal(proof.singleTerrainSurfacePassed, true);
   assert.equal(proof.legacyCoreCutoutPassed, true);
   assert.equal(proof.liveAdapterPassed, true);
   assert.equal(proof.selectionPassed, true);
@@ -87,6 +89,17 @@ test('missing semantic surface evidence fails even with visible backend frames',
   const captures = complete();
   captures[1] = capture('webgl2-desktop', { surfaceEvidencePassed: false });
   assert.equal(summarizePuttomAppCaptureProof(captures, []).requiredCasesPassed, false);
+});
+
+test('a second course-surface representation fails every backend proof', () => {
+  const captures = complete();
+  captures[2] = capture('webgpu-desktop', {
+    sceneReadbackPassed: true,
+    singleTerrainSurfacePassed: false,
+  });
+  const proof = summarizePuttomAppCaptureProof(captures, []);
+  assert.equal(proof.singleTerrainSurfacePassed, false);
+  assert.equal(proof.requiredCasesPassed, false);
 });
 
 test('missing construction-time legacy cutout evidence fails every backend proof', () => {

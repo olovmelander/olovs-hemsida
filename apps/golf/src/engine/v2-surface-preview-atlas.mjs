@@ -10,6 +10,8 @@ const EPSILON = 1e-6;
 const MATERIAL_EDGE_LIMIT_METRES = 8;
 const ROUTE_DISTANCE_SCALE = 4;
 const RING_DISTANCE_SCALE = 0.16;
+const PREVIEW_REPRESENTATION = 'pair-sdf-v1';
+const MINIMUM_TRANSITION_WIDTH_METRES = 0.22;
 
 function near(left, right) {
   return Number.isFinite(left) && Number.isFinite(right) && Math.abs(left - right) <= EPSILON;
@@ -197,6 +199,61 @@ export function createSurfacePreviewAtlas({ resources, frame, bridge } = {}) {
     const row = Math.floor((z - bounds.z0) / bounds.res);
     return column < 0 || row < 0 || column >= width || row >= height ? -1 : row * width + column;
   };
+  const linearlySampleFieldByte = (x, z, channel) => {
+    const sampleX = Math.max(0, Math.min(width - 1, (x - bounds.x0) / bounds.res - 0.5));
+    const sampleZ = Math.max(0, Math.min(height - 1, (z - bounds.z0) / bounds.res - 0.5));
+    const column0 = Math.floor(sampleX), row0 = Math.floor(sampleZ);
+    const column1 = Math.min(width - 1, column0 + 1), row1 = Math.min(height - 1, row0 + 1);
+    const fractionX = sampleX - column0, fractionZ = sampleZ - row0;
+    const at = (column, row) => fieldData[(row * width + column) * 4 + channel];
+    const north = at(column0, row0) * (1 - fractionX) + at(column1, row0) * fractionX;
+    const south = at(column0, row1) * (1 - fractionX) + at(column1, row1) * fractionX;
+    return north * (1 - fractionZ) + south * fractionZ;
+  };
+  const probeAt = (x, z) => {
+    finite(x, 'surface probe x');
+    finite(z, 'surface probe z');
+    const index = indexAt(x, z);
+    if (index < 0) return Object.freeze({
+      inBounds: false,
+      representation: PREVIEW_REPRESENTATION,
+      surface: SURFACE.ROUGH,
+      weights: Object.freeze([Object.freeze({ surface: SURFACE.ROUGH, weight: 1 })]),
+      weightSum: 1,
+      weightError: 0,
+    });
+    const primary = idData[index * 2];
+    const secondary = idData[index * 2 + 1];
+    const signedDistanceMetres = linearlySampleFieldByte(x, z, 0) /
+      255 * MATERIAL_EDGE_LIMIT_METRES * 2 - MATERIAL_EDGE_LIMIT_METRES;
+    const transition = MINIMUM_TRANSITION_WIDTH_METRES;
+    const t = Math.max(0, Math.min(1,
+      (signedDistanceMetres + transition) / (transition * 2)));
+    const primaryWeight = t * t * (3 - 2 * t);
+    const secondaryWeight = 1 - primaryWeight;
+    const weights = primary === secondary
+      ? [Object.freeze({ surface: primary, weight: 1 })]
+      : [
+          Object.freeze({ surface: primary, weight: primaryWeight }),
+          Object.freeze({ surface: secondary, weight: secondaryWeight }),
+        ];
+    const weightSum = weights.reduce((sum, item) => sum + item.weight, 0);
+    return Object.freeze({
+      inBounds: true,
+      representation: PREVIEW_REPRESENTATION,
+      surface: primaryWeight >= 0.5 ? primary : secondary,
+      primary,
+      secondary,
+      signedDistanceMetres,
+      minimumTransitionWidthMetres: transition,
+      weights: Object.freeze(weights),
+      weightSum,
+      weightError: Math.abs(1 - weightSum),
+      owner: fieldData[index * 4 + 2],
+      routeCoordinateMetres: linearlySampleFieldByte(x, z, 1) / ROUTE_DISTANCE_SCALE,
+      ringCoordinateMetres: linearlySampleFieldByte(x, z, 3) * RING_DISTANCE_SCALE,
+    });
+  };
   const sampleAt = (x, z) => {
     const index = indexAt(x, z);
     if (index < 0) return { inBounds: false, surface: SURFACE.ROUGH };
@@ -216,6 +273,7 @@ export function createSurfacePreviewAtlas({ resources, frame, bridge } = {}) {
     bounds,
     contains: (x, z) => indexAt(x, z) >= 0,
     sampleAt,
+    probeAt,
     dispose: () => { texID.dispose(); texF.dispose(); },
     data: Object.freeze({
       bounds,
@@ -225,6 +283,7 @@ export function createSurfacePreviewAtlas({ resources, frame, bridge } = {}) {
       tileIds: Object.freeze(tiles.map(tile => tile.id).sort()),
       decodedBytes: resources.reduce((sum, resource) => sum + resource.payload.byteLength, 0),
       textureBytes: idData.byteLength + fieldData.byteLength,
+      representation: PREVIEW_REPRESENTATION,
     }),
   });
 }
