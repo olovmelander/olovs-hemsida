@@ -15,6 +15,7 @@ import {
   copcResolutionProbePipeline,
   COPC_RESOLUTION_SWEEP_METRES,
   probeRangeSupport,
+  probeRedirectBehaviour,
   SURFACE_INTENSITY_MAX_HAG_METRES,
   SURFACE_INTENSITY_RESOLUTION_METRES,
   chooseBalancedWindow,
@@ -406,6 +407,55 @@ test('the range probe reports the transport and never the body', async () => {
   });
   assert.equal(failed.available, false);
   assert.equal(failed.error, 'range probe failed');
+  assert.doesNotMatch(JSON.stringify(failed), /lm-secret/);
+});
+
+test('the redirect probe sees the hop without ever recording where it goes', async () => {
+  /* The one transport hypothesis left for the flat 15-point COPC read. What
+     matters as much as the answer is that asking cannot leak: a signed
+     delivery URL carries the credential in its query string, so the Location
+     VALUE must never reach a return value or a report artefact. */
+  const cancelled = [];
+  const seen = [];
+  const respond = (status, location) => ({
+    status,
+    headers: { get: name => (name.toLowerCase() === 'location' ? location ?? null : null) },
+    body: { cancel: reason => { cancelled.push(reason); } },
+  });
+
+  const hop = await probeRedirectBehaviour('https://example.invalid/x.copc.laz', CREDENTIALS, {
+    authorizationHeaders,
+    fetchImpl: async (url, init) => {
+      seen.push(init);
+      return respond(302, 'https://delivery.invalid/x.copc.laz?sig=lm-secret-token');
+    },
+  });
+  assert.equal(seen[0].redirect, 'manual');
+  assert.equal(seen[0].headers.Range, 'bytes=0-1');
+  assert.match(seen[0].headers.Authorization, /^Basic /);
+  assert.equal(hop.available, true);
+  assert.equal(hop.status, 302);
+  assert.equal(hop.redirects, true);
+  assert.equal(hop.hasLocation, true);
+  assert.equal(hop.partialContent, false);
+  assert.equal(cancelled.length, 1);
+  /* the whole point: presence recorded, target not */
+  assert.doesNotMatch(JSON.stringify(hop), /delivery\.invalid|sig=|lm-secret|lm-user|Basic /);
+
+  const direct = await probeRedirectBehaviour('https://example.invalid/x.copc.laz', CREDENTIALS, {
+    authorizationHeaders,
+    fetchImpl: async () => respond(206, null),
+  });
+  assert.equal(direct.redirects, false);
+  assert.equal(direct.hasLocation, false);
+  assert.equal(direct.partialContent, true);
+
+  const failed = await probeRedirectBehaviour('https://example.invalid/x.copc.laz', CREDENTIALS, {
+    authorizationHeaders,
+    fetchImpl: async () => { throw new Error('lm-secret leaked into the message'); },
+  });
+  assert.equal(failed.available, false);
+  assert.equal(failed.error, 'redirect probe failed');
   assert.doesNotMatch(JSON.stringify(failed), /lm-secret/);
 });
 

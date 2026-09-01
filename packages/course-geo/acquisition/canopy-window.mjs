@@ -503,6 +503,66 @@ export function copcResolutionProbePipeline(plan, credentials, {
 }
 
 /**
+ * Does the delivery REDIRECT, and does the redirect survive a Range header?
+ *
+ * This is the last transport hypothesis standing. Everything else measured
+ * clean: the tile holds 142 M points at 2.85 pts/m2, the window is inside its
+ * bounds, the URL answers 206 and honours the range, and sweeping the COPC
+ * resolution 0/1/0.5/0.25 returns a flat 15 points every time -- which is the
+ * root page and nothing below it. A 302 to a signed URL fits all of that: the
+ * probe follows it silently, while a reader that re-issues range requests
+ * against a target that ignores or re-signs them sees only the first page.
+ *
+ * `probeRangeSupport` deliberately keeps `redirect: 'follow'` and is left
+ * alone -- it answers a different question and answering it correctly needs
+ * the redirect followed. This one sets `redirect: 'manual'` to see the hop.
+ *
+ * What it records about the hop is its PRESENCE and nothing else. A signed
+ * delivery URL carries the credential in its query string, so the value of a
+ * Location header is a secret; it never enters the return value, and there is
+ * a test asserting it cannot.
+ */
+export async function probeRedirectBehaviour(url, credentials, {
+  authorizationHeaders,
+  fetchImpl = globalThis.fetch,
+  timeoutMilliseconds = 20_000,
+} = {}) {
+  if (typeof authorizationHeaders !== 'function') {
+    throw new TypeError('authorizationHeaders builder is required');
+  }
+  if (typeof fetchImpl !== 'function') throw new TypeError('fetchImpl must be a function');
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMilliseconds);
+  try {
+    const response = await fetchImpl(url, {
+      headers: { ...authorizationHeaders(credentials), Range: 'bytes=0-1' },
+      redirect: 'manual',
+      signal: controller.signal,
+    });
+    await response.body?.cancel?.('only the headers are wanted');
+    const status = Number(response.status);
+    return Object.freeze({
+      available: true,
+      status,
+      redirects: status >= 300 && status < 400,
+      /* presence only -- see the note above */
+      hasLocation: Boolean(response.headers?.get?.('location')),
+      /* a redirect that also drops the range is the shape that would explain
+         a reader stuck on the root page, so record whether the FIRST hop
+         already answered partial content */
+      partialContent: status === 206,
+    });
+  } catch (error) {
+    return Object.freeze({
+      available: false,
+      error: error?.name === 'AbortError' ? 'redirect probe timed out' : 'redirect probe failed',
+    });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
  * Does the delivery honour HTTP Range at all? A COPC reader that cannot make
  * partial requests can only ever see the root page, whatever it asks for.
  *

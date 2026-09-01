@@ -38,6 +38,7 @@ import {
   copcResolutionProbePipeline,
   COPC_RESOLUTION_SWEEP_METRES,
   probeRangeSupport,
+  probeRedirectBehaviour,
   classifyProbes,
   probeLattice,
   treeCoverIndex,
@@ -283,6 +284,11 @@ async function main() {
     transport.header = { available: false, note: redact(String(error?.message || error)).slice(0, 200) };
   }
   transport.range = await probeRangeSupport(plan.source.sourceUrl, credentials, { authorizationHeaders });
+  /* And the one hop the range probe cannot see, because it must follow it to
+     answer its own question. Presence only -- a signed delivery URL carries
+     the credential in its query string, so its value never enters this
+     report. */
+  transport.redirect = await probeRedirectBehaviour(plan.source.sourceUrl, credentials, { authorizationHeaders });
   /* The reader hands back a fraction of a percent of what the header declares
      for the same box, with the transport proven good and the window proven
      inside the tile. `resolution` decides how deep the COPC reader descends,
