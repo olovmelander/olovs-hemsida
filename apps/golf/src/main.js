@@ -416,7 +416,7 @@ function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
       if (heights.length < w.ring.length * COVERAGE) continue;
       heights.sort((a, b) => a - b);
       const level = Math.round(heights[Math.floor(heights.length * PERCENTILE)] * 100) / 100;
-      if (level !== w.level) remeasured.push(`${w.name || w.id} ${w.level}->${level}`);
+      if (level !== w.level) remeasured.push(`${w.name || w.id || 'vatten'} ${w.level}->${level}`);
       w.level = level;
     }
     if (remeasured.length) console.info('v2 water levels re-measured:', remeasured.join(', '));
