@@ -1006,6 +1006,53 @@ Deliverables:
   pipeline can grant this; someone must place the order. Until then the
   surface question stays open, because the DTM has now been measured and
   cannot answer it.
+- [x] **Canopy from the one source this account can actually read.** With the
+  bare-earth DTM measured and unable to resolve golf surfaces, the orthophoto
+  refused and Skogsstyrelsen's tree-height raster answering 401, Laserdata Skog
+  is the remaining authorized record of what stands ON the ground — 2 items,
+  full AOI coverage, 1.1 pts/m². `canopy-window.mjs` builds a bounded PDAL
+  pipeline that rasterises canopy height directly from one 512 m COPC window
+  via `filters.hag_nn`, so the height is measured against the ground returns in
+  the SAME cloud and inherits no registration error from a second product.
+  `measure-canopy-agreement.mjs` then asks the same question in the same
+  statistic as the DTM and orthophoto probes, so all three answers are
+  comparable: does the point cloud separate canopy from open ground, and where
+  does it agree with the satellite tree-cover raster the planter currently
+  obeys?
+  Three deliberate choices, each because the alternative fails quietly:
+  - **No `filters.head` cap.** Truncating a point stream is harmless for
+    statistics and punches holes in a raster that nothing downstream can tell
+    from real clearings, so an over-dense window is refused instead.
+  - **The tree-cover decoder is copied verbatim from `check-treecover.mjs`**,
+    not rewritten from the writer's `bitorder="little"`. One transposition
+    would mirror the forest, and a mirrored control set looks exactly like a
+    real disagreement.
+  - **The threshold is declared before the measurement** (2 m, the conventional
+    canopy line). The best-scoring threshold is reported too, labelled
+    `fitted`, because a number chosen after seeing the data is weaker evidence.
+  - **The window is placed for sample adequacy, from the raster alone.** A
+    window on the course centre is 90% mown ground — measured offline at 122
+    tree probes against 1166 open, which determines the open side beautifully
+    and the forest barely at all. The centre is therefore swept and scored by
+    the SMALLER of the two probe counts, giving 942 against 948. That cannot
+    bias the comparison: at selection time not one LiDAR byte has been read, so
+    the score comes from a record that knows nothing about the values being
+    compared, and if anything it makes the test harder, because a balanced
+    window is one with a clean forest/open boundary running through it — where
+    a frame error between the two records would show most.
+    The sweep hit its own search bound at ±400 m, which is the trap the routing
+    sweep fell into; widening to ±600 m converges at 510 m and the answer stops
+    moving. `searchConverged` is computed and reported, so a clipped search can
+    never read as an optimum.
+  Direction of evidence is stated in the report: the LiDAR is authenticated and
+  self-referenced, the satellite raster is a LEGACY derived artifact and is the
+  side under test. The frame bridge between them is the migration model's own
+  `candidateOrigin`, whose status is `horizontal-seed-only-pending-independent-control`
+  — so a few metres of any disagreement may be the origin rather than the trees,
+  and the report carries that status rather than hiding it.
+- [ ] Read the canopy verdict from CI and record it here. The instrument is
+  built and unit-tested offline; the numbers do not exist yet, and no claim
+  about what the point cloud can resolve belongs here until they do.
 - [ ] **A second source is refused, and it has been refused all along:
   Skogsstyrelsen answers HTTP 401 to the configured tree-height account.**
   Every per-hole-controls run has logged it; the workflow simply never failed

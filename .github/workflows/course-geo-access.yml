@@ -724,6 +724,32 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+      - name: Measure canopy agreement against the legacy satellite raster
+        # Same rule as the orthophoto step above, for the same reason: an
+        # exploratory measurement must not decide whether the release evidence
+        # runs. The SCRIPT still exits non-zero when it cannot read the point
+        # cloud, so a lost entitlement shows as a red step -- and the hard gate
+        # for that lives further up, in the Laserdata Skog access check, which
+        # is not continue-on-error.
+        continue-on-error: true
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+          PROJ_NETWORK: "OFF"
+        run: >-
+          pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen
+          node packages/course-geo/acquisition/measure-canopy-agreement.mjs
+          --out "$RUNNER_TEMP/puttom-canopy-agreement.json"
+
+      - name: Upload canopy agreement statistics only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: puttom-canopy-agreement-${{ github.run_number }}
+          path: ${{ runner.temp }}/puttom-canopy-agreement.json
+          if-no-files-found: warn
+          retention-days: 7
+
       - name: Capture retained pilot in forced WebGL2 and WebGPU-preferred modes
         run: >-
           node packages/course-v2/capture-terrain-preview.mjs
