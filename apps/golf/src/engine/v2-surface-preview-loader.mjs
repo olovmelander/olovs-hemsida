@@ -9,14 +9,34 @@ const MAX_DECODED_BYTES = 32 * 1024 * 1024;
 const MAX_CONCURRENT_PREVIEW_REQUESTS = 4;
 const decoder = new TextDecoder('utf-8', { fatal: true });
 
+/* An ABSENT content-length is not a declared zero, and reading it as one made
+   the whole v2 path fail closed on a perfectly good delivery. `Number(null)`
+   is 0 and `Number.isFinite(0)` is true, so every host that answers with
+   chunked transfer encoding -- which is every host that does not know the
+   length up front, this repo's own tools/serve.mjs among them -- had each
+   chunk rejected as "declares 0 bytes". Only the v2 capture harnesses set the
+   header, so the bug was invisible: the loader tests build a Response with a
+   content-length every time, and thus never asked this question.
+
+   Nothing is weakened by skipping a header that is not there. The byte budget
+   is still enforced on the stream itself, the authoritative count is `total`
+   below -- measured on the bytes that actually arrived -- and the chunk's
+   sha256 is verified after that. The header only buys an early abort. */
+function declaredResponseBytes(response) {
+  const raw = response?.headers?.get?.('content-length');
+  if (raw === null || raw === undefined || String(raw).trim() === '') return null;
+  const value = Number(raw);
+  return Number.isFinite(value) && value >= 0 ? value : null;
+}
+
 async function responseBytes(response, maximumBytes, expectedBytes = null) {
   if (!response?.ok) throw new Error(`surface preview request failed with HTTP ${response?.status ?? 'unknown'}`);
-  const declared = Number(response.headers?.get?.('content-length'));
-  if (Number.isFinite(declared) && declared > maximumBytes) {
+  const declared = declaredResponseBytes(response);
+  if (declared !== null && declared > maximumBytes) {
     await response.body?.cancel?.('surface preview response exceeds its byte budget');
     throw new Error(`surface preview response exceeds ${maximumBytes} bytes`);
   }
-  if (expectedBytes !== null && Number.isFinite(declared) && declared !== expectedBytes) {
+  if (expectedBytes !== null && declared !== null && declared !== expectedBytes) {
     await response.body?.cancel?.('surface preview response has an unexpected byte count');
     throw new Error(`surface preview response declares ${declared} bytes; expected ${expectedBytes}`);
   }

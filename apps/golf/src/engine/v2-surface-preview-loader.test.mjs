@@ -67,6 +67,41 @@ describe('real surface preview loader', () => {
     expect(loaded.resources[0]).not.toHaveProperty('values');
   });
 
+  it('loads from a host that sends no content-length at all', async () => {
+    /* Chunked transfer encoding is the ordinary answer from any host that does
+       not know the length up front, and this repo's own tools/serve.mjs is one.
+       The header was being read with Number(), which turns an absent header
+       into a finite 0, so every such response was rejected as "declares 0
+       bytes" -- while every fixture here set the header and could not see it.
+       The bytes that arrive are still counted and still hashed. */
+    const { compiled, descriptor } = fixture();
+    const withHeader = fetcher(compiled, descriptor);
+    const loaded = await loadSurfacePreview('https://proof.test/surface-preview.json', {
+      fetchImpl: async (input, init) => {
+        const response = await withHeader(input, init);
+        const headers = new Headers(response.headers);
+        headers.delete('content-length');
+        return new Response(await response.arrayBuffer(), { status: response.status, headers });
+      },
+      cryptoImpl: webcrypto,
+    });
+    expect(loaded.resources).toHaveLength(1);
+  });
+
+  it('still rejects a declared byte count that disagrees with the descriptor', async () => {
+    const { compiled, descriptor } = fixture();
+    const withHeader = fetcher(compiled, descriptor);
+    await expect(loadSurfacePreview('https://proof.test/surface-preview.json', {
+      fetchImpl: async (input, init) => {
+        const response = await withHeader(input, init);
+        const headers = new Headers(response.headers);
+        if (headers.has('content-length')) headers.set('content-length', '7');
+        return new Response(await response.arrayBuffer(), { status: response.status, headers });
+      },
+      cryptoImpl: webcrypto,
+    })).rejects.toThrow(/declares 7 bytes/);
+  });
+
   it('fails closed on a corrupted retained surface payload', async () => {
     const { compiled, descriptor } = fixture();
     await expect(loadSurfacePreview('https://proof.test/surface-preview.json', {
