@@ -384,6 +384,12 @@ export function canopyAgreement({ treeHeights, openHeights, thresholdMetres = CA
 }
 
 export const COPC_HEADER_PROBE_SPAN_METRES = 20;
+/* The reader returns 0.05% of what the file declares for the same box, with the
+   transport proven good and the window proven inside the tile. `resolution`
+   limits which pyramid levels the COPC reader descends to, so a sweep over it
+   either finds the level the read is stuck at or rules the option out. Small
+   values ask for finer levels; 0 means no limit. */
+export const COPC_RESOLUTION_SWEEP_METRES = Object.freeze([0, 1, 0.5, 0.25]);
 
 /* ------------------------------------------------- is it sparse, or truncated?
 
@@ -457,6 +463,43 @@ export function copcHeaderSummary(metadata) {
     stack.push(...Object.values(node));
   }
   return Object.freeze({ available: false, note: 'PDAL published no reader header metadata' });
+}
+
+/**
+ * One bounded counting read at an explicit pyramid `resolution`, so a sweep can
+ * say which level the reader is actually descending to. Counts only: the
+ * writer is null and nothing is retained.
+ */
+export function copcResolutionProbePipeline(plan, credentials, {
+  authorizationHeaders,
+  resolutionMetres,
+  spanMetres = 128,
+} = {}) {
+  if (!credentials) throw new Error('Lantmäteriet credentials are required for Laserdata Skog');
+  if (typeof authorizationHeaders !== 'function') {
+    throw new TypeError('authorizationHeaders builder is required');
+  }
+  if (!plan?.source?.sourceUrl) throw new TypeError('a laser window plan with a source URL is required');
+  if (!Number.isFinite(resolutionMetres) || resolutionMetres < 0) {
+    throw new RangeError('resolutionMetres must be a non-negative finite number');
+  }
+  finitePositive(spanMetres, 'spanMetres');
+  const [minX, minY, maxX, maxY] = plan.boundsEpsg3006;
+  const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2, half = spanMetres / 2;
+  const reader = {
+    type: 'readers.copc',
+    filename: { path: plan.source.sourceUrl, headers: authorizationHeaders(credentials) },
+    bounds: `([${cx - half},${cx + half}],[${cy - half},${cy + half}])`,
+    requests: 4,
+  };
+  /* 0 is "no limit" and is expressed by leaving the option off, so that the
+     probe at 0 is exactly the read every other pipeline here performs. */
+  if (resolutionMetres > 0) reader.resolution = resolutionMetres;
+  return Object.freeze([
+    Object.freeze(reader),
+    Object.freeze({ type: 'filters.stats', dimensions: 'X,Y,Z', count: 'Classification' }),
+    Object.freeze({ type: 'writers.null' }),
+  ]);
 }
 
 /**

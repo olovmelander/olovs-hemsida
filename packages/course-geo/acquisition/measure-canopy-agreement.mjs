@@ -35,6 +35,8 @@ import {
   chooseBalancedWindow,
   copcHeaderPipeline,
   copcHeaderSummary,
+  copcResolutionProbePipeline,
+  COPC_RESOLUTION_SWEEP_METRES,
   probeRangeSupport,
   classifyProbes,
   probeLattice,
@@ -281,6 +283,32 @@ async function main() {
     transport.header = { available: false, note: redact(String(error?.message || error)).slice(0, 200) };
   }
   transport.range = await probeRangeSupport(plan.source.sourceUrl, credentials, { authorizationHeaders });
+  /* The reader hands back a fraction of a percent of what the header declares
+     for the same box, with the transport proven good and the window proven
+     inside the tile. `resolution` decides how deep the COPC reader descends,
+     so sweeping it either finds the level the read is stuck at or rules the
+     option out. 128 m boxes, counts only, nothing retained. */
+  const SWEEP_SPAN_METRES = 128;
+  transport.resolutionSweep = { spanMetres: SWEEP_SPAN_METRES, counts: [] };
+  for (const resolutionMetres of COPC_RESOLUTION_SWEEP_METRES) {
+    const file = path.join(temporaryDirectory, `sweep-${resolutionMetres}.json`);
+    try {
+      runGeoCommand('pdal', ['pipeline', '--stdin', '--metadata', file], {
+        input: JSON.stringify(copcResolutionProbePipeline(plan, credentials, {
+          authorizationHeaders, resolutionMetres, spanMetres: SWEEP_SPAN_METRES,
+        })),
+        timeoutMilliseconds: 90_000,
+      });
+      const stages = collectStatistics(JSON.parse(fs.readFileSync(file, 'utf8'))).map(summarizeStatistics);
+      transport.resolutionSweep.counts.push({
+        resolutionMetres, points: stages[0]?.points ?? null,
+      });
+    } catch (error) {
+      transport.resolutionSweep.counts.push({
+        resolutionMetres, points: null, note: redact(String(error?.message || error)).slice(0, 160),
+      });
+    }
+  }
   try {
     const remaining = () => Math.max(1000, DEADLINE_MILLISECONDS - (performance.now() - started));
     try {

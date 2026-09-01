@@ -1213,6 +1213,32 @@ Deliverables:
   resolving to a coarse pyramid level for a reason the pipeline is not stating.
   The declared point count will separate those from "the tile really is thin
   here" in one number.
+- [ ] **The header answered, and it leaves exactly one candidate standing.**
+  With the pinhole bounds the probe returned in 13 seconds:
+
+  | | |
+  |---|---|
+  | declared point count | **142,431,214** |
+  | declared bounds (EPSG:3006) | 690000, 7020000 → 699999.99, 7024999.99 |
+  | declared density | **2.85 pts/m²** |
+  | file size / transport | 730,824,720 bytes, HTTP 206, ranges honoured |
+  | producer | Untwine |
+
+  The tile is 10 × 5 km and holds 142 million points at nearly twice the
+  advertised density. The 512 m window sits **wholly inside** those bounds and
+  should therefore hold about **747,000** points. It returned **358** — 0.048%.
+
+  So the file is dense, the transport is good, the window is in the right
+  place, and the reader still hands back a coarse spread. That is not data,
+  entitlement or delivery: it is the COPC traversal. The last untested lever is
+  `resolution`, which decides how deep `readers.copc` descends the pyramid, and
+  the driver now sweeps it — 0 (the read every other pipeline here performs),
+  1, 0.5 and 0.25 m over a 128 m box, counts only, nothing retained. Either one
+  of those levels returns the points the header promises, in which case the
+  pipelines have been reading an overview all along, or none does and the
+  option is ruled out and the next suspect is the hierarchy fetch. **Note that
+  this affects the sibling statistics pipeline identically**, so whatever it
+  finds applies to every bounded Laserdata read this repo makes.
 - [ ] **The one surface route left that needs no permission: LiDAR intensity
   as a pseudo-NIR band.** With a club relationship ruled out, the ledger is:
   shape exhausted, Esri RGB measured and useless, orthophoto behind an order,

@@ -12,6 +12,8 @@ import {
   canopyWindowStreamPipeline,
   copcHeaderPipeline,
   copcHeaderSummary,
+  copcResolutionProbePipeline,
+  COPC_RESOLUTION_SWEEP_METRES,
   probeRangeSupport,
   SURFACE_INTENSITY_MAX_HAG_METRES,
   SURFACE_INTENSITY_RESOLUTION_METRES,
@@ -405,4 +407,28 @@ test('the range probe reports the transport and never the body', async () => {
   assert.equal(failed.available, false);
   assert.equal(failed.error, 'range probe failed');
   assert.doesNotMatch(JSON.stringify(failed), /lm-secret/);
+});
+
+test('the pyramid sweep asks for one level at a time, and 0 means the read we already do', () => {
+  const plan = {
+    source: { sourceUrl: 'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/x.copc.laz' },
+    boundsEpsg3006: [697342, 7024285, 697854, 7024797],
+  };
+  const at = resolutionMetres => copcResolutionProbePipeline(plan, CREDENTIALS, {
+    authorizationHeaders, resolutionMetres, spanMetres: 128,
+  });
+  const unlimited = at(0);
+  assert.equal(unlimited[0].type, 'readers.copc');
+  /* 0 is expressed by leaving the option off, so the control arm is byte for
+     byte the read every other pipeline here performs. */
+  assert.equal(unlimited[0].resolution, undefined);
+  assert.equal(unlimited[0].bounds, '([697534,697662],[7024477,7024605])');
+  assert.equal(at(0.5)[0].resolution, 0.5);
+  assert.equal(at(2)[0].resolution, 2);
+  /* counts only: a null writer, no raster, no local file */
+  assert.equal(unlimited.at(-1).type, 'writers.null');
+  assert.doesNotMatch(JSON.stringify(unlimited.slice(1)), /filename|Basic /);
+  assert.deepEqual([...COPC_RESOLUTION_SWEEP_METRES], [0, 1, 0.5, 0.25]);
+  assert.throws(() => at(-1), /non-negative/);
+  assert.throws(() => at(Number.NaN), /non-negative/);
 });
