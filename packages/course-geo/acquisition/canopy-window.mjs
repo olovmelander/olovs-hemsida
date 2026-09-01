@@ -383,6 +383,8 @@ export function canopyAgreement({ treeHeights, openHeights, thresholdMetres = CA
   });
 }
 
+export const COPC_HEADER_PROBE_SPAN_METRES = 20;
+
 /* ------------------------------------------------- is it sparse, or truncated?
 
    Both the canopy pipeline and the older statistics pipeline read about 0.07%
@@ -395,12 +397,27 @@ export function canopyAgreement({ treeHeights, openHeights, thresholdMetres = CA
    The header says how many points the file claims in total, and over what
    extent. Sparse data has a small header count; a truncated read has a large
    one and returns almost none of it. */
-export function copcHeaderPipeline(plan, credentials, { authorizationHeaders } = {}) {
+export function copcHeaderPipeline(plan, credentials, {
+  authorizationHeaders,
+  probeSpanMetres = COPC_HEADER_PROBE_SPAN_METRES,
+} = {}) {
   if (!credentials) throw new Error('Lantmäteriet credentials are required for Laserdata Skog');
   if (typeof authorizationHeaders !== 'function') {
     throw new TypeError('authorizationHeaders builder is required');
   }
   if (!plan?.source?.sourceUrl) throw new TypeError('a laser window plan with a source URL is required');
+  if (!Array.isArray(plan.boundsEpsg3006) || plan.boundsEpsg3006.length !== 4) {
+    throw new TypeError('a laser window plan with EPSG:3006 bounds is required');
+  }
+  finitePositive(probeSpanMetres, 'probeSpanMetres');
+  /* A pinhole at the window's centre, NOT the whole file. The first version
+     asked for no bounds at all, on the reasoning that the header is a property
+     of the file -- and PDAL spent its whole 60 s budget planning a read of a
+     730 MB cloud before yielding the one point that would publish it. The
+     header comes out either way; what the bounds buy is that the read is
+     trivial. */
+  const [minX, minY, maxX, maxY] = plan.boundsEpsg3006;
+  const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2, half = probeSpanMetres / 2;
   return Object.freeze([
     Object.freeze({
       type: 'readers.copc',
@@ -408,12 +425,11 @@ export function copcHeaderPipeline(plan, credentials, { authorizationHeaders } =
         path: plan.source.sourceUrl,
         headers: authorizationHeaders(credentials),
       }),
-      /* No `bounds`: the question is what the FILE declares, not what a window
-         of it contains. */
+      bounds: `([${cx - half},${cx + half}],[${cy - half},${cy + half}])`,
       requests: 1,
     }),
-    /* One point is enough to make PDAL open the file and publish its header;
-       everything reported comes from that header, not from the point. */
+    /* One point is enough; everything reported comes from the header, not from
+       the point, and a window with none still publishes it. */
     Object.freeze({ type: 'filters.head', count: 1 }),
     Object.freeze({ type: 'writers.null' }),
   ]);

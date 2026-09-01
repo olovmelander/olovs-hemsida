@@ -323,12 +323,15 @@ test('a bounded run survives the fractional deadline its caller computes', () =>
 test('the COPC header probe asks the file what it holds, and leaks nothing', () => {
   const plan = {
     source: { sourceUrl: 'https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/x.copc.laz' },
+    boundsEpsg3006: [697342, 7024285, 697854, 7024797],
   };
   const pipeline = copcHeaderPipeline(plan, CREDENTIALS, { authorizationHeaders });
   const [reader, head, writer] = pipeline;
   assert.equal(reader.type, 'readers.copc');
-  /* no bounds: what the FILE declares, not what a window of it contains */
-  assert.equal(reader.bounds, undefined);
+  /* A pinhole at the window's centre. Asking for no bounds at all spent the
+     whole budget planning a read of a 730 MB cloud and published nothing; the
+     header comes out either way, and a 20 m box makes the read trivial. */
+  assert.equal(reader.bounds, '([697588,697608],[7024531,7024551])');
   assert.match(reader.filename.headers.Authorization, /^Basic /);
   assert.equal(head.type, 'filters.head');
   assert.equal(head.count, 1);
@@ -337,6 +340,8 @@ test('the COPC header probe asks the file what it holds, and leaks nothing', () 
   assert.equal(pipeline.filter(stage => /^writers\./.test(stage.type)).length, 1);
   assert.throws(() => copcHeaderPipeline(plan, null, { authorizationHeaders }), /credentials/);
   assert.throws(() => copcHeaderPipeline({}, CREDENTIALS, { authorizationHeaders }), /source URL/);
+  assert.throws(() => copcHeaderPipeline({ source: plan.source }, CREDENTIALS, { authorizationHeaders }),
+    /EPSG:3006 bounds/);
 });
 
 test('the header summary separates a sparse file from a truncated read', () => {

@@ -1194,6 +1194,25 @@ Deliverables:
   neither can carry a credential into the report — asserted in the tests.
   Until those two numbers are in hand, "Laserdata Skog is authorized and covers
   the whole AOI" is a statement about entitlement, not about delivery.
+- [ ] **The transport is fine, so the thin read is not the delivery's fault.**
+  The Range probe came back **206 Partial Content**, `accept-ranges: bytes`,
+  `content-range: bytes 0-1/730824720`. Partial reads work, and the file is
+  **730 MB** — at COPC's compression that is on the order of ten million points
+  for one tile, which is exactly what 1.1–1.7 pts/m² over a 2.5 km tile should
+  weigh. **The cloud is dense and reachable.** So a 512 m window returning 358
+  points is neither a sparse file nor a blocked transport: something between
+  the reader and the octree is handing back a coarse level.
+  The header probe did not answer, and its failure is worth recording because
+  it was mine: asked for no `bounds` at all — on the reasoning that a header is
+  a property of the file — PDAL spent the whole 60 s budget planning a read of
+  those 730 MB before yielding the one point that would publish it. It now asks
+  for a 20 m pinhole at the window centre, which reads nothing and publishes
+  the same header, with a 120 s budget. The remaining candidates, in the order
+  they should be tested: the octree hierarchy pages are not being fetched (a
+  redirect dropping the Authorization header would do it), or `readers.copc` is
+  resolving to a coarse pyramid level for a reason the pipeline is not stating.
+  The declared point count will separate those from "the tile really is thin
+  here" in one number.
 - [ ] **The one surface route left that needs no permission: LiDAR intensity
   as a pseudo-NIR band.** With a club relationship ruled out, the ledger is:
   shape exhausted, Esri RGB measured and useless, orthophoto behind an order,

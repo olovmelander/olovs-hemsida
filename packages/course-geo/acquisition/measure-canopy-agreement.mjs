@@ -274,7 +274,7 @@ async function main() {
     const headerMetadata = path.join(temporaryDirectory, 'header.json');
     runGeoCommand('pdal', ['pipeline', '--stdin', '--metadata', headerMetadata], {
       input: JSON.stringify(copcHeaderPipeline(plan, credentials, { authorizationHeaders })),
-      timeoutMilliseconds: 60_000,
+      timeoutMilliseconds: 120_000,
     });
     transport.header = copcHeaderSummary(JSON.parse(fs.readFileSync(headerMetadata, 'utf8')));
   } catch (error) {
