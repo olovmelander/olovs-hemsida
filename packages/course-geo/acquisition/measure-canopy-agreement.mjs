@@ -31,6 +31,7 @@ import {
   CANOPY_THRESHOLD_METRES,
   canopyAgreement,
   canopyHeightPipeline,
+  canopyWindowStreamPipeline,
   chooseBalancedWindow,
   classifyProbes,
   probeLattice,
@@ -239,32 +240,38 @@ async function main() {
   });
   const plan = laserWindowPlan(report, { spanMetres: SPAN_METRES, focusEpsg3006: chosen.focusEpsg3006 });
   const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'banvy-canopy-'));
+  const windowPath = path.join(temporaryDirectory, 'window.laz');
   const rasterPath = path.join(temporaryDirectory, 'chm.tif');
   const xyzPath = path.join(temporaryDirectory, 'chm.xyz');
-  const pipeline = canopyHeightPipeline(plan, credentials, {
-    outputPath: rasterPath,
+  const metadataFile = path.join(temporaryDirectory, 'pdal.json');
+  const streamPipeline = canopyWindowStreamPipeline(plan, credentials, {
+    outputPath: windowPath,
     authorizationHeaders,
   });
-  const secrets = Object.values(pipeline[0].filename.headers);
+  const secrets = Object.values(streamPipeline[0].filename.headers);
   const redact = value => {
     let text = String(value);
     for (const secret of secrets.filter(Boolean)) text = text.replaceAll(secret, '<redacted>');
     return text;
   };
-  const metadataFile = path.join(temporaryDirectory, 'pdal.json');
   const started = performance.now();
   let values;
   let totalCells = 0;
   let diagnostics;
   try {
     try {
-      /* No --stream, unlike the sibling statistics pipeline: hag_nn has to see
-         the window's ground returns before it can measure anything above
-         them, so it cannot run point-at-a-time. */
-      runGeoCommand('pdal', ['pipeline', '--stdin', '--metadata', metadataFile], { input: JSON.stringify(pipeline) });
+      /* Streamed, exactly the way the working statistics path streams it. The
+         single-pipeline version could not stream -- hag_nn has to see the
+         window's ground returns first -- and returned 358 points where the
+         advertised density predicts hundreds of thousands. */
+      runGeoCommand('pdal', ['pipeline', '--stdin', '--stream'], { input: JSON.stringify(streamPipeline) });
     } catch (error) {
-      throw new Error(`PDAL canopy rasterisation failed: ${redact(error.message)}`);
+      throw new Error(`PDAL bounded COPC stream failed: ${redact(error.message)}`);
     }
+    /* Second pass, over a local file and with no credentials anywhere in it. */
+    runGeoCommand('pdal', ['pipeline', '--stdin', '--metadata', metadataFile], {
+      input: JSON.stringify(canopyHeightPipeline(windowPath, { outputPath: rasterPath })),
+    });
     diagnostics = pipelineDiagnostics(JSON.parse(fs.readFileSync(metadataFile, 'utf8')));
     runGeoCommand('gdal_translate', ['-of', 'XYZ', rasterPath, xyzPath]);
     const grid = await readGrid(xyzPath, CANOPY_RESOLUTION_METRES);

@@ -22,30 +22,27 @@ function finitePositive(value, label) {
 }
 
 /**
- * A bounded PDAL pipeline that rasterises canopy height directly from one COPC
- * window.
+ * Pass one: stream the bounded window out of the COPC to a local file.
  *
- * `filters.hag_nn` measures every return against the ground returns in the SAME
- * cloud, so the result is a height above ground rather than a difference
- * between two products that were georeferenced independently. That matters:
- * a DTM-subtracted CHM inherits both products' registration error, and here
- * there is none to inherit.
+ * This exists because of a measurement. Reading the window and deriving canopy
+ * in ONE non-streaming pipeline returned 358 points over 512 x 512 m — 0.08%
+ * of the advertised 1.7 pts/m² — while the sibling statistics pipeline, whose
+ * reader is configured identically, reads the same product densely enough to
+ * pass a 10%-of-advertised density gate. The one structural difference was
+ * `--stream`, which that pipeline uses and this one could not, because
+ * `filters.hag_nn` has to see the window's ground returns before it can
+ * measure anything above them.
  *
- * There is deliberately no `filters.head` cap. Truncating a point stream is
- * harmless for statistics and quietly punches holes in a raster, so a window
- * whose advertised point count would exceed the plan's cap is REFUSED instead.
+ * So the read is streamed exactly the way the working path streams it, and the
+ * height derivation happens afterwards against a local file. It also means the
+ * second pass carries no credentials at all.
  */
-export function canopyHeightPipeline(plan, credentials, {
-  resolutionMetres = CANOPY_RESOLUTION_METRES,
-  outputPath,
-  authorizationHeaders,
-} = {}) {
+export function canopyWindowStreamPipeline(plan, credentials, { outputPath, authorizationHeaders } = {}) {
   if (!credentials) throw new Error('Lantmäteriet credentials are required for Laserdata Skog');
   if (typeof authorizationHeaders !== 'function') {
     throw new TypeError('authorizationHeaders builder is required');
   }
   if (typeof outputPath !== 'string' || !outputPath) throw new TypeError('outputPath is required');
-  finitePositive(resolutionMetres, 'resolutionMetres');
   const [minX, minY, maxX, maxY] = plan.boundsEpsg3006;
   const density = plan.source?.pointDensityPerSquareMetre;
   if (Number.isFinite(density)) {
@@ -64,12 +61,43 @@ export function canopyHeightPipeline(plan, credentials, {
       bounds: `([${minX},${maxX}],[${minY},${maxY}])`,
       requests: 4,
     }),
-    /* Count what the READER returned, before anything can eat it. The first
-       instrumented run showed 285 points reaching the writer where the
-       advertised density predicts hundreds of thousands, with sensible
-       heights on all 285 -- so the filters were working and the question was
-       entirely whether the points ever arrived. One stats stage could not
-       tell those apart; two can. */
+    Object.freeze({
+      type: 'writers.las',
+      filename: outputPath,
+      compression: true,
+      /* Keep the source's own point format: rewriting it would be a second
+         chance to lose the classification hag_nn needs. */
+      forward: 'all',
+    }),
+  ]);
+}
+
+/**
+ * Pass two: canopy height from the local window, with no credentials in sight.
+ *
+ * `filters.hag_nn` measures every return against the ground returns in the
+ * SAME cloud, so the result is a height above ground rather than a difference
+ * between two products that were georeferenced independently. That matters:
+ * a DTM-subtracted CHM inherits both products' registration error, and here
+ * there is none to inherit.
+ *
+ * Points are counted on BOTH sides of hag_nn. One count could not say whether
+ * a thin raster meant the points never arrived or were eaten on the way, and
+ * that question cost a CI round to answer.
+ *
+ * There is deliberately no `filters.head` cap anywhere. Truncating a point
+ * stream is harmless for statistics and quietly punches holes in a raster, so
+ * an over-dense window is REFUSED in pass one instead.
+ */
+export function canopyHeightPipeline(localPath, {
+  resolutionMetres = CANOPY_RESOLUTION_METRES,
+  outputPath,
+} = {}) {
+  if (typeof localPath !== 'string' || !localPath) throw new TypeError('localPath is required');
+  if (typeof outputPath !== 'string' || !outputPath) throw new TypeError('outputPath is required');
+  finitePositive(resolutionMetres, 'resolutionMetres');
+  return Object.freeze([
+    Object.freeze({ type: 'readers.las', filename: localPath }),
     Object.freeze({
       type: 'filters.stats',
       tag: 'afterReader',
@@ -85,10 +113,6 @@ export function canopyHeightPipeline(plan, credentials, {
       type: 'filters.range',
       limits: `HeightAboveGround[0:${CANOPY_MAXIMUM_HEIGHT_METRES}]`,
     }),
-    /* What actually survived to the writer. The first run produced a raster
-       that was 98.7% nodata, and nothing in the output could say whether that
-       was a thin point stream, a missing ground class or a filter eating
-       everything -- so the pipeline now reports its own middle. */
     Object.freeze({
       type: 'filters.stats',
       tag: 'beforeWriter',

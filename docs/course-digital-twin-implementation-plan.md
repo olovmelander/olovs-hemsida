@@ -1071,6 +1071,24 @@ Deliverables:
   One likely contributor is already fixed: `writers.gdal` was given a 2 m
   radius where PDAL's own default is `resolution × √2`, so cell corners were
   unreachable and nodata was being punched into ground that had been surveyed.
+  **Second and third runs found the cause, and it was the reader.** Counting on
+  both sides of `hag_nn`: 358 points came OUT OF THE READER for a 512 × 512 m
+  window, the filters dropped 73 of them (water and unclassified, correctly),
+  and 285 reached the writer with sensible heights. So 0.08% of the advertised
+  1.7 pts/m² ever arrived. Ground points existed (81 of class 2) and `hag_nn`
+  worked on what it was given; the window simply came back nearly empty.
+  The one structural difference from the sibling statistics pipeline — same
+  reader configuration, and dense enough to pass a 10%-of-advertised gate — is
+  that it runs `--stream` and this could not, because `hag_nn` must see the
+  ground returns before it can measure anything above them. So the read is now
+  a separate streamed pass to a local file and the derivation runs against
+  that, which also leaves the second pass with no credentials in it at all.
+  A third finding from the same run, about diagnostics rather than canopy:
+  `classificationCounts` had been reporting `{}` because the parser read only
+  PDAL's packed `"value/count"` form while this build emits `{value, count}`.
+  An empty histogram read as "no classification data" when it meant "the parser
+  did not understand it" — the worst thing a diagnostic can do, and the reason
+  the first instrumented run could not finish the diagnosis.
 - [ ] **A second source is refused, and it has been refused all along:
   Skogsstyrelsen answers HTTP 401 to the configured tree-height account.**
   Every per-hole-controls run has logged it; the workflow simply never failed

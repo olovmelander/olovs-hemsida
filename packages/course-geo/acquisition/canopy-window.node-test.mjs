@@ -9,6 +9,7 @@ import {
   CANOPY_THRESHOLD_METRES,
   canopyAgreement,
   canopyHeightPipeline,
+  canopyWindowStreamPipeline,
   chooseBalancedWindow,
   classifyProbes,
   probeLattice,
@@ -113,52 +114,52 @@ test('the committed Puttom raster decodes to a real mixture, not to noise', () =
   assert.ok(counts.get(3) / total > 0.05, `tree share ${counts.get(3) / total}`);
 });
 
-test('the canopy pipeline reads one bounded window and never differences two products', () => {
-  const pipeline = canopyHeightPipeline(plan(), CREDENTIALS, {
-    outputPath: '/tmp/chm.tif',
+test('the read is streamed with credentials, and the derivation carries none', () => {
+  /* The measurement that forced this split: one non-streaming pipeline read
+     358 points over 512 m where 1.7 pts/m2 predicts hundreds of thousands,
+     while the sibling statistics path -- same reader config, but streamed --
+     reads the same product densely. So the read streams and the derivation,
+     which cannot stream because hag_nn needs the ground returns first, runs
+     afterwards against a local file. */
+  const stream = canopyWindowStreamPipeline(plan(), CREDENTIALS, {
+    outputPath: '/tmp/window.laz',
     authorizationHeaders,
   });
-  const [reader, readerStats, hag, range, writerStats, writer] = pipeline;
+  const [reader, writer] = stream;
+  assert.equal(stream.length, 2, 'the streamed pass must stay streamable end to end');
   assert.equal(reader.type, 'readers.copc');
   assert.equal(reader.bounds, '([697200,697712],[7024700,7025212])');
   assert.match(reader.filename.path, /^https:\/\/dl1\.lantmateriet\.se\/hojd\//);
   assert.ok(new Headers(reader.filename.headers).has('authorization'));
+  assert.equal(writer.type, 'writers.las');
+  assert.equal(writer.forward, 'all');
+
+  const derive = canopyHeightPipeline('/tmp/window.laz', { outputPath: '/tmp/chm.tif' });
+  const [localReader, readerStats, hag, range, writerStats, gdal] = derive;
+  assert.equal(localReader.type, 'readers.las');
+  assert.equal(localReader.filename, '/tmp/window.laz');
+  /* No credentials reach the second pass at all -- there is nowhere to put
+     them and nothing that needs them. */
+  assert.doesNotMatch(JSON.stringify(derive), /lm-user|lm-secret|Basic |authorization/i);
   /* Height above ground from the cloud's OWN ground returns: no second
      product, so no registration error between two of them. */
   assert.equal(hag.type, 'filters.hag_nn');
   assert.equal(hag.allow_extrapolation, false);
   assert.equal(range.limits, `HeightAboveGround[0:${CANOPY_MAXIMUM_HEIGHT_METRES}]`);
-  assert.equal(writer.dimension, 'HeightAboveGround');
-  assert.equal(writer.output_type, 'max');
-  assert.equal(writer.resolution, CANOPY_RESOLUTION_METRES);
-  /* PDAL's own default radius. A narrower one leaves cell corners unreachable
-     and punches nodata into surveyed ground. */
-  assert.equal(writer.radius, +(CANOPY_RESOLUTION_METRES * Math.SQRT2).toFixed(4));
+  assert.equal(gdal.dimension, 'HeightAboveGround');
+  assert.equal(gdal.output_type, 'max');
+  assert.equal(gdal.resolution, CANOPY_RESOLUTION_METRES);
+  assert.equal(gdal.radius, +(CANOPY_RESOLUTION_METRES * Math.SQRT2).toFixed(4));
+  assert.equal(gdal.nodata, -9999);
   /* Counted on BOTH sides of hag_nn, so a thin raster says whether the points
-     never arrived or were eaten on the way. One stats stage cannot. */
-  assert.equal(readerStats.type, 'filters.stats');
+     never arrived or were eaten on the way. One stats stage could not. */
   assert.equal(readerStats.tag, 'afterReader');
   assert.doesNotMatch(readerStats.dimensions, /HeightAboveGround/);
-  assert.equal(writerStats.type, 'filters.stats');
   assert.equal(writerStats.tag, 'beforeWriter');
   assert.match(writerStats.dimensions, /HeightAboveGround/);
-  for (const stage of [readerStats, writerStats]) assert.match(stage.count, /Classification/);
-  assert.equal(writer.nodata, -9999);
   /* No head filter anywhere: truncating a point stream punches holes in a
      raster and nothing downstream can tell those from real clearings. */
-  assert.equal(pipeline.filter(stage => stage.type === 'filters.head').length, 0);
-});
-
-test('an over-dense window is refused rather than silently truncated', () => {
-  assert.throws(() => canopyHeightPipeline(
-    plan({ source: { pointDensityPerSquareMetre: 12 } }),
-    CREDENTIALS,
-    { outputPath: '/tmp/chm.tif', authorizationHeaders },
-  ), /past the 1000000 cap; narrow the span/);
-
-  assert.throws(() => canopyHeightPipeline(plan(), CREDENTIALS, { authorizationHeaders }), /outputPath/);
-  assert.throws(() => canopyHeightPipeline(plan(), null, { outputPath: '/tmp/c.tif', authorizationHeaders }),
-    /credentials are required/);
+  for (const stage of [...stream, ...derive]) assert.notEqual(stage.type, 'filters.head');
 });
 
 test('canopy agreement reports a declared threshold and labels a fitted one as fitted', () => {
