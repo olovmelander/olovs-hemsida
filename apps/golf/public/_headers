@@ -26,20 +26,22 @@
 /courses/*/hero-*.webp
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 
-# The opt-in v2 descriptor may advance after a reviewed pilot build. Its BVCH
-# children are immutable full-SHA URLs and the runtime verifies both encoded and
-# decoded hashes before retaining them.
-/v2/*/preview.json
+# The opt-in v2 pilot descriptors may advance after a reviewed pilot build, so
+# they revalidate for the same reason /courses/index.json does. Their BVCH
+# children are immutable full-SHA URLs, verified again after download, and are
+# already covered by the /grounds/*/terrain and /grounds/*/surface rules below
+# -- the pilot now lists the published graph's own chunks and lives beside it.
+#
+# These were /v2/*/preview.json and /v2/*/surface-preview.json until the pilot
+# widened out of that tree. Nothing has been served from /v2/ since, so those
+# rules protected nothing while these two paths had no rule at all: the exact
+# staleness the comment above them warns about, with the warning pointing at
+# the wrong address.
+/grounds/*/preview.json
   Cache-Control: no-cache
 
-/v2/*/surface-preview.json
+/grounds/*/surface-preview.json
   Cache-Control: no-cache
-
-/v2/*/grounds/*/terrain/*.bvch
-  Cache-Control: public, max-age=31536000, immutable
-
-/v2/*/grounds/*/surface/*.bvch
-  Cache-Control: public, max-age=31536000, immutable
 
 # The v2 asset graph. Its root is the only mutable file in the graph and it is
 # what names every hash below, so it must revalidate for exactly the reason

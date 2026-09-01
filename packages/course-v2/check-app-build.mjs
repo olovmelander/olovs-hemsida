@@ -286,9 +286,16 @@ if (chunks.some(chunk => html.includes(chunk))) {
   throw new Error('v2 terrain preview chunks leaked into initial HTML');
 }
 const headers = fs.readFileSync(path.join(DIST, '_headers'), 'utf8');
+/* The paths the pilot is ACTUALLY served from. These asserted /v2/* rules
+   until the widening moved the pilot to /grounds/, at which point the gate was
+   demanding rules for a tree nothing ships while the live descriptors had no
+   rule at all -- a required-rule check is only worth its line if it names the
+   URL the runtime fetches. */
 for (const requiredRule of [
-  '/v2/*/surface-preview.json\n  Cache-Control: no-cache',
-  '/v2/*/grounds/*/surface/*.bvch\n  Cache-Control: public, max-age=31536000, immutable',
+  '/grounds/*/preview.json\n  Cache-Control: no-cache',
+  '/grounds/*/surface-preview.json\n  Cache-Control: no-cache',
+  '/grounds/*/terrain/*.bvch\n  Cache-Control: public, max-age=31536000, immutable',
+  '/grounds/*/surface/*.bvch\n  Cache-Control: public, max-age=31536000, immutable',
 ]) {
   if (!headers.includes(requiredRule)) throw new Error(`built cache headers are missing ${requiredRule.split('\n')[0]}`);
 }
