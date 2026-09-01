@@ -1476,6 +1476,49 @@ Deliverables:
 Gate: terrain accuracy/seam checks pass and the shell/active-hole performance
 budgets are met on the pilot grounds.
 
+### The visual target is not the data target
+
+Stated by the project owner, and it reframes what the surface work is FOR:
+*"I do not need the textures to look exactly like in real life, I want it more
+to look like a good AAA golf game."*
+
+**The orthophoto was never a texture source, and it is worth saying plainly
+because the plan reads as if it were.** The renderer loads no imagery at all —
+verified: no `TextureLoader`, no image files, no photo textures anywhere in the
+ground path. Ground is shaded from surface-class IDs and a palette. What the
+orthophoto buys is BOUNDARIES: where the green stops and the collar starts,
+where the bunker lip is. Appearance was always procedural.
+
+So the bar on boundaries drops from *survey-grade and authoritative* to *plays
+and reads right* — and boundaries at that standard already exist. Puttom is
+fully mapped in OSM (20 greens, 21 fairways, 41 bunkers); the other five have
+satellite traces anchored by GPS surveys. **The D5 acquisition problem is not
+a blocker for the stated visual goal.** The orthophoto order is still worth
+placing, because it is free and it sharpens edges, but nothing should wait on
+it, and the tier discipline stays for the truth claims the pages make — not
+for how good they look.
+
+What actually separates this renderer from a good golf game, measured from the
+code rather than guessed:
+
+| gap | now | AAA reference |
+|---|---|---|
+| shadow resolution | **1.60 m per texel** — one cascade over 3,280 m at 2048² | 3–4 cascades, 0.02–0.05 m near the camera |
+| near-field turf | shader only: bump map, blade-scale speckle, mow stripes | instanced blades or shell layers in the first 10–20 m |
+| contact occlusion | baked per-vertex horizon AO only | screen-space AO at bunker lips, trunks, collars |
+| tone/fog/materials | ACES, per-surface roughness, seasonal fog presets | already reasonable |
+
+The first row is the big one. Golf is played looking at ground two to thirty
+metres away, and at 1.6 m per shadow texel the flag casts nothing, the bunker
+lip casts nothing, and there is no contact shadow under the ball. That single
+number is most of the distance between "tech demo" and "game".
+
+**One trap before touching any of it:** the parity harness compares pixels, and
+every golden and parity gate in this repo would fail the moment shadows or
+turf change. That is the gate working, not breaking — but the goldens must be
+re-approved deliberately, by a human looking at pictures, rather than
+regenerated to make a red gate green.
+
 ### D5 — v2 surface compiler and material parity
 
 Deliverables:
