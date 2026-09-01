@@ -5533,8 +5533,20 @@ if (!LOWQ) setTimeout(() => {
       if (bad >= 6) {
         lowfx = true;
         /* not under det: a harness run on a software rasterizer is always slow,
-           and it must not leave a verdict behind that changes the next visit */
-        if (!DET) { try { localStorage.setItem('banvy-quality', 'lo'); } catch {} }
+           and it must not leave a verdict behind that changes the next visit.
+
+           And NOT when the URL explicitly asked for hi. This verdict is
+           STICKY -- it is read back as rememberedQuality on every later visit
+           and forces LOWQ, which drops the canvas to devicePixelRatio 1 and
+           lets the browser upscale the whole 3D frame (2.6x on a phone). A
+           player who reaches for ?q=hi is overruling exactly that, so writing
+           'lo' underneath them means the override cannot survive its own
+           session, and nothing in the UI says why the picture is soft.
+           Reported as "still blurry on both q low and q hi", and the badge in
+           the screenshot read "2 m mesh" -- the tell that LOWQ won anyway. */
+        if (!DET && qualityParam !== 'hi') {
+          try { localStorage.setItem('banvy-quality', 'lo'); } catch {}
+        }
         renderer.setPixelRatio(1);
         renderer.setSize(innerWidth, innerHeight);
         if (renderer.__bloomNode) renderer.__bloomNode.strength.value = 0;
