@@ -1153,6 +1153,21 @@ Deliverables:
   An empty histogram read as "no classification data" when it meant "the parser
   did not understand it" — the worst thing a diagnostic can do, and the reason
   the first instrumented run could not finish the diagnosis.
+  **The fourth run read nothing at all, and the cause was neither the reader
+  nor the cloud.** Both new steps died in ONE SECOND in CI run 59 with
+  `PDAL bounded COPC stream failed: The value of "timeout" is out of range. It
+  must be an unsigned integer. Received 419999.963211`. The bounded driver
+  computes its per-command budget as a deadline minus a float clock, and
+  `spawnSync` rejects a non-integer `timeout` outright — so the process never
+  started and the RangeError arrived wearing the COPC stream's error message.
+  `runGeoCommand` floors the budget now, which is the right place for it: a
+  budget is a budget whichever caller computed it, and no call site can
+  reintroduce this. There is a regression test on both halves — a fractional
+  budget must run, and a fractional budget must still expire. **So the canopy
+  and intensity verdicts are still outstanding and no measurement of either has
+  been made**; what run 59 proved is only that the account still reads
+  Markhöjdmodell and Laserdata Skog and still gets 403 on every orthophoto
+  asset.
 - [ ] **The one surface route left that needs no permission: LiDAR intensity
   as a pseudo-NIR band.** With a club relationship ruled out, the ledger is:
   shape exhausted, Esri RGB measured and useless, orthophoto behind an order,
@@ -1772,6 +1787,23 @@ capture harness reported was a minified `u is not a function`. Fail-closed
 worked; the diagnosis came from re-running an unminified build in Chromium and
 reading the console. Shadowing an imported node-graph builtin with a scalar is
 invisible to `no-undef`.
+
+**What this does not do**, stated so the next stage is not planned against a
+fix that is smaller than it sounds:
+
+- It does not make the legacy frame metric-true. The frame is still a sphere of
+  the equatorial radius, still 0.13–0.34% off the ellipsoid, and everything in
+  it is still self-consistent about being so. Whether that frame stays canonical
+  is D1's open origin question, and this bridge does not answer it.
+- It does not widen the pilot. 16 tiles over 1024 m is unchanged, and after the
+  rotation the axis-aligned share of CORE it can omit is 45.60% rather than
+  51.56%.
+- It does not improve the terrain that ships. GPK1 still carries Terrarium at
+  4 m, and the ranked levers above are unchanged: **the CORE grid from 4 m to
+  1–2 m is still the largest one**, because a bunker spanning 2.7 samples is a
+  dimple whatever frame it is in.
+- It does not touch the six standalone pages, which are single-frame and were
+  never affected.
 
 ### The visual target is not the data target
 

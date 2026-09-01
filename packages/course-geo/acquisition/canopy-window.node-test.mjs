@@ -19,6 +19,7 @@ import {
   treeCoverIndex,
 } from './canopy-window.mjs';
 import { authorizationHeaders } from './credentials.mjs';
+import { runGeoCommand } from '../proj.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const CREDENTIALS = Object.freeze({ type: 'basic', username: 'lm-user', password: 'lm-secret' });
@@ -294,4 +295,24 @@ test('intensity is read as a pseudo-NIR band from ground returns only, with no c
 
   assert.throws(() => surfaceIntensityPipeline('', { outputPath: '/tmp/i.tif' }), /localPath/);
   assert.throws(() => surfaceIntensityPipeline('/tmp/w.laz', {}), /outputPath/);
+});
+
+test('a bounded run survives the fractional deadline its caller computes', () => {
+  /* CI run 59 spent one second on the canopy measurement and read no points:
+     `remaining()` returns a deadline minus a float clock, spawnSync refuses a
+     non-integer timeout outright, and the RangeError surfaced as if the COPC
+     stream itself had failed. The budget is floored in runGeoCommand now, so
+     no call site can reintroduce it. */
+  const output = runGeoCommand('node', ['-e', 'process.stdout.write("ok")'], {
+    timeoutMilliseconds: 419_999.963_211,
+  });
+  assert.equal(output.stdout, 'ok');
+
+  /* and it is still a real bound, not a rounded-away one */
+  assert.throws(
+    () => runGeoCommand('node', ['-e', 'Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 5000)'], {
+      timeoutMilliseconds: 250.5,
+    }),
+    error => error.code === 'GEO_COMMAND_TIMEOUT',
+  );
 });

@@ -27,6 +27,12 @@ export function sha256File(path) {
 }
 
 export function runGeoCommand(command, args, { input = '', env = {}, timeoutMilliseconds = 0 } = {}) {
+  /* Callers derive this from a deadline, so it arrives as a float, and
+     spawnSync rejects a non-integer timeout outright -- which is how a bounded
+     canopy run died in one second with "The value of \"timeout\" is out of
+     range" instead of reading any points. Round here rather than at every call
+     site: a budget is a budget whichever caller computed it. */
+  const timeout = timeoutMilliseconds > 0 ? Math.max(1, Math.floor(timeoutMilliseconds)) : 0;
   const result = spawnSync(command, args, {
     cwd: PACKAGE_DIR,
     encoding: 'utf8',
@@ -34,15 +40,15 @@ export function runGeoCommand(command, args, { input = '', env = {}, timeoutMill
     env: { ...process.env, PROJ_NETWORK: 'OFF', ...env },
     maxBuffer: 128 * 1024 * 1024,
     windowsHide: true,
-    ...(timeoutMilliseconds > 0 ? { timeout: timeoutMilliseconds, killSignal: 'SIGKILL' } : {}),
+    ...(timeout > 0 ? { timeout, killSignal: 'SIGKILL' } : {}),
   });
 
   /* A caller that set a bound wants to know it was hit, not to read
      "failed to start" about a command that started fine and ran too long. */
-  if (timeoutMilliseconds > 0 && (result.error?.code === 'ETIMEDOUT' || result.signal)) {
-    const timeout = new Error(`${command} exceeded its ${Math.round(timeoutMilliseconds / 1000)} s budget`);
-    timeout.code = 'GEO_COMMAND_TIMEOUT';
-    throw timeout;
+  if (timeout > 0 && (result.error?.code === 'ETIMEDOUT' || result.signal)) {
+    const expired = new Error(`${command} exceeded its ${Math.round(timeout / 1000)} s budget`);
+    expired.code = 'GEO_COMMAND_TIMEOUT';
+    throw expired;
   }
   if (result.error) {
     const hint = result.error.code === 'ENOENT'
