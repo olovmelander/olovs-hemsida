@@ -20,7 +20,7 @@ import { assertTerrainPreview } from './terrain-preview.mjs';
 
 const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const APP_PUBLIC = join(ROOT, 'apps/golf/public');
-const PREVIEW_ROOT = join(APP_PUBLIC, 'v2/puttom');
+const PREVIEW_ROOT = join(APP_PUBLIC, 'grounds/puttom');
 const PACK_PATH = join(APP_PUBLIC, 'courses/puttom/pack.bin');
 const COURSE_INDEX_PATH = join(APP_PUBLIC, 'courses/index.json');
 
@@ -48,9 +48,20 @@ export async function compilePuttomSurfacePreview({
     throw new Error(`Puttom terrain descriptor is ${descriptorSha256}; expected ${PUTTOM_PREVIEW_CONFIG.descriptorSha256}`);
   }
   const terrain = assertTerrainPreview(JSON.parse(new TextDecoder('utf8', { fatal: true }).decode(descriptorBytes)));
-  if (terrain.frame.fingerprint !== PUTTOM_PREVIEW_CONFIG.frameFingerprint || terrain.tiles.length !== 16) {
+  if (terrain.frame.fingerprint !== PUTTOM_PREVIEW_CONFIG.frameFingerprint ||
+      terrain.tiles.length !== PUTTOM_PREVIEW_CONFIG.expectedTileCount) {
     throw new Error('Puttom terrain preview no longer matches its reviewed frame/frontier');
   }
+  /* The surface frontier is a rectangular SUBSET of the terrain frontier: the
+     course does not fill the 2048 m window, and painting rough at 1 m over the
+     three fifths that carry nothing would cost more than the active budget
+     allows. See surfaceWindowEpsg3006 in the preview config. */
+  const window = PUTTOM_PREVIEW_CONFIG.surfaceWindowEpsg3006;
+  const inWindow = tile => {
+    const b = tile.bounds;
+    return b.minEasting >= window.minEasting - 1e-6 && b.maxEasting <= window.maxEasting + 1e-6 &&
+      b.minNorthing >= window.minNorthing - 1e-6 && b.maxNorthing <= window.maxNorthing + 1e-6;
+  };
   const tileMetadata = await Promise.all(terrainTiles(terrain, root).map(async ({ tile, file }) => {
     const decoded = verifyChunkAsset(tile.reference, await readFile(file));
     if (decoded.header.id !== tile.id || decoded.header.kind !== 'terrain') {
@@ -62,6 +73,13 @@ export async function compilePuttomSurfacePreview({
       sampleSpacingMetres: decoded.header.grid.sampleSpacingMetres,
     });
   }));
+
+  const surfaceTiles = tileMetadata.filter(inWindow);
+  if (surfaceTiles.length !== PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount) {
+    throw new Error(
+      `the surface window covers ${surfaceTiles.length} terrain tiles; the reviewed count is ${PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount}`,
+    );
+  }
 
   const packBytes = await readFile(packPath);
   const courseIndex = JSON.parse(await readFile(courseIndexPath, 'utf8'));
@@ -82,10 +100,10 @@ export async function compilePuttomSurfacePreview({
     groundId: 'puttom',
     frame: terrain.frame,
     legacyBridge: bridge,
-    terrainTiles: tileMetadata,
+    terrainTiles: surfaceTiles,
     holes: model.holes,
     features,
-    assetDirectory: 'grounds/puttom/surface',
+    assetDirectory: 'surface',
   });
   const bundle = await writeSurfacePreviewBundle(root, compilation, {
     label: 'Puttom · migrerade ytor (ej inmätta)',

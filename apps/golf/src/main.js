@@ -169,6 +169,7 @@ const terrainV2 = new V2TerrainLiveAdapter({
   courseSlug: CMETA.slug,
   expectedCourseSlug: PUTTOM_PREVIEW_CONFIG.slug,
   expectedTileCount: PUTTOM_PREVIEW_CONFIG.expectedTileCount,
+  expectedSurfaceTileCount: PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount,
   cutoutContract: PUTTOM_PREVIEW_CONFIG.legacyCoreCutout,
 });
 
@@ -1827,7 +1828,20 @@ if (terrainV2.preparation) {
 }
 
 await tick('bygger terrängen', 0.26);
-const midMesh = new THREE.Mesh(await buildTerrain(MIDR, under(CORE, 24), true), turfMat);
+/* MID's hole is normally CORE's footprint, because CORE is what covers the
+   middle. The wide v2 frontier reaches PAST CORE, so when it is serving, MID
+   must open its hole to the pilot instead or the 12 m mesh surfaces through the
+   1 m one. The hole is the pilot's inscribed axis-aligned rectangle, since that
+   is all buildTerrain can omit; the rotation overhang beyond it is removed the
+   same way it is from CORE, by the rotated triangle cut. */
+const midHole = terrainV2.active && TERRAIN_PREVIEW.legacyBounds
+  ? under(TERRAIN_PREVIEW.legacyBounds, 24)
+  : under(CORE, 24);
+const midGeometry = await buildTerrain(MIDR, midHole, true);
+if (terrainV2.active && TERRAIN_PREVIEW.legacyBounds) {
+  stats.tris -= cutTerrainPreviewRect(midGeometry, TERRAIN_PREVIEW.bounds, TERRAIN_PREVIEW.bridge).removedTriangles;
+}
+const midMesh = new THREE.Mesh(midGeometry, turfMat);
 midMesh.userData.tag = 'mid';
 midMesh.receiveShadow = true;
 scene.add(midMesh);

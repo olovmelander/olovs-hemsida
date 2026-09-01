@@ -40,6 +40,7 @@ function fixture({ ready = true, surfaceTileIds = ['l0/0/0', 'l0/1/0'] } = {}) {
         classCounts: Uint32Array.from([2, 3, 3]),
         noDataCount: 0,
       },
+      bounds: BOUNDS,
       contains: (x, z) => x >= BOUNDS.x0 && x <= BOUNDS.x1 && z >= BOUNDS.z0 && z <= BOUNDS.z1,
       dispose: disposeSurface,
     },
@@ -63,6 +64,7 @@ function fixture({ ready = true, surfaceTileIds = ['l0/0/0', 'l0/1/0'] } = {}) {
     courseSlug: 'fixture',
     expectedCourseSlug: 'fixture',
     expectedTileCount: 2,
+    expectedSurfaceTileCount: 2,
     cutoutContract: CUTOUT,
     batchFactory,
   });
@@ -153,7 +155,7 @@ describe('v2 terrain live adapter', () => {
       surfaceTileIds: ['l0/0/0', 'l0/missing'],
     });
     const result = await adapter.prepare({ coreGrid: CORE, preflight: vi.fn() });
-    expect(result.error).toMatch(/2 complete matching terrain\/surface tiles/);
+    expect(result.error).toMatch(/2 terrain tiles and 2 surface tiles drawn from them/);
     expect(batchFactory).not.toHaveBeenCalled();
     expect(disposeSurface).toHaveBeenCalledTimes(1);
   });

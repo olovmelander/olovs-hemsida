@@ -11,6 +11,7 @@ import { createInterface } from 'node:readline';
 import { fileURLToPath } from 'node:url';
 import { verifyChunkAsset } from './chunk-node.mjs';
 import { emitGroundGraph, writeGroundGraphFiles } from './emit-ground-graph-node.mjs';
+import { PUTTOM_PREVIEW_CONFIG } from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
 import {
   PUTTOM_GROUND_GRAPH_CONFIG,
   assertFullSourceCoverage,
@@ -96,7 +97,7 @@ async function readXyzGrid(xyzPath, { transform, width, height, noDataValue }) {
 }
 
 function committedPreviewTiles() {
-  const previewRoot = path.join(ROOT, 'apps/golf/public/v2/puttom');
+  const previewRoot = path.join(ROOT, 'apps/golf/public', path.dirname(PUTTOM_PREVIEW_CONFIG.descriptorPath));
   const descriptor = assertTerrainPreview(
     JSON.parse(readFileSync(path.join(previewRoot, 'preview.json'), 'utf8')),
   );

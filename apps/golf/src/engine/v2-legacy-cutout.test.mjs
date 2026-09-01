@@ -20,10 +20,10 @@ const PUTTOM_CORE = Object.freeze({
 /* Bounds of the retained 16-tile EPSG:5845 preview after its reviewed bridge
    into the immutable Puttom GPK1 local frame. */
 const PUTTOM_PREVIEW_BOUNDS = Object.freeze({
-  x0: -581.5217079999857,
-  x1: 442.47829200001433,
-  z0: -596.7605410004035,
-  z1: 427.23945899959654,
+  x0: -1093.5217079999857,
+  x1: 954.4782920000143,
+  z0: -852.7605410004035,
+  z1: 1195.2394589995965,
 });
 
 /* What the adapter actually plans against: the largest axis-aligned legacy
@@ -55,21 +55,19 @@ describe('v2 legacy CORE cutout planner', () => {
       previewBounds: PUTTOM_LEGACY_BOUNDS,
     });
 
+    /* The wide frontier contains the whole CORE, so the hole is CORE clamped to
+       itself and only the 8 m guard rim survives. */
     expect(plan).toEqual({
-      innerBounds: {
-        x0: -537.8292806781035,
-        x1: 409.8156542660675,
-        z0: -563.3064401972929,
-        z1: 385.8107585801303,
-      },
+      innerBounds: { x0: -640, x1: 640, z0: -748, z1: 748 },
+      clampedToGrid: true,
       guardCells: 2,
       guardMetres: 8,
       nx: 325,
       nz: 379,
       totalBasePoints: 123_175,
-      skippedBasePoints: 56_169,
+      skippedBasePoints: 118_987,
     });
-    expect(plan.skippedBasePoints / plan.totalBasePoints * 100).toBeCloseTo(45.60, 2);
+    expect(plan.skippedBasePoints / plan.totalBasePoints * 100).toBeCloseTo(96.60, 2);
     expect(PUTTOM_PREVIEW_CONFIG.legacyCoreCutout).toEqual({
       guardCells: 2,
       guardMetres: 8,
@@ -82,7 +80,7 @@ describe('v2 legacy CORE cutout planner', () => {
         nx: 325,
         nz: 379,
       },
-      expectedSkippedBasePoints: 56_169,
+      expectedSkippedBasePoints: 118_987,
       expectedTotalBasePoints: 123_175,
     });
     expect(assertV2LegacyCutoutContract({
@@ -110,7 +108,12 @@ describe('v2 legacy CORE cutout planner', () => {
       grid: staleCore,
       previewBounds: PUTTOM_LEGACY_BOUNDS,
     });
-    expect(stalePlan.skippedBasePoints).toBe(contract.expectedSkippedBasePoints);
+    /* The narrow pilot cut a hole INSIDE the grid, so a taller grid skipped the
+       same points and only the spatial contract could tell. The wide pilot's
+       hole IS the grid, so a taller grid now also skips more -- the count
+       catches this one as well, and the shape check below is what still catches
+       the transposed grid, whose count is identical. */
+    expect(stalePlan.skippedBasePoints).toBeGreaterThan(contract.expectedSkippedBasePoints);
     expect(() => assertV2LegacyCutoutContract({
       grid: staleCore, plan: stalePlan, contract,
     })).toThrow(/expected 325x379.*got 325x388/);
@@ -142,10 +145,18 @@ describe('v2 legacy CORE cutout planner', () => {
       .toThrow(/grid\.dx must be positive/);
     expect(() => planV2LegacyCutout({ ...enabled, grid: { ...PUTTOM_CORE, x1: 647 } }))
       .toThrow(/exact multiple/);
-    expect(() => planV2LegacyCutout({
+    /* A frontier wider than the grid is now the normal case and is clamped, not
+       refused; one that misses the grid entirely still fails closed. */
+    const wider = planV2LegacyCutout({
       ...enabled,
       previewBounds: { ...PUTTOM_PREVIEW_BOUNDS, x0: PUTTOM_CORE.x0 - 1 },
-    })).toThrow(/inside the legacy grid/);
+    });
+    expect(wider.clampedToGrid).toBe(true);
+    expect(wider.innerBounds.x0).toBeGreaterThanOrEqual(PUTTOM_CORE.x0);
+    expect(() => planV2LegacyCutout({
+      ...enabled,
+      previewBounds: { x0: PUTTOM_CORE.x1 + 100, x1: PUTTOM_CORE.x1 + 200, z0: -10, z1: 10 },
+    })).toThrow(/do not overlap the legacy grid/);
     expect(() => planV2LegacyCutout({
       ...enabled,
       previewBounds: { x0: 1, x1: 1, z0: -2, z1: 2 },

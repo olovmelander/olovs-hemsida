@@ -3,14 +3,20 @@ import { SURFACE } from './surface.js';
 
 export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   slug: 'puttom',
-  descriptorPath: 'v2/puttom/preview.json',
+  /* The pilot is a VIEW of the published ground graph, not a second extraction:
+     the graph's 64 finest tiles already cover 2048 x 2048 m, which is the only
+     power-of-two window that holds the whole course. See
+     packages/course-v2/derive-preview-from-graph.mjs. The descriptor lives
+     beside the graph because resolveTerrainPreviewAssetUrl refuses an asset
+     outside its own directory. */
+  descriptorPath: 'grounds/puttom/preview.json',
   label: 'Puttom · Lantmäteriet 1 m terräng',
-  descriptorSha256: '398b0b70b7d9ed9793e189bc66bd8c94060741990271cceacbea97b1f3278eb1',
-  surfaceDescriptorPath: 'v2/puttom/surface-preview.json',
+  descriptorSha256: 'be3d4676c7580e75e612ddfe3585be1b905f4c6da4bcfdb34456f1b9673657ed',
+  surfaceDescriptorPath: 'grounds/puttom/surface-preview.json',
   surfaceLabel: 'Puttom · migrerade ytor (ej inmätta)',
-  surfaceDescriptorSha256: '5b36434ebda4238397587811ae090bee24cb9e017f2c1c7f671b7c5fe70a23f0',
+  surfaceDescriptorSha256: 'f64d662114a13b24ea47e73b686a20dfd3f16d88cda6468cdaa56515bd286a09',
   surfaceProvisionalReason: 'migration-vectors-not-survey-approved',
-  frameFingerprint: 'ee406f792b7e59817667d6f6fc8cf6e6b271bf5f7efabb58f3907928f741bef3',
+  frameFingerprint: '07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8',
   packOriginWgs84: Object.freeze({ latitude: 63.2992, longitude: 18.9413 }),
   /* EPSG:3006 projection of the immutable GPK1 WGS84 origin. This bridge keeps
      the legacy +x east/-z TRUE north frame while the preview remains
@@ -50,14 +56,31 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
     verticalDatumOffsetMetres: 23.6263,
   }),
   expectedBoundsEpsg5845: Object.freeze({
-    minEasting: 696916.5,
-    minNorthing: 7024570.5,
-    minHeightRH2000: 37.24201202392578,
-    maxEasting: 697940.5,
-    maxNorthing: 7025594.5,
-    maxHeightRH2000: 70.53581237792969,
+    minEasting: 696404.5,
+    minNorthing: 7023802.5,
+    minHeightRH2000: 26.12063217163086,
+    maxEasting: 698452.5,
+    maxNorthing: 7025850.5,
+    maxHeightRH2000: 103.21914672851562,
   }),
-  expectedTileCount: 16,
+  expectedTileCount: 64,
+  /* The surface layer paints the COURSE; the terrain layer carries the WORLD,
+     and they do not need the same extent. All 64 terrain tiles at 1 m surface
+     decode to 56 MiB, past the compiler's 32 MiB active budget -- and three
+     fifths of those bytes would be describing rough. Coarsening the raster
+     instead would be the wrong economy: a green's edge is exactly what this
+     layer is for, and the plan's own ground-atlas work already found that a
+     1.5 m mow ring cannot live in a 1 m raster, let alone a 2 m one.
+     So the surface covers the tiles the played ground touches with a 32 m
+     margin: 5 x 6 of the 8 x 8, 1280 x 1536 m, 26.5 MiB. The played geometry
+     clears its edges by 39 to 240 m. */
+  surfaceWindowEpsg3006: Object.freeze({
+    minEasting: 696916.5,
+    minNorthing: 7024314.5,
+    maxEasting: 698196.5,
+    maxNorthing: 7025850.5,
+  }),
+  expectedSurfaceTileCount: 30,
   legacyCoreCutout: Object.freeze({
     guardCells: 2,
     guardMetres: 8,
@@ -73,12 +96,13 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
       nx: 325,
       nz: 379,
     }),
-    /* Planned on the INSCRIBED legacy rectangle, not on the grid rectangle:
-       the frame bridge rotates the v2 footprint 3.52 degrees, and the legacy
-       builder can only omit an axis-aligned one. That is what took this from
-       63,504 to 56,169 -- the rotation overhang given back to GPK1, not a
-       smaller pilot. */
-    expectedSkippedBasePoints: 56_169,
+    /* The wide frontier CONTAINS the whole CORE, so the hole is CORE clamped to
+       itself and all that survives is the 8 m guard rim -- 118,987 of 123,175
+       points, 96.6%. cutTerrainPreviewRect then removes the rim's triangles as
+       well, on the rotated footprint. The pilot replaces the legacy CORE in
+       everything but name, through the machinery that was already there and
+       with the fail-closed rebuild untouched. */
+    expectedSkippedBasePoints: 118_987,
     expectedTotalBasePoints: 123_175,
   }),
 });
@@ -205,10 +229,10 @@ function validatePuttomDescriptor(descriptor, geo) {
     throw new Error('Puttom preview label does not match the approved pilot');
   }
   if (descriptor.tiles.length !== PUTTOM_PREVIEW_CONFIG.expectedTileCount) {
-    throw new Error(`Puttom preview has ${descriptor.tiles.length} tiles; expected 16`);
+    throw new Error(`Puttom preview has ${descriptor.tiles.length} tiles; expected ${PUTTOM_PREVIEW_CONFIG.expectedTileCount}`);
   }
   if (descriptor.frame.fingerprint !== PUTTOM_PREVIEW_CONFIG.frameFingerprint ||
-      !near(descriptor.frame.origin.heightRH2000, 37.24)) {
+      !near(descriptor.frame.origin.heightRH2000, 26.12)) {
     throw new Error('Puttom preview frame fingerprint does not match the reviewed pilot');
   }
   for (const [field, expected] of Object.entries(PUTTOM_PREVIEW_CONFIG.expectedBoundsEpsg5845)) {

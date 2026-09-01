@@ -85,13 +85,21 @@ export function planV2LegacyCutout({
     throw new RangeError('grid base-point count is unsafe');
   }
 
-  const verified = orderedBounds(previewBounds, 'previewBounds');
-  if (verified.x0 < core.x0 - STRICT_HOLE_EPSILON ||
-      verified.x1 > core.x1 + STRICT_HOLE_EPSILON ||
-      verified.z0 < core.z0 - STRICT_HOLE_EPSILON ||
-      verified.z1 > core.z1 + STRICT_HOLE_EPSILON) {
-    throw new RangeError('previewBounds must lie inside the legacy grid');
+  const requested = orderedBounds(previewBounds, 'previewBounds');
+  /* The pilot used to be smaller than the grid it cut into, and anything larger
+     was a mistake worth refusing. The wide frontier is deliberately larger --
+     it contains the whole CORE -- so the hole is the INTERSECTION, and the
+     planner says which it planned rather than silently accepting either. A
+     frontier that misses the grid entirely is still an error. */
+  const verified = {
+    x0: Math.max(requested.x0, core.x0), x1: Math.min(requested.x1, core.x1),
+    z0: Math.max(requested.z0, core.z0), z1: Math.min(requested.z1, core.z1),
+  };
+  if (!(verified.x1 > verified.x0 && verified.z1 > verified.z0)) {
+    throw new RangeError('previewBounds do not overlap the legacy grid');
   }
+  const clampedToGrid = verified.x0 !== requested.x0 || verified.x1 !== requested.x1 ||
+    verified.z0 !== requested.z0 || verified.z1 !== requested.z1;
 
   const guardMetres = guardCells * dx;
   if (!Number.isFinite(guardMetres)) {
@@ -116,6 +124,7 @@ export function planV2LegacyCutout({
 
   return Object.freeze({
     innerBounds,
+    clampedToGrid,
     guardCells,
     guardMetres,
     nx,

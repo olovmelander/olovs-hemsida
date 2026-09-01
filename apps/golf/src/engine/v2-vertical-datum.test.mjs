@@ -48,9 +48,10 @@ async function legacySampler() {
 }
 
 async function bridgedPreview() {
-  const descriptor = JSON.parse(readFileSync(`${PUBLIC}/v2/puttom/preview.json`, 'utf8'));
+  const root = `${PUBLIC}/${PUTTOM_PREVIEW_CONFIG.descriptorPath}`.replace(/\/[^/]+$/, '');
+  const descriptor = JSON.parse(readFileSync(`${PUBLIC}/${PUTTOM_PREVIEW_CONFIG.descriptorPath}`, 'utf8'));
   const resources = await Promise.all(descriptor.tiles.map(async tile => {
-    const bytes = readFileSync(`${PUBLIC}/v2/puttom/${tile.reference.url}`);
+    const bytes = readFileSync(`${root}/${tile.reference.url}`);
     const decoded = await verifyChunkAsset(tile.reference, new Uint8Array(bytes));
     return createTerrainRenderResource({
       tileId: tile.id,
@@ -118,7 +119,7 @@ describe('the v2 pilot and the legacy pack stand at the same height', () => {
        earth, so the upper tail is the woods and is a real difference between
        two products rather than a fault in the bridge. */
     expect(all.p95).toBeGreaterThan(2);
-  });
+  }, 60_000);   /* 64 tiles to verify and decode, not 16 */
 
   it('states the offset as measured, and refuses a frame that cannot say', () => {
     const frame = PUTTOM_PREVIEW_CONFIG.legacyFrame;

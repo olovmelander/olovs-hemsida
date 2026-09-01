@@ -315,7 +315,7 @@ test('authoritative surface preflight becomes ready only with a bound, approved 
 test('Puttom preflight records its intentional source and origin blockers without promotion', () => {
   const manifest = JSON.parse(readFileSync(new URL('../../geo_data/course-v2/puttom/source-manifest.json', import.meta.url)));
   const catalog = JSON.parse(readFileSync(new URL('../../geo_data/course-v2/source-catalog.json', import.meta.url)));
-  const terrain = JSON.parse(readFileSync(new URL('../../apps/golf/public/v2/puttom/preview.json', import.meta.url)));
+  const terrain = JSON.parse(readFileSync(new URL('../../apps/golf/public/grounds/puttom/preview.json', import.meta.url)));
   const report = evaluateAuthoritativeSurfacePreflight({
     manifest,
     catalog,

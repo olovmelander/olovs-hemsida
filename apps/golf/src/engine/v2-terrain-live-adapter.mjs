@@ -43,7 +43,9 @@ function assertBatch(batch) {
   return batch;
 }
 
-function assertFixedFrontier({ source, courseSlug, expectedCourseSlug, expectedTileCount, renderResources }) {
+function assertFixedFrontier({
+  source, courseSlug, expectedCourseSlug, expectedTileCount, expectedSurfaceTileCount, renderResources,
+}) {
   const surfaceAtlas = source.surfaceAtlas;
   const terrainTileIds = renderResources.map(resource => resource.tileId).sort();
   const surfaceTileIds = [...(surfaceAtlas?.data?.tileIds || [])].sort();
@@ -58,14 +60,19 @@ function assertFixedFrontier({ source, courseSlug, expectedCourseSlug, expectedT
       renderResources.length !== expectedTileCount ||
       new Set(terrainTileIds).size !== expectedTileCount ||
       renderResources.some(resource => resource.noDataCount !== 0) ||
-      surfaceTileIds.length !== expectedTileCount ||
-      surfaceTileIds.some((tileId, index) => tileId !== terrainTileIds[index]) ||
+      surfaceTileIds.length !== expectedSurfaceTileCount ||
+      /* The surface frontier is a rectangular SUBSET of the terrain frontier --
+         the course does not fill the window and 1 m rough over the rest costs
+         more than the active budget allows -- so it is checked as a subset and
+         at its own reviewed count, never as an equal set. */
+      !surfaceTileIds.every(tileId => terrainTileIds.includes(tileId)) ||
       surfaceAtlas?.data?.noDataCount !== 0 ||
       !Number.isSafeInteger(surfaceSamples) || classifiedSamples !== surfaceSamples ||
-      !surfaceAtlas?.contains(source.bounds?.x0, source.bounds?.z0) ||
-      !surfaceAtlas?.contains(source.bounds?.x1, source.bounds?.z1)) {
+      !surfaceAtlas?.contains(surfaceAtlas.bounds?.x0, surfaceAtlas.bounds?.z0) ||
+      !surfaceAtlas?.contains(surfaceAtlas.bounds?.x1, surfaceAtlas.bounds?.z1)) {
     throw new Error(
-      `v2 fixed-frontier preflight requires ${expectedTileCount} complete matching terrain/surface tiles`,
+      `v2 fixed-frontier preflight requires ${expectedTileCount} terrain tiles and ` +
+      `${expectedSurfaceTileCount} surface tiles drawn from them`,
     );
   }
   return Object.freeze({ surfaceAtlas, terrainTileIds: Object.freeze(terrainTileIds) });
@@ -86,6 +93,7 @@ export class V2TerrainLiveAdapter {
     courseSlug,
     expectedCourseSlug,
     expectedTileCount,
+    expectedSurfaceTileCount,
     cutoutContract,
     batchFactory = defaultBatchFactory,
   } = {}) {
@@ -95,6 +103,10 @@ export class V2TerrainLiveAdapter {
       throw new TypeError('expectedCourseSlug is required');
     }
     positiveInteger(expectedTileCount, 'expectedTileCount');
+    positiveInteger(expectedSurfaceTileCount, 'expectedSurfaceTileCount');
+    if (expectedSurfaceTileCount > expectedTileCount) {
+      throw new RangeError('the surface frontier cannot exceed the terrain frontier');
+    }
     if (!cutoutContract || typeof cutoutContract !== 'object') {
       throw new TypeError('reviewed cutoutContract is required');
     }
@@ -102,6 +114,7 @@ export class V2TerrainLiveAdapter {
     this.courseSlug = courseSlug;
     this.expectedCourseSlug = expectedCourseSlug;
     this.expectedTileCount = expectedTileCount;
+    this.expectedSurfaceTileCount = expectedSurfaceTileCount;
     this.cutoutContract = cutoutContract;
     this.batchFactory = callback(batchFactory, 'batchFactory');
     this.phase = source.ready ? 'pending' : 'fallback';
@@ -151,6 +164,7 @@ export class V2TerrainLiveAdapter {
         courseSlug: this.courseSlug,
         expectedCourseSlug: this.expectedCourseSlug,
         expectedTileCount: this.expectedTileCount,
+        expectedSurfaceTileCount: this.expectedSurfaceTileCount,
         renderResources,
       });
       const createdBatch = await this.batchFactory({

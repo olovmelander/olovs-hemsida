@@ -25,7 +25,7 @@ if (!fs.existsSync(path.join(DIST, 'sw.js'))) {
   throw new Error('golf production build is missing; run the Vite build first');
 }
 
-const previewRoot = path.join(DIST, 'v2/puttom');
+const previewRoot = path.join(DIST, path.dirname(PUTTOM_PREVIEW_CONFIG.descriptorPath));
 const descriptorBytes = fs.readFileSync(path.join(previewRoot, 'preview.json'));
 const descriptorSha256 = createHash('sha256').update(descriptorBytes).digest('hex');
 if (descriptorSha256 !== PUTTOM_PREVIEW_CONFIG.descriptorSha256) {
@@ -43,12 +43,29 @@ for (const tile of preview.tiles) {
   verifyChunkAsset(tile.reference, fs.readFileSync(file));
   referencedTerrain.add(path.relative(previewRoot, file));
 }
-const terrainDirectory = path.join(previewRoot, 'grounds/puttom/terrain');
-const retained = fs.readdirSync(terrainDirectory)
-  .filter(file => file.endsWith('.bvch'))
-  .map(file => path.join('grounds/puttom/terrain', file));
-if (retained.length !== referencedTerrain.size || retained.some(file => !referencedTerrain.has(file))) {
-  throw new Error('built Puttom preview contains missing or unreferenced BVCH files');
+/* The pilot now SHARES its directory with the published ground graph, whose
+   chunks it lists: the terrain folder legitimately holds the graph's coarser
+   pyramid levels as well as the 64 the preview names. So the invariant is not
+   "nothing unreferenced" any more -- it is that every byte there is referenced
+   by the preview OR by the graph beside it, and nothing else has been shipped. */
+const terrainDirectory = path.join(previewRoot, path.dirname(preview.tiles[0].reference.url));
+const graphName = fs.readdirSync(previewRoot).find(file => /^ground-v2-[0-9a-f]{64}\.json$/.test(file));
+if (!graphName) throw new Error('built Puttom preview has no published ground graph beside it');
+const graph = JSON.parse(fs.readFileSync(path.join(previewRoot, graphName), 'utf8'));
+const referencedByGraph = new Set([
+  ...(graph.tiles || []).map(tile => tile.layers?.terrain?.url),
+  /* the graph's shell, its coarsest single tile, is referenced outside `tiles` */
+  graph.shell?.url,
+].filter(Boolean).map(url => path.basename(url)));
+for (const url of referencedTerrain) referencedByGraph.add(path.basename(url));
+const retained = fs.readdirSync(terrainDirectory).filter(file => file.endsWith('.bvch'));
+if (retained.some(file => !referencedByGraph.has(file))) {
+  throw new Error('built Puttom terrain directory contains unreferenced BVCH files');
+}
+for (const url of referencedTerrain) {
+  if (!retained.includes(path.basename(url))) {
+    throw new Error(`built Puttom preview references a missing BVCH file ${url}`);
+  }
 }
 
 const surfaceDescriptorPath = path.join(previewRoot, 'surface-preview.json');
@@ -65,8 +82,12 @@ if (surface.label !== PUTTOM_PREVIEW_CONFIG.surfaceLabel ||
     surface.terrainDescriptorSha256 !== descriptorSha256 ||
     surface.frameFingerprint !== preview.frame.fingerprint ||
     surface.source.packSha256 !== puttomPack?.sha256 ||
-    surface.tiles.length !== preview.tiles.length ||
-    surface.tiles.some((tile, index) => tile.id !== preview.tiles[index]?.id)) {
+    /* The surface frontier is a rectangular SUBSET of the terrain frontier --
+       1 m rough over the whole 2048 m window costs more than the compiler's
+       active budget allows -- so it is checked as a subset at its own reviewed
+       count, never as an equal list. */
+    surface.tiles.length !== PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount ||
+    surface.tiles.some(tile => !preview.tiles.some(terrain => terrain.id === tile.id))) {
   throw new Error('built Puttom surface preview is not bound to its terrain frame and verified GPK1 source');
 }
 const referencedSurface = new Set();
@@ -86,16 +107,18 @@ const surfaceAtlas = createSurfacePreviewAtlas({
   frame: preview.frame,
   bridge: {
     translateX: preview.frame.origin.easting - PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006.easting,
-    translateY: preview.frame.origin.heightRH2000,
+    translateY: preview.frame.origin.heightRH2000 +
+      PUTTOM_PREVIEW_CONFIG.legacyFrame.verticalDatumOffsetMetres,
     translateZ: PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006.northing - preview.frame.origin.northing,
   },
 });
 assertPuttomSurfaceCoverage(surfaceAtlas.data.classCounts);
 surfaceAtlas.dispose();
-const surfaceDirectory = path.join(previewRoot, 'grounds/puttom/surface');
+const surfaceRelative = path.dirname(surface.tiles[0].reference.url);
+const surfaceDirectory = path.join(previewRoot, surfaceRelative);
 const retainedSurface = fs.readdirSync(surfaceDirectory)
   .filter(file => file.endsWith('.bvch'))
-  .map(file => path.join('grounds/puttom/surface', file));
+  .map(file => path.join(surfaceRelative, file));
 if (retainedSurface.length !== referencedSurface.size || retainedSurface.some(file => !referencedSurface.has(file))) {
   throw new Error('built Puttom surface preview contains missing or unreferenced BVCH files');
 }
