@@ -11,7 +11,7 @@
   "properties": {
     "schemaVersion": { "const": 2 },
     "id": { "$ref": "common-v2.schema.json#/$defs/tileId" },
-    "kind": { "enum": ["terrain", "surface", "objects", "routing"] },
+    "kind": { "enum": ["terrain", "surface", "objects", "stands", "routing"] },
     "owner": {
       "type": "object",
       "additionalProperties": false,
@@ -23,7 +23,34 @@
     },
     "bounds": { "$ref": "common-v2.schema.json#/$defs/bounds" },
     "payloadFormat": {
-      "enum": ["terrain-grid-u16-le-v1", "surface-grid-u8-i16-le-v1", "surface-sdf-u8-v1", "json-canonical-v1"]
+      "enum": ["terrain-grid-u16-le-v1", "surface-grid-u8-i16-le-v1", "surface-sdf-u8-v1", "stand-field-u8-v1", "json-canonical-v1"]
+    },
+    "standField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width", "height", "cellMetres", "bytesPerSample", "channels", "fractionEncoding",
+        "heightScaleMetres", "rowOrder", "columnOrder", "standRegistryVersion"
+      ],
+      "properties": {
+        "width": { "type": "integer", "minimum": 1, "maximum": 4096 },
+        "height": { "type": "integer", "minimum": 1, "maximum": 4096 },
+        "cellMetres": { "type": "number", "minimum": 0.5, "maximum": 256 },
+        "bytesPerSample": { "const": 4 },
+        "channels": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "canopyFraction" }, { "const": "meanHeight" }, { "const": "p95Height" }, { "const": "flags" }
+          ],
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "fractionEncoding": { "const": "unorm8" },
+        "heightScaleMetres": { "const": 0.25 },
+        "rowOrder": { "const": "north-to-south" },
+        "columnOrder": { "const": "west-to-east" },
+        "standRegistryVersion": { "type": "integer", "minimum": 1, "maximum": 65535 }
+      }
     },
     "decodedBytes": { "type": "integer", "minimum": 0, "maximum": 67108864 },
     "decodedSha256": { "$ref": "common-v2.schema.json#/$defs/sha256" },
@@ -128,6 +155,26 @@
         "grid": true,
         "surfaceGrid": false,
         "surfaceSdf": false,
+        "standField": false,
+        "records": false
+      }
+    },
+    {
+      "type": "object",
+      "required": ["standField"],
+      "properties": {
+        "payloadFormat": { "const": "stand-field-u8-v1" },
+        "kind": { "const": "stands" },
+        "owner": {
+          "type": "object",
+          "required": ["type"],
+          "properties": { "type": { "const": "ground" } }
+        },
+        "requiredFeatures": { "type": "array", "contains": { "const": "stand-field-u8-v1" } },
+        "grid": false,
+        "surfaceGrid": false,
+        "surfaceSdf": false,
+        "standField": true,
         "records": false
       }
     },
@@ -146,6 +193,7 @@
         "grid": false,
         "surfaceGrid": true,
         "surfaceSdf": false,
+        "standField": false,
         "records": false
       }
     },
@@ -164,6 +212,7 @@
         "grid": false,
         "surfaceGrid": false,
         "surfaceSdf": true,
+        "standField": false,
         "records": false
       }
     },
@@ -182,6 +231,7 @@
         "grid": false,
         "surfaceGrid": false,
         "surfaceSdf": false,
+        "standField": false,
         "records": {
           "type": "object",
           "required": ["content"],
@@ -204,6 +254,7 @@
         "grid": false,
         "surfaceGrid": false,
         "surfaceSdf": false,
+        "standField": false,
         "records": {
           "type": "object",
           "required": ["content"],

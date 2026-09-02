@@ -1,0 +1,10 @@
+{
+  "name": "@banvy/copc-reader",
+  "private": true,
+  "type": "module",
+  "description": "Offline-only Node reader for Laserdata Skog COPC windows: laz-perf (WASM) through the copc package. Never shipped to the browser.",
+  "dependencies": {
+    "copc": "0.0.9",
+    "laz-perf": "0.0.7"
+  }
+}

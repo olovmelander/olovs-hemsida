@@ -108,16 +108,37 @@ export class TerrainTileManager {
     this.parentById = new Map();
     this.childrenById = new Map([...this.tiles.keys()].map(tileId => [tileId, []]));
     for (const tile of this.tiles.values()) {
-      const parentId = `l${tile.lod + 1}/${Math.floor(tile.column / 2)}/${Math.floor(tile.row / 2)}`;
+      /* a ring-compiled graph names parents explicitly, because its levels do
+         not share one index lattice; a pyramid graph leaves them to index
+         arithmetic, as before */
+      const explicit = tile.parentId !== undefined;
+      const parentId = explicit
+        ? tile.parentId
+        : `l${tile.lod + 1}/${Math.floor(tile.column / 2)}/${Math.floor(tile.row / 2)}`;
+      if (parentId === null) continue;
       const parent = this.tiles.get(parentId);
-      if (!parent) continue;
+      if (!parent) {
+        if (explicit) throw new Error(`terrain tile ${tile.id} names parent ${parentId}, which this course does not carry`);
+        continue;
+      }
+      if (explicit && parent.lod !== tile.lod + 1) {
+        throw new Error(`terrain parent ${parentId} of ${tile.id} is not one level coarser`);
+      }
       if (!containsHorizontal(parent, tile)) {
         throw new Error(`terrain parent ${parentId} does not contain child ${tile.id}`);
       }
       this.parentById.set(tile.id, parentId);
       this.childrenById.get(parentId).push(tile.id);
     }
-    for (const children of this.childrenById.values()) children.sort(idOrder);
+    for (const [parentId, children] of this.childrenById) {
+      children.sort(idOrder);
+      /* a refined tile is replaced by its children and nothing else draws its
+         ground, so a parent with some but not all four is a hole waiting to
+         open; the compiler refuses such rings and the runtime does too */
+      if (children.length !== 0 && children.length !== 4) {
+        throw new Error(`terrain tile ${parentId} has ${children.length} children; a quadtree parent has four or none`);
+      }
+    }
     this.roots = Object.freeze([...this.tiles.values()]
       .filter(tile => !this.parentById.has(tile.id))
       .sort((left, right) => right.lod - left.lod || idOrder(left.id, right.id)));
@@ -282,8 +303,20 @@ export class TerrainTileManager {
       }
     }
 
+    /* Every ancestor of a desired tile stays wanted while it is resident: it
+       is the fallback that covers the ground until the children arrive and
+       the parent the children geomorph from. Dropping it once the children
+       rendered made the next plan request it again, and a pool that still
+       held it answered at once -- a promise chain that never let a timer
+       fire and froze the boot. */
+    const retain = new Set();
+    for (const tile of desired) {
+      let cursor = tile.id;
+      while (cursor) { retain.add(cursor); cursor = this.parentById.get(cursor); }
+    }
     return Object.freeze({
       desiredTileIds: Object.freeze(desired.map(tile => tile.id)),
+      retainTileIds: Object.freeze([...retain].sort(idOrder)),
       renderTileIds: Object.freeze(renderIds),
       requests: Object.freeze([...requests.values()].sort((left, right) =>
         left.priority - right.priority || idOrder(left.tileId, right.tileId))),

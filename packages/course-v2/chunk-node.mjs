@@ -9,6 +9,7 @@ import {
   assertValidAssetReference,
 } from './schema.mjs';
 import { inspectObjectRegistryPayload } from './object-registry.mjs';
+import { inspectStandFieldPayload } from './stand-field.mjs';
 import { inspectSurfacePayload } from './surface-grid.mjs';
 import { inspectSurfaceSdfPayload } from './surface-sdf-grid.mjs';
 import { inspectTerrainPayload } from './terrain-grid.mjs';
@@ -89,6 +90,8 @@ export function readChunk(input, options = {}) {
     inspection = inspectSurfacePayload(payload, envelope.header);
   } else if (envelope.header.payloadFormat === 'surface-sdf-u8-v1') {
     inspection = inspectSurfaceSdfPayload(payload, envelope.header);
+  } else if (envelope.header.payloadFormat === 'stand-field-u8-v1') {
+    inspection = inspectStandFieldPayload(payload, envelope.header);
   } else if (envelope.header.payloadFormat === 'json-canonical-v1') {
     const text = decoder.decode(payload);
     try { content = JSON.parse(text); }

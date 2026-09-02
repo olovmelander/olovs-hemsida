@@ -189,3 +189,31 @@ test('failed assets use bounded exponential backoff instead of retrying every fr
   assert.equal(loader.calls.filter(tileId => tileId === 'shell').length, 2);
   controller.dispose();
 });
+
+test('a loader that answers at once cannot make the controller chase its own ancestors', async () => {
+  /* Once the fine tiles were resident their ancestors fell out of the keep
+     set, the next plan requested them again, the pool answered at once, and
+     the resolve/reconcile chain never yielded. With an instant loader the
+     controller must settle in a bounded number of requests and keep the
+     ancestors of every desired tile resident. */
+  const { ground, idsByUrl, manager } = fixture();
+  const calls = [];
+  const loader = {
+    request: reference => { calls.push(idsByUrl.get(reference.url)); return Promise.resolve({ url: reference.url }); },
+  };
+  const controller = new TerrainStreamController({
+    manager, loader, createResource: ({ tileId }) => ({ tileId }), maximumCachedResources: 32,
+  });
+  controller.update({
+    camera: { easting: 650004, northing: 6640004, heightRH2000: 36 },
+    viewportHeightPixels: 1000, fieldOfViewYRadians: Math.PI / 2, targetErrorPixels: 1, maximumSelectedTiles: 8,
+  });
+  for (let i = 0; i < 20; i++) await tick();
+  const snapshot = controller.snapshot();
+  const unique = new Set(calls);
+  assert.ok(calls.length <= unique.size + 1, `requested ${calls.length} times for ${unique.size} tiles: ${calls.join(' ')}`);
+  assert.ok(snapshot.readyTileIds.includes('l1/0/0'), `the parent of the desired tiles stays resident: ${snapshot.readyTileIds}`);
+  assert.ok(snapshot.plan.desiredTileIds.every(id => snapshot.readyTileIds.includes(id)));
+  assert.deepEqual(snapshot.loadingTileIds, []);
+  controller.dispose();
+});

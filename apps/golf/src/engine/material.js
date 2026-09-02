@@ -336,7 +336,7 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
    evaluated on ITS OWN coordinate source and the resulting stripe intensity
    is cross-faded by weight, because a green's rings and a fairway's route
    bands are different cuts and averaging their phases would draw a third. */
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode }) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null }) {
   const channels = atlas.data.channels;
   const classes = [...channels, SURFACE.ROUGH];
   const roughIndex = classes.length - 1;
@@ -428,7 +428,26 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode }) {
       return material;
     }
 
-    const base = blend3(index => styles[index].colour);
+    /* Rough is the one class that reaches beyond the course: on a world
+       graph it runs to the horizon, where the legacy rings painted forest
+       floor, fields, gardens and rock per vertex. The tint rasters carry that
+       same classification (main.js builds them from the same functions), a
+       near one at fine spacing and a far one to the horizon; outside both the
+       flat rough colour remains. */
+    const tintSample = layer => {
+      const tb = layer.bounds;
+      const uv = vec2(wp.x.sub(float(tb.x0)).div(tb.x1 - tb.x0), wp.y.sub(float(tb.z0)).div(tb.z1 - tb.z0));
+      const inside = step(0, uv.x).mul(step(uv.x, 1)).mul(step(0, uv.y)).mul(step(uv.y, 1));
+      return { colour: texture(layer.texture, uv).rgb, inside };
+    };
+    let roughColour = vec3(...styles[roughIndex].colour);
+    if (tint?.far) { const far = tintSample(tint.far); roughColour = mix(roughColour, far.colour, far.inside); }
+    if (tint?.near) { const near = tintSample(tint.near); roughColour = mix(roughColour, near.colour, near.inside); }
+    const colourNodes = styles.map((style, index) => (index === roughIndex ? roughColour : vec3(...style.colour)));
+    const base = weights.reduce((acc, weight, index) => {
+      const term = colourNodes[index].mul(weight);
+      return acc ? acc.add(term) : term;
+    }, null);
     const shade = blend4(index => styles[index].shade);
     const meta = blend4(index => styles[index].meta);
 
@@ -471,13 +490,13 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode }) {
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off' }) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null }) {
   if (!['off', 'weights'].includes(debugMode)) throw new TypeError(`unknown surface debug mode: ${debugMode}`);
   if (atlas?.data?.representation === 'class-sdf-v1') {
     if (!atlas.texSdf?.length || !atlas.texF || !atlas.data.channels?.length) {
       throw new TypeError('the per-class v2 terrain material requires SDF textures and a channel palette');
     }
-    return createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode });
+    return createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint });
   }
   if (!atlas?.texID || !atlas?.texF) throw new TypeError('the v2 terrain material requires a ground atlas');
   const styleTexture = makeStyleTexture(C, SHADE, { includeNatural: true });

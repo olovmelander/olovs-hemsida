@@ -54,7 +54,7 @@
         "decodedBytes", "decodedSha256", "requiredFeatures"
       ],
       "properties": {
-        "kind": { "enum": ["terrain", "surface", "objects", "routing"] },
+        "kind": { "enum": ["terrain", "surface", "objects", "stands", "routing"] },
         "url": { "$ref": "#/$defs/relativeUrl" },
         "mediaType": { "const": "application/vnd.banvy.chunk-v2" },
         "bytes": { "type": "integer", "minimum": 16, "maximum": 16777216 },

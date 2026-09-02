@@ -62,6 +62,7 @@ import {
   selectV2TerrainSource,
   v2StreamProbeRequested,
   V2_GRAPH_RENDERER_GATE,
+  V2_OBJECT_LAYER_GATE,
 } from './engine/v2-terrain-select.mjs';
 import { V2TerrainLiveAdapter } from './engine/v2-terrain-live-adapter.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
@@ -165,13 +166,32 @@ const [b0, b1, bv, V2_SELECTION] = await Promise.all([
   inflate(PACK.s0), inflate(PACK.s1), inflate(PACK.sv), terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
+/* Phase 4 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
+   a published graph that carries object registries or stand fields has them
+   fetched now, in parallel with everything below, through a dynamic import
+   so that a flagless visit never downloads the vegetation runtime. The load
+   is awaited before the ground is installed: under ?v2=require a bad chunk
+   is a boot error, under ?v2=1 the legacy lattice serves everywhere. There
+   is deliberately no per-tile fallback. */
+const V2_VEGETATION_LOADING = V2_SELECTION.graph &&
+  ((V2_SELECTION.graph.summary?.objectTiles || 0) + (V2_SELECTION.graph.summary?.standTiles || 0)) > 0
+  ? import('./engine/v2-vegetation.mjs').then(async mod => ({
+    mod,
+    loaded: await mod.loadV2Vegetation({
+      graph: V2_SELECTION.graph,
+      baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
+    }),
+  }))
+  : null;
+let V2_VEGETATION = null;
+let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = JSON.parse(new TextDecoder().decode(bv));
 const HOLES = M.holes;
 /* A verified descriptor alone may not alter either construction or visible
    ground. The adapter opens those gates separately after backend preflight and
    after successful scene installation/legacy cut respectively. */
-const terrainV2 = new V2TerrainLiveAdapter({
+let terrainV2 = new V2TerrainLiveAdapter({
   source: TERRAIN_PREVIEW,
   courseSlug: CMETA.slug,
   expectedCourseSlug: PUTTOM_PREVIEW_CONFIG.slug,
@@ -179,6 +199,42 @@ const terrainV2 = new V2TerrainLiveAdapter({
   expectedSurfaceTileCount: PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount,
   cutoutContract: PUTTOM_PREVIEW_CONFIG.legacyCoreCutout,
 });
+/* A published graph that reaches past the course window -- nested rings of
+   Lantmäteriet data to a 16 km root -- becomes the ONLY terrain: the streaming
+   runtime draws it in the pilot's bridge and the legacy CORE, MID and FAR
+   rings are never built, so there is no seam between two sources anywhere.
+   The pilot source still supplies its 1 m sampler and the surface atlas.
+   The rings are read NOW, on the main thread and before any GPU exists,
+   because the water levels are measured against the ground a few hundred
+   lines below and every lake must be measured against the world it will be
+   drawn on -- the pilot sampler alone left the lakes outside its window at
+   their Terrarium levels, metres off the DTM's own water surface, so their
+   planes hid under the ground and the far scatter planted cones on them.
+   Loaded dynamically so a flagless visit never downloads it. */
+let V2_WORLD = null;
+if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
+  const mod = await import('./engine/v2-graph-terrain.mjs');
+  if (mod.graphCoversHorizon(V2_SELECTION.graph.ground, TERRAIN_PREVIEW.descriptor?.bounds)) {
+    const world = new mod.V2GraphTerrainAdapter({
+      graph: V2_SELECTION.graph,
+      source: TERRAIN_PREVIEW,
+      courseSlug: CMETA.slug,
+      baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
+      legacyOriginEpsg3006: PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006,
+    });
+    try {
+      const ringStarted = performance.now();
+      const ringTiles = await world.loadRings();
+      console.info(`v2 world: ${ringTiles} ring tiles read for the model in ${Math.round(performance.now() - ringStarted)} ms`);
+      terrainV2 = world;
+      V2_WORLD = mod;
+    } catch (error) {
+      const detail = String(error?.message || error).slice(0, 300);
+      if (V2_SELECTION.require) throw new Error(`v2 krävdes men världens ringar kunde inte läsas: ${detail}`);
+      console.warn('v2 world rings could not be read; the course window serves alone:', detail);
+    }
+  }
+}
 
 const terrainPreviewBadge = document.getElementById('v2TerrainBadge');
 function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres = null) {
@@ -188,10 +244,13 @@ function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres =
   const detail = terrainPreviewBadge.querySelector('span');
   if (TERRAIN_PREVIEW.ready && renderState !== 'failed') {
     terrainPreviewBadge.dataset.state = renderState === 'ready' ? 'ready' : 'loading';
-    title.textContent = '1 M TERRÄNG · PREVIEW';
+    const world = terrainV2.kind === 'graph' && terrainV2.rendererState;
+    title.textContent = world?.status === 'ready' ? '1 M TERRÄNG · HELA VÄRLDEN' : '1 M TERRÄNG · PREVIEW';
     detail.textContent = [
       'Puttom',
-      `${TERRAIN_PREVIEW.resources.length} verifierade tiles`,
+      world?.status === 'ready'
+        ? `${world.tiles} tiles i ${world.levels.length} nivåer till 16 km`
+        : `${TERRAIN_PREVIEW.resources.length} verifierade tiles`,
       backend,
       meshMetres ? `1 m höjd · ${meshMetres} m mesh` : null,
     ].filter(Boolean).join(' · ');
@@ -408,12 +467,18 @@ for (const h of HOLES) {
        water up to a quarter-metre too high, and that is the honest trade: a
        stated 0.25 m error against a defect visible on every lake. */
     const COVERAGE = 0.6, PERCENTILE = 0.30, MIN_POINTS = 3, CLEARANCE = 0.25;
+    /* the world when it is loaded -- every ring is then covered, and a lake
+       two kilometres out is measured against the ground it is drawn on --
+       otherwise the pilot's own window */
+    const groundProbe = typeof terrainV2.worldHeightAt === 'function' && terrainV2.ringsLoaded
+      ? (x, z) => terrainV2.worldHeightAt(x, z)
+      : (x, z) => TERRAIN_PREVIEW.heightAt(x, z);
     const remeasured = [];
     for (const w of M.water) {
       if (w.stream || !w.ring?.length) continue;
       const heights = [];
       for (const p of w.ring) {
-        const probe = TERRAIN_PREVIEW.heightAt(p[0], p[1]);
+        const probe = groundProbe(p[0], p[1]);
         const h = Number.isFinite(probe) ? probe : probe?.height;
         if (Number.isFinite(h)) heights.push(h);
       }
@@ -439,6 +504,28 @@ for (const h of HOLES) {
       w.level = level;
     }
     if (remeasured.length) console.info('v2 water levels re-measured:', remeasured.join(', '));
+    /* Now that every body has its level, read the water the model does NOT
+       have off the ground: the extract cut lake polygons at its bounding
+       box, and lakes past it are not in the pack at all, while the DTM shows
+       each as a flat at its own level. The mask keeps trees off them, tints
+       the bed under them, and lays a sheet where no ring does. */
+    if (typeof terrainV2.detectFlatWater === 'function' && terrainV2.ringsLoaded) {
+      const flatStarted = performance.now();
+      const flat = terrainV2.detectFlatWater(M.water.filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })));
+      const uncovered = flat.components.filter(c => c.uncoveredCells > 0);
+      console.info(`v2 flat water: ${flat.components.length} flats over 0.48 ha, ${uncovered.length} beyond the model's rings ` +
+        `(${uncovered.reduce((s, c) => s + c.uncoveredCells, 0) * flat.spacing * flat.spacing / 10000 | 0} ha), ${Math.round(performance.now() - flatStarted)} ms`);
+      /* The laser's ground inside a lake is the lake's surface. Carve a bed
+         under all of it now -- before the water sheets measure their depth
+         and before the GPU decodes a single tile -- so the water has depth
+         where a lake has it, and the sheet has metres of clearance instead
+         of a hand's width. */
+      if (typeof terrainV2.carveWaterBeds === 'function') {
+        const bed = terrainV2.carveWaterBeds();
+        console.info(`v2 water beds: ${bed.hectares} ha carved to ${bed.maximumDepthMetres} m, ` +
+          `${bed.carvedSamples} samples in ${bed.carvedTiles} ring tiles, ${bed.milliseconds} ms`);
+      }
+    }
   }
 
   for (const w of M.water) {
@@ -1395,6 +1482,10 @@ const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -5400, z1: 5400,
                ...((SCENERY && SCENERY.farRing) || {}) };
 
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
+/* the far cones' positions and the water sheets, kept so a harness can ask
+   where they stand and hide them to see what is under them */
+let VISTA_PTS = null;
+const WATER_MESHES = [];
 SEAM = MIDR;
 const builtTerrain = { core: null, mid: null };
 
@@ -1471,6 +1562,80 @@ function buildDetailMask(R) {
   let n = 0;
   for (let k = 0; k < mask.length; k++) n += mask[k];
   return { mask, nx, nz, cells: n, total: (nx - 1) * (nz - 1) };
+}
+
+/* GROUND COLOUR TO THE HORIZON, FOR THE WORLD GRAPH.
+
+   The legacy rings coloured every vertex: CORE and MID through groundAt (turf,
+   forest floor under canopy, wet shore, landuse), FAR through a cheaper read
+   of slope, height and what the map says the ground is used for. The v2
+   material has no vertex colour, so the same two classifications are baked
+   into two small rasters the rough class samples -- 6 m to 1.5 km, 24 m to
+   6 km -- allocated before the material exists and filled once the world's
+   heights are resident. sRGB bytes, so the darks keep their steps. */
+const GROUND_TINT_NEAR = { half: 1536, dx: 6 };
+const GROUND_TINT_FAR = { half: 6144, dx: 24 };
+function createGroundTintTextures() {
+  const make = ({ half, dx }) => {
+    const n = Math.round((2 * half) / dx) + 1;
+    const data = new Uint8Array(n * n * 4).fill(255);
+    const texture = new THREE.DataTexture(data, n, n, THREE.RGBAFormat, THREE.UnsignedByteType);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+    texture.generateMipmaps = false;
+    texture.flipY = false;
+    texture.needsUpdate = true;
+    return { texture, n, dx, bounds: { x0: -half - dx / 2, z0: -half - dx / 2, x1: half + dx / 2, z1: half + dx / 2 } };
+  };
+  return { near: make(GROUND_TINT_NEAR), far: make(GROUND_TINT_FAR) };
+}
+const toSrgbByte = v => Math.max(0, Math.min(255, Math.round(255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055))));
+const SEA_TINT = [0.055, 0.085, 0.105];
+/* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
+   and a flat the sheet misses never reads as a pale plate */
+const FLAT_WATER_TINT = [0.05, 0.075, 0.09];
+function fillGroundTintTextures(tint, heightAt) {
+  const H = (x, z) => { const h = heightAt(x, z); return Number.isFinite(h) ? h : demH(x, z); };
+  const flatWaterAt = typeof terrainV2.isFlatWaterAt === 'function' ? (x, z) => terrainV2.isFlatWaterAt(x, z) : () => false;
+  const started = performance.now();
+  const fill = (layer, colourAt) => {
+    const { n, dx, bounds, texture } = layer;
+    const data = texture.image.data;
+    for (let j = 0; j < n; j++) {
+      const z = bounds.z0 + (j + 0.5) * dx;
+      for (let i = 0; i < n; i++) {
+        const x = bounds.x0 + (i + 0.5) * dx;
+        const c = flatWaterAt(x, z) ? FLAT_WATER_TINT : colourAt(x, z);
+        const o = (j * n + i) * 4;
+        data[o] = toSrgbByte(c[0]); data[o + 1] = toSrgbByte(c[1]); data[o + 2] = toSrgbByte(c[2]); data[o + 3] = 255;
+      }
+    }
+    texture.needsUpdate = true;
+  };
+  fill(tint.near, (x, z) => groundAt(x, z, H(x, z)).col);
+  fill(tint.far, (x, z) => {
+    const h = H(x, z);
+    if (h < 0.5) return SEA_TINT;
+    const sl = Math.hypot(H(x + GROUND_TINT_FAR.dx, z) - h, H(x, z + GROUND_TINT_FAR.dx) - h) / GROUND_TINT_FAR.dx;
+    const t = clampf((h - 24) / 150, 0, 1);
+    const rocky = smooth(0.22, 0.62, sl);
+    let base = C.forest.map((v, k) => lerp(lerp(v, C.rough[k], t * 0.5), C.rock[k], rocky * 0.8));
+    for (const q of LI.at(x, z)) {
+      if (ringSD(x, z, q.ring) > 0) continue;
+      if (q.kind === 'farmland' || q.kind === 'farmyard') {
+        const k2 = hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13));
+        const crop = k2 < 0.4 ? C.cropA : k2 < 0.75 ? C.cropB : C.cropC;
+        base = base.map((v, k3) => lerp(v, crop[k3], 0.85));
+      } else if (q.kind === 'residential') base = base.map((v, k3) => lerp(v, C.lawn[k3], 0.4));
+      else if (q.kind === 'industrial' || q.kind === 'commercial') base = base.map((v, k3) => lerp(v, C.hard[k3], 0.5));
+      break;
+    }
+    return base;
+  });
+  stats.tintMs = Math.round(performance.now() - started);
 }
 
 async function buildTerrain(R, hole, withDetail) {
@@ -1808,6 +1973,22 @@ async function preflightTerrainPreviewGpu(batch) {
 
 /* Do not omit a single legacy vertex until the complete, material-decorated
    v2 frontier has proved that it can be installed as one draw. */
+/* A published graph that reaches past the course window -- nested rings of
+   Lantmäteriet data to a 16 km root -- becomes the ONLY terrain: the streaming
+   runtime draws it in the pilot's bridge and the legacy CORE, MID and FAR
+   rings are never built, so there is no seam between two sources anywhere.
+   The pilot source still supplies its 1 m sampler and the surface atlas.
+   Loaded dynamically so a flagless visit never downloads it. */
+if (V2_WORLD) {
+  terrainV2.configure({
+    backend: IS_GPU ? 'webgpu' : 'webgl2',
+    mobile: LOWQ,
+    /* the pilot's course window took 64 tiles in one draw; a world of rings
+       refines the course to 1 m AND keeps the horizon resident */
+    profile: { targetErrorPixels: IS_GPU ? 1 : 1.5, maximumSelectedTiles: LOWQ ? 56 : 128 },
+  });
+}
+const GROUND_TINT = V2_WORLD ? createGroundTintTextures() : null;
 if (TERRAIN_PREVIEW.ready) {
   /* Low-quality WebGL2 keeps exact 1 m CPU sampling but submits every second
      source vertex. Both frontiers must still preflight as the same 16 tiles
@@ -1819,9 +2000,11 @@ if (TERRAIN_PREVIEW.ready) {
     decorateMaterial: createV2GroundMaterialDecorator({
       atlas: TERRAIN_PREVIEW.surfaceAtlas, DETAIL, C, SHADE,
       debugMode: surfaceDebugMode,
+      tint: GROUND_TINT,
     }),
     preflight: preflightTerrainPreviewGpu,
   });
+  if (preparation.ok && GROUND_TINT) fillGroundTintTextures(GROUND_TINT, (x, z) => terrainV2.constructionHeightAt(x, z));
   if (!preparation.ok) {
     const failure = terrainV2.rendererState;
     /* ?v2=require means diagnose, never mask: refuse to present the GPK1
@@ -1844,8 +2027,24 @@ const makeCoreMesh = geometry => {
 const coreStatsBefore = Object.freeze({ verts: stats.verts, tris: stats.tris });
 let coreGeometry = null;
 let coreMesh = null;
+if (V2_VEGETATION_LOADING) {
+  try {
+    V2_VEGETATION = await V2_VEGETATION_LOADING;
+  } catch (error) {
+    const detail = String(error?.message || error).slice(0, 300);
+    if (V2_SELECTION.require) throw new Error(`v2 krävdes men vegetationslagren kunde inte verifieras: ${detail}`);
+    V2_VEGETATION_ERROR = detail;
+  }
+}
 if (terrainV2.preparation) {
   try {
+    if (terrainV2.kind === 'graph') {
+      /* the world adapter draws everything; no legacy ground is built at all */
+      builtTerrain.core = null;
+      scene.add(terrainV2.group);
+      const terrainWorldRender = terrainV2.activate();
+      setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'ready', terrainWorldRender.meshResolutionMetres);
+    } else {
     const terrainPreviewPrepared = terrainV2.preparation;
     /* The 8 m legacy guard participates in normal generation, then the existing
        full-preview clip hides it before the v2 batch is installed. */
@@ -1863,6 +2062,7 @@ if (terrainV2.preparation) {
       IS_GPU ? 'WebGPU' : 'WebGL2', 'ready',
       terrainPreviewRender.meshResolutionMetres,
     );
+    }
   } catch (error) {
     terrainV2.fail(error);
     coreMesh?.removeFromParent();
@@ -1898,6 +2098,10 @@ await tick('bygger terrängen', 0.26);
    1 m one. The hole is the pilot's inscribed axis-aligned rectangle, since that
    is all buildTerrain can omit; the rotation overhang beyond it is removed the
    same way it is from CORE, by the rotated triangle cut. */
+if (terrainV2.kind === 'graph' && terrainV2.active) {
+  /* the world graph carries the middle and the horizon; nothing Terrarium is drawn */
+  await tick('bygger horisonten', 0.34);
+} else {
 const midHole = terrainV2.active && TERRAIN_PREVIEW.legacyBounds
   ? under(TERRAIN_PREVIEW.legacyBounds, 24)
   : under(CORE, 24);
@@ -1914,6 +2118,7 @@ await tick('bygger horisonten', 0.34);
 const farMesh = new THREE.Mesh(await buildTerrain(FARR, under(MIDR, 72), false), turfMat);
 farMesh.userData.tag = 'far';
 scene.add(farMesh);
+}
 
 /* Place the v2 batch in the legacy world. The tiles are cut on the EPSG:3006
    grid, whose north is 3.5 degrees off the legacy frame's true north here, and
@@ -2570,8 +2775,15 @@ await tick('fyller vattnet', 0.52);
    the four terms that matter -- what colour the depth is, what the sky looks like in
    the direction you are reflecting toward, where the sun's glare falls, and where the
    surface runs out into foam -- and writes the answer. */
-function makeWater() {
+function makeWater({ mask = null } = {}) {
   const m = new THREE.MeshBasicNodeMaterial({ transparent: true, side: THREE.DoubleSide });
+  /* A sheet sits a quarter-metre over a bed the DTM draws at the water's own
+     surface, and three kilometres out a 24-bit depth buffer cannot tell the
+     two apart: the lake flickered. A depth bias toward the camera settles it
+     without moving the sheet. */
+  m.polygonOffset = true;
+  m.polygonOffsetFactor = -1;
+  m.polygonOffsetUnits = -2;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
   const wp = positionWorld.xz;
@@ -2641,9 +2853,20 @@ function makeWater() {
   const fogT = oneMinus(exp(cd.mul(cd).mul(uFogD.mul(uFogD)).negate()));
   m.colorNode = mix(c, uFogC, saturate(fogT));
   /* a pond bed a metre down should be a hint, not the picture: ponds start denser */
-  m.opacityNode = mix(mix(float(0.86), float(0.97), depth),
-                      mix(float(0.62), float(0.97), depth), aFoam)
-                    .add(foam.mul(0.2)).sub(bed.mul(0.28)).clamp(0.4, 1);
+  let opacity = mix(mix(float(0.86), float(0.97), depth),
+                    mix(float(0.62), float(0.97), depth), aFoam)
+                  .add(foam.mul(0.2)).sub(bed.mul(0.28)).clamp(0.4, 1);
+  if (mask) {
+    /* the sheet over water the ground found: its extent is the mask, read in
+       the tile lattice's own space through the bridge's linear part */
+    const g = mask.toGrid;
+    const gx = wp.x.mul(g[0]).add(wp.y.mul(g[1]));
+    const gz = wp.x.mul(g[2]).add(wp.y.mul(g[3]));
+    const uvMask = vec2(gx.sub(float(mask.x0)).div(mask.width * mask.spacing), gz.sub(float(mask.z0)).div(mask.height * mask.spacing));
+    const inMask = step(0, uvMask.x).mul(step(uvMask.x, 1)).mul(step(0, uvMask.y)).mul(step(uvMask.y, 1));
+    opacity = opacity.mul(texture(mask.texture, uvMask).r).mul(inMask);
+  }
+  m.opacityNode = opacity;
   return m;
 }
 const waterMat = makeWater();
@@ -2677,8 +2900,63 @@ for (const w of M.water) {
   g.computeVertexNormals();
   const m = new THREE.Mesh(g, waterMat);
   m.renderOrder = 6;
+  m.userData.tag = 'water';
+  m.userData.water = w;
   scene.add(m);
+  WATER_MESHES.push(m);
   stats.draws++;
+}
+
+/* THE WATER THE GROUND FOUND. The extract's rings stop at its bounding box
+   and miss the lakes beyond it; the flats the 4 m ring detected carry on
+   from there. One sheet per flat, a quad over its footprint at its level,
+   drawn only where the mask says water and no ring already draws -- so a
+   lake cut straight by the box continues at the ring's own level, and a
+   lake the pack never had gets its surface back. */
+const FLAT_WATER = terrainV2.flatWater ?? null;
+if (FLAT_WATER?.components.some(c => c.uncoveredCells > 0)) {
+  const bridge = TERRAIN_PREVIEW.bridge;
+  const [ax, cx] = bridge.toGrid(1, 0), [bx, dx] = bridge.toGrid(0, 1); /* gx = ax·x + bx·z, gz = cx·x + dx·z */
+  const maskTexture = new THREE.DataTexture(FLAT_WATER.mask, FLAT_WATER.width, FLAT_WATER.height, THREE.RedFormat, THREE.UnsignedByteType);
+  maskTexture.minFilter = THREE.LinearFilter;
+  maskTexture.magFilter = THREE.LinearFilter;
+  maskTexture.wrapS = THREE.ClampToEdgeWrapping;
+  maskTexture.wrapT = THREE.ClampToEdgeWrapping;
+  maskTexture.generateMipmaps = false;
+  maskTexture.flipY = false;
+  maskTexture.needsUpdate = true;
+  const flatMat = makeWater({ mask: {
+    texture: maskTexture, toGrid: [ax, bx, cx, dx],
+    x0: FLAT_WATER.x0, z0: FLAT_WATER.z0, width: FLAT_WATER.width, height: FLAT_WATER.height, spacing: FLAT_WATER.spacing,
+  } });
+  const pos = [], sh = [], fm = [], dp = [], idx = [];
+  let sheets = 0;
+  for (const c of FLAT_WATER.components) {
+    if (c.uncoveredCells === 0) continue;
+    const y = c.level + 0.15;
+    const corners = [[c.bounds.x0, c.bounds.z0], [c.bounds.x1, c.bounds.z0], [c.bounds.x1, c.bounds.z1], [c.bounds.x0, c.bounds.z1]];
+    const base = pos.length / 3;
+    for (const [gx, gz] of corners) {
+      const [lx, lz] = bridge.toLegacy(gx, gz);
+      pos.push(lx, y, lz); sh.push(40); fm.push(1); dp.push(3);
+    }
+    idx.push(base, base + 2, base + 1, base, base + 3, base + 2);
+    sheets++;
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('aShore', new THREE.Float32BufferAttribute(sh, 1));
+  g.setAttribute('aFoam', new THREE.Float32BufferAttribute(fm, 1));
+  g.setAttribute('aDepth', new THREE.Float32BufferAttribute(dp, 1));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  const m = new THREE.Mesh(g, flatMat);
+  m.renderOrder = 6;
+  m.userData.tag = 'water-flat';
+  scene.add(m);
+  WATER_MESHES.push(m);
+  stats.draws++;
+  stats.flatWaterSheets = sheets;
 }
 
 /* The open sea to the horizon. The detailed sea ring stops a couple of kilometres
@@ -2949,6 +3227,14 @@ const SPECIES = (() => {
     { crown: birch, trunk: trunk(0.16, 0.30, 7.4), cc: 0x5f8944, tc: 0xc9c6b2, sc: [0.60, 1.06] },
   ];
 })();
+/* What a template stands for at scale 1, so a measured tree can be drawn at
+   its measured height and crown radius rather than at a hashed size. */
+for (const spec of SPECIES) {
+  spec.crown.computeBoundingBox();
+  const box = spec.crown.boundingBox;
+  spec.templateHeight = box.max.y;
+  spec.templateRadius = Math.max(Math.abs(box.min.x), box.max.x, Math.abs(box.min.z), box.max.z);
+}
 
 /* coverAt (the satellite canopy raster) is decoded up by classify(), because the
    ground colour consults it too -- an OSM forest ring the imagery has thinned to
@@ -3098,6 +3384,38 @@ const SHORE = (() => {
 }
 
 const trees = [[], [], []];
+/* Phase 0 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
+   every planted tree remembers WHY it stands there -- the OSM forest polygon,
+   a scrub ring, the satellite canopy raster or the shore belt -- so the
+   baseline export can measure the legacy population source by source, which
+   is how the v2 cutover will be measured population by population instead of
+   eyeballed. The reason changes nothing about where a tree lands. */
+const treeWhy = [[], [], []];
+const WHY_FOREST_RING = 1, WHY_SCRUB_RING = 2, WHY_SATELLITE = 3, WHY_SHORE = 4, WHY_V2_INDIVIDUAL = 5, WHY_V2_STAND = 6;
+/* The v2 populations are planned BEFORE the lattice runs, so the lattice can
+   stay out of every tile they own: inside verified coverage only the registry
+   individuals and the measured stand field plant; outside it the legacy
+   population is untouched. Both come from docs/puttom-v2-lidar-tree-placement-plan.md. */
+let V2_VEG_PLAN = null, V2_VEG_COVER = null;
+if (V2_VEGETATION) {
+  if (TERRAIN_PREVIEW.ready && TERRAIN_PREVIEW.bridge) {
+    const { createFrameMapper, createCoverage, planV2Vegetation } = V2_VEGETATION.mod;
+    const mapper = createFrameMapper({ bridge: TERRAIN_PREVIEW.bridge, frameOrigin: V2_VEGETATION.loaded.frameOrigin });
+    V2_VEG_COVER = createCoverage(V2_VEGETATION.loaded, mapper);
+    V2_VEG_PLAN = planV2Vegetation(V2_VEGETATION.loaded, {
+      mapper,
+      groundHeightAt: (x, z) => terrainH(x, z),
+      shoreDistanceAt: (x, z) => SHORE(x, z),
+      lowQuality: LOWQ,
+      verticalDatumOffsetMetres: TERRAIN_PREVIEW.bridge.verticalDatumOffsetMetres || 0,
+    });
+  } else {
+    /* the registry is placed through the v2 terrain's own bridge; without
+       that terrain there is no frame to place it in, and require would have
+       thrown before this point */
+    V2_VEGETATION_ERROR = 'v2-terrain-not-ready';
+  }
+}
 {
   const GAP = 5.4;
   const rnd = (i, j) => hash2(i * 7919 + 13, j * 104729 + 7);
@@ -3119,14 +3437,17 @@ const trees = [[], [], []];
     if (LOWQ && rnd(i + 77, j + 55) < 0.45) continue;
     const px = x + (rnd(i, j) - 0.5) * GAP * 1.75;
     const pz = z + (rnd(i + 991, j + 77) - 0.5) * GAP * 1.75;
-    let wood = 0, kindScrub = false;
+    if (V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) continue;
+    let wood = 0, kindScrub = false, why = 0;
     for (const v of VI.at(px, pz)) {
       if (v.kind === 'forest' || v.kind === 'wood') {
         const sd = ringSD(px, pz, v.ring);
-        if (sd < 3.5) wood = Math.max(wood, sd < 0 ? 0.42 + 0.58 * smooth(-26, -12, sd)
-                                                   : 0.3 * (1 - sd / 3.5));
+        if (sd < 3.5) {
+          const w = sd < 0 ? 0.42 + 0.58 * smooth(-26, -12, sd) : 0.3 * (1 - sd / 3.5);
+          if (w > wood) { wood = w; why = WHY_FOREST_RING; }
+        }
       }
-      else if (v.kind === 'scrub') { const sd = ringSD(px, pz, v.ring); if (sd < 0) { wood = Math.max(wood, 0.4); kindScrub = true; } }
+      else if (v.kind === 'scrub') { const sd = ringSD(px, pz, v.ring); if (sd < 0) { if (0.4 > wood) { wood = 0.4; why = WHY_SCRUB_RING; } kindScrub = true; } }
     }
     /* The imagery is the authority in BOTH directions now. Satellite canopy plants
        where no polygon was surveyed -- and where the satellite sees open ground
@@ -3141,6 +3462,7 @@ const trees = [[], [], []];
       for (const [ox, oz] of [[4.5, 0], [-4.5, 0], [0, 4.5], [0, -4.5]])
         if (coverAt(px + ox, pz + oz) === 3) hits++;
       wood = 0.95 * Math.pow(hits / 5, 1.3);
+      why = WHY_SATELLITE;
     }
     if (cvHere === 2 && wood > 0.05) wood *= 0.07;
     /* Lone singles used to be a random sprinkle; the satellite raster's own
@@ -3152,7 +3474,10 @@ const trees = [[], [], []];
     /* birches walk down to the waterline the way they do on every Norrland shore --
        thinner where the imagery says the shore is bare */
     const belt = dW < 28;
-    if (belt) wood = Math.max(wood, 0.4 * (1 - smooth(18, 28, dW)) * (cvHere === 2 ? 0.22 : 1));
+    if (belt) {
+      const w = 0.4 * (1 - smooth(18, 28, dW)) * (cvHere === 2 ? 0.22 : 1);
+      if (w > wood) { wood = w; why = WHY_SHORE; }
+    }
     /* what the surroundings say cannot stand here: cleared power-line corridors,
        the traced clear-fells (a few seed trees survive a hygge), working ground,
        hay meadows, and the open fields */
@@ -3176,6 +3501,7 @@ const trees = [[], [], []];
       if (w.stream) { if (distToLine(px, pz, w.line) < w.w * 3) wet = true; }
       else if (ringSD(px, pz, w.ring) < 3 || h < w.level + 0.5) wet = true;
     }
+    if (!wet && typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz)) wet = true;
     if (wet) continue;
     let bldNear = false;
     for (const q of II.at(px, pz)) if (ringSD(px, pz, q.ring) < 6) { bldNear = true; break; }
@@ -3198,13 +3524,67 @@ const trees = [[], [], []];
                : (r < 0.56 ? 1 : r < 0.83 ? 0 : 2);
     let s = SPECIES[sp].sc[0] + rnd(i + 61, j + 3) * (SPECIES[sp].sc[1] - SPECIES[sp].sc[0]);
     if (wood < 0.3) s *= 1.2;                    /* a lone tree grows a full crown */
-    trees[sp].push(px, h - 0.25, pz, s * (kindScrub ? 0.42 : 1), rnd(i + 3, j + 41) * TAU);
+    const sk = s * (kindScrub ? 0.42 : 1);
+    trees[sp].push(px, h - 0.25, pz, sk, rnd(i + 3, j + 41) * TAU, sk);
+    treeWhy[sp].push(why);
     }
   }
 }
+if (V2_VEG_PLAN) {
+  /* measured trees: height and crown radius from the registry or the stand
+     field, drawn with the same three templates as the lattice so the woods
+     stay one material and one look; only their sizes are no longer hashed */
+  for (const t of V2_VEG_PLAN.instances) {
+    const spec = SPECIES[t.species];
+    trees[t.species].push(t.x, t.y - 0.25, t.z, t.height / spec.templateHeight, t.rotation, t.radius / spec.templateRadius);
+    treeWhy[t.species].push(t.kind === 'individual' ? WHY_V2_INDIVIDUAL : WHY_V2_STAND);
+  }
+}
+/* The baseline export the vegetation plan's Phase 0 asks for: the legacy
+   population counted by species, by the source that planted it, by hole and
+   by a PROVISIONAL zone -- distance to the nearest hole line, until the
+   plan's zone-A geometry is approved -- with the instances themselves on
+   request. Computed on demand, never at boot. */
+const LEGACY_TREE_REASONS = ['none', 'forestRing', 'scrubRing', 'satellite', 'shore', 'v2Individual', 'v2Stand'];
+const LEGACY_ZONE_A_METRES = 90, LEGACY_ZONE_B_METRES = 300;
+function legacyTreeExport(withInstances = false) {
+  const names = ['spruce', 'pine', 'birch'];
+  const out = {
+    total: 0, species: {}, reasons: {}, zones: { A: 0, B: 0, C: 0 },
+    holes: HOLES.map(h => ({ n: h.n, count: 0 })),
+    zoning: `provisional: A within ${LEGACY_ZONE_A_METRES} m of a hole line, B within ${LEGACY_ZONE_B_METRES} m, else C`,
+    v2: V2_VEG_PLAN ? { ...V2_VEG_PLAN.stats, coverageTiles: V2_VEG_COVER ? V2_VEG_COVER.tiles : 0 } : null,
+    legacyInsideCoverage: 0,
+    instances: withInstances ? [] : null,
+  };
+  for (const reason of LEGACY_TREE_REASONS) out.reasons[reason] = 0;
+  for (let sp = 0; sp < 3; sp++) {
+    const T = trees[sp], W = treeWhy[sp], n = T.length / 6;
+    out.species[names[sp]] = n;
+    out.total += n;
+    for (let k = 0; k < n; k++) {
+      const x = T[k * 6], y = T[k * 6 + 1], z = T[k * 6 + 2];
+      if (V2_VEG_COVER && W[k] < WHY_V2_INDIVIDUAL && V2_VEG_COVER.covers(x, z)) out.legacyInsideCoverage++;
+      let best = Infinity, nearest = -1;
+      for (let i = 0; i < HOLES.length; i++) {
+        const d = distToLine(x, z, HOLES[i].line);
+        if (d < best) { best = d; nearest = i; }
+      }
+      const zone = best <= LEGACY_ZONE_A_METRES ? 'A' : best <= LEGACY_ZONE_B_METRES ? 'B' : 'C';
+      out.zones[zone]++;
+      if (nearest >= 0 && zone !== 'C') out.holes[nearest].count++;
+      out.reasons[LEGACY_TREE_REASONS[W[k]] || 'none']++;
+      if (withInstances) {
+        out.instances.push([+x.toFixed(2), +y.toFixed(2), +z.toFixed(2), +T[k * 6 + 3].toFixed(3),
+                            +T[k * 6 + 4].toFixed(3), sp, W[k], zone, +T[k * 6 + 5].toFixed(3)]);
+      }
+    }
+  }
+  return out;
+}
 for (let s = 0; s < 3; s++) {
-  const T = trees[s];
-  const n = T.length / 5;
+  const T = trees[s], W = treeWhy[s];
+  const n = T.length / 6;
   if (!n) continue;
   const spec = SPECIES[s];
   for (const [geo, hex, isCrown] of [[spec.crown, spec.cc, true], [spec.trunk, spec.tc, false]]) {
@@ -3241,10 +3621,13 @@ for (let s = 0; s < 3; s++) {
     im.receiveShadow = !isCrown;
     const mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
     for (let k = 0; k < n; k++) {
-      pos.set(T[k * 5], T[k * 5 + 1], T[k * 5 + 2]);
-      const sc = T[k * 5 + 3];
-      scl.set(sc, sc * (0.86 + (k % 7) * 0.045), sc);
-      q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 5 + 4]);
+      pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
+      const sy = T[k * 6 + 3], sxz = T[k * 6 + 5];
+      /* the lattice keeps its hashed height variation; a measured tree is
+         drawn at its measured height and crown, with nothing added */
+      const varied = W[k] >= WHY_V2_INDIVIDUAL ? 1 : (0.86 + (k % 7) * 0.045);
+      scl.set(sxz, sy * varied, sxz);
+      q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
       im.setMatrixAt(k, mtx.compose(pos, q, scl));
     }
     im.instanceMatrix.needsUpdate = true;
@@ -3270,6 +3653,19 @@ if (M.cover) {
     for (const q of SI.at(px, pz)) if (ringSD(px, pz, q.ring) < 0) return true;
     return false;
   };
+  /* the same test every planter makes: never on a lake, never on its shore
+     band, never below its water. These two rings had only the flat sea floor
+     to go by, which on an inland course is the lowest lake and says nothing
+     about the others -- cones stood in Stor-Rössjön as soon as the ground
+     under them was measured rather than carved. */
+  const inWater = (px, pz, h) => {
+    for (const w of WI.at(px, pz)) {
+      if (w.stream) continue;
+      if (ringSD(px, pz, w.ring) < 3 || h < w.level + 0.5) return true;
+    }
+    /* and the water only the ground knows: flat lake surfaces past the rings */
+    return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz);
+  };
   const cvx1 = cv.x0 + cv.nx * cv.cell, cvz1 = cv.z0 + cv.nz * cv.cell;
   /* the data ring: where the plans or the survey still reach */
   const GAP2 = LOWQ ? 18 : 13;
@@ -3281,6 +3677,7 @@ if (M.cover) {
       const i = Math.floor(x / GAP2), j = Math.floor(z / GAP2);
       const px = x + (rnd2(i, j) - 0.5) * GAP2 * 1.6;
       const pz = z + (rnd2(i + 7, j + 3) - 0.5) * GAP2 * 1.6;
+      if (V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) continue;
       const cvv = coverAt(px, pz);
       let wooded = cvv === 3;
       /* the surveyed rings only speak where the imagery has no answer */
@@ -3292,6 +3689,7 @@ if (M.cover) {
       if (rnd2(i + 19, j + 13) > 0.8) continue;
       const h = terrainH(px, pz);
       if (h < GEO.seaLevel + 0.5) continue;
+      if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.4, pz, 0.8 + rnd2(i + 5, j + 23) * 0.7);
     }
   }
@@ -3317,10 +3715,12 @@ if (M.cover) {
       if (rnd2(i + 9, j + 33) > 0.85) continue;
       const h = terrainH(px, pz);
       if (h < GEO.seaLevel + 1.5) continue;
+      if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
     }
   }
   const n = pts.length / 4;
+  VISTA_PTS = pts;
   if (n) {
     const geo = new THREE.ConeGeometry(3.1, 12, 5);
     geo.translate(0, 5.6, 0);
@@ -3405,6 +3805,7 @@ if (M.cover) {
       if (w.stream) { if (distToLine(px, pz, w.line) < w.w * 3) wet = true; }
       else if (ringSD(px, pz, w.ring) < 3 || h < w.level + 0.4) wet = true;
     }
+    if (!wet && typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz)) wet = true;
     if (wet) continue;
     const clump = fbm(px * 0.045, pz * 0.045, 2) * 0.5 + 0.5;
     const r = rnd(i, j, 3);
@@ -5255,6 +5656,10 @@ let last = performance.now(), acc = 0, frames = 0, fps = 0;
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
   terrainV2.tick(now);
+  /* the world graph streams by screen-space error against the real camera */
+  if (terrainV2.kind === 'graph' && terrainV2.active) {
+    terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
+  }
   last = now; frames++; acc += dt;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
 
@@ -5439,10 +5844,118 @@ window.V3D = {
   }),
   groundSample: (x, z) => groundAtlas?.sampleAt(x, z) || null,
   v2SurfaceProbe: (x, z) => TERRAIN_PREVIEW.surfaceAtlas?.probeAt(x, z) || null,
+  /* every drawn world tile with the bytes the GPU holds for it; harness only */
+  v2WorldInventory: () => (typeof terrainV2.inventory === 'function' ? terrainV2.inventory() : []),
+  v2WorldPlan: () => (typeof terrainV2.plan === 'function' ? terrainV2.plan() : null),
+  v2WorldVisible: () => (typeof terrainV2.visibleTileIds === 'function' ? terrainV2.visibleTileIds() : []),
+  v2WorldFrustum: () => (typeof terrainV2.frustumReport === 'function' ? terrainV2.frustumReport() : null),
+  vistaPoints: () => (VISTA_PTS ? Array.from(VISTA_PTS) : []),
+  setWaterVisible: on => { for (const m of WATER_MESHES) m.visible = on !== false; return WATER_MESHES.length; },
+  /* hide or show meshes by tag, instance count or material type, to find what draws what */
+  setMeshesVisible: ({ tag, minInstances, material, world } = {}, on = true) => {
+    let n = 0;
+    if (world !== undefined) { if (terrainV2.group) { terrainV2.group.visible = on; n++; } return n; }
+    scene.traverse(object => {
+      if (!object.isMesh) return;
+      if (tag !== undefined && object.userData?.tag !== tag) return;
+      if (minInstances !== undefined && !((object.count ?? object.geometry?.instanceCount ?? 0) >= minInstances)) return;
+      if (material !== undefined && object.material?.type !== material) return;
+      object.visible = on; n++;
+    });
+    return n;
+  },
+  /* every mesh in the scene with its footprint, to find what is drawing where */
+  sceneInventory: () => {
+    const out = [];
+    const box = new THREE.Box3();
+    scene.traverse(object => {
+      if (!object.isMesh) return;
+      box.setFromObject(object);
+      const size = new THREE.Vector3(); box.getSize(size);
+      out.push({
+        name: object.name || null, tag: object.userData?.tag ?? null, parentTag: object.parent?.userData?.tag ?? object.parent?.name ?? null,
+        material: object.material?.type ?? null, transparent: !!object.material?.transparent, order: object.renderOrder, visible: object.visible,
+        instances: object.count ?? object.geometry?.instanceCount ?? null,
+        vertices: object.geometry?.getAttribute?.('position')?.count ?? null,
+        bbox: [box.min.x, box.min.y, box.min.z, box.max.x, box.max.y, box.max.z].map(v => (Number.isFinite(v) ? Math.round(v) : null)),
+      });
+    });
+    return out;
+  },
+  /* push the tint rasters to the GPU again, or recreate them, to see whether what it holds is what was filled */
+  tintRefresh: (mode = 'update') => {
+    if (!GROUND_TINT) return null;
+    const report = {};
+    for (const key of ['near', 'far']) {
+      const layer = GROUND_TINT[key];
+      const d = layer.texture.image.data;
+      let sum = 0; for (let i = 0; i < d.length; i += 4013) sum += d[i];
+      report[key] = { version: layer.texture.version, n: layer.n, sampleSum: sum, colorSpace: layer.texture.colorSpace, format: layer.texture.format, type: layer.texture.type };
+      if (mode === 'dispose') layer.texture.dispose();
+      layer.texture.needsUpdate = true;
+    }
+    return report;
+  },
+  /* switch parts of the world material off to see which one paints a view */
+  v2WorldMaterial: ({ fog, roughness, emissiveBoost, colour, flatNormal, unlit } = {}) => {
+    const batches = terrainV2.runtime?.layer?.batches;
+    if (!batches) return 0;
+    let n = 0;
+    for (const batch of batches.values()) {
+      const m = batch.material;
+      if (fog !== undefined) m.fog = fog;
+      if (roughness !== undefined) m.roughnessNode = float(roughness);
+      if (emissiveBoost !== undefined) m.emissiveNode = emissiveBoost ? vec3(0.02, 0.02, 0.02) : null;
+      if (colour) m.colorNode = vec3(colour[0], colour[1], colour[2]);
+      if (flatNormal) m.normalNode = null;
+      if (unlit !== undefined) m.lights = !unlit;
+      m.needsUpdate = true;
+      n++;
+    }
+    return n;
+  },
+  v2WorldGroup: () => (terrainV2.group
+    ? terrainV2.group.children.map(o => ({ name: o.name, tag: o.userData?.tag ?? null, visible: o.visible, instances: o.geometry?.instanceCount ?? null, material: o.material?.type ?? null, castShadow: o.castShadow }))
+    : []),
+  /* what the world says about one point: height, the tint bytes under it,
+     whether the ground calls it flat or water, and which rings claim it */
+  probeGround: (x, z) => {
+    const h = terrainH(x, z);
+    const tintAt = layer => {
+      if (!layer) return null;
+      const i = Math.floor((x - layer.bounds.x0) / layer.dx), j = Math.floor((z - layer.bounds.z0) / layer.dx);
+      if (i < 0 || j < 0 || i >= layer.n || j >= layer.n) return null;
+      const o = (j * layer.n + i) * 4;
+      return [layer.texture.image.data[o], layer.texture.image.data[o + 1], layer.texture.image.data[o + 2]];
+    };
+    const grid = TERRAIN_PREVIEW.bridge?.toGrid?.(x, z) ?? null;
+    return {
+      h: +h.toFixed(2),
+      slope: +(Math.hypot(terrainH(x + 8, z) - h, terrainH(x, z + 8) - h) / 8).toFixed(3),
+      tintNear: tintAt(GROUND_TINT?.near), tintFar: tintAt(GROUND_TINT?.far),
+      flat: grid && terrainV2.flatWater ? terrainV2.flatWater.isFlatAt(grid[0], grid[1]) : null,
+      water: typeof terrainV2.isFlatWaterAt === 'function' ? terrainV2.isFlatWaterAt(x, z) : null,
+      rings: WI.at(x, z).filter(w => !w.stream && ringSD(x, z, w.ring) < 0).map(w => w.level),
+      landuse: LI.at(x, z).filter(q => ringSD(x, z, q.ring) < 0).map(q => q.kind),
+      cover: typeof coverAt === 'function' ? coverAt(x, z) : null,
+    };
+  },
+  flatWater: () => (terrainV2.flatWater
+    ? { spacing: terrainV2.flatWater.spacing, sheets: stats.flatWaterSheets | 0, components: terrainV2.flatWater.components.map(c => ({ hectares: c.hectares, level: +c.level.toFixed(2), surface: +c.surfaceHeight.toFixed(2), known: c.knownCells, uncovered: c.uncoveredCells, bounds: c.bounds })) }
+    : null),
+  cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
+  /* put the camera anywhere, at once: the harness stands where a person stood */
+  placeCamera: (p, t) => flyTo(V3(p[0], p[1], p[2]), V3(t[0], t[1], t[2]), 0),
+  waterLevels: () => M.water.filter(w => !w.stream).map(w => ({
+    id: w.id ?? null, name: w.name ?? null, level: w.level, isLake: !!w.isLake, points: w.ring?.length ?? 0,
+    bb: w.ring?.length ? ringBBox(w.ring) : null,
+  })),
   v2Terrain: () => ({
     requested: TERRAIN_PREVIEW.requested,
     ready: TERRAIN_PREVIEW.ready,
     status: terrainV2.rendererState.status,
+    /* 'graph' when the whole world is the ring graph and no legacy ground is built */
+    kind: terrainV2.kind || 'fixed-frontier',
     courseSurfaceOverlayMeshes: stats.surfaceOverlays | 0,
     surfaceDebugMode,
     surfaceRepresentation: TERRAIN_PREVIEW.surfaceAtlas?.data?.representation || null,
@@ -5492,6 +6005,25 @@ window.V3D = {
     backend: IS_GPU ? 'webgpu' : 'webgl2',
   }),
   classifyAnalytic,
+  /* the vegetation plan's Phase 0 instruments: the legacy population, and the
+     object-layer state the v2 selection saw (today: no renderer, no tiles) */
+  legacyTrees: ({ instances = false } = {}) => legacyTreeExport(instances),
+  v2Objects: () => ({
+    rendererActivated: true,
+    gate: V2_OBJECT_LAYER_GATE,
+    loaded: V2_VEGETATION ? {
+      ...V2_VEGETATION.loaded.counts,
+      bytes: V2_VEGETATION.loaded.bytes,
+      frameFingerprint: V2_VEGETATION.loaded.frameFingerprint,
+    } : null,
+    planned: V2_VEG_PLAN ? V2_VEG_PLAN.stats : null,
+    coverageTiles: V2_VEG_COVER ? V2_VEG_COVER.tiles : 0,
+    error: V2_VEGETATION_ERROR,
+    graphObjectTiles: V2_SELECTION.graph?.summary?.objectTiles ?? null,
+    graphStandTiles: V2_SELECTION.graph?.summary?.standTiles ?? null,
+    graphEncodedObjectBytes: V2_SELECTION.graph?.summary?.encodedObjectBytes ?? null,
+    graphError: V2_SELECTION.graphError,
+  }),
   plates: () => plateSites.map(p => ({ ...p })),
   course: () => ({ ...CMETA }),
   settled: () => !camTween.on,

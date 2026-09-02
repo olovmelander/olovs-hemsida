@@ -1,0 +1,4724 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "groundName": "Puttom Golfklubb",
+  "observedOn": "2026-09-02",
+  "state": "canopy-rasters-built",
+  "method": "Node reader over authenticated range requests (copc + laz-perf); ground from the cloud's own class 2/9 returns, mean per 1 m cell, nearest-fill to 60 m, 3x3 mean; height above ground bilinear; CHM = highest non-noise return per cell, 0 where only ground returns exist, NaN where none; densities counted, never copied",
+  "haloMetres": 32,
+  "frameFingerprint": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
+  "groundManifest": "ground-v2-590e64f2acd0dc53cd4af1320c6b97ca1f4bf37330e7536ababa5e0021d06f08.json",
+  "campaignsSha256": "6d52e602cc32ae637f2671f3eded80ee9ad3424e4b5716b6c1c762eedf3adfa6",
+  "censusSha256": "f5d091b5c9c2d160ee26051162bb704c2fb55b3b406948f41799350d2edecf92",
+  "rasterDirectory": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation",
+  "campaigns": [
+    {
+      "campaignId": "26f015-702_69",
+      "captureStart": "2026-06-01T00:00:00Z",
+      "captureEnd": "2026-06-21T00:00:00Z",
+      "dataBounds": [
+        690000,
+        7020000,
+        699999.99,
+        7024999.99
+      ],
+      "hierarchyPages": 14,
+      "hierarchyNodes": 6820,
+      "subdivision": "header-extent per axis (verified; not the specification cube)",
+      "tiles": 40,
+      "elapsedMilliseconds": 29101.2,
+      "transfer": {
+        "requests": 524,
+        "bytes": 60060684
+      },
+      "totals": {
+        "points": 13706016,
+        "allReturns": 8837657,
+        "firstReturns": 5162948,
+        "cells": 2451456,
+        "voidCells": 61290,
+        "canopyCells": 1449818,
+        "measuredCells": 2390166,
+        "allReturnDensityPerSquareMetre": 3.605,
+        "pulseDensityPerSquareMetre": 2.106,
+        "voidFraction": 0.025,
+        "canopyFractionOfMeasured": 0.607
+      },
+      "censusChecks": [
+        {
+          "id": "origin-1024",
+          "censusEstimate": 1397145,
+          "exact": 1356160,
+          "ratio": 0.971
+        },
+        {
+          "id": "seam-northing-7025000-north-512",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "seam-northing-7025000-south-512",
+          "censusEstimate": 555909,
+          "exact": 508684,
+          "ratio": 0.915
+        },
+        {
+          "id": "w256-697088-7025152",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697344-7025152",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697088-7025408",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697344-7025408",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-696832-7025408",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-696832-7025152",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697600-7025152",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697856-7025152",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697600-7025408",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697856-7025408",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697600-7024640",
+          "censusEstimate": 131105,
+          "exact": 140824,
+          "ratio": 1.074
+        },
+        {
+          "id": "w256-697856-7024640",
+          "censusEstimate": 243726,
+          "exact": 243474,
+          "ratio": 0.999
+        },
+        {
+          "id": "w256-697600-7024896",
+          "censusEstimate": 45054,
+          "exact": 39105,
+          "ratio": 0.868
+        },
+        {
+          "id": "w256-697856-7024896",
+          "censusEstimate": 83176,
+          "exact": 87783,
+          "ratio": 1.055
+        },
+        {
+          "id": "w256-697344-7024896",
+          "censusEstimate": 53070,
+          "exact": 34170,
+          "ratio": 0.644
+        },
+        {
+          "id": "w256-697088-7024896",
+          "censusEstimate": 70638,
+          "exact": 75642,
+          "ratio": 1.071
+        },
+        {
+          "id": "w256-697600-7024384",
+          "censusEstimate": 172808,
+          "exact": 231617,
+          "ratio": 1.34
+        },
+        {
+          "id": "w256-697344-7024640",
+          "censusEstimate": 141870,
+          "exact": 104707,
+          "ratio": 0.738
+        },
+        {
+          "id": "w256-697088-7024384",
+          "censusEstimate": 186810,
+          "exact": 197917,
+          "ratio": 1.059
+        },
+        {
+          "id": "w256-697344-7024384",
+          "censusEstimate": 160192,
+          "exact": 128393,
+          "ratio": 0.801
+        },
+        {
+          "id": "w256-697088-7024640",
+          "censusEstimate": 181738,
+          "exact": 181787,
+          "ratio": 1
+        },
+        {
+          "id": "w256-697088-7024128",
+          "censusEstimate": 215353,
+          "exact": 208225,
+          "ratio": 0.967
+        },
+        {
+          "id": "w256-697344-7024128",
+          "censusEstimate": 216889,
+          "exact": 223906,
+          "ratio": 1.032
+        }
+      ],
+      "files": {
+        "chm": {
+          "data": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\chm-26f015-702-69.f32",
+          "sidecar": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\chm-26f015-702-69.json",
+          "sha256": "2f62c85ba30ea8ab0daf859d7c8ef94dd3bf8209b67562641eb9c98e5cf7c609"
+        },
+        "ground": {
+          "data": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\ground-26f015-702-69.f32",
+          "sidecar": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\ground-26f015-702-69.json",
+          "sha256": "d39f648168318126434411a44156eff9c167d6397bb6dc3ad455cd8fce668af2"
+        },
+        "allReturns": {
+          "data": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\allReturns-26f015-702-69.f32",
+          "sidecar": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\allReturns-26f015-702-69.json",
+          "sha256": "5dc01cde2b41c266e2f6d8cf83c9d6b8bc412e30e30002c2851f557bcc8055c9"
+        },
+        "firstReturns": {
+          "data": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\firstReturns-26f015-702-69.f32",
+          "sidecar": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\firstReturns-26f015-702-69.json",
+          "sha256": "c9f682b00178487cb0714f8cca1cbbbc462b409cf03fade8853cdcb178cd1eb6"
+        }
+      },
+      "perTile": [
+        {
+          "tileId": "l0/0/3",
+          "interiorBboxEpsg3006": [
+            696404.5,
+            7024826.5,
+            696660.5,
+            7025000
+          ],
+          "windowBboxEpsg3006": [
+            696372.5,
+            7024794.5,
+            696692.5,
+            7025000
+          ],
+          "read": {
+            "nodes": 42,
+            "decodedPoints": 742422,
+            "pointsInWindow": 221597,
+            "firstReturns": 122492,
+            "byClass": {
+              "1": 153010,
+              "2": 68030,
+              "7": 557
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 44288,
+            "squareMetres": 44288,
+            "allReturns": 151081,
+            "firstReturns": 83114,
+            "groundReturns": 44739,
+            "allReturnDensityPerSquareMetre": 3.4113,
+            "pulseDensityPerSquareMetre": 1.8767,
+            "groundReturnFraction": 0.2961,
+            "voidCells": 767,
+            "voidFraction": 0.0173,
+            "measuredCells": 43521,
+            "canopyCells": 33468,
+            "canopyFractionOfMeasured": 0.769,
+            "openGroundCells": 7033,
+            "noiseReturnsDropped": 557,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 28512,
+            "filled": 15776,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1816,
+            "meanMetres": -0.039,
+            "medianMetres": -0.025,
+            "p05Metres": -0.38,
+            "p95Metres": 0.295
+          },
+          "cellsWritten": 44288
+        },
+        {
+          "tileId": "l0/1/3",
+          "interiorBboxEpsg3006": [
+            696660.5,
+            7024826.5,
+            696916.5,
+            7025000
+          ],
+          "windowBboxEpsg3006": [
+            696628.5,
+            7024794.5,
+            696948.5,
+            7025000
+          ],
+          "read": {
+            "nodes": 47,
+            "decodedPoints": 851359,
+            "pointsInWindow": 225551,
+            "firstReturns": 119854,
+            "byClass": {
+              "1": 161445,
+              "2": 63616,
+              "7": 490
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 44288,
+            "squareMetres": 44288,
+            "allReturns": 150865,
+            "firstReturns": 80431,
+            "groundReturns": 42024,
+            "allReturnDensityPerSquareMetre": 3.4065,
+            "pulseDensityPerSquareMetre": 1.8161,
+            "groundReturnFraction": 0.2786,
+            "voidCells": 861,
+            "voidFraction": 0.0194,
+            "measuredCells": 43427,
+            "canopyCells": 30066,
+            "canopyFractionOfMeasured": 0.6923,
+            "openGroundCells": 7752,
+            "noiseReturnsDropped": 490,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 27924,
+            "filled": 16364,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1747,
+            "meanMetres": -0.074,
+            "medianMetres": -0.065,
+            "p05Metres": -0.345,
+            "p95Metres": 0.175
+          },
+          "cellsWritten": 44288
+        },
+        {
+          "tileId": "l0/2/3",
+          "interiorBboxEpsg3006": [
+            696916.5,
+            7024826.5,
+            697172.5,
+            7025000
+          ],
+          "windowBboxEpsg3006": [
+            696884.5,
+            7024794.5,
+            697204.5,
+            7025000
+          ],
+          "read": {
+            "nodes": 38,
+            "decodedPoints": 621638,
+            "pointsInWindow": 206658,
+            "firstReturns": 112013,
+            "byClass": {
+              "1": 145215,
+              "2": 57784,
+              "7": 165,
+              "9": 3494
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 44288,
+            "squareMetres": 44288,
+            "allReturns": 130271,
+            "firstReturns": 72205,
+            "groundReturns": 42344,
+            "allReturnDensityPerSquareMetre": 2.9415,
+            "pulseDensityPerSquareMetre": 1.6304,
+            "groundReturnFraction": 0.325,
+            "voidCells": 4660,
+            "voidFraction": 0.1052,
+            "measuredCells": 39628,
+            "canopyCells": 27317,
+            "canopyFractionOfMeasured": 0.6893,
+            "openGroundCells": 9619,
+            "noiseReturnsDropped": 165,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 26910,
+            "filled": 17378,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1704,
+            "meanMetres": -0.082,
+            "medianMetres": -0.095,
+            "p05Metres": -0.275,
+            "p95Metres": 0.14
+          },
+          "cellsWritten": 44288
+        },
+        {
+          "tileId": "l0/3/3",
+          "interiorBboxEpsg3006": [
+            697172.5,
+            7024826.5,
+            697428.5,
+            7025000
+          ],
+          "windowBboxEpsg3006": [
+            697140.5,
+            7024794.5,
+            697460.5,
+            7025000
+          ],
+          "read": {
+            "nodes": 38,
+            "decodedPoints": 621638,
+            "pointsInWindow": 180522,
+            "firstReturns": 120326,
+            "byClass": {
+              "1": 101216,
+              "2": 78470,
+              "7": 225,
+              "9": 611
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 44288,
+            "squareMetres": 44288,
+            "allReturns": 123324,
+            "firstReturns": 80643,
+            "groundReturns": 51660,
+            "allReturnDensityPerSquareMetre": 2.7846,
+            "pulseDensityPerSquareMetre": 1.8209,
+            "groundReturnFraction": 0.4189,
+            "voidCells": 294,
+            "voidFraction": 0.0066,
+            "measuredCells": 43994,
+            "canopyCells": 24293,
+            "canopyFractionOfMeasured": 0.5522,
+            "openGroundCells": 19066,
+            "noiseReturnsDropped": 225,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 30965,
+            "filled": 13323,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1960,
+            "meanMetres": -0.059,
+            "medianMetres": -0.005,
+            "p05Metres": -0.4,
+            "p95Metres": 0.15
+          },
+          "cellsWritten": 44288
+        },
+        {
+          "tileId": "l0/4/3",
+          "interiorBboxEpsg3006": [
+            697428.5,
+            7024826.5,
+            697684.5,
+            7025000
+          ],
+          "windowBboxEpsg3006": [
+            697396.5,
+            7024794.5,
+            697716.5,
+            7025000
+          ],
+          "read": {
+            "nodes": 46,
+            "decodedPoints": 687436,
+            "pointsInWindow": 88669,
+            "firstReturns": 80933,
+            "byClass": {
+              "1": 11204,
+              "2": 49127,
+              "7": 44,
+              "9": 28294
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 44288,
+            "squareMetres": 44288,
+            "allReturns": 48135,
+            "firstReturns": 44580,
+            "groundReturns": 42576,
+            "allReturnDensityPerSquareMetre": 1.0869,
+            "pulseDensityPerSquareMetre": 1.0066,
+            "groundReturnFraction": 0.8845,
+            "voidCells": 17570,
+            "voidFraction": 0.3967,
+            "measuredCells": 26718,
+            "canopyCells": 1738,
+            "canopyFractionOfMeasured": 0.065,
+            "openGroundCells": 24323,
+            "noiseReturnsDropped": 44,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 25931,
+            "filled": 18357,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1622,
+            "meanMetres": 0.012,
+            "medianMetres": 0.04,
+            "p05Metres": -0.18,
+            "p95Metres": 0.13
+          },
+          "cellsWritten": 44288
+        },
+        {
+          "tileId": "l0/5/3",
+          "interiorBboxEpsg3006": [
+            697684.5,
+            7024826.5,
+            697940.5,
+            7025000
+          ],
+          "windowBboxEpsg3006": [
+            697652.5,
+            7024794.5,
+            697972.5,
+            7025000
+          ],
+          "read": {
+            "nodes": 31,
+            "decodedPoints": 555550,
+            "pointsInWindow": 157422,
+            "firstReturns": 115798,
+            "byClass": {
+              "1": 57834,
+              "2": 98761,
+              "7": 129,
+              "9": 698
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 44288,
+            "squareMetres": 44288,
+            "allReturns": 98443,
+            "firstReturns": 80559,
+            "groundReturns": 72849,
+            "allReturnDensityPerSquareMetre": 2.2228,
+            "pulseDensityPerSquareMetre": 1.819,
+            "groundReturnFraction": 0.74,
+            "voidCells": 362,
+            "voidFraction": 0.0082,
+            "measuredCells": 43926,
+            "canopyCells": 7671,
+            "canopyFractionOfMeasured": 0.1746,
+            "openGroundCells": 35429,
+            "noiseReturnsDropped": 129,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 40722,
+            "filled": 3566,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2593,
+            "meanMetres": -0.128,
+            "medianMetres": -0.115,
+            "p05Metres": -0.3,
+            "p95Metres": -0.015
+          },
+          "cellsWritten": 44288
+        },
+        {
+          "tileId": "l0/6/3",
+          "interiorBboxEpsg3006": [
+            697940.5,
+            7024826.5,
+            698196.5,
+            7025000
+          ],
+          "windowBboxEpsg3006": [
+            697908.5,
+            7024794.5,
+            698228.5,
+            7025000
+          ],
+          "read": {
+            "nodes": 41,
+            "decodedPoints": 917667,
+            "pointsInWindow": 244717,
+            "firstReturns": 121282,
+            "byClass": {
+              "1": 171077,
+              "2": 73567,
+              "7": 73
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 44288,
+            "squareMetres": 44288,
+            "allReturns": 167193,
+            "firstReturns": 82053,
+            "groundReturns": 48773,
+            "allReturnDensityPerSquareMetre": 3.7751,
+            "pulseDensityPerSquareMetre": 1.8527,
+            "groundReturnFraction": 0.2917,
+            "voidCells": 956,
+            "voidFraction": 0.0216,
+            "measuredCells": 43332,
+            "canopyCells": 34662,
+            "canopyFractionOfMeasured": 0.7999,
+            "openGroundCells": 6850,
+            "noiseReturnsDropped": 73,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 30605,
+            "filled": 13683,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1922,
+            "meanMetres": -0.102,
+            "medianMetres": -0.1,
+            "p05Metres": -0.28,
+            "p95Metres": 0.055
+          },
+          "cellsWritten": 44288
+        },
+        {
+          "tileId": "l0/7/3",
+          "interiorBboxEpsg3006": [
+            698196.5,
+            7024826.5,
+            698452.5,
+            7025000
+          ],
+          "windowBboxEpsg3006": [
+            698164.5,
+            7024794.5,
+            698484.5,
+            7025000
+          ],
+          "read": {
+            "nodes": 37,
+            "decodedPoints": 707883,
+            "pointsInWindow": 220279,
+            "firstReturns": 120496,
+            "byClass": {
+              "1": 145898,
+              "2": 74309,
+              "7": 72
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 44288,
+            "squareMetres": 44288,
+            "allReturns": 154791,
+            "firstReturns": 81534,
+            "groundReturns": 47282,
+            "allReturnDensityPerSquareMetre": 3.4951,
+            "pulseDensityPerSquareMetre": 1.841,
+            "groundReturnFraction": 0.3055,
+            "voidCells": 750,
+            "voidFraction": 0.0169,
+            "measuredCells": 43538,
+            "canopyCells": 32551,
+            "canopyFractionOfMeasured": 0.7476,
+            "openGroundCells": 9835,
+            "noiseReturnsDropped": 72,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 29775,
+            "filled": 14513,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1908,
+            "meanMetres": -0.051,
+            "medianMetres": -0.045,
+            "p05Metres": -0.185,
+            "p95Metres": 0.068
+          },
+          "cellsWritten": 44288
+        },
+        {
+          "tileId": "l0/0/4",
+          "interiorBboxEpsg3006": [
+            696404.5,
+            7024570.5,
+            696660.5,
+            7024826.5
+          ],
+          "windowBboxEpsg3006": [
+            696372.5,
+            7024538.5,
+            696692.5,
+            7024858.5
+          ],
+          "read": {
+            "nodes": 66,
+            "decodedPoints": 1175304,
+            "pointsInWindow": 376261,
+            "firstReturns": 192719,
+            "byClass": {
+              "1": 267267,
+              "2": 107907,
+              "7": 1087
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 246164,
+            "firstReturns": 124047,
+            "groundReturns": 67882,
+            "allReturnDensityPerSquareMetre": 3.7562,
+            "pulseDensityPerSquareMetre": 1.8928,
+            "groundReturnFraction": 0.2758,
+            "voidCells": 373,
+            "voidFraction": 0.0057,
+            "measuredCells": 65163,
+            "canopyCells": 52888,
+            "canopyFractionOfMeasured": 0.8116,
+            "openGroundCells": 8303,
+            "noiseReturnsDropped": 1087,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 43301,
+            "filled": 22235,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2698,
+            "meanMetres": -0.075,
+            "medianMetres": -0.025,
+            "p05Metres": -0.615,
+            "p95Metres": 0.272
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/1/4",
+          "interiorBboxEpsg3006": [
+            696660.5,
+            7024570.5,
+            696916.5,
+            7024826.5
+          ],
+          "windowBboxEpsg3006": [
+            696628.5,
+            7024538.5,
+            696948.5,
+            7024858.5
+          ],
+          "read": {
+            "nodes": 76,
+            "decodedPoints": 1312010,
+            "pointsInWindow": 374382,
+            "firstReturns": 191320,
+            "byClass": {
+              "1": 270406,
+              "2": 103104,
+              "7": 872
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 240681,
+            "firstReturns": 122265,
+            "groundReturns": 66627,
+            "allReturnDensityPerSquareMetre": 3.6725,
+            "pulseDensityPerSquareMetre": 1.8656,
+            "groundReturnFraction": 0.2768,
+            "voidCells": 262,
+            "voidFraction": 0.004,
+            "measuredCells": 65274,
+            "canopyCells": 51042,
+            "canopyFractionOfMeasured": 0.782,
+            "openGroundCells": 10068,
+            "noiseReturnsDropped": 872,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 42732,
+            "filled": 22804,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2714,
+            "meanMetres": -0.021,
+            "medianMetres": -0.02,
+            "p05Metres": -0.297,
+            "p95Metres": 0.255
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/2/4",
+          "interiorBboxEpsg3006": [
+            696916.5,
+            7024570.5,
+            697172.5,
+            7024826.5
+          ],
+          "windowBboxEpsg3006": [
+            696884.5,
+            7024538.5,
+            697204.5,
+            7024858.5
+          ],
+          "read": {
+            "nodes": 58,
+            "decodedPoints": 921218,
+            "pointsInWindow": 340698,
+            "firstReturns": 190397,
+            "byClass": {
+              "1": 229684,
+              "2": 110443,
+              "7": 571
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 207782,
+            "firstReturns": 121176,
+            "groundReturns": 74768,
+            "allReturnDensityPerSquareMetre": 3.1705,
+            "pulseDensityPerSquareMetre": 1.849,
+            "groundReturnFraction": 0.3598,
+            "voidCells": 589,
+            "voidFraction": 0.009,
+            "measuredCells": 64947,
+            "canopyCells": 37034,
+            "canopyFractionOfMeasured": 0.5702,
+            "openGroundCells": 15240,
+            "noiseReturnsDropped": 571,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 46939,
+            "filled": 18597,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2914,
+            "meanMetres": -0.146,
+            "medianMetres": -0.135,
+            "p05Metres": -0.39,
+            "p95Metres": 0.087
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/3/4",
+          "interiorBboxEpsg3006": [
+            697172.5,
+            7024570.5,
+            697428.5,
+            7024826.5
+          ],
+          "windowBboxEpsg3006": [
+            697140.5,
+            7024538.5,
+            697460.5,
+            7024858.5
+          ],
+          "read": {
+            "nodes": 58,
+            "decodedPoints": 921218,
+            "pointsInWindow": 256055,
+            "firstReturns": 190399,
+            "byClass": {
+              "1": 115251,
+              "2": 122647,
+              "7": 252,
+              "9": 17905
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 165296,
+            "firstReturns": 121366,
+            "groundReturns": 88719,
+            "allReturnDensityPerSquareMetre": 2.5222,
+            "pulseDensityPerSquareMetre": 1.8519,
+            "groundReturnFraction": 0.5367,
+            "voidCells": 186,
+            "voidFraction": 0.0028,
+            "measuredCells": 65350,
+            "canopyCells": 26061,
+            "canopyFractionOfMeasured": 0.3988,
+            "openGroundCells": 36956,
+            "noiseReturnsDropped": 252,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 50798,
+            "filled": 14738,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3192,
+            "meanMetres": -0.001,
+            "medianMetres": 0.015,
+            "p05Metres": -0.208,
+            "p95Metres": 0.125
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/4/4",
+          "interiorBboxEpsg3006": [
+            697428.5,
+            7024570.5,
+            697684.5,
+            7024826.5
+          ],
+          "windowBboxEpsg3006": [
+            697396.5,
+            7024538.5,
+            697716.5,
+            7024858.5
+          ],
+          "read": {
+            "nodes": 70,
+            "decodedPoints": 1179133,
+            "pointsInWindow": 170100,
+            "firstReturns": 150051,
+            "byClass": {
+              "1": 28259,
+              "2": 43904,
+              "7": 91,
+              "9": 97846
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 91134,
+            "firstReturns": 85876,
+            "groundReturns": 83005,
+            "allReturnDensityPerSquareMetre": 1.3906,
+            "pulseDensityPerSquareMetre": 1.3104,
+            "groundReturnFraction": 0.9108,
+            "voidCells": 17885,
+            "voidFraction": 0.2729,
+            "measuredCells": 47651,
+            "canopyCells": 2359,
+            "canopyFractionOfMeasured": 0.0495,
+            "openGroundCells": 44559,
+            "noiseReturnsDropped": 91,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 46508,
+            "filled": 19028,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2904,
+            "meanMetres": 0.048,
+            "medianMetres": 0.07,
+            "p05Metres": -0.145,
+            "p95Metres": 0.11
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/5/4",
+          "interiorBboxEpsg3006": [
+            697684.5,
+            7024570.5,
+            697940.5,
+            7024826.5
+          ],
+          "windowBboxEpsg3006": [
+            697652.5,
+            7024538.5,
+            697972.5,
+            7024858.5
+          ],
+          "read": {
+            "nodes": 46,
+            "decodedPoints": 1022723,
+            "pointsInWindow": 334128,
+            "firstReturns": 184598,
+            "byClass": {
+              "1": 207703,
+              "2": 119220,
+              "7": 444,
+              "9": 6761
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 223089,
+            "firstReturns": 120219,
+            "groundReturns": 78974,
+            "allReturnDensityPerSquareMetre": 3.4041,
+            "pulseDensityPerSquareMetre": 1.8344,
+            "groundReturnFraction": 0.354,
+            "voidCells": 1453,
+            "voidFraction": 0.0222,
+            "measuredCells": 64083,
+            "canopyCells": 41826,
+            "canopyFractionOfMeasured": 0.6527,
+            "openGroundCells": 18594,
+            "noiseReturnsDropped": 444,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 47669,
+            "filled": 17867,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2998,
+            "meanMetres": -0.128,
+            "medianMetres": -0.1,
+            "p05Metres": -0.398,
+            "p95Metres": 0.065
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/6/4",
+          "interiorBboxEpsg3006": [
+            697940.5,
+            7024570.5,
+            698196.5,
+            7024826.5
+          ],
+          "windowBboxEpsg3006": [
+            697908.5,
+            7024538.5,
+            698228.5,
+            7024858.5
+          ],
+          "read": {
+            "nodes": 63,
+            "decodedPoints": 1605275,
+            "pointsInWindow": 389209,
+            "firstReturns": 192473,
+            "byClass": {
+              "1": 266036,
+              "2": 123078,
+              "7": 95
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 249915,
+            "firstReturns": 123827,
+            "groundReturns": 79531,
+            "allReturnDensityPerSquareMetre": 3.8134,
+            "pulseDensityPerSquareMetre": 1.8895,
+            "groundReturnFraction": 0.3182,
+            "voidCells": 300,
+            "voidFraction": 0.0046,
+            "measuredCells": 65236,
+            "canopyCells": 51787,
+            "canopyFractionOfMeasured": 0.7938,
+            "openGroundCells": 10368,
+            "noiseReturnsDropped": 95,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 48308,
+            "filled": 17228,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3023,
+            "meanMetres": -0.051,
+            "medianMetres": -0.048,
+            "p05Metres": -0.182,
+            "p95Metres": 0.08
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/7/4",
+          "interiorBboxEpsg3006": [
+            698196.5,
+            7024570.5,
+            698452.5,
+            7024826.5
+          ],
+          "windowBboxEpsg3006": [
+            698164.5,
+            7024538.5,
+            698484.5,
+            7024858.5
+          ],
+          "read": {
+            "nodes": 54,
+            "decodedPoints": 1063839,
+            "pointsInWindow": 365832,
+            "firstReturns": 189932,
+            "byClass": {
+              "1": 241576,
+              "2": 124145,
+              "7": 111
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 239770,
+            "firstReturns": 122315,
+            "groundReturns": 77532,
+            "allReturnDensityPerSquareMetre": 3.6586,
+            "pulseDensityPerSquareMetre": 1.8664,
+            "groundReturnFraction": 0.3234,
+            "voidCells": 325,
+            "voidFraction": 0.005,
+            "measuredCells": 65211,
+            "canopyCells": 48905,
+            "canopyFractionOfMeasured": 0.75,
+            "openGroundCells": 14106,
+            "noiseReturnsDropped": 111,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 47559,
+            "filled": 17977,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2996,
+            "meanMetres": -0.056,
+            "medianMetres": -0.047,
+            "p05Metres": -0.2,
+            "p95Metres": 0.063
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/0/5",
+          "interiorBboxEpsg3006": [
+            696404.5,
+            7024314.5,
+            696660.5,
+            7024570.5
+          ],
+          "windowBboxEpsg3006": [
+            696372.5,
+            7024282.5,
+            696692.5,
+            7024602.5
+          ],
+          "read": {
+            "nodes": 76,
+            "decodedPoints": 1166222,
+            "pointsInWindow": 358454,
+            "firstReturns": 192247,
+            "byClass": {
+              "1": 247271,
+              "2": 110488,
+              "7": 695
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 229910,
+            "firstReturns": 123349,
+            "groundReturns": 71639,
+            "allReturnDensityPerSquareMetre": 3.5081,
+            "pulseDensityPerSquareMetre": 1.8822,
+            "groundReturnFraction": 0.3116,
+            "voidCells": 239,
+            "voidFraction": 0.0036,
+            "measuredCells": 65297,
+            "canopyCells": 45342,
+            "canopyFractionOfMeasured": 0.6944,
+            "openGroundCells": 9231,
+            "noiseReturnsDropped": 695,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 45612,
+            "filled": 19924,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2871,
+            "meanMetres": -0.122,
+            "medianMetres": -0.1,
+            "p05Metres": -0.448,
+            "p95Metres": 0.135
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/1/5",
+          "interiorBboxEpsg3006": [
+            696660.5,
+            7024314.5,
+            696916.5,
+            7024570.5
+          ],
+          "windowBboxEpsg3006": [
+            696628.5,
+            7024282.5,
+            696948.5,
+            7024602.5
+          ],
+          "read": {
+            "nodes": 85,
+            "decodedPoints": 1461796,
+            "pointsInWindow": 323904,
+            "firstReturns": 192288,
+            "byClass": {
+              "1": 210367,
+              "2": 112659,
+              "7": 878
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 201946,
+            "firstReturns": 122803,
+            "groundReturns": 72910,
+            "allReturnDensityPerSquareMetre": 3.0815,
+            "pulseDensityPerSquareMetre": 1.8738,
+            "groundReturnFraction": 0.361,
+            "voidCells": 179,
+            "voidFraction": 0.0027,
+            "measuredCells": 65357,
+            "canopyCells": 38302,
+            "canopyFractionOfMeasured": 0.586,
+            "openGroundCells": 18036,
+            "noiseReturnsDropped": 878,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 45760,
+            "filled": 19776,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2845,
+            "meanMetres": -0.107,
+            "medianMetres": -0.073,
+            "p05Metres": -0.53,
+            "p95Metres": 0.193
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/2/5",
+          "interiorBboxEpsg3006": [
+            696916.5,
+            7024314.5,
+            697172.5,
+            7024570.5
+          ],
+          "windowBboxEpsg3006": [
+            696884.5,
+            7024282.5,
+            697204.5,
+            7024602.5
+          ],
+          "read": {
+            "nodes": 64,
+            "decodedPoints": 1098399,
+            "pointsInWindow": 360770,
+            "firstReturns": 191578,
+            "byClass": {
+              "1": 259678,
+              "2": 100607,
+              "7": 485
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 231664,
+            "firstReturns": 121952,
+            "groundReturns": 64413,
+            "allReturnDensityPerSquareMetre": 3.5349,
+            "pulseDensityPerSquareMetre": 1.8608,
+            "groundReturnFraction": 0.278,
+            "voidCells": 390,
+            "voidFraction": 0.006,
+            "measuredCells": 65146,
+            "canopyCells": 48357,
+            "canopyFractionOfMeasured": 0.7423,
+            "openGroundCells": 10223,
+            "noiseReturnsDropped": 485,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 41898,
+            "filled": 23638,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2587,
+            "meanMetres": -0.065,
+            "medianMetres": -0.075,
+            "p05Metres": -0.318,
+            "p95Metres": 0.148
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/3/5",
+          "interiorBboxEpsg3006": [
+            697172.5,
+            7024314.5,
+            697428.5,
+            7024570.5
+          ],
+          "windowBboxEpsg3006": [
+            697140.5,
+            7024282.5,
+            697460.5,
+            7024602.5
+          ],
+          "read": {
+            "nodes": 64,
+            "decodedPoints": 1098399,
+            "pointsInWindow": 276386,
+            "firstReturns": 191814,
+            "byClass": {
+              "1": 134702,
+              "2": 127654,
+              "7": 405,
+              "9": 13625
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 170156,
+            "firstReturns": 121654,
+            "groundReturns": 94702,
+            "allReturnDensityPerSquareMetre": 2.5964,
+            "pulseDensityPerSquareMetre": 1.8563,
+            "groundReturnFraction": 0.5566,
+            "voidCells": 138,
+            "voidFraction": 0.0021,
+            "measuredCells": 65398,
+            "canopyCells": 22432,
+            "canopyFractionOfMeasured": 0.343,
+            "openGroundCells": 36209,
+            "noiseReturnsDropped": 405,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 55295,
+            "filled": 10241,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3440,
+            "meanMetres": -0.027,
+            "medianMetres": -0.015,
+            "p05Metres": -0.278,
+            "p95Metres": 0.17
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/4/5",
+          "interiorBboxEpsg3006": [
+            697428.5,
+            7024314.5,
+            697684.5,
+            7024570.5
+          ],
+          "windowBboxEpsg3006": [
+            697396.5,
+            7024282.5,
+            697716.5,
+            7024602.5
+          ],
+          "read": {
+            "nodes": 90,
+            "decodedPoints": 1412945,
+            "pointsInWindow": 276660,
+            "firstReturns": 189509,
+            "byClass": {
+              "1": 133599,
+              "2": 73621,
+              "7": 342,
+              "9": 69098
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 169318,
+            "firstReturns": 120459,
+            "groundReturns": 93511,
+            "allReturnDensityPerSquareMetre": 2.5836,
+            "pulseDensityPerSquareMetre": 1.8381,
+            "groundReturnFraction": 0.5523,
+            "voidCells": 490,
+            "voidFraction": 0.0075,
+            "measuredCells": 65046,
+            "canopyCells": 21348,
+            "canopyFractionOfMeasured": 0.3282,
+            "openGroundCells": 38435,
+            "noiseReturnsDropped": 342,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 53983,
+            "filled": 11553,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3374,
+            "meanMetres": 0.001,
+            "medianMetres": 0.065,
+            "p05Metres": -0.287,
+            "p95Metres": 0.135
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/5/5",
+          "interiorBboxEpsg3006": [
+            697684.5,
+            7024314.5,
+            697940.5,
+            7024570.5
+          ],
+          "windowBboxEpsg3006": [
+            697652.5,
+            7024282.5,
+            697972.5,
+            7024602.5
+          ],
+          "read": {
+            "nodes": 61,
+            "decodedPoints": 1179023,
+            "pointsInWindow": 378841,
+            "firstReturns": 191365,
+            "byClass": {
+              "1": 261923,
+              "2": 116270,
+              "7": 272,
+              "9": 376
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 242662,
+            "firstReturns": 123489,
+            "groundReturns": 76219,
+            "allReturnDensityPerSquareMetre": 3.7027,
+            "pulseDensityPerSquareMetre": 1.8843,
+            "groundReturnFraction": 0.3141,
+            "voidCells": 220,
+            "voidFraction": 0.0034,
+            "measuredCells": 65316,
+            "canopyCells": 49513,
+            "canopyFractionOfMeasured": 0.7581,
+            "openGroundCells": 11012,
+            "noiseReturnsDropped": 272,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 47390,
+            "filled": 18146,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2916,
+            "meanMetres": -0.079,
+            "medianMetres": -0.077,
+            "p05Metres": -0.233,
+            "p95Metres": 0.07
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/6/5",
+          "interiorBboxEpsg3006": [
+            697940.5,
+            7024314.5,
+            698196.5,
+            7024570.5
+          ],
+          "windowBboxEpsg3006": [
+            697908.5,
+            7024282.5,
+            698228.5,
+            7024602.5
+          ],
+          "read": {
+            "nodes": 73,
+            "decodedPoints": 1639471,
+            "pointsInWindow": 361938,
+            "firstReturns": 193125,
+            "byClass": {
+              "1": 224682,
+              "2": 137025,
+              "7": 231
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 233747,
+            "firstReturns": 124207,
+            "groundReturns": 87379,
+            "allReturnDensityPerSquareMetre": 3.5667,
+            "pulseDensityPerSquareMetre": 1.8952,
+            "groundReturnFraction": 0.3738,
+            "voidCells": 288,
+            "voidFraction": 0.0044,
+            "measuredCells": 65248,
+            "canopyCells": 45119,
+            "canopyFractionOfMeasured": 0.6915,
+            "openGroundCells": 15868,
+            "noiseReturnsDropped": 231,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 51861,
+            "filled": 13675,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3228,
+            "meanMetres": -0.091,
+            "medianMetres": -0.082,
+            "p05Metres": -0.25,
+            "p95Metres": 0.042
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/7/5",
+          "interiorBboxEpsg3006": [
+            698196.5,
+            7024314.5,
+            698452.5,
+            7024570.5
+          ],
+          "windowBboxEpsg3006": [
+            698164.5,
+            7024282.5,
+            698484.5,
+            7024602.5
+          ],
+          "read": {
+            "nodes": 57,
+            "decodedPoints": 1075127,
+            "pointsInWindow": 336746,
+            "firstReturns": 191916,
+            "byClass": {
+              "1": 192012,
+              "2": 144580,
+              "7": 154
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 221907,
+            "firstReturns": 123627,
+            "groundReturns": 92271,
+            "allReturnDensityPerSquareMetre": 3.386,
+            "pulseDensityPerSquareMetre": 1.8864,
+            "groundReturnFraction": 0.4158,
+            "voidCells": 260,
+            "voidFraction": 0.004,
+            "measuredCells": 65276,
+            "canopyCells": 40584,
+            "canopyFractionOfMeasured": 0.6217,
+            "openGroundCells": 19600,
+            "noiseReturnsDropped": 154,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 54084,
+            "filled": 11452,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3421,
+            "meanMetres": -0.058,
+            "medianMetres": -0.055,
+            "p05Metres": -0.192,
+            "p95Metres": 0.065
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/0/6",
+          "interiorBboxEpsg3006": [
+            696404.5,
+            7024058.5,
+            696660.5,
+            7024314.5
+          ],
+          "windowBboxEpsg3006": [
+            696372.5,
+            7024026.5,
+            696692.5,
+            7024346.5
+          ],
+          "read": {
+            "nodes": 66,
+            "decodedPoints": 1173982,
+            "pointsInWindow": 324011,
+            "firstReturns": 205277,
+            "byClass": {
+              "1": 180599,
+              "2": 142765,
+              "7": 647
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 197436,
+            "firstReturns": 123461,
+            "groundReturns": 86224,
+            "allReturnDensityPerSquareMetre": 3.0126,
+            "pulseDensityPerSquareMetre": 1.8839,
+            "groundReturnFraction": 0.4367,
+            "voidCells": 439,
+            "voidFraction": 0.0067,
+            "measuredCells": 65097,
+            "canopyCells": 34444,
+            "canopyFractionOfMeasured": 0.5291,
+            "openGroundCells": 18528,
+            "noiseReturnsDropped": 647,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 52030,
+            "filled": 13506,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3234,
+            "meanMetres": -0.092,
+            "medianMetres": -0.067,
+            "p05Metres": -0.415,
+            "p95Metres": 0.145
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/1/6",
+          "interiorBboxEpsg3006": [
+            696660.5,
+            7024058.5,
+            696916.5,
+            7024314.5
+          ],
+          "windowBboxEpsg3006": [
+            696628.5,
+            7024026.5,
+            696948.5,
+            7024346.5
+          ],
+          "read": {
+            "nodes": 76,
+            "decodedPoints": 1594307,
+            "pointsInWindow": 339351,
+            "firstReturns": 201663,
+            "byClass": {
+              "1": 215145,
+              "2": 122783,
+              "7": 1423
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 206086,
+            "firstReturns": 119871,
+            "groundReturns": 71405,
+            "allReturnDensityPerSquareMetre": 3.1446,
+            "pulseDensityPerSquareMetre": 1.8291,
+            "groundReturnFraction": 0.3465,
+            "voidCells": 876,
+            "voidFraction": 0.0134,
+            "measuredCells": 64660,
+            "canopyCells": 37601,
+            "canopyFractionOfMeasured": 0.5815,
+            "openGroundCells": 15582,
+            "noiseReturnsDropped": 1423,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 45850,
+            "filled": 19686,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2841,
+            "meanMetres": -0.096,
+            "medianMetres": -0.05,
+            "p05Metres": -0.625,
+            "p95Metres": 0.27
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/2/6",
+          "interiorBboxEpsg3006": [
+            696916.5,
+            7024058.5,
+            697172.5,
+            7024314.5
+          ],
+          "windowBboxEpsg3006": [
+            696884.5,
+            7024026.5,
+            697204.5,
+            7024346.5
+          ],
+          "read": {
+            "nodes": 52,
+            "decodedPoints": 1329874,
+            "pointsInWindow": 358907,
+            "firstReturns": 201292,
+            "byClass": {
+              "1": 235484,
+              "2": 122932,
+              "7": 491
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 218596,
+            "firstReturns": 120019,
+            "groundReturns": 75426,
+            "allReturnDensityPerSquareMetre": 3.3355,
+            "pulseDensityPerSquareMetre": 1.8313,
+            "groundReturnFraction": 0.345,
+            "voidCells": 1072,
+            "voidFraction": 0.0164,
+            "measuredCells": 64464,
+            "canopyCells": 42672,
+            "canopyFractionOfMeasured": 0.662,
+            "openGroundCells": 15331,
+            "noiseReturnsDropped": 491,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 47024,
+            "filled": 18512,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2897,
+            "meanMetres": -0.069,
+            "medianMetres": -0.06,
+            "p05Metres": -0.307,
+            "p95Metres": 0.143
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/3/6",
+          "interiorBboxEpsg3006": [
+            697172.5,
+            7024058.5,
+            697428.5,
+            7024314.5
+          ],
+          "windowBboxEpsg3006": [
+            697140.5,
+            7024026.5,
+            697460.5,
+            7024346.5
+          ],
+          "read": {
+            "nodes": 52,
+            "decodedPoints": 1329874,
+            "pointsInWindow": 370021,
+            "firstReturns": 200553,
+            "byClass": {
+              "1": 252906,
+              "2": 116537,
+              "7": 578
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 225013,
+            "firstReturns": 120776,
+            "groundReturns": 68594,
+            "allReturnDensityPerSquareMetre": 3.4334,
+            "pulseDensityPerSquareMetre": 1.8429,
+            "groundReturnFraction": 0.3048,
+            "voidCells": 1016,
+            "voidFraction": 0.0155,
+            "measuredCells": 64520,
+            "canopyCells": 43927,
+            "canopyFractionOfMeasured": 0.6808,
+            "openGroundCells": 13047,
+            "noiseReturnsDropped": 578,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 44180,
+            "filled": 21356,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2748,
+            "meanMetres": -0.047,
+            "medianMetres": -0.028,
+            "p05Metres": -0.351,
+            "p95Metres": 0.2
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/4/6",
+          "interiorBboxEpsg3006": [
+            697428.5,
+            7024058.5,
+            697684.5,
+            7024314.5
+          ],
+          "windowBboxEpsg3006": [
+            697396.5,
+            7024026.5,
+            697716.5,
+            7024346.5
+          ],
+          "read": {
+            "nodes": 80,
+            "decodedPoints": 1707020,
+            "pointsInWindow": 390322,
+            "firstReturns": 197533,
+            "byClass": {
+              "1": 292007,
+              "2": 97562,
+              "7": 753
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 246851,
+            "firstReturns": 120569,
+            "groundReturns": 54260,
+            "allReturnDensityPerSquareMetre": 3.7666,
+            "pulseDensityPerSquareMetre": 1.8397,
+            "groundReturnFraction": 0.2198,
+            "voidCells": 1039,
+            "voidFraction": 0.0159,
+            "measuredCells": 64497,
+            "canopyCells": 58029,
+            "canopyFractionOfMeasured": 0.8997,
+            "openGroundCells": 4361,
+            "noiseReturnsDropped": 753,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 36960,
+            "filled": 28576,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2329,
+            "meanMetres": -0.11,
+            "medianMetres": -0.112,
+            "p05Metres": -0.37,
+            "p95Metres": 0.16
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/5/6",
+          "interiorBboxEpsg3006": [
+            697684.5,
+            7024058.5,
+            697940.5,
+            7024314.5
+          ],
+          "windowBboxEpsg3006": [
+            697652.5,
+            7024026.5,
+            697972.5,
+            7024346.5
+          ],
+          "read": {
+            "nodes": 65,
+            "decodedPoints": 1321541,
+            "pointsInWindow": 357453,
+            "firstReturns": 196241,
+            "byClass": {
+              "1": 225780,
+              "2": 131058,
+              "7": 615
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 222274,
+            "firstReturns": 122777,
+            "groundReturns": 82073,
+            "allReturnDensityPerSquareMetre": 3.3916,
+            "pulseDensityPerSquareMetre": 1.8734,
+            "groundReturnFraction": 0.3692,
+            "voidCells": 657,
+            "voidFraction": 0.01,
+            "measuredCells": 64879,
+            "canopyCells": 44452,
+            "canopyFractionOfMeasured": 0.6852,
+            "openGroundCells": 16181,
+            "noiseReturnsDropped": 615,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 49934,
+            "filled": 15602,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3089,
+            "meanMetres": -0.117,
+            "medianMetres": -0.102,
+            "p05Metres": -0.345,
+            "p95Metres": 0.075
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/6/6",
+          "interiorBboxEpsg3006": [
+            697940.5,
+            7024058.5,
+            698196.5,
+            7024314.5
+          ],
+          "windowBboxEpsg3006": [
+            697908.5,
+            7024026.5,
+            698228.5,
+            7024346.5
+          ],
+          "read": {
+            "nodes": 72,
+            "decodedPoints": 1469149,
+            "pointsInWindow": 335119,
+            "firstReturns": 195705,
+            "byClass": {
+              "1": 183329,
+              "2": 151343,
+              "7": 447
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 211428,
+            "firstReturns": 123195,
+            "groundReturns": 94593,
+            "allReturnDensityPerSquareMetre": 3.2261,
+            "pulseDensityPerSquareMetre": 1.8798,
+            "groundReturnFraction": 0.4474,
+            "voidCells": 640,
+            "voidFraction": 0.0098,
+            "measuredCells": 64896,
+            "canopyCells": 39817,
+            "canopyFractionOfMeasured": 0.6136,
+            "openGroundCells": 20815,
+            "noiseReturnsDropped": 447,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 55166,
+            "filled": 10370,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3431,
+            "meanMetres": -0.113,
+            "medianMetres": -0.1,
+            "p05Metres": -0.327,
+            "p95Metres": 0.055
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/7/6",
+          "interiorBboxEpsg3006": [
+            698196.5,
+            7024058.5,
+            698452.5,
+            7024314.5
+          ],
+          "windowBboxEpsg3006": [
+            698164.5,
+            7024026.5,
+            698484.5,
+            7024346.5
+          ],
+          "read": {
+            "nodes": 55,
+            "decodedPoints": 1103273,
+            "pointsInWindow": 298700,
+            "firstReturns": 193623,
+            "byClass": {
+              "1": 138686,
+              "2": 159829,
+              "7": 185
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 185300,
+            "firstReturns": 121965,
+            "groundReturns": 100866,
+            "allReturnDensityPerSquareMetre": 2.8275,
+            "pulseDensityPerSquareMetre": 1.861,
+            "groundReturnFraction": 0.5443,
+            "voidCells": 458,
+            "voidFraction": 0.007,
+            "measuredCells": 65078,
+            "canopyCells": 29347,
+            "canopyFractionOfMeasured": 0.451,
+            "openGroundCells": 29614,
+            "noiseReturnsDropped": 185,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 58351,
+            "filled": 7185,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3657,
+            "meanMetres": -0.024,
+            "medianMetres": -0.025,
+            "p05Metres": -0.163,
+            "p95Metres": 0.12
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/0/7",
+          "interiorBboxEpsg3006": [
+            696404.5,
+            7023802.5,
+            696660.5,
+            7024058.5
+          ],
+          "windowBboxEpsg3006": [
+            696372.5,
+            7023770.5,
+            696692.5,
+            7024090.5
+          ],
+          "read": {
+            "nodes": 66,
+            "decodedPoints": 1363253,
+            "pointsInWindow": 414286,
+            "firstReturns": 293560,
+            "byClass": {
+              "1": 188356,
+              "2": 222296,
+              "7": 433,
+              "9": 3201
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 275196,
+            "firstReturns": 197205,
+            "groundReturns": 154607,
+            "allReturnDensityPerSquareMetre": 4.1992,
+            "pulseDensityPerSquareMetre": 3.0091,
+            "groundReturnFraction": 0.5618,
+            "voidCells": 4260,
+            "voidFraction": 0.065,
+            "measuredCells": 61276,
+            "canopyCells": 21506,
+            "canopyFractionOfMeasured": 0.351,
+            "openGroundCells": 30984,
+            "noiseReturnsDropped": 433,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 55981,
+            "filled": 9555,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3504,
+            "meanMetres": -0.089,
+            "medianMetres": -0.06,
+            "p05Metres": -0.39,
+            "p95Metres": 0.106
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/1/7",
+          "interiorBboxEpsg3006": [
+            696660.5,
+            7023802.5,
+            696916.5,
+            7024058.5
+          ],
+          "windowBboxEpsg3006": [
+            696628.5,
+            7023770.5,
+            696948.5,
+            7024090.5
+          ],
+          "read": {
+            "nodes": 82,
+            "decodedPoints": 1902246,
+            "pointsInWindow": 571004,
+            "firstReturns": 317496,
+            "byClass": {
+              "1": 412378,
+              "2": 157409,
+              "7": 1217
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 392785,
+            "firstReturns": 211489,
+            "groundReturns": 104699,
+            "allReturnDensityPerSquareMetre": 5.9934,
+            "pulseDensityPerSquareMetre": 3.2271,
+            "groundReturnFraction": 0.2666,
+            "voidCells": 193,
+            "voidFraction": 0.0029,
+            "measuredCells": 65343,
+            "canopyCells": 49011,
+            "canopyFractionOfMeasured": 0.7501,
+            "openGroundCells": 7714,
+            "noiseReturnsDropped": 1217,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 49799,
+            "filled": 15737,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3100,
+            "meanMetres": -0.147,
+            "medianMetres": -0.105,
+            "p05Metres": -0.608,
+            "p95Metres": 0.175
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/2/7",
+          "interiorBboxEpsg3006": [
+            696916.5,
+            7023802.5,
+            697172.5,
+            7024058.5
+          ],
+          "windowBboxEpsg3006": [
+            696884.5,
+            7023770.5,
+            697204.5,
+            7024090.5
+          ],
+          "read": {
+            "nodes": 59,
+            "decodedPoints": 1566233,
+            "pointsInWindow": 532350,
+            "firstReturns": 317123,
+            "byClass": {
+              "1": 357875,
+              "2": 173914,
+              "7": 561
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 337052,
+            "firstReturns": 212427,
+            "groundReturns": 121148,
+            "allReturnDensityPerSquareMetre": 5.143,
+            "pulseDensityPerSquareMetre": 3.2414,
+            "groundReturnFraction": 0.3594,
+            "voidCells": 110,
+            "voidFraction": 0.0017,
+            "measuredCells": 65426,
+            "canopyCells": 37548,
+            "canopyFractionOfMeasured": 0.5739,
+            "openGroundCells": 14400,
+            "noiseReturnsDropped": 561,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 52538,
+            "filled": 12998,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3305,
+            "meanMetres": -0.065,
+            "medianMetres": -0.06,
+            "p05Metres": -0.358,
+            "p95Metres": 0.2
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/3/7",
+          "interiorBboxEpsg3006": [
+            697172.5,
+            7023802.5,
+            697428.5,
+            7024058.5
+          ],
+          "windowBboxEpsg3006": [
+            697140.5,
+            7023770.5,
+            697460.5,
+            7024090.5
+          ],
+          "read": {
+            "nodes": 59,
+            "decodedPoints": 1566233,
+            "pointsInWindow": 559531,
+            "firstReturns": 316253,
+            "byClass": {
+              "1": 371328,
+              "2": 187803,
+              "7": 400
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 373505,
+            "firstReturns": 209839,
+            "groundReturns": 122516,
+            "allReturnDensityPerSquareMetre": 5.6992,
+            "pulseDensityPerSquareMetre": 3.2019,
+            "groundReturnFraction": 0.328,
+            "voidCells": 179,
+            "voidFraction": 0.0027,
+            "measuredCells": 65357,
+            "canopyCells": 49037,
+            "canopyFractionOfMeasured": 0.7503,
+            "openGroundCells": 10978,
+            "noiseReturnsDropped": 400,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 53501,
+            "filled": 12035,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3323,
+            "meanMetres": -0.107,
+            "medianMetres": -0.092,
+            "p05Metres": -0.345,
+            "p95Metres": 0.098
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/4/7",
+          "interiorBboxEpsg3006": [
+            697428.5,
+            7023802.5,
+            697684.5,
+            7024058.5
+          ],
+          "windowBboxEpsg3006": [
+            697396.5,
+            7023770.5,
+            697716.5,
+            7024090.5
+          ],
+          "read": {
+            "nodes": 83,
+            "decodedPoints": 1915154,
+            "pointsInWindow": 523561,
+            "firstReturns": 313219,
+            "byClass": {
+              "1": 301971,
+              "2": 220962,
+              "7": 628
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 349983,
+            "firstReturns": 209131,
+            "groundReturns": 147512,
+            "allReturnDensityPerSquareMetre": 5.3403,
+            "pulseDensityPerSquareMetre": 3.1911,
+            "groundReturnFraction": 0.4215,
+            "voidCells": 136,
+            "voidFraction": 0.0021,
+            "measuredCells": 65400,
+            "canopyCells": 40355,
+            "canopyFractionOfMeasured": 0.617,
+            "openGroundCells": 17600,
+            "noiseReturnsDropped": 628,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 58276,
+            "filled": 7260,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3638,
+            "meanMetres": -0.112,
+            "medianMetres": -0.095,
+            "p05Metres": -0.428,
+            "p95Metres": 0.13
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/5/7",
+          "interiorBboxEpsg3006": [
+            697684.5,
+            7023802.5,
+            697940.5,
+            7024058.5
+          ],
+          "windowBboxEpsg3006": [
+            697652.5,
+            7023770.5,
+            697972.5,
+            7024090.5
+          ],
+          "read": {
+            "nodes": 64,
+            "decodedPoints": 1512302,
+            "pointsInWindow": 504706,
+            "firstReturns": 311455,
+            "byClass": {
+              "1": 272425,
+              "2": 231900,
+              "7": 381
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 335209,
+            "firstReturns": 207554,
+            "groundReturns": 154175,
+            "allReturnDensityPerSquareMetre": 5.1149,
+            "pulseDensityPerSquareMetre": 3.167,
+            "groundReturnFraction": 0.4599,
+            "voidCells": 164,
+            "voidFraction": 0.0025,
+            "measuredCells": 65372,
+            "canopyCells": 37687,
+            "canopyFractionOfMeasured": 0.5765,
+            "openGroundCells": 21772,
+            "noiseReturnsDropped": 381,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 59645,
+            "filled": 5891,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3763,
+            "meanMetres": -0.075,
+            "medianMetres": -0.063,
+            "p05Metres": -0.277,
+            "p95Metres": 0.102
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/6/7",
+          "interiorBboxEpsg3006": [
+            697940.5,
+            7023802.5,
+            698196.5,
+            7024058.5
+          ],
+          "windowBboxEpsg3006": [
+            697908.5,
+            7023770.5,
+            698228.5,
+            7024090.5
+          ],
+          "read": {
+            "nodes": 77,
+            "decodedPoints": 1668673,
+            "pointsInWindow": 520286,
+            "firstReturns": 311616,
+            "byClass": {
+              "1": 273537,
+              "2": 246498,
+              "7": 251
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 345624,
+            "firstReturns": 208324,
+            "groundReturns": 168391,
+            "allReturnDensityPerSquareMetre": 5.2738,
+            "pulseDensityPerSquareMetre": 3.1788,
+            "groundReturnFraction": 0.4872,
+            "voidCells": 141,
+            "voidFraction": 0.0022,
+            "measuredCells": 65395,
+            "canopyCells": 37062,
+            "canopyFractionOfMeasured": 0.5667,
+            "openGroundCells": 23699,
+            "noiseReturnsDropped": 251,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 61686,
+            "filled": 3850,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3868,
+            "meanMetres": -0.078,
+            "medianMetres": -0.072,
+            "p05Metres": -0.282,
+            "p95Metres": 0.113
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/7/7",
+          "interiorBboxEpsg3006": [
+            698196.5,
+            7023802.5,
+            698452.5,
+            7024058.5
+          ],
+          "windowBboxEpsg3006": [
+            698164.5,
+            7023770.5,
+            698484.5,
+            7024090.5
+          ],
+          "read": {
+            "nodes": 64,
+            "decodedPoints": 1283167,
+            "pointsInWindow": 480629,
+            "firstReturns": 309691,
+            "byClass": {
+              "1": 243653,
+              "2": 236779,
+              "7": 197
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 326075,
+            "firstReturns": 206596,
+            "groundReturns": 156078,
+            "allReturnDensityPerSquareMetre": 4.9755,
+            "pulseDensityPerSquareMetre": 3.1524,
+            "groundReturnFraction": 0.4787,
+            "voidCells": 113,
+            "voidFraction": 0.0017,
+            "measuredCells": 65423,
+            "canopyCells": 32658,
+            "canopyFractionOfMeasured": 0.4992,
+            "openGroundCells": 23661,
+            "noiseReturnsDropped": 197,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 60258,
+            "filled": 5278,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3765,
+            "meanMetres": 0.027,
+            "medianMetres": 0.022,
+            "p05Metres": -0.155,
+            "p95Metres": 0.233
+          },
+          "cellsWritten": 65536
+        }
+      ]
+    },
+    {
+      "campaignId": "23f028-702_69",
+      "captureStart": "2023-06-01T00:00:00Z",
+      "captureEnd": "2023-06-07T00:00:00Z",
+      "dataBounds": [
+        690000,
+        7025000,
+        699999.99,
+        7029999.99
+      ],
+      "hierarchyPages": 50,
+      "hierarchyNodes": 9381,
+      "subdivision": "header-extent per axis (verified; not the specification cube)",
+      "tiles": 32,
+      "elapsedMilliseconds": 45241.7,
+      "transfer": {
+        "requests": 1035,
+        "bytes": 86125759
+      },
+      "totals": {
+        "points": 14944813,
+        "allReturns": 9529966,
+        "firstReturns": 4569649,
+        "cells": 1740800,
+        "voidCells": 197012,
+        "canopyCells": 864546,
+        "measuredCells": 1543788,
+        "allReturnDensityPerSquareMetre": 5.474,
+        "pulseDensityPerSquareMetre": 2.625,
+        "voidFraction": 0.113,
+        "canopyFractionOfMeasured": 0.56
+      },
+      "censusChecks": [
+        {
+          "id": "origin-1024",
+          "censusEstimate": 1811426,
+          "exact": 1687569,
+          "ratio": 0.932
+        },
+        {
+          "id": "seam-northing-7025000-north-512",
+          "censusEstimate": 854497,
+          "exact": 918836,
+          "ratio": 1.075
+        },
+        {
+          "id": "seam-northing-7025000-south-512",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697088-7025152",
+          "censusEstimate": 157499,
+          "exact": 87346,
+          "ratio": 0.555
+        },
+        {
+          "id": "w256-697344-7025152",
+          "censusEstimate": 195470,
+          "exact": 192667,
+          "ratio": 0.986
+        },
+        {
+          "id": "w256-697088-7025408",
+          "censusEstimate": 251870,
+          "exact": 226272,
+          "ratio": 0.898
+        },
+        {
+          "id": "w256-697344-7025408",
+          "censusEstimate": 284237,
+          "exact": 335858,
+          "ratio": 1.182
+        },
+        {
+          "id": "w256-696832-7025408",
+          "censusEstimate": 235823,
+          "exact": 258599,
+          "ratio": 1.097
+        },
+        {
+          "id": "w256-696832-7025152",
+          "censusEstimate": 179488,
+          "exact": 182335,
+          "ratio": 1.016
+        },
+        {
+          "id": "w256-697600-7025152",
+          "censusEstimate": 259042,
+          "exact": 260577,
+          "ratio": 1.006
+        },
+        {
+          "id": "w256-697856-7025152",
+          "censusEstimate": 371284,
+          "exact": 365202,
+          "ratio": 0.984
+        },
+        {
+          "id": "w256-697600-7025408",
+          "censusEstimate": 378150,
+          "exact": 387069,
+          "ratio": 1.024
+        },
+        {
+          "id": "w256-697856-7025408",
+          "censusEstimate": 355444,
+          "exact": 312700,
+          "ratio": 0.88
+        },
+        {
+          "id": "w256-697600-7024640",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697856-7024640",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697600-7024896",
+          "censusEstimate": 89341,
+          "exact": 115930,
+          "ratio": 1.298
+        },
+        {
+          "id": "w256-697856-7024896",
+          "censusEstimate": 204984,
+          "exact": 197436,
+          "ratio": 0.963
+        },
+        {
+          "id": "w256-697344-7024896",
+          "censusEstimate": 131367,
+          "exact": 98359,
+          "ratio": 0.749
+        },
+        {
+          "id": "w256-697088-7024896",
+          "censusEstimate": 133552,
+          "exact": 154791,
+          "ratio": 1.159
+        },
+        {
+          "id": "w256-697600-7024384",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697344-7024640",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697088-7024384",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697344-7024384",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697088-7024640",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697088-7024128",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        },
+        {
+          "id": "w256-697344-7024128",
+          "censusEstimate": 0,
+          "exact": 0,
+          "ratio": null
+        }
+      ],
+      "files": {
+        "chm": {
+          "data": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\chm-23f028-702-69.f32",
+          "sidecar": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\chm-23f028-702-69.json",
+          "sha256": "8166309ba96b8a92663014ab74a86284a6dfd444796017b9d7b1e22584eb3d00"
+        },
+        "ground": {
+          "data": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\ground-23f028-702-69.f32",
+          "sidecar": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\ground-23f028-702-69.json",
+          "sha256": "efb51a1e947f1603184273f32c944049b32a769f2e4211ef12a81d685051e037"
+        },
+        "allReturns": {
+          "data": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\allReturns-23f028-702-69.f32",
+          "sidecar": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\allReturns-23f028-702-69.json",
+          "sha256": "903735bc57c1b3f79298123a8daf95fc3041953417f78abe22ce8003925538e3"
+        },
+        "firstReturns": {
+          "data": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\firstReturns-23f028-702-69.f32",
+          "sidecar": "packages\\course-geo\\toolchain\\.cache\\acquisition\\puttom-vegetation\\firstReturns-23f028-702-69.json",
+          "sha256": "71a2cf0dde259196bed6f76eb8cfb66d0d911fdc0f65b48276bff54c3a6b4062"
+        }
+      },
+      "perTile": [
+        {
+          "tileId": "l0/0/0",
+          "interiorBboxEpsg3006": [
+            696404.5,
+            7025594.5,
+            696660.5,
+            7025850.5
+          ],
+          "windowBboxEpsg3006": [
+            696372.5,
+            7025562.5,
+            696692.5,
+            7025882.5
+          ],
+          "read": {
+            "nodes": 138,
+            "decodedPoints": 1417941,
+            "pointsInWindow": 598855,
+            "firstReturns": 327495,
+            "byClass": {
+              "1": 364389,
+              "2": 233027,
+              "7": 637,
+              "9": 799,
+              "18": 3
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 411692,
+            "firstReturns": 225018,
+            "groundReturns": 160592,
+            "allReturnDensityPerSquareMetre": 6.2819,
+            "pulseDensityPerSquareMetre": 3.4335,
+            "groundReturnFraction": 0.3901,
+            "voidCells": 7622,
+            "voidFraction": 0.1163,
+            "measuredCells": 57914,
+            "canopyCells": 26739,
+            "canopyFractionOfMeasured": 0.4617,
+            "openGroundCells": 23113,
+            "noiseReturnsDropped": 640,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 52381,
+            "filled": 13155,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3284,
+            "meanMetres": 0.001,
+            "medianMetres": 0,
+            "p05Metres": -0.103,
+            "p95Metres": 0.101
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/1/0",
+          "interiorBboxEpsg3006": [
+            696660.5,
+            7025594.5,
+            696916.5,
+            7025850.5
+          ],
+          "windowBboxEpsg3006": [
+            696628.5,
+            7025562.5,
+            696948.5,
+            7025882.5
+          ],
+          "read": {
+            "nodes": 159,
+            "decodedPoints": 1706982,
+            "pointsInWindow": 623994,
+            "firstReturns": 286329,
+            "byClass": {
+              "1": 435224,
+              "2": 187909,
+              "7": 533,
+              "9": 327,
+              "18": 1
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 402327,
+            "firstReturns": 188426,
+            "groundReturns": 127514,
+            "allReturnDensityPerSquareMetre": 6.139,
+            "pulseDensityPerSquareMetre": 2.8752,
+            "groundReturnFraction": 0.3169,
+            "voidCells": 1253,
+            "voidFraction": 0.0191,
+            "measuredCells": 64283,
+            "canopyCells": 36714,
+            "canopyFractionOfMeasured": 0.5711,
+            "openGroundCells": 18468,
+            "noiseReturnsDropped": 534,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 55784,
+            "filled": 9752,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3498,
+            "meanMetres": 0,
+            "medianMetres": 0,
+            "p05Metres": -0.09,
+            "p95Metres": 0.095
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/2/0",
+          "interiorBboxEpsg3006": [
+            696916.5,
+            7025594.5,
+            697172.5,
+            7025850.5
+          ],
+          "windowBboxEpsg3006": [
+            696884.5,
+            7025562.5,
+            697204.5,
+            7025882.5
+          ],
+          "read": {
+            "nodes": 149,
+            "decodedPoints": 1501735,
+            "pointsInWindow": 611640,
+            "firstReturns": 261659,
+            "byClass": {
+              "1": 445067,
+              "2": 166341,
+              "7": 232
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 425394,
+            "firstReturns": 168026,
+            "groundReturns": 95925,
+            "allReturnDensityPerSquareMetre": 6.491,
+            "pulseDensityPerSquareMetre": 2.5639,
+            "groundReturnFraction": 0.2255,
+            "voidCells": 955,
+            "voidFraction": 0.0146,
+            "measuredCells": 64581,
+            "canopyCells": 48500,
+            "canopyFractionOfMeasured": 0.751,
+            "openGroundCells": 13167,
+            "noiseReturnsDropped": 232,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 50820,
+            "filled": 14716,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3184,
+            "meanMetres": 0,
+            "medianMetres": 0,
+            "p05Metres": -0.095,
+            "p95Metres": 0.097
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/3/0",
+          "interiorBboxEpsg3006": [
+            697172.5,
+            7025594.5,
+            697428.5,
+            7025850.5
+          ],
+          "windowBboxEpsg3006": [
+            697140.5,
+            7025562.5,
+            697460.5,
+            7025882.5
+          ],
+          "read": {
+            "nodes": 146,
+            "decodedPoints": 1570571,
+            "pointsInWindow": 637520,
+            "firstReturns": 263501,
+            "byClass": {
+              "1": 469967,
+              "2": 167325,
+              "7": 228
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 419273,
+            "firstReturns": 169077,
+            "groundReturns": 105644,
+            "allReturnDensityPerSquareMetre": 6.3976,
+            "pulseDensityPerSquareMetre": 2.5799,
+            "groundReturnFraction": 0.252,
+            "voidCells": 1024,
+            "voidFraction": 0.0156,
+            "measuredCells": 64512,
+            "canopyCells": 47931,
+            "canopyFractionOfMeasured": 0.743,
+            "openGroundCells": 12376,
+            "noiseReturnsDropped": 228,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 55188,
+            "filled": 10348,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3479,
+            "meanMetres": 0.001,
+            "medianMetres": 0,
+            "p05Metres": -0.093,
+            "p95Metres": 0.095
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/4/0",
+          "interiorBboxEpsg3006": [
+            697428.5,
+            7025594.5,
+            697684.5,
+            7025850.5
+          ],
+          "windowBboxEpsg3006": [
+            697396.5,
+            7025562.5,
+            697716.5,
+            7025882.5
+          ],
+          "read": {
+            "nodes": 117,
+            "decodedPoints": 1845218,
+            "pointsInWindow": 584213,
+            "firstReturns": 264739,
+            "byClass": {
+              "1": 408707,
+              "2": 175094,
+              "7": 412
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 356127,
+            "firstReturns": 169650,
+            "groundReturns": 113983,
+            "allReturnDensityPerSquareMetre": 5.4341,
+            "pulseDensityPerSquareMetre": 2.5887,
+            "groundReturnFraction": 0.3201,
+            "voidCells": 804,
+            "voidFraction": 0.0123,
+            "measuredCells": 64732,
+            "canopyCells": 40453,
+            "canopyFractionOfMeasured": 0.6249,
+            "openGroundCells": 12926,
+            "noiseReturnsDropped": 412,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 56180,
+            "filled": 9356,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3497,
+            "meanMetres": 0,
+            "medianMetres": -0.002,
+            "p05Metres": -0.095,
+            "p95Metres": 0.1
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/5/0",
+          "interiorBboxEpsg3006": [
+            697684.5,
+            7025594.5,
+            697940.5,
+            7025850.5
+          ],
+          "windowBboxEpsg3006": [
+            697652.5,
+            7025562.5,
+            697972.5,
+            7025882.5
+          ],
+          "read": {
+            "nodes": 74,
+            "decodedPoints": 1642553,
+            "pointsInWindow": 614434,
+            "firstReturns": 263710,
+            "byClass": {
+              "1": 433314,
+              "2": 180865,
+              "7": 255
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 401866,
+            "firstReturns": 169017,
+            "groundReturns": 114500,
+            "allReturnDensityPerSquareMetre": 6.132,
+            "pulseDensityPerSquareMetre": 2.579,
+            "groundReturnFraction": 0.2849,
+            "voidCells": 796,
+            "voidFraction": 0.0121,
+            "measuredCells": 64740,
+            "canopyCells": 46179,
+            "canopyFractionOfMeasured": 0.7133,
+            "openGroundCells": 12934,
+            "noiseReturnsDropped": 255,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 56381,
+            "filled": 9155,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3496,
+            "meanMetres": -0.001,
+            "medianMetres": -0.002,
+            "p05Metres": -0.095,
+            "p95Metres": 0.095
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/6/0",
+          "interiorBboxEpsg3006": [
+            697940.5,
+            7025594.5,
+            698196.5,
+            7025850.5
+          ],
+          "windowBboxEpsg3006": [
+            697908.5,
+            7025562.5,
+            698228.5,
+            7025882.5
+          ],
+          "read": {
+            "nodes": 97,
+            "decodedPoints": 1922455,
+            "pointsInWindow": 599442,
+            "firstReturns": 280037,
+            "byClass": {
+              "1": 404495,
+              "2": 194481,
+              "7": 466
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 372658,
+            "firstReturns": 171922,
+            "groundReturns": 118507,
+            "allReturnDensityPerSquareMetre": 5.6863,
+            "pulseDensityPerSquareMetre": 2.6233,
+            "groundReturnFraction": 0.318,
+            "voidCells": 934,
+            "voidFraction": 0.0143,
+            "measuredCells": 64602,
+            "canopyCells": 40793,
+            "canopyFractionOfMeasured": 0.6315,
+            "openGroundCells": 16350,
+            "noiseReturnsDropped": 466,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 55756,
+            "filled": 9780,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3502,
+            "meanMetres": -0.001,
+            "medianMetres": -0.002,
+            "p05Metres": -0.09,
+            "p95Metres": 0.095
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/7/0",
+          "interiorBboxEpsg3006": [
+            698196.5,
+            7025594.5,
+            698452.5,
+            7025850.5
+          ],
+          "windowBboxEpsg3006": [
+            698164.5,
+            7025562.5,
+            698484.5,
+            7025882.5
+          ],
+          "read": {
+            "nodes": 120,
+            "decodedPoints": 1823608,
+            "pointsInWindow": 753779,
+            "firstReturns": 386218,
+            "byClass": {
+              "1": 478077,
+              "2": 275400,
+              "7": 302
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 511574,
+            "firstReturns": 252383,
+            "groundReturns": 172636,
+            "allReturnDensityPerSquareMetre": 7.806,
+            "pulseDensityPerSquareMetre": 3.8511,
+            "groundReturnFraction": 0.3375,
+            "voidCells": 398,
+            "voidFraction": 0.0061,
+            "measuredCells": 65138,
+            "canopyCells": 33931,
+            "canopyFractionOfMeasured": 0.5209,
+            "openGroundCells": 23231,
+            "noiseReturnsDropped": 302,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 58778,
+            "filled": 6758,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3675,
+            "meanMetres": 0,
+            "medianMetres": 0,
+            "p05Metres": -0.078,
+            "p95Metres": 0.08
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/0/1",
+          "interiorBboxEpsg3006": [
+            696404.5,
+            7025338.5,
+            696660.5,
+            7025594.5
+          ],
+          "windowBboxEpsg3006": [
+            696372.5,
+            7025306.5,
+            696692.5,
+            7025626.5
+          ],
+          "read": {
+            "nodes": 111,
+            "decodedPoints": 1642326,
+            "pointsInWindow": 324074,
+            "firstReturns": 126365,
+            "byClass": {
+              "1": 255762,
+              "2": 66109,
+              "7": 482,
+              "9": 1719,
+              "18": 2
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 166294,
+            "firstReturns": 63341,
+            "groundReturns": 34824,
+            "allReturnDensityPerSquareMetre": 2.5374,
+            "pulseDensityPerSquareMetre": 0.9665,
+            "groundReturnFraction": 0.2094,
+            "voidCells": 48926,
+            "voidFraction": 0.7466,
+            "measuredCells": 16610,
+            "canopyCells": 14959,
+            "canopyFractionOfMeasured": 0.9006,
+            "openGroundCells": 996,
+            "noiseReturnsDropped": 484,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 14272,
+            "filled": 50141,
+            "unknown": 1123
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 877,
+            "meanMetres": 0.005,
+            "medianMetres": 0.002,
+            "p05Metres": -0.157,
+            "p95Metres": 0.185
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/1/1",
+          "interiorBboxEpsg3006": [
+            696660.5,
+            7025338.5,
+            696916.5,
+            7025594.5
+          ],
+          "windowBboxEpsg3006": [
+            696628.5,
+            7025306.5,
+            696948.5,
+            7025626.5
+          ],
+          "read": {
+            "nodes": 130,
+            "decodedPoints": 1946201,
+            "pointsInWindow": 540168,
+            "firstReturns": 234999,
+            "byClass": {
+              "1": 404278,
+              "2": 133335,
+              "7": 746,
+              "9": 1809
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 343707,
+            "firstReturns": 142171,
+            "groundReturns": 76018,
+            "allReturnDensityPerSquareMetre": 5.2446,
+            "pulseDensityPerSquareMetre": 2.1694,
+            "groundReturnFraction": 0.2212,
+            "voidCells": 13477,
+            "voidFraction": 0.2056,
+            "measuredCells": 52059,
+            "canopyCells": 39822,
+            "canopyFractionOfMeasured": 0.7649,
+            "openGroundCells": 9816,
+            "noiseReturnsDropped": 746,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 39436,
+            "filled": 25974,
+            "unknown": 126
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2447,
+            "meanMetres": 0.003,
+            "medianMetres": 0,
+            "p05Metres": -0.118,
+            "p95Metres": 0.13
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/2/1",
+          "interiorBboxEpsg3006": [
+            696916.5,
+            7025338.5,
+            697172.5,
+            7025594.5
+          ],
+          "windowBboxEpsg3006": [
+            696884.5,
+            7025306.5,
+            697204.5,
+            7025626.5
+          ],
+          "read": {
+            "nodes": 94,
+            "decodedPoints": 1291799,
+            "pointsInWindow": 270793,
+            "firstReturns": 205037,
+            "byClass": {
+              "1": 94179,
+              "2": 171093,
+              "7": 169,
+              "9": 5352
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 166495,
+            "firstReturns": 135396,
+            "groundReturns": 120942,
+            "allReturnDensityPerSquareMetre": 2.5405,
+            "pulseDensityPerSquareMetre": 2.066,
+            "groundReturnFraction": 0.7264,
+            "voidCells": 13561,
+            "voidFraction": 0.2069,
+            "measuredCells": 51975,
+            "canopyCells": 7455,
+            "canopyFractionOfMeasured": 0.1434,
+            "openGroundCells": 39180,
+            "noiseReturnsDropped": 169,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 49994,
+            "filled": 15358,
+            "unknown": 184
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3156,
+            "meanMetres": 0.005,
+            "medianMetres": 0,
+            "p05Metres": -0.049,
+            "p95Metres": 0.08
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/3/1",
+          "interiorBboxEpsg3006": [
+            697172.5,
+            7025338.5,
+            697428.5,
+            7025594.5
+          ],
+          "windowBboxEpsg3006": [
+            697140.5,
+            7025306.5,
+            697460.5,
+            7025626.5
+          ],
+          "read": {
+            "nodes": 96,
+            "decodedPoints": 1324740,
+            "pointsInWindow": 334263,
+            "firstReturns": 230698,
+            "byClass": {
+              "1": 137661,
+              "2": 193196,
+              "7": 101,
+              "9": 3305
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 211410,
+            "firstReturns": 153904,
+            "groundReturns": 134701,
+            "allReturnDensityPerSquareMetre": 3.2259,
+            "pulseDensityPerSquareMetre": 2.3484,
+            "groundReturnFraction": 0.6372,
+            "voidCells": 6551,
+            "voidFraction": 0.1,
+            "measuredCells": 58985,
+            "canopyCells": 10534,
+            "canopyFractionOfMeasured": 0.1786,
+            "openGroundCells": 41104,
+            "noiseReturnsDropped": 101,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 56714,
+            "filled": 8822,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3553,
+            "meanMetres": 0.002,
+            "medianMetres": 0,
+            "p05Metres": -0.063,
+            "p95Metres": 0.075
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/4/1",
+          "interiorBboxEpsg3006": [
+            697428.5,
+            7025338.5,
+            697684.5,
+            7025594.5
+          ],
+          "windowBboxEpsg3006": [
+            697396.5,
+            7025306.5,
+            697716.5,
+            7025626.5
+          ],
+          "read": {
+            "nodes": 142,
+            "decodedPoints": 2023774,
+            "pointsInWindow": 454997,
+            "firstReturns": 262090,
+            "byClass": {
+              "1": 257961,
+              "2": 196740,
+              "7": 293,
+              "18": 3
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 296344,
+            "firstReturns": 167527,
+            "groundReturns": 122505,
+            "allReturnDensityPerSquareMetre": 4.5219,
+            "pulseDensityPerSquareMetre": 2.5563,
+            "groundReturnFraction": 0.4134,
+            "voidCells": 1130,
+            "voidFraction": 0.0172,
+            "measuredCells": 64406,
+            "canopyCells": 29485,
+            "canopyFractionOfMeasured": 0.4578,
+            "openGroundCells": 28347,
+            "noiseReturnsDropped": 296,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 56127,
+            "filled": 9409,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3497,
+            "meanMetres": 0,
+            "medianMetres": 0,
+            "p05Metres": -0.088,
+            "p95Metres": 0.092
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/5/1",
+          "interiorBboxEpsg3006": [
+            697684.5,
+            7025338.5,
+            697940.5,
+            7025594.5
+          ],
+          "windowBboxEpsg3006": [
+            697652.5,
+            7025306.5,
+            697972.5,
+            7025626.5
+          ],
+          "read": {
+            "nodes": 137,
+            "decodedPoints": 2253749,
+            "pointsInWindow": 590252,
+            "firstReturns": 263452,
+            "byClass": {
+              "1": 404880,
+              "2": 185155,
+              "7": 217
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 397584,
+            "firstReturns": 168630,
+            "groundReturns": 114318,
+            "allReturnDensityPerSquareMetre": 6.0667,
+            "pulseDensityPerSquareMetre": 2.5731,
+            "groundReturnFraction": 0.2875,
+            "voidCells": 829,
+            "voidFraction": 0.0126,
+            "measuredCells": 64707,
+            "canopyCells": 46345,
+            "canopyFractionOfMeasured": 0.7162,
+            "openGroundCells": 13538,
+            "noiseReturnsDropped": 217,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 56540,
+            "filled": 8996,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3528,
+            "meanMetres": 0.001,
+            "medianMetres": 0,
+            "p05Metres": -0.09,
+            "p95Metres": 0.1
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/6/1",
+          "interiorBboxEpsg3006": [
+            697940.5,
+            7025338.5,
+            698196.5,
+            7025594.5
+          ],
+          "windowBboxEpsg3006": [
+            697908.5,
+            7025306.5,
+            698228.5,
+            7025626.5
+          ],
+          "read": {
+            "nodes": 143,
+            "decodedPoints": 2726849,
+            "pointsInWindow": 567335,
+            "firstReturns": 282254,
+            "byClass": {
+              "1": 336901,
+              "2": 230377,
+              "7": 57
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 323554,
+            "firstReturns": 173565,
+            "groundReturns": 148564,
+            "allReturnDensityPerSquareMetre": 4.937,
+            "pulseDensityPerSquareMetre": 2.6484,
+            "groundReturnFraction": 0.4592,
+            "voidCells": 897,
+            "voidFraction": 0.0137,
+            "measuredCells": 64639,
+            "canopyCells": 35895,
+            "canopyFractionOfMeasured": 0.5553,
+            "openGroundCells": 22049,
+            "noiseReturnsDropped": 57,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 61823,
+            "filled": 3713,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3854,
+            "meanMetres": -0.001,
+            "medianMetres": -0.002,
+            "p05Metres": -0.072,
+            "p95Metres": 0.077
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/7/1",
+          "interiorBboxEpsg3006": [
+            698196.5,
+            7025338.5,
+            698452.5,
+            7025594.5
+          ],
+          "windowBboxEpsg3006": [
+            698164.5,
+            7025306.5,
+            698484.5,
+            7025626.5
+          ],
+          "read": {
+            "nodes": 152,
+            "decodedPoints": 2482632,
+            "pointsInWindow": 815147,
+            "firstReturns": 386993,
+            "byClass": {
+              "1": 529548,
+              "2": 285191,
+              "7": 408
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 537900,
+            "firstReturns": 251787,
+            "groundReturns": 185385,
+            "allReturnDensityPerSquareMetre": 8.2077,
+            "pulseDensityPerSquareMetre": 3.842,
+            "groundReturnFraction": 0.3446,
+            "voidCells": 309,
+            "voidFraction": 0.0047,
+            "measuredCells": 65227,
+            "canopyCells": 41123,
+            "canopyFractionOfMeasured": 0.6305,
+            "openGroundCells": 15317,
+            "noiseReturnsDropped": 408,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 61957,
+            "filled": 3579,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3856,
+            "meanMetres": 0,
+            "medianMetres": -0.001,
+            "p05Metres": -0.087,
+            "p95Metres": 0.088
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/0/2",
+          "interiorBboxEpsg3006": [
+            696404.5,
+            7025082.5,
+            696660.5,
+            7025338.5
+          ],
+          "windowBboxEpsg3006": [
+            696372.5,
+            7025050.5,
+            696692.5,
+            7025370.5
+          ],
+          "read": {
+            "nodes": 142,
+            "decodedPoints": 1904163,
+            "pointsInWindow": 948749,
+            "firstReturns": 385085,
+            "byClass": {
+              "1": 730320,
+              "2": 216778,
+              "7": 1302,
+              "9": 349
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 649759,
+            "firstReturns": 254019,
+            "groundReturns": 134453,
+            "allReturnDensityPerSquareMetre": 9.9145,
+            "pulseDensityPerSquareMetre": 3.876,
+            "groundReturnFraction": 0.2069,
+            "voidCells": 704,
+            "voidFraction": 0.0107,
+            "measuredCells": 64832,
+            "canopyCells": 52493,
+            "canopyFractionOfMeasured": 0.8097,
+            "openGroundCells": 7263,
+            "noiseReturnsDropped": 1302,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 55180,
+            "filled": 10356,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3451,
+            "meanMetres": -0.002,
+            "medianMetres": -0.002,
+            "p05Metres": -0.157,
+            "p95Metres": 0.155
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/1/2",
+          "interiorBboxEpsg3006": [
+            696660.5,
+            7025082.5,
+            696916.5,
+            7025338.5
+          ],
+          "windowBboxEpsg3006": [
+            696628.5,
+            7025050.5,
+            696948.5,
+            7025370.5
+          ],
+          "read": {
+            "nodes": 127,
+            "decodedPoints": 1750491,
+            "pointsInWindow": 729744,
+            "firstReturns": 302266,
+            "byClass": {
+              "1": 551605,
+              "2": 177353,
+              "7": 786
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 465945,
+            "firstReturns": 188388,
+            "groundReturns": 111980,
+            "allReturnDensityPerSquareMetre": 7.1098,
+            "pulseDensityPerSquareMetre": 2.8746,
+            "groundReturnFraction": 0.2403,
+            "voidCells": 836,
+            "voidFraction": 0.0128,
+            "measuredCells": 64700,
+            "canopyCells": 47581,
+            "canopyFractionOfMeasured": 0.7354,
+            "openGroundCells": 11405,
+            "noiseReturnsDropped": 786,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 54486,
+            "filled": 11050,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3371,
+            "meanMetres": -0.001,
+            "medianMetres": 0,
+            "p05Metres": -0.118,
+            "p95Metres": 0.12
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/2/2",
+          "interiorBboxEpsg3006": [
+            696916.5,
+            7025082.5,
+            697172.5,
+            7025338.5
+          ],
+          "windowBboxEpsg3006": [
+            696884.5,
+            7025050.5,
+            697204.5,
+            7025370.5
+          ],
+          "read": {
+            "nodes": 48,
+            "decodedPoints": 856457,
+            "pointsInWindow": 137193,
+            "firstReturns": 86471,
+            "byClass": {
+              "1": 76413,
+              "2": 53087,
+              "7": 218,
+              "9": 7475
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 55663,
+            "firstReturns": 43323,
+            "groundReturns": 32646,
+            "allReturnDensityPerSquareMetre": 0.8493,
+            "pulseDensityPerSquareMetre": 0.6611,
+            "groundReturnFraction": 0.5865,
+            "voidCells": 48717,
+            "voidFraction": 0.7434,
+            "measuredCells": 16819,
+            "canopyCells": 2945,
+            "canopyFractionOfMeasured": 0.1751,
+            "openGroundCells": 8643,
+            "noiseReturnsDropped": 218,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 15119,
+            "filled": 29590,
+            "unknown": 20827
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 964,
+            "meanMetres": 0.017,
+            "medianMetres": 0.01,
+            "p05Metres": -0.115,
+            "p95Metres": 0.157
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/3/2",
+          "interiorBboxEpsg3006": [
+            697172.5,
+            7025082.5,
+            697428.5,
+            7025338.5
+          ],
+          "windowBboxEpsg3006": [
+            697140.5,
+            7025050.5,
+            697460.5,
+            7025370.5
+          ],
+          "read": {
+            "nodes": 48,
+            "decodedPoints": 856457,
+            "pointsInWindow": 285328,
+            "firstReturns": 181699,
+            "byClass": {
+              "1": 142191,
+              "2": 137909,
+              "7": 195,
+              "9": 5033
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 191232,
+            "firstReturns": 120005,
+            "groundReturns": 93267,
+            "allReturnDensityPerSquareMetre": 2.918,
+            "pulseDensityPerSquareMetre": 1.8311,
+            "groundReturnFraction": 0.4877,
+            "voidCells": 18821,
+            "voidFraction": 0.2872,
+            "measuredCells": 46715,
+            "canopyCells": 16175,
+            "canopyFractionOfMeasured": 0.3462,
+            "openGroundCells": 25757,
+            "noiseReturnsDropped": 195,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 41578,
+            "filled": 22700,
+            "unknown": 1258
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 2595,
+            "meanMetres": 0.006,
+            "medianMetres": 0.002,
+            "p05Metres": -0.077,
+            "p95Metres": 0.11
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/4/2",
+          "interiorBboxEpsg3006": [
+            697428.5,
+            7025082.5,
+            697684.5,
+            7025338.5
+          ],
+          "windowBboxEpsg3006": [
+            697396.5,
+            7025050.5,
+            697716.5,
+            7025370.5
+          ],
+          "read": {
+            "nodes": 74,
+            "decodedPoints": 1147251,
+            "pointsInWindow": 294675,
+            "firstReturns": 254826,
+            "byClass": {
+              "1": 57435,
+              "2": 230699,
+              "7": 32,
+              "9": 6507,
+              "18": 2
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 194279,
+            "firstReturns": 167080,
+            "groundReturns": 156847,
+            "allReturnDensityPerSquareMetre": 2.9645,
+            "pulseDensityPerSquareMetre": 2.5494,
+            "groundReturnFraction": 0.8073,
+            "voidCells": 1645,
+            "voidFraction": 0.0251,
+            "measuredCells": 63891,
+            "canopyCells": 4942,
+            "canopyFractionOfMeasured": 0.0774,
+            "openGroundCells": 53440,
+            "noiseReturnsDropped": 34,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 63330,
+            "filled": 2206,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3954,
+            "meanMetres": 0.001,
+            "medianMetres": 0,
+            "p05Metres": -0.043,
+            "p95Metres": 0.045
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/5/2",
+          "interiorBboxEpsg3006": [
+            697684.5,
+            7025082.5,
+            697940.5,
+            7025338.5
+          ],
+          "windowBboxEpsg3006": [
+            697652.5,
+            7025050.5,
+            697972.5,
+            7025370.5
+          ],
+          "read": {
+            "nodes": 73,
+            "decodedPoints": 1250520,
+            "pointsInWindow": 406447,
+            "firstReturns": 262527,
+            "byClass": {
+              "1": 181653,
+              "2": 224653,
+              "7": 141
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 257475,
+            "firstReturns": 167680,
+            "groundReturns": 143159,
+            "allReturnDensityPerSquareMetre": 3.9288,
+            "pulseDensityPerSquareMetre": 2.5586,
+            "groundReturnFraction": 0.556,
+            "voidCells": 1346,
+            "voidFraction": 0.0205,
+            "measuredCells": 64190,
+            "canopyCells": 16892,
+            "canopyFractionOfMeasured": 0.2632,
+            "openGroundCells": 39805,
+            "noiseReturnsDropped": 141,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 61415,
+            "filled": 4121,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3854,
+            "meanMetres": -0.001,
+            "medianMetres": 0,
+            "p05Metres": -0.075,
+            "p95Metres": 0.073
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/6/2",
+          "interiorBboxEpsg3006": [
+            697940.5,
+            7025082.5,
+            698196.5,
+            7025338.5
+          ],
+          "windowBboxEpsg3006": [
+            697908.5,
+            7025050.5,
+            698228.5,
+            7025370.5
+          ],
+          "read": {
+            "nodes": 108,
+            "decodedPoints": 1840256,
+            "pointsInWindow": 658660,
+            "firstReturns": 283067,
+            "byClass": {
+              "1": 454662,
+              "2": 203809,
+              "7": 189
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 434403,
+            "firstReturns": 174200,
+            "groundReturns": 118420,
+            "allReturnDensityPerSquareMetre": 6.6285,
+            "pulseDensityPerSquareMetre": 2.6581,
+            "groundReturnFraction": 0.2726,
+            "voidCells": 793,
+            "voidFraction": 0.0121,
+            "measuredCells": 64743,
+            "canopyCells": 48153,
+            "canopyFractionOfMeasured": 0.7438,
+            "openGroundCells": 13361,
+            "noiseReturnsDropped": 189,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 56964,
+            "filled": 8572,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3571,
+            "meanMetres": -0.002,
+            "medianMetres": -0.002,
+            "p05Metres": -0.09,
+            "p95Metres": 0.088
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/7/2",
+          "interiorBboxEpsg3006": [
+            698196.5,
+            7025082.5,
+            698452.5,
+            7025338.5
+          ],
+          "windowBboxEpsg3006": [
+            698164.5,
+            7025050.5,
+            698484.5,
+            7025370.5
+          ],
+          "read": {
+            "nodes": 156,
+            "decodedPoints": 2220837,
+            "pointsInWindow": 948168,
+            "firstReturns": 387386,
+            "byClass": {
+              "1": 688498,
+              "2": 259351,
+              "7": 319
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 65536,
+            "squareMetres": 65536,
+            "allReturns": 613601,
+            "firstReturns": 251781,
+            "groundReturns": 167409,
+            "allReturnDensityPerSquareMetre": 9.3628,
+            "pulseDensityPerSquareMetre": 3.8419,
+            "groundReturnFraction": 0.2728,
+            "voidCells": 234,
+            "voidFraction": 0.0036,
+            "measuredCells": 65302,
+            "canopyCells": 50249,
+            "canopyFractionOfMeasured": 0.7695,
+            "openGroundCells": 6301,
+            "noiseReturnsDropped": 319,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 60633,
+            "filled": 4903,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 3795,
+            "meanMetres": -0.001,
+            "medianMetres": -0.002,
+            "p05Metres": -0.082,
+            "p95Metres": 0.083
+          },
+          "cellsWritten": 65536
+        },
+        {
+          "tileId": "l0/0/3",
+          "interiorBboxEpsg3006": [
+            696404.5,
+            7025000,
+            696660.5,
+            7025082.5
+          ],
+          "windowBboxEpsg3006": [
+            696372.5,
+            7025000,
+            696692.5,
+            7025114.5
+          ],
+          "read": {
+            "nodes": 78,
+            "decodedPoints": 851007,
+            "pointsInWindow": 349760,
+            "firstReturns": 143662,
+            "byClass": {
+              "1": 267735,
+              "2": 81723,
+              "7": 302
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 20992,
+            "squareMetres": 20992,
+            "allReturns": 204741,
+            "firstReturns": 82099,
+            "groundReturns": 44407,
+            "allReturnDensityPerSquareMetre": 9.7533,
+            "pulseDensityPerSquareMetre": 3.911,
+            "groundReturnFraction": 0.2169,
+            "voidCells": 97,
+            "voidFraction": 0.0046,
+            "measuredCells": 20895,
+            "canopyCells": 15959,
+            "canopyFractionOfMeasured": 0.7638,
+            "openGroundCells": 3488,
+            "noiseReturnsDropped": 302,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 17393,
+            "filled": 3599,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1146,
+            "meanMetres": 0.002,
+            "medianMetres": 0,
+            "p05Metres": -0.1,
+            "p95Metres": 0.118
+          },
+          "cellsWritten": 20992
+        },
+        {
+          "tileId": "l0/1/3",
+          "interiorBboxEpsg3006": [
+            696660.5,
+            7025000,
+            696916.5,
+            7025082.5
+          ],
+          "windowBboxEpsg3006": [
+            696628.5,
+            7025000,
+            696948.5,
+            7025114.5
+          ],
+          "read": {
+            "nodes": 64,
+            "decodedPoints": 688682,
+            "pointsInWindow": 251159,
+            "firstReturns": 108567,
+            "byClass": {
+              "1": 183319,
+              "2": 67510,
+              "7": 330
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 20992,
+            "squareMetres": 20992,
+            "allReturns": 149583,
+            "firstReturns": 60780,
+            "groundReturns": 36720,
+            "allReturnDensityPerSquareMetre": 7.1257,
+            "pulseDensityPerSquareMetre": 2.8954,
+            "groundReturnFraction": 0.2455,
+            "voidCells": 239,
+            "voidFraction": 0.0114,
+            "measuredCells": 20753,
+            "canopyCells": 14714,
+            "canopyFractionOfMeasured": 0.709,
+            "openGroundCells": 4050,
+            "noiseReturnsDropped": 330,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 17701,
+            "filled": 3291,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1133,
+            "meanMetres": -0.003,
+            "medianMetres": -0.003,
+            "p05Metres": -0.135,
+            "p95Metres": 0.125
+          },
+          "cellsWritten": 20992
+        },
+        {
+          "tileId": "l0/2/3",
+          "interiorBboxEpsg3006": [
+            696916.5,
+            7025000,
+            697172.5,
+            7025082.5
+          ],
+          "windowBboxEpsg3006": [
+            696884.5,
+            7025000,
+            697204.5,
+            7025114.5
+          ],
+          "read": {
+            "nodes": 24,
+            "decodedPoints": 384689,
+            "pointsInWindow": 74851,
+            "firstReturns": 44313,
+            "byClass": {
+              "1": 44502,
+              "2": 26970,
+              "7": 110,
+              "9": 3269
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 20992,
+            "squareMetres": 20992,
+            "allReturns": 28393,
+            "firstReturns": 20855,
+            "groundReturns": 15876,
+            "allReturnDensityPerSquareMetre": 1.3526,
+            "pulseDensityPerSquareMetre": 0.9935,
+            "groundReturnFraction": 0.5592,
+            "voidCells": 12780,
+            "voidFraction": 0.6088,
+            "measuredCells": 8212,
+            "canopyCells": 1590,
+            "canopyFractionOfMeasured": 0.1936,
+            "openGroundCells": 4696,
+            "noiseReturnsDropped": 110,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 7372,
+            "filled": 13620,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 477,
+            "meanMetres": 0.014,
+            "medianMetres": 0.007,
+            "p05Metres": -0.097,
+            "p95Metres": 0.145
+          },
+          "cellsWritten": 20992
+        },
+        {
+          "tileId": "l0/3/3",
+          "interiorBboxEpsg3006": [
+            697172.5,
+            7025000,
+            697428.5,
+            7025082.5
+          ],
+          "windowBboxEpsg3006": [
+            697140.5,
+            7025000,
+            697460.5,
+            7025114.5
+          ],
+          "read": {
+            "nodes": 24,
+            "decodedPoints": 384689,
+            "pointsInWindow": 168437,
+            "firstReturns": 85090,
+            "byClass": {
+              "1": 113206,
+              "2": 53677,
+              "7": 216,
+              "9": 1338
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 20992,
+            "squareMetres": 20992,
+            "allReturns": 113286,
+            "firstReturns": 53456,
+            "groundReturns": 31799,
+            "allReturnDensityPerSquareMetre": 5.3966,
+            "pulseDensityPerSquareMetre": 2.5465,
+            "groundReturnFraction": 0.2807,
+            "voidCells": 244,
+            "voidFraction": 0.0116,
+            "measuredCells": 20748,
+            "canopyCells": 13605,
+            "canopyFractionOfMeasured": 0.6557,
+            "openGroundCells": 6047,
+            "noiseReturnsDropped": 216,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 16233,
+            "filled": 4759,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1051,
+            "meanMetres": -0.001,
+            "medianMetres": -0.001,
+            "p05Metres": -0.108,
+            "p95Metres": 0.12
+          },
+          "cellsWritten": 20992
+        },
+        {
+          "tileId": "l0/4/3",
+          "interiorBboxEpsg3006": [
+            697428.5,
+            7025000,
+            697684.5,
+            7025082.5
+          ],
+          "windowBboxEpsg3006": [
+            697396.5,
+            7025000,
+            697716.5,
+            7025114.5
+          ],
+          "read": {
+            "nodes": 36,
+            "decodedPoints": 490007,
+            "pointsInWindow": 74161,
+            "firstReturns": 65874,
+            "byClass": {
+              "1": 13039,
+              "2": 51031,
+              "7": 10,
+              "9": 10081
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 20992,
+            "squareMetres": 20992,
+            "allReturns": 28937,
+            "firstReturns": 26250,
+            "groundReturns": 23917,
+            "allReturnDensityPerSquareMetre": 1.3785,
+            "pulseDensityPerSquareMetre": 1.2505,
+            "groundReturnFraction": 0.8265,
+            "voidCells": 10266,
+            "voidFraction": 0.489,
+            "measuredCells": 10726,
+            "canopyCells": 526,
+            "canopyFractionOfMeasured": 0.049,
+            "openGroundCells": 8567,
+            "noiseReturnsDropped": 10,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 10543,
+            "filled": 10449,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 692,
+            "meanMetres": 0.003,
+            "medianMetres": 0,
+            "p05Metres": -0.09,
+            "p95Metres": 0.11
+          },
+          "cellsWritten": 20992
+        },
+        {
+          "tileId": "l0/5/3",
+          "interiorBboxEpsg3006": [
+            697684.5,
+            7025000,
+            697940.5,
+            7025082.5
+          ],
+          "windowBboxEpsg3006": [
+            697652.5,
+            7025000,
+            697972.5,
+            7025114.5
+          ],
+          "read": {
+            "nodes": 28,
+            "decodedPoints": 455721,
+            "pointsInWindow": 110449,
+            "firstReturns": 92191,
+            "byClass": {
+              "1": 25172,
+              "2": 84299,
+              "7": 38,
+              "9": 940
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 20992,
+            "squareMetres": 20992,
+            "allReturns": 60055,
+            "firstReturns": 53591,
+            "groundReturns": 50456,
+            "allReturnDensityPerSquareMetre": 2.8609,
+            "pulseDensityPerSquareMetre": 2.5529,
+            "groundReturnFraction": 0.8402,
+            "voidCells": 554,
+            "voidFraction": 0.0264,
+            "measuredCells": 20438,
+            "canopyCells": 1167,
+            "canopyFractionOfMeasured": 0.0571,
+            "openGroundCells": 17241,
+            "noiseReturnsDropped": 38,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 20268,
+            "filled": 724,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1310,
+            "meanMetres": -0.001,
+            "medianMetres": -0.001,
+            "p05Metres": -0.06,
+            "p95Metres": 0.06
+          },
+          "cellsWritten": 20992
+        },
+        {
+          "tileId": "l0/6/3",
+          "interiorBboxEpsg3006": [
+            697940.5,
+            7025000,
+            698196.5,
+            7025082.5
+          ],
+          "windowBboxEpsg3006": [
+            697908.5,
+            7025000,
+            698228.5,
+            7025114.5
+          ],
+          "read": {
+            "nodes": 50,
+            "decodedPoints": 772228,
+            "pointsInWindow": 245537,
+            "firstReturns": 101287,
+            "byClass": {
+              "1": 173574,
+              "2": 71851,
+              "7": 112
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 20992,
+            "squareMetres": 20992,
+            "allReturns": 140362,
+            "firstReturns": 55747,
+            "groundReturns": 39861,
+            "allReturnDensityPerSquareMetre": 6.6865,
+            "pulseDensityPerSquareMetre": 2.6556,
+            "groundReturnFraction": 0.284,
+            "voidCells": 200,
+            "voidFraction": 0.0095,
+            "measuredCells": 20792,
+            "canopyCells": 15885,
+            "canopyFractionOfMeasured": 0.764,
+            "openGroundCells": 3824,
+            "noiseReturnsDropped": 112,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 18798,
+            "filled": 2194,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1196,
+            "meanMetres": 0.001,
+            "medianMetres": 0,
+            "p05Metres": -0.092,
+            "p95Metres": 0.103
+          },
+          "cellsWritten": 20992
+        },
+        {
+          "tileId": "l0/7/3",
+          "interiorBboxEpsg3006": [
+            698196.5,
+            7025000,
+            698452.5,
+            7025082.5
+          ],
+          "windowBboxEpsg3006": [
+            698164.5,
+            7025000,
+            698484.5,
+            7025114.5
+          ],
+          "read": {
+            "nodes": 73,
+            "decodedPoints": 917669,
+            "pointsInWindow": 340589,
+            "firstReturns": 138405,
+            "byClass": {
+              "1": 260149,
+              "2": 80315,
+              "7": 125
+            },
+            "nodeCountsExact": true
+          },
+          "interior": {
+            "cells": 20992,
+            "squareMetres": 20992,
+            "allReturns": 198053,
+            "firstReturns": 80555,
+            "groundReturns": 44197,
+            "allReturnDensityPerSquareMetre": 9.4347,
+            "pulseDensityPerSquareMetre": 3.8374,
+            "groundReturnFraction": 0.2232,
+            "voidCells": 70,
+            "voidFraction": 0.0033,
+            "measuredCells": 20922,
+            "canopyCells": 14812,
+            "canopyFractionOfMeasured": 0.708,
+            "openGroundCells": 1618,
+            "noiseReturnsDropped": 125,
+            "unreferencedReturns": 0,
+            "clippedReturns": 0
+          },
+          "groundCells": {
+            "measured": 18331,
+            "filled": 2661,
+            "unknown": 0
+          },
+          "cloudGroundMinusDtm": {
+            "samples": 1166,
+            "meanMetres": -0.003,
+            "medianMetres": -0.002,
+            "p05Metres": -0.095,
+            "p95Metres": 0.09
+          },
+          "cellsWritten": 20992
+        }
+      ]
+    }
+  ]
+}

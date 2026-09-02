@@ -1,8 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
   V2_GRAPH_RENDERER_GATE,
+  V2_OBJECT_LAYER_GATE,
   V2_PUBLISHED_GRAPH_SLUGS,
   selectV2TerrainSource,
+  v2ObjectLayerBlocker,
   v2RequestMode,
   v2StreamProbeRequested,
 } from './v2-terrain-select.mjs';
@@ -184,6 +186,33 @@ describe('selectV2TerrainSource', () => {
       publishedGraphSlugs: Object.freeze(['angso']),
       graphResolver: vi.fn(async () => ({ slug: 'angso', summary: {} })),
     })).rejects.toThrow(/generella v2-renderaren är inte aktiverad/);
+  });
+
+  /* The vegetation plan's object-layer gate: with the vegetation runtime
+     present (Phase 4) a graph may declare object and stand layers; without
+     it, such a graph must never render the legacy planter over ground whose
+     registry says which trees stand there. */
+  it('accepts object and stand layers with the vegetation runtime, and blocks them without it', async () => {
+    expect(v2ObjectLayerBlocker(null)).toBe(null);
+    expect(v2ObjectLayerBlocker({ summary: { objectTiles: 0 } })).toBe(null);
+    expect(v2ObjectLayerBlocker({ summary: {} })).toBe(null);
+    expect(v2ObjectLayerBlocker({ summary: { objectTiles: 3, standTiles: 4 } })).toBe(null);
+    expect(v2ObjectLayerBlocker({ summary: { objectTiles: 3 } }, { activated: false })).toContain(V2_OBJECT_LAYER_GATE);
+    expect(v2ObjectLayerBlocker({ summary: { standTiles: 1 } }, { activated: false })).toContain(V2_OBJECT_LAYER_GATE);
+    expect(v2ObjectLayerBlocker({ summary: { objectTiles: 0 } }, { activated: false })).toBe(null);
+
+    /* the pilot: a ready preview pairs with a graph that carries objects */
+    const graph = Object.freeze({ slug: 'puttom', summary: Object.freeze({ tiles: 85, objectTiles: 64, standTiles: 64 }) });
+    const selection = await selectV2TerrainSource({
+      slug: 'puttom',
+      packMeta: PACK_META,
+      search: '?v2=require',
+      graphResolver: vi.fn(async () => graph),
+      previewLoader: vi.fn(async () => readyPreview('puttom')),
+    });
+    expect(selection.mode).toBe('fixed-frontier');
+    expect(selection.graph).toBe(graph);
+    expect(selection.graphError).toBe(null);
   });
 
   it('records a graph failure and falls through under ?v2=1, but fails closed under ?v2=require', async () => {

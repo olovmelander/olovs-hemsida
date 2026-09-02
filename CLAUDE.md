@@ -1514,3 +1514,170 @@ practice greens. Johannesberg's clubhouse was in the model all along under the n
 the marker lookup matches `amenity==='clubhouse'` or `/golfklubb|klubbhus/i` — and is
 kept SEPARATE from the `CLUB` const, because `CLUB` shapes terrain and widening it
 would move ground on three shipped courses.
+
+## One terrain to the horizon — the ring graph (Puttom, `?v2=`)
+
+The fixed-frontier pilot put 64 one-metre tiles inside the legacy 12 m and
+36 m Terrarium rings, and where the two met, heights disagreed by metres: a
+dark band, a gap and a lit skirt ran diagonally across hole 14. The fix is
+one source everywhere: `packages/course-v2/terrain-rings.mjs` compiles
+nested rings — the same 64 course tiles, then 2 m to 1.5 km, 4 m to 3 km,
+8 m to 6 km and 16/32/64 m to a 16 km root — into one quadtree with
+**explicit `parentId`s** (levels do not share an index lattice, so the tile
+manager reads the parent link instead of deriving it). Every seam is a
+same-source level seam, sealed by the batch's geomorph and skirts.
+
+- **Data**: `packages/course-geo/acquisition/build-ground-rings.mjs` reads
+  the rings from Lantmäteriet's `dtm-cog` items (10 km squares, Float32,
+  deflate, predictor 3, overviews at 2–32×) with the Node COG reader in
+  `packages/course-geo/cog/` over authenticated range requests: 68 MB, 15 s
+  for all seven levels. The 1 m ring reproduces the CI extraction to half a
+  quantum; the 2 m ring is subsampled from 1 m so its samples coincide with
+  the course tiles; coarser rings read the overviews, which Lantmäteriet
+  AVERAGED (measured), resampled bilinearly. An item may end its overview
+  chain early (the coast item has no 32×); fall back to the finest coarser
+  one. `publish-ground-rings.mjs` reuses the published course tiles byte
+  for byte (asserting they decode to what it compiled, tolerating the
+  one-quantum rounding ties a text dump leaves) and carries their surface,
+  object and stand layers; `prune-generations.mjs` retires old generations
+  but keeps everything the preview DESCRIPTORS reference — a one-off script
+  that walked only the manifests deleted the 30 surface chunks beside them.
+- **Runtime**: `engine/v2-graph-terrain.mjs` drives the manifest-driven
+  streaming runtime in the pilot's bridge (frame origin = legacy origin,
+  height = −datum offset, the group rotated and scaled), keeps every ring
+  decoded on the CPU for construction heights, and main.js builds NO legacy
+  CORE, MID or FAR in that mode. Rough is tinted by two rasters baked from
+  the legacy classifiers (`groundAt` to 1.5 km at 6 m, the vista rule to
+  6 km at 24 m), sampled by the class-SDF material.
+- **The stream controller starved the boot.** Once a tile's children were
+  drawn the plan stopped asking for it, the controller released it, the
+  next plan requested it again, the pool answered at once, and that
+  promise chain never let a timer fire — 100 s of "plan" on every stack
+  sample and no error anywhere. `plan.retainTileIds` keeps the ancestor path
+  of every desired tile; the controller test with an instant loader is the
+  gate. Diagnose a silent boot with `Debugger.pause` over CDP, not with
+  `page.evaluate`, which cannot run while the thread is busy.
+- **Rings must be whole coarser tiles.** The first cut used six-wide rings
+  (3, 6, 12 km); a coarse tile at a ring's edge was half covered by finer
+  tiles, the planner replaced it by the children it had, and the other half
+  was drawn by nothing: sky through the ground in tile-shaped plates with
+  trees and lakes floating over the gap — the "bright rectangles" in every
+  report. Every ring is eight tiles wide now (2, 4, 8, 16 km) and both the
+  compiler and the tile manager refuse a parent with children other than
+  four or none.
+- **Test a tile's visibility in the lattice's space, and not by planes
+  alone.** Rotating an 8 km box into the legacy frame inflates it by
+  ~500 m, so a coarse parent passed while its children failed and 32 m
+  ground was drawn beside the 1 m course; and a plane-by-plane test never
+  excludes a large box beside a narrow pyramid. `createTileFrustumTester`
+  works in lattice space and clips the frustum to the tile's height slab.
+- **Water levels are measured against the world, before the model.** The
+  rings are read on the main thread right after selection (0.5 s) so every
+  lake, not only those under the course window, gets its level from the
+  ground it is drawn on; lakes past the window used to keep Terrarium levels
+  metres off, hid under the DTM or floated, and the far scatter planted
+  cones on them. The extract also cuts lake polygons at its bounding box:
+  `engine/v2-flat-water.mjs` finds laser-flat water in the 4 m ring (26
+  flats, 24 unknown to the pack, 558 ha), tints it, keeps trees off it and
+  lays a masked sheet where no ring does. The water material carries a
+  depth bias so distant sheets stop fighting the bed.
+- **The laser's lake is a plate, so the bed is carved at boot.** With the
+  ground inside every lake being the surface itself, the sheet stood 25 cm
+  over the bed and the shader's depth term painted whole lakes as silt from
+  any oblique view — brown Stor-Rössjön — while from straight above the
+  same sheet was blue. `engine/v2-water-bed.mjs` lowers every sample on the
+  water to level minus a shore-distance profile (0.15 m at the edge, 3.5 m
+  deep), rewriting the CPU ring sampler in place and every tile the GPU
+  decodes through the runtime's `transformDecoded` hook: 811 ha, 3 s. Only
+  samples within 0.5 m of the level are touched, so banks and islands a
+  loose ring encloses stand. The published tiles never change; this is a
+  rendering choice and is documented as one.
+- **How the plates were found**, for next time: hide things (`V3D.
+  setMeshesVisible`, `setWaterVisible`), force the world material unlit
+  and single-coloured (`V3D.v2WorldMaterial`), and look straight down
+  (`V3D.placeCamera`). Sky through unlit ground is a hole; nothing else is.
+- Measured on the RTX 3070: 277 tiles in 7 levels, 129 tiles in one draw at
+  the first frontier, boot 25–28 s, 42 tiles from the 14th tee.
+  `tools/world-capture.mjs` gates the views where the seam lived.
+
+## Puttom vegetation — the LiDAR tree plan, Phase 0 and the compiler core
+
+`docs/puttom-v2-lidar-tree-placement-plan.md` is the plan; its checkpoint
+section says what has landed. The facts that took probing to establish:
+
+- **The two Laserdata Skog scans abut through the course.** North of
+  N 7025000 is a June 2023 CityMapper-2 scan, south of it a June 2026 scan
+  delivered 2026-08-25; the legacy origin is 2 m south of the line and the
+  published v2 ground straddles it. There is no overlap band to reconcile —
+  nothing may be blended across the line. `record-laser-campaigns.mjs --check`
+  fails when the catalogue drifts (a north re-fly is expected: Västernorrland
+  is in the 2026 scan plan), so a change is adopted on purpose.
+- **"Density" is three numbers.** The STAC `pc:density` field is the average
+  point SPACING in metres; `punkttathet` is the declared 1–2 pulses/m²; the
+  public `_info.json` gives 2.8–3.2 all returns per m². Say which one a gate
+  uses. The two campaigns' intensity scales differ by 16×; never compare
+  intensity across the seam unnormalised.
+- **Skogsstyrelsen's tree height is the same laser data reprocessed**, so it
+  checks our processing, not the source. Its ImageServer answers 403 with the
+  account in `.env`; its county zips are open, CC0 and 8.6 / 24 GB.
+- **Lantmäteriet access is an account matter.** `dl1.lantmateriet.se`
+  answered 401 for the DTM as well as the COPC on 2026-09-02 with the pair in
+  `.env`, while the STAC API accepted it; `access-preflight.mjs` reports
+  `denied`. `run-copc-census.mjs` (header + COPC VLR + hierarchy pages, no
+  point bytes) is the first thing to run once that is fixed.
+- **The planter now remembers why each tree stands there** (`treeWhy`:
+  forest ring, scrub ring, satellite raster, shore belt) with no placement
+  change; `V3D.legacyTrees()` exports the population and
+  `tools/vegetation-baseline.mjs` freezes it with tee-view captures. Puttom on
+  `?v2=require`: 67,568 trees, 36 draws. `V3D.v2Objects()` and
+  `V2_OBJECT_LAYER_GATE` make "no object renderer yet" fail closed.
+- **Windows checkouts break the manifest gate.** git converts committed LF
+  JSON to CRLF, so `check-manifests.mjs` reports checksum mismatches on files
+  nobody touched; the HEAD blobs hash to the recorded values and CI passes.
+  New evidence files are written with LF.
+- **Dalponte's 45% core is not the drip line.** On synthetic crowns the grown
+  segment's radius is ~0.7 of the visible crown; `crownExtents` recovers the
+  extent for individuals with a Voronoi constraint so neighbours never share
+  a cell. Heights are read from the unsmoothed copy; the smoothed copy only
+  finds maxima, and its apex can sit a cell off — records carry the
+  height-weighted centroid.
+- **Lantmäteriet's half-tile COPC items do not subdivide the COPC cube.**
+  Each axis is subdivided over the HEADER extent (Y over the 5 km half, Z over
+  the point heights); only X coincides with the cube. Verified node by node
+  on all three Puttom items (`packages/course-geo/copc-reader/verify-octree-convention.mjs`).
+  PDAL prunes by the cube and therefore reads the wrong nodes on these files —
+  that was the "52 points in a 256 m window" mystery. The Node reader in
+  `copc-reader/` (own `npm install`; `copc` + `laz-perf` WASM, never in the
+  workspace lockfile) selects nodes by the extent rule and holds every decoded
+  node to the hierarchy's point count exactly.
+- **Real numbers, 2026-09-02.** The whole 2 × 2 km published ground read in
+  74 s (146 MB), cloud ground within a decimetre of the published DTM on both
+  campaigns, and `compile-vegetation` derived 44,961 crown candidates in 36 s
+  (3,710 individuals, 685 of them in provisional zone A). Rasters and the
+  43 MB candidates file stay in `packages/course-geo/toolchain/.cache/`;
+  `geo_data/course-v2/puttom/vegetation/*.json` is what is committed. Git
+  `stash pop` re-checks out untracked JSON with CRLF on Windows and silently
+  breaks its recorded hash — normalise to LF before trusting a mismatch.
+- **The generation is published and the app plants it (2026-09-02).**
+  `compile-vegetation.mjs --machine-review` approves individuals by versioned
+  rules (no human review, by owner decision); `publish-vegetation.mjs` attaches
+  the object registries and the new `stands` chunk kind (`stand-field-u8-v1`,
+  4 m cells of canopy fraction and heights) to the ground graph and re-emits
+  the manifests; `engine/v2-vegetation.mjs` loads them fail-closed under a v2
+  flag, plants 3,502 measured individuals and ~56,000 stand trees from the
+  field, and the lattice is cut out of every tile the generation owns.
+  `tools/vegetation-baseline.mjs --label v2` is the gate (zero legacy trees
+  inside coverage, bases on the visible ground, all tiles loaded); 725 KB per
+  v2 visit, 36 draws. **Look at the overhead before publishing**: a list of
+  rings passed as one ring rasterises nothing, and six trees stood on the
+  driving range while every numeric gate passed.
+- **The independent check is CHMv2, read in Node.** `packages/course-geo/chmv2/`
+  holds a range-request COG reader, a transverse Mercator series (tested
+  against the PROJ numbers already in `geo_data/`), `build-chmv2-window.mjs`
+  (samples the optical tile onto the campaign rasters' own grid) and the
+  cross-check runner in `packages/course-v2/vegetation/`. Read its evidence
+  as calibration, not error: CHMv2 compresses height (slope 0.46) and smears
+  crowns outward, so per-tile kappa is meaningless in homogeneous tiles; the
+  seam attribution and the per-campaign bias are the numbers that matter.
+  NMD2023 zips are per-entry deflate around stripped PackBits TIFFs, with
+  the species layers' directory at the end: ~2 GB per layer to reach Puttom.

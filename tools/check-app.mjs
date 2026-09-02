@@ -222,6 +222,20 @@ async function checkCourse(c) {
   }
   console.log(`  perf atlas ${got.ground.perf.atlasMs} ms, boot JS ${got.ground.perf.totalMs} ms`);
 
+  /* The vegetation plan, held on every course on the PLAIN path: without a
+     v2 flag the legacy planter is the only tree population, its export
+     agrees with the draw statistics, and no v2 vegetation was loaded. The
+     v2 path -- registry trees, stand fields, the lattice cut out of their
+     coverage -- is gated by tools/vegetation-baseline.mjs on Puttom. */
+  const veg = await page.evaluate(() => {
+    const V = window.V3D;
+    const trees = V.legacyTrees();
+    return { total: trees.total, statsTrees: V.stats.trees, zones: trees.zones, reasons: trees.reasons, objects: V.v2Objects() };
+  });
+  gate(veg.total === veg.statsTrees, `tree export (${veg.total}) matches the planter count (${veg.statsTrees}); zones ${JSON.stringify(veg.zones)}`);
+  gate(veg.objects.loaded === null && !(veg.reasons.v2Individual > 0) && !(veg.reasons.v2Stand > 0),
+    `no v2 vegetation on the plain path (${veg.objects.graphObjectTiles ?? 'no graph'} object tiles referenced)`);
+
   /* Nothing may be under water. This is the gate the 14th exists for: an island
      green that once sat five metres under the fjärd, and a course whose water
      level is 21.59 m rather than zero -- so the probe is LOCAL, asking the

@@ -1,0 +1,445 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "observedOn": "2026-09-02",
+  "state": "published-machine-review",
+  "note": "Whole-ground derivation from the two active campaigns. Records were approved by the versioned machine-review rules recorded in compile.machineReview -- no person reviewed them, by the owner decision of 2026-09-02 -- and published as object registries beside a measured stand field per finest tile. candidateSummary describes the same candidate set; harness is the earlier auto-approval proof and is not the published registry.",
+  "inputs": {
+    "canopyEvidence": "geo_data/course-v2/puttom/vegetation/canopy-evidence.json",
+    "rasterDirectory": "packages/course-geo/toolchain/.cache/acquisition/puttom-vegetation",
+    "candidatesFile": "packages/course-geo/toolchain/.cache/acquisition/puttom-vegetation/compile/candidates.json (43.8 MB, not committed)"
+  },
+  "compile": {
+    "schemaVersion": 2,
+    "groundId": "puttom",
+    "observedOn": "2026-09-02",
+    "frameFingerprint": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
+    "attribution": "Laserdata Nedladdning, skog, © Lantmäteriet, bearbetad, CC BY 4.0",
+    "parameters": {
+      "windowBaseMetres": 2,
+      "windowSlope": 0.1,
+      "windowMinimumMetres": 3,
+      "windowMaximumMetres": 6,
+      "minimumCandidateHeightMetres": 3,
+      "seedFraction": 0.45,
+      "crownFraction": 0.55,
+      "maximumCrownRadiusMetres": 10,
+      "horizontalAccuracyFloorMetres": 1.5,
+      "verticalAccuracyFloorMetres": 1.5
+    },
+    "zones": {
+      "zoneAMetres": 90,
+      "zoneBMetres": 300,
+      "note": "provisional: distance to the nearest hole line until zone-A geometry is approved"
+    },
+    "minimumConfidence": 0.5,
+    "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+    "machineReview": {
+      "rules": {
+        "version": 1,
+        "minimumConfidence": 0.6,
+        "minimumHeightMetres": 3,
+        "minimumRadiusMetres": 1,
+        "zoneA": {
+          "minimumProminenceMetres": 3,
+          "minimumCompactness": 0.5
+        },
+        "statement": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records"
+      },
+      "approved": 3502,
+      "rejectedByRule": {
+        "not-individual": 40708,
+        "radius": 26430,
+        "confidence": 8127,
+        "excluded:path": 307,
+        "excluded:road": 45,
+        "excluded:water": 94,
+        "excluded:farmland": 77,
+        "excluded:building": 12,
+        "zone-a-compactness": 235,
+        "zone-a-prominence": 547,
+        "excluded:tee": 4,
+        "height": 214,
+        "excluded:practice": 8,
+        "excluded:fairway": 1
+      }
+    },
+    "campaigns": [
+      {
+        "campaignId": "26f015-702_69",
+        "captureStart": "2026-06-01T00:00:00Z",
+        "captureEnd": "2026-06-21T00:00:00Z",
+        "role": "active",
+        "north": false,
+        "raster": {
+          "width": 2048,
+          "height": 2048,
+          "sampleSpacingMetres": 1,
+          "originEasting": 696404.5,
+          "originNorthing": 7025850.5
+        },
+        "clippedToExtentCells": 0,
+        "filledSingleCellVoids": 8051,
+        "summary": {
+          "cells": 4194304,
+          "measuredCells": 2398217,
+          "voidCells": 1796087,
+          "voidFraction": 0.428221,
+          "canopyCells": 1456539,
+          "canopyFractionOfMeasured": 0.607342,
+          "meanHeightMetres": 5.912,
+          "maxHeightMetres": 32.964
+        },
+        "canopyCells": 1456539,
+        "exclusions": {
+          "excludedCells": 585069,
+          "excludedFraction": 0.139491,
+          "cellsByKind": {
+            "building": 2578,
+            "water": 337343,
+            "green": 9161,
+            "tee": 7940,
+            "bunker": 4173,
+            "fairway": 101418,
+            "practice": 22487,
+            "road": 18728,
+            "railway": 0,
+            "path": 34551,
+            "stream": 0,
+            "farmland": 48221
+          }
+        },
+        "maxima": 29119,
+        "crowns": 29119,
+        "individuals": 2474,
+        "excludedCandidates": 212,
+        "stand": {
+          "cells": 65536,
+          "measuredCells": 38184,
+          "closedCanopyCells": 25490,
+          "mixedCells": 0,
+          "meanCanopyHeightMetres": 8.899
+        }
+      },
+      {
+        "campaignId": "23f028-702_69",
+        "captureStart": "2023-06-01T00:00:00Z",
+        "captureEnd": "2023-06-07T00:00:00Z",
+        "role": "active",
+        "north": true,
+        "raster": {
+          "width": 2048,
+          "height": 2048,
+          "sampleSpacingMetres": 1,
+          "originEasting": 696404.5,
+          "originNorthing": 7025850.5
+        },
+        "clippedToExtentCells": 0,
+        "filledSingleCellVoids": 18580,
+        "summary": {
+          "cells": 4194304,
+          "measuredCells": 1562368,
+          "voidCells": 2631936,
+          "voidFraction": 0.627502,
+          "canopyCells": 868701,
+          "canopyFractionOfMeasured": 0.556016,
+          "meanHeightMetres": 5.849,
+          "maxHeightMetres": 28.237
+        },
+        "canopyCells": 868701,
+        "exclusions": {
+          "excludedCells": 585069,
+          "excludedFraction": 0.139491,
+          "cellsByKind": {
+            "building": 2578,
+            "water": 337343,
+            "green": 9161,
+            "tee": 7940,
+            "bunker": 4173,
+            "fairway": 101418,
+            "practice": 22487,
+            "road": 18728,
+            "railway": 0,
+            "path": 34551,
+            "stream": 0,
+            "farmland": 48221
+          }
+        },
+        "maxima": 15842,
+        "crowns": 15842,
+        "individuals": 1259,
+        "excludedCandidates": 336,
+        "stand": {
+          "cells": 65536,
+          "measuredCells": 24965,
+          "closedCanopyCells": 14930,
+          "mixedCells": 0,
+          "meanCanopyHeightMetres": 9.49
+        }
+      }
+    ],
+    "candidates": {
+      "total": 44961,
+      "byRepresentation": {
+        "excluded": 548,
+        "individual": 3705,
+        "stand": 40708
+      },
+      "byZone": {
+        "A": 2026,
+        "B": 5422,
+        "C": 37513
+      },
+      "byCampaign": {
+        "23f028-702_69": 15842,
+        "26f015-702_69": 29119
+      },
+      "eligible": 3502
+    },
+    "records": {
+      "tiles": 64,
+      "records": 3502,
+      "encodedBytes": 176823,
+      "baseHeightMisses": []
+    },
+    "stands": {
+      "cellMetres": 4,
+      "tiles": 64,
+      "encodedBytes": 548251,
+      "measuredCells": 249302,
+      "closedCanopyCells": 143582,
+      "excludedCells": 24134
+    },
+    "identity": {
+      "matched": 0,
+      "moved": 0,
+      "added": 3502,
+      "missing": 0,
+      "nextSequence": 3503
+    },
+    "diff": {
+      "added": 3502,
+      "removed": 0,
+      "kept": 0,
+      "moved": 0,
+      "changed": 0
+    }
+  },
+  "candidateSummary": {
+    "total": 44961,
+    "zoneByRepresentation": {
+      "A/excluded": 125,
+      "A/individual": 685,
+      "A/stand": 1213,
+      "B/excluded": 207,
+      "B/individual": 713,
+      "B/stand": 4502,
+      "C/excluded": 208,
+      "C/individual": 2312,
+      "C/stand": 34996
+    },
+    "individuals": {
+      "count": 3710,
+      "confidenceP10P50P90": [
+        0.648,
+        0.738,
+        0.812
+      ],
+      "heightMetresP10P50P90Max": [
+        7.45,
+        12.474,
+        18.109,
+        30.168
+      ],
+      "radiusMetresP10P50P90": [
+        2.523,
+        3.909,
+        5.809
+      ],
+      "zoneAByCampaign": {
+        "23f028-702_69": 401,
+        "26f015-702_69": 284
+      }
+    },
+    "standReasons": {
+      "crowns-touch": 13041,
+      "not-compact": 28260,
+      "not-prominent": 2829,
+      "too-small": 25974,
+      "touches-raster-edge": 379
+    },
+    "exclusionReasons": {
+      "building": 12,
+      "fairway": 1,
+      "farmland": 77,
+      "path": 307,
+      "road": 45,
+      "tee": 4,
+      "water": 94
+    },
+    "perHoleZoneA": [
+      {
+        "n": 1,
+        "individualsZoneA": 31,
+        "standZoneA": 33,
+        "excludedZoneA": 0
+      },
+      {
+        "n": 2,
+        "individualsZoneA": 74,
+        "standZoneA": 130,
+        "excludedZoneA": 18
+      },
+      {
+        "n": 3,
+        "individualsZoneA": 18,
+        "standZoneA": 37,
+        "excludedZoneA": 16
+      },
+      {
+        "n": 4,
+        "individualsZoneA": 30,
+        "standZoneA": 30,
+        "excludedZoneA": 4
+      },
+      {
+        "n": 5,
+        "individualsZoneA": 34,
+        "standZoneA": 15,
+        "excludedZoneA": 0
+      },
+      {
+        "n": 6,
+        "individualsZoneA": 32,
+        "standZoneA": 188,
+        "excludedZoneA": 0
+      },
+      {
+        "n": 7,
+        "individualsZoneA": 21,
+        "standZoneA": 180,
+        "excludedZoneA": 0
+      },
+      {
+        "n": 8,
+        "individualsZoneA": 32,
+        "standZoneA": 23,
+        "excludedZoneA": 0
+      },
+      {
+        "n": 9,
+        "individualsZoneA": 71,
+        "standZoneA": 34,
+        "excludedZoneA": 2
+      },
+      {
+        "n": 10,
+        "individualsZoneA": 49,
+        "standZoneA": 37,
+        "excludedZoneA": 4
+      },
+      {
+        "n": 11,
+        "individualsZoneA": 39,
+        "standZoneA": 57,
+        "excludedZoneA": 0
+      },
+      {
+        "n": 12,
+        "individualsZoneA": 25,
+        "standZoneA": 74,
+        "excludedZoneA": 4
+      },
+      {
+        "n": 13,
+        "individualsZoneA": 49,
+        "standZoneA": 11,
+        "excludedZoneA": 0
+      },
+      {
+        "n": 14,
+        "individualsZoneA": 26,
+        "standZoneA": 5,
+        "excludedZoneA": 24
+      },
+      {
+        "n": 15,
+        "individualsZoneA": 13,
+        "standZoneA": 1,
+        "excludedZoneA": 4
+      },
+      {
+        "n": 16,
+        "individualsZoneA": 60,
+        "standZoneA": 105,
+        "excludedZoneA": 6
+      },
+      {
+        "n": 17,
+        "individualsZoneA": 59,
+        "standZoneA": 125,
+        "excludedZoneA": 3
+      },
+      {
+        "n": 18,
+        "individualsZoneA": 22,
+        "standZoneA": 128,
+        "excludedZoneA": 40
+      }
+    ]
+  },
+  "harness": {
+    "review": "HARNESS AUTO-APPROVAL: every eligible individual was approved without review; not for publication",
+    "records": {
+      "tiles": 64,
+      "records": 3707,
+      "encodedBytes": 183559,
+      "baseHeightMisses": []
+    },
+    "identity": {
+      "matched": 0,
+      "moved": 0,
+      "added": 3707,
+      "missing": 0,
+      "nextSequence": 3708
+    },
+    "candidates": {
+      "total": 44961,
+      "byRepresentation": {
+        "excluded": 540,
+        "individual": 3710,
+        "stand": 40711
+      },
+      "byZone": {
+        "A": 2023,
+        "B": 5422,
+        "C": 37516
+      },
+      "byCampaign": {
+        "23f028-702_69": 15842,
+        "26f015-702_69": 29119
+      },
+      "eligible": 3707
+    }
+  },
+  "publish": {
+    "observedOn": "2026-09-02",
+    "rootSha256": "b332bc2e1f958f8ff300db47d6f4716bdff425262c3d67869ed5b19d1c4cbb70",
+    "courseManifestSha256": "21c3229a328bbef60ac6a1927068ec99e3b1efde484575e6dafa8ab22ccf6887",
+    "groundManifestSha256": "3cd4201248089f5b8aaf6bd046f520d60ce4a7d21c1d3a2dba0b638aee6fdbe9",
+    "previousGroundManifestSha256": "590e64f2acd0dc53cd4af1320c6b97ca1f4bf37330e7536ababa5e0021d06f08",
+    "previousCourseManifestSha256": "d91b128eef40b86139a9a9b61a0f3bb5e4e2ae95f81ca650b6b424faefbb43f7",
+    "objectTiles": 64,
+    "standTiles": 64,
+    "objectBytes": 176823,
+    "standBytes": 548251,
+    "requiredFeatures": [
+      "chunk-envelope-v2",
+      "object-registry-json-v1",
+      "stand-field-u8-v1",
+      "terrain-grid-u16-v1"
+    ],
+    "attribution": "Laserdata Nedladdning, skog, © Lantmäteriet, bearbetad, CC BY 4.0",
+    "note": "an intermediate generation published earlier the same day (ground 0a10941f…) carried six trees on the driving range because the range ring was passed as one ring; it was superseded and its files removed"
+  }
+}

@@ -33,6 +33,7 @@ function assetReferences(course, ground) {
     references.push(tile.layers.terrain);
     if (tile.layers.surface) references.push(tile.layers.surface);
     if (tile.layers.objects) references.push(tile.layers.objects);
+    if (tile.layers.stands) references.push(tile.layers.stands);
   }
   return references;
 }

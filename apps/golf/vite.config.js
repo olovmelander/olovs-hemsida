@@ -80,6 +80,7 @@ export default defineConfig({
            critical path; content-addressed BVCH data is cached on demand below. */
         globIgnores: [
           'assets/v2-terrain-*.js',
+          'assets/v2-graph-terrain-*.js',
           'assets/v2-surface-preview-*.js',
           'assets/v2-graph-source-*.js',
           'assets/v2-stream-probe-*.js',
@@ -88,6 +89,10 @@ export default defineConfig({
           'assets/surface-grid-*.js',
           'assets/surface-sdf-grid-*.js',
           'assets/decode-web-*.js',
+          /* the vegetation runtime and its stand-field codec are reachable
+             only from a v2 visit whose graph publishes trees */
+          'assets/v2-vegetation-*.js',
+          'assets/stand-field-*.js',
         ],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,   /* three.tsl is ~1 MB */
 
@@ -188,7 +193,7 @@ export default defineConfig({
             urlPattern: ({ url, sameOrigin }) => sameOrigin &&
               (/\/courses\/[^/]+\/course-v2-[a-f0-9]{64}\.json$/.test(url.pathname) ||
                /\/grounds\/[^/]+\/ground-v2-[a-f0-9]{64}\.json$/.test(url.pathname) ||
-               /\/(?:courses|grounds)\/[^/]+\/(?:routing|terrain|surface|objects)\/[a-f0-9]{64}\.bvch$/
+               /\/(?:courses|grounds)\/[^/]+\/(?:routing|terrain|surface|objects|stands)\/[a-f0-9]{64}\.bvch$/
                  .test(url.pathname)),
             handler: 'CacheFirst',
             options: {

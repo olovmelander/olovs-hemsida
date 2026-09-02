@@ -46,6 +46,13 @@ export async function resolvePublishedGraph({
   }
   const terrainBytes = resolved.ground.shell.bytes +
     resolved.ground.tiles.reduce((sum, tile) => sum + tile.layers.terrain.bytes, 0);
+  /* Counted here, at the one boundary every v2 selection passes through, so
+     the app can see an object layer the moment a graph declares one -- and
+     refuse it until the object renderer exists, rather than drawing the
+     legacy planter over ground whose registry says which trees stand there. */
+  const objectTiles = resolved.ground.tiles.filter(tile => tile.layers.objects);
+  const standTiles = resolved.ground.tiles.filter(tile => tile.layers.stands);
+  const surfaceTiles = resolved.ground.tiles.filter(tile => tile.layers.surface);
   return Object.freeze({
     slug,
     groundId: resolved.entry.groundId,
@@ -62,6 +69,11 @@ export async function resolvePublishedGraph({
       holes: resolved.course.holes.length,
       shellBytes: resolved.ground.shell.bytes,
       encodedTerrainBytes: terrainBytes,
+      surfaceTiles: surfaceTiles.length,
+      objectTiles: objectTiles.length,
+      encodedObjectBytes: objectTiles.reduce((sum, tile) => sum + tile.layers.objects.bytes, 0),
+      standTiles: standTiles.length,
+      encodedStandBytes: standTiles.reduce((sum, tile) => sum + tile.layers.stands.bytes, 0),
     }),
   });
 }

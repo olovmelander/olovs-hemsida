@@ -49,14 +49,27 @@ for (const tile of preview.tiles) {
    "nothing unreferenced" any more -- it is that every byte there is referenced
    by the preview OR by the graph beside it, and nothing else has been shipped. */
 const terrainDirectory = path.join(previewRoot, path.dirname(preview.tiles[0].reference.url));
-const graphName = fs.readdirSync(previewRoot).find(file => /^ground-v2-[0-9a-f]{64}\.json$/.test(file));
-if (!graphName) throw new Error('built Puttom preview has no published ground graph beside it');
-const graph = JSON.parse(fs.readFileSync(path.join(previewRoot, graphName), 'utf8'));
-const referencedByGraph = new Set([
-  ...(graph.tiles || []).map(tile => tile.layers?.terrain?.url),
-  /* the graph's shell, its coarsest single tile, is referenced outside `tiles` */
-  graph.shell?.url,
-].filter(Boolean).map(url => path.basename(url)));
+/* Every published generation of the ground stays on disk for rollback, so
+   more than one ground manifest is the normal case; the union of what they
+   reference is what may legitimately be shipped. The one the root serves
+   must be among them. */
+const graphNames = fs.readdirSync(previewRoot).filter(file => /^ground-v2-[0-9a-f]{64}\.json$/.test(file));
+if (!graphNames.length) throw new Error('built Puttom preview has no published ground graph beside it');
+const rootIndex = JSON.parse(fs.readFileSync(path.join(DIST, 'courses/v2-index.json'), 'utf8'));
+const servedEntry = rootIndex.courses?.find(course => course.slug === PUTTOM_PREVIEW_CONFIG.slug);
+const servedCourse = JSON.parse(fs.readFileSync(path.join(DIST, servedEntry.manifest.url), 'utf8'));
+if (!graphNames.includes(path.basename(servedCourse.groundManifest.url))) {
+  throw new Error('the ground manifest the root serves is not beside the Puttom preview');
+}
+const referencedByGraph = new Set();
+for (const graphName of graphNames) {
+  const graph = JSON.parse(fs.readFileSync(path.join(previewRoot, graphName), 'utf8'));
+  for (const url of [
+    ...(graph.tiles || []).map(tile => tile.layers?.terrain?.url),
+    /* the graph's shell, its coarsest single tile, is referenced outside `tiles` */
+    graph.shell?.url,
+  ].filter(Boolean)) referencedByGraph.add(path.basename(url));
+}
 for (const url of referencedTerrain) referencedByGraph.add(path.basename(url));
 const retained = fs.readdirSync(terrainDirectory).filter(file => file.endsWith('.bvch'));
 if (retained.some(file => !referencedByGraph.has(file))) {
@@ -363,7 +376,7 @@ if (V2_PUBLISHED_GRAPH_SLUGS.length === 0) {
     const ground = assertCanonical(groundUrl, resources.get(groundUrl));
     loadResource(ground?.shell?.url, `ground ${ground?.groundId || slug} shell`);
     for (const tile of ground?.tiles || []) {
-      for (const kind of ['terrain', 'surface', 'objects']) {
+      for (const kind of ['terrain', 'surface', 'objects', 'stands']) {
         if (kind !== 'terrain' && (tile?.layers?.[kind] === null || tile?.layers?.[kind] === undefined)) continue;
         loadResource(tile?.layers?.[kind]?.url, `ground tile ${tile?.id || '?'} ${kind}`);
       }

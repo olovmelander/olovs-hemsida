@@ -114,3 +114,44 @@ test('tile manager rejects inconsistent hierarchy and unknown active-hole tiles'
   const manager = new TerrainTileManager({ ground: ground(), courseSlug: 'test-course' });
   assert.throws(() => plan(manager, { activeTileIds: ['l0/9/9'] }), /not in this course/);
 });
+
+test('explicit parent ids from a ring compilation drive refinement across unaligned lattices', async () => {
+  const { compileTerrainRings } = await import('../terrain-rings.mjs');
+  /* a smooth field refines nowhere at any budget; the knoll near the course
+     centre is what gives the finer levels an error worth refining to */
+  const field = (e, n) => 40 + 0.004 * (e - 1000) + Math.sin((n - 2000) / 90) * 3 +
+    (Math.hypot(e - 1007, n - 1995) < 6 ? 4 : 0);
+  const level = ({ lod, spacing, originEasting, originNorthing, tilesPerSide }) => {
+    const size = tilesPerSide * 8 + 1;
+    const heights = new Float64Array(size * size);
+    for (let row = 0; row < size; row++) for (let column = 0; column < size; column++) {
+      heights[row * size + column] = field(originEasting + column * spacing, originNorthing - row * spacing);
+    }
+    return { lod, sampleSpacingMetres: spacing, originEasting, originNorthing, tilesPerSide, heightScaleMetres: 0.01 * 2 ** lod, heights };
+  };
+  const compiled = compileTerrainRings({
+    groundId: 'ring-ground', courseSlugs: ['ring-course'], tileSegments: 8,
+    levels: [
+      level({ lod: 0, spacing: 1, originEasting: 984, originNorthing: 2016, tilesPerSide: 4 }),
+      level({ lod: 1, spacing: 2, originEasting: 968, originNorthing: 2032, tilesPerSide: 4 }),
+      level({ lod: 2, spacing: 4, originEasting: 936, originNorthing: 2064, tilesPerSide: 4 }),
+      level({ lod: 3, spacing: 8, originEasting: 936, originNorthing: 2064, tilesPerSide: 2 }),
+      level({ lod: 4, spacing: 16, originEasting: 936, originNorthing: 2064, tilesPerSide: 1 }),
+    ],
+  });
+  const manager = new TerrainTileManager({ ground: { shell: compiled.shell, tiles: compiled.tiles }, courseSlug: 'ring-course' });
+  assert.deepEqual(manager.roots.map(tile => tile.id), ['l4/0/0']);
+  assert.equal(manager.parentById.get('l0/0/0'), 'l1/1/1');
+  assert.equal(manager.parentById.get('l1/0/0'), 'l2/1/1');
+  assert.equal(manager.childrenById.get('l1/1/1').length, 4);
+  /* a camera over the course refines all the way to the 1 m tiles under it */
+  const result = manager.plan({
+    camera: { easting: 1007, northing: 1995, heightRH2000: 55 },
+    viewportHeightPixels: 1000, fieldOfViewYRadians: Math.PI / 2, targetErrorPixels: 1, maximumSelectedTiles: 64,
+  });
+  assert.ok(result.desiredTileIds.some(id => id.startsWith('l0/')), `expected 1 m tiles in ${result.desiredTileIds}`);
+  assert.ok(result.desiredTileIds.some(id => id.startsWith('l3/') || id.startsWith('l2/')), 'the far ring stays coarse');
+  /* a graph whose explicit parent is missing is refused */
+  const broken = compiled.tiles.map(tile => (tile.id === 'l0/0/0' ? { ...tile, parentId: 'l1/9/9' } : tile));
+  assert.throws(() => new TerrainTileManager({ ground: { shell: compiled.shell, tiles: broken }, courseSlug: 'ring-course' }), /names parent/);
+});

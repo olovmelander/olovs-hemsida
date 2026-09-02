@@ -42,6 +42,19 @@ function sortedFeatures(references) {
   return Object.freeze([...features].sort());
 }
 
+/* every layer a tile publishes: a ground that carries object registries or
+   stand fields must require their features, or the loader would accept the
+   manifest and choke on the chunk */
+function layerReferences(tiles) {
+  const references = [];
+  for (const tile of tiles) {
+    for (const kind of ['terrain', 'surface', 'objects', 'stands']) {
+      if (tile.layers[kind]) references.push(tile.layers[kind]);
+    }
+  }
+  return references;
+}
+
 function manifestReference(document, { directory, name, mediaType }, resources) {
   const data = canonicalJsonBytes(document);
   const sha256 = sha256Bytes(data);
@@ -202,8 +215,7 @@ export function emitGroundGraph({
     schemaVersion: 2,
     groundFormat: 2,
     groundId,
-    requiredFeatures: sortedFeatures([compilation.shell,
-      ...compilation.tiles.map(tile => tile.layers.terrain)]),
+    requiredFeatures: sortedFeatures([compilation.shell, ...layerReferences(compilation.tiles)]),
     frame: {
       compoundCrs: frame.compoundCrs,
       horizontalCrs: frame.horizontalCrs,
@@ -218,6 +230,8 @@ export function emitGroundGraph({
     tiles: compilation.tiles.map(tile => ({
       id: tile.id,
       lod: tile.lod,
+      /* a ring compilation names parents explicitly; a pyramid leaves them out */
+      ...(tile.parentId !== undefined ? { parentId: tile.parentId } : {}),
       bounds: { ...tile.bounds },
       geometricErrorMetres: tile.geometricErrorMetres,
       courses: [...tile.courses],
@@ -238,8 +252,7 @@ export function emitGroundGraph({
     groundFormat: 2,
     slug,
     groundId,
-    requiredFeatures: sortedFeatures([routingReference, compilation.shell,
-      ...compilation.tiles.map(tile => tile.layers.terrain)]),
+    requiredFeatures: sortedFeatures([routingReference, compilation.shell, ...layerReferences(compilation.tiles)]),
     groundManifest: groundReference,
     routing: routingReference,
     holes: manifestHoles,

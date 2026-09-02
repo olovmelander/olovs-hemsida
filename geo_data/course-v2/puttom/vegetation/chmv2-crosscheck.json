@@ -1,0 +1,2024 @@
+{
+  "kind": "chmv2-crosscheck",
+  "groundId": "puttom",
+  "observedOn": "2026-09-02",
+  "inputs": {
+    "campaigns": [
+      {
+        "campaignId": "26f015-702_69",
+        "path": "packages/course-geo/toolchain/.cache/acquisition/puttom-vegetation/chm-26f015-702-69.f32",
+        "sha256": "2f62c85ba30ea8ab0daf859d7c8ef94dd3bf8209b67562641eb9c98e5cf7c609"
+      },
+      {
+        "campaignId": "23f028-702_69",
+        "path": "packages/course-geo/toolchain/.cache/acquisition/puttom-vegetation/chm-23f028-702-69.f32",
+        "sha256": "8166309ba96b8a92663014ab74a86284a6dfd444796017b9d7b1e22584eb3d00"
+      }
+    ],
+    "chmv2": {
+      "path": "packages/course-geo/toolchain/.cache/acquisition/puttom-vegetation/chmv2-1200130303.f32",
+      "sha256": "80d857b7b15f60b54ecc91a730d25ad3e3849d9e6e9b2027741e034e1e90cf4c",
+      "source": {
+        "url": "https://dataforgood-fb-data.s3.amazonaws.com/forests/v2/global/dinov3_global_chm_v2_ml3/chm/1200130303.tif",
+        "etag": "\"f9f73cd5940b667f2bf9bec85e46a17c-27\"",
+        "lastModified": "Sat, 10 Jan 2026 00:44:21 GMT",
+        "contentLength": 223795118,
+        "tileId": "1200130303",
+        "epsg": 3857,
+        "pixelScaleMercatorMetres": 1.1943285669558676,
+        "groundMetresPerPixelAt63_3N": 0.5366345157229694,
+        "attribution": "Canopy height (CHMv2) © Meta and World Resources Institute, CC BY 4.0"
+      }
+    },
+    "registry": {
+      "path": "packages/course-geo/toolchain/.cache/acquisition/puttom-vegetation/compile-machine/registry.json",
+      "sha256": "6ce60277cdfaa72ced88b17c75f44b65b022494aa3ed27a0c4c1b75696898264",
+      "records": 3502
+    },
+    "seamNorthing": 7025000
+  },
+  "thresholdMetres": 2,
+  "reading": "CHMv2 is an optical model (2020s imagery, ~0.5 m) and reads lower than a leaf-on laser CHM on tall canopy; presence agreement (kappa) is the check, height bias per bin is the calibration, and the seam attribution says whether the campaigns or the forest own a step",
+  "overall": {
+    "presence": {
+      "n": 3933954,
+      "both": 1974373,
+      "laserOnly": 339991,
+      "otherOnly": 739163,
+      "neither": 880427,
+      "agreement": 0.7256820999940518,
+      "kappa": 0.4119460433917303,
+      "laserCanopyFraction": 0.5883047946163071,
+      "otherCanopyFraction": 0.689773190027133
+    },
+    "heights": {
+      "n": 1974373,
+      "laserMeanMetres": 10.443237864983894,
+      "otherMeanMetres": 8.81238600811498,
+      "biasMetres": 1.6308518568689134,
+      "maeMetres": 3.8977536447191623,
+      "rmseMetres": 4.94787754166138,
+      "pearson": 0.4444897277649512,
+      "slope": 0.46336961755757716,
+      "interceptMetres": 6.359845930633911,
+      "p50AbsMetres": 3.275503158569336,
+      "p90AbsMetres": 7.9130027294158936
+    },
+    "byLaserHeightBin": [
+      {
+        "laserFromMetres": 0,
+        "laserToMetres": 5,
+        "n": 380812,
+        "laserMeanMetres": 3.4973700038419056,
+        "otherMeanMetres": 4.657508166759451,
+        "otherCanopyFraction": 0.635513061563186
+      },
+      {
+        "laserFromMetres": 5,
+        "laserToMetres": 10,
+        "n": 845928,
+        "laserMeanMetres": 7.648108684590261,
+        "otherMeanMetres": 6.0387869889636,
+        "otherCanopyFraction": 0.842883791528357
+      },
+      {
+        "laserFromMetres": 10,
+        "laserToMetres": 15,
+        "n": 748218,
+        "laserMeanMetres": 12.250749128418247,
+        "otherMeanMetres": 8.776386026532375,
+        "otherCanopyFraction": 0.9312927515777487
+      },
+      {
+        "laserFromMetres": 15,
+        "laserToMetres": 20,
+        "n": 290639,
+        "laserMeanMetres": 16.94202461227713,
+        "otherMeanMetres": 11.482715671331102,
+        "otherCanopyFraction": 0.9475775790585572
+      },
+      {
+        "laserFromMetres": 20,
+        "laserToMetres": 25,
+        "n": 45826,
+        "laserMeanMetres": 21.551058429511077,
+        "otherMeanMetres": 13.990725788853489,
+        "otherCanopyFraction": 0.964605245930258
+      },
+      {
+        "laserFromMetres": 25,
+        "laserToMetres": 30,
+        "n": 2922,
+        "laserMeanMetres": 26.162701217056053,
+        "otherMeanMetres": 16.659479808350444,
+        "otherCanopyFraction": 0.9948665297741273
+      },
+      {
+        "laserFromMetres": 30,
+        "laserToMetres": 35,
+        "n": 19,
+        "laserMeanMetres": 30.826173782348633,
+        "otherMeanMetres": 12.894736842105264,
+        "otherCanopyFraction": 1
+      },
+      {
+        "laserFromMetres": 35,
+        "laserToMetres": 40,
+        "n": 0,
+        "laserMeanMetres": null,
+        "otherMeanMetres": null,
+        "otherCanopyFraction": null
+      },
+      {
+        "laserFromMetres": 40,
+        "laserToMetres": 45,
+        "n": 0,
+        "laserMeanMetres": null,
+        "otherMeanMetres": null,
+        "otherCanopyFraction": null
+      }
+    ]
+  },
+  "perCampaign": [
+    {
+      "campaignId": "26f015-702_69",
+      "raster": {
+        "path": "packages/course-geo/toolchain/.cache/acquisition/puttom-vegetation/chm-26f015-702-69.f32",
+        "sha256": "2f62c85ba30ea8ab0daf859d7c8ef94dd3bf8209b67562641eb9c98e5cf7c609"
+      },
+      "presence": {
+        "n": 2390166,
+        "both": 1262725,
+        "laserOnly": 187093,
+        "otherOnly": 513891,
+        "neither": 426457,
+        "agreement": 0.7067216251925599,
+        "kappa": 0.3455645246765018,
+        "laserCanopyFraction": 0.6065762796391547,
+        "otherCanopyFraction": 0.7433023480377513
+      },
+      "heights": {
+        "n": 1262725,
+        "laserMeanMetres": 10.03821043297047,
+        "otherMeanMetres": 8.378389593933754,
+        "biasMetres": 1.6598208390367155,
+        "maeMetres": 3.8833797098901184,
+        "rmseMetres": 4.908689050107388,
+        "pearson": 0.4124830037388346,
+        "slope": 0.4295379591337308,
+        "interceptMetres": 6.439374065964877,
+        "p50AbsMetres": 3.308351516723633,
+        "p90AbsMetres": 7.760697364807129
+      }
+    },
+    {
+      "campaignId": "23f028-702_69",
+      "raster": {
+        "path": "packages/course-geo/toolchain/.cache/acquisition/puttom-vegetation/chm-23f028-702-69.f32",
+        "sha256": "8166309ba96b8a92663014ab74a86284a6dfd444796017b9d7b1e22584eb3d00"
+      },
+      "presence": {
+        "n": 1543788,
+        "both": 711648,
+        "laserOnly": 152898,
+        "otherOnly": 225272,
+        "neither": 453970,
+        "agreement": 0.7550376087908444,
+        "kappa": 0.4971715952239716,
+        "laserCanopyFraction": 0.5600160125613103,
+        "otherCanopyFraction": 0.6068968018924878
+      },
+      "heights": {
+        "n": 711648,
+        "laserMeanMetres": 11.161905329923236,
+        "otherMeanMetres": 9.582455090156932,
+        "biasMetres": 1.5794502397663042,
+        "maeMetres": 3.9232582858577656,
+        "rmseMetres": 5.016658885050926,
+        "pearson": 0.47032878471260064,
+        "slope": 0.49331881697316093,
+        "interceptMetres": 6.4346999211485745,
+        "p50AbsMetres": 3.2163190841674805,
+        "p90AbsMetres": 8.216747283935547
+      }
+    }
+  ],
+  "tiles": [
+    {
+      "tileId": "l0/0/0",
+      "column": 0,
+      "row": 0,
+      "minEasting": 696404.5,
+      "maxNorthing": 7025850.5,
+      "n": 57914,
+      "agreement": 0.7351072279586974,
+      "kappa": 0.4596066183093082,
+      "laserCanopyFraction": 0.46170183375349655,
+      "otherCanopyFraction": 0.3718617260075284,
+      "heightN": 16467,
+      "biasMetres": 1.6174650841769296,
+      "pearson": 0.5495673754471965
+    },
+    {
+      "tileId": "l0/1/0",
+      "column": 1,
+      "row": 0,
+      "minEasting": 696660.5,
+      "maxNorthing": 7025850.5,
+      "n": 64283,
+      "agreement": 0.6995473142199338,
+      "kappa": 0.41155337319494156,
+      "laserCanopyFraction": 0.5711307810774233,
+      "otherCanopyFraction": 0.4255868581117869,
+      "heightN": 22379,
+      "biasMetres": 1.850008643191794,
+      "pearson": 0.4911485379169973
+    },
+    {
+      "tileId": "l0/2/0",
+      "column": 2,
+      "row": 0,
+      "minEasting": 696916.5,
+      "maxNorthing": 7025850.5,
+      "n": 64581,
+      "agreement": 0.8203806072993605,
+      "kappa": 0.4540399668406755,
+      "laserCanopyFraction": 0.7509948746535359,
+      "otherCanopyFraction": 0.8406497266998033,
+      "heightN": 45595,
+      "biasMetres": 3.149013825034949,
+      "pearson": 0.20619350428947203
+    },
+    {
+      "tileId": "l0/3/0",
+      "column": 3,
+      "row": 0,
+      "minEasting": 697172.5,
+      "maxNorthing": 7025850.5,
+      "n": 64512,
+      "agreement": 0.7455822172619048,
+      "kappa": 0.22720179156594333,
+      "laserCanopyFraction": 0.7429780505952381,
+      "otherCanopyFraction": 0.8514384920634921,
+      "heightN": 43223,
+      "biasMetres": 1.8409348629383846,
+      "pearson": 0.37966761579703473
+    },
+    {
+      "tileId": "l0/4/0",
+      "column": 4,
+      "row": 0,
+      "minEasting": 697428.5,
+      "maxNorthing": 7025850.5,
+      "n": 64732,
+      "agreement": 0.6095439658901316,
+      "kappa": 0.19714733174166627,
+      "laserCanopyFraction": 0.624930482605203,
+      "otherCanopyFraction": 0.5546870172403139,
+      "heightN": 25542,
+      "biasMetres": 1.9393255977564898,
+      "pearson": 0.40909516256570105
+    },
+    {
+      "tileId": "l0/5/0",
+      "column": 5,
+      "row": 0,
+      "minEasting": 697684.5,
+      "maxNorthing": 7025850.5,
+      "n": 64740,
+      "agreement": 0.7423076923076923,
+      "kappa": 0.30569338416282393,
+      "laserCanopyFraction": 0.7132993512511585,
+      "otherCanopyFraction": 0.8020389249304912,
+      "heightN": 40710,
+      "biasMetres": 2.4749459159898386,
+      "pearson": 0.5472058492139704
+    },
+    {
+      "tileId": "l0/6/0",
+      "column": 6,
+      "row": 0,
+      "minEasting": 697940.5,
+      "maxNorthing": 7025850.5,
+      "n": 64602,
+      "agreement": 0.7151016996377821,
+      "kappa": 0.39817310105991377,
+      "laserCanopyFraction": 0.6314510386675335,
+      "otherCanopyFraction": 0.6012197764775085,
+      "heightN": 30614,
+      "biasMetres": 0.8532308144518623,
+      "pearson": 0.6785011696147212
+    },
+    {
+      "tileId": "l0/7/0",
+      "column": 7,
+      "row": 0,
+      "minEasting": 698196.5,
+      "maxNorthing": 7025850.5,
+      "n": 65138,
+      "agreement": 0.7481807854094384,
+      "kappa": 0.49853725136156024,
+      "laserCanopyFraction": 0.5209094537750621,
+      "otherCanopyFraction": 0.4481255181307378,
+      "heightN": 23359,
+      "biasMetres": 1.6954036544072437,
+      "pearson": 0.155089092254465
+    },
+    {
+      "tileId": "l0/0/1",
+      "column": 0,
+      "row": 1,
+      "minEasting": 696404.5,
+      "maxNorthing": 7025594.5,
+      "n": 16610,
+      "agreement": 0.8889223359422035,
+      "kappa": 0.4774296046029034,
+      "laserCanopyFraction": 0.9006020469596628,
+      "otherCanopyFraction": 0.8587597832630945,
+      "heightN": 13689,
+      "biasMetres": 0.7818748654001819,
+      "pearson": 0.2572065727962847
+    },
+    {
+      "tileId": "l0/1/1",
+      "column": 1,
+      "row": 1,
+      "minEasting": 696660.5,
+      "maxNorthing": 7025594.5,
+      "n": 52059,
+      "agreement": 0.8437926199120229,
+      "kappa": 0.6058122307282552,
+      "laserCanopyFraction": 0.764939779865153,
+      "otherCanopyFraction": 0.6957490539580092,
+      "heightN": 33955,
+      "biasMetres": 1.9822581258548277,
+      "pearson": 0.48037585337912636
+    },
+    {
+      "tileId": "l0/2/1",
+      "column": 2,
+      "row": 1,
+      "minEasting": 696916.5,
+      "maxNorthing": 7025594.5,
+      "n": 51975,
+      "agreement": 0.82995670995671,
+      "kappa": 0.34686176964404175,
+      "laserCanopyFraction": 0.14343434343434344,
+      "otherCanopyFraction": 0.16394420394420395,
+      "heightN": 3569,
+      "biasMetres": 1.1957108790749569,
+      "pearson": 0.44396755859182047
+    },
+    {
+      "tileId": "l0/3/1",
+      "column": 3,
+      "row": 1,
+      "minEasting": 697172.5,
+      "maxNorthing": 7025594.5,
+      "n": 58985,
+      "agreement": 0.7807747732474358,
+      "kappa": 0.366468987130654,
+      "laserCanopyFraction": 0.17858777655336103,
+      "otherCanopyFraction": 0.26048995507332373,
+      "heightN": 6484,
+      "biasMetres": 4.070518716848023,
+      "pearson": 0.477710029405567
+    },
+    {
+      "tileId": "l0/4/1",
+      "column": 4,
+      "row": 1,
+      "minEasting": 697428.5,
+      "maxNorthing": 7025594.5,
+      "n": 64406,
+      "agreement": 0.7918672173399994,
+      "kappa": 0.5821871123892745,
+      "laserCanopyFraction": 0.45779896282955,
+      "otherCanopyFraction": 0.4780610502127131,
+      "heightN": 23435,
+      "biasMetres": 1.8474288322077603,
+      "pearson": 0.436061122386255
+    },
+    {
+      "tileId": "l0/5/1",
+      "column": 5,
+      "row": 1,
+      "minEasting": 697684.5,
+      "maxNorthing": 7025594.5,
+      "n": 64707,
+      "agreement": 0.7574296443970513,
+      "kappa": 0.33702686951985045,
+      "laserCanopyFraction": 0.7162285378707095,
+      "otherCanopyFraction": 0.8101287341400467,
+      "heightN": 41535,
+      "biasMetres": 1.5951126947433938,
+      "pearson": 0.32500292475338527
+    },
+    {
+      "tileId": "l0/6/1",
+      "column": 6,
+      "row": 1,
+      "minEasting": 697940.5,
+      "maxNorthing": 7025594.5,
+      "n": 64639,
+      "agreement": 0.6246693172852302,
+      "kappa": 0.23578161230506903,
+      "laserCanopyFraction": 0.5553149027676789,
+      "otherCanopyFraction": 0.5801760547038166,
+      "heightN": 24568,
+      "biasMetres": -0.007622181049427468,
+      "pearson": 0.6372749649560507
+    },
+    {
+      "tileId": "l0/7/1",
+      "column": 7,
+      "row": 1,
+      "minEasting": 698196.5,
+      "maxNorthing": 7025594.5,
+      "n": 65227,
+      "agreement": 0.7268922378769528,
+      "kappa": 0.3939017393971921,
+      "laserCanopyFraction": 0.6304597789259049,
+      "otherCanopyFraction": 0.6893311052171647,
+      "heightN": 34136,
+      "biasMetres": 1.2156572167169912,
+      "pearson": 0.3046056423983927
+    },
+    {
+      "tileId": "l0/0/2",
+      "column": 0,
+      "row": 2,
+      "minEasting": 696404.5,
+      "maxNorthing": 7025338.5,
+      "n": 64832,
+      "agreement": 0.8005460266535045,
+      "kappa": 0.08734637939385609,
+      "laserCanopyFraction": 0.8096773198420533,
+      "otherCanopyFraction": 0.9544360809476802,
+      "heightN": 50720,
+      "biasMetres": 1.4422009673169356,
+      "pearson": 0.4810928105490968
+    },
+    {
+      "tileId": "l0/1/2",
+      "column": 1,
+      "row": 2,
+      "minEasting": 696660.5,
+      "maxNorthing": 7025338.5,
+      "n": 64700,
+      "agreement": 0.7115301391035549,
+      "kappa": 0.08830253409946377,
+      "laserCanopyFraction": 0.7354095826893354,
+      "otherCanopyFraction": 0.8899381761978362,
+      "heightN": 43248,
+      "biasMetres": 1.3939650306327227,
+      "pearson": 0.43477263871256255
+    },
+    {
+      "tileId": "l0/2/2",
+      "column": 2,
+      "row": 2,
+      "minEasting": 696916.5,
+      "maxNorthing": 7025338.5,
+      "n": 16819,
+      "agreement": 0.36024733931862774,
+      "kappa": -0.0878883381986379,
+      "laserCanopyFraction": 0.17509958974968784,
+      "otherCanopyFraction": 0.6355312444259469,
+      "heightN": 1437,
+      "biasMetres": -1.0972175513528333,
+      "pearson": 0.24059689964377812
+    },
+    {
+      "tileId": "l0/3/2",
+      "column": 3,
+      "row": 2,
+      "minEasting": 697172.5,
+      "maxNorthing": 7025338.5,
+      "n": 46715,
+      "agreement": 0.778978914695494,
+      "kappa": 0.49041823706951093,
+      "laserCanopyFraction": 0.34624852830996466,
+      "otherCanopyFraction": 0.2844910628277855,
+      "heightN": 9570,
+      "biasMetres": 3.2364797698043857,
+      "pearson": 0.19747433119637214
+    },
+    {
+      "tileId": "l0/4/2",
+      "column": 4,
+      "row": 2,
+      "minEasting": 697428.5,
+      "maxNorthing": 7025338.5,
+      "n": 63891,
+      "agreement": 0.8747554428636272,
+      "kappa": 0.27662037954434243,
+      "laserCanopyFraction": 0.07735048754910707,
+      "otherCanopyFraction": 0.11331799470974002,
+      "heightN": 2090,
+      "biasMetres": 3.2005033548939164,
+      "pearson": 0.2639190583942831
+    },
+    {
+      "tileId": "l0/5/2",
+      "column": 5,
+      "row": 2,
+      "minEasting": 697684.5,
+      "maxNorthing": 7025338.5,
+      "n": 64190,
+      "agreement": 0.7720984577036921,
+      "kappa": 0.5010596587333975,
+      "laserCanopyFraction": 0.2631562548683596,
+      "otherCanopyFraction": 0.40873967907773795,
+      "heightN": 14250,
+      "biasMetres": 0.1722695435808408,
+      "pearson": 0.043027268664619894
+    },
+    {
+      "tileId": "l0/6/2",
+      "column": 6,
+      "row": 2,
+      "minEasting": 697940.5,
+      "maxNorthing": 7025338.5,
+      "n": 64743,
+      "agreement": 0.8132307739832878,
+      "kappa": 0.3926359716096252,
+      "laserCanopyFraction": 0.7437560817385663,
+      "otherCanopyFraction": 0.8948457748328005,
+      "heightN": 46998,
+      "biasMetres": 1.41695665980893,
+      "pearson": 0.4071768166229721
+    },
+    {
+      "tileId": "l0/7/2",
+      "column": 7,
+      "row": 2,
+      "minEasting": 698196.5,
+      "maxNorthing": 7025338.5,
+      "n": 65302,
+      "agreement": 0.7549692199320082,
+      "kappa": 0.2794719625363621,
+      "laserCanopyFraction": 0.7694863863281369,
+      "otherCanopyFraction": 0.7967290435208723,
+      "heightN": 43138,
+      "biasMetres": 0.322334974099169,
+      "pearson": 0.409793714988096
+    },
+    {
+      "tileId": "l0/0/3",
+      "column": 0,
+      "row": 3,
+      "minEasting": 696404.5,
+      "maxNorthing": 7025082.5,
+      "n": 64416,
+      "agreement": 0.7784401390958768,
+      "kappa": 0.23204040008541293,
+      "laserCanopyFraction": 0.7673093641331347,
+      "otherCanopyFraction": 0.8956004719324392,
+      "heightN": 46423,
+      "biasMetres": 2.3495784804141184,
+      "pearson": 0.49142009726058067
+    },
+    {
+      "tileId": "l0/1/3",
+      "column": 1,
+      "row": 3,
+      "minEasting": 696660.5,
+      "maxNorthing": 7025082.5,
+      "n": 64180,
+      "agreement": 0.7366469305079464,
+      "kappa": 0.22254892750532215,
+      "laserCanopyFraction": 0.6977251480211905,
+      "otherCanopyFraction": 0.907790588968526,
+      "heightN": 43070,
+      "biasMetres": 1.469543523314604,
+      "pearson": 0.46444359058862816
+    },
+    {
+      "tileId": "l0/2/3",
+      "column": 2,
+      "row": 3,
+      "minEasting": 696916.5,
+      "maxNorthing": 7025082.5,
+      "n": 47840,
+      "agreement": 0.6775292642140468,
+      "kappa": 0.2718272383079681,
+      "laserCanopyFraction": 0.6042433110367893,
+      "otherCanopyFraction": 0.7741220735785953,
+      "heightN": 25257,
+      "biasMetres": 1.6664385880928183,
+      "pearson": 0.5533808395091401
+    },
+    {
+      "tileId": "l0/3/3",
+      "column": 3,
+      "row": 3,
+      "minEasting": 697172.5,
+      "maxNorthing": 7025082.5,
+      "n": 64742,
+      "agreement": 0.8850359890025022,
+      "kappa": 0.7644386799757674,
+      "laserCanopyFraction": 0.5853696209570295,
+      "otherCanopyFraction": 0.5700318186030706,
+      "heightN": 33680,
+      "biasMetres": 3.0291648794876993,
+      "pearson": 0.18231283652469066
+    },
+    {
+      "tileId": "l0/4/3",
+      "column": 4,
+      "row": 3,
+      "minEasting": 697428.5,
+      "maxNorthing": 7025082.5,
+      "n": 37444,
+      "agreement": 0.8745860484990919,
+      "kappa": 0.0500491666222935,
+      "laserCanopyFraction": 0.060463625681016986,
+      "otherCanopyFraction": 0.08140155966242922,
+      "heightN": 308,
+      "biasMetres": 2.131626489100517,
+      "pearson": 0.22684078931524151
+    },
+    {
+      "tileId": "l0/5/3",
+      "column": 5,
+      "row": 3,
+      "minEasting": 697684.5,
+      "maxNorthing": 7025082.5,
+      "n": 64364,
+      "agreement": 0.8200546889565595,
+      "kappa": 0.43774572985374427,
+      "laserCanopyFraction": 0.1373127835435958,
+      "otherCanopyFraction": 0.2519110061525076,
+      "heightN": 6735,
+      "biasMetres": 0.8730802451758883,
+      "pearson": 0.3736066810471362
+    },
+    {
+      "tileId": "l0/6/3",
+      "column": 6,
+      "row": 3,
+      "minEasting": 697940.5,
+      "maxNorthing": 7025082.5,
+      "n": 64124,
+      "agreement": 0.7917784292932444,
+      "kappa": 0.09209844634335819,
+      "laserCanopyFraction": 0.7882696026448756,
+      "otherCanopyFraction": 0.9694498159815358,
+      "heightN": 49680,
+      "biasMetres": 2.2751315637871077,
+      "pearson": 0.35822089893792874
+    },
+    {
+      "tileId": "l0/7/3",
+      "column": 7,
+      "row": 3,
+      "minEasting": 698196.5,
+      "maxNorthing": 7025082.5,
+      "n": 64460,
+      "agreement": 0.8308873720136519,
+      "kappa": 0.5565503294214511,
+      "laserCanopyFraction": 0.7347657461991933,
+      "otherCanopyFraction": 0.7526838349363947,
+      "heightN": 42490,
+      "biasMetres": 1.2208433997016641,
+      "pearson": 0.44503726909088753
+    },
+    {
+      "tileId": "l0/0/4",
+      "column": 0,
+      "row": 4,
+      "minEasting": 696404.5,
+      "maxNorthing": 7024826.5,
+      "n": 65163,
+      "agreement": 0.8004695916394273,
+      "kappa": 0.14621136339575752,
+      "laserCanopyFraction": 0.8116262296088271,
+      "otherCanopyFraction": 0.927274680416801,
+      "heightN": 50155,
+      "biasMetres": 2.7435096876914304,
+      "pearson": 0.36033607835234344
+    },
+    {
+      "tileId": "l0/1/4",
+      "column": 1,
+      "row": 4,
+      "minEasting": 696660.5,
+      "maxNorthing": 7024826.5,
+      "n": 65274,
+      "agreement": 0.7601954836535221,
+      "kappa": 0.20694727171123778,
+      "laserCanopyFraction": 0.7819652541593897,
+      "otherCanopyFraction": 0.8504304929987437,
+      "heightN": 45450,
+      "biasMetres": 2.332195352988668,
+      "pearson": 0.5044295044778458
+    },
+    {
+      "tileId": "l0/2/4",
+      "column": 2,
+      "row": 4,
+      "minEasting": 696916.5,
+      "maxNorthing": 7024826.5,
+      "n": 64947,
+      "agreement": 0.5447364774354474,
+      "kappa": -0.027392963825461376,
+      "laserCanopyFraction": 0.5702187937857022,
+      "otherCanopyFraction": 0.9049840639290498,
+      "heightN": 33121,
+      "biasMetres": 1.8549579387521522,
+      "pearson": 0.6806983800144334
+    },
+    {
+      "tileId": "l0/3/4",
+      "column": 3,
+      "row": 4,
+      "minEasting": 697172.5,
+      "maxNorthing": 7024826.5,
+      "n": 65350,
+      "agreement": 0.820504973221117,
+      "kappa": 0.623390755774893,
+      "laserCanopyFraction": 0.3987911247130834,
+      "otherCanopyFraction": 0.38443764345830145,
+      "heightN": 19727,
+      "biasMetres": 3.026163506134419,
+      "pearson": 0.1705516037039779
+    },
+    {
+      "tileId": "l0/4/4",
+      "column": 4,
+      "row": 4,
+      "minEasting": 697428.5,
+      "maxNorthing": 7024826.5,
+      "n": 47651,
+      "agreement": 0.9125936496610774,
+      "kappa": 0.32339850276535226,
+      "laserCanopyFraction": 0.049505781620532624,
+      "otherCanopyFraction": 0.08843466034290991,
+      "heightN": 1204,
+      "biasMetres": 2.3112396956282204,
+      "pearson": 0.32935228908930003
+    },
+    {
+      "tileId": "l0/5/4",
+      "column": 5,
+      "row": 4,
+      "minEasting": 697684.5,
+      "maxNorthing": 7024826.5,
+      "n": 64083,
+      "agreement": 0.7641496184635551,
+      "kappa": 0.4062779748958891,
+      "laserCanopyFraction": 0.6526847994007772,
+      "otherCanopyFraction": 0.8365089025170482,
+      "heightN": 40159,
+      "biasMetres": 0.9455762731800093,
+      "pearson": 0.38602487377181405
+    },
+    {
+      "tileId": "l0/6/4",
+      "column": 6,
+      "row": 4,
+      "minEasting": 697940.5,
+      "maxNorthing": 7024826.5,
+      "n": 65236,
+      "agreement": 0.7881997669998161,
+      "kappa": 0.00859422365509018,
+      "laserCanopyFraction": 0.7938408240848611,
+      "otherCanopyFraction": 0.9872769636397082,
+      "heightN": 51188,
+      "biasMetres": 1.3553404248980154,
+      "pearson": 0.30705227208012953
+    },
+    {
+      "tileId": "l0/7/4",
+      "column": 7,
+      "row": 4,
+      "minEasting": 698196.5,
+      "maxNorthing": 7024826.5,
+      "n": 65211,
+      "agreement": 0.8364846421615985,
+      "kappa": 0.48387270197457416,
+      "laserCanopyFraction": 0.7499501617825214,
+      "otherCanopyFraction": 0.8664489119933754,
+      "heightN": 47372,
+      "biasMetres": 0.29490937060181643,
+      "pearson": 0.4207141715858185
+    },
+    {
+      "tileId": "l0/0/5",
+      "column": 0,
+      "row": 5,
+      "minEasting": 696404.5,
+      "maxNorthing": 7024570.5,
+      "n": 65297,
+      "agreement": 0.6993430019755885,
+      "kappa": 0.38340213326092554,
+      "laserCanopyFraction": 0.6943963734934223,
+      "otherCanopyFraction": 0.5318774216273335,
+      "heightN": 30220,
+      "biasMetres": 2.4095535794604626,
+      "pearson": 0.3586581048371613
+    },
+    {
+      "tileId": "l0/1/5",
+      "column": 1,
+      "row": 5,
+      "minEasting": 696660.5,
+      "maxNorthing": 7024570.5,
+      "n": 65357,
+      "agreement": 0.48986336582156464,
+      "kappa": -0.05489542925680937,
+      "laserCanopyFraction": 0.5860428110225377,
+      "otherCanopyFraction": 0.5953608641767523,
+      "heightN": 21936,
+      "biasMetres": 3.1438544034131857,
+      "pearson": 0.24711739318453835
+    },
+    {
+      "tileId": "l0/2/5",
+      "column": 2,
+      "row": 5,
+      "minEasting": 696916.5,
+      "maxNorthing": 7024570.5,
+      "n": 65146,
+      "agreement": 0.6194854634206245,
+      "kappa": 0.035276816595291624,
+      "laserCanopyFraction": 0.7422865563503516,
+      "otherCanopyFraction": 0.717864488993952,
+      "heightN": 35167,
+      "biasMetres": 3.6326473661206267,
+      "pearson": 0.5213884151244541
+    },
+    {
+      "tileId": "l0/3/5",
+      "column": 3,
+      "row": 5,
+      "minEasting": 697172.5,
+      "maxNorthing": 7024570.5,
+      "n": 65398,
+      "agreement": 0.6351723294290346,
+      "kappa": 0.31850764669820103,
+      "laserCanopyFraction": 0.34300743141992107,
+      "otherCanopyFraction": 0.6125416679409156,
+      "heightN": 19316,
+      "biasMetres": 1.7082542717938196,
+      "pearson": 0.025922650482021053
+    },
+    {
+      "tileId": "l0/4/5",
+      "column": 4,
+      "row": 5,
+      "minEasting": 697428.5,
+      "maxNorthing": 7024570.5,
+      "n": 65046,
+      "agreement": 0.7803861882360176,
+      "kappa": 0.566144415231344,
+      "laserCanopyFraction": 0.3281985056729084,
+      "otherCanopyFraction": 0.5180180180180181,
+      "heightN": 20379,
+      "biasMetres": 0.5908463796447787,
+      "pearson": 0.26406770607569685
+    },
+    {
+      "tileId": "l0/5/5",
+      "column": 5,
+      "row": 5,
+      "minEasting": 697684.5,
+      "maxNorthing": 7024570.5,
+      "n": 65316,
+      "agreement": 0.756996754240921,
+      "kappa": 0.036206678849927044,
+      "laserCanopyFraction": 0.7580531569600097,
+      "otherCanopyFraction": 0.9802651723926756,
+      "heightN": 48834,
+      "biasMetres": 0.4882960940586898,
+      "pearson": 0.28919580062199407
+    },
+    {
+      "tileId": "l0/6/5",
+      "column": 6,
+      "row": 5,
+      "minEasting": 697940.5,
+      "maxNorthing": 7024570.5,
+      "n": 65248,
+      "agreement": 0.7165583619421285,
+      "kappa": 0.20272279482348715,
+      "laserCanopyFraction": 0.6915001226091221,
+      "otherCanopyFraction": 0.8772529426189308,
+      "heightN": 41932,
+      "biasMetres": 1.7029750149781986,
+      "pearson": 0.48421164803301725
+    },
+    {
+      "tileId": "l0/7/5",
+      "column": 7,
+      "row": 5,
+      "minEasting": 698196.5,
+      "maxNorthing": 7024570.5,
+      "n": 65276,
+      "agreement": 0.7138764630185673,
+      "kappa": 0.32278612120432365,
+      "laserCanopyFraction": 0.6217292726269992,
+      "otherCanopyFraction": 0.8183252650284943,
+      "heightN": 37662,
+      "biasMetres": -0.2493077110898554,
+      "pearson": 0.31903365660720356
+    },
+    {
+      "tileId": "l0/0/6",
+      "column": 0,
+      "row": 6,
+      "minEasting": 696404.5,
+      "maxNorthing": 7024314.5,
+      "n": 65097,
+      "agreement": 0.5552175983532267,
+      "kappa": 0.09492897630639935,
+      "laserCanopyFraction": 0.5291180853188319,
+      "otherCanopyFraction": 0.6470958723136243,
+      "heightN": 23807,
+      "biasMetres": -1.6286586731610946,
+      "pearson": -0.18789070800534252
+    },
+    {
+      "tileId": "l0/1/6",
+      "column": 1,
+      "row": 6,
+      "minEasting": 696660.5,
+      "maxNorthing": 7024314.5,
+      "n": 64660,
+      "agreement": 0.5681101144447881,
+      "kappa": 0.030119202778471438,
+      "laserCanopyFraction": 0.5815187132694092,
+      "otherCanopyFraction": 0.8354933498298793,
+      "heightN": 31849,
+      "biasMetres": -0.2379161536163945,
+      "pearson": 0.05991540863955245
+    },
+    {
+      "tileId": "l0/2/6",
+      "column": 2,
+      "row": 6,
+      "minEasting": 696916.5,
+      "maxNorthing": 7024314.5,
+      "n": 64464,
+      "agreement": 0.6774013402829486,
+      "kappa": 0.192857852552626,
+      "laserCanopyFraction": 0.6619508562918839,
+      "otherCanopyFraction": 0.809723256391164,
+      "heightN": 37037,
+      "biasMetres": 2.5940776292663035,
+      "pearson": 0.48322746880007894
+    },
+    {
+      "tileId": "l0/3/6",
+      "column": 3,
+      "row": 6,
+      "minEasting": 697172.5,
+      "maxNorthing": 7024314.5,
+      "n": 64520,
+      "agreement": 0.6823000619962802,
+      "kappa": 0.0755453284968262,
+      "laserCanopyFraction": 0.6808276503409796,
+      "otherCanopyFraction": 0.9322845629262244,
+      "heightN": 41790,
+      "biasMetres": 1.4525597692819616,
+      "pearson": 0.2887972890433521
+    },
+    {
+      "tileId": "l0/4/6",
+      "column": 4,
+      "row": 6,
+      "minEasting": 697428.5,
+      "maxNorthing": 7024314.5,
+      "n": 64497,
+      "agreement": 0.9031737910290402,
+      "kappa": 0.08588465708368839,
+      "laserCanopyFraction": 0.8997162658728313,
+      "otherCanopyFraction": 0.9929454083135649,
+      "heightN": 57913,
+      "biasMetres": 2.2352569934925057,
+      "pearson": 0.3451904703136789
+    },
+    {
+      "tileId": "l0/5/6",
+      "column": 5,
+      "row": 6,
+      "minEasting": 697684.5,
+      "maxNorthing": 7024314.5,
+      "n": 64879,
+      "agreement": 0.7025231584950447,
+      "kappa": 0.15773255151652238,
+      "laserCanopyFraction": 0.6851523605480973,
+      "otherCanopyFraction": 0.8964688111715655,
+      "heightN": 41657,
+      "biasMetres": 1.7709901532085865,
+      "pearson": 0.20183480100603174
+    },
+    {
+      "tileId": "l0/6/6",
+      "column": 6,
+      "row": 6,
+      "minEasting": 697940.5,
+      "maxNorthing": 7024314.5,
+      "n": 64896,
+      "agreement": 0.6228272928994083,
+      "kappa": 0.11367181858301569,
+      "laserCanopyFraction": 0.6135509122287969,
+      "otherCanopyFraction": 0.8278476331360947,
+      "heightN": 34532,
+      "biasMetres": 1.5461002542634805,
+      "pearson": 0.23717543948784905
+    },
+    {
+      "tileId": "l0/7/6",
+      "column": 7,
+      "row": 6,
+      "minEasting": 698196.5,
+      "maxNorthing": 7024314.5,
+      "n": 65078,
+      "agreement": 0.6239743077537724,
+      "kappa": 0.2616450208956536,
+      "laserCanopyFraction": 0.4509511662927564,
+      "otherCanopyFraction": 0.594548080764621,
+      "heightN": 21784,
+      "biasMetres": 1.1259689509452722,
+      "pearson": 0.21681578483779257
+    },
+    {
+      "tileId": "l0/0/7",
+      "column": 0,
+      "row": 7,
+      "minEasting": 696404.5,
+      "maxNorthing": 7024058.5,
+      "n": 61276,
+      "agreement": 0.7581598015536262,
+      "kappa": 0.5098391835106335,
+      "laserCanopyFraction": 0.3509693844245708,
+      "otherCanopyFraction": 0.47782165937724397,
+      "heightN": 17983,
+      "biasMetres": -1.1487984127497999,
+      "pearson": 0.0641219021754041
+    },
+    {
+      "tileId": "l0/1/7",
+      "column": 1,
+      "row": 7,
+      "minEasting": 696660.5,
+      "maxNorthing": 7024058.5,
+      "n": 65343,
+      "agreement": 0.7092879114824847,
+      "kappa": 0.07050673716576558,
+      "laserCanopyFraction": 0.7500573894678848,
+      "otherCanopyFraction": 0.8743859326936321,
+      "heightN": 43575,
+      "biasMetres": 2.1924331681125135,
+      "pearson": 0.4800453569061055
+    },
+    {
+      "tileId": "l0/2/7",
+      "column": 2,
+      "row": 7,
+      "minEasting": 696916.5,
+      "maxNorthing": 7024058.5,
+      "n": 65426,
+      "agreement": 0.5357350288875982,
+      "kappa": -0.032512665508128334,
+      "laserCanopyFraction": 0.573900284290649,
+      "otherCanopyFraction": 0.8406902454681625,
+      "heightN": 31088,
+      "biasMetres": 2.59221720529842,
+      "pearson": 0.4252800369816701
+    },
+    {
+      "tileId": "l0/3/7",
+      "column": 3,
+      "row": 7,
+      "minEasting": 697172.5,
+      "maxNorthing": 7024058.5,
+      "n": 65357,
+      "agreement": 0.6603118258181985,
+      "kappa": 0.059441930854154765,
+      "laserCanopyFraction": 0.7502945361629205,
+      "otherCanopyFraction": 0.7773612619918295,
+      "heightN": 38821,
+      "biasMetres": 2.799428307356954,
+      "pearson": 0.47656265496787226
+    },
+    {
+      "tileId": "l0/4/7",
+      "column": 4,
+      "row": 7,
+      "minEasting": 697428.5,
+      "maxNorthing": 7024058.5,
+      "n": 65400,
+      "agreement": 0.5977217125382263,
+      "kappa": 0.06735659457006722,
+      "laserCanopyFraction": 0.6170489296636086,
+      "otherCanopyFraction": 0.7933333333333333,
+      "heightN": 32965,
+      "biasMetres": 1.9830121948309305,
+      "pearson": 0.2653773834731503
+    },
+    {
+      "tileId": "l0/5/7",
+      "column": 5,
+      "row": 7,
+      "minEasting": 697684.5,
+      "maxNorthing": 7024058.5,
+      "n": 65372,
+      "agreement": 0.6893471210915989,
+      "kappa": 0.3365882276094088,
+      "laserCanopyFraction": 0.5765006424769015,
+      "otherCanopyFraction": 0.7074129596769259,
+      "heightN": 31812,
+      "biasMetres": 1.9870235625339223,
+      "pearson": 0.3402204267692141
+    },
+    {
+      "tileId": "l0/6/7",
+      "column": 6,
+      "row": 7,
+      "minEasting": 697940.5,
+      "maxNorthing": 7024058.5,
+      "n": 65395,
+      "agreement": 0.5735912531539108,
+      "kappa": 0.08523126532499381,
+      "laserCanopyFraction": 0.5667405764966741,
+      "otherCanopyFraction": 0.7536814741188165,
+      "heightN": 29232,
+      "biasMetres": 0.7864562797461563,
+      "pearson": 0.23017192096974837
+    },
+    {
+      "tileId": "l0/7/7",
+      "column": 7,
+      "row": 7,
+      "minEasting": 698196.5,
+      "maxNorthing": 7024058.5,
+      "n": 65423,
+      "agreement": 0.654586307567675,
+      "kappa": 0.3095155134594896,
+      "laserCanopyFraction": 0.4991822447763019,
+      "otherCanopyFraction": 0.6518196964370329,
+      "heightN": 26352,
+      "biasMetres": 0.6161661704761308,
+      "pearson": 0.1781119312291168
+    }
+  ],
+  "flagRule": {
+    "minAgreement": 0.6,
+    "maxBiasFromOverallMetres": 3,
+    "minCells": 1000
+  },
+  "flaggedTiles": [
+    "l0/2/2",
+    "l0/2/4",
+    "l0/1/5",
+    "l0/0/6",
+    "l0/1/6",
+    "l0/2/7",
+    "l0/4/7",
+    "l0/6/7"
+  ],
+  "disagreement": {
+    "neighbourhoodMetres": 2,
+    "laserOnly": {
+      "n": 339991,
+      "heights": {
+        "2-3": 55814,
+        "3-5": 82987,
+        "5-10": 132909,
+        "10+": 68281
+      },
+      "besideOtherCanopy": 169145,
+      "besideOtherCanopyFraction": 0.497498463194614
+    },
+    "otherOnly": {
+      "n": 739163,
+      "heights": {
+        "2-3": 51454,
+        "3-5": 105935,
+        "5-10": 266819,
+        "10+": 314955
+      },
+      "besideLaserCanopy": 568540,
+      "besideLaserCanopyFraction": 0.7691672878647876
+    }
+  },
+  "clearedBlocks": [
+    {
+      "tileId": "l0/0/0",
+      "column": 0,
+      "row": 0,
+      "compared": 57914,
+      "tallImageryBareLaserFraction": 0.029457471423144664,
+      "largestBlockHectares": 0.0115,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/1/0",
+      "column": 1,
+      "row": 0,
+      "compared": 64283,
+      "tallImageryBareLaserFraction": 0.035017034052548884,
+      "largestBlockHectares": 0.020200000000000003,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/2/0",
+      "column": 2,
+      "row": 0,
+      "compared": 64581,
+      "tallImageryBareLaserFraction": 0.07314844923429492,
+      "largestBlockHectares": 0.0439,
+      "blocksOverMinimum": 9
+    },
+    {
+      "tileId": "l0/3/0",
+      "column": 3,
+      "row": 0,
+      "compared": 64512,
+      "tallImageryBareLaserFraction": 0.10241505456349206,
+      "largestBlockHectares": 0.0117,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/4/0",
+      "column": 4,
+      "row": 0,
+      "compared": 64732,
+      "tallImageryBareLaserFraction": 0.0702125687449793,
+      "largestBlockHectares": 0.022000000000000002,
+      "blocksOverMinimum": 4
+    },
+    {
+      "tileId": "l0/5/0",
+      "column": 5,
+      "row": 0,
+      "compared": 64740,
+      "tallImageryBareLaserFraction": 0.10103490886623417,
+      "largestBlockHectares": 0.0143,
+      "blocksOverMinimum": 5
+    },
+    {
+      "tileId": "l0/6/0",
+      "column": 6,
+      "row": 0,
+      "compared": 64602,
+      "tallImageryBareLaserFraction": 0.04441038977121451,
+      "largestBlockHectares": 0.0436,
+      "blocksOverMinimum": 3
+    },
+    {
+      "tileId": "l0/7/0",
+      "column": 7,
+      "row": 0,
+      "compared": 65138,
+      "tallImageryBareLaserFraction": 0.050400687770579385,
+      "largestBlockHectares": 0.0374,
+      "blocksOverMinimum": 5
+    },
+    {
+      "tileId": "l0/0/1",
+      "column": 0,
+      "row": 1,
+      "compared": 16610,
+      "tallImageryBareLaserFraction": 0.013184828416616496,
+      "largestBlockHectares": 0.0024000000000000002,
+      "blocksOverMinimum": 0
+    },
+    {
+      "tileId": "l0/1/1",
+      "column": 1,
+      "row": 1,
+      "compared": 52059,
+      "tallImageryBareLaserFraction": 0.016212374421329646,
+      "largestBlockHectares": 0.0345,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/2/1",
+      "column": 2,
+      "row": 1,
+      "compared": 51975,
+      "tallImageryBareLaserFraction": 0.027955747955747956,
+      "largestBlockHectares": 0.0516,
+      "blocksOverMinimum": 3
+    },
+    {
+      "tileId": "l0/3/1",
+      "column": 3,
+      "row": 1,
+      "compared": 58985,
+      "tallImageryBareLaserFraction": 0.06457573959481223,
+      "largestBlockHectares": 0.036500000000000005,
+      "blocksOverMinimum": 8
+    },
+    {
+      "tileId": "l0/4/1",
+      "column": 4,
+      "row": 1,
+      "compared": 64406,
+      "tallImageryBareLaserFraction": 0.04760426047262677,
+      "largestBlockHectares": 0.1144,
+      "blocksOverMinimum": 3
+    },
+    {
+      "tileId": "l0/5/1",
+      "column": 5,
+      "row": 1,
+      "compared": 64707,
+      "tallImageryBareLaserFraction": 0.08609578561824842,
+      "largestBlockHectares": 0.0181,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/6/1",
+      "column": 6,
+      "row": 1,
+      "compared": 64639,
+      "tallImageryBareLaserFraction": 0.045436965299586934,
+      "largestBlockHectares": 0.012,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/7/1",
+      "column": 7,
+      "row": 1,
+      "compared": 65227,
+      "tallImageryBareLaserFraction": 0.09154184616799792,
+      "largestBlockHectares": 0.0151,
+      "blocksOverMinimum": 7
+    },
+    {
+      "tileId": "l0/0/2",
+      "column": 0,
+      "row": 2,
+      "compared": 64832,
+      "tallImageryBareLaserFraction": 0.09809970384995065,
+      "largestBlockHectares": 0.29300000000000004,
+      "blocksOverMinimum": 2
+    },
+    {
+      "tileId": "l0/1/2",
+      "column": 1,
+      "row": 2,
+      "compared": 64700,
+      "tallImageryBareLaserFraction": 0.16290571870170015,
+      "largestBlockHectares": 0.6631,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/2/2",
+      "column": 2,
+      "row": 2,
+      "compared": 16819,
+      "tallImageryBareLaserFraction": 0.45739936976039003,
+      "largestBlockHectares": 0.7578,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/3/2",
+      "column": 3,
+      "row": 2,
+      "compared": 46715,
+      "tallImageryBareLaserFraction": 0.029305362303328697,
+      "largestBlockHectares": 0.0155,
+      "blocksOverMinimum": 2
+    },
+    {
+      "tileId": "l0/4/2",
+      "column": 4,
+      "row": 2,
+      "compared": 63891,
+      "tallImageryBareLaserFraction": 0.042337731448873865,
+      "largestBlockHectares": 0.0308,
+      "blocksOverMinimum": 8
+    },
+    {
+      "tileId": "l0/5/2",
+      "column": 5,
+      "row": 2,
+      "compared": 64190,
+      "tallImageryBareLaserFraction": 0.12466116217479359,
+      "largestBlockHectares": 0.11280000000000001,
+      "blocksOverMinimum": 15
+    },
+    {
+      "tileId": "l0/6/2",
+      "column": 6,
+      "row": 2,
+      "compared": 64743,
+      "tallImageryBareLaserFraction": 0.10486075714749085,
+      "largestBlockHectares": 0.0198,
+      "blocksOverMinimum": 2
+    },
+    {
+      "tileId": "l0/7/2",
+      "column": 7,
+      "row": 2,
+      "compared": 65302,
+      "tallImageryBareLaserFraction": 0.07662858717956571,
+      "largestBlockHectares": 0.015300000000000001,
+      "blocksOverMinimum": 2
+    },
+    {
+      "tileId": "l0/0/3",
+      "column": 0,
+      "row": 3,
+      "compared": 64416,
+      "tallImageryBareLaserFraction": 0.06911326378539494,
+      "largestBlockHectares": 0.09380000000000001,
+      "blocksOverMinimum": 5
+    },
+    {
+      "tileId": "l0/1/3",
+      "column": 1,
+      "row": 3,
+      "compared": 64180,
+      "tallImageryBareLaserFraction": 0.1805079464007479,
+      "largestBlockHectares": 0.4194,
+      "blocksOverMinimum": 2
+    },
+    {
+      "tileId": "l0/2/3",
+      "column": 2,
+      "row": 3,
+      "compared": 47840,
+      "tallImageryBareLaserFraction": 0.16806020066889632,
+      "largestBlockHectares": 0.4511,
+      "blocksOverMinimum": 4
+    },
+    {
+      "tileId": "l0/3/3",
+      "column": 3,
+      "row": 3,
+      "compared": 64742,
+      "tallImageryBareLaserFraction": 0.015059775725186124,
+      "largestBlockHectares": 0.0334,
+      "blocksOverMinimum": 3
+    },
+    {
+      "tileId": "l0/4/3",
+      "column": 4,
+      "row": 3,
+      "compared": 37444,
+      "tallImageryBareLaserFraction": 0.032555282555282554,
+      "largestBlockHectares": 0.0246,
+      "blocksOverMinimum": 4
+    },
+    {
+      "tileId": "l0/5/3",
+      "column": 5,
+      "row": 3,
+      "compared": 64364,
+      "tallImageryBareLaserFraction": 0.0896619228139954,
+      "largestBlockHectares": 0.1464,
+      "blocksOverMinimum": 9
+    },
+    {
+      "tileId": "l0/6/3",
+      "column": 6,
+      "row": 3,
+      "compared": 64124,
+      "tallImageryBareLaserFraction": 0.11903499469777307,
+      "largestBlockHectares": 0.0379,
+      "blocksOverMinimum": 6
+    },
+    {
+      "tileId": "l0/7/3",
+      "column": 7,
+      "row": 3,
+      "compared": 64460,
+      "tallImageryBareLaserFraction": 0.05066708035991312,
+      "largestBlockHectares": 0.0115,
+      "blocksOverMinimum": 4
+    },
+    {
+      "tileId": "l0/0/4",
+      "column": 0,
+      "row": 4,
+      "compared": 65163,
+      "tallImageryBareLaserFraction": 0.06353298651074997,
+      "largestBlockHectares": 0.0591,
+      "blocksOverMinimum": 2
+    },
+    {
+      "tileId": "l0/1/4",
+      "column": 1,
+      "row": 4,
+      "compared": 65274,
+      "tallImageryBareLaserFraction": 0.06374666789226952,
+      "largestBlockHectares": 0.0074,
+      "blocksOverMinimum": 0
+    },
+    {
+      "tileId": "l0/2/4",
+      "column": 2,
+      "row": 4,
+      "compared": 64947,
+      "tallImageryBareLaserFraction": 0.23820961707238208,
+      "largestBlockHectares": 1.3477000000000001,
+      "blocksOverMinimum": 2
+    },
+    {
+      "tileId": "l0/3/4",
+      "column": 3,
+      "row": 4,
+      "compared": 65350,
+      "tallImageryBareLaserFraction": 0.02359602142310635,
+      "largestBlockHectares": 0.0183,
+      "blocksOverMinimum": 6
+    },
+    {
+      "tileId": "l0/4/4",
+      "column": 4,
+      "row": 4,
+      "compared": 47651,
+      "tallImageryBareLaserFraction": 0.03380831462088938,
+      "largestBlockHectares": 0.0502,
+      "blocksOverMinimum": 3
+    },
+    {
+      "tileId": "l0/5/4",
+      "column": 5,
+      "row": 4,
+      "compared": 64083,
+      "tallImageryBareLaserFraction": 0.12795905310300704,
+      "largestBlockHectares": 0.1308,
+      "blocksOverMinimum": 9
+    },
+    {
+      "tileId": "l0/6/4",
+      "column": 6,
+      "row": 4,
+      "compared": 65236,
+      "tallImageryBareLaserFraction": 0.11723588202832792,
+      "largestBlockHectares": 0.016,
+      "blocksOverMinimum": 2
+    },
+    {
+      "tileId": "l0/7/4",
+      "column": 7,
+      "row": 4,
+      "compared": 65211,
+      "tallImageryBareLaserFraction": 0.08875803162043214,
+      "largestBlockHectares": 0.0184,
+      "blocksOverMinimum": 3
+    },
+    {
+      "tileId": "l0/0/5",
+      "column": 0,
+      "row": 5,
+      "compared": 65297,
+      "tallImageryBareLaserFraction": 0.02557544757033248,
+      "largestBlockHectares": 0.0183,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/1/5",
+      "column": 1,
+      "row": 5,
+      "compared": 65357,
+      "tallImageryBareLaserFraction": 0.10884832535153083,
+      "largestBlockHectares": 0.21380000000000002,
+      "blocksOverMinimum": 7
+    },
+    {
+      "tileId": "l0/2/5",
+      "column": 2,
+      "row": 5,
+      "compared": 65146,
+      "tallImageryBareLaserFraction": 0.07954440794523071,
+      "largestBlockHectares": 0.4753,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/3/5",
+      "column": 3,
+      "row": 5,
+      "compared": 65398,
+      "tallImageryBareLaserFraction": 0.16792562463683905,
+      "largestBlockHectares": 0.2575,
+      "blocksOverMinimum": 14
+    },
+    {
+      "tileId": "l0/4/5",
+      "column": 4,
+      "row": 5,
+      "compared": 65046,
+      "tallImageryBareLaserFraction": 0.15160040586661747,
+      "largestBlockHectares": 0.47640000000000005,
+      "blocksOverMinimum": 13
+    },
+    {
+      "tileId": "l0/5/5",
+      "column": 5,
+      "row": 5,
+      "compared": 65316,
+      "tallImageryBareLaserFraction": 0.16632984261130504,
+      "largestBlockHectares": 0.0376,
+      "blocksOverMinimum": 15
+    },
+    {
+      "tileId": "l0/6/5",
+      "column": 6,
+      "row": 5,
+      "compared": 65248,
+      "tallImageryBareLaserFraction": 0.09163499264345268,
+      "largestBlockHectares": 0.0119,
+      "blocksOverMinimum": 4
+    },
+    {
+      "tileId": "l0/7/5",
+      "column": 7,
+      "row": 5,
+      "compared": 65276,
+      "tallImageryBareLaserFraction": 0.13877994975182303,
+      "largestBlockHectares": 0.026000000000000002,
+      "blocksOverMinimum": 10
+    },
+    {
+      "tileId": "l0/0/6",
+      "column": 0,
+      "row": 6,
+      "compared": 65097,
+      "tallImageryBareLaserFraction": 0.15338648478424505,
+      "largestBlockHectares": 0.1436,
+      "blocksOverMinimum": 15
+    },
+    {
+      "tileId": "l0/1/6",
+      "column": 1,
+      "row": 6,
+      "compared": 64660,
+      "tallImageryBareLaserFraction": 0.1812403340550572,
+      "largestBlockHectares": 0.2084,
+      "blocksOverMinimum": 11
+    },
+    {
+      "tileId": "l0/2/6",
+      "column": 2,
+      "row": 6,
+      "compared": 64464,
+      "tallImageryBareLaserFraction": 0.08860759493670886,
+      "largestBlockHectares": 0.3588,
+      "blocksOverMinimum": 3
+    },
+    {
+      "tileId": "l0/3/6",
+      "column": 3,
+      "row": 6,
+      "compared": 64520,
+      "tallImageryBareLaserFraction": 0.18028518288902665,
+      "largestBlockHectares": 0.5698,
+      "blocksOverMinimum": 7
+    },
+    {
+      "tileId": "l0/4/6",
+      "column": 4,
+      "row": 6,
+      "compared": 64497,
+      "tallImageryBareLaserFraction": 0.038932043350853526,
+      "largestBlockHectares": 0.10790000000000001,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/5/6",
+      "column": 5,
+      "row": 6,
+      "compared": 64879,
+      "tallImageryBareLaserFraction": 0.07110158911203933,
+      "largestBlockHectares": 0.037700000000000004,
+      "blocksOverMinimum": 3
+    },
+    {
+      "tileId": "l0/6/6",
+      "column": 6,
+      "row": 6,
+      "compared": 64896,
+      "tallImageryBareLaserFraction": 0.08300973865877712,
+      "largestBlockHectares": 0.0129,
+      "blocksOverMinimum": 6
+    },
+    {
+      "tileId": "l0/7/6",
+      "column": 7,
+      "row": 6,
+      "compared": 65078,
+      "tallImageryBareLaserFraction": 0.08024217093334153,
+      "largestBlockHectares": 0.0176,
+      "blocksOverMinimum": 8
+    },
+    {
+      "tileId": "l0/0/7",
+      "column": 0,
+      "row": 7,
+      "compared": 61276,
+      "tallImageryBareLaserFraction": 0.06300998759710164,
+      "largestBlockHectares": 0.058800000000000005,
+      "blocksOverMinimum": 6
+    },
+    {
+      "tileId": "l0/1/7",
+      "column": 1,
+      "row": 7,
+      "compared": 65343,
+      "tallImageryBareLaserFraction": 0.0898183432043218,
+      "largestBlockHectares": 0.23390000000000002,
+      "blocksOverMinimum": 2
+    },
+    {
+      "tileId": "l0/2/7",
+      "column": 2,
+      "row": 7,
+      "compared": 65426,
+      "tallImageryBareLaserFraction": 0.278742395989362,
+      "largestBlockHectares": 1.7491,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/3/7",
+      "column": 3,
+      "row": 7,
+      "compared": 65357,
+      "tallImageryBareLaserFraction": 0.03636947840323148,
+      "largestBlockHectares": 0.0189,
+      "blocksOverMinimum": 5
+    },
+    {
+      "tileId": "l0/4/7",
+      "column": 4,
+      "row": 7,
+      "compared": 65400,
+      "tallImageryBareLaserFraction": 0.0798165137614679,
+      "largestBlockHectares": 0.0477,
+      "blocksOverMinimum": 5
+    },
+    {
+      "tileId": "l0/5/7",
+      "column": 5,
+      "row": 7,
+      "compared": 65372,
+      "tallImageryBareLaserFraction": 0.04865997674845499,
+      "largestBlockHectares": 0.0103,
+      "blocksOverMinimum": 1
+    },
+    {
+      "tileId": "l0/6/7",
+      "column": 6,
+      "row": 7,
+      "compared": 65395,
+      "tallImageryBareLaserFraction": 0.09557305604404007,
+      "largestBlockHectares": 0.0222,
+      "blocksOverMinimum": 5
+    },
+    {
+      "tileId": "l0/7/7",
+      "column": 7,
+      "row": 7,
+      "compared": 65423,
+      "tallImageryBareLaserFraction": 0.09649511639637437,
+      "largestBlockHectares": 0.0184,
+      "blocksOverMinimum": 10
+    }
+  ],
+  "felledSinceImagery": [
+    {
+      "tileId": "l0/1/2",
+      "largestBlockHectares": 0.66
+    },
+    {
+      "tileId": "l0/2/2",
+      "largestBlockHectares": 0.76
+    },
+    {
+      "tileId": "l0/2/4",
+      "largestBlockHectares": 1.35
+    },
+    {
+      "tileId": "l0/3/6",
+      "largestBlockHectares": 0.57
+    },
+    {
+      "tileId": "l0/2/7",
+      "largestBlockHectares": 1.75
+    }
+  ],
+  "seam": {
+    "seamNorthing": 7025000,
+    "bandMetres": 100,
+    "stepMetres": 10,
+    "threshold": 2,
+    "profile": [
+      {
+        "offsetMetres": -100,
+        "n": 18946,
+        "laserCanopyFraction": 0.553626095217988,
+        "laserMeanHeightMetres": 10.661628802700736,
+        "otherCanopyFraction": 0.6448326823603927,
+        "otherMeanHeightMetres": 8.487271834329214
+      },
+      {
+        "offsetMetres": -90,
+        "n": 19034,
+        "laserCanopyFraction": 0.5467584322790795,
+        "laserMeanHeightMetres": 10.707583515630557,
+        "otherCanopyFraction": 0.6343910896290847,
+        "otherMeanHeightMetres": 8.522650103519668
+      },
+      {
+        "offsetMetres": -80,
+        "n": 18946,
+        "laserCanopyFraction": 0.5509342341391322,
+        "laserMeanHeightMetres": 10.848921249072244,
+        "otherCanopyFraction": 0.6324290087617439,
+        "otherMeanHeightMetres": 8.918377566349525
+      },
+      {
+        "offsetMetres": -70,
+        "n": 18896,
+        "laserCanopyFraction": 0.5623941574936494,
+        "laserMeanHeightMetres": 10.999540883173125,
+        "otherCanopyFraction": 0.6587637595258256,
+        "otherMeanHeightMetres": 9.34728470437018
+      },
+      {
+        "offsetMetres": -60,
+        "n": 18429,
+        "laserCanopyFraction": 0.5772966520158446,
+        "laserMeanHeightMetres": 11.111406166197852,
+        "otherCanopyFraction": 0.6824027348201205,
+        "otherMeanHeightMetres": 9.541905216284988
+      },
+      {
+        "offsetMetres": -50,
+        "n": 18070,
+        "laserCanopyFraction": 0.6049806308799115,
+        "laserMeanHeightMetres": 10.953184582072215,
+        "otherCanopyFraction": 0.711732152739347,
+        "otherMeanHeightMetres": 9.780421429126818
+      },
+      {
+        "offsetMetres": -40,
+        "n": 17988,
+        "laserCanopyFraction": 0.6121303090949521,
+        "laserMeanHeightMetres": 10.823752551667319,
+        "otherCanopyFraction": 0.7315988436735602,
+        "otherMeanHeightMetres": 9.807370820668693
+      },
+      {
+        "offsetMetres": -30,
+        "n": 17936,
+        "laserCanopyFraction": 0.6052074041034791,
+        "laserMeanHeightMetres": 11.017351111087422,
+        "otherCanopyFraction": 0.7219558429973238,
+        "otherMeanHeightMetres": 10.124951733724611
+      },
+      {
+        "offsetMetres": -20,
+        "n": 17759,
+        "laserCanopyFraction": 0.5863505828030857,
+        "laserMeanHeightMetres": 11.209556420781501,
+        "otherCanopyFraction": 0.7311785573512022,
+        "otherMeanHeightMetres": 10.102348864073932
+      },
+      {
+        "offsetMetres": -10,
+        "n": 17547,
+        "laserCanopyFraction": 0.5827206929959537,
+        "laserMeanHeightMetres": 11.355748053366515,
+        "otherCanopyFraction": 0.7247962614691971,
+        "otherMeanHeightMetres": 10.760261047334486
+      },
+      {
+        "offsetMetres": 0,
+        "n": 15599,
+        "laserCanopyFraction": 0.6002948906981217,
+        "laserMeanHeightMetres": 11.190947750677974,
+        "otherCanopyFraction": 0.7449195461247516,
+        "otherMeanHeightMetres": 10.760240963855422
+      },
+      {
+        "offsetMetres": 10,
+        "n": 17145,
+        "laserCanopyFraction": 0.5764362787984835,
+        "laserMeanHeightMetres": 11.293943602438338,
+        "otherCanopyFraction": 0.7188684747739866,
+        "otherMeanHeightMetres": 10.668803245436106
+      },
+      {
+        "offsetMetres": 20,
+        "n": 17184,
+        "laserCanopyFraction": 0.5452164804469274,
+        "laserMeanHeightMetres": 11.416240118753313,
+        "otherCanopyFraction": 0.6953561452513967,
+        "otherMeanHeightMetres": 10.862833709933886
+      },
+      {
+        "offsetMetres": 30,
+        "n": 17223,
+        "laserCanopyFraction": 0.5453753701445742,
+        "laserMeanHeightMetres": 11.257908367823834,
+        "otherCanopyFraction": 0.68129826394937,
+        "otherMeanHeightMetres": 10.788733594682121
+      },
+      {
+        "offsetMetres": 40,
+        "n": 17439,
+        "laserCanopyFraction": 0.5479671999541258,
+        "laserMeanHeightMetres": 10.980360043078798,
+        "otherCanopyFraction": 0.6776764722747864,
+        "otherMeanHeightMetres": 10.339397529192757
+      },
+      {
+        "offsetMetres": 50,
+        "n": 17545,
+        "laserCanopyFraction": 0.5448275862068965,
+        "laserMeanHeightMetres": 10.734345373367587,
+        "otherCanopyFraction": 0.6477628954117982,
+        "otherMeanHeightMetres": 9.819533655961285
+      },
+      {
+        "offsetMetres": 60,
+        "n": 17831,
+        "laserCanopyFraction": 0.5184790533340811,
+        "laserMeanHeightMetres": 10.83809489161985,
+        "otherCanopyFraction": 0.6222309461050979,
+        "otherMeanHeightMetres": 9.75150968904912
+      },
+      {
+        "offsetMetres": 70,
+        "n": 18054,
+        "laserCanopyFraction": 0.5072560097485321,
+        "laserMeanHeightMetres": 10.828565833219198,
+        "otherCanopyFraction": 0.6045751633986928,
+        "otherMeanHeightMetres": 9.72524049473202
+      },
+      {
+        "offsetMetres": 80,
+        "n": 18325,
+        "laserCanopyFraction": 0.4924965893587995,
+        "laserMeanHeightMetres": 10.745108329477073,
+        "otherCanopyFraction": 0.5661118690313779,
+        "otherMeanHeightMetres": 9.664160401002507
+      },
+      {
+        "offsetMetres": 90,
+        "n": 18288,
+        "laserCanopyFraction": 0.5121391076115486,
+        "laserMeanHeightMetres": 10.604184578836104,
+        "otherCanopyFraction": 0.5799978127734033,
+        "otherMeanHeightMetres": 9.45403978504761
+      }
+    ],
+    "north": {
+      "n": 174633,
+      "laserCanopyFraction": 0.5378021336173575,
+      "otherCanopyFraction": 0.6516637748879078,
+      "laserMeanHeightMetres": 10.991629750847057,
+      "otherMeanHeightMetres": 10.207122897664364
+    },
+    "south": {
+      "n": 183551,
+      "laserCanopyFraction": 0.5776923035014792,
+      "otherCanopyFraction": 0.6862997205136447,
+      "laserMeanHeightMetres": 10.96762035240784,
+      "otherMeanHeightMetres": 9.55617562772384
+    },
+    "steps": {
+      "canopyFraction": {
+        "laser": -0.03989016988412164,
+        "other": -0.03463594562573691,
+        "attribution": "forest"
+      },
+      "meanHeightMetres": {
+        "laser": 0.024009398439217122,
+        "other": 0.6509472699405237,
+        "attribution": "forest"
+      }
+    },
+    "rule": "a step is forest when the optical raster shows it too, within 1 m (height) or 0.05 (fraction) or a quarter of its own step; otherwise it belongs to the campaigns"
+  },
+  "individuals": {
+    "n": 3502,
+    "agree": 3147,
+    "fraction": 0.8986293546544831,
+    "heightBiasMetres": 2.8262341912932927,
+    "byCampaign": {
+      "26f015-702_69": {
+        "n": 2366,
+        "agree": 2197,
+        "fraction": 0.9285714285714286,
+        "heightBiasMetres": 2.575365498406915
+      },
+      "23f028-702_69": {
+        "n": 1136,
+        "agree": 950,
+        "fraction": 0.8362676056338029,
+        "heightBiasMetres": 3.406401052631576
+      }
+    }
+  },
+  "elapsedSeconds": 11.889
+}

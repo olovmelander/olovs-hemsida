@@ -20,6 +20,205 @@
 > change first. Each of those is a section below, with the measurement that
 > established it.
 
+### Implementation checkpoint — 2026-09-02
+
+- **Phase 0 is done and measured.** `tools/vegetation-baseline.mjs` boots the
+  built app on the GPK1 path and on `?v2=require`, exports the legacy
+  population through `V3D.legacyTrees()` (species, planting reason, hole,
+  provisional zone), records `V3D.v2Objects()`, draws and boot marks, and
+  captures every tee view plus an overhead with content hashes. The record is
+  `geo_data/course-v2/puttom/vegetation/phase0-baseline.json`: on `?v2=require`
+  Puttom plants **67,568** legacy trees (17,991 spruce, 36,766 pine, 12,811
+  birch), of which 50,079 come from OSM/model forest rings, 17,264 from the
+  satellite raster, 225 from the shore belt; 3,882 stand within the provisional
+  zone A, 9,532 in B, 54,154 in C; 36 draw calls; the graph references zero
+  object tiles. The GPK1 path plants 67,898 — the v2 ground changes acceptance
+  near water by a few hundred trees, which is itself part of the baseline.
+- **The freeze is load-bearing.** The planter records why each tree stands
+  where it does (no placement changes — the baseline equals the previous
+  render), `v2-graph-source` counts surface and object tiles in the graph
+  summary, `v2-terrain-select` refuses a graph that declares object layers
+  before the renderer exists (`V2_OBJECT_LAYER_GATE`: a boot error under
+  `?v2=require`, a reported block under `?v2=1`), `check-app` gates the export
+  against the planter count and the object-layer state on every course, and
+  `puttom-vegetation-freeze.node-test.mjs` pins the committed graph at zero
+  object references and the seam inside the ground rectangle.
+- **Stage 1's credential-free half is done.** `record-laser-campaigns.mjs
+  --write` pins the live inventory to
+  `geo_data/course-v2/puttom/acquisition/laser-campaigns.json` (three items,
+  the N 7025000 seam, per-item statistics with the three density definitions
+  kept apart, Skogsstyrelsen's per-scan sensor and leaf state, the licence
+  attribution); `--check` fails on drift, which is how a north re-fly will be
+  adopted deliberately. The file is a checksummed manifest artifact.
+- **Stage 0 has run, and it found why the reads were wrong.** With access
+  restored (the `.env` password was wrong), `run-copc-census.mjs` read all
+  three items' hierarchies in 2–4 pages each; every hierarchy sums exactly to
+  its header count, and
+  `geo_data/course-v2/puttom/acquisition/copc-hierarchy-census.json` holds the
+  27-window census. Its first version put points from the north scan south of
+  the seam, and chasing that exposed the fact that matters: **these items do
+  not subdivide the COPC cube.** Decoding nodes at every depth of all three
+  items (`copc-reader/verify-octree-convention.mjs`) shows each axis subdivided
+  over the header's data extent — Y over the 5 km half-tile, Z over the point
+  heights — with only X coinciding with the cube because the data is 10 km
+  wide. A specification-following reader prunes the wrong nodes, which is what
+  the 52-point PDAL window in the D2 evidence was. The census and the reader
+  below use the extent rule; the seam windows now show zero for the wrong-side
+  campaign, as they must.
+- **Stages 1–3 run in Node.** `packages/course-geo/copc-reader/` (its own
+  `npm install`, outside the workspace lockfile) decodes bounded windows with
+  laz-perf: node selection under the extent rule padded by 2 m, every decoded
+  node held to the hierarchy's point count exactly, points filtered by their
+  real coordinates. `build-canopy.mjs` then builds, per finest tile of the
+  published ground, the cloud's own ground from class 2/9 returns (mean per
+  1 m cell, nearest-fill to 60 m, 3 × 3 mean), height above ground bilinearly,
+  the 1 m canopy height model (0 where only ground returns exist, NaN where
+  none), first/all/ground return counts, and the cloud-ground-minus-DTM
+  statistics against the exact published terrain tiles. The trial on the two
+  tiles either side of the seam: pulses 1.6–2.6/m², cloud ground within a
+  decimetre of the DTM on both campaigns, node counts exact.
+- **The compiler core exists, in Node, with tests, and has run end to end on
+  synthetic canopy** (`packages/course-v2/vegetation/`): `canopy-fields`
+  (voids, single-cell fill, median detection copy, presence, exact signed
+  stand-edge distance, roughness, seam ownership), `crown-detect` (the
+  declared variable window, Dalponte growth, statistics, individual/stand
+  classification, confidence terms, and an extent pass — measured on synthetic
+  crowns, Dalponte's 45% core sits at about 0.7 of the drip line, so an
+  individual's radius is recovered by a Voronoi-constrained extension to 20%
+  of the apex), `semantic-exclusions` (the model's greens, tees, fairways,
+  bunkers, practice areas, water and shore band, streams, buildings, roads,
+  paths, railway, power corridors and farmland rasterised with class buffers
+  and a reason per cell), `stand-fields`, `registry-identity` (sequential ids
+  preserved by matching; missing needs review), `object-compiler` (strict
+  registry records with the accuracy floors, per-tile `objects` chunks through
+  the real envelope), `ground-sampler` (base heights bilinearly from the exact
+  published terrain tiles) and `compile-vegetation` (the driver and CLI:
+  rasters in, candidates/evidence/registry/diff/chunks out; records only for
+  approved candidates, with an explicitly labelled harness auto-approval).
+- **The whole published ground has been derived (Phase 2 exceeded, review
+  not done).** `build-canopy.mjs` read 72 tile windows from the two campaigns
+  in 74 s (146 MB of range requests, every node count exact): south 13.7 M
+  points, 2.11 pulses/m², 3.61 returns/m², 2.5% void; north 14.9 M points,
+  2.63 pulses/m², 5.47 returns/m², 11.3% void (water in the northern bay).
+  Cloud ground against the published DTM, per-tile medians: north
+  −0.003…0.01 m (the DTM is that scan), south −0.135…0.07 m (the DTM is the
+  2020 scan; no tile shows earthworks at tile scale). The census estimates
+  reproduce the exact counts at a median ratio of 1.00 with the coarse-node
+  spread the census reports (0.55–1.34), and the rasters live in the ignored
+  toolchain cache with `canopy-evidence.json` committed. `compile-vegetation`
+  then derived **44,961 crown candidates** in 36 s: 3,710 individuals,
+  40,711 stand, 540 excluded with reasons (paths 307, water 94, farmland 77,
+  roads 45, buildings 12, tees 4, fairway 1); zone A holds 685 individuals,
+  1,213 stand crowns and 125 exclusions. Individuals: height p50 12.5 m
+  (max 30.2), radius p50 3.9 m, confidence p50 0.74. The labelled harness
+  compile turned the 3,707 eligible individuals into 64 valid `objects`
+  chunks totalling 183,559 encoded bytes with base heights from the exact
+  published tiles — proof of the path, not a registry:
+  `vegetation-evidence.json` carries the summary and the per-hole zone-A
+  counts, and no record is published.
+- **Review overlays exist; the review does not.** `render-review.mjs` draws
+  the merged canopy model with every candidate — individuals as circles at
+  their crown radius, stand crowns and exclusions as dots — over the hole
+  lines, fairway rings, tee pads, greens, bunkers, water and the seam, as a
+  2 m overview and eighteen 1 m hole crops under
+  `tools/goldens/puttom-vegetation-review/` (ignored, like the goldens). Looked
+  at: the lakes are voids inside their rings, corridors read as open ground,
+  hole 12's par 3 crosses its bay, and the rows of individuals between
+  neighbouring corridors are the tree lines between parallel fairways.
+- **Phases 3–6 delivered on 2026-09-02, later the same day, under one recorded
+  deviation.** The owner decided that no human review would take place and
+  that the generation should ship; the review gate is therefore held by the
+  versioned machine rules in `compile-vegetation.mjs` (`MACHINE_REVIEW_RULES`
+  v1: not excluded, confidence ≥ 0.6, height ≥ 3 m, radius ≥ 1 m, and in
+  zone A prominence ≥ 3 m and compactness ≥ 0.5; stand crowns are never
+  records), every published record says so through the evidence, and the
+  plan's "individually reviewed" gate is explicitly not met. What shipped:
+  - a new chunk kind, `stands` (`stand-field-u8-v1`): per finest tile, 4 m
+    cells with canopy fraction, mean and p95 height, campaign and
+    measured/excluded flags, with the machine-approved individuals' crowns
+    and the semantic exclusions removed, so dense forest is published as
+    measured density and never as invented stems; the schemas, validators,
+    Node and web decoders, loader, graph verifier and emitter all carry it;
+  - the published generation: **3,502** machine-reviewed `derived-lidar`
+    records in 64 object registries (176,823 B) and 64 stand fields
+    (548,251 B), on ground manifest `3cd42012…` and course `21c3229a…`, the
+    root moved, the prior generation `590e64f2…`/`d91b128e…` retained for
+    rollback, every chunk verified through the same path the loader uses
+    (`puttom-vegetation-freeze.node-test.mjs` now asserts the generation);
+  - the vegetation runtime (`engine/v2-vegetation.mjs`, a dynamic chunk a
+    flagless visit never downloads): registries and stand fields fetched and
+    verified fail-closed, placed through the v2 terrain's own bridge, planted
+    with the three existing species templates at measured height and crown
+    radius (individuals) or from the field with the allometry fitted on this
+    ground's individuals, `r = 2.48 + 0.124 h` (stand trees), species by
+    hash and never labelled as measured, and the legacy lattice cut out of
+    every tile the generation owns;
+  - measured on `?bana=puttom&v2=require` on this machine's GPU: 92,681
+    trees drawn (3,502 individuals, 56,241 stand trees, 32,938 legacy outside
+    the coverage), 0 legacy trees inside it, registry bases within 0.001 m of
+    the visible ground, 725 KB of vegetation fetched, 36 draw calls, 22 s
+    boot; the plain path is unchanged at 67,898 legacy trees.
+  - **A picture caught what the gates passed.** The first published
+    generation put six trees on the driving range: the migrated model
+    carries the range as a list of rings and the exclusion adapter had
+    passed the list as one ring, which rasterises nothing. Fixed, recompiled,
+    republished; the intermediate generation's files were removed.
+- **The independent-sensor cross-check and the seam report are done
+  (2026-09-02, evening).** `packages/course-geo/chmv2/` reads the Meta/WRI
+  CHMv2 tile straight from the open bucket (a range-request COG reader and a
+  transverse Mercator series verified to millimetres against the PROJ values
+  already in this repository), samples it onto the campaign rasters' own 1 m
+  grid (81 COG tiles, 3.1 MB, every cell valid), and
+  `run-chmv2-crosscheck.mjs` writes `vegetation/chmv2-crosscheck.json`.
+  What it measured, in the order that matters:
+  - **The seam is not a canopy step.** Over ±100 m of the seam the laser
+    canopy fraction steps −0.04 and CHMv2 steps −0.035; laser mean height
+    steps +0.02 m and CHMv2 +0.65 m. Both attribute to forest under the
+    stated rule, and the two campaigns carry the same height bias against
+    the independent raster, +1.58 m (2023 north) and +1.66 m (2026 south),
+    0.08 m apart. Nothing in the published generation is a campaign artefact
+    at the seam.
+  - **Presence agreement is moderate and its disagreement is edge blur.**
+    72.6% of cells agree on canopy at 2 m (kappa 0.41); CHMv2 calls canopy on
+    69% of the ground against the laser's 59%, and 77% of its extra cells sit
+    within 2 m of laser canopy, 43% of them reading over 10 m — a 0.5 m
+    optical model smearing tall crowns outward, not trees the laser missed.
+    The laser's own extra 8.6% is half beside optical canopy and spans all
+    heights, which is what growth since the imagery and thin conifers look
+    like.
+  - **CHMv2 compresses height** (slope 0.46: it reads 4.7 m where the laser
+    reads 2–5 m and 14 m where the laser reads 20–25 m), so the laser
+    heights are kept as published and the bias is calibration, not error.
+  - **89.9% of the 3,502 published individuals have optical canopy inside
+    their crown** (92.9% south, 83.6% north), and the tile flags (agreement
+    under 0.6 or bias more than 3 m from the ground-wide calibration) mark
+    eight tiles on the western and southern edges. Water explains only one
+    of them (the lake tile, where the laser has no returns). The others are
+    **felling after the imagery**: `clearedBlocks` finds contiguous blocks
+    the optical model reads as tall (≥ 8 m) and the June 2026 laser reads
+    as bare (< 1 m) of 1.75, 1.35, 0.76, 0.66 and 0.57 ha in five tiles,
+    against scattered smear of 0.02–0.2 ha everywhere else. The laser is
+    the newer record, so the render is right to show those stands cut; the
+    evidence lists them as `felledSinceImagery`.
+  - **NMD2023 was measured and deferred.** Its object-height layers are
+    national stripped PackBits TIFFs inside per-entry deflate, so Puttom's
+    rows sit ~40% into each 0.8–1.5 GB stream, and the species layers keep
+    their directory at the END of 2–3 GB entries. About 1.8 GB for the four
+    height layers, 6 GB for species; same laser as ours, so no independence
+    is bought. The species prior stays open on that cost.
+- **Still open:** the species-stratified seam report (needs the NMD species
+  prior above); hardware performance on a phone (the 55% low-quality cut of
+  stand cells is in place, unmeasured); the default visit still shows the
+  legacy planter because v2 itself stays opt-in until the release decision
+  the digital-twin plan reserves; and a human review of zone A, should the
+  owner want one, now has its overlays, its candidate keys and an approvals
+  path into the same compiler.
+- **Environment notes that cost time.** On a Windows checkout git converts the
+  committed LF JSON to CRLF, so `check-manifests.mjs` and the manifest test
+  report checksum mismatches on files nobody changed (the HEAD blobs hash to
+  the recorded values); pixi/PROJ are absent locally, so the hole-inventory
+  test that projects through PROJ fails here too. Both pass in CI.
+
 ## Executive verdict
 
 Puttom v2 does **not** currently use `Laserdata Nedladdning, skog` or any
@@ -234,10 +433,12 @@ returns three items, not two:
 | `20f015-702_69` | 7020000–7025000 (south half) | 2020-06-16 … 08-10 | 2026-06-17 | 145,305,774 | 704,665,562 | superseded; change reference only |
 
 The seam between the two active campaigns is the line **N = 7025000**. The
-Puttom frame origin (63.2992 N, 18.9413 E) projects to roughly
-E 697498, N 7024989 — **eleven metres south of the seam**. The AOI runs from
-N 7022735 to N 7027432, so the course is split almost evenly between a 2023
-scan and a 2026 scan. There is **no overlap between them**: the north item's
+legacy frame origin (63.2992 N, 18.9413 E) projects, by the migration's PROJ
+run, to E 697498.02, N 7024997.74 — **two metres south of the seam** — and
+the published v2 ground rectangle (E 696404.5–698452.5, N 7023802.5–7025850.5)
+straddles it with 1197.5 m of ground south of the line and 850.5 m north. The
+AOI runs from N 7022735 to N 7027432, so the course is split almost evenly
+between a 2023 scan and a 2026 scan. There is **no overlap between them**: the north item's
 boundary polygon stops at N 7024728–7025076 and the south item's at
 N 7024962–7025038. The only overlapping pair is the old 2020 south scan under
 the new 2026 one, and that is resolved by precedence, not mosaicking. The
@@ -609,7 +810,18 @@ R**. PDAL has no local-maximum/watershed crown stage, and its point-based
 
 Adding Python (numpy/scipy/scikit-image) or R (lidR) to the lock is allowed
 but is a reviewed toolchain change with its own gate; this plan does not
-depend on it. The reference practice the Node implementation follows is the
+depend on it.
+
+**Amendment, 2026-09-02.** The point-cloud stages also run in Node now, and
+not only because this machine has no PDAL: Lantmäteriet's half-tile COPC
+items subdivide the header extent per axis rather than the specification's
+cube (see the checkpoint), so PDAL's node pruning reads the wrong ground on
+them and a reader that knows the file's own rule is the correct one, not a
+convenience. `packages/course-geo/copc-reader/` carries the one third-party
+dependency (`copc` + `laz-perf`, WASM) in its own install, never in the
+workspace lockfile or the browser build. PDAL remains available for
+cross-checks where it is installed; where the two disagree, the node-exact
+count is the arbiter. The reference practice the Node implementation follows is the
 lidR book's: CHM from the highest return per cell with a sub-circle radius,
 median smoothing, a variable-window local-maximum filter no narrower than 3 m,
 and a Dalponte-style region growing on the smoothed CHM.

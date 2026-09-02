@@ -154,21 +154,35 @@ export function verifyAssetGraph({ root, resources, supportedFeatures, strictRes
       collectAsset(ground.shell, state, `ground ${entry.groundId} shell`, {
         ownerType: 'ground', ownerId: entry.groundId, id: 'shell', bounds: ground.bounds,
       });
+      const tilesById = new Map(ground.tiles.map(tile => [tile.id, tile]));
       for (const tile of ground.tiles) {
+        if (typeof tile.parentId === 'string') {
+          const parent = tilesById.get(tile.parentId);
+          const holds = parent && parent.lod === tile.lod + 1 &&
+            parent.bounds.minEasting <= tile.bounds.minEasting + 1e-6 &&
+            parent.bounds.maxEasting >= tile.bounds.maxEasting - 1e-6 &&
+            parent.bounds.minNorthing <= tile.bounds.minNorthing + 1e-6 &&
+            parent.bounds.maxNorthing >= tile.bounds.maxNorthing - 1e-6;
+          if (!holds) throw new Error(`ground ${entry.groundId} tile ${tile.id} names a parent that does not contain it`);
+        }
         const terrain = collectAsset(tile.layers.terrain, state, `ground ${entry.groundId} tile ${tile.id}`, {
           ownerType: 'ground', ownerId: entry.groundId, id: tile.id, bounds: tile.bounds,
         });
         if (terrain.header.grid.geometricErrorMetres !== tile.geometricErrorMetres) {
           throw new Error(`ground ${entry.groundId} tile ${tile.id} geometric error does not match its chunk`);
         }
-        for (const kind of ['surface', 'objects']) {
+        for (const kind of ['surface', 'objects', 'stands']) {
           if (!tile.layers[kind]) continue;
           const label = `ground ${entry.groundId} tile ${tile.id} ${kind}`;
           const chunk = collectAsset(tile.layers[kind], state, label, {
             ownerType: 'ground', ownerId: entry.groundId, id: tile.id, bounds: tile.bounds,
           });
           if (kind === 'surface') validateSurfaceChunk(chunk, label);
-          else validateObjectChunk(chunk, entry.groundId, tile.id, label);
+          else if (kind === 'objects') validateObjectChunk(chunk, entry.groundId, tile.id, label);
+          else if (chunk.header.kind !== 'stands' || chunk.header.payloadFormat !== 'stand-field-u8-v1' ||
+                   !chunk.inspection || chunk.header.id !== tile.id) {
+            throw new Error(`${label} is not a stand field for its tile`);
+          }
         }
       }
     } else if (ground.groundId !== entry.groundId) {

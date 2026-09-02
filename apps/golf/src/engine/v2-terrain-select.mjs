@@ -20,6 +20,22 @@ export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze(['puttom']);
 
 export const V2_GRAPH_RENDERER_GATE = 'graph-renderer-not-activated';
 
+/* Phase 4 of the vegetation plan flipped this on 2026-09-02: the app now has
+   the vegetation runtime (engine/v2-vegetation.mjs) that loads a graph's
+   object registries and stand fields, plants them, and cuts the legacy
+   lattice out of their coverage. The gate itself stays, parameterised, so a
+   build that ships without the runtime -- or a future layer the runtime does
+   not understand -- fails closed again under ?v2=require and is reported
+   under ?v2=1 rather than drawing two populations over the same ground. */
+export const V2_OBJECT_LAYER_GATE = 'object-layer-renderer-not-activated';
+export const V2_VEGETATION_RUNTIME_ACTIVATED = true;
+
+export function v2ObjectLayerBlocker(graph, { activated = V2_VEGETATION_RUNTIME_ACTIVATED } = {}) {
+  const objectTiles = (graph?.summary?.objectTiles || 0) + (graph?.summary?.standTiles || 0);
+  if (!Number.isFinite(objectTiles) || objectTiles <= 0 || activated) return null;
+  return `${V2_OBJECT_LAYER_GATE}: grafen refererar ${objectTiles} objekt-/beståndslager som renderaren inte stödjer ännu`;
+}
+
 export function v2RequestMode(search = globalThis.location?.search || '') {
   const value = new URLSearchParams(search).get('v2');
   if (value === '1') return 'opt-in';
@@ -105,6 +121,15 @@ export async function selectV2TerrainSource({
       graphError = errorText(error);
     }
     if (graph) {
+      const objectBlocker = v2ObjectLayerBlocker(graph);
+      if (objectBlocker) {
+        if (requestMode === 'require') {
+          throw new Error(`v2 krävdes men den publicerade v2-grafen för ${slug} kan inte tjäna: ${objectBlocker}`);
+        }
+        graphError = objectBlocker;
+      }
+    }
+    if (graph && !graphError) {
       /* A verified graph is not yet a renderable one: the generic streaming
          renderer stays gated until it passes the same adapter contract and
          capture evidence as the retained pilot. Selection reports the graph

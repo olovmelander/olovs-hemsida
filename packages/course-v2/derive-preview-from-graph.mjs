@@ -62,7 +62,7 @@ export function finestFrontier(graph) {
 /* The graph states its own bounds; the preview restates them because a preview
    is read on its own, by a loader that never sees the graph. They must agree,
    and the agreement is asserted rather than assumed. */
-function frontierBounds(tiles, declared) {
+function frontierBounds(tiles, declared, previous = null) {
   const bounds = {
     minEasting: Infinity, minNorthing: Infinity, minHeightRH2000: Infinity,
     maxEasting: -Infinity, maxNorthing: -Infinity, maxHeightRH2000: -Infinity,
@@ -77,10 +77,27 @@ function frontierBounds(tiles, declared) {
     bounds.maxNorthing = Math.max(bounds.maxNorthing, b.maxNorthing);
     bounds.maxHeightRH2000 = Math.max(bounds.maxHeightRH2000, b.maxHeightRH2000);
   }
-  for (const axis of ['minEasting', 'maxEasting', 'minNorthing', 'maxNorthing']) {
-    if (Math.abs(bounds[axis] - declared[axis]) > 1e-6) {
-      throw new Error(`the finest frontier's ${axis} is ${bounds[axis]}; the graph declares ${declared[axis]}`);
-    }
+  /* A ring-compiled graph reaches past its finest frontier on purpose: the
+     course tiles sit inside coarser rings to a 16 km root. Then the graph
+     must CONTAIN the frontier, and the preview describes the frontier by its
+     own tiles, whose stated heights are the u16-rounded ones. */
+  const contains = ['minEasting', 'minNorthing'].every(axis => declared[axis] <= bounds[axis] + 1e-6) &&
+    ['maxEasting', 'maxNorthing'].every(axis => declared[axis] >= bounds[axis] - 1e-6);
+  const equal = ['minEasting', 'maxEasting', 'minNorthing', 'maxNorthing'].every(axis => Math.abs(bounds[axis] - declared[axis]) <= 1e-6);
+  if (!contains) throw new Error(`the finest frontier leaves the graph's declared bounds`);
+  if (!equal) {
+    /* The tiles know the frontier's heights only to their quantum. A preview
+       already committed states them from the compile that made those tiles;
+       it keeps its statement while the tiles agree with it to the quantum,
+       so a ring recompile around an unchanged course does not move the
+       descriptor -- and everything bound to its hash -- by a rounding. */
+    const stable = axis => (previous && Number.isFinite(previous[axis]) &&
+      Math.abs(previous[axis] - bounds[axis]) <= HEIGHT_QUANTUM_METRES ? previous[axis] : bounds[axis]);
+    return {
+      minEasting: bounds.minEasting, maxEasting: bounds.maxEasting,
+      minNorthing: bounds.minNorthing, maxNorthing: bounds.maxNorthing,
+      minHeightRH2000: stable('minHeightRH2000'), maxHeightRH2000: stable('maxHeightRH2000'),
+    };
   }
   /* The tiles state their heights at the u16 quantum they were encoded at, so
      they round away from the graph's raw float by up to one step. Agreement is
@@ -112,10 +129,10 @@ function previewCamera(bounds, origin) {
   };
 }
 
-export function derivePreviewFromGraph(graph, { label, assetPrefix = 'terrain/' } = {}) {
+export function derivePreviewFromGraph(graph, { label, assetPrefix = 'terrain/', previousBounds = null } = {}) {
   if (typeof label !== 'string' || !label) throw new TypeError('a label is required');
   const { tiles } = finestFrontier(graph);
-  const bounds = frontierBounds(tiles, graph.bounds);
+  const bounds = frontierBounds(tiles, graph.bounds, previousBounds);
   const frame = createProvisionalFrame(bounds);
   /* The graph and the preview describe the same ground, so they must agree on
      where its origin is; a silent disagreement would move every tile. */
@@ -146,12 +163,21 @@ async function main() {
   const label = process.argv.includes('--label')
     ? process.argv[process.argv.indexOf('--label') + 1] : 'Puttom · Lantmäteriet 1 m terräng';
   const directory = join(ROOT, 'apps/golf/public/grounds', groundId);
-  const name = (await readdir(directory)).find(file => /^ground-v2-[0-9a-f]{64}\.json$/.test(file));
-  if (!name) throw new Error(`no published ground graph in ${directory}`);
+  /* the generation the root serves, not whichever manifest lists first:
+     retained generations sit beside it for rollback */
+  const publicDir = join(ROOT, 'apps/golf/public');
+  const root = JSON.parse(await readFile(join(publicDir, 'courses/v2-index.json'), 'utf8'));
+  const entry = root.courses?.find(course => course.groundId === groundId);
+  if (!entry) throw new Error(`the root index serves no course on ground ${groundId}`);
+  const course = JSON.parse(await readFile(join(publicDir, entry.manifest.url), 'utf8'));
+  const name = course.groundManifest.url.split('/').pop();
+  if (!(await readdir(directory)).includes(name)) throw new Error(`no published ground graph ${name} in ${directory}`);
   const graph = JSON.parse(await readFile(join(directory, name), 'utf8'));
-  const descriptor = derivePreviewFromGraph(graph, { label });
-  const bytes = `${canonicalJson(descriptor)}\n`;
   const target = join(directory, 'preview.json');
+  let previousBounds = null;
+  try { previousBounds = JSON.parse(await readFile(target, 'utf8')).bounds ?? null; } catch { previousBounds = null; }
+  const descriptor = derivePreviewFromGraph(graph, { label, previousBounds });
+  const bytes = `${canonicalJson(descriptor)}\n`;
   await mkdir(dirname(target), { recursive: true });
   await writeFile(target, bytes);
   const { createHash } = await import('node:crypto');
