@@ -134,7 +134,10 @@ const expected = [
      the bundler's decision; that it never lands in the entry graph is the
      invariant, and the marker sweep below is what asserts it. */
   /^v2-stream-probe-run-[A-Za-z0-9_-]+\.js$/,
-  /^surface-grid-[A-Za-z0-9_-]+\.js$/,
+  /* the per-class codec is shared by the web decoder and the atlas stitcher,
+     so it is its own chunk; the pair codec has one importer left and folds
+     into decode-web */
+  /^surface-sdf-grid-[A-Za-z0-9_-]+\.js$/,
   /^decode-web-[A-Za-z0-9_-]+\.js$/,
 ];
 /* One substantive chunk per module, but a second dynamic-import site makes the
@@ -278,6 +281,7 @@ if (chunks.some(chunk => serviceWorker.includes(chunk)) ||
     serviceWorker.includes('chunk-worker-') ||
     serviceWorker.includes('terrain-render-data-') ||
     serviceWorker.includes('surface-grid-') ||
+    serviceWorker.includes('surface-sdf-grid-') ||
     serviceWorker.includes('decode-web-')) {
   throw new Error('v2 terrain/surface preview chunks leaked into the production PWA precache');
 }
@@ -285,7 +289,9 @@ const html = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
 if (chunks.some(chunk => html.includes(chunk))) {
   throw new Error('v2 terrain preview chunks leaked into initial HTML');
 }
-const headers = fs.readFileSync(path.join(DIST, '_headers'), 'utf8');
+/* normalised, because a Windows checkout hands this file over with CRLF and a
+   rule that is present would otherwise be reported missing */
+const headers = fs.readFileSync(path.join(DIST, '_headers'), 'utf8').replace(/\r\n/g, '\n');
 /* The paths the pilot is ACTUALLY served from. These asserted /v2/* rules
    until the widening moved the pilot to /grounds/, at which point the gate was
    demanding rules for a tree nothing ships while the live descriptors had no

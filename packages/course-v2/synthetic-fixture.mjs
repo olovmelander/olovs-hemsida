@@ -10,6 +10,7 @@ import {
   V2_GROUND_MEDIA_TYPE,
 } from './schema.mjs';
 import { encodeSurfaceGrid } from './surface-grid.mjs';
+import { encodeSurfaceSdfGrid } from './surface-sdf-grid.mjs';
 import { encodeTerrainGrid } from './terrain-grid.mjs';
 
 const HASH_A = sha256Bytes(new TextEncoder().encode('synthetic v1 main fallback'));
@@ -112,6 +113,38 @@ function surfaceChunk(resources, { id, bounds, width, height, spacing }) {
       payloadFormat: 'surface-grid-u8-i16-le-v1',
       requiredFeatures: ['chunk-envelope-v2', 'surface-grid-u8-i16-v1'],
       surfaceGrid: encoded.surfaceGrid,
+    },
+    payload: encoded.payload,
+  });
+  return addChunk(resources, chunk, 'surface');
+}
+
+/* The per-class representation on a 3 x 3 tile: fairway (2) in the west
+   column, green (4) in the centre, rough elsewhere. */
+function surfaceSdfChunk(resources, { id, bounds, width, height, spacing }) {
+  const encoded = encodeSurfaceSdfGrid({
+    width,
+    height,
+    sampleSpacingMetres: spacing,
+    channels: [2, 4],
+    distancesMetres: [
+      Float32Array.from([1, -1, -3, 1.5, -1, -3, 1, -1, -3]),
+      Float32Array.from([-2, -1, -2, -1, 1, -1, -2, -1, -2]),
+    ],
+    routeDistancesMetres: Float32Array.from([0, 4, 8, 12, 16, 20, Infinity, 2, Infinity]),
+    ringDistancesMetres: Float32Array.from([1, 0, 0, 1.5, 1, 0, 1, 0, 0]),
+    ownerIds: Uint8Array.from([1, 1, 0, 1, 2, 0, 1, 0, 0]),
+  });
+  const chunk = writeChunk({
+    header: {
+      schemaVersion: 2,
+      id,
+      kind: 'surface',
+      owner: { type: 'ground', id: 'synthetic-ground' },
+      bounds,
+      payloadFormat: 'surface-sdf-u8-v1',
+      requiredFeatures: ['chunk-envelope-v2', 'surface-sdf-u8-v1'],
+      surfaceSdf: encoded.surfaceSdf,
     },
     payload: encoded.payload,
   });
@@ -234,6 +267,13 @@ export function createSyntheticAssetGraph() {
     spacing: 64,
   });
   const tileAObjects = objectChunk(resources, { id: 'l0/0/0', bounds: tileA.bounds });
+  const tileBSurface = surfaceSdfChunk(resources, {
+    id: 'l0/1/0',
+    bounds: tileB.bounds,
+    width: 3,
+    height: 3,
+    spacing: 64,
+  });
   const groundBounds = {
     minEasting: 650000,
     minNorthing: 6640000,
@@ -251,6 +291,7 @@ export function createSyntheticAssetGraph() {
       'chunk-envelope-v2',
       'object-registry-json-v1',
       'surface-grid-u8-i16-v1',
+      'surface-sdf-u8-v1',
       'terrain-grid-u16-v1',
     ],
     frame: {
@@ -283,7 +324,7 @@ export function createSyntheticAssetGraph() {
         bounds: tileB.bounds,
         geometricErrorMetres: 0.25,
         courses: ['synthetic-main'],
-        layers: { terrain: tileB.reference, surface: null, objects: null },
+        layers: { terrain: tileB.reference, surface: tileBSurface, objects: null },
       },
     ],
   };

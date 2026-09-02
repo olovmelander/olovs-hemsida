@@ -1,15 +1,30 @@
 # Puttom v2 LiDAR tree-placement plan
 
-> **Status 2026-09-01:** completed investigation and implementation plan. No
-> runtime vegetation changes are authorized by this document alone. Puttom v2
-> currently has Lantmäteriet 1 m ground elevation, but its visible trees are not
-> LiDAR-derived.
+> **Status 2026-09-02:** investigation and implementation plan, audited against
+> the live source catalogues on 2026-09-02. No runtime vegetation changes are
+> authorized by this document alone. Puttom v2 currently has Lantmäteriet 1 m
+> ground elevation, but its visible trees are not LiDAR-derived.
+>
+> **What the 2026-09-02 audit changed.** The plan's architecture stands. What
+> was wrong or missing was about the *data*: the two scans that cover Puttom
+> abut at a hard line that runs through the middle of the course, so there is
+> no overlap band to reconcile; "advertised density" is three different numbers
+> and the STAC field the tools read as density is a point spacing; the
+> Skogsstyrelsen raster is not an independent source (it is the same laser
+> data, processed by someone else) and is not on the critical path; three
+> credential-free products replace it as checks (NMD2023 object height and tree
+> species, Meta/WRI CHMv2); the laser licence changed on 2026-06-01 and now
+> carries an attribution string and GDPR terms that the published registry must
+> honour; and the pinned toolchain has no Python or R, so the crown compiler
+> has to be written in Node over PDAL/GDAL rasters or the toolchain lock has to
+> change first. Each of those is a section below, with the measurement that
+> established it.
 
 ## Executive verdict
 
-Puttom v2 does **not** currently use `Laserdata Nedladdning, skog` or
-Skogsstyrelsen's tree-height raster to determine tree position, height, crown
-size, density, or species.
+Puttom v2 does **not** currently use `Laserdata Nedladdning, skog` or any
+tree-height raster to determine tree position, height, crown size, density, or
+species.
 
 The live path is:
 
@@ -39,22 +54,22 @@ does not supply the candidate's horizontal position or biological properties.
 The target path is:
 
 ```text
-ordered Laserdata Skog COPC + approved 1 m DTM
+pinned Laserdata Skog COPC items (north 2023, south 2026) + approved 1 m DTM
                          |
                          v
-       complete, checksummed offline source windows
+  hierarchy census -> complete, checksummed, locally staged source files
                          |
                          v
-        height-above-ground / canopy-height model
+   per-campaign height-above-ground / 1 m canopy-height model + void mask
                          |
                          v
- crown candidates + stand masks + confidence and uncertainty
+ crown candidates + stand masks + confidence terms + campaign ownership
                          |
                          v
-      exclusions + source comparison + zone-A review
+   exclusions + credential-free cross-checks (NMD, CHMv2) + zone-A review
                          |
                          v
-        approved content-addressed v2 object chunks
+        approved content-addressed v2 object chunks (+ stand payload)
                          |
                          v
        shared WebGL2/WebGPU object-tile renderer
@@ -70,10 +85,11 @@ problems.
 This work is complete only when all of the following are true:
 
 1. Complete source data for the required Puttom extent has been acquired
-   offline, checksummed, dated, and tied to the canonical EPSG:5845 frame.
+   offline, checksummed, dated, and tied to the canonical EPSG:5845 frame, and
+   every bounded read has been proven against the COPC hierarchy census.
 2. A reproducible compiler derives canopy, stand density, and confidence-gated
    tree candidates without interpreting missing or under-read data as open
-   ground.
+   ground, and without averaging the two campaigns across their seam.
 3. Every published zone-A tree is data-derived, approved, and carries source,
    capture date, confidence, uncertainty, and review metadata.
 4. Real object-registry BVCH chunks are referenced by
@@ -87,8 +103,10 @@ This work is complete only when all of the following are true:
    forest.
 8. Missing, corrupt, stale, or incomplete required object assets fail closed
    under `?v2=require` and never silently become a clearing.
-9. Geospatial, visual, integrity, performance, and rollback gates in this plan
-   pass before any default is changed.
+9. The published assets carry the attribution the laser licence requires, and
+   the GDPR assessment for the derived registry is recorded.
+10. Geospatial, visual, integrity, performance, and rollback gates in this plan
+    pass before any default is changed.
 
 ## Confirmed current state
 
@@ -105,22 +123,22 @@ The existing Puttom canopy asset is produced from Esri imagery, not LiDAR:
   pack;
 - the app loads the same GPK1 vector payload for both legacy and v2 and decodes
   `M.cover` into `coverAt(x, z)` at
-  [`main.js:787`](../apps/golf/src/main.js#L787).
+  [`main.js:801`](../apps/golf/src/main.js#L801).
 
 Tree candidates are then generated by the shared legacy planter:
 
 - a deterministic 5.4 m lattice is declared at
-  [`main.js:3134`](../apps/golf/src/main.js#L3134);
+  [`main.js:3147`](../apps/golf/src/main.js#L3147);
 - X/Z jitter is generated at
-  [`main.js:3154`](../apps/golf/src/main.js#L3154);
+  [`main.js:3165`](../apps/golf/src/main.js#L3165);
 - OSM/model `forest`, `wood`, and `scrub` rings contribute density at
-  [`main.js:3156`](../apps/golf/src/main.js#L3156);
+  [`main.js:3169`](../apps/golf/src/main.js#L3169);
 - the Esri-derived canopy raster and its local five-cell fraction control the
-  remaining density at [`main.js:3170`](../apps/golf/src/main.js#L3170);
+  remaining density at [`main.js:3181`](../apps/golf/src/main.js#L3181);
 - procedural clumping and hash acceptance occur at
-  [`main.js:3220`](../apps/golf/src/main.js#L3220);
+  [`main.js:3231`](../apps/golf/src/main.js#L3231);
 - species, scale, position, and rotation are finalized at
-  [`main.js:3228`](../apps/golf/src/main.js#L3228).
+  [`main.js:3246`](../apps/golf/src/main.js#L3246).
 
 The live result is therefore:
 
@@ -136,8 +154,8 @@ The live result is therefore:
 | human review per tree | none |
 
 The shared visible-ground frontier is installed before vegetation is created at
-[`main.js:2008`](../apps/golf/src/main.js#L2008). The planter calls
-`terrainH(px, pz)` at [`main.js:3207`](../apps/golf/src/main.js#L3207), which is
+[`main.js:2016`](../apps/golf/src/main.js#L2016). The planter calls
+`terrainH(px, pz)` at [`main.js:3218`](../apps/golf/src/main.js#L3218), which is
 why legacy candidates sit on v2 elevation. This is a vertical drape, not
 LiDAR-derived placement.
 
@@ -181,6 +199,12 @@ retained Puttom evidence says the tested 256 m COPC window returned 52 points,
 only `0.000721` of advertised density, and deliberately emitted no derived
 runtime asset. Raw point-cloud bytes retained after the job were zero. See
 [`course-digital-twin-implementation-plan.md:1401`](course-digital-twin-implementation-plan.md#L1401).
+The comment block in
+[`canopy-window.mjs`](../packages/course-geo/acquisition/canopy-window.mjs)
+already localises the fault: the same reader configured identically returns
+dense data when run with `--stream` and 0.08% of it without, so the under-read
+is a reader/transport behaviour, not the source. Stage 1 below makes that
+provable per window instead of inferred.
 
 Compiling LiDAR-derived vegetation/object candidates is still an unchecked D2
 deliverable at
@@ -189,14 +213,156 @@ while the real D6 compiler, review UI, instancing, and removal of runtime
 candidate scanning remain open at
 [`course-digital-twin-implementation-plan.md:2304`](course-digital-twin-implementation-plan.md#L2304).
 
-## What the official products can establish
+## The source truth at Puttom, measured
 
-### Laserdata Nedladdning, skog
+Everything in this section was read on 2026-09-02 from public endpoints —
+Lantmäteriet's unauthenticated STAC search and per-item `_info.json`
+metadata, Skogsstyrelsen's public scan-area metadata service, and the AWS open
+data bucket — so it can be re-derived without credentials. It is the part of
+the picture the previous revision did not have, and most of the plan's
+corrections follow from it.
 
-Lantmäteriet supplies an airborne point cloud through the `STAC-hojd` endpoint
-as COPC/LAZ in SWEREF 99 TM and RH 2000. The product advertises approximately
-1-2 points per square metre. Vegetation and buildings are generally represented
-among unclassified returns rather than delivered as ready-made tree objects.
+### Three COPC items intersect the AOI, and two of them abut through the course
+
+`GET /stac-hojd/v1/search?collections=dsm-skoglig-copc&bbox=18.9,63.28,18.98,63.32`
+returns three items, not two:
+
+| item | extent (EPSG:3006 N) | captured | catalogue updated | points | file bytes | role |
+|---|---|---|---|---:|---:|---|
+| `23f028-702_69` | 7025000–7030000 (north half) | 2023-06-01 … 06-07 | 2026-06-17 | 172,835,421 | 1,061,579,823 | **active, north** |
+| `26f015-702_69` | 7020000–7025000 (south half) | 2026-06-01 … 06-21 | 2026-08-27 | 142,431,214 | 730,824,720 | **active, south** |
+| `20f015-702_69` | 7020000–7025000 (south half) | 2020-06-16 … 08-10 | 2026-06-17 | 145,305,774 | 704,665,562 | superseded; change reference only |
+
+The seam between the two active campaigns is the line **N = 7025000**. The
+Puttom frame origin (63.2992 N, 18.9413 E) projects to roughly
+E 697498, N 7024989 — **eleven metres south of the seam**. The AOI runs from
+N 7022735 to N 7027432, so the course is split almost evenly between a 2023
+scan and a 2026 scan. There is **no overlap between them**: the north item's
+boundary polygon stops at N 7024728–7025076 and the south item's at
+N 7024962–7025038. The only overlapping pair is the old 2020 south scan under
+the new 2026 one, and that is resolved by precedence, not mosaicking. The
+previous revision's "keep an overlap band wide enough to compare height and
+density" cannot be done at Puttom; the seam section below says what to do
+instead.
+
+Västernorrland is in Lantmäteriet's 2026 scanning plan, and the south item
+was delivered on 2026-08-25. A north re-fly may therefore appear in the
+catalogue at any point in the 2026–2027 delivery window. **Re-run the STAC
+query at the start of every compiler run and before every release**; a new
+north item would remove the seam and must be picked up deterministically
+rather than discovered by a screenshot.
+
+### Per-item statistics from the public `_info.json`
+
+| statistic | north `23f028` | south `26f015` | old south `20f015` |
+|---|---:|---:|---:|
+| LAS / point record format | 1.4 / PDRF 6 | 1.4 / PDRF 6 | 1.4 / PDRF 6 |
+| boundary area (km²) | 54.42 | 51.25 | 49.42 |
+| all-return density (points / boundary area) | **3.18 /m²** | **2.78 /m²** | 2.94 /m² |
+| `avg_pt_spacing` (this is what the STAC `density` field carries) | 0.561 m | 0.600 m | 0.583 m |
+| `NumberOfReturns` mean / max | 2.79 / 5 | 1.96 / 8 | 1.63 / 5 |
+| `ReturnNumber` mean | 1.89 | 1.48 | 1.32 |
+| `Classification` mean (1 = unclassified, 2 = ground) | 1.39 | 1.97 | 1.95 |
+| `Intensity` min / mean / max | 740 / 2,377 / 65,535 | 17,825 / 39,425 / 65,535 | 0 / 5,667 / 65,535 |
+| `ScanAngleRank` range | ±18° | ±20° | ±19° |
+| flight lines (`PointSourceId` range) | 61709–61715 (7) | 1733–1736 (4) | 10701–10720 (20) |
+| GPS time span | ~6.0 days | **~1.1 hours** | ~2.2 days |
+| Z range (m RH 2000) | 0.04 … 165.71 | −0.83 … 139.57 | −23.3 … 419.5 (noise present) |
+| COPC root spacing / half-size | 78.125 m / 5000.005 m | same | same |
+| root hierarchy page | 197,824 B at 1,061,381,999 | 191,104 B at 730,633,616 | 146,144 B at 704,519,418 |
+
+Skogsstyrelsen's public scan-area metadata (the `VisaSkogligaGrunddataMetadata`
+layer, queried at four points inside the AOI) adds the sensor and the leaf
+state:
+
+| scan area | date | scanner | `Lov_Avlov` | cycle |
+|---|---|---|---|---|
+| `23F028_702_69_5050` (north) | 2023-06-07 | Leica CityMapper-2 | 1 | omdrev 2 |
+| `20F015_70225_69xx_25` (south, superseded) | 2020-06-18 | Leica ALS80-HP | 1 | omdrev 2 |
+| `26F015` (south, active) | 2026-06 | not yet in Skogsstyrelsen's metadata | — | omdrev 3 (expected) |
+
+`Lov_Avlov = 1` is leaf-on (Skogsstyrelsen's own technical description uses
+August scans as the worked example with value 1). Both dated campaigns are
+leaf-on and the 2026 one is a June flight, so treat all three as leaf-on until
+its metadata says otherwise.
+
+What these numbers change:
+
+- **"Advertised density" is three different quantities.** The product says
+  1–2 points/m²; Skogsstyrelsen's report 2022-19 clarifies that figure counts
+  *last or single returns*; the per-item metadata gives 2.8–3.2 *all returns*
+  per m²; and the STAC property the discovery tools read as density is the
+  average point *spacing* in metres. The compiler must compute pulse density
+  from `ReturnNumber == 1` counts in its own windows and state which quantity
+  every gate uses. The 10% "transport sanity" ratio in the existing tools is
+  against the discovery's 1.1 / 1.7 figures and stays a transport check only.
+- **The two campaigns are different sensors with different intensity scales.**
+  Mean intensity is 2,377 in the north and 39,425 in the south. Intensity must
+  never be compared across the seam without per-campaign normalisation, and
+  no surface or species rule may be tuned on one campaign and applied to the
+  other unchecked.
+- **The north scan took six days, the south scan one sortie.** Early June at
+  63° N is birch leaf-out; a six-day window can straddle it. Deciduous crown
+  heights in the north may read lower and thinner than the same trees would
+  in the south. Stage 3 stratifies the seam comparison by NMD species class
+  for exactly this reason.
+- **The ground-class fraction differs by campaign** (mean class 1.39 north vs
+  1.97 south implies a much larger ground share in the south). Height above
+  ground therefore has different support on each side; the void mask and the
+  DTM comparison in Stage 2 are per campaign.
+
+### The published DTM is not from the newest scan
+
+The `dtm-cog` item `702_69` carries an `ursprung.json` that records where each
+patch of the 1 m model came from. Over the AOI: the south half (9.7 km² of
+the AOI) is *Luftburen laserskanning 2020-06-16/18*, the north half (10.4 km²)
+is *Luftburen laserskanning 2023-06-07*, and three small 2024 photogrammetric
+patches (0.15 m plan / 0.25 m height uncertainty, against 0.3 / 0.1 m for
+laser) lie outside the AOI. So under the south half of the course the
+published ground is six years older than the point cloud that will stand on
+it. On a golf course six years is real earthworks. Stage 2 keeps height above
+ground computed from the 2026 cloud's own ground returns as the primary
+normalisation and treats the cloud-minus-DTM difference as a QA product that
+is expected to be non-zero in places, not as an error to hide.
+
+### The laser licence changed on 2026-06-01
+
+Lantmäteriet reclassified Laserdata Nedladdning, skog as personal data under
+GDPR. From 2026-06-01 it is delivered only through the STAC API as 10 × 10 km
+COPC/LAZ tiles, access has to be ordered again in Geotorget under new terms
+(LM2026/077164 v1.0), and the STAC collection now advertises its licence as
+`other`. The terms document itself keeps **CC BY 4.0** and adds two things
+the published registry must honour:
+
+- when publishing anything derived from the product, state the source as
+  *Laserdata Nedladdning, skog, © Lantmäteriet*, that the data has been
+  processed, and that CC BY 4.0 applies — in the asset, or in its accompanying
+  metadata/documentation if that is not practical;
+- the licensee is data controller under GDPR for the personal data it
+  receives; the raw cloud must be handled accordingly and is never published.
+
+A registry of tree positions, heights and radii contains no personal data.
+That assessment is recorded in the source manifest at compile time, the raw
+cloud stays in the ephemeral runner, and the attribution string travels with
+the object chunks and the manifest.
+
+The unauthenticated behaviour on 2026-09-02: the COPC data asset answers
+`401` with `WWW-Authenticate: Basic realm="Authorization Server"`; the
+per-item `_info.json` under `/hojd/pub/` and the STAC search are open.
+
+## What the official and open products can establish
+
+### Laserdata Nedladdning, skog — the primary source
+
+Point cloud in EPSG:3006 + RH 2000 (compound EPSG:5845), LAS 1.4 PDRF 6, with
+intensity, return number, number of returns, scan angle, GPS time and flight
+line. Classes: 1 unclassified (all vegetation and buildings), 2 ground, 7 low
+noise, 9 ground within water, 17 bridge (classification level 3 only), 18 high
+noise. Lantmäteriet's quality description states a minimum of 1.0 point/m²
+over the scanned surface (water excepted), a mean absolute error under 0.1 m in
+height and 0.3 m in plan on open flat hard surfaces, and under 0.15 m in height
+between adjacent strips. Scanning is done snow-free; leaf state is recorded per
+scan area by Skogsstyrelsen (above), not by the product.
 
 This source can establish:
 
@@ -213,35 +379,121 @@ It does not directly establish:
 - exact species;
 - exact crown geometry;
 - current trees after felling or growth that happened after the flight;
-- reliable separation of every individual tree in a dense stand.
+- reliable separation of every individual tree in a dense stand. Skogsstyrelsen's
+  report 2022-19 on point density found a *major* difference in crown
+  delineation between 1 and 5 points/m² and little gain beyond 5, and
+  recommends ≥ 5 points/m² for a future cycle precisely so that most crowns
+  can be mapped as separate objects. Published detection rates for dominant
+  trees at 2–4 points/m² sit around 75%; height from local maxima at this
+  density is biased low by roughly 0.5–1.5 m because pulses miss the apex,
+  more for conifers than for birch.
 
 Official product documentation:
 
-- [Laserdata Nedladdning, skog](https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/)
-- [STAC-hojd API](https://api.lantmateriet.se/stac-hojd/v1/api.html)
-- [Lantmäteriet quality description](https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/hojddata/kvalitetsbeskrivning_laserdata.pdf)
+- [Laserdata Nedladdning, skog (Geotorget)](https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/)
+- [Product description v1.6](https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/hojddata/pb_laserdata_nedladdning_skog.pdf)
+- [Terms of use LM2026/077164](https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor-for-laserdata-nedladdning-skog.pdf)
+- [STAC-höjd API](https://api.lantmateriet.se/stac-hojd/v1/api.html)
+- [Quality description for laser data](https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/hojddata/kvalitetsbeskrivning_laserdata.pdf)
 
 ### Markhöjdmodell Nedladdning
 
 The approved 1 m DTM remains the authority for bare-earth base elevation. It is
-not a canopy or tree-position layer. Every candidate must be normalized against
-and finally draped to the exact terrain generation published with the object
-registry.
+not a canopy or tree-position layer, and at Puttom it is older than the south
+point cloud (see above). Every candidate must be normalized against and finally
+draped to the exact terrain generation published with the object registry.
 
-### Skogsstyrelsen tree height
+### Skogsstyrelsen tree height — off the critical path, and not independent
 
-Skogsstyrelsen's 1 m product is a useful independent canopy-height comparison
-and fallback constraint. Its own product description explicitly says the
-underlying 1-2 returns per square metre are too sparse for dependable
-single-tree detection, especially in dense forest. Isolated trees can be much
-clearer.
+This plan does not depend on it. Two facts settle its role:
 
-Official documentation:
+1. **It is the same laser data.** Skogsstyrelsen's *Trädhöjd från Laserdata
+   skog* is a 1 m signed-Int16 decimetre raster produced from Lantmäteriet's
+   point cloud, with 0 where the cloud has no return. Comparing our CHM with it
+   checks our *processing*, not the *source*. Its own technical note says the
+   raster should not be averaged per stand because one tree spans several
+   pixels — which is also a warning against reading one tree per maximum.
+2. **Its access is split, and the split was measured.** The ImageServer the
+   discovery tools target answers `403` even with the account in `.env`. The
+   bulk distribution is open: the ATOM feeds at
+   `geodpags.skogsstyrelsen.se/geodataport/feeds/Tradhojd_omdrev3.xml` and
+   `Tradhojd_omdrev2.xml` link county zips that answer `200` without any
+   login — Västernorrland is 8,568,413,295 bytes for omdrev 3 and
+   24,112,529,037 bytes for omdrev 2 — under CC0. Skogsstyrelsen's metadata
+   does not yet list the 2026 south scan, so omdrev 3 is not expected to cover
+   the south half until their production catches up (they have announced 2026
+   delays), and the AOI's omdrev 2 coverage is the 2023 and **2020** scans.
 
-- [Trädhöjd Laserdata skog — product description](https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/produktbeskrivningar/raster-tradhojd-laserdata-skog---produktbeskrivning.pdf)
+If someone chooses to fetch a county zip, it is a processing cross-check for
+the north half only and is recorded as such. Nothing below waits for it.
 
-The raster must therefore be used as canopy evidence, not converted blindly to
-one tree per local maximum.
+- [Download page and feeds](https://www.skogsstyrelsen.se/laddanergeodata)
+- [Technical specification](https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf)
+- [Report 2022-19 on point density](https://www.skogsstyrelsen.se/globalassets/om-oss/rapporter/rapporter-20222021202020192018/rapport-2022-19-okad-punkttathet-vid-nationell-laserskanning.pdf)
+
+### NMD2023 tilläggsskikt — credential-free, CC0, two layers we want
+
+Naturvårdsverket's Nationella marktäckedata 2023 ships additional layers as
+national GeoTIFF zips with no login:
+
+| layer | file | what it is | use here |
+|---|---|---|---|
+| Objekthöjd / objekttäckning v1.1 | `NMD2023_Tillaggsskikt_Objekthojd_objekttackning_v1_1.zip` (4.4 GB, 2025-07-21) | object height 0.5–5 m and 5–45 m plus coverage fraction, 10 m cells, computed from a 2 m raster derived from Laserdata skog 2018–2023 | same-source processing check of our CHM and canopy-presence mask at 10 m; north half only for the current scan |
+| Trädslag v1.1 | `NMD2023_Tradslag_v1_1.zip` (7.9 GB, 2026-03-30) | 0–100 indication rasters for tall, gran, triviallöv and ädellöv (plus lärk, contorta, bok, ek), 10 m, MLSTM regression over Sentinel-2 2021–2023 trained on NFI plots | stand-level species-group prior; the only species evidence available without imagery |
+
+The trädslag description carries a caveat that matters more on a golf course
+than anywhere: *solitary trees, sparse stands and small forest patches carry a
+high risk of wrong species*, young stands confuse pine and spruce, and thinned
+spruce often reads as pine. It therefore supports `conifer-unknown` /
+`deciduous-unknown` at stand level only, never a per-tree species claim.
+
+- [NMD2023 tilläggsskikt directory](https://geodata.naturvardsverket.se/nedladdning/marktacke/NMD2023/Tillaggsskikt/)
+- [Trädslag product description](https://geodata.naturvardsverket.se/nedladdning/marktacke/NMD2023/Tillaggsskikt/NMD2023_Produktbeskrivning_till%C3%A4gsskikt_Tr%C3%A4dslag.pdf)
+- [Objekthöjd product description](https://geodata.naturvardsverket.se/nedladdning/marktacke/NMD2023/Tillaggsskikt/NMD2023_Produktbeskrivning_tillaggsskikt_Objekthojd_objekttackning.pdf)
+
+### Meta / WRI Canopy Height Maps v2 — the independent-sensor canopy check
+
+Released 2026-03-10, built on DINOv3 over high-resolution optical satellite
+imagery, validated against ALS, GEDI and ICESat-2 (R² 0.86 against 0.53 for
+v1), CC BY 4.0, on the AWS open data registry with no account. The tile over
+Puttom is `forests/v2/global/dinov3_global_chm_v2_ml3/chm/1200130303.tif`
+(Bing-quadkey naming, zoom 10): 223,795,118 bytes, 32768 × 32768 px, 8-bit,
+deflate, 512 px internal tiles, EPSG:3857 at 1.1943 m per projected pixel —
+about **0.54 m on the ground at 63.3° N** — last modified 2026-01-10.
+
+It is optical and modelled, its imagery date is not published per pixel, and
+it is not a survey. What it is good for is precisely what the laser cannot do
+at Puttom: it is **one continuous sensor across the seam**, so it can say
+whether a step in canopy height or forest edge at N 7025000 is in the forest
+or in the campaigns. It also gives a canopy-presence opinion for the whole
+zone-C ring. It must be reprojected to EPSG:3006 before use and never used as
+a height authority.
+
+- [AWS registry entry](https://registry.opendata.aws/dataforgood-fb-forestsv2/)
+- [CHMv2 paper (Scientific Data, 2026)](https://arxiv.org/abs/2603.06382)
+- [Release note](https://ai.meta.com/blog/world-resources-institute-dino-canopy-height-maps-v2/)
+
+### Other sources, and why they are or are not used
+
+| source | status | verdict |
+|---|---|---|
+| Lantmäteriet Ortofoto 2024 U2, 16 cm RGBI | ordered separately; assets answer `403` for this account | best evidence for zone-A review (crown outlines, NIR for deciduous/conifer) when the order lands; not waited for |
+| Lantmäteriet Ythöjdmodell från flygbilder (image-matched DSM) | orderable in Geotorget | optional second canopy surface with the 2024 flight's date; a stereo DSM smooths gaps and crowns, so it is a check, not a candidate source |
+| Lantmäteriet Topografi 10 vektor, mark | CC BY 4.0 | forest type (löv vs barr/bland) has not been revised since 2004; useful only as a coarse prior |
+| Copernicus HRL Dominant Leaf Type / Tree Cover Density 2021, 10 m | free registration | redundant with NMD2023 trädslag, which is newer and Swedish-trained |
+| SLU Skogskarta 2015, 12.5 m species volumes | open | too old for a 2026 registry |
+| legacy Esri z17 tree cover | committed | comparison only; migration-only status unchanged |
+| the superseded 2020 south scan `20f015-702_69` | in the catalogue | change reference for felling/growth 2020→2026 in the south half only; never mosaicked into canopy |
+
+### The evidence hierarchy, stated once
+
+| question | primary | check (same source, other processing) | check (different sensor) |
+|---|---|---|---|
+| where is canopy, how tall | Laserdata skog CHM | NMD2023 objekthöjd/täckning (10 m); Skogsstyrelsen trädhöjd if fetched | CHMv2 (0.54 m, optical) |
+| where is a crown | Laserdata skog local maxima + segmentation | — | orthophoto when available; CHMv2 edges |
+| conifer or deciduous, at stand level | NMD2023 trädslag | leaf-on return structure per campaign | Topografi 10 mark (coarse) |
+| species of one tree | **nothing available** | — | orthophoto NIR / field / club photographs when they exist |
+| what changed since the flight | 2026 scan vs 2020 scan (south half only) | — | CHMv2, legacy Esri, orthophoto |
 
 ## Architectural decisions
 
@@ -252,17 +504,26 @@ data is acquired in a controlled local/CI compiler job. The public application
 receives only compact, content-addressed derived object assets and attribution
 metadata.
 
-### 2. Fix correctness before range-efficiency
+### 2. Fix correctness before range-efficiency, and make the target measurable
 
 The existing remote COPC path can read the header/root population but has not
 reliably descended the hierarchy for bounded Puttom windows. A sparse read must
 never be interpreted as sparse forest.
 
-The first correctness proof should stage the two selected Puttom COPC source
-files into an ephemeral, access-controlled runner and run PDAL against local
-files. This removes authentication/redirect behaviour from hierarchy traversal
-and gives a boring, measurable baseline. The inputs are deleted after derived
-evidence and approved outputs are written.
+The first correctness proof is a **hierarchy census**: read the LAS header,
+the COPC info VLR and the hierarchy pages (about 200 KB per item) over
+authenticated range requests, sum node point counts over the census windows,
+and record the totals. No point bytes are decoded, so the census cannot be
+wrong about the data in the way a reader can. Every subsequent bounded read —
+local file or remote — must return within 1% of the census count for the same
+window, or it fails. The census runs first because it is cheap, needs no
+PDAL, and turns "the reader under-read" from an inference into a number.
+
+Then stage the two active Puttom COPC files into an ephemeral,
+access-controlled runner and run PDAL against local files. This removes
+authentication/redirect behaviour from hierarchy traversal and gives a boring,
+measurable baseline. The inputs are deleted after derived evidence and approved
+outputs are written.
 
 After local-file correctness is proven, a credential-injecting HTTP range cache
 or proxy may restore bounded remote efficiency. Its output must be byte- and
@@ -278,18 +539,22 @@ The compiler emits two logical products:
 2. measured stand masks/density for dense forest where individual stems are not
    supportable.
 
-The renderer may instantiate representative trees from a measured stand field
-in zones B/C, but those instances must use
-`source-constrained-procedural`, never `derived-lidar`. Zone A may not use
-procedural large objects.
+The renderer may instantiate representative trees from a measured stand field,
+but those instances must use `source-constrained-procedural`, never
+`derived-lidar`, and they are not object-registry records. Zone A may not use
+procedural large objects *as records*; how a dense zone-A stand is represented
+is stated under truth zones below.
 
 ### 4. Keep biological appearance separate from positional truth
 
 LiDAR can support height and approximate crown extent. It does not support an
-exact pine/spruce/birch claim here. The object subtype remains `null` or a
-conservative group such as `conifer-unknown` only when an independent source
-supports it. Asset variation, colour, wind, and seasonal response are rendering
-choices and must not alter recorded position, height, radius, or provenance.
+exact pine/spruce/birch claim here, and the only species evidence without
+imagery (NMD2023 trädslag) explicitly disclaims solitary trees and small
+patches. The object subtype remains `null` or a conservative group such as
+`conifer-unknown` / `deciduous-unknown` only when the stand-level prior and the
+campaign's own return structure agree. Asset variation, colour, wind, and
+seasonal response are rendering choices and must not alter recorded position,
+height, radius, or provenance.
 
 ### 5. Cut over atomically inside an explicit coverage frontier
 
@@ -302,36 +567,88 @@ available. At cutover, one mask determines ownership:
 - a missing required object tile cannot expose the legacy population under
   `?v2=require`; it aborts v2 before installation.
 
+### 6. The campaign seam is a design input, not an edge case
+
+At Puttom the seam runs through the course, the campaigns are three years and
+one sensor generation apart, and they do not overlap. Therefore:
+
+- every derived cell, candidate and stand carries its campaign;
+- nothing is averaged, blended or smoothed across N 7025000 — not the CHM, not
+  a crown segment, not a stand density field; a crown segment that would cross
+  the seam is cut at it and the halves are reconciled as candidates, with the
+  reconciliation recorded;
+- seam consistency is measured with references that are continuous across it:
+  the published DTM (for ground), CHMv2 (for canopy presence and relative
+  height), and NMD2023 trädslag (to stratify height comparisons by species
+  group, because the north scan may have caught birch before full leaf);
+- expected growth over the gap (three seasons, ~0.2–0.4 m/yr in young stands)
+  is reported as an explained offset, not corrected into the data;
+- intensity-based rules are calibrated per campaign or not used;
+- a north re-fly, when it arrives, replaces the north campaign through the
+  same precedence rule and the identity-preserving diff in Stage 6, with the
+  seam metrics re-run.
+
+### 7. The toolchain is PDAL + GDAL + Node; the crown compiler is Node
+
+The pinned Pixi toolchain (`packages/course-geo/toolchain/pixi.toml`) contains
+`libpdal-core` 2.10.2, `libgdal-core` 3.13.3 and PROJ 9.8.1 — **no Python, no
+R**. PDAL has no local-maximum/watershed crown stage, and its point-based
+`filters.litree` is not suited to 1–2 pulses/m². So the split is:
+
+- PDAL: read, class filtering, per-campaign height above ground
+  (`filters.hag_nn` against the cloud's own ground returns, `filters.hag_dem`
+  against the DTM for the QA difference), and rasterisation
+  (`writers.gdal`, `output_type=max`, 1 m, with a small search radius);
+- GDAL: reprojection of CHMv2 and NMD clips into EPSG:3006, raster algebra,
+  nodata handling;
+- Node: the deterministic crown compiler — pit/void handling, smoothing, the
+  height-adaptive local-maximum filter, marker-controlled watershed, stand
+  classification, confidence terms, deduplication, identity matching — over
+  Float32 rasters exported by GDAL, unit-tested with vitest on synthetic CHMs
+  the way the codec and pack tests already are.
+
+Adding Python (numpy/scipy/scikit-image) or R (lidR) to the lock is allowed
+but is a reviewed toolchain change with its own gate; this plan does not
+depend on it. The reference practice the Node implementation follows is the
+lidR book's: CHM from the highest return per cell with a sub-circle radius,
+median smoothing, a variable-window local-maximum filter no narrower than 3 m,
+and a Dalponte-style region growing on the smoothed CHM.
+
 ## Source and provenance ledger
 
 Every compiler run must pin the following before reading source bytes:
 
 | input | role | required record |
 |---|---|---|
-| Lantmäteriet `dsm-skoglig-copc` | canopy and object candidates | item ID, source URL identity without credentials, capture interval, bbox, advertised density, bytes, multihash/checksum, terms version |
-| Lantmäteriet `dtm-cog` | bare-earth normalization and object base | item ID, capture date, bbox, resolution, checksum, compiler generation |
-| Skogsstyrelsen tree height | independent canopy check/fallback | service/product version, capture/scan date, bbox, resolution, checksum |
-| approved ortho or survey | crown/stem review and signature trees | campaign/survey ID, capture date, resolution/accuracy, rights, checksum |
+| Lantmäteriet `dsm-skoglig-copc` items `23f028-702_69` and `26f015-702_69` | canopy and object candidates | item ID, source URL identity without credentials, capture interval, bbox, `_info.json` sha256, point count, all-return and first-return density measured per window, bytes, multihash/checksum, terms version LM2026/077164 |
+| Lantmäteriet `dsm-skoglig-copc` item `20f015-702_69` | change reference, south half only | as above, plus an explicit `excludedFromCanopy: true` |
+| Lantmäteriet `dtm-cog` item `702_69` | bare-earth normalization QA and object base | item ID, `ursprung.json` sha256 and the per-patch capture dates it records, bbox, resolution, checksum, compiler generation |
+| NMD2023 objekthöjd/täckning v1.1 | same-source canopy processing check | zip sha256, version, clip bbox, licence CC0 |
+| NMD2023 trädslag v1.1 | stand-level species-group prior | zip sha256, version, clip bbox, licence CC0 |
+| Meta/WRI CHMv2 tile `1200130303` | independent-sensor canopy check across the seam | object ETag/sha256, last-modified, licence CC BY 4.0, reprojection parameters |
+| Skogsstyrelsen trädhöjd county zip | optional processing check, north half | zip sha256, cycle, licence CC0 — recorded only if fetched |
+| approved ortho or survey | crown/stem review and signature trees | campaign/survey ID, capture date, resolution/accuracy, rights, checksum — when available |
 | legacy Esri tree cover | comparison only | current committed hash, migration-only status |
 
-Puttom crosses a scan boundary. The discovery snapshot selects a newer southern
-campaign and an older northern campaign. Compilation must mosaic by spatial
-coverage and newest valid acquisition at each point, rather than applying one
-global date or accidentally reviving an older overlapping southern scan.
+Campaign precedence at Puttom:
 
-Where flight campaigns overlap:
-
-1. choose the newest approved source unless its quality gate fails;
-2. keep an overlap band wide enough to compare height and density;
-3. report systematic offsets before deduplication;
-4. select one source deterministically for each output cell/candidate;
-5. never average campaigns captured years apart into a fictional tree;
-6. record the selected source ID on every derived object or stand tile.
+1. north half: `23f028-702_69` until a newer item covering it passes the
+   quality gate;
+2. south half: `26f015-702_69`; `20f015-702_69` is read only by the change
+   detector and never contributes a candidate;
+3. select one campaign deterministically for each output cell/candidate by
+   the seam line, not by distance or date arithmetic;
+4. never average campaigns captured years apart into a fictional tree;
+5. record the selected source ID on every derived object or stand tile.
 
 If one output object depends on multiple source items, create a checksummed
 derived-source record in the source manifest. Do not smuggle arrays or ad-hoc
 lineage fields into the strict v1 object-registry schema; version the contract
 if one source ID is insufficient.
+
+The attribution string required by the laser terms — *Laserdata Nedladdning,
+skog, © Lantmäteriet, bearbetad, CC BY 4.0* — is a field in the derived-source
+record and is emitted into the published manifest.
 
 ## Canonical spatial contract
 
@@ -343,6 +660,12 @@ All processing uses:
 - the committed Puttom frame fingerprint and reviewed origin;
 - easting/northing order in source and registry assets;
 - world mapping only at the runtime boundary.
+
+Note that the COPC items' `boundary_json` in `_info.json` lists coordinates
+as `[northing, easting]` while the LAS header, the STAC `proj:bbox` and the
+CHMv2 tile are easting-first. The compiler reads bounds from the LAS header
+and the STAC item, never from the boundary polygon, and asserts that the
+points it reads fall inside the requested window.
 
 The compiler must reject:
 
@@ -357,88 +680,167 @@ The compiler must reject:
 All source windows use deterministic tile-aligned bounds plus a halo large
 enough for local maxima, crown segmentation, stand-edge classification, and
 cross-tile deduplication. The halo is compiler-only; each final object has one
-owning tile.
+owning tile. **The halo never crosses the seam**: a window touching N 7025000
+is read from both campaigns and processed as two half-windows.
 
 ## Offline derivation pipeline
 
+### Stage 0 — hierarchy census (credential-safe, no PDAL)
+
+For each pinned item, over authenticated HTTP range requests:
+
+1. read bytes 0–374 (LAS 1.4 header): version, PDRF, point count, scale,
+   offset, min/max; compare with `_info.json` and the STAC item;
+2. read the COPC info VLR at 375: centre, half-size, spacing, root hierarchy
+   offset/size; compare with `_info.json`;
+3. read the root hierarchy page and, recursively, every sub-page whose node
+   intersects a census window; parse 32-byte entries (key, offset, byte size,
+   point count; −1 marks a sub-page);
+4. for each census window — the AOI, a 1024 m square centred on the origin
+   (which straddles the seam on purpose), 512 m squares immediately north and
+   south of the seam, and the per-hole 256 m control windows — sum node point
+   counts weighted by area overlap, per octree depth, and report total points,
+   implied all-return density, and the number of empty deepest-level nodes
+   inside the window;
+5. persist the numbers, the item IDs and the `_info.json` hashes; persist no
+   URL with credentials and no point bytes.
+
+Gate: the census reproduces the header point count when every page is read,
+and the per-window totals become the reference every later read is held to.
+
 ### Stage 1 — acquire and verify source bytes
 
-1. Query STAC for every item intersecting the required property/playing buffer.
-2. Apply newest-valid spatial precedence and pin exact item IDs.
-3. Download selected COPC and DTM inputs into an ephemeral work directory.
-4. Verify advertised size, range behaviour, source checksum/multihash, COPC/LAS
-   header, bounds, point-record format, CRS, and capture dates.
-5. Count points over full source bounds and bounded control windows.
-6. Run the existing density assessment; its 10% advertised-density threshold is
-   a transport sanity gate, not sufficient evidence for final crown quality.
-7. Stop with `source-incomplete` if observed density, spatial coverage, or
+1. Re-run the STAC search for the AOI; refuse to proceed if the set of items,
+   their `updated` timestamps or their asset checksums differ from the pinned
+   set without an explicit re-pin.
+2. Apply the campaign precedence above and pin exact item IDs, including the
+   excluded 2020 item.
+3. Download the two active COPC files (1.06 GB + 0.73 GB) and the DTM into an
+   ephemeral work directory; verify advertised size, sha256/multihash, LAS
+   header, bounds, point record format, CRS, and capture dates.
+4. Count points over full source bounds and every census window with PDAL
+   against the local files; each count must be within 1% of the Stage 0
+   census for that window.
+5. Measure first-return (pulse) density and all-return density per window per
+   campaign, and record both with their definitions.
+6. Run the same bounded reads through any proposed range proxy/cache and prove
+   equivalent counts and statistics.
+7. Fetch the credential-free references — the CHMv2 tile, the two NMD zips
+   (clipped to the AOI plus halo and then discarded), optionally a
+   Skogsstyrelsen county zip — and checksum the clips.
+8. Stop with `source-incomplete` if observed density, spatial coverage, or
    classification evidence cannot support the next stage.
-8. Persist credential-free acquisition evidence and delete temporary raw bytes
+9. Persist credential-free acquisition evidence and delete temporary raw bytes
    at the end of the job.
 
 The compiler must represent nodata separately from zero-height/open ground.
 Nodata is a blocker or fallback boundary, never a clearing.
 
-### Stage 2 — normalize the point cloud
+### Stage 2 — normalize the point cloud, per campaign
 
-1. Remove declared low/high noise classes.
-2. preserve ground, water, bridge, return-number, scan-angle, intensity, and
-   unclassified dimensions required for diagnostics;
-3. normalize non-ground returns against approved ground returns/DTM;
-4. compare cloud-ground heights with the published DTM over stable open control
-   points;
-5. reject or split flight lines/campaigns with unexplained vertical offsets;
-6. flag water, buildings, bridges, and known structures before canopy analysis.
-
-Height-above-ground should first be calculated from ground returns in the same
-cloud, then compared with the approved DTM. This exposes registration or sparse
-ground problems instead of hiding them in a second source.
+1. Remove declared low/high noise classes (7, 18); keep 1, 2, 9, 17.
+2. Preserve ground, water, bridge, return-number, number-of-returns,
+   scan-angle, intensity, GPS-time and flight-line dimensions for diagnostics.
+3. Compute height above ground for non-ground returns against the ground
+   returns **of the same campaign** (`filters.hag_nn`); this is the primary
+   normalisation and carries no cross-product registration error.
+4. Compute the same heights against the published DTM (`filters.hag_dem`) and
+   difference the two over stable open control points and over the whole
+   window; report the difference map. Under the south half the DTM is from
+   2020 and the cloud from 2026, so a non-zero difference there is expected
+   where the course has been reshaped; it is reviewed, not suppressed.
+5. Reject or split flight lines/campaigns with unexplained vertical offsets
+   against the quality description's 0.15 m between-strip figure.
+6. Flag water, buildings, bridges, and known structures before canopy analysis.
+7. Record per-campaign class fractions, return statistics and intensity
+   ranges; these feed the confidence terms and the seam report.
 
 ### Stage 3 — build canopy and stand fields
 
-Produce at least:
+Produce at least, per campaign and then stitched at the seam without blending:
 
-- 1 m canopy-height model;
-- canopy-presence mask with an explicit minimum usable height;
-- local return density and completeness;
+- 1 m canopy-height model from the highest normalized return per cell, using a
+  small point radius (0.25–0.35 m) so a return near a cell corner fills its
+  neighbours, then 3 × 3 median smoothing for the detection copy only (the
+  height copy stays unsmoothed);
+- an explicit void mask: cells with no return within 1.5 m. At 2.8–3.2 returns
+  per m² clustered on 1.3–1.8 pulses per m², a fair fraction of 1 m cells
+  will be empty in the raw grid — measure the fraction; do not fill voids
+  wider than one cell inside canopy, and never fill across the seam;
+- canopy-presence mask at ≥ 2 m (the threshold already declared in
+  `canopy-window.mjs`), plus a ≥ 0.5 m shrub mask;
+- local pulse density and completeness;
 - stand-edge distance;
 - crown-height variability/roughness;
-- nodata and source/campaign ownership;
+- campaign ownership per cell;
 - confidence components before they are collapsed into one score.
 
-The first baseline should follow the official product's scale: a 1 m grid with
-conservative densification/void handling. A 0.5 m experiment may be used only
-where measured density supports it. A visually attractive fine raster cannot
-invent returns that were never captured.
+Cross-checks, each recorded as a measurement:
+
+- canopy-presence and 5–45 m height against NMD2023 objekthöjd/täckning at
+  10 m (same source, other processing — a disagreement is about processing);
+- canopy presence and relative height against CHMv2 resampled to 1 m
+  (different sensor — a disagreement is about the forest or the date);
+- height distributions on each side of the seam, stratified by NMD2023
+  trädslag class, in stands that straddle it.
+
+The first baseline follows the official product's scale: a 1 m grid with
+conservative void handling. A 0.5 m experiment may be used only where measured
+pulse density supports it. A visually attractive fine raster cannot invent
+returns that were never captured.
 
 ### Stage 4 — derive individual crown candidates
 
-1. Detect local maxima using a height-adaptive neighbourhood rather than one
-   fixed window for saplings and mature trees.
-2. Segment crown regions with watershed or region growing constrained by
-   canopy height, saddles, and stand edges.
-3. Estimate crown centre, height, radius, completeness, and separation from
-   neighbouring crowns.
-4. Label the point as `crown-centre-derived`; do not call it a stem coordinate.
-5. Reduce confidence near nodata, tile/campaign seams, buildings, water, steep
-   ground, and unresolved multi-crown stands.
-6. Keep isolated high-confidence crowns as individual candidates.
-7. Move unresolved dense regions to stand representation rather than forcing
+Starting parameters, declared here before any measurement so a later change is
+a recorded decision and not a fit to a screenshot:
+
+- local maxima on the smoothed CHM with a height-adaptive circular window,
+  `ws(h) = clamp(2 + 0.10·h, 3, 6)` m, minimum candidate height 3 m;
+- crown regions by marker-controlled region growing on the smoothed CHM
+  (Dalponte-style seed 0.45 and crown 0.55 of the apex height, maximum crown
+  radius 10 m), constrained by canopy height, saddles, stand edges and the
+  seam;
+- crown centre = the segment's height-weighted centroid, labelled
+  `crown-centre-derived`; the apex position is kept separately;
+- height = the unsmoothed CHM maximum in the segment; radius = the
+  equivalent-area radius of the segment.
+
+Then:
+
+1. Estimate crown completeness and separation from neighbouring crowns.
+2. Reduce confidence near voids, tile and campaign boundaries, buildings,
+   water, steep ground, and unresolved multi-crown stands.
+3. Keep isolated high-confidence crowns as individual candidates.
+4. Move unresolved dense regions to stand representation rather than forcing
    one unreliable object per maximum.
+5. Set uncertainty floors that the data cannot beat: horizontal ≥ 1.5 m (crown
+   centre versus stem, plus 0.3 m source plan error) and vertical ≥ 1.5 m
+   (apex miss at this pulse density) for every `derived-lidar` record; a
+   record may carry larger values, never smaller.
+6. Expect and report, per representative window, the detection rate against
+   review (the literature's ~75% of dominant trees at 2–4 points/m² is the
+   yardstick, not a target to reach by loosening thresholds).
 
 Candidate confidence should combine independently inspectable terms:
 
-- source completeness/density;
+- source completeness/pulse density;
 - height-above-ground support;
 - crown peak prominence;
 - crown segmentation compactness;
-- distance from nodata and campaign/tile boundaries;
-- agreement with independent tree-height evidence;
+- distance from voids and campaign/tile boundaries;
+- agreement with NMD2023 objekthöjd and CHMv2;
 - orthophoto/manual confirmation where available;
-- scan recency.
+- scan recency (2026 south, 2023 north).
 
 The raw components belong in compiler review evidence even if runtime stores
 only the final `confidence` value.
+
+Species group, when claimed at all: `conifer-unknown` or `deciduous-unknown`
+requires the NMD2023 trädslag indication for that group to be ≥ 70 in the
+containing 10 m cell *and* the candidate's own leaf-on return structure not to
+contradict it; otherwise `subtype` is `null`. NMD's own caveat about solitary
+trees means most zone-A trees will stay `null` until an orthophoto or a field
+record exists, and that is the correct outcome.
 
 ### Stage 5 — apply semantic exclusions
 
@@ -450,7 +852,8 @@ for:
 - buildings and facility yards;
 - roads and parking;
 - power-line corridors;
-- recent clear-fells or other newer evidence;
+- recent clear-fells or other newer evidence, including the 2020→2026 change
+  map in the south half;
 - survey overrides.
 
 Every rejection must carry a machine-readable reason in compiler evidence.
@@ -461,8 +864,8 @@ conflicts go to review.
 ### Stage 6 — deduplicate and preserve identity
 
 1. Deduplicate halo/cross-tile candidates before assigning ownership.
-2. Reconcile overlap campaigns using spatial proximity, crown overlap, height,
-   and selected-source precedence.
+2. Reconcile seam candidates using spatial proximity, crown overlap, height
+   and campaign precedence; record each reconciliation.
 3. Match a new registry against the prior registry and preserve stable IDs for
    unchanged trees.
 4. Classify unmatched prior trees as `missing-needs-review`, not automatically
@@ -470,28 +873,39 @@ conflicts go to review.
 5. Assign new deterministic IDs only after matching is complete.
 6. Sort records by ID as required by the object-registry validator.
 
-Stable identity must survive harmless sub-metre compiler shifts. IDs must not be
-raw hashes of a floating-point coordinate or capture date, because either would
-replace every tree after a new flight.
+Stable identity must survive harmless sub-metre compiler shifts and a north
+re-fly. IDs must not be raw hashes of a floating-point coordinate or capture
+date, because either would replace every tree after a new flight.
 
 ## Truth zones and review policy
 
 | zone | area | allowed placement |
 |---|---|---|
-| A | playing corridors plus an approved 80-100 m buffer, facilities, landmarks, signature sightlines | approved `derived-lidar`, digitized, or survey objects only; no procedural large objects |
+| A | playing corridors plus an approved 80-100 m buffer, facilities, landmarks, signature sightlines | approved `derived-lidar`, digitized, or survey objects; a measured-stand payload where crowns are unresolvable, with its boundary evidence-derived at 1 m and reviewed; no procedural large objects as records |
 | B | remaining physical course property | measured canopy/stand truth; reviewed individual large trees; confidence-gated source-constrained representative vegetation allowed |
-| C | distant surroundings and horizon | source-constrained procedural or clustered scenery allowed |
+| C | distant surroundings and horizon | source-constrained procedural or clustered scenery allowed, constrained by CHMv2 canopy presence where the tree-cover raster ends |
+
+Zone A needs a rule for dense stands, because at 1–2 pulses/m² most stems in
+a closed stand will not resolve and a 100 m corridor buffer is mostly closed
+stand. The rule: the stand's outer edge — the row a golfer sees — is resolved
+individually wherever the CHM can (edge trees have open ground on one side and
+resolve far better than interior stems), and the interior is a measured-stand
+payload whose density and height distribution come from the CHM. Its
+representative instances are rendering, not records; the registry validator's
+zone-A prohibition on `source-constrained-procedural` applies to records and is
+untouched.
 
 Zone A requires:
 
 - per-hole review overlays showing source canopy, candidate centre/radius,
-  exclusions, confidence, scan date, and rendered asset;
+  exclusions, confidence, campaign and scan date, cross-check agreement, and
+  rendered asset;
 - approval for every published record;
 - survey or independent digitization for signature/play-affecting objects when
   LiDAR uncertainty is too high;
 - no unknown coverage gap hidden by procedural trees;
 - explicit review of trees near tees, greens, dogleg sightlines, landing zones,
-  and water carries.
+  and water carries, and of every tree within 30 m of the seam.
 
 ## Object-registry compilation
 
@@ -502,17 +916,17 @@ Each approved individual tree is compiled into the existing strict record:
 | `id` | stable across equivalent rebuilds and preserved across matched campaigns |
 | `groundId` | `puttom` |
 | `class` | `tree` |
-| `subtype` | `null` unless supported by independent evidence; never fabricated species |
+| `subtype` | `null` unless the Stage 4 species-group rule is met; never a fabricated species |
 | `easting`, `northing` | canonical derived crown/base candidate in EPSG:3006 |
 | `heightRH2000` | base height sampled from the exact approved v2 DTM generation |
 | `objectHeightMetres` | confidence-gated canopy height, not procedural scale |
 | `radiusMetres` | derived/reviewed crown radius |
 | `headingDegrees` | deterministic rendering orientation; not a measured biological property |
-| `sourceId` | checksummed source/derived-source manifest record |
-| `capturedAt` | acquisition date of the selected evidence |
+| `sourceId` | checksummed source/derived-source manifest record naming the campaign |
+| `capturedAt` | acquisition date of the selected campaign (2023-06 north, 2026-06 south) |
 | `accuracyTier` | source-honest tier; zone A permits only A/B/C |
-| `horizontalAccuracyMetres` | derived uncertainty, not source point accuracy copied blindly |
-| `verticalAccuracyMetres` | combined DTM/canopy/base uncertainty |
+| `horizontalAccuracyMetres` | derived uncertainty, ≥ 1.5 m for `derived-lidar` |
+| `verticalAccuracyMetres` | combined DTM/canopy/base uncertainty, ≥ 1.5 m for `derived-lidar` |
 | `confidence` | declared composite backed by review evidence |
 | `reviewStatus` | `approved` for every published runtime record |
 | `truthZone` | A, B, or C |
@@ -527,7 +941,8 @@ Compiler output must:
 5. add required feature negotiation for the object payload/registry version;
 6. verify bounds, record count, hashes, IDs, source IDs, and approval metadata;
 7. reject unreviewed zone-A records;
-8. generate a registry diff and review summary before publishing.
+8. carry the licence attribution string in the manifest;
+9. generate a registry diff and review summary before publishing.
 
 Measured stand fields need their own explicit payload/version. They must not be
 encoded as thousands of fake `derived-lidar` individuals.
@@ -604,44 +1019,62 @@ made.
 
 ### Phase 1 — repair authoritative acquisition
 
-1. Order/verify the required Geotorget entitlements.
-2. Stage the selected north/south Puttom COPC files locally in an ephemeral
-   runner.
-3. prove full-density local bounded reads against declared source headers;
-4. record credential-free acquisition evidence, hashes, capture dates, and
-   timings;
-5. run the same bounded reads through any proposed range proxy/cache and prove
-   equivalent counts/statistics;
-6. acquire the matching DTM and optional Skogsstyrelsen comparison windows;
-7. update manifest lifecycle only after retained derived artifacts exist.
+1. Order/verify the Geotorget entitlement under the 2026-06-01 terms and put
+   a working Lantmäteriet pair in the runner's secrets. On 2026-09-02 the pair
+   in the local `.env` was refused with `401` by `dl1.lantmateriet.se` for the
+   DTM COG as well as the COPC assets, while the STAC API accepted it, and
+   `access-preflight.mjs --provider lantmateriet` reported `denied`. The same
+   account read the DTM on 2026-08-30, so this is an account or entitlement
+   change to resolve in Geotorget (Laserdata skog access had to be re-ordered
+   under the new terms; a separate API username may apply), not a code
+   problem. Nothing in Phase 1 proceeds until the preflight is `ready`.
+2. Run the Stage 0 hierarchy census for all three items and commit its
+   credential-free output.
+3. Stage the two active Puttom COPC files locally in an ephemeral runner.
+4. Prove full-density local bounded reads against the census, window by window.
+5. Record credential-free acquisition evidence, hashes, capture dates, and
+   timings.
+6. Run the same bounded reads through any proposed range proxy/cache and prove
+   equivalent counts/statistics.
+7. Acquire the matching DTM and its `ursprung.json`; acquire the CHMv2 tile and
+   the NMD2023 clips; record the licence and attribution for each.
+8. Update manifest lifecycle only after retained derived artifacts exist; fix
+   the manifest's Skogsstyrelsen access note (the open route is HTTPS ATOM
+   zips under CC0, not an FTPS distribution).
 
-Gate: complete source windows pass density, bounds, CRS, date, checksum, and
-nodata gates. The old 52-point under-read cannot pass.
+Gate: complete source windows pass census, density (with its definition),
+bounds, CRS, date, checksum, and nodata gates. The old 52-point under-read
+cannot pass.
 
-### Phase 2 — one representative derivation window
+### Phase 2 — one representative derivation window across the seam
 
-Choose one window containing both dense forest and open/isolated trees near a
-playing corridor.
+Choose the 1024 m origin-centred window: it contains dense forest, open and
+isolated trees near a playing corridor, and both campaigns.
 
-1. Build HAG/CHM and diagnostics.
-2. compare 1 m and evidence-supported finer experiments;
-3. generate local maxima, crown segments, stand masks, and confidence terms;
-4. compare with tree-height raster/orthophoto where available;
-5. inspect false positives over buildings, turf, water, and slopes;
-6. review candidates with a domain-aware human before tuning thresholds.
+1. Build per-campaign HAG/CHM, void mask and diagnostics.
+2. Compare 1 m and evidence-supported finer experiments.
+3. Generate local maxima, crown segments, stand masks, and confidence terms
+   with the declared starting parameters.
+4. Run the NMD and CHMv2 cross-checks and the stratified seam comparison.
+5. Inspect false positives over buildings, turf, water, and slopes.
+6. Review candidates with a domain-aware human before tuning thresholds;
+   record every parameter change beside its measurement.
 
 Gate: the compiler distinguishes nodata, open ground, isolated candidates, and
-unresolved stand canopy; no visual result is promoted merely because it looks
-forest-like.
+unresolved stand canopy; the seam report explains every step at N 7025000 as
+forest, growth, leaf state or sensor; no visual result is promoted merely
+because it looks forest-like.
 
 ### Phase 3 — first real reviewed object tile
 
 1. Finalize stable IDs and source records.
-2. review every zone-A candidate in the tile;
-3. emit one real BVCH object-registry chunk;
-4. run strict decode, bounds, hash, approval, and registry-diff tests;
-5. render it in an isolated harness on WebGL2 and WebGPU;
-6. compare registry height/radius/base with compiler evidence.
+2. Review every zone-A candidate in the tile.
+3. Emit one real BVCH object-registry chunk and, if the tile holds a dense
+   stand, its stand payload.
+4. Run strict decode, bounds, hash, approval, attribution and registry-diff
+   tests.
+5. Render it in an isolated harness on WebGL2 and WebGPU.
+6. Compare registry height/radius/base with compiler evidence.
 
 Gate: one content-addressed object tile is source-honest, reviewed, and renders
 without the legacy planter.
@@ -650,23 +1083,23 @@ without the legacy planter.
 
 1. Add object loading/instancing behind a separate development capability flag.
 2. Include the first reviewed frontier in source selection/preflight.
-3. prevent legacy-tree generation inside that frontier;
-4. fail the whole frontier closed on missing/corrupt object assets;
-5. exercise camera changes, hole switching, cache eviction, cancellation, and
-   backend changes;
-6. keep normal visits and GPK1 unchanged.
+3. Prevent legacy-tree generation inside that frontier.
+4. Fail the whole frontier closed on missing/corrupt object assets.
+5. Exercise camera changes, hole switching, cache eviction, cancellation, and
+   backend changes.
+6. Keep normal visits and GPK1 unchanged.
 
 Gate: no duplicate, missing, floating, or stale trees across repeated loads and
 view changes.
 
 ### Phase 5 — full Puttom property and per-hole review
 
-1. Compile all required source windows with deterministic campaign precedence.
-2. generate and review every zone-A tile/hole;
-3. publish zone-B stand masks and reviewed large objects;
-4. retain explicit zone-C scenery;
-5. run whole-course registry diff and source residual reports;
-6. capture the complete visual matrix and performance evidence on hardware.
+1. Compile all required source windows with the campaign precedence above.
+2. Generate and review every zone-A tile/hole.
+3. Publish zone-B stand masks and reviewed large objects.
+4. Retain explicit zone-C scenery, constrained by CHMv2 beyond the raster.
+5. Run whole-course registry diff, seam and source residual reports.
+6. Capture the complete visual matrix and performance evidence on hardware.
 
 Gate: 18/18 holes pass source, review, visual, and performance gates with 100%
 required zone-A coverage.
@@ -674,11 +1107,12 @@ required zone-A coverage.
 ### Phase 6 — atomic release and default decision
 
 1. Generate source records, object chunks, manifests, descriptors, expected
-   hashes, required features, and app constants in one release command.
-2. verify the exact URL `?bana=puttom&v2=require` with no fallback;
-3. publish runtime assets and application references atomically;
-4. retain GPK1 fallback and the prior immutable v2 generation;
-5. change a default only after a separately reviewed release decision.
+   hashes, required features, attribution and app constants in one release
+   command.
+2. Verify the exact URL `?bana=puttom&v2=require` with no fallback.
+3. Publish runtime assets and application references atomically.
+4. Retain GPK1 fallback and the prior immutable v2 generation.
+5. Change a default only after a separately reviewed release decision.
 
 Gate: production fetches the same verified generation tested in CI and rollback
 is one manifest/app reference change.
@@ -688,14 +1122,17 @@ is one manifest/app reference change.
 ### Acquisition and provenance
 
 - Every source item is authorized, dated, checksummed, and inside the declared
-  CRS/bounds.
-- Full/local bounded reads descend the COPC hierarchy and exceed the existing
-  10% transport-sanity density ratio; final candidate-quality thresholds are
-  calibrated and recorded from the representative windows.
+  CRS/bounds, and the pinned STAC item set is unchanged or explicitly re-pinned.
+- Every bounded read agrees with the hierarchy census within 1% per window.
+- Pulse density and all-return density are both recorded with their
+  definitions; no gate is stated against an unlabelled "density".
 - Nodata, source gaps, water, and true open ground are distinct states.
 - No credential, Authorization header, signed URL, raw COPC, or temporary
   raster exists in a public artifact or log.
-- Campaign precedence is deterministic and every output has traceable lineage.
+- Campaign precedence is deterministic, every output carries its campaign, and
+  the 2020 south item contributes no candidate.
+- The published manifest carries the laser attribution string and the GDPR
+  assessment record.
 
 ### Compiler correctness
 
@@ -704,10 +1141,12 @@ is one manifest/app reference change.
 - Cross-tile and cross-campaign candidates contain no duplicates.
 - Every record validates against the strict object-registry and chunk envelope.
 - Every published record has one stable ID, source ID, capture date, confidence,
-  accuracy, truth zone, placement method, and `approved` status.
+  accuracy at or above the declared floors, truth zone, placement method, and
+  `approved` status.
 - Every rejection/exclusion has an auditable reason.
 - No sparse or failed input is interpreted as a clearing.
-- No exact species is inferred from Laserdata alone.
+- No exact species is inferred from Laserdata alone; species groups meet the
+  Stage 4 rule.
 
 ### Spatial and terrain correctness
 
@@ -718,8 +1157,9 @@ is one manifest/app reference change.
 - Surface-overlap conflicts in zone A are reviewed rather than silently erased.
 - Runtime tree bases agree with the exact visible v2 terrain within the measured
   tolerance and never float or sink during LOD/morph transitions.
-- Source/DTM/candidate seam diagnostics show no unexplained step at the Puttom
-  flight boundary.
+- The seam report at N 7025000 attributes every canopy step to forest, growth,
+  leaf state or sensor, with the CHMv2 and NMD comparisons attached; no
+  unexplained step remains.
 
 ### Truth and review
 
@@ -728,7 +1168,8 @@ is one manifest/app reference change.
 - Signature and play-affecting trees have independent confirmation or survey
   where crown-centre uncertainty is not sufficient.
 - Dense stands are represented as measured canopy/density, not fabricated
-  individual LiDAR trees.
+  individual LiDAR trees; stand edges along corridors are resolved individually
+  where the CHM supports it.
 - Registry diffs explicitly list added, matched, moved, and missing candidates.
 
 ### Runtime integrity
@@ -751,7 +1192,7 @@ At minimum capture:
 - holes with trees close to tees, greens, doglegs, water carries, and landing
   zones;
 - top-down coverage/debug views;
-- free/oblique views across the north/south campaign seam;
+- free/oblique views along and across the campaign seam;
 - eye-height close views of isolated trees and dense stand edges;
 - evening, day, dawn, autumn, and fog presets;
 - WebGL2 mobile, WebGL2 desktop, and WebGPU desktop.
@@ -765,6 +1206,7 @@ Review must confirm:
   water;
 - no duplicate populations appear at the v2 frontier;
 - no tree floats, sinks, pops excessively, or changes identity with backend;
+- nothing visible marks the seam except what the seam report explains;
 - unknown species are rendered plausibly without being labelled as measured.
 
 ### Performance
@@ -788,14 +1230,19 @@ screenshots are rendering evidence, not hardware performance evidence.
 
 The implementation is expected to produce:
 
+- the credential-safe COPC hierarchy census tool and its committed output;
 - credential-safe COPC local-stage/range-cache acquisition support;
-- full-density Puttom acquisition evidence;
-- canonical HAG/CHM and stand-field compiler;
-- crown candidate, exclusion, confidence, and deduplication modules;
+- full-density Puttom acquisition evidence for both campaigns;
+- credential-free reference acquisition (CHMv2 tile, NMD2023 clips) with
+  checksums and licences;
+- canonical per-campaign HAG/CHM, void-mask and stand-field compiler;
+- crown candidate, exclusion, confidence, seam-reconciliation and
+  deduplication modules, in Node over PDAL/GDAL rasters, with unit tests;
+- the seam report;
 - per-hole/zone review overlays and approval records;
 - stable registry-diff tooling;
 - real Puttom object-registry BVCH chunks;
-- a versioned measured-stand payload if zone B requires it;
+- a versioned measured-stand payload;
 - non-null `layers.objects` references in the Puttom graph;
 - shared WebGL2/WebGPU object-tile instancing and lifecycle support;
 - a coverage ownership mask and legacy-planter cutover;
@@ -821,16 +1268,21 @@ The implementation is expected to produce:
 
 - Provider usernames/passwords belong only in local environment variables or CI
   secrets and must never be committed, printed, serialized, or embedded in
-  URLs.
+  URLs. `.env` is gitignored; keep it that way and keep the variable names the
+  acquisition code expects (`LANTMATERIET_USERNAME` / `LANTMATERIET_PASSWORD`
+  or `LANTMATERIET_BEARER_TOKEN`, `SKOGSSTYRELSEN_USERNAME` /
+  `SKOGSSTYRELSEN_PASSWORD`).
 - Rotate any credential that has appeared in a chat, terminal capture, log, or
   screenshot before running acquisition.
-- Raw COPC and temporary rasters stay outside the repository and public build.
+- Raw COPC and temporary rasters stay outside the repository and public build;
+  the laser terms make the licensee the GDPR controller for the raw cloud.
 - Use a dedicated ephemeral work directory with cleanup in `finally`/post-job
   steps.
 - Persist only approved derived assets, credential-free source identity,
   checksums, measurements, review evidence, and required attribution.
-- New flights, felling, construction, and course changes trigger an offline
-  rebuild and registry diff; they do not mutate runtime trees dynamically.
+- New flights (a north re-fly in particular), felling, construction, and course
+  changes trigger an offline rebuild and registry diff; they do not mutate
+  runtime trees dynamically.
 - A scheduled rebuild must never publish automatically merely because a source
   date changed. Review remains a release gate.
 
@@ -839,16 +1291,21 @@ The implementation is expected to produce:
 The plan fixes the architecture but leaves measured choices to the pilot:
 
 - final CHM resolution and void-handling rule;
-- adaptive local-maximum/crown segmentation parameters;
+- adaptive local-maximum/crown segmentation parameters, starting from the
+  declared values;
 - source completeness and candidate-confidence thresholds;
 - exact zone-A geometry and review owner;
-- campaign overlap width and precedence exceptions;
-- horizontal/vertical uncertainty model;
+- the seam reconciliation rule for crowns cut at N 7025000;
+- horizontal/vertical uncertainty model above the declared floors;
+- whether a Skogsstyrelsen county zip (8.6 GB / 24.1 GB) is worth fetching as
+  an additional processing check for the north half;
+- whether to order the Ythöjdmodell från flygbilder alongside the orthophoto;
 - independent orthophoto/survey source for signature trees;
 - measured-stand payload and rendering density contract;
-- stable cross-campaign matching rule;
+- stable cross-campaign matching rule, exercised against a synthetic re-fly;
 - object tile size/LOD and active memory budgets;
 - performance regression budget;
+- whether Python or R enters the toolchain lock;
 - date/owner for the default-release decision.
 
 Each decision must be written beside its measurement and test. A parameter
@@ -856,13 +1313,46 @@ chosen after looking at one attractive screenshot is not a source-quality gate.
 
 ## Primary references
 
+Repository:
+
 - [Puttom source manifest](../geo_data/course-v2/puttom/source-manifest.json)
 - [Puttom D2 discovery evidence](../geo_data/course-v2/puttom/acquisition/d2-discovery.json)
 - [Course digital-twin implementation plan](course-digital-twin-implementation-plan.md)
 - [V2 object-registry contract](../packages/course-v2/object-registry.mjs)
+- [Canopy window pipelines](../packages/course-geo/acquisition/canopy-window.mjs)
+- [Toolchain manifest](../packages/course-geo/toolchain/pixi.toml)
 - [Puttom legacy tree-cover producer](../puttombuild/build-treecover.py)
-- [Current runtime planter](../apps/golf/src/main.js#L2882)
-- [Lantmäteriet Laserdata Nedladdning, skog](https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/)
-- [Lantmäteriet STAC-hojd API](https://api.lantmateriet.se/stac-hojd/v1/api.html)
-- [Lantmäteriet laser-data quality description](https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/hojddata/kvalitetsbeskrivning_laserdata.pdf)
-- [Skogsstyrelsen tree-height product description](https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/produktbeskrivningar/raster-tradhojd-laserdata-skog---produktbeskrivning.pdf)
+- [Current runtime planter](../apps/golf/src/main.js#L2893)
+
+Lantmäteriet:
+
+- [STAC search used for the item table](https://api.lantmateriet.se/stac-hojd/v1/search?collections=dsm-skoglig-copc&bbox=18.9,63.28,18.98,63.32)
+- [Per-item metadata, north](https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/23f028/m23f028-702_69_info.json)
+- [Per-item metadata, south](https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/26f015/m26f015-702_69_info.json)
+- [DTM origin metadata](https://dl1.lantmateriet.se/hojd/pub/grid/mhm/70_6/m702_69_ursprung.json)
+- [Laserdata Nedladdning, skog (Geotorget)](https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/)
+- [Product description v1.6](https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/hojddata/pb_laserdata_nedladdning_skog.pdf)
+- [Terms of use LM2026/077164](https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor-for-laserdata-nedladdning-skog.pdf)
+- [Provision change notice, 2026](https://www.lantmateriet.se/sv/geodata/vara-produkter/Produktnyheter/Geografisk-information/uppdatering-angaende-tillhandahallandet-av-laserdata-nedladdning-skog/)
+- [Quality description for laser data](https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/hojddata/kvalitetsbeskrivning_laserdata.pdf)
+- [STAC-höjd API](https://api.lantmateriet.se/stac-hojd/v1/api.html)
+
+Skogsstyrelsen:
+
+- [Download page and ATOM feeds](https://www.skogsstyrelsen.se/laddanergeodata)
+- [Scan-area metadata service](https://geodpags.skogsstyrelsen.se/arcgis/rest/services/Geodataportal/GeodataportalVisaSkogligaGrunddataMetadata/MapServer)
+- [Tree-height technical specification](https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf)
+- [Report 2022-19, point density in national laser scanning](https://www.skogsstyrelsen.se/globalassets/om-oss/rapporter/rapporter-20222021202020192018/rapport-2022-19-okad-punkttathet-vid-nationell-laserskanning.pdf)
+
+Naturvårdsverket:
+
+- [NMD2023 tilläggsskikt](https://geodata.naturvardsverket.se/nedladdning/marktacke/NMD2023/Tillaggsskikt/)
+
+Meta / WRI:
+
+- [CHMv2 on the AWS open data registry](https://registry.opendata.aws/dataforgood-fb-forestsv2/)
+- [CHMv2 paper](https://arxiv.org/abs/2603.06382)
+
+Method:
+
+- [lidR book, individual tree detection and segmentation](https://r-lidar.github.io/lidRbook/itd.html)

@@ -224,6 +224,11 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
       throw new Error(
         `real app did not retain the bound ${expectedSurfaceTiles}-tile provisional surface frontier`);
     }
+    /* the per-class representation is what the remediation plan ships; a
+       pair atlas here means the loader silently took the old format */
+    if (state.v2.surfaceRepresentation !== 'class-sdf-v1') {
+      throw new Error(`real app is drawing surfaces as ${state.v2.surfaceRepresentation}, not class-sdf-v1`);
+    }
     const presentClasses = new Set((state.v2.surface.classes || [])
       .filter(item => Number.isSafeInteger(item?.count) && item.count > 0).map(item => item.id));
     const missingClasses = PUTTOM_PREVIEW_REQUIRED_SURFACE_CLASSES

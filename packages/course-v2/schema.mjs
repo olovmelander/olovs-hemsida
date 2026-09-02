@@ -11,6 +11,7 @@ export const V2_SUPPORTED_FEATURES = Object.freeze([
   'course-routing-json-v1',
   'object-registry-json-v1',
   'surface-grid-u8-i16-v1',
+  'surface-sdf-u8-v1',
   'terrain-grid-u16-v1',
 ]);
 
@@ -315,7 +316,7 @@ export function validateChunkHeader(value) {
   if (!object(value)) return ['chunk: must be an object'];
   exactKeys(value, new Set([
     'schemaVersion', 'id', 'kind', 'owner', 'bounds', 'payloadFormat',
-    'decodedBytes', 'decodedSha256', 'requiredFeatures', 'grid', 'surfaceGrid', 'records',
+    'decodedBytes', 'decodedSha256', 'requiredFeatures', 'grid', 'surfaceGrid', 'surfaceSdf', 'records',
   ]), at, fail);
   if (value.schemaVersion !== 2) fail(`${at}.schemaVersion`, 'must be 2');
   tileId(value.id, `${at}.id`, fail);
@@ -366,6 +367,7 @@ export function validateChunkHeader(value) {
     }
     if (value.surfaceGrid !== undefined) fail(`${at}.surfaceGrid`, 'is not allowed for a terrain grid');
     if (value.records !== undefined) fail(`${at}.records`, 'is not allowed for a terrain grid');
+    if (value.surfaceSdf !== undefined) fail(`${at}.surfaceSdf`, 'is not allowed for a terrain grid');
   } else if (value.payloadFormat === 'surface-grid-u8-i16-le-v1') {
     if (value.kind !== 'surface') fail(`${at}.kind`, 'must be surface for a surface grid');
     if (!object(value.surfaceGrid)) fail(`${at}.surfaceGrid`, 'is required for a surface grid');
@@ -406,6 +408,48 @@ export function validateChunkHeader(value) {
     }
     if (value.grid !== undefined) fail(`${at}.grid`, 'is not allowed for a surface grid');
     if (value.records !== undefined) fail(`${at}.records`, 'is not allowed for a surface grid');
+    if (value.surfaceSdf !== undefined) fail(`${at}.surfaceSdf`, 'is not allowed for a surface grid');
+  } else if (value.payloadFormat === 'surface-sdf-u8-v1') {
+    if (value.kind !== 'surface') fail(`${at}.kind`, 'must be surface for a surface sdf grid');
+    if (!object(value.surfaceSdf)) fail(`${at}.surfaceSdf`, 'is required for a surface sdf grid');
+    else {
+      const sdf = value.surfaceSdf;
+      exactKeys(sdf, new Set([
+        'width', 'height', 'sampleSpacingMetres', 'bytesPerSample', 'channels',
+        'distanceLimitMetres', 'distanceEncoding', 'routeStepMetres', 'noRouteValue',
+        'ringStepMetres', 'ownerEncoding', 'surfaceRegistryVersion', 'rowOrder', 'columnOrder',
+      ]), `${at}.surfaceSdf`, fail);
+      integer(sdf.width, `${at}.surfaceSdf.width`, fail, 2, 4097);
+      integer(sdf.height, `${at}.surfaceSdf.height`, fail, 2, 4097);
+      finite(sdf.sampleSpacingMetres, `${at}.surfaceSdf.sampleSpacingMetres`, fail, 0.01, 10000);
+      if (!Array.isArray(sdf.channels) || sdf.channels.length < 1 || sdf.channels.length > 16 ||
+          sdf.channels.some(id => !Number.isSafeInteger(id) || id < 1 || id > 254) ||
+          new Set(sdf.channels).size !== sdf.channels.length) {
+        fail(`${at}.surfaceSdf.channels`, 'must list 1 to 16 unique surface ids from 1 to 254');
+      } else if (sdf.bytesPerSample !== sdf.channels.length + 3) {
+        fail(`${at}.surfaceSdf.bytesPerSample`, 'must equal channels + 3');
+      }
+      if (sdf.distanceLimitMetres !== 4) fail(`${at}.surfaceSdf.distanceLimitMetres`, 'must be 4');
+      if (sdf.distanceEncoding !== 'unorm8-signed') fail(`${at}.surfaceSdf.distanceEncoding`, 'must be unorm8-signed');
+      if (sdf.routeStepMetres !== 0.25) fail(`${at}.surfaceSdf.routeStepMetres`, 'must be 0.25');
+      if (sdf.noRouteValue !== 255) fail(`${at}.surfaceSdf.noRouteValue`, 'must be 255');
+      if (sdf.ringStepMetres !== 0.16) fail(`${at}.surfaceSdf.ringStepMetres`, 'must be 0.16');
+      if (sdf.ownerEncoding !== 'u8-hole') fail(`${at}.surfaceSdf.ownerEncoding`, 'must be u8-hole');
+      integer(sdf.surfaceRegistryVersion, `${at}.surfaceSdf.surfaceRegistryVersion`, fail, 1, 65535);
+      if (sdf.rowOrder !== 'north-to-south') fail(`${at}.surfaceSdf.rowOrder`, 'must be north-to-south');
+      if (sdf.columnOrder !== 'west-to-east') fail(`${at}.surfaceSdf.columnOrder`, 'must be west-to-east');
+      if (Number.isSafeInteger(sdf.width) && Number.isSafeInteger(sdf.height) &&
+          Number.isSafeInteger(sdf.bytesPerSample) &&
+          value.decodedBytes !== sdf.width * sdf.height * sdf.bytesPerSample) {
+        fail(`${at}.decodedBytes`, 'must equal width * height * bytesPerSample');
+      }
+    }
+    if (Array.isArray(value.requiredFeatures) && !value.requiredFeatures.includes('surface-sdf-u8-v1')) {
+      fail(`${at}.requiredFeatures`, 'surface sdf grids must require surface-sdf-u8-v1');
+    }
+    if (value.grid !== undefined) fail(`${at}.grid`, 'is not allowed for a surface sdf grid');
+    if (value.surfaceGrid !== undefined) fail(`${at}.surfaceGrid`, 'is not allowed for a surface sdf grid');
+    if (value.records !== undefined) fail(`${at}.records`, 'is not allowed for a surface sdf grid');
   } else if (value.payloadFormat === 'json-canonical-v1') {
     if (value.kind === 'terrain' || value.kind === 'surface') {
       fail(`${at}.payloadFormat`, `${value.kind} must use its binary grid payload`);
@@ -435,6 +479,7 @@ export function validateChunkHeader(value) {
     }
     if (value.grid !== undefined) fail(`${at}.grid`, 'is not allowed for canonical JSON');
     if (value.surfaceGrid !== undefined) fail(`${at}.surfaceGrid`, 'is not allowed for canonical JSON');
+    if (value.surfaceSdf !== undefined) fail(`${at}.surfaceSdf`, 'is not allowed for canonical JSON');
   } else {
     fail(`${at}.payloadFormat`, 'is not supported by schema version 2');
   }

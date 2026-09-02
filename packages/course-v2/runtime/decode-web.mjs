@@ -7,6 +7,7 @@ import {
 } from '../schema.mjs';
 import { inspectObjectRegistryPayload } from '../object-registry.mjs';
 import { inspectSurfacePayload } from '../surface-grid.mjs';
+import { inspectSurfaceSdfPayload } from '../surface-sdf-grid.mjs';
 import { inspectTerrainPayload } from '../terrain-grid.mjs';
 
 const decoder = new TextDecoder('utf-8', { fatal: true });
@@ -129,6 +130,8 @@ export async function verifyChunkAssetWeb(reference, input, options = {}) {
     inspection = inspectTerrainPayload(payload, envelope.header);
   } else if (envelope.header.payloadFormat === 'surface-grid-u8-i16-le-v1') {
     inspection = inspectSurfacePayload(payload, envelope.header);
+  } else if (envelope.header.payloadFormat === 'surface-sdf-u8-v1') {
+    inspection = inspectSurfaceSdfPayload(payload, envelope.header);
   } else if (envelope.header.payloadFormat === 'json-canonical-v1') {
     ({ content, inspection } = inspectJsonPayload(payload, envelope.header));
   }

@@ -60,6 +60,37 @@ export const EDGE_WIDTHS = {
   PATH_MARGIN: 1.2,
 };
 
+/* Physical half-width, in metres, of the blend between a class and whatever
+   it meets, for the per-class SDF material: weight_i = smoothstep(-w, w, sdf_i)
+   with w = max(this, the screen-space antialiasing width). The width of a
+   PAIR is the wider of its two classes. One table, read by both the shader
+   and the CPU probe, so the two can never disagree about an edge. A cut edge
+   (green, tee, sand) is sharp; a mown-into-rough edge is soft. */
+export const SURFACE_TRANSITION_WIDTH_METRES = Object.freeze({
+  [SURFACE.ROUGH]: 0.30,
+  [SURFACE.SEMI]: 0.30,
+  [SURFACE.FAIRWAY]: 0.25,
+  [SURFACE.FRINGE]: 0.20,
+  [SURFACE.GREEN]: 0.16,
+  [SURFACE.TEE]: 0.16,
+  [SURFACE.SAND]: 0.18,
+  [SURFACE.PATH]: 0.20,
+  [SURFACE.FOREST]: 0.45,
+  [SURFACE.HEATH]: 0.45,
+  [SURFACE.SHORE]: 0.40,
+  [SURFACE.WETLAND]: 0.45,
+  [SURFACE.ROCK]: 0.25,
+  [SURFACE.ASPHALT]: 0.16,
+  [SURFACE.GRAVEL]: 0.22,
+  [SURFACE.DIRT]: 0.30,
+  [SURFACE.MUD]: 0.35,
+});
+export const SURFACE_TRANSITION_WIDTH_DEFAULT_METRES = 0.22;
+
+export function surfaceTransitionWidthMetres(surfaceId) {
+  return SURFACE_TRANSITION_WIDTH_METRES[surfaceId] ?? SURFACE_TRANSITION_WIDTH_DEFAULT_METRES;
+}
+
 export function createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distToLine, smooth }) {
   return function classify(x, z) {
     let green = 0, fringe = 0, tee = 0, sand = 0, fair = 0, path = 0, forest = 0, wet = 0, along = 0, hole = 0;

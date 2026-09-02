@@ -54,6 +54,8 @@ import {
   shouldRenderLegacySurfaceOverlays,
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
+import { smoothShore } from './engine/ring-smoothing.mjs';
+import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
@@ -312,9 +314,7 @@ const PI = new Grid();      // paths and tracks (as polylines)
    the camera, which is why the view looked down the hole while the markers did
    not. `mk.b` is overwritten here, once, before anything reads it: on
    Veckefjarden it lands on the value already there.                          */
-for (const h of HOLES) {
-  for (const mk of h.tees.marks || []) mk.b = lineBearingAt(h.line, mk.c) * 180 / Math.PI;
-}
+for (const h of HOLES) deriveTeeBearings(h);
 
 /* A TEE MARKER HAS TO STAND ON A TEE.
 
@@ -335,19 +335,8 @@ for (const h of HOLES) {
    Deck size follows Veckefjärden's own synth pads: 10.4 m across the line by
    8.8 m along it, the shape of a real teeing ground rather than a square. */
 for (const h of HOLES) {
+  inferSynthTeePads(h);
   const pads = h.tees.pads;
-  for (const mk of h.tees.marks || []) {
-    if (pads.some(p => inRing(mk.c[0], mk.c[1], p.ring))) continue;
-    const b = mk.b * Math.PI / 180;
-    const F = [Math.sin(b), Math.cos(b)], R = [-Math.cos(b), Math.sin(b)];
-    const HW = 5.2, HD = 4.4;
-    pads.push({
-      prov: 'synth', teeIdx: mk.teeIdx, c: [mk.c[0], mk.c[1]],
-      ring: [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([u, v]) =>
-        [mk.c[0] + R[0] * HW * u + F[0] * HD * v,
-         mk.c[1] + R[1] * HW * u + F[1] * HD * v]),
-    });
-  }
   /* A pad's centre, derived from its own ring rather than carried beside it.
      The builds store `cx`/`cz` and emit-pack drops them -- correctly, they are
      redundant bytes -- but that left every pad in every pack without one, and
@@ -365,45 +354,9 @@ for (const h of HOLES) {
   }
 }
 
-/* A SHORELINE IS A CURVE, AND THE TRACE IS A POLYGON.
-
-   The surveyed water rings run in straight segments -- around Veckefjärden's
-   island 14th they average 15 m and reach 48 m -- and the visible waterline is
-   where terrainH crosses the water level, which that ring carves. So the island
-   came out as a faceted plate with hard corners where the club's photographs
-   show a smooth rounded promontory.
-
-   Two passes, in the order that matters: split the long segments so a curve CAN
-   exist, then average the points so it is one. Only near the played ground --
-   the shoreline that matters is the shoreline you stand next to, and this ring
-   is walked by terrainH for every terrain sample, so making the whole fjärd
-   dense would be paid for on ground nobody ever sees. Nothing finer than the
-   4 m terrain grid is worth resolving, which is why the split is 3 m. */
-function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
-  if (!ring || ring.length < minPts) return ring;
-  const dense = [];
-  for (let i = 0; i < ring.length; i++) {
-    const a = ring[i], b = ring[(i + 1) % ring.length];
-    dense.push(a);
-    if (!near(a) && !near(b)) continue;
-    const n = Math.min(24, Math.floor(Math.hypot(b[0] - a[0], b[1] - a[1]) / step));
-    for (let k = 1; k < n; k++)
-      dense.push([a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n]);
-  }
-  /* light averaging passes: corner-cutting without the point doubling chaikin
-     would add, and it leaves anything outside `near` exactly as traced */
-  let out = dense;
-  for (let pass = 0; pass < passes; pass++) {
-    const next = out.slice();
-    for (let i = 0; i < out.length; i++) {
-      if (!near(out[i])) continue;
-      const p = out[(i - 1 + out.length) % out.length], q = out[(i + 1) % out.length];
-      next[i] = [(p[0] + out[i][0] * 2 + q[0]) / 4, (p[1] + out[i][1] * 2 + q[1]) / 4];
-    }
-    out = next;
-  }
-  return out;
-}
+/* A SHORELINE IS A CURVE, AND THE TRACE IS A POLYGON -- smoothShore lives in
+   engine/ring-smoothing.mjs now, because the v2 surface compiler has to
+   rasterise exactly the rings this boot draws, and it once did not. */
 {
   /* "near" is the played ground plus a margin, which is where a shoreline is
      ever seen close enough for its facets to show. Derived from the holes
@@ -510,6 +463,8 @@ function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
      rings ARE walked per terrain sample (their pads, and the scatter apron), so
      they get a coarser step and fewer passes -- enough to round a polygon, not
      enough to multiply the ring. */
+  /* These parameters are mirrored in smoothMownEdges (engine/ring-smoothing.mjs),
+     which the v2 surface compiler applies to the pack; change both or neither. */
   const always = () => true;
   for (const h of HOLES) {
     h.green.ring = smoothShore(h.green.ring, always, 2.0, 2, 6);
@@ -5543,6 +5498,15 @@ window.V3D = {
   heightSample: (x, z) => groundHeightSampler.inspectAt(x, z),
   probeH: (x, z) => renderedGroundH(x, z),
   setView: (px, py, pz, lx, ly, lz) => { flyTo(V3(px, py, pz), V3(lx, ly, lz), 0); },
+  /* world -> CSS pixel on the canvas, so a harness can read back the pixel it
+     drew for a world point and compare it with what the CPU probe says */
+  project: (x, y, z) => {
+    camera.updateMatrixWorld(true);
+    const v = new THREE.Vector3(x, y, z).project(camera);
+    const el = renderer.domElement;
+    return { x: (v.x + 1) / 2 * el.clientWidth, y: (1 - v.y) / 2 * el.clientHeight,
+             depth: v.z, visible: v.z > -1 && v.z < 1 && Math.abs(v.x) <= 1 && Math.abs(v.y) <= 1 };
+  },
   pick: (ndcX, ndcY) => {
     camera.updateMatrixWorld(true);
     const rc = new THREE.Raycaster();

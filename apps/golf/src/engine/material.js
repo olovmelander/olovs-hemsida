@@ -6,9 +6,9 @@ import * as THREE from 'three/webgpu';
 import {
   float, vec2, vec3, attribute, texture, positionWorld, cameraPosition,
   mix, smoothstep, clamp, pow, abs, sin, normalize, oneMinus, fwidth,
-  bumpMap, saturate, step,
+  bumpMap, saturate, step, max, vec4, select,
 } from 'three/tsl';
-import { SURFACE } from './surface.js';
+import { SURFACE, surfaceTransitionWidthMetres } from './surface.js';
 
 const MIGRATED = [
   SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN,
@@ -49,13 +49,10 @@ const SHADE_OVERRIDE = {
   [SURFACE.SEMI]: [1.15, 0.62, 0.17, 0.45],
 };
 
-export function createGroundStyleData(C, SHADE, { includeNatural = false } = {}) {
-  /* Row 0: linear colour + atlas-active flag.
-     Row 1: detail scale, bump, gloss, mow strength.
-     Row 2: active, sand weight, hard-surface weight, spare.
-     Row 3: mow phase source coefficients [k_sdf, k_route, k_diag]. */
-  const data = new Float32Array(STYLE_WIDTH * STYLE_ROWS * 4);
-  const colors = {
+const HARD_SURFACES = new Set([SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL, SURFACE.DIRT, SURFACE.ROCK]);
+
+function classColours(C) {
+  return {
     [SURFACE.ROUGH]: C.rough, [SURFACE.FOREST]: C.forest,
     [SURFACE.HEATH]: C.heath,
     [SURFACE.SEMI]: C.semi, [SURFACE.FAIRWAY]: C.fair,
@@ -66,16 +63,76 @@ export function createGroundStyleData(C, SHADE, { includeNatural = false } = {})
     [SURFACE.MUD]: C.wet.map(v => v * 0.72), [SURFACE.ROCK]: C.rock,
     [SURFACE.WETLAND]: C.wet, [SURFACE.SHORE]: C.shore,
   };
-  const hard = new Set([SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL, SURFACE.DIRT, SURFACE.ROCK]);
+}
+
+/* One class's complete material row: the same four rows the style texture
+   carries, as plain numbers, so the per-class SDF material can bake them as
+   constants instead of fetching them per fragment. */
+export function classStyle(C, SHADE, sid) {
+  const colours = classColours(C);
+  const c = colours[sid] || C.rough;
+  const shade = SHADE_OVERRIDE[sid] || SHADE[sid] || SHADE[SURFACE.ROUGH];
+  const mowSource = MOW_SOURCE[sid] || [0, 0, 0];
+  return Object.freeze({
+    colour: Object.freeze([c[0], c[1], c[2]]),
+    shade: Object.freeze([shade[0], shade[1], shade[2], shade[3]]),
+    meta: Object.freeze([1, sid === SURFACE.SAND ? 1 : 0, HARD_SURFACES.has(sid) ? 1 : 0, 0]),
+    mow: Object.freeze([mowSource[0], mowSource[1], mowSource[2]]),
+  });
+}
+
+/* Diagnostic labels, never authored material colours. Hand-spaced rather than
+   a hue walk: a golden-ratio walk put rough and forest twenty degrees apart,
+   and a harness classifying desaturated pixels by hue could not tell them
+   apart. The classes that meet on a golf hole get the most separated hues;
+   rough is achromatic so it reads as "nothing claimed". */
+const SURFACE_DEBUG_COLOURS = {
+  [SURFACE.ROUGH]: [0.55, 0.55, 0.55],
+  [SURFACE.SEMI]: [0.95, 0.90, 0.20],
+  [SURFACE.FAIRWAY]: [0.20, 0.45, 0.95],
+  [SURFACE.FRINGE]: [0.95, 0.30, 0.90],
+  [SURFACE.GREEN]: [0.20, 0.95, 0.75],
+  [SURFACE.TEE]: [0.95, 0.55, 0.15],
+  [SURFACE.SAND]: [0.95, 0.95, 0.85],
+  [SURFACE.PATH]: [0.45, 0.30, 0.15],
+  [SURFACE.FOREST]: [0.85, 0.15, 0.15],
+  [SURFACE.HEATH]: [0.60, 0.20, 0.60],
+  [SURFACE.SHORE]: [0.70, 0.60, 0.40],
+  [SURFACE.WETLAND]: [0.15, 0.70, 0.70],
+  [SURFACE.ROCK]: [0.35, 0.35, 0.50],
+  [SURFACE.ASPHALT]: [0.20, 0.20, 0.22],
+  [SURFACE.GRAVEL]: [0.60, 0.40, 0.85],
+  [SURFACE.DIRT]: [0.55, 0.35, 0.20],
+  [SURFACE.MUD]: [0.30, 0.25, 0.20],
+};
+
+export function surfaceDebugColour(surfaceId) {
+  const fixed = SURFACE_DEBUG_COLOURS[surfaceId];
+  if (fixed) return [...fixed];
+  const hue = (surfaceId * 0.61803398875) % 1;
+  const sector = hue * 6;
+  const x = 0.22 + 0.73 * (1 - Math.abs(sector % 2 - 1));
+  return sector < 1 ? [0.95, x, 0.22]
+    : sector < 2 ? [x, 0.95, 0.22]
+      : sector < 3 ? [0.22, 0.95, x]
+        : sector < 4 ? [0.22, x, 0.95]
+          : sector < 5 ? [x, 0.22, 0.95]
+            : [0.95, 0.22, x];
+}
+
+export function createGroundStyleData(C, SHADE, { includeNatural = false } = {}) {
+  /* Row 0: linear colour + atlas-active flag.
+     Row 1: detail scale, bump, gloss, mow strength.
+     Row 2: active, sand weight, hard-surface weight, spare.
+     Row 3: mow phase source coefficients [k_sdf, k_route, k_diag]. */
+  const data = new Float32Array(STYLE_WIDTH * STYLE_ROWS * 4);
   for (const sid of includeNatural ? [...MIGRATED, ...PREVIEW_NATURAL] : MIGRATED) {
-    const c = colors[sid] || C.rough;
-    const shade = SHADE_OVERRIDE[sid] || SHADE[sid] || SHADE[SURFACE.ROUGH];
-    data.set([c[0], c[1], c[2], 1], sid * 4);
-    data.set(shade, (STYLE_WIDTH + sid) * 4);
-    data.set([1, sid === SURFACE.SAND ? 1 : 0, hard.has(sid) ? 1 : 0, 0], (STYLE_WIDTH * 2 + sid) * 4);
-    const mowSource = MOW_SOURCE[sid];
-    if (mowSource) {
-      data.set([mowSource[0], mowSource[1], mowSource[2], 0], (STYLE_WIDTH * 3 + sid) * 4);
+    const style = classStyle(C, SHADE, sid);
+    data.set([...style.colour, 1], sid * 4);
+    data.set(style.shade, (STYLE_WIDTH + sid) * 4);
+    data.set(style.meta, (STYLE_WIDTH * 2 + sid) * 4);
+    if (MOW_SOURCE[sid]) {
+      data.set([...style.mow, 0], (STYLE_WIDTH * 3 + sid) * 4);
     }
   }
   return Object.freeze({ data, width: STYLE_WIDTH, height: STYLE_ROWS });
@@ -94,18 +151,7 @@ function makeStyleTexture(C, SHADE, options) {
 function makeSurfaceDebugPaletteTexture() {
   const data = new Float32Array(STYLE_WIDTH * 4);
   for (let surfaceId = 0; surfaceId < STYLE_WIDTH; surfaceId++) {
-    /* A golden-ratio hue walk keeps neighbouring numeric ids visibly distinct.
-       These are diagnostic labels, never authored material colours. */
-    const hue = (surfaceId * 0.61803398875) % 1;
-    const sector = hue * 6;
-    const x = 0.22 + 0.73 * (1 - Math.abs(sector % 2 - 1));
-    const rgb = sector < 1 ? [0.95, x, 0.22]
-      : sector < 2 ? [x, 0.95, 0.22]
-        : sector < 3 ? [0.22, 0.95, x]
-          : sector < 4 ? [0.22, x, 0.95]
-            : sector < 5 ? [x, 0.22, 0.95]
-              : [0.95, 0.22, x];
-    data.set([...rgb, 1], surfaceId * 4);
+    data.set([...surfaceDebugColour(surfaceId), 1], surfaceId * 4);
   }
   const tex = new THREE.DataTexture(data, STYLE_WIDTH, 1, THREE.RGBAFormat, THREE.FloatType);
   tex.minFilter = THREE.NearestFilter;
@@ -278,9 +324,162 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
    the same 1 m surface atlas, palette and mowing coordinates, though. This
    decorator keeps the one-draw WebGPU/WebGL2 terrain batch while making the
    provisional raw DTM read as the same golf course instead of a green slab. */
+/* The per-class SDF material. One exact signed distance per non-rough class
+   arrives in the atlas's RGBA8 SDF textures; rough is their complement. Each
+   class becomes a normalized weight and the weights blend COMPLETE material
+   rows -- colour, detail scale, bump, gloss, mow strength, sand/hard metadata
+   -- that are constants of the decoration, never fetched. No id is ever
+   sampled, so no id is ever filtered, and a three-way junction or a 3 m
+   fringe band is just three or five weights that sum to one.
+
+   Mowing is the one thing not blended by parameter: each class's band is
+   evaluated on ITS OWN coordinate source and the resulting stripe intensity
+   is cross-faded by weight, because a green's rings and a fairway's route
+   bands are different cuts and averaging their phases would draw a third. */
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode }) {
+  const channels = atlas.data.channels;
+  const classes = [...channels, SURFACE.ROUGH];
+  const roughIndex = classes.length - 1;
+  const styles = classes.map(sid => classStyle(C, SHADE, sid));
+  const widths = classes.map(sid => surfaceTransitionWidthMetres(sid));
+  const roughWidth = surfaceTransitionWidthMetres(SURFACE.ROUGH);
+  const debugColours = classes.map(sid => surfaceDebugColour(sid));
+  const swizzle = ['r', 'g', 'b', 'a'];
+  return material => {
+    /* Sampled at the LEGACY world position for the same reason the pair
+       material is: the descriptor's samplingFrame says which world the raster
+       was drawn in, and for the migration preview that is the pack's own. */
+    const wp = positionWorld.xz;
+    const b = atlas.bounds;
+    const uvAtlas = vec2(
+      wp.x.sub(float(b.x0)).div(b.x1 - b.x0),
+      wp.y.sub(float(b.z0)).div(b.z1 - b.z0),
+    );
+    const inBounds = step(0, uvAtlas.x).mul(step(uvAtlas.x, 1))
+      .mul(step(0, uvAtlas.y)).mul(step(uvAtlas.y, 1));
+    const samples = atlas.texSdf.map(tex => texture(tex, uvAtlas));
+    const sdfs = channels.map((_, index) => samples[index >> 2][swizzle[index & 3]].mul(8).sub(4));
+    /* A pair blends over the WIDER of its two widths, on both sides: with
+       asymmetric widths one class fades before the other has risen and the
+       sliver between reads as rough. Which class each one meets is found per
+       fragment from the two largest distances -- the nearest other class of
+       the leader is the runner-up, of everyone else it is the leader -- and
+       when the runner-up is far (nothing else within a metre) the leader is
+       meeting rough and takes rough's width. */
+    let best = sdfs[0];
+    let bestWidth = float(widths[0]);
+    let second = float(-8);
+    let secondWidth = float(roughWidth);
+    for (let index = 1; index < sdfs.length; index++) {
+      const sdf = sdfs[index];
+      const width = float(widths[index]);
+      const leads = sdf.greaterThan(best);
+      const runsUp = sdf.greaterThan(second).and(leads.not());
+      const nextSecond = select(leads, best, select(runsUp, sdf, second));
+      const nextSecondWidth = select(leads, bestWidth, select(runsUp, width, secondWidth));
+      best = select(leads, sdf, best);
+      bestWidth = select(leads, width, bestWidth);
+      second = nextSecond;
+      secondWidth = nextSecondWidth;
+    }
+    const leaderMeets = select(second.greaterThan(float(-1)), secondWidth, float(roughWidth));
+    /* physical half-width per class, widened only when the screen needs it */
+    const classRaws = sdfs.map((sdf, index) => {
+      const meets = select(sdf.greaterThanEqual(best), leaderMeets, bestWidth);
+      const width = fwidth(sdf).mul(0.75).max(max(float(widths[index]), meets));
+      return smoothstep(width.negate(), width, sdf);
+    });
+    let classSum = classRaws[0];
+    for (let index = 1; index < classRaws.length; index++) classSum = classSum.add(classRaws[index]);
+    /* Rough is what no class claims: 1 - the sum of the class weights, never
+       -max(sdf). The complement of the DISTANCES is zero on every boundary
+       between two mown classes -- both distances are zero there -- and would
+       hand rough a third of every green edge. The complement of the WEIGHTS
+       is zero there, and rises only where every class has genuinely faded. */
+    const roughRaw = saturate(float(1).sub(classSum));
+    const raws = [...classRaws, roughRaw];
+    const inverse = float(1).div(max(classSum, float(1)));
+    /* outside the surface window every fragment is rough */
+    const weights = raws.map((raw, index) => index === roughIndex
+      ? raw.mul(inverse).mul(inBounds).add(oneMinus(inBounds))
+      : raw.mul(inverse).mul(inBounds));
+    const blend3 = pick => weights.reduce((acc, weight, index) => {
+      const term = vec3(...pick(index)).mul(weight);
+      return acc ? acc.add(term) : term;
+    }, null);
+    const blend4 = pick => weights.reduce((acc, weight, index) => {
+      const term = vec4(...pick(index)).mul(weight);
+      return acc ? acc.add(term) : term;
+    }, null);
+
+    if (debugMode === 'weights') {
+      material.colorNode = vec3(0, 0, 0);
+      material.emissiveNode = blend3(index => debugColours[index]);
+      material.roughnessNode = float(1);
+      material.metalness = 0;
+      /* categorical, not photographic: a harness reads these pixels back and
+         classifies them, so neither tone mapping nor fog may recolour them */
+      material.toneMapped = false;
+      material.fog = false;
+      material.userData.surfaceDebugMode = debugMode;
+      material.userData.surfaceRepresentation = 'class-sdf-v1';
+      material.userData.surfaceChannels = [...channels];
+      material.userData.terrainPreviewTextures = [];
+      return material;
+    }
+
+    const base = blend3(index => styles[index].colour);
+    const shade = blend4(index => styles[index].shade);
+    const meta = blend4(index => styles[index].meta);
+
+    const detailScale = shade.x.max(0.45);
+    const fine = texture(DETAIL, wp.mul(detailScale.mul(0.11))).r.sub(0.5);
+    const macro = texture(DETAIL, wp.mul(0.0085)).b.sub(0.5);
+    const turfDetail = fine.mul(0.30).add(macro.mul(0.18));
+    const sandDetail = texture(DETAIL, wp.mul(0.22)).r.sub(0.5).mul(0.16);
+    const hardDetail = texture(DETAIL, wp.mul(0.13)).g.sub(0.5).mul(0.13);
+    const surfaceDetail = mix(mix(turfDetail, sandDetail, meta.g), hardDetail, meta.b);
+
+    const fields = texture(atlas.texF, uvAtlas);
+    const routeDistance = fields.r.mul(255 * atlas.data.routeStepMetres);
+    const ringDistance = fields.g.mul(255 * atlas.data.ringStepMetres);
+    const routeValid = oneMinus(step(0.999, fields.r));
+    const diagonal = wp.x.sub(wp.y).mul(0.70710678);
+    let mow = null;
+    classes.forEach((sid, index) => {
+      const k = styles[index].mow;
+      if (!k[0] && !k[1] && !k[2]) return;
+      const phase = ringDistance.mul(k[0])
+        .add(routeDistance.mul(k[1]).mul(routeValid))
+        .add(diagonal.mul(k[2]));
+      const bandAA = oneMinus(smoothstep(0.55, 1.7, fwidth(phase)));
+      const term = sin(phase).mul(bandAA).mul(styles[index].shade[3]).mul(weights[index]);
+      mow = mow ? mow.add(term) : term;
+    });
+    const mowNode = (mow || float(0)).mul(0.045);
+    /* the same linear share the pair material restores -- see its note */
+    const litBase = mix(base.mul(base), base, 0.18);
+    material.colorNode = litBase.mul(float(1).add(surfaceDetail).add(mowNode));
+    material.roughnessNode = clamp(float(0.97).sub(shade.z.mul(0.62)), 0.42, 0.99);
+    material.metalness = 0;
+    /* the atlas owns its textures; nothing was created here to dispose */
+    material.userData.terrainPreviewTextures = [];
+    material.userData.surfaceDebugMode = debugMode;
+    material.userData.surfaceRepresentation = 'class-sdf-v1';
+    material.userData.surfaceChannels = [...channels];
+    return material;
+  };
+}
+
 export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off' }) {
-  if (!atlas?.texID || !atlas?.texF) throw new TypeError('the v2 terrain material requires a ground atlas');
   if (!['off', 'weights'].includes(debugMode)) throw new TypeError(`unknown surface debug mode: ${debugMode}`);
+  if (atlas?.data?.representation === 'class-sdf-v1') {
+    if (!atlas.texSdf?.length || !atlas.texF || !atlas.data.channels?.length) {
+      throw new TypeError('the per-class v2 terrain material requires SDF textures and a channel palette');
+    }
+    return createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode });
+  }
+  if (!atlas?.texID || !atlas?.texF) throw new TypeError('the v2 terrain material requires a ground atlas');
   const styleTexture = makeStyleTexture(C, SHADE, { includeNatural: true });
   const debugPaletteTexture = debugMode === 'weights' ? makeSurfaceDebugPaletteTexture() : null;
   return material => {
@@ -335,6 +534,8 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
       material.emissiveNode = mix(vec3(0.015, 0.015, 0.015), debugColor, inBounds);
       material.roughnessNode = float(1);
       material.metalness = 0;
+      material.toneMapped = false;
+      material.fog = false;
       material.userData.surfaceDebugMode = debugMode;
       material.userData.surfaceRepresentation = 'pair-sdf-v1';
       material.userData.terrainPreviewTextures = [styleTexture, debugPaletteTexture];

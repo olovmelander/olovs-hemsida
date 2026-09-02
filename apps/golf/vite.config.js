@@ -86,6 +86,7 @@ export default defineConfig({
           'assets/chunk-worker-*.js',
           'assets/terrain-render-data-*.js',
           'assets/surface-grid-*.js',
+          'assets/surface-sdf-grid-*.js',
           'assets/decode-web-*.js',
         ],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,   /* three.tsl is ~1 MB */

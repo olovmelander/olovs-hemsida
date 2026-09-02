@@ -1211,6 +1211,53 @@ measurable: with the old loader against it the pilot reports
 `{status:"ready", tiles:64}`. **Do not reason about what a host ought to do —
 ask it**, and point the harness at something shaped like the real one.
 
+### The v2 surfaces are per-class distance fields
+
+`docs/puttom-v2-surface-rendering-plan.md` is implemented: under `?v2=` Puttom's
+surfaces come from `surface-sdf-u8-v1` chunks — one exact Euclidean signed
+distance per non-rough class (`packages/course-v2/distance-transform.mjs`,
+`surface-sdf-grid.mjs`), compiled from a 25 cm resolved mask per tile with a
+halo as wide as the clamp, so shared borders are byte-identical — and the
+terrain material (`createClassSdfDecorator` in `material.js`) turns them into
+normalized weights that blend complete material rows baked as constants. No id
+is ever sampled. The pair representation is still decodable and the six GPK1
+courses' boot atlas is untouched. `tools/v2-surface-audit.mjs` is the
+instrument: `BANVY_GPU=1 node tools/v2-surface-audit.mjs --backend webgpu`
+boots the built app on the real adapter, gates representation / overlays /
+draws, walks probe transects across every green, tee and bunker edge, shoots
+the visual matrix, and reads the GPU's own pixels back in the weights view to
+compare with the CPU probe. On the RTX 3070 both backends pass: contour error
+mean 0.053 m, max 0.175 m; 1981/1981 pixels agree.
+
+Four things it caught, each of which read as correct on paper:
+
+- **Rough as `−max(sdf_i)` is a seam.** On a green/fairway edge both distances
+  are zero, so the distance complement gives rough a third of the weight along
+  every cut edge. Rough is `max(0, 1 − Σ raw_i)` — the complement of the
+  WEIGHTS — normalised by `max(1, Σ raw_i)`.
+- **Asymmetric widths leave a rough sliver.** Green at 0.16 m and fairway at
+  0.25 m: the green fades before the fairway has risen. Each class must blend
+  over the width of the class it actually meets, found per fragment from the
+  two largest distances (`SURFACE_TRANSITION_WIDTH_METRES` in `surface.js`;
+  the probe applies the identical rule).
+- **The compiler must draw the rings the app draws.** `main.js` smooths green,
+  fairway and tee rings at boot and synthesises a pad under every unmapped tee
+  marker, and the pack on disk has neither — greens measured 0.28 m off until
+  both steps moved into `engine/ring-smoothing.mjs` and `engine/tee-pads.mjs`,
+  which `buildGroundSurfaceFeatures({smoothEdges, inferTeePads})` applies for a
+  compiler and never for the runtime, whose holes are already smoothed in place.
+- **A categorical debug view must not be tone-mapped or fogged**, or its
+  pixels cannot be classified; and calibrating colours from the frame must
+  first reject pixels unlike the authored colour, or forest — mostly under
+  tree crowns — measures as tree-green and claims every rough probe under a
+  tree. The palette is hand-spaced now (`surfaceDebugColour`): the golden-ratio
+  walk put rough and forest twenty degrees apart.
+
+Two harness notes: `check-app-build` reads `_headers` with line endings
+normalised, because a Windows checkout hands it over as CRLF and every rule
+was "missing"; and a new chunk name needs adding to `vite.config.js`'s
+`globIgnores` or the PWA precaches it and the same gate fails.
+
 ### Phase 6 groundwork — the hosting rules, and one that is load-bearing
 
 `apps/golf/public/_headers` and `_redirects` ship with the build, so the hosting

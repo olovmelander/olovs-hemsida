@@ -4,15 +4,35 @@ import { rasterizeGroundAtlas } from '../../apps/golf/src/engine/atlas.js';
 import { SURFACE, SURFACE_PRIORITY } from '../../apps/golf/src/engine/surface.js';
 import { canonicalJson } from './canonical-json.mjs';
 import { assetReferenceForChunk, verifyChunkAsset, writeChunk } from './chunk-node.mjs';
+import { extractWindow, signedDistanceField } from './distance-transform.mjs';
 import { encodeSurfaceGrid } from './surface-grid.mjs';
+import {
+  encodeSurfaceSdfGrid,
+  SURFACE_SDF_DISTANCE_LIMIT_METRES,
+  SURFACE_SDF_FEATURE,
+  SURFACE_SDF_PAYLOAD_FORMAT,
+  SURFACE_SDF_RING_STEP_METRES,
+} from './surface-sdf-grid.mjs';
 import {
   assertSurfacePreview,
   SURFACE_PREVIEW_KIND,
   SURFACE_PREVIEW_PROVISIONAL_REASON,
   SURFACE_PREVIEW_SOURCE_KIND,
+  SURFACE_REPRESENTATIONS,
 } from './surface-preview.mjs';
 
 const SURFACE_FEATURES = Object.freeze(['chunk-envelope-v2', 'surface-grid-u8-i16-v1']);
+const SURFACE_SDF_FEATURES = Object.freeze(['chunk-envelope-v2', SURFACE_SDF_FEATURE]);
+/* The per-class fields are taken from a source mask this many times finer
+   than the payload: 25 cm at 1 m. The distance error of a centre-sampled
+   mask is half a source pixel, 12.5 cm, below the 0.25 m boundary gate. */
+const SDF_SOURCE_OVERSAMPLE = 4;
+/* Classes whose mow pattern is cut in rings from their own edge inward. Their
+   inside distance is stored UNCLAMPED (to 40.8 m) so the rings run to the
+   middle of a 30 m green; every other class's ring byte is clamped with the
+   SDF so it is byte-identical on shared tile borders. */
+const RING_CLASSES = Object.freeze([SURFACE.GREEN, SURFACE.FRINGE]);
+const RING_LIMIT_METRES = 255 * SURFACE_SDF_RING_STEP_METRES;
 const EDGE_DISTANCE_LIMIT_METRES = 8;
 const ROUTE_DISTANCE_SCALE = 4;
 const RING_DISTANCE_SCALE = 0.16;
@@ -247,7 +267,95 @@ function tilePayload({ raster, boundaryRaster, boundaryOversample, tile, extent,
   });
 }
 
-function surfaceChunk({ groundId, tile, encoded, assetDirectory, codec }) {
+/* The per-class payload for one tile: exact Euclidean signed distance per
+   channel from the 25 cm resolved mask, sampled at the 1 m lattice, plus the
+   route/ring/owner bytes. Each tile is transformed inside its own window with
+   a halo at least as wide as the largest distance it stores, which makes the
+   bytes on a shared tile border identical however the frontier is cut. */
+function tileSdfPayload({ raster, source, oversample, tile, extent, spacing, channels }) {
+  const count = tile.width * tile.height;
+  const column0 = roundedInteger((tile.bounds.minEasting - extent.minEasting) / spacing, `${tile.id} column`);
+  const row0 = roundedInteger((extent.maxNorthing - tile.bounds.maxNorthing) / spacing, `${tile.id} row`);
+  const pixelMetres = spacing / oversample;
+  const sourceColumn0 = column0 * oversample;
+  const sourceRow0 = row0 * oversample;
+  const sourceWidth = (tile.width - 1) * oversample + 1;
+  const sourceHeight = (tile.height - 1) * oversample + 1;
+  const clampHalo = Math.ceil(SURFACE_SDF_DISTANCE_LIMIT_METRES / pixelMetres) + 1;
+  const ringHalo = Math.ceil(RING_LIMIT_METRES / pixelMetres) + 1;
+
+  const distancesMetres = channels.map(() => new Float32Array(count));
+  const ringDistancesMetres = new Float32Array(count);
+  const routeDistancesMetres = new Float32Array(count);
+  const ownerIds = new Uint8Array(count);
+  const sampleClass = new Uint8Array(count);
+  for (let row = 0; row < tile.height; row++) {
+    for (let column = 0; column < tile.width; column++) {
+      const target = row * tile.width + column;
+      const coarse = (row0 + row) * extent.width + column0 + column;
+      if (coarse < 0 || coarse >= raster.classes.length) throw new Error(`${tile.id} slice escapes the preview raster`);
+      const route = raster.routeDistance[coarse];
+      routeDistancesMetres[target] = route >= 1e19 ? Infinity : route;
+      const owner = raster.owner[coarse];
+      if (owner > 255) throw new Error(`${tile.id} owner ${owner} does not fit the u8 hole channel`);
+      ownerIds[target] = owner;
+      const fine = (sourceRow0 + row * oversample) * source.bounds.w + sourceColumn0 + column * oversample;
+      if (fine < 0 || fine >= source.classes.length) throw new Error(`${tile.id} slice escapes the source mask`);
+      sampleClass[target] = source.classes[fine];
+    }
+  }
+
+  for (let channel = 0; channel < channels.length; channel++) {
+    const id = channels[channel];
+    const ringClass = RING_CLASSES.includes(id);
+    const halo = ringClass ? ringHalo : clampHalo;
+    const window = extractWindow(source.classes, source.bounds.w, source.bounds.h, {
+      column0: sourceColumn0 - halo,
+      row0: sourceRow0 - halo,
+      column1: sourceColumn0 + sourceWidth - 1 + halo,
+      row1: sourceRow0 + sourceHeight - 1 + halo,
+    });
+    const mask = new Uint8Array(window.data.length);
+    let any = false;
+    for (let index = 0; index < mask.length; index++) {
+      if (window.data[index] === id) { mask[index] = 1; any = true; }
+    }
+    const field = any
+      ? signedDistanceField(mask, window.width, window.height, { pixelMetres })
+      : null;
+    const out = distancesMetres[channel];
+    for (let row = 0; row < tile.height; row++) {
+      for (let column = 0; column < tile.width; column++) {
+        const target = row * tile.width + column;
+        const value = field
+          ? field[(sourceRow0 + row * oversample - window.row0) * window.width +
+                  (sourceColumn0 + column * oversample - window.column0)]
+          : -SURFACE_SDF_DISTANCE_LIMIT_METRES;
+        out[target] = value;
+        if (sampleClass[target] === id) {
+          /* A ring class keeps its full inside distance; any other class's
+             ring byte is the same clamped distance the SDF stores. */
+          ringDistancesMetres[target] = ringClass
+            ? Math.min(RING_LIMIT_METRES, Math.max(0, value))
+            : Math.min(SURFACE_SDF_DISTANCE_LIMIT_METRES, Math.max(0, value));
+        }
+      }
+    }
+  }
+  return encodeSurfaceSdfGrid({
+    channels,
+    distancesMetres,
+    routeDistancesMetres,
+    ringDistancesMetres,
+    ownerIds,
+    width: tile.width,
+    height: tile.height,
+    sampleSpacingMetres: spacing,
+  });
+}
+
+function surfaceChunk({ groundId, tile, encoded, assetDirectory, codec, representation }) {
+  const sdf = representation === 'class-sdf-v1';
   const chunk = writeChunk({
     header: {
       schemaVersion: 2,
@@ -255,9 +363,9 @@ function surfaceChunk({ groundId, tile, encoded, assetDirectory, codec }) {
       kind: 'surface',
       owner: { type: 'ground', id: groundId },
       bounds: tile.bounds,
-      payloadFormat: 'surface-grid-u8-i16-le-v1',
-      requiredFeatures: [...SURFACE_FEATURES],
-      surfaceGrid: encoded.surfaceGrid,
+      payloadFormat: sdf ? SURFACE_SDF_PAYLOAD_FORMAT : 'surface-grid-u8-i16-le-v1',
+      requiredFeatures: sdf ? [...SURFACE_SDF_FEATURES] : [...SURFACE_FEATURES],
+      ...(sdf ? { surfaceSdf: encoded.surfaceSdf } : { surfaceGrid: encoded.surfaceGrid }),
     },
     payload: encoded.payload,
     codec,
@@ -283,10 +391,18 @@ export function compileSurfacePreviewAssets({
   codec = 'deflate-raw',
   mowCoordinateMode = 'legacy-route',
   boundaryOversample = 1,
+  representation = 'pair-sdf-v1',
 } = {}) {
   const groundId = id(requestedGroundId, 'groundId');
   const frame = previewFrame(requestedFrame);
   const bridge = previewBridge(legacyBridge);
+  if (!SURFACE_REPRESENTATIONS.includes(representation)) {
+    throw new TypeError(`representation must be one of ${SURFACE_REPRESENTATIONS.join(', ')}`);
+  }
+  /* Which coordinate a fragment must present to read this raster. A zero
+     bridge means the features were already canonical EPSG:3006 offsets from
+     the frame origin; anything else is the legacy pack world, translated. */
+  const samplingFrame = bridge.translateX === 0 && bridge.translateZ === 0 ? 'canonical' : 'legacy-bridge';
   const tiles = normalizeTiles(terrainTiles);
   if (!Array.isArray(holes) || !Array.isArray(features)) {
     throw new TypeError('holes and features must be arrays');
@@ -354,14 +470,55 @@ export function compileSurfacePreviewAssets({
     throw new Error('supersampled boundary raster dimensions do not match the terrain frontier');
   }
 
+  /* The per-class path takes its distances from the resolved partition at the
+     source oversample and never from the chamfer: the 1 m raster above still
+     supplies route, owner and the class cross-check. */
+  const sdf = representation === 'class-sdf-v1';
+  let source = null;
+  let channels = null;
+  const sourceSpacing = spacing / SDF_SOURCE_OVERSAMPLE;
+  if (sdf) {
+    source = rasterizeGroundAtlas({
+      CORE: {
+        x0: globalBounds.x0 - sourceSpacing * 0.5,
+        x1: globalBounds.x1 + sourceSpacing * 0.5,
+        z0: globalBounds.z0 - sourceSpacing * 0.5,
+        z1: globalBounds.z1 + sourceSpacing * 0.5,
+      },
+      HOLES: holes,
+      features,
+      res: sourceSpacing,
+      classesOnly: true,
+    });
+    if (source.bounds.w !== (extent.width - 1) * SDF_SOURCE_OVERSAMPLE + 1 ||
+        source.bounds.h !== (extent.height - 1) * SDF_SOURCE_OVERSAMPLE + 1) {
+      throw new Error('per-class source mask dimensions do not match the terrain frontier');
+    }
+    /* The palette is every non-rough class the source mask contains, in
+       registry order, and it is the same for every tile of the compilation. */
+    const present = new Uint8Array(256);
+    for (const value of source.classes) present[value] = 1;
+    channels = [];
+    for (let value = 1; value < 255; value++) if (present[value]) channels.push(value);
+    if (!channels.length) throw new Error('per-class compilation found no non-rough class in the source mask');
+  }
+
   const directory = assetDirectory || `grounds/${groundId}/surface`;
   const resources = new Map();
   const tilesOut = [];
+  const positiveCounts = sdf ? new Uint32Array(channels.length) : null;
+  let roughCount = 0;
   for (const tile of tiles) {
-    const encoded = tilePayload({
-      raster, boundaryRaster, boundaryOversample, tile, extent, spacing, mowCoordinateMode,
-    });
-    const asset = surfaceChunk({ groundId, tile, encoded, assetDirectory: directory, codec });
+    const encoded = sdf
+      ? tileSdfPayload({ raster, source, oversample: SDF_SOURCE_OVERSAMPLE, tile, extent, spacing, channels })
+      : tilePayload({
+        raster, boundaryRaster, boundaryOversample, tile, extent, spacing, mowCoordinateMode,
+      });
+    if (sdf) {
+      for (let channel = 0; channel < channels.length; channel++) positiveCounts[channel] += encoded.positiveCounts[channel];
+      roughCount += encoded.roughCount;
+    }
+    const asset = surfaceChunk({ groundId, tile, encoded, assetDirectory: directory, codec, representation });
     const prior = resources.get(asset.reference.url);
     if (prior && !Buffer.from(prior).equals(Buffer.from(asset.chunk))) {
       throw new Error(`content-address collision for ${asset.reference.url}`);
@@ -377,19 +534,27 @@ export function compileSurfacePreviewAssets({
   return Object.freeze({
     groundId,
     frameFingerprint: frame.fingerprint,
+    representation,
+    samplingFrame,
+    channels: sdf ? Object.freeze([...channels]) : null,
     terrainTiles: tiles,
     tiles: Object.freeze(tilesOut),
     resources,
     stats: Object.freeze({
+      representation,
+      samplingFrame,
       tileChunks: tilesOut.length,
       encodedBytes,
       decodedBytes,
       sampleSpacingMetres: spacing,
       previewWidth: extent.width,
       previewHeight: extent.height,
-      maximumBoundaryDistanceMetres: EDGE_DISTANCE_LIMIT_METRES,
-      boundarySampleSpacingMetres: boundarySpacing,
-      mowCoordinateMode,
+      maximumBoundaryDistanceMetres: sdf ? SURFACE_SDF_DISTANCE_LIMIT_METRES : EDGE_DISTANCE_LIMIT_METRES,
+      boundarySampleSpacingMetres: sdf ? sourceSpacing : boundarySpacing,
+      mowCoordinateMode: sdf ? 'route-and-ring' : mowCoordinateMode,
+      channels: sdf ? [...channels] : null,
+      channelInsideCounts: sdf ? Array.from(positiveCounts) : null,
+      roughCount: sdf ? roughCount : null,
     }),
   });
 }
@@ -420,6 +585,8 @@ export function createSurfacePreviewDescriptor(compilation, {
     label,
     terrainDescriptorSha256,
     frameFingerprint: compilation.frameFingerprint,
+    representation: compilation.representation,
+    samplingFrame: compilation.samplingFrame,
     source: {
       kind: SURFACE_PREVIEW_SOURCE_KIND,
       packSha256,

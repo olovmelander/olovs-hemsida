@@ -5,7 +5,7 @@
    the exact GPK1 pack hash it derived from. */
 
 import { createHash } from 'node:crypto';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile, rm } from 'node:fs/promises';
 import { resolve, join, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildGroundSurfaceFeatures } from '../../apps/golf/src/engine/surface-features.mjs';
@@ -42,6 +42,14 @@ export async function compilePuttomSurfacePreview({
   previewRoot = PREVIEW_ROOT,
   packPath = PACK_PATH,
   courseIndexPath = COURSE_INDEX_PATH,
+  /* class-sdf-v1 is the per-class representation the remediation plan
+     specifies; pair-sdf-v1 rebuilds the retained original byte for byte. */
+  representation = 'class-sdf-v1',
+  /* A surface generation is one atomic set: descriptor + chunks. Replacing
+     it removes every chunk the new descriptor does not reference, so two
+     generations can never be mixed in one directory. Off by default because
+     the bundle writer is immutable on purpose. */
+  replace = false,
 } = {}) {
   const root = resolve(previewRoot);
   const descriptorBytes = await readFile(join(root, 'preview.json'));
@@ -93,7 +101,10 @@ export async function compilePuttomSurfacePreview({
   const pack = readPack(packBytes);
   if (pack.header.slug !== 'puttom') throw new Error('Puttom migration pack has the wrong slug');
   const model = JSON.parse(inflateStream(pack.sv).toString('utf8'));
-  const features = buildGroundSurfaceFeatures({ holes: model.holes, model });
+  /* The app infers a pad under every unmapped tee marker and rounds its
+     green, fairway and tee rings at boot before rasterising them; the
+     compiler must draw the same pads and the same rings. */
+  const features = buildGroundSurfaceFeatures({ holes: model.holes, model, smoothEdges: true, inferTeePads: true });
   const bridge = {
     translateX: terrain.frame.origin.easting - PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006.easting,
     translateZ: PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006.northing - terrain.frame.origin.northing,
@@ -109,7 +120,16 @@ export async function compilePuttomSurfacePreview({
     /* Preserve the 1 m payload/terrain contract, but derive its signed edge
        field from the migration vectors on a 25 cm lattice. */
     boundaryOversample: 4,
+    representation,
   });
+  if (replace) {
+    const surfaceDirectory = join(root, 'surface');
+    const keep = new Set([...compilation.resources.keys()].map(url => url.split('/').pop()));
+    for (const file of await readdir(surfaceDirectory).catch(() => [])) {
+      if (file.endsWith('.bvch') && !keep.has(file)) await rm(join(surfaceDirectory, file));
+    }
+    await rm(join(root, 'surface-preview.json'), { force: true });
+  }
   const bundle = await writeSurfacePreviewBundle(root, compilation, {
     label: 'Puttom · migrerade ytor (ej inmätta)',
     terrainDescriptorSha256: descriptorSha256,
@@ -126,11 +146,20 @@ export async function compilePuttomSurfacePreview({
 }
 
 async function main() {
-  const result = await compilePuttomSurfacePreview();
+  const args = process.argv.slice(2);
+  const representationIndex = args.indexOf('--representation');
+  const result = await compilePuttomSurfacePreview({
+    representation: representationIndex >= 0 ? args[representationIndex + 1] : undefined,
+    replace: args.includes('--replace'),
+  });
+  const descriptorBytes = await readFile(result.descriptorPath);
   console.log(JSON.stringify({
     ready: true,
     provisional: result.descriptor.provisional,
     descriptorPath: result.descriptorPath,
+    /* what PUTTOM_PREVIEW_CONFIG.surfaceDescriptorSha256 must be set to:
+       derived from this output, never typed */
+    surfaceDescriptorSha256: hash(descriptorBytes),
     terrainDescriptorSha256: result.terrainDescriptorSha256,
     sourcePackSha256: result.packSha256,
     ...result.stats,

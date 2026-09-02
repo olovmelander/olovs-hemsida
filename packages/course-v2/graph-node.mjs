@@ -88,7 +88,8 @@ function validateRoutingChunk(chunk, course, label) {
 }
 
 function validateSurfaceChunk(chunk, label) {
-  if (chunk.header.kind !== 'surface' || chunk.header.payloadFormat !== 'surface-grid-u8-i16-le-v1' ||
+  if (chunk.header.kind !== 'surface' ||
+      !['surface-grid-u8-i16-le-v1', 'surface-sdf-u8-v1'].includes(chunk.header.payloadFormat) ||
       !chunk.inspection || chunk.inspection.validCount < 1) {
     throw new Error(`${label} is not a classified surface-grid chunk`);
   }
