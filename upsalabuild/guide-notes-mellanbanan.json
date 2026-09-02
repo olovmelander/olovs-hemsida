@@ -1,0 +1,60 @@
+{
+ "source": "Upsala GK's Mellanbanan (the 2001 nine by Peter Nordwall, 'Vår gömda juvel … stora ondulerade greener och maximalt utnyttjande av naturen') has club prose for one hole only: the 8th, its signature, on the old club page (Wayback 2021-01-26) — 'Fantastisk utsikt från tee över Stora Banan och inbjudande utslag. Andra slaget en utmaning med ett snedhinder fram mot greenen. Den lilla oskyldiga bäcken har förstört många lovande ronder!' — kept verbatim under `club`. Everything else is written from the club's banguider.se sheets (9 images uploaded 2024-12-03: water, bunkers, DIKE lines, carry distances), the Mellanbanan local rules 2025 (the endless penalty areas left of 2 and 6, the internal OB between 3 and 4 that applies only on 3) and the model's routing geometry (tools/hole-geometry.mjs); the model's shapes are synthesised, so the sheets are the authority for hazards. Card caveat: the club's sheets print hole 3 Gul 420 and hole 5 Vit 108 where card-mellanbanan.json (which reproduces golfisverige's printed totals) has 435 and 109. `name` is an editorial tagline. Research 2026-09-02.",
+ "holes": {
+  "1": {
+   "name": "Öppningen",
+   "note": "Öppningshål på Mellanbanan – den tekniskt utmanande nian med stora, ondulerade greener. Damm till höger om tee, bunker till höger i fairway och en kort vänster om green.",
+   "basis": "sheet: pond right of the tees, bunker right of the fairway at ~88 m, bunker left short of the green; club page: 'stora ondulerade greener'; geometry: slight left, flat.",
+   "tiers": 1
+  },
+  "2": {
+   "name": "Pliktområdet vänster",
+   "note": "Utslag över dammen framför tee, med ett oändligt pliktområde längs hela vänstersidan. En bunker vaktar till höger i fairway på inspelsavstånd.",
+   "basis": "sheet: pond in front/left of the tees, bunker right at ~98 m; rules 2025: the penalty area left of 2 is endless; geometry: water on the line at 16%.",
+   "tiers": 1
+  },
+  "3": {
+   "name": "Intern OB",
+   "note": "Mellanbanans längsta hål. Intern out of bounds längs vänstersidan gäller bara här, en damm ligger till höger på andraslaget och en bunker vaktar vänster kort om green.",
+   "basis": "sheet: white OB dots left, pond right between the 185 and 250 m marks, bunker left at ~85 m; rules 2025: the internal OB between 3 and 4 applies only when playing 3; geometry: 435 m line, water 35 m right at 55%.",
+   "tiers": 1
+  },
+  "4": {
+   "name": "Över vikens hörn",
+   "note": "Inspelet går över hörnet av sjön, som ligger till höger om och kort om green – 94 meter över vattnet till framkant. Två bunkrar bakom green till vänster.",
+   "basis": "sheet: lake right of and short of the green with a 94 m carry line to the front, two bunkers back-left; rules 2025: on 4 the internal OB stakes are immovable obstructions; geometry: the synthesised line crosses the pond at 85%.",
+   "tiers": 1
+  },
+  "5": {
+   "name": "Lilla korthålet",
+   "note": "Mellanbanans kortaste hål: en wedge svagt nedför mot en green med tre bunkrar framför och en bakom till höger.",
+   "basis": "sheet: 108/102/86/73/73 m, three bunkers short, one back-right; geometry: −3.6 m.",
+   "tiers": 1
+  },
+  "6": {
+   "name": "Bäcken framför green",
+   "note": "Långt par 5 som svänger höger och faller nio meter. Oändligt pliktområde till vänster, bunkrar på båda sidor av fairway, och en bäck som korsar framför nians djupaste green.",
+   "basis": "sheet: 455 m, stream crossing in front of the green, bunkers left of the green and on both sides of the fairway, green depth 39; rules 2025: the penalty area left of 6 is endless; geometry: dogleg right 30°, −9.4 m, stream on the line at 91%.",
+   "tiers": 1
+  },
+  "7": {
+   "name": "Över bäcken",
+   "note": "Korthål över bäcken som korsar kort om green. En stor bunker framför green till vänster och en bakom.",
+   "basis": "sheet: 155 m, stream crossing short of the green, large bunker front-left, one back-left; geometry: −1.8 m, stream 5 m off the line at 37%.",
+   "tiers": 1
+  },
+  "8": {
+   "name": "Signaturhålet",
+   "note": "Mellanbanans signaturhål och index 1. Fantastisk utsikt från tee över Stora banan och ett inbjudande utslag – sedan ett andraslag över diket som korsar snett framför green. Den lilla oskyldiga bäcken har förstört många lovande ronder.",
+   "club": "Signaturhålet är hål 8. Fantastisk utsikt från tee över Stora Banan och inbjudande utslag. Andra slaget en utmaning med ett snedhinder fram mot greenen. Den lilla oskyldiga bäcken har förstört många lovande ronder!",
+   "basis": "old club page (Wayback 2021-01-26); sheet: DIKE lines at 210/228 m from the tees, pond left of the tee shot, '110 GRAN'; news 2022-11-23: ditches cleared on 6 and 8; geometry: dogleg right 24°, streams at 64-67% and 96%.",
+   "tiers": 1
+  },
+  "9": {
+   "name": "Över dammen",
+   "note": "Avslutande korthål över dammen framför tee. Bunkrar till vänster om green och kort till höger.",
+   "basis": "sheet: 181 m, carry over a pond in front of the tees, bunkers left of the green and right short; geometry: line crosses the pond at 38%, −2.2 m.",
+   "tiers": 1
+  }
+ }
+}

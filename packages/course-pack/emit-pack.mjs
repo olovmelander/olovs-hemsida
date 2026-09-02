@@ -66,7 +66,8 @@ const vec = {
   veg: model.vegetation,
   cover,
   infra: model.infra,
-  surround: OLD ? model.surround : { clearfells: [], yard: null, hayfields: null, shallows: [] },
+  /* the newer builds may carry traced surroundings too (Puttom: the works yard) */
+  surround: model.surround ?? { clearfells: [], yard: null, hayfields: null, shallows: [] },
   scenery: model.scenery,
 };
 /* ------------------------------------------------------------------------------- */

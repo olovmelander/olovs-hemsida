@@ -268,6 +268,45 @@ export class TerrainTextureBatch {
     return Object.freeze({ count: this.geometry.instanceCount, morphing });
   }
 
+  /** What is drawn right now, tile by tile, with a fingerprint of the bytes
+      the GPU was given for it -- a tile whose layer sums to zero has no
+      heights and no normals and draws as a flat, uniformly lit plate. */
+  inventory() {
+    const layerBytes = this.width * this.height * 8;
+    const data = this.texture.image.data;
+    return this.current.map(resource => {
+      const layer = this.layersByTile.get(resource.tileId);
+      let sum = 0;
+      const start = layer * layerBytes;
+      for (let offset = start; offset < start + layerBytes; offset += 97) sum += data[offset];
+      /* the mean decoded normal of the layer: every texel pair holds heights
+         then the two octahedral normal components in the second texel */
+      let nx = 0, ny = 0, nz = 0, count = 0;
+      for (let texel = 0; texel < this.width * this.height; texel += 61) {
+        const o = start + texel * 8 + 4;
+        const ox = (data[o] | data[o + 1] << 8) / UINT16_MAX * 2 - 1;
+        const oz = (data[o + 2] | data[o + 3] << 8) / UINT16_MAX * 2 - 1;
+        const oy = Math.max(1e-6, 1 - Math.abs(ox) - Math.abs(oz));
+        const length = Math.hypot(ox, oy, oz);
+        nx += ox / length; ny += oy / length; nz += oz / length; count++;
+      }
+      return Object.freeze({
+        meanNormal: count ? [+(nx / count).toFixed(3), +(ny / count).toFixed(3), +(nz / count).toFixed(3)] : null,
+        tileId: resource.tileId,
+        batch: this.mesh.userData.tag,
+        layer,
+        identity: this.identityByTile.get(resource.tileId) ?? null,
+        sampleSpacingMetres: resource.sampleSpacingMetres,
+        worldOriginX: resource.worldOriginX,
+        worldOriginZ: resource.worldOriginZ,
+        heightOffsetWorld: resource.heightOffsetWorld,
+        geometricErrorMetres: resource.geometricErrorMetres,
+        noDataCount: resource.noDataCount ?? null,
+        layerByteSum: sum,
+      });
+    });
+  }
+
   stats() {
     return Object.freeze({
       width: this.width,
@@ -367,6 +406,10 @@ export class TerrainTileBatchSet {
     let morphing = false;
     for (const batch of this.batches.values()) morphing ||= batch.tick(now).morphing;
     return Object.freeze({ morphing });
+  }
+
+  inventory() {
+    return Object.freeze([...this.batches.values()].flatMap(batch => batch.inventory()));
   }
 
   stats() {

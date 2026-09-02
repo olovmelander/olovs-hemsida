@@ -1,0 +1,558 @@
+{
+  "schemaVersion": 1,
+  "phase": "vegetation-plan-phase-4-published-generation",
+  "courseSlug": "puttom",
+  "observedOn": "2026-09-02",
+  "baseUrl": "http://127.0.0.1:8620",
+  "renderer": "gpu-angle-d3d11",
+  "note": "SwiftShader captures are rendering evidence, not hardware performance evidence; boot seconds are indicative only. Zoning in the tree export is provisional until the plan approves zone-A geometry.",
+  "inputs": {
+    "pack": {
+      "url": "courses/puttom/pack.bin",
+      "bytes": 462608,
+      "sha256": "50e81bddd5e621f5f5b7155cbd1022d66fc71c752a08fe674117804a854a0b4a"
+    },
+    "treeCover": {
+      "id": "legacy-tree-cover",
+      "kind": "canopy",
+      "path": "puttombuild/tree-cover.json",
+      "sha256": "7dfb71058eee3a52d1ee1f32d212c3b4aab05a11ec81d1a81278292b40af5655",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current imagery-classified canopy raster."
+    },
+    "courseModel": {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "puttombuild/course-model.json",
+      "sha256": "ce192fe669ba2a5256451287554f5c80d1de95416b84b176cd6c9598b1751176",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current composite vectors, routing, elevations and scenery inputs."
+    },
+    "courseV2Manifest": "course-v2-e5eb8e4e4a63b1875df217b8992a7e46161b6b34124f31667edb9a0151d3893d.json",
+    "groundV2Manifest": "ground-v2-a25ff2b3d8175d2d32dc5fbefcb605429c7ca50c2b89c506dc3862b6384aecb6.json",
+    "groundPreviewDescriptorSha256": "6dac4c4428873e6e93ad9eb845f77db225a5c6a297d4e56ea525de61dbb978c2"
+  },
+  "runs": [
+    {
+      "mode": "gpk1",
+      "url": "http://127.0.0.1:8620/?bana=puttom&det=1",
+      "booted": true,
+      "bootSeconds": 24.6,
+      "errors": [],
+      "stats": {
+        "verts": 411812,
+        "tris": 799074,
+        "trees": 54601,
+        "vista": 59425,
+        "tufts": 5156,
+        "bushes": 899,
+        "stones": 221,
+        "reeds": 314,
+        "cars": 67,
+        "pylons": 0,
+        "stumps": 0,
+        "draws": 38,
+        "surfaceOverlays": 0,
+        "backend": "webgpu"
+      },
+      "trees": {
+        "total": 54601,
+        "species": {
+          "spruce": 14514,
+          "pine": 29671,
+          "birch": 10416
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 43963,
+          "scrubRing": 0,
+          "satellite": 10486,
+          "shore": 152,
+          "v2Individual": 0,
+          "v2Stand": 0
+        },
+        "zones": {
+          "A": 3911,
+          "B": 9633,
+          "C": 41057
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 83
+          },
+          {
+            "n": 2,
+            "count": 1325
+          },
+          {
+            "n": 3,
+            "count": 1309
+          },
+          {
+            "n": 4,
+            "count": 149
+          },
+          {
+            "n": 5,
+            "count": 70
+          },
+          {
+            "n": 6,
+            "count": 1630
+          },
+          {
+            "n": 7,
+            "count": 2365
+          },
+          {
+            "n": 8,
+            "count": 65
+          },
+          {
+            "n": 9,
+            "count": 159
+          },
+          {
+            "n": 10,
+            "count": 118
+          },
+          {
+            "n": 11,
+            "count": 327
+          },
+          {
+            "n": 12,
+            "count": 1206
+          },
+          {
+            "n": 13,
+            "count": 63
+          },
+          {
+            "n": 14,
+            "count": 60
+          },
+          {
+            "n": 15,
+            "count": 31
+          },
+          {
+            "n": 16,
+            "count": 2900
+          },
+          {
+            "n": 17,
+            "count": 723
+          },
+          {
+            "n": 18,
+            "count": 961
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": null,
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": null,
+        "planned": null,
+        "coverageTiles": 0,
+        "error": null,
+        "graphObjectTiles": null,
+        "graphStandTiles": null,
+        "graphEncodedObjectBytes": null,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 83.3
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 193.7
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 978.1
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 5539.5
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 8801.9
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 8962.9
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 9515.4
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 11462.3
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 23576.8
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 23619
+          },
+          {
+            "name": "klar",
+            "atMs": 23688.3
+          }
+        ],
+        "atlasMs": 247.8,
+        "totalMs": 23713.8
+      },
+      "v2": {
+        "requested": false,
+        "ready": false,
+        "status": "fallback",
+        "reason": null,
+        "selection": {
+          "mode": "off",
+          "requestMode": "off",
+          "graph": null,
+          "graphError": null
+        },
+        "bounds": null,
+        "backend": "webgpu"
+      },
+      "course": {
+        "slug": "puttom",
+        "name": "Puttom",
+        "club": "Örnsköldsviks Golfklubb",
+        "title": "Örnsköldsviks GK Puttom — Skogsbana i 3D",
+        "tag": "Örnsköldsviks GK",
+        "boot": "Arnäsvall · Örnsköldsvik",
+        "build": "puttombuild",
+        "par": 72,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "Vit",
+            "Gul",
+            "Röd",
+            "Orange"
+          ],
+          "cols": [
+            16053486,
+            15780154,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 5,
+          "def": 1
+        },
+        "photos": 4,
+        "packUrl": "courses/puttom/pack.bin",
+        "bytes": 462608,
+        "sha256": "50e81bddd5e621f5f5b7155cbd1022d66fc71c752a08fe674117804a854a0b4a"
+      },
+      "shots": []
+    },
+    {
+      "mode": "v2-require",
+      "url": "http://127.0.0.1:8620/?bana=puttom&det=1&v2=require",
+      "booted": true,
+      "bootSeconds": 29.8,
+      "errors": [],
+      "stats": {
+        "verts": 33090,
+        "tris": 55092,
+        "trees": 79407,
+        "vista": 57652,
+        "tufts": 5084,
+        "bushes": 888,
+        "stones": 207,
+        "reeds": 447,
+        "cars": 67,
+        "pylons": 0,
+        "stumps": 0,
+        "draws": 39,
+        "surfaceOverlays": 0,
+        "backend": "webgpu"
+      },
+      "trees": {
+        "total": 79407,
+        "species": {
+          "spruce": 22360,
+          "pine": 43716,
+          "birch": 13331
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 12879,
+          "scrubRing": 0,
+          "satellite": 6766,
+          "shore": 19,
+          "v2Individual": 3502,
+          "v2Stand": 56241
+        },
+        "zones": {
+          "A": 5036,
+          "B": 18084,
+          "C": 56287
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 104
+          },
+          {
+            "n": 2,
+            "count": 3317
+          },
+          {
+            "n": 3,
+            "count": 2092
+          },
+          {
+            "n": 4,
+            "count": 153
+          },
+          {
+            "n": 5,
+            "count": 87
+          },
+          {
+            "n": 6,
+            "count": 3489
+          },
+          {
+            "n": 7,
+            "count": 3427
+          },
+          {
+            "n": 8,
+            "count": 102
+          },
+          {
+            "n": 9,
+            "count": 171
+          },
+          {
+            "n": 10,
+            "count": 138
+          },
+          {
+            "n": 11,
+            "count": 477
+          },
+          {
+            "n": 12,
+            "count": 1613
+          },
+          {
+            "n": 13,
+            "count": 79
+          },
+          {
+            "n": 14,
+            "count": 46
+          },
+          {
+            "n": 15,
+            "count": 13
+          },
+          {
+            "n": 16,
+            "count": 4580
+          },
+          {
+            "n": 17,
+            "count": 1004
+          },
+          {
+            "n": 18,
+            "count": 2228
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": {
+          "individuals": 3502,
+          "standTrees": 56241,
+          "cellsPlanted": 56241,
+          "cellsSkipped": 193061,
+          "baseMismatch": {
+            "samples": 3502,
+            "meanAbsMetres": 0,
+            "p95Metres": 0,
+            "maxMetres": 0.001
+          },
+          "coverageTiles": 64
+        },
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": {
+          "referencedObjectTiles": 64,
+          "referencedStandTiles": 64,
+          "loadedTiles": 64,
+          "records": 3502,
+          "bytes": 725074,
+          "frameFingerprint": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8"
+        },
+        "planned": {
+          "individuals": 3502,
+          "standTrees": 56241,
+          "cellsPlanted": 56241,
+          "cellsSkipped": 193061,
+          "baseMismatch": {
+            "samples": 3502,
+            "meanAbsMetres": 0,
+            "p95Metres": 0,
+            "maxMetres": 0.001
+          }
+        },
+        "coverageTiles": 64,
+        "error": null,
+        "graphObjectTiles": 64,
+        "graphStandTiles": 64,
+        "graphEncodedObjectBytes": 176823,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 61.7
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 5812.9
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 6364.4
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 17648.6
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 17669
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 17689.2
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 18181
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 19798.2
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 28802.8
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 28842.4
+          },
+          {
+            "name": "klar",
+            "atMs": 28906.9
+          }
+        ],
+        "atlasMs": 235.6,
+        "totalMs": 28928
+      },
+      "v2": {
+        "requested": true,
+        "ready": true,
+        "status": "ready",
+        "reason": null,
+        "selection": {
+          "mode": "fixed-frontier",
+          "requestMode": "require",
+          "graph": {
+            "slug": "puttom",
+            "groundId": "puttom",
+            "frameFingerprint": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
+            "tiles": 277,
+            "holes": 18,
+            "shellBytes": 78801,
+            "encodedTerrainBytes": 20290966,
+            "surfaceTiles": 0,
+            "objectTiles": 64,
+            "encodedObjectBytes": 176823,
+            "standTiles": 64,
+            "encodedStandBytes": 548251
+          },
+          "graphError": null
+        },
+        "bounds": {
+          "x0": -1093.5217079999857,
+          "z0": -852.7605410004035,
+          "x1": 954.4782920000143,
+          "z1": 1195.2394589995965
+        },
+        "backend": "webgpu"
+      },
+      "course": {
+        "slug": "puttom",
+        "name": "Puttom",
+        "club": "Örnsköldsviks Golfklubb",
+        "title": "Örnsköldsviks GK Puttom — Skogsbana i 3D",
+        "tag": "Örnsköldsviks GK",
+        "boot": "Arnäsvall · Örnsköldsvik",
+        "build": "puttombuild",
+        "par": 72,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "Vit",
+            "Gul",
+            "Röd",
+            "Orange"
+          ],
+          "cols": [
+            16053486,
+            15780154,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 5,
+          "def": 1
+        },
+        "photos": 4,
+        "packUrl": "courses/puttom/pack.bin",
+        "bytes": 462608,
+        "sha256": "50e81bddd5e621f5f5b7155cbd1022d66fc71c752a08fe674117804a854a0b4a"
+      },
+      "shots": []
+    }
+  ]
+}

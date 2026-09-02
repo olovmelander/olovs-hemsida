@@ -38,6 +38,8 @@ const readJSON = p => JSON.parse(fs.readFileSync(p, 'utf8'));
 const cfgPath = process.argv[2];
 if (!cfgPath) { console.error('usage: build-nine.mjs <config.json>'); process.exit(2); }
 const cfg = readJSON(path.resolve(ROOT, cfgPath));
+/* the nine's hålguide, a guide-notes.json like the eighteens' (cfg.guideNotes, repo-relative) */
+const NOTES = cfg.guideNotes ? (readJSON(path.resolve(ROOT, cfg.guideNotes)).holes || {}) : {};
 
 const parent = readJSON(path.join(ROOT, cfg.parentBuild, 'course-model.json'));
 const card = readJSON(path.resolve(ROOT, cfg.card));
@@ -189,7 +191,10 @@ const holes = card.holes.map(h => {
     pin: rnd(green),
     elev: { tee: +te.toFixed(1), green: +ge.toFixed(1), rise: +(ge - te).toFixed(1) },
     tiers: 1,
-    name: (cfg.names || {})[h.n] || null, note: (cfg.notes || {})[h.n] || null,
+    /* a nine's hålguide: cfg.holes[n] = { name, note, club } (club is the verbatim source text,
+       kept for provenance and not carried into the model), else the older names/notes maps */
+    name: NOTES[h.n]?.name ?? cfg.holes?.[h.n]?.name ?? (cfg.names || {})[h.n] ?? null,
+    note: NOTES[h.n]?.note ?? cfg.holes?.[h.n]?.note ?? (cfg.notes || {})[h.n] ?? null,
     conf: cfg.conf,
   };
 });

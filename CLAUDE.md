@@ -564,8 +564,244 @@ length each hole line is slid to.
   4, 9, 13 and 18; holes 7 and 8 are blind (a reviewer wants a semaphore); hole
   12 is a short par 3 over a bay of Stor-Rössjön. These are in `guide-notes.json`.
 - The NVGK-specific landmarks (chapel, marina boats, far sea) all guard on
-  features Puttom lacks and no-op; a bespoke clubhouse and the blind-hole
-  sighting tower are open polish items.
+  features Puttom lacks and no-op; the blind-hole sighting tower is an open
+  polish item.
+
+## Hålguiderna — the per-hole text on all nine courses
+
+Every course's HUD text comes from a `guide-notes.json` beside its build
+(`<build>/guide-notes.json`; the nines name theirs in their config's
+`guideNotes`, e.g. `johannesbergbuild/guide-notes-9.json`), read by each
+`reconcile.mjs` or by `tools/build-nine.mjs`. One record per hole: `name`
+(an editorial tagline — no club here names its holes, and the two epithets
+Norrfällsviken uses are kept), `note` (the Swedish description the HUD
+shows, one to three sentences), `club` (the club's own text verbatim where
+one exists) and, where there is no club text, `basis` (which sourced facts
+the note was written from). The `source` string at the top says where the
+club text was found and what was checked. **The HUD shows `note` before
+`shape`** (main.js and all six pages; it was the other way round, which is
+why Veckefjärden's card read an English geometry string).
+
+Where the club's text lives is different for every club, and none of it
+is on the page you would look at first:
+
+| course | the club's per-hole text | how it was reached |
+|---|---|---|
+| Puttom | LiveCaddie course 658, embedded on puttom.se/banguide | `tools/livecaddie-holes.mjs 658` |
+| Veckefjärden | LiveCaddie 379 (the club's condensed text) + Magasin Veckefjärden 2019 pp. 51–56 (Peter Forsberg's longer text) | the tool; the magazine on Issuu, transcribed |
+| Norrfällsviken | the OLD site (offline), Wayback 2015–2025; nvgk.se still says "Kommer snart" | Wayback; the 4/8 renumbering caveat applies |
+| Johannesberg | the SPELTIPS paragraph on each 2026 hole plan (Bana-N.jpg) | plain curl; read off the images |
+| Ängsö | angsogolf.org 2001–2003 (LiveCaddie 649 today has empty text) | Wayback |
+| Upsala | none — sheets on banguider.se carry numbers and labels only | written from sheets, rules, the Kains interview, club news |
+| the three nines | none anywhere | written from the routing geometry and the club's course-level prose, and say so |
+
+`tools/hole-geometry.mjs <build>` prints what the model says about every
+hole — bend and where, tee/green heights and the DEM profile, bunkers and
+water by the PLAYER'S side — and every side, slope and crossing in the notes
+was checked against it. Two traps it carries: lib's `right()` pairs with
+`alongLine`'s angle, not with `bearing()`, so mixing them reflects sides
+(CLAUDE.md's old warning, met again); and a dogleg's direction is the sign
+of the heading change — the elbow of a LEFT dogleg lies RIGHT of the
+tee–green chord, so a chord-side label is inverted. Where the club and the
+model disagree (Johannesberg's 11th "rakt" against a 29° bend; the 18th's
+fairway-crossing hazard 9 m off the modelled line; Norrfällsviken's dogleg
+distances) the notes say neither. Facts the club states and the model lacks
+(Ängsö's brook before the 9th green, Veckefjärden's crossing ditch on 17,
+Upsala's 2022 bunker on 8) are kept in the notes: they describe the course,
+not the render.
+
+**`geobuild/lint-page.mjs` had never run on Windows.** `execFileSync('npx')`
+needs a shell there, and the catch swallowed the EINVAL, so the gate exited
+1 with no message — and a `| tail` in the runner hid the exit code. It
+spawns with a shell on win32 now and prints the error; the probe that
+proves it (an injected undefined identifier) fires.
+
+### Puttom's hålguide — the club's own words, and two things it exposed
+
+`puttombuild/guide-notes.json` is condensed from the club's own per-hole
+banguide, which is not on puttom.se at all: `puttom.se/banguide` is an
+iframe of the LiveCaddie course guide (course 658), and the text the club
+wrote for each hole sits on `course-graphics.php?course=658&hole=N` behind
+a JS-rendered page that 403s any plain fetch. `tools/livecaddie-holes.mjs`
+drives Chrome through all eighteen and is reusable for any club whose guide
+is LiveCaddie — find the id in the iframe src. The verbatim text stays under
+`club` beside each condensed `note`, and every bend, rise and side in the
+notes was checked against the model's line geometry and the DEM profile
+(the 11th's green really is in a hollow: 72.6 m at 80 m out, 68.7 m on the
+green). `name` is an editorial tagline; the club names no holes.
+
+**The model's lake names are on the wrong rings.** `reconcile.mjs` calls the
+two LARGEST water rings Stor- and Lill-Rössjön, but Wikipedia/SMHI put both
+lakes ON the course: Stor-Rössjön (14.4 ha, 63°17′48″N 18°56′31″E) is the
+ring the 12th, 15th and 16th play over, Lill-Rössjön (11.3 ha, 63°18′04″N
+18°56′02″E) the pond inside the 4th's dogleg. The 121 ha lake 4 km
+north-west that carries the name today is something else. The club's
+history says "mellan två SMÅ sjöar", which should have been the tell. Not
+yet fixed, because the names choose which rings get the wide shore bench.
+
+**The club's card disagrees with the aggregators on two cells.** The
+LiveCaddie card (and golfify.io) give hole 11 index 6 and hole 16 index 12;
+caddee and golfisverige, which the committed card came from, have them
+swapped. The club also lists no 61 tee on holes 3, 4, 11 and 12. Per the
+Mellanbanan rule the club's sheet should win, but this one is left for the
+owner; the notes state neither claim.
+
+### Puttom's facilities — what OSM never had, and where they came from
+
+The extract has no footway or path, no parking polygon, no bridge and no
+building at the club (today's OSM is the same: one parking NODE, a toilets
+node), so cart paths, lots and the clubhouse were absent because nothing
+supplied them. `puttombuild/sat-traces.json` now carries them, read off z18
+Esri tiles with `tools/sat-mosaic.mjs` — a Chrome-composed mosaic with a
+labelled metre grid and the model drawn on top, which is what tracing by eye
+needs and what `mosaic.py` used to give before this machine lost Python:
+the clubhouse block and its west annex, the shop block, the range shelter
+(kind `roof`, drawn as a canopy on posts) and range house, three works-yard
+sheds and the yard's hardstanding (`surround.yard`), five summer houses,
+the main gravel car park and the motorhome lot, the yard and summer-house
+service roads, five gravel cart paths the tiles show clearly (1→2, the hub
+to the bay and along its north shore, down the 13th, 11→12, 14→15), the
+range tee line (mats, dividers, kerb) and its safety net along the road
+side of the field, and the cart fleet's row. Each carries a confidence; the
+net's HEIGHT is assumed, its line is a thin shadowed line on the tiles.
+
+**The clubhouse was wrong in this file, twice.** The club's photograph of
+the 18th green at sunset (puttom.se) shows a modern two-storey building
+with a glazed gable and balcony towards the green under a dark roof — not
+Falu red under pantile — and the imagery puts it in the large block EAST
+of the L-shaped wing that carried the name. The first correction painted
+its lower storey blue, because that photograph is blue-hour light on red
+paint: the owner's drone photograph of the whole hub (Instagram, from over
+the lake looking north) shows Falu red with white trim and white window
+frames, a wooden terrace with parasols along the glass end, motorhomes on
+the lot west of it, an entrance square with the flagpoles between it and
+the road, and a light grey road. **A photograph at golden or blue hour
+tells you shape, never colour.** `CLUB_LOOK` grew `lowerWall/lowerHeight`,
+`gable`, `glazedGable` and `balcony`; the glazed end is chosen by where the
+course is (the mean of the green centres), never by a coordinate.
+`SCENERY.buildingLooks[id]` states an outbuilding's colours and whether it
+carries window rows, by trace id.
+
+**OSM's road cut the bend, and everything placed against it was wrong.**
+The `unclassified` way through the hub runs up to ten metres inside the
+real road's curve (measured by drawing the model over the tiles with
+`tools/sat-mosaic.mjs`), so the car park sat on the carriageway, the net
+stood on its shoulder and the sheds touched it however carefully they were
+traced. `sat-traces.json` now carries the road's centreline read off the
+tiles and a `hubOverride` box inside which `reconcile` drops every OSM road
+and track point (a way that crosses the box comes out as its outside
+runs). Traced against THAT road: the annex as two blocks (gabled, not the
+flat L), the reception block, the L-shaped "vinkelhus" between the tee
+line and the road, the range house whose wall stands on the verge, the
+car park east of the road with 2.5–5 m clear of its edge, the motorhome
+lot (`vehicles: "motorhome"` — drawn by the scenery batch, no cars), the
+entrance square (`cars: false`), and the net five metres off the
+centreline on the field side. Gravel roads are pale (`C.hard`), not the
+path brown they inherited.
+
+**"A dark road under the grey road" was the path class.** Every road adds
+itself to the paths index with a half-width of 4 m, the classifier turns
+that into the PATH class, and the class-SDF chunks paint it in path brown
+under the 2.2 m pale ribbon — a brown band a metre and a half wider than
+the road on either side, and under the wall of any building on the verge.
+The class band is now the ribbon's width for non-trunk roads (2.4 m
+gravel, 3 m asphalt) and the PATH colour is pale compacted gravel, so
+band and ribbon are one surface. Changing either means recompiling the
+surface preview. That was half of it: the other half was the ribbon's own
+VERGE — 2.2 m each side of a road, coloured as the ground blended toward
+gravel and multiplied by the terrain's ambient term, which on the 1 m
+ground read as a dark stripe either side of a pale one (road 52 against
+grass 78 in evening light, measured). A toned gravel run now has a 0.7 m
+shoulder in its own colour and takes no AO. And a lot polygon must not
+contain a building: the motorhome ring included the annex and the vans
+were parked in it. Measure a suspected overlay by hiding nothing and
+sampling boxes on the capture (`measure-png` in the scratch tools):
+the first two fixes here moved the number by six, which is how the verge
+was found.
+
+**The range end, from two aerial photographs the owner supplied** (Google
+Maps user photos): the tee line is a CURVED run of red pavers from a small
+red hut at its west end, sweeping round the enclosed block of the range
+building and along the open front of that building's long wing — which is
+the covered bays, an 18 m roof on posts, and the only roof over any mat.
+The enclosed part is an L that HUGS THE ROAD — a 16 × 6.5 m arm along it,
+4.5 m off the centreline, and a 6.5 × 15 m arm turning towards the field
+at the west end, two gabled ridges at right angles — and the tee arc is
+OPEN along its whole length: the owner, who knows the place, had the roof
+I had put over its last bays removed. The owner drew that L over a
+top-down render; three drafts before it had put the enclosed block across
+the arc's end, where it stood on the tee. Two wrong drafts came from
+reading the tiles alone: the hut's roof taken for a canopy, then a canopy
+invented along the mats. When the owner's word and a photograph read
+differently, the owner's word wins; note it and move on.
+Read the arc's points off a bare crop (`SAT_PLAIN=1 tools/sat-mosaic.mjs`)
+— the overlay hides the pavement it is meant to help you trace. The tee
+line renders as one pale hardstanding strip four metres deep with a kerb,
+the mats and white dividers standing on it; per-mat quads read as specks
+from the clubhouse. An L with two roofs needs its cross wing traced longer
+across than along, or the gable rule puts both ridges the same way.
+**Near the course the ground paints the roads; the ribbon is for beyond
+it.** The owner wanted the roads in the same flat gravel as the lots, and
+the ground material already paints a pale PATH band under every road, so
+inside its coverage (the v2 surface layer where loaded — `probeAt(x, z)
+.inBounds`, since the probe returns an object even outside — else the
+boot atlas) a gravel road gets no ribbon at all, and a road that crosses
+the edge keeps one point inside so ribbon and band meet. Measured in the
+evening top view the road and the square are the same 108 in daylight and
+70 against 61 at dusk. Gravel ribbons beyond the coverage have their own
+matte material (`makeGravel`); they used to borrow the turf shader, grass
+detail and all, and came out brown. **And the corridor road the owner
+saw on the banguide, Google Maps and the tiles was in the model as two
+thin paths, one starting at the wrong place** — it is one gravel service
+road now, from the south-east corner of the entrance square straight
+south-south-east past the 18th green to the junction at the bay's
+north-west corner, down between the 18th and the 14th past the 15th tee,
+and on west-south-west above the bay's south-west arm and south down the
+17th's east edge to its tee, where the banguide's 16 marker sits (the
+markers are hole MIDPOINTS). Beside the bay it is held 15 m west of the
+shore track the tiles show, because the OSM lake ring runs that far west
+of the real shore and a road inside the ring stands in carved water. A
+road on three references and a path in the model is a trace error, never
+a rendering one. And the first reroute left the motorhome lot
+instead, read off an 820 m crop where two lines seemed to leave the hub;
+a 200 m crop at native resolution showed no road at the lot at all.
+**Trace a road at native resolution or not at all** — at 0.4 m per
+displayed pixel a mown edge and a gravel road are the same light line.
+Three more from the same road: **PATH ranks above FRINGE, FAIRWAY and
+SEMI** in `SURFACE_PRIORITY` now, because the mown classes painted over
+the road wherever it crossed a fairway (a cart path across a fairway is
+gravel on the ground); **a road must keep ten metres off every tee
+mark**, the synthesised decks included — the trace script measures the
+nearest mark (9.4 m, the 10th's) and the first line ran through the
+15th's white tee and the 17th's red one; and **"the small dock in the
+water on the 14th" was a footbridge**, generated where a shore path cut
+a corner of the OSM lake ring, which is drawn up to 15 m off the real
+shore. The two shore paths are GENERATED from that ring, offset six
+metres onto land, so they cannot cross the water they follow, and the
+trace script counts way-ring crossings (zero) before anything is built.
+
+**Buildings along a road stand square to the road, not to the map.** The
+owner drew the four range buildings over a top-down render and every one
+of them was turned with the road; traced axis-aligned off the tiles they
+had read as dropped at random. Trace them in the road's own frame (a unit
+vector along it and one across it, rectangles as centre ± half-extents),
+which is what the trace script does for these four.
+
+Two things could not be had: Lantmäteriet's open building footprints
+(`stac-vektor` collection `byggnader`, CC-BY) list fine but the kommun zip
+on `dl1` answers 403 for this account, and puttom.se refuses plain fetches
+(403) — a real browser reads it, and its large images are what to look at.
+Footbridges are generic now (a path crossing a water ring or stream gets a
+plank deck with rails), but Puttom's imagery shows no bridge on the course
+and its streams lie a kilometre north-east, so none is drawn here.
+
+**A pack change re-binds v2.** The v2 root index and course manifest carry
+the exact live GPK1 entry (`fallbackV1`) and the surface preview carries
+`source.packSha256`; a new pack fails both closed. `publish-ground-rings`
+now takes the fallback from the LIVE manifest instead of the previous
+root's copy, and the surface preview is recompiled with `--replace`, its
+new sha copied into `PUTTOM_PREVIEW_CONFIG.surfaceDescriptorSha256` (a
+derived constant: from the tool's output, never typed).
 
 ## More courses — `angso3d`, `upsala3d`, `johannesberg3d` (+ their `*build/`)
 
@@ -1211,6 +1447,53 @@ measurable: with the old loader against it the pilot reports
 `{status:"ready", tiles:64}`. **Do not reason about what a host ought to do —
 ask it**, and point the harness at something shaped like the real one.
 
+### The v2 surfaces are per-class distance fields
+
+`docs/puttom-v2-surface-rendering-plan.md` is implemented: under `?v2=` Puttom's
+surfaces come from `surface-sdf-u8-v1` chunks — one exact Euclidean signed
+distance per non-rough class (`packages/course-v2/distance-transform.mjs`,
+`surface-sdf-grid.mjs`), compiled from a 25 cm resolved mask per tile with a
+halo as wide as the clamp, so shared borders are byte-identical — and the
+terrain material (`createClassSdfDecorator` in `material.js`) turns them into
+normalized weights that blend complete material rows baked as constants. No id
+is ever sampled. The pair representation is still decodable and the six GPK1
+courses' boot atlas is untouched. `tools/v2-surface-audit.mjs` is the
+instrument: `BANVY_GPU=1 node tools/v2-surface-audit.mjs --backend webgpu`
+boots the built app on the real adapter, gates representation / overlays /
+draws, walks probe transects across every green, tee and bunker edge, shoots
+the visual matrix, and reads the GPU's own pixels back in the weights view to
+compare with the CPU probe. On the RTX 3070 both backends pass: contour error
+mean 0.053 m, max 0.175 m; 1981/1981 pixels agree.
+
+Four things it caught, each of which read as correct on paper:
+
+- **Rough as `−max(sdf_i)` is a seam.** On a green/fairway edge both distances
+  are zero, so the distance complement gives rough a third of the weight along
+  every cut edge. Rough is `max(0, 1 − Σ raw_i)` — the complement of the
+  WEIGHTS — normalised by `max(1, Σ raw_i)`.
+- **Asymmetric widths leave a rough sliver.** Green at 0.16 m and fairway at
+  0.25 m: the green fades before the fairway has risen. Each class must blend
+  over the width of the class it actually meets, found per fragment from the
+  two largest distances (`SURFACE_TRANSITION_WIDTH_METRES` in `surface.js`;
+  the probe applies the identical rule).
+- **The compiler must draw the rings the app draws.** `main.js` smooths green,
+  fairway and tee rings at boot and synthesises a pad under every unmapped tee
+  marker, and the pack on disk has neither — greens measured 0.28 m off until
+  both steps moved into `engine/ring-smoothing.mjs` and `engine/tee-pads.mjs`,
+  which `buildGroundSurfaceFeatures({smoothEdges, inferTeePads})` applies for a
+  compiler and never for the runtime, whose holes are already smoothed in place.
+- **A categorical debug view must not be tone-mapped or fogged**, or its
+  pixels cannot be classified; and calibrating colours from the frame must
+  first reject pixels unlike the authored colour, or forest — mostly under
+  tree crowns — measures as tree-green and claims every rough probe under a
+  tree. The palette is hand-spaced now (`surfaceDebugColour`): the golden-ratio
+  walk put rough and forest twenty degrees apart.
+
+Two harness notes: `check-app-build` reads `_headers` with line endings
+normalised, because a Windows checkout hands it over as CRLF and every rule
+was "missing"; and a new chunk name needs adding to `vite.config.js`'s
+`globIgnores` or the PWA precaches it and the same gate fails.
+
 ### Phase 6 groundwork — the hosting rules, and one that is load-bearing
 
 `apps/golf/public/_headers` and `_redirects` ship with the build, so the hosting
@@ -1320,6 +1603,52 @@ absolute column. The **standalone pages still open on their back tee** — they 
 hotfix-only — so a parity run comparing app against page must now pass the same
 `?tee=` to both sides. Same rule as everywhere else here: measure like with like.
 
+### The bansafari is a broadcast flyover, and it is measured
+
+`initHoleFlight` in main.js builds one continuous drone shot per hole as a
+table of stations every 3 m -- position, look point, lens -- and the frame
+loop only walks it (`flightStep` + `applyFlightCamera`). The shape is the PGA
+Tour hole flyover: a slow push-off from behind the tee, a climb to a cruise
+that scales with the hole, a descent into the approach with the pin held
+in frame, a 180° sweep round the green ending on the reverse angle, a hold,
+and a dip-to-black cut to the next hole. `tools/check-flight.mjs` gates it
+(clearance, pan rate, jolt, pitch band, duration) by asking the page to
+SIMULATE each hole offline through `V3D.flightSim`, and can fly a hole live
+or run the tour through its first cut. Things it took the measurements to find:
+
+- **Nothing turned the camera.** OrbitControls' `update()` is what orients the
+  camera and it is skipped while flying; the old flight had no `lookAt`, so it
+  slid along its spline staring in one fixed direction. The look curve it
+  built was dead code. Flight orientation is an explicit `lookAt` now.
+- **The ground under the flight is an envelope, and the trees are the planted
+  ones.** The highest terrain across a 24 m swath plus the tallest crown top
+  in the planted population (`treeTopGrid`, a 10 m cell max over `trees`),
+  slope-limited to a 12° climb, then filtered. A class lookup
+  (`classify().forest`) misses most of what the planter stood up from the
+  satellite raster and the v2 registry -- the first version flew through the
+  crowns behind the 12th at Puttom while reporting 19 m of clearance.
+- **The sweep keeps its pitch and gives up its radius.** Climbing over the
+  canopy at a fixed radius put the camera 44 m over a par-3 green looking
+  straight down at a disc with no horizon. Pitch to the pin is 26° at the
+  design radius, steepens to at most 33°, and past that the arc widens
+  (to 85 m); the sweep's speed is an angular rate so a wide arc pans no
+  faster than a tight one. The frame centre aims 7-11° above the pin so the
+  horizon stays inside the top of frame.
+- **A level sweep below a crown it did not know about is a pop.** The floor
+  used to be applied after the filter, so one station's lift became a 6 m
+  jump in half a second (hole 6, 148 m/s²). The floor is applied against the
+  slope-limited envelope BEFORE the filter now; the smooth-max after it is a
+  safety net that should not fire, and the gate's jolt limit is what proves it.
+- **Measure the sim at full precision.** Rounding the track's timestamps to
+  milliseconds put 2% jitter on every velocity and 70 m/s² of fake jolt on
+  every hole, which hid the real one.
+- Speed is a function of distance integrated once into a time table, so the
+  shot has one velocity profile and no seam at the green. Position and look
+  point pass through critically damped springs with different time constants
+  (0.28 s airframe, 0.85 s gimbal). Holes take 32-48 s; ~12 min for eighteen.
+- The progress label reads `GREENSVEP`, not `GREEN 360°`, because the sweep
+  is 180°. The standalone pages still carry the old flight; they are hotfix-only.
+
 ### The clubhouses, and what a photograph is for
 
 **Two of six were not being drawn as clubhouses at all.** The buildings pass
@@ -1350,7 +1679,7 @@ course overrides them from photographs:
 |---|---|---|---|
 | Veckefjärden | cream render | dark red | 3 (the old school) |
 | Norrfällsviken | falurött, white trim | dark red-brown | 1, glazed veranda + terrace |
-| Puttom | falurött, white trim | brown-grey pantile | 2, glazed ground floor, white porch |
+| Puttom | Falu red, white trim, a glazed gable end (the "blue lower storey" in the sunset photo was the blue hour) | dark grey, gabled | 2, window wall, balcony and terrace facing the 18th green |
 | Ängsö | falurött, white trim | **terracotta pantile** | 1½, dormers, a red COURTYARD |
 | Upsala | **cream render** | orange-brown tile | 1 tall, run of gables |
 | Johannesberg | falurött, white trim | orange-red tile | 1½ |
@@ -1467,3 +1796,203 @@ practice greens. Johannesberg's clubhouse was in the model all along under the n
 the marker lookup matches `amenity==='clubhouse'` or `/golfklubb|klubbhus/i` — and is
 kept SEPARATE from the `CLUB` const, because `CLUB` shapes terrain and widening it
 would move ground on three shipped courses.
+
+## One terrain to the horizon — the ring graph (Puttom, `?v2=`)
+
+The fixed-frontier pilot put 64 one-metre tiles inside the legacy 12 m and
+36 m Terrarium rings, and where the two met, heights disagreed by metres: a
+dark band, a gap and a lit skirt ran diagonally across hole 14. The fix is
+one source everywhere: `packages/course-v2/terrain-rings.mjs` compiles
+nested rings — the same 64 course tiles, then 2 m to 1.5 km, 4 m to 3 km,
+8 m to 6 km and 16/32/64 m to a 16 km root — into one quadtree with
+**explicit `parentId`s** (levels do not share an index lattice, so the tile
+manager reads the parent link instead of deriving it). Every seam is a
+same-source level seam, sealed by the batch's geomorph and skirts.
+
+- **Data**: `packages/course-geo/acquisition/build-ground-rings.mjs` reads
+  the rings from Lantmäteriet's `dtm-cog` items (10 km squares, Float32,
+  deflate, predictor 3, overviews at 2–32×) with the Node COG reader in
+  `packages/course-geo/cog/` over authenticated range requests: 68 MB, 15 s
+  for all seven levels. The 1 m ring reproduces the CI extraction to half a
+  quantum; the 2 m ring is subsampled from 1 m so its samples coincide with
+  the course tiles; coarser rings read the overviews, which Lantmäteriet
+  AVERAGED (measured), resampled bilinearly. An item may end its overview
+  chain early (the coast item has no 32×); fall back to the finest coarser
+  one. `publish-ground-rings.mjs` reuses the published course tiles byte
+  for byte (asserting they decode to what it compiled, tolerating the
+  one-quantum rounding ties a text dump leaves) and carries their surface,
+  object and stand layers; `prune-generations.mjs` retires old generations
+  but keeps everything the preview DESCRIPTORS reference — a one-off script
+  that walked only the manifests deleted the 30 surface chunks beside them.
+- **Runtime**: `engine/v2-graph-terrain.mjs` drives the manifest-driven
+  streaming runtime in the pilot's bridge (frame origin = legacy origin,
+  height = −datum offset, the group rotated and scaled), keeps every ring
+  decoded on the CPU for construction heights, and main.js builds NO legacy
+  CORE, MID or FAR in that mode. Rough is tinted by two rasters baked from
+  the legacy classifiers (`groundAt` to 1.5 km at 6 m, the vista rule to
+  6 km at 24 m), sampled by the class-SDF material.
+- **The stream controller starved the boot.** Once a tile's children were
+  drawn the plan stopped asking for it, the controller released it, the
+  next plan requested it again, the pool answered at once, and that
+  promise chain never let a timer fire — 100 s of "plan" on every stack
+  sample and no error anywhere. `plan.retainTileIds` keeps the ancestor path
+  of every desired tile; the controller test with an instant loader is the
+  gate. Diagnose a silent boot with `Debugger.pause` over CDP, not with
+  `page.evaluate`, which cannot run while the thread is busy.
+- **Rings must be whole coarser tiles.** The first cut used six-wide rings
+  (3, 6, 12 km); a coarse tile at a ring's edge was half covered by finer
+  tiles, the planner replaced it by the children it had, and the other half
+  was drawn by nothing: sky through the ground in tile-shaped plates with
+  trees and lakes floating over the gap — the "bright rectangles" in every
+  report. Every ring is eight tiles wide now (2, 4, 8, 16 km) and both the
+  compiler and the tile manager refuse a parent with children other than
+  four or none.
+- **Test a tile's visibility in the lattice's space, and not by planes
+  alone.** Rotating an 8 km box into the legacy frame inflates it by
+  ~500 m, so a coarse parent passed while its children failed and 32 m
+  ground was drawn beside the 1 m course; and a plane-by-plane test never
+  excludes a large box beside a narrow pyramid. `createTileFrustumTester`
+  works in lattice space and clips the frustum to the tile's height slab.
+- **Water levels are measured against the world, before the model.** The
+  rings are read on the main thread right after selection (0.5 s) so every
+  lake, not only those under the course window, gets its level from the
+  ground it is drawn on; lakes past the window used to keep Terrarium levels
+  metres off, hid under the DTM or floated, and the far scatter planted
+  cones on them. The extract also cuts lake polygons at its bounding box:
+  `engine/v2-flat-water.mjs` finds laser-flat water in the 4 m ring (26
+  flats, 24 unknown to the pack, 558 ha), tints it, keeps trees off it and
+  lays a masked sheet where no ring does. The water material carries a
+  depth bias so distant sheets stop fighting the bed.
+- **The laser's lake is a plate, so the bed is carved at boot.** With the
+  ground inside every lake being the surface itself, the sheet stood 25 cm
+  over the bed and the shader's depth term painted whole lakes as silt from
+  any oblique view — brown Stor-Rössjön — while from straight above the
+  same sheet was blue. `engine/v2-water-bed.mjs` lowers every sample on the
+  water to level minus a shore-distance profile (0.15 m at the edge, 3.5 m
+  deep), rewriting the CPU ring sampler in place and every tile the GPU
+  decodes through the runtime's `transformDecoded` hook: 811 ha, 3 s. Only
+  samples within 0.5 m of the level are touched, so banks and islands a
+  loose ring encloses stand. The published tiles never change; this is a
+  rendering choice and is documented as one.
+- **A clear fragment still writes depth.** The flat-water sheet is one quad
+  per component over its whole box, transparent where its mask is zero —
+  and it hid the ring sheet under it: standing 15 cm above the ring's level
+  it wrote depth through its clear part, the ring sheet failed the test,
+  and the lake by the 12th showed its freshly carved bed as brown ground
+  while `pick` reported water. The masked sheet writes no depth and meets
+  a modelled body at that body's own level.
+- **How the plates were found**, for next time: hide things (`V3D.
+  setMeshesVisible`, `setWaterVisible`), force the world material unlit
+  and single-coloured (`V3D.v2WorldMaterial`), and look straight down
+  (`V3D.placeCamera`). Sky through unlit ground is a hole; nothing else is.
+- **Every raster edge is a square drawn on the ground.** With one terrain
+  to the horizon, four boundaries that used to hide under the legacy ring
+  seams became visible as straight lines around the course, found by
+  probing `V3D.probeGround` along a transect and by an unlit, fog-free
+  top-down: the surface window's FOREST class was a flat near-black inside
+  its 30 tiles against the tinted forest floor outside (the surroundings'
+  classes now take the tint too — `TINTED_CLASSES` in material.js); the
+  satellite cover raster's edge, where the imagery's thinning stopped and
+  the rings' closed floor began (`coverEdgeFade`, 240 m, for both the
+  floor and the planter); the near tint's edge at 1536 m (the far raster
+  now restates the near one box-averaged inside that box, and the shader
+  crossfades each layer over its last 300/600 m); and the planted trees
+  ending at MIDR where the cones began (`midrEdgeFade`, a 350 m band the
+  planter thins by and the cones fill by its complement; legacy trees
+  92,254 → 79,399). None of these was a data edge — each was a rule
+  changing along a line.
+- **The forest floor is moss, and the shade is the shadows' job.** Measured
+  in the overhead of the 7th with the trees hidden, the floor rendered at
+  45% of the rough's luminance beside it in both lights — a near-black
+  olive (36,39,20) — and the edge against mown turf shouted. `C.forest` is
+  moss-and-bilberry 0x5c6b3c now, `groundAt` goes 0.75 of the way to it
+  instead of 0.85, and the classifier's forest ramp is 12 m instead of 8:
+  floor-only 64–66% of the rough, with the crowns 76–84%. Re-measure with
+  `floor-measure.mjs`'s method (fixed boxes in a deterministic view, trees
+  hidden and shown) before retuning; a palette judged with the trees on is
+  judged through their shadows.
+- Measured on the RTX 3070: 277 tiles in 7 levels, 129 tiles in one draw at
+  the first frontier, boot 25–28 s, 42 tiles from the 14th tee.
+  `tools/world-capture.mjs` gates the views where the seam lived.
+
+## Puttom vegetation — the LiDAR tree plan, Phase 0 and the compiler core
+
+`docs/puttom-v2-lidar-tree-placement-plan.md` is the plan; its checkpoint
+section says what has landed. The facts that took probing to establish:
+
+- **The two Laserdata Skog scans abut through the course.** North of
+  N 7025000 is a June 2023 CityMapper-2 scan, south of it a June 2026 scan
+  delivered 2026-08-25; the legacy origin is 2 m south of the line and the
+  published v2 ground straddles it. There is no overlap band to reconcile —
+  nothing may be blended across the line. `record-laser-campaigns.mjs --check`
+  fails when the catalogue drifts (a north re-fly is expected: Västernorrland
+  is in the 2026 scan plan), so a change is adopted on purpose.
+- **"Density" is three numbers.** The STAC `pc:density` field is the average
+  point SPACING in metres; `punkttathet` is the declared 1–2 pulses/m²; the
+  public `_info.json` gives 2.8–3.2 all returns per m². Say which one a gate
+  uses. The two campaigns' intensity scales differ by 16×; never compare
+  intensity across the seam unnormalised.
+- **Skogsstyrelsen's tree height is the same laser data reprocessed**, so it
+  checks our processing, not the source. Its ImageServer answers 403 with the
+  account in `.env`; its county zips are open, CC0 and 8.6 / 24 GB.
+- **Lantmäteriet access is an account matter.** `dl1.lantmateriet.se`
+  answered 401 for the DTM as well as the COPC on 2026-09-02 with the pair in
+  `.env`, while the STAC API accepted it; `access-preflight.mjs` reports
+  `denied`. `run-copc-census.mjs` (header + COPC VLR + hierarchy pages, no
+  point bytes) is the first thing to run once that is fixed.
+- **The planter now remembers why each tree stands there** (`treeWhy`:
+  forest ring, scrub ring, satellite raster, shore belt) with no placement
+  change; `V3D.legacyTrees()` exports the population and
+  `tools/vegetation-baseline.mjs` freezes it with tee-view captures. Puttom on
+  `?v2=require`: 67,568 trees, 36 draws. `V3D.v2Objects()` and
+  `V2_OBJECT_LAYER_GATE` make "no object renderer yet" fail closed.
+- **Windows checkouts break the manifest gate.** git converts committed LF
+  JSON to CRLF, so `check-manifests.mjs` reports checksum mismatches on files
+  nobody touched; the HEAD blobs hash to the recorded values and CI passes.
+  New evidence files are written with LF.
+- **Dalponte's 45% core is not the drip line.** On synthetic crowns the grown
+  segment's radius is ~0.7 of the visible crown; `crownExtents` recovers the
+  extent for individuals with a Voronoi constraint so neighbours never share
+  a cell. Heights are read from the unsmoothed copy; the smoothed copy only
+  finds maxima, and its apex can sit a cell off — records carry the
+  height-weighted centroid.
+- **Lantmäteriet's half-tile COPC items do not subdivide the COPC cube.**
+  Each axis is subdivided over the HEADER extent (Y over the 5 km half, Z over
+  the point heights); only X coincides with the cube. Verified node by node
+  on all three Puttom items (`packages/course-geo/copc-reader/verify-octree-convention.mjs`).
+  PDAL prunes by the cube and therefore reads the wrong nodes on these files —
+  that was the "52 points in a 256 m window" mystery. The Node reader in
+  `copc-reader/` (own `npm install`; `copc` + `laz-perf` WASM, never in the
+  workspace lockfile) selects nodes by the extent rule and holds every decoded
+  node to the hierarchy's point count exactly.
+- **Real numbers, 2026-09-02.** The whole 2 × 2 km published ground read in
+  74 s (146 MB), cloud ground within a decimetre of the published DTM on both
+  campaigns, and `compile-vegetation` derived 44,961 crown candidates in 36 s
+  (3,710 individuals, 685 of them in provisional zone A). Rasters and the
+  43 MB candidates file stay in `packages/course-geo/toolchain/.cache/`;
+  `geo_data/course-v2/puttom/vegetation/*.json` is what is committed. Git
+  `stash pop` re-checks out untracked JSON with CRLF on Windows and silently
+  breaks its recorded hash — normalise to LF before trusting a mismatch.
+- **The generation is published and the app plants it (2026-09-02).**
+  `compile-vegetation.mjs --machine-review` approves individuals by versioned
+  rules (no human review, by owner decision); `publish-vegetation.mjs` attaches
+  the object registries and the new `stands` chunk kind (`stand-field-u8-v1`,
+  4 m cells of canopy fraction and heights) to the ground graph and re-emits
+  the manifests; `engine/v2-vegetation.mjs` loads them fail-closed under a v2
+  flag, plants 3,502 measured individuals and ~56,000 stand trees from the
+  field, and the lattice is cut out of every tile the generation owns.
+  `tools/vegetation-baseline.mjs --label v2` is the gate (zero legacy trees
+  inside coverage, bases on the visible ground, all tiles loaded); 725 KB per
+  v2 visit, 36 draws. **Look at the overhead before publishing**: a list of
+  rings passed as one ring rasterises nothing, and six trees stood on the
+  driving range while every numeric gate passed.
+- **The independent check is CHMv2, read in Node.** `packages/course-geo/chmv2/`
+  holds a range-request COG reader, a transverse Mercator series (tested
+  against the PROJ numbers already in `geo_data/`), `build-chmv2-window.mjs`
+  (samples the optical tile onto the campaign rasters' own grid) and the
+  cross-check runner in `packages/course-v2/vegetation/`. Read its evidence
+  as calibration, not error: CHMv2 compresses height (slope 0.46) and smears
+  crowns outward, so per-tile kappa is meaningless in homogeneous tiles; the
+  seam attribution and the per-campaign bias are the numbers that matter.
+  NMD2023 zips are per-entry deflate around stripped PackBits TIFFs, with
+  the species layers' directory at the end: ~2 GB per layer to reach Puttom.

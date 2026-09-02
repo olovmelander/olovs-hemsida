@@ -49,14 +49,27 @@ for (const tile of preview.tiles) {
    "nothing unreferenced" any more -- it is that every byte there is referenced
    by the preview OR by the graph beside it, and nothing else has been shipped. */
 const terrainDirectory = path.join(previewRoot, path.dirname(preview.tiles[0].reference.url));
-const graphName = fs.readdirSync(previewRoot).find(file => /^ground-v2-[0-9a-f]{64}\.json$/.test(file));
-if (!graphName) throw new Error('built Puttom preview has no published ground graph beside it');
-const graph = JSON.parse(fs.readFileSync(path.join(previewRoot, graphName), 'utf8'));
-const referencedByGraph = new Set([
-  ...(graph.tiles || []).map(tile => tile.layers?.terrain?.url),
-  /* the graph's shell, its coarsest single tile, is referenced outside `tiles` */
-  graph.shell?.url,
-].filter(Boolean).map(url => path.basename(url)));
+/* Every published generation of the ground stays on disk for rollback, so
+   more than one ground manifest is the normal case; the union of what they
+   reference is what may legitimately be shipped. The one the root serves
+   must be among them. */
+const graphNames = fs.readdirSync(previewRoot).filter(file => /^ground-v2-[0-9a-f]{64}\.json$/.test(file));
+if (!graphNames.length) throw new Error('built Puttom preview has no published ground graph beside it');
+const rootIndex = JSON.parse(fs.readFileSync(path.join(DIST, 'courses/v2-index.json'), 'utf8'));
+const servedEntry = rootIndex.courses?.find(course => course.slug === PUTTOM_PREVIEW_CONFIG.slug);
+const servedCourse = JSON.parse(fs.readFileSync(path.join(DIST, servedEntry.manifest.url), 'utf8'));
+if (!graphNames.includes(path.basename(servedCourse.groundManifest.url))) {
+  throw new Error('the ground manifest the root serves is not beside the Puttom preview');
+}
+const referencedByGraph = new Set();
+for (const graphName of graphNames) {
+  const graph = JSON.parse(fs.readFileSync(path.join(previewRoot, graphName), 'utf8'));
+  for (const url of [
+    ...(graph.tiles || []).map(tile => tile.layers?.terrain?.url),
+    /* the graph's shell, its coarsest single tile, is referenced outside `tiles` */
+    graph.shell?.url,
+  ].filter(Boolean)) referencedByGraph.add(path.basename(url));
+}
 for (const url of referencedTerrain) referencedByGraph.add(path.basename(url));
 const retained = fs.readdirSync(terrainDirectory).filter(file => file.endsWith('.bvch'));
 if (retained.some(file => !referencedByGraph.has(file))) {
@@ -134,7 +147,10 @@ const expected = [
      the bundler's decision; that it never lands in the entry graph is the
      invariant, and the marker sweep below is what asserts it. */
   /^v2-stream-probe-run-[A-Za-z0-9_-]+\.js$/,
-  /^surface-grid-[A-Za-z0-9_-]+\.js$/,
+  /* the per-class codec is shared by the web decoder and the atlas stitcher,
+     so it is its own chunk; the pair codec has one importer left and folds
+     into decode-web */
+  /^surface-sdf-grid-[A-Za-z0-9_-]+\.js$/,
   /^decode-web-[A-Za-z0-9_-]+\.js$/,
 ];
 /* One substantive chunk per module, but a second dynamic-import site makes the
@@ -278,6 +294,7 @@ if (chunks.some(chunk => serviceWorker.includes(chunk)) ||
     serviceWorker.includes('chunk-worker-') ||
     serviceWorker.includes('terrain-render-data-') ||
     serviceWorker.includes('surface-grid-') ||
+    serviceWorker.includes('surface-sdf-grid-') ||
     serviceWorker.includes('decode-web-')) {
   throw new Error('v2 terrain/surface preview chunks leaked into the production PWA precache');
 }
@@ -285,7 +302,9 @@ const html = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
 if (chunks.some(chunk => html.includes(chunk))) {
   throw new Error('v2 terrain preview chunks leaked into initial HTML');
 }
-const headers = fs.readFileSync(path.join(DIST, '_headers'), 'utf8');
+/* normalised, because a Windows checkout hands this file over with CRLF and a
+   rule that is present would otherwise be reported missing */
+const headers = fs.readFileSync(path.join(DIST, '_headers'), 'utf8').replace(/\r\n/g, '\n');
 /* The paths the pilot is ACTUALLY served from. These asserted /v2/* rules
    until the widening moved the pilot to /grounds/, at which point the gate was
    demanding rules for a tree nothing ships while the live descriptors had no
@@ -357,7 +376,7 @@ if (V2_PUBLISHED_GRAPH_SLUGS.length === 0) {
     const ground = assertCanonical(groundUrl, resources.get(groundUrl));
     loadResource(ground?.shell?.url, `ground ${ground?.groundId || slug} shell`);
     for (const tile of ground?.tiles || []) {
-      for (const kind of ['terrain', 'surface', 'objects']) {
+      for (const kind of ['terrain', 'surface', 'objects', 'stands']) {
         if (kind !== 'terrain' && (tile?.layers?.[kind] === null || tile?.layers?.[kind] === undefined)) continue;
         loadResource(tile?.layers?.[kind]?.url, `ground tile ${tile?.id || '?'} ${kind}`);
       }

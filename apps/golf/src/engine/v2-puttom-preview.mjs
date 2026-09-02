@@ -14,7 +14,10 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   descriptorSha256: 'be3d4676c7580e75e612ddfe3585be1b905f4c6da4bcfdb34456f1b9673657ed',
   surfaceDescriptorPath: 'grounds/puttom/surface-preview.json',
   surfaceLabel: 'Puttom · migrerade ytor (ej inmätta)',
-  surfaceDescriptorSha256: 'e0c0ba27322d7426f50a1c1890788a43914ff6ab573d6f31f6c40158887eff1c',
+  /* class-sdf-v1: nine exact per-class distance channels over the same 30
+     tiles. Derived from compile-puttom-surface-preview.mjs's output, never
+     typed -- see docs/v2-course-runbook.md. */
+  surfaceDescriptorSha256: '40aab1776b83c0d76c08461ac3468c1966e44c3cb973aa4b3006ad23ef2b2cbf',
   surfaceProvisionalReason: 'migration-vectors-not-survey-approved',
   frameFingerprint: '07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8',
   packOriginWgs84: Object.freeze({ latitude: 63.2992, longitude: 18.9413 }),

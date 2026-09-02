@@ -1,0 +1,680 @@
+{
+  "kind": "ground-rings",
+  "groundId": "puttom",
+  "observedOn": "2026-09-02",
+  "provider": {
+    "name": "Lantmäteriet",
+    "collection": "dtm-cog",
+    "authenticated": true,
+    "credentialsSerialized": false,
+    "licence": "CC BY 4.0",
+    "attribution": "Markhöjdmodell Nedladdning, © Lantmäteriet, bearbetad, CC BY 4.0"
+  },
+  "tileSegments": 256,
+  "levels": [
+    {
+      "lod": 0,
+      "sampleSpacingMetres": 1,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 696404.5,
+        "maxEasting": 698452.5,
+        "maxNorthing": 7025850.5,
+        "minNorthing": 7023802.5,
+        "spanMetres": 2048,
+        "size": 2049
+      },
+      "source": {
+        "kind": "published-and-dtm",
+        "factor": 1,
+        "subsample": 1
+      },
+      "items": [
+        "702_69"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 26.12063217163086,
+      "maximumHeightRH2000": 103.21914672851562,
+      "requests": 25,
+      "bytes": 13906260,
+      "elapsedSeconds": 2.909,
+      "rasterSha256": "9cd6a665633e74e626a370f40f19c911a2146667adc373e64f17dc1663d8202e",
+      "publishedAgreement": {
+        "tiles": 64,
+        "samples": 4227136,
+        "withinQuantum": 4226513,
+        "maximumDifferenceMetres": 0.005001068115234375
+      }
+    },
+    {
+      "lod": 1,
+      "sampleSpacingMetres": 2,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 695380.5,
+        "maxEasting": 699476.5,
+        "maxNorthing": 7026874.5,
+        "minNorthing": 7022778.5,
+        "spanMetres": 4096,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 1,
+        "subsample": 2
+      },
+      "items": [
+        "702_69"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 19.867643356323242,
+      "maximumHeightRH2000": 119.62480163574219,
+      "requests": 81,
+      "bytes": 46119970,
+      "elapsedSeconds": 3.855,
+      "rasterSha256": "343cc7301750fb8f4d62fe3f1b85b601e7728a90a7e49eeeff1bdbd2fbd04b1a"
+    },
+    {
+      "lod": 2,
+      "sampleSpacingMetres": 4,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 693332.5,
+        "maxEasting": 701524.5,
+        "maxNorthing": 7028922.5,
+        "minNorthing": 7020730.5,
+        "spanMetres": 8192,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 4,
+        "subsample": 1
+      },
+      "items": [
+        "702_69",
+        "702_70"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": -1.0767945051193237,
+      "maximumHeightRH2000": 150.35507202148438,
+      "requests": 25,
+      "bytes": 14006787,
+      "elapsedSeconds": 1.962,
+      "rasterSha256": "342140a963cdde43ceaf3c08542d4d06c14c58e81b756f9cd4d1145389f81b01"
+    },
+    {
+      "lod": 3,
+      "sampleSpacingMetres": 8,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 689236.5,
+        "maxEasting": 705620.5,
+        "maxNorthing": 7033018.5,
+        "minNorthing": 7016634.5,
+        "spanMetres": 16384,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 8,
+        "subsample": 1
+      },
+      "items": [
+        "701_68",
+        "701_69",
+        "701_70",
+        "702_68",
+        "702_69",
+        "702_70",
+        "703_68",
+        "703_69",
+        "703_70"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": -1.003950834274292,
+      "maximumHeightRH2000": 196.87379455566406,
+      "requests": 36,
+      "bytes": 13955627,
+      "elapsedSeconds": 3.947,
+      "rasterSha256": "c53b06793a73f117ab42c72e4d83d30b32bbcefeafccfa137abc2b6e8396667a"
+    },
+    {
+      "lod": 4,
+      "sampleSpacingMetres": 16,
+      "tilesPerSide": 4,
+      "extent": {
+        "minEasting": 689236.5,
+        "maxEasting": 705620.5,
+        "maxNorthing": 7033018.5,
+        "minNorthing": 7016634.5,
+        "spanMetres": 16384,
+        "size": 1025
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 16,
+        "subsample": 1
+      },
+      "items": [
+        "701_68",
+        "701_69",
+        "701_70",
+        "702_68",
+        "702_69",
+        "702_70",
+        "703_68",
+        "703_69",
+        "703_70"
+      ],
+      "samples": 1050625,
+      "finite": 1050625,
+      "minimumHeightRH2000": -0.6407341361045837,
+      "maximumHeightRH2000": 196.35296630859375,
+      "requests": 20,
+      "bytes": 5013765,
+      "elapsedSeconds": 1.714,
+      "rasterSha256": "085a637fe3b3c52912b3d7c423bfe2a5d4aa2370ee99be37eb3eed661cf3edd2"
+    },
+    {
+      "lod": 5,
+      "sampleSpacingMetres": 32,
+      "tilesPerSide": 2,
+      "extent": {
+        "minEasting": 689236.5,
+        "maxEasting": 705620.5,
+        "maxNorthing": 7033018.5,
+        "minNorthing": 7016634.5,
+        "spanMetres": 16384,
+        "size": 513
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 1
+      },
+      "items": [
+        "701_68",
+        "701_69",
+        "701_70",
+        "702_68",
+        "702_69",
+        "702_70",
+        "703_68",
+        "703_69",
+        "703_70"
+      ],
+      "samples": 263169,
+      "finite": 263169,
+      "minimumHeightRH2000": -0.22172434628009796,
+      "maximumHeightRH2000": 194.3105926513672,
+      "requests": 9,
+      "bytes": 2379916,
+      "elapsedSeconds": 1.325,
+      "rasterSha256": "fd3384fe75dbebc751a66dc8e18d61bf62c3629470682324af9829acb31df7b9"
+    },
+    {
+      "lod": 6,
+      "sampleSpacingMetres": 64,
+      "tilesPerSide": 1,
+      "extent": {
+        "minEasting": 689236.5,
+        "maxEasting": 705620.5,
+        "maxNorthing": 7033018.5,
+        "minNorthing": 7016634.5,
+        "spanMetres": 16384,
+        "size": 257
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 2
+      },
+      "items": [
+        "701_68",
+        "701_69",
+        "701_70",
+        "702_68",
+        "702_69",
+        "702_70",
+        "703_68",
+        "703_69",
+        "703_70"
+      ],
+      "samples": 66049,
+      "finite": 66049,
+      "minimumHeightRH2000": -0.22172434628009796,
+      "maximumHeightRH2000": 194.3105926513672,
+      "requests": 9,
+      "bytes": 2379916,
+      "elapsedSeconds": 1.365,
+      "rasterSha256": "656a8e9555bf21c3149733356dd85b521981a900e6a9e09d4922caaee47690af"
+    }
+  ],
+  "items": [
+    {
+      "id": "702_69",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_6/m702_69.tif",
+      "etag": "\"345c80561a9299769f12bcdc3c572d58\"",
+      "contentLength": 276884943,
+      "lastModified": "Thu, 14 May 2026 06:32:13 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "702_70",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_7/m702_70.tif",
+      "etag": "\"a91c35f4b1a4bc072b6fc437bb27bf22\"",
+      "contentLength": 233894442,
+      "lastModified": "Wed, 13 May 2026 13:53:05 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "701_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_6/m701_68.tif",
+      "etag": "\"e79b0e0f43e7e8b7e4087a3afcfc5a12\"",
+      "contentLength": 242277267,
+      "lastModified": "Thu, 14 May 2026 05:53:20 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "701_69",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_6/m701_69.tif",
+      "etag": "\"6cdf47f20c9a01a40d2bd009fd41b27e\"",
+      "contentLength": 140401798,
+      "lastModified": "Wed, 13 May 2026 19:40:12 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "701_70",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_7/m701_70.tif",
+      "etag": "\"55324e9e84ad68240dbc1a8091573558\"",
+      "contentLength": 89323623,
+      "lastModified": "Thu, 14 May 2026 08:49:47 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 16
+        }
+      ]
+    },
+    {
+      "id": "702_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_6/m702_68.tif",
+      "etag": "\"fb175ad1dbd0f6fee2dae726dbe1caa8\"",
+      "contentLength": 274998450,
+      "lastModified": "Thu, 14 May 2026 06:47:12 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "703_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_6/m703_68.tif",
+      "etag": "\"cd26022c729e108e320bc67e6136a06b\"",
+      "contentLength": 279670280,
+      "lastModified": "Thu, 14 May 2026 05:04:15 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "703_69",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_6/m703_69.tif",
+      "etag": "\"3d4516c3d118bf78675538ee3a7bcef1\"",
+      "contentLength": 281152878,
+      "lastModified": "Wed, 13 May 2026 21:36:11 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "703_70",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_7/m703_70.tif",
+      "etag": "\"cc4f8e3e06e3d8a54ebc9904dbafdaf2\"",
+      "contentLength": 296270319,
+      "lastModified": "Wed, 13 May 2026 15:00:12 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    }
+  ],
+  "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
+  "elapsedSeconds": 17.223,
+  "publish": {
+    "observedOn": "2026-09-02",
+    "slug": "puttom",
+    "groundId": "puttom",
+    "frameFingerprint": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
+    "rootBytes": 596,
+    "rootSha256": "2d20708a46221c4724e8d11f36cf047baed5df25beb8dbe89b0cf28ff4df483e",
+    "courseManifestSha256": "0d6eef4e2f5fd2a2ce0220d9e780a592ded9e4d9ea533a14b63b27672d378866",
+    "groundManifestSha256": "03ede20edcaf0c5a861d8cf81341802d7fc2d675e26d2d0ab5355b045f6a46ef",
+    "routingSha256": "6c9ad237373bbd874eaab1a6d21645d0a7909b531c0b65ed064fd335376c0647",
+    "holes": 18,
+    "tiles": 277,
+    "finestTiles": 64,
+    "shellBytes": 78801,
+    "chunks": 407,
+    "encodedChunkBytes": 21017724,
+    "decodedChunkBytes": 39378076,
+    "holeTileBufferMetres": 80,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 64,
+        "spanMetres": 2048,
+        "heightScaleMetres": 0.01,
+        "encodedBytes": 5247466,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 0.005
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 64,
+        "spanMetres": 4096,
+        "heightScaleMetres": 0.02,
+        "encodedBytes": 5160567,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 5.8212716674804685
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 64,
+        "spanMetres": 8192,
+        "heightScaleMetres": 0.04,
+        "encodedBytes": 4374152,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 6.00557424545288
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 64,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.08,
+        "encodedBytes": 4080296,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 7.43448356628418
+      },
+      {
+        "lod": 4,
+        "sampleSpacingMetres": 16,
+        "tiles": 16,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 982493,
+        "decodedBytes": 2113568,
+        "maximumGeometricErrorMetres": 9.32755334854126
+      },
+      {
+        "lod": 5,
+        "sampleSpacingMetres": 32,
+        "tiles": 4,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 288415,
+        "decodedBytes": 528392,
+        "maximumGeometricErrorMetres": 17.17709358215332
+      },
+      {
+        "lod": 6,
+        "sampleSpacingMetres": 64,
+        "tiles": 1,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 78776,
+        "decodedBytes": 132098,
+        "maximumGeometricErrorMetres": 20.954600648880003
+      }
+    ],
+    "reusedCourseTiles": 64,
+    "reuseTies": 0,
+    "encodedBytes": 20290966,
+    "previousGroundManifest": "grounds/puttom/ground-v2-a25ff2b3d8175d2d32dc5fbefcb605429c7ca50c2b89c506dc3862b6384aecb6.json",
+    "previousCourseManifest": "courses/puttom/course-v2-fde48642fd05edafb143507884d244c5d067a2249c35182234860874496d1fc4.json",
+    "filesWritten": 410
+  }
+}

@@ -128,10 +128,21 @@ the surface itself. Two consequences. Water levels measured against the legacy
 DEM are invalidated by better ground — Puttom had a lake render as brown bed
 because v2 put it 16 cm above its own water plane. And placing the plane
 exactly on the measured value makes it coplanar with the bed drawn beneath it,
-which z-fights. The current answer lifts the plane 0.25 m, which is a stated
-error in the waterline's position; **carving the bed down instead would be more
-faithful** and is not built, because the v2 tiles are decoded in parallel with
-the course pack and the water rings are not known yet at that point.
+which z-fights. Lifting the plane 0.25 m was the first answer and it was not
+enough: the water shader reads depth as level minus ground, so a whole lake
+25 cm deep renders as silt bottom from any oblique view, and the two surfaces
+still meet at the horizon. **The bed is now carved at boot**
+(`engine/v2-water-bed.mjs`): the flat-water pass and the model's rings give a
+water mask on the 4 m ring, a distance transform gives each cell its distance
+to the shore, and every sample standing on the water's surface is lowered to
+level minus min(3.5, 0.15 + 0.12·d) — a rendering choice, stated as one, and
+the published tiles are untouched. The same field rewrites the CPU ring
+sampler in place and every tile the GPU decodes (`transformDecoded` on the
+runtime), so what is measured is what is drawn. Puttom: 811 ha, 995k samples
+in 107 ring tiles, 3 s on the main thread. Banks and islands a loose ring
+encloses are left alone (only samples within 0.5 m of the level are carved).
+The ring graph makes this possible: the rings are resident before the model,
+so the levels, the flats and the beds are all known before any GPU decode.
 
 **Terrarium is not a fallback you can trust locally.** Puttom's 7th renders
 20.3 m of relief and 36.5 m of climb on GPK1 against 6.0 m and 8.5 m on the 1 m
@@ -148,6 +159,14 @@ kind of thing that trips it. The badge is the tell: "2 m mesh" means
 being upscaled — on a 2.625 DPR phone that is a 2.6× blow-up of the whole
 scene, which reads as "the icons are blurry".
 
+**When the GPK1 pack changes, v2 must be re-bound.** The root index and the
+course manifest carry the exact live pack entry, and the surface preview
+carries the pack's sha; both refuse a new pack. After `emit-pack` and
+`emit-manifest`: `compile-puttom-surface-preview.mjs --replace` (copy the
+printed `surfaceDescriptorSha256` into the config), then
+`publish-ground-rings.mjs --ground puttom` (it reads the live manifest),
+then prune, build and `check-app-build`.
+
 ## What is still open
 
 - **Nothing is generalised yet.** The table at the top is the work.
@@ -156,3 +175,27 @@ scene, which reads as "the icons are blurry".
 - **No hardware performance evidence.** Every capture is SwiftShader:
   `performanceEvidence: false`, `sampledFps: 0`. Rendering is proven; speed is not.
 - **GPK1 remains the default** and must until the release gates pass.
+
+## Taking the course to the horizon — the ring graph
+
+The pilot window is a 2 km square and the legacy Terrarium rings around it
+disagree with it by metres; the seam showed. The published graph is now a
+ring graph and the app draws nothing else under `?v2=`:
+
+    node --env-file=.env packages/course-geo/acquisition/build-ground-rings.mjs --ground puttom
+    node packages/course-v2/publish-ground-rings.mjs --ground puttom
+    node packages/course-v2/prune-generations.mjs --slug puttom --also courses/puttom/course-v2-<previous>.json --apply
+    cd apps/golf && npx vite build && cd ../.. && node packages/course-v2/check-app-build.mjs
+    BANVY_GPU=1 node tools/world-capture.mjs http://127.0.0.1:8620 --course puttom
+
+The ring specification is `packages/course-v2/puttom-ground-rings.mjs`: per
+level a spacing, a tile count per side, a quantisation step and a source.
+Every origin must be a whole number of the finer level's tile spans from
+that level's origin, AND every finer ring must be made of whole coarser
+tiles (eight tiles wide, centred, is the shape that satisfies both), or the
+compiler refuses it; the coarsest level must be one tile, which becomes the
+shell. A coarser tile half inside a finer ring opens a hole the size of its
+other half when the runtime refines it. Per course the things to set are the
+frame origin (the levels are centred on it) and the coverage band the
+builder gates heights against. The 1 m level is asserted against the
+published course tiles, so a second course needs its pilot published first.

@@ -106,7 +106,12 @@ export class CourseV2TerrainRuntime {
     onInvalidate = () => {},
     decorateMaterial,
     maximumCachedResources,
+    profile,
+    transformDecoded = null,
   } = {}) {
+    if (transformDecoded !== null && typeof transformDecoded !== 'function') {
+      throw new TypeError('transformDecoded must be a function');
+    }
     if (!ground?.frame || !ground?.shell || !Array.isArray(ground.tiles)) {
       throw new TypeError('verified v2 ground is required');
     }
@@ -123,7 +128,12 @@ export class CourseV2TerrainRuntime {
     this.mobile = mobile;
     this.clock = callback(clock, 'clock');
     this.onInvalidate = callback(onInvalidate, 'onInvalidate');
-    this.profile = terrainTileQualityProfile({ backend, mobile });
+    /* the backend profile, unless the caller knows better: a world of nested
+       rings needs more selected tiles than the pilot's course window did */
+    if (profile !== undefined && (!Number.isFinite(profile?.targetErrorPixels) || !Number.isSafeInteger(profile?.maximumSelectedTiles))) {
+      throw new TypeError('profile must carry targetErrorPixels and maximumSelectedTiles');
+    }
+    this.profile = profile ?? terrainTileQualityProfile({ backend, mobile });
     this.manager = new TerrainTileManager({ ground, courseSlug: course.slug });
     this.layer = new TerrainTileBatchSet({
       maximumTiles: this.profile.maximumSelectedTiles,
@@ -154,9 +164,14 @@ export class CourseV2TerrainRuntime {
       maximumCachedResources: cachedResources,
       clock: this.clock,
       createResource: ({ tileId, decoded }) => {
+        /* a caller may rewrite the decoded samples before they become a
+           render resource (the lake beds are carved here); a rewritten
+           tile drops the worker's prepared render data, which described
+           the samples it no longer has */
+        const input = transformDecoded ? (transformDecoded({ tileId, decoded }) ?? decoded) : decoded;
         const resource = createTerrainRenderResource({
           tileId,
-          decoded,
+          decoded: input,
           frame: ground.frame,
         });
         this.resources.set(tileId, resource);
@@ -181,7 +196,8 @@ export class CourseV2TerrainRuntime {
   #frustumVisibility(camera) {
     camera.updateMatrixWorld?.(true);
     this.projection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-    this.frustum.setFromProjectionMatrix(this.projection);
+    /* the camera knows whether it clips z to [0,1] or [-1,1] and whether depth is reversed */
+    this.frustum.setFromProjectionMatrix(this.projection, camera.coordinateSystem, camera.reversedDepth ?? false);
     return tile => this.frustum.intersectsBox(tileWorldBox(tile, this.ground.frame, this.scratchBox));
   }
 

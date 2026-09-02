@@ -163,7 +163,7 @@ function buildBoundaryField(bounds, classes) {
 }
 
 /** Pure, Node-testable raster half of createGroundAtlas(). */
-export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1, boundaryOnly = false }) {
+export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1, boundaryOnly = false, classesOnly = false }) {
   if (!(res > 0)) throw new Error('ground atlas resolution must be positive');
   const w = Math.max(1, Math.ceil((CORE.x1 - CORE.x0) / res));
   const h = Math.max(1, Math.ceil((CORE.z1 - CORE.z0) / res));
@@ -173,7 +173,7 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1,
   /* Surface compilation may ask only for a supersampled material boundary.
      Skipping route/owner fields keeps a 4x boundary pass bounded in memory and
      avoids recomputing mowing coordinates that already exist on the 1 m pass. */
-  const route = boundaryOnly ? null : buildRouteField(bounds, HOLES);
+  const route = boundaryOnly || classesOnly ? null : buildRouteField(bounds, HOLES);
   ranks.fill(PRIORITY[SURFACE.ROUGH]);
 
   const paint = (i, j, feature) => {
@@ -284,6 +284,9 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1,
     if (feature.line) strokeLine(feature.line, feature);
   }
 
+  /* The per-class SDF compiler takes exact Euclidean distances from this
+     resolved partition itself; it needs the classes and nothing propagated. */
+  if (classesOnly) return { bounds, classes };
   const edge = buildBoundaryField(bounds, classes);
   if (boundaryOnly) {
     return {

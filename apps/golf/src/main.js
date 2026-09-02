@@ -49,13 +49,20 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
+import {
+  requestedSurfaceDebugMode,
+  shouldRenderLegacySurfaceOverlays,
+} from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
+import { smoothShore } from './engine/ring-smoothing.mjs';
+import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
   selectV2TerrainSource,
   v2StreamProbeRequested,
   V2_GRAPH_RENDERER_GATE,
+  V2_OBJECT_LAYER_GATE,
 } from './engine/v2-terrain-select.mjs';
 import { V2TerrainLiveAdapter } from './engine/v2-terrain-live-adapter.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
@@ -67,6 +74,7 @@ import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
    instead of a special build. */
 const DET = new URLSearchParams(location.search).get('det') === '1';
 const groundMode = new URLSearchParams(location.search).get('ground') === 'mesh' ? 'mesh' : 'atlas';
+const surfaceDebugMode = requestedSurfaceDebugMode(location.search);
 const time = DET ? float(3.25) : __liveTime;
 
 /* ------------------------------------------------------------------ boot ui */
@@ -158,13 +166,32 @@ const [b0, b1, bv, V2_SELECTION] = await Promise.all([
   inflate(PACK.s0), inflate(PACK.s1), inflate(PACK.sv), terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
+/* Phase 4 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
+   a published graph that carries object registries or stand fields has them
+   fetched now, in parallel with everything below, through a dynamic import
+   so that a flagless visit never downloads the vegetation runtime. The load
+   is awaited before the ground is installed: under ?v2=require a bad chunk
+   is a boot error, under ?v2=1 the legacy lattice serves everywhere. There
+   is deliberately no per-tile fallback. */
+const V2_VEGETATION_LOADING = V2_SELECTION.graph &&
+  ((V2_SELECTION.graph.summary?.objectTiles || 0) + (V2_SELECTION.graph.summary?.standTiles || 0)) > 0
+  ? import('./engine/v2-vegetation.mjs').then(async mod => ({
+    mod,
+    loaded: await mod.loadV2Vegetation({
+      graph: V2_SELECTION.graph,
+      baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
+    }),
+  }))
+  : null;
+let V2_VEGETATION = null;
+let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = JSON.parse(new TextDecoder().decode(bv));
 const HOLES = M.holes;
 /* A verified descriptor alone may not alter either construction or visible
    ground. The adapter opens those gates separately after backend preflight and
    after successful scene installation/legacy cut respectively. */
-const terrainV2 = new V2TerrainLiveAdapter({
+let terrainV2 = new V2TerrainLiveAdapter({
   source: TERRAIN_PREVIEW,
   courseSlug: CMETA.slug,
   expectedCourseSlug: PUTTOM_PREVIEW_CONFIG.slug,
@@ -172,6 +199,42 @@ const terrainV2 = new V2TerrainLiveAdapter({
   expectedSurfaceTileCount: PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount,
   cutoutContract: PUTTOM_PREVIEW_CONFIG.legacyCoreCutout,
 });
+/* A published graph that reaches past the course window -- nested rings of
+   Lantmäteriet data to a 16 km root -- becomes the ONLY terrain: the streaming
+   runtime draws it in the pilot's bridge and the legacy CORE, MID and FAR
+   rings are never built, so there is no seam between two sources anywhere.
+   The pilot source still supplies its 1 m sampler and the surface atlas.
+   The rings are read NOW, on the main thread and before any GPU exists,
+   because the water levels are measured against the ground a few hundred
+   lines below and every lake must be measured against the world it will be
+   drawn on -- the pilot sampler alone left the lakes outside its window at
+   their Terrarium levels, metres off the DTM's own water surface, so their
+   planes hid under the ground and the far scatter planted cones on them.
+   Loaded dynamically so a flagless visit never downloads it. */
+let V2_WORLD = null;
+if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
+  const mod = await import('./engine/v2-graph-terrain.mjs');
+  if (mod.graphCoversHorizon(V2_SELECTION.graph.ground, TERRAIN_PREVIEW.descriptor?.bounds)) {
+    const world = new mod.V2GraphTerrainAdapter({
+      graph: V2_SELECTION.graph,
+      source: TERRAIN_PREVIEW,
+      courseSlug: CMETA.slug,
+      baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
+      legacyOriginEpsg3006: PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006,
+    });
+    try {
+      const ringStarted = performance.now();
+      const ringTiles = await world.loadRings();
+      console.info(`v2 world: ${ringTiles} ring tiles read for the model in ${Math.round(performance.now() - ringStarted)} ms`);
+      terrainV2 = world;
+      V2_WORLD = mod;
+    } catch (error) {
+      const detail = String(error?.message || error).slice(0, 300);
+      if (V2_SELECTION.require) throw new Error(`v2 krävdes men världens ringar kunde inte läsas: ${detail}`);
+      console.warn('v2 world rings could not be read; the course window serves alone:', detail);
+    }
+  }
+}
 
 const terrainPreviewBadge = document.getElementById('v2TerrainBadge');
 function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres = null) {
@@ -181,10 +244,13 @@ function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres =
   const detail = terrainPreviewBadge.querySelector('span');
   if (TERRAIN_PREVIEW.ready && renderState !== 'failed') {
     terrainPreviewBadge.dataset.state = renderState === 'ready' ? 'ready' : 'loading';
-    title.textContent = '1 M TERRÄNG · PREVIEW';
+    const world = terrainV2.kind === 'graph' && terrainV2.rendererState;
+    title.textContent = world?.status === 'ready' ? '1 M TERRÄNG · HELA VÄRLDEN' : '1 M TERRÄNG · PREVIEW';
     detail.textContent = [
       'Puttom',
-      `${TERRAIN_PREVIEW.resources.length} verifierade tiles`,
+      world?.status === 'ready'
+        ? `${world.tiles} tiles i ${world.levels.length} nivåer till 16 km`
+        : `${TERRAIN_PREVIEW.resources.length} verifierade tiles`,
       backend,
       meshMetres ? `1 m höjd · ${meshMetres} m mesh` : null,
     ].filter(Boolean).join(' · ');
@@ -307,9 +373,7 @@ const PI = new Grid();      // paths and tracks (as polylines)
    the camera, which is why the view looked down the hole while the markers did
    not. `mk.b` is overwritten here, once, before anything reads it: on
    Veckefjarden it lands on the value already there.                          */
-for (const h of HOLES) {
-  for (const mk of h.tees.marks || []) mk.b = lineBearingAt(h.line, mk.c) * 180 / Math.PI;
-}
+for (const h of HOLES) deriveTeeBearings(h);
 
 /* A TEE MARKER HAS TO STAND ON A TEE.
 
@@ -330,19 +394,8 @@ for (const h of HOLES) {
    Deck size follows Veckefjärden's own synth pads: 10.4 m across the line by
    8.8 m along it, the shape of a real teeing ground rather than a square. */
 for (const h of HOLES) {
+  inferSynthTeePads(h);
   const pads = h.tees.pads;
-  for (const mk of h.tees.marks || []) {
-    if (pads.some(p => inRing(mk.c[0], mk.c[1], p.ring))) continue;
-    const b = mk.b * Math.PI / 180;
-    const F = [Math.sin(b), Math.cos(b)], R = [-Math.cos(b), Math.sin(b)];
-    const HW = 5.2, HD = 4.4;
-    pads.push({
-      prov: 'synth', teeIdx: mk.teeIdx, c: [mk.c[0], mk.c[1]],
-      ring: [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([u, v]) =>
-        [mk.c[0] + R[0] * HW * u + F[0] * HD * v,
-         mk.c[1] + R[1] * HW * u + F[1] * HD * v]),
-    });
-  }
   /* A pad's centre, derived from its own ring rather than carried beside it.
      The builds store `cx`/`cz` and emit-pack drops them -- correctly, they are
      redundant bytes -- but that left every pad in every pack without one, and
@@ -360,45 +413,9 @@ for (const h of HOLES) {
   }
 }
 
-/* A SHORELINE IS A CURVE, AND THE TRACE IS A POLYGON.
-
-   The surveyed water rings run in straight segments -- around Veckefjärden's
-   island 14th they average 15 m and reach 48 m -- and the visible waterline is
-   where terrainH crosses the water level, which that ring carves. So the island
-   came out as a faceted plate with hard corners where the club's photographs
-   show a smooth rounded promontory.
-
-   Two passes, in the order that matters: split the long segments so a curve CAN
-   exist, then average the points so it is one. Only near the played ground --
-   the shoreline that matters is the shoreline you stand next to, and this ring
-   is walked by terrainH for every terrain sample, so making the whole fjärd
-   dense would be paid for on ground nobody ever sees. Nothing finer than the
-   4 m terrain grid is worth resolving, which is why the split is 3 m. */
-function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
-  if (!ring || ring.length < minPts) return ring;
-  const dense = [];
-  for (let i = 0; i < ring.length; i++) {
-    const a = ring[i], b = ring[(i + 1) % ring.length];
-    dense.push(a);
-    if (!near(a) && !near(b)) continue;
-    const n = Math.min(24, Math.floor(Math.hypot(b[0] - a[0], b[1] - a[1]) / step));
-    for (let k = 1; k < n; k++)
-      dense.push([a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n]);
-  }
-  /* light averaging passes: corner-cutting without the point doubling chaikin
-     would add, and it leaves anything outside `near` exactly as traced */
-  let out = dense;
-  for (let pass = 0; pass < passes; pass++) {
-    const next = out.slice();
-    for (let i = 0; i < out.length; i++) {
-      if (!near(out[i])) continue;
-      const p = out[(i - 1 + out.length) % out.length], q = out[(i + 1) % out.length];
-      next[i] = [(p[0] + out[i][0] * 2 + q[0]) / 4, (p[1] + out[i][1] * 2 + q[1]) / 4];
-    }
-    out = next;
-  }
-  return out;
-}
+/* A SHORELINE IS A CURVE, AND THE TRACE IS A POLYGON -- smoothShore lives in
+   engine/ring-smoothing.mjs now, because the v2 surface compiler has to
+   rasterise exactly the rings this boot draws, and it once did not. */
 {
   /* "near" is the played ground plus a margin, which is where a shoreline is
      ever seen close enough for its facets to show. Derived from the holes
@@ -450,12 +467,18 @@ function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
        water up to a quarter-metre too high, and that is the honest trade: a
        stated 0.25 m error against a defect visible on every lake. */
     const COVERAGE = 0.6, PERCENTILE = 0.30, MIN_POINTS = 3, CLEARANCE = 0.25;
+    /* the world when it is loaded -- every ring is then covered, and a lake
+       two kilometres out is measured against the ground it is drawn on --
+       otherwise the pilot's own window */
+    const groundProbe = typeof terrainV2.worldHeightAt === 'function' && terrainV2.ringsLoaded
+      ? (x, z) => terrainV2.worldHeightAt(x, z)
+      : (x, z) => TERRAIN_PREVIEW.heightAt(x, z);
     const remeasured = [];
     for (const w of M.water) {
       if (w.stream || !w.ring?.length) continue;
       const heights = [];
       for (const p of w.ring) {
-        const probe = TERRAIN_PREVIEW.heightAt(p[0], p[1]);
+        const probe = groundProbe(p[0], p[1]);
         const h = Number.isFinite(probe) ? probe : probe?.height;
         if (Number.isFinite(h)) heights.push(h);
       }
@@ -481,6 +504,28 @@ function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
       w.level = level;
     }
     if (remeasured.length) console.info('v2 water levels re-measured:', remeasured.join(', '));
+    /* Now that every body has its level, read the water the model does NOT
+       have off the ground: the extract cut lake polygons at its bounding
+       box, and lakes past it are not in the pack at all, while the DTM shows
+       each as a flat at its own level. The mask keeps trees off them, tints
+       the bed under them, and lays a sheet where no ring does. */
+    if (typeof terrainV2.detectFlatWater === 'function' && terrainV2.ringsLoaded) {
+      const flatStarted = performance.now();
+      const flat = terrainV2.detectFlatWater(M.water.filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })));
+      const uncovered = flat.components.filter(c => c.uncoveredCells > 0);
+      console.info(`v2 flat water: ${flat.components.length} flats over 0.48 ha, ${uncovered.length} beyond the model's rings ` +
+        `(${uncovered.reduce((s, c) => s + c.uncoveredCells, 0) * flat.spacing * flat.spacing / 10000 | 0} ha), ${Math.round(performance.now() - flatStarted)} ms`);
+      /* The laser's ground inside a lake is the lake's surface. Carve a bed
+         under all of it now -- before the water sheets measure their depth
+         and before the GPU decodes a single tile -- so the water has depth
+         where a lake has it, and the sheet has metres of clearance instead
+         of a hand's width. */
+      if (typeof terrainV2.carveWaterBeds === 'function') {
+        const bed = terrainV2.carveWaterBeds();
+        console.info(`v2 water beds: ${bed.hectares} ha carved to ${bed.maximumDepthMetres} m, ` +
+          `${bed.carvedSamples} samples in ${bed.carvedTiles} ring tiles, ${bed.milliseconds} ms`);
+      }
+    }
   }
 
   for (const w of M.water) {
@@ -505,6 +550,8 @@ function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
      rings ARE walked per terrain sample (their pads, and the scatter apron), so
      they get a coarser step and fewer passes -- enough to round a polygon, not
      enough to multiply the ring. */
+  /* These parameters are mirrored in smoothMownEdges (engine/ring-smoothing.mjs),
+     which the v2 surface compiler applies to the pack; change both or neither. */
   const always = () => true;
   for (const h of HOLES) {
     h.green.ring = smoothShore(h.green.ring, always, 2.0, 2, 6);
@@ -535,7 +582,10 @@ for (const p of M.infra.paths.concat(M.infra.tracks)) {
   PI.add(q, q.bb, 6);
 }
 for (const r of M.infra.roads) {
-  const q = { line: r.line, bb: ringBBox(r.line), w: r.kind === 'trunk' ? 8 : 4 };
+  /* the class band under a road is its ribbon's width, not double it: a
+     wider band showed as a dark margin either side of a pale gravel road */
+  const w = r.kind === 'trunk' ? 8 : /gravel|compacted|ground|unpaved/.test(r.surface || '') ? 2.4 : 3;
+  const q = { line: r.line, bb: ringBBox(r.line), w };
   PI.add(q, q.bb, r.kind === 'trunk' ? 12 : 8);
 }
 for (const rw of (M.infra.railway || [])) {
@@ -575,7 +625,10 @@ const CLEARINGS = (SCENERY && SCENERY.clearings) || [];
    overrides them from its own photographs; aerial imagery gives a roof but never
    a facade, so these came from pictures taken on the ground. */
 const CLUB_LOOK = Object.assign(
-  { wall: 0xe7e2d4, roof: 0x9d3f2e, height: 5.4, windowRows: [1.4, 3.5], terrace: true },
+  { wall: 0xe7e2d4, roof: 0x9d3f2e, height: 5.4, windowRows: [1.4, 3.5], terrace: true,
+    /* a two-tone facade, a gabled roof, a glazed gable end with a balcony: what a
+       modern clubhouse (Puttom) is made of, each off unless the course says so */
+    lowerWall: null, lowerHeight: 0, gable: false, glazedGable: false, balcony: false },
   (SCENERY && SCENERY.clubhouse) || {});
 const HV = (M.infra.power ? M.infra.power.lines : []).filter(l => (l.voltage || 0) >= 100000);
 for (const s of M.streams) { const q = { line: s.line, bb: ringBBox(s.line), w: s.w, stream: true }; WI.add(q, q.bb, 14); }
@@ -790,15 +843,22 @@ function microClass(x, z) {
    it so an OSM forest ring the imagery has thinned to scattered singles does not
    keep a closed-canopy floor. */
 let coverAt = () => 0;
+/* How much the imagery's word counts here: 1 deep inside the raster, 0 at its
+   edge. Beyond the raster only the surveyed rings speak, and a floor that
+   changes rule at a straight line draws that line on the ground -- so the
+   imagery's thinning and planting fade out over the last 240 m of its box. */
+let coverEdgeFade = () => 0;
 if (M.cover) {
   const cv = M.cover;
   const bytes = Uint8Array.from(atob(cv.b64), c => c.charCodeAt(0));
+  const cx1 = cv.x0 + cv.nx * cv.cell, cz1 = cv.z0 + cv.nz * cv.cell;
   coverAt = (x, z) => {
     const i = Math.floor((x - cv.x0) / cv.cell), j = Math.floor((z - cv.z0) / cv.cell);
     if (i < 0 || j < 0 || i >= cv.nx || j >= cv.nz) return 0;
     const k = j * cv.nx + i;
     return (bytes[k >> 2] >> ((k & 3) * 2)) & 3;
   };
+  coverEdgeFade = (x, z) => smooth(0, 240, Math.min(x - cv.x0, cx1 - x, z - cv.z0, cz1 - z));
 }
 
 /* The analytic classifier remains the oracle. Once the runtime atlas exists,
@@ -854,7 +914,11 @@ const C = {
   /* the forest floor was 0x334423 -- against fog-lit turf it rendered near-black,
      and whole hillsides read as burnt ground; this is bilberry-and-litter brown,
      with the deepest shade kept for ground the satellite says is closed canopy */
-  heath:  L(0x6d8142), forest: L(0x46512e), shore: L(0xb2a37e),
+  /* ... and 0x46512e, measured from above with the trees hidden, was still a
+     dark burnt olive: the floor reads dark in life because it stands in the
+     crowns' shade, not because it is painted dark. Moss and bilberry, so the
+     shadows do the darkening and the edge against mown turf stops shouting. */
+  heath:  L(0x6d8142), forest: L(0x5c6b3c), shore: L(0xb2a37e),
   wet:    L(0x6a7046), rock:   L(0x736e63),
   /* the surroundings: crop tones for the west-shore fields, slash for the
      clear-fells, hard gravel for the machinery yard, hay for the Ås meadows */
@@ -916,8 +980,10 @@ function groundAt(x, z, h) {
     /* the satellite has the last word: where it reads open inside an OSM forest
        ring the ground is litter and heath under scattered singles, not the
        closed-canopy floor -- this is what un-scorches the thinned hillsides */
-    const closed = coverAt(x, z) === 2 ? 0.42 : 1;
-    col = col.map((v, i) => lerp(v, C.forest[i], c.forest * 0.85 * closed));
+    const closed = coverAt(x, z) === 2 ? 1 - 0.58 * coverEdgeFade(x, z) : 1;
+    /* three quarters of the way to the floor colour, so the ground under the
+       trees keeps a quarter of the rough it grows out of */
+    col = col.map((v, i) => lerp(v, C.forest[i], c.forest * 0.75 * closed));
     if (closed === 1 || c.forest * closed > 0.35) sid = S_FOREST;
   }
   if (c.wet > 0.02) { col = col.map((v, i) => lerp(v, C.wet[i], c.wet * 0.7)); }
@@ -1068,7 +1134,7 @@ let captureReadbackTarget = null;
 let captureRenderLocked = false;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.5, 22000);
+const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.0, 14000);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.055;
@@ -1431,10 +1497,20 @@ const MIDR = { dx: 12, x0: snap(HF0.x0 + 8, 36), x1: snap(HF0.x0 + (HF0.nx - 1) 
    the course actually looks at, and stops 2.5 km south, where it would only be
    spending a quarter of the ring on fogged ground. That asymmetry is a fact about
    where the course stands, so it comes from the course. */
+/* The planted trees stop at MIDR's edge and the far cones begin there, and
+   a stand that changes from lit crowns to dark silhouettes along a straight
+   line draws that line across every hillside. This is 1 deep inside the ring
+   and 0 at its edge: the planter thins by it and the cones fill in by its
+   complement, so the hand-over is a 350 m band rather than a square. */
+const midrEdgeFade = (x, z) => smooth(0, 350, Math.min(x - MIDR.x0, MIDR.x1 - x, z - MIDR.z0, MIDR.z1 - z));
 const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -5400, z1: 5400,
                ...((SCENERY && SCENERY.farRing) || {}) };
 
-const stats = { verts: 0, tris: 0, trees: 0, draws: 0 };
+const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
+/* the far cones' positions and the water sheets, kept so a harness can ask
+   where they stand and hide them to see what is under them */
+let VISTA_PTS = null;
+const WATER_MESHES = [];
 SEAM = MIDR;
 const builtTerrain = { core: null, mid: null };
 
@@ -1511,6 +1587,98 @@ function buildDetailMask(R) {
   let n = 0;
   for (let k = 0; k < mask.length; k++) n += mask[k];
   return { mask, nx, nz, cells: n, total: (nx - 1) * (nz - 1) };
+}
+
+/* GROUND COLOUR TO THE HORIZON, FOR THE WORLD GRAPH.
+
+   The legacy rings coloured every vertex: CORE and MID through groundAt (turf,
+   forest floor under canopy, wet shore, landuse), FAR through a cheaper read
+   of slope, height and what the map says the ground is used for. The v2
+   material has no vertex colour, so the same two classifications are baked
+   into two small rasters the rough class samples -- 6 m to 1.5 km, 24 m to
+   6 km -- allocated before the material exists and filled once the world's
+   heights are resident. sRGB bytes, so the darks keep their steps. */
+const GROUND_TINT_NEAR = { half: 1536, dx: 6 };
+const GROUND_TINT_FAR = { half: 6144, dx: 24 };
+function createGroundTintTextures() {
+  const make = ({ half, dx }) => {
+    const n = Math.round((2 * half) / dx) + 1;
+    const data = new Uint8Array(n * n * 4).fill(255);
+    const texture = new THREE.DataTexture(data, n, n, THREE.RGBAFormat, THREE.UnsignedByteType);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+    texture.generateMipmaps = false;
+    texture.flipY = false;
+    texture.needsUpdate = true;
+    return { texture, n, dx, bounds: { x0: -half - dx / 2, z0: -half - dx / 2, x1: half + dx / 2, z1: half + dx / 2 } };
+  };
+  return { near: make(GROUND_TINT_NEAR), far: make(GROUND_TINT_FAR) };
+}
+const toSrgbByte = v => Math.max(0, Math.min(255, Math.round(255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055))));
+const SEA_TINT = [0.055, 0.085, 0.105];
+/* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
+   and a flat the sheet misses never reads as a pale plate */
+const FLAT_WATER_TINT = [0.05, 0.075, 0.09];
+function fillGroundTintTextures(tint, heightAt) {
+  const H = (x, z) => { const h = heightAt(x, z); return Number.isFinite(h) ? h : demH(x, z); };
+  const flatWaterAt = typeof terrainV2.isFlatWaterAt === 'function' ? (x, z) => terrainV2.isFlatWaterAt(x, z) : () => false;
+  const started = performance.now();
+  const fill = (layer, colourAt) => {
+    const { n, dx, bounds, texture } = layer;
+    const data = texture.image.data;
+    for (let j = 0; j < n; j++) {
+      const z = bounds.z0 + (j + 0.5) * dx;
+      for (let i = 0; i < n; i++) {
+        const x = bounds.x0 + (i + 0.5) * dx;
+        const c = flatWaterAt(x, z) ? FLAT_WATER_TINT : colourAt(x, z);
+        const o = (j * n + i) * 4;
+        data[o] = toSrgbByte(c[0]); data[o + 1] = toSrgbByte(c[1]); data[o + 2] = toSrgbByte(c[2]); data[o + 3] = 255;
+      }
+    }
+    texture.needsUpdate = true;
+  };
+  fill(tint.near, (x, z) => groundAt(x, z, H(x, z)).col);
+  /* Inside the near raster's box the far raster restates the near one, box
+     averaged, so the two agree where the shader fades between them and the
+     hand-over is only a change of resolution; the vista rule paints the rest. */
+  const nearBox = (x, z) => {
+    const { n, dx, bounds, texture } = tint.near;
+    const i0 = Math.floor((x - GROUND_TINT_FAR.dx / 2 - bounds.x0) / dx), j0 = Math.floor((z - GROUND_TINT_FAR.dx / 2 - bounds.z0) / dx);
+    const cells = Math.round(GROUND_TINT_FAR.dx / dx);
+    if (i0 < 0 || j0 < 0 || i0 + cells > n || j0 + cells > n) return null;
+    const sum = [0, 0, 0];
+    for (let j = j0; j < j0 + cells; j++) for (let i = i0; i < i0 + cells; i++) {
+      const o = (j * n + i) * 4;
+      sum[0] += texture.image.data[o]; sum[1] += texture.image.data[o + 1]; sum[2] += texture.image.data[o + 2];
+    }
+    return sum.map(v => v / (cells * cells));
+  };
+  const fromSrgbByte = b => { const v = b / 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+  fill(tint.far, (x, z) => {
+    const near = nearBox(x, z);
+    if (near) return near.map(fromSrgbByte);
+    const h = H(x, z);
+    if (h < 0.5) return SEA_TINT;
+    const sl = Math.hypot(H(x + GROUND_TINT_FAR.dx, z) - h, H(x, z + GROUND_TINT_FAR.dx) - h) / GROUND_TINT_FAR.dx;
+    const t = clampf((h - 24) / 150, 0, 1);
+    const rocky = smooth(0.22, 0.62, sl);
+    let base = C.forest.map((v, k) => lerp(lerp(v, C.rough[k], t * 0.5), C.rock[k], rocky * 0.8));
+    for (const q of LI.at(x, z)) {
+      if (ringSD(x, z, q.ring) > 0) continue;
+      if (q.kind === 'farmland' || q.kind === 'farmyard') {
+        const k2 = hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13));
+        const crop = k2 < 0.4 ? C.cropA : k2 < 0.75 ? C.cropB : C.cropC;
+        base = base.map((v, k3) => lerp(v, crop[k3], 0.85));
+      } else if (q.kind === 'residential') base = base.map((v, k3) => lerp(v, C.lawn[k3], 0.4));
+      else if (q.kind === 'industrial' || q.kind === 'commercial') base = base.map((v, k3) => lerp(v, C.hard[k3], 0.5));
+      break;
+    }
+    return base;
+  });
+  stats.tintMs = Math.round(performance.now() - started);
 }
 
 async function buildTerrain(R, hole, withDetail) {
@@ -1848,6 +2016,22 @@ async function preflightTerrainPreviewGpu(batch) {
 
 /* Do not omit a single legacy vertex until the complete, material-decorated
    v2 frontier has proved that it can be installed as one draw. */
+/* A published graph that reaches past the course window -- nested rings of
+   Lantmäteriet data to a 16 km root -- becomes the ONLY terrain: the streaming
+   runtime draws it in the pilot's bridge and the legacy CORE, MID and FAR
+   rings are never built, so there is no seam between two sources anywhere.
+   The pilot source still supplies its 1 m sampler and the surface atlas.
+   Loaded dynamically so a flagless visit never downloads it. */
+if (V2_WORLD) {
+  terrainV2.configure({
+    backend: IS_GPU ? 'webgpu' : 'webgl2',
+    mobile: LOWQ,
+    /* the pilot's course window took 64 tiles in one draw; a world of rings
+       refines the course to 1 m AND keeps the horizon resident */
+    profile: { targetErrorPixels: IS_GPU ? 1 : 1.5, maximumSelectedTiles: LOWQ ? 56 : 128 },
+  });
+}
+const GROUND_TINT = V2_WORLD ? createGroundTintTextures() : null;
 if (TERRAIN_PREVIEW.ready) {
   /* Low-quality WebGL2 keeps exact 1 m CPU sampling but submits every second
      source vertex. Both frontiers must still preflight as the same 16 tiles
@@ -1858,9 +2042,12 @@ if (TERRAIN_PREVIEW.ready) {
     renderStride,
     decorateMaterial: createV2GroundMaterialDecorator({
       atlas: TERRAIN_PREVIEW.surfaceAtlas, DETAIL, C, SHADE,
+      debugMode: surfaceDebugMode,
+      tint: GROUND_TINT,
     }),
     preflight: preflightTerrainPreviewGpu,
   });
+  if (preparation.ok && GROUND_TINT) fillGroundTintTextures(GROUND_TINT, (x, z) => terrainV2.constructionHeightAt(x, z));
   if (!preparation.ok) {
     const failure = terrainV2.rendererState;
     /* ?v2=require means diagnose, never mask: refuse to present the GPK1
@@ -1883,8 +2070,24 @@ const makeCoreMesh = geometry => {
 const coreStatsBefore = Object.freeze({ verts: stats.verts, tris: stats.tris });
 let coreGeometry = null;
 let coreMesh = null;
+if (V2_VEGETATION_LOADING) {
+  try {
+    V2_VEGETATION = await V2_VEGETATION_LOADING;
+  } catch (error) {
+    const detail = String(error?.message || error).slice(0, 300);
+    if (V2_SELECTION.require) throw new Error(`v2 krävdes men vegetationslagren kunde inte verifieras: ${detail}`);
+    V2_VEGETATION_ERROR = detail;
+  }
+}
 if (terrainV2.preparation) {
   try {
+    if (terrainV2.kind === 'graph') {
+      /* the world adapter draws everything; no legacy ground is built at all */
+      builtTerrain.core = null;
+      scene.add(terrainV2.group);
+      const terrainWorldRender = terrainV2.activate();
+      setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'ready', terrainWorldRender.meshResolutionMetres);
+    } else {
     const terrainPreviewPrepared = terrainV2.preparation;
     /* The 8 m legacy guard participates in normal generation, then the existing
        full-preview clip hides it before the v2 batch is installed. */
@@ -1902,6 +2105,7 @@ if (terrainV2.preparation) {
       IS_GPU ? 'WebGPU' : 'WebGL2', 'ready',
       terrainPreviewRender.meshResolutionMetres,
     );
+    }
   } catch (error) {
     terrainV2.fail(error);
     coreMesh?.removeFromParent();
@@ -1937,6 +2141,10 @@ await tick('bygger terrängen', 0.26);
    1 m one. The hole is the pilot's inscribed axis-aligned rectangle, since that
    is all buildTerrain can omit; the rotation overhang beyond it is removed the
    same way it is from CORE, by the rotated triangle cut. */
+if (terrainV2.kind === 'graph' && terrainV2.active) {
+  /* the world graph carries the middle and the horizon; nothing Terrarium is drawn */
+  await tick('bygger horisonten', 0.34);
+} else {
 const midHole = terrainV2.active && TERRAIN_PREVIEW.legacyBounds
   ? under(TERRAIN_PREVIEW.legacyBounds, 24)
   : under(CORE, 24);
@@ -1953,6 +2161,7 @@ await tick('bygger horisonten', 0.34);
 const farMesh = new THREE.Mesh(await buildTerrain(FARR, under(MIDR, 72), false), turfMat);
 farMesh.userData.tag = 'far';
 scene.add(farMesh);
+}
 
 /* Place the v2 batch in the legacy world. The tiles are cut on the EPSG:3006
    grid, whose north is 3.5 degrees off the legacy frame's true north here, and
@@ -2230,8 +2439,11 @@ const shadeSand = (x, z) => {
            det: 2.3, bmp: 0.6, gls: 0.13, str: 0, mow: 0, mowK: 0 };
 };
 
-const vectorSurfaceOverlays = groundMode !== 'atlas' || terrainV2.rendererState.status === 'ready';
-if (vectorSurfaceOverlays) {
+const legacySurfaceOverlays = shouldRenderLegacySurfaceOverlays({
+  groundMode,
+  v2Active: terrainV2.active,
+});
+if (legacySurfaceOverlays) {
   /* Each overlay tier pulls itself in front of the layers beneath in depth space:
      semi first, then fairway, collar, green and tee, sand above all -- so the
      stack resolves on any depth buffer, not just a deep desktop one. */
@@ -2243,8 +2455,10 @@ if (vectorSurfaceOverlays) {
     const m = new THREE.Mesh(g, mat || OMATS[Math.min(order, 4)]);
     m.receiveShadow = true;
     m.renderOrder = order;
+    m.userData.tag = 'legacy-surface-overlay';
     scene.add(m);
     stats.draws++;
+    stats.surfaceOverlays++;
   };
   /* Batch by mower tier, not by hole. These are the original curved rings, but
      six course-wide meshes keep their cost bounded to six draw calls. */
@@ -2307,6 +2521,9 @@ const carSpots = [];
   }
   const posts = [];
   for (const p of lots) {
+    /* an entrance square is gravel without cars, and a motorhome lot gets its
+       motorhomes from the scenery batch instead of cars */
+    if (p.cars === false || p.vehicles === 'motorhome') continue;
     const B = obb2(p.ring);
     if (!B || B.hw < 5) continue;
     const c = Math.cos(B.ang), s = Math.sin(B.ang);
@@ -2338,6 +2555,7 @@ const carSpots = [];
     stats.draws++;
   }
 }
+
 
 /* a car is two boxes; a car park is fifty of them in three colour buckets */
 {
@@ -2428,7 +2646,12 @@ function buildRoad(runs, asphalt) {
       return Math.max(a / n, run.minH || -1e9);
     });
     const base = pos.length / 3;
-    const OFF = [-run.w - 2.2, -run.w, 0, run.w, run.w + 2.2];
+    /* the verge feathers a road into the legacy 4 m terrain; a toned gravel
+       run on the 1 m ground needs only a narrow pale shoulder, and the wide
+       ground-coloured verge darkened by the terrain's ambient term was the
+       "dark road" seen either side of the pale one */
+    const vw = run.tone && !asphalt ? 0.7 : 2.2;
+    const OFF = [-run.w - vw, -run.w, 0, run.w, run.w + vw];
     for (let i = 0; i < P.length; i++) {
       const a = P[Math.max(0, i - 1)], b = P[Math.min(P.length - 1, i + 1)];
       let tx = b[0] - a[0], tz = b[1] - a[1];
@@ -2443,15 +2666,27 @@ function buildRoad(runs, asphalt) {
                         : hs[i] + Math.max(0, crown) + lift;
         const ao = horizonAO(x, z, h);
         let cc;
-        if (verge) {
+        if (verge && run.tone && !asphalt) {
+          cc = run.tone.map(v => v * 0.98);
+        } else if (verge) {
           const g = groundAt(x, z, h);
           cc = g.col.map((v, k2) => lerp(v, C.hard[k2], 0.3) * ao);
         } else if (asphalt) {
           const n2 = fbm(x * 0.09, z * 0.09, 2);
           cc = run.tone.map(v => v * (1 + n2 * 0.10) * ao);
+        } else if (run.tone) {
+          /* compacted gravel is the palest ground there is, and it is never
+             occluded the way turf under a bank is: measured in evening light
+             the road rendered darker than the grass beside it (52 against 78)
+             with the terrain's ambient term on it, so a toned gravel run
+             takes no AO and sits a shade above the lots it joins */
+          const n2 = fbm(x * 0.22, z * 0.22, 2);
+          /* the lots are painted with this same colour, flat: the road must
+             read as the same gravel, so no lift and only the grain */
+          cc = run.tone.map(v => v * (0.97 + n2 * 0.06));
         } else {
           const n2 = fbm(x * 0.22, z * 0.22, 2);
-          cc = (run.tone || C.path).map(v => v * (0.94 + n2 * 0.10) * ao);
+          cc = C.path.map(v => v * (0.94 + n2 * 0.10) * ao);
         }
         pos.push(x, h, z);
         col.push(cc[0], cc[1], cc[2]);
@@ -2501,8 +2736,47 @@ function makeAsphalt() {
   return m;
 }
 
+/* Compacted gravel: matte, its vertex colour with a faint grain, nothing
+   else. The gravel ribbons used to borrow the turf shader -- grass detail,
+   bump and stripes over a grey vertex colour -- and came out a dark brown
+   that never matched the lots, which the ground material paints flat. */
+function makeGravel() {
+  const m = new THREE.MeshStandardNodeMaterial({ vertexColors: true, roughness: 0.95, metalness: 0 });
+  const dt = texture(DETAIL, positionWorld.xz.mul(0.31)).g.sub(0.5);
+  m.colorNode = attribute('color', 'vec3').mul(dt.mul(0.16).add(1));
+  return m;
+}
+
 {
   const asphaltRuns = [], gravelRuns = [], dirtRuns = [];
+  /* Near the course the ground material paints every road's band itself, in
+     the same flat gravel as the lots, so a gravel road there gets NO ribbon:
+     a ribbon over a painted band is a second road in a second shade. The
+     ribbon remains for the stretch beyond the ground's coverage -- the v2
+     surface layer where it is loaded, the boot atlas otherwise -- and a road
+     that crosses the edge keeps one point inside so the two meet. */
+  const painted = (x, z) => TERRAIN_PREVIEW.surfaceAtlas
+    ? TERRAIN_PREVIEW.surfaceAtlas.probeAt(x, z)?.inBounds === true
+    : (groundMode === 'atlas' && !!groundAtlas?.contains(x, z));
+  const unpaintedRuns = line => {
+    const flags = line.map(([x, z]) => painted(x, z));
+    if (flags.every(Boolean)) return [];
+    if (!flags.some(Boolean)) return [line];
+    const runs = [];
+    let run = [];
+    for (let i = 0; i < line.length; i++) {
+      if (!flags[i]) {
+        if (!run.length && i > 0) run.push(line[i - 1]);   /* one painted point, so the ribbon reaches the band */
+        run.push(line[i]);
+      } else if (run.length) {
+        run.push(line[i]);
+        if (run.length >= 2) runs.push(run);
+        run = [];
+      }
+    }
+    if (run.length >= 2) runs.push(run);
+    return runs;
+  };
   for (const r of M.infra.roads) {
     const surf = r.surface || 'asphalt';
     if (r.kind === 'trunk') {
@@ -2512,7 +2786,8 @@ function makeAsphalt() {
     } else if (r.kind === 'secondary' || r.kind === 'tertiary') {
       asphaltRuns.push({ line: r.line, w: 3.2, paint: 2, lift: 0.14, tone: C.aspL });
     } else if (/gravel|ground|dirt|unpaved|compacted/.test(surf)) {
-      gravelRuns.push({ line: r.line, w: 2.2, lift: 0.12 });
+      /* a gravel road is pale compacted grit, not the brown of a trodden path */
+      for (const line of unpaintedRuns(r.line)) gravelRuns.push({ line, w: 2.2, lift: 0.12, tone: C.hard });
     } else {
       asphaltRuns.push({ line: r.line, w: 2.7, paint: 0, lift: 0.12, tone: C.aspL });
     }
@@ -2520,20 +2795,25 @@ function makeAsphalt() {
   if (groundMode !== 'atlas') {
     for (const t of M.infra.tracks) {
       if (/asphalt|paved/.test(t.surface || '')) asphaltRuns.push({ line: t.line, w: 1.9, paint: 0, lift: 0.10, tone: C.aspL });
-      else gravelRuns.push({ line: t.line, w: t.kind === 'service' ? 1.9 : 1.7, lift: t.kind === 'service' ? 0.10 : 0.08 });
+      else gravelRuns.push({ line: t.line, w: t.kind === 'service' ? 1.9 : 1.7, lift: t.kind === 'service' ? 0.10 : 0.08, tone: t.kind === 'service' ? C.hard : undefined });
     }
     for (const p of M.infra.paths) {
       if (p.kind === 'cycleway' || /asphalt|paved/.test(p.surface || ''))
         asphaltRuns.push({ line: p.line, w: 1.3, paint: 0, lift: 0.07, tone: C.aspL });
+      /* a gravel cart path is a metre and a half of compacted gravel, not a
+         trodden line: the traced paths say so, and OSM's do where tagged */
+      else if (/gravel|compacted|pebble/.test(p.surface || ''))
+        gravelRuns.push({ line: p.line, w: 1.6, lift: 0.08, tone: C.hard.map((v, k) => lerp(v, C.path[k], 0.35)) });
       else dirtRuns.push({ line: p.line, w: 0.55, lift: 0.06, tone: C.soil });
     }
   }
   const asphaltMat = nudged(2, makeAsphalt);
-  /* the gravel and dirt ribbons shared the terrain's own material, so on a
-     shallow depth buffer the ground fought straight through them */
+  const gravelMat = nudged(2, makeGravel);
+  /* the dirt ribbons share the terrain's own material, nudged so on a
+     shallow depth buffer the ground does not fight straight through them */
   const ribbonTurf = nudged(2);
   for (const [runs, asphalt, mat] of [[asphaltRuns, true, asphaltMat],
-                                      [gravelRuns, false, ribbonTurf],
+                                      [gravelRuns, false, gravelMat],
                                       [dirtRuns, false, ribbonTurf]]) {
     const g = buildRoad(runs, asphalt);
     if (!g) continue;
@@ -2604,8 +2884,15 @@ await tick('fyller vattnet', 0.52);
    the four terms that matter -- what colour the depth is, what the sky looks like in
    the direction you are reflecting toward, where the sun's glare falls, and where the
    surface runs out into foam -- and writes the answer. */
-function makeWater() {
+function makeWater({ mask = null } = {}) {
   const m = new THREE.MeshBasicNodeMaterial({ transparent: true, side: THREE.DoubleSide });
+  /* A sheet sits a quarter-metre over a bed the DTM draws at the water's own
+     surface, and three kilometres out a 24-bit depth buffer cannot tell the
+     two apart: the lake flickered. A depth bias toward the camera settles it
+     without moving the sheet. */
+  m.polygonOffset = true;
+  m.polygonOffsetFactor = -1;
+  m.polygonOffsetUnits = -2;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
   const wp = positionWorld.xz;
@@ -2675,9 +2962,25 @@ function makeWater() {
   const fogT = oneMinus(exp(cd.mul(cd).mul(uFogD.mul(uFogD)).negate()));
   m.colorNode = mix(c, uFogC, saturate(fogT));
   /* a pond bed a metre down should be a hint, not the picture: ponds start denser */
-  m.opacityNode = mix(mix(float(0.86), float(0.97), depth),
-                      mix(float(0.62), float(0.97), depth), aFoam)
-                    .add(foam.mul(0.2)).sub(bed.mul(0.28)).clamp(0.4, 1);
+  let opacity = mix(mix(float(0.86), float(0.97), depth),
+                    mix(float(0.62), float(0.97), depth), aFoam)
+                  .add(foam.mul(0.2)).sub(bed.mul(0.28)).clamp(0.4, 1);
+  if (mask) {
+    /* the sheet over water the ground found: its extent is the mask, read in
+       the tile lattice's own space through the bridge's linear part */
+    const g = mask.toGrid;
+    const gx = wp.x.mul(g[0]).add(wp.y.mul(g[1]));
+    const gz = wp.x.mul(g[2]).add(wp.y.mul(g[3]));
+    const uvMask = vec2(gx.sub(float(mask.x0)).div(mask.width * mask.spacing), gz.sub(float(mask.z0)).div(mask.height * mask.spacing));
+    const inMask = step(0, uvMask.x).mul(step(uvMask.x, 1)).mul(step(0, uvMask.y)).mul(step(uvMask.y, 1));
+    opacity = opacity.mul(texture(mask.texture, uvMask).r).mul(inMask);
+    /* the quad spans the component's whole box and is clear where the mask is
+       zero, but a clear fragment still writes depth: over a lake the model
+       draws, this sheet stood 15 cm above the ring's and hid it, so the carved
+       bed showed through as a brown lake. It writes no depth at all. */
+    m.depthWrite = false;
+  }
+  m.opacityNode = opacity;
   return m;
 }
 const waterMat = makeWater();
@@ -2711,8 +3014,64 @@ for (const w of M.water) {
   g.computeVertexNormals();
   const m = new THREE.Mesh(g, waterMat);
   m.renderOrder = 6;
+  m.userData.tag = 'water';
+  m.userData.water = w;
   scene.add(m);
+  WATER_MESHES.push(m);
   stats.draws++;
+}
+
+/* THE WATER THE GROUND FOUND. The extract's rings stop at its bounding box
+   and miss the lakes beyond it; the flats the 4 m ring detected carry on
+   from there. One sheet per flat, a quad over its footprint at its level,
+   drawn only where the mask says water and no ring already draws -- so a
+   lake cut straight by the box continues at the ring's own level, and a
+   lake the pack never had gets its surface back. */
+const FLAT_WATER = terrainV2.flatWater ?? null;
+if (FLAT_WATER?.components.some(c => c.uncoveredCells > 0)) {
+  const bridge = TERRAIN_PREVIEW.bridge;
+  const [ax, cx] = bridge.toGrid(1, 0), [bx, dx] = bridge.toGrid(0, 1); /* gx = ax·x + bx·z, gz = cx·x + dx·z */
+  const maskTexture = new THREE.DataTexture(FLAT_WATER.mask, FLAT_WATER.width, FLAT_WATER.height, THREE.RedFormat, THREE.UnsignedByteType);
+  maskTexture.minFilter = THREE.LinearFilter;
+  maskTexture.magFilter = THREE.LinearFilter;
+  maskTexture.wrapS = THREE.ClampToEdgeWrapping;
+  maskTexture.wrapT = THREE.ClampToEdgeWrapping;
+  maskTexture.generateMipmaps = false;
+  maskTexture.flipY = false;
+  maskTexture.needsUpdate = true;
+  const flatMat = makeWater({ mask: {
+    texture: maskTexture, toGrid: [ax, bx, cx, dx],
+    x0: FLAT_WATER.x0, z0: FLAT_WATER.z0, width: FLAT_WATER.width, height: FLAT_WATER.height, spacing: FLAT_WATER.spacing,
+  } });
+  const pos = [], sh = [], fm = [], dp = [], idx = [];
+  let sheets = 0;
+  for (const c of FLAT_WATER.components) {
+    if (c.uncoveredCells === 0) continue;
+    /* meeting a modelled body at ITS level, so the two sheets are one plane */
+    const y = c.knownCells > 0 ? c.level : c.level + 0.15;
+    const corners = [[c.bounds.x0, c.bounds.z0], [c.bounds.x1, c.bounds.z0], [c.bounds.x1, c.bounds.z1], [c.bounds.x0, c.bounds.z1]];
+    const base = pos.length / 3;
+    for (const [gx, gz] of corners) {
+      const [lx, lz] = bridge.toLegacy(gx, gz);
+      pos.push(lx, y, lz); sh.push(40); fm.push(1); dp.push(3);
+    }
+    idx.push(base, base + 2, base + 1, base, base + 3, base + 2);
+    sheets++;
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('aShore', new THREE.Float32BufferAttribute(sh, 1));
+  g.setAttribute('aFoam', new THREE.Float32BufferAttribute(fm, 1));
+  g.setAttribute('aDepth', new THREE.Float32BufferAttribute(dp, 1));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  const m = new THREE.Mesh(g, flatMat);
+  m.renderOrder = 6;
+  m.userData.tag = 'water-flat';
+  scene.add(m);
+  WATER_MESHES.push(m);
+  stats.draws++;
+  stats.flatWaterSheets = sheets;
 }
 
 /* The open sea to the horizon. The detailed sea ring stops a couple of kilometres
@@ -2983,6 +3342,14 @@ const SPECIES = (() => {
     { crown: birch, trunk: trunk(0.16, 0.30, 7.4), cc: 0x5f8944, tc: 0xc9c6b2, sc: [0.60, 1.06] },
   ];
 })();
+/* What a template stands for at scale 1, so a measured tree can be drawn at
+   its measured height and crown radius rather than at a hashed size. */
+for (const spec of SPECIES) {
+  spec.crown.computeBoundingBox();
+  const box = spec.crown.boundingBox;
+  spec.templateHeight = box.max.y;
+  spec.templateRadius = Math.max(Math.abs(box.min.x), box.max.x, Math.abs(box.min.z), box.max.z);
+}
 
 /* coverAt (the satellite canopy raster) is decoded up by classify(), because the
    ground colour consults it too -- an OSM forest ring the imagery has thinned to
@@ -3132,6 +3499,38 @@ const SHORE = (() => {
 }
 
 const trees = [[], [], []];
+/* Phase 0 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
+   every planted tree remembers WHY it stands there -- the OSM forest polygon,
+   a scrub ring, the satellite canopy raster or the shore belt -- so the
+   baseline export can measure the legacy population source by source, which
+   is how the v2 cutover will be measured population by population instead of
+   eyeballed. The reason changes nothing about where a tree lands. */
+const treeWhy = [[], [], []];
+const WHY_FOREST_RING = 1, WHY_SCRUB_RING = 2, WHY_SATELLITE = 3, WHY_SHORE = 4, WHY_V2_INDIVIDUAL = 5, WHY_V2_STAND = 6;
+/* The v2 populations are planned BEFORE the lattice runs, so the lattice can
+   stay out of every tile they own: inside verified coverage only the registry
+   individuals and the measured stand field plant; outside it the legacy
+   population is untouched. Both come from docs/puttom-v2-lidar-tree-placement-plan.md. */
+let V2_VEG_PLAN = null, V2_VEG_COVER = null;
+if (V2_VEGETATION) {
+  if (TERRAIN_PREVIEW.ready && TERRAIN_PREVIEW.bridge) {
+    const { createFrameMapper, createCoverage, planV2Vegetation } = V2_VEGETATION.mod;
+    const mapper = createFrameMapper({ bridge: TERRAIN_PREVIEW.bridge, frameOrigin: V2_VEGETATION.loaded.frameOrigin });
+    V2_VEG_COVER = createCoverage(V2_VEGETATION.loaded, mapper);
+    V2_VEG_PLAN = planV2Vegetation(V2_VEGETATION.loaded, {
+      mapper,
+      groundHeightAt: (x, z) => terrainH(x, z),
+      shoreDistanceAt: (x, z) => SHORE(x, z),
+      lowQuality: LOWQ,
+      verticalDatumOffsetMetres: TERRAIN_PREVIEW.bridge.verticalDatumOffsetMetres || 0,
+    });
+  } else {
+    /* the registry is placed through the v2 terrain's own bridge; without
+       that terrain there is no frame to place it in, and require would have
+       thrown before this point */
+    V2_VEGETATION_ERROR = 'v2-terrain-not-ready';
+  }
+}
 {
   const GAP = 5.4;
   const rnd = (i, j) => hash2(i * 7919 + 13, j * 104729 + 7);
@@ -3153,14 +3552,17 @@ const trees = [[], [], []];
     if (LOWQ && rnd(i + 77, j + 55) < 0.45) continue;
     const px = x + (rnd(i, j) - 0.5) * GAP * 1.75;
     const pz = z + (rnd(i + 991, j + 77) - 0.5) * GAP * 1.75;
-    let wood = 0, kindScrub = false;
+    if (V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) continue;
+    let wood = 0, kindScrub = false, why = 0;
     for (const v of VI.at(px, pz)) {
       if (v.kind === 'forest' || v.kind === 'wood') {
         const sd = ringSD(px, pz, v.ring);
-        if (sd < 3.5) wood = Math.max(wood, sd < 0 ? 0.42 + 0.58 * smooth(-26, -12, sd)
-                                                   : 0.3 * (1 - sd / 3.5));
+        if (sd < 3.5) {
+          const w = sd < 0 ? 0.42 + 0.58 * smooth(-26, -12, sd) : 0.3 * (1 - sd / 3.5);
+          if (w > wood) { wood = w; why = WHY_FOREST_RING; }
+        }
       }
-      else if (v.kind === 'scrub') { const sd = ringSD(px, pz, v.ring); if (sd < 0) { wood = Math.max(wood, 0.4); kindScrub = true; } }
+      else if (v.kind === 'scrub') { const sd = ringSD(px, pz, v.ring); if (sd < 0) { if (0.4 > wood) { wood = 0.4; why = WHY_SCRUB_RING; } kindScrub = true; } }
     }
     /* The imagery is the authority in BOTH directions now. Satellite canopy plants
        where no polygon was surveyed -- and where the satellite sees open ground
@@ -3168,15 +3570,19 @@ const trees = [[], [], []];
        scattered singles the club's own aerials show. OSM drew rooms; the imagery
        knows how much of each room is actually furnished. */
     const cvHere = coverAt(px, pz);
+    /* the imagery's authority fades to the rings' at its own edge, so the
+       stand does not change character along a straight line */
+    const cvWeight = cvHere ? coverEdgeFade(px, pz) : 0;
     if (wood < 0.05 && cvHere === 3) {
       /* density follows the LOCAL canopy fraction, not the single cell: solid
          raster plants a wall, speckle plants the scattered singles it depicts */
       let hits = 1;
       for (const [ox, oz] of [[4.5, 0], [-4.5, 0], [0, 4.5], [0, -4.5]])
         if (coverAt(px + ox, pz + oz) === 3) hits++;
-      wood = 0.95 * Math.pow(hits / 5, 1.3);
+      wood = 0.95 * Math.pow(hits / 5, 1.3) * cvWeight;
+      why = WHY_SATELLITE;
     }
-    if (cvHere === 2 && wood > 0.05) wood *= 0.07;
+    if (cvHere === 2 && wood > 0.05) wood *= lerp(1, 0.07, cvWeight);
     /* Lone singles used to be a random sprinkle; the satellite raster's own
        speckle now says where they really stand, so the invented ones are gone --
        the club's aerial shows the mown expanse carrying literally none. A
@@ -3186,7 +3592,10 @@ const trees = [[], [], []];
     /* birches walk down to the waterline the way they do on every Norrland shore --
        thinner where the imagery says the shore is bare */
     const belt = dW < 28;
-    if (belt) wood = Math.max(wood, 0.4 * (1 - smooth(18, 28, dW)) * (cvHere === 2 ? 0.22 : 1));
+    if (belt) {
+      const w = 0.4 * (1 - smooth(18, 28, dW)) * (cvHere === 2 ? 0.22 : 1);
+      if (w > wood) { wood = w; why = WHY_SHORE; }
+    }
     /* what the surroundings say cannot stand here: cleared power-line corridors,
        the traced clear-fells (a few seed trees survive a hygge), working ground,
        hay meadows, and the open fields */
@@ -3200,6 +3609,8 @@ const trees = [[], [], []];
       for (const q of LI.at(px, pz))
         if ((q.kind === 'farmland' || q.kind === 'farmyard') && ringSD(px, pz, q.ring) < 0) wood = 0;
     }
+    /* thin toward the ring's edge, where the far cones take over */
+    wood *= midrEdgeFade(px, pz);
     if (wood < 0.05) continue;
     const c = classify(px, pz);
     if (c.fair > 0.05 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.path > 0.15) continue;
@@ -3210,6 +3621,7 @@ const trees = [[], [], []];
       if (w.stream) { if (distToLine(px, pz, w.line) < w.w * 3) wet = true; }
       else if (ringSD(px, pz, w.ring) < 3 || h < w.level + 0.5) wet = true;
     }
+    if (!wet && typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz)) wet = true;
     if (wet) continue;
     let bldNear = false;
     for (const q of II.at(px, pz)) if (ringSD(px, pz, q.ring) < 6) { bldNear = true; break; }
@@ -3232,13 +3644,67 @@ const trees = [[], [], []];
                : (r < 0.56 ? 1 : r < 0.83 ? 0 : 2);
     let s = SPECIES[sp].sc[0] + rnd(i + 61, j + 3) * (SPECIES[sp].sc[1] - SPECIES[sp].sc[0]);
     if (wood < 0.3) s *= 1.2;                    /* a lone tree grows a full crown */
-    trees[sp].push(px, h - 0.25, pz, s * (kindScrub ? 0.42 : 1), rnd(i + 3, j + 41) * TAU);
+    const sk = s * (kindScrub ? 0.42 : 1);
+    trees[sp].push(px, h - 0.25, pz, sk, rnd(i + 3, j + 41) * TAU, sk);
+    treeWhy[sp].push(why);
     }
   }
 }
+if (V2_VEG_PLAN) {
+  /* measured trees: height and crown radius from the registry or the stand
+     field, drawn with the same three templates as the lattice so the woods
+     stay one material and one look; only their sizes are no longer hashed */
+  for (const t of V2_VEG_PLAN.instances) {
+    const spec = SPECIES[t.species];
+    trees[t.species].push(t.x, t.y - 0.25, t.z, t.height / spec.templateHeight, t.rotation, t.radius / spec.templateRadius);
+    treeWhy[t.species].push(t.kind === 'individual' ? WHY_V2_INDIVIDUAL : WHY_V2_STAND);
+  }
+}
+/* The baseline export the vegetation plan's Phase 0 asks for: the legacy
+   population counted by species, by the source that planted it, by hole and
+   by a PROVISIONAL zone -- distance to the nearest hole line, until the
+   plan's zone-A geometry is approved -- with the instances themselves on
+   request. Computed on demand, never at boot. */
+const LEGACY_TREE_REASONS = ['none', 'forestRing', 'scrubRing', 'satellite', 'shore', 'v2Individual', 'v2Stand'];
+const LEGACY_ZONE_A_METRES = 90, LEGACY_ZONE_B_METRES = 300;
+function legacyTreeExport(withInstances = false) {
+  const names = ['spruce', 'pine', 'birch'];
+  const out = {
+    total: 0, species: {}, reasons: {}, zones: { A: 0, B: 0, C: 0 },
+    holes: HOLES.map(h => ({ n: h.n, count: 0 })),
+    zoning: `provisional: A within ${LEGACY_ZONE_A_METRES} m of a hole line, B within ${LEGACY_ZONE_B_METRES} m, else C`,
+    v2: V2_VEG_PLAN ? { ...V2_VEG_PLAN.stats, coverageTiles: V2_VEG_COVER ? V2_VEG_COVER.tiles : 0 } : null,
+    legacyInsideCoverage: 0,
+    instances: withInstances ? [] : null,
+  };
+  for (const reason of LEGACY_TREE_REASONS) out.reasons[reason] = 0;
+  for (let sp = 0; sp < 3; sp++) {
+    const T = trees[sp], W = treeWhy[sp], n = T.length / 6;
+    out.species[names[sp]] = n;
+    out.total += n;
+    for (let k = 0; k < n; k++) {
+      const x = T[k * 6], y = T[k * 6 + 1], z = T[k * 6 + 2];
+      if (V2_VEG_COVER && W[k] < WHY_V2_INDIVIDUAL && V2_VEG_COVER.covers(x, z)) out.legacyInsideCoverage++;
+      let best = Infinity, nearest = -1;
+      for (let i = 0; i < HOLES.length; i++) {
+        const d = distToLine(x, z, HOLES[i].line);
+        if (d < best) { best = d; nearest = i; }
+      }
+      const zone = best <= LEGACY_ZONE_A_METRES ? 'A' : best <= LEGACY_ZONE_B_METRES ? 'B' : 'C';
+      out.zones[zone]++;
+      if (nearest >= 0 && zone !== 'C') out.holes[nearest].count++;
+      out.reasons[LEGACY_TREE_REASONS[W[k]] || 'none']++;
+      if (withInstances) {
+        out.instances.push([+x.toFixed(2), +y.toFixed(2), +z.toFixed(2), +T[k * 6 + 3].toFixed(3),
+                            +T[k * 6 + 4].toFixed(3), sp, W[k], zone, +T[k * 6 + 5].toFixed(3)]);
+      }
+    }
+  }
+  return out;
+}
 for (let s = 0; s < 3; s++) {
-  const T = trees[s];
-  const n = T.length / 5;
+  const T = trees[s], W = treeWhy[s];
+  const n = T.length / 6;
   if (!n) continue;
   const spec = SPECIES[s];
   for (const [geo, hex, isCrown] of [[spec.crown, spec.cc, true], [spec.trunk, spec.tc, false]]) {
@@ -3275,10 +3741,13 @@ for (let s = 0; s < 3; s++) {
     im.receiveShadow = !isCrown;
     const mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
     for (let k = 0; k < n; k++) {
-      pos.set(T[k * 5], T[k * 5 + 1], T[k * 5 + 2]);
-      const sc = T[k * 5 + 3];
-      scl.set(sc, sc * (0.86 + (k % 7) * 0.045), sc);
-      q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 5 + 4]);
+      pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
+      const sy = T[k * 6 + 3], sxz = T[k * 6 + 5];
+      /* the lattice keeps its hashed height variation; a measured tree is
+         drawn at its measured height and crown, with nothing added */
+      const varied = W[k] >= WHY_V2_INDIVIDUAL ? 1 : (0.86 + (k % 7) * 0.045);
+      scl.set(sxz, sy * varied, sxz);
+      q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
       im.setMatrixAt(k, mtx.compose(pos, q, scl));
     }
     im.instanceMatrix.needsUpdate = true;
@@ -3304,17 +3773,34 @@ if (M.cover) {
     for (const q of SI.at(px, pz)) if (ringSD(px, pz, q.ring) < 0) return true;
     return false;
   };
+  /* the same test every planter makes: never on a lake, never on its shore
+     band, never below its water. These two rings had only the flat sea floor
+     to go by, which on an inland course is the lowest lake and says nothing
+     about the others -- cones stood in Stor-Rössjön as soon as the ground
+     under them was measured rather than carved. */
+  const inWater = (px, pz, h) => {
+    for (const w of WI.at(px, pz)) {
+      if (w.stream) continue;
+      if (ringSD(px, pz, w.ring) < 3 || h < w.level + 0.5) return true;
+    }
+    /* and the water only the ground knows: flat lake surfaces past the rings */
+    return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz);
+  };
   const cvx1 = cv.x0 + cv.nx * cv.cell, cvz1 = cv.z0 + cv.nz * cv.cell;
   /* the data ring: where the plans or the survey still reach */
   const GAP2 = LOWQ ? 18 : 13;
   for (let z = cv.z0; z < cvz1; z += GAP2) {
     if (shouldYieldWork()) await yieldWork();
     for (let x = cv.x0; x < cvx1; x += GAP2) {
-      if (x > MIDR.x0 + inset && x < MIDR.x1 - inset &&
-          z > MIDR.z0 + inset && z < MIDR.z1 - inset) continue;
       const i = Math.floor(x / GAP2), j = Math.floor(z / GAP2);
+      /* inside the planted ring a cone stands only where the planter has
+         thinned out: its chance is the complement of the planter's */
+      if (x > MIDR.x0 + inset && x < MIDR.x1 - inset &&
+          z > MIDR.z0 + inset && z < MIDR.z1 - inset &&
+          rnd2(i + 61, j + 47) < midrEdgeFade(x, z)) continue;
       const px = x + (rnd2(i, j) - 0.5) * GAP2 * 1.6;
       const pz = z + (rnd2(i + 7, j + 3) - 0.5) * GAP2 * 1.6;
+      if (V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) continue;
       const cvv = coverAt(px, pz);
       let wooded = cvv === 3;
       /* the surveyed rings only speak where the imagery has no answer */
@@ -3326,6 +3812,7 @@ if (M.cover) {
       if (rnd2(i + 19, j + 13) > 0.8) continue;
       const h = terrainH(px, pz);
       if (h < GEO.seaLevel + 0.5) continue;
+      if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.4, pz, 0.8 + rnd2(i + 5, j + 23) * 0.7);
     }
   }
@@ -3351,10 +3838,12 @@ if (M.cover) {
       if (rnd2(i + 9, j + 33) > 0.85) continue;
       const h = terrainH(px, pz);
       if (h < GEO.seaLevel + 1.5) continue;
+      if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
     }
   }
   const n = pts.length / 4;
+  VISTA_PTS = pts;
   if (n) {
     const geo = new THREE.ConeGeometry(3.1, 12, 5);
     geo.translate(0, 5.6, 0);
@@ -3439,6 +3928,7 @@ if (M.cover) {
       if (w.stream) { if (distToLine(px, pz, w.line) < w.w * 3) wet = true; }
       else if (ringSD(px, pz, w.ring) < 3 || h < w.level + 0.4) wet = true;
     }
+    if (!wet && typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz)) wet = true;
     if (wet) continue;
     const clump = fbm(px * 0.045, pz * 0.045, 2) * 0.5 + 0.5;
     const r = rnd(i, j, 3);
@@ -3878,6 +4368,15 @@ for (const h of HOLES) {
     }
     return { base: top + 0.06, skirt: Math.max(1.2, top - bot + 0.5) };
   }
+  /* a square post from four quads: the batch's pole helper is declared further
+     down this block and the buildings are built before it exists */
+  function stick(x, y0, z, h, r, col) {
+    const c = [[-r, -r], [r, -r], [r, r], [-r, r]];
+    for (let k = 0; k < 4; k++) {
+      const [ax, az] = c[k], [bx, bz] = c[(k + 1) % 4];
+      quad([x + ax, y0, z + az], [x + bx, y0, z + bz], [x + bx, y0 + h, z + bz], [x + ax, y0 + h, z + az], col);
+    }
+  }
   function house(ring, hgt, wall, roof, hip) {
     const { base, skirt } = houseBase(ring);
     const n = ring.length;
@@ -3944,6 +4443,39 @@ for (const h of HOLES) {
     }
   }
 
+  /* An open shelter: a roof on posts with one back wall -- the covered bays at
+     the end of a range tee line, a shed with its front open. Traced as a
+     building of kind "roof". The back wall is the side away from the range
+     field when there is one, else the longest side. */
+  function canopy(ring, hgt) {
+    const { base } = houseBase(ring);
+    const n = ring.length;
+    const DARK = L(0x3a3632);
+    for (const p of ring) stick(p[0], base - 0.3, p[1], hgt + 0.3, 0.07, DARK);
+    const faces = triangulate(ring);
+    for (const [a, b2, c2] of faces) {
+      tri([ring[a][0], base + hgt, ring[a][1]], [ring[c2][0], base + hgt, ring[c2][1]],
+          [ring[b2][0], base + hgt, ring[b2][1]], ROOFA);
+      tri([ring[a][0], base + hgt + 0.22, ring[a][1]], [ring[b2][0], base + hgt + 0.22, ring[b2][1]],
+          [ring[c2][0], base + hgt + 0.22, ring[c2][1]], ROOFA);
+    }
+    const field = (M.scenery.range || [])[0];
+    const away = field ? centroidOf(field) : null;
+    let back = 0, score = -Infinity;
+    for (let i = 0; i < n; i++) {
+      const a = ring[i], b = ring[(i + 1) % n];
+      const mx = (a[0] + b[0]) / 2, mz = (a[1] + b[1]) / 2;
+      const s2 = away ? Math.hypot(mx - away[0], mz - away[1]) : Math.hypot(b[0] - a[0], b[1] - a[1]);
+      if (s2 > score) { score = s2; back = i; }
+    }
+    const a = ring[back], b = ring[(back + 1) % n];
+    quad([a[0], base - 0.3, a[1]], [b[0], base - 0.3, b[1]], [b[0], base + hgt, b[1]], [a[0], base + hgt, a[1]], L(0x6b4a3a));
+    for (let i = 0; i < n; i++) {
+      const p = ring[i], q = ring[(i + 1) % n];
+      quad([p[0], base + hgt - 0.3, p[1]], [q[0], base + hgt - 0.3, q[1]], [q[0], base + hgt + 0.22, q[1]], [p[0], base + hgt + 0.22, p[1]], TRIM);
+    }
+  }
+
   /* WHICH building is the clubhouse. Matching only /golfklubb/ found
      "Veckefjärdens golfklubb" and "Klubbhus Norrfällsvikens Golfklubb" but not
      "Ängsö GK Klubbhus" or Johannesberg's plain "klubbhus" -- so two of six
@@ -3963,12 +4495,41 @@ for (const h of HOLES) {
     if (b.amenity === 'place_of_worship') continue;   /* the chapel is bespoke */
     const [cx, cz] = centroidOf(b.ring);
     const isClub = b === clubBuilding;
+    if (b.kind === 'roof') { canopy(b.ring, b.h || 3.0); continue; }
     const hgt = b.h || (isClub ? CLUB_LOOK.height
               : b.kind === 'industrial' ? 5.5 : b.kind === 'commercial' ? 4.2
               : b.kind === 'house' || b.kind === 'residential' ? 3.0
               : areaOf(b.ring) < 45 ? 2.6 : 3.4);
-    house(b.ring, hgt, isClub ? L(CLUB_LOOK.wall) : wallOf(cx, cz, b.kind, b.name),
-          isClub ? L(CLUB_LOOK.roof) : roofOf(cx, cz), isClub);
+    /* a course module may state one building's real colours by its id -- the
+       annex that continues the clubhouse's blue, a shed with a dark roof --
+       where the generic hashed palette would guess */
+    const look = (SCENERY && SCENERY.buildingLooks && b.id && SCENERY.buildingLooks[b.id]) || null;
+    house(b.ring, hgt, isClub ? L(CLUB_LOOK.wall) : look?.wall ? L(look.wall) : wallOf(cx, cz, b.kind, b.name),
+          isClub ? L(CLUB_LOOK.roof) : look?.roof ? L(look.roof) : roofOf(cx, cz), isClub && !CLUB_LOOK.gable);
+    let glazedEdge = -1;
+    /* an outbuilding the course knows has a row of white-framed windows on
+       every wall long enough to carry them, the way the red buildings round a
+       Norrland clubhouse do; the generic pass draws blank walls */
+    if (!isClub && look?.windows) {
+      const { base } = houseBase(b.ring);
+      const GLASS2 = L(0x212830);
+      const sill = look.windowSill ?? 1.3;
+      for (let e = 0; e < b.ring.length; e++) {
+        const a0 = b.ring[e], a1 = b.ring[(e + 1) % b.ring.length];
+        const ex = a1[0] - a0[0], ez = a1[1] - a0[1], el = Math.hypot(ex, ez);
+        if (el < 5) continue;
+        const ux = ex / el, uz = ez / el, nx = -uz, nz = ux;
+        const nWin = Math.floor((el - 2.0) / 2.6);
+        for (const sgn of [1, -1]) for (let w2 = 0; w2 < nWin; w2++) {
+          const t0 = 1.0 + w2 * 2.6 + 0.8;
+          const W = (tt, off, y) => [a0[0] + ux * tt + nx * off * sgn, y, a0[1] + uz * tt + nz * off * sgn];
+          quad(W(t0 - 0.62, 0.08, base + sill - 0.1), W(t0 + 0.62, 0.08, base + sill - 0.1),
+               W(t0 + 0.62, 0.08, base + sill + 1.3), W(t0 - 0.62, 0.08, base + sill + 1.3), TRIM);
+          quad(W(t0 - 0.5, 0.12, base + sill), W(t0 + 0.5, 0.12, base + sill),
+               W(t0 + 0.5, 0.12, base + sill + 1.12), W(t0 - 0.5, 0.12, base + sill + 1.12), GLASS2);
+        }
+      }
+    }
     if (isClub) {
       /* the old school wears its three storeys of white-framed windows -- the grid
          is most of what says "that building" from the 18th fairway */
@@ -3979,13 +4540,77 @@ for (const h of HOLES) {
         const { base } = houseBase(b.ring);
         const GLASS = L(0x212830);
         const P = (u, v, y) => [B.cx + u * c - v * s, y, B.cz + u * s + v * c];
+        /* A two-tone facade: the lower storey in its own colour, a band laid a
+           whisker proud of the wall so the joint reads as a change of material. */
+        if (CLUB_LOOK.lowerWall && CLUB_LOOK.lowerHeight > 0) {
+          const LOW = L(CLUB_LOOK.lowerWall);
+          for (let e = 0; e < b.ring.length; e++) {
+            const a0 = b.ring[e], a1 = b.ring[(e + 1) % b.ring.length];
+            const ex = a1[0] - a0[0], ez = a1[1] - a0[1], el = Math.hypot(ex, ez) || 1;
+            const ox = -ez / el * 0.03, oz = ex / el * 0.03;
+            for (const sgn of [1, -1])
+              quad([a0[0] + ox * sgn, base - 0.5, a0[1] + oz * sgn], [a1[0] + ox * sgn, base - 0.5, a1[1] + oz * sgn],
+                   [a1[0] + ox * sgn, base + CLUB_LOOK.lowerHeight, a1[1] + oz * sgn], [a0[0] + ox * sgn, base + CLUB_LOOK.lowerHeight, a0[1] + oz * sgn], LOW);
+          }
+        }
+        /* The glazed gable: the whole end of the building that faces the course
+           is a window wall up into the gable, with a balcony along it at first
+           floor. The end is chosen by where the course is -- the mean of the
+           green centres -- so the module states a fact and not a coordinate. */
+        if (CLUB_LOOK.gable && CLUB_LOOK.glazedGable) {
+          let tx = 0, tz = 0, tn = 0;
+          for (const h of HOLES) if (h.green && h.green.c) { tx += h.green.c[0]; tz += h.green.c[1]; tn++; }
+          const T = tn ? [tx / tn, tz / tn] : [B.cx, B.cz];
+          const sgn = ((T[0] - B.cx) * c + (T[1] - B.cz) * s) >= 0 ? 1 : -1;
+          const hw = B.hw + 0.35, hd = B.hd;
+          const rise = clampf(Math.tan(0.52) * B.hd, 1.2, 3.4);
+          const yLow = base + Math.max(0.3, CLUB_LOOK.lowerHeight), yEave = base + hgt, yRidge = yEave + rise - 0.25;
+          const u = sgn * (hw + 0.06);
+          const E = (v, y) => P(u, v, y);
+          /* the glass: a rectangle to the eaves and the triangle above it */
+          quad(E(-(hd - 0.5), yLow), E(hd - 0.5, yLow), E(hd - 0.5, yEave), E(-(hd - 0.5), yEave), GLASS);
+          tri(E(-(hd - 0.5), yEave), E(hd - 0.5, yEave), E(0, yRidge), GLASS);
+          tri(E(hd - 0.5, yEave), E(-(hd - 0.5), yEave), E(0, yRidge), GLASS);
+          /* white mullions and the floor line, the frame that reads from the fairway */
+          const uf = sgn * (hw + 0.1);
+          for (let v = -(hd - 0.5); v <= hd - 0.5 + 0.01; v += (2 * hd - 1) / Math.max(2, Math.round((2 * hd - 1) / 1.9))) {
+            const top = yEave + (rise - 0.25) * Math.max(0, 1 - Math.abs(v) / (hd - 0.5));
+            quad(P(uf, v - 0.06, yLow), P(uf, v + 0.06, yLow), P(uf, v + 0.06, top), P(uf, v - 0.06, top), TRIM);
+          }
+          for (const y of [yLow + (yEave - yLow) * 0.5, yEave - 0.1])
+            quad(P(uf, -(hd - 0.5), y - 0.06), P(uf, hd - 0.5, y - 0.06), P(uf, hd - 0.5, y + 0.06), P(uf, -(hd - 0.5), y + 0.06), TRIM);
+          quad(P(uf, -(hd - 0.5), yLow - 0.06), P(uf, hd - 0.5, yLow - 0.06), P(uf, hd - 0.5, yLow + 0.06), P(uf, -(hd - 0.5), yLow + 0.06), TRIM);
+          /* the balcony: a slab out from the glass at first-floor level, a rail on posts */
+          if (CLUB_LOOK.balcony) {
+            const out = 2.2, y0 = yLow - 0.05, y1 = yLow + 0.22;
+            const S = (du, v, y) => P(sgn * (hw + du), v, y);
+            const bv0 = -(hd - 0.4), bv1 = hd - 0.4;
+            quad(S(0, bv0, y1), S(out, bv0, y1), S(out, bv1, y1), S(0, bv1, y1), L(0x8a7d70));
+            quad(S(0, bv1, y0), S(out, bv1, y0), S(out, bv0, y0), S(0, bv0, y0), L(0x5b5148));
+            quad(S(out, bv0, y0), S(out, bv1, y0), S(out, bv1, y1), S(out, bv0, y1), L(0x5b5148));
+            const railY = y1 + 1.05;
+            for (let v = bv0; v <= bv1 + 0.01; v += 1.5) { const p = S(out - 0.08, v, y1); stick(p[0], y1, p[2], 1.05, 0.025, TRIM); }
+            for (const side of [[bv0, bv1, out - 0.08, out - 0.08], [bv0, bv0, 0, out - 0.08], [bv1, bv1, 0, out - 0.08]]) {
+              const [va, vb, da, db] = side;
+              quad(S(da, va, railY - 0.04), S(db, vb, railY - 0.04), S(db, vb, railY + 0.04), S(da, va, railY + 0.04), TRIM);
+            }
+          }
+          /* the ring's own end wall under the glass keeps no windows */
+          let bestDot = -Infinity;
+          for (let e = 0; e < b.ring.length; e++) {
+            const a0 = b.ring[e], a1 = b.ring[(e + 1) % b.ring.length];
+            const mx = (a0[0] + a1[0]) / 2 - B.cx, mz = (a0[1] + a1[1]) / 2 - B.cz;
+            const d = (mx * c + mz * s) * sgn;
+            if (d > bestDot) { bestDot = d; glazedEdge = e; }
+          }
+        }
         /* windows hang on the ring's own walls, not the bounding box -- the first
            two attempts floated them across the gaps where the footprint steps back */
         for (let e = 0; e < b.ring.length; e++) {
           const a0 = b.ring[e], a1 = b.ring[(e + 1) % b.ring.length];
           const ex = a1[0] - a0[0], ez = a1[1] - a0[1];
           const el = Math.hypot(ex, ez);
-          if (el < 6) continue;
+          if (el < 6 || e === glazedEdge) continue;
           const ux = ex / el, uz = ez / el;
           const nx = -uz, nz = ux;                       /* outward for a CCW-ish ring; DoubleSide forgives */
           const nWin = Math.floor((el - 2.4) / 2.15);
@@ -4248,6 +4873,208 @@ for (const h of HOLES) {
            [fx + rx * 1.1, fy + 3.1, fz + rz * 1.1], [fx, fy + 3.1, fz], col);
     }
   }
+  /* The tee line, where a course has traced one: a mat every bay pitch along
+     the line with a divider between bays, a low kerb behind, and the safety
+     net on its poles along the sides the trace names. The net is its own
+     mesh because it is see-through; everything else joins the batch. */
+  const RF = M.scenery.rangeFacilities;
+  if (RF && RF.bays && RF.bays.length >= 2) {
+    const MAT = L(0x2c5a2b), DIV = L(0xe8e6df), DIVCAP = L(0x2f6f3a), KERB = L(0x8d8a82), STEEL = L(0x4a4d50);
+    const STRIP = C.hard.map(v => v * 1.18);
+    const pitch = RF.bayPitch || 3;
+    const { P: TL } = resamp(RF.bays, pitch);
+    const fieldC = centroidOf(rng || RF.bays);
+    /* The tee line is one prepared strip -- pale hardstanding four metres
+       deep along the whole line, a kerb at its back -- and the mats and
+       dividers stand on it. Drawn as a strip rather than per mat, so it
+       reads as a tee line from the clubhouse and not as a row of specks. */
+    const side = i => {
+      const p = TL[i], q = TL[Math.min(TL.length - 1, i + 1)], o = TL[Math.max(0, i - 1)];
+      let ux = q[0] - o[0], uz = q[1] - o[1]; const ul = Math.hypot(ux, uz) || 1; ux /= ul; uz /= ul;
+      let nx = -uz, nz = ux;                                  /* towards the field */
+      if ((fieldC[0] - p[0]) * nx + (fieldC[1] - p[1]) * nz < 0) { nx = -nx; nz = -nz; }
+      return { p, ux, uz, nx, nz, y: terrainH(p[0], p[1]) + 0.05 };
+    };
+    for (let i = 0; i < TL.length - 1; i++) {
+      const a = side(i), b = side(i + 1);
+      const A = (bb, yy) => [a.p[0] + a.nx * bb, yy ?? a.y, a.p[1] + a.nz * bb];
+      const Bq = (bb, yy) => [b.p[0] + b.nx * bb, yy ?? b.y, b.p[1] + b.nz * bb];
+      quad(A(-1.6), Bq(-1.6), Bq(2.4), A(2.4), STRIP);
+      /* the kerb at the back of the strip */
+      quad(A(-1.6, a.y), Bq(-1.6, b.y), Bq(-1.6, b.y + 0.2), A(-1.6, a.y + 0.2), KERB);
+      quad(A(-1.8, a.y + 0.2), Bq(-1.8, b.y + 0.2), Bq(-1.6, b.y + 0.2), A(-1.6, a.y + 0.2), KERB);
+    }
+    for (let i = 0; i < TL.length; i++) {
+      const { p, ux, uz, nx, nz, y } = side(i);
+      const M4 = (a, bb, yy) => [p[0] + ux * a + nx * bb, yy ?? y + 0.03, p[1] + uz * a + nz * bb];
+      if (i < TL.length - 1) {
+        /* the mat, and a white tee-marker line at its front edge */
+        quad(M4(-0.9, -0.1), M4(0.9, -0.1), M4(0.9, 1.7), M4(-0.9, 1.7), MAT);
+        quad(M4(-0.9, 1.7), M4(0.9, 1.7), M4(0.9, 1.85), M4(-0.9, 1.85), DIV);
+      }
+      /* the divider on the bay boundary: a white panel standing across the
+         line with a green cap, 1.1 m tall and a metre and a half deep */
+      const D = (bb, yy) => [p[0] + ux * (-pitch / 2 + 0.02) + nx * bb, yy, p[1] + uz * (-pitch / 2 + 0.02) + nz * bb];
+      if (i > 0) {
+        quad(D(-0.4, y), D(1.3, y), D(1.3, y + 1.05), D(-0.4, y + 1.05), DIV);
+        quad(D(1.3, y), D(-0.4, y), D(-0.4, y + 1.05), D(1.3, y + 1.05), DIV);
+        quad(D(-0.4, y + 1.05), D(1.3, y + 1.05), D(1.3, y + 1.15), D(-0.4, y + 1.15), DIVCAP);
+        quad(D(1.3, y + 1.05), D(-0.4, y + 1.05), D(-0.4, y + 1.15), D(1.3, y + 1.15), DIVCAP);
+      }
+    }
+    for (const net of (RF.nets || [])) {
+      const H = RF.netHeight || 10;
+      const { P: NP } = resamp(net, 12);
+      const pos = [], idx = [];
+      for (let i = 0; i < NP.length; i++) {
+        const p = NP[i], y0 = terrainH(p[0], p[1]);
+        pole(p[0], y0 - 0.4, p[1], H + 0.4, 0.14, STEEL);
+        pos.push(p[0], y0 + 0.15, p[1], p[0], y0 + H, p[1]);
+        if (i) { const a = (i - 1) * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+      }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      g.setIndex(idx);
+      g.computeVertexNormals();
+      const netMat = new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0x1d2622), transparent: true, opacity: 0.34, side: THREE.DoubleSide, depthWrite: false });
+      const m = new THREE.Mesh(g, netMat);
+      m.userData.tag = 'range-net';
+      scene.add(m);
+      stats.draws++;
+      stats.rangeNets = (stats.rangeNets || 0) + 1;
+    }
+  }
+  /* The cart fleet, in a row on the gravel where the course puts it: a body,
+     a roof on four posts, and a windscreen -- the shape a golf cart is from
+     twenty metres. White with a blue one, like the club's own photograph. */
+  const CP = M.scenery.cartPark;
+  if (CP && CP.line && CP.line.length >= 2) {
+    const [a, b] = [CP.line[0], CP.line[CP.line.length - 1]];
+    const n = Math.max(1, CP.count || 6);
+    let ux = b[0] - a[0], uz = b[1] - a[1]; const ul = Math.hypot(ux, uz) || 1; ux /= ul; uz /= ul;
+    const nx = -uz, nz = ux;
+    const box = (cx, y0, cz, w, h, d, col) => {
+      /* w across the row (u), d along the cart (n) */
+      const C = (du, dn, y) => [cx + ux * du + nx * dn, y, cz + uz * du + nz * dn];
+      const hw = w / 2, hd = d / 2;
+      quad(C(-hw, -hd, y0), C(hw, -hd, y0), C(hw, -hd, y0 + h), C(-hw, -hd, y0 + h), col);
+      quad(C(hw, hd, y0), C(-hw, hd, y0), C(-hw, hd, y0 + h), C(hw, hd, y0 + h), col);
+      quad(C(hw, -hd, y0), C(hw, hd, y0), C(hw, hd, y0 + h), C(hw, -hd, y0 + h), col);
+      quad(C(-hw, hd, y0), C(-hw, -hd, y0), C(-hw, -hd, y0 + h), C(-hw, hd, y0 + h), col);
+      quad(C(-hw, -hd, y0 + h), C(hw, -hd, y0 + h), C(hw, hd, y0 + h), C(-hw, hd, y0 + h), col);
+    };
+    for (let k = 0; k < n; k++) {
+      const t = n === 1 ? 0.5 : k / (n - 1);
+      const cx = a[0] + (b[0] - a[0]) * t, cz = a[1] + (b[1] - a[1]) * t;
+      const y = terrainH(cx, cz);
+      const body = k === n - 1 ? L(0x2f5fa8) : L(0xe9e9e6);
+      box(cx, y + 0.28, cz, 1.2, 0.55, 2.3, body);
+      box(cx, y + 0.28, cz, 1.25, 0.35, 0.9, L(0x1a1a1a));           /* the seat block */
+      quad([cx + ux * -0.62 + nx * -0.9, y + 0.83, cz + uz * -0.62 + nz * -0.9], [cx + ux * 0.62 + nx * -0.9, y + 0.83, cz + uz * 0.62 + nz * -0.9],
+           [cx + ux * 0.62 + nx * -0.9, y + 1.75, cz + uz * 0.62 + nz * -0.9], [cx + ux * -0.62 + nx * -0.9, y + 1.75, cz + uz * -0.62 + nz * -0.9], L(0x9fb3c2));
+      for (const [du, dn] of [[-0.58, -1.05], [0.58, -1.05], [-0.58, 1.0], [0.58, 1.0]])
+        pole(cx + ux * du + nx * dn, y + 0.8, cz + uz * du + nz * dn, 1.0, 0.03, L(0x2a2a2a));
+      box(cx, y + 1.8, cz, 1.3, 0.06, 2.35, L(0xf2f2ef));
+      for (const dn of [-0.85, 0.85]) for (const du of [-0.55, 0.55])
+        box(cx + ux * du + nx * dn, y + 0.02, cz + uz * du + nz * dn, 0.2, 0.45, 0.45, L(0x1a1a1a));
+    }
+    stats.carts = n;
+  }
+  /* Motorhomes on a lot that says so (the ställplats west of Puttom's
+     clubhouse): white boxes with a dark cab and a window band, nose to the
+     lot's long axis, every second bay taken. */
+  {
+    let vans = 0;
+    for (const p of (M.infra.parking || [])) {
+      if (p.vehicles !== 'motorhome' || !p.ring || p.ring.length < 3) continue;
+      const B = obb2(p.ring);
+      if (!B || B.hw < 4) continue;
+      const c = Math.cos(B.ang), s = Math.sin(B.ang);
+      /* bays run across the long axis, two rows when the lot is deep enough */
+      const rows = B.hd > 8 ? [-(B.hd - 4.2), B.hd - 4.2] : [0];
+      const box = (cx, cz, du, dn, w, h, d, y0, col) => {
+        const ux = c, uz = s, nx = -s, nz = c;
+        const X = (a, b, y) => [cx + ux * a + nx * b, y, cz + uz * a + nz * b];
+        const hw = w / 2, hd = d / 2;
+        quad(X(du - hw, dn - hd, y0), X(du + hw, dn - hd, y0), X(du + hw, dn - hd, y0 + h), X(du - hw, dn - hd, y0 + h), col);
+        quad(X(du + hw, dn + hd, y0), X(du - hw, dn + hd, y0), X(du - hw, dn + hd, y0 + h), X(du + hw, dn + hd, y0 + h), col);
+        quad(X(du + hw, dn - hd, y0), X(du + hw, dn + hd, y0), X(du + hw, dn + hd, y0 + h), X(du + hw, dn - hd, y0 + h), col);
+        quad(X(du - hw, dn + hd, y0), X(du - hw, dn - hd, y0), X(du - hw, dn - hd, y0 + h), X(du - hw, dn + hd, y0 + h), col);
+        quad(X(du - hw, dn - hd, y0 + h), X(du + hw, dn - hd, y0 + h), X(du + hw, dn + hd, y0 + h), X(du - hw, dn + hd, y0 + h), col);
+      };
+      for (const v of rows) {
+        for (let u = -B.hw + 2.2; u <= B.hw - 2.2; u += 3.6) {
+          const x = B.cx + u * c - v * s, z = B.cz + u * s + v * c;
+          if (ringSD(x, z, p.ring) > -1.6) continue;
+          if (hash2(Math.round(x * 2), Math.round(z * 2)) > 0.62) continue;
+          const y = terrainH(x, z);
+          const facing = v >= 0 ? 1 : -1;
+          box(x, z, 0, 0, 2.3, 2.7, 6.8, y + 0.35, L(0xf1f0ea));
+          box(x, z, 0, facing * 2.9, 2.2, 1.7, 1.2, y + 0.4, L(0x3a3d42));       /* the cab */
+          box(x, z, 0, -facing * 0.6, 2.36, 0.55, 4.6, y + 1.55, L(0x2a2f36));   /* the window band */
+          for (const du of [-0.85, 0.85]) for (const dn of [-2.3, 2.1])
+            box(x, z, du, dn, 0.28, 0.5, 0.7, y + 0.02, L(0x1a1a1a));
+          vans++;
+        }
+      }
+    }
+    stats.motorhomes = vans;
+  }
+  /* Footbridges: wherever a traced path or track crosses a water ring or a
+     stream, a plank deck with rails carries it over -- deck at the water's
+     level plus a step, span from bank to bank plus a metre each side. The
+     path ribbon below it dips into the bed; the deck is what the eye sees. */
+  {
+    const PLANK = L(0x8a7455), BEAM = L(0x5a4633);
+    let bridges = 0;
+    const cross = (p, q, a, b) => {
+      const d = (q[0] - p[0]) * (b[1] - a[1]) - (q[1] - p[1]) * (b[0] - a[0]);
+      if (Math.abs(d) < 1e-9) return null;
+      const t = ((a[0] - p[0]) * (b[1] - a[1]) - (a[1] - p[1]) * (b[0] - a[0])) / d;
+      const u = ((a[0] - p[0]) * (q[1] - p[1]) - (a[1] - p[1]) * (q[0] - p[0])) / d;
+      return t >= 0 && t <= 1 && u >= 0 && u <= 1 ? t : null;
+    };
+    for (const pth of (M.infra.paths || []).concat(M.infra.tracks || [])) {
+      const L2 = pth.line;
+      if (!L2 || L2.length < 2) continue;
+      const w = pth.kind === 'path' ? 1.5 : 1.9;
+      for (let i = 0; i < L2.length - 1; i++) {
+        const p = L2[i], q = L2[i + 1];
+        const hits = [];
+        for (const wq of WI.at((p[0] + q[0]) / 2, (p[1] + q[1]) / 2)) {
+          const segs = wq.stream ? wq.line : wq.ring;
+          if (!segs) continue;
+          const m = wq.stream ? segs.length - 1 : segs.length;
+          for (let j = 0; j < m; j++) {
+            const t = cross(p, q, segs[j], segs[(j + 1) % segs.length]);
+            if (t !== null) hits.push({ t, level: wq.stream ? null : wq.level });
+          }
+        }
+        if (!hits.length) continue;
+        hits.sort((x, y) => x.t - y.t);
+        const t0 = Math.max(0, hits[0].t - 1.2 / hyp(p, q)), t1 = Math.min(1, hits[hits.length - 1].t + 1.2 / hyp(p, q));
+        const A = [p[0] + (q[0] - p[0]) * t0, p[1] + (q[1] - p[1]) * t0], Bp = [p[0] + (q[0] - p[0]) * t1, p[1] + (q[1] - p[1]) * t1];
+        const level = hits.find(h => h.level !== null)?.level;
+        const yA = terrainH(A[0], A[1]), yB = terrainH(Bp[0], Bp[1]);
+        const deck = Math.max(level !== undefined ? level + 0.45 : -1e9, Math.max(yA, yB) + 0.08);
+        let ux = Bp[0] - A[0], uz = Bp[1] - A[1]; const ul = Math.hypot(ux, uz) || 1; ux /= ul; uz /= ul;
+        const nx = -uz, nz = ux, hw = w / 2 + 0.4;
+        const D = (s2, side, y) => [A[0] + ux * s2 + nx * side, y, A[1] + uz * s2 + nz * side];
+        quad(D(0, -hw, deck), D(ul, -hw, deck), D(ul, hw, deck), D(0, hw, deck), PLANK);
+        quad(D(0, hw, deck - 0.22), D(ul, hw, deck - 0.22), D(ul, hw, deck), D(0, hw, deck), BEAM);
+        quad(D(ul, -hw, deck - 0.22), D(0, -hw, deck - 0.22), D(0, -hw, deck), D(ul, -hw, deck), BEAM);
+        for (const side of [-hw + 0.06, hw - 0.06]) {
+          for (let s2 = 0; s2 <= ul + 0.01; s2 += Math.max(1.2, ul / Math.max(1, Math.round(ul / 1.6)))) {
+            const pp = D(Math.min(s2, ul), side, deck);
+            pole(pp[0], deck, pp[2], 0.95, 0.04, BEAM);
+          }
+          quad(D(0, side, deck + 0.9), D(ul, side, deck + 0.9), D(ul, side, deck + 0.98), D(0, side, deck + 0.98), PLANK);
+        }
+        bridges++;
+      }
+    }
+    stats.bridges = bridges;
+  }
   /* Norrfällsvikens kapell -- the fishing village's white wooden chapel of 1649,
      on its surveyed OSM footprint down by the harbour: a low white nave under a
      steep dark shingle roof, and the slender tower with its black cap and cross
@@ -4400,13 +5227,15 @@ function placeSun() {
   sun.position.set(t.x + d.x * 1200, t.y + d.y * 1200, t.z + d.z * 1200);
   sun.target.position.copy(t);
   sun.target.updateMatrixWorld();
-  /* size the shadow box to what the camera can actually see, so a tee view spends
-     all 2048 pixels on the tee and a wide view still has shadows at its edges */
-  const R = clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150);
+  /* Stabilize shadow frustum: during flyovers use a rock-solid fixed size to prevent
+     shadow crawling on terrain; in interactive mode apply hysteresis thresholding. */
+  const targetR = flying > 0 ? 580 : clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150);
   const c = sun.shadow.camera;
-  c.left = -R; c.right = R; c.top = R; c.bottom = -R;
-  c.near = 200; c.far = 2400;
-  c.updateProjectionMatrix();
+  if (!c.top || Math.abs(c.top - targetR) > 14) {
+    c.left = -targetR; c.right = targetR; c.top = targetR; c.bottom = -targetR;
+    c.near = 200; c.far = 2400;
+    c.updateProjectionMatrix();
+  }
 }
 
 /* ------------------------------------------------------------------- ui */
@@ -4450,7 +5279,7 @@ function drawCard() {
     `Tee <b>${h.elev.tee.toFixed(0)} m</b> · green <b>${h.elev.green.toFixed(0)} m</b> ö.h.<br>` +
     `Ritad <b>${h.lineLen.toFixed(0)} m</b> · kortet <b>${h.t[0]} m</b>`;
   document.getElementById('nnm').textContent = h.name || `Hål ${h.n}`;
-  document.getElementById('ntx').textContent = h.shape || h.note || '';
+  document.getElementById('ntx').textContent = h.note || h.shape || '';
   document.querySelectorAll('.hb').forEach((b, i) => b.classList.toggle('on', i + 1 === hole));
   drawMini();
 }
@@ -4562,7 +5391,16 @@ document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPre
   railEl.querySelectorAll('.btn').forEach(b =>
     b.addEventListener('click', () => { if (window.matchMedia('(max-width:700px)').matches) closeRail(); }));
 }
-document.getElementById('flyBtn').onclick = () => { flying = flying > 0 ? 0 : 1e-4; };
+document.getElementById('flyBtn').onclick = () => {
+  if (flying > 0) {
+    stopFlight();
+    setCam(camMode);
+  } else {
+    initHoleFlight(HOLES[hole - 1]);
+    showTourCard();
+    flying = 1e-4;
+  }
+};
 
 /* ------------------------------------------------------------ ren vy */
 function setClean(on) {
@@ -4570,30 +5408,658 @@ function setClean(on) {
 }
 document.getElementById('cleanExit').onclick = () => { if (tour) endTour(); else setClean(false); };
 
-/* ------------------------------------------------------- bansafari (kiosk) */
-let tour = 0, tourCardT = 0;
+/* ------------------------------------------------------- bansafari & PGA Tour TV flight
+   One continuous drone shot per hole, flown the way a broadcast flyover is
+   flown: a slow push off from behind the tee, a climb to a cruise high enough
+   to read the whole hole, a descent into the approach with the pin held in
+   frame, and a wide sweep round the green that ends on the reverse angle,
+   looking back down the hole. The shot is decided at build time as a table of
+   STATIONS every FL.ds metres -- position, look point, lens -- and the frame
+   loop only walks it. Four things make it read as television:
+
+   - the ground under the flight is an ENVELOPE, not the terrain: the highest
+     ground across a 24 m swath, lifted where the swath is forest, limited to a
+     12 degree climb so no ridge is a bump, then filtered. The drone glides over
+     what is there instead of tracing it.
+   - speed is a function of distance, integrated once into a time table, so
+     the whole shot has one velocity profile (push-off, cruise, ease into the
+     sweep, settle) and no seam at the green.
+   - the camera is oriented by an explicit lookAt every frame. OrbitControls'
+     update() is what used to turn it and that call is skipped while flying, so
+     the earlier flight moved the camera along its spline staring in one fixed
+     direction -- the "wrong angles" it was known for.
+   - position and look point pass through critically damped springs with
+     different time constants (a gimbal is slower than an airframe), which is
+     what makes a pan start and stop without a kick.                          */
+const FL = {
+  ds: 3,             // station spacing, m
+  preTee: 44,        // the push-off starts this far behind the tee
+  altTee: 24,        // metres above the envelope at the tee
+  lead: 100,         // the look point runs this far ahead down the line
+  orbitDeg: 180,     // the sweep round the green; 180 ends on the reverse angle
+  vOrbit: 9.5,       // m/s on the sweep, at least ...
+  sweepRate: 10.5,   // ... and degrees per second round the pin, which is what the eye sees
+  sweepPitch: 26,    // degrees down to the PIN on the sweep at the design radius ...
+  sweepPitchMax: 33, // ... steepening to this much before the radius widens to clear the trees
+  sweepAimBelow: 7,  // the pin sits this many degrees below the frame centre: horizon in, green low
+  sweepClear: 14,    // metres the sweep keeps above the envelope, by widening
+  swath: 12,         // half-width of the ground swath under the flight
+  canopy: 18,        // how much forest lifts the envelope
+  climb: 0.22,       // slope limit of the envelope (tan 12.4 degrees)
+  fovCruise: 52, fovOrbit: 46,
+  offset: 8,         // lateral offset off the line on the fairway
+  hold: 1.4,         // seconds on the closing frame before the travel shot leaves
+  vTransit: 24,      // m/s between holes ...
+  altTransit: 30,    // ... this far above the envelope (crowns included), over whatever lies between
+  lookAhead: 110,    // the travel shot looks this far along its route
+  lineUp: 40,        // the straight run behind the push-off point the route arrives along
+  panMax: 14,        // degrees per second of heading change a bend on the hole may be flown at ...
+  panMaxTransit: 15, // ... and on the travel shot, where the turn behind the tee is the point
+  accel: 2.5,        // m/s^2 the drone brakes and accelerates at around a bend
+};
+const tourFlight = {
+  st: null,                  // the station table
+  t: 0, duration: 0, orbitT: 0, holdTimer: 0,
+  pos: new THREE.Vector3(), look: new THREE.Vector3(),
+  posV: new THREE.Vector3(),
+  yaw: 0, pitch: 0, dist: 60, yawV: 0, pitchV: 0, distV: 0,   // the gimbal, about the camera
+  fov: 48, fovV: 0, baseFov: camera.fov,
+  initialized: false, cardPending: false,
+  fairwayRatio: 0.6,
+};
+
+/* critically damped spring toward a moving target (Unity's SmoothDamp) */
+const _sdC = new THREE.Vector3();
+function smoothDamp(cur, vel, target, smoothTime, dt) {
+  const w = 2 / Math.max(1e-4, smoothTime), x = w * dt;
+  const e = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
+  _sdC.subVectors(cur, target);
+  const tx = (vel.x + w * _sdC.x) * dt, ty = (vel.y + w * _sdC.y) * dt, tz = (vel.z + w * _sdC.z) * dt;
+  vel.x = (vel.x - w * tx) * e; vel.y = (vel.y - w * ty) * e; vel.z = (vel.z - w * tz) * e;
+  cur.x = target.x + (_sdC.x + tx) * e; cur.y = target.y + (_sdC.y + ty) * e; cur.z = target.z + (_sdC.z + tz) * e;
+}
+function smoothDampF(cur, vel, target, smoothTime, dt) {
+  const w = 2 / Math.max(1e-4, smoothTime), x = w * dt;
+  const e = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
+  const c = cur - target, tmp = (vel + w * c) * dt;
+  return [target + (c + tmp) * e, (vel - w * tmp) * e];
+}
+/* a polyline [x, z, a] resampled at an even step; the attribute rides along */
+function resampleXZ(P, step) {
+  const out = [P[0].slice()];
+  let need = step;
+  for (let i = 0; i < P.length - 1; i++) {
+    const a = P[i], b = P[i + 1], L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    if (L < 1e-6) continue;
+    let pos = 0;
+    while (pos + need <= L) {
+      pos += need; need = step;
+      const f = pos / L;
+      out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f]);
+    }
+    need -= L - pos;
+  }
+  const last = P[P.length - 1], o = out[out.length - 1];
+  if (Math.hypot(last[0] - o[0], last[1] - o[1]) > step * 0.5) out.push(last.slice());
+  return out;
+}
+/* box-filter the xz of a polyline, endpoints pinned, corners rounded */
+function boxSmoothXZ(P, half, passes) {
+  let cur = P;
+  for (let p = 0; p < passes; p++) {
+    const n = cur.length, out = cur.map(q => q.slice());
+    for (let i = 0; i < n; i++) {
+      const a = Math.max(0, i - half), b = Math.min(n - 1, i + half);
+      let sx = 0, sz = 0;
+      for (let j = a; j <= b; j++) { sx += cur[j][0]; sz += cur[j][1]; }
+      const m = b - a + 1, w = Math.min(1, Math.min(i, n - 1 - i) / half);
+      out[i][0] = cur[i][0] + (sx / m - cur[i][0]) * w;
+      out[i][1] = cur[i][1] + (sz / m - cur[i][1]) * w;
+    }
+    cur = out;
+  }
+  return cur;
+}
+const boxSmooth1 = (A, half) => A.map((_, i) => {
+  const a = Math.max(0, i - half), b = Math.min(A.length - 1, i + half);
+  let s = 0; for (let j = a; j <= b; j++) s += A[j];
+  return s / (b - a + 1);
+});
+/* max(a, b) without the kink: a smooth maximum over a band of `k` metres */
+const smax = (a, b, k) => 0.5 * (a + b + Math.sqrt((a - b) * (a - b) + k * k));
+/* the tallest crown top per 10 m cell of the planted population, built once
+   per population (its size is the cache key, since v2 stands arrive later) */
+let treeTops = null;
+function treeTopGrid() {
+  const total = trees[0].length + trees[1].length + trees[2].length;
+  if (treeTops && treeTops.total === total) return treeTops;
+  const cell = 10, m = new Map(), key = (i, j) => (i + 50000) * 100000 + (j + 50000);
+  for (let sp = 0; sp < 3; sp++) {
+    const T = trees[sp], th = SPECIES[sp].templateHeight || 14;
+    for (let k = 0; k < T.length; k += 6) {
+      const top = T[k + 1] + T[k + 3] * th, kk = key(Math.floor(T[k] / cell), Math.floor(T[k + 2] / cell));
+      const v = m.get(kk);
+      if (v === undefined || top > v) m.set(kk, top);
+    }
+  }
+  treeTops = {
+    total, cell,
+    at: (x, z) => {
+      const i0 = Math.floor(x / cell), j0 = Math.floor(z / cell);
+      let t = -Infinity;
+      for (let di = -1; di <= 1; di++) for (let dj = -1; dj <= 1; dj++) {
+        const v = m.get(key(i0 + di, j0 + dj));
+        if (v !== undefined && v > t) t = v;
+      }
+      return t;
+    },
+  };
+  return treeTops;
+}
+
+/* `from` is the pose the previous hole's shot ended in ({pos, look, dir}); when
+   given, the table starts with a TRAVEL SHOT from there to behind this tee and
+   the springs are carried across, so the tour is one continuous take. */
+function initHoleFlight(h, from = null) {
+  tourFlight.st = null;
+  if (!h || !h.line || h.line.length < 2) return;
+  const gc = h.green.c, pin = h.pin || gc;
+  const L = h.line.map(p => [p[0], p[1]]);
+  if (hyp(L[L.length - 1], gc) > 4) L.push([gc[0], gc[1]]);
+  const lineLen = polyLen(L);
+  if (lineLen < 40) return;
+
+  /* the hole line at 2 m, rounded through its doglegs the way a pilot flies them;
+     index i is the parameter s = 2i along the ORIGINAL line, kept through the
+     smoothing so a distance down the hole still names the same place */
+  const line = boxSmoothXZ(resampleXZ(L.map(p => [p[0], p[1], 0]), 2), 9, 2);
+  const lineAt = s => {
+    const f = clampf(s / 2, 0, line.length - 1), i = Math.floor(f), t = f - i, j = Math.min(line.length - 1, i + 1);
+    return [line[i][0] + (line[j][0] - line[i][0]) * t, line[i][1] + (line[j][1] - line[i][1]) * t];
+  };
+  const bearingAt = s => { const a = lineAt(Math.max(0, s - 8)), b = lineAt(Math.min(lineLen, s + 8)); return Math.atan2(b[0] - a[0], b[1] - a[1]); };
+
+  /* the envelope sample: the highest ground across the swath and the tallest
+     PLANTED crown over it -- the trees themselves, not a forest class, because
+     the planter reads the satellite raster and the v2 registry and a class
+     lookup misses most of what it stood up. The class-based canopy lift stays
+     as the fallback where a stand is not in the population (a far ring). What
+     a drone must clear, not what is under it. */
+  const tops = treeTopGrid();
+  const envAt = (x, z, b) => {
+    const rb = rightOf(b);
+    let hm = -Infinity, canopy = 0;
+    for (const o of [-1, -0.5, 0, 0.5, 1]) {
+      const sx = x + rb[0] * o * FL.swath, sz = z + rb[1] * o * FL.swath;
+      const g = terrainH(sx, sz);
+      hm = Math.max(hm, g, tops.at(sx, sz));
+      canopy = Math.max(canopy, g + FL.canopy * (classify(sx, sz).forest || 0));
+    }
+    return Math.max(hm, canopy);
+  };
+
+  /* geometry of the sweep. The side is chosen by MEASURING the envelope on
+     both candidate arcs -- the drone sweeps where there is air, not where a
+     convention says. The pitch down to the pin is FIXED: where trees or a
+     bank behind the green would force the camera up, the radius widens
+     instead, because a sweep that climbs over the canopy ends up looking
+     straight down at a disc of green with no horizon. */
+  const pinY = terrainH(pin[0], pin[1]);
+  const tanPitch = Math.tan(FL.sweepPitch * Math.PI / 180);
+  const R0 = clampf(34 + lineLen * 0.03, 38, 50);
+  const nArc = Math.max(6, Math.round(FL.orbitDeg / 10));
+  const arcEnv = (dir, R, phi0) => {
+    let mean = 0, max = -Infinity;
+    for (let k = 0; k <= nArc; k++) {
+      const a = phi0 + dir * (k / nArc) * FL.orbitDeg * Math.PI / 180;
+      const e = envAt(pin[0] + Math.sin(a) * R, pin[1] + Math.cos(a) * R, a + dir * Math.PI / 2);
+      mean += e / (nArc + 1); max = Math.max(max, e);
+    }
+    return { mean, max };
+  };
+  /* Hn is the height the sweep must fly above the pin: the design pitch at the
+     design radius, or whatever clears the tallest thing on the arc. The pitch
+     may steepen to sweepPitchMax before the radius gives way; past that the
+     arc widens, and past the widest arc the height simply rises. */
+  const tanMax = Math.tan(FL.sweepPitchMax * Math.PI / 180);
+  let R = R0, Hn = R0 * tanPitch, dir = 1, sEnd = 0, phi0 = 0;
+  for (let pass = 0; pass < 3; pass++) {
+    const dApp = clampf(R + 12, 30, lineLen * 0.45);
+    sEnd = lineLen - dApp;
+    const pApp = lineAt(sEnd);
+    phi0 = Math.atan2(pApp[0] - pin[0], pApp[1] - pin[1]);
+    const eP = arcEnv(1, R, phi0), eN = arcEnv(-1, R, phi0);
+    if (pass === 0) dir = eP.mean <= eN.mean ? 1 : -1;
+    const eMax = (dir > 0 ? eP : eN).max;
+    Hn = Math.max(R0 * tanPitch, eMax + FL.sweepClear - pinY);
+    R = clampf(Hn / tanMax, R0, 85);
+  }
+  const bEnd = bearingAt(sEnd);
+  const pApp = lineAt(sEnd);
+  const arcLen = R * FL.orbitDeg * Math.PI / 180;
+  const orbitY = pinY + Hn;
+  /* the frame centre aims above the pin so the horizon stays inside the top
+     of frame: 7 degrees on a shallow sweep, up to 11 where trees steepened it */
+  const pitchPin = Math.atan2(Hn, R);
+  const aimBelow = clampf(pitchPin * 180 / Math.PI - 19, FL.sweepAimBelow, FL.sweepAimBelow + 4);
+  const lookPin = [pin[0], orbitY - R * Math.tan(pitchPin - aimBelow * Math.PI / 180), pin[1]];
+  const a1 = phi0 + dir * 0.2;
+  const rEnd = rightOf(bEnd);
+  const side = ((Math.sin(a1) * R + pin[0] - pApp[0]) * rEnd[0] + (Math.cos(a1) * R + pin[1] - pApp[1]) * rEnd[1]) >= 0 ? 1 : -1;
+
+  /* waypoints [x, z, lineS]: push-off, the fairway a little off-axis on the
+     sweep's side, then the arc. lineS is the distance down the hole a station
+     corresponds to, negative behind the tee, past lineLen on the sweep. */
+  const W = [];
+  const b0 = bearingAt(0), F0 = [Math.sin(b0), Math.cos(b0)], p0 = lineAt(0);
+  const preS = -FL.preTee;
+  if (from) {
+    /* the travel shot: carry the sweep's heading for a beat, cross to a line-up
+       point straight behind the next tee, and arrive along the hole's own axis.
+       lineS keeps counting down behind the push-off point so every rule that
+       reads it (altitude, look, lens) sees the transit as "before the tee". */
+    const A = [from.pos[0], from.pos[2]];
+    const B = [p0[0] - F0[0] * (FL.preTee + FL.lineUp), p0[1] - F0[1] * (FL.preTee + FL.lineUp)];
+    /* The route must ARRIVE at B heading down the hole, and the previous
+       green is as often in front of the next tee as behind it -- so the
+       last leg is a turning circle tangent to the hole's axis at B, on A's
+       side of it, reached from A along its tangent (the straight-then-arc
+       path a pilot flies), and the first leg bends out of the sweep's
+       heading with a Hermite whose end tangent lies along that straight, so
+       nothing in it can overshoot. A single curve straight to B folded into
+       a hairpin whenever the tee lay behind the heading. */
+    const Rv = rightOf(b0);
+    const ang = P => Math.atan2(P[0] - C[0], P[1] - C[1]);
+    let Rt = 42, side = Math.sign((A[0] - B[0]) * Rv[0] + (A[1] - B[1]) * Rv[1]) || 1;
+    let C = [B[0] + side * Rt * Rv[0], B[1] + side * Rt * Rv[1]];
+    let D = Math.hypot(A[0] - C[0], A[1] - C[1]);
+    if (D < Rt * 1.05) {
+      side = -side; C = [B[0] + side * Rt * Rv[0], B[1] + side * Rt * Rv[1]]; D = Math.hypot(A[0] - C[0], A[1] - C[1]);
+      if (D < Rt * 1.05) { Rt = Math.max(12, D * 0.9); C = [B[0] + side * Rt * Rv[0], B[1] + side * Rt * Rv[1]]; D = Math.hypot(A[0] - C[0], A[1] - C[1]); }
+    }
+    /* increasing angle round C runs to the LEFT of the radius, so the circle
+       on the right of the heading (side +1) is flown with decreasing angle */
+    const rot = -side, alpha = Math.acos(Math.min(1, Rt / D)), angA = ang(A);
+    const headingAt = a => [-rot * -Math.cos(a), -rot * Math.sin(a)];   /* rot * -rightOf(a) */
+    let Tp = null, best = -Infinity;
+    for (const a of [angA + alpha, angA - alpha]) {
+      const P = [C[0] + Math.sin(a) * Rt, C[1] + Math.cos(a) * Rt];
+      const dx = P[0] - A[0], dz = P[1] - A[1], L = Math.hypot(dx, dz) || 1, h = headingAt(a);
+      const fit = (dx * h[0] + dz * h[1]) / L;
+      if (fit > best) { best = fit; Tp = P; }
+    }
+    const pts = [];
+    const dT = Math.hypot(Tp[0] - A[0], Tp[1] - A[1]);
+    if (dT > 12) {
+      const m = clampf(0.4 * dT, 20, 120), u = [(Tp[0] - A[0]) / dT, (Tp[1] - A[1]) / dT];
+      const T0 = [from.dir[0] * m, from.dir[1] * m], T1 = [u[0] * m, u[1] * m];
+      const nH = Math.max(3, Math.ceil(dT / 6));
+      for (let k = 0; k < nH; k++) {
+        const t = k / nH, t2 = t * t, t3 = t2 * t;
+        const h00 = 2 * t3 - 3 * t2 + 1, h10 = t3 - 2 * t2 + t, h01 = -2 * t3 + 3 * t2, h11 = t3 - t2;
+        pts.push([h00 * A[0] + h10 * T0[0] + h01 * Tp[0] + h11 * T1[0], h00 * A[1] + h10 * T0[1] + h01 * Tp[1] + h11 * T1[1]]);
+      }
+    } else pts.push(A);
+    let sweep = (ang(B) - ang(Tp)) * rot;
+    sweep = ((sweep % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+    const nA = Math.max(2, Math.ceil(Rt * sweep / 6));
+    for (let k = 0; k <= nA; k++) {
+      const a = ang(Tp) + rot * sweep * k / nA;
+      pts.push([C[0] + Math.sin(a) * Rt, C[1] + Math.cos(a) * Rt]);
+    }
+    const ls = new Array(pts.length);
+    ls[pts.length - 1] = preS - FL.lineUp;
+    for (let k = pts.length - 2; k >= 0; k--) ls[k] = ls[k + 1] - Math.hypot(pts[k + 1][0] - pts[k][0], pts[k + 1][1] - pts[k][1]);
+    pts.forEach((p, k) => W.push([p[0], p[1], ls[k]]));
+  }
+  W.push([p0[0] - F0[0] * FL.preTee, p0[1] - F0[1] * FL.preTee, -FL.preTee]);
+  W.push([p0[0] - F0[0] * FL.preTee * 0.5, p0[1] - F0[1] * FL.preTee * 0.5, -FL.preTee * 0.5]);
+  for (let s = 0; s <= sEnd + 1e-6; s += 6) {
+    const ss = Math.min(s, sEnd), p = lineAt(ss), rb = rightOf(bearingAt(ss));
+    const off = FL.offset * side * smooth(0, 120, ss) * smooth(sEnd, sEnd - 100, ss);
+    W.push([p[0] + rb[0] * off, p[1] + rb[1] * off, ss]);
+  }
+  for (let k = 1; k <= nArc; k++) {
+    const a = phi0 + dir * (k / nArc) * FL.orbitDeg * Math.PI / 180;
+    W.push([pin[0] + Math.sin(a) * R, pin[1] + Math.cos(a) * R, sEnd + (k / nArc) * arcLen]);
+  }
+  const path = resampleXZ(boxSmoothXZ(resampleXZ(W, 2), 8, 2), FL.ds);
+  const n = path.length;
+
+  /* the envelope along the path: max ground, slope-limited both ways, filtered */
+  const hRaw = new Float64Array(n), env = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const a = path[Math.max(0, i - 1)], b = path[Math.min(n - 1, i + 1)];
+    hRaw[i] = envAt(path[i][0], path[i][1], Math.atan2(b[0] - a[0], b[1] - a[1]));
+  }
+  env.set(hRaw);
+  for (let i = 1; i < n; i++) env[i] = Math.max(env[i], env[i - 1] - FL.climb * FL.ds);
+  for (let i = n - 2; i >= 0; i--) env[i] = Math.max(env[i], env[i + 1] - FL.climb * FL.ds);
+  const envS = boxSmooth1(Array.from(env), 15);
+
+  /* altitude: tee height above the envelope, a climb to cruise, then a descent
+     that lands on the sweep's LEVEL height over the last 120 m of approach.
+     Cruise scales with the hole so a par 5 reads whole and a par 3 stays close. */
+  const cruise = clampf(24 + lineLen * 0.045, 30, 48);
+  const altOf = ls => ls < preS ? lerp(FL.altTransit, FL.altTee, smooth(preS - 160, preS, ls))
+    : ls < 0 ? FL.altTee : lerp(FL.altTee, cruise, smooth(0, 160, ls));
+  /* the floor is applied against the slope-limited envelope BEFORE the filter,
+     so a crown the level sweep did not know about becomes a gentle rise and
+     not a pop; the smooth-max after it is a safety net that should not fire */
+  let y = path.map((p, i) => Math.max(env[i] + 13, lerp(envS[i] + altOf(p[2]), orbitY, smooth(sEnd - 120, sEnd, p[2]))));
+  y = boxSmooth1(y, 6).map((v, i) => smax(v, hRaw[i] + 12, 4));
+  /* a travel shot leaves from exactly where the last one stopped */
+  if (from) y = y.map((v, i) => lerp(from.pos[1], v, smooth(0, 90, i * FL.ds)));
+
+  /* the look point: a lead down the line, settling on the pin, which then sits
+     a little below the frame centre for the whole sweep. On the travel shot the
+     gimbal comes off the pin it was holding, looks 80 m ahead along the route,
+     and by the line-up point is looking down the next hole. */
+  /* interpolate two look points as seen from the camera at cam [x, z]: bearing
+     by the shorter arc, distance and height linearly */
+  const blendLook = (cam, a, b, k, turn) => {
+    /* a blend that is not yet active tracks nothing: the branch it will keep
+       is chosen at the first station where it moves, or the swing found by
+       the time it engages has drifted round the long way */
+    if (k <= 0) { if (turn) turn.d = null; return a.slice(); }
+    const ax = a[0] - cam[0], az = a[2] - cam[1], bx = b[0] - cam[0], bz = b[2] - cam[1];
+    const a0 = Math.atan2(ax, az), a1 = Math.atan2(bx, bz);
+    let da = a1 - a0; if (da > Math.PI) da -= 2 * Math.PI; if (da < -Math.PI) da += 2 * Math.PI;
+    /* when the two bearings are near opposite, "the shorter arc" changes
+       sides from one station to the next as the camera moves, and the table
+       stepped 172 degrees between two stations 3 m apart. The swing is
+       therefore UNWRAPPED against the previous station's: the branch chosen
+       at the first station is the one the whole blend keeps. */
+    if (turn) {
+      if (turn.d !== null) {
+        while (da - turn.d > Math.PI) da -= 2 * Math.PI;
+        while (da - turn.d < -Math.PI) da += 2 * Math.PI;
+      }
+      turn.d = da;
+    }
+    const ang = a0 + da * k, d = lerp(Math.hypot(ax, az), Math.hypot(bx, bz), k);
+    return [cam[0] + Math.sin(ang) * d, lerp(a[1], b[1], k), cam[1] + Math.cos(ang) * d];
+  };
+  const turnOut = { d: null }, turnIn = { d: null };
+  /* the heading the gimbal is holding as the travel shot leaves: the swing
+     starts from THAT, held as the aircraft moves, not from the pin itself --
+     a route that passes close by the last green would otherwise whip the
+     bearing to the pin round at 30-40 degrees a second while it still counted */
+  let hold0 = null;
+  if (from) {
+    const dx = from.look[0] - from.pos[0], dy = from.look[1] - from.pos[1], dz = from.look[2] - from.pos[2];
+    hold0 = { b: Math.atan2(dx, dz), t: dy / (Math.hypot(dx, dz) || 1) };
+  }
+  const lookFair = ls => {
+    const lookS = Math.min(lineLen, Math.max(ls, 0) + FL.lead);
+    const q = lineAt(lookS), k = smooth(lineLen - 40, lineLen, lookS);
+    return [lerp(q[0], lookPin[0], k), lerp(terrainH(q[0], q[1]) + 2, lookPin[1], k), lerp(q[1], lookPin[2], k)];
+  };
+  const looks = path.map((p, i) => {
+    const ls = p[2];
+    if (ls >= sEnd) return lookPin;
+    if (ls < preS) {
+      /* the route point FL.lookAhead on, pushed out to exactly that far
+         horizontally so a bend never puts the look point under the camera.
+         The blends between look points are ANGULAR about the camera: a
+         straight lerp from the pin behind to the route ahead passes through
+         the camera's own footprint and pitched the shot to 89 degrees. */
+      const q = path[Math.min(n - 1, i + Math.round(FL.lookAhead / FL.ds))];
+      let dx = q[0] - p[0], dz = q[1] - p[1];
+      if (Math.hypot(dx, dz) < 1e-3) { const nx = path[Math.min(n - 1, i + 1)]; dx = nx[0] - p[0]; dz = nx[1] - p[1]; }
+      const L = Math.hypot(dx, dz) || 1, gx = p[0] + dx / L * FL.lookAhead, gz = p[1] + dz / L * FL.lookAhead;
+      const cam = [p[0], p[1]];
+      const ahead = blendLook(cam, [gx, terrainH(gx, gz) + 2, gz], lookFair(preS), smooth(preS - 120, preS, ls), turnIn);
+      const held = [p[0] + Math.sin(hold0.b) * FL.lookAhead, y[i] + hold0.t * FL.lookAhead, p[1] + Math.cos(hold0.b) * FL.lookAhead];
+      return blendLook(cam, held, ahead, smooth(0, 200, i * FL.ds), turnOut);
+    }
+    return lookFair(ls);
+  });
+  const fovs = path.map(p => lerp(FL.fovCruise, FL.fovOrbit, smooth(sEnd - 140, sEnd + 20, p[2])));
+
+  /* one velocity profile over path distance, integrated into a time table */
+  let iOrbit = n - 1;
+  for (let i = 0; i < n; i++) if (path[i][2] >= sEnd - 0.5) { iOrbit = i; break; }
+  const sOrbit = iOrbit * FL.ds, sTotal = (n - 1) * FL.ds;
+  const vFair = clampf(9 + lineLen * 0.032, 12, 22);
+  const vOrbit = Math.max(FL.vOrbit, R * FL.sweepRate * Math.PI / 180);
+  /* with a travel shot in front, the route is flown at transit speed and the
+     drone all but hovers at the push-off point before the hole's own profile
+     takes over -- the beat behind the tee that a flyover opens with */
+  let iPre = 0;
+  if (from) for (let i = 0; i < n; i++) if (path[i][2] >= preS - 0.5) { iPre = i; break; }
+  const sPre = iPre * FL.ds;
+  const base = s => s < sPre ? lerp(FL.vTransit, vFair, smooth(sPre - 100, sPre, s))
+    : lerp(vFair, vOrbit, smooth(sOrbit - 70, sOrbit + 10, s));
+  const dip = s => from ? 1 - 0.65 * Math.exp(-((s - sPre) / 35) * ((s - sPre) / 35)) : 1;
+  const vAt = s => base(s) * dip(s)
+    * (0.22 + 0.78 * smooth(0, 60, s)) * (0.30 + 0.70 * smooth(sTotal, sTotal - 40, s));
+  /* the profile is then capped by the path's own curvature -- a bend is flown
+     no faster than FL.panMax degrees per second of heading change -- with the
+     cap propagated both ways at FL.accel so the drone brakes into a turn and
+     picks up again out of it, never at the turn itself */
+  const vCap = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    /* heading change over a two-station baseline, so the resampling's own
+       jitter does not read as a bend; the first stations are exempt because
+       the shot starts from rest there anyway */
+    const a = path[Math.max(0, i - 2)], b = path[i], c = path[Math.min(n - 1, i + 2)];
+    let dh = Math.atan2(c[0] - b[0], c[1] - b[1]) - Math.atan2(b[0] - a[0], b[1] - a[1]);
+    if (dh > Math.PI) dh -= 2 * Math.PI; if (dh < -Math.PI) dh += 2 * Math.PI;
+    const kappa = i < 3 ? 0 : Math.abs(dh) / (2 * FL.ds);
+    const panMax = path[i][2] < preS ? FL.panMaxTransit : FL.panMax;
+    vCap[i] = Math.min(vAt(i * FL.ds), panMax * Math.PI / 180 / Math.max(kappa, 1e-4));
+  }
+  for (let i = n - 2; i >= 0; i--) vCap[i] = Math.min(vCap[i], Math.sqrt(vCap[i + 1] * vCap[i + 1] + 2 * FL.accel * FL.ds));
+  for (let i = 1; i < n; i++) vCap[i] = Math.min(vCap[i], Math.sqrt(vCap[i - 1] * vCap[i - 1] + 2 * FL.accel * FL.ds));
+  const times = new Float64Array(n);
+  for (let i = 1; i < n; i++) times[i] = times[i - 1] + FL.ds / Math.max(0.5, 0.5 * (vCap[i] + vCap[i - 1]));
+
+  tourFlight.st = { path, y, looks, fovs, times, n, sTotal, sOrbit, sPre, R, dir };
+  tourFlight.duration = times[n - 1];
+  tourFlight.orbitT = times[iOrbit];
+  tourFlight.transitT = times[iPre];
+  tourFlight.fairwayRatio = tourFlight.orbitT / tourFlight.duration;
+  tourFlight.t = 0;
+  tourFlight.holdTimer = 0;
+  tourFlight.cardPending = !!from;
+  if (!from) {
+    tourFlight.initialized = false;
+    tourFlight.posV.set(0, 0, 0); tourFlight.yawV = tourFlight.pitchV = tourFlight.distV = tourFlight.fovV = 0;
+  }
+}
+/* where the shot is right now, in the form the next hole's travel shot starts from */
+function flightPose() {
+  /* the TABLE's end, not the spring's: the springs lag a metre or two behind
+     it and carry over untouched, so the next table starting from the station
+     keeps the route's heading exact and the camera's motion continuous */
+  const st = tourFlight.st, a = st.path[Math.max(0, st.n - 2)], b = st.path[st.n - 1];
+  const L = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
+  return { pos: [b[0], st.y[st.n - 1], b[1]], look: st.looks[st.n - 1].slice(), dir: [(b[0] - a[0]) / L, (b[1] - a[1]) / L] };
+}
+
+/* Catmull-Rom across the uniformly spaced stations, by path distance */
+function stationAt(s) {
+  const st = tourFlight.st, f = clampf(s / FL.ds, 0, st.n - 1), i = Math.floor(f), t = f - i;
+  const i0 = Math.max(0, i - 1), i1 = i, i2 = Math.min(st.n - 1, i + 1), i3 = Math.min(st.n - 1, i + 2);
+  const cr = (p0, p1, p2, p3) => 0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (-p0 + 3 * p1 - 3 * p2 + p3) * t * t * t);
+  const P = st.path, Y = st.y, K = st.looks;
+  return {
+    pos: [cr(P[i0][0], P[i1][0], P[i2][0], P[i3][0]), cr(Y[i0], Y[i1], Y[i2], Y[i3]), cr(P[i0][1], P[i1][1], P[i2][1], P[i3][1])],
+    look: [cr(K[i0][0], K[i1][0], K[i2][0], K[i3][0]), cr(K[i0][1], K[i1][1], K[i2][1], K[i3][1]), cr(K[i0][2], K[i1][2], K[i2][2], K[i3][2])],
+    fov: cr(st.fovs[i0], st.fovs[i1], st.fovs[i2], st.fovs[i3]),
+    ls: lerp(P[i1][2], P[i2][2], t),
+  };
+}
+function flightDistAt(t) {
+  const T = tourFlight.st.times, n = tourFlight.st.n;
+  if (t <= 0) return 0;
+  if (t >= T[n - 1]) return (n - 1) * FL.ds;
+  let a = 0, b = n - 1;
+  while (b - a > 1) { const m = (a + b) >> 1; if (T[m] <= t) a = m; else b = m; }
+  return (a + (t - T[a]) / (T[b] - T[a])) * FL.ds;
+}
+const _flT = new THREE.Vector3();
+/* advance the shot by dt and settle the gimbal; the caller applies the result */
+function flightStep(dt) {
+  const tf = tourFlight;
+  tf.t += dt;
+  const k = stationAt(flightDistAt(tf.t));
+  _flT.set(k.pos[0], k.pos[1], k.pos[2]);
+  /* The gimbal is smoothed in PAN, TILT and RANGE about the camera, not in
+     space: a look point damped in x, y, z cuts the chord when its target
+     swings round the camera, and on a 180 degree swing that chord runs
+     through the camera's own footprint -- the shot pitched to 78 degrees
+     and whipped through 990 degrees a second on the way out of the 7th. */
+  const rel = (L, P) => {
+    const dx = L[0] - P.x, dy = L[1] - P.y, dz = L[2] - P.z, hz = Math.hypot(dx, dz);
+    return { yaw: Math.atan2(dx, dz), pitch: Math.atan2(dy, hz), dist: Math.hypot(hz, dy) };
+  };
+  if (!tf.initialized) {
+    tf.pos.copy(_flT); tf.fov = k.fov;
+    const r = rel(k.look, tf.pos);
+    tf.yaw = r.yaw; tf.pitch = r.pitch; tf.dist = r.dist;
+    tf.posV.set(0, 0, 0); tf.yawV = tf.pitchV = tf.distV = tf.fovV = 0;
+    tf.initialized = true;
+  } else {
+    smoothDamp(tf.pos, tf.posV, _flT, 0.28, dt);
+    const r = rel(k.look, tf.pos);
+    let ty = r.yaw;
+    while (ty - tf.yaw > Math.PI) ty -= 2 * Math.PI;
+    while (ty - tf.yaw < -Math.PI) ty += 2 * Math.PI;
+    [tf.yaw, tf.yawV] = smoothDampF(tf.yaw, tf.yawV, ty, 0.85, dt);
+    [tf.pitch, tf.pitchV] = smoothDampF(tf.pitch, tf.pitchV, r.pitch, 0.85, dt);
+    [tf.dist, tf.distV] = smoothDampF(tf.dist, tf.distV, r.dist, 0.85, dt);
+    [tf.fov, tf.fovV] = smoothDampF(tf.fov, tf.fovV, k.fov, 1.2, dt);
+  }
+  const cp = Math.cos(tf.pitch);
+  tf.look.set(tf.pos.x + Math.sin(tf.yaw) * cp * tf.dist, tf.pos.y + Math.sin(tf.pitch) * tf.dist, tf.pos.z + Math.cos(tf.yaw) * cp * tf.dist);
+  return { u: Math.min(1, tf.t / tf.duration), done: tf.t >= tf.duration, ls: k.ls };
+}
+function applyFlightCamera() {
+  camera.position.copy(tourFlight.pos);
+  controls.target.copy(tourFlight.look);
+  camera.lookAt(tourFlight.look);
+  if (Math.abs(camera.fov - tourFlight.fov) > 1e-3) { camera.fov = tourFlight.fov; camera.updateProjectionMatrix(); }
+}
+/* leave the shot: the lens goes back to the player's */
+function stopFlight() {
+  flying = 0;
+  tourFlight.st = null;
+  tourFlight.cardPending = false;
+  if (Math.abs(camera.fov - tourFlight.baseFov) > 1e-3) { camera.fov = tourFlight.baseFov; camera.updateProjectionMatrix(); }
+  const el = document.getElementById('tourCard');
+  if (el) el.classList.remove('show');
+}
+/* run a hole's shot offline at a fixed step and return the camera track, so a
+   harness can measure clearance, speed and pan rate instead of watching it */
+function flightSim(n, step = 1 / 60, transit = false) {
+  if (flying > 0) return null;
+  const hn = Math.min(NHOLES, Math.max(1, n));
+  const h = HOLES[hn - 1];
+  const run = () => {
+    const track = [];
+    for (let guard = 0; guard < 30000; guard++) {
+      const r = flightStep(step);
+      const p = tourFlight.pos, l = tourFlight.look;
+      track.push({ t: tourFlight.t, x: p.x, y: p.y, z: p.z, lx: l.x, ly: l.y, lz: l.z,
+        fov: tourFlight.fov, clear: p.y - terrainH(p.x, p.z) });
+      if (r.done) break;
+    }
+    return track;
+  };
+  /* with `transit`, the previous hole is flown first (untracked) so this shot
+     starts with the travel from its reverse angle, as the tour flies it */
+  let from = null;
+  if (transit && hn > 1) {
+    initHoleFlight(HOLES[hn - 2]);
+    if (!tourFlight.st) return null;
+    run();
+    from = flightPose();
+  }
+  initHoleFlight(h, from);
+  if (!tourFlight.st) return null;
+  const track = run();
+  const st = tourFlight.st;
+  const out = { hole: h.n, duration: tourFlight.duration, orbitT: tourFlight.orbitT, transitT: tourFlight.transitT,
+    stations: st.n, sTotal: st.sTotal, sOrbit: st.sOrbit, sPre: st.sPre, R: st.R, dir: st.dir, track,
+    table: { path: st.path, y: Array.from(st.y), looks: st.looks, times: Array.from(st.times) } };
+  tourFlight.st = null;
+  tourFlight.initialized = false;
+  return out;
+}
+
+let tour = 0;
 function showTourCard() {
   const h = HOLES[hole - 1], el = document.getElementById('tourCard');
-  el.querySelector('.tno').textContent = `HÅL ${h.n} · PAR ${h.par} · ${h.t[0]} M`;
-  el.querySelector('.tnm').textContent = h.name || `Hål ${h.n}`;
-  el.querySelector('.ttx').textContent = h.shape || h.note || '';
+  if (!el) return;
+
+  const rise = (h.elev && h.elev.green && h.elev.tee) ? (h.elev.green - h.elev.tee) : 0;
+  const elevEl = document.getElementById('tourElev');
+  if (elevEl) elevEl.textContent = `${Math.abs(rise).toFixed(0)} m ${rise >= 0 ? 'uppför' : 'nedför'}`;
+
+  const tno = el.querySelector('.tno');
+  if (tno) tno.textContent = `HÅL ${h.n}`;
+
+  const parEl = document.getElementById('tourPar');
+  if (parEl) parEl.textContent = `PAR ${h.par}`;
+
+  const distEl = document.getElementById('tourDist');
+  if (distEl) distEl.textContent = `${(h.t && h.t[0]) || (h.lineLen ? h.lineLen.toFixed(0) : 350)} M`;
+
+  const tnm = el.querySelector('.tnm');
+  if (tnm) {
+    const rawName = (h.name || '').trim();
+    // Do not repeat "Hål N" if name is missing or identical to hole number
+    const isDup = !rawName || new RegExp(`^hål\\s*${h.n}$`, 'i').test(rawName) || /^hål\s*\d+$/i.test(rawName);
+    if (isDup) {
+      tnm.textContent = '';
+      tnm.style.display = 'none';
+    } else {
+      tnm.textContent = rawName;
+      tnm.style.display = 'block';
+    }
+  }
+
+  const ttx = el.querySelector('.ttx');
+  if (ttx) ttx.textContent = h.note || h.shape || h.desc || 'Följ hålets spellinje mot green.';
+
   el.classList.add('show');
-  clearTimeout(tourCardT);
-  tourCardT = setTimeout(() => el.classList.remove('show'), 6500);
+  // Stays visible all the way until the green!
 }
+
+/* the bar runs TEE to GREEN, so it starts counting when the travel shot from
+   the previous hole has arrived behind the tee, not when it left the last green */
+function updateTourProgress() {
+  const t0 = tourFlight.transitT || 0, span = Math.max(1e-3, tourFlight.duration - t0);
+  const u = clampf((tourFlight.t - t0) / span, 0, 1);
+  const fill = document.getElementById('tourProgressFill');
+  if (fill) fill.style.width = Math.min(100, Math.round(u * 100)) + '%';
+  const lbl = document.getElementById('tourProgressDist');
+  if (lbl) {
+    const r = clampf((tourFlight.orbitT - t0) / span, 0.05, 0.95);
+    if (u < r) {
+      lbl.textContent = `FLYGNING ${Math.round((u / r) * 100)}%`;
+    } else {
+      lbl.textContent = `GREENSVEP ${Math.round(((u - r) / (1.0 - r)) * 100)}%`;
+    }
+  }
+}
+
 function startTour() {
   tour = 1;
   document.body.classList.add('tour');
   setClean(true);
   goHole(1, false);
+  initHoleFlight(HOLES[0]);
   showTourCard();
   flying = 1e-4;
 }
+
 function endTour() {
   tour = 0;
-  flying = 0;
+  stopFlight();
   document.body.classList.remove('tour');
-  document.getElementById('tourCard').classList.remove('show');
   setClean(false);
   setCam(camMode);
 }
@@ -4686,64 +6152,331 @@ function kikMeasure(clientX, clientY) {
   kikGroup.add(line, mark);
   scene.add(kikGroup);
 }
-/* ------------------------------------------------- greengrid (yardage book)
-   The donor app's PGA-yardage-book green reading, carried over: a wireframe
-   grid draped on the putting surface, coloured by how hard the ball breaks --
-   calm cyan, mild green, firm yellow, steep red. This page's greens carry
-   real authored tilt and tiers, so the grid reads the actual break. */
-let gridOn = false, gridMesh = null;
-const gridBtn = document.getElementById('gridBtn');
-function gridClear() {
-  if (gridMesh) { scene.remove(gridMesh); gridMesh.geometry.dispose(); gridMesh = null; }
+/* ------------------------------------------------- greengrid (yardage book & slope visualization)
+   Professional golf simulation green reading:
+   - High-density terrain-conforming grid lines closely masked to the green boundary
+   - Continuous slope gradient coloring (cyan -> lime green -> amber -> fiery red)
+   - Real-time animated moving dots (beads) gliding downhill along the fall-line
+   - Directional slope break arrows (stem + barb chevrons) showing exact break
+   - Concentric 1m, 2m, and 3m pin proximity target rings with compass crosshairs */
+let gridOn = false;
+let gridGroup = null;
+let beadsMesh = null;
+let beadsData = [];
+const beadDummy = new THREE.Object3D();
+
+function getSlopeAt(x, z) {
+  const delta = 0.45;
+  const hL = terrainH(x - delta, z);
+  const hR = terrainH(x + delta, z);
+  const hD = terrainH(x, z - delta);
+  const hU = terrainH(x, z + delta);
+  const gx = (hR - hL) / (delta * 2);
+  const gz = (hU - hD) / (delta * 2);
+  const s = Math.hypot(gx, gz);
+  const dirX = s > 1e-4 ? -gx / s : 0;
+  const dirZ = s > 1e-4 ? -gz / s : 0;
+  return { gx, gz, s, dirX, dirZ };
 }
+
+function slopeColor(s) {
+  if (s < 0.015) {
+    // 0 - 1.5%: Calm Electric Cyan (Flat / Minimal break)
+    return [0.06, 0.85, 0.95];
+  } else if (s < 0.035) {
+    // 1.5% - 3.5%: Vibrant Lime Green (Gentle break)
+    const t = (s - 0.015) / 0.02;
+    return [0.06 + t * 0.16, 0.85 + t * 0.12, 0.95 - t * 0.72];
+  } else if (s < 0.055) {
+    // 3.5% - 5.5%: Golden Amber / Yellow (Moderate break)
+    const t = (s - 0.035) / 0.02;
+    return [0.22 + t * 0.76, 0.97 - t * 0.15, 0.23 - t * 0.13];
+  } else if (s < 0.085) {
+    // 5.5% - 8.5%: Bright Orange (Heavy break)
+    const t = (s - 0.055) / 0.03;
+    return [0.98 + t * 0.02, 0.82 - t * 0.38, 0.10 - t * 0.02];
+  } else {
+    // > 8.5%: Fiery Crimson Red (Severe slope)
+    return [1.0, 0.18, 0.14];
+  }
+}
+
+function gridClear() {
+  if (gridGroup) {
+    scene.remove(gridGroup);
+    gridGroup.traverse(o => {
+      if (o.geometry) o.geometry.dispose();
+      if (o.material) {
+        if (Array.isArray(o.material)) o.material.forEach(m => m.dispose());
+        else o.material.dispose();
+      }
+    });
+    gridGroup = null;
+  }
+  beadsMesh = null;
+  beadsData = [];
+}
+
+function updateGreenGrid(dt, now) {
+  if (!beadsMesh || beadsData.length === 0) return;
+  const timeSec = now * 0.001;
+
+  for (let i = 0; i < beadsData.length; i++) {
+    const b = beadsData[i];
+    // Smooth progress along downhill cycle
+    const u = ((timeSec * b.speed + b.phase) % 1.0 + 1.0) % 1.0;
+    const sinU = Math.sin(u * Math.PI);
+    const envelope = sinU * sinU;
+
+    const travel = (u - 0.5) * b.travelDist;
+    const curX = b.cx + b.vx * travel;
+    const curZ = b.cz + b.vz * travel;
+    const curY = meshH(curX, curZ) + 0.046;
+
+    const s = envelope * b.baseScale;
+    beadDummy.position.set(curX, curY, curZ);
+    beadDummy.rotation.y = b.angle;
+    beadDummy.scale.set(s, s * 0.75, s * (1.1 + b.slope * 6.0));
+    beadDummy.updateMatrix();
+    beadsMesh.setMatrixAt(i, beadDummy.matrix);
+  }
+  beadsMesh.instanceMatrix.needsUpdate = true;
+}
+
 function buildGreenGrid() {
   gridClear();
   const h = HOLES[hole - 1];
-  let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
-  for (const p of h.green.ring) {
-    x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]);
-    z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]);
+  if (!h || !h.green || !h.green.ring) return;
+
+  const ring = h.green.ring;
+  const bb = ringBBox(ring);
+  const pad = 1.0;
+  const x0 = bb.x0 - pad, x1 = bb.x1 + pad;
+  const z0 = bb.z0 - pad, z1 = bb.z1 + pad;
+  const width = x1 - x0;
+  const depth = z1 - z0;
+
+  const CELL = 1.0;
+  const nx = Math.max(8, Math.ceil(width / CELL));
+  const nz = Math.max(8, Math.ceil(depth / CELL));
+  const dx = width / nx;
+  const dz = depth / nz;
+
+  gridGroup = new THREE.Group();
+  gridGroup.renderOrder = 7;
+
+  const linePositions = [];
+  const lineColors = [];
+  const beadsList = [];
+
+  let totalSlope = 0;
+  let maxSlope = 0;
+  let slopeCount = 0;
+
+  // 1. Grid Lines (LineSegments closely hugging terrain and clipped to green)
+  const SUB = 2; // Subdivide each 1m cell into 2 segments for smooth terrain conformance
+  const stepX = dx / SUB;
+  const stepZ = dz / SUB;
+
+  // Lines along X
+  for (let j = 0; j <= nz; j++) {
+    const z = z0 + j * dz;
+    for (let i = 0; i < nx * SUB; i++) {
+      const ax = x0 + i * stepX;
+      const bx = ax + stepX;
+      const mx = (ax + bx) * 0.5;
+      const sd = ringSD(mx, z, ring);
+      if (sd > 0.40) continue;
+
+      const edgeFade = clampf((-sd + 0.25) / 0.75, 0.0, 1.0);
+      if (edgeFade <= 0.02) continue;
+
+      const slopeA = getSlopeAt(ax, z);
+      const slopeB = getSlopeAt(bx, z);
+      const colA = slopeColor(slopeA.s).map(c => c * edgeFade);
+      const colB = slopeColor(slopeB.s).map(c => c * edgeFade);
+
+      const ay = meshH(ax, z) + 0.032;
+      const by = meshH(bx, z) + 0.032;
+
+      linePositions.push(ax, ay, z, bx, by, z);
+      lineColors.push(...colA, ...colB);
+    }
   }
-  const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2;
-  const size = Math.max(x1 - x0, z1 - z0) + 10;
-  const geo = new THREE.PlaneGeometry(size, size, 44, 44);
-  geo.rotateX(-Math.PI / 2);
-  const pos = geo.attributes.position;
-  const cols = new Float32Array(pos.count * 3);
-  for (let i = 0; i < pos.count; i++) {
-    const wx = cx + pos.getX(i), wz = cz + pos.getZ(i);
-    pos.setX(i, wx); pos.setZ(i, wz);
-    pos.setY(i, meshH(wx, wz) + 0.12);   /* hug the RENDERED surface, like the sand */
-    const gx = (terrainH(wx + 1, wz) - terrainH(wx - 1, wz)) / 2;
-    const gz = (terrainH(wx, wz + 1) - terrainH(wx, wz - 1)) / 2;
-    const s = Math.hypot(gx, gz);
-    const c = s < 0.022 ? [0.10, 0.80, 0.90] : s < 0.045 ? [0.15, 0.90, 0.25]
-            : s < 0.085 ? [0.95, 0.80, 0.10] : [0.95, 0.22, 0.10];
-    cols[i * 3] = c[0]; cols[i * 3 + 1] = c[1]; cols[i * 3 + 2] = c[2];
+
+  // Lines along Z
+  for (let i = 0; i <= nx; i++) {
+    const x = x0 + i * dx;
+    for (let j = 0; j < nz * SUB; j++) {
+      const az = z0 + j * stepZ;
+      const bz = az + stepZ;
+      const mz = (az + bz) * 0.5;
+      const sd = ringSD(x, mz, ring);
+      if (sd > 0.40) continue;
+
+      const edgeFade = clampf((-sd + 0.25) / 0.75, 0.0, 1.0);
+      if (edgeFade <= 0.02) continue;
+
+      const slopeA = getSlopeAt(x, az);
+      const slopeB = getSlopeAt(x, bz);
+      const colA = slopeColor(slopeA.s).map(c => c * edgeFade);
+      const colB = slopeColor(slopeB.s).map(c => c * edgeFade);
+
+      const ay = meshH(x, az) + 0.032;
+      const by = meshH(x, bz) + 0.032;
+
+      linePositions.push(x, ay, az, x, by, bz);
+      lineColors.push(...colA, ...colB);
+    }
   }
-  geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-  const gm = new THREE.MeshBasicNodeMaterial({
-    vertexColors: true, wireframe: true, transparent: true, opacity: 0.8 });
-  gm.polygonOffset = true;
-  gm.polygonOffsetFactor = -6;
-  gm.polygonOffsetUnits = -12;
-  gridMesh = new THREE.Mesh(geo, gm);
-  gridMesh.renderOrder = 7;
-  scene.add(gridMesh);
+
+  // 2. Cell Analysis: Animated Moving Slope Beads
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < nz; j++) {
+      const cx = x0 + (i + 0.5) * dx;
+      const cz = z0 + (j + 0.5) * dz;
+      const sd = ringSD(cx, cz, ring);
+      if (sd > -0.05) continue; // Inside the green putting surface
+
+      const { s, dirX, dirZ } = getSlopeAt(cx, cz);
+      totalSlope += s;
+      slopeCount++;
+      if (s > maxSlope) maxSlope = s;
+
+      const col = slopeColor(s);
+
+      // Animated Moving Bead along the fall line
+      if (s >= 0.003) {
+        beadsList.push({
+          cx, cz,
+          vx: dirX, vz: dirZ,
+          angle: Math.atan2(dirX, dirZ),
+          slope: s,
+          speed: clampf(s * 15 + 0.28, 0.38, 1.8),
+          phase: (hash2(Math.round(cx * 10), Math.round(cz * 10)) % 1000) / 1000,
+          travelDist: Math.min(dx, dz) * 0.88,
+          baseScale: clampf(0.85 + s * 6.0, 0.75, 1.25),
+          color: col,
+        });
+      }
+    }
+  }
+
+  // Create Grid Lines Mesh
+  if (linePositions.length > 0) {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(lineColors, 3));
+    const mat = new THREE.LineBasicNodeMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.58,
+      depthWrite: false,
+    });
+    mat.polygonOffset = true;
+    mat.polygonOffsetFactor = -5;
+    mat.polygonOffsetUnits = -10;
+    const linesMesh = new THREE.LineSegments(geo, mat);
+    gridGroup.add(linesMesh);
+  }
+
+  // Create Animated Beads InstancedMesh (The Moving Dots)
+  if (beadsList.length > 0) {
+    beadsData = beadsList;
+    const bGeo = new THREE.SphereGeometry(0.082, 10, 8);
+    const bMat = new THREE.MeshBasicNodeMaterial({
+      transparent: true,
+      opacity: 0.95,
+      depthWrite: false,
+    });
+    bMat.polygonOffset = true;
+    bMat.polygonOffsetFactor = -7;
+    bMat.polygonOffsetUnits = -14;
+    beadsMesh = new THREE.InstancedMesh(bGeo, bMat, beadsList.length);
+    const cObj = new THREE.Color();
+    for (let k = 0; k < beadsList.length; k++) {
+      cObj.setRGB(...beadsList[k].color);
+      beadsMesh.setColorAt(k, cObj);
+    }
+    if (beadsMesh.instanceColor) beadsMesh.instanceColor.needsUpdate = true;
+    gridGroup.add(beadsMesh);
+  }
+
+  // 3. Pin Proximity Target Rings (1m, 2m, 3m around cup)
+  if (h.pin) {
+    const [px, pz] = h.pin;
+    const ringConfigs = [
+      { radius: 1.0, col: [1.0, 1.0, 1.0], opacity: 0.65, crosshairs: true },
+      { radius: 2.0, col: [0.18, 0.95, 0.45], opacity: 0.45, crosshairs: false },
+      { radius: 3.0, col: [0.10, 0.80, 0.95], opacity: 0.32, crosshairs: false },
+    ];
+    const SEGS = 48;
+
+    for (const rc of ringConfigs) {
+      const pos = [];
+      for (let s = 0; s < SEGS; s++) {
+        const a1 = (s / SEGS) * Math.PI * 2;
+        const a2 = ((s + 1) / SEGS) * Math.PI * 2;
+        const x1 = px + Math.cos(a1) * rc.radius, z1 = pz + Math.sin(a1) * rc.radius;
+        const x2 = px + Math.cos(a2) * rc.radius, z2 = pz + Math.sin(a2) * rc.radius;
+        pos.push(x1, meshH(x1, z1) + 0.040, z1, x2, meshH(x2, z2) + 0.040, z2);
+      }
+
+      if (rc.crosshairs) {
+        for (let a = 0; a < 4; a++) {
+          const ang = (a / 4) * Math.PI * 2;
+          const cosA = Math.cos(ang), sinA = Math.sin(ang);
+          const t1x = px + cosA * (rc.radius - 0.15), t1z = pz + sinA * (rc.radius - 0.15);
+          const t2x = px + cosA * (rc.radius + 0.15), t2z = pz + sinA * (rc.radius + 0.15);
+          pos.push(t1x, meshH(t1x, t1z) + 0.040, t1z, t2x, meshH(t2x, t2z) + 0.040, t2z);
+        }
+      }
+
+      const pGeo = new THREE.BufferGeometry();
+      pGeo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      const pMat = new THREE.LineBasicNodeMaterial({
+        color: new THREE.Color(...rc.col),
+        transparent: true,
+        opacity: rc.opacity,
+        depthWrite: false,
+      });
+      pMat.polygonOffset = true;
+      pMat.polygonOffsetFactor = -6;
+      pMat.polygonOffsetUnits = -12;
+      gridGroup.add(new THREE.LineSegments(pGeo, pMat));
+    }
+  }
+
+  scene.add(gridGroup);
+
+  // Update HUD facts with slope insights
+  if (slopeCount > 0) {
+    const meanSlope = (totalSlope / slopeCount) * 100;
+    const maxSlopePct = maxSlope * 100;
+    const factsEl = document.getElementById('facts');
+    if (factsEl) {
+      factsEl.innerHTML += `<br>Greenlutning: snitt <b>${meanSlope.toFixed(1)}%</b> · max <b>${maxSlopePct.toFixed(1)}%</b>`;
+    }
+  }
 }
+
+const gridBtn = document.getElementById('gridBtn');
 gridBtn.onclick = () => {
   gridOn = !gridOn;
   gridBtn.classList.toggle('on', gridOn);
   if (gridOn) {
     buildGreenGrid();
-    /* the donor's inspect move: in over the green, close enough to read the break */
+    /* Inspect move: fly in over green to read break */
     setCam('green');
     const h = HOLES[hole - 1], c = h.green.c;
     const p = alongLine(h.line, 0.9);
     const F = [Math.sin(p.b), Math.cos(p.b)];
     const gy = terrainH(c[0], c[1]);
     flyTo(V3(c[0] - F[0] * 26, gy + 21, c[1] - F[1] * 26), V3(c[0], gy + 1, c[1]), RMOTION ? 0 : 1.4);
-  } else gridClear();
+    toast('Greengrid aktiv · Rörliga punkter visar fallinjen');
+  } else {
+    gridClear();
+  }
 };
 
 /* a click is a click only if the pointer did not drag (OrbitControls owns drags) */
@@ -5289,6 +7022,10 @@ let last = performance.now(), acc = 0, frames = 0, fps = 0;
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
   terrainV2.tick(now);
+  /* the world graph streams by screen-space error against the real camera */
+  if (terrainV2.kind === 'graph' && terrainV2.active) {
+    terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
+  }
   last = now; frames++; acc += dt;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
 
@@ -5301,21 +7038,36 @@ function frame() {
     if (t >= 1) camTween.on = false;
   }
   if (flying > 0) {
-    flying += dt / 15;
-    if (flying >= 1) {
-      if (tour && hole < NHOLES) { goHole(hole + 1, false); showTourCard(); flying = 1e-4; }
-      else if (tour) { endTour(); }
-      else { flying = 0; setCam(camMode); }
-    }
+    if (!tourFlight.st) initHoleFlight(HOLES[hole - 1]);
+    if (!tourFlight.st) stopFlight();
     else {
-      const h = HOLES[hole - 1];
-      const p = alongLine(h.line, flying * 1.02 - 0.02);
-      const la = alongLine(h.line, Math.min(1.0, flying * 1.02 + 0.07));
-      const F = [Math.sin(p.b), Math.cos(p.b)];
-      const gy = terrainH(p.x, p.z);
-      camera.position.set(p.x - F[0] * 26, gy + 22 + Math.sin(flying * Math.PI) * 16, p.z - F[1] * 26);
-      controls.target.set(la.x, terrainH(la.x, la.z) + 2, la.z);
+      const r = flightStep(dt);
+      applyFlightCamera();
       camTween.on = false;
+      flying = Math.max(1e-4, r.u);
+      updateTourProgress();
+      /* the next hole's card comes up as the travel shot lines up behind its tee */
+      if (tourFlight.cardPending && r.ls >= -FL.preTee - 25) { showTourCard(); tourFlight.cardPending = false; }
+      if (r.done) {
+        tourFlight.holdTimer += dt;
+        if (tourFlight.holdTimer >= FL.hold) {
+          if (tour && hole < NHOLES) {
+            /* no cut: the camera leaves the reverse angle and flies to the next tee */
+            const from = flightPose();
+            const card = document.getElementById('tourCard');
+            if (card) card.classList.remove('show');
+            goHole(hole + 1, false);
+            initHoleFlight(HOLES[hole - 1], from);
+            if (!tourFlight.st) { endTour(); }
+            flying = 1e-4;
+          } else if (tour) {
+            endTour();
+          } else {
+            stopFlight();
+            setCam('green');
+          }
+        }
+      }
     }
   }
   /* flag cloth: a travelling wave pinned at the pole */
@@ -5328,15 +7080,18 @@ function frame() {
     }
     pos.needsUpdate = true;
   }
-  controls.update();
-  /* never underground, and never so close to it that the near plane clips through */
-  const groundY = terrainH(camera.position.x, camera.position.z) + 1.7;
-  if (camera.position.y < groundY) camera.position.y = groundY;
+  if (flying === 0) {
+    controls.update();
+    /* never underground, and never so close to it that the near plane clips through */
+    const groundY = terrainH(camera.position.x, camera.position.z) + 1.7;
+    if (camera.position.y < groundY) camera.position.y = groundY;
+  }
   placeSun();
   if (skyMesh) skyMesh.position.copy(camera.position);
   if (skyDome) skyDome.position.copy(camera.position);
   updateSky();
   drawMini();
+  if (gridOn) updateGreenGrid(dt, now);
   if (!captureRenderLocked) renderActivePipeline();
 }
 
@@ -5462,7 +7217,8 @@ window.V3D = {
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
            tufts: stats.tufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
            reeds: stats.reeds | 0, cars: stats.cars | 0, pylons: stats.pylons | 0, stumps: stats.stumps | 0,
-           draws: stats.draws | 0, backend: IS_GPU ? 'webgpu' : 'webgl2' },
+           draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
+           backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })) }),
   groundInfo: () => ({
@@ -5471,10 +7227,142 @@ window.V3D = {
     classCounts: groundAtlas ? Array.from(groundAtlas.data.classCounts) : null,
   }),
   groundSample: (x, z) => groundAtlas?.sampleAt(x, z) || null,
+  v2SurfaceProbe: (x, z) => TERRAIN_PREVIEW.surfaceAtlas?.probeAt(x, z) || null,
+  /* every drawn world tile with the bytes the GPU holds for it; harness only */
+  v2WorldInventory: () => (typeof terrainV2.inventory === 'function' ? terrainV2.inventory() : []),
+  v2WorldPlan: () => (typeof terrainV2.plan === 'function' ? terrainV2.plan() : null),
+  v2WorldVisible: () => (typeof terrainV2.visibleTileIds === 'function' ? terrainV2.visibleTileIds() : []),
+  v2WorldFrustum: () => (typeof terrainV2.frustumReport === 'function' ? terrainV2.frustumReport() : null),
+  vistaPoints: () => (VISTA_PTS ? Array.from(VISTA_PTS) : []),
+  setWaterVisible: on => { for (const m of WATER_MESHES) m.visible = on !== false; return WATER_MESHES.length; },
+  /* hide or show meshes by tag, instance count or material type, to find what draws what */
+  setMeshesVisible: ({ tag, minInstances, material, world } = {}, on = true) => {
+    let n = 0;
+    if (world !== undefined) { if (terrainV2.group) { terrainV2.group.visible = on; n++; } return n; }
+    scene.traverse(object => {
+      if (!object.isMesh) return;
+      if (tag !== undefined && object.userData?.tag !== tag) return;
+      if (minInstances !== undefined && !((object.count ?? object.geometry?.instanceCount ?? 0) >= minInstances)) return;
+      if (material !== undefined && object.material?.type !== material) return;
+      object.visible = on; n++;
+    });
+    return n;
+  },
+  /* every mesh in the scene with its footprint, to find what is drawing where */
+  sceneInventory: () => {
+    const out = [];
+    const box = new THREE.Box3();
+    scene.traverse(object => {
+      if (!object.isMesh) return;
+      box.setFromObject(object);
+      const size = new THREE.Vector3(); box.getSize(size);
+      out.push({
+        name: object.name || null, tag: object.userData?.tag ?? null, parentTag: object.parent?.userData?.tag ?? object.parent?.name ?? null,
+        material: object.material?.type ?? null, transparent: !!object.material?.transparent, order: object.renderOrder, visible: object.visible,
+        instances: object.count ?? object.geometry?.instanceCount ?? null,
+        vertices: object.geometry?.getAttribute?.('position')?.count ?? null,
+        bbox: [box.min.x, box.min.y, box.min.z, box.max.x, box.max.y, box.max.z].map(v => (Number.isFinite(v) ? Math.round(v) : null)),
+      });
+    });
+    return out;
+  },
+  /* push the tint rasters to the GPU again, or recreate them, to see whether what it holds is what was filled */
+  tintRefresh: (mode = 'update') => {
+    if (!GROUND_TINT) return null;
+    const report = {};
+    for (const key of ['near', 'far']) {
+      const layer = GROUND_TINT[key];
+      const d = layer.texture.image.data;
+      let sum = 0; for (let i = 0; i < d.length; i += 4013) sum += d[i];
+      report[key] = { version: layer.texture.version, n: layer.n, sampleSum: sum, colorSpace: layer.texture.colorSpace, format: layer.texture.format, type: layer.texture.type };
+      if (mode === 'dispose') layer.texture.dispose();
+      layer.texture.needsUpdate = true;
+    }
+    return report;
+  },
+  /* switch parts of the world material off to see which one paints a view */
+  v2WorldMaterial: ({ fog, roughness, emissiveBoost, colour, flatNormal, unlit } = {}) => {
+    const batches = terrainV2.runtime?.layer?.batches;
+    if (!batches) return 0;
+    let n = 0;
+    for (const batch of batches.values()) {
+      const m = batch.material;
+      if (fog !== undefined) m.fog = fog;
+      if (roughness !== undefined) m.roughnessNode = float(roughness);
+      if (emissiveBoost !== undefined) m.emissiveNode = emissiveBoost ? vec3(0.02, 0.02, 0.02) : null;
+      if (colour) m.colorNode = vec3(colour[0], colour[1], colour[2]);
+      if (flatNormal) m.normalNode = null;
+      if (unlit !== undefined) m.lights = !unlit;
+      m.needsUpdate = true;
+      n++;
+    }
+    return n;
+  },
+  v2WorldGroup: () => (terrainV2.group
+    ? terrainV2.group.children.map(o => ({ name: o.name, tag: o.userData?.tag ?? null, visible: o.visible, instances: o.geometry?.instanceCount ?? null, material: o.material?.type ?? null, castShadow: o.castShadow }))
+    : []),
+  /* what the world says about one point: height, the tint bytes under it,
+     whether the ground calls it flat or water, and which rings claim it */
+  /* the carved lake beds: field membership, depth and level at a legacy point */
+  waterBedAt: (x, z) => {
+    const bed = terrainV2.waterBed ?? null;
+    const grid = TERRAIN_PREVIEW.bridge?.toGrid?.(x, z) ?? null;
+    if (!bed || !grid) return null;
+    return { inWater: bed.inWater(grid[0], grid[1]), depth: bed.depthAt(grid[0], grid[1]), level: bed.levelAt(grid[0], grid[1]),
+      flat: terrainV2.flatWater?.isFlatAt(grid[0], grid[1]) ?? null, ground: terrainH(x, z), adapter: terrainV2.heightAt?.(x, z) ?? null,
+      world: terrainV2.worldHeightAt?.(x, z) ?? null };
+  },
+  /* every water sheet: its level and the depth attribute its vertices carry */
+  waterSheets: () => WATER_MESHES.map(m => {
+    const dp = m.geometry.getAttribute('aDepth');
+    let min = Infinity, max = -Infinity, sum = 0;
+    for (let i = 0; i < dp.count; i++) { const v = dp.getX(i); if (v < min) min = v; if (v > max) max = v; sum += v; }
+    const bb = m.geometry.boundingBox ?? (m.geometry.computeBoundingBox(), m.geometry.boundingBox);
+    return { name: m.name, vertices: dp.count, level: +m.position.y.toFixed(2), y: +bb.min.y.toFixed(2),
+      depthMin: +min.toFixed(2), depthMax: +max.toFixed(2), depthMean: +(sum / dp.count).toFixed(2),
+      bounds: [bb.min.x, bb.min.z, bb.max.x, bb.max.z].map(v => Math.round(v)) };
+  }),
+  carvedGpuTiles: () => terrainV2.carvedGpuTiles ?? null,
+  probeGround: (x, z) => {
+    const h = terrainH(x, z);
+    const tintAt = layer => {
+      if (!layer) return null;
+      const i = Math.floor((x - layer.bounds.x0) / layer.dx), j = Math.floor((z - layer.bounds.z0) / layer.dx);
+      if (i < 0 || j < 0 || i >= layer.n || j >= layer.n) return null;
+      const o = (j * layer.n + i) * 4;
+      return [layer.texture.image.data[o], layer.texture.image.data[o + 1], layer.texture.image.data[o + 2]];
+    };
+    const grid = TERRAIN_PREVIEW.bridge?.toGrid?.(x, z) ?? null;
+    return {
+      h: +h.toFixed(2),
+      slope: +(Math.hypot(terrainH(x + 8, z) - h, terrainH(x, z + 8) - h) / 8).toFixed(3),
+      tintNear: tintAt(GROUND_TINT?.near), tintFar: tintAt(GROUND_TINT?.far),
+      flat: grid && terrainV2.flatWater ? terrainV2.flatWater.isFlatAt(grid[0], grid[1]) : null,
+      water: typeof terrainV2.isFlatWaterAt === 'function' ? terrainV2.isFlatWaterAt(x, z) : null,
+      rings: WI.at(x, z).filter(w => !w.stream && ringSD(x, z, w.ring) < 0).map(w => w.level),
+      landuse: LI.at(x, z).filter(q => ringSD(x, z, q.ring) < 0).map(q => q.kind),
+      cover: typeof coverAt === 'function' ? coverAt(x, z) : null,
+    };
+  },
+  flatWater: () => (terrainV2.flatWater
+    ? { spacing: terrainV2.flatWater.spacing, sheets: stats.flatWaterSheets | 0, components: terrainV2.flatWater.components.map(c => ({ hectares: c.hectares, level: +c.level.toFixed(2), surface: +c.surfaceHeight.toFixed(2), known: c.knownCells, uncovered: c.uncoveredCells, bounds: c.bounds })) }
+    : null),
+  cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
+  /* put the camera anywhere, at once: the harness stands where a person stood */
+  placeCamera: (p, t) => flyTo(V3(p[0], p[1], p[2]), V3(t[0], t[1], t[2]), 0),
+  waterLevels: () => M.water.filter(w => !w.stream).map(w => ({
+    id: w.id ?? null, name: w.name ?? null, level: w.level, isLake: !!w.isLake, points: w.ring?.length ?? 0,
+    bb: w.ring?.length ? ringBBox(w.ring) : null,
+  })),
   v2Terrain: () => ({
     requested: TERRAIN_PREVIEW.requested,
     ready: TERRAIN_PREVIEW.ready,
     status: terrainV2.rendererState.status,
+    /* 'graph' when the whole world is the ring graph and no legacy ground is built */
+    kind: terrainV2.kind || 'fixed-frontier',
+    courseSurfaceOverlayMeshes: stats.surfaceOverlays | 0,
+    surfaceDebugMode,
+    surfaceRepresentation: TERRAIN_PREVIEW.surfaceAtlas?.data?.representation || null,
     reason: TERRAIN_PREVIEW.reason,
     selection: {
       mode: V2_SELECTION.mode,
@@ -5521,12 +7409,45 @@ window.V3D = {
     backend: IS_GPU ? 'webgpu' : 'webgl2',
   }),
   classifyAnalytic,
+  /* the vegetation plan's Phase 0 instruments: the legacy population, and the
+     object-layer state the v2 selection saw (today: no renderer, no tiles) */
+  legacyTrees: ({ instances = false } = {}) => legacyTreeExport(instances),
+  v2Objects: () => ({
+    rendererActivated: true,
+    gate: V2_OBJECT_LAYER_GATE,
+    loaded: V2_VEGETATION ? {
+      ...V2_VEGETATION.loaded.counts,
+      bytes: V2_VEGETATION.loaded.bytes,
+      frameFingerprint: V2_VEGETATION.loaded.frameFingerprint,
+    } : null,
+    planned: V2_VEG_PLAN ? V2_VEG_PLAN.stats : null,
+    coverageTiles: V2_VEG_COVER ? V2_VEG_COVER.tiles : 0,
+    error: V2_VEGETATION_ERROR,
+    graphObjectTiles: V2_SELECTION.graph?.summary?.objectTiles ?? null,
+    graphStandTiles: V2_SELECTION.graph?.summary?.standTiles ?? null,
+    graphEncodedObjectBytes: V2_SELECTION.graph?.summary?.encodedObjectBytes ?? null,
+    graphError: V2_SELECTION.graphError,
+  }),
   plates: () => plateSites.map(p => ({ ...p })),
   course: () => ({ ...CMETA }),
   settled: () => !camTween.on,
+  /* the bansafari, measurable: simulate a hole's shot offline, or fly it live */
+  flightSim: (n, step, transit) => flightSim(n, step, transit),
+  flightState: () => ({ flying, tour, t: tourFlight.t, duration: tourFlight.duration, orbitT: tourFlight.orbitT,
+    fov: camera.fov, transitT: tourFlight.transitT, cardPending: tourFlight.cardPending, hole }),
+  fly: () => { if (flying > 0) return; initHoleFlight(HOLES[hole - 1]); showTourCard(); flying = 1e-4; },
   heightSample: (x, z) => groundHeightSampler.inspectAt(x, z),
   probeH: (x, z) => renderedGroundH(x, z),
   setView: (px, py, pz, lx, ly, lz) => { flyTo(V3(px, py, pz), V3(lx, ly, lz), 0); },
+  /* world -> CSS pixel on the canvas, so a harness can read back the pixel it
+     drew for a world point and compare it with what the CPU probe says */
+  project: (x, y, z) => {
+    camera.updateMatrixWorld(true);
+    const v = new THREE.Vector3(x, y, z).project(camera);
+    const el = renderer.domElement;
+    return { x: (v.x + 1) / 2 * el.clientWidth, y: (1 - v.y) / 2 * el.clientHeight,
+             depth: v.z, visible: v.z > -1 && v.z < 1 && Math.abs(v.x) <= 1 && Math.abs(v.y) <= 1 };
+  },
   pick: (ndcX, ndcY) => {
     camera.updateMatrixWorld(true);
     const rc = new THREE.Raycaster();

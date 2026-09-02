@@ -89,6 +89,7 @@ export class TerrainStreamController {
     const keep = new Set([
       'shell',
       ...plan.desiredTileIds,
+      ...(plan.retainTileIds || []),
       ...plan.renderTileIds,
       ...plan.requests.map(request => request.tileId),
     ]);

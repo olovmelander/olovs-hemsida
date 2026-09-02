@@ -36,7 +36,7 @@ const vec = {
   veg: model.vegetation,
   cover,
   infra: model.infra,
-  surround: { clearfells: [], yard: null, hayfields: null, shallows: [] },
+  surround: model.surround ?? { clearfells: [], yard: null, hayfields: null, shallows: [] },
   scenery: model.scenery,
 };
 

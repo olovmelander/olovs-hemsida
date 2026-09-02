@@ -52,6 +52,9 @@ const traceRings = name => SURR.filter(f => f.name === name && f.world && f.worl
 /* the old page's prose and green rotations are worth keeping; its geometry is not */
 const bg = await import('../banguide/lib.mjs');
 const OLD = bg.load().HOLES;
+/* The hålguide: geobuild/guide-notes.json (name, note per hole, the club's text kept under
+   `club` for provenance) wins over the old page's HOLES prose when it has an entry. */
+const NOTES = (() => { try { return readJSON(path.join(ROOT, 'geobuild/guide-notes.json')).holes || {}; } catch { return {}; } })();
 
 const log = [];
 const say = s => { console.log(s); log.push(s); };
@@ -331,7 +334,7 @@ for (let n = 1; n <= 18; n++) {
     green, fairway: fw, tees, bunkers,
     pin: green.c,
     elev: hf.holeElev[n],
-    name: old?.name || null, note: old?.note || null, sp: old?.sp || null,
+    name: NOTES[n]?.name ?? old?.name ?? null, note: NOTES[n]?.note ?? old?.note ?? null, sp: old?.sp || null,
     tiers: old?.tiers || 1,
     guideBearingDeg: inv[n]?.guideBearingDeg ?? null,
     guideGreen: inv[n]?.green || null, guideTrees: inv[n]?.trees || null,

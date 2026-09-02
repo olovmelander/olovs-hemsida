@@ -152,13 +152,15 @@ test('configured decoded-byte budget is enforced before payload inflation', () =
   assert.throws(() => readChunk(data, { maxDecodedBytes: 8 }), /decoded-byte budget/);
 });
 
-test('synthetic graph proves two courses share one parent ground and seven typed chunks', () => {
+test('synthetic graph proves two courses share one parent ground and eight typed chunks', () => {
   const result = verifyAssetGraph(createSyntheticAssetGraph());
   assert.equal(result.courses, 2);
   assert.equal(result.grounds, 1);
-  assert.equal(result.chunks, 7);
+  /* eight: shell, two terrain, a pair-sdf surface, a class-sdf surface,
+     objects and two routing chunks; the class-sdf tile is 3 x 3 x 5 bytes */
+  assert.equal(result.chunks, 8);
   assert.equal(result.v1Fallbacks, 2);
-  assert.equal(result.decodedChunkBytes, 1458);
+  assert.equal(result.decodedChunkBytes, 1458 + 45);
   assert.ok(result.encodedChunkBytes < 16 * 1024);
 });
 
@@ -197,7 +199,9 @@ test('graph rejects missing tile references and unsupported required features', 
     'chunk-envelope-v2',
     'course-routing-json-v1',
     'object-registry-json-v1',
+    'stand-field-u8-v1',
     'surface-grid-u8-i16-v1',
+    'surface-sdf-u8-v1',
     'terrain-grid-u16-v1',
   ]);
 });

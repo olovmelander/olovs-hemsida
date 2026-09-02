@@ -1,94 +1,112 @@
 {
- "source": "Club banguide/hole notes and reviews gathered by the research pass; see course facts in the commit history.",
+ "source": "Per-hole notes condensed from the club's own banguide texts, kept verbatim under `club`. Ängsö GK's current guide (LiveCaddie course 649, linked from angsogolfklubb.com) carries no text at all, but the club's earlier sites did: angsogolf.org/flik6/halN.htm (2002-03) has Swedish prose for all 18 holes and angsogolf.org/Banan/holeN.htm (2001) the same Swedish plus the club's own English, both read from the Wayback Machine on 2026-09-02. The texts are twenty years old; their routing and hazard claims still match the model wherever it has data, their tee lengths do not. Colour from the club's printed banguide plates (media.angsogolfklubb.com/2015/03, diagrams only), its Lokala regler 2026 (the boar-fence OB right of 6, 7, 16 and 17; the 5/6 stakes that are OB on 5 and obstructions on 6; the white-stake OB shared by 15 and 16; the drop zone on 15; the endless red area left of 17), club news 2023-2024 (the mound between 4 and 5 dug away, the alders by the 9th's brook, the 17th's right side cleared) and the club's hole-in-one register (47 aces on 9, 23 on 12, 21 on 15, 15 on 3). Bends, rise, sides and water were checked against the model's line geometry and DEM profile (tools/hole-geometry.mjs). Three things the club documents are missing from the model and kept in the notes anyway: the brook in front of the 9th green, the ditch right of the 8th, the brook crossing the 12th. `name` is an editorial tagline; the club names no holes. Architect Åke Hultström, inaugurated 1985 (GolfPass's 'Johan Benestam' is wrong: he built the 2019 red tees and the 2021-23 practice area). Card: card.json equals the club's 2023 scorecard in all 144 cells; hole 1 has three white-tee values in circulation (355 in the 2020 card and LiveCaddie, 386 on the club's current card, 396 on caddee.se).",
  "holes": {
   "1": {
-   "name": null,
-   "note": "Par 4, 386 m, index 10. THE ONLY HOLE THAT CHANGED between the 2020 and 2023 cards — lengthened +31 m from Vit, +14 m from Gul. Bunkering is heavy by this course's standards: five bunkers. A pond sits 14 m right at 84% of the hole — peripheral, not on the line. OSM maps this green fully: 59.56753 N, 16.86843 E, pin node 13012079636. The green is 233 m from the Mälaren shoreline (the second-closest point on the course to water) and 144 m from the clubhouse. A newly built practice area lies immediately BEHIND the first tee, and the club's 18 on-site beds are advertised as 'med första tee och övn",
+   "name": "Lätt öppning",
+   "note": "Ett ganska lätt öppningshål nedför, med bred fairway. En lång drive på vänster sida ger bättre inspel mot en green som sluttar från höger till vänster, vaktad av bunkrar på båda sidor.",
+   "club": "Ett ganska lätt öppningshål. Bred fairway, där en lång drive på vänster sida ger bättre inspel mot green, som sluttar från höger till vänster.",
    "tiers": 1
   },
   "2": {
-   "name": null,
-   "note": "Par 4, 348 m, index 6. THE CLOSEST HOLE ON THE COURSE TO MÄLAREN — its line of play comes within about 137 m of the shore and the green within 142-144 m. Even so it is not a shoreline hole: a belt of grazed pasture, scrub and a broad reedbed fringe lies between. Water in play is a ditch at the tee and a large 1309 m² pond around the green — corroborated independently by OSM, which maps a golf=lateral_water_hazard (way 1415933872, 1208 m²) just north of this green at 59.56743, 16.87435. OSM green centre 59.56715, 16.87432, pin node 13012115813.",
+   "name": "Fint golfhål",
+   "note": "Ett fint golfhål som viker vänster nedför – banans närmaste Mälaren. Bästa inspelsvinkeln får du med utslaget placerat till höger, men se upp för out of bounds där. Greenen sluttar mot vattnet, som ligger till vänster om och bakom den.",
+   "club": "Ett \"fint golfhål\". Bästa inspelsvinkel om utslaget placeras till höger. Se upp för out till höger. Greenen sluttar mot vattnet.",
    "tiers": 1
   },
   "3": {
-   "name": null,
-   "note": "Par 3, 179 m, index 8. Longest of the four short holes and one of the straightest on the course (within ~30 m of its tee-green line). The hole-2 tee pond sits behind this tee; a 153 m² pond lies 19 m right at 42%. One bunker. OSM pin node 13012115906 at 59.56837, 16.87134. About 210 m from the shoreline.",
+   "name": "Två klubbor i motvind",
+   "note": "Banans längsta korthål, svagt uppför. Kullen och dungen till höger brukar ställa till problem, och en bunker vaktar framför green till vänster. I motvind: ta två klubbor mer. Femton hole-in-one är gjorda här.",
+   "club": "Kullen och dungen till höger brukar ställa till problem. Om det blåser motvind så ökar du två klubbor.",
    "tiers": 1
   },
   "4": {
-   "name": null,
-   "note": "Par 4, 337 m, index 2 — the second-hardest hole on the card off a very ordinary length, so the difficulty is entirely in the green complex. TWO PONDS GUARD THE GREEN: 360 m² on the line at 83%, and 410 m² six metres left at 97%. The fairway bends LEFT about 45 m. OSM green 59.57190, 16.87266, pin node 13012116055. The right rough here faces the 5th tee across a mound the club dug out in October 2023.",
+   "name": "Vattnet vid green",
+   "note": "Ett vackert hål och banans index 2: en dogleg vänster uppför, där utslaget helst ska ligga till höger så att du ser greenen. Två dammar vaktar vänster om green och en bunker till höger – svårigheten sitter i greenområdet.",
+   "club": "Ett vackert golfhål, där utsalget helst skall ligga till höger för att se greenen. Se upp för vattnet till vänster om green.",
    "tiers": 1
   },
   "5": {
-   "name": null,
-   "note": "Par 5, 493 m, index 18 — the easiest hole on the card by index despite being the second-longest, and the ONLY HOLE ON THE COURSE WITH NO BUNKERS AT ALL. Bends LEFT about 80 m. Ponds at 74% and 81% sit on the line. Internal out-of-bounds between 5 and 6 is defined by white/black stakes: 'Dessa pinnar behandlas som föremål för banans gräns under spel av hål 5. Vid spel från hål 6 är de oflyttbara tillverkade föremål' — i.e. the same stakes are a boundary from one hole and an immovable obstruction from the other. An on-course toilet stands here. In Oct 2023 the club dug away the small mound right",
+   "name": "Det röda huset",
+   "note": "Banans index 18 trots längden – ett par 5 som svänger vänster. Det är inbjudande att slå drivern längs vänsterkanten, men sikta hellre på det lilla röda huset i horisonten: de vit-svarta pinnarna mot sexan är out of bounds härifrån. Inspelet ser smalare ut än det är.",
+   "club": "Det är inbjudande att slå drivern längs vänsterkanten. Bäst är ändå att sikta på det lilla röda huset i horisonten. Inspelet mot green ser smalare ut än vad det är.",
    "tiers": 1
   },
   "6": {
-   "name": null,
-   "note": "Par 4, 337 m, index 16. Bends RIGHT about 57 m. A 1003 m² pond crosses the hole at roughly 70% — one of the larger bodies on the course and genuinely on the line. Three bunkers. The right-hand boundary is the electric WILD BOAR FENCE that defines out-of-bounds on holes 6, 7, 16 and 17; beyond it is open arable farmland. About 233 m from the shoreline.",
+   "name": "Dammen i kröken",
+   "note": "Skarp dogleg höger. Hålet lockar till en lång driver längs högersidan för ett kortare inspel, men där väntar dammen i kröken och vildsvinsstängslet som är out of bounds – den klokare linjen går till vänster. Bunkrar vaktar green till höger.",
+   "club": "Hålet inbjuder till en lång driver längs högersidan, vilket ger kortare inspel. En klokare linje är till vänster för att undvika dammen.",
    "tiers": 1
   },
   "7": {
-   "name": null,
-   "note": "Par 5, 545 m, index 4 — the longest hole on the course from every tee, and the BIGGEST DOGLEG: the fairway bends RIGHT by about 103 m at 40% of its length. Essentially dry, with only one small pond 34 m right at 91%. Boar-fence OB down the right. The walk from this green to the 8th tee is about 189 m, the third-longest transfer on the course.",
+   "name": "Banans längsta",
+   "note": "Banans längsta hål, ett svårt par 5 i dogleg höger som stiger mot green. Driven mitt i eller till vänster öppnar för andraslaget, där out of bounds vid stängslet lurar till höger. Greenen är djupare än den ser ut på avstånd.",
+   "club": "Svårt par 5. Driven mitt i eller till vänster öppnar för andra slaget där out lurar till höger. Greenen är djupare än den ser ut på avstånd.",
    "tiers": 1
   },
   "8": {
-   "name": null,
-   "note": "Par 4, 344 m, index 14. One of the straight holes (within ~30 m of its tee-green line). A pond sits 8 m right at about 53% — close enough to be a visual presence without being a carry.",
+   "name": "Rakt fram",
+   "note": "Ett relativt lätt hål. Den som slår långt kan styra bollen ut till höger för att öppna green, annars är rätta linjen rakt fram – diket till höger kan ställa till problem. Bunkrar till vänster i fairway och vid green.",
+   "club": "Ett relativt lätt hål. Den som slår långt kan styra bollen ut till höger för att \"öppna\" green. Annars är rätta linjen rakt fram. Diket till höger kan orsaka problem.",
    "tiers": 1
   },
   "9": {
-   "name": null,
-   "note": "Par 3, 143 m, index 12 — the shortest hole, and from Ora only 55 m, the shortest value on the entire card. A BROOK RUNS RIGHT BY THE GREEN, confirmed twice over: the banguide places a 154 m² water body straddling the line at about 84%, immediately short of the putting surface, and the club's own blog says 'några alar som växer vid bäcken intill green, även detta på hål 9' (Feb 2024, alders by the brook and oaks on the back tee being felled). One bunker. The green is 159 m from the clubhouse and the walk to the 10th tee is only 111 m; the club's kiosk sits at 9/10.",
+   "name": "Vinden ovanför träden",
+   "note": "Väl inbunkrat korthål med bäcken framför green. Alltid svårt, för vinden blåser annorlunda ovanför träden – öka en klubba. Ändå banans hole-in-one-hål: 47 stycken sedan 2004. Kiosken väntar vid tian.",
+   "club": "Väl inbunkrat korthål med vatten framför. Alltid svårt för vinden blåser annorlunda ovanför träden. Öka en klubba.",
    "tiers": 1
   },
   "10": {
-   "name": null,
-   "note": "Par 5, 527 m, index 1 — the hardest hole on the card, and remarkably the one hole with NO WATER ANYWHERE IN ITS CORRIDOR. Shaped as a gentle S: left early, then right about 41 m late. One bunker. The 10th tee is 106 m from the clubhouse; in August 2024 the club ran a week-long trial of starting rounds from here (19-25 Aug).",
+   "name": "Index 1",
+   "note": "Banans index 1, ett spännande par 5 uppför genom skogen – och det enda hålet utan vatten i närheten. Den långtslående kan nå greenkanten på två via vänster sida; medelgolfaren håller utslaget till höger och andraslaget till vänster. Kullen till höger om green får bollen att studsa fel.",
+   "club": "Ett spännande par 5 hål. För den långtslående kan en drive längs vänster sida ge möjlightet att nå greenkant på två. För medelgolfaren är säkrast att hålla utslaget till höger och andra slaget tillvänster på fairway. Kullen till höger på green kan få bollen att studsa \"fel\".",
    "tiers": 1
   },
   "11": {
-   "name": null,
-   "note": "Par 4, 340 m, index 17. SIX BUNKERS — the most on any hole, against a course average of two. Bends RIGHT about 45 m. A 249 m² pond sits at about 21%, squarely in the driving zone. This green to the 12th tee is the LONGEST TRANSFER ON THE COURSE at about 298 m, where the routing crosses between wooded upland blocks.",
+   "name": "Sex bunkrar",
+   "note": "Dogleg höger med banans flesta bunkrar – sex stycken. Det är lockande att korta av hålet över ruffen till höger, men det är lätt att bli kvar där; säkraste linjen är till vänster om första bunkern. Därefter banans längsta promenad, till tolvans tee.",
+   "club": "Det är lockande att korta av hålet genom att slå över ruffen till höger, men det är lätt att bli kvar där. Säkraste linjen är till vänster om första bunkern.",
    "tiers": 1
   },
   "12": {
-   "name": null,
-   "note": "Par 3, 169 m, index 9. Water at 25% and again behind the green — a rare back-of-green hazard. One bunker. Sits on the high inland back nine at 12-15 m elevation, 1.4-1.7 km from Mälaren, so no water view at all here.",
+   "name": "En klubba längre",
+   "note": "Korthål där man lätt förvillas av avståndet, eftersom greenen delvis skyms av kullen till vänster – ta en klubba längre. Bunker framför green till vänster, och en bäck som korsar hålet på vägen.",
+   "club": "Man kan lätt förvillas av avståndet, eftersom greenen skyms av kullen till vänster. Ta till en klubba längre.",
    "tiers": 1
   },
   "13": {
-   "name": null,
-   "note": "Par 4, 426 m, index 5 — THE LONGEST PAR 4 on the course by 68 m. Straight (within ~30 m of its line). Ditches lie 30-41 m left at 41% and 58% — well off the corridor. Its green is the HIGH POINT OF THE COURSE at 15.2 m.",
+   "name": "Längsta par 4",
+   "note": "Banans längsta par 4 och ett av dess svåraste hål: spikrakt, med skogen tätt till vänster och bäcken till höger. Lägg utslaget till vänster för bästa inspel mot en green vaktad av bunkrar på båda sidor.",
+   "club": "Ett av banans svåraste hål. Lägg utslaget til vänster för bästa inspel.",
    "tiers": 1
   },
   "14": {
-   "name": null,
-   "note": "Par 4, 350 m, index 11. Bends LEFT about 73 m, the third-strongest turn on the course. A small pond sits 4 m left of the green — very tight to the putting surface. One bunker.",
+   "name": "Vänstra greenhalvan",
+   "note": "Dogleg vänster runt skogen. Ligg till höger med utslaget så ser du greenen bättre. Sikta på vänstra greenhalvan – den högra är smal och skyms av kullen, och en bunker vaktar framför till höger.",
+   "club": "Det är bättre att ligga till höger på utslaget, eftersom man lättare ser greenen. Sikta på vänstra greenhalvan, då den högra är smal och skyms av kullen.",
    "tiers": 1
   },
   "15": {
-   "name": null,
-   "note": "Par 3, 172 m, index 7 — THE WATER HOLE OF THE COURSE AND THE ONLY HOLE WITH A DROP ZONE. The local rules give it its own clause: a YELLOW penalty area, 'Om en boll är i det gula pliktområdet på hål 15 ... droppa den ursprungliga bollen eller en annan boll i droppzonen.' The pond is the LARGEST SINGLE WATER BODY ON THE COURSE at 1828 m², lying directly between tee and green with its near edge on the line of play about 140 m out and the green immediately beyond — verified visually on Esri satellite imagery with the banguide polygons overlaid. From Röd it is 85 m and from Ora 63 m, so the forward",
+   "name": "Över vattnet",
+   "note": "Banans vattenhål och ett mycket vackert sådant: sjön fyller marken mellan tee och green. Se bara till att du har klubba som räcker över vattnet, och tänk på vinden. Bunker till höger om green – och banans enda droppzon om det går illa.",
+   "club": "Ett mycket vackert hål. Se bara till att du har klubba som räcker över vattnet. Tänk på vinden.",
    "tiers": 1
   },
   "16": {
-   "name": null,
-   "note": "Par 4, 338 m, index 13. Bends RIGHT about 71 m. A small 119 m² water body at about 41%. Internal OB in white stakes runs left of both the tee area and the fairway, shared with hole 15 and applying to play on both holes — a sign of how tight these two corridors are. Boar-fence OB down the right against farmland.",
+   "name": "Rakt fram från tee",
+   "note": "Dogleg höger nedför, med out of bounds till vänster om tee och fairway och vildsvinsstängslet till höger. Den kloka linjen är rakt fram – går utslaget höger står träden i vägen. Många bunkrar före green, men ofarliga med tillräcklig klubba.",
+   "club": "En klokare linje är rakt frampå utslaget. Om det går till höger finns risk att träden står i vägen. Många bunkrar före green, men ofarliga om du har tillräcklig klubba.",
    "tiers": 1
   },
   "17": {
-   "name": null,
-   "note": "Par 4, 358 m, index 3 — the third-hardest hole and BY FAR THE WETTEST: nine separate water polygons, more than any other hole. A CONTINUOUS RED PENALTY AREA RUNS THE WHOLE LEFT SIDE, and the local rules declare it infinite where it is bounded on one side only: 'Det röda pliktområdet på vänster sida om hål 17 som bara är definierat på en sida är oändligt.' The chain is a meandering ditch plus ponds at roughly 8%, 23%, 51%, 86%, 94% and just past the green, with two ponds left of the green itself. The hole's slight left bend is precisely what presses the fairway against the ditch. A shaded tree-",
+   "name": "Vatten hela vänstersidan",
+   "note": "Utmanande hål med ett oändligt rött pliktområde längs hela vänstersidan och skog till höger. Håll utslaget på höger sida. Greenen är svårträffad och lutar från höger till vänster och bakåt – ta en klubba kortare, så rullar bollen upp.",
+   "club": "Ett utmanande hål med vatten längs vänster sida och skog på den högra. Försök hålla utslaget på höger sida. Svårträffad green som lutar från höger till vänster och bakåt. Ta en klubba kortare på inspelet, så rullar bollen upp på green.",
    "tiers": 1
   },
   "18": {
-   "name": null,
-   "note": "Par 5, 497 m, index 15. Bends RIGHT about 55 m off the tee, then straightens for the run home. Water lies just THROUGH the green at 107-111% of the hole length — a hazard that punishes the long third rather than the layup. The green is 126 m from the clubhouse at 5.1 m elevation, closing the descent from the back nine's inland high ground.",
+   "name": "Över enen",
+   "note": "Ett lätt avslutningshål nedför som viker höger, med två dammar mitt i fairway på andraslagets längd. Gå över enen om du ska in på två – men greenens bakre halva sluttar ifrån dig.",
+   "club": "Ett lätt avslutningshål, Gå över enen om du ska in på två. Greenens bakre halva sluttar från spelriktningen.",
    "tiers": 1
   }
  }

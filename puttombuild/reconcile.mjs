@@ -194,6 +194,62 @@ const tracedBuildings = (traces.buildings || []).map(b => ({
   kind: b.kind || 'yes', name: b.name || null,
   amenity: b.amenity || null, prov: 'trace',
 }));
+/* The rest of what OSM has not got here and the imagery has: the two gravel car
+   parks, the service roads into the works yard and out to the summer houses, the
+   gravel cart paths the tiles show clearly, the works yard itself, and the
+   range's tee line and net. Same frame, same trace file, same provenance tag. */
+const tracedParking = (traces.parking || []).map(p => ({
+  id: p.id, ring: ring1(p.ring), surface: p.surface || 'gravel', prov: 'trace',
+  ...(p.cars === false ? { cars: false } : {}), ...(p.vehicles ? { vehicles: p.vehicles } : {}),
+}));
+const tracedRoads = (traces.roads || []).map(r => ({
+  id: r.id, line: ring1(r.line), kind: r.kind || 'unclassified', surface: r.surface || 'gravel',
+  name: r.name || null, lanes: null, oneway: false, maxspeed: null, lit: false, prov: 'trace',
+}));
+/* Where a trace carries the road, OSM's version of it must not: inside the
+   hub override box every OSM road and track loses its points, and a way that
+   crosses the box comes out as the runs outside it. OSM's way here cut the
+   bend by ten metres, which put cars on the carriageway and the net on the
+   shoulder however carefully the rest was traced. */
+const inRing = (x, z, ring) => {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, zi] = ring[i], [xj, zj] = ring[j];
+    if ((zi > z) !== (zj > z) && x < (xj - xi) * (z - zi) / (zj - zi) + xi) inside = !inside;
+  }
+  return inside;
+};
+const clipOutside = (ways, box) => {
+  if (!box) return ways;
+  const out = [];
+  for (const way of ways) {
+    const runs = [];
+    let run = [];
+    for (const p of way.line) {
+      if (inRing(p[0], p[1], box)) { if (run.length >= 2) runs.push(run); run = []; }
+      else run.push(p);
+    }
+    if (run.length >= 2) runs.push(run);
+    if (runs.length === 1 && runs[0].length === way.line.length) { out.push(way); continue; }
+    runs.forEach((line, k) => out.push({ ...way, id: `${way.id}${runs.length > 1 ? '.' + k : ''}`, line, clipped: true }));
+  }
+  return out;
+};
+const hubBox = traces.hubOverride?.ring ? ring1(traces.hubOverride.ring) : null;
+const tracedTracks = (traces.tracks || []).map(t => ({ id: t.id, line: ring1(t.line), kind: t.kind || 'service', surface: t.surface || 'gravel', prov: 'trace' }));
+const tracedPaths = (traces.paths || []).map(t => ({ id: t.id, line: ring1(t.line), kind: t.kind || 'path', surface: t.surface || 'gravel', prov: 'trace' }));
+const tracedSurround = traces.surround ? {
+  clearfells: (traces.surround.clearfells || []).map(ring1),
+  yard: traces.surround.yard ? ring1(traces.surround.yard) : null,
+  hayfields: traces.surround.hayfields ? ring1(traces.surround.hayfields) : null,
+  shallows: (traces.surround.shallows || []).map(ring1),
+} : null;
+const tracedRange = traces.range ? {
+  bays: ring1(traces.range.bays), bayPitch: traces.range.bayPitch ?? 3,
+  nets: (traces.range.nets || []).map(ring1), netHeight: traces.range.netHeight ?? 10,
+  shelterId: traces.range.shelterId || null, hutId: traces.range.hutId || null, prov: 'trace',
+} : null;
+const tracedCartPark = traces.cartPark ? { line: ring1(traces.cartPark.line), count: traces.cartPark.count ?? 6, prov: 'trace' } : null;
 
 /* Every OSM green the 18 holes did not claim. Two are left over here, both beside
    the clubhouse, and one of them is the far end of the 19th OSM hole way — a 73 m
@@ -222,17 +278,21 @@ const model = {
     sand: [], rock: [],
   },
   infra: {
-    paths: osm.paths, tracks: osm.tracks, roads: osm.roads,
+    paths: osm.paths.concat(tracedPaths), tracks: clipOutside(osm.tracks, hubBox).concat(tracedTracks),
+    roads: clipOutside(osm.roads, hubBox).concat(tracedRoads),
     buildings: osm.buildings.concat(tracedBuildings), farB: osm.farBuildings,
-    parking: osm.parking || [], piers: osm.piers || [], basins: [],
+    parking: (osm.parking || []).concat(tracedParking), piers: osm.piers || [], basins: [],
     pitches: [], landuse: osm.landuse || [], reserves: osm.reserves || [],
     power: osm.power || { lines: [], towers: [], poles: [] }, railway: osm.railway || [],
   },
+  ...(tracedSurround ? { surround: tracedSurround } : {}),
   pois: osm.pois || [],
   scenery: {
     greens: spareGreens.map(g => ring1(g.ring)),
     fairways: [], tees: [], bunkers: [], grass: [],
     range: (osm.drivingRange || []).map(r => r.ring),
+    ...(tracedRange ? { rangeFacilities: tracedRange } : {}),
+    ...(tracedCartPark ? { cartPark: tracedCartPark } : {}),
   },
 };
 

@@ -81,7 +81,7 @@ canvas{display:block;position:fixed;inset:0}
 #card .pi{font-size:10px;color:var(--dim);letter-spacing:.05em}
 #tees{display:flex;gap:5px}
 .tee{padding:4px 7px;border-radius:8px;text-align:center;min-width:44px;
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);cursor:pointer}
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:all .15s}
 .tee b{display:block;font-size:12.5px;font-weight:700;font-family:'JetBrains Mono',monospace}
 .tee i{display:block;font-size:8px;font-style:normal;letter-spacing:.06em;opacity:.62;margin-top:1px}
 .tee.on{background:rgba(95,208,122,.16);border-color:rgba(95,208,122,.45)}
@@ -102,12 +102,26 @@ canvas{display:block;position:fixed;inset:0}
 #note{bottom:76px;left:14px;max-width:330px;padding:10px 13px;font-size:11px;line-height:1.55;color:var(--dim)}
 #note b{color:var(--ink);display:block;font-size:11.5px;margin-bottom:3px;letter-spacing:.02em}
 
-/* holes */
-#holes{bottom:14px;left:50%;transform:translateX(-50%);padding:6px;display:flex;gap:3px}
+/* panel head bar & close buttons */
+.panel-head-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.panel-close-btn{display:none;width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.07);color:var(--dim);font:600 13px/1 Outfit,sans-serif;align-items:center;
+  justify-content:center;cursor:pointer;transition:all .15s}
+.panel-close-btn:hover{background:rgba(255,255,255,.16);color:#fff}
+.mini-head{display:none;align-items:center;justify-content:space-between;padding:0 2px 6px}
+.mini-title{font:700 10.5px/1 Outfit,sans-serif;color:var(--turf);letter-spacing:.08em;text-transform:uppercase}
+
+/* holes container & chevrons */
+.holes-wrap{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:6px}
+#holes{position:static;transform:none;padding:6px;display:flex;gap:3px}
 .hb{width:29px;height:29px;border-radius:8px;border:1px solid transparent;background:transparent;
   color:var(--faint);font:600 11px/1 Outfit,sans-serif;cursor:pointer;transition:.13s}
 .hb:hover{background:rgba(255,255,255,.07);color:var(--ink)}
 .hb.on{background:var(--turf);color:#04140a;font-weight:800}
+.hole-step-btn{width:29px;height:29px;border-radius:8px;background:var(--glass);backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);border:1px solid var(--edge);color:var(--dim);font:700 16px/1 Outfit,sans-serif;
+  display:grid;place-items:center;cursor:pointer;transition:all .15s}
+.hole-step-btn:hover{background:rgba(95,208,122,.2);color:var(--turf);border-color:rgba(95,208,122,.4)}
 
 /* minimap */
 #mini{bottom:14px;right:14px;width:186px;height:186px;padding:7px}
@@ -117,26 +131,145 @@ canvas{display:block;position:fixed;inset:0}
 #hint{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:19;font-size:10px;
   color:var(--faint);letter-spacing:.08em;pointer-events:none;transition:opacity .6s}
 
+/* Mobile HUD Quick Actions */
+.mobile-hud-cluster{display:none;position:fixed;z-index:21;right:calc(8px + env(safe-area-inset-right));
+  bottom:calc(56px + env(safe-area-inset-bottom));padding:4px;border-radius:22px;background:var(--glass);
+  backdrop-filter:blur(22px) saturate(1.25);-webkit-backdrop-filter:blur(22px) saturate(1.25);
+  border:1px solid var(--edge);box-shadow:0 12px 32px rgba(0,0,0,.45);gap:3px;align-items:center;transition:opacity .35s}
+.m-hud-btn{display:flex;align-items:center;gap:5px;padding:7px 11px;border-radius:18px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:var(--dim);
+  font:600 11px/1 Outfit,sans-serif;cursor:pointer;transition:all .18s}
+.m-hud-btn svg{color:inherit}
+.m-hud-btn:hover,.m-hud-btn.on{background:rgba(95,208,122,.18);border-color:rgba(95,208,122,.45);color:var(--turf)}
+.m-hud-btn.primary{background:rgba(95,208,122,.14);border-color:rgba(95,208,122,.35);color:var(--turf);font-weight:700}
+.m-hud-btn:active{transform:scale(.95)}
+
 /* ren vy: everything fades, the landscape stays. The ghost button brings it back. */
-.panel,#hint,#uiToggle,#courseNav{transition:opacity .35s}
-body.clean .panel,body.clean #hint,body.clean #uiToggle,body.clean #courseNav{opacity:0;pointer-events:none}
+.panel,#hint,#uiToggle,#courseNav,.holes-wrap,.mobile-hud-cluster{transition:opacity .35s}
+body.clean .panel,body.clean #hint,body.clean #uiToggle,body.clean #courseNav,body.clean .holes-wrap,body.clean .mobile-hud-cluster{opacity:0;pointer-events:none}
 #cleanExit{display:none;position:fixed;top:calc(10px + env(safe-area-inset-top));
   right:calc(10px + env(safe-area-inset-right));z-index:41;width:34px;height:34px;
   border-radius:17px;background:rgba(9,18,14,.5);border:1px solid var(--edge);
   color:var(--dim);font:600 15px/1 Outfit,sans-serif;cursor:pointer;opacity:.55}
 body.clean #cleanExit{display:block}
 
-/* the bansafari's letterbox and title card */
-body.tour::before,body.tour::after{content:"";position:fixed;left:0;right:0;height:7vh;
+/* the bansafari's letterbox and PGA Tour broadcast card */
+body.tour::before,body.tour::after{content:"";position:fixed;left:0;right:0;height:6.5vh;
   background:#000;z-index:15;pointer-events:none}
 body.tour::before{top:0}body.tour::after{bottom:0}
-#tourCard{position:fixed;left:50%;bottom:12vh;transform:translateX(-50%);z-index:16;
-  text-align:center;opacity:0;transition:opacity .9s;pointer-events:none;max-width:82vw;
-  text-shadow:0 2px 18px rgba(0,0,0,.85)}
-#tourCard.show{opacity:1}
-#tourCard .tno{font-size:14px;color:var(--turf);font-weight:800;letter-spacing:.22em}
-#tourCard .tnm{font-size:25px;font-weight:800;margin-top:2px}
-#tourCard .ttx{font-size:12.5px;color:var(--dim);margin-top:5px;line-height:1.5}
+
+#tourCard {
+  position: fixed;
+  left: max(24px, env(safe-area-inset-left));
+  bottom: max(20px, calc(6.5vh + 16px));
+  z-index: 20;
+  max-width: min(480px, calc(100vw - 40px));
+  background: linear-gradient(135deg, rgba(8, 20, 14, 0.92) 0%, rgba(14, 28, 20, 0.84) 100%);
+  backdrop-filter: blur(28px) saturate(1.3);
+  -webkit-backdrop-filter: blur(28px) saturate(1.3);
+  border: 1px solid rgba(95, 208, 122, 0.28);
+  border-left: 4px solid var(--turf);
+  border-radius: 16px;
+  padding: 16px 20px 14px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  color: var(--ink);
+}
+#tourCard.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.tour-elev-pill {
+  font: 600 11px/1 Outfit, sans-serif;
+  color: var(--dim);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.tour-hole-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+#tourCard .tno {
+  font: 900 24px/1 Outfit, sans-serif;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.tour-pills {
+  display: flex;
+  gap: 6px;
+}
+.tour-pill {
+  font: 700 11px/1 Outfit, sans-serif;
+  background: rgba(95, 208, 122, 0.16);
+  border: 1px solid rgba(95, 208, 122, 0.35);
+  color: var(--turf);
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+#tourCard .tnm {
+  font: 700 16px/1.2 Outfit, sans-serif;
+  color: rgba(255, 255, 255, 0.95);
+  margin-top: 4px;
+  letter-spacing: -0.01em;
+}
+#tourCard .ttx {
+  font: 400 13px/1.55 Outfit, sans-serif;
+  color: rgba(255, 255, 255, 0.82);
+  margin-top: 8px;
+  max-height: 120px;
+  overflow-y: auto;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+.tour-progress-bar {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.tour-progress-track {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.tour-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #5fd07a);
+  box-shadow: 0 0 10px rgba(95, 208, 122, 0.8);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+.tour-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font: 700 9.5px/1 Outfit, sans-serif;
+  color: var(--faint);
+  letter-spacing: 0.1em;
+}
+@media (max-width: 620px) {
+  #tourCard {
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, calc(6.5vh + 8px));
+    max-width: none;
+    padding: 12px 14px 10px;
+  }
+  #tourCard .tno { font-size: 20px; }
+  #tourCard .tnm { font-size: 14px; }
+  #tourCard .ttx { font-size: 12px; line-height: 1.45; max-height: 80px; }
+}
 
 /* kikaren's readout */
 #kikOut{display:none;bottom:180px;left:14px;max-width:300px;padding:9px 12px;
@@ -167,34 +300,62 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 @media(max-width:700px){#v2TerrainBadge{left:8px;top:calc(64px + env(safe-area-inset-top));
   max-width:calc(100vw - 16px);padding:7px 9px}}
 
-/* the mobile Vy/Ljus toggle */
-#uiToggle{display:none;position:fixed;z-index:21;right:calc(8px + env(safe-area-inset-right));
-  bottom:calc(104px + env(safe-area-inset-bottom));padding:10px 14px;border-radius:21px;
-  background:var(--glass);backdrop-filter:blur(22px) saturate(1.25);
-  -webkit-backdrop-filter:blur(22px) saturate(1.25);border:1px solid var(--edge);
-  color:var(--dim);font:600 11px/1 Outfit,sans-serif;letter-spacing:.05em;
-  align-items:center;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.4)}
-#uiToggle.on{color:var(--turf);border-color:rgba(95,208,122,.42)}
+/* Responsive Breakpoints & Mobile Intelligence */
+@media(max-width:980px){
+  #mini,#note{display:none}
+  .mobile-hud-cluster{display:flex}
+  #mini.mobile-open{display:flex;flex-direction:column;position:fixed;z-index:44;
+    bottom:calc(100px + env(safe-area-inset-bottom));right:calc(8px + env(safe-area-inset-right));
+    width:min(280px,calc(100vw - 16px));height:min(280px,calc(100vw - 16px));padding:8px;
+    border-radius:18px;box-shadow:0 22px 50px rgba(0,0,0,.7)}
+  #mini.mobile-open .mini-head{display:flex}
+  #mini.mobile-open .panel-close-btn{display:flex}
+  #note.mobile-open{display:block;position:fixed;z-index:44;bottom:calc(100px + env(safe-area-inset-bottom));
+    left:calc(8px + env(safe-area-inset-left));right:calc(8px + env(safe-area-inset-right));
+    max-width:min(360px,calc(100vw - 16px));max-height:45vh;overflow-y:auto;padding:12px 14px;
+    border-radius:16px;box-shadow:0 22px 50px rgba(0,0,0,.7)}
+  #note.mobile-open .panel-close-btn{display:flex}
+}
 
-@media(max-width:980px){#mini,#note{display:none}}
-@media(max-width:700px){
+@media(max-width:768px){
+  /* Top HUD: Never collide #courseNav and #card */
   #card{top:calc(8px + env(safe-area-inset-top));left:auto;right:calc(8px + env(safe-area-inset-right));
-    transform:none;gap:9px;padding:7px 10px;max-width:calc(100vw - 120px)}
-  #card .no{font-size:20px;min-width:24px}
+    transform:none;gap:8px;padding:6px 10px;max-width:calc(100vw - 156px);height:40px}
+  #card .no{font-size:19px;min-width:22px}
   #card .mid{min-width:0;flex:0 1 auto}
-  #card .nm{max-width:none;overflow:hidden;text-overflow:ellipsis}
-  #tees{overflow-x:auto;flex:1;margin-left:auto;scrollbar-width:none}
+  #card .nm{font-size:11px;max-width:72px;overflow:hidden;text-overflow:ellipsis}
+  #card .pi{font-size:9px}
+  #tees{overflow-x:auto;flex:1;margin-left:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;display:flex;gap:4px}
   #tees::-webkit-scrollbar{display:none}
-  #tees .tee{flex:0 0 auto}
+  #tees .tee{flex:0 0 auto;padding:2px 6px;min-width:38px;border-radius:6px}
+  #tees .tee b{font-size:11px}
+  #tees .tee i{font-size:7.5px}
+
+  /* Mobile Sheet for Rail */
   #rail{display:none}
-  #rail.open{display:flex;top:auto;left:auto;right:calc(8px + env(safe-area-inset-right));
-    bottom:calc(152px + env(safe-area-inset-bottom));width:206px;padding:8px}
+  #rail.open{display:flex;position:fixed;top:auto;left:0;right:0;bottom:0;width:100%;
+    max-height:76vh;overflow-y:auto;border-radius:22px 22px 0 0;border:1px solid var(--edge);border-bottom:none;
+    background:radial-gradient(130% 100% at 50% 0%,rgba(14,30,22,.97),rgba(5,12,9,.99) 70%,#020504);
+    padding:14px 18px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -14px 44px rgba(0,0,0,.75);
+    z-index:45;gap:9px}
+  #rail.open .btn{padding:9px 6px;font-size:11.5px;border-radius:10px}
+  #rail.open #facts{display:block;font-size:11px;line-height:1.6;padding-top:8px;margin-top:4px}
   #facts{display:none}
   #hint{display:none}
-  #uiToggle{display:flex}
-  #holes{bottom:calc(8px + env(safe-area-inset-bottom))}
+
+  /* Bottom Hole Selector on Mobile: Smooth Carousel */
+  .holes-wrap{bottom:calc(8px + env(safe-area-inset-bottom));left:8px;right:8px;transform:none;
+    justify-content:center;max-width:none}
+  #holes{max-width:calc(100vw - 84px);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    scroll-snap-type:x mandatory;gap:4px;padding:4px 6px;border-radius:12px}
+  #holes::-webkit-scrollbar{display:none}
+  .hb{width:34px;height:34px;min-width:34px;border-radius:9px;font-size:12px;scroll-snap-align:center}
+  .hole-step-btn{width:34px;height:34px;min-width:34px;border-radius:9px;font-size:18px}
 }
-@media(max-width:640px){#holes{flex-wrap:wrap;width:300px;justify-content:center}.hb{width:27px;height:27px}}
+
+@media(max-width:480px){
+  #card .nm{display:none}
+}
 </style>
 </head>
 <body>
@@ -320,14 +481,69 @@ body.tour::before{top:0}body.tour::after{bottom:0}
   <div id="facts"></div>
 </div>
 
-<div class="panel" id="note"><b id="nnm">—</b><span id="ntx"></span></div>
+<div class="panel" id="note">
+  <div class="panel-head-bar">
+    <b id="nnm">—</b>
+    <button class="panel-close-btn" id="noteCloseBtn" aria-label="Stäng hålguide" title="Stäng">×</button>
+  </div>
+  <span id="ntx"></span>
+</div>
 
-<div class="panel" id="holes"></div>
-<div class="panel" id="mini"><canvas id="minic" width="360" height="360"></canvas></div>
+<div id="holesContainer" class="holes-wrap">
+  <button class="hole-step-btn" id="holePrevBtn" aria-label="Föregående hål" title="Föregående hål (P)">‹</button>
+  <div class="panel" id="holes"></div>
+  <button class="hole-step-btn" id="holeNextBtn" aria-label="Nästa hål" title="Nästa hål (N)">›</button>
+</div>
+
+<div class="panel" id="mini">
+  <div class="panel-head-bar mini-head">
+    <span class="mini-title">Banguide 2D</span>
+    <button class="panel-close-btn" id="miniCloseBtn" aria-label="Stäng karta" title="Stäng">×</button>
+  </div>
+  <canvas id="minic" width="360" height="360"></canvas>
+</div>
+
 <div id="hint">dra för att se dig omkring · rulla för att zooma</div>
-<button id="uiToggle">Vy · Ljus</button>
+
+<!-- Mobile HUD Quick Actions -->
+<div id="mobileHudBar" class="mobile-hud-cluster">
+  <button id="mobileNoteToggle" class="m-hud-btn" aria-label="Visa banguide">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+    <span>Guide</span>
+  </button>
+  <button id="mobileMiniToggle" class="m-hud-btn" aria-label="Visa 2D-karta">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+    <span>Karta</span>
+  </button>
+  <button id="uiToggle" class="m-hud-btn primary" aria-label="Vy och Ljus">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 9 9"></path></svg>
+    <span>Vy · Ljus</span>
+  </button>
+</div>
+
 <button id="cleanExit" title="visa panelerna">×</button>
-<div id="tourCard"><div class="tno">HÅL 1</div><div class="tnm">—</div><div class="ttx"></div></div>
+<div id="tourCard">
+  <div class="tour-hole-header">
+    <span class="tno">HÅL 1</span>
+    <div class="tour-pills">
+      <span class="tour-pill" id="tourPar">PAR 4</span>
+      <span class="tour-pill" id="tourDist">385 M</span>
+      <span class="tour-elev-pill" id="tourElev"></span>
+    </div>
+  </div>
+  <div class="tnm">—</div>
+  <div class="ttx"></div>
+  <div class="tour-progress-bar">
+    <div class="tour-progress-track">
+      <div class="tour-progress-fill" id="tourProgressFill"></div>
+    </div>
+    <div class="tour-progress-labels">
+      <span>TEE</span>
+      <span id="tourProgressDist">FLYGNING</span>
+      <span>GREEN</span>
+    </div>
+  </div>
+</div>
 <div class="panel" id="kikOut"></div>
 <div id="v2TerrainBadge" role="status" aria-live="polite" hidden><b></b><span></span></div>
 <div id="toast"></div>

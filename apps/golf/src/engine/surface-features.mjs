@@ -3,7 +3,9 @@
    survey-approved surface truth; callers that publish its output must retain
    that provenance in their descriptor. */
 
+import { smoothMownEdges } from './ring-smoothing.mjs';
 import { SURFACE } from './surface.js';
+import { withInferredTeePads } from './tee-pads.mjs';
 
 function validRings(value) {
   return (value || []).filter(ring => Array.isArray(ring) && ring.length >= 3);
@@ -22,9 +24,23 @@ function hardSurface(item) {
  * This intentionally has no Three.js dependency so Node compilers can produce
  * byte-stable preview surface tiles from the same migration geometry.
  */
-export function buildGroundSurfaceFeatures({ holes = [], model = {} } = {}) {
-  if (!Array.isArray(holes)) throw new TypeError('holes must be an array');
-  if (!model || typeof model !== 'object') throw new TypeError('model must be an object');
+export function buildGroundSurfaceFeatures({
+  holes: sourceHoles = [], model: sourceModel = {}, smoothEdges = false, inferTeePads = false,
+} = {}) {
+  if (!Array.isArray(sourceHoles)) throw new TypeError('holes must be an array');
+  if (!sourceModel || typeof sourceModel !== 'object') throw new TypeError('model must be an object');
+  /* The app infers its synthesised tee pads and smooths its mown edges IN
+     PLACE at boot, in that order, and then builds its atlas from the result,
+     so at runtime this must do neither again. A compiler reading a pack from
+     disk sees the raw rings and asks for the same treatment here, which is
+     what makes its raster the one the app draws. */
+  let holes = inferTeePads ? withInferredTeePads(sourceHoles) : sourceHoles;
+  let model = sourceModel;
+  if (smoothEdges) {
+    const smoothed = smoothMownEdges({ holes, scenery: sourceModel.scenery || {} });
+    holes = smoothed.holes;
+    model = { ...sourceModel, scenery: smoothed.scenery };
+  }
 
   const features = [];
   const rings = (surface, source, extra = {}) => {

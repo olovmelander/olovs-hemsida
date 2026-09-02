@@ -1,0 +1,50 @@
+{
+ "source": "Johannesberg's niohålsbana has no per-hole text anywhere: not on the live site, not in the 2019-2022 archive of the old site, not on any aggregator (research 2026-09-02). The club describes the nine only as a whole — 'Lite smalare fairways gör att du behöver vara noga med dina utslag', pay & play, open year-round on ordinary greens, 'Med ett par 5 hål och ett antal par 4 hål och par 3 hål' (johannesbergsgolf.se/vara-banor/) — and bobmenreport.com adds 'gott om utrymme om du inte slår rejält snett' and the red stakes that keep play moving. Every hole-specific statement below is therefore read off the model: the published GPS routes (18Birdies) that give each hole its line, and the DEM profile along it (tools/hole-geometry.mjs). Greens, fairways and tee pads are synthesised and no bunkers are known. `name` is an editorial tagline.",
+ "holes": {
+  "1": {
+   "name": "Uppför från start",
+   "note": "Rak par 4 som stiger hela vägen – tretton meter upp till green. Nians fairways är lite smalare än stora banans, så var noga med utslaget redan här.",
+   "tiers": 1
+  },
+  "2": {
+   "name": "Nedför mot sjön",
+   "note": "Kort par 4 rakt nedför, tolv meter ner mot en green som ligger alldeles intill sjön – vattnet är tätt inpå greenens vänstra sida.",
+   "tiers": 1
+  },
+  "3": {
+   "name": "Vid sjökanten",
+   "note": "Kort par 4 med sjön alldeles till höger om tee. Hålet viker vänster och spelas plant.",
+   "tiers": 1
+  },
+  "4": {
+   "name": "Brant korthål",
+   "note": "Nians kortaste hål, men brant uppför – elva meter upp till green. Ta gott om klubba.",
+   "tiers": 1
+  },
+  "5": {
+   "name": "Dogleg vänster",
+   "note": "Dogleg vänster som faller nedför mot green. Håll utslaget i fairway; röda pinnar markerar ruffen så att spelet flyter.",
+   "tiers": 1
+  },
+  "6": {
+   "name": "Dogleg höger",
+   "note": "Nians längsta par 4 och dess index 3: en dogleg höger med ett svagt fall ner mot green.",
+   "tiers": 1
+  },
+  "7": {
+   "name": "Sjön till vänster",
+   "note": "Rakt korthål med sjön strax till vänster om green.",
+   "tiers": 1
+  },
+  "8": {
+   "name": "Nians par 5",
+   "note": "Nians enda par 5 och dess index 1. Hålet svänger höger, med vatten till höger vid tee och en damm till vänster på vägen in mot green.",
+   "tiers": 1
+  },
+  "9": {
+   "name": "Hem uppför",
+   "note": "Avslutande korthål uppför, med vatten till vänster om tee. Greenen ligger bara ett par dussin meter från första tee, så slingan sluter sig.",
+   "tiers": 1
+  }
+ }
+}

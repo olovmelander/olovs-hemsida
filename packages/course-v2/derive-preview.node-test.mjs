@@ -33,7 +33,14 @@ test('a preview derived from it is a valid preview over the same ground', () => 
   /* The same ground means the same frame: a different origin would move every
      tile, so the derivation refuses rather than emitting a plausible lie. */
   assert.equal(descriptor.frame.fingerprint, graph.frame.fingerprint);
-  assert.deepEqual(descriptor.bounds, graph.bounds);
+  /* The graph is a world of rings and its bounds reach the horizon; the
+     preview describes the finest frontier, which is the course window,
+     to the height quantum of its own tiles. */
+  const finest = graph.tiles.filter(tile => tile.lod === 0);
+  const union = axis => Math[axis.startsWith('min') ? 'min' : 'max'](...finest.map(tile => tile.bounds[axis]));
+  for (const axis of ['minEasting', 'maxEasting', 'minNorthing', 'maxNorthing']) assert.equal(descriptor.bounds[axis], union(axis));
+  for (const axis of ['minHeightRH2000', 'maxHeightRH2000']) assert.ok(Math.abs(descriptor.bounds[axis] - union(axis)) <= 0.01, axis);
+  assert.ok(graph.bounds.maxEasting - graph.bounds.minEasting >= 2048);
   assert.equal(descriptor.bounds.maxEasting - descriptor.bounds.minEasting, 2048);
   assert.equal(descriptor.bounds.maxNorthing - descriptor.bounds.minNorthing, 2048);
   /* assets stay inside the descriptor's own directory, or the loader refuses */
@@ -55,6 +62,8 @@ test('the committed derivation matches what the tool produces now', () => {
   const target = path.join(GROUND, 'preview.json');
   if (!fs.existsSync(target)) return;   // not yet wired in
   const committed = JSON.parse(fs.readFileSync(target, 'utf8'));
-  const derived = derivePreviewFromGraph(publishedGraph(), { label: committed.label });
+  /* the tool reads the committed descriptor's heights and keeps them while
+     the tiles agree to the quantum, exactly as its command line does */
+  const derived = derivePreviewFromGraph(publishedGraph(), { label: committed.label, previousBounds: committed.bounds });
   assert.deepEqual(committed, derived);
 });

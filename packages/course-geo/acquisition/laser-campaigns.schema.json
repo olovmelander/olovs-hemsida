@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://olovs-hemsida.invalid/schema/laser-campaigns-v1.json",
+  "title": "Pinned Laserdata Skog campaign inventory for one physical ground",
+  "type": "object",
+  "required": [
+    "schemaVersion", "groundId", "groundName", "courseSlugs", "observedOn", "state",
+    "collection", "discovery", "terms", "aoi", "coverageRatio", "precedence",
+    "activeItemIds", "supersededItemIds", "seams", "activeOverlapBands", "items",
+    "origin", "groundBounds", "scanMetadata", "infoEvidence"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "groundId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "groundName": { "type": "string", "minLength": 1 },
+    "courseSlugs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } },
+    "observedOn": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "state": { "const": "pinned-campaign-inventory" },
+    "collection": { "const": "dsm-skoglig-copc" },
+    "discovery": { "type": "string", "format": "uri" },
+    "terms": {
+      "type": "object",
+      "required": ["documentId", "version", "effectiveFrom", "licence", "attribution", "url"],
+      "properties": { "attribution": { "type": "string", "minLength": 1 } }
+    },
+    "aoi": {
+      "type": "object",
+      "required": ["bboxWgs84", "bboxEpsg3006"],
+      "properties": {
+        "bboxWgs84": { "$ref": "#/$defs/bbox" },
+        "bboxEpsg3006": { "$ref": "#/$defs/bbox" }
+      }
+    },
+    "coverageRatio": { "type": "number", "minimum": 0, "maximum": 1 },
+    "precedence": { "type": "string", "minLength": 1 },
+    "activeItemIds": { "type": "array", "items": { "type": "string" } },
+    "supersededItemIds": { "type": "array", "items": { "type": "string" } },
+    "seams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "axis", "value", "from", "to", "items"],
+        "properties": {
+          "axis": { "enum": ["northing", "easting"] },
+          "value": { "type": "number" },
+          "items": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "string" } }
+        }
+      }
+    },
+    "activeOverlapBands": { "type": "array" },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id", "collection", "projBbox", "capturedAt", "captureStart", "captureEnd", "updatedAt",
+          "declaredPointDensityPerSquareMetre", "stacPcDensity", "stacPointCount", "assets",
+          "overlapBboxEpsg3006", "overlapSquareMetres", "overlapRatioOfAoi", "statistics",
+          "exclusiveSquareMetres", "role", "supersededBy", "excludedFromCanopy"
+        ],
+        "properties": {
+          "role": { "enum": ["active", "superseded"] },
+          "excludedFromCanopy": { "type": "boolean" },
+          "projBbox": { "$ref": "#/$defs/bbox" },
+          "overlapBboxEpsg3006": { "$ref": "#/$defs/bbox" }
+        }
+      }
+    },
+    "origin": { "type": ["object", "null"] },
+    "groundBounds": { "type": ["object", "null"] },
+    "scanMetadata": { "type": "array" },
+    "infoEvidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["itemId", "href", "bytes", "sha256", "expectedSha256", "checksumVerified", "elapsedMilliseconds"]
+      }
+    }
+  },
+  "$defs": {
+    "bbox": {
+      "type": "array",
+      "prefixItems": [
+        { "type": "number" }, { "type": "number" },
+        { "type": "number" }, { "type": "number" }
+      ],
+      "minItems": 4,
+      "maxItems": 4
+    }
+  }
+}

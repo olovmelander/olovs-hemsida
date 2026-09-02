@@ -1565,15 +1565,38 @@ Deliverables:
   isolation list no longer demands a separate chunk for the probe summariser:
   it has one importer, so where the bundler puts it is the bundler's business
   and only its absence from the flagless closure is ours.
-- [ ] Generic manifest-driven streaming-renderer activation. The graph now
-  resolves in the live app (root, course and ground manifests verified, exact
-  live-GPK1 fallback identity), but selection deliberately keeps rendering on
-  the frontier that passed the adapter contract. Activation needs the probe's
-  correctness result plus shell/active-hole timings from real hardware and the
-  same three-backend capture proof.
+- [x] Generic manifest-driven streaming-renderer activation — **for the
+  world graph, 2026-09-02.** Puttom's ground is now a ring-compiled quadtree
+  (`packages/course-v2/terrain-rings.mjs`, `puttom-ground-rings.mjs`): the
+  64 course tiles unchanged, then 2 m to 1.5 km, 4 m to 3 km, 8 m to 6 km and
+  16/32/64 m to a 16 km root, 193 tiles with explicit parents, cut from the
+  Lantmäteriet DTM in Node (`build-ground-rings.mjs`, 68 MB, 15 s). When the
+  published graph reaches past the pilot window, `engine/v2-graph-terrain.mjs`
+  drives `CourseV2TerrainRuntime` in the pilot's bridge as the ONLY terrain:
+  no legacy CORE, MID or FAR is built. Measured on hardware (WebGPU, RTX
+  3070): 129 ring tiles resident for construction in 1.7 s, 97 tiles in one
+  draw at the first frontier, boot 24–29 s, 29–42 tiles per view. The
+  activation found the streaming path's real blocker: the controller
+  released a resident ancestor once its children rendered, the next plan
+  asked for it again, and the instant pool answer starved every timer (see
+  `retainTileIds`). The first ring cut then showed three faults in one
+  evening's screenshots, each measured to its cause: tile-shaped "bright
+  plates" were holes (rings six tiles wide left coarse tiles half covered,
+  so refining them drew nothing over the other half; rings are whole
+  coarser tiles now and both compiler and runtime refuse otherwise), 32 m
+  ground beside the course was a frustum false positive (fixed by testing
+  in lattice space with the frustum clipped to the tile's height slab), and
+  lakes without water or with cones in them were levels measured against
+  the pilot window only (the rings now load before the model; laser-flat
+  water the pack never had gets tint, tree exclusion and a masked sheet).
+  WebGL2 and a phone remain to be captured.
 - [x] Height-sensitive camera, water, ball/interactions, surface and object
   placement migrated to the visible-ground sampler in the live app path.
-- [ ] Removal of full-course synchronous terrain mesh construction for v2.
+- [x] Removal of full-course synchronous terrain mesh construction for v2 —
+  **done in world mode (2026-09-02)**: with the ring graph serving, main.js
+  builds no CORE, MID or FAR at all; the fixed-frontier path below is kept
+  for a graph that only covers the course. The scoping notes that follow
+  are the record of why that was hard before the rings.
   **Scoped, and the blocker is not where it looks.** The legacy builder is one
   function, `buildTerrain`, run three times at boot for three complementary
   tiers: CORE at 4 m over the play area, MID at 12 m over the rest of the GPK1

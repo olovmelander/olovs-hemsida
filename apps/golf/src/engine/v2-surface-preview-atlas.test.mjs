@@ -66,6 +66,28 @@ describe('v2 surface preview atlas', () => {
     });
     expect(atlas.sampleAt(3, -2)).toMatchObject({ inBounds: true, surface: SURFACE.GREEN });
     expect(atlas.sampleAt(100, 100)).toMatchObject({ inBounds: false, surface: SURFACE.ROUGH });
+    expect(atlas.probeAt(3, -2)).toMatchObject({
+      inBounds: true,
+      representation: 'pair-sdf-v1',
+      surface: SURFACE.GREEN,
+      weightSum: 1,
+      weightError: 0,
+    });
+    expect(atlas.probeAt(100, 100)).toMatchObject({
+      inBounds: false,
+      representation: 'pair-sdf-v1',
+      surface: SURFACE.ROUGH,
+      weightSum: 1,
+      weightError: 0,
+    });
+    const west = atlas.probeAt(-1, -6);
+    const east = atlas.probeAt(0, -6);
+    const midpoint = atlas.probeAt(-0.5, -6);
+    expect(midpoint.signedDistanceMetres).toBeCloseTo(
+      (west.signedDistanceMetres + east.signedDistanceMetres) / 2,
+      10,
+    );
+    expect(midpoint.weights.reduce((sum, item) => sum + item.weight, 0)).toBeCloseTo(1, 12);
     atlas.dispose();
   });
 

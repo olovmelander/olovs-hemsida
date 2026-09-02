@@ -142,7 +142,7 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
   });
   try {
     const query = new URLSearchParams({
-      bana: 'puttom', v2: '1', det: '1', q: quality,
+      bana: 'puttom', v2: 'require', det: '1', q: quality,
       hal: '1', vy: 'ovan', ljus: 'dag', skylt: '0',
     });
     if (backend === 'webgl2') query.set('gl', '1');
@@ -188,6 +188,14 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
         state.v2.renderer.drawCalls !== 1) {
       throw new Error(`real app did not retain the verified ${expectedTiles}-tile one-draw preview`);
     }
+    const singleTerrainSurfacePassed = state.v2.courseSurfaceOverlayMeshes === 0 &&
+      state.stats.surfaceOverlays === 0;
+    if (!singleTerrainSurfacePassed) {
+      throw new Error(
+        `${caseId} created ${state.v2.courseSurfaceOverlayMeshes ?? state.stats.surfaceOverlays ?? 'unknown'} ` +
+        'course-surface overlay meshes on ready v2 terrain',
+      );
+    }
     const liveAdapterPassed = state.v2.adapter?.kind === 'fixed-frontier' &&
       state.v2.adapter.phase === 'ready' && state.v2.adapter.requested === true &&
       state.v2.adapter.sourceReady === true && state.v2.adapter.preflightReady === true &&
@@ -200,7 +208,7 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
        manifest and the exact live GPK1 fallback identity — and still render
        from the frontier that passed the adapter contract. */
     const selectionPassed = state.v2.selection?.mode === 'fixed-frontier' &&
-      state.v2.selection.requestMode === 'opt-in' &&
+      state.v2.selection.requestMode === 'require' &&
       state.v2.selection.graphError === null &&
       state.v2.selection.publishedGraphSlugs?.includes('puttom') === true &&
       state.v2.selection.graph?.slug === 'puttom' &&
@@ -216,11 +224,17 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
       throw new Error(
         `real app did not retain the bound ${expectedSurfaceTiles}-tile provisional surface frontier`);
     }
+    /* the per-class representation is what the remediation plan ships; a
+       pair atlas here means the loader silently took the old format */
+    if (state.v2.surfaceRepresentation !== 'class-sdf-v1') {
+      throw new Error(`real app is drawing surfaces as ${state.v2.surfaceRepresentation}, not class-sdf-v1`);
+    }
     const presentClasses = new Set((state.v2.surface.classes || [])
       .filter(item => Number.isSafeInteger(item?.count) && item.count > 0).map(item => item.id));
     const missingClasses = PUTTOM_PREVIEW_REQUIRED_SURFACE_CLASSES
       .filter(({ id }) => !presentClasses.has(id)).map(({ label }) => label);
     if (missingClasses.length) throw new Error(`surface frontier is missing ${missingClasses.join(', ')}`);
+    const surfaceEvidencePassed = missingClasses.length === 0;
     const expectedCutout = PUTTOM_PREVIEW_CONFIG.legacyCoreCutout;
     const expectedCore = expectedCutout.expectedCoreGrid;
     const actualCore = state.v2.renderer?.coreGrid;
@@ -308,7 +322,8 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
       performanceEvidence: false, lighting: 'noon', cameraMode: state.camera.mode,
       appImage, appPixels, presentationImage, presentationPixels, canvasPresentationVisible,
       image: acceptedImage, pixels: acceptedPixels, captureMethod, acceptedFrameVisible,
-      sceneReadbackPassed, readbackEvidence, surfaceEvidencePassed: true,
+      sceneReadbackPassed, readbackEvidence, surfaceEvidencePassed,
+      singleTerrainSurfacePassed,
       legacyCoreCutoutPassed, liveAdapterPassed, selectionPassed,
       v2: state.v2, app: state.stats,
       boot: state.perf, sampledFps: state.fps, badge: state.badge,

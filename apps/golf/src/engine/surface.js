@@ -32,12 +32,14 @@ export const SURFACE_PRIORITY = [
   SURFACE.SAND,
   SURFACE.GREEN,
   SURFACE.TEE,
-  SURFACE.FRINGE,
-  SURFACE.FAIRWAY,
-  SURFACE.SEMI,
+  /* a road or cart path cuts through mown grass: where its band meets a
+     fairway, semi or collar the player sees gravel, as on the ground */
   SURFACE.PATH,
   SURFACE.ASPHALT,
   SURFACE.GRAVEL,
+  SURFACE.FRINGE,
+  SURFACE.FAIRWAY,
+  SURFACE.SEMI,
   SURFACE.DIRT,
   SURFACE.MUD,
   SURFACE.WETLAND,
@@ -59,6 +61,37 @@ export const EDGE_WIDTHS = {
   FAIRWAY_FALLOFF: 5.0,
   PATH_MARGIN: 1.2,
 };
+
+/* Physical half-width, in metres, of the blend between a class and whatever
+   it meets, for the per-class SDF material: weight_i = smoothstep(-w, w, sdf_i)
+   with w = max(this, the screen-space antialiasing width). The width of a
+   PAIR is the wider of its two classes. One table, read by both the shader
+   and the CPU probe, so the two can never disagree about an edge. A cut edge
+   (green, tee, sand) is sharp; a mown-into-rough edge is soft. */
+export const SURFACE_TRANSITION_WIDTH_METRES = Object.freeze({
+  [SURFACE.ROUGH]: 0.30,
+  [SURFACE.SEMI]: 0.30,
+  [SURFACE.FAIRWAY]: 0.25,
+  [SURFACE.FRINGE]: 0.20,
+  [SURFACE.GREEN]: 0.16,
+  [SURFACE.TEE]: 0.16,
+  [SURFACE.SAND]: 0.18,
+  [SURFACE.PATH]: 0.20,
+  [SURFACE.FOREST]: 0.45,
+  [SURFACE.HEATH]: 0.45,
+  [SURFACE.SHORE]: 0.40,
+  [SURFACE.WETLAND]: 0.45,
+  [SURFACE.ROCK]: 0.25,
+  [SURFACE.ASPHALT]: 0.16,
+  [SURFACE.GRAVEL]: 0.22,
+  [SURFACE.DIRT]: 0.30,
+  [SURFACE.MUD]: 0.35,
+});
+export const SURFACE_TRANSITION_WIDTH_DEFAULT_METRES = 0.22;
+
+export function surfaceTransitionWidthMetres(surfaceId) {
+  return SURFACE_TRANSITION_WIDTH_METRES[surfaceId] ?? SURFACE_TRANSITION_WIDTH_DEFAULT_METRES;
+}
 
 export function createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distToLine, smooth }) {
   return function classify(x, z) {
@@ -107,7 +140,9 @@ export function createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distTo
       for (const v of VI.at(x, z)) {
         if (v.kind === 'forest' || v.kind === 'wood' || v.kind === 'scrub') {
           const sd = ringSD(x, z, v.ring);
-          if (sd < 2) forest = Math.max(forest, 1 - smooth(-6, 2, sd));
+          /* a 12 m ramp into the stand: a forest edge is a fringe of thinning
+             trees and litter, not a line, and an 8 m one drew the line */
+          if (sd < 2) forest = Math.max(forest, 1 - smooth(-10, 2, sd));
         } else if (v.kind === 'sand') {
           const sd = ringSD(x, z, v.ring);
           if (sd < 0.5) sand = Math.max(sand, 1 - smooth(-0.9, 0.5, sd));

@@ -7,6 +7,15 @@ export const SURFACE_PREVIEW_KIND = 'banvy-surface-preview-v1';
 export const SURFACE_PREVIEW_PROVISIONAL_REASON = 'migration-vectors-not-survey-approved';
 export const SURFACE_PREVIEW_SOURCE_KIND = 'gpk1-vector-migration-v1';
 export const MAX_SURFACE_PREVIEW_TILES = 64;
+/* pair-sdf-v1: two nearest ids and one signed distance per sample (the
+   original preview). class-sdf-v1: one exact signed distance per non-rough
+   class, blended in the terrain material. The descriptor names which so the
+   runtime builds the matching atlas and shader rather than inferring it. */
+export const SURFACE_REPRESENTATIONS = Object.freeze(['pair-sdf-v1', 'class-sdf-v1']);
+/* The coordinate a fragment presents to sample the raster: the legacy pack
+   world through a translation-only bridge (migration vectors), or canonical
+   EPSG:3006 offsets from the frame origin (surveyed sources). */
+export const SURFACE_SAMPLING_FRAMES = Object.freeze(['legacy-bridge', 'canonical']);
 
 const TILE_ID = /^l(?:0|[1-9][0-9]*)\/(?:0|[1-9][0-9]*)\/(?:0|[1-9][0-9]*)$/;
 const SHA256 = /^[a-f0-9]{64}$/;
@@ -45,9 +54,16 @@ export function validateSurfacePreview(value) {
   if (!object(value)) return ['surfacePreview: must be an object'];
   exactKeys(value, new Set([
     'schemaVersion', 'kind', 'provisional', 'provisionalReason', 'label',
-    'terrainDescriptorSha256', 'frameFingerprint', 'source', 'unmeasuredFields', 'tiles',
+    'terrainDescriptorSha256', 'frameFingerprint', 'representation', 'samplingFrame',
+    'source', 'unmeasuredFields', 'tiles',
   ]), at, fail);
   if (value.schemaVersion !== 1) fail(`${at}.schemaVersion`, 'must be 1');
+  if (!SURFACE_REPRESENTATIONS.includes(value.representation)) {
+    fail(`${at}.representation`, `must be one of ${SURFACE_REPRESENTATIONS.join(', ')}`);
+  }
+  if (!SURFACE_SAMPLING_FRAMES.includes(value.samplingFrame)) {
+    fail(`${at}.samplingFrame`, `must be one of ${SURFACE_SAMPLING_FRAMES.join(', ')}`);
+  }
   if (value.kind !== SURFACE_PREVIEW_KIND) fail(`${at}.kind`, `must be ${SURFACE_PREVIEW_KIND}`);
   if (value.provisional !== true) fail(`${at}.provisional`, 'must remain true');
   if (value.provisionalReason !== SURFACE_PREVIEW_PROVISIONAL_REASON) {

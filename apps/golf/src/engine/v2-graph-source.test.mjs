@@ -48,6 +48,14 @@ describe('resolvePublishedGraph', () => {
       resolved.ground.shell.bytes +
       resolved.ground.tiles.reduce((sum, tile) => sum + tile.layers.terrain.bytes, 0),
     );
+    /* the synthetic ground declares a surface on both tiles and an object
+       registry on one; the summary must count them so selection can gate on
+       object layers before any renderer exists */
+    expect(resolved.summary.surfaceTiles).toBe(2);
+    expect(resolved.summary.objectTiles).toBe(1);
+    expect(resolved.summary.encodedObjectBytes).toBe(
+      resolved.ground.tiles.find(tile => tile.layers.objects).layers.objects.bytes,
+    );
     expect(fetched).toHaveLength(3);
     expect(fetched.some(url => url.endsWith('.bvch'))).toBe(false);
   });

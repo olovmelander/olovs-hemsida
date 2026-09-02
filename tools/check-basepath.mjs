@@ -127,12 +127,14 @@ const pilot = await v.evaluate(() => {
   return t ? {
     status: t.status, reason: t.reason, tiles: t.source?.renderedTiles ?? 0,
     surface: t.surface?.tileCount ?? 0, draws: t.renderer?.drawCalls ?? null,
+    surfaceOverlays: t.courseSurfaceOverlayMeshes ?? null,
   } : null;
 });
 gate(pilot?.status === 'ready',
   `the v2 pilot loads under the base: ${JSON.stringify(pilot)}`);
-gate(pilot?.tiles === 64 && pilot?.surface === 30 && pilot?.draws === 1,
-  `and renders 64 terrain + 30 surface tiles in one draw`);
+gate(pilot?.tiles === 64 && pilot?.surface === 30 && pilot?.draws === 1 &&
+     pilot?.surfaceOverlays === 0,
+  `and renders 64 terrain + 30 surface tiles in one draw with zero surface overlays`);
 gate(v404.length === 0, `no 404 on the pilot's own chunks${v404.length ? `: ${v404.slice(0, 3).join(', ')}` : ''}`);
 await v.close();
 

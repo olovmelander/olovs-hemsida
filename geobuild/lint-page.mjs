@@ -38,8 +38,11 @@ fs.writeFileSync(cfg, `export default [{
 }];\n`);
 
 try {
-  execFileSync('npx', ['--yes', 'eslint', '--config', cfg, body], { stdio: 'inherit', cwd: ROOT });
+  /* npx is npx.cmd on Windows, which Node refuses to spawn without a shell; before this
+     the catch below swallowed that EINVAL and the gate exited 1 with no message. */
+  execFileSync('npx', ['--yes', 'eslint', '--config', cfg, body], { stdio: 'inherit', cwd: ROOT, shell: process.platform === 'win32' });
   console.log('no-undef clean: ' + path.basename(page));
-} catch {
+} catch (e) {
+  if (!/Command failed/.test(String(e.message))) console.error('lint-page: ' + e.message.split(String.fromCharCode(10))[0]);
   process.exit(1);
 }

@@ -1,94 +1,128 @@
 {
- "source": "Club hole-plan tips and directory prose gathered by the research pass.",
+ "source": "Per-hole notes condensed from the club's own banguide: the 2026 hole plans on johannesbergsgolf.se/vara-banor/banguide/ (Bana-1.jpg … Bana-18.jpg, uploaded March 2026), whose SPELTIPS paragraph is the club's only per-hole text and is kept verbatim under `club`; the 'Bansträckning' prose on johannesbergsgolf.se/vara-banor/ where it names a hole (`prose`); and the club's Lokala regler 2024 (palisades on 1 and 18, the endless red area left of 3 to the bridge, the boar fence left of 5/7/8/9/10, the bell on 12, the cairns on 4 and 14, 'berget' on 18). Sides, bends and rise were checked against the model's line geometry and the DEM profile (tools/hole-geometry.mjs): the 10th really drops 16 m from its tee, the 7th climbs 12 m, the 5th has the hollow the local rule warns about. Two places where the club and the model disagree are avoided in the notes: the club calls the 11th straight while the traced line bends right, and the 18th's fairway-crossing hazard lies 9 m off the modelled line. `name` is an editorial tagline; the club names no holes and marks only the 18th as 'Signaturhål'. Card: the 2026 plans agree with card.json in all 144 cells; aggregators still carry the older rated card (9 Vit 173, 16 Vit 452, 18 Röd 447/Orange 360). Research 2026-09-02.",
  "holes": {
   "1": {
-   "name": null,
-   "note": "Par 4, index 17, 273 m from vit — a short, gentle opener, and the castle is \"endast 100 meter från första tee\". WATER: a pond hard on the RIGHT of the fairway, roughly 80–130 m short of the green. SPELTIPS: \"Cirka 210 meter mitt i fairway ger bäst inspelsvinkel. Green är djup och lutar mot framkant, lätt att slå för kort.\" Deep green leaning toward its front edge; easy to come up short. Tee pads: vit 273, gul+blå 262, röd+orange 220.",
+   "name": "Trevlig öppning",
+   "note": "Trevlig, kort öppning som viker vänster, med en damm till höger om fairway och två bunkrar vänster om green. Cirka 210 meter mitt i fairway ger bästa inspelsvinkeln. Greenen är djup och lutar mot framkanten – lätt att slå för kort.",
+   "club": "Cirka 210 meter mitt i fairway ger bäst inspelsvinkel. Green är djup och lutar mot framkant, lätt att slå för kort.",
+   "prose": "Banan öppnar med två trevliga par 4:or, inte allt för svåra och övergår sen i en utmanade par 5:a.",
    "tiers": 1
   },
   "2": {
-   "name": null,
-   "note": "Par 4, index 11, 344 m. WATER DOWN THE ENTIRE LEFT SIDE up to the green; OB down the RIGHT. SPELTIPS: \"Från gul tee, sikta över tallen mot höger sida av fairway, slå max 200 meter så undviker du vatten. Även denna green lutar emot.\" Note the named aiming tree — a pine (tallen) — carried from the yellow tee. Green leans toward the front. Gul and blå share a pad at 323.",
+   "name": "Över tallen",
+   "note": "Dogleg höger med vatten längs vänstersidan ända fram till green och out of bounds vid vägen till vänster. Sikta över tallen mot fairways högra sida och slå högst 200 meter, så undviker du vattnet. Även denna green lutar mot dig.",
+   "club": "Från gul tee, sikta över tallen mot höger sida av fairway, slå max 200 meter så undviker du vatten. Även denna green lutar emot.",
    "tiers": 1
   },
   "3": {
-   "name": null,
-   "note": "Par 5, index 7, 492 m — THE LONGEST HOLE ON THE COURSE. The green sits on a PENINSULA across water, reached by a BRIDGE. OB right. SPELTIPS: \"Det är långt över vattnet mot greenen. Ta till klubba, det är inga hinder bakom den platta greenen. Är du osäker, spela fram dig mot bron.\" The green is FLAT with no trouble behind it. Blå and röd share a pad at 391. Along with 18 this is the most photogenic hole on the property.",
+   "name": "Halvön",
+   "note": "Banans längsta hål, med out of bounds till höger och ett oändligt pliktområde till vänster ända fram till bron. Greenen ligger på en halvö bortom vattnet: ta till klubba, det finns inga hinder bakom den platta greenen – eller lägg upp mot bron.",
+   "club": "Det är långt över vattnet mot greenen. Ta till klubba, det är inga hinder bakom den platta greenen. Är du osäker, spela fram dig mot bron.",
+   "prose": "…övergår sen i en utmanade par 5:a.",
    "tiers": 1
   },
   "4": {
-   "name": null,
-   "note": "Par 4, index 1, 431 m — the hardest hole and the longest par 4. OB on the LEFT. Five distinct tee pads, the only hole with no shared pad. SPELTIPS: \"Index 1, med all rätt! Långt, men svårigheterna finns runt och på den limpliknande greenen, som är djup och lutar emot. Undvik nedförsputtar.\" The green is loaf-shaped (limpliknande), deep, leaning toward the front — the difficulty is at the green, not off the tee.",
+   "name": "Index 1",
+   "note": "Index 1 med all rätt: banans längsta par 4, uppför mot green, med out of bounds till vänster. Svårigheterna finns runt och på den limpliknande greenen – djup, lutande mot dig och vaktad av bunkrar till höger. Undvik nedförsputtar.",
+   "club": "Index 1, med all rätt! Långt, men svårigheterna finns runt och på den limpliknande greenen, som är djup och lutar emot. Undvik nedförsputtar.",
+   "prose": "De två följande par 4:orna kan spelas på många olika sätt, speciellt om vinden är ogynnsam.",
    "tiers": 1
   },
   "5": {
-   "name": null,
-   "note": "Par 4, index 3, 393 m — third-hardest. The corridor bends LEFT along a treeline. SPELTIPS: \"Kolla avstånden i banguiden, för att hitta rätt linje på utslaget. Greenen lutar ifrån och åt höger, vilket gör pitchar och chippar kort om green kniviga. Ta till klubba på inspelet!\" Unusually, this green leans AWAY from the player and to the right — the only one described that way. Blå and röd share a pad at 326.",
+   "name": "Runt granarna",
+   "note": "Svänger kraftigt vänster runt en granridå, med en svacka i fairway där bollen framför kan gömma sig. Hitta rätt linje på utslaget. Greenen lutar ifrån dig och åt höger, så pitchar och chippar kort om green är kniviga – ta till klubba på inspelet.",
+   "club": "Kolla avstånden i banguiden, för att hitta rätt linje på utslaget. Greenen lutar ifrån och åt höger, vilket gör pitchar och chippar kort om green kniviga. Ta till klubba på inspelet!",
    "tiers": 1
   },
   "6": {
-   "name": null,
-   "note": "Par 3, index 9, 190 m — the LONGEST PAR 3 on the card, and the orange tee at 73 m is the shortest tee shot anywhere on it. Club text: \"ett korthål med högt utslag, här är vindriktningen en faktor vid val av klubba\" — ELEVATED TEE, wind-exposed. SPELTIPS: \"Svackan mellan dungen och greenen syns inte från tee, hålet ser kortare ut än vad det är.\" There is a HIDDEN DIP between a copse (dungen) and the green that is invisible from the tee — a real terrain feature to model, since it is the point of the hole. Blå and röd share a pad at 143.",
+   "name": "Dold svacka",
+   "note": "Banans längsta korthål, med högt utslag där vinden avgör klubbvalet. Svackan mellan dungen och greenen syns inte från tee, så hålet ser kortare ut än det är. Bunkrar vaktar green på båda sidor, och kiosken väntar efter hålet.",
+   "club": "Svackan mellan dungen och greenen syns inte från tee, hålet ser kortare ut än vad det är.",
+   "prose": "Hål nr 6 är ett korthål med högt utslag, här är vindriktningen en faktor vid val av klubba.",
    "tiers": 1
   },
   "7": {
-   "name": null,
-   "note": "Par 5, index 5, 469 m. The hole curves and the second shot must clear trees. SPELTIPS: \"Om du inte slår förbi gattet är bästa linjen vänstra delen av fairway, för att lättare komma över träden på andraslaget. Greenen är smal och lutar emot, det enda lätta närspelsslaget är från kort om green.\" Note \"gattet\" — a gap/gate in the trees the drive can be hit past. Narrow green leaning toward the front. Blå and röd share a pad at 400.",
+   "name": "Gattet",
+   "note": "Par 5 som svänger höger och stiger tolv meter upp mot green. Når du inte förbi gattet är vänstra delen av fairway bästa linjen, så att andraslaget lättare går över träden. Greenen är smal och lutar mot dig – det enda lätta närspelet är från kort om green.",
+   "club": "Om du inte slår förbi gattet är bästa linjen vänstra delen av fairway, för att lättare komma över träden på andraslaget. Greenen är smal och lutar emot, det enda lätta närspelsslaget är från kort om green.",
+   "prose": "Fortsättningen hål 7 (par 5) och hål 8 (par 4, dogleg vänster) kräver precisa utslag.",
    "tiers": 1
   },
   "8": {
-   "name": null,
-   "note": "Par 4, index 13, 355 m — THE ONLY HOLE THE CLUB CALLS A DOGLEG: \"par 4, dogleg vänster\". A spruce wood fills the inside of the left corner. SPELTIPS: \"Sneddar du över skogen blir hålet kortare, men det står fler höga granar en bit bakom dem som syns från tee… Gott om utrymme till höger!\" There are TALLER SPRUCES hidden behind the ones visible from the tee — the tree heights on the corner must be graded, not uniform. Plenty of room right. Blå and röd share a pad at 299.",
+   "name": "Dogleg vänster",
+   "note": "Dogleg vänster från banans högsta tee. Sneddar du över skogen blir hålet kortare, men bakom granarna du ser från tee står fler och högre – och det finns gott om utrymme till höger. Bunker höger om fairway och vid green.",
+   "club": "Sneddar du över skogen blir hålet kortare, men det står fler höga granar en bit bakom dem som syns från tee… Gott om utrymme till höger!",
+   "prose": "hål 8 (par 4, dogleg vänster)",
    "tiers": 1
   },
   "9": {
-   "name": null,
-   "note": "Par 3, index 15, 172 m (rated card says 173). Club text: \"ett korthål med upphöjd green\" — ELEVATED GREEN. SPELTIPS: \"Sikta på vänster kant av bunkern. Greenen lutar emot, slår du för långt har du ett tufft inspel nedför.\" A BUNKER is the aiming reference, so at least one bunker is prominent and visible from the tee. The dark left margin on the plan is FOLIAGE, not water. Blå and röd share a pad at 122.",
+   "name": "Upphöjd green",
+   "note": "Korthål till en upphöjd green, banans högst belägna. Sikta på vänster kant av bunkern framför green till höger. Greenen lutar mot dig, och slår du för långt väntar ett tufft inspel nedför.",
+   "club": "Sikta på vänster kant av bunkern. Greenen lutar emot, slår du för långt har du ett tufft inspel nedför.",
+   "prose": "Hål 9 ett korthål med upphöjd green.",
    "tiers": 1
   },
   "10": {
-   "name": null,
-   "note": "Par 4, index 8, 411 m — the widest vit-to-orange spread on the card (222 m). Club text: \"med tee högt placerat ger möjlighet för riktigt långt slående att komma nära greenen med sina två nivåer\" — ELEVATED TEE, drivable-ish for long hitters. OB on the LEFT. SPELTIPS: \"Vänster sida av fairway ger lättare inspel. Greenen har två platåer och är ganska lurig!\" TWO-TIER GREEN. Blå and röd share a pad at 299.",
+   "name": "Från höjden",
+   "note": "Utslag från ett högt tee, sexton meter ner mot green, som lockar den riktigt långtslående att komma nära. Vänster sida av fairway ger lättare inspel, men out of bounds ligger till vänster vid green. Greenen har två platåer och är ganska lurig.",
+   "club": "Vänster sida av fairway ger lättare inspel. Greenen har två platåer och är ganska lurig!",
+   "prose": "Hål 10 par 4 , med tee högt placerat ger möjlighet för riktigt långt slående att komma nära greenen med sina två nivåer.",
    "tiers": 1
   },
   "11": {
-   "name": null,
-   "note": "Par 4, index 16, 344 m. STRAIGHT hole with an ANGLED green. SPELTIPS: \"Hålet är rakt men greenen är vinklad, så håll till vänster från tee. Placera inspelet lite kort och till vänster om hålet. Motsatsen ger grymt snabba puttar!\" NEGATIVE FINDING: the long dark strip down the RIGHT is a SPRUCE TREELINE, not water — confirmed at 1.7× zoom, and no water is mentioned in the tips. Gul+blå share a pad at 312, röd+orange at 288. The plan image filename is lowercase (bana-11.jpg).",
+   "name": "Vinklad green",
+   "note": "Kort par 4 med en granridå längs högersidan. Greenen är vinklad, så håll till vänster från tee och placera inspelet lite kort och till vänster om hålet – motsatsen ger grymt snabba puttar.",
+   "club": "Hålet är rakt men greenen är vinklad, så håll till vänster från tee. Placera inspelet lite kort och till vänster om hålet. Motsatsen ger grymt snabba puttar!",
+   "prose": "Hål 11 , kort par 4",
    "tiers": 1
   },
   "12": {
-   "name": null,
-   "note": "Par 4, index 6, 374 m — the most strategically interesting drive on the course. Club text: \"med sitt utslag högt över fairway och med dungen mitt i slagriktningen kräver ett strategiskt val. Gå över dungen eller slå ett säkert slag ner på fairway till höger?\" ELEVATED TEE over a COPSE SITTING IN THE MIDDLE OF THE LINE. SPELTIPS: \"Kan du flyga bollen minst 175 m från gul tee / 150 m från röd tee, sikta lite vänster om stora björken. Greenen är ganska liten och lutar emot, högerdelen även åt höger. Ring i klockan!\" A NAMED LANDMARK TREE — stora björken, the big birch — plus a BELL at the green (",
+   "name": "Över dungen?",
+   "note": "Dogleg vänster med högt utslag och en dunge mitt i slaglinjen. Bär du 175 meter från gul tee, sikta lite vänster om stora björken; annars säkert ner på fairway till höger. Liten green som lutar mot dig. Ring i klockan när ni passerat!",
+   "club": "Kan du flyga bollen minst 175 m från gul tee / 150 m från röd tee, sikta lite vänster om stora björken. Greenen är ganska liten och lutar emot, högerdelen även åt höger. Ring i klockan!",
+   "prose": "Hål 12 med sitt utslag högt över fairway och med dungen mitt i slagriktningen kräver ett strategiskt val. Gå över dungen eller slå ett säkert slag ner på fairway till höger?",
    "tiers": 1
   },
   "13": {
-   "name": null,
-   "note": "Par 3, index 18, 154 m — the EASIEST hole, and the halfway KIOSK is at this green (\"korthål mot kiosken\"). Only TWO tee pads on the whole hole: vit+gul 154, blå+röd+orange 103. SPELTIPS: \"Kan vara svårt att känna vinden från tee. Den smala greenen gör att man ibland försöker styra iväg bollen, men det blir sällan bra… Slappna av och svinga loss!\" NARROW green, sheltered tee but exposed flight — a wind hole.",
+   "name": "Mot kiosken",
+   "note": "Korthål nedför mot kiosken, utmanande nog när vinden ligger på – och den är svår att känna från tee. Den smala greenen, med bunker framför till vänster, lockar till att styra bollen, men det blir sällan bra. Slappna av och svinga loss!",
+   "club": "Kan vara svårt att känna vinden från tee. Den smala greenen gör att man ibland försöker styra iväg bollen, men det blir sällan bra… Slappna av och svinga loss!",
+   "prose": "Hål 13, korthål mot kiosken kan vara utmanande nog när vinden ligger på.",
    "tiers": 1
   },
   "14": {
-   "name": null,
-   "note": "Par 4, index 12, 355 m. One of the two holes that run \"ut över heden\" — out across the open, wind-exposed heath. SPELTIPS: \"Utslaget är lite diffust, men var noga med siktet. Greenen är lätt upphöjd, ta till klubba i motvind.\" The tee shot has no clear framing (\"diffust\") — an open, featureless drive, which is itself the modelling brief. Slightly RAISED green. Gul and blå share a pad at 316.",
+   "name": "Ut över heden",
+   "note": "Här går banan ut över heden och vinden spelar in. Utslaget är lite diffust, så var noga med siktet; hålet viker svagt höger mot en lätt upphöjd green utan bunkrar. Ta till klubba i motvind.",
+   "club": "Utslaget är lite diffust, men var noga med siktet. Greenen är lätt upphöjd, ta till klubba i motvind.",
+   "prose": "Hål 14 & 15( båda par 4) går ut över heden även här spelar vinden in.",
    "tiers": 1
   },
   "15": {
-   "name": null,
-   "note": "Par 4, index 2, 381 m — SECOND-HARDEST. The other heath hole. SPELTIPS: \"Spikrakt hål, gott om utrymme från green.\" DEAD STRAIGHT with plenty of room — the simplest geometry on the course, and its difficulty comes from length and exposure, not shape. Röd and orange share a pad at 273 (GolfPass alone dissents; see card note).",
+   "name": "Spikrakt",
+   "note": "Spikrakt par 4 över heden och banans näst svåraste – här är det längden och vinden som utmanar, inte formen. Gott om utrymme, men två bunkrar vaktar green på var sida.",
+   "club": "Spikrakt hål, gott om utrymme från green.",
+   "prose": "Hål 14 & 15( båda par 4) går ut över heden även här spelar vinden in.",
    "tiers": 1
   },
   "16": {
-   "name": null,
-   "note": "Par 5, index 10, 441 m from both vit and gul on the current club card. Club text: \"par 5 som från gul och vit tee kräver ett utslag över kohagen kan i motvind vara en riktig utmaning men vid gynnsamma vindar en birdie möjlighet för många.\" A CARRY OVER THE COW PASTURE (kohagen) from the two back tees — so a fenced grazing enclosure is part of the scene, not decoration. OB on the RIGHT. SPELTIPS: \"Ju mer du sneddar över hagen, desto kortare kvar, men från höger ruff är greenen svårträffad. Greenen lutar emot och åt vänster, så inspel slås lättast från vänstra delen av fairway.\" Has its own SIKT",
+   "name": "Över kohagen",
+   "note": "Från gul och vit tee går utslaget över kohagen – tufft i motvind, birdiechans i medvind. Ju mer du sneddar, desto kortare kvar, men out of bounds och svår ruff väntar till höger. Greenen lutar mot dig och åt vänster: spela in från vänstra delen av fairway.",
+   "club": "Ju mer du sneddar över hagen, desto kortare kvar, men från höger ruff är greenen svårträffad. Greenen lutar emot och åt vänster, så inspel slås lättast från vänstra delen av fairway.",
+   "prose": "Hål 16 , par 5 som från gul och vit tee kräver ett utslag över kohagen kan i motvind vara en riktig utmaning men vid gynnsamma vindar en birdie möjlighet för många.",
    "tiers": 1
   },
   "17": {
-   "name": null,
-   "note": "Par 3, index 14, 168 m — \"kort korthål, vatten till höger\". WATER right of AND BEHIND the green, with a GRASS BANK running down into it. SPELTIPS: \"Greenen lutar till höger och mot framkanten. Grässlänten ner mot vattnet till höger stoppar sällan bollen, och chippar från vänster bara rullar och rullar. Träffa green!\" The bank rarely stops a ball — a slope that must be modelled steeply enough to read as a feeder into the pond. Gul+blå share a pad at 131, röd+orange at 102 (GolfPass alone dissents; see card note).",
+   "name": "Träffa green",
+   "note": "Kort korthål med vatten till höger om och bakom green. Greenen lutar åt höger och mot framkanten; grässlänten ner mot vattnet stoppar sällan bollen, och chippar från vänster bara rullar och rullar. Träffa green!",
+   "club": "Greenen lutar till höger och mot framkanten. Grässlänten ner mot vattnet till höger stoppar sällan bollen, och chippar från vänster bara rullar och rullar. Träffa green!",
+   "prose": "Hål 17, kort korthål, vatten till höger.",
    "tiers": 1
   },
   "18": {
-   "name": null,
-   "note": "Par 5, index 4, 475 m — THE SIGNATURE HOLE, the only plan carrying the \"Signaturhål · JOHANNESBERG GOLF\" laurel badge. Club text: \"avslutningshålet med ett högt placerat tee (gul & vit) ställer krav på både strategi och precision\" — ELEVATED TEE for vit and gul. A LAKE down the LEFT flank, a WATER HAZARD CROSSING the fairway, and OB on the LEFT. SPELTIPS: \"Sikta mot den vänstra flaggstången vid klubbhuset. Slår du mer till höger hamnar du i kortruffen. Se dock upp med vattenhindret som korsar fairway. Slår du kortare än 200 m från gul tee / 125 m från röd tee, sikta på fairway till vänster om ",
+   "name": "Signaturhålet",
+   "note": "Signaturhålet: högt tee, sjön till vänster och ett vattenhinder tvärs över fairway. Sikta mot vänstra flaggstången vid klubbhuset; når du inte 200 meter från gul tee, sikta vänster om berget. Greenen lutar åt vänster och mot framkanten.",
+   "club": "Sikta mot den vänstra flaggstången vid klubbhuset. Slår du mer till höger hamnar du i kortruffen. Se dock upp med vattenhindret som korsar fairway. Slår du kortare än 200 m från gul tee / 125 m från röd tee, sikta på fairway till vänster om berget. Greenen lutar åt vänster, främre delen även mot framkant.",
+   "prose": "Hål 18 (par5), avslutningshålet med ett högt placerat tee (gul &vit) ställer krav på både strategi och precision.",
    "tiers": 1
   }
  }

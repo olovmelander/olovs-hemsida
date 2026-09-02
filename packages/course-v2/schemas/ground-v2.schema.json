@@ -33,6 +33,7 @@
         "properties": {
           "id": { "$ref": "common-v2.schema.json#/$defs/tileId" },
           "lod": { "type": "integer", "minimum": 0, "maximum": 31 },
+          "parentId": { "anyOf": [ { "$ref": "common-v2.schema.json#/$defs/tileId" }, { "type": "null" } ] },
           "bounds": { "$ref": "common-v2.schema.json#/$defs/bounds" },
           "geometricErrorMetres": { "type": "number", "minimum": 0 },
           "courses": {
@@ -48,6 +49,12 @@
             "properties": {
               "terrain": { "$ref": "common-v2.schema.json#/$defs/assetReference" },
               "surface": {
+                "anyOf": [
+                  { "$ref": "common-v2.schema.json#/$defs/assetReference" },
+                  { "type": "null" }
+                ]
+              },
+              "stands": {
                 "anyOf": [
                   { "$ref": "common-v2.schema.json#/$defs/assetReference" },
                   { "type": "null" }

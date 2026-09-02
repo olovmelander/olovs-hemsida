@@ -9,7 +9,8 @@ on:
       - "pnpm-lock.yaml"
       - "packages/course-geo/**"
       - "packages/course-v2/**"
-      - "apps/golf/src/engine/v2-*.mjs"
+      - "apps/golf/src/engine/**"
+      - "apps/golf/src/main.js"
       - "apps/golf/src/loader/**"
       - "apps/golf/v2-terrain-proof.html"
       - "apps/golf/vite.config.js"
@@ -25,7 +26,8 @@ on:
       - "pnpm-lock.yaml"
       - "packages/course-geo/**"
       - "packages/course-v2/**"
-      - "apps/golf/src/engine/v2-*.mjs"
+      - "apps/golf/src/engine/**"
+      - "apps/golf/src/main.js"
       - "apps/golf/src/loader/**"
       - "apps/golf/v2-terrain-proof.html"
       - "apps/golf/vite.config.js"
@@ -89,6 +91,8 @@ jobs:
           packages/course-v2/capture-proof-policy.node-test.mjs
           packages/course-v2/surface-object-contract.node-test.mjs
           packages/course-v2/surface-preview.node-test.mjs
+          packages/course-v2/distance-transform.node-test.mjs
+          packages/course-v2/surface-sdf.node-test.mjs
           packages/course-v2/terrain-pyramid.node-test.mjs
           packages/course-v2/terrain-compiler.node-test.mjs
           packages/course-v2/terrain-derivatives.node-test.mjs

@@ -1,94 +1,112 @@
 {
- "source": "Course character from the club history and reviews (four-leaf-clover routing returning to the clubhouse after 4/9/13/18; the two lakes Stor-Rössjön and Lill-Rössjön; blind holes 7 and 8; hole 12 over a bay of Stor-Rössjön; front nine easy/straight, back nine harder). No per-hole club banguide prose or hole names were recoverable, so notes state only what sources confirm.",
+ "source": "Per-hole notes condensed from the club's own banguide: the LiveCaddie course guide (course 658) that puttom.se/banguide embeds, read hole by hole on 2026-09-02 and kept verbatim under `club`. Colour from the club's history page (the 1967 nine is today's 1-4 and 14-18; 5-13 came in 1975 on land given by MoDo), Svensk Golf's Höga Kusten article (the 12th plays over a bay of Stor-Rössjön; the 11th's hidden green) and bobmenreport.com's round report (blind 7, 11 and 18; the signals). Bends, rise, water sides and bunker sides were checked against the model's own geometry and the DEM profile along each line; the smallest green on the card (17, 227 m²) and the four bunkers round it agree with the club's text, and the 11th's green really sits in a hollow (DEM 72.6 m at 80 m out, 68.7 m on the green). `name` is an editorial tagline, not a club hole name: the club numbers its holes and names none. Lake names: Wikipedia/SMHI put Stor-Rössjön (14.4 ha) at 63°17'48\"N 18°56'31\"E and Lill-Rössjön (11.3 ha) at 63°18'04\"N 18°56'02\"E, i.e. the two ponds ON the course (the 12th/15th/16th's water and the 4th's), not the two large lakes reconcile.mjs currently labels. Card caveat: the club's LiveCaddie card (and golfify.io) give hole 11 index 6 and hole 16 index 12, the other way round from the committed card (caddee/golfisverige), and the club lists no 61 tee on holes 3, 4, 11 and 12; the notes avoid both claims.",
  "holes": {
   "1": {
-   "name": null,
-   "note": null,
+   "name": "Snäll öppning",
+   "note": "Ett snällt öppningshål. Från utslaget finns mer att missa på till vänster – till höger löper ett oändligt rött pliktområde. Bunkrar vaktar vänster sida in mot green.",
+   "club": "Ett snällt öppningshål där det från utslaget finns mer att missa på till vänster. \"Oändligt\" rött pliktområde till höger.",
    "tiers": 1
   },
   "2": {
-   "name": null,
-   "note": null,
+   "name": "Utslaget avgör",
+   "note": "Utslaget avgör hålet. Fairway sluttar åt vänster och planar ut först med 90 meter kvar; sedan spelas det nedför mot en green med out of bounds direkt bakom.",
+   "club": "Viktigt med ett bra utslag. Fairway sluttar till vänster, planar ut från ca 90 meter kvar. Out of bounds bakom green.",
    "tiers": 1
   },
   "3": {
-   "name": "Par 3",
-   "note": "Kort par 3. Ett av banans fyra korthål.",
+   "name": "Bunkrar runt om",
+   "note": "Kort korthål nedför med giftiga bunkrar runt hela greenen – men väl uppe är den en av banans planaste. Räkna med vinden: på tee känns det ofta stilla.",
+   "club": "Giftiga bunkrar vaktar runt om, men är man väl på green är det en av de planaste på banan. Tänk på vinden, då det ofta känns stilla på tee.",
    "tiers": 1
   },
   "4": {
-   "name": null,
-   "note": "Par 5 som vänder tillbaka mot klubbhuset — första klöverbladet.",
+   "name": "Runt Lill-Rössjön",
+   "note": "Par 5 som viker höger med Lill-Rössjön på insidan och leder tillbaka mot klubbhuset. Andraslaget kräver noggrannhet: plant fram till 100 meter kvar, sedan smalnar fairway av och sluttar åt höger in mot green.",
+   "club": "Var noggrann med andraslaget då det är plant fram till 100 meter kvar, där det smalnar av och blir sluttande fairway till höger.",
    "tiers": 1
   },
   "5": {
-   "name": "Par 3",
-   "note": "Par 3 på fram­nio, som spelarna beskriver som lätt och rak.",
+   "name": "Lutande green",
+   "note": "Uppför mot en green som lutar kraftigt från vänster till höger – missar du är höger sida lättast att spela från. Här börjar de nio hål som kom till 1975, på mark skänkt av MoDo.",
+   "club": "Greenen lutar kraftigt från vänster till höger. Om ni ska missa greenen är det därför lättare att spela från höger sida.",
    "tiers": 1
   },
   "6": {
-   "name": null,
-   "note": null,
+   "name": "Håll vänster",
+   "note": "Fairway lutar åt höger hela vägen fram till 80 meter kvar – håll så mycket vänster du vågar. Hålet svänger svagt vänster in mot en green med en bunker på var sida.",
+   "club": "Fairway lutar till höger hela vägen fram till ca 80 meter kvar. Bra därför att hålla så mycket vänster som ni vågar.",
    "tiers": 1
   },
   "7": {
-   "name": "Blint hål",
-   "note": "Blint hål — sikten mot spelare framför är skymd (semafor önskad, enligt spelare). Banans svåraste, index 1.",
+   "name": "Blint över kullen",
+   "note": "Banans index 1. Utslaget slås blint över toppen på kullen; en miss åt höger hamnar på åttan, som går parallellt tillbaka – ropa fore. Därefter faller hålet nedför mot green.",
+   "club": "Slå utslaget över toppen på kullen. Ropa fore om ni missar höger, då hål 8 går parallellt tillbaka.",
    "tiers": 1
   },
   "8": {
-   "name": "Blint hål",
-   "note": "Även hål 8 är blint över krönet.",
+   "name": "Gratis skjuts",
+   "note": "Slå över krönet och få gratis skjuts utför backen. Inga bunkrar, men greenen lutar kraftigt från bakkant till framkant. Sjuan går parallellt till höger – ropa fore.",
+   "club": "Slå över krönet och få gratis skjuts utför backen. Ropa fore om ni missar höger då hål 7 går parallellt tillbaka. Här finns inga bunkrar men greenen lutar kraftigt från bakkant till framkant.",
    "tiers": 1
   },
   "9": {
-   "name": null,
-   "note": "Par 5 tillbaka till klubbhuset — andra klöverbladet.",
+   "name": "Nedför hem",
+   "note": "Långt par 5 nedför mot klubbhuset. Skogen kryper inpå från båda håll på utslaget, men från 200 meter öppnar hålet upp sig. Lägg upp för ett rakt inspel: bunkrar vaktar sidorna och greenen lutar från bakkant till framkant.",
+   "club": "Var noga med utslaget då skog kryper in både till höger och vänster. Hålet öppnar sedan upp från 200 meter och in men bra att försöka placera sig för inspel rakt in mot green då bunkrar vaktar till höger och vänster och greenen lutar från bakkant till framkant.",
    "tiers": 1
   },
   "10": {
-   "name": null,
-   "note": null,
+   "name": "Tvärdiket",
+   "note": "Tuff, lång par 4 som viker höger. Fairwaybunkrar till vänster på utslaget, ett tvärdike 75 meter från green och ett greenområde som lutar kraftigt från bakkant. Trettonde hålet går parallellt till höger – kom överens om spelordningen.",
+   "club": "En tuff, relativt lång par 4. Lägg märke till tvärdiket ca 75 meter kvar. Dessutom ett svårt greenområde med kraftig lutning från bakkant till framkant av green. Lägg märke till hål 13 till höger och kommunicera gärna med spelarna på det hålet för säkerhet och spelordning. Rekommendationen är att hål 10 spelar först för att få bäst flyt i spelet efter pausen efter hål 9.",
    "tiers": 1
   },
   "11": {
-   "name": null,
-   "note": null,
+   "name": "Blinkfyren",
+   "note": "Kort men lurigt: inspelet är oftast blint, mot en green i en sänka. Sikta på den stora flaggstången bakom green – från mitten av fairway står den i linje med greenens mitt. Tänd blinkfyren på green och släck när ni lämnar.",
+   "club": "Kort men lurigt hål då inspelet oftast är blint. Stora flaggstången bakom green står i linje mitt i green från mitt i fairway sett. Tänd blinkfyren medan ni är på green, släck när ni är färdiga.",
    "tiers": 1
   },
   "12": {
    "name": "Över Stor-Rössjön",
-   "note": "Kort par 3 som spelas över en vik av Stor-Rössjön; svagt nedför. Banans kortaste hål.",
+   "note": "Banans kortaste hål och kanske dess bästa: ett litet par 3 över en vik av Stor-Rössjön, som vaktar kort och till vänster, med en bunker till höger om green. Prova gärna den alternativa teen uppe i skogen.",
+   "club": "Banans kortaste hål men Stor-Rössjön vaktar kort och till vänster och slaget från bunkern erbjuder en bra utmaning. Testa gärna att spela från den alternativa tee 61/57/48 uppe i skogen!",
    "tiers": 1
   },
   "13": {
-   "name": null,
-   "note": "Par 5 tillbaka till klubbhuset — tredje klöverbladet.",
+   "name": "Runt sjön",
+   "note": "Par 5 som svänger vänster runt Stor-Rössjön – eller delvis över den, för den som vågar gena. Chans till lågt resultat, men vattnet skapar lätt frustration. Väl på green är det plant och sänkbart, och klubbhuset väntar igen.",
+   "club": "Ett par 5 som spelas runt eller delvis över sjön och ger möjlighet till låga resultat men som också lätt skapar frustrerade golfare. Väl på green är det plant och sänkbart.",
    "tiers": 1
   },
   "14": {
-   "name": null,
-   "note": null,
+   "name": "Över krönet",
+   "note": "Det par 5 som spelas längst. Med Stor-Rössjön till vänster går det uppför fram till krönet och därefter utför ner mot en liten, ganska plan green. Artonde hålet ligger till höger – ropa fore.",
+   "club": "Det par 5-hål som spelas längst, uppför fram till krönet därefter utför ner mot green. En liten, ganska plan green. Ropa fore om ni slår utslaget till höger mot hål 18.",
    "tiers": 1
   },
   "15": {
-   "name": "Par 3",
-   "note": "Par 3 på hemnio.",
+   "name": "En klubba extra",
+   "note": "Tufft korthål över Stor-Rössjön som spelas längre än det ser ut – ta en klubba extra. Inga bunkrar, men en konvex green som gör chipparna svåra. Från främre tee är mindre vatten i spel.",
+   "club": "En tufft korthål som spelas långt. Ta en klubba extra. Inga bunkrar men en konvex green som skapar utmanande chippar.",
    "tiers": 1
   },
   "16": {
-   "name": null,
-   "note": null,
+   "name": "Klockan",
+   "note": "Kort, uppför och giftigt. Hålet viker höger över en rejäl svacka med ett dike de sista 150 metrarna, och out of bounds löper längs hela vänstersidan. Lägg upp utslaget för ett inspel på 100–125 meter, och slå inte ut förrän klockan ringt.",
+   "club": "Ett kort men giftigt hål. Strategiskt kanske smartast att spela utslaget för ett inspel 100-125 meter kvar, då det är en rejäl svacka med ett dike mellan 150 meter kvar och green. Out of bounds hela vänstersidan. Ni kan slå ut när framförvarande boll har ringt i klockan som sitter vid ca 60 meter kvar.",
    "tiers": 1
   },
   "17": {
-   "name": null,
-   "note": null,
+   "name": "Minsta greenen",
+   "note": "Banans mest utmanande hål, enligt klubben själv. Utslaget går nedför, men de sista 160 metrarna stiger rejält – lägg på minst en klubba – mot banans minsta green, vaktad av fyra tuffa bunkrar. Till höger går fjortonde och femtonde hålet; ropa fore.",
+   "club": "Välkommen till banans mest utmanande hål som kräver sina slag. Rejält uppför från 160 meter in till green där det kan vara läge att lägga på minst en klubba. Banans minsta green som också är vaktad av fyra tuffa bunkrar. Ropa fore om utslaget går höger mot hål 14 och 15.",
    "tiers": 1
   },
   "18": {
-   "name": null,
-   "note": "Avslutande par 4 tillbaka till klubbhuset — fjärde klöverbladet.",
+   "name": "Utför mot klubbhuset",
+   "note": "Trixigt avslutningshål som spelas kort: från 200 meter kvar faller det brant ner mot klubbhuset. Utslaget är blint – tänd blinkfyren innan ni slår ut och släck den när ni går över bron före green. Fjortonde hålet ligger till höger.",
+   "club": "Ett trixigt avslutningshål som spelas kort tack vare en ordentlig utförsbacke från ca 200 meter kvar. Ropa fore om utslaget går höger mot hål 14. Tänd blinkfyren innan ni slår ut. Släck den när ni går över bron innan green.",
    "tiers": 1
   }
  }

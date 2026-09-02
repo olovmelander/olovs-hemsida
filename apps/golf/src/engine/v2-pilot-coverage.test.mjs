@@ -70,7 +70,8 @@ describe('the pilot reaches the whole course', () => {
         if (on(...hole.green.c)) count.greens[0]++;
         const sample = atlas.sampleAt(...hole.green.c);
         count.painted[1]++;
-        if (sample && (sample.primary === SURFACE.GREEN || sample.secondary === SURFACE.GREEN)) count.painted[0]++;
+        /* the occupying class, which both surface representations report */
+        if (sample?.surface === SURFACE.GREEN) count.painted[0]++;
       }
       for (const bunker of hole.bunkers || []) if (bunker.ring?.length) {
         count.bunkers[1]++; if (on(...centroid(bunker.ring))) count.bunkers[0]++;

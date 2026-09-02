@@ -26,7 +26,8 @@ export function isV2RequestUrl(url) {
 
 function passed(capture) {
   return capture?.backendMatched === true && capture.acceptedFrameVisible === true &&
-    capture.surfaceEvidencePassed === true && capture.legacyCoreCutoutPassed === true &&
+    capture.surfaceEvidencePassed === true && capture.singleTerrainSurfacePassed === true &&
+    capture.legacyCoreCutoutPassed === true &&
     capture.liveAdapterPassed === true && capture.selectionPassed === true;
 }
 
@@ -59,6 +60,8 @@ export function summarizePuttomAppCaptureProof(captures, failures) {
   const webgpuCanvasPassed = webgpuCapture?.canvasPresentationVisible === true;
   const surfaceEvidencePassed = PUTTOM_APP_CAPTURE_CASES
     .every(item => capturesByCase.get(item.id)?.surfaceEvidencePassed === true);
+  const singleTerrainSurfacePassed = PUTTOM_APP_CAPTURE_CASES
+    .every(item => capturesByCase.get(item.id)?.singleTerrainSurfacePassed === true);
   const legacyCoreCutoutPassed = PUTTOM_APP_CAPTURE_CASES
     .every(item => capturesByCase.get(item.id)?.legacyCoreCutoutPassed === true);
   const liveAdapterPassed = PUTTOM_APP_CAPTURE_CASES
@@ -73,6 +76,7 @@ export function summarizePuttomAppCaptureProof(captures, failures) {
     webgpuReadbackPassed,
     webgpuCanvasPassed,
     surfaceEvidencePassed,
+    singleTerrainSurfacePassed,
     legacyCoreCutoutPassed,
     liveAdapterPassed,
     selectionPassed,
