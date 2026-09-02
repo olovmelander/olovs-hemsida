@@ -159,6 +159,14 @@ kind of thing that trips it. The badge is the tell: "2 m mesh" means
 being upscaled — on a 2.625 DPR phone that is a 2.6× blow-up of the whole
 scene, which reads as "the icons are blurry".
 
+**When the GPK1 pack changes, v2 must be re-bound.** The root index and the
+course manifest carry the exact live pack entry, and the surface preview
+carries the pack's sha; both refuse a new pack. After `emit-pack` and
+`emit-manifest`: `compile-puttom-surface-preview.mjs --replace` (copy the
+printed `surfaceDescriptorSha256` into the config), then
+`publish-ground-rings.mjs --ground puttom` (it reads the live manifest),
+then prune, build and `check-app-build`.
+
 ## What is still open
 
 - **Nothing is generalised yet.** The table at the top is the work.

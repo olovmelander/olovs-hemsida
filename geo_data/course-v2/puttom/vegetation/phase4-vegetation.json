@@ -9,8 +9,8 @@
   "inputs": {
     "pack": {
       "url": "courses/puttom/pack.bin",
-      "bytes": 461173,
-      "sha256": "ebd25677b4a0c515e8a128ce087f06b2a2e71b91f6c1b057fe7157dd41039aa2"
+      "bytes": 462608,
+      "sha256": "50e81bddd5e621f5f5b7155cbd1022d66fc71c752a08fe674117804a854a0b4a"
     },
     "treeCover": {
       "id": "legacy-tree-cover",
@@ -39,8 +39,8 @@
       "use": "migration-only",
       "notes": "Current composite vectors, routing, elevations and scenery inputs."
     },
-    "courseV2Manifest": "course-v2-7de069f8148a5941f4f967df69125f4d6575002a916a598fd8e105e599921c43.json",
-    "groundV2Manifest": "ground-v2-a1420b8ce675b696852e2eda8dc886bcb762cd353bf1f13b2b54e129a11a087c.json",
+    "courseV2Manifest": "course-v2-e5eb8e4e4a63b1875df217b8992a7e46161b6b34124f31667edb9a0151d3893d.json",
+    "groundV2Manifest": "ground-v2-a25ff2b3d8175d2d32dc5fbefcb605429c7ca50c2b89c506dc3862b6384aecb6.json",
     "groundPreviewDescriptorSha256": "6dac4c4428873e6e93ad9eb845f77db225a5c6a297d4e56ea525de61dbb978c2"
   },
   "runs": [
@@ -48,53 +48,53 @@
       "mode": "gpk1",
       "url": "http://127.0.0.1:8620/?bana=puttom&det=1",
       "booted": true,
-      "bootSeconds": 24,
+      "bootSeconds": 24.6,
       "errors": [],
       "stats": {
-        "verts": 412502,
-        "tris": 798802,
-        "trees": 67898,
-        "vista": 57530,
-        "tufts": 5395,
-        "bushes": 944,
-        "stones": 231,
+        "verts": 411812,
+        "tris": 799074,
+        "trees": 54601,
+        "vista": 59425,
+        "tufts": 5156,
+        "bushes": 899,
+        "stones": 221,
         "reeds": 314,
-        "cars": 61,
+        "cars": 67,
         "pylons": 0,
         "stumps": 0,
-        "draws": 36,
+        "draws": 38,
         "surfaceOverlays": 0,
         "backend": "webgpu"
       },
       "trees": {
-        "total": 67898,
+        "total": 54601,
         "species": {
-          "spruce": 18032,
-          "pine": 36793,
-          "birch": 13073
+          "spruce": 14514,
+          "pine": 29671,
+          "birch": 10416
         },
         "reasons": {
           "none": 0,
-          "forestRing": 50270,
+          "forestRing": 43963,
           "scrubRing": 0,
-          "satellite": 17372,
-          "shore": 256,
+          "satellite": 10486,
+          "shore": 152,
           "v2Individual": 0,
           "v2Stand": 0
         },
         "zones": {
-          "A": 3986,
-          "B": 9653,
-          "C": 54259
+          "A": 3911,
+          "B": 9633,
+          "C": 41057
         },
         "holes": [
           {
             "n": 1,
-            "count": 86
+            "count": 83
           },
           {
             "n": 2,
-            "count": 1316
+            "count": 1325
           },
           {
             "n": 3,
@@ -102,15 +102,15 @@
           },
           {
             "n": 4,
-            "count": 180
+            "count": 149
           },
           {
             "n": 5,
-            "count": 91
+            "count": 70
           },
           {
             "n": 6,
-            "count": 1647
+            "count": 1630
           },
           {
             "n": 7,
@@ -122,11 +122,11 @@
           },
           {
             "n": 9,
-            "count": 160
+            "count": 159
           },
           {
             "n": 10,
-            "count": 134
+            "count": 118
           },
           {
             "n": 11,
@@ -138,15 +138,15 @@
           },
           {
             "n": 13,
-            "count": 65
+            "count": 63
           },
           {
             "n": 14,
-            "count": 62
+            "count": 60
           },
           {
             "n": 15,
-            "count": 33
+            "count": 31
           },
           {
             "n": 16,
@@ -154,11 +154,11 @@
           },
           {
             "n": 17,
-            "count": 725
+            "count": 723
           },
           {
             "n": 18,
-            "count": 968
+            "count": 961
           }
         ],
         "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
@@ -182,51 +182,51 @@
         "marks": [
           {
             "name": "läser terrängdata",
-            "atMs": 69.8
+            "atMs": 83.3
           },
           {
             "name": "startar renderaren",
-            "atMs": 193.4
+            "atMs": 193.7
           },
           {
             "name": "bygger terrängen",
-            "atMs": 1121.6
+            "atMs": 978.1
           },
           {
             "name": "bygger terrängen",
-            "atMs": 5774
+            "atMs": 5539.5
           },
           {
             "name": "bygger horisonten",
-            "atMs": 8973
+            "atMs": 8801.9
           },
           {
             "name": "lägger fairways och greener",
-            "atMs": 9114.3
+            "atMs": 8962.9
           },
           {
             "name": "fyller vattnet",
-            "atMs": 9582.2
+            "atMs": 9515.4
           },
           {
             "name": "planterar skogen",
-            "atMs": 11284.2
+            "atMs": 11462.3
           },
           {
             "name": "sätter ut flaggor",
-            "atMs": 22848.1
+            "atMs": 23576.8
           },
           {
             "name": "ställer ljuset",
-            "atMs": 22882
+            "atMs": 23619
           },
           {
             "name": "klar",
-            "atMs": 22959.5
+            "atMs": 23688.3
           }
         ],
-        "atlasMs": 258.8,
-        "totalMs": 22985.9
+        "atlasMs": 247.8,
+        "totalMs": 23713.8
       },
       "v2": {
         "requested": false,
@@ -270,8 +270,8 @@
         },
         "photos": 4,
         "packUrl": "courses/puttom/pack.bin",
-        "bytes": 461173,
-        "sha256": "ebd25677b4a0c515e8a128ce087f06b2a2e71b91f6c1b057fe7157dd41039aa2"
+        "bytes": 462608,
+        "sha256": "50e81bddd5e621f5f5b7155cbd1022d66fc71c752a08fe674117804a854a0b4a"
       },
       "shots": []
     },
@@ -279,44 +279,44 @@
       "mode": "v2-require",
       "url": "http://127.0.0.1:8620/?bana=puttom&det=1&v2=require",
       "booted": true,
-      "bootSeconds": 30.6,
+      "bootSeconds": 29.8,
       "errors": [],
       "stats": {
-        "verts": 33780,
-        "tris": 54820,
-        "trees": 92254,
-        "vista": 55830,
-        "tufts": 5328,
-        "bushes": 933,
-        "stones": 217,
+        "verts": 33090,
+        "tris": 55092,
+        "trees": 79407,
+        "vista": 57652,
+        "tufts": 5084,
+        "bushes": 888,
+        "stones": 207,
         "reeds": 447,
-        "cars": 61,
+        "cars": 67,
         "pylons": 0,
         "stumps": 0,
-        "draws": 37,
+        "draws": 39,
         "surfaceOverlays": 0,
         "backend": "webgpu"
       },
       "trees": {
-        "total": 92254,
+        "total": 79407,
         "species": {
-          "spruce": 25786,
-          "pine": 50724,
-          "birch": 15744
+          "spruce": 22360,
+          "pine": 43716,
+          "birch": 13331
         },
         "reasons": {
           "none": 0,
-          "forestRing": 19079,
+          "forestRing": 12879,
           "scrubRing": 0,
-          "satellite": 13365,
-          "shore": 67,
+          "satellite": 6766,
+          "shore": 19,
           "v2Individual": 3502,
           "v2Stand": 56241
         },
         "zones": {
           "A": 5036,
           "B": 18084,
-          "C": 69134
+          "C": 56287
         },
         "holes": [
           {
@@ -443,51 +443,51 @@
         "marks": [
           {
             "name": "läser terrängdata",
-            "atMs": 53.9
+            "atMs": 61.7
           },
           {
             "name": "startar renderaren",
-            "atMs": 6091.2
+            "atMs": 5812.9
           },
           {
             "name": "bygger terrängen",
-            "atMs": 6674.8
+            "atMs": 6364.4
           },
           {
             "name": "bygger terrängen",
-            "atMs": 18362.8
+            "atMs": 17648.6
           },
           {
             "name": "bygger horisonten",
-            "atMs": 18387.8
+            "atMs": 17669
           },
           {
             "name": "lägger fairways och greener",
-            "atMs": 18412.8
+            "atMs": 17689.2
           },
           {
             "name": "fyller vattnet",
-            "atMs": 18934.1
+            "atMs": 18181
           },
           {
             "name": "planterar skogen",
-            "atMs": 20503.4
+            "atMs": 19798.2
           },
           {
             "name": "sätter ut flaggor",
-            "atMs": 29508.3
+            "atMs": 28802.8
           },
           {
             "name": "ställer ljuset",
-            "atMs": 29541.2
+            "atMs": 28842.4
           },
           {
             "name": "klar",
-            "atMs": 29604.4
+            "atMs": 28906.9
           }
         ],
-        "atlasMs": 240.7,
-        "totalMs": 29625.3
+        "atlasMs": 235.6,
+        "totalMs": 28928
       },
       "v2": {
         "requested": true,
@@ -549,8 +549,8 @@
         },
         "photos": 4,
         "packUrl": "courses/puttom/pack.bin",
-        "bytes": 461173,
-        "sha256": "ebd25677b4a0c515e8a128ce087f06b2a2e71b91f6c1b057fe7157dd41039aa2"
+        "bytes": 462608,
+        "sha256": "50e81bddd5e621f5f5b7155cbd1022d66fc71c752a08fe674117804a854a0b4a"
       },
       "shots": []
     }

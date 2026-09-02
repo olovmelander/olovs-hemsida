@@ -58,7 +58,10 @@ function classColours(C) {
     [SURFACE.SEMI]: C.semi, [SURFACE.FAIRWAY]: C.fair,
     [SURFACE.FRINGE]: C.fringe, [SURFACE.GREEN]: C.green,
     [SURFACE.TEE]: C.tee, [SURFACE.SAND]: C.sand,
-    [SURFACE.PATH]: C.path, [SURFACE.ASPHALT]: C.aspL,
+    /* compacted gravel, pale: the path class lies under every road and cart
+       path ribbon, and the trodden-earth brown it used to be read as a dark
+       overlay wider than the road it belonged to */
+    [SURFACE.PATH]: C.hard, [SURFACE.ASPHALT]: C.aspL,
     [SURFACE.GRAVEL]: C.hard, [SURFACE.DIRT]: C.soil,
     [SURFACE.MUD]: C.wet.map(v => v * 0.72), [SURFACE.ROCK]: C.rock,
     [SURFACE.WETLAND]: C.wet, [SURFACE.SHORE]: C.shore,
@@ -336,6 +339,10 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
    evaluated on ITS OWN coordinate source and the resulting stripe intensity
    is cross-faded by weight, because a green's rings and a fairway's route
    bands are different cuts and averaging their phases would draw a third. */
+/* classes whose colour is the surroundings', taken from the ground tint rather
+   than from a flat style so the surface window has no visible edge */
+const TINTED_CLASSES = new Set([SURFACE.FOREST, SURFACE.HEATH, SURFACE.WETLAND, SURFACE.SHORE]);
+
 function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null }) {
   const channels = atlas.data.channels;
   const classes = [...channels, SURFACE.ROUGH];
@@ -434,16 +441,27 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
        same classification (main.js builds them from the same functions), a
        near one at fine spacing and a far one to the horizon; outside both the
        flat rough colour remains. */
-    const tintSample = layer => {
+    /* A raster's edge is a square drawn on the ground unless the hand-over is
+       gradual: each layer fades out over `fadeMetres` inside its own border,
+       so the near tint dissolves into the far one and the far one into the
+       flat rough, and no line is drawn where a texture happens to end. */
+    const tintSample = (layer, fadeMetres) => {
       const tb = layer.bounds;
       const uv = vec2(wp.x.sub(float(tb.x0)).div(tb.x1 - tb.x0), wp.y.sub(float(tb.z0)).div(tb.z1 - tb.z0));
-      const inside = step(0, uv.x).mul(step(uv.x, 1)).mul(step(0, uv.y)).mul(step(uv.y, 1));
+      const edge = uv.x.min(oneMinus(uv.x)).min(uv.y).min(oneMinus(uv.y));
+      const inside = smoothstep(0, fadeMetres / (tb.x1 - tb.x0), edge);
       return { colour: texture(layer.texture, uv).rgb, inside };
     };
     let roughColour = vec3(...styles[roughIndex].colour);
-    if (tint?.far) { const far = tintSample(tint.far); roughColour = mix(roughColour, far.colour, far.inside); }
-    if (tint?.near) { const near = tintSample(tint.near); roughColour = mix(roughColour, near.colour, near.inside); }
-    const colourNodes = styles.map((style, index) => (index === roughIndex ? roughColour : vec3(...style.colour)));
+    if (tint?.far) { const far = tintSample(tint.far, tint.far.fadeMetres ?? 600); roughColour = mix(roughColour, far.colour, far.inside); }
+    if (tint?.near) { const near = tintSample(tint.near, tint.near.fadeMetres ?? 300); roughColour = mix(roughColour, near.colour, near.inside); }
+    /* The surroundings' classes -- forest floor, heath, wetland, shore -- are
+       painted by the tint outside the surface window, from the same rings and
+       the same imagery. Inside it they must be painted the same way, or the
+       window's edge is a square where a flat class colour meets a tinted one:
+       measured, a near-black forest floor against a mottled green one. */
+    const colourNodes = styles.map((style, index) => (index === roughIndex || TINTED_CLASSES.has(classes[index])
+      ? roughColour : vec3(...style.colour)));
     const base = weights.reduce((acc, weight, index) => {
       const term = colourNodes[index].mul(weight);
       return acc ? acc.add(term) : term;

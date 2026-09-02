@@ -17,7 +17,7 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   /* class-sdf-v1: nine exact per-class distance channels over the same 30
      tiles. Derived from compile-puttom-surface-preview.mjs's output, never
      typed -- see docs/v2-course-runbook.md. */
-  surfaceDescriptorSha256: '9b219bada2f21574456ead3bb8c5f28c32b9cd9a13f9a33adccf9dbc0ace5535',
+  surfaceDescriptorSha256: '53b90941edeed6e0d47c910df68174f875d3b440ee743a0cdc0200beef3f7448',
   surfaceProvisionalReason: 'migration-vectors-not-survey-approved',
   frameFingerprint: '07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8',
   packOriginWgs84: Object.freeze({ latitude: 63.2992, longitude: 18.9413 }),

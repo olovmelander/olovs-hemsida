@@ -32,12 +32,14 @@ export const SURFACE_PRIORITY = [
   SURFACE.SAND,
   SURFACE.GREEN,
   SURFACE.TEE,
-  SURFACE.FRINGE,
-  SURFACE.FAIRWAY,
-  SURFACE.SEMI,
+  /* a road or cart path cuts through mown grass: where its band meets a
+     fairway, semi or collar the player sees gravel, as on the ground */
   SURFACE.PATH,
   SURFACE.ASPHALT,
   SURFACE.GRAVEL,
+  SURFACE.FRINGE,
+  SURFACE.FAIRWAY,
+  SURFACE.SEMI,
   SURFACE.DIRT,
   SURFACE.MUD,
   SURFACE.WETLAND,
@@ -138,7 +140,9 @@ export function createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distTo
       for (const v of VI.at(x, z)) {
         if (v.kind === 'forest' || v.kind === 'wood' || v.kind === 'scrub') {
           const sd = ringSD(x, z, v.ring);
-          if (sd < 2) forest = Math.max(forest, 1 - smooth(-6, 2, sd));
+          /* a 12 m ramp into the stand: a forest edge is a fringe of thinning
+             trees and litter, not a line, and an 8 m one drew the line */
+          if (sd < 2) forest = Math.max(forest, 1 - smooth(-10, 2, sd));
         } else if (v.kind === 'sand') {
           const sd = ringSD(x, z, v.ring);
           if (sd < 0.5) sand = Math.max(sand, 1 - smooth(-0.9, 0.5, sd));

@@ -2,23 +2,1229 @@
   "source": "Esri World Imagery z18 (~0.27 m/px here), orthorectified — a tile's coordinates ARE its georeference, so a trace made on a mosaic.py crop converts to world metres exactly, with no registration step. Traced 2026-08 in the frame frozen in puttombuild/lib.mjs (ORIGIN 63.29920 N, 18.94130 E; north -z, east +x).",
   "buildings": [
     {
-      "id": "trace-clubhouse",
-      "name": "Klubbhus Örnsköldsviks Golfklubb Puttom",
-      "amenity": "clubhouse",
+      "id": "trace-clubhouse-main",
+      "ring": [
+        [
+          -130,
+          -216.6
+        ],
+        [
+          -110.5,
+          -216.6
+        ],
+        [
+          -110.5,
+          -188
+        ],
+        [
+          -130,
+          -188
+        ]
+      ],
       "kind": "yes",
       "h": null,
-      "ring": [
-        [-142.3, -211.2],
-        [-137.8, -211.9],
-        [-136.5, -206.7],
-        [-130.2, -206.4],
-        [-130.0, -201.0],
-        [-133.4, -200.4],
-        [-130.2, -186.4],
-        [-134.8, -186.0]
-      ],
+      "name": "Klubbhus Örnsköldsviks Golfklubb Puttom",
+      "amenity": "clubhouse",
       "confidence": "medium",
-      "notes": "OSM has NO clubhouse footprint at Puttom — its 23 buildings here are all unnamed and the nearest one is 680 m from the hub — so this footprint is read off the satellite. The hub crop x -300..50, z -350..-50 shows one building complex, on the west side of the four-leaf-clover hub: three blue-dark roofs, the caravan/motorhome rows immediately west of them (the club advertises 'husvagn- och husbilsparkering med el'), a gravel parking apron east, and the practice putting green 25 m south-east of that apron. This ring is the LARGEST of the three roofs and the only dominant one: 157 m2 against 81 and 69 for its neighbours. It was separated from its own shadow by colour — the roofs read blue-dark (B-R about +20) while shadowed grass stays green-dark (B-R about -3) — and the ring follows the per-row extents of that mask to about 1 m: a 26 m wing running 162 deg with a 6 m eastward head at z -206.5..-200.5 that carries the restaurant front. Two independent records bracket it: OSM's amenity=toilets node at (-128.9,-220.8) sits on the northern roof of the same complex, 23 m away, and hogakusten.com publishes 63.3009979 N, 18.9389251 E for the club = world (-118.9,-200.1), 17 m away on the apron this building faces. Google's own place pin for the club (from the club's contact-page embed) lands at world (62,-190), in the middle of the 13th fairway, and was discarded. Confidence medium: the complex and this building are certain, the wall lines are a 0.27 m/px read."
+      "notes": "The restaurant/clubhouse: two storeys, a glazed gable and balcony facing the 18th green (puttom.se, sol-green-18). Dark roof. 21 x 29 m read off the z18 crop."
+    },
+    {
+      "id": "trace-yard-shed-long",
+      "ring": [
+        [
+          100,
+          -408
+        ],
+        [
+          114,
+          -408
+        ],
+        [
+          114,
+          -378
+        ],
+        [
+          100,
+          -378
+        ]
+      ],
+      "kind": "industrial",
+      "h": 5,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "works yard, long shed"
+    },
+    {
+      "id": "trace-yard-hall",
+      "ring": [
+        [
+          74,
+          -374
+        ],
+        [
+          95,
+          -374
+        ],
+        [
+          95,
+          -355
+        ],
+        [
+          74,
+          -355
+        ]
+      ],
+      "kind": "industrial",
+      "h": 5.5,
+      "name": "Maskinhall",
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "works yard, machine hall by the yard road"
+    },
+    {
+      "id": "trace-yard-small",
+      "ring": [
+        [
+          74,
+          -407
+        ],
+        [
+          83,
+          -407
+        ],
+        [
+          83,
+          -396
+        ],
+        [
+          74,
+          -396
+        ]
+      ],
+      "kind": "industrial",
+      "h": 3.2,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "works yard, small shed"
+    },
+    {
+      "id": "trace-house-a",
+      "ring": [
+        [
+          -219,
+          -219
+        ],
+        [
+          -211,
+          -219
+        ],
+        [
+          -211,
+          -211
+        ],
+        [
+          -219,
+          -211
+        ]
+      ],
+      "kind": "house",
+      "h": 3,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "summer house west of the lot"
+    },
+    {
+      "id": "trace-house-b",
+      "ring": [
+        [
+          -200,
+          -221
+        ],
+        [
+          -192,
+          -221
+        ],
+        [
+          -192,
+          -213
+        ],
+        [
+          -200,
+          -213
+        ]
+      ],
+      "kind": "house",
+      "h": 3,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "summer house west of the lot"
+    },
+    {
+      "id": "trace-house-red",
+      "ring": [
+        [
+          -232,
+          -195
+        ],
+        [
+          -219,
+          -195
+        ],
+        [
+          -219,
+          -181
+        ],
+        [
+          -232,
+          -181
+        ]
+      ],
+      "kind": "house",
+      "h": 3.4,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "red-roofed house by the lake"
+    },
+    {
+      "id": "trace-shed-c",
+      "ring": [
+        [
+          -233,
+          -168
+        ],
+        [
+          -227,
+          -168
+        ],
+        [
+          -227,
+          -162
+        ],
+        [
+          -233,
+          -162
+        ]
+      ],
+      "kind": "shed",
+      "h": 2.4,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium"
+    },
+    {
+      "id": "trace-shed-d",
+      "ring": [
+        [
+          -209,
+          -167
+        ],
+        [
+          -203,
+          -167
+        ],
+        [
+          -203,
+          -161
+        ],
+        [
+          -209,
+          -161
+        ]
+      ],
+      "kind": "shed",
+      "h": 2.4,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium"
+    },
+    {
+      "id": "trace-annex-a",
+      "ring": [
+        [
+          -143,
+          -213
+        ],
+        [
+          -132.5,
+          -213
+        ],
+        [
+          -132.5,
+          -200
+        ],
+        [
+          -143,
+          -200
+        ]
+      ],
+      "kind": "yes",
+      "h": 3.4,
+      "name": "Klubbhusannex",
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "the low gabled wing west of the clubhouse, light roof on the tiles; the old L-shaped trace over-reached south"
+    },
+    {
+      "id": "trace-annex-b",
+      "ring": [
+        [
+          -136.5,
+          -200
+        ],
+        [
+          -130.5,
+          -200
+        ],
+        [
+          -130.5,
+          -188
+        ],
+        [
+          -136.5,
+          -188
+        ]
+      ],
+      "kind": "yes",
+      "h": 2.8,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "the small flat block at the clubhouse's south-west corner"
+    },
+    {
+      "id": "trace-reception",
+      "ring": [
+        [
+          -135.5,
+          -229
+        ],
+        [
+          -120,
+          -229
+        ],
+        [
+          -120,
+          -218.6
+        ],
+        [
+          -135.5,
+          -218.6
+        ]
+      ],
+      "kind": "yes",
+      "h": 3.4,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "dark-roofed block north of the clubhouse, on the road's south verge"
+    },
+    {
+      "id": "trace-east-house",
+      "ring": [
+        [
+          -52.9,
+          -234.3
+        ],
+        [
+          -57.4,
+          -245.4
+        ],
+        [
+          -74.1,
+          -238.7
+        ],
+        [
+          -69.6,
+          -227.6
+        ]
+      ],
+      "kind": "yes",
+      "h": 3.4,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "dark-roofed building south of the road east of the junction: 18 x 12 m, long axis along the road, as the owner drew it"
+    },
+    {
+      "id": "trace-range-hut",
+      "ring": [
+        [
+          -4.9,
+          -279
+        ],
+        [
+          -7.9,
+          -286.4
+        ],
+        [
+          -19.9,
+          -281.6
+        ],
+        [
+          -16.9,
+          -274.2
+        ]
+      ],
+      "kind": "yes",
+      "h": 3.2,
+      "name": "Rangehus",
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "the small building north of the road at the tee line's east end: 13 x 8 m along the road, five metres off its centreline"
+    },
+    {
+      "id": "trace-range-shed",
+      "ring": [
+        [
+          -80,
+          -300.9
+        ],
+        [
+          -82.6,
+          -307.4
+        ],
+        [
+          -91,
+          -304.1
+        ],
+        [
+          -88.4,
+          -297.6
+        ]
+      ],
+      "kind": "yes",
+      "h": 3,
+      "name": "Rangebod",
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "the small red hut at the west end of the tee arc: 9 x 7 m, turned with the road like the rest of the range buildings"
+    },
+    {
+      "id": "trace-vinkelhus",
+      "ring": [
+        [
+          -74.7,
+          -251.7
+        ],
+        [
+          -59.8,
+          -257.6
+        ],
+        [
+          -62.2,
+          -263.6
+        ],
+        [
+          -77.1,
+          -257.7
+        ]
+      ],
+      "kind": "yes",
+      "h": 3.6,
+      "name": "Rangehus (vinkelhus)",
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "the enclosed L's long arm: 16 m along the road, 6.5 m deep, its wall 4.5 m off the road centreline, ridge along the road. Drawn by the owner over a top-down render and confirmed by the drone photograph, where the enclosed part hugs the road."
+    },
+    {
+      "id": "trace-vinkelhus-arm",
+      "ring": [
+        [
+          -77.1,
+          -257.7
+        ],
+        [
+          -71,
+          -260.1
+        ],
+        [
+          -76.6,
+          -274
+        ],
+        [
+          -82.6,
+          -271.6
+        ]
+      ],
+      "kind": "yes",
+      "h": 3.6,
+      "name": null,
+      "amenity": null,
+      "confidence": "medium",
+      "notes": "the enclosed L's cross arm at the west end, 15 m towards the field, ridge across the road; it stops 14 m short of the tee arc"
     }
-  ]
+  ],
+  "parking": [
+    {
+      "id": "trace-parking-main",
+      "ring": [
+        [
+          24,
+          -286
+        ],
+        [
+          34,
+          -300
+        ],
+        [
+          42,
+          -316
+        ],
+        [
+          50,
+          -332
+        ],
+        [
+          78,
+          -335
+        ],
+        [
+          80,
+          -300
+        ],
+        [
+          70,
+          -280
+        ],
+        [
+          50,
+          -270
+        ],
+        [
+          30,
+          -272
+        ]
+      ],
+      "surface": "gravel",
+      "confidence": "high",
+      "notes": "the gravel car park east of the access road; cars stay inside this ring"
+    },
+    {
+      "id": "trace-parking-main-apron",
+      "ring": [
+        [
+          8,
+          -281
+        ],
+        [
+          16,
+          -288.5
+        ],
+        [
+          26.5,
+          -299.2
+        ],
+        [
+          35,
+          -312
+        ],
+        [
+          42,
+          -325
+        ],
+        [
+          47,
+          -341
+        ],
+        [
+          52,
+          -345
+        ],
+        [
+          50,
+          -332
+        ],
+        [
+          42,
+          -316
+        ],
+        [
+          34,
+          -300
+        ],
+        [
+          24,
+          -286
+        ],
+        [
+          16,
+          -279
+        ]
+      ],
+      "surface": "gravel",
+      "cars": false,
+      "confidence": "high",
+      "notes": "the strip between the car park and the road centreline, so the lot joins the road as it does on the tiles; no cars here"
+    },
+    {
+      "id": "trace-parking-west",
+      "ring": [
+        [
+          -157,
+          -215
+        ],
+        [
+          -145,
+          -215
+        ],
+        [
+          -145,
+          -187
+        ],
+        [
+          -138,
+          -187
+        ],
+        [
+          -138,
+          -164
+        ],
+        [
+          -157,
+          -164
+        ]
+      ],
+      "surface": "gravel",
+      "vehicles": "motorhome",
+      "confidence": "high",
+      "notes": "the motorhome lot west of the clubhouse; the ring stops short of the annex blocks and the cart strip so nothing stands inside a building"
+    },
+    {
+      "id": "trace-cart-strip",
+      "ring": [
+        [
+          -138,
+          -187
+        ],
+        [
+          -131,
+          -187
+        ],
+        [
+          -131,
+          -166
+        ],
+        [
+          -138,
+          -166
+        ]
+      ],
+      "surface": "gravel",
+      "cars": false,
+      "confidence": "medium",
+      "notes": "the gravel strip south of the annex where the cart fleet stands"
+    },
+    {
+      "id": "trace-plaza",
+      "ring": [
+        [
+          -110.5,
+          -230
+        ],
+        [
+          -96,
+          -232
+        ],
+        [
+          -88,
+          -226
+        ],
+        [
+          -88,
+          -204
+        ],
+        [
+          -110.5,
+          -201
+        ]
+      ],
+      "surface": "gravel",
+      "cars": false,
+      "confidence": "high",
+      "notes": "the entrance square between the clubhouse's east side and the road bend: gravel, flower beds, the flagpoles"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "trace-yard-road",
+      "line": [
+        [
+          58,
+          -396
+        ],
+        [
+          85,
+          -392
+        ],
+        [
+          108,
+          -372
+        ]
+      ],
+      "kind": "service",
+      "surface": "gravel",
+      "notes": "the branch from the access road into the works yard"
+    },
+    {
+      "id": "trace-houses-road",
+      "line": [
+        [
+          -165.9,
+          -210.1
+        ],
+        [
+          -176,
+          -214
+        ],
+        [
+          -205,
+          -204
+        ],
+        [
+          -228,
+          -188
+        ]
+      ],
+      "kind": "service",
+      "surface": "gravel",
+      "notes": "continues the OSM access road past the lot to the summer houses"
+    },
+    {
+      "id": "trace-corridor-road",
+      "kind": "service",
+      "surface": "gravel",
+      "line": [
+        [
+          -90,
+          -203
+        ],
+        [
+          -88,
+          -188
+        ],
+        [
+          -81.5,
+          -169.5
+        ],
+        [
+          -75,
+          -148
+        ],
+        [
+          -69.5,
+          -129
+        ],
+        [
+          -62.7,
+          -110
+        ],
+        [
+          -58.7,
+          -89
+        ],
+        [
+          -56,
+          -72
+        ],
+        [
+          -58,
+          -60
+        ],
+        [
+          -66,
+          -40
+        ],
+        [
+          -82,
+          -9
+        ],
+        [
+          -99,
+          41
+        ],
+        [
+          -113.5,
+          79
+        ],
+        [
+          -124,
+          100
+        ],
+        [
+          -143,
+          142
+        ],
+        [
+          -153.5,
+          184
+        ],
+        [
+          -155.6,
+          226.5
+        ],
+        [
+          -153.5,
+          268.6
+        ],
+        [
+          -143,
+          328
+        ],
+        [
+          -152,
+          340
+        ],
+        [
+          -160,
+          358
+        ],
+        [
+          -165,
+          380
+        ],
+        [
+          -168,
+          405
+        ],
+        [
+          -170,
+          430
+        ],
+        [
+          -172,
+          462
+        ],
+        [
+          -190,
+          478
+        ],
+        [
+          -197,
+          500
+        ],
+        [
+          -202,
+          525
+        ],
+        [
+          -206,
+          550
+        ],
+        [
+          -209,
+          572
+        ],
+        [
+          -205,
+          585
+        ]
+      ],
+      "confidence": "high",
+      "notes": "The gravel road from the south-east corner of the entrance square straight south-south-east, east of the 18th green, to the bay's north-west corner, then south down the corridor between the 18th and the 14th, west of the 15th's tees, along the bay's south-west arm, then east of the 17th's tees through the scattered trees to the edge of the 16th's fairway, where the banguide puts its 16 marker. On the tiles, in the club's banguide and on Google Maps, and drawn by the owner over all three. It keeps ten metres off every tee mark and stays outside the lake ring, which the tiles show drawn 15 m west of the real shore."
+    }
+  ],
+  "paths": [
+    {
+      "id": "trace-path-1-2",
+      "line": [
+        [
+          -180,
+          -564
+        ],
+        [
+          -150,
+          -566
+        ],
+        [
+          -118,
+          -562
+        ]
+      ],
+      "kind": "path",
+      "surface": "gravel",
+      "notes": "1st green to 2nd tee"
+    },
+    {
+      "id": "trace-path-13",
+      "line": [
+        [
+          141,
+          -66.6
+        ],
+        [
+          177,
+          -28.3
+        ],
+        [
+          184.8,
+          27
+        ],
+        [
+          167.7,
+          88
+        ],
+        [
+          128.1,
+          141.2
+        ],
+        [
+          112.6,
+          200.9
+        ],
+        [
+          152,
+          205
+        ]
+      ],
+      "kind": "path",
+      "surface": "gravel",
+      "notes": "the lake ring offset six metres onto land down the bay's east shore to the 13th tee: generated from the ring"
+    },
+    {
+      "id": "trace-path-11-12",
+      "line": [
+        [
+          221,
+          300
+        ],
+        [
+          208,
+          302
+        ],
+        [
+          208,
+          339
+        ],
+        [
+          213,
+          361
+        ],
+        [
+          205,
+          374
+        ],
+        [
+          194,
+          385
+        ],
+        [
+          189,
+          392
+        ]
+      ],
+      "kind": "path",
+      "surface": "gravel",
+      "notes": "11th green to 12th tee along the bay"
+    },
+    {
+      "id": "trace-path-bay-shore",
+      "line": [
+        [
+          -58,
+          -60
+        ],
+        [
+          -37.9,
+          -55.3
+        ],
+        [
+          30.1,
+          -96.1
+        ],
+        [
+          96.8,
+          -95.5
+        ],
+        [
+          141,
+          -66.6
+        ]
+      ],
+      "kind": "path",
+      "surface": "gravel",
+      "notes": "the lake ring offset six metres onto land from the road junction east along the bay's north shore: generated from the ring so it can never cross the water it follows"
+    }
+  ],
+  "surround": {
+    "yard": [
+      [
+        55,
+        -445
+      ],
+      [
+        122,
+        -445
+      ],
+      [
+        126,
+        -345
+      ],
+      [
+        68,
+        -340
+      ],
+      [
+        52,
+        -400
+      ]
+    ],
+    "notes": "the works yard: gravel hardstanding, stored material, no trees"
+  },
+  "range": {
+    "bays": [
+      [
+        -82.7,
+        -296.8
+      ],
+      [
+        -78.7,
+        -290
+      ],
+      [
+        -73.3,
+        -283.3
+      ],
+      [
+        -66.6,
+        -277.4
+      ],
+      [
+        -58.6,
+        -272.6
+      ],
+      [
+        -50.5,
+        -268.6
+      ],
+      [
+        -43.8,
+        -266.7
+      ]
+    ],
+    "bayPitch": 3,
+    "nets": [
+      [
+        [
+          -3,
+          -278
+        ],
+        [
+          1.8,
+          -283.4
+        ],
+        [
+          12.5,
+          -292.3
+        ],
+        [
+          23.2,
+          -303
+        ],
+        [
+          30,
+          -311
+        ],
+        [
+          37,
+          -324
+        ],
+        [
+          42,
+          -340
+        ],
+        [
+          47,
+          -357
+        ],
+        [
+          52,
+          -376
+        ],
+        [
+          53.5,
+          -398
+        ],
+        [
+          51,
+          -419
+        ],
+        [
+          46.5,
+          -438
+        ],
+        [
+          42.5,
+          -457
+        ],
+        [
+          39.8,
+          -465
+        ]
+      ]
+    ],
+    "netHeight": 10,
+    "shelterId": null,
+    "hutId": "trace-range-hut",
+    "confidence": {
+      "bays": "high",
+      "nets": "medium"
+    },
+    "notes": "The tee line is a curved run of red pavers from the hut at the west end, sweeping round the L-shaped range building to the road, open along its whole length: the owner, who knows the place, had the roof over its last bays removed. The net begins two metres east of the range house and runs on the field side of the access road. Its height is assumed."
+  },
+  "cartPark": {
+    "line": [
+      [
+        -134.5,
+        -184
+      ],
+      [
+        -134.5,
+        -168
+      ]
+    ],
+    "count": 7,
+    "notes": "the cart fleet in a row on the gravel strip south of the annex (puttom.se photograph)"
+  },
+  "tracedOn": "2026-09-02, z18 crops with a labelled metre grid (tools/sat-mosaic.mjs); every ring read by eye",
+  "roads": [
+    {
+      "id": "trace-access-road",
+      "kind": "unclassified",
+      "surface": "gravel",
+      "line": [
+        [
+          -166,
+          -210.1
+        ],
+        [
+          -152,
+          -221
+        ],
+        [
+          -140,
+          -229.5
+        ],
+        [
+          -128,
+          -234
+        ],
+        [
+          -112,
+          -234
+        ],
+        [
+          -97,
+          -236.5
+        ],
+        [
+          -86,
+          -241.5
+        ],
+        [
+          -73,
+          -247.5
+        ],
+        [
+          -58,
+          -253.5
+        ],
+        [
+          -43,
+          -259.5
+        ],
+        [
+          -24.5,
+          -267.8
+        ],
+        [
+          -8.4,
+          -270.2
+        ],
+        [
+          5.1,
+          -279.6
+        ],
+        [
+          15.8,
+          -288.5
+        ],
+        [
+          26.5,
+          -299.2
+        ],
+        [
+          35,
+          -312
+        ],
+        [
+          42,
+          -325
+        ],
+        [
+          47,
+          -341
+        ],
+        [
+          52,
+          -357
+        ],
+        [
+          57,
+          -376
+        ],
+        [
+          58.5,
+          -398
+        ],
+        [
+          56,
+          -419
+        ],
+        [
+          51.5,
+          -438
+        ],
+        [
+          47.5,
+          -457
+        ],
+        [
+          44.8,
+          -465
+        ],
+        [
+          40,
+          -474
+        ]
+      ],
+      "confidence": "high",
+      "notes": "the access road through the hub, centreline read off the z18 tiles from the west lot to where it leaves the hub box north of the yard. OSM's way cuts the bend by up to 10 m and is clipped inside hubOverride; this replaces it. Light grey on the tiles and in the drone photograph, so gravel."
+    }
+  ],
+  "hubOverride": {
+    "ring": [
+      [
+        -150,
+        -470
+      ],
+      [
+        70,
+        -470
+      ],
+      [
+        70,
+        -195
+      ],
+      [
+        -150,
+        -195
+      ]
+    ],
+    "notes": "OSM roads and tracks lose their points inside this box; the traced access road carries the hub"
+  }
 }

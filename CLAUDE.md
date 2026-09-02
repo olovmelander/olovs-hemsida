@@ -564,8 +564,165 @@ length each hole line is slid to.
   4, 9, 13 and 18; holes 7 and 8 are blind (a reviewer wants a semaphore); hole
   12 is a short par 3 over a bay of Stor-Rössjön. These are in `guide-notes.json`.
 - The NVGK-specific landmarks (chapel, marina boats, far sea) all guard on
-  features Puttom lacks and no-op; a bespoke clubhouse and the blind-hole
-  sighting tower are open polish items.
+  features Puttom lacks and no-op; the blind-hole sighting tower is an open
+  polish item.
+
+### Puttom's facilities — what OSM never had, and where they came from
+
+The extract has no footway or path, no parking polygon, no bridge and no
+building at the club (today's OSM is the same: one parking NODE, a toilets
+node), so cart paths, lots and the clubhouse were absent because nothing
+supplied them. `puttombuild/sat-traces.json` now carries them, read off z18
+Esri tiles with `tools/sat-mosaic.mjs` — a Chrome-composed mosaic with a
+labelled metre grid and the model drawn on top, which is what tracing by eye
+needs and what `mosaic.py` used to give before this machine lost Python:
+the clubhouse block and its west annex, the shop block, the range shelter
+(kind `roof`, drawn as a canopy on posts) and range house, three works-yard
+sheds and the yard's hardstanding (`surround.yard`), five summer houses,
+the main gravel car park and the motorhome lot, the yard and summer-house
+service roads, five gravel cart paths the tiles show clearly (1→2, the hub
+to the bay and along its north shore, down the 13th, 11→12, 14→15), the
+range tee line (mats, dividers, kerb) and its safety net along the road
+side of the field, and the cart fleet's row. Each carries a confidence; the
+net's HEIGHT is assumed, its line is a thin shadowed line on the tiles.
+
+**The clubhouse was wrong in this file, twice.** The club's photograph of
+the 18th green at sunset (puttom.se) shows a modern two-storey building
+with a glazed gable and balcony towards the green under a dark roof — not
+Falu red under pantile — and the imagery puts it in the large block EAST
+of the L-shaped wing that carried the name. The first correction painted
+its lower storey blue, because that photograph is blue-hour light on red
+paint: the owner's drone photograph of the whole hub (Instagram, from over
+the lake looking north) shows Falu red with white trim and white window
+frames, a wooden terrace with parasols along the glass end, motorhomes on
+the lot west of it, an entrance square with the flagpoles between it and
+the road, and a light grey road. **A photograph at golden or blue hour
+tells you shape, never colour.** `CLUB_LOOK` grew `lowerWall/lowerHeight`,
+`gable`, `glazedGable` and `balcony`; the glazed end is chosen by where the
+course is (the mean of the green centres), never by a coordinate.
+`SCENERY.buildingLooks[id]` states an outbuilding's colours and whether it
+carries window rows, by trace id.
+
+**OSM's road cut the bend, and everything placed against it was wrong.**
+The `unclassified` way through the hub runs up to ten metres inside the
+real road's curve (measured by drawing the model over the tiles with
+`tools/sat-mosaic.mjs`), so the car park sat on the carriageway, the net
+stood on its shoulder and the sheds touched it however carefully they were
+traced. `sat-traces.json` now carries the road's centreline read off the
+tiles and a `hubOverride` box inside which `reconcile` drops every OSM road
+and track point (a way that crosses the box comes out as its outside
+runs). Traced against THAT road: the annex as two blocks (gabled, not the
+flat L), the reception block, the L-shaped "vinkelhus" between the tee
+line and the road, the range house whose wall stands on the verge, the
+car park east of the road with 2.5–5 m clear of its edge, the motorhome
+lot (`vehicles: "motorhome"` — drawn by the scenery batch, no cars), the
+entrance square (`cars: false`), and the net five metres off the
+centreline on the field side. Gravel roads are pale (`C.hard`), not the
+path brown they inherited.
+
+**"A dark road under the grey road" was the path class.** Every road adds
+itself to the paths index with a half-width of 4 m, the classifier turns
+that into the PATH class, and the class-SDF chunks paint it in path brown
+under the 2.2 m pale ribbon — a brown band a metre and a half wider than
+the road on either side, and under the wall of any building on the verge.
+The class band is now the ribbon's width for non-trunk roads (2.4 m
+gravel, 3 m asphalt) and the PATH colour is pale compacted gravel, so
+band and ribbon are one surface. Changing either means recompiling the
+surface preview. That was half of it: the other half was the ribbon's own
+VERGE — 2.2 m each side of a road, coloured as the ground blended toward
+gravel and multiplied by the terrain's ambient term, which on the 1 m
+ground read as a dark stripe either side of a pale one (road 52 against
+grass 78 in evening light, measured). A toned gravel run now has a 0.7 m
+shoulder in its own colour and takes no AO. And a lot polygon must not
+contain a building: the motorhome ring included the annex and the vans
+were parked in it. Measure a suspected overlay by hiding nothing and
+sampling boxes on the capture (`measure-png` in the scratch tools):
+the first two fixes here moved the number by six, which is how the verge
+was found.
+
+**The range end, from two aerial photographs the owner supplied** (Google
+Maps user photos): the tee line is a CURVED run of red pavers from a small
+red hut at its west end, sweeping round the enclosed block of the range
+building and along the open front of that building's long wing — which is
+the covered bays, an 18 m roof on posts, and the only roof over any mat.
+The enclosed part is an L that HUGS THE ROAD — a 16 × 6.5 m arm along it,
+4.5 m off the centreline, and a 6.5 × 15 m arm turning towards the field
+at the west end, two gabled ridges at right angles — and the tee arc is
+OPEN along its whole length: the owner, who knows the place, had the roof
+I had put over its last bays removed. The owner drew that L over a
+top-down render; three drafts before it had put the enclosed block across
+the arc's end, where it stood on the tee. Two wrong drafts came from
+reading the tiles alone: the hut's roof taken for a canopy, then a canopy
+invented along the mats. When the owner's word and a photograph read
+differently, the owner's word wins; note it and move on.
+Read the arc's points off a bare crop (`SAT_PLAIN=1 tools/sat-mosaic.mjs`)
+— the overlay hides the pavement it is meant to help you trace. The tee
+line renders as one pale hardstanding strip four metres deep with a kerb,
+the mats and white dividers standing on it; per-mat quads read as specks
+from the clubhouse. An L with two roofs needs its cross wing traced longer
+across than along, or the gable rule puts both ridges the same way.
+**Near the course the ground paints the roads; the ribbon is for beyond
+it.** The owner wanted the roads in the same flat gravel as the lots, and
+the ground material already paints a pale PATH band under every road, so
+inside its coverage (the v2 surface layer where loaded — `probeAt(x, z)
+.inBounds`, since the probe returns an object even outside — else the
+boot atlas) a gravel road gets no ribbon at all, and a road that crosses
+the edge keeps one point inside so ribbon and band meet. Measured in the
+evening top view the road and the square are the same 108 in daylight and
+70 against 61 at dusk. Gravel ribbons beyond the coverage have their own
+matte material (`makeGravel`); they used to borrow the turf shader, grass
+detail and all, and came out brown. **And the corridor road the owner
+saw on the banguide, Google Maps and the tiles was in the model as two
+thin paths, one starting at the wrong place** — it is one gravel service
+road now, from the south-east corner of the entrance square straight
+south-south-east past the 18th green to the junction at the bay's
+north-west corner, down between the 18th and the 14th past the 15th tee,
+and on west-south-west above the bay's south-west arm and south down the
+17th's east edge to its tee, where the banguide's 16 marker sits (the
+markers are hole MIDPOINTS). Beside the bay it is held 15 m west of the
+shore track the tiles show, because the OSM lake ring runs that far west
+of the real shore and a road inside the ring stands in carved water. A
+road on three references and a path in the model is a trace error, never
+a rendering one. And the first reroute left the motorhome lot
+instead, read off an 820 m crop where two lines seemed to leave the hub;
+a 200 m crop at native resolution showed no road at the lot at all.
+**Trace a road at native resolution or not at all** — at 0.4 m per
+displayed pixel a mown edge and a gravel road are the same light line.
+Three more from the same road: **PATH ranks above FRINGE, FAIRWAY and
+SEMI** in `SURFACE_PRIORITY` now, because the mown classes painted over
+the road wherever it crossed a fairway (a cart path across a fairway is
+gravel on the ground); **a road must keep ten metres off every tee
+mark**, the synthesised decks included — the trace script measures the
+nearest mark (9.4 m, the 10th's) and the first line ran through the
+15th's white tee and the 17th's red one; and **"the small dock in the
+water on the 14th" was a footbridge**, generated where a shore path cut
+a corner of the OSM lake ring, which is drawn up to 15 m off the real
+shore. The two shore paths are GENERATED from that ring, offset six
+metres onto land, so they cannot cross the water they follow, and the
+trace script counts way-ring crossings (zero) before anything is built.
+
+**Buildings along a road stand square to the road, not to the map.** The
+owner drew the four range buildings over a top-down render and every one
+of them was turned with the road; traced axis-aligned off the tiles they
+had read as dropped at random. Trace them in the road's own frame (a unit
+vector along it and one across it, rectangles as centre ± half-extents),
+which is what the trace script does for these four.
+
+Two things could not be had: Lantmäteriet's open building footprints
+(`stac-vektor` collection `byggnader`, CC-BY) list fine but the kommun zip
+on `dl1` answers 403 for this account, and puttom.se refuses plain fetches
+(403) — a real browser reads it, and its large images are what to look at.
+Footbridges are generic now (a path crossing a water ring or stream gets a
+plank deck with rails), but Puttom's imagery shows no bridge on the course
+and its streams lie a kilometre north-east, so none is drawn here.
+
+**A pack change re-binds v2.** The v2 root index and course manifest carry
+the exact live GPK1 entry (`fallbackV1`) and the surface preview carries
+`source.packSha256`; a new pack fails both closed. `publish-ground-rings`
+now takes the fallback from the LIVE manifest instead of the previous
+root's copy, and the surface preview is recompiled with `--replace`, its
+new sha copied into `PUTTOM_PREVIEW_CONFIG.surfaceDescriptorSha256` (a
+derived constant: from the tool's output, never typed).
 
 ## More courses — `angso3d`, `upsala3d`, `johannesberg3d` (+ their `*build/`)
 
@@ -1397,7 +1554,7 @@ course overrides them from photographs:
 |---|---|---|---|
 | Veckefjärden | cream render | dark red | 3 (the old school) |
 | Norrfällsviken | falurött, white trim | dark red-brown | 1, glazed veranda + terrace |
-| Puttom | falurött, white trim | brown-grey pantile | 2, glazed ground floor, white porch |
+| Puttom | Falu red, white trim, a glazed gable end (the "blue lower storey" in the sunset photo was the blue hour) | dark grey, gabled | 2, window wall, balcony and terrace facing the 18th green |
 | Ängsö | falurött, white trim | **terracotta pantile** | 1½, dormers, a red COURTYARD |
 | Upsala | **cream render** | orange-brown tile | 1 tall, run of gables |
 | Johannesberg | falurött, white trim | orange-red tile | 1½ |
@@ -1592,10 +1749,43 @@ same-source level seam, sealed by the batch's geomorph and skirts.
   samples within 0.5 m of the level are touched, so banks and islands a
   loose ring encloses stand. The published tiles never change; this is a
   rendering choice and is documented as one.
+- **A clear fragment still writes depth.** The flat-water sheet is one quad
+  per component over its whole box, transparent where its mask is zero —
+  and it hid the ring sheet under it: standing 15 cm above the ring's level
+  it wrote depth through its clear part, the ring sheet failed the test,
+  and the lake by the 12th showed its freshly carved bed as brown ground
+  while `pick` reported water. The masked sheet writes no depth and meets
+  a modelled body at that body's own level.
 - **How the plates were found**, for next time: hide things (`V3D.
   setMeshesVisible`, `setWaterVisible`), force the world material unlit
   and single-coloured (`V3D.v2WorldMaterial`), and look straight down
   (`V3D.placeCamera`). Sky through unlit ground is a hole; nothing else is.
+- **Every raster edge is a square drawn on the ground.** With one terrain
+  to the horizon, four boundaries that used to hide under the legacy ring
+  seams became visible as straight lines around the course, found by
+  probing `V3D.probeGround` along a transect and by an unlit, fog-free
+  top-down: the surface window's FOREST class was a flat near-black inside
+  its 30 tiles against the tinted forest floor outside (the surroundings'
+  classes now take the tint too — `TINTED_CLASSES` in material.js); the
+  satellite cover raster's edge, where the imagery's thinning stopped and
+  the rings' closed floor began (`coverEdgeFade`, 240 m, for both the
+  floor and the planter); the near tint's edge at 1536 m (the far raster
+  now restates the near one box-averaged inside that box, and the shader
+  crossfades each layer over its last 300/600 m); and the planted trees
+  ending at MIDR where the cones began (`midrEdgeFade`, a 350 m band the
+  planter thins by and the cones fill by its complement; legacy trees
+  92,254 → 79,399). None of these was a data edge — each was a rule
+  changing along a line.
+- **The forest floor is moss, and the shade is the shadows' job.** Measured
+  in the overhead of the 7th with the trees hidden, the floor rendered at
+  45% of the rough's luminance beside it in both lights — a near-black
+  olive (36,39,20) — and the edge against mown turf shouted. `C.forest` is
+  moss-and-bilberry 0x5c6b3c now, `groundAt` goes 0.75 of the way to it
+  instead of 0.85, and the classifier's forest ramp is 12 m instead of 8:
+  floor-only 64–66% of the rough, with the crowns 76–84%. Re-measure with
+  `floor-measure.mjs`'s method (fixed boxes in a deterministic view, trees
+  hidden and shown) before retuning; a palette judged with the trees on is
+  judged through their shadows.
 - Measured on the RTX 3070: 277 tiles in 7 levels, 129 tiles in one draw at
   the first frontier, boot 25–28 s, 42 tiles from the 14th tee.
   `tools/world-capture.mjs` gates the views where the seam lived.

@@ -127,7 +127,10 @@ async function main() {
     frame: groundManifest.frame,
     sourceManifestSha256,
     course: { slug, name: rootEntry.name, holes: migratedCourse(groundId) },
-    fallbackV1: rootEntry.fallbackV1,
+    /* the exact LIVE GPK1 manifest entry, never the previous root's copy: a
+       course whose pack changed (new traces, a new card) re-binds here, and the
+       runtime refuses a graph whose fallback is not the pack it can fetch */
+    fallbackV1: liveFallback(read, slug, rootEntry.fallbackV1),
     heightAt: createRingSampler(levels),
   });
   const written = await writeGroundGraphFiles(publicDir, graph);
@@ -152,3 +155,12 @@ async function main() {
 }
 
 await main();
+
+/* The GPK1 entry the app will actually fetch, from the live course manifest. */
+function liveFallback(read, slug, previous) {
+  let manifest;
+  try { manifest = JSON.parse(read('courses/index.json').toString('utf8')); } catch { return previous; }
+  const entry = (manifest.courses || []).find(course => course.slug === slug);
+  if (!entry?.sha256 || !Number.isSafeInteger(entry.bytes) || typeof entry.packUrl !== 'string') return previous;
+  return { bytes: entry.bytes, format: 1, packUrl: entry.packUrl, sha256: entry.sha256 };
+}
