@@ -326,7 +326,7 @@
       "bboxWgs84": null,
       "acquiredAt": null,
       "capturedAt": null,
-      "checksum": "11f5d094b23fd38bfc851f55abc47043579eea69d67f797d3bbdd80bccf483da",
+      "checksum": "d6baa34f8b7f693fc023846be55cc943e7f9e9cb4bf3cfeaaee268695590d4e7",
       "checksumReason": null,
       "replacementSourceId": "survey-control",
       "accuracyTier": "D",
@@ -389,7 +389,7 @@
       "id": "legacy-surface-traces",
       "kind": "surface",
       "path": "puttombuild/sat-traces.json",
-      "sha256": "79642c941c654d0b348284ee89df2a6a9ffb2c8cc1a1b21a018793fbe96ea173",
+      "sha256": "6e0cd7f2c2b4207822399384df8c6ec8e33813aaa0d15b0b692e71b31af4e17c",
       "derivedFrom": [
         "esri-imagery-legacy",
         "club-guide-legacy",
@@ -402,7 +402,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/puttom/migration/course-model.epsg3006.json",
-      "sha256": "75c5223c0405f6bd1fefa51e8870a3dacb9ffebbc05b8f0df5a10fe7f189581c",
+      "sha256": "02b245bfdd1db1752b1b425e79dfb9d2437a96e4e93270bcea81aa6beaa5b80b",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -417,7 +417,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/puttom/migration/residual-report.json",
-      "sha256": "c0051b6daeefd52d46a8a0c9d3ad26d0a40a2a6df76201affbcb5c06400635c1",
+      "sha256": "8ae8ec310786a327cc5490310a6011ae338060ceeb5baf313ccc0671ddbc03bd",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -432,7 +432,7 @@
       "id": "d2-authoritative-source-discovery",
       "kind": "acquisition",
       "path": "geo_data/course-v2/puttom/acquisition/d2-discovery.json",
-      "sha256": "5e7ac56c43795bf636facb5ab99110e225d4764f393498a793ea961154d85615",
+      "sha256": "9137cdcac0fbad87e167a94cb88b4112333f25cb1a6c7d6a63536e8544f77114",
       "derivedFrom": [
         "terrain-lm-1m",
         "imagery-lm-ortho",
