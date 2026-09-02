@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import { chromium } from 'playwright-core';
+import { browserArgs } from './tools/browser-args.mjs';
+const [BASE, SLUG, HOLE, OUT] = process.argv.slice(2);
+const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
+const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
+page.setDefaultTimeout(300000);
+await page.goto(`${BASE}/?bana=${SLUG}&det=1`, { waitUntil: 'load' });
+await page.waitForSelector('#boot.done', { timeout: 420000 });
+await page.waitForTimeout(1000);
+const d = await page.evaluate(n => window.V3D.flightSim(+n, 1 / 60, true), HOLE);
+fs.writeFileSync(OUT, JSON.stringify(d));
+console.log('dumped', SLUG, HOLE, 'stations', d.stations, 'sPre', d.sPre, 'transitT', d.transitT.toFixed(1));
+await browser.close();

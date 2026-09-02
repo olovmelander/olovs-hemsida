@@ -567,6 +567,85 @@ length each hole line is slid to.
   features Puttom lacks and no-op; the blind-hole sighting tower is an open
   polish item.
 
+## Hålguiderna — the per-hole text on all nine courses
+
+Every course's HUD text comes from a `guide-notes.json` beside its build
+(`<build>/guide-notes.json`; the nines name theirs in their config's
+`guideNotes`, e.g. `johannesbergbuild/guide-notes-9.json`), read by each
+`reconcile.mjs` or by `tools/build-nine.mjs`. One record per hole: `name`
+(an editorial tagline — no club here names its holes, and the two epithets
+Norrfällsviken uses are kept), `note` (the Swedish description the HUD
+shows, one to three sentences), `club` (the club's own text verbatim where
+one exists) and, where there is no club text, `basis` (which sourced facts
+the note was written from). The `source` string at the top says where the
+club text was found and what was checked. **The HUD shows `note` before
+`shape`** (main.js and all six pages; it was the other way round, which is
+why Veckefjärden's card read an English geometry string).
+
+Where the club's text lives is different for every club, and none of it
+is on the page you would look at first:
+
+| course | the club's per-hole text | how it was reached |
+|---|---|---|
+| Puttom | LiveCaddie course 658, embedded on puttom.se/banguide | `tools/livecaddie-holes.mjs 658` |
+| Veckefjärden | LiveCaddie 379 (the club's condensed text) + Magasin Veckefjärden 2019 pp. 51–56 (Peter Forsberg's longer text) | the tool; the magazine on Issuu, transcribed |
+| Norrfällsviken | the OLD site (offline), Wayback 2015–2025; nvgk.se still says "Kommer snart" | Wayback; the 4/8 renumbering caveat applies |
+| Johannesberg | the SPELTIPS paragraph on each 2026 hole plan (Bana-N.jpg) | plain curl; read off the images |
+| Ängsö | angsogolf.org 2001–2003 (LiveCaddie 649 today has empty text) | Wayback |
+| Upsala | none — sheets on banguider.se carry numbers and labels only | written from sheets, rules, the Kains interview, club news |
+| the three nines | none anywhere | written from the routing geometry and the club's course-level prose, and say so |
+
+`tools/hole-geometry.mjs <build>` prints what the model says about every
+hole — bend and where, tee/green heights and the DEM profile, bunkers and
+water by the PLAYER'S side — and every side, slope and crossing in the notes
+was checked against it. Two traps it carries: lib's `right()` pairs with
+`alongLine`'s angle, not with `bearing()`, so mixing them reflects sides
+(CLAUDE.md's old warning, met again); and a dogleg's direction is the sign
+of the heading change — the elbow of a LEFT dogleg lies RIGHT of the
+tee–green chord, so a chord-side label is inverted. Where the club and the
+model disagree (Johannesberg's 11th "rakt" against a 29° bend; the 18th's
+fairway-crossing hazard 9 m off the modelled line; Norrfällsviken's dogleg
+distances) the notes say neither. Facts the club states and the model lacks
+(Ängsö's brook before the 9th green, Veckefjärden's crossing ditch on 17,
+Upsala's 2022 bunker on 8) are kept in the notes: they describe the course,
+not the render.
+
+**`geobuild/lint-page.mjs` had never run on Windows.** `execFileSync('npx')`
+needs a shell there, and the catch swallowed the EINVAL, so the gate exited
+1 with no message — and a `| tail` in the runner hid the exit code. It
+spawns with a shell on win32 now and prints the error; the probe that
+proves it (an injected undefined identifier) fires.
+
+### Puttom's hålguide — the club's own words, and two things it exposed
+
+`puttombuild/guide-notes.json` is condensed from the club's own per-hole
+banguide, which is not on puttom.se at all: `puttom.se/banguide` is an
+iframe of the LiveCaddie course guide (course 658), and the text the club
+wrote for each hole sits on `course-graphics.php?course=658&hole=N` behind
+a JS-rendered page that 403s any plain fetch. `tools/livecaddie-holes.mjs`
+drives Chrome through all eighteen and is reusable for any club whose guide
+is LiveCaddie — find the id in the iframe src. The verbatim text stays under
+`club` beside each condensed `note`, and every bend, rise and side in the
+notes was checked against the model's line geometry and the DEM profile
+(the 11th's green really is in a hollow: 72.6 m at 80 m out, 68.7 m on the
+green). `name` is an editorial tagline; the club names no holes.
+
+**The model's lake names are on the wrong rings.** `reconcile.mjs` calls the
+two LARGEST water rings Stor- and Lill-Rössjön, but Wikipedia/SMHI put both
+lakes ON the course: Stor-Rössjön (14.4 ha, 63°17′48″N 18°56′31″E) is the
+ring the 12th, 15th and 16th play over, Lill-Rössjön (11.3 ha, 63°18′04″N
+18°56′02″E) the pond inside the 4th's dogleg. The 121 ha lake 4 km
+north-west that carries the name today is something else. The club's
+history says "mellan två SMÅ sjöar", which should have been the tell. Not
+yet fixed, because the names choose which rings get the wide shore bench.
+
+**The club's card disagrees with the aggregators on two cells.** The
+LiveCaddie card (and golfify.io) give hole 11 index 6 and hole 16 index 12;
+caddee and golfisverige, which the committed card came from, have them
+swapped. The club also lists no 61 tee on holes 3, 4, 11 and 12. Per the
+Mellanbanan rule the club's sheet should win, but this one is left for the
+owner; the notes state neither claim.
+
 ### Puttom's facilities — what OSM never had, and where they came from
 
 The extract has no footway or path, no parking polygon, no bridge and no
@@ -1523,6 +1602,52 @@ still round-trips; every historical `?tee=N` link is untouched, N being an
 absolute column. The **standalone pages still open on their back tee** — they are
 hotfix-only — so a parity run comparing app against page must now pass the same
 `?tee=` to both sides. Same rule as everywhere else here: measure like with like.
+
+### The bansafari is a broadcast flyover, and it is measured
+
+`initHoleFlight` in main.js builds one continuous drone shot per hole as a
+table of stations every 3 m -- position, look point, lens -- and the frame
+loop only walks it (`flightStep` + `applyFlightCamera`). The shape is the PGA
+Tour hole flyover: a slow push-off from behind the tee, a climb to a cruise
+that scales with the hole, a descent into the approach with the pin held
+in frame, a 180° sweep round the green ending on the reverse angle, a hold,
+and a dip-to-black cut to the next hole. `tools/check-flight.mjs` gates it
+(clearance, pan rate, jolt, pitch band, duration) by asking the page to
+SIMULATE each hole offline through `V3D.flightSim`, and can fly a hole live
+or run the tour through its first cut. Things it took the measurements to find:
+
+- **Nothing turned the camera.** OrbitControls' `update()` is what orients the
+  camera and it is skipped while flying; the old flight had no `lookAt`, so it
+  slid along its spline staring in one fixed direction. The look curve it
+  built was dead code. Flight orientation is an explicit `lookAt` now.
+- **The ground under the flight is an envelope, and the trees are the planted
+  ones.** The highest terrain across a 24 m swath plus the tallest crown top
+  in the planted population (`treeTopGrid`, a 10 m cell max over `trees`),
+  slope-limited to a 12° climb, then filtered. A class lookup
+  (`classify().forest`) misses most of what the planter stood up from the
+  satellite raster and the v2 registry -- the first version flew through the
+  crowns behind the 12th at Puttom while reporting 19 m of clearance.
+- **The sweep keeps its pitch and gives up its radius.** Climbing over the
+  canopy at a fixed radius put the camera 44 m over a par-3 green looking
+  straight down at a disc with no horizon. Pitch to the pin is 26° at the
+  design radius, steepens to at most 33°, and past that the arc widens
+  (to 85 m); the sweep's speed is an angular rate so a wide arc pans no
+  faster than a tight one. The frame centre aims 7-11° above the pin so the
+  horizon stays inside the top of frame.
+- **A level sweep below a crown it did not know about is a pop.** The floor
+  used to be applied after the filter, so one station's lift became a 6 m
+  jump in half a second (hole 6, 148 m/s²). The floor is applied against the
+  slope-limited envelope BEFORE the filter now; the smooth-max after it is a
+  safety net that should not fire, and the gate's jolt limit is what proves it.
+- **Measure the sim at full precision.** Rounding the track's timestamps to
+  milliseconds put 2% jitter on every velocity and 70 m/s² of fake jolt on
+  every hole, which hid the real one.
+- Speed is a function of distance integrated once into a time table, so the
+  shot has one velocity profile and no seam at the green. Position and look
+  point pass through critically damped springs with different time constants
+  (0.28 s airframe, 0.85 s gimbal). Holes take 32-48 s; ~12 min for eighteen.
+- The progress label reads `GREENSVEP`, not `GREEN 360°`, because the sweep
+  is 180°. The standalone pages still carry the old flight; they are hotfix-only.
 
 ### The clubhouses, and what a photograph is for
 

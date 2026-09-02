@@ -1134,7 +1134,7 @@ let captureReadbackTarget = null;
 let captureRenderLocked = false;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.5, 22000);
+const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.0, 14000);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.055;
@@ -2555,6 +2555,7 @@ const carSpots = [];
     stats.draws++;
   }
 }
+
 
 /* a car is two boxes; a car park is fifty of them in three colour buckets */
 {
@@ -5226,13 +5227,15 @@ function placeSun() {
   sun.position.set(t.x + d.x * 1200, t.y + d.y * 1200, t.z + d.z * 1200);
   sun.target.position.copy(t);
   sun.target.updateMatrixWorld();
-  /* size the shadow box to what the camera can actually see, so a tee view spends
-     all 2048 pixels on the tee and a wide view still has shadows at its edges */
-  const R = clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150);
+  /* Stabilize shadow frustum: during flyovers use a rock-solid fixed size to prevent
+     shadow crawling on terrain; in interactive mode apply hysteresis thresholding. */
+  const targetR = flying > 0 ? 580 : clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150);
   const c = sun.shadow.camera;
-  c.left = -R; c.right = R; c.top = R; c.bottom = -R;
-  c.near = 200; c.far = 2400;
-  c.updateProjectionMatrix();
+  if (!c.top || Math.abs(c.top - targetR) > 14) {
+    c.left = -targetR; c.right = targetR; c.top = targetR; c.bottom = -targetR;
+    c.near = 200; c.far = 2400;
+    c.updateProjectionMatrix();
+  }
 }
 
 /* ------------------------------------------------------------------- ui */
@@ -5276,7 +5279,7 @@ function drawCard() {
     `Tee <b>${h.elev.tee.toFixed(0)} m</b> · green <b>${h.elev.green.toFixed(0)} m</b> ö.h.<br>` +
     `Ritad <b>${h.lineLen.toFixed(0)} m</b> · kortet <b>${h.t[0]} m</b>`;
   document.getElementById('nnm').textContent = h.name || `Hål ${h.n}`;
-  document.getElementById('ntx').textContent = h.shape || h.note || '';
+  document.getElementById('ntx').textContent = h.note || h.shape || '';
   document.querySelectorAll('.hb').forEach((b, i) => b.classList.toggle('on', i + 1 === hole));
   drawMini();
 }
@@ -5388,7 +5391,16 @@ document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPre
   railEl.querySelectorAll('.btn').forEach(b =>
     b.addEventListener('click', () => { if (window.matchMedia('(max-width:700px)').matches) closeRail(); }));
 }
-document.getElementById('flyBtn').onclick = () => { flying = flying > 0 ? 0 : 1e-4; };
+document.getElementById('flyBtn').onclick = () => {
+  if (flying > 0) {
+    stopFlight();
+    setCam(camMode);
+  } else {
+    initHoleFlight(HOLES[hole - 1]);
+    showTourCard();
+    flying = 1e-4;
+  }
+};
 
 /* ------------------------------------------------------------ ren vy */
 function setClean(on) {
@@ -5396,30 +5408,658 @@ function setClean(on) {
 }
 document.getElementById('cleanExit').onclick = () => { if (tour) endTour(); else setClean(false); };
 
-/* ------------------------------------------------------- bansafari (kiosk) */
-let tour = 0, tourCardT = 0;
+/* ------------------------------------------------------- bansafari & PGA Tour TV flight
+   One continuous drone shot per hole, flown the way a broadcast flyover is
+   flown: a slow push off from behind the tee, a climb to a cruise high enough
+   to read the whole hole, a descent into the approach with the pin held in
+   frame, and a wide sweep round the green that ends on the reverse angle,
+   looking back down the hole. The shot is decided at build time as a table of
+   STATIONS every FL.ds metres -- position, look point, lens -- and the frame
+   loop only walks it. Four things make it read as television:
+
+   - the ground under the flight is an ENVELOPE, not the terrain: the highest
+     ground across a 24 m swath, lifted where the swath is forest, limited to a
+     12 degree climb so no ridge is a bump, then filtered. The drone glides over
+     what is there instead of tracing it.
+   - speed is a function of distance, integrated once into a time table, so
+     the whole shot has one velocity profile (push-off, cruise, ease into the
+     sweep, settle) and no seam at the green.
+   - the camera is oriented by an explicit lookAt every frame. OrbitControls'
+     update() is what used to turn it and that call is skipped while flying, so
+     the earlier flight moved the camera along its spline staring in one fixed
+     direction -- the "wrong angles" it was known for.
+   - position and look point pass through critically damped springs with
+     different time constants (a gimbal is slower than an airframe), which is
+     what makes a pan start and stop without a kick.                          */
+const FL = {
+  ds: 3,             // station spacing, m
+  preTee: 44,        // the push-off starts this far behind the tee
+  altTee: 24,        // metres above the envelope at the tee
+  lead: 100,         // the look point runs this far ahead down the line
+  orbitDeg: 180,     // the sweep round the green; 180 ends on the reverse angle
+  vOrbit: 9.5,       // m/s on the sweep, at least ...
+  sweepRate: 10.5,   // ... and degrees per second round the pin, which is what the eye sees
+  sweepPitch: 26,    // degrees down to the PIN on the sweep at the design radius ...
+  sweepPitchMax: 33, // ... steepening to this much before the radius widens to clear the trees
+  sweepAimBelow: 7,  // the pin sits this many degrees below the frame centre: horizon in, green low
+  sweepClear: 14,    // metres the sweep keeps above the envelope, by widening
+  swath: 12,         // half-width of the ground swath under the flight
+  canopy: 18,        // how much forest lifts the envelope
+  climb: 0.22,       // slope limit of the envelope (tan 12.4 degrees)
+  fovCruise: 52, fovOrbit: 46,
+  offset: 8,         // lateral offset off the line on the fairway
+  hold: 1.4,         // seconds on the closing frame before the travel shot leaves
+  vTransit: 24,      // m/s between holes ...
+  altTransit: 30,    // ... this far above the envelope (crowns included), over whatever lies between
+  lookAhead: 110,    // the travel shot looks this far along its route
+  lineUp: 40,        // the straight run behind the push-off point the route arrives along
+  panMax: 14,        // degrees per second of heading change a bend on the hole may be flown at ...
+  panMaxTransit: 15, // ... and on the travel shot, where the turn behind the tee is the point
+  accel: 2.5,        // m/s^2 the drone brakes and accelerates at around a bend
+};
+const tourFlight = {
+  st: null,                  // the station table
+  t: 0, duration: 0, orbitT: 0, holdTimer: 0,
+  pos: new THREE.Vector3(), look: new THREE.Vector3(),
+  posV: new THREE.Vector3(),
+  yaw: 0, pitch: 0, dist: 60, yawV: 0, pitchV: 0, distV: 0,   // the gimbal, about the camera
+  fov: 48, fovV: 0, baseFov: camera.fov,
+  initialized: false, cardPending: false,
+  fairwayRatio: 0.6,
+};
+
+/* critically damped spring toward a moving target (Unity's SmoothDamp) */
+const _sdC = new THREE.Vector3();
+function smoothDamp(cur, vel, target, smoothTime, dt) {
+  const w = 2 / Math.max(1e-4, smoothTime), x = w * dt;
+  const e = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
+  _sdC.subVectors(cur, target);
+  const tx = (vel.x + w * _sdC.x) * dt, ty = (vel.y + w * _sdC.y) * dt, tz = (vel.z + w * _sdC.z) * dt;
+  vel.x = (vel.x - w * tx) * e; vel.y = (vel.y - w * ty) * e; vel.z = (vel.z - w * tz) * e;
+  cur.x = target.x + (_sdC.x + tx) * e; cur.y = target.y + (_sdC.y + ty) * e; cur.z = target.z + (_sdC.z + tz) * e;
+}
+function smoothDampF(cur, vel, target, smoothTime, dt) {
+  const w = 2 / Math.max(1e-4, smoothTime), x = w * dt;
+  const e = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
+  const c = cur - target, tmp = (vel + w * c) * dt;
+  return [target + (c + tmp) * e, (vel - w * tmp) * e];
+}
+/* a polyline [x, z, a] resampled at an even step; the attribute rides along */
+function resampleXZ(P, step) {
+  const out = [P[0].slice()];
+  let need = step;
+  for (let i = 0; i < P.length - 1; i++) {
+    const a = P[i], b = P[i + 1], L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    if (L < 1e-6) continue;
+    let pos = 0;
+    while (pos + need <= L) {
+      pos += need; need = step;
+      const f = pos / L;
+      out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f]);
+    }
+    need -= L - pos;
+  }
+  const last = P[P.length - 1], o = out[out.length - 1];
+  if (Math.hypot(last[0] - o[0], last[1] - o[1]) > step * 0.5) out.push(last.slice());
+  return out;
+}
+/* box-filter the xz of a polyline, endpoints pinned, corners rounded */
+function boxSmoothXZ(P, half, passes) {
+  let cur = P;
+  for (let p = 0; p < passes; p++) {
+    const n = cur.length, out = cur.map(q => q.slice());
+    for (let i = 0; i < n; i++) {
+      const a = Math.max(0, i - half), b = Math.min(n - 1, i + half);
+      let sx = 0, sz = 0;
+      for (let j = a; j <= b; j++) { sx += cur[j][0]; sz += cur[j][1]; }
+      const m = b - a + 1, w = Math.min(1, Math.min(i, n - 1 - i) / half);
+      out[i][0] = cur[i][0] + (sx / m - cur[i][0]) * w;
+      out[i][1] = cur[i][1] + (sz / m - cur[i][1]) * w;
+    }
+    cur = out;
+  }
+  return cur;
+}
+const boxSmooth1 = (A, half) => A.map((_, i) => {
+  const a = Math.max(0, i - half), b = Math.min(A.length - 1, i + half);
+  let s = 0; for (let j = a; j <= b; j++) s += A[j];
+  return s / (b - a + 1);
+});
+/* max(a, b) without the kink: a smooth maximum over a band of `k` metres */
+const smax = (a, b, k) => 0.5 * (a + b + Math.sqrt((a - b) * (a - b) + k * k));
+/* the tallest crown top per 10 m cell of the planted population, built once
+   per population (its size is the cache key, since v2 stands arrive later) */
+let treeTops = null;
+function treeTopGrid() {
+  const total = trees[0].length + trees[1].length + trees[2].length;
+  if (treeTops && treeTops.total === total) return treeTops;
+  const cell = 10, m = new Map(), key = (i, j) => (i + 50000) * 100000 + (j + 50000);
+  for (let sp = 0; sp < 3; sp++) {
+    const T = trees[sp], th = SPECIES[sp].templateHeight || 14;
+    for (let k = 0; k < T.length; k += 6) {
+      const top = T[k + 1] + T[k + 3] * th, kk = key(Math.floor(T[k] / cell), Math.floor(T[k + 2] / cell));
+      const v = m.get(kk);
+      if (v === undefined || top > v) m.set(kk, top);
+    }
+  }
+  treeTops = {
+    total, cell,
+    at: (x, z) => {
+      const i0 = Math.floor(x / cell), j0 = Math.floor(z / cell);
+      let t = -Infinity;
+      for (let di = -1; di <= 1; di++) for (let dj = -1; dj <= 1; dj++) {
+        const v = m.get(key(i0 + di, j0 + dj));
+        if (v !== undefined && v > t) t = v;
+      }
+      return t;
+    },
+  };
+  return treeTops;
+}
+
+/* `from` is the pose the previous hole's shot ended in ({pos, look, dir}); when
+   given, the table starts with a TRAVEL SHOT from there to behind this tee and
+   the springs are carried across, so the tour is one continuous take. */
+function initHoleFlight(h, from = null) {
+  tourFlight.st = null;
+  if (!h || !h.line || h.line.length < 2) return;
+  const gc = h.green.c, pin = h.pin || gc;
+  const L = h.line.map(p => [p[0], p[1]]);
+  if (hyp(L[L.length - 1], gc) > 4) L.push([gc[0], gc[1]]);
+  const lineLen = polyLen(L);
+  if (lineLen < 40) return;
+
+  /* the hole line at 2 m, rounded through its doglegs the way a pilot flies them;
+     index i is the parameter s = 2i along the ORIGINAL line, kept through the
+     smoothing so a distance down the hole still names the same place */
+  const line = boxSmoothXZ(resampleXZ(L.map(p => [p[0], p[1], 0]), 2), 9, 2);
+  const lineAt = s => {
+    const f = clampf(s / 2, 0, line.length - 1), i = Math.floor(f), t = f - i, j = Math.min(line.length - 1, i + 1);
+    return [line[i][0] + (line[j][0] - line[i][0]) * t, line[i][1] + (line[j][1] - line[i][1]) * t];
+  };
+  const bearingAt = s => { const a = lineAt(Math.max(0, s - 8)), b = lineAt(Math.min(lineLen, s + 8)); return Math.atan2(b[0] - a[0], b[1] - a[1]); };
+
+  /* the envelope sample: the highest ground across the swath and the tallest
+     PLANTED crown over it -- the trees themselves, not a forest class, because
+     the planter reads the satellite raster and the v2 registry and a class
+     lookup misses most of what it stood up. The class-based canopy lift stays
+     as the fallback where a stand is not in the population (a far ring). What
+     a drone must clear, not what is under it. */
+  const tops = treeTopGrid();
+  const envAt = (x, z, b) => {
+    const rb = rightOf(b);
+    let hm = -Infinity, canopy = 0;
+    for (const o of [-1, -0.5, 0, 0.5, 1]) {
+      const sx = x + rb[0] * o * FL.swath, sz = z + rb[1] * o * FL.swath;
+      const g = terrainH(sx, sz);
+      hm = Math.max(hm, g, tops.at(sx, sz));
+      canopy = Math.max(canopy, g + FL.canopy * (classify(sx, sz).forest || 0));
+    }
+    return Math.max(hm, canopy);
+  };
+
+  /* geometry of the sweep. The side is chosen by MEASURING the envelope on
+     both candidate arcs -- the drone sweeps where there is air, not where a
+     convention says. The pitch down to the pin is FIXED: where trees or a
+     bank behind the green would force the camera up, the radius widens
+     instead, because a sweep that climbs over the canopy ends up looking
+     straight down at a disc of green with no horizon. */
+  const pinY = terrainH(pin[0], pin[1]);
+  const tanPitch = Math.tan(FL.sweepPitch * Math.PI / 180);
+  const R0 = clampf(34 + lineLen * 0.03, 38, 50);
+  const nArc = Math.max(6, Math.round(FL.orbitDeg / 10));
+  const arcEnv = (dir, R, phi0) => {
+    let mean = 0, max = -Infinity;
+    for (let k = 0; k <= nArc; k++) {
+      const a = phi0 + dir * (k / nArc) * FL.orbitDeg * Math.PI / 180;
+      const e = envAt(pin[0] + Math.sin(a) * R, pin[1] + Math.cos(a) * R, a + dir * Math.PI / 2);
+      mean += e / (nArc + 1); max = Math.max(max, e);
+    }
+    return { mean, max };
+  };
+  /* Hn is the height the sweep must fly above the pin: the design pitch at the
+     design radius, or whatever clears the tallest thing on the arc. The pitch
+     may steepen to sweepPitchMax before the radius gives way; past that the
+     arc widens, and past the widest arc the height simply rises. */
+  const tanMax = Math.tan(FL.sweepPitchMax * Math.PI / 180);
+  let R = R0, Hn = R0 * tanPitch, dir = 1, sEnd = 0, phi0 = 0;
+  for (let pass = 0; pass < 3; pass++) {
+    const dApp = clampf(R + 12, 30, lineLen * 0.45);
+    sEnd = lineLen - dApp;
+    const pApp = lineAt(sEnd);
+    phi0 = Math.atan2(pApp[0] - pin[0], pApp[1] - pin[1]);
+    const eP = arcEnv(1, R, phi0), eN = arcEnv(-1, R, phi0);
+    if (pass === 0) dir = eP.mean <= eN.mean ? 1 : -1;
+    const eMax = (dir > 0 ? eP : eN).max;
+    Hn = Math.max(R0 * tanPitch, eMax + FL.sweepClear - pinY);
+    R = clampf(Hn / tanMax, R0, 85);
+  }
+  const bEnd = bearingAt(sEnd);
+  const pApp = lineAt(sEnd);
+  const arcLen = R * FL.orbitDeg * Math.PI / 180;
+  const orbitY = pinY + Hn;
+  /* the frame centre aims above the pin so the horizon stays inside the top
+     of frame: 7 degrees on a shallow sweep, up to 11 where trees steepened it */
+  const pitchPin = Math.atan2(Hn, R);
+  const aimBelow = clampf(pitchPin * 180 / Math.PI - 19, FL.sweepAimBelow, FL.sweepAimBelow + 4);
+  const lookPin = [pin[0], orbitY - R * Math.tan(pitchPin - aimBelow * Math.PI / 180), pin[1]];
+  const a1 = phi0 + dir * 0.2;
+  const rEnd = rightOf(bEnd);
+  const side = ((Math.sin(a1) * R + pin[0] - pApp[0]) * rEnd[0] + (Math.cos(a1) * R + pin[1] - pApp[1]) * rEnd[1]) >= 0 ? 1 : -1;
+
+  /* waypoints [x, z, lineS]: push-off, the fairway a little off-axis on the
+     sweep's side, then the arc. lineS is the distance down the hole a station
+     corresponds to, negative behind the tee, past lineLen on the sweep. */
+  const W = [];
+  const b0 = bearingAt(0), F0 = [Math.sin(b0), Math.cos(b0)], p0 = lineAt(0);
+  const preS = -FL.preTee;
+  if (from) {
+    /* the travel shot: carry the sweep's heading for a beat, cross to a line-up
+       point straight behind the next tee, and arrive along the hole's own axis.
+       lineS keeps counting down behind the push-off point so every rule that
+       reads it (altitude, look, lens) sees the transit as "before the tee". */
+    const A = [from.pos[0], from.pos[2]];
+    const B = [p0[0] - F0[0] * (FL.preTee + FL.lineUp), p0[1] - F0[1] * (FL.preTee + FL.lineUp)];
+    /* The route must ARRIVE at B heading down the hole, and the previous
+       green is as often in front of the next tee as behind it -- so the
+       last leg is a turning circle tangent to the hole's axis at B, on A's
+       side of it, reached from A along its tangent (the straight-then-arc
+       path a pilot flies), and the first leg bends out of the sweep's
+       heading with a Hermite whose end tangent lies along that straight, so
+       nothing in it can overshoot. A single curve straight to B folded into
+       a hairpin whenever the tee lay behind the heading. */
+    const Rv = rightOf(b0);
+    const ang = P => Math.atan2(P[0] - C[0], P[1] - C[1]);
+    let Rt = 42, side = Math.sign((A[0] - B[0]) * Rv[0] + (A[1] - B[1]) * Rv[1]) || 1;
+    let C = [B[0] + side * Rt * Rv[0], B[1] + side * Rt * Rv[1]];
+    let D = Math.hypot(A[0] - C[0], A[1] - C[1]);
+    if (D < Rt * 1.05) {
+      side = -side; C = [B[0] + side * Rt * Rv[0], B[1] + side * Rt * Rv[1]]; D = Math.hypot(A[0] - C[0], A[1] - C[1]);
+      if (D < Rt * 1.05) { Rt = Math.max(12, D * 0.9); C = [B[0] + side * Rt * Rv[0], B[1] + side * Rt * Rv[1]]; D = Math.hypot(A[0] - C[0], A[1] - C[1]); }
+    }
+    /* increasing angle round C runs to the LEFT of the radius, so the circle
+       on the right of the heading (side +1) is flown with decreasing angle */
+    const rot = -side, alpha = Math.acos(Math.min(1, Rt / D)), angA = ang(A);
+    const headingAt = a => [-rot * -Math.cos(a), -rot * Math.sin(a)];   /* rot * -rightOf(a) */
+    let Tp = null, best = -Infinity;
+    for (const a of [angA + alpha, angA - alpha]) {
+      const P = [C[0] + Math.sin(a) * Rt, C[1] + Math.cos(a) * Rt];
+      const dx = P[0] - A[0], dz = P[1] - A[1], L = Math.hypot(dx, dz) || 1, h = headingAt(a);
+      const fit = (dx * h[0] + dz * h[1]) / L;
+      if (fit > best) { best = fit; Tp = P; }
+    }
+    const pts = [];
+    const dT = Math.hypot(Tp[0] - A[0], Tp[1] - A[1]);
+    if (dT > 12) {
+      const m = clampf(0.4 * dT, 20, 120), u = [(Tp[0] - A[0]) / dT, (Tp[1] - A[1]) / dT];
+      const T0 = [from.dir[0] * m, from.dir[1] * m], T1 = [u[0] * m, u[1] * m];
+      const nH = Math.max(3, Math.ceil(dT / 6));
+      for (let k = 0; k < nH; k++) {
+        const t = k / nH, t2 = t * t, t3 = t2 * t;
+        const h00 = 2 * t3 - 3 * t2 + 1, h10 = t3 - 2 * t2 + t, h01 = -2 * t3 + 3 * t2, h11 = t3 - t2;
+        pts.push([h00 * A[0] + h10 * T0[0] + h01 * Tp[0] + h11 * T1[0], h00 * A[1] + h10 * T0[1] + h01 * Tp[1] + h11 * T1[1]]);
+      }
+    } else pts.push(A);
+    let sweep = (ang(B) - ang(Tp)) * rot;
+    sweep = ((sweep % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+    const nA = Math.max(2, Math.ceil(Rt * sweep / 6));
+    for (let k = 0; k <= nA; k++) {
+      const a = ang(Tp) + rot * sweep * k / nA;
+      pts.push([C[0] + Math.sin(a) * Rt, C[1] + Math.cos(a) * Rt]);
+    }
+    const ls = new Array(pts.length);
+    ls[pts.length - 1] = preS - FL.lineUp;
+    for (let k = pts.length - 2; k >= 0; k--) ls[k] = ls[k + 1] - Math.hypot(pts[k + 1][0] - pts[k][0], pts[k + 1][1] - pts[k][1]);
+    pts.forEach((p, k) => W.push([p[0], p[1], ls[k]]));
+  }
+  W.push([p0[0] - F0[0] * FL.preTee, p0[1] - F0[1] * FL.preTee, -FL.preTee]);
+  W.push([p0[0] - F0[0] * FL.preTee * 0.5, p0[1] - F0[1] * FL.preTee * 0.5, -FL.preTee * 0.5]);
+  for (let s = 0; s <= sEnd + 1e-6; s += 6) {
+    const ss = Math.min(s, sEnd), p = lineAt(ss), rb = rightOf(bearingAt(ss));
+    const off = FL.offset * side * smooth(0, 120, ss) * smooth(sEnd, sEnd - 100, ss);
+    W.push([p[0] + rb[0] * off, p[1] + rb[1] * off, ss]);
+  }
+  for (let k = 1; k <= nArc; k++) {
+    const a = phi0 + dir * (k / nArc) * FL.orbitDeg * Math.PI / 180;
+    W.push([pin[0] + Math.sin(a) * R, pin[1] + Math.cos(a) * R, sEnd + (k / nArc) * arcLen]);
+  }
+  const path = resampleXZ(boxSmoothXZ(resampleXZ(W, 2), 8, 2), FL.ds);
+  const n = path.length;
+
+  /* the envelope along the path: max ground, slope-limited both ways, filtered */
+  const hRaw = new Float64Array(n), env = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const a = path[Math.max(0, i - 1)], b = path[Math.min(n - 1, i + 1)];
+    hRaw[i] = envAt(path[i][0], path[i][1], Math.atan2(b[0] - a[0], b[1] - a[1]));
+  }
+  env.set(hRaw);
+  for (let i = 1; i < n; i++) env[i] = Math.max(env[i], env[i - 1] - FL.climb * FL.ds);
+  for (let i = n - 2; i >= 0; i--) env[i] = Math.max(env[i], env[i + 1] - FL.climb * FL.ds);
+  const envS = boxSmooth1(Array.from(env), 15);
+
+  /* altitude: tee height above the envelope, a climb to cruise, then a descent
+     that lands on the sweep's LEVEL height over the last 120 m of approach.
+     Cruise scales with the hole so a par 5 reads whole and a par 3 stays close. */
+  const cruise = clampf(24 + lineLen * 0.045, 30, 48);
+  const altOf = ls => ls < preS ? lerp(FL.altTransit, FL.altTee, smooth(preS - 160, preS, ls))
+    : ls < 0 ? FL.altTee : lerp(FL.altTee, cruise, smooth(0, 160, ls));
+  /* the floor is applied against the slope-limited envelope BEFORE the filter,
+     so a crown the level sweep did not know about becomes a gentle rise and
+     not a pop; the smooth-max after it is a safety net that should not fire */
+  let y = path.map((p, i) => Math.max(env[i] + 13, lerp(envS[i] + altOf(p[2]), orbitY, smooth(sEnd - 120, sEnd, p[2]))));
+  y = boxSmooth1(y, 6).map((v, i) => smax(v, hRaw[i] + 12, 4));
+  /* a travel shot leaves from exactly where the last one stopped */
+  if (from) y = y.map((v, i) => lerp(from.pos[1], v, smooth(0, 90, i * FL.ds)));
+
+  /* the look point: a lead down the line, settling on the pin, which then sits
+     a little below the frame centre for the whole sweep. On the travel shot the
+     gimbal comes off the pin it was holding, looks 80 m ahead along the route,
+     and by the line-up point is looking down the next hole. */
+  /* interpolate two look points as seen from the camera at cam [x, z]: bearing
+     by the shorter arc, distance and height linearly */
+  const blendLook = (cam, a, b, k, turn) => {
+    /* a blend that is not yet active tracks nothing: the branch it will keep
+       is chosen at the first station where it moves, or the swing found by
+       the time it engages has drifted round the long way */
+    if (k <= 0) { if (turn) turn.d = null; return a.slice(); }
+    const ax = a[0] - cam[0], az = a[2] - cam[1], bx = b[0] - cam[0], bz = b[2] - cam[1];
+    const a0 = Math.atan2(ax, az), a1 = Math.atan2(bx, bz);
+    let da = a1 - a0; if (da > Math.PI) da -= 2 * Math.PI; if (da < -Math.PI) da += 2 * Math.PI;
+    /* when the two bearings are near opposite, "the shorter arc" changes
+       sides from one station to the next as the camera moves, and the table
+       stepped 172 degrees between two stations 3 m apart. The swing is
+       therefore UNWRAPPED against the previous station's: the branch chosen
+       at the first station is the one the whole blend keeps. */
+    if (turn) {
+      if (turn.d !== null) {
+        while (da - turn.d > Math.PI) da -= 2 * Math.PI;
+        while (da - turn.d < -Math.PI) da += 2 * Math.PI;
+      }
+      turn.d = da;
+    }
+    const ang = a0 + da * k, d = lerp(Math.hypot(ax, az), Math.hypot(bx, bz), k);
+    return [cam[0] + Math.sin(ang) * d, lerp(a[1], b[1], k), cam[1] + Math.cos(ang) * d];
+  };
+  const turnOut = { d: null }, turnIn = { d: null };
+  /* the heading the gimbal is holding as the travel shot leaves: the swing
+     starts from THAT, held as the aircraft moves, not from the pin itself --
+     a route that passes close by the last green would otherwise whip the
+     bearing to the pin round at 30-40 degrees a second while it still counted */
+  let hold0 = null;
+  if (from) {
+    const dx = from.look[0] - from.pos[0], dy = from.look[1] - from.pos[1], dz = from.look[2] - from.pos[2];
+    hold0 = { b: Math.atan2(dx, dz), t: dy / (Math.hypot(dx, dz) || 1) };
+  }
+  const lookFair = ls => {
+    const lookS = Math.min(lineLen, Math.max(ls, 0) + FL.lead);
+    const q = lineAt(lookS), k = smooth(lineLen - 40, lineLen, lookS);
+    return [lerp(q[0], lookPin[0], k), lerp(terrainH(q[0], q[1]) + 2, lookPin[1], k), lerp(q[1], lookPin[2], k)];
+  };
+  const looks = path.map((p, i) => {
+    const ls = p[2];
+    if (ls >= sEnd) return lookPin;
+    if (ls < preS) {
+      /* the route point FL.lookAhead on, pushed out to exactly that far
+         horizontally so a bend never puts the look point under the camera.
+         The blends between look points are ANGULAR about the camera: a
+         straight lerp from the pin behind to the route ahead passes through
+         the camera's own footprint and pitched the shot to 89 degrees. */
+      const q = path[Math.min(n - 1, i + Math.round(FL.lookAhead / FL.ds))];
+      let dx = q[0] - p[0], dz = q[1] - p[1];
+      if (Math.hypot(dx, dz) < 1e-3) { const nx = path[Math.min(n - 1, i + 1)]; dx = nx[0] - p[0]; dz = nx[1] - p[1]; }
+      const L = Math.hypot(dx, dz) || 1, gx = p[0] + dx / L * FL.lookAhead, gz = p[1] + dz / L * FL.lookAhead;
+      const cam = [p[0], p[1]];
+      const ahead = blendLook(cam, [gx, terrainH(gx, gz) + 2, gz], lookFair(preS), smooth(preS - 120, preS, ls), turnIn);
+      const held = [p[0] + Math.sin(hold0.b) * FL.lookAhead, y[i] + hold0.t * FL.lookAhead, p[1] + Math.cos(hold0.b) * FL.lookAhead];
+      return blendLook(cam, held, ahead, smooth(0, 200, i * FL.ds), turnOut);
+    }
+    return lookFair(ls);
+  });
+  const fovs = path.map(p => lerp(FL.fovCruise, FL.fovOrbit, smooth(sEnd - 140, sEnd + 20, p[2])));
+
+  /* one velocity profile over path distance, integrated into a time table */
+  let iOrbit = n - 1;
+  for (let i = 0; i < n; i++) if (path[i][2] >= sEnd - 0.5) { iOrbit = i; break; }
+  const sOrbit = iOrbit * FL.ds, sTotal = (n - 1) * FL.ds;
+  const vFair = clampf(9 + lineLen * 0.032, 12, 22);
+  const vOrbit = Math.max(FL.vOrbit, R * FL.sweepRate * Math.PI / 180);
+  /* with a travel shot in front, the route is flown at transit speed and the
+     drone all but hovers at the push-off point before the hole's own profile
+     takes over -- the beat behind the tee that a flyover opens with */
+  let iPre = 0;
+  if (from) for (let i = 0; i < n; i++) if (path[i][2] >= preS - 0.5) { iPre = i; break; }
+  const sPre = iPre * FL.ds;
+  const base = s => s < sPre ? lerp(FL.vTransit, vFair, smooth(sPre - 100, sPre, s))
+    : lerp(vFair, vOrbit, smooth(sOrbit - 70, sOrbit + 10, s));
+  const dip = s => from ? 1 - 0.65 * Math.exp(-((s - sPre) / 35) * ((s - sPre) / 35)) : 1;
+  const vAt = s => base(s) * dip(s)
+    * (0.22 + 0.78 * smooth(0, 60, s)) * (0.30 + 0.70 * smooth(sTotal, sTotal - 40, s));
+  /* the profile is then capped by the path's own curvature -- a bend is flown
+     no faster than FL.panMax degrees per second of heading change -- with the
+     cap propagated both ways at FL.accel so the drone brakes into a turn and
+     picks up again out of it, never at the turn itself */
+  const vCap = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    /* heading change over a two-station baseline, so the resampling's own
+       jitter does not read as a bend; the first stations are exempt because
+       the shot starts from rest there anyway */
+    const a = path[Math.max(0, i - 2)], b = path[i], c = path[Math.min(n - 1, i + 2)];
+    let dh = Math.atan2(c[0] - b[0], c[1] - b[1]) - Math.atan2(b[0] - a[0], b[1] - a[1]);
+    if (dh > Math.PI) dh -= 2 * Math.PI; if (dh < -Math.PI) dh += 2 * Math.PI;
+    const kappa = i < 3 ? 0 : Math.abs(dh) / (2 * FL.ds);
+    const panMax = path[i][2] < preS ? FL.panMaxTransit : FL.panMax;
+    vCap[i] = Math.min(vAt(i * FL.ds), panMax * Math.PI / 180 / Math.max(kappa, 1e-4));
+  }
+  for (let i = n - 2; i >= 0; i--) vCap[i] = Math.min(vCap[i], Math.sqrt(vCap[i + 1] * vCap[i + 1] + 2 * FL.accel * FL.ds));
+  for (let i = 1; i < n; i++) vCap[i] = Math.min(vCap[i], Math.sqrt(vCap[i - 1] * vCap[i - 1] + 2 * FL.accel * FL.ds));
+  const times = new Float64Array(n);
+  for (let i = 1; i < n; i++) times[i] = times[i - 1] + FL.ds / Math.max(0.5, 0.5 * (vCap[i] + vCap[i - 1]));
+
+  tourFlight.st = { path, y, looks, fovs, times, n, sTotal, sOrbit, sPre, R, dir };
+  tourFlight.duration = times[n - 1];
+  tourFlight.orbitT = times[iOrbit];
+  tourFlight.transitT = times[iPre];
+  tourFlight.fairwayRatio = tourFlight.orbitT / tourFlight.duration;
+  tourFlight.t = 0;
+  tourFlight.holdTimer = 0;
+  tourFlight.cardPending = !!from;
+  if (!from) {
+    tourFlight.initialized = false;
+    tourFlight.posV.set(0, 0, 0); tourFlight.yawV = tourFlight.pitchV = tourFlight.distV = tourFlight.fovV = 0;
+  }
+}
+/* where the shot is right now, in the form the next hole's travel shot starts from */
+function flightPose() {
+  /* the TABLE's end, not the spring's: the springs lag a metre or two behind
+     it and carry over untouched, so the next table starting from the station
+     keeps the route's heading exact and the camera's motion continuous */
+  const st = tourFlight.st, a = st.path[Math.max(0, st.n - 2)], b = st.path[st.n - 1];
+  const L = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
+  return { pos: [b[0], st.y[st.n - 1], b[1]], look: st.looks[st.n - 1].slice(), dir: [(b[0] - a[0]) / L, (b[1] - a[1]) / L] };
+}
+
+/* Catmull-Rom across the uniformly spaced stations, by path distance */
+function stationAt(s) {
+  const st = tourFlight.st, f = clampf(s / FL.ds, 0, st.n - 1), i = Math.floor(f), t = f - i;
+  const i0 = Math.max(0, i - 1), i1 = i, i2 = Math.min(st.n - 1, i + 1), i3 = Math.min(st.n - 1, i + 2);
+  const cr = (p0, p1, p2, p3) => 0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (-p0 + 3 * p1 - 3 * p2 + p3) * t * t * t);
+  const P = st.path, Y = st.y, K = st.looks;
+  return {
+    pos: [cr(P[i0][0], P[i1][0], P[i2][0], P[i3][0]), cr(Y[i0], Y[i1], Y[i2], Y[i3]), cr(P[i0][1], P[i1][1], P[i2][1], P[i3][1])],
+    look: [cr(K[i0][0], K[i1][0], K[i2][0], K[i3][0]), cr(K[i0][1], K[i1][1], K[i2][1], K[i3][1]), cr(K[i0][2], K[i1][2], K[i2][2], K[i3][2])],
+    fov: cr(st.fovs[i0], st.fovs[i1], st.fovs[i2], st.fovs[i3]),
+    ls: lerp(P[i1][2], P[i2][2], t),
+  };
+}
+function flightDistAt(t) {
+  const T = tourFlight.st.times, n = tourFlight.st.n;
+  if (t <= 0) return 0;
+  if (t >= T[n - 1]) return (n - 1) * FL.ds;
+  let a = 0, b = n - 1;
+  while (b - a > 1) { const m = (a + b) >> 1; if (T[m] <= t) a = m; else b = m; }
+  return (a + (t - T[a]) / (T[b] - T[a])) * FL.ds;
+}
+const _flT = new THREE.Vector3();
+/* advance the shot by dt and settle the gimbal; the caller applies the result */
+function flightStep(dt) {
+  const tf = tourFlight;
+  tf.t += dt;
+  const k = stationAt(flightDistAt(tf.t));
+  _flT.set(k.pos[0], k.pos[1], k.pos[2]);
+  /* The gimbal is smoothed in PAN, TILT and RANGE about the camera, not in
+     space: a look point damped in x, y, z cuts the chord when its target
+     swings round the camera, and on a 180 degree swing that chord runs
+     through the camera's own footprint -- the shot pitched to 78 degrees
+     and whipped through 990 degrees a second on the way out of the 7th. */
+  const rel = (L, P) => {
+    const dx = L[0] - P.x, dy = L[1] - P.y, dz = L[2] - P.z, hz = Math.hypot(dx, dz);
+    return { yaw: Math.atan2(dx, dz), pitch: Math.atan2(dy, hz), dist: Math.hypot(hz, dy) };
+  };
+  if (!tf.initialized) {
+    tf.pos.copy(_flT); tf.fov = k.fov;
+    const r = rel(k.look, tf.pos);
+    tf.yaw = r.yaw; tf.pitch = r.pitch; tf.dist = r.dist;
+    tf.posV.set(0, 0, 0); tf.yawV = tf.pitchV = tf.distV = tf.fovV = 0;
+    tf.initialized = true;
+  } else {
+    smoothDamp(tf.pos, tf.posV, _flT, 0.28, dt);
+    const r = rel(k.look, tf.pos);
+    let ty = r.yaw;
+    while (ty - tf.yaw > Math.PI) ty -= 2 * Math.PI;
+    while (ty - tf.yaw < -Math.PI) ty += 2 * Math.PI;
+    [tf.yaw, tf.yawV] = smoothDampF(tf.yaw, tf.yawV, ty, 0.85, dt);
+    [tf.pitch, tf.pitchV] = smoothDampF(tf.pitch, tf.pitchV, r.pitch, 0.85, dt);
+    [tf.dist, tf.distV] = smoothDampF(tf.dist, tf.distV, r.dist, 0.85, dt);
+    [tf.fov, tf.fovV] = smoothDampF(tf.fov, tf.fovV, k.fov, 1.2, dt);
+  }
+  const cp = Math.cos(tf.pitch);
+  tf.look.set(tf.pos.x + Math.sin(tf.yaw) * cp * tf.dist, tf.pos.y + Math.sin(tf.pitch) * tf.dist, tf.pos.z + Math.cos(tf.yaw) * cp * tf.dist);
+  return { u: Math.min(1, tf.t / tf.duration), done: tf.t >= tf.duration, ls: k.ls };
+}
+function applyFlightCamera() {
+  camera.position.copy(tourFlight.pos);
+  controls.target.copy(tourFlight.look);
+  camera.lookAt(tourFlight.look);
+  if (Math.abs(camera.fov - tourFlight.fov) > 1e-3) { camera.fov = tourFlight.fov; camera.updateProjectionMatrix(); }
+}
+/* leave the shot: the lens goes back to the player's */
+function stopFlight() {
+  flying = 0;
+  tourFlight.st = null;
+  tourFlight.cardPending = false;
+  if (Math.abs(camera.fov - tourFlight.baseFov) > 1e-3) { camera.fov = tourFlight.baseFov; camera.updateProjectionMatrix(); }
+  const el = document.getElementById('tourCard');
+  if (el) el.classList.remove('show');
+}
+/* run a hole's shot offline at a fixed step and return the camera track, so a
+   harness can measure clearance, speed and pan rate instead of watching it */
+function flightSim(n, step = 1 / 60, transit = false) {
+  if (flying > 0) return null;
+  const hn = Math.min(NHOLES, Math.max(1, n));
+  const h = HOLES[hn - 1];
+  const run = () => {
+    const track = [];
+    for (let guard = 0; guard < 30000; guard++) {
+      const r = flightStep(step);
+      const p = tourFlight.pos, l = tourFlight.look;
+      track.push({ t: tourFlight.t, x: p.x, y: p.y, z: p.z, lx: l.x, ly: l.y, lz: l.z,
+        fov: tourFlight.fov, clear: p.y - terrainH(p.x, p.z) });
+      if (r.done) break;
+    }
+    return track;
+  };
+  /* with `transit`, the previous hole is flown first (untracked) so this shot
+     starts with the travel from its reverse angle, as the tour flies it */
+  let from = null;
+  if (transit && hn > 1) {
+    initHoleFlight(HOLES[hn - 2]);
+    if (!tourFlight.st) return null;
+    run();
+    from = flightPose();
+  }
+  initHoleFlight(h, from);
+  if (!tourFlight.st) return null;
+  const track = run();
+  const st = tourFlight.st;
+  const out = { hole: h.n, duration: tourFlight.duration, orbitT: tourFlight.orbitT, transitT: tourFlight.transitT,
+    stations: st.n, sTotal: st.sTotal, sOrbit: st.sOrbit, sPre: st.sPre, R: st.R, dir: st.dir, track,
+    table: { path: st.path, y: Array.from(st.y), looks: st.looks, times: Array.from(st.times) } };
+  tourFlight.st = null;
+  tourFlight.initialized = false;
+  return out;
+}
+
+let tour = 0;
 function showTourCard() {
   const h = HOLES[hole - 1], el = document.getElementById('tourCard');
-  el.querySelector('.tno').textContent = `HÅL ${h.n} · PAR ${h.par} · ${h.t[0]} M`;
-  el.querySelector('.tnm').textContent = h.name || `Hål ${h.n}`;
-  el.querySelector('.ttx').textContent = h.shape || h.note || '';
+  if (!el) return;
+
+  const rise = (h.elev && h.elev.green && h.elev.tee) ? (h.elev.green - h.elev.tee) : 0;
+  const elevEl = document.getElementById('tourElev');
+  if (elevEl) elevEl.textContent = `${Math.abs(rise).toFixed(0)} m ${rise >= 0 ? 'uppför' : 'nedför'}`;
+
+  const tno = el.querySelector('.tno');
+  if (tno) tno.textContent = `HÅL ${h.n}`;
+
+  const parEl = document.getElementById('tourPar');
+  if (parEl) parEl.textContent = `PAR ${h.par}`;
+
+  const distEl = document.getElementById('tourDist');
+  if (distEl) distEl.textContent = `${(h.t && h.t[0]) || (h.lineLen ? h.lineLen.toFixed(0) : 350)} M`;
+
+  const tnm = el.querySelector('.tnm');
+  if (tnm) {
+    const rawName = (h.name || '').trim();
+    // Do not repeat "Hål N" if name is missing or identical to hole number
+    const isDup = !rawName || new RegExp(`^hål\\s*${h.n}$`, 'i').test(rawName) || /^hål\s*\d+$/i.test(rawName);
+    if (isDup) {
+      tnm.textContent = '';
+      tnm.style.display = 'none';
+    } else {
+      tnm.textContent = rawName;
+      tnm.style.display = 'block';
+    }
+  }
+
+  const ttx = el.querySelector('.ttx');
+  if (ttx) ttx.textContent = h.note || h.shape || h.desc || 'Följ hålets spellinje mot green.';
+
   el.classList.add('show');
-  clearTimeout(tourCardT);
-  tourCardT = setTimeout(() => el.classList.remove('show'), 6500);
+  // Stays visible all the way until the green!
 }
+
+/* the bar runs TEE to GREEN, so it starts counting when the travel shot from
+   the previous hole has arrived behind the tee, not when it left the last green */
+function updateTourProgress() {
+  const t0 = tourFlight.transitT || 0, span = Math.max(1e-3, tourFlight.duration - t0);
+  const u = clampf((tourFlight.t - t0) / span, 0, 1);
+  const fill = document.getElementById('tourProgressFill');
+  if (fill) fill.style.width = Math.min(100, Math.round(u * 100)) + '%';
+  const lbl = document.getElementById('tourProgressDist');
+  if (lbl) {
+    const r = clampf((tourFlight.orbitT - t0) / span, 0.05, 0.95);
+    if (u < r) {
+      lbl.textContent = `FLYGNING ${Math.round((u / r) * 100)}%`;
+    } else {
+      lbl.textContent = `GREENSVEP ${Math.round(((u - r) / (1.0 - r)) * 100)}%`;
+    }
+  }
+}
+
 function startTour() {
   tour = 1;
   document.body.classList.add('tour');
   setClean(true);
   goHole(1, false);
+  initHoleFlight(HOLES[0]);
   showTourCard();
   flying = 1e-4;
 }
+
 function endTour() {
   tour = 0;
-  flying = 0;
+  stopFlight();
   document.body.classList.remove('tour');
-  document.getElementById('tourCard').classList.remove('show');
   setClean(false);
   setCam(camMode);
 }
@@ -5512,64 +6152,331 @@ function kikMeasure(clientX, clientY) {
   kikGroup.add(line, mark);
   scene.add(kikGroup);
 }
-/* ------------------------------------------------- greengrid (yardage book)
-   The donor app's PGA-yardage-book green reading, carried over: a wireframe
-   grid draped on the putting surface, coloured by how hard the ball breaks --
-   calm cyan, mild green, firm yellow, steep red. This page's greens carry
-   real authored tilt and tiers, so the grid reads the actual break. */
-let gridOn = false, gridMesh = null;
-const gridBtn = document.getElementById('gridBtn');
-function gridClear() {
-  if (gridMesh) { scene.remove(gridMesh); gridMesh.geometry.dispose(); gridMesh = null; }
+/* ------------------------------------------------- greengrid (yardage book & slope visualization)
+   Professional golf simulation green reading:
+   - High-density terrain-conforming grid lines closely masked to the green boundary
+   - Continuous slope gradient coloring (cyan -> lime green -> amber -> fiery red)
+   - Real-time animated moving dots (beads) gliding downhill along the fall-line
+   - Directional slope break arrows (stem + barb chevrons) showing exact break
+   - Concentric 1m, 2m, and 3m pin proximity target rings with compass crosshairs */
+let gridOn = false;
+let gridGroup = null;
+let beadsMesh = null;
+let beadsData = [];
+const beadDummy = new THREE.Object3D();
+
+function getSlopeAt(x, z) {
+  const delta = 0.45;
+  const hL = terrainH(x - delta, z);
+  const hR = terrainH(x + delta, z);
+  const hD = terrainH(x, z - delta);
+  const hU = terrainH(x, z + delta);
+  const gx = (hR - hL) / (delta * 2);
+  const gz = (hU - hD) / (delta * 2);
+  const s = Math.hypot(gx, gz);
+  const dirX = s > 1e-4 ? -gx / s : 0;
+  const dirZ = s > 1e-4 ? -gz / s : 0;
+  return { gx, gz, s, dirX, dirZ };
 }
+
+function slopeColor(s) {
+  if (s < 0.015) {
+    // 0 - 1.5%: Calm Electric Cyan (Flat / Minimal break)
+    return [0.06, 0.85, 0.95];
+  } else if (s < 0.035) {
+    // 1.5% - 3.5%: Vibrant Lime Green (Gentle break)
+    const t = (s - 0.015) / 0.02;
+    return [0.06 + t * 0.16, 0.85 + t * 0.12, 0.95 - t * 0.72];
+  } else if (s < 0.055) {
+    // 3.5% - 5.5%: Golden Amber / Yellow (Moderate break)
+    const t = (s - 0.035) / 0.02;
+    return [0.22 + t * 0.76, 0.97 - t * 0.15, 0.23 - t * 0.13];
+  } else if (s < 0.085) {
+    // 5.5% - 8.5%: Bright Orange (Heavy break)
+    const t = (s - 0.055) / 0.03;
+    return [0.98 + t * 0.02, 0.82 - t * 0.38, 0.10 - t * 0.02];
+  } else {
+    // > 8.5%: Fiery Crimson Red (Severe slope)
+    return [1.0, 0.18, 0.14];
+  }
+}
+
+function gridClear() {
+  if (gridGroup) {
+    scene.remove(gridGroup);
+    gridGroup.traverse(o => {
+      if (o.geometry) o.geometry.dispose();
+      if (o.material) {
+        if (Array.isArray(o.material)) o.material.forEach(m => m.dispose());
+        else o.material.dispose();
+      }
+    });
+    gridGroup = null;
+  }
+  beadsMesh = null;
+  beadsData = [];
+}
+
+function updateGreenGrid(dt, now) {
+  if (!beadsMesh || beadsData.length === 0) return;
+  const timeSec = now * 0.001;
+
+  for (let i = 0; i < beadsData.length; i++) {
+    const b = beadsData[i];
+    // Smooth progress along downhill cycle
+    const u = ((timeSec * b.speed + b.phase) % 1.0 + 1.0) % 1.0;
+    const sinU = Math.sin(u * Math.PI);
+    const envelope = sinU * sinU;
+
+    const travel = (u - 0.5) * b.travelDist;
+    const curX = b.cx + b.vx * travel;
+    const curZ = b.cz + b.vz * travel;
+    const curY = meshH(curX, curZ) + 0.046;
+
+    const s = envelope * b.baseScale;
+    beadDummy.position.set(curX, curY, curZ);
+    beadDummy.rotation.y = b.angle;
+    beadDummy.scale.set(s, s * 0.75, s * (1.1 + b.slope * 6.0));
+    beadDummy.updateMatrix();
+    beadsMesh.setMatrixAt(i, beadDummy.matrix);
+  }
+  beadsMesh.instanceMatrix.needsUpdate = true;
+}
+
 function buildGreenGrid() {
   gridClear();
   const h = HOLES[hole - 1];
-  let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
-  for (const p of h.green.ring) {
-    x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]);
-    z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]);
+  if (!h || !h.green || !h.green.ring) return;
+
+  const ring = h.green.ring;
+  const bb = ringBBox(ring);
+  const pad = 1.0;
+  const x0 = bb.x0 - pad, x1 = bb.x1 + pad;
+  const z0 = bb.z0 - pad, z1 = bb.z1 + pad;
+  const width = x1 - x0;
+  const depth = z1 - z0;
+
+  const CELL = 1.0;
+  const nx = Math.max(8, Math.ceil(width / CELL));
+  const nz = Math.max(8, Math.ceil(depth / CELL));
+  const dx = width / nx;
+  const dz = depth / nz;
+
+  gridGroup = new THREE.Group();
+  gridGroup.renderOrder = 7;
+
+  const linePositions = [];
+  const lineColors = [];
+  const beadsList = [];
+
+  let totalSlope = 0;
+  let maxSlope = 0;
+  let slopeCount = 0;
+
+  // 1. Grid Lines (LineSegments closely hugging terrain and clipped to green)
+  const SUB = 2; // Subdivide each 1m cell into 2 segments for smooth terrain conformance
+  const stepX = dx / SUB;
+  const stepZ = dz / SUB;
+
+  // Lines along X
+  for (let j = 0; j <= nz; j++) {
+    const z = z0 + j * dz;
+    for (let i = 0; i < nx * SUB; i++) {
+      const ax = x0 + i * stepX;
+      const bx = ax + stepX;
+      const mx = (ax + bx) * 0.5;
+      const sd = ringSD(mx, z, ring);
+      if (sd > 0.40) continue;
+
+      const edgeFade = clampf((-sd + 0.25) / 0.75, 0.0, 1.0);
+      if (edgeFade <= 0.02) continue;
+
+      const slopeA = getSlopeAt(ax, z);
+      const slopeB = getSlopeAt(bx, z);
+      const colA = slopeColor(slopeA.s).map(c => c * edgeFade);
+      const colB = slopeColor(slopeB.s).map(c => c * edgeFade);
+
+      const ay = meshH(ax, z) + 0.032;
+      const by = meshH(bx, z) + 0.032;
+
+      linePositions.push(ax, ay, z, bx, by, z);
+      lineColors.push(...colA, ...colB);
+    }
   }
-  const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2;
-  const size = Math.max(x1 - x0, z1 - z0) + 10;
-  const geo = new THREE.PlaneGeometry(size, size, 44, 44);
-  geo.rotateX(-Math.PI / 2);
-  const pos = geo.attributes.position;
-  const cols = new Float32Array(pos.count * 3);
-  for (let i = 0; i < pos.count; i++) {
-    const wx = cx + pos.getX(i), wz = cz + pos.getZ(i);
-    pos.setX(i, wx); pos.setZ(i, wz);
-    pos.setY(i, meshH(wx, wz) + 0.12);   /* hug the RENDERED surface, like the sand */
-    const gx = (terrainH(wx + 1, wz) - terrainH(wx - 1, wz)) / 2;
-    const gz = (terrainH(wx, wz + 1) - terrainH(wx, wz - 1)) / 2;
-    const s = Math.hypot(gx, gz);
-    const c = s < 0.022 ? [0.10, 0.80, 0.90] : s < 0.045 ? [0.15, 0.90, 0.25]
-            : s < 0.085 ? [0.95, 0.80, 0.10] : [0.95, 0.22, 0.10];
-    cols[i * 3] = c[0]; cols[i * 3 + 1] = c[1]; cols[i * 3 + 2] = c[2];
+
+  // Lines along Z
+  for (let i = 0; i <= nx; i++) {
+    const x = x0 + i * dx;
+    for (let j = 0; j < nz * SUB; j++) {
+      const az = z0 + j * stepZ;
+      const bz = az + stepZ;
+      const mz = (az + bz) * 0.5;
+      const sd = ringSD(x, mz, ring);
+      if (sd > 0.40) continue;
+
+      const edgeFade = clampf((-sd + 0.25) / 0.75, 0.0, 1.0);
+      if (edgeFade <= 0.02) continue;
+
+      const slopeA = getSlopeAt(x, az);
+      const slopeB = getSlopeAt(x, bz);
+      const colA = slopeColor(slopeA.s).map(c => c * edgeFade);
+      const colB = slopeColor(slopeB.s).map(c => c * edgeFade);
+
+      const ay = meshH(x, az) + 0.032;
+      const by = meshH(x, bz) + 0.032;
+
+      linePositions.push(x, ay, az, x, by, bz);
+      lineColors.push(...colA, ...colB);
+    }
   }
-  geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-  const gm = new THREE.MeshBasicNodeMaterial({
-    vertexColors: true, wireframe: true, transparent: true, opacity: 0.8 });
-  gm.polygonOffset = true;
-  gm.polygonOffsetFactor = -6;
-  gm.polygonOffsetUnits = -12;
-  gridMesh = new THREE.Mesh(geo, gm);
-  gridMesh.renderOrder = 7;
-  scene.add(gridMesh);
+
+  // 2. Cell Analysis: Animated Moving Slope Beads
+  for (let i = 0; i < nx; i++) {
+    for (let j = 0; j < nz; j++) {
+      const cx = x0 + (i + 0.5) * dx;
+      const cz = z0 + (j + 0.5) * dz;
+      const sd = ringSD(cx, cz, ring);
+      if (sd > -0.05) continue; // Inside the green putting surface
+
+      const { s, dirX, dirZ } = getSlopeAt(cx, cz);
+      totalSlope += s;
+      slopeCount++;
+      if (s > maxSlope) maxSlope = s;
+
+      const col = slopeColor(s);
+
+      // Animated Moving Bead along the fall line
+      if (s >= 0.003) {
+        beadsList.push({
+          cx, cz,
+          vx: dirX, vz: dirZ,
+          angle: Math.atan2(dirX, dirZ),
+          slope: s,
+          speed: clampf(s * 15 + 0.28, 0.38, 1.8),
+          phase: (hash2(Math.round(cx * 10), Math.round(cz * 10)) % 1000) / 1000,
+          travelDist: Math.min(dx, dz) * 0.88,
+          baseScale: clampf(0.85 + s * 6.0, 0.75, 1.25),
+          color: col,
+        });
+      }
+    }
+  }
+
+  // Create Grid Lines Mesh
+  if (linePositions.length > 0) {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(lineColors, 3));
+    const mat = new THREE.LineBasicNodeMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.58,
+      depthWrite: false,
+    });
+    mat.polygonOffset = true;
+    mat.polygonOffsetFactor = -5;
+    mat.polygonOffsetUnits = -10;
+    const linesMesh = new THREE.LineSegments(geo, mat);
+    gridGroup.add(linesMesh);
+  }
+
+  // Create Animated Beads InstancedMesh (The Moving Dots)
+  if (beadsList.length > 0) {
+    beadsData = beadsList;
+    const bGeo = new THREE.SphereGeometry(0.082, 10, 8);
+    const bMat = new THREE.MeshBasicNodeMaterial({
+      transparent: true,
+      opacity: 0.95,
+      depthWrite: false,
+    });
+    bMat.polygonOffset = true;
+    bMat.polygonOffsetFactor = -7;
+    bMat.polygonOffsetUnits = -14;
+    beadsMesh = new THREE.InstancedMesh(bGeo, bMat, beadsList.length);
+    const cObj = new THREE.Color();
+    for (let k = 0; k < beadsList.length; k++) {
+      cObj.setRGB(...beadsList[k].color);
+      beadsMesh.setColorAt(k, cObj);
+    }
+    if (beadsMesh.instanceColor) beadsMesh.instanceColor.needsUpdate = true;
+    gridGroup.add(beadsMesh);
+  }
+
+  // 3. Pin Proximity Target Rings (1m, 2m, 3m around cup)
+  if (h.pin) {
+    const [px, pz] = h.pin;
+    const ringConfigs = [
+      { radius: 1.0, col: [1.0, 1.0, 1.0], opacity: 0.65, crosshairs: true },
+      { radius: 2.0, col: [0.18, 0.95, 0.45], opacity: 0.45, crosshairs: false },
+      { radius: 3.0, col: [0.10, 0.80, 0.95], opacity: 0.32, crosshairs: false },
+    ];
+    const SEGS = 48;
+
+    for (const rc of ringConfigs) {
+      const pos = [];
+      for (let s = 0; s < SEGS; s++) {
+        const a1 = (s / SEGS) * Math.PI * 2;
+        const a2 = ((s + 1) / SEGS) * Math.PI * 2;
+        const x1 = px + Math.cos(a1) * rc.radius, z1 = pz + Math.sin(a1) * rc.radius;
+        const x2 = px + Math.cos(a2) * rc.radius, z2 = pz + Math.sin(a2) * rc.radius;
+        pos.push(x1, meshH(x1, z1) + 0.040, z1, x2, meshH(x2, z2) + 0.040, z2);
+      }
+
+      if (rc.crosshairs) {
+        for (let a = 0; a < 4; a++) {
+          const ang = (a / 4) * Math.PI * 2;
+          const cosA = Math.cos(ang), sinA = Math.sin(ang);
+          const t1x = px + cosA * (rc.radius - 0.15), t1z = pz + sinA * (rc.radius - 0.15);
+          const t2x = px + cosA * (rc.radius + 0.15), t2z = pz + sinA * (rc.radius + 0.15);
+          pos.push(t1x, meshH(t1x, t1z) + 0.040, t1z, t2x, meshH(t2x, t2z) + 0.040, t2z);
+        }
+      }
+
+      const pGeo = new THREE.BufferGeometry();
+      pGeo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      const pMat = new THREE.LineBasicNodeMaterial({
+        color: new THREE.Color(...rc.col),
+        transparent: true,
+        opacity: rc.opacity,
+        depthWrite: false,
+      });
+      pMat.polygonOffset = true;
+      pMat.polygonOffsetFactor = -6;
+      pMat.polygonOffsetUnits = -12;
+      gridGroup.add(new THREE.LineSegments(pGeo, pMat));
+    }
+  }
+
+  scene.add(gridGroup);
+
+  // Update HUD facts with slope insights
+  if (slopeCount > 0) {
+    const meanSlope = (totalSlope / slopeCount) * 100;
+    const maxSlopePct = maxSlope * 100;
+    const factsEl = document.getElementById('facts');
+    if (factsEl) {
+      factsEl.innerHTML += `<br>Greenlutning: snitt <b>${meanSlope.toFixed(1)}%</b> · max <b>${maxSlopePct.toFixed(1)}%</b>`;
+    }
+  }
 }
+
+const gridBtn = document.getElementById('gridBtn');
 gridBtn.onclick = () => {
   gridOn = !gridOn;
   gridBtn.classList.toggle('on', gridOn);
   if (gridOn) {
     buildGreenGrid();
-    /* the donor's inspect move: in over the green, close enough to read the break */
+    /* Inspect move: fly in over green to read break */
     setCam('green');
     const h = HOLES[hole - 1], c = h.green.c;
     const p = alongLine(h.line, 0.9);
     const F = [Math.sin(p.b), Math.cos(p.b)];
     const gy = terrainH(c[0], c[1]);
     flyTo(V3(c[0] - F[0] * 26, gy + 21, c[1] - F[1] * 26), V3(c[0], gy + 1, c[1]), RMOTION ? 0 : 1.4);
-  } else gridClear();
+    toast('Greengrid aktiv · Rörliga punkter visar fallinjen');
+  } else {
+    gridClear();
+  }
 };
 
 /* a click is a click only if the pointer did not drag (OrbitControls owns drags) */
@@ -6131,21 +7038,36 @@ function frame() {
     if (t >= 1) camTween.on = false;
   }
   if (flying > 0) {
-    flying += dt / 15;
-    if (flying >= 1) {
-      if (tour && hole < NHOLES) { goHole(hole + 1, false); showTourCard(); flying = 1e-4; }
-      else if (tour) { endTour(); }
-      else { flying = 0; setCam(camMode); }
-    }
+    if (!tourFlight.st) initHoleFlight(HOLES[hole - 1]);
+    if (!tourFlight.st) stopFlight();
     else {
-      const h = HOLES[hole - 1];
-      const p = alongLine(h.line, flying * 1.02 - 0.02);
-      const la = alongLine(h.line, Math.min(1.0, flying * 1.02 + 0.07));
-      const F = [Math.sin(p.b), Math.cos(p.b)];
-      const gy = terrainH(p.x, p.z);
-      camera.position.set(p.x - F[0] * 26, gy + 22 + Math.sin(flying * Math.PI) * 16, p.z - F[1] * 26);
-      controls.target.set(la.x, terrainH(la.x, la.z) + 2, la.z);
+      const r = flightStep(dt);
+      applyFlightCamera();
       camTween.on = false;
+      flying = Math.max(1e-4, r.u);
+      updateTourProgress();
+      /* the next hole's card comes up as the travel shot lines up behind its tee */
+      if (tourFlight.cardPending && r.ls >= -FL.preTee - 25) { showTourCard(); tourFlight.cardPending = false; }
+      if (r.done) {
+        tourFlight.holdTimer += dt;
+        if (tourFlight.holdTimer >= FL.hold) {
+          if (tour && hole < NHOLES) {
+            /* no cut: the camera leaves the reverse angle and flies to the next tee */
+            const from = flightPose();
+            const card = document.getElementById('tourCard');
+            if (card) card.classList.remove('show');
+            goHole(hole + 1, false);
+            initHoleFlight(HOLES[hole - 1], from);
+            if (!tourFlight.st) { endTour(); }
+            flying = 1e-4;
+          } else if (tour) {
+            endTour();
+          } else {
+            stopFlight();
+            setCam('green');
+          }
+        }
+      }
     }
   }
   /* flag cloth: a travelling wave pinned at the pole */
@@ -6158,15 +7080,18 @@ function frame() {
     }
     pos.needsUpdate = true;
   }
-  controls.update();
-  /* never underground, and never so close to it that the near plane clips through */
-  const groundY = terrainH(camera.position.x, camera.position.z) + 1.7;
-  if (camera.position.y < groundY) camera.position.y = groundY;
+  if (flying === 0) {
+    controls.update();
+    /* never underground, and never so close to it that the near plane clips through */
+    const groundY = terrainH(camera.position.x, camera.position.z) + 1.7;
+    if (camera.position.y < groundY) camera.position.y = groundY;
+  }
   placeSun();
   if (skyMesh) skyMesh.position.copy(camera.position);
   if (skyDome) skyDome.position.copy(camera.position);
   updateSky();
   drawMini();
+  if (gridOn) updateGreenGrid(dt, now);
   if (!captureRenderLocked) renderActivePipeline();
 }
 
@@ -6506,6 +7431,11 @@ window.V3D = {
   plates: () => plateSites.map(p => ({ ...p })),
   course: () => ({ ...CMETA }),
   settled: () => !camTween.on,
+  /* the bansafari, measurable: simulate a hole's shot offline, or fly it live */
+  flightSim: (n, step, transit) => flightSim(n, step, transit),
+  flightState: () => ({ flying, tour, t: tourFlight.t, duration: tourFlight.duration, orbitT: tourFlight.orbitT,
+    fov: camera.fov, transitT: tourFlight.transitT, cardPending: tourFlight.cardPending, hole }),
+  fly: () => { if (flying > 0) return; initHoleFlight(HOLES[hole - 1]); showTourCard(); flying = 1e-4; },
   heightSample: (x, z) => groundHeightSampler.inspectAt(x, z),
   probeH: (x, z) => renderedGroundH(x, z),
   setView: (px, py, pz, lx, ly, lz) => { flyTo(V3(px, py, pz), V3(lx, ly, lz), 0); },

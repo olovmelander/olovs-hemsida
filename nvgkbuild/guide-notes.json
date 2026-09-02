@@ -1,95 +1,113 @@
 {
- "source": "Club banguide texts, verbatim, recovered from web crawls of the club's old site (norrfallsvikensgk.com, crawled 2024-08/2025-04; now redirects to nvgk.se whose 'Se banan' says 'Kommer snart'). The old site's holes 4 and 8 are swapped relative to the club's 2025 scorecard; texts below are keyed to the CURRENT card numbering. Hole 7 is called 'Banans John Bauerhål' and hole 12 'Banans signaturhål' in these texts.",
+ "source": "Per-hole notes condensed from the club's own banguide texts, kept verbatim under `club`. The club's current site nvgk.se still says 'SE BANAN (KOMMER SNART)' (checked 2026-09-02), so the texts are the old site's (norrfallsvikensgk.com, now offline), read from Wayback snapshots dated 2015-2025; the 2025 version is used, keyed to the CURRENT card numbering. The old site numbered today's 4 and 8 the other way round, so its hole-4 text says 'spelare från hål 4' where the club now means hole 8 (`clubEdit`). Colour from Svensk Golf 2017 ('Ta med golfbagen till Höga kusten!': the narrow 1st, 'häftiga tolvan') and 2019 ('Landets vänligaste bana?': the 7th's rebuilt and raised tee, the Ulvön views, the stony rough and the members' 'stenklubba'), the club's hole-in-one wall (nvgk.se/hole-in-one: 25 aces on 7, 11 on 14, 10 on 11, 5 on 2, an albatross on 17 in 2023) and the club's scorecard ('Ring 19:e Hålet … när du slår ut på ditt 9:e hål'). Bends, rise and water were checked against the model's line geometry and DEM profile (tools/hole-geometry.mjs): the 10th drops 17 m, the 18th climbs 16 m, the 12th falls 15 m where the club says 'svagt nerför', the 14th and 17th cross water. The model has no bunkers at all, while the club names one on 11 and one on 15; the shared 4/8 double green is two polygons in the model. The club's 2026-07-09 news announces a rebuild from September 2026 (four tees per hole, 55/48/44/40), so the three-tee card is pre-project. `name` is an editorial tagline except the club's own epithets on 7 ('Banans John Bauerhål') and 12 ('Banans signaturhål').",
  "holes": {
   "1": {
-   "name": null,
-   "note": "Smalt, kort öppningshål. Litet spelutrymme bakom greenen.",
+   "name": "Smal öppning",
+   "note": "Smalt, kort öppningshål nedför mellan tallarna – så smalt att Svensk Golf gick tillbaka till bilen efter ett extra trepack bollar. Litet spelutrymme bakom greenen.",
+   "club": "Smalt, kort öppningshål. Litet spelutrymme bakom greenen.",
    "tiers": 1
   },
   "2": {
-   "name": null,
-   "note": "Utmanande korthål upp för backen, litet greenområde.",
+   "name": "Upp för backen",
+   "note": "Utmanande korthål upp för backen mot ett litet greenområde – de sista hundra metrarna stiger fem meter, så ta klubba nog. Fem hole-in-one är gjorda här sedan 2007.",
+   "club": "Utmanande korthål upp för backen, litet greenområde.",
    "tiers": 1
   },
   "3": {
-   "name": null,
-   "note": "Kort par 4 med dogleg höger. Lutande green.",
+   "name": "Kort dogleg höger",
+   "note": "Kort par 4 med dogleg höger, svagt nedför, till en lutande green. Banans index 18 – ett hål att ta vara på.",
+   "club": "Kort par 4 med dogleg höger. Lutande green",
    "tiers": 1
   },
   "4": {
-   "name": null,
-   "note": "Hålet svänger dogleg höger efter drygt 200 meter, smalt med olika spelmöjligheter för den som vill chansa eller spela säkert. Stor dubbelgreen för långa inspel, var aktsam vid inspel då spelare från hål 8 kan finnas på green.",
-   "tiers": 1,
-   "noteEdit": "The old site's text says 'spelare från hål 4' because it numbered this hole 8; renumbered to the current card here."
+   "name": "Dubbelgreenen",
+   "note": "Par 5 som svänger dogleg höger efter drygt 200 meter – smalt, med vatten längs högersidan, och med möjlighet att chansa eller spela säkert. Stor dubbelgreen delad med åttan: var aktsam vid inspelet, spelare från hål 8 kan stå på green.",
+   "club": "Hålet svänger dogleg höger efter drygt 200 meter, smalt med olika spelmöjligheter för den som vill chansa eller spela säkert. Stor dubbelgreen för långa inspel, var aktsam vid inspel då spelare från hål 4 kan finnas på green.",
+   "clubEdit": "The old site numbered this hole 8 and today's 8th hole 4, so its 'spelare från hål 4' means today's hole 8.",
+   "tiers": 1
   },
   "5": {
-   "name": null,
-   "note": "Medellångt Par 4 som svänger kraftigt vänster. Ofta ett dolt inspel mot en stor green med 3 platåer.",
+   "name": "Tre platåer",
+   "note": "Medellångt par 4 som svänger kraftigt vänster. Efter kröken faller marken tolv meter, så inspelet är ofta dolt – mot en stor green i tre platåer som lutar ifrån dig.",
+   "club": "Medellångt Par 4 som svänger kraftigt vänster. Ofta ett dolt inspel mot en stor green med 3 platåer.",
    "tiers": 3
   },
   "6": {
-   "name": null,
-   "note": "Ett av banans svåraste hål. En mycket smal landningsyta in i en svag vänster dogleg. Havsvinden kan ofta göra detta par 4 hål ännu lite längre. Underbar utsikt till vänster om hålet ut mot bottenhavet och Ulvön!",
+   "name": "Mot Ulvön",
+   "note": "Ett av banans svåraste hål: en mycket smal landningsyta in i en svag dogleg vänster, och havsvinden gör det ofta ännu längre. Banans havsnäraste green, med underbar utsikt till vänster ut över Bottenhavet och Ulvön.",
+   "club": "Ett av banans svåraste hål. En mycket smal landningsyta in i en svag vänster dogleg. Havsvinden kan ofta göra detta par 4 hål ännu lite längre. Underbar utsikt till vänster om hålet ut mot bottenhavet och Ulvön!",
    "tiers": 1
   },
   "7": {
    "name": "John Bauer-hålet",
-   "note": "Vårt kortaste hål där man spelar över vatten mot en stor, bred green. Banans John Bauerhål med storskogen nära inpå, akta out-of-boundsen till vänster bara!",
+   "note": "Banans kortaste hål och dess John Bauer-hål: över vatten mot en stor, bred green med storskogen tätt inpå – akta out of bounds till vänster. Teen är ombyggd och höjd så att green syns, och här är banans flesta hole-in-one gjorda.",
+   "club": "Vårt kortaste hål där man spelar över vatten mot en stor, bred green. Banans John Bauerhål med storskogen nära inpå, akta out-of-boundsen till vänster bara!",
    "tiers": 1
   },
   "8": {
-   "name": null,
-   "note": "Långt och ganska brett hål med stor dubbelgreen. Se till att inte hamna bakom det stora trädet på högra delen av fairway.",
+   "name": "Det stora trädet",
+   "note": "Långt och ganska brett par 4, svagt uppför, med dammar till vänster vid tee. Se till att inte hamna bakom det stora trädet på fairways högra del. Stor dubbelgreen, delad med fyran.",
+   "club": "Långt och ganska brett hål med stor dubbelgreen. Se till att inte hamna bakom det stora trädet på högra delen av fairway.",
    "tiers": 1
   },
   "9": {
-   "name": null,
-   "note": "Dogleg vänster i uppförslut. Ett ganska så kort par 5 hål, särskilt om man vågar gena över skogen. Fairway avsmalnande mot greenen som är ganska bred och ligger i direkt anslutning till klubbhuset. Out-of-bounds mycket nära bakre greenkant.",
+   "name": "Gena över skogen",
+   "note": "Kort par 5, dogleg vänster i uppförslut – ännu kortare för den som vågar gena över skogen. Fairway smalnar av mot en bred green intill klubbhuset, med out of bounds mycket nära bakre greenkanten. Ring 19:e hålet från tee, så är burgaren klar.",
+   "club": "Dogleg vänster i uppförslut. Ett ganska så kort par 5 hål, särskilt om man vågar gena över skogen. Fairway avsmalnande mot greenen som är ganska bred och ligger i direkt anslutning till klubbhuset. Out-of-bounds mycket nära bakre greenkant.",
    "tiers": 1
   },
   "10": {
-   "name": null,
-   "note": "Ett långt par 5 hål med dubbel dogleg. Först svänger det höger efter dryga 150 m från gult tee. Efter ett långt transportslag är det sedan dags att ta vänster ca 120 meter innan green. Den som är djärv kan gena över skogen med chans att nå in på 2 slag.",
+   "name": "Dubbel dogleg",
+   "note": "Långt par 5 med dubbel dogleg, nedför hela vägen: först höger efter dryga 150 meter, sedan vänster cirka 120 meter före green. Den djärve genar över skogen med chans att nå green på två slag.",
+   "club": "Ett långt par 5 hål med dubbel dogleg. Först svänger det höger efter dryga 150 m från gult tee. Efter ett långt transportslag är det sedan dags att ta vänster ca 120 meter innan green. Den som är djärv kan gena över skogen med chans att nå in på 2 slag.",
    "tiers": 1
   },
   "11": {
-   "name": null,
-   "note": "Korthål som går svagt uppför hela vägen. Mycket smal och uppförslutande green som vaktas av en bunker kort vänster.",
+   "name": "Bunkern kort vänster",
+   "note": "Korthål som går svagt uppför, mot en mycket smal green som lutar uppåt och vaktas av en bunker kort vänster. Tio hole-in-one är gjorda här.",
+   "club": "Korthål som går svagt uppför hela vägen. Mycket smal och uppförslutande green som vaktas av en bunker kort vänster.",
    "tiers": 1
   },
   "12": {
    "name": "Signaturhålet",
-   "note": "Banans signaturhål. Vattnet i spel från tee såväl som vid inspel. Svagt nerför från utslaget.",
+   "note": "Banans signaturhål, nedför från tee och med vattnet i spel både på utslaget och vid inspelet. Svensk Golf kallar häftiga tolvan ett av banans svåraste hål – men också dess största stund: här är det vattnet, inte tallskogen, som ställer kraven.",
+   "club": "Banans signaturhål. Vattnet i spel från tee såväl som vid inspel. Svagt nerför från utslaget.",
    "tiers": 1
   },
   "13": {
-   "name": null,
-   "note": "Smal fairway vid utslaget. Lätt hänt att hamna mask bakom tallarna till vänster om fairway om man inte slår ändra fram till kurvan.",
+   "name": "Fram till kurvan",
+   "note": "Banans index 1. Smal fairway på utslaget, med sjön till höger vid tee; når du inte ända fram till kurvan är det lätt hänt att hamna mask bakom tallarna till vänster om fairway.",
+   "club": "Smal fairway vid utslaget. Lätt hänt att hamna mask bakom tallarna till vänster om fairway om man inte slår ändra fram till kurvan.",
    "tiers": 1
   },
   "14": {
-   "name": null,
-   "note": "Korthål över vatten. Stor härlig green.",
+   "name": "Över vattnet",
+   "note": "Korthål över vatten mot en stor, härlig green. Elva hole-in-one har gjorts här sedan 2001.",
+   "club": "Korthål över vatten. Stor härlig green.",
    "tiers": 1
   },
   "15": {
-   "name": null,
-   "note": "Hål som svänger höger från tee med Out of Bounds till vänster om fairway. En bunker vaktar kort höger om greenområdet.",
+   "name": "OB till vänster",
+   "note": "Svänger höger från tee, med out of bounds längs fairways vänstra sida. En bunker vaktar kort höger om greenområdet.",
+   "club": "Hål som svänger höger från tee med Out of Bounds till vänster om fairway. En bunker vaktar kort höger om greenområdet.",
    "tiers": 1
   },
   "16": {
-   "name": null,
-   "note": "Smal fairway, dogleg höger med Out-of-Bounds mycket nära fairways vänstra kant. Inspel mot långsmal green, liten greenyta där man bör akta vänstersidan särskilt noga vid inspel.",
+   "name": "Långsmal green",
+   "note": "Smal fairway och dogleg höger, med out of bounds mycket nära fairways vänstra kant. Inspelet går mot en långsmal, liten green – akta vänstersidan särskilt noga.",
+   "club": "Smal fairway, dogleg höger med Out-of-Bounds mycket nära fairways vänstra kant. Inspel mot långsmal green, liten greenyta där man bör akta vänstersidan särskilt noga vid inspel.",
    "tiers": 1
   },
   "17": {
-   "name": null,
-   "note": "Utslaget över vatten. Dogleg först höger och sedan vänster. Inspel mot en bred green som dock inte är särskilt djup, undvik att slå inspelet för långt. Hålet kan nästan spelas som ett Par 4 för den med längd och mod nog att trotsa många faror, däribland den myr som ligger efter hela högersidan.",
+   "name": "Nästan en par 4",
+   "note": "Utslag över vatten, sedan dogleg först höger och sedan vänster. Den med längd och mod kan nästan spela det som en par 4 – trots myren längs hela högersidan. Inspel mot en bred men grund green: slå inte för långt.",
+   "club": "Utslaget över vatten. Dogleg först höger och sedan vänster. Inspel mot en bred green som dock inte är särskilt djup, undvik att slå inspelet för långt. Hålet kan nästan spelas som ett Par 4 för den med längd och mod nog att trotsa många faror, däribland den myr som ligger efter hela högersidan.",
    "tiers": 1
   },
   "18": {
-   "name": null,
-   "note": "Uppför, dogleg vänster, dold green. Långt utslag ger bra möjligheter inför andra slaget. Smalt de sista 100-150 m.",
+   "name": "Uppför hem",
+   "note": "Uppför, sexton meter, i en dogleg vänster mot en dold green vid klubbhuset. Ett långt utslag ger bra möjligheter inför andraslaget, men det är smalt de sista 100–150 metrarna.",
+   "club": "Uppför, dogleg vänster, dold green. Långt utslag ger bra möjligheter inför andra slaget. Smalt de sista 100-150 m.",
    "tiers": 1
   }
  }

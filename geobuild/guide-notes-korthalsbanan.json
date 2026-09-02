@@ -1,0 +1,50 @@
+{
+ "source": "Veckefjärden's korthålsbana has no per-hole text anywhere (research 2026-09-02: the club's banguide page, LiveCaddie ids 377-382, the local rules, Magasin Veckefjärden 2019-2023). The club describes it only as a whole: 'Vår fina korthålsbana består av nio hål som är mellan 60 och 120 meter långa … en bra övningsbana för den som vill träna sitt närspel' (veckefjarden.com/banguide/), and Magasin Veckefjärden 2022 pp. 10-11 ('Underbart är kort') gives its history — planned with the eighteen on land left over, opened 2002 a year before the big course, 'fairways är smalare och det krävs taktiska och speltekniska beslut'. Every hole-specific statement below is read off the model: the published GPS routes that give each hole its line and the DEM profile along it (tools/hole-geometry.mjs); greens and tee pads are synthesised and no bunkers are known. The card is unverified (see geobuild/card-korthalsbanan.json), so the notes state no lengths. `name` is an editorial tagline.",
+ "holes": {
+  "1": {
+   "name": "Uppför från start",
+   "note": "Rak öppning uppför, sju meter upp till green. Korthålsbanans fairways är smala, så precisionen börjar redan här – på banan som invigdes 2002, ett år före stora banan.",
+   "tiers": 1
+  },
+  "2": {
+   "name": "Från upphöjt tee",
+   "note": "Kort korthål från ett upphöjt tee, svagt nedför mot green.",
+   "tiers": 1
+  },
+  "3": {
+   "name": "Nedför",
+   "note": "Spelas nedför – nästan sex meter ner till green – så ta en mindre klubba än längden säger.",
+   "tiers": 1
+  },
+  "4": {
+   "name": "Nians längsta",
+   "note": "Korthålsbanans längsta hål, plant och rakt: ett fullt järnslag mot green.",
+   "tiers": 1
+  },
+  "5": {
+   "name": "Svagt nedför",
+   "note": "Rakt och svagt nedför mot green.",
+   "tiers": 1
+  },
+  "6": {
+   "name": "Nians kortaste",
+   "note": "Korthålsbanans kortaste hål: en wedge svagt uppför mot green.",
+   "tiers": 1
+  },
+  "7": {
+   "name": "Svackan",
+   "note": "Plant och rakt, med en liten svacka mitt i hålet som gör längden lite svår att läsa.",
+   "tiers": 1
+  },
+  "8": {
+   "name": "Upp till green",
+   "note": "Rakt korthål där marken stiger de sista metrarna upp till green.",
+   "tiers": 1
+  },
+  "9": {
+   "name": "Avslutningen",
+   "note": "Avslutande korthål, plant och rakt – ett sista närspelsprov innan ronden är över.",
+   "tiers": 1
+  }
+ }
+}

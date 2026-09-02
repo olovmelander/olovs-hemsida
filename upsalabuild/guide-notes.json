@@ -1,94 +1,112 @@
 {
- "source": "Club banguide/hole notes and reviews gathered by the research pass; see course facts in the commit history.",
+ "source": "Upsala GK publishes no per-hole prose for Stora banan (research 2026-09-02): its banguide on banguider.se (embedded on upsalagk.se; 18 image sheets uploaded 2025-11-01) carries only the card, carry and approach distances, green depths and printed labels (PLIKTOMRÅDE, INTERN O/B, DIKE, START/SLUT KULLAR, the bell notes on 5 and 16: 'Slå inte ut förrän bollen framför ringt i klockan'). The notes are therefore WRITTEN from sourced facts, listed per hole under `basis`: the sheets; the club's Lokala regler 2026 (the endless penalty areas, the electric-fence no-play zones left of 8 and right of 11/12, the internal OB on 1/4 and 8/15); the 2025 interview with architect Bob Kains on the Stora banan page (#3 his best hole — 'the view from the tee, the challenge of the water, the curving wall along the lake'; the green complex on 5, the tee shot on 18, the bunkering on 17, the approach on 16; downhill par 3s by design; the compromise on 15); club news 2022-2023 (the 53rd bunker short-left of green 8 where the big tree stood, the ditch on 4 rebuilt and moved toward the tees, the viewing platform on the rock by tee 1); and Svensk Golf 2021 (the approach on 7 and the view to the 18th green and clubhouse as the course's prettiest spots). Bends, rise, water and bunker sides were checked against the model's line geometry and DEM profile (tools/hole-geometry.mjs). The sheets' '+23' on 7 and '+14' on 17 are NOT elevation (the DEM has 7 falling 5 m to its green) and are not used. The model lacks the 2022 bunker on 8 and the ditches on 16/17. `name` is an editorial tagline; the club has named no holes (promised for 2023, never published). Card: all 144 sheet cells equal card.json.",
  "holes": {
   "1": {
-   "name": null,
-   "note": "Elevated tee over a wide inviting fairway - the deliberately friendly opener. Pond hard against the RIGHT edge of the green, running down the right from ~54 m short. Red-staked penalty area left of the road, continuous with the one behind green 2.",
+   "name": "Vänlig start",
+   "note": "Vänlig start från ett upphöjt tee – från berget intill teen ser man ut över både första och artonde hålet. Bunkrar till höger i drivezonen och en damm tätt intill greenens högra sida; pliktområdet till vänster om vägen hänger ihop med tvåans.",
+   "basis": "sheet: bunkers right of the fairway, pond right of the green; rules 2026: the penalty area left of the road on 1 continues behind green 2; news 2023-11-16: the viewing platform on the rock by tee 1; top100golfcourses: elevated tee; geometry: −6 m, water 13 m right at 86%.",
    "tiers": 1
   },
   "2": {
-   "name": null,
-   "note": "Shortest hole, 147 m. No open water; red-staked penalty area behind the green to the left.",
+   "name": "Banans kortaste",
+   "note": "Banans kortaste hål, svagt uppför, med en bunker framför green till vänster. Bakom green till vänster tar ett rött pliktområde vid – slå inte för långt.",
+   "basis": "sheet: 147 m, one bunker front-left; rules 2026: penalty area behind the green to the left; geometry: +3.6 m.",
    "tiers": 1
   },
   "3": {
-   "name": null,
-   "note": "SIGNATURE HOLE. Elevated tee; lake down the ENTIRE left side to a green set against the water behind a curving retaining wall. Dogleg LEFT around the lake. Only four distinct tee positions.",
+   "name": "Signaturhålet",
+   "note": "Signaturhålet och arkitekt Bob Kains eget favorithål: från ett upphöjt tee ser du sjön längs hela vänstersidan och den svängda stenmuren som kantar greenen. Ett kort par 4 där vattnet dikterar spelet och tvingar dig att tänka – bunkrar vaktar till höger.",
+   "basis": "Kains 2025: '#3 is the hole I feel is the best. The view from the tee, the challenge of the water, the curving wall along the lake and the design of the green complex'; Svensk Golf 2021: 'Vattnet dikterar spelet och tvingar dig att tänka till'; sheet: lake the whole left side, bunkers right of the fairway and by the green; geometry: line crosses the lake edge at 90%, green 12 m from the water.",
    "tiers": 1
   },
   "4": {
-   "name": null,
-   "note": "Long narrow pond almost the whole RIGHT side; fairway split by it, playing up the left then bending RIGHT past the end of the water. INTERN O/B down the right (holes 1/4). Cross-ditch rebuilt and moved toward the tees, and two greenside trees felled, in the winter 2023/24 work - check current imagery.",
+   "name": "Längs dammen",
+   "note": "Dogleg höger med en lång, smal damm längs hela högersidan och intern out of bounds mot ettan bortom den. Spela upp längs vänsterkanten och vik höger förbi vattnets slut; ett tvärgående dike korsar hålet på vägen in mot green.",
+   "basis": "sheet: long pond right, INTERN O/B; rules 2026: the internal OB between 1 and 4 applies only on 4; news 2023-11-16: the crossing ditch rebuilt and moved toward the tees, two trees by the green felled; geometry: dogleg right 39°, ditch crossing at 80%.",
    "tiers": 1
   },
   "5": {
-   "name": null,
-   "note": "BLIND, bell protocol. Marked ditch with an INFINITE red-staked penalty area down the left past the green. Green 22 m deep, singled out by the architect. Rock right of the hole blocks visibility.",
+   "name": "Klockan",
+   "note": "Blint utslag över krönet i en dogleg höger – slå inte ut förrän bollen framför ringt i klockan. Ett markerat dike längs vänstersidan är ett oändligt pliktområde ända förbi green. Greenområdet är ett av dem arkitekten är stoltast över.",
+   "basis": "sheet: bell note 'Slå inte ut förrän bollen framför ringt i klockan'; rules 2026: the marked ditch left of the fairway is an endless penalty area past the green; Kains 2025: 'The green complex on #5' outstanding, visibility could be improved by removing rock on the right; geometry: dogleg right 66°, crest 206-231 m from the green.",
    "tiers": 1
   },
   "6": {
-   "name": null,
-   "note": "Longest par 3 at 204 m - the value that settles the 6192 vs 6171 m total. Pond immediately front-left of the green, sand right; penalty area left and behind is INFINITE. Electric fence relief rule applies.",
+   "name": "Längsta korthålet",
+   "note": "Banans längsta korthål. En damm ligger tätt framför green till vänster och två bunkrar till höger; pliktområdet till vänster om och bakom green är oändligt. Ta klubba så det räcker – men inte mer.",
+   "basis": "sheet: 204 m, pond front-left, two bunkers right; rules 2026: the penalty area left of and behind the green is endless, electric-fence relief on 6; geometry: water 3 m off the line at 86%, left.",
    "tiers": 1
   },
   "7": {
-   "name": null,
-   "note": "Stroke index 1, longest par 4 at 415 m, plays +23 m UPHILL. Red-staked penalty areas in the trees both sides, no open water. The approach over open farmland behind the green is Svensk Golf's 'most beautiful spot'.",
+   "name": "Vackraste inspelet",
+   "note": "Index 1 och banans längsta par 4, spikrakt genom skogen med röda pliktområden i träden på båda sidor. Utslaget stiger över ett krön, sedan faller hålet mot green – inspelet med åkermarken bakom är Svensk Golfs vackraste punkt på banan.",
+   "basis": "sheet: 415 m, penalty areas both sides, bunker left at drive length, greenside bunkers both sides; Svensk Golf 2021: 'Inspelet på hål sju är snyggt, med en behaglig ostörd utsikt över åkermarken bakom greenen'; geometry: straight, crest 3.6 m above the tee then −8.6 m to the green.",
    "tiers": 1
   },
   "8": {
-   "name": null,
-   "note": "Pond right in the drive/second-shot zone (209-242 m from the green). INTERN O/B right (holes 8/15). Red-and-green ELECTRIC FENCE, infinite penalty area with no-play zone, down the LEFT.",
+   "name": "Sahara",
+   "note": "Par 5 med en damm till höger i drive- och andraslagszonen, intern out of bounds mot femtonde till höger och elstängslet till vänster som spelförbudszon. Kort vänster om green ligger klubbens 53:e bunker, byggd 2022 där det stora lövträdet stod.",
+   "basis": "sheet: pond right; rules 2026: internal OB between 8 and 15 applies only on 8, the electric fence left of 8 is an endless penalty area with a no-play zone; news 2022-08-22 and 2022-11-23: the new greenside bunker short-left, 'den 53:e', replacing the diseased tree; geometry: water 9 m right at 47%. The model has no bunker on this hole.",
    "tiers": 1
   },
   "9": {
-   "name": null,
-   "note": "Bends gently RIGHT. No water now; Kains lists expanding water between 9 and 11 as future work. Nine ends near the clubhouse by design.",
+   "name": "Hem till klubbhuset",
+   "note": "Nian svänger höger och slutar intill klubbhuset. En liten damm till vänster vid drivelängden, och två bunkrar vaktar greenens vänstra sida.",
+   "basis": "sheet: small pond left at the ~200 m line, two greenside bunkers left; Kains 2025: each nine begins and ends by the clubhouse; geometry: dogleg right 31°, −5 m, water 39 m left at 57%.",
    "tiers": 1
   },
   "10": {
-   "name": null,
-   "note": "No water. Sits at the seam of the two rebuild phases (11-18 done 2008, 1-10 done 2009).",
+   "name": "Nedför",
+   "note": "Korthål brant nedför – nio meter – till en green med bunkrar både framför och bakom. Arkitekten ville ha utförsslag på korthålen, och här är det som tydligast.",
+   "basis": "sheet: two bunkers front, two behind; Kains 2025: 'Downhill shots are emphasized, especially on par 3's'; geometry: −9.4 m.",
    "tiers": 1
   },
   "11": {
-   "name": null,
-   "note": "Pond LEFT of the green, near edge ~56 m short. Bends slightly left near the green. Electric fence down the RIGHT.",
+   "name": "Dammen vid green",
+   "note": "Par 4 med elstängslet till höger – ett oändligt pliktområde med spelförbudszon – och en damm till vänster strax kort om green. Bunker till vänster i fairway på inspelsavstånd; hålet viker svagt vänster in mot green.",
+   "basis": "sheet: pond left between the 56 and 74 m marks, electric-fence posts right, bunker left at ~131; rules 2026: the fence right of 11 and 12 is an endless penalty area with a no-play zone; geometry: turn −10°, water 8 m left at 87%.",
    "tiers": 1
   },
   "12": {
-   "name": null,
-   "note": "LONGEST HOLE, 521 m. Long lake down the LEFT through the second-shot and layup zone, ~92-248 m out. Green 28 m deep. Electric fence down the RIGHT.",
+   "name": "Längs sjön",
+   "note": "Banans längsta hål. En lång sjö följer vänstersidan genom hela andraslags- och upplägszonen, och elstängslet till höger är spelförbudszon. Greenen vaktas av bunkrar framför till vänster och till höger.",
+   "basis": "sheet: 521 m, lake left from the 94 to beyond the 238 m mark, greenside bunkers front-left and right; rules 2026: the fence right of 12; geometry: turn −27°, flat, water 21 m left at 86%.",
    "tiers": 1
   },
   "13": {
-   "name": null,
-   "note": "Lake the ENTIRE left side, tee to green. Plan marks START KULLAR / SLUT KULLAR down the right - an explicit run of shaped mounding. Bends slightly left near the green.",
+   "name": "Sjön hela vägen",
+   "note": "Sjön ligger längs hela vänstersidan från tee till femtio meter kort om green, och till höger löper en rad kullar där driven ska landa. Hålet viker vänster in mot en green med bunkrar kort vänster och till höger.",
+   "basis": "sheet: lake the whole left side to ~50 m short of the green, START/SLUT KULLAR labels on the right, bunkers right of the green and left short; geometry: turn −37°, water 5 m left at 24%.",
    "tiers": 1
   },
   "14": {
-   "name": null,
-   "note": "Second-shortest hole, 153 m. No water.",
+   "name": "Uppför korthål",
+   "note": "Näst kortaste hålet, svagt uppför och utan vatten. Bunkrar framför green till höger och bakom till vänster – välj en klubba som bär hela vägen.",
+   "basis": "sheet: 153 m, bunkers front-right and back-left; geometry: +4.2 m, no water.",
    "tiers": 1
   },
   "15": {
-   "name": null,
-   "note": "Index 2 at only 337 m. Pond RIGHT in the approach zone (67-110 m out), O/B left, bends LEFT with the pond inside the right corner. The architect says the intended design had the water LEFT and the fairway RIGHT - the built hole is a compromise. INTERN O/B on the 8th side.",
+   "name": "Index 2",
+   "note": "Index 2 trots blygsam längd: out of bounds längs vänstersidan, en damm till höger på inspelsavstånd, och hålet viker vänster in mot green. Arkitektens ursprungliga tanke var vattnet till vänster och fairway till höger – det byggda hålet är en kompromiss.",
+   "basis": "sheet: OB dots left, pond right in the approach zone, START KULLE right; Kains 2025: 'The original concept on #15 was to move the water to the left side and move the fairway to the right'; geometry: turn −20°, water 9 m right at 81%.",
    "tiers": 1
   },
   "16": {
-   "name": null,
-   "note": "BLIND, bell protocol. Crossing DIKE at 131 m from the green. Bends gently RIGHT. Architect singles out the approach; suggests raising the tees with material from 15.",
+   "name": "Blint över krönet",
+   "note": "Blint utslag – vänta på klockan – i en dogleg höger som stiger nio meter. Ett dike korsar hålet 131 meter från green och bunkrar vaktar runt om. Inspelet är ett av dem arkitekten själv lyfter fram.",
+   "basis": "sheet: bell note, '131 DIKE', bunkers around the green and one left in the fairway; Kains 2025: 'the approach shot on #16' outstanding, tees to be raised for visibility; geometry: dogleg right 70°, +9.2 m. The model has no ditch here.",
    "tiers": 1
   },
   "17": {
-   "name": null,
-   "note": "Shortest par 4 (270 m) and index 18, but plays +14 m UPHILL. DIKE at 100 m from the green. Green 25 m deep. Architect singles out the bunkering here.",
+   "name": "Bunkrarna",
+   "note": "Banans kortaste par 4 och dess index 18, men inte utan tänder: ett dike korsar hålet hundra meter från green, och bunkrarna – arkitektens egen favorit på banan – vaktar både fairway och greenens högra sida.",
+   "basis": "sheet: 270 m, '100 DIKE', bunkers left and right of the fairway and two right of the green; Kains 2025: 'the bunkering on #17'; geometry: straight, +2 m. The model has no ditch here.",
    "tiers": 1
   },
   "18": {
-   "name": null,
-   "note": "Distinct DOGLEG LEFT to a green beside the clubhouse. Architect singles out the tee shot. The green-and-clubhouse view in low sun is Svensk Golf's other 'most beautiful spot'. Three tees share 287 m.",
+   "name": "Mot klubbhuset",
+   "note": "Dogleg vänster nedför mot en green intill klubbhuset, med out of bounds till vänster. Utslaget är ett av banans bästa enligt arkitekten; bunkrar vaktar fairways vänstra sida och greenen på båda sidor. Vyn mot green i lågt solljus är Svensk Golfs vackraste.",
+   "basis": "sheet: OB dots left, two bunkers left of the fairway and one right, greenside left ×2 and right ×1; Kains 2025: 'the tee shot on #18'; Svensk Golf 2021: 'vyn mot 18:e green och klubbhuset när solens strålar står lågt'; geometry: turn −32°, −8.9 m.",
    "tiers": 1
   }
  }

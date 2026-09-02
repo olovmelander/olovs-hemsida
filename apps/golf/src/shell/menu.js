@@ -47,7 +47,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
             </div>
             <div class="dmb-content">
               <div class="dmb-title">Tillbaka till Start / Välj bana</div>
-              <div class="dmb-sub">Öppna startmenyn och utforska alla 6 banor</div>
+              <div class="dmb-sub">Öppna startmenyn och utforska alla ${courses.length} banor</div>
             </div>
             <div class="dmb-arrow">→</div>
           </button>
@@ -55,12 +55,12 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
 
         <!-- Quick Switch Courses -->
         <div class="drawer-section">
-          <div class="drawer-sec-title">Snabbval av banor</div>
+          <div class="drawer-sec-title">Snabbval av banor (${courses.length})</div>
           <div class="drawer-course-grid">
             ${courses.map(c => `
               <button class="d-course-btn ${c.slug === current ? 'active' : ''}" data-slug="${c.slug}">
                 <div class="d-course-name">${esc(c.name)}</div>
-                <div class="d-course-info">Par ${c.par} · ${esc(c.tag)}</div>
+                <div class="d-course-info">${c.holes} hål · Par ${c.par} · ${esc(c.tag)}</div>
                 ${c.slug === current ? '<span class="d-active-pill">Aktiv</span>' : ''}
               </button>
             `).join('')}
@@ -106,6 +106,20 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
         <div class="drawer-section">
           <div class="drawer-sec-title">Verktyg & Upplevelser</div>
           <div class="drawer-tools-list">
+            <button class="d-tool-btn" id="dMiniBtn">
+              <span class="dt-icon">${ICONS.miniMap(18)}</span>
+              <div class="dt-text">
+                <div class="dt-name">Minimap & Översikt</div>
+                <div class="dt-desc">Visa eller dölj 2D-banöversikten</div>
+              </div>
+            </button>
+            <button class="d-tool-btn" id="dNoteBtn">
+              <span class="dt-icon">${ICONS.book(18)}</span>
+              <div class="dt-text">
+                <div class="dt-name">Banguide & Hålstrategi</div>
+                <div class="dt-desc">Klubbens råd, höjdskillnad och detaljer</div>
+              </div>
+            </button>
             <button class="d-tool-btn" id="dFlyBtn">
               <span class="dt-icon">${ICONS.fly(18)}</span>
               <div class="dt-text">
@@ -117,7 +131,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
               <span class="dt-icon">${ICONS.compass(18)}</span>
               <div class="dt-text">
                 <div class="dt-name">Bansafari (Full tur)</div>
-                <div class="dt-desc">Automatisk genomgång av alla 18 hål</div>
+                <div class="dt-desc">Automatisk genomgång av alla hål</div>
               </div>
             </button>
             <button class="d-tool-btn" id="dRangeBtn">
@@ -218,6 +232,14 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
   });
 
   // Tool buttons
+  drawer.querySelector('#dMiniBtn')?.addEventListener('click', () => {
+    close();
+    onAction('toggleMini');
+  });
+  drawer.querySelector('#dNoteBtn')?.addEventListener('click', () => {
+    close();
+    onAction('toggleNote');
+  });
   drawer.querySelector('#dFlyBtn')?.addEventListener('click', () => {
     close();
     document.getElementById('flyBtn')?.click();
@@ -238,6 +260,25 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
     close();
     onAction('clean');
   });
+
+  // Touch swipe to dismiss drawer on mobile
+  let touchStartX = 0;
+  let touchStartY = 0;
+  const panel = drawer.querySelector('.nav-drawer-panel');
+  if (panel) {
+    panel.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    panel.addEventListener('touchend', e => {
+      const deltaX = e.changedTouches[0].clientX - touchStartX;
+      const deltaY = Math.abs(e.changedTouches[0].clientY - touchStartY);
+      // Swipe left by more than 48px with mostly horizontal motion
+      if (deltaX < -48 && deltaY < 80) {
+        close();
+      }
+    }, { passive: true });
+  }
 
   return {
     el: drawer,
