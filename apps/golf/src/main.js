@@ -65,6 +65,8 @@ import { createV2GroundMaterialDecorator, makeGround } from './engine/material.j
 import { smoothShore } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
+import { compassBearing, windAlong, playsLike, greenDistances, lineHazards, layupTargets } from './engine/rangefinder.js';
+import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
   selectV2TerrainSource,
@@ -5693,6 +5695,20 @@ for (let n = 1; n <= NHOLES; n++) {
   b.onclick = () => goHole(n, true);
   holesBar.appendChild(b);
 }
+const prevBtn = document.getElementById('holePrevBtn');
+const nextBtn = document.getElementById('holeNextBtn');
+if (prevBtn) {
+  prevBtn.onclick = () => {
+    const target = hole <= 1 ? NHOLES : hole - 1;
+    goHole(target, true);
+  };
+}
+if (nextBtn) {
+  nextBtn.onclick = () => {
+    const target = hole >= NHOLES ? 1 : hole + 1;
+    goHole(target, true);
+  };
+}
 const teesEl = document.getElementById('tees');
 
 function drawCard() {
@@ -5709,14 +5725,35 @@ function drawCard() {
     const d = document.createElement('div');
     d.className = 'tee' + (k === teeIdx ? ' on' : '');
     d.innerHTML = `<b>${m}</b><i>${TEE_NAMES[k]}</i>`;
-    d.onclick = () => { teeIdx = k; drawCard(); if (camMode === 'tee') setCam('tee'); };
+    d.onclick = () => { teeIdx = k; drawCard(); if (camMode === 'tee') setCam('tee'); if (kik) kikRender(); };
     teesEl.appendChild(d);
   });
   const rise = h.elev.rise;
-  document.getElementById('facts').innerHTML =
-    `Spelas <b>${Math.abs(rise).toFixed(0)} m</b> ${rise >= 0 ? 'uppför' : 'nedför'}<br>` +
-    `Tee <b>${h.elev.tee.toFixed(0)} m</b> · green <b>${h.elev.green.toFixed(0)} m</b> ö.h.<br>` +
-    `Ritad <b>${h.lineLen.toFixed(0)} m</b> · kortet <b>${h.t[0]} m</b>`;
+  let factsHtml = `Tee <b>${h.elev.tee.toFixed(0)} m</b> · Green <b>${h.elev.green.toFixed(0)} m</b> ö.h.`;
+  if (BOOTQ.get('debug') === '1') {
+    factsHtml += `<br><span class="debug-pipeline">Ritad <b>${h.lineLen.toFixed(0)} m</b> · kortet <b>${h.t[0]} m</b></span>`;
+  }
+  document.getElementById('facts').innerHTML = factsHtml;
+
+  const rHoleNum = document.getElementById('railHoleNum');
+  if (rHoleNum) rHoleNum.textContent = `HÅL ${h.n}`;
+  const rHolePar = document.getElementById('railHolePar');
+  if (rHolePar) rHolePar.textContent = `PAR ${h.par}`;
+  const rHoleDist = document.getElementById('railHoleDist');
+  if (rHoleDist) rHoleDist.textContent = `${(h.t && h.t[teeIdx ?? 0]) || (h.lineLen ? h.lineLen.toFixed(0) : 350)} M`;
+  const rHoleIndex = document.getElementById('railHoleIndex');
+  const rHoleIndexDot = document.getElementById('railHoleIndexDot');
+  if (h.idx != null) {
+    if (rHoleIndex) { rHoleIndex.textContent = `INDEX ${h.idx}`; rHoleIndex.style.display = ''; }
+    if (rHoleIndexDot) rHoleIndexDot.style.display = '';
+  } else {
+    if (rHoleIndex) rHoleIndex.style.display = 'none';
+    if (rHoleIndexDot) rHoleIndexDot.style.display = 'none';
+  }
+  const rHoleSub = document.getElementById('railHoleSub');
+  if (rHoleSub) {
+    rHoleSub.innerHTML = `Spelas <b>${Math.abs(rise).toFixed(0)} m ${rise >= 0 ? 'uppför' : 'nedför'}</b>`;
+  }
   document.getElementById('nnm').textContent = h.name || `Hål ${h.n}`;
   document.getElementById('ntx').textContent = h.note || h.shape || '';
   document.querySelectorAll('.hb').forEach((b, i) => b.classList.toggle('on', i + 1 === hole));
@@ -5780,7 +5817,12 @@ function setCam(mode, instant) {
 function goHole(n, recam, instant) {
   hole = Math.min(NHOLES, Math.max(1, n));
   drawCard();
+  const activeBtn = holesBar?.children[hole - 1];
+  if (activeBtn && holesBar) {
+    activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
   kikClear();
+  if (kik) kikRender();
   if (gridOn) buildGreenGrid();
   if (recam) setCam(camMode, instant);
   syncURL();
@@ -5938,8 +5980,8 @@ const FL = {
   altTee: 24,        // metres above the envelope at the tee
   lead: 100,         // the look point runs this far ahead down the line
   orbitDeg: 180,     // the sweep round the green; 180 ends on the reverse angle
-  vOrbit: 9.5,       // m/s on the sweep, at least ...
-  sweepRate: 10.5,   // ... and degrees per second round the pin, which is what the eye sees
+  vOrbit: 12,        // m/s on the sweep, at least ...
+  sweepRate: 13.5,   // ... and degrees per second round the pin, which is what the eye sees
   sweepPitch: 26,    // degrees down to the PIN on the sweep at the design radius ...
   sweepPitchMax: 33, // ... steepening to this much before the radius widens to clear the trees
   sweepAimBelow: 7,  // the pin sits this many degrees below the frame centre: horizon in, green low
@@ -5949,16 +5991,16 @@ const FL = {
   climb: 0.22,       // slope limit of the envelope (tan 12.4 degrees)
   fovCruise: 52, fovOrbit: 46,
   offset: 8,         // lateral offset off the line on the fairway
-  hold: 1.4,         // seconds on the closing frame before the travel shot leaves
-  vTransit: 24,      // m/s between holes ...
+  hold: 1.0,         // seconds on the closing frame before the travel shot leaves
+  vTransit: 36,      // m/s between holes ...
   altTransit: 30,    // ... this far above the envelope (crowns included), over whatever lies between
   lookAhead: 110,    // the travel shot looks this far along its route
   lineUp: 40,        // the straight run behind the push-off point the route arrives along
-  panMax: 14,        // degrees per second of heading change a bend on the hole may be flown at ...
-  panMaxTransit: 20, // ... and on the travel shot, where only the gimbal rate (swingRate) is what the viewer sees
-  swingRate: 14,     // degrees per second the gimbal pans on the travel shot ...
-  tiltRate: 8,       // ... and tilts
-  accel: 2.5,        // m/s^2 the drone brakes and accelerates at around a bend
+  panMax: 17,        // degrees per second of heading change a bend on the hole may be flown at ...
+  panMaxTransit: 28, // ... and on the travel shot, where only the gimbal rate (swingRate) is what the viewer sees
+  swingRate: 18,     // degrees per second the gimbal pans on the travel shot ...
+  tiltRate: 10,      // ... and tilts
+  accel: 3.5,        // m/s^2 the drone brakes and accelerates at around a bend
 };
 const tourFlight = {
   st: null,                  // the station table
@@ -6258,7 +6300,7 @@ function initHoleFlight(h, from = null) {
   let iOrbit = n - 1;
   for (let i = 0; i < n; i++) if (path[i][2] >= sEnd - 0.5) { iOrbit = i; break; }
   const sOrbit = iOrbit * FL.ds, sTotal = (n - 1) * FL.ds;
-  const vFair = clampf(9 + lineLen * 0.032, 12, 22);
+  const vFair = clampf(12 + lineLen * 0.04, 16, 30);
   const vOrbit = Math.max(FL.vOrbit, R * FL.sweepRate * Math.PI / 180);
   /* with a travel shot in front, the route is flown at transit speed and the
      drone all but hovers at the push-off point before the hole's own profile
@@ -6268,9 +6310,9 @@ function initHoleFlight(h, from = null) {
   const sPre = iPre * FL.ds;
   const base = s => s < sPre ? lerp(FL.vTransit, vFair, smooth(sPre - 100, sPre, s))
     : lerp(vFair, vOrbit, smooth(sOrbit - 70, sOrbit + 10, s));
-  const dip = s => from ? 1 - 0.65 * Math.exp(-((s - sPre) / 35) * ((s - sPre) / 35)) : 1;
+  const dip = s => from ? 1 - 0.6 * Math.exp(-((s - sPre) / 35) * ((s - sPre) / 35)) : 1;
   const vAt = s => base(s) * dip(s)
-    * (0.22 + 0.78 * smooth(0, 60, s)) * (0.30 + 0.70 * smooth(sTotal, sTotal - 40, s));
+    * (0.25 + 0.75 * smooth(0, 45, s)) * (0.30 + 0.70 * smooth(sTotal, sTotal - 40, s));
   /* the profile is then capped by the path's own curvature -- a bend is flown
      no faster than FL.panMax degrees per second of heading change -- with the
      cap propagated both ways at FL.accel so the drone brakes into a turn and
@@ -6591,24 +6633,44 @@ function endTour() {
 document.getElementById('tourBtn').onclick = startTour;
 
 /* --------------------------------------------------------------- kikaren
-   Click the course, get what a caddie would say: the distance, the climb, the
-   plays-like number, the lie out there, and how much of the line is carry over
-   water. The ray marches terrainH so a tree canopy cannot steal the hit. */
-let kik = false, kikGroup = null, kikPt = null;
+   Tap the course and get what a caddie would say. The ball starts on the
+   current tee; a long press (or "Mät härifrån") moves it to where you pressed,
+   a tap measures to the tapped point. Always on the card: front, centre and
+   back of the green from the ball, what the straight line to it crosses, and
+   the layups that leave a full approach. For a tapped point: the distance, the
+   climb, what the ball lands in, every hazard the shot crosses with the layup
+   that stays short and the carry that clears it, and the plays-like number with
+   its parts -- slope a metre per metre, wind from a live reading, temperature
+   off 21 °C. The arithmetic and its tests live in engine/rangefinder.js and
+   engine/weather.js. The ray marches terrainH so a tree canopy cannot steal the
+   hit. */
+let kik = false, kikGroup = null, kikPt = null, kikBall = null, kikWx = null, kikWxBusy = false;
 const kikBtn = document.getElementById('rangeBtn');
+const kikOut = document.getElementById('kikOut');
 kikBtn.onclick = () => {
   kik = !kik;
   kikBtn.classList.toggle('on', kik);
-  if (!kik) kikClear(); else toast('Tryck på banan för att mäta från aktuell tee');
+  const toolHint = document.getElementById('toolHint');
+  if (toolHint) {
+    toolHint.style.display = kik ? 'block' : '';
+    toolHint.textContent = 'Kikaren aktiv · tryck var som helst på banan för att mäta';
+  }
+  if (!kik) { kikClear(); return; }
+  toast('Tryck på banan för att mäta · håll kvar för att flytta bollen');
+  kikRender();
 };
 function kikClear() {
-  if (kikGroup) {
-    scene.remove(kikGroup);
-    kikGroup.traverse(o => { if (o.geometry) o.geometry.dispose(); });
-    kikGroup = null;
-  }
-  kikPt = null;
-  document.getElementById('kikOut').classList.remove('show');
+  kikErase();
+  kikPt = null; kikBall = null;
+  kikOut.classList.remove('show');
+  const toolHint = document.getElementById('toolHint');
+  if (toolHint && !kik) toolHint.style.display = '';
+}
+function kikErase() {
+  if (!kikGroup) return;
+  scene.remove(kikGroup);
+  kikGroup.traverse(o => { if (o.geometry) o.geometry.dispose(); });
+  kikGroup = null;
 }
 function groundHit(clientX, clientY) {
   camera.updateMatrixWorld(true);
@@ -6628,55 +6690,161 @@ function groundHit(clientX, clientY) {
   }
   return null;
 }
+/* the live reading for this course: fetched when the card first opens, again
+   when the half-hour cache has run out, never twice at once */
+function kikWeather() {
+  if (kikWxBusy || !GEO.origin) return;
+  if (kikWx && Number.isFinite(kikWx.fetchedAt) && Date.now() - kikWx.fetchedAt < WEATHER_TTL_MS) return;
+  kikWxBusy = true;
+  fetchWeather(GEO.origin.lat, GEO.origin.lon)
+    .then(w => { kikWxBusy = false; if (w && w !== kikWx) { kikWx = w; if (kik) kikRender(); } })
+    .catch(() => { kikWxBusy = false; });
+}
+/* what a straight shot crosses: water at its own level, sand */
+function kikKindAt(x, z) {
+  for (const w of WI.at(x, z)) if (!w.stream && ringSD(x, z, w.ring) < 0 && terrainH(x, z) < w.level + 0.3) return 'vatten';
+  for (const b of BI.at(x, z)) if (inRing(x, z, b.ring)) return 'bunker';
+  return null;
+}
+function kikLie(x, z, y) {
+  let over = false;
+  for (const w of WI.at(x, z)) if (!w.stream && ringSD(x, z, w.ring) < 0 && y < w.level + 0.3) over = true;
+  if (over) return 'vatten';
+  const c = classify(x, z);
+  return c.green > 0.5 ? 'green' : c.sand > 0.4 ? 'bunker' : c.tee > 0.5 ? 'tee' : c.fair > 0.4 ? 'fairway'
+       : c.path > 0.4 ? 'stig' : c.forest > 0.5 ? 'skog' : 'ruff';
+}
+/* every number on the card, with no DOM in it, so the harness can ask for the
+   same thing: V3D.rangefinder(origin, target) */
+function kikCompute(origin = null, target = null) {
+  const h = HOLES[hole - 1];
+  const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
+  const o = origin || kikBall || mk.c;
+  const fromTee = !origin && !kikBall;
+  const oy = terrainH(o[0], o[1]);
+  const wx = kikWx;
+  const bTo = p => compassBearing(o[0], o[1], p[0], p[1]);
+  const windFor = p => (wx ? windAlong(bTo(p), wx.windFromDeg, wx.windMs) : { head: 0, cross: 0 });
+  const tempC = wx ? wx.tempC : null;
+  const green = greenDistances(o, h.green);
+  const gc = h.green.c;
+  const gWind = windFor(gc);
+  const toGreen = { dist: green.centre, dh: terrainH(gc[0], gc[1]) - oy, hazards: lineHazards(o, gc, kikKindAt), wind: gWind };
+  toGreen.plays = playsLike({ dist: toGreen.dist, dh: toGreen.dh, head: gWind.head, tempC });
+  const t = target || kikPt;
+  let shot = null;
+  if (t) {
+    const dist = Math.hypot(t[0] - o[0], t[1] - o[1]);
+    const ty = terrainH(t[0], t[1]);
+    const wind = windFor(t);
+    shot = { target: t, dist, dh: ty - oy, lie: kikLie(t[0], t[1], ty), hazards: lineHazards(o, t, kikKindAt), wind,
+             plays: playsLike({ dist, dh: ty - oy, head: wind.head, tempC }) };
+  }
+  return { origin: o, fromTee, tee: TEE_NAMES[teeIdx], green, toGreen, layups: layupTargets(green.centre), shot, weather: wx };
+}
+function kikRender() {
+  kikWeather();
+  const r = kikCompute();
+  const m = v => `${Math.round(v)}`;
+  const sgn = v => (v > 0 ? '+' : '−') + m(Math.abs(v));
+  const parts = p => {
+    const s = [];
+    if (Math.abs(p.slope) >= 1) s.push(`${sgn(p.slope)} höjd`);
+    if (Math.abs(p.wind) >= 1) s.push(`${sgn(p.wind)} vind`);
+    if (Math.abs(p.temp) >= 1) s.push(`${sgn(p.temp)} temp`);
+    return s.length ? ` <small>(${s.join(', ')})</small>` : '';
+  };
+  const haz = H => H.map(z => z.type === 'vatten'
+    ? `<span class="kik-haz water">vatten · kort om <b>${m(z.from)}</b> · bär <b>${m(z.to)}</b> m</span>`
+    : `<span class="kik-haz sand">bunker <b>${m(z.from)}–${m(z.to)}</b> m</span>`).join('<br>');
+  const gTxt = r.green.front !== null
+    ? `fram <b>${m(r.green.front)}</b> · mitt <b>${m(r.green.centre)}</b> · bak <b>${m(r.green.back)}</b> m`
+    : `mitt <b>${m(r.green.centre)}</b> m`;
+  let html = `<div class="kik-head"><b>Kikaren</b><span>${r.fromTee ? `från tee ${r.tee}` : 'från bollen'}</span>` +
+             `${r.fromTee ? '' : '<button class="kik-btn" data-act="tee">Från tee</button>'}</div>`;
+  html += `<div class="kik-row">Green · ${gTxt}</div>`;
+  if (r.shot) {
+    const s = r.shot;
+    html += `<div class="kik-row kik-big">Till punkten <b>${m(s.dist)} m</b> · ${m(Math.abs(s.dh))} m ${s.dh >= 0 ? 'uppför' : 'nedför'} · landar i ${s.lie}</div>`;
+    html += `<div class="kik-row">Spelas som <b>${m(s.plays.total)} m</b>${parts(s.plays)}</div>`;
+    if (s.hazards.length) html += `<div class="kik-row">${haz(s.hazards)}</div>`;
+    html += `<div class="kik-row"><button class="kik-btn" data-act="ball">Mät härifrån</button></div>`;
+  } else {
+    html += `<div class="kik-row">Till green spelas som <b>${m(r.toGreen.plays.total)} m</b>${parts(r.toGreen.plays)}</div>`;
+    if (r.toGreen.hazards.length) html += `<div class="kik-row">På linjen: ${haz(r.toGreen.hazards)}</div>`;
+  }
+  if (r.layups.length) html += `<div class="kik-row">Lägg upp: ${r.layups.map(l => `${l.remain} m kvar → <b>${m(l.shot)}</b> m`).join(' · ')}</div>`;
+  html += kikWxLine(r);
+  kikOut.innerHTML = html;
+  kikOut.classList.add('show');
+  kikDraw(r);
+}
+function kikWxLine(r) {
+  const w = r.weather;
+  if (!w) return `<div class="kik-wx">Ingen vinddata${typeof navigator !== 'undefined' && navigator.onLine === false ? ' (offline)' : ''} · spelas-som räknar bara höjd</div>`;
+  const rel = r.shot ? r.shot.wind : r.toGreen.wind;
+  const relTxt = Math.abs(rel.head) >= 0.5 ? `${rel.head > 0 ? 'motvind' : 'medvind'} ${Math.abs(rel.head).toFixed(1)}` : 'sidvind';
+  const t = w.time ? w.time.slice(11, 16) : '';
+  return `<div class="kik-wx">${weatherWord(w.code)} · vind <b>${w.windMs.toFixed(1)} m/s</b> från ${compassName(w.windFromDeg)} (${relTxt})` +
+         ` · ${Math.round(w.tempC)} °C${t ? ` · ${t}` : ''}${w.stale ? ' · gammal avläsning' : ''}</div>`;
+}
+/* the shot in the scene: the arc from the ball to the point, a tick where each
+   hazard starts and ends, and the ball itself when it is not on the tee */
+function kikDraw(r) {
+  kikErase();
+  kikGroup = new THREE.Group();
+  const [ox, oz] = r.origin, oy = terrainH(ox, oz);
+  if (!r.fromTee) {
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(0.7, 10, 8), new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffffff) }));
+    ball.position.set(ox, oy + 0.7, oz);
+    kikGroup.add(ball);
+  }
+  if (r.shot) {
+    const [tx, tz] = r.shot.target, ty = terrainH(tx, tz), dist = r.shot.dist;
+    const P = [];
+    const rise = Math.min(30, 4 + dist * 0.055);
+    for (let i = 0; i <= 30; i++) {
+      const f = i / 30;
+      const x = ox + (tx - ox) * f, z = oz + (tz - oz) * f;
+      P.push(new THREE.Vector3(x, oy + 1.4 + (ty + 0.4 - oy - 1.4) * f + Math.sin(f * Math.PI) * rise, z));
+    }
+    kikGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(P),
+      new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0xffdf8a), transparent: true, opacity: 0.95 })));
+    const mark = new THREE.Mesh(new THREE.SphereGeometry(0.9, 10, 8), new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffdf8a) }));
+    mark.position.set(tx, ty + 0.9, tz);
+    kikGroup.add(mark);
+    const ux = (tx - ox) / dist, uz = (tz - oz) / dist;
+    for (const z of r.shot.hazards) {
+      const col = new THREE.Color(z.type === 'vatten' ? 0x4bb4d8 : 0xe2cf9a);
+      for (const s of [z.from, z.to]) {
+        const x = ox + ux * s, zz = oz + uz * s, y = terrainH(x, zz);
+        kikGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x, y + 0.2, zz), new THREE.Vector3(x, y + 4, zz)]),
+          new THREE.LineBasicNodeMaterial({ color: col })));
+      }
+    }
+  }
+  scene.add(kikGroup);
+}
 function kikMeasure(clientX, clientY) {
   const hit = groundHit(clientX, clientY);
   if (!hit) return;
-  kikClear();
-  const h = HOLES[hole - 1];
-  const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
-  const [ox, oz] = mk.c, [tx, tz] = hit;
-  const dist = Math.hypot(tx - ox, tz - oz);
-  const oy = terrainH(ox, oz), ty = terrainH(tx, tz);
-  const dh = ty - oy;
-  /* what is out there, and how much of the line is over water */
-  const c = classify(tx, tz);
-  let wet = 0;
-  const steps = Math.max(2, Math.ceil(dist / 4));
-  for (let i = 1; i < steps; i++) {
-    const sx = ox + (tx - ox) * i / steps, sz = oz + (tz - oz) * i / steps;
-    for (const w of WI.at(sx, sz)) {
-      if (!w.stream && ringSD(sx, sz, w.ring) < 0 && terrainH(sx, sz) < w.level + 0.3) { wet++; break; }
-    }
-  }
-  let over = false;
-  for (const w of WI.at(tx, tz)) if (!w.stream && ringSD(tx, tz, w.ring) < 0 && ty < w.level + 0.3) over = true;
-  const lie = over ? 'vatten' : c.green > 0.5 ? 'green' : c.sand > 0.4 ? 'bunker'
-            : c.tee > 0.5 ? 'tee' : c.fair > 0.4 ? 'fairway' : c.path > 0.4 ? 'stig'
-            : c.forest > 0.5 ? 'skog' : 'ruff';
-  const plays = dist + dh;
-  document.getElementById('kikOut').innerHTML =
-    `Till punkten <b>${dist.toFixed(0)} m</b> · ${Math.abs(dh).toFixed(0)} m ${dh >= 0 ? 'uppför' : 'nedför'}` +
-    ` · spelas <b>${plays.toFixed(0)} m</b><br>` +
-    `landar i ${lie}${wet ? ` · bär över vatten ~<b>${wet * 4} m</b>` : ''}`;
-  document.getElementById('kikOut').classList.add('show');
-  kikPt = [tx, tz];
-  /* the arc in the scene */
-  kikGroup = new THREE.Group();
-  const P = [];
-  const rise = Math.min(30, 4 + dist * 0.055);
-  for (let i = 0; i <= 30; i++) {
-    const f = i / 30;
-    const x = ox + (tx - ox) * f, z = oz + (tz - oz) * f;
-    P.push(new THREE.Vector3(x, oy + 1.4 + (ty + 0.4 - oy - 1.4) * f + Math.sin(f * Math.PI) * rise, z));
-  }
-  const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(P),
-    new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0xffdf8a), transparent: true, opacity: 0.95 }));
-  const mark = new THREE.Mesh(new THREE.SphereGeometry(0.9, 10, 8),
-    new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffdf8a) }));
-  mark.position.set(tx, ty + 0.9, tz);
-  kikGroup.add(line, mark);
-  scene.add(kikGroup);
+  kikPt = hit;
+  kikRender();
 }
+function kikPlaceBall(clientX, clientY) {
+  const hit = groundHit(clientX, clientY);
+  if (!hit) return;
+  kikBall = hit;
+  toast('Bollen ligger här nu · tryck för att mäta');
+  kikRender();
+}
+kikOut.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b) return;
+  if (b.dataset.act === 'tee') kikBall = null;
+  else if (b.dataset.act === 'ball' && kikPt) { kikBall = kikPt; kikPt = null; }
+  kikRender();
+});
 /* ------------------------------------------------- greengrid (yardage book & slope visualization)
    Professional golf simulation green reading:
    - High-density terrain-conforming grid lines closely masked to the green boundary
@@ -7012,7 +7180,10 @@ gridBtn.onclick = () => {
     if (tour) endTour();
   });
   renderer.domElement.addEventListener('pointerup', e => {
-    if (performance.now() - pt0 < 450 && Math.hypot(e.clientX - px0, e.clientY - py0) < 8) {
+    const held = performance.now() - pt0, moved = Math.hypot(e.clientX - px0, e.clientY - py0);
+    /* in kikaren a long press without a drag puts the ball where the finger is */
+    if (kik && moved < 8 && held >= 450 && held < 3000) { kikPlaceBall(e.clientX, e.clientY); return; }
+    if (held < 450 && moved < 8) {
       if (kik) {
         kikMeasure(e.clientX, e.clientY);
         return;
@@ -7043,8 +7214,8 @@ gridBtn.onclick = () => {
 
 addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
-  if (e.key === 'ArrowRight' || e.key === 'n') goHole(hole + 1, true);
-  if (e.key === 'ArrowLeft' || e.key === 'p') goHole(hole - 1, true);
+  if (e.key === 'ArrowRight' || e.key === 'n') goHole(hole >= NHOLES ? 1 : hole + 1, true);
+  if (e.key === 'ArrowLeft' || e.key === 'p') goHole(hole <= 1 ? NHOLES : hole - 1, true);
   if (e.key === 'h') { if (tour) endTour(); else setClean(!document.body.classList.contains('clean')); }
   if (e.key === 'm') setSky(skyState + 1);
 });
@@ -7765,6 +7936,8 @@ window.V3D = {
            draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
            backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
+  /* the rangefinder numbers for a ball and a target, no DOM: [x, z] each, null = the current tee / no target */
+  rangefinder: (origin = null, target = null) => kikCompute(origin, target),
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */

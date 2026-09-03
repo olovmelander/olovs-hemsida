@@ -1611,10 +1611,15 @@ loop only walks it (`flightStep` + `applyFlightCamera`). The shape is the PGA
 Tour hole flyover: a slow push-off from behind the tee, a climb to a cruise
 that scales with the hole, a descent into the approach with the pin held
 in frame, a 180° sweep round the green ending on the reverse angle, a hold,
-and a dip-to-black cut to the next hole. `tools/check-flight.mjs` gates it
-(clearance, pan rate, jolt, pitch band, duration) by asking the page to
-SIMULATE each hole offline through `V3D.flightSim`, and can fly a hole live
-or run the tour through its first cut. Things it took the measurements to find:
+and then -- no cut -- a TRAVEL SHOT to the next tee: the camera leaves along
+the sweep's heading, flies a straight-then-arc route that arrives behind the
+next tee heading down the hole, and settles into that hole's push-off with the
+springs carried across, so the whole tour is one take. The card fades out for
+the travel and back in as the route lines up. `tools/check-flight.mjs` gates
+it (clearance, pan rate, jolt, pitch band, duration) by asking the page to
+SIMULATE each hole offline through `V3D.flightSim` -- holes 2-18 WITH the
+travel shot in front of them -- and can fly a hole live or run the tour
+through its first transition. Things it took the measurements to find:
 
 - **Nothing turned the camera.** OrbitControls' `update()` is what orients the
   camera and it is skipped while flying; the old flight had no `lookAt`, so it
@@ -1645,9 +1650,63 @@ or run the tour through its first cut. Things it took the measurements to find:
 - Speed is a function of distance integrated once into a time table, so the
   shot has one velocity profile and no seam at the green. Position and look
   point pass through critically damped springs with different time constants
-  (0.28 s airframe, 0.85 s gimbal). Holes take 32-48 s; ~12 min for eighteen.
+  (0.28 s airframe, 0.85 s gimbal). A hole's own shot takes 25-36 s; with the
+  travel shot in front of it 32-55 s, so the tour runs about 14 min. (The
+  speeds were raised twice at the owner's request after viewing, about a
+  third in all; `FL` holds every number and the gate is what says each
+  raise was safe. The gimbal pan now peaks at 19.9°/s against the gate's 20,
+  so any further speed has to come from cruise and travel, not from the pan.)
+- **The next tee is usually IN FRONT of the last green, not behind it.** A
+  route to a line-up point behind the tee therefore has to turn round, and a
+  single Hermite curve to it folded into a hairpin (a 155° reversal in one
+  station). The last leg is a turning circle tangent to the hole's axis at
+  the line-up point, on the green's side, reached along its tangent.
+- **Smooth the gimbal in pan and tilt, never the look point in space.** A
+  look point damped in x, y, z cuts the chord when its target swings round
+  the camera; on the 180° swing out of a reverse angle that chord passes
+  through the camera's own footprint -- pitch 78°, 990°/s. And a blend
+  between two look points must be angular about the camera for the same
+  reason, with its arc branch chosen once per blend and held (the shorter
+  arc changes sides between adjacent stations when the bearings are near
+  opposite), and tracked only while the blend is active.
+- **On the travel shot the gimbal is a rate-limited tracker** (`swingRate`
+  18°/s, `tiltRate` 10°/s) from the heading it held over the last green to
+  the route ahead, and it hands over to the hole's own look only once it has
+  converged. A blend on distance or time stacked its own swing on the arc's
+  rotation and reached 34°/s; a hand-over at a fixed station jumped. Because
+  only the gimbal rate is visible, the turning arc itself may be flown at
+  28°/s of heading change (`panMaxTransit`), which is what keeps the travel
+  legs to 9-21 s. Speed is also capped by path curvature everywhere and the
+  cap propagated at 2.5 m/s², so the drone brakes into a bend, never in it.
+- The route point the travel shot looks at is pushed out to a fixed
+  110 m so a bend can never put it under the camera, and the travel height
+  is 30 m over the crown-inclusive envelope: 42 m put the camera 80 m above
+  the ground it was looking at and pitched it to 47°.
 - The progress label reads `GREENSVEP`, not `GREEN 360°`, because the sweep
   is 180°. The standalone pages still carry the old flight; they are hotfix-only.
+
+### Kikaren is a rangefinder, and its numbers have tests
+
+The first item of `docs/banvy-blueprint.md`. The ball starts on the current
+tee; a long press (or "Mät härifrån") moves it, a tap measures to the tapped
+point. The card always shows front, centre and back of the green from the
+ball (the first and last metres inside the green ring along the ray through
+its centre), what the straight line to the green crosses, and the layups
+that leave 100 and 150 m. For a tapped point it adds the climb, the lie, every
+hazard the shot crosses with the layup that stays short and the carry that
+clears it, and the plays-like number with its parts. The arithmetic is
+`engine/rangefinder.js` and is the GPS apps' published one, in metric: a
+metre per metre of rise, 2.24% of the shot per m/s of headwind and 1.12% per
+m/s of tailwind (1% and 0.5% per mph), 0.135% per °C off 21 °C, the wind
+term capped at a quarter of the shot. `engine/weather.js` fetches the live
+reading from Open-Meteo (no key, CORS open), one per course, cached half an
+hour in localStorage, stale-but-shown when offline. Two conventions worth
+restating because they are easy to reflect: a compass bearing is
+`atan2(dx, -dz)`, and Open-Meteo's wind direction is where the wind blows
+FROM, so headwind = speed · cos(windFrom − bearing). `V3D.rangefinder(origin,
+target)` returns the same numbers with no DOM, which is how the harness
+checked that the tee-to-centre distance on Puttom's 12th is the card's 110 m
+and that the line crosses the lake from 23 to 84 m.
 
 ### The clubhouses, and what a photograph is for
 
