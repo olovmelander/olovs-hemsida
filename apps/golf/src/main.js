@@ -53,7 +53,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    threshold, or feeds a smoothstep that has saturated, passes the threshold
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
-import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry } from './engine/tree-impostor.mjs';
+import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode } from './engine/tree-impostor.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
@@ -3781,6 +3781,8 @@ const TREE_LOD = {
      looked at up close and judged on its own; nothing else changes */
   force: [1, 2, 3].includes(+new URLSearchParams(location.search).get("lod")) ? +new URLSearchParams(location.search).get("lod") : 0,
   stats: { tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, updates: 0, bakeMs: 0 },
+  /* ?impdbg=normal|albedo|mask|world draws the impostors unlit, one term at a time */
+  debug: new URLSearchParams(location.search).get("impdbg") || null,
 };
 {
   /* the decimated templates: the same silhouettes and the same crown noise
@@ -3872,7 +3874,7 @@ const TREE_LOD = {
   const impostorBatch = (s, capacity, label) => {
     const geo = createImpostorGeometry(capacity);
     const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
-      crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun,
+      crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.castShadow = false;
@@ -4171,7 +4173,7 @@ if (M.cover) {
       const list = perSpecies[s];
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
-      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun });
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
       list.forEach((k, i) => {
@@ -7366,6 +7368,10 @@ addEventListener('resize', () => {
 });
 
 let last = performance.now(), acc = 0, frames = 0, fps = 0;
+/* frames rendered since boot, monotonic: what a harness waits on after
+   changing anything, because under a software renderer a frame can take
+   longer than any fixed wait and a screenshot shows the LAST frame drawn */
+let FRAME_NO = 0;
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
   terrainV2.tick(now);
@@ -7374,7 +7380,7 @@ function frame() {
     terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
   }
   updateTreeTiers();
-  last = now; frames++; acc += dt;
+  last = now; frames++; acc += dt; FRAME_NO++;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
 
   if (camTween.on) {
@@ -7780,6 +7786,49 @@ window.V3D = {
   legacyTrees: ({ instances = false } = {}) => legacyTreeExport(instances),
   /* the tree tiers' live state: how many trees are drawn full, decimated, and how many cells changed */
   treeTiers: () => ({ ...TREE_LOD.stats, switchPx: TREE_LOD.switchPx, impostorPx: TREE_LOD.impostorPx, cell: TREE_LOD.cell }),
+  /* force every visible cell into one tier (1-3) at run time, 0 for the automatic choice */
+  setTreeLod: n => { TREE_LOD.force = [1, 2, 3].includes(n | 0) ? n | 0 : 0; },
+  /* with ?impdbg=1: which term the impostors show (engine/tree-impostor.mjs) */
+  setImpostorDebug: n => { impostorDebugMode.value = n | 0; },
+  frame: () => FRAME_NO,
+  /* the impostor atlases as the GPU holds them, for the harness: one
+     frame of one species' albedo or normal target, decoded to floats
+     (row 0 is whichever row the backend's readback puts first) */
+  treeAtlas: async (s, kind = 'albedo', i = 0, j = 0) => {
+    const atlas = TREE_LOD.atlases[s];
+    if (!atlas) return null;
+    const rt = atlas.targets[kind === 'normal' ? 1 : 0], fs = atlas.frameSize;
+    const raw = await renderer.readRenderTargetPixelsAsync(rt, i * fs, j * fs, fs, fs);
+    const half = h => { const e = (h >> 10) & 31, m = h & 1023, sg = h & 0x8000 ? -1 : 1;
+      return e === 0 ? sg * m * 2 ** -24 : e === 31 ? (m ? NaN : sg * Infinity) : sg * (1 + m / 1024) * 2 ** (e - 15); };
+    const data = raw instanceof Uint16Array ? Array.from(raw, half) : Array.from(raw);
+    return { frameSize: fs, framesPerSide: atlas.framesPerSide, size: atlas.size, radius: atlas.radius,
+             centreY: atlas.centreY, height: atlas.height, data };
+  },
+  /* the crown colour the mesh tiers multiply in, per species: what an
+     impostor's crown must average to before the season and the light */
+  treeTemplates: (dx = 0, dy = 0, dz = -1) => SPECIES.map(sp => {
+    const c = sp.crown.getAttribute('color'); let r = 0, g = 0, b = 0;
+    for (let k = 0; k < c.count; k++) { r += c.getX(k); g += c.getY(k); b += c.getZ(k); }
+    /* the crown's mean FACE normal as seen from direction d, each face
+       weighted by the area it shows to d -- what an atlas frame from d
+       must average to */
+    const pos = sp.crown.getAttribute('position'), idx = sp.crown.getIndex();
+    const A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3(), N = new THREE.Vector3();
+    let nx = 0, ny = 0, nz = 0, wsum = 0;
+    for (let f = 0; f < idx.count; f += 3) {
+      A.fromBufferAttribute(pos, idx.getX(f)); B.fromBufferAttribute(pos, idx.getX(f + 1)); C.fromBufferAttribute(pos, idx.getX(f + 2));
+      N.subVectors(B, A).cross(C.clone().sub(A));
+      const area2 = N.length(); if (!area2) continue;
+      N.divideScalar(area2);
+      const facing = N.x * dx + N.y * dy + N.z * dz;
+      if (facing <= 0) continue;
+      const w = area2 * facing;
+      nx += N.x * w; ny += N.y * w; nz += N.z * w; wsum += w;
+    }
+    return { cc: sp.cc, tc: sp.tc, vertexColour: [r / c.count, g / c.count, b / c.count], height: sp.templateHeight,
+             meanFaceNormal: [nx / wsum, ny / wsum, nz / wsum] };
+  }),
   v2Objects: () => ({
     rendererActivated: true,
     gate: V2_OBJECT_LAYER_GATE,

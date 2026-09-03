@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { hemiOctahedralEncode, hemiOctahedralDecode, frameBlend, viewBasis } from './tree-impostor.mjs';
+import { hemiOctahedralEncode, hemiOctahedralDecode, frameBlend, viewBasis, frameNdcOffset, frameUv } from './tree-impostor.mjs';
 
 let seed = 3;
 const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
@@ -60,5 +60,41 @@ describe('the view basis', () => {
       expect(dot(right, [x, y, z])).toBeCloseTo(0, 6);
       expect(dot(up, [x, y, z])).toBeCloseTo(0, 6);
     }
+  });
+});
+
+describe('the atlas layout', () => {
+  /* a frame's cell in NDC and the uv it is read back at must be the same
+     cell: NDC y runs up, texture v runs down, and the bake writes frame
+     row j from the bottom while the shader reads it from the top */
+  it('reads a frame back from the cell the projection put it in', () => {
+    const n = 8, size = 8 * 96;
+    for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+      const o = frameNdcOffset(i, j, n);
+      /* the cell's NDC box -> texture space (u = (x+1)/2, v = (1-y)/2) */
+      const x0 = (o.x - o.scale + 1) / 2, x1 = (o.x + o.scale + 1) / 2;
+      const vTop = (1 - (o.y + o.scale)) / 2, vBottom = (1 - (o.y - o.scale)) / 2;
+      const [uL, vT] = frameUv(i, j, 0, 1, n, size), [uR, vB] = frameUv(i, j, 1, 0, n, size);
+      const inset = 1 / size;
+      expect(uL).toBeCloseTo(x0 + inset, 12); expect(uR).toBeCloseTo(x1 - inset, 12);
+      expect(vT).toBeCloseTo(vTop + inset, 12); expect(vB).toBeCloseTo(vBottom - inset, 12);
+    }
+  });
+  it('tiles the unit square with the cells, in order, without overlap', () => {
+    const n = 8;
+    const seen = new Set();
+    for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+      const o = frameNdcOffset(i, j, n);
+      const key = Math.round((o.x + 1) / (2 * o.scale) - 0.5) + ',' + Math.round((o.y + 1) / (2 * o.scale) - 0.5);
+      expect(key).toBe(i + ',' + j);
+      seen.add(key);
+    }
+    expect(seen.size).toBe(n * n);
+    expect(frameNdcOffset(0, 0, n).x - frameNdcOffset(0, 0, n).scale).toBeCloseTo(-1, 12);
+    expect(frameNdcOffset(n - 1, n - 1, n).y + frameNdcOffset(0, 0, n).scale).toBeCloseTo(1, 12);
+  });
+  it('keeps the tree the right way up: v = 1 of a frame is nearer the atlas top than v = 0', () => {
+    const [, vTop] = frameUv(3, 5, 0.5, 1, 8, 768), [, vBase] = frameUv(3, 5, 0.5, 0, 8, 768);
+    expect(vTop).toBeLessThan(vBase);
   });
 });
