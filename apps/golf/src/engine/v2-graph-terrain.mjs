@@ -370,8 +370,10 @@ export class V2GraphTerrainAdapter {
       flatWater: this.flatWater,
       knownBodies: this.knownBodies,
       toLegacy: (x, z) => this.bridge.toLegacy(x, z),
+      toGrid: (x, z) => this.bridge.toGrid(x, z),
       ...options,
     });
+    const fieldMilliseconds = Math.round(this.clock() - started);
     let carvedSamples = 0, carvedTiles = 0;
     for (const tiles of this.ringTiles.values()) {
       for (const tile of tiles) {
@@ -389,6 +391,8 @@ export class V2GraphTerrainAdapter {
       carvedSamples,
       carvedTiles,
       milliseconds: Math.round(this.clock() - started),
+      fieldMilliseconds,
+      fieldTimings: field.timings,
     });
     this.waterBed = field;
     this.waterBedSummary = summary;

@@ -45,7 +45,14 @@ import { buildRail } from './shell/rail.js';
 import { buildNavDrawer } from './shell/menu.js';
 import { legacyTarget, goToCourse } from './shell/router.js';
 import { inflate, decodeHF } from './engine/codec.js';
-import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearingAt, ptSegD, distToLine, ringBBox, inRing, ringSD, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
+import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearingAt, ptSegD, ringBBox, inRing, centroidOf, hash2, vnoise, fbm } from './engine/geom.js';
+/* geom's ringSD and distToLine, through an edge index: the same values, and
+   a cost that stops growing with the ring (ring-index.mjs). The optional
+   fourth argument is a cutoff: past it a query returns a value on the right
+   side with at least that magnitude, so a loop that only compares against a
+   threshold, or feeds a smoothstep that has saturated, passes the threshold
+   and stops paying for an answer it would not use. */
+import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
@@ -537,7 +544,8 @@ for (const h of HOLES) {
       if (typeof terrainV2.carveWaterBeds === 'function') {
         const bed = terrainV2.carveWaterBeds();
         console.info(`v2 water beds: ${bed.hectares} ha carved to ${bed.maximumDepthMetres} m, ` +
-          `${bed.carvedSamples} samples in ${bed.carvedTiles} ring tiles, ${bed.milliseconds} ms`);
+          `${bed.carvedSamples} samples in ${bed.carvedTiles} ring tiles, ${bed.milliseconds} ms ` +
+          `(field ${bed.fieldMilliseconds} ms: ${Object.entries(bed.fieldTimings || {}).map(([k, v]) => `${k} ${v}`).join(', ')})`);
         BOOT_PERF.spans.push({ name: 'v2 water beds: carve rings', ms: bed.milliseconds, tiles: bed.carvedTiles });
       }
     }
@@ -880,6 +888,8 @@ if (M.cover) {
    high-volume consumers use its O(1) lookup inside CORE and fall back to the
    oracle outside it. */
 let groundAtlas = null;
+/* the indexed queries return what ringSD and distToLine return, without
+   walking every edge of a 378-vertex forest ring for every point (ring-index.mjs) */
 const classifyAnalytic = createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distToLine, smooth });
 const classify = (x, z) => {
   if (!groundAtlas?.contains(x, z)) return classifyAnalytic(x, z);
@@ -1006,7 +1016,7 @@ function groundAt(x, z, h) {
   /* the surroundings' own ground: fields hashed to a crop tone each, garden lawns,
      industry hardstanding, the traced clear-fells and yard, the Ås hay meadows */
   for (const q of LI.at(x, z)) {
-    if (ringSD(x, z, q.ring) > 0) continue;
+    if (ringSD(x, z, q.ring, 1) > 0) continue;
     if (q.kind === 'farmland' || q.kind === 'farmyard') {
       const k = hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13));
       const crop = k < 0.4 ? C.cropA : k < 0.75 ? C.cropB : C.cropC;
@@ -1018,7 +1028,7 @@ function groundAt(x, z, h) {
     }
   }
   for (const q of SI.at(x, z)) {
-    if (ringSD(x, z, q.ring) > 0) continue;
+    if (ringSD(x, z, q.ring, 1) > 0) continue;
     if (q.kind === 'cut') { col = col.map((v, i) => lerp(v, C.slash[i], 0.7)); sid = S_HEATH; }
     else if (q.kind === 'yard') { col = col.map((v, i) => lerp(v, C.hard[i], 0.85)); sid = S_PATH; }
     else if (q.kind === 'hay') { col = col.map((v, i) => lerp(v, C.hay[i], 0.6)); sid = S_SEMI; }
@@ -3588,13 +3598,13 @@ lap('v2 vegetation: plan individuals + stand trees');
     let wood = 0, kindScrub = false, why = 0;
     for (const v of VI.at(px, pz)) {
       if (v.kind === 'forest' || v.kind === 'wood') {
-        const sd = ringSD(px, pz, v.ring);
+        const sd = ringSD(px, pz, v.ring, 26);   /* exact to where the smoothstep saturates */
         if (sd < 3.5) {
           const w = sd < 0 ? 0.42 + 0.58 * smooth(-26, -12, sd) : 0.3 * (1 - sd / 3.5);
           if (w > wood) { wood = w; why = WHY_FOREST_RING; }
         }
       }
-      else if (v.kind === 'scrub') { const sd = ringSD(px, pz, v.ring); if (sd < 0) { if (0.4 > wood) { wood = 0.4; why = WHY_SCRUB_RING; } kindScrub = true; } }
+      else if (v.kind === 'scrub') { const sd = ringSD(px, pz, v.ring, 1); if (sd < 0) { if (0.4 > wood) { wood = 0.4; why = WHY_SCRUB_RING; } kindScrub = true; } }
     }
     /* The imagery is the authority in BOTH directions now. Satellite canopy plants
        where no polygon was surveyed -- and where the satellite sees open ground
@@ -3636,10 +3646,10 @@ lap('v2 vegetation: plan individuals + stand trees');
         if (px < hv.bb.x0 - 15 || px > hv.bb.x1 + 15 || pz < hv.bb.z0 - 15 || pz > hv.bb.z1 + 15) continue;
         if (distToLine(px, pz, hv.line) < 14) { wood *= 0.12; break; }
       }
-      for (const q of SI.at(px, pz)) if (ringSD(px, pz, q.ring) < 0)
+      for (const q of SI.at(px, pz)) if (ringSD(px, pz, q.ring, 1) < 0)
         wood *= q.kind === 'cut' ? 0.06 : 0;
       for (const q of LI.at(px, pz))
-        if ((q.kind === 'farmland' || q.kind === 'farmyard') && ringSD(px, pz, q.ring) < 0) wood = 0;
+        if ((q.kind === 'farmland' || q.kind === 'farmyard') && ringSD(px, pz, q.ring, 1) < 0) wood = 0;
     }
     /* thin toward the ring's edge, where the far cones take over */
     wood *= midrEdgeFade(px, pz);
@@ -3650,13 +3660,13 @@ lap('v2 vegetation: plan individuals + stand trees');
     const h = terrainH(px, pz);
     let wet = false;
     for (const w of WI.at(px, pz)) {
-      if (w.stream) { if (distToLine(px, pz, w.line) < w.w * 3) wet = true; }
-      else if (ringSD(px, pz, w.ring) < 3 || h < w.level + 0.5) wet = true;
+      if (w.stream) { if (distToLine(px, pz, w.line, w.w * 3) < w.w * 3) wet = true; }
+      else if (ringSD(px, pz, w.ring, 3) < 3 || h < w.level + 0.5) wet = true;
     }
     if (!wet && typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz)) wet = true;
     if (wet) continue;
     let bldNear = false;
-    for (const q of II.at(px, pz)) if (ringSD(px, pz, q.ring) < 6) { bldNear = true; break; }
+    for (const q of II.at(px, pz)) if (ringSD(px, pz, q.ring, 6) < 6) { bldNear = true; break; }
     if (bldNear || nearStake(px, pz)) continue;
     /* the planted band thins toward the mid-ring edge; the impostor vista takes over */
     const edgeF = Math.min(px - bb.x0, bb.x1 - px, pz - bb.z0, bb.z1 - pz) / 50;
@@ -3804,8 +3814,8 @@ if (M.cover) {
   /* no impostor conifer stands in a field, a garden block, a clear-fell or the yard */
   const openLand = (px, pz) => {
     for (const q of LI.at(px, pz))
-      if (q.kind !== 'industrial' && q.kind !== 'commercial' && ringSD(px, pz, q.ring) < 0) return true;
-    for (const q of SI.at(px, pz)) if (ringSD(px, pz, q.ring) < 0) return true;
+      if (q.kind !== 'industrial' && q.kind !== 'commercial' && ringSD(px, pz, q.ring, 1) < 0) return true;
+    for (const q of SI.at(px, pz)) if (ringSD(px, pz, q.ring, 1) < 0) return true;
     return false;
   };
   /* the same test every planter makes: never on a lake, never on its shore
@@ -3816,7 +3826,7 @@ if (M.cover) {
   const inWater = (px, pz, h) => {
     for (const w of WI.at(px, pz)) {
       if (w.stream) continue;
-      if (ringSD(px, pz, w.ring) < 3 || h < w.level + 0.5) return true;
+      if (ringSD(px, pz, w.ring, 3) < 3 || h < w.level + 0.5) return true;
     }
     /* and the water only the ground knows: flat lake surfaces past the rings */
     return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz);
@@ -3840,7 +3850,7 @@ if (M.cover) {
       let wooded = cvv === 3;
       /* the surveyed rings only speak where the imagery has no answer */
       if (!wooded && cvv === 0) for (const v of VI.at(px, pz)) {
-        if ((v.kind === 'forest' || v.kind === 'wood') && ringSD(px, pz, v.ring) < 0) { wooded = true; break; }
+        if ((v.kind === 'forest' || v.kind === 'wood') && ringSD(px, pz, v.ring, 1) < 0) { wooded = true; break; }
       }
       if (!wooded) continue;
       if (openLand(px, pz)) continue;
@@ -3943,17 +3953,17 @@ lap('far vista cones', { vista: stats.vista | 0 });
     if (c.dLine < 24 || c.dLine > 300) continue;
     if (c.forest > 0.55) continue;                       /* the trees own that ground */
     let yard = false;
-    for (const q of II.at(px, pz)) if (ringSD(px, pz, q.ring) < 3) { yard = true; break; }
+    for (const q of II.at(px, pz)) if (ringSD(px, pz, q.ring, 3) < 3) { yard = true; break; }
     if (!yard) for (const q of LI.at(px, pz))
-      if (q.kind !== 'industrial' && q.kind !== 'commercial' && ringSD(px, pz, q.ring) < 0) { yard = true; break; }
+      if (q.kind !== 'industrial' && q.kind !== 'commercial' && ringSD(px, pz, q.ring, 1) < 0) { yard = true; break; }
     if (!yard) for (const q of SI.at(px, pz))
-      if (q.kind === 'yard' && ringSD(px, pz, q.ring) < 0) { yard = true; break; }
+      if (q.kind === 'yard' && ringSD(px, pz, q.ring, 1) < 0) { yard = true; break; }
     if (yard) continue;                                  /* mown, cropped or worked ground */
     /* the clubhouse lawn is mown: no tussocks, no boulders on it */
     if (CLUB && Math.hypot(px - CLUB.cx, pz - CLUB.cz) < 52) continue;
     /* a clear-fell keeps its stumps: pale cut faces where the stand used to be */
     let cut = false;
-    for (const q of SI.at(px, pz)) if (q.kind === 'cut' && ringSD(px, pz, q.ring) < 0) { cut = true; break; }
+    for (const q of SI.at(px, pz)) if (q.kind === 'cut' && ringSD(px, pz, q.ring, 1) < 0) { cut = true; break; }
     if (cut) {
       if (rnd(i, j, 8) < 0.55) STU.push(px, terrainH(px, pz) - 0.04, pz, 0.8 + rnd(i, j, 7) * 0.5, rnd(i, j, 5) * TAU);
       continue;
@@ -3961,8 +3971,8 @@ lap('far vista cones', { vista: stats.vista | 0 });
     const h = terrainH(px, pz);
     let wet = false;
     for (const w of WI.at(px, pz)) {
-      if (w.stream) { if (distToLine(px, pz, w.line) < w.w * 3) wet = true; }
-      else if (ringSD(px, pz, w.ring) < 3 || h < w.level + 0.4) wet = true;
+      if (w.stream) { if (distToLine(px, pz, w.line, w.w * 3) < w.w * 3) wet = true; }
+      else if (ringSD(px, pz, w.ring, 3) < 3 || h < w.level + 0.4) wet = true;
     }
     if (!wet && typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz)) wet = true;
     if (wet) continue;
@@ -7259,6 +7269,8 @@ window.V3D = {
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), tintMs: stats.tintMs | 0 }),
+  /* the tint rasters' bytes, so a boot can be fingerprinted against another */
+  groundTint: () => GROUND_TINT ? { near: GROUND_TINT.near.texture.image.data, far: GROUND_TINT.far.texture.image.data } : null,
   groundInfo: () => ({
     mode: groundMode,
     bounds: groundAtlas ? { ...groundAtlas.bounds } : null,

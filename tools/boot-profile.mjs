@@ -32,6 +32,10 @@ const V2 = flag('v2', 'require');
 const Q = flag('q', null);
 const RUNS = +flag('runs', 1);
 const OUT = flag('out', null);
+/* --fingerprint hashes what the boot BUILT -- every tree's position, the tint
+   rasters' bytes, the scatter counts -- so two builds can be shown to plant
+   the same world while their timings differ. */
+const FINGERPRINT = args.includes('--fingerprint');
 const BOOT_TIMEOUT = +(process.env.BANVY_BOOT_TIMEOUT || 900) * 1000;
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
@@ -53,6 +57,22 @@ for (let run = 0; run < RUNS; run++) {
   const wallMs = Date.now() - t0;
   if (!booted) { console.log(`run ${run + 1}: boot did not complete in ${(wallMs / 1000).toFixed(0)} s; errors: ${errors.join(' | ') || 'none'}`); runs.push({ booted: false, wallMs, errors, logs }); await page.close(); continue; }
   const report = await page.evaluate(() => ({ perf: window.V3D.perf(), stats: { ...window.V3D.stats }, v2: (() => { const v = window.V3D.v2Terrain(); return { status: v.status, mode: v.selection?.mode, backend: v.backend }; })() }));
+  if (FINGERPRINT) {
+    report.fingerprint = await page.evaluate(async () => {
+      const hex = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(b => b.toString(16).padStart(2, '0')).join('');
+      const V = window.V3D;
+      const trees = V.legacyTrees({ instances: true });
+      const encoder = new TextEncoder();
+      const tint = V.groundTint?.();
+      return {
+        trees: await hex(encoder.encode(JSON.stringify(trees.holes ?? trees.total) + JSON.stringify(trees.species) + JSON.stringify(trees.reasons) + JSON.stringify(trees.zones))),
+        treeInstances: await hex(encoder.encode(JSON.stringify(trees.instances))),
+        tintNear: tint ? await hex(tint.near) : null,
+        tintFar: tint ? await hex(tint.far) : null,
+        counts: { trees: V.stats.trees, vista: V.stats.vista, reeds: V.stats.reeds, tufts: V.stats.tufts, bushes: V.stats.bushes, stones: V.stats.stones, stumps: V.stats.stumps, draws: V.stats.draws },
+      };
+    });
+  }
   await page.close();
   runs.push({ booted: true, wallMs, errors, logs, ...report });
 }
@@ -77,6 +97,7 @@ for (const [i, r] of runs.entries()) {
     console.log(`  ${fmt(s.ms)}  ${s.name}${extra ? `  (${extra})` : ''}`);
   }
   if (r.logs.length) { console.log('\n  runtime log'); for (const l of r.logs) console.log(`  ${fmt(l.atMs)}  ${l.text}`); }
+  if (r.fingerprint) { console.log('\n  fingerprint'); for (const [k, v] of Object.entries(r.fingerprint)) console.log(`  ${k.padEnd(14)} ${typeof v === 'string' ? v : JSON.stringify(v)}`); }
 }
 if (OUT) { fs.writeFileSync(path.resolve(ROOT, OUT), JSON.stringify({ url, gpu: GPU, runs }, null, 2) + '\n'); console.log(`\nwrote ${OUT}`); }
 if (runs.some(r => !r.booted)) process.exit(1);

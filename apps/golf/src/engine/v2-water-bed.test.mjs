@@ -47,6 +47,46 @@ describe('the lake bed field', () => {
     }
   });
 
+  it('claims the same cells for known bodies whether it walks the whole raster or only their boxes', () => {
+    const raster = lakeRaster();
+    const flat = detectFlatWater({ raster, minimumCells: 100 });
+    /* a rotated, scaled bridge, as the real one is: grid -> legacy */
+    const angle = 0.061, scaleX = 1.0034, scaleZ = 1.0013, cos = Math.cos(angle), sin = Math.sin(angle);
+    const toLegacy = (gx, gz) => [scaleX * (gx * cos - gz * sin), scaleZ * (gx * sin + gz * cos)];
+    const toGrid = (lx, lz) => { const x = lx / scaleX, z = lz / scaleZ; return [x * cos + z * sin, -x * sin + z * cos]; };
+    /* two bodies in legacy space, one overlapping the flat and one on land, overlapping each other */
+    const knownBodies = [
+      { ring: [[-30, -30], [40, -30], [40, 40], [-30, 40]], level: 50.5 },
+      { ring: [[20, 20], [80, 20], [80, 70], [20, 70]], level: 51 },
+    ];
+    const whole = buildWaterBedField({ flatWater: flat, knownBodies, toLegacy });
+    const boxed = buildWaterBedField({ flatWater: flat, knownBodies, toLegacy, toGrid });
+    expect(boxed.cells).toBe(whole.cells);
+    expect(Buffer.from(boxed.mask).equals(Buffer.from(whole.mask))).toBe(true);
+    expect(Buffer.from(boxed.level.buffer).equals(Buffer.from(whole.level.buffer))).toBe(true);
+    expect(Buffer.from(boxed.depth.buffer).equals(Buffer.from(whole.depth.buffer))).toBe(true);
+    /* and the overlap took the first body's level, in both */
+    const [gx, gz] = toGrid(30, 30);
+    expect(boxed.levelAt(gx, gz)).toBe(50.5);
+  });
+
+  it('rejects with nearWater only samples whose bilinear depth is zero, inside the grid and past its edge', () => {
+    const raster = lakeRaster();
+    const field = buildWaterBedField({ flatWater: detectFlatWater({ raster, minimumCells: 100 }) });
+    let checked = 0, rejected = 0;
+    /* a sweep at quarter-cell steps, reaching a cell and a half past every edge */
+    for (let gz = field.z0 - 6; gz <= field.z0 + field.height * field.spacing + 6; gz += 1) {
+      for (let gx = field.x0 - 6; gx <= field.x0 + field.width * field.spacing + 6; gx += 1) {
+        const depth = field.depthAt(gx, gz);
+        if (depth > 0) expect(field.nearWater(gx, gz)).toBe(true);
+        if (!field.nearWater(gx, gz)) rejected++;
+        checked++;
+      }
+    }
+    expect(checked).toBeGreaterThan(10000);
+    expect(rejected).toBeGreaterThan(checked / 2);   /* most of the raster is land, and it is rejected */
+  });
+
   it('takes a known body\'s ring and level where the model has one', () => {
     const raster = lakeRaster();
     const ring = [[-40, -40], [-40, 40], [40, 40], [40, -40]];   // a pond the DTM shows as land
@@ -100,6 +140,20 @@ describe('carving a tile', () => {
     expect(t.heightAt(16, 16)).toBeCloseTo(53, 5);
     /* carving twice changes nothing more */
     expect(carveTerrainTile(t.tile, field, { legacyOrigin: t.legacyOrigin, verticalDatumOffsetMetres: t.datum })).toBe(0);
+  });
+
+  it('carves exactly what a field without the near-water reject carves', () => {
+    const raster = lakeRaster();
+    const field = buildWaterBedField({ flatWater: detectFlatWater({ raster, minimumCells: 100 }) });
+    const make = () => tile({ heightLegacy: (column, row) => {
+      const gx = -64 + column * 4, gz = -64 + row * 4;
+      return gx >= -48 && gx < 48 && gz >= -48 && gz < 48 ? 50 : 52.5;
+    } });
+    const fast = make(), slow = make();
+    const options = { legacyOrigin: fast.legacyOrigin, verticalDatumOffsetMetres: fast.datum };
+    const { nearWater, ...withoutReject } = field;
+    expect(carveTerrainTile(fast.tile, field, options)).toBe(carveTerrainTile(slow.tile, withoutReject, options));
+    expect(Buffer.from(fast.tile.payload).equals(Buffer.from(slow.tile.payload))).toBe(true);
   });
 
   it('skips a tile that does not touch the field', () => {
