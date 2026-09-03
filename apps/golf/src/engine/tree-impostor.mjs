@@ -28,9 +28,20 @@ import {
  *  5 the frame weights. Unlit and unfogged; the dot terms are banded
  *  (red < 0, yellow < 0.3, green) because the output is still tone-mapped. */
 export const impostorDebugMode = uniform(0);
-/** With `debug`, how far the lighting normal is bent toward the viewer (0 the
- *  atlas normal, 1 the view direction); the harness sweeps it. */
-export const impostorBend = uniform(0);
+/**
+ * How far the lighting normal is bent toward the viewer: 0 the atlas
+ * normal, 1 the view direction. The atlas normal is the crown's mean face
+ * normal, verified against the template on the CPU -- and lighting the
+ * MEAN normal is not the mean of lighting the facets: the sideways facets
+ * cancel, what is left leans up into the sky, and against a low sun the
+ * crown read 37% brighter than the same tree as a mesh. Swept under
+ * ?impdbg=lit on Puttom's 14th at golden hour (hill and near trees) and
+ * 5th at noon: 0.5 lands within 2% of the mesh tier on the hill and 3% on
+ * the noon treeline, 0.7 already 6% dark at noon. A uniform so the
+ * harness can sweep it; the value is the calibration.
+ */
+export const IMPOSTOR_BEND = 0.5;
+export const impostorBend = uniform(IMPOSTOR_BEND);
 
 /* Two facts about render targets that decide the atlas layout, both read
    out of three.js 0.185 rather than assumed:
@@ -312,8 +323,9 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
      one term at a time: 10 no back-light, 11 the normal facing the camera,
      12 the normal straight up, 13 the normal negated */
   const m = impostorDebugMode;
-  const bentToView = normalize(nWorld.mul(float(1).sub(impostorBend)).add(view.mul(impostorBend)));
-  const nLit = !debug ? nWorld : select(m.lessThan(10.5), bentToView, select(m.lessThan(11.5), view, select(m.lessThan(12.5), vec3(0, 1, 0), nWorld.negate())));
+  const bend = debug ? impostorBend : float(IMPOSTOR_BEND);
+  const bentToView = normalize(nWorld.mul(float(1).sub(bend)).add(view.mul(bend)));
+  const nLit = !debug ? bentToView : select(m.lessThan(10.5), bentToView, select(m.lessThan(11.5), view, select(m.lessThan(12.5), vec3(0, 1, 0), nWorld.negate())));
   material.normalNode = transformNormalToView(nLit);
   material.alphaTestNode = float(0.5);
   material.opacityNode = coverage;

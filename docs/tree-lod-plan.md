@@ -301,6 +301,57 @@ Two traps met on the way:
   `InstancedBufferGeometry` whose instanced attributes the material reads
   by name, as the terrain batch does -- no instance matrix, no surprise.
 
+### The impostors, measured against the meshes they stand in for
+
+The first six-view comparison failed on the impostor views, and the pixel
+gate was right: the impostors were upside down, full of holes, green in the
+trunk and, against a low sun, 37% too bright. Each had a different cause,
+and each is now held by a measurement rather than a look.
+
+- **Upside down.** three's WebGL backend places a render target's viewport
+  from the BOTTOM and samples a render-target texture with v flipped
+  (`TextureNode.setupUV`); WebGPU does neither. A frame put in place by
+  `renderTarget.viewport` therefore lands in a different row per backend,
+  and the flip put every trunk above its crown. Frames are placed by the
+  PROJECTION now -- an NDC scale-and-offset both backends agree on -- and
+  read back with v flipped; `frameNdcOffset` and `frameUv` are held to
+  each other by a unit test. Verified by reading the atlas back
+  (`V3D.treeAtlas`): the horizon frame's base row is its widest.
+- **Holes.** An alpha test over an unfiltered 96 px frame drawn at a fifth
+  of its size samples a random texel; the atlases are mipmapped, and since
+  clear texels are black at zero coverage the chain is premultiplied by
+  construction and the draw divides it back out.
+- **Green trunks.** An opaque NodeMaterial forces its output alpha to 1
+  (`NodeBuilder.isOpaque`), so the crown mask baked into the normal
+  atlas's alpha was 1 everywhere and every trunk took the crown tint. The
+  bake materials use NoBlending, which is the one path that writes the
+  four channels as computed.
+- **Too bright at golden hour, right at noon.** The atlas normal is
+  correct: it is the crown's mean face normal, and the CPU's projected-area
+  mean over the same template agrees to 0.03 per axis. The error is that
+  lighting the MEAN normal is not the mean of lighting the facets. A
+  crown's sideways facets cancel in the average, what is left leans up,
+  and under an evening sky an up-leaning normal collects light the facets
+  never did; at noon the sun is overhead and the mean is honest, which is
+  why that view passed. Ablation under `?impdbg=lit` (each term switched
+  at run time): the atlas normal 100/122/72 on the far hill against the
+  mesh tier's 73/100/56, a normal facing the camera 66/96/50, straight up
+  121/134/87, no back-light 95/114/68 -- the direction, not the glow. The
+  lighting normal is bent toward the viewer by `IMPOSTOR_BEND` = 0.5,
+  swept as a uniform: 0.5 is within 2% of the mesh on the hill and 3% on
+  the noon treeline, 0.7 already 6% dark at noon. A calibration, stated
+  as one.
+
+Two harness lessons from the same afternoon:
+
+- **A SwiftShader frame can outlast any fixed wait.** After a uniform or a
+  tier change a shot taken 1.5 s later showed the PREVIOUS state, and two
+  ablations that "did nothing" had simply not been rendered yet.
+  `V3D.frame()` is a monotonic counter; wait for it to advance by two.
+- **The debug view is tone-mapped whatever the material says**
+  (`toneMapped` is not read by node materials), and ACES turns any dot
+  product above 0.3 white. Show a scalar in bands, not in grey.
+
 Open: phase 0 on hardware; phase 3, the hero tier; the dithered crossfade
 if the 14-pixel switch shows; and the terrain's own shadow casting, which
 is now the larger half of the shadow pass.
