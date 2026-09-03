@@ -77,12 +77,22 @@ const groundMode = new URLSearchParams(location.search).get('ground') === 'mesh'
 const surfaceDebugMode = requestedSurfaceDebugMode(location.search);
 const time = DET ? float(3.25) : __liveTime;
 
+let MODEL_PREP_STARTED = 0;
 /* ------------------------------------------------------------------ boot ui */
 const bootEl = document.getElementById('boot');
 const barEl = document.querySelector('#bar i');
 const msgEl = document.getElementById('bmsg');
 const bootStarted = performance.now();
-const BOOT_PERF = { marks: [], atlasMs: 0, totalMs: 0 };
+const BOOT_PERF = { marks: [], spans: [], atlasMs: 0, totalMs: 0 };
+/* Spans name the heavy blocks the stage marks hide: one entry per block with
+   its wall time. `lap` records the time since the previous lap, for runs of
+   blocks that follow one another. Read them with V3D.perf(). */
+const span = (name, startedMs, extra) => {
+  BOOT_PERF.spans.push({ name, ms: +(performance.now() - startedMs).toFixed(1), ...(extra || {}) });
+};
+const LAP = { t: 0 };
+const lapStart = () => { LAP.t = performance.now(); };
+const lap = (name, extra) => { span(name, LAP.t, extra); LAP.t = performance.now(); };
 let step0 = 0;
 const STEPS = ['terräng', 'vatten', 'banan', 'skog', 'ljus', 'klar'];
 const tick = (msg, frac) => {
@@ -156,16 +166,18 @@ await tick('läser terrängdata', 0.04);
    integrity work does not serialize the boot. Under ?v2=1 a failed or absent
    source resolves to an explicit fallback and never blocks the normal course;
    under ?v2=require the selection throws instead of quietly serving GPK1. */
+const previewStarted = performance.now();
 const terrainPreviewPromise = selectV2TerrainSource({
   slug: CMETA.slug,
   geo: GEO,
   packMeta: CMETA,
   search: location.search,
-});
+}).then(selection => { span('v2 preview: select + decode pilot/surface tiles', previewStarted); return selection; });
 const [b0, b1, bv, V2_SELECTION] = await Promise.all([
   inflate(PACK.s0), inflate(PACK.s1), inflate(PACK.sv), terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
+MODEL_PREP_STARTED = performance.now();
 /* Phase 4 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
    a published graph that carries object registries or stand fields has them
    fetched now, in parallel with everything below, through a dynamic import
@@ -226,6 +238,7 @@ if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
       const ringStarted = performance.now();
       const ringTiles = await world.loadRings();
       console.info(`v2 world: ${ringTiles} ring tiles read for the model in ${Math.round(performance.now() - ringStarted)} ms`);
+      span('v2 rings: fetch + verify + decode', ringStarted, { tiles: ringTiles });
       terrainV2 = world;
       V2_WORLD = mod;
     } catch (error) {
@@ -515,6 +528,7 @@ for (const h of HOLES) {
       const uncovered = flat.components.filter(c => c.uncoveredCells > 0);
       console.info(`v2 flat water: ${flat.components.length} flats over 0.48 ha, ${uncovered.length} beyond the model's rings ` +
         `(${uncovered.reduce((s, c) => s + c.uncoveredCells, 0) * flat.spacing * flat.spacing / 10000 | 0} ha), ${Math.round(performance.now() - flatStarted)} ms`);
+      span('v2 flat water: detect', flatStarted);
       /* The laser's ground inside a lake is the lake's surface. Carve a bed
          under all of it now -- before the water sheets measure their depth
          and before the GPU decodes a single tile -- so the water has depth
@@ -524,6 +538,7 @@ for (const h of HOLES) {
         const bed = terrainV2.carveWaterBeds();
         console.info(`v2 water beds: ${bed.hectares} ha carved to ${bed.maximumDepthMetres} m, ` +
           `${bed.carvedSamples} samples in ${bed.carvedTiles} ring tiles, ${bed.milliseconds} ms`);
+        BOOT_PERF.spans.push({ name: 'v2 water beds: carve rings', ms: bed.milliseconds, tiles: bed.carvedTiles });
       }
     }
   }
@@ -1083,6 +1098,7 @@ function groundAt(x, z, h) {
 }
 
 /* ------------------------------------------------------------- scene setup */
+span('model prep after terrain data (pads, water levels, shores, grids)', MODEL_PREP_STARTED);
 await tick('startar renderaren', 0.10);
 /* Choose quality before allocating shadows and instances. The URL always wins;
    otherwise a previous slow visit and genuinely constrained devices start light
@@ -1162,6 +1178,7 @@ function canvasTex(size, draw, { srgb = true, rep = 1 } = {}) {
 
 /* One packed map does all the turf detail: R blade-scale speckle, G a medium clump,
    B a macro variation that keeps a fairway from tiling visibly, A a glint mask. */
+const TEX_STARTED = performance.now();
 const DETAIL = canvasTex(512, (g, S) => {
   const im = g.createImageData(S, S), d = im.data;
   for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
@@ -1216,6 +1233,7 @@ const WATERN = canvasTex(512, (g, S) => {
   }
   g.putImageData(im, 0, 0);
 }, { srgb: false });
+span('procedural textures (DETAIL, GRASSN, SANDN, WATERN)', TEX_STARTED);
 
 /* ------------------------------------------------------------- lighting */
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
@@ -1327,9 +1345,11 @@ if (IS_GPU) {
   m.colorNode = mix(color(0x8fa88f), mix(color(0xcfe2e8), color(0x3d7fb8), pow(saturate(up), 0.5)),
                     smoothstep(-0.1, 0.05, up));
   env.add(new THREE.Mesh(new THREE.SphereGeometry(100, 24, 16), m));
+  const pmremStarted = performance.now();
   const pm = new THREE.PMREMGenerator(renderer);
   scene.environment = pm.fromScene(env, 0.04).texture;
   scene.environmentIntensity = 0.58;
+  span('PMREM environment', pmremStarted);
 }
 
 let presetName = 'golden';
@@ -1905,6 +1925,7 @@ if (groundMode === 'atlas') {
   const atlasStarted = performance.now();
   groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1 });
   BOOT_PERF.atlasMs = +(performance.now() - atlasStarted).toFixed(1);
+  span('ground atlas (1 m, CORE)', atlasStarted);
 }
 
 const turfMat = groundMode === 'atlas'
@@ -2037,6 +2058,7 @@ if (TERRAIN_PREVIEW.ready) {
      source vertex. Both frontiers must still preflight as the same 16 tiles
      and one logical draw before legacy construction can omit anything. */
   const renderStride = !IS_GPU && LOWQ ? 2 : 1;
+  const prepareStarted = performance.now();
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
     renderStride,
@@ -2047,7 +2069,12 @@ if (TERRAIN_PREVIEW.ready) {
     }),
     preflight: preflightTerrainPreviewGpu,
   });
-  if (preparation.ok && GROUND_TINT) fillGroundTintTextures(GROUND_TINT, (x, z) => terrainV2.constructionHeightAt(x, z));
+  span('v2 prepare (worker, first frontier settle, preflight)', prepareStarted);
+  if (preparation.ok && GROUND_TINT) {
+    const tintStarted = performance.now();
+    fillGroundTintTextures(GROUND_TINT, (x, z) => terrainV2.constructionHeightAt(x, z));
+    span('ground tint rasters (near 6 m + far 24 m)', tintStarted);
+  }
   if (!preparation.ok) {
     const failure = terrainV2.rendererState;
     /* ?v2=require means diagnose, never mask: refuse to present the GPK1
@@ -2072,7 +2099,9 @@ let coreGeometry = null;
 let coreMesh = null;
 if (V2_VEGETATION_LOADING) {
   try {
+    const vegWaitStarted = performance.now();
     V2_VEGETATION = await V2_VEGETATION_LOADING;
+    span('v2 vegetation: wait for chunk load', vegWaitStarted);
   } catch (error) {
     const detail = String(error?.message || error).slice(0, 300);
     if (V2_SELECTION.require) throw new Error(`v2 krävdes men vegetationslagren kunde inte verifieras: ${detail}`);
@@ -3240,6 +3269,7 @@ if (ARM) {
 
 /* --------------------------------------------------------------- vegetation */
 await tick('planterar skogen', 0.60);
+lapStart();
 
 /* Trees are built rather than modelled: a spruce is a stack of drooping cones, a
    pine a bare trunk with a crown near the top, a birch a pale trunk under a loose
@@ -3498,6 +3528,7 @@ const SHORE = (() => {
   }
 }
 
+lap('reeds (lattice + SHORE field)', { reeds: stats.reeds | 0 });
 const trees = [[], [], []];
 /* Phase 0 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
    every planted tree remembers WHY it stands there -- the OSM forest polygon,
@@ -3531,6 +3562,7 @@ if (V2_VEGETATION) {
     V2_VEGETATION_ERROR = 'v2-terrain-not-ready';
   }
 }
+lap('v2 vegetation: plan individuals + stand trees');
 {
   const GAP = 5.4;
   const rnd = (i, j) => hash2(i * 7919 + 13, j * 104729 + 7);
@@ -3650,6 +3682,7 @@ if (V2_VEGETATION) {
     }
   }
 }
+lap('legacy tree lattice');
 if (V2_VEG_PLAN) {
   /* measured trees: height and crown radius from the registry or the stand
      field, drawn with the same three templates as the lattice so the woods
@@ -3702,6 +3735,7 @@ function legacyTreeExport(withInstances = false) {
   }
   return out;
 }
+lap('v2 vegetation: push planned trees');
 for (let s = 0; s < 3; s++) {
   const T = trees[s], W = treeWhy[s];
   const n = T.length / 6;
@@ -3758,6 +3792,7 @@ for (let s = 0; s < 3; s++) {
   stats.trees += n;
 }
 
+lap('tree instancing (6 InstancedMesh)', { trees: stats.trees | 0 });
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
@@ -3865,6 +3900,7 @@ if (M.cover) {
   }
 }
 
+lap('far vista cones', { vista: stats.vista | 0 });
 /* ---------------------------------------------------------- ground cover
    Rough at this scale is a hundred hectares of one colour, and no amount of texture
    fixes that on its own: what breaks up heathland in life is that it is lumpy with
@@ -3989,6 +4025,7 @@ if (M.cover) {
   stats.stumps = place(stump, stumpMat, STU, false);
 }
 
+lap('ground cover (tufts, bushes, stones, stumps)');
 /* ------------------------------------------------------- penalty marking
    Red and yellow stakes trace the margins of the water they mark -- the runs come out
    of the reconciler, which walked the real shorelines, so a stake can never stand away
@@ -7220,7 +7257,8 @@ window.V3D = {
            draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
            backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
-  perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })) }),
+  perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
+                 spans: BOOT_PERF.spans.map(s => ({ ...s })), tintMs: stats.tintMs | 0 }),
   groundInfo: () => ({
     mode: groundMode,
     bounds: groundAtlas ? { ...groundAtlas.bounds } : null,
