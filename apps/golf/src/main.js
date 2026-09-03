@@ -4097,7 +4097,7 @@ function updateTreeTiers() {
   TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem);
   const viewportH = renderer.domElement.height || innerHeight;
   const fovTan = Math.tan(camera.fov * 0.5 * Math.PI / 180);
-  const cx = camera.position.x, cz = camera.position.z;
+  const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
   /* the boundaries between tiers 1|2, 2|3, 3|4 in projected pixels, each
      with its own hysteresis band: a cell steps finer only past the band
      above a boundary and coarser only past the band below it */
@@ -4107,8 +4107,11 @@ function updateTreeTiers() {
     let desired;
     if (!TREE_FRUSTUM.intersectsBox(c.box)) desired = 0;
     else {
-      const dx = Math.max(c.x0 - cx, 0, cx - c.x1), dz = Math.max(c.z0 - cz, 0, cz - c.z1);
-      const d = Math.max(1, Math.hypot(dx, dz));
+      /* the distance to the cell's BOX, height included: from 330 m straight
+         up a cell under the camera is 330 m away, not one -- measured in the
+         ground plane alone the overhead view drew its hero tier */
+      const dx = Math.max(c.x0 - cx, 0, cx - c.x1), dy = Math.max(c.y0 - cy, 0, cy - c.y1), dz = Math.max(c.z0 - cz, 0, cz - c.z1);
+      const d = Math.max(1, Math.hypot(dx, dy, dz));
       const px = TREE_LOD.nominalHeight * viewportH / (2 * d * fovTan);
       if (TREE_LOD.force) desired = TREE_LOD.force;
       else if (c.state === 0) { desired = 1; while (desired < 4 && px < thr[desired - 1]) desired++; }
