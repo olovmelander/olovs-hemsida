@@ -245,3 +245,62 @@ pay. Decide by looking, not in advance.
 Phases 1 and 2 are mechanical and can be built and gated blind on the
 SwiftShader harness (fingerprint, triangle counts, goldens); phase 3 needs
 eyes on a real screen.
+
+## Status — 2026-09-03
+
+Phases 1 and 2 are built on `claude/tree-lod-phase-1`; phase 0's hardware
+measurement is still owed (no GPU machine that day). Two things changed
+from the plan above on contact with the engine, and are worth reading
+before touching the code:
+
+- **Not BatchedMesh.** On the WebGPU backend a `BatchedMesh` is one draw
+  command per instance inside the pass (`WebGPUBackend.js`, the loop over
+  `_multiDrawCounts`), and on WebGL2 it needs `WEBGL_multi_draw`; neither
+  is "one draw" for 90,000 trees on our primary backend. The container is
+  one `InstancedMesh` per (species, part, tier) -- twelve draws -- and a
+  tree moves between tiers by a swap-remove in one tier's slot list and an
+  append in the other's, matrices copied from a table built once at boot.
+  Cells of 128 m decide the tier from the projected height of a nominal
+  12 m tree, with 10% hysteresis on every boundary, and a cell outside the
+  frustum is in no tier at all: per-cell culling took 83% of the population
+  out of the tee view before a tier saved a triangle.
+- **The impostors are lit, not baked.** Each species' atlas is two render
+  targets -- albedo + coverage, and tree-frame normal + crown mask -- and
+  the billboard is a `MeshStandardNodeMaterial` with `colorNode` and
+  `normalNode` from the blended frames, so the season tint, the back-lit
+  glow and every light preset apply to impostors and meshes alike. The far
+  ring's cones are the same impostors from the same atlases.
+
+Measured from the first tee under SwiftShader, same world every time
+(`boot-profile --fingerprint` identical to the baseline on every axis):
+
+| | baseline | phase 1 | phase 2 |
+|---|---|---|---|
+| triangles per frame | 48.8 M | 11.2 M | 10.2 M |
+| trees in the frame | 79,407 | 13,609 | 13,609 |
+| by tier (full / decimated / impostor) | 79,407 / – / – | 488 / 13,121 / – | 488 / 7,763 / 5,358 |
+| far ring | 57,652 cones × 10 tris | same | 57,652 impostors × 2 tris |
+| draws | 266 | 278 | 283 |
+| boot (page clock) | 24.4 s | 24.4 s | 26.9 s (atlas bake 1.2 s) |
+
+The remaining 10 M triangles are the terrain (29–42 tiles of 133k, drawn
+twice with its shadow pass), the ground cover and the buildings; the trees
+are now about a million.
+
+Two traps met on the way:
+
+- **A plain number times a TSL node is `NaN`** in JavaScript, and the
+  builder writes that `NaN` into the shader as a literal; the vertex shader
+  failed with `'NaN': undeclared identifier`. Wrap the number: `float(n)
+  .mul(node)`. The verbose profiler run (`--verbose`) is what showed it;
+  a plain run reports only "no page errors", because a shader that fails
+  to link is a console error, not an exception.
+- **`InstancedMesh` and a custom `positionNode` both run** (`NodeMaterial
+  .setupPosition` applies the instance matrix first, then assigns the
+  position node), so an impostor batch is a plain `Mesh` over an
+  `InstancedBufferGeometry` whose instanced attributes the material reads
+  by name, as the terrain batch does -- no instance matrix, no surprise.
+
+Open: phase 0 on hardware; phase 3, the hero tier; the dithered crossfade
+if the 14-pixel switch shows; and the terrain's own shadow casting, which
+is now the larger half of the shadow pass.
