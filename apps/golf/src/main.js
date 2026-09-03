@@ -53,6 +53,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    threshold, or feeds a smoothstep that has saturated, passes the threshold
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
+import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry } from './engine/tree-impostor.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
@@ -3771,11 +3772,12 @@ lap('v2 vegetation: push planned trees');
    untouched. The far cones beyond MIDR are unchanged until phase 2 (the
    impostors) replaces them. */
 const TREE_LOD = {
-  cell: 128, cells: [], tiers: [], mats: [], ready: false,
+  cell: 128, cells: [], tiers: [], mats: [], imp: [], atlases: [], ready: false,
   /* a nominal 12 m tree switches from the full template to the decimated
-     one below 40 projected pixels (60 on a phone), with 10% hysteresis */
-  nominalHeight: 12, switchPx: LOWQ ? 60 : 40, hysteresis: 0.1,
-  stats: { tier1: 0, tier2: 0, cells: 0, cellsVisible: 0, moves: 0, updates: 0 },
+     one below 40 projected pixels (60 on a phone), and from the decimated
+     one to an impostor below 14 (22 on a phone), with 10% hysteresis */
+  nominalHeight: 12, switchPx: LOWQ ? 60 : 40, impostorPx: LOWQ ? 22 : 14, hysteresis: 0.1,
+  stats: { tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, updates: 0, bakeMs: 0 },
 };
 {
   /* the decimated templates: the same silhouettes and the same crown noise
@@ -3853,6 +3855,33 @@ const TREE_LOD = {
     return positionLocal.add(vec3(swayX, float(0.0), swayZ));
   }
 
+  /* the impostor atlases: pictures of these very templates from the
+     hemi-octahedron's vertices, albedo in one and tree-frame normal in the
+     other, lit at draw time (engine/tree-impostor.mjs) */
+  {
+    const bakeStarted = performance.now();
+    for (let s = 0; s < 3; s++) {
+      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: SPECIES[s].crown, trunk: SPECIES[s].trunk, trunkColor: SPECIES[s].tc }));
+    }
+    TREE_LOD.stats.bakeMs = Math.round(performance.now() - bakeStarted);
+    span('tree impostor atlases (3 species, 64 views each)', bakeStarted);
+  }
+  const impostorBatch = (s, capacity, label) => {
+    const geo = createImpostorGeometry(capacity);
+    const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
+      crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.castShadow = false;
+    mesh.receiveShadow = true;
+    mesh.frustumCulled = false;
+    mesh.userData.tag = 'trees';
+    mesh.name = `trees-${['spruce', 'pine', 'birch'][s]}-impostor-${label}`;
+    scene.add(mesh);
+    stats.draws++;
+    return { mesh, geo, pos: geo.getAttribute('aImpostorPos'), par: geo.getAttribute('aImpostorParam'),
+             slots: new Int32Array(capacity), count: 0, lo: Infinity, hi: -Infinity };
+  };
   const cellOf = new Map();
   const cell = (x, z) => {
     const i = Math.floor((x - MIDR.x0) / TREE_LOD.cell), j = Math.floor((z - MIDR.z0) / TREE_LOD.cell);
@@ -3872,7 +3901,9 @@ const TREE_LOD = {
     const T = trees[s], W = treeWhy[s];
     const n = T.length / 6;
     const mats = new Float32Array(n * 16);
+    const imp = new Float32Array(n * 6);   /* x, y, z, yaw, scaleXZ, scaleY */
     TREE_LOD.mats.push(mats);
+    TREE_LOD.imp.push(imp);
     for (let k = 0; k < n; k++) {
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
       const sy = T[k * 6 + 3], sxz = T[k * 6 + 5];
@@ -3882,6 +3913,7 @@ const TREE_LOD = {
       scl.set(sxz, sy * varied, sxz);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
       mtx.compose(pos, q, scl).toArray(mats, k * 16);
+      imp.set([pos.x, pos.y, pos.z, T[k * 6 + 4], sxz, sy * varied], k * 6);
       const c = cell(pos.x, pos.z);
       c.lists[s].push(k);
       if (pos.y < c.y0) c.y0 = pos.y;
@@ -3910,7 +3942,7 @@ const TREE_LOD = {
       n,
       where: new Int32Array(n).fill(-1),
       tierOf: new Uint8Array(n),
-      t: [null, tier(spec.crown, spec.trunk, true, 't1'), tier(deci.crown, deci.trunk, false, 't2')],
+      t: [null, tier(spec.crown, spec.trunk, true, 't1'), tier(deci.crown, deci.trunk, false, 't2'), impostorBatch(s, n, 't3')],
     });
     stats.trees += n;
   }
@@ -3927,8 +3959,24 @@ const TREE_LOD = {
 
 /* move one tree between tiers: a swap-remove out of the old slot list and
    an append to the new one, both parts' matrices copied from the table */
+function treeTierWrite(s, tier, slot, k) {
+  if (tier.mesh) {
+    const imp = TREE_LOD.imp[s];
+    tier.pos.array.set(imp.subarray(k * 6, k * 6 + 3), slot * 3);
+    tier.par.array[slot * 4] = imp[k * 6 + 3];
+    tier.par.array[slot * 4 + 1] = imp[k * 6 + 4];
+    tier.par.array[slot * 4 + 2] = imp[k * 6 + 5];
+    tier.par.array[slot * 4 + 3] = 0;
+  } else {
+    const mats = TREE_LOD.mats[s];
+    tier.crown.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
+    tier.trunk.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
+  }
+  if (slot < tier.lo) tier.lo = slot;
+  if (slot > tier.hi) tier.hi = slot;
+}
 function treeTierMove(s, k, from, to) {
-  const species = TREE_LOD.tiers[s], mats = TREE_LOD.mats[s];
+  const species = TREE_LOD.tiers[s];
   if (from) {
     const tier = species.t[from];
     const slot = species.where[k], last = --tier.count;
@@ -3936,10 +3984,7 @@ function treeTierMove(s, k, from, to) {
       const moved = tier.slots[last];
       tier.slots[slot] = moved;
       species.where[moved] = slot;
-      tier.crown.instanceMatrix.array.set(mats.subarray(moved * 16, moved * 16 + 16), slot * 16);
-      tier.trunk.instanceMatrix.array.set(mats.subarray(moved * 16, moved * 16 + 16), slot * 16);
-      if (slot < tier.lo) tier.lo = slot;
-      if (slot > tier.hi) tier.hi = slot;
+      treeTierWrite(s, tier, slot, moved);
     }
     species.where[k] = -1;
   }
@@ -3948,10 +3993,7 @@ function treeTierMove(s, k, from, to) {
     const slot = tier.count++;
     tier.slots[slot] = k;
     species.where[k] = slot;
-    tier.crown.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
-    tier.trunk.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
-    if (slot < tier.lo) tier.lo = slot;
-    if (slot > tier.hi) tier.hi = slot;
+    treeTierWrite(s, tier, slot, k);
   }
   species.tierOf[k] = to;
   TREE_LOD.stats.moves++;
@@ -3977,9 +4019,12 @@ function updateTreeTiers() {
       const dx = Math.max(c.x0 - cx, 0, cx - c.x1), dz = Math.max(c.z0 - cz, 0, cz - c.z1);
       const d = Math.max(1, Math.hypot(dx, dz));
       const px = TREE_LOD.nominalHeight * viewportH / (2 * d * fovTan);
-      desired = c.state === 1 ? (px < sw * (1 - hy) ? 2 : 1)
-              : c.state === 2 ? (px > sw * (1 + hy) ? 1 : 2)
-              : (px >= sw ? 1 : 2);
+      const ip = TREE_LOD.impostorPx;
+      /* three tiers, each boundary with its own hysteresis band */
+      if (c.state === 1) desired = px < sw * (1 - hy) ? (px < ip ? 3 : 2) : 1;
+      else if (c.state === 2) desired = px > sw * (1 + hy) ? 1 : px < ip * (1 - hy) ? 3 : 2;
+      else if (c.state === 3) desired = px > ip * (1 + hy) ? (px >= sw ? 1 : 2) : 3;
+      else desired = px >= sw ? 1 : px >= ip ? 2 : 3;
       visible++;
     }
     if (desired === c.state) continue;
@@ -3993,27 +4038,36 @@ function updateTreeTiers() {
   TREE_LOD.stats.cellsVisible = visible;
   if (!changed) return;
   TREE_LOD.stats.updates++;
-  let t1 = 0, t2 = 0;
+  let t1 = 0, t2 = 0, t3 = 0;
   for (const species of TREE_LOD.tiers) {
     if (!species) continue;
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
       const tier = species.t[i];
-      for (const im of [tier.crown, tier.trunk]) {
-        im.count = tier.count;
+      if (tier.mesh) {
+        tier.geo.instanceCount = tier.count;
+        tier.mesh.visible = tier.count > 0;
         if (tier.hi >= tier.lo) {
-          im.instanceMatrix.clearUpdateRanges();
-          im.instanceMatrix.addUpdateRange(tier.lo * 16, (tier.hi - tier.lo + 1) * 16);
-          im.instanceMatrix.needsUpdate = true;
+          tier.pos.clearUpdateRanges(); tier.pos.addUpdateRange(tier.lo * 3, (tier.hi - tier.lo + 1) * 3); tier.pos.needsUpdate = true;
+          tier.par.clearUpdateRanges(); tier.par.addUpdateRange(tier.lo * 4, (tier.hi - tier.lo + 1) * 4); tier.par.needsUpdate = true;
+        }
+      } else {
+        for (const im of [tier.crown, tier.trunk]) {
+          im.count = tier.count;
+          if (tier.hi >= tier.lo) {
+            im.instanceMatrix.clearUpdateRanges();
+            im.instanceMatrix.addUpdateRange(tier.lo * 16, (tier.hi - tier.lo + 1) * 16);
+            im.instanceMatrix.needsUpdate = true;
+          }
         }
       }
       tier.lo = Infinity; tier.hi = -Infinity;
     }
-    t1 += species.t[1].count; t2 += species.t[2].count;
+    t1 += species.t[1].count; t2 += species.t[2].count; t3 += species.t[3].count;
   }
-  TREE_LOD.stats.tier1 = t1; TREE_LOD.stats.tier2 = t2;
+  TREE_LOD.stats.tier1 = t1; TREE_LOD.stats.tier2 = t2; TREE_LOD.stats.tier3 = t3;
 }
 
-lap('tree tiers (12 InstancedMesh, cells)', { trees: stats.trees | 0, cells: TREE_LOD.cells.length });
+lap('tree tiers (12 InstancedMesh + 3 impostor batches, cells)', { trees: stats.trees | 0, cells: TREE_LOD.cells.length });
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
@@ -4100,7 +4154,38 @@ if (M.cover) {
   }
   const n = pts.length / 4;
   VISTA_PTS = pts;
-  if (n) {
+  if (n && TREE_LOD.atlases.length === 3) {
+    /* the same pictures the planted forest fades into, so the far ring and
+       the middle ring are one forest: a cone that stood 12 m x s becomes a
+       tree of the same height, species by hash, yaw by hash */
+    const perSpecies = [[], [], []];
+    for (let k = 0; k < n; k++) {
+      const r = hash2(k * 7919 + 3, k * 104729 + 11);
+      perSpecies[r < 0.58 ? 1 : r < 0.9 ? 0 : 2].push(k);
+    }
+    for (let s = 0; s < 3; s++) {
+      const list = perSpecies[s];
+      if (!list.length) continue;
+      const geo = createImpostorGeometry(list.length);
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun });
+      const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
+      const th = SPECIES[s].templateHeight || 13;
+      list.forEach((k, i) => {
+        const s0 = pts[k * 4 + 3], sy = 12 * s0 * (0.85 + (k % 5) * 0.07) / th;
+        posA.array.set([pts[k * 4], pts[k * 4 + 1], pts[k * 4 + 2]], i * 3);
+        parA.array.set([hash2(k * 31 + 7, k * 17 + 5) * TAU, s0 * 0.9, sy, 0], i * 4);
+      });
+      posA.needsUpdate = parA.needsUpdate = true;
+      geo.instanceCount = list.length;
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.castShadow = false; mesh.receiveShadow = false; mesh.frustumCulled = false;
+      mesh.userData.tag = 'vista';
+      mesh.name = `vista-${['spruce', 'pine', 'birch'][s]}-impostor`;
+      scene.add(mesh);
+      stats.draws++;
+    }
+    stats.vista = n;
+  } else if (n) {
     const geo = new THREE.ConeGeometry(3.1, 12, 5);
     geo.translate(0, 5.6, 0);
     const mat = new THREE.MeshStandardNodeMaterial({
@@ -7387,7 +7472,7 @@ renderer.setAnimationLoop(() => {
     frame();
     BOOT_PERF.firstFrames.push({ atMs: +(t - bootStarted).toFixed(1), ms: +(performance.now() - t).toFixed(1),
       tris: renderer.info?.render?.triangles ?? null, draws: renderer.info?.render?.drawCalls ?? null,
-      tiers: TREE_LOD.ready ? { t1: TREE_LOD.stats.tier1, t2: TREE_LOD.stats.tier2 } : null });
+      tiers: TREE_LOD.ready ? { t1: TREE_LOD.stats.tier1, t2: TREE_LOD.stats.tier2, t3: TREE_LOD.stats.tier3 } : null });
   } else frame();
 });
 document.getElementById('hdsub').textContent =
@@ -7690,7 +7775,7 @@ window.V3D = {
      object-layer state the v2 selection saw (today: no renderer, no tiles) */
   legacyTrees: ({ instances = false } = {}) => legacyTreeExport(instances),
   /* the tree tiers' live state: how many trees are drawn full, decimated, and how many cells changed */
-  treeTiers: () => ({ ...TREE_LOD.stats, switchPx: TREE_LOD.switchPx, cell: TREE_LOD.cell }),
+  treeTiers: () => ({ ...TREE_LOD.stats, switchPx: TREE_LOD.switchPx, impostorPx: TREE_LOD.impostorPx, cell: TREE_LOD.cell }),
   v2Objects: () => ({
     rendererActivated: true,
     gate: V2_OBJECT_LAYER_GATE,
