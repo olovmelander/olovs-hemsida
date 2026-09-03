@@ -3777,6 +3777,9 @@ const TREE_LOD = {
      one below 40 projected pixels (60 on a phone), and from the decimated
      one to an impostor below 14 (22 on a phone), with 10% hysteresis */
   nominalHeight: 12, switchPx: LOWQ ? 60 : 40, impostorPx: LOWQ ? 22 : 14, hysteresis: 0.1,
+  /* ?lod=1|2|3 forces every visible cell into one tier, so a tier can be
+     looked at up close and judged on its own; nothing else changes */
+  force: [1, 2, 3].includes(+new URLSearchParams(location.search).get("lod")) ? +new URLSearchParams(location.search).get("lod") : 0,
   stats: { tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, updates: 0, bakeMs: 0 },
 };
 {
@@ -4021,7 +4024,8 @@ function updateTreeTiers() {
       const px = TREE_LOD.nominalHeight * viewportH / (2 * d * fovTan);
       const ip = TREE_LOD.impostorPx;
       /* three tiers, each boundary with its own hysteresis band */
-      if (c.state === 1) desired = px < sw * (1 - hy) ? (px < ip ? 3 : 2) : 1;
+      if (TREE_LOD.force) desired = TREE_LOD.force;
+      else if (c.state === 1) desired = px < sw * (1 - hy) ? (px < ip ? 3 : 2) : 1;
       else if (c.state === 2) desired = px > sw * (1 + hy) ? 1 : px < ip * (1 - hy) ? 3 : 2;
       else if (c.state === 3) desired = px > ip * (1 + hy) ? (px >= sw ? 1 : 2) : 3;
       else desired = px >= sw ? 1 : px >= ip ? 2 : 3;
