@@ -20,15 +20,15 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  angso: '96d5ff2f155c5628d22c8dc8358d57e94cadf23503fffd8f45469b9892ff05d0',
-  norrfallsviken: '65bdbad84aee8ce3cbc473e6f8c340a1ce90a17604cf06f2076197ad228a977d',
-  puttom: '75c5223c0405f6bd1fefa51e8870a3dacb9ffebbc05b8f0df5a10fe7f189581c',
-  upsala: 'f01fa7c184e53925b3792f221b1a20caf8831e9d13d927435ff5dc46f7582bd4',
+  angso: '28cfa8f635210037191a2b3eebbf6ffadf6641d931bc0d77846022c49ce55877',
+  norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
+  puttom: '518beceead88a48ebce53e66282031aed85b57d4e7e4b8058b39f7d8f17d38cf',
+  upsala: '36f2187cb2096523205b827869eb8b3131be208cb969e4c4cf4a554c6ada9da4',
   'upsala-mellanbanan': '547da39c0f83bbe9caeb276d198ae2becf1cfd235c7cdff211abe897496f526d',
-  johannesberg: '2e6b367489a4b75045dcfd382365b8e8a9f31cfac9d23f7b48e10e1123b349fd',
-  'johannesberg-9': '0cfac27372792daeefa75ffa033dcac98025265fccf29dd032dde999d2f4bdfd',
-  veckefjarden: '605f8cfff7354929ff291b3c522919573f5ecb452656819180573520b6ce191a',
-  'veckefjarden-korthalsbanan': 'e466d83d28fb501f8dc0ebcc294e8fc171bd9e9db529e08e57eae1370b2cc8b1',
+  johannesberg: '885a978ff51df00168531aa6401d715a2001885aa6c5f6f8940db280830839e0',
+  'johannesberg-9': '2693e21b8ee81af93b65427227a91b45c7e7309ecb9acaf9e847f5ea722ac70b',
+  veckefjarden: 'f98de4a0aa0c06276d46520d189c428c92efa8cee33fc6893bad2cec492de436',
+  'veckefjarden-korthalsbanan': '4a6554023dfbe113d72a9bb5d6ada4d3e2fa81a16e6e5b1a8d89078f30f697a2',
 });
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
