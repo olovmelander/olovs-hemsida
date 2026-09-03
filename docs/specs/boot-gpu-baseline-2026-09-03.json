@@ -1,0 +1,305 @@
+{
+  "url": "http://127.0.0.1:8620/?bana=puttom&det=1&v2=require",
+  "gpu": true,
+  "runs": [
+    {
+      "booted": true,
+      "wallMs": 17912,
+      "errors": [],
+      "logs": [
+        {
+          "atMs": 1883,
+          "text": "v2 world: 213 ring tiles read for the model in 822 ms"
+        },
+        {
+          "atMs": 1886,
+          "text": "v2 water levels re-measured: vatten 66.98->66.69, vatten 51.51->51.24, vatten 67.59->68.07, vatten 62.81->62.98, vatten 60.74->61.17, vatten 50.31->51.16, vatten 52->52.84, vatten 77.84->77.54, vatten 49.66->50.06, vatten 52.6->52.94, vatten 43.8->43.92, vatten 66.92->67.08, vatten 70.35->70.72"
+        },
+        {
+          "atMs": 2054,
+          "text": "v2 flat water: 26 flats over 0.48 ha, 24 beyond the model's rings (558 ha), 167 ms"
+        },
+        {
+          "atMs": 2457,
+          "text": "v2 water beds: 811.3 ha carved to 3.5 m, 995422 samples in 107 ring tiles, 403 ms (field 301 ms: mask 38, mode boxed, bodies 13, boxedCells 700959, knownBodies 65, distanceTransform 158, depth 14, nearMask 24)"
+        },
+        {
+          "atMs": 3520,
+          "text": "v2 world: 6 ring tiles resident for construction (0 ms in prepare)"
+        },
+        {
+          "atMs": 3633,
+          "text": "v2 world: first frontier covered, 1 tiles in 1 draws (168 still streaming)"
+        },
+        {
+          "atMs": 10556,
+          "text": "v2 world: backend preflight passed"
+        }
+      ],
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 66
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 2330.1
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 2972.9
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 12206.5
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 12228.5
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 12250.8
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 12797.3
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 13461.8
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 16411.5
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 16449.6
+          },
+          {
+            "name": "klar",
+            "atMs": 16518.4
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 772.6
+          },
+          {
+            "name": "v2 rings: fetch + verify + decode",
+            "ms": 822.3,
+            "tiles": 213
+          },
+          {
+            "name": "v2 flat water: detect",
+            "ms": 167.5
+          },
+          {
+            "name": "v2 water beds: carve rings",
+            "ms": 403,
+            "tiles": 107
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 1470.7
+          },
+          {
+            "name": "procedural textures (DETAIL, GRASSN, SANDN, WATERN)",
+            "ms": 280.5
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 86.9
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 309
+          },
+          {
+            "name": "v2 prepare (worker, first frontier coverage, preflight)",
+            "ms": 7063.8
+          },
+          {
+            "name": "ground tint rasters (near 6 m + far 24 m)",
+            "ms": 1830.3
+          },
+          {
+            "name": "v2 vegetation: wait for chunk load",
+            "ms": 0
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 959.1,
+            "reeds": 447
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 91.7
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 800.8
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 10.9
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 73.7
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 174,
+            "trees": 79407,
+            "cells": 451
+          },
+          {
+            "name": "far vista cones",
+            "ms": 153.6,
+            "vista": 57652
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 667.8
+          },
+          {
+            "name": "v2 stream: first frontier fully resident (after the overlap)",
+            "ms": 0.5,
+            "tiles": 127
+          }
+        ],
+        "atlasMs": 309,
+        "totalMs": 16540.3,
+        "doneAtMs": 16540.5,
+        "firstFrames": [
+          {
+            "atMs": 16613.4,
+            "ms": 1102.4,
+            "tris": 10574811,
+            "draws": 295,
+            "tiers": {
+              "t0": 145,
+              "t1": 758,
+              "t2": 8523,
+              "t3": 4074
+            }
+          },
+          {
+            "atMs": 19564.8,
+            "ms": 21.6,
+            "tris": 4451811,
+            "draws": 295,
+            "tiers": {
+              "t0": 145,
+              "t1": 343,
+              "t2": 7763,
+              "t3": 5358
+            }
+          },
+          {
+            "atMs": 21249.1,
+            "ms": 2226.2,
+            "tris": 12705251,
+            "draws": 295,
+            "tiers": {
+              "t0": 145,
+              "t1": 343,
+              "t2": 7763,
+              "t3": 5358
+            }
+          },
+          {
+            "atMs": 23476.8,
+            "ms": 14,
+            "tris": 12705251,
+            "draws": 295,
+            "tiers": {
+              "t0": 145,
+              "t1": 343,
+              "t2": 7763,
+              "t3": 5358
+            }
+          },
+          {
+            "atMs": 23492.3,
+            "ms": 13.8,
+            "tris": 12705251,
+            "draws": 295,
+            "tiers": {
+              "t0": 145,
+              "t1": 343,
+              "t2": 7763,
+              "t3": 5358
+            }
+          },
+          {
+            "atMs": 23507.2,
+            "ms": 13.6,
+            "tris": 12705251,
+            "draws": 295,
+            "tiers": {
+              "t0": 145,
+              "t1": 343,
+              "t2": 7763,
+              "t3": 5358
+            }
+          },
+          {
+            "atMs": 23522.2,
+            "ms": 18.7,
+            "tris": 12705251,
+            "draws": 295,
+            "tiers": {
+              "t0": 145,
+              "t1": 343,
+              "t2": 7763,
+              "t3": 5358
+            }
+          }
+        ],
+        "tintMs": 1830
+      },
+      "stats": {
+        "verts": 33090,
+        "tris": 55092,
+        "trees": 79407,
+        "vista": 57652,
+        "tufts": 5084,
+        "bushes": 888,
+        "stones": 207,
+        "reeds": 447,
+        "cars": 67,
+        "pylons": 0,
+        "stumps": 0,
+        "draws": 56,
+        "surfaceOverlays": 0,
+        "backend": "webgpu"
+      },
+      "v2": {
+        "status": "ready",
+        "mode": "fixed-frontier",
+        "backend": "webgpu"
+      },
+      "fingerprint": {
+        "trees": "7a1ca7b1b6e398f8a81864c9fbacbedb0e19af7f840fc266653f81c8c911a581",
+        "treeInstances": "972ad223e0b4433adb02e30fd100059c1e99fc845c865540aee0b467cdb97388",
+        "tintNear": "687fb9a0680e36594d6b133768a65865c0672d352130592315f84b1e4d36465f",
+        "tintFar": "7b3619f8363e432f494c9f26ad7ebb83731db63e400db74a0c50b6fffa8c48fe",
+        "counts": {
+          "trees": 79407,
+          "vista": 57652,
+          "reeds": 447,
+          "tufts": 5084,
+          "bushes": 888,
+          "stones": 207,
+          "stumps": 0,
+          "draws": 56
+        }
+      }
+    }
+  ]
+}

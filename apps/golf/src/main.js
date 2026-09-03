@@ -54,6 +54,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
+import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
@@ -1132,6 +1133,7 @@ const LOWQ = qualityParam === 'lo'
   || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice));
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
 let lowfx = false;
+let autoQualityDone = false;   /* the auto-quality verdict has been reached (a harness waits on it) */
 const RMOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* skyltar: 0 off, 1 hole numbers, 2 numbers + faciliteter. skyMax is 1 on a course
    whose facilities are not in the data, so the cycle never promises an empty layer. */
@@ -1140,8 +1142,12 @@ let skyState = 2, skyMax = 2, skyHidden = false;
    init that threw left the splash on "startar" forever, blamed on the network.
    Fall back to the WebGL2 backend instead; ?gl=1 forces it for testing. */
 const FORCE_GL = new URLSearchParams(location.search).get('gl') === '1';
+/* ?gputime=1 asks the WebGPU backend for timestamp queries, so a harness can
+   read GPU milliseconds per frame (V3D.gpuTime); off by default, since the
+   query pool is a cost of its own and a vsync-locked frame time is not one */
+const GPU_TIME = new URLSearchParams(location.search).get('gputime') === '1';
 const mkRenderer = forceWebGL => new THREE.WebGPURenderer({ antialias: true, samples: 4,
-  outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance', forceWebGL });
+  outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance', forceWebGL, trackTimestamp: GPU_TIME });
 let renderer;
 try {
   renderer = mkRenderer(FORCE_GL);
@@ -3773,18 +3779,34 @@ lap('v2 vegetation: push planned trees');
    treeWhy[] are what the baseline and the fingerprint read, and they are
    untouched. The far cones beyond MIDR are unchanged until phase 2 (the
    impostors) replaces them. */
+/* ?lodpx=hero,full,impostor overrides the three tier boundaries for a sweep */
+const LODPX = (() => {
+  const q = new URLSearchParams(location.search).get('lodpx'), v = q ? q.split(',').map(Number) : null;
+  return v && v.length === 3 && v.every(x => x > 0) ? { hero: v[0], full: v[1], impostor: v[2] } : null;
+})();
 const TREE_LOD = {
   cell: 128, cells: [], tiers: [], mats: [], imp: [], atlases: [], ready: false,
-  /* a nominal 12 m tree switches from the full template to the decimated
-     one below 40 projected pixels (60 on a phone), and from the decimated
-     one to an impostor below 14 (22 on a phone), with 10% hysteresis */
-  nominalHeight: 12, heroPx: LOWQ ? 200 : 110, switchPx: LOWQ ? 60 : 40, impostorPx: LOWQ ? 22 : 14, hysteresis: 0.1,
+  /* Phase 4 (docs/tree-lod-plan.md): the tier is decided PER TREE from the
+     pixels its own drawn height projects to -- hero above heroPx, the full
+     template above switchPx, decimated above impostorPx, an impostor below --
+     with a hysteresis band on every boundary; nominalHeight is only what the
+     tools quote a boundary distance for. A switch is a CROSSFADE of fadeS
+     seconds (engine/tree-fade.mjs): 0 under ?det=1, so every deterministic
+     gate renders instant switches. fadeClock is the shader's clock, epoch-
+     relative and rebased below FADE_EPOCH_S; queue holds every fade in flight
+     until its OUT entry can go. frozen and clockDriven belong to the harness:
+     a frozen update leaves every tier as it is, a driven clock advances only
+     when the harness says so. */
+  fadeS: DET ? 0 : (LOWQ ? 0.25 : 0.3), fadeClock: 0, clockDriven: false, queue: [], qHead: 0, frozen: false, resetPending: false,
+  /* the harness's "before": decide per CELL from a nominal tree at the cell box, as phases 1-3 did */
+  cellMode: false,
+  nominalHeight: 12, heroPx: LODPX?.hero ?? (LOWQ ? 200 : 110), switchPx: LODPX?.full ?? (LOWQ ? 60 : 40), impostorPx: LODPX?.impostor ?? (LOWQ ? 22 : 14), hysteresis: 0.1,
   /* ?lod=1|2|3|4 forces every visible cell into one tier (hero, full,
      decimated, impostor), so a tier can be looked at up close and judged on
      its own; nothing else changes */
   force: [1, 2, 3, 4].includes(+new URLSearchParams(location.search).get("lod")) ? +new URLSearchParams(location.search).get("lod") : 0,
   /* tier0 is the hero tier, tier1 the full template, tier2 decimated, tier3 the impostor */
-  stats: { tier0: 0, tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, updates: 0, bakeMs: 0 },
+  stats: { tier0: 0, tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, switches: 0, updates: 0, bakeMs: 0, fading: 0, updateMs: 0 },
   /* ?impdbg=normal|albedo|mask|world draws the impostors unlit, one term at a time */
   debug: new URLSearchParams(location.search).get("impdbg") || null,
 };
@@ -3903,7 +3925,7 @@ const TREE_LOD = {
     const bark = texture(BARK, uv().mul(vec2(3, 1.5))).r;
     mat.colorNode = color(hex).mul(bark.mul(0.6).add(0.62));
     mat.positionNode = windSway(false);
-    return mat;
+    return attachTreeFade(mat);
   };
   const crownMaterial = (s, hex, sway) => {
     const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.92, metalness: 0, flatShading: true });
@@ -3914,12 +3936,12 @@ const TREE_LOD = {
     mat.colorNode = cbase.mul(attribute('color', 'vec3')).mul(float(1).add(
       pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55)));
     if (sway) mat.positionNode = windSway(true);
-    return mat;
+    return attachTreeFade(mat);
   };
   const trunkMaterial = (hex, sway) => {
     const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: true });
     if (sway) mat.positionNode = windSway(false);
-    return mat;
+    return attachTreeFade(mat);
   };
   /* GPU-only harmonic wind sway with zero CPU matrix updates: trunk roots at
      y=0 stay rigid, while crown upper branches gently bend. The near tier
@@ -3953,7 +3975,7 @@ const TREE_LOD = {
   const impostorBatch = (s, capacity, label) => {
     const geo = createImpostorGeometry(capacity);
     const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
-      crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug,
+      crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug, fade: true,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.castShadow = false;
@@ -3963,8 +3985,8 @@ const TREE_LOD = {
     mesh.name = `trees-${['spruce', 'pine', 'birch'][s]}-impostor-${label}`;
     scene.add(mesh);
     stats.draws++;
-    return { mesh, geo, pos: geo.getAttribute('aImpostorPos'), par: geo.getAttribute('aImpostorParam'),
-             slots: new Int32Array(capacity), count: 0, lo: Infinity, hi: -Infinity };
+    return { mesh, geo, pos: geo.getAttribute('aImpostorPos'), par: geo.getAttribute('aImpostorParam'), fade: [geo.getAttribute('aFade')],
+             slots: new Int32Array(capacity), count: 0, lo: Infinity, hi: -Infinity, flo: Infinity, fhi: -Infinity, idx: 0 };
   };
   const cellOf = new Map();
   const cell = (x, z) => {
@@ -3974,7 +3996,7 @@ const TREE_LOD = {
     if (!c) {
       const x0 = MIDR.x0 + i * TREE_LOD.cell, z0 = MIDR.z0 + j * TREE_LOD.cell;
       c = { x0, z0, x1: x0 + TREE_LOD.cell, z1: z0 + TREE_LOD.cell, y0: Infinity, y1: -Infinity,
-            lists: [[], [], []], state: 0, box: new THREE.Box3() };
+            lists: [[], [], []], visible: false, box: new THREE.Box3() };
       cellOf.set(key, c);
       TREE_LOD.cells.push(c);
     }
@@ -3988,12 +4010,17 @@ const TREE_LOD = {
     const imp = new Float32Array(n * 6);   /* x, y, z, yaw, scaleXZ, scaleY */
     TREE_LOD.mats.push(mats);
     TREE_LOD.imp.push(imp);
+    /* each tree's drawn height and the height of its crown centre: the tier
+       is decided from the pixels THIS tree projects to, not a nominal one */
+    const treeH = new Float32Array(n), treeCY = new Float32Array(n);
     for (let k = 0; k < n; k++) {
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
       const sy = T[k * 6 + 3], sxz = T[k * 6 + 5];
       /* the lattice keeps its hashed height variation; a measured tree is
          drawn at its measured height and crown, with nothing added */
       const varied = W[k] >= WHY_V2_INDIVIDUAL ? 1 : (0.86 + (k % 7) * 0.045);
+      treeH[k] = SPECIES[s].templateHeight * sy * varied;
+      treeCY[k] = pos.y + treeH[k] * 0.5;
       scl.set(sxz, sy * varied, sxz);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
       mtx.compose(pos, q, scl).toArray(mats, k * 16);
@@ -4009,6 +4036,9 @@ const TREE_LOD = {
        hero its cards), every part sharing the tier's slot list */
     const tier = (parts, label) => {
       const meshes = parts.map(([name, geo, mat]) => {
+        /* the crossfade's per-instance (start time, mask code); a fifth
+           vertex buffer at most, against WebGPU's eight */
+        geo.setAttribute('aFade', createFadeAttribute(n));
         const im = new THREE.InstancedMesh(geo, mat, n);
         im.count = 0;
         im.castShadow = true;
@@ -4022,19 +4052,25 @@ const TREE_LOD = {
         stats.draws++;
         return im;
       });
-      return { parts: meshes, slots: new Int32Array(n), count: 0, lo: Infinity, hi: -Infinity };
+      return { parts: meshes, fade: meshes.map(im => im.geometry.getAttribute('aFade')), slots: new Int32Array(n), count: 0,
+               lo: Infinity, hi: -Infinity, flo: Infinity, fhi: -Infinity, idx: 0 };
     };
     const hr = hero[s];
-    TREE_LOD.tiers.push({
-      n,
+    const rec = {
+      n, treeH, treeCY,
       where: new Int32Array(n).fill(-1),
       tierOf: new Uint8Array(n),
+      /* the OUT half of a crossfade: which tier still draws the tree, and where */
+      outTier: new Uint8Array(n), whereOut: new Int32Array(n).fill(-1),
+      fadeT0: new Float32Array(n), fadeCode: new Uint8Array(n),
       t: [null,
         tier([['crown', hr.crown, crownMaterial(s, spec.cc, true)], ['trunk', hr.trunk, barkMaterial(spec.tc)]], 't0'),
         tier([['crown', spec.crown, crownMaterial(s, spec.cc, true)], ['trunk', spec.trunk, trunkMaterial(spec.tc, true)]], 't1'),
         tier([['crown', deci.crown, crownMaterial(s, spec.cc, false)], ['trunk', deci.trunk, trunkMaterial(spec.tc, false)]], 't2'),
         impostorBatch(s, n, 't3')],
-    });
+    };
+    for (let i = 1; i <= 4; i++) rec.t[i].idx = i;
+    TREE_LOD.tiers.push(rec);
     stats.trees += n;
   }
   for (const c of TREE_LOD.cells) {
@@ -4043,14 +4079,25 @@ const TREE_LOD = {
        culled while its crown is still in frame */
     c.box.min.set(c.x0 - 8, c.y0 - 2, c.z0 - 8);
     c.box.max.set(c.x1 + 8, c.y1 + 2, c.z1 + 8);
+    c.lists = c.lists.map(l => Int32Array.from(l));
   }
   TREE_LOD.stats.cells = TREE_LOD.cells.length;
   TREE_LOD.ready = true;
 }
 
-/* move one tree between tiers: a swap-remove out of the old slot list and
-   an append to the new one, both parts' matrices copied from the table */
-function treeTierWrite(s, tier, slot, k) {
+/* A tree is drawn by up to two tiers at once: its IN tier (tierOf, where)
+   and, while a crossfade runs, its OUT tier (outTier, whereOut). Each tier's
+   slot list is swap-removed and appended as before; what changed is that an
+   entry also carries aFade = (fade start time, mask code), which the shader
+   reads to decide per pixel which of a tree's two entries owns it
+   (engine/tree-fade.mjs). The matrix and impostor writes copy from the
+   tables built at boot, so a move never touches trees[]. */
+function treeFadeWrite(tier, slot, t0, code) {
+  for (const a of tier.fade) { a.array[slot * 2] = t0; a.array[slot * 2 + 1] = code; }
+  if (slot < tier.flo) tier.flo = slot;
+  if (slot > tier.fhi) tier.fhi = slot;
+}
+function treeTierWrite(s, tier, slot, k, t0, code) {
   if (tier.mesh) {
     const imp = TREE_LOD.imp[s];
     tier.pos.array.set(imp.subarray(k * 6, k * 6 + 3), slot * 3);
@@ -4064,75 +4111,194 @@ function treeTierWrite(s, tier, slot, k) {
   }
   if (slot < tier.lo) tier.lo = slot;
   if (slot > tier.hi) tier.hi = slot;
+  treeFadeWrite(tier, slot, t0, code);
 }
+/* swap-remove: the tree moved into the freed slot may hold this tier as its IN entry or as its OUT entry */
+function tierRemove(s, tier, slot) {
+  const sp = TREE_LOD.tiers[s], last = --tier.count;
+  if (slot !== last) {
+    const m = tier.slots[last];
+    tier.slots[slot] = m;
+    const isIn = sp.tierOf[m] === tier.idx;
+    if (isIn) sp.where[m] = slot; else sp.whereOut[m] = slot;
+    treeTierWrite(s, tier, slot, m, sp.fadeT0[m], isIn ? sp.fadeCode[m] : PAIR[sp.fadeCode[m]]);
+  }
+}
+function tierAppend(s, tier, k, t0, code) {
+  const slot = tier.count++;
+  tier.slots[slot] = k;
+  treeTierWrite(s, tier, slot, k, t0, code);
+  return slot;
+}
+/* move one tree from tier `from` to tier `to` (0 = not drawn). With a fade
+   in effect the old entry stays as the OUT half of a crossfade and the new
+   one is appended as the IN half, both stamped with the same start time;
+   a tree asked to go back while its fade runs swaps the two roles in place
+   with the masks continuous; a tree asked for a THIRD tier finishes its
+   pending OUT at once (a partial pop, only at cuts and hole jumps). */
 function treeTierMove(s, k, from, to) {
-  const species = TREE_LOD.tiers[s];
-  if (from) {
-    const tier = species.t[from];
-    const slot = species.where[k], last = --tier.count;
-    if (slot !== last) {
-      const moved = tier.slots[last];
-      tier.slots[slot] = moved;
-      species.where[moved] = slot;
-      treeTierWrite(s, tier, slot, moved);
-    }
-    species.where[k] = -1;
-  }
-  if (to) {
-    const tier = species.t[to];
-    const slot = tier.count++;
-    tier.slots[slot] = k;
-    species.where[k] = slot;
-    treeTierWrite(s, tier, slot, k);
-  }
-  species.tierOf[k] = to;
+  const sp = TREE_LOD.tiers[s], dur = TREE_LOD.fadeS, clock = TREE_LOD.fadeClock;
   TREE_LOD.stats.moves++;
+  if (from && to) TREE_LOD.stats.switches++;
+  if (dur > 0 && to && sp.outTier[k] === to && sp.tierOf[k] === from) {
+    const { t0, inCode } = reversedFade(clock, sp.fadeT0[k], dur, sp.fadeCode[k]);
+    const wIn = sp.where[k], wOut = sp.whereOut[k];
+    sp.where[k] = wOut; sp.whereOut[k] = wIn; sp.tierOf[k] = to; sp.outTier[k] = from;
+    sp.fadeT0[k] = t0; sp.fadeCode[k] = inCode;
+    treeFadeWrite(sp.t[to], wOut, t0, inCode);
+    treeFadeWrite(sp.t[from], wIn, t0, PAIR[inCode]);
+    TREE_LOD.queue.push({ s, k, t0: sp.fadeT0[k], drainAt: drainAt(sp.fadeT0[k], dur) });
+    return;
+  }
+  if (sp.outTier[k]) { tierRemove(s, sp.t[sp.outTier[k]], sp.whereOut[k]); sp.outTier[k] = 0; }
+  if (!to) {
+    /* left the frustum: gone now, both halves */
+    if (from) tierRemove(s, sp.t[from], sp.where[k]);
+    sp.where[k] = -1; sp.tierOf[k] = 0; sp.fadeCode[k] = 0;
+  } else if (!from || dur <= 0) {
+    /* entered the frustum, or an instant switch */
+    if (from) tierRemove(s, sp.t[from], sp.where[k]);
+    sp.fadeCode[k] = 0; sp.fadeT0[k] = 0;
+    sp.where[k] = tierAppend(s, sp.t[to], k, 0, 0); sp.tierOf[k] = to;
+  } else {
+    /* the crossfade: polarity alternates per tree so neighbours do not flip in step */
+    const inCode = (k & 1) ? 2 : 1, t0 = Math.fround(clock);
+    sp.outTier[k] = from; sp.whereOut[k] = sp.where[k];
+    treeFadeWrite(sp.t[from], sp.whereOut[k], t0, PAIR[inCode]);
+    sp.fadeT0[k] = t0; sp.fadeCode[k] = inCode;
+    sp.where[k] = tierAppend(s, sp.t[to], k, t0, inCode); sp.tierOf[k] = to;
+    TREE_LOD.queue.push({ s, k, t0, drainAt: drainAt(t0, dur) });
+  }
+}
+/* fades whose OUT entry is fully discarded by now: drop the entry. An entry
+   whose tree has since been re-timed (a reversal, a later fade) is stale
+   and is skipped; the newer entry drains it. A reversed entry may sit
+   behind later ones and drain a little late -- invisible, only a draw. */
+function drainTreeFades() {
+  const Q = TREE_LOD.queue;
+  let changed = false;
+  while (TREE_LOD.qHead < Q.length && Q[TREE_LOD.qHead].drainAt <= TREE_LOD.fadeClock) {
+    const e = Q[TREE_LOD.qHead++], sp = TREE_LOD.tiers[e.s];
+    if (sp.outTier[e.k] && sp.fadeT0[e.k] === e.t0) {
+      tierRemove(e.s, sp.t[sp.outTier[e.k]], sp.whereOut[e.k]);
+      sp.outTier[e.k] = 0; sp.fadeCode[e.k] = 0;
+      treeFadeWrite(sp.t[sp.tierOf[e.k]], sp.where[e.k], 0, 0);
+      changed = true;
+    }
+  }
+  if (TREE_LOD.qHead > 4096) { TREE_LOD.queue = Q.slice(TREE_LOD.qHead); TREE_LOD.qHead = 0; }
+  return changed;
+}
+/* the clock is an f32 in the shader: past FADE_EPOCH_S it is wound back by
+   an epoch, together with every fade in flight, so a twelve-minute bansafari
+   never runs it out of precision */
+function rebaseFadeClock() {
+  if (TREE_LOD.fadeClock < FADE_EPOCH_S) return;
+  const E = FADE_EPOCH_S, Q = TREE_LOD.queue;
+  TREE_LOD.fadeClock -= E;
+  for (let i = TREE_LOD.qHead; i < Q.length; i++) {
+    const e = Q[i], sp = TREE_LOD.tiers[e.s];
+    const live = sp.outTier[e.k] && sp.fadeT0[e.k] === e.t0;
+    e.t0 = Math.fround(e.t0 - E); e.drainAt -= E;
+    if (live) {
+      sp.fadeT0[e.k] = e.t0;
+      treeFadeWrite(sp.t[sp.tierOf[e.k]], sp.where[e.k], e.t0, sp.fadeCode[e.k]);
+      treeFadeWrite(sp.t[sp.outTier[e.k]], sp.whereOut[e.k], e.t0, PAIR[sp.fadeCode[e.k]]);
+    }
+  }
+}
+/* the harness's consistency check: every drawn slot belongs to exactly one
+   tree as its IN or OUT entry, and no tree holds both in one tier */
+function treeTierAudit() {
+  const out = { ok: true, species: [] };
+  for (let s = 0; s < 3; s++) {
+    const sp = TREE_LOD.tiers[s];
+    if (!sp) continue;
+    let sumCount = 0, inCount = 0, outCount = 0, roundTrip = true, noSelfPair = true;
+    for (let i = 1; i <= 4; i++) {
+      const tier = sp.t[i];
+      sumCount += tier.count;
+      for (let slot = 0; slot < tier.count; slot++) {
+        const k = tier.slots[slot];
+        if (!((sp.tierOf[k] === i && sp.where[k] === slot) || (sp.outTier[k] === i && sp.whereOut[k] === slot))) roundTrip = false;
+      }
+    }
+    for (let k = 0; k < sp.n; k++) {
+      if (sp.tierOf[k]) inCount++;
+      if (sp.outTier[k]) { outCount++; if (sp.outTier[k] === sp.tierOf[k]) noSelfPair = false; }
+    }
+    const ok = sumCount === inCount + outCount && roundTrip && noSelfPair;
+    out.species.push({ sumCount, inCount, outCount, roundTrip, noSelfPair, ok });
+    if (!ok) out.ok = false;
+  }
+  return out;
 }
 
 const TREE_FRUSTUM = new THREE.Frustum(), TREE_PROJ = new THREE.Matrix4();
-/* per frame: each cell's tier from the height a nominal tree in it projects
-   to, and no tier at all outside the frustum; only cells whose tier changed
-   move their trees */
+/* per frame: a cell outside the frustum draws nothing; inside it every tree
+   is tiered from the pixels its own height projects to at its own distance
+   (to the crown centre, height included: from 330 m straight up a tree
+   under the camera is 330 m away), with the hysteresis band on each
+   boundary; only trees whose tier changed move, and a move is a crossfade */
 function updateTreeTiers() {
-  if (!TREE_LOD.ready) return;
+  if (!TREE_LOD.ready || TREE_LOD.frozen) return;
+  const tStart = performance.now();
+  rebaseFadeClock();
+  let changed = drainTreeFades();
   TREE_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
   TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem);
   const viewportH = renderer.domElement.height || innerHeight;
-  const fovTan = Math.tan(camera.fov * 0.5 * Math.PI / 180);
+  const Kpx = viewportH / (2 * Math.tan(camera.fov * 0.5 * Math.PI / 180));
   const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
-  /* the boundaries between tiers 1|2, 2|3, 3|4 in projected pixels, each
-     with its own hysteresis band: a cell steps finer only past the band
-     above a boundary and coarser only past the band below it */
   const thr = [TREE_LOD.heroPx, TREE_LOD.switchPx, TREE_LOD.impostorPx], hy = TREE_LOD.hysteresis;
-  let visible = 0, changed = false;
-  for (const c of TREE_LOD.cells) {
-    let desired;
-    if (!TREE_FRUSTUM.intersectsBox(c.box)) desired = 0;
-    else {
-      /* the distance to the cell's BOX, height included: from 330 m straight
-         up a cell under the camera is 330 m away, not one -- measured in the
-         ground plane alone the overhead view drew its hero tier */
-      const dx = Math.max(c.x0 - cx, 0, cx - c.x1), dy = Math.max(c.y0 - cy, 0, cy - c.y1), dz = Math.max(c.z0 - cz, 0, cz - c.z1);
-      const d = Math.max(1, Math.hypot(dx, dy, dz));
-      const px = TREE_LOD.nominalHeight * viewportH / (2 * d * fovTan);
-      if (TREE_LOD.force) desired = TREE_LOD.force;
-      else if (c.state === 0) { desired = 1; while (desired < 4 && px < thr[desired - 1]) desired++; }
-      else {
-        desired = c.state;
-        while (desired > 1 && px > thr[desired - 2] * (1 + hy)) desired--;
-        while (desired < 4 && px < thr[desired - 1] * (1 - hy)) desired++;
+  const force = TREE_LOD.force, reset = TREE_LOD.resetPending, cellMode = TREE_LOD.cellMode;
+  const cells = TREE_LOD.cells;
+  let visible = 0;
+  for (let ci = 0; ci < cells.length; ci++) {
+    const c = cells[ci];
+    if (!TREE_FRUSTUM.intersectsBox(c.box)) {
+      if (c.visible) {
+        for (let s = 0; s < 3; s++) {
+          const sp = TREE_LOD.tiers[s];
+          if (!sp) continue;
+          const L = c.lists[s];
+          for (let i = 0; i < L.length; i++) { const k = L[i]; if (sp.tierOf[k]) treeTierMove(s, k, sp.tierOf[k], 0); }
+        }
+        c.visible = false; changed = true;
       }
-      visible++;
+      continue;
     }
-    if (desired === c.state) continue;
+    c.visible = true; visible++;
+    let pxCell = 0;
+    if (cellMode) {
+      const dx = Math.max(c.x0 - cx, 0, cx - c.x1), dy = Math.max(c.y0 - cy, 0, cy - c.y1), dz = Math.max(c.z0 - cz, 0, cz - c.z1);
+      pxCell = TREE_LOD.nominalHeight * Kpx / Math.max(1, Math.hypot(dx, dy, dz));
+    }
     for (let s = 0; s < 3; s++) {
-      if (!TREE_LOD.tiers[s]) continue;
-      for (const k of c.lists[s]) treeTierMove(s, k, c.state, desired);
+      const sp = TREE_LOD.tiers[s];
+      if (!sp) continue;
+      const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf;
+      for (let i = 0; i < L.length; i++) {
+        const k = L[i];
+        const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;
+        const px = cellMode ? pxCell : H[k] * Kpx / Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
+        const cur = T[k];
+        let want;
+        if (force) want = force;
+        else if (!cur || reset) { want = 1; while (want < 4 && px < thr[want - 1]) want++; }
+        else {
+          want = cur;
+          while (want > 1 && px > thr[want - 2] * (1 + hy)) want--;
+          while (want < 4 && px < thr[want - 1] * (1 - hy)) want++;
+        }
+        if (want !== cur) { treeTierMove(s, k, cur, want); changed = true; }
+      }
     }
-    c.state = desired;
-    changed = true;
   }
+  TREE_LOD.resetPending = false;
   TREE_LOD.stats.cellsVisible = visible;
+  TREE_LOD.stats.fading = TREE_LOD.queue.length - TREE_LOD.qHead;
+  TREE_LOD.stats.updateMs = performance.now() - tStart;
   if (!changed) return;
   TREE_LOD.stats.updates++;
   TIER_FRAME = FRAME_NO;
@@ -4158,7 +4324,10 @@ function updateTreeTiers() {
           }
         }
       }
-      tier.lo = Infinity; tier.hi = -Infinity;
+      if (tier.fhi >= tier.flo) for (const a of tier.fade) {
+        a.clearUpdateRanges(); a.addUpdateRange(tier.flo * 2, (tier.fhi - tier.flo + 1) * 2); a.needsUpdate = true;
+      }
+      tier.lo = Infinity; tier.hi = -Infinity; tier.flo = Infinity; tier.fhi = -Infinity;
     }
     t0 += species.t[1].count; t1 += species.t[2].count; t2 += species.t[3].count; t3 += species.t[4].count;
   }
@@ -5662,6 +5831,7 @@ function renderActivePipeline() {
 
 /* the shadow camera follows the player, because a 2 km ortho frustum spends its
    whole resolution on ground nobody is looking at */
+let shadowRadiusOverride = null;   /* a harness stepping a flight pose by pose gives it the flight's fixed fit */
 function placeSun() {
   const t = controls.target;
   const d = uSun.value;
@@ -5670,7 +5840,7 @@ function placeSun() {
   sun.target.updateMatrixWorld();
   /* Stabilize shadow frustum: during flyovers use a rock-solid fixed size to prevent
      shadow crawling on terrain; in interactive mode apply hysteresis thresholding. */
-  const targetR = flying > 0 ? 580 : clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150);
+  const targetR = shadowRadiusOverride ?? (flying > 0 ? 580 : clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150));
   const c = sun.shadow.camera;
   if (!c.top || Math.abs(c.top - targetR) > 14) {
     c.left = -targetR; c.right = targetR; c.top = targetR; c.bottom = -targetR;
@@ -7747,6 +7917,7 @@ let last = performance.now(), acc = 0, frames = 0, fps = 0;
    changing anything, because under a software renderer a frame can take
    longer than any fixed wait and a screenshot shows the LAST frame drawn */
 let FRAME_NO = 0, TIER_FRAME = 0;   /* the frame the tree tiers last changed on */
+const FRAME_MS = new Float32Array(120);   /* the last frames' intervals, for the harness (V3D.frameTimes) */
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
   terrainV2.tick(now);
@@ -7754,7 +7925,12 @@ function frame() {
   if (terrainV2.kind === 'graph' && terrainV2.active) {
     terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
   }
+  /* the crossfade clock: real time, a fixed 1/60 under det, or whatever the harness set */
+  if (!TREE_LOD.clockDriven) TREE_LOD.fadeClock += DET ? 1 / 60 : dt;
+  treeFadeClock.value = TREE_LOD.fadeClock;
+  treeFadeDuration.value = TREE_LOD.fadeS;
   updateTreeTiers();
+  FRAME_MS[FRAME_NO % FRAME_MS.length] = now - last;
   last = now; frames++; acc += dt; FRAME_NO++;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
 
@@ -7890,7 +8066,8 @@ async function prepareCapture() {
   }
 }
 
-async function captureReadback() {
+/* one frame into an RGBA8 target and back: the pixels, no encoding */
+async function captureRaw() {
   if (!IS_GPU) throw new Error('render-target readback is only available for WebGPU');
   if (!captureReadbackTarget) {
     captureReadbackTarget = new THREE.RenderTarget(innerWidth, innerHeight, {
@@ -7916,43 +8093,65 @@ async function captureReadback() {
       captureReadbackTarget, 0, 0, width, height,
     );
     const pixels = contiguousRgba8Readback(rawPixels, width, height);
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    const context = canvas.getContext('2d', { alpha: false });
-    if (!context) throw new Error('app WebGPU readback cannot create a 2D encoder');
-    context.putImageData(new ImageData(
-      new Uint8ClampedArray(pixels.buffer, pixels.byteOffset, pixels.byteLength),
-      width,
-      height,
-    ), 0, 0);
-    const blob = await new Promise((resolve, reject) => canvas.toBlob(
-      value => value ? resolve(value) : reject(new Error('app WebGPU PNG encoding failed')),
-      'image/png',
-    ));
-    const encoded = new Uint8Array(await blob.arrayBuffer());
-    let binary = '';
-    for (let offset = 0; offset < encoded.length; offset += 32_768) {
-      binary += String.fromCharCode(...encoded.subarray(offset, offset + 32_768));
-    }
-    return Object.freeze({
-      width,
-      height,
-      mimeType: 'image/png',
-      base64: btoa(binary),
-      sourceBytes: pixels.byteLength,
-      readbackBytes: rawPixels.byteLength,
-      rowPaddingStripped: rawPixels.byteLength !== pixels.byteLength,
-      encodedBytes: encoded.byteLength,
-      provisional: true,
-      performanceEvidence: false,
-    });
+    return { pixels, rawPixels, width, height };
   } finally {
     renderer.setRenderTarget(previousTarget);
     captureRenderLocked = false;
     renderActivePipeline();
     await waitForSubmittedGpuWork();
   }
+}
+
+async function captureReadback() {
+  const { pixels, rawPixels, width, height } = await captureRaw();
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext('2d', { alpha: false });
+  if (!context) throw new Error('app WebGPU readback cannot create a 2D encoder');
+  context.putImageData(new ImageData(
+    new Uint8ClampedArray(pixels.buffer, pixels.byteOffset, pixels.byteLength),
+    width,
+    height,
+  ), 0, 0);
+  const blob = await new Promise((resolve, reject) => canvas.toBlob(
+    value => value ? resolve(value) : reject(new Error('app WebGPU PNG encoding failed')),
+    'image/png',
+  ));
+  const encoded = new Uint8Array(await blob.arrayBuffer());
+  let binary = '';
+  for (let offset = 0; offset < encoded.length; offset += 32_768) {
+    binary += String.fromCharCode(...encoded.subarray(offset, offset + 32_768));
+  }
+  return Object.freeze({
+    width,
+    height,
+    mimeType: 'image/png',
+    base64: btoa(binary),
+    sourceBytes: pixels.byteLength,
+    readbackBytes: rawPixels.byteLength,
+    rowPaddingStripped: rawPixels.byteLength !== pixels.byteLength,
+    encodedBytes: encoded.byteLength,
+    provisional: true,
+    performanceEvidence: false,
+  });
+}
+
+/* the pop meter's instrument: how many pixels changed since the last call,
+   counted in the page so nothing but three numbers crosses to the harness
+   (a 1600x900 frame is 5.8 MB over the protocol, and a meter takes hundreds) */
+let pixelDeltaPrev = null;
+async function pixelDelta(threshold = 24) {
+  const { pixels: cur } = await captureRaw();
+  const prev = pixelDeltaPrev, primed = !!(prev && prev.length === cur.length);
+  let changed = 0, max = 0;
+  if (primed) for (let i = 0; i < cur.length; i += 4) {
+    const d = Math.max(Math.abs(cur[i] - prev[i]), Math.abs(cur[i + 1] - prev[i + 1]), Math.abs(cur[i + 2] - prev[i + 2]));
+    if (d > threshold) changed++;
+    if (d > max) max = d;
+  }
+  pixelDeltaPrev = cur;
+  return { changed, total: cur.length / 4, max, frame: FRAME_NO, primed };
 }
 
 /* published before the boot marker, not after: anything waiting on the marker acts
@@ -8162,9 +8361,44 @@ window.V3D = {
      object-layer state the v2 selection saw (today: no renderer, no tiles) */
   legacyTrees: ({ instances = false } = {}) => legacyTreeExport(instances),
   /* the tree tiers' live state: how many trees are drawn full, decimated, and how many cells changed */
-  treeTiers: () => ({ ...TREE_LOD.stats, switchPx: TREE_LOD.switchPx, impostorPx: TREE_LOD.impostorPx, cell: TREE_LOD.cell }),
-  /* force every visible cell into one tier (1-3) at run time, 0 for the automatic choice */
+  treeTiers: () => ({ ...TREE_LOD.stats, heroPx: TREE_LOD.heroPx, switchPx: TREE_LOD.switchPx, impostorPx: TREE_LOD.impostorPx,
+    hysteresis: TREE_LOD.hysteresis, nominalHeight: TREE_LOD.nominalHeight, cell: TREE_LOD.cell, force: TREE_LOD.force,
+    fadeS: TREE_LOD.fadeS, frozen: TREE_LOD.frozen, clockDriven: TREE_LOD.clockDriven, cellMode: TREE_LOD.cellMode }),
+  /* force every visible tree into one tier (1-4) at run time, 0 for the automatic choice */
   setTreeLod: n => { TREE_LOD.force = [1, 2, 3, 4].includes(n | 0) ? n | 0 : 0; },
+  /* the tier boundaries in projected pixels, changeable at run time for a
+     sweep; reset re-tiers every visible tree with no hysteresis */
+  setTreeLodPx: (o = {}) => {
+    for (const [key, prop] of [['hero', 'heroPx'], ['full', 'switchPx'], ['impostor', 'impostorPx'], ['hysteresis', 'hysteresis']]) {
+      if (Number.isFinite(o[key])) TREE_LOD[prop] = +o[key];
+    }
+    if (o.reset) TREE_LOD.resetPending = true;
+    return window.V3D.treeLodPx();
+  },
+  treeLodPx: () => ({ hero: TREE_LOD.heroPx, full: TREE_LOD.switchPx, impostor: TREE_LOD.impostorPx, hysteresis: TREE_LOD.hysteresis }),
+  /* the crossfade: its length, and the harness's hold on its clock */
+  setTreeFade: s => { TREE_LOD.fadeS = Math.max(0, +s || 0); },
+  setTreeFadeClock: t => { TREE_LOD.fadeClock = +t || 0; },
+  driveTreeFadeClock: on => { TREE_LOD.clockDriven = !!on; },
+  freezeTreeTiers: on => { TREE_LOD.frozen = !!on; },
+  setTreeLodCellMode: on => { TREE_LOD.cellMode = !!on; TREE_LOD.resetPending = true; },
+  treeTierAudit,
+  /* triangles per instance of every (species, tier, part), from the built geometries */
+  treeTriangles: () => TREE_LOD.tiers.map(sp => sp ? [1, 2, 3].map(i => sp.t[i].parts.map(im =>
+    (im.geometry.index ? im.geometry.index.count : im.geometry.attributes.position.count) / 3)) : null),
+  pixelDelta: IS_GPU ? pixelDelta : null,
+  /* the renderer's own per-frame counters, read in a rAF callback after the frame that produced them */
+  rendererInfo: () => ({ ...renderer.info.render, memory: { ...renderer.info.memory },
+    drawingBuffer: [renderer.domElement.width, renderer.domElement.height], pixelRatio: renderer.getPixelRatio() }),
+  frameTimes: () => ({ ms: Array.from(FRAME_MS), frame: FRAME_NO, tris: renderer.info.render.triangles, draws: renderer.info.render.drawCalls }),
+  setFov: f => { camera.fov = +f; camera.updateProjectionMatrix(); return camera.fov; },
+  setShadowRadius: r => { shadowRadiusOverride = r > 0 ? +r : null; return shadowRadiusOverride; },
+  quality: () => ({ lowfx, lowq: LOWQ, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
+                    bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
+  /* GPU milliseconds since the previous resolve, summed over every render
+     pass (shadow, scene, bloom); null unless the page booted with ?gputime=1 */
+  gpuTimingEnabled: () => renderer.backend?.trackTimestamp === true,
+  gpuTime: GPU_TIME ? async () => { await renderer.resolveTimestampsAsync('render'); return { ms: renderer.info.render.timestamp, frame: FRAME_NO }; } : null,
   /* with ?impdbg=1: which term the impostors show (engine/tree-impostor.mjs) */
   setImpostorDebug: n => { impostorDebugMode.value = n | 0; },
   setImpostorBend: k => { impostorBend.value = +k || 0; },
@@ -8228,7 +8462,7 @@ window.V3D = {
   /* what the shot harness waits on: no camera tween, and the tree tiers'
      last change drawn twice -- under a software renderer the frame that
      compiles a tier's materials can outlast any fixed wait */
-  settled: () => !camTween.on && FRAME_NO >= TIER_FRAME + 2,
+  settled: () => !camTween.on && FRAME_NO >= TIER_FRAME + 2 && (TREE_LOD.clockDriven || TREE_LOD.queue.length === TREE_LOD.qHead),
   /* the bansafari, measurable: simulate a hole's shot offline, or fly it live */
   flightSim: (n, step, transit) => flightSim(n, step, transit),
   flightState: () => ({ flying, tour, t: tourFlight.t, duration: tourFlight.duration, orbitT: tourFlight.orbitT,
@@ -8325,6 +8559,7 @@ if (!LOWQ) setTimeout(() => {
     if (fps < 22) bad++;
     if (checked >= 10) {
       window.clearInterval(qt);
+      autoQualityDone = true;
       if (bad >= 6) {
         lowfx = true;
         /* not under det: a harness run on a software rasterizer is always slow,
