@@ -405,6 +405,13 @@ projected pixels. The diff against the previous build was exactly the trees
 under the camera. The distance is to the cell's box now, height included,
 which also makes the flyover cheaper.
 
+**Boot.** The atlas fix had quietly cost 4.4 s: three regenerates a
+mipmapped render target's chain after every render into it, and the bake
+renders 64 frames a pass. Generated once at the end of each pass the bake
+is 1.65 s (was 5.67 s) and the boot 28.1 s on the harness, against 26.9 s
+for phase 2 and 24.0 s before the tree work; the hero tier itself is a tenth
+of a second of it.
+
 The six-view comparison against the baseline no longer fits the hero tier's
 views: the tee views (1st, 12th, 18th) now differ by 1.9–3.3/255 because
 the trees the camera stands beside ARE different, on purpose. That gate
