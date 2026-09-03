@@ -22,10 +22,10 @@ page.setDefaultTimeout(900000);
 const errors = [];
 page.on('pageerror', e => errors.push(String(e).slice(0, 300)));
 page.on('console', m => { if (/error|shader/i.test(m.text())) errors.push(m.text().slice(0, 300)); });
-await page.goto(`http://127.0.0.1:${port}/?bana=puttom&det=1&v2=require&lod=2${extra}`, { waitUntil: 'load' });
+await page.goto(`http://127.0.0.1:${port}/?bana=puttom&det=1&v2=require&lod=3${extra}`, { waitUntil: 'load' });
 await page.waitForSelector('#boot.done', { timeout: 900000 });
 for (const [h, cam, preset] of [[14, 'green', 'golden'], [5, 'tee', 'noon']]) {
-  for (const lod of [2, 3]) {
+  for (const lod of [3, 4]) {
     await page.evaluate(([hh, cc, pp, l]) => { window.V3D.setTreeLod(l); window.V3D.setPreset(pp); window.V3D.goHole(hh, true, true); window.V3D.setCam(cc, true); }, [h, cam, preset, lod]);
     await page.waitForTimeout(2500);
     const file = `${S}/${label}-lod${lod}-h${h}.png`;

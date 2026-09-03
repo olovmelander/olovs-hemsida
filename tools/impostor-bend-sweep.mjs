@@ -1,4 +1,4 @@
-/* one boot in ?impdbg=lit&lod=3: sweep the bend of the lighting normal
+/* one boot in ?impdbg=lit&lod=4: sweep the bend of the lighting normal
    toward the viewer, golden hill then noon treeline, frame-settled */
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
@@ -20,7 +20,7 @@ page.setDefaultTimeout(900000);
 const errors = [];
 page.on('pageerror', e => errors.push(String(e).slice(0, 300)));
 page.on('console', m => { if (/error|shader/i.test(m.text())) errors.push(m.text().slice(0, 300)); });
-await page.goto(`http://127.0.0.1:${port}/?bana=puttom&det=1&v2=require&lod=3&impdbg=lit`, { waitUntil: 'load' });
+await page.goto(`http://127.0.0.1:${port}/?bana=puttom&det=1&v2=require&lod=4&impdbg=lit`, { waitUntil: 'load' });
 await page.waitForSelector('#boot.done', { timeout: 900000 });
 const settle = async () => { const f0 = await page.evaluate(() => window.V3D.frame()); await page.waitForFunction(f => window.V3D.frame() >= f + 2, f0, { timeout: 900000, polling: 500 }); };
 const views = { golden: { h: 14, cam: 'green', boxes: { hill: [0, 300, 700, 45], near: [1100, 300, 280, 130] }, mesh: 'hill 72.8,99.9,55.6  near 91.9,112.6,66.4' },

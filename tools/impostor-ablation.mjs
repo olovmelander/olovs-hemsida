@@ -1,4 +1,4 @@
-/* one boot in ?impdbg=lit&lod=3: hole 14 golden, the lit impostors with one
+/* one boot in ?impdbg=lit&lod=4: hole 14 golden, the lit impostors with one
    term ablated at a time, mean colour of the hill band and the near box */
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
@@ -21,7 +21,7 @@ page.setDefaultTimeout(900000);
 const errors = [];
 page.on('pageerror', e => errors.push(String(e).slice(0, 300)));
 page.on('console', m => { if (/error|shader/i.test(m.text())) errors.push(m.text().slice(0, 300)); });
-await page.goto(`http://127.0.0.1:${port}/?bana=puttom&det=1&v2=require&lod=3&impdbg=lit`, { waitUntil: 'load' });
+await page.goto(`http://127.0.0.1:${port}/?bana=puttom&det=1&v2=require&lod=4&impdbg=lit`, { waitUntil: 'load' });
 await page.waitForSelector('#boot.done', { timeout: 900000 });
 const settle = async () => { const f0 = await page.evaluate(() => window.V3D.frame()); await page.waitForFunction(f => window.V3D.frame() >= f + 2, f0, { timeout: 900000, polling: 500 }); };
 await page.evaluate(() => { window.V3D.setPreset('golden'); window.V3D.goHole(14, true, true); window.V3D.setCam('green', true); });

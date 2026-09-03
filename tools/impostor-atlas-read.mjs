@@ -1,4 +1,4 @@
-/* boot puttom v2 (lod=3 so the impostors are in frame), shoot two views,
+/* boot puttom v2 (lod=4 so the impostors are in frame), shoot two views,
    and read the spruce/pine albedo atlases back: row coverage profile of the
    horizon frame (0,0) and the mean opaque crown colour vs the template's */
 import fs from 'node:fs';
@@ -15,7 +15,7 @@ page.setDefaultTimeout(900000);
 const errors = [];
 page.on('pageerror', e => errors.push(String(e).slice(0, 300)));
 page.on('console', m => { if (/error|shader|warn/i.test(m.text())) errors.push(m.text().slice(0, 300)); });
-await page.goto(`http://127.0.0.1:${port}/?bana=puttom&det=1&v2=require&lod=3`, { waitUntil: 'load' });
+await page.goto(`http://127.0.0.1:${port}/?bana=puttom&det=1&v2=require&lod=4`, { waitUntil: 'load' });
 await page.waitForSelector('#boot.done', { timeout: 900000 });
 for (const [h, cam, preset] of []) {
   await page.evaluate(([hh, cc, pp]) => { window.V3D.setPreset(pp); window.V3D.goHole(hh, true, true); window.V3D.setCam(cc, true); }, [h, cam, preset]);

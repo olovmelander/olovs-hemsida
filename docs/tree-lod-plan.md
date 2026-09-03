@@ -368,6 +368,26 @@ Two harness lessons from the same afternoon:
   (`toneMapped` is not read by node materials), and ACES turns any dot
   product above 0.3 white. Show a scalar in bands, not in grey.
 
-Open: phase 0 on hardware; phase 3, the hero tier; the dithered crossfade
-if the 14-pixel switch shows; and the terrain's own shadow casting, which
-is now the larger half of the shadow pass.
+### Phase 3 — the hero tier
+
+Built as the plan describes, with the budget kept far below its 2,500
+triangles because the point turned out to be the EDGE, not the count: a
+crown reads as foliage when its silhouette breaks up, and forty alpha-tested
+cards do that at 160 triangles. Per species the hero template is the same
+crown as the full tier (so colour and shape are continuous across the
+switch), 21–40 cards -- a needle-twig fan for spruce, radiating tufts for
+pine, a drooping leaf twig for birch, each drawn into a 256 px canvas at
+boot -- hung on the cone tiers or the blobs as crossed quads whose normals
+point out from the crown axis, a 12-segment trunk with a bark bump from a
+fissure field (the same field colours it, so bump and colour agree), and a
+root flare. Cards ride the crown's sway and add a flutter on their own
+phase. Alpha test 0.5 on the material (the numeric one, which three
+forwards to its shadow-pass material along with `colorNode.a`), so a card
+shadows as a card. `?lod=` now counts 1 hero, 2 full, 3 decimated, 4
+impostor, and the tier update is a generic walk across the three
+boundaries (110 / 40 / 14 px, 200 / 60 / 22 on a phone) with the 10%
+band on each.
+
+Open: phase 0 on hardware, where this tier must be judged; the dithered
+crossfade if the 14-pixel switch shows; and the terrain's own shadow
+casting, which is now the larger half of the shadow pass.
