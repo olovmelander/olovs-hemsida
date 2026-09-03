@@ -3751,44 +3751,128 @@ function legacyTreeExport(withInstances = false) {
   return out;
 }
 lap('v2 vegetation: push planned trees');
-for (let s = 0; s < 3; s++) {
-  const T = trees[s], W = treeWhy[s];
-  const n = T.length / 6;
-  if (!n) continue;
-  const spec = SPECIES[s];
-  for (const [geo, hex, isCrown] of [[spec.crown, spec.cc, true], [spec.trunk, spec.tc, false]]) {
-    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: isCrown ? 0.92 : 0.95, metalness: 0, flatShading: true });
-    if (isCrown) {
-      /* the same back-lit term the turf uses, so a treeline glows against a low sun
-         instead of reading as a black cutout; birch crowns take the season's colour */
-      const V = normalize(cameraPosition.sub(positionWorld));
-      const cbase = s === 2 ? uLeaf : color(hex);
-      mat.colorNode = cbase.mul(attribute('color', 'vec3')).mul(float(1).add(
-        pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55)));
+/* ------------------------------------------------------------ tree tiers
+   Every tree used to be the same 204-436 triangle template at every distance,
+   in six InstancedMeshes whose bounding spheres were the whole course, so
+   nothing was ever culled and 92,000 trees were drawn twice a frame (once
+   for the camera, once into the shadow map). docs/tree-lod-plan.md is the
+   plan; this is its phase 1: two tiers, chosen per 128 m cell by the height
+   a nominal tree projects to, with hysteresis, and cells outside the frustum
+   in no tier at all.
+
+   The container is deliberately NOT BatchedMesh: on the WebGPU backend a
+   BatchedMesh is one draw command per instance inside the pass, and on
+   WebGL2 it needs WEBGL_multi_draw. One InstancedMesh per (species, part,
+   tier) is one instanced draw on both backends -- twelve draws for the
+   forest -- and an instance moves between tiers by a swap-remove in one
+   tier's slot list and an append in the other's, with the matrix copied
+   from a table built once at boot. Placement never changes: trees[] and
+   treeWhy[] are what the baseline and the fingerprint read, and they are
+   untouched. The far cones beyond MIDR are unchanged until phase 2 (the
+   impostors) replaces them. */
+const TREE_LOD = {
+  cell: 128, cells: [], tiers: [], mats: [], ready: false,
+  /* a nominal 12 m tree switches from the full template to the decimated
+     one below 40 projected pixels (60 on a phone), with 10% hysteresis */
+  nominalHeight: 12, switchPx: LOWQ ? 60 : 40, hysteresis: 0.1,
+  stats: { tier1: 0, tier2: 0, cells: 0, cellsVisible: 0, moves: 0, updates: 0 },
+};
+{
+  /* the decimated templates: the same silhouettes and the same crown noise
+     (so the colour variance matches across the switch) at a quarter of the
+     triangles -- 56 / 44 / 80 against 204 / 212 / 436 */
+  const decimated = (() => {
+    const spruce = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 3; i++) {
+        const t = i / 2, r = 3.5 * (1 - t * 0.8) + 0.45, hh = 3.6 * (1 - t * 0.35) * 2.2;
+        const g = new THREE.ConeGeometry(r, hh, 6, 1);
+        g.translate(0, 2.6 + t * 9.6, 0);
+        p.push(g);
+      }
+      return p;
+    })()), 1, 0.15, 0.13);
+    const pine = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 2; i++) {
+        const t = i, r = 4.2 - t * 1.4, hh = (2.8 - t * 0.5) * 1.6;
+        const g = new THREE.ConeGeometry(r, hh, 6, 1);
+        g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
+        p.push(g);
+      }
+      return p;
+    })()), 2, 0.2, 0.15);
+    const birch = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 3; i++) {
+        const a = i / 3 * TAU;
+        const g = new THREE.IcosahedronGeometry(2.4 - (i % 2) * 0.4, 0);
+        g.translate(Math.cos(a) * 1.4, 7.6 + (i % 2) * 1.6, Math.sin(a) * 1.4);
+        p.push(g);
+      }
+      return p;
+    })()), 3, 0.22, 0.17);
+    const trunk = (r0, r1, h) => { const g = new THREE.CylinderGeometry(r0, r1, h, 5); g.translate(0, h / 2, 0); return g; };
+    return [
+      { crown: spruce, trunk: trunk(0.18, 0.42, 3.2) },
+      { crown: pine, trunk: trunk(0.22, 0.46, 9.0) },
+      { crown: birch, trunk: trunk(0.16, 0.30, 7.4) },
+    ];
+  })();
+  const crownMaterial = (s, hex, sway) => {
+    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.92, metalness: 0, flatShading: true });
+    /* the same back-lit term the turf uses, so a treeline glows against a low sun
+       instead of reading as a black cutout; birch crowns take the season's colour */
+    const V = normalize(cameraPosition.sub(positionWorld));
+    const cbase = s === 2 ? uLeaf : color(hex);
+    mat.colorNode = cbase.mul(attribute('color', 'vec3')).mul(float(1).add(
+      pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55)));
+    if (sway) mat.positionNode = windSway(true);
+    return mat;
+  };
+  const trunkMaterial = (hex, sway) => {
+    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: true });
+    if (sway) mat.positionNode = windSway(false);
+    return mat;
+  };
+  /* GPU-only harmonic wind sway with zero CPU matrix updates: trunk roots at
+     y=0 stay rigid, while crown upper branches gently bend. The near tier
+     only: at the distance the decimated tier draws, sway is sub-pixel. */
+  function windSway(isCrown) {
+    const wp = positionWorld.xz;
+    const hNorm = saturate(positionLocal.y.div(13.0));
+    const weight = isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10);
+    const windPhase = time.mul(1.35).add(wp.x.mul(0.032)).add(wp.y.mul(0.024));
+    const gust = sin(windPhase.mul(0.55)).mul(0.5).add(0.5);
+    const swayX = sin(windPhase.add(positionLocal.y.mul(0.08))).mul(0.24)
+                  .add(sin(windPhase.mul(2.1)).mul(0.06))
+                  .mul(weight).mul(gust.mul(0.4).add(0.6));
+    const swayZ = cos(windPhase.mul(0.82)).mul(0.18)
+                  .add(cos(windPhase.mul(1.8)).mul(0.05))
+                  .mul(weight).mul(gust.mul(0.4).add(0.6));
+    return positionLocal.add(vec3(swayX, float(0.0), swayZ));
+  }
+
+  const cellOf = new Map();
+  const cell = (x, z) => {
+    const i = Math.floor((x - MIDR.x0) / TREE_LOD.cell), j = Math.floor((z - MIDR.z0) / TREE_LOD.cell);
+    const key = i + ',' + j;
+    let c = cellOf.get(key);
+    if (!c) {
+      const x0 = MIDR.x0 + i * TREE_LOD.cell, z0 = MIDR.z0 + j * TREE_LOD.cell;
+      c = { x0, z0, x1: x0 + TREE_LOD.cell, z1: z0 + TREE_LOD.cell, y0: Infinity, y1: -Infinity,
+            lists: [[], [], []], state: 0, box: new THREE.Box3() };
+      cellOf.set(key, c);
+      TREE_LOD.cells.push(c);
     }
-
-    /* GPU-only harmonic wind sway with zero CPU matrix updates:
-       Trunk roots at y=0 stay rigid, while crown upper branches gently bend */
-    {
-      const wp = positionWorld.xz;
-      const hNorm = saturate(positionLocal.y.div(13.0));
-      const weight = isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10);
-      const windPhase = time.mul(1.35).add(wp.x.mul(0.032)).add(wp.y.mul(0.024));
-      const gust = sin(windPhase.mul(0.55)).mul(0.5).add(0.5);
-
-      const swayX = sin(windPhase.add(positionLocal.y.mul(0.08))).mul(0.24)
-                    .add(sin(windPhase.mul(2.1)).mul(0.06))
-                    .mul(weight).mul(gust.mul(0.4).add(0.6));
-      const swayZ = cos(windPhase.mul(0.82)).mul(0.18)
-                    .add(cos(windPhase.mul(1.8)).mul(0.05))
-                    .mul(weight).mul(gust.mul(0.4).add(0.6));
-
-      mat.positionNode = positionLocal.add(vec3(swayX, float(0.0), swayZ));
-    }
-    const im = new THREE.InstancedMesh(geo, mat, n);
-    im.castShadow = true;
-    im.receiveShadow = !isCrown;
-    const mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
+    return c;
+  };
+  const mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
+  for (let s = 0; s < 3; s++) {
+    const T = trees[s], W = treeWhy[s];
+    const n = T.length / 6;
+    const mats = new Float32Array(n * 16);
+    TREE_LOD.mats.push(mats);
     for (let k = 0; k < n; k++) {
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
       const sy = T[k * 6 + 3], sxz = T[k * 6 + 5];
@@ -3797,17 +3881,139 @@ for (let s = 0; s < 3; s++) {
       const varied = W[k] >= WHY_V2_INDIVIDUAL ? 1 : (0.86 + (k % 7) * 0.045);
       scl.set(sxz, sy * varied, sxz);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
-      im.setMatrixAt(k, mtx.compose(pos, q, scl));
+      mtx.compose(pos, q, scl).toArray(mats, k * 16);
+      const c = cell(pos.x, pos.z);
+      c.lists[s].push(k);
+      if (pos.y < c.y0) c.y0 = pos.y;
+      if (pos.y + 14 * sy * varied > c.y1) c.y1 = pos.y + 14 * sy * varied;
     }
-    im.instanceMatrix.needsUpdate = true;
-    im.frustumCulled = true;
-    scene.add(im);
-    stats.draws++;
+    if (!n) { TREE_LOD.tiers.push(null); continue; }
+    const spec = SPECIES[s], deci = decimated[s];
+    const tier = (crownGeo, trunkGeo, sway, label) => {
+      const crown = new THREE.InstancedMesh(crownGeo, crownMaterial(s, spec.cc, sway), n);
+      const trunk = new THREE.InstancedMesh(trunkGeo, trunkMaterial(spec.tc, sway), n);
+      for (const [im, isCrown] of [[crown, true], [trunk, false]]) {
+        im.count = 0;
+        im.castShadow = true;
+        im.receiveShadow = !isCrown;
+        /* culled per cell by the tier update; the mesh's own sphere would be the whole course */
+        im.frustumCulled = false;
+        im.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        im.userData.tag = 'trees';
+        im.name = `trees-${['spruce', 'pine', 'birch'][s]}-${isCrown ? 'crown' : 'trunk'}-${label}`;
+        scene.add(im);
+        stats.draws++;
+      }
+      return { crown, trunk, slots: new Int32Array(n), count: 0, lo: Infinity, hi: -Infinity };
+    };
+    TREE_LOD.tiers.push({
+      n,
+      where: new Int32Array(n).fill(-1),
+      tierOf: new Uint8Array(n),
+      t: [null, tier(spec.crown, spec.trunk, true, 't1'), tier(deci.crown, deci.trunk, false, 't2')],
+    });
+    stats.trees += n;
   }
-  stats.trees += n;
+  for (const c of TREE_LOD.cells) {
+    if (!Number.isFinite(c.y0)) { c.y0 = 0; c.y1 = 20; }
+    /* dilated by a crown's reach, so a tree straddling the cell edge is not
+       culled while its crown is still in frame */
+    c.box.min.set(c.x0 - 8, c.y0 - 2, c.z0 - 8);
+    c.box.max.set(c.x1 + 8, c.y1 + 2, c.z1 + 8);
+  }
+  TREE_LOD.stats.cells = TREE_LOD.cells.length;
+  TREE_LOD.ready = true;
 }
 
-lap('tree instancing (6 InstancedMesh)', { trees: stats.trees | 0 });
+/* move one tree between tiers: a swap-remove out of the old slot list and
+   an append to the new one, both parts' matrices copied from the table */
+function treeTierMove(s, k, from, to) {
+  const species = TREE_LOD.tiers[s], mats = TREE_LOD.mats[s];
+  if (from) {
+    const tier = species.t[from];
+    const slot = species.where[k], last = --tier.count;
+    if (slot !== last) {
+      const moved = tier.slots[last];
+      tier.slots[slot] = moved;
+      species.where[moved] = slot;
+      tier.crown.instanceMatrix.array.set(mats.subarray(moved * 16, moved * 16 + 16), slot * 16);
+      tier.trunk.instanceMatrix.array.set(mats.subarray(moved * 16, moved * 16 + 16), slot * 16);
+      if (slot < tier.lo) tier.lo = slot;
+      if (slot > tier.hi) tier.hi = slot;
+    }
+    species.where[k] = -1;
+  }
+  if (to) {
+    const tier = species.t[to];
+    const slot = tier.count++;
+    tier.slots[slot] = k;
+    species.where[k] = slot;
+    tier.crown.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
+    tier.trunk.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
+    if (slot < tier.lo) tier.lo = slot;
+    if (slot > tier.hi) tier.hi = slot;
+  }
+  species.tierOf[k] = to;
+  TREE_LOD.stats.moves++;
+}
+
+const TREE_FRUSTUM = new THREE.Frustum(), TREE_PROJ = new THREE.Matrix4();
+/* per frame: each cell's tier from the height a nominal tree in it projects
+   to, and no tier at all outside the frustum; only cells whose tier changed
+   move their trees */
+function updateTreeTiers() {
+  if (!TREE_LOD.ready) return;
+  TREE_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+  TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem);
+  const viewportH = renderer.domElement.height || innerHeight;
+  const fovTan = Math.tan(camera.fov * 0.5 * Math.PI / 180);
+  const cx = camera.position.x, cz = camera.position.z;
+  const sw = TREE_LOD.switchPx, hy = TREE_LOD.hysteresis;
+  let visible = 0, changed = false;
+  for (const c of TREE_LOD.cells) {
+    let desired;
+    if (!TREE_FRUSTUM.intersectsBox(c.box)) desired = 0;
+    else {
+      const dx = Math.max(c.x0 - cx, 0, cx - c.x1), dz = Math.max(c.z0 - cz, 0, cz - c.z1);
+      const d = Math.max(1, Math.hypot(dx, dz));
+      const px = TREE_LOD.nominalHeight * viewportH / (2 * d * fovTan);
+      desired = c.state === 1 ? (px < sw * (1 - hy) ? 2 : 1)
+              : c.state === 2 ? (px > sw * (1 + hy) ? 1 : 2)
+              : (px >= sw ? 1 : 2);
+      visible++;
+    }
+    if (desired === c.state) continue;
+    for (let s = 0; s < 3; s++) {
+      if (!TREE_LOD.tiers[s]) continue;
+      for (const k of c.lists[s]) treeTierMove(s, k, c.state, desired);
+    }
+    c.state = desired;
+    changed = true;
+  }
+  TREE_LOD.stats.cellsVisible = visible;
+  if (!changed) return;
+  TREE_LOD.stats.updates++;
+  let t1 = 0, t2 = 0;
+  for (const species of TREE_LOD.tiers) {
+    if (!species) continue;
+    for (let i = 1; i <= 2; i++) {
+      const tier = species.t[i];
+      for (const im of [tier.crown, tier.trunk]) {
+        im.count = tier.count;
+        if (tier.hi >= tier.lo) {
+          im.instanceMatrix.clearUpdateRanges();
+          im.instanceMatrix.addUpdateRange(tier.lo * 16, (tier.hi - tier.lo + 1) * 16);
+          im.instanceMatrix.needsUpdate = true;
+        }
+      }
+      tier.lo = Infinity; tier.hi = -Infinity;
+    }
+    t1 += species.t[1].count; t2 += species.t[2].count;
+  }
+  TREE_LOD.stats.tier1 = t1; TREE_LOD.stats.tier2 = t2;
+}
+
+lap('tree tiers (12 InstancedMesh, cells)', { trees: stats.trees | 0, cells: TREE_LOD.cells.length });
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
@@ -7078,6 +7284,7 @@ function frame() {
   if (terrainV2.kind === 'graph' && terrainV2.active) {
     terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
   }
+  updateTreeTiers();
   last = now; frames++; acc += dt;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
 
@@ -7178,7 +7385,9 @@ renderer.setAnimationLoop(() => {
   if (BOOT_PERF.firstFrames.length < 12) {
     const t = performance.now();
     frame();
-    BOOT_PERF.firstFrames.push({ atMs: +(t - bootStarted).toFixed(1), ms: +(performance.now() - t).toFixed(1) });
+    BOOT_PERF.firstFrames.push({ atMs: +(t - bootStarted).toFixed(1), ms: +(performance.now() - t).toFixed(1),
+      tris: renderer.info?.render?.triangles ?? null, draws: renderer.info?.render?.drawCalls ?? null,
+      tiers: TREE_LOD.ready ? { t1: TREE_LOD.stats.tier1, t2: TREE_LOD.stats.tier2 } : null });
   } else frame();
 });
 document.getElementById('hdsub').textContent =
@@ -7480,6 +7689,8 @@ window.V3D = {
   /* the vegetation plan's Phase 0 instruments: the legacy population, and the
      object-layer state the v2 selection saw (today: no renderer, no tiles) */
   legacyTrees: ({ instances = false } = {}) => legacyTreeExport(instances),
+  /* the tree tiers' live state: how many trees are drawn full, decimated, and how many cells changed */
+  treeTiers: () => ({ ...TREE_LOD.stats, switchPx: TREE_LOD.switchPx, cell: TREE_LOD.cell }),
   v2Objects: () => ({
     rendererActivated: true,
     gate: V2_OBJECT_LAYER_GATE,
