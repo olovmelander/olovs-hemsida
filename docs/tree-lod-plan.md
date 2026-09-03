@@ -387,6 +387,30 @@ root flare. `?lod=` now counts 1 hero, 2 full, 3 decimated, 4 impostor,
 and the tier update is a generic walk across the three boundaries (110 /
 40 / 14 px, 200 / 60 / 22 on a phone) with the 10% band on each.
 
+**Measured.** Fingerprint identical to the baseline on every axis; draws
+50 -> 56 (the six hero parts); vitest, check-app on all nine courses and the
+vegetation baseline pass. Tier counts, frame-settled (`tools/tree-tiers-at
+.mjs`), hero / full / decimated / impostor:
+
+| view | hero | full | decimated | impostor |
+|---|---|---|---|---|
+| 5th tee, noon | 189 | 1,970 | 8,334 | 2,882 |
+| 1st tee, golden | 191 | 494 | 8,023 | 4,575 |
+| 7th, overhead | 0 | 306 | 2,124 | 0 |
+
+The overhead row is the second thing this phase found: the tier distance
+was measured in the ground plane alone, so from 330 m straight up a cell
+under the camera counted as one metre away and drew its hero tier at 31
+projected pixels. The diff against the previous build was exactly the trees
+under the camera. The distance is to the cell's box now, height included,
+which also makes the flyover cheaper.
+
+The six-view comparison against the baseline no longer fits the hero tier's
+views: the tee views (1st, 12th, 18th) now differ by 1.9–3.3/255 because
+the trees the camera stands beside ARE different, on purpose. That gate
+holds for tiers 2–4, which it still measures on the far views; tier 1 is
+judged by eye, as the plan said it would be.
+
 Open: phase 0 on hardware, where this tier must be judged; the dithered
 crossfade if the 14-pixel switch shows; and the terrain's own shadow
 casting, which is now the larger half of the shadow pass.
