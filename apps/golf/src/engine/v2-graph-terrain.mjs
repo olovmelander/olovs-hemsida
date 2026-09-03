@@ -434,8 +434,14 @@ export class V2GraphTerrainAdapter {
     return this.rings?.inspect(gx, gz) ?? null;
   }
 
-  /* wait until every tile the plan wants is resident and drawn */
-  async #settle(deadlineMilliseconds) {
+  /* Wait for the stream. 'full': every tile the plan wants is resident and
+     drawn. 'coverage': every wanted tile is drawable from itself or a
+     resident ancestor and something is drawn -- the coarse pyramid first,
+     which is what the request order already fetches first. The controller
+     re-plans on every tile arrival, so the stream keeps filling in while
+     the main thread builds the rest of the scene; `settle()` then waits
+     for whatever is still missing, usually nothing. */
+  async #settle(deadlineMilliseconds, mode = 'full') {
     const startedAt = this.clock();
     let lastReport = startedAt;
     for (;;) {
@@ -445,8 +451,10 @@ export class V2GraphTerrainAdapter {
       const desired = plan?.desiredTileIds || [];
       const failed = snapshot.stream.failedTileIds || [];
       if (failed.length) throw new Error(`v2 world tiles failed to load: ${failed.slice(0, 4).join(', ')}`);
-      const settled = desired.length && desired.every(id => ready.has(id)) && snapshot.renderer.renderedTiles >= 1 &&
-        snapshot.stream.loadingTileIds.length === 0;
+      const settled = mode === 'coverage'
+        ? desired.length && plan.coverageComplete && !plan.shellRequired && snapshot.renderer.renderedTiles >= 1
+        : desired.length && desired.every(id => ready.has(id)) && snapshot.renderer.renderedTiles >= 1 &&
+          snapshot.stream.loadingTileIds.length === 0;
       if (settled) return snapshot;
       const now = this.clock();
       if (now - lastReport > 2000) {
@@ -461,7 +469,21 @@ export class V2GraphTerrainAdapter {
     }
   }
 
-  async prepare({ decorateMaterial, preflight, settleMilliseconds = 60_000 } = {}) {
+  /** Wait until every tile the current plan wants is resident and drawn. */
+  async settle(deadlineMilliseconds = 60_000) {
+    if (!this.runtime || !(this.phase === 'prepared' || this.phase === 'ready')) return null;
+    const settled = await this.#settle(deadlineMilliseconds, 'full');
+    this.prepared = Object.freeze({
+      ...this.prepared,
+      renderedTiles: settled.renderer.renderedTiles,
+      drawCalls: settled.renderer.drawCalls,
+      readyTiles: settled.stream.readyTileIds.length,
+    });
+    this.renderer = Object.freeze({ ...this.renderer, ...this.prepared });
+    return this.prepared;
+  }
+
+  async prepare({ decorateMaterial, preflight, settleMilliseconds = 60_000, settle = 'full' } = {}) {
     if (this.phase !== 'pending') throw new Error(`v2 world adapter cannot prepare from ${this.phase}`);
     if (typeof preflight !== 'function') throw new TypeError('preflight must be a function');
     if (!this.backend) throw new Error('configure({ backend }) before prepare');
@@ -512,8 +534,9 @@ export class V2GraphTerrainAdapter {
         activeHoleNumber: 1,
         visible: () => true,
       });
-      const settled = await this.#settle(settleMilliseconds);
-      console.info(`v2 world: first frontier settled, ${settled.renderer.renderedTiles} tiles in ${settled.renderer.drawCalls} draws`);
+      const settled = await this.#settle(settleMilliseconds, settle);
+      console.info(`v2 world: first frontier ${settle === 'coverage' ? 'covered' : 'settled'}, ${settled.renderer.renderedTiles} tiles in ${settled.renderer.drawCalls} draws` +
+        (settle === 'coverage' ? ` (${settled.stream.loadingTileIds.length} still streaming)` : ''));
       await preflight({ group: this.group, stats: () => this.runtime.layer.stats() });
       console.info('v2 world: backend preflight passed');
       this.prepared = Object.freeze({

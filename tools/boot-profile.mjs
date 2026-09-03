@@ -36,6 +36,8 @@ const OUT = flag('out', null);
    rasters' bytes, the scatter counts -- so two builds can be shown to plant
    the same world while their timings differ. */
 const FINGERPRINT = args.includes('--fingerprint');
+const VERBOSE = args.includes('--verbose');
+const FRAMES = args.includes('--frames');     /* also measure the first frames after boot */   /* every console line, not only the v2 ones */
 const BOOT_TIMEOUT = +(process.env.BANVY_BOOT_TIMEOUT || 900) * 1000;
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
@@ -49,13 +51,16 @@ for (let run = 0; run < RUNS; run++) {
   page.setDefaultTimeout(BOOT_TIMEOUT);
   const errors = [], logs = [];
   page.on('pageerror', e => errors.push(String(e).split('\n')[0].slice(0, 200)));
-  page.on('console', m => { const t = m.text(); if (/^v2 |settl|frontier|preflight/i.test(t)) logs.push({ atMs: Date.now() - t0, text: t.slice(0, 300) }); });
+  page.on('console', m => { const t = m.text(); if (VERBOSE || /^v2 |settl|frontier|preflight/i.test(t)) logs.push({ atMs: Date.now() - t0, text: t.slice(0, 300) }); });
   const t0 = Date.now();
   await page.goto(url, { waitUntil: 'load', timeout: 120000 });
   let booted = true;
   try { await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT }); } catch { booted = false; }
   const wallMs = Date.now() - t0;
   if (!booted) { console.log(`run ${run + 1}: boot did not complete in ${(wallMs / 1000).toFixed(0)} s; errors: ${errors.join(' | ') || 'none'}`); runs.push({ booted: false, wallMs, errors, logs }); await page.close(); continue; }
+  /* --frames waits for the first frames to run: under SwiftShader the first one
+     compiles every shader in the scene and takes most of a minute */
+  if (FRAMES) await page.waitForFunction(() => (window.V3D?.perf?.().firstFrames?.length ?? 12) >= 6, null, { timeout: 300000 }).catch(() => {});
   const report = await page.evaluate(() => ({ perf: window.V3D.perf(), stats: { ...window.V3D.stats }, v2: (() => { const v = window.V3D.v2Terrain(); return { status: v.status, mode: v.selection?.mode, backend: v.backend }; })() }));
   if (FINGERPRINT) {
     report.fingerprint = await page.evaluate(async () => {
@@ -90,7 +95,8 @@ for (const [i, r] of runs.entries()) {
     const next = k + 1 < marks.length ? marks[k + 1].atMs : r.perf.totalMs;
     console.log(`  ${fmt(next - marks[k].atMs)}  ${marks[k].name}${k === 0 ? `   (+${fmt(marks[0].atMs)} before the first mark: manifest, pack, sha256)` : ''}`);
   }
-  console.log(`  ${fmt(r.perf.totalMs)}  total (BOOT_PERF.totalMs)`);
+  console.log(`  ${fmt(r.perf.totalMs)}  total (BOOT_PERF.totalMs)${r.perf.doneAtMs ? `, done marker at ${fmt(r.perf.doneAtMs)}` : ''}`);
+  if (r.perf.firstFrames?.length) console.log(`  first frames: ${r.perf.firstFrames.map(f => `${(f.atMs / 1000).toFixed(1)}s+${f.ms}ms`).join('  ')}`);
   console.log('\n  spans (the blocks inside the stages)');
   for (const s of [...r.perf.spans].sort((a, b) => b.ms - a.ms)) {
     const extra = Object.entries(s).filter(([k]) => k !== 'name' && k !== 'ms').map(([k, v]) => `${k} ${v}`).join(', ');

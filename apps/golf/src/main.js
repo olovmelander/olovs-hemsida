@@ -90,7 +90,7 @@ const bootEl = document.getElementById('boot');
 const barEl = document.querySelector('#bar i');
 const msgEl = document.getElementById('bmsg');
 const bootStarted = performance.now();
-const BOOT_PERF = { marks: [], spans: [], atlasMs: 0, totalMs: 0 };
+const BOOT_PERF = { marks: [], spans: [], atlasMs: 0, totalMs: 0, doneAtMs: 0, firstFrames: [] };
 /* Spans name the heavy blocks the stage marks hide: one entry per block with
    its wall time. `lap` records the time since the previous lap, for runs of
    blocks that follow one another. Read them with V3D.perf(). */
@@ -1073,7 +1073,8 @@ function groundAt(x, z, h) {
   let lvl = null, sdW = 1e9;
   for (const w of WI.at(x, z)) {
     if (w.stream) continue;
-    const sd = ringSD(x, z, w.ring);
+    /* exact to 30 m: the level test reads 30 and the band below saturates by 11 */
+    const sd = ringSD(x, z, w.ring, 30);
     if (sd < 30 && (lvl === null || w.level > lvl)) lvl = w.level;
     if (sd < sdW) sdW = sd;
   }
@@ -2078,8 +2079,12 @@ if (TERRAIN_PREVIEW.ready) {
       tint: GROUND_TINT,
     }),
     preflight: preflightTerrainPreviewGpu,
+    /* the coarse pyramid covers the world within a few tiles; the fine
+       frontier streams in behind the rest of the boot and is awaited before
+       'klar', so the first frame is the same and the wait overlaps the work */
+    settle: 'coverage',
   });
-  span('v2 prepare (worker, first frontier settle, preflight)', prepareStarted);
+  span('v2 prepare (worker, first frontier coverage, preflight)', prepareStarted);
   if (preparation.ok && GROUND_TINT) {
     const tintStarted = performance.now();
     fillGroundTintTextures(GROUND_TINT, (x, z) => terrainV2.constructionHeightAt(x, z));
@@ -7161,8 +7166,21 @@ const BOOTQ = new URLSearchParams(location.search);
   if (BOOTQ.get('ren') === '1') setClean(true);
 }
 
+if (terrainV2.kind === 'graph' && terrainV2.active && typeof terrainV2.settle === 'function') {
+  const settleStarted = performance.now();
+  const settled = await terrainV2.settle(60_000);
+  span('v2 stream: first frontier fully resident (after the overlap)', settleStarted, settled ? { tiles: settled.renderedTiles } : {});
+}
 await tick('klar', 1.0);
-renderer.setAnimationLoop(frame);
+renderer.setAnimationLoop(() => {
+  /* the first frames' wall times, for the profiler: shader compiles and
+     texture uploads land here and no stage mark sees them */
+  if (BOOT_PERF.firstFrames.length < 12) {
+    const t = performance.now();
+    frame();
+    BOOT_PERF.firstFrames.push({ atMs: +(t - bootStarted).toFixed(1), ms: +(performance.now() - t).toFixed(1) });
+  } else frame();
+});
 document.getElementById('hdsub').textContent =
   `${CMETA.tag} · ${IS_GPU ? 'WebGPU' : 'WebGL2'}${terrainV2.rendererState.status === 'ready' ? ' · 1 m preview' : ''}`;
 stats.draws = renderer.info?.render?.drawCalls || stats.draws;
@@ -7268,7 +7286,7 @@ window.V3D = {
            backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
-                 spans: BOOT_PERF.spans.map(s => ({ ...s })), tintMs: stats.tintMs | 0 }),
+                 spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */
   groundTint: () => GROUND_TINT ? { near: GROUND_TINT.near.texture.image.data, far: GROUND_TINT.far.texture.image.data } : null,
   groundInfo: () => ({
@@ -7561,6 +7579,7 @@ addEventListener('pagehide', () => {
   captureReadbackTarget = null;
 }, { once: true });
 
+BOOT_PERF.doneAtMs = +(performance.now() - bootStarted).toFixed(1);
 bootEl.classList.add('done');
 setTimeout(() => { document.getElementById('hint').style.opacity = 0; }, 6000);
 if (BOOTQ.get('kiosk') === '1') setTimeout(startTour, 1200);

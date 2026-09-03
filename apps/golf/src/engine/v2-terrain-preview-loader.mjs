@@ -141,10 +141,13 @@ export async function loadTerrainPreview(descriptorUrl, {
       if (decoded.header.id !== tile.id) {
         throw new Error(`preview tile ${tile.id} decoded as ${decoded.header.id}`);
       }
+      /* texels are prepared on first use: the ring-graph world samples these
+         tiles for construction and never uploads them */
       return createTerrainRenderResource({
         tileId: tile.id,
-        decoded: { ...decoded, terrainRenderData: prepareTerrainRenderData(decoded) },
+        decoded,
         frame: descriptor.frame,
+        lazyRenderData: true,
       });
     },
   );

@@ -209,23 +209,42 @@ function assertCanonicalFrame(frame) {
   }
 }
 
-/** Build the immutable, renderer-neutral resource retained by the stream pool. */
-export function createTerrainRenderResource({ tileId, decoded, frame, requireCompleteCoverage = true } = {}) {
+const RENDER_DERIVED = Object.freeze(['textureData', 'noDataCount', 'finiteCount', 'maximumMorphDeltaMetres',
+  'maximumNormalEncodingErrorDegrees', 'layout']);
+
+/**
+ * Build the immutable, renderer-neutral resource retained by the stream pool.
+ *
+ * With `lazyRenderData` the texel preparation -- parent morph, normal,
+ * octahedral encode and its error check over every sample -- is deferred to
+ * the first read of a render-derived field, and the resource carries the
+ * verified `payload` so a CPU sampler can read heights without it. A
+ * course whose GPU frontier comes from the ring graph samples the pilot's
+ * tiles for construction and never draws them, so it never pays for texels
+ * it does not upload; the fixed-frontier renderer reads `textureData` and
+ * pays then, once, the same amount as before.
+ */
+export function createTerrainRenderResource({ tileId, decoded, frame, requireCompleteCoverage = true, lazyRenderData = false } = {}) {
   const header = terrainHeader(decoded);
   if (typeof tileId !== 'string' || tileId !== header.id) {
     throw new Error(`requested terrain tile ${tileId} does not match decoded chunk ${header.id}`);
   }
   assertCanonicalFrame(frame);
-  const renderData = decoded.terrainRenderData || prepareTerrainRenderData(decoded);
-  if (renderData.tileId !== tileId || renderData.width !== header.grid.width ||
-      renderData.height !== header.grid.height ||
-      !(renderData.textureData instanceof Uint8Array) ||
-      renderData.textureData.length !== header.grid.width * header.grid.height * 8) {
-    throw new Error(`terrain render payload for ${tileId} is inconsistent`);
-  }
-  if (requireCompleteCoverage && renderData.noDataCount) {
-    throw new Error(`terrain tile ${tileId} contains ${renderData.noDataCount} nodata samples`);
-  }
+  const validated = renderData => {
+    if (renderData.tileId !== tileId || renderData.width !== header.grid.width ||
+        renderData.height !== header.grid.height ||
+        !(renderData.textureData instanceof Uint8Array) ||
+        renderData.textureData.length !== header.grid.width * header.grid.height * 8) {
+      throw new Error(`terrain render payload for ${tileId} is inconsistent`);
+    }
+    if (requireCompleteCoverage && renderData.noDataCount) {
+      throw new Error(`terrain tile ${tileId} contains ${renderData.noDataCount} nodata samples`);
+    }
+    return renderData;
+  };
+  let renderData = decoded.terrainRenderData ? validated(decoded.terrainRenderData) : null;
+  if (!renderData && !lazyRenderData) renderData = validated(prepareTerrainRenderData(decoded));
+  const render = () => renderData || (renderData = validated(prepareTerrainRenderData(decoded)));
   const spanEasting = (header.grid.width - 1) * header.grid.sampleSpacingMetres;
   const spanNorthing = (header.grid.height - 1) * header.grid.sampleSpacingMetres;
   const tolerance = Math.max(1e-5, header.grid.sampleSpacingMetres * 1e-6);
@@ -233,15 +252,12 @@ export function createTerrainRenderResource({ tileId, decoded, frame, requireCom
       Math.abs(header.bounds.maxNorthing - header.bounds.minNorthing - spanNorthing) > tolerance) {
     throw new Error(`terrain tile ${tileId} bounds do not match its sample grid`);
   }
-  return Object.freeze({
+  const resource = {
     tileId,
     width: header.grid.width,
     height: header.grid.height,
-    textureData: renderData.textureData,
-    noDataCount: renderData.noDataCount,
-    finiteCount: renderData.finiteCount,
-    maximumMorphDeltaMetres: renderData.maximumMorphDeltaMetres,
-    maximumNormalEncodingErrorDegrees: renderData.maximumNormalEncodingErrorDegrees,
+    /* the verified samples, for readers that need heights and not texels */
+    payload: decoded.payload instanceof Uint8Array ? decoded.payload : new Uint8Array(decoded.payload),
     bounds: Object.freeze({ ...header.bounds }),
     sampleSpacingMetres: header.grid.sampleSpacingMetres,
     geometricErrorMetres: header.grid.geometricErrorMetres,
@@ -251,9 +267,29 @@ export function createTerrainRenderResource({ tileId, decoded, frame, requireCom
     worldOriginX: header.bounds.minEasting - frame.origin.easting,
     worldOriginZ: frame.origin.northing - header.bounds.maxNorthing,
     decodedSha256: header.decodedSha256,
-    gpuBytes: renderData.textureData.byteLength,
-    layout: renderData.layout,
-  });
+    gpuBytes: header.grid.width * header.grid.height * 8,
+  };
+  for (const key of RENDER_DERIVED) {
+    Object.defineProperty(resource, key, { enumerable: true, get: () => render()[key] });
+  }
+  return Object.freeze(resource);
+}
+
+/**
+ * A copy of a render resource with some fields replaced, keeping a lazy
+ * resource lazy: data fields are copied, render-derived accessors delegate.
+ * A spread would read every accessor and prepare the texels it exists to
+ * defer.
+ */
+export function deriveTerrainRenderResource(resource, overrides = {}) {
+  const derived = {};
+  for (const [key, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(resource))) {
+    if (key in overrides) continue;
+    if (descriptor.get) Object.defineProperty(derived, key, { enumerable: true, get: () => resource[key] });
+    else derived[key] = descriptor.value;
+  }
+  Object.assign(derived, overrides);
+  return Object.freeze(derived);
 }
 
 export function sampleTerrainRenderResource(resource, worldX, worldZ) {
@@ -269,10 +305,10 @@ export function sampleTerrainRenderResource(resource, worldX, worldZ) {
   const west = Math.floor(x), east = Math.min(resource.width - 1, west + 1);
   const north = Math.floor(y), south = Math.min(resource.height - 1, north + 1);
   const at = (columnIndex, rowIndex) => {
-    const quantized = readUint16LittleEndian(
-      resource.textureData,
-      (rowIndex * resource.width + columnIndex) * 8,
-    );
+    /* the payload holds the same fine sample the first texel carries */
+    const quantized = resource.payload
+      ? readUint16LittleEndian(resource.payload, (rowIndex * resource.width + columnIndex) * 2)
+      : readUint16LittleEndian(resource.textureData, (rowIndex * resource.width + columnIndex) * 8);
     return quantized === resource.noDataValue
       ? Number.NaN
       : resource.heightOffsetWorld + quantized * resource.heightScaleMetres;
