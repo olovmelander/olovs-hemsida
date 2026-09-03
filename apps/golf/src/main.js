@@ -7688,7 +7688,16 @@ if (menuToggleBtn) {
   menuToggleBtn.onclick = () => {
     if (railOpen) closeRail();
     if (navDrawer.isOpen()) navDrawer.close();
-    else navDrawer.open();
+    else {
+      document.getElementById('rail')?.classList.remove('open');
+      document.getElementById('uiToggle')?.classList.remove('on');
+      document.getElementById('railBackdrop')?.classList.remove('open');
+      document.getElementById('mini')?.classList.remove('mobile-open');
+      document.getElementById('mobileMiniToggle')?.classList.remove('on');
+      document.getElementById('note')?.classList.remove('mobile-open');
+      document.getElementById('mobileNoteToggle')?.classList.remove('on');
+      navDrawer.open();
+    }
   };
 }
 
@@ -7696,6 +7705,25 @@ addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     if (navDrawer.isOpen()) { navDrawer.close(); return; }
     if (railOpen) { closeRail(); return; }
+    const inGameRail = document.getElementById('rail');
+    if (inGameRail?.classList.contains('open')) {
+      inGameRail.classList.remove('open');
+      document.getElementById('uiToggle')?.classList.remove('on');
+      document.getElementById('railBackdrop')?.classList.remove('open');
+      return;
+    }
+    const mini = document.getElementById('mini');
+    if (mini?.classList.contains('mobile-open')) {
+      mini.classList.remove('mobile-open');
+      document.getElementById('mobileMiniToggle')?.classList.remove('on');
+      return;
+    }
+    const note = document.getElementById('note');
+    if (note?.classList.contains('mobile-open')) {
+      note.classList.remove('mobile-open');
+      document.getElementById('mobileNoteToggle')?.classList.remove('on');
+      return;
+    }
   }
 });
 /* the webfont lands after the first paint, so every baked glyph is repainted once
