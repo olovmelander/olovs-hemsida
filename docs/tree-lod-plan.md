@@ -1,6 +1,6 @@
 # Trees by distance — the LOD plan for the planted forest
 
-Status: plan, nothing implemented. Written 2026-09-03 after the Puttom v2
+Status: phases 1 and 2 built (see "Status" at the end); phase 0 on hardware and phase 3 open. Written 2026-09-03 after the Puttom v2
 boot work; the frame-rate survey it answers is in the session notes and
 summarised in "Where the frame goes" below.
 
