@@ -3965,7 +3965,7 @@ const TREE_LOD = {
       const a0 = i / 5 * TAU, bx = Math.cos(a0) * 1.6, by = 7.2 + (i % 3) * 1.5, bz = Math.sin(a0) * 1.6, r = 2.3 - (i % 2) * 0.5;
       for (let k = 0; k < 6; k++) {
         const a = (k / 6 + i * 0.17) * TAU, el = (k % 3) * 0.5 - 0.3;
-        birch.push([bx + Math.cos(a) * r * 0.95, by + el, bz + Math.sin(a) * r * 0.95, 2.4, 0.8, hash2(i + 9, k) * 0.6 - 0.3]);
+        birch.push([bx + Math.cos(a) * r * 0.95, by + el, bz + Math.sin(a) * r * 0.95, 2.0, 0.45, hash2(i + 9, k) * 0.6 - 0.3]);
       }
     }
     return [cardGeometry(spruce, 1), cardGeometry(pine, 2), cardGeometry(birch, 3)];
@@ -3988,7 +3988,7 @@ const TREE_LOD = {
     const cbase = s === 2 ? uLeaf : color(hex);
     const tex = texture(CARD_TEX[s], uv());
     /* the drawn shade (a needle's tip is paler than its base) modulates the crown colour */
-    const shade = tex.g.mul(1.1).add(0.35);
+    const shade = tex.g.mul(0.7).add(0.5);
     mat.colorNode = vec4(cbase.mul(attribute('color', 'vec3')).mul(shade).mul(float(1).add(
       pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55))), tex.a);
     /* the crown's sway, and a flutter of the card's own about its phase */
