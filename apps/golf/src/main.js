@@ -53,6 +53,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    threshold, or feeds a smoothstep that has saturated, passes the threshold
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
+import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
@@ -64,6 +65,8 @@ import { createV2GroundMaterialDecorator, makeGround } from './engine/material.j
 import { smoothShore } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
+import { compassBearing, windAlong, playsLike, greenDistances, lineHazards, layupTargets } from './engine/rangefinder.js';
+import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
   selectV2TerrainSource,
@@ -3751,44 +3754,240 @@ function legacyTreeExport(withInstances = false) {
   return out;
 }
 lap('v2 vegetation: push planned trees');
-for (let s = 0; s < 3; s++) {
-  const T = trees[s], W = treeWhy[s];
-  const n = T.length / 6;
-  if (!n) continue;
-  const spec = SPECIES[s];
-  for (const [geo, hex, isCrown] of [[spec.crown, spec.cc, true], [spec.trunk, spec.tc, false]]) {
-    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: isCrown ? 0.92 : 0.95, metalness: 0, flatShading: true });
-    if (isCrown) {
-      /* the same back-lit term the turf uses, so a treeline glows against a low sun
-         instead of reading as a black cutout; birch crowns take the season's colour */
-      const V = normalize(cameraPosition.sub(positionWorld));
-      const cbase = s === 2 ? uLeaf : color(hex);
-      mat.colorNode = cbase.mul(attribute('color', 'vec3')).mul(float(1).add(
-        pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55)));
+/* ------------------------------------------------------------ tree tiers
+   Every tree used to be the same 204-436 triangle template at every distance,
+   in six InstancedMeshes whose bounding spheres were the whole course, so
+   nothing was ever culled and 92,000 trees were drawn twice a frame (once
+   for the camera, once into the shadow map). docs/tree-lod-plan.md is the
+   plan; this is its phase 1: two tiers, chosen per 128 m cell by the height
+   a nominal tree projects to, with hysteresis, and cells outside the frustum
+   in no tier at all.
+
+   The container is deliberately NOT BatchedMesh: on the WebGPU backend a
+   BatchedMesh is one draw command per instance inside the pass, and on
+   WebGL2 it needs WEBGL_multi_draw. One InstancedMesh per (species, part,
+   tier) is one instanced draw on both backends -- twelve draws for the
+   forest -- and an instance moves between tiers by a swap-remove in one
+   tier's slot list and an append in the other's, with the matrix copied
+   from a table built once at boot. Placement never changes: trees[] and
+   treeWhy[] are what the baseline and the fingerprint read, and they are
+   untouched. The far cones beyond MIDR are unchanged until phase 2 (the
+   impostors) replaces them. */
+const TREE_LOD = {
+  cell: 128, cells: [], tiers: [], mats: [], imp: [], atlases: [], ready: false,
+  /* a nominal 12 m tree switches from the full template to the decimated
+     one below 40 projected pixels (60 on a phone), and from the decimated
+     one to an impostor below 14 (22 on a phone), with 10% hysteresis */
+  nominalHeight: 12, heroPx: LOWQ ? 200 : 110, switchPx: LOWQ ? 60 : 40, impostorPx: LOWQ ? 22 : 14, hysteresis: 0.1,
+  /* ?lod=1|2|3|4 forces every visible cell into one tier (hero, full,
+     decimated, impostor), so a tier can be looked at up close and judged on
+     its own; nothing else changes */
+  force: [1, 2, 3, 4].includes(+new URLSearchParams(location.search).get("lod")) ? +new URLSearchParams(location.search).get("lod") : 0,
+  /* tier0 is the hero tier, tier1 the full template, tier2 decimated, tier3 the impostor */
+  stats: { tier0: 0, tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, updates: 0, bakeMs: 0 },
+  /* ?impdbg=normal|albedo|mask|world draws the impostors unlit, one term at a time */
+  debug: new URLSearchParams(location.search).get("impdbg") || null,
+};
+{
+  /* the decimated templates: the same silhouettes and the same crown noise
+     (so the colour variance matches across the switch) at a quarter of the
+     triangles -- 56 / 44 / 80 against 204 / 212 / 436 */
+  const decimated = (() => {
+    const spruce = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 3; i++) {
+        const t = i / 2, r = 3.5 * (1 - t * 0.8) + 0.45, hh = 3.6 * (1 - t * 0.35) * 2.2;
+        const g = new THREE.ConeGeometry(r, hh, 6, 1);
+        g.translate(0, 2.6 + t * 9.6, 0);
+        p.push(g);
+      }
+      return p;
+    })()), 1, 0.15, 0.13);
+    const pine = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 2; i++) {
+        const t = i, r = 4.2 - t * 1.4, hh = (2.8 - t * 0.5) * 1.6;
+        const g = new THREE.ConeGeometry(r, hh, 6, 1);
+        g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
+        p.push(g);
+      }
+      return p;
+    })()), 2, 0.2, 0.15);
+    const birch = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 3; i++) {
+        const a = i / 3 * TAU;
+        const g = new THREE.IcosahedronGeometry(2.4 - (i % 2) * 0.4, 0);
+        g.translate(Math.cos(a) * 1.4, 7.6 + (i % 2) * 1.6, Math.sin(a) * 1.4);
+        p.push(g);
+      }
+      return p;
+    })()), 3, 0.22, 0.17);
+    const trunk = (r0, r1, h) => { const g = new THREE.CylinderGeometry(r0, r1, h, 5); g.translate(0, h / 2, 0); return g; };
+    return [
+      { crown: spruce, trunk: trunk(0.18, 0.42, 3.2) },
+      { crown: pine, trunk: trunk(0.22, 0.46, 9.0) },
+      { crown: birch, trunk: trunk(0.16, 0.30, 7.4) },
+    ];
+  })();
+  /* --- the hero tier: what a tree a golfer stands beside is made of ---
+     The plan's alpha-tested needle and leaf cards were built and taken out
+     again: hung on a flat-shaded cone they read as debris stuck to the
+     tree, not as foliage -- these are low-poly trees, and a photographic
+     sprig on a clean facet is a clash, not a detail. The hero tier is the
+     same crown GROWN AT A FINER SUBDIVISION (the same cones and blobs, the
+     same noise, six times the facets), so a near tree is rounder and more
+     organic and still unmistakably the tree it becomes at 120 m; and a
+     12-segment trunk with a bark bump and a root flare. */
+  /* bark: vertical fissures, the same field for the bump and the colour */
+  const BARK = canvasTex(256, (g, S) => {
+    const im = g.createImageData(S, S), d = im.data;
+    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+      const i = (y * S + x) * 4;
+      const v = fbm(x * 0.09, y * 0.012, 3) * 0.5 + 0.5, fine = fbm(x * 0.3, y * 0.05, 2) * 0.5 + 0.5;
+      const b = Math.min(1, Math.max(0, v * 0.7 + fine * 0.3));
+      d[i] = d[i + 1] = d[i + 2] = b * 255; d[i + 3] = 255;
     }
+    g.putImageData(im, 0, 0);
+  }, { srgb: false, rep: 1 });
+  /* a 12-segment trunk with a root flare, uv'd for the bark */
+  const heroTrunk = (r0, r1, h) => {
+    const shaft = new THREE.CylinderGeometry(r0, r1, h, 12, 1, true); shaft.translate(0, h / 2, 0);
+    const flare = new THREE.CylinderGeometry(r1, r1 * 1.7, 0.6, 12, 1, true); flare.translate(0, 0.3, 0);
+    const cap = new THREE.CircleGeometry(r0, 12); cap.rotateX(-Math.PI / 2); cap.translate(0, h, 0);
+    return mergeGeos([flare, shaft, cap]);
+  };
+  const fineCrowns = (() => {
+    const spruce = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 7; i++) {
+        const t = i / 6, r = 3.5 * (1 - t * 0.8) + 0.45, hh = 3.6 * (1 - t * 0.35);
+        const g = new THREE.ConeGeometry(r, hh, 24, 3);
+        g.translate(0, 2.6 + t * 9.6, 0);
+        p.push(g);
+      }
+      return p;
+    })()), 1, 0.15, 0.13);
+    const pine = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 4; i++) {
+        const t = i / 3, r = 4.2 - t * 1.4, hh = 2.8 - t * 0.5;
+        const g = new THREE.ConeGeometry(r, hh, 24, 2);
+        g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
+        p.push(g);
+      }
+      const tuft = new THREE.IcosahedronGeometry(1.5, 2);
+      tuft.translate(0.4, 12.1, -0.2);
+      p.push(tuft);
+      return p;
+    })()), 2, 0.2, 0.15);
+    const birch = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 5; i++) {
+        const a = i / 5 * TAU;
+        const g = new THREE.IcosahedronGeometry(2.3 - (i % 2) * 0.5, 2);
+        g.translate(Math.cos(a) * 1.6, 7.2 + (i % 3) * 1.5, Math.sin(a) * 1.6);
+        p.push(g);
+      }
+      return p;
+    })()), 3, 0.22, 0.17);
+    return [spruce, pine, birch];
+  })();
+  const hero = [
+    { crown: fineCrowns[0], trunk: heroTrunk(0.18, 0.42, 3.2) },
+    { crown: fineCrowns[1], trunk: heroTrunk(0.22, 0.46, 9.0) },
+    { crown: fineCrowns[2], trunk: heroTrunk(0.16, 0.30, 7.4) },
+  ];
+  const barkMaterial = hex => {
+    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, bumpMap: BARK, bumpScale: 0.05 });
+    const bark = texture(BARK, uv().mul(vec2(3, 1.5))).r;
+    mat.colorNode = color(hex).mul(bark.mul(0.6).add(0.62));
+    mat.positionNode = windSway(false);
+    return mat;
+  };
+  const crownMaterial = (s, hex, sway) => {
+    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.92, metalness: 0, flatShading: true });
+    /* the same back-lit term the turf uses, so a treeline glows against a low sun
+       instead of reading as a black cutout; birch crowns take the season's colour */
+    const V = normalize(cameraPosition.sub(positionWorld));
+    const cbase = s === 2 ? uLeaf : color(hex);
+    mat.colorNode = cbase.mul(attribute('color', 'vec3')).mul(float(1).add(
+      pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55)));
+    if (sway) mat.positionNode = windSway(true);
+    return mat;
+  };
+  const trunkMaterial = (hex, sway) => {
+    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: true });
+    if (sway) mat.positionNode = windSway(false);
+    return mat;
+  };
+  /* GPU-only harmonic wind sway with zero CPU matrix updates: trunk roots at
+     y=0 stay rigid, while crown upper branches gently bend. The near tier
+     only: at the distance the decimated tier draws, sway is sub-pixel. */
+  function windSway(isCrown) {
+    const wp = positionWorld.xz;
+    const hNorm = saturate(positionLocal.y.div(13.0));
+    const weight = isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10);
+    const windPhase = time.mul(1.35).add(wp.x.mul(0.032)).add(wp.y.mul(0.024));
+    const gust = sin(windPhase.mul(0.55)).mul(0.5).add(0.5);
+    const swayX = sin(windPhase.add(positionLocal.y.mul(0.08))).mul(0.24)
+                  .add(sin(windPhase.mul(2.1)).mul(0.06))
+                  .mul(weight).mul(gust.mul(0.4).add(0.6));
+    const swayZ = cos(windPhase.mul(0.82)).mul(0.18)
+                  .add(cos(windPhase.mul(1.8)).mul(0.05))
+                  .mul(weight).mul(gust.mul(0.4).add(0.6));
+    return positionLocal.add(vec3(swayX, float(0.0), swayZ));
+  }
 
-    /* GPU-only harmonic wind sway with zero CPU matrix updates:
-       Trunk roots at y=0 stay rigid, while crown upper branches gently bend */
-    {
-      const wp = positionWorld.xz;
-      const hNorm = saturate(positionLocal.y.div(13.0));
-      const weight = isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10);
-      const windPhase = time.mul(1.35).add(wp.x.mul(0.032)).add(wp.y.mul(0.024));
-      const gust = sin(windPhase.mul(0.55)).mul(0.5).add(0.5);
-
-      const swayX = sin(windPhase.add(positionLocal.y.mul(0.08))).mul(0.24)
-                    .add(sin(windPhase.mul(2.1)).mul(0.06))
-                    .mul(weight).mul(gust.mul(0.4).add(0.6));
-      const swayZ = cos(windPhase.mul(0.82)).mul(0.18)
-                    .add(cos(windPhase.mul(1.8)).mul(0.05))
-                    .mul(weight).mul(gust.mul(0.4).add(0.6));
-
-      mat.positionNode = positionLocal.add(vec3(swayX, float(0.0), swayZ));
+  /* the impostor atlases: pictures of these very templates from the
+     hemi-octahedron's vertices, albedo in one and tree-frame normal in the
+     other, lit at draw time (engine/tree-impostor.mjs) */
+  {
+    const bakeStarted = performance.now();
+    for (let s = 0; s < 3; s++) {
+      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: SPECIES[s].crown, trunk: SPECIES[s].trunk, trunkColor: SPECIES[s].tc }));
     }
-    const im = new THREE.InstancedMesh(geo, mat, n);
-    im.castShadow = true;
-    im.receiveShadow = !isCrown;
-    const mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
+    TREE_LOD.stats.bakeMs = Math.round(performance.now() - bakeStarted);
+    span('tree impostor atlases (3 species, 64 views each)', bakeStarted);
+  }
+  const impostorBatch = (s, capacity, label) => {
+    const geo = createImpostorGeometry(capacity);
+    const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
+      crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.castShadow = false;
+    mesh.receiveShadow = true;
+    mesh.frustumCulled = false;
+    mesh.userData.tag = 'trees';
+    mesh.name = `trees-${['spruce', 'pine', 'birch'][s]}-impostor-${label}`;
+    scene.add(mesh);
+    stats.draws++;
+    return { mesh, geo, pos: geo.getAttribute('aImpostorPos'), par: geo.getAttribute('aImpostorParam'),
+             slots: new Int32Array(capacity), count: 0, lo: Infinity, hi: -Infinity };
+  };
+  const cellOf = new Map();
+  const cell = (x, z) => {
+    const i = Math.floor((x - MIDR.x0) / TREE_LOD.cell), j = Math.floor((z - MIDR.z0) / TREE_LOD.cell);
+    const key = i + ',' + j;
+    let c = cellOf.get(key);
+    if (!c) {
+      const x0 = MIDR.x0 + i * TREE_LOD.cell, z0 = MIDR.z0 + j * TREE_LOD.cell;
+      c = { x0, z0, x1: x0 + TREE_LOD.cell, z1: z0 + TREE_LOD.cell, y0: Infinity, y1: -Infinity,
+            lists: [[], [], []], state: 0, box: new THREE.Box3() };
+      cellOf.set(key, c);
+      TREE_LOD.cells.push(c);
+    }
+    return c;
+  };
+  const mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
+  for (let s = 0; s < 3; s++) {
+    const T = trees[s], W = treeWhy[s];
+    const n = T.length / 6;
+    const mats = new Float32Array(n * 16);
+    const imp = new Float32Array(n * 6);   /* x, y, z, yaw, scaleXZ, scaleY */
+    TREE_LOD.mats.push(mats);
+    TREE_LOD.imp.push(imp);
     for (let k = 0; k < n; k++) {
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
       const sy = T[k * 6 + 3], sxz = T[k * 6 + 5];
@@ -3797,17 +3996,176 @@ for (let s = 0; s < 3; s++) {
       const varied = W[k] >= WHY_V2_INDIVIDUAL ? 1 : (0.86 + (k % 7) * 0.045);
       scl.set(sxz, sy * varied, sxz);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
-      im.setMatrixAt(k, mtx.compose(pos, q, scl));
+      mtx.compose(pos, q, scl).toArray(mats, k * 16);
+      imp.set([pos.x, pos.y, pos.z, T[k * 6 + 4], sxz, sy * varied], k * 6);
+      const c = cell(pos.x, pos.z);
+      c.lists[s].push(k);
+      if (pos.y < c.y0) c.y0 = pos.y;
+      if (pos.y + 14 * sy * varied > c.y1) c.y1 = pos.y + 14 * sy * varied;
     }
-    im.instanceMatrix.needsUpdate = true;
-    im.frustumCulled = true;
-    scene.add(im);
-    stats.draws++;
+    if (!n) { TREE_LOD.tiers.push(null); continue; }
+    const spec = SPECIES[s], deci = decimated[s];
+    /* a mesh tier is one InstancedMesh per part (crown, trunk, and for the
+       hero its cards), every part sharing the tier's slot list */
+    const tier = (parts, label) => {
+      const meshes = parts.map(([name, geo, mat]) => {
+        const im = new THREE.InstancedMesh(geo, mat, n);
+        im.count = 0;
+        im.castShadow = true;
+        im.receiveShadow = name === 'trunk';
+        /* culled per cell by the tier update; the mesh's own sphere would be the whole course */
+        im.frustumCulled = false;
+        im.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        im.userData.tag = 'trees';
+        im.name = `trees-${['spruce', 'pine', 'birch'][s]}-${name}-${label}`;
+        scene.add(im);
+        stats.draws++;
+        return im;
+      });
+      return { parts: meshes, slots: new Int32Array(n), count: 0, lo: Infinity, hi: -Infinity };
+    };
+    const hr = hero[s];
+    TREE_LOD.tiers.push({
+      n,
+      where: new Int32Array(n).fill(-1),
+      tierOf: new Uint8Array(n),
+      t: [null,
+        tier([['crown', hr.crown, crownMaterial(s, spec.cc, true)], ['trunk', hr.trunk, barkMaterial(spec.tc)]], 't0'),
+        tier([['crown', spec.crown, crownMaterial(s, spec.cc, true)], ['trunk', spec.trunk, trunkMaterial(spec.tc, true)]], 't1'),
+        tier([['crown', deci.crown, crownMaterial(s, spec.cc, false)], ['trunk', deci.trunk, trunkMaterial(spec.tc, false)]], 't2'),
+        impostorBatch(s, n, 't3')],
+    });
+    stats.trees += n;
   }
-  stats.trees += n;
+  for (const c of TREE_LOD.cells) {
+    if (!Number.isFinite(c.y0)) { c.y0 = 0; c.y1 = 20; }
+    /* dilated by a crown's reach, so a tree straddling the cell edge is not
+       culled while its crown is still in frame */
+    c.box.min.set(c.x0 - 8, c.y0 - 2, c.z0 - 8);
+    c.box.max.set(c.x1 + 8, c.y1 + 2, c.z1 + 8);
+  }
+  TREE_LOD.stats.cells = TREE_LOD.cells.length;
+  TREE_LOD.ready = true;
 }
 
-lap('tree instancing (6 InstancedMesh)', { trees: stats.trees | 0 });
+/* move one tree between tiers: a swap-remove out of the old slot list and
+   an append to the new one, both parts' matrices copied from the table */
+function treeTierWrite(s, tier, slot, k) {
+  if (tier.mesh) {
+    const imp = TREE_LOD.imp[s];
+    tier.pos.array.set(imp.subarray(k * 6, k * 6 + 3), slot * 3);
+    tier.par.array[slot * 4] = imp[k * 6 + 3];
+    tier.par.array[slot * 4 + 1] = imp[k * 6 + 4];
+    tier.par.array[slot * 4 + 2] = imp[k * 6 + 5];
+    tier.par.array[slot * 4 + 3] = 0;
+  } else {
+    const mats = TREE_LOD.mats[s];
+    for (const im of tier.parts) im.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
+  }
+  if (slot < tier.lo) tier.lo = slot;
+  if (slot > tier.hi) tier.hi = slot;
+}
+function treeTierMove(s, k, from, to) {
+  const species = TREE_LOD.tiers[s];
+  if (from) {
+    const tier = species.t[from];
+    const slot = species.where[k], last = --tier.count;
+    if (slot !== last) {
+      const moved = tier.slots[last];
+      tier.slots[slot] = moved;
+      species.where[moved] = slot;
+      treeTierWrite(s, tier, slot, moved);
+    }
+    species.where[k] = -1;
+  }
+  if (to) {
+    const tier = species.t[to];
+    const slot = tier.count++;
+    tier.slots[slot] = k;
+    species.where[k] = slot;
+    treeTierWrite(s, tier, slot, k);
+  }
+  species.tierOf[k] = to;
+  TREE_LOD.stats.moves++;
+}
+
+const TREE_FRUSTUM = new THREE.Frustum(), TREE_PROJ = new THREE.Matrix4();
+/* per frame: each cell's tier from the height a nominal tree in it projects
+   to, and no tier at all outside the frustum; only cells whose tier changed
+   move their trees */
+function updateTreeTiers() {
+  if (!TREE_LOD.ready) return;
+  TREE_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+  TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem);
+  const viewportH = renderer.domElement.height || innerHeight;
+  const fovTan = Math.tan(camera.fov * 0.5 * Math.PI / 180);
+  const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
+  /* the boundaries between tiers 1|2, 2|3, 3|4 in projected pixels, each
+     with its own hysteresis band: a cell steps finer only past the band
+     above a boundary and coarser only past the band below it */
+  const thr = [TREE_LOD.heroPx, TREE_LOD.switchPx, TREE_LOD.impostorPx], hy = TREE_LOD.hysteresis;
+  let visible = 0, changed = false;
+  for (const c of TREE_LOD.cells) {
+    let desired;
+    if (!TREE_FRUSTUM.intersectsBox(c.box)) desired = 0;
+    else {
+      /* the distance to the cell's BOX, height included: from 330 m straight
+         up a cell under the camera is 330 m away, not one -- measured in the
+         ground plane alone the overhead view drew its hero tier */
+      const dx = Math.max(c.x0 - cx, 0, cx - c.x1), dy = Math.max(c.y0 - cy, 0, cy - c.y1), dz = Math.max(c.z0 - cz, 0, cz - c.z1);
+      const d = Math.max(1, Math.hypot(dx, dy, dz));
+      const px = TREE_LOD.nominalHeight * viewportH / (2 * d * fovTan);
+      if (TREE_LOD.force) desired = TREE_LOD.force;
+      else if (c.state === 0) { desired = 1; while (desired < 4 && px < thr[desired - 1]) desired++; }
+      else {
+        desired = c.state;
+        while (desired > 1 && px > thr[desired - 2] * (1 + hy)) desired--;
+        while (desired < 4 && px < thr[desired - 1] * (1 - hy)) desired++;
+      }
+      visible++;
+    }
+    if (desired === c.state) continue;
+    for (let s = 0; s < 3; s++) {
+      if (!TREE_LOD.tiers[s]) continue;
+      for (const k of c.lists[s]) treeTierMove(s, k, c.state, desired);
+    }
+    c.state = desired;
+    changed = true;
+  }
+  TREE_LOD.stats.cellsVisible = visible;
+  if (!changed) return;
+  TREE_LOD.stats.updates++;
+  TIER_FRAME = FRAME_NO;
+  let t0 = 0, t1 = 0, t2 = 0, t3 = 0;
+  for (const species of TREE_LOD.tiers) {
+    if (!species) continue;
+    for (let i = 1; i <= 4; i++) {
+      const tier = species.t[i];
+      if (tier.mesh) {
+        tier.geo.instanceCount = tier.count;
+        tier.mesh.visible = tier.count > 0;
+        if (tier.hi >= tier.lo) {
+          tier.pos.clearUpdateRanges(); tier.pos.addUpdateRange(tier.lo * 3, (tier.hi - tier.lo + 1) * 3); tier.pos.needsUpdate = true;
+          tier.par.clearUpdateRanges(); tier.par.addUpdateRange(tier.lo * 4, (tier.hi - tier.lo + 1) * 4); tier.par.needsUpdate = true;
+        }
+      } else {
+        for (const im of tier.parts) {
+          im.count = tier.count;
+          if (tier.hi >= tier.lo) {
+            im.instanceMatrix.clearUpdateRanges();
+            im.instanceMatrix.addUpdateRange(tier.lo * 16, (tier.hi - tier.lo + 1) * 16);
+            im.instanceMatrix.needsUpdate = true;
+          }
+        }
+      }
+      tier.lo = Infinity; tier.hi = -Infinity;
+    }
+    t0 += species.t[1].count; t1 += species.t[2].count; t2 += species.t[3].count; t3 += species.t[4].count;
+  }
+  TREE_LOD.stats.tier0 = t0; TREE_LOD.stats.tier1 = t1; TREE_LOD.stats.tier2 = t2; TREE_LOD.stats.tier3 = t3;
+}
+
+lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.trees | 0, cells: TREE_LOD.cells.length });
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
@@ -3894,7 +4252,38 @@ if (M.cover) {
   }
   const n = pts.length / 4;
   VISTA_PTS = pts;
-  if (n) {
+  if (n && TREE_LOD.atlases.length === 3) {
+    /* the same pictures the planted forest fades into, so the far ring and
+       the middle ring are one forest: a cone that stood 12 m x s becomes a
+       tree of the same height, species by hash, yaw by hash */
+    const perSpecies = [[], [], []];
+    for (let k = 0; k < n; k++) {
+      const r = hash2(k * 7919 + 3, k * 104729 + 11);
+      perSpecies[r < 0.58 ? 1 : r < 0.9 ? 0 : 2].push(k);
+    }
+    for (let s = 0; s < 3; s++) {
+      const list = perSpecies[s];
+      if (!list.length) continue;
+      const geo = createImpostorGeometry(list.length);
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug });
+      const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
+      const th = SPECIES[s].templateHeight || 13;
+      list.forEach((k, i) => {
+        const s0 = pts[k * 4 + 3], sy = 12 * s0 * (0.85 + (k % 5) * 0.07) / th;
+        posA.array.set([pts[k * 4], pts[k * 4 + 1], pts[k * 4 + 2]], i * 3);
+        parA.array.set([hash2(k * 31 + 7, k * 17 + 5) * TAU, s0 * 0.9, sy, 0], i * 4);
+      });
+      posA.needsUpdate = parA.needsUpdate = true;
+      geo.instanceCount = list.length;
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.castShadow = false; mesh.receiveShadow = false; mesh.frustumCulled = false;
+      mesh.userData.tag = 'vista';
+      mesh.name = `vista-${['spruce', 'pine', 'birch'][s]}-impostor`;
+      scene.add(mesh);
+      stats.draws++;
+    }
+    stats.vista = n;
+  } else if (n) {
     const geo = new THREE.ConeGeometry(3.1, 12, 5);
     geo.translate(0, 5.6, 0);
     const mat = new THREE.MeshStandardNodeMaterial({
@@ -5306,6 +5695,20 @@ for (let n = 1; n <= NHOLES; n++) {
   b.onclick = () => goHole(n, true);
   holesBar.appendChild(b);
 }
+const prevBtn = document.getElementById('holePrevBtn');
+const nextBtn = document.getElementById('holeNextBtn');
+if (prevBtn) {
+  prevBtn.onclick = () => {
+    const target = hole <= 1 ? NHOLES : hole - 1;
+    goHole(target, true);
+  };
+}
+if (nextBtn) {
+  nextBtn.onclick = () => {
+    const target = hole >= NHOLES ? 1 : hole + 1;
+    goHole(target, true);
+  };
+}
 const teesEl = document.getElementById('tees');
 
 function drawCard() {
@@ -5322,14 +5725,35 @@ function drawCard() {
     const d = document.createElement('div');
     d.className = 'tee' + (k === teeIdx ? ' on' : '');
     d.innerHTML = `<b>${m}</b><i>${TEE_NAMES[k]}</i>`;
-    d.onclick = () => { teeIdx = k; drawCard(); if (camMode === 'tee') setCam('tee'); };
+    d.onclick = () => { teeIdx = k; drawCard(); if (camMode === 'tee') setCam('tee'); if (kik) kikRender(); };
     teesEl.appendChild(d);
   });
   const rise = h.elev.rise;
-  document.getElementById('facts').innerHTML =
-    `Spelas <b>${Math.abs(rise).toFixed(0)} m</b> ${rise >= 0 ? 'uppför' : 'nedför'}<br>` +
-    `Tee <b>${h.elev.tee.toFixed(0)} m</b> · green <b>${h.elev.green.toFixed(0)} m</b> ö.h.<br>` +
-    `Ritad <b>${h.lineLen.toFixed(0)} m</b> · kortet <b>${h.t[0]} m</b>`;
+  let factsHtml = `Tee <b>${h.elev.tee.toFixed(0)} m</b> · Green <b>${h.elev.green.toFixed(0)} m</b> ö.h.`;
+  if (BOOTQ.get('debug') === '1') {
+    factsHtml += `<br><span class="debug-pipeline">Ritad <b>${h.lineLen.toFixed(0)} m</b> · kortet <b>${h.t[0]} m</b></span>`;
+  }
+  document.getElementById('facts').innerHTML = factsHtml;
+
+  const rHoleNum = document.getElementById('railHoleNum');
+  if (rHoleNum) rHoleNum.textContent = `HÅL ${h.n}`;
+  const rHolePar = document.getElementById('railHolePar');
+  if (rHolePar) rHolePar.textContent = `PAR ${h.par}`;
+  const rHoleDist = document.getElementById('railHoleDist');
+  if (rHoleDist) rHoleDist.textContent = `${(h.t && h.t[teeIdx ?? 0]) || (h.lineLen ? h.lineLen.toFixed(0) : 350)} M`;
+  const rHoleIndex = document.getElementById('railHoleIndex');
+  const rHoleIndexDot = document.getElementById('railHoleIndexDot');
+  if (h.idx != null) {
+    if (rHoleIndex) { rHoleIndex.textContent = `INDEX ${h.idx}`; rHoleIndex.style.display = ''; }
+    if (rHoleIndexDot) rHoleIndexDot.style.display = '';
+  } else {
+    if (rHoleIndex) rHoleIndex.style.display = 'none';
+    if (rHoleIndexDot) rHoleIndexDot.style.display = 'none';
+  }
+  const rHoleSub = document.getElementById('railHoleSub');
+  if (rHoleSub) {
+    rHoleSub.innerHTML = `Spelas <b>${Math.abs(rise).toFixed(0)} m ${rise >= 0 ? 'uppför' : 'nedför'}</b>`;
+  }
   document.getElementById('nnm').textContent = h.name || `Hål ${h.n}`;
   document.getElementById('ntx').textContent = h.note || h.shape || '';
   document.querySelectorAll('.hb').forEach((b, i) => b.classList.toggle('on', i + 1 === hole));
@@ -5393,7 +5817,12 @@ function setCam(mode, instant) {
 function goHole(n, recam, instant) {
   hole = Math.min(NHOLES, Math.max(1, n));
   drawCard();
+  const activeBtn = holesBar?.children[hole - 1];
+  if (activeBtn && holesBar) {
+    activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
   kikClear();
+  if (kik) kikRender();
   if (gridOn) buildGreenGrid();
   if (recam) setCam(camMode, instant);
   syncURL();
@@ -5434,14 +5863,76 @@ document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPre
 /* on a phone the rail is a sheet behind the Vy · Ljus button; choosing anything
    closes it so the scene comes straight back */
 {
-  const railEl = document.getElementById('rail'), tog = document.getElementById('uiToggle');
-  const closeRail = () => { railEl.classList.remove('open'); tog.classList.remove('on'); };
-  tog.onclick = () => {
-    const open = railEl.classList.toggle('open');
-    tog.classList.toggle('on', open);
+  const railEl = document.getElementById('rail');
+  const tog = document.getElementById('uiToggle');
+  const railCloseBtn = document.getElementById('railCloseBtn');
+  const railBackdrop = document.getElementById('railBackdrop');
+  const miniEl = document.getElementById('mini');
+  const noteEl = document.getElementById('note');
+  const miniTog = document.getElementById('mobileMiniToggle');
+  const noteTog = document.getElementById('mobileNoteToggle');
+  const miniCloseBtn = document.getElementById('miniCloseBtn');
+  const noteCloseBtn = document.getElementById('noteCloseBtn');
+
+  const closeMobileSheet = () => {
+    railEl?.classList.remove('open');
+    tog?.classList.remove('on');
+    railBackdrop?.classList.remove('open');
   };
-  railEl.querySelectorAll('.btn').forEach(b =>
-    b.addEventListener('click', () => { if (window.matchMedia('(max-width:700px)').matches) closeRail(); }));
+  const closeMini = () => {
+    miniEl?.classList.remove('mobile-open');
+    miniTog?.classList.remove('on');
+  };
+  const closeNote = () => {
+    noteEl?.classList.remove('mobile-open');
+    noteTog?.classList.remove('on');
+  };
+
+  if (tog) {
+    tog.onclick = (e) => {
+      e?.stopPropagation();
+      const open = railEl?.classList.toggle('open');
+      tog.classList.toggle('on', open);
+      railBackdrop?.classList.toggle('open', open);
+      if (open) {
+        closeMini();
+        closeNote();
+      }
+    };
+  }
+
+  if (railCloseBtn) railCloseBtn.onclick = (e) => { e?.stopPropagation(); closeMobileSheet(); };
+  if (railBackdrop) railBackdrop.onclick = () => closeMobileSheet();
+
+  if (miniTog) {
+    miniTog.onclick = (e) => {
+      e?.stopPropagation();
+      const open = miniEl?.classList.toggle('mobile-open');
+      miniTog.classList.toggle('on', open);
+      if (open) {
+        closeMobileSheet();
+        closeNote();
+        drawMini();
+      }
+    };
+  }
+  if (miniCloseBtn) miniCloseBtn.onclick = (e) => { e?.stopPropagation(); closeMini(); };
+
+  if (noteTog) {
+    noteTog.onclick = (e) => {
+      e?.stopPropagation();
+      const open = noteEl?.classList.toggle('mobile-open');
+      noteTog.classList.toggle('on', open);
+      if (open) {
+        closeMobileSheet();
+        closeMini();
+      }
+    };
+  }
+  if (noteCloseBtn) noteCloseBtn.onclick = (e) => { e?.stopPropagation(); closeNote(); };
+
+  railEl?.querySelectorAll('.btn').forEach(b =>
+    b.addEventListener('click', () => { if (window.matchMedia('(max-width:768px)').matches) closeMobileSheet(); }));
 }
 document.getElementById('flyBtn').onclick = () => {
   if (flying > 0) {
@@ -5489,8 +5980,8 @@ const FL = {
   altTee: 24,        // metres above the envelope at the tee
   lead: 100,         // the look point runs this far ahead down the line
   orbitDeg: 180,     // the sweep round the green; 180 ends on the reverse angle
-  vOrbit: 9.5,       // m/s on the sweep, at least ...
-  sweepRate: 10.5,   // ... and degrees per second round the pin, which is what the eye sees
+  vOrbit: 12,        // m/s on the sweep, at least ...
+  sweepRate: 13.5,   // ... and degrees per second round the pin, which is what the eye sees
   sweepPitch: 26,    // degrees down to the PIN on the sweep at the design radius ...
   sweepPitchMax: 33, // ... steepening to this much before the radius widens to clear the trees
   sweepAimBelow: 7,  // the pin sits this many degrees below the frame centre: horizon in, green low
@@ -5500,14 +5991,16 @@ const FL = {
   climb: 0.22,       // slope limit of the envelope (tan 12.4 degrees)
   fovCruise: 52, fovOrbit: 46,
   offset: 8,         // lateral offset off the line on the fairway
-  hold: 1.4,         // seconds on the closing frame before the travel shot leaves
-  vTransit: 24,      // m/s between holes ...
+  hold: 1.0,         // seconds on the closing frame before the travel shot leaves
+  vTransit: 36,      // m/s between holes ...
   altTransit: 30,    // ... this far above the envelope (crowns included), over whatever lies between
   lookAhead: 110,    // the travel shot looks this far along its route
   lineUp: 40,        // the straight run behind the push-off point the route arrives along
-  panMax: 14,        // degrees per second of heading change a bend on the hole may be flown at ...
-  panMaxTransit: 15, // ... and on the travel shot, where the turn behind the tee is the point
-  accel: 2.5,        // m/s^2 the drone brakes and accelerates at around a bend
+  panMax: 17,        // degrees per second of heading change a bend on the hole may be flown at ...
+  panMaxTransit: 28, // ... and on the travel shot, where only the gimbal rate (swingRate) is what the viewer sees
+  swingRate: 18,     // degrees per second the gimbal pans on the travel shot ...
+  tiltRate: 10,      // ... and tilts
+  accel: 3.5,        // m/s^2 the drone brakes and accelerates at around a bend
 };
 const tourFlight = {
   st: null,                  // the station table
@@ -5803,6 +6296,44 @@ function initHoleFlight(h, from = null) {
   /* a travel shot leaves from exactly where the last one stopped */
   if (from) y = y.map((v, i) => lerp(from.pos[1], v, smooth(0, 90, i * FL.ds)));
 
+  /* one velocity profile over path distance, integrated into a time table */
+  let iOrbit = n - 1;
+  for (let i = 0; i < n; i++) if (path[i][2] >= sEnd - 0.5) { iOrbit = i; break; }
+  const sOrbit = iOrbit * FL.ds, sTotal = (n - 1) * FL.ds;
+  const vFair = clampf(12 + lineLen * 0.04, 16, 30);
+  const vOrbit = Math.max(FL.vOrbit, R * FL.sweepRate * Math.PI / 180);
+  /* with a travel shot in front, the route is flown at transit speed and the
+     drone all but hovers at the push-off point before the hole's own profile
+     takes over -- the beat behind the tee that a flyover opens with */
+  let iPre = 0;
+  if (from) for (let i = 0; i < n; i++) if (path[i][2] >= preS - 0.5) { iPre = i; break; }
+  const sPre = iPre * FL.ds;
+  const base = s => s < sPre ? lerp(FL.vTransit, vFair, smooth(sPre - 100, sPre, s))
+    : lerp(vFair, vOrbit, smooth(sOrbit - 70, sOrbit + 10, s));
+  const dip = s => from ? 1 - 0.6 * Math.exp(-((s - sPre) / 35) * ((s - sPre) / 35)) : 1;
+  const vAt = s => base(s) * dip(s)
+    * (0.25 + 0.75 * smooth(0, 45, s)) * (0.30 + 0.70 * smooth(sTotal, sTotal - 40, s));
+  /* the profile is then capped by the path's own curvature -- a bend is flown
+     no faster than FL.panMax degrees per second of heading change -- with the
+     cap propagated both ways at FL.accel so the drone brakes into a turn and
+     picks up again out of it, never at the turn itself */
+  const vCap = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    /* heading change over a two-station baseline, so the resampling's own
+       jitter does not read as a bend; the first stations are exempt because
+       the shot starts from rest there anyway */
+    const a = path[Math.max(0, i - 2)], b = path[i], c = path[Math.min(n - 1, i + 2)];
+    let dh = Math.atan2(c[0] - b[0], c[1] - b[1]) - Math.atan2(b[0] - a[0], b[1] - a[1]);
+    if (dh > Math.PI) dh -= 2 * Math.PI; if (dh < -Math.PI) dh += 2 * Math.PI;
+    const kappa = i < 3 ? 0 : Math.abs(dh) / (2 * FL.ds);
+    const panMax = path[i][2] < preS ? FL.panMaxTransit : FL.panMax;
+    vCap[i] = Math.min(vAt(i * FL.ds), panMax * Math.PI / 180 / Math.max(kappa, 1e-4));
+  }
+  for (let i = n - 2; i >= 0; i--) vCap[i] = Math.min(vCap[i], Math.sqrt(vCap[i + 1] * vCap[i + 1] + 2 * FL.accel * FL.ds));
+  for (let i = 1; i < n; i++) vCap[i] = Math.min(vCap[i], Math.sqrt(vCap[i - 1] * vCap[i - 1] + 2 * FL.accel * FL.ds));
+  const times = new Float64Array(n);
+  for (let i = 1; i < n; i++) times[i] = times[i - 1] + FL.ds / Math.max(0.5, 0.5 * (vCap[i] + vCap[i - 1]));
+
   /* the look point: a lead down the line, settling on the pin, which then sits
      a little below the frame centre for the whole sweep. On the travel shot the
      gimbal comes off the pin it was holding, looks 80 m ahead along the route,
@@ -5832,12 +6363,12 @@ function initHoleFlight(h, from = null) {
     const ang = a0 + da * k, d = lerp(Math.hypot(ax, az), Math.hypot(bx, bz), k);
     return [cam[0] + Math.sin(ang) * d, lerp(a[1], b[1], k), cam[1] + Math.cos(ang) * d];
   };
-  const turnOut = { d: null }, turnIn = { d: null };
+  const turnIn = { d: null };
   /* the heading the gimbal is holding as the travel shot leaves: the swing
      starts from THAT, held as the aircraft moves, not from the pin itself --
      a route that passes close by the last green would otherwise whip the
      bearing to the pin round at 30-40 degrees a second while it still counted */
-  let hold0 = null;
+  let hold0 = null, track = null;
   if (from) {
     const dx = from.look[0] - from.pos[0], dy = from.look[1] - from.pos[1], dz = from.look[2] - from.pos[2];
     hold0 = { b: Math.atan2(dx, dz), t: dy / (Math.hypot(dx, dz) || 1) };
@@ -5850,7 +6381,10 @@ function initHoleFlight(h, from = null) {
   const looks = path.map((p, i) => {
     const ls = p[2];
     if (ls >= sEnd) return lookPin;
-    if (ls < preS) {
+    /* the tracker stays in charge past the tee until it has CONVERGED on the
+       hole's own look (it hands over the first station it could reach it in
+       one step), so the handover is never a jump */
+    if (from && !(track && track.done) && ls < 150) {
       /* the route point FL.lookAhead on, pushed out to exactly that far
          horizontally so a bend never puts the look point under the camera.
          The blends between look points are ANGULAR about the camera: a
@@ -5861,51 +6395,32 @@ function initHoleFlight(h, from = null) {
       if (Math.hypot(dx, dz) < 1e-3) { const nx = path[Math.min(n - 1, i + 1)]; dx = nx[0] - p[0]; dz = nx[1] - p[1]; }
       const L = Math.hypot(dx, dz) || 1, gx = p[0] + dx / L * FL.lookAhead, gz = p[1] + dz / L * FL.lookAhead;
       const cam = [p[0], p[1]];
-      const ahead = blendLook(cam, [gx, terrainH(gx, gz) + 2, gz], lookFair(preS), smooth(preS - 120, preS, ls), turnIn);
-      const held = [p[0] + Math.sin(hold0.b) * FL.lookAhead, y[i] + hold0.t * FL.lookAhead, p[1] + Math.cos(hold0.b) * FL.lookAhead];
-      return blendLook(cam, held, ahead, smooth(0, 200, i * FL.ds), turnOut);
+      const ahead = ls < preS
+        ? blendLook(cam, [gx, terrainH(gx, gz) + 2, gz], lookFair(preS), smooth(preS - 120, preS, ls), turnIn)
+        : lookFair(ls);
+      /* The gimbal on the travel shot is a RATE-LIMITED tracker of that target:
+         starting from the heading it held over the last green, it pans toward
+         the route at no more than FL.swingRate degrees a second, whatever the
+         route itself is doing under it. A blend on distance or time stacked
+         its own swing on the turning arc's rotation and reached 34 deg/s. */
+      const tb = Math.atan2(ahead[0] - p[0], ahead[2] - p[1]);
+      const tp = Math.atan2(ahead[1] - y[i], Math.hypot(ahead[0] - p[0], ahead[2] - p[1]));
+      if (track === null) track = { b: hold0.b, p: Math.atan(hold0.t) };
+      else {
+        const dtS = Math.max(1e-3, times[i] - times[i - 1]);
+        let db = tb - track.b; if (db > Math.PI) db -= 2 * Math.PI; if (db < -Math.PI) db += 2 * Math.PI;
+        const stepB = FL.swingRate * Math.PI / 180 * dtS, stepP = FL.tiltRate * Math.PI / 180 * dtS;
+        if (ls >= preS && Math.abs(db) <= stepB && Math.abs(tp - track.p) <= stepP) { track = { done: true }; return lookFair(ls); }
+        track.b += clampf(db, -stepB, stepB);
+        track.p += clampf(tp - track.p, -stepP, stepP);
+      }
+      const cpv = Math.cos(track.p);
+      return [p[0] + Math.sin(track.b) * cpv * FL.lookAhead, y[i] + Math.sin(track.p) * FL.lookAhead, p[1] + Math.cos(track.b) * cpv * FL.lookAhead];
     }
     return lookFair(ls);
   });
   const fovs = path.map(p => lerp(FL.fovCruise, FL.fovOrbit, smooth(sEnd - 140, sEnd + 20, p[2])));
 
-  /* one velocity profile over path distance, integrated into a time table */
-  let iOrbit = n - 1;
-  for (let i = 0; i < n; i++) if (path[i][2] >= sEnd - 0.5) { iOrbit = i; break; }
-  const sOrbit = iOrbit * FL.ds, sTotal = (n - 1) * FL.ds;
-  const vFair = clampf(9 + lineLen * 0.032, 12, 22);
-  const vOrbit = Math.max(FL.vOrbit, R * FL.sweepRate * Math.PI / 180);
-  /* with a travel shot in front, the route is flown at transit speed and the
-     drone all but hovers at the push-off point before the hole's own profile
-     takes over -- the beat behind the tee that a flyover opens with */
-  let iPre = 0;
-  if (from) for (let i = 0; i < n; i++) if (path[i][2] >= preS - 0.5) { iPre = i; break; }
-  const sPre = iPre * FL.ds;
-  const base = s => s < sPre ? lerp(FL.vTransit, vFair, smooth(sPre - 100, sPre, s))
-    : lerp(vFair, vOrbit, smooth(sOrbit - 70, sOrbit + 10, s));
-  const dip = s => from ? 1 - 0.65 * Math.exp(-((s - sPre) / 35) * ((s - sPre) / 35)) : 1;
-  const vAt = s => base(s) * dip(s)
-    * (0.22 + 0.78 * smooth(0, 60, s)) * (0.30 + 0.70 * smooth(sTotal, sTotal - 40, s));
-  /* the profile is then capped by the path's own curvature -- a bend is flown
-     no faster than FL.panMax degrees per second of heading change -- with the
-     cap propagated both ways at FL.accel so the drone brakes into a turn and
-     picks up again out of it, never at the turn itself */
-  const vCap = new Float64Array(n);
-  for (let i = 0; i < n; i++) {
-    /* heading change over a two-station baseline, so the resampling's own
-       jitter does not read as a bend; the first stations are exempt because
-       the shot starts from rest there anyway */
-    const a = path[Math.max(0, i - 2)], b = path[i], c = path[Math.min(n - 1, i + 2)];
-    let dh = Math.atan2(c[0] - b[0], c[1] - b[1]) - Math.atan2(b[0] - a[0], b[1] - a[1]);
-    if (dh > Math.PI) dh -= 2 * Math.PI; if (dh < -Math.PI) dh += 2 * Math.PI;
-    const kappa = i < 3 ? 0 : Math.abs(dh) / (2 * FL.ds);
-    const panMax = path[i][2] < preS ? FL.panMaxTransit : FL.panMax;
-    vCap[i] = Math.min(vAt(i * FL.ds), panMax * Math.PI / 180 / Math.max(kappa, 1e-4));
-  }
-  for (let i = n - 2; i >= 0; i--) vCap[i] = Math.min(vCap[i], Math.sqrt(vCap[i + 1] * vCap[i + 1] + 2 * FL.accel * FL.ds));
-  for (let i = 1; i < n; i++) vCap[i] = Math.min(vCap[i], Math.sqrt(vCap[i - 1] * vCap[i - 1] + 2 * FL.accel * FL.ds));
-  const times = new Float64Array(n);
-  for (let i = 1; i < n; i++) times[i] = times[i - 1] + FL.ds / Math.max(0.5, 0.5 * (vCap[i] + vCap[i - 1]));
 
   tourFlight.st = { path, y, looks, fovs, times, n, sTotal, sOrbit, sPre, R, dir };
   tourFlight.duration = times[n - 1];
@@ -6118,24 +6633,44 @@ function endTour() {
 document.getElementById('tourBtn').onclick = startTour;
 
 /* --------------------------------------------------------------- kikaren
-   Click the course, get what a caddie would say: the distance, the climb, the
-   plays-like number, the lie out there, and how much of the line is carry over
-   water. The ray marches terrainH so a tree canopy cannot steal the hit. */
-let kik = false, kikGroup = null, kikPt = null;
+   Tap the course and get what a caddie would say. The ball starts on the
+   current tee; a long press (or "Mät härifrån") moves it to where you pressed,
+   a tap measures to the tapped point. Always on the card: front, centre and
+   back of the green from the ball, what the straight line to it crosses, and
+   the layups that leave a full approach. For a tapped point: the distance, the
+   climb, what the ball lands in, every hazard the shot crosses with the layup
+   that stays short and the carry that clears it, and the plays-like number with
+   its parts -- slope a metre per metre, wind from a live reading, temperature
+   off 21 °C. The arithmetic and its tests live in engine/rangefinder.js and
+   engine/weather.js. The ray marches terrainH so a tree canopy cannot steal the
+   hit. */
+let kik = false, kikGroup = null, kikPt = null, kikBall = null, kikWx = null, kikWxBusy = false;
 const kikBtn = document.getElementById('rangeBtn');
+const kikOut = document.getElementById('kikOut');
 kikBtn.onclick = () => {
   kik = !kik;
   kikBtn.classList.toggle('on', kik);
-  if (!kik) kikClear(); else toast('Tryck på banan för att mäta från aktuell tee');
+  const toolHint = document.getElementById('toolHint');
+  if (toolHint) {
+    toolHint.style.display = kik ? 'block' : '';
+    toolHint.textContent = 'Kikaren aktiv · tryck var som helst på banan för att mäta';
+  }
+  if (!kik) { kikClear(); return; }
+  toast('Tryck på banan för att mäta · håll kvar för att flytta bollen');
+  kikRender();
 };
 function kikClear() {
-  if (kikGroup) {
-    scene.remove(kikGroup);
-    kikGroup.traverse(o => { if (o.geometry) o.geometry.dispose(); });
-    kikGroup = null;
-  }
-  kikPt = null;
-  document.getElementById('kikOut').classList.remove('show');
+  kikErase();
+  kikPt = null; kikBall = null;
+  kikOut.classList.remove('show');
+  const toolHint = document.getElementById('toolHint');
+  if (toolHint && !kik) toolHint.style.display = '';
+}
+function kikErase() {
+  if (!kikGroup) return;
+  scene.remove(kikGroup);
+  kikGroup.traverse(o => { if (o.geometry) o.geometry.dispose(); });
+  kikGroup = null;
 }
 function groundHit(clientX, clientY) {
   camera.updateMatrixWorld(true);
@@ -6155,55 +6690,161 @@ function groundHit(clientX, clientY) {
   }
   return null;
 }
+/* the live reading for this course: fetched when the card first opens, again
+   when the half-hour cache has run out, never twice at once */
+function kikWeather() {
+  if (kikWxBusy || !GEO.origin) return;
+  if (kikWx && Number.isFinite(kikWx.fetchedAt) && Date.now() - kikWx.fetchedAt < WEATHER_TTL_MS) return;
+  kikWxBusy = true;
+  fetchWeather(GEO.origin.lat, GEO.origin.lon)
+    .then(w => { kikWxBusy = false; if (w && w !== kikWx) { kikWx = w; if (kik) kikRender(); } })
+    .catch(() => { kikWxBusy = false; });
+}
+/* what a straight shot crosses: water at its own level, sand */
+function kikKindAt(x, z) {
+  for (const w of WI.at(x, z)) if (!w.stream && ringSD(x, z, w.ring) < 0 && terrainH(x, z) < w.level + 0.3) return 'vatten';
+  for (const b of BI.at(x, z)) if (inRing(x, z, b.ring)) return 'bunker';
+  return null;
+}
+function kikLie(x, z, y) {
+  let over = false;
+  for (const w of WI.at(x, z)) if (!w.stream && ringSD(x, z, w.ring) < 0 && y < w.level + 0.3) over = true;
+  if (over) return 'vatten';
+  const c = classify(x, z);
+  return c.green > 0.5 ? 'green' : c.sand > 0.4 ? 'bunker' : c.tee > 0.5 ? 'tee' : c.fair > 0.4 ? 'fairway'
+       : c.path > 0.4 ? 'stig' : c.forest > 0.5 ? 'skog' : 'ruff';
+}
+/* every number on the card, with no DOM in it, so the harness can ask for the
+   same thing: V3D.rangefinder(origin, target) */
+function kikCompute(origin = null, target = null) {
+  const h = HOLES[hole - 1];
+  const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
+  const o = origin || kikBall || mk.c;
+  const fromTee = !origin && !kikBall;
+  const oy = terrainH(o[0], o[1]);
+  const wx = kikWx;
+  const bTo = p => compassBearing(o[0], o[1], p[0], p[1]);
+  const windFor = p => (wx ? windAlong(bTo(p), wx.windFromDeg, wx.windMs) : { head: 0, cross: 0 });
+  const tempC = wx ? wx.tempC : null;
+  const green = greenDistances(o, h.green);
+  const gc = h.green.c;
+  const gWind = windFor(gc);
+  const toGreen = { dist: green.centre, dh: terrainH(gc[0], gc[1]) - oy, hazards: lineHazards(o, gc, kikKindAt), wind: gWind };
+  toGreen.plays = playsLike({ dist: toGreen.dist, dh: toGreen.dh, head: gWind.head, tempC });
+  const t = target || kikPt;
+  let shot = null;
+  if (t) {
+    const dist = Math.hypot(t[0] - o[0], t[1] - o[1]);
+    const ty = terrainH(t[0], t[1]);
+    const wind = windFor(t);
+    shot = { target: t, dist, dh: ty - oy, lie: kikLie(t[0], t[1], ty), hazards: lineHazards(o, t, kikKindAt), wind,
+             plays: playsLike({ dist, dh: ty - oy, head: wind.head, tempC }) };
+  }
+  return { origin: o, fromTee, tee: TEE_NAMES[teeIdx], green, toGreen, layups: layupTargets(green.centre), shot, weather: wx };
+}
+function kikRender() {
+  kikWeather();
+  const r = kikCompute();
+  const m = v => `${Math.round(v)}`;
+  const sgn = v => (v > 0 ? '+' : '−') + m(Math.abs(v));
+  const parts = p => {
+    const s = [];
+    if (Math.abs(p.slope) >= 1) s.push(`${sgn(p.slope)} höjd`);
+    if (Math.abs(p.wind) >= 1) s.push(`${sgn(p.wind)} vind`);
+    if (Math.abs(p.temp) >= 1) s.push(`${sgn(p.temp)} temp`);
+    return s.length ? ` <small>(${s.join(', ')})</small>` : '';
+  };
+  const haz = H => H.map(z => z.type === 'vatten'
+    ? `<span class="kik-haz water">vatten · kort om <b>${m(z.from)}</b> · bär <b>${m(z.to)}</b> m</span>`
+    : `<span class="kik-haz sand">bunker <b>${m(z.from)}–${m(z.to)}</b> m</span>`).join('<br>');
+  const gTxt = r.green.front !== null
+    ? `fram <b>${m(r.green.front)}</b> · mitt <b>${m(r.green.centre)}</b> · bak <b>${m(r.green.back)}</b> m`
+    : `mitt <b>${m(r.green.centre)}</b> m`;
+  let html = `<div class="kik-head"><b>Kikaren</b><span>${r.fromTee ? `från tee ${r.tee}` : 'från bollen'}</span>` +
+             `${r.fromTee ? '' : '<button class="kik-btn" data-act="tee">Från tee</button>'}</div>`;
+  html += `<div class="kik-row">Green · ${gTxt}</div>`;
+  if (r.shot) {
+    const s = r.shot;
+    html += `<div class="kik-row kik-big">Till punkten <b>${m(s.dist)} m</b> · ${m(Math.abs(s.dh))} m ${s.dh >= 0 ? 'uppför' : 'nedför'} · landar i ${s.lie}</div>`;
+    html += `<div class="kik-row">Spelas som <b>${m(s.plays.total)} m</b>${parts(s.plays)}</div>`;
+    if (s.hazards.length) html += `<div class="kik-row">${haz(s.hazards)}</div>`;
+    html += `<div class="kik-row"><button class="kik-btn" data-act="ball">Mät härifrån</button></div>`;
+  } else {
+    html += `<div class="kik-row">Till green spelas som <b>${m(r.toGreen.plays.total)} m</b>${parts(r.toGreen.plays)}</div>`;
+    if (r.toGreen.hazards.length) html += `<div class="kik-row">På linjen: ${haz(r.toGreen.hazards)}</div>`;
+  }
+  if (r.layups.length) html += `<div class="kik-row">Lägg upp: ${r.layups.map(l => `${l.remain} m kvar → <b>${m(l.shot)}</b> m`).join(' · ')}</div>`;
+  html += kikWxLine(r);
+  kikOut.innerHTML = html;
+  kikOut.classList.add('show');
+  kikDraw(r);
+}
+function kikWxLine(r) {
+  const w = r.weather;
+  if (!w) return `<div class="kik-wx">Ingen vinddata${typeof navigator !== 'undefined' && navigator.onLine === false ? ' (offline)' : ''} · spelas-som räknar bara höjd</div>`;
+  const rel = r.shot ? r.shot.wind : r.toGreen.wind;
+  const relTxt = Math.abs(rel.head) >= 0.5 ? `${rel.head > 0 ? 'motvind' : 'medvind'} ${Math.abs(rel.head).toFixed(1)}` : 'sidvind';
+  const t = w.time ? w.time.slice(11, 16) : '';
+  return `<div class="kik-wx">${weatherWord(w.code)} · vind <b>${w.windMs.toFixed(1)} m/s</b> från ${compassName(w.windFromDeg)} (${relTxt})` +
+         ` · ${Math.round(w.tempC)} °C${t ? ` · ${t}` : ''}${w.stale ? ' · gammal avläsning' : ''}</div>`;
+}
+/* the shot in the scene: the arc from the ball to the point, a tick where each
+   hazard starts and ends, and the ball itself when it is not on the tee */
+function kikDraw(r) {
+  kikErase();
+  kikGroup = new THREE.Group();
+  const [ox, oz] = r.origin, oy = terrainH(ox, oz);
+  if (!r.fromTee) {
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(0.7, 10, 8), new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffffff) }));
+    ball.position.set(ox, oy + 0.7, oz);
+    kikGroup.add(ball);
+  }
+  if (r.shot) {
+    const [tx, tz] = r.shot.target, ty = terrainH(tx, tz), dist = r.shot.dist;
+    const P = [];
+    const rise = Math.min(30, 4 + dist * 0.055);
+    for (let i = 0; i <= 30; i++) {
+      const f = i / 30;
+      const x = ox + (tx - ox) * f, z = oz + (tz - oz) * f;
+      P.push(new THREE.Vector3(x, oy + 1.4 + (ty + 0.4 - oy - 1.4) * f + Math.sin(f * Math.PI) * rise, z));
+    }
+    kikGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(P),
+      new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0xffdf8a), transparent: true, opacity: 0.95 })));
+    const mark = new THREE.Mesh(new THREE.SphereGeometry(0.9, 10, 8), new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffdf8a) }));
+    mark.position.set(tx, ty + 0.9, tz);
+    kikGroup.add(mark);
+    const ux = (tx - ox) / dist, uz = (tz - oz) / dist;
+    for (const z of r.shot.hazards) {
+      const col = new THREE.Color(z.type === 'vatten' ? 0x4bb4d8 : 0xe2cf9a);
+      for (const s of [z.from, z.to]) {
+        const x = ox + ux * s, zz = oz + uz * s, y = terrainH(x, zz);
+        kikGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x, y + 0.2, zz), new THREE.Vector3(x, y + 4, zz)]),
+          new THREE.LineBasicNodeMaterial({ color: col })));
+      }
+    }
+  }
+  scene.add(kikGroup);
+}
 function kikMeasure(clientX, clientY) {
   const hit = groundHit(clientX, clientY);
   if (!hit) return;
-  kikClear();
-  const h = HOLES[hole - 1];
-  const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
-  const [ox, oz] = mk.c, [tx, tz] = hit;
-  const dist = Math.hypot(tx - ox, tz - oz);
-  const oy = terrainH(ox, oz), ty = terrainH(tx, tz);
-  const dh = ty - oy;
-  /* what is out there, and how much of the line is over water */
-  const c = classify(tx, tz);
-  let wet = 0;
-  const steps = Math.max(2, Math.ceil(dist / 4));
-  for (let i = 1; i < steps; i++) {
-    const sx = ox + (tx - ox) * i / steps, sz = oz + (tz - oz) * i / steps;
-    for (const w of WI.at(sx, sz)) {
-      if (!w.stream && ringSD(sx, sz, w.ring) < 0 && terrainH(sx, sz) < w.level + 0.3) { wet++; break; }
-    }
-  }
-  let over = false;
-  for (const w of WI.at(tx, tz)) if (!w.stream && ringSD(tx, tz, w.ring) < 0 && ty < w.level + 0.3) over = true;
-  const lie = over ? 'vatten' : c.green > 0.5 ? 'green' : c.sand > 0.4 ? 'bunker'
-            : c.tee > 0.5 ? 'tee' : c.fair > 0.4 ? 'fairway' : c.path > 0.4 ? 'stig'
-            : c.forest > 0.5 ? 'skog' : 'ruff';
-  const plays = dist + dh;
-  document.getElementById('kikOut').innerHTML =
-    `Till punkten <b>${dist.toFixed(0)} m</b> · ${Math.abs(dh).toFixed(0)} m ${dh >= 0 ? 'uppför' : 'nedför'}` +
-    ` · spelas <b>${plays.toFixed(0)} m</b><br>` +
-    `landar i ${lie}${wet ? ` · bär över vatten ~<b>${wet * 4} m</b>` : ''}`;
-  document.getElementById('kikOut').classList.add('show');
-  kikPt = [tx, tz];
-  /* the arc in the scene */
-  kikGroup = new THREE.Group();
-  const P = [];
-  const rise = Math.min(30, 4 + dist * 0.055);
-  for (let i = 0; i <= 30; i++) {
-    const f = i / 30;
-    const x = ox + (tx - ox) * f, z = oz + (tz - oz) * f;
-    P.push(new THREE.Vector3(x, oy + 1.4 + (ty + 0.4 - oy - 1.4) * f + Math.sin(f * Math.PI) * rise, z));
-  }
-  const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(P),
-    new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0xffdf8a), transparent: true, opacity: 0.95 }));
-  const mark = new THREE.Mesh(new THREE.SphereGeometry(0.9, 10, 8),
-    new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffdf8a) }));
-  mark.position.set(tx, ty + 0.9, tz);
-  kikGroup.add(line, mark);
-  scene.add(kikGroup);
+  kikPt = hit;
+  kikRender();
 }
+function kikPlaceBall(clientX, clientY) {
+  const hit = groundHit(clientX, clientY);
+  if (!hit) return;
+  kikBall = hit;
+  toast('Bollen ligger här nu · tryck för att mäta');
+  kikRender();
+}
+kikOut.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b) return;
+  if (b.dataset.act === 'tee') kikBall = null;
+  else if (b.dataset.act === 'ball' && kikPt) { kikBall = kikPt; kikPt = null; }
+  kikRender();
+});
 /* ------------------------------------------------- greengrid (yardage book & slope visualization)
    Professional golf simulation green reading:
    - High-density terrain-conforming grid lines closely masked to the green boundary
@@ -6539,7 +7180,10 @@ gridBtn.onclick = () => {
     if (tour) endTour();
   });
   renderer.domElement.addEventListener('pointerup', e => {
-    if (performance.now() - pt0 < 450 && Math.hypot(e.clientX - px0, e.clientY - py0) < 8) {
+    const held = performance.now() - pt0, moved = Math.hypot(e.clientX - px0, e.clientY - py0);
+    /* in kikaren a long press without a drag puts the ball where the finger is */
+    if (kik && moved < 8 && held >= 450 && held < 3000) { kikPlaceBall(e.clientX, e.clientY); return; }
+    if (held < 450 && moved < 8) {
       if (kik) {
         kikMeasure(e.clientX, e.clientY);
         return;
@@ -6570,8 +7214,8 @@ gridBtn.onclick = () => {
 
 addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
-  if (e.key === 'ArrowRight' || e.key === 'n') goHole(hole + 1, true);
-  if (e.key === 'ArrowLeft' || e.key === 'p') goHole(hole - 1, true);
+  if (e.key === 'ArrowRight' || e.key === 'n') goHole(hole >= NHOLES ? 1 : hole + 1, true);
+  if (e.key === 'ArrowLeft' || e.key === 'p') goHole(hole <= 1 ? NHOLES : hole - 1, true);
   if (e.key === 'h') { if (tour) endTour(); else setClean(!document.body.classList.contains('clean')); }
   if (e.key === 'm') setSky(skyState + 1);
 });
@@ -7071,6 +7715,10 @@ addEventListener('resize', () => {
 });
 
 let last = performance.now(), acc = 0, frames = 0, fps = 0;
+/* frames rendered since boot, monotonic: what a harness waits on after
+   changing anything, because under a software renderer a frame can take
+   longer than any fixed wait and a screenshot shows the LAST frame drawn */
+let FRAME_NO = 0, TIER_FRAME = 0;   /* the frame the tree tiers last changed on */
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
   terrainV2.tick(now);
@@ -7078,7 +7726,8 @@ function frame() {
   if (terrainV2.kind === 'graph' && terrainV2.active) {
     terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
   }
-  last = now; frames++; acc += dt;
+  updateTreeTiers();
+  last = now; frames++; acc += dt; FRAME_NO++;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
 
   if (camTween.on) {
@@ -7178,7 +7827,9 @@ renderer.setAnimationLoop(() => {
   if (BOOT_PERF.firstFrames.length < 12) {
     const t = performance.now();
     frame();
-    BOOT_PERF.firstFrames.push({ atMs: +(t - bootStarted).toFixed(1), ms: +(performance.now() - t).toFixed(1) });
+    BOOT_PERF.firstFrames.push({ atMs: +(t - bootStarted).toFixed(1), ms: +(performance.now() - t).toFixed(1),
+      tris: renderer.info?.render?.triangles ?? null, draws: renderer.info?.render?.drawCalls ?? null,
+      tiers: TREE_LOD.ready ? { t0: TREE_LOD.stats.tier0, t1: TREE_LOD.stats.tier1, t2: TREE_LOD.stats.tier2, t3: TREE_LOD.stats.tier3 } : null });
   } else frame();
 });
 document.getElementById('hdsub').textContent =
@@ -7285,6 +7936,8 @@ window.V3D = {
            draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
            backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
+  /* the rangefinder numbers for a ball and a target, no DOM: [x, z] each, null = the current tee / no target */
+  rangefinder: (origin = null, target = null) => kikCompute(origin, target),
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */
@@ -7480,6 +8133,52 @@ window.V3D = {
   /* the vegetation plan's Phase 0 instruments: the legacy population, and the
      object-layer state the v2 selection saw (today: no renderer, no tiles) */
   legacyTrees: ({ instances = false } = {}) => legacyTreeExport(instances),
+  /* the tree tiers' live state: how many trees are drawn full, decimated, and how many cells changed */
+  treeTiers: () => ({ ...TREE_LOD.stats, switchPx: TREE_LOD.switchPx, impostorPx: TREE_LOD.impostorPx, cell: TREE_LOD.cell }),
+  /* force every visible cell into one tier (1-3) at run time, 0 for the automatic choice */
+  setTreeLod: n => { TREE_LOD.force = [1, 2, 3, 4].includes(n | 0) ? n | 0 : 0; },
+  /* with ?impdbg=1: which term the impostors show (engine/tree-impostor.mjs) */
+  setImpostorDebug: n => { impostorDebugMode.value = n | 0; },
+  setImpostorBend: k => { impostorBend.value = +k || 0; },
+  frame: () => FRAME_NO,
+  /* the impostor atlases as the GPU holds them, for the harness: one
+     frame of one species' albedo or normal target, decoded to floats
+     (row 0 is whichever row the backend's readback puts first) */
+  treeAtlas: async (s, kind = 'albedo', i = 0, j = 0) => {
+    const atlas = TREE_LOD.atlases[s];
+    if (!atlas) return null;
+    const rt = atlas.targets[kind === 'normal' ? 1 : 0], fs = atlas.frameSize;
+    const raw = await renderer.readRenderTargetPixelsAsync(rt, i * fs, j * fs, fs, fs);
+    const half = h => { const e = (h >> 10) & 31, m = h & 1023, sg = h & 0x8000 ? -1 : 1;
+      return e === 0 ? sg * m * 2 ** -24 : e === 31 ? (m ? NaN : sg * Infinity) : sg * (1 + m / 1024) * 2 ** (e - 15); };
+    const data = raw instanceof Uint16Array ? Array.from(raw, half) : Array.from(raw);
+    return { frameSize: fs, framesPerSide: atlas.framesPerSide, size: atlas.size, radius: atlas.radius,
+             centreY: atlas.centreY, height: atlas.height, data };
+  },
+  /* the crown colour the mesh tiers multiply in, per species: what an
+     impostor's crown must average to before the season and the light */
+  treeTemplates: (dx = 0, dy = 0, dz = -1) => SPECIES.map(sp => {
+    const c = sp.crown.getAttribute('color'); let r = 0, g = 0, b = 0;
+    for (let k = 0; k < c.count; k++) { r += c.getX(k); g += c.getY(k); b += c.getZ(k); }
+    /* the crown's mean FACE normal as seen from direction d, each face
+       weighted by the area it shows to d -- what an atlas frame from d
+       must average to */
+    const pos = sp.crown.getAttribute('position'), idx = sp.crown.getIndex();
+    const A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3(), N = new THREE.Vector3();
+    let nx = 0, ny = 0, nz = 0, wsum = 0;
+    for (let f = 0; f < idx.count; f += 3) {
+      A.fromBufferAttribute(pos, idx.getX(f)); B.fromBufferAttribute(pos, idx.getX(f + 1)); C.fromBufferAttribute(pos, idx.getX(f + 2));
+      N.subVectors(B, A).cross(C.clone().sub(A));
+      const area2 = N.length(); if (!area2) continue;
+      N.divideScalar(area2);
+      const facing = N.x * dx + N.y * dy + N.z * dz;
+      if (facing <= 0) continue;
+      const w = area2 * facing;
+      nx += N.x * w; ny += N.y * w; nz += N.z * w; wsum += w;
+    }
+    return { cc: sp.cc, tc: sp.tc, vertexColour: [r / c.count, g / c.count, b / c.count], height: sp.templateHeight,
+             meanFaceNormal: [nx / wsum, ny / wsum, nz / wsum] };
+  }),
   v2Objects: () => ({
     rendererActivated: true,
     gate: V2_OBJECT_LAYER_GATE,
@@ -7498,7 +8197,10 @@ window.V3D = {
   }),
   plates: () => plateSites.map(p => ({ ...p })),
   course: () => ({ ...CMETA }),
-  settled: () => !camTween.on,
+  /* what the shot harness waits on: no camera tween, and the tree tiers'
+     last change drawn twice -- under a software renderer the frame that
+     compiles a tier's materials can outlast any fixed wait */
+  settled: () => !camTween.on && FRAME_NO >= TIER_FRAME + 2,
   /* the bansafari, measurable: simulate a hole's shot offline, or fly it live */
   flightSim: (n, step, transit) => flightSim(n, step, transit),
   flightState: () => ({ flying, tour, t: tourFlight.t, duration: tourFlight.duration, orbitT: tourFlight.orbitT,

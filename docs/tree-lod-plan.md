@@ -1,6 +1,6 @@
 # Trees by distance — the LOD plan for the planted forest
 
-Status: plan, nothing implemented. Written 2026-09-03 after the Puttom v2
+Status: phases 1 and 2 built (see "Status" at the end); phase 0 on hardware and phase 3 open. Written 2026-09-03 after the Puttom v2
 boot work; the frame-rate survey it answers is in the session notes and
 summarised in "Where the frame goes" below.
 
@@ -245,3 +245,179 @@ pay. Decide by looking, not in advance.
 Phases 1 and 2 are mechanical and can be built and gated blind on the
 SwiftShader harness (fingerprint, triangle counts, goldens); phase 3 needs
 eyes on a real screen.
+
+## Status — 2026-09-03
+
+Phases 1 and 2 are built on `claude/tree-lod-phase-1`; phase 0's hardware
+measurement is still owed (no GPU machine that day). Two things changed
+from the plan above on contact with the engine, and are worth reading
+before touching the code:
+
+- **Not BatchedMesh.** On the WebGPU backend a `BatchedMesh` is one draw
+  command per instance inside the pass (`WebGPUBackend.js`, the loop over
+  `_multiDrawCounts`), and on WebGL2 it needs `WEBGL_multi_draw`; neither
+  is "one draw" for 90,000 trees on our primary backend. The container is
+  one `InstancedMesh` per (species, part, tier) -- twelve draws -- and a
+  tree moves between tiers by a swap-remove in one tier's slot list and an
+  append in the other's, matrices copied from a table built once at boot.
+  Cells of 128 m decide the tier from the projected height of a nominal
+  12 m tree, with 10% hysteresis on every boundary, and a cell outside the
+  frustum is in no tier at all: per-cell culling took 83% of the population
+  out of the tee view before a tier saved a triangle.
+- **The impostors are lit, not baked.** Each species' atlas is two render
+  targets -- albedo + coverage, and tree-frame normal + crown mask -- and
+  the billboard is a `MeshStandardNodeMaterial` with `colorNode` and
+  `normalNode` from the blended frames, so the season tint, the back-lit
+  glow and every light preset apply to impostors and meshes alike. The far
+  ring's cones are the same impostors from the same atlases.
+
+Measured from the first tee under SwiftShader, same world every time
+(`boot-profile --fingerprint` identical to the baseline on every axis):
+
+| | baseline | phase 1 | phase 2 |
+|---|---|---|---|
+| triangles per frame | 48.8 M | 11.2 M | 10.2 M |
+| trees in the frame | 79,407 | 13,609 | 13,609 |
+| by tier (full / decimated / impostor) | 79,407 / – / – | 488 / 13,121 / – | 488 / 7,763 / 5,358 |
+| far ring | 57,652 cones × 10 tris | same | 57,652 impostors × 2 tris |
+| draws | 266 | 278 | 283 |
+| boot (page clock) | 24.4 s | 24.4 s | 26.9 s (atlas bake 1.2 s) |
+
+The remaining 10 M triangles are the terrain (29–42 tiles of 133k, drawn
+twice with its shadow pass), the ground cover and the buildings; the trees
+are now about a million.
+
+Two traps met on the way:
+
+- **A plain number times a TSL node is `NaN`** in JavaScript, and the
+  builder writes that `NaN` into the shader as a literal; the vertex shader
+  failed with `'NaN': undeclared identifier`. Wrap the number: `float(n)
+  .mul(node)`. The verbose profiler run (`--verbose`) is what showed it;
+  a plain run reports only "no page errors", because a shader that fails
+  to link is a console error, not an exception.
+- **`InstancedMesh` and a custom `positionNode` both run** (`NodeMaterial
+  .setupPosition` applies the instance matrix first, then assigns the
+  position node), so an impostor batch is a plain `Mesh` over an
+  `InstancedBufferGeometry` whose instanced attributes the material reads
+  by name, as the terrain batch does -- no instance matrix, no surprise.
+
+### The impostors, measured against the meshes they stand in for
+
+The first six-view comparison failed on the impostor views, and the pixel
+gate was right: the impostors were upside down, full of holes, green in the
+trunk and, against a low sun, 37% too bright. Each had a different cause,
+and each is now held by a measurement rather than a look.
+
+- **Upside down.** three's WebGL backend places a render target's viewport
+  from the BOTTOM and samples a render-target texture with v flipped
+  (`TextureNode.setupUV`); WebGPU does neither. A frame put in place by
+  `renderTarget.viewport` therefore lands in a different row per backend,
+  and the flip put every trunk above its crown. Frames are placed by the
+  PROJECTION now -- an NDC scale-and-offset both backends agree on -- and
+  read back with v flipped; `frameNdcOffset` and `frameUv` are held to
+  each other by a unit test. Verified by reading the atlas back
+  (`V3D.treeAtlas`): the horizon frame's base row is its widest.
+- **Holes.** An alpha test over an unfiltered 96 px frame drawn at a fifth
+  of its size samples a random texel; the atlases are mipmapped, and since
+  clear texels are black at zero coverage the chain is premultiplied by
+  construction and the draw divides it back out.
+- **Green trunks.** An opaque NodeMaterial forces its output alpha to 1
+  (`NodeBuilder.isOpaque`), so the crown mask baked into the normal
+  atlas's alpha was 1 everywhere and every trunk took the crown tint. The
+  bake materials use NoBlending, which is the one path that writes the
+  four channels as computed.
+- **Too bright at golden hour, right at noon.** The atlas normal is
+  correct: it is the crown's mean face normal, and the CPU's projected-area
+  mean over the same template agrees to 0.03 per axis. The error is that
+  lighting the MEAN normal is not the mean of lighting the facets. A
+  crown's sideways facets cancel in the average, what is left leans up,
+  and under an evening sky an up-leaning normal collects light the facets
+  never did; at noon the sun is overhead and the mean is honest, which is
+  why that view passed. Ablation under `?impdbg=lit` (each term switched
+  at run time): the atlas normal 100/122/72 on the far hill against the
+  mesh tier's 73/100/56, a normal facing the camera 66/96/50, straight up
+  121/134/87, no back-light 95/114/68 -- the direction, not the glow. The
+  lighting normal is bent toward the viewer by `IMPOSTOR_BEND` = 0.5,
+  swept as a uniform: 0.5 is within 2% of the mesh on the hill and 3% on
+  the noon treeline, 0.7 already 6% dark at noon. A calibration, stated
+  as one.
+
+The six-view comparison against the baseline (full meshes everywhere,
+cones beyond the middle ring), perceptual gate 2.5/255, all views
+`--seq` through the same harness:
+
+| view | phase 1 | phase 2 as first built | phase 2 now |
+|---|---|---|---|
+| 1st tee, golden | 0.06 | – | 0.32 |
+| 12th tee, golden | – | – | 0.28 |
+| 14th green, golden (the far hill) | 2.15 | 1.63 | **1.46** |
+| 7th, top, noon | – | – | 0.00 |
+| 5th tee, noon (the treeline) | 0.00 | **2.76 FAIL** | **0.003** |
+| 18th green, golden | – | – | 0.85 |
+
+What remains in the 14th's number is the impostors' silhouettes against
+the meshes', not their light.
+
+Two harness lessons from the same afternoon:
+
+- **A SwiftShader frame can outlast any fixed wait.** After a uniform or a
+  tier change a shot taken 1.5 s later showed the PREVIOUS state, and two
+  ablations that "did nothing" had simply not been rendered yet.
+  `V3D.frame()` is a monotonic counter; wait for it to advance by two.
+- **The debug view is tone-mapped whatever the material says**
+  (`toneMapped` is not read by node materials), and ACES turns any dot
+  product above 0.3 white. Show a scalar in bands, not in grey.
+
+### Phase 3 — the hero tier
+
+The plan's cards were built and taken out again the same day. Forty
+alpha-tested quads with a drawn needle sprig, pine tuft or birch twig, hung
+on the crown's rim, do break the silhouette -- and on these trees that is
+the wrong thing to do: the crowns are clean flat-shaded cones and blobs, and
+a photographic sprig on a facet reads as debris stuck to the tree, not as
+foliage. The owner saw it in the first side-by-side and said so. **The
+detail a low-poly tree can take is more of what it is made of**, so the
+hero tier is the same crown grown at a finer subdivision -- the same cones
+and blobs, the same noise, 24-segment cones with height segments and
+level-2 icosahedra against 12-segment cones and level-1 -- which makes a
+near tree rounder and more organic while it stays unmistakably the tree it
+becomes at 120 m. With it, a 12-segment trunk with a bark bump from a
+fissure field (the same field colours it, so bump and colour agree) and a
+root flare. `?lod=` now counts 1 hero, 2 full, 3 decimated, 4 impostor,
+and the tier update is a generic walk across the three boundaries (110 /
+40 / 14 px, 200 / 60 / 22 on a phone) with the 10% band on each.
+
+**Measured.** Fingerprint identical to the baseline on every axis; draws
+50 -> 56 (the six hero parts); vitest, check-app on all nine courses and the
+vegetation baseline pass. Tier counts, frame-settled (`tools/tree-tiers-at
+.mjs`), hero / full / decimated / impostor:
+
+| view | hero | full | decimated | impostor |
+|---|---|---|---|---|
+| 5th tee, noon | 189 | 1,970 | 8,334 | 2,882 |
+| 1st tee, golden | 191 | 494 | 8,023 | 4,575 |
+| 7th, overhead | 0 | 306 | 2,124 | 0 |
+
+The overhead row is the second thing this phase found: the tier distance
+was measured in the ground plane alone, so from 330 m straight up a cell
+under the camera counted as one metre away and drew its hero tier at 31
+projected pixels. The diff against the previous build was exactly the trees
+under the camera. The distance is to the cell's box now, height included,
+which also makes the flyover cheaper.
+
+**Boot.** The atlas fix had quietly cost 4.4 s: three regenerates a
+mipmapped render target's chain after every render into it, and the bake
+renders 64 frames a pass. Generated once at the end of each pass the bake
+is 1.65 s (was 5.67 s) and the boot 28.1 s on the harness, against 26.9 s
+for phase 2 and 24.0 s before the tree work; the hero tier itself is a tenth
+of a second of it.
+
+The six-view comparison against the baseline no longer fits the hero tier's
+views: the tee views (1st, 12th, 18th) now differ by 1.9–3.3/255 because
+the trees the camera stands beside ARE different, on purpose. That gate
+holds for tiers 2–4, which it still measures on the far views; tier 1 is
+judged by eye, as the plan said it would be.
+
+Open: phase 0 on hardware, where this tier must be judged; the dithered
+crossfade if the 14-pixel switch shows; and the terrain's own shadow
+casting, which is now the larger half of the shadow pass.

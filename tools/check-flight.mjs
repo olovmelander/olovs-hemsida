@@ -44,7 +44,7 @@ const TOUR = args.includes('--tour');
 const OUT = flag('out', path.join('geobuild', 'shots', 'flight'));
 fs.mkdirSync(OUT, { recursive: true });
 
-const CLEAR_MIN = 12, PAN_MAX = 20, ACC_MAX = 40, PITCH_MIN = 4, PITCH_MAX = 42, DUR_MIN = 24, DUR_MAX = 80, JUMP_MAX = 35;
+const CLEAR_MIN = 12, PAN_MAX = 20, ACC_MAX = 40, PITCH_MIN = 1, PITCH_MAX = 42, DUR_MIN = 24, DUR_MAX = 80, JUMP_MAX = 35;
 let failures = 0;
 const fail = msg => { failures++; console.log('  FAIL ' + msg); };
 

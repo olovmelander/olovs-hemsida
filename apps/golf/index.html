@@ -110,6 +110,33 @@ canvas{display:block;position:fixed;inset:0}
 .panel-close-btn:hover{background:rgba(255,255,255,.16);color:#fff}
 .mini-head{display:none;align-items:center;justify-content:space-between;padding:0 2px 6px}
 .mini-title{font:700 10.5px/1 Outfit,sans-serif;color:var(--turf);letter-spacing:.08em;text-transform:uppercase}
+.sheet-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:43;opacity:0;transition:opacity .25s ease;pointer-events:none}
+.sheet-backdrop.open{display:block;opacity:1;pointer-events:auto}
+
+/* Hole Header in Rail (Always Visible) */
+.rail-hole-summary{position:relative;padding:2px 30px 10px 2px;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.08)}
+.rhs-main{display:flex;align-items:center;flex-wrap:wrap;gap:5px;font:700 13px/1.2 Outfit,sans-serif;color:var(--ink);letter-spacing:.02em}
+.rhs-hole{color:var(--turf);font-weight:800;letter-spacing:.04em}
+.rhs-dot{color:var(--faint);font-size:11px}
+.rhs-par,.rhs-dist{color:var(--ink)}
+.rhs-index{color:var(--dim);font-size:11.5px;font-weight:600}
+.rhs-sub{font-size:11px;line-height:1.4;color:var(--dim);margin-top:4px}
+.rhs-sub b{color:var(--ink);font-weight:600}
+#rail .panel-close-btn{position:absolute;top:0;right:0;display:flex;width:24px;height:24px;font-size:14px;border-radius:50%}
+@media(min-width:769px){#rail .panel-close-btn{display:none}}
+@media(max-width:768px){#rail.open .panel-close-btn{display:flex;width:28px;height:28px;font-size:16px}}
+
+/* Action, Toggle, and Nav buttons */
+.btn-action{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:600}
+.btn-action-icon{flex:0 0 auto;color:var(--turf);transition:transform .15s}
+.btn-action:hover .btn-action-icon{transform:scale(1.15)}
+.btn-toggle{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn-toggle-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);flex:0 0 auto;transition:all .18s ease}
+.btn-toggle.on .btn-toggle-dot{background:#5fd07a;box-shadow:0 0 6px rgba(95,208,122,.8)}
+.btn-nav{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-color:rgba(255,255,255,.14)}
+.btn-nav svg{color:var(--turf)}
+.tool-hint{font-size:10px;line-height:1.35;color:var(--faint);padding:0 3px;margin:-2px 0 6px;letter-spacing:.01em}
+.debug-pipeline{opacity:.45;font-size:9.5px}
 
 /* holes container & chevrons */
 .holes-wrap{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:6px}
@@ -309,12 +336,13 @@ body.tour::before{top:0}body.tour::after{bottom:0}
     width:min(280px,calc(100vw - 16px));height:min(280px,calc(100vw - 16px));padding:8px;
     border-radius:18px;box-shadow:0 22px 50px rgba(0,0,0,.7)}
   #mini.mobile-open .mini-head{display:flex}
-  #mini.mobile-open .panel-close-btn{display:flex}
+  #mini.mobile-open canvas{flex:1;min-height:0;width:100%;height:100%;object-fit:contain}
+  #mini.mobile-open .panel-close-btn{display:flex;width:26px;height:26px;font-size:15px}
   #note.mobile-open{display:block;position:fixed;z-index:44;bottom:calc(100px + env(safe-area-inset-bottom));
     left:calc(8px + env(safe-area-inset-left));right:calc(8px + env(safe-area-inset-right));
     max-width:min(360px,calc(100vw - 16px));max-height:45vh;overflow-y:auto;padding:12px 14px;
     border-radius:16px;box-shadow:0 22px 50px rgba(0,0,0,.7)}
-  #note.mobile-open .panel-close-btn{display:flex}
+  #note.mobile-open .panel-close-btn{display:flex;width:26px;height:26px;font-size:15px}
 }
 
 @media(max-width:768px){
@@ -456,15 +484,29 @@ body.tour::before{top:0}body.tour::after{bottom:0}
   <div id="tees"></div>
 </div>
 
+<div id="railBackdrop" class="sheet-backdrop"></div>
 <div class="panel" id="rail">
-  <div class="lbl">Vy</div>
+  <div class="rail-hole-summary" id="railHoleSummary">
+    <div class="rhs-main">
+      <span class="rhs-hole" id="railHoleNum">HÅL 1</span>
+      <span class="rhs-dot">·</span>
+      <span class="rhs-par" id="railHolePar">PAR 4</span>
+      <span class="rhs-dot">·</span>
+      <span class="rhs-dist" id="railHoleDist">386 M</span>
+      <span class="rhs-dot" id="railHoleIndexDot">·</span>
+      <span class="rhs-index" id="railHoleIndex">INDEX 10</span>
+    </div>
+    <div class="rhs-sub" id="railHoleSub">Spelas 6 m nedför</div>
+    <button class="panel-close-btn" id="railCloseBtn" aria-label="Stäng meny" title="Stäng">×</button>
+  </div>
+  <div class="lbl">Kameravy</div>
   <div class="grp">
     <button class="btn" data-cam="tee">Tee</button>
     <button class="btn" data-cam="green">Green</button>
     <button class="btn on" data-cam="orbit">Fritt</button>
     <button class="btn" data-cam="top">Ovan</button>
   </div>
-  <div class="lbl">Ljus</div>
+  <div class="lbl">Ljus & Atmosfär</div>
   <div class="grp">
     <button class="btn on" data-preset="golden">Kväll</button>
     <button class="btn" data-preset="noon">Dag</button>
@@ -474,10 +516,22 @@ body.tour::before{top:0}body.tour::after{bottom:0}
     <button class="btn" data-preset="dawn">Gryning</button>
     <button class="btn" data-preset="host">Höst</button>
   </div>
-  <div class="grp"><button class="btn" id="flyBtn">Flygtur</button><button class="btn" id="tourBtn">Bansafari</button></div>
-  <div class="grp"><button class="btn" id="rangeBtn">Kikaren</button><button class="btn" id="gridBtn">Greengrid</button></div>
-  <div class="grp"><button class="btn on" id="skyltBtn">Skyltar</button></div>
-  <div class="grp"><button class="btn" id="bytBtn">Välj bana</button></div>
+  <div class="lbl">Guidade turer</div>
+  <div class="grp">
+    <button class="btn btn-action" id="flyBtn"><svg class="btn-action-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Flygtur</button>
+    <button class="btn btn-action" id="tourBtn"><svg class="btn-action-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Bansafari</button>
+  </div>
+  <div class="lbl">Verktyg</div>
+  <div class="grp">
+    <button class="btn btn-toggle" id="rangeBtn"><span class="btn-toggle-dot"></span> Kikaren</button>
+    <button class="btn btn-toggle" id="gridBtn"><span class="btn-toggle-dot"></span> Greengrid</button>
+  </div>
+  <div class="tool-hint" id="toolHint">Tryck på banan för att mäta med Kikaren</div>
+  <div class="lbl">Visning & Bana</div>
+  <div class="grp">
+    <button class="btn btn-toggle on" id="skyltBtn"><span class="btn-toggle-dot"></span> Skyltar</button>
+    <button class="btn btn-nav" id="bytBtn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg> Välj bana</button>
+  </div>
   <div id="facts"></div>
 </div>
 
