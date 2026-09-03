@@ -81,7 +81,8 @@ the distance is to the cell's box now, height included.
 outlast any fixed wait, so `V3D.settled()` and `V3D.frame()` are what a
 shot waits on; a debug view is tone-mapped whatever the material says, so
 scalars are shown in colour bands; measure like with like — the first shot
-after boot differs from later ones over the whole ground.
+after boot differs from later ones over the whole ground (hole 14 read
+9.05/255 against itself as a first shot and 0.68/255 as a second).
 
 Tools added: `tools/tree-lod-ab.mjs`, `tools/tree-tiers-at.mjs`,
 `tools/impostor-atlas-read.mjs`, `tools/impostor-ablation.mjs`,
