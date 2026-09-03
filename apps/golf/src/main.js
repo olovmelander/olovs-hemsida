@@ -53,7 +53,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    threshold, or feeds a smoothstep that has saturated, passes the threshold
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
-import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode } from './engine/tree-impostor.mjs';
+import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
@@ -7790,6 +7790,7 @@ window.V3D = {
   setTreeLod: n => { TREE_LOD.force = [1, 2, 3].includes(n | 0) ? n | 0 : 0; },
   /* with ?impdbg=1: which term the impostors show (engine/tree-impostor.mjs) */
   setImpostorDebug: n => { impostorDebugMode.value = n | 0; },
+  setImpostorBend: k => { impostorBend.value = +k || 0; },
   frame: () => FRAME_NO,
   /* the impostor atlases as the GPU holds them, for the harness: one
      frame of one species' albedo or normal target, decoded to floats

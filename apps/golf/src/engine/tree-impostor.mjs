@@ -28,6 +28,9 @@ import {
  *  5 the frame weights. Unlit and unfogged; the dot terms are banded
  *  (red < 0, yellow < 0.3, green) because the output is still tone-mapped. */
 export const impostorDebugMode = uniform(0);
+/** With `debug`, how far the lighting normal is bent toward the viewer (0 the
+ *  atlas normal, 1 the view direction); the harness sweeps it. */
+export const impostorBend = uniform(0);
 
 /* Two facts about render targets that decide the atlas layout, both read
    out of three.js 0.185 rather than assumed:
@@ -309,9 +312,8 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
      one term at a time: 10 no back-light, 11 the normal facing the camera,
      12 the normal straight up, 13 the normal negated */
   const m = impostorDebugMode;
-  const bent = k => normalize(nWorld.mul(1 - k).add(view.mul(k)));
-  const nLit = !debug ? nWorld : select(m.lessThan(10.5), nWorld, select(m.lessThan(11.5), view, select(m.lessThan(12.5), vec3(0, 1, 0),
-    select(m.lessThan(13.5), nWorld.negate(), select(m.lessThan(15.5), nWorld, select(m.lessThan(16.5), bent(0.4), select(m.lessThan(17.5), bent(0.6), bent(0.8))))))));
+  const bentToView = normalize(nWorld.mul(float(1).sub(impostorBend)).add(view.mul(impostorBend)));
+  const nLit = !debug ? nWorld : select(m.lessThan(10.5), bentToView, select(m.lessThan(11.5), view, select(m.lessThan(12.5), vec3(0, 1, 0), nWorld.negate())));
   material.normalNode = transformNormalToView(nLit);
   material.alphaTestNode = float(0.5);
   material.opacityNode = coverage;
