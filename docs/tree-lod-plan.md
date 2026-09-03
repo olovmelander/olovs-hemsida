@@ -342,6 +342,22 @@ and each is now held by a measurement rather than a look.
   the noon treeline, 0.7 already 6% dark at noon. A calibration, stated
   as one.
 
+The six-view comparison against the baseline (full meshes everywhere,
+cones beyond the middle ring), perceptual gate 2.5/255, all views
+`--seq` through the same harness:
+
+| view | phase 1 | phase 2 as first built | phase 2 now |
+|---|---|---|---|
+| 1st tee, golden | 0.06 | – | 0.32 |
+| 12th tee, golden | – | – | 0.28 |
+| 14th green, golden (the far hill) | 2.15 | 1.63 | **1.46** |
+| 7th, top, noon | – | – | 0.00 |
+| 5th tee, noon (the treeline) | 0.00 | **2.76 FAIL** | **0.003** |
+| 18th green, golden | – | – | 0.85 |
+
+What remains in the 14th's number is the impostors' silhouettes against
+the meshes', not their light.
+
 Two harness lessons from the same afternoon:
 
 - **A SwiftShader frame can outlast any fixed wait.** After a uniform or a
