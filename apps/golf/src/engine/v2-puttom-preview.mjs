@@ -312,8 +312,10 @@ function sampleTerrainResource(resource, worldX, worldZ) {
   const west = Math.floor(x), east = Math.min(resource.width - 1, west + 1);
   const north = Math.floor(y), south = Math.min(resource.height - 1, north + 1);
   const at = (columnIndex, rowIndex) => {
-    const offset = (rowIndex * resource.width + columnIndex) * 8;
-    const quantized = resource.textureData[offset] | resource.textureData[offset + 1] << 8;
+    /* the verified payload carries the same fine sample as the first texel */
+    const quantized = resource.payload
+      ? resource.payload[(rowIndex * resource.width + columnIndex) * 2] | resource.payload[(rowIndex * resource.width + columnIndex) * 2 + 1] << 8
+      : resource.textureData[(rowIndex * resource.width + columnIndex) * 8] | resource.textureData[(rowIndex * resource.width + columnIndex) * 8 + 1] << 8;
     return quantized === resource.noDataValue
       ? Number.NaN
       : resource.heightOffsetWorld + quantized * resource.heightScaleMetres;
@@ -392,6 +394,20 @@ export function createTerrainResourceSampler(resources) {
  * what anything that can only omit a rectangle (the legacy CORE cutout) must
  * be given instead.
  */
+/* A copy of a render resource with fields replaced that keeps a lazy resource
+   lazy: data fields are copied, accessors delegate. Local, like the sampler
+   above, so the GPK1 player never statically pulls the runtime package. */
+function deriveResource(resource, overrides) {
+  const derived = {};
+  for (const [key, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(resource))) {
+    if (key in overrides) continue;
+    if (descriptor.get) Object.defineProperty(derived, key, { enumerable: true, get: () => resource[key] });
+    else derived[key] = descriptor.value;
+  }
+  Object.assign(derived, overrides);
+  return Object.freeze(derived);
+}
+
 export function alignTerrainPreviewToLegacyFrame(loaded, legacyOriginEpsg3006, legacyFrame) {
   const { descriptor, resources } = loaded || {};
   if (!descriptor?.frame?.origin || !Array.isArray(resources) || !resources.length) {
@@ -420,8 +436,8 @@ export function alignTerrainPreviewToLegacyFrame(loaded, legacyOriginEpsg3006, l
     toLegacy: geodetic.toLegacy,
     toGrid: geodetic.toGrid,
   });
-  const aligned = resources.map(resource => Object.freeze({
-    ...resource,
+  /* derived, not spread: a spread reads the lazy texel accessors */
+  const aligned = resources.map(resource => deriveResource(resource, {
     worldOriginX: resource.worldOriginX + bridge.translateX,
     worldOriginZ: resource.worldOriginZ + bridge.translateZ,
     heightOffsetWorld: resource.heightOffsetWorld + bridge.translateY,

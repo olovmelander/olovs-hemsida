@@ -1,2 +1,6 @@
 *.bvch binary
 apps/golf/public/grounds/puttom/*.json text eol=lf
+# the source-manifest gate hashes these; a CRLF checkout must never change what is committed
+geo_data/**/*.json text eol=lf
+geobuild/*.json text eol=lf
+*build/*.json text eol=lf

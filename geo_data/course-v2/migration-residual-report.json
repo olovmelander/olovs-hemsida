@@ -133,12 +133,12 @@
       },
       "report": {
         "path": "geo_data/course-v2/angso/migration/residual-report.json",
-        "sha256": "6c00aa295ef169c69a7ac1de81c25c03503c298e289bab6868ec022c8156860b"
+        "sha256": "1099b964124f54abd1ab645c535f9221297a4f2c5eb929a15bccc9f3761b1da9"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
-          "sha256": "96d5ff2f155c5628d22c8dc8358d57e94cadf23503fffd8f45469b9892ff05d0"
+          "sha256": "28cfa8f635210037191a2b3eebbf6ffadf6641d931bc0d77846022c49ce55877"
         }
       ]
     },
@@ -267,16 +267,16 @@
       },
       "report": {
         "path": "geo_data/course-v2/johannesberg/migration/residual-report.json",
-        "sha256": "02dcc255a2b42bb8b576027c5db9acc138d823987632423e7450592132b394b9"
+        "sha256": "7ebcd9a527cf39816f34ac50b3436d5e5fde9bb21f9b7c749752118621ed794e"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/johannesberg/migration/course-model.epsg3006.json",
-          "sha256": "2e6b367489a4b75045dcfd382365b8e8a9f31cfac9d23f7b48e10e1123b349fd"
+          "sha256": "885a978ff51df00168531aa6401d715a2001885aa6c5f6f8940db280830839e0"
         },
         {
           "path": "geo_data/course-v2/johannesberg/migration/nine-course-model.epsg3006.json",
-          "sha256": "0cfac27372792daeefa75ffa033dcac98025265fccf29dd032dde999d2f4bdfd"
+          "sha256": "2693e21b8ee81af93b65427227a91b45c7e7309ecb9acaf9e847f5ea722ac70b"
         }
       ]
     },
@@ -404,12 +404,12 @@
       },
       "report": {
         "path": "geo_data/course-v2/norrfallsviken/migration/residual-report.json",
-        "sha256": "a414d70ab56e2826cd8d304955aae95334d258e1edacdb5eeabde4b104a77971"
+        "sha256": "9c5ea0a299c1bfaaade8f211a8d34e7f1db4a610e5a19ed4327d38e575f9be1d"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/norrfallsviken/migration/course-model.epsg3006.json",
-          "sha256": "65bdbad84aee8ce3cbc473e6f8c340a1ce90a17604cf06f2076197ad228a977d"
+          "sha256": "185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a"
         }
       ]
     },
@@ -426,7 +426,7 @@
         "status": "horizontal-seed-only-pending-independent-control",
         "source": "legacyFrame.originWgs84"
       },
-      "coordinatePairCount": 3363,
+      "coordinatePairCount": 3564,
       "outsideCourseVicinity5km": 22,
       "scopes": {
         "playingGeometry": {
@@ -465,84 +465,84 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 3341,
+          "coordinatePairCount": 3542,
           "directFrameDelta": {
-            "count": 3341,
+            "count": 3542,
             "biasMetres": {
-              "x": -15.547188,
-              "z": -1.480539
+              "x": -15.273831,
+              "z": -1.237953
             },
-            "rmseMetres": 88.771222,
-            "p50Metres": 53.059305,
-            "p95Metres": 176.819969,
-            "p99Metres": 244.948319,
+            "rmseMetres": 86.345104,
+            "p50Metres": 45.065479,
+            "p95Metres": 173.248393,
+            "p99Metres": 243.329682,
             "maxMetres": 306.001829
           },
           "bestFitSimilarity": {
-            "scale": 1.00199104,
-            "rotationDegrees": -3.527889234,
+            "scale": 1.001990697,
+            "rotationDegrees": -3.527861156,
             "translationMetres": {
-              "x": 0.089186,
-              "z": -0.000948
+              "x": 0.083467,
+              "z": 0.004572
             },
             "residuals": {
-              "count": 3341,
+              "count": 3542,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 1.006233,
-              "p50Metres": 0.512588,
-              "p95Metres": 2.347914,
-              "p99Metres": 3.622525,
-              "maxMetres": 5.398961
+              "rmseMetres": 0.978702,
+              "p50Metres": 0.447844,
+              "p95Metres": 2.298121,
+              "p99Metres": 3.574116,
+              "maxMetres": 5.409379
             }
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 3363,
+          "coordinatePairCount": 3564,
           "directFrameDelta": {
-            "count": 3363,
+            "count": 3564,
             "biasMetres": {
-              "x": -17.0512,
-              "z": -0.054007
+              "x": -16.694708,
+              "z": 0.106629
             },
-            "rmseMetres": 92.370795,
-            "p50Metres": 53.5056,
-            "p95Metres": 182.017041,
-            "p99Metres": 274.616912,
+            "rmseMetres": 89.851881,
+            "p50Metres": 45.841594,
+            "p95Metres": 179.282241,
+            "p99Metres": 268.541075,
             "maxMetres": 346.375073
           },
           "bestFitSimilarity": {
-            "scale": 1.001967631,
-            "rotationDegrees": -3.526666345,
+            "scale": 1.001967378,
+            "rotationDegrees": -3.526634227,
             "translationMetres": {
-              "x": 0.096094,
-              "z": -0.006852
+              "x": 0.089706,
+              "z": -0.001163
             },
             "residuals": {
-              "count": 3363,
+              "count": 3564,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 1.01567,
-              "p50Metres": 0.533536,
-              "p95Metres": 2.290561,
-              "p99Metres": 3.66183,
-              "maxMetres": 5.52373
+              "rmseMetres": 0.988062,
+              "p50Metres": 0.471956,
+              "p95Metres": 2.267301,
+              "p99Metres": 3.613792,
+              "maxMetres": 5.534767
             }
           }
         }
       },
       "report": {
         "path": "geo_data/course-v2/puttom/migration/residual-report.json",
-        "sha256": "c0051b6daeefd52d46a8a0c9d3ad26d0a40a2a6df76201affbcb5c06400635c1"
+        "sha256": "84c9b8771652aacdcd0e32cc1fde370ed2ebc87080b88e5b721b2cd18325627c"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/puttom/migration/course-model.epsg3006.json",
-          "sha256": "75c5223c0405f6bd1fefa51e8870a3dacb9ffebbc05b8f0df5a10fe7f189581c"
+          "sha256": "518beceead88a48ebce53e66282031aed85b57d4e7e4b8058b39f7d8f17d38cf"
         }
       ]
     },
@@ -671,12 +671,12 @@
       },
       "report": {
         "path": "geo_data/course-v2/upsala/migration/residual-report.json",
-        "sha256": "dedbd4c5000d140bb43e3a24b07e7bb79d230c0696dbb74b6a9c0bd9a675ff1a"
+        "sha256": "282faeed445cb23874cca46711196e6d09f6482d71b43965c1dccf314bbf854f"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/upsala/migration/course-model.epsg3006.json",
-          "sha256": "f01fa7c184e53925b3792f221b1a20caf8831e9d13d927435ff5dc46f7582bd4"
+          "sha256": "36f2187cb2096523205b827869eb8b3131be208cb969e4c4cf4a554c6ada9da4"
         },
         {
           "path": "geo_data/course-v2/upsala/migration/mellanbanan-model.epsg3006.json",
@@ -809,16 +809,16 @@
       },
       "report": {
         "path": "geo_data/course-v2/veckefjarden/migration/residual-report.json",
-        "sha256": "6516dd7e312c863a3d05f85e9324b46176d1b63bc9ea6793f0de73dde78b92d8"
+        "sha256": "d6492f28358e9a7d74c81835e02c373c142e6b2379f0d94be9019eb15164f14e"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/veckefjarden/migration/course-model.epsg3006.json",
-          "sha256": "605f8cfff7354929ff291b3c522919573f5ecb452656819180573520b6ce191a"
+          "sha256": "f98de4a0aa0c06276d46520d189c428c92efa8cee33fc6893bad2cec492de436"
         },
         {
           "path": "geo_data/course-v2/veckefjarden/migration/short-course-model.epsg3006.json",
-          "sha256": "e466d83d28fb501f8dc0ebcc294e8fc171bd9e9db529e08e57eae1370b2cc8b1"
+          "sha256": "4a6554023dfbe113d72a9bb5d6ada4d3e2fa81a16e6e5b1a8d89078f30f697a2"
         }
       ]
     }

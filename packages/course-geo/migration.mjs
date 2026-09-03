@@ -4,6 +4,9 @@ const GEOMETRY_KEYS = new Set([
   'range', 'greens', 'fairways', 'tees', 'bunkers', 'grass',
   'poles', 'towers', 'yard', 'hayfields', 'shallows', 'clearfells',
   'beaches', 'chains', 'pois',
+  /* the range tee line (mat centres) and the safety net (a polyline), traced
+     off the tiles for Puttom -- world points like every key above */
+  'bays', 'nets',
 ]);
 
 const finitePair = value => Array.isArray(value)

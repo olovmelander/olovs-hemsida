@@ -68,8 +68,21 @@ function roles(value, at, fail) {
   });
 }
 
+/* Text files are hashed with CRLF folded to LF. Git rewrites line endings on
+   a Windows checkout, so a checksum recorded from the bytes on disk there is
+   the checksum of a file nobody committed: 21 manifest entries were recorded
+   that way and failed on every Linux run, while the same gate on the same
+   Windows checkout had earlier reported false mismatches on files nobody
+   touched (CLAUDE.md). Folding makes the gate read the same everywhere; the
+   recorded value is the hash of the committed (LF) bytes. Binary artifacts
+   (.bvch and the like) are hashed as they are. */
+const TEXT_EXTENSIONS = new Set(['.json', '.geojson', '.txt', '.md', '.csv', '.svg', '.mjs', '.js', '.html']);
 export function sha256File(file) {
-  return createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+  const bytes = fs.readFileSync(file);
+  const dot = file.lastIndexOf('.');
+  const extension = dot >= 0 ? file.slice(dot).toLowerCase() : '';
+  if (!TEXT_EXTENSIONS.has(extension) || !bytes.includes(13)) return createHash('sha256').update(bytes).digest('hex');
+  return createHash('sha256').update(Buffer.from(bytes.toString('latin1').replace(/\r\n/g, '\n'), 'latin1')).digest('hex');
 }
 
 export function readJson(file) {

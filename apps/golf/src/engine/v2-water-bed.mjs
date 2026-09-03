@@ -13,6 +13,7 @@
  * every tile the GPU decodes, so what is measured is what is drawn.
  */
 import { squaredDistanceTransform } from '../../../../packages/course-v2/distance-transform.mjs';
+import { inRingIndexed } from './ring-index.mjs';
 
 const UINT16_NO_DATA_DEFAULT = 65535;
 
@@ -30,15 +31,6 @@ function bbox(ring) {
   return { x0, z0, x1, z1 };
 }
 
-function inRing(x, z, ring) {
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const [xi, zi] = ring[i], [xj, zj] = ring[j];
-    if ((zi > z) !== (zj > z) && x < (xj - xi) * (z - zi) / (zj - zi) + xi) inside = !inside;
-  }
-  return inside;
-}
-
 /**
  * Build the bed field on the flat-water raster's own grid (grid space,
  * cells of `spacing` metres). A cell is water when it belongs to a kept flat
@@ -50,6 +42,7 @@ export function buildWaterBedField({
   flatWater,
   knownBodies = [],
   toLegacy = (x, z) => [x, z],
+  toGrid = null,
   shoreDepthMetres = 0.15,
   depthPerMetre = 0.12,
   maximumDepthMetres = 3.5,
@@ -60,6 +53,10 @@ export function buildWaterBedField({
   if (!(shoreDepthMetres >= 0) || !(depthPerMetre > 0) || !(maximumDepthMetres > shoreDepthMetres)) {
     throw new RangeError('the depth profile must rise from a non-negative shore depth to a larger maximum');
   }
+  const clock = typeof performance !== 'undefined' ? () => performance.now() : () => Date.now();
+  const timings = {};
+  let phaseStarted = clock();
+  const phase = name => { timings[name] = Math.round(clock() - phaseStarted); phaseStarted = clock(); };
   const levelByComponent = new Map(components.map(component => [component.id, component.level]));
   const level = new Float32Array(width * height).fill(Number.NaN);
   const mask = new Uint8Array(width * height);
@@ -69,25 +66,61 @@ export function buildWaterBedField({
     mask[i] = 1;
     level[i] = componentLevel;
   }
+  phase('mask');
   const known = knownBodies
     .filter(body => body.ring?.length >= 3 && Number.isFinite(body.level))
     .map(body => ({ ring: body.ring, level: body.level, bb: bbox(body.ring) }));
-  if (known.length) {
-    for (let row = 0; row < height; row++) {
-      for (let column = 0; column < width; column++) {
-        const [lx, lz] = toLegacy(x0 + (column + 0.5) * spacing, z0 + (row + 0.5) * spacing);
-        for (const body of known) {
-          if (lx < body.bb.x0 || lx > body.bb.x1 || lz < body.bb.z0 || lz > body.bb.z1) continue;
-          if (!inRing(lx, lz, body.ring)) continue;
+  /* A cell takes the first body, in order, whose ring holds its centre. */
+  const claim = (row, column) => {
+    const [lx, lz] = toLegacy(x0 + (column + 0.5) * spacing, z0 + (row + 0.5) * spacing);
+    for (const body of known) {
+      if (lx < body.bb.x0 || lx > body.bb.x1 || lz < body.bb.z0 || lz > body.bb.z1) continue;
+      /* the banded crossing test: the same answer as inRing, without walking
+         a 118-vertex lake ring for each of 700,000 cells in the lakes' boxes */
+      if (!inRingIndexed(lx, lz, body.ring)) continue;
+      const i = row * width + column;
+      mask[i] = 1;
+      level[i] = body.level;   // a measured body's level wins over a flat's mean
+      return;
+    }
+  };
+  if (known.length && typeof toGrid === 'function') {
+    /* The bridge is linear (a rotation and two scales), so a body's legacy
+       box maps to a parallelogram whose corners bound it in grid space:
+       a cell centre outside every body's grid box fails every legacy box
+       test above and needs no visit. Walking the whole 2049 x 2049 raster
+       through the bridge for thirteen lakes cost 3.5 s of Puttom's boot;
+       the lakes' boxes are a few thousand cells. Each cell is still claimed
+       once, by the same rule, so the field is the same. */
+    const visited = new Uint8Array(width * height);
+    timings.mode = 'boxed'; timings.bodies = known.length; timings.boxedCells = 0;
+    for (const body of known) {
+      let c0 = Infinity, c1 = -Infinity, r0 = Infinity, r1 = -Infinity;
+      for (const [lx, lz] of [[body.bb.x0, body.bb.z0], [body.bb.x1, body.bb.z0], [body.bb.x0, body.bb.z1], [body.bb.x1, body.bb.z1]]) {
+        const [gx, gz] = toGrid(lx, lz);
+        const column = (gx - x0) / spacing - 0.5, row = (gz - z0) / spacing - 0.5;
+        if (column < c0) c0 = column; if (column > c1) c1 = column;
+        if (row < r0) r0 = row; if (row > r1) r1 = row;
+      }
+      const columnStart = Math.max(0, Math.floor(c0)), columnEnd = Math.min(width - 1, Math.ceil(c1));
+      const rowStart = Math.max(0, Math.floor(r0)), rowEnd = Math.min(height - 1, Math.ceil(r1));
+      for (let row = rowStart; row <= rowEnd; row++) {
+        for (let column = columnStart; column <= columnEnd; column++) {
           const i = row * width + column;
-          mask[i] = 1;
-          level[i] = body.level;   // a measured body's level wins over a flat's mean
-          break;
+          if (visited[i]) continue;
+          visited[i] = 1;
+          timings.boxedCells++;
+          claim(row, column);
         }
       }
     }
+  } else if (known.length) {
+    timings.mode = 'whole';
+    for (let row = 0; row < height; row++) for (let column = 0; column < width; column++) claim(row, column);
   }
+  phase('knownBodies');
   const squared = squaredDistanceTransform(width, height, index => mask[index] === 0);
+  phase('distanceTransform');
   const depth = new Float32Array(width * height);
   let cells = 0;
   for (let i = 0; i < depth.length; i++) {
@@ -98,11 +131,32 @@ export function buildWaterBedField({
     const metres = Math.max(0, (Math.sqrt(squared[i]) - 0.5) * spacing);
     depth[i] = Math.min(maximumDepthMetres, shoreDepthMetres + depthPerMetre * metres);
   }
+  phase('depth');
   const cellOf = (gridX, gridZ) => {
     const column = Math.floor((gridX - x0) / spacing), row = Math.floor((gridZ - z0) / spacing);
     if (column < 0 || row < 0 || column >= width || row >= height) return -1;
     return row * width + column;
   };
+  /* Every cell within one cell of water. The bilinear depth below reads the
+     four cell centres around a sample, all inside the 3 x 3 block around
+     the sample's own cell, so a sample whose block holds no water has depth
+     zero and a carve can reject it with one read instead of the bilinear.
+     Seven million samples in the rings were paying the bilinear to learn
+     that they stood on dry land. Outside the grid the test stays true: the
+     bilinear still reaches half a cell past the edge. */
+  const near = new Uint8Array(width * height);
+  for (let i = 0; i < mask.length; i++) {
+    if (!mask[i]) continue;
+    const row = (i / width) | 0, column = i - row * width;
+    const r0 = Math.max(0, row - 1), r1 = Math.min(height - 1, row + 1);
+    const c0 = Math.max(0, column - 1), c1 = Math.min(width - 1, column + 1);
+    for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) near[r * width + c] = 1;
+  }
+  const nearWater = (gridX, gridZ) => {
+    const i = cellOf(gridX, gridZ);
+    return i < 0 || near[i] === 1;
+  };
+  phase('nearMask');
   const depthAt = (gridX, gridZ) => {
     /* bilinear over cell centres; land cells hold zero, so the bed rises to
        the shore over one cell instead of stepping */
@@ -136,10 +190,12 @@ export function buildWaterBedField({
     cells,
     hectares: +(cells * spacing * spacing / 10000).toFixed(1),
     shoreDepthMetres, depthPerMetre, maximumDepthMetres,
+    timings: Object.freeze(timings),
     inWater(gridX, gridZ) {
       const i = cellOf(gridX, gridZ);
       return i >= 0 && mask[i] === 1;
     },
+    nearWater,
     depthAt,
     levelAt,
   });
@@ -166,11 +222,20 @@ export function carveTerrainTile(tile, field, { legacyOrigin, verticalDatumOffse
   const tileZ0 = legacyOrigin.northing - bounds.maxNorthing, tileZ1 = legacyOrigin.northing - bounds.minNorthing;
   const fieldX1 = field.x0 + field.width * field.spacing, fieldZ1 = field.z0 + field.height * field.spacing;
   if (tileX1 < field.x0 || tileX0 > fieldX1 || tileZ1 < field.z0 || tileZ0 > fieldZ1) return 0;
+  /* the bilinear depth is zero more than half a field cell past the field's
+     edge, so a coarse tile that reaches beyond it walks only the rows and
+     columns the field can touch */
+  const rowStart = Math.max(0, Math.floor((field.z0 - field.spacing - tileZ0) / spacing));
+  const rowEnd = Math.min(height - 1, Math.ceil((fieldZ1 + field.spacing - tileZ0) / spacing));
+  const columnStart = Math.max(0, Math.floor((field.x0 - field.spacing - tileX0) / spacing));
+  const columnEnd = Math.min(width - 1, Math.ceil((fieldX1 + field.spacing - tileX0) / spacing));
+  const nearWater = typeof field.nearWater === 'function' ? field.nearWater : () => true;
   let carved = 0;
-  for (let row = 0; row < height; row++) {
+  for (let row = rowStart; row <= rowEnd; row++) {
     const gz = tileZ0 + row * spacing;
-    for (let column = 0; column < width; column++) {
+    for (let column = columnStart; column <= columnEnd; column++) {
       const gx = tileX0 + column * spacing;
+      if (!nearWater(gx, gz)) continue;
       const depth = field.depthAt(gx, gz);
       if (!(depth > 0)) continue;
       const level = field.levelAt(gx, gz);

@@ -5,6 +5,7 @@ import { parseChunkEnvelope } from '../chunk.mjs';
 import { createSyntheticAssetGraph } from '../synthetic-fixture.mjs';
 import {
   createTerrainRenderResource,
+  deriveTerrainRenderResource,
   prepareTerrainRenderData,
   sampleTerrainRenderResource,
 } from './terrain-render-data.mjs';
@@ -67,6 +68,36 @@ test('terrain render resource applies the approved EPSG:5845 frame and samples v
   assert.equal(resource.gpuBytes, 72);
   assert.equal(sampleTerrainRenderResource(resource, 64, 192), 0.5);
   assert.ok(Number.isNaN(sampleTerrainRenderResource(resource, -1, 192)));
+});
+
+test('a lazy resource samples heights from the payload and prepares texels only when read', () => {
+  const decoded = syntheticTerrain();
+  const frame = syntheticFrame();
+  const eager = createTerrainRenderResource({ tileId: decoded.header.id, decoded, frame });
+  const lazy = createTerrainRenderResource({ tileId: decoded.header.id, decoded, frame, lazyRenderData: true });
+  assert.equal(Object.getOwnPropertyDescriptor(lazy, 'textureData').get !== undefined, true);
+  assert.equal(lazy.gpuBytes, eager.gpuBytes);
+  assert.equal(lazy.payload.byteLength, lazy.width * lazy.height * 2);
+  /* heights agree everywhere, read from the payload, before any texel exists */
+  for (let row = 0; row < lazy.height; row += 3) {
+    for (let column = 0; column < lazy.width; column += 3) {
+      const x = lazy.worldOriginX + column * lazy.sampleSpacingMetres + 0.37 * lazy.sampleSpacingMetres;
+      const z = lazy.worldOriginZ + row * lazy.sampleSpacingMetres + 0.61 * lazy.sampleSpacingMetres;
+      assert.equal(sampleTerrainRenderResource(lazy, x, z), sampleTerrainRenderResource(eager, x, z));
+    }
+  }
+  /* and the texels, once read, are the eager ones, prepared once */
+  assert.deepEqual(lazy.textureData, eager.textureData);
+  assert.equal(lazy.textureData, lazy.textureData);
+  assert.equal(lazy.noDataCount, eager.noDataCount);
+  assert.equal(lazy.layout, eager.layout);
+  /* a derived copy keeps the accessors lazy and the overrides applied */
+  const fresh = createTerrainRenderResource({ tileId: decoded.header.id, decoded, frame, lazyRenderData: true });
+  const moved = deriveTerrainRenderResource(fresh, { worldOriginX: fresh.worldOriginX + 10 });
+  assert.equal(Object.getOwnPropertyDescriptor(moved, 'textureData').get !== undefined, true);
+  assert.equal(moved.worldOriginX, fresh.worldOriginX + 10);
+  assert.equal(moved.payload, fresh.payload);
+  assert.deepEqual(moved.textureData, eager.textureData);
 });
 
 test('renderer refuses incomplete authoritative coverage instead of drawing a nodata pit', () => {

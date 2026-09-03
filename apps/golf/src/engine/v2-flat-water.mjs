@@ -1,3 +1,4 @@
+import { inRingIndexed } from './ring-index.mjs';
 /* Water the model does not know, read off the ground itself.
  *
  * The course pack's water rings come from an OpenStreetMap extract that is
@@ -18,15 +19,6 @@ function bbox(ring) {
   let x0 = Infinity, z0 = Infinity, x1 = -Infinity, z1 = -Infinity;
   for (const [x, z] of ring) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (z < z0) z0 = z; if (z > z1) z1 = z; }
   return { x0, z0, x1, z1 };
-}
-
-function inRing(x, z, ring) {
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const [xi, zi] = ring[i], [xj, zj] = ring[j];
-    if ((zi > z) !== (zj > z) && x < (xj - xi) * (z - zi) / (zj - zi) + xi) inside = !inside;
-  }
-  return inside;
 }
 
 /**
@@ -100,7 +92,7 @@ export function detectFlatWater({
       for (const body of known) {
         if (lx < body.bb.x0 - ringMarginMetres || lx > body.bb.x1 + ringMarginMetres ||
             lz < body.bb.z0 - ringMarginMetres || lz > body.bb.z1 + ringMarginMetres) continue;
-        if (inRing(lx, lz, body.ring)) { inside = body; break; }
+        if (inRingIndexed(lx, lz, body.ring)) { inside = body; break; }   /* the same crossings, through the ring index */
       }
       if (inside) {
         const entry = covered.get(component.id) || { body: inside, cells: 0 };

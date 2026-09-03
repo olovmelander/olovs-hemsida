@@ -147,9 +147,39 @@ export async function loadV2Vegetation({
 /** Which legacy-world points the v2 populations own: every finest tile that published a layer. */
 export function createCoverage(loaded, mapper) {
   const tiles = loaded.tiles.filter(tile => tile.objects || tile.stands);
-  const owner = (easting, northing) => tiles.find(tile =>
+  const scan = (easting, northing) => tiles.find(tile =>
     easting >= tile.bounds.minEasting && easting < tile.bounds.maxEasting &&
     northing >= tile.bounds.minNorthing && northing < tile.bounds.maxNorthing) || null;
+  /* The finest tiles stand on one lattice, so a point's owner is one map
+     read. The lattice is proved here -- every tile the same size and on
+     whole steps from the first -- and the linear scan is kept for a set that
+     is not, so the answer is the same either way; only its cost differs. The
+     legacy lattice asked this for 286,000 candidates and each was up to 64
+     box tests before it did anything else. */
+  const lattice = (() => {
+    if (!tiles.length) return null;
+    const size = tiles[0].bounds.maxEasting - tiles[0].bounds.minEasting;
+    if (!(size > 0)) return null;
+    const e0 = Math.min(...tiles.map(tile => tile.bounds.minEasting));
+    const n0 = Math.min(...tiles.map(tile => tile.bounds.minNorthing));
+    const byCell = new Map();
+    for (const tile of tiles) {
+      const { minEasting, maxEasting, minNorthing, maxNorthing } = tile.bounds;
+      const column = (minEasting - e0) / size, row = (minNorthing - n0) / size;
+      if (Math.abs(maxEasting - minEasting - size) > 1e-6 || Math.abs(maxNorthing - minNorthing - size) > 1e-6 ||
+          !Number.isInteger(column) || !Number.isInteger(row)) return null;
+      const key = `${column},${row}`;
+      if (byCell.has(key)) return null;
+      byCell.set(key, tile);
+    }
+    return { size, e0, n0, byCell };
+  })();
+  const owner = lattice
+    ? (easting, northing) => {
+      const column = Math.floor((easting - lattice.e0) / lattice.size), row = Math.floor((northing - lattice.n0) / lattice.size);
+      return lattice.byCell.get(`${column},${row}`) || null;
+    }
+    : scan;
   return Object.freeze({
     tiles: tiles.length,
     covers: (x, z) => {
