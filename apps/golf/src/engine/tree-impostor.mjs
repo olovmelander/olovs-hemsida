@@ -21,6 +21,7 @@ import {
   normalize, cross, abs, floor, fract, select, dot, pow, saturate, sin, cos,
   transformNormalToView, positionWorld,
 } from 'three/tsl';
+import { attachTreeFade, createFadeAttribute } from './tree-fade.mjs';
 
 /** The harness's debug switch for materials built with `debug: true`:
  *  0 view-space normal, 1 dot(normal, view) in world, 2 the same in the
@@ -251,10 +252,12 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, framesPe
 
 /**
  * The impostor material: a lit billboard. Instances come from an
- * InstancedBufferGeometry carrying `aImpostorPos` (x, y, z of the base) and
- * `aImpostorParam` (yaw, scaleXZ, scaleY, 0). The quad's own `uv` runs 0..1.
+ * InstancedBufferGeometry carrying `aImpostorPos` (x, y, z of the base),
+ * `aImpostorParam` (yaw, scaleXZ, scaleY, 0) and, for a tier batch that
+ * crossfades (`fade`), `aFade` (engine/tree-fade.mjs). The quad's own `uv`
+ * runs 0..1.
  */
-export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughness = 0.92, debug = null } = {}) {
+export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughness = 0.92, debug = null, fade = false } = {}) {
   const material = new THREE.MeshStandardNodeMaterial({ roughness, metalness: 0, flatShading: false });
   const n = atlas.framesPerSide;
   const cell = 1 / n;
@@ -337,6 +340,7 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
   material.normalNode = transformNormalToView(nLit);
   material.alphaTestNode = float(0.5);
   material.opacityNode = coverage;
+  if (fade) attachTreeFade(material);
   /* the crown takes the species' base colour (the birch its season), the
      trunk keeps the colour it was baked with; and the same back-lit glow
      the mesh crowns carry against a low sun */
@@ -384,6 +388,8 @@ export function createImpostorGeometry(capacity) {
   pos.setUsage(THREE.DynamicDrawUsage); par.setUsage(THREE.DynamicDrawUsage);
   geometry.setAttribute('aImpostorPos', pos);
   geometry.setAttribute('aImpostorParam', par);
+  /* zero = steady; a batch that never fades (the far ring) never writes it */
+  geometry.setAttribute('aFade', createFadeAttribute(capacity));
   geometry.instanceCount = 0;
   /* the instances are placed in world space by the material; the geometry's
      own box is meaningless, so it is never used for culling */
