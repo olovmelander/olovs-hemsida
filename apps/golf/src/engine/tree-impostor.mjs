@@ -199,12 +199,18 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, framesPe
     { rt: albedoTarget, crownMat: crownAlbedo, trunkMat: trunkAlbedo },
     { rt: normalTarget, crownMat: crownNormal, trunkMat: trunkNormal },
   ];
+  const empty = new THREE.Scene();
   for (const pass of passes) {
     crownMesh.material = pass.crownMat; trunkMesh.material = pass.trunkMat;
     renderer.setRenderTarget(pass.rt);
     renderer.autoClear = true;
     renderer.clear();
     renderer.autoClear = false;
+    /* the target was created mipmapped so its chain is allocated, but
+       three regenerates that chain after EVERY render into it, and there
+       are 64 renders a pass: 4.4 s of boot. Off for the frames, then one
+       empty render with it on builds the chain once. */
+    pass.rt.texture.generateMipmaps = false;
     for (let j = 0; j < framesPerSide; j++) {
       for (let i = 0; i < framesPerSide; i++) {
         const [dx, dy, dz] = hemiOctahedralDecode(i / (framesPerSide - 1), j / (framesPerSide - 1));
@@ -225,6 +231,8 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, framesPe
         renderer.render(scene, camera);
       }
     }
+    pass.rt.texture.generateMipmaps = true;
+    renderer.render(empty, camera);
   }
   renderer.setRenderTarget(previous.target);
   renderer.autoClear = previous.autoClear;
