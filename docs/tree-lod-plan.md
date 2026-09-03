@@ -370,23 +370,22 @@ Two harness lessons from the same afternoon:
 
 ### Phase 3 — the hero tier
 
-Built as the plan describes, with the budget kept far below its 2,500
-triangles because the point turned out to be the EDGE, not the count: a
-crown reads as foliage when its silhouette breaks up, and forty alpha-tested
-cards do that at 160 triangles. Per species the hero template is the same
-crown as the full tier (so colour and shape are continuous across the
-switch), 21–40 cards -- a needle-twig fan for spruce, radiating tufts for
-pine, a drooping leaf twig for birch, each drawn into a 256 px canvas at
-boot -- hung on the cone tiers or the blobs as crossed quads whose normals
-point out from the crown axis, a 12-segment trunk with a bark bump from a
-fissure field (the same field colours it, so bump and colour agree), and a
-root flare. Cards ride the crown's sway and add a flutter on their own
-phase. Alpha test 0.5 on the material (the numeric one, which three
-forwards to its shadow-pass material along with `colorNode.a`), so a card
-shadows as a card. `?lod=` now counts 1 hero, 2 full, 3 decimated, 4
-impostor, and the tier update is a generic walk across the three
-boundaries (110 / 40 / 14 px, 200 / 60 / 22 on a phone) with the 10%
-band on each.
+The plan's cards were built and taken out again the same day. Forty
+alpha-tested quads with a drawn needle sprig, pine tuft or birch twig, hung
+on the crown's rim, do break the silhouette -- and on these trees that is
+the wrong thing to do: the crowns are clean flat-shaded cones and blobs, and
+a photographic sprig on a facet reads as debris stuck to the tree, not as
+foliage. The owner saw it in the first side-by-side and said so. **The
+detail a low-poly tree can take is more of what it is made of**, so the
+hero tier is the same crown grown at a finer subdivision -- the same cones
+and blobs, the same noise, 24-segment cones with height segments and
+level-2 icosahedra against 12-segment cones and level-1 -- which makes a
+near tree rounder and more organic while it stays unmistakably the tree it
+becomes at 120 m. With it, a 12-segment trunk with a bark bump from a
+fissure field (the same field colours it, so bump and colour agree) and a
+root flare. `?lod=` now counts 1 hero, 2 full, 3 decimated, 4 impostor,
+and the tier update is a generic walk across the three boundaries (110 /
+40 / 14 px, 200 / 60 / 22 on a phone) with the 10% band on each.
 
 Open: phase 0 on hardware, where this tier must be judged; the dithered
 crossfade if the 14-pixel switch shows; and the terrain's own shadow

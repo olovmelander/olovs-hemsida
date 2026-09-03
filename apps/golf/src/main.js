@@ -3829,63 +3829,14 @@ const TREE_LOD = {
     ];
   })();
   /* --- the hero tier: what a tree a golfer stands beside is made of ---
-     The same crown silhouette as the full template (so colour and shape are
-     continuous across the switch), with alpha-tested CARDS hung on it -- a
-     needle cluster, a pine tuft or a leaf spray drawn into a canvas at boot
-     -- so the crown's edge breaks up the way a real one does; a 12-segment
-     trunk with a bark bump and a root flare. Card normals point out from
-     the crown axis, not along the quad, so the lighting and the back-lit
-     glow read as a crown and not as paper. Alpha test, never blend. */
-  const cardTex = kind => canvasTex(256, (g, S) => {
-    g.clearRect(0, 0, S, S);
-    const c = S / 2;
-    const rnd = (a, b) => hash2(a * 13.1 + kind * 7, b * 3.7 + kind * 11);
-    g.lineCap = 'round';
-    if (kind === 0) {
-      /* spruce: a twig with short needles either side, several twigs in a fan */
-      for (let tw = 0; tw < 7; tw++) {
-        const a = (tw / 7 - 0.5) * 2.2 + rnd(tw, 1) * 0.2, len = S * (0.36 + rnd(tw, 2) * 0.12);
-        const ex = c + Math.sin(a) * len, ey = S * 0.92 - Math.cos(a) * len;
-        g.strokeStyle = 'rgba(140,170,110,1)'; g.lineWidth = 5;
-        g.beginPath(); g.moveTo(c, S * 0.92); g.lineTo(ex, ey); g.stroke();
-        for (let n = 0; n < 34; n++) {
-          const f = 0.12 + (n / 34) * 0.88, side = n % 2 ? 1 : -1;
-          const px = c + (ex - c) * f, py = S * 0.92 + (ey - S * 0.92) * f;
-          const na = a + side * (1.15 + rnd(n, tw) * 0.5), nl = S * (0.09 + rnd(n + 3, tw) * 0.05) * (1 - f * 0.4);
-          const shade = 170 + rnd(n, tw + 9) * 85;
-          g.strokeStyle = `rgba(${shade * 0.75 | 0},${shade | 0},${shade * 0.6 | 0},1)`; g.lineWidth = 4.5;
-          g.beginPath(); g.moveTo(px, py); g.lineTo(px + Math.sin(na) * nl, py - Math.cos(na) * nl); g.stroke();
-        }
-      }
-    } else if (kind === 1) {
-      /* pine: long needles radiating from three tuft centres */
-      for (let tf = 0; tf < 3; tf++) {
-        const tx = c + (tf - 1) * S * 0.24, ty = S * (0.55 + (tf % 2) * 0.2);
-        for (let n = 0; n < 60; n++) {
-          const a = rnd(n, tf) * TAU, nl = S * (0.16 + rnd(n + 7, tf) * 0.16);
-          const shade = 140 + rnd(n, tf + 5) * 100;
-          g.strokeStyle = `rgba(${shade * 0.7 | 0},${shade | 0},${shade * 0.55 | 0},1)`; g.lineWidth = 3.5;
-          g.beginPath(); g.moveTo(tx, ty); g.lineTo(tx + Math.cos(a) * nl, ty + Math.sin(a) * nl); g.stroke();
-        }
-      }
-    } else {
-      /* birch: a drooping twig with small leaves on stalks */
-      g.strokeStyle = 'rgba(120,110,90,1)'; g.lineWidth = 2.5;
-      g.beginPath(); g.moveTo(c, S * 0.04); g.quadraticCurveTo(c + S * 0.18, S * 0.45, c + S * 0.08, S * 0.96); g.stroke();
-      for (let n = 0; n < 26; n++) {
-        const f = n / 26, bx = c + S * 0.18 * 2 * f * (1 - f) * 2 * 0.9, by = S * (0.06 + f * 0.9);
-        const side = n % 2 ? 1 : -1, a = side * (0.9 + rnd(n, 2) * 0.5) + f * 0.6;
-        const lx = bx + Math.sin(a) * S * 0.09, ly = by + Math.cos(a) * S * 0.06;
-        const shade = 150 + rnd(n, 4) * 100;
-        g.strokeStyle = 'rgba(120,110,90,1)'; g.lineWidth = 1.2;
-        g.beginPath(); g.moveTo(bx, by); g.lineTo(lx, ly); g.stroke();
-        g.fillStyle = `rgba(${shade * 0.72 | 0},${shade | 0},${shade * 0.5 | 0},1)`;
-        g.beginPath(); g.ellipse(lx + Math.sin(a) * S * 0.05, ly + Math.cos(a) * S * 0.035, S * 0.07, S * 0.045, a, 0, TAU); g.fill();
-      }
-    }
-  }, { srgb: false });
-  const CARD_TEX = [cardTex(0), cardTex(1), cardTex(2)];
-  for (const tx of CARD_TEX) { tx.wrapS = tx.wrapT = THREE.ClampToEdgeWrapping; tx.generateMipmaps = true; tx.minFilter = THREE.LinearMipmapLinearFilter; }
+     The plan's alpha-tested needle and leaf cards were built and taken out
+     again: hung on a flat-shaded cone they read as debris stuck to the
+     tree, not as foliage -- these are low-poly trees, and a photographic
+     sprig on a clean facet is a clash, not a detail. The hero tier is the
+     same crown GROWN AT A FINER SUBDIVISION (the same cones and blobs, the
+     same noise, six times the facets), so a near tree is rounder and more
+     organic and still unmistakably the tree it becomes at 120 m; and a
+     12-segment trunk with a bark bump and a root flare. */
   /* bark: vertical fissures, the same field for the bump and the colour */
   const BARK = canvasTex(256, (g, S) => {
     const im = g.createImageData(S, S), d = im.data;
@@ -3897,79 +3848,6 @@ const TREE_LOD = {
     }
     g.putImageData(im, 0, 0);
   }, { srgb: false, rep: 1 });
-  /* cards on a crown: (centre, outward direction, size, droop) per card, in
-     template space; a card is a crossed pair of quads whose normals point
-     out from the crown axis and up */
-  const cardGeometry = (cards, seed) => {
-    const pos = [], nor = [], uv = [], col = [], phase = [];
-    let quads = 0;
-    for (const [cx, cy, cz, size, droop, tilt] of cards) {
-      const ang = Math.atan2(cz, cx);
-      const out = [Math.cos(ang), 0, Math.sin(ang)];
-      const rad = Math.hypot(cx, cz);
-      const n = [out[0] * 0.85, 0.5 + (rad < 0.3 ? 0.5 : 0), out[2] * 0.85];
-      const nl = Math.hypot(n[0], n[1], n[2]); n[0] /= nl; n[1] /= nl; n[2] /= nl;
-      const cv = 1 + fbm(cx * 2.1 - cy * 1.1 + seed * 3, cz * 2.1 + seed * 11, 2) * 0.15;
-      const ph = hash2(cx * 17 + cy * 3, cz * 29 + seed) * TAU;
-      /* two quads at right angles about the outward axis, drooping by `droop`
-         (the card's far edge lower than its near edge) and turned by `tilt` */
-      for (let q = 0; q < 2; q++) {
-        const roll = q * Math.PI / 2 + tilt;
-        /* local frame: a = along the outward axis (then drooped), b = across */
-        const a = [out[0] * Math.cos(droop), -Math.sin(droop), out[2] * Math.cos(droop)];
-        const side = [-out[2], 0, out[0]];
-        const upv = [a[1] * side[2] - a[2] * side[1], a[2] * side[0] - a[0] * side[2], a[0] * side[1] - a[1] * side[0]];
-        const b = [side[0] * Math.cos(roll) + upv[0] * Math.sin(roll), side[1] * Math.cos(roll) + upv[1] * Math.sin(roll), side[2] * Math.cos(roll) + upv[2] * Math.sin(roll)];
-        const hw = size * 0.5, hl = size * 0.55;
-        const corner = (fa, fb) => [cx + a[0] * fa * hl + b[0] * fb * hw, cy + a[1] * fa * hl + b[1] * fb * hw, cz + a[2] * fa * hl + b[2] * fb * hw];
-        const P = [corner(-0.35, -1), corner(1.65, -1), corner(1.65, 1), corner(-0.35, 1)];
-        const base = quads * 4;
-        for (let k = 0; k < 4; k++) { pos.push(...P[k]); nor.push(...n); col.push(cv * 0.97, cv, cv * 1.03); phase.push(ph); }
-        uv.push(0, 1, 0, 0, 1, 0, 1, 1);
-        quads++;
-        void base;
-      }
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-    geo.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
-    geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
-    geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-    geo.setAttribute('aPhase', new THREE.Float32BufferAttribute(phase, 1));
-    const idx = [];
-    for (let qd = 0; qd < quads; qd++) { const b = qd * 4; idx.push(b, b + 1, b + 2, b, b + 2, b + 3); }
-    geo.setIndex(idx);
-    return geo;
-  };
-  const heroCards = (() => {
-    const spruce = [];
-    for (let i = 0; i < 7; i++) {
-      const tt = i / 6, r = (3.5 * (1 - tt * 0.8) + 0.45), y = 2.6 + tt * 9.6 - 0.9, nCards = i < 5 ? 7 : 5;
-      for (let k = 0; k < nCards; k++) {
-        /* on the cone's rim, so the card reaches past the silhouette */
-        const a = (k / nCards + (i % 2) * 0.5 / nCards) * TAU, rr = r * 0.9;
-        spruce.push([Math.cos(a) * rr, y + 0.4, Math.sin(a) * rr, 2.2 - tt * 0.6, 0.5, hash2(i, k) * 0.6 - 0.3]);
-      }
-    }
-    const pine = [];
-    for (let i = 0; i < 4; i++) {
-      const tt = i / 3, r = 4.2 - tt * 1.4, y = 8.5 + tt * 2.6;
-      for (let k = 0; k < 5; k++) {
-        const a = (k / 5 + tt * 0.37) * TAU, rr = r * 0.8;
-        pine.push([Math.cos(a) * rr + (tt - 0.5) * 0.7, y + 0.6, Math.sin(a) * rr + (tt * 0.6 - 0.3), 2.6, 0.2, hash2(i + 5, k) * 0.8 - 0.4]);
-      }
-    }
-    pine.push([0.4, 12.6, -0.2, 2.2, 0.1, 0.3]);
-    const birch = [];
-    for (let i = 0; i < 5; i++) {
-      const a0 = i / 5 * TAU, bx = Math.cos(a0) * 1.6, by = 7.2 + (i % 3) * 1.5, bz = Math.sin(a0) * 1.6, r = 2.3 - (i % 2) * 0.5;
-      for (let k = 0; k < 6; k++) {
-        const a = (k / 6 + i * 0.17) * TAU, el = (k % 3) * 0.5 - 0.3;
-        birch.push([bx + Math.cos(a) * r * 0.95, by + el, bz + Math.sin(a) * r * 0.95, 2.0, 0.45, hash2(i + 9, k) * 0.6 - 0.3]);
-      }
-    }
-    return [cardGeometry(spruce, 1), cardGeometry(pine, 2), cardGeometry(birch, 3)];
-  })();
   /* a 12-segment trunk with a root flare, uv'd for the bark */
   const heroTrunk = (r0, r1, h) => {
     const shaft = new THREE.CylinderGeometry(r0, r1, h, 12, 1, true); shaft.translate(0, h / 2, 0);
@@ -3977,25 +3855,47 @@ const TREE_LOD = {
     const cap = new THREE.CircleGeometry(r0, 12); cap.rotateX(-Math.PI / 2); cap.translate(0, h, 0);
     return mergeGeos([flare, shaft, cap]);
   };
+  const fineCrowns = (() => {
+    const spruce = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 7; i++) {
+        const t = i / 6, r = 3.5 * (1 - t * 0.8) + 0.45, hh = 3.6 * (1 - t * 0.35);
+        const g = new THREE.ConeGeometry(r, hh, 24, 3);
+        g.translate(0, 2.6 + t * 9.6, 0);
+        p.push(g);
+      }
+      return p;
+    })()), 1, 0.15, 0.13);
+    const pine = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 4; i++) {
+        const t = i / 3, r = 4.2 - t * 1.4, hh = 2.8 - t * 0.5;
+        const g = new THREE.ConeGeometry(r, hh, 24, 2);
+        g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
+        p.push(g);
+      }
+      const tuft = new THREE.IcosahedronGeometry(1.5, 2);
+      tuft.translate(0.4, 12.1, -0.2);
+      p.push(tuft);
+      return p;
+    })()), 2, 0.2, 0.15);
+    const birch = grownCrown(mergeGeos((() => {
+      const p = [];
+      for (let i = 0; i < 5; i++) {
+        const a = i / 5 * TAU;
+        const g = new THREE.IcosahedronGeometry(2.3 - (i % 2) * 0.5, 2);
+        g.translate(Math.cos(a) * 1.6, 7.2 + (i % 3) * 1.5, Math.sin(a) * 1.6);
+        p.push(g);
+      }
+      return p;
+    })()), 3, 0.22, 0.17);
+    return [spruce, pine, birch];
+  })();
   const hero = [
-    { crown: SPECIES[0].crown, cards: heroCards[0], trunk: heroTrunk(0.18, 0.42, 3.2) },
-    { crown: SPECIES[1].crown, cards: heroCards[1], trunk: heroTrunk(0.22, 0.46, 9.0) },
-    { crown: SPECIES[2].crown, cards: heroCards[2], trunk: heroTrunk(0.16, 0.30, 7.4) },
+    { crown: fineCrowns[0], trunk: heroTrunk(0.18, 0.42, 3.2) },
+    { crown: fineCrowns[1], trunk: heroTrunk(0.22, 0.46, 9.0) },
+    { crown: fineCrowns[2], trunk: heroTrunk(0.16, 0.30, 7.4) },
   ];
-  const cardMaterial = (s, hex) => {
-    const mat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, side: THREE.DoubleSide, alphaTest: 0.4 });
-    const V = normalize(cameraPosition.sub(positionWorld));
-    const cbase = s === 2 ? uLeaf : color(hex);
-    const tex = texture(CARD_TEX[s], uv());
-    /* the drawn shade (a needle's tip is paler than its base) modulates the crown colour */
-    const shade = tex.g.mul(0.7).add(0.5);
-    mat.colorNode = vec4(cbase.mul(attribute('color', 'vec3')).mul(shade).mul(float(1).add(
-      pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55))), tex.a);
-    /* the crown's sway, and a flutter of the card's own about its phase */
-    const flutter = sin(time.mul(3.1).add(attribute('aPhase', 'float'))).mul(0.06).mul(saturate(positionLocal.y.div(13.0)));
-    mat.positionNode = windSway(true).add(vec3(flutter, flutter.mul(0.4), flutter.negate()));
-    return mat;
-  };
   const barkMaterial = hex => {
     const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, bumpMap: BARK, bumpScale: 0.05 });
     const bark = texture(BARK, uv().mul(vec2(3, 1.5))).r;
@@ -4128,7 +4028,7 @@ const TREE_LOD = {
       where: new Int32Array(n).fill(-1),
       tierOf: new Uint8Array(n),
       t: [null,
-        tier([['crown', hr.crown, crownMaterial(s, spec.cc, true)], ['cards', hr.cards, cardMaterial(s, spec.cc)], ['trunk', hr.trunk, barkMaterial(spec.tc)]], 't0'),
+        tier([['crown', hr.crown, crownMaterial(s, spec.cc, true)], ['trunk', hr.trunk, barkMaterial(spec.tc)]], 't0'),
         tier([['crown', spec.crown, crownMaterial(s, spec.cc, true)], ['trunk', spec.trunk, trunkMaterial(spec.tc, true)]], 't1'),
         tier([['crown', deci.crown, crownMaterial(s, spec.cc, false)], ['trunk', deci.trunk, trunkMaterial(spec.tc, false)]], 't2'),
         impostorBatch(s, n, 't3')],
@@ -4260,7 +4160,7 @@ function updateTreeTiers() {
   TREE_LOD.stats.tier0 = t0; TREE_LOD.stats.tier1 = t1; TREE_LOD.stats.tier2 = t2; TREE_LOD.stats.tier3 = t3;
 }
 
-lap('tree tiers (21 InstancedMesh + 3 impostor batches, cells)', { trees: stats.trees | 0, cells: TREE_LOD.cells.length });
+lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.trees | 0, cells: TREE_LOD.cells.length });
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
