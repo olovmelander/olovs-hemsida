@@ -5821,14 +5821,76 @@ document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPre
 /* on a phone the rail is a sheet behind the Vy · Ljus button; choosing anything
    closes it so the scene comes straight back */
 {
-  const railEl = document.getElementById('rail'), tog = document.getElementById('uiToggle');
-  const closeRail = () => { railEl.classList.remove('open'); tog.classList.remove('on'); };
-  tog.onclick = () => {
-    const open = railEl.classList.toggle('open');
-    tog.classList.toggle('on', open);
+  const railEl = document.getElementById('rail');
+  const tog = document.getElementById('uiToggle');
+  const railCloseBtn = document.getElementById('railCloseBtn');
+  const railBackdrop = document.getElementById('railBackdrop');
+  const miniEl = document.getElementById('mini');
+  const noteEl = document.getElementById('note');
+  const miniTog = document.getElementById('mobileMiniToggle');
+  const noteTog = document.getElementById('mobileNoteToggle');
+  const miniCloseBtn = document.getElementById('miniCloseBtn');
+  const noteCloseBtn = document.getElementById('noteCloseBtn');
+
+  const closeMobileSheet = () => {
+    railEl?.classList.remove('open');
+    tog?.classList.remove('on');
+    railBackdrop?.classList.remove('open');
   };
-  railEl.querySelectorAll('.btn').forEach(b =>
-    b.addEventListener('click', () => { if (window.matchMedia('(max-width:700px)').matches) closeRail(); }));
+  const closeMini = () => {
+    miniEl?.classList.remove('mobile-open');
+    miniTog?.classList.remove('on');
+  };
+  const closeNote = () => {
+    noteEl?.classList.remove('mobile-open');
+    noteTog?.classList.remove('on');
+  };
+
+  if (tog) {
+    tog.onclick = (e) => {
+      e?.stopPropagation();
+      const open = railEl?.classList.toggle('open');
+      tog.classList.toggle('on', open);
+      railBackdrop?.classList.toggle('open', open);
+      if (open) {
+        closeMini();
+        closeNote();
+      }
+    };
+  }
+
+  if (railCloseBtn) railCloseBtn.onclick = (e) => { e?.stopPropagation(); closeMobileSheet(); };
+  if (railBackdrop) railBackdrop.onclick = () => closeMobileSheet();
+
+  if (miniTog) {
+    miniTog.onclick = (e) => {
+      e?.stopPropagation();
+      const open = miniEl?.classList.toggle('mobile-open');
+      miniTog.classList.toggle('on', open);
+      if (open) {
+        closeMobileSheet();
+        closeNote();
+        drawMini();
+      }
+    };
+  }
+  if (miniCloseBtn) miniCloseBtn.onclick = (e) => { e?.stopPropagation(); closeMini(); };
+
+  if (noteTog) {
+    noteTog.onclick = (e) => {
+      e?.stopPropagation();
+      const open = noteEl?.classList.toggle('mobile-open');
+      noteTog.classList.toggle('on', open);
+      if (open) {
+        closeMobileSheet();
+        closeMini();
+      }
+    };
+  }
+  if (noteCloseBtn) noteCloseBtn.onclick = (e) => { e?.stopPropagation(); closeNote(); };
+
+  railEl?.querySelectorAll('.btn').forEach(b =>
+    b.addEventListener('click', () => { if (window.matchMedia('(max-width:768px)').matches) closeMobileSheet(); }));
 }
 document.getElementById('flyBtn').onclick = () => {
   if (flying > 0) {
@@ -5893,7 +5955,9 @@ const FL = {
   lookAhead: 110,    // the travel shot looks this far along its route
   lineUp: 40,        // the straight run behind the push-off point the route arrives along
   panMax: 14,        // degrees per second of heading change a bend on the hole may be flown at ...
-  panMaxTransit: 15, // ... and on the travel shot, where the turn behind the tee is the point
+  panMaxTransit: 20, // ... and on the travel shot, where only the gimbal rate (swingRate) is what the viewer sees
+  swingRate: 14,     // degrees per second the gimbal pans on the travel shot ...
+  tiltRate: 8,       // ... and tilts
   accel: 2.5,        // m/s^2 the drone brakes and accelerates at around a bend
 };
 const tourFlight = {
@@ -6190,72 +6254,6 @@ function initHoleFlight(h, from = null) {
   /* a travel shot leaves from exactly where the last one stopped */
   if (from) y = y.map((v, i) => lerp(from.pos[1], v, smooth(0, 90, i * FL.ds)));
 
-  /* the look point: a lead down the line, settling on the pin, which then sits
-     a little below the frame centre for the whole sweep. On the travel shot the
-     gimbal comes off the pin it was holding, looks 80 m ahead along the route,
-     and by the line-up point is looking down the next hole. */
-  /* interpolate two look points as seen from the camera at cam [x, z]: bearing
-     by the shorter arc, distance and height linearly */
-  const blendLook = (cam, a, b, k, turn) => {
-    /* a blend that is not yet active tracks nothing: the branch it will keep
-       is chosen at the first station where it moves, or the swing found by
-       the time it engages has drifted round the long way */
-    if (k <= 0) { if (turn) turn.d = null; return a.slice(); }
-    const ax = a[0] - cam[0], az = a[2] - cam[1], bx = b[0] - cam[0], bz = b[2] - cam[1];
-    const a0 = Math.atan2(ax, az), a1 = Math.atan2(bx, bz);
-    let da = a1 - a0; if (da > Math.PI) da -= 2 * Math.PI; if (da < -Math.PI) da += 2 * Math.PI;
-    /* when the two bearings are near opposite, "the shorter arc" changes
-       sides from one station to the next as the camera moves, and the table
-       stepped 172 degrees between two stations 3 m apart. The swing is
-       therefore UNWRAPPED against the previous station's: the branch chosen
-       at the first station is the one the whole blend keeps. */
-    if (turn) {
-      if (turn.d !== null) {
-        while (da - turn.d > Math.PI) da -= 2 * Math.PI;
-        while (da - turn.d < -Math.PI) da += 2 * Math.PI;
-      }
-      turn.d = da;
-    }
-    const ang = a0 + da * k, d = lerp(Math.hypot(ax, az), Math.hypot(bx, bz), k);
-    return [cam[0] + Math.sin(ang) * d, lerp(a[1], b[1], k), cam[1] + Math.cos(ang) * d];
-  };
-  const turnOut = { d: null }, turnIn = { d: null };
-  /* the heading the gimbal is holding as the travel shot leaves: the swing
-     starts from THAT, held as the aircraft moves, not from the pin itself --
-     a route that passes close by the last green would otherwise whip the
-     bearing to the pin round at 30-40 degrees a second while it still counted */
-  let hold0 = null;
-  if (from) {
-    const dx = from.look[0] - from.pos[0], dy = from.look[1] - from.pos[1], dz = from.look[2] - from.pos[2];
-    hold0 = { b: Math.atan2(dx, dz), t: dy / (Math.hypot(dx, dz) || 1) };
-  }
-  const lookFair = ls => {
-    const lookS = Math.min(lineLen, Math.max(ls, 0) + FL.lead);
-    const q = lineAt(lookS), k = smooth(lineLen - 40, lineLen, lookS);
-    return [lerp(q[0], lookPin[0], k), lerp(terrainH(q[0], q[1]) + 2, lookPin[1], k), lerp(q[1], lookPin[2], k)];
-  };
-  const looks = path.map((p, i) => {
-    const ls = p[2];
-    if (ls >= sEnd) return lookPin;
-    if (ls < preS) {
-      /* the route point FL.lookAhead on, pushed out to exactly that far
-         horizontally so a bend never puts the look point under the camera.
-         The blends between look points are ANGULAR about the camera: a
-         straight lerp from the pin behind to the route ahead passes through
-         the camera's own footprint and pitched the shot to 89 degrees. */
-      const q = path[Math.min(n - 1, i + Math.round(FL.lookAhead / FL.ds))];
-      let dx = q[0] - p[0], dz = q[1] - p[1];
-      if (Math.hypot(dx, dz) < 1e-3) { const nx = path[Math.min(n - 1, i + 1)]; dx = nx[0] - p[0]; dz = nx[1] - p[1]; }
-      const L = Math.hypot(dx, dz) || 1, gx = p[0] + dx / L * FL.lookAhead, gz = p[1] + dz / L * FL.lookAhead;
-      const cam = [p[0], p[1]];
-      const ahead = blendLook(cam, [gx, terrainH(gx, gz) + 2, gz], lookFair(preS), smooth(preS - 120, preS, ls), turnIn);
-      const held = [p[0] + Math.sin(hold0.b) * FL.lookAhead, y[i] + hold0.t * FL.lookAhead, p[1] + Math.cos(hold0.b) * FL.lookAhead];
-      return blendLook(cam, held, ahead, smooth(0, 200, i * FL.ds), turnOut);
-    }
-    return lookFair(ls);
-  });
-  const fovs = path.map(p => lerp(FL.fovCruise, FL.fovOrbit, smooth(sEnd - 140, sEnd + 20, p[2])));
-
   /* one velocity profile over path distance, integrated into a time table */
   let iOrbit = n - 1;
   for (let i = 0; i < n; i++) if (path[i][2] >= sEnd - 0.5) { iOrbit = i; break; }
@@ -6293,6 +6291,94 @@ function initHoleFlight(h, from = null) {
   for (let i = 1; i < n; i++) vCap[i] = Math.min(vCap[i], Math.sqrt(vCap[i - 1] * vCap[i - 1] + 2 * FL.accel * FL.ds));
   const times = new Float64Array(n);
   for (let i = 1; i < n; i++) times[i] = times[i - 1] + FL.ds / Math.max(0.5, 0.5 * (vCap[i] + vCap[i - 1]));
+
+  /* the look point: a lead down the line, settling on the pin, which then sits
+     a little below the frame centre for the whole sweep. On the travel shot the
+     gimbal comes off the pin it was holding, looks 80 m ahead along the route,
+     and by the line-up point is looking down the next hole. */
+  /* interpolate two look points as seen from the camera at cam [x, z]: bearing
+     by the shorter arc, distance and height linearly */
+  const blendLook = (cam, a, b, k, turn) => {
+    /* a blend that is not yet active tracks nothing: the branch it will keep
+       is chosen at the first station where it moves, or the swing found by
+       the time it engages has drifted round the long way */
+    if (k <= 0) { if (turn) turn.d = null; return a.slice(); }
+    const ax = a[0] - cam[0], az = a[2] - cam[1], bx = b[0] - cam[0], bz = b[2] - cam[1];
+    const a0 = Math.atan2(ax, az), a1 = Math.atan2(bx, bz);
+    let da = a1 - a0; if (da > Math.PI) da -= 2 * Math.PI; if (da < -Math.PI) da += 2 * Math.PI;
+    /* when the two bearings are near opposite, "the shorter arc" changes
+       sides from one station to the next as the camera moves, and the table
+       stepped 172 degrees between two stations 3 m apart. The swing is
+       therefore UNWRAPPED against the previous station's: the branch chosen
+       at the first station is the one the whole blend keeps. */
+    if (turn) {
+      if (turn.d !== null) {
+        while (da - turn.d > Math.PI) da -= 2 * Math.PI;
+        while (da - turn.d < -Math.PI) da += 2 * Math.PI;
+      }
+      turn.d = da;
+    }
+    const ang = a0 + da * k, d = lerp(Math.hypot(ax, az), Math.hypot(bx, bz), k);
+    return [cam[0] + Math.sin(ang) * d, lerp(a[1], b[1], k), cam[1] + Math.cos(ang) * d];
+  };
+  const turnIn = { d: null };
+  /* the heading the gimbal is holding as the travel shot leaves: the swing
+     starts from THAT, held as the aircraft moves, not from the pin itself --
+     a route that passes close by the last green would otherwise whip the
+     bearing to the pin round at 30-40 degrees a second while it still counted */
+  let hold0 = null, track = null;
+  if (from) {
+    const dx = from.look[0] - from.pos[0], dy = from.look[1] - from.pos[1], dz = from.look[2] - from.pos[2];
+    hold0 = { b: Math.atan2(dx, dz), t: dy / (Math.hypot(dx, dz) || 1) };
+  }
+  const lookFair = ls => {
+    const lookS = Math.min(lineLen, Math.max(ls, 0) + FL.lead);
+    const q = lineAt(lookS), k = smooth(lineLen - 40, lineLen, lookS);
+    return [lerp(q[0], lookPin[0], k), lerp(terrainH(q[0], q[1]) + 2, lookPin[1], k), lerp(q[1], lookPin[2], k)];
+  };
+  const looks = path.map((p, i) => {
+    const ls = p[2];
+    if (ls >= sEnd) return lookPin;
+    /* the tracker stays in charge past the tee until it has CONVERGED on the
+       hole's own look (it hands over the first station it could reach it in
+       one step), so the handover is never a jump */
+    if (from && !(track && track.done) && ls < 150) {
+      /* the route point FL.lookAhead on, pushed out to exactly that far
+         horizontally so a bend never puts the look point under the camera.
+         The blends between look points are ANGULAR about the camera: a
+         straight lerp from the pin behind to the route ahead passes through
+         the camera's own footprint and pitched the shot to 89 degrees. */
+      const q = path[Math.min(n - 1, i + Math.round(FL.lookAhead / FL.ds))];
+      let dx = q[0] - p[0], dz = q[1] - p[1];
+      if (Math.hypot(dx, dz) < 1e-3) { const nx = path[Math.min(n - 1, i + 1)]; dx = nx[0] - p[0]; dz = nx[1] - p[1]; }
+      const L = Math.hypot(dx, dz) || 1, gx = p[0] + dx / L * FL.lookAhead, gz = p[1] + dz / L * FL.lookAhead;
+      const cam = [p[0], p[1]];
+      const ahead = ls < preS
+        ? blendLook(cam, [gx, terrainH(gx, gz) + 2, gz], lookFair(preS), smooth(preS - 120, preS, ls), turnIn)
+        : lookFair(ls);
+      /* The gimbal on the travel shot is a RATE-LIMITED tracker of that target:
+         starting from the heading it held over the last green, it pans toward
+         the route at no more than FL.swingRate degrees a second, whatever the
+         route itself is doing under it. A blend on distance or time stacked
+         its own swing on the turning arc's rotation and reached 34 deg/s. */
+      const tb = Math.atan2(ahead[0] - p[0], ahead[2] - p[1]);
+      const tp = Math.atan2(ahead[1] - y[i], Math.hypot(ahead[0] - p[0], ahead[2] - p[1]));
+      if (track === null) track = { b: hold0.b, p: Math.atan(hold0.t) };
+      else {
+        const dtS = Math.max(1e-3, times[i] - times[i - 1]);
+        let db = tb - track.b; if (db > Math.PI) db -= 2 * Math.PI; if (db < -Math.PI) db += 2 * Math.PI;
+        const stepB = FL.swingRate * Math.PI / 180 * dtS, stepP = FL.tiltRate * Math.PI / 180 * dtS;
+        if (ls >= preS && Math.abs(db) <= stepB && Math.abs(tp - track.p) <= stepP) { track = { done: true }; return lookFair(ls); }
+        track.b += clampf(db, -stepB, stepB);
+        track.p += clampf(tp - track.p, -stepP, stepP);
+      }
+      const cpv = Math.cos(track.p);
+      return [p[0] + Math.sin(track.b) * cpv * FL.lookAhead, y[i] + Math.sin(track.p) * FL.lookAhead, p[1] + Math.cos(track.b) * cpv * FL.lookAhead];
+    }
+    return lookFair(ls);
+  });
+  const fovs = path.map(p => lerp(FL.fovCruise, FL.fovOrbit, smooth(sEnd - 140, sEnd + 20, p[2])));
+
 
   tourFlight.st = { path, y, looks, fovs, times, n, sTotal, sOrbit, sPre, R, dir };
   tourFlight.duration = times[n - 1];
