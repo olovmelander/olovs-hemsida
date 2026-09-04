@@ -37,6 +37,26 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 /* Each ground states where its legacy cover raster lives and the flat-earth
    frame that raster is drawn in. */
 const GROUNDS = Object.freeze({
+  veckefjarden: Object.freeze({
+    buildDir: 'geobuild',
+    /* the pack's own frame constants (v2-veckefjarden-config.mjs LEGACY_FRAME):
+       metresPerLongitude is the committed 50045.09, never re-derived, so this
+       audit reads the tree-cover raster in exactly the frame it was baked in */
+    legacyFrame: Object.freeze({
+      latitude: 63.28450,
+      longitude: 18.67350,
+      metresPerLatitude: 111320,
+      metresPerLongitude: 50045.09,
+    }),
+    /* the migration's candidateOrigin, reproduced by the Krüger series */
+    legacyOriginEpsg3006: Object.freeze({ easting: 684183.801986, northing: 7022564.696685 }),
+    /* the published 2,048 m course window: frame origin E 683909.5 /
+       N 7023002.5 (ground manifest) +/- 1024 */
+    window: Object.freeze({
+      minEasting: 682885.5, maxEasting: 684933.5,
+      minNorthing: 7021978.5, maxNorthing: 7024026.5,
+    }),
+  }),
   johannesberg: Object.freeze({
     buildDir: 'johannesbergbuild',
     legacyFrame: Object.freeze({

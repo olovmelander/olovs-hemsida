@@ -1620,13 +1620,33 @@ the six files that import it.
   files each. Registering a slug in `V2_PUBLISHED_GRAPH_SLUGS` only lets the app
   RESOLVE a graph; the frontier registry is the narrower gate that lets it
   RENDER one.
-- **Still open, and why**: the LiDAR vegetation is not run, because the v2
-  vegetation runtime picks species from a hardcoded pine-led hash and offers no
-  hook for a course's `species()` export — publishing Veckefjärden's woods today
-  would erase the alder/birch rule and plant High Coast pine on an Ångermanland
-  lake shore, and `vegetation-baseline.mjs` prints the species split without
-  asserting on it. Same merge-casualty shape as the forest, the riprap and
-  `FARR`. Two campaigns cover the AOI with **no seam**, one flown June 2026.
+- **The LiDAR vegetation blockers are closed; only the credentialed reads
+  remain (2026-09)**. The v2 vegetation runtime now takes the course's own
+  `species()` rule (`planV2Vegetation`'s `species` option, passed from main.js
+  with `ringSD`/`RES` closed over, never imported — the runtime must stay out
+  of the flagless closure), reports `speciesSource` beside the plan, and
+  `vegetation-baseline.mjs` GATES it against the scenery registry itself, so a
+  dropped hook can no longer pass. `publish-vegetation.mjs` re-emits every
+  root course of a ground in one run and asserts one ground manifest hash
+  (the publish-ground-rings lesson; a one-slug run stranded the korthålsbana
+  on the pre-vegetation ground). `compile-vegetation.mjs` and
+  `render-review.mjs` merge EVERY migration model the registry's
+  `courseModels` declares — with only the parent's model, the korthålsbana's
+  greens and tees were missing from the exclusion mask (trees on putting
+  surfaces that every numeric gate passes); merged, this ground reads 27
+  holes, 27 green rings, 115 tee pads, and Upsala's two-course ground got the
+  same fix for free. `veckefjarden-korthalsbanan` is aliased to Veckefjärden's
+  scenery module (one ground, one reserve, one horizon; `armour` names hole
+  14 and correctly no-ops on a nine-hole pack). The campaign inventory is
+  pinned (`acquisition/laser-campaigns.json`, registered in the source
+  manifest): the active scan is ONE June 2026 campaign at 3.119 returns/m²
+  covering the whole 15.56 km² AOI exclusively — **zero seams**, simpler than
+  Puttom. What remains needs `LANTMATERIET_USERNAME`/`PASSWORD` (or bearer)
+  in the environment: `run-copc-census`, `build-canopy` (read its
+  ground-minus-DTM median first — it validates the terrain for free),
+  `compile-vegetation --machine-review`, the `render-review` overhead
+  EYEBALLED, then `publish-vegetation --ground veckefjarden` (both slugs by
+  default) and `vegetation-baseline --label v2` per course.
 
 **And the gate is only as honest as the server under it.** `tools/serve.mjs`
 used to stream every file with neither `Content-Length` nor `Content-Encoding`
