@@ -149,7 +149,7 @@ if (MODES.includes('C')) {
     await setView(v);
     const cam = await ev(() => window.V3D.camInfo());
     const dx = cam.look[0] - cam.pos[0], dz = cam.look[2] - cam.pos[2], L = Math.hypot(dx, dz) || 1, ux = dx / L, uz = dz / L;
-    const series = [], sw = [];
+    const series = [], sw = [], blockMaxes = [], blocksChanged = [];
     let prevSw = (await tiers()).switches, total = 0;
     await delta();
     for (let i = 0; i < N; i++) {
@@ -159,7 +159,7 @@ if (MODES.includes('C')) {
       await streamIdle(); await oneFrame(); await delta();
       await freeze(false); await stepClock(1 / 60);
       const d = await delta(), t = await tiers();
-      series.push(d.changed); sw.push(t.switches - prevSw); prevSw = t.switches; total = d.total;
+      series.push(d.changed); blockMaxes.push(d.blockMax); blocksChanged.push(d.blocksChanged); sw.push(t.switches - prevSw); prevSw = t.switches; total = d.total;
     }
     const sorted = [...series].sort((a, b) => a - b);
     const q = p => sorted[Math.min(sorted.length - 1, Math.floor(p * (sorted.length - 1)))];
@@ -167,8 +167,10 @@ if (MODES.includes('C')) {
     const row = { view: v, frames: N, stepM: STEP, total, medianPct: pct(median, total), p95Pct: pct(p95, total), maxPct: pct(max, total),
                   maxPx: max, p95Px: p95, medianPx: median, framesWithChange: series.filter(v => v > 0).length,
                   maxOverMedian: median ? +(max / median).toFixed(2) : null, p95OverMedian: median ? +(p95 / median).toFixed(2) : null,
-                  framesWithSwitches: sw.filter(s => s > 0).length, switchesTotal: sw.reduce((a, b) => a + b, 0), series, switches: sw };
-    console.log(`  C hole ${v[0]}: tiering-only change per frame median ${row.medianPct}% p95 ${row.p95Pct}% max ${row.maxPct}% | max ${max} px, ${row.framesWithChange} of ${N} frames changed anything | ${row.framesWithSwitches} of ${N} frames switched ${row.switchesTotal} trees`);
+                  blockMax: Math.max(...blockMaxes), blockP95: [...blockMaxes].sort((a, b) => a - b)[Math.floor(0.95 * (blockMaxes.length - 1))],
+                  blocksChangedMax: Math.max(...blocksChanged), blocksChangedSum: blocksChanged.reduce((a, b) => a + b, 0),
+                  framesWithSwitches: sw.filter(s => s > 0).length, switchesTotal: sw.reduce((a, b) => a + b, 0), series, switches: sw, blockMaxes, blocksChanged };
+    console.log(`  C hole ${v[0]}: tiering-only change per frame median ${row.medianPct}% p95 ${row.p95Pct}% max ${row.maxPct}% | max ${max} px, ${row.framesWithChange} of ${N} frames changed anything | block mean max ${row.blockMax}/255 p95 ${row.blockP95}, blocks over 6/255: max ${row.blocksChangedMax} per frame, ${row.blocksChangedSum} in all | ${row.framesWithSwitches} of ${N} frames switched ${row.switchesTotal} trees`);
     report.modes.C.push(row);
   }
   await setFade(0);

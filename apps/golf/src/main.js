@@ -8142,16 +8142,26 @@ async function captureReadback() {
    (a 1600x900 frame is 5.8 MB over the protocol, and a meter takes hundreds) */
 let pixelDeltaPrev = null, pixelDeltaRef = null;
 async function pixelDelta(threshold = 24, sinceMark = false) {
-  const { pixels: cur } = await captureRaw();
+  const { pixels: cur, width, height } = await captureRaw();
   const prev = sinceMark ? pixelDeltaRef : pixelDeltaPrev, primed = !!(prev && prev.length === cur.length);
+  /* besides the per-pixel count, the change averaged over 16 x 16 blocks: a
+     whole crown popping moves its blocks by the full step, a dither level
+     flipping one pixel in sixteen moves them by a sixteenth -- the eye
+     works closer to the block than to the pixel */
+  const B = 16, bw = Math.ceil(width / B), bh = Math.ceil(height / B), blocks = new Float32Array(bw * bh), counts = new Float32Array(bw * bh);
   let changed = 0, max = 0;
-  if (primed) for (let i = 0; i < cur.length; i += 4) {
+  if (primed) for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const i = (y * width + x) * 4;
     const d = Math.max(Math.abs(cur[i] - prev[i]), Math.abs(cur[i + 1] - prev[i + 1]), Math.abs(cur[i + 2] - prev[i + 2]));
     if (d > threshold) changed++;
     if (d > max) max = d;
+    const b = ((y / B) | 0) * bw + ((x / B) | 0);
+    blocks[b] += d; counts[b]++;
   }
+  let blockMax = 0, blocksChanged = 0;
+  if (primed) for (let b = 0; b < blocks.length; b++) { const m = blocks[b] / counts[b]; if (m > blockMax) blockMax = m; if (m > 6) blocksChanged++; }
   if (sinceMark) pixelDeltaRef = cur; else pixelDeltaPrev = cur;
-  return { changed, total: cur.length / 4, max, frame: FRAME_NO, primed };
+  return { changed, total: cur.length / 4, max, blockMax: +blockMax.toFixed(2), blocksChanged, blocks: blocks.length, frame: FRAME_NO, primed };
 }
 
 /* published before the boot marker, not after: anything waiting on the marker acts
