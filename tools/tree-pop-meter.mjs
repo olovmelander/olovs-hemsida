@@ -26,6 +26,13 @@
      changed. Reported as median / p95 / max of the per-frame fraction and
      the ratios between them: a spike is a pop.
 
+   Mode S (swim): shadow swimming. The tiers are frozen so nothing but the
+     camera moves; the camera advances 0.1 m a frame along the tee shot and
+     every frame's change is measured on the far ground under the horizon
+     (rows 42-55%, where a 0.1 m step is sub-pixel parallax but a shadow's swim
+     is not), at a 6/255 threshold, first with the shadow map snapped to its
+     texels and then unsnapped in the same boot (V3D.setShadowSnap).
+
    --cell decides tiers the way phases 1-3 did (per 128 m cell from a nominal
    tree), which is the "before" this meter was built to see; --fade 0 --cell
    must show the spike in Mode C or the instrument is not measuring the thing
@@ -40,7 +47,7 @@ const flag = (k, d) => { const i = args.indexOf('--' + k); return i < 0 ? d : ar
 const BASE = args.find(a => /^https?:/.test(a)) || 'http://127.0.0.1:8620';
 const SLUG = flag('course', 'puttom');
 const FADE = +flag('fade', 0.3);
-const MODES = String(flag('modes', 'A,B,C')).split(',');
+const MODES = String(flag('modes', 'A,B,C')).split(',');   /* A, B, C and S (shadow swim) */
 const CELL = args.includes('--cell');
 const N = +flag('frames', 300), STEP = +flag('step', 0.25);
 const QUERY = flag('query', '');   /* extra URL parameters, e.g. lodpin=4,4 */
@@ -175,6 +182,38 @@ if (MODES.includes('C')) {
     report.modes.C.push(row);
   }
   await setFade(0);
+}
+if (MODES.includes('S')) {
+  report.modes.S = [];
+  await setFade(0);
+  for (const v of [[5, 'tee', 'noon'], [1, 'tee', 'golden'], [13, 'tee', 'golden']]) {
+    await setView(v);
+    const cam = await ev(() => window.V3D.camInfo());
+    const dx = cam.look[0] - cam.pos[0], dz = cam.look[2] - cam.pos[2], L = Math.hypot(dx, dz) || 1, ux = dx / L, uz = dz / L;
+    const row = { view: v, frames: 120, stepM: 0.1, fit: await ev(() => window.V3D.shadowFit()) };
+    await freeze(true);
+    for (const snap of [true, false]) {
+      await ev(on => window.V3D.setShadowSnap(on), snap);
+      const series = [], blockMaxes = [], tilesChanged = [];
+      let prevTiles = null, total = 0;
+      for (let i = 0; i < 120; i++) {
+        const x = cam.pos[0] + ux * 0.1 * i, z = cam.pos[2] + uz * 0.1 * i;
+        await ev(([x, z, ux, uz]) => { const y = window.V3D.probeH(x, z) + 1.7; window.V3D.placeCamera([x, y, z], [x + ux * 40, y, z + uz * 40]); }, [x, z, ux, uz]);
+        await streamIdle(); await oneFrame();
+        /* the far ground only (rows 42-55% of the frame, under the horizon), and a 6/255 threshold: camera parallax there is sub-pixel, a shadow's swim is not */
+        const d = await ev(() => window.V3D.pixelDelta(6, false, [0.42, 0.55])), tiles = await ev(() => window.V3D.v2Terrain().adapter?.stream?.renderedTiles ?? null);
+        if (i > 0) { series.push(d.changed); blockMaxes.push(d.blockMax); tilesChanged.push(prevTiles !== null && tiles !== prevTiles ? 1 : 0); }
+        prevTiles = tiles; total = d.total;
+      }
+      const q = (arr, p) => { const s2 = [...arr].sort((a, b) => a - b); return s2[Math.min(s2.length - 1, Math.floor(p * (s2.length - 1)))]; };
+      row[snap ? 'snapped' : 'unsnapped'] = { medianPct: pct(q(series, 0.5), total), p95Pct: pct(q(series, 0.95), total), maxPct: pct(Math.max(...series), total),
+        blockMedian: q(blockMaxes, 0.5), blockP95: q(blockMaxes, 0.95), blockMax: Math.max(...blockMaxes), tileSwaps: tilesChanged.reduce((a, b) => a + b, 0) };
+    }
+    await freeze(false); await ev(() => window.V3D.setShadowSnap(true));
+    const s1 = row.snapped, s0 = row.unsnapped;
+    console.log(`  S hole ${v[0]} ${v[2]} (fit ${row.fit.R} m, texel ${row.fit.texel} m): per-frame change snapped median ${s1.medianPct}% p95 ${s1.p95Pct}% | unsnapped median ${s0.medianPct}% p95 ${s0.p95Pct}% | worst block mean snapped ${s1.blockMax} vs unsnapped ${s0.blockMax} /255 | tile swaps ${s1.tileSwaps}/${s0.tileSwaps}`);
+    report.modes.S.push(row);
+  }
 }
 report.errors = errors;
 if (errors.length) console.log('page errors:', errors.join(' | '));

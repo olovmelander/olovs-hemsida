@@ -1146,8 +1146,19 @@ const FORCE_GL = new URLSearchParams(location.search).get('gl') === '1';
    read GPU milliseconds per frame (V3D.gpuTime); off by default, since the
    query pool is a cost of its own and a vsync-locked frame time is not one */
 const GPU_TIME = new URLSearchParams(location.search).get('gputime') === '1';
+/* A reversed, float depth buffer, the default on WebGPU (?rdepth=0 switches it
+   off). The camera runs from 1 m to 14 km
+   and a 24-bit fixed-point depth buffer keeps about half a metre at 3 km, so
+   everything lying on the terrain -- roads, marking, water sheets, the surface
+   bands -- flickers against it as the camera moves. three's WebGPU backend
+   takes depth32float under reversedDepthBuffer and flips the compare, but it
+   passes polygonOffset through unchanged, and in reversed depth "toward the
+   camera" is the other sign: DEPTH_SIGN carries that to every nudge below. */
+const RDEPTH = new URLSearchParams(location.search).get('rdepth') !== '0';
 const mkRenderer = forceWebGL => new THREE.WebGPURenderer({ antialias: true, samples: 4,
-  outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance', forceWebGL, trackTimestamp: GPU_TIME });
+  outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance', forceWebGL, trackTimestamp: GPU_TIME,
+  /* the WebGL2 fallback keeps the classic buffer: its reversed path needs EXT_clip_control and has not been measured here */
+  reversedDepthBuffer: RDEPTH && !forceWebGL });
 let renderer;
 try {
   renderer = mkRenderer(FORCE_GL);
@@ -1164,6 +1175,9 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 const IS_GPU = renderer.backend?.isWebGPUBackend === true;
+/* the sign every depth nudge takes: toward the camera is negative in the classic
+   buffer and positive in the reversed one, and three passes polygonOffset through unchanged */
+const DEPTH_SIGN = renderer.reversedDepthBuffer === true ? 1 : -1;
 /* Allocated lazily by the CI/readback hook only. Normal visits, including the
    opt-in preview, must not pay for a second full-size color target. */
 let captureReadbackTarget = null;
@@ -1315,6 +1329,15 @@ let skyMesh = null, skyDome = null;
 if (IS_GPU) {
   const { SkyMesh } = await import('three/addons/objects/SkyMesh.js');
   skyMesh = new SkyMesh();
+  /* three's SkyMesh pins itself to the far plane with z = w, which under a
+     reversed depth buffer is the NEAR plane; and three reverses its whole render
+     list under reversed depth, renderOrder included, so the sky then draws LAST
+     and over the world (the sky-only frames of 2026-09-04). In the reversed
+     convention the far plane is z = 0. */
+  if (renderer.reversedDepthBuffer) {
+    const base = skyMesh.material.vertexNode;
+    skyMesh.material.vertexNode = Fn(() => { const p = vec4(base); return vec4(p.x, p.y, float(0), p.w); })();
+  }
   skyMesh.scale.setScalar(12000);
   skyMesh.renderOrder = -2;
   scene.add(skyMesh);
@@ -1960,8 +1983,8 @@ const turfMat = groundMode === 'atlas'
 const nudged = (tier, mk = makeTurf) => {
   const m = mk();
   m.polygonOffset = true;
-  m.polygonOffsetFactor = -tier;
-  m.polygonOffsetUnits = -tier * 2;
+  m.polygonOffsetFactor = DEPTH_SIGN * tier;
+  m.polygonOffsetUnits = DEPTH_SIGN * tier * 2;
   return m;
 };
 const DETAIL_MASK = buildDetailMask(CORE);
@@ -2944,8 +2967,8 @@ function makeWater({ mask = null } = {}) {
      two apart: the lake flickered. A depth bias toward the camera settles it
      without moving the sheet. */
   m.polygonOffset = true;
-  m.polygonOffsetFactor = -1;
-  m.polygonOffsetUnits = -2;
+  m.polygonOffsetFactor = DEPTH_SIGN * 1;
+  m.polygonOffsetUnits = DEPTH_SIGN * 2;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
   const wp = positionWorld.xz;
@@ -4305,7 +4328,7 @@ function updateTreeTiers() {
   rebaseFadeClock();
   let changed = drainTreeFades();
   TREE_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-  TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem);
+  TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem, camera.reversedDepth ?? false);
   const viewportH = renderer.domElement.height || innerHeight;
   const Kpx = viewportH / (2 * Math.tan(camera.fov * 0.5 * Math.PI / 180));
   const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
@@ -5878,7 +5901,8 @@ for (const h of HOLES) {
 
 /* ------------------------------------------------------------ post-process */
 await tick('ställer ljuset', 0.86);
-if (!LOWQ) {
+/* ?post=0 renders the scene straight to the canvas, no bloom: the harness's way to tell a scene fault from a pipeline fault */
+if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
   const post = new THREE.RenderPipeline(renderer);
   const scenePass = pass(scene, camera);
@@ -5897,24 +5921,57 @@ function renderActivePipeline() {
   else renderer.render(scene, camera);
 }
 
-/* the shadow camera follows the player, because a 2 km ortho frustum spends its
-   whole resolution on ground nobody is looking at */
+/* The shadow camera follows the player, because a 2 km ortho frustum spends its
+   whole resolution on ground nobody is looking at -- and it follows in a way
+   that does not swim. Two rules: the box is one of a few FIXED sizes, chosen
+   with hysteresis, so its texel size changes rarely (a re-fit in 14 m steps
+   re-sampled the whole map at every step); and it moves only in whole texels
+   of its own map, measured in the light's view space, so the map samples the
+   same world points from one frame to the next. With the sun fixed the shadow
+   camera's rotation is constant and the rounding is exact; three's
+   LightShadow.updateMatrices builds that camera from the light's position and
+   its target with y up, which is the basis used here. The normal bias scales
+   with the fit, a texel's worth of push whatever the size.
+   ?shadowsnap=0 and V3D.setShadowSnap switch the snap off for a before/after. */
+const SHADOW_FITS = [260, 400, 600, 850, 1150];
+let shadowSnap = new URLSearchParams(location.search).get('shadowsnap') !== '0';
 let shadowRadiusOverride = null;   /* a harness stepping a flight pose by pose gives it the flight's fixed fit */
+const SUN_BASIS = { d: new THREE.Vector3(), right: new THREE.Vector3(), up: new THREE.Vector3(), m: new THREE.Matrix4(),
+                    o: new THREE.Vector3(), texel: 0, remainder: 0, R: 0 };
 function placeSun() {
   const t = controls.target;
   const d = uSun.value;
-  sun.position.set(t.x + d.x * 1200, t.y + d.y * 1200, t.z + d.z * 1200);
-  sun.target.position.copy(t);
-  sun.target.updateMatrixWorld();
-  /* Stabilize shadow frustum: during flyovers use a rock-solid fixed size to prevent
-     shadow crawling on terrain; in interactive mode apply hysteresis thresholding. */
-  const targetR = shadowRadiusOverride ?? (flying > 0 ? 580 : clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150));
   const c = sun.shadow.camera;
-  if (!c.top || Math.abs(c.top - targetR) > 14) {
-    c.left = -targetR; c.right = targetR; c.top = targetR; c.bottom = -targetR;
+  const want = shadowRadiusOverride ?? (flying > 0 ? 580 : clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150));
+  /* the fit: the smallest fixed size that holds the want; it grows at once and
+     shrinks only once the want is well under the next size down */
+  let R = c.top || 0;
+  if (!R || want > R) R = SHADOW_FITS.find(f => f >= want) ?? SHADOW_FITS[SHADOW_FITS.length - 1];
+  else { const i = SHADOW_FITS.indexOf(R); if (i > 0 && want < SHADOW_FITS[i - 1] * 0.9) R = SHADOW_FITS.find(f => f >= want) ?? R; }
+  if (R !== c.top) {
+    c.left = -R; c.right = R; c.top = R; c.bottom = -R;
     c.near = 200; c.far = 2400;
     c.updateProjectionMatrix();
+    sun.shadow.normalBias = 0.22 * Math.min(2.5, R / 260);
   }
+  const B = SUN_BASIS, texel = 2 * R / sun.shadow.mapSize.width;
+  if (!B.d.equals(d)) {
+    B.d.copy(d);
+    B.m.lookAt(d, B.o, THREE.Object3D.DEFAULT_UP);
+    B.right.setFromMatrixColumn(B.m, 0);
+    B.up.setFromMatrixColumn(B.m, 1);
+  }
+  let ox = 0, oy = 0;
+  if (shadowSnap) {
+    const u = t.dot(B.right), v = t.dot(B.up);
+    ox = Math.round(u / texel) * texel - u;
+    oy = Math.round(v / texel) * texel - v;
+  }
+  B.texel = texel; B.R = R; B.remainder = Math.hypot(ox, oy) / texel;
+  const cx = t.x + B.right.x * ox + B.up.x * oy, cy = t.y + B.right.y * ox + B.up.y * oy, cz = t.z + B.right.z * ox + B.up.z * oy;
+  sun.position.set(cx + d.x * 1200, cy + d.y * 1200, cz + d.z * 1200);
+  sun.target.position.set(cx, cy, cz);
+  sun.target.updateMatrixWorld();
 }
 
 /* ------------------------------------------------------------------- ui */
@@ -7305,8 +7362,8 @@ function buildGreenGrid() {
       depthWrite: false,
     });
     mat.polygonOffset = true;
-    mat.polygonOffsetFactor = -5;
-    mat.polygonOffsetUnits = -10;
+    mat.polygonOffsetFactor = DEPTH_SIGN * 5;
+    mat.polygonOffsetUnits = DEPTH_SIGN * 10;
     const linesMesh = new THREE.LineSegments(geo, mat);
     gridGroup.add(linesMesh);
   }
@@ -7321,8 +7378,8 @@ function buildGreenGrid() {
       depthWrite: false,
     });
     bMat.polygonOffset = true;
-    bMat.polygonOffsetFactor = -7;
-    bMat.polygonOffsetUnits = -14;
+    bMat.polygonOffsetFactor = DEPTH_SIGN * 7;
+    bMat.polygonOffsetUnits = DEPTH_SIGN * 14;
     beadsMesh = new THREE.InstancedMesh(bGeo, bMat, beadsList.length);
     const cObj = new THREE.Color();
     for (let k = 0; k < beadsList.length; k++) {
@@ -7372,8 +7429,8 @@ function buildGreenGrid() {
         depthWrite: false,
       });
       pMat.polygonOffset = true;
-      pMat.polygonOffsetFactor = -6;
-      pMat.polygonOffsetUnits = -12;
+      pMat.polygonOffsetFactor = DEPTH_SIGN * 6;
+      pMat.polygonOffsetUnits = DEPTH_SIGN * 12;
       gridGroup.add(new THREE.LineSegments(pGeo, pMat));
     }
   }
@@ -8209,16 +8266,20 @@ async function captureReadback() {
    counted in the page so nothing but three numbers crosses to the harness
    (a 1600x900 frame is 5.8 MB over the protocol, and a meter takes hundreds) */
 let pixelDeltaPrev = null, pixelDeltaRef = null;
-async function pixelDelta(threshold = 24, sinceMark = false) {
+async function pixelDelta(threshold = 24, sinceMark = false, band = null) {
   const { pixels: cur, width, height } = await captureRaw();
   const prev = sinceMark ? pixelDeltaRef : pixelDeltaPrev, primed = !!(prev && prev.length === cur.length);
+  /* band = [top, bottom] as fractions of the height: only those rows are counted (the far
+     ground under the horizon, where camera parallax is sub-pixel and a shadow's swim is not) */
+  const rowA = band ? Math.floor(band[0] * height) : 0, rowB = band ? Math.ceil(band[1] * height) : height;
   /* besides the per-pixel count, the change averaged over 16 x 16 blocks: a
      whole crown popping moves its blocks by the full step, a dither level
      flipping one pixel in sixteen moves them by a sixteenth -- the eye
      works closer to the block than to the pixel */
   const B = 16, bw = Math.ceil(width / B), bh = Math.ceil(height / B), blocks = new Float32Array(bw * bh), counts = new Float32Array(bw * bh);
-  let changed = 0, max = 0;
-  if (primed) for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+  let changed = 0, max = 0, counted = 0;
+  if (primed) for (let y = rowA; y < rowB; y++) for (let x = 0; x < width; x++) {
+    counted++;
     const i = (y * width + x) * 4;
     const d = Math.max(Math.abs(cur[i] - prev[i]), Math.abs(cur[i + 1] - prev[i + 1]), Math.abs(cur[i + 2] - prev[i + 2]));
     if (d > threshold) changed++;
@@ -8229,7 +8290,7 @@ async function pixelDelta(threshold = 24, sinceMark = false) {
   let blockMax = 0, blocksChanged = 0;
   if (primed) for (let b = 0; b < blocks.length; b++) { const m = blocks[b] / counts[b]; if (m > blockMax) blockMax = m; if (m > 6) blocksChanged++; }
   if (sinceMark) pixelDeltaRef = cur; else pixelDeltaPrev = cur;
-  return { changed, total: cur.length / 4, max, blockMax: +blockMax.toFixed(2), blocksChanged, blocks: blocks.length, frame: FRAME_NO, primed };
+  return { changed, total: band ? counted : cur.length / 4, max, blockMax: +blockMax.toFixed(2), blocksChanged, blocks: blocks.length, frame: FRAME_NO, primed };
 }
 
 /* published before the boot marker, not after: anything waiting on the marker acts
@@ -8481,6 +8542,10 @@ window.V3D = {
   frameTimes: () => ({ ms: Array.from(FRAME_MS), frame: FRAME_NO, tris: renderer.info.render.triangles, draws: renderer.info.render.drawCalls }),
   setFov: f => { camera.fov = +f; camera.updateProjectionMatrix(); return camera.fov; },
   setShadowRadius: r => { shadowRadiusOverride = r > 0 ? +r : null; return shadowRadiusOverride; },
+  /* the shadow map's fit and snap, for the harness: the size, the texel, and how far the box was moved to land on a texel */
+  shadowFit: () => ({ R: SUN_BASIS.R, texel: +SUN_BASIS.texel.toFixed(4), snap: shadowSnap, remainderTexels: +SUN_BASIS.remainder.toFixed(3),
+                      normalBias: sun.shadow.normalBias, fits: [...SHADOW_FITS], reversedDepth: renderer.reversedDepthBuffer === true }),
+  setShadowSnap: on => { shadowSnap = !!on; return shadowSnap; },
   quality: () => ({ lowfx, lowq: LOWQ, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   /* GPU milliseconds since the previous resolve, summed over every render
