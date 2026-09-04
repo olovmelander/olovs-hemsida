@@ -1,8 +1,10 @@
-name: veckefjarden vegetation
+name: ground vegetation
 
 # The Lantmäteriet credentials live as repository secrets, so the credentialed
 # LiDAR reads run here, where the secrets are — the same pattern as
-# course-geo-access.yml. Two modes, one deterministic chain:
+# course-geo-access.yml. Any ground with a pinned campaign inventory can run;
+# the ground comes from the RUN file's own path (or the dispatch input).
+# Two modes, one deterministic chain:
 #
 #   acquire (default): preflight → campaign re-check → COPC census →
 #     canopy rasters → machine-reviewed compile → review overlays. Commits the
@@ -14,6 +16,10 @@ name: veckefjarden vegetation
 on:
   workflow_dispatch:
     inputs:
+      ground:
+        description: "Ground id (geo_data/course-v2/<ground>)"
+        default: "veckefjarden"
+        required: true
       publish:
         description: "Publish the compiled generation (only after eyeballing the review overlays from an acquire run)"
         type: boolean
@@ -21,21 +27,22 @@ on:
       observed_on:
         description: "Evidence date YYYY-MM-DD; keep identical between the acquire and publish runs"
         required: true
-  # A push to the RUN control file starts a run with the parameters it carries —
-  # the trigger for callers holding contents:write but not actions:write (the
-  # remote session's GitHub App). The workflow's own evidence commit does not
-  # touch RUN and pushes with GITHUB_TOKEN, so it can never retrigger itself.
+  # A push to a ground's RUN control file starts a run with the parameters it
+  # carries — the trigger for callers holding contents:write but not
+  # actions:write (the remote session's GitHub App). The workflow's own
+  # evidence commit does not touch RUN and pushes with GITHUB_TOKEN, so it can
+  # never retrigger itself.
   push:
     branches:
       - "claude/**"
     paths:
-      - "geo_data/course-v2/veckefjarden/vegetation/RUN"
+      - "geo_data/course-v2/*/vegetation/RUN"
 
 permissions:
   contents: write
 
 concurrency:
-  group: veckefjarden-vegetation-${{ github.ref }}
+  group: ground-vegetation-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -45,15 +52,26 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
+        with:
+          # the pushed RUN file is found by diffing against the parent commit
+          fetch-depth: 2
 
-      - name: Resolve run parameters (dispatch inputs, or the RUN control file)
+      - name: Resolve run parameters (dispatch inputs, or the pushed RUN control file)
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "GROUND=${{ inputs.ground }}" >> "$GITHUB_ENV"
             echo "PUBLISH=${{ inputs.publish }}" >> "$GITHUB_ENV"
             echo "OBSERVED_ON=${{ inputs.observed_on }}" >> "$GITHUB_ENV"
           else
-            # shellcheck disable=SC1091
-            . geo_data/course-v2/veckefjarden/vegetation/RUN
+            changed=$(git diff --name-only HEAD^ HEAD -- 'geo_data/course-v2/*/vegetation/RUN' | head -1)
+            if [ -z "$changed" ]; then
+              echo "the push touched no RUN control file" >&2
+              exit 1
+            fi
+            ground=$(basename "$(dirname "$(dirname "$changed")")")
+            # shellcheck disable=SC1090
+            . "$changed"
+            echo "GROUND=${ground}" >> "$GITHUB_ENV"
             echo "PUBLISH=${publish}" >> "$GITHUB_ENV"
             echo "OBSERVED_ON=${observed_on}" >> "$GITHUB_ENV"
           fi
@@ -87,10 +105,10 @@ jobs:
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
-        run: node packages/course-geo/acquisition/access-preflight.mjs --ground veckefjarden --provider lantmateriet
+        run: node packages/course-geo/acquisition/access-preflight.mjs --ground "$GROUND" --provider lantmateriet
 
       - name: Campaign inventory drift gate
-        run: node packages/course-geo/acquisition/record-laser-campaigns.mjs --ground veckefjarden --check
+        run: node packages/course-geo/acquisition/record-laser-campaigns.mjs --ground "$GROUND" --check
 
       - name: COPC hierarchy census (headers, no point bytes)
         env:
@@ -98,7 +116,7 @@ jobs:
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
         run: |
           node packages/course-geo/acquisition/run-copc-census.mjs \
-            --ground veckefjarden --write --full \
+            --ground "$GROUND" --write --full \
             --observed-on "$OBSERVED_ON"
 
       - name: Build the 1 m canopy rasters (read its ground-minus-DTM line first)
@@ -107,37 +125,50 @@ jobs:
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
         run: |
           node packages/course-geo/copc-reader/build-canopy.mjs \
-            --ground veckefjarden \
+            --ground "$GROUND" \
             --out "$RUNNER_TEMP/veg/rasters" \
             --observed-on "$OBSERVED_ON"
 
       - name: Compile the machine-reviewed generation
         run: |
+          # one --raster per active campaign item, named the way build-canopy
+          # writes them (item id slugified); paths under RUNNER_TEMP carry no
+          # spaces, so word-splitting the list is safe
+          RASTER_ARGS=$(node --input-type=module -e "
+            import fs from 'node:fs';
+            const c = JSON.parse(fs.readFileSync('geo_data/course-v2/' + process.env.GROUND + '/acquisition/laser-campaigns.json', 'utf8'));
+            const dir = process.env.RUNNER_TEMP + '/veg/rasters';
+            for (const item of c.items) {
+              if (item.role !== 'active' || item.excludedFromCanopy) continue;
+              const slug = item.id.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+              process.stdout.write('--raster ' + item.id + '=' + dir + '/chm-' + slug + '.f32:' + dir + '/chm-' + slug + '.json ');
+            }")
+          echo "rasters: $RASTER_ARGS"
           node packages/course-v2/vegetation/compile-vegetation.mjs \
-            --ground veckefjarden \
+            --ground "$GROUND" \
             --out "$RUNNER_TEMP/veg/compile" \
-            --raster "26f015-702_68=$RUNNER_TEMP/veg/rasters/chm-26f015-702-68.f32:$RUNNER_TEMP/veg/rasters/chm-26f015-702-68.json" \
+            $RASTER_ARGS \
             --machine-review \
             --observed-on "$OBSERVED_ON"
 
       - name: Render the review overlays
         run: |
           node packages/course-v2/vegetation/render-review.mjs \
-            --ground veckefjarden \
+            --ground "$GROUND" \
             --rasters "$RUNNER_TEMP/veg/rasters" \
             --candidates "$RUNNER_TEMP/veg/compile/candidates.json" \
             --out "$RUNNER_TEMP/veg/review"
 
       - name: Keep the review overlays on the branch for the eyeball
         run: |
-          mkdir -p geo_data/course-v2/veckefjarden/vegetation/review
-          cp -r "$RUNNER_TEMP/veg/review/." geo_data/course-v2/veckefjarden/vegetation/review/
+          mkdir -p "geo_data/course-v2/$GROUND/vegetation/review"
+          cp -r "$RUNNER_TEMP/veg/review/." "geo_data/course-v2/$GROUND/vegetation/review/"
 
       - name: Publish the generation for every course of the ground
         if: env.PUBLISH == 'true'
         run: |
           node packages/course-v2/vegetation/publish-vegetation.mjs \
-            --ground veckefjarden \
+            --ground "$GROUND" \
             --compile "$RUNNER_TEMP/veg/compile" \
             --public apps/golf/public
 
@@ -152,7 +183,7 @@ jobs:
       - name: Upload the compile directory and overlays
         uses: actions/upload-artifact@v4
         with:
-          name: veckefjarden-vegetation-${{ env.PUBLISH == 'true' && 'publish' || 'acquire' }}-${{ github.run_number }}
+          name: ${{ env.GROUND }}-vegetation-${{ env.PUBLISH == 'true' && 'publish' || 'acquire' }}-${{ github.run_number }}
           path: |
             ${{ runner.temp }}/veg/compile
             ${{ runner.temp }}/veg/review
@@ -163,7 +194,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add geo_data/course-v2/veckefjarden
+          git add "geo_data/course-v2/$GROUND"
           if [ "$PUBLISH" = "true" ]; then
             git add apps/golf/public
           fi
@@ -171,8 +202,8 @@ jobs:
             echo "nothing new to commit"
             exit 0
           fi
-          git commit -m "Veckefjärden vegetation ${{ env.PUBLISH == 'true' && 'publish' || 'acquisition evidence' }} ($OBSERVED_ON)" \
-            -m "Produced by the veckefjarden-vegetation workflow run ${{ github.run_id }} with the repository's Lantmäteriet credentials." \
+          git commit -m "$GROUND vegetation ${{ env.PUBLISH == 'true' && 'publish' || 'acquisition evidence' }} ($OBSERVED_ON)" \
+            -m "Produced by the ground-vegetation workflow run ${{ github.run_id }} with the repository's Lantmäteriet credentials." \
             -m "Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>" \
             -m "Claude-Session: https://claude.ai/code/session_015uNzTAXTzkXbGYS4eU7kS2"
           git push origin "HEAD:${{ github.ref_name }}"

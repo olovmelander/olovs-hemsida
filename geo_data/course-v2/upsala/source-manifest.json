@@ -562,6 +562,17 @@
       ],
       "use": "migration-only",
       "notes": "The SHIPPED nine in absolute EPSG:3006, and the routing the v2 course manifest claims tiles for. Projected with the repository's own Krüger series because PROJ was unavailable; the driver first reproduced the committed cs2cs migration of this same ground to 1.3 mm over all 12,925 of its coordinates and refuses to write otherwise. The older migration-middle-model-epsg3006 is the banguide TRACE, which disagrees with this routing by up to 164 m on holes 7 and 8."
+    },
+    {
+      "id": "laser-campaign-inventory",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/acquisition/laser-campaigns.json",
+      "sha256": "5867763521c3c3eb3e3776ac5e610575d87165e08c803280ceec4f7f35c1e53b",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pinned Laserdata Skog inventory: one March 2021 leaf-off campaign (21c037) split over items 21c037-663_63 and 21c037-663_64 with the known E 640000 provenance seam the terrain window already crosses; 2.05-2.18 returns/m2. record-laser-campaigns --check re-derives the live catalogue and fails on drift. Leaf-off under-detects deciduous crowns; audit before believing a thinned forest (the Johannesberg lesson)."
     }
   ],
   "blockers": [
