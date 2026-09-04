@@ -1140,8 +1140,18 @@ if (!DET) { try { rememberedQuality = localStorage.getItem('banvy-quality'); } c
 const constrainedDevice = !DET
   && ((navigator.deviceMemory && navigator.deviceMemory <= 4)
    || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4));
+/* A phone is performance mode by default. The memory/core sniff above never
+   catches a flagship phone (8 cores, capped or absent deviceMemory), so detect
+   the FORM instead, by capability and never by user agent: the primary pointer
+   is coarse with no hover (a touch-first device) and the screen's short side is
+   phone-sized -- the same 768 px breakpoint the mobile HUD sheets use. An
+   explicit ?q= still always wins, and det=1 stays device-blind so goldens do
+   not depend on the machine that captured them. */
+const phoneDevice = !DET
+  && window.matchMedia('(pointer: coarse) and (hover: none)').matches
+  && Math.min(window.screen?.width ?? Infinity, window.screen?.height ?? Infinity) <= 768;
 const LOWQ = qualityParam === 'lo'
-  || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice));
+  || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice || phoneDevice));
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
 let lowfx = false;
 let autoQualityDone = false;   /* the auto-quality verdict has been reached (a harness waits on it) */
@@ -9364,7 +9374,7 @@ window.V3D = {
   v2WorldMorph: ms => { const batches = terrainV2.runtime?.layer?.batches; if (!batches) return null; for (const b of batches.values()) b.morphDurationMilliseconds = Math.max(0, +ms || 0); return Math.max(0, +ms || 0); },
   /* the terrain stream's last plan and residency, for a harness that watches tiles come and go: desired, rendered (fallbacks included), requested, retained, and what is ready or loading */
   v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
-  quality: () => ({ lowfx, lowq: LOWQ, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
+  quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   /* GPU milliseconds since the previous resolve, summed over every render
      pass (shadow, scene, bloom); null unless the page booted with ?gputime=1 */

@@ -2454,6 +2454,17 @@ page-vs-app parity run must pass `?v2=0` to the app (the standalone pages
 have no v2), and a poster re-shoot (`make-posters.mjs`, deliberately
 unpinned) will now photograph the v2 ground, which is what visitors see.
 
+**And a phone defaults to performance mode.** `LOWQ` is the app's one
+performance switch (tree tiers, instance counts, pixel ratio, the lighter
+v2 submit path all key off it), and the old memory/core sniff never caught
+a flagship phone. `phoneDevice` in main.js now detects the FORM, by
+capability and never by user agent: primary pointer coarse with no hover
+AND the screen's short side ≤ 768 px (the mobile HUD sheets' own
+breakpoint). Precedence, each browser-verified on the built app: an
+explicit `?q=` always wins, `det=1` stays device-blind so goldens never
+depend on the machine, and desktops are untouched. `V3D.quality()` reports
+`phone` beside `lowq` so a harness can tell the sniffs apart.
+
 ### Johannesberg's vegetation — and the audit that says a thinner forest is the right one
 
 2,417 LiDAR-measured crowns plus a 64-tile 4 m stand field now replace the
