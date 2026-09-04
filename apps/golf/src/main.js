@@ -5869,10 +5869,33 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
     stats.bridges = bridges;
   }
   /* Norrfällsvikens kapell -- the fishing village's white wooden chapel of 1649,
-     on its surveyed OSM footprint down by the harbour: a low white nave under a
-     steep dark shingle roof, and the slender tower with its black cap and cross
-     at one gable. It is the village's icon and the one built thing on this cape
-     that earns a bespoke shape. */
+     on its surveyed OSM footprint (way 185982798) down by the harbour. It is the
+     village's icon and the one built thing on this cape that earns a bespoke
+     shape.
+
+     Two things here were WRONG until a photograph and the kommun's own adopted
+     kulturmiljöplan were looked at, and both were wrong in the direction this
+     repo keeps warning about -- a roof read as dark because it was in shadow,
+     and a bell tower assumed to be part of the building because most churches'
+     are.
+
+     Kramfors kommun's kulturmiljöplan describes it as "byggnad med sadeltak
+     målad i vitt med en fristående klockstapel", and the riksintresse Y 29 text
+     adds that it "ligger i ett fritt läge på höjden ovan vattnet ... omgivet av
+     en öppen gistvall". So: white, gabled, and its bell frame STANDS CLEAR of
+     it. The roof is an orange-red pantile, measured off a ground-level
+     photograph at rgb(177,90,48) against walls at rgb(225,225,225) -- not the
+     near-black shingle drawn here before.
+
+     One trap worth leaving written down: a travel blog covering this coast
+     shows a white chapel with a GREY shingle roof and a big RED TRIPOD bell
+     frame. That is Bönhamn's chapel, not this one. Nordingrå parish has four
+     fiskekapell and they are easy to swap.
+
+     What is NOT known is where the klockstapel stands, to the metre -- OSM
+     carries only the chapel footprint. It is placed off the seaward gable,
+     clear of the walls, which is what the photograph shows; the FORM is
+     documented, the exact position is not. */
   {
     const ch = (M.infra.buildings || []).find(b => b.amenity === 'place_of_worship');
     if (ch) {
@@ -5892,7 +5915,10 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
       y0 -= 0.15;
       const hw = Math.max(3.4, blen / 2 - 0.3), hd = 3.1;
       const P = (u, v, y) => [c[0] + ux * u - uz * v, y, c[1] + uz * u + ux * v];
-      const WALLH = 3.1, RIDGE = 6.4, DARK = L(0x2e2a26);
+      /* MEASURED off a ground-level photograph: roof rgb(177,90,48), the
+         orange-red pantile of this coast, and not the near-black shingle this
+         used to draw. TRIM is the dark boarding of the bell frame's cap. */
+      const WALLH = 3.1, RIDGE = 6.4, TILE = L(0xb15a30), TRIM = L(0x3a332c);
       quad(P(-hw, -hd, y0), P(hw, -hd, y0), P(hw, -hd, y0 + WALLH), P(-hw, -hd, y0 + WALLH), WHITE);
       quad(P(hw, hd, y0), P(-hw, hd, y0), P(-hw, hd, y0 + WALLH), P(hw, hd, y0 + WALLH), WHITE);
       tri(P(hw, -hd, y0 + WALLH), P(hw, hd, y0 + WALLH), P(hw, 0, y0 + RIDGE), WHITE);
@@ -5900,26 +5926,43 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
       quad(P(hw, -hd, y0), P(hw, hd, y0), P(hw, hd, y0 + WALLH), P(hw, -hd, y0 + WALLH), WHITE);
       quad(P(-hw, hd, y0), P(-hw, -hd, y0), P(-hw, -hd, y0 + WALLH), P(-hw, hd, y0 + WALLH), WHITE);
       quad(P(-hw - 0.25, -hd - 0.3, y0 + WALLH - 0.1), P(hw + 0.25, -hd - 0.3, y0 + WALLH - 0.1),
-           P(hw + 0.25, 0, y0 + RIDGE), P(-hw - 0.25, 0, y0 + RIDGE), DARK);
+           P(hw + 0.25, 0, y0 + RIDGE), P(-hw - 0.25, 0, y0 + RIDGE), TILE);
       quad(P(hw + 0.25, hd + 0.3, y0 + WALLH - 0.1), P(-hw - 0.25, hd + 0.3, y0 + WALLH - 0.1),
-           P(-hw - 0.25, 0, y0 + RIDGE), P(hw + 0.25, 0, y0 + RIDGE), DARK);
-      /* the tower at the gable, its black pyramid cap and the cross */
-      const tu = -hw + 1.0;
-      const TX = c[0] + ux * tu, TZ = c[1] + uz * tu;
-      for (const [du, dv] of [[1.1, 0], [0, 1.1]])
-        quad([TX - ux * du + uz * dv, y0, TZ - uz * du - ux * dv],
-             [TX + ux * du - uz * dv, y0, TZ + uz * du + ux * dv],
-             [TX + (ux * du - uz * dv) * 0.82, y0 + 8.2, TZ + (uz * du + ux * dv) * 0.82],
-             [TX - (ux * du - uz * dv) * 0.82, y0 + 8.2, TZ - (uz * du + ux * dv) * 0.82], WHITE);
+           P(-hw - 0.25, 0, y0 + RIDGE), P(hw + 0.25, 0, y0 + RIDGE), TILE);
+      /* The FRISTÅENDE klockstapel: four splayed legs carrying an open bell
+         stage under a small boarded pyramid cap, standing clear of the gable
+         rather than growing out of it. Its footprint is inferred; its form is
+         what the kulturmiljöplan and the photograph both describe. */
+      const su = -hw - 3.4;
+      const SX = c[0] + ux * su, SZ = c[1] + uz * su;
+      const sy = terrainH(SX, SZ) - 0.1;
+      const SPREAD = 1.5, WAIST = 0.62, LEGTOP = 4.2, STAGE = 5.4, CAP = 7.0;
+      for (let k4 = 0; k4 < 4; k4++) {
+        const aa = k4 / 4 * TAU + TAU / 8;
+        const fx = Math.cos(aa) * SPREAD, fz = Math.sin(aa) * SPREAD;
+        const tx = Math.cos(aa) * WAIST, tz = Math.sin(aa) * WAIST;
+        /* each leg as a thin splayed board, wide at the foot and narrow at the
+           stage, which is what reads as a klockstapel at any distance */
+        quad([SX + fx - Math.sin(aa) * 0.16, sy, SZ + fz + Math.cos(aa) * 0.16],
+             [SX + fx + Math.sin(aa) * 0.16, sy, SZ + fz - Math.cos(aa) * 0.16],
+             [SX + tx + Math.sin(aa) * 0.10, sy + LEGTOP, SZ + tz - Math.cos(aa) * 0.10],
+             [SX + tx - Math.sin(aa) * 0.10, sy + LEGTOP, SZ + tz + Math.cos(aa) * 0.10], WHITE);
+      }
+      /* the open bell stage: four corner posts and the boarded parapet under them */
       for (let k4 = 0; k4 < 4; k4++) {
         const aa = k4 / 4 * TAU + TAU / 8, ab = (k4 + 1) / 4 * TAU + TAU / 8;
-        tri([TX + Math.cos(aa) * 1.15, y0 + 8.15, TZ + Math.sin(aa) * 1.15],
-            [TX + Math.cos(ab) * 1.15, y0 + 8.15, TZ + Math.sin(ab) * 1.15],
-            [TX, y0 + 11.0, TZ], DARK);
+        quad([SX + Math.cos(aa) * WAIST, sy + LEGTOP, SZ + Math.sin(aa) * WAIST],
+             [SX + Math.cos(ab) * WAIST, sy + LEGTOP, SZ + Math.sin(ab) * WAIST],
+             [SX + Math.cos(ab) * WAIST, sy + LEGTOP + 0.55, SZ + Math.sin(ab) * WAIST],
+             [SX + Math.cos(aa) * WAIST, sy + LEGTOP + 0.55, SZ + Math.sin(aa) * WAIST], WHITE);
+        pole(SX + Math.cos(aa) * WAIST, sy + LEGTOP, SZ + Math.sin(aa) * WAIST, STAGE - LEGTOP, 0.07, WHITE);
+        tri([SX + Math.cos(aa) * (WAIST + 0.18), sy + STAGE, SZ + Math.sin(aa) * (WAIST + 0.18)],
+            [SX + Math.cos(ab) * (WAIST + 0.18), sy + STAGE, SZ + Math.sin(ab) * (WAIST + 0.18)],
+            [SX, sy + CAP, SZ], TRIM);
       }
-      pole(TX, y0 + 10.9, TZ, 1.3, 0.07, WHITE);
-      quad([TX - ux * 0.42, y0 + 11.85, TZ - uz * 0.42], [TX + ux * 0.42, y0 + 11.85, TZ + uz * 0.42],
-           [TX + ux * 0.42, y0 + 12.03, TZ + uz * 0.42], [TX - ux * 0.42, y0 + 12.03, TZ - uz * 0.42], WHITE);
+      pole(SX, sy + CAP - 0.1, SZ, 0.9, 0.05, WHITE);
+      quad([SX - ux * 0.30, sy + CAP + 0.52, SZ - uz * 0.30], [SX + ux * 0.30, sy + CAP + 0.52, SZ + uz * 0.30],
+           [SX + ux * 0.30, sy + CAP + 0.65, SZ + uz * 0.30], [SX - ux * 0.30, sy + CAP + 0.65, SZ - uz * 0.30], WHITE);
     }
   }
   /* boats along the marina piers: white hulls, a coloured transom-and-deck line,

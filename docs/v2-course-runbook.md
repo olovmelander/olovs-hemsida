@@ -999,6 +999,51 @@ Puttom literal into a generically named module is not generalization.
   manifest contract says LF; compare committed blobs before assuming source
   drift.
 
+### Coastal grounds — what Norrfällsviken added
+
+The first seaside ground broke four assumptions that every inland course had
+quietly satisfied. Read these before starting a course that touches the sea.
+
+- **The height model carries near-shore water as a flattened surface, not as
+  nodata and never as bathymetry.** A window that is one third sea can still
+  pass every-sample-finite, and it costs almost nothing: a 257 × 257 tile of one
+  repeated value deflates to 142 bytes against 45 kB for a varied one. Do not
+  budget sea tiles as if they were land.
+- **But the national model stops tiling the OPEN sea, in two ways, and both
+  need an explicit decision.** An item can return nodata over its outer water,
+  and a 10 km square that is entirely sea may not be published at all — it
+  answers 404 while its neighbours answer 200, which is a statement about the
+  sea and not about the account. Relaxing the coverage gate is the wrong fix,
+  because that gate is what catches a wrong item or a half-covered ring. The
+  answer is an opt-in per-ground `seaFill`: a connected nodata component is
+  filled only if its boundary is water by MEDIAN, by fraction and at the
+  extreme, and it is filled with the median of its OWN boundary rather than a
+  constant. **Set those thresholds from the boundaries the data actually has,
+  not by raising a number until the build passes** — the first rule tried here
+  ("no boundary sample above 0.25 m") failed correctly, because a factor-4
+  overview averages shore into water and real boundaries reach 0.80 m. The
+  median is the discriminator that cannot be dragged by a few mixed pixels, and
+  a missing LAND square fails all three tests at once.
+- **A STAC `capturedAt` is not a campaign.** Two items advertising the same
+  date and range can have entirely different flight vintages inside them; only
+  the per-item `ursprung.json` says which ground came from when. Read it, and
+  measure the seam in the retained raster rather than assuming it is or is not
+  visible — state where it falls relative to the played ground.
+- **Zone-A minimality is about what the window must CONTAIN, not about the golf
+  course alone.** A compact course on a cape can need four times the level-zero
+  tiles because the chapel, the harbour and the shoreline are the things it is
+  looked at across. Say so in the contract and check it both ways: the chosen
+  size must hold that set, and half of it must genuinely fail. Copying another
+  ground's minimality rule — "the smallest square holding every PLAYED point" —
+  would have rejected a correct window here.
+
+Also generic, and not coastal at all: **the frontier is not the window.**
+`expectedTileCount` is the level-zero set the app installs eagerly and the
+loader caps it at 8 MiB, so a large finest window must declare a reviewed
+sub-rectangle and let the rest of level zero stream in behind it at the same
+resolution. Two grounds have now independently landed on 8 × 12 tiles; that is
+what the budget buys in 256 m tiles, not a number to copy.
+
 ## 11. The short checklist for starting the next course
 
 1. Add/validate the ground source manifest and choose ground/course identity.
@@ -1338,12 +1383,31 @@ horizontally. That is Ängsö's largest open item.
 - **The legacy heightfields are still Terrarium**, with the 1.85 m MAD and the
   water disagreement in §14.3. *Exit:* re-ground HF0/HF1 from the laser DTM
   the way `upsalabuild/lib-v2.mjs` documents, moving nothing horizontally.
-- **Vegetation is derived, leaf-off, and awaiting publication.** The canopy
-  rasters are built and the campaign is pinned. The flight is March/April,
-  which under-detects deciduous crowns; on a course with birch and oak that is
-  a systematic bias, not noise, and it must be stated wherever a crown count
-  is quoted. Zone-A approval will be versioned machine review rather than
-  per-object human review.
+- **Vegetation is derived, leaf-off, and NOT published — the compiler
+  refused it.** The canopy rasters are built (61 M points over the 256 course
+  tiles) and the campaign is pinned, but `compile-vegetation` stops on
+
+  > tile l0/4/13 registry is invalid: objects.records[13].heightRH2000 lies
+  > outside the declared chunk bounds
+
+  and that refusal is correct. Tile `l0/4/13` is the Mälaren shoreline, height
+  bounds 0.76–11.56 m; its western neighbour `l0/3/13` is open water, min and
+  max both 0.76 m — a perfectly flat plane, which is what a laser DTM over a
+  lake is. A crown base outside that band is a tree standing on the water: a
+  March leaf-off flight over a lake returns from the surface, and a ground
+  classifier can place them below the flattened plane. The fix is a semantic
+  exclusion driven by a water level that can be trusted — which on this ground
+  means re-grounding the legacy heightfields FIRST, because the model's own
+  water rings are Terrarium and disagree with the DTM by −3.66 to +6.10 m.
+  Sequence it after the re-grounding, not before. Note also that the canopy
+  raster is sized from `ground.bounds`, which for a ring-published ground is
+  the 16 km ROOT: 16,384² cells, 1 GB per layer, and a compile that ran for an
+  hour at 5 GB resident before reaching that gate. Both tools should take the
+  course window. Zone-A approval, when it happens, will be versioned machine
+  review rather than per-object human review, and must say so.
+- **The flight is leaf-off** (March/April), which under-detects deciduous
+  crowns; on a course with birch and oak that is a systematic bias, not noise,
+  and it must be stated wherever a crown count is quoted.
 - **The club's own current card was not obtained from the club.** All 126 card
   cells (par, index and five tee columns over eighteen holes) are gated exactly
   by `angsobuild/check3d.mjs`, and hole 1 has three lengths in circulation

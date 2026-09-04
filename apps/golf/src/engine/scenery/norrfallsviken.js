@@ -20,16 +20,30 @@ export const clearings = [
   { c: [-551, 1161], r: 90, wobble: 30 },
 ];
 
-/* The clubhouse, from the club's own photograph.
+/* The clubhouse, from the club's own photographs.
 
-   These notes previously said "cream walls, red roof", which is the wrong way
-   round: it is a Falu red timber building with WHITE window frames and corner
-   boards under a dark red-brown roof, single storey, with a glazed veranda and
-   a railed terrace standing above the green it looks over. Aerial imagery gives
-   a roof and never a facade -- this one needed a picture from the ground. */
+   These notes once said "cream walls, red roof", which is the wrong way round:
+   it is a Falu red timber building with WHITE window frames and corner boards,
+   single storey, with a glazed veranda and a railed terrace standing above the
+   green it looks over. Aerial imagery gives a roof and never a facade -- that
+   part needed a picture from the ground.
+
+   The ROOF was then wrong for the opposite reason, and it is worth writing down
+   because it is the same mistake twice in one building. "Dark red-brown" came
+   from a photograph in low light. Measured instead in FLAT OVERCAST -- the one
+   condition where a colour can be trusted, with the sky sampling neutral at
+   rgb(227,236,238) -- the roof is a red pantile: rgb(212,166,170) from the
+   ground and rgb(190,130,119) from directly overhead in a drone frame. It is
+   the same terracotta pantile as the chapel down in the village and as Ängsö's
+   clubhouse, not a dark roof at all.
+
+   The rule this keeps proving: a photograph at golden or blue hour tells you
+   shape, never colour. Puttom's lower storey was painted blue for exactly this
+   reason and had to be corrected too. */
 export const clubhouse = {
   wall: 0x8b3a2c,          /* falurött */
-  roof: 0x5c3a30,          /* dark red-brown */
+  /* MEASURED in flat overcast, overhead and from the ground: red pantile */
+  roof: 0xb5705f,
   height: 3.6,             /* one storey; the terrace does the rest */
   windowRows: [1.3],
   terrace: true,

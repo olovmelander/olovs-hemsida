@@ -40,13 +40,29 @@
    Two items instead of four, for ground that is one flat value: the boundary
    is the better edge. The course still clears the north edge by 792 m.
 
-   Both items were captured in the same campaign, so the seam between them is
-   one of file boundaries and not of vintage or method. Item 698_68 is a
-   COASTAL item and is NOT a full 10 km square -- it is 7,500 x 7,500 m, and
-   its overview chain stops at 16x where every other item here reaches 32x.
-   Nothing in this window depends on that, because the finest terrain is read
-   at factor 1; the ring compiler is the code that has to fall back, and it
-   already does. */
+   The two items are NOT the same vintage, and the STAC metadata hides it. Both
+   items advertise capturedAt 2018-12-20 over a 2012-2025 range, which reads as
+   one campaign; the per-item `ursprung.json` says otherwise. 698_67 is a single
+   2025-06-05 flight over the whole 10 km square, so every sample under the golf
+   course is one campaign. 698_68 carries a 2012-07-05 rectangle at exactly
+   E 680000-682500 / N 6987500-6990000 -- which is the strip this window uses.
+   So the window does cross a thirteen-year boundary at E 680000.
+
+   Measured in the retained raster rather than assumed: the column step across
+   that boundary averages 0.0884 m over the full window height, and 94% of it
+   runs through flattened water, where the two campaigns' sea surfaces differ by
+   a mean of 0.0881 m (max 0.311 m). The 6% that is land steps by 0.2980 m on
+   average (max 0.514 m). For scale, the ordinary column-to-column step at
+   E 678000 -- undisturbed 2025 terrain -- is 0.1095 m, larger than the seam.
+   And the boundary stands 643.9 m EAST of the easternmost played point, out
+   past the shoreline. It is recorded here because it is real, not because it
+   is visible.
+
+   Item 698_68 is also a COASTAL item and is NOT a full 10 km square -- it is
+   7,500 x 7,500 m, and its overview chain stops at 16x where every other item
+   here reaches 32x. Nothing in this window depends on that, because the finest
+   terrain is read at factor 1; the ring compiler is the code that has to fall
+   back, and it already does. */
 export const NORRFALLSVIKEN_GROUND_GRAPH_CONFIG = Object.freeze({
   groundId: 'norrfallsviken',
   courseSlug: 'norrfallsviken',
@@ -73,12 +89,29 @@ export const NORRFALLSVIKEN_GROUND_GRAPH_CONFIG = Object.freeze({
     }),
   }),
   sourceCapture: Object.freeze({
+    /* what the STAC items advertise, identically for both */
     capturedAt: '2018-12-20T00:00:00Z',
     captureStart: '2012-07-05T00:00:00Z',
     captureEnd: '2025-06-05T00:00:00Z',
     modifiedAt: '2026-04-20T00:00:00Z',
     statedPlanUncertaintyMetres: 0.3,
     statedHeightUncertaintyMetres: 0.1,
+    /* what the per-item ursprung.json actually says, which is the fact that
+       matters: the golf course is entirely 2025, and the only older data in
+       this window is offshore. Never take a STAC capturedAt for a campaign. */
+    actualByItem: Object.freeze({
+      '698_67': Object.freeze({
+        surveyedOn: '2025-06-05',
+        method: 'Luftburen laserskanning',
+        note: 'one flight over the whole 10 km square; every played sample comes from here',
+      }),
+      '698_68': Object.freeze({
+        surveyedOn: '2012-07-05',
+        method: 'Luftburen laserskanning',
+        extentEpsg3006: Object.freeze([680000, 6987500, 682500, 6990000]),
+        note: 'the older rectangle this window clips, 643.9 m east of the played ground and 94% water',
+      }),
+    }),
   }),
   /* REVIEWED. The bounds every played point falls inside, measured over all
      863 coordinate pairs the committed EPSG:3006 migration carries for the
