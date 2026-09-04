@@ -5,9 +5,12 @@
      node tools/serve.mjs apps/golf/dist 8620
      BANVY_GPU=1 node tools/check-ribbingsfors-v2.mjs [baseUrl]
 
-   This intentionally boots both paths. The ordinary URL must remain pure
-   GPK1; the required URL must complete the transactional GPU preflight and
-   legacy cut, then expose the published 1 m terrain and vegetation evidence. */
+   This intentionally boots both paths. Ribbingsfors serves v2 by default now
+   (the frontier registry decides), so the pure-GPK1 proof runs on the
+   explicit ?v2=0 opt-out; the required URL must complete the transactional
+   GPU preflight and legacy cut, then expose the published 1 m terrain and
+   vegetation evidence. The flagless default itself is gated by
+   tools/check-course-v2.mjs. */
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
 import { browserArgs } from './browser-args.mjs';
@@ -55,7 +58,7 @@ async function boot(search) {
   return { booted, errors, report };
 }
 
-const plain = await boot('?bana=ribbingsfors&det=1');
+const plain = await boot('?bana=ribbingsfors&det=1&v2=0');
 const required = await boot('?bana=ribbingsfors&det=1&v2=require');
 await browser.close();
 
@@ -64,11 +67,11 @@ const gate = (condition, label) => {
   console.log(`${condition ? 'ok  ' : 'FAIL'} ${label}`);
   if (!condition) failures++;
 };
-gate(plain.booted && plain.errors.length === 0, 'flagless GPK1 path boots without page errors');
+gate(plain.booted && plain.errors.length === 0, '?v2=0 GPK1 path boots without page errors');
 gate(plain.report?.terrain.requested === false && plain.report?.terrain.mode === 'off',
-  'flagless path does not request v2');
+  '?v2=0 opt-out does not request v2');
 gate(plain.report?.objects.loaded === null && plain.report?.objects.planned === null,
-  'flagless path does not load or plant v2 vegetation');
+  '?v2=0 opt-out does not load or plant v2 vegetation');
 
 const terrain = required.report?.terrain;
 const renderer = terrain?.renderer;
@@ -100,7 +103,7 @@ gate(objects?.planned?.individuals > 0 && objects?.planned?.standTrees > 0 &&
   required.report?.legacyInsideCoverage === 0,
   'v2 trees plant and the legacy lattice is absent inside their coverage');
 
-if (plain.errors.length) console.log(`flagless page error: ${plain.errors[0]}`);
+if (plain.errors.length) console.log(`?v2=0 page error: ${plain.errors[0]}`);
 if (required.errors.length) console.log(`required page error: ${required.errors[0]}`);
 console.log(failures ? `${failures} Ribbingsfors v2 browser gate(s) failed` : 'Ribbingsfors v2 browser proof passed');
 process.exit(failures ? 1 : 0);

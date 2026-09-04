@@ -41,6 +41,10 @@ export function v2RequestMode(search = globalThis.location?.search || '') {
   const value = new URLSearchParams(search).get('v2');
   if (value === '1') return 'opt-in';
   if (value === 'require') return 'require';
+  /* No flag at all means "the course's own default": v2 where a reviewed live
+     contract exists, GPK1 everywhere else. Any explicit value that is not a
+     documented one -- ?v2=0 above all -- is the opt-out. */
+  if (value === null) return 'default';
   return 'off';
 }
 
@@ -80,10 +84,16 @@ async function defaultGraphFrontierLoader(options) {
 /**
  * The one place that decides which v2 terrain source serves a course. Order:
  * a published, verified course/ground graph; then the retained Puttom
- * fixed-frontier preview; then the explicit GPK1 fallback state. Without the
- * v2 flag nothing is fetched. `?v2=require` fails closed instead of quietly
- * serving GPK1: a corrupt or missing published graph, a preview that cannot
- * verify, or a course with no v2 source at all each become a boot error.
+ * fixed-frontier preview; then the explicit GPK1 fallback state.
+ *
+ * Without a flag the course's DEFAULT decides: a slug with a reviewed live
+ * contract (a frontier config, or the retained pilot) serves v2 as if ?v2=1
+ * had been passed -- failures fall back to GPK1 silently -- and every other
+ * course fetches nothing, exactly as before. `?v2=0` is the explicit opt-out
+ * and keeps the pure-GPK1 path reachable everywhere. `?v2=require` fails
+ * closed instead of quietly serving GPK1: a corrupt or missing published
+ * graph, a preview that cannot verify, or a course with no v2 source at all
+ * each become a boot error.
  */
 export async function selectV2TerrainSource({
   slug,
@@ -102,9 +112,17 @@ export async function selectV2TerrainSource({
   previewOptions,
 } = {}) {
   if (typeof slug !== 'string' || !slug) throw new TypeError('course slug is required');
-  const requestMode = v2RequestMode(search);
+  const urlMode = v2RequestMode(search);
+  /* The default set is derived, never listed: a course serves v2 by default
+     exactly when the app could actually RENDER its v2 ground -- a reviewed
+     frontier contract in the registry, or the retained pilot. A published
+     graph alone stays resolution-only and defaults to GPK1, so a course
+     cannot default onto a source that would only report a gate. */
+  const hasDefaultV2 = Boolean(graphFrontierConfigs[slug]) || slug === PUTTOM_PREVIEW_CONFIG.slug;
+  const requestMode = urlMode === 'default' ? (hasDefaultV2 ? 'opt-in' : 'off') : urlMode;
+  const finish = value => frozenSelection({ defaulted: urlMode === 'default', ...value });
   if (requestMode === 'off') {
-    return frozenSelection({
+    return finish({
       requestMode,
       mode: 'off',
       publishedGraphSlugs,
@@ -149,7 +167,7 @@ export async function selectV2TerrainSource({
             locationHref,
             fetchImpl,
           });
-          return frozenSelection({
+          return finish({
             requestMode,
             mode: 'fixed-frontier',
             publishedGraphSlugs,
@@ -162,7 +180,7 @@ export async function selectV2TerrainSource({
           if (requestMode === 'require') {
             throw new Error(`v2 krävdes men den verifierade terrängfronten för ${slug} inte kunde tjäna: ${detail}`);
           }
-          return frozenSelection({
+          return finish({
             requestMode,
             mode: 'graph',
             publishedGraphSlugs,
@@ -181,7 +199,7 @@ export async function selectV2TerrainSource({
         if (requestMode === 'require') {
           throw new Error(`v2 krävdes men den generella v2-renderaren är inte aktiverad för ${slug} ännu`);
         }
-        return frozenSelection({
+        return finish({
           requestMode,
           mode: 'graph',
           publishedGraphSlugs,
@@ -200,7 +218,7 @@ export async function selectV2TerrainSource({
     const detail = source.error || source.reason || 'okänd orsak';
     throw new Error(`v2 krävdes men ingen verifierad v2-terräng finns för ${slug}: ${detail}`);
   }
-  return frozenSelection({
+  return finish({
     requestMode,
     mode: source.ready ? 'fixed-frontier' : graph ? 'graph' : 'fallback',
     publishedGraphSlugs,

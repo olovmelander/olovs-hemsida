@@ -61,7 +61,7 @@ const launch = () => chromium.launchPersistentContext(PROFILE, {
   const ctx = await launch();
   const p = ctx.pages()[0] || await ctx.newPage();
   p.setDefaultTimeout(300000);
-  await p.goto(`${BASE}/?bana=${HAVE}`, { waitUntil: 'load', timeout: 120000 });
+  await p.goto(`${BASE}/?bana=${HAVE}&v2=0`, { waitUntil: 'load', timeout: 120000 });
   await p.waitForSelector('#boot.done', { timeout: 300000 });
   await p.evaluate(() => navigator.serviceWorker.ready);
   await p.reload({ waitUntil: 'load' });
@@ -91,7 +91,7 @@ gate(!up, 'the server is stopped -- anything below comes from the cache');
   const boot = async slug => {
     const p = await ctx.newPage();
     p.setDefaultTimeout(200000);
-    await p.goto(`${BASE}/?bana=${slug}`, { waitUntil: 'load', timeout: 60000 }).catch(() => {});
+    await p.goto(`${BASE}/?bana=${slug}&v2=0`, { waitUntil: 'load', timeout: 60000 }).catch(() => {});
     let ok = false;
     try { await p.waitForSelector('#boot.done', { timeout: 150000 }); ok = true; } catch {}
     const info = ok ? await p.evaluate(() => ({

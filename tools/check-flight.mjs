@@ -55,7 +55,9 @@ for (const slug of COURSES) {
   const problems = [];
   page.on('pageerror', e => problems.push('pageerror: ' + String(e).split('\n')[0].slice(0, 300)));
   page.on('console', m => { if (m.type() === 'error' && !/favicon/.test(m.text())) problems.push('console: ' + m.text().slice(0, 300)); });
-  await page.goto(`${BASE}/?bana=${slug}&det=1&ljus=kvall`, { waitUntil: 'load' });
+  /* v2=0: the flight envelope gates were measured on the GPK1 ground; gating
+     the flight over the default v2 terrain is its own (open) piece of work. */
+  await page.goto(`${BASE}/?bana=${slug}&det=1&ljus=kvall&v2=0`, { waitUntil: 'load' });
   await page.waitForSelector('#boot.done', { timeout: 420000 });
   await page.waitForTimeout(1500);
 

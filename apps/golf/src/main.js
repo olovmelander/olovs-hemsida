@@ -175,13 +175,16 @@ const HF0 = PACK.H.HF0;
 const HF1 = PACK.H.HF1;
 
 await tick('läser terrängdata', 0.04);
-/* V2 selection is opt-in and dynamically imports its verifiers only after an
-   explicit v2 flag. One boundary decides the source: a published, verified
+/* V2 is the DEFAULT for every course with a reviewed live contract (the
+   frontier registry, plus the retained Puttom pilot); a course without one
+   defaults to GPK1 and fetches no v2 chunk, and ?v2=0 is the explicit
+   opt-out everywhere. One boundary decides the source: a published, verified
    course/ground graph first, then the retained Puttom preview, then the
    explicit GPK1 fallback state. Start it beside GPK1 inflation so the
-   integrity work does not serialize the boot. Under ?v2=1 a failed or absent
-   source resolves to an explicit fallback and never blocks the normal course;
-   under ?v2=require the selection throws instead of quietly serving GPK1. */
+   integrity work does not serialize the boot. By default and under ?v2=1 a
+   failed or absent source resolves to an explicit fallback and never blocks
+   the normal course; under ?v2=require the selection throws instead of
+   quietly serving GPK1. */
 const previewStarted = performance.now();
 const terrainPreviewPromise = selectV2TerrainSource({
   slug: CMETA.slug,
@@ -9263,6 +9266,7 @@ window.V3D = {
     selection: {
       mode: V2_SELECTION.mode,
       requestMode: V2_SELECTION.requestMode,
+      defaulted: V2_SELECTION.defaulted,
       publishedGraphSlugs: [...V2_SELECTION.publishedGraphSlugs],
       graph: V2_SELECTION.graph ? { slug: V2_SELECTION.graph.slug, ...V2_SELECTION.graph.summary } : null,
       graphError: V2_SELECTION.graphError,

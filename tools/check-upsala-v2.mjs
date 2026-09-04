@@ -5,10 +5,13 @@
      node tools/serve.mjs apps/golf/dist 8620
      BANVY_GPU=1 node tools/check-upsala-v2.mjs [baseUrl]
 
-   Both courses on this ground are booted, and both paths of each. The ordinary
-   URL must remain pure GPK1; the required URL must resolve, verify and render
-   the published ring graph -- one terrain from the played ground to a 16 km
-   horizon, in one draw, with no legacy CORE, MID or FAR beneath it.
+   Both courses on this ground are booted, and both paths of each. Both slugs
+   serve v2 by default now (the frontier registry decides), so the pure-GPK1
+   proof runs on the explicit ?v2=0 opt-out; the required URL must resolve,
+   verify and render the published ring graph -- one terrain from the played
+   ground to a 16 km horizon, in one draw, with no legacy CORE, MID or FAR
+   beneath it. The flagless default itself is gated by
+   tools/check-course-v2.mjs.
 
    The bridge assertions are the reason this file exists. Upsala's pack is a
    flat-earth frame 2.16 degrees off the grid, so the rotation and the two frame
@@ -73,12 +76,12 @@ const gate = (condition, label) => {
 
 for (const course of courses) {
   console.log(`\n${course.slug} (${course.label})`);
-  const plain = await boot(`?bana=${course.slug}&det=1`);
+  const plain = await boot(`?bana=${course.slug}&det=1&v2=0`);
   const required = await boot(`?bana=${course.slug}&det=1&v2=require`);
 
-  gate(plain.booted && plain.errors.length === 0, 'flagless GPK1 path boots without page errors');
+  gate(plain.booted && plain.errors.length === 0, '?v2=0 GPK1 path boots without page errors');
   gate(plain.report?.terrain.requested === false && plain.report?.terrain.mode === 'off',
-    'flagless path does not request v2');
+    '?v2=0 opt-out does not request v2');
 
   const terrain = required.report?.terrain;
   const renderer = terrain?.renderer;

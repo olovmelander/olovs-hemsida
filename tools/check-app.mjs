@@ -62,7 +62,10 @@ async function checkCourse(c) {
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
   const errs = [];
   page.on('pageerror', e => errs.push(String(e).slice(0, 160)));
-  await page.goto(`${BASE}/?bana=${c.slug}&det=1`, { waitUntil: 'load', timeout: 120000 });
+  /* v2=0 pins the GPK1 pack path this gate was written for (cards, HUD, atlas
+     probes, deep links); courses with a reviewed v2 ground serve v2 flagless
+     now, and that default is gated by tools/check-course-v2.mjs instead. */
+  await page.goto(`${BASE}/?bana=${c.slug}&det=1&v2=0`, { waitUntil: 'load', timeout: 120000 });
   try { await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT }); }
   catch { gate(false, 'boot did not complete'); await page.close(); return; }
 

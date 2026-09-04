@@ -21,7 +21,7 @@ const gate = (ok, message) => {
   if (!ok) process.exitCode = 1;
 };
 
-await page.goto(`${BASE}/?bana=angso&det=1&q=lo&gl=1`, { waitUntil: 'load', timeout: 120_000 });
+await page.goto(`${BASE}/?bana=angso&det=1&q=lo&gl=1&v2=0`, { waitUntil: 'load', timeout: 120_000 });
 await page.waitForSelector('#boot.done', { timeout: 420_000 });
 
 let state = await page.evaluate(() => window.V3D.caddie());
