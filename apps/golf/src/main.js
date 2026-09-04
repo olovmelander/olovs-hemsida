@@ -3409,15 +3409,14 @@ const SPECIES = (() => {
   })()), 1, 0.15, 0.13);
   const pine = grownCrown(mergeGeos((() => {
     const p = [];
-    for (let i = 0; i < 4; i++) {
-      const t = i / 3, r = 4.2 - t * 1.4, hh = 2.8 - t * 0.5;
+    /* five whorls tapering to a leader -- the fifth part used to be a ball of
+       radius 1.5 m on the tip, a birch crown glued on a conifer */
+    for (let i = 0; i < 5; i++) {
+      const t = i / 4, r = 4.2 - t * 2.7, hh = 2.8 - t * 0.9;
       const g = new THREE.ConeGeometry(r, hh, 12, 1);
-      g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
+      g.translate((t - 0.5) * 0.6, 8.5 + t * 3.5, (t * 0.5 - 0.25));
       p.push(g);
     }
-    const tuft = new THREE.IcosahedronGeometry(1.5, 1);
-    tuft.translate(0.4, 12.1, -0.2);
-    p.push(tuft);
     return p;
   })()), 2, 0.2, 0.15);
   const birch = grownCrown(mergeGeos((() => {
@@ -3916,10 +3915,11 @@ const TREE_LOD = {
     })()), 1, 0.15, 0.13);
     const pine = grownCrown(mergeGeos((() => {
       const p = [];
-      for (let i = 0; i < 2; i++) {
-        const t = i, r = 4.2 - t * 1.4, hh = (2.8 - t * 0.5) * 1.6;
+      /* three tall whorls standing in for the five, tapering to the same leader */
+      for (let i = 0; i < 3; i++) {
+        const t = i / 2, r = 4.2 - t * 2.7, hh = (2.8 - t * 0.9) * 1.3;
         const g = new THREE.ConeGeometry(r, hh, 6, 1);
-        g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
+        g.translate((t - 0.5) * 0.6, 8.5 + t * 3.5, (t * 0.5 - 0.25));
         p.push(g);
       }
       return p;
@@ -3981,15 +3981,14 @@ const TREE_LOD = {
     })()), 1, 0.15, 0.13);
     const pine = grownCrown(mergeGeos((() => {
       const p = [];
-      for (let i = 0; i < 4; i++) {
-        const t = i / 3, r = 4.2 - t * 1.4, hh = 2.8 - t * 0.5;
+      /* five whorls tapering to a leader -- the fifth part used to be a ball of
+         radius 1.5 m on the tip, a birch crown glued on a conifer */
+      for (let i = 0; i < 5; i++) {
+        const t = i / 4, r = 4.2 - t * 2.7, hh = 2.8 - t * 0.9;
         const g = new THREE.ConeGeometry(r, hh, 24, 2);
-        g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
+        g.translate((t - 0.5) * 0.6, 8.5 + t * 3.5, (t * 0.5 - 0.25));
         p.push(g);
       }
-      const tuft = new THREE.IcosahedronGeometry(1.5, 2);
-      tuft.translate(0.4, 12.1, -0.2);
-      p.push(tuft);
       return p;
     })()), 2, 0.2, 0.15);
     const birch = grownCrown(mergeGeos((() => {

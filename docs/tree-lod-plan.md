@@ -1048,6 +1048,21 @@ non-zero zone as zone B — so in screen mode, zone-C trees within 900 m were
 floored to full detail, and six views differed from the head by 0.02–0.25/255.
 The floors apply to zones A and B only now; screen mode is the head's again.
 
+## The pine's tip (2026-09-05)
+
+The owner's close-up: a layered pine crown with a round, faceted blob on its
+tip, a birch crown glued on a conifer. It was the template: every pine crown
+was four stacked cones plus a "tuft", an icosahedron of radius 1.5 m placed
+at the leader, and the decimated tier had no tuft at all, so the tip also
+changed shape between tiers. The pine is five whorls tapering to a leader
+now, in all three tiers (three taller whorls stand in for the five at the
+decimated tier, to the same tip), captured before and after from sixteen
+metres with `tools/goldens/pine-look.mjs`. The template is a little shorter
+(12.95 m against 13.6 with the ball), so a measured individual's scale
+changes to keep its laser height, which is why the tree fingerprint's
+`treeInstances` hash moves at this commit while `trees` (the positions)
+does not. The impostor atlas is baked from the crown at boot and follows.
+
 **What is left.** The remaining draw list at rest — the trees (27 draws, the
 bulk of the GPU work), 18 hole signs with their two-sided faces, the sprites
 and the water's thirteen sheets — is what the frame costs now, and the trees

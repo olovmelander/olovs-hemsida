@@ -2010,7 +2010,14 @@ Bayer crossfade drawn by both tiers with complementary masks
 every measurement and the mode the pop meter measures switching in — it
 boots with `lodmode=screen` itself. The golden views changed at the zone
 commit by design; compare builds in screen mode when the question is
-"did anything else change". Measured on the RTX 3070 with
+"did anything else change". **A conifer's tip is a leader, never a ball**:
+the pine template carried an icosahedron of radius 1.5 m on its tip that
+read as a birch crown glued on a pine, and the decimated tier lacked it, so
+the tip also changed shape between tiers; it is five whorls tapering to a
+point in every tier now (`tools/goldens/pine-look.mjs` frames one hero pine
+for a before/after). A template change moves the fingerprint's
+`treeInstances` hash — measured trees rescale to keep their laser height —
+while `trees`, the positions, stays; read the two apart. Measured on the RTX 3070 with
 `tools/tree-pop-meter.mjs` in screen mode: a dolly that used to change a
 hundred 16x16 blocks by 18-34/255 in one frame never moves a block's mean by
 more than 2.5/255. Two things the meter taught, both in its header:
