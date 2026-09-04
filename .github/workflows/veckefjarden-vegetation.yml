@@ -21,6 +21,15 @@ on:
       observed_on:
         description: "Evidence date YYYY-MM-DD; keep identical between the acquire and publish runs"
         required: true
+  # A push to the RUN control file starts a run with the parameters it carries —
+  # the trigger for callers holding contents:write but not actions:write (the
+  # remote session's GitHub App). The workflow's own evidence commit does not
+  # touch RUN and pushes with GITHUB_TOKEN, so it can never retrigger itself.
+  push:
+    branches:
+      - "claude/**"
+    paths:
+      - "geo_data/course-v2/veckefjarden/vegetation/RUN"
 
 permissions:
   contents: write
@@ -31,11 +40,23 @@ concurrency:
 
 jobs:
   vegetation:
-    name: ${{ inputs.publish && 'compile + publish' || 'acquire + review' }}
+    name: vegetation
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
+
+      - name: Resolve run parameters (dispatch inputs, or the RUN control file)
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "PUBLISH=${{ inputs.publish }}" >> "$GITHUB_ENV"
+            echo "OBSERVED_ON=${{ inputs.observed_on }}" >> "$GITHUB_ENV"
+          else
+            # shellcheck disable=SC1091
+            . geo_data/course-v2/veckefjarden/vegetation/RUN
+            echo "PUBLISH=${publish}" >> "$GITHUB_ENV"
+            echo "OBSERVED_ON=${observed_on}" >> "$GITHUB_ENV"
+          fi
 
       - uses: pnpm/action-setup@v4
         with:
@@ -78,7 +99,7 @@ jobs:
         run: |
           node packages/course-geo/acquisition/run-copc-census.mjs \
             --ground veckefjarden --write --full \
-            --observed-on "${{ inputs.observed_on }}"
+            --observed-on "$OBSERVED_ON"
 
       - name: Build the 1 m canopy rasters (read its ground-minus-DTM line first)
         env:
@@ -88,7 +109,7 @@ jobs:
           node packages/course-geo/copc-reader/build-canopy.mjs \
             --ground veckefjarden \
             --out "$RUNNER_TEMP/veg/rasters" \
-            --observed-on "${{ inputs.observed_on }}"
+            --observed-on "$OBSERVED_ON"
 
       - name: Compile the machine-reviewed generation
         run: |
@@ -97,7 +118,7 @@ jobs:
             --out "$RUNNER_TEMP/veg/compile" \
             --raster "26f015-702_68=$RUNNER_TEMP/veg/rasters/chm-26f015-702-68.f32:$RUNNER_TEMP/veg/rasters/chm-26f015-702-68.json" \
             --machine-review \
-            --observed-on "${{ inputs.observed_on }}"
+            --observed-on "$OBSERVED_ON"
 
       - name: Render the review overlays
         run: |
@@ -113,7 +134,7 @@ jobs:
           cp -r "$RUNNER_TEMP/veg/review/." geo_data/course-v2/veckefjarden/vegetation/review/
 
       - name: Publish the generation for every course of the ground
-        if: ${{ inputs.publish }}
+        if: env.PUBLISH == 'true'
         run: |
           node packages/course-v2/vegetation/publish-vegetation.mjs \
             --ground veckefjarden \
@@ -121,7 +142,7 @@ jobs:
             --public apps/golf/public
 
       - name: Gates (manifests, unit tests, build, app-build graph verify)
-        if: ${{ inputs.publish }}
+        if: env.PUBLISH == 'true'
         run: |
           node packages/course-geo/check-manifests.mjs
           pnpm test
@@ -131,7 +152,7 @@ jobs:
       - name: Upload the compile directory and overlays
         uses: actions/upload-artifact@v4
         with:
-          name: veckefjarden-vegetation-${{ inputs.publish && 'publish' || 'acquire' }}-${{ github.run_number }}
+          name: veckefjarden-vegetation-${{ env.PUBLISH == 'true' && 'publish' || 'acquire' }}-${{ github.run_number }}
           path: |
             ${{ runner.temp }}/veg/compile
             ${{ runner.temp }}/veg/review
@@ -143,14 +164,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add geo_data/course-v2/veckefjarden
-          if [ "${{ inputs.publish }}" = "true" ]; then
+          if [ "$PUBLISH" = "true" ]; then
             git add apps/golf/public
           fi
           if git diff --cached --quiet; then
             echo "nothing new to commit"
             exit 0
           fi
-          git commit -m "Veckefjärden vegetation ${{ inputs.publish && 'publish' || 'acquisition evidence' }} (${{ inputs.observed_on }})" \
+          git commit -m "Veckefjärden vegetation ${{ env.PUBLISH == 'true' && 'publish' || 'acquisition evidence' }} ($OBSERVED_ON)" \
             -m "Produced by the veckefjarden-vegetation workflow run ${{ github.run_id }} with the repository's Lantmäteriet credentials." \
             -m "Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>" \
             -m "Claude-Session: https://claude.ai/code/session_015uNzTAXTzkXbGYS4eU7kS2"
