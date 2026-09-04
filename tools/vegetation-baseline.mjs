@@ -23,6 +23,10 @@ import { createHash } from 'node:crypto';
 import { chromium } from 'playwright-core';
 import { ROOT } from '../geobuild/lib.mjs';
 import { browserArgs, GPU } from './browser-args.mjs';
+/* the scenery modules import only pure geom helpers, so Node can read them:
+   the gate derives "should this course's species rule drive the planting"
+   from the same registry the app resolves, never from a copied list */
+import { loadSceneryModule } from '../apps/golf/src/engine/scenery/index.js';
 
 const args = process.argv.slice(2);
 const flag = (name, fallback = null) => { const i = args.indexOf(`--${name}`); return i < 0 ? fallback : args[i + 1]; };
@@ -121,6 +125,15 @@ for (const mode of [{ label: 'gpk1', search: '&det=1&v2=0' }, { label: 'v2-requi
     gate(report.trees.legacyInsideCoverage === 0, `legacy lattice cut out of v2 coverage (${report.trees.legacyInsideCoverage} inside ${objects.coverageTiles} tiles)`);
     gate(planned.baseMismatch?.p95Metres !== null && planned.baseMismatch?.p95Metres <= 0.5,
       `registry bases agree with the visible ground (p95 ${planned.baseMismatch?.p95Metres} m, max ${planned.baseMismatch?.maxMetres} m over ${planned.baseMismatch?.samples})`);
+    /* A course with its own species() rule must have PLANTED by it: publishing
+       a ground must never silently erase the course's species truth (the
+       Veckefjärden alder/birch rule is why this ground's vegetation waited).
+       The expectation comes from the scenery registry itself, so this gate
+       cannot agree with a dropped hook the way a copied list would. */
+    const scenery = await loadSceneryModule(report.course.slug);
+    const expectedSpeciesSource = scenery?.species ? 'course' : 'default';
+    gate(planned.speciesSource === expectedSpeciesSource,
+      `species chosen by the ${expectedSpeciesSource === 'course' ? "course's own rule" : 'default hash'} (speciesSource ${planned.speciesSource})`);
   }
   console.log(`  trees ${report.trees.total}: ${JSON.stringify(report.trees.species)} reasons ${JSON.stringify(report.trees.reasons)} zones ${JSON.stringify(report.trees.zones)}`);
   console.log(`  draws ${report.stats.draws}, vista ${report.stats.vista}, bushes ${report.stats.bushes}, tufts ${report.stats.tufts}, backend ${report.stats.backend}, v2 ${report.v2.selection.mode}/${report.v2.status}`);

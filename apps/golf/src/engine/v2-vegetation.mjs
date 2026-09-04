@@ -8,7 +8,13 @@
    from the measured stand field (canopy fraction and heights per 4 m cell)
    with an allometry fitted on this ground's own individuals. Species is a
    rendering choice made by hash, because the registry carries no species
-   claim and this module must not invent one. Every instance stands on the
+   claim and this module must not invent one -- and a course whose woods are
+   genuinely another kind of woods says so through its scenery module's
+   species() rule, passed in by the caller as the `species` option (never
+   imported here: this module must stay out of the flagless static closure).
+   Without that hook, publishing a ground erases the course's species truth
+   -- the same merge-casualty shape as Veckefjärden's forest, riprap and
+   FARR. Every instance stands on the
    VISIBLE ground the terrain, camera and water share; the registry's own
    base height is compared with it and the mismatch reported, never used to
    float a tree.
@@ -209,8 +215,22 @@ export function planV2Vegetation(loaded, {
   lowQuality = false,
   verticalDatumOffsetMetres = 0,
   planting = STAND_PLANTING,
+  species = null,
 } = {}) {
   if (typeof groundHeightAt !== 'function') throw new TypeError('groundHeightAt is required');
+  /* The course rule wins where one exists; the pine-led hash is only the
+     default. The hook gets the same {r, x, z, h} the legacy planter feeds a
+     scenery species() rule -- legacy-world coordinates and the visible ground
+     height -- and must return an integer index into the engine's SPECIES
+     table; anything else falls through to the default so a partial rule can
+     never plant species -1. */
+  const pickSpecies = (r, x, y, z) => {
+    if (species) {
+      const index = species({ r, x, z, h: y });
+      if (Number.isInteger(index)) return index;
+    }
+    return chooseSpecies(r, shoreDistanceAt(x, z));
+  };
   const instances = [];
   const mismatches = [];
   let individuals = 0;
@@ -230,7 +250,7 @@ export function planV2Vegetation(loaded, {
         height: record.objectHeightMetres,
         radius: record.radiusMetres,
         rotation: (record.headingDegrees / 180) * Math.PI,
-        species: chooseSpecies(r, shoreDistanceAt(x, z)),
+        species: pickSpecies(r, x, y, z),
         kind: 'individual',
         id: record.id,
       });
@@ -270,7 +290,7 @@ export function planV2Vegetation(loaded, {
             height,
             radius: crownRadiusForHeight(height, planting.allometry) * (0.85 + 0.3 * hash01(ce, cn, 14 + k * 5)),
             rotation: hash01(ce, cn, 15 + k * 5) * Math.PI * 2,
-            species: chooseSpecies(hash01(ce, cn, 16 + k * 5), shoreDistanceAt(x, z)),
+            species: pickSpecies(hash01(ce, cn, 16 + k * 5), x, y, z),
             kind: 'stand',
             id: null,
           });
@@ -288,6 +308,11 @@ export function planV2Vegetation(loaded, {
       standTrees,
       cellsPlanted,
       cellsSkipped,
+      /* which rule chose the species: 'course' when a scenery species() hook
+         was supplied, 'default' for the pine-led hash. Reported so a gate can
+         catch the hook being dropped -- the failure mode that kept this
+         ground's vegetation unpublished. */
+      speciesSource: species ? 'course' : 'default',
       baseMismatch: Object.freeze({
         samples: mismatches.length,
         meanAbsMetres: mean === null ? null : Math.round(mean * 1000) / 1000,

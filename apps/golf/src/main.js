@@ -3642,6 +3642,12 @@ if (V2_VEGETATION) {
       shoreDistanceAt: (x, z) => SHORE(x, z),
       lowQuality: LOWQ,
       verticalDatumOffsetMetres: TERRAIN_PREVIEW.bridge.verticalDatumOffsetMetres || 0,
+      /* the course's own species rule, where one exists -- the same hook the
+         legacy lattice consumes below, closed over ringSD/RES here so the
+         vegetation runtime never imports a scenery module */
+      species: SCENERY?.species
+        ? ({ r, x, z, h }) => SCENERY.species({ r, x, z, h, ringSD, RES })
+        : null,
     });
   } else {
     /* the registry is placed through the v2 terrain's own bridge; without

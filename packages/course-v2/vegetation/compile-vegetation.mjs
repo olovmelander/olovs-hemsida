@@ -37,8 +37,59 @@ import { mergeTileStandFields, standField, standFieldSummary, tileStandField } f
 import { assignStableIds, registryDiff } from './registry-identity.mjs';
 import { compileObjectChunks, objectCompilationSummary, treeRecord } from './object-compiler.mjs';
 import { createGroundSampler } from './ground-sampler.mjs';
+import { GROUND_RINGS } from '../ground-rings-registry.mjs';
 
 export const VEGETATION_COMPILER_VERSION = 2;
+
+/**
+ * A ground carrying several courses (veckefjarden + its korthålsbana) has
+ * several migration models, and the compiler must see them ALL: exclusions
+ * from one course's greens and tees alone would let the machine review plant
+ * trees on the other's putting surfaces, and its hole lines would be missing
+ * from the provisional truth zones. Everything courseExclusionFeatures and
+ * provisionalZone read is unioned; duplicated shared features (one ground's
+ * water in both models) simply rasterise twice into the same mask.
+ */
+export function mergeCourseGeometries(geometries) {
+  if (!Array.isArray(geometries) || !geometries.length) throw new TypeError('at least one course geometry is required');
+  if (geometries.length === 1) return geometries[0];
+  const list = key => geometries.flatMap(entry => entry[key] || []);
+  const scenery = key => geometries.flatMap(entry => entry.scenery?.[key] || []);
+  const infra = key => geometries.flatMap(entry => entry.infra?.[key] || []);
+  /* the range is a list of rings in the migrated model and a single ring in
+     older ones; the merge normalises every contribution to a list of rings */
+  const range = geometries.flatMap(entry => {
+    const value = entry.scenery?.range;
+    if (!Array.isArray(value) || !value.length) return [];
+    return Array.isArray(value[0]?.[0]) ? value : [value];
+  });
+  return {
+    holes: list('holes'),
+    water: list('water'),
+    streams: list('streams'),
+    scenery: { greens: scenery('greens'), fairways: scenery('fairways'), tees: scenery('tees'), range },
+    infra: {
+      buildings: infra('buildings'),
+      roads: infra('roads'),
+      paths: infra('paths'),
+      tracks: infra('tracks'),
+      railway: infra('railway'),
+      power: { lines: geometries.flatMap(entry => entry.infra?.power?.lines || []) },
+      landuse: infra('landuse'),
+    },
+  };
+}
+
+/** Every migration model of a ground, merged: the registry's courseModels
+    where the ground declares them, else the single course-model file. */
+export function loadGroundGeometry(dataDir, groundId) {
+  const courseModels = GROUND_RINGS[groundId]?.courseModels;
+  const files = courseModels
+    ? Object.values(courseModels).map(model => model.migration)
+    : ['course-model.epsg3006.json'];
+  return mergeCourseGeometries(files.map(file =>
+    JSON.parse(fs.readFileSync(path.join(dataDir, 'migration', file), 'utf8')).geometry));
+}
 export const PROVISIONAL_ZONES = Object.freeze({ zoneAMetres: 90, zoneBMetres: 300 });
 export const DEFAULT_MINIMUM_CONFIDENCE = 0.5;
 export const STAND_CELL_METRES = 4;
@@ -540,7 +591,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
   const dataDir = path.join(root, 'geo_data/course-v2', groundId);
   const campaigns = JSON.parse(fs.readFileSync(path.join(dataDir, 'acquisition/laser-campaigns.json'), 'utf8'));
-  const geometry = JSON.parse(fs.readFileSync(path.join(dataDir, 'migration/course-model.epsg3006.json'), 'utf8')).geometry;
+  const geometry = loadGroundGeometry(dataDir, groundId);
   const publicDir = path.join(root, 'apps/golf/public');
   const { ground } = readActivePublishedGround(publicDir, groundId);
   const readAsset = async url => fs.readFileSync(path.join(publicDir, url));

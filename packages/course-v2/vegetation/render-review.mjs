@@ -16,7 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { encodePNG } from '../../../geobuild/png.mjs';
-import { readRawRaster } from './compile-vegetation.mjs';
+import { loadGroundGeometry, readRawRaster } from './compile-vegetation.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const args = process.argv.slice(2);
@@ -31,7 +31,9 @@ if (!groundId || !rasterDir || !candidatesPath) {
 }
 const dataDir = path.join(ROOT, 'geo_data/course-v2', groundId);
 const campaigns = JSON.parse(fs.readFileSync(path.join(dataDir, 'acquisition/laser-campaigns.json'), 'utf8'));
-const geometry = JSON.parse(fs.readFileSync(path.join(dataDir, 'migration/course-model.epsg3006.json'), 'utf8')).geometry;
+/* every course model of the ground, merged, so the overlay draws the same
+   exclusions and holes the compiler saw -- the korthålsbana's included */
+const geometry = loadGroundGeometry(dataDir, groundId);
 const candidates = JSON.parse(fs.readFileSync(candidatesPath, 'utf8'));
 
 /* merge the campaign rasters: each is NaN outside its own extent */

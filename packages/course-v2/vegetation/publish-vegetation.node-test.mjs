@@ -109,4 +109,47 @@ test('a stand layer is attached to a published ground and the whole graph re-ver
     slug: 'synthetic-main', rootEntry, courseManifest, groundManifest, routingContent, resources,
     layerChunks: new Map(), standLayers: { [tile.id]: reference }, sourceManifestSha256: groundManifest.sourceManifestSha256,
   }), /was not supplied/);
+
+  /* Two courses on one ground -- the Veckefjärden shape. Publishing the same
+     layers per slug against the same inputs must yield ONE ground manifest,
+     and the merged root must verify; a single-slug publish leaves the other
+     course on the old ground manifest, which the verifier refuses. */
+  const slugs = ['synthetic-main', 'synthetic-short'];
+  /* the real two-course ground (Veckefjärden) declares both slugs on every
+     finest tile; the fixture keeps one single-course tile for other tests,
+     so this section patches its copy to the shape under test */
+  const sharedGround = {
+    ...groundManifest,
+    tiles: groundManifest.tiles.map(entry => ({ ...entry, courses: slugs })),
+  };
+  const perSlug = [];
+  for (const slug of slugs) {
+    const entry = graph.root.courses.find(course => course.slug === slug);
+    const course = manifest(graph, entry.manifest.url);
+    perSlug.push(await assembleVegetationGraph({
+      slug, rootEntry: entry, courseManifest: course, groundManifest: sharedGround,
+      routingContent: readChunk(graph.resources.get(course.routing.url)).content,
+      /* replaceExistingLayers drops the fixture's object layer, so its chunk
+         must not be handed over either -- the CLI never reads replaced ones */
+      resources: new Map([...resources].filter(([url]) => !url.includes('/objects/'))),
+      layerChunks: new Map([[reference.url, chunk]]),
+      standLayers: { [tile.id]: reference },
+      sourceManifestSha256: groundManifest.sourceManifestSha256,
+      courseSlugs: slugs,
+    }));
+  }
+  assert.equal(perSlug[0].references.ground.sha256, perSlug[1].references.ground.sha256,
+    'one ground, one ground manifest, whichever course emitted it');
+  const mergedRoot = { ...perSlug[0].root, courses: slugs.map((slug, i) => perSlug[i].root.courses.find(course => course.slug === slug)) };
+  const mergedResources = new Map([...perSlug[0].resources, ...perSlug[1].resources]);
+  /* not strict: the replaced object layer's old chunk legitimately remains in
+     the map, the way old content-addressed files remain on disk */
+  const both = verifyAssetGraph({ root: mergedRoot, resources: mergedResources, supportedFeatures: V2_SUPPORTED_FEATURES });
+  assert.ok(both.chunks > 0, 'the merged two-course root verifies');
+  /* leave synthetic-short on its previous manifest: the exact failure a
+     one-slug vegetation publish would ship */
+  const stale = { ...mergedRoot, courses: [mergedRoot.courses[0], graph.root.courses.find(course => course.slug === 'synthetic-short')] };
+  const staleResources = new Map([...graph.resources, ...mergedResources]);
+  assert.throws(() => verifyAssetGraph({ root: stale, resources: staleResources, supportedFeatures: V2_SUPPORTED_FEATURES }),
+    /conflicting/);
 });
