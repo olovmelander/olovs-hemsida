@@ -234,3 +234,24 @@ checkpoint 45e2d78.
 
 Nothing in this handoff changes the standalone pages, the published ground, the
 default visit (v2 stays opt-in per the plan's phase 6 rule) or tree placement.
+
+## Evening addendum, 2026-09-04 — the jitter was the camera
+
+The owner's "still a little terrain jitter" after the shadow and depth work
+was measured to the camera's ground clamp, not to the terrain: the last
+section of `docs/tree-lod-plan.md` has the flicker map that clears the turf,
+the camera-height probe that found the snap, the eased clamp that replaced it
+(`apps/golf/src/engine/camera-clamp.mjs`, unit-tested) and the gates. Two
+things for whoever resumes:
+
+- **Judge it by eye at the 5th and 14th tees**: a left-drag orbit still climbs
+  the bank (it must) but as a slope, and comes back down when the orbit
+  returns; a right-drag pan onto rising ground rises with it without kicks. If
+  a jolt remains, `V3D.groundClamp().lift` tells whether the clamp acted at
+  all — if it did not, the motion is OrbitControls' own.
+- **The harness needs `BANVY_GPU=1` on every launch** or Chrome boots
+  SwiftShader, WebGPU has no adapter, the page falls back to WebGL2 and the
+  pixel hooks (`pixelDelta`, `captureRaw`) are null. That looks like a broken
+  build and is not. `tools/clamp-rest.mjs` is the committed rest gate;
+  `tools/goldens/camera-bob2.mjs` and `flicker-map.mjs` are the (gitignored)
+  probes.

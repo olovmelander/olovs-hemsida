@@ -682,3 +682,118 @@ identical, vitest 276. Two things to know: three's render-list reversal also
 inverts the order transparent surfaces are composited in, which the twelve
 views did not show and a lake seen through marking might; and any new
 `polygonOffset` site must use `DEPTH_SIGN`, never a literal sign.
+
+## The terrain jitter that was the camera (2026-09-04, evening)
+
+"There is still a little terrain jitter." With the depth buffer and the shadow
+map settled, the question was what still moves in the picture when the camera
+moves, and the answer had to be measured rather than guessed, because every
+guess so far (precision, level swaps, the geomorph, shadows, the ground cover)
+had been measured away.
+
+**The ground does not shimmer.** `tools/goldens/flicker-map.mjs` is the new
+instrument: over a slow walk or pan (5 cm a frame, so parallax past twenty
+metres is under a pixel) it tracks every pixel's luma difference frame to frame
+and counts SIGN FLIPS — honest motion changes a pixel monotonically for a few
+frames, flicker alternates — then draws the flip rate and the mean difference
+per 16 × 16 block beside the last frame. At rest under `det=1` it reads exactly
+zero everywhere, which is the noise floor a pinned clock buys. Under motion at
+the 5th and 1st tees the turf is blank in both maps; the flips sit on the
+bottom edge of the frame, where a 5 cm step is several pixels of real motion,
+and along tree and marker edges. Hiding every instanced mesh moves the ground
+band's flip rate by six to twelve hundredths of a percent — the cover is not
+it either. Ground-band flip rates: 1.6–1.8 % at the 5th, 0.8–1.1 % at the 1st,
+all of it at the feet.
+
+**The camera bobbed, and the bob was the clamp.** The frame loop kept the
+camera out of the terrain with a snap — `if (y < ground + 1.7) y = ground +
+1.7`, every frame — and `tools/goldens/camera-bob2.mjs` drove the owner's own
+inputs through OrbitControls at three tees while reading the camera's height
+at full precision (`V3D.camExact`; `camInfo` rounds to 0.1 m, which is why an
+earlier probe saw nothing). At eye height a 3 cm step moves the ground ten
+metres out by three pixels. Measured, snap clamp, 1600 × 900, 60 Hz:
+
+| tee, input | camera climb | per-frame step p95 / max | frames that stepped | picture change, stepped vs flat frames |
+|---|---|---|---|---|
+| 1st, right-drag pan 600 px | none (2.4 m up, ground never reaches it) | 0 / 0 | 0 of 189 | — |
+| 5th, right-drag pan 600 px | 1.45 m | 2.8 / 5.6 cm | 77 of 189 | 17.2 % vs 14.1 % |
+| 5th, left-drag orbit 300 px | 9.1 m | 26 / 48 cm | 79 of 159 | 56 % vs 15 % |
+| 14th, right-drag pan 600 px | 0.25 m | 0.2 / 9.1 cm | 9 of 189 | 12 % vs 38 % |
+| 14th, left-drag orbit 300 px | 9.0 m | 39 / 73 cm | 32 of 159 | 43 % vs 50 % |
+
+A driven sideways pan at the 5th that followed the ground the way the clamp
+does changed 10.6 % of the picture below the horizon on its stepped frames
+against 6.2 % on its flat ones; the same pan at a level height, 7.6 %
+throughout. The tee bank rises under the orbit circle, so an orbit at the 5th
+or 14th climbs nine metres in steps the size of a footstool — and the snap
+never gives that height back, so a small orbit at an uphill tee left the camera
+in the air, which is the complaint the old `maxPolarAngle` note describes from
+the other side.
+
+**The clamp is a module now, with three rules and a floor**
+(`apps/golf/src/engine/camera-clamp.mjs`, seven unit tests):
+
+- eye height is eased toward (time constant 0.12 s), so a bump is a ramp a few
+  frames long, never a step;
+- the ground is read up to four metres AHEAD along the camera's own motion, at
+  a sixth to two thirds of a second, and a rise there sets a climb RATE — the
+  rise over the time the nearer horizon takes to reach it — so a bank is
+  climbed at a steady speed before it arrives. Two things this had to learn:
+  an ease toward the ground ahead takes a fixed share of the whole rise in its
+  first frame, more of a kick than the snap; and the extrapolation is a
+  straight line while an orbit is an arc — read 28 m out at orbit speed it saw
+  a hill off the 14th's circle and climbed 1.4 m in one frame, hence the
+  distance cap;
+- what the ground lifted, the ground gives back, eased and never faster than
+  a glide of 1.5 m/s, and only that: the clamp keeps an account of its own
+  lift, so a camera the user raised is never lowered and an orbit down the
+  bank comes back to eye height. The glide limit is the third lesson: after
+  nine metres of bank the ground along the 14th's orbit circle falls away by
+  metres, and an ease alone repaid 1.3 m of it in one frame — a bigger jolt
+  than the snap, which never descends at all;
+- the hard floor is 1.15 m, the height below which the near plane's lower edge
+  (1.0 m plane, 48° lens: at most 1.095 m below the camera on level ground)
+  would cut the turf, and it is the only thing left that can move the camera in
+  one step.
+
+`flyTo` resets the account, so a placed camera starts clean; the flight resets
+it every frame it runs. Measured on the same inputs, with the jerk — the
+change in vertical velocity between frames, which is what a jolt is — beside
+the step size, and the snap clamp simulated on the very same path:
+
+| input | clamp | step p95 / max | jerk p95 / max | frames jerking > 1 cm |
+|---|---|---|---|---|
+| 5th tee, right-drag pan | snap, same path | 2.6 / 6.1 cm | 1.20 / 4.49 cm | 14 |
+| | eased | 2.4 / 3.9 cm | 0.42 / 1.08 cm | 2 |
+| 5th tee, left-drag orbit | snap, same path | 20.8 / 48.5 cm | 17.5 / 47.4 cm | 74 |
+| | eased | 20.0 / 25.5 cm | 10.7 / 19.0 cm | 85 |
+| 14th tee, right-drag pan | snap, same path | 0.2 / 9.6 cm | 0.12 / 7.72 cm | 5 |
+| | eased | 0.4 / 4.3 cm | 0.16 / 1.65 cm | 3 |
+| 14th tee, left-drag orbit | snap, same path | 40.6 / 68.2 cm | 18.7 / 43.0 cm | 31 |
+| | eased | 38.2 / 53.8 cm | 15.4 / 27.3 cm | 51 |
+
+The climb itself is the ground's own slope and stays — an orbit that crosses
+a 9 m bank in 120 frames must rise 7.5 cm a frame on average, and the eased
+clamp spreads exactly that over more frames (85 against 74 at the 5th with a
+jerk over a centimetre) — but the worst step and the worst jerk halve at the
+5th and fall by a fifth and a third at the 14th, and on the pans, where the
+rise is gentle, the jolts are gone or a quarter of what they were. Before the
+glide limit the 14th's orbit was WORSE than the snap (a 1.3 m frame), which is
+the row that made the give-back a glide.
+
+**Gates.** Fingerprint identical (`7a1ca7b1… / 972ad223… / 687fb9a0… /
+7b3619f8…`); `tools/clamp-rest.mjs` holds all twelve golden views still for
+sixty frames after placement — height unchanged to the last digit, lift
+account zero, no pixel off by more than 2/255 (the worst view moves one pixel
+by one level) — so the goldens are comparable across the change without a
+second build; `check-app` green on all nine courses; vitest green. Two harness
+hooks came with it: `V3D.captureRaw` (the drawing buffer as bytes, for an
+in-page metric that must not pay for a PNG each frame) and `V3D.groundClamp()`
+(the lift account and the constants). `V3D.setShadows` was dropped: toggling
+`sun.castShadow` at run time changes no pixel on this renderer, and a switch
+that does nothing is worse than none.
+
+**Judge the rest by eye.** An orbit at the 5th still climbs the bank — it has
+to — but as a slope, not a staircase, and it comes back down. If a jolt is
+still felt on a pan, `V3D.groundClamp().lift` says whether the clamp was
+acting at all; if it was not, the motion is OrbitControls' own.

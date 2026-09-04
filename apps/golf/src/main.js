@@ -55,6 +55,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
+import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
@@ -6057,7 +6058,17 @@ function drawCard() {
 
 const camTween = { on: false, t: 0, dur: 1.5, from: new THREE.Vector3(), to: new THREE.Vector3(),
                    lookFrom: new THREE.Vector3(), lookTo: new THREE.Vector3() };
+/* The ground keeps the camera out of itself gently (engine/camera-clamp.mjs):
+   eye height is eased toward, a rise ahead along the camera's own motion is
+   climbed before it arrives, and what the ground lifted it gives back when
+   the ground falls away. A snap to eye height kicked the view up on every
+   bump of the 1 m heightfield -- measured at the 5th tee, 5.6 cm steps under
+   a pan and 48 cm steps under an orbit -- which is what "terrain jitter"
+   felt like at a tee. */
+const groundClamp = createGroundClamp({ heightAt: (x, z) => terrainH(x, z) });
+
 function flyTo(pos, look, dur = 1.5) {
+  groundClamp.reset();
   if (dur <= 0) {
     camera.position.copy(pos); controls.target.copy(look); camTween.on = false;
     return;
@@ -8112,10 +8123,9 @@ function frame() {
   }
   if (flying === 0) {
     controls.update();
-    /* never underground, and never so close to it that the near plane clips through */
-    const groundY = terrainH(camera.position.x, camera.position.z) + 1.7;
-    if (camera.position.y < groundY) camera.position.y = groundY;
-  }
+    /* never underground, and never so close to it that the near plane clips through -- eased, see groundClamp */
+    groundClamp.step(camera.position, dt);
+  } else groundClamp.reset();
   placeSun();
   if (skyMesh) skyMesh.position.copy(camera.position);
   if (skyDome) skyDome.position.copy(camera.position);
@@ -8546,6 +8556,8 @@ window.V3D = {
   shadowFit: () => ({ R: SUN_BASIS.R, texel: +SUN_BASIS.texel.toFixed(4), snap: shadowSnap, remainderTexels: +SUN_BASIS.remainder.toFixed(3),
                       normalBias: sun.shadow.normalBias, fits: [...SHADOW_FITS], reversedDepth: renderer.reversedDepthBuffer === true }),
   setShadowSnap: on => { shadowSnap = !!on; return shadowSnap; },
+  /* the harness's bisection switch: the terrain's level morph length in ms (0 pops) */
+  v2WorldMorph: ms => { const batches = terrainV2.runtime?.layer?.batches; if (!batches) return null; for (const b of batches.values()) b.morphDurationMilliseconds = Math.max(0, +ms || 0); return Math.max(0, +ms || 0); },
   quality: () => ({ lowfx, lowq: LOWQ, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   /* GPU milliseconds since the previous resolve, summed over every render
@@ -8647,9 +8659,13 @@ window.V3D = {
   },
   camInfo: () => ({ pos: camera.position.toArray().map(v => +v.toFixed(1)),
                     look: controls.target.toArray().map(v => +v.toFixed(1)), mode: camMode }),
+  camExact: () => ({ pos: camera.position.toArray(), look: controls.target.toArray(), ground: terrainH(camera.position.x, camera.position.z) }),
+  groundClamp: () => ({ lift: +groundClamp.lift.toFixed(4), ...GROUND_CLAMP }),
   fps: () => fps,
   prepareCapture,
   captureReadback: IS_GPU ? captureReadback : null,
+  /* the drawing buffer as RGBA bytes, for an in-page metric that must not pay for a PNG each frame */
+  captureRaw: IS_GPU ? captureRaw : null,
   startTour, endTour, kikMeasure,
   setSky, skyState: () => skyState, eachSky: fn => skySprites.forEach(fn),
   /* the CANVAS positions, not the world ones: where a marker is actually drawn is

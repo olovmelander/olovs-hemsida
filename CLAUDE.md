@@ -1996,8 +1996,24 @@ than 2.5/255. Two things the meter taught, both in its header:
   hysteresis band**, not only the switch under test; start every measured
   event from a hysteresis-free state (a reset at the same thresholds).
 
-## Shadows and depth on the WebGPU path — two rules
+## Shadows, depth and the camera's footing on the WebGPU path — three rules
 
+- **The camera is never snapped to the ground.** The per-frame clamp that keeps
+  it out of the terrain is `engine/camera-clamp.mjs`, and it eases to eye
+  height, reads the ground up to four metres ahead along the camera's own
+  motion so a bank is climbed at a steady rate before it arrives, and gives
+  back only what it lifted when the ground falls away, at a glide of at most
+  1.5 m/s. The snap it replaced
+  (`if (y < ground + 1.7) y = ground + 1.7`) kicked the view on every bump of
+  the 1 m heightfield — 5.6 cm steps under a pan and 48 cm under an orbit at
+  the 5th tee, 73 cm at the 14th — which is what "terrain jitter" was at a
+  tee. `tools/clamp-rest.mjs` proves it does nothing at rest on the twelve
+  golden views (height, lift account and pixels all unchanged over sixty
+  frames), so the goldens stay comparable; its unit tests hold the ramp, the
+  floor, the give-back and the distance cap. Do not put a second clamp beside
+  it, and do not read the ground further ahead in time without a distance cap:
+  an orbit's tangent is ten metres off its circle 28 m out, and read a hill
+  there the camera climbed 1.4 m in one frame.
 - **The shadow map moves in whole texels of itself.** `placeSun` fits the sun's
   box to one of five fixed sizes and snaps its centre to the map's texel grid in
   the light's view space, so a pan never re-samples the world by a fraction of a
