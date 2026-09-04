@@ -463,6 +463,17 @@
       ],
       "use": "discovery-evidence",
       "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
+    },
+    {
+      "id": "laser-campaign-inventory",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/norrfallsviken/acquisition/laser-campaigns.json",
+      "sha256": "3c785a28e9b85294c0cba43093c13606ba27d4942026f3ebda92ff82f9ca37b9",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pinned Laserdata Skog inventory: one June 2025 Riegl leaf-on campaign (25f014) covering the AOI exclusively over items 25f014-698_67, 25f014-698_68 and 25f014-699_67, with provenance seams at E 680000 and N 6990000; the 2018 (18f014) items are superseded. record-laser-campaigns --check re-derives the live catalogue and fails on drift. Leaf-on June scan: no deciduous under-detection caveat here."
     }
   ],
   "blockers": [
