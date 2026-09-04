@@ -314,6 +314,22 @@ export class TerrainTileManager {
       let cursor = tile.id;
       while (cursor) { retain.add(cursor); cursor = this.parentById.get(cursor); }
     }
+    /* A refined quad's children out of the frustum are wanted too, at the
+       back of the queue, and kept once they arrive. The render rule stands a
+       parent in for the WHOLE quad when any visible child is missing, so a
+       camera that turned and brought a fourth child into view for the first
+       time dropped three fine siblings to the coarse parent for the frames
+       that child took to arrive, and back -- the terrain seen to flip to
+       another terrain for a split second. With the quad's other members
+       already resident, turning reveals a tile, never a hole in the quad. */
+    for (const parentId of refined) {
+      for (const childId of this.childrenById.get(parentId)) {
+        if (frontier.has(childId)) continue;
+        retain.add(childId);
+        const child = this.tiles.get(childId);
+        request(childId, child.layers.terrain, 500_000 + (this.maximumLod - child.lod) * 1_000, errorPixels(child), false);
+      }
+    }
     return Object.freeze({
       desiredTileIds: Object.freeze(desired.map(tile => tile.id)),
       retainTileIds: Object.freeze([...retain].sort(idOrder)),

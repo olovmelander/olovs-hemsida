@@ -228,6 +228,9 @@ export class V2GraphTerrainAdapter {
     this.bridge = source.bridge;
     this.profile = profile ?? null;
     this.maximumCachedResources = maximumCachedResources ?? (mobile ? 64 : 192);
+    /* the stream's release grace and retained-tile cap: undefined leaves the controller's defaults */
+    this.releaseGraceMilliseconds = undefined;
+    this.maximumRetainedTiles = undefined;
     this.fetchImpl = fetchImpl;
     this.cacheStorage = cacheStorage;
     this.clock = clock;
@@ -293,7 +296,7 @@ export class V2GraphTerrainAdapter {
   get ringsLoaded() { return this.rings !== null; }
 
   /** The backend-dependent settings, once the renderer exists. */
-  configure({ backend, mobile, profile, maximumCachedResources } = {}) {
+  configure({ backend, mobile, profile, maximumCachedResources, releaseGraceMilliseconds, maximumRetainedTiles } = {}) {
     if (backend !== undefined) {
       if (!['webgpu', 'webgl2'].includes(backend)) throw new Error('backend must be webgpu or webgl2');
       this.backend = backend;
@@ -301,6 +304,8 @@ export class V2GraphTerrainAdapter {
     if (mobile !== undefined) this.mobile = mobile;
     if (profile !== undefined) this.profile = profile;
     if (maximumCachedResources !== undefined) this.maximumCachedResources = maximumCachedResources;
+    if (releaseGraceMilliseconds !== undefined) this.releaseGraceMilliseconds = releaseGraceMilliseconds;
+    if (maximumRetainedTiles !== undefined) this.maximumRetainedTiles = maximumRetainedTiles;
     return this;
   }
 
@@ -513,6 +518,8 @@ export class V2GraphTerrainAdapter {
         clock: this.clock,
         decorateMaterial,
         maximumCachedResources: this.maximumCachedResources,
+        releaseGraceMilliseconds: this.releaseGraceMilliseconds,
+        maximumRetainedTiles: this.maximumRetainedTiles,
         profile: this.profile ?? undefined,
         onInvalidate: () => this.#afterSync(),
         transformDecoded: ({ tileId, decoded }) => this.#carveDecoded({ tileId, decoded }),

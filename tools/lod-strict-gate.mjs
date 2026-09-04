@@ -37,6 +37,10 @@ const shoot = async (base, tag, extra) => {
   const settle = async () => {
     const f = await page.evaluate(() => window.V3D.frame());
     await page.waitForFunction(f0 => { const V = window.V3D; return V.frame() >= f0 + 2 && V.settled() && (V.v2Terrain().adapter?.stream?.loadingTiles ?? 0) === 0; }, f, { polling: 50 });
+    /* a tile that has just arrived morphs from its parent for 240 ms after the stream
+       reads idle; a build that kept the tile resident draws it morphed at once, so two
+       builds captured two frames after idle differ by a morph and nothing else */
+    await page.waitForTimeout(350);
     const f1 = await page.evaluate(() => window.V3D.frame());
     await page.waitForFunction(f0 => window.V3D.frame() >= f0 + 2 && window.V3D.settled(), f1, { polling: 20 });
   };

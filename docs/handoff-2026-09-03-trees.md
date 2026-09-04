@@ -249,6 +249,25 @@ things for whoever resumes:
   returns; a right-drag pan onto rising ground rises with it without kicks. If
   a jolt remains, `V3D.groundClamp().lift` tells whether the clamp acted at
   all — if it did not, the motion is OrbitControls' own.
+- **"Mainly the water glitches and jitters" was the frame at rest**, not the
+  water: three's WebGPU path re-uploaded the tree tiers' attributes whole
+  every frame because they carried `DynamicDrawUsage` (39 MB a frame at
+  rest), the shadow map re-rendered every frame, and the furniture was 288
+  separate meshes. All three are fixed and gated; the plan's last section
+  has the instruments (`write-buffer.mjs`, `frame-at-rest.mjs`,
+  `scene-census.mjs`) and the numbers. If the owner still sees the water
+  judder, measure the cadence on THEIR display first (`frame-pacing.mjs`),
+  and check nothing else on the machine is rendering on the same GPU.
+- **"The terrain flips to another terrain for a split second"** (the owner's
+  two frames at the 12th green, 2026-09-05) was the terrain stream: a tile
+  released the moment the plan stopped wanting it, and — the real one — the
+  render rule standing a coarse parent in for a whole quad when a fourth
+  child came into view for the first time. Both are fixed in
+  `packages/course-v2/runtime` (a 1.5 s release grace; a refined quad's
+  out-of-view children requested and retained), measured with
+  `tools/goldens/tile-flips.mjs`, and written up in the plan's last section
+  with the two gate rules they exposed. Judge by eye at the 12th green in
+  Höst with a slow left-drag orbit.
 - **The harness needs `BANVY_GPU=1` on every launch** or Chrome boots
   SwiftShader, WebGPU has no adapter, the page falls back to WebGL2 and the
   pixel hooks (`pixelDelta`, `captureRaw`) are null. That looks like a broken

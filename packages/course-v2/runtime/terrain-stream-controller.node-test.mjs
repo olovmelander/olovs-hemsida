@@ -140,6 +140,91 @@ test('stream controller progresses shell to parent to fine frontier and disposes
   assert.throws(() => controller.update(options()), /disposed/);
 });
 
+test('a tile the plan stops wanting stays resident through the release grace, and is drawn at once when wanted back', async () => {
+  const data = fixture();
+  const loader = new ManualLoader(data.idsByUrl);
+  const disposed = [];
+  let now = 0;
+  const controller = new TerrainStreamController({
+    manager: data.manager,
+    loader,
+    createResource: ({ tileId }) => ({ tileId }),
+    disposeResource: value => disposed.push(value.tileId),
+    releaseGraceMilliseconds: 1000,
+    maximumRetainedTiles: 8,
+    clock: () => now,
+  });
+  const fine = ['l0/0/0', 'l0/0/1', 'l0/1/0', 'l0/1/1'];
+  const refine = async () => {
+    controller.update(options());
+    await tick();
+    loader.resolve('shell'); await tick();
+    loader.resolve('l1/0/0'); await tick();
+    for (const tileId of fine) loader.resolve(tileId);
+    await tick(); await tick();
+    assert.deepEqual(controller.renderResources().map(item => item.tileId), fine);
+  };
+  await refine();
+  const callsBefore = loader.calls.length;
+
+  /* the camera moves away: the fine tiles are no longer wanted, and nothing is released yet */
+  const far = options({ camera: { easting: 650004, northing: 6650008, heightRH2000: 36 } });
+  now = 100;
+  controller.update(far);
+  await tick();
+  assert.equal(controller.renderResources().some(item => fine.includes(item.tileId)), false, 'the parent is drawn while the fine tiles are unwanted');
+  assert.deepEqual(disposed, [], 'nothing released inside the grace');
+  assert.deepEqual(controller.snapshot().readyTileIds.filter(id => fine.includes(id)), fine, 'all four wait out the grace, resident');
+
+  /* the camera comes back inside the grace: the retained tiles draw on the first plan back, and nothing is requested again */
+  now = 600;
+  controller.update(options());
+  await tick();
+  assert.deepEqual(controller.renderResources().map(item => item.tileId), fine, 'the retained fine tiles are drawn on the first plan back');
+  assert.deepEqual(loader.calls.slice(callsBefore), [], 'no request for a tile that never left');
+
+  /* away again, and past the grace: released */
+  now = 700;
+  controller.update(far);
+  await tick();
+  now = 2300;
+  controller.update(far);
+  await tick();
+  assert.equal(controller.snapshot().readyTileIds.some(id => fine.includes(id)), false, 'released once the grace has run out');
+  /* a released lease goes back to the pool's cache; disposal is the pool's eviction, not the release */
+  assert.deepEqual([...controller.entries.keys()].sort(), ['l1/0/0', 'shell'], 'only the parent and the shell remain resident');
+  controller.dispose();
+});
+
+test('the retained-tile cap releases the longest-unwanted tiles first, whatever the grace', async () => {
+  const data = fixture();
+  const loader = new ManualLoader(data.idsByUrl);
+  const disposed = [];
+  let now = 0;
+  const controller = new TerrainStreamController({
+    manager: data.manager,
+    loader,
+    createResource: ({ tileId }) => ({ tileId }),
+    disposeResource: value => disposed.push(value.tileId),
+    releaseGraceMilliseconds: 60_000,
+    maximumRetainedTiles: 2,
+    clock: () => now,
+  });
+  const fine = ['l0/0/0', 'l0/0/1', 'l0/1/0', 'l0/1/1'];
+  controller.update(options());
+  await tick();
+  loader.resolve('shell'); await tick();
+  loader.resolve('l1/0/0'); await tick();
+  for (const tileId of fine) loader.resolve(tileId);
+  await tick(); await tick();
+  now = 100;
+  controller.update(options({ camera: { easting: 650004, northing: 6650008, heightRH2000: 36 } }));
+  await tick();
+  assert.equal(controller.snapshot().readyTileIds.filter(id => fine.includes(id)).length, 2, 'two of four unwanted tiles go at once under a cap of two, two wait out the grace');
+  assert.equal(controller.entries.size, 4, 'the shell, the parent and the two retained');
+  controller.dispose();
+});
+
 test('camera coarsening aborts obsolete fine-tile transports', async () => {
   const data = fixture();
   const loader = new ManualLoader(data.idsByUrl);

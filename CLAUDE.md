@@ -1973,6 +1973,23 @@ same-source level seam, sealed by the batch's geomorph and skirts.
 - Measured on the RTX 3070: 277 tiles in 7 levels, 129 tiles in one draw at
   the first frontier, boot 25–28 s, 42 tiles from the 14th tee.
   `tools/world-capture.mjs` gates the views where the seam lived.
+- **"The terrain flips to another terrain for a split second" was the render
+  rule.** A desired tile that is not resident is drawn as its nearest
+  resident ancestor, and every resident tile under that ancestor is dropped
+  for the frame — so a refined quad with a child outside the frustum showed
+  three fine siblings, and the moment the camera turned and the fourth came
+  into view for the first time, the three fell to the coarse parent until it
+  arrived, and back. The planner now wants a refined quad's out-of-view
+  children too (requested last, retained once resident), and the stream
+  controller keeps a tile the plan stops wanting for a 1.5 s grace
+  (`releaseGraceMilliseconds`, `?tilegrace=0` is the before) instead of
+  releasing it on the next plan and drawing its parent while it loads again.
+  `tools/goldens/tile-flips.mjs` counts both under the owner's own inputs
+  (`V3D.v2Plan`). Two gate rules came with it: the on-demand shadow map must
+  follow the fade queue whoever drives the clock (a crossfade uploads
+  nothing — the dither runs on a uniform), and a strict capture must wait out
+  the 240 ms morph after the stream reads idle, or a build that kept a tile
+  resident differs from one that morphs it in by a morph and nothing else.
 
 ## The trees by distance — the LOD, and the two harness rules it taught
 
@@ -1996,8 +2013,29 @@ than 2.5/255. Two things the meter taught, both in its header:
   hysteresis band**, not only the switch under test; start every measured
   event from a hysteresis-free state (a reset at the same thresholds).
 
-## Shadows, depth and the camera's footing on the WebGPU path — three rules
+## Shadows, depth, the camera's footing and the frame at rest — five rules
 
+- **Never `setUsage(DynamicDrawUsage)` on an attribute you update yourself.**
+  three's WebGPU `Attributes.update` re-uploads any attribute with that usage
+  **whole, every frame, whether or not it changed**. The tree tiers' instance
+  matrices, their fade attribute and the impostor slots carried it, and at
+  rest that was 38.9 MB and 15.5 ms of `writeBuffer` a frame for nothing —
+  two thirds of the main thread — while the tiers already uploaded their
+  dirty ranges through `needsUpdate` (`flushRanges`). "The water glitches
+  and jitters" was that: the water is the only thing that moves when the
+  camera is still, and a frame that alternates between two and three refresh
+  periods judders exactly there. `tools/goldens/write-buffer.mjs` names the
+  buffers written each frame; `tools/frame-at-rest.mjs` (cap off, one thing
+  hidden at a time, the rAF interval and the main thread's longest block) and
+  `tools/scene-census.mjs` (the draw list by kind) measure the rest. Another
+  browser rendering on the same GPU inflates every timing run, so trust
+  interleaved A/B and the CPU block, never one run's absolute number. Two
+  more things came out of the same measurement: the shadow map renders **on
+  demand** (`shadowRest`: the sun's snapped box, a tree upload or fade, a
+  terrain tile or morph, a flight, or once a second; `?shadowrest=0` is the
+  before), and the course furniture is **instanced** (`instancedFurniture`:
+  markers, poles, cups, plates, posts — 288 objects became seven). Build a
+  new piece of furniture as an instance of a kind, never as a Mesh per hole.
 - **The camera is never snapped to the ground.** The per-frame clamp that keeps
   it out of the terrain is `engine/camera-clamp.mjs`, and it eases to eye
   height, reads the ground up to four metres ahead along the camera's own

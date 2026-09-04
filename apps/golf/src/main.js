@@ -1279,6 +1279,14 @@ const uReedC = uniform(new THREE.Color(0x8d8a52));
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
+/* The shadow map is re-rendered when something that casts has moved, and not
+   otherwise (shadowRest, in the frame loop): three's default is every frame,
+   and at rest that pass over ten million triangles was a third of the frame's
+   draws for a picture that did not change. ?shadowrest=0 is the before. */
+const SHADOW_REST = new URLSearchParams(location.search).get('shadowrest') !== '0';
+sun.shadow.autoUpdate = !SHADOW_REST;
+const SHADOW_REST_STATE = { sunPos: new THREE.Vector3(NaN, NaN, NaN), target: new THREE.Vector3(NaN, NaN, NaN), tiles: -1, uploads: -1, morphStart: -1, dirtyUntil: 0, renders: 0, frames: 0, sinceRender: 0, why: '' };
+let treeUploadsThisFrame = 0;
 sun.shadow.camera.near = 120; sun.shadow.camera.far = 3400;
 /* Terrain is a huge, gently-sloped receiver, which is the worst case for shadow
    acne: at a grazing sun every quad shadows itself unless the sample is pushed well
@@ -2087,6 +2095,7 @@ async function preflightTerrainPreviewGpu(batch) {
    rings are never built, so there is no seam between two sources anywhere.
    The pilot source still supplies its 1 m sampler and the surface atlas.
    Loaded dynamically so a flagless visit never downloads it. */
+const BOOTQ_TILEGRACE = new URLSearchParams(location.search).get('tilegrace');
 if (V2_WORLD) {
   terrainV2.configure({
     backend: IS_GPU ? 'webgpu' : 'webgl2',
@@ -2094,6 +2103,8 @@ if (V2_WORLD) {
     /* the pilot's course window took 64 tiles in one draw; a world of rings
        refines the course to 1 m AND keeps the horizon resident */
     profile: { targetErrorPixels: IS_GPU ? 1 : 1.5, maximumSelectedTiles: LOWQ ? 56 : 128 },
+    /* ?tilegrace=<ms>: how long an unwanted tile stays resident (0 is the before: released on the next plan, its coarse parent drawn while it loads again) */
+    releaseGraceMilliseconds: Number.isFinite(parseInt(BOOTQ_TILEGRACE, 10)) ? parseInt(BOOTQ_TILEGRACE, 10) : undefined,
   });
 }
 const GROUND_TINT = V2_WORLD ? createGroundTintTextures() : null;
@@ -2961,6 +2972,8 @@ await tick('fyller vattnet', 0.52);
    the four terms that matter -- what colour the depth is, what the sky looks like in
    the direction you are reflecting toward, where the sun's glare falls, and where the
    surface runs out into foam -- and writes the answer. */
+/* probe gains: the sun glint and the fine chop, each 1 unless a harness turns it down (V3D.water) */
+const uWaterGlint = uniform(1), uWaterChop = uniform(1);
 function makeWater({ mask = null } = {}) {
   const m = new THREE.MeshBasicNodeMaterial({ transparent: true, side: THREE.DoubleSide });
   /* A sheet sits a quarter-metre over a bed the DTM draws at the water's own
@@ -2991,7 +3004,7 @@ function makeWater({ mask = null } = {}) {
   /* a pond has no fetch: the fjord's chop on a 20 m pond tilted enough normals that
      the fresnel term fired everywhere and fifteen ponds rendered as ice sheets */
   const rippleAmp = mix(float(0.38), float(1), aFoam);
-  const ripple = n1.mul(near.mul(0.45).add(0.30)).add(n3.mul(near.mul(0.30).add(0.16)))
+  const ripple = n1.mul(near.mul(0.45).add(0.30)).add(n3.mul(near.mul(0.30).add(0.16))).mul(uWaterChop)
                    .add(n2.mul(0.7)).add(n4.mul(0.9)).mul(rippleAmp);
   const N = normalize(vec3(ripple.x.mul(0.55), float(1), ripple.y.mul(0.55)));
 
@@ -3022,8 +3035,8 @@ function makeWater({ mask = null } = {}) {
   let c = mix(body, skyC, fres.mul(0.88));
   /* the sun's own reflection -- the single thing that says a surface is moving */
   const H = normalize(V.add(uSun));
-  c = c.add(color(0xfff2da).mul(pow(saturate(N.dot(H)), 260).mul(3.6)));
-  c = c.add(color(0xdff0f6).mul(pow(saturate(N.dot(H)), 22).mul(0.34)));
+  c = c.add(color(0xfff2da).mul(pow(saturate(N.dot(H)), 260).mul(3.6)).mul(uWaterGlint));
+  c = c.add(color(0xdff0f6).mul(pow(saturate(N.dot(H)), 22).mul(0.34)).mul(uWaterGlint));
   /* foam, broken up by noise so a shoreline is a shoreline and not a stripe */
   /* Foam only where there is enough water behind it to make a wave. A metre-deep
      pond in a field has none at all, and drawing a three-metre white band round every
@@ -4042,7 +4055,7 @@ const TREE_LOD = {
     scene.add(mesh);
     stats.draws++;
     return { mesh, geo, pos: geo.getAttribute('aImpostorPos'), par: geo.getAttribute('aImpostorParam'), fade: [geo.getAttribute('aFade')],
-             slots: new Int32Array(capacity), count: 0, lo: Infinity, hi: -Infinity, flo: Infinity, fhi: -Infinity, idx: 0 };
+             slots: new Int32Array(capacity), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
   };
   const cellOf = new Map();
   const cell = (x, z) => {
@@ -4128,7 +4141,7 @@ const TREE_LOD = {
         im.receiveShadow = name === 'trunk';
         /* culled per cell by the tier update; the mesh's own sphere would be the whole course */
         im.frustumCulled = false;
-        im.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        /* NOT DynamicDrawUsage: three's WebGPU path re-uploads such an attribute whole every frame; the tiers upload their dirty ranges through needsUpdate (flushRanges) */
         im.userData.tag = 'trees';
         im.name = `trees-${['spruce', 'pine', 'birch'][s]}-${name}-${label}`;
         scene.add(im);
@@ -4136,7 +4149,7 @@ const TREE_LOD = {
         return im;
       });
       return { parts: meshes, fade: meshes.map(im => im.geometry.getAttribute('aFade')), slots: new Int32Array(n), count: 0,
-               lo: Infinity, hi: -Infinity, flo: Infinity, fhi: -Infinity, idx: 0 };
+               dirtyM: [], dirtyF: [], idx: 0 };
     };
     const hr = hero[s];
     const rec = {
@@ -4177,8 +4190,7 @@ const TREE_LOD = {
    tables built at boot, so a move never touches trees[]. */
 function treeFadeWrite(tier, slot, t0, code) {
   for (const a of tier.fade) { a.array[slot * 2] = t0; a.array[slot * 2 + 1] = code; }
-  if (slot < tier.flo) tier.flo = slot;
-  if (slot > tier.fhi) tier.fhi = slot;
+  tier.dirtyF.push(slot);
 }
 function treeTierWrite(s, tier, slot, k, t0, code) {
   if (tier.mesh) {
@@ -4192,9 +4204,31 @@ function treeTierWrite(s, tier, slot, k, t0, code) {
     const mats = TREE_LOD.mats[s];
     for (const im of tier.parts) im.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
   }
-  if (slot < tier.lo) tier.lo = slot;
-  if (slot > tier.hi) tier.hi = slot;
+  tier.dirtyM.push(slot);
   treeFadeWrite(tier, slot, t0, code);
+}
+/* the slots written this frame, as runs: a swap-remove touches one slot at
+   each end of a tier, and one range from the lowest to the highest slot
+   uploaded the whole tier between them -- 640 KB a frame for the pine tier
+   on a walk that switches ten trees a frame */
+function flushRanges(attrs, dirty, stride) {
+  if (!dirty.length) return;
+  dirty.sort((a, b) => a - b);
+  const runs = [];
+  let start = dirty[0], end = dirty[0];
+  for (let i = 1; i < dirty.length; i++) {
+    const v = dirty[i];
+    if (v === end || v === end + 1) { end = v; continue; }
+    runs.push([start, end]); start = end = v;
+  }
+  runs.push([start, end]);
+  for (const a of attrs) {
+    a.clearUpdateRanges();
+    if (runs.length > 96) a.addUpdateRange(runs[0][0] * stride, (runs[runs.length - 1][1] - runs[0][0] + 1) * stride);
+    else for (const [s0, s1] of runs) a.addUpdateRange(s0 * stride, (s1 - s0 + 1) * stride);
+    a.needsUpdate = true;
+  }
+  dirty.length = 0;
 }
 /* swap-remove: the tree moved into the freed slot may hold this tier as its IN entry or as its OUT entry */
 function tierRemove(s, tier, slot) {
@@ -4399,27 +4433,19 @@ function updateTreeTiers() {
     if (!species) continue;
     for (let i = 1; i <= 4; i++) {
       const tier = species.t[i];
+      if (tier.dirtyM.length || tier.dirtyF.length) treeUploadsThisFrame++;
       if (tier.mesh) {
         tier.geo.instanceCount = tier.count;
         tier.mesh.visible = tier.count > 0;
-        if (tier.hi >= tier.lo) {
-          tier.pos.clearUpdateRanges(); tier.pos.addUpdateRange(tier.lo * 3, (tier.hi - tier.lo + 1) * 3); tier.pos.needsUpdate = true;
-          tier.par.clearUpdateRanges(); tier.par.addUpdateRange(tier.lo * 4, (tier.hi - tier.lo + 1) * 4); tier.par.needsUpdate = true;
-        }
+        const dirty = tier.dirtyM.slice();
+        flushRanges([tier.pos], dirty.slice(), 3);
+        flushRanges([tier.par], dirty, 4);
+        tier.dirtyM.length = 0;
       } else {
-        for (const im of tier.parts) {
-          im.count = tier.count;
-          if (tier.hi >= tier.lo) {
-            im.instanceMatrix.clearUpdateRanges();
-            im.instanceMatrix.addUpdateRange(tier.lo * 16, (tier.hi - tier.lo + 1) * 16);
-            im.instanceMatrix.needsUpdate = true;
-          }
-        }
+        for (const im of tier.parts) im.count = tier.count;
+        flushRanges(tier.parts.map(im => im.instanceMatrix), tier.dirtyM, 16);
       }
-      if (tier.fhi >= tier.flo) for (const a of tier.fade) {
-        a.clearUpdateRanges(); a.addUpdateRange(tier.flo * 2, (tier.fhi - tier.flo + 1) * 2); a.needsUpdate = true;
-      }
-      tier.lo = Infinity; tier.hi = -Infinity; tier.flo = Infinity; tier.fhi = -Infinity;
+      flushRanges(tier.fade, tier.dirtyF, 2);
     }
     t0 += species.t[1].count; t1 += species.t[2].count; t2 += species.t[3].count; t3 += species.t[4].count;
   }
@@ -4878,6 +4904,24 @@ lap('ground cover (tufts, bushes, stones, stumps)');
 /* ------------------------------------------------- distance plates + signs
    The fairway plates are distance-to-green markers, not pins: red 100, yellow 150,
    white 200, standing at the edge of the corridor where a player looks for them. */
+/* One draw per kind of furniture. Each of these used to be its own Mesh --
+   288 objects at Puttom, tee markers and plates and posts and poles -- and
+   three's per-object work (matrices, bindings, a uniform buffer write each)
+   ran twice a frame for every one of them, shadow pass and main pass: at
+   rest, with nothing moving, that was most of the frame's CPU time, and an
+   uneven frame cadence is what the water's animation shows as jitter. Same
+   geometry, same material, same transforms, in an InstancedMesh per kind. */
+const instancedFurniture = (geo, mat, list, { cast = false, colour = false, into, tag = 'furniture' } = {}) => {
+  if (!list.length) return null;
+  const im = new THREE.InstancedMesh(geo, mat, list.length), M = new THREE.Matrix4();
+  list.forEach((e, i) => { M.makeRotationY(e.rot || 0); M.setPosition(e.x, e.y, e.z); im.setMatrixAt(i, M); if (colour) im.setColorAt(i, e.colour); });
+  im.instanceMatrix.needsUpdate = true;
+  if (colour) im.instanceColor.needsUpdate = true;
+  im.castShadow = cast; im.userData.tag = tag;
+  im.computeBoundingSphere();
+  into.add(im);
+  return im;
+};
 const furnitureGroup = new THREE.Group();
 scene.add(furnitureGroup);
 const plateSites = [];
@@ -4888,6 +4932,7 @@ const plateSites = [];
   postGeo.translate(0, 0.31, 0);
   const postMat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x6b6154), roughness: 0.9 });
   const PLATES = [[100, 0xd8443c], [150, 0xe8c33a], [200, 0xf2f0e8]];
+  const plateInst = new Map(PLATES.map(([, col]) => [col, []])), postInst = [];
   /* A yardage plate states the STRAIGHT-LINE distance to the middle of the
      green. It was being placed by the arc length still to run along the hole
      polyline, measured to the line's END -- two different things, and on a
@@ -4931,14 +4976,9 @@ const plateSites = [];
         const y = terrainH(x, z);
         for (const w of WI.at(x, z)) if (!w.stream && y < w.level + 0.1) wet = true;
         if (wet) continue;
-        const g = new THREE.Group();
-        g.position.set(x, y, z);
-        g.rotation.y = p.b + Math.PI / 2;
-        const plate = new THREE.Mesh(plateGeo, new THREE.MeshStandardNodeMaterial({
-          color: new THREE.Color(col), roughness: 0.5, emissive: new THREE.Color(col), emissiveIntensity: 0.1 }));
-        plate.castShadow = true;
-        g.add(new THREE.Mesh(postGeo, postMat), plate);
-        furnitureGroup.add(g);
+        const rot = p.b + Math.PI / 2;
+        plateInst.get(col).push({ x, y, z, rot });
+        postInst.push({ x, y, z, rot });
         /* recorded where they are PLANTED, so the gate measures the plate that
            was drawn rather than re-deriving where it ought to be -- a checker
            that restates the formula agrees with the bug */
@@ -4946,6 +4986,9 @@ const plateSites = [];
       }
     }
   }
+  for (const [, col] of PLATES) instancedFurniture(plateGeo, new THREE.MeshStandardNodeMaterial({
+    color: new THREE.Color(col), roughness: 0.5, emissive: new THREE.Color(col), emissiveIntensity: 0.1 }), plateInst.get(col), { cast: true, into: furnitureGroup, tag: 'plates' });
+  instancedFurniture(postGeo, postMat, postInst, { into: furnitureGroup, tag: 'plates' });
   /* a small sign at each green pointing at the next tee, so the walk reads */
   const signPlate = new THREE.BoxGeometry(0.5, 0.2, 0.05);
   signPlate.translate(0, 1.02, 0);
@@ -4992,25 +5035,21 @@ const TEE_COLS = CMETA.tees.cols;
 const flagGroup = new THREE.Group();
 scene.add(flagGroup);
 const pins = [];
+const FURN = { poles: [], cups: [], markers: [] };
 for (const h of HOLES) {
   const [x, z] = h.pin;
   const y = terrainH(x, z);
   const g = new THREE.Group();
   g.position.set(x, y, z);
-  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, 2.6, 6),
-    new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2f4f2), roughness: 0.35, metalness: 0.5 }));
-  pole.position.y = 1.3; pole.castShadow = true;
+  FURN.poles.push({ x, y: y + 1.3, z });
   /* the club flies yellow flags with its badge, not red-and-amber halves */
   const cloth = new THREE.Mesh(new THREE.PlaneGeometry(0.78, 0.5, 8, 3),
     new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2d24b),
       roughness: 0.85, side: THREE.DoubleSide }));
   cloth.position.set(0.39, 2.28, 0);
-  g.add(pole, cloth);
+  g.add(cloth);
   /* the cup, which is the thing that makes a green read as a green up close */
-  const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.054, 0.054, 0.12, 12),
-    new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x11170f), roughness: 1 }));
-  cup.position.y = 0.02;
-  g.add(cup);
+  FURN.cups.push({ x, y: y + 0.02, z });
   flagGroup.add(g);
   pins.push({ hole: h.n, cloth, g });
 
@@ -5021,17 +5060,22 @@ for (const h of HOLES) {
   const mk = h.tees.marks;
   for (let k = 0; k < mk.length; k++) {
     const m = mk[k], b = m.b * Math.PI / 180, R = rightOf(b);
-    const geo = new THREE.SphereGeometry(0.13, 8, 6);
-    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(TEE_COLS[k]), roughness: 0.45, metalness: 0.15 });
+    const colour = new THREE.Color(TEE_COLS[k]);
     for (const s of [-2.6, 2.6]) {
       const mx = m.c[0] + R[0] * s, mz = m.c[1] + R[1] * s;
-      const sph = new THREE.Mesh(geo, mat);
-      sph.position.set(mx, terrainH(mx, mz) + 0.11, mz);
-      sph.castShadow = true;
-      flagGroup.add(sph);
+      FURN.markers.push({ x: mx, y: terrainH(mx, mz) + 0.11, z: mz, colour });
     }
   }
 }
+/* the furniture's draws: one for every pole, one for every cup, one for every
+   marker (the colour rides on the instance; a white material times it is the
+   colour the material used to carry) */
+instancedFurniture(new THREE.CylinderGeometry(0.035, 0.045, 2.6, 6),
+  new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2f4f2), roughness: 0.35, metalness: 0.5 }), FURN.poles, { cast: true, into: flagGroup, tag: 'pins' });
+instancedFurniture(new THREE.CylinderGeometry(0.054, 0.054, 0.12, 12),
+  new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x11170f), roughness: 1 }), FURN.cups, { into: flagGroup, tag: 'pins' });
+instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
+  new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xffffff), roughness: 0.45, metalness: 0.15 }), FURN.markers, { cast: true, colour: true, into: flagGroup, tag: 'markers' });
 
 /* Buildings: every footprint within a kilometre in ONE vertex-coloured mesh --
    walls, gable roofs with the ridge on the long axis, a white fascia line under the
@@ -5939,6 +5983,35 @@ let shadowSnap = new URLSearchParams(location.search).get('shadowsnap') !== '0';
 let shadowRadiusOverride = null;   /* a harness stepping a flight pose by pose gives it the flight's fixed fit */
 const SUN_BASIS = { d: new THREE.Vector3(), right: new THREE.Vector3(), up: new THREE.Vector3(), m: new THREE.Matrix4(),
                     o: new THREE.Vector3(), texel: 0, remainder: 0, R: 0 };
+/* What moves a shadow: the sun or its box (placeSun), a tree changing tier or
+   fading (an upload this frame, or a fade queue still draining), the terrain
+   (a tile arriving or leaving, and the 240 ms morph after it), a flight -- and
+   once a second regardless, so anything not on this list still catches up
+   within a second. Nothing else in the scene casts and moves: the flag cloths
+   wave but do not cast. At rest none of it fires and the pass is skipped. */
+function shadowRest(now) {
+  const S = SHADOW_REST_STATE; S.frames++; S.sinceRender++;
+  if (!SHADOW_REST) return;
+  let why = '';
+  if (!sun.position.equals(S.sunPos) || !sun.target.position.equals(S.target)) { S.sunPos.copy(sun.position); S.target.copy(sun.target.position); why = 'sun'; }
+  const batches = terrainV2.runtime?.layer?.batches;
+  if (batches) {
+    let tiles = 0, uploads = 0, morphStart = -1, morphMs = 240;
+    for (const b of batches.values()) {
+      tiles += b.layersByTile.size; uploads += b.textureUploads; morphMs = b.morphDurationMilliseconds;
+      for (const t of b.morphStartByTile.values()) if (t !== null && t > morphStart) morphStart = t;
+    }
+    if (tiles !== S.tiles || uploads !== S.uploads || morphStart !== S.morphStart) { S.tiles = tiles; S.uploads = uploads; S.morphStart = morphStart; S.dirtyUntil = now + morphMs + 80; }
+  }
+  if (!why && now < S.dirtyUntil) why = 'terrain';
+  /* a fade under way changes the dither every frame with no upload at all -- the clock is a uniform -- so the map follows the queue, whoever drives the clock */
+  if (!why && (treeUploadsThisFrame > 0 || TREE_LOD.queue.length !== TREE_LOD.qHead)) why = 'trees';
+  if (!why && flying > 0) why = 'flight';
+  if (!why && S.sinceRender >= 60) why = 'tick';
+  treeUploadsThisFrame = 0;
+  if (why) { sun.shadow.needsUpdate = true; S.renders++; S.sinceRender = 0; S.why = why; }
+}
+
 function placeSun() {
   const t = controls.target;
   const d = uSun.value;
@@ -8127,6 +8200,7 @@ function frame() {
     groundClamp.step(camera.position, dt);
   } else groundClamp.reset();
   placeSun();
+  shadowRest(now);
   if (skyMesh) skyMesh.position.copy(camera.position);
   if (skyDome) skyDome.position.copy(camera.position);
   updateSky();
@@ -8558,6 +8632,8 @@ window.V3D = {
   setShadowSnap: on => { shadowSnap = !!on; return shadowSnap; },
   /* the harness's bisection switch: the terrain's level morph length in ms (0 pops) */
   v2WorldMorph: ms => { const batches = terrainV2.runtime?.layer?.batches; if (!batches) return null; for (const b of batches.values()) b.morphDurationMilliseconds = Math.max(0, +ms || 0); return Math.max(0, +ms || 0); },
+  /* the terrain stream's last plan and residency, for a harness that watches tiles come and go: desired, rendered (fallbacks included), requested, retained, and what is ready or loading */
+  v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
   quality: () => ({ lowfx, lowq: LOWQ, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   /* GPU milliseconds since the previous resolve, summed over every render
@@ -8661,6 +8737,14 @@ window.V3D = {
                     look: controls.target.toArray().map(v => +v.toFixed(1)), mode: camMode }),
   camExact: () => ({ pos: camera.position.toArray(), look: controls.target.toArray(), ground: terrainH(camera.position.x, camera.position.z) }),
   groundClamp: () => ({ lift: +groundClamp.lift.toFixed(4), ...GROUND_CLAMP }),
+  /* the water shader's probe gains: {glint, chop}, each 1 by default */
+  water: (o = {}) => { if (o.glint != null) uWaterGlint.value = +o.glint; if (o.chop != null) uWaterChop.value = +o.chop; return { glint: uWaterGlint.value, chop: uWaterChop.value }; },
+  /* the sun's shadow map: re-rendered every frame (three's default) or frozen as it is, for the cost bisection */
+  setShadowUpdate: on => { sun.shadow.autoUpdate = !!on; if (on) sun.shadow.needsUpdate = true; return sun.shadow.autoUpdate; },
+  /* the on-demand shadow map: how many frames rendered it, and why the last one did */
+  shadowRest: () => ({ enabled: SHADOW_REST, renders: SHADOW_REST_STATE.renders, frames: SHADOW_REST_STATE.frames, sinceRender: SHADOW_REST_STATE.sinceRender, why: SHADOW_REST_STATE.why }),
+  /* what is in the scene, by kind: visible objects with geometry, grouped by type, tag and material, with their draw and triangle counts (instances counted once) */
+  census: () => { const by = new Map(); scene.traverse(o => { if (!o.visible || !o.geometry) return; const g = o.geometry, tris = (g.index ? g.index.count : g.attributes.position?.count || 0) / 3; const inst = o.isInstancedMesh ? o.count : 1; const key = [o.type, o.userData?.tag || '', o.material?.type || '', o.name || '', o.parent?.name || '', o.isInstancedMesh ? 'inst' : '', Math.round(tris), o.castShadow ? 'cast' : '', o.matrixAutoUpdate ? 'auto' : ''].join('|'); const e = by.get(key) || { objects: 0, instances: 0, tris: 0 }; e.objects++; e.instances += inst; e.tris += tris * inst; by.set(key, e); }); return [...by.entries()].map(([k, v]) => ({ key: k, ...v })).sort((a, b) => b.objects - a.objects); },
   fps: () => fps,
   prepareCapture,
   captureReadback: IS_GPU ? captureReadback : null,

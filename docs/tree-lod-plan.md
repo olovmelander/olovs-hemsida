@@ -797,3 +797,186 @@ that does nothing is worse than none.
 to — but as a slope, not a staircase, and it comes back down. If a jolt is
 still felt on a pan, `V3D.groundClamp().lift` says whether the clamp was
 acting at all; if it was not, the motion is OrbitControls' own.
+
+## "Mainly the water glitches and jitters" — the frame at rest (2026-09-04, night)
+
+With the camera settled the owner's complaint moved to the water. The water
+was measured first and cleared; what the water was showing was the frame
+loop, because at rest the water is the only thing in the picture that moves.
+
+**The water itself.** `tools/goldens/water-flicker.mjs` is the flicker map
+masked to the water (the mask is whatever changes when the water is hidden),
+with two probe gains in the shader — `V3D.water({glint, chop})` turns the sun
+glint and the fine 4 m chop off — and a still, walk, pan and orbit mode.
+Under the live clock at rest the water's flip rate is 0.01–0.12 % (the 12th
+tee's bay, the 14th's): the waves move smoothly and nothing sparkles, and the
+glint and the chop make no difference. Under a 5 cm step the water flickers
+LESS than the rest of the frame. Under the owner's own speeds (0.5 m or 0.5°
+a frame) it churns two to three times as much as the rest — 8–20 % against
+2–6 % — and switching the glint and the chop off takes a fifth of that away;
+the remainder is the world-anchored ripple field passing under the pixels at
+thirty metres a second, which is what a lake does when you run past it. A
+frame-by-frame crop (`water-crops.mjs`) shows the same: a fine speckle on
+the body, a bright line where the far shore's edge crawls under the orbit.
+Nothing discrete, nothing to fix in the shader.
+
+**The frame loop was the jitter.** `tools/goldens/frame-pacing.mjs` boots
+the app as the owner sees it (live clock, HUD on, vsync) and records every
+rAF interval: at the 12th tee at rest, median 30 ms with frames from 20 to
+55 ms, and 15 ms during a drag that turned the view away. A water animation
+advanced on a clock that uneven judders; the still ground cannot show it.
+With the frame-rate cap off the frame's raw cost was 9.9 ms (p95 11), and a
+CDP profile at rest put 35 % of the main thread in WebGPU `writeBuffer`
+alone: three writes a uniform buffer per object per pass, and the scene
+census (`V3D.census`, `tools/scene-census.mjs`) counted **477 visible objects
+and 611 draws a frame** — 396 of them untagged standard meshes: 144 tee-marker
+balls, 82 plates, 100 posts, 36 cups and cloths, each its own Mesh, most of
+them shadow casters and so paid for twice. On a 165 Hz display a 10 ms frame
+with its GPU tail lands on the third refresh, sometimes the fourth; on 60 Hz
+it sits on the edge of one and drops to two. Either way the cadence
+alternates, and the water is where the eye sees it.
+
+**And the object count was not the fat.** Instancing the furniture cut the
+draws from 611 to 163 and the frame at rest by three milliseconds, and the
+profile still put two thirds of the main thread in `writeBuffer` — on both
+builds. `tools/goldens/write-buffer.mjs` wraps the WebGPU queue's method in
+the page and names the buffers: **38.9 MB a frame, 15.5 ms, at rest** — three
+buffers of 64 bytes a slot written whole six times a frame and three of
+8 bytes a slot seven times, whose slot counts are the three species' tree
+tiers. The tiers were idle (moves and switches constant, nothing fading) and
+`flushRanges` returns before touching an attribute with no dirty slot; the
+uploads were three's. Its WebGPU `Attributes.update` re-uploads any attribute
+whose usage is `DynamicDrawUsage` **every frame, whole, whatever changed**
+(`renderers/common/Attributes.js`: `data.version < attribute.version ||
+attribute.usage === DynamicDrawUsage`), and the tiers' instance matrices,
+their fade attribute and the impostor slots all carried that flag from the
+days when it meant "will change" rather than "upload every frame". They upload
+their dirty ranges through `needsUpdate` already, so the flag only cost. With
+it gone: 0.11 MB and 0.21 ms a frame.
+
+Three changes then, each measured in one boot by the bisection tool
+(`tools/frame-at-rest.mjs`, cap off, which hides one thing at a time and
+reads the interval and the main thread's longest block):
+
+- **No `DynamicDrawUsage` on the tier attributes** (main.js, `tree-fade.mjs`,
+  `tree-impostor.mjs`). The terrain batch keeps its flag: its attributes are
+  4 KB and its `tick` bumps `needsUpdate` itself.
+- **The shadow map renders on demand.** three's default re-rendered the
+  2048² map every frame — a pass over ten million triangles and a third of
+  the frame's draws for a picture that did not change. `shadowRest` in the
+  frame loop sets `sun.shadow.needsUpdate` only when something that casts
+  has moved: the sun or its snapped box (placeSun), a tree tier uploading or
+  a fade still draining, the terrain's tile set changing and the 240 ms morph
+  after it, a flight — and once a second regardless, so anything not on the
+  list catches up within a second. The flag cloths wave but never cast, so
+  at rest nothing fires. `?shadowrest=0` is the before; `V3D.shadowRest()`
+  reports how many frames rendered it and why the last one did. Measured
+  interleaved against the before at the 12th tee on the final build: 8.3 →
+  6.8 ms a frame, p95 10.5–14.6 → 8.5 ms, the shadow pass thirteen draws
+  once the furniture is instanced.
+- **The furniture is instanced.** Tee markers (one InstancedMesh, the tee
+  colour on the instance — a white material times it is the colour the
+  material used to carry), pin poles, cups, the distance plates (one draw per
+  colour, so the emissive stays exact) and their posts: 288 objects became
+  seven. The census at the 12th tee reads 140 objects and 163 draws at rest
+  (611 before). The twelve golden views are pixel-identical against the
+  build before it (`lod-strict-gate --lod 0`: worst view 0.0026/255 mean,
+  0.006 % of pixels off by more than 2), and `clamp-rest` holds all twelve
+  still.
+
+**Where the frame at rest stands.** The 12th tee, live clock, HUD on, cap
+off, a quiet GPU: 9.9 ms a frame with the re-uploads and every-frame shadows
+and 477 objects; 6.8 ms now (p95 8.5), of which the trees are most, and the
+per-frame buffer traffic is 0.11 MB where it was 38.9. On a 60 Hz display
+that is one refresh with room to spare, on 165 Hz two; the cadence no longer
+alternates, and the water's animation gets an even clock.
+
+**What the numbers are worth.** Another browser rendering this app on the
+same GPU — the other session's, or the owner's own — inflated every timing
+run here by two to three times while it was busy, and the bisection's
+absolute level moved from 10 to 27 ms between runs for that reason alone.
+Interleaved A/B runs (`ab-builds.mjs`, old and new builds booted in turn)
+and the CPU block per frame are what to trust; a single run's absolute
+number is not. Check the GPU's 3D engine per process before measuring
+(`Get-Counter '\GPU Engine(*engtype_3D)\Utilization Percentage'`).
+
+**A trap that cost a gate run.** The run-coalesced tier uploads
+(`flushRanges`, the per-tier dirty lists) from the morning had never been
+committed: they lived only in the shared checkout, and every commit since
+was staged from the isolated worktree's copy of main.js, which still had the
+old lo/hi ranges. The every-frame re-upload hid that completely — three
+uploaded everything regardless — and the moment the flag came off, the
+committed tier code's lost flushes showed as stale trees in nine of twelve
+views, while the one-line "did a tier upload this frame" check threw on the
+old tier records at boot. The hunks are in the index now (`git apply
+--cached` of exactly the tier region), the worktree copy is built from the
+staged file, and the rule for staging from a worktree is: diff the two
+copies of main.js first and account for every hunk that is neither the other
+session's nor already committed.
+
+## "The terrain flips to another terrain for a split second" (2026-09-05)
+
+The owner's two frames at the 12th green in Höst: the same view, one with the
+ground shaded and the shore drawn as the fine 1 m terrain, one as its coarser
+parent — different shading, a different waterline — for a frame or two while
+the camera moves. `tools/goldens/tile-flips.mjs` reads the stream's plan every
+frame under the owner's own inputs (`V3D.v2Plan`: desired, rendered, requested,
+retained, ready, loading) and counts the frames where a desired tile is not
+rendered and the tiles that leave the rendered set and come back within
+ninety frames. Under a left-drag orbit at that view: 77–126 tiles back within
+ninety frames, most of them "back after 1 frame", at the frames where "8
+desired tiles not rendered, 2 loading".
+
+Two mechanisms, both in `packages/course-v2/runtime`:
+
+- **A tile the plan stopped wanting was released on the next plan** and had to
+  be leased and uploaded again when the camera wanted it back, its coarse
+  parent standing in meanwhile (the stream controller kept nothing it did not
+  want). It now waits out a grace (`releaseGraceMilliseconds`, 1.5 s, at most
+  `maximumRetainedTiles` = 48 waiting at once, the longest-unwanted going
+  first) and stays resident: the plan sees it and never asks for it again.
+  `?tilegrace=0` is the before. Tests: retained through the grace and drawn on
+  the first plan back with no request; released after it; the cap.
+- **The render rule stands a parent in for its WHOLE quad when any visible
+  child is missing** (`renderTileIds`: a desired tile that is not resident
+  becomes its nearest resident ancestor, and every resident tile under that
+  ancestor is dropped). A refined quad with a child outside the frustum has
+  three fine siblings on screen; the moment the camera turns and the fourth
+  comes into view for the first time, the three drop to the parent until it
+  arrives, and back. That is the flip the owner photographed, and the grace
+  does nothing for it — the fourth had never been loaded. The planner now
+  wants a refined quad's out-of-view children too, requested behind
+  everything the camera can see and retained once they arrive, so a turn
+  reveals a resident tile and never a hole in the quad. Test: three visible
+  children resident render as three, the fourth is retained and requested
+  last, and with it resident a turn renders four.
+
+Measured with the probe at the 12th green in Höst, the same three moves
+(a left-drag orbit, a right-drag pan, the orbit back):
+
+| build | tiles back within 90 frames | frames with a desired tile not rendered |
+|---|---|---|
+| grace off (the before) | 0 / 0 / 126 | 0 / 0 / 13 |
+| grace on, no prefetch | 0 / 0 / 77 | 0 / 0 / 10 |
+| grace on + sibling prefetch | 0 / 0 / 0 | 2 / 0 / 4 |
+
+The frames that remain are tiles the camera has genuinely never seen,
+arriving for the first time, which morph in from the parent as they always
+did; nothing on screen falls back to a coarser level any more.
+
+**Two things the gates caught on the way.** The pop meter failed its switch
+frame on the new build and passed with `?shadowrest=0`: a crossfade changes
+the dither every frame with no upload at all (the clock is a uniform), so the
+on-demand shadow map must follow the fade queue — and the check had been
+switched off under a driven clock, which is how the meter runs. And the
+strict gate's settle captured two frames after the stream read idle, inside
+the 240 ms a fresh tile morphs from its parent: a build that kept the tile
+resident draws it morphed at once, so the 14th green differed by a morph and
+nothing else. The settle waits 350 ms past idle now.
+
+**What is left.** The remaining draw list at rest — the trees (27 draws, the
+bulk of the GPU work), 18 hole signs with their two-sided faces, the sprites
+and the water's thirteen sheets — is what the frame costs now, and the trees
+are the owner's stability floors, not fat. If the cadence still judders on
+the owner's display the next step is the trees' hero tier at rest, measured
+the same way.
