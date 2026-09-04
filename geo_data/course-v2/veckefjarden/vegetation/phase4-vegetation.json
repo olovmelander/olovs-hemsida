@@ -1,0 +1,728 @@
+{
+  "schemaVersion": 1,
+  "phase": "vegetation-plan-phase-4-published-generation",
+  "courseSlug": "veckefjarden",
+  "observedOn": "2026-09-04",
+  "baseUrl": "http://127.0.0.1:8620",
+  "renderer": "swiftshader",
+  "note": "SwiftShader captures are rendering evidence, not hardware performance evidence; boot seconds are indicative only. Zoning in the tree export is provisional until the plan approves zone-A geometry.",
+  "inputs": {
+    "pack": {
+      "url": "courses/veckefjarden/pack.bin",
+      "bytes": 343132,
+      "sha256": "09eb8f50891f6b9c1673d802fc4062a93b497d710a0be710c7936650830976ac"
+    },
+    "treeCover": {
+      "id": "legacy-tree-cover",
+      "kind": "canopy",
+      "path": "geobuild/tree-cover.json",
+      "sha256": "668ff6c18955685ce3b8f72d417cd1b15c78e518ebf748631d6b2007134c1931",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current shared imagery-classified canopy raster."
+    },
+    "courseModel": {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "geobuild/course-model.json",
+      "sha256": "9846afc5a689cb76a5369cd6f9bfd7fb10cfa3dc4a8326662a1f7b61433bdc81",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current championship-course vectors, routing, elevations and scenery inputs."
+    },
+    "courseV2Manifest": "course-v2-529079ebe1982969de72294dcd9bfd9623ed7b185e97680147b6f6049443eb68.json",
+    "groundV2Manifest": "ground-v2-8e9a0e7db6031b215be289bf6314997188e8c39309e5760568fde8ad7e3de605.json",
+    "groundPreviewDescriptorSha256": null
+  },
+  "runs": [
+    {
+      "mode": "gpk1",
+      "url": "http://127.0.0.1:8620/?bana=veckefjarden&det=1&v2=0",
+      "booted": true,
+      "bootSeconds": 38.2,
+      "errors": [],
+      "stats": {
+        "verts": 459166,
+        "tris": 902592,
+        "trees": 22026,
+        "vista": 52903,
+        "tufts": 15921,
+        "bushes": 2931,
+        "stones": 704,
+        "reeds": 6476,
+        "cars": 115,
+        "pylons": 85,
+        "stumps": 202,
+        "draws": 68,
+        "surfaceOverlays": 0,
+        "backend": "webgl2"
+      },
+      "trees": {
+        "total": 22026,
+        "species": {
+          "spruce": 11741,
+          "pine": 6859,
+          "birch": 3426
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 11575,
+          "scrubRing": 0,
+          "satellite": 10358,
+          "shore": 93,
+          "v2Individual": 0,
+          "v2Stand": 0
+        },
+        "zones": {
+          "A": 6032,
+          "B": 6869,
+          "C": 9125
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 951
+          },
+          {
+            "n": 2,
+            "count": 3262
+          },
+          {
+            "n": 3,
+            "count": 511
+          },
+          {
+            "n": 4,
+            "count": 187
+          },
+          {
+            "n": 5,
+            "count": 1719
+          },
+          {
+            "n": 6,
+            "count": 395
+          },
+          {
+            "n": 7,
+            "count": 153
+          },
+          {
+            "n": 8,
+            "count": 266
+          },
+          {
+            "n": 9,
+            "count": 185
+          },
+          {
+            "n": 10,
+            "count": 1071
+          },
+          {
+            "n": 11,
+            "count": 1885
+          },
+          {
+            "n": 12,
+            "count": 32
+          },
+          {
+            "n": 13,
+            "count": 957
+          },
+          {
+            "n": 14,
+            "count": 307
+          },
+          {
+            "n": 15,
+            "count": 217
+          },
+          {
+            "n": 16,
+            "count": 397
+          },
+          {
+            "n": 17,
+            "count": 115
+          },
+          {
+            "n": 18,
+            "count": 291
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": null,
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": null,
+        "planned": null,
+        "coverageTiles": 0,
+        "error": null,
+        "graphObjectTiles": null,
+        "graphStandTiles": null,
+        "graphEncodedObjectBytes": null,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 61.3
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 521.7
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 3457.1
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 6471
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 7174.2
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 7301.1
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 7686.3
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 8163.4
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 11723.7
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 11869.9
+          },
+          {
+            "name": "klar",
+            "atMs": 11988.2
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 9.1
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 424.7
+          },
+          {
+            "name": "procedural textures (DETAIL, GRASSN, SANDN, WATERN)",
+            "ms": 308
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 1308.6
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 388.7
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 515,
+            "reeds": 6476
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 0.1
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 613.3
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 0
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 1306.3
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 1378.8,
+            "trees": 22026,
+            "cells": 260
+          },
+          {
+            "name": "far vista cones",
+            "ms": 389.5,
+            "vista": 52903
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 424.8
+          }
+        ],
+        "atlasMs": 388.7,
+        "totalMs": 12009.1,
+        "doneAtMs": 12009.2,
+        "firstFrames": [
+          {
+            "atMs": 12055.9,
+            "ms": 25913,
+            "tris": 10989978,
+            "draws": 141,
+            "tiers": {
+              "t0": 3632,
+              "t1": 3761,
+              "t2": 5692,
+              "t3": 828
+            }
+          }
+        ],
+        "tintMs": 0
+      },
+      "v2": {
+        "requested": false,
+        "ready": false,
+        "status": "fallback",
+        "reason": null,
+        "selection": {
+          "mode": "off",
+          "requestMode": "off",
+          "graph": null,
+          "graphError": null
+        },
+        "bounds": null,
+        "backend": "webgl2"
+      },
+      "course": {
+        "slug": "veckefjarden",
+        "name": "Veckefjärdens GC",
+        "club": "Veckefjärdens Golfklubb",
+        "title": "Veckefjärdens GC — Mästerskapsbanan i 3D",
+        "tag": "Mästerskapsbanan",
+        "boot": "Örnsköldsvik · Ångermanland",
+        "build": "geobuild",
+        "par": 72,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "65",
+            "61",
+            "58",
+            "55",
+            "48",
+            "40"
+          ],
+          "cols": [
+            1710618,
+            16053486,
+            15780154,
+            4886496,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 5,
+          "def": 2
+        },
+        "photos": 4,
+        "packUrl": "courses/veckefjarden/pack.bin",
+        "bytes": 343132,
+        "sha256": "09eb8f50891f6b9c1673d802fc4062a93b497d710a0be710c7936650830976ac"
+      },
+      "shots": []
+    },
+    {
+      "mode": "v2-require",
+      "url": "http://127.0.0.1:8620/?bana=veckefjarden&det=1&v2=require",
+      "booted": true,
+      "bootSeconds": 57.1,
+      "errors": [],
+      "stats": {
+        "verts": 157427,
+        "tris": 290557,
+        "trees": 32229,
+        "vista": 52030,
+        "tufts": 15811,
+        "bushes": 2904,
+        "stones": 650,
+        "reeds": 7757,
+        "cars": 115,
+        "pylons": 85,
+        "stumps": 202,
+        "draws": 68,
+        "surfaceOverlays": 0,
+        "backend": "webgl2"
+      },
+      "trees": {
+        "total": 32229,
+        "species": {
+          "spruce": 18807,
+          "pine": 9894,
+          "birch": 3528
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 1277,
+          "scrubRing": 0,
+          "satellite": 1102,
+          "shore": 0,
+          "v2Individual": 1821,
+          "v2Stand": 28029
+        },
+        "zones": {
+          "A": 5434,
+          "B": 9993,
+          "C": 16802
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 1167
+          },
+          {
+            "n": 2,
+            "count": 5066
+          },
+          {
+            "n": 3,
+            "count": 354
+          },
+          {
+            "n": 4,
+            "count": 173
+          },
+          {
+            "n": 5,
+            "count": 1851
+          },
+          {
+            "n": 6,
+            "count": 510
+          },
+          {
+            "n": 7,
+            "count": 118
+          },
+          {
+            "n": 8,
+            "count": 208
+          },
+          {
+            "n": 9,
+            "count": 152
+          },
+          {
+            "n": 10,
+            "count": 2310
+          },
+          {
+            "n": 11,
+            "count": 1381
+          },
+          {
+            "n": 12,
+            "count": 57
+          },
+          {
+            "n": 13,
+            "count": 844
+          },
+          {
+            "n": 14,
+            "count": 265
+          },
+          {
+            "n": 15,
+            "count": 243
+          },
+          {
+            "n": 16,
+            "count": 300
+          },
+          {
+            "n": 17,
+            "count": 84
+          },
+          {
+            "n": 18,
+            "count": 344
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": {
+          "individuals": 1821,
+          "standTrees": 28029,
+          "cellsPlanted": 28029,
+          "cellsSkipped": 210919,
+          "speciesSource": "course",
+          "baseMismatch": {
+            "samples": 1821,
+            "meanAbsMetres": 0,
+            "p95Metres": 0,
+            "maxMetres": 0.001
+          },
+          "coverageTiles": 64
+        },
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": {
+          "referencedObjectTiles": 51,
+          "referencedStandTiles": 64,
+          "loadedTiles": 64,
+          "records": 1821,
+          "bytes": 444091,
+          "frameFingerprint": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6"
+        },
+        "planned": {
+          "individuals": 1821,
+          "standTrees": 28029,
+          "cellsPlanted": 28029,
+          "cellsSkipped": 210919,
+          "speciesSource": "course",
+          "baseMismatch": {
+            "samples": 1821,
+            "meanAbsMetres": 0,
+            "p95Metres": 0,
+            "maxMetres": 0.001
+          }
+        },
+        "coverageTiles": 64,
+        "error": null,
+        "graphObjectTiles": 51,
+        "graphStandTiles": 64,
+        "graphEncodedObjectBytes": 109768,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 60
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 1054.9
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 3409.7
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 19909.9
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 20407.6
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 20564.8
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 21022.7
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 21541.8
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 24964
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 25086.5
+          },
+          {
+            "name": "klar",
+            "atMs": 25171.3
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 528.7
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 445.9
+          },
+          {
+            "name": "procedural textures (DETAIL, GRASSN, SANDN, WATERN)",
+            "ms": 262.5
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 1325.8
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 381.1
+          },
+          {
+            "name": "v2 prepare (worker, first frontier coverage, preflight)",
+            "ms": 14026.6
+          },
+          {
+            "name": "ground tint rasters (near 6 m + far 24 m)",
+            "ms": 1422
+          },
+          {
+            "name": "v2 vegetation: wait for chunk load",
+            "ms": 519.9
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 535.4,
+            "reeds": 7757
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 75
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 216.1
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 8.3
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 1378
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 1450.6,
+            "trees": 32229,
+            "cells": 265
+          },
+          {
+            "name": "far vista cones",
+            "ms": 385.7,
+            "vista": 52030
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 479.8
+          }
+        ],
+        "atlasMs": 381,
+        "totalMs": 25191.6,
+        "doneAtMs": 25191.9,
+        "firstFrames": [
+          {
+            "atMs": 25219.6,
+            "ms": 30499.5,
+            "tris": 17854834,
+            "draws": 142,
+            "tiers": {
+              "t0": 3329,
+              "t1": 4372,
+              "t2": 7790,
+              "t3": 1701
+            }
+          }
+        ],
+        "tintMs": 1422
+      },
+      "v2": {
+        "requested": true,
+        "ready": true,
+        "status": "ready",
+        "reason": null,
+        "selection": {
+          "mode": "fixed-frontier",
+          "requestMode": "require",
+          "graph": {
+            "slug": "veckefjarden",
+            "groundId": "veckefjarden",
+            "frameFingerprint": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
+            "tiles": 277,
+            "holes": 18,
+            "shellBytes": 85346,
+            "encodedTerrainBytes": 19686608,
+            "surfaceTiles": 0,
+            "objectTiles": 51,
+            "encodedObjectBytes": 109768,
+            "standTiles": 64,
+            "encodedStandBytes": 334323
+          },
+          "graphError": null
+        },
+        "bounds": {
+          "x0": -1298.301986000035,
+          "z0": -1461.8033149996772,
+          "x1": 749.698013999965,
+          "z1": 586.1966850003228
+        },
+        "backend": "webgl2"
+      },
+      "course": {
+        "slug": "veckefjarden",
+        "name": "Veckefjärdens GC",
+        "club": "Veckefjärdens Golfklubb",
+        "title": "Veckefjärdens GC — Mästerskapsbanan i 3D",
+        "tag": "Mästerskapsbanan",
+        "boot": "Örnsköldsvik · Ångermanland",
+        "build": "geobuild",
+        "par": 72,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "65",
+            "61",
+            "58",
+            "55",
+            "48",
+            "40"
+          ],
+          "cols": [
+            1710618,
+            16053486,
+            15780154,
+            4886496,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 5,
+          "def": 2
+        },
+        "photos": 4,
+        "packUrl": "courses/veckefjarden/pack.bin",
+        "bytes": 343132,
+        "sha256": "09eb8f50891f6b9c1673d802fc4062a93b497d710a0be710c7936650830976ac"
+      },
+      "shots": []
+    }
+  ]
+}

@@ -1620,8 +1620,33 @@ the six files that import it.
   files each. Registering a slug in `V2_PUBLISHED_GRAPH_SLUGS` only lets the app
   RESOLVE a graph; the frontier registry is the narrower gate that lets it
   RENDER one.
-- **The LiDAR vegetation blockers are closed; only the credentialed reads
-  remain (2026-09)**. The v2 vegetation runtime now takes the course's own
+- **The LiDAR vegetation is PUBLISHED (2026-09-04), and it went through CI.**
+  The Lantmäteriet credentials live as repository secrets, so the credentialed
+  chain runs in `.github/workflows/veckefjarden-vegetation.yml` — started by a
+  push touching `geo_data/course-v2/veckefjarden/vegetation/RUN` (this
+  session's GitHub App holds contents:write but not actions:write;
+  workflow_dispatch stays for humans). Acquire mode commits the census, the
+  canopy evidence and the review overlays to the branch for the eyeball;
+  publish mode repeats the same chain with the same `observed_on` and emits
+  the generation for BOTH slugs against one ground manifest. The record:
+  22.07M points read (3.4 all returns/m²), cloud ground within
+  −0.165…+0.19 m of the published DTM over all 64 tiles (medians), 21,293
+  crown candidates → **1,821 machine-reviewed individuals** + stand fields on
+  all 64 tiles; the merged exclusions rejected candidates on greens (11),
+  tees (11), fairways (92), practice (42) and water (154). In the app both
+  slugs plant 1,821 + ~28,000 stand trees at full quality, bases p95 0 m,
+  `speciesSource: 'course'` (alder/birch in the reserve), zero legacy trees
+  inside coverage — `vegetation-baseline --label v2` all green. Two lessons:
+  the review overlays number the MERGED holes, so the korthålsbana's crops
+  overwrite championship 1–9 (`hole-0N.png` is whichever wrote last); and the
+  korthålsbana's `legacyCoreCutout` had silently inherited the PARENT's
+  numbers — its own CORE starts 72 m east (green rings travel through
+  scenery, westmost fairway lines do not) — which only the ring-graph
+  fallback path asserts, so on any boot where the rings cannot serve the
+  terrain rolled back to GPK1 and the fresh vegetation stood on Terrarium
+  ground (baseMismatch p95 12.76 m, the forest-canopy signature). The
+  korthålsbana carries its own measured cutout now. The v2 vegetation runtime
+  takes the course's own
   `species()` rule (`planV2Vegetation`'s `species` option, passed from main.js
   with `ringSD`/`RES` closed over, never imported — the runtime must stay out
   of the flagless closure), reports `speciesSource` beside the plan, and
