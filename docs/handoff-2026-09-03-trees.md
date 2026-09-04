@@ -14,6 +14,12 @@ the two background agents were doing, and the order to continue in.
 > Another session is editing this checkout concurrently (an uncommitted caddie
 > feature in main.js, menu.js, index.html) and rebuilds `apps/golf/dist`; measure
 > from an isolated worktree build, never from the shared dist.
+>
+> **Later the same morning:** the owner still saw the trees change while moving; the
+> answer is commit 20a17f3 — the course corridor keeps its detail by where it is
+> (zone A hero within 500 m, full within 900 m; zone B full within 900 m), so
+> nothing on the course switches as the camera moves; `?lodpin=` and `?lodreach=`
+> tune it. The plan's last status section has the numbers.
 
 ## The ask
 

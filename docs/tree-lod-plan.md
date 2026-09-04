@@ -1,6 +1,6 @@
 # Trees by distance — the LOD plan for the planted forest
 
-Status: phases 1-4 built and measured on the RTX 3070, the desktop tiers at 64 / 24 / 8 px (see the status sections at the end). Written 2026-09-03 after the Puttom v2
+Status: phases 1-4 built and measured on the RTX 3070; the desktop tiers at 64 / 24 / 8 px and the course corridor floored at its detail (see the status sections at the end). Written 2026-09-03 after the Puttom v2
 boot work; the frame-rate survey it answers is in the session notes and
 summarised in "Where the frame goes" below.
 
@@ -564,3 +564,49 @@ normalisation of the spec's §2.10 is not applied); whether the 4×4 dither
 reads as shimmer on a 60–110 px tree on a real screen (the fallback is
 `bayer8`, one function and one test); the phone thresholds; the terrain's
 own shadow casting, still the larger half of the shadow pass.
+
+**The owner's verdict, and the corridor floors (2026-09-04, later).** The
+owner looked at phase 4 and said the trees still changed too much when
+moving around; the course should be stable with its detailed trees. The
+instruments were right and the rule was wrong: screen-size LOD is right for
+a forest and wrong for the trees a golfer is looking at, because as the
+camera moves every tree at the boundary distance dissolves into its next
+tier, and however soft each dissolve is, the course never stops changing.
+
+So the corridor keeps its detail by where it is, not by how big it is on
+screen. A 12 m corridor raster is stamped from the hole lines at boot (the
+zones `legacyTreeExport` reports: A within 90 m of a hole line, B within
+300 m — 5,036 and 18,084 trees at Puttom), each tree carries its zone, and
+the update applies a floor: zone A is never below the hero crown within
+500 m of the camera and never below the full template within 900 m; zone B
+never below the full template within 900 m; beyond the reaches, and beyond
+the property, screen size decides as before. At the reaches a 12 m tree is
+29 and 16 px, where the hero crown is the full template and the full
+template is the decimated one, so what still switches does not show. The
+reaches carry the same 10% band as the pixel boundaries. `?lodpin=a,b`,
+`?lodreach=hero,full` and `V3D.setTreeLodPin` override; a forced `?lod=`
+tier ignores the floors, so the strict gates keep their meaning. A phone
+floors zone A at the full template within 250 m and leaves zone B alone.
+
+Measured on the isolated build (`--query lodpin=4,4` is the same build with
+the floors off):
+
+| | floors off | floors, no reach | **floors, reach 500 / 900 m** |
+|---|---|---|---|
+| 1st tee: triangles, tiers | 14.40 M, 191 / 2,276 / 9,627 / 1,189 | 16.37 M, 918 / 4,409 / 7,270 / 686 | 16.17 M, 737 / 4,590 / 7,270 / 686 |
+| 12th tee | 22.04 M, 592 / 1,311 / 16,833 / 6,506 | 29.75 M, 3,676 / 8,213 / 10,262 / 3,091 | 23.96 M, 1,048 / 4,240 / 14,143 / 5,811 |
+| 14th tee | 17.48 M | 22.09 M | 20.33 M |
+| 7th overhead | 3.97 M | 5.09 M | 5.09 M |
+| 12th orbit | 18.64 M | 26.59 M | 20.48 M |
+| 5th tee | 15.84 M | 17.44 M | 17.41 M |
+| dolly, worst 16×16 block-mean change, 5th / 1st / 13th | 2.0 / 2.5 / 2.0 /255 | 0.8 / 0.5 / 0.4 | **0.8 / 0.5 / 0.5** |
+| dolly, trees switched in 240 frames | 228 / 128 / 40 | 30 / 8 / 0 | 52 / 141 / 210 (all beyond the reaches) |
+
+A floor with no reach held 3,676 hero trees in the 12th tee's view — the
+corridors of five holes across the lake at 400–800 m — and a third more
+triangles; the reaches keep the cost to 9–16% on the tee views (about half
+a millisecond of GPU at 1080p) and 28% on the overhead, which is small in
+absolute terms. Frame-time rows for this change could not be taken cleanly:
+another session was loading the machine and even the floors-off control read
+50% slower than the morning's rows; the triangle counts are exact and the
+GPU cost is read from them. Fingerprint identical.
