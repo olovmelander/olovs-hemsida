@@ -4,6 +4,17 @@ Stopped at the owner's request, mid-way. This file is the resume point: what
 was asked, what is measured, what is built, what is gated and what is not, what
 the two background agents were doing, and the order to continue in.
 
+> **2026-09-04, morning:** the LOD half of this handoff is done — resume points
+> 3–6 below are complete (commits a3159f3 … f95011a on `claude/tree-lod-phase-1`;
+> the plan's status sections carry the numbers). The two placement agents were
+> cancelled with the session that started them and were NOT relaunched; their
+> partial work is still on `claude/stand-crowns` (one commit) and in the
+> `claude/vegetation-data` worktree (uncommitted: a build-canopy extension,
+> lattice.json, two small modules). Resume points 7–8 are the placement work.
+> Another session is editing this checkout concurrently (an uncommitted caddie
+> feature in main.js, menu.js, index.html) and rebuilds `apps/golf/dist`; measure
+> from an isolated worktree build, never from the shared dist.
+
 ## The ask
 
 Three things, on the RTX 3070 Laptop GPU that is now available:

@@ -1,6 +1,6 @@
 # Trees by distance — the LOD plan for the planted forest
 
-Status: phases 1-4 built and measured on the RTX 3070 (see the status sections at the end); the threshold sweep is the open item. Written 2026-09-03 after the Puttom v2
+Status: phases 1-4 built and measured on the RTX 3070, the desktop tiers at 64 / 24 / 8 px (see the status sections at the end). Written 2026-09-03 after the Puttom v2
 boot work; the frame-rate survey it answers is in the session notes and
 summarised in "Where the frame goes" below.
 
@@ -515,3 +515,52 @@ waits for `loadingTiles === 0` plus two frames.
 
 **Boot on the 3070**: 12.6–17 s wall for `?bana=puttom&det=1&v2=require`
 (the range is this machine's other jobs), against 24–28 s on SwiftShader.
+
+**The threshold sweep, and the new defaults.** `tools/frame-time.mjs` boots
+with `?gputime=1` and Chrome's frame-rate cap off, so a requestAnimationFrame
+interval is a frame time; the six golden views and a 300 m tee-shot walk at
+1920×1080, 300 frames each, one boot per setting. The CPU column is the
+frame time (the loop is CPU-bound on this machine at 270–570 draws); the
+GPU timestamp column varied 4× between otherwise identical runs and is not
+reported. Runs with another session's harness on the same GPU read 2–3×
+slower and were discarded; these are the clean rows, median / p95 ms:
+
+| view | 110 / 40 / 14 | 80 / 30 / 10 | **64 / 24 / 8** | 48 / 18 / 6 |
+|---|---|---|---|---|
+| 1st tee, golden | 7.6 / 8.3 | 8.0 / 8.6 | 8.1 / 9.1 | 8.8 / 12.2 |
+| 12th tee, golden | 9.2 / 9.8 | 9.9 / 10.5 | 9.9 / 11.2 | 10.0 / 11.3 |
+| 14th tee, golden | 8.8 / 9.2 | 9.3 / 10.0 | 9.5 / 10.4 | 9.3 / 9.9 |
+| 7th, overhead, noon | 7.5 / 8.1 | 7.6 / 8.3 | 8.2 / 9.2 | 7.0 / 7.6 |
+| 12th orbit, golden (the poster) | 9.3 / 9.9 | 9.6 / 10.6 | 10.0 / 11.4 | 10.1 / 11.1 |
+| 5th tee, noon | 8.1 / 8.7 | 8.1 / 8.7 | 8.4 / 9.8 | 8.4 / 9.0 |
+| walk, 1st tee → green, 1 m a frame | 6.0 / 7.4 | 6.2 / 7.6 | 6.5 / 8.3 | 8.4 / 11.1 |
+| triangles, 1st tee | 13.2 M | 13.8 M | 14.4 M | 15.6 M |
+| tiers at the 1st tee (hero / full / decimated / impostor) | 93 / 378 / 8,142 / 4,670 | 139 / 1,066 / 10,124 / 1,954 | 191 / 2,276 / 9,627 / 1,189 | 281 / 5,241 / 7,143 / 618 |
+
+Every setting runs above 100 fps on every static view. 64 / 24 / 8 costs at
+most a millisecond a frame over the plan's 110 / 40 / 14 and is the desktop
+default now: a 12 m tree at 1080 rows is drawn as the hero crown to ~230 m
+(was 130), as the full template to ~600 m (was 360) and decimated to the
+middle ring's edge, so inside the planted ring the impostor tier only
+appears from the overhead. 48 / 18 / 6 costs another millisecond on the tee
+views and 40% on the walk for a change no eye sees — at eighteen pixels a
+six-segment cone and a twelve-segment one are the same tree — and stays
+available through `?lodpx=48,18,6`. The phone thresholds (200 / 60 / 22) are
+untouched until a phone is measured. The walk's cost at the far settings was
+the tier upload: a swap-remove touches one slot at each end of a tier and
+one range from the lowest to the highest slot re-uploaded the whole tier;
+the flush now uploads the slots that moved, as runs.
+
+**Gates on the isolated build** (the working checkout is shared with another
+session, so the gates ran on a worktree of this branch's HEAD served beside
+the previous build): `tools/lod-strict-gate.mjs` — the twelve golden views
+under `?lod=2` and under `?lod=4` against the previous build, all 24
+identical at 0.0000/255; fingerprint identical on every key; vitest 273
+(the 40 files of this tree; `vitest.config.mjs` now excludes the agent
+worktrees under `.claude/`, whose copies have no node_modules); lint clean.
+
+**Open.** Judge the hero handover by eye at 64 px (the optional bark
+normalisation of the spec's §2.10 is not applied); whether the 4×4 dither
+reads as shimmer on a 60–110 px tree on a real screen (the fallback is
+`bayer8`, one function and one test); the phone thresholds; the terrain's
+own shadow casting, still the larger half of the shadow pass.

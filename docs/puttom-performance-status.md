@@ -90,6 +90,19 @@ Tools added: `tools/tree-lod-ab.mjs`, `tools/tree-tiers-at.mjs`,
 `V3D.setTreeLod`, `V3D.setImpostorBend`, `V3D.treeAtlas`,
 `V3D.treeTemplates`.
 
+## 2026-09-04 — phase 4 on the RTX 3070
+
+Items 1 and 3 below are done, on `claude/tree-lod-phase-1` (commits 45e2d78 to
+f95011a): the tier is decided per tree from its own height, a switch is a
+0.3 s screen-space Bayer crossfade drawn by both tiers with complementary
+masks, and the desktop thresholds are 64 / 24 / 8 px. Measured with the new
+`tools/tree-pop-meter.mjs` and `tools/frame-time.mjs`: a tee-shot dolly that
+used to change a hundred 16×16 blocks by 18–34/255 in one frame never moves a
+block's mean by more than 2.5/255 now, every golden view stays above 100 fps
+at 1920×1080, and the twelve views are pixel-identical to the previous build
+under every forced tier. `docs/tree-lod-plan.md` carries the tables;
+`docs/handoff-2026-09-03-trees.md` the state of the placement work.
+
 ## What is left
 
 1. **Look at it on the RTX 3070** (`BANVY_GPU=1`, `?v2=require`). Phase 0
