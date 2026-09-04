@@ -10,7 +10,7 @@
    on request) and Chrome is launched with the frame-rate cap off, so a
    requestAnimationFrame interval is a frame time and not a multiple of the
    refresh period. GPU milliseconds are the sum of every render pass (shadow,
-   scene, bloom) between two resolves, divided by the frames in between.
+   scene, bloom) of the last frame before a resolve.
    Numbers from this tool are comparable only with numbers from this tool. */
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
@@ -70,12 +70,14 @@ const cpuWindow = () => page.evaluate(({ n, warm }) => new Promise(resolve => {
   };
   requestAnimationFrame(cb);
 }), { n: N, warm: WARM });
-/* GPU ms per frame: one resolve in flight at a time, each normalised by the frames it spans */
+/* GPU ms per frame: one resolve in flight at a time. three's pool returns the total of every
+   pass of the LAST frame in the resolved batch (WebGPUTimestampQueryPool._resolveQueries), so a
+   sample is already one frame's GPU time; nothing is divided by the frames a resolve spanned. */
 const gpuWindow = () => page.evaluate(({ n }) => new Promise(resolve => {
   const V = window.V3D, samples = []; if (!V.gpuTime) return resolve(samples);
   let pending = false, k = 0, fPrev = V.frame();
   const cb = () => {
-    if (!pending) { pending = true; V.gpuTime().then(r => { const frames = r.frame - fPrev; fPrev = r.frame; if (frames > 0) samples.push(r.ms / frames); pending = false; }); }
+    if (!pending) { pending = true; V.gpuTime().then(r => { const frames = r.frame - fPrev; fPrev = r.frame; if (frames > 0 && r.ms > 0) samples.push(r.ms); pending = false; }); }
     if (++k < n) requestAnimationFrame(cb); else setTimeout(() => resolve(samples), 300);
   };
   requestAnimationFrame(cb);
