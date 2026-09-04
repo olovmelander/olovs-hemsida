@@ -16,8 +16,15 @@
    like with like: that rule has already cost this repo a day once.          */
 export const GPU = process.env.BANVY_GPU === '1';
 
-export const browserArgs = () => GPU
-  ? ['--no-sandbox', '--use-angle=d3d11', '--enable-gpu', '--force_high_performance_gpu',
-     '--ignore-gpu-blocklist', '--force-device-scale-factor=1']
-  : ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader',
-     '--force-device-scale-factor=1'];
+/* `uncappedFrameRate` lifts the vsync lock, so a requestAnimationFrame
+   interval becomes a frame time instead of a multiple of the refresh period;
+   only a timing tool asks for it -- every capture must stay vsync-locked so
+   pictures are compared like with like. */
+export const browserArgs = ({ uncappedFrameRate = false } = {}) => [
+  ...(GPU
+    ? ['--no-sandbox', '--use-angle=d3d11', '--enable-gpu', '--force_high_performance_gpu',
+       '--ignore-gpu-blocklist', '--force-device-scale-factor=1']
+    : ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader',
+       '--force-device-scale-factor=1']),
+  ...(uncappedFrameRate ? ['--disable-frame-rate-limit', '--disable-gpu-vsync'] : []),
+];

@@ -8140,17 +8140,17 @@ async function captureReadback() {
 /* the pop meter's instrument: how many pixels changed since the last call,
    counted in the page so nothing but three numbers crosses to the harness
    (a 1600x900 frame is 5.8 MB over the protocol, and a meter takes hundreds) */
-let pixelDeltaPrev = null;
-async function pixelDelta(threshold = 24) {
+let pixelDeltaPrev = null, pixelDeltaRef = null;
+async function pixelDelta(threshold = 24, sinceMark = false) {
   const { pixels: cur } = await captureRaw();
-  const prev = pixelDeltaPrev, primed = !!(prev && prev.length === cur.length);
+  const prev = sinceMark ? pixelDeltaRef : pixelDeltaPrev, primed = !!(prev && prev.length === cur.length);
   let changed = 0, max = 0;
   if (primed) for (let i = 0; i < cur.length; i += 4) {
     const d = Math.max(Math.abs(cur[i] - prev[i]), Math.abs(cur[i + 1] - prev[i + 1]), Math.abs(cur[i + 2] - prev[i + 2]));
     if (d > threshold) changed++;
     if (d > max) max = d;
   }
-  pixelDeltaPrev = cur;
+  if (sinceMark) pixelDeltaRef = cur; else pixelDeltaPrev = cur;
   return { changed, total: cur.length / 4, max, frame: FRAME_NO, primed };
 }
 
@@ -8387,6 +8387,8 @@ window.V3D = {
   treeTriangles: () => TREE_LOD.tiers.map(sp => sp ? [1, 2, 3].map(i => sp.t[i].parts.map(im =>
     (im.geometry.index ? im.geometry.index.count : im.geometry.attributes.position.count) / 3)) : null),
   pixelDelta: IS_GPU ? pixelDelta : null,
+  /* the same count against a MARKED frame: mark before an event, read after it, and the answer is the event's whole change however it was spread over frames */
+  pixelDeltaMark: IS_GPU ? () => pixelDelta(24, true) : null,
   /* the renderer's own per-frame counters, read in a rAF callback after the frame that produced them */
   rendererInfo: () => ({ ...renderer.info.render, memory: { ...renderer.info.memory },
     drawingBuffer: [renderer.domElement.width, renderer.domElement.height], pixelRatio: renderer.getPixelRatio() }),

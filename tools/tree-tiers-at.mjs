@@ -1,4 +1,4 @@
-/* Harness: boot Puttom v2 and print the tree tier counts at three views, frame-settled (docs/tree-lod-plan.md). node tools/tree-tiers-at.mjs */
+/* Harness: boot Puttom v2 and print the tree tier counts at three views, frame-settled (docs/tree-lod-plan.md). node tools/tree-tiers-at.mjs [--px hero,full,impostor] */
 import { chromium } from 'playwright-core';
 import fs from 'node:fs';
 import { browserArgs } from './browser-args.mjs';
@@ -7,7 +7,8 @@ const CHROME = process.env.CHROME || (fs.existsSync(LINUX_CHROME) ? LINUX_CHROME
 const browser = await chromium.launch({ ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }), args: browserArgs() });
 const page = await browser.newPage({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });
 page.setDefaultTimeout(900000);
-await page.goto('http://127.0.0.1:8620/?bana=puttom&det=1&v2=require', { waitUntil: 'load' });
+const PX = process.argv.includes('--px') ? process.argv[process.argv.indexOf('--px') + 1] : null;   /* --px hero,full,impostor */
+await page.goto(`http://127.0.0.1:8620/?bana=puttom&det=1&v2=require${PX ? `&lodpx=${PX}` : ''}`, { waitUntil: 'load' });
 await page.waitForSelector('#boot.done', { timeout: 900000 });
 const settle = async () => { const f0 = await page.evaluate(() => window.V3D.frame()); await page.waitForFunction(f => window.V3D.frame() >= f + 2 && window.V3D.settled(), f0, { timeout: 900000, polling: 500 }); };
 for (const [h, cam, preset] of [[7, 'top', 'noon'], [5, 'tee', 'noon'], [1, 'tee', 'golden']]) {
