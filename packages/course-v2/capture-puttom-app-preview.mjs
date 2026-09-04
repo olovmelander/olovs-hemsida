@@ -335,8 +335,10 @@ async function capture({ origin, output, captureCase, chrome, timeoutMillisecond
 }
 
 /* The no-request contract, proven at runtime rather than only by static chunk
-   exclusion: a normal visit without the v2 flag must neither request any /v2/
-   data or v2 root manifest nor load a single v2-* code chunk. */
+   exclusion. Puttom serves v2 BY DEFAULT now, so the visit that must stay
+   pure is the explicit ?v2=0 opt-out: it must neither request any /v2/ data
+   or v2 root manifest nor load a single v2-* code chunk. This is the same
+   guarantee every course without a reviewed v2 ground still gives flagless. */
 async function verifyNormalVisitMakesNoV2Request({ origin, chrome, timeoutMilliseconds }) {
   const browser = await chromium.launch(launchOptions(chrome, 'webgl2'));
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
@@ -346,17 +348,17 @@ async function verifyNormalVisitMakesNoV2Request({ origin, chrome, timeoutMillis
     if (isV2RequestUrl(url)) v2Requests.push(url.slice(0, 200));
   });
   try {
-    const query = new URLSearchParams({ bana: 'puttom', det: '1', q: 'lo', hal: '1', vy: 'ovan' });
+    const query = new URLSearchParams({ bana: 'puttom', v2: '0', det: '1', q: 'lo', hal: '1', vy: 'ovan' });
     await page.goto(`${origin}/?${query}`, { waitUntil: 'load', timeout: timeoutMilliseconds });
     const selection = await page.waitForFunction(() => {
       const v2 = window.V3D?.v2Terrain?.();
       return v2?.selection ? JSON.stringify(v2.selection) : false;
     }, null, { timeout: timeoutMilliseconds }).then(handle => handle.jsonValue()).then(JSON.parse);
     if (selection.mode !== 'off' || selection.requestMode !== 'off') {
-      throw new Error(`normal visit selected v2 mode ${selection.mode}/${selection.requestMode}`);
+      throw new Error(`?v2=0 visit selected v2 mode ${selection.mode}/${selection.requestMode}`);
     }
     if (v2Requests.length) {
-      throw new Error(`normal visit made ${v2Requests.length} v2 request(s): ${v2Requests[0]}`);
+      throw new Error(`?v2=0 visit made ${v2Requests.length} v2 request(s): ${v2Requests[0]}`);
     }
     return Object.freeze({ passed: true, selectionMode: selection.mode, v2Requests: 0 });
   } finally {

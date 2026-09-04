@@ -2423,11 +2423,47 @@ tiles in one draw, replacing 83.9% of the legacy CORE. The full record is
   the INSCRIBED legacy rectangle. The frontier's square-tile assertion now
   derives its side from the reviewed tile count instead of a literal 8.
 - **`tools/check-course-v2.mjs` gates every course in the frontier registry**,
-  not one course each. It boots each slug twice — flagless must stay pure GPK1,
-  `v2=require` must reach a ready frontier — and asserts the tile count, the
-  bridge the config declares and the exact CORE omission it reviewed, all read
-  from that course's own contract. Vegetation is optional and must be absent
-  rather than half-loaded where a ground has no LiDAR generation yet.
+  not one course each. It boots each slug twice — flagless must reach the
+  reviewed v2 frontier (v2 is the default there, see below), `?v2=0` must stay
+  pure GPK1 — and asserts the tile count, the bridge the config declares and
+  the exact CORE omission it reviewed, all read from that course's own
+  contract. Vegetation is optional and must be absent rather than half-loaded
+  where a ground has no LiDAR generation yet.
+
+### v2 is the DEFAULT for every course that has one (2026-09)
+
+A flagless visit now serves the v2 ground on every course with a reviewed
+live contract — the eight slugs in `V2_GRAPH_FRONTIER_CONFIGS` plus the
+retained Puttom pilot — and stays pure GPK1, zero v2 requests, on every
+course without one (`johannesberg-9` today). The decision lives in ONE
+place, `selectV2TerrainSource`: an absent `?v2=` resolves to opt-in exactly
+when the app could actually RENDER that slug's v2 ground (the frontier
+registry, or the pilot), never merely because a graph is published for
+resolution. The default behaves like `?v2=1` — a failed source falls back to
+GPK1 silently — so a broken v2 ground can never stop a visitor's course from
+opening; `?v2=require` still fails closed and `?v2=0` is the explicit
+opt-out everywhere (the selection carries `defaulted` so gates can tell the
+two apart). What that moved in the harnesses: the runtime no-request proof
+(`capture-puttom-app-preview.mjs`) and the per-ground acceptance tools prove
+purity on `?v2=0` now, and every gate written against the GPK1 path —
+`check-app`, `check-links`, `check-flight`, `check-pwa`, `check-basepath`,
+`check-caddie-ui`, `check-strategy-stress`, `goldens`, `boot-profile
+--v2 off`, `vegetation-baseline`'s gpk1 mode — pins `&v2=0` so it keeps
+measuring what it always measured. Two consequences to remember: any
+page-vs-app parity run must pass `?v2=0` to the app (the standalone pages
+have no v2), and a poster re-shoot (`make-posters.mjs`, deliberately
+unpinned) will now photograph the v2 ground, which is what visitors see.
+
+**And a phone defaults to performance mode.** `LOWQ` is the app's one
+performance switch (tree tiers, instance counts, pixel ratio, the lighter
+v2 submit path all key off it), and the old memory/core sniff never caught
+a flagship phone. `phoneDevice` in main.js now detects the FORM, by
+capability and never by user agent: primary pointer coarse with no hover
+AND the screen's short side ≤ 768 px (the mobile HUD sheets' own
+breakpoint). Precedence, each browser-verified on the built app: an
+explicit `?q=` always wins, `det=1` stays device-blind so goldens never
+depend on the machine, and desktops are untouched. `V3D.quality()` reports
+`phone` beside `lowq` so a harness can tell the sniffs apart.
 
 ### Johannesberg's vegetation — and the audit that says a thinner forest is the right one
 

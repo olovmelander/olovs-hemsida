@@ -175,13 +175,16 @@ const HF0 = PACK.H.HF0;
 const HF1 = PACK.H.HF1;
 
 await tick('läser terrängdata', 0.04);
-/* V2 selection is opt-in and dynamically imports its verifiers only after an
-   explicit v2 flag. One boundary decides the source: a published, verified
+/* V2 is the DEFAULT for every course with a reviewed live contract (the
+   frontier registry, plus the retained Puttom pilot); a course without one
+   defaults to GPK1 and fetches no v2 chunk, and ?v2=0 is the explicit
+   opt-out everywhere. One boundary decides the source: a published, verified
    course/ground graph first, then the retained Puttom preview, then the
    explicit GPK1 fallback state. Start it beside GPK1 inflation so the
-   integrity work does not serialize the boot. Under ?v2=1 a failed or absent
-   source resolves to an explicit fallback and never blocks the normal course;
-   under ?v2=require the selection throws instead of quietly serving GPK1. */
+   integrity work does not serialize the boot. By default and under ?v2=1 a
+   failed or absent source resolves to an explicit fallback and never blocks
+   the normal course; under ?v2=require the selection throws instead of
+   quietly serving GPK1. */
 const previewStarted = performance.now();
 const terrainPreviewPromise = selectV2TerrainSource({
   slug: CMETA.slug,
@@ -1137,8 +1140,18 @@ if (!DET) { try { rememberedQuality = localStorage.getItem('banvy-quality'); } c
 const constrainedDevice = !DET
   && ((navigator.deviceMemory && navigator.deviceMemory <= 4)
    || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4));
+/* A phone is performance mode by default. The memory/core sniff above never
+   catches a flagship phone (8 cores, capped or absent deviceMemory), so detect
+   the FORM instead, by capability and never by user agent: the primary pointer
+   is coarse with no hover (a touch-first device) and the screen's short side is
+   phone-sized -- the same 768 px breakpoint the mobile HUD sheets use. An
+   explicit ?q= still always wins, and det=1 stays device-blind so goldens do
+   not depend on the machine that captured them. */
+const phoneDevice = !DET
+  && window.matchMedia('(pointer: coarse) and (hover: none)').matches
+  && Math.min(window.screen?.width ?? Infinity, window.screen?.height ?? Infinity) <= 768;
 const LOWQ = qualityParam === 'lo'
-  || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice));
+  || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice || phoneDevice));
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
 let lowfx = false;
 let autoQualityDone = false;   /* the auto-quality verdict has been reached (a harness waits on it) */
@@ -9263,6 +9276,7 @@ window.V3D = {
     selection: {
       mode: V2_SELECTION.mode,
       requestMode: V2_SELECTION.requestMode,
+      defaulted: V2_SELECTION.defaulted,
       publishedGraphSlugs: [...V2_SELECTION.publishedGraphSlugs],
       graph: V2_SELECTION.graph ? { slug: V2_SELECTION.graph.slug, ...V2_SELECTION.graph.summary } : null,
       graphError: V2_SELECTION.graphError,
@@ -9360,7 +9374,7 @@ window.V3D = {
   v2WorldMorph: ms => { const batches = terrainV2.runtime?.layer?.batches; if (!batches) return null; for (const b of batches.values()) b.morphDurationMilliseconds = Math.max(0, +ms || 0); return Math.max(0, +ms || 0); },
   /* the terrain stream's last plan and residency, for a harness that watches tiles come and go: desired, rendered (fallbacks included), requested, retained, and what is ready or loading */
   v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
-  quality: () => ({ lowfx, lowq: LOWQ, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
+  quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   /* GPU milliseconds since the previous resolve, summed over every render
      pass (shadow, scene, bloom); null unless the page booted with ?gputime=1 */

@@ -58,7 +58,7 @@ const errs = [], four = [];
 p.on('pageerror', e => errs.push(String(e).split('\n')[0].slice(0, 120)));
 p.on('response', r => { if (r.status() >= 400) four.push(`${r.status()} ${new URL(r.url()).pathname}`); });
 
-await p.goto(`${URLB}/?bana=veckefjarden&hal=14&vy=green`, { waitUntil: 'load', timeout: 120000 });
+await p.goto(`${URLB}/?bana=veckefjarden&hal=14&vy=green&v2=0`, { waitUntil: 'load', timeout: 120000 });
 await p.waitForSelector('#boot.done', { timeout: 300000 });
 const info = await p.evaluate(() => ({
   slug: window.V3D.course().slug, holes: window.V3D.HOLES.length,

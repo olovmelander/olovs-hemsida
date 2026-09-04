@@ -42,7 +42,9 @@ const BOOT_TIMEOUT = +(process.env.BANVY_BOOT_TIMEOUT || 900) * 1000;
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
 
-const search = `?bana=${SLUG}&det=1${V2 === 'off' ? '' : `&v2=${V2}`}${Q ? `&q=${Q}` : ''}`;
+/* 'off' emits an explicit v2=0: with v2 the flagless default on reviewed
+   grounds, an unflagged URL would profile the v2 boot, not the GPK1 one. */
+const search = `?bana=${SLUG}&det=1${V2 === 'off' ? '&v2=0' : `&v2=${V2}`}${Q ? `&q=${Q}` : ''}`;
 const url = `${BASE}/${search}`;
 const browser = await chromium.launch({ ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }), args: browserArgs() });
 const runs = [];

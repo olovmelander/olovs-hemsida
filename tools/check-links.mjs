@@ -61,7 +61,12 @@ for (const c of CASES) {
   const page = await browser.newPage({ viewport: { width: 1400, height: 860 } });
   const errs = [];
   page.on('pageerror', e => { const s = String(e); if (!/redirecting to/.test(s)) errs.push(s.slice(0, 120)); });
-  await page.goto(BASE + c.url, { waitUntil: 'load', timeout: 120000 });
+  /* The grammar under test is unchanged; v2=0 is appended only so the harness
+     measures ROUTING and not v2 terrain streaming, which courses with a
+     reviewed v2 ground now serve flagless (tools/check-course-v2.mjs owns
+     that path). The bare route boots no course and needs no pin. */
+  const target = c.url === '/' ? c.url : c.url + (c.url.includes('?') ? '&' : '?') + 'v2=0';
+  await page.goto(BASE + target, { waitUntil: 'load', timeout: 120000 });
   let got;
   try {
     await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT });

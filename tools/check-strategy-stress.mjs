@@ -25,7 +25,7 @@ const stats = values => {
 
 /* Pin tree LOD to its cheapest tier so this gate measures Spellinje rather than
    thousands of unrelated tree crossfades triggered by the scripted camera. */
-await page.goto(`${BASE}/?bana=angso&ren=1&q=lo&lodpin=4,4${FORCE_GL ? '&gl=1' : ''}`, { waitUntil: 'load', timeout: 120_000 });
+await page.goto(`${BASE}/?bana=angso&ren=1&q=lo&lodpin=4,4&v2=0${FORCE_GL ? '&gl=1' : ''}`, { waitUntil: 'load', timeout: 120_000 });
 await page.waitForSelector('#boot.done');
 const backend = await page.evaluate(() => window.V3D.stats.backend);
 console.log(`info live course booted on ${backend}`);

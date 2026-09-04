@@ -73,7 +73,7 @@ const runs = [];
 let failed = 0;
 const gate = (ok, msg) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${msg}`); if (!ok) failed++; };
 
-for (const mode of [{ label: 'gpk1', search: '&det=1' }, { label: 'v2-require', search: '&det=1&v2=require' }]) {
+for (const mode of [{ label: 'gpk1', search: '&det=1&v2=0' }, { label: 'v2-require', search: '&det=1&v2=require' }]) {
   const url = `${BASE}/?bana=${SLUG}${mode.search}`;
   console.log(`\n${SLUG} ${mode.label} <- ${url}`);
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });

@@ -29,7 +29,10 @@ let failed = 0;
 for (const slug of selected ? [selected] : COURSES) {
   const dir = path.join(outRoot, ground === 'mesh' ? `${slug}-mesh` : slug);
   fs.mkdirSync(dir, { recursive: true });
-  const url = `${BASE}/?bana=${slug}&det=1${ground === 'mesh' ? '&ground=mesh' : ''}`;
+  /* v2=0: the golden matrix compares the GPK1 ground paths (atlas vs mesh);
+     courses with a reviewed v2 ground serve v2 flagless now, and the v2 views
+     have their own captures (world-capture.mjs, check-course-v2.mjs). */
+  const url = `${BASE}/?bana=${slug}&det=1&v2=0${ground === 'mesh' ? '&ground=mesh' : ''}`;
   const tmp = path.join(dir, '_cap.png');
   console.log(`\n${slug} (${ground}) <- ${url}`);
   try {

@@ -26,8 +26,11 @@ function neverResolveGraph() {
 
 describe('v2RequestMode', () => {
   it('recognises only the documented flag values', () => {
-    expect(v2RequestMode('')).toBe('off');
-    expect(v2RequestMode('?bana=puttom')).toBe('off');
+    /* An ABSENT flag is the course's own default (v2 where a reviewed live
+       contract exists); any explicit value that is not documented -- ?v2=0
+       above all -- is the opt-out. */
+    expect(v2RequestMode('')).toBe('default');
+    expect(v2RequestMode('?bana=puttom')).toBe('default');
     expect(v2RequestMode('?v2=1')).toBe('opt-in');
     expect(v2RequestMode('?v2=require')).toBe('require');
     expect(v2RequestMode('?v2=0')).toBe('off');
@@ -72,22 +75,85 @@ describe('selectV2TerrainSource', () => {
     await expect(selectV2TerrainSource({ search: '?v2=1' })).rejects.toThrow(/slug/);
   });
 
-  it('makes no request and loads nothing without the flag', async () => {
+  it('makes no request and loads nothing under the ?v2=0 opt-out', async () => {
     const graphResolver = neverResolveGraph();
     const selection = await selectV2TerrainSource({
       slug: 'puttom',
       packMeta: PACK_META,
-      search: '?bana=puttom',
+      search: '?bana=puttom&v2=0',
       publishedGraphSlugs: Object.freeze(['puttom']),
       graphResolver,
     });
     expect(selection.mode).toBe('off');
+    expect(selection.defaulted).toBe(false);
     expect(selection.requested).toBe(false);
     expect(selection.require).toBe(false);
     expect(selection.source.requested).toBe(false);
     expect(selection.source.status).toBe('off');
     expect(Number.isNaN(selection.source.heightAt(0, 0))).toBe(true);
     expect(graphResolver).not.toHaveBeenCalled();
+  });
+
+  it('defaults a course with no reviewed live contract to off without probing the network', async () => {
+    /* No frontier contract and not the pilot: a flagless visit must stay
+       exactly what it always was -- pure GPK1, zero v2 requests. The real
+       registry is deliberately NOT used here: the point is the ABSENCE of a
+       contract, and every real course may eventually gain one. */
+    const graphResolver = neverResolveGraph();
+    const selection = await selectV2TerrainSource({
+      slug: 'not-a-published-course',
+      packMeta: { ...PACK_META, slug: 'not-a-published-course' },
+      search: '?bana=not-a-published-course',
+      publishedGraphSlugs: Object.freeze(['not-a-published-course']),
+      graphFrontierConfigs: Object.freeze({}),
+      graphResolver,
+    });
+    expect(selection.mode).toBe('off');
+    expect(selection.defaulted).toBe(true);
+    expect(selection.requested).toBe(false);
+    expect(selection.source.status).toBe('off');
+    expect(graphResolver).not.toHaveBeenCalled();
+  });
+
+  it('defaults a course with a reviewed frontier contract to the live v2 source', async () => {
+    const graph = Object.freeze({
+      slug: 'ribbingsfors',
+      summary: Object.freeze({ groundId: 'ribbingsfors', tiles: 85, surfaceTiles: 0 }),
+    });
+    const source = readyPreview('ribbingsfors');
+    const config = Object.freeze({ slug: 'ribbingsfors' });
+    const selection = await selectV2TerrainSource({
+      slug: 'ribbingsfors',
+      packMeta: { ...PACK_META, slug: 'ribbingsfors' },
+      search: '?bana=ribbingsfors',
+      publishedGraphSlugs: Object.freeze(['ribbingsfors']),
+      graphResolver: vi.fn(async () => graph),
+      graphFrontierLoader: vi.fn(async () => source),
+      graphFrontierConfigs: Object.freeze({ ribbingsfors: config }),
+      previewLoader: vi.fn(async () => { throw new Error('pilot loader must not run'); }),
+    });
+    expect(selection.mode).toBe('fixed-frontier');
+    expect(selection.defaulted).toBe(true);
+    expect(selection.requested).toBe(true);
+    /* the default behaves like ?v2=1, never like ?v2=require */
+    expect(selection.require).toBe(false);
+    expect(selection.source).toBe(source);
+  });
+
+  it('defaults the retained pilot to its preview', async () => {
+    const previewLoader = vi.fn(async options => readyPreview(options.slug));
+    const selection = await selectV2TerrainSource({
+      slug: 'puttom',
+      packMeta: PACK_META,
+      search: '',
+      publishedGraphSlugs: Object.freeze([]),
+      previewLoader,
+      graphResolver: neverResolveGraph(),
+    });
+    expect(selection.mode).toBe('fixed-frontier');
+    expect(selection.defaulted).toBe(true);
+    expect(selection.require).toBe(false);
+    expect(previewLoader.mock.calls[0][0]).toMatchObject({ slug: 'puttom', requested: true });
   });
 
   it('keeps an unpublished non-pilot course on the explicit fallback without probing the network', async () => {
@@ -243,6 +309,12 @@ describe('selectV2TerrainSource', () => {
     expect(selection.mode).toBe('graph');
     expect(selection.graphError).toBe('tile hash mismatch');
     expect(selection.source.reason).toBe(V2_GRAPH_RENDERER_GATE);
+    /* and a DEFAULTED visit takes the silent opt-in path, never the closed one:
+       a broken v2 ground must not stop an ordinary visitor's course opening */
+    const defaulted = await selectV2TerrainSource({ ...options, search: '?bana=ribbingsfors' });
+    expect(defaulted.defaulted).toBe(true);
+    expect(defaulted.mode).toBe('graph');
+    expect(defaulted.graphError).toBe('tile hash mismatch');
   });
 
   it('fails closed under ?v2=require when the graph is verified but its renderer is gated', async () => {

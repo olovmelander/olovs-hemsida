@@ -10,12 +10,17 @@
    contract, so a course added there without its browser proof passing fails
    here rather than in front of someone.
 
-   Each course is booted twice on purpose. The ordinary URL must stay pure
-   GPK1 -- a v2 chunk must not reach an ordinary visitor -- and the required
-   URL must complete the transactional preflight and legacy cut, then render
-   the published metre terrain. What is asserted per course comes from that
-   course's own config, never from a literal here: the tile count, the bridge
-   the config declares, and the exact legacy CORE omission it reviewed. */
+   Each course is booted twice on purpose. A slug in this registry serves v2
+   BY DEFAULT, so the ordinary flagless URL -- the one a visitor actually
+   opens -- must complete the transactional preflight and legacy cut, then
+   render the published metre terrain; and the explicit ?v2=0 opt-out must
+   stay pure GPK1 -- a v2 chunk must not reach a visitor who declined it.
+   (?v2=require's fail-closed semantics are unit-tested in
+   v2-terrain-select.test.mjs; the serving path it proves in a browser is the
+   same one the flagless boot takes here.) What is asserted per course comes
+   from that course's own config, never from a literal here: the tile count,
+   the bridge the config declares, and the exact legacy CORE omission it
+   reviewed. */
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
 import { browserArgs } from './browser-args.mjs';
@@ -59,6 +64,7 @@ async function boot(search) {
         status: terrain.status,
         mode: terrain.selection.mode,
         requestMode: terrain.selection.requestMode,
+        defaulted: terrain.selection.defaulted,
         surfaceRepresentation: terrain.surfaceRepresentation,
         surfacePolicy: terrain.surfacePolicy,
         renderer: terrain.renderer,
@@ -82,21 +88,22 @@ const near = (value, expected, tolerance = 1e-6) =>
 for (const slug of slugs) {
   const config = V2_GRAPH_FRONTIER_CONFIGS[slug];
   console.log(`\n${slug} — ${config.label}`);
+  const optOut = await boot(`?bana=${slug}&det=1&v2=0`);
   const plain = await boot(`?bana=${slug}&det=1`);
-  const required = await boot(`?bana=${slug}&det=1&v2=require`);
 
-  gate(plain.booted && plain.errors.length === 0, 'flagless GPK1 path boots without page errors');
-  gate(plain.report?.terrain.requested === false && plain.report?.terrain.mode === 'off',
-    'flagless path does not request v2');
-  gate(plain.report?.objects.loaded === null && plain.report?.objects.planned === null,
-    'flagless path does not load or plant v2 vegetation');
+  gate(optOut.booted && optOut.errors.length === 0, '?v2=0 GPK1 path boots without page errors');
+  gate(optOut.report?.terrain.requested === false && optOut.report?.terrain.mode === 'off',
+    '?v2=0 opt-out does not request v2');
+  gate(optOut.report?.objects.loaded === null && optOut.report?.objects.planned === null,
+    '?v2=0 opt-out does not load or plant v2 vegetation');
 
-  const terrain = required.report?.terrain;
+  const terrain = plain.report?.terrain;
   const renderer = terrain?.renderer;
-  gate(required.booted && required.errors.length === 0, 'required v2 path boots without page errors');
+  gate(plain.booted && plain.errors.length === 0, 'default v2 path boots without page errors');
   gate(terrain?.requested === true && terrain?.ready === true && terrain?.status === 'ready' &&
-    terrain?.mode === 'fixed-frontier' && terrain?.requestMode === 'require',
-    'the reviewed fixed frontier is active');
+    terrain?.mode === 'fixed-frontier' && terrain?.requestMode === 'opt-in' &&
+    terrain?.defaulted === true,
+    'the reviewed fixed frontier serves the flagless visit by default');
   gate(renderer?.meshResolutionMetres === 1 &&
     renderer?.renderedTiles === config.expectedTileCount && renderer?.drawCalls === 1,
     `${config.expectedTileCount} one-metre tiles render in one draw`);
@@ -129,7 +136,7 @@ for (const slug of slugs) {
   /* Vegetation is optional: a ground publishes object and stand layers only
      once its LiDAR generation exists. Absent layers must be absent, not
      half-loaded, and must never leave two populations over one ground. */
-  const objects = required.report?.objects;
+  const objects = plain.report?.objects;
   if (objects?.loaded) {
     gate(objects.error === null && objects.planned?.individuals > 0 &&
       objects.planned?.standTrees > 0,
@@ -139,8 +146,8 @@ for (const slug of slugs) {
       'no v2 vegetation is published for this ground, and none is half-loaded');
   }
 
+  for (const error of optOut.errors.slice(0, 2)) console.log(`  ?v2=0 page error: ${error}`);
   for (const error of plain.errors.slice(0, 2)) console.log(`  flagless page error: ${error}`);
-  for (const error of required.errors.slice(0, 2)) console.log(`  required page error: ${error}`);
   if (renderer?.error) console.log(`  renderer: ${renderer.error}`);
 }
 
