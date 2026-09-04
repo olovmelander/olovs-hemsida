@@ -3800,7 +3800,11 @@ const TREE_LOD = {
   fadeS: DET ? 0 : (LOWQ ? 0.25 : 0.3), fadeClock: 0, clockDriven: false, queue: [], qHead: 0, frozen: false, resetPending: false,
   /* the harness's "before": decide per CELL from a nominal tree at the cell box, as phases 1-3 did */
   cellMode: false,
-  nominalHeight: 12, heroPx: LODPX?.hero ?? (LOWQ ? 200 : 110), switchPx: LODPX?.full ?? (LOWQ ? 60 : 40), impostorPx: LODPX?.impostor ?? (LOWQ ? 22 : 14), hysteresis: 0.1,
+  /* desktop defaults 64 / 24 / 8 px, measured on the RTX 3070 at 1080p (docs/tree-lod-plan.md,
+     phase 4): a 12 m tree is hero to ~230 m, the full template to ~600 m, decimated to the
+     middle ring's edge, at most a millisecond a frame over the 110 / 40 / 14 the plan
+     started from; a phone keeps 200 / 60 / 22 until one is measured */
+  nominalHeight: 12, heroPx: LODPX?.hero ?? (LOWQ ? 200 : 64), switchPx: LODPX?.full ?? (LOWQ ? 60 : 24), impostorPx: LODPX?.impostor ?? (LOWQ ? 22 : 8), hysteresis: 0.1,
   /* ?lod=1|2|3|4 forces every visible cell into one tier (hero, full,
      decimated, impostor), so a tier can be looked at up close and judged on
      its own; nothing else changes */
