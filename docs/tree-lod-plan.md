@@ -1,6 +1,6 @@
 # Trees by distance — the LOD plan for the planted forest
 
-Status: phases 1 and 2 built (see "Status" at the end); phase 0 on hardware and phase 3 open. Written 2026-09-03 after the Puttom v2
+Status: phases 1-4 built and measured on the RTX 3070 (see the status sections at the end); the threshold sweep is the open item. Written 2026-09-03 after the Puttom v2
 boot work; the frame-rate survey it answers is in the session notes and
 summarised in "Where the frame goes" below.
 
@@ -421,3 +421,97 @@ judged by eye, as the plan said it would be.
 Open: phase 0 on hardware, where this tier must be judged; the dithered
 crossfade if the 14-pixel switch shows; and the terrain's own shadow
 casting, which is now the larger half of the shadow pass.
+
+## Status — 2026-09-04: phase 4 on the RTX 3070
+
+Phase 0 finally ran on hardware (an RTX 3070 Laptop, WebGPU, Chrome 152),
+and the owner's complaint from that first look — "the trees change too
+much in the close distance when moving the camera" — became phase 4: the
+crossfade the plan's Transitions section reserved, plus a change the plan
+did not foresee. `docs/specs/tree-lod-phase-4-crossfade.md` is the
+reviewed design; this is what was built and what it measured.
+
+**The switch is per tree now, not per cell.** Phases 1–3 decided a cell's
+tier from a nominal 12 m tree at the cell's box, so 100–400 trees changed
+in one frame whenever the camera crossed a boundary — that block changing
+at once was most of what the owner saw. Every tree is tiered from the
+pixels its OWN drawn height projects to at its own distance (crown centre,
+height included), with the 10% band per tree; the 128 m cells only cull.
+The update walks every tree in a visible cell each frame (13k–30k trees)
+and costs well under a millisecond (`updateMs`, below).
+
+**A switch is a crossfade** (`engine/tree-fade.mjs`). For 0.3 s a tree is
+drawn by both its old and its new tier, and a 4×4 ordered-Bayer mask in
+screen space gives every pixel to exactly one of them: at level L of 16
+the pixels whose Bayer index is below L show the new tier, the rest the
+old, so no pixel is ever blended or drawn twice and every pixel flips
+exactly once. The mask is `material.maskNode`, which three 0.185 honours
+in the colour pass and, through `Renderer._getShadowNodes`, in the shadow
+pass, so a fading tree's shadow dithers with it. The per-instance
+`aFade = (start time, code)` attribute is a fifth vertex buffer at most
+against WebGPU's eight. Progress is quantised to sixteen levels computed
+in f32 by the shader and by a CPU twin (unit-tested to the ULP), with a
+1/64-level epsilon, a drain one level after the fade ends, a reversal that
+restarts half a level inside its level, and a clock rebased every 512 s.
+Under `?det=1` the fade is 0, so every deterministic gate renders instant
+switches and yesterday's pictures.
+
+**Measured — the switch itself** (`tools/tree-pop-meter.mjs`, which drives
+the fade clock level by level and counts, in the page, the pixels that
+moved by more than 24/255 between two readbacks; 1600×900):
+
+| Mode A, the hero boundary pushed out a quarter | instant pop | first fade frame | worst level | whole faded event | drain frame |
+|---|---|---|---|---|---|
+| 5th tee, noon | 1,279 px | 0 | 93 (7%) | 1,279 | 0 |
+| 1st tee, golden | 143 | 0 | 14 (10%) | 143 | 0 |
+| 14th green, golden | 302 | 0 | 18 (6%) | 302 | 0 |
+| 13th tee, golden | 650 | 0 | 51 (8%) | 650 | 0 |
+| Mode B, every visible tree to the decimated tier and back (13,375 fades at once) | 84,619 | 0 | 5,841 (7%) | 84,618 | 0 |
+
+The first frame of a fade is the frame before it, the last is the frame
+after, the sixteen levels between them each move about a sixteenth, and
+the whole event changes exactly the pixels the instant switch changed.
+The slot audit (every drawn slot belongs to one tree as its in or out
+entry) passes after the mass fade.
+
+**Measured — what a walk sees.** A dolly of 60 m in 0.25 m steps along
+three tee shots, each step measured twice: with the tiers frozen (camera
+motion, discarded) and then after the update with the clock stepped
+1/60 s, so the number is what tiering alone changed. Three builds of the
+same tree through one instrument (`--cell` reproduces the per-cell
+decision), and the metric that matters is the mean change over 16×16
+blocks — a popping crown moves its blocks by its whole step, a dither
+level by a sixteenth:
+
+| | per cell, no fade (phases 1–3) | per tree, no fade | per tree, 0.3 s fade |
+|---|---|---|---|
+| 5th tee: worst block mean | 17.9/255 | 34.8/255 | **2.0/255** |
+| blocks over 6/255 in one frame | 108 | 11 | **0** |
+| 1st tee: worst block mean | 34.2/255 | 28.8/255 | **2.5/255** |
+| blocks over 6/255 in one frame | 53 | 8 | **0** |
+| 13th tee: worst block mean | 13.1/255 | 23.6/255 | **2.0/255** |
+| blocks over 6/255 in one frame | 11 | 14 | **0** |
+| frames that switched trees (of 240) | 1–4 | 36–112 | 36–112 |
+
+Per-tree switching alone makes each pop small in area (eleven blocks
+instead of a hundred) but not in strength — a near tree still changes in
+one frame; the fade is what takes the strength out. With both, no frame on
+any of the three walks changes any block's mean by more than 2.5/255.
+
+**Gates.** Fingerprint identical on every placement key (trees,
+treeInstances, tintNear, tintFar, counts, draws 56); vitest 241 (17 new
+for the fade twins); lint; the 12 golden views under `?lod=4` strict
+against the previous build (0.10/255) all 12 identical; under `?lod=2`,
+10 of 12 identical and the two that were not turned out to be the shot
+harness — `shot.mjs --seq` does not wait for the terrain stream, and a
+tile landing between the two builds' shots read as a 1.4/255, 18%-of-
+pixels difference on the 14th; shot with the stream idle the old and new
+builds are identical there (0.0001/255) with trees shown or hidden, at
+golden hour and at noon. Two harness rules came out of it and are in the
+meter: every event starts from a hysteresis-free state (an instant reset
+from a settled camera also flips every tree parked in a band — 19,700
+pixels on the 14th that were never the switch under test), and a settle
+waits for `loadingTiles === 0` plus two frames.
+
+**Boot on the 3070**: 12.6–17 s wall for `?bana=puttom&det=1&v2=require`
+(the range is this machine's other jobs), against 24–28 s on SwiftShader.

@@ -1974,6 +1974,28 @@ same-source level seam, sealed by the batch's geomorph and skirts.
   the first frontier, boot 25–28 s, 42 tiles from the 14th tee.
   `tools/world-capture.mjs` gates the views where the seam lived.
 
+## The trees by distance — the LOD, and the two harness rules it taught
+
+`docs/tree-lod-plan.md` is the plan and carries every measurement; the
+short form: every tree is tiered PER TREE from the pixels its own height
+projects to (hero / full / decimated / octahedral impostor), a switch is a
+0.3 s screen-space Bayer crossfade drawn by both tiers with complementary
+masks (`engine/tree-fade.mjs`, honoured by the shadow pass through
+`material.maskNode`), and under `?det=1` the fade is 0 so every
+deterministic gate renders instant switches. Measured on the RTX 3070 with
+`tools/tree-pop-meter.mjs`: a dolly that used to change a hundred 16x16
+blocks by 18-34/255 in one frame now never moves a block's mean by more
+than 2.5/255. Two things the meter taught, both in its header:
+
+- **`shot.mjs --seq` does not wait for the terrain stream.** A tile landing
+  between two builds' shots read as an 18%-of-pixels difference on the
+  14th that no shader change had made; with `loadingTiles === 0` and two
+  more frames the builds were identical. Any before/after picture of a
+  `?v2=` course needs that settle.
+- **An instant reset from a settled camera flips every tree parked in a
+  hysteresis band**, not only the switch under test; start every measured
+  event from a hysteresis-free state (a reset at the same thresholds).
+
 ## Puttom vegetation — the LiDAR tree plan, Phase 0 and the compiler core
 
 `docs/puttom-v2-lidar-tree-placement-plan.md` is the plan; its checkpoint
