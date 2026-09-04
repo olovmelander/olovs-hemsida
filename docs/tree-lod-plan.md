@@ -1024,7 +1024,29 @@ Two consequences, both intended: the golden views change at this commit
 (what a tree is drawn as no longer depends on how far the camera stands from
 it), so the strict gate against the previous head is run in screen mode to
 prove that mode untouched and the zone mode is judged by eye and by cost; and
-the cost is the corridors' hero trees whatever the view — measured below.
+the cost is the corridors' hero trees whatever the view.
+
+**The cost, at rest, cap off** (`tools/frame-at-rest.mjs --ab`, live clock,
+HUD on, the on-demand shadow map; the every-frame policy in brackets):
+
+| view | zone mode | screen mode |
+|---|---|---|
+| 12th tee, golden | 6.4–7.1 ms, 13.6 M tris (10.5 ms, 26.5 M with shadows every frame) | 4.4 ms, 10.6 M tris (5.6 ms, 20.5 M) |
+| 5th tee, noon | 5.4 ms, 8.2 M tris (7.2 ms, 16.1 M) | 4.2 ms, 9.3 M tris (5.5 ms, 18.3 M) |
+
+At the 12th the corridors' hero trees cost two to three milliseconds a
+frame; at the 5th the zone rule is cheaper than the screen rule, because
+the outer bands draw the far forest as decimated crowns and impostors where
+the screen rule kept it fuller. Both stay far inside a 60 Hz frame. The
+zone rows' p95 (15–23 ms at the 12th) is the on-demand shadow map's
+once-a-second refresh over twice the triangles and another browser on the
+GPU during the run; the p50 is the number.
+
+One thing the screen-mode strict gate caught: the third band gives zone-C
+trees the value 3, and the screen-mode floor's else-branch treated any
+non-zero zone as zone B — so in screen mode, zone-C trees within 900 m were
+floored to full detail, and six views differed from the head by 0.02–0.25/255.
+The floors apply to zones A and B only now; screen mode is the head's again.
 
 **What is left.** The remaining draw list at rest — the trees (27 draws, the
 bulk of the GPU work), 18 hole signs with their two-sided faces, the sprites

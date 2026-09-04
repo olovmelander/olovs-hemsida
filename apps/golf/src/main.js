@@ -4436,7 +4436,8 @@ function updateTreeTiers() {
           while (want < 4 && px < thr[want - 1] * (1 - hy)) want++;
         }
         /* the corridor's floor, unless a forced tier is being judged on its own */
-        if (!force && !zoneMode && Z[k]) {
+        /* the floors are zone A's and B's; the outer band (3) exists for the zone rule and has no floor here */
+        if (!force && !zoneMode && Z[k] && Z[k] <= 2) {
           /* the reaches carry the same 10% band as the pixel boundaries, so a tree at a reach does not flip */
           const rH = reachH * (cur === floorA ? 1.1 : 1), rF = reachF * (cur && cur <= 2 ? 1.1 : 1);
           const fl = Z[k] === 1 ? (d < rH ? floorA : d < rF ? floorAFar : 4) : (d < rF ? floorB : 4);
