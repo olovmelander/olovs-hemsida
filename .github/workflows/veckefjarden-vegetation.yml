@@ -1,1 +1,157 @@
-« MASSIVE WALL OF TEXT - truncated for display »
+name: veckefjarden vegetation
+
+# The Lantmäteriet credentials live as repository secrets, so the credentialed
+# LiDAR reads run here, where the secrets are — the same pattern as
+# course-geo-access.yml. Two modes, one deterministic chain:
+#
+#   acquire (default): preflight → campaign re-check → COPC census →
+#     canopy rasters → machine-reviewed compile → review overlays. Commits the
+#     evidence and the overlays back to the branch so the overhead can be
+#     EYEBALLED before anything publishes (the six-trees-on-the-range lesson).
+#   publish: repeats the same chain with the same --observed-on (byte-stable
+#     evidence), then publishes the generation for EVERY course of the ground
+#     and runs the cheap gates before committing the chunks and manifests.
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish the compiled generation (only after eyeballing the review overlays from an acquire run)"
+        type: boolean
+        default: false
+      observed_on:
+        description: "Evidence date YYYY-MM-DD; keep identical between the acquire and publish runs"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: veckefjarden-vegetation-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  vegetation:
+    name: ${{ inputs.publish && 'compile + publish' || 'acquire + review' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install the COPC reader (own install, never in the workspace lockfile)
+        run: npm install --prefix packages/course-geo/copc-reader
+
+      - name: Verify repository secrets are configured
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          if [ -z "$LANTMATERIET_USERNAME" ] || [ -z "$LANTMATERIET_PASSWORD" ]; then
+            echo "LANTMATERIET_USERNAME / LANTMATERIET_PASSWORD secrets are not configured" >&2
+            exit 1
+          fi
+
+      - name: Lantmäteriet access preflight (exits 2 on denial)
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: node packages/course-geo/acquisition/access-preflight.mjs --ground veckefjarden --provider lantmateriet
+
+      - name: Campaign inventory drift gate
+        run: node packages/course-geo/acquisition/record-laser-campaigns.mjs --ground veckefjarden --check
+
+      - name: COPC hierarchy census (headers, no point bytes)
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          node packages/course-geo/acquisition/run-copc-census.mjs \
+            --ground veckefjarden --write --full \
+            --observed-on "${{ inputs.observed_on }}"
+
+      - name: Build the 1 m canopy rasters (read its ground-minus-DTM line first)
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          node packages/course-geo/copc-reader/build-canopy.mjs \
+            --ground veckefjarden \
+            --out "$RUNNER_TEMP/veg/rasters" \
+            --observed-on "${{ inputs.observed_on }}"
+
+      - name: Compile the machine-reviewed generation
+        run: |
+          node packages/course-v2/vegetation/compile-vegetation.mjs \
+            --ground veckefjarden \
+            --out "$RUNNER_TEMP/veg/compile" \
+            --raster "26f015-702_68=$RUNNER_TEMP/veg/rasters/chm-26f015-702-68.f32:$RUNNER_TEMP/veg/rasters/chm-26f015-702-68.json" \
+            --machine-review \
+            --observed-on "${{ inputs.observed_on }}"
+
+      - name: Render the review overlays
+        run: |
+          node packages/course-v2/vegetation/render-review.mjs \
+            --ground veckefjarden \
+            --rasters "$RUNNER_TEMP/veg/rasters" \
+            --candidates "$RUNNER_TEMP/veg/compile/candidates.json" \
+            --out "$RUNNER_TEMP/veg/review"
+
+      - name: Keep the review overlays on the branch for the eyeball
+        run: |
+          mkdir -p geo_data/course-v2/veckefjarden/vegetation/review
+          cp -r "$RUNNER_TEMP/veg/review/." geo_data/course-v2/veckefjarden/vegetation/review/
+
+      - name: Publish the generation for every course of the ground
+        if: ${{ inputs.publish }}
+        run: |
+          node packages/course-v2/vegetation/publish-vegetation.mjs \
+            --ground veckefjarden \
+            --compile "$RUNNER_TEMP/veg/compile" \
+            --public apps/golf/public
+
+      - name: Gates (manifests, unit tests, build, app-build graph verify)
+        if: ${{ inputs.publish }}
+        run: |
+          node packages/course-geo/check-manifests.mjs
+          pnpm test
+          pnpm --filter @banvy/golf build
+          node packages/course-v2/check-app-build.mjs
+
+      - name: Upload the compile directory and overlays
+        uses: actions/upload-artifact@v4
+        with:
+          name: veckefjarden-vegetation-${{ inputs.publish && 'publish' || 'acquire' }}-${{ github.run_number }}
+          path: |
+            ${{ runner.temp }}/veg/compile
+            ${{ runner.temp }}/veg/review
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Commit the evidence (and, when publishing, the graph) to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add geo_data/course-v2/veckefjarden
+          if [ "${{ inputs.publish }}" = "true" ]; then
+            git add apps/golf/public
+          fi
+          if git diff --cached --quiet; then
+            echo "nothing new to commit"
+            exit 0
+          fi
+          git commit -m "Veckefjärden vegetation ${{ inputs.publish && 'publish' || 'acquisition evidence' }} (${{ inputs.observed_on }})" \
+            -m "Produced by the veckefjarden-vegetation workflow run ${{ github.run_id }} with the repository's Lantmäteriet credentials." \
+            -m "Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>" \
+            -m "Claude-Session: https://claude.ai/code/session_015uNzTAXTzkXbGYS4eU7kS2"
+          git push origin "HEAD:${{ github.ref_name }}"
