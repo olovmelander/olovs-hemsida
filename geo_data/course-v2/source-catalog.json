@@ -177,6 +177,22 @@
         "reviewStatus": "pending",
         "notes": "Useful as corroboration and for card/routing, but never a survey merely because it is official."
       }
+    },
+    {
+      "id": "lansstyrelsen-skyddsvarda-trad",
+      "provider": "Länsstyrelserna",
+      "product": "Skyddsvärda träd, regional inventory",
+      "homepage": "https://ext-geodatakatalog-forv.lansstyrelsen.se/PlaneringsKatalogen/GetMetaDataById?id=97d7c820-f382-458c-aeb8-89ca6a519f34_C",
+      "horizontalCrs": "EPSG:3006",
+      "verticalCrs": null,
+      "licence": {
+        "id": "CC0-1.0",
+        "attribution": "Source: Länsstyrelserna; retain regional dataset, inventory and extraction dates for provenance.",
+        "redistribution": "The dataset and normalized extracts may be redistributed under CC0 1.0.",
+        "derivatives": "Modification and commercial derivative use are permitted under CC0 1.0; stale inventory records must still be reconciled before runtime use.",
+        "reviewStatus": "approved",
+        "notes": "The Ribbingsfors snapshot uses Länsstyrelsen Västra Götalands län dataset LstO Skyddsvärda Träd. Individual records are supporting inventory evidence, not current-survival or survey control."
+      }
     }
   ]
 }
