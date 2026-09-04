@@ -62,3 +62,64 @@ export async function createGroundSampler(ground, readAsset) {
     },
   });
 }
+
+/**
+ * Synchronous bulk lookup over the same published terrain, for callers that
+ * sample millions of cells (the exclusion rasteriser). Every finest tile is
+ * decoded up front and located by arithmetic, never by a per-call scan.
+ * heightAt returns RH 2000 metres, NaN over nodata, and null outside the
+ * published ground.
+ */
+export async function createGroundHeightLookup(ground, readAsset) {
+  if (!ground?.tiles || typeof readAsset !== 'function') throw new TypeError('a ground manifest and readAsset(url) are required');
+  const finest = ground.tiles.filter(tile => tile.lod === 0);
+  if (!finest.length) throw new Error('the ground manifest has no finest-level tiles');
+  const tileSpan = finest[0].bounds.maxEasting - finest[0].bounds.minEasting;
+  let minEasting = Infinity, minNorthing = Infinity, maxEasting = -Infinity, maxNorthing = -Infinity;
+  for (const tile of finest) {
+    minEasting = Math.min(minEasting, tile.bounds.minEasting);
+    minNorthing = Math.min(minNorthing, tile.bounds.minNorthing);
+    maxEasting = Math.max(maxEasting, tile.bounds.maxEasting);
+    maxNorthing = Math.max(maxNorthing, tile.bounds.maxNorthing);
+  }
+  const columns = Math.round((maxEasting - minEasting) / tileSpan);
+  const rows = Math.round((maxNorthing - minNorthing) / tileSpan);
+  const cells = new Array(columns * rows).fill(null);
+  for (const tile of finest) {
+    const column = Math.round((tile.bounds.minEasting - minEasting) / tileSpan);
+    const row = Math.round((maxNorthing - tile.bounds.maxNorthing) / tileSpan);
+    const chunk = readChunk(await readAsset(tile.layers.terrain.url));
+    if (chunk.header.kind !== 'terrain' || chunk.header.id !== tile.id) {
+      throw new Error(`terrain chunk ${tile.layers.terrain.url} does not belong to tile ${tile.id}`);
+    }
+    cells[row * columns + column] = {
+      grid: chunk.header.grid,
+      heights: decodeTerrainGrid(chunk.payload, chunk.header.grid),
+      minEasting: tile.bounds.minEasting,
+      maxNorthing: tile.bounds.maxNorthing,
+    };
+  }
+  return Object.freeze({
+    bounds: Object.freeze({ minEasting, minNorthing, maxEasting, maxNorthing }),
+    heightAt(easting, northing) {
+      if (easting < minEasting || easting > maxEasting || northing < minNorthing || northing > maxNorthing) return null;
+      const column = Math.min(columns - 1, Math.max(0, Math.floor((easting - minEasting) / tileSpan)));
+      const row = Math.min(rows - 1, Math.max(0, Math.floor((maxNorthing - northing) / tileSpan)));
+      const entry = cells[row * columns + column];
+      if (!entry) return null;
+      const { grid, heights } = entry;
+      const x = (easting - entry.minEasting) / grid.sampleSpacingMetres;
+      const y = (entry.maxNorthing - northing) / grid.sampleSpacingMetres;
+      const cx = Math.min(grid.width - 2, Math.max(0, Math.floor(x)));
+      const cy = Math.min(grid.height - 2, Math.max(0, Math.floor(y)));
+      const fx = Math.min(1, Math.max(0, x - cx));
+      const fy = Math.min(1, Math.max(0, y - cy));
+      const h00 = heights[cy * grid.width + cx];
+      const h10 = heights[cy * grid.width + cx + 1];
+      const h01 = heights[(cy + 1) * grid.width + cx];
+      const h11 = heights[(cy + 1) * grid.width + cx + 1];
+      if (Number.isNaN(h00) || Number.isNaN(h10) || Number.isNaN(h01) || Number.isNaN(h11)) return Number.NaN;
+      return (h00 * (1 - fx) + h10 * fx) * (1 - fy) + (h01 * (1 - fx) + h11 * fx) * fy;
+    },
+  });
+}

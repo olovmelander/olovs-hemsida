@@ -37,8 +37,10 @@ export function reasonForKind(kind) {
   return reason;
 }
 
-/** Even-odd scanline fill of a ring (EPSG:3006 [easting, northing] pairs) into `target` (1 = inside). */
-export function rasterizeRing(raster, ring, target) {
+/** Even-odd scanline fill of a ring (EPSG:3006 [easting, northing] pairs) into `target` (1 = inside).
+ * `accept(index, column, row)`, when given, is consulted per interior cell and
+ * an unaccepted cell is left unmarked; `target` may be null to only iterate. */
+export function rasterizeRing(raster, ring, target, accept = null) {
   assertRaster(raster);
   const { width, height, sampleSpacingMetres, originEasting, originNorthing } = raster;
   if (!Array.isArray(ring) || ring.length < 3) return 0;
@@ -62,6 +64,8 @@ export function rasterizeRing(raster, ring, target) {
       const to = Math.min(width - 1, Math.floor(crossings[k + 1] - 0.5));
       for (let column = from; column <= to; column++) {
         const index = row * width + column;
+        if (accept && !accept(index, column, row)) continue;
+        if (!target) { filled++; continue; }
         if (!target[index]) { target[index] = 1; filled++; }
       }
     }
@@ -102,14 +106,49 @@ export function rasterizeLine(raster, line, target) {
  * buffer through the exact distance transform, so a thousand bunkers cost
  * one transform, not a thousand.
  */
-export function rasterizeExclusions(raster, features) {
+export function rasterizeExclusions(raster, features, { groundHeightAt = null } = {}) {
   assertRaster(raster);
-  const { width, height, sampleSpacingMetres } = raster;
+  const { width, height, sampleSpacingMetres, originEasting, originNorthing } = raster;
   const size = width * height;
   const mask = new Uint8Array(size);
   const reason = new Uint8Array(size);
   const counts = {};
   const byClass = new Map();
+  /* A water ring's INTERIOR is not all water: a sea polygon is the coastline
+     closed offshore by synthetic edges, and at Norrfällsviken the southern
+     closure edge crosses the peninsula, so even-odd membership claimed half
+     the land — 31,734 forest crowns "in water". The engine's own rule (the
+     Ängsö lesson) is that a point is wet only if it is inside a ring AND at
+     that ring's water LEVEL — and the level is measured from the DTM itself,
+     never taken from the model, because legacy models state levels in the
+     Terrarium datum while the sampled ground is RH 2000 (a ~20 m mismatch
+     here). A laser DTM flattens water to its surface, so the 5th percentile
+     of sampled ground over the ring's interior IS the surface; cells more
+     than WATER_SURFACE_BAND_METRES above it are dry land and stay plantable.
+     Cells outside the published ground stay excluded — nothing is emitted
+     there, and lenience would only invite crowns the review cannot see. */
+  const WATER_SURFACE_BAND_METRES = 1.5;
+  const waterAccept = ring => {
+    if (!groundHeightAt) return null;
+    const heights = [];
+    const stride = Math.max(1, Math.round(4 / sampleSpacingMetres));
+    rasterizeRing(raster, ring, null, (index, column, row) => {
+      if (column % stride || row % stride) return false;
+      const h = groundHeightAt(originEasting + (column + 0.5) * sampleSpacingMetres,
+        originNorthing - (row + 0.5) * sampleSpacingMetres);
+      if (h !== null && !Number.isNaN(h)) heights.push(h);
+      return false;
+    });
+    if (heights.length < 25) return null;
+    heights.sort((a, b) => a - b);
+    const surface = heights[Math.floor(heights.length * 0.05)];
+    const ceiling = surface + WATER_SURFACE_BAND_METRES;
+    return (index, column, row) => {
+      const h = groundHeightAt(originEasting + (column + 0.5) * sampleSpacingMetres,
+        originNorthing - (row + 0.5) * sampleSpacingMetres);
+      return h === null || Number.isNaN(h) || h <= ceiling;
+    };
+  };
   for (const feature of features) {
     const base = reasonForKind(feature.kind);
     const buffer = Number.isFinite(feature.bufferMetres) ? feature.bufferMetres : base.bufferMetres;
@@ -118,7 +157,9 @@ export function rasterizeExclusions(raster, features) {
     if (!byClass.has(key)) byClass.set(key, { code: base.code, kind: feature.kind, dilateMetres: buffer + halfWidth, cells: new Uint8Array(size), features: 0 });
     const entry = byClass.get(key);
     entry.features++;
-    for (const ring of feature.rings || []) rasterizeRing(raster, ring, entry.cells);
+    for (const ring of feature.rings || []) {
+      rasterizeRing(raster, ring, entry.cells, feature.kind === 'water' ? waterAccept(ring) : null);
+    }
     for (const line of feature.lines || []) rasterizeLine(raster, line, entry.cells);
   }
   /* lowest code first, so a higher-priority class keeps its reason */

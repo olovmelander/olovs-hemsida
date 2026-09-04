@@ -36,7 +36,7 @@ import { courseExclusionFeatures, rasterizeExclusions } from './semantic-exclusi
 import { mergeTileStandFields, standField, standFieldSummary, tileStandField } from './stand-fields.mjs';
 import { assignStableIds, registryDiff } from './registry-identity.mjs';
 import { compileObjectChunks, objectCompilationSummary, treeRecord } from './object-compiler.mjs';
-import { createGroundSampler } from './ground-sampler.mjs';
+import { createGroundHeightLookup, createGroundSampler } from './ground-sampler.mjs';
 import { GROUND_RINGS } from '../ground-rings-registry.mjs';
 
 export const VEGETATION_COMPILER_VERSION = 2;
@@ -284,6 +284,11 @@ export async function compileVegetation({
   const activeIds = new Set(campaigns.activeItemIds || []);
   const items = new Map((campaigns.items || []).map(item => [item.id, item]));
   const sampler = await createGroundSampler(ground, readAsset);
+  /* synchronous bulk lookup for the exclusion rasteriser: water exclusions
+     test the DTM against each body's own measured surface, so a sea ring
+     whose offshore closure crosses land cannot claim the land (see
+     semantic-exclusions.mjs) */
+  const groundLookup = await createGroundHeightLookup(ground, readAsset);
   if (campaigns.groundId && campaigns.groundId !== groundId) throw new Error('campaign inventory belongs to another ground');
   const holes = geometry.holes || [];
   const exclusionFeatures = courseExclusionFeatures(geometry);
@@ -305,7 +310,7 @@ export async function compileVegetation({
     const voids = voidMask(clipped);
     const { raster: filled, filled: filledCells } = fillSingleCellVoids(clipped);
     const detection = medianFilter3x3(filled);
-    const exclusions = rasterizeExclusions(filled, exclusionFeatures);
+    const exclusions = rasterizeExclusions(filled, exclusionFeatures, { groundHeightAt: groundLookup.heightAt });
     const presence = presenceMask(filled, canopyThresholdMetres);
     /* Maxima are detected WITHOUT the exclusion mask and rejected afterwards
        with their reason, so every rejection is in the evidence; growth still
