@@ -20,10 +20,13 @@ const GENERATOR = 'course-geo/legacy-vector-migrator@1';
 const mode = process.argv.includes('--write') ? 'write'
   : process.argv.includes('--check') ? 'check'
     : null;
+const groundArgument = process.argv.indexOf('--ground');
+const selectedGround = groundArgument >= 0 ? process.argv[groundArgument + 1] : null;
 
 if (!mode || (process.argv.includes('--write') && process.argv.includes('--check'))) {
   throw new Error('Use exactly one of --write or --check');
 }
+if (groundArgument >= 0 && !selectedGround) throw new Error('--ground requires a ground id');
 
 const stableJson = value => JSON.stringify(value, null, 2) + '\n';
 const compactJson = value => JSON.stringify(value) + '\n';
@@ -97,6 +100,7 @@ async function emit(path, content) {
 const manifestPaths = readdir(GEO_ROOT, { withFileTypes: true })
   .then(entries => entries
     .filter(entry => entry.isDirectory())
+    .filter(entry => !selectedGround || entry.name === selectedGround)
     .map(entry => join(GEO_ROOT, entry.name, 'source-manifest.json'))
     .filter(existsSync)
     .sort());
@@ -122,7 +126,9 @@ for (const manifestPath of await manifestPaths) {
     easting: roundedCoordinate(origin.easting),
     northing: roundedCoordinate(origin.northing),
     heightRH2000: null,
-    status: 'horizontal-seed-only-pending-independent-control',
+    status: projectedFrame
+      ? 'projected-source-frame-pending-independent-control'
+      : 'horizontal-seed-only-pending-independent-control',
     source: projectedFrame
       ? 'legacyFrame.projectedOriginEpsg3006'
       : 'legacyFrame.originWgs84',
@@ -164,7 +170,9 @@ for (const manifestPath of await manifestPaths) {
     delete migratedModel.mPerLat;
     delete migratedModel.mPerLon;
     delete migratedModel.origin;
-    migratedModel.frame = 'absolute EPSG:3006 coordinate pairs [easting,northing]; legacy scalar heights are unapproved and unchanged';
+    migratedModel.frame = projectedFrame
+      ? 'absolute EPSG:3006 coordinate pairs [easting,northing] translated exactly from the recorded projected source frame; scalar RH 2000 heights are unchanged and unapproved'
+      : 'absolute EPSG:3006 coordinate pairs [easting,northing]; legacy scalar heights are unapproved and unchanged';
 
     let outputName = basename(artifact.path).replace(/\.json$/, '.epsg3006.json');
     if (outputNames.has(outputName)) {
@@ -187,7 +195,9 @@ for (const manifestPath of await manifestPaths) {
       target: {
         horizontalCrs: 'EPSG:3006',
         coordinateOrder: ['easting', 'northing'],
-        verticalStatus: 'legacy-height-datum-unknown-not-converted',
+        verticalStatus: projectedFrame
+          ? 'source-model-rh2000-heights-not-promoted-to-canonical-frame'
+          : 'legacy-height-datum-unknown-not-converted',
         approvalStatus: 'migration-only-pending-independent-control',
       },
       candidateOrigin,
@@ -272,6 +282,17 @@ for (const manifestPath of await manifestPaths) {
   });
 }
 
+if (selectedGround && groundReports.length !== 1) {
+  throw new Error(`No source manifest found for selected ground ${selectedGround}`);
+}
+const combinedFile = join(GEO_ROOT, 'migration-residual-report.json');
+const combinedGrounds = selectedGround && existsSync(combinedFile)
+  ? [
+    ...JSON.parse(await readFile(combinedFile, 'utf8')).grounds
+      .filter(report => report.groundId !== selectedGround),
+    ...groundReports,
+  ].sort((left, right) => left.groundId.localeCompare(right.groundId))
+  : groundReports;
 const combined = {
   schemaVersion: 1,
   generator: GENERATOR,
@@ -280,11 +301,10 @@ const combined = {
     horizontal: 'EPSG:3006',
     compoundTargetAfterHeightApproval: 'EPSG:5845',
   },
-  groundCount: groundReports.length,
-  courseSlugCount: new Set(groundReports.flatMap(report => report.courseSlugs)).size,
-  grounds: groundReports,
+  groundCount: combinedGrounds.length,
+  courseSlugCount: new Set(combinedGrounds.flatMap(report => report.courseSlugs)).size,
+  grounds: combinedGrounds,
 };
-const combinedFile = join(GEO_ROOT, 'migration-residual-report.json');
 await emit(combinedFile, stableJson(combined));
 
-console.log(`${mode === 'write' ? 'Generated' : 'Verified'} ${groundReports.length} ground reports, ${groundReports.reduce((sum, report) => sum + report.outputs.length, 0)} converted vector models and ${combined.courseSlugCount} course slugs`);
+console.log(`${mode === 'write' ? 'Generated' : 'Verified'} ${groundReports.length} ground reports, ${groundReports.reduce((sum, report) => sum + report.outputs.length, 0)} converted vector models and ${combined.courseSlugCount} total course slugs`);

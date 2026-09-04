@@ -1,0 +1,653 @@
+{
+  "kind": "ground-rings",
+  "groundId": "norrfallsviken",
+  "observedOn": "2026-09-04",
+  "provider": {
+    "name": "Lantmäteriet",
+    "collection": "dtm-cog",
+    "authenticated": true,
+    "credentialsSerialized": false,
+    "licence": "CC BY 4.0",
+    "attribution": "Markhöjdmodell Nedladdning, © Lantmäteriet, bearbetad, CC BY 4.0"
+  },
+  "tileSegments": 256,
+  "levels": [
+    {
+      "lod": 0,
+      "sampleSpacingMetres": 1,
+      "tilesPerSide": 16,
+      "extent": {
+        "minEasting": 676915.5,
+        "maxEasting": 681011.5,
+        "maxNorthing": 6989999.5,
+        "minNorthing": 6985903.5,
+        "spanMetres": 4096,
+        "size": 4097
+      },
+      "source": {
+        "kind": "published-and-dtm",
+        "factor": 1,
+        "subsample": 1
+      },
+      "items": [
+        "698_67",
+        "698_68"
+      ],
+      "samples": 16785409,
+      "finite": 16785409,
+      "minimumHeightRH2000": -0.8411101698875427,
+      "maximumHeightRH2000": 90.58942413330078,
+      "requests": 81,
+      "bytes": 35506811,
+      "elapsedSeconds": 5.219,
+      "rasterSha256": "9522eb3608338dfc5c239fe5a02e5fdef63ff6699fa3c1c164c5726f74d8b3a2",
+      "seaFill": {
+        "components": 0,
+        "filledSamples": 0,
+        "filledFraction": 0,
+        "detail": []
+      },
+      "publishedAgreement": {
+        "tiles": 256,
+        "samples": 16908544,
+        "withinQuantum": 16907772,
+        "maximumDifferenceMetres": 0.005001068115234375
+      }
+    },
+    {
+      "lod": 1,
+      "sampleSpacingMetres": 2,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 676915.5,
+        "maxEasting": 681011.5,
+        "maxNorthing": 6989999.5,
+        "minNorthing": 6985903.5,
+        "spanMetres": 4096,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 1,
+        "subsample": 2
+      },
+      "items": [
+        "698_67",
+        "698_68"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": -0.8411101698875427,
+      "maximumHeightRH2000": 90.52802276611328,
+      "requests": 81,
+      "bytes": 35506811,
+      "elapsedSeconds": 4.086,
+      "rasterSha256": "d2c1fe58b17d8483f7cc1a90defe3c629231aab84f64771ab1b90bce402fae9a",
+      "seaFill": {
+        "components": 0,
+        "filledSamples": 0,
+        "filledFraction": 0,
+        "detail": []
+      }
+    },
+    {
+      "lod": 2,
+      "sampleSpacingMetres": 4,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 674867.5,
+        "maxEasting": 683059.5,
+        "maxNorthing": 6992047.5,
+        "minNorthing": 6983855.5,
+        "spanMetres": 8192,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 4,
+        "subsample": 1
+      },
+      "items": [
+        "698_67",
+        "698_68",
+        "699_67",
+        "699_68"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": -0.383855938911438,
+      "maximumHeightRH2000": 131.22682189941406,
+      "requests": 30,
+      "bytes": 8751929,
+      "elapsedSeconds": 2.43,
+      "rasterSha256": "60bb544b6410aa8fb0e905f989d984d8791260969c114023b39214e8d3c372bf",
+      "seaFill": {
+        "components": 2,
+        "filledSamples": 264013,
+        "filledFraction": 0.062884179000529,
+        "detail": [
+          {
+            "samples": 86458,
+            "boundarySamples": 900,
+            "boundaryMedianHeightRH2000": -0.029999999329447746,
+            "boundaryMaximumHeightRH2000": 0.6733952760696411,
+            "boundaryWaterFraction": 0.9322222222222222,
+            "filledHeightRH2000": -0.029999999329447746
+          },
+          {
+            "samples": 177555,
+            "boundarySamples": 1193,
+            "boundaryMedianHeightRH2000": -0.029999999329447746,
+            "boundaryMaximumHeightRH2000": 0.7964719533920288,
+            "boundaryWaterFraction": 0.9639564124057,
+            "filledHeightRH2000": -0.029999999329447746
+          }
+        ]
+      }
+    },
+    {
+      "lod": 3,
+      "sampleSpacingMetres": 8,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 670771.5,
+        "maxEasting": 687155.5,
+        "maxNorthing": 6996143.5,
+        "minNorthing": 6979759.5,
+        "spanMetres": 16384,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 8,
+        "subsample": 1
+      },
+      "items": [
+        "697_67",
+        "697_68",
+        "698_67",
+        "698_68",
+        "699_67",
+        "699_68"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": -0.4635690748691559,
+      "maximumHeightRH2000": 281.0365295410156,
+      "requests": 30,
+      "bytes": 8302174,
+      "elapsedSeconds": 2.385,
+      "rasterSha256": "a61af7fec12c776fbc283d0f60a65000c836181a93358f6beca73973961a5590",
+      "seaFill": {
+        "components": 1,
+        "filledSamples": 567549,
+        "filledFraction": 0.13518218007284202,
+        "detail": [
+          {
+            "samples": 567549,
+            "boundarySamples": 3731,
+            "boundaryMedianHeightRH2000": -0.029999999329447746,
+            "boundaryMaximumHeightRH2000": 0.7834532856941223,
+            "boundaryWaterFraction": 0.8860895202358617,
+            "filledHeightRH2000": -0.029999999329447746
+          }
+        ]
+      }
+    },
+    {
+      "lod": 4,
+      "sampleSpacingMetres": 16,
+      "tilesPerSide": 4,
+      "extent": {
+        "minEasting": 670771.5,
+        "maxEasting": 687155.5,
+        "maxNorthing": 6996143.5,
+        "minNorthing": 6979759.5,
+        "spanMetres": 16384,
+        "size": 1025
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 16,
+        "subsample": 1
+      },
+      "items": [
+        "697_67",
+        "697_68",
+        "698_67",
+        "698_68",
+        "699_67",
+        "699_68"
+      ],
+      "samples": 1050625,
+      "finite": 1050625,
+      "minimumHeightRH2000": -0.2918727993965149,
+      "maximumHeightRH2000": 280.0975036621094,
+      "requests": 12,
+      "bytes": 2514605,
+      "elapsedSeconds": 1.298,
+      "rasterSha256": "5e2888dce568d3f4096d8dbf317e310de76eff5a47919cb76e387d60f1e88b0a",
+      "seaFill": {
+        "components": 1,
+        "filledSamples": 140908,
+        "filledFraction": 0.13411826293872695,
+        "detail": [
+          {
+            "samples": 140908,
+            "boundarySamples": 1862,
+            "boundaryMedianHeightRH2000": -0.029999999329447746,
+            "boundaryMaximumHeightRH2000": 0.5636406540870667,
+            "boundaryWaterFraction": 0.985499462943072,
+            "filledHeightRH2000": -0.029999999329447746
+          }
+        ]
+      }
+    },
+    {
+      "lod": 5,
+      "sampleSpacingMetres": 32,
+      "tilesPerSide": 2,
+      "extent": {
+        "minEasting": 670771.5,
+        "maxEasting": 687155.5,
+        "maxNorthing": 6996143.5,
+        "minNorthing": 6979759.5,
+        "spanMetres": 16384,
+        "size": 513
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 1
+      },
+      "items": [
+        "697_67",
+        "697_68",
+        "698_67",
+        "698_68",
+        "699_67",
+        "699_68"
+      ],
+      "samples": 263169,
+      "finite": 263169,
+      "minimumHeightRH2000": -0.2918727993965149,
+      "maximumHeightRH2000": 278.7795104980469,
+      "requests": 5,
+      "bytes": 1183168,
+      "elapsedSeconds": 0.811,
+      "rasterSha256": "ed4fe6dad80a65300cc1bcb8d790f207f84db56dfce315f194f1677c70d5e71f",
+      "seaFill": {
+        "components": 1,
+        "filledSamples": 35266,
+        "filledFraction": 0.1340051449828817,
+        "detail": [
+          {
+            "samples": 35266,
+            "boundarySamples": 931,
+            "boundaryMedianHeightRH2000": -0.029994143173098564,
+            "boundaryMaximumHeightRH2000": 0.3649773597717285,
+            "boundaryWaterFraction": 0.9903329752953813,
+            "filledHeightRH2000": -0.029994143173098564
+          }
+        ]
+      }
+    },
+    {
+      "lod": 6,
+      "sampleSpacingMetres": 64,
+      "tilesPerSide": 1,
+      "extent": {
+        "minEasting": 670771.5,
+        "maxEasting": 687155.5,
+        "maxNorthing": 6996143.5,
+        "minNorthing": 6979759.5,
+        "spanMetres": 16384,
+        "size": 257
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 2
+      },
+      "items": [
+        "697_67",
+        "697_68",
+        "698_67",
+        "698_68",
+        "699_67",
+        "699_68"
+      ],
+      "samples": 66049,
+      "finite": 66049,
+      "minimumHeightRH2000": -0.1527891457080841,
+      "maximumHeightRH2000": 277.0955810546875,
+      "requests": 5,
+      "bytes": 1183168,
+      "elapsedSeconds": 0.819,
+      "rasterSha256": "af643cd8229161e2e28c4aa82517e5309fd598a1c0b7bb76538e7b8f52fb46c3",
+      "seaFill": {
+        "components": 1,
+        "filledSamples": 8872,
+        "filledFraction": 0.13432451664673198,
+        "detail": [
+          {
+            "samples": 8872,
+            "boundarySamples": 467,
+            "boundaryMedianHeightRH2000": -0.029983947053551674,
+            "boundaryMaximumHeightRH2000": 0.3290238380432129,
+            "boundaryWaterFraction": 0.9957173447537473,
+            "filledHeightRH2000": -0.029983947053551674
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "698_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/69_6/m698_67.tif",
+      "etag": "\"42c864c9c68edaa1b21c332347115dc4\"",
+      "contentLength": 220651661,
+      "lastModified": "Wed, 13 May 2026 15:50:08 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "698_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/69_6/m698_68.tif",
+      "etag": "\"be6b350dd82be33097a5a37169b79370\"",
+      "contentLength": 42855645,
+      "lastModified": "Wed, 13 May 2026 20:27:12 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 16
+        }
+      ]
+    },
+    {
+      "id": "699_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/69_6/m699_67.tif",
+      "etag": "\"5eae74c24efcca00b9b521cfd6123d36\"",
+      "contentLength": 161572199,
+      "lastModified": "Thu, 14 May 2026 06:09:15 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "699_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/69_6/m699_68.tif",
+      "etag": "\"a998fb5363047e327f4394619988a1e4\"",
+      "contentLength": 113597489,
+      "lastModified": "Thu, 14 May 2026 01:31:21 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "697_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/69_6/m697_67.tif",
+      "etag": "\"42b685e8501bf4ffd8f20a86ce0d9cd0\"",
+      "contentLength": 112999955,
+      "lastModified": "Thu, 14 May 2026 08:11:02 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "noData": -9999,
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 16
+        }
+      ]
+    },
+    {
+      "id": "697_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/69_6/m697_68.tif",
+      "published": false,
+      "levelsUsed": []
+    }
+  ],
+  "seaFillRule": "nodata components bounded ENTIRELY by finite samples at or below seaFill.boundaryMaximumHeightRH2000 are filled with the median of their own boundary; a component with land on its boundary, or with no finite boundary, fails the build",
+  "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
+  "elapsedSeconds": 17.687,
+  "publish": {
+    "observedOn": "2026-09-04",
+    "slug": "norrfallsviken",
+    "groundId": "norrfallsviken",
+    "frameFingerprint": "f3c5d5b875eb5d4b75726bdaf1a0ba30583a7227dcd2ab854bb469040d3f758a",
+    "rootBytes": 641,
+    "rootSha256": "36540023bbf1b9fb2b0632ea47052f222260aef3f5418ef900784fd25bc56397",
+    "courseManifestSha256": "faaadc094e517ce4e3dd6d2cefaaaa031e2bf1f66819685ef2f71bb039796478",
+    "groundManifestSha256": "4d21f8ffb68543e199221bea2496c30eb414dfedfd01e957dcfef2e44e44b477",
+    "routingSha256": "0e82d8f75742397d6c933614785ac728c2f33d4d24210e282746eeb842cf4d6f",
+    "holes": 18,
+    "tiles": 469,
+    "finestTiles": 256,
+    "shellBytes": 40118,
+    "chunks": 471,
+    "encodedChunkBytes": 22283777,
+    "decodedChunkBytes": 62090182,
+    "holeTileBufferMetres": 80,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 256,
+        "spanMetres": 4096,
+        "heightScaleMetres": 0.01,
+        "encodedBytes": 14297754,
+        "decodedBytes": 33817088,
+        "maximumGeometricErrorMetres": 0.005
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 64,
+        "spanMetres": 4096,
+        "heightScaleMetres": 0.02,
+        "encodedBytes": 3463233,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 4.817230949401855
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 64,
+        "spanMetres": 8192,
+        "heightScaleMetres": 0.04,
+        "encodedBytes": 1579071,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 8.288997192382812
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 64,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.08,
+        "encodedBytes": 2179396,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 10.467667140960693
+      },
+      {
+        "lod": 4,
+        "sampleSpacingMetres": 16,
+        "tiles": 16,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 531891,
+        "decodedBytes": 2113568,
+        "maximumGeometricErrorMetres": 13.684557871818543
+      },
+      {
+        "lod": 5,
+        "sampleSpacingMetres": 32,
+        "tiles": 4,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 149934,
+        "decodedBytes": 528392,
+        "maximumGeometricErrorMetres": 26.400882081985472
+      },
+      {
+        "lod": 6,
+        "sampleSpacingMetres": 64,
+        "tiles": 1,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 40094,
+        "decodedBytes": 132098,
+        "maximumGeometricErrorMetres": 28.396581487655638
+      }
+    ],
+    "reusedCourseTiles": 256,
+    "reuseTies": 0,
+    "encodedBytes": 22281491,
+    "previousGroundManifest": "grounds/norrfallsviken/ground-v2-21724271b4821cfc3c609a4ce615ce7048943fde3ced1589a0a52b9c8a028bcf.json",
+    "previousCourseManifest": "courses/norrfallsviken/course-v2-b4b48a1bcc8ae8a911c57e865fdd91233a9c2aa6e795fcc1bc6e2e71119f2337.json",
+    "filesWritten": 474
+  }
+}

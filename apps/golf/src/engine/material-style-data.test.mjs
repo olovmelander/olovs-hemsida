@@ -32,4 +32,17 @@ describe('ground style data', () => {
     expect(mowing(SURFACE.TEE)).toEqual([0, 0, 2.859999895095825, 0]);
     expect(mowing(SURFACE.SAND)).toEqual([0, 0, 0, 0]);
   });
+
+  it('marks every procedural natural class for the shared v2 ground tint', () => {
+    const { data, width } = createGroundStyleData(C, SHADE, { includeNatural: true });
+    const tintWeight = surfaceId => data[(width * 2 + surfaceId) * 4 + 3];
+    for (const surfaceId of [
+      SURFACE.ROUGH, SURFACE.FOREST, SURFACE.HEATH,
+      SURFACE.WETLAND, SURFACE.SHORE,
+    ]) expect(tintWeight(surfaceId), `surface ${surfaceId}`).toBe(1);
+    for (const surfaceId of [
+      SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN,
+      SURFACE.TEE, SURFACE.SAND, SURFACE.PATH, SURFACE.ASPHALT,
+    ]) expect(tintWeight(surfaceId), `surface ${surfaceId}`).toBe(0);
+  });
 });

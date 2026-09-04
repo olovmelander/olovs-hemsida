@@ -193,6 +193,7 @@ const [b0, b1, bv, V2_SELECTION] = await Promise.all([
   inflate(PACK.s0), inflate(PACK.s1), inflate(PACK.sv), terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
+const TERRAIN_PREVIEW_CONFIG = V2_SELECTION.frontierConfig || PUTTOM_PREVIEW_CONFIG;
 MODEL_PREP_STARTED = performance.now();
 /* Phase 4 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
    a published graph that carries object registries or stand fields has them
@@ -222,10 +223,11 @@ const HOLES = M.holes;
 let terrainV2 = new V2TerrainLiveAdapter({
   source: TERRAIN_PREVIEW,
   courseSlug: CMETA.slug,
-  expectedCourseSlug: PUTTOM_PREVIEW_CONFIG.slug,
-  expectedTileCount: PUTTOM_PREVIEW_CONFIG.expectedTileCount,
-  expectedSurfaceTileCount: PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount,
-  cutoutContract: PUTTOM_PREVIEW_CONFIG.legacyCoreCutout,
+  expectedCourseSlug: TERRAIN_PREVIEW_CONFIG.slug,
+  expectedTileCount: TERRAIN_PREVIEW_CONFIG.expectedTileCount,
+  expectedSurfaceTileCount: TERRAIN_PREVIEW_CONFIG.expectedSurfaceTileCount,
+  surfacePolicy: TERRAIN_PREVIEW_CONFIG.surfacePolicy || 'v2-atlas',
+  cutoutContract: TERRAIN_PREVIEW_CONFIG.legacyCoreCutout,
 });
 /* A published graph that reaches past the course window -- nested rings of
    Lantmäteriet data to a 16 km root -- becomes the ONLY terrain: the streaming
@@ -248,7 +250,7 @@ if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
       source: TERRAIN_PREVIEW,
       courseSlug: CMETA.slug,
       baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
-      legacyOriginEpsg3006: PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006,
+      legacyOriginEpsg3006: TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,
     });
     try {
       const ringStarted = performance.now();
@@ -276,7 +278,7 @@ function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres =
     const world = terrainV2.kind === 'graph' && terrainV2.rendererState;
     title.textContent = world?.status === 'ready' ? '1 M TERRÄNG · HELA VÄRLDEN' : '1 M TERRÄNG · PREVIEW';
     detail.textContent = [
-      'Puttom',
+      CMETA.name,
       world?.status === 'ready'
         ? `${world.tiles} tiles i ${world.levels.length} nivåer till 16 km`
         : `${TERRAIN_PREVIEW.resources.length} verifierade tiles`,
@@ -674,7 +676,8 @@ for (const s of M.streams) { const q = { line: s.line, bb: ringBBox(s.line), w: 
    the scrub slope the raw DEM colouring gave it. One building gets a pad; the
    bbox guard keeps the cost out of the other million terrainH calls. */
 const CLUB = (() => {
-  const b = (M.infra.buildings || []).find(q => q.name && /golfklubb/i.test(q.name));
+  const b = (M.infra.buildings || []).find(q =>
+    q.amenity === 'clubhouse' || (q.name && /golfklubb|klubbhus/i.test(q.name)));
   if (!b) return null;
   let base = Infinity, x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
   for (const p of b.ring) {
@@ -2111,7 +2114,12 @@ if (V2_WORLD) {
     releaseGraceMilliseconds: Number.isFinite(parseInt(BOOTQ_TILEGRACE, 10)) ? parseInt(BOOTQ_TILEGRACE, 10) : undefined,
   });
 }
-const GROUND_TINT = V2_WORLD ? createGroundTintTextures() : null;
+/* Every v2 height frontier has vertex-colour-free BVCH terrain and therefore
+   needs the same procedural ground tint. The fixed Ribbingsfors frontier does
+   not cover the horizon, but its 1 m CORE still must not become flat C.rough;
+   fillGroundTintTextures falls back to the compatibility DEM outside the
+   frontier's own sampler. */
+const GROUND_TINT = TERRAIN_PREVIEW.ready ? createGroundTintTextures() : null;
 if (TERRAIN_PREVIEW.ready) {
   /* Low-quality WebGL2 keeps exact 1 m CPU sampling but submits every second
      source vertex. Both frontiers must still preflight as the same 16 tiles
@@ -2122,10 +2130,13 @@ if (TERRAIN_PREVIEW.ready) {
     coreGrid: CORE,
     renderStride,
     decorateMaterial: createV2GroundMaterialDecorator({
-      atlas: TERRAIN_PREVIEW.surfaceAtlas, DETAIL, C, SHADE,
+      atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
       debugMode: surfaceDebugMode,
       tint: GROUND_TINT,
     }),
+    legacySurfaceAtlas: TERRAIN_PREVIEW.surfacePolicy === 'legacy-ground-atlas'
+      ? groundAtlas
+      : null,
     preflight: preflightTerrainPreviewGpu,
     /* the coarse pyramid covers the world within a few tiles; the fine
        frontier streams in behind the rest of the boot and is awaited before
@@ -4980,11 +4991,16 @@ const plateSites = [];
     const total = polyLen(line);
     let best = null, bestErr = Infinity;
     /* the CLOSEST position, not the first one past the number: the post's own
-       distance jumps at a polyline vertex, so a first-crossing search lands
-       wherever the jump happens to leave it. Minimising picks the best the line
-       can actually offer. */
+       distance used to jump at a polyline vertex because the lateral offset
+       inherited one segment's bearing and then the next one's. Use a centred
+       six-metre secant for furniture only: it mitres the corridor edge through
+       a dogleg without altering the authored route or any playing distance. */
     for (let s = 0; s <= total; s += 0.25) {
-      const p = alongLine(line, 1 - s / total);
+      const f = 1 - s / total;
+      const p = alongLine(line, f);
+      const before = alongLine(line, f - 3 / total);
+      const after = alongLine(line, f + 3 / total);
+      p.b = Math.atan2(after.x - before.x, after.z - before.z);
       const R = rightOf(p.b);
       const x = p.x + R[0] * 15 * side, z = p.z + R[1] * 15 * side;
       const err = Math.abs(hyp([x, z], greenC) - dist);   /* hyp takes two POINTS */
@@ -6118,8 +6134,9 @@ function drawCard() {
   /* A korthalsbana is not rated, so it has no stroke index and none is invented:
      h.idx is null there and the line is just the par. Printing "Index null"
      would state something about a real club that no source supports. */
+  const cardLine = h.idx == null ? `Par ${h.par}` : `Par ${h.par} · Index ${h.idx}`;
   document.getElementById('cpi').textContent =
-    h.idx == null ? `Par ${h.par}` : `Par ${h.par} · Index ${h.idx}`;
+    CMETA.cardStatus ? `${cardLine} · Preliminärt kort` : cardLine;
   teesEl.innerHTML = '';
   h.t.forEach((m, k) => {
     const d = document.createElement('div');
@@ -6136,6 +6153,7 @@ function drawCard() {
   });
   const rise = h.elev.rise;
   let factsHtml = `Tee <b>${h.elev.tee.toFixed(0)} m</b> · Green <b>${h.elev.green.toFixed(0)} m</b> ö.h.`;
+  if (CMETA.cardStatus) factsHtml += `<br><span class="data-status">${CMETA.cardStatus}</span>`;
   if (BOOTQ.get('debug') === '1') {
     factsHtml += `<br><span class="debug-pipeline">Ritad <b>${h.lineLen.toFixed(0)} m</b> · kortet <b>${h.t[0]} m</b></span>`;
   }
@@ -9195,7 +9213,9 @@ window.V3D = {
     kind: terrainV2.kind || 'fixed-frontier',
     courseSurfaceOverlayMeshes: stats.surfaceOverlays | 0,
     surfaceDebugMode,
-    surfaceRepresentation: TERRAIN_PREVIEW.surfaceAtlas?.data?.representation || null,
+    surfaceRepresentation: TERRAIN_PREVIEW.surfaceAtlas?.data?.representation ||
+      (TERRAIN_PREVIEW.surfacePolicy === 'legacy-ground-atlas' ? 'legacy-ground-atlas' : null),
+    surfacePolicy: terrainV2.surfacePolicy || 'v2-atlas',
     reason: TERRAIN_PREVIEW.reason,
     selection: {
       mode: V2_SELECTION.mode,

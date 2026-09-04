@@ -18,7 +18,7 @@ pnpm check:geo-sources
 
 The gate verifies:
 
-- exactly six physical grounds and all nine course slugs;
+- exactly seven physical grounds and all ten course slugs;
 - the immutable EPSG:5845 / EPSG:3006 / EPSG:5613 contract and axis order;
 - known product and licence records for every source;
 - explicit lifecycle, intended use, accuracy tier and replacement for every
@@ -46,8 +46,8 @@ pnpm geo:migrate
 pnpm check:geo-migration
 ```
 
-`migration-residual-report.json` summarizes all six candidate origins and all
-nine slugs. Each ground's `migration/` directory contains its converted
+`migration-residual-report.json` summarizes all seven candidate origins and all
+ten slugs. Each ground's `migration/` directory contains its converted
 EPSG:3006 vector model and scoped residual report. “Playing geometry”, “within
 5 km” and the entire legacy inventory are reported separately so distant OSM
 features do not conceal the alignment quality around actual holes.

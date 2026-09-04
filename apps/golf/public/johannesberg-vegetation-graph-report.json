@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "kind": "vegetation-graph-publication",
+  "state": "published",
+  "groundId": "johannesberg",
+  "slug": "johannesberg",
+  "observedOn": "2026-09-04",
+  "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+  "activeRoot": {
+    "url": "courses/v2-index.json",
+    "bytes": 4916,
+    "sha256": "bec9f2321d3833dd1cfe53ce5e86e2b675e5f06f7eee91c1775acf3ae5f6429a"
+  },
+  "graph": {
+    "frameFingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
+    "courseManifest": {
+      "url": "courses/johannesberg/course-v2-eb7a1d3dc46295e6721f0b69ac83e0abb77e775d8e1f7b05b7fa9733be6e98b5.json",
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "bytes": 3838,
+      "sha256": "eb7a1d3dc46295e6721f0b69ac83e0abb77e775d8e1f7b05b7fa9733be6e98b5"
+    },
+    "groundManifest": {
+      "url": "grounds/johannesberg/ground-v2-03cc26bdfb20eceaf077db6e307660ba4f9f68c99920d2ce03fd7ed7d23324c4.json",
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "bytes": 112059,
+      "sha256": "03cc26bdfb20eceaf077db6e307660ba4f9f68c99920d2ce03fd7ed7d23324c4"
+    },
+    "routing": {
+      "kind": "routing",
+      "url": "courses/johannesberg/routing/5ed93423670599873fe0a1f29072d32baf47f73c15b0b76e59e5a0f9bd249bc7.bvch",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "bytes": 2300,
+      "sha256": "5ed93423670599873fe0a1f29072d32baf47f73c15b0b76e59e5a0f9bd249bc7",
+      "decodedBytes": 4249,
+      "decodedSha256": "0d4ce21eccdccfa978a8212ed16f118a90921108e866555bd8213fc5d4fcbfbc",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "course-routing-json-v1"
+      ]
+    },
+    "sourceManifestSha256": "2a7b90cf054b2bc0558eae62eec657bd24023811e6db785f036b21bbf2165f97",
+    "fallbackV1": {
+      "bytes": 353346,
+      "format": 1,
+      "packUrl": "courses/johannesberg/pack.bin",
+      "sha256": "70252dd040a9274f14ff721021042e52dc19ec28fb7f47057d93455caea481a7"
+    },
+    "holes": 18,
+    "tiles": 85,
+    "finestTiles": 64,
+    "shellBytes": 98877,
+    "chunks": 201,
+    "encodedChunkBytes": 6887226,
+    "decodedChunkBytes": 13549685
+  },
+  "vegetation": {
+    "objectTiles": 50,
+    "standTiles": 64,
+    "candidates": {
+      "total": 16451,
+      "byRepresentation": {
+        "excluded": 544,
+        "individual": 2781,
+        "stand": 13126
+      },
+      "byZone": {
+        "A": 2084,
+        "B": 3337,
+        "C": 11030
+      },
+      "byCampaign": {
+        "21c039-662_67": 8737,
+        "21c039-662_68": 7714
+      },
+      "eligible": 2417
+    },
+    "records": {
+      "tiles": 50,
+      "records": 2417,
+      "encodedBytes": 128420,
+      "baseHeightMisses": []
+    },
+    "stands": {
+      "cellMetres": 4,
+      "tiles": 64,
+      "encodedBytes": 298638,
+      "measuredCells": 260786,
+      "closedCanopyCells": 47397,
+      "excludedCells": 95828
+    },
+    "identity": {
+      "matched": 0,
+      "moved": 0,
+      "added": 2417,
+      "missing": 0,
+      "nextSequence": 2418
+    }
+  },
+  "filesWritten": 204
+}

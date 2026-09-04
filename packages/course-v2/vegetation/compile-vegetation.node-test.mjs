@@ -13,9 +13,35 @@ import {
   clipRasterToExtent,
   compileVegetation,
   provisionalZone,
+  readActivePublishedGround,
   readRawRaster,
   writeCompilation,
 } from './compile-vegetation.mjs';
+
+test('active ground selection follows the root instead of a retained manifest filename', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'active-ground-'));
+  try {
+    fs.mkdirSync(path.join(dir, 'courses/live'), { recursive: true });
+    fs.mkdirSync(path.join(dir, 'grounds/test-ground'), { recursive: true });
+    fs.writeFileSync(path.join(dir, 'courses/v2-index.json'), JSON.stringify({
+      courses: [{ slug: 'live', groundId: 'test-ground', manifest: { url: 'courses/live/course-v2-live.json' } }],
+    }));
+    fs.writeFileSync(path.join(dir, 'courses/live/course-v2-live.json'), JSON.stringify({
+      slug: 'live', groundId: 'test-ground', groundManifest: { url: 'grounds/test-ground/ground-v2-z-live.json' },
+    }));
+    fs.writeFileSync(path.join(dir, 'grounds/test-ground/ground-v2-a-stale.json'), JSON.stringify({
+      groundId: 'test-ground', generation: 'stale',
+    }));
+    fs.writeFileSync(path.join(dir, 'grounds/test-ground/ground-v2-z-live.json'), JSON.stringify({
+      groundId: 'test-ground', generation: 'active',
+    }));
+    const selected = readActivePublishedGround(dir, 'test-ground');
+    assert.equal(selected.ground.generation, 'active');
+    assert.equal(selected.courseManifest.slug, 'live');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
 
 /* the synthetic ground: 256 x 256 m at E 650000, N 6640000..6640256 */
 const graph = createSyntheticAssetGraph();

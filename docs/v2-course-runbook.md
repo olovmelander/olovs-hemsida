@@ -313,7 +313,9 @@ $env:SKOGSSTYRELSEN_PASSWORD = '<password>'
 ```
 
 `LANTMATERIET_BEARER_TOKEN` may replace the Lantmäteriet user/password pair.
-Never commit secrets, authenticated URLs, headers or logs containing them.
+This repository may keep those values in its ignored root `.env`; invoke Node
+readers with `node --env-file=.env ...` as shown below. Never commit secrets,
+authenticated URLs, headers or logs containing them.
 
 ### 6.2 What is committed
 
@@ -936,28 +938,30 @@ A ground may be called “PUTTOM v2 standard” only when all boxes are true:
 - [ ] Previous generation is retained and rollback is tested.
 - [ ] The v2 default switch is a separate, explicit release decision.
 
-## 9. Current generalization backlog before course two
+## 9. Generalization status after course two
 
-The common codecs/runtime are mature enough to reuse, but the production entry
-points still contain Puttom assumptions. This is the implementation checklist
-for the first second-course branch.
+Ribbingsfors is now the second real ground using the graph, terrain and
+vegetation contracts. It proved the reusable fixed-frontier path, but several
+production entry points remain ground-specific. This table distinguishes what
+the second implementation actually generalized from the work still required.
 
-| Concern | Generic today | Work required for course two |
+| Concern | Reused or implemented | Remaining work |
 |---|---|---|
-| Frame bridge | [`geodetic-frame.mjs`](../apps/golf/src/engine/geodetic-frame.mjs) | Put measured/reviewed fields in a per-course registry. |
-| Chunk, manifest, terrain and runtime primitives | `packages/course-v2/` schemas, codecs, emitter, sampler, manager and renderer | Preserve; extend tests with a second real config. |
-| Source manifests and migration | `packages/course-geo/manifest.mjs`, `migrate-legacy.mjs` | Add the ground manifest/legacy artifact; extend geometry-key review when the legacy schema differs. |
-| Discovery/acquisition | Shared adapters | `PILOT_GROUND_IDS` and some workflows are hard-coded; register all production grounds in one source of truth. |
+| Frame bridge | Ribbingsfors has a reviewed static config and exact EPSG:3006/RH 2000 identity bridge in [`v2-ribbingsfors-config.mjs`](../apps/golf/src/engine/v2-ribbingsfors-config.mjs). | Consolidate all ground configs, including Puttom's fitted legacy bridge, behind one registry/schema. |
+| Chunk, manifest, terrain and runtime primitives | `packages/course-v2/` schemas, codecs, emitter, sampler, manager and renderer now pass against two real graph publications. | Preserve the common contracts and add every new ground as an independent fixture, never by weakening counts or hashes. |
+| Source manifests and migration | Ribbingsfors is registered, migrated and included in the seven-ground/ten-course validation report. | Extend geometry-key review whenever another legacy schema differs and replace provisional migrations with approved source geometry. |
+| Discovery/acquisition | The acquisition ground list, CLIs, tests and CI matrix now include Ribbingsfors; the historical pilot list remains deliberately separate. | Move remaining workflow-specific ground literals into one validated production registry. |
 | Terrain graph | Generic compiler/emitter primitives | Replace `puttom-ground-graph.mjs` and `compile-puttom-ground-graph.mjs` with config-driven ground commands. |
-| World rings | Generic ring compiler | `build-ground-rings.mjs` and `publish-ground-rings.mjs` currently map only Puttom. Add a validated ground ring registry. |
-| Surfaces | Generic source validator/compiler library and runtime atlas | Add generic preflight CLI, graph publisher and per-course required-class/window policy. Do not base new authority on `compile-puttom-surface-preview.mjs`. |
-| Vegetation | Mostly ground-parameterized canopy/compiler/publisher path | Register the ground, replace provisional line-distance truth zones with approved geometry and require the selected review policy. |
+| World rings | Generic ring compiler; Ribbingsfors publishes four LODs over its 2,048 m extent. | `build-ground-rings.mjs` and `publish-ground-rings.mjs` still map only Puttom's horizon hierarchy. Add a validated ground ring registry and a Ribbingsfors same-source horizon before default enablement. |
+| Surfaces | Generic source validator/compiler library; the live adapter has an explicit, fail-closed zero-v2-surface policy bound to the verified GPK atlas. | Acquire authoritative Ribbingsfors boundaries, add the generic preflight/publisher and replace the compatibility atlas with reviewed v2 surface tiles. Do not base new authority on `compile-puttom-surface-preview.mjs`. |
+| Vegetation | Canopy/compiler/publisher selection now resolves the active ground through the published root; Ribbingsfors' object and stand layers render live. | Replace provisional line-distance truth zones with approved geometry and complete zone-A human review. |
 | Roads/buildings/non-tree objects | Strict registry contract and legacy rendering | Build an authoritative vector/object normalization and publication driver. |
-| Runtime selection | Generic graph adapter/loader | Replace imports of `PUTTOM_PREVIEW_CONFIG` in selection, build checks and runtime wiring with the per-course registry. |
-| Capture and CI | Shared browser tools exist | Generalize `capture-puttom-app-preview.mjs`, `check-app-build.mjs` expectations and `course-geo-access.yml` coordinates/source selection. |
+| Runtime selection | The generic graph resolver plus fixed-frontier loader can activate a reviewed non-Puttom graph; required mode verifies 64 Ribbingsfors chunks and fails closed. | Replace the remaining direct `PUTTOM_PREVIEW_CONFIG` paths in selection/build checks with the consolidated ground registry. |
+| Capture and CI | Shared browser tools plus [`check-ribbingsfors-v2.mjs`](../tools/check-ribbingsfors-v2.mjs) test both flagless and required paths. | Parameterize the ground-specific browser proof and finish generalizing Puttom-named capture/build tooling. |
 
-The first abstraction should be driven by two real configs. Do not move Puttom
-literals into a “generic” module and call the job complete.
+The abstraction now has two real configurations behind it. Continue replacing
+ground literals only when the shared contract is exercised by both; moving a
+Puttom literal into a generically named module is not generalization.
 
 ## 10. Failure patterns worth keeping visible
 
@@ -1018,3 +1022,333 @@ That sequence is the reusable PUTTOM framework: source truth first, one
 canonical metre-based frame, one shared tile lattice, independently reviewable
 layers, one visible-ground sampler, content-addressed publication and evidence
 at every boundary.
+
+## 12. Worked implementation: Ribbingsfors (2026-09-04)
+
+Ribbingsfors is the first second-course application of this workflow. It is a
+useful reproducible implementation, but it is **not release-ready spatial
+authority**. The detailed source and rights record is
+[`courses/ribbingsfors-source-dossier.md`](courses/ribbingsfors-source-dossier.md);
+the machine-readable ledger is
+[`source-manifest.json`](../geo_data/course-v2/ribbingsfors/source-manifest.json).
+
+### 12.1 Reproduction commands and retained artifacts
+
+Run from the repository root. Authenticated readers load the existing `.env`;
+credentials and authorization headers must never enter an artifact or log.
+
+```powershell
+node packages/course-geo/acquisition/discover-pilots.mjs --ground ribbingsfors --write --observed-on 2026-09-04
+node packages/course-geo/acquisition/record-laser-campaigns.mjs --ground ribbingsfors --write --observed-on 2026-09-04
+node --env-file=.env packages/course-geo/copc-reader/build-canopy.mjs --ground ribbingsfors --out packages/course-geo/toolchain/.cache/vegetation/ribbingsfors --observed-on 2026-09-04
+node --env-file=.env ribbingsforsbuild/build-course.mjs
+node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
+node packages/course-pack/emit-manifest.mjs
+pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen node packages/course-geo/migrate-legacy.mjs --write --ground ribbingsfors
+node packages/course-v2/compile-ribbingsfors-ground-graph.mjs --terrain-f32 ribbingsforsbuild/cache/terrain-fine.bin --out apps/golf/public
+node packages/course-v2/vegetation/compile-vegetation.mjs --ground ribbingsfors --out packages/course-geo/toolchain/.cache/vegetation/ribbingsfors-compile --raster 23b028-653_44=packages/course-geo/toolchain/.cache/vegetation/ribbingsfors/chm-23b028-653-44.f32:packages/course-geo/toolchain/.cache/vegetation/ribbingsfors/chm-23b028-653-44.json --machine-review --observed-on 2026-09-04
+node packages/course-v2/vegetation/publish-vegetation.mjs --ground ribbingsfors --slug ribbingsfors --compile packages/course-geo/toolchain/.cache/vegetation/ribbingsfors-compile --public apps/golf/public
+```
+
+The exact checked-in evidence is
+[`d2-discovery.json`](../geo_data/course-v2/ribbingsfors/acquisition/d2-discovery.json),
+[`laser-campaigns.json`](../geo_data/course-v2/ribbingsfors/acquisition/laser-campaigns.json),
+[`canopy-evidence.json`](../geo_data/course-v2/ribbingsfors/vegetation/canopy-evidence.json),
+the normalized
+[`EPSG:3006 migration`](../geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json)
+and its
+[`residual report`](../geo_data/course-v2/ribbingsfors/migration/residual-report.json).
+The generated GPK1 inputs live under
+[`ribbingsforsbuild`](../ribbingsforsbuild), and the current content-addressed
+graph is resolved through
+[`courses/v2-index.json`](../apps/golf/public/courses/v2-index.json). Large COG,
+Float32 and COPC-derived working files remain in ignored cache directories;
+their identities belong in the source manifest and evidence, not in Git.
+
+### 12.2 Spatial and vegetation result
+
+| Item | Implemented result |
+|---|---|
+| Frame | `EPSG:5845`; origin E 448,975.5, N 6,536,024.5, H 69.14 m; fingerprint `5d616311e246c109899b52223af5ed4a68f372f9b923787d6c0354b33b2c968f`. The origin still awaits independent control approval. |
+| Finest lattice | 2,048 × 2,048 m, sample-centre bounds E 447,951.5–449,999.5 / N 6,535,000.5–6,537,048.5; 8 × 8 tiles, 256 m per tile, 257 × 257 samples, 1 m spacing. |
+| Terrain graph | 85 tiles: 64 at 1 m, 16 at 2 m, four at 4 m and one at 8 m. Height range in the retained DTM window is 69.1475–103.3791 m RH 2000. |
+| Hole 9 yellow tee | The route/card interpolation that crossed asphalt was replaced by an explicit provisional DTM-bench control at E 449,556.6 / N 6,536,126.3. Its complete 6 x 4 m pad clears the visible road edge by about 9.4 m; the compiler now rejects any tee/road overlap. |
+| Laser measurement | Campaign `23b028-653_44`, captured 2023-03-16 through 2023-04-16; 14,271,395 point observations including halos, 4,194,304 cells, 22.5% void cells and 41.3% canopy among measured cells in the acquisition evidence. |
+| Published vegetation | 2,293 machine-approved derived individuals in 60 object tiles plus 64 measured 4 m stand-field tiles. Truth zones remain provisional line-distance zones and there has been no per-object human review. |
+
+The terrain came from Lantmäteriet Markhöjdmodell item `653_44`: full COG
+SHA-256 `f94d6bae09f5730281db1fa081bf1da689e7b48fc335f41c3e68b2ab4efeb283`;
+the retained 2,049 × 2,049 window is
+`c992f541f854aa745742ef3429e15f931cb6459145945c1a1f68897273af44ad`.
+The associated full water break-geometry asset is
+`934ff9014973043d72f2e6f582ea6f4d6c8d8287831c8f7a1da284d04bee99ce`.
+The Laserdata Skog COPC is
+`3db848c0ca4048329e922056b4d16f1460eaf26030158e4c5c704ffd2ccb6fe7`;
+its derived 1 m CHM is
+`b3900122ff465817d78891b72f206738ce25440804f26e37aec4db4a682fdd93`.
+The 12 clipped water rings inform the compatibility model but do not supply
+bathymetry or authoritative golf-surface boundaries.
+
+### 12.3 Runtime state and release gates
+
+The graph is published and Ribbingsfors now has a reviewed, ground-specific
+fixed-frontier runtime contract. With `?bana=ribbingsfors&v2=1` or
+`?bana=ribbingsfors&v2=require`, the app fetches and verifies all 64 finest
+terrain chunks, renders the 1 m frontier as one batched draw, applies the exact
+EPSG:3006/RH 2000 identity bridge and cuts the corresponding GPK1 CORE only
+after GPU preflight succeeds. Required mode fails closed on any byte, hash,
+header, frame, footprint, atlas or cutout mismatch; it does not silently serve
+the 4 m compatibility heightfield.
+
+The published graph intentionally contains zero v2 surface tiles because no
+authoritative playing-surface source has passed intake. This is not treated as
+implicit rough. A narrow `legacy-ground-atlas` policy requires the complete
+live 1 m GPK atlas to be the material decorator's exact authority before the
+terrain transaction can activate. It now receives the same 513 x 513 near and
+far procedural ground-tint contract as Puttom's class-SDF material, so rough,
+forest, heath, wetland and shore retain the shared v2 appearance rather than
+collapsing to flat `C.rough`; this visual parity does not promote the provisional
+atlas to authoritative v2 surface data. The v2 vegetation transaction then replaces
+legacy planting within its 64 measured coverage tiles. The ordinary flagless
+path remains the tested GPK1 compatibility path; default v2 enablement is still
+a separate release decision.
+
+The remaining release gates are material:
+
+- The configured Lantmäteriet account returned HTTP 403 for the selected 2024
+  K2 orthophoto. Greens, tees, fairways, bunkers, paths and route controls are
+  therefore guide-constrained/provisional rather than accepted contemporary
+  ortho or survey geometry; the graph currently has no authoritative surface
+  layer.
+- White hole rows are Caddee-equivalent. Yellow and red rows come from a public
+  GolfTraxx card interpreted as metres despite its yards label; their sums
+  match the club's official totals, but the rows and stroke indexes are not
+  official. They must be visibly marked provisional and replaced atomically
+  from a dated club/GIT card.
+- GolfTraxx coordinate reuse rights are unverified. Official banguide artwork,
+  video and club photographs also have no documented reuse grant, so none of
+  those pixels may be bundled merely because they were public to view.
+- Club/survey control, authoritative playing-surface polygons, zone-A object
+  review and a surveyed clubhouse footprint are still missing. The current
+  clubhouse rectangle is a provisional landmark at the public POI.
+- No official photograph has been copied into the course pack. The manifest
+  records three original application-rendered heroes (holes 9, 2 and 5), made
+  with the reproducible poster recipes in `tools/make-posters.mjs`; they contain
+  no official-site, Caddee or GolfTraxx pixels.
+
+Ribbingsfors may remain selectable as a clearly marked prototype while these
+gates are open. Default/public v2 enablement is a separate decision after the
+club card, rights, orthophoto or survey geometry, visible marking and human
+visual review are complete.
+
+## 13. Worked implementation: Upsala (2026-09-04)
+
+Upsala Golfklubb at Håmö gård is the ground that separates a **datum step**
+from a **bad height field**, and the first here whose window crosses a source
+seam. Its full source and rights record is
+[`courses/upsala-source-dossier.md`](courses/upsala-source-dossier.md); the
+ledger is
+[`source-manifest.json`](../geo_data/course-v2/upsala/source-manifest.json).
+
+### 13.1 What is new here, and is generic
+
+- **A window may span several source items.** Håmö straddles easting 640000, so
+  the reviewed 2,048 m lattice is mosaicked from Markhöjdmodell `663_63` and
+  `663_64`. `build-terrain-window.mjs` already handled a list; this is the first
+  ground to exercise it, and it asserts that the items the window touches are
+  exactly the reviewed ones. Both are read at factor 1, so the seam is one of
+  provenance and not of geometry — say that in the config rather than leaving a
+  reader to wonder.
+- **A pack can be RE-GROUNDED instead of vertically bridged.**
+  `tools/measure-vertical-datum.mjs` reports a median AND a median absolute
+  deviation, and the MAD is the decision. Veckefjärden's 20.9924 m carries a
+  0.2392 m MAD: that is a datum, and one number bridges it. Upsala's 6.7514 m
+  carried a **1.9188 m MAD over a 0–15 m range**: that is a wrong SHAPE as well
+  as a wrong datum, and one number cannot bridge it — applying the median still
+  left this course's ponds between 2.8 m below their bed and 5.3 m above their
+  surface. The fix is to cut the compatibility heightfields from the same laser
+  DTM as the published tiles, **sampled through the derived bridge the runtime
+  uses**, so the vertical term becomes exactly zero and re-running the
+  measurement proves it: 0.0001 m median, 0.0239 m MAD, best registration shift
+  (0, 0). Prefer this wherever the MAD is large; it costs a pack rebuild and no
+  horizontal change at all.
+- **A vertical-only rebuild is verifiable as such.** Diff the rebuilt model
+  against the previous one field by field and expect to name every changed
+  leaf. Upsala's came to exactly 79: 24 water levels, 54 hole elevations and
+  the water floor. Nothing horizontal moved, so every gate that measures
+  horizontal geometry still means what it meant.
+- **Water levels measured from INSIDE the ring are simultaneously a level and a
+  registration check.** A laser DTM flattens water, so a well-registered ring
+  encloses samples with a few centimetres of spread. Upsala's 21 measurable
+  rings spread 0.01–0.45 m. `build-heightfields.mjs` now fails above 1.5 m,
+  because a ring that is not flat is misregistered and the level under it is a
+  guess.
+- **A machine without PROJ can still migrate a model, if it proves itself
+  first.** `packages/course-geo/migrate-without-proj.mjs` re-projects a
+  committed cs2cs migration's own source model with the repository's Krüger
+  series and refuses to write anything unless it reproduces it within 5 mm. On
+  Upsala it agreed to **1.343 mm over all 12,925 coordinates**. Use it only as
+  a substitute, and regenerate through `migrate-legacy.mjs` when the pinned
+  toolchain is available.
+- **Measure the legacy CORE cutout by making the frontier serve.** The contract
+  is only asserted on the frontier-only path, and a ground with a published ring
+  graph never takes it — but the adapter is CONSTRUCTED before that choice, so a
+  `null` contract is a boot error. Point the config's
+  `expectedBoundsEpsg5845` at the pre-ring generation, put a deliberately wrong
+  contract in, and boot: the assertion prints what it actually got. Restore
+  both afterwards.
+
+### 13.2 Result
+
+| Item | Implemented result |
+|---|---|
+| Frame | `EPSG:5845`; origin E 640,143.5, N 6,636,145.5, H 13.28 m; fingerprint `628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86`. The origin still awaits independent control approval. |
+| Finest lattice | 2,048 × 2,048 m, sample-centre bounds E 639,119.5–641,167.5 / N 6,635,121.5–6,637,169.5; 8 × 8 tiles, 257 × 257 samples, 1 m. Height range 13.286–54.385 m RH 2000, every sample finite. |
+| Margin | 180.3 m west, 181.2 m east, 445.9 m north and south — the tightest of any ground here, because two courses stand side by side across 1,686 m. |
+| Ring graph | 7 levels, 277 tiles (64/64/64/64/16/4/1) to a 16,384 m root, 0.82–68.15 m RH 2000. Level zero reproduces the published 1 m tiles over all 4,227,136 samples to within half a quantum. |
+| Courses | Two on one ground: `upsala` (18, stroke index verified) and `upsala-mellanbanan` (9, stroke index club-sourced but not gated). |
+| Vertical bridge | **0 m, measured.** See 13.1. |
+| Runtime | `?bana=upsala&v2=require` and the same for Mellanbanan render the ring graph as the only terrain: 277 tiles, 1 m mesh, one draw call, no legacy CORE/MID/FAR. `tools/check-upsala-v2.mjs` is the browser proof; 20 gates, both courses, both paths. |
+
+### 13.3 Release gates still open
+
+The same four this ground started with, minus the terrain half of one:
+
+- **Playing surfaces are not surveyed.** OSM greens and bunkers, a banguide
+  routing read off Esri imagery, and the card's own lengths. The published graph
+  carries zero v2 surface tiles rather than presenting that as an intake.
+- **Esri imagery rights** remain release-blocking for exactly that reason. The
+  licensed 2025 orthophoto over this AOI is discovered and complete but not
+  acquired.
+- **No independent control**, so the canonical origin stays provisional.
+- **No LiDAR vegetation.** Both Laserdata Skog items over this ground are
+  discovered and reachable; until they are read, the trees come from the
+  Esri-classified cover raster and share the rights blocker.
+
+Default v2 enablement for this ground is a separate decision, as for every
+other.
+
+## 14. Worked implementation: Ängsö (2026-09-04)
+
+Ängsö Golfklubb at Stora Bodarna is the ground that separated two things every
+earlier course had let coincide: **the metre window a course needs** and **the
+metre window a visitor preloads**. Everything else here is the established
+path — legacy GPK1 pack kept in its own frame, published 1 m terrain, nested
+rings to a 16 km root, a `wgs84-legacy-frame` bridge with a measured vertical
+step. It is **not release-ready spatial authority**; §14.4 says why.
+
+### 14.1 Reproduction commands
+
+Run from the repository root. Authenticated readers load the existing `.env`;
+credentials and authorization headers must never enter an artifact or log.
+
+```powershell
+pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen discover-pilots -- --ground angso --observed-on 2026-09-04
+node --env-file=.env packages/course-geo/acquisition/build-terrain-window.mjs --ground angso
+node tools/measure-vertical-datum.mjs --ground angso --terrain-f32 packages/course-geo/toolchain/.cache/acquisition/angso-terrain-window/terrain-1m.f32
+node packages/course-v2/compile-angso-ground-graph.mjs --terrain-f32 packages/course-geo/toolchain/.cache/acquisition/angso-terrain-window/terrain-1m.f32 --out apps/golf/public
+node --env-file=.env packages/course-geo/acquisition/build-ground-rings.mjs --ground angso
+node packages/course-v2/publish-ground-rings.mjs --ground angso --slug angso
+node --env-file=.env packages/course-geo/acquisition/record-laser-campaigns.mjs --ground angso --write --observed-on 2026-09-04
+node --env-file=.env packages/course-geo/acquisition/run-copc-census.mjs --ground angso --write --full
+node --env-file=.env packages/course-geo/copc-reader/build-canopy.mjs --ground angso --out packages/course-geo/toolchain/.cache/vegetation/angso --observed-on 2026-09-04
+```
+
+The committed evidence is
+[`d2-discovery.json`](../geo_data/course-v2/angso/acquisition/d2-discovery.json),
+[`terrain-window.json`](../geo_data/course-v2/angso/acquisition/terrain-window.json),
+[`ground-rings.json`](../geo_data/course-v2/angso/acquisition/ground-rings.json),
+[`laser-campaigns.json`](../geo_data/course-v2/angso/acquisition/laser-campaigns.json),
+[`copc-hierarchy-census.json`](../geo_data/course-v2/angso/acquisition/copc-hierarchy-census.json)
+and
+[`canopy-evidence.json`](../geo_data/course-v2/angso/vegetation/canopy-evidence.json).
+
+### 14.2 The result
+
+| Item | Implemented result |
+|---|---|
+| Frame | `EPSG:5845`; origin E 605,665.5, N 6,605,721.5, H −1.75 m; fingerprint `bfc6a0f04badb8e31cd874bc28e58ed679dd591164d8cb9a96ca9a96209b9318`. The origin still awaits independent control approval. |
+| Finest lattice | 4,096 × 4,096 m, sample-centre bounds E 603,617.5–607,713.5 / N 6,603,673.5–6,607,769.5; 16 × 16 tiles, 4,097 × 4,097 samples, 1 m spacing. |
+| Source | One Markhöjdmodell item, `660_60`, COG SHA-256 `4fc8d1a8…790fd`, captured 2020-02-24 to 2021-04-10. The retained window is `7ce336cb…33b64a`: 16,785,409 samples, every one finite, −1.747 to 40.109 m RH 2000. |
+| Ring graph | 469 tiles over seven levels to a 16,384 m root, `{0:256, 1:64, 2:64, 3:64, 4:16, 5:4, 6:1}`, from nine DTM items. Level 0 reproduces the 256 published course tiles to within one 1 cm quantum on 16,908,500 of 16,908,544 samples. |
+| Laser | One campaign, `21c036-660_60`, flown 2021-03-08 to 2021-04-01, 224,178,995 points, 2.093 returns/m² measured over the AOI. Leaf-off. |
+| Canopy | 61,035,865 points read over the 256 course tiles: 2.34 returns/m², 15.6% void, 27.2% canopy of measured cells. The cloud's own ground returns agree with the published DTM to a per-tile median of 0.00 m. |
+| Runtime | `?bana=angso&v2=1` verifies the graph and renders 469 tiles in ONE draw at 1 m mesh resolution, zero failed tiles, no page errors. |
+
+### 14.3 The three things this ground taught
+
+**A frontier is not the same thing as a metre window.** Ängsö's played ground
+is 894 × 2,167 m. Both the frontier contract and the ring topology want a
+SQUARE tile count, so 2,048 m — which does not reach the 12th to the 16th —
+fails and 4,096 m is the next legal size: 256 level-zero tiles, 16,845,330
+encoded bytes, **200.8% of the 8 MiB a visitor may download before the first
+frame**. The fix is not a bigger budget. `assertReviewedGraph` now chooses the
+level-zero set **by the reviewed frontier bounds** and checks its shape from
+those bounds rather than from the tile count — `columns × rows`, not
+`√count × √count`. Ängsö preloads columns 4–11 and rows 2–13: 96 tiles,
+6,453,395 bytes, 76.9% of the budget, 577 m of metre ground east and west of
+the played geometry and 452 m north and south. Every earlier ground selects
+its whole level zero at column 0, row 0 through the same code with no branch,
+and Ribbingsfors' ten browser gates pass unchanged. Beyond the rectangle the
+ground is not missing: the streaming ring renderer draws every published
+level-zero tile, and construction heights fall through to level 1, which on
+this ground spans the same 4,096 m at 2 m — finer than the 4 m legacy field.
+
+**A null contract is a fact, not a gap.** `V2TerrainLiveAdapter` refused to
+CONSTRUCT without a reviewed `legacyCoreCutout`. A ground served by the
+streaming ring adapter builds no legacy CORE at all, so it has no cut to
+review and cannot measure one — the contract is read off a runtime CORE grid
+that path never constructs. The refusal moved from construction time to the
+point of use: `prepare()` now refuses to cut without a contract, which is
+where refusing belongs, and a ground that does serve through the fixed
+frontier is unaffected. The alternative was to invent numbers for a field this
+ground never reads, which is the failure the whole provenance ledger exists to
+prevent.
+
+**A single vertical offset can be inadmissible, and the MAD is what says so.**
+Ängsö's measured legacy-to-RH-2000 step is 9.1166 m with a MAD of **1.8463 m**
+— eight times Veckefjärden's 0.2392 m — and it is not registration: the best
+rigid shift of the legacy sample point is 12 m and buys 0.1676 m. Mälaren
+corroborates the median (the DTM reads the lake's surface in the course's own
+bay as a laser-flat 0.876 m against a legacy 9.76 m, a difference of 8.884 m,
+0.23 m from the mown-ground median) — but the legacy pack's other water rings
+disagree with the DTM by **−3.66 m to +6.10 m**, so no single number can carry
+them. On this ground that is survivable only because the ring adapter measures
+every water level against the world before the model; on a ground served by
+the frontier alone it would not be. The permanent fix is Upsala's: re-ground
+the legacy heightfields from the laser DTM in RH 2000, moving nothing
+horizontally. That is Ängsö's largest open item.
+
+### 14.4 Open blockers
+
+- **No independent control.** The canonical origin is a compiler-chosen
+  provisional frame; `canonicalFrame.origin` stays null in the source manifest.
+  *Exit:* 20+ RTK/total-station checkpoints across tees, greens, hazards and
+  the perimeter, transformed through the pinned geoid grid, then named human
+  approval.
+- **No authoritative playing surfaces.** Four of eighteen holes carry an OSM
+  hole way; the rest are Esri satellite traces slid to their card length. The
+  published graph therefore carries ZERO v2 surface tiles rather than
+  presenting a migration as an intake, and `surfacePolicy` is
+  `legacy-ground-atlas`. *Exit:* club/as-built GIS, or the licensed 2025
+  orthophoto (campaign `orto-o2-2025`, 0.16 m, twelve items, discovered and
+  complete but **not acquired**) through the authoritative-surface intake.
+- **Esri imagery rights** remain release-blocking for exactly that reason, and
+  the committed `tree-cover.json` shares it.
+- **The legacy heightfields are still Terrarium**, with the 1.85 m MAD and the
+  water disagreement in §14.3. *Exit:* re-ground HF0/HF1 from the laser DTM
+  the way `upsalabuild/lib-v2.mjs` documents, moving nothing horizontally.
+- **Vegetation is derived, leaf-off, and awaiting publication.** The canopy
+  rasters are built and the campaign is pinned. The flight is March/April,
+  which under-detects deciduous crowns; on a course with birch and oak that is
+  a systematic bias, not noise, and it must be stated wherever a crown count
+  is quoted. Zone-A approval will be versioned machine review rather than
+  per-object human review.
+- **The club's own current card was not obtained from the club.** All 126 card
+  cells (par, index and five tee columns over eighteen holes) are gated exactly
+  by `angsobuild/check3d.mjs`, and hole 1 has three lengths in circulation
+  (355 / 386 / 396) of which only 386 makes the printed totals add up — but the
+  source is an aggregator transcription, not a dated club sheet.
+
+Default/public v2 enablement for this ground is a separate decision, as for
+every other.

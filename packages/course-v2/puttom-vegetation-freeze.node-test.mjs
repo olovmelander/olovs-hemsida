@@ -65,7 +65,11 @@ test('every chunk the graph references exists on disk and verifies as the loader
   for (const tile of ground.tiles) {
     for (const kind of ['terrain', 'surface', 'objects', 'stands']) if (tile.layers[kind]) add(tile.layers[kind].url);
   }
-  const verification = verifyAssetGraph({ root, resources, supportedFeatures: V2_SUPPORTED_FEATURES, strictResources: false });
+  /* This freeze fixture intentionally loads only Puttom resources. Keep its
+     root scoped to Puttom now that the mutable production root contains more
+     than one independently published course. */
+  const puttomRoot = { ...root, courses: [entry] };
+  const verification = verifyAssetGraph({ root: puttomRoot, resources, supportedFeatures: V2_SUPPORTED_FEATURES, strictResources: false });
   assert.ok(verification.chunks >= 64 + 64 + 1 + 1, `verified ${verification.chunks} chunks`);
 });
 

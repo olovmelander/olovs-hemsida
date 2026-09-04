@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "kind": "angso-terrain-graph",
+  "state": "published-provisional",
+  "provisionalReasons": [
+    "course-origin-awaits-independent-control-approval",
+    "playing-surfaces-are-satellite-traces-and-osm-outlines-not-survey",
+    "legacy-terrarium-water-levels-disagree-with-the-measured-dtm-by-5-to-15-m"
+  ],
+  "source": {
+    "itemIds": [
+      "660_60"
+    ],
+    "sourceCogSha256": "4fc8d1a84207a86a6a14ae65a8a3152e6027832850701300aab92440228790fd",
+    "sourceFloat32Sha256": "7ce336cbca2b1810d43786ce87121f592c8cb21a494fde2625f8bae92d33b64a",
+    "acquisitionEvidence": "geo_data/course-v2/angso/acquisition/terrain-window.json",
+    "acquiredOn": "2026-09-04",
+    "capture": {
+      "capturedAt": "2020-09-16T12:00:00Z",
+      "captureStart": "2020-02-24T00:00:00Z",
+      "captureEnd": "2021-04-10T00:00:00Z",
+      "modifiedAt": "2021-07-23T00:00:00Z",
+      "statedPlanUncertaintyMetres": 0.3,
+      "statedHeightUncertaintyMetres": 0.1
+    },
+    "pixelEdgeWindowEpsg3006": {
+      "west": 603617,
+      "north": 6607770,
+      "east": 607714,
+      "south": 6603673
+    },
+    "sourceItems": [
+      {
+        "id": "660_60",
+        "etag": "\"c03359c19af17122bc049510964f2d54\"",
+        "contentLength": 263029392,
+        "lastModified": "Wed, 13 May 2026 23:29:01 GMT"
+      }
+    ]
+  },
+  "reviewedWindow": {
+    "playedBoundsEpsg3006": {
+      "minEasting": 605218.601,
+      "minNorthing": 6604638.285,
+      "maxEasting": 606112.957,
+      "maxNorthing": 6606805.357
+    },
+    "playedCoordinatePairs": 1331,
+    "tilesPerSide": 16,
+    "marginMetres": {
+      "west": 1601.1010000000242,
+      "east": 1600.542999999947,
+      "south": 964.785000000149,
+      "north": 964.1430000001565
+    },
+    "smallestMarginMetres": 964.1,
+    "note": "the smallest square power-of-two tile count holding every played point with a 100 m zone-A margin, centred on the played bounds; half this size was checked and fails"
+  },
+  "frame": "angso",
+  "compile": {
+    "sourceSamples": 16785409,
+    "finiteSamples": 16785409,
+    "sourceMinimumHeightRH2000": -1.7468527555465698,
+    "sourceMaximumHeightRH2000": 40.108726501464844,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 256,
+        "encodedBytes": 16845330,
+        "decodedBytes": 33817088
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 64,
+        "encodedBytes": 4801517,
+        "decodedBytes": 8454272
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 16,
+        "encodedBytes": 1330261,
+        "decodedBytes": 2113568
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 4,
+        "encodedBytes": 358838,
+        "decodedBytes": 528392
+      },
+      {
+        "lod": 4,
+        "sampleSpacingMetres": 16,
+        "tiles": 1,
+        "encodedBytes": 97191,
+        "decodedBytes": 132098
+      }
+    ],
+    "tileChunks": 341,
+    "uniqueChunks": 342,
+    "encodedBytes": 23530354,
+    "decodedBytes": 45177516
+  },
+  "graph": {
+    "slug": "angso",
+    "groundId": "angso",
+    "frameFingerprint": "bfc6a0f04badb8e31cd874bc28e58ed679dd591164d8cb9a96ca9a96209b9318",
+    "rootBytes": 596,
+    "rootSha256": "104130b6126854614a9e9a9103599ca54781385b4ad6081c64085e8aa56b8efa",
+    "courseManifestSha256": "416210af4816f0e42c87fe118b39329b2308e7780de5d56b528ac82c1f2442d6",
+    "groundManifestSha256": "cb72d76424079f219fc8f98cfc1a112bc7aaa66ec1357f52e5b240ddd7b9cd90",
+    "routingSha256": "14bf329a19a920db40c09216149cc964958bfdc9fc89cd9e718b920c2a0e0093",
+    "holes": 18,
+    "tiles": 341,
+    "finestTiles": 256,
+    "shellBytes": 97217,
+    "chunks": 343,
+    "encodedChunkBytes": 23532498,
+    "decodedChunkBytes": 45181435,
+    "holeTileBufferMetres": 80
+  },
+  "mergedRoot": {
+    "bytes": 4365,
+    "sha256": "17353222bb4e4c44809ebe3bc733980293a1d0785ef0b4ea42fa5cf5d7b04028"
+  }
+}

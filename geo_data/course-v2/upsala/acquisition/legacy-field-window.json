@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 1,
+  "kind": "upsala-legacy-field-window",
+  "groundId": "upsala",
+  "courseSlugs": [
+    "upsala",
+    "upsala-mellanbanan"
+  ],
+  "acquiredOn": "2026-09-04",
+  "purpose": "the ground under the GPK1 pack's HF0 and HF1, which are addressed in the pack's rotated flat-earth frame and therefore need an axis-aligned EPSG:3006 box that contains their footprint",
+  "reader": "packages/course-geo/cog/cog-reader.mjs over authenticated HTTP range requests; no GDAL",
+  "provider": {
+    "name": "Lantmäteriet",
+    "product": "Markhöjdmodell Nedladdning",
+    "collection": "dtm-cog",
+    "licence": "CC-BY-4.0",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "resolutionMetres": 1
+  },
+  "items": [
+    {
+      "id": "662_62",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_62.tif",
+      "etag": "\"5e6175b30e550f54b0e38ede7ed13e3c\"",
+      "lastModified": "Thu, 14 May 2026 06:59:59 GMT",
+      "contentLength": 311618824,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 21,
+          "rows": 145,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "662_63",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_63.tif",
+      "etag": "\"04e825f9a044aa1dba96e16adeac2277\"",
+      "lastModified": "Thu, 14 May 2026 02:34:47 GMT",
+      "contentLength": 309168469,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 312,
+          "rows": 145,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "662_64",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_64.tif",
+      "etag": "\"d2ce4de54eac3b297da77eef05e3a0dc\"",
+      "lastModified": "Wed, 13 May 2026 15:50:32 GMT",
+      "contentLength": 226154216,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 313,
+          "rows": 145,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "662_65",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_65.tif",
+      "etag": "\"0021ca9161e2443d29d05f40ecf9f3d3\"",
+      "lastModified": "Wed, 13 May 2026 13:24:15 GMT",
+      "contentLength": 313582793,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 29,
+          "rows": 145,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "663_62",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_62.tif",
+      "etag": "\"904e5e14f91eb1dede3cd7d010c43b61\"",
+      "lastModified": "Wed, 13 May 2026 17:06:25 GMT",
+      "contentLength": 302178109,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 21,
+          "rows": 313,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "663_63",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_63.tif",
+      "etag": "\"6532dd378f3d389bbd19dd9a02569350\"",
+      "lastModified": "Wed, 13 May 2026 14:48:47 GMT",
+      "contentLength": 312121246,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 312,
+          "rows": 313,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "663_64",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_64.tif",
+      "etag": "\"ad5082151825568a40657e44152e450f\"",
+      "lastModified": "Wed, 13 May 2026 15:07:55 GMT",
+      "contentLength": 315120737,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 313,
+          "rows": 313,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "663_65",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_65.tif",
+      "etag": "\"a5db47080ad71b53d5de200700a744a0\"",
+      "lastModified": "Wed, 13 May 2026 14:18:51 GMT",
+      "contentLength": 319688212,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 29,
+          "rows": 313,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "664_62",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m664_62.tif",
+      "etag": "\"089a6c0ce22f612715647e1dc0b4d75d\"",
+      "lastModified": "Wed, 13 May 2026 19:16:15 GMT",
+      "contentLength": 300878995,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 21,
+          "rows": 217,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "664_63",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m664_63.tif",
+      "etag": "\"05e50c20f1c882f7d4e733ff64892dc1\"",
+      "lastModified": "Wed, 13 May 2026 14:27:27 GMT",
+      "contentLength": 309510015,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 312,
+          "rows": 217,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "664_64",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m664_64.tif",
+      "etag": "\"3caba09252376aceeec226a9c8fef54e\"",
+      "lastModified": "Wed, 13 May 2026 14:27:22 GMT",
+      "contentLength": 305987947,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 313,
+          "rows": 217,
+          "resampling": "bilinear"
+        }
+      ]
+    },
+    {
+      "id": "664_65",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m664_65.tif",
+      "etag": "\"c30b393846fd760380c179b43e25811d\"",
+      "lastModified": "Wed, 13 May 2026 14:33:10 GMT",
+      "contentLength": 313842529,
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "reads": [
+        {
+          "sampleSpacingMetres": 32,
+          "overviewFactor": 32,
+          "columns": 29,
+          "rows": 217,
+          "resampling": "bilinear"
+        }
+      ]
+    }
+  ],
+  "rasters": {
+    "block": {
+      "file": "upsalabuild/cache/terrain-block.f32 (ignored)",
+      "sampleSpacingMetres": 1,
+      "columns": 3641,
+      "rows": 4785,
+      "originEasting": 638255.5,
+      "originNorthing": 6637977.5,
+      "sourceItems": [],
+      "sha256": "7343d7c48cc462fad9b0feea442aa04421e2c571db02c06361d1073a2de46ee3",
+      "samples": 17422185,
+      "finiteSamples": 17422185,
+      "minimumHeightRH2000": 4.2513,
+      "maximumHeightRH2000": 67.0436,
+      "meanHeightRH2000": 30.5726
+    },
+    "vista": {
+      "file": "upsalabuild/cache/terrain-vista.f32 (ignored)",
+      "sampleSpacingMetres": 32,
+      "columns": 675,
+      "rows": 675,
+      "originEasting": 629359.5,
+      "originNorthing": 6646929.5,
+      "sourceItems": [
+        "662_62",
+        "662_63",
+        "662_64",
+        "662_65",
+        "663_62",
+        "663_63",
+        "663_64",
+        "663_65",
+        "664_62",
+        "664_63",
+        "664_64",
+        "664_65"
+      ],
+      "resampling": "bilinear from each item's own 32x overview; the 10 km item origins are not congruent modulo 32, so no single 32 m lattice can land on every item's pixel centres",
+      "sha256": "81addcf74a46f3c913f2dc583e0dbb384becedf1225ba9328323cd76f0ed6025",
+      "samples": 455625,
+      "finiteSamples": 455625,
+      "minimumHeightRH2000": 0.7123,
+      "maximumHeightRH2000": 68.2051,
+      "meanHeightRH2000": 28.2143
+    }
+  },
+  "transfer": {
+    "blockRequests": 0,
+    "blockBytes": 0,
+    "vistaRequests": 12,
+    "vistaBytes": 3402341
+  }
+}

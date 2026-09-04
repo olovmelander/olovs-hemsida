@@ -7,6 +7,7 @@ on:
     paths:
       - ".github/workflows/course-geo-hole-controls.yml"
       - "geo_data/course-v2/puttom/**"
+      - "geo_data/course-v2/ribbingsfors/**"
       - "geo_data/course-v2/source-catalog.json"
       - "packages/course-geo/acquisition/**"
       - "packages/course-geo/toolchain/**"
@@ -23,6 +24,7 @@ on:
           - johannesberg
           - norrfallsviken
           - puttom
+          - ribbingsfors
           - upsala
           - veckefjarden
       providers:
@@ -69,7 +71,7 @@ jobs:
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
-          const grounds = ['angso', 'johannesberg', 'norrfallsviken', 'puttom', 'upsala', 'veckefjarden'];
+          const grounds = ['angso', 'johannesberg', 'norrfallsviken', 'puttom', 'ribbingsfors', 'upsala', 'veckefjarden'];
           const selected = process.env.EVENT_NAME === 'push'
             ? ['puttom']
             : process.env.EVENT_NAME !== 'workflow_dispatch' || process.env.SELECTED_GROUND === 'all'

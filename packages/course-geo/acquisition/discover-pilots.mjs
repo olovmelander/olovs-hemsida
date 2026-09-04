@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { discoverPilot, summarizeDiscoveryReport } from './discovery.mjs';
 import {
+  ACQUISITION_GROUND_IDS,
   COURSE_DATA_DIR,
   PILOT_GROUND_IDS,
   pilotAoi,
@@ -31,7 +32,7 @@ function argumentsFrom(argv) {
     throw new Error('--observed-on must be YYYY-MM-DD');
   }
   for (const ground of options.grounds) {
-    if (!PILOT_GROUND_IDS.includes(ground)) throw new Error(`unknown D2 pilot ${ground}`);
+    if (!ACQUISITION_GROUND_IDS.includes(ground)) throw new Error(`unknown physical ground ${ground}`);
   }
   return options;
 }

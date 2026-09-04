@@ -92,20 +92,35 @@ unmapped south parking lot, and the silt shallows that keep the fjärd's pale ma
 residential rings, each aligned to its street. Ground truth that shapes the rendering:
 Veckefjärden is a REGULATED FRESHWATER LAKE behind a 1939 lock — its wide pale margins
 are silt bottom under water (drawn by letting the bed read through, never as dry mud),
-and the reserve's Tvillingsta half is grey-alder swamp forest, so the planter goes
-birch-dominant inside the reserve rings.
+and the reserve's swamp forest is GREY ALDER first, then birch and rowan
+(Länsstyrelsen's own text), so the planter goes birch-dominant inside the reserve
+rings — birch being the nearest thing the SPECIES table has to alder. **Two
+corrections measured in 2026-09:** the lake's legacy level of 21.59 m is AWS Terrarium
+on an unknown datum and the laser DTM reads its surface as a flat **0.280 m RH 2000**
+— it is within a metre of the Gulf of Bothnia, which is why there is a lock at all.
+And the reserve is TWO polygons totalling 63.11 ha; the half that touches the course
+is its EASTERN area, not "Tvillingsta", and the western half at the Moälven mouth
+falls outside geobuild's fetch bbox and is not in the model.
 
 **The two landmarks the scene must get right** live in the page's landmark block, both
 at surveyed coordinates. Åsmasten — properly "Åsbergsmasten", OSM node 845145336,
-height=259 — stands on Åsberget's 241 m summit at world (−632, −2007), due north:
+height=259 — stands on Åsberget at world (−632, −2007), due north:
 guyed body, white radome, aviation lights the dusk bloom picks up. The node sits at
 63.3025 N, just OUTSIDE the fetch bbox's 63.300 edge, which is how an unnamed 35 m
 works mast in Domsjö once wore its name — if a landmark seems to sit on absurd ground,
-check the bbox before trusting the nearest tagged node. Själevads kyrka is at
+check the bbox before trusting the nearest tagged node. **Åsberget is 217 m, not the
+241 m this file used to claim** — the 1 m DTM reads 216.01 m at the mast node and
+218.50 m as the highest ground within 2.5 km, and sv.wikipedia says 217. The old
+number was the same Terrarium bias as the lake: 218.5 + the measured 20.99 m offset
+is 239. The mast's 259 m is its own HEIGHT, and Åsberget carries two Teracom masts
+(~100 m and ~170 m) where the page builds one body. Själevads kyrka is at
 63.292833 N, 18.607361 E → world (−3310, −928): the tall white octagon of 1880 with
 its temple portico, and the 1923 crown — copper roof, white bell-storey drum, clock
-lantern, copper spire, gilt cross at ~35 m — drawn from photographs (white and
-verdigris green, NOT a dark roof), in a planter clearing because Kyrkudden is
+lantern, copper spire, gilt cross at ~35 m — drawn from photographs (white walls, a
+verdigris spire, and a MAIN ROOF THAT IS DARK: this file used to say "NOT a dark roof"
+and the photographs disagree, brown in 2024 and grey-green in 2005). From the course
+it reads as a white block under a slim dark spire above a dark treeline, and nothing
+finer is visible at 3.4 km. It stands in a planter clearing because Kyrkudden is
 churchyard, not forest (the peninsula is outside the OSM extract, so the vista
 scatter would otherwise bury it). The clubhouse ("the old school") has its own
 levelled bench and mown-lawn apron in `CLUB` — the terrain around it must read as
@@ -1428,6 +1443,56 @@ second course, because the first real task there is not data: it is turning
 `PUTTOM_PREVIEW_CONFIG` into a per-course record and threading a slug through
 the six files that import it.
 
+### Veckefjärden on 1 m terrain — one ground, two courses, and four measurements
+
+`?bana=veckefjarden&v2=require` boots *1 M TERRÄNG · HELA VÄRLDEN · 277 tiles i
+7 nivåer till 16 km*, and so does the korthålsbanan. The full record is
+`docs/courses/veckefjarden-source-dossier.md`; the short version:
+
+- **One ground, two courses.** `veckefjarden` and `veckefjarden-korthalsbanan`
+  share one terrain, one frame and one ground manifest. That last part is a
+  gate, not a nicety: `verifyAssetGraph` refuses "a ground referenced with
+  conflicting manifests", and publishing the two slugs in separate runs produced
+  exactly that — the artifact registration rewrites the source manifest between
+  runs, so two otherwise identical ground manifests got different
+  `sourceManifestSha256`. `publish-ground-rings` takes `--slug a,b` now and
+  emits every course of a ground against one hash.
+- **The origin is REVIEWED, not aligned.** `alignTerrainGridExtent` centres its
+  power-of-two padding with a floor, so an odd tile deficit lands entirely east
+  and south; anchored on the DTM item it left 24 m of clearance south of the
+  18th while wasting 479 m east. Centred on the played ground instead:
+  E 683909.5 / N 7023002.5, 376 m of margin east/west and 206 m north/south, and
+  the whole 2048 m window still inside one 10 km item (702_68).
+- **The bridge is derived; only the datum step is measured.** `legacyGridBridge`
+  takes the frame's own constants and gives rotation +3.282265°, scaleX
+  0.99731484, scaleZ 0.99867326 — reproducing the independent cs2cs migration to
+  5 mm. A translation-only bridge would be 43.1 m RMSE and 82.6 m at worst.
+  `verticalDatumOffsetMetres` is **20.9924 m**, median over 35,533 played-ground
+  samples, MAD 0.2392. Puttom's 23.6263 would be a 2.6 m error here.
+- **The proof that all of it is right** is a number neither side of the bridge
+  could fake: the v2 ground sits within **−0.89…+0.23 m** of the GPK1 ground at
+  all eighteen green centres, median −0.19. A wrong rotation shows tens of metres
+  on slope; a wrong datum offset shows a constant bias.
+- **A frontier is not a graph.** `descriptor.bounds` used to advertise the
+  GRAPH's extent, which is fine while a ground has no rings and wrong the moment
+  it does: `graphCoversHorizon` compared 16,384 m against 16,384 m, decided the
+  frontier already reached the horizon, and the streaming ring renderer never
+  took over. The descriptor advertises the level-zero window now, and configs
+  may carry `expectedFrontierBoundsEpsg5845` beside `expectedBoundsEpsg5845`.
+- **`GROUND_RINGS` and `V2_GRAPH_FRONTIER_CONFIGS` are registries now**
+  (`packages/course-v2/ground-rings-registry.mjs`,
+  `apps/golf/src/engine/v2-frontier-configs.mjs`), not one-entry literals in two
+  files each. Registering a slug in `V2_PUBLISHED_GRAPH_SLUGS` only lets the app
+  RESOLVE a graph; the frontier registry is the narrower gate that lets it
+  RENDER one.
+- **Still open, and why**: the LiDAR vegetation is not run, because the v2
+  vegetation runtime picks species from a hardcoded pine-led hash and offers no
+  hook for a course's `species()` export — publishing Veckefjärden's woods today
+  would erase the alder/birch rule and plant High Coast pine on an Ångermanland
+  lake shore, and `vegetation-baseline.mjs` prints the species split without
+  asserting on it. Same merge-casualty shape as the forest, the riprap and
+  `FARR`. Two campaigns cover the AOI with **no seam**, one flown June 2026.
+
 **And the gate is only as honest as the server under it.** `tools/serve.mjs`
 used to stream every file with neither `Content-Length` nor `Content-Encoding`
 — a shape almost no real host produces — and that cost two live failures in one
@@ -1736,7 +1801,7 @@ course overrides them from photographs:
 
 | course | walls | roof | storeys |
 |---|---|---|---|
-| Veckefjärden | cream render | dark red | 3 (the old school) |
+| Veckefjärden | **pale yellow timber**, white trim | **dark grey sheet metal** | 3 (the old school) |
 | Norrfällsviken | falurött, white trim | dark red-brown | 1, glazed veranda + terrace |
 | Puttom | Falu red, white trim, a glazed gable end (the "blue lower storey" in the sunset photo was the blue hour) | dark grey, gabled | 2, window wall, balcony and terrace facing the 18th green |
 | Ängsö | falurött, white trim | **terracotta pantile** | 1½, dormers, a red COURTYARD |
@@ -2164,3 +2229,173 @@ section says what has landed. The facts that took probing to establish:
   seam attribution and the per-campaign bias are the numbers that matter.
   NMD2023 zips are per-entry deflate around stripped PackBits TIFFs, with
   the species layers' directory at the end: ~2 GB per layer to reach Puttom.
+
+## Johannesberg on 1 m terrain — the GDAL-free acquisition, and a datum that is only a datum
+
+`?bana=johannesberg&v2=require` boots the reviewed fixed frontier: 64 one-metre
+tiles in one draw, replacing 83.9% of the legacy CORE. The full record is
+`docs/courses/johannesberg-source-dossier.md`. What is worth carrying forward:
+
+- **The whole 1 m acquisition runs in plain Node.** This machine has no pixi,
+  GDAL, PROJ or PDAL, and it did not need them.
+  `packages/course-geo/acquisition/build-terrain-window.mjs` reads the
+  Markhöjdmodell window with the COG reader that already serves the ring
+  builder — authenticated HTTP range requests, **overview factor 1**, so every
+  published sample is a source pixel copied exactly and it cannot disagree with
+  a `gdal_translate -projwin`. 2049 × 2049 samples in 1.9 s over 25 requests.
+  `discover-ground.mjs` is the same idea for STAC discovery: the search is
+  public and takes WGS 84, and the only thing `discover-pilots.mjs` needs PROJ
+  for is the AOI bbox, so it projects with the repo's own Krüger series **and
+  says so in the evidence**. PROJ stays the authority; no published coordinate
+  comes from that file.
+- **A window is DERIVED from the played ground, never typed.** The lattice is
+  the smallest power-of-two 256 m window holding every played point of BOTH
+  courses on the ground with the reviewed 100 m margin, centred on it and
+  snapped to the source sample lattice — and the compile driver re-derives it
+  from the migration geometry and makes `alignTerrainGridExtent` reproduce it
+  before it will compile. If the aligner returns a bigger tile count than you
+  expect, it is the lattice PHASE, not the size: the same required bounds span
+  nine tiles at one anchor and eight at another.
+- **CORE is not the holes.** It is `playB ± 150 m` snapped to 36, and `playB`
+  takes `scenery.greens` and `scenery.range` too. At Johannesberg the driving
+  range reaches 213 m beyond the last hole, so CORE is 2268 m in z while the
+  frontier is 2048 — and covering the range as well would need 128 tiles
+  (~8.8 MiB, past the loader's 8 MiB budget) or a re-centring that cuts the
+  SOUTHERN holes from 110 m of margin to 36. Play beat the practice ground;
+  the range's last 36 m renders from legacy MID, and it is written down.
+- **Two DTM vintages met inside the course and left no seam.** The course
+  straddles E 680000, where item 662_67 (2021) meets 662_68 (2023, in a
+  2021–2025 range). Measured rather than assumed: the across-seam first
+  difference is mean 0.075 m against 0.082 and 0.085 for control columns
+  either side — *smaller* than the terrain's own roughness. Measure the seam;
+  do not reconcile what does not differ.
+- **A measured datum offset can be honest and still not mean the surfaces
+  agree.** `tools/measure-vertical-datum.mjs` gives Johannesberg 5.6676 m over
+  38,543 mown samples — but MAD 1.72 m, seven times Puttom's 0.24. The tell
+  that this is NOT misregistration: a ±40 m rigid-shift sweep against four
+  bridge variants (derived, mirrored, reversed rotation, none at all) moves the
+  spread by under 0.25 m and puts the best shift at the sweep edge. A flat
+  objective means the legacy Terrarium field has too little terrain detail to
+  register against a laser DTM. So the number is a datum step and is documented
+  as one. **Always sweep before believing an offset** — a large MAD is the
+  question, not the answer.
+- **The frontier learned a second bridge.** `v2-graph-frontier.mjs` was
+  identity-only (Ribbingsfors' pack is authored in the grid frame). A legacy
+  flat-earth pack needs the convergence rotation — 2.757° here, 48 m at a
+  kilometre — so `bridgeMode: 'wgs84-legacy-frame'` builds `legacyGridBridge`,
+  bakes only the TRANSLATION into the tiles, hands the rotation to the group
+  matrix that `main.js` already applied generically, and gives the CORE cutout
+  the INSCRIBED legacy rectangle. The frontier's square-tile assertion now
+  derives its side from the reviewed tile count instead of a literal 8.
+- **`tools/check-course-v2.mjs` gates every course in the frontier registry**,
+  not one course each. It boots each slug twice — flagless must stay pure GPK1,
+  `v2=require` must reach a ready frontier — and asserts the tile count, the
+  bridge the config declares and the exact CORE omission it reviewed, all read
+  from that course's own contract. Vegetation is optional and must be absent
+  rather than half-loaded where a ground has no LiDAR generation yet.
+
+### Johannesberg's vegetation — and the audit that says a thinner forest is the right one
+
+2,417 LiDAR-measured crowns plus a 64-tile 4 m stand field now replace the
+satellite scatter inside the 2 km window; zero legacy trees survive inside the
+coverage and every base samples the published terrain to a millimetre. Two
+things worth carrying:
+
+- **A canopy build validates the terrain for free.** The point cloud's own
+  class-2/9 ground minus the published DTM came out at a median of **0.00 m on
+  every one of the 64 tiles** — an independent confirmation, from a different
+  sensor pass, that the compiled terrain is where it says it is. Read that line
+  in `build-canopy.mjs`'s output before anything else; a non-zero median there
+  means the terrain is wrong, not the trees.
+- **When measured vegetation thins a forest, prove which source is wrong.**
+  Johannesberg's scan is 2021-04-17 **leaf-off**, which under-detects deciduous
+  crowns, and canopy fell from the legacy raster's 43.9% to 17.6%. That is
+  either a correction or a loss and a render cannot tell you which.
+  `tools/audit-canopy-sources.mjs` settles it, and the deciding statistic is
+  NOT the fraction: it is the **laser height where the satellite claims canopy
+  and the laser does not** — median 0.00 m, p90 0.36 m over 106,626 cells. A
+  crown a scan merely thinned still returns branch height; a distribution piled
+  at zero is open ground, so the satellite was over-detecting and the old
+  render really was standing pines on mown fairway. Meta/WRI CHMv2 (27.9%)
+  brackets rather than settles, because it smears crowns outward and reads
+  high — calibration, not truth, exactly as the Puttom work found.
+- **The CHMv2 tile id is a zoom-10 quadkey**, so it is computed, not looked up:
+  the standard slippy-tile quadkey of the ground's lat/lon reproduces Puttom's
+  known `1200130303` exactly and gives Johannesberg `1200312031`.
+- `run-chmv2-crosscheck.mjs` is still Puttom-shaped: it requires a campaign
+  seam in NORTHING. Johannesberg has one campaign and an item seam in EASTING,
+  so it throws "the campaign inventory carries no seam northing" — that is the
+  tool not applying, not the data being wrong.
+- **Two decoding traps cost real time here, both self-inflicted.** The legacy
+  `tree-cover.json` is **two bits per cell** (`np.packbits` over `unpackbits
+  count=2`, little bitorder), so reading it a byte per cell reports plausible
+  nonsense; and its legend is `{0 unknown, 2 open, 3 trees}`, so `value >= 1`
+  counts OPEN ground as canopy. The COPC census likewise stores
+  `estimatedPoints`, not `points` — probing the wrong field manufactured a
+  clean row of zeros that looked exactly like missing LiDAR. Check a decoder
+  against a known-good total before believing a surprising zero.
+
+## Upsala GK on the 1 m terrain — the ground that separates a datum from a shape
+
+`docs/courses/upsala-source-dossier.md` is the record; runbook §13 is the
+method. Håmö gård now renders from Lantmäteriet's laser DTM everywhere — the
+published v2 ring graph, the GPK1 pack and `upsala3d.html` — and getting there
+turned up things worth keeping:
+
+- **A vertical datum offset is only a datum if its MAD is small.**
+  `tools/measure-vertical-datum.mjs` prints a median AND a median absolute
+  deviation. Veckefjärden's 20.9924 m carries 0.2392 m: one number bridges it.
+  Upsala's measured 6.7514 m carried **1.9188 m over a 0–15 m range**, because
+  Terrarium's SHAPE over this parkland is wrong as well as its datum — applying
+  the median would have left the course's ponds between 2.8 m below their own
+  bed and 5.3 m above their own surface. So the pack was **re-grounded**: HF0
+  and HF1 are cut from the same laser DTM as the published tiles, sampled
+  THROUGH the derived bridge the runtime uses. The vertical bridge is then
+  exactly 0, and re-running the measurement is the proof — 0.0001 m median,
+  0.0239 m MAD, best registration shift (0, 0), where before it ran to the
+  sweep's own boundary.
+- **A vertical-only rebuild should be provable as one.** Diff the rebuilt model
+  field by field and name every changed leaf. Upsala's came to exactly 79: 24
+  water levels, 54 hole elevations and the water floor. Nothing horizontal
+  moved, so the card, the hole lengths, the markers and the design SVG all
+  still mean what they meant — and `check3d`, `check-pack` and `lint-page` pass
+  untouched.
+- **A water ring measured from the INSIDE is a level and a registration check
+  at once.** A laser DTM flattens water, so a well-registered ring encloses
+  samples a few centimetres apart. All 21 measurable rings here spread
+  0.01–0.45 m, which confirmed the OSM model's registration before anything was
+  rebuilt. `build-heightfields.mjs` now fails above 1.5 m.
+- **The legacy frame here is the grid rotated 2.1577°** (the convergence 2.5°
+  east of the central meridian) **and scaled by 0.99766 / 0.99936.** A
+  translation-only bridge is 24.6 m wrong at the far end of the property; the
+  best-fit similarity still leaves 0.31 m mean / 0.62 m max, because a
+  flat-earth frame is not a similarity of a transverse Mercator one. The
+  runtime derives the rotation and both scales from the two frames' own
+  constants, so they are exact.
+- **This is the first window here that crosses a source seam.** The course
+  straddles easting 640000, so the 2,048 m lattice is mosaicked from
+  Markhöjdmodell `663_63` and `663_64`. Both are read at factor 1, so the seam
+  is one of provenance and not of geometry — and the source manifest carries
+  the two items as two SOURCES with two checksums, because a manifest entry has
+  room for one.
+- **A machine without PROJ can still migrate, if it proves itself first.**
+  `packages/course-geo/migrate-without-proj.mjs` re-projects a committed cs2cs
+  migration's own source model with the repo's Krüger series and writes nothing
+  unless it reproduces it within 5 mm; on Upsala it agreed to 1.343 mm over all
+  12,925 coordinates. It exists because the shipped Mellanbanan nine had no
+  EPSG:3006 form and the committed one is of the **banguide trace**, which
+  disagrees with the shipped GPS routing by up to 164 m on holes 7 and 8 —
+  exactly the two that trace had flagged as drawn under canopy.
+- **Measure a legacy CORE cutout by making the frontier serve.** The contract is
+  only asserted on the frontier-only path, which a ground with a ring graph
+  never takes — but the adapter is CONSTRUCTED before that choice, so `null` is
+  a boot error, not a no-op. Point the config's `expectedBoundsEpsg5845` at the
+  pre-ring generation, put a deliberately wrong contract in, and boot: the
+  assertion prints what it actually got.
+- **The club's own history corrects this repo.** `card-mellanbanan.json` credits
+  Mellanbanan to Peter Nordwall in 2001. That is *Lilla banan*. Mellanbanan is
+  **Nils O. Nyberg and Einar Jansson, 1978**; Paulsson designed both the 1938
+  nine at Södra Norby and the 1964 eighteen at Håmö, and Bob Kains rebuilt the
+  eighteen in 2007–2010. Lilla banan's card (par 31, Röd 1406 / Gul 1633) is in
+  the dossier; the course is not modelled and its position on the property has
+  not been measured.

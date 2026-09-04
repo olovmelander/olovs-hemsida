@@ -11,8 +11,8 @@ import {
 } from './credentials.mjs';
 import { TREE_HEIGHT_CONTRACT } from './discovery.mjs';
 import {
+  ACQUISITION_GROUND_IDS,
   COURSE_DATA_DIR,
-  PILOT_GROUND_IDS,
   loadPilotManifest,
 } from './pilots.mjs';
 import { treeHeightExportUrl } from './tree-height.mjs';
@@ -351,8 +351,8 @@ function parseArguments(argv) {
     }
     else throw new Error(`unknown argument ${argv[index]}`);
   }
-  if (!PILOT_GROUND_IDS.includes(options.groundId)) {
-    throw new Error(`--ground must be one of ${PILOT_GROUND_IDS.join(', ')}`);
+  if (!ACQUISITION_GROUND_IDS.includes(options.groundId)) {
+    throw new Error(`--ground must be one of ${ACQUISITION_GROUND_IDS.join(', ')}`);
   }
   return options;
 }

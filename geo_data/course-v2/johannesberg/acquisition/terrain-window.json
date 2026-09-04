@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "phase": "authenticated-finest-terrain-window",
+  "groundId": "johannesberg",
+  "acquiredOn": "2026-09-04",
+  "state": "acquisition-evidence-only",
+  "reader": "packages/course-geo/cog/cog-reader.mjs over authenticated HTTP range requests",
+  "readerNote": "factor-1 samples are source pixels copied exactly; no overview and no resampling is involved",
+  "provider": {
+    "name": "Lantmateriet",
+    "product": "Markhojdmodell Nedladdning",
+    "collection": "dtm-cog",
+    "licence": "CC-BY-4.0"
+  },
+  "lattice": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "compoundCrs": "EPSG:5845",
+    "coordinateOrder": [
+      "easting",
+      "northing"
+    ],
+    "sampleSpacingMetres": 1,
+    "width": 2049,
+    "height": 2049,
+    "originEasting": 678403.5,
+    "originNorthing": 6626324.5,
+    "sampleCentreBounds": {
+      "minEasting": 678403.5,
+      "maxEasting": 680451.5,
+      "minNorthing": 6624276.5,
+      "maxNorthing": 6626324.5
+    },
+    "pixelEdgeWindow": {
+      "west": 678403,
+      "north": 6626325,
+      "east": 680452,
+      "south": 6624276
+    }
+  },
+  "sourceItems": [
+    {
+      "id": "662_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_67.tif",
+      "etag": "\"e7a55a0ee70780c3afd7441d74530eb7\"",
+      "contentLength": 316420657,
+      "lastModified": "Thu, 14 May 2026 04:00:33 GMT",
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "overviewFactorUsed": 1,
+      "windowPixels": {
+        "column0": 8403,
+        "row0": 3675,
+        "columns": 1597,
+        "rows": 2049
+      },
+      "latticeWindow": {
+        "column0": 0,
+        "row0": 0,
+        "columns": 1597,
+        "rows": 2049
+      }
+    },
+    {
+      "id": "662_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_68.tif",
+      "etag": "\"861c702609afbabd98416601d4953668\"",
+      "contentLength": 287007740,
+      "lastModified": "Wed, 13 May 2026 13:32:27 GMT",
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "overviewFactorUsed": 1,
+      "windowPixels": {
+        "column0": 0,
+        "row0": 3675,
+        "columns": 452,
+        "rows": 2049
+      },
+      "latticeWindow": {
+        "column0": 1597,
+        "row0": 0,
+        "columns": 452,
+        "rows": 2049
+      }
+    }
+  ],
+  "raster": {
+    "path": "packages/course-geo/toolchain/.cache/acquisition/johannesberg-terrain-window/terrain-1m.f32",
+    "format": "row-major little-endian Float32, north-up",
+    "bytes": 16793604,
+    "sha256": "e51bcc0a915c12164c8f94d9bfc30eebd1af709db94f8fb6e307d53e2f2c423c"
+  },
+  "samples": {
+    "total": 4198401,
+    "finite": 4198401,
+    "minimumHeightRH2000": 9.880691528320312,
+    "maximumHeightRH2000": 44.8740119934082,
+    "reviewedBand": {
+      "minimum": 0,
+      "maximum": 90
+    }
+  },
+  "transfer": {
+    "rangeRequests": 25,
+    "rangeBytes": 14144680,
+    "elapsedMilliseconds": 1938
+  }
+}

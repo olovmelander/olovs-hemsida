@@ -83,7 +83,7 @@ async function main() {
   if (sourceSha256 !== CONFIG.sourceFloat32Sha256) {
     throw new Error(`aligned Float32 source is ${sourceSha256}; reviewed value is ${CONFIG.sourceFloat32Sha256}`);
   }
-  const heights = await readFloat32TerrainFile(options.terrain, {
+  const { heights } = await readFloat32TerrainFile(options.terrain, {
     width: CONFIG.width,
     height: CONFIG.height,
     littleEndian: true,
@@ -102,7 +102,10 @@ async function main() {
     heightScaleMetres: 0.01,
   }));
   const manifestPath = path.join(ROOT, 'geo_data/course-v2/ribbingsfors/source-manifest.json');
-  const sourceManifestSha256 = sha256(await readFile(manifestPath));
+  /* Source-manifest checksums use the repository's cross-platform text
+     contract: a Windows checkout must identify the same committed LF bytes
+     as CI and vegetation publication. */
+  const sourceManifestSha256 = sha256(Buffer.from((await readFile(manifestPath, 'utf8')).replace(/\r\n/g, '\n')));
   const { name, fallbackV1 } = await liveCourseEntry();
   const sampler = new TerrainPyramidSampler(compilation.pyramid);
   const graph = emitGroundGraph({
@@ -118,7 +121,7 @@ async function main() {
   const mergedRoot = await readFile(path.join(options.out, 'courses/v2-index.json'));
   const report = {
     schemaVersion: 1,
-    kind: 'ribbingsfors-ground-graph',
+    kind: 'ribbingsfors-terrain-graph',
     state: 'published-provisional',
     provisionalReasons: [
       'course-origin-awaits-independent-control-approval',
@@ -127,7 +130,8 @@ async function main() {
     source: {
       itemId: CONFIG.sourceItemId,
       sourceCogSha256: CONFIG.sourceCogSha256,
-      sourceFloat32Sha256,
+      sourceWindowCogSha256: CONFIG.sourceWindowCogSha256,
+      sourceFloat32Sha256: sourceSha256,
       capture: CONFIG.sourceCapture,
       pixelEdgeWindowEpsg3006: CONFIG.pixelEdgeWindow,
     },
@@ -146,7 +150,10 @@ async function main() {
     graph: graph.report,
     mergedRoot: { bytes: mergedRoot.byteLength, sha256: sha256(mergedRoot) },
   };
-  await writeFile(path.join(options.out, 'ribbingsfors-ground-graph-report.json'), `${JSON.stringify(report, null, 2)}\n`);
+  /* This report describes the terrain-only generation produced here. A later
+     vegetation publication emits its own report, so neither file can be
+     mistaken for a description of the other generation. */
+  await writeFile(path.join(options.out, 'ribbingsfors-terrain-graph-report.json'), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify(report, null, 2));
 }
 

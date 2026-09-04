@@ -3,11 +3,21 @@
   "schemaVersion": 1,
   "groundId": "angso",
   "groundName": "Ängsö Golfklubb",
-  "courseSlugs": ["angso"],
-  "targetBboxWgs84": [16.828, 59.545, 16.912, 59.597],
+  "courseSlugs": [
+    "angso"
+  ],
+  "targetBboxWgs84": [
+    16.828,
+    59.545,
+    16.912,
+    59.597
+  ],
   "legacyFrame": {
     "buildDirectory": "angsobuild",
-    "originWgs84": { "latitude": 59.5739, "longitude": 16.871 },
+    "originWgs84": {
+      "latitude": 59.5739,
+      "longitude": 16.871
+    },
     "metresPerLatitude": 111320,
     "metresPerLongitude": 56375.41,
     "heightReference": "Terrarium-derived legacy heights; vertical datum was not persisted",
@@ -18,7 +28,11 @@
     "horizontalCrs": "EPSG:3006",
     "verticalCrs": "EPSG:5613",
     "originStatus": "pending-control-approval",
-    "origin": { "easting": null, "northing": null, "heightRH2000": null },
+    "origin": {
+      "easting": null,
+      "northing": null,
+      "heightRH2000": null
+    },
     "axisMapping": {
       "worldX": "easting - originEasting",
       "worldZ": "originNorthing - northing",
@@ -26,30 +40,451 @@
     }
   },
   "sources": [
-    {"id":"terrain-lm-1m","productId":"lantmateriet-markhojdmodell-1m","roles":["terrain"],"lifecycle":"planned","use":"candidate","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/markhoejdmodell-nedladdning/released/1/","localPath":null,"bboxWgs84":[16.828,59.545,16.912,59.597],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; D2 must record exact COG identifiers and checksums.","replacementSourceId":null,"accuracyTier":"B","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Planned 1 m base DTM; metadata and break geometry must be retained per asset."},
-    {"id":"imagery-lm-ortho","productId":"lantmateriet-ortofoto","roles":["imagery","surface"],"lifecycle":"planned","use":"candidate","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/","localPath":null,"bboxWgs84":[16.828,59.545,16.912,59.597],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; select the newest suitable leaf-on and leaf-off campaigns.","replacementSourceId":null,"accuracyTier":"B","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Measurement input for surface, vegetation and object review; never a runtime ground texture."},
-    {"id":"laser-lm-skog","productId":"lantmateriet-laserdata-skog","roles":["terrain","canopy","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/","localPath":null,"bboxWgs84":[16.828,59.545,16.912,59.597],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; point-cloud tile ids and checksums are pending.","replacementSourceId":null,"accuracyTier":"C","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supports canopy/object extraction, recency checks and difficult bare-earth QA."},
-    {"id":"topography-lm-10","productId":"lantmateriet-topografi-10","roles":["topography","hydrology","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/","localPath":null,"bboxWgs84":[16.828,59.545,16.912,59.597],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; exact dataset release and checksum are pending.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"General hydrology, infrastructure and land-cover support, not golf-surface authority."},
-    {"id":"tree-height-sks","productId":"skogsstyrelsen-tradhojd","roles":["canopy","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf","localPath":null,"bboxWgs84":[16.828,59.545,16.912,59.597],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; raster release and checksum are pending.","replacementSourceId":null,"accuracyTier":"C","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Canopy-height evidence only; individual stem positions remain derived until surveyed."},
-    {"id":"survey-control","productId":"controlled-course-survey","roles":["control","terrain","surface","object"],"lifecycle":"planned","use":"candidate","sourceUri":"project://survey/angso","localPath":null,"bboxWgs84":[16.828,59.545,16.912,59.597],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"No RH 2000-tied course survey has been acquired.","replacementSourceId":null,"accuracyTier":"A","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Required for control anchors and zone-A greens, tees, bunker lips and play-critical objects."},
-    {"id":"osm-legacy","productId":"openstreetmap","roles":["surface","topography","hydrology","object"],"lifecycle":"legacy","use":"supplemental","sourceUri":"https://api.openstreetmap.org/api/0.6/map?bbox=16.833,59.550,16.907,59.592","localPath":null,"bboxWgs84":[16.833,59.55,16.907,59.592],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw XML cache is ignored and absent; only the checksummed parsed artifact remains.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supplementary coverage with ODbL lineage; not authoritative solely because a feature is mapped."},
-    {"id":"terrarium-legacy","productId":"aws-terrarium","roles":["terrain"],"lifecycle":"legacy","use":"migration-only","sourceUri":"https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png","localPath":null,"bboxWgs84":[16.828,59.545,16.912,59.597],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw tile cache, dates and tile checksums were not preserved.","replacementSourceId":"terrain-lm-1m","accuracyTier":"E","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Source of current HF0/HF1 only; prohibited as v2 truth."},
-    {"id":"esri-imagery-legacy","productId":"esri-world-imagery","roles":["imagery","surface","canopy","object"],"lifecycle":"legacy","use":"migration-only","sourceUri":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}","localPath":null,"bboxWgs84":[16.828,59.545,16.912,59.597],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw tiles, capture dates and contributor attribution were not persisted.","replacementSourceId":"imagery-lm-ortho","accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Current traces and canopy raster are migration comparisons only because production derivative rights are not approved."},
-    {"id":"club-guide-legacy","productId":"club-course-guide","roles":["course-guide","routing","surface"],"lifecycle":"legacy","use":"reference-only","sourceUri":"project://course-guide-register/angso","localPath":null,"bboxWgs84":null,"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw guide editions and permissions are not yet registered as immutable assets.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supports card, routing and interpretation; it does not establish survey accuracy."}
+    {
+      "id": "terrain-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m660_60.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        16.76776536572936,
+        59.523901575586244,
+        16.94961373965016,
+        59.61616395639961
+      ],
+      "acquiredAt": "2026-09-04",
+      "capturedAt": "2020-09-16",
+      "checksum": "4fc8d1a84207a86a6a14ae65a8a3152e6027832850701300aab92440228790fd",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Exact item 660_60 supplied the 1 m EPSG:3006/RH 2000 DTM for the course window and every ring level; the whole ground is inside this one 10 km square, so no item seam exists at any resolution. The checksum identifies the complete source COG; the acquired 4,097 by 4,097 sample window is 7ce336cbca2b1810d43786ce87121f592c8cb21a494fde2625f8bae92d33b64a and measures -1.747 to 40.109 m RH 2000. Advertised uncertainty is not an independent course residual, so canonical-origin approval remains pending."
+    },
+    {
+      "id": "imagery-lm-ortho",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "localPath": null,
+      "bboxWgs84": [
+        16.828,
+        59.545,
+        16.912,
+        59.597
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; select the newest suitable leaf-on and leaf-off campaigns.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Discovery selected campaign orto-o2-2025 at 0.16 m, twelve items covering the AOI completely. NOT acquired: no orthophoto window has been read, so every playing-surface outline on this ground remains a legacy Esri trace. Measurement input for surface, vegetation and object review; never a runtime ground texture."
+    },
+    {
+      "id": "laser-lm-skog",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "terrain",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c036/m21c036-660_60.copc.laz",
+      "localPath": null,
+      "bboxWgs84": [
+        16.828,
+        59.545,
+        16.912,
+        59.597
+      ],
+      "acquiredAt": "2026-09-04",
+      "capturedAt": "2021-03-20",
+      "checksum": "b6828e443c57acafdfb038210cb78c223e24c400749dcf0e1e380111f5300286",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "C",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Single campaign 21c036-660_60, scan area 21C036, flown 2021-03-08 to 2021-04-01 at 3,000 m; 224,178,995 points, 2.093 returns per square metre measured over the AOI against a declared 1.2. One campaign covers the whole ground, so there is no seam to reconcile. The flight is LEAF-OFF (March/April), which under-detects deciduous crowns; on a course with birch and oak that is a systematic canopy bias, not noise, and it must be stated wherever a crown count is quoted."
+    },
+    {
+      "id": "topography-lm-10",
+      "productId": "lantmateriet-topografi-10",
+      "roles": [
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/",
+      "localPath": null,
+      "bboxWgs84": [
+        16.828,
+        59.545,
+        16.912,
+        59.597
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; exact dataset release and checksum are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "General hydrology, infrastructure and land-cover support, not golf-surface authority."
+    },
+    {
+      "id": "tree-height-sks",
+      "productId": "skogsstyrelsen-tradhojd",
+      "roles": [
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf",
+      "localPath": null,
+      "bboxWgs84": [
+        16.828,
+        59.545,
+        16.912,
+        59.597
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; raster release and checksum are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "C",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Canopy-height evidence only; individual stem positions remain derived until surveyed."
+    },
+    {
+      "id": "survey-control",
+      "productId": "controlled-course-survey",
+      "roles": [
+        "control",
+        "terrain",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "project://survey/angso",
+      "localPath": null,
+      "bboxWgs84": [
+        16.828,
+        59.545,
+        16.912,
+        59.597
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "No RH 2000-tied course survey has been acquired.",
+      "replacementSourceId": null,
+      "accuracyTier": "A",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Required for control anchors and zone-A greens, tees, bunker lips and play-critical objects."
+    },
+    {
+      "id": "osm-legacy",
+      "productId": "openstreetmap",
+      "roles": [
+        "surface",
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "legacy",
+      "use": "supplemental",
+      "sourceUri": "https://api.openstreetmap.org/api/0.6/map?bbox=16.833,59.550,16.907,59.592",
+      "localPath": null,
+      "bboxWgs84": [
+        16.833,
+        59.55,
+        16.907,
+        59.592
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw XML cache is ignored and absent; only the checksummed parsed artifact remains.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supplementary coverage with ODbL lineage; not authoritative solely because a feature is mapped."
+    },
+    {
+      "id": "terrarium-legacy",
+      "productId": "aws-terrarium",
+      "roles": [
+        "terrain"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+      "localPath": null,
+      "bboxWgs84": [
+        16.828,
+        59.545,
+        16.912,
+        59.597
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw tile cache, dates and tile checksums were not preserved.",
+      "replacementSourceId": "terrain-lm-1m",
+      "accuracyTier": "E",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Source of current HF0/HF1 only; prohibited as v2 truth."
+    },
+    {
+      "id": "esri-imagery-legacy",
+      "productId": "esri-world-imagery",
+      "roles": [
+        "imagery",
+        "surface",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      "localPath": null,
+      "bboxWgs84": [
+        16.828,
+        59.545,
+        16.912,
+        59.597
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw tiles, capture dates and contributor attribution were not persisted.",
+      "replacementSourceId": "imagery-lm-ortho",
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Current traces and canopy raster are migration comparisons only because production derivative rights are not approved."
+    },
+    {
+      "id": "club-guide-legacy",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing",
+        "surface"
+      ],
+      "lifecycle": "legacy",
+      "use": "reference-only",
+      "sourceUri": "project://course-guide-register/angso",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw guide editions and permissions are not yet registered as immutable assets.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supports card, routing and interpretation; it does not establish survey accuracy."
+    }
   ],
   "artifacts": [
-    {"id":"legacy-course-model","kind":"composite","path":"angsobuild/course-model.json","sha256":"5d096361ddf9be565ec204dc3f1bcbca8a1e3ac42b9cf0a426f1c4388d4277d0","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Current composite vectors, routing, elevations and scenery inputs."},
-    {"id":"legacy-heightfields","kind":"terrain","path":"angsobuild/heightfields.json","sha256":"c8074de179e653305a0a0e673fa8908f475a0a602289eb3cda35ee2561891756","derivedFrom":["terrarium-legacy"],"use":"migration-only","notes":"Current 4 m HF0 and 32 m HF1 encoded heightfields."},
-    {"id":"legacy-tree-cover","kind":"canopy","path":"angsobuild/tree-cover.json","sha256":"89578e3d98c4c8cfe3801974ac3a7484e9970536b3823fe6296174812340e785","derivedFrom":["esri-imagery-legacy","osm-legacy"],"use":"migration-only","notes":"Current imagery-classified canopy raster."},
-    {"id":"legacy-osm-features","kind":"topography","path":"angsobuild/osm-features.json","sha256":"9d016eb8ab4302db7300188002e4c6b57852f4dd295acc8344f07a1ea03c6399","derivedFrom":["osm-legacy"],"use":"migration-only","notes":"Parsed OSM extract retained after the raw XML cache was discarded."},
-    {"id":"legacy-surface-traces","kind":"surface","path":"angsobuild/sat-shapes.json","sha256":"f829fab133548446861402c2960e8b87f81704b913836743490e6ea5a8349796","derivedFrom":["esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Hand-reviewed surface shapes traced from legacy imagery."},
-    {"id":"migration-course-model-epsg3006","kind":"composite","path":"geo_data/course-v2/angso/migration/course-model.epsg3006.json","sha256":"28cfa8f635210037191a2b3eebbf6ffadf6641d931bc0d77846022c49ce55877","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."},
-    {"id":"migration-residual-report","kind":"control","path":"geo_data/course-v2/angso/migration/residual-report.json","sha256":"1099b964124f54abd1ab645c535f9221297a4f2c5eb929a15bccc9f3761b1da9","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Candidate origin and scoped migration residuals; not an independent control approval."}
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "angsobuild/course-model.json",
+      "sha256": "5d096361ddf9be565ec204dc3f1bcbca8a1e3ac42b9cf0a426f1c4388d4277d0",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current composite vectors, routing, elevations and scenery inputs."
+    },
+    {
+      "id": "legacy-heightfields",
+      "kind": "terrain",
+      "path": "angsobuild/heightfields.json",
+      "sha256": "c8074de179e653305a0a0e673fa8908f475a0a602289eb3cda35ee2561891756",
+      "derivedFrom": [
+        "terrarium-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current 4 m HF0 and 32 m HF1 encoded heightfields."
+    },
+    {
+      "id": "legacy-tree-cover",
+      "kind": "canopy",
+      "path": "angsobuild/tree-cover.json",
+      "sha256": "89578e3d98c4c8cfe3801974ac3a7484e9970536b3823fe6296174812340e785",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current imagery-classified canopy raster."
+    },
+    {
+      "id": "legacy-osm-features",
+      "kind": "topography",
+      "path": "angsobuild/osm-features.json",
+      "sha256": "9d016eb8ab4302db7300188002e4c6b57852f4dd295acc8344f07a1ea03c6399",
+      "derivedFrom": [
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Parsed OSM extract retained after the raw XML cache was discarded."
+    },
+    {
+      "id": "legacy-surface-traces",
+      "kind": "surface",
+      "path": "angsobuild/sat-shapes.json",
+      "sha256": "f829fab133548446861402c2960e8b87f81704b913836743490e6ea5a8349796",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Hand-reviewed surface shapes traced from legacy imagery."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
+      "sha256": "28cfa8f635210037191a2b3eebbf6ffadf6641d931bc0d77846022c49ce55877",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."
+    },
+    {
+      "id": "migration-residual-report",
+      "kind": "control",
+      "path": "geo_data/course-v2/angso/migration/residual-report.json",
+      "sha256": "1099b964124f54abd1ab645c535f9221297a4f2c5eb929a15bccc9f3761b1da9",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Candidate origin and scoped migration residuals; not an independent control approval."
+    },
+    {
+      "id": "ground-rings",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/angso/acquisition/ground-rings.json",
+      "sha256": "ec83b7928dffea7ca1935066dec64c87bb0ef6e3d50081e16ed2c45c7d2f1094",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
+    },
+    {
+      "id": "d2-authoritative-source-discovery",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/angso/acquisition/d2-discovery.json",
+      "sha256": "f0786899febc91edee14d1cd8125b626bd7ac3cdeecfaad9ef217de4ec994623",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Official Lantmäteriet STAC selection, coverage and public metadata checksums for the AOI."
+    },
+    {
+      "id": "terrain-window-evidence",
+      "kind": "terrain",
+      "path": "geo_data/course-v2/angso/acquisition/terrain-window.json",
+      "sha256": "7dc707ec930c37ac53f9209e6870aea3fbf94ab385b7a33969ca8d389b7eb6cc",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Authenticated range-request read of the reviewed 4,097 by 4,097 finest window: items, ETags, bytes read, raster hash and sample statistics."
+    },
+    {
+      "id": "laser-campaign-inventory",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/angso/acquisition/laser-campaigns.json",
+      "sha256": "e9b790155abcc1c0ee33920ddbffc6b3a3c1ec48830399694cce726ed944dd62",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pinned campaign, dates, densities and terms; re-checked before any laser-derived rebuild."
+    },
+    {
+      "id": "copc-hierarchy-census",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/angso/acquisition/copc-hierarchy-census.json",
+      "sha256": "831c76ab221ae2d273852a75f91f7431ac85408b83f3b2b109928085b8152976",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "COPC header, VLR and hierarchy pages read without point bytes; measured node counts and per-window densities."
+    }
   ],
   "blockers": [
-    {"id":"canonical-origin","severity":"release-blocking","description":"The EPSG:5845 origin is intentionally unset.","exitGate":"Transform with the pinned PROJ environment, compare independent controls and approve the RH 2000 origin."},
-    {"id":"authoritative-assets","severity":"release-blocking","description":"Lantmäteriet assets and exact product terms have not been acquired.","exitGate":"Record immutable asset ids, capture/acquisition dates, CRS, checksums and approved licence decisions."},
-    {"id":"zone-a-survey","severity":"quality","description":"Play-critical microterrain and stable objects lack controlled survey.","exitGate":"Approve zone-A control points and survey patches against field or club-owned data."},
-    {"id":"legacy-imagery-rights","severity":"release-blocking","description":"Current surface and canopy derivatives depend on unapproved Esri imagery use.","exitGate":"Re-derive from approved Lantmäteriet/club imagery or record explicit production rights."}
+    {
+      "id": "canonical-origin",
+      "severity": "release-blocking",
+      "description": "The EPSG:5845 origin is intentionally unset.",
+      "exitGate": "Transform with the pinned PROJ environment, compare independent controls and approve the RH 2000 origin."
+    },
+    {
+      "id": "authoritative-assets",
+      "severity": "release-blocking",
+      "description": "Lantmäteriet assets and exact product terms have not been acquired.",
+      "exitGate": "Record immutable asset ids, capture/acquisition dates, CRS, checksums and approved licence decisions."
+    },
+    {
+      "id": "zone-a-survey",
+      "severity": "quality",
+      "description": "Play-critical microterrain and stable objects lack controlled survey.",
+      "exitGate": "Approve zone-A control points and survey patches against field or club-owned data."
+    },
+    {
+      "id": "legacy-imagery-rights",
+      "severity": "release-blocking",
+      "description": "Current surface and canopy derivatives depend on unapproved Esri imagery use.",
+      "exitGate": "Re-derive from approved Lantmäteriet/club imagery or record explicit production rights."
+    }
   ]
 }

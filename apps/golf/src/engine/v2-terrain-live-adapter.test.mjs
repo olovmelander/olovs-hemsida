@@ -142,6 +142,95 @@ describe('v2 terrain live adapter', () => {
     expect(batch.tick).toHaveBeenCalledWith(100);
   });
 
+  it('accepts an explicitly empty v2 surface frontier only with the complete bound GPK atlas', async () => {
+    const resources = ['l0/0/0', 'l0/1/0'].map(tileId => Object.freeze({
+      tileId, noDataCount: 0, sampleSpacingMetres: 1,
+    }));
+    const source = {
+      requested: true,
+      ready: true,
+      status: 'ready',
+      surfacePolicy: 'legacy-ground-atlas',
+      bounds: BOUNDS,
+      legacyBounds: BOUNDS,
+      descriptor: { tiles: resources.map(resource => ({ id: resource.tileId })) },
+      surfaceDescriptor: null,
+      surfaceAtlas: null,
+      renderResources: vi.fn(() => resources),
+      heightAt: vi.fn(() => 21.5),
+    };
+    const batch = {
+      group: { name: 'zero-surface-v2-group' },
+      sync: vi.fn(items => ({ renderedTiles: items.length, morphing: false })),
+      stats: vi.fn(() => ({
+        batches: [{}], renderedTiles: 2, residentLayers: 2, drawCalls: 1, triangles: 8,
+      })),
+      tick: vi.fn(() => ({ morphing: false })),
+      dispose: vi.fn(),
+    };
+    const atlasBounds = { ...CORE, w: 24, h: 24, res: 1 };
+    const atlas = {
+      texID: {}, texF: {},
+      data: {
+        bounds: atlasBounds,
+        classes: new Uint8Array(24 * 24),
+        idData: new Uint8Array(24 * 24 * 2),
+        fieldData: new Uint8Array(24 * 24 * 4),
+      },
+      contains: (x, z) => x >= CORE.x0 && x < CORE.x1 && z >= CORE.z0 && z < CORE.z1,
+    };
+    const decorateMaterial = () => {};
+    Object.defineProperty(decorateMaterial, 'v2SurfaceAuthority', { value: atlas });
+    const adapter = new V2TerrainLiveAdapter({
+      source,
+      courseSlug: 'fixture',
+      expectedCourseSlug: 'fixture',
+      expectedTileCount: 2,
+      expectedSurfaceTileCount: 0,
+      surfacePolicy: 'legacy-ground-atlas',
+      cutoutContract: CUTOUT,
+      batchFactory: vi.fn(async () => batch),
+    });
+    const result = await adapter.prepare({
+      coreGrid: CORE,
+      legacySurfaceAtlas: atlas,
+      decorateMaterial,
+      preflight: vi.fn(async () => {}),
+    });
+    expect(result.ok).toBe(true);
+    expect(adapter.snapshot()).toMatchObject({
+      surfacePolicy: 'legacy-ground-atlas', phase: 'prepared', preflightReady: true,
+    });
+  });
+
+  it('rejects a zero-surface frontier whose material is not bound to the inspected GPK atlas', async () => {
+    const resources = [{ tileId: 'l0/0/0', noDataCount: 0, sampleSpacingMetres: 1 }];
+    const source = {
+      requested: true, ready: true, surfacePolicy: 'legacy-ground-atlas',
+      descriptor: { tiles: [{ id: 'l0/0/0' }] },
+      surfaceDescriptor: null, surfaceAtlas: null, legacyBounds: BOUNDS,
+      renderResources: vi.fn(() => resources), heightAt: vi.fn(() => 0),
+    };
+    const atlasBounds = { ...CORE, w: 24, h: 24, res: 1 };
+    const atlas = {
+      texID: {}, texF: {},
+      data: { bounds: atlasBounds, classes: new Uint8Array(576), idData: new Uint8Array(1152), fieldData: new Uint8Array(2304) },
+      contains: () => true,
+    };
+    const adapter = new V2TerrainLiveAdapter({
+      source, courseSlug: 'fixture', expectedCourseSlug: 'fixture',
+      expectedTileCount: 1, expectedSurfaceTileCount: 0,
+      surfacePolicy: 'legacy-ground-atlas', cutoutContract: CUTOUT,
+      batchFactory: vi.fn(),
+    });
+    const result = await adapter.prepare({
+      coreGrid: CORE, legacySurfaceAtlas: atlas, decorateMaterial: () => {}, preflight: vi.fn(),
+    });
+    expect(result.ok).toBe(false);
+    expect(result.error).toMatch(/complete live GPK ground atlas/);
+    expect(source.renderResources).not.toHaveBeenCalled();
+  });
+
   it('does not create a batch when the explicit source already fell back', async () => {
     const { adapter, batchFactory, source } = fixture({ ready: false });
     const result = await adapter.prepare({ preflight: vi.fn() });

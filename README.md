@@ -51,7 +51,10 @@ what each gate protects, and the mistakes that are worth not repeating.
 The survey-grade terrain, surface and real-object rollout is tracked in
 [`docs/course-digital-twin-implementation-plan.md`](docs/course-digital-twin-implementation-plan.md).
 The repeatable, course-by-course production workflow is in
-[`docs/v2-course-runbook.md`](docs/v2-course-runbook.md).
+[`docs/v2-course-runbook.md`](docs/v2-course-runbook.md). Per-ground source and
+rights records live beside it in [`docs/courses/`](docs/courses/) —
+[Ribbingsfors](docs/courses/ribbingsfors-source-dossier.md) and
+[Upsala](docs/courses/upsala-source-dossier.md) so far.
 Its source/licence register covers all six physical grounds and all nine course
 slugs. Puttom's retained Three.js r185 WebGPU/WebGL2 1 m terrain and matching
 migration-surface preview remains opt-in and explicitly provisional. The

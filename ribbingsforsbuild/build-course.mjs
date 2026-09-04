@@ -30,6 +30,7 @@ import {
   gdalHttpEnvironment,
   lantmaterietCredentials,
 } from '../packages/course-geo/acquisition/credentials.mjs';
+import { teeRoadClearance } from './tee-road-clearance.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -60,6 +61,7 @@ const OSM_XML = path.join(CACHE, 'osm-core.xml');
 const CARD_FILE = path.join(HERE, 'card.json');
 const ROUTE_FILE = path.join(HERE, 'route-seeds.json');
 const GUIDE_FILE = path.join(HERE, 'guide-notes.json');
+const TEE_CONTROL_FILE = path.join(HERE, 'tee-controls.json');
 const CANOPY = Object.freeze({
   data: path.join(
     ROOT,
@@ -480,6 +482,10 @@ const originHeight = heightAt(0, 0);
 const card = readJson(CARD_FILE);
 const routeSeeds = readJson(ROUTE_FILE);
 const guide = readJson(GUIDE_FILE);
+const teeControlDocument = readJson(TEE_CONTROL_FILE);
+if (teeControlDocument.horizontalCrs !== 'EPSG:3006' || !Array.isArray(teeControlDocument.controls)) {
+  throw new Error('tee-controls.json must contain an EPSG:3006 controls array');
+}
 assertFile(OSM_XML, 'Fetch the OSM context extract first');
 const osm = parseOsm(fs.readFileSync(OSM_XML, 'utf8'));
 if (!osm.courseBoundary) throw new Error('OSM extract did not contain the Ribbingsfors course boundary');
@@ -500,11 +506,21 @@ for (const cardHole of card.holes) {
   const greenRing = ellipseRing(greenCentre, greenAxis, greenLength, Math.max(15, greenLength * 0.72));
   const pads = [], marks = [];
   for (const teeLength of cardHole.t) {
-    const c = pointFromGreen(route, teeLength).map(r1);
+    const control = teeControlDocument.controls.find(item =>
+      item.hole === cardHole.n && item.teeMetres === teeLength);
+    const c = control
+      ? local([control.centre?.easting, control.centre?.northing])
+      : pointFromGreen(route, teeLength).map(r1);
     const routeDistance = routeLength - teeLength;
     const u = tangentAt(route, Math.max(0, routeDistance));
-    pads.push({ ring: rectangleRing(c, u), c, prov: 'card-constrained synthetic pad' });
-    marks.push({ c, b: +(bearing(u[0], u[1]) * 180 / Math.PI).toFixed(1), m: teeLength });
+    const length = control?.pad?.lengthMetres ?? 12;
+    const width = control?.pad?.widthMetres ?? 6;
+    if (![...c, length, width].every(Number.isFinite) || length <= 0 || width <= 0) {
+      throw new Error(`hole ${cardHole.n} tee ${teeLength} has an invalid spatial control`);
+    }
+    const prov = control?.provenance || 'card-constrained synthetic pad';
+    pads.push({ ring: rectangleRing(c, u, length, width), c, prov });
+    marks.push({ c, b: +(bearing(u[0], u[1]) * 180 / Math.PI).toFixed(1), m: teeLength, prov });
   }
   const fairwayStart = cardHole.par === 3 ? routeLength * 0.56 : 34;
   const fairwayRing = ribbon(route, fairwayStart, routeLength - greenLength * 0.42, cardHole.par);
@@ -528,7 +544,9 @@ for (const cardHole of card.holes) {
     fairway: { rings: [fairwayRing], prov: 'route-derived provisional corridor' },
     tees: { pads, marks }, bunkers,
     elev: { tee: r1(teeHeight), green: r1(greenHeight), rise: r1(greenHeight - teeHeight) },
-    tiers: 1, name: note.name, note: note.note,
+    /* No source publishes official hole names. Editorial working labels stay
+       in guide-notes.json and are not presented as club-authored names. */
+    tiers: 1, name: null, note: note.note,
     confidence: 'provisional-playing-surface',
   });
 }
@@ -545,6 +563,25 @@ for (const [holeNumber, fromGreen, halfWidth] of [[1, 88, 38], [1, 38, 32], [3, 
 }
 
 const protectedTrees = protectedTreePoints();
+/* OSM has the estate buildings but not the clubhouse footprint itself. The
+   public POI at 58.9649569,14.1212497 is therefore represented by a modest
+   generic footprint whose dimensions/orientation remain explicitly
+   provisional; the course scenery module supplies only photo-observed visual
+   traits. Replace this ring as soon as the club supplies a plan or survey. */
+const clubhouse = {
+  id: 'ribbingsfors-clubhouse-provisional',
+  ring: rectangleRing(local([449463.404255, 6536482.035169]), [0.94, -0.34], 30, 10),
+  h: 4.2,
+  kind: 'house',
+  name: 'Ribbingsfors Golf & Kultur',
+  amenity: 'clubhouse',
+  prov: 'public clubhouse POI + photo-observed generic form; footprint survey pending',
+};
+if (!osm.buildings.some(building => {
+  const centre = centroid(building.ring);
+  const target = centroid(clubhouse.ring);
+  return Math.hypot(centre[0] - target[0], centre[1] - target[1]) < 25;
+})) osm.buildings.push(clubhouse);
 const range = (() => {
   /* Placement follows the official overview and is intentionally marked as a
      guide interpretation until the orthophoto order is available. */
@@ -607,6 +644,7 @@ const model = {
     terrain: 'Lantmäteriet Markhöjdmodell 1 m item 653_44, RH 2000',
     water: 'Lantmäteriet break geometry item 653_44',
     route: 'GolfTraxx migration/reference controls; back tees extended to white card distance',
+    teeControls: 'Explicit EPSG:3006 controls in tee-controls.json; DTM bench interpretation and road exclusion, guide-corroborated and survey pending',
     surfaces: 'guide-constrained synthetic geometry pending licensed orthophoto or survey',
     protectedTrees,
   },
@@ -637,6 +675,20 @@ card.teeNames.forEach((name, index) => {
 });
 if (holes.some(hole => hole.line.some(([x, z]) => Math.abs(x) > 1024 || Math.abs(z) > 1024))) {
   throw new Error('playing route leaves the reviewed 1 m LOD0 square');
+}
+/* A tee class has higher atlas priority than asphalt, so centre probes alone
+   cannot detect a road ribbon later drawn across it. Gate the complete pad
+   against the visible road width before any model or pack can be emitted. */
+for (const hole of holes) for (let index = 0; index < hole.tees.pads.length; index++) {
+  const pad = hole.tees.pads[index];
+  for (const road of osm.roads) {
+    const clearance = teeRoadClearance(pad.ring, road);
+    if (clearance < -1e-6) {
+      throw new Error(
+        `hole ${hole.n} tee ${hole.t[index]} overlaps road ${road.id || road.kind} by ${(-clearance).toFixed(2)} m`,
+      );
+    }
+  }
 }
 
 writeJson(path.join(HERE, 'osm-features.json'), {

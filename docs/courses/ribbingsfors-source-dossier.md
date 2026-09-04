@@ -166,20 +166,44 @@ https://www.golfisverige.com/klubb/ribbingsfors-golf-kultur/
 
 ### 3.4 Chosen provisional production policy
 
+The current development implementation deliberately uses a mixed provisional
+card. It is not an official hole-by-hole card:
+
+| Hole | White, Caddee-equivalent | Yellow, GolfTraxx | Red, GolfTraxx |
+|---:|---:|---:|---:|
+| 1 | 343 | 350 | 308 |
+| 2 | 175 | 168 | 140 |
+| 3 | 362 | 330 | 280 |
+| 4 | 331 | 338 | 277 |
+| 5 | 465 | 466 | 411 |
+| 6 | 387 | 334 | 276 |
+| 7 | 370 | 365 | 307 |
+| 8 | 175 | 135 | 120 |
+| 9 | 502 | 480 | 406 |
+| **Nine-hole sum** | **3,110** | **2,966** | **2,525** |
+
+The white rows are equivalent to the Caddee rows in section 3.2. The yellow
+and red rows are transcribed from the public GolfTraxx scorecard and interpreted
+as metres even though that page labels them as yards. That interpretation is
+consistent with the service's demonstrated unit problem and makes the two row
+sums equal the official club totals. A matching sum is useful corroboration;
+it does **not** make GolfTraxx, its individual rows or its units official.
+
 Until the club supplies a dated current GIT/club scorecard:
 
 1. Encode the course identity, physical hole order and par sequence as
-   verified facts.
-2. Keep the official nine-hole tee totals in source metadata.
-3. A development-only card may use the Caddee rows, but every such value must
-   be labelled secondary/provisional in data and UI.
-4. Do not alter individual holes merely to force the yellow or red sums to
-   match the club totals. That would create undocumented invented distances.
-5. Do not present orange as an official available tee solely from Caddee.
-6. Do not claim the stroke indexes are current until a current official card
-   confirms them.
-7. Before release, replace the development-only rows atomically with a card
-   supplied or confirmed by the club. Record its edition date and permission.
+   verified facts, and keep the official nine-hole tee totals in source
+   metadata.
+2. Label the entire mixed-source card, every affected distance and the
+   unconfirmed stroke indexes as secondary/provisional in data and visibly in
+   the UI. A source note hidden only in repository files is not sufficient.
+3. Do not present orange as an official available tee solely from Caddee.
+4. Do not treat the exact yellow/red sums as club approval, or silently adjust
+   an individual row if another total later appears.
+5. Before release, replace all provisional rows, indexes, provenance labels
+   and dependent tests together—atomically—with one card supplied or
+   confirmed by the club. Record its edition date and permission; do not mix a
+   newly official row with the remaining provisional rows.
 
 ## 4. Official banguide assets
 
@@ -450,6 +474,29 @@ Production policy:
   GolfTraxx;
 - discard a seed when it disagrees with the official guide, ortho, terrain or
   field evidence.
+
+### 7.4 Hole 9 yellow-tee correction in the provisional build
+
+Blindly interpolating the provisional 480 m row along the extended GolfTraxx
+route placed the yellow tee centre at local `[612.4, -87.5]`, only 2.20 m from
+the centreline of OSM asphalt way `w1135143747`. The visible road is 6.4 m wide,
+and 62.9% of the generated 12 x 6 m tee pad overlapped it. This was a compiler
+error, not a frame-bridge error.
+
+The authenticated Lantmateriet 1 m DTM resolves a small, flat constructed
+bench close to the original GolfTraxx discovery seed. The provisional build
+now records its crown at EPSG:3006 E 449,556.6 / N 6,536,126.3 (local
+`[581.1, -101.8]`) in
+[`tee-controls.json`](../../ribbingsforsbuild/tee-controls.json). A route-aligned
+6 x 4 m candidate pad has about 9.4 m clearance beyond the rendered asphalt
+edge. The official/Caddee hole-9 illustration independently corroborates three
+separate tee decks, but it is non-metric artwork and was not traced.
+
+This is a safer provisional spatial control, not production authority. The
+480 m value remains card metadata and is not claimed to be a surveyed geometric
+distance from this point. Licensed orthophoto or a club/survey tee outline must
+replace the candidate. The compiler and committed-pack regression test now
+reject every tee polygon that intersects a rendered road ribbon.
 
 ## 8. Official local-rule constraints
 

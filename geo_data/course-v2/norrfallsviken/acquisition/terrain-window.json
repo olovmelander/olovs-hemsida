@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "phase": "authenticated-finest-terrain-window",
+  "groundId": "norrfallsviken",
+  "acquiredOn": "2026-09-04",
+  "state": "acquisition-evidence-only",
+  "reader": "packages/course-geo/cog/cog-reader.mjs over authenticated HTTP range requests",
+  "readerNote": "factor-1 samples are source pixels copied exactly; no overview and no resampling is involved",
+  "provider": {
+    "name": "Lantmateriet",
+    "product": "Markhojdmodell Nedladdning",
+    "collection": "dtm-cog",
+    "licence": "CC-BY-4.0"
+  },
+  "lattice": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "compoundCrs": "EPSG:5845",
+    "coordinateOrder": [
+      "easting",
+      "northing"
+    ],
+    "sampleSpacingMetres": 1,
+    "width": 4097,
+    "height": 4097,
+    "originEasting": 676915.5,
+    "originNorthing": 6989999.5,
+    "sampleCentreBounds": {
+      "minEasting": 676915.5,
+      "maxEasting": 681011.5,
+      "minNorthing": 6985903.5,
+      "maxNorthing": 6989999.5
+    },
+    "pixelEdgeWindow": {
+      "west": 676915,
+      "north": 6990000,
+      "east": 681012,
+      "south": 6985903
+    }
+  },
+  "sourceItems": [
+    {
+      "id": "698_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/69_6/m698_67.tif",
+      "etag": "\"42c864c9c68edaa1b21c332347115dc4\"",
+      "contentLength": 220651661,
+      "lastModified": "Wed, 13 May 2026 15:50:08 GMT",
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "overviewFactorUsed": 1,
+      "windowPixels": {
+        "column0": 6915,
+        "row0": 0,
+        "columns": 3085,
+        "rows": 4097
+      },
+      "latticeWindow": {
+        "column0": 0,
+        "row0": 0,
+        "columns": 3085,
+        "rows": 4097
+      }
+    },
+    {
+      "id": "698_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/69_6/m698_68.tif",
+      "etag": "\"be6b350dd82be33097a5a37169b79370\"",
+      "contentLength": 42855645,
+      "lastModified": "Wed, 13 May 2026 20:27:12 GMT",
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "overviewFactorUsed": 1,
+      "windowPixels": {
+        "column0": 0,
+        "row0": 0,
+        "columns": 1012,
+        "rows": 4097
+      },
+      "latticeWindow": {
+        "column0": 3085,
+        "row0": 0,
+        "columns": 1012,
+        "rows": 4097
+      }
+    }
+  ],
+  "raster": {
+    "path": "packages/course-geo/toolchain/.cache/acquisition/norrfallsviken-terrain-window/terrain-1m.f32",
+    "format": "row-major little-endian Float32, north-up",
+    "bytes": 67141636,
+    "sha256": "9522eb3608338dfc5c239fe5a02e5fdef63ff6699fa3c1c164c5726f74d8b3a2"
+  },
+  "samples": {
+    "total": 16785409,
+    "finite": 16785409,
+    "minimumHeightRH2000": -0.8411101698875427,
+    "maximumHeightRH2000": 90.58942413330078,
+    "reviewedBand": {
+      "minimum": -5,
+      "maximum": 200
+    }
+  },
+  "transfer": {
+    "rangeRequests": 81,
+    "rangeBytes": 35506811,
+    "elapsedMilliseconds": 6302
+  }
+}

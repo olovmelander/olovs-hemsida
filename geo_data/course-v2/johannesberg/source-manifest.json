@@ -3,11 +3,22 @@
   "schemaVersion": 1,
   "groundId": "johannesberg",
   "groundName": "Johannesbergs Golf",
-  "courseSlugs": ["johannesberg", "johannesberg-9"],
-  "targetBboxWgs84": [18.145, 59.698, 18.24, 59.758],
+  "courseSlugs": [
+    "johannesberg",
+    "johannesberg-9"
+  ],
+  "targetBboxWgs84": [
+    18.145,
+    59.698,
+    18.24,
+    59.758
+  ],
   "legacyFrame": {
     "buildDirectory": "johannesbergbuild",
-    "originWgs84": { "latitude": 59.72733, "longitude": 18.19202 },
+    "originWgs84": {
+      "latitude": 59.72733,
+      "longitude": 18.19202
+    },
     "metresPerLatitude": 111320,
     "metresPerLongitude": 56118.16,
     "heightReference": "Terrarium-derived legacy heights; vertical datum was not persisted",
@@ -18,38 +29,554 @@
     "horizontalCrs": "EPSG:3006",
     "verticalCrs": "EPSG:5613",
     "originStatus": "pending-control-approval",
-    "origin": { "easting": null, "northing": null, "heightRH2000": null },
-    "axisMapping": {"worldX":"easting - originEasting","worldZ":"originNorthing - northing","worldY":"heightRH2000 - originHeightRH2000"}
+    "origin": {
+      "easting": null,
+      "northing": null,
+      "heightRH2000": null
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldZ": "originNorthing - northing",
+      "worldY": "heightRH2000 - originHeightRH2000"
+    }
   },
   "sources": [
-    {"id":"terrain-lm-1m","productId":"lantmateriet-markhojdmodell-1m","roles":["terrain"],"lifecycle":"planned","use":"candidate","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/markhoejdmodell-nedladdning/released/1/","localPath":null,"bboxWgs84":[18.145,59.698,18.24,59.758],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; D2 must record exact COG identifiers and checksums.","replacementSourceId":null,"accuracyTier":"B","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Planned 1 m base DTM shared by the 18-hole and nine-hole courses."},
-    {"id":"imagery-lm-ortho","productId":"lantmateriet-ortofoto","roles":["imagery","surface"],"lifecycle":"planned","use":"candidate","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/","localPath":null,"bboxWgs84":[18.145,59.698,18.24,59.758],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; select newest suitable leaf-on and leaf-off campaigns.","replacementSourceId":null,"accuracyTier":"B","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Measurement input for both courses, estate vegetation and objects; never a runtime texture."},
-    {"id":"laser-lm-skog","productId":"lantmateriet-laserdata-skog","roles":["terrain","canopy","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/","localPath":null,"bboxWgs84":[18.145,59.698,18.24,59.758],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; point-cloud tile ids and checksums are pending.","replacementSourceId":null,"accuracyTier":"C","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supports canopy/object extraction, recency checks and difficult bare-earth QA."},
-    {"id":"topography-lm-10","productId":"lantmateriet-topografi-10","roles":["topography","hydrology","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/","localPath":null,"bboxWgs84":[18.145,59.698,18.24,59.758],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; exact dataset release and checksum are pending.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"General hydrology, roads, buildings and land-cover support."},
-    {"id":"tree-height-sks","productId":"skogsstyrelsen-tradhojd","roles":["canopy","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf","localPath":null,"bboxWgs84":[18.145,59.698,18.24,59.758],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; raster release and checksum are pending.","replacementSourceId":null,"accuracyTier":"C","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Canopy-height evidence only; individual stem positions remain derived until surveyed."},
-    {"id":"survey-control","productId":"controlled-course-survey","roles":["control","terrain","surface","object"],"lifecycle":"planned","use":"candidate","sourceUri":"project://survey/johannesberg","localPath":null,"bboxWgs84":[18.145,59.698,18.24,59.758],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"No RH 2000-tied course survey has been acquired.","replacementSourceId":null,"accuracyTier":"A","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Must control both routings and zone-A surfaces, estate landmarks and play-critical objects."},
-    {"id":"osm-legacy","productId":"openstreetmap","roles":["surface","topography","hydrology","object"],"lifecycle":"legacy","use":"supplemental","sourceUri":"https://api.openstreetmap.org/api/0.6/map?bbox=18.152,59.703,18.232,59.752","localPath":null,"bboxWgs84":[18.152,59.703,18.232,59.752],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw XML cache is ignored and absent; only the checksummed parsed artifact remains.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supplementary estate, water and limited golf geometry with ODbL lineage."},
-    {"id":"terrarium-legacy","productId":"aws-terrarium","roles":["terrain"],"lifecycle":"legacy","use":"migration-only","sourceUri":"https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png","localPath":null,"bboxWgs84":[18.145,59.698,18.24,59.758],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw tile cache, dates and tile checksums were not preserved.","replacementSourceId":"terrain-lm-1m","accuracyTier":"E","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Source of shared current HF0/HF1 only; prohibited as v2 truth."},
-    {"id":"esri-imagery-legacy","productId":"esri-world-imagery","roles":["imagery","surface","canopy","object"],"lifecycle":"legacy","use":"migration-only","sourceUri":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}","localPath":null,"bboxWgs84":[18.145,59.698,18.24,59.758],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw tiles, capture dates and contributor attribution were not persisted.","replacementSourceId":"imagery-lm-ortho","accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Primary legacy source for course outlines and canopy; migration comparison only."},
-    {"id":"club-guide-legacy","productId":"club-course-guide","roles":["course-guide","routing","surface"],"lifecycle":"legacy","use":"reference-only","sourceUri":"project://course-guide-register/johannesberg","localPath":null,"bboxWgs84":null,"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw guide editions and permissions are not yet registered as immutable assets.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supports the 18-hole card and both routings; the nine-hole routing remains provisional."}
+    {
+      "id": "terrain-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_67.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.145,
+        59.698,
+        18.24,
+        59.758
+      ],
+      "acquiredAt": "2026-09-04",
+      "capturedAt": "2021-04-17",
+      "checksum": "903595f07858f02a9ed3162aedbb15d239436fecf76831a56161353eb2402ff2",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Two 10 km items supply the 1 m EPSG:3006/RH 2000 DTM because the course straddles E 680000: 662_67 (checksum above, captured 2021-04-17) and 662_68 (09e2d304f7d8778c9c1e1a099d4ab0733860a218ebaccfded2e167a6675a2632, captured 2023-05-16 within a 2021-04-17..2025-06-13 range). The acquired window is the 2049 by 2049 sample lattice at E678403.5/N6626324.5, Float32 sha256 e51bcc0a915c12164c8f94d9bfc30eebd1af709db94f8fb6e307d53e2f2c423c. The two vintages leave NO measurable step at their boundary: the across-seam first difference is mean 0.075 m against 0.082 and 0.085 m for control columns either side. Advertised uncertainty is not an independent course residual, so canonical-origin approval remains pending."
+    },
+    {
+      "id": "imagery-lm-ortho",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.145,
+        59.698,
+        18.24,
+        59.758
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; select newest suitable leaf-on and leaf-off campaigns.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Measurement input for both courses, estate vegetation and objects; never a runtime texture."
+    },
+    {
+      "id": "laser-lm-skog",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "terrain",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/laser/skog/21c039/m21c039-662_67.copc.laz",
+      "localPath": null,
+      "bboxWgs84": [
+        18.145,
+        59.698,
+        18.24,
+        59.758
+      ],
+      "acquiredAt": "2026-09-04",
+      "capturedAt": "2021-04-17",
+      "checksum": "bafd8ff1effbc5a4d033e9fc3ce56231410c40433acab8c6817fd7e1fb690aaa",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "C",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "One campaign, 21C039, ALS80-HP, flown 2021-04-17 LEAF-OFF at 1.2 pulses/m2 declared (2.5-2.6 all returns/m2 measured). The checksum identifies item 21c039-662_67, whose COPC is read by bounded octree range request and never downloaded whole. Items 21c039-662_67 and 21c039-662_68 meet at E 680000 inside the course, but both belong to the same campaign so there is no vintage seam to reconcile. Leaf-off under-detects deciduous crowns; see the canopy-source audit for how much."
+    },
+    {
+      "id": "topography-lm-10",
+      "productId": "lantmateriet-topografi-10",
+      "roles": [
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.145,
+        59.698,
+        18.24,
+        59.758
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; exact dataset release and checksum are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "General hydrology, roads, buildings and land-cover support."
+    },
+    {
+      "id": "tree-height-sks",
+      "productId": "skogsstyrelsen-tradhojd",
+      "roles": [
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf",
+      "localPath": null,
+      "bboxWgs84": [
+        18.145,
+        59.698,
+        18.24,
+        59.758
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; raster release and checksum are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "C",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Canopy-height evidence only; individual stem positions remain derived until surveyed."
+    },
+    {
+      "id": "survey-control",
+      "productId": "controlled-course-survey",
+      "roles": [
+        "control",
+        "terrain",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "project://survey/johannesberg",
+      "localPath": null,
+      "bboxWgs84": [
+        18.145,
+        59.698,
+        18.24,
+        59.758
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "No RH 2000-tied course survey has been acquired.",
+      "replacementSourceId": null,
+      "accuracyTier": "A",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Must control both routings and zone-A surfaces, estate landmarks and play-critical objects."
+    },
+    {
+      "id": "osm-legacy",
+      "productId": "openstreetmap",
+      "roles": [
+        "surface",
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "legacy",
+      "use": "supplemental",
+      "sourceUri": "https://api.openstreetmap.org/api/0.6/map?bbox=18.152,59.703,18.232,59.752",
+      "localPath": null,
+      "bboxWgs84": [
+        18.152,
+        59.703,
+        18.232,
+        59.752
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw XML cache is ignored and absent; only the checksummed parsed artifact remains.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supplementary estate, water and limited golf geometry with ODbL lineage."
+    },
+    {
+      "id": "terrarium-legacy",
+      "productId": "aws-terrarium",
+      "roles": [
+        "terrain"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+      "localPath": null,
+      "bboxWgs84": [
+        18.145,
+        59.698,
+        18.24,
+        59.758
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw tile cache, dates and tile checksums were not preserved.",
+      "replacementSourceId": "terrain-lm-1m",
+      "accuracyTier": "E",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Source of shared current HF0/HF1 only; prohibited as v2 truth."
+    },
+    {
+      "id": "esri-imagery-legacy",
+      "productId": "esri-world-imagery",
+      "roles": [
+        "imagery",
+        "surface",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      "localPath": null,
+      "bboxWgs84": [
+        18.145,
+        59.698,
+        18.24,
+        59.758
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw tiles, capture dates and contributor attribution were not persisted.",
+      "replacementSourceId": "imagery-lm-ortho",
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Primary legacy source for course outlines and canopy; migration comparison only."
+    },
+    {
+      "id": "club-guide-legacy",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing",
+        "surface"
+      ],
+      "lifecycle": "legacy",
+      "use": "reference-only",
+      "sourceUri": "project://course-guide-register/johannesberg",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw guide editions and permissions are not yet registered as immutable assets.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supports the 18-hole card and both routings; the nine-hole routing remains provisional."
+    }
   ],
   "artifacts": [
-    {"id":"legacy-course-model","kind":"composite","path":"johannesbergbuild/course-model.json","sha256":"cecb9c5a9eac16fc65be69103d57d31805ae60e98ca3a960ad4962b83e5ac14f","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Current 18-hole vectors, routing, elevations and scenery inputs."},
-    {"id":"legacy-heightfields","kind":"terrain","path":"johannesbergbuild/heightfields.json","sha256":"1496744e94403f30fb456612897b80a46a0d5057a41d8bbc556c507798ce9302","derivedFrom":["terrarium-legacy"],"use":"migration-only","notes":"Current shared 4 m HF0 and 32 m HF1 encoded heightfields."},
-    {"id":"legacy-tree-cover","kind":"canopy","path":"johannesbergbuild/tree-cover.json","sha256":"96558fdf9417919db2d9fd1aedce91463d452db5a1c4b05f5270018931ab0e5c","derivedFrom":["esri-imagery-legacy","osm-legacy"],"use":"migration-only","notes":"Current shared imagery-classified canopy raster."},
-    {"id":"legacy-osm-features","kind":"topography","path":"johannesbergbuild/osm-features.json","sha256":"34062b1020d778b9e7a7975c432e35ce451941d04588818865ac60d03abcb540","derivedFrom":["osm-legacy"],"use":"migration-only","notes":"Parsed OSM extract retained after raw XML cache removal."},
-    {"id":"legacy-surface-traces","kind":"surface","path":"johannesbergbuild/sat-shapes.json","sha256":"2123c10a014900d4b7df964cca46bcaf12a68b8eceb8c792ac6ffb564a5e90ea","derivedFrom":["esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"18-hole surface geometry interpreted from legacy imagery and guide."},
-    {"id":"legacy-nine-model","kind":"composite","path":"johannesbergbuild/nio.json","sha256":"d9b0495d5ae86bd96e3404859962025c8eec8782bb87036953c6a007fd9a8fda","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Provisional nine-hole course model sharing this physical ground."},
-    {"id":"legacy-nine-course-model","kind":"composite","path":"johannesberg9build/course-model.json","sha256":"f38af44a9f6671cbb0937c169649b335e5e3235baf132639c740b6e6274a7430","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Current generated nine-hole vectors and routing used by the shared-ground application build."},
-    {"id":"legacy-nine-routes","kind":"routing","path":"johannesbergbuild/nio-routes.geojson","sha256":"5e1cd4b6f57352af752cf592db698dc27c1fede5b590b86ce603314209a1696c","derivedFrom":["esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Provisional nine-hole routing geometry."},
-    {"id":"migration-course-model-epsg3006","kind":"composite","path":"geo_data/course-v2/johannesberg/migration/course-model.epsg3006.json","sha256":"885a978ff51df00168531aa6401d715a2001885aa6c5f6f8940db280830839e0","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."},
-    {"id":"migration-nine-course-model-epsg3006","kind":"composite","path":"geo_data/course-v2/johannesberg/migration/nine-course-model.epsg3006.json","sha256":"2693e21b8ee81af93b65427227a91b45c7e7309ecb9acaf9e847f5ea722ac70b","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Deterministic horizontal conversion of the current nine-hole vectors to absolute EPSG:3006 coordinates; routing remains provisional and heights remain unapproved."},
-    {"id":"migration-residual-report","kind":"control","path":"geo_data/course-v2/johannesberg/migration/residual-report.json","sha256":"7ebcd9a527cf39816f34ac50b3436d5e5fde9bb21f9b7c749752118621ed794e","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Candidate origin and scoped migration residuals for both course models; not an independent control approval."}
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "johannesbergbuild/course-model.json",
+      "sha256": "cecb9c5a9eac16fc65be69103d57d31805ae60e98ca3a960ad4962b83e5ac14f",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current 18-hole vectors, routing, elevations and scenery inputs."
+    },
+    {
+      "id": "legacy-heightfields",
+      "kind": "terrain",
+      "path": "johannesbergbuild/heightfields.json",
+      "sha256": "1496744e94403f30fb456612897b80a46a0d5057a41d8bbc556c507798ce9302",
+      "derivedFrom": [
+        "terrarium-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current shared 4 m HF0 and 32 m HF1 encoded heightfields."
+    },
+    {
+      "id": "legacy-tree-cover",
+      "kind": "canopy",
+      "path": "johannesbergbuild/tree-cover.json",
+      "sha256": "96558fdf9417919db2d9fd1aedce91463d452db5a1c4b05f5270018931ab0e5c",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current shared imagery-classified canopy raster."
+    },
+    {
+      "id": "legacy-osm-features",
+      "kind": "topography",
+      "path": "johannesbergbuild/osm-features.json",
+      "sha256": "34062b1020d778b9e7a7975c432e35ce451941d04588818865ac60d03abcb540",
+      "derivedFrom": [
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Parsed OSM extract retained after raw XML cache removal."
+    },
+    {
+      "id": "legacy-surface-traces",
+      "kind": "surface",
+      "path": "johannesbergbuild/sat-shapes.json",
+      "sha256": "2123c10a014900d4b7df964cca46bcaf12a68b8eceb8c792ac6ffb564a5e90ea",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "18-hole surface geometry interpreted from legacy imagery and guide."
+    },
+    {
+      "id": "legacy-nine-model",
+      "kind": "composite",
+      "path": "johannesbergbuild/nio.json",
+      "sha256": "d9b0495d5ae86bd96e3404859962025c8eec8782bb87036953c6a007fd9a8fda",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Provisional nine-hole course model sharing this physical ground."
+    },
+    {
+      "id": "legacy-nine-course-model",
+      "kind": "composite",
+      "path": "johannesberg9build/course-model.json",
+      "sha256": "f38af44a9f6671cbb0937c169649b335e5e3235baf132639c740b6e6274a7430",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current generated nine-hole vectors and routing used by the shared-ground application build."
+    },
+    {
+      "id": "legacy-nine-routes",
+      "kind": "routing",
+      "path": "johannesbergbuild/nio-routes.geojson",
+      "sha256": "5e1cd4b6f57352af752cf592db698dc27c1fede5b590b86ce603314209a1696c",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Provisional nine-hole routing geometry."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/johannesberg/migration/course-model.epsg3006.json",
+      "sha256": "885a978ff51df00168531aa6401d715a2001885aa6c5f6f8940db280830839e0",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."
+    },
+    {
+      "id": "migration-nine-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/johannesberg/migration/nine-course-model.epsg3006.json",
+      "sha256": "2693e21b8ee81af93b65427227a91b45c7e7309ecb9acaf9e847f5ea722ac70b",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic horizontal conversion of the current nine-hole vectors to absolute EPSG:3006 coordinates; routing remains provisional and heights remain unapproved."
+    },
+    {
+      "id": "migration-residual-report",
+      "kind": "control",
+      "path": "geo_data/course-v2/johannesberg/migration/residual-report.json",
+      "sha256": "7ebcd9a527cf39816f34ac50b3436d5e5fde9bb21f9b7c749752118621ed794e",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Candidate origin and scoped migration residuals for both course models; not an independent control approval."
+    },
+    {
+      "id": "d2-authoritative-source-discovery",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/johannesberg/acquisition/d2-discovery.json",
+      "sha256": "250d00ce12aca18d8cf96e85252283398944fc3cdee70b5229490c857684bbcb",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "tree-height-sks"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Checksummed official STAC selection for both courses on this ground: DTM, Laserdata Skog and orto-o2-2025 each cover the AOI completely. The AOI bbox was projected with the repository Kruger series rather than PROJ (no toolchain on the acquiring machine); the file records that, and no published coordinate derives from it."
+    },
+    {
+      "id": "terrain-window-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/johannesberg/acquisition/terrain-window.json",
+      "sha256": "8197211bcd731dc0d9dab8e71ac7870cf38a7c8beeaccff9785ced12d49666b1",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "The authenticated 1 m window read for the published graph: items, ETags, byte counts, the exact sample lattice and pixel-edge window, and the finite/plausibility statistics. Read at overview factor 1, so every published sample is a source pixel copied exactly."
+    },
+    {
+      "id": "legacy-vertical-datum-measurement",
+      "kind": "control",
+      "path": "geo_data/course-v2/johannesberg/migration/vertical-datum.json",
+      "sha256": "06a34f2d379567ca1c74c518430ba95ef25a0cefb35e2f2d7bc80072c306d7ae",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "terrarium-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "The MEASURED legacy-to-RH-2000 step used by the runtime bridge: median 5.6676 m over 38,543 mown-ground samples, MAD 1.7211 m. The spread is a coarse global model disagreeing with a laser DTM about terrain shape, not misregistration -- a +/-40 m registration sweep over four bridge variants moves it by under 0.25 m. It is a datum step, not a claim that the two surfaces agree."
+    },
+    {
+      "id": "laser-campaign-inventory",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/johannesberg/acquisition/laser-campaigns.json",
+      "sha256": "c7401cc7f4372329b10c66a1b2672e889f22d78aa101444d35e1d3e02d1a6f65",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pinned Laserdata Skog inventory: one active campaign 21C039 over both items, capture dates, densities, the E 680000 item seam and licence terms."
+    },
+    {
+      "id": "copc-hierarchy-census",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/johannesberg/acquisition/copc-hierarchy-census.json",
+      "sha256": "58c808e74dd30c9ddaf660523386e14d5645d057717ff74228b86eb178abc095",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "COPC headers and hierarchy pages only, no point bytes. Combined AOI density 1.59-4.21 all returns/m2 with no empty window. Item 662_67 is a 5 km HALF-tile whose COPC cube does not span its header extent, which is why node selection follows the extent rule and not the cube."
+    },
+    {
+      "id": "canopy-evidence",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/johannesberg/vegetation/canopy-evidence.json",
+      "sha256": "802f709bfca4c9ea50da9b3f517e53762df1026c073d6a6864fb66f992d85360",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Per-tile canopy rasters derived from class 2/9 ground and height above ground. The cloud ground minus the published DTM has a median of 0.00 m on every one of the 64 tiles, which is an independent confirmation of the published terrain."
+    },
+    {
+      "id": "chmv2-window",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/johannesberg/vegetation/chmv2-window.json",
+      "sha256": "20c688c20eeb56b5597a2140ab2a0824b4814163302aea679b290adbaf5880d2",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Meta/WRI CHMv2 tile 1200312031 sampled onto the campaign rasters own 1 m lattice. Independent optical sensor, used as calibration."
+    },
+    {
+      "id": "canopy-source-audit",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/johannesberg/vegetation/canopy-source-audit.json",
+      "sha256": "8b845791834a827d0848f5d26136a2b99b1dd30a93e3e2d5f80a58f8e8ab9d51",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "esri-imagery-legacy"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Laser 17.6% canopy, CHMv2 27.9%, legacy Esri raster 43.9%. Where the Esri raster claims canopy and the laser does not (106,626 cells) the laser height is median 0.00 m and p90 0.36 m, i.e. open ground the satellite over-detected rather than crowns the leaf-off scan lost."
+    }
   ],
   "blockers": [
-    {"id":"canonical-origin","severity":"release-blocking","description":"The shared EPSG:5845 origin is intentionally unset.","exitGate":"Transform with pinned PROJ, compare independent controls and approve one RH 2000 origin for both courses."},
-    {"id":"authoritative-assets","severity":"release-blocking","description":"Lantmäteriet assets and exact product terms have not been acquired.","exitGate":"Record immutable ids, dates, CRS, checksums and approved licence decisions."},
-    {"id":"nine-hole-routing","severity":"release-blocking","description":"The real nine-hole routing lacks an independently verified source.","exitGate":"Acquire club/field routing evidence and approve all nine tees, centres and greens without invention."},
-    {"id":"legacy-imagery-rights","severity":"release-blocking","description":"Current surface and canopy derivatives depend on unapproved Esri imagery use.","exitGate":"Re-derive both courses from approved imagery/survey or record explicit production rights."}
+    {
+      "id": "canonical-origin",
+      "severity": "release-blocking",
+      "description": "The shared EPSG:5845 origin is intentionally unset.",
+      "exitGate": "Transform with pinned PROJ, compare independent controls and approve one RH 2000 origin for both courses."
+    },
+    {
+      "id": "authoritative-assets",
+      "severity": "release-blocking",
+      "description": "Lantmateriet 1 m DTM is acquired for both courses on this ground (items 662_67 and 662_68, recorded with checksums, capture dates and CRS). Orthophoto, Laserdata Skog and Topografi 10 are discovered and covered but not yet acquired, and no product terms have been approved for redistribution.",
+      "exitGate": "Acquire the remaining ortho/laser/topography windows and record approved licence decisions for every product actually shipped."
+    },
+    {
+      "id": "nine-hole-routing",
+      "severity": "release-blocking",
+      "description": "The real nine-hole routing lacks an independently verified source.",
+      "exitGate": "Acquire club/field routing evidence and approve all nine tees, centres and greens without invention."
+    },
+    {
+      "id": "legacy-imagery-rights",
+      "severity": "release-blocking",
+      "description": "Current surface and canopy derivatives depend on unapproved Esri imagery use.",
+      "exitGate": "Re-derive both courses from approved imagery/survey or record explicit production rights."
+    }
   ]
 }

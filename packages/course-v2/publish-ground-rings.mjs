@@ -15,23 +15,31 @@ import { readChunk } from './chunk-node.mjs';
 import { emitGroundGraph, writeGroundGraphFiles } from './emit-ground-graph-node.mjs';
 import { decodeTerrainGrid } from './terrain-grid.mjs';
 import { compileTerrainRings, createRingSampler } from './terrain-rings.mjs';
-import { PUTTOM_GROUND_RINGS } from './puttom-ground-rings.mjs';
+import { ringSpecFor } from './ground-rings-registry.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const RINGS = { puttom: PUTTOM_GROUND_RINGS };
 
 function flag(name, fallback = null) {
   const index = process.argv.indexOf(`--${name}`);
   return index >= 0 && index + 1 < process.argv.length ? process.argv[index + 1] : fallback;
 }
 
-function migratedCourse(groundId) {
-  const model = JSON.parse(fs.readFileSync(path.join(ROOT, `geo_data/course-v2/${groundId}/migration/course-model.epsg3006.json`), 'utf8'));
-  if (model.groundId !== groundId || !Array.isArray(model.geometry?.holes)) throw new Error('migration model is missing its hole geometry');
+/* One ground may carry several courses, and they do not share a migration
+   file or a stroke-index status. A spec that says nothing keeps the original
+   single-course behaviour: <groundId>/migration/course-model.epsg3006.json,
+   index verified. */
+function migratedCourse(groundId, slug = groundId, spec = null) {
+  const declared = spec?.courseModels?.[slug] || null;
+  const file = declared?.migration || 'course-model.epsg3006.json';
+  const strokeIndexStatus = declared?.strokeIndexStatus || 'verified';
+  const model = JSON.parse(fs.readFileSync(path.join(ROOT, `geo_data/course-v2/${groundId}/migration/${file}`), 'utf8'));
+  if (model.groundId !== groundId || !Array.isArray(model.geometry?.holes)) throw new Error(`migration model ${file} is missing its hole geometry`);
   const holes = [...model.geometry.holes].sort((left, right) => left.n - right.n).map((hole, index) => {
     if (hole.n !== index + 1) throw new Error(`migrated holes are not numbered 1.. at ${hole.n}`);
     return {
-      number: hole.n, par: hole.par, strokeIndex: hole.idx, strokeIndexStatus: 'verified', accuracyTier: 'unrated',
+      number: hole.n, par: hole.par,
+      strokeIndex: strokeIndexStatus === 'not-applicable' ? null : hole.idx,
+      strokeIndexStatus, accuracyTier: 'unrated',
       line: hole.line.map(([easting, northing]) => [easting, northing]),
     };
   });
@@ -50,10 +58,20 @@ function registerArtifact(manifestPath, artifact) {
 
 async function main() {
   const groundId = flag('ground', 'puttom');
-  const slug = flag('slug', groundId);
+  /* One ground, one ground manifest. A ground carrying several courses must
+     publish them in ONE run: the artifact registration below rewrites the
+     source manifest, so two runs would stamp two different sourceManifestSha256
+     values into two otherwise identical ground manifests -- and
+     verifyAssetGraph refuses a ground referenced with conflicting manifests.
+     Pass them comma-separated: --slug veckefjarden,veckefjarden-korthalsbanan */
+  const slugs = flag('slug', groundId).split(',').map(value => value.trim()).filter(Boolean);
+  if (!slugs.length) throw new Error('--slug needs at least one course');
   const publicDir = path.resolve(ROOT, flag('public', 'apps/golf/public'));
-  const spec = RINGS[groundId];
-  if (!spec) throw new Error(`no ring specification for ground ${groundId}`);
+  const spec = ringSpecFor(groundId);
+  for (const value of slugs) {
+    if (!spec.courseSlugs.includes(value)) throw new Error(`ground ${groundId} does not declare course ${value}`);
+  }
+  const slug = slugs[0];
   const cacheDir = path.resolve(ROOT, 'packages/course-geo/toolchain/.cache/acquisition', `${groundId}-ground-rings`);
   const evidencePath = path.resolve(ROOT, `geo_data/course-v2/${groundId}/acquisition/ground-rings.json`);
   const evidence = JSON.parse(fs.readFileSync(evidencePath, 'utf8'));
@@ -122,35 +140,52 @@ async function main() {
     notes: 'Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is.',
   });
 
-  const graph = emitGroundGraph({
-    compilation: { groundId, courseSlugs: compiled.courseSlugs, bounds: compiled.bounds, shell: compiled.shell, tiles, resources },
-    frame: groundManifest.frame,
-    sourceManifestSha256,
-    course: { slug, name: rootEntry.name, holes: migratedCourse(groundId) },
-    /* the exact LIVE GPK1 manifest entry, never the previous root's copy: a
-       course whose pack changed (new traces, a new card) re-binds here, and the
-       runtime refuses a graph whose fallback is not the pack it can fetch */
-    fallbackV1: liveFallback(read, slug, rootEntry.fallbackV1),
-    heightAt: createRingSampler(levels),
-  });
-  const written = await writeGroundGraphFiles(publicDir, graph);
-  const report = {
-    ...graph.report,
-    levels: compiled.stats.levels,
-    reusedCourseTiles: compiled.stats.reusedTiles,
-    reuseTies: compiled.stats.reuseTies,
-    encodedBytes: compiled.stats.encodedBytes,
-    previousGroundManifest: courseManifest.groundManifest.url,
-    previousCourseManifest: rootEntry.manifest.url,
-    filesWritten: written.length,
-  };
-  evidence.publish = { observedOn: new Date().toISOString().slice(0, 10), ...report };
+  /* Every course of this ground, against the SAME compiled rings and the same
+     source-manifest hash, so the ground manifest is content-identical for all
+     of them and is written once. */
+  const reports = [];
+  for (const courseSlug of slugs) {
+    const entry = root.courses.find(course => course.slug === courseSlug);
+    if (!entry) throw new Error(`root index has no course ${courseSlug}`);
+    const previousCourseManifest = JSON.parse(read(entry.manifest.url).toString('utf8'));
+    const graph = emitGroundGraph({
+      compilation: { groundId, courseSlugs: compiled.courseSlugs, bounds: compiled.bounds, shell: compiled.shell, tiles, resources },
+      frame: groundManifest.frame,
+      sourceManifestSha256,
+      course: { slug: courseSlug, name: entry.name, holes: migratedCourse(groundId, courseSlug, spec) },
+      /* the exact LIVE GPK1 manifest entry, never the previous root's copy: a
+         course whose pack changed (new traces, a new card) re-binds here, and the
+         runtime refuses a graph whose fallback is not the pack it can fetch */
+      fallbackV1: liveFallback(read, courseSlug, entry.fallbackV1),
+      heightAt: createRingSampler(levels),
+    });
+    const written = await writeGroundGraphFiles(publicDir, graph);
+    reports.push({
+      ...graph.report,
+      levels: compiled.stats.levels,
+      reusedCourseTiles: compiled.stats.reusedTiles,
+      reuseTies: compiled.stats.reuseTies,
+      encodedBytes: compiled.stats.encodedBytes,
+      previousGroundManifest: previousCourseManifest.groundManifest.url,
+      previousCourseManifest: entry.manifest.url,
+      filesWritten: written.length,
+    });
+  }
+  const groundManifests = new Set(reports.map(entry => entry.groundManifestSha256));
+  if (groundManifests.size !== 1) {
+    throw new Error(`publishing ${slugs.join(', ')} produced ${groundManifests.size} ground manifests; one ground must have one`);
+  }
+  const observedOn = new Date().toISOString().slice(0, 10);
+  evidence.publish = slugs.length > 1
+    ? Object.fromEntries(reports.map((entry, index) => [slugs[index], { observedOn, ...entry }]))
+    : { observedOn, ...reports[0] };
   fs.writeFileSync(evidencePath, JSON.stringify(evidence, null, 2) + '\n');
   /* the artifact entry hashes the evidence file, so re-register after adding the publish block */
   registerArtifact(manifestPath, {
     ...JSON.parse(fs.readFileSync(manifestPath, 'utf8')).artifacts.find(entry => entry.id === 'ground-rings'),
     sha256: createHash('sha256').update(fs.readFileSync(evidencePath, 'utf8').replace(/\r\n/g, '\n')).digest('hex'),
   });
+  const report = reports.length === 1 ? reports[0] : { groundManifestSha256: [...groundManifests][0], courses: reports };
   console.log(JSON.stringify(report, null, 2));
 }
 

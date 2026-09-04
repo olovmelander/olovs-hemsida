@@ -5,7 +5,8 @@ export const RIBBINGSFORS_GROUND_GRAPH_CONFIG = Object.freeze({
   groundId: 'ribbingsfors',
   courseSlug: 'ribbingsfors',
   sourceItemId: '653_44',
-  sourceCogSha256: 'c992f541f854aa745742ef3429e15f931cb6459145945c1a1f68897273af44ad',
+  sourceCogSha256: 'f94d6bae09f5730281db1fa081bf1da689e7b48fc335f41c3e68b2ab4efeb283',
+  sourceWindowCogSha256: 'c992f541f854aa745742ef3429e15f931cb6459145945c1a1f68897273af44ad',
   sourceFloat32Sha256: '6cbd22bc14fa489279252c1f067f065d2f5fab500f29745258faf3bfd2b1dbdd',
   sourceCapture: Object.freeze({
     capturedAt: '2023-02-13T12:00:00Z',

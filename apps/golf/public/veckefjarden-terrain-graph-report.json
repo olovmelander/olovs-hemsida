@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "kind": "veckefjarden-terrain-graph",
+  "state": "published-provisional",
+  "provisionalReasons": [
+    "course-origin-awaits-independent-control-approval",
+    "playing-surfaces-are-migrated-legacy-traces-not-survey",
+    "korthalsbanan-card-is-unverified-and-publishes-no-stroke-index"
+  ],
+  "source": {
+    "itemId": "702_68",
+    "collection": "dtm-cog",
+    "assetUrl": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_6/m702_68.tif",
+    "sourceCogSha256": "0532a03bfd19859b2824b9f822c51d5edb56c9b8de4badd4420dd3d7a29e9b56",
+    "sourceCogBytes": 274998450,
+    "sourceWindowCogSha256": "a9239dff6de849d30e2190483947d601f25319dbd1570999741ad14a513d347a",
+    "sourceFloat32Sha256": "c740caa00ec7f87559c383bbd6f59b40abe59272899d6fc1e816eaf3f9a19f81",
+    "capture": {
+      "capturedAt": "2022-06-23T00:00:00Z",
+      "captureStart": "2020-06-18T00:00:00Z",
+      "captureEnd": "2024-06-27T00:00:00Z",
+      "originalSurveyDate": "2020-06-18",
+      "method": "Luftburen laserskanning",
+      "statedPlanUncertaintyMetres": 0.3,
+      "statedHeightUncertaintyMetres": 0.1
+    },
+    "pixelEdgeWindowEpsg3006": {
+      "west": 682885,
+      "north": 7024027,
+      "east": 684934,
+      "south": 7021978
+    }
+  },
+  "frame": {
+    "fingerprint": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
+    "bounds": {
+      "minEasting": 682885.5,
+      "minNorthing": 7021978.5,
+      "minHeightRH2000": 0.1639557033777237,
+      "maxEasting": 684933.5,
+      "maxNorthing": 7024026.5,
+      "maxHeightRH2000": 151.46051025390625
+    }
+  },
+  "compile": {
+    "sourceSamples": 4198401,
+    "finiteSamples": 4198401,
+    "sourceMinimumHeightRH2000": 0.1639557033777237,
+    "sourceMaximumHeightRH2000": 151.46051025390625,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 64,
+        "encodedBytes": 4118167,
+        "decodedBytes": 8454272
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 16,
+        "encodedBytes": 1177519,
+        "decodedBytes": 2113568
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 4,
+        "encodedBytes": 322881,
+        "decodedBytes": 528392
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 1,
+        "encodedBytes": 86609,
+        "decodedBytes": 132098
+      }
+    ],
+    "tileChunks": 85,
+    "uniqueChunks": 86,
+    "encodedBytes": 5791795,
+    "decodedBytes": 11360428
+  },
+  "courses": [
+    {
+      "slug": "veckefjarden",
+      "name": "Veckefjärdens GC",
+      "holes": 18,
+      "report": {
+        "slug": "veckefjarden",
+        "groundId": "veckefjarden",
+        "frameFingerprint": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
+        "rootBytes": 631,
+        "rootSha256": "9cefe0bbda39317673c7758be1559074dbb92a414be2212b09af51f5c6caa80d",
+        "courseManifestSha256": "529079ebe1982969de72294dcd9bfd9623ed7b185e97680147b6f6049443eb68",
+        "groundManifestSha256": "e1d66a77fc7cc62d0f6c1b9d73036abab1b80d2d418f1959c171c9f6e55dcb99",
+        "routingSha256": "0c75094a79ca238a8c58761e915323bbaf31b52717e584c57767bbaf02788cae",
+        "holes": 18,
+        "tiles": 85,
+        "finestTiles": 64,
+        "shellBytes": 86619,
+        "chunks": 87,
+        "encodedChunkBytes": 5793425,
+        "decodedChunkBytes": 11363005,
+        "holeTileBufferMetres": 80
+      }
+    },
+    {
+      "slug": "veckefjarden-korthalsbanan",
+      "name": "Korthålsbanan",
+      "holes": 9,
+      "report": {
+        "slug": "veckefjarden-korthalsbanan",
+        "groundId": "veckefjarden",
+        "frameFingerprint": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
+        "rootBytes": 670,
+        "rootSha256": "4b59e3dcde5d38083c8f160f61c9b0a0ed3ce5eb05539762c9959fe74e97470b",
+        "courseManifestSha256": "ac734a8612386e04ae635e56fe9d981d0b6a4f14a3ecaa5f575042515b0efbbe",
+        "groundManifestSha256": "e1d66a77fc7cc62d0f6c1b9d73036abab1b80d2d418f1959c171c9f6e55dcb99",
+        "routingSha256": "03641bdd495b549ab26473a79a101894b4abc2618dcb8e9a08ad5cbed5a2d2d3",
+        "holes": 9,
+        "tiles": 85,
+        "finestTiles": 64,
+        "shellBytes": 86619,
+        "chunks": 87,
+        "encodedChunkBytes": 5793315,
+        "decodedChunkBytes": 11362642,
+        "holeTileBufferMetres": 80
+      }
+    }
+  ],
+  "mergedRoot": {
+    "bytes": 2267,
+    "sha256": "08ba82a65914c2320cc89dfcb7d3b06b66f4c5223a26a29b375fb3984c7a61dd"
+  }
+}

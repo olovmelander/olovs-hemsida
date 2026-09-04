@@ -3,14 +3,25 @@
   "schemaVersion": 1,
   "groundId": "upsala",
   "groundName": "Upsala Golfklubb",
-  "courseSlugs": ["upsala", "upsala-mellanbanan"],
-  "targetBboxWgs84": [17.452, 59.815, 17.54, 59.864],
+  "courseSlugs": [
+    "upsala",
+    "upsala-mellanbanan"
+  ],
+  "targetBboxWgs84": [
+    17.452,
+    59.815,
+    17.54,
+    59.864
+  ],
   "legacyFrame": {
     "buildDirectory": "upsalabuild",
-    "originWgs84": { "latitude": 59.839, "longitude": 17.4952 },
+    "originWgs84": {
+      "latitude": 59.839,
+      "longitude": 17.4952
+    },
     "metresPerLatitude": 111320,
     "metresPerLongitude": 55930.68,
-    "heightReference": "Terrarium-derived legacy heights; vertical datum was not persisted",
+    "heightReference": "RH 2000. The pack was RE-GROUNDED on 2026-09-04: HF0 and HF1 are cut from Lantmäteriet Markhöjdmodell items 663_63 and 663_64, sampled through the derived legacy-to-grid bridge, replacing the AWS Terrarium field whose datum was never persisted and which stood a median 6.75 m high with a 1.92 m median absolute deviation.",
     "frame": "local metres about origin; north -z, east +x"
   },
   "canonicalFrame": {
@@ -18,39 +29,565 @@
     "horizontalCrs": "EPSG:3006",
     "verticalCrs": "EPSG:5613",
     "originStatus": "pending-control-approval",
-    "origin": { "easting": null, "northing": null, "heightRH2000": null },
-    "axisMapping": {"worldX":"easting - originEasting","worldZ":"originNorthing - northing","worldY":"heightRH2000 - originHeightRH2000"}
+    "origin": {
+      "easting": null,
+      "northing": null,
+      "heightRH2000": null
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldZ": "originNorthing - northing",
+      "worldY": "heightRH2000 - originHeightRH2000"
+    }
   },
   "sources": [
-    {"id":"terrain-lm-1m","productId":"lantmateriet-markhojdmodell-1m","roles":["terrain"],"lifecycle":"planned","use":"candidate","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/markhoejdmodell-nedladdning/released/1/","localPath":null,"bboxWgs84":[17.452,59.815,17.54,59.864],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Exact STAC COG and break-geometry ids/checksums are recorded in the D2 discovery artifact; authenticated clipped outputs are not yet acquired.","replacementSourceId":null,"accuracyTier":"B","horizontalAccuracyMetres":0.3,"verticalAccuracyMetres":0.1,"notes":"Planned shared 1 m DTM; 0.3 m horizontal and 0.1 m vertical values are source-advertised uncertainty, not independent residuals for either course."},
-    {"id":"imagery-lm-ortho","productId":"lantmateriet-ortofoto","roles":["imagery","surface"],"lifecycle":"planned","use":"candidate","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/","localPath":null,"bboxWgs84":[17.452,59.815,17.54,59.864],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"The 2025 O2 16 cm RGBI campaign is recorded in D2; its data assets advertise sizes but no source checksums and authenticated windows remain pending.","replacementSourceId":null,"accuracyTier":"B","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Measurement input for both courses' surfaces, vegetation and objects; never a runtime texture."},
-    {"id":"laser-lm-skog","productId":"lantmateriet-laserdata-skog","roles":["terrain","canopy","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/","localPath":null,"bboxWgs84":[17.452,59.815,17.54,59.864],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Newest-coverage COPC ids, dates, sizes and checksums are recorded in D2; authenticated point windows are not yet acquired.","replacementSourceId":null,"accuracyTier":"C","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supports canopy/object extraction, recency checks and difficult terrain QA."},
-    {"id":"topography-lm-10","productId":"lantmateriet-topografi-10","roles":["topography","hydrology","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/","localPath":null,"bboxWgs84":[17.452,59.815,17.54,59.864],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; exact dataset release and checksum are pending.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"General hydrology, infrastructure and land-cover support."},
-    {"id":"tree-height-sks","productId":"skogsstyrelsen-tradhojd","roles":["canopy","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf","localPath":null,"bboxWgs84":[17.452,59.815,17.54,59.864],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"The 1 m signed-Int16/decimetre service contract and ingest are recorded in D2; authenticated raster output and checksum are pending.","replacementSourceId":null,"accuracyTier":"C","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Canopy-height evidence only; individual stem positions remain derived until surveyed."},
-    {"id":"survey-control","productId":"controlled-course-survey","roles":["control","terrain","surface","object"],"lifecycle":"planned","use":"candidate","sourceUri":"project://survey/upsala","localPath":null,"bboxWgs84":[17.452,59.815,17.54,59.864],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"No RH 2000-tied course survey has been acquired.","replacementSourceId":null,"accuracyTier":"A","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Must control both course routings plus zone-A surfaces and objects."},
-    {"id":"osm-legacy","productId":"openstreetmap","roles":["surface","topography","hydrology","object"],"lifecycle":"legacy","use":"supplemental","sourceUri":"https://api.openstreetmap.org/api/0.6/map?bbox=17.458,59.820,17.535,59.860","localPath":null,"bboxWgs84":[17.458,59.82,17.535,59.86],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw XML cache is ignored and absent; only the checksummed parsed artifact remains.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supplementary context and incomplete golf features with ODbL lineage."},
-    {"id":"terrarium-legacy","productId":"aws-terrarium","roles":["terrain"],"lifecycle":"legacy","use":"migration-only","sourceUri":"https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png","localPath":null,"bboxWgs84":[17.452,59.815,17.54,59.864],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw tile cache, dates and tile checksums were not preserved.","replacementSourceId":"terrain-lm-1m","accuracyTier":"E","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Source of the shared current HF0/HF1 only; prohibited as v2 truth."},
-    {"id":"esri-imagery-legacy","productId":"esri-world-imagery","roles":["imagery","surface","canopy","object"],"lifecycle":"legacy","use":"migration-only","sourceUri":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}","localPath":null,"bboxWgs84":[17.452,59.815,17.54,59.864],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw tiles, capture dates and contributor attribution were not persisted.","replacementSourceId":"imagery-lm-ortho","accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Current championship and middle-course traces are migration comparisons only."},
-    {"id":"club-guide-legacy","productId":"club-course-guide","roles":["course-guide","routing","surface"],"lifecycle":"legacy","use":"reference-only","sourceUri":"project://course-guide-register/upsala","localPath":null,"bboxWgs84":null,"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw guide editions and permissions are not yet registered as immutable assets.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supports both course cards and routing, but current middle-course index remains unverified."}
+    {
+      "id": "terrain-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_63.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        17.316146395227616,
+        59.78409040996446,
+        17.500841280329375,
+        59.87706811611447
+      ],
+      "acquiredAt": "2026-09-04",
+      "capturedAt": "2023-04-27",
+      "checksum": "95655f47fc991c4adb6a97458d3f75cf3ec2a82d85da29ee15b360afda4641a8",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Markhöjdmodell item 663_63, the 10 km square WEST of easting 640000, and the western 880 m of the reviewed v2 window. It keeps the bare id because tools that write into this manifest -- build-ground-rings and publish-ground-rings -- name a ground's terrain source that way; its eastern neighbour is terrain-lm-1m-east and the two together are what backs this ground. Read at factor 1 only, so every published sample is a source pixel copied exactly. The 0.3 m horizontal and 0.1 m vertical figures are source-advertised uncertainty, not independent residuals for either course."
+    },
+    {
+      "id": "terrain-lm-1m-east",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_64.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        17.49412193161695,
+        59.78059338110649,
+        17.679252770089576,
+        59.873800051468564
+      ],
+      "acquiredAt": "2026-09-04",
+      "capturedAt": "2023-04-26",
+      "checksum": "8d0107f4aa85d02200ecf91547813e93499571b995a293bdbe1b80509e34541e",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Markhöjdmodell item 663_64, the 10 km square east of easting 640000, captured one day before its western neighbour. Håmö straddles the boundary: this item supplies the eastern 1,168 m of the reviewed window, all of Mellanbanan and the east end of Stora banan. Same product, lattice and datum as the west item, so the seam is one of provenance and not of geometry."
+    },
+    {
+      "id": "imagery-lm-ortho",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "localPath": null,
+      "bboxWgs84": [
+        17.452,
+        59.815,
+        17.54,
+        59.864
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "The 2025 O2 16 cm RGBI campaign is recorded in D2; its data assets advertise sizes but no source checksums and authenticated windows remain pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Measurement input for both courses' surfaces, vegetation and objects; never a runtime texture."
+    },
+    {
+      "id": "laser-lm-skog",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "terrain",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/",
+      "localPath": null,
+      "bboxWgs84": [
+        17.452,
+        59.815,
+        17.54,
+        59.864
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Newest-coverage COPC ids, dates, sizes and checksums are recorded in D2; authenticated point windows are not yet acquired.",
+      "replacementSourceId": null,
+      "accuracyTier": "C",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supports canopy/object extraction, recency checks and difficult terrain QA."
+    },
+    {
+      "id": "topography-lm-10",
+      "productId": "lantmateriet-topografi-10",
+      "roles": [
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/",
+      "localPath": null,
+      "bboxWgs84": [
+        17.452,
+        59.815,
+        17.54,
+        59.864
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; exact dataset release and checksum are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "General hydrology, infrastructure and land-cover support."
+    },
+    {
+      "id": "tree-height-sks",
+      "productId": "skogsstyrelsen-tradhojd",
+      "roles": [
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf",
+      "localPath": null,
+      "bboxWgs84": [
+        17.452,
+        59.815,
+        17.54,
+        59.864
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "The 1 m signed-Int16/decimetre service contract and ingest are recorded in D2; authenticated raster output and checksum are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "C",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Canopy-height evidence only; individual stem positions remain derived until surveyed."
+    },
+    {
+      "id": "survey-control",
+      "productId": "controlled-course-survey",
+      "roles": [
+        "control",
+        "terrain",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "project://survey/upsala",
+      "localPath": null,
+      "bboxWgs84": [
+        17.452,
+        59.815,
+        17.54,
+        59.864
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "No RH 2000-tied course survey has been acquired.",
+      "replacementSourceId": null,
+      "accuracyTier": "A",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Must control both course routings plus zone-A surfaces and objects."
+    },
+    {
+      "id": "osm-legacy",
+      "productId": "openstreetmap",
+      "roles": [
+        "surface",
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "legacy",
+      "use": "supplemental",
+      "sourceUri": "https://api.openstreetmap.org/api/0.6/map?bbox=17.458,59.820,17.535,59.860",
+      "localPath": null,
+      "bboxWgs84": [
+        17.458,
+        59.82,
+        17.535,
+        59.86
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw XML cache is ignored and absent; only the checksummed parsed artifact remains.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supplementary context and incomplete golf features with ODbL lineage."
+    },
+    {
+      "id": "terrarium-legacy",
+      "productId": "aws-terrarium",
+      "roles": [
+        "terrain"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+      "localPath": null,
+      "bboxWgs84": [
+        17.452,
+        59.815,
+        17.54,
+        59.864
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw tile cache, dates and tile checksums were not preserved.",
+      "replacementSourceId": "terrain-lm-1m",
+      "accuracyTier": "E",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Source of the shared current HF0/HF1 only; prohibited as v2 truth."
+    },
+    {
+      "id": "esri-imagery-legacy",
+      "productId": "esri-world-imagery",
+      "roles": [
+        "imagery",
+        "surface",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      "localPath": null,
+      "bboxWgs84": [
+        17.452,
+        59.815,
+        17.54,
+        59.864
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw tiles, capture dates and contributor attribution were not persisted.",
+      "replacementSourceId": "imagery-lm-ortho",
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Current championship and middle-course traces are migration comparisons only."
+    },
+    {
+      "id": "club-guide-legacy",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing",
+        "surface"
+      ],
+      "lifecycle": "legacy",
+      "use": "reference-only",
+      "sourceUri": "project://course-guide-register/upsala",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw guide editions and permissions are not yet registered as immutable assets.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supports both course cards and routing, but current middle-course index remains unverified."
+    }
   ],
   "artifacts": [
-    {"id":"legacy-course-model","kind":"composite","path":"upsalabuild/course-model.json","sha256":"fc608ea3e9829bda409b9c50f23bf509aa20656a4a02f3741fadf4c7412a0005","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Current championship-course vectors, routing, elevations and scenery inputs."},
-    {"id":"legacy-heightfields","kind":"terrain","path":"upsalabuild/heightfields.json","sha256":"83f3a0be8b16e26aad21e8ca5d77b229517c53a2f9779f41c01b334b0c66fcdc","derivedFrom":["terrarium-legacy"],"use":"migration-only","notes":"Current shared 4 m HF0 and 32 m HF1 encoded heightfields."},
-    {"id":"legacy-tree-cover","kind":"canopy","path":"upsalabuild/tree-cover.json","sha256":"a8b192fcfdf24137f2b31a6702629fefee859e0bfaa4a6c5a5d5461564e3df00","derivedFrom":["esri-imagery-legacy","osm-legacy"],"use":"migration-only","notes":"Current shared imagery-classified canopy raster."},
-    {"id":"legacy-osm-features","kind":"topography","path":"upsalabuild/osm-features.json","sha256":"0474b684341297502852dac3fc1396910ed26a42e404b046de56a6d57e36c68a","derivedFrom":["osm-legacy"],"use":"migration-only","notes":"Parsed OSM extract retained after raw XML cache removal."},
-    {"id":"legacy-surface-traces","kind":"surface","path":"upsalabuild/sat-shapes.json","sha256":"163919bb89a42a03cb7c288f70a4255132cc7a000417a4ceb378c061827e42c8","derivedFrom":["esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Championship-course golf surface shapes traced from legacy imagery."},
-    {"id":"legacy-middle-model","kind":"composite","path":"upsalabuild/mellanbanan-model.json","sha256":"7682f5f4803a822c39a1827a4089e2abd26d29f1c50f0f9c8dd4ea3d6683cd23","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Middle-course model sharing this physical ground."},
-    {"id":"legacy-middle-routes","kind":"routing","path":"upsalabuild/mellanbanan-routes.geojson","sha256":"82ed0e341e3f15ab252812cb733b7c738af9aee064d57f9e8b3313783a5c6879","derivedFrom":["esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Registered middle-course routing lines."},
-    {"id":"legacy-middle-traces","kind":"surface","path":"upsalabuild/mellanbanan-traced.json","sha256":"f38b6e5a45d9330d9d20c8ad75feab27cf6a5ebe434da6838e8b87e2df501ae5","derivedFrom":["esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Middle-course traced geometry and registration results."},
-    {"id":"migration-course-model-epsg3006","kind":"composite","path":"geo_data/course-v2/upsala/migration/course-model.epsg3006.json","sha256":"36f2187cb2096523205b827869eb8b3131be208cb969e4c4cf4a554c6ada9da4","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Deterministic horizontal conversion of current championship-course vectors to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."},
-    {"id":"migration-middle-model-epsg3006","kind":"composite","path":"geo_data/course-v2/upsala/migration/mellanbanan-model.epsg3006.json","sha256":"547da39c0f83bbe9caeb276d198ae2becf1cfd235c7cdff211abe897496f526d","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Deterministic horizontal conversion of current middle-course vectors to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."},
-    {"id":"migration-residual-report","kind":"control","path":"geo_data/course-v2/upsala/migration/residual-report.json","sha256":"282faeed445cb23874cca46711196e6d09f6482d71b43965c1dccf314bbf854f","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Candidate origin and scoped migration residuals for both course models; not an independent control approval."},
-    {"id":"d2-authoritative-source-discovery","kind":"acquisition","path":"geo_data/course-v2/upsala/acquisition/d2-discovery.json","sha256":"d9cf4b972681659698b79fc66a62c8c7e96eecb4815dcf75c5661a583abc39c8","derivedFrom":["terrain-lm-1m","imagery-lm-ortho","laser-lm-skog","tree-height-sks"],"use":"discovery-evidence","notes":"Checksummed official STAC selection and verified public metadata for the shared championship/middle-course ground; authenticated windows remain pending."}
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "upsalabuild/course-model.json",
+      "sha256": "965c350f8068016d3ff5ecfdf110e6fcbb19cb05ce145e12e7ef3aa489650c7d",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "terrain-lm-1m-east",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current championship-course vectors, routing and scenery inputs. Horizontal geometry is unchanged since the Terrarium build; every hole elevation, water level and the water floor are re-measured from the 1 m DTM."
+    },
+    {
+      "id": "legacy-heightfields",
+      "kind": "terrain",
+      "path": "upsalabuild/heightfields.json",
+      "sha256": "eef8475eb961b98835eff797a65058d224f909728c963108481683e777287cf4",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "terrain-lm-1m-east"
+      ],
+      "use": "migration-only",
+      "notes": "Shared 4 m HF0 and 32 m HF1, in RH 2000, cut from the Lantmäteriet 1 m DTM through the derived legacy-to-grid bridge. Not Terrarium: see legacyFrame.heightReference."
+    },
+    {
+      "id": "legacy-tree-cover",
+      "kind": "canopy",
+      "path": "upsalabuild/tree-cover.json",
+      "sha256": "a8b192fcfdf24137f2b31a6702629fefee859e0bfaa4a6c5a5d5461564e3df00",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current shared imagery-classified canopy raster."
+    },
+    {
+      "id": "legacy-osm-features",
+      "kind": "topography",
+      "path": "upsalabuild/osm-features.json",
+      "sha256": "0474b684341297502852dac3fc1396910ed26a42e404b046de56a6d57e36c68a",
+      "derivedFrom": [
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Parsed OSM extract retained after raw XML cache removal."
+    },
+    {
+      "id": "legacy-surface-traces",
+      "kind": "surface",
+      "path": "upsalabuild/sat-shapes.json",
+      "sha256": "163919bb89a42a03cb7c288f70a4255132cc7a000417a4ceb378c061827e42c8",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Championship-course golf surface shapes traced from legacy imagery."
+    },
+    {
+      "id": "legacy-middle-model",
+      "kind": "composite",
+      "path": "upsalabuild/mellanbanan-model.json",
+      "sha256": "7682f5f4803a822c39a1827a4089e2abd26d29f1c50f0f9c8dd4ea3d6683cd23",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Middle-course model sharing this physical ground."
+    },
+    {
+      "id": "legacy-middle-routes",
+      "kind": "routing",
+      "path": "upsalabuild/mellanbanan-routes.geojson",
+      "sha256": "82ed0e341e3f15ab252812cb733b7c738af9aee064d57f9e8b3313783a5c6879",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Registered middle-course routing lines."
+    },
+    {
+      "id": "legacy-middle-traces",
+      "kind": "surface",
+      "path": "upsalabuild/mellanbanan-traced.json",
+      "sha256": "f38b6e5a45d9330d9d20c8ad75feab27cf6a5ebe434da6838e8b87e2df501ae5",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Middle-course traced geometry and registration results."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/upsala/migration/course-model.epsg3006.json",
+      "sha256": "36f2187cb2096523205b827869eb8b3131be208cb969e4c4cf4a554c6ada9da4",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic horizontal conversion of current championship-course vectors to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."
+    },
+    {
+      "id": "migration-middle-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/upsala/migration/mellanbanan-model.epsg3006.json",
+      "sha256": "547da39c0f83bbe9caeb276d198ae2becf1cfd235c7cdff211abe897496f526d",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic horizontal conversion of current middle-course vectors to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."
+    },
+    {
+      "id": "migration-residual-report",
+      "kind": "control",
+      "path": "geo_data/course-v2/upsala/migration/residual-report.json",
+      "sha256": "282faeed445cb23874cca46711196e6d09f6482d71b43965c1dccf314bbf854f",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Candidate origin and scoped migration residuals for both course models; not an independent control approval."
+    },
+    {
+      "id": "d2-authoritative-source-discovery",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/acquisition/d2-discovery.json",
+      "sha256": "d9cf4b972681659698b79fc66a62c8c7e96eecb4815dcf75c5661a583abc39c8",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "terrain-lm-1m-east",
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "tree-height-sks"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Checksummed official STAC selection and verified public metadata for the shared championship/middle-course ground; authenticated windows remain pending."
+    },
+    {
+      "id": "ground-rings",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/acquisition/ground-rings.json",
+      "sha256": "ee6043c8aada24e8c9ded3175e5deb9572ce33a333aed13d949de0768387bdd8",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
+    },
+    {
+      "id": "terrain-window",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/acquisition/terrain-window.json",
+      "sha256": "dfd07649ff93396220639d9c124b22068fcbbbfebb436d8962b33e237a2fc92d",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "terrain-lm-1m-east"
+      ],
+      "use": "discovery-evidence",
+      "notes": "The authenticated 2049 x 2049 finest window on the reviewed EPSG:3006 lattice: source items, ETags, the exact pixel windows read at factor 1, the Float32 raster hash and every sample statistic. The raster itself stays in the ignored acquisition cache."
+    },
+    {
+      "id": "legacy-field-window",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/upsala/acquisition/legacy-field-window.json",
+      "sha256": "bd63c8096fc9ca42dc3331217d9bb0b989c7599f4d88911934983a854984b1f0",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "terrain-lm-1m-east"
+      ],
+      "use": "discovery-evidence",
+      "notes": "The wider 1 m and 32 m reads that the pack HF0 and HF1 are cut from. Their footprint is the rotated legacy frame's, so it is a different rectangle from the v2 window and is recorded separately."
+    },
+    {
+      "id": "shipped-middle-course-model",
+      "kind": "composite",
+      "path": "upsalamellanbuild/course-model.json",
+      "sha256": "8fec7a6d37e653fd59dbdea3f6e130ce95af84e8b4bac4d8172a952a4e2fc816",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "terrain-lm-1m-east",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "The Mellanbanan nine the app actually ships, built by tools/build-nine.mjs on the parent ground. Deliberately NOT id-prefixed legacy-, so migrate-legacy.mjs does not try to migrate it to the same output name as the championship model; its EPSG:3006 form is migration-mellanbanan-course-model-epsg3006 below and should be regenerated through PROJ when that toolchain is available."
+    },
+    {
+      "id": "migration-mellanbanan-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/upsala/migration/mellanbanan-course-model.epsg3006.json",
+      "sha256": "4c77d55bf347cfe23e75ec9125eef3934815e22890c1b3cf02ba87ac563c8115",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "terrain-lm-1m-east",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "The SHIPPED nine in absolute EPSG:3006, and the routing the v2 course manifest claims tiles for. Projected with the repository's own Krüger series because PROJ was unavailable; the driver first reproduced the committed cs2cs migration of this same ground to 1.3 mm over all 12,925 of its coordinates and refuses to write otherwise. The older migration-middle-model-epsg3006 is the banguide TRACE, which disagrees with this routing by up to 164 m on holes 7 and 8."
+    }
   ],
   "blockers": [
-    {"id":"canonical-origin","severity":"release-blocking","description":"The shared EPSG:5845 origin is intentionally unset.","exitGate":"Transform with pinned PROJ, compare independent controls and approve one RH 2000 origin for both courses."},
-    {"id":"authoritative-assets","severity":"release-blocking","description":"Official source ids, dates, CRS, checksums and terms are discovered for the shared ground, but authenticated COG, break-geometry and tree-height windows have not been acquired.","exitGate":"Run the credentialed D2 acquisition once for the parent ground, verify clipped outputs and measurements, then record approved candidate assets shared by both slugs."},
-    {"id":"zone-a-survey","severity":"quality","description":"Both courses' play-critical microterrain and objects lack controlled survey.","exitGate":"Approve zone-A survey patches and controls for championship and middle-course holes."},
-    {"id":"legacy-imagery-rights","severity":"release-blocking","description":"Current surface and canopy derivatives depend on unapproved Esri imagery use.","exitGate":"Re-derive both courses from approved imagery/survey or record explicit production rights."}
+    {
+      "id": "canonical-origin",
+      "severity": "release-blocking",
+      "description": "The shared EPSG:5845 origin is intentionally unset.",
+      "exitGate": "Transform with pinned PROJ, compare independent controls and approve one RH 2000 origin for both courses."
+    },
+    {
+      "id": "authoritative-assets",
+      "severity": "release-blocking",
+      "description": "Terrain is acquired and verified: the 1 m Markhöjdmodell window backs both the published v2 tiles and the pack heightfields, and the ring reader reproduces the published level-zero tiles to within half a quantum. Orthophoto, laser point windows and the tree-height raster are still not acquired.",
+      "exitGate": "Acquire the credentialed orthophoto and Laserdata Skog windows for this ground, verify their clipped outputs and record them as approved candidate assets shared by both slugs."
+    },
+    {
+      "id": "zone-a-survey",
+      "severity": "quality",
+      "description": "Both courses' play-critical microterrain and objects lack controlled survey.",
+      "exitGate": "Approve zone-A survey patches and controls for championship and middle-course holes."
+    },
+    {
+      "id": "legacy-imagery-rights",
+      "severity": "release-blocking",
+      "description": "Current surface and canopy derivatives depend on unapproved Esri imagery use.",
+      "exitGate": "Re-derive both courses from approved imagery/survey or record explicit production rights."
+    }
   ]
 }

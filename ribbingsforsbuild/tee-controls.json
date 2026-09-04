@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "status": "provisional-terrain-bench-control",
+  "horizontalCrs": "EPSG:3006",
+  "observedOn": "2026-09-04",
+  "method": "Candidate tee centres are placed only where the authenticated Lantmateriet 1 m DTM resolves a constructed bench, then checked against the supplementary OSM road geometry and corroborated against the official/Caddee three-deck hole guide. DTM morphology and guide art are not a boundary survey, so every control remains provisional.",
+  "controls": [
+    {
+      "hole": 9,
+      "teeMetres": 480,
+      "teeLabel": "Gul",
+      "centre": {
+        "easting": 449556.6,
+        "northing": 6536126.3
+      },
+      "pad": {
+        "lengthMetres": 6,
+        "widthMetres": 4,
+        "orientation": "route-tangent"
+      },
+      "terrainFit": {
+        "heightRh2000Metres": 79.05,
+        "planeSlopePercent": 0.42,
+        "planeRmseMetres": 0.136
+      },
+      "roadCheck": {
+        "osmWayId": "w1135143747",
+        "roadKind": "tertiary",
+        "roadSurface": "asphalt",
+        "minimumPadClearanceFromRenderedAsphaltMetres": 9.45
+      },
+      "cardDistanceStatus": "official-total-constrained provisional per-hole metadata; not inferred from this spatial control",
+      "provenance": "Lantmateriet Markhojdmodell 1 m terrain-bench interpretation + official/Caddee guide corroboration + OSM road exclusion; survey/orthophoto boundary pending"
+    }
+  ]
+}

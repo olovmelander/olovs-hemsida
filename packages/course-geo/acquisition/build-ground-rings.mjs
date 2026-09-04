@@ -19,21 +19,18 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { basicAuthorization, httpRange, openCog } from '../cog/cog-reader.mjs';
 import { lantmaterietCredentials } from './credentials.mjs';
-import { PUTTOM_GROUND_RINGS, dtmItemsFor, ringLevelExtent } from '../../course-v2/puttom-ground-rings.mjs';
+import { dtmItemsFor, ringLevelExtent, ringSpecFor } from '../../course-v2/ground-rings-registry.mjs';
 import { readChunk } from '../../course-v2/chunk-node.mjs';
 import { decodeTerrainGrid } from '../../course-v2/terrain-grid.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
-const RINGS = { puttom: PUTTOM_GROUND_RINGS };
-
 function arg(name, fallback = null) {
   const index = process.argv.indexOf(name);
   return index >= 0 && index + 1 < process.argv.length ? process.argv[index + 1] : fallback;
 }
 
 const groundId = arg('--ground', 'puttom');
-const spec = RINGS[groundId];
-if (!spec) throw new Error(`no ring specification for ground ${groundId}`);
+const spec = ringSpecFor(groundId);
 const only = arg('--only') ? new Set(arg('--only').split(',').map(Number)) : null;
 const cacheDir = path.resolve(ROOT, 'packages/course-geo/toolchain/.cache/acquisition', `${groundId}-ground-rings`);
 const evidencePath = path.resolve(ROOT, `geo_data/course-v2/${groundId}/acquisition/ground-rings.json`);
@@ -50,6 +47,18 @@ const itemEvidence = new Map();
 async function openItem(item) {
   if (openItems.has(item.id)) return openItems.get(item.id);
   const head = await fetch(item.href, { method: 'HEAD', headers: { Authorization: authorization }, signal: AbortSignal.timeout(60_000) });
+  /* A 404 is a statement about the SEA, not about this account. Lantmäteriet
+     publishes no height model for a 10 km square that is entirely open water:
+     697_68 answers 404 while all eight of its neighbours answer 200. The
+     square is recorded as unpublished and its samples stay nodata, which the
+     sea fill then has to justify by its boundary or the coverage gate fails.
+     Any other status is still an error, and 401/403 cannot arrive here as a
+     404, so a credential problem cannot be swallowed by this branch. */
+  if (head.status === 404) {
+    openItems.set(item.id, null);
+    itemEvidence.set(item.id, { id: item.id, href: item.href, published: false, levelsUsed: [] });
+    return null;
+  }
   if (!head.ok) throw new Error(`HEAD ${item.href} returned HTTP ${head.status}`);
   const range = httpRange(item.href, { authorization });
   const cog = await openCog(range);
@@ -84,6 +93,7 @@ async function readLevel(level) {
   let requests = 0, bytes = 0;
   for (const item of items) {
     const opened = await openItem(item);
+    if (!opened) continue; /* the square is not published: open sea */
     const { cog, range } = opened;
     const factor = level.source.factor;
     /* an item may stop its overview chain early (the coast item is small);
@@ -147,6 +157,105 @@ async function readLevel(level) {
   return { extent, size, values, items: items.map(item => item.id), finite, minimum, maximum, requests, bytes };
 }
 
+/* The national height model tiles Sweden's LAND and the water the laser
+   reached; it does not tile the open sea. On an inland ground that never
+   shows, because every sample the rings ask for is covered. Norrfällsviken is
+   the first ground here whose square reaches real open water, and out there
+   the delivery stops in two different ways: the coastal item 698_68 returns
+   nodata over its outer sea, and the 10 km square 697_68 -- which is entirely
+   Gulf of Bothnia -- is not published at all and answers 404. Every one of its
+   neighbours answers 200, so that is a statement about the sea and not about
+   this account.
+
+   Relaxing coverageGate.requireEverySampleFinite would be the wrong fix,
+   because that gate is what catches a wrong item, a padded window or a
+   half-covered ring. The surface out there is not unknown: it is the sea, and
+   RH 2000 is referenced to mean sea level. So this fills it, under a rule
+   whose thresholds were MEASURED on the boundaries the data actually has --
+   not raised until the build passed.
+
+   Every nodata component is examined by the finite samples that bound it:
+
+     median  <= boundaryMedianMaximumHeightRH2000   the hole is IN water
+     >= boundaryWaterMinimumFraction of the boundary <= boundaryWaterHeightRH2000
+     max     <= boundaryMaximumHeightRH2000          nothing real touches it
+     and at least one finite boundary sample exists at all
+
+   The median is the discriminator that cannot be dragged: a hole in the sea
+   has a boundary median at sea level, a hole in missing LAND has a boundary
+   median at terrain height. The fraction catches a hole lying half in a
+   valley, and the ceiling catches anything solid. Measured over the two real
+   components here: medians -0.03 m, 93.2% and 96.4% of the boundary at or
+   below 0.25 m, and maxima 0.673 m and 0.796 m -- that upper tail is shore and
+   skerry averaged into a factor-4 overview block, not terrain.
+
+   The value written is the MEDIAN of that component's own water boundary
+   rather than a constant, so the fill meets the real data at the height the
+   real data has there. Only a ground whose ring spec declares `seaFill` is
+   filled at all, so no inland ground can acquire this behaviour by accident. */
+function fillSeaHoles(read, seaFill) {
+  const { size, values } = read;
+  const seen = new Uint8Array(size * size);
+  const components = [];
+  let filled = 0;
+  for (let start = 0; start < values.length; start++) {
+    if (seen[start] || Number.isFinite(values[start])) continue;
+    const cells = [];
+    const boundary = [];
+    const stack = [start];
+    seen[start] = 1;
+    while (stack.length) {
+      const index = stack.pop();
+      cells.push(index);
+      const row = (index / size) | 0;
+      const column = index - row * size;
+      for (const [dc, dr] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const c = column + dc;
+        const r = row + dr;
+        if (c < 0 || r < 0 || c >= size || r >= size) continue;
+        const next = r * size + c;
+        if (Number.isFinite(values[next])) { boundary.push(values[next]); continue; }
+        if (seen[next]) continue;
+        seen[next] = 1;
+        stack.push(next);
+      }
+    }
+    const refuse = why => {
+      throw new Error(`a nodata component of ${cells.length} samples ${why}; it is not filled`);
+    };
+    if (!boundary.length) refuse('has no finite boundary at all, so nothing says what it is');
+    const ordered = boundary.slice().sort((left, right) => left - right);
+    const median = ordered[ordered.length >> 1];
+    const highest = ordered[ordered.length - 1];
+    const water = boundary.reduce((n, value) => n + (value <= seaFill.boundaryWaterHeightRH2000 ? 1 : 0), 0);
+    const waterFraction = water / boundary.length;
+    if (median > seaFill.boundaryMedianMaximumHeightRH2000) {
+      refuse(`is bounded by ground whose MEDIAN height is ${median.toFixed(3)} m RH 2000, above the reviewed ${seaFill.boundaryMedianMaximumHeightRH2000} m, so the hole is not in water`);
+    }
+    if (waterFraction < seaFill.boundaryWaterMinimumFraction) {
+      refuse(`has only ${(waterFraction * 100).toFixed(1)}% of its boundary at or below ${seaFill.boundaryWaterHeightRH2000} m, under the reviewed ${(seaFill.boundaryWaterMinimumFraction * 100).toFixed(0)}%`);
+    }
+    if (highest > seaFill.boundaryMaximumHeightRH2000) {
+      refuse(`touches ground at ${highest.toFixed(3)} m RH 2000, above the reviewed ceiling ${seaFill.boundaryMaximumHeightRH2000} m`);
+    }
+    for (const index of cells) values[index] = median;
+    filled += cells.length;
+    components.push({
+      samples: cells.length,
+      boundarySamples: boundary.length,
+      boundaryMedianHeightRH2000: median,
+      boundaryMaximumHeightRH2000: highest,
+      boundaryWaterFraction: waterFraction,
+      filledHeightRH2000: median,
+    });
+  }
+  const fraction = filled / values.length;
+  if (fraction > seaFill.maximumFilledFraction) {
+    throw new Error(`sea fill would cover ${(fraction * 100).toFixed(2)}% of the level, above the reviewed maximum ${(seaFill.maximumFilledFraction * 100).toFixed(2)}%`);
+  }
+  return { components: components.length, filledSamples: filled, filledFraction: fraction, detail: components };
+}
+
 function publishedCourseTiles() {
   const root = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/v2-index.json'), 'utf8'));
   const entry = root.courses.find(course => course.groundId === groundId);
@@ -188,6 +297,17 @@ for (const level of spec.levels) {
   const t0 = Date.now();
   const read = await readLevel(level);
   const gate = spec.coverageGate;
+  /* The sea fill runs BEFORE the coverage gate and does not weaken it: an
+     unfilled hole still fails below, and a hole with land on its boundary
+     fails inside the fill itself. */
+  const seaFill = spec.seaFill ? fillSeaHoles(read, spec.seaFill) : null;
+  if (seaFill) {
+    read.finite = read.size * read.size;
+    for (const component of seaFill.detail) {
+      if (component.filledHeightRH2000 < read.minimum) read.minimum = component.filledHeightRH2000;
+      if (component.filledHeightRH2000 > read.maximum) read.maximum = component.filledHeightRH2000;
+    }
+  }
   if (gate.requireEverySampleFinite && read.finite !== read.size * read.size) {
     throw new Error(`level ${level.lod} has ${read.size * read.size - read.finite} non-finite samples`);
   }
@@ -210,6 +330,7 @@ for (const level of spec.levels) {
     minimumHeightRH2000: read.minimum, maximumHeightRH2000: read.maximum, requests: read.requests, bytes: read.bytes,
     elapsedSeconds: (Date.now() - t0) / 1000, rasterSha256: sha256,
   };
+  if (seaFill) entry.seaFill = seaFill;
   if (level.source.kind === 'published-and-dtm') entry.publishedAgreement = compareWithPublished(level, read);
   levelEvidence.push(entry);
   console.log(JSON.stringify({ lod: level.lod, spacing: level.sampleSpacingMetres, size: read.size, items: read.items, min: +read.minimum.toFixed(2), max: +read.maximum.toFixed(2), requests: read.requests, mb: +(read.bytes / 1e6).toFixed(1), s: entry.elapsedSeconds, published: entry.publishedAgreement }));
@@ -223,6 +344,9 @@ const evidence = {
   tileSegments: spec.tileSegments,
   levels: levelEvidence,
   items: [...itemEvidence.values()],
+  seaFillRule: spec.seaFill
+    ? 'nodata components bounded ENTIRELY by finite samples at or below seaFill.boundaryMaximumHeightRH2000 are filled with the median of their own boundary; a component with land on its boundary, or with no finite boundary, fails the build'
+    : 'not declared for this ground; every sample comes from the height model',
   overviewResampling: 'the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews',
   elapsedSeconds: (Date.now() - startedAt) / 1000,
 };

@@ -322,11 +322,11 @@ test('automatic object candidates require both usable Laserdata and tree height'
 test('repository inventory plans Laserdata and tree-height controls for every hole on every course', () => {
   const plan = loadRepositoryHoleSourceControlPlan();
   assert.deepEqual(plan.summary, {
-    groundCount: 6,
-    courseCount: 9,
-    holeCount: 135,
-    uniqueGroundWindowCount: 177,
-    requestedWindowReferences: 655,
+    groundCount: 7,
+    courseCount: 10,
+    holeCount: 144,
+    uniqueGroundWindowCount: 194,
+    requestedWindowReferences: 702,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,

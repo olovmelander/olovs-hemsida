@@ -31,7 +31,7 @@ export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
   }),
   ribbingsfors: Object.freeze({
     path: 'ribbingsforsbuild/course-model.json',
-    sha256: '6e67d36ecd72ceab5f49ea270587b7c0d128fdf696ca5d1751727282b06f5189',
+    sha256: 'f99ca922f7a810fa40db9ac71e0f8e5dcf101395213a45cf56deaa6af4ee9e17',
     projectedOriginEpsg3006: Object.freeze({
       easting: 448975.5,
       northing: 6536024.5,
