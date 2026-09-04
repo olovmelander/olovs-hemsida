@@ -3779,6 +3779,16 @@ lap('v2 vegetation: push planned trees');
    treeWhy[] are what the baseline and the fingerprint read, and they are
    untouched. The far cones beyond MIDR are unchanged until phase 2 (the
    impostors) replaces them. */
+/* ?lodpin=a,b overrides the course corridor's tier floors (4,4 switches them off) */
+const LODPIN = (() => {
+  const q = new URLSearchParams(location.search).get('lodpin'), v = q ? q.split(',').map(Number) : null;
+  return v && v.length === 2 && v.every(x => x >= 1 && x <= 4) ? [v[0] | 0, v[1] | 0] : null;
+})();
+/* ?lodreach=hero,full overrides how far the corridor floors reach, in metres */
+const LODREACH = (() => {
+  const q = new URLSearchParams(location.search).get('lodreach'), v = q ? q.split(',').map(Number) : null;
+  return v && v.length === 2 && v.every(x => x > 0) ? v : null;
+})();
 /* ?lodpx=hero,full,impostor overrides the three tier boundaries for a sweep */
 const LODPX = (() => {
   const q = new URLSearchParams(location.search).get('lodpx'), v = q ? q.split(',').map(Number) : null;
@@ -3805,12 +3815,30 @@ const TREE_LOD = {
      middle ring's edge, at most a millisecond a frame over the 110 / 40 / 14 the plan
      started from; a phone keeps 200 / 60 / 22 until one is measured */
   nominalHeight: 12, heroPx: LODPX?.hero ?? (LOWQ ? 200 : 64), switchPx: LODPX?.full ?? (LOWQ ? 60 : 24), impostorPx: LODPX?.impostor ?? (LOWQ ? 22 : 8), hysteresis: 0.1,
+  /* The course corridor keeps its detail whatever the distance. Screen-size
+     LOD is right for a forest and wrong for the trees a golfer is looking
+     at: as the camera moves around a course every tree at the boundary
+     distance dissolves into its next tier, and however soft each dissolve
+     is, the course never stops changing. So a tree within zone A (90 m of a
+     hole line) never drops below floors[0] and one within zone B (300 m)
+     never below floors[1] -- hero and full on the desktop, 5,036 and 18,084
+     trees at Puttom -- and only the forest beyond is tiered by screen size.
+     A phone floors zone A at the full template and leaves zone B alone. */
+  floors: LODPIN ?? (LOWQ ? [2, 4] : [1, 2]),
+  /* how far from the camera the floors reach: the hero floor to the first
+     distance, the full-template floor to the second, screen size beyond. Past
+     500 m a 12 m tree is 29 px and past 900 m it is 16 px, where the hero
+     crown is the full template and the full template is the decimated one, so
+     a switch there does not show; pinning further only costs -- from the 12th
+     tee a floor with no reach held 3,676 hero trees and a third more
+     triangles. ?lodreach=hero,full overrides. */
+  floorReach: LODREACH ?? (LOWQ ? [250, 500] : [500, 900]),
   /* ?lod=1|2|3|4 forces every visible cell into one tier (hero, full,
      decimated, impostor), so a tier can be looked at up close and judged on
      its own; nothing else changes */
   force: [1, 2, 3, 4].includes(+new URLSearchParams(location.search).get("lod")) ? +new URLSearchParams(location.search).get("lod") : 0,
   /* tier0 is the hero tier, tier1 the full template, tier2 decimated, tier3 the impostor */
-  stats: { tier0: 0, tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, switches: 0, updates: 0, bakeMs: 0, fading: 0, updateMs: 0 },
+  stats: { tier0: 0, tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, switches: 0, updates: 0, bakeMs: 0, fading: 0, updateMs: 0, zoneA: 0, zoneB: 0 },
   /* ?impdbg=normal|albedo|mask|world draws the impostors unlit, one term at a time */
   debug: new URLSearchParams(location.search).get("impdbg") || null,
 };
@@ -4006,6 +4034,29 @@ const TREE_LOD = {
     }
     return c;
   };
+  /* the course corridor, rasterised once on a 12 m grid over the middle ring:
+     1 within zone A of a hole line, 2 within zone B, 0 beyond -- a capsule
+     stamped per segment, the same zones legacyTreeExport reports */
+  const courseZone = (() => {
+    const cell = 12, x0 = MIDR.x0, z0 = MIDR.z0;
+    const nx = Math.ceil((MIDR.x1 - x0) / cell) + 1, nz = Math.ceil((MIDR.z1 - z0) / cell) + 1;
+    const grid = new Uint8Array(nx * nz);
+    const stamp = (ax, az, bx, bz, r, v) => {
+      const i0 = Math.max(0, Math.floor((Math.min(ax, bx) - r - x0) / cell)), i1 = Math.min(nx - 1, Math.ceil((Math.max(ax, bx) + r - x0) / cell));
+      const j0 = Math.max(0, Math.floor((Math.min(az, bz) - r - z0) / cell)), j1 = Math.min(nz - 1, Math.ceil((Math.max(az, bz) + r - z0) / cell));
+      const dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz || 1;
+      for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
+        const px = x0 + (i + 0.5) * cell, pz = z0 + (j + 0.5) * cell;
+        const t = Math.max(0, Math.min(1, ((px - ax) * dx + (pz - az) * dz) / L2));
+        const ex = ax + dx * t - px, ez = az + dz * t - pz;
+        if (ex * ex + ez * ez <= r * r) { const at = j * nx + i; if (!grid[at] || v < grid[at]) grid[at] = v; }
+      }
+    };
+    for (const [r, v] of [[LEGACY_ZONE_B_METRES, 2], [LEGACY_ZONE_A_METRES, 1]]) {
+      for (const h of HOLES) for (let i = 0; i + 1 < h.line.length; i++) stamp(h.line[i][0], h.line[i][1], h.line[i + 1][0], h.line[i + 1][1], r, v);
+    }
+    return (x, z) => { const i = Math.floor((x - x0) / cell), j = Math.floor((z - z0) / cell); return i < 0 || j < 0 || i >= nx || j >= nz ? 0 : grid[j * nx + i]; };
+  })();
   const mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
   for (let s = 0; s < 3; s++) {
     const T = trees[s], W = treeWhy[s];
@@ -4017,6 +4068,8 @@ const TREE_LOD = {
     /* each tree's drawn height and the height of its crown centre: the tier
        is decided from the pixels THIS tree projects to, not a nominal one */
     const treeH = new Float32Array(n), treeCY = new Float32Array(n);
+    /* which course zone each tree stands in (0 none, 1 A, 2 B): the tier floor is read from it every update */
+    const zone = new Uint8Array(n);
     for (let k = 0; k < n; k++) {
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
       const sy = T[k * 6 + 3], sxz = T[k * 6 + 5];
@@ -4025,6 +4078,8 @@ const TREE_LOD = {
       const varied = W[k] >= WHY_V2_INDIVIDUAL ? 1 : (0.86 + (k % 7) * 0.045);
       treeH[k] = SPECIES[s].templateHeight * sy * varied;
       treeCY[k] = pos.y + treeH[k] * 0.5;
+      zone[k] = courseZone(pos.x, pos.z);
+      if (zone[k] === 1) TREE_LOD.stats.zoneA++; else if (zone[k] === 2) TREE_LOD.stats.zoneB++;
       scl.set(sxz, sy * varied, sxz);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
       mtx.compose(pos, q, scl).toArray(mats, k * 16);
@@ -4061,7 +4116,7 @@ const TREE_LOD = {
     };
     const hr = hero[s];
     const rec = {
-      n, treeH, treeCY,
+      n, treeH, treeCY, zone,
       where: new Int32Array(n).fill(-1),
       tierOf: new Uint8Array(n),
       /* the OUT half of a crossfade: which tier still draws the tree, and where */
@@ -4256,6 +4311,7 @@ function updateTreeTiers() {
   const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
   const thr = [TREE_LOD.heroPx, TREE_LOD.switchPx, TREE_LOD.impostorPx], hy = TREE_LOD.hysteresis;
   const force = TREE_LOD.force, reset = TREE_LOD.resetPending, cellMode = TREE_LOD.cellMode;
+  const floorA = TREE_LOD.floors[0], floorB = TREE_LOD.floors[1], reachH = TREE_LOD.floorReach[0], reachF = TREE_LOD.floorReach[1], floorAFar = Math.max(floorA, 2);
   const cells = TREE_LOD.cells;
   let visible = 0;
   for (let ci = 0; ci < cells.length; ci++) {
@@ -4281,11 +4337,12 @@ function updateTreeTiers() {
     for (let s = 0; s < 3; s++) {
       const sp = TREE_LOD.tiers[s];
       if (!sp) continue;
-      const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf;
+      const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf, Z = sp.zone;
       for (let i = 0; i < L.length; i++) {
         const k = L[i];
         const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;
-        const px = cellMode ? pxCell : H[k] * Kpx / Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
+        const d = Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
+        const px = cellMode ? pxCell : H[k] * Kpx / d;
         const cur = T[k];
         let want;
         if (force) want = force;
@@ -4294,6 +4351,13 @@ function updateTreeTiers() {
           want = cur;
           while (want > 1 && px > thr[want - 2] * (1 + hy)) want--;
           while (want < 4 && px < thr[want - 1] * (1 - hy)) want++;
+        }
+        /* the corridor's floor, unless a forced tier is being judged on its own */
+        if (!force && Z[k]) {
+          /* the reaches carry the same 10% band as the pixel boundaries, so a tree at a reach does not flip */
+          const rH = reachH * (cur === floorA ? 1.1 : 1), rF = reachF * (cur && cur <= 2 ? 1.1 : 1);
+          const fl = Z[k] === 1 ? (d < rH ? floorA : d < rF ? floorAFar : 4) : (d < rF ? floorB : 4);
+          if (want > fl) want = fl;
         }
         if (want !== cur) { treeTierMove(s, k, cur, want); changed = true; }
       }
@@ -8377,7 +8441,7 @@ window.V3D = {
   /* the tree tiers' live state: how many trees are drawn full, decimated, and how many cells changed */
   treeTiers: () => ({ ...TREE_LOD.stats, heroPx: TREE_LOD.heroPx, switchPx: TREE_LOD.switchPx, impostorPx: TREE_LOD.impostorPx,
     hysteresis: TREE_LOD.hysteresis, nominalHeight: TREE_LOD.nominalHeight, cell: TREE_LOD.cell, force: TREE_LOD.force,
-    fadeS: TREE_LOD.fadeS, frozen: TREE_LOD.frozen, clockDriven: TREE_LOD.clockDriven, cellMode: TREE_LOD.cellMode }),
+    fadeS: TREE_LOD.fadeS, frozen: TREE_LOD.frozen, clockDriven: TREE_LOD.clockDriven, cellMode: TREE_LOD.cellMode, floors: [...TREE_LOD.floors] }),
   /* force every visible tree into one tier (1-4) at run time, 0 for the automatic choice */
   setTreeLod: n => { TREE_LOD.force = [1, 2, 3, 4].includes(n | 0) ? n | 0 : 0; },
   /* the tier boundaries in projected pixels, changeable at run time for a
@@ -8389,7 +8453,15 @@ window.V3D = {
     if (o.reset) TREE_LOD.resetPending = true;
     return window.V3D.treeLodPx();
   },
-  treeLodPx: () => ({ hero: TREE_LOD.heroPx, full: TREE_LOD.switchPx, impostor: TREE_LOD.impostorPx, hysteresis: TREE_LOD.hysteresis }),
+  treeLodPx: () => ({ hero: TREE_LOD.heroPx, full: TREE_LOD.switchPx, impostor: TREE_LOD.impostorPx, hysteresis: TREE_LOD.hysteresis, floors: [...TREE_LOD.floors], reach: [...TREE_LOD.floorReach] }),
+  /* the corridor floors (zone A, zone B) as tier numbers 1-4; 4 is no floor */
+  setTreeLodPin: (a, b, reachHero, reachFull) => {
+    TREE_LOD.floors = [Math.min(4, Math.max(1, a | 0 || 4)), Math.min(4, Math.max(1, b | 0 || 4))];
+    if (reachHero > 0) TREE_LOD.floorReach[0] = +reachHero;
+    if (reachFull > 0) TREE_LOD.floorReach[1] = +reachFull;
+    TREE_LOD.resetPending = true;
+    return { floors: [...TREE_LOD.floors], reach: [...TREE_LOD.floorReach] };
+  },
   /* the crossfade: its length, and the harness's hold on its clock */
   setTreeFade: s => { TREE_LOD.fadeS = Math.max(0, +s || 0); },
   setTreeFadeClock: t => { TREE_LOD.fadeClock = +t || 0; },

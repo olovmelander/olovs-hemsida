@@ -43,6 +43,7 @@ const FADE = +flag('fade', 0.3);
 const MODES = String(flag('modes', 'A,B,C')).split(',');
 const CELL = args.includes('--cell');
 const N = +flag('frames', 300), STEP = +flag('step', 0.25);
+const QUERY = flag('query', '');   /* extra URL parameters, e.g. lodpin=4,4 */
 const OUT = flag('out', null);
 const LEVELS = 16;
 
@@ -52,7 +53,7 @@ page.setDefaultTimeout(600000);
 const errors = [];
 page.on('pageerror', e => errors.push(String(e).split('\n')[0].slice(0, 200)));
 const t0 = Date.now();
-await page.goto(`${BASE}/?bana=${SLUG}&det=1&v2=require&ren=1`, { waitUntil: 'load' });
+await page.goto(`${BASE}/?bana=${SLUG}&det=1&v2=require&ren=1${QUERY ? `&${QUERY}` : ''}`, { waitUntil: 'load' });
 await page.waitForSelector('#boot.done');
 const ev = (fn, arg) => page.evaluate(fn, arg);
 const frame = () => ev(() => window.V3D.frame());

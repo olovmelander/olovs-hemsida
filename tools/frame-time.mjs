@@ -23,6 +23,7 @@ const BASE = args.find(a => /^https?:/.test(a)) || 'http://127.0.0.1:8620';
 const SLUG = flag('course', 'puttom');
 const PX = flag('px', null);
 const N = +flag('frames', 300), WARM = +flag('warm', 30);
+const QUERY = flag('query', '');   /* extra URL parameters, e.g. lodpin=4,4 */
 const OUT = flag('out', null), LABEL = flag('label', PX || 'default');
 const VIEWS = [
   ['h1_tee_golden', 1, 'tee', 'golden'], ['h12_tee_golden', 12, 'tee', 'golden'], ['h14_tee_golden', 14, 'tee', 'golden'],
@@ -46,7 +47,7 @@ const adapter = await page.evaluate(async () => {
 });
 console.log(`adapter ${adapter.vendor}/${adapter.architecture} timestamp-query ${adapter.timestampQuery} | ${adapter.webgl} | hub rAF median ${adapter.hubRafMs.median} ms (uncapped if < 3)`);
 const tBoot = Date.now();
-await page.goto(`${BASE}/?bana=${SLUG}&det=1&v2=require&gputime=1&ren=1${PX ? `&lodpx=${PX}` : ''}`, { waitUntil: 'load' });
+await page.goto(`${BASE}/?bana=${SLUG}&det=1&v2=require&gputime=1&ren=1${PX ? `&lodpx=${PX}` : ''}${QUERY ? `&${QUERY}` : ''}`, { waitUntil: 'load' });
 await page.waitForSelector('#boot.done');
 const boot = await page.evaluate(() => ({ backend: window.V3D.stats.backend, trees: window.V3D.stats.trees, gpuTiming: window.V3D.gpuTimingEnabled(), px: window.V3D.treeLodPx() }));
 console.log(`${SLUG} ${boot.backend} boot ${((Date.now() - tBoot) / 1000).toFixed(1)} s, trees ${boot.trees}, thresholds ${boot.px.hero}/${boot.px.full}/${boot.px.impostor}, gpu timing ${boot.gpuTiming}`);
