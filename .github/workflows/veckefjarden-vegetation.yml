@@ -131,18 +131,32 @@ jobs:
 
       - name: Compile the machine-reviewed generation
         run: |
-          # one --raster per active campaign item, named the way build-canopy
-          # writes them (item id slugified); paths under RUNNER_TEMP carry no
-          # spaces, so word-splitting the list is safe
+          # one --raster per active campaign item that build-canopy actually
+          # wrote (item id slugified). build-canopy is the authority on
+          # coverage: an item can be active in the pinned inventory because it
+          # intersects the AOI bbox yet reach no published finest tile
+          # (Norrfällsviken's 25f014-699_67 lies wholly north of the course
+          # window), and build-canopy skips it and writes no raster — so the
+          # args are derived from its output, never by restating the
+          # inventory. Zero rasters is still a failure. Paths under
+          # RUNNER_TEMP carry no spaces, so word-splitting the list is safe.
           RASTER_ARGS=$(node --input-type=module -e "
             import fs from 'node:fs';
             const c = JSON.parse(fs.readFileSync('geo_data/course-v2/' + process.env.GROUND + '/acquisition/laser-campaigns.json', 'utf8'));
             const dir = process.env.RUNNER_TEMP + '/veg/rasters';
+            let written = 0;
             for (const item of c.items) {
               if (item.role !== 'active' || item.excludedFromCanopy) continue;
               const slug = item.id.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
-              process.stdout.write('--raster ' + item.id + '=' + dir + '/chm-' + slug + '.f32:' + dir + '/chm-' + slug + '.json ');
-            }")
+              const f32 = dir + '/chm-' + slug + '.f32', sidecar = dir + '/chm-' + slug + '.json';
+              if (!fs.existsSync(f32) || !fs.existsSync(sidecar)) {
+                console.error('no raster for active item ' + item.id + ' — build-canopy skipped it (no published finest tile intersects)');
+                continue;
+              }
+              written++;
+              process.stdout.write('--raster ' + item.id + '=' + f32 + ':' + sidecar + ' ');
+            }
+            if (!written) { console.error('build-canopy wrote no rasters at all'); process.exit(1); }")
           echo "rasters: $RASTER_ARGS"
           node packages/course-v2/vegetation/compile-vegetation.mjs \
             --ground "$GROUND" \
