@@ -1,11 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { createSyntheticAssetGraph } from '../synthetic-fixture.mjs';
 import { assetReferenceForChunk, readChunk, writeChunk } from '../chunk-node.mjs';
 import { verifyAssetGraph } from '../graph-node.mjs';
 import { V2_SUPPORTED_FEATURES } from '../schema.mjs';
 import { STAND_FIELD_FEATURE, STAND_FIELD_FORMAT, encodeStandField } from '../stand-field.mjs';
-import { assembleVegetationGraph } from './publish-vegetation.mjs';
+import { canonicalJsonBytes } from '../canonical-json.mjs';
+import { assembleVegetationGraph, vegetationPublicationReport } from './publish-vegetation.mjs';
 
 function manifest(graph, url) {
   return JSON.parse(Buffer.from(graph.resources.get(url)).toString('utf8'));
@@ -82,6 +84,27 @@ test('a stand layer is attached to a published ground and the whole graph re-ver
   /* the old ground manifest is a different document, so the root moved on */
   assert.notEqual(emitted.references.ground.sha256, courseManifest.groundManifest.sha256);
   assert.notEqual(emitted.references.course.sha256, rootEntry.manifest.sha256);
+  const activeRootBytes = Buffer.from(canonicalJsonBytes(emitted.root));
+  const report = vegetationPublicationReport({
+    groundId: groundManifest.groundId,
+    slug: 'synthetic-main',
+    evidence: {
+      observedOn: '2026-09-04', review: 'machine review fixture',
+      candidates: { total: 1 }, records: { records: 1 }, stands: { tiles: 1 }, identity: { added: 1 },
+    },
+    graph: emitted,
+    activeRootBytes,
+    activeRootEntry: emitted.root.courses[0],
+    objectTiles: 0,
+    standTiles: 1,
+    sourceManifestSha256: groundManifest.sourceManifestSha256,
+    filesWritten: emitted.resources.size + 1,
+  });
+  assert.equal(report.activeRoot.sha256, createHash('sha256').update(activeRootBytes).digest('hex'));
+  assert.equal(report.graph.courseManifest.sha256, emitted.references.course.sha256);
+  assert.equal(report.graph.groundManifest.sha256, emitted.references.ground.sha256);
+  assert.equal(report.graph.chunks, verification.chunks);
+  assert.equal(report.vegetation.standTiles, 1);
   await assert.rejects(assembleVegetationGraph({
     slug: 'synthetic-main', rootEntry, courseManifest, groundManifest, routingContent, resources,
     layerChunks: new Map(), standLayers: { [tile.id]: reference }, sourceManifestSha256: groundManifest.sourceManifestSha256,

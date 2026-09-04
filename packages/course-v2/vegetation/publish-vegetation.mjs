@@ -12,12 +12,74 @@
 
    Refuses a compile directory whose evidence says it was a harness
    auto-approval: that path exists to prove the pipeline, never to publish.  */
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readChunk } from '../chunk-node.mjs';
 import { emitGroundGraph, writeGroundGraphFiles } from '../emit-ground-graph-node.mjs';
 import { createGroundSampler } from './ground-sampler.mjs';
+
+const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
+
+/** Build the mutable evidence report for the exact vegetation generation the
+    root serves after publication. The report is deliberately not a graph
+    resource: manifests/chunks remain content-addressed, while this file gives
+    operators one current, readable publication summary. */
+export function vegetationPublicationReport({
+  groundId,
+  slug,
+  evidence,
+  graph,
+  activeRootBytes,
+  activeRootEntry,
+  objectTiles,
+  standTiles,
+  sourceManifestSha256,
+  filesWritten,
+}) {
+  if (activeRootEntry?.manifest?.sha256 !== graph.references.course.sha256) {
+    throw new Error(`published root did not activate emitted course manifest for ${slug}`);
+  }
+  return {
+    schemaVersion: 1,
+    kind: 'vegetation-graph-publication',
+    state: 'published',
+    groundId,
+    slug,
+    observedOn: evidence.observedOn,
+    review: evidence.review,
+    activeRoot: {
+      url: 'courses/v2-index.json',
+      bytes: activeRootBytes.byteLength,
+      sha256: sha256(activeRootBytes),
+    },
+    graph: {
+      frameFingerprint: graph.report.frameFingerprint,
+      courseManifest: graph.references.course,
+      groundManifest: graph.references.ground,
+      routing: graph.references.routing,
+      sourceManifestSha256,
+      fallbackV1: activeRootEntry.fallbackV1,
+      holes: graph.report.holes,
+      tiles: graph.report.tiles,
+      finestTiles: graph.report.finestTiles,
+      shellBytes: graph.report.shellBytes,
+      chunks: graph.report.chunks,
+      encodedChunkBytes: graph.report.encodedChunkBytes,
+      decodedChunkBytes: graph.report.decodedChunkBytes,
+    },
+    vegetation: {
+      objectTiles,
+      standTiles,
+      candidates: evidence.candidates,
+      records: evidence.records,
+      stands: evidence.stands,
+      identity: evidence.identity,
+    },
+    filesWritten,
+  };
+}
 
 /**
  * Assemble the new graph in memory. `resources` holds every existing chunk
@@ -148,8 +210,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   /* the source manifest as CI sees it: LF, whatever this checkout did to it */
   const manifestPath = path.join(ROOT, 'geo_data/course-v2', groundId, 'source-manifest.json');
   const manifestLf = fs.readFileSync(manifestPath, 'utf8').replace(/\r\n/g, '\n');
-  const { createHash } = await import('node:crypto');
-  const sourceManifestSha256 = createHash('sha256').update(manifestLf).digest('hex');
+  const sourceManifestSha256 = sha256(manifestLf);
   const graph = await assembleVegetationGraph({
     slug, rootEntry, courseManifest, groundManifest, routingContent, resources, layerChunks,
     objectLayers, standLayers, sourceManifestSha256, readAsset: async url => read(url),
@@ -157,13 +218,21 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const written = await writeGroundGraphFiles(publicDir, graph);
   const objectTiles = Object.keys(objectLayers).length;
   const standTiles = Object.keys(standLayers).length;
-  console.log(JSON.stringify({
-    ...graph.report,
+  const activeRootBytes = fs.readFileSync(path.join(publicDir, 'courses/v2-index.json'));
+  const activeRoot = JSON.parse(activeRootBytes.toString('utf8'));
+  const activeRootEntry = activeRoot.courses.find(course => course.slug === slug);
+  const report = vegetationPublicationReport({
+    groundId,
+    slug,
+    evidence,
+    graph,
+    activeRootBytes,
+    activeRootEntry,
     objectTiles,
     standTiles,
-    previousGroundManifest: courseManifest.groundManifest.url,
-    previousCourseManifest: rootEntry.manifest.url,
-    review: evidence.review,
+    sourceManifestSha256,
     filesWritten: written.length,
-  }, null, 2));
+  });
+  fs.writeFileSync(path.join(publicDir, `${groundId}-vegetation-graph-report.json`), `${JSON.stringify(report, null, 2)}\n`);
+  console.log(JSON.stringify(report, null, 2));
 }

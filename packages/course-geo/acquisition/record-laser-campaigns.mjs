@@ -18,7 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { readJson, sha256File } from '../manifest.mjs';
-import { COURSE_DATA_DIR, PILOT_GROUND_IDS, loadPilotManifest } from './pilots.mjs';
+import { ACQUISITION_GROUND_IDS, COURSE_DATA_DIR, loadPilotManifest } from './pilots.mjs';
 import {
   campaignDrift,
   campaignInventory,
@@ -39,8 +39,8 @@ const groundId = flag('ground');
 const write = args.includes('--write');
 const check = args.includes('--check');
 const observedOn = flag('observed-on', new Date().toISOString().slice(0, 10));
-if (!PILOT_GROUND_IDS.includes(groundId)) {
-  console.error(`--ground must be one of ${PILOT_GROUND_IDS.join(', ')}`);
+if (!ACQUISITION_GROUND_IDS.includes(groundId)) {
+  console.error(`--ground must be one of ${ACQUISITION_GROUND_IDS.join(', ')}`);
   process.exit(2);
 }
 if (write && check) {

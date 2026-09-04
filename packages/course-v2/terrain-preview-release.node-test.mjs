@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 import test from 'node:test';
 import { compileTerrainAssets } from './terrain-compiler-node.mjs';
@@ -25,7 +25,7 @@ async function filesBelow(root, prefix = '') {
   for (const entry of await readdir(join(root, prefix), { withFileTypes: true })) {
     const rel = join(prefix, entry.name);
     if (entry.isDirectory()) result.push(...await filesBelow(root, rel));
-    else result.push(rel);
+    else result.push(rel.split(sep).join('/'));
   }
   return result.sort();
 }

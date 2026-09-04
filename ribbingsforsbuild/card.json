@@ -1,0 +1,20 @@
+{
+  "club": "Ribbingsfors Golf & Kultur",
+  "course": "Ribbingsfors Golf & Kultur",
+  "site": "https://ribbingsforsgk.se/",
+  "source": "The club page publishes the authoritative nine-hole totals: Vit 3110 m, Gul 2966 m and Röd 2525 m. Current per-hole values were not published by the club when checked 2026-09-04. Vit rows are transcribed from Caddee because they sum exactly to the official total; Gul and Röd rows are the publicly indexed card whose sums exactly match the club totals. These rows are provisional until the club supplies the current GIT scorecard.",
+  "note": "Nine physical holes, played twice for an 18-hole par-72 round. Caddee's yellow/red rows conflict with both its own totals and the club totals, and GolfTraxx incorrectly labels the metre card as yards. See docs/courses/ribbingsfors-source-dossier.md. Geometry and card provenance are kept separate.",
+  "teeNames": ["Vit", "Gul", "Röd"],
+  "publishedNineHoleTotals": { "Vit": 3110, "Gul": 2966, "Röd": 2525 },
+  "holes": [
+    { "n": 1, "par": 4, "hcp": 11, "t": [343, 350, 308] },
+    { "n": 2, "par": 3, "hcp": 13, "t": [175, 168, 140] },
+    { "n": 3, "par": 4, "hcp": 1,  "t": [362, 330, 280] },
+    { "n": 4, "par": 4, "hcp": 7,  "t": [331, 338, 277] },
+    { "n": 5, "par": 5, "hcp": 5,  "t": [465, 466, 411] },
+    { "n": 6, "par": 4, "hcp": 9,  "t": [387, 334, 276] },
+    { "n": 7, "par": 4, "hcp": 3,  "t": [370, 365, 307] },
+    { "n": 8, "par": 3, "hcp": 17, "t": [175, 135, 120] },
+    { "n": 9, "par": 5, "hcp": 15, "t": [502, 480, 406] }
+  ]
+}

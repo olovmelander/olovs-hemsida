@@ -106,6 +106,8 @@ export class CourseV2TerrainRuntime {
     onInvalidate = () => {},
     decorateMaterial,
     maximumCachedResources,
+    releaseGraceMilliseconds,
+    maximumRetainedTiles,
     profile,
     transformDecoded = null,
   } = {}) {
@@ -162,6 +164,8 @@ export class CourseV2TerrainRuntime {
       manager: this.manager,
       loader: this.assetLoader,
       maximumCachedResources: cachedResources,
+      ...(releaseGraceMilliseconds !== undefined ? { releaseGraceMilliseconds } : {}),
+      ...(maximumRetainedTiles !== undefined ? { maximumRetainedTiles } : {}),
       clock: this.clock,
       createResource: ({ tileId, decoded }) => {
         /* a caller may rewrite the decoded samples before they become a

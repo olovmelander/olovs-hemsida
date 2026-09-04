@@ -1,16 +1,20 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { latLonToSweref99Tm } from '../proj.mjs';
-import { readJson } from '../manifest.mjs';
+import { EXPECTED_GROUNDS, readJson } from '../manifest.mjs';
 
+/* The original D2 comparison cohort stays stable so its combined dated report
+   remains reproducible. Individual acquisition commands may also serve every
+   physical ground with a registered source manifest. */
 export const PILOT_GROUND_IDS = Object.freeze(['norrfallsviken', 'puttom', 'upsala']);
+export const ACQUISITION_GROUND_IDS = Object.freeze(Object.keys(EXPECTED_GROUNDS).sort());
 
 const PACKAGE_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const REPO_ROOT = path.resolve(PACKAGE_DIR, '../..');
 export const COURSE_DATA_DIR = path.join(REPO_ROOT, 'geo_data/course-v2');
 
 export function manifestPath(groundId) {
-  if (!PILOT_GROUND_IDS.includes(groundId)) throw new Error(`unknown D2 pilot ${groundId}`);
+  if (!ACQUISITION_GROUND_IDS.includes(groundId)) throw new Error(`unknown physical ground ${groundId}`);
   return path.join(COURSE_DATA_DIR, groundId, 'source-manifest.json');
 }
 

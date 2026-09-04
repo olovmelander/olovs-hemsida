@@ -90,6 +90,24 @@ test('render frontier falls back coherently from children to parent and then she
   assert.equal(cold.requests[1].tileId, 'l1/0/0');
 });
 
+test('a refined quad wants its children out of view too, so turning reveals a tile and not a hole in the quad', () => {
+  const data = ground();
+  const manager = new TerrainTileManager({ ground: data, courseSlug: 'test-course' });
+  const seen = ['l0/0/0', 'l0/0/1', 'l0/1/0'];
+  /* three children in the frustum and resident, the fourth out of it */
+  const partial = plan(manager, { residentTileIds: [...seen, 'l1/0/0', 'shell'], visible: tile => tile.id !== 'l0/1/1' });
+  assert.deepEqual(partial.desiredTileIds, seen);
+  assert.deepEqual(partial.renderTileIds, seen, 'the three fine tiles draw');
+  assert.ok(partial.retainTileIds.includes('l0/1/1'), 'the unseen child is kept once it arrives');
+  const prefetch = partial.requests.find(request => request.tileId === 'l0/1/1');
+  assert.ok(prefetch, 'and requested');
+  assert.ok(partial.requests.every(request => request.tileId === 'l0/1/1' || request.priority < prefetch.priority), 'behind everything the camera can see');
+  /* the camera turns: with the fourth resident the quad renders whole; without it the
+     render rule stands the parent in for all four -- the flip this prefetch exists to prevent */
+  assert.deepEqual(plan(manager, { residentTileIds: [...seen, 'l0/1/1', 'l1/0/0'] }).renderTileIds, [...seen, 'l0/1/1'].sort());
+  assert.deepEqual(plan(manager, { residentTileIds: [...seen, 'l1/0/0'] }).renderTileIds, ['l1/0/0']);
+});
+
 test('WebGPU and WebGL2 use the same selector with explicit quality budgets', () => {
   assert.deepEqual(terrainTileQualityProfile({ backend: 'webgpu', mobile: false }), {
     targetErrorPixels: 1,

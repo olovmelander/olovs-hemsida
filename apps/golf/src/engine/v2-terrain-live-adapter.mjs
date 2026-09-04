@@ -15,6 +15,13 @@ function positiveInteger(value, label) {
   return value;
 }
 
+function nonNegativeInteger(value, label) {
+  if (!Number.isSafeInteger(value) || value < 0) {
+    throw new RangeError(`${label} must be a non-negative safe integer`);
+  }
+  return value;
+}
+
 function errorText(error) {
   return String(error?.message || error).slice(0, 300);
 }
@@ -44,10 +51,29 @@ function assertBatch(batch) {
 }
 
 function assertFixedFrontier({
-  source, courseSlug, expectedCourseSlug, expectedTileCount, expectedSurfaceTileCount, renderResources,
+  source, courseSlug, expectedCourseSlug, expectedTileCount, expectedSurfaceTileCount,
+  surfacePolicy, renderResources,
 }) {
   const surfaceAtlas = source.surfaceAtlas;
   const terrainTileIds = renderResources.map(resource => resource.tileId).sort();
+  if (surfacePolicy === 'legacy-ground-atlas') {
+    if (expectedSurfaceTileCount !== 0 || source.surfacePolicy !== surfacePolicy ||
+        source.surfaceDescriptor !== null || surfaceAtlas !== null ||
+        courseSlug !== expectedCourseSlug ||
+        source.descriptor?.tiles?.length !== expectedTileCount ||
+        renderResources.length !== expectedTileCount ||
+        new Set(terrainTileIds).size !== expectedTileCount ||
+        renderResources.some(resource => resource.noDataCount !== 0)) {
+      throw new Error(
+        `v2 fixed-frontier preflight requires ${expectedTileCount} terrain tiles, ` +
+        'an explicitly empty v2 surface frontier and the reviewed legacy ground-atlas policy',
+      );
+    }
+    return Object.freeze({ surfaceAtlas: null, terrainTileIds: Object.freeze(terrainTileIds) });
+  }
+  if (surfacePolicy !== 'v2-atlas' || expectedSurfaceTileCount < 1) {
+    throw new Error('v2 fixed-frontier preflight has no reviewed surface policy');
+  }
   const surfaceTileIds = [...(surfaceAtlas?.data?.tileIds || [])].sort();
   const surfaceSamples = surfaceAtlas?.data?.bounds?.w * surfaceAtlas?.data?.bounds?.h;
   const classifiedSamples = surfaceAtlas?.data?.classCounts
@@ -89,6 +115,34 @@ function assertFixedFrontier({
   return Object.freeze({ surfaceAtlas, terrainTileIds: Object.freeze(terrainTileIds) });
 }
 
+/* A graph with no reviewed v2 surface chunks may still replace heights when
+   its compatibility pack's complete 1 m ground atlas remains the sole material
+   authority. This is a deliberately narrow exception: the atlas must cover
+   the exact live CORE and the material decorator must be bound to that very
+   object, so passing `expectedSurfaceTileCount: 0` alone never opens a gate. */
+function assertLegacyGroundAtlas(atlas, coreGrid, decorateMaterial) {
+  const bounds = atlas?.data?.bounds;
+  const sampleCount = bounds?.w * bounds?.h;
+  const classes = atlas?.data?.classes;
+  const idData = atlas?.data?.idData;
+  const fieldData = atlas?.data?.fieldData;
+  if (!atlas?.texID || !atlas?.texF || typeof atlas.contains !== 'function' ||
+      !Number.isSafeInteger(sampleCount) || sampleCount < 1 || bounds.res !== 1 ||
+      bounds.x0 !== coreGrid?.x0 || bounds.x1 !== coreGrid?.x1 ||
+      bounds.z0 !== coreGrid?.z0 || bounds.z1 !== coreGrid?.z1 ||
+      !(classes instanceof Uint8Array) || classes.length !== sampleCount ||
+      !(idData instanceof Uint8Array) || idData.length !== sampleCount * 2 ||
+      !(fieldData instanceof Uint8Array) || fieldData.length !== sampleCount * 4 ||
+      !atlas.contains(bounds.x0, bounds.z0) ||
+      !atlas.contains(bounds.x1 - bounds.res, bounds.z1 - bounds.res) ||
+      decorateMaterial?.v2SurfaceAuthority !== atlas) {
+    throw new Error(
+      'reviewed zero-v2-surface frontier requires the complete live GPK ground atlas as its material authority',
+    );
+  }
+  return atlas;
+}
+
 /**
  * Fail-closed live boundary for a complete, retained v2 terrain frontier.
  *
@@ -105,6 +159,7 @@ export class V2TerrainLiveAdapter {
     expectedCourseSlug,
     expectedTileCount,
     expectedSurfaceTileCount,
+    surfacePolicy = 'v2-atlas',
     cutoutContract,
     batchFactory = defaultBatchFactory,
   } = {}) {
@@ -114,18 +169,33 @@ export class V2TerrainLiveAdapter {
       throw new TypeError('expectedCourseSlug is required');
     }
     positiveInteger(expectedTileCount, 'expectedTileCount');
-    positiveInteger(expectedSurfaceTileCount, 'expectedSurfaceTileCount');
+    nonNegativeInteger(expectedSurfaceTileCount, 'expectedSurfaceTileCount');
     if (expectedSurfaceTileCount > expectedTileCount) {
       throw new RangeError('the surface frontier cannot exceed the terrain frontier');
     }
-    if (!cutoutContract || typeof cutoutContract !== 'object') {
-      throw new TypeError('reviewed cutoutContract is required');
+    if (!['v2-atlas', 'legacy-ground-atlas'].includes(surfacePolicy)) {
+      throw new TypeError('surfacePolicy must be v2-atlas or legacy-ground-atlas');
+    }
+    if ((surfacePolicy === 'v2-atlas') !== (expectedSurfaceTileCount > 0)) {
+      throw new Error('surfacePolicy and expectedSurfaceTileCount disagree');
+    }
+    /* A ground served by the streaming RING adapter builds no legacy CORE at
+       all, so it has no cut to review and cannot measure one: the contract is
+       read off the runtime CORE grid, which that path never constructs. Such
+       a ground declares `legacyCoreCutout: null` and the failure moves from
+       construction time to the point of use -- `prepare()` refuses to cut
+       without a reviewed contract, which is where refusing belongs. A ground
+       that DOES serve through the fixed frontier is unaffected: it carries a
+       contract and every assertion below applies to it unchanged. */
+    if (cutoutContract !== null && (!cutoutContract || typeof cutoutContract !== 'object')) {
+      throw new TypeError('cutoutContract must be a reviewed contract or an explicit null');
     }
     this.source = source;
     this.courseSlug = courseSlug;
     this.expectedCourseSlug = expectedCourseSlug;
     this.expectedTileCount = expectedTileCount;
     this.expectedSurfaceTileCount = expectedSurfaceTileCount;
+    this.surfacePolicy = surfacePolicy;
     this.cutoutContract = cutoutContract;
     this.batchFactory = callback(batchFactory, 'batchFactory');
     this.phase = source.ready ? 'pending' : 'fallback';
@@ -157,6 +227,7 @@ export class V2TerrainLiveAdapter {
     coreGrid,
     renderStride = 1,
     decorateMaterial,
+    legacySurfaceAtlas,
     preflight,
   } = {}) {
     if (!this.sourceReady) {
@@ -169,6 +240,9 @@ export class V2TerrainLiveAdapter {
     callback(preflight, 'preflight');
 
     try {
+      if (this.surfacePolicy === 'legacy-ground-atlas') {
+        assertLegacyGroundAtlas(legacySurfaceAtlas, coreGrid, decorateMaterial);
+      }
       const renderResources = this.source.renderResources(renderStride);
       assertFixedFrontier({
         source: this.source,
@@ -176,6 +250,7 @@ export class V2TerrainLiveAdapter {
         expectedCourseSlug: this.expectedCourseSlug,
         expectedTileCount: this.expectedTileCount,
         expectedSurfaceTileCount: this.expectedSurfaceTileCount,
+        surfacePolicy: this.surfacePolicy,
         renderResources,
       });
       const createdBatch = await this.batchFactory({
@@ -199,6 +274,9 @@ export class V2TerrainLiveAdapter {
       }
       await preflight(this.batch);
 
+      if (!this.cutoutContract) {
+        throw new Error('this ground declares no reviewed legacy CORE cutout; the fixed frontier cannot cut without one');
+      }
       const guardCells = this.cutoutContract.guardCells;
       const expectedGuardMetres = this.cutoutContract.guardMetres;
       if (!Number.isSafeInteger(guardCells) || guardCells < 0 || !Number.isFinite(expectedGuardMetres)) {
@@ -318,6 +396,7 @@ export class V2TerrainLiveAdapter {
   snapshot() {
     return Object.freeze({
       kind: 'fixed-frontier',
+      surfacePolicy: this.surfacePolicy,
       phase: this.phase,
       requested: this.requested,
       sourceReady: this.sourceReady,

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "phase": "authenticated-finest-terrain-window",
+  "groundId": "angso",
+  "acquiredOn": "2026-09-04",
+  "state": "acquisition-evidence-only",
+  "reader": "packages/course-geo/cog/cog-reader.mjs over authenticated HTTP range requests",
+  "readerNote": "factor-1 samples are source pixels copied exactly; no overview and no resampling is involved",
+  "provider": {
+    "name": "Lantmateriet",
+    "product": "Markhojdmodell Nedladdning",
+    "collection": "dtm-cog",
+    "licence": "CC-BY-4.0"
+  },
+  "lattice": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "compoundCrs": "EPSG:5845",
+    "coordinateOrder": [
+      "easting",
+      "northing"
+    ],
+    "sampleSpacingMetres": 1,
+    "width": 4097,
+    "height": 4097,
+    "originEasting": 603617.5,
+    "originNorthing": 6607769.5,
+    "sampleCentreBounds": {
+      "minEasting": 603617.5,
+      "maxEasting": 607713.5,
+      "minNorthing": 6603673.5,
+      "maxNorthing": 6607769.5
+    },
+    "pixelEdgeWindow": {
+      "west": 603617,
+      "north": 6607770,
+      "east": 607714,
+      "south": 6603673
+    }
+  },
+  "sourceItems": [
+    {
+      "id": "660_60",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m660_60.tif",
+      "etag": "\"c03359c19af17122bc049510964f2d54\"",
+      "contentLength": 263029392,
+      "lastModified": "Wed, 13 May 2026 23:29:01 GMT",
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "overviewFactorUsed": 1,
+      "windowPixels": {
+        "column0": 3617,
+        "row0": 2230,
+        "columns": 4097,
+        "rows": 4097
+      },
+      "latticeWindow": {
+        "column0": 0,
+        "row0": 0,
+        "columns": 4097,
+        "rows": 4097
+      }
+    }
+  ],
+  "raster": {
+    "path": "packages/course-geo/toolchain/.cache/acquisition/angso-terrain-window/terrain-1m.f32",
+    "format": "row-major little-endian Float32, north-up",
+    "bytes": 67141636,
+    "sha256": "7ce336cbca2b1810d43786ce87121f592c8cb21a494fde2625f8bae92d33b64a"
+  },
+  "samples": {
+    "total": 16785409,
+    "finite": 16785409,
+    "minimumHeightRH2000": -1.7468527555465698,
+    "maximumHeightRH2000": 40.108726501464844,
+    "reviewedBand": {
+      "minimum": -5,
+      "maximum": 80
+    }
+  },
+  "transfer": {
+    "rangeRequests": 81,
+    "rangeBytes": 49687636,
+    "elapsedMilliseconds": 6207
+  }
+}

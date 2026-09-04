@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "kind": "ribbingsfors-terrain-graph",
+  "state": "published-provisional",
+  "provisionalReasons": [
+    "course-origin-awaits-independent-control-approval",
+    "hole-routing-and-playing-surfaces-await-club-or-survey-control"
+  ],
+  "source": {
+    "itemId": "653_44",
+    "sourceCogSha256": "f94d6bae09f5730281db1fa081bf1da689e7b48fc335f41c3e68b2ab4efeb283",
+    "sourceWindowCogSha256": "c992f541f854aa745742ef3429e15f931cb6459145945c1a1f68897273af44ad",
+    "sourceFloat32Sha256": "6cbd22bc14fa489279252c1f067f065d2f5fab500f29745258faf3bfd2b1dbdd",
+    "capture": {
+      "capturedAt": "2023-02-13T12:00:00Z",
+      "captureStart": "2022-12-14T00:00:00Z",
+      "captureEnd": "2023-04-16T00:00:00Z"
+    },
+    "pixelEdgeWindowEpsg3006": {
+      "west": 447951,
+      "north": 6537049,
+      "east": 450000,
+      "south": 6535000
+    }
+  },
+  "frame": "ribbingsfors",
+  "compile": {
+    "sourceSamples": 4198401,
+    "finiteSamples": 4198401,
+    "sourceMinimumHeightRH2000": 69.14754486083984,
+    "sourceMaximumHeightRH2000": 103.37911224365234,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 64,
+        "encodedBytes": 4167882,
+        "decodedBytes": 8454272
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 16,
+        "encodedBytes": 1189485,
+        "decodedBytes": 2113568
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 4,
+        "encodedBytes": 328476,
+        "decodedBytes": 528392
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 1,
+        "encodedBytes": 87999,
+        "decodedBytes": 132098
+      }
+    ],
+    "tileChunks": 85,
+    "uniqueChunks": 86,
+    "encodedBytes": 5861852,
+    "decodedBytes": 11360428
+  },
+  "graph": {
+    "slug": "ribbingsfors",
+    "groundId": "ribbingsfors",
+    "frameFingerprint": "5d616311e246c109899b52223af5ed4a68f372f9b923787d6c0354b33b2c968f",
+    "rootBytes": 640,
+    "rootSha256": "9f3590e2df22c90e2bdfacc9c62e5f6c998aed563b96e6077f57bc0e722284d4",
+    "courseManifestSha256": "738d22181a55b24ec95fcb4c56c42e3127a8990bbf27d53b707ccdab38143219",
+    "groundManifestSha256": "295b191971ac1b2879a3f8a6c3cf8959bae6e5219740d879febbe92cb117c30b",
+    "routingSha256": "bdaed5ee6c2203a2d04132bedfba82308d9f86faf08354cbaceaed827fb91970",
+    "holes": 9,
+    "tiles": 85,
+    "finestTiles": 64,
+    "shellBytes": 88010,
+    "chunks": 87,
+    "encodedChunkBytes": 5862894,
+    "decodedChunkBytes": 11361622,
+    "holeTileBufferMetres": 80
+  },
+  "mergedRoot": {
+    "bytes": 2803,
+    "sha256": "7a44ff8c36119606ae40b5e5b3208774be9ec9b00190b107d72b4f9c80975e46"
+  }
+}

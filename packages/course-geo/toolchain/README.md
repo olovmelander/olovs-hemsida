@@ -97,9 +97,9 @@ pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen \
 
 ## All-course per-hole source controls
 
-The offline inventory covers all six physical grounds, all nine course slugs
-and all 135 holes. Hole geometry plus a 48 m review margin produces 655
-references to 177 deduplicated, grid-aligned 256 x 256 m EPSG:3006 control
+The offline inventory covers all seven physical grounds, all ten course slugs
+and all 144 holes. Hole geometry plus a 48 m review margin produces 702
+references to 194 deduplicated, grid-aligned 256 x 256 m EPSG:3006 control
 windows:
 
 ```sh
@@ -129,7 +129,7 @@ candidates require both controls to pass. A gap selects the DTM/orthophoto/
 manual-review path instead of weakening a tolerance.
 
 `.github/workflows/course-geo-hole-controls.yml` exposes the same run for one
-or all grounds and runs all six monthly with at most two simultaneous provider
+or all grounds and runs all seven monthly with at most two simultaneous provider
 jobs. Changes to the integration branch run a fresh Puttom-only `both` control
 after the bounded provider preflight, so newly restored manifests or credentials
 are exercised before object work continues. It uploads only the coordinate-free

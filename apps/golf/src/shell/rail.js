@@ -13,6 +13,7 @@ const CATEGORIES = {
   upsala: { id: 'skog', label: 'Uppsala · Parkbana', iconName: 'tree' },
   johannesberg: { id: 'slott', label: 'Gottröra · Slottsmiljö', iconName: 'castle' },
   veckefjarden: { id: 'kust', label: 'Örnsköldsvik · Ö-green', iconName: 'wave' },
+  ribbingsfors: { id: 'skog', label: 'Gullspång · Park & Hagmark', iconName: 'tree' },
   /* the second courses, categorised with the club they belong to */
   'upsala-mellanbanan': { id: 'skog', label: 'Uppsala · Andra nio', iconName: 'tree' },
   'johannesberg-9': { id: 'slott', label: 'Gottröra · Andra nio', iconName: 'castle' },
@@ -26,6 +27,7 @@ const LINES = {
   angso: 'Mälarnära bana på halvön norr om Ängsön med fem tees, mäktiga ekar och strategisk bunkring.',
   upsala: 'Klassisk svensk mästerskapsparkbana på historiska Håmö gårds böljande marker väster om Uppsala.',
   johannesberg: 'Slottsbana i rofylld herrgårdsmiljö med dammar, månghundraåriga ekar och ståtligt klubbhus.',
+  ribbingsfors: 'Niohåls park- och hagmarksbana i herrgårdsmiljö vid sjön Skagern, ritad av Janne Lundvall och spelklar 1991.',
   'upsala-mellanbanan': 'Upsala GK:s andra nio, där åttans tee blickar ut över stora banan och fyrans green ligger tjugo meter från dammen.',
   'johannesberg-9': 'Johannesbergs andra nio, med en damm tvärs igenom och ett andrahål som faller drygt tolv meter ner mot vattnet.',
   'veckefjarden-korthalsbanan': 'Veckefjärdens korthålsbana: nio korta hål i tallskogen, med fjärden i sikte från tredje tee.',
@@ -41,9 +43,8 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
   el.setAttribute('aria-label', 'Välj bana');
 
   const currentCourse = courses.find(c => c.slug === current);
-  /* Counted, never written down. Every one of these numbers was already wrong
-     the moment a course was added -- the header said six while nine cards were
-     on screen, which is the front door telling a visitor something untrue. */
+  /* Counted, never written down. A static total goes stale the moment a course
+     is added, which makes the front door tell the visitor something untrue. */
   const nCat = id => courses.filter(c => (CATEGORIES[c.slug] || {}).id === id).length;
 
   el.innerHTML = `
@@ -221,8 +222,8 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
      - hero-1 stays the .shot background, so the resting card is exactly what it
        was and a course with one poster never enters the slideshow at all.
      - the rest are fetched only once the card has actually been on screen, so
-       the front door still downloads six images, not twenty-four.
-     - one timer drives every card, each with its own phase, because six cards
+       the front door downloads only the resting images for visible cards.
+     - one timer drives every card, each with its own phase, because all cards
        flipping in unison reads as a glitch rather than as motion.
 
      Reduced motion gets the resting poster and no fetches: the extra stills are
@@ -241,10 +242,10 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
     });
   }
 
-  /* Deferred and ONE AT A TIME. Six cards' worth of extra posters is about a
-     megabyte; fetched eagerly and in parallel it competes with the six that are
-     actually on screen. Idle time, sequentially, means the card the visitor is
-     looking at is never waiting on the ones they are not. */
+  /* Deferred and ONE AT A TIME. A full set of extra posters is sizeable;
+     fetched eagerly and in parallel it competes with the cards actually on
+     screen. Idle time, sequentially, means the card the visitor is looking at
+     is never waiting on the ones they are not. */
   const idle = window.requestIdleCallback || (fn => setTimeout(fn, 700));
   const ensureFrames = s => {
     if (s.loaded) return;

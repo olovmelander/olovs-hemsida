@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "groundId": "ribbingsfors",
+  "generatedAt": "2026-09-04T10:53:39.883Z",
+  "purpose": "Non-runtime geospatial evidence inputs for initial Ribbingsfors course reconstruction.",
+  "status": "reference-only; no canonical frame, runtime surface, object registry or build ownership is granted",
+  "provisionalLod0Envelope": {
+    "crs": "EPSG:3006",
+    "axisOrder": [
+      "easting",
+      "northing"
+    ],
+    "widthMetres": 2048,
+    "heightMetres": 2048,
+    "center": [
+      448975.5,
+      6536024.5
+    ],
+    "upperLeftOrigin": [
+      447951.5,
+      6537048.5
+    ],
+    "bbox": [
+      447951.5,
+      6535000.5,
+      449999.5,
+      6537048.5
+    ],
+    "status": "provisional-source-efficient-envelope-not-canonical-control",
+    "bboxWgs84": [
+      14.09483052,
+      58.95147223,
+      14.13090508,
+      58.97010649
+    ]
+  },
+  "sources": {
+    "osmCourseBoundary": {
+      "sourceId": "osm-way-779352687-v1",
+      "provider": "OpenStreetMap contributors",
+      "sourceUri": "https://api.openstreetmap.org/api/0.6/way/779352687/full.json",
+      "sourceElement": {
+        "type": "way",
+        "id": 779352687,
+        "version": 1,
+        "changeset": 81929101,
+        "timestamp": "2020-03-08T17:29:55Z"
+      },
+      "fetchedAt": "2026-09-04T10:53:32.818Z",
+      "rawSnapshot": {
+        "mediaType": "application/json",
+        "bytes": 10134,
+        "sha256": "3bf3bf86f3644860fdd496bbf1a1edc7dbfca765c0a10d50666d211064cc9563"
+      },
+      "licence": {
+        "id": "ODbL-1.0",
+        "name": "Open Data Commons Open Database License 1.0",
+        "url": "https://opendatacommons.org/licenses/odbl/1-0/",
+        "attribution": "? OpenStreetMap contributors",
+        "attributionUrl": "https://www.openstreetmap.org/copyright"
+      },
+      "authorityTier": "D",
+      "intendedUse": "supplemental context and coarse course-extent evidence only",
+      "limitations": [
+        "The way has only leisure=golf_course and does not encode tees, greens, fairways, bunkers or routing.",
+        "The geometry is community-contributed, has no stated survey accuracy and is not canonical control."
+      ]
+    },
+    "protectedTrees": {
+      "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+      "provider": "L?nsstyrelsen V?stra G?talands l?n",
+      "datasetTitle": "LstO Skyddsv?rda Tr?d",
+      "catalogueRecordId": "97d7c820-f382-458c-aeb8-89ca6a519f34",
+      "datasetIdentifier": "9edeaa24-4a4e-4eb0-ad01-c6b8ece3c2d6",
+      "downloadUri": "https://ext-dokument.lansstyrelsen.se/gemensamt/geodata/ShapeExport/Lsto.pg204_skyddsvarda_trad_.zip",
+      "metadataUri": "https://ext-geodatakatalog-forv.lansstyrelsen.se/PlaneringsKatalogen/GetMetaDataById?id=97d7c820-f382-458c-aeb8-89ca6a519f34_C",
+      "atomUri": "https://ext-dokument.lansstyrelsen.se/gemensamt/geodata/ATOM/ATOM_Lsto.pg204_skyddsvarda_trad_.xml",
+      "fetchedAt": "2026-09-04T10:46:52.038Z",
+      "serverLastModified": "2026-06-10T07:18:56Z",
+      "serverEtag": "\"edf6ab66a9f8dc1:0\"",
+      "rawSnapshot": {
+        "mediaType": "application/x-zip-compressed",
+        "bytes": 10437910,
+        "sha256": "6446fd706465f7f7c0f0d0b2c3270098b4073d3389550ccf1a4862da8ae19b47"
+      },
+      "inputsUsed": [
+        {
+          "pathWithinZip": "Lsto.pg204_skyddsvarda_trad_.gpkg",
+          "mediaType": "application/geopackage+sqlite3",
+          "bytes": 17960960,
+          "sha256": "ae05eb2fee0644ce59615460b5a9845f628b5103318272c6b924f26dec8e6e37"
+        },
+        {
+          "pathWithinZip": "Lsto.pg204_skyddsvarda_trad_.xml",
+          "mediaType": "application/xml",
+          "bytes": 285363,
+          "sha256": "b6d304c1bd8c0c425e02a40ef933693f915a66105dc2cf3086803f2c30783d60"
+        },
+        {
+          "pathWithinZip": "Lista_Med_Alias_Lsto.pg204_skyddsvarda_trad_.csv",
+          "mediaType": "text/csv",
+          "bytes": 366,
+          "sha256": "0983c5608cc259339843eae1c0cd4d9c081f0ff7f3fb021aaaa1861752f2dcfd"
+        }
+      ],
+      "sourceCrs": "EPSG:3006",
+      "sourceLayer": "Lsto_pg204_skyddsvarda_trad_",
+      "sourceGeometryType": "MULTIPOINT (one location per inventory record in selected subset)",
+      "metadataRevisionDate": "2025-12-18",
+      "metadataDateStamp": "2026-05-06T22:34:21.676Z",
+      "inventoryCoverageThrough": "2025-09-30",
+      "licence": {
+        "id": "CC0-1.0",
+        "name": "Creative Commons CC0 1.0 Universal",
+        "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+      },
+      "authorityTier": "C",
+      "intendedUse": "high-value supporting evidence for individually inventoried veteran/protected trees",
+      "limitations": [
+        "Selected records were inventoried in 2005 or 2008; they do not prove that each tree survives in 2026.",
+        "The metadata provides no uniform numeric horizontal-accuracy guarantee for individual points.",
+        "Reconcile every record against 2023 laser data, 2024 orthophoto and site/control evidence before runtime publication."
+      ]
+    }
+  },
+  "normalizedArtifacts": [
+    {
+      "path": "osm-course-boundary.geojson",
+      "bytes": 12540,
+      "sha256": "a5b22b4d89387161162675e70df08cd4cf8f1867a86c76e828c67b8a013fa26e",
+      "featureCount": 1,
+      "crs": "OGC:CRS84 with a complete EPSG:3006 polygon retained in feature properties",
+      "filter": "complete OSM way 779352687; verified contained by provisional LOD0 envelope"
+    },
+    {
+      "path": "protected-trees-250m.geojson",
+      "bytes": 121353,
+      "sha256": "81688d0f55afe21f3a206ba18505d7ae7b02ce6c4882fe3f27d29050375c53d4",
+      "featureCount": 88,
+      "crs": "OGC:CRS84 with original EPSG:3006 point coordinates retained in feature properties",
+      "filter": "within 250 m of the OSM course polygon and inside provisional LOD0 envelope"
+    }
+  ],
+  "derivedChecks": {
+    "osmDistinctNodeCount": 56,
+    "osmClosedCoordinateCount": 57,
+    "osmAreaMetresSquaredEpsg3006": 341924.624,
+    "osmBboxEpsg3006": [
+      448675.018,
+      6535593.857,
+      449718.139,
+      6536497.055
+    ],
+    "protectedTreeFeatureCount": 88,
+    "protectedTreeMaximumGeometryCoordinateDiscrepancyMetres": 0.000050001,
+    "protectedTreeDistanceCounts": {
+      "within0Metres": 4,
+      "within25Metres": 20,
+      "within50Metres": 33,
+      "within100Metres": 50,
+      "within250Metres": 88
+    },
+    "allNormalizedFeaturesInsideProvisionalLod0": true
+  },
+  "authorityPolicy": {
+    "A": "independent controlled survey tied to the approved EPSG:5845 / EPSG:3006 / RH 2000 frame",
+    "B": "authoritative national measurement candidate such as Lantm?teriet DTM or orthophoto",
+    "C": "supporting measured or inventoried evidence that requires recency/accuracy reconciliation",
+    "D": "supplemental or interpretive context that cannot establish canonical control",
+    "E": "legacy or inferred material restricted to migration/comparison"
+  }
+}
+

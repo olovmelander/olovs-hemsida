@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "kind": "legacy-to-rh2000-vertical-bridge",
+  "groundId": "johannesberg",
+  "measuredOn": "2026-09-04",
+  "method": "legacy Terrarium heightfield minus published RH 2000, sampled through the frames-derived horizontal bridge on mown ground (greens, tees, fairways), water rings excluded",
+  "statistic": "median",
+  "playedGround": {
+    "samples": 38543,
+    "stepMetres": 2,
+    "medianMetres": 5.6676,
+    "medianAbsoluteDeviationMetres": 1.7211,
+    "minimumMetres": -1.7213,
+    "maximumMetres": 13.8042
+  },
+  "byKind": {
+    "green": {
+      "samples": 2015,
+      "medianMetres": 6.0579,
+      "medianAbsoluteDeviationMetres": 2.03
+    },
+    "fairway": {
+      "samples": 34741,
+      "medianMetres": 5.6979,
+      "medianAbsoluteDeviationMetres": 1.7158
+    },
+    "tee": {
+      "samples": 1787,
+      "medianMetres": 4.5451,
+      "medianAbsoluteDeviationMetres": 1.3588
+    }
+  },
+  "registration": {
+    "note": "a rigid shift of the legacy sample point; if the best shift is not (0,0) the spread is registration, not datum",
+    "atOrigin": {
+      "madMetres": 1.7211,
+      "medianMetres": 5.6676
+    },
+    "best": {
+      "dx": 12,
+      "dz": -12,
+      "madMetres": 1.63,
+      "medianMetres": 5.4093
+    },
+    "madImprovementMetres": 0.0912
+  },
+  "wholeOverlap": {
+    "samples": 16333,
+    "stepMetres": 16,
+    "medianMetres": 4.83,
+    "note": "corroboration only; it did not enter the reported value"
+  },
+  "horizontalBridge": {
+    "rotationDegrees": 2.757472,
+    "scaleX": 0.997510091,
+    "scaleZ": 0.999218603,
+    "pointScale": 0.999994724,
+    "source": "derived from the two frames’ own declared constants; exact"
+  },
+  "verticalDatumOffsetMetres": 5.6676
+}

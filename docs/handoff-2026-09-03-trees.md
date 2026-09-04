@@ -4,6 +4,30 @@ Stopped at the owner's request, mid-way. This file is the resume point: what
 was asked, what is measured, what is built, what is gated and what is not, what
 the two background agents were doing, and the order to continue in.
 
+> **2026-09-04, morning:** the LOD half of this handoff is done — resume points
+> 3–6 below are complete (commits a3159f3 … f95011a on `claude/tree-lod-phase-1`;
+> the plan's status sections carry the numbers). The two placement agents were
+> cancelled with the session that started them and were NOT relaunched; their
+> partial work is still on `claude/stand-crowns` (one commit) and in the
+> `claude/vegetation-data` worktree (uncommitted: a build-canopy extension,
+> lattice.json, two small modules). Resume points 7–8 are the placement work.
+> Another session is editing this checkout concurrently (an uncommitted caddie
+> feature in main.js, menu.js, index.html) and rebuilds `apps/golf/dist`; measure
+> from an isolated worktree build, never from the shared dist.
+>
+> **Later the same morning:** the owner still saw the trees change while moving; the
+> answer is commit 20a17f3 — the course corridor keeps its detail by where it is
+> (zone A hero within 500 m, full within 900 m; zone B full within 900 m), so
+> nothing on the course switches as the camera moves; `?lodpin=` and `?lodreach=`
+> tune it. The plan's last status section has the numbers.
+>
+> **Afternoon:** shadow swimming and depth flicker (the owner's next two asks) —
+> commit after 20a17f3: texel-snapped fixed-size shadow fits, and reversed float
+> depth as the WebGPU default with `DEPTH_SIGN` on every nudge; the plan's last
+> section has the numbers. The other session's two uncommitted polygon-offset
+> sites were given `DEPTH_SIGN` in the shared checkout so their marking does not
+> sink under the new default; they must keep it when they commit.
+
 ## The ask
 
 Three things, on the RTX 3070 Laptop GPU that is now available:
@@ -210,3 +234,56 @@ checkpoint 45e2d78.
 
 Nothing in this handoff changes the standalone pages, the published ground, the
 default visit (v2 stays opt-in per the plan's phase 6 rule) or tree placement.
+
+## Evening addendum, 2026-09-04 — the jitter was the camera
+
+The owner's "still a little terrain jitter" after the shadow and depth work
+was measured to the camera's ground clamp, not to the terrain: the last
+section of `docs/tree-lod-plan.md` has the flicker map that clears the turf,
+the camera-height probe that found the snap, the eased clamp that replaced it
+(`apps/golf/src/engine/camera-clamp.mjs`, unit-tested) and the gates. Two
+things for whoever resumes:
+
+- **Judge it by eye at the 5th and 14th tees**: a left-drag orbit still climbs
+  the bank (it must) but as a slope, and comes back down when the orbit
+  returns; a right-drag pan onto rising ground rises with it without kicks. If
+  a jolt remains, `V3D.groundClamp().lift` tells whether the clamp acted at
+  all — if it did not, the motion is OrbitControls' own.
+- **"Mainly the water glitches and jitters" was the frame at rest**, not the
+  water: three's WebGPU path re-uploaded the tree tiers' attributes whole
+  every frame because they carried `DynamicDrawUsage` (39 MB a frame at
+  rest), the shadow map re-rendered every frame, and the furniture was 288
+  separate meshes. All three are fixed and gated; the plan's last section
+  has the instruments (`write-buffer.mjs`, `frame-at-rest.mjs`,
+  `scene-census.mjs`) and the numbers. If the owner still sees the water
+  judder, measure the cadence on THEIR display first (`frame-pacing.mjs`),
+  and check nothing else on the machine is rendering on the same GPU.
+- **"The terrain flips to another terrain for a split second"** (the owner's
+  two frames at the 12th green, 2026-09-05) was the terrain stream: a tile
+  released the moment the plan stopped wanting it, and — the real one — the
+  render rule standing a coarse parent in for a whole quad when a fourth
+  child came into view for the first time. Both are fixed in
+  `packages/course-v2/runtime` (a 1.5 s release grace; a refined quad's
+  out-of-view children requested and retained), measured with
+  `tools/goldens/tile-flips.mjs`, and written up in the plan's last section
+  with the two gate rules they exposed. Judge by eye at the 12th green in
+  Höst with a slow left-drag orbit.
+- **The trees' detail is set by place now, not by distance** — the owner's
+  rule of 2026-09-05 after "the trees are still glitching, I think it's the
+  LOD": `TREE_LOD.lodMode = 'zone'` gives every tree its tier from the
+  corridor raster's band (A 90 m → hero, B 300 m → full, C 700 m →
+  decimated, beyond → impostor), fixed for the visit, so no camera motion
+  switches a tree. The screen-size machinery (tiers by projected height,
+  floors, hysteresis, dwell, crossfade) is `?lodmode=screen`, the before and
+  the pop meter's mode. The golden views changed by design at that commit.
+  Probes: `tools/goldens/tree-flicker.mjs` (the live flight, a bisection),
+  `flight-frames.mjs` (the simulated track stepped a frame at a time, the
+  trustworthy one). If the owner still sees trees glitch in zone mode, the
+  frame-by-frame crops are where to look first: they showed only honest
+  motion.
+- **The harness needs `BANVY_GPU=1` on every launch** or Chrome boots
+  SwiftShader, WebGPU has no adapter, the page falls back to WebGL2 and the
+  pixel hooks (`pixelDelta`, `captureRaw`) are null. That looks like a broken
+  build and is not. `tools/clamp-rest.mjs` is the committed rest gate;
+  `tools/goldens/camera-bob2.mjs` and `flicker-map.mjs` are the (gitignored)
+  probes.

@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "kind": "upsala-terrain-graph",
+  "state": "published-provisional",
+  "provisionalReasons": [
+    "course-origin-awaits-independent-control-approval",
+    "playing-surfaces-are-migrated-legacy-traces-not-survey",
+    "mellanbanan-stroke-index-is-club-sourced-but-not-gated"
+  ],
+  "source": {
+    "itemIds": [
+      "663_63",
+      "663_64"
+    ],
+    "collection": "dtm-cog",
+    "items": [
+      {
+        "id": "663_63",
+        "assetUrl": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_63.tif",
+        "cogSha256": "95655f47fc991c4adb6a97458d3f75cf3ec2a82d85da29ee15b360afda4641a8",
+        "cogBytes": 312121246,
+        "capturedAt": "2023-04-27T00:00:00Z"
+      },
+      {
+        "id": "663_64",
+        "assetUrl": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_64.tif",
+        "cogSha256": "8d0107f4aa85d02200ecf91547813e93499571b995a293bdbe1b80509e34541e",
+        "cogBytes": 315120737,
+        "capturedAt": "2023-04-26T00:00:00Z"
+      }
+    ],
+    "sourceFloat32Sha256": "5a45dc491db0650503df91054ffc69ccb7607887dc90f8a267c7fa725fa34854",
+    "capture": {
+      "statedPlanUncertaintyMetres": 0.3,
+      "statedHeightUncertaintyMetres": 0.1,
+      "method": "Luftburen laserskanning"
+    },
+    "pixelEdgeWindowEpsg3006": {
+      "west": 639119,
+      "north": 6637170,
+      "east": 641168,
+      "south": 6635121
+    },
+    "seamNote": "the window crosses easting 640000; both items are read at factor 1, so the seam is one of provenance and not of geometry"
+  },
+  "frame": {
+    "fingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+    "origin": {
+      "easting": 640143.5,
+      "northing": 6636145.5,
+      "heightRH2000": 13.28
+    },
+    "bounds": {
+      "minEasting": 639119.5,
+      "minNorthing": 6635121.5,
+      "minHeightRH2000": 13.286335945129395,
+      "maxEasting": 641167.5,
+      "maxNorthing": 6637169.5,
+      "maxHeightRH2000": 54.38547134399414
+    }
+  },
+  "compile": {
+    "sourceSamples": 4198401,
+    "finiteSamples": 4198401,
+    "sourceMinimumHeightRH2000": 13.286335945129395,
+    "sourceMaximumHeightRH2000": 54.38547134399414,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 64,
+        "encodedBytes": 4773209,
+        "decodedBytes": 8454272
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 16,
+        "encodedBytes": 1358962,
+        "decodedBytes": 2113568
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 4,
+        "encodedBytes": 374802,
+        "decodedBytes": 528392
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 1,
+        "encodedBytes": 100433,
+        "decodedBytes": 132098
+      }
+    ],
+    "tileChunks": 85,
+    "uniqueChunks": 86,
+    "encodedBytes": 6707850,
+    "decodedBytes": 11360428
+  },
+  "courses": [
+    {
+      "slug": "upsala",
+      "name": "Upsala GK",
+      "holes": 18,
+      "report": {
+        "slug": "upsala",
+        "groundId": "upsala",
+        "frameFingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "rootBytes": 599,
+        "rootSha256": "eea6165440d95677509da540d90298a5d3eb593691332fa3006002cf06276cc4",
+        "courseManifestSha256": "2f200ff187fc9f4566fa30f50393e55a390466cdf99d8df9d191228c1049baa4",
+        "groundManifestSha256": "0b23d862adfa9f4fa9a12c7a5b4e1212980dc4ec673c25aa7aea7ba9ac9d102a",
+        "routingSha256": "27b12a2cdd8cd2d4df13266e2b320dfecf580e327cb6f3002894dd45b6de7269",
+        "holes": 18,
+        "tiles": 85,
+        "finestTiles": 64,
+        "shellBytes": 100444,
+        "chunks": 87,
+        "encodedChunkBytes": 6710036,
+        "decodedChunkBytes": 11364466,
+        "holeTileBufferMetres": 80
+      }
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "name": "Mellanbanan",
+      "holes": 9,
+      "report": {
+        "slug": "upsala-mellanbanan",
+        "groundId": "upsala",
+        "frameFingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "rootBytes": 637,
+        "rootSha256": "a4d2ea6fdc9cca40e90b76ae03c26e1d6c75bf10f1cc1b8825bf0e1ff85c1edb",
+        "courseManifestSha256": "eab5ab403ed001b748c310867ad04087f41f8b2ee2f25c738f8a5330ea982959",
+        "groundManifestSha256": "0b23d862adfa9f4fa9a12c7a5b4e1212980dc4ec673c25aa7aea7ba9ac9d102a",
+        "routingSha256": "ab086acc2db035858a287be8136b09539b1976c5db8079cc342a3a2ce4b32662",
+        "holes": 9,
+        "tiles": 85,
+        "finestTiles": 64,
+        "shellBytes": 100444,
+        "chunks": 87,
+        "encodedChunkBytes": 6709372,
+        "decodedChunkBytes": 11362640,
+        "holeTileBufferMetres": 80
+      }
+    }
+  ],
+  "mergedRoot": {
+    "bytes": 4916,
+    "sha256": "35786ef55da92ab799954625976ba8daf47991f31ad73ff2cd4d0c85ebc47777"
+  }
+}

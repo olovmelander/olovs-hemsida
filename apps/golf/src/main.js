@@ -55,6 +55,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
+import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
@@ -67,6 +68,10 @@ import { smoothShore } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { compassBearing, windAlong, playsLike, greenDistances, lineHazards, layupTargets } from './engine/rangefinder.js';
+import {
+  DEFAULT_BAG, MAX_BAG_CLUBS, gpsToLocal, nearestHole, normalizeBag, parseBag,
+  pointAlongLine, recommendClub, strategyForHole,
+} from './engine/caddie.js';
 import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
@@ -188,6 +193,7 @@ const [b0, b1, bv, V2_SELECTION] = await Promise.all([
   inflate(PACK.s0), inflate(PACK.s1), inflate(PACK.sv), terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
+const TERRAIN_PREVIEW_CONFIG = V2_SELECTION.frontierConfig || PUTTOM_PREVIEW_CONFIG;
 MODEL_PREP_STARTED = performance.now();
 /* Phase 4 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
    a published graph that carries object registries or stand fields has them
@@ -217,10 +223,11 @@ const HOLES = M.holes;
 let terrainV2 = new V2TerrainLiveAdapter({
   source: TERRAIN_PREVIEW,
   courseSlug: CMETA.slug,
-  expectedCourseSlug: PUTTOM_PREVIEW_CONFIG.slug,
-  expectedTileCount: PUTTOM_PREVIEW_CONFIG.expectedTileCount,
-  expectedSurfaceTileCount: PUTTOM_PREVIEW_CONFIG.expectedSurfaceTileCount,
-  cutoutContract: PUTTOM_PREVIEW_CONFIG.legacyCoreCutout,
+  expectedCourseSlug: TERRAIN_PREVIEW_CONFIG.slug,
+  expectedTileCount: TERRAIN_PREVIEW_CONFIG.expectedTileCount,
+  expectedSurfaceTileCount: TERRAIN_PREVIEW_CONFIG.expectedSurfaceTileCount,
+  surfacePolicy: TERRAIN_PREVIEW_CONFIG.surfacePolicy || 'v2-atlas',
+  cutoutContract: TERRAIN_PREVIEW_CONFIG.legacyCoreCutout,
 });
 /* A published graph that reaches past the course window -- nested rings of
    Lantmäteriet data to a 16 km root -- becomes the ONLY terrain: the streaming
@@ -243,7 +250,7 @@ if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
       source: TERRAIN_PREVIEW,
       courseSlug: CMETA.slug,
       baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
-      legacyOriginEpsg3006: PUTTOM_PREVIEW_CONFIG.legacyOriginEpsg3006,
+      legacyOriginEpsg3006: TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,
     });
     try {
       const ringStarted = performance.now();
@@ -271,7 +278,7 @@ function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres =
     const world = terrainV2.kind === 'graph' && terrainV2.rendererState;
     title.textContent = world?.status === 'ready' ? '1 M TERRÄNG · HELA VÄRLDEN' : '1 M TERRÄNG · PREVIEW';
     detail.textContent = [
-      'Puttom',
+      CMETA.name,
       world?.status === 'ready'
         ? `${world.tiles} tiles i ${world.levels.length} nivåer till 16 km`
         : `${TERRAIN_PREVIEW.resources.length} verifierade tiles`,
@@ -669,7 +676,8 @@ for (const s of M.streams) { const q = { line: s.line, bb: ringBBox(s.line), w: 
    the scrub slope the raw DEM colouring gave it. One building gets a pad; the
    bbox guard keeps the cost out of the other million terrainH calls. */
 const CLUB = (() => {
-  const b = (M.infra.buildings || []).find(q => q.name && /golfklubb/i.test(q.name));
+  const b = (M.infra.buildings || []).find(q =>
+    q.amenity === 'clubhouse' || (q.name && /golfklubb|klubbhus/i.test(q.name)));
   if (!b) return null;
   let base = Infinity, x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
   for (const p of b.ring) {
@@ -1146,8 +1154,19 @@ const FORCE_GL = new URLSearchParams(location.search).get('gl') === '1';
    read GPU milliseconds per frame (V3D.gpuTime); off by default, since the
    query pool is a cost of its own and a vsync-locked frame time is not one */
 const GPU_TIME = new URLSearchParams(location.search).get('gputime') === '1';
+/* A reversed, float depth buffer, the default on WebGPU (?rdepth=0 switches it
+   off). The camera runs from 1 m to 14 km
+   and a 24-bit fixed-point depth buffer keeps about half a metre at 3 km, so
+   everything lying on the terrain -- roads, marking, water sheets, the surface
+   bands -- flickers against it as the camera moves. three's WebGPU backend
+   takes depth32float under reversedDepthBuffer and flips the compare, but it
+   passes polygonOffset through unchanged, and in reversed depth "toward the
+   camera" is the other sign: DEPTH_SIGN carries that to every nudge below. */
+const RDEPTH = new URLSearchParams(location.search).get('rdepth') !== '0';
 const mkRenderer = forceWebGL => new THREE.WebGPURenderer({ antialias: true, samples: 4,
-  outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance', forceWebGL, trackTimestamp: GPU_TIME });
+  outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance', forceWebGL, trackTimestamp: GPU_TIME,
+  /* the WebGL2 fallback keeps the classic buffer: its reversed path needs EXT_clip_control and has not been measured here */
+  reversedDepthBuffer: RDEPTH && !forceWebGL });
 let renderer;
 try {
   renderer = mkRenderer(FORCE_GL);
@@ -1164,6 +1183,9 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 const IS_GPU = renderer.backend?.isWebGPUBackend === true;
+/* the sign every depth nudge takes: toward the camera is negative in the classic
+   buffer and positive in the reversed one, and three passes polygonOffset through unchanged */
+const DEPTH_SIGN = renderer.reversedDepthBuffer === true ? 1 : -1;
 /* Allocated lazily by the CI/readback hook only. Normal visits, including the
    opt-in preview, must not pay for a second full-size color target. */
 let captureReadbackTarget = null;
@@ -1264,6 +1286,14 @@ const uReedC = uniform(new THREE.Color(0x8d8a52));
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
+/* The shadow map is re-rendered when something that casts has moved, and not
+   otherwise (shadowRest, in the frame loop): three's default is every frame,
+   and at rest that pass over ten million triangles was a third of the frame's
+   draws for a picture that did not change. ?shadowrest=0 is the before. */
+const SHADOW_REST = new URLSearchParams(location.search).get('shadowrest') !== '0';
+sun.shadow.autoUpdate = !SHADOW_REST;
+const SHADOW_REST_STATE = { sunPos: new THREE.Vector3(NaN, NaN, NaN), target: new THREE.Vector3(NaN, NaN, NaN), tiles: -1, uploads: -1, morphStart: -1, dirtyUntil: 0, renders: 0, frames: 0, sinceRender: 0, why: '' };
+let treeUploadsThisFrame = 0;
 sun.shadow.camera.near = 120; sun.shadow.camera.far = 3400;
 /* Terrain is a huge, gently-sloped receiver, which is the worst case for shadow
    acne: at a grazing sun every quad shadows itself unless the sample is pushed well
@@ -1315,6 +1345,15 @@ let skyMesh = null, skyDome = null;
 if (IS_GPU) {
   const { SkyMesh } = await import('three/addons/objects/SkyMesh.js');
   skyMesh = new SkyMesh();
+  /* three's SkyMesh pins itself to the far plane with z = w, which under a
+     reversed depth buffer is the NEAR plane; and three reverses its whole render
+     list under reversed depth, renderOrder included, so the sky then draws LAST
+     and over the world (the sky-only frames of 2026-09-04). In the reversed
+     convention the far plane is z = 0. */
+  if (renderer.reversedDepthBuffer) {
+    const base = skyMesh.material.vertexNode;
+    skyMesh.material.vertexNode = Fn(() => { const p = vec4(base); return vec4(p.x, p.y, float(0), p.w); })();
+  }
   skyMesh.scale.setScalar(12000);
   skyMesh.renderOrder = -2;
   scene.add(skyMesh);
@@ -1960,8 +1999,8 @@ const turfMat = groundMode === 'atlas'
 const nudged = (tier, mk = makeTurf) => {
   const m = mk();
   m.polygonOffset = true;
-  m.polygonOffsetFactor = -tier;
-  m.polygonOffsetUnits = -tier * 2;
+  m.polygonOffsetFactor = DEPTH_SIGN * tier;
+  m.polygonOffsetUnits = DEPTH_SIGN * tier * 2;
   return m;
 };
 const DETAIL_MASK = buildDetailMask(CORE);
@@ -2063,6 +2102,7 @@ async function preflightTerrainPreviewGpu(batch) {
    rings are never built, so there is no seam between two sources anywhere.
    The pilot source still supplies its 1 m sampler and the surface atlas.
    Loaded dynamically so a flagless visit never downloads it. */
+const BOOTQ_TILEGRACE = new URLSearchParams(location.search).get('tilegrace');
 if (V2_WORLD) {
   terrainV2.configure({
     backend: IS_GPU ? 'webgpu' : 'webgl2',
@@ -2070,9 +2110,16 @@ if (V2_WORLD) {
     /* the pilot's course window took 64 tiles in one draw; a world of rings
        refines the course to 1 m AND keeps the horizon resident */
     profile: { targetErrorPixels: IS_GPU ? 1 : 1.5, maximumSelectedTiles: LOWQ ? 56 : 128 },
+    /* ?tilegrace=<ms>: how long an unwanted tile stays resident (0 is the before: released on the next plan, its coarse parent drawn while it loads again) */
+    releaseGraceMilliseconds: Number.isFinite(parseInt(BOOTQ_TILEGRACE, 10)) ? parseInt(BOOTQ_TILEGRACE, 10) : undefined,
   });
 }
-const GROUND_TINT = V2_WORLD ? createGroundTintTextures() : null;
+/* Every v2 height frontier has vertex-colour-free BVCH terrain and therefore
+   needs the same procedural ground tint. The fixed Ribbingsfors frontier does
+   not cover the horizon, but its 1 m CORE still must not become flat C.rough;
+   fillGroundTintTextures falls back to the compatibility DEM outside the
+   frontier's own sampler. */
+const GROUND_TINT = TERRAIN_PREVIEW.ready ? createGroundTintTextures() : null;
 if (TERRAIN_PREVIEW.ready) {
   /* Low-quality WebGL2 keeps exact 1 m CPU sampling but submits every second
      source vertex. Both frontiers must still preflight as the same 16 tiles
@@ -2083,10 +2130,13 @@ if (TERRAIN_PREVIEW.ready) {
     coreGrid: CORE,
     renderStride,
     decorateMaterial: createV2GroundMaterialDecorator({
-      atlas: TERRAIN_PREVIEW.surfaceAtlas, DETAIL, C, SHADE,
+      atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
       debugMode: surfaceDebugMode,
       tint: GROUND_TINT,
     }),
+    legacySurfaceAtlas: TERRAIN_PREVIEW.surfacePolicy === 'legacy-ground-atlas'
+      ? groundAtlas
+      : null,
     preflight: preflightTerrainPreviewGpu,
     /* the coarse pyramid covers the world within a few tiles; the fine
        frontier streams in behind the rest of the boot and is awaited before
@@ -2937,6 +2987,8 @@ await tick('fyller vattnet', 0.52);
    the four terms that matter -- what colour the depth is, what the sky looks like in
    the direction you are reflecting toward, where the sun's glare falls, and where the
    surface runs out into foam -- and writes the answer. */
+/* probe gains: the sun glint and the fine chop, each 1 unless a harness turns it down (V3D.water) */
+const uWaterGlint = uniform(1), uWaterChop = uniform(1);
 function makeWater({ mask = null } = {}) {
   const m = new THREE.MeshBasicNodeMaterial({ transparent: true, side: THREE.DoubleSide });
   /* A sheet sits a quarter-metre over a bed the DTM draws at the water's own
@@ -2944,8 +2996,8 @@ function makeWater({ mask = null } = {}) {
      two apart: the lake flickered. A depth bias toward the camera settles it
      without moving the sheet. */
   m.polygonOffset = true;
-  m.polygonOffsetFactor = -1;
-  m.polygonOffsetUnits = -2;
+  m.polygonOffsetFactor = DEPTH_SIGN * 1;
+  m.polygonOffsetUnits = DEPTH_SIGN * 2;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
   const wp = positionWorld.xz;
@@ -2967,7 +3019,7 @@ function makeWater({ mask = null } = {}) {
   /* a pond has no fetch: the fjord's chop on a 20 m pond tilted enough normals that
      the fresnel term fired everywhere and fifteen ponds rendered as ice sheets */
   const rippleAmp = mix(float(0.38), float(1), aFoam);
-  const ripple = n1.mul(near.mul(0.45).add(0.30)).add(n3.mul(near.mul(0.30).add(0.16)))
+  const ripple = n1.mul(near.mul(0.45).add(0.30)).add(n3.mul(near.mul(0.30).add(0.16))).mul(uWaterChop)
                    .add(n2.mul(0.7)).add(n4.mul(0.9)).mul(rippleAmp);
   const N = normalize(vec3(ripple.x.mul(0.55), float(1), ripple.y.mul(0.55)));
 
@@ -2998,8 +3050,8 @@ function makeWater({ mask = null } = {}) {
   let c = mix(body, skyC, fres.mul(0.88));
   /* the sun's own reflection -- the single thing that says a surface is moving */
   const H = normalize(V.add(uSun));
-  c = c.add(color(0xfff2da).mul(pow(saturate(N.dot(H)), 260).mul(3.6)));
-  c = c.add(color(0xdff0f6).mul(pow(saturate(N.dot(H)), 22).mul(0.34)));
+  c = c.add(color(0xfff2da).mul(pow(saturate(N.dot(H)), 260).mul(3.6)).mul(uWaterGlint));
+  c = c.add(color(0xdff0f6).mul(pow(saturate(N.dot(H)), 22).mul(0.34)).mul(uWaterGlint));
   /* foam, broken up by noise so a shoreline is a shoreline and not a stripe */
   /* Foam only where there is enough water behind it to make a wave. A metre-deep
      pond in a field has none at all, and drawing a three-metre white band round every
@@ -3368,15 +3420,14 @@ const SPECIES = (() => {
   })()), 1, 0.15, 0.13);
   const pine = grownCrown(mergeGeos((() => {
     const p = [];
-    for (let i = 0; i < 4; i++) {
-      const t = i / 3, r = 4.2 - t * 1.4, hh = 2.8 - t * 0.5;
+    /* five whorls tapering to a leader -- the fifth part used to be a ball of
+       radius 1.5 m on the tip, a birch crown glued on a conifer */
+    for (let i = 0; i < 5; i++) {
+      const t = i / 4, r = 4.2 - t * 2.7, hh = 2.8 - t * 0.9;
       const g = new THREE.ConeGeometry(r, hh, 12, 1);
-      g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
+      g.translate((t - 0.5) * 0.6, 8.5 + t * 3.5, (t * 0.5 - 0.25));
       p.push(g);
     }
-    const tuft = new THREE.IcosahedronGeometry(1.5, 1);
-    tuft.translate(0.4, 12.1, -0.2);
-    p.push(tuft);
     return p;
   })()), 2, 0.2, 0.15);
   const birch = grownCrown(mergeGeos((() => {
@@ -3724,6 +3775,8 @@ if (V2_VEG_PLAN) {
    request. Computed on demand, never at boot. */
 const LEGACY_TREE_REASONS = ['none', 'forestRing', 'scrubRing', 'satellite', 'shore', 'v2Individual', 'v2Stand'];
 const LEGACY_ZONE_A_METRES = 90, LEGACY_ZONE_B_METRES = 300;
+/* the third band, for the tier-by-zone rule: decimated crowns out to here, impostors beyond */
+const ZONE_C_METRES = 700;
 function legacyTreeExport(withInstances = false) {
   const names = ['spruce', 'pine', 'birch'];
   const out = {
@@ -3779,6 +3832,17 @@ lap('v2 vegetation: push planned trees');
    treeWhy[] are what the baseline and the fingerprint read, and they are
    untouched. The far cones beyond MIDR are unchanged until phase 2 (the
    impostors) replaces them. */
+/* ?lodpin=a,b overrides the course corridor's tier floors (4,4 switches them off) */
+const LODPIN = (() => {
+  const q = new URLSearchParams(location.search).get('lodpin'), v = q ? q.split(',').map(Number) : null;
+  return v && v.length === 2 && v.every(x => x >= 1 && x <= 4) ? [v[0] | 0, v[1] | 0] : null;
+})();
+/* ?lodreach=hero,full overrides how far the corridor floors reach, in metres */
+const LODMODE = new URLSearchParams(location.search).get('lodmode') === 'screen' ? 'screen' : 'zone';
+const LODREACH = (() => {
+  const q = new URLSearchParams(location.search).get('lodreach'), v = q ? q.split(',').map(Number) : null;
+  return v && v.length === 2 && v.every(x => x > 0) ? v : null;
+})();
 /* ?lodpx=hero,full,impostor overrides the three tier boundaries for a sweep */
 const LODPX = (() => {
   const q = new URLSearchParams(location.search).get('lodpx'), v = q ? q.split(',').map(Number) : null;
@@ -3800,13 +3864,48 @@ const TREE_LOD = {
   fadeS: DET ? 0 : (LOWQ ? 0.25 : 0.3), fadeClock: 0, clockDriven: false, queue: [], qHead: 0, frozen: false, resetPending: false,
   /* the harness's "before": decide per CELL from a nominal tree at the cell box, as phases 1-3 did */
   cellMode: false,
-  nominalHeight: 12, heroPx: LODPX?.hero ?? (LOWQ ? 200 : 110), switchPx: LODPX?.full ?? (LOWQ ? 60 : 40), impostorPx: LODPX?.impostor ?? (LOWQ ? 22 : 14), hysteresis: 0.1,
+  /* desktop defaults 64 / 24 / 8 px, measured on the RTX 3070 at 1080p (docs/tree-lod-plan.md,
+     phase 4): a 12 m tree is hero to ~230 m, the full template to ~600 m, decimated to the
+     middle ring's edge, at most a millisecond a frame over the 110 / 40 / 14 the plan
+     started from; a phone keeps 200 / 60 / 22 until one is measured */
+  nominalHeight: 12, heroPx: LODPX?.hero ?? (LOWQ ? 200 : 64), switchPx: LODPX?.full ?? (LOWQ ? 60 : 24), impostorPx: LODPX?.impostor ?? (LOWQ ? 22 : 8), hysteresis: 0.1,
+  /* The tier by ZONE: the owner's rule. A tree on the corridors (zone A) is
+     hero, in the close surroundings (B) full, out to 700 m (C) decimated,
+     beyond that an impostor -- fixed for the visit, whatever the camera does,
+     so no tree ever changes its detail while the picture moves. The
+     screen-size tiers, floors, hysteresis and dwell below are the other mode
+     (?lodmode=screen), kept for the before and for the harness that measures
+     switching. Phones take one tier coarser in every band. */
+  lodMode: LODMODE,
+  zoneTiers: LOWQ ? [2, 3, 4, 4] : [1, 2, 3, 4],
+  /* frames a tree must want its new tier for before it switches: a fast camera
+     wobbles a tree's size across a threshold and back within a fade, and each
+     wobble was a crossfade -- 450 a second in a flight, most of them reversals */
+  dwell: 6,
+  /* The course corridor keeps its detail whatever the distance. Screen-size
+     LOD is right for a forest and wrong for the trees a golfer is looking
+     at: as the camera moves around a course every tree at the boundary
+     distance dissolves into its next tier, and however soft each dissolve
+     is, the course never stops changing. So a tree within zone A (90 m of a
+     hole line) never drops below floors[0] and one within zone B (300 m)
+     never below floors[1] -- hero and full on the desktop, 5,036 and 18,084
+     trees at Puttom -- and only the forest beyond is tiered by screen size.
+     A phone floors zone A at the full template and leaves zone B alone. */
+  floors: LODPIN ?? (LOWQ ? [2, 4] : [1, 2]),
+  /* how far from the camera the floors reach: the hero floor to the first
+     distance, the full-template floor to the second, screen size beyond. Past
+     500 m a 12 m tree is 29 px and past 900 m it is 16 px, where the hero
+     crown is the full template and the full template is the decimated one, so
+     a switch there does not show; pinning further only costs -- from the 12th
+     tee a floor with no reach held 3,676 hero trees and a third more
+     triangles. ?lodreach=hero,full overrides. */
+  floorReach: LODREACH ?? (LOWQ ? [250, 500] : [500, 900]),
   /* ?lod=1|2|3|4 forces every visible cell into one tier (hero, full,
      decimated, impostor), so a tier can be looked at up close and judged on
      its own; nothing else changes */
   force: [1, 2, 3, 4].includes(+new URLSearchParams(location.search).get("lod")) ? +new URLSearchParams(location.search).get("lod") : 0,
   /* tier0 is the hero tier, tier1 the full template, tier2 decimated, tier3 the impostor */
-  stats: { tier0: 0, tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, switches: 0, updates: 0, bakeMs: 0, fading: 0, updateMs: 0 },
+  stats: { tier0: 0, tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, switches: 0, reversals: 0, updates: 0, bakeMs: 0, fading: 0, updateMs: 0, zoneA: 0, zoneB: 0 },
   /* ?impdbg=normal|albedo|mask|world draws the impostors unlit, one term at a time */
   debug: new URLSearchParams(location.search).get("impdbg") || null,
 };
@@ -3827,10 +3926,11 @@ const TREE_LOD = {
     })()), 1, 0.15, 0.13);
     const pine = grownCrown(mergeGeos((() => {
       const p = [];
-      for (let i = 0; i < 2; i++) {
-        const t = i, r = 4.2 - t * 1.4, hh = (2.8 - t * 0.5) * 1.6;
+      /* three tall whorls standing in for the five, tapering to the same leader */
+      for (let i = 0; i < 3; i++) {
+        const t = i / 2, r = 4.2 - t * 2.7, hh = (2.8 - t * 0.9) * 1.3;
         const g = new THREE.ConeGeometry(r, hh, 6, 1);
-        g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
+        g.translate((t - 0.5) * 0.6, 8.5 + t * 3.5, (t * 0.5 - 0.25));
         p.push(g);
       }
       return p;
@@ -3892,15 +3992,14 @@ const TREE_LOD = {
     })()), 1, 0.15, 0.13);
     const pine = grownCrown(mergeGeos((() => {
       const p = [];
-      for (let i = 0; i < 4; i++) {
-        const t = i / 3, r = 4.2 - t * 1.4, hh = 2.8 - t * 0.5;
+      /* five whorls tapering to a leader -- the fifth part used to be a ball of
+         radius 1.5 m on the tip, a birch crown glued on a conifer */
+      for (let i = 0; i < 5; i++) {
+        const t = i / 4, r = 4.2 - t * 2.7, hh = 2.8 - t * 0.9;
         const g = new THREE.ConeGeometry(r, hh, 24, 2);
-        g.translate((t - 0.5) * 0.7, 8.5 + t * 2.6, (t * 0.6 - 0.3));
+        g.translate((t - 0.5) * 0.6, 8.5 + t * 3.5, (t * 0.5 - 0.25));
         p.push(g);
       }
-      const tuft = new THREE.IcosahedronGeometry(1.5, 2);
-      tuft.translate(0.4, 12.1, -0.2);
-      p.push(tuft);
       return p;
     })()), 2, 0.2, 0.15);
     const birch = grownCrown(mergeGeos((() => {
@@ -3986,7 +4085,7 @@ const TREE_LOD = {
     scene.add(mesh);
     stats.draws++;
     return { mesh, geo, pos: geo.getAttribute('aImpostorPos'), par: geo.getAttribute('aImpostorParam'), fade: [geo.getAttribute('aFade')],
-             slots: new Int32Array(capacity), count: 0, lo: Infinity, hi: -Infinity, flo: Infinity, fhi: -Infinity, idx: 0 };
+             slots: new Int32Array(capacity), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
   };
   const cellOf = new Map();
   const cell = (x, z) => {
@@ -4002,6 +4101,29 @@ const TREE_LOD = {
     }
     return c;
   };
+  /* the course corridor, rasterised once on a 12 m grid over the middle ring:
+     1 within zone A of a hole line, 2 within zone B, 0 beyond -- a capsule
+     stamped per segment, the same zones legacyTreeExport reports */
+  const courseZone = (() => {
+    const cell = 12, x0 = MIDR.x0, z0 = MIDR.z0;
+    const nx = Math.ceil((MIDR.x1 - x0) / cell) + 1, nz = Math.ceil((MIDR.z1 - z0) / cell) + 1;
+    const grid = new Uint8Array(nx * nz);
+    const stamp = (ax, az, bx, bz, r, v) => {
+      const i0 = Math.max(0, Math.floor((Math.min(ax, bx) - r - x0) / cell)), i1 = Math.min(nx - 1, Math.ceil((Math.max(ax, bx) + r - x0) / cell));
+      const j0 = Math.max(0, Math.floor((Math.min(az, bz) - r - z0) / cell)), j1 = Math.min(nz - 1, Math.ceil((Math.max(az, bz) + r - z0) / cell));
+      const dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz || 1;
+      for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
+        const px = x0 + (i + 0.5) * cell, pz = z0 + (j + 0.5) * cell;
+        const t = Math.max(0, Math.min(1, ((px - ax) * dx + (pz - az) * dz) / L2));
+        const ex = ax + dx * t - px, ez = az + dz * t - pz;
+        if (ex * ex + ez * ez <= r * r) { const at = j * nx + i; if (!grid[at] || v < grid[at]) grid[at] = v; }
+      }
+    };
+    for (const [r, v] of [[ZONE_C_METRES, 3], [LEGACY_ZONE_B_METRES, 2], [LEGACY_ZONE_A_METRES, 1]]) {
+      for (const h of HOLES) for (let i = 0; i + 1 < h.line.length; i++) stamp(h.line[i][0], h.line[i][1], h.line[i + 1][0], h.line[i + 1][1], r, v);
+    }
+    return (x, z) => { const i = Math.floor((x - x0) / cell), j = Math.floor((z - z0) / cell); return i < 0 || j < 0 || i >= nx || j >= nz ? 0 : grid[j * nx + i]; };
+  })();
   const mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
   for (let s = 0; s < 3; s++) {
     const T = trees[s], W = treeWhy[s];
@@ -4013,6 +4135,8 @@ const TREE_LOD = {
     /* each tree's drawn height and the height of its crown centre: the tier
        is decided from the pixels THIS tree projects to, not a nominal one */
     const treeH = new Float32Array(n), treeCY = new Float32Array(n);
+    /* which course zone each tree stands in (0 beyond, 1 A, 2 B, 3 C): in zone mode it IS the tier, in screen mode the floor */
+    const zone = new Uint8Array(n);
     for (let k = 0; k < n; k++) {
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
       const sy = T[k * 6 + 3], sxz = T[k * 6 + 5];
@@ -4021,6 +4145,8 @@ const TREE_LOD = {
       const varied = W[k] >= WHY_V2_INDIVIDUAL ? 1 : (0.86 + (k % 7) * 0.045);
       treeH[k] = SPECIES[s].templateHeight * sy * varied;
       treeCY[k] = pos.y + treeH[k] * 0.5;
+      zone[k] = courseZone(pos.x, pos.z);
+      if (zone[k] === 1) TREE_LOD.stats.zoneA++; else if (zone[k] === 2) TREE_LOD.stats.zoneB++;
       scl.set(sxz, sy * varied, sxz);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
       mtx.compose(pos, q, scl).toArray(mats, k * 16);
@@ -4045,7 +4171,7 @@ const TREE_LOD = {
         im.receiveShadow = name === 'trunk';
         /* culled per cell by the tier update; the mesh's own sphere would be the whole course */
         im.frustumCulled = false;
-        im.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        /* NOT DynamicDrawUsage: three's WebGPU path re-uploads such an attribute whole every frame; the tiers upload their dirty ranges through needsUpdate (flushRanges) */
         im.userData.tag = 'trees';
         im.name = `trees-${['spruce', 'pine', 'birch'][s]}-${name}-${label}`;
         scene.add(im);
@@ -4053,13 +4179,14 @@ const TREE_LOD = {
         return im;
       });
       return { parts: meshes, fade: meshes.map(im => im.geometry.getAttribute('aFade')), slots: new Int32Array(n), count: 0,
-               lo: Infinity, hi: -Infinity, flo: Infinity, fhi: -Infinity, idx: 0 };
+               dirtyM: [], dirtyF: [], idx: 0 };
     };
     const hr = hero[s];
     const rec = {
-      n, treeH, treeCY,
+      n, treeH, treeCY, zone,
       where: new Int32Array(n).fill(-1),
       tierOf: new Uint8Array(n),
+      pend: new Uint8Array(n), pendN: new Uint8Array(n),
       /* the OUT half of a crossfade: which tier still draws the tree, and where */
       outTier: new Uint8Array(n), whereOut: new Int32Array(n).fill(-1),
       fadeT0: new Float32Array(n), fadeCode: new Uint8Array(n),
@@ -4094,8 +4221,7 @@ const TREE_LOD = {
    tables built at boot, so a move never touches trees[]. */
 function treeFadeWrite(tier, slot, t0, code) {
   for (const a of tier.fade) { a.array[slot * 2] = t0; a.array[slot * 2 + 1] = code; }
-  if (slot < tier.flo) tier.flo = slot;
-  if (slot > tier.fhi) tier.fhi = slot;
+  tier.dirtyF.push(slot);
 }
 function treeTierWrite(s, tier, slot, k, t0, code) {
   if (tier.mesh) {
@@ -4109,9 +4235,31 @@ function treeTierWrite(s, tier, slot, k, t0, code) {
     const mats = TREE_LOD.mats[s];
     for (const im of tier.parts) im.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
   }
-  if (slot < tier.lo) tier.lo = slot;
-  if (slot > tier.hi) tier.hi = slot;
+  tier.dirtyM.push(slot);
   treeFadeWrite(tier, slot, t0, code);
+}
+/* the slots written this frame, as runs: a swap-remove touches one slot at
+   each end of a tier, and one range from the lowest to the highest slot
+   uploaded the whole tier between them -- 640 KB a frame for the pine tier
+   on a walk that switches ten trees a frame */
+function flushRanges(attrs, dirty, stride) {
+  if (!dirty.length) return;
+  dirty.sort((a, b) => a - b);
+  const runs = [];
+  let start = dirty[0], end = dirty[0];
+  for (let i = 1; i < dirty.length; i++) {
+    const v = dirty[i];
+    if (v === end || v === end + 1) { end = v; continue; }
+    runs.push([start, end]); start = end = v;
+  }
+  runs.push([start, end]);
+  for (const a of attrs) {
+    a.clearUpdateRanges();
+    if (runs.length > 96) a.addUpdateRange(runs[0][0] * stride, (runs[runs.length - 1][1] - runs[0][0] + 1) * stride);
+    else for (const [s0, s1] of runs) a.addUpdateRange(s0 * stride, (s1 - s0 + 1) * stride);
+    a.needsUpdate = true;
+  }
+  dirty.length = 0;
 }
 /* swap-remove: the tree moved into the freed slot may hold this tier as its IN entry or as its OUT entry */
 function tierRemove(s, tier, slot) {
@@ -4141,6 +4289,8 @@ function treeTierMove(s, k, from, to) {
   TREE_LOD.stats.moves++;
   if (from && to) TREE_LOD.stats.switches++;
   if (dur > 0 && to && sp.outTier[k] === to && sp.tierOf[k] === from) {
+    /* a switch back to the tier it is still fading out of: the tree wobbled across a threshold within one fade */
+    TREE_LOD.stats.reversals++;
     const { t0, inCode } = reversedFade(clock, sp.fadeT0[k], dur, sp.fadeCode[k]);
     const wIn = sp.where[k], wOut = sp.whereOut[k];
     sp.where[k] = wOut; sp.whereOut[k] = wIn; sp.tierOf[k] = to; sp.outTier[k] = from;
@@ -4246,12 +4396,13 @@ function updateTreeTiers() {
   rebaseFadeClock();
   let changed = drainTreeFades();
   TREE_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-  TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem);
+  TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem, camera.reversedDepth ?? false);
   const viewportH = renderer.domElement.height || innerHeight;
   const Kpx = viewportH / (2 * Math.tan(camera.fov * 0.5 * Math.PI / 180));
   const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
   const thr = [TREE_LOD.heroPx, TREE_LOD.switchPx, TREE_LOD.impostorPx], hy = TREE_LOD.hysteresis;
   const force = TREE_LOD.force, reset = TREE_LOD.resetPending, cellMode = TREE_LOD.cellMode;
+  const floorA = TREE_LOD.floors[0], floorB = TREE_LOD.floors[1], reachH = TREE_LOD.floorReach[0], reachF = TREE_LOD.floorReach[1], floorAFar = Math.max(floorA, 2);
   const cells = TREE_LOD.cells;
   let visible = 0;
   for (let ci = 0; ci < cells.length; ci++) {
@@ -4277,21 +4428,38 @@ function updateTreeTiers() {
     for (let s = 0; s < 3; s++) {
       const sp = TREE_LOD.tiers[s];
       if (!sp) continue;
-      const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf;
+      const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf, Z = sp.zone, PD = sp.pend, PN = sp.pendN, dwell = TREE_LOD.dwell;
+      const zoneMode = TREE_LOD.lodMode === 'zone', ZT = TREE_LOD.zoneTiers;
       for (let i = 0; i < L.length; i++) {
         const k = L[i];
         const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;
-        const px = cellMode ? pxCell : H[k] * Kpx / Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
+        const d = Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
+        const px = cellMode ? pxCell : H[k] * Kpx / d;
         const cur = T[k];
         let want;
         if (force) want = force;
+        else if (zoneMode) want = ZT[Z[k] ? Z[k] - 1 : 3];
         else if (!cur || reset) { want = 1; while (want < 4 && px < thr[want - 1]) want++; }
         else {
           want = cur;
           while (want > 1 && px > thr[want - 2] * (1 + hy)) want--;
           while (want < 4 && px < thr[want - 1] * (1 - hy)) want++;
         }
-        if (want !== cur) { treeTierMove(s, k, cur, want); changed = true; }
+        /* the corridor's floor, unless a forced tier is being judged on its own */
+        /* the floors are zone A's and B's; the outer band (3) exists for the zone rule and has no floor here */
+        if (!force && !zoneMode && Z[k] && Z[k] <= 2) {
+          /* the reaches carry the same 10% band as the pixel boundaries, so a tree at a reach does not flip */
+          const rH = reachH * (cur === floorA ? 1.1 : 1), rF = reachF * (cur && cur <= 2 ? 1.1 : 1);
+          const fl = Z[k] === 1 ? (d < rH ? floorA : d < rF ? floorAFar : 4) : (d < rF ? floorB : 4);
+          if (want > fl) want = fl;
+        }
+        if (want !== cur) {
+          /* a tree entering the frustum, a reset or a forced tier switches at once; otherwise
+             the new tier has to be wanted for dwell frames running */
+          if (!cur || reset || force || dwell <= 0 || (PD[k] === want && PN[k] >= dwell - 1)) { treeTierMove(s, k, cur, want); changed = true; PN[k] = 0; }
+          else if (PD[k] === want) PN[k]++;
+          else { PD[k] = want; PN[k] = 1; }
+        } else PN[k] = 0;
       }
     }
   }
@@ -4307,27 +4475,19 @@ function updateTreeTiers() {
     if (!species) continue;
     for (let i = 1; i <= 4; i++) {
       const tier = species.t[i];
+      if (tier.dirtyM.length || tier.dirtyF.length) treeUploadsThisFrame++;
       if (tier.mesh) {
         tier.geo.instanceCount = tier.count;
         tier.mesh.visible = tier.count > 0;
-        if (tier.hi >= tier.lo) {
-          tier.pos.clearUpdateRanges(); tier.pos.addUpdateRange(tier.lo * 3, (tier.hi - tier.lo + 1) * 3); tier.pos.needsUpdate = true;
-          tier.par.clearUpdateRanges(); tier.par.addUpdateRange(tier.lo * 4, (tier.hi - tier.lo + 1) * 4); tier.par.needsUpdate = true;
-        }
+        const dirty = tier.dirtyM.slice();
+        flushRanges([tier.pos], dirty.slice(), 3);
+        flushRanges([tier.par], dirty, 4);
+        tier.dirtyM.length = 0;
       } else {
-        for (const im of tier.parts) {
-          im.count = tier.count;
-          if (tier.hi >= tier.lo) {
-            im.instanceMatrix.clearUpdateRanges();
-            im.instanceMatrix.addUpdateRange(tier.lo * 16, (tier.hi - tier.lo + 1) * 16);
-            im.instanceMatrix.needsUpdate = true;
-          }
-        }
+        for (const im of tier.parts) im.count = tier.count;
+        flushRanges(tier.parts.map(im => im.instanceMatrix), tier.dirtyM, 16);
       }
-      if (tier.fhi >= tier.flo) for (const a of tier.fade) {
-        a.clearUpdateRanges(); a.addUpdateRange(tier.flo * 2, (tier.fhi - tier.flo + 1) * 2); a.needsUpdate = true;
-      }
-      tier.lo = Infinity; tier.hi = -Infinity; tier.flo = Infinity; tier.fhi = -Infinity;
+      flushRanges(tier.fade, tier.dirtyF, 2);
     }
     t0 += species.t[1].count; t1 += species.t[2].count; t2 += species.t[3].count; t3 += species.t[4].count;
   }
@@ -4786,6 +4946,24 @@ lap('ground cover (tufts, bushes, stones, stumps)');
 /* ------------------------------------------------- distance plates + signs
    The fairway plates are distance-to-green markers, not pins: red 100, yellow 150,
    white 200, standing at the edge of the corridor where a player looks for them. */
+/* One draw per kind of furniture. Each of these used to be its own Mesh --
+   288 objects at Puttom, tee markers and plates and posts and poles -- and
+   three's per-object work (matrices, bindings, a uniform buffer write each)
+   ran twice a frame for every one of them, shadow pass and main pass: at
+   rest, with nothing moving, that was most of the frame's CPU time, and an
+   uneven frame cadence is what the water's animation shows as jitter. Same
+   geometry, same material, same transforms, in an InstancedMesh per kind. */
+const instancedFurniture = (geo, mat, list, { cast = false, colour = false, into, tag = 'furniture' } = {}) => {
+  if (!list.length) return null;
+  const im = new THREE.InstancedMesh(geo, mat, list.length), M = new THREE.Matrix4();
+  list.forEach((e, i) => { M.makeRotationY(e.rot || 0); M.setPosition(e.x, e.y, e.z); im.setMatrixAt(i, M); if (colour) im.setColorAt(i, e.colour); });
+  im.instanceMatrix.needsUpdate = true;
+  if (colour) im.instanceColor.needsUpdate = true;
+  im.castShadow = cast; im.userData.tag = tag;
+  im.computeBoundingSphere();
+  into.add(im);
+  return im;
+};
 const furnitureGroup = new THREE.Group();
 scene.add(furnitureGroup);
 const plateSites = [];
@@ -4796,6 +4974,7 @@ const plateSites = [];
   postGeo.translate(0, 0.31, 0);
   const postMat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x6b6154), roughness: 0.9 });
   const PLATES = [[100, 0xd8443c], [150, 0xe8c33a], [200, 0xf2f0e8]];
+  const plateInst = new Map(PLATES.map(([, col]) => [col, []])), postInst = [];
   /* A yardage plate states the STRAIGHT-LINE distance to the middle of the
      green. It was being placed by the arc length still to run along the hole
      polyline, measured to the line's END -- two different things, and on a
@@ -4812,11 +4991,16 @@ const plateSites = [];
     const total = polyLen(line);
     let best = null, bestErr = Infinity;
     /* the CLOSEST position, not the first one past the number: the post's own
-       distance jumps at a polyline vertex, so a first-crossing search lands
-       wherever the jump happens to leave it. Minimising picks the best the line
-       can actually offer. */
+       distance used to jump at a polyline vertex because the lateral offset
+       inherited one segment's bearing and then the next one's. Use a centred
+       six-metre secant for furniture only: it mitres the corridor edge through
+       a dogleg without altering the authored route or any playing distance. */
     for (let s = 0; s <= total; s += 0.25) {
-      const p = alongLine(line, 1 - s / total);
+      const f = 1 - s / total;
+      const p = alongLine(line, f);
+      const before = alongLine(line, f - 3 / total);
+      const after = alongLine(line, f + 3 / total);
+      p.b = Math.atan2(after.x - before.x, after.z - before.z);
       const R = rightOf(p.b);
       const x = p.x + R[0] * 15 * side, z = p.z + R[1] * 15 * side;
       const err = Math.abs(hyp([x, z], greenC) - dist);   /* hyp takes two POINTS */
@@ -4839,14 +5023,9 @@ const plateSites = [];
         const y = terrainH(x, z);
         for (const w of WI.at(x, z)) if (!w.stream && y < w.level + 0.1) wet = true;
         if (wet) continue;
-        const g = new THREE.Group();
-        g.position.set(x, y, z);
-        g.rotation.y = p.b + Math.PI / 2;
-        const plate = new THREE.Mesh(plateGeo, new THREE.MeshStandardNodeMaterial({
-          color: new THREE.Color(col), roughness: 0.5, emissive: new THREE.Color(col), emissiveIntensity: 0.1 }));
-        plate.castShadow = true;
-        g.add(new THREE.Mesh(postGeo, postMat), plate);
-        furnitureGroup.add(g);
+        const rot = p.b + Math.PI / 2;
+        plateInst.get(col).push({ x, y, z, rot });
+        postInst.push({ x, y, z, rot });
         /* recorded where they are PLANTED, so the gate measures the plate that
            was drawn rather than re-deriving where it ought to be -- a checker
            that restates the formula agrees with the bug */
@@ -4854,6 +5033,9 @@ const plateSites = [];
       }
     }
   }
+  for (const [, col] of PLATES) instancedFurniture(plateGeo, new THREE.MeshStandardNodeMaterial({
+    color: new THREE.Color(col), roughness: 0.5, emissive: new THREE.Color(col), emissiveIntensity: 0.1 }), plateInst.get(col), { cast: true, into: furnitureGroup, tag: 'plates' });
+  instancedFurniture(postGeo, postMat, postInst, { into: furnitureGroup, tag: 'plates' });
   /* a small sign at each green pointing at the next tee, so the walk reads */
   const signPlate = new THREE.BoxGeometry(0.5, 0.2, 0.05);
   signPlate.translate(0, 1.02, 0);
@@ -4900,25 +5082,21 @@ const TEE_COLS = CMETA.tees.cols;
 const flagGroup = new THREE.Group();
 scene.add(flagGroup);
 const pins = [];
+const FURN = { poles: [], cups: [], markers: [] };
 for (const h of HOLES) {
   const [x, z] = h.pin;
   const y = terrainH(x, z);
   const g = new THREE.Group();
   g.position.set(x, y, z);
-  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, 2.6, 6),
-    new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2f4f2), roughness: 0.35, metalness: 0.5 }));
-  pole.position.y = 1.3; pole.castShadow = true;
+  FURN.poles.push({ x, y: y + 1.3, z });
   /* the club flies yellow flags with its badge, not red-and-amber halves */
   const cloth = new THREE.Mesh(new THREE.PlaneGeometry(0.78, 0.5, 8, 3),
     new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2d24b),
       roughness: 0.85, side: THREE.DoubleSide }));
   cloth.position.set(0.39, 2.28, 0);
-  g.add(pole, cloth);
+  g.add(cloth);
   /* the cup, which is the thing that makes a green read as a green up close */
-  const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.054, 0.054, 0.12, 12),
-    new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x11170f), roughness: 1 }));
-  cup.position.y = 0.02;
-  g.add(cup);
+  FURN.cups.push({ x, y: y + 0.02, z });
   flagGroup.add(g);
   pins.push({ hole: h.n, cloth, g });
 
@@ -4929,17 +5107,22 @@ for (const h of HOLES) {
   const mk = h.tees.marks;
   for (let k = 0; k < mk.length; k++) {
     const m = mk[k], b = m.b * Math.PI / 180, R = rightOf(b);
-    const geo = new THREE.SphereGeometry(0.13, 8, 6);
-    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(TEE_COLS[k]), roughness: 0.45, metalness: 0.15 });
+    const colour = new THREE.Color(TEE_COLS[k]);
     for (const s of [-2.6, 2.6]) {
       const mx = m.c[0] + R[0] * s, mz = m.c[1] + R[1] * s;
-      const sph = new THREE.Mesh(geo, mat);
-      sph.position.set(mx, terrainH(mx, mz) + 0.11, mz);
-      sph.castShadow = true;
-      flagGroup.add(sph);
+      FURN.markers.push({ x: mx, y: terrainH(mx, mz) + 0.11, z: mz, colour });
     }
   }
 }
+/* the furniture's draws: one for every pole, one for every cup, one for every
+   marker (the colour rides on the instance; a white material times it is the
+   colour the material used to carry) */
+instancedFurniture(new THREE.CylinderGeometry(0.035, 0.045, 2.6, 6),
+  new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2f4f2), roughness: 0.35, metalness: 0.5 }), FURN.poles, { cast: true, into: flagGroup, tag: 'pins' });
+instancedFurniture(new THREE.CylinderGeometry(0.054, 0.054, 0.12, 12),
+  new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x11170f), roughness: 1 }), FURN.cups, { into: flagGroup, tag: 'pins' });
+instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
+  new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xffffff), roughness: 0.45, metalness: 0.15 }), FURN.markers, { cast: true, colour: true, into: flagGroup, tag: 'markers' });
 
 /* Buildings: every footprint within a kilometre in ONE vertex-coloured mesh --
    walls, gable roofs with the ridge on the long axis, a white fascia line under the
@@ -5810,7 +5993,8 @@ for (const h of HOLES) {
 
 /* ------------------------------------------------------------ post-process */
 await tick('ställer ljuset', 0.86);
-if (!LOWQ) {
+/* ?post=0 renders the scene straight to the canvas, no bloom: the harness's way to tell a scene fault from a pipeline fault */
+if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
   const post = new THREE.RenderPipeline(renderer);
   const scenePass = pass(scene, camera);
@@ -5829,24 +6013,86 @@ function renderActivePipeline() {
   else renderer.render(scene, camera);
 }
 
-/* the shadow camera follows the player, because a 2 km ortho frustum spends its
-   whole resolution on ground nobody is looking at */
+/* The shadow camera follows the player, because a 2 km ortho frustum spends its
+   whole resolution on ground nobody is looking at -- and it follows in a way
+   that does not swim. Two rules: the box is one of a few FIXED sizes, chosen
+   with hysteresis, so its texel size changes rarely (a re-fit in 14 m steps
+   re-sampled the whole map at every step); and it moves only in whole texels
+   of its own map, measured in the light's view space, so the map samples the
+   same world points from one frame to the next. With the sun fixed the shadow
+   camera's rotation is constant and the rounding is exact; three's
+   LightShadow.updateMatrices builds that camera from the light's position and
+   its target with y up, which is the basis used here. The normal bias scales
+   with the fit, a texel's worth of push whatever the size.
+   ?shadowsnap=0 and V3D.setShadowSnap switch the snap off for a before/after. */
+const SHADOW_FITS = [260, 400, 600, 850, 1150];
+let shadowSnap = new URLSearchParams(location.search).get('shadowsnap') !== '0';
 let shadowRadiusOverride = null;   /* a harness stepping a flight pose by pose gives it the flight's fixed fit */
+const SUN_BASIS = { d: new THREE.Vector3(), right: new THREE.Vector3(), up: new THREE.Vector3(), m: new THREE.Matrix4(),
+                    o: new THREE.Vector3(), texel: 0, remainder: 0, R: 0 };
+/* What moves a shadow: the sun or its box (placeSun), a tree changing tier or
+   fading (an upload this frame, or a fade queue still draining), the terrain
+   (a tile arriving or leaving, and the 240 ms morph after it), a flight -- and
+   once a second regardless, so anything not on this list still catches up
+   within a second. Nothing else in the scene casts and moves: the flag cloths
+   wave but do not cast. At rest none of it fires and the pass is skipped. */
+function shadowRest(now) {
+  const S = SHADOW_REST_STATE; S.frames++; S.sinceRender++;
+  if (!SHADOW_REST) return;
+  let why = '';
+  if (!sun.position.equals(S.sunPos) || !sun.target.position.equals(S.target)) { S.sunPos.copy(sun.position); S.target.copy(sun.target.position); why = 'sun'; }
+  const batches = terrainV2.runtime?.layer?.batches;
+  if (batches) {
+    let tiles = 0, uploads = 0, morphStart = -1, morphMs = 240;
+    for (const b of batches.values()) {
+      tiles += b.layersByTile.size; uploads += b.textureUploads; morphMs = b.morphDurationMilliseconds;
+      for (const t of b.morphStartByTile.values()) if (t !== null && t > morphStart) morphStart = t;
+    }
+    if (tiles !== S.tiles || uploads !== S.uploads || morphStart !== S.morphStart) { S.tiles = tiles; S.uploads = uploads; S.morphStart = morphStart; S.dirtyUntil = now + morphMs + 80; }
+  }
+  if (!why && now < S.dirtyUntil) why = 'terrain';
+  /* a fade under way changes the dither every frame with no upload at all -- the clock is a uniform -- so the map follows the queue, whoever drives the clock */
+  if (!why && (treeUploadsThisFrame > 0 || TREE_LOD.queue.length !== TREE_LOD.qHead)) why = 'trees';
+  if (!why && flying > 0) why = 'flight';
+  if (!why && S.sinceRender >= 60) why = 'tick';
+  treeUploadsThisFrame = 0;
+  if (why) { sun.shadow.needsUpdate = true; S.renders++; S.sinceRender = 0; S.why = why; }
+}
+
 function placeSun() {
   const t = controls.target;
   const d = uSun.value;
-  sun.position.set(t.x + d.x * 1200, t.y + d.y * 1200, t.z + d.z * 1200);
-  sun.target.position.copy(t);
-  sun.target.updateMatrixWorld();
-  /* Stabilize shadow frustum: during flyovers use a rock-solid fixed size to prevent
-     shadow crawling on terrain; in interactive mode apply hysteresis thresholding. */
-  const targetR = shadowRadiusOverride ?? (flying > 0 ? 580 : clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150));
   const c = sun.shadow.camera;
-  if (!c.top || Math.abs(c.top - targetR) > 14) {
-    c.left = -targetR; c.right = targetR; c.top = targetR; c.bottom = -targetR;
+  const want = shadowRadiusOverride ?? (flying > 0 ? 580 : clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150));
+  /* the fit: the smallest fixed size that holds the want; it grows at once and
+     shrinks only once the want is well under the next size down */
+  let R = c.top || 0;
+  if (!R || want > R) R = SHADOW_FITS.find(f => f >= want) ?? SHADOW_FITS[SHADOW_FITS.length - 1];
+  else { const i = SHADOW_FITS.indexOf(R); if (i > 0 && want < SHADOW_FITS[i - 1] * 0.9) R = SHADOW_FITS.find(f => f >= want) ?? R; }
+  if (R !== c.top) {
+    c.left = -R; c.right = R; c.top = R; c.bottom = -R;
     c.near = 200; c.far = 2400;
     c.updateProjectionMatrix();
+    sun.shadow.normalBias = 0.22 * Math.min(2.5, R / 260);
   }
+  const B = SUN_BASIS, texel = 2 * R / sun.shadow.mapSize.width;
+  if (!B.d.equals(d)) {
+    B.d.copy(d);
+    B.m.lookAt(d, B.o, THREE.Object3D.DEFAULT_UP);
+    B.right.setFromMatrixColumn(B.m, 0);
+    B.up.setFromMatrixColumn(B.m, 1);
+  }
+  let ox = 0, oy = 0;
+  if (shadowSnap) {
+    const u = t.dot(B.right), v = t.dot(B.up);
+    ox = Math.round(u / texel) * texel - u;
+    oy = Math.round(v / texel) * texel - v;
+  }
+  B.texel = texel; B.R = R; B.remainder = Math.hypot(ox, oy) / texel;
+  const cx = t.x + B.right.x * ox + B.up.x * oy, cy = t.y + B.right.y * ox + B.up.y * oy, cz = t.z + B.right.z * ox + B.up.z * oy;
+  sun.position.set(cx + d.x * 1200, cy + d.y * 1200, cz + d.z * 1200);
+  sun.target.position.set(cx, cy, cz);
+  sun.target.updateMatrixWorld();
 }
 
 /* ------------------------------------------------------------------- ui */
@@ -5888,18 +6134,26 @@ function drawCard() {
   /* A korthalsbana is not rated, so it has no stroke index and none is invented:
      h.idx is null there and the line is just the par. Printing "Index null"
      would state something about a real club that no source supports. */
+  const cardLine = h.idx == null ? `Par ${h.par}` : `Par ${h.par} · Index ${h.idx}`;
   document.getElementById('cpi').textContent =
-    h.idx == null ? `Par ${h.par}` : `Par ${h.par} · Index ${h.idx}`;
+    CMETA.cardStatus ? `${cardLine} · Preliminärt kort` : cardLine;
   teesEl.innerHTML = '';
   h.t.forEach((m, k) => {
     const d = document.createElement('div');
     d.className = 'tee' + (k === teeIdx ? ' on' : '');
     d.innerHTML = `<b>${m}</b><i>${TEE_NAMES[k]}</i>`;
-    d.onclick = () => { teeIdx = k; drawCard(); if (camMode === 'tee') setCam('tee'); if (kik) kikRender(); };
+    d.onclick = () => {
+      teeIdx = k;
+      drawCard();
+      buildStrategy();
+      if (camMode === 'tee') setCam('tee');
+      if (kik) kikRender();
+    };
     teesEl.appendChild(d);
   });
   const rise = h.elev.rise;
   let factsHtml = `Tee <b>${h.elev.tee.toFixed(0)} m</b> · Green <b>${h.elev.green.toFixed(0)} m</b> ö.h.`;
+  if (CMETA.cardStatus) factsHtml += `<br><span class="data-status">${CMETA.cardStatus}</span>`;
   if (BOOTQ.get('debug') === '1') {
     factsHtml += `<br><span class="debug-pipeline">Ritad <b>${h.lineLen.toFixed(0)} m</b> · kortet <b>${h.t[0]} m</b></span>`;
   }
@@ -5932,7 +6186,17 @@ function drawCard() {
 
 const camTween = { on: false, t: 0, dur: 1.5, from: new THREE.Vector3(), to: new THREE.Vector3(),
                    lookFrom: new THREE.Vector3(), lookTo: new THREE.Vector3() };
+/* The ground keeps the camera out of itself gently (engine/camera-clamp.mjs):
+   eye height is eased toward, a rise ahead along the camera's own motion is
+   climbed before it arrives, and what the ground lifted it gives back when
+   the ground falls away. A snap to eye height kicked the view up on every
+   bump of the 1 m heightfield -- measured at the 5th tee, 5.6 cm steps under
+   a pan and 48 cm steps under an orbit -- which is what "terrain jitter"
+   felt like at a tee. */
+const groundClamp = createGroundClamp({ heightAt: (x, z) => terrainH(x, z) });
+
 function flyTo(pos, look, dur = 1.5) {
+  groundClamp.reset();
   if (dur <= 0) {
     camera.position.copy(pos); controls.target.copy(look); camTween.on = false;
     return;
@@ -5993,6 +6257,7 @@ function goHole(n, recam, instant) {
   }
   kikClear();
   if (kik) kikRender();
+  buildStrategy();
   if (gridOn) buildGreenGrid();
   if (recam) setCam(camMode, instant);
   syncURL();
@@ -6802,6 +7067,551 @@ function endTour() {
 }
 document.getElementById('tourBtn').onclick = startTour;
 
+/* ------------------------------------------------------- personal caddie
+   One local bag drives both the labels painted on the hole and Kikaren's club
+   recommendation. It never leaves the device. The 3D strategy is derived from
+   the selected tee, the routed centreline and explicit distances in the club's
+   note (for example "max 200 meter"), so it works for every current pack while
+   leaving room for authored per-hole strategy data later. */
+const BAG_KEY = 'banvy-caddie-bag-v1';
+const htmlEsc = value => String(value ?? '').replace(/[&<>"']/g, ch =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+let playerBag;
+try { playerBag = parseBag(localStorage.getItem(BAG_KEY)); }
+catch { playerBag = normalizeBag(DEFAULT_BAG); }
+
+const bagDialog = document.getElementById('bagDialog');
+const bagForm = document.getElementById('bagForm');
+const bagList = document.getElementById('bagList');
+const bagCount = document.getElementById('bagCount');
+const bagAddBtn = document.getElementById('bagAddBtn');
+
+function bagDraftFromRows() {
+  return [...bagList.querySelectorAll('.bag-row')].map((row, i) => ({
+    id: row.dataset.clubId || `club-${i + 1}`,
+    name: row.querySelector('.bag-name').value,
+    carry: row.querySelector('.bag-distance').value,
+  }));
+}
+
+function syncBagEditor() {
+  const count = bagList.querySelectorAll('.bag-row').length;
+  bagCount.innerHTML = `<b>${count}</b> / ${MAX_BAG_CLUBS} klubbor`;
+  bagCount.classList.toggle('limit', count >= MAX_BAG_CLUBS);
+  bagAddBtn.disabled = count >= MAX_BAG_CLUBS;
+  bagAddBtn.textContent = count >= MAX_BAG_CLUBS ? 'Bagen är full' : '+ Lägg till klubba';
+  for (const button of bagList.querySelectorAll('.bag-remove')) button.disabled = count <= 2;
+}
+
+function renderBagForm(value = playerBag) {
+  bagList.innerHTML = normalizeBag(value).map((club, i) => `
+    <div class="bag-row" data-club-id="${htmlEsc(club.id)}">
+      <span class="bag-rank">${String(i + 1).padStart(2, '0')}</span>
+      <input class="bag-name" value="${htmlEsc(club.name)}" maxlength="24" aria-label="Klubba ${i + 1}" required>
+      <span class="bag-carry"><input class="bag-distance" type="number" inputmode="numeric" min="20" max="350"
+        value="${club.carry}" aria-label="Carry för ${htmlEsc(club.name)} i meter" required><span>m</span></span>
+      <button class="bag-remove" type="button" aria-label="Ta bort ${htmlEsc(club.name)}" title="Ta bort">×</button>
+    </div>`).join('');
+  syncBagEditor();
+}
+function openBag() {
+  renderBagForm();
+  if (typeof bagDialog.showModal === 'function') bagDialog.showModal();
+  else bagDialog.setAttribute('open', '');
+  requestAnimationFrame(() => bagList.querySelector('input')?.focus({ preventScroll: true }));
+}
+document.getElementById('bagBtn').onclick = openBag;
+document.getElementById('bagResetBtn').onclick = () => renderBagForm(DEFAULT_BAG);
+bagAddBtn.onclick = () => {
+  const draft = bagDraftFromRows();
+  if (draft.length >= MAX_BAG_CLUBS) return;
+  const shortest = Math.min(...draft.map(club => Number(club.carry)).filter(Number.isFinite));
+  draft.push({
+    id: `custom-${Date.now().toString(36)}`,
+    name: 'Ny klubba',
+    carry: Math.max(20, Number.isFinite(shortest) ? shortest - 10 : 80),
+  });
+  renderBagForm(draft);
+  const input = bagList.querySelector('.bag-row:last-child .bag-name');
+  input?.focus({ preventScroll: true });
+  input?.select();
+  input?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+};
+bagList.addEventListener('click', event => {
+  const button = event.target.closest('.bag-remove');
+  if (!button) return;
+  const draft = bagDraftFromRows();
+  if (draft.length <= 2) return;
+  const index = [...bagList.querySelectorAll('.bag-row')].indexOf(button.closest('.bag-row'));
+  draft.splice(index, 1);
+  renderBagForm(draft);
+  bagList.querySelectorAll('.bag-name')[Math.min(index, draft.length - 1)]?.focus({ preventScroll: true });
+});
+bagForm.addEventListener('submit', event => {
+  if (event.submitter?.value !== 'save') return;
+  event.preventDefault();
+  playerBag = normalizeBag(bagDraftFromRows()).sort((a, b) => b.carry - a.carry);
+  try { localStorage.setItem(BAG_KEY, JSON.stringify({ version: 2, clubs: playerBag })); }
+  catch { /* private storage may be unavailable; the in-memory bag still works */ }
+  bagDialog.close?.();
+  buildStrategy();
+  if (kik) kikRender();
+  toast('Bagen är sparad · klubbvalen är uppdaterade');
+});
+bagDialog.addEventListener('click', event => {
+  if (event.target === bagDialog) bagDialog.close?.('cancel');
+});
+
+const STRATEGY_KEY = 'banvy-strategy-visible-v1';
+let strategyOn = true, strategyGroup = null, currentStrategy = null;
+try { strategyOn = localStorage.getItem(STRATEGY_KEY) !== 'off'; }
+catch { /* local preference is optional */ }
+let strategyAnimation = null;
+const strategyMotionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+let strategyReducedMotion = DET || strategyMotionPreference.matches;
+const strategyBtn = document.getElementById('strategyBtn');
+strategyBtn.classList.toggle('on', strategyOn);
+strategyBtn.setAttribute('aria-pressed', String(strategyOn));
+
+function strategyClear() {
+  if (!strategyGroup) return;
+  const staleGroup = strategyGroup;
+  scene.remove(staleGroup);
+  strategyGroup = null;
+  strategyAnimation = null;
+  /* Do not call dispose() here. Three's WebGPU post pipeline can retain an
+     encoded command which names these buffers even after multiple frames and
+     GPUQueue.onSubmittedWorkDone(). Destroying them produces "Buffer used in
+     submit while destroyed" and freezes only the 3D canvas while the DOM and
+     minimap keep running. Once detached and unreferenced, Three's WeakMaps and
+     the browser GC release this tiny transient layer at a safe lifetime point. */
+}
+
+function sampledRoute(line, from, to, step = 4) {
+  const points = [];
+  for (let d = from; d < to; d += step) points.push(pointAlongLine(line, d));
+  points.push(pointAlongLine(line, to));
+  return points.filter(Boolean);
+}
+
+function strategyRibbon(points, width, colour, opacity, lift = 0.12) {
+  const positions = [];
+  for (let i = 0; i < points.length - 1; i++) {
+    const a = points[i], b = points[i + 1];
+    const dx = b[0] - a[0], dz = b[1] - a[1], length = Math.hypot(dx, dz) || 1;
+    const nx = -dz / length * width / 2, nz = dx / length * width / 2;
+    const corners = [[a[0] + nx, a[1] + nz], [a[0] - nx, a[1] - nz], [b[0] + nx, b[1] + nz], [b[0] - nx, b[1] - nz]];
+    const push = index => {
+      const p = corners[index];
+      positions.push(p[0], terrainH(p[0], p[1]) + lift, p[1]);
+    };
+    push(0); push(1); push(2); push(2); push(1); push(3);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(positions.length / 3 * 2), 2));
+  const material = new THREE.MeshBasicNodeMaterial({
+    color: new THREE.Color(colour), transparent: true, opacity, depthWrite: false, side: THREE.DoubleSide,
+  });
+  material.polygonOffset = true; material.polygonOffsetFactor = DEPTH_SIGN * 4; material.polygonOffsetUnits = DEPTH_SIGN * 8;
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.userData.baseOpacity = opacity;
+  mesh.userData.strategyWidth = width;
+  mesh.renderOrder = 5;
+  return mesh;
+}
+
+function strategyLine(points, colour, opacity = 0.9, lift = 0.18) {
+  const positions = points.map(p => new THREE.Vector3(p[0], terrainH(p[0], p[1]) + lift, p[1]));
+  const material = new THREE.LineBasicNodeMaterial({ color: new THREE.Color(colour), transparent: true, opacity, depthWrite: false });
+  const geometry = new THREE.BufferGeometry().setFromPoints(positions);
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(positions.length * 2), 2));
+  const line = new THREE.Line(geometry, material);
+  line.userData.baseOpacity = opacity;
+  line.renderOrder = 6;
+  return line;
+}
+
+function strategyLabel(title, subtitle, point, colour = '#b7dfc0', scale = 1, quiet = false) {
+  const canvas = document.createElement('canvas');
+  canvas.width = quiet ? 224 : 512;
+  canvas.height = quiet ? 72 : 120;
+  const ctx = canvas.getContext('2d');
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  if (!quiet) {
+    const fill = ctx.createLinearGradient(0, 0, 512, 120);
+    fill.addColorStop(0, 'rgba(4,12,8,.88)');
+    fill.addColorStop(1, 'rgba(10,24,16,.76)');
+    ctx.fillStyle = fill;
+    ctx.beginPath(); ctx.roundRect(3, 3, 506, 114, 25); ctx.fill();
+    ctx.strokeStyle = 'rgba(220,240,225,.22)'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = colour;
+    ctx.beginPath(); ctx.roundRect(26, 23, 6, 74, 3); ctx.fill();
+    ctx.fillStyle = '#f3f7f4'; ctx.font = '700 27px Outfit, sans-serif';
+    ctx.fillText(title, 270, subtitle ? 45 : 61);
+    if (subtitle) {
+      ctx.fillStyle = 'rgba(224,235,227,.72)'; ctx.font = '500 18px Outfit, sans-serif';
+      ctx.fillText(subtitle, 270, 79);
+    }
+  } else {
+    ctx.shadowColor = 'rgba(2,8,5,.9)'; ctx.shadowBlur = 8;
+    ctx.fillStyle = 'rgba(236,244,238,.82)'; ctx.font = '650 27px Outfit, sans-serif';
+    ctx.fillText(title, 112, 37);
+  }
+  const texture = new THREE.CanvasTexture(canvas); texture.colorSpace = THREE.SRGBColorSpace;
+  const material = new THREE.SpriteNodeMaterial({ map: texture, transparent: true, opacity: 0, depthWrite: false, depthTest: false });
+  const sprite = new THREE.Sprite(material);
+  const width = quiet ? 13 : 30, height = quiet ? 4.15 : 7.05;
+  sprite.scale.set(width * scale, height * scale, 1);
+  sprite.position.set(point[0], terrainH(point[0], point[1]) + (quiet ? 2.2 : 3.8) * scale, point[1]);
+  sprite.userData.baseOpacity = quiet ? 0.68 : 0.92;
+  sprite.userData.restY = sprite.position.y;
+  sprite.renderOrder = 7;
+  return sprite;
+}
+
+function strategyEllipse(strategy, zone, colour) {
+  const before = pointAlongLine(strategy.line, Math.max(0, zone.distance - 5));
+  const after = pointAlongLine(strategy.line, Math.min(strategy.total, zone.distance + 5));
+  const dx = after[0] - before[0], dz = after[1] - before[1], length = Math.hypot(dx, dz) || 1;
+  const fx = dx / length, fz = dz / length, rx = -fz, rz = fx;
+  const ring = [];
+  for (let i = 0; i < 48; i++) {
+    const angle = i / 48 * TAU;
+    ring.push([
+      zone.point[0] + fx * Math.cos(angle) * zone.radiusAlong + rx * Math.sin(angle) * zone.radiusAcross,
+      zone.point[1] + fz * Math.cos(angle) * zone.radiusAlong + rz * Math.sin(angle) * zone.radiusAcross,
+    ]);
+  }
+  const positions = [];
+  for (let i = 0; i < ring.length; i++) {
+    for (const p of [zone.point, ring[i], ring[(i + 1) % ring.length]]) positions.push(p[0], terrainH(p[0], p[1]) + 0.16, p[1]);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(positions.length / 3 * 2), 2));
+  const material = new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(colour), transparent: true, opacity: 0.2, depthWrite: false, side: THREE.DoubleSide });
+  material.polygonOffset = true; material.polygonOffsetFactor = DEPTH_SIGN * 5; material.polygonOffsetUnits = DEPTH_SIGN * 10;
+  const mesh = new THREE.Mesh(geometry, material); mesh.renderOrder = 5;
+  const outline = strategyLine(ring.concat([ring[0]]), colour, zone.kind === 'approach' ? 0.24 : 0.32, 0.19);
+  const dotMaterial = new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(colour), transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
+  const dot = new THREE.Mesh(new THREE.CircleGeometry(zone.kind === 'approach' ? 0.72 : 1.05, 24), dotMaterial);
+  dot.rotation.x = -Math.PI / 2;
+  dot.position.set(zone.point[0], terrainH(zone.point[0], zone.point[1]) + 0.22, zone.point[1]);
+  dot.renderOrder = 7;
+  const visual = {
+    fill: material, fillOpacity: zone.kind === 'approach' ? 0.035 : 0.05,
+    outline: outline.material, outlineOpacity: outline.userData.baseOpacity,
+    dot, dotOpacity: zone.kind === 'approach' ? 0.34 : 0.58,
+  };
+  material.opacity = 0;
+  outline.material.opacity = 0;
+  strategyGroup.add(mesh, outline, dot);
+  return visual;
+}
+
+const strategyEase = value => 1 - Math.pow(1 - clampf(value, 0, 1), 3);
+
+function settleStrategyAnimation() {
+  if (!strategyAnimation) return;
+  for (const item of strategyAnimation.layers) item.object.material.opacity = item.opacity;
+  for (const item of strategyAnimation.fades) item.material.opacity = item.opacity;
+  for (const visual of strategyAnimation.zones) {
+    visual.fill.opacity = visual.fillOpacity;
+    visual.outline.opacity = visual.outlineOpacity;
+    visual.dot.material.opacity = visual.dotOpacity;
+    visual.dot.scale.setScalar(1);
+  }
+  for (const label of strategyAnimation.labels) {
+    label.material.opacity = label.userData.baseOpacity;
+    label.position.y = label.userData.restY;
+  }
+  strategyAnimation.sweep.visible = false;
+  strategyAnimation.settled = true;
+}
+
+function startStrategyAnimation() {
+  if (!strategyAnimation) return;
+  strategyAnimation.started = performance.now();
+  strategyAnimation.settled = false;
+  for (const item of strategyAnimation.layers) item.object.material.opacity = item.opacity;
+  for (const item of strategyAnimation.fades) item.material.opacity = item.opacity;
+  for (const visual of strategyAnimation.zones) {
+    visual.fill.opacity = visual.fillOpacity;
+    visual.outline.opacity = visual.outlineOpacity;
+    visual.dot.material.opacity = visual.dotOpacity;
+    visual.dot.scale.setScalar(0.96);
+  }
+  for (const label of strategyAnimation.labels) {
+    label.material.opacity = label.userData.baseOpacity;
+    label.position.y = label.userData.restY - 0.4;
+  }
+  strategyAnimation.sweep.visible = true;
+  if (strategyReducedMotion) settleStrategyAnimation();
+}
+
+strategyMotionPreference.addEventListener?.('change', event => {
+  strategyReducedMotion = DET || event.matches;
+  if (strategyReducedMotion) settleStrategyAnimation();
+  else if (strategyOn) startStrategyAnimation();
+});
+
+function buildStrategy() {
+  strategyClear();
+  currentStrategy = strategyForHole(HOLES[hole - 1], teeIdx, playerBag);
+  if (!currentStrategy || !strategyOn) { drawMini(); return; }
+  strategyGroup = new THREE.Group();
+  strategyGroup.name = 'tactical-guide';
+  strategyGroup.visible = strategyOn;
+
+  /* The complete route is context, not decoration. A small guide marker travels
+     it once; after 900 ms every strategy object is static and updateStrategy is
+     a no-op, so orbiting the course pays only the overlay's draw calls. */
+  const full = sampledRoute(currentStrategy.line, 0, currentStrategy.total, 4);
+  const primary = sampledRoute(currentStrategy.line, 0, currentStrategy.primaryDistance, 2.5);
+  const seam = strategyRibbon(full, 0.2, 0x91b398, 0.07, 0.105);
+  const active = strategyRibbon(primary, 0.27, 0x8fc19a, 0.27, 0.145);
+  strategyGroup.add(seam, active);
+
+  const zoneVisuals = [];
+  const labels = [];
+
+  currentStrategy.zones.forEach((zone, index) => {
+    const colour = zone.kind === 'approach' ? 0xd8bf82 : 0x9fd7aa;
+    zoneVisuals.push(strategyEllipse(currentStrategy, zone, colour));
+    if (index === 0) {
+      const title = zone.kind === 'green'
+        ? `Green · ${Math.round(zone.distance)} m`
+        : currentStrategy.maxCarry
+          ? `Sikta här · max ${Math.round(currentStrategy.maxCarry)} m`
+          : `Sikta här · ${Math.round(zone.distance)} m`;
+      const subtitle = zone.kind === 'green'
+        ? `${zone.club?.name || 'Klubbval'} · till mitten`
+        : `${zone.club?.name || 'Klubbval'} · ${Math.round(zone.remain)} m kvar`;
+      labels.push(strategyLabel(title, subtitle, zone.point, '#acdcb5'));
+    } else {
+      labels.push(strategyLabel(`${Math.round(zone.remain)} m kvar`, '', zone.point, '#dcc895', 0.76, true));
+    }
+  });
+  for (const label of labels) strategyGroup.add(label);
+
+  const fades = [{ material: seam.material, opacity: seam.userData.baseOpacity }];
+  const layers = [active].map(object => ({ object, opacity: object.userData.baseOpacity }));
+
+  const primaryHazards = lineHazards(currentStrategy.origin, currentStrategy.primary, kikKindAt);
+  const hazardMaterials = [];
+  if (primaryHazards.length) {
+    const hazard = primaryHazards[0];
+    const point = pointAlongLine(currentStrategy.line, hazard.from);
+    const ring = [];
+    for (let i = 0; i < 40; i++) {
+      const angle = i / 40 * TAU;
+      ring.push([point[0] + Math.cos(angle) * 7, point[1] + Math.sin(angle) * 7]);
+    }
+    const pulse = strategyLine(ring.concat([ring[0]]), hazard.type === 'vatten' ? 0x7bc2d5 : 0xd8bd82, 0.34, 0.2);
+    hazardMaterials.push({ material: pulse.material, opacity: pulse.userData.baseOpacity });
+    strategyGroup.add(pulse);
+  }
+
+  const sweepMaterial = new THREE.MeshBasicNodeMaterial({ color: 0xdaf1df, transparent: true, opacity: 0.42, depthWrite: false, side: THREE.DoubleSide });
+  const sweep = new THREE.Mesh(new THREE.CircleGeometry(0.82, 20), sweepMaterial);
+  sweep.rotation.x = -Math.PI / 2; sweep.renderOrder = 8; sweep.visible = false;
+  sweep.position.set(currentStrategy.origin[0], terrainH(currentStrategy.origin[0], currentStrategy.origin[1]) + 0.24, currentStrategy.origin[1]);
+  strategyGroup.add(sweep);
+
+  strategyAnimation = {
+    started: performance.now(), settled: false, layers,
+    fades: fades.concat(hazardMaterials), zones: zoneVisuals, labels,
+    sweep, primaryDistance: currentStrategy.primaryDistance, line: currentStrategy.line,
+    arcCount: 0,
+  };
+  scene.add(strategyGroup);
+  startStrategyAnimation();
+  drawMini();
+}
+
+function updateStrategy(now) {
+  if (!strategyAnimation || !strategyOn || strategyReducedMotion || strategyAnimation.settled) return;
+  const elapsed = now - strategyAnimation.started;
+  const targetFade = strategyEase((elapsed - 180) / 480);
+  for (const visual of strategyAnimation.zones) {
+    visual.dot.scale.setScalar(0.96 + targetFade * 0.04);
+  }
+  for (const label of strategyAnimation.labels) {
+    label.position.y = label.userData.restY - (1 - targetFade) * 0.4;
+  }
+
+  if (elapsed < 900) {
+    const travel = strategyEase(elapsed / 820);
+    const point = pointAlongLine(strategyAnimation.line, strategyAnimation.primaryDistance * travel);
+    strategyAnimation.sweep.position.set(point[0], terrainH(point[0], point[1]) + 0.24, point[1]);
+    const pulse = Math.sin(Math.PI * clampf(elapsed / 900, 0, 1));
+    strategyAnimation.sweep.scale.setScalar(0.72 + pulse * 0.28);
+  } else {
+    settleStrategyAnimation();
+  }
+}
+
+strategyBtn.onclick = () => {
+  strategyOn = !strategyOn;
+  strategyBtn.classList.toggle('on', strategyOn);
+  strategyBtn.setAttribute('aria-pressed', String(strategyOn));
+  try { localStorage.setItem(STRATEGY_KEY, strategyOn ? 'on' : 'off'); }
+  catch { /* local preference is optional */ }
+  if (strategyGroup) strategyGroup.visible = strategyOn;
+  if (strategyOn) {
+    if (strategyGroup) startStrategyAnimation();
+    else buildStrategy();
+  }
+  drawMini();
+  toast(strategyOn ? 'Spellinje på · följ den ljusa linjen till målområdet' : 'Spellinje av');
+};
+
+/* ------------------------------------------------------------ live GPS
+   WGS84 fixes enter through the exact flat-earth frame declared by every pack.
+   Hole changes use a 28 m hysteresis so two adjacent fairways cannot make the
+   UI flicker. GPS is opt-in per visit and never starts from stored state. */
+const gpsState = { active: false, watchId: null, point: null, accuracy: null, follow: true, firstFix: true };
+let gpsGroup = null;
+const gpsBtn = document.getElementById('gpsBtn');
+const mobileGpsBtn = document.getElementById('mobileGpsToggle');
+const gpsStatus = document.getElementById('gpsStatus');
+const gpsStatusText = document.getElementById('gpsStatusText');
+const gpsFollowBtn = document.getElementById('gpsFollowBtn');
+
+function syncGpsUi(state, detail) {
+  gpsStatus.hidden = false;
+  gpsStatus.dataset.state = state;
+  gpsStatusText.textContent = detail;
+  gpsBtn.classList.toggle('on', gpsState.active);
+  mobileGpsBtn?.classList.toggle('on', gpsState.active);
+  gpsFollowBtn.classList.toggle('on', gpsState.follow);
+  gpsFollowBtn.textContent = gpsState.follow ? 'Följer' : 'Följ';
+  document.body.classList.toggle('gps-on', gpsState.active);
+}
+
+function gpsMarkerClear() {
+  if (!gpsGroup) return;
+  scene.remove(gpsGroup);
+  gpsGroup.traverse(object => { object.geometry?.dispose?.(); object.material?.dispose?.(); });
+  gpsGroup = null;
+}
+
+function drawGpsMarker() {
+  gpsMarkerClear();
+  if (!gpsState.point) return;
+  const [x, z] = gpsState.point, y = terrainH(x, z);
+  const radius = clampf(gpsState.accuracy || 6, 3, 60);
+  gpsGroup = new THREE.Group(); gpsGroup.name = 'live-gps-position';
+  const ring = [];
+  for (let i = 0; i < 64; i++) {
+    const angle = i / 64 * TAU;
+    const px = x + Math.cos(angle) * radius, pz = z + Math.sin(angle) * radius;
+    ring.push(new THREE.Vector3(px, terrainH(px, pz) + 0.32, pz));
+  }
+  ring.push(ring[0].clone());
+  const ringMat = new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0x79e99b), transparent: true, opacity: 0.8, depthWrite: false });
+  const ringGeometry = new THREE.BufferGeometry().setFromPoints(ring);
+  ringGeometry.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(ring.length * 2), 2));
+  gpsGroup.add(new THREE.Line(ringGeometry, ringMat));
+  const dot = new THREE.Mesh(new THREE.SphereGeometry(1.2, 14, 10), new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xb4ffc4) }));
+  dot.position.set(x, y + 1.25, z); gpsGroup.add(dot);
+  scene.add(gpsGroup);
+}
+
+function focusGps(instant = false) {
+  if (!gpsState.point) return;
+  const h = HOLES[hole - 1], p = gpsState.point, target = h.green.c;
+  const dx = target[0] - p[0], dz = target[1] - p[1], length = Math.hypot(dx, dz) || 1;
+  const fx = dx / length, fz = dz / length;
+  const px = p[0] - fx * 25 - fz * 11, pz = p[1] - fz * 25 + fx * 11;
+  flyTo(V3(px, terrainH(px, pz) + 16, pz),
+        V3(p[0] + fx * Math.min(55, length), terrainH(p[0] + fx * Math.min(55, length), p[1] + fz * Math.min(55, length)) + 2, p[1] + fz * Math.min(55, length)),
+        instant || RMOTION ? 0 : 1.1);
+}
+
+function receiveGps(position) {
+  if (!gpsState.active) return;
+  const local = gpsToLocal(position.coords, GEO);
+  const nearby = nearestHole(local, HOLES, hole);
+  const accuracy = Number.isFinite(position.coords.accuracy) ? position.coords.accuracy : 0;
+  if (!nearby || nearby.distance > 450) {
+    gpsState.point = null; gpsState.accuracy = accuracy;
+    gpsMarkerClear();
+    syncGpsUi('error', nearby ? `${Math.round(nearby.distance)} m från närmaste hål` : 'Positionen ligger utanför banan');
+    if (kik) kikRender();
+    return;
+  }
+
+  const previous = gpsState.point;
+  gpsState.point = local; gpsState.accuracy = accuracy;
+  if (nearby.distance <= 120 && nearby.hole !== hole) goHole(nearby.hole, false);
+  drawGpsMarker();
+  const weak = accuracy > 35 ? ' · svag noggrannhet' : '';
+  syncGpsUi('live', `Hål ${nearby.hole} · ±${Math.max(1, Math.round(accuracy))} m${weak}`);
+  if (gpsState.follow) {
+    if (gpsState.firstFix || !previous) focusGps();
+    else {
+      const dx = local[0] - previous[0], dz = local[1] - previous[1];
+      const dy = terrainH(local[0], local[1]) - terrainH(previous[0], previous[1]);
+      camera.position.add(V3(dx, dy, dz)); controls.target.add(V3(dx, dy, dz)); camTween.on = false;
+    }
+  }
+  gpsState.firstFix = false;
+  if (kik) kikRender();
+  drawMini();
+}
+
+function gpsFailure(error) {
+  if (!gpsState.active) return;
+  if (gpsState.watchId !== null) navigator.geolocation.clearWatch(gpsState.watchId);
+  gpsState.watchId = null; gpsState.active = false; gpsState.point = null;
+  gpsMarkerClear();
+  const detail = error?.code === 1 ? 'Platsåtkomst nekades · tillåt plats i webbläsaren'
+    : error?.code === 2 ? 'Ingen GPS-position hittades'
+      : 'GPS svarade inte · försök igen';
+  syncGpsUi('error', detail);
+}
+
+function startGps() {
+  if (!navigator.geolocation) {
+    syncGpsUi('error', 'Den här webbläsaren saknar platsåtkomst');
+    return;
+  }
+  gpsState.active = true; gpsState.firstFix = true;
+  syncGpsUi('waiting', 'Söker din position…');
+  setKik(true, true);
+  try {
+    gpsState.watchId = navigator.geolocation.watchPosition(receiveGps, gpsFailure, {
+      enableHighAccuracy: true, maximumAge: 4000, timeout: 15000,
+    });
+  } catch (error) { gpsFailure(error); }
+}
+
+function stopGps(announce = true) {
+  if (gpsState.watchId !== null && navigator.geolocation) navigator.geolocation.clearWatch(gpsState.watchId);
+  gpsState.watchId = null; gpsState.active = false; gpsState.point = null; gpsState.firstFix = true;
+  gpsMarkerClear();
+  gpsStatus.hidden = true;
+  gpsBtn.classList.remove('on'); mobileGpsBtn?.classList.remove('on');
+  document.body.classList.remove('gps-on');
+  if (kik) kikRender();
+  if (announce) toast('GPS-läge avslutat · Kikaren står kvar');
+}
+
+const toggleGps = () => gpsState.active ? stopGps() : startGps();
+gpsBtn.onclick = toggleGps;
+if (mobileGpsBtn) mobileGpsBtn.onclick = toggleGps;
+document.getElementById('gpsStopBtn').onclick = () => stopGps();
+gpsFollowBtn.onclick = () => {
+  gpsState.follow = !gpsState.follow;
+  syncGpsUi(gpsState.point ? 'live' : 'waiting', gpsStatusText.textContent);
+  if (gpsState.follow) focusGps();
+};
+addEventListener('pagehide', () => {
+  if (gpsState.watchId !== null && navigator.geolocation) navigator.geolocation.clearWatch(gpsState.watchId);
+});
+
 /* --------------------------------------------------------------- kikaren
    Tap the course and get what a caddie would say. The ball starts on the
    current tee; a long press (or "Mät härifrån") moves it to where you pressed,
@@ -6817,18 +7627,21 @@ document.getElementById('tourBtn').onclick = startTour;
 let kik = false, kikGroup = null, kikPt = null, kikBall = null, kikWx = null, kikWxBusy = false;
 const kikBtn = document.getElementById('rangeBtn');
 const kikOut = document.getElementById('kikOut');
-kikBtn.onclick = () => {
-  kik = !kik;
+function setKik(on, quiet = false) {
+  kik = Boolean(on);
   kikBtn.classList.toggle('on', kik);
   const toolHint = document.getElementById('toolHint');
   if (toolHint) {
     toolHint.style.display = kik ? 'block' : '';
-    toolHint.textContent = 'Kikaren aktiv · tryck var som helst på banan för att mäta';
+    toolHint.textContent = kik
+      ? 'Kikaren aktiv · tryck för mål, håll kvar för boll'
+      : 'Tryck på banan för att mäta med Kikaren';
   }
   if (!kik) { kikClear(); return; }
-  toast('Tryck på banan för att mäta · håll kvar för att flytta bollen');
+  if (!quiet) toast('Tryck på banan för att mäta · håll kvar för att flytta bollen');
   kikRender();
-};
+}
+kikBtn.onclick = () => setKik(!kik);
 function kikClear() {
   kikErase();
   kikPt = null; kikBall = null;
@@ -6889,8 +7702,10 @@ function kikLie(x, z, y) {
 function kikCompute(origin = null, target = null) {
   const h = HOLES[hole - 1];
   const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
-  const o = origin || kikBall || mk.c;
-  const fromTee = !origin && !kikBall;
+  const gpsOrigin = !origin && gpsState.active && gpsState.point ? gpsState.point : null;
+  const o = origin || gpsOrigin || kikBall || mk.c;
+  const fromGps = Boolean(gpsOrigin);
+  const fromTee = !origin && !gpsOrigin && !kikBall;
   const oy = terrainH(o[0], o[1]);
   const wx = kikWx;
   const bTo = p => compassBearing(o[0], o[1], p[0], p[1]);
@@ -6910,7 +7725,26 @@ function kikCompute(origin = null, target = null) {
     shot = { target: t, dist, dh: ty - oy, lie: kikLie(t[0], t[1], ty), hazards: lineHazards(o, t, kikKindAt), wind,
              plays: playsLike({ dist, dh: ty - oy, head: wind.head, tempC }) };
   }
-  return { origin: o, fromTee, tee: TEE_NAMES[teeIdx], green, toGreen, layups: layupTargets(green.centre), shot, weather: wx };
+  return { origin: o, fromTee, fromGps, gpsAccuracy: fromGps ? gpsState.accuracy : null,
+           tee: TEE_NAMES[teeIdx], green, toGreen, layups: layupTargets(green.centre), shot, weather: wx };
+}
+function kikClubAdvice(r) {
+  const playsDistance = r.shot ? r.shot.plays.total : r.toGreen.plays.total;
+  const advice = recommendClub(playsDistance, playerBag);
+  if (!advice) return '';
+  const delta = advice.delta;
+  const context = advice.beyondBag
+    ? 'Green är utom räckhåll · välj en säker landningsyta'
+    : Math.abs(delta) <= 6
+      ? `Bra match för ${Math.round(playsDistance)} m spelas-som`
+      : delta > 0
+        ? `${Math.round(delta)} m kort i full carry`
+        : `Kan gå ${Math.round(Math.abs(delta))} m långt`;
+  return `<div class="kik-recommend">
+    <div class="kik-club">${htmlEsc(advice.club.name)}</div>
+    <div class="kik-club-copy"><b>${advice.club.carry} m carry</b><span>${context}</span></div>
+    <button class="kik-btn" data-act="bag" aria-label="Ändra klubbor">Ändra</button>
+  </div>`;
 }
 function kikRender() {
   kikWeather();
@@ -6930,8 +7764,10 @@ function kikRender() {
   const gTxt = r.green.front !== null
     ? `fram <b>${m(r.green.front)}</b> · mitt <b>${m(r.green.centre)}</b> · bak <b>${m(r.green.back)}</b> m`
     : `mitt <b>${m(r.green.centre)}</b> m`;
-  let html = `<div class="kik-head"><b>Kikaren</b><span>${r.fromTee ? `från tee ${r.tee}` : 'från bollen'}</span>` +
-             `${r.fromTee ? '' : '<button class="kik-btn" data-act="tee">Från tee</button>'}</div>`;
+  const originLabel = r.fromGps ? `GPS · ±${Math.max(1, Math.round(r.gpsAccuracy || 0))} m`
+    : r.fromTee ? `från tee ${r.tee}` : 'från bollen';
+  let html = `<div class="kik-head"><b>Kikaren</b><span class="${r.fromGps ? 'kik-live' : ''}">${originLabel}</span>` +
+             `${r.fromTee || r.fromGps ? '' : '<button class="kik-btn" data-act="tee">Från tee</button>'}</div><div class="kik-body">`;
   html += `<div class="kik-row">Green · ${gTxt}</div>`;
   if (r.shot) {
     const s = r.shot;
@@ -6943,8 +7779,10 @@ function kikRender() {
     html += `<div class="kik-row">Till green spelas som <b>${m(r.toGreen.plays.total)} m</b>${parts(r.toGreen.plays)}</div>`;
     if (r.toGreen.hazards.length) html += `<div class="kik-row">På linjen: ${haz(r.toGreen.hazards)}</div>`;
   }
+  html += kikClubAdvice(r);
   if (r.layups.length) html += `<div class="kik-row">Lägg upp: ${r.layups.map(l => `${l.remain} m kvar → <b>${m(l.shot)}</b> m`).join(' · ')}</div>`;
   html += kikWxLine(r);
+  html += '</div>';
   kikOut.innerHTML = html;
   kikOut.classList.add('show');
   kikDraw(r);
@@ -6964,7 +7802,7 @@ function kikDraw(r) {
   kikErase();
   kikGroup = new THREE.Group();
   const [ox, oz] = r.origin, oy = terrainH(ox, oz);
-  if (!r.fromTee) {
+  if (!r.fromTee && !r.fromGps) {
     const ball = new THREE.Mesh(new THREE.SphereGeometry(0.7, 10, 8), new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffffff) }));
     ball.position.set(ox, oy + 0.7, oz);
     kikGroup.add(ball);
@@ -7004,6 +7842,7 @@ function kikMeasure(clientX, clientY) {
 function kikPlaceBall(clientX, clientY) {
   const hit = groundHit(clientX, clientY);
   if (!hit) return;
+  if (gpsState.active) stopGps(false);
   kikBall = hit;
   toast('Bollen ligger här nu · tryck för att mäta');
   kikRender();
@@ -7013,6 +7852,7 @@ kikOut.addEventListener('click', e => {
   if (!b) return;
   if (b.dataset.act === 'tee') kikBall = null;
   else if (b.dataset.act === 'ball' && kikPt) { kikBall = kikPt; kikPt = null; }
+  else if (b.dataset.act === 'bag') { openBag(); return; }
   kikRender();
 });
 /* ------------------------------------------------- greengrid (yardage book & slope visualization)
@@ -7237,8 +8077,8 @@ function buildGreenGrid() {
       depthWrite: false,
     });
     mat.polygonOffset = true;
-    mat.polygonOffsetFactor = -5;
-    mat.polygonOffsetUnits = -10;
+    mat.polygonOffsetFactor = DEPTH_SIGN * 5;
+    mat.polygonOffsetUnits = DEPTH_SIGN * 10;
     const linesMesh = new THREE.LineSegments(geo, mat);
     gridGroup.add(linesMesh);
   }
@@ -7253,8 +8093,8 @@ function buildGreenGrid() {
       depthWrite: false,
     });
     bMat.polygonOffset = true;
-    bMat.polygonOffsetFactor = -7;
-    bMat.polygonOffsetUnits = -14;
+    bMat.polygonOffsetFactor = DEPTH_SIGN * 7;
+    bMat.polygonOffsetUnits = DEPTH_SIGN * 14;
     beadsMesh = new THREE.InstancedMesh(bGeo, bMat, beadsList.length);
     const cObj = new THREE.Color();
     for (let k = 0; k < beadsList.length; k++) {
@@ -7304,8 +8144,8 @@ function buildGreenGrid() {
         depthWrite: false,
       });
       pMat.polygonOffset = true;
-      pMat.polygonOffsetFactor = -6;
-      pMat.polygonOffsetUnits = -12;
+      pMat.polygonOffsetFactor = DEPTH_SIGN * 6;
+      pMat.polygonOffsetUnits = DEPTH_SIGN * 12;
       gridGroup.add(new THREE.LineSegments(pGeo, pMat));
     }
   }
@@ -7595,10 +8435,33 @@ function drawMini() {
   if (skyState >= 1) mctx.drawImage(skyNum, 0, 0);
   if (skyState >= 2) mctx.drawImage(skyFac, 0, 0);
   const h = HOLES[hole - 1];
-  mctx.strokeStyle = '#8cf0a8'; mctx.lineWidth = 3.2; mctx.lineJoin = 'round';
+  mctx.strokeStyle = strategyOn ? 'rgba(205,231,211,.34)' : '#8cf0a8';
+  mctx.lineWidth = strategyOn ? 1.5 : 3.2; mctx.lineJoin = 'round';
   mctx.beginPath();
   h.line.forEach((p, i) => i ? mctx.lineTo(MX(p[0]), MZ(p[1])) : mctx.moveTo(MX(p[0]), MZ(p[1])));
   mctx.stroke();
+  if (strategyOn && currentStrategy) {
+    mctx.save();
+    const primary = sampledRoute(currentStrategy.line, 0, currentStrategy.primaryDistance, 5);
+    mctx.strokeStyle = 'rgba(178,225,188,.82)'; mctx.lineWidth = 2.6; mctx.lineCap = 'round'; mctx.lineJoin = 'round';
+    mctx.beginPath();
+    primary.forEach((p, i) => i ? mctx.lineTo(MX(p[0]), MZ(p[1])) : mctx.moveTo(MX(p[0]), MZ(p[1])));
+    mctx.stroke();
+    for (const zone of currentStrategy.zones) {
+      const before = pointAlongLine(currentStrategy.line, Math.max(0, zone.distance - 5));
+      const after = pointAlongLine(currentStrategy.line, Math.min(currentStrategy.total, zone.distance + 5));
+      const angle = Math.atan2(after[1] - before[1], after[0] - before[0]);
+      mctx.translate(MX(zone.point[0]), MZ(zone.point[1]));
+      mctx.rotate(angle);
+      mctx.fillStyle = zone.kind === 'approach' ? 'rgba(216,191,130,.09)' : 'rgba(159,215,170,.12)';
+      mctx.strokeStyle = zone.kind === 'approach' ? 'rgba(216,191,130,.58)' : 'rgba(178,225,188,.72)'; mctx.lineWidth = 1;
+      mctx.beginPath(); mctx.ellipse(0, 0, zone.radiusAlong * MS, zone.radiusAcross * MS, 0, 0, TAU); mctx.fill(); mctx.stroke();
+      mctx.fillStyle = zone.kind === 'approach' ? 'rgba(216,191,130,.75)' : 'rgba(190,231,199,.88)';
+      mctx.beginPath(); mctx.arc(0, 0, 2.1, 0, TAU); mctx.fill();
+      mctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+    mctx.restore();
+  }
   mctx.fillStyle = '#f0a23a';
   mctx.beginPath(); mctx.arc(MX(h.line[0][0]), MZ(h.line[0][1]), 4.5, 0, TAU); mctx.fill();
   /* a flag, not a dot. Red on green is the one pair a deuteranope cannot split, so
@@ -7619,6 +8482,13 @@ function drawMini() {
   if (kikPt) {
     mctx.strokeStyle = '#ffdf8a'; mctx.lineWidth = 2;
     mctx.beginPath(); mctx.arc(MX(kikPt[0]), MZ(kikPt[1]), 5, 0, TAU); mctx.stroke();
+  }
+  if (gpsState.active && gpsState.point) {
+    const px = MX(gpsState.point[0]), pz = MZ(gpsState.point[1]);
+    mctx.fillStyle = 'rgba(121,233,155,.12)'; mctx.strokeStyle = 'rgba(121,233,155,.72)'; mctx.lineWidth = 1.3;
+    mctx.beginPath(); mctx.arc(px, pz, clampf((gpsState.accuracy || 4) * MS, 3, 26), 0, TAU); mctx.fill(); mctx.stroke();
+    mctx.fillStyle = '#b4ffc4'; mctx.strokeStyle = '#0b2514'; mctx.lineWidth = 2;
+    mctx.beginPath(); mctx.arc(px, pz, 4.2, 0, TAU); mctx.fill(); mctx.stroke();
   }
   /* where the camera is standing and which way it is looking */
   mctx.save();
@@ -7987,14 +8857,15 @@ function frame() {
   }
   if (flying === 0) {
     controls.update();
-    /* never underground, and never so close to it that the near plane clips through */
-    const groundY = terrainH(camera.position.x, camera.position.z) + 1.7;
-    if (camera.position.y < groundY) camera.position.y = groundY;
-  }
+    /* never underground, and never so close to it that the near plane clips through -- eased, see groundClamp */
+    groundClamp.step(camera.position, dt);
+  } else groundClamp.reset();
   placeSun();
+  shadowRest(now);
   if (skyMesh) skyMesh.position.copy(camera.position);
   if (skyDome) skyDome.position.copy(camera.position);
   updateSky();
+  updateStrategy(now);
   drawMini();
   if (gridOn) updateGreenGrid(dt, now);
   if (!captureRenderLocked) renderActivePipeline();
@@ -8140,18 +9011,32 @@ async function captureReadback() {
 /* the pop meter's instrument: how many pixels changed since the last call,
    counted in the page so nothing but three numbers crosses to the harness
    (a 1600x900 frame is 5.8 MB over the protocol, and a meter takes hundreds) */
-let pixelDeltaPrev = null;
-async function pixelDelta(threshold = 24) {
-  const { pixels: cur } = await captureRaw();
-  const prev = pixelDeltaPrev, primed = !!(prev && prev.length === cur.length);
-  let changed = 0, max = 0;
-  if (primed) for (let i = 0; i < cur.length; i += 4) {
+let pixelDeltaPrev = null, pixelDeltaRef = null;
+async function pixelDelta(threshold = 24, sinceMark = false, band = null) {
+  const { pixels: cur, width, height } = await captureRaw();
+  const prev = sinceMark ? pixelDeltaRef : pixelDeltaPrev, primed = !!(prev && prev.length === cur.length);
+  /* band = [top, bottom] as fractions of the height: only those rows are counted (the far
+     ground under the horizon, where camera parallax is sub-pixel and a shadow's swim is not) */
+  const rowA = band ? Math.floor(band[0] * height) : 0, rowB = band ? Math.ceil(band[1] * height) : height;
+  /* besides the per-pixel count, the change averaged over 16 x 16 blocks: a
+     whole crown popping moves its blocks by the full step, a dither level
+     flipping one pixel in sixteen moves them by a sixteenth -- the eye
+     works closer to the block than to the pixel */
+  const B = 16, bw = Math.ceil(width / B), bh = Math.ceil(height / B), blocks = new Float32Array(bw * bh), counts = new Float32Array(bw * bh);
+  let changed = 0, max = 0, counted = 0;
+  if (primed) for (let y = rowA; y < rowB; y++) for (let x = 0; x < width; x++) {
+    counted++;
+    const i = (y * width + x) * 4;
     const d = Math.max(Math.abs(cur[i] - prev[i]), Math.abs(cur[i + 1] - prev[i + 1]), Math.abs(cur[i + 2] - prev[i + 2]));
     if (d > threshold) changed++;
     if (d > max) max = d;
+    const b = ((y / B) | 0) * bw + ((x / B) | 0);
+    blocks[b] += d; counts[b]++;
   }
-  pixelDeltaPrev = cur;
-  return { changed, total: cur.length / 4, max, frame: FRAME_NO, primed };
+  let blockMax = 0, blocksChanged = 0;
+  if (primed) for (let b = 0; b < blocks.length; b++) { const m = blocks[b] / counts[b]; if (m > blockMax) blockMax = m; if (m > 6) blocksChanged++; }
+  if (sinceMark) pixelDeltaRef = cur; else pixelDeltaPrev = cur;
+  return { changed, total: band ? counted : cur.length / 4, max, blockMax: +blockMax.toFixed(2), blocksChanged, blocks: blocks.length, frame: FRAME_NO, primed };
 }
 
 /* published before the boot marker, not after: anything waiting on the marker acts
@@ -8165,6 +9050,24 @@ window.V3D = {
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
   /* the rangefinder numbers for a ball and a target, no DOM: [x, z] each, null = the current tee / no target */
   rangefinder: (origin = null, target = null) => kikCompute(origin, target),
+  caddie: () => ({
+    bag: playerBag.map(club => ({ ...club })),
+    strategyOn,
+    visual: strategyAnimation ? {
+      activeWidths: strategyAnimation.layers.map(item => item.object.userData.strategyWidth),
+      arcCount: strategyAnimation.arcCount,
+      labelCount: strategyAnimation.labels.length,
+      reducedMotion: strategyReducedMotion,
+      settled: strategyAnimation.settled,
+    } : null,
+    strategy: currentStrategy ? {
+      origin: [...currentStrategy.origin], primary: [...currentStrategy.primary],
+      primaryDistance: currentStrategy.primaryDistance, arcs: [...currentStrategy.arcs],
+      zones: currentStrategy.zones.map(zone => ({ ...zone, point: [...zone.point], club: zone.club ? { ...zone.club } : null })),
+    } : null,
+    gps: { active: gpsState.active, point: gpsState.point ? [...gpsState.point] : null,
+           accuracy: gpsState.accuracy, follow: gpsState.follow },
+  }),
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */
@@ -8310,7 +9213,9 @@ window.V3D = {
     kind: terrainV2.kind || 'fixed-frontier',
     courseSurfaceOverlayMeshes: stats.surfaceOverlays | 0,
     surfaceDebugMode,
-    surfaceRepresentation: TERRAIN_PREVIEW.surfaceAtlas?.data?.representation || null,
+    surfaceRepresentation: TERRAIN_PREVIEW.surfaceAtlas?.data?.representation ||
+      (TERRAIN_PREVIEW.surfacePolicy === 'legacy-ground-atlas' ? 'legacy-ground-atlas' : null),
+    surfacePolicy: terrainV2.surfacePolicy || 'v2-atlas',
     reason: TERRAIN_PREVIEW.reason,
     selection: {
       mode: V2_SELECTION.mode,
@@ -8363,19 +9268,28 @@ window.V3D = {
   /* the tree tiers' live state: how many trees are drawn full, decimated, and how many cells changed */
   treeTiers: () => ({ ...TREE_LOD.stats, heroPx: TREE_LOD.heroPx, switchPx: TREE_LOD.switchPx, impostorPx: TREE_LOD.impostorPx,
     hysteresis: TREE_LOD.hysteresis, nominalHeight: TREE_LOD.nominalHeight, cell: TREE_LOD.cell, force: TREE_LOD.force,
-    fadeS: TREE_LOD.fadeS, frozen: TREE_LOD.frozen, clockDriven: TREE_LOD.clockDriven, cellMode: TREE_LOD.cellMode }),
+    fadeS: TREE_LOD.fadeS, frozen: TREE_LOD.frozen, clockDriven: TREE_LOD.clockDriven, cellMode: TREE_LOD.cellMode, floors: [...TREE_LOD.floors] }),
   /* force every visible tree into one tier (1-4) at run time, 0 for the automatic choice */
   setTreeLod: n => { TREE_LOD.force = [1, 2, 3, 4].includes(n | 0) ? n | 0 : 0; },
   /* the tier boundaries in projected pixels, changeable at run time for a
      sweep; reset re-tiers every visible tree with no hysteresis */
   setTreeLodPx: (o = {}) => {
-    for (const [key, prop] of [['hero', 'heroPx'], ['full', 'switchPx'], ['impostor', 'impostorPx'], ['hysteresis', 'hysteresis']]) {
+    for (const [key, prop] of [['hero', 'heroPx'], ['full', 'switchPx'], ['impostor', 'impostorPx'], ['hysteresis', 'hysteresis'], ['dwell', 'dwell']]) {
       if (Number.isFinite(o[key])) TREE_LOD[prop] = +o[key];
     }
+    if (o.mode === 'zone' || o.mode === 'screen') TREE_LOD.lodMode = o.mode;
     if (o.reset) TREE_LOD.resetPending = true;
     return window.V3D.treeLodPx();
   },
-  treeLodPx: () => ({ hero: TREE_LOD.heroPx, full: TREE_LOD.switchPx, impostor: TREE_LOD.impostorPx, hysteresis: TREE_LOD.hysteresis }),
+  treeLodPx: () => ({ mode: TREE_LOD.lodMode, zoneTiers: [...TREE_LOD.zoneTiers], hero: TREE_LOD.heroPx, full: TREE_LOD.switchPx, impostor: TREE_LOD.impostorPx, hysteresis: TREE_LOD.hysteresis, dwell: TREE_LOD.dwell, floors: [...TREE_LOD.floors], reach: [...TREE_LOD.floorReach] }),
+  /* the corridor floors (zone A, zone B) as tier numbers 1-4; 4 is no floor */
+  setTreeLodPin: (a, b, reachHero, reachFull) => {
+    TREE_LOD.floors = [Math.min(4, Math.max(1, a | 0 || 4)), Math.min(4, Math.max(1, b | 0 || 4))];
+    if (reachHero > 0) TREE_LOD.floorReach[0] = +reachHero;
+    if (reachFull > 0) TREE_LOD.floorReach[1] = +reachFull;
+    TREE_LOD.resetPending = true;
+    return { floors: [...TREE_LOD.floors], reach: [...TREE_LOD.floorReach] };
+  },
   /* the crossfade: its length, and the harness's hold on its clock */
   setTreeFade: s => { TREE_LOD.fadeS = Math.max(0, +s || 0); },
   setTreeFadeClock: t => { TREE_LOD.fadeClock = +t || 0; },
@@ -8387,12 +9301,22 @@ window.V3D = {
   treeTriangles: () => TREE_LOD.tiers.map(sp => sp ? [1, 2, 3].map(i => sp.t[i].parts.map(im =>
     (im.geometry.index ? im.geometry.index.count : im.geometry.attributes.position.count) / 3)) : null),
   pixelDelta: IS_GPU ? pixelDelta : null,
+  /* the same count against a MARKED frame: mark before an event, read after it, and the answer is the event's whole change however it was spread over frames */
+  pixelDeltaMark: IS_GPU ? () => pixelDelta(24, true) : null,
   /* the renderer's own per-frame counters, read in a rAF callback after the frame that produced them */
   rendererInfo: () => ({ ...renderer.info.render, memory: { ...renderer.info.memory },
     drawingBuffer: [renderer.domElement.width, renderer.domElement.height], pixelRatio: renderer.getPixelRatio() }),
   frameTimes: () => ({ ms: Array.from(FRAME_MS), frame: FRAME_NO, tris: renderer.info.render.triangles, draws: renderer.info.render.drawCalls }),
   setFov: f => { camera.fov = +f; camera.updateProjectionMatrix(); return camera.fov; },
   setShadowRadius: r => { shadowRadiusOverride = r > 0 ? +r : null; return shadowRadiusOverride; },
+  /* the shadow map's fit and snap, for the harness: the size, the texel, and how far the box was moved to land on a texel */
+  shadowFit: () => ({ R: SUN_BASIS.R, texel: +SUN_BASIS.texel.toFixed(4), snap: shadowSnap, remainderTexels: +SUN_BASIS.remainder.toFixed(3),
+                      normalBias: sun.shadow.normalBias, fits: [...SHADOW_FITS], reversedDepth: renderer.reversedDepthBuffer === true }),
+  setShadowSnap: on => { shadowSnap = !!on; return shadowSnap; },
+  /* the harness's bisection switch: the terrain's level morph length in ms (0 pops) */
+  v2WorldMorph: ms => { const batches = terrainV2.runtime?.layer?.batches; if (!batches) return null; for (const b of batches.values()) b.morphDurationMilliseconds = Math.max(0, +ms || 0); return Math.max(0, +ms || 0); },
+  /* the terrain stream's last plan and residency, for a harness that watches tiles come and go: desired, rendered (fallbacks included), requested, retained, and what is ready or loading */
+  v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
   quality: () => ({ lowfx, lowq: LOWQ, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   /* GPU milliseconds since the previous resolve, summed over every render
@@ -8494,9 +9418,21 @@ window.V3D = {
   },
   camInfo: () => ({ pos: camera.position.toArray().map(v => +v.toFixed(1)),
                     look: controls.target.toArray().map(v => +v.toFixed(1)), mode: camMode }),
+  camExact: () => ({ pos: camera.position.toArray(), look: controls.target.toArray(), ground: terrainH(camera.position.x, camera.position.z) }),
+  groundClamp: () => ({ lift: +groundClamp.lift.toFixed(4), ...GROUND_CLAMP }),
+  /* the water shader's probe gains: {glint, chop}, each 1 by default */
+  water: (o = {}) => { if (o.glint != null) uWaterGlint.value = +o.glint; if (o.chop != null) uWaterChop.value = +o.chop; return { glint: uWaterGlint.value, chop: uWaterChop.value }; },
+  /* the sun's shadow map: re-rendered every frame (three's default) or frozen as it is, for the cost bisection */
+  setShadowUpdate: on => { sun.shadow.autoUpdate = !!on; if (on) sun.shadow.needsUpdate = true; return sun.shadow.autoUpdate; },
+  /* the on-demand shadow map: how many frames rendered it, and why the last one did */
+  shadowRest: () => ({ enabled: SHADOW_REST, renders: SHADOW_REST_STATE.renders, frames: SHADOW_REST_STATE.frames, sinceRender: SHADOW_REST_STATE.sinceRender, why: SHADOW_REST_STATE.why }),
+  /* what is in the scene, by kind: visible objects with geometry, grouped by type, tag and material, with their draw and triangle counts (instances counted once) */
+  census: () => { const by = new Map(); scene.traverse(o => { if (!o.visible || !o.geometry) return; const g = o.geometry, tris = (g.index ? g.index.count : g.attributes.position?.count || 0) / 3; const inst = o.isInstancedMesh ? o.count : 1; const key = [o.type, o.userData?.tag || '', o.material?.type || '', o.name || '', o.parent?.name || '', o.isInstancedMesh ? 'inst' : '', Math.round(tris), o.castShadow ? 'cast' : '', o.matrixAutoUpdate ? 'auto' : ''].join('|'); const e = by.get(key) || { objects: 0, instances: 0, tris: 0 }; e.objects++; e.instances += inst; e.tris += tris * inst; by.set(key, e); }); return [...by.entries()].map(([k, v]) => ({ key: k, ...v })).sort((a, b) => b.objects - a.objects); },
   fps: () => fps,
   prepareCapture,
   captureReadback: IS_GPU ? captureReadback : null,
+  /* the drawing buffer as RGBA bytes, for an in-page metric that must not pay for a PNG each frame */
+  captureRaw: IS_GPU ? captureRaw : null,
   startTour, endTour, kikMeasure,
   setSky, skyState: () => skyState, eachSky: fn => skySprites.forEach(fn),
   /* the CANVAS positions, not the world ones: where a marker is actually drawn is

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
@@ -14,15 +14,15 @@ import { TerrainPyramidSampler } from './terrain-pyramid.mjs';
 const ORIGIN_EASTING = 650000.5;
 const ORIGIN_NORTHING = 6640008.5;
 
-function fixtureCompilation() {
+function fixtureCompilation({ groundId = 'fixture-ground', courseSlug = 'fixture-course' } = {}) {
   const size = 9;
   const heights = new Float32Array(size * size);
   for (let row = 0; row < size; row++) for (let column = 0; column < size; column++) {
     heights[row * size + column] = 40 + column * 0.25 + row * 0.5;
   }
   return compileTerrainAssets({
-    groundId: 'fixture-ground',
-    courseSlugs: ['fixture-course'],
+    groundId,
+    courseSlugs: [courseSlug],
     heights,
     width: size,
     height: size,
@@ -58,6 +58,19 @@ function fixtureInput(compilation, overrides = {}) {
     holeTileBufferMetres: 1,
     ...overrides,
   };
+}
+
+function namedFixture(slug) {
+  const compilation = fixtureCompilation({ groundId: `${slug}-ground`, courseSlug: slug });
+  return emitGroundGraph(fixtureInput(compilation, {
+    course: { ...fixtureInput(compilation).course, slug, name: `${slug} GK` },
+    fallbackV1: {
+      format: 1,
+      packUrl: `courses/${slug}/pack.bin`,
+      bytes: 4096,
+      sha256: createHash('sha256').update(slug).digest('hex'),
+    },
+  }));
 }
 
 test('emitGroundGraph assembles a verified, content-addressed graph', () => {
@@ -149,6 +162,36 @@ test('writeGroundGraphFiles persists byte-exact immutable resources plus the roo
       assert.equal(canonicalJson(JSON.parse(manifest)), manifest, `${url} must be byte-exact canonical JSON`);
     }
     await writeGroundGraphFiles(directory, graph);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('writeGroundGraphFiles merges roots by slug without unpublishing another ground', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'ground-graph-merge-'));
+  try {
+    const bravo = namedFixture('bravo-course');
+    const alpha = namedFixture('alpha-course');
+    await writeGroundGraphFiles(directory, bravo);
+    await writeGroundGraphFiles(directory, alpha);
+    const rootText = await readFile(join(directory, 'courses/v2-index.json'), 'utf8');
+    const root = JSON.parse(rootText);
+    assert.equal(rootText, canonicalJson(root));
+    assert.deepEqual(root.courses.map(course => course.slug), ['alpha-course', 'bravo-course']);
+    assert.equal(root.courses.find(course => course.slug === 'bravo-course').manifest.sha256,
+      bravo.root.courses[0].manifest.sha256);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('writeGroundGraphFiles refuses to merge a non-canonical mutable root', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'ground-graph-root-'));
+  try {
+    const graph = namedFixture('alpha-course');
+    await writeGroundGraphFiles(directory, graph);
+    await writeFile(join(directory, 'courses/v2-index.json'), `${JSON.stringify(graph.root, null, 2)}\n`);
+    await assert.rejects(() => writeGroundGraphFiles(directory, graph), /non-canonical v2 root/);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }

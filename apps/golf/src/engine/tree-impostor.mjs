@@ -385,7 +385,7 @@ export function createImpostorGeometry(capacity) {
   geometry.setIndex([0, 1, 2, 0, 2, 3]);
   const pos = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 3), 3);
   const par = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 4), 4);
-  pos.setUsage(THREE.DynamicDrawUsage); par.setUsage(THREE.DynamicDrawUsage);
+  /* not DynamicDrawUsage: three's WebGPU renderer re-uploads such an attribute whole every frame; the slots go up as dirty ranges through needsUpdate */
   geometry.setAttribute('aImpostorPos', pos);
   geometry.setAttribute('aImpostorParam', par);
   /* zero = steady; a batch that never fades (the far ring) never writes it */

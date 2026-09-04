@@ -3,11 +3,22 @@
   "schemaVersion": 1,
   "groundId": "veckefjarden",
   "groundName": "Veckefjärdens Golfklubb",
-  "courseSlugs": ["veckefjarden", "veckefjarden-korthalsbanan"],
-  "targetBboxWgs84": [18.628, 63.268, 18.706, 63.3],
+  "courseSlugs": [
+    "veckefjarden",
+    "veckefjarden-korthalsbanan"
+  ],
+  "targetBboxWgs84": [
+    18.628,
+    63.268,
+    18.706,
+    63.3
+  ],
   "legacyFrame": {
     "buildDirectory": "geobuild",
-    "originWgs84": { "latitude": 63.2845, "longitude": 18.6735 },
+    "originWgs84": {
+      "latitude": 63.2845,
+      "longitude": 18.6735
+    },
     "metresPerLatitude": 111320,
     "metresPerLongitude": 50045.09,
     "heightReference": "Terrarium-derived legacy heights with regulated lake level 21.59 m; datum was not persisted",
@@ -18,42 +29,530 @@
     "horizontalCrs": "EPSG:3006",
     "verticalCrs": "EPSG:5613",
     "originStatus": "pending-control-approval",
-    "origin": { "easting": null, "northing": null, "heightRH2000": null },
-    "axisMapping": {"worldX":"easting - originEasting","worldZ":"originNorthing - northing","worldY":"heightRH2000 - originHeightRH2000"}
+    "origin": {
+      "easting": null,
+      "northing": null,
+      "heightRH2000": null
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldZ": "originNorthing - northing",
+      "worldY": "heightRH2000 - originHeightRH2000"
+    }
   },
   "sources": [
-    {"id":"terrain-lm-1m","productId":"lantmateriet-markhojdmodell-1m","roles":["terrain"],"lifecycle":"planned","use":"candidate","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/markhoejdmodell-nedladdning/released/1/","localPath":null,"bboxWgs84":[18.628,63.268,18.706,63.3],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; D2 must record exact COG identifiers, checksums and lake break geometry.","replacementSourceId":null,"accuracyTier":"B","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Planned 1 m DTM shared by championship and short courses; preserve fjord break geometry and regulated water semantics."},
-    {"id":"imagery-lm-ortho","productId":"lantmateriet-ortofoto","roles":["imagery","surface"],"lifecycle":"planned","use":"candidate","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/","localPath":null,"bboxWgs84":[18.628,63.268,18.706,63.3],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; select newest suitable leaf-on and leaf-off campaigns.","replacementSourceId":null,"accuracyTier":"B","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Measurement input for both courses, shore, vegetation and objects; never a runtime texture."},
-    {"id":"laser-lm-skog","productId":"lantmateriet-laserdata-skog","roles":["terrain","canopy","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/","localPath":null,"bboxWgs84":[18.628,63.268,18.706,63.3],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; point-cloud tile ids and checksums are pending.","replacementSourceId":null,"accuracyTier":"C","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supports canopy/object extraction, rocky terrain QA and recency checks."},
-    {"id":"topography-lm-10","productId":"lantmateriet-topografi-10","roles":["topography","hydrology","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/","localPath":null,"bboxWgs84":[18.628,63.268,18.706,63.3],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; exact dataset release and checksum are pending.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"General hydrology, infrastructure and land-cover support."},
-    {"id":"tree-height-sks","productId":"skogsstyrelsen-tradhojd","roles":["canopy","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf","localPath":null,"bboxWgs84":[18.628,63.268,18.706,63.3],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; raster release and checksum are pending.","replacementSourceId":null,"accuracyTier":"C","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Canopy-height evidence only; individual stem positions remain derived until surveyed."},
-    {"id":"survey-control","productId":"controlled-course-survey","roles":["control","terrain","surface","object"],"lifecycle":"planned","use":"candidate","sourceUri":"project://survey/veckefjarden","localPath":null,"bboxWgs84":[18.628,63.268,18.706,63.3],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"No RH 2000-tied course survey has been acquired.","replacementSourceId":null,"accuracyTier":"A","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Must control both routings, shore benchmarks, zone-A surfaces and signature objects."},
-    {"id":"osm-legacy","productId":"openstreetmap","roles":["surface","topography","hydrology","object"],"lifecycle":"legacy","use":"supplemental","sourceUri":"https://api.openstreetmap.org/api/0.6/map?bbox=18.640,63.270,18.710,63.300","localPath":null,"bboxWgs84":[18.64,63.27,18.71,63.3],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw XML cache is ignored and absent; only the checksummed parsed artifact remains.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Strong but incomplete course and context coverage with ODbL lineage."},
-    {"id":"terrarium-legacy","productId":"aws-terrarium","roles":["terrain"],"lifecycle":"legacy","use":"migration-only","sourceUri":"https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png","localPath":null,"bboxWgs84":[18.628,63.268,18.706,63.3],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw tile cache, dates and tile checksums were not preserved.","replacementSourceId":"terrain-lm-1m","accuracyTier":"E","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Source of shared current HF0/HF1 only; prohibited as v2 truth."},
-    {"id":"esri-imagery-legacy","productId":"esri-world-imagery","roles":["imagery","surface","canopy","object"],"lifecycle":"legacy","use":"migration-only","sourceUri":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}","localPath":null,"bboxWgs84":[18.628,63.268,18.706,63.3],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw tiles, capture dates and contributor attribution were not persisted.","replacementSourceId":"imagery-lm-ortho","accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Legacy canopy and surroundings traces are migration comparisons only."},
-    {"id":"club-guide-legacy","productId":"club-course-guide","roles":["course-guide","routing","surface"],"lifecycle":"legacy","use":"reference-only","sourceUri":"project://course-guide-register/veckefjarden","localPath":null,"bboxWgs84":null,"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Guide imagery is committed in a separate legacy directory without a complete rights register.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supports championship card, plan registration and short-course routing; not survey truth."},
-    {"id":"golftraxx-legacy","productId":"golftraxx-layout","roles":["control","routing"],"lifecycle":"legacy","use":"migration-only","sourceUri":"repo:geo_data/veckefjarden_clean.json","localPath":"geo_data/veckefjarden_clean.json","bboxWgs84":null,"acquiredAt":null,"capturedAt":null,"checksum":"b5f1e5043367d3709b78732769ccccf807381f6508679c0b867c0a0eff671e7a","checksumReason":null,"replacementSourceId":"survey-control","accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Five points per championship hole without acquisition date, survey metadata or approved derivative rights; comparison only."}
+    {
+      "id": "terrain-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/markhoejdmodell-nedladdning/released/1/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.628,
+        63.268,
+        18.706,
+        63.3
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; D2 must record exact COG identifiers, checksums and lake break geometry.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Planned 1 m DTM shared by championship and short courses; preserve fjord break geometry and regulated water semantics."
+    },
+    {
+      "id": "imagery-lm-ortho",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.628,
+        63.268,
+        18.706,
+        63.3
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; select newest suitable leaf-on and leaf-off campaigns.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Measurement input for both courses, shore, vegetation and objects; never a runtime texture."
+    },
+    {
+      "id": "laser-lm-skog",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "terrain",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.628,
+        63.268,
+        18.706,
+        63.3
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; point-cloud tile ids and checksums are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "C",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supports canopy/object extraction, rocky terrain QA and recency checks."
+    },
+    {
+      "id": "topography-lm-10",
+      "productId": "lantmateriet-topografi-10",
+      "roles": [
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.628,
+        63.268,
+        18.706,
+        63.3
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; exact dataset release and checksum are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "General hydrology, infrastructure and land-cover support."
+    },
+    {
+      "id": "tree-height-sks",
+      "productId": "skogsstyrelsen-tradhojd",
+      "roles": [
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf",
+      "localPath": null,
+      "bboxWgs84": [
+        18.628,
+        63.268,
+        18.706,
+        63.3
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; raster release and checksum are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "C",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Canopy-height evidence only; individual stem positions remain derived until surveyed."
+    },
+    {
+      "id": "survey-control",
+      "productId": "controlled-course-survey",
+      "roles": [
+        "control",
+        "terrain",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "project://survey/veckefjarden",
+      "localPath": null,
+      "bboxWgs84": [
+        18.628,
+        63.268,
+        18.706,
+        63.3
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "No RH 2000-tied course survey has been acquired.",
+      "replacementSourceId": null,
+      "accuracyTier": "A",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Must control both routings, shore benchmarks, zone-A surfaces and signature objects."
+    },
+    {
+      "id": "osm-legacy",
+      "productId": "openstreetmap",
+      "roles": [
+        "surface",
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "legacy",
+      "use": "supplemental",
+      "sourceUri": "https://api.openstreetmap.org/api/0.6/map?bbox=18.640,63.270,18.710,63.300",
+      "localPath": null,
+      "bboxWgs84": [
+        18.64,
+        63.27,
+        18.71,
+        63.3
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw XML cache is ignored and absent; only the checksummed parsed artifact remains.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Strong but incomplete course and context coverage with ODbL lineage."
+    },
+    {
+      "id": "terrarium-legacy",
+      "productId": "aws-terrarium",
+      "roles": [
+        "terrain"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+      "localPath": null,
+      "bboxWgs84": [
+        18.628,
+        63.268,
+        18.706,
+        63.3
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw tile cache, dates and tile checksums were not preserved.",
+      "replacementSourceId": "terrain-lm-1m",
+      "accuracyTier": "E",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Source of shared current HF0/HF1 only; prohibited as v2 truth."
+    },
+    {
+      "id": "esri-imagery-legacy",
+      "productId": "esri-world-imagery",
+      "roles": [
+        "imagery",
+        "surface",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      "localPath": null,
+      "bboxWgs84": [
+        18.628,
+        63.268,
+        18.706,
+        63.3
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw tiles, capture dates and contributor attribution were not persisted.",
+      "replacementSourceId": "imagery-lm-ortho",
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Legacy canopy and surroundings traces are migration comparisons only."
+    },
+    {
+      "id": "club-guide-legacy",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing",
+        "surface"
+      ],
+      "lifecycle": "legacy",
+      "use": "reference-only",
+      "sourceUri": "project://course-guide-register/veckefjarden",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Guide imagery is committed in a separate legacy directory without a complete rights register.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supports championship card, plan registration and short-course routing; not survey truth."
+    },
+    {
+      "id": "golftraxx-legacy",
+      "productId": "golftraxx-layout",
+      "roles": [
+        "control",
+        "routing"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "repo:geo_data/veckefjarden_clean.json",
+      "localPath": "geo_data/veckefjarden_clean.json",
+      "bboxWgs84": null,
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": "b5f1e5043367d3709b78732769ccccf807381f6508679c0b867c0a0eff671e7a",
+      "checksumReason": null,
+      "replacementSourceId": "survey-control",
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Five points per championship hole without acquisition date, survey metadata or approved derivative rights; comparison only."
+    }
   ],
   "artifacts": [
-    {"id":"legacy-course-model","kind":"composite","path":"geobuild/course-model.json","sha256":"9846afc5a689cb76a5369cd6f9bfd7fb10cfa3dc4a8326662a1f7b61433bdc81","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy","golftraxx-legacy"],"use":"migration-only","notes":"Current championship-course vectors, routing, elevations and scenery inputs."},
-    {"id":"legacy-heightfields","kind":"terrain","path":"geobuild/heightfields.json","sha256":"430a23850085662c0c2d6f36ce11fc0d0e5a49e49b356558480e6ffd67fd737d","derivedFrom":["terrarium-legacy"],"use":"migration-only","notes":"Current shared 4 m HF0 and 32 m HF1 encoded heightfields."},
-    {"id":"legacy-tree-cover","kind":"canopy","path":"geobuild/tree-cover.json","sha256":"668ff6c18955685ce3b8f72d417cd1b15c78e518ebf748631d6b2007134c1931","derivedFrom":["esri-imagery-legacy","osm-legacy"],"use":"migration-only","notes":"Current shared imagery-classified canopy raster."},
-    {"id":"legacy-osm-features","kind":"topography","path":"geobuild/osm-features.json","sha256":"1f85e9dba819419329d985255b2e2135eb14594a3d2ad13644177ea8d46320b9","derivedFrom":["osm-legacy"],"use":"migration-only","notes":"Parsed OSM extract retained after raw XML cache removal."},
-    {"id":"legacy-plan-anchors","kind":"control","path":"geobuild/plan-anchors.json","sha256":"fa390d01d5225d8b232462eee5ac5c893045639ae346fe9d0af75f5b8b053ba7","derivedFrom":["club-guide-legacy","golftraxx-legacy"],"use":"migration-only","notes":"Legacy image-registration anchors for unmapped championship holes."},
-    {"id":"legacy-plan-shapes","kind":"surface","path":"geobuild/plan-shapes.json","sha256":"842b482bb897b5df7215962c0ed39129eb2bf405f488dca7a3dc496b1d3b9cfd","derivedFrom":["club-guide-legacy"],"use":"migration-only","notes":"Pixel-space shapes traced from club hole plans."},
-    {"id":"legacy-traced-holes","kind":"surface","path":"geobuild/traced-holes.json","sha256":"efd57cd4774cd4dac3a6fda7dc2c0901e09cd6f19a6b2f4c3b1ee61c9e5ca2d6","derivedFrom":["club-guide-legacy","golftraxx-legacy"],"use":"migration-only","notes":"Registered championship-hole shapes derived from plan traces."},
-    {"id":"legacy-surroundings","kind":"topography","path":"geobuild/surroundings-traces.json","sha256":"2126019260cf925e0ea11c20bfd0670f4396ac23946fc787206fc8fa8e31efa2","derivedFrom":["esri-imagery-legacy","osm-legacy"],"use":"migration-only","notes":"Legacy surroundings traces for clear-fells, yard, fields, parking and shallows."},
-    {"id":"legacy-short-model","kind":"composite","path":"geobuild/korthalsbanan.json","sha256":"a5a5602a821313fe6dcc7cef686749890c8a1e25981c2b3c4ef46a4b982867b0","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Short-course model sharing the championship ground."},
-    {"id":"legacy-short-course-model","kind":"composite","path":"veckefjardenkortbuild/course-model.json","sha256":"2e456204941c64d0c8b3a992a2c85869fe6e476925823fcd0bc25c47d67fc665","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Current generated short-course vectors and routing used by the shared-ground application build."},
-    {"id":"legacy-short-routes","kind":"routing","path":"geobuild/korthalsbanan-routes.geojson","sha256":"4643df86cff4f799cfaf648de877f80213663d8d47a325da639c95c6deec6d98","derivedFrom":["osm-legacy","club-guide-legacy"],"use":"migration-only","notes":"Short-course routing geometry."},
-    {"id":"migration-course-model-epsg3006","kind":"composite","path":"geo_data/course-v2/veckefjarden/migration/course-model.epsg3006.json","sha256":"f98de4a0aa0c06276d46520d189c428c92efa8cee33fc6893bad2cec492de436","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy","golftraxx-legacy"],"use":"migration-only","notes":"Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."},
-    {"id":"migration-short-course-model-epsg3006","kind":"composite","path":"geo_data/course-v2/veckefjarden/migration/short-course-model.epsg3006.json","sha256":"4a6554023dfbe113d72a9bb5d6ada4d3e2fa81a16e6e5b1a8d89078f30f697a2","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy"],"use":"migration-only","notes":"Deterministic horizontal conversion of the current short-course vectors to absolute EPSG:3006 coordinates; routing and card lengths remain provisional and heights remain unapproved."},
-    {"id":"migration-residual-report","kind":"control","path":"geo_data/course-v2/veckefjarden/migration/residual-report.json","sha256":"d6492f28358e9a7d74c81835e02c373c142e6b2379f0d94be9019eb15164f14e","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy","golftraxx-legacy"],"use":"migration-only","notes":"Candidate origin and scoped migration residuals for both course models; not an independent control approval."}
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "geobuild/course-model.json",
+      "sha256": "9846afc5a689cb76a5369cd6f9bfd7fb10cfa3dc4a8326662a1f7b61433bdc81",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current championship-course vectors, routing, elevations and scenery inputs."
+    },
+    {
+      "id": "legacy-heightfields",
+      "kind": "terrain",
+      "path": "geobuild/heightfields.json",
+      "sha256": "430a23850085662c0c2d6f36ce11fc0d0e5a49e49b356558480e6ffd67fd737d",
+      "derivedFrom": [
+        "terrarium-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current shared 4 m HF0 and 32 m HF1 encoded heightfields."
+    },
+    {
+      "id": "legacy-tree-cover",
+      "kind": "canopy",
+      "path": "geobuild/tree-cover.json",
+      "sha256": "668ff6c18955685ce3b8f72d417cd1b15c78e518ebf748631d6b2007134c1931",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current shared imagery-classified canopy raster."
+    },
+    {
+      "id": "legacy-osm-features",
+      "kind": "topography",
+      "path": "geobuild/osm-features.json",
+      "sha256": "1f85e9dba819419329d985255b2e2135eb14594a3d2ad13644177ea8d46320b9",
+      "derivedFrom": [
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Parsed OSM extract retained after raw XML cache removal."
+    },
+    {
+      "id": "legacy-plan-anchors",
+      "kind": "control",
+      "path": "geobuild/plan-anchors.json",
+      "sha256": "fa390d01d5225d8b232462eee5ac5c893045639ae346fe9d0af75f5b8b053ba7",
+      "derivedFrom": [
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Legacy image-registration anchors for unmapped championship holes."
+    },
+    {
+      "id": "legacy-plan-shapes",
+      "kind": "surface",
+      "path": "geobuild/plan-shapes.json",
+      "sha256": "842b482bb897b5df7215962c0ed39129eb2bf405f488dca7a3dc496b1d3b9cfd",
+      "derivedFrom": [
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Pixel-space shapes traced from club hole plans."
+    },
+    {
+      "id": "legacy-traced-holes",
+      "kind": "surface",
+      "path": "geobuild/traced-holes.json",
+      "sha256": "efd57cd4774cd4dac3a6fda7dc2c0901e09cd6f19a6b2f4c3b1ee61c9e5ca2d6",
+      "derivedFrom": [
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Registered championship-hole shapes derived from plan traces."
+    },
+    {
+      "id": "legacy-surroundings",
+      "kind": "topography",
+      "path": "geobuild/surroundings-traces.json",
+      "sha256": "2126019260cf925e0ea11c20bfd0670f4396ac23946fc787206fc8fa8e31efa2",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Legacy surroundings traces for clear-fells, yard, fields, parking and shallows."
+    },
+    {
+      "id": "legacy-short-model",
+      "kind": "composite",
+      "path": "geobuild/korthalsbanan.json",
+      "sha256": "a5a5602a821313fe6dcc7cef686749890c8a1e25981c2b3c4ef46a4b982867b0",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Short-course model sharing the championship ground."
+    },
+    {
+      "id": "legacy-short-course-model",
+      "kind": "composite",
+      "path": "veckefjardenkortbuild/course-model.json",
+      "sha256": "2e456204941c64d0c8b3a992a2c85869fe6e476925823fcd0bc25c47d67fc665",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current generated short-course vectors and routing used by the shared-ground application build."
+    },
+    {
+      "id": "legacy-short-routes",
+      "kind": "routing",
+      "path": "geobuild/korthalsbanan-routes.geojson",
+      "sha256": "4643df86cff4f799cfaf648de877f80213663d8d47a325da639c95c6deec6d98",
+      "derivedFrom": [
+        "osm-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Short-course routing geometry."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/veckefjarden/migration/course-model.epsg3006.json",
+      "sha256": "f98de4a0aa0c06276d46520d189c428c92efa8cee33fc6893bad2cec492de436",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."
+    },
+    {
+      "id": "migration-short-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/veckefjarden/migration/short-course-model.epsg3006.json",
+      "sha256": "4a6554023dfbe113d72a9bb5d6ada4d3e2fa81a16e6e5b1a8d89078f30f697a2",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic horizontal conversion of the current short-course vectors to absolute EPSG:3006 coordinates; routing and card lengths remain provisional and heights remain unapproved."
+    },
+    {
+      "id": "migration-residual-report",
+      "kind": "control",
+      "path": "geo_data/course-v2/veckefjarden/migration/residual-report.json",
+      "sha256": "d6492f28358e9a7d74c81835e02c373c142e6b2379f0d94be9019eb15164f14e",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Candidate origin and scoped migration residuals for both course models; not an independent control approval."
+    },
+    {
+      "id": "ground-rings",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/veckefjarden/acquisition/ground-rings.json",
+      "sha256": "62fc15b7c2ac6ff81e48fb94c67c9f67ab469727dd19d6e17623cb2c21b65e69",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
+    }
   ],
   "blockers": [
-    {"id":"canonical-origin","severity":"release-blocking","description":"The shared EPSG:5845 origin and RH 2000 lake benchmark are unset.","exitGate":"Transform with pinned PROJ, validate the regulated water level and approve one origin for both courses."},
-    {"id":"authoritative-assets","severity":"release-blocking","description":"Lantmäteriet assets and exact product terms have not been acquired.","exitGate":"Record immutable ids, dates, CRS, checksums, break geometry and approved licence decisions."},
-    {"id":"zone-a-survey","severity":"quality","description":"Play-critical terrain, rock and objects lack controlled survey.","exitGate":"Approve zone-A patches and controls for championship and short-course holes."},
-    {"id":"legacy-imagery-rights","severity":"release-blocking","description":"Current traces depend on unapproved Esri, GolfTraxx and club-guide derivatives.","exitGate":"Re-derive from approved imagery/survey or record explicit production rights."}
+    {
+      "id": "canonical-origin",
+      "severity": "release-blocking",
+      "description": "The shared EPSG:5845 origin and RH 2000 lake benchmark are unset.",
+      "exitGate": "Transform with pinned PROJ, validate the regulated water level and approve one origin for both courses."
+    },
+    {
+      "id": "authoritative-assets",
+      "severity": "release-blocking",
+      "description": "Lantmäteriet assets and exact product terms have not been acquired.",
+      "exitGate": "Record immutable ids, dates, CRS, checksums, break geometry and approved licence decisions."
+    },
+    {
+      "id": "zone-a-survey",
+      "severity": "quality",
+      "description": "Play-critical terrain, rock and objects lack controlled survey.",
+      "exitGate": "Approve zone-A patches and controls for championship and short-course holes."
+    },
+    {
+      "id": "legacy-imagery-rights",
+      "severity": "release-blocking",
+      "description": "Current traces depend on unapproved Esri, GolfTraxx and club-guide derivatives.",
+      "exitGate": "Re-derive from approved imagery/survey or record explicit production rights."
+    }
   ]
 }

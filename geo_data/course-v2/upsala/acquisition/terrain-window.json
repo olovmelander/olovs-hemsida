@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "phase": "authenticated-finest-terrain-window",
+  "groundId": "upsala",
+  "acquiredOn": "2026-09-04",
+  "state": "acquisition-evidence-only",
+  "reader": "packages/course-geo/cog/cog-reader.mjs over authenticated HTTP range requests",
+  "readerNote": "factor-1 samples are source pixels copied exactly; no overview and no resampling is involved",
+  "provider": {
+    "name": "Lantmateriet",
+    "product": "Markhojdmodell Nedladdning",
+    "collection": "dtm-cog",
+    "licence": "CC-BY-4.0"
+  },
+  "lattice": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "compoundCrs": "EPSG:5845",
+    "coordinateOrder": [
+      "easting",
+      "northing"
+    ],
+    "sampleSpacingMetres": 1,
+    "width": 2049,
+    "height": 2049,
+    "originEasting": 639119.5,
+    "originNorthing": 6637169.5,
+    "sampleCentreBounds": {
+      "minEasting": 639119.5,
+      "maxEasting": 641167.5,
+      "minNorthing": 6635121.5,
+      "maxNorthing": 6637169.5
+    },
+    "pixelEdgeWindow": {
+      "west": 639119,
+      "north": 6637170,
+      "east": 641168,
+      "south": 6635121
+    }
+  },
+  "sourceItems": [
+    {
+      "id": "663_63",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_63.tif",
+      "etag": "\"6532dd378f3d389bbd19dd9a02569350\"",
+      "contentLength": 312121246,
+      "lastModified": "Wed, 13 May 2026 14:48:47 GMT",
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "overviewFactorUsed": 1,
+      "windowPixels": {
+        "column0": 9119,
+        "row0": 2830,
+        "columns": 881,
+        "rows": 2049
+      },
+      "latticeWindow": {
+        "column0": 0,
+        "row0": 0,
+        "columns": 881,
+        "rows": 2049
+      }
+    },
+    {
+      "id": "663_64",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_64.tif",
+      "etag": "\"ad5082151825568a40657e44152e450f\"",
+      "contentLength": 315120737,
+      "lastModified": "Wed, 13 May 2026 15:07:55 GMT",
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "overviewFactorUsed": 1,
+      "windowPixels": {
+        "column0": 0,
+        "row0": 2830,
+        "columns": 1168,
+        "rows": 2049
+      },
+      "latticeWindow": {
+        "column0": 881,
+        "row0": 0,
+        "columns": 1168,
+        "rows": 2049
+      }
+    }
+  ],
+  "raster": {
+    "path": "packages/course-geo/toolchain/.cache/acquisition/upsala-terrain-window/terrain-1m.f32",
+    "format": "row-major little-endian Float32, north-up",
+    "bytes": 16793604,
+    "sha256": "5a45dc491db0650503df91054ffc69ccb7607887dc90f8a267c7fa725fa34854"
+  },
+  "samples": {
+    "total": 4198401,
+    "finite": 4198401,
+    "minimumHeightRH2000": 13.286335945129395,
+    "maximumHeightRH2000": 54.38547134399414,
+    "reviewedBand": {
+      "minimum": 5,
+      "maximum": 90
+    }
+  },
+  "transfer": {
+    "rangeRequests": 30,
+    "rangeBytes": 16919155,
+    "elapsedMilliseconds": 2468
+  }
+}

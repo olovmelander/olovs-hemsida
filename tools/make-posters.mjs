@@ -38,8 +38,9 @@
    difference is invisible. A poster that must be exact should come from the
    harness still, not from here.
 
-   Posters are shot with ?ren=1&skylt=0 so no HUD or marker sprite is baked into
-   a picture, and ?det=1 so a re-shoot of the same recipe is the same picture. */
+   Posters are shot with ?ren=1&skylt=0, and the tactical guide is switched off,
+   so no HUD or marker sprite is baked into a picture. ?det=1 makes a re-shoot
+   of the same recipe the same picture. */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -85,6 +86,11 @@ const PLAN = {
   'upsala-mellanbanan':          { sig: 8, s2: 4, s3: 6 },
   'johannesberg-9':              { sig: 2, s2: 7, s3: 8 },
   'veckefjarden-korthalsbanan':  { sig: 1, s2: 3, s3: 9 },
+  /* Ribbingsfors names no official signature hole. Its guide evidence instead
+     makes the identity choice explicit: the long finishing 9th crosses the
+     large pond and reaches the clubhouse, the 5th follows several ponds, and
+     the 2nd is the nine's diagonal water-carry par three. */
+  ribbingsfors:                    { sig: 9, s2: 5, s3: 2 },
 };
 
 /* Eight framings per course: the signature hole from all four cameras, then the
@@ -177,6 +183,16 @@ const POSTERS = {
     { hole: 1, cam: 'green', preset: 'golden' },
   ],
 
+  /* Ribbingsfors has no club-designated signature hole. The resting frame uses
+     the finishing 9th because one view carries its large pond, road edge and
+     clubhouse; the 2nd's diagonal water carry and the 5th's pond-lined woodland
+     corridor make the other two frames both factual and visually distinct. */
+  ribbingsfors: [
+    { hole: 9, cam: 'orbit', preset: 'golden' },
+    { hole: 2, cam: 'orbit', preset: 'host' },
+    { hole: 5, cam: 'orbit', preset: 'golden' },
+  ],
+
   /* the water hole and its drop zone, then the 17th, the wettest on the card */
   angso: [
     { hole: 15, cam: 'green', preset: 'golden' },
@@ -217,6 +233,14 @@ async function encodeWebp(page, pngBuffer, width = WIDTH, quality = QUALITY) {
   return Buffer.from(b64, 'base64');
 }
 
+async function prepareCleanFrame(page) {
+  await page.addStyleTag({ content: '#cleanExit{display:none!important}' });
+  await page.evaluate(() => {
+    const strategy = document.getElementById('strategyBtn');
+    if (strategy?.getAttribute('aria-pressed') === 'true') strategy.click();
+  });
+}
+
 async function shootCourse(slug) {
   const plan = PLAN[slug];
   const dir = path.join(CACHE, slug);
@@ -229,7 +253,7 @@ async function shootCourse(slug) {
   /* Clean mode hides the HUD but ADDS one control: the button that leaves it.
      Correct for a visitor, wrong for a photograph -- it was sitting in the
      top-right corner of every poster in the first batch. */
-  await page.addStyleTag({ content: '#cleanExit{display:none!important}' });
+  await prepareCleanFrame(page);
   await page.waitForTimeout(1200);
   process.stdout.write(' up\n');
 
@@ -295,7 +319,7 @@ async function writeChosen(slug) {
   process.stdout.write(`\n  ${slug}  booting…`);
   await page.goto(`${BASE}/?bana=${slug}&det=1&ren=1&skylt=0`, { waitUntil: 'domcontentloaded', timeout: 120000 });
   await page.waitForSelector('#boot.done', { timeout: 420000 });
-  await page.addStyleTag({ content: '#cleanExit{display:none!important}' });
+  await prepareCleanFrame(page);
   await page.waitForTimeout(1200);
   process.stdout.write(' up\n');
   let total = 0;

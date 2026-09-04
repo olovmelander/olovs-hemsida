@@ -16,7 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readJson, sha256File } from '../manifest.mjs';
-import { COURSE_DATA_DIR, PILOT_GROUND_IDS, loadPilotManifest } from '../acquisition/pilots.mjs';
+import { ACQUISITION_GROUND_IDS, COURSE_DATA_DIR, loadPilotManifest } from '../acquisition/pilots.mjs';
 import { authorizationHeaders, credentialState, lantmaterietCredentials } from '../acquisition/credentials.mjs';
 import { createGroundSampler } from '../../course-v2/vegetation/ground-sampler.mjs';
 import { createNodeCache, openItem, readWindow } from './copc-window.mjs';
@@ -38,8 +38,8 @@ const halo = Number(flag('halo', 32));
 const onlyTiles = (flag('tiles', '') || '').split(',').filter(Boolean);
 const onlyCampaigns = (flag('campaigns', '') || '').split(',').filter(Boolean);
 const observedOn = flag('observed-on', new Date().toISOString().slice(0, 10));
-if (!PILOT_GROUND_IDS.includes(groundId) || !outDir) {
-  console.error(`usage: --ground <${PILOT_GROUND_IDS.join('|')}> --out <dir> [--halo m] [--tiles ids] [--campaigns ids]`);
+if (!ACQUISITION_GROUND_IDS.includes(groundId) || !outDir) {
+  console.error(`usage: --ground <${ACQUISITION_GROUND_IDS.join('|')}> --out <dir> [--halo m] [--tiles ids] [--campaigns ids]`);
   process.exit(2);
 }
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
@@ -49,11 +49,14 @@ const manifest = loadPilotManifest(groundId);
 const campaigns = readJson(path.join(dataDir, 'acquisition/laser-campaigns.json'));
 const censusPath = path.join(dataDir, 'acquisition/copc-hierarchy-census.json');
 const census = fs.existsSync(censusPath) ? readJson(censusPath) : null;
-const groundDir = path.join(ROOT, 'apps/golf/public/grounds', groundId);
-const groundFile = fs.readdirSync(groundDir).find(name => /^ground-v2-[a-f0-9]{64}\.json$/.test(name));
-if (!groundFile) throw new Error(`no published ground manifest under ${groundDir}`);
-const ground = readJson(path.join(groundDir, groundFile));
-const readAsset = async url => fs.readFileSync(path.join(ROOT, 'apps/golf/public', url));
+const publicDir = path.join(ROOT, 'apps/golf/public');
+const graphRoot = readJson(path.join(publicDir, 'courses/v2-index.json'));
+const rootEntry = graphRoot.courses?.find(course => course.groundId === groundId);
+if (!rootEntry) throw new Error(`published v2 root has no ground ${groundId}`);
+const courseManifest = readJson(path.join(publicDir, rootEntry.manifest.url));
+const ground = readJson(path.join(publicDir, courseManifest.groundManifest.url));
+if (ground.groundId !== groundId) throw new Error(`published root resolved ${ground.groundId}, not ${groundId}`);
+const readAsset = async url => fs.readFileSync(path.join(publicDir, url));
 const sampler = await createGroundSampler(ground, readAsset);
 const credentials = lantmaterietCredentials();
 if (!credentials) { console.error('Lantmäteriet credentials are required'); process.exit(1); }
@@ -93,6 +96,14 @@ for (const item of campaigns.items) {
     tile.bounds.minEasting < extent[2] && tile.bounds.maxEasting > extent[0] &&
     tile.bounds.minNorthing < extent[3] && tile.bounds.maxNorthing > extent[1]);
   console.log(`\n${item.id} (${item.captureStart?.slice(0, 10)}..${item.captureEnd?.slice(0, 10)}): ${tiles.length} tiles intersect its extent`);
+  /* A WGS84 discovery rectangle can graze a neighbouring catalogue item even
+     when the aligned projected ground stops half a sample before its seam.
+     Do not authenticate or emit an all-void raster for an item that owns no
+     published finest tile. */
+  if (!tiles.length) {
+    console.log('  skipped: no published finest tile intersects this campaign');
+    continue;
+  }
   let opened;
   try {
     opened = await openItem({ url: item.assets.data.href, headers });
@@ -258,7 +269,7 @@ const evidence = {
   method: 'Node reader over authenticated range requests (copc + laz-perf); ground from the cloud\'s own class 2/9 returns, mean per 1 m cell, nearest-fill to 60 m, 3x3 mean; height above ground bilinear; CHM = highest non-noise return per cell, 0 where only ground returns exist, NaN where none; densities counted, never copied',
   haloMetres: halo,
   frameFingerprint: ground.frame.fingerprint,
-  groundManifest: groundFile,
+  groundManifest: courseManifest.groundManifest.url,
   campaignsSha256: sha256File(path.join(dataDir, 'acquisition/laser-campaigns.json')),
   censusSha256: fs.existsSync(censusPath) ? sha256File(censusPath) : null,
   rasterDirectory: path.relative(ROOT, path.resolve(outDir)),

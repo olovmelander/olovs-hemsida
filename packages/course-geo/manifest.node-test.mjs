@@ -30,16 +30,16 @@ test('product and licence catalog is valid', () => {
   );
 });
 
-test('all six physical-ground manifests and committed checksums validate', () => {
+test('all registered physical-ground manifests and committed checksums validate', () => {
   for (const groundId of Object.keys(EXPECTED_GROUNDS)) {
     assert.deepEqual(validate(manifest(groundId)), [], groundId);
   }
 });
 
-test('all nine course slugs are accounted for exactly once', () => {
+test('all registered course slugs are accounted for exactly once', () => {
   const manifests = Object.keys(EXPECTED_GROUNDS).map(manifest);
   assert.deepEqual(validateGroundCoverage(manifests), []);
-  assert.equal(manifests.flatMap(item => item.courseSlugs).length, 9);
+  assert.equal(manifests.flatMap(item => item.courseSlugs).length, 10);
 });
 
 test('unapproved canonical origin is rejected', () => {

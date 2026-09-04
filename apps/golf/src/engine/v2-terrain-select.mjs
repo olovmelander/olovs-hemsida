@@ -3,6 +3,7 @@ import {
   fallbackTerrainPreviewState,
   loadPuttomTerrainPreview,
 } from './v2-puttom-preview.mjs';
+import { V2_GRAPH_FRONTIER_CONFIGS } from './v2-frontier-configs.mjs';
 
 /* Course slugs whose real, reviewed v2 course/ground graph is committed under
    the public v2 root. The generic manifest resolver runs ONLY for these slugs,
@@ -16,7 +17,7 @@ import {
    RESOLUTION only: the generic streaming renderer stays gated, so a resolved
    graph is reported and the course keeps rendering from the strongest source
    that has passed the adapter contract. */
-export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze(['puttom']);
+export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze(['angso', 'johannesberg', 'norrfallsviken', 'puttom', 'ribbingsfors', 'upsala', 'upsala-mellanbanan', 'veckefjarden', 'veckefjarden-korthalsbanan']);
 
 export const V2_GRAPH_RENDERER_GATE = 'graph-renderer-not-activated';
 
@@ -71,6 +72,11 @@ async function defaultGraphResolver(options) {
   return resolvePublishedGraph(options);
 }
 
+async function defaultGraphFrontierLoader(options) {
+  const { loadPublishedGraphTerrainFrontier } = await import('./v2-graph-frontier.mjs');
+  return loadPublishedGraphTerrainFrontier(options);
+}
+
 /**
  * The one place that decides which v2 terrain source serves a course. Order:
  * a published, verified course/ground graph; then the retained Puttom
@@ -89,6 +95,8 @@ export async function selectV2TerrainSource({
   publishedGraphSlugs = V2_PUBLISHED_GRAPH_SLUGS,
   previewLoader = loadPuttomTerrainPreview,
   graphResolver = defaultGraphResolver,
+  graphFrontierLoader = defaultGraphFrontierLoader,
+  graphFrontierConfigs = V2_GRAPH_FRONTIER_CONFIGS,
   fetchImpl,
   cacheStorage,
   previewOptions,
@@ -130,6 +138,41 @@ export async function selectV2TerrainSource({
       }
     }
     if (graph && !graphError) {
+      const frontierConfig = graphFrontierConfigs[slug] || null;
+      if (frontierConfig) {
+        try {
+          const source = await graphFrontierLoader({
+            graph,
+            geo,
+            config: frontierConfig,
+            baseUrl,
+            locationHref,
+            fetchImpl,
+          });
+          return frozenSelection({
+            requestMode,
+            mode: 'fixed-frontier',
+            publishedGraphSlugs,
+            graph,
+            source,
+            frontierConfig,
+          });
+        } catch (error) {
+          const detail = errorText(error);
+          if (requestMode === 'require') {
+            throw new Error(`v2 krävdes men den verifierade terrängfronten för ${slug} inte kunde tjäna: ${detail}`);
+          }
+          return frozenSelection({
+            requestMode,
+            mode: 'graph',
+            publishedGraphSlugs,
+            graph,
+            graphError: detail,
+            source: fallbackTerrainPreviewState({ slug, reason: V2_GRAPH_RENDERER_GATE }),
+            frontierConfig,
+          });
+        }
+      }
       /* A verified graph is not yet a renderable one: the generic streaming
          renderer stays gated until it passes the same adapter contract and
          capture evidence as the retained pilot. Selection reports the graph
@@ -164,5 +207,8 @@ export async function selectV2TerrainSource({
     graph,
     graphError,
     source,
+    frontierConfig: source.ready && slug === PUTTOM_PREVIEW_CONFIG.slug
+      ? PUTTOM_PREVIEW_CONFIG
+      : null,
   });
 }

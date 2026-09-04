@@ -347,8 +347,42 @@ async function writeImmutable(target, data) {
   }
 }
 
+async function mergedRootBytes(rootTarget, graph) {
+  let existingBytes;
+  try {
+    existingBytes = await readFile(rootTarget);
+  } catch (error) {
+    if (error?.code === 'ENOENT') return graph.rootBytes;
+    throw error;
+  }
+  let existing;
+  try {
+    existing = JSON.parse(existingBytes.toString('utf8'));
+  } catch {
+    throw new Error(`refusing to merge a malformed v2 root ${rootTarget}`);
+  }
+  const canonicalExisting = Buffer.from(canonicalJsonBytes(existing));
+  if (!existingBytes.equals(canonicalExisting)) {
+    throw new Error(`refusing to merge a non-canonical v2 root ${rootTarget}`);
+  }
+  assertValid('existing v2 root index', validateRootIndex(existing));
+  if (existing.schemaVersion !== graph.root.schemaVersion || existing.$schema !== graph.root.$schema) {
+    throw new Error(`refusing to merge an incompatible v2 root ${rootTarget}`);
+  }
+  const courses = new Map(existing.courses.map(course => [course.slug, course]));
+  for (const course of graph.root.courses) courses.set(course.slug, course);
+  const merged = {
+    ...graph.root,
+    courses: [...courses.values()].sort((left, right) => left.slug.localeCompare(right.slug)),
+  };
+  assertValid('merged v2 root index', validateRootIndex(merged));
+  return canonicalJsonBytes(merged);
+}
+
 /** Write the emitted graph: mutable root at courses/v2-index.json, everything
-    else content-addressed and immutable. */
+    else content-addressed and immutable. An existing canonical root is merged
+    by slug so publishing one physical ground cannot silently unpublish every
+    other ground already in the application. */
 export async function writeGroundGraphFiles(outputDirectory, graph) {
   if (typeof outputDirectory !== 'string' || !outputDirectory) {
     throw new TypeError('outputDirectory must be a non-empty string');
@@ -363,10 +397,9 @@ export async function writeGroundGraphFiles(outputDirectory, graph) {
     await writeImmutable(target, data);
     written.push(target);
   }
-  /* Exactly the bytes report.rootSha256 digests, never a second rendering. */
   const rootTarget = graphTarget(outputRoot, 'courses/v2-index.json');
   await mkdir(dirname(rootTarget), { recursive: true });
-  await writeFile(rootTarget, graph.rootBytes);
+  await writeFile(rootTarget, await mergedRootBytes(rootTarget, graph));
   written.push(rootTarget);
   return Object.freeze(written);
 }

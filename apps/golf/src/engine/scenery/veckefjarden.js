@@ -18,7 +18,14 @@ import { hash2 } from '../geom.js';
    as the reserve's alder swamp, and a shared engine has no way to guess it.
    rise is how far from the green centre the berm and the boulders reach; paint how
    far the waterline band is stone grey rather than bleached sand. */
-export const armour = { hole: 14, rise: 115, paint: 110, colour: 0xa8a49a };
+/* The colour was a warm beige-grey and the stone is not warm. The club's own
+   photographs of the hole show angular BLASTED rubble in a neutral-to-cool
+   grey -- sunlit faces measure about #909098 in the frame, which is lighting
+   plus albedo, so what is corrected here is the HUE at the same luminance
+   rather than the brightness: (168,164,154) warm becomes (160,162,168) cool.
+   Granite riprap beside water reads cold; beige reads like the bleached sand
+   the paint band exists to replace. */
+export const armour = { hole: 14, rise: 115, paint: 110, colour: 0xa0a2a8 };
 
 /* Ground beyond every record we have gets a ring of stand-in conifers, and these
    are the two places in this basin where that ring must NOT close. Kyrkudden is
@@ -195,11 +202,21 @@ export function build(ctx) {
 }
 
 /* The forest here is not the engine's default forest, and the difference is a
-   fact about the ground rather than a preference: the reserve's Tvillingsta half
-   is GREY-ALDER SWAMP FOREST -- deciduous, softer green, a scatter of old spruce
-   -- so the planter goes birch-dominant inside the reserve rings. Above about
-   46 m the ridge turns to spruce and pine. Rendering either as the High Coast's
-   pine country would say something untrue about the place.
+   fact about the ground rather than a preference. Länsstyrelsen Västernorrland's
+   own reserve description names GRÅAL -- grey alder -- first, then björk and
+   rönn, with hägg, lönn and ask: deciduous swamp forest, softer green, a scatter
+   of old spruce. So the planter goes birch-dominant inside the reserve rings,
+   and above about 46 m the ridge turns to spruce and pine. Rendering either as
+   the High Coast's pine country would say something untrue about the place.
+
+   Two corrections to what this note used to claim. The reserve is TWO polygons
+   totalling 63.11 ha, and the half that touches the course is its EASTERN area,
+   not "Tvillingsta"; the western half sits at the Moälven mouth by Själevad,
+   outside geobuild's fetch bbox, and is not in the model at all. And the
+   dominant tree is alder, not birch -- but the engine's SPECIES table has no
+   alder, and birch is the nearest thing in it by form and colour, so the rule
+   below is the closest honest approximation rather than the measured mix. Do
+   not "fix" the ratio without adding the species.
 
    Species ids match the engine's SPECIES table: 0 spruce, 1 pine, 2 birch.   */
 export function species({ r, x, z, h, ringSD, RES }) {
@@ -216,11 +233,25 @@ export function species({ r, x, z, h, ringSD, RES }) {
    every one of them. */
 export const reedbed = { box: [-2300, 0, -1500, 900], denser: [-700, 1.8] };
 
-/* The old school: cream render under a dark red roof, three storeys of
-   white-framed windows, the railed garden terrace facing the 18th. These are the
-   engine's defaults because this is the building the clubhouse code was written
-   from -- stated here anyway, so no course is silently relying on a default. */
+/* The old school. This used to say "cream render under a dark red roof" and
+   claim to be the engine's defaults; the club's own daylight photographs say
+   otherwise, and so does the standalone page, which had it right before the
+   phase-4 merge onto the shared engine took the engine's numbers instead.
+
+   What the pictures show: PALE YELLOW painted vertical timber panel with white
+   trim and white corner boards, under a DARK GREY sheet-metal roof, three
+   storeys of white-framed windows over a partly exposed basement, and the
+   railed garden terrace facing the 18th. The orthoimagery corroborates the
+   grey roof from above; the wall colour needed a picture from the ground,
+   which is the whole reason this export exists.
+
+   These four numbers are veckefjarden3d.html's (wall 0xd9c58a at :3195, roof
+   0x6f7276 at :3290, height 8.6 at :3285, rows [1.3, 3.7, 6.1] at :3311), so
+   the app and the page now draw the same building again. The engine's own
+   defaults are still Veckefjärden-shaped cream-and-red, which is now simply
+   wrong for every course -- they should become a neutral house, but that moves
+   ground on five shipped courses and belongs in its own change. */
 export const clubhouse = {
-  wall: 0xe7e2d4, roof: 0x9d3f2e, height: 5.4,
-  windowRows: [1.4, 3.5], terrace: true,
+  wall: 0xd9c58a, roof: 0x6f7276, height: 8.6,
+  windowRows: [1.3, 3.7, 6.1], terrace: true,
 };

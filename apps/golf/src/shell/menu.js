@@ -141,6 +141,27 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
                 <div class="dt-desc">Mät exakt avstånd och höjdskillnad</div>
               </div>
             </button>
+            <button class="d-tool-btn" id="dGpsBtn">
+              <span class="dt-icon">${ICONS.compass(18)}</span>
+              <div class="dt-text">
+                <div class="dt-name">GPS-läge</div>
+                <div class="dt-desc">Följ din boll och uppdatera caddien live</div>
+              </div>
+            </button>
+            <button class="d-tool-btn" id="dStrategyBtn">
+              <span class="dt-icon">${ICONS.flag(18)}</span>
+              <div class="dt-text">
+                <div class="dt-name">Taktisk spellinje</div>
+                <div class="dt-desc">Siktlinje, landningszoner och avståndsbågar</div>
+              </div>
+            </button>
+            <button class="d-tool-btn" id="dBagBtn">
+              <span class="dt-icon">${ICONS.golfBall(18)}</span>
+              <div class="dt-text">
+                <div class="dt-name">Min bag</div>
+                <div class="dt-desc">Dina carry-avstånd och personliga klubbval</div>
+              </div>
+            </button>
             <button class="d-tool-btn" id="dGridBtn">
               <span class="dt-icon">${ICONS.grid(18)}</span>
               <div class="dt-text">
@@ -251,6 +272,18 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
   drawer.querySelector('#dRangeBtn')?.addEventListener('click', () => {
     close();
     document.getElementById('rangeBtn')?.click();
+  });
+  drawer.querySelector('#dGpsBtn')?.addEventListener('click', () => {
+    close();
+    document.getElementById('gpsBtn')?.click();
+  });
+  drawer.querySelector('#dStrategyBtn')?.addEventListener('click', () => {
+    close();
+    document.getElementById('strategyBtn')?.click();
+  });
+  drawer.querySelector('#dBagBtn')?.addEventListener('click', () => {
+    close();
+    document.getElementById('bagBtn')?.click();
   });
   drawer.querySelector('#dGridBtn')?.addEventListener('click', () => {
     close();

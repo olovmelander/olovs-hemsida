@@ -14,9 +14,14 @@ upsalabuild/cache/
 upsalabuild/shots/
 johannesbergbuild/cache/
 johannesbergbuild/shots/
+ribbingsforsbuild/cache/
+ribbingsforsbuild/shots/
 node_modules/
 apps/golf/dist/
 tools/.lint-app-config.mjs
 tools/reference/
 apps/golf/.pwa-profile/
 .env
+
+# git worktrees the agent harness creates here (a whole second checkout, 578 MB)
+.claude/worktrees/

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createGroundAtlas, rasterizeGroundAtlas } from '../apps/golf/src/engine/atlas.js';
+import { surfacePairGuardMetres, surfacePairWeight } from '../apps/golf/src/engine/material.js';
 import { SURFACE } from '../apps/golf/src/engine/surface.js';
 
 const CORE = { x0: 0, z0: 0, x1: 40, z1: 40 };
@@ -107,5 +108,99 @@ describe('runtime ground atlas', () => {
        stored at 0.25 m steps -- never from a wrapped phase */
     const k = 27 * atlas.data.bounds.w + 20;
     expect(atlas.data.fieldData[k * 4 + 1]).toBe(Math.round(offset.dLine * 4));
+  });
+});
+
+/* THE RING ROUND EVERY BUNKER.
+
+   The pair field is signed by which of a texel's two classes has priority, so
+   two texels deep inside ONE fairway read -8 (the nearest other class is the
+   bunker, which outranks fairway) and +8 (it is the semi, which does not).
+   Both render fairway on their own; linear filtering between them sweeps the
+   whole way through zero, the transition smoothstep sees a crossing, and the
+   shader paints the pair's higher-priority class at full strength. That was the
+   pale stair-stepped ring about eight metres out from every bunker.
+
+   These tests run the material's OWN sampling on the CPU -- ids nearest, the
+   field bilinear over the 2x2 neighbourhood -- so the fixture measures what a
+   fragment is actually handed, not a one-dimensional idea of it. */
+describe('the pair field across a watershed', () => {
+  const BOX = { x0: 0, z0: 0, x1: 120, z1: 120 };
+  const disc = (cx, cz, r, n = 24) => Array.from({ length: n }, (_, i) => {
+    const a = i / n * Math.PI * 2;
+    return [cx + Math.cos(a) * r, cz + Math.sin(a) * r];
+  });
+  const bunkerInAFairway = () => rasterizeGroundAtlas({
+    CORE: BOX,
+    HOLES: [{ n: 1, line: [[10, 60], [110, 60]] }],
+    features: [
+      { surface: SURFACE.SEMI, rings: [square(15, 35, 105, 85)], pad: 4, hole: 1 },
+      { surface: SURFACE.FAIRWAY, rings: [square(15, 35, 105, 85)], hole: 1 },
+      { surface: SURFACE.SAND, rings: [disc(60, 60, 8)], hole: 1 },
+    ],
+    res: 1,
+  });
+
+  /* A fragment paints a class that is not there when it gives real weight to a
+     class whose own edge, at the texel its ids came from, is metres away. */
+  const FAR_METRES = 2.5, ALIEN_SHARE = 0.08;
+  const absentClassFragments = (data, weightOf, halfWidth = 0.7) => {
+    const { w, h, res } = data.bounds;
+    const sd = data.signedDistance;
+    const at = (i, j) => sd[Math.min(h - 1, Math.max(0, j)) * w + Math.min(w - 1, Math.max(0, i))];
+    const bilinear = (fi, fj) => {
+      const i = Math.floor(fi - 0.5), j = Math.floor(fj - 0.5);
+      const u = fi - 0.5 - i, v = fj - 0.5 - j;
+      return (at(i, j) * (1 - u) + at(i + 1, j) * u) * (1 - v)
+        + (at(i, j + 1) * (1 - u) + at(i + 1, j + 1) * u) * v;
+    };
+    const byClass = new Map();
+    for (let fj = 0.5; fj < h - 0.5; fj += 0.2) for (let fi = 0.5; fi < w - 0.5; fi += 0.2) {
+      const k = Math.floor(fj) * w + Math.floor(fi);
+      const own = sd[k];
+      if (Math.abs(own) < FAR_METRES) continue;          /* genuinely near an edge */
+      const mine = data.classes[k];
+      const primary = data.idData[k * 2], secondary = data.idData[k * 2 + 1];
+      const weight = weightOf({ filtered: bilinear(fi, fj), nearest: own, halfWidth, res });
+      const alien = (primary === mine ? 0 : weight) + (secondary === mine ? 0 : 1 - weight);
+      if (alien < ALIEN_SHARE) continue;
+      const other = primary === mine ? secondary : primary;
+      byClass.set(other, (byClass.get(other) || 0) + 1);
+    }
+    return byClass;
+  };
+
+  const unguarded = ({ filtered, halfWidth }) => {
+    const t = Math.min(1, Math.max(0, (filtered + halfWidth) / (2 * halfWidth)));
+    return t * t * (3 - 2 * t);
+  };
+
+  it('an unguarded blend paints sand into grass that is eight metres from a bunker', () => {
+    const painted = absentClassFragments(bunkerInAFairway(), unguarded);
+    expect(painted.get(SURFACE.SAND)).toBeGreaterThan(10);
+  });
+
+  it('the guard leaves every fragment showing a class that is actually there', () => {
+    expect([...absentClassFragments(bunkerInAFairway(), surfacePairWeight)]).toEqual([]);
+  });
+
+  it('and still hands a real cut to the filtered blend', () => {
+    /* At a genuine edge the nearest texel reads half a texel, well inside the
+       guard's start, so the weight must sweep from secondary to primary. */
+    const at = x => surfacePairWeight({ filtered: x, nearest: x < 0 ? -0.5 : 0.5, halfWidth: 0.55, res: 1 });
+    expect(at(-0.5)).toBeLessThan(0.06);
+    expect(at(0)).toBeCloseTo(0.5, 2);
+    expect(at(0.5)).toBeGreaterThan(0.94);
+  });
+
+  it('never guards tighter than the pixel footprint, so a distant edge keeps its ramp', () => {
+    /* Three metres of ground per pixel: the wide screen-space ramp IS the
+       antialiasing, and clipping it at 2.5 m would put the staircase back. */
+    const { start, end } = surfacePairGuardMetres(1, 3);
+    expect(start).toBe(6);
+    expect(end).toBe(12);
+    const far = surfacePairWeight({ filtered: 3, nearest: 4, halfWidth: 6, res: 1, footprintMetres: 3 });
+    expect(far).toBeGreaterThan(0.6);
+    expect(far).toBeLessThan(0.9);
   });
 });

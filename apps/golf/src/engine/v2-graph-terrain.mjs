@@ -51,9 +51,12 @@ export function graphCoversHorizon(ground, previewBounds) {
  * corners come from unprojecting clip space, so the test follows whatever
  * projection and clip convention the camera uses.
  */
-export function createTileFrustumTester(localToClip, { coordinateSystem = 2001 } = {}) {
+export function createTileFrustumTester(localToClip, { coordinateSystem = 2001, reversedDepth = false } = {}) {
   const frustum = new THREE.Frustum();
-  frustum.setFromProjectionMatrix(localToClip, coordinateSystem, false);
+  /* the camera's depth direction decides which of the six planes is near and which far;
+     with a reversed depth buffer and the default here, every tile failed the test and the
+     world was sky */
+  frustum.setFromProjectionMatrix(localToClip, coordinateSystem, reversedDepth);
   const inverse = new THREE.Matrix4().copy(localToClip).invert();
   const nearZ = coordinateSystem === 2000 ? -1 : 0; /* WebGL clips z to [-1,1], WebGPU to [0,1] */
   const corners = [];
@@ -225,6 +228,9 @@ export class V2GraphTerrainAdapter {
     this.bridge = source.bridge;
     this.profile = profile ?? null;
     this.maximumCachedResources = maximumCachedResources ?? (mobile ? 64 : 192);
+    /* the stream's release grace and retained-tile cap: undefined leaves the controller's defaults */
+    this.releaseGraceMilliseconds = undefined;
+    this.maximumRetainedTiles = undefined;
     this.fetchImpl = fetchImpl;
     this.cacheStorage = cacheStorage;
     this.clock = clock;
@@ -290,7 +296,7 @@ export class V2GraphTerrainAdapter {
   get ringsLoaded() { return this.rings !== null; }
 
   /** The backend-dependent settings, once the renderer exists. */
-  configure({ backend, mobile, profile, maximumCachedResources } = {}) {
+  configure({ backend, mobile, profile, maximumCachedResources, releaseGraceMilliseconds, maximumRetainedTiles } = {}) {
     if (backend !== undefined) {
       if (!['webgpu', 'webgl2'].includes(backend)) throw new Error('backend must be webgpu or webgl2');
       this.backend = backend;
@@ -298,6 +304,8 @@ export class V2GraphTerrainAdapter {
     if (mobile !== undefined) this.mobile = mobile;
     if (profile !== undefined) this.profile = profile;
     if (maximumCachedResources !== undefined) this.maximumCachedResources = maximumCachedResources;
+    if (releaseGraceMilliseconds !== undefined) this.releaseGraceMilliseconds = releaseGraceMilliseconds;
+    if (maximumRetainedTiles !== undefined) this.maximumRetainedTiles = maximumRetainedTiles;
     return this;
   }
 
@@ -510,6 +518,8 @@ export class V2GraphTerrainAdapter {
         clock: this.clock,
         decorateMaterial,
         maximumCachedResources: this.maximumCachedResources,
+        releaseGraceMilliseconds: this.releaseGraceMilliseconds,
+        maximumRetainedTiles: this.maximumRetainedTiles,
         profile: this.profile ?? undefined,
         onInvalidate: () => this.#afterSync(),
         transformDecoded: ({ tileId, decoded }) => this.#carveDecoded({ tileId, decoded }),
@@ -590,7 +600,7 @@ export class V2GraphTerrainAdapter {
        drawn beside the 1 m course, lit flat as a bright plate. */
     this.projection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse).multiply(this.group.matrixWorld);
     /* WebGPU clips z to [0, 1] and WebGL to [-1, 1]; the camera says which */
-    const intersects = createTileFrustumTester(this.projection, { coordinateSystem: camera.coordinateSystem });
+    const intersects = createTileFrustumTester(this.projection, { coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? false });
     const [gx, gz] = this.bridge.toGrid(camera.position.x, camera.position.z);
     const frame = this.runtime.ground.frame;
     const visible = tile => {

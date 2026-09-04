@@ -9,6 +9,7 @@ export const COURSE_MODEL_PATHS = Object.freeze({
   angso: 'geo_data/course-v2/angso/migration/course-model.epsg3006.json',
   norrfallsviken: 'geo_data/course-v2/norrfallsviken/migration/course-model.epsg3006.json',
   puttom: 'geo_data/course-v2/puttom/migration/course-model.epsg3006.json',
+  ribbingsfors: 'geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json',
   upsala: 'geo_data/course-v2/upsala/migration/course-model.epsg3006.json',
   'upsala-mellanbanan': 'geo_data/course-v2/upsala/migration/mellanbanan-model.epsg3006.json',
   johannesberg: 'geo_data/course-v2/johannesberg/migration/course-model.epsg3006.json',
@@ -23,6 +24,7 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
   angso: '28cfa8f635210037191a2b3eebbf6ffadf6641d931bc0d77846022c49ce55877',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
   puttom: '518beceead88a48ebce53e66282031aed85b57d4e7e4b8058b39f7d8f17d38cf',
+  ribbingsfors: 'e71f89bee7c197dbe9ff3cdedaeecbe643b47283b7ace85c740a08a4955acbda',
   upsala: '36f2187cb2096523205b827869eb8b3131be208cb969e4c4cf4a554c6ada9da4',
   'upsala-mellanbanan': '547da39c0f83bbe9caeb276d198ae2becf1cfd235c7cdff211abe897496f526d',
   johannesberg: '885a978ff51df00168531aa6401d715a2001885aa6c5f6f8940db280830839e0',
@@ -358,7 +360,7 @@ export function groundHoleSourceControlPlan({ manifest, courseModels, discovery 
 
 export function allCourseHoleSourceControlPlan(grounds) {
   if (!Array.isArray(grounds) || grounds.length !== Object.keys(EXPECTED_GROUNDS).length) {
-    throw new Error('all-course control plan requires all six physical grounds');
+    throw new Error(`all-course control plan requires all ${Object.keys(EXPECTED_GROUNDS).length} physical grounds`);
   }
   const byId = new Map(grounds.map(ground => [ground.groundId, ground]));
   if (byId.size !== grounds.length || Object.keys(EXPECTED_GROUNDS).some(id => !byId.has(id))) {
@@ -367,7 +369,7 @@ export function allCourseHoleSourceControlPlan(grounds) {
   const ordered = Object.keys(EXPECTED_GROUNDS).sort().map(id => byId.get(id));
   const courseSlugs = ordered.flatMap(ground => ground.courseSlugs);
   if (new Set(courseSlugs).size !== Object.values(EXPECTED_GROUNDS).flat().length) {
-    throw new Error('all-course control plan does not cover nine unique course slugs');
+    throw new Error(`all-course control plan does not cover ${Object.values(EXPECTED_GROUNDS).flat().length} unique course slugs`);
   }
   return Object.freeze({
     schemaVersion: HOLE_SOURCE_CONTROL_VERSION,

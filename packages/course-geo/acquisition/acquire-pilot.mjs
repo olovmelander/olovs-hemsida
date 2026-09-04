@@ -13,8 +13,8 @@ import { acquireTerrainWindow } from './terrain-window.mjs';
 import { acquireLaserWindow } from './laser-window.mjs';
 import { acquireTreeHeight } from './tree-height.mjs';
 import {
+  ACQUISITION_GROUND_IDS,
   COURSE_DATA_DIR,
-  PILOT_GROUND_IDS,
   REPO_ROOT,
   loadPilotManifest,
 } from './pilots.mjs';
@@ -41,8 +41,8 @@ function parseArguments(argv) {
     else if (argument === '--write-evidence') options.writeEvidence = true;
     else throw new Error(`unknown argument ${argument}`);
   }
-  if (!PILOT_GROUND_IDS.includes(options.groundId)) {
-    throw new Error(`--ground must be one of ${PILOT_GROUND_IDS.join(', ')}`);
+  if (!ACQUISITION_GROUND_IDS.includes(options.groundId)) {
+    throw new Error(`--ground must be one of ${ACQUISITION_GROUND_IDS.join(', ')}`);
   }
   return options;
 }

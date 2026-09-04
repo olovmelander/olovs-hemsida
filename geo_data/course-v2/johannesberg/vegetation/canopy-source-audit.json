@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "kind": "canopy-source-audit",
+  "groundId": "johannesberg",
+  "observedOn": "2026-09-04",
+  "windowEpsg3006": {
+    "minEasting": 678403.5,
+    "maxEasting": 680451.5,
+    "minNorthing": 6624276.5,
+    "maxNorthing": 6626324.5
+  },
+  "comparisonGrid": {
+    "cellMetres": 3,
+    "cells": 464510,
+    "minimumTreeHeightMetres": 3
+  },
+  "sources": {
+    "laser": {
+      "rasters": [
+        "chm-21c039-662-67",
+        "chm-21c039-662-68"
+      ],
+      "canopyFraction": 0.1756
+    },
+    "chmv2": {
+      "rasters": [
+        "chmv2-1200312031"
+      ],
+      "canopyFraction": 0.2793,
+      "note": "independent optical ML; compresses height and smears crowns outward, so it reads HIGH on fraction — calibration, not truth"
+    },
+    "satellite": {
+      "raster": "johannesbergbuild/tree-cover.json",
+      "canopyFraction": 0.439,
+      "note": "the legacy GPK1 planting basis, from leaf-on Esri imagery"
+    }
+  },
+  "agreement": {
+    "bothCanopy": 76813,
+    "satelliteOnly": 127112,
+    "laserOnly": 4734,
+    "neither": 255851,
+    "laserOverSatellite": 0.4
+  },
+  "discriminator": {
+    "statement": "laser canopy height where the satellite claims canopy and the laser does not",
+    "samples": 106626,
+    "medianMetres": 0,
+    "p75Metres": 0,
+    "p90Metres": 0.36,
+    "p99Metres": 2.69,
+    "reading": "a distribution piled at 0.00 m is open ground the satellite over-detected, not canopy the scan lost; a thinned-but-real crown returns branch height"
+  }
+}

@@ -3,11 +3,21 @@
   "schemaVersion": 1,
   "groundId": "norrfallsviken",
   "groundName": "Norrfällsvikens Golfklubb",
-  "courseSlugs": ["norrfallsviken"],
-  "targetBboxWgs84": [18.495, 62.955, 18.56, 63.002],
+  "courseSlugs": [
+    "norrfallsviken"
+  ],
+  "targetBboxWgs84": [
+    18.495,
+    62.955,
+    18.56,
+    63.002
+  ],
   "legacyFrame": {
     "buildDirectory": "nvgkbuild",
-    "originWgs84": { "latitude": 62.9825, "longitude": 18.5325 },
+    "originWgs84": {
+      "latitude": 62.9825,
+      "longitude": 18.5325
+    },
     "metresPerLatitude": 111320,
     "metresPerLongitude": 50568.51,
     "heightReference": "Terrarium-derived legacy heights; vertical datum was not persisted",
@@ -18,36 +28,467 @@
     "horizontalCrs": "EPSG:3006",
     "verticalCrs": "EPSG:5613",
     "originStatus": "pending-control-approval",
-    "origin": { "easting": null, "northing": null, "heightRH2000": null },
-    "axisMapping": {"worldX":"easting - originEasting","worldZ":"originNorthing - northing","worldY":"heightRH2000 - originHeightRH2000"}
+    "origin": {
+      "easting": null,
+      "northing": null,
+      "heightRH2000": null
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldZ": "originNorthing - northing",
+      "worldY": "heightRH2000 - originHeightRH2000"
+    }
   },
   "sources": [
-    {"id":"terrain-lm-1m","productId":"lantmateriet-markhojdmodell-1m","roles":["terrain"],"lifecycle":"planned","use":"candidate","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/markhoejdmodell-nedladdning/released/1/","localPath":null,"bboxWgs84":[18.495,62.955,18.56,63.002],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Exact STAC COG and break-geometry ids/checksums are recorded in the D2 discovery artifact; authenticated clipped outputs are not yet acquired.","replacementSourceId":null,"accuracyTier":"B","horizontalAccuracyMetres":0.3,"verticalAccuracyMetres":0.1,"notes":"Planned 1 m base DTM; 0.3 m horizontal and 0.1 m vertical values are source-advertised uncertainty, not independent course residuals."},
-    {"id":"imagery-lm-ortho","productId":"lantmateriet-ortofoto","roles":["imagery","surface"],"lifecycle":"planned","use":"candidate","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/","localPath":null,"bboxWgs84":[18.495,62.955,18.56,63.002],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"The 2024 U2 16 cm RGBI campaign and explicit older coastal gap-fill are recorded in D2; data checksums and authenticated windows remain pending.","replacementSourceId":null,"accuracyTier":"B","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Measurement input for course surfaces, dunes, vegetation and objects; never a runtime ground texture."},
-    {"id":"laser-lm-skog","productId":"lantmateriet-laserdata-skog","roles":["terrain","canopy","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/","localPath":null,"bboxWgs84":[18.495,62.955,18.56,63.002],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Newest-coverage COPC ids, dates, sizes and checksums are recorded in D2; authenticated point windows are not yet acquired.","replacementSourceId":null,"accuracyTier":"C","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supports canopy/object extraction, coastal terrain QA and recency checks; newest coverage is 97.79% of the broad bbox and must be scoped before use."},
-    {"id":"topography-lm-10","productId":"lantmateriet-topografi-10","roles":["topography","hydrology","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/","localPath":null,"bboxWgs84":[18.495,62.955,18.56,63.002],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Not acquired; exact dataset release and checksum are pending.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"General coastline, hydrology, infrastructure and land-cover support."},
-    {"id":"tree-height-sks","productId":"skogsstyrelsen-tradhojd","roles":["canopy","object"],"lifecycle":"planned","use":"supporting","sourceUri":"https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf","localPath":null,"bboxWgs84":[18.495,62.955,18.56,63.002],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"The 1 m signed-Int16/decimetre service contract and ingest are recorded in D2; authenticated raster output and checksum are pending.","replacementSourceId":null,"accuracyTier":"C","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Canopy-height evidence only; individual stem positions remain derived until surveyed."},
-    {"id":"survey-control","productId":"controlled-course-survey","roles":["control","terrain","surface","object"],"lifecycle":"planned","use":"candidate","sourceUri":"project://survey/norrfallsviken","localPath":null,"bboxWgs84":[18.495,62.955,18.56,63.002],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"No RH 2000-tied course survey has been acquired.","replacementSourceId":null,"accuracyTier":"A","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Required for zone-A greens, tees, bunker lips, dunes and play-critical trees or rocks."},
-    {"id":"osm-legacy","productId":"openstreetmap","roles":["surface","topography","hydrology","object"],"lifecycle":"legacy","use":"supplemental","sourceUri":"https://api.openstreetmap.org/api/0.6/map?bbox=18.495,62.955,18.560,63.000","localPath":null,"bboxWgs84":[18.495,62.955,18.56,63],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw XML cache is ignored and absent; only the checksummed parsed artifact remains.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supplementary coastline and context; golf surface coverage is incomplete."},
-    {"id":"terrarium-legacy","productId":"aws-terrarium","roles":["terrain"],"lifecycle":"legacy","use":"migration-only","sourceUri":"https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png","localPath":null,"bboxWgs84":[18.495,62.955,18.56,63.002],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw tile cache, dates and tile checksums were not preserved.","replacementSourceId":"terrain-lm-1m","accuracyTier":"E","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Source of current HF0/HF1 only; prohibited as v2 truth."},
-    {"id":"esri-imagery-legacy","productId":"esri-world-imagery","roles":["imagery","surface","canopy","object"],"lifecycle":"legacy","use":"migration-only","sourceUri":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}","localPath":null,"bboxWgs84":[18.495,62.955,18.56,63.002],"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw tiles, capture dates and contributor attribution were not persisted.","replacementSourceId":"imagery-lm-ortho","accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Primary legacy surface/canopy interpretation source; production derivative rights are not approved."},
-    {"id":"club-guide-legacy","productId":"club-course-guide","roles":["course-guide","routing","surface"],"lifecycle":"legacy","use":"reference-only","sourceUri":"project://course-guide-register/norrfallsviken","localPath":null,"bboxWgs84":null,"acquiredAt":null,"capturedAt":null,"checksum":null,"checksumReason":"Raw guide editions and permissions are not yet registered as immutable assets.","replacementSourceId":null,"accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Supports card, routing and interpretation; it does not establish survey accuracy."},
-    {"id":"golftraxx-legacy","productId":"golftraxx-layout","roles":["control","routing"],"lifecycle":"legacy","use":"migration-only","sourceUri":"repo:geo_data/norrfallsviken_clean.json","localPath":"geo_data/norrfallsviken_clean.json","bboxWgs84":null,"acquiredAt":null,"capturedAt":null,"checksum":"1fdb2f6123077463589f0efbba0dc00a6e41d3e91602442a8448907eedac7fe1","checksumReason":null,"replacementSourceId":"survey-control","accuracyTier":"D","horizontalAccuracyMetres":null,"verticalAccuracyMetres":null,"notes":"Coordinate extraction lacks acquisition date, survey method and approved derivative rights; comparison only."}
+    {
+      "id": "terrain-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/markhoejdmodell-nedladdning/released/1/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.495,
+        62.955,
+        18.56,
+        63.002
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Exact STAC COG and break-geometry ids/checksums are recorded in the D2 discovery artifact; authenticated clipped outputs are not yet acquired.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Planned 1 m base DTM; 0.3 m horizontal and 0.1 m vertical values are source-advertised uncertainty, not independent course residuals."
+    },
+    {
+      "id": "imagery-lm-ortho",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.495,
+        62.955,
+        18.56,
+        63.002
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "The 2024 U2 16 cm RGBI campaign and explicit older coastal gap-fill are recorded in D2; data checksums and authenticated windows remain pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Measurement input for course surfaces, dunes, vegetation and objects; never a runtime ground texture."
+    },
+    {
+      "id": "laser-lm-skog",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "terrain",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/laserdata-nedladdning-skog-api/released/1/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.495,
+        62.955,
+        18.56,
+        63.002
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Newest-coverage COPC ids, dates, sizes and checksums are recorded in D2; authenticated point windows are not yet acquired.",
+      "replacementSourceId": null,
+      "accuracyTier": "C",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supports canopy/object extraction, coastal terrain QA and recency checks; newest coverage is 97.79% of the broad bbox and must be scoped before use."
+    },
+    {
+      "id": "topography-lm-10",
+      "productId": "lantmateriet-topografi-10",
+      "roles": [
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.495,
+        62.955,
+        18.56,
+        63.002
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Not acquired; exact dataset release and checksum are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "General coastline, hydrology, infrastructure and land-cover support."
+    },
+    {
+      "id": "tree-height-sks",
+      "productId": "skogsstyrelsen-tradhojd",
+      "roles": [
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://www.skogsstyrelsen.se/globalassets/sjalvservice/karttjanster/geodatatjanster/teknisk-beskrivning/raster-tradhojd-laserdata-skog---teknisk-beskrivning.pdf",
+      "localPath": null,
+      "bboxWgs84": [
+        18.495,
+        62.955,
+        18.56,
+        63.002
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "The 1 m signed-Int16/decimetre service contract and ingest are recorded in D2; authenticated raster output and checksum are pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "C",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Canopy-height evidence only; individual stem positions remain derived until surveyed."
+    },
+    {
+      "id": "survey-control",
+      "productId": "controlled-course-survey",
+      "roles": [
+        "control",
+        "terrain",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "project://survey/norrfallsviken",
+      "localPath": null,
+      "bboxWgs84": [
+        18.495,
+        62.955,
+        18.56,
+        63.002
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "No RH 2000-tied course survey has been acquired.",
+      "replacementSourceId": null,
+      "accuracyTier": "A",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Required for zone-A greens, tees, bunker lips, dunes and play-critical trees or rocks."
+    },
+    {
+      "id": "osm-legacy",
+      "productId": "openstreetmap",
+      "roles": [
+        "surface",
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "legacy",
+      "use": "supplemental",
+      "sourceUri": "https://api.openstreetmap.org/api/0.6/map?bbox=18.495,62.955,18.560,63.000",
+      "localPath": null,
+      "bboxWgs84": [
+        18.495,
+        62.955,
+        18.56,
+        63
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw XML cache is ignored and absent; only the checksummed parsed artifact remains.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supplementary coastline and context; golf surface coverage is incomplete."
+    },
+    {
+      "id": "terrarium-legacy",
+      "productId": "aws-terrarium",
+      "roles": [
+        "terrain"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+      "localPath": null,
+      "bboxWgs84": [
+        18.495,
+        62.955,
+        18.56,
+        63.002
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw tile cache, dates and tile checksums were not preserved.",
+      "replacementSourceId": "terrain-lm-1m",
+      "accuracyTier": "E",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Source of current HF0/HF1 only; prohibited as v2 truth."
+    },
+    {
+      "id": "esri-imagery-legacy",
+      "productId": "esri-world-imagery",
+      "roles": [
+        "imagery",
+        "surface",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      "localPath": null,
+      "bboxWgs84": [
+        18.495,
+        62.955,
+        18.56,
+        63.002
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw tiles, capture dates and contributor attribution were not persisted.",
+      "replacementSourceId": "imagery-lm-ortho",
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Primary legacy surface/canopy interpretation source; production derivative rights are not approved."
+    },
+    {
+      "id": "club-guide-legacy",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing",
+        "surface"
+      ],
+      "lifecycle": "legacy",
+      "use": "reference-only",
+      "sourceUri": "project://course-guide-register/norrfallsviken",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Raw guide editions and permissions are not yet registered as immutable assets.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supports card, routing and interpretation; it does not establish survey accuracy."
+    },
+    {
+      "id": "golftraxx-legacy",
+      "productId": "golftraxx-layout",
+      "roles": [
+        "control",
+        "routing"
+      ],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "repo:geo_data/norrfallsviken_clean.json",
+      "localPath": "geo_data/norrfallsviken_clean.json",
+      "bboxWgs84": null,
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": "1fdb2f6123077463589f0efbba0dc00a6e41d3e91602442a8448907eedac7fe1",
+      "checksumReason": null,
+      "replacementSourceId": "survey-control",
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Coordinate extraction lacks acquisition date, survey method and approved derivative rights; comparison only."
+    }
   ],
   "artifacts": [
-    {"id":"legacy-course-model","kind":"composite","path":"nvgkbuild/course-model.json","sha256":"d1fc506227d7bcba85ae540ab48a9cfb11e0ea761e6897def747d8c1593fcecb","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy","golftraxx-legacy"],"use":"migration-only","notes":"Current composite vectors, routing, elevations and scenery inputs."},
-    {"id":"legacy-heightfields","kind":"terrain","path":"nvgkbuild/heightfields.json","sha256":"deec4ddb2e2fc6ec6f2617d81ee80c639f22b9efe81739736e82867b5c594765","derivedFrom":["terrarium-legacy"],"use":"migration-only","notes":"Current 4 m HF0 and 32 m HF1 encoded heightfields."},
-    {"id":"legacy-tree-cover","kind":"canopy","path":"nvgkbuild/tree-cover.json","sha256":"c538b782ad78c814f11d8580c2d139e501c06a610e75c6f588122c05f4fcf0e8","derivedFrom":["esri-imagery-legacy","osm-legacy"],"use":"migration-only","notes":"Current imagery-classified canopy raster."},
-    {"id":"legacy-osm-features","kind":"topography","path":"nvgkbuild/osm-features.json","sha256":"fb9a692a21a48d030123e139d8006a6c5656f376a21130c991a8ea2923555542","derivedFrom":["osm-legacy"],"use":"migration-only","notes":"Parsed OSM extract retained after raw XML cache removal."},
-    {"id":"legacy-surface-traces","kind":"surface","path":"nvgkbuild/sat-shapes.json","sha256":"9cee0e5acf9232a5bf3f41185d0343bf58da2c225cbe8b8e59ed8315a76fc3e6","derivedFrom":["esri-imagery-legacy","club-guide-legacy","golftraxx-legacy"],"use":"migration-only","notes":"Hand-reviewed golf surface shapes traced from legacy imagery."},
-    {"id":"migration-course-model-epsg3006","kind":"composite","path":"geo_data/course-v2/norrfallsviken/migration/course-model.epsg3006.json","sha256":"185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy","golftraxx-legacy"],"use":"migration-only","notes":"Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."},
-    {"id":"migration-residual-report","kind":"control","path":"geo_data/course-v2/norrfallsviken/migration/residual-report.json","sha256":"9c5ea0a299c1bfaaade8f211a8d34e7f1db4a610e5a19ed4327d38e575f9be1d","derivedFrom":["terrarium-legacy","osm-legacy","esri-imagery-legacy","club-guide-legacy","golftraxx-legacy"],"use":"migration-only","notes":"Candidate origin and scoped migration residuals; not an independent control approval."},
-    {"id":"d2-authoritative-source-discovery","kind":"acquisition","path":"geo_data/course-v2/norrfallsviken/acquisition/d2-discovery.json","sha256":"8d98653c4ed967ecd3c03cc8f6502a4bf96df706417b788e8017f159ab43e970","derivedFrom":["terrain-lm-1m","imagery-lm-ortho","laser-lm-skog","tree-height-sks"],"use":"discovery-evidence","notes":"Checksummed official STAC selection, verified public metadata, coverage and byte budgets; the current LiDAR gap and authenticated raster/vector windows remain explicit."}
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "nvgkbuild/course-model.json",
+      "sha256": "d1fc506227d7bcba85ae540ab48a9cfb11e0ea761e6897def747d8c1593fcecb",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current composite vectors, routing, elevations and scenery inputs."
+    },
+    {
+      "id": "legacy-heightfields",
+      "kind": "terrain",
+      "path": "nvgkbuild/heightfields.json",
+      "sha256": "deec4ddb2e2fc6ec6f2617d81ee80c639f22b9efe81739736e82867b5c594765",
+      "derivedFrom": [
+        "terrarium-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current 4 m HF0 and 32 m HF1 encoded heightfields."
+    },
+    {
+      "id": "legacy-tree-cover",
+      "kind": "canopy",
+      "path": "nvgkbuild/tree-cover.json",
+      "sha256": "c538b782ad78c814f11d8580c2d139e501c06a610e75c6f588122c05f4fcf0e8",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current imagery-classified canopy raster."
+    },
+    {
+      "id": "legacy-osm-features",
+      "kind": "topography",
+      "path": "nvgkbuild/osm-features.json",
+      "sha256": "fb9a692a21a48d030123e139d8006a6c5656f376a21130c991a8ea2923555542",
+      "derivedFrom": [
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Parsed OSM extract retained after raw XML cache removal."
+    },
+    {
+      "id": "legacy-surface-traces",
+      "kind": "surface",
+      "path": "nvgkbuild/sat-shapes.json",
+      "sha256": "9cee0e5acf9232a5bf3f41185d0343bf58da2c225cbe8b8e59ed8315a76fc3e6",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Hand-reviewed golf surface shapes traced from legacy imagery."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/norrfallsviken/migration/course-model.epsg3006.json",
+      "sha256": "185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."
+    },
+    {
+      "id": "migration-residual-report",
+      "kind": "control",
+      "path": "geo_data/course-v2/norrfallsviken/migration/residual-report.json",
+      "sha256": "9c5ea0a299c1bfaaade8f211a8d34e7f1db4a610e5a19ed4327d38e575f9be1d",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Candidate origin and scoped migration residuals; not an independent control approval."
+    },
+    {
+      "id": "d2-authoritative-source-discovery",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/norrfallsviken/acquisition/d2-discovery.json",
+      "sha256": "8d98653c4ed967ecd3c03cc8f6502a4bf96df706417b788e8017f159ab43e970",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "tree-height-sks"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Checksummed official STAC selection, verified public metadata, coverage and byte budgets; the current LiDAR gap and authenticated raster/vector windows remain explicit."
+    },
+    {
+      "id": "terrain-window-evidence",
+      "kind": "terrain",
+      "path": "geo_data/course-v2/norrfallsviken/acquisition/terrain-window.json",
+      "sha256": "6caf3e4888833b7db19e27103e265eda20f39c8ead27fedf3ba4b6f25a80d53f",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Authenticated range-request read of the reviewed 4,097 by 4,097 finest window over items 698_67 and 698_68: items, ETags, bytes read, raster hash and sample statistics. All 16,785,409 samples are finite and the range is -0.841 to 90.589 m RH 2000; the Gulf of Bothnia arrives as the height model's flattened water surface rather than as nodata."
+    },
+    {
+      "id": "ground-rings",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/norrfallsviken/acquisition/ground-rings.json",
+      "sha256": "08fa1bda68bced99ca2685631bddbfd473f1960e056b38382817c45b898596ed",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
+    }
   ],
   "blockers": [
-    {"id":"canonical-origin","severity":"release-blocking","description":"The EPSG:5845 origin is intentionally unset.","exitGate":"Transform with pinned PROJ, compare independent controls and approve the RH 2000 origin."},
-    {"id":"authoritative-assets","severity":"release-blocking","description":"Official source ids, dates, CRS, checksums and terms are discovered, but authenticated COG, break-geometry and tree-height windows have not been acquired.","exitGate":"Run the credentialed D2 acquisition, verify clipped outputs and measurements, resolve or explicitly scope the 2.21% newest-LiDAR bbox gap, then record approved candidate assets."},
-    {"id":"zone-a-survey","severity":"quality","description":"Play-critical microterrain, dunes and objects lack controlled survey.","exitGate":"Approve zone-A survey patches and controls against field or club-owned data."},
-    {"id":"legacy-imagery-rights","severity":"release-blocking","description":"Current geometry depends on unapproved Esri and GolfTraxx derivatives.","exitGate":"Re-derive from approved imagery/survey or record explicit production rights."}
+    {
+      "id": "canonical-origin",
+      "severity": "release-blocking",
+      "description": "The EPSG:5845 origin is intentionally unset.",
+      "exitGate": "Transform with pinned PROJ, compare independent controls and approve the RH 2000 origin."
+    },
+    {
+      "id": "authoritative-assets",
+      "severity": "release-blocking",
+      "description": "The authenticated 1 m Markhöjdmodell windows ARE acquired, verified and published: the 4,096 m course window and the nested rings to a 16 km root, with level zero asserted sample-for-sample against the published tiles. Break-geometry, orthophoto and tree-height windows are still only discovered, and the 2.21% newest-LiDAR bbox gap is unresolved.",
+      "exitGate": "Acquire and verify the credentialed break-geometry, orthophoto and tree-height windows, resolve or explicitly scope the 2.21% newest-LiDAR bbox gap, then record approved candidate assets."
+    },
+    {
+      "id": "zone-a-survey",
+      "severity": "quality",
+      "description": "Play-critical microterrain, dunes and objects lack controlled survey.",
+      "exitGate": "Approve zone-A survey patches and controls against field or club-owned data."
+    },
+    {
+      "id": "legacy-imagery-rights",
+      "severity": "release-blocking",
+      "description": "Current geometry depends on unapproved Esri and GolfTraxx derivatives.",
+      "exitGate": "Re-derive from approved imagery/survey or record explicit production rights."
+    }
   ]
 }

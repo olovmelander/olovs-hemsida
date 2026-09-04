@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "kind": "vegetation-graph-publication",
+  "state": "published",
+  "groundId": "ribbingsfors",
+  "slug": "ribbingsfors",
+  "observedOn": "2026-09-04",
+  "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+  "activeRoot": {
+    "url": "courses/v2-index.json",
+    "bytes": 2803,
+    "sha256": "d856d350f841991cadc88ec851aa32607c77482672a916952f33b2abc5953742"
+  },
+  "graph": {
+    "frameFingerprint": "5d616311e246c109899b52223af5ed4a68f372f9b923787d6c0354b33b2c968f",
+    "courseManifest": {
+      "url": "courses/ribbingsfors/course-v2-8bfd44120eb9229818ac8ab4c914e186e177fbf761f2a625fcc1b3b492452192.json",
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "bytes": 2501,
+      "sha256": "8bfd44120eb9229818ac8ab4c914e186e177fbf761f2a625fcc1b3b492452192"
+    },
+    "groundManifest": {
+      "url": "grounds/ribbingsfors/ground-v2-ca1b159e05f263f4375099211569e60a7568a63e2d58ac3bd6090692ea977b6e.json",
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "bytes": 115579,
+      "sha256": "ca1b159e05f263f4375099211569e60a7568a63e2d58ac3bd6090692ea977b6e"
+    },
+    "routing": {
+      "kind": "routing",
+      "url": "courses/ribbingsfors/routing/bdaed5ee6c2203a2d04132bedfba82308d9f86faf08354cbaceaed827fb91970.bvch",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "bytes": 1042,
+      "sha256": "bdaed5ee6c2203a2d04132bedfba82308d9f86faf08354cbaceaed827fb91970",
+      "decodedBytes": 1194,
+      "decodedSha256": "1ff62f6e61db6f75ad6d130c03c55f95694ea7f2a39eca2f0fd86e4b869cfca8",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "course-routing-json-v1"
+      ]
+    },
+    "sourceManifestSha256": "3bcd6406878e23df8ebe9e8c2a2682d93c7a17651e0bee6870b22538d5a7bca7",
+    "fallbackV1": {
+      "bytes": 186036,
+      "format": 1,
+      "packUrl": "courses/ribbingsfors/pack.bin",
+      "sha256": "3baac2fdb190899ce06bb6ad73d2f83889933d7e33db15410575362ec72de423"
+    },
+    "holes": 9,
+    "tiles": 85,
+    "finestTiles": 64,
+    "shellBytes": 88010,
+    "chunks": 211,
+    "encodedChunkBytes": 6416365,
+    "decodedChunkBytes": 13489538
+  },
+  "vegetation": {
+    "objectTiles": 60,
+    "standTiles": 64,
+    "candidates": {
+      "total": 23988,
+      "byRepresentation": {
+        "excluded": 997,
+        "individual": 2491,
+        "stand": 20500
+      },
+      "byZone": {
+        "A": 1082,
+        "B": 3047,
+        "C": 19859
+      },
+      "byCampaign": {
+        "23b028-653_44": 23988
+      },
+      "eligible": 2293
+    },
+    "records": {
+      "tiles": 60,
+      "records": 2293,
+      "encodedBytes": 133587,
+      "baseHeightMisses": []
+    },
+    "stands": {
+      "cellMetres": 4,
+      "tiles": 64,
+      "encodedBytes": 419884,
+      "measuredCells": 231947,
+      "closedCanopyCells": 80507,
+      "excludedCells": 35655
+    },
+    "identity": {
+      "matched": 0,
+      "moved": 0,
+      "added": 2293,
+      "missing": 0,
+      "nextSequence": 2294
+    }
+  },
+  "filesWritten": 214
+}

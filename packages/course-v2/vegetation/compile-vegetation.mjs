@@ -492,6 +492,40 @@ export function writeCompilation(outDir, result) {
   })), null, 2) + '\n');
 }
 
+/** Resolve the ground manifest through the mutable root and its active course
+    manifest. Content-addressed ground manifests from prior generations stay
+    beside it for rollback, so choosing the first filename in the directory is
+    never a valid way to select the live generation. */
+export function readActivePublishedGround(publicDir, groundId) {
+  const resolvedPublicDir = path.resolve(publicDir);
+  const readPublishedJson = (url, label) => {
+    const file = path.resolve(resolvedPublicDir, url);
+    if (!file.startsWith(`${resolvedPublicDir}${path.sep}`)) {
+      throw new Error(`${label} escapes the public directory: ${url}`);
+    }
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+  };
+  const graphRoot = readPublishedJson('courses/v2-index.json', 'published v2 root');
+  const rootEntries = graphRoot.courses?.filter(course => course.groundId === groundId) || [];
+  if (!rootEntries.length) throw new Error(`published v2 root has no ground ${groundId}`);
+  const resolved = rootEntries.map(rootEntry => {
+    const courseManifest = readPublishedJson(rootEntry.manifest?.url, `course ${rootEntry.slug}`);
+    if (courseManifest.groundId !== groundId) {
+      throw new Error(`published root course ${rootEntry.slug} resolves ground ${courseManifest.groundId}, not ${groundId}`);
+    }
+    const ground = readPublishedJson(courseManifest.groundManifest?.url, `ground ${groundId}`);
+    if (ground.groundId !== groundId) {
+      throw new Error(`published root course ${rootEntry.slug} resolves ground ${ground.groundId}, not ${groundId}`);
+    }
+    return { rootEntry, courseManifest, ground };
+  });
+  const liveGroundUrls = new Set(resolved.map(entry => entry.courseManifest.groundManifest.url));
+  if (liveGroundUrls.size !== 1) {
+    throw new Error(`published ground ${groundId} has conflicting active manifests`);
+  }
+  return { graphRoot, rootEntries, courseManifest: resolved[0].courseManifest, ground: resolved[0].ground };
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
   const flag = (name, fallback = null) => { const i = args.indexOf(`--${name}`); return i < 0 ? fallback : args[i + 1]; };
@@ -507,11 +541,9 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const dataDir = path.join(root, 'geo_data/course-v2', groundId);
   const campaigns = JSON.parse(fs.readFileSync(path.join(dataDir, 'acquisition/laser-campaigns.json'), 'utf8'));
   const geometry = JSON.parse(fs.readFileSync(path.join(dataDir, 'migration/course-model.epsg3006.json'), 'utf8')).geometry;
-  const groundDir = path.join(root, 'apps/golf/public/grounds', groundId);
-  const groundFile = fs.readdirSync(groundDir).find(name => /^ground-v2-[a-f0-9]{64}\.json$/.test(name));
-  if (!groundFile) throw new Error(`no published ground manifest under ${groundDir}`);
-  const ground = JSON.parse(fs.readFileSync(path.join(groundDir, groundFile), 'utf8'));
-  const readAsset = async url => fs.readFileSync(path.join(root, 'apps/golf/public', url));
+  const publicDir = path.join(root, 'apps/golf/public');
+  const { ground } = readActivePublishedGround(publicDir, groundId);
+  const readAsset = async url => fs.readFileSync(path.join(publicDir, url));
   const rasters = rasterArgs.map(spec => {
     const match = /^([^=]+)=([^:]+):(.+)$/.exec(spec);
     if (!match) throw new Error(`bad --raster ${spec}`);

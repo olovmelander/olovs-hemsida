@@ -42,7 +42,25 @@
         "metresPerLatitude": { "type": "number", "exclusiveMinimum": 0 },
         "metresPerLongitude": { "type": "number", "exclusiveMinimum": 0 },
         "heightReference": { "type": "string", "minLength": 1 },
-        "frame": { "type": "string", "minLength": 1 }
+        "frame": { "type": "string", "minLength": 1 },
+        "projectedOriginEpsg3006": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["easting", "northing", "axisMapping"],
+          "properties": {
+            "easting": { "type": "number" },
+            "northing": { "type": "number" },
+            "axisMapping": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["worldX", "worldZ"],
+              "properties": {
+                "worldX": { "const": "easting - originEasting" },
+                "worldZ": { "const": "originNorthing - northing" }
+              }
+            }
+          }
+        }
       }
     },
     "canonicalFrame": {

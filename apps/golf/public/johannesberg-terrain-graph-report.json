@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "kind": "johannesberg-terrain-graph",
+  "state": "published-provisional",
+  "provisionalReasons": [
+    "course-origin-awaits-independent-control-approval",
+    "hole-routing-and-playing-surfaces-await-club-or-survey-control",
+    "nine-hole-course-johannesberg-9-shares-this-ground-but-is-not-yet-published-as-a-v2-course"
+  ],
+  "source": {
+    "itemIds": [
+      "662_67",
+      "662_68"
+    ],
+    "sourceFloat32Sha256": "e51bcc0a915c12164c8f94d9bfc30eebd1af709db94f8fb6e307d53e2f2c423c",
+    "acquisitionEvidence": "geo_data/course-v2/johannesberg/acquisition/terrain-window.json",
+    "acquiredOn": "2026-09-04",
+    "pixelEdgeWindowEpsg3006": {
+      "west": 678403,
+      "north": 6626325,
+      "east": 680452,
+      "south": 6624276
+    },
+    "sourceItems": [
+      {
+        "id": "662_67",
+        "etag": "\"e7a55a0ee70780c3afd7441d74530eb7\"",
+        "contentLength": 316420657,
+        "lastModified": "Thu, 14 May 2026 04:00:33 GMT"
+      },
+      {
+        "id": "662_68",
+        "etag": "\"861c702609afbabd98416601d4953668\"",
+        "contentLength": 287007740,
+        "lastModified": "Wed, 13 May 2026 13:32:27 GMT"
+      }
+    ]
+  },
+  "reviewedWindow": {
+    "playedBoundsEpsg3006": {
+      "minEasting": 678634.703,
+      "minNorthing": 6624387.361,
+      "maxEasting": 680220.258,
+      "maxNorthing": 6626214.13
+    },
+    "marginMetres": {
+      "west": 231.2029999999795,
+      "east": 231.24199999996927,
+      "south": 110.86099999956787,
+      "north": 110.37000000011176
+    },
+    "smallestMarginMetres": 110.4,
+    "note": "derived from every played point of both courses on this ground and reproduced by alignTerrainGridExtent"
+  },
+  "frame": "johannesberg",
+  "compile": {
+    "sourceSamples": 4198401,
+    "finiteSamples": 4198401,
+    "sourceMinimumHeightRH2000": 9.880691528320312,
+    "sourceMaximumHeightRH2000": 44.8740119934082,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 64,
+        "encodedBytes": 4589108,
+        "decodedBytes": 8454272
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 16,
+        "encodedBytes": 1308488,
+        "decodedBytes": 2113568
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 4,
+        "encodedBytes": 362541,
+        "decodedBytes": 528392
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 1,
+        "encodedBytes": 98854,
+        "decodedBytes": 132098
+      }
+    ],
+    "tileChunks": 85,
+    "uniqueChunks": 86,
+    "encodedBytes": 6457868,
+    "decodedBytes": 11360428
+  },
+  "graph": {
+    "slug": "johannesberg",
+    "groundId": "johannesberg",
+    "frameFingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
+    "rootBytes": 626,
+    "rootSha256": "a8f09cae549970c9b8ec7fc6589e8850b94cd76c4dd3d2748d2e811f4bf90621",
+    "courseManifestSha256": "6e907ce74b320111ca81ea9b48614e8a4664217d5deba1fadf1f3df548b4e9a6",
+    "groundManifestSha256": "63e7d38ab4455e1fa4784c7a8288928226d545bf8d2115ee1a5dcf8136d2024f",
+    "routingSha256": "5ed93423670599873fe0a1f29072d32baf47f73c15b0b76e59e5a0f9bd249bc7",
+    "holes": 18,
+    "tiles": 85,
+    "finestTiles": 64,
+    "shellBytes": 98877,
+    "chunks": 87,
+    "encodedChunkBytes": 6460168,
+    "decodedChunkBytes": 11364677,
+    "holeTileBufferMetres": 80
+  },
+  "mergedRoot": {
+    "bytes": 4916,
+    "sha256": "bcc1afc516553d3b2b06b54f0887c57e347303e9470d39142f9d9661374e41c4"
+  }
+}

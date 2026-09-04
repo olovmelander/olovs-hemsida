@@ -97,6 +97,6 @@ export function attachTreeFade(material) {
  *  geometry that never fades (the far ring) carries forever. */
 export function createFadeAttribute(capacity) {
   const a = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 2), 2);
-  a.setUsage(THREE.DynamicDrawUsage);
+  /* not DynamicDrawUsage: three's WebGPU renderer re-uploads such an attribute whole every frame, whatever changed; the fades go up as dirty ranges through needsUpdate */
   return a;
 }

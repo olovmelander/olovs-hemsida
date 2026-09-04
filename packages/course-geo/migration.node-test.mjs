@@ -5,6 +5,7 @@ import {
   collectCoordinatePairs,
   fitSimilarity,
   localToLatLon,
+  localToProjected,
   migrationResiduals,
 } from './migration.mjs';
 
@@ -39,6 +40,15 @@ test('legacy local coordinates invert to latitude/longitude', () => {
   assert.deepEqual(localToLatLon([500, -200], frame), {
     latitude: 60.002,
     longitude: 15.01,
+  });
+});
+
+test('projected local coordinates use exact EPSG:3006 axis translation', () => {
+  assert.deepEqual(localToProjected([469.6, -444.9], {
+    projectedOriginEpsg3006: { easting: 448975.5, northing: 6536024.5 },
+  }), {
+    easting: 449445.1,
+    northing: 6536469.4,
   });
 });
 
