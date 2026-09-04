@@ -507,7 +507,108 @@ tracing: pixel→world is affine, so a trace made on a crop needs no registratio
   picture from the ground.
 - Card UI: three tees (Gul/Röd/Orange), not six.
 - The planter is pine-led; there are no OSM forest polygons at all, so the
-  satellite tree-cover raster is the only planting authority.
+  satellite tree-cover raster is the only planting authority. Länsstyrelsen's
+  own reserve text corroborates it: "På hällmarkerna växer knotiga tallar och
+  marken täcks av lavar, mossor, ljung och bärris".
+
+### Norrfällsviken on 1 m terrain — the first SEASIDE v2 ground
+
+`?bana=norrfallsviken&v2=1` now renders Lantmäteriet's 1 m Markhöjdmodell out to
+a 16 km root: 469 tiles over 7 levels, 256 of them at 1 m over a 4,096 m window,
+booting in ~13 s on WebGPU. `norrfallsviken-ground-graph.mjs`,
+`norrfallsviken-ground-rings.mjs`, `compile-norrfallsviken-ground-graph.mjs` and
+`v2-norrfallsviken-config.mjs` carry the reviewed contract; the runbook's
+per-course recipe is what they follow. Full evidence:
+[`docs/courses/norrfallsviken-source-dossier.md`](docs/courses/norrfallsviken-source-dossier.md).
+
+Four things this ground taught that no inland course could:
+
+- **The height model has no bathymetry AND no nodata over near-shore water.**
+  Markhöjdmodell carries the Gulf of Bothnia as a flattened surface at about
+  zero, so a window that is one third sea still passes the every-sample-finite
+  gate. All 16,785,409 samples of the course window are finite, −0.841 to
+  90.589 m RH 2000. It is nearly free, too: a 257 × 257 tile of one repeated
+  value deflates to 142 bytes against 45 kB for a varied one.
+- **But it stops tiling the OPEN sea, in two different ways.** The coastal item
+  698_68 returns nodata over its outer water, and the 10 km square 697_68 —
+  entirely Gulf of Bothnia — is not published at all and answers 404 while all
+  eight of its neighbours answer 200. `build-ground-rings` now tolerates an
+  unpublished square and fills nodata under an opt-in `seaFill` rule: a
+  component is filled only if its boundary is water by MEDIAN, by fraction and
+  at the extreme, and it is filled with the median of its own boundary rather
+  than a constant. The first rule tried was "no boundary sample above 0.25 m"
+  and it failed correctly — the real boundaries reach 0.80 m where a factor-4
+  overview averages shore into water. The median is the discriminator that
+  cannot be dragged; a missing LAND square fails all three tests at once.
+  Only a ground that declares `seaFill` gets any of this.
+- **A STAC `capturedAt` is not a campaign.** Both source items advertise
+  2018-12-20 over a 2012–2025 range; the per-item `ursprung.json` says 698_67 is
+  one 2025-06-05 flight while 698_68 carries a 2012-07-05 rectangle at exactly
+  E 680000–682500 / N 6987500–6990000 — which this window clips. Measured, the
+  seam steps 0.088 m through water (94% of it) and 0.298 m on land, against
+  0.110 m for ordinary terrain a kilometre west, and it stands 644 m east of the
+  played ground. Real, recorded, not visible. **Read `ursprung.json`.**
+- **The frontier is not the window.** `expectedTileCount` is the level-zero set
+  the app installs EAGERLY, and the loader caps it at 8 MiB. All 256 tiles here
+  are 13.64 MB, so asking for them fails closed — the reviewed frontier is the
+  widest whole-tile rectangle that fits, 8 × 12 tiles and 7.13 MB, with the rest
+  of level zero streaming in behind it at the same 1 m. Ängsö's frontier is also
+  8 × 12; that is what 8 MiB buys in 256 m tiles, not a copied number.
+
+**This ground's vertical datum offset is 20.3432 m** (median over 31,829 mown
+non-water samples, MAD 0.4616). Puttom's is 23.6263 and Veckefjärden's 20.9924 —
+copying Puttom's here would be a 3.3 m error. Two notes on measuring it: the
+apparent agreement of the two models at the SHORELINE proves nothing, because
+`build-heightfields.mjs` pins `seaLevel` to 0 by fiat and the comparison is
+circular; and measured over all land instead of played ground the median is
+23.99 m and climbs with elevation, which is Terrarium carrying canopy where the
+laser DTM is bare earth. Lantmäteriet's own geoid grid gives 23.3480 m of
+separation here, so the offset is **not** the geoid and Terrarium is not simply
+ellipsoidal — it is a measurement, not a formula.
+
+**Two appearance facts were wrong and are now corrected from photographs.** The
+clubhouse roof is a red PANTILE (measured rgb(212,166,170) from the ground and
+rgb(190,130,119) overhead, both in flat overcast), not the "dark red-brown" this
+file used to claim — the old reading came from a low-light photograph, the same
+error that once painted Puttom's lower storey blue. And the chapel is not a
+tower-and-cross building: Kramfors kommun's kulturmiljöplan calls it "byggnad
+med sadeltak målad i vitt med en **fristående** klockstapel", and its roof is an
+orange-red pantile at rgb(177,90,48). main.js drew a dark shingle roof and an
+attached tower; it now draws the tile roof and a free-standing bell frame
+standing clear of the gable. Nordingrå has four fiskekapell and they are easy to
+confuse — a white chapel with a grey shingle roof and a red TRIPOD bell frame is
+Bönhamn's, not this one.
+
+**Holes 4 and 8 share ONE green, and the model draws two.** The club's 2026
+local rules say so outright ("Hål 4 & 8 delar en gemensam green"), which means
+the survey's "4" and "8" landing 1.5 m apart is the real course and not the
+survey defect this file used to call it. `course-model.json` carries two
+satellite-traced greens 37.3 m apart (344 m² and 224 m²), very likely one
+complex read as two lobes. Not fixed — merging them needs a re-trace, not a
+guess — and it is the highest-value open fidelity item here.
+
+**The 4/8 renumbering is now confirmed by the club and dated.** Benestam Golf
+Course Design's conceptual tee plan of 2025-03-10, published on nvgk.se, carries
+"hål 8 & 4 skiftar nummer" on both rows; the July-2025 card already shows the
+swap. The same plan says the club's printed 440 m for the par-5 Gul is wrong at
+428 m — which is exactly the 12 m by which the plan's existing OUT total falls
+short of the card's. The repo keeps the club's card.
+
+**The card has a known expiry.** "Projekt Bättre Spelupplevelse" (announced
+2026-07-09, preliminary start September 2026) would give every hole four tees
+(55/48/44/40), turn hole 10 from par 5 into par 4 and take the course to par 72.
+Nothing here changes for it yet, but a card verified today is not a card
+verified forever.
+
+Two smaller things: **OSM has a `leisure=golf_course` relation for this club
+(165517) that the build never reads**, because `nvgkbuild/parse-osm.mjs` tests
+`leisure === 'golf_course'` on WAYS only — so `courseBoundary` is null although
+a free, independent hull exists that corroborates the played bbox on all four
+sides. And **Högbonden is not visible from anywhere on this course**: a
+line-of-sight test from all 18 tees and greens finds it blocked from every one,
+and it sits 2.4 km beyond the vista heightfield's south edge anyway. Ulvön —
+the view the club's own text names — is visible from about 15 of those 37
+points.
 
 ## The Puttom page — `puttom3d.html` + `puttombuild/`
 
@@ -1280,6 +1381,40 @@ interior probes per course. Lessons that cost real time:
   sand. `makeGround` therefore sets `vertexColors: false` and squares the
   blended colour itself, so each region squares its OWN colour. Verified against
   `?ground=mesh`, which is what the appearance is being compared to.
+- **The pair field is NOT a distance field, and filtering it as one drew a ring
+  round every bunker.** The atlas stores one signed distance per texel, signed by
+  which of that texel's TWO classes has priority — so it describes ONE edge, the
+  edge of that pair, and the pair changes across the raster. Two neighbouring
+  texels deep inside the same fairway read **−8** (the nearest other class is the
+  bunker, which outranks fairway) and **+8** (it is the semi, which does not).
+  Both are true, both render fairway on their own, and both describe eight metres
+  of untouched grass — but `texF` is LinearFilter, the interpolation between them
+  sweeps the whole way through zero, the transition smoothstep sees a crossing,
+  and the shader paints the pair's higher-priority class at full strength. That
+  was the stair-stepped pale ring about eight metres out from every bunker, on
+  every course, in the boot atlas AND in the v2 pair material. The wedges are
+  triangular because at a staircase corner one texel of the bilinear 2×2 is the
+  odd one out. `?ground=mesh` never had it, which is the tell: the overlays drew
+  sand as geometry. Fixed by a guard, not by a new field — a filtered value only
+  means something while the fragment could genuinely lie inside the blend its
+  NEAREST texel names, so past 1.3–2.5 m (never tighter than the pixel footprint,
+  or a distant edge loses the wide screen-space ramp that antialiases it) the
+  texel's own sign is the whole answer. The nearest value costs one tap and no
+  second texture: sampling exactly at a texel centre makes the bilinear weights
+  (1,0,0,0). Where two texels genuinely disagree the weight becomes a hard
+  one-texel step between two texels that render the SAME class, which is
+  invisible by construction. `tests/atlas-probe.test.js` runs the material's own
+  sampling on the CPU over a synthetic bunker: 84 fragments painted a class that
+  is not there, 30 of them sand, and none do now.
+- **Removing it exposed the same fault in the mow coordinate.** `mowK` came from
+  the PRIMARY id, and deep inside a fairway the primary is the bunker — whose
+  coefficients are all zero. So every bunker sat in a five-metre patch of
+  fairway with no mow stripes, bounded by that same watershed; it was only ever
+  hidden under the sand wedges. The band is now computed for both ids and
+  CROSS-FADED as a band, never as coefficients or phases: a fairway's route
+  frequency averaged with a bunker's zero is a chirp, and two averaged phases
+  draw a third cut neither class has. This is the rule the class-SDF material
+  already states, now honoured by the pair material too.
 - **One `import()` with a ternary preloads the UNION of both branches.** The
   bare route was still fetching all of three.js, because
   `import(bare ? './hub.js' : './main.js')` is one call site and the bundler

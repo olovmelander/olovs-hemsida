@@ -25,7 +25,7 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
   puttom: '518beceead88a48ebce53e66282031aed85b57d4e7e4b8058b39f7d8f17d38cf',
   ribbingsfors: 'e71f89bee7c197dbe9ff3cdedaeecbe643b47283b7ace85c740a08a4955acbda',
-  upsala: '36f2187cb2096523205b827869eb8b3131be208cb969e4c4cf4a554c6ada9da4',
+  upsala: '03bd9b73ad92dfc3449255376a35693d183cd10cdae05c9df08e4c84d90b4d06',
   'upsala-mellanbanan': '547da39c0f83bbe9caeb276d198ae2becf1cfd235c7cdff211abe897496f526d',
   johannesberg: '885a978ff51df00168531aa6401d715a2001885aa6c5f6f8940db280830839e0',
   'johannesberg-9': '2693e21b8ee81af93b65427227a91b45c7e7309ecb9acaf9e847f5ea722ac70b',

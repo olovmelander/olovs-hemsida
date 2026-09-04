@@ -6,7 +6,7 @@ import * as THREE from 'three/webgpu';
 import {
   float, vec2, vec3, attribute, texture, positionWorld, cameraPosition,
   mix, smoothstep, clamp, pow, abs, sin, normalize, oneMinus, fwidth,
-  bumpMap, saturate, step, max, vec4, select,
+  bumpMap, saturate, step, max, vec4, select, floor,
 } from 'three/tsl';
 import { SURFACE, surfaceTransitionWidthMetres } from './surface.js';
 
@@ -50,6 +50,13 @@ const SHADE_OVERRIDE = {
 };
 
 const HARD_SURFACES = new Set([SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL, SURFACE.DIRT, SURFACE.ROCK]);
+/* These classes take their colour from the same procedural near/far ground
+   tint instead of a flat palette row. Rough is included explicitly here so
+   both the class-SDF and compatibility pair-SDF materials follow one rule. */
+const GROUND_TINT_CLASSES = new Set([
+  SURFACE.ROUGH, SURFACE.FOREST, SURFACE.HEATH,
+  SURFACE.WETLAND, SURFACE.SHORE,
+]);
 
 function classColours(C) {
   return {
@@ -79,7 +86,12 @@ export function classStyle(C, SHADE, sid) {
   return Object.freeze({
     colour: Object.freeze([c[0], c[1], c[2]]),
     shade: Object.freeze([shade[0], shade[1], shade[2], shade[3]]),
-    meta: Object.freeze([1, sid === SURFACE.SAND ? 1 : 0, HARD_SURFACES.has(sid) ? 1 : 0, 0]),
+    meta: Object.freeze([
+      1,
+      sid === SURFACE.SAND ? 1 : 0,
+      HARD_SURFACES.has(sid) ? 1 : 0,
+      GROUND_TINT_CLASSES.has(sid) ? 1 : 0,
+    ]),
     mow: Object.freeze([mowSource[0], mowSource[1], mowSource[2]]),
   });
 }
@@ -126,7 +138,7 @@ export function surfaceDebugColour(surfaceId) {
 export function createGroundStyleData(C, SHADE, { includeNatural = false } = {}) {
   /* Row 0: linear colour + atlas-active flag.
      Row 1: detail scale, bump, gloss, mow strength.
-     Row 2: active, sand weight, hard-surface weight, spare.
+     Row 2: active, sand weight, hard-surface weight, ground-tint weight.
      Row 3: mow phase source coefficients [k_sdf, k_route, k_diag]. */
   const data = new Float32Array(STYLE_WIDTH * STYLE_ROWS * 4);
   for (const sid of includeNatural ? [...MIGRATED, ...PREVIEW_NATURAL] : MIGRATED) {
@@ -164,21 +176,118 @@ function makeSurfaceDebugPaletteTexture() {
   return tex;
 }
 
+const decodeSurfaceDistance = sample => sample.r.mul(16).sub(8);
+
 /* Surface ids must remain nearest-filtered integers, but their 1 m raster must
    not become the visible outline of a fairway or green. Reconstruct the signed
    distance with a small cross filter before applying the material transition.
    The centre-heavy kernel removes one-texel staircase corners without moving a
    reviewed edge by more than the source grid can actually resolve. */
 function filteredSurfaceDistance(fieldTexture, uvAtlas, texel, centreFields) {
-  const decode = sample => sample.r.mul(16).sub(8);
-  const centre = decode(centreFields).mul(0.5);
-  const horizontal = decode(texture(fieldTexture, uvAtlas.sub(vec2(texel.x, 0))))
-    .add(decode(texture(fieldTexture, uvAtlas.add(vec2(texel.x, 0)))))
+  const centre = decodeSurfaceDistance(centreFields).mul(0.5);
+  const horizontal = decodeSurfaceDistance(texture(fieldTexture, uvAtlas.sub(vec2(texel.x, 0))))
+    .add(decodeSurfaceDistance(texture(fieldTexture, uvAtlas.add(vec2(texel.x, 0)))))
     .mul(0.125);
-  const vertical = decode(texture(fieldTexture, uvAtlas.sub(vec2(0, texel.y))))
-    .add(decode(texture(fieldTexture, uvAtlas.add(vec2(0, texel.y)))))
+  const vertical = decodeSurfaceDistance(texture(fieldTexture, uvAtlas.sub(vec2(0, texel.y))))
+    .add(decodeSurfaceDistance(texture(fieldTexture, uvAtlas.add(vec2(0, texel.y)))))
     .mul(0.125);
   return centre.add(horizontal).add(vertical);
+}
+
+/* THE PAIR FIELD IS NOT A DISTANCE FIELD, and filtering it as one draws a ring
+   round every bunker.
+
+   `fieldData`'s signed distance is signed by which of a texel's TWO classes has
+   priority, so it describes ONE edge -- the edge between that pair. The pair
+   changes across the raster: two neighbouring texels deep inside the same
+   fairway read -8 (the nearest other class is the bunker, which outranks
+   fairway) and +8 (it is the semi, which does not). Both are true, both render
+   fairway on their own, and both describe eight metres of untouched grass. But
+   linear filtering between them sweeps the whole way through zero, the
+   transition smoothstep sees a crossing, and the shader paints a full-strength
+   edge in the pair's higher-priority class -- sand. That is the pale
+   stair-stepped ring every bunker wore about eight metres out, on every course
+   and in BOTH ground paths. On one synthetic bunker 108 texel pairs carry the
+   flip; the same watershed runs through greens, tees and paths.
+
+   A filtered distance is only meaningful while the fragment could genuinely lie
+   inside the blend of the edge its nearest texel names. At a real cut that
+   texel reads 0.5 to about 1.3 m; past `start` nothing but a pair mismatch can
+   still move the weight, so the texel's own sign is the whole answer and taking
+   it removes the manufactured edge without touching a reviewed one. Where two
+   texels genuinely disagree the result is a hard one-texel step in the weight
+   between two texels that render the SAME class, which is invisible by
+   construction.
+
+   The guard is never tighter than the pixel footprint, so a distant edge keeps
+   the wide screen-space ramp that antialiases it. It is measured against the
+   FOOTPRINT and not against the transition width, because `fwidth` of the field
+   is itself inflated at the discontinuity -- scaling the guard by it would
+   relax the guard exactly where it is needed. */
+export const SURFACE_PAIR_GUARD = Object.freeze({
+  startTexels: 1.3, endTexels: 2.5, startFootprints: 2, endFootprints: 4,
+});
+
+/** The guard's two thresholds in metres, for a raster of `res` m texels seen at
+ *  a pixel footprint of `footprintMetres` m. Shared by the shader and the probe
+ *  so the two can never disagree about where a blend stops being meaningful. */
+export function surfacePairGuardMetres(res, footprintMetres = 0) {
+  return {
+    start: Math.max(SURFACE_PAIR_GUARD.startTexels * res, SURFACE_PAIR_GUARD.startFootprints * footprintMetres),
+    end: Math.max(SURFACE_PAIR_GUARD.endTexels * res, SURFACE_PAIR_GUARD.endFootprints * footprintMetres),
+  };
+}
+
+const smoothstep01 = (a, b, x) => {
+  const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+};
+
+/** The primary class's share at one fragment, in plain numbers. `filtered` is
+ *  the linearly reconstructed distance, `nearest` the stored value of the texel
+ *  the ids were read from, both in metres. */
+export function surfacePairWeight({ filtered, nearest, halfWidth, res, footprintMetres = 0 }) {
+  const blended = smoothstep01(-halfWidth, halfWidth, filtered);
+  const { start, end } = surfacePairGuardMetres(res, footprintMetres);
+  const interior = smoothstep01(start, end, Math.abs(nearest));
+  return blended + ((nearest >= 0 ? 1 : 0) - blended) * interior;
+}
+
+/* One class's mow stripe: sin() of its own coordinate, faded out where the
+   stripe has become finer than the fragment can resolve. Two classes' bands are
+   cross-faded as BANDS and never as phases or coefficients -- a fairway's route
+   frequency averaged with a bunker's zero is a chirp, and averaging two phases
+   draws a third cut that neither class has. */
+function mowBand(phase) {
+  return sin(phase).mul(oneMinus(smoothstep(0.55, 1.7, fwidth(phase))));
+}
+
+/* Sampling exactly at a texel centre makes the bilinear weights (1, 0, 0, 0),
+   so the stored value of the texel the NEAREST-filtered ids came from costs one
+   tap and no second texture. Snapped from the material's OWN uv, so the guard
+   and the id lookup can never land on different texels. */
+function nearestSurfaceDistance(fieldTexture, uvAtlas, texel) {
+  const size = vec2(float(1).div(texel.x), float(1).div(texel.y));
+  return decodeSurfaceDistance(texture(fieldTexture, floor(uvAtlas.mul(size)).add(0.5).div(size)));
+}
+
+/* `weight` is the primary class's share. `deepSecondary` is 1 where the guard
+   has taken over AND the texel's own class is the SECONDARY of its pair -- the
+   fairway whose nearest other class is a bunker six metres away. Only that
+   fragment may take its mow coordinate from the secondary; everywhere else the
+   reviewed rule (the primary's cut, the secondary side fading with its own band
+   strength) is left exactly as it was. */
+function guardedPairWeight({ fieldTexture, uvAtlas, texel, filtered, halfWidth, res, wp }) {
+  const nearest = nearestSurfaceDistance(fieldTexture, uvAtlas, texel);
+  const footprint = fwidth(wp).length();
+  const start = max(float(SURFACE_PAIR_GUARD.startTexels * res), footprint.mul(SURFACE_PAIR_GUARD.startFootprints));
+  const end = max(float(SURFACE_PAIR_GUARD.endTexels * res), footprint.mul(SURFACE_PAIR_GUARD.endFootprints));
+  const interior = smoothstep(start, end, abs(nearest));
+  const ownIsPrimary = step(0, nearest);
+  return {
+    weight: mix(smoothstep(halfWidth.negate(), halfWidth, filtered), ownIsPrimary, interior),
+    deepSecondary: interior.mul(oneMinus(ownIsPrimary)),
+  };
 }
 
 export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
@@ -207,7 +316,7 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
   const cd = cameraPosition.sub(positionWorld).length();
   const near = oneMinus(smoothstep(60, 420, cd));
 
-  function finish(col, det, bmp, gls, strength, phase, sandWeight = float(0), hardWeight = float(0)) {
+  function finish(col, det, bmp, gls, strength, band, sandWeight = float(0), hardWeight = float(0)) {
     const sc = det.max(0.45);
     const dtF = texture(DETAIL, wp.mul(sc.mul(0.33)));
     const dt = texture(DETAIL, wp.mul(sc.mul(0.055)));
@@ -229,12 +338,10 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
     shaded = mix(shaded, col.mul(hardGrain), hardWeight);
 
     const V = normalize(cameraPosition.sub(positionWorld));
-    const band = sin(phase);
-    const bandAA = oneMinus(smoothstep(0.55, 1.7, fwidth(phase)));
     const intoSun = pow(saturate(V.negate().dot(uSun)), 3);
     const sheen = oneMinus(abs(V.y)).mul(0.075).add(0.038).mul(oneMinus(intoSun.mul(0.75)));
     shaded = shaded.mul(float(1).add(
-      band.mul(strength.min(1.8)).mul(sheen).mul(near.mul(0.35).add(0.65)).mul(bandAA),
+      band.mul(strength.min(1.8)).mul(sheen).mul(near.mul(0.35).add(0.65)),
     ));
 
     const turf = oneMinus(sandWeight.max(hardWeight));
@@ -243,7 +350,7 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
 
     m.colorNode = shaded;
     m.roughnessNode = clamp(
-      float(0.97).sub(gls.mul(0.62)).sub(band.mul(bandAA).mul(strength).mul(0.05)),
+      float(0.97).sub(gls.mul(0.62)).sub(band.mul(strength).mul(0.05)),
       0.40,
       0.99,
     );
@@ -254,7 +361,7 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
     return m;
   }
 
-  if (!atlas) return finish(vertCol.mul(vertCol), aDet, aBmp, aGls, aStr, aMow.x.mul(aMow.y));
+  if (!atlas) return finish(vertCol.mul(vertCol), aDet, aBmp, aGls, aStr, mowBand(aMow.x.mul(aMow.y)));
 
   const styleTexture = makeStyleTexture(C, SHADE);
   m.userData.groundStyleTexture = styleTexture;
@@ -279,7 +386,10 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
      raster. Blending over that footprint gives cut grass a soft natural edge;
      screen derivatives widen it further when the course recedes. */
   const edgeWidth = fwidth(sdf).max(b.res * 0.55);
-  const primaryWeight = smoothstep(edgeWidth.negate(), edgeWidth, sdf);
+  const pair = guardedPairWeight({
+    fieldTexture: atlas.texF, uvAtlas, texel, filtered: sdf, halfWidth: edgeWidth, res: b.res, wp,
+  });
+  const primaryWeight = pair.weight;
 
   const styleUv = (id, row) => vec2(id.add(0.5).div(STYLE_WIDTH), float((row + 0.5) / STYLE_ROWS));
   const primColor = texture(styleTexture, styleUv(primId, 0));
@@ -306,8 +416,12 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
      0.25 m steps and the SDF 6 cm ones; both filter linearly, so sin() lands on
      a smooth coordinate per fragment. Phases from two classes must never be
      mixed across an edge -- they are different cuts -- so the secondary side
-     simply fades with its band strength. */
-  const mowK = texture(styleTexture, styleUv(primId, 3));
+     simply fades with its band strength.
+     Deep inside a class, though, the primary can be a bunker six metres away
+     and its coefficients are all zero: taking them switched a fairway's stripes
+     off in a patch round every bunker, bounded by the same watershed the guard
+     exists for. There the fragment shows exactly one class, and it is the one
+     whose cut this is. */
   const routeDist = fields.g.mul(255 / 4);
   /* the green's own ring coordinate: distance to its edge, unclamped, so the
      rings run all the way to the middle instead of stopping at the SDF's 8 m */
@@ -317,9 +431,12 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
      read as flat cut, as their overlays did, instead of a fixed sin() tint. */
   const routeValid = oneMinus(step(0.999, fields.g));
   const diag = wp.x.sub(wp.y).mul(0.70710678);
-  const atlasPhase = ringDist.mul(mowK.r).add(routeDist.mul(mowK.g).mul(routeValid)).add(diag.mul(mowK.b));
-  const phase = mix(aMow.x.mul(aMow.y), atlasPhase, inBounds);
-  return finish(col, det, bmp, gls, strength, phase, sandWeight, hardWeight);
+  const classBand = id => mowBand((k => ringDist.mul(k.r)
+    .add(routeDist.mul(k.g).mul(routeValid))
+    .add(diag.mul(k.b)))(texture(styleTexture, styleUv(id, 3))));
+  const atlasBand = mix(classBand(primId), classBand(secId), pair.deepSecondary);
+  const band = mix(mowBand(aMow.x.mul(aMow.y)), atlasBand, inBounds);
+  return finish(col, det, bmp, gls, strength, band, sandWeight, hardWeight);
 }
 
 /* The BVCH terrain has its own vertex texture and geometric normals, so it
@@ -339,9 +456,41 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
    evaluated on ITS OWN coordinate source and the resulting stripe intensity
    is cross-faded by weight, because a green's rings and a fairway's route
    bands are different cuts and averaging their phases would draw a third. */
-/* classes whose colour is the surroundings', taken from the ground tint rather
-   than from a flat style so the surface window has no visible edge */
-const TINTED_CLASSES = new Set([SURFACE.FOREST, SURFACE.HEATH, SURFACE.WETLAND, SURFACE.SHORE]);
+/* V2TerrainLiveAdapter reads this non-enumerable identity only for the reviewed
+   zero-v2-surface path. It proves that the material submitted in preflight is
+   sampling the same complete GPK atlas the adapter inspected, rather than an
+   unrelated decorator that merely happens to compile. */
+function bindV2SurfaceAuthority(decorator, atlas) {
+  Object.defineProperty(decorator, 'v2SurfaceAuthority', { value: atlas });
+  return decorator;
+}
+
+/* One sampler for both v2 surface representations. Keeping this outside the
+   class-SDF branch prevents a compatibility atlas from silently falling back
+   to flat C.rough over most of a course even when main.js supplied the same
+   near/far tint textures used by the full Puttom material. */
+function groundTintColour(tint, wp, fallbackColour) {
+  const tintSample = (layer, fadeMetres) => {
+    const tb = layer.bounds;
+    const uv = vec2(
+      wp.x.sub(float(tb.x0)).div(tb.x1 - tb.x0),
+      wp.y.sub(float(tb.z0)).div(tb.z1 - tb.z0),
+    );
+    const edge = uv.x.min(oneMinus(uv.x)).min(uv.y).min(oneMinus(uv.y));
+    const inside = smoothstep(0, fadeMetres / (tb.x1 - tb.x0), edge);
+    return { colour: texture(layer.texture, uv).rgb, inside };
+  };
+  let colour = vec3(...fallbackColour);
+  if (tint?.far) {
+    const far = tintSample(tint.far, tint.far.fadeMetres ?? 600);
+    colour = mix(colour, far.colour, far.inside);
+  }
+  if (tint?.near) {
+    const near = tintSample(tint.near, tint.near.fadeMetres ?? 300);
+    colour = mix(colour, near.colour, near.inside);
+  }
+  return colour;
+}
 
 function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null }) {
   const channels = atlas.data.channels;
@@ -442,25 +591,14 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
        near one at fine spacing and a far one to the horizon; outside both the
        flat rough colour remains. */
     /* A raster's edge is a square drawn on the ground unless the hand-over is
-       gradual: each layer fades out over `fadeMetres` inside its own border,
-       so the near tint dissolves into the far one and the far one into the
-       flat rough, and no line is drawn where a texture happens to end. */
-    const tintSample = (layer, fadeMetres) => {
-      const tb = layer.bounds;
-      const uv = vec2(wp.x.sub(float(tb.x0)).div(tb.x1 - tb.x0), wp.y.sub(float(tb.z0)).div(tb.z1 - tb.z0));
-      const edge = uv.x.min(oneMinus(uv.x)).min(uv.y).min(oneMinus(uv.y));
-      const inside = smoothstep(0, fadeMetres / (tb.x1 - tb.x0), edge);
-      return { colour: texture(layer.texture, uv).rgb, inside };
-    };
-    let roughColour = vec3(...styles[roughIndex].colour);
-    if (tint?.far) { const far = tintSample(tint.far, tint.far.fadeMetres ?? 600); roughColour = mix(roughColour, far.colour, far.inside); }
-    if (tint?.near) { const near = tintSample(tint.near, tint.near.fadeMetres ?? 300); roughColour = mix(roughColour, near.colour, near.inside); }
+       gradual; groundTintColour fades near -> far -> the fallback colour. */
+    const roughColour = groundTintColour(tint, wp, styles[roughIndex].colour);
     /* The surroundings' classes -- forest floor, heath, wetland, shore -- are
        painted by the tint outside the surface window, from the same rings and
        the same imagery. Inside it they must be painted the same way, or the
        window's edge is a square where a flat class colour meets a tinted one:
        measured, a near-black forest floor against a mottled green one. */
-    const colourNodes = styles.map((style, index) => (index === roughIndex || TINTED_CLASSES.has(classes[index])
+    const colourNodes = styles.map((style, index) => (GROUND_TINT_CLASSES.has(classes[index])
       ? roughColour : vec3(...style.colour)));
     const base = weights.reduce((acc, weight, index) => {
       const term = colourNodes[index].mul(weight);
@@ -514,12 +652,15 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
     if (!atlas.texSdf?.length || !atlas.texF || !atlas.data.channels?.length) {
       throw new TypeError('the per-class v2 terrain material requires SDF textures and a channel palette');
     }
-    return createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint });
+    return bindV2SurfaceAuthority(
+      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint }),
+      atlas,
+    );
   }
   if (!atlas?.texID || !atlas?.texF) throw new TypeError('the v2 terrain material requires a ground atlas');
   const styleTexture = makeStyleTexture(C, SHADE, { includeNatural: true });
   const debugPaletteTexture = debugMode === 'weights' ? makeSurfaceDebugPaletteTexture() : null;
-  return material => {
+  return bindV2SurfaceAuthority(material => {
     /* Sampled with the LEGACY world position, deliberately, even though the
        mesh under it is drawn rotated out of EPSG:3006. The two v2 artefacts are
        not in the same frame: the terrain tiles are real grid-north DTM, but the
@@ -546,9 +687,13 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
     /* This distance was compiled from the source vectors on a 25 cm grid, then
        sampled onto the 1 m payload. Keep the close transition narrow; fwidth
        expands it only when required for screen-space antialiasing. */
-    const sdf = fields.r.mul(16).sub(8);
+    const sdf = decodeSurfaceDistance(fields);
     const edgeWidth = fwidth(sdf).mul(0.75).max(0.22);
-    const primaryWeight = smoothstep(edgeWidth.negate(), edgeWidth, sdf);
+    const pair = guardedPairWeight({
+      fieldTexture: atlas.texF, uvAtlas, texel: vec2(1 / b.w, 1 / b.h),
+      filtered: sdf, halfWidth: edgeWidth, res: b.res, wp,
+    });
+    const primaryWeight = pair.weight;
     const styleUv = (id, row) => vec2(id.add(0.5).div(STYLE_WIDTH), float((row + 0.5) / STYLE_ROWS));
     const primaryColor = texture(styleTexture, styleUv(primaryId, 0));
     const secondaryColor = texture(styleTexture, styleUv(secondaryId, 0));
@@ -579,8 +724,14 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
       return material;
     }
     const active = mix(secondaryMeta.r, primaryMeta.r, primaryWeight).mul(inBounds);
-    const roughColor = vec3(C.rough[0], C.rough[1], C.rough[2]);
-    const classColor = mix(secondaryColor.rgb, primaryColor.rgb, primaryWeight);
+    const roughColor = groundTintColour(tint, wp, C.rough);
+    /* Meta.a is the shared ground-tint flag. This makes rough, forest, heath,
+       wetland and shore use exactly the same procedural colour source as the
+       Puttom class-SDF path while preserving the pair atlas as the sole
+       (provisional) surface authority. */
+    const primaryClassColor = mix(primaryColor.rgb, roughColor, primaryMeta.a);
+    const secondaryClassColor = mix(secondaryColor.rgb, roughColor, secondaryMeta.a);
+    const classColor = mix(secondaryClassColor, primaryClassColor, primaryWeight);
     const base = mix(roughColor, classColor, active);
     const roughShade = vec3(
       SHADE[SURFACE.ROUGH][0], SHADE[SURFACE.ROUGH][1], SHADE[SURFACE.ROUGH][2],
@@ -598,16 +749,17 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
     const hardDetail = texture(DETAIL, wp.mul(0.13)).g.sub(0.5).mul(0.13);
     const surfaceDetail = mix(mix(turfDetail, sandDetail, meta.g), hardDetail, meta.b);
 
-    const mowK = texture(styleTexture, styleUv(primaryId, 3));
     const routeDistance = fields.g.mul(255 / 4);
     const ringDistance = fields.a.mul(255 * 0.16);
     const routeValid = oneMinus(step(0.999, fields.g));
     const diagonal = wp.x.sub(wp.y).mul(0.70710678);
-    const phase = ringDistance.mul(mowK.r)
-      .add(routeDistance.mul(mowK.g).mul(routeValid))
-      .add(diagonal.mul(mowK.b));
-    const mow = sin(phase).mul(strength).mul(0.045)
-      .mul(oneMinus(smoothstep(0.55, 1.7, fwidth(phase))));
+    /* the primary's cut, except deep inside a class whose primary is a bunker
+       metres away -- see makeGround's note on the same watershed */
+    const classBand = id => mowBand((k => ringDistance.mul(k.r)
+      .add(routeDistance.mul(k.g).mul(routeValid))
+      .add(diagonal.mul(k.b)))(texture(styleTexture, styleUv(id, 3))));
+    const mow = mix(classBand(primaryId), classBand(secondaryId), pair.deepSecondary)
+      .mul(strength).mul(0.045);
     /* The legacy mesh deliberately squares its authored vertex colour. BVCH has
        no procedural vertex colour beneath the atlas, so a small linear share
        restores the missing ambient body without flattening class contrast. */
@@ -619,5 +771,5 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
     material.userData.surfaceDebugMode = debugMode;
     material.userData.surfaceRepresentation = 'pair-sdf-v1';
     return material;
-  };
+  }, atlas);
 }
