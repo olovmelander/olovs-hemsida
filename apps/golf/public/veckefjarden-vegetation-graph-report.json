@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "kind": "vegetation-graph-publication",
+  "state": "published",
+  "groundId": "veckefjarden",
+  "slugs": [
+    "veckefjarden",
+    "veckefjarden-korthalsbanan"
+  ],
+  "groundManifestSha256": "bec9ed6a906dedfd27c1be52750396c7b4f89cf52ba9d378ed128a11b09fec86",
+  "courses": [
+    {
+      "schemaVersion": 1,
+      "kind": "vegetation-graph-publication",
+      "state": "published",
+      "groundId": "veckefjarden",
+      "slug": "veckefjarden",
+      "observedOn": "2026-09-04",
+      "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+      "activeRoot": {
+        "url": "courses/v2-index.json",
+        "bytes": 4916,
+        "sha256": "cb84353831fd1ccdd5357bfd357a1be5fbf74ae63f3cb6c9bc0466694e8080fb"
+      },
+      "graph": {
+        "frameFingerprint": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
+        "courseManifest": {
+          "url": "courses/veckefjarden/course-v2-3feac23c3dd56bc51c51386810c276f204f2e0afc44ca4c856d591835e45055d.json",
+          "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+          "bytes": 4045,
+          "sha256": "3feac23c3dd56bc51c51386810c276f204f2e0afc44ca4c856d591835e45055d"
+        },
+        "groundManifest": {
+          "url": "grounds/veckefjarden/ground-v2-bec9ed6a906dedfd27c1be52750396c7b4f89cf52ba9d378ed128a11b09fec86.json",
+          "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+          "bytes": 266838,
+          "sha256": "bec9ed6a906dedfd27c1be52750396c7b4f89cf52ba9d378ed128a11b09fec86"
+        },
+        "routing": {
+          "kind": "routing",
+          "url": "courses/veckefjarden/routing/cbb1c37874f1d8ab04b0e8291ff9a76c132ff1986340c8828a6a2823cbb5c82f.bvch",
+          "mediaType": "application/vnd.banvy.chunk-v2",
+          "bytes": 1648,
+          "sha256": "cbb1c37874f1d8ab04b0e8291ff9a76c132ff1986340c8828a6a2823cbb5c82f",
+          "decodedBytes": 2568,
+          "decodedSha256": "ecb1820d652011a47bdc22aab72ac2853f9530f7ca1154a5a230b126d7ed3898",
+          "requiredFeatures": [
+            "chunk-envelope-v2",
+            "course-routing-json-v1"
+          ]
+        },
+        "sourceManifestSha256": "16cf4c2e0c110a1577706a5892775a832254670cd74195be69d60cde48b482f7",
+        "fallbackV1": {
+          "bytes": 343132,
+          "format": 1,
+          "packUrl": "courses/veckefjarden/pack.bin",
+          "sha256": "09eb8f50891f6b9c1673d802fc4062a93b497d710a0be710c7936650830976ac"
+        },
+        "holes": 18,
+        "tiles": 277,
+        "finestTiles": 64,
+        "shellBytes": 85346,
+        "chunks": 394,
+        "encodedChunkBytes": 20132347,
+        "decodedChunkBytes": 38631348
+      },
+      "vegetation": {
+        "objectTiles": 51,
+        "standTiles": 64,
+        "candidates": {
+          "total": 21293,
+          "byRepresentation": {
+            "excluded": 1534,
+            "individual": 2003,
+            "stand": 17756
+          },
+          "byZone": {
+            "A": 2203,
+            "B": 3268,
+            "C": 15822
+          },
+          "byCampaign": {
+            "26f015-702_68": 21293
+          },
+          "eligible": 1821
+        },
+        "records": {
+          "tiles": 51,
+          "records": 1821,
+          "encodedBytes": 109768,
+          "baseHeightMisses": []
+        },
+        "stands": {
+          "cellMetres": 4,
+          "tiles": 64,
+          "encodedBytes": 334323,
+          "measuredCells": 238948,
+          "closedCanopyCells": 72641,
+          "excludedCells": 95400
+        },
+        "identity": {
+          "matched": 0,
+          "moved": 0,
+          "added": 1821,
+          "missing": 0,
+          "nextSequence": 1822
+        }
+      },
+      "filesWritten": 397
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "vegetation-graph-publication",
+      "state": "published",
+      "groundId": "veckefjarden",
+      "slug": "veckefjarden-korthalsbanan",
+      "observedOn": "2026-09-04",
+      "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+      "activeRoot": {
+        "url": "courses/v2-index.json",
+        "bytes": 4916,
+        "sha256": "403b6bc3dd2ed5fdd97b0ef1b55a15b5ade4cfe7f5f07ba688ed98ffce390fa8"
+      },
+      "graph": {
+        "frameFingerprint": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
+        "courseManifest": {
+          "url": "courses/veckefjarden-korthalsbanan/course-v2-0c62ea752a895df56c41f1fadb95acd363297f6253ef80295af25f56e06eae33.json",
+          "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+          "bytes": 2521,
+          "sha256": "0c62ea752a895df56c41f1fadb95acd363297f6253ef80295af25f56e06eae33"
+        },
+        "groundManifest": {
+          "url": "grounds/veckefjarden/ground-v2-bec9ed6a906dedfd27c1be52750396c7b4f89cf52ba9d378ed128a11b09fec86.json",
+          "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+          "bytes": 266838,
+          "sha256": "bec9ed6a906dedfd27c1be52750396c7b4f89cf52ba9d378ed128a11b09fec86"
+        },
+        "routing": {
+          "kind": "routing",
+          "url": "courses/veckefjarden-korthalsbanan/routing/9b8d2ca476dfb582a1c70ae7de7639cdc5726cf36f5e750c83d0a7cbdd370ad4.bvch",
+          "mediaType": "application/vnd.banvy.chunk-v2",
+          "bytes": 1544,
+          "sha256": "9b8d2ca476dfb582a1c70ae7de7639cdc5726cf36f5e750c83d0a7cbdd370ad4",
+          "decodedBytes": 2215,
+          "decodedSha256": "cd54eff120a8546dd507de1e3395f16cff65853002f589c2b49cc0d264ba31af",
+          "requiredFeatures": [
+            "chunk-envelope-v2",
+            "course-routing-json-v1"
+          ]
+        },
+        "sourceManifestSha256": "16cf4c2e0c110a1577706a5892775a832254670cd74195be69d60cde48b482f7",
+        "fallbackV1": {
+          "bytes": 338693,
+          "format": 1,
+          "packUrl": "courses/veckefjarden-korthalsbanan/pack.bin",
+          "sha256": "024933d44d17b34e22f53a7fef1c809998356c1ad2749cc85123bdf6a263c29a"
+        },
+        "holes": 9,
+        "tiles": 277,
+        "finestTiles": 64,
+        "shellBytes": 85346,
+        "chunks": 394,
+        "encodedChunkBytes": 20132243,
+        "decodedChunkBytes": 38630995
+      },
+      "vegetation": {
+        "objectTiles": 51,
+        "standTiles": 64,
+        "candidates": {
+          "total": 21293,
+          "byRepresentation": {
+            "excluded": 1534,
+            "individual": 2003,
+            "stand": 17756
+          },
+          "byZone": {
+            "A": 2203,
+            "B": 3268,
+            "C": 15822
+          },
+          "byCampaign": {
+            "26f015-702_68": 21293
+          },
+          "eligible": 1821
+        },
+        "records": {
+          "tiles": 51,
+          "records": 1821,
+          "encodedBytes": 109768,
+          "baseHeightMisses": []
+        },
+        "stands": {
+          "cellMetres": 4,
+          "tiles": 64,
+          "encodedBytes": 334323,
+          "measuredCells": 238948,
+          "closedCanopyCells": 72641,
+          "excludedCells": 95400
+        },
+        "identity": {
+          "matched": 0,
+          "moved": 0,
+          "added": 1821,
+          "missing": 0,
+          "nextSequence": 1822
+        }
+      },
+      "filesWritten": 397
+    }
+  ]
+}

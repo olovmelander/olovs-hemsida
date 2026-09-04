@@ -1620,13 +1620,73 @@ the six files that import it.
   files each. Registering a slug in `V2_PUBLISHED_GRAPH_SLUGS` only lets the app
   RESOLVE a graph; the frontier registry is the narrower gate that lets it
   RENDER one.
-- **Still open, and why**: the LiDAR vegetation is not run, because the v2
-  vegetation runtime picks species from a hardcoded pine-led hash and offers no
-  hook for a course's `species()` export — publishing Veckefjärden's woods today
-  would erase the alder/birch rule and plant High Coast pine on an Ångermanland
-  lake shore, and `vegetation-baseline.mjs` prints the species split without
-  asserting on it. Same merge-casualty shape as the forest, the riprap and
-  `FARR`. Two campaigns cover the AOI with **no seam**, one flown June 2026.
+- **The LiDAR vegetation is PUBLISHED (2026-09-04), and it went through CI.**
+  The Lantmäteriet credentials live as repository secrets, so the credentialed
+  chain runs in `.github/workflows/veckefjarden-vegetation.yml` — started by a
+  push touching `geo_data/course-v2/veckefjarden/vegetation/RUN` (this
+  session's GitHub App holds contents:write but not actions:write;
+  workflow_dispatch stays for humans). Acquire mode commits the census, the
+  canopy evidence and the review overlays to the branch for the eyeball;
+  publish mode repeats the same chain with the same `observed_on` and emits
+  the generation for BOTH slugs against one ground manifest. The record:
+  22.07M points read (3.4 all returns/m²), cloud ground within
+  −0.165…+0.19 m of the published DTM over all 64 tiles (medians), 21,293
+  crown candidates → **1,821 machine-reviewed individuals** + stand fields on
+  all 64 tiles; the merged exclusions rejected candidates on greens (11),
+  tees (11), fairways (92), practice (42) and water (154). In the app both
+  slugs plant 1,821 + ~28,000 stand trees at full quality, bases p95 0 m,
+  `speciesSource: 'course'` (alder/birch in the reserve), zero legacy trees
+  inside coverage — `vegetation-baseline --label v2` all green. Two lessons:
+  the review overlays number the MERGED holes, so the korthålsbana's crops
+  overwrite championship 1–9 (`hole-0N.png` is whichever wrote last); and the
+  korthålsbana's `legacyCoreCutout` had silently inherited the PARENT's
+  numbers — its own CORE starts 72 m east (green rings travel through
+  scenery, westmost fairway lines do not) — which only the ring-graph
+  fallback path asserts, so on any boot where the rings cannot serve the
+  terrain rolled back to GPK1 and the fresh vegetation stood on Terrarium
+  ground (baseMismatch p95 12.76 m, the forest-canopy signature). The
+  korthålsbana carries its own measured cutout now. The v2 vegetation runtime
+  takes the course's own
+  `species()` rule (`planV2Vegetation`'s `species` option, passed from main.js
+  with `ringSD`/`RES` closed over, never imported — the runtime must stay out
+  of the flagless closure), reports `speciesSource` beside the plan, and
+  `vegetation-baseline.mjs` GATES it against the scenery registry itself, so a
+  dropped hook can no longer pass. `publish-vegetation.mjs` re-emits every
+  root course of a ground in one run and asserts one ground manifest hash
+  (the publish-ground-rings lesson; a one-slug run stranded the korthålsbana
+  on the pre-vegetation ground). `compile-vegetation.mjs` and
+  `render-review.mjs` merge EVERY migration model the registry's
+  `courseModels` declares — with only the parent's model, the korthålsbana's
+  greens and tees were missing from the exclusion mask (trees on putting
+  surfaces that every numeric gate passes); merged, this ground reads 27
+  holes, 27 green rings, 115 tee pads, and Upsala's two-course ground got the
+  same fix for free. `veckefjarden-korthalsbanan` is aliased to Veckefjärden's
+  scenery module (one ground, one reserve, one horizon; `armour` names hole
+  14 and correctly no-ops on a nine-hole pack). The campaign inventory is
+  pinned (`acquisition/laser-campaigns.json`, registered in the source
+  manifest): the active scan is ONE June 2026 campaign at 3.119 returns/m²
+  covering the whole 15.56 km² AOI exclusively — **zero seams**, simpler than
+  Puttom.
+- **A vegetation publish must not strip the ring quadtree's parent links —
+  and the gate agreed with the bug.** `assembleVegetationGraph` rebuilt each
+  tile entry field by field and dropped `parentId` on every ground it
+  published. The tile manager reads the explicit parent link (levels share no
+  index lattice), so both this ground's and Upsala's ring worlds refused to
+  serve and every boot silently downgraded to the fixed frontier — which was
+  the exact shape `check-course-v2` asserted, so the gate passed BECAUSE the
+  world was broken, the same trap as the checker that agreed with the
+  left/right normal. The repair republished both grounds from the CI compile
+  artifacts against the pre-vegetation root: every superseded manifest stays
+  on disk content-addressed, so the rollback was one `git checkout` of
+  `v2-index.json` and the byte-identical chunks were reused in place. Three
+  assertions came out of it: the publisher carries `parentId` through
+  (locked in its unit test, which also proves no parent is INVENTED — the
+  verifier rightly refuses a parent that does not contain its child), the
+  Puttom freeze test counts 276 parent links on the published ground, and
+  `check-course-v2` grew the branch that would have caught it — a config
+  declaring `ringGraph` FAILS unless `kind === 'graph'` actually serves,
+  with the frontier tile/draw/CORE-cutout assertions applying only where no
+  ring graph is claimed.
 
 **And the gate is only as honest as the server under it.** `tools/serve.mjs`
 used to stream every file with neither `Content-Length` nor `Content-Encoding`
@@ -2570,3 +2630,32 @@ turned up things worth keeping:
   eighteen in 2007–2010. Lilla banan's card (par 31, Röd 1406 / Gul 1633) is in
   the dossier; the course is not modelled and its position on the property has
   not been measured.
+- **The LiDAR vegetation is published here too (2026-09-04), through the same
+  CI chain — now the `ground-vegetation` workflow.** The Veckefjärden workflow
+  was generalized rather than copied: a push touching any
+  `geo_data/course-v2/<ground>/vegetation/RUN` derives its ground from the
+  path, reads the raster arguments from that ground's own pinned campaign
+  inventory, and runs acquire or publish per the RUN file. Upsala's record:
+  one campaign (`21c037`, **March 2021 — leaf-off**, the Johannesberg caveat
+  applies to this parkland's deciduous crowns) across the two items either
+  side of easting 640000, 14.68M points at 2.2–2.4 all returns/m², and the
+  cloud's own class-2 ground within **−0.003…+0.023 m median of the published
+  DTM on all 72 tiles** — an independent sensor pass confirming the
+  re-grounded pack exactly where Terrarium's shape had been wrong by metres.
+  24,496 crown candidates → **4,181 machine-reviewed individuals**
+  (largest rejections: not-individual 18,391, radius 10,899, confidence
+  7,545) + stand fields on all 64 tiles, 58 object tiles; the merged
+  two-course exclusions rejected candidates on farmland (175), fairways
+  (371), roads/paths (318), water (34), tees (16) and exactly one green.
+  Both slugs plant the same generation against one ground manifest — 4,181
+  individuals + 20,952 stand trees, the legacy lattice cut from all 64
+  tiles, bases p95 0 m — with `speciesSource: 'default'`: Upsala's scenery
+  module exports no `species` rule, and the gate asserts exactly that, not
+  merely "something planted".
+  Its publish is also the one that surfaced the `parentId` strip recorded in
+  the Veckefjärden section: the mellanbanan booted to the frontier fallback,
+  whose inherited parent-course cutout contract then failed loudly — the
+  korthålsbana's disease again, so `UPSALA_MELLANBANAN_V2_CONFIG` now
+  carries its own measured cutout (478 × 343 cells at x0 −576, 156,368 of
+  163,954 base points omitted), read the runbook way off the assertion's
+  own "got" line.

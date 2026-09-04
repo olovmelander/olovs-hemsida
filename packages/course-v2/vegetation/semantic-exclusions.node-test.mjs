@@ -130,3 +130,32 @@ test('a maximum over a green is not a candidate', () => {
   assert.ok(Math.hypot(withMask.crowns[0].apex.easting - 697045, withMask.crowns[0].apex.northing - 7025055) < 2);
   assert.ok(Math.hypot(withMask.crowns[0].centroid.easting - 697045, withMask.crowns[0].centroid.northing - 7025055) < 1);
 });
+
+test('a water ring excludes only ground at its own measured surface, so a sea closed through land cannot claim the land', () => {
+  const grid = raster();
+  /* one "sea" ring covering the whole raster -- the shape a coastline closed
+     offshore through land takes after even-odd filling. The west half is
+     water (DTM flattened to 0 m), the east half a 10 m wooded plateau. */
+  const sea = [[697000, 7025100], [697040, 7025100], [697040, 7025060], [697000, 7025060]];
+  const groundHeightAt = (easting, northing) => (easting - ORIGIN.originEasting < 20 ? 0 : 10);
+  const withRule = rasterizeExclusions(grid, [{ kind: 'water', rings: [sea] }], { groundHeightAt });
+  const cell = (column, row) => withRule.mask[row * 40 + column];
+  assert.equal(cell(5, 20), 1, 'water at the surface is excluded');
+  assert.equal(cell(21, 20), 1, 'the shore band still dilates onto the bank');
+  assert.equal(cell(30, 20), 0, 'the plateau inside the ring stays plantable');
+  assert.equal(cell(39, 39), 0);
+  /* without a ground lookup the old membership-only behaviour is unchanged */
+  const withoutRule = rasterizeExclusions(grid, [{ kind: 'water', rings: [sea] }]);
+  assert.equal(withoutRule.excludedCells, 1600, 'no lookup, no level test');
+  /* when the ring's actual WATER lies outside the published ground, the
+     lowest covered ground becomes the measured surface and the rule degrades
+     to the old membership behaviour -- deliberately conservative: with the
+     water invisible there is no datum-free way to tell bank from closure
+     artifact, and over-excluding there is harmless because nothing is
+     emitted beyond the covered window anyway */
+  const partial = rasterizeExclusions(grid, [{ kind: 'water', rings: [sea] }], {
+    groundHeightAt: (easting, northing) => (easting - ORIGIN.originEasting < 20 ? null : 10),
+  });
+  assert.equal(partial.mask[20 * 40 + 5], 1, 'no coverage keeps the exclusion');
+  assert.equal(partial.mask[20 * 40 + 30], 1, 'with the water invisible, covered ground keeps the old behaviour');
+});

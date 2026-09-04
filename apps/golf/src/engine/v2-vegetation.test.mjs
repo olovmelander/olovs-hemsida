@@ -133,6 +133,37 @@ describe('planning', () => {
     expect(low.stats.cellsPlanted).toBeLessThanOrEqual(planned.stats.cellsPlanted);
   });
 
+  it('lets the course species rule drive every instance, and reports which rule ran', async () => {
+    const { graph, fetchImpl } = fakeGraph();
+    const loaded = await loadV2Vegetation({ graph, baseUrl: BASE, fetchImpl });
+    const mapper = createFrameMapper({ bridge: identityBridge, frameOrigin: loaded.frameOrigin });
+    /* without a hook: the pine-led default, and the report says so */
+    const defaulted = planV2Vegetation(loaded, { mapper, groundHeightAt: () => 21.4 });
+    expect(defaulted.stats.speciesSource).toBe('default');
+    /* a course rule (Veckefjärden's shape: {r, x, z, h} in, an index out)
+       decides every individual and stand tree, and sees the visible ground */
+    const calls = [];
+    const birchEverywhere = ({ r, x, z, h }) => { calls.push({ r, x, z, h }); return 2; };
+    const ruled = planV2Vegetation(loaded, { mapper, groundHeightAt: () => 21.4, species: birchEverywhere });
+    expect(ruled.stats.speciesSource).toBe('course');
+    expect(ruled.instances.length).toBe(defaulted.instances.length);
+    expect(ruled.instances.every(instance => instance.species === 2)).toBe(true);
+    expect(calls.length).toBe(ruled.instances.length);
+    for (const call of calls) {
+      expect(call.r).toBeGreaterThanOrEqual(0);
+      expect(call.r).toBeLessThan(1);
+      expect(call.h).toBe(21.4);
+      expect(Number.isFinite(call.x) && Number.isFinite(call.z)).toBe(true);
+    }
+    /* everything but the species is untouched by the hook */
+    expect(ruled.instances.map(({ species, ...rest }) => rest))
+      .toEqual(defaulted.instances.map(({ species, ...rest }) => rest));
+    /* a rule that answers nothing falls back to the default, never to NaN */
+    const abstains = planV2Vegetation(loaded, { mapper, groundHeightAt: () => 21.4, species: () => undefined });
+    expect(abstains.instances.map(instance => instance.species))
+      .toEqual(defaulted.instances.map(instance => instance.species));
+  });
+
   it('coverage is exactly the published tiles', async () => {
     const { graph, fetchImpl } = fakeGraph();
     const loaded = await loadV2Vegetation({ graph, baseUrl: BASE, fetchImpl });

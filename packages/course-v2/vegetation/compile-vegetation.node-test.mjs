@@ -12,6 +12,7 @@ import {
   candidateKey,
   clipRasterToExtent,
   compileVegetation,
+  mergeCourseGeometries,
   provisionalZone,
   readActivePublishedGround,
   readRawRaster,
@@ -108,6 +109,36 @@ test('the ground sampler reads base heights from the published terrain tiles', a
   assert.equal(inside.tileId, 'l0/0/0');
   assert.equal(inside.sha256, ground.tiles.find(tile => tile.id === 'l0/0/0').layers.terrain.sha256);
   assert.equal(await sampler.sample(640000, 6640064), null);
+});
+
+test('a two-course ground merges every migration model into one geometry', () => {
+  const ring = [[0, 0], [4, 0], [4, 4]];
+  const main = {
+    holes: [{ number: 1, line: [[0, 0], [100, 0]], green: { ring } }],
+    water: [{ ring }],
+    streams: [{ line: [[0, 0], [10, 10]], w: 2 }],
+    scenery: { greens: [ring], range: ring /* older single-ring shape */ },
+    infra: { buildings: [{ ring }], power: { lines: [{ voltage: 130000, line: [[0, 0], [1, 1]] }] } },
+  };
+  const short = {
+    holes: [{ number: 1, line: [[200, 0], [300, 0]], green: { ring } }],
+    water: [{ ring }],
+    scenery: { tees: [ring], range: [ring] /* migrated list-of-rings shape */ },
+  };
+  /* one model passes through untouched */
+  assert.equal(mergeCourseGeometries([main]), main);
+  const merged = mergeCourseGeometries([main, short]);
+  assert.equal(merged.holes.length, 2, 'both courses zone the truth bands');
+  assert.equal(merged.water.length, 2);
+  assert.equal(merged.streams.length, 1);
+  assert.equal(merged.scenery.greens.length, 1);
+  assert.equal(merged.scenery.tees.length, 1);
+  assert.deepEqual(merged.scenery.range, [ring, ring], 'both range shapes normalise to a list of rings');
+  assert.equal(merged.infra.buildings.length, 1);
+  assert.equal(merged.infra.power.lines.length, 1);
+  /* the far course's hole line reaches the provisional zones */
+  assert.equal(provisionalZone(250, 10, merged.holes).zone, 'A');
+  assert.throws(() => mergeCourseGeometries([]), /at least one/);
 });
 
 test('provisional zoning and extent clipping', () => {

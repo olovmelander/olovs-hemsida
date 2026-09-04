@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "kind": "vegetation-graph-publication",
+  "state": "published",
+  "groundId": "upsala",
+  "slugs": [
+    "upsala",
+    "upsala-mellanbanan"
+  ],
+  "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+  "courses": [
+    {
+      "schemaVersion": 1,
+      "kind": "vegetation-graph-publication",
+      "state": "published",
+      "groundId": "upsala",
+      "slug": "upsala",
+      "observedOn": "2026-09-04",
+      "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+      "activeRoot": {
+        "url": "courses/v2-index.json",
+        "bytes": 4916,
+        "sha256": "cd2469b4b43b6a5f037909f0c93abb2c28e00b89db145b5793422334a3a4fb68"
+      },
+      "graph": {
+        "frameFingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "courseManifest": {
+          "url": "courses/upsala/course-v2-de2e117d2822fa1c4f2f25be874b62375b61d0e61b53f2e3a8fa85bc84ced704.json",
+          "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+          "bytes": 3997,
+          "sha256": "de2e117d2822fa1c4f2f25be874b62375b61d0e61b53f2e3a8fa85bc84ced704"
+        },
+        "groundManifest": {
+          "url": "grounds/upsala/ground-v2-df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53.json",
+          "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+          "bytes": 263314,
+          "sha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53"
+        },
+        "routing": {
+          "kind": "routing",
+          "url": "courses/upsala/routing/add8fb9612c8d6652fabf88cf76825360a5aaf73fd928170d185ed7f79a91ffa.bvch",
+          "mediaType": "application/vnd.banvy.chunk-v2",
+          "bytes": 2233,
+          "sha256": "add8fb9612c8d6652fabf88cf76825360a5aaf73fd928170d185ed7f79a91ffa",
+          "decodedBytes": 4057,
+          "decodedSha256": "17b4565c8603b5339e02658674e6774e18425aebf4a98514fc9204fcdf2d0850",
+          "requiredFeatures": [
+            "chunk-envelope-v2",
+            "course-routing-json-v1"
+          ]
+        },
+        "sourceManifestSha256": "4821828a4c65e3621801071a2d368fc104f202c312416625ae47fc65dcb935dc",
+        "fallbackV1": {
+          "bytes": 680890,
+          "format": 1,
+          "packUrl": "courses/upsala/pack.bin",
+          "sha256": "742580874154a9fcbcb40135668dfeb6300b8468450ef297826091ab176a08fa"
+        },
+        "holes": 18,
+        "tiles": 277,
+        "finestTiles": 64,
+        "shellBytes": 71292,
+        "chunks": 401,
+        "encodedChunkBytes": 18658555,
+        "decodedChunkBytes": 39687935
+      },
+      "vegetation": {
+        "objectTiles": 58,
+        "standTiles": 64,
+        "candidates": {
+          "total": 24496,
+          "byRepresentation": {
+            "excluded": 1177,
+            "individual": 4928,
+            "stand": 18391
+          },
+          "byZone": {
+            "A": 4751,
+            "B": 5837,
+            "C": 13908
+          },
+          "byCampaign": {
+            "21c037-663_63": 10360,
+            "21c037-663_64": 14136
+          },
+          "eligible": 4181
+        },
+        "records": {
+          "tiles": 58,
+          "records": 4181,
+          "encodedBytes": 191365,
+          "baseHeightMisses": []
+        },
+        "stands": {
+          "cellMetres": 4,
+          "tiles": 64,
+          "encodedBytes": 370838,
+          "measuredCells": 260657,
+          "closedCanopyCells": 56565,
+          "excludedCells": 87082
+        },
+        "identity": {
+          "matched": 0,
+          "moved": 0,
+          "added": 4181,
+          "missing": 0,
+          "nextSequence": 4182
+        }
+      },
+      "filesWritten": 404
+    },
+    {
+      "schemaVersion": 1,
+      "kind": "vegetation-graph-publication",
+      "state": "published",
+      "groundId": "upsala",
+      "slug": "upsala-mellanbanan",
+      "observedOn": "2026-09-04",
+      "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+      "activeRoot": {
+        "url": "courses/v2-index.json",
+        "bytes": 4916,
+        "sha256": "b51735156631ae0c1fe52b352551439fa55472d5e66b2c075148152196e72333"
+      },
+      "graph": {
+        "frameFingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "courseManifest": {
+          "url": "courses/upsala-mellanbanan/course-v2-104cbc8e26381d5248c846bdbf75149828f7e47768d087f0f1c10835b66c2fea.json",
+          "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+          "bytes": 2534,
+          "sha256": "104cbc8e26381d5248c846bdbf75149828f7e47768d087f0f1c10835b66c2fea"
+        },
+        "groundManifest": {
+          "url": "grounds/upsala/ground-v2-df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53.json",
+          "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+          "bytes": 263314,
+          "sha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53"
+        },
+        "routing": {
+          "kind": "routing",
+          "url": "courses/upsala-mellanbanan/routing/2e48811092e4413ff7de286bd3d187228ac92f0bbba5bc8f01e4e48cc644a37a.bvch",
+          "mediaType": "application/vnd.banvy.chunk-v2",
+          "bytes": 1534,
+          "sha256": "2e48811092e4413ff7de286bd3d187228ac92f0bbba5bc8f01e4e48cc644a37a",
+          "decodedBytes": 2210,
+          "decodedSha256": "8b5a789a8d69d22de8ae453ab672e4c2ada35e186e294e7ce2ec8fe1fcbd02be",
+          "requiredFeatures": [
+            "chunk-envelope-v2",
+            "course-routing-json-v1"
+          ]
+        },
+        "sourceManifestSha256": "4821828a4c65e3621801071a2d368fc104f202c312416625ae47fc65dcb935dc",
+        "fallbackV1": {
+          "bytes": 681373,
+          "format": 1,
+          "packUrl": "courses/upsala-mellanbanan/pack.bin",
+          "sha256": "48d09b9c96cf836921d014106aa1f3bbc4452d3f5a8b4202651b2c5887e7e478"
+        },
+        "holes": 9,
+        "tiles": 277,
+        "finestTiles": 64,
+        "shellBytes": 71292,
+        "chunks": 401,
+        "encodedChunkBytes": 18657856,
+        "decodedChunkBytes": 39686088
+      },
+      "vegetation": {
+        "objectTiles": 58,
+        "standTiles": 64,
+        "candidates": {
+          "total": 24496,
+          "byRepresentation": {
+            "excluded": 1177,
+            "individual": 4928,
+            "stand": 18391
+          },
+          "byZone": {
+            "A": 4751,
+            "B": 5837,
+            "C": 13908
+          },
+          "byCampaign": {
+            "21c037-663_63": 10360,
+            "21c037-663_64": 14136
+          },
+          "eligible": 4181
+        },
+        "records": {
+          "tiles": 58,
+          "records": 4181,
+          "encodedBytes": 191365,
+          "baseHeightMisses": []
+        },
+        "stands": {
+          "cellMetres": 4,
+          "tiles": 64,
+          "encodedBytes": 370838,
+          "measuredCells": 260657,
+          "closedCanopyCells": 56565,
+          "excludedCells": 87082
+        },
+        "identity": {
+          "matched": 0,
+          "moved": 0,
+          "added": 4181,
+          "missing": 0,
+          "nextSequence": 4182
+        }
+      },
+      "filesWritten": 404
+    }
+  ]
+}

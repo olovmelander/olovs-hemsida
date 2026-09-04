@@ -1,0 +1,483 @@
+{
+  "$schema": "../../../../packages/course-geo/acquisition/laser-campaigns.schema.json",
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "groundName": "Upsala Golfklubb",
+  "courseSlugs": [
+    "upsala",
+    "upsala-mellanbanan"
+  ],
+  "observedOn": "2026-09-04",
+  "state": "pinned-campaign-inventory",
+  "collection": "dsm-skoglig-copc",
+  "discovery": "https://api.lantmateriet.se/stac-hojd/v1/",
+  "terms": {
+    "documentId": "LM2026/077164",
+    "version": "1.0",
+    "effectiveFrom": "2026-06-01",
+    "licence": "CC-BY-4.0",
+    "attribution": "Laserdata Nedladdning, skog, © Lantmäteriet, bearbetad, CC BY 4.0",
+    "url": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor-for-laserdata-nedladdning-skog.pdf",
+    "personalData": "the licensee is data controller for the raw cloud; a registry of tree positions, heights and radii carries no personal data and the raw cloud is never published"
+  },
+  "aoi": {
+    "bboxWgs84": [
+      17.452,
+      59.815,
+      17.54,
+      59.864
+    ],
+    "bboxEpsg3006": [
+      637307.047,
+      6633352.452,
+      642442.493,
+      6638992.577
+    ]
+  },
+  "coverageRatio": 1,
+  "precedence": "newest campaign owns each area; a seam between active campaigns is a hard line that nothing is averaged across; a superseded campaign is a change reference and never contributes canopy",
+  "activeItemIds": [
+    "21c037-663_63",
+    "21c037-663_64"
+  ],
+  "supersededItemIds": [],
+  "seams": [
+    {
+      "id": "seam-easting-640000",
+      "axis": "easting",
+      "value": 640000,
+      "from": 6633352.452,
+      "to": 6638992.577,
+      "items": [
+        "21c037-663_63",
+        "21c037-663_64"
+      ]
+    }
+  ],
+  "activeOverlapBands": [],
+  "items": [
+    {
+      "id": "21c037-663_63",
+      "collection": "dsm-skoglig-copc",
+      "projBbox": [
+        630000,
+        6630000,
+        640000,
+        6640000
+      ],
+      "capturedAt": "2021-03-19T12:00:00Z",
+      "captureStart": "2021-03-07T00:00:00Z",
+      "captureEnd": "2021-04-01T00:00:00Z",
+      "updatedAt": "2026-06-17T14:03:19Z",
+      "dataModifiedAt": "2021-08-18T00:00:00Z",
+      "scanArea": "21C037",
+      "flightHeightMetres": 3000,
+      "declaredPointDensityPerSquareMetre": 1.2,
+      "stacPcDensity": 0.6775287531,
+      "stacPointCount": 223283599,
+      "assets": {
+        "data": {
+          "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c037/m21c037-663_63.copc.laz",
+          "type": "application/vnd.laszip+copc",
+          "title": "m21c037-663_63.copc.laz",
+          "roles": [
+            "data"
+          ],
+          "bytes": 1039694570,
+          "stacChecksum": "12203b7b93956cb5015b5c8658f1675357758d096f7c5453ee1a63174c795b854bce",
+          "sha256": "3b7b93956cb5015b5c8658f1675357758d096f7c5453ee1a63174c795b854bce",
+          "projCode": "EPSG:5845",
+          "projBbox": [
+            630000,
+            6630000,
+            640000,
+            6640000
+          ],
+          "projShape": null
+        },
+        "info": {
+          "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c037/m21c037-663_63_info.json",
+          "type": "application/json",
+          "title": "m21c037-663_63_info.json",
+          "roles": [
+            "metadata"
+          ],
+          "bytes": 22796,
+          "stacChecksum": "12209e2a04d4b0d399c645e43d604569e9645d2e559cc1d2c89ff8bcb378873bd4c6",
+          "sha256": "9e2a04d4b0d399c645e43d604569e9645d2e559cc1d2c89ff8bcb378873bd4c6",
+          "projCode": null,
+          "projBbox": null,
+          "projShape": null
+        }
+      },
+      "overlapBboxEpsg3006": [
+        637307.047,
+        6633352.452,
+        640000,
+        6638992.577
+      ],
+      "overlapSquareMetres": 15188591.5,
+      "overlapRatioOfAoi": 0.524385,
+      "statistics": {
+        "pointCount": 223283599,
+        "lasVersion": "1.4",
+        "pointRecordFormat": 6,
+        "pointLength": 30,
+        "compoundCrs": "EPSG:5845",
+        "boundsEpsg3006": [
+          630000,
+          6630000,
+          639999.99,
+          6639999.99
+        ],
+        "heightRangeRH2000": [
+          -15.14,
+          524.65
+        ],
+        "scale": [
+          0.01,
+          0.01,
+          0.01
+        ],
+        "offset": [
+          535000,
+          6715000,
+          0
+        ],
+        "boundaryAreaSquareMetres": 102497266.9,
+        "allReturnDensityPerSquareMetre": 2.178,
+        "boundaryDensity": 2.1784,
+        "averagePointSpacingMetres": 0.6775,
+        "averagePointsPerSquareUnit": 1.3771,
+        "returns": {
+          "numberOfReturnsMean": 1.5411,
+          "numberOfReturnsMax": 5,
+          "returnNumberMean": 1.2706
+        },
+        "classificationMean": 1.601,
+        "intensity": {
+          "min": 0,
+          "mean": 5559.81,
+          "max": 65535
+        },
+        "scanAngleDegrees": {
+          "min": -19.002,
+          "max": 19.002
+        },
+        "flightLines": {
+          "firstId": 14604,
+          "lastId": 14610,
+          "count": 7
+        },
+        "gpsTime": {
+          "min": 299224857.7,
+          "max": 299229606.2,
+          "spanSeconds": 4748.5
+        },
+        "copc": {
+          "spacingMetres": 78.12507813,
+          "halfSizeMetres": 5000.005,
+          "center": [
+            634999.995,
+            6634999.995,
+            254.755
+          ],
+          "rootHierarchyOffset": 1039495242,
+          "rootHierarchySize": 199328
+        },
+        "creation": {
+          "year": 2026,
+          "dayOfYear": 143
+        },
+        "software": "Untwine"
+      },
+      "exclusiveSquareMetres": 15188591.5,
+      "role": "active",
+      "supersededBy": [],
+      "excludedFromCanopy": false
+    },
+    {
+      "id": "21c037-663_64",
+      "collection": "dsm-skoglig-copc",
+      "projBbox": [
+        640000,
+        6630000,
+        650000,
+        6640000
+      ],
+      "capturedAt": "2021-03-19T12:00:00Z",
+      "captureStart": "2021-03-07T00:00:00Z",
+      "captureEnd": "2021-04-01T00:00:00Z",
+      "updatedAt": "2026-06-17T14:03:19Z",
+      "dataModifiedAt": "2021-08-18T00:00:00Z",
+      "scanArea": "21C037",
+      "flightHeightMetres": 3000,
+      "declaredPointDensityPerSquareMetre": 1.2,
+      "stacPcDensity": 0.698719078,
+      "stacPointCount": 223105719,
+      "assets": {
+        "data": {
+          "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c037/m21c037-663_64.copc.laz",
+          "type": "application/vnd.laszip+copc",
+          "title": "m21c037-663_64.copc.laz",
+          "roles": [
+            "data"
+          ],
+          "bytes": 1044018062,
+          "stacChecksum": "122030ed2a58ac8e75a72f3f0395241b7a336519db33f7af7235a6b5364177c3676f",
+          "sha256": "30ed2a58ac8e75a72f3f0395241b7a336519db33f7af7235a6b5364177c3676f",
+          "projCode": "EPSG:5845",
+          "projBbox": [
+            640000,
+            6630000,
+            650000,
+            6640000
+          ],
+          "projShape": null
+        },
+        "info": {
+          "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c037/m21c037-663_64_info.json",
+          "type": "application/json",
+          "title": "m21c037-663_64_info.json",
+          "roles": [
+            "metadata"
+          ],
+          "bytes": 22814,
+          "stacChecksum": "12207eb22e754d8a2e3d8e97f8e9c198eba45cbad148126de2e1488eefee81f0e8b8",
+          "sha256": "7eb22e754d8a2e3d8e97f8e9c198eba45cbad148126de2e1488eefee81f0e8b8",
+          "projCode": null,
+          "projBbox": null,
+          "projShape": null
+        }
+      },
+      "overlapBboxEpsg3006": [
+        640000,
+        6633352.452,
+        642442.493,
+        6638992.577
+      ],
+      "overlapSquareMetres": 13775965.8,
+      "overlapRatioOfAoi": 0.475615,
+      "statistics": {
+        "pointCount": 223105719,
+        "lasVersion": "1.4",
+        "pointRecordFormat": 6,
+        "pointLength": 30,
+        "compoundCrs": "EPSG:5845",
+        "boundsEpsg3006": [
+          640000,
+          6630000,
+          649999.99,
+          6639999.99
+        ],
+        "heightRangeRH2000": [
+          -200.02,
+          652.26
+        ],
+        "scale": [
+          0.01,
+          0.01,
+          0.01
+        ],
+        "offset": [
+          535000,
+          6715000,
+          0
+        ],
+        "boundaryAreaSquareMetres": 108922074.9,
+        "allReturnDensityPerSquareMetre": 2.048,
+        "boundaryDensity": 2.0483,
+        "averagePointSpacingMetres": 0.6987,
+        "averagePointsPerSquareUnit": 1.4646,
+        "returns": {
+          "numberOfReturnsMean": 1.5165,
+          "numberOfReturnsMax": 5,
+          "returnNumberMean": 1.2582
+        },
+        "classificationMean": 1.6463,
+        "intensity": {
+          "min": 0,
+          "mean": 4520.33,
+          "max": 65535
+        },
+        "scanAngleDegrees": {
+          "min": -19.002,
+          "max": 19.002
+        },
+        "flightLines": {
+          "firstId": 14610,
+          "lastId": 14616,
+          "count": 7
+        },
+        "gpsTime": {
+          "min": 299138760.8,
+          "max": 299224972.6,
+          "spanSeconds": 86211.8
+        },
+        "copc": {
+          "spacingMetres": 78.12507813,
+          "halfSizeMetres": 5000.005,
+          "center": [
+            644999.995,
+            6634999.995,
+            226.12
+          ],
+          "rootHierarchyOffset": 1043848654,
+          "rootHierarchySize": 169408
+        },
+        "creation": {
+          "year": 2026,
+          "dayOfYear": 143
+        },
+        "software": "Untwine"
+      },
+      "exclusiveSquareMetres": 13775965.8,
+      "role": "active",
+      "supersededBy": [],
+      "excludedFromCanopy": false
+    }
+  ],
+  "origin": {
+    "easting": 639830.271,
+    "northing": 6636114.391,
+    "source": "migration/residual-report.json candidateOrigin",
+    "seams": [
+      {
+        "seamId": "seam-easting-640000",
+        "signedDistanceMetres": -169.729,
+        "side": "west"
+      }
+    ]
+  },
+  "groundBounds": null,
+  "scanMetadata": [
+    {
+      "point": {
+        "label": "legacy-origin",
+        "easting": 639830.271,
+        "northing": 6636114.391
+      },
+      "entries": [
+        {
+          "indexSquare": "66350_6375_25",
+          "scanName": "21C037_66350_6375_25",
+          "date": "2021-03-08",
+          "leafOn": false,
+          "leafFlag": 2,
+          "scanner": "ALS80-HP",
+          "cycle": "Omdrev 2"
+        },
+        {
+          "indexSquare": "66350_6375_25",
+          "scanName": "10C037_66350_6375_25",
+          "date": "2011-05-08",
+          "leafOn": true,
+          "leafFlag": 1,
+          "scanner": "Leica",
+          "cycle": "Omdrev 1"
+        }
+      ]
+    },
+    {
+      "point": {
+        "label": "aoi-centre",
+        "easting": 639874.77,
+        "northing": 6636172.5145
+      },
+      "entries": [
+        {
+          "indexSquare": "66350_6375_25",
+          "scanName": "21C037_66350_6375_25",
+          "date": "2021-03-08",
+          "leafOn": false,
+          "leafFlag": 2,
+          "scanner": "ALS80-HP",
+          "cycle": "Omdrev 2"
+        },
+        {
+          "indexSquare": "66350_6375_25",
+          "scanName": "10C037_66350_6375_25",
+          "date": "2011-05-08",
+          "leafOn": true,
+          "leafFlag": 1,
+          "scanner": "Leica",
+          "cycle": "Omdrev 1"
+        }
+      ]
+    },
+    {
+      "point": {
+        "label": "centre-of-21c037-663_63",
+        "easting": 638653.5235,
+        "northing": 6636172.5145
+      },
+      "entries": [
+        {
+          "indexSquare": "66350_6375_25",
+          "scanName": "21C037_66350_6375_25",
+          "date": "2021-03-08",
+          "leafOn": false,
+          "leafFlag": 2,
+          "scanner": "ALS80-HP",
+          "cycle": "Omdrev 2"
+        },
+        {
+          "indexSquare": "66350_6375_25",
+          "scanName": "10C037_66350_6375_25",
+          "date": "2011-05-08",
+          "leafOn": true,
+          "leafFlag": 1,
+          "scanner": "Leica",
+          "cycle": "Omdrev 1"
+        }
+      ]
+    },
+    {
+      "point": {
+        "label": "centre-of-21c037-663_64",
+        "easting": 641221.2465,
+        "northing": 6636172.5145
+      },
+      "entries": [
+        {
+          "indexSquare": "66350_6400_25",
+          "scanName": "21C037_66350_6400_25",
+          "date": "2021-03-08",
+          "leafOn": false,
+          "leafFlag": 2,
+          "scanner": "ALS80-HP",
+          "cycle": "Omdrev 2"
+        },
+        {
+          "indexSquare": "66350_6400_25",
+          "scanName": "10C037_66350_6400_25",
+          "date": "2011-05-08",
+          "leafOn": true,
+          "leafFlag": 1,
+          "scanner": "Leica",
+          "cycle": "Omdrev 1"
+        }
+      ]
+    }
+  ],
+  "infoEvidence": [
+    {
+      "itemId": "21c037-663_63",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c037/m21c037-663_63_info.json",
+      "bytes": 22796,
+      "sha256": "9e2a04d4b0d399c645e43d604569e9645d2e559cc1d2c89ff8bcb378873bd4c6",
+      "expectedSha256": "9e2a04d4b0d399c645e43d604569e9645d2e559cc1d2c89ff8bcb378873bd4c6",
+      "checksumVerified": true,
+      "elapsedMilliseconds": 1911.052
+    },
+    {
+      "itemId": "21c037-663_64",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c037/m21c037-663_64_info.json",
+      "bytes": 22814,
+      "sha256": "7eb22e754d8a2e3d8e97f8e9c198eba45cbad148126de2e1488eefee81f0e8b8",
+      "expectedSha256": "7eb22e754d8a2e3d8e97f8e9c198eba45cbad148126de2e1488eefee81f0e8b8",
+      "checksumVerified": true,
+      "elapsedMilliseconds": 817.723
+    }
+  ]
+}

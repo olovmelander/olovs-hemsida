@@ -527,6 +527,17 @@
       ],
       "use": "discovery-evidence",
       "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
+    },
+    {
+      "id": "laser-campaign-inventory",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/veckefjarden/acquisition/laser-campaigns.json",
+      "sha256": "0086fc723396af85899743326f979aaef34f8e6f1fd8dc9891cc0259614b9ebc",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pinned Laserdata Skog inventory: the active 26f015-702_68 (one June 2026 ALS campaign, 3.119 returns/m2, exclusive over the whole 15.56 km2 AOI, zero seams) and the superseded 2020 item 20f015-702_68 at 0 km2 exclusive. record-laser-campaigns --check re-derives the live catalogue and fails on drift."
     }
   ],
   "blockers": [

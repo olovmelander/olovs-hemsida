@@ -183,6 +183,29 @@ export const UPSALA_MELLANBANAN_V2_CONFIG = Object.freeze({
   ...UPSALA_V2_CONFIG,
   slug: 'upsala-mellanbanan',
   label: 'Upsala GK Mellanbanan · Lantmäteriet 1 m terräng',
+  /* MEASURED — the Mellanbanan's OWN legacy CORE, not Stora banan's. Its
+     playB carries the parent's greens and range through scenery but derives
+     its extent from its own routes as well, so its CORE runs 72 m east-in at
+     x0 and 720 m further east at x1 than the parent's. The inherited contract
+     was the same latent fault as Veckefjärden's korthålsbana: only the
+     fixed-frontier fallback path asserts it, so wherever the ring world
+     cannot serve, the install rolled back to GPK1. Numbers read the runbook
+     way -- boot with the wrong contract and copy what the assertion prints
+     (2026-09-04, WebGL2; the cutout is geometry, not backend). */
+  legacyCoreCutout: Object.freeze({
+    ...UPSALA_V2_CONFIG.legacyCoreCutout,
+    expectedCoreGrid: Object.freeze({
+      ...UPSALA_V2_CONFIG.legacyCoreCutout.expectedCoreGrid,
+      x0: -576,
+      x1: 1332,
+      z0: -684,
+      z1: 684,
+      nx: 478,
+      nz: 343,
+    }),
+    expectedSkippedBasePoints: 156368,
+    expectedTotalBasePoints: 163954,
+  }),
 });
 
 export const UPSALA_V2_CONFIGS = Object.freeze({

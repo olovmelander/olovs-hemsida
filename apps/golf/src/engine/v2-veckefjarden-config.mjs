@@ -148,6 +148,28 @@ export const VECKEFJARDEN_KORTHALSBANAN_V2_CONFIG = Object.freeze({
   ...VECKEFJARDEN_V2_CONFIG,
   slug: 'veckefjarden-korthalsbanan',
   label: 'Veckefjärdens korthålsbana · Lantmäteriet 1 m terräng',
+  /* MEASURED — the korthålsbana's OWN legacy CORE, not the parent's. Its playB
+     carries the parent's green rings and range through scenery but not the
+     parent's westmost fairway lines, so its CORE starts 72 m east of the
+     parent's (x0 -828 against -900) and the inherited cutout contract was
+     wrong on exactly the path that asserts it: the ring world serves on real
+     GPUs and never applies the contract, but wherever the rings cannot serve
+     the FIXED-FRONTIER fallback asserted the parent's 334x442/143008 and
+     rolled the terrain back to GPK1 -- with the freshly planted LiDAR
+     vegetation then standing on Terrarium ground (baseMismatch p95 12.76 m,
+     the forest-canopy signature). Numbers read the runbook way: boot with the
+     wrong contract and copy what the assertion prints (2026-09-04, WebGL2;
+     the cutout is geometry, not backend). */
+  legacyCoreCutout: Object.freeze({
+    ...VECKEFJARDEN_V2_CONFIG.legacyCoreCutout,
+    expectedCoreGrid: Object.freeze({
+      ...VECKEFJARDEN_V2_CONFIG.legacyCoreCutout.expectedCoreGrid,
+      x0: -828,
+      nx: 316,
+    }),
+    expectedSkippedBasePoints: 135160,
+    expectedTotalBasePoints: 139672,
+  }),
 });
 
 export const VECKEFJARDEN_V2_CONFIGS = Object.freeze({

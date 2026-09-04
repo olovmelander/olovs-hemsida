@@ -1,0 +1,771 @@
+{
+  "schemaVersion": 1,
+  "phase": "vegetation-plan-phase-4-published-generation",
+  "courseSlug": "upsala",
+  "observedOn": "2026-09-04",
+  "baseUrl": "http://127.0.0.1:8620",
+  "renderer": "swiftshader",
+  "note": "SwiftShader captures are rendering evidence, not hardware performance evidence; boot seconds are indicative only. Zoning in the tree export is provisional until the plan approves zone-A geometry.",
+  "inputs": {
+    "pack": {
+      "url": "courses/upsala/pack.bin",
+      "bytes": 680890,
+      "sha256": "742580874154a9fcbcb40135668dfeb6300b8468450ef297826091ab176a08fa"
+    },
+    "treeCover": {
+      "id": "legacy-tree-cover",
+      "kind": "canopy",
+      "path": "upsalabuild/tree-cover.json",
+      "sha256": "a8b192fcfdf24137f2b31a6702629fefee859e0bfaa4a6c5a5d5461564e3df00",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current shared imagery-classified canopy raster."
+    },
+    "courseModel": {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "upsalabuild/course-model.json",
+      "sha256": "965c350f8068016d3ff5ecfdf110e6fcbb19cb05ce145e12e7ef3aa489650c7d",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "terrain-lm-1m-east",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current championship-course vectors, routing and scenery inputs. Horizontal geometry is unchanged since the Terrarium build; every hole elevation, water level and the water floor are re-measured from the 1 m DTM."
+    },
+    "courseV2Manifest": "course-v2-0c28a097176419f1aeaa4d0c083b60fb44bc689124aa70d42e74febea3b5b1a3.json",
+    "groundV2Manifest": "ground-v2-0b23d862adfa9f4fa9a12c7a5b4e1212980dc4ec673c25aa7aea7ba9ac9d102a.json",
+    "groundPreviewDescriptorSha256": null
+  },
+  "runs": [
+    {
+      "mode": "gpk1",
+      "url": "http://127.0.0.1:8620/?bana=upsala&det=1&v2=0",
+      "booted": true,
+      "bootSeconds": 38,
+      "errors": [],
+      "stats": {
+        "verts": 459831,
+        "tris": 901984,
+        "trees": 99045,
+        "vista": 65304,
+        "tufts": 12219,
+        "bushes": 2278,
+        "stones": 488,
+        "reeds": 0,
+        "cars": 38,
+        "pylons": 14,
+        "stumps": 0,
+        "draws": 62,
+        "surfaceOverlays": 0,
+        "backend": "webgl2"
+      },
+      "trees": {
+        "total": 99045,
+        "species": {
+          "spruce": 25835,
+          "pine": 53446,
+          "birch": 19764
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 91004,
+          "scrubRing": 960,
+          "satellite": 6447,
+          "shore": 634,
+          "v2Individual": 0,
+          "v2Stand": 0
+        },
+        "zones": {
+          "A": 6384,
+          "B": 9103,
+          "C": 83558
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 232
+          },
+          {
+            "n": 2,
+            "count": 304
+          },
+          {
+            "n": 3,
+            "count": 3373
+          },
+          {
+            "n": 4,
+            "count": 562
+          },
+          {
+            "n": 5,
+            "count": 1968
+          },
+          {
+            "n": 6,
+            "count": 2357
+          },
+          {
+            "n": 7,
+            "count": 1547
+          },
+          {
+            "n": 8,
+            "count": 614
+          },
+          {
+            "n": 9,
+            "count": 234
+          },
+          {
+            "n": 10,
+            "count": 1088
+          },
+          {
+            "n": 11,
+            "count": 1118
+          },
+          {
+            "n": 12,
+            "count": 284
+          },
+          {
+            "n": 13,
+            "count": 90
+          },
+          {
+            "n": 14,
+            "count": 104
+          },
+          {
+            "n": 15,
+            "count": 113
+          },
+          {
+            "n": 16,
+            "count": 646
+          },
+          {
+            "n": 17,
+            "count": 478
+          },
+          {
+            "n": 18,
+            "count": 375
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": null,
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": null,
+        "planned": null,
+        "coverageTiles": 0,
+        "error": null,
+        "graphObjectTiles": null,
+        "graphStandTiles": null,
+        "graphEncodedObjectBytes": null,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 76.1
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 271.1
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 3400.8
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 6524.9
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 8740.9
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 8927.4
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 9173.4
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 9263.3
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 14393.2
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 14457.4
+          },
+          {
+            "name": "klar",
+            "atMs": 14553.7
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 7.5
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 154.1
+          },
+          {
+            "name": "procedural textures (DETAIL, GRASSN, SANDN, WATERN)",
+            "ms": 342.5
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 1293.7
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 348.2
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 29.7,
+            "reeds": 0
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 0
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 1619
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 0
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 1355.7
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 1536.3,
+            "trees": 99045,
+            "cells": 746
+          },
+          {
+            "name": "far vista cones",
+            "ms": 326.9,
+            "vista": 65304
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 1501
+          }
+        ],
+        "atlasMs": 348.1,
+        "totalMs": 14578.9,
+        "doneAtMs": 14579.2,
+        "firstFrames": [
+          {
+            "atMs": 14603.5,
+            "ms": 23137.3,
+            "tris": 5279954,
+            "draws": 156,
+            "tiers": {
+              "t0": 1582,
+              "t1": 1630,
+              "t2": 1523,
+              "t3": 3196
+            }
+          }
+        ],
+        "tintMs": 0
+      },
+      "v2": {
+        "requested": false,
+        "ready": false,
+        "status": "fallback",
+        "reason": null,
+        "selection": {
+          "mode": "off",
+          "requestMode": "off",
+          "graph": null,
+          "graphError": null
+        },
+        "bounds": null,
+        "backend": "webgl2"
+      },
+      "course": {
+        "slug": "upsala",
+        "name": "Upsala GK",
+        "club": "Upsala Golfklubb",
+        "title": "Upsala Golfklubb — Banan i 3D",
+        "tag": "Stora banan",
+        "boot": "Håmö gård · Läby",
+        "build": "upsalabuild",
+        "par": 72,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "62",
+            "59",
+            "56",
+            "51",
+            "47",
+            "42"
+          ],
+          "cols": [
+            1710618,
+            16053486,
+            15780154,
+            4886496,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 5,
+          "def": 2
+        },
+        "photos": 4,
+        "packUrl": "courses/upsala/pack.bin",
+        "bytes": 680890,
+        "sha256": "742580874154a9fcbcb40135668dfeb6300b8468450ef297826091ab176a08fa"
+      },
+      "shots": []
+    },
+    {
+      "mode": "v2-require",
+      "url": "http://127.0.0.1:8620/?bana=upsala&det=1&v2=require",
+      "booted": true,
+      "bootSeconds": 38.8,
+      "errors": [],
+      "stats": {
+        "verts": 41305,
+        "tris": 77924,
+        "trees": 90296,
+        "vista": 65226,
+        "tufts": 11985,
+        "bushes": 2241,
+        "stones": 482,
+        "reeds": 0,
+        "cars": 38,
+        "pylons": 14,
+        "stumps": 0,
+        "draws": 63,
+        "surfaceOverlays": 0,
+        "backend": "webgl2"
+      },
+      "trees": {
+        "total": 90296,
+        "species": {
+          "spruce": 24482,
+          "pine": 49603,
+          "birch": 16211
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 63228,
+          "scrubRing": 665,
+          "satellite": 1061,
+          "shore": 209,
+          "v2Individual": 4181,
+          "v2Stand": 20952
+        },
+        "zones": {
+          "A": 3163,
+          "B": 7058,
+          "C": 80075
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 76
+          },
+          {
+            "n": 2,
+            "count": 123
+          },
+          {
+            "n": 3,
+            "count": 1419
+          },
+          {
+            "n": 4,
+            "count": 372
+          },
+          {
+            "n": 5,
+            "count": 1638
+          },
+          {
+            "n": 6,
+            "count": 3044
+          },
+          {
+            "n": 7,
+            "count": 1334
+          },
+          {
+            "n": 8,
+            "count": 407
+          },
+          {
+            "n": 9,
+            "count": 125
+          },
+          {
+            "n": 10,
+            "count": 352
+          },
+          {
+            "n": 11,
+            "count": 384
+          },
+          {
+            "n": 12,
+            "count": 82
+          },
+          {
+            "n": 13,
+            "count": 38
+          },
+          {
+            "n": 14,
+            "count": 78
+          },
+          {
+            "n": 15,
+            "count": 62
+          },
+          {
+            "n": 16,
+            "count": 245
+          },
+          {
+            "n": 17,
+            "count": 237
+          },
+          {
+            "n": 18,
+            "count": 205
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": {
+          "individuals": 4181,
+          "standTrees": 20952,
+          "cellsPlanted": 20952,
+          "cellsSkipped": 239705,
+          "speciesSource": "default",
+          "baseMismatch": {
+            "samples": 4181,
+            "meanAbsMetres": 0,
+            "p95Metres": 0,
+            "maxMetres": 0.001
+          },
+          "coverageTiles": 64
+        },
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": {
+          "referencedObjectTiles": 58,
+          "referencedStandTiles": 64,
+          "loadedTiles": 64,
+          "records": 4181,
+          "bytes": 562203,
+          "frameFingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86"
+        },
+        "planned": {
+          "individuals": 4181,
+          "standTrees": 20952,
+          "cellsPlanted": 20952,
+          "cellsSkipped": 239705,
+          "speciesSource": "default",
+          "baseMismatch": {
+            "samples": 4181,
+            "meanAbsMetres": 0,
+            "p95Metres": 0,
+            "maxMetres": 0.001
+          }
+        },
+        "coverageTiles": 64,
+        "error": null,
+        "graphObjectTiles": 58,
+        "graphStandTiles": 64,
+        "graphEncodedObjectBytes": 191365,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 56.5
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 2168.9
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 4614.3
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 10515.3
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 10535.6
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 10556
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 10836.2
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 10957.7
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 15682.8
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 15746.7
+          },
+          {
+            "name": "klar",
+            "atMs": 17977.7
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 533.7
+          },
+          {
+            "name": "v2 rings: fetch + verify + decode",
+            "ms": 920.8,
+            "tiles": 213
+          },
+          {
+            "name": "v2 flat water: detect",
+            "ms": 128.6
+          },
+          {
+            "name": "v2 water beds: carve rings",
+            "ms": 328,
+            "tiles": 38
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 1558.4
+          },
+          {
+            "name": "procedural textures (DETAIL, GRASSN, SANDN, WATERN)",
+            "ms": 312.6
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 1331.9
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 318.1
+          },
+          {
+            "name": "v2 prepare (worker, first frontier coverage, preflight)",
+            "ms": 3356.9
+          },
+          {
+            "name": "ground tint rasters (near 6 m + far 24 m)",
+            "ms": 1600.6
+          },
+          {
+            "name": "v2 vegetation: wait for chunk load",
+            "ms": 594.5
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 21.5,
+            "reeds": 0
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 63.2
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 1257.7
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 5.9
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 1349.6
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 1501.5,
+            "trees": 90296,
+            "cells": 739
+          },
+          {
+            "name": "far vista cones",
+            "ms": 143.6,
+            "vista": 65226
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 1622.3
+          },
+          {
+            "name": "v2 stream: first frontier fully resident (after the overlap)",
+            "ms": 2128.9,
+            "tiles": 112
+          }
+        ],
+        "atlasMs": 318,
+        "totalMs": 17998.1,
+        "doneAtMs": 17998.4,
+        "firstFrames": [
+          {
+            "atMs": 18002.7,
+            "ms": 20502.6,
+            "tris": 3052838,
+            "draws": 156,
+            "tiers": {
+              "t0": 545,
+              "t1": 83,
+              "t2": 794,
+              "t3": 2763
+            }
+          },
+          {
+            "atMs": 38510,
+            "ms": 45.7,
+            "tris": 5176018,
+            "draws": 156,
+            "tiers": {
+              "t0": 956,
+              "t1": 2287,
+              "t2": 4907,
+              "t3": 27525
+            }
+          },
+          {
+            "atMs": 38579.4,
+            "ms": 12.2,
+            "tris": 2753382,
+            "draws": 125,
+            "tiers": {
+              "t0": 956,
+              "t1": 2287,
+              "t2": 4907,
+              "t3": 27525
+            }
+          }
+        ],
+        "tintMs": 1600
+      },
+      "v2": {
+        "requested": true,
+        "ready": true,
+        "status": "ready",
+        "reason": null,
+        "selection": {
+          "mode": "fixed-frontier",
+          "requestMode": "require",
+          "graph": {
+            "slug": "upsala",
+            "groundId": "upsala",
+            "frameFingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+            "tiles": 277,
+            "holes": 18,
+            "shellBytes": 71292,
+            "encodedTerrainBytes": 18094119,
+            "surfaceTiles": 0,
+            "objectTiles": 58,
+            "encodedObjectBytes": 191365,
+            "standTiles": 64,
+            "encodedStandBytes": 370838
+          },
+          "graphError": null
+        },
+        "bounds": {
+          "x0": -710.7709999999497,
+          "z0": -1055.1090000001714,
+          "x1": 1337.2290000000503,
+          "z1": 992.8909999998286
+        },
+        "backend": "webgl2"
+      },
+      "course": {
+        "slug": "upsala",
+        "name": "Upsala GK",
+        "club": "Upsala Golfklubb",
+        "title": "Upsala Golfklubb — Banan i 3D",
+        "tag": "Stora banan",
+        "boot": "Håmö gård · Läby",
+        "build": "upsalabuild",
+        "par": 72,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "62",
+            "59",
+            "56",
+            "51",
+            "47",
+            "42"
+          ],
+          "cols": [
+            1710618,
+            16053486,
+            15780154,
+            4886496,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 5,
+          "def": 2
+        },
+        "photos": 4,
+        "packUrl": "courses/upsala/pack.bin",
+        "bytes": 680890,
+        "sha256": "742580874154a9fcbcb40135668dfeb6300b8468450ef297826091ab176a08fa"
+      },
+      "shots": []
+    }
+  ]
+}

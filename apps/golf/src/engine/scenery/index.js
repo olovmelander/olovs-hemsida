@@ -21,6 +21,13 @@
    them to, and the mechanism below is what they will come across into.       */
 const REGISTRY = {
   veckefjarden: () => import('./veckefjarden.js'),
+  /* The korthålsbana stands on the SAME ground: one fjärd shore, one reserve,
+     one clubhouse, one horizon. Without this alias it silently got the
+     engine's defaults -- pine-led species over the alder/birch reserve, the
+     symmetric far ring, no landmarks -- the exact merge-casualty shape the
+     species/farRing/clearings exports exist to prevent. The armour export
+     names hole 14 and correctly resolves to nothing on a nine-hole pack. */
+  'veckefjarden-korthalsbanan': () => import('./veckefjarden.js'),
   norrfallsviken: () => import('./norrfallsviken.js'),
   /* These carry only a `clubhouse` spec so far -- what their buildings
      actually look like, read off photographs, since aerial imagery gives a roof
