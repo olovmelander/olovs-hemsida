@@ -69,6 +69,22 @@ export function localToLatLon([x, z], frame) {
   };
 }
 
+/**
+ * Resolve a local x/z pair when the source model records an exact projected
+ * origin. This path is deliberately separate from the approximate legacy
+ * metres-per-degree conversion above.
+ */
+export function localToProjected([x, z], frame) {
+  const origin = frame?.projectedOriginEpsg3006;
+  if (!origin || !Number.isFinite(origin.easting) || !Number.isFinite(origin.northing)) {
+    throw new Error('An exact EPSG:3006 projected origin is required');
+  }
+  return {
+    easting: origin.easting + x,
+    northing: origin.northing - z,
+  };
+}
+
 export function canonicalLocal(projected, origin) {
   return {
     x: projected.easting - origin.easting,

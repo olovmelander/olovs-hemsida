@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "status": "migration-reference-only",
+  "coordinateReferenceSystem": "EPSG:4326",
+  "coordinateOrder": ["longitude", "latitude"],
+  "observedOn": "2026-09-04",
+  "source": {
+    "provider": "GolfTraxx",
+    "scorecardUrl": "https://golftraxx.com/scorecard?course_name=Ribbingsfors+Golfklubb&fulladdress=Tr%C3%A4dg%C3%A5rdsm%C3%A4starbostaden+Gullsp%C3%A5ng+SW&static=true&zipcode=58592SW",
+    "layoutUrl": "https://golftraxx.com/full-layout?coursename=Ribbingsfors%20Golfklubb&zipcode=58592SW&city=Gullsp%C3%A5ng&state=SW&static=true",
+    "rights": "Unverified; coordinates may be used only as migration/reference controls until replaced by licensed orthophoto tracing or club/survey data.",
+    "quality": "The service applies an apparent yards-to-metres conversion to values that are already metres. Every route is consequently about 0.9144 times the corresponding published distance. Points identify routing topology and nearby features only; the compiler extends the back tee along the first segment to reconcile the displayed white length while preserving dogleg and green controls."
+  },
+  "greenPointSemantics": ["front", "centre", "back"],
+  "holes": [
+    {
+      "n": 1,
+      "route": [[14.12101951063689,58.964643170463951],[14.12187513531264,58.962635201790484],[14.1232184689,58.9621948215]],
+      "green": [[14.123063377,58.9622406808],[14.1232184689,58.9621948215],[14.1233869718,58.9621531112]]
+    },
+    {
+      "n": 2,
+      "route": [[14.123948022059931,58.961407576350055],[14.1224991606,58.9602459544]],
+      "green": [[14.1226283829,58.9603429931],[14.1224991606,58.9602459544],[14.122404807,58.9601502987]]
+    },
+    {
+      "n": 3,
+      "route": [[14.123285040146083,58.959834856709435],[14.121498688942165,58.958000882140333],[14.1210502915,58.9573854872]],
+      "green": [[14.1211446451,58.9575046708],[14.1210502915,58.9573854872],[14.1209613023,58.957280135]]
+    },
+    {
+      "n": 4,
+      "route": [[14.120382413698325,58.957342275607445],[14.120956406427512,58.959379597003554],[14.1199554739,58.9598831374]],
+      "green": [[14.1200659208,58.9598169781],[14.1199554739,58.9598831374],[14.1198423449,58.9599313171]]
+    },
+    {
+      "n": 5,
+      "route": [[14.117662177523211,58.959942274481939],[14.11395536466463,58.959812267835567],[14.1104841177,58.95912084]],
+      "green": [[14.1106428443,58.9591528797],[14.1104841177,58.95912084],[14.1103280733,58.9590901835]]
+    },
+    {
+      "n": 6,
+      "route": [[14.10851803540667,58.959177927427987],[14.111463100905022,58.960558211126532],[14.1127849767,58.9604718566]],
+      "green": [[14.1126191561,58.9604748485],[14.1127849767,58.9604718566],[14.1129481152,58.9604660988]]
+    },
+    {
+      "n": 7,
+      "route": [[14.112176092268571,58.959845721512053],[14.115904362799272,58.960578730588978],[14.1177331761,58.9605186537]],
+      "green": [[14.1174573849,58.9605202625],[14.1177331761,58.9605186537],[14.1179553232,58.9605073639]]
+    },
+    {
+      "n": 8,
+      "route": [[14.118889200532529,58.961825252428774],[14.1210210881,58.9616594063]],
+      "green": [[14.1208338098,58.9616720762],[14.1210210881,58.9616594063],[14.1211922732,58.9616453536]]
+    },
+    {
+      "n": 9,
+      "route": [[14.122898611314509,58.961827127426631],[14.119572672136043,58.962817320601019],[14.1196151343,58.9647873447]],
+      "green": [[14.1196048818,58.9647253321],[14.1196151343,58.9647873447],[14.1196253869,58.964835529]]
+    }
+  ]
+}

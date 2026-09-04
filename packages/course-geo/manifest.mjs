@@ -13,6 +13,7 @@ export const EXPECTED_GROUNDS = Object.freeze({
   angso: ['angso'],
   norrfallsviken: ['norrfallsviken'],
   puttom: ['puttom'],
+  ribbingsfors: ['ribbingsfors'],
   upsala: ['upsala', 'upsala-mellanbanan'],
   johannesberg: ['johannesberg', 'johannesberg-9'],
   veckefjarden: ['veckefjarden', 'veckefjarden-korthalsbanan'],
@@ -320,7 +321,7 @@ function validateLegacyFrame(legacy, label, fail) {
   if (!object(legacy)) { fail(at, 'must be an object'); return; }
   exactKeys(legacy, new Set([
     'buildDirectory', 'originWgs84', 'metresPerLatitude', 'metresPerLongitude',
-    'heightReference', 'frame',
+    'heightReference', 'frame', 'projectedOriginEpsg3006',
   ]), at, fail);
   if (!text(legacy.buildDirectory)) fail(at + '.buildDirectory', 'is required');
   if (!object(legacy.originWgs84)) fail(at + '.originWgs84', 'must be an object');
@@ -342,6 +343,30 @@ function validateLegacyFrame(legacy, label, fail) {
   }
   if (!text(legacy.heightReference)) fail(at + '.heightReference', 'must be explicit');
   if (!text(legacy.frame)) fail(at + '.frame', 'must be explicit');
+  if (legacy.projectedOriginEpsg3006 !== undefined) {
+    const projected = legacy.projectedOriginEpsg3006;
+    const projectedAt = at + '.projectedOriginEpsg3006';
+    if (!object(projected)) fail(projectedAt, 'must be an object');
+    else {
+      exactKeys(projected, new Set(['easting', 'northing', 'axisMapping']), projectedAt, fail);
+      for (const field of ['easting', 'northing']) {
+        if (!Number.isFinite(projected[field])) fail(projectedAt + '.' + field, 'must be finite');
+      }
+      const expected = {
+        worldX: 'easting - originEasting',
+        worldZ: 'originNorthing - northing',
+      };
+      if (!object(projected.axisMapping)) fail(projectedAt + '.axisMapping', 'must be an object');
+      else {
+        exactKeys(projected.axisMapping, new Set(Object.keys(expected)), projectedAt + '.axisMapping', fail);
+        for (const [field, value] of Object.entries(expected)) {
+          if (projected.axisMapping[field] !== value) {
+            fail(projectedAt + '.axisMapping.' + field, 'must be ' + JSON.stringify(value));
+          }
+        }
+      }
+    }
+  }
 }
 
 function validateCanonicalFrame(canonical, label, fail) {

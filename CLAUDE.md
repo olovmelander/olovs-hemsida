@@ -1991,18 +1991,29 @@ same-source level seam, sealed by the batch's geomorph and skirts.
   the 240 ms morph after the stream reads idle, or a build that kept a tile
   resident differs from one that morphs it in by a morph and nothing else.
 
-## The trees by distance — the LOD, and the two harness rules it taught
+## The trees by place — the LOD, and the two harness rules it taught
 
-`docs/tree-lod-plan.md` is the plan and carries every measurement; the
-short form: every tree is tiered PER TREE from the pixels its own height
-projects to (hero / full / decimated / octahedral impostor), a switch is a
-0.3 s screen-space Bayer crossfade drawn by both tiers with complementary
-masks (`engine/tree-fade.mjs`, honoured by the shadow pass through
-`material.maskNode`), and under `?det=1` the fade is 0 so every
-deterministic gate renders instant switches. Measured on the RTX 3070 with
-`tools/tree-pop-meter.mjs`: a dolly that used to change a hundred 16x16
-blocks by 18-34/255 in one frame now never moves a block's mean by more
-than 2.5/255. Two things the meter taught, both in its header:
+`docs/tree-lod-plan.md` is the plan and carries every measurement. **The
+rule, the owner's (2026-09-05): a tree on or around the course never changes
+its detail with distance.** `TREE_LOD.lodMode = 'zone'` (the default) gives
+every tree its tier from where it STANDS — the corridor raster's three bands
+round the hole lines, A within 90 m → hero, B within 300 m → full, C within
+700 m → decimated, beyond → octahedral impostor (a phone one tier coarser in
+every band) — fixed for the life of the visit, so no camera motion ever
+switches, fades or dithers a tree. Frustum culling per cell stays, instant
+and margined. The screen-size machinery is all still there as
+`?lodmode=screen`: tiers from the pixels a tree's own height projects to,
+corridor floors, hysteresis, a six-frame dwell, and the 0.3 s screen-space
+Bayer crossfade drawn by both tiers with complementary masks
+(`engine/tree-fade.mjs`, honoured by the shadow pass through
+`material.maskNode`; under `?det=1` the fade is 0). It is the before for
+every measurement and the mode the pop meter measures switching in — it
+boots with `lodmode=screen` itself. The golden views changed at the zone
+commit by design; compare builds in screen mode when the question is
+"did anything else change". Measured on the RTX 3070 with
+`tools/tree-pop-meter.mjs` in screen mode: a dolly that used to change a
+hundred 16x16 blocks by 18-34/255 in one frame never moves a block's mean by
+more than 2.5/255. Two things the meter taught, both in its header:
 
 - **`shot.mjs --seq` does not wait for the terrain stream.** A tile landing
   between two builds' shots read as an 18%-of-pixels difference on the

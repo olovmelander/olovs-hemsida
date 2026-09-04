@@ -64,6 +64,9 @@ const COURSES = [
   { slug: 'veckefjarden-korthalsbanan', build: 'veckefjardenkortbuild', name: 'Korthålsbanan', club: 'Veckefjärdens Golfklubb',
     title: 'Veckefjärdens GC — Korthålsbanan i 3D', tag: 'Korthålsbanan', boot: 'Örnsköldsvik · Ångermanland',
     tees: { names: ['Gul', 'Röd'], cols: [0xf0c93a, 0xe0574a], hideFrom: 3 } },
+  { slug: 'ribbingsfors', build: 'ribbingsforsbuild', name: 'Ribbingsfors Golf & Kultur', club: 'Ribbingsfors Golf & Kultur',
+    title: 'Ribbingsfors Golf & Kultur — Nio hål i 3D', tag: 'Park & hagmark', boot: 'Gullspång · Skagern',
+    tees: { names: ['Vit', 'Gul', 'Röd'], cols: [0xf4f4ee, 0xf0c93a, 0xe0574a], hideFrom: 4 } },
 ];
 
 const entries = COURSES.map(c => {

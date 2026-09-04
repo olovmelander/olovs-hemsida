@@ -7,6 +7,7 @@ import {
   collectCoordinatePairs,
   coordinatePathCounts,
   localToLatLon,
+  localToProjected,
   migrationResiduals,
   roundedCoordinate,
 } from './migration.mjs';
@@ -110,16 +111,21 @@ for (const manifestPath of await manifestPaths) {
   );
   if (!legacyModels.length) throw new Error(`${manifest.groundId} has no inventoried legacy model`);
 
-  const [origin] = latLonToSweref99Tm([manifest.legacyFrame.originWgs84], {
-    sourceCrs: 'EPSG:4326',
-    decimals: 6,
-  });
+  const projectedFrame = manifest.legacyFrame.projectedOriginEpsg3006;
+  const [origin] = projectedFrame
+    ? [{ easting: projectedFrame.easting, northing: projectedFrame.northing }]
+    : latLonToSweref99Tm([manifest.legacyFrame.originWgs84], {
+      sourceCrs: 'EPSG:4326',
+      decimals: 6,
+    });
   const candidateOrigin = {
     easting: roundedCoordinate(origin.easting),
     northing: roundedCoordinate(origin.northing),
     heightRH2000: null,
     status: 'horizontal-seed-only-pending-independent-control',
-    source: 'legacyFrame.originWgs84',
+    source: projectedFrame
+      ? 'legacyFrame.projectedOriginEpsg3006'
+      : 'legacyFrame.originWgs84',
   };
 
   const modelResults = [];
@@ -137,11 +143,18 @@ for (const manifestPath of await manifestPaths) {
     const collected = collectCoordinatePairs(migratedModel);
     const localPairs = collected.coordinates.map(({ pair }) => [...pair]);
     const coordinatePaths = collected.coordinates.map(({ path }) => path);
-    const geographic = localPairs.map(pair => localToLatLon(pair, manifest.legacyFrame));
-    const projected = latLonToSweref99Tm(geographic, {
-      sourceCrs: 'EPSG:4326',
-      decimals: 6,
-    });
+    const projected = projectedFrame
+      ? localPairs.map(pair => {
+        const coordinate = localToProjected(pair, manifest.legacyFrame);
+        return {
+          easting: roundedCoordinate(coordinate.easting),
+          northing: roundedCoordinate(coordinate.northing),
+        };
+      })
+      : latLonToSweref99Tm(
+        localPairs.map(pair => localToLatLon(pair, manifest.legacyFrame)),
+        { sourceCrs: 'EPSG:4326', decimals: 6 },
+      );
     const residuals = migrationResiduals(localPairs, projected, origin);
 
     collected.coordinates.forEach(({ pair }, index) => {
@@ -208,7 +221,12 @@ for (const manifestPath of await manifestPaths) {
     groundId: manifest.groundId,
     courseSlugs: manifest.courseSlugs,
     status: 'blocked-pending-independent-control-and-rh2000-height',
-    transform: {
+    transform: projectedFrame ? {
+      source: 'local metres about an explicit EPSG:3006 source-frame origin',
+      target: 'absolute EPSG:3006 coordinate pairs [easting,northing]',
+      implementation: 'exact translation: easting = originEasting + x; northing = originNorthing - z',
+      datumCaveat: 'The projected source frame avoids the approximate metres-per-degree legacy converter, but independent controls are still required before canonical-origin approval.',
+    } : {
       source: 'EPSG:4326 legacy WGS84-like seed coordinates',
       target: 'EPSG:3006 SWEREF99 TM',
       implementation: 'PROJ cs2cs with authority axis order [latitude,longitude] -> [northing,easting]',

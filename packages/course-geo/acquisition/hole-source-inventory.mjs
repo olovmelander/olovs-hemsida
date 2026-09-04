@@ -4,6 +4,7 @@ import { EXPECTED_GROUNDS, readJson, sha256File } from '../manifest.mjs';
 import {
   collectCoordinatePairs,
   localToLatLon,
+  localToProjected,
   roundedCoordinate,
 } from '../migration.mjs';
 import { latLonToSweref99Tm } from '../proj.mjs';
@@ -27,6 +28,14 @@ export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
   puttom: Object.freeze({
     path: 'puttombuild/course-model.json',
     sha256: 'ce192fe669ba2a5256451287554f5c80d1de95416b84b176cd6c9598b1751176',
+  }),
+  ribbingsfors: Object.freeze({
+    path: 'ribbingsforsbuild/course-model.json',
+    sha256: '6e67d36ecd72ceab5f49ea270587b7c0d128fdf696ca5d1751727282b06f5189',
+    projectedOriginEpsg3006: Object.freeze({
+      easting: 448975.5,
+      northing: 6536024.5,
+    }),
   }),
   upsala: Object.freeze({
     path: 'upsalabuild/course-model.json',
@@ -70,8 +79,14 @@ function transientEpsg3006Model(groundId, courseSlug, legacyModel, source) {
   }
   const geometry = { holes: structuredClone(legacyModel.holes) };
   const collected = collectCoordinatePairs(geometry);
-  const geographic = collected.coordinates.map(({ pair }) => localToLatLon(pair, frame));
-  const projected = latLonToSweref99Tm(geographic, { decimals: 6 });
+  const projected = source.projectedOriginEpsg3006
+    ? collected.coordinates.map(({ pair }) => localToProjected(pair, {
+      projectedOriginEpsg3006: source.projectedOriginEpsg3006,
+    }))
+    : latLonToSweref99Tm(
+      collected.coordinates.map(({ pair }) => localToLatLon(pair, frame)),
+      { decimals: 6 },
+    );
   collected.coordinates.forEach(({ pair }, index) => {
     pair[0] = roundedCoordinate(projected[index].easting);
     pair[1] = roundedCoordinate(projected[index].northing);

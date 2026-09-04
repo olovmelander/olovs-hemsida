@@ -1,0 +1,3377 @@
+{
+  "type": "FeatureCollection",
+  "name": "Ribbingsfors ? protected-tree inventory within 250 m of OSM course boundary",
+  "bbox": [
+    14.10529119,
+    58.95814619,
+    14.12958338,
+    58.96693329
+  ],
+  "coordinateReferenceSystem": {
+    "geometry": "OGC:CRS84 (longitude, latitude), per RFC 7946",
+    "sourceCoordinateProperties": "EPSG:3006 (easting, northing)"
+  },
+  "provenance": {
+    "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+    "provider": "L?nsstyrelsen V?stra G?talands l?n",
+    "datasetTitle": "LstO Skyddsv?rda Tr?d",
+    "catalogueRecordId": "97d7c820-f382-458c-aeb8-89ca6a519f34",
+    "datasetIdentifier": "9edeaa24-4a4e-4eb0-ad01-c6b8ece3c2d6",
+    "downloadUri": "https://ext-dokument.lansstyrelsen.se/gemensamt/geodata/ShapeExport/Lsto.pg204_skyddsvarda_trad_.zip",
+    "metadataUri": "https://ext-geodatakatalog-forv.lansstyrelsen.se/PlaneringsKatalogen/GetMetaDataById?id=97d7c820-f382-458c-aeb8-89ca6a519f34_C",
+    "atomUri": "https://ext-dokument.lansstyrelsen.se/gemensamt/geodata/ATOM/ATOM_Lsto.pg204_skyddsvarda_trad_.xml",
+    "fetchedAt": "2026-09-04T10:46:52.038Z",
+    "serverLastModified": "2026-06-10T07:18:56Z",
+    "serverEtag": "\"edf6ab66a9f8dc1:0\"",
+    "rawSnapshot": {
+      "mediaType": "application/x-zip-compressed",
+      "bytes": 10437910,
+      "sha256": "6446fd706465f7f7c0f0d0b2c3270098b4073d3389550ccf1a4862da8ae19b47"
+    },
+    "inputsUsed": [
+      {
+        "pathWithinZip": "Lsto.pg204_skyddsvarda_trad_.gpkg",
+        "mediaType": "application/geopackage+sqlite3",
+        "bytes": 17960960,
+        "sha256": "ae05eb2fee0644ce59615460b5a9845f628b5103318272c6b924f26dec8e6e37"
+      },
+      {
+        "pathWithinZip": "Lsto.pg204_skyddsvarda_trad_.xml",
+        "mediaType": "application/xml",
+        "bytes": 285363,
+        "sha256": "b6d304c1bd8c0c425e02a40ef933693f915a66105dc2cf3086803f2c30783d60"
+      },
+      {
+        "pathWithinZip": "Lista_Med_Alias_Lsto.pg204_skyddsvarda_trad_.csv",
+        "mediaType": "text/csv",
+        "bytes": 366,
+        "sha256": "0983c5608cc259339843eae1c0cd4d9c081f0ff7f3fb021aaaa1861752f2dcfd"
+      }
+    ],
+    "sourceCrs": "EPSG:3006",
+    "sourceLayer": "Lsto_pg204_skyddsvarda_trad_",
+    "sourceGeometryType": "MULTIPOINT (one location per inventory record in selected subset)",
+    "metadataRevisionDate": "2025-12-18",
+    "metadataDateStamp": "2026-05-06T22:34:21.676Z",
+    "inventoryCoverageThrough": "2025-09-30",
+    "licence": {
+      "id": "CC0-1.0",
+      "name": "Creative Commons CC0 1.0 Universal",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    "authorityTier": "C",
+    "intendedUse": "high-value supporting evidence for individually inventoried veteran/protected trees",
+    "limitations": [
+      "Selected records were inventoried in 2005 or 2008; they do not prove that each tree survives in 2026.",
+      "The metadata provides no uniform numeric horizontal-accuracy guarantee for individual points.",
+      "Reconcile every record against 2023 laser data, 2024 orthophoto and site/control evidence before runtime publication."
+    ]
+  },
+  "selection": {
+    "lod0EnvelopeEpsg3006": [
+      447951.5,
+      6535000.5,
+      449999.5,
+      6537048.5
+    ],
+    "distanceReference": "planar minimum distance to OSM way 779352687 polygon in EPSG:3006",
+    "maximumDistanceMetres": 250,
+    "predicate": "distance <= 250 m AND point is inside the full provisional 2048 m LOD0 envelope",
+    "selectedFeatureCount": 88,
+    "maximumGeometryCoordinateDiscrepancyMetres": 0.000050001
+  },
+  "summary": {
+    "selectedFeatureCount": 88,
+    "sourceFeatureCount": 48278,
+    "inventoryDateRange": [
+      "2005-08-04",
+      "2008-03-07"
+    ],
+    "bboxEpsg3006": [
+      448539.353543,
+      6535733.92317,
+      449940.910618,
+      6536700.47413
+    ],
+    "distanceCounts": {
+      "within0Metres": 4,
+      "within25Metres": 20,
+      "within50Metres": 33,
+      "within100Metres": 50,
+      "within250Metres": 88
+    },
+    "speciesCounts": {
+      "Alm": 4,
+      "Ask": 7,
+      "ASP / POPPLAR": 1,
+      "Bok": 2,
+      "Ek": 70,
+      "Kastanj": 1,
+      "Lind": 3
+    },
+    "inventoryGroupCounts": {
+      "Ribbingsfors ekhage": 22,
+      "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR": 66
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-6bd60e4d-1022-4988-b50b-8e34df9ab6d3",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 83,
+        "sourceObjectId": 83,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13518",
+        "sourceTreeId": "{6BD60E4D-1022-4988-B50B-8E34DF9AB6D3}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 569,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 449098.061995,
+        "northingEpsg3006": 6536109.78854,
+        "distanceToOsmCourseBoundaryMetres": 51.561,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11498352,
+          58.96157099
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-c60f3de9-7271-46c2-914e-5edebe76992e",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 195,
+        "sourceObjectId": 195,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24298",
+        "sourceTreeId": "{C60F3DE9-7271-46C2-914E-5EDEBE76992E}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 675,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "15 cm",
+        "redListedSpeciesSv": "Ja",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449495.687629,
+        "northingEpsg3006": 6536624.3712,
+        "distanceToOsmCourseBoundaryMetres": 162.19,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12177848,
+          58.96623883
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-a7bb46b0-25bf-4b43-8cf9-c875dc82ac49",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 609,
+        "sourceObjectId": 609,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24294",
+        "sourceTreeId": "{A7BB46B0-25BF-4B43-8CF9-C875DC82AC49}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 541,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "5 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Ingen uppgift",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449634.000678,
+        "northingEpsg3006": 6536179.22556,
+        "distanceToOsmCourseBoundaryMetres": 38.501,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12428465,
+          58.96225788
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-110cfa61-46f6-4e50-8ec3-91e5b7f449f6",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 610,
+        "sourceObjectId": 610,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24331",
+        "sourceTreeId": "{110CFA61-46F6-4E50-8EC3-91E5B7F449F6}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 541,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "15 cm",
+        "redListedSpeciesSv": "Ja",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449940.910618,
+        "northingEpsg3006": 6536341.86063,
+        "distanceToOsmCourseBoundaryMetres": 249.158,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12958338,
+          58.96375427
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-6e1cdc83-c1fd-4657-b01c-04028f1f470a",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 649,
+        "sourceObjectId": 649,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24285",
+        "sourceTreeId": "{6E1CDC83-C1FD-4657-B01C-04028F1F470A}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 537,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "30 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "Annat, se kommentar",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 448681.770536,
+        "northingEpsg3006": 6535733.92317,
+        "distanceToOsmCourseBoundaryMetres": 101.365,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10783378,
+          58.95814619
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-0d492ff7-34df-45b1-bdbd-dcdd08657a4b",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 1235,
+        "sourceObjectId": 1235,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24327",
+        "sourceTreeId": "{0D492FF7-34DF-45B1-BDBD-DCDD08657A4B}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 489,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "Ev 5 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449851.623123,
+        "northingEpsg3006": 6536368.77216,
+        "distanceToOsmCourseBoundaryMetres": 162.151,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12802498,
+          58.96398548
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-05b219e5-7d30-4a62-8d7f-b34a5cb27c2d",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 1450,
+        "sourceObjectId": 1450,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24324",
+        "sourceTreeId": "{05B219E5-7D30-4A62-8D7F-B34A5CB27C2D}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 479,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449732.195801,
+        "northingEpsg3006": 6536408.31479,
+        "distanceToOsmCourseBoundaryMetres": 59.897,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12593968,
+          58.96432655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-7735d665-aa5c-49fc-bfde-2dc0217bac25",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 2410,
+        "sourceObjectId": 2410,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24233",
+        "sourceTreeId": "{7735D665-AA5C-49FC-BFDE-2DC0217BAC25}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 448,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449610.997641,
+        "northingEpsg3006": 6536511.80938,
+        "distanceToOsmCourseBoundaryMetres": 55.43,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12380898,
+          58.96524165
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-cd506a9f-c52a-4dab-8280-4e3a7e906036",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 2472,
+        "sourceObjectId": 2472,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24312",
+        "sourceTreeId": "{CD506A9F-C52A-4DAB-8280-4E3A7E906036}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 446,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "30 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449724.355009,
+        "northingEpsg3006": 6536561.15649,
+        "distanceToOsmCourseBoundaryMetres": 124.221,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12576862,
+          58.9656981
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-d52b3e06-325f-42dd-a50e-76eae2c124db",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 2629,
+        "sourceObjectId": 2629,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24248",
+        "sourceTreeId": "{D52B3E06-325F-42DD-A50E-76EAE2C124DB}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 442,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "Ev 5 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449704.645453,
+        "northingEpsg3006": 6536371.99753,
+        "distanceToOsmCourseBoundaryMetres": 22.043,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12546895,
+          58.9639972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-1aa5e32d-714e-4306-83cc-907b966bc7a6",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 2915,
+        "sourceObjectId": 2915,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24302",
+        "sourceTreeId": "{1AA5E32D-714E-4306-83CC-907B966BC7A6}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 436,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449642.701427,
+        "northingEpsg3006": 6536618.14757,
+        "distanceToOsmCourseBoundaryMetres": 157.25,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12433598,
+          58.96620026
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-220de943-9a75-4d17-a38b-15cb444c9c39",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 2943,
+        "sourceObjectId": 2943,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24253",
+        "sourceTreeId": "{220DE943-9A75-4D17-A38B-15CB444C9C39}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 435,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "15 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449674.099685,
+        "northingEpsg3006": 6536086.74789,
+        "distanceToOsmCourseBoundaryMetres": 40.462,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.1250028,
+          58.96143217
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-efe878be-d1b1-48cd-99e9-508be8147a3f",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 3369,
+        "sourceObjectId": 3369,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13519",
+        "sourceTreeId": "{EFE878BE-D1B1-48CD-99E9-508BE8147A3F}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 427,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "30 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 449154.570949,
+        "northingEpsg3006": 6536231.41953,
+        "distanceToOsmCourseBoundaryMetres": 106.535,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11593793,
+          58.96266991
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-0e9c5cfa-39df-4dc9-a85a-98e17ea4b0a0",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 3419,
+        "sourceObjectId": 3419,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24340",
+        "sourceTreeId": "{0E9C5CFA-39DF-4DC9-A85A-98E17EA4B0A0}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 426,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "30 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Annat, se kommentar",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449719.275426,
+        "northingEpsg3006": 6536402.16147,
+        "distanceToOsmCourseBoundaryMetres": 45.678,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12571645,
+          58.96426978
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-eeeb5395-9199-462e-97b5-60639568dbb2",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 3554,
+        "sourceObjectId": 3554,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24300",
+        "sourceTreeId": "{EEEB5395-9199-462E-97B5-60639568DBB2}",
+        "speciesSv": "Alm",
+        "circumferenceCm": 424,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449560.181001,
+        "northingEpsg3006": 6536664.13276,
+        "distanceToOsmCourseBoundaryMetres": 213.056,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12289073,
+          58.96660348
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-4cf913a0-9b80-48d8-a4f0-0542d36c71dd",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 3900,
+        "sourceObjectId": 3900,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24306",
+        "sourceTreeId": "{4CF913A0-9B80-48D8-A4F0-0542D36C71DD}",
+        "speciesSv": "Ask",
+        "circumferenceCm": 419,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "30 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449582.35044,
+        "northingEpsg3006": 6536566.44097,
+        "distanceToOsmCourseBoundaryMetres": 113.314,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12329846,
+          58.96572885
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-f5d1d9c9-6fba-49f5-9806-c34c07ba3649",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 4411,
+        "sourceObjectId": 4411,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24239",
+        "sourceTreeId": "{F5D1D9C9-6FBA-49F5-9806-C34C07BA3649}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 411,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449644.244267,
+        "northingEpsg3006": 6536490.21951,
+        "distanceToOsmCourseBoundaryMetres": 29.713,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12439193,
+          58.9650517
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-c0afc6a0-0674-4de9-8302-5340b94be424",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 4689,
+        "sourceObjectId": 4689,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24242",
+        "sourceTreeId": "{C0AFC6A0-0674-4DE9-8302-5340B94BE424}",
+        "speciesSv": "Ask",
+        "circumferenceCm": 408,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449675.721032,
+        "northingEpsg3006": 6536449.6162,
+        "distanceToOsmCourseBoundaryMetres": 19.9,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12494843,
+          58.96469079
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-236a7015-b4d4-4e86-96cf-d293a951c627",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 4972,
+        "sourceObjectId": 4972,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24304",
+        "sourceTreeId": "{236A7015-B4D4-4E86-96CF-D293A951C627}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 404,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449643.267941,
+        "northingEpsg3006": 6536571.17398,
+        "distanceToOsmCourseBoundaryMetres": 110.324,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12435652,
+          58.96577852
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-f0096c53-ff0d-4c49-8444-4cc04a920848",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 5017,
+        "sourceObjectId": 5017,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13501",
+        "sourceTreeId": "{F0096C53-FF0D-4C49-8444-4CC04A920848}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 403,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "5 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448567.903305,
+        "northingEpsg3006": 6536058.41377,
+        "distanceToOsmCourseBoundaryMetres": 167.082,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10577905,
+          58.96104633
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-eb709dd0-7e13-4817-9bb6-e23e08419d5a",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 5205,
+        "sourceObjectId": 5205,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24249",
+        "sourceTreeId": "{EB709DD0-7E13-4817-9BB6-E23E08419D5A}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 401,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449696.674055,
+        "northingEpsg3006": 6536369.90223,
+        "distanceToOsmCourseBoundaryMetres": 13.824,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12533084,
+          58.96397745
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-bc558a88-3a38-49fd-9be9-7df79576deed",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 5617,
+        "sourceObjectId": 5617,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24303",
+        "sourceTreeId": "{BC558A88-3A38-49FD-9BE9-7DF79576DEED}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 397,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449662.762508,
+        "northingEpsg3006": 6536612.39201,
+        "distanceToOsmCourseBoundaryMetres": 151.767,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12468608,
+          58.96615094
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-0ee3ee65-3f83-4a2d-804f-1103a6277770",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 5689,
+        "sourceObjectId": 5689,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24305",
+        "sourceTreeId": "{0EE3EE65-3F83-4A2D-804F-1103A6277770}",
+        "speciesSv": "Ask",
+        "circumferenceCm": 396,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "30 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449586.083016,
+        "northingEpsg3006": 6536588.47682,
+        "distanceToOsmCourseBoundaryMetres": 134.68,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12335833,
+          58.96592717
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-a06ff0b1-25ee-47bb-a324-5aae22c991ff",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 5793,
+        "sourceObjectId": 5793,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24252",
+        "sourceTreeId": "{A06FF0B1-25EE-47BB-A324-5AAE22C991FF}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 395,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449691.857663,
+        "northingEpsg3006": 6536354.85039,
+        "distanceToOsmCourseBoundaryMetres": 4.379,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12525053,
+          58.96384173
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-120ec9d3-5706-485c-a589-55e28d19608f",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 5885,
+        "sourceObjectId": 5885,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13512",
+        "sourceTreeId": "{120EC9D3-5706-485C-A589-55E28D19608F}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 394,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "5 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448859.255806,
+        "northingEpsg3006": 6536184.87603,
+        "distanceToOsmCourseBoundaryMetres": 136.587,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11081469,
+          58.9622168
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-c5b21156-e247-40ea-a223-15f8a9cc64f7",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 6064,
+        "sourceObjectId": 6064,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24299",
+        "sourceTreeId": "{C5B21156-E247-40EA-A223-15F8A9CC64F7}",
+        "speciesSv": "Ask",
+        "circumferenceCm": 392,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "30 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449557.170633,
+        "northingEpsg3006": 6536665.09604,
+        "distanceToOsmCourseBoundaryMetres": 214.401,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12283817,
+          58.96661178
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-9523646a-fa26-4ab2-99e1-70b4002c15b2",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 6112,
+        "sourceObjectId": 6112,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13521",
+        "sourceTreeId": "{9523646A-FA26-4AB2-99E1-70B4002C15B2}",
+        "speciesSv": "Lind",
+        "circumferenceCm": 391,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 449237.992383,
+        "northingEpsg3006": 6536359.37261,
+        "distanceToOsmCourseBoundaryMetres": 16.245,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11735884,
+          58.96382877
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-29479bce-2f80-47f0-bed5-5dcd01304d08",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 6138,
+        "sourceObjectId": 6138,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24301",
+        "sourceTreeId": "{29479BCE-2F80-47F0-BED5-5DCD01304D08}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 391,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449589.730209,
+        "northingEpsg3006": 6536700.47413,
+        "distanceToOsmCourseBoundaryMetres": 245.26,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12339622,
+          58.96693329
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-6ca8863c-422d-4820-964d-4305e0db08f7",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 6139,
+        "sourceObjectId": 6139,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24289",
+        "sourceTreeId": "{6CA8863C-422D-4820-964D-4305E0DB08F7}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 391,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 448710.934069,
+        "northingEpsg3006": 6535802.24646,
+        "distanceToOsmCourseBoundaryMetres": 27.078,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10832488,
+          58.9587632
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-5b5be37b-a58a-46ab-9ca1-f4490d6a2616",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 6606,
+        "sourceObjectId": 6606,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24278",
+        "sourceTreeId": "{5B5BE37B-A58A-46AB-9CA1-F4490D6A2616}",
+        "speciesSv": "ASP / POPPLAR",
+        "circumferenceCm": 387,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449354.60501,
+        "northingEpsg3006": 6536055.90615,
+        "distanceToOsmCourseBoundaryMetres": 0,
+        "insideOsmCourseBoundary": true,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11945568,
+          58.96111756
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-98844757-fa5a-4c80-acd8-2064f447a9ef",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 6698,
+        "sourceObjectId": 6698,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24325",
+        "sourceTreeId": "{98844757-FA5A-4C80-ACD8-2064F447A9EF}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 386,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449812.138797,
+        "northingEpsg3006": 6536410.27849,
+        "distanceToOsmCourseBoundaryMetres": 136.143,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.1273291,
+          58.96435356
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-fffd9360-7add-420a-bc6c-3684d7c711e1",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 7134,
+        "sourceObjectId": 7134,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13514",
+        "sourceTreeId": "{FFFD9360-7ADD-420A-BC6C-3684D7C711E1}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 382,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448895.39319,
+        "northingEpsg3006": 6536089.35192,
+        "distanceToOsmCourseBoundaryMetres": 39.282,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11146499,
+          58.96136334
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-3ff05ee6-e72a-46ef-a0eb-08cf28f1eb78",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 7461,
+        "sourceObjectId": 7461,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24308",
+        "sourceTreeId": "{3FF05EE6-E72A-46EF-A0EB-08CF28F1EB78}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 380,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449617.656211,
+        "northingEpsg3006": 6536539.87802,
+        "distanceToOsmCourseBoundaryMetres": 82.399,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12391835,
+          58.96549448
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-1355a7fb-2603-4dc8-be66-628978126997",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 7462,
+        "sourceObjectId": 7462,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24288",
+        "sourceTreeId": "{1355A7FB-2603-4DC8-BE66-628978126997}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 380,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 448710.813543,
+        "northingEpsg3006": 6535812.24083,
+        "distanceToOsmCourseBoundaryMetres": 17.927,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10832047,
+          58.95885293
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-9262e4b4-c269-42dc-bcee-d014d33b8ee6",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 7745,
+        "sourceObjectId": 7745,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13502",
+        "sourceTreeId": "{9262E4B4-C269-42DC-BCEE-D014D33B8EE6}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 378,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "Hål vid marken",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448602.12616,
+        "northingEpsg3006": 6535955.86953,
+        "distanceToOsmCourseBoundaryMetres": 103.419,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.1063978,
+          58.96012963
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-16c5bd1d-9455-4e5f-9035-4050b878a9d6",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 9135,
+        "sourceObjectId": 9135,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13507",
+        "sourceTreeId": "{16C5BD1D-9455-4E5F-9035-4050B878A9D6}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 369,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448753.256178,
+        "northingEpsg3006": 6536105.63027,
+        "distanceToOsmCourseBoundaryMetres": 44.108,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10899029,
+          58.96149253
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-9f928ed7-b226-48e2-be22-60c1ed2a6b23",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 9267,
+        "sourceObjectId": 9267,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24313",
+        "sourceTreeId": "{9F928ED7-B226-48E2-BE22-60C1ED2A6B23}",
+        "speciesSv": "Alm",
+        "circumferenceCm": 368,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449741.779379,
+        "northingEpsg3006": 6536525.38163,
+        "distanceToOsmCourseBoundaryMetres": 111.449,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12607969,
+          58.9653789
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-67b70350-74c3-4745-b16d-951f21182e6f",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 9268,
+        "sourceObjectId": 9268,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24323",
+        "sourceTreeId": "{67B70350-74C3-4745-B16D-951F21182E6F}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 368,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449752.701869,
+        "northingEpsg3006": 6536448.54543,
+        "distanceToOsmCourseBoundaryMetres": 92.359,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12628705,
+          58.96469022
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-f77071e3-b150-435c-b6ac-78dbb93a9226",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 9390,
+        "sourceObjectId": 9390,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24311",
+        "sourceTreeId": "{F77071E3-B150-435C-B6AC-78DBB93A9226}",
+        "speciesSv": "Bok",
+        "circumferenceCm": 367,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "5 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449646.410896,
+        "northingEpsg3006": 6536559.21689,
+        "distanceToOsmCourseBoundaryMetres": 98.21,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12441389,
+          58.96567152
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-fd85d8e4-a883-422b-9b3d-c7e0ca71a877",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 9596,
+        "sourceObjectId": 9596,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13513",
+        "sourceTreeId": "{FD85D8E4-A883-422B-9B3D-C7E0CA71A877}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 365,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "Hål vid marken",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Dött stående",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448862.675007,
+        "northingEpsg3006": 6536232.89722,
+        "distanceToOsmCourseBoundaryMetres": 184.36,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11086303,
+          58.96264842
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-90b92c54-a03a-491a-85d2-072c17dbab92",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 10455,
+        "sourceObjectId": 10455,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24238",
+        "sourceTreeId": "{90B92C54-A03A-491A-85D2-072C17DBAB92}",
+        "speciesSv": "Lind",
+        "circumferenceCm": 360,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449557.593509,
+        "northingEpsg3006": 6536547.15031,
+        "distanceToOsmCourseBoundaryMetres": 97.396,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12287243,
+          58.96555272
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-5778862e-1b2f-45f1-b235-5ac0c761edbf",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 10456,
+        "sourceObjectId": 10456,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24245",
+        "sourceTreeId": "{5778862E-1B2F-45F1-B235-5AC0C761EDBF}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 360,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449668.761126,
+        "northingEpsg3006": 6536446.53352,
+        "distanceToOsmCourseBoundaryMetres": 12.316,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12482812,
+          58.96466229
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-2ae269ff-45d7-4acc-88f5-7128baf158ca",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 10896,
+        "sourceObjectId": 10896,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24326",
+        "sourceTreeId": "{2AE269FF-45D7-4ACC-88F5-7128BAF158CA}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 358,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449815.583082,
+        "northingEpsg3006": 6536373.33544,
+        "distanceToOsmCourseBoundaryMetres": 127.814,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12739736,
+          58.96402223
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-1b6eacd6-683c-4241-868d-9adb55f04684",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 11215,
+        "sourceObjectId": 11215,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24236",
+        "sourceTreeId": "{1B6EACD6-683C-4241-868D-9ADB55F04684}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 356,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449562.001076,
+        "northingEpsg3006": 6536513.21764,
+        "distanceToOsmCourseBoundaryMetres": 63.178,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.1229568,
+          58.96524853
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-900891b7-50b4-48f0-b68e-59e2b48584e5",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 11813,
+        "sourceObjectId": 11813,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24328",
+        "sourceTreeId": "{900891B7-50B4-48F0-B68E-59E2B48584E5}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 353,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449857.426901,
+        "northingEpsg3006": 6536384.83549,
+        "distanceToOsmCourseBoundaryMetres": 171.204,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12812224,
+          58.9641304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-4e07d105-5e39-42fa-832d-398f1350bd3b",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 12006,
+        "sourceObjectId": 12006,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24330",
+        "sourceTreeId": "{4E07D105-5E39-42FA-832D-398F1350BD3B}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 352,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "Ev 5 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449929.001731,
+        "northingEpsg3006": 6536334.71992,
+        "distanceToOsmCourseBoundaryMetres": 237.351,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12937796,
+          58.96368875
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-48e80577-14c7-42c3-a72c-8832fbd79fd6",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 12816,
+        "sourceObjectId": 12816,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24243",
+        "sourceTreeId": "{48E80577-14C7-42C3-A72C-8832FBD79FD6}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 349,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449667.653208,
+        "northingEpsg3006": 6536455.5164,
+        "distanceToOsmCourseBoundaryMetres": 14.187,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12480682,
+          58.96474283
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-48939095-5995-48bb-b72c-1e35a585a29c",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 13313,
+        "sourceObjectId": 13313,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24251",
+        "sourceTreeId": "{48939095-5995-48BB-B72C-1E35A585A29C}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 346,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449710.702347,
+        "northingEpsg3006": 6536367.07266,
+        "distanceToOsmCourseBoundaryMetres": 26.172,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12557538,
+          58.96395369
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-e3a2ccaa-7c39-4228-adf9-68a94529b78f",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 13479,
+        "sourceObjectId": 13479,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13517",
+        "sourceTreeId": "{E3A2CCAA-7C39-4228-ADF9-68A94529B78F}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 345,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 449056.241356,
+        "northingEpsg3006": 6536179.25498,
+        "distanceToOsmCourseBoundaryMetres": 120.63,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.1142405,
+          58.9621898
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-e7f5e0b7-e69c-464e-af1f-01f24c1aa594",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 13543,
+        "sourceObjectId": 13543,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24317",
+        "sourceTreeId": "{E7F5E0B7-E69C-464E-AF1F-01F24C1AA594}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 345,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449729.050863,
+        "northingEpsg3006": 6536586.20271,
+        "distanceToOsmCourseBoundaryMetres": 147.592,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12584457,
+          58.96592356
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-8e0d0b0b-8727-4c0f-9fe7-dbec114e3768",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 14263,
+        "sourceObjectId": 14263,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24246",
+        "sourceTreeId": "{8E0D0B0B-8727-4C0F-9FE7-DBEC114E3768}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 342,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449679.080945,
+        "northingEpsg3006": 6536419.66922,
+        "distanceToOsmCourseBoundaryMetres": 13.35,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12501365,
+          58.96442227
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-69e61550-56b2-4b70-a3a5-9a2f3fda27a7",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 14264,
+        "sourceObjectId": 14264,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24297",
+        "sourceTreeId": "{69E61550-56B2-4B70-A3A5-9A2F3FDA27A7}",
+        "speciesSv": "Lind",
+        "circumferenceCm": 342,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449683.875186,
+        "northingEpsg3006": 6536270.78912,
+        "distanceToOsmCourseBoundaryMetres": 10.301,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12513087,
+          58.96308595
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-4b0eb7b9-7193-44b6-b629-7498e22f08b8",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 14265,
+        "sourceObjectId": 14265,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24321",
+        "sourceTreeId": "{4B0EB7B9-7193-44B6-B629-7498E22F08B8}",
+        "speciesSv": "Ask",
+        "circumferenceCm": 342,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "30 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Dött stående",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449799.504722,
+        "northingEpsg3006": 6536629.03491,
+        "distanceToOsmCourseBoundaryMetres": 224.352,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12705979,
+          58.96631644
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-6b32b8f1-f0af-4b90-b3b6-eaa07bb24ff4",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 14417,
+        "sourceObjectId": 14417,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13506",
+        "sourceTreeId": "{6B32B8F1-F0AF-4B90-B3B6-EAA07BB24FF4}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 341,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448744.598727,
+        "northingEpsg3006": 6536077.53756,
+        "distanceToOsmCourseBoundaryMetres": 14.845,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10884629,
+          58.96123924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-bf091cb1-2b79-4058-91df-723c764a151c",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 14637,
+        "sourceObjectId": 14637,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13520",
+        "sourceTreeId": "{BF091CB1-2B79-4058-91DF-723C764A151C}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 340,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 449220.917573,
+        "northingEpsg3006": 6536366.16377,
+        "distanceToOsmCourseBoundaryMetres": 34.414,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11706043,
+          58.96388773
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-b08ad292-2157-4ffa-b859-71eabf29c2aa",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 14749,
+        "sourceObjectId": 14749,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24234",
+        "sourceTreeId": "{B08AD292-2157-4FFA-B859-71EABF29C2AA}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 340,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449579.954798,
+        "northingEpsg3006": 6536516.43291,
+        "distanceToOsmCourseBoundaryMetres": 64.039,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12326821,
+          58.96527952
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-ba0c20b3-4d7b-4957-b049-5e8b27653318",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 15355,
+        "sourceObjectId": 15355,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24310",
+        "sourceTreeId": "{BA0C20B3-4D7B-4957-B049-5E8B27653318}",
+        "speciesSv": "Bok",
+        "circumferenceCm": 338,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449646.49527,
+        "northingEpsg3006": 6536552.22082,
+        "distanceToOsmCourseBoundaryMetres": 91.217,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12441695,
+          58.96560871
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-bed289a6-b8ae-4bf2-b0f1-672c6e699fda",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 15731,
+        "sourceObjectId": 15731,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13516",
+        "sourceTreeId": "{BED289A6-B8AE-4BF2-B0F1-672C6E699FDA}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 336,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "15 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Dött stående",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 449016.095123,
+        "northingEpsg3006": 6536192.76498,
+        "distanceToOsmCourseBoundaryMetres": 136.155,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11353946,
+          58.96230634
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-52c99b7b-fc55-4eb1-b6f3-83bad86c8a2c",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 16379,
+        "sourceObjectId": 16379,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24318",
+        "sourceTreeId": "{52C99B7B-FC55-4EB1-B6F3-83BAD86C8A2C}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 334,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449731.952749,
+        "northingEpsg3006": 6536594.23438,
+        "distanceToOsmCourseBoundaryMetres": 155.95,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.1258932,
+          58.96599602
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-0f5d1949-a237-41c0-8690-ba0756b5b559",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 16602,
+        "sourceObjectId": 16602,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24241",
+        "sourceTreeId": "{0F5D1949-A237-41C0-8690-BA0756B5B559}",
+        "speciesSv": "Alm",
+        "circumferenceCm": 333,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449674.589008,
+        "northingEpsg3006": 6536460.59797,
+        "distanceToOsmCourseBoundaryMetres": 22.397,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12492625,
+          58.96478927
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-daf554ea-9062-4c49-973d-d9f59cfac535",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 16846,
+        "sourceObjectId": 16846,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24320",
+        "sourceTreeId": "{DAF554EA-9062-4C49-973D-D9F59CFAC535}",
+        "speciesSv": "Ask",
+        "circumferenceCm": 332,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449747.052801,
+        "northingEpsg3006": 6536585.42024,
+        "distanceToOsmCourseBoundaryMetres": 157.264,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12615774,
+          58.96591864
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-30e326a3-c831-481c-a5f5-5d3ef7ac6b82",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 18103,
+        "sourceObjectId": 18103,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24279",
+        "sourceTreeId": "{30E326A3-C831-481C-A5F5-5D3EF7AC6B82}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 328,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449090.9102,
+        "northingEpsg3006": 6536039.7315,
+        "distanceToOsmCourseBoundaryMetres": 0,
+        "insideOsmCourseBoundary": true,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11487531,
+          58.96094106
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-4a6980bc-55fa-4c1a-9de3-97c5e7ce867f",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 18588,
+        "sourceObjectId": 18588,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24240",
+        "sourceTreeId": "{4A6980BC-55FA-4C1A-9DE3-97C5E7CE867F}",
+        "speciesSv": "Ask",
+        "circumferenceCm": 326,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "5 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449665.521746,
+        "northingEpsg3006": 6536466.48612,
+        "distanceToOsmCourseBoundaryMetres": 15.737,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12476726,
+          58.96484108
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-c7bf91e1-0969-4b5c-80f8-dca023f6a439",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 18755,
+        "sourceObjectId": 18755,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13515",
+        "sourceTreeId": "{C7BF91E1-0969-4B5C-80F8-DCA023F6A439}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 325,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 449011.809064,
+        "northingEpsg3006": 6536133.73792,
+        "distanceToOsmCourseBoundaryMetres": 77.438,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11347855,
+          58.96177579
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-18cc0052-a647-4b2a-a189-ad3bbba23fa3",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 18867,
+        "sourceObjectId": 18867,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24247",
+        "sourceTreeId": "{18CC0052-A647-4B2A-A189-AD3BBBA23FA3}",
+        "speciesSv": "Alm",
+        "circumferenceCm": 325,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449699.202292,
+        "northingEpsg3006": 6536408.91647,
+        "distanceToOsmCourseBoundaryMetres": 28.888,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12536592,
+          58.96432808
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-b2f55437-6d20-4882-baf1-30cd1ba46e6e",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 19766,
+        "sourceObjectId": 19766,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24237",
+        "sourceTreeId": "{B2F55437-6D20-4882-BAF1-30CD1BA46E6E}",
+        "speciesSv": "Kastanj",
+        "circumferenceCm": 322,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449554.956797,
+        "northingEpsg3006": 6536517.13102,
+        "distanceToOsmCourseBoundaryMetres": 67.971,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12283343,
+          58.96528284
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-97f1fe17-8ee1-478d-8f13-9b6bce48aca8",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 20021,
+        "sourceObjectId": 20021,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24314",
+        "sourceTreeId": "{97F1FE17-8EE1-478D-8F13-9B6BCE48ACA8}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 321,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449711.746018,
+        "northingEpsg3006": 6536694.9486,
+        "distanceToOsmCourseBoundaryMetres": 241.674,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12551897,
+          58.96689802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-62d2441f-4a5d-400e-a67d-cf686808366e",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 20263,
+        "sourceObjectId": 20263,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13509",
+        "sourceTreeId": "{62D2441F-4A5D-400E-A67D-CF686808366E}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 320,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "30 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448817.532563,
+        "northingEpsg3006": 6536163.38162,
+        "distanceToOsmCourseBoundaryMetres": 117.333,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11009432,
+          58.9620188
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-1f76f78a-1d75-4b88-a81d-821b810be78e",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 20458,
+        "sourceObjectId": 20458,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24307",
+        "sourceTreeId": "{1F76F78A-1D75-4B88-A81D-821B810BE78E}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 320,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449579.508822,
+        "northingEpsg3006": 6536553.41212,
+        "distanceToOsmCourseBoundaryMetres": 100.764,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12325203,
+          58.96561153
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-485bb87d-45bb-4325-8873-d7f883154f01",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 20460,
+        "sourceObjectId": 20460,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24287",
+        "sourceTreeId": "{485BB87D-45BB-4325-8873-D7F883154F01}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 320,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 448732.741818,
+        "northingEpsg3006": 6535734.53785,
+        "distanceToOsmCourseBoundaryMetres": 93.285,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10871965,
+          58.95815781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-d8d57d0b-57c1-46e2-a15c-c8afba3f5ef5",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 21766,
+        "sourceObjectId": 21766,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13504",
+        "sourceTreeId": "{D8D57D0B-57C1-46E2-A15C-C8AFBA3F5EF5}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 316,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448668.895582,
+        "northingEpsg3006": 6535972.66806,
+        "distanceToOsmCourseBoundaryMetres": 45.304,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10755459,
+          58.96028848
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-d1a4850e-a69c-4c24-97f8-84fd9c87cfaa",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 22635,
+        "sourceObjectId": 22635,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13503",
+        "sourceTreeId": "{D1A4850E-A69C-4C24-97F8-84FD9C87CFAA}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 314,
+        "giantTreeSv": "Ja",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448615.080777,
+        "northingEpsg3006": 6536124.95514,
+        "distanceToOsmCourseBoundaryMetres": 141.856,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10658373,
+          58.96164951
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-fe3b15a1-550d-4d68-b340-3447bc4bcead",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 23745,
+        "sourceObjectId": 23745,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24280",
+        "sourceTreeId": "{FE3B15A1-550D-4D68-B340-3447BC4BCEAD}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 311,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "5 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449001.948228,
+        "northingEpsg3006": 6536039.65823,
+        "distanceToOsmCourseBoundaryMetres": 0,
+        "insideOsmCourseBoundary": true,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11332882,
+          58.96092981
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-5f09ea85-0a0e-4707-b8e0-26c303b78568",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 24090,
+        "sourceObjectId": 24090,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24309",
+        "sourceTreeId": "{5F09EA85-0A0E-4707-B8E0-26C303B78568}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 310,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449626.759633,
+        "northingEpsg3006": 6536530.99156,
+        "distanceToOsmCourseBoundaryMetres": 72.407,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12407865,
+          58.96541576
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-cea6b19a-9cfa-4551-be9c-4bcd27adaa53",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 24091,
+        "sourceObjectId": 24091,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24284",
+        "sourceTreeId": "{CEA6B19A-9CFA-4551-BE9C-4BCD27ADAA53}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 310,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 448694.978304,
+        "northingEpsg3006": 6535882.02062,
+        "distanceToOsmCourseBoundaryMetres": 0,
+        "insideOsmCourseBoundary": true,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10802903,
+          58.95947763
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-a51fdf0a-202f-4342-ad43-f569686af2de",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 24092,
+        "sourceObjectId": 24092,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24286",
+        "sourceTreeId": "{A51FDF0A-202F-4342-AD43-F569686AF2DE}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 310,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "snart (3-10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 448684.250587,
+        "northingEpsg3006": 6535776.93512,
+        "distanceToOsmCourseBoundaryMetres": 60.808,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10786692,
+          58.95853272
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-10caa174-03e7-4cab-a454-8806d1026802",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 24094,
+        "sourceObjectId": 24094,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24319",
+        "sourceTreeId": "{10CAA174-03E7-4CAB-A454-8806D1026802}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 310,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Ja",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449752.796307,
+        "northingEpsg3006": 6536606.48076,
+        "distanceToOsmCourseBoundaryMetres": 177.627,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12625281,
+          58.96610843
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-c0236ac0-d496-485b-bd1a-26ad7a802159",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 24095,
+        "sourceObjectId": 24095,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24329",
+        "sourceTreeId": "{C0236AC0-D496-485B-BD1A-26AD7A802159}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 310,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "igenväxning",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449910.445341,
+        "northingEpsg3006": 6536381.47656,
+        "distanceToOsmCourseBoundaryMetres": 222.285,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12904476,
+          58.96410644
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-b01b8e93-72f0-4c62-934d-6b4590513994",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 24793,
+        "sourceObjectId": 24793,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13508",
+        "sourceTreeId": "{B01B8E93-72F0-4C62-934D-6B4590513994}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 308,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "30 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448790.681304,
+        "northingEpsg3006": 6536069.09706,
+        "distanceToOsmCourseBoundaryMetres": 23.724,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10964935,
+          58.96116896
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-7f92ff59-91e6-4461-9184-d938027b8e69",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 24945,
+        "sourceObjectId": 24945,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24235",
+        "sourceTreeId": "{7F92FF59-91E6-4461-9184-D938027B8E69}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 308,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449571.995455,
+        "northingEpsg3006": 6536513.33817,
+        "distanceToOsmCourseBoundaryMetres": 62.002,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12313053,
+          58.96525079
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-df554675-3fef-445c-83e7-1b3e0e9bc929",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 24946,
+        "sourceObjectId": 24946,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24277",
+        "sourceTreeId": "{DF554675-3FEF-445C-83E7-1B3E0E9BC929}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 308,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-07",
+        "eastingEpsg3006": 449647.463438,
+        "northingEpsg3006": 6536140.40417,
+        "distanceToOsmCourseBoundaryMetres": 28.937,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12452753,
+          58.96191086
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-3c503945-9aac-4cf1-a8ac-a1d90618b55c",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 25160,
+        "sourceObjectId": 25160,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13511",
+        "sourceTreeId": "{3C503945-9AAC-4CF1-A8AC-A1D90618B55C}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 307,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448846.251071,
+        "northingEpsg3006": 6536185.71878,
+        "distanceToOsmCourseBoundaryMetres": 138.118,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11058841,
+          58.96222281
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-af0cedc3-68ed-4da3-a7eb-f8f2deab49f6",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 25239,
+        "sourceObjectId": 25239,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24244",
+        "sourceTreeId": "{AF0CEDC3-68ED-4DA3-A7EB-F8F2DEAB49F6}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 307,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449671.711227,
+        "northingEpsg3006": 6536450.56743,
+        "distanceToOsmCourseBoundaryMetres": 16.417,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12487849,
+          58.96469886
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-ab643eaf-7bae-4813-b911-d19d5791e111",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 25891,
+        "sourceObjectId": 25891,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24293",
+        "sourceTreeId": "{AB643EAF-7BAE-4813-B911-D19D5791E111}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 305,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449644.48923,
+        "northingEpsg3006": 6536138.36913,
+        "distanceToOsmCourseBoundaryMetres": 26.09,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12447629,
+          58.96189223
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-5083b277-aa43-4d5f-833e-d2dd2da53810",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 26538,
+        "sourceObjectId": 26538,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13505",
+        "sourceTreeId": "{5083B277-AA43-4D5F-833E-D2DD2DA53810}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 303,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "5 cm",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448711.026715,
+        "northingEpsg3006": 6536126.11222,
+        "distanceToOsmCourseBoundaryMetres": 70.728,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10825141,
+          58.9616714
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-687243f6-a089-413e-ab11-b4994f12434a",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 27002,
+        "sourceObjectId": 27002,
+        "sourceTreeNumber": "ÖSTRA VÄNERNS SKÄRGÅRDSSKOGAR 24250",
+        "sourceTreeId": "{687243F6-A089-413E-AB11-B4994F12434A}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 302,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "Inget",
+        "threatSv": "Inget",
+        "inventoryDate": "2008-03-05",
+        "eastingEpsg3006": 449696.77048,
+        "northingEpsg3006": 6536361.90672,
+        "distanceToOsmCourseBoundaryMetres": 11.318,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.12533434,
+          58.96390567
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-9a283e5a-bfb6-4883-9435-7396e351bd85",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 27243,
+        "sourceObjectId": 27243,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13500",
+        "sourceTreeId": "{9A283E5A-BFB6-4883-9435-7396E351BD85}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 301,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Nej",
+        "hollowStageSv": "Inga hål",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ja",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Friskt eller ngt. minskad vitalitet (>50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448539.353543,
+        "northingEpsg3006": 6536022.08452,
+        "distanceToOsmCourseBoundaryMetres": 183.812,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.10529119,
+          58.96071668
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lsto-protected-tree-e5ece369-a9d8-402d-bf80-dd1c141ba710",
+      "properties": {
+        "groundId": "ribbingsfors",
+        "sourceId": "lsto-skyddsvarda-trad-2026-06-10",
+        "sourceFid": 40109,
+        "sourceObjectId": 40109,
+        "sourceTreeNumber": "Ribbingsfors ekhage 13510",
+        "sourceTreeId": "{E5ECE369-A9D8-402D-BF80-DD1C141BA710}",
+        "speciesSv": "Ek",
+        "circumferenceCm": 203,
+        "giantTreeSv": "Nej",
+        "hollowTreeSv": "Ja",
+        "hollowStageSv": "Hål vid marken",
+        "redListedSpeciesSv": "Ej noterad",
+        "indicatorSpeciesSv": "Ej noterad",
+        "pollardedSv": "Nej",
+        "vitalitySv": "Klart försämrad vitalitet (20-50% av kronan lever)",
+        "recommendedActionSv": "framtida (>10 år)",
+        "threatSv": "Igenväxning",
+        "inventoryDate": "2005-08-04",
+        "eastingEpsg3006": 448839.483052,
+        "northingEpsg3006": 6536249.61043,
+        "distanceToOsmCourseBoundaryMetres": 202.278,
+        "insideOsmCourseBoundary": false,
+        "authorityTier": "C",
+        "use": "object-evidence-requiring-recent-imagery-lidar-or-site-confirmation"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.11045597,
+          58.96279573
+        ]
+      }
+    }
+  ]
+}
+
+

@@ -57,6 +57,14 @@ export const COURSE_LOCATIONS = {
     city: 'Arnäsvall',
     iconName: 'tree',
   },
+  ribbingsfors: {
+    lat: 58.9649569,
+    lng: 14.1212497,
+    region: 'Västra Götaland',
+    regionTag: 'Gullspång · Herrgård',
+    city: 'Gullspång',
+    iconName: 'tree',
+  },
 };
 
 const LINES = {
@@ -66,7 +74,14 @@ const LINES = {
   angso: 'Mälarnära bana på halvön norr om Ängsön med fem tees, mäktiga ekar och strategisk bunkring.',
   upsala: 'Klassisk svensk mästerskapsparkbana på historiska Håmö gårds böljande marker väster om Uppsala.',
   johannesberg: 'Slottsbana i rofylld herrgårdsmiljö med dammar, månghundraåriga ekar och ståtligt klubbhus.',
+  ribbingsfors: 'Niohåls park- och hagmarksbana i herrgårdsmiljö vid sjön Skagern, ritad av Janne Lundvall och spelklar 1991.',
 };
+
+const MAP_REGIONS = [
+  { id: 'hogakusten', label: 'Höga Kusten', regions: ['Höga Kusten'] },
+  { id: 'malardalen', label: 'Mälardalen & Uppland', regions: ['Mälardalen'] },
+  { id: 'vastragotaland', label: 'Västra Götaland', regions: ['Västra Götaland'] },
+];
 
 export function createSwedenMap({ container, courses, current, onPickCourse }) {
   const mapEl = document.createElement('div');
@@ -76,12 +91,17 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
   // Map Controls Bar
   const controls = document.createElement('div');
   controls.className = 'map-region-bar';
+  const mappedCourses = courses.filter(course => COURSE_LOCATIONS[course.slug]);
+  const regionCourses = region => mappedCourses.filter(course =>
+    region.regions.includes(COURSE_LOCATIONS[course.slug].region));
   controls.innerHTML = `
     <div class="mrb-label">Fokusera region:</div>
     <div class="mrb-btns">
-      <button class="mrb-btn active" data-region="sweden">Hela Sverige (6)</button>
-      <button class="mrb-btn" data-region="hogakusten">Höga Kusten (3)</button>
-      <button class="mrb-btn" data-region="malardalen">Mälardalen & Uppland (3)</button>
+      <button class="mrb-btn active" data-region="sweden">Hela Sverige (${mappedCourses.length})</button>
+      ${MAP_REGIONS.map(region => {
+        const count = regionCourses(region).length;
+        return count ? `<button class="mrb-btn" data-region="${region.id}">${region.label} (${count})</button>` : '';
+      }).join('')}
     </div>
   `;
   mapEl.append(controls);
@@ -110,8 +130,8 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
   });
 
   /* OpenStreetMap's own tile servers. Fine while this is a handful of people
-     looking at six pins, but they are donated infrastructure and their usage
-     policy rules out being the tile source for an app with real traffic --
+     looking at a handful of pins, but they are donated infrastructure and
+     their usage policy rules out being the tile source for an app with real traffic --
      openstreetmap.org/copyright and operations.osmfoundation.org/policies/tiles.
      Before this goes anywhere public, point it at a provider (or a Cloudflare
      Worker caching one). The attribution below stays either way. */
@@ -225,10 +245,14 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
       if (reg === 'sweden') {
         const bounds = L.latLngBounds(latLngs).pad(0.2);
         map.flyToBounds(bounds, { duration: 1 });
-      } else if (reg === 'hogakusten') {
-        map.flyTo([63.15, 18.55], 9, { duration: 1 });
-      } else if (reg === 'malardalen') {
-        map.flyTo([59.72, 17.55], 9, { duration: 1 });
+      } else {
+        const region = MAP_REGIONS.find(item => item.id === reg);
+        const points = region ? regionCourses(region).map(course => {
+          const loc = COURSE_LOCATIONS[course.slug];
+          return [loc.lat, loc.lng];
+        }) : [];
+        if (points.length === 1) map.flyTo(points[0], 9, { duration: 1 });
+        else if (points.length > 1) map.flyToBounds(L.latLngBounds(points).pad(0.2), { duration: 1 });
       }
     });
   });

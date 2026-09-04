@@ -974,6 +974,58 @@ the 240 ms a fresh tile morphs from its parent: a build that kept the tile
 resident draws it morphed at once, so the 14th green differed by a morph and
 nothing else. The settle waits 350 ms past idle now.
 
+## The trees in flight, and the owner's rule: detail by place, never by distance (2026-09-05)
+
+"The trees are still glitching, I think it has to do with the LOD." Measured
+under the bansafari's own flight (`tools/goldens/tree-flicker.mjs`, live
+clock, the 5th at noon and the 12th in Höst, six seconds in): the picture's
+flip rate is 17–20 % with the trees and 4–8 % without them, and it does not
+move when the crossfade is switched off, the impostor tier is switched off,
+the hysteresis is widened to 0.35 or the corridor floors are removed — so
+what the pixels see is the forest's own facets sweeping under a fast camera,
+not any one LOD mechanism. (That probe's flip numbers are also inflated by
+its own readback: it captures at seven frames a second while the flight
+advances on the wall clock, so `flight-frames.mjs` was written to step the
+simulated track one sixtieth of a second per captured frame with the fade
+clock driven; see below.) What the LOD does contribute is the switch rate:
+55–100 tier switches a second in flight, zero of them reversals (a counter
+added for it), each a 0.3 s dithered crossfade somewhere in the forest, and
+a six-frame dwell cut that only where the camera slowed.
+
+Then the owner stated the rule that makes the question moot: **no tree on or
+around the course may change its detail with distance. Detail is set by
+where the tree stands — full on the course and its close surroundings,
+lower the further from the course.** `TREE_LOD.lodMode = 'zone'` is that:
+the corridor raster stamps three bands round every hole line — A within 90 m,
+B within 300 m, C within 700 m — and a tree's tier is its band, hero / full /
+decimated / impostor (a phone takes one tier coarser in every band), fixed
+for the life of the visit. The screen-size tiers, floors, hysteresis and
+dwell are all still there as `?lodmode=screen`, the before for every
+measurement and the mode the pop meter measures switching in. Frustum
+culling per cell is unchanged and instant, and the crossfade machinery idles
+except at boot.
+
+**Measured frame by frame** (`flight-frames.mjs`: the simulated track
+stepped at 1/60 s a captured frame under `det=1`, the fade clock driven from
+the same counter, 180 frames from three seconds into the 5th's flight at
+noon): zone mode makes **0 tier switches a second** against 14 in screen
+mode over the same frames, and the two modes show the same 719 event blocks
+(a 16 × 16 block whose mean changed by more than 20/255 between consecutive
+frames), 4 a frame, at the same frames and places (the 12th in Höst: 0
+against 8 switches a second, 676 event blocks in both) — the crop of the biggest
+is a hero birch and two spruces ten metres from the camera whose
+silhouettes move a few pixels a frame as the drone passes, honest motion
+and nothing else. With the trees hidden, 5 event blocks in 180 frames. So
+under a deterministic flight nothing in the trees pops in either mode; what
+zone mode removes is the switching itself, which the live flight had at
+55–100 crossfades a second.
+
+Two consequences, both intended: the golden views change at this commit
+(what a tree is drawn as no longer depends on how far the camera stands from
+it), so the strict gate against the previous head is run in screen mode to
+prove that mode untouched and the zone mode is judged by eye and by cost; and
+the cost is the corridors' hero trees whatever the view — measured below.
+
 **What is left.** The remaining draw list at rest — the trees (27 draws, the
 bulk of the GPU work), 18 hole signs with their two-sided faces, the sprites
 and the water's thirteen sheets — is what the frame costs now, and the trees

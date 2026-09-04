@@ -87,7 +87,7 @@ canvas{display:block;position:fixed;inset:0}
 .tee.on{background:rgba(95,208,122,.16);border-color:rgba(95,208,122,.45)}
 
 /* right rail */
-#rail{top:14px;right:14px;padding:9px;display:flex;flex-direction:column;gap:7px;width:200px}
+#rail{top:14px;right:14px;padding:9px;display:flex;flex-direction:column;gap:7px;width:216px}
 .grp{display:flex;gap:5px}
 .btn{flex:1;min-width:0;padding:6px 4px;border-radius:9px;border:1px solid rgba(255,255,255,.07);
   background:rgba(255,255,255,.04);color:var(--dim);font:600 10px/1.2 Outfit,sans-serif;
@@ -101,6 +101,9 @@ canvas{display:block;position:fixed;inset:0}
 /* note */
 #note{bottom:76px;left:14px;max-width:330px;padding:10px 13px;font-size:11px;line-height:1.55;color:var(--dim)}
 #note b{color:var(--ink);display:block;font-size:11.5px;margin-bottom:3px;letter-spacing:.02em}
+#leftStack{position:fixed;z-index:20;left:14px;bottom:76px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+  max-height:calc(100dvh - 160px)}
+#leftStack #note,#leftStack #kikOut{position:relative;left:auto;top:auto;bottom:auto;flex:0 0 auto}
 
 /* panel head bar & close buttons */
 .panel-head-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
@@ -299,11 +302,87 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 }
 
 /* kikaren's readout */
-#kikOut{display:none;bottom:180px;left:14px;max-width:300px;padding:9px 12px;
-  font-size:11px;line-height:1.6;color:var(--dim)}
+#kikOut{display:none;bottom:180px;left:14px;width:min(336px,calc(100vw - 28px));padding:0;
+  overflow:hidden;font-size:11px;line-height:1.55;color:var(--dim)}
 #kikOut.show{display:block}
 #kikOut b{color:var(--ink);font-family:'JetBrains Mono',monospace;font-weight:600}
-@media(max-width:980px){#kikOut{bottom:auto;top:calc(64px + env(safe-area-inset-top));left:8px}}
+.kik-head{display:flex;align-items:center;gap:7px;padding:9px 11px 7px;border-bottom:1px solid rgba(255,255,255,.07)}
+.kik-head>b{font:750 12px/1 Outfit,sans-serif!important;letter-spacing:.02em}
+.kik-head>span{font-size:9.5px;color:var(--faint);margin-right:auto}
+.kik-live{display:inline-flex;align-items:center;gap:5px;color:#9af0aa!important}
+.kik-live::before{content:"";width:6px;height:6px;border-radius:50%;background:#66e58a;box-shadow:0 0 7px #66e58a}
+.kik-body{padding:7px 11px 9px}
+.kik-row{padding:3px 0}
+.kik-big{font-size:12px;color:var(--ink)}
+.kik-recommend{display:flex;align-items:center;gap:10px;margin:5px 0;padding:8px 9px;border-radius:10px;
+  background:linear-gradient(120deg,rgba(95,208,122,.17),rgba(95,208,122,.07));border:1px solid rgba(95,208,122,.28)}
+.kik-club{min-width:58px;font:800 17px/1 Outfit,sans-serif;color:#fff}
+.kik-club-copy{display:flex;flex-direction:column;gap:2px;flex:1;color:var(--dim);line-height:1.25}
+.kik-club-copy b{font:700 11px/1.2 Outfit,sans-serif!important}
+.kik-btn{border:1px solid rgba(255,255,255,.13);border-radius:8px;padding:5px 8px;background:rgba(255,255,255,.06);
+  color:var(--ink);font:650 9.5px/1 Outfit,sans-serif;cursor:pointer}
+.kik-btn:hover{border-color:rgba(95,208,122,.45);background:rgba(95,208,122,.12)}
+.kik-haz.water{color:#80d8f1}.kik-haz.sand{color:#f0dcaa}
+.kik-wx{margin-top:5px;padding-top:6px;border-top:1px solid rgba(255,255,255,.06);font-size:9.5px;color:var(--faint)}
+
+/* GPS: permission is requested only from a deliberate button press. The compact
+   live card stays reachable after the mobile tool sheet closes. */
+#gpsStatus{display:flex;align-items:center;gap:8px;top:72px;left:14px;max-width:min(390px,calc(100vw - 28px));
+  padding:8px 9px 8px 11px;z-index:24;font-size:10.5px;color:var(--dim)}
+#gpsStatus[hidden]{display:none}
+.gps-pulse{width:9px;height:9px;border-radius:50%;background:#66e58a;box-shadow:0 0 0 0 rgba(102,229,138,.65);
+  flex:0 0 auto;animation:gpsPulse 1.8s ease-out infinite}
+#gpsStatus[data-state="waiting"] .gps-pulse{background:var(--amber);animation:gpsPulseWait 1.3s ease-in-out infinite}
+#gpsStatus[data-state="error"] .gps-pulse{background:#ef7c67;animation:none}
+.gps-copy{min-width:0;flex:1}.gps-copy b{display:block;color:var(--ink);font-size:10.5px}.gps-copy span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gps-action{border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.05);color:var(--dim);
+  min-height:28px;padding:0 8px;font:650 9px/1 Outfit,sans-serif;cursor:pointer}
+.gps-action.on{color:var(--turf);border-color:rgba(95,208,122,.35);background:rgba(95,208,122,.12)}
+@keyframes gpsPulse{70%{box-shadow:0 0 0 8px rgba(102,229,138,0)}100%{box-shadow:0 0 0 0 rgba(102,229,138,0)}}
+@keyframes gpsPulseWait{50%{opacity:.35}}
+body.gps-on #v2TerrainBadge{top:132px}
+
+/* My bag is a focused editor, not another permanent panel over the course. */
+#bagDialog{width:min(480px,calc(100vw - 24px));max-height:min(760px,calc(100dvh - 24px));margin:auto;padding:0;
+  color:var(--ink);background:linear-gradient(160deg,rgba(15,31,23,.99),rgba(5,12,9,.995));border:1px solid var(--edge);
+  border-radius:20px;box-shadow:0 28px 90px rgba(0,0,0,.72);overflow:hidden}
+#bagDialog::backdrop{background:rgba(2,7,4,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.bag-form{display:flex;flex-direction:column;max-height:min(760px,calc(100dvh - 24px))}
+.bag-head{display:flex;align-items:flex-start;gap:12px;padding:18px 18px 13px;border-bottom:1px solid rgba(255,255,255,.07)}
+.bag-title{flex:1}.bag-kicker{font:750 9px/1 Outfit,sans-serif;color:var(--turf);letter-spacing:.15em;text-transform:uppercase}
+.bag-title h2{font:800 22px/1.15 Outfit,sans-serif;margin-top:5px}.bag-title p{font-size:11px;line-height:1.45;color:var(--dim);margin-top:4px}
+.bag-close{display:grid;width:34px;height:34px;border-radius:50%;font-size:18px;flex:0 0 auto}
+.bag-toolbar{display:flex;align-items:center;gap:10px;padding:10px 18px 0}
+.bag-count{margin-right:auto;font:650 10px/1 'JetBrains Mono',monospace;color:var(--dim);font-variant-numeric:tabular-nums}
+.bag-count b{color:var(--ink);font-weight:700}.bag-count.limit b{color:var(--amber)}
+.bag-add{min-height:34px;padding:0 11px;border:1px solid rgba(95,208,122,.25);border-radius:9px;background:rgba(95,208,122,.08);
+  color:var(--turf);font:700 10px/1 Outfit,sans-serif;cursor:pointer;transition:background .18s ease,border-color .18s ease,opacity .18s ease}
+.bag-add:hover:not(:disabled){background:rgba(95,208,122,.15);border-color:rgba(95,208,122,.45)}
+.bag-add:disabled{opacity:.38;cursor:default}
+.bag-list{overflow:auto;padding:10px 18px 4px;display:flex;flex-direction:column;gap:6px;scrollbar-width:thin}
+.bag-row{display:grid;grid-template-columns:30px minmax(0,1fr) 86px 30px;align-items:center;gap:8px;min-height:46px;
+  padding:5px 7px;border-radius:11px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.055)}
+.bag-rank{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:rgba(95,208,122,.12);color:var(--turf);
+  font:750 9px/1 'JetBrains Mono',monospace}
+.bag-row input{width:100%;min-width:0;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,.09);background:rgba(0,0,0,.2);
+  color:var(--ink);padding:0 9px;font:600 12px/1 Outfit,sans-serif;outline:none}
+.bag-row input:focus{border-color:var(--turf);box-shadow:0 0 0 3px rgba(95,208,122,.12)}
+.bag-carry{position:relative}.bag-carry input{padding-right:26px;text-align:right;font-family:'JetBrains Mono',monospace}
+.bag-carry span{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--faint);pointer-events:none}
+.bag-remove{display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--faint);
+  font:500 18px/1 Outfit,sans-serif;cursor:pointer;transition:color .18s ease,background .18s ease}
+.bag-remove:hover:not(:disabled){color:#f2a090;background:rgba(239,124,103,.1)}.bag-remove:disabled{opacity:.2;cursor:default}
+.bag-actions{display:flex;gap:8px;padding:13px 18px calc(15px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.07)}
+.bag-actions button{min-height:42px;border-radius:11px;padding:0 14px;font:700 11px/1 Outfit,sans-serif;cursor:pointer}
+.bag-reset{color:var(--dim);background:transparent;border:1px solid rgba(255,255,255,.1)}
+.bag-save{flex:1;color:#04140a;background:var(--turf);border:1px solid #89e9a0}
+
+@media(max-width:980px){
+  #leftStack{position:static;max-height:none}
+  #leftStack #kikOut{position:fixed;bottom:auto;top:calc(64px + env(safe-area-inset-top));left:8px}
+  body.gps-on #leftStack #kikOut{top:calc(122px + env(safe-area-inset-top))}
+  #gpsStatus{top:calc(60px + env(safe-area-inset-top));left:8px;right:8px;max-width:none}
+}
 
 #toast{position:fixed;left:50%;bottom:calc(64px + env(safe-area-inset-bottom));
   transform:translateX(-50%);z-index:40;padding:9px 14px;border-radius:11px;
@@ -338,11 +417,11 @@ body.tour::before{top:0}body.tour::after{bottom:0}
   #mini.mobile-open .mini-head{display:flex}
   #mini.mobile-open canvas{flex:1;min-height:0;width:100%;height:100%;object-fit:contain}
   #mini.mobile-open .panel-close-btn{display:flex;width:26px;height:26px;font-size:15px}
-  #note.mobile-open{display:block;position:fixed;z-index:44;bottom:calc(100px + env(safe-area-inset-bottom));
+  #leftStack #note.mobile-open{display:block;position:fixed;z-index:44;top:auto;bottom:calc(100px + env(safe-area-inset-bottom));
     left:calc(8px + env(safe-area-inset-left));right:calc(8px + env(safe-area-inset-right));
     max-width:min(360px,calc(100vw - 16px));max-height:45vh;overflow-y:auto;padding:12px 14px;
     border-radius:16px;box-shadow:0 22px 50px rgba(0,0,0,.7)}
-  #note.mobile-open .panel-close-btn{display:flex;width:26px;height:26px;font-size:15px}
+  #leftStack #note.mobile-open .panel-close-btn{display:flex;width:26px;height:26px;font-size:15px}
 }
 
 @media(max-width:768px){
@@ -383,6 +462,10 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 
 @media(max-width:480px){
   #card .nm{display:none}
+  .mobile-hud-cluster{left:8px;right:8px;justify-content:space-between;border-radius:16px}
+  .m-hud-btn{padding:8px 9px;flex:1;justify-content:center}
+  .bag-list{padding-left:10px;padding-right:10px}.bag-head,.bag-actions{padding-left:12px;padding-right:12px}
+  .bag-toolbar{padding-left:12px;padding-right:12px}.bag-row{grid-template-columns:26px minmax(0,1fr) 78px 28px;gap:6px;padding-left:5px;padding-right:5px}
 }
 </style>
 </head>
@@ -524,7 +607,14 @@ body.tour::before{top:0}body.tour::after{bottom:0}
   <div class="lbl">Verktyg</div>
   <div class="grp">
     <button class="btn btn-toggle" id="rangeBtn"><span class="btn-toggle-dot"></span> Kikaren</button>
+    <button class="btn btn-toggle" id="gpsBtn"><span class="btn-toggle-dot"></span> GPS-läge</button>
+  </div>
+  <div class="grp">
+    <button class="btn btn-toggle on" id="strategyBtn" aria-pressed="true" title="Visa taktiskt sikte och landningsyta"><span class="btn-toggle-dot"></span> Spellinje</button>
     <button class="btn btn-toggle" id="gridBtn"><span class="btn-toggle-dot"></span> Greengrid</button>
+  </div>
+  <div class="grp">
+    <button class="btn btn-nav" id="bagBtn">Min bag · klubbavstånd</button>
   </div>
   <div class="tool-hint" id="toolHint">Tryck på banan för att mäta med Kikaren</div>
   <div class="lbl">Visning & Bana</div>
@@ -535,12 +625,15 @@ body.tour::before{top:0}body.tour::after{bottom:0}
   <div id="facts"></div>
 </div>
 
-<div class="panel" id="note">
-  <div class="panel-head-bar">
-    <b id="nnm">—</b>
-    <button class="panel-close-btn" id="noteCloseBtn" aria-label="Stäng hålguide" title="Stäng">×</button>
+<div id="leftStack">
+  <div class="panel" id="kikOut"></div>
+  <div class="panel" id="note">
+    <div class="panel-head-bar">
+      <b id="nnm">—</b>
+      <button class="panel-close-btn" id="noteCloseBtn" aria-label="Stäng hålguide" title="Stäng">×</button>
+    </div>
+    <span id="ntx"></span>
   </div>
-  <span id="ntx"></span>
 </div>
 
 <div id="holesContainer" class="holes-wrap">
@@ -568,6 +661,10 @@ body.tour::before{top:0}body.tour::after{bottom:0}
   <button id="mobileMiniToggle" class="m-hud-btn" aria-label="Visa 2D-karta">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
     <span>Karta</span>
+  </button>
+  <button id="mobileGpsToggle" class="m-hud-btn" aria-label="Starta GPS-läge">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg>
+    <span>GPS</span>
   </button>
   <button id="uiToggle" class="m-hud-btn primary" aria-label="Vy och Ljus">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 9 9"></path></svg>
@@ -598,7 +695,33 @@ body.tour::before{top:0}body.tour::after{bottom:0}
     </div>
   </div>
 </div>
-<div class="panel" id="kikOut"></div>
+<div class="panel" id="gpsStatus" role="status" aria-live="polite" data-state="waiting" hidden>
+  <span class="gps-pulse"></span>
+  <span class="gps-copy"><b>GPS-läge</b><span id="gpsStatusText">Söker din position…</span></span>
+  <button class="gps-action on" id="gpsFollowBtn" type="button">Följ</button>
+  <button class="gps-action" id="gpsStopBtn" type="button">Avsluta</button>
+</div>
+<dialog id="bagDialog" aria-labelledby="bagTitle">
+  <form class="bag-form" id="bagForm" method="dialog">
+    <div class="bag-head">
+      <div class="bag-title">
+        <div class="bag-kicker">Personlig caddie</div>
+        <h2 id="bagTitle">Min bag</h2>
+        <p>Ange din normala carry i meter. Lägg till upp till 14 slagklubbor; puttern behövs inte. Sparas bara på den här enheten.</p>
+      </div>
+      <button class="panel-close-btn bag-close" value="cancel" aria-label="Stäng">×</button>
+    </div>
+    <div class="bag-toolbar">
+      <span class="bag-count" id="bagCount" aria-live="polite"></span>
+      <button class="bag-add" id="bagAddBtn" type="button">+ Lägg till klubba</button>
+    </div>
+    <div class="bag-list" id="bagList"></div>
+    <div class="bag-actions">
+      <button class="bag-reset" id="bagResetBtn" type="button">Återställ</button>
+      <button class="bag-save" value="save">Spara avstånd</button>
+    </div>
+  </form>
+</dialog>
 <div id="v2TerrainBadge" role="status" aria-live="polite" hidden><b></b><span></span></div>
 <div id="toast"></div>
 

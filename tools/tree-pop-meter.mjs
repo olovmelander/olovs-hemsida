@@ -51,6 +51,8 @@ const MODES = String(flag('modes', 'A,B,C')).split(',');   /* A, B, C and S (sha
 const CELL = args.includes('--cell');
 const N = +flag('frames', 300), STEP = +flag('step', 0.25);
 const QUERY = flag('query', '');   /* extra URL parameters, e.g. lodpin=4,4 */
+/* the meter measures SWITCHING, which the default tier-by-zone mode never does: it boots in screen mode unless the query says otherwise */
+const LOD_QUERY = /lodmode=/.test(QUERY) ? '' : 'lodmode=screen';
 const OUT = flag('out', null);
 const LEVELS = 16;
 
@@ -60,7 +62,7 @@ page.setDefaultTimeout(600000);
 const errors = [];
 page.on('pageerror', e => errors.push(String(e).split('\n')[0].slice(0, 200)));
 const t0 = Date.now();
-await page.goto(`${BASE}/?bana=${SLUG}&det=1&v2=require&ren=1${QUERY ? `&${QUERY}` : ''}`, { waitUntil: 'load' });
+await page.goto(`${BASE}/?bana=${SLUG}&det=1&v2=require&ren=1${QUERY ? `&${QUERY}` : ''}${LOD_QUERY ? `&${LOD_QUERY}` : ''}`, { waitUntil: 'load' });
 await page.waitForSelector('#boot.done');
 const ev = (fn, arg) => page.evaluate(fn, arg);
 const frame = () => ev(() => window.V3D.frame());

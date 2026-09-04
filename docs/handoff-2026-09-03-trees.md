@@ -268,6 +268,19 @@ things for whoever resumes:
   `tools/goldens/tile-flips.mjs`, and written up in the plan's last section
   with the two gate rules they exposed. Judge by eye at the 12th green in
   Höst with a slow left-drag orbit.
+- **The trees' detail is set by place now, not by distance** — the owner's
+  rule of 2026-09-05 after "the trees are still glitching, I think it's the
+  LOD": `TREE_LOD.lodMode = 'zone'` gives every tree its tier from the
+  corridor raster's band (A 90 m → hero, B 300 m → full, C 700 m →
+  decimated, beyond → impostor), fixed for the visit, so no camera motion
+  switches a tree. The screen-size machinery (tiers by projected height,
+  floors, hysteresis, dwell, crossfade) is `?lodmode=screen`, the before and
+  the pop meter's mode. The golden views changed by design at that commit.
+  Probes: `tools/goldens/tree-flicker.mjs` (the live flight, a bisection),
+  `flight-frames.mjs` (the simulated track stepped a frame at a time, the
+  trustworthy one). If the owner still sees trees glitch in zone mode, the
+  frame-by-frame crops are where to look first: they showed only honest
+  motion.
 - **The harness needs `BANVY_GPU=1` on every launch** or Chrome boots
   SwiftShader, WebGPU has no adapter, the page falls back to WebGL2 and the
   pixel hooks (`pixelDelta`, `captureRaw`) are null. That looks like a broken

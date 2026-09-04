@@ -27,16 +27,21 @@ help centres or manuals, read on 2 September 2026; sources are numbered at the e
 
 **Where we are behind**
 
-- Strategy is still words: the hålguide's aim lines and landing zones are not yet
-  drawn on the hole.
-- Nothing personal: no scorecard, club distances, strategy or round recap.
+- Strategy now reaches the ground: a restrained terrain-following aim line, landing
+  zones and de-emphasised distance references are derived from the selected tee,
+  hole geometry and explicit distances in the club's guide. A guide marker travels
+  the active shot once, then the layer becomes fully idle; reduced-motion and a
+  saved visibility preference are supported.
+- Personalisation has started with a device-local, add/remove bag for up to fourteen
+  carry clubs and live Kikaren recommendations. Scorecard and round recap remain.
 - No pins and no live sun. Wind and temperature reach Kikaren now, nothing else.
 
 **First moves**
 
 - **Done 3 Sept:** Kikaren is a full caddie: tap anywhere, plays-like with live
   wind, carries, layups.
-- Paint the hålguide onto the hole: aim lines, landing zones, distance arcs.
+- **Done 4 Sept:** Paint the hålguide onto the hole: a softly guided aim line, quiet
+  landing zones, contextual distance references and a restrained hazard cue.
 - Live sun, wind and weather. Then the broadcast flyover with narration.
 
 ## What the app does today, seen from the outside
@@ -175,12 +180,12 @@ benchmark. Data = buildable but needs data the pipeline does not carry today.
 | Live weather, wind, sun | Simulated | Simulated | Live feeds | No | Partial — live wind and temperature in Kikaren; no live sun |
 | Daily pin positions | Easy/medium/hard, Sunday Setups | Pin sheets | Drag the pin | LiveCaddie Flaggplacering | Data — needs a club feed or editor |
 | Green reading: heatmap, arrows, contours | VG3 grid + heatmap | Putt preview | GolfLogix, PuttView | Green books | Partial — Greengrid on a 2 m DEM |
-| Strategy: aim lines, landing zones | Auto aim points | Caddie tips | Arccos, Garmin targets | Tips text | Missing — the text exists, unpainted |
+| Strategy: aim lines, landing zones | Auto aim points | Caddie tips | Arccos, Garmin targets | Tips text | **Has** — subtle selected-tee line, zones, contextual arcs and hazard cue on the terrain |
 | Lie and stance indicator | Degrees, plate tilt | Yes | No | No | Partial — Kikaren names the lie |
 | Hole flyover with graphics and voice | Intro cams | Yes, the signature | GolfLogix flyover | Drone video | Partial — flight in progress, no graphics or voice |
 | Time of day and season | Progressive sun, fog, cloud | Yes | No | No | Partial — five presets, no live clock |
 | Scorecard, handicap, stats | Virtual handicap | Career | WHS, strokes gained | Min Golf | Missing |
-| Club distances, your bag | My bag | Bag | Smart distances | No | Missing |
+| Club distances, your bag | My bag | Bag | Smart distances | No | **Has** — up to fourteen editable local carry distances drive Kikaren |
 | Play a shot on the course | The product | The product | No | No | Missing |
 | Games: closest to pin, challenges | Yes, many | Yes | Formats | No | Missing |
 | Multiplayer, leaderboards, sharing | Online tours | Societies | Live leaderboards | No | Missing — deep links only |
@@ -221,7 +226,14 @@ with better numbers than they have, because we have the ground.
   hole loads. GSPro's automated aim points and Garmin's target are the same idea
   without the club's words. A small per-hole JSON (line, zones, hazard ids) is
   enough; a first pass can be derived from `tools/hole-geometry.mjs`.
-  *Impact: high · Effort: 3 wk · Data: notes + geometry*
+  *Shipped 4 September 2026 · refined 4 September 2026 · Impact: high · Data: notes
+  + geometry.* The route is generated for every course from the selected tee and
+  routed centreline, while explicit guide phrases such as “max 200 meter” constrain
+  the target. The refinement replaces stacked bright overlays and perpetual GPU
+  mutations with a short transform-only guide sweep, a static target and
+  reduced-motion support. WebGPU strategy groups are detached without eager buffer
+  destruction because Three's post pipeline can still hold an encoded submission;
+  the browser releases the unreferenced layer safely instead of freezing the 3D canvas.
 - **Live sun, wind and weather** (a "Nu" preset). A sixth light preset that puts
   the sun where it is now for this course's latitude, and a weather feed for wind
   speed and direction, temperature and cloud. Trackman's progressive time of day
@@ -276,7 +288,9 @@ real ground, and the games the ranges have shown people actually play.
   smart distances: nine clubs, a carry each, editable, stored on device. Everything
   below reads from it, and the caddie can say "det är en järnsjua" instead of a
   number.
-  *Impact: medium · Effort: 1 wk · Data: user*
+  *Shipped 4 September 2026 · Impact: medium · Data: user.* Nine editable carry
+  distances are stored only on the device and feed both the landing-zone label and
+  the glove-readable club card in Kikaren.
 - **Shot planner with dispersion.** Pick a club, drag the aim, and see the
   dispersion ellipse land on the real hole: what fraction is in the water, the
   bunker, the rough, and the expected distance left. Arccos and DECADE-style
@@ -307,10 +321,12 @@ something used every week.
 
 - **GPS mode** (the phone on the course). With geolocation the tapped point
   becomes your position, the Kikaren numbers update as you walk, and the camera can
-  follow. Add a scorecard with the game formats people play here (slag, poäng,
+  follow. The live-position part shipped 4 September 2026 with accuracy display,
+  nearest-hole hysteresis, an on-course guard and explicit follow/stop controls.
+  Still to add: a scorecard with the game formats people play here (slag, poäng,
   matchspel) and a round recap flown as a Flyover. Handicap stays with Min Golf:
   link out to register the round rather than reimplement WHS.
-  *Impact: high · Effort: 4 wk · Data: device GPS*
+  *GPS tracking shipped 4 September 2026 · Impact: high · Data: device GPS*
 - **Club portal** (the business model). GreenBird, Caddee and LiveCaddie all sell
   the same three things to clubs: an editable guide, pin sheets, and sponsor
   placements. We can offer a better guide than any of them, with a small editor for

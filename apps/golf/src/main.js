@@ -68,6 +68,10 @@ import { smoothShore } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { compassBearing, windAlong, playsLike, greenDistances, lineHazards, layupTargets } from './engine/rangefinder.js';
+import {
+  DEFAULT_BAG, MAX_BAG_CLUBS, gpsToLocal, nearestHole, normalizeBag, parseBag,
+  pointAlongLine, recommendClub, strategyForHole,
+} from './engine/caddie.js';
 import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
@@ -3761,6 +3765,8 @@ if (V2_VEG_PLAN) {
    request. Computed on demand, never at boot. */
 const LEGACY_TREE_REASONS = ['none', 'forestRing', 'scrubRing', 'satellite', 'shore', 'v2Individual', 'v2Stand'];
 const LEGACY_ZONE_A_METRES = 90, LEGACY_ZONE_B_METRES = 300;
+/* the third band, for the tier-by-zone rule: decimated crowns out to here, impostors beyond */
+const ZONE_C_METRES = 700;
 function legacyTreeExport(withInstances = false) {
   const names = ['spruce', 'pine', 'birch'];
   const out = {
@@ -3822,6 +3828,7 @@ const LODPIN = (() => {
   return v && v.length === 2 && v.every(x => x >= 1 && x <= 4) ? [v[0] | 0, v[1] | 0] : null;
 })();
 /* ?lodreach=hero,full overrides how far the corridor floors reach, in metres */
+const LODMODE = new URLSearchParams(location.search).get('lodmode') === 'screen' ? 'screen' : 'zone';
 const LODREACH = (() => {
   const q = new URLSearchParams(location.search).get('lodreach'), v = q ? q.split(',').map(Number) : null;
   return v && v.length === 2 && v.every(x => x > 0) ? v : null;
@@ -3852,6 +3859,19 @@ const TREE_LOD = {
      middle ring's edge, at most a millisecond a frame over the 110 / 40 / 14 the plan
      started from; a phone keeps 200 / 60 / 22 until one is measured */
   nominalHeight: 12, heroPx: LODPX?.hero ?? (LOWQ ? 200 : 64), switchPx: LODPX?.full ?? (LOWQ ? 60 : 24), impostorPx: LODPX?.impostor ?? (LOWQ ? 22 : 8), hysteresis: 0.1,
+  /* The tier by ZONE: the owner's rule. A tree on the corridors (zone A) is
+     hero, in the close surroundings (B) full, out to 700 m (C) decimated,
+     beyond that an impostor -- fixed for the visit, whatever the camera does,
+     so no tree ever changes its detail while the picture moves. The
+     screen-size tiers, floors, hysteresis and dwell below are the other mode
+     (?lodmode=screen), kept for the before and for the harness that measures
+     switching. Phones take one tier coarser in every band. */
+  lodMode: LODMODE,
+  zoneTiers: LOWQ ? [2, 3, 4, 4] : [1, 2, 3, 4],
+  /* frames a tree must want its new tier for before it switches: a fast camera
+     wobbles a tree's size across a threshold and back within a fade, and each
+     wobble was a crossfade -- 450 a second in a flight, most of them reversals */
+  dwell: 6,
   /* The course corridor keeps its detail whatever the distance. Screen-size
      LOD is right for a forest and wrong for the trees a golfer is looking
      at: as the camera moves around a course every tree at the boundary
@@ -3875,7 +3895,7 @@ const TREE_LOD = {
      its own; nothing else changes */
   force: [1, 2, 3, 4].includes(+new URLSearchParams(location.search).get("lod")) ? +new URLSearchParams(location.search).get("lod") : 0,
   /* tier0 is the hero tier, tier1 the full template, tier2 decimated, tier3 the impostor */
-  stats: { tier0: 0, tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, switches: 0, updates: 0, bakeMs: 0, fading: 0, updateMs: 0, zoneA: 0, zoneB: 0 },
+  stats: { tier0: 0, tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, switches: 0, reversals: 0, updates: 0, bakeMs: 0, fading: 0, updateMs: 0, zoneA: 0, zoneB: 0 },
   /* ?impdbg=normal|albedo|mask|world draws the impostors unlit, one term at a time */
   debug: new URLSearchParams(location.search).get("impdbg") || null,
 };
@@ -4089,7 +4109,7 @@ const TREE_LOD = {
         if (ex * ex + ez * ez <= r * r) { const at = j * nx + i; if (!grid[at] || v < grid[at]) grid[at] = v; }
       }
     };
-    for (const [r, v] of [[LEGACY_ZONE_B_METRES, 2], [LEGACY_ZONE_A_METRES, 1]]) {
+    for (const [r, v] of [[ZONE_C_METRES, 3], [LEGACY_ZONE_B_METRES, 2], [LEGACY_ZONE_A_METRES, 1]]) {
       for (const h of HOLES) for (let i = 0; i + 1 < h.line.length; i++) stamp(h.line[i][0], h.line[i][1], h.line[i + 1][0], h.line[i + 1][1], r, v);
     }
     return (x, z) => { const i = Math.floor((x - x0) / cell), j = Math.floor((z - z0) / cell); return i < 0 || j < 0 || i >= nx || j >= nz ? 0 : grid[j * nx + i]; };
@@ -4105,7 +4125,7 @@ const TREE_LOD = {
     /* each tree's drawn height and the height of its crown centre: the tier
        is decided from the pixels THIS tree projects to, not a nominal one */
     const treeH = new Float32Array(n), treeCY = new Float32Array(n);
-    /* which course zone each tree stands in (0 none, 1 A, 2 B): the tier floor is read from it every update */
+    /* which course zone each tree stands in (0 beyond, 1 A, 2 B, 3 C): in zone mode it IS the tier, in screen mode the floor */
     const zone = new Uint8Array(n);
     for (let k = 0; k < n; k++) {
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
@@ -4156,6 +4176,7 @@ const TREE_LOD = {
       n, treeH, treeCY, zone,
       where: new Int32Array(n).fill(-1),
       tierOf: new Uint8Array(n),
+      pend: new Uint8Array(n), pendN: new Uint8Array(n),
       /* the OUT half of a crossfade: which tier still draws the tree, and where */
       outTier: new Uint8Array(n), whereOut: new Int32Array(n).fill(-1),
       fadeT0: new Float32Array(n), fadeCode: new Uint8Array(n),
@@ -4258,6 +4279,8 @@ function treeTierMove(s, k, from, to) {
   TREE_LOD.stats.moves++;
   if (from && to) TREE_LOD.stats.switches++;
   if (dur > 0 && to && sp.outTier[k] === to && sp.tierOf[k] === from) {
+    /* a switch back to the tier it is still fading out of: the tree wobbled across a threshold within one fade */
+    TREE_LOD.stats.reversals++;
     const { t0, inCode } = reversedFade(clock, sp.fadeT0[k], dur, sp.fadeCode[k]);
     const wIn = sp.where[k], wOut = sp.whereOut[k];
     sp.where[k] = wOut; sp.whereOut[k] = wIn; sp.tierOf[k] = to; sp.outTier[k] = from;
@@ -4395,7 +4418,8 @@ function updateTreeTiers() {
     for (let s = 0; s < 3; s++) {
       const sp = TREE_LOD.tiers[s];
       if (!sp) continue;
-      const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf, Z = sp.zone;
+      const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf, Z = sp.zone, PD = sp.pend, PN = sp.pendN, dwell = TREE_LOD.dwell;
+      const zoneMode = TREE_LOD.lodMode === 'zone', ZT = TREE_LOD.zoneTiers;
       for (let i = 0; i < L.length; i++) {
         const k = L[i];
         const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;
@@ -4404,6 +4428,7 @@ function updateTreeTiers() {
         const cur = T[k];
         let want;
         if (force) want = force;
+        else if (zoneMode) want = ZT[Z[k] ? Z[k] - 1 : 3];
         else if (!cur || reset) { want = 1; while (want < 4 && px < thr[want - 1]) want++; }
         else {
           want = cur;
@@ -4411,13 +4436,19 @@ function updateTreeTiers() {
           while (want < 4 && px < thr[want - 1] * (1 - hy)) want++;
         }
         /* the corridor's floor, unless a forced tier is being judged on its own */
-        if (!force && Z[k]) {
+        if (!force && !zoneMode && Z[k]) {
           /* the reaches carry the same 10% band as the pixel boundaries, so a tree at a reach does not flip */
           const rH = reachH * (cur === floorA ? 1.1 : 1), rF = reachF * (cur && cur <= 2 ? 1.1 : 1);
           const fl = Z[k] === 1 ? (d < rH ? floorA : d < rF ? floorAFar : 4) : (d < rF ? floorB : 4);
           if (want > fl) want = fl;
         }
-        if (want !== cur) { treeTierMove(s, k, cur, want); changed = true; }
+        if (want !== cur) {
+          /* a tree entering the frustum, a reset or a forced tier switches at once; otherwise
+             the new tier has to be wanted for dwell frames running */
+          if (!cur || reset || force || dwell <= 0 || (PD[k] === want && PN[k] >= dwell - 1)) { treeTierMove(s, k, cur, want); changed = true; PN[k] = 0; }
+          else if (PD[k] === want) PN[k]++;
+          else { PD[k] = want; PN[k] = 1; }
+        } else PN[k] = 0;
       }
     }
   }
@@ -6094,7 +6125,13 @@ function drawCard() {
     const d = document.createElement('div');
     d.className = 'tee' + (k === teeIdx ? ' on' : '');
     d.innerHTML = `<b>${m}</b><i>${TEE_NAMES[k]}</i>`;
-    d.onclick = () => { teeIdx = k; drawCard(); if (camMode === 'tee') setCam('tee'); if (kik) kikRender(); };
+    d.onclick = () => {
+      teeIdx = k;
+      drawCard();
+      buildStrategy();
+      if (camMode === 'tee') setCam('tee');
+      if (kik) kikRender();
+    };
     teesEl.appendChild(d);
   });
   const rise = h.elev.rise;
@@ -6202,6 +6239,7 @@ function goHole(n, recam, instant) {
   }
   kikClear();
   if (kik) kikRender();
+  buildStrategy();
   if (gridOn) buildGreenGrid();
   if (recam) setCam(camMode, instant);
   syncURL();
@@ -7011,6 +7049,551 @@ function endTour() {
 }
 document.getElementById('tourBtn').onclick = startTour;
 
+/* ------------------------------------------------------- personal caddie
+   One local bag drives both the labels painted on the hole and Kikaren's club
+   recommendation. It never leaves the device. The 3D strategy is derived from
+   the selected tee, the routed centreline and explicit distances in the club's
+   note (for example "max 200 meter"), so it works for every current pack while
+   leaving room for authored per-hole strategy data later. */
+const BAG_KEY = 'banvy-caddie-bag-v1';
+const htmlEsc = value => String(value ?? '').replace(/[&<>"']/g, ch =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+let playerBag;
+try { playerBag = parseBag(localStorage.getItem(BAG_KEY)); }
+catch { playerBag = normalizeBag(DEFAULT_BAG); }
+
+const bagDialog = document.getElementById('bagDialog');
+const bagForm = document.getElementById('bagForm');
+const bagList = document.getElementById('bagList');
+const bagCount = document.getElementById('bagCount');
+const bagAddBtn = document.getElementById('bagAddBtn');
+
+function bagDraftFromRows() {
+  return [...bagList.querySelectorAll('.bag-row')].map((row, i) => ({
+    id: row.dataset.clubId || `club-${i + 1}`,
+    name: row.querySelector('.bag-name').value,
+    carry: row.querySelector('.bag-distance').value,
+  }));
+}
+
+function syncBagEditor() {
+  const count = bagList.querySelectorAll('.bag-row').length;
+  bagCount.innerHTML = `<b>${count}</b> / ${MAX_BAG_CLUBS} klubbor`;
+  bagCount.classList.toggle('limit', count >= MAX_BAG_CLUBS);
+  bagAddBtn.disabled = count >= MAX_BAG_CLUBS;
+  bagAddBtn.textContent = count >= MAX_BAG_CLUBS ? 'Bagen är full' : '+ Lägg till klubba';
+  for (const button of bagList.querySelectorAll('.bag-remove')) button.disabled = count <= 2;
+}
+
+function renderBagForm(value = playerBag) {
+  bagList.innerHTML = normalizeBag(value).map((club, i) => `
+    <div class="bag-row" data-club-id="${htmlEsc(club.id)}">
+      <span class="bag-rank">${String(i + 1).padStart(2, '0')}</span>
+      <input class="bag-name" value="${htmlEsc(club.name)}" maxlength="24" aria-label="Klubba ${i + 1}" required>
+      <span class="bag-carry"><input class="bag-distance" type="number" inputmode="numeric" min="20" max="350"
+        value="${club.carry}" aria-label="Carry för ${htmlEsc(club.name)} i meter" required><span>m</span></span>
+      <button class="bag-remove" type="button" aria-label="Ta bort ${htmlEsc(club.name)}" title="Ta bort">×</button>
+    </div>`).join('');
+  syncBagEditor();
+}
+function openBag() {
+  renderBagForm();
+  if (typeof bagDialog.showModal === 'function') bagDialog.showModal();
+  else bagDialog.setAttribute('open', '');
+  requestAnimationFrame(() => bagList.querySelector('input')?.focus({ preventScroll: true }));
+}
+document.getElementById('bagBtn').onclick = openBag;
+document.getElementById('bagResetBtn').onclick = () => renderBagForm(DEFAULT_BAG);
+bagAddBtn.onclick = () => {
+  const draft = bagDraftFromRows();
+  if (draft.length >= MAX_BAG_CLUBS) return;
+  const shortest = Math.min(...draft.map(club => Number(club.carry)).filter(Number.isFinite));
+  draft.push({
+    id: `custom-${Date.now().toString(36)}`,
+    name: 'Ny klubba',
+    carry: Math.max(20, Number.isFinite(shortest) ? shortest - 10 : 80),
+  });
+  renderBagForm(draft);
+  const input = bagList.querySelector('.bag-row:last-child .bag-name');
+  input?.focus({ preventScroll: true });
+  input?.select();
+  input?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+};
+bagList.addEventListener('click', event => {
+  const button = event.target.closest('.bag-remove');
+  if (!button) return;
+  const draft = bagDraftFromRows();
+  if (draft.length <= 2) return;
+  const index = [...bagList.querySelectorAll('.bag-row')].indexOf(button.closest('.bag-row'));
+  draft.splice(index, 1);
+  renderBagForm(draft);
+  bagList.querySelectorAll('.bag-name')[Math.min(index, draft.length - 1)]?.focus({ preventScroll: true });
+});
+bagForm.addEventListener('submit', event => {
+  if (event.submitter?.value !== 'save') return;
+  event.preventDefault();
+  playerBag = normalizeBag(bagDraftFromRows()).sort((a, b) => b.carry - a.carry);
+  try { localStorage.setItem(BAG_KEY, JSON.stringify({ version: 2, clubs: playerBag })); }
+  catch { /* private storage may be unavailable; the in-memory bag still works */ }
+  bagDialog.close?.();
+  buildStrategy();
+  if (kik) kikRender();
+  toast('Bagen är sparad · klubbvalen är uppdaterade');
+});
+bagDialog.addEventListener('click', event => {
+  if (event.target === bagDialog) bagDialog.close?.('cancel');
+});
+
+const STRATEGY_KEY = 'banvy-strategy-visible-v1';
+let strategyOn = true, strategyGroup = null, currentStrategy = null;
+try { strategyOn = localStorage.getItem(STRATEGY_KEY) !== 'off'; }
+catch { /* local preference is optional */ }
+let strategyAnimation = null;
+const strategyMotionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+let strategyReducedMotion = DET || strategyMotionPreference.matches;
+const strategyBtn = document.getElementById('strategyBtn');
+strategyBtn.classList.toggle('on', strategyOn);
+strategyBtn.setAttribute('aria-pressed', String(strategyOn));
+
+function strategyClear() {
+  if (!strategyGroup) return;
+  const staleGroup = strategyGroup;
+  scene.remove(staleGroup);
+  strategyGroup = null;
+  strategyAnimation = null;
+  /* Do not call dispose() here. Three's WebGPU post pipeline can retain an
+     encoded command which names these buffers even after multiple frames and
+     GPUQueue.onSubmittedWorkDone(). Destroying them produces "Buffer used in
+     submit while destroyed" and freezes only the 3D canvas while the DOM and
+     minimap keep running. Once detached and unreferenced, Three's WeakMaps and
+     the browser GC release this tiny transient layer at a safe lifetime point. */
+}
+
+function sampledRoute(line, from, to, step = 4) {
+  const points = [];
+  for (let d = from; d < to; d += step) points.push(pointAlongLine(line, d));
+  points.push(pointAlongLine(line, to));
+  return points.filter(Boolean);
+}
+
+function strategyRibbon(points, width, colour, opacity, lift = 0.12) {
+  const positions = [];
+  for (let i = 0; i < points.length - 1; i++) {
+    const a = points[i], b = points[i + 1];
+    const dx = b[0] - a[0], dz = b[1] - a[1], length = Math.hypot(dx, dz) || 1;
+    const nx = -dz / length * width / 2, nz = dx / length * width / 2;
+    const corners = [[a[0] + nx, a[1] + nz], [a[0] - nx, a[1] - nz], [b[0] + nx, b[1] + nz], [b[0] - nx, b[1] - nz]];
+    const push = index => {
+      const p = corners[index];
+      positions.push(p[0], terrainH(p[0], p[1]) + lift, p[1]);
+    };
+    push(0); push(1); push(2); push(2); push(1); push(3);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(positions.length / 3 * 2), 2));
+  const material = new THREE.MeshBasicNodeMaterial({
+    color: new THREE.Color(colour), transparent: true, opacity, depthWrite: false, side: THREE.DoubleSide,
+  });
+  material.polygonOffset = true; material.polygonOffsetFactor = DEPTH_SIGN * 4; material.polygonOffsetUnits = DEPTH_SIGN * 8;
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.userData.baseOpacity = opacity;
+  mesh.userData.strategyWidth = width;
+  mesh.renderOrder = 5;
+  return mesh;
+}
+
+function strategyLine(points, colour, opacity = 0.9, lift = 0.18) {
+  const positions = points.map(p => new THREE.Vector3(p[0], terrainH(p[0], p[1]) + lift, p[1]));
+  const material = new THREE.LineBasicNodeMaterial({ color: new THREE.Color(colour), transparent: true, opacity, depthWrite: false });
+  const geometry = new THREE.BufferGeometry().setFromPoints(positions);
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(positions.length * 2), 2));
+  const line = new THREE.Line(geometry, material);
+  line.userData.baseOpacity = opacity;
+  line.renderOrder = 6;
+  return line;
+}
+
+function strategyLabel(title, subtitle, point, colour = '#b7dfc0', scale = 1, quiet = false) {
+  const canvas = document.createElement('canvas');
+  canvas.width = quiet ? 224 : 512;
+  canvas.height = quiet ? 72 : 120;
+  const ctx = canvas.getContext('2d');
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  if (!quiet) {
+    const fill = ctx.createLinearGradient(0, 0, 512, 120);
+    fill.addColorStop(0, 'rgba(4,12,8,.88)');
+    fill.addColorStop(1, 'rgba(10,24,16,.76)');
+    ctx.fillStyle = fill;
+    ctx.beginPath(); ctx.roundRect(3, 3, 506, 114, 25); ctx.fill();
+    ctx.strokeStyle = 'rgba(220,240,225,.22)'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = colour;
+    ctx.beginPath(); ctx.roundRect(26, 23, 6, 74, 3); ctx.fill();
+    ctx.fillStyle = '#f3f7f4'; ctx.font = '700 27px Outfit, sans-serif';
+    ctx.fillText(title, 270, subtitle ? 45 : 61);
+    if (subtitle) {
+      ctx.fillStyle = 'rgba(224,235,227,.72)'; ctx.font = '500 18px Outfit, sans-serif';
+      ctx.fillText(subtitle, 270, 79);
+    }
+  } else {
+    ctx.shadowColor = 'rgba(2,8,5,.9)'; ctx.shadowBlur = 8;
+    ctx.fillStyle = 'rgba(236,244,238,.82)'; ctx.font = '650 27px Outfit, sans-serif';
+    ctx.fillText(title, 112, 37);
+  }
+  const texture = new THREE.CanvasTexture(canvas); texture.colorSpace = THREE.SRGBColorSpace;
+  const material = new THREE.SpriteNodeMaterial({ map: texture, transparent: true, opacity: 0, depthWrite: false, depthTest: false });
+  const sprite = new THREE.Sprite(material);
+  const width = quiet ? 13 : 30, height = quiet ? 4.15 : 7.05;
+  sprite.scale.set(width * scale, height * scale, 1);
+  sprite.position.set(point[0], terrainH(point[0], point[1]) + (quiet ? 2.2 : 3.8) * scale, point[1]);
+  sprite.userData.baseOpacity = quiet ? 0.68 : 0.92;
+  sprite.userData.restY = sprite.position.y;
+  sprite.renderOrder = 7;
+  return sprite;
+}
+
+function strategyEllipse(strategy, zone, colour) {
+  const before = pointAlongLine(strategy.line, Math.max(0, zone.distance - 5));
+  const after = pointAlongLine(strategy.line, Math.min(strategy.total, zone.distance + 5));
+  const dx = after[0] - before[0], dz = after[1] - before[1], length = Math.hypot(dx, dz) || 1;
+  const fx = dx / length, fz = dz / length, rx = -fz, rz = fx;
+  const ring = [];
+  for (let i = 0; i < 48; i++) {
+    const angle = i / 48 * TAU;
+    ring.push([
+      zone.point[0] + fx * Math.cos(angle) * zone.radiusAlong + rx * Math.sin(angle) * zone.radiusAcross,
+      zone.point[1] + fz * Math.cos(angle) * zone.radiusAlong + rz * Math.sin(angle) * zone.radiusAcross,
+    ]);
+  }
+  const positions = [];
+  for (let i = 0; i < ring.length; i++) {
+    for (const p of [zone.point, ring[i], ring[(i + 1) % ring.length]]) positions.push(p[0], terrainH(p[0], p[1]) + 0.16, p[1]);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(positions.length / 3 * 2), 2));
+  const material = new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(colour), transparent: true, opacity: 0.2, depthWrite: false, side: THREE.DoubleSide });
+  material.polygonOffset = true; material.polygonOffsetFactor = DEPTH_SIGN * 5; material.polygonOffsetUnits = DEPTH_SIGN * 10;
+  const mesh = new THREE.Mesh(geometry, material); mesh.renderOrder = 5;
+  const outline = strategyLine(ring.concat([ring[0]]), colour, zone.kind === 'approach' ? 0.24 : 0.32, 0.19);
+  const dotMaterial = new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(colour), transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
+  const dot = new THREE.Mesh(new THREE.CircleGeometry(zone.kind === 'approach' ? 0.72 : 1.05, 24), dotMaterial);
+  dot.rotation.x = -Math.PI / 2;
+  dot.position.set(zone.point[0], terrainH(zone.point[0], zone.point[1]) + 0.22, zone.point[1]);
+  dot.renderOrder = 7;
+  const visual = {
+    fill: material, fillOpacity: zone.kind === 'approach' ? 0.035 : 0.05,
+    outline: outline.material, outlineOpacity: outline.userData.baseOpacity,
+    dot, dotOpacity: zone.kind === 'approach' ? 0.34 : 0.58,
+  };
+  material.opacity = 0;
+  outline.material.opacity = 0;
+  strategyGroup.add(mesh, outline, dot);
+  return visual;
+}
+
+const strategyEase = value => 1 - Math.pow(1 - clampf(value, 0, 1), 3);
+
+function settleStrategyAnimation() {
+  if (!strategyAnimation) return;
+  for (const item of strategyAnimation.layers) item.object.material.opacity = item.opacity;
+  for (const item of strategyAnimation.fades) item.material.opacity = item.opacity;
+  for (const visual of strategyAnimation.zones) {
+    visual.fill.opacity = visual.fillOpacity;
+    visual.outline.opacity = visual.outlineOpacity;
+    visual.dot.material.opacity = visual.dotOpacity;
+    visual.dot.scale.setScalar(1);
+  }
+  for (const label of strategyAnimation.labels) {
+    label.material.opacity = label.userData.baseOpacity;
+    label.position.y = label.userData.restY;
+  }
+  strategyAnimation.sweep.visible = false;
+  strategyAnimation.settled = true;
+}
+
+function startStrategyAnimation() {
+  if (!strategyAnimation) return;
+  strategyAnimation.started = performance.now();
+  strategyAnimation.settled = false;
+  for (const item of strategyAnimation.layers) item.object.material.opacity = item.opacity;
+  for (const item of strategyAnimation.fades) item.material.opacity = item.opacity;
+  for (const visual of strategyAnimation.zones) {
+    visual.fill.opacity = visual.fillOpacity;
+    visual.outline.opacity = visual.outlineOpacity;
+    visual.dot.material.opacity = visual.dotOpacity;
+    visual.dot.scale.setScalar(0.96);
+  }
+  for (const label of strategyAnimation.labels) {
+    label.material.opacity = label.userData.baseOpacity;
+    label.position.y = label.userData.restY - 0.4;
+  }
+  strategyAnimation.sweep.visible = true;
+  if (strategyReducedMotion) settleStrategyAnimation();
+}
+
+strategyMotionPreference.addEventListener?.('change', event => {
+  strategyReducedMotion = DET || event.matches;
+  if (strategyReducedMotion) settleStrategyAnimation();
+  else if (strategyOn) startStrategyAnimation();
+});
+
+function buildStrategy() {
+  strategyClear();
+  currentStrategy = strategyForHole(HOLES[hole - 1], teeIdx, playerBag);
+  if (!currentStrategy || !strategyOn) { drawMini(); return; }
+  strategyGroup = new THREE.Group();
+  strategyGroup.name = 'tactical-guide';
+  strategyGroup.visible = strategyOn;
+
+  /* The complete route is context, not decoration. A small guide marker travels
+     it once; after 900 ms every strategy object is static and updateStrategy is
+     a no-op, so orbiting the course pays only the overlay's draw calls. */
+  const full = sampledRoute(currentStrategy.line, 0, currentStrategy.total, 4);
+  const primary = sampledRoute(currentStrategy.line, 0, currentStrategy.primaryDistance, 2.5);
+  const seam = strategyRibbon(full, 0.2, 0x91b398, 0.07, 0.105);
+  const active = strategyRibbon(primary, 0.27, 0x8fc19a, 0.27, 0.145);
+  strategyGroup.add(seam, active);
+
+  const zoneVisuals = [];
+  const labels = [];
+
+  currentStrategy.zones.forEach((zone, index) => {
+    const colour = zone.kind === 'approach' ? 0xd8bf82 : 0x9fd7aa;
+    zoneVisuals.push(strategyEllipse(currentStrategy, zone, colour));
+    if (index === 0) {
+      const title = zone.kind === 'green'
+        ? `Green · ${Math.round(zone.distance)} m`
+        : currentStrategy.maxCarry
+          ? `Sikta här · max ${Math.round(currentStrategy.maxCarry)} m`
+          : `Sikta här · ${Math.round(zone.distance)} m`;
+      const subtitle = zone.kind === 'green'
+        ? `${zone.club?.name || 'Klubbval'} · till mitten`
+        : `${zone.club?.name || 'Klubbval'} · ${Math.round(zone.remain)} m kvar`;
+      labels.push(strategyLabel(title, subtitle, zone.point, '#acdcb5'));
+    } else {
+      labels.push(strategyLabel(`${Math.round(zone.remain)} m kvar`, '', zone.point, '#dcc895', 0.76, true));
+    }
+  });
+  for (const label of labels) strategyGroup.add(label);
+
+  const fades = [{ material: seam.material, opacity: seam.userData.baseOpacity }];
+  const layers = [active].map(object => ({ object, opacity: object.userData.baseOpacity }));
+
+  const primaryHazards = lineHazards(currentStrategy.origin, currentStrategy.primary, kikKindAt);
+  const hazardMaterials = [];
+  if (primaryHazards.length) {
+    const hazard = primaryHazards[0];
+    const point = pointAlongLine(currentStrategy.line, hazard.from);
+    const ring = [];
+    for (let i = 0; i < 40; i++) {
+      const angle = i / 40 * TAU;
+      ring.push([point[0] + Math.cos(angle) * 7, point[1] + Math.sin(angle) * 7]);
+    }
+    const pulse = strategyLine(ring.concat([ring[0]]), hazard.type === 'vatten' ? 0x7bc2d5 : 0xd8bd82, 0.34, 0.2);
+    hazardMaterials.push({ material: pulse.material, opacity: pulse.userData.baseOpacity });
+    strategyGroup.add(pulse);
+  }
+
+  const sweepMaterial = new THREE.MeshBasicNodeMaterial({ color: 0xdaf1df, transparent: true, opacity: 0.42, depthWrite: false, side: THREE.DoubleSide });
+  const sweep = new THREE.Mesh(new THREE.CircleGeometry(0.82, 20), sweepMaterial);
+  sweep.rotation.x = -Math.PI / 2; sweep.renderOrder = 8; sweep.visible = false;
+  sweep.position.set(currentStrategy.origin[0], terrainH(currentStrategy.origin[0], currentStrategy.origin[1]) + 0.24, currentStrategy.origin[1]);
+  strategyGroup.add(sweep);
+
+  strategyAnimation = {
+    started: performance.now(), settled: false, layers,
+    fades: fades.concat(hazardMaterials), zones: zoneVisuals, labels,
+    sweep, primaryDistance: currentStrategy.primaryDistance, line: currentStrategy.line,
+    arcCount: 0,
+  };
+  scene.add(strategyGroup);
+  startStrategyAnimation();
+  drawMini();
+}
+
+function updateStrategy(now) {
+  if (!strategyAnimation || !strategyOn || strategyReducedMotion || strategyAnimation.settled) return;
+  const elapsed = now - strategyAnimation.started;
+  const targetFade = strategyEase((elapsed - 180) / 480);
+  for (const visual of strategyAnimation.zones) {
+    visual.dot.scale.setScalar(0.96 + targetFade * 0.04);
+  }
+  for (const label of strategyAnimation.labels) {
+    label.position.y = label.userData.restY - (1 - targetFade) * 0.4;
+  }
+
+  if (elapsed < 900) {
+    const travel = strategyEase(elapsed / 820);
+    const point = pointAlongLine(strategyAnimation.line, strategyAnimation.primaryDistance * travel);
+    strategyAnimation.sweep.position.set(point[0], terrainH(point[0], point[1]) + 0.24, point[1]);
+    const pulse = Math.sin(Math.PI * clampf(elapsed / 900, 0, 1));
+    strategyAnimation.sweep.scale.setScalar(0.72 + pulse * 0.28);
+  } else {
+    settleStrategyAnimation();
+  }
+}
+
+strategyBtn.onclick = () => {
+  strategyOn = !strategyOn;
+  strategyBtn.classList.toggle('on', strategyOn);
+  strategyBtn.setAttribute('aria-pressed', String(strategyOn));
+  try { localStorage.setItem(STRATEGY_KEY, strategyOn ? 'on' : 'off'); }
+  catch { /* local preference is optional */ }
+  if (strategyGroup) strategyGroup.visible = strategyOn;
+  if (strategyOn) {
+    if (strategyGroup) startStrategyAnimation();
+    else buildStrategy();
+  }
+  drawMini();
+  toast(strategyOn ? 'Spellinje på · följ den ljusa linjen till målområdet' : 'Spellinje av');
+};
+
+/* ------------------------------------------------------------ live GPS
+   WGS84 fixes enter through the exact flat-earth frame declared by every pack.
+   Hole changes use a 28 m hysteresis so two adjacent fairways cannot make the
+   UI flicker. GPS is opt-in per visit and never starts from stored state. */
+const gpsState = { active: false, watchId: null, point: null, accuracy: null, follow: true, firstFix: true };
+let gpsGroup = null;
+const gpsBtn = document.getElementById('gpsBtn');
+const mobileGpsBtn = document.getElementById('mobileGpsToggle');
+const gpsStatus = document.getElementById('gpsStatus');
+const gpsStatusText = document.getElementById('gpsStatusText');
+const gpsFollowBtn = document.getElementById('gpsFollowBtn');
+
+function syncGpsUi(state, detail) {
+  gpsStatus.hidden = false;
+  gpsStatus.dataset.state = state;
+  gpsStatusText.textContent = detail;
+  gpsBtn.classList.toggle('on', gpsState.active);
+  mobileGpsBtn?.classList.toggle('on', gpsState.active);
+  gpsFollowBtn.classList.toggle('on', gpsState.follow);
+  gpsFollowBtn.textContent = gpsState.follow ? 'Följer' : 'Följ';
+  document.body.classList.toggle('gps-on', gpsState.active);
+}
+
+function gpsMarkerClear() {
+  if (!gpsGroup) return;
+  scene.remove(gpsGroup);
+  gpsGroup.traverse(object => { object.geometry?.dispose?.(); object.material?.dispose?.(); });
+  gpsGroup = null;
+}
+
+function drawGpsMarker() {
+  gpsMarkerClear();
+  if (!gpsState.point) return;
+  const [x, z] = gpsState.point, y = terrainH(x, z);
+  const radius = clampf(gpsState.accuracy || 6, 3, 60);
+  gpsGroup = new THREE.Group(); gpsGroup.name = 'live-gps-position';
+  const ring = [];
+  for (let i = 0; i < 64; i++) {
+    const angle = i / 64 * TAU;
+    const px = x + Math.cos(angle) * radius, pz = z + Math.sin(angle) * radius;
+    ring.push(new THREE.Vector3(px, terrainH(px, pz) + 0.32, pz));
+  }
+  ring.push(ring[0].clone());
+  const ringMat = new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0x79e99b), transparent: true, opacity: 0.8, depthWrite: false });
+  const ringGeometry = new THREE.BufferGeometry().setFromPoints(ring);
+  ringGeometry.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(ring.length * 2), 2));
+  gpsGroup.add(new THREE.Line(ringGeometry, ringMat));
+  const dot = new THREE.Mesh(new THREE.SphereGeometry(1.2, 14, 10), new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xb4ffc4) }));
+  dot.position.set(x, y + 1.25, z); gpsGroup.add(dot);
+  scene.add(gpsGroup);
+}
+
+function focusGps(instant = false) {
+  if (!gpsState.point) return;
+  const h = HOLES[hole - 1], p = gpsState.point, target = h.green.c;
+  const dx = target[0] - p[0], dz = target[1] - p[1], length = Math.hypot(dx, dz) || 1;
+  const fx = dx / length, fz = dz / length;
+  const px = p[0] - fx * 25 - fz * 11, pz = p[1] - fz * 25 + fx * 11;
+  flyTo(V3(px, terrainH(px, pz) + 16, pz),
+        V3(p[0] + fx * Math.min(55, length), terrainH(p[0] + fx * Math.min(55, length), p[1] + fz * Math.min(55, length)) + 2, p[1] + fz * Math.min(55, length)),
+        instant || RMOTION ? 0 : 1.1);
+}
+
+function receiveGps(position) {
+  if (!gpsState.active) return;
+  const local = gpsToLocal(position.coords, GEO);
+  const nearby = nearestHole(local, HOLES, hole);
+  const accuracy = Number.isFinite(position.coords.accuracy) ? position.coords.accuracy : 0;
+  if (!nearby || nearby.distance > 450) {
+    gpsState.point = null; gpsState.accuracy = accuracy;
+    gpsMarkerClear();
+    syncGpsUi('error', nearby ? `${Math.round(nearby.distance)} m från närmaste hål` : 'Positionen ligger utanför banan');
+    if (kik) kikRender();
+    return;
+  }
+
+  const previous = gpsState.point;
+  gpsState.point = local; gpsState.accuracy = accuracy;
+  if (nearby.distance <= 120 && nearby.hole !== hole) goHole(nearby.hole, false);
+  drawGpsMarker();
+  const weak = accuracy > 35 ? ' · svag noggrannhet' : '';
+  syncGpsUi('live', `Hål ${nearby.hole} · ±${Math.max(1, Math.round(accuracy))} m${weak}`);
+  if (gpsState.follow) {
+    if (gpsState.firstFix || !previous) focusGps();
+    else {
+      const dx = local[0] - previous[0], dz = local[1] - previous[1];
+      const dy = terrainH(local[0], local[1]) - terrainH(previous[0], previous[1]);
+      camera.position.add(V3(dx, dy, dz)); controls.target.add(V3(dx, dy, dz)); camTween.on = false;
+    }
+  }
+  gpsState.firstFix = false;
+  if (kik) kikRender();
+  drawMini();
+}
+
+function gpsFailure(error) {
+  if (!gpsState.active) return;
+  if (gpsState.watchId !== null) navigator.geolocation.clearWatch(gpsState.watchId);
+  gpsState.watchId = null; gpsState.active = false; gpsState.point = null;
+  gpsMarkerClear();
+  const detail = error?.code === 1 ? 'Platsåtkomst nekades · tillåt plats i webbläsaren'
+    : error?.code === 2 ? 'Ingen GPS-position hittades'
+      : 'GPS svarade inte · försök igen';
+  syncGpsUi('error', detail);
+}
+
+function startGps() {
+  if (!navigator.geolocation) {
+    syncGpsUi('error', 'Den här webbläsaren saknar platsåtkomst');
+    return;
+  }
+  gpsState.active = true; gpsState.firstFix = true;
+  syncGpsUi('waiting', 'Söker din position…');
+  setKik(true, true);
+  try {
+    gpsState.watchId = navigator.geolocation.watchPosition(receiveGps, gpsFailure, {
+      enableHighAccuracy: true, maximumAge: 4000, timeout: 15000,
+    });
+  } catch (error) { gpsFailure(error); }
+}
+
+function stopGps(announce = true) {
+  if (gpsState.watchId !== null && navigator.geolocation) navigator.geolocation.clearWatch(gpsState.watchId);
+  gpsState.watchId = null; gpsState.active = false; gpsState.point = null; gpsState.firstFix = true;
+  gpsMarkerClear();
+  gpsStatus.hidden = true;
+  gpsBtn.classList.remove('on'); mobileGpsBtn?.classList.remove('on');
+  document.body.classList.remove('gps-on');
+  if (kik) kikRender();
+  if (announce) toast('GPS-läge avslutat · Kikaren står kvar');
+}
+
+const toggleGps = () => gpsState.active ? stopGps() : startGps();
+gpsBtn.onclick = toggleGps;
+if (mobileGpsBtn) mobileGpsBtn.onclick = toggleGps;
+document.getElementById('gpsStopBtn').onclick = () => stopGps();
+gpsFollowBtn.onclick = () => {
+  gpsState.follow = !gpsState.follow;
+  syncGpsUi(gpsState.point ? 'live' : 'waiting', gpsStatusText.textContent);
+  if (gpsState.follow) focusGps();
+};
+addEventListener('pagehide', () => {
+  if (gpsState.watchId !== null && navigator.geolocation) navigator.geolocation.clearWatch(gpsState.watchId);
+});
+
 /* --------------------------------------------------------------- kikaren
    Tap the course and get what a caddie would say. The ball starts on the
    current tee; a long press (or "Mät härifrån") moves it to where you pressed,
@@ -7026,18 +7609,21 @@ document.getElementById('tourBtn').onclick = startTour;
 let kik = false, kikGroup = null, kikPt = null, kikBall = null, kikWx = null, kikWxBusy = false;
 const kikBtn = document.getElementById('rangeBtn');
 const kikOut = document.getElementById('kikOut');
-kikBtn.onclick = () => {
-  kik = !kik;
+function setKik(on, quiet = false) {
+  kik = Boolean(on);
   kikBtn.classList.toggle('on', kik);
   const toolHint = document.getElementById('toolHint');
   if (toolHint) {
     toolHint.style.display = kik ? 'block' : '';
-    toolHint.textContent = 'Kikaren aktiv · tryck var som helst på banan för att mäta';
+    toolHint.textContent = kik
+      ? 'Kikaren aktiv · tryck för mål, håll kvar för boll'
+      : 'Tryck på banan för att mäta med Kikaren';
   }
   if (!kik) { kikClear(); return; }
-  toast('Tryck på banan för att mäta · håll kvar för att flytta bollen');
+  if (!quiet) toast('Tryck på banan för att mäta · håll kvar för att flytta bollen');
   kikRender();
-};
+}
+kikBtn.onclick = () => setKik(!kik);
 function kikClear() {
   kikErase();
   kikPt = null; kikBall = null;
@@ -7098,8 +7684,10 @@ function kikLie(x, z, y) {
 function kikCompute(origin = null, target = null) {
   const h = HOLES[hole - 1];
   const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
-  const o = origin || kikBall || mk.c;
-  const fromTee = !origin && !kikBall;
+  const gpsOrigin = !origin && gpsState.active && gpsState.point ? gpsState.point : null;
+  const o = origin || gpsOrigin || kikBall || mk.c;
+  const fromGps = Boolean(gpsOrigin);
+  const fromTee = !origin && !gpsOrigin && !kikBall;
   const oy = terrainH(o[0], o[1]);
   const wx = kikWx;
   const bTo = p => compassBearing(o[0], o[1], p[0], p[1]);
@@ -7119,7 +7707,26 @@ function kikCompute(origin = null, target = null) {
     shot = { target: t, dist, dh: ty - oy, lie: kikLie(t[0], t[1], ty), hazards: lineHazards(o, t, kikKindAt), wind,
              plays: playsLike({ dist, dh: ty - oy, head: wind.head, tempC }) };
   }
-  return { origin: o, fromTee, tee: TEE_NAMES[teeIdx], green, toGreen, layups: layupTargets(green.centre), shot, weather: wx };
+  return { origin: o, fromTee, fromGps, gpsAccuracy: fromGps ? gpsState.accuracy : null,
+           tee: TEE_NAMES[teeIdx], green, toGreen, layups: layupTargets(green.centre), shot, weather: wx };
+}
+function kikClubAdvice(r) {
+  const playsDistance = r.shot ? r.shot.plays.total : r.toGreen.plays.total;
+  const advice = recommendClub(playsDistance, playerBag);
+  if (!advice) return '';
+  const delta = advice.delta;
+  const context = advice.beyondBag
+    ? 'Green är utom räckhåll · välj en säker landningsyta'
+    : Math.abs(delta) <= 6
+      ? `Bra match för ${Math.round(playsDistance)} m spelas-som`
+      : delta > 0
+        ? `${Math.round(delta)} m kort i full carry`
+        : `Kan gå ${Math.round(Math.abs(delta))} m långt`;
+  return `<div class="kik-recommend">
+    <div class="kik-club">${htmlEsc(advice.club.name)}</div>
+    <div class="kik-club-copy"><b>${advice.club.carry} m carry</b><span>${context}</span></div>
+    <button class="kik-btn" data-act="bag" aria-label="Ändra klubbor">Ändra</button>
+  </div>`;
 }
 function kikRender() {
   kikWeather();
@@ -7139,8 +7746,10 @@ function kikRender() {
   const gTxt = r.green.front !== null
     ? `fram <b>${m(r.green.front)}</b> · mitt <b>${m(r.green.centre)}</b> · bak <b>${m(r.green.back)}</b> m`
     : `mitt <b>${m(r.green.centre)}</b> m`;
-  let html = `<div class="kik-head"><b>Kikaren</b><span>${r.fromTee ? `från tee ${r.tee}` : 'från bollen'}</span>` +
-             `${r.fromTee ? '' : '<button class="kik-btn" data-act="tee">Från tee</button>'}</div>`;
+  const originLabel = r.fromGps ? `GPS · ±${Math.max(1, Math.round(r.gpsAccuracy || 0))} m`
+    : r.fromTee ? `från tee ${r.tee}` : 'från bollen';
+  let html = `<div class="kik-head"><b>Kikaren</b><span class="${r.fromGps ? 'kik-live' : ''}">${originLabel}</span>` +
+             `${r.fromTee || r.fromGps ? '' : '<button class="kik-btn" data-act="tee">Från tee</button>'}</div><div class="kik-body">`;
   html += `<div class="kik-row">Green · ${gTxt}</div>`;
   if (r.shot) {
     const s = r.shot;
@@ -7152,8 +7761,10 @@ function kikRender() {
     html += `<div class="kik-row">Till green spelas som <b>${m(r.toGreen.plays.total)} m</b>${parts(r.toGreen.plays)}</div>`;
     if (r.toGreen.hazards.length) html += `<div class="kik-row">På linjen: ${haz(r.toGreen.hazards)}</div>`;
   }
+  html += kikClubAdvice(r);
   if (r.layups.length) html += `<div class="kik-row">Lägg upp: ${r.layups.map(l => `${l.remain} m kvar → <b>${m(l.shot)}</b> m`).join(' · ')}</div>`;
   html += kikWxLine(r);
+  html += '</div>';
   kikOut.innerHTML = html;
   kikOut.classList.add('show');
   kikDraw(r);
@@ -7173,7 +7784,7 @@ function kikDraw(r) {
   kikErase();
   kikGroup = new THREE.Group();
   const [ox, oz] = r.origin, oy = terrainH(ox, oz);
-  if (!r.fromTee) {
+  if (!r.fromTee && !r.fromGps) {
     const ball = new THREE.Mesh(new THREE.SphereGeometry(0.7, 10, 8), new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffffff) }));
     ball.position.set(ox, oy + 0.7, oz);
     kikGroup.add(ball);
@@ -7213,6 +7824,7 @@ function kikMeasure(clientX, clientY) {
 function kikPlaceBall(clientX, clientY) {
   const hit = groundHit(clientX, clientY);
   if (!hit) return;
+  if (gpsState.active) stopGps(false);
   kikBall = hit;
   toast('Bollen ligger här nu · tryck för att mäta');
   kikRender();
@@ -7222,6 +7834,7 @@ kikOut.addEventListener('click', e => {
   if (!b) return;
   if (b.dataset.act === 'tee') kikBall = null;
   else if (b.dataset.act === 'ball' && kikPt) { kikBall = kikPt; kikPt = null; }
+  else if (b.dataset.act === 'bag') { openBag(); return; }
   kikRender();
 });
 /* ------------------------------------------------- greengrid (yardage book & slope visualization)
@@ -7804,10 +8417,33 @@ function drawMini() {
   if (skyState >= 1) mctx.drawImage(skyNum, 0, 0);
   if (skyState >= 2) mctx.drawImage(skyFac, 0, 0);
   const h = HOLES[hole - 1];
-  mctx.strokeStyle = '#8cf0a8'; mctx.lineWidth = 3.2; mctx.lineJoin = 'round';
+  mctx.strokeStyle = strategyOn ? 'rgba(205,231,211,.34)' : '#8cf0a8';
+  mctx.lineWidth = strategyOn ? 1.5 : 3.2; mctx.lineJoin = 'round';
   mctx.beginPath();
   h.line.forEach((p, i) => i ? mctx.lineTo(MX(p[0]), MZ(p[1])) : mctx.moveTo(MX(p[0]), MZ(p[1])));
   mctx.stroke();
+  if (strategyOn && currentStrategy) {
+    mctx.save();
+    const primary = sampledRoute(currentStrategy.line, 0, currentStrategy.primaryDistance, 5);
+    mctx.strokeStyle = 'rgba(178,225,188,.82)'; mctx.lineWidth = 2.6; mctx.lineCap = 'round'; mctx.lineJoin = 'round';
+    mctx.beginPath();
+    primary.forEach((p, i) => i ? mctx.lineTo(MX(p[0]), MZ(p[1])) : mctx.moveTo(MX(p[0]), MZ(p[1])));
+    mctx.stroke();
+    for (const zone of currentStrategy.zones) {
+      const before = pointAlongLine(currentStrategy.line, Math.max(0, zone.distance - 5));
+      const after = pointAlongLine(currentStrategy.line, Math.min(currentStrategy.total, zone.distance + 5));
+      const angle = Math.atan2(after[1] - before[1], after[0] - before[0]);
+      mctx.translate(MX(zone.point[0]), MZ(zone.point[1]));
+      mctx.rotate(angle);
+      mctx.fillStyle = zone.kind === 'approach' ? 'rgba(216,191,130,.09)' : 'rgba(159,215,170,.12)';
+      mctx.strokeStyle = zone.kind === 'approach' ? 'rgba(216,191,130,.58)' : 'rgba(178,225,188,.72)'; mctx.lineWidth = 1;
+      mctx.beginPath(); mctx.ellipse(0, 0, zone.radiusAlong * MS, zone.radiusAcross * MS, 0, 0, TAU); mctx.fill(); mctx.stroke();
+      mctx.fillStyle = zone.kind === 'approach' ? 'rgba(216,191,130,.75)' : 'rgba(190,231,199,.88)';
+      mctx.beginPath(); mctx.arc(0, 0, 2.1, 0, TAU); mctx.fill();
+      mctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+    mctx.restore();
+  }
   mctx.fillStyle = '#f0a23a';
   mctx.beginPath(); mctx.arc(MX(h.line[0][0]), MZ(h.line[0][1]), 4.5, 0, TAU); mctx.fill();
   /* a flag, not a dot. Red on green is the one pair a deuteranope cannot split, so
@@ -7828,6 +8464,13 @@ function drawMini() {
   if (kikPt) {
     mctx.strokeStyle = '#ffdf8a'; mctx.lineWidth = 2;
     mctx.beginPath(); mctx.arc(MX(kikPt[0]), MZ(kikPt[1]), 5, 0, TAU); mctx.stroke();
+  }
+  if (gpsState.active && gpsState.point) {
+    const px = MX(gpsState.point[0]), pz = MZ(gpsState.point[1]);
+    mctx.fillStyle = 'rgba(121,233,155,.12)'; mctx.strokeStyle = 'rgba(121,233,155,.72)'; mctx.lineWidth = 1.3;
+    mctx.beginPath(); mctx.arc(px, pz, clampf((gpsState.accuracy || 4) * MS, 3, 26), 0, TAU); mctx.fill(); mctx.stroke();
+    mctx.fillStyle = '#b4ffc4'; mctx.strokeStyle = '#0b2514'; mctx.lineWidth = 2;
+    mctx.beginPath(); mctx.arc(px, pz, 4.2, 0, TAU); mctx.fill(); mctx.stroke();
   }
   /* where the camera is standing and which way it is looking */
   mctx.save();
@@ -8204,6 +8847,7 @@ function frame() {
   if (skyMesh) skyMesh.position.copy(camera.position);
   if (skyDome) skyDome.position.copy(camera.position);
   updateSky();
+  updateStrategy(now);
   drawMini();
   if (gridOn) updateGreenGrid(dt, now);
   if (!captureRenderLocked) renderActivePipeline();
@@ -8388,6 +9032,24 @@ window.V3D = {
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
   /* the rangefinder numbers for a ball and a target, no DOM: [x, z] each, null = the current tee / no target */
   rangefinder: (origin = null, target = null) => kikCompute(origin, target),
+  caddie: () => ({
+    bag: playerBag.map(club => ({ ...club })),
+    strategyOn,
+    visual: strategyAnimation ? {
+      activeWidths: strategyAnimation.layers.map(item => item.object.userData.strategyWidth),
+      arcCount: strategyAnimation.arcCount,
+      labelCount: strategyAnimation.labels.length,
+      reducedMotion: strategyReducedMotion,
+      settled: strategyAnimation.settled,
+    } : null,
+    strategy: currentStrategy ? {
+      origin: [...currentStrategy.origin], primary: [...currentStrategy.primary],
+      primaryDistance: currentStrategy.primaryDistance, arcs: [...currentStrategy.arcs],
+      zones: currentStrategy.zones.map(zone => ({ ...zone, point: [...zone.point], club: zone.club ? { ...zone.club } : null })),
+    } : null,
+    gps: { active: gpsState.active, point: gpsState.point ? [...gpsState.point] : null,
+           accuracy: gpsState.accuracy, follow: gpsState.follow },
+  }),
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */
@@ -8592,13 +9254,14 @@ window.V3D = {
   /* the tier boundaries in projected pixels, changeable at run time for a
      sweep; reset re-tiers every visible tree with no hysteresis */
   setTreeLodPx: (o = {}) => {
-    for (const [key, prop] of [['hero', 'heroPx'], ['full', 'switchPx'], ['impostor', 'impostorPx'], ['hysteresis', 'hysteresis']]) {
+    for (const [key, prop] of [['hero', 'heroPx'], ['full', 'switchPx'], ['impostor', 'impostorPx'], ['hysteresis', 'hysteresis'], ['dwell', 'dwell']]) {
       if (Number.isFinite(o[key])) TREE_LOD[prop] = +o[key];
     }
+    if (o.mode === 'zone' || o.mode === 'screen') TREE_LOD.lodMode = o.mode;
     if (o.reset) TREE_LOD.resetPending = true;
     return window.V3D.treeLodPx();
   },
-  treeLodPx: () => ({ hero: TREE_LOD.heroPx, full: TREE_LOD.switchPx, impostor: TREE_LOD.impostorPx, hysteresis: TREE_LOD.hysteresis, floors: [...TREE_LOD.floors], reach: [...TREE_LOD.floorReach] }),
+  treeLodPx: () => ({ mode: TREE_LOD.lodMode, zoneTiers: [...TREE_LOD.zoneTiers], hero: TREE_LOD.heroPx, full: TREE_LOD.switchPx, impostor: TREE_LOD.impostorPx, hysteresis: TREE_LOD.hysteresis, dwell: TREE_LOD.dwell, floors: [...TREE_LOD.floors], reach: [...TREE_LOD.floorReach] }),
   /* the corridor floors (zone A, zone B) as tier numbers 1-4; 4 is no floor */
   setTreeLodPin: (a, b, reachHero, reachFull) => {
     TREE_LOD.floors = [Math.min(4, Math.max(1, a | 0 || 4)), Math.min(4, Math.max(1, b | 0 || 4))];
