@@ -59,9 +59,22 @@ test('source with a pending product licence cannot become authoritative', () => 
   assert.match(validate(value).join('\n'), /licence is not approved/);
 });
 
+/* The state under test is CONSTRUCTED, not borrowed. This test used to flip a
+   committed source's lifecycle to 'acquired' and assume the rest of that entry
+   still looked planned -- which held only while no ground had actually acquired
+   its DTM. Once Ängsö, Johannesberg, Ribbingsfors and Upsala did, the mutation
+   became a no-op on an already-valid entry, no error was raised, and the test
+   failed against an empty string while the rule it names was working perfectly.
+   A fixture read from live data stops testing what it says the moment the data
+   legitimately moves. */
 test('acquisition date and checksum are required after planned state', () => {
   const value = clone(manifest('angso'));
-  value.sources.find(item => item.id === 'terrain-lm-1m').lifecycle = 'acquired';
+  const source = value.sources.find(item => item.id === 'terrain-lm-1m');
+  source.lifecycle = 'acquired';
+  source.acquiredAt = null;
+  source.checksum = null;
+  source.checksumReason = 'deliberately absent: this is the state the rule exists to reject';
+  source.localPath = null;
   assert.match(
     validate(value).join('\n'),
     /acquired sources require a checksum and acquisition date/,
