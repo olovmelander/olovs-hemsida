@@ -44,6 +44,12 @@ test('the published Puttom ground carries stand fields and object registries on 
   assert.ok(withObjects.length >= 48, `${withObjects.length} of 64 finest tiles carry an object registry`);
   assert.ok(ground.requiredFeatures.includes('object-registry-json-v1'));
   assert.ok(ground.requiredFeatures.includes('stand-field-u8-v1'));
+  /* the ring quadtree's explicit parent links: every tile but the root
+     carries one, and a vegetation publish must never strip them -- dropping
+     parentId silently downgraded two grounds to the fixed frontier before
+     this was asserted */
+  assert.equal(ground.tiles.filter(tile => tile.parentId).length, ground.tiles.length - 1,
+    'every tile but the root keeps its explicit parent link');
   for (const tile of ground.tiles.filter(tile => tile.lod > 0)) {
     assert.equal(tile.layers.objects ?? null, null, 'objects live on finest tiles only');
     assert.equal(tile.layers.stands ?? null, null, 'stand fields live on finest tiles only');

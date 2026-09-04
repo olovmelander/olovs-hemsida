@@ -1666,12 +1666,27 @@ the six files that import it.
   pinned (`acquisition/laser-campaigns.json`, registered in the source
   manifest): the active scan is ONE June 2026 campaign at 3.119 returns/m²
   covering the whole 15.56 km² AOI exclusively — **zero seams**, simpler than
-  Puttom. What remains needs `LANTMATERIET_USERNAME`/`PASSWORD` (or bearer)
-  in the environment: `run-copc-census`, `build-canopy` (read its
-  ground-minus-DTM median first — it validates the terrain for free),
-  `compile-vegetation --machine-review`, the `render-review` overhead
-  EYEBALLED, then `publish-vegetation --ground veckefjarden` (both slugs by
-  default) and `vegetation-baseline --label v2` per course.
+  Puttom.
+- **A vegetation publish must not strip the ring quadtree's parent links —
+  and the gate agreed with the bug.** `assembleVegetationGraph` rebuilt each
+  tile entry field by field and dropped `parentId` on every ground it
+  published. The tile manager reads the explicit parent link (levels share no
+  index lattice), so both this ground's and Upsala's ring worlds refused to
+  serve and every boot silently downgraded to the fixed frontier — which was
+  the exact shape `check-course-v2` asserted, so the gate passed BECAUSE the
+  world was broken, the same trap as the checker that agreed with the
+  left/right normal. The repair republished both grounds from the CI compile
+  artifacts against the pre-vegetation root: every superseded manifest stays
+  on disk content-addressed, so the rollback was one `git checkout` of
+  `v2-index.json` and the byte-identical chunks were reused in place. Three
+  assertions came out of it: the publisher carries `parentId` through
+  (locked in its unit test, which also proves no parent is INVENTED — the
+  verifier rightly refuses a parent that does not contain its child), the
+  Puttom freeze test counts 276 parent links on the published ground, and
+  `check-course-v2` grew the branch that would have caught it — a config
+  declaring `ringGraph` FAILS unless `kind === 'graph'` actually serves,
+  with the frontier tile/draw/CORE-cutout assertions applying only where no
+  ring graph is claimed.
 
 **And the gate is only as honest as the server under it.** `tools/serve.mjs`
 used to stream every file with neither `Content-Length` nor `Content-Encoding`
@@ -2615,3 +2630,32 @@ turned up things worth keeping:
   eighteen in 2007–2010. Lilla banan's card (par 31, Röd 1406 / Gul 1633) is in
   the dossier; the course is not modelled and its position on the property has
   not been measured.
+- **The LiDAR vegetation is published here too (2026-09-04), through the same
+  CI chain — now the `ground-vegetation` workflow.** The Veckefjärden workflow
+  was generalized rather than copied: a push touching any
+  `geo_data/course-v2/<ground>/vegetation/RUN` derives its ground from the
+  path, reads the raster arguments from that ground's own pinned campaign
+  inventory, and runs acquire or publish per the RUN file. Upsala's record:
+  one campaign (`21c037`, **March 2021 — leaf-off**, the Johannesberg caveat
+  applies to this parkland's deciduous crowns) across the two items either
+  side of easting 640000, 14.68M points at 2.2–2.4 all returns/m², and the
+  cloud's own class-2 ground within **−0.003…+0.023 m median of the published
+  DTM on all 72 tiles** — an independent sensor pass confirming the
+  re-grounded pack exactly where Terrarium's shape had been wrong by metres.
+  24,496 crown candidates → **4,181 machine-reviewed individuals**
+  (largest rejections: not-individual 18,391, radius 10,899, confidence
+  7,545) + stand fields on all 64 tiles, 58 object tiles; the merged
+  two-course exclusions rejected candidates on farmland (175), fairways
+  (371), roads/paths (318), water (34), tees (16) and exactly one green.
+  Both slugs plant the same generation against one ground manifest — 4,181
+  individuals + 20,952 stand trees, the legacy lattice cut from all 64
+  tiles, bases p95 0 m — with `speciesSource: 'default'`: Upsala's scenery
+  module exports no `species` rule, and the gate asserts exactly that, not
+  merely "something planted".
+  Its publish is also the one that surfaced the `parentId` strip recorded in
+  the Veckefjärden section: the mellanbanan booted to the frontier fallback,
+  whose inherited parent-course cutout contract then failed loudly — the
+  korthålsbana's disease again, so `UPSALA_MELLANBANAN_V2_CONFIG` now
+  carries its own measured cutout (478 × 343 cells at x0 −576, 156,368 of
+  163,954 base points omitted), read the runbook way off the assertion's
+  own "got" line.

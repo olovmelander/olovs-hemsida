@@ -130,6 +130,12 @@ export async function assembleVegetationGraph({
     tiles: groundManifest.tiles.map(tile => ({
       id: tile.id,
       lod: tile.lod,
+      /* the ring quadtree's explicit parent link: levels do not share an index
+         lattice, so the tile manager reads this instead of deriving it.
+         Dropping it silently broke the ring-graph world on every ground this
+         publisher touched -- the app fell back to the fixed frontier and only
+         a latent cutout contract made anything fail loudly. */
+      ...(tile.parentId !== undefined ? { parentId: tile.parentId } : {}),
       bounds: tile.bounds,
       geometricErrorMetres: tile.geometricErrorMetres,
       courses: tile.courses,

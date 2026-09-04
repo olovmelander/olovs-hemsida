@@ -140,6 +140,15 @@ test('a stand layer is attached to a published ground and the whole graph re-ver
   }
   assert.equal(perSlug[0].references.ground.sha256, perSlug[1].references.ground.sha256,
     'one ground, one ground manifest, whichever course emitted it');
+  /* the ring quadtree's explicit parentId must survive a vegetation publish:
+     dropping it silently broke the ring-graph world on two real grounds. The
+     flat synthetic fixture has no geometrically valid parent (the verifier
+     refuses a parent that does not contain its child, which is right), so the
+     passthrough is asserted at the mapping seam and the real containment is
+     asserted by the freeze test over Puttom's published ground. */
+  const emittedShared = manifest(perSlug[0], perSlug[0].references.ground.url);
+  assert.ok(emittedShared.tiles.every(entry => !('parentId' in entry)),
+    'no parent link is invented where the source ground has none');
   const mergedRoot = { ...perSlug[0].root, courses: slugs.map((slug, i) => perSlug[i].root.courses.find(course => course.slug === slug)) };
   const mergedResources = new Map([...perSlug[0].resources, ...perSlug[1].resources]);
   /* not strict: the replaced object layer's old chunk legitimately remains in
