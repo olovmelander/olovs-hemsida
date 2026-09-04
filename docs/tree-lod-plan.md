@@ -610,3 +610,75 @@ absolute terms. Frame-time rows for this change could not be taken cleanly:
 another session was loading the machine and even the floors-off control read
 50% slower than the morning's rows; the triangle counts are exact and the
 GPU cost is read from them. Fingerprint identical.
+
+## Shadow swimming and the depth buffer (2026-09-04, afternoon)
+
+The owner's next two complaints were the shadows shifting and flickering as
+the camera pans, and the terrain "jittering" under motion. Both were measured
+before they were touched, on the isolated build of this branch.
+
+**The shadow map moved with the camera in fractions of its own texel.**
+`placeSun` re-fitted the sun's orthographic box to the view every frame: its
+centre followed the orbit target continuously, so the map's texel grid slid
+across the world by sub-texel amounts as the camera panned and the soft PCF
+turned that into a shimmer along every shadow edge; and its half-size
+re-fitted in 14 m steps, each of which changed the texel size and re-sampled
+the whole map. Two rules now (`placeSun`): the box is one of five fixed sizes
+(260 / 400 / 600 / 850 / 1150 m half-size) chosen with hysteresis, so a
+re-fit is rare; and it moves only in whole texels of its map, measured in the
+light's view space, so from one frame to the next the map samples the same
+world points. With the sun fixed the shadow camera's rotation is constant and
+the rounding is exact; `apps/golf/src/engine/shadow-snap.test.mjs` holds the
+basis to three's own `LightShadow.updateMatrices` camera to 1e-9 and proves a
+one-texel pan leaves the grid where it was. The normal bias scales with the
+fit (0.22 at 260 m, capped at 2.5×), a texel's worth of push whatever the
+size. `?shadowsnap=0` and `V3D.setShadowSnap` switch the snap off for a
+before/after; `V3D.shadowFit()` reports the fit, the texel and how far the
+box was moved to land on one.
+
+**Measured.** A static camera with the snap toggled shows the sub-texel drift
+for what it is on this renderer: the box moves 0.27–0.53 texels and no pixel
+changes by more than 24/255, the worst 16×16 block by 7–14/255 — a soft
+shimmer, not a crawl, which is why a whole-frame pixel count cannot see it
+and the pop meter's Mode S measures the far ground under the horizon (rows
+42–55 %, where a 0.1 m step is sub-pixel parallax but a shadow's swim is not)
+at a 6/255 threshold, snapped and unsnapped in one boot:
+
+| dolly, 120 steps of 0.1 m, far-ground band | snapped, median / p95 | unsnapped, median / p95 |
+|---|---|---|
+| 5th tee, noon (fit 400 m, texel 0.39 m) | 7.48 % / 8.43 % | 7.81 % / 8.74 % |
+| 1st tee, golden (fit 400 m) | 7.68 % / 8.93 % | 7.79 % / **12.67 %** |
+| 13th tee, golden (fit 600 m, texel 0.59 m) | 8.31 % / 9.28 % | 8.36 % / 9.35 % |
+
+The medians are mostly ground texture under sub-pixel motion and move 1–4 %;
+the unsnapped 1st tee's p95 is the swim's signature — the frames where the
+drifting grid crossed a texel boundary and every long evening shadow shifted
+at once — and the snap removes it. Judge the rest by eye: the shimmer that is
+left on a panning shadow edge is the PCF's own bilinear taps moving over a
+fixed grid, which cascaded maps would not change either.
+
+**The terrain "jitter" was the depth buffer, and the WebGPU path runs
+reversed depth now.** The camera runs from 1 m to 14 km; a 24-bit fixed-point
+depth buffer keeps about half a metre at 3 km, so everything that lies on the
+terrain flickers against it as the camera moves. The renderer now boots
+three's `reversedDepthBuffer` on WebGPU (`?rdepth=0` switches it off; the
+WebGL2 fallback keeps the classic buffer), which the backend backs with
+`depth32float`: near-uniform precision to the horizon. Three things had to
+follow it, each found by measurement rather than by reading: three passes
+`polygonOffset` through unchanged and in reversed depth "toward the camera"
+is the other sign, so every nudge in the engine takes `DEPTH_SIGN` from the
+renderer's state; this engine's two CPU frustums (`updateTreeTiers`,
+`createTileFrustumTester`) pass the camera's depth direction to
+`Frustum.setFromProjectionMatrix`, or their near and far planes swap and the
+world is culled to sky; and three's `SkyMesh` pins itself to the far plane
+with z = w, the NEAR plane in reversed depth, while three reverses its whole
+render list under reversed depth — renderOrder included — so the sky drew
+last and over everything; it takes z = 0 now. Gated: `check-app` on all nine
+courses (the green and bunker probes are what a sunken overlay would fail),
+the twelve views reversed against classic within the perceptual gate and
+eleven of them within the strict one — the 13th tee's far ground, which
+used to flicker, is the view that differs (0.6 % of its pixels) — fingerprint
+identical, vitest 276. Two things to know: three's render-list reversal also
+inverts the order transparent surfaces are composited in, which the twelve
+views did not show and a lake seen through marking might; and any new
+`polygonOffset` site must use `DEPTH_SIGN`, never a literal sign.

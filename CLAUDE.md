@@ -1996,6 +1996,21 @@ than 2.5/255. Two things the meter taught, both in its header:
   hysteresis band**, not only the switch under test; start every measured
   event from a hysteresis-free state (a reset at the same thresholds).
 
+## Shadows and depth on the WebGPU path — two rules
+
+- **The shadow map moves in whole texels of itself.** `placeSun` fits the sun's
+  box to one of five fixed sizes and snaps its centre to the map's texel grid in
+  the light's view space, so a pan never re-samples the world by a fraction of a
+  texel (that was the swim). Do not re-fit it continuously again, and do not
+  scale the fit without scaling `normalBias`. `?shadowsnap=0` is the before.
+- **The depth buffer is reversed and float on WebGPU** (`?rdepth=0` for the classic
+  one). Every `polygonOffset` takes its sign from `DEPTH_SIGN`, never a literal;
+  every CPU frustum passes `camera.reversedDepth` to `setFromProjectionMatrix`;
+  and anything that pins itself to the far plane with z = w (three's SkyMesh
+  did) must use z = 0 there, because three also reverses its whole render list
+  under reversed depth, renderOrder included. The tree LOD plan's last section
+  has the measurements and the three failures that taught each rule.
+
 ## Puttom vegetation — the LiDAR tree plan, Phase 0 and the compiler core
 
 `docs/puttom-v2-lidar-tree-placement-plan.md` is the plan; its checkpoint

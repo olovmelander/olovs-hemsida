@@ -20,6 +20,13 @@ the two background agents were doing, and the order to continue in.
 > (zone A hero within 500 m, full within 900 m; zone B full within 900 m), so
 > nothing on the course switches as the camera moves; `?lodpin=` and `?lodreach=`
 > tune it. The plan's last status section has the numbers.
+>
+> **Afternoon:** shadow swimming and depth flicker (the owner's next two asks) —
+> commit after 20a17f3: texel-snapped fixed-size shadow fits, and reversed float
+> depth as the WebGPU default with `DEPTH_SIGN` on every nudge; the plan's last
+> section has the numbers. The other session's two uncommitted polygon-offset
+> sites were given `DEPTH_SIGN` in the shared checkout so their marking does not
+> sink under the new default; they must keep it when they commit.
 
 ## The ask
 
