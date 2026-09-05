@@ -74,6 +74,7 @@ if (ditches) {
     else streams.push({ line: d.tracedLine, w: d.w, name: d.name ?? undefined, prov: `${d.prov}; the laser reads no channel here (piped or shallower than 0.10 m) -- satellite trace kept` });
   }
   for (const c of ditches.crossings) streams.push({ line: c.line, w: 1.2, name: `ditch across hole ${c.hole}`, prov: `laser 1 m DTM: incised channel ${c.meanDepth} m deep crossing the traced route ${c.crossesAt} m from the green (valley score ${c.valleyScore}); laser-ditches.mjs` });
+  for (const c of ditches.channels || []) streams.push({ line: c.line, w: 1.2, name: `ditch by hole ${c.holes.join('/')}`, prov: `laser 1 m DTM: ${c.note}, ${c.meanDepth} m deep over ${c.length} m, untraced in any imagery; laser-ditches.mjs` });
   model.streams = streams.map(s => { const o = { ...s }; if (o.name === undefined) delete o.name; return o; });
 }
 
@@ -82,7 +83,7 @@ model.evidence.playedSurfaces = {
   greens: traces.greens.map(g => ({ hole: g.hole, accepted: g.accepted, area: g.area, solidity: g.solidity, centroidShift: g.centroidShift, readings: g.readings })),
   decks: traces.decks.map(d => ({ hole: d.hole, tee: d.tee, accepted: d.accepted, area: d.area, markToDeck: d.markToDeck, mownShare: d.mownShare, why: d.why })),
   routes: traces.routes.map(r => ({ hole: r.hole, length: r.length, cardBack: r.cardBack, backTee: r.backTee, bends: r.bends })),
-  ditches: ditches ? { source: ditches.source, rules: ditches.rules, relaid: ditches.refined.map(d => ({ name: d.name, tracedMetres: d.tracedMetres, laserMetres: d.laserMetres, runs: d.runs.length })), crossings: ditches.crossings.map(c => ({ hole: c.hole, crossesAt: c.crossesAt, meanDepth: c.meanDepth })) } : null,
+  ditches: ditches ? { source: ditches.source, rules: ditches.rules, relaid: ditches.refined.map(d => ({ name: d.name, tracedMetres: d.tracedMetres, laserMetres: d.laserMetres, runs: d.runs.length })), crossings: ditches.crossings.map(c => ({ hole: c.hole, crossesAt: c.crossesAt, meanDepth: c.meanDepth })), channels: (ditches.channels || []).map(c => ({ holes: c.holes, length: c.length, meanDepth: c.meanDepth, drains: c.drains })) } : null,
 };
 fs.writeFileSync(path.join(HERE, 'course-model.json'), JSON.stringify(model));
 console.log(`greens: ${greensReplaced}/9 replaced by traced outlines; tee pads: ${decksPlaced} measured decks, ${marksOnDecks}/27 marks on a deck; fairways: ${traces.fairways.reduce((s, f) => s + f.rings.length, 0)} rings; streams: ${model.streams.length}`);

@@ -101,6 +101,32 @@
         "confidence": "high"
       }
     ],
+    "buildings": [
+      {
+        "id": "ribbingsfors-clubhouse-provisional",
+        "c": [479, -456.5],
+        "w": 17,
+        "d": 8.5,
+        "rot": 0.31,
+        "h": 4.2,
+        "kind": "house",
+        "name": "Ribbingsfors Golf & Kultur",
+        "amenity": "clubhouse",
+        "prov": "the pale-roofed building at the clubhouse POI, read off Esri z18 orthoimagery (trace-buildings.mjs, 2026-09-05); the POI placeholder it replaces lay 8.5 m away and 63 deg across this axis, half on lawn. Dimensions +-2 m; a terrace cannot be told from roof at 0.31 m/px",
+        "confidence": "medium"
+      },
+      {
+        "id": "ribbingsfors-clubhouse-annex",
+        "c": [478.7, -464.5],
+        "w": 15,
+        "d": 9,
+        "rot": 0.31,
+        "h": 4.2,
+        "kind": "house",
+        "prov": "dark-roofed building 8 m north of the clubhouse, read off Esri z18 orthoimagery on the same alignment as the clubhouse roof (trace-buildings.mjs review crops, 2026-09-05); dimensions +-2 m",
+        "confidence": "medium"
+      }
+    ],
     "yard": {
       "ring": [
         [

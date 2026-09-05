@@ -29,7 +29,7 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      marks ashore; the hole lines are unchanged and the routing chunk is the
      same content-addressed file */
   puttom: '2f640071cbcb20d8685122b5f04a536c0accb3adf4f89e882c53a4497e2ad414',
-  ribbingsfors: '1a6d58dc424c34700a8621a746717ea00d7c2e7b5c295e40f26f5e6ef15be5cf',
+  ribbingsfors: '2ef0d6a59871cda23881ed8668c09c3f6cc18b3926cc8d83f3fc1686d24a4c83',
   upsala: 'd0f6f895614c2472505587dd6796d33ec860058264da4286dafec79bd1e43d56',
   'upsala-mellanbanan': '3ccc7f203c1f96f63c270f53e8604da18d2825a7913e071573abb275c92d1864',
   johannesberg: '473dfb98dd4f1f85498252662cf5738b721f86a6897e4a5fecbb93c719df0b20',

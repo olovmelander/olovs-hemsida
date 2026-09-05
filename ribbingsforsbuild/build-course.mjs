@@ -563,11 +563,27 @@ for (const [holeNumber, fromGreen, halfWidth] of [[1, 88, 38], [1, 38, 32], [3, 
 }
 
 const protectedTrees = protectedTreePoints();
-/* OSM has the estate buildings but not the clubhouse footprint itself. The
-   public POI at 58.9649569,14.1212497 is therefore represented by a modest
-   generic footprint whose dimensions/orientation remain explicitly
-   provisional; the course scenery module supplies only photo-observed visual
-   traits. Replace this ring as soon as the club supplies a plan or survey. */
+/* OSM has the estate buildings but not the clubhouse footprint itself, so
+   the public POI at 58.9649569,14.1212497 carried a generic 30 x 10 m
+   rectangle laid on its own bearing. MEASURED against the z18 orthoimagery
+   (2026-09-05): everything within 30 m of the POI whose excess green is at
+   most 25 — which excludes grass at 60–110 and the gravel track at 40–90 —
+   is one 419 m2 block, and that block is TWO buildings and their yard, not
+   one: a pale roof running WNW–ESE from about (471,-459) to (487,-454), and
+   a dark roof of the same alignment 8 m north of it. The old rectangle lay
+   across both and out over the lawn, 8.5 m from the block's centre and
+   63 deg across its axis.
+
+   The clubhouse is the pale-roofed building and the dark-roofed one is its
+   annex; BOTH footprints live in surroundings-traces.json and
+   apply-surroundings.mjs replaces the placeholder below with them, the same
+   way it replaces this file's provisional driving range. (This file needs
+   the acquisition caches to run, so it must not be the only place a measured
+   number lives.) They are rectangles read off the roofs at 0.31 m/px, so the
+   DIMENSIONS carry a metre or two of edge error and a terrace under the same
+   colour cannot be told from roof — but the positions and the alignment are
+   measured, not assumed. Replace with a plan or survey when the club
+   supplies one. */
 const clubhouse = {
   id: 'ribbingsfors-clubhouse-provisional',
   ring: rectangleRing(local([449463.404255, 6536482.035169]), [0.94, -0.34], 30, 10),
@@ -575,7 +591,7 @@ const clubhouse = {
   kind: 'house',
   name: 'Ribbingsfors Golf & Kultur',
   amenity: 'clubhouse',
-  prov: 'public clubhouse POI + photo-observed generic form; footprint survey pending',
+  prov: 'public clubhouse POI placeholder; apply-surroundings.mjs replaces it with the footprint measured off the orthoimagery',
 };
 if (!osm.buildings.some(building => {
   const centre = centroid(building.ring);

@@ -1,0 +1,600 @@
+{
+ "schemaVersion": 1,
+ "source": "Esri World Imagery Wayback release 57965 (2023-02-23), which over this course carries a 2019-06-02 WorldView-2 0.5 m capture (Esri metadata layer 5 at 14.1172 E 58.9613 N); the live layer is 2023-04-28 (same metadata). Found by hashing z18 tile 141351/77616 across all 196 Wayback releases: three distinct images, the other two both the 2023-04-28 capture. Migration-only; no imagery is stored. wayback-greens.mjs",
+ "method": "the green grower of green-grower.mjs (the rule trace-surfaces.mjs used on the 2023 image) run unchanged on the 2019 image from the same GPS green centres, scored against the 2023 trace by intersection over union on a 0.5 m raster; and detect-sand.mjs own sand rule run on BOTH captures at each measured bunker",
+ "greens": {
+  "finding": "the grower refuses all nine on the leaf-on capture: every reading runs to 2,000-4,000 m2 against traced outlines of 216-605 m2, because in June the approach and fairway are as green as the putting surface and the bright collar the April capture shows is absent. The greens of this course are traceable in leaf-off imagery only; recorded so the attempt is not repeated.",
+  "summary": {
+   "greensRead2019": 0,
+   "medianIoU": null,
+   "minIoU": null,
+   "medianCentroidOffset": null
+  },
+  "results": [
+   {
+    "hole": 1,
+    "traced2023": {
+     "area": 406,
+     "set": "D"
+    },
+    "read2019": null,
+    "readings2019": "B:3123/0.79/2.4 C:2659/0.742/4.5 D:2838/0.789/4 E:931/0.751/12.3 F:1025/0.719/14.5 G:854/0.724/12.4"
+   },
+   {
+    "hole": 2,
+    "traced2023": {
+     "area": 513,
+     "set": "B"
+    },
+    "read2019": null,
+    "readings2019": "B:2184/0.804/8.9 C:1164/0.804/6.1 D:1308/0.788/7.8 E:873/0.72/7.1 F:901/0.719/8.1 G:797/0.697/7.1"
+   },
+   {
+    "hole": 3,
+    "traced2023": {
+     "area": 471,
+     "set": "D"
+    },
+    "read2019": null,
+    "readings2019": "B:1593/0.747/4 C:1025/0.687/3.2 D:1481/0.788/3 E:546/0.81/13.7 F:519/0.804/14.7 G:444/0.731/14.2"
+   },
+   {
+    "hole": 4,
+    "traced2023": {
+     "area": 321,
+     "set": "B"
+    },
+    "read2019": null,
+    "readings2019": "B:2669/0.918/4.3 C:1775/0.633/4.3 D:2082/0.739/6.5 E:183/0.811/4.9 F:109/0.784/3.4 G:99/0.749/2.9"
+   },
+   {
+    "hole": 5,
+    "traced2023": {
+     "area": 605,
+     "set": "B"
+    },
+    "read2019": null,
+    "readings2019": "B:3160/0.835/4.8 C:2796/0.753/3.3 D:2984/0.798/2 E:2561/0.705/4.2 F:2596/0.717/4.1 G:2474/0.691/4.6"
+   },
+   {
+    "hole": 6,
+    "traced2023": {
+     "area": 286,
+     "set": "E"
+    },
+    "read2019": null,
+    "readings2019": "B:2817/0.724/3.9 C:2282/0.7/4.1 D:2684/0.695/3.4 E:492/0.678/15 F:545/0.729/17.1 G:151/0.908/5.3"
+   },
+   {
+    "hole": 7,
+    "traced2023": {
+     "area": 497,
+     "set": "B"
+    },
+    "read2019": null,
+    "readings2019": "B:3817/0.96/1.6 C:3693/0.947/2.2 D:3761/0.957/1.7 E:3536/0.951/3 F:3620/0.94/2 G:3418/0.929/3.2"
+   },
+   {
+    "hole": 8,
+    "traced2023": {
+     "area": 216,
+     "set": "B"
+    },
+    "read2019": null,
+    "readings2019": "B:2326/0.839/8.6 C:1857/0.873/13.2 D:1943/0.868/11.7 E:1081/0.644/16.8 F:1276/0.653/15 G:-"
+   },
+   {
+    "hole": 9,
+    "traced2023": {
+     "area": 462,
+     "set": "E"
+    },
+    "read2019": null,
+    "readings2019": "B:4028/0.989/3.4 C:3889/0.974/0.3 D:3929/0.978/0.7 E:3617/0.931/5.2 F:3662/0.938/5.2 G:3555/0.921/5.3"
+   }
+  ]
+ },
+ "bunkers": {
+  "method": "the sand rule (min >= 132, range <= 75, R-B >= 30, G-R <= -6) integrated over a 14 m disc at each measured bunker in each capture; the centroids distance is the two captures disagreement about where the sand is",
+  "agreement": {
+   "bothCaptures": 16,
+   "of": 18,
+   "medianOffset": 2.4,
+   "maxOffset": 5.4,
+   "sandIn2019Only": 0,
+   "sandIn2023Only": 2
+  },
+  "rows": [
+   {
+    "hole": 1,
+    "c": [
+     505.2,
+     -236.2
+    ],
+    "sand2023": {
+     "c": [
+      505.2,
+      -236.2
+     ],
+     "cells": 297,
+     "area": 74
+    },
+    "sand2019": {
+     "c": [
+      504.1,
+      -237
+     ],
+     "cells": 472,
+     "area": 118
+    },
+    "offset": 1.4,
+    "laserShift": [
+     -2,
+     -1
+    ]
+   },
+   {
+    "hole": 2,
+    "c": [
+     538.7,
+     49.8
+    ],
+    "sand2023": {
+     "c": [
+      538.8,
+      50
+     ],
+     "cells": 313,
+     "area": 78
+    },
+    "sand2019": {
+     "c": [
+      539.3,
+      48
+     ],
+     "cells": 349,
+     "area": 87
+    },
+    "offset": 2.1,
+    "laserShift": [
+     1,
+     0
+    ]
+   },
+   {
+    "hole": 2,
+    "c": [
+     567.7,
+     71.1
+    ],
+    "sand2023": {
+     "c": [
+      567.9,
+      71.3
+     ],
+     "cells": 128,
+     "area": 32
+    },
+    "sand2019": {
+     "c": [
+      569.8,
+      67.8
+     ],
+     "cells": 86,
+     "area": 22
+    },
+    "offset": 4,
+    "laserShift": [
+     2,
+     0
+    ]
+   },
+   {
+    "hole": 3,
+    "c": [
+     483,
+     370.9
+    ],
+    "sand2023": {
+     "c": [
+      483.1,
+      371.1
+     ],
+     "cells": 201,
+     "area": 50
+    },
+    "sand2019": {
+     "c": [
+      484.1,
+      367
+     ],
+     "cells": 203,
+     "area": 51
+    },
+    "offset": 4.2,
+    "laserShift": [
+     5,
+     1
+    ]
+   },
+   {
+    "hole": 4,
+    "c": [
+     450.3,
+     189.2
+    ],
+    "sand2023": {
+     "c": [
+      450.5,
+      189.4
+     ],
+     "cells": 442,
+     "area": 111
+    },
+    "sand2019": {
+     "c": [
+      451.6,
+      187.9
+     ],
+     "cells": 499,
+     "area": 125
+    },
+    "offset": 1.9,
+    "laserShift": [
+     4,
+     3
+    ]
+   },
+   {
+    "hole": 4,
+    "c": [
+     424.2,
+     110.6
+    ],
+    "sand2023": {
+     "c": [
+      423.9,
+      110.9
+     ],
+     "cells": 99,
+     "area": 25
+    },
+    "sand2019": {
+     "c": [
+      426.6,
+      106.2
+     ],
+     "cells": 117,
+     "area": 29
+    },
+    "offset": 5.4,
+    "laserShift": [
+     8,
+     -5
+    ]
+   },
+   {
+    "hole": 5,
+    "c": [
+     -139.5,
+     162.7
+    ],
+    "sand2023": {
+     "c": [
+      -140.2,
+      162.4
+     ],
+     "cells": 122,
+     "area": 31
+    },
+    "sand2019": null,
+    "offset": null,
+    "laserShift": [
+     -2,
+     -4
+    ]
+   },
+   {
+    "hole": 6,
+    "c": [
+     -12.4,
+     15.6
+    ],
+    "sand2023": {
+     "c": [
+      -12.1,
+      15.7
+     ],
+     "cells": 196,
+     "area": 49
+    },
+    "sand2019": {
+     "c": [
+      -13.6,
+      14.1
+     ],
+     "cells": 145,
+     "area": 36
+    },
+    "offset": 2.2,
+    "laserShift": [
+     -2,
+     -1
+    ]
+   },
+   {
+    "hole": 6,
+    "c": [
+     -3.3,
+     56.9
+    ],
+    "sand2023": {
+     "c": [
+      -3.3,
+      57
+     ],
+     "cells": 339,
+     "area": 85
+    },
+    "sand2019": {
+     "c": [
+      -1.3,
+      55.1
+     ],
+     "cells": 329,
+     "area": 82
+    },
+    "offset": 2.8,
+    "laserShift": [
+     2,
+     -1
+    ]
+   },
+   {
+    "hole": 6,
+    "c": [
+     -126.4,
+     10
+    ],
+    "sand2023": {
+     "c": [
+      -126.3,
+      10.1
+     ],
+     "cells": 366,
+     "area": 92
+    },
+    "sand2019": {
+     "c": [
+      -122.8,
+      7.7
+     ],
+     "cells": 353,
+     "area": 88
+    },
+    "offset": 4.2,
+    "laserShift": [
+     8,
+     -8
+    ]
+   },
+   {
+    "hole": 7,
+    "c": [
+     275.3,
+     16.1
+    ],
+    "sand2023": {
+     "c": [
+      275.5,
+      16.2
+     ],
+     "cells": 231,
+     "area": 58
+    },
+    "sand2019": {
+     "c": [
+      276.4,
+      14
+     ],
+     "cells": 234,
+     "area": 59
+    },
+    "offset": 2.4,
+    "laserShift": [
+     3,
+     -1
+    ]
+   },
+   {
+    "hole": 7,
+    "c": [
+     280.6,
+     51.8
+    ],
+    "sand2023": {
+     "c": [
+      280.9,
+      51.9
+     ],
+     "cells": 138,
+     "area": 35
+    },
+    "sand2019": {
+     "c": [
+      282.3,
+      50.8
+     ],
+     "cells": 73,
+     "area": 18
+    },
+    "offset": 1.8,
+    "laserShift": [
+     -1,
+     -3
+    ]
+   },
+   {
+    "hole": 7,
+    "c": [
+     113.2,
+     14.6
+    ],
+    "sand2023": {
+     "c": [
+      113.5,
+      14.8
+     ],
+     "cells": 303,
+     "area": 76
+    },
+    "sand2019": {
+     "c": [
+      114.7,
+      12
+     ],
+     "cells": 388,
+     "area": 97
+    },
+    "offset": 3,
+    "laserShift": [
+     1,
+     -1
+    ]
+   },
+   {
+    "hole": 7,
+    "c": [
+     109.6,
+     56.3
+    ],
+    "sand2023": {
+     "c": [
+      109.7,
+      56.5
+     ],
+     "cells": 253,
+     "area": 63
+    },
+    "sand2019": {
+     "c": [
+      110.7,
+      54.8
+     ],
+     "cells": 281,
+     "area": 70
+    },
+    "offset": 2,
+    "laserShift": [
+     4,
+     -1
+    ]
+   },
+   {
+    "hole": 8,
+    "c": [
+     472.4,
+     -106.6
+    ],
+    "sand2023": {
+     "c": [
+      472.3,
+      -106.5
+     ],
+     "cells": 102,
+     "area": 26
+    },
+    "sand2019": null,
+    "offset": null,
+    "laserShift": [
+     1,
+     0
+    ]
+   },
+   {
+    "hole": 9,
+    "c": [
+     405,
+     -427.5
+    ],
+    "sand2023": {
+     "c": [
+      405.1,
+      -427.3
+     ],
+     "cells": 239,
+     "area": 60
+    },
+    "sand2019": {
+     "c": [
+      406.3,
+      -429.9
+     ],
+     "cells": 248,
+     "area": 62
+    },
+    "offset": 2.9,
+    "laserShift": [
+     8,
+     -3
+    ]
+   },
+   {
+    "hole": 9,
+    "c": [
+     377.4,
+     -376.8
+    ],
+    "sand2023": {
+     "c": [
+      377.6,
+      -376.6
+     ],
+     "cells": 192,
+     "area": 48
+    },
+    "sand2019": {
+     "c": [
+      377.5,
+      -376.9
+     ],
+     "cells": 235,
+     "area": 59
+    },
+    "offset": 0.3,
+    "laserShift": [
+     4,
+     1
+    ]
+   },
+   {
+    "hole": 9,
+    "c": [
+     364.1,
+     -357.4
+    ],
+    "sand2023": {
+     "c": [
+      364.3,
+      -357.2
+     ],
+     "cells": 212,
+     "area": 53
+    },
+    "sand2019": {
+     "c": [
+      364.7,
+      -357.5
+     ],
+     "cells": 246,
+     "area": 62
+    },
+    "offset": 0.5,
+    "laserShift": [
+     2,
+     2
+    ]
+   }
+  ]
+ }
+}
