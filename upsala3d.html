@@ -549,6 +549,7 @@ for (const rw of (M.infra.railway || [])) {
 const II = new Grid();      // building footprints, so nothing grows through a wall
 for (const b of M.infra.buildings) { const q = { ring: b.ring, bb: ringBBox(b.ring) }; II.add(q, q.bb, 10); }
 for (const p of (M.infra.parking || [])) { const q = { ring: p.ring, bb: ringBBox(p.ring) }; II.add(q, q.bb, 8); }
+for (const f of M.scenery.mappedFeatures || []) { const ring = f.rings?.[0]; if (ring) { const q = { ring, bb: ringBBox(ring) }; II.add(q, q.bb, 1); } }
 const LI = new Grid();      // landuse: fields, gardens, industry -- ground tint and scatter policy
 for (const l of (M.infra.landuse || [])) { const q = { ring: l.ring, bb: ringBBox(l.ring), kind: l.kind }; LI.add(q, q.bb, 6); }
 const SI = new Grid();      // traced surroundings: clear-fells, the machinery yard, the hayfields
@@ -1757,7 +1758,7 @@ const shadeSand = (x, z) => {
     add([offsetRing(h.green.ring, 3.2)], 0.052, 2.2, shadeCollar(h), 3);
     add([h.green.ring], 0.072, 1.4, shadeGreen(h), 4);
     add(h.tees.pads.map(t => offsetRing(t.ring, 2.2)), 0.05, 3.0, shadeCollar(h), 3);
-    add(h.tees.pads.map(t => t.ring), 0.086, 2.0, shadeTee(), 4);
+    add(h.tees.pads.map(t => t.preserveTerrain ? { rings: [t.ring] } : t.ring), 0.086, 2.0, shadeTee(), 4);
     if (h.bunkers.length) add(h.bunkers.map(b => offsetRing(b.ring, 0.5)), 0.035, 1.8, shadeSand, 5, sandMat, true);
   }
   /* the short course, the range and the practice green are mown grass too */

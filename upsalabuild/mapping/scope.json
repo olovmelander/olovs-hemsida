@@ -1,0 +1,40 @@
+{
+  "ground": "upsala",
+  "objective": "Map the whole golf ground with geographically supported shapes, positions and object identities. Cover every requested category; do not equate visually plausible rendering with verified mapping.",
+  "completeSurvey": false,
+  "categories": [
+    {"id":"objects","kinds":["mast","flagpole","gate","fountain","power-tower","power-pole"],"gap":"Complete small-object inventory and dimensions remain unverified."},
+    {"id":"trees","kinds":["tree-crown-candidate","tree-osm-point"],"gap":"Crown candidates and OSM points are different observations, not an additive stem census."},
+    {"id":"equipment","kinds":["range_mat","range_equipment","fountain","flagpole"],"gap":"Individual range equipment review in progress; benches, bins, signs and maintenance equipment need visible evidence."},
+    {"id":"trails","kinds":["paths","tracks"],"gap":"OSM alignment and omitted links require dated imagery review."},
+    {"id":"ponds","kinds":["water"],"gap":"Six outlines reviewed; other shorelines retain original provenance and topology uncertainties."},
+    {"id":"trenches","kinds":["trench"],"gap":"Terrain depressions alone do not establish trenches; no new candidate approved."},
+    {"id":"ditches","kinds":["waterway"],"subtype":"ditch/drain","gap":"Existing tagged watercourses retained; all three new valley-filter proposals rejected."},
+    {"id":"buildings","kinds":["buildings","building-context-box"],"gap":"43 municipal footprints adopted; other outlines and most heights remain unverified."},
+    {"id":"driving-range-equipment","kinds":["range_target_surface","range_mat","range_equipment"],"gap":"Target footprints do not establish material, poles, distances or individual machinery."},
+    {"id":"driving-range-pads","kinds":["range_tee_pad"],"gap":"Four aggregate platform footprints mapped; individual mat review in progress."},
+    {"id":"forest","kinds":["forest","wood","scrub"],"gap":"Forest boundaries and changes since the terrain/canopy capture require review."},
+    {"id":"obstacles","kinds":["rock","gate","barrier","power-line"],"gap":"Rock, fence, sign and other small obstacle completeness is unverified."},
+    {"id":"bridges","kinds":["bridge","culvert"],"gap":"Crossings require visible structure or explicit source tags; intersections alone are not bridges."},
+    {"id":"parking-lots","kinds":["parking"],"gap":"2025 outline and omitted-row review in progress; parked vehicles are transient."},
+    {"id":"training-greens","kinds":["practice_green"],"gap":"Four reviewed greens; full short-game layout still being reviewed."},
+    {"id":"roads","kinds":["roads"],"gap":"OSM source retained; widths and junction footprints require review."},
+    {"id":"species","kinds":["tree-species-observation"],"gap":"Rendering species defaults are not individual species identifications."},
+    {"id":"tees","kinds":["tee","tee-platform","tee-reference"],"gap":"Most marker positions and many pads remain inferred; reviewed physical pads must not be shifted to fit a scorecard."},
+    {"id":"greens","kinds":["green","green-reference"],"gap":"Mellanbanan inferred green outlines and endpoints under 2025 review."},
+    {"id":"fairways","kinds":["fairway","driving-range"],"gap":"Stora13/15 review in progress; other mowing boundaries and inferred Mellanbanan strips remain to review."},
+    {"id":"bunkers","kinds":["bunker","range_bunker","practice_bunker"],"gap":"All86 source bunkers retained; practice sand changes and hole ownership under review."},
+    {"id":"rough","kinds":["rough","grass"],"gap":"Default rough shading does not count as a mapped mowing boundary."},
+    {"id":"fields","kinds":["landuse"],"gap":"Tagged landuse polygons retained; current crop and mowing class not verified."},
+    {"id":"cottages","kinds":["buildings"],"subtype":"cabin/cottage","gap":"A building footprint alone does not establish use as a cottage."},
+    {"id":"high-grass","kinds":["high_grass","meadow"],"gap":"Seasonal tall-grass boundaries and height require dated evidence."}
+  ],
+  "acceptance": [
+    "Use terrain for shape, dated imagery for material and visible edges, explicit records for identity.",
+    "Retain original geometry and assert it before replacement; record source date, hash, frame and uncertainty.",
+    "Measure method performance against independent known objects where available; agreement is not absolute accuracy.",
+    "Preserve islands, narrow connections, polygon topology and actual terrain under observed mowing extents.",
+    "Update both courses, GIS export, routing/pack bindings and checksum registries after accepted changes.",
+    "Commit each substantial completed improvement; completeSurvey remains false while any category has unverified coverage."
+  ]
+}

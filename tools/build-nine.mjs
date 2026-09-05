@@ -220,6 +220,24 @@ const holes = card.holes.map(h => {
   };
 });
 
+/* A reviewed parent source may replace an inferred outline while its existing
+   route endpoint remains provisional. Refuse stale ownership if the pin is not
+   inside the selected source polygon; do not move routing to make it fit. */
+for (const [number, sourceId] of Object.entries(cfg.greenSourceIds || {})) {
+  const hole = holes.find(h => h.n === +number);
+  const source = (parent.scenery.sourceFeatures || []).find(f => f.id === sourceId && f.kind === 'green');
+  if (!hole || !source) throw new Error(`missing reviewed green association ${number}: ${sourceId}`);
+  const [x, z] = hole.green.c, ring = source.ring;
+  let inside = false, twiceArea = 0;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const a = ring[i], b = ring[j];
+    if ((a[1] > z) !== (b[1] > z) && x < (b[0] - a[0]) * (z - a[1]) / (b[1] - a[1]) + a[0]) inside = !inside;
+    twiceArea += b[0] * a[1] - a[0] * b[1];
+  }
+  if (!inside) throw new Error(`reviewed green ${sourceId} does not contain hole ${number}'s provisional pin`);
+  hole.green = { ...hole.green, ring: structuredClone(ring), area: Math.round(Math.abs(twiceArea) / 2), prov: source.prov, sourceId, positionalAccuracyMetres: null };
+}
+
 /* ---- the parent's holes become scenery ----------------------------------------- */
 /* The relationship is symmetric: the parent's reconcile may carry THIS nine's holes
    in its own scenery (Johannesberg does), and those rings must not come back here

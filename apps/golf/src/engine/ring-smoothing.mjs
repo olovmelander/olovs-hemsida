@@ -74,7 +74,7 @@ export function smoothMownEdges({ holes = [], scenery = {} } = {}) {
     if (h.tees?.pads) {
       out.tees = {
         ...h.tees,
-        pads: h.tees.pads.map(t => (t && t.prov !== 'synth' && t.ring
+        pads: h.tees.pads.map(t => (t && t.prov !== 'synth' && !t.preserveTerrain && t.ring
           ? { ...t, ring: smoothShore(t.ring, always, 2.5, 1, 6) }
           : t)),
       };

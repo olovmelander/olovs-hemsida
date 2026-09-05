@@ -620,7 +620,7 @@ for (const h of HOLES) {
   for (const h of HOLES) {
     h.green.ring = smoothShore(h.green.ring, always, 2.0, 2, 6);
     h.fairway.rings = h.fairway.rings.map(r => smoothShore(r, always, 2.5, 3, 6));
-    for (const t of h.tees.pads) if (t.prov !== 'synth') t.ring = smoothShore(t.ring, always, 2.5, 1, 6);
+    for (const t of h.tees.pads) if (t.prov !== 'synth' && !t.preserveTerrain) t.ring = smoothShore(t.ring, always, 2.5, 1, 6);
   }
   M.scenery.fairways = M.scenery.fairways.map(r => smoothShore(r, always, 2.5, 3, 6));
   M.scenery.greens = M.scenery.greens.map(r => smoothShore(r, always, 2.0, 2, 6));
@@ -659,6 +659,7 @@ for (const rw of (M.infra.railway || [])) {
 const II = new Grid();      // building footprints, so nothing grows through a wall
 for (const b of M.infra.buildings) { const q = { ring: b.ring, bb: ringBBox(b.ring) }; II.add(q, q.bb, 10); }
 for (const p of (M.infra.parking || [])) { const q = { ring: p.ring, bb: ringBBox(p.ring) }; II.add(q, q.bb, 8); }
+for (const f of M.scenery.mappedFeatures || []) { const ring = f.rings?.[0]; if (ring) { const q = { ring, bb: ringBBox(ring) }; II.add(q, q.bb, 1); } }
 const LI = new Grid();      // landuse: fields, gardens, industry -- ground tint and scatter policy
 for (const l of (M.infra.landuse || [])) { const q = { ring: l.ring, bb: ringBBox(l.ring), kind: l.kind }; LI.add(q, q.bb, 6); }
 const SI = new Grid();      // traced surroundings: clear-fells, the machinery yard, the hayfields
@@ -2624,7 +2625,7 @@ if (legacySurfaceOverlays) {
     const teeShade = shadeTee();
     for (const pad of h.tees.pads) {
       collar.push({ ring: offsetRing(pad.ring, 2.2), shade: collarShade });
-      tee.push({ ring: pad.ring, shade: teeShade });
+      tee.push(pad.preserveTerrain ? { rings: [pad.ring], shade: teeShade } : { ring: pad.ring, shade: teeShade });
     }
     for (const bunker of h.bunkers) {
       sand.push({ ring: offsetRing(bunker.ring, 0.5), shade: shadeSand });

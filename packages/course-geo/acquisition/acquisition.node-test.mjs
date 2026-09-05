@@ -337,7 +337,11 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
        became measured rings (trace-nine.mjs) and two of them reach a second
        256 m control window, and 709 when the Ribbingsfors pass measured its
        own; the number is MEASURED after every such pass, never summed */
-    requestedWindowReferences: 711,
+    /* Upsala H8's reviewed tees remove two references (711 ->709). The
+       Mellanbanan inventory now reads the shipped GPS-route model, rather than
+       the retired guide model: holes3/4/7/8 change by-2/+2/+2/+3 references (->714).
+       All144 holes and all195 unique windows remain covered. */
+    requestedWindowReferences: 714,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,

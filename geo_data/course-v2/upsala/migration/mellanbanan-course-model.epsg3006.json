@@ -4,7 +4,7 @@
   "groundId": "upsala",
   "source": {
     "path": "upsalamellanbuild/course-model.json",
-    "sha256": "4b62625f97b7bb846c37822d3635bda0b5e271615110886466b8346ef5d51abe",
+    "sha256": "8253cfff76e64923320ae22df471937e99130a73793de4dc9698026241e1f691",
     "localFrame": {
       "originWgs84": {
         "latitude": 59.839,
@@ -40,12 +40,12 @@
     "status": "horizontal-seed-only-pending-independent-control",
     "source": "legacyFrame.originWgs84"
   },
-  "coordinatePairCount": 15547,
+  "coordinatePairCount": 15531,
   "ignoredMetadataPairCount": 0,
   "coordinatePaths": {
     "holes.[].fairway.rings.[].[]": 36,
     "holes.[].green.c": 9,
-    "holes.[].green.ring.[]": 144,
+    "holes.[].green.ring.[]": 138,
     "holes.[].line.[]": 45,
     "holes.[].pin": 9,
     "holes.[].tees.marks.[].c": 45,
@@ -65,7 +65,7 @@
     "scenery.bunkers.[].[]": 1108,
     "scenery.fairways.[].[]": 290,
     "scenery.grass.[].[]": 80,
-    "scenery.greens.[].[]": 352,
+    "scenery.greens.[].[]": 342,
     "scenery.mappedFeatures.[].rings.[].[]": 254,
     "scenery.range.[].[]": 24,
     "scenery.sourceFeatures.[].ring.[]": 383,
@@ -2289,76 +2289,54 @@
         "green": {
           "ring": [
             [
-              640237.308,
-              6635787.987
+              640235.694,
+              6635777.612
             ],
             [
-              640241.67,
-              6635789.353
+              640242.889,
+              6635786.295
             ],
             [
-              640246.613,
-              6635788.639
+              640255.33,
+              6635791.572
             ],
             [
-              640251.334,
-              6635785.813
+              640265.27,
+              6635791.346
             ],
             [
-              640255.211,
-              6635781.453
+              640268.791,
+              6635785.772
             ],
             [
-              640257.518,
-              6635776.133
+              640265.405,
+              6635771.825
             ],
             [
-              640257.926,
-              6635770.641
+              640251.587,
+              6635763.192
             ],
             [
-              640256.401,
-              6635765.877
+              640241.681,
+              6635762.517
             ],
             [
-              640253.216,
-              6635762.552
+              640237.026,
+              6635766.247
             ],
             [
-              640248.858,
-              6635761.086
-            ],
-            [
-              640243.911,
-              6635761.9
-            ],
-            [
-              640239.094,
-              6635764.622
-            ],
-            [
-              640235.317,
-              6635768.986
-            ],
-            [
-              640233.006,
-              6635774.406
-            ],
-            [
-              640232.602,
-              6635779.798
-            ],
-            [
-              640234.127,
-              6635784.562
+              640235.019,
+              6635771.578
             ]
           ],
           "c": [
             640245.212,
             6635775.268
           ],
-          "prov": "synth",
-          "area": 551
+          "prov": "osm",
+          "area": 705,
+          "sourceId": "w221192642",
+          "positionalAccuracyMetres": null
         },
         "fairway": {
           "rings": [
@@ -61636,48 +61614,6 @@
       "greens": [
         [
           [
-            640235.694,
-            6635777.612
-          ],
-          [
-            640242.889,
-            6635786.295
-          ],
-          [
-            640255.33,
-            6635791.572
-          ],
-          [
-            640265.27,
-            6635791.346
-          ],
-          [
-            640268.791,
-            6635785.772
-          ],
-          [
-            640265.405,
-            6635771.825
-          ],
-          [
-            640251.587,
-            6635763.192
-          ],
-          [
-            640241.681,
-            6635762.517
-          ],
-          [
-            640237.026,
-            6635766.247
-          ],
-          [
-            640235.019,
-            6635771.578
-          ]
-        ],
-        [
-          [
             640104.145,
             6636070.848
           ],
@@ -73679,7 +73615,7 @@
         }
       ]
     },
-    "note": "Upsala GK Mellanbanan. Environment shared verbatim with the Stora banan (upsalabuild/course-model.json); the eighteen is carried here as scenery. Hole routing from published GPS routes, which agree with the club banguide trace on seven of nine holes and correct the two the banguide drew under canopy; hole lengths exact from the club card; greens, fairways and tee pads synthesised and marked prov:\"synth\".",
+    "note": "Upsala GK Mellanbanan. Environment shared verbatim with the Stora banan (upsalabuild/course-model.json); the eighteen is carried here as scenery. Hole routing from published GPS routes, which agree with the club banguide trace on seven of nine holes and correct the two the banguide drew under canopy; hole lengths exact from the club card; greens, fairways and tee pads synthesised and marked prov:\"synth\". Hole6 green uses the existing OSM outline w221192642 containing its provisional route endpoint; its pin and routing remain unchanged.",
     "seaLevel": 16.72
   }
 }
