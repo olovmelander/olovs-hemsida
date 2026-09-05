@@ -566,6 +566,39 @@ laser DTM is bare earth. Lantmäteriet's own geoid grid gives 23.3480 m of
 separation here, so the offset is **not** the geoid and Terrarium is not simply
 ellipsoidal — it is a measurement, not a formula.
 
+**The LiDAR vegetation is published here too (2026-09-05), and the sea taught
+the exclusions a rule.** Same `ground-vegetation` CI chain; the inventory is
+ONE June 2025 Riegl **leaf-on** campaign (`25f014`) covering the AOI
+exclusively over three items — the first scan in this chain with no deciduous
+under-detection caveat — of which `699_67` lies wholly north of the 4,096 m
+window and contributes nothing (build-canopy skips it; the workflow's raster
+args follow build-canopy's output, never the inventory, since that run).
+Cloud ground vs the published DTM: ~0.00 m medians on land; the only tiles
+above 5 cm are pure class-9 water at a uniform +0.12–0.14 m — the Gulf's wave
+surface against the DTM's flattened sea, verified by class counts before
+being believed. **The first compile rejected 31,734 forest crowns as
+`excluded:water`**: the sea ring is the coastline closed offshore, its
+southern synthetic edge crosses the peninsula, and even-odd membership
+claimed half the land — the renderer never showed it because the engine
+applies the Ängsö rule (wet = inside a ring AND at its level) while
+`semantic-exclusions` tested membership alone. The fix measures each ring's
+water surface from the DTM itself (p05 of published-ground height over the
+interior; the laser flattens water) and keeps only cells within 1.5 m of it —
+measured, never taken from the model, because legacy models state levels in
+the Terrarium datum ~20 m off the sampled RH 2000 ground. After it:
+excluded:water 309 (the real shoreline) — 91,417 candidates →
+**13,050 machine-reviewed individuals** on 163 object tiles + stand fields on
+all 229 covered tiles, closed-canopy cells 149k → 224k (the southern forest
+back). In the app: 13,050 + 92,677 stand trees, the legacy lattice cut from
+all 229 tiles, bases p95 0.079 m, `speciesSource: 'default'` — right here,
+the engine's default IS the pine mix — and **zero legacy-planted trees remain
+anywhere on this course**: the window covers the whole tree-cover box, so
+every tree standing is measured or stand-field. `check-course-v2` passes on
+the ring graph (469 tiles, 7 levels). One CI mechanic worth remembering: a
+push to the branch while a run is in flight rejects that run's final evidence
+push (non-fast-forward); the chain's outputs survive in the uploaded
+artifact, so recover from there rather than re-running an hour of compile.
+
 **Two appearance facts were wrong and are now corrected from photographs.** The
 clubhouse roof is a red PANTILE (measured rgb(212,166,170) from the ground and
 rgb(190,130,119) overhead, both in flat overcast), not the "dark red-brown" this

@@ -1,0 +1,759 @@
+{
+  "schemaVersion": 1,
+  "phase": "vegetation-plan-phase-4-published-generation",
+  "courseSlug": "norrfallsviken",
+  "observedOn": "2026-09-05",
+  "baseUrl": "http://127.0.0.1:8620",
+  "renderer": "swiftshader",
+  "note": "SwiftShader captures are rendering evidence, not hardware performance evidence; boot seconds are indicative only. Zoning in the tree export is provisional until the plan approves zone-A geometry.",
+  "inputs": {
+    "pack": {
+      "url": "courses/norrfallsviken/pack.bin",
+      "bytes": 437108,
+      "sha256": "f206eb351a434ff446a9295f01c49a3fc0ab050adca913c0e0443ba53dbf7550"
+    },
+    "treeCover": {
+      "id": "legacy-tree-cover",
+      "kind": "canopy",
+      "path": "nvgkbuild/tree-cover.json",
+      "sha256": "c538b782ad78c814f11d8580c2d139e501c06a610e75c6f588122c05f4fcf0e8",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current imagery-classified canopy raster."
+    },
+    "courseModel": {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "nvgkbuild/course-model.json",
+      "sha256": "d1fc506227d7bcba85ae540ab48a9cfb11e0ea761e6897def747d8c1593fcecb",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current composite vectors, routing, elevations and scenery inputs."
+    },
+    "courseV2Manifest": "course-v2-1a09736048a2c47c0ac6bf44ef0bb7853d6cf0b5405070b941393625940c32fa.json",
+    "groundV2Manifest": "ground-v2-06048cb42fafb9899eb5a8cce7ed840714099f9ce2549b6387d32a3b4cfa80f9.json",
+    "groundPreviewDescriptorSha256": null
+  },
+  "runs": [
+    {
+      "mode": "gpk1",
+      "url": "http://127.0.0.1:8620/?bana=norrfallsviken&det=1&v2=0",
+      "booted": true,
+      "bootSeconds": 38.3,
+      "errors": [],
+      "stats": {
+        "verts": 366453,
+        "tris": 718282,
+        "trees": 53499,
+        "vista": 34698,
+        "tufts": 31225,
+        "bushes": 5533,
+        "stones": 1515,
+        "reeds": 1683,
+        "cars": 58,
+        "pylons": 0,
+        "stumps": 0,
+        "draws": 48,
+        "surfaceOverlays": 0,
+        "backend": "webgl2"
+      },
+      "trees": {
+        "total": 53499,
+        "species": {
+          "spruce": 14124,
+          "pine": 28935,
+          "birch": 10440
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 0,
+          "scrubRing": 0,
+          "satellite": 53202,
+          "shore": 297,
+          "v2Individual": 0,
+          "v2Stand": 0
+        },
+        "zones": {
+          "A": 8878,
+          "B": 11771,
+          "C": 32850
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 657
+          },
+          {
+            "n": 2,
+            "count": 307
+          },
+          {
+            "n": 3,
+            "count": 3401
+          },
+          {
+            "n": 4,
+            "count": 147
+          },
+          {
+            "n": 5,
+            "count": 549
+          },
+          {
+            "n": 6,
+            "count": 1514
+          },
+          {
+            "n": 7,
+            "count": 1255
+          },
+          {
+            "n": 8,
+            "count": 229
+          },
+          {
+            "n": 9,
+            "count": 1047
+          },
+          {
+            "n": 10,
+            "count": 2262
+          },
+          {
+            "n": 11,
+            "count": 575
+          },
+          {
+            "n": 12,
+            "count": 3408
+          },
+          {
+            "n": 13,
+            "count": 1872
+          },
+          {
+            "n": 14,
+            "count": 133
+          },
+          {
+            "n": 15,
+            "count": 1374
+          },
+          {
+            "n": 16,
+            "count": 991
+          },
+          {
+            "n": 17,
+            "count": 512
+          },
+          {
+            "n": 18,
+            "count": 416
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": null,
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": null,
+        "planned": null,
+        "coverageTiles": 0,
+        "error": null,
+        "graphObjectTiles": null,
+        "graphStandTiles": null,
+        "graphEncodedObjectBytes": null,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 48.3
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 214.3
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 3391.3
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 5856.9
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 6797.7
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 6910.8
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 7064.3
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 7443.2
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 10775.3
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 10838.2
+          },
+          {
+            "name": "klar",
+            "atMs": 10943.3
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 8.9
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 122.6
+          },
+          {
+            "name": "procedural textures (DETAIL, GRASSN, SANDN, WATERN)",
+            "ms": 314
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 1324.5
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 351.3
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 409.1,
+            "reeds": 1683
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 0.1
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 527.9
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 0
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 1360.6
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 1482.6,
+            "trees": 53499,
+            "cells": 290
+          },
+          {
+            "name": "far vista cones",
+            "ms": 232.2,
+            "vista": 34698
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 586.1
+          }
+        ],
+        "atlasMs": 351.3,
+        "totalMs": 10963.9,
+        "doneAtMs": 10964.2,
+        "firstFrames": [
+          {
+            "atMs": 11012.6,
+            "ms": 26955.5,
+            "tris": 9268143,
+            "draws": 194,
+            "tiers": {
+              "t0": 3423,
+              "t1": 3958,
+              "t2": 3063,
+              "t3": 2800
+            }
+          },
+          {
+            "atMs": 38021,
+            "ms": 24.1,
+            "tris": 12197175,
+            "draws": 191,
+            "tiers": {
+              "t0": 5963,
+              "t1": 2609,
+              "t2": 15,
+              "t3": 0
+            }
+          }
+        ],
+        "tintMs": 0
+      },
+      "v2": {
+        "requested": false,
+        "ready": false,
+        "status": "fallback",
+        "reason": null,
+        "selection": {
+          "mode": "off",
+          "requestMode": "off",
+          "graph": null,
+          "graphError": null
+        },
+        "bounds": null,
+        "backend": "webgl2"
+      },
+      "course": {
+        "slug": "norrfallsviken",
+        "name": "Norrfällsvikens GK",
+        "club": "Norrfällsvikens Golfklubb",
+        "title": "Norrfällsvikens GK — Seaside i Höga Kusten, i 3D",
+        "tag": "Seaside",
+        "boot": "Mjällom · Höga Kusten",
+        "build": "nvgkbuild",
+        "par": 73,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "Gul",
+            "Röd",
+            "Orange"
+          ],
+          "cols": [
+            15780154,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 4,
+          "def": 0
+        },
+        "photos": 4,
+        "packUrl": "courses/norrfallsviken/pack.bin",
+        "bytes": 437108,
+        "sha256": "f206eb351a434ff446a9295f01c49a3fc0ab050adca913c0e0443ba53dbf7550"
+      },
+      "shots": []
+    },
+    {
+      "mode": "v2-require",
+      "url": "http://127.0.0.1:8620/?bana=norrfallsviken&det=1&v2=require",
+      "booted": true,
+      "bootSeconds": 45.5,
+      "errors": [],
+      "stats": {
+        "verts": 23905,
+        "tris": 44896,
+        "trees": 105727,
+        "vista": 42227,
+        "tufts": 30441,
+        "bushes": 5391,
+        "stones": 1193,
+        "reeds": 3368,
+        "cars": 58,
+        "pylons": 0,
+        "stumps": 0,
+        "draws": 49,
+        "surfaceOverlays": 0,
+        "backend": "webgl2"
+      },
+      "trees": {
+        "total": 105727,
+        "species": {
+          "spruce": 27964,
+          "pine": 57315,
+          "birch": 20448
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 0,
+          "scrubRing": 0,
+          "satellite": 0,
+          "shore": 0,
+          "v2Individual": 13050,
+          "v2Stand": 92677
+        },
+        "zones": {
+          "A": 3614,
+          "B": 6717,
+          "C": 95396
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 284
+          },
+          {
+            "n": 2,
+            "count": 124
+          },
+          {
+            "n": 3,
+            "count": 1486
+          },
+          {
+            "n": 4,
+            "count": 70
+          },
+          {
+            "n": 5,
+            "count": 249
+          },
+          {
+            "n": 6,
+            "count": 838
+          },
+          {
+            "n": 7,
+            "count": 917
+          },
+          {
+            "n": 8,
+            "count": 103
+          },
+          {
+            "n": 9,
+            "count": 555
+          },
+          {
+            "n": 10,
+            "count": 1216
+          },
+          {
+            "n": 11,
+            "count": 204
+          },
+          {
+            "n": 12,
+            "count": 1832
+          },
+          {
+            "n": 13,
+            "count": 989
+          },
+          {
+            "n": 14,
+            "count": 58
+          },
+          {
+            "n": 15,
+            "count": 707
+          },
+          {
+            "n": 16,
+            "count": 374
+          },
+          {
+            "n": 17,
+            "count": 200
+          },
+          {
+            "n": 18,
+            "count": 125
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": {
+          "individuals": 13050,
+          "standTrees": 92677,
+          "cellsPlanted": 92677,
+          "cellsSkipped": 766673,
+          "speciesSource": "default",
+          "baseMismatch": {
+            "samples": 13050,
+            "meanAbsMetres": 0.018,
+            "p95Metres": 0.079,
+            "maxMetres": 0.772
+          },
+          "coverageTiles": 229
+        },
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": {
+          "referencedObjectTiles": 163,
+          "referencedStandTiles": 229,
+          "loadedTiles": 229,
+          "records": 13050,
+          "bytes": 1844411,
+          "frameFingerprint": "f3c5d5b875eb5d4b75726bdaf1a0ba30583a7227dcd2ab854bb469040d3f758a"
+        },
+        "planned": {
+          "individuals": 13050,
+          "standTrees": 92677,
+          "cellsPlanted": 92677,
+          "cellsSkipped": 766673,
+          "speciesSource": "default",
+          "baseMismatch": {
+            "samples": 13050,
+            "meanAbsMetres": 0.018,
+            "p95Metres": 0.079,
+            "maxMetres": 0.772
+          }
+        },
+        "coverageTiles": 229,
+        "error": null,
+        "graphObjectTiles": 163,
+        "graphStandTiles": 229,
+        "graphEncodedObjectBytes": 587228,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 55.9
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 3319.3
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 5869.7
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 13534.9
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 13561.5
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 13585.5
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 13791.7
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 14187.5
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 18323.7
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 18417.9
+          },
+          {
+            "name": "klar",
+            "atMs": 20382.3
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 781
+          },
+          {
+            "name": "v2 rings: fetch + verify + decode",
+            "ms": 1082.5,
+            "tiles": 213
+          },
+          {
+            "name": "v2 flat water: detect",
+            "ms": 487.3
+          },
+          {
+            "name": "v2 water beds: carve rings",
+            "ms": 800,
+            "tiles": 132
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 2462.1
+          },
+          {
+            "name": "procedural textures (DETAIL, GRASSN, SANDN, WATERN)",
+            "ms": 295.2
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 1376.7
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 325.7
+          },
+          {
+            "name": "v2 prepare (worker, first frontier coverage, preflight)",
+            "ms": 3265.6
+          },
+          {
+            "name": "ground tint rasters (near 6 m + far 24 m)",
+            "ms": 1325
+          },
+          {
+            "name": "v2 vegetation: wait for chunk load",
+            "ms": 2715.2
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 747,
+            "reeds": 3368
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 164.7
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 75.6
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 87.3
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 1598.5
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 1920.5,
+            "trees": 105727,
+            "cells": 628
+          },
+          {
+            "name": "far vista cones",
+            "ms": 169.7,
+            "vista": 42227
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 867.3
+          },
+          {
+            "name": "v2 stream: first frontier fully resident (after the overlap)",
+            "ms": 1851.1,
+            "tiles": 121
+          }
+        ],
+        "atlasMs": 325.7,
+        "totalMs": 20402.9,
+        "doneAtMs": 20403.2,
+        "firstFrames": [
+          {
+            "atMs": 20412.3,
+            "ms": 24871.1,
+            "tris": 6787598,
+            "draws": 194,
+            "tiers": {
+              "t0": 1566,
+              "t1": 3371,
+              "t2": 3726,
+              "t3": 8019
+            }
+          },
+          {
+            "atMs": 45290.1,
+            "ms": 32.1,
+            "tris": 6693552,
+            "draws": 191,
+            "tiers": {
+              "t0": 2342,
+              "t1": 1474,
+              "t2": 10,
+              "t3": 0
+            }
+          }
+        ],
+        "tintMs": 1325
+      },
+      "v2": {
+        "requested": true,
+        "ready": true,
+        "status": "ready",
+        "reason": null,
+        "selection": {
+          "mode": "fixed-frontier",
+          "requestMode": "require",
+          "graph": {
+            "slug": "norrfallsviken",
+            "groundId": "norrfallsviken",
+            "frameFingerprint": "f3c5d5b875eb5d4b75726bdaf1a0ba30583a7227dcd2ab854bb469040d3f758a",
+            "tiles": 469,
+            "holes": 18,
+            "shellBytes": 40118,
+            "encodedTerrainBytes": 22281491,
+            "surfaceTiles": 0,
+            "objectTiles": 163,
+            "encodedObjectBytes": 587228,
+            "standTiles": 229,
+            "encodedStandBytes": 1257183
+          },
+          "graphError": null
+        },
+        "bounds": {
+          "x0": -1543.125,
+          "z0": -930.8660000003874,
+          "x1": 504.875,
+          "z1": 2141.1339999996126
+        },
+        "backend": "webgl2"
+      },
+      "course": {
+        "slug": "norrfallsviken",
+        "name": "Norrfällsvikens GK",
+        "club": "Norrfällsvikens Golfklubb",
+        "title": "Norrfällsvikens GK — Seaside i Höga Kusten, i 3D",
+        "tag": "Seaside",
+        "boot": "Mjällom · Höga Kusten",
+        "build": "nvgkbuild",
+        "par": 73,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "Gul",
+            "Röd",
+            "Orange"
+          ],
+          "cols": [
+            15780154,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 4,
+          "def": 0
+        },
+        "photos": 4,
+        "packUrl": "courses/norrfallsviken/pack.bin",
+        "bytes": 437108,
+        "sha256": "f206eb351a434ff446a9295f01c49a3fc0ab050adca913c0e0443ba53dbf7550"
+      },
+      "shots": []
+    }
+  ]
+}
