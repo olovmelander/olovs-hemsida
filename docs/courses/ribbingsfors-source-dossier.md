@@ -721,3 +721,260 @@ One concise request can close several blockers. Ask for:
 
 Until those answers arrive, the implementation should clearly describe itself
 as a geospatially derived prototype, not a club-approved digital twin.
+
+## 15. The surroundings survey — everything around the course, mapped (2026-09-05)
+
+A dedicated pass mapped the landscape the course sits in: the lake, the
+ditches, the woods, the manor, the villages, the roads and rails, the
+protected trees and the working yard. Its committed inputs are
+`ribbingsforsbuild/osm-surroundings.json` (a wide OSM parse) and
+`ribbingsforsbuild/surroundings-traces.json` (read-by-eye Esri z17/z18
+traces with per-feature confidence); `ribbingsforsbuild/apply-surroundings.mjs`
+merges both into the course model idempotently and re-gates the result. All
+of it is compatibility-build (GPK1) material under the same provisional
+labels as section 3 — nothing here claims production survey authority.
+
+### 15.1 Lake Skagern — level, extent and two corrections
+
+- **The lake level is 69.3 m (RH 2000), not OSM's `ele=66.9`.** The break
+  geometry says 69.3; the committed vista heightfield reads a laser-flat
+  69.35 over the open basin at [4000,-3000] and [3000,-4000]. The OSM tag is
+  wrong or on another datum and was rejected.
+- The model now carries a **Skagern ring** built from the OSM shoreline
+  (three chained runs, gaps of 26–66 m from members outside the extract),
+  closed offshore through the keep-box corner, with the far-north-east corner
+  cut along the measured diagonal x−z=7600 where the blind closure had swept
+  in 0.7 km² of 70.6–73.6 m land. Gate: ≥95 % of interior vista samples
+  within 0.75 m of 69.35 — measured 99.0 %, worst 1.32 m (32 m cells
+  averaging shore into water).
+- The ring **overlaps the two break-geometry lake polygons at the same
+  level by design** (the break item stops at E 450 000 / local x 1025 — the
+  straight chord visible in overlays is that item edge, harmless because the
+  rings agree on 69.3 and the later ring's carve wins).
+- **Two islets inside the ring are documented simplifications**: the Noret
+  arm's reed islet (centroid laser height 69.96 m, 0.66 m above the lake,
+  edges at the waterline) and a far islet at ~2.6 km. The engine's carve
+  drowns land inside a ring; a keyhole cut would draw a bench line across
+  open water, so the low islets stay under.
+- North of the Skagersvik strait the water drops to ~67.5 m — that is
+  **Gullspångsälven below the Skagern outlet, a different water body**, and
+  the interior gate is what keeps the lake ring from ever swallowing it.
+
+### 15.2 The drainage story — ditches and ponds as one system
+
+The local rules mention drainage trenches; the imagery shows where they are.
+Traced (confidence medium, widths 1.2–1.5 m):
+
+1. **The eastern boundary ditch** winds north through the rough east of
+   hole 3 / west of the forest edge (the banguide's "diken utmed
+   korridoren") into the hole-2 pond at 77.7 m.
+2. From that pond the water passes **under the road at a visible culvert**
+   and runs west as the **green-1 ditch**, wrapping green 1's north side —
+   the banguide's two ditches near green 1 — into the hole-9 pond at 72.0 m.
+3. A short **outlet channel** leaves that pond west toward the shore.
+
+The gradient (hole 3 ≈ 80 m → pond 77.7 → pond 72.0 → lake 69.3) makes the
+system coherent. These traced runs replace the four synthetic guide-crossing
+streams of the first build; a short traced connector joins the two hole-4
+tee ponds ("damm och bäck formar utslaget").
+
+### 15.3 The Ribbingsfors ekhage — 86 protected trees drawn as themselves
+
+Länsstyrelsen's CC0 inventory (section 7 reference data) holds 88 records
+within 250 m, most labelled "Ribbingsfors ekhage": 70 oaks (one 569 cm
+giant), 7 ash, 4 elm, 3 lime, 2 beech, 1 chestnut, 1 aspen/poplar.
+Reconciled against the 2023 laser canopy raster (a ≥3 m return within 4 m),
+**86 of 88 confirmed** and now stand in the model as individual crowns sized
+from trunk circumference. The two unconfirmed (elm 368 cm at the farmyard,
+oak 336 cm west of hole 8 — object ids 9267 and 15731) stay evidence-only:
+a missing return is a review signal, not proof of felling. The measurement
+is frozen in `apply-surroundings.mjs` because the script's own open burns
+would otherwise flip records on rerun (a mature oak stands inside the traced
+parking lot).
+
+### 15.4 The satellite corrections and traces
+
+- **The provisional driving range lay on open lake water.** The guide
+  interpretation in build-course.mjs put its 285 m ellipse at local
+  [15..234, −456..−256] — dark water in every image. The real practice
+  ground is the mown block between the hole-9 and hole-1 corridors south of
+  the clubhouse (bays at its south end, the photographed mature oak standing
+  in the field at [478,−288]); replaced, confidence medium.
+- **Practice greens**: two mown circles by the clubhouse, at [516,−450]
+  (r≈10) and [542,−427] (r≈12) — now `scenery.greens`.
+- **Parking**: the real gravel lot with visible car rows at [694..726,
+  −442..−394], beside the road east of the clubhouse.
+- **Greenkeeping yard** south-west of hole 5: machine hall (15×28 m), two
+  sheds, hardstanding with machinery — `surround.yard` plus three building
+  footprints.
+- **Walls**: two straight boundary lines with bank/stone-wall character
+  (north of hole 8; behind green 3 with its track), confidence low/medium.
+- **Jetties**: one west of green 9, one bathing jetty on the manor shore.
+- **Clear-fell**: one large regenerating felling between the yard and the
+  southern spruce block, planted by the engine at 6 % with stumps.
+- **The manor precinct** is ringed as residential landuse so the planter and
+  scatter keep off the estate lawns; the kitchen-garden enclosure at
+  [478..502, −550..−533] is inside it. The manor operates as
+  https://ribbingsforsherrgard.se/ (Ribbingsfors Herrgård).
+
+### 15.5 The wider OSM landscape
+
+From the wide extract (ODbL, bbox 14.090–14.160 × 58.948–58.985, clipped to
+a 4.6 km keep box, projected with the repo's Krüger series — sub-mm at the
+frame origin):
+
+- **7 forest and 4 wetland rings** (the reedy bays double as
+  `surround.shallows`, so their beds read a few decimetres down rather than
+  the 5.5 m lake carve), 1 scrub, 7 farmland and 24 other landuse rings;
+- **91 roads, 63 tracks, 21 paths**, and the disused **Otterbäcksbanan /
+  Torvedsbanan railway** (3 runs, `usage=tourism` — the rail-bike line whose
+  hire point is the "Gullspång dressinuthyrning" POI);
+- **225 buildings** (37 near incl. the provisional clubhouse and yard sheds;
+  the rest as far boxes) and **482 synthesized village houses** inside the
+  OSM residential rings of Skagersvik and the Gullspång edge, street-aligned
+  — the Ås precedent, since OSM maps almost no house there;
+- the **power corridor** with 44 towers, 2 piers, 5 OSM parking areas;
+- **16 places** as POIs: Skagersvik (village), Väggetorp (hamlet), the
+  Ribbingsfors farm node, eight isolated dwellings, the Sörhult peak with
+  survey point (across the lake), a communication mast and a chimney.
+
+### 15.6 Still unlocated, still open
+
+- **"Kraka-sten"** — the club's own photo set names a bench/net landmark by
+  that name (section 5); no public source locates the stone, and 0.3 m/px
+  imagery cannot. Ask the club where it stands.
+- Local rules mention **exposed rock on closely mown areas**; individual
+  stones are below imagery resolution and await the orthophoto or a site
+  visit.
+- The eastern boundary ditch south of hole 3, the forest drainage grids in
+  the south-west peatland, and any fences are visible but not yet traced
+  feature-by-feature.
+- Everything in this section remains subject to the release blockers of
+  section 13; the Esri-derived traces are migration-only under a blocked
+  redistribution licence (see the source manifest).
+
+## 16. Imagery verification of the played surfaces (2026-09-05)
+
+With no licensed orthophoto yet available, the played surfaces were checked
+against **Esri World Imagery z18** (the same migration-only, blocked-licence
+source as §15's traces) to decide whether they can be improved by eye now.
+The crops and the per-green overlays are produced by
+`ribbingsforsbuild/sat-crop.mjs`, which for this pass grew a finer grid
+(50 m on ≤300 m windows) and draws the model's greens, tee pads and bunkers
+on top so model and imagery can be compared directly. Tiles stay in the
+gitignored cache; nothing is redistributed.
+
+**The finding is that the surfaces should NOT be hand-retraced now.** Two
+measured reasons:
+
+1. **The green centres are already survey points, not guesses.** The model's
+   nine green centres reproduce the GolfTraxx *Green Center* survey coordinates
+   to 0.0 m (verified through the frame). Only the GolfTraxx route *lengths*
+   ever carried the yards-as-metres error (§7.3); the green-centre points did
+   not. Against the imagery these centres land on the real putting surfaces on
+   holes 4, 5, 7, 8 and 9, and within reading error on 1, 2 and 6; hole 3 is
+   the one where the centre looks ~15 m from the most distinct mown oval, and
+   even there the survey point is inside the green complex.
+
+2. **The bunkers are guide-formula-placed and land on real sand more often
+   than not.** They are positioned by `fromGreen` distance × side offset from
+   the centreline (`build-course.mjs`), and against the imagery they sit on the
+   actual bright-sand bunkers on holes 4, 5, 7, 8 and 9. The clear soft spots
+   are **holes 3 and 6**, where two or three of the guide ellipses fall on
+   rough or grass hollows rather than the visible sand.
+
+What this course denies a tracer is contrast: it is a **park-and-pasture
+course photographed leaf-off in early spring**, so greens differ from fairway
+by a shade, bunkers are small, and grass hollows read like sand. Reading a ring
+vertex off z18 against a 50 m grid is ±4 m at best, and on this ground the
+distinction between a mown green and its apron, or a bunker and a hollow, is
+often below that. A wholesale retrace would therefore replace survey-grade
+green centres and mostly-correct bunkers with differently-imprecise eyeball
+geometry — the exact failure the repo warns against ("measure the imagery
+before believing"; "a plain picture of the real thing beats a beautiful
+picture of a different thing"). The green **outlines** remain synthetic
+ellipses, but their **positions** are survey-anchored, which is what a distance
+or a routing actually depends on.
+
+**So the identifiable, evidence-backed soft spots are narrow:** the bunker
+placement on holes 3 and 6, and hole 3's green-centre-versus-surface offset.
+These are left for the licensed orthophoto or the club's own data rather than
+"corrected" into new uncertainty — the imagery does not resolve where hole 3's
+bunkers actually are with enough confidence to move them safely.
+
+**What genuinely raises precision from here, in order, is unchanged from §12
+and needs data this pass could not obtain by eye:**
+
+1. The licensed Lantmäteriet orthophoto — now **open data, CC-BY 4.0** since
+   Feb 2025 on the same Geotorget/dl1 channel and account the DTM already uses
+   (`imagery-lm-ortho` in the source manifest). One 0.16–0.25 m window replaces
+   the synthetic green/fairway/bunker outlines, the Esri traces and the tee
+   interpolation at once, and clears most of §13.
+2. Extending the hole-9 **DTM-bench tee method** (`tee-controls.json`, plane
+   RMSE 0.136 m) to all 27 tees — the terrain we already have, no new licence.
+3. The neighbouring **break-geometry items** (653_45, 654_44, 654_45) for the
+   laser-surveyed Skagern waterline with real island holes, retiring the OSM
+   ring and the two documented drowned-islet simplifications.
+4. The club's current **GIT scorecard and any GIS/drainage plan** (§14) — the
+   only source that makes the per-hole card rows and the ditch runs
+   authoritative rather than provisional.
+
+The reusable outcome of this pass is the tracing tooling itself
+(`sat-crop.mjs`'s grid and surface overlays), so that when the orthophoto or a
+club layer does arrive, the traced comparison is one command away.
+
+## 17. The bunkers are measured now, not placed by formula (2026-09-05)
+
+§16 said the played surfaces should not be hand-retraced, and stood by the
+guide-formula bunkers because they landed on real sand on most holes. Sand,
+though, is the one surface that can be **measured** in the imagery rather than
+read by eye — bright, low-saturation, warm pixels against grass — so the
+bunkers were re-derived from pixels instead:
+
+`ribbingsforsbuild/detect-sand.mjs` composes the Esri z18 tiles over the whole
+course at native resolution (4096 × 3328 px, 0.309 m/px), classifies sand per
+pixel, grows 4-connected components and converts each one's centroid, area and
+covariance axes to frame metres through the exact tile → WGS84 → EPSG:3006 →
+local mapping. Positions therefore carry the imagery's own orthorectification
+error (a few metres) plus classification edges — **not a reading error**, which
+`--find` measured at 7–20 m for the coordinates read by eye in §16.
+
+**Calibration was measured, not assumed.** `--find` searched the brightest 5×5
+patch within 18 m of 19 hypothesised bunkers: sand reads rgb 183–214 /
+170–193 / 136–161 (min channel ≥136, R−B 42–54, G−R −9…−22). The confusers
+each fail one test — the dry-grass mound at [533,−409] reads 166,162,127 with
+G−R −4 (too grey, too dark), the yard roof 192,195,181 has G>R, the white
+house roof 222,219,208 has R−B 14. So the classifier is `min ≥ 132, spread ≤ 75,
+R−B ≥ 30, G−R ≤ −6`, plus geometric exclusions (water, buildings, parking, the
+yard, 7 m of any road) and a played-ground gate (within 75 m of a hole line or
+green, 8–700 m²).
+
+**Result: 32 candidates on the played ground; 21 accepted, 11 rejected, all
+listed in `sat-shapes.json`.** The rejects are pale dry rough along the hole-4
+tree clump, a farmland patch east of the boundary ditch, worn tee ground and
+the greenkeeping yard's hardstanding — visible as such on the review crops the
+tool writes. The 18 accepted bunkers (two split components merged at green 5)
+replace the 24 guide-formula ellipses through `apply-sat-shapes.mjs`, drawn as
+ellipses at the pixel centroid with the covariance axes.
+
+What the measurement says against the guide:
+
+| finding | holes |
+|---|---|
+| guide bunker confirmed on sand, now at its measured position | 1, 2 (×2), 3 (×1), 4 (×2), 5 (greenside), 6 (×3), 7 (×4), 8 (north), 9 (×3) |
+| guide bunker where the imagery shows plain grass — **dropped, not guessed** | 3 (second greenside), 5 (fairway right at 215/245 m), 7 (third at 190 m), 8 (south greenside), 9 (fairway "right" and the shaded left greenside) |
+| side disagreement | hole 9's fairway pair are BOTH left of the line (the guide had one right); hole 1's dogleg bunker lies 8 m west of the provisional line, i.e. on the player's right heading south, where the guide says left — either the guide's side or the provisional line is off |
+
+The dropped entries stay listed under `unresolvedGuideBunkers` with what the
+pixels read there, so the decision is reviewable. Two are genuinely uncertain
+rather than absent — hole 9's left greenside patch reads 152,141,117 (shaded
+sand or shadow) and hole 8's south side 171,169,134 (grey; a path or worn
+grass) — and the licensed orthophoto or a site visit settles them. The
+`guide-notes.json` prose still describes the course as the guide states it
+("bunkrar på båda sidor" at green 8); the render shows what the imagery
+resolves.
+
+Order in the pipeline: `build-course.mjs → apply-sat-shapes.mjs →
+apply-surroundings.mjs` (the surroundings pass burns bunker rings open in the
+tree-cover raster, so it runs last). Every measured bunker is gated ≥9 m from
+its own green centre, so a pale collar can never pass as sand.
