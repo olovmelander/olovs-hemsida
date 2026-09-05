@@ -119,6 +119,13 @@ jobs:
             --ground "$GROUND" --write --full \
             --observed-on "$OBSERVED_ON"
 
+      # The census above rewrote a file some grounds PIN in their source
+      # manifest (Puttom, Johannesberg, Ängsö register copc-hierarchy-census as
+      # an artifact); re-pin it or the publish gates below fail on the run's
+      # own evidence. A ground that does not register it is a no-op here.
+      - name: Re-pin the census checksum in the source manifest
+        run: node packages/course-geo/acquisition/record-artifact-checksum.mjs --ground "$GROUND" --id copc-hierarchy-census
+
       - name: Build the 1 m canopy rasters (read its ground-minus-DTM line first)
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}

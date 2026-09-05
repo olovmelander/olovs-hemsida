@@ -205,6 +205,12 @@ export class V2TerrainLiveAdapter {
     this.renderer = Object.freeze({ status: this.phase });
   }
 
+  /** The lake beds the fixed frontier carved into its tiles as they decoded
+      (see loadPublishedGraphTerrainFrontier); null on a source that had no
+      water to carve. Read by the sampler's callers and V3D.waterBedAt. */
+  get waterBed() { return this.source.waterBed ?? null; }
+  get waterBedSummary() { return this.source.waterBedSummary ?? null; }
+
   get requested() { return this.source.requested === true; }
   get sourceReady() { return this.source.ready === true; }
   get active() { return this.phase === 'ready'; }

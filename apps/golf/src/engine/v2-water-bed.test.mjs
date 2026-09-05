@@ -164,3 +164,116 @@ describe('carving a tile', () => {
     expect(carveTerrainTile(t.tile, field, { legacyOrigin: t.legacyOrigin, verticalDatumOffsetMetres: t.datum })).toBe(0);
   });
 });
+
+import { buildFrontierWaterBedField, carveDecodedTerrainTile } from './v2-water-bed.mjs';
+
+describe('the frontier bed field', () => {
+  /* a frontier window x -64..64, z -64..64 with a lake ring covering x -48..48, z -48..200:
+     the lake runs OUT of the window to the south */
+  const bounds = { x0: -64, x1: 64, z0: -64, z1: 64 };
+  const lake = { ring: [[-48, -48], [48, -48], [48, 200], [-48, 200]], level: 50 };
+
+  it('is water inside the model ring only, at the ring level, deepening with shore distance', () => {
+    const field = buildFrontierWaterBedField({ bounds, knownBodies: [lake], spacing: 2 });
+    expect(field.kind).toBe('frontier');
+    expect(field.inWater(0, 0)).toBe(true);
+    expect(field.inWater(-56, 0)).toBe(false);
+    expect(field.levelAt(0, 0)).toBe(50);
+    /* the centre of the ring's width: 48 m from either shore, the boundary
+       half a cell in from the last water cell centre, so 47 m on the ramp */
+    expect(field.depthAt(0, 20)).toBeCloseTo(0.15 + 0.1 * 47, 2);
+    expect(field.maximumDepthMetres).toBe(5.5);
+    /* two metres inside the west shore: the shore depth plus the slope */
+    expect(field.depthAt(-46, 20)).toBeGreaterThan(0.15);
+    expect(field.depthAt(-46, 20)).toBeLessThan(1);
+  });
+
+  it('keeps deepening to the window edge where the lake runs out of it, because the field is padded', () => {
+    const field = buildFrontierWaterBedField({ bounds, knownBodies: [lake], spacing: 2, paddingMetres: 64 });
+    /* at the window's south edge (z = 64) the lake continues for 136 m: no
+       shore here, so the bed keeps the depth its distance from the west shore
+       gives it -- while an unpadded raster ends there, its bilinear reads zero
+       past the edge, and the last cell shoals to half */
+    expect(field.depthAt(0, 63.5)).toBeCloseTo(0.15 + 0.1 * 47, 2);
+    const unpadded = buildFrontierWaterBedField({ bounds, knownBodies: [lake], spacing: 2, paddingMetres: 0 });
+    expect(unpadded.depthAt(0, 63.5)).toBeLessThan(field.depthAt(0, 63.5) * 0.8);
+  });
+
+  it('caps the bed inside a traced shallows ring', () => {
+    const shallows = [[[-48, -48], [0, -48], [0, 0], [-48, 0]]];
+    const field = buildFrontierWaterBedField({ bounds, knownBodies: [lake], shallows, spacing: 2 });
+    expect(field.depthAt(-24, -24)).toBeCloseTo(0.28, 5);
+    /* outside the shallows the bed keeps its shore-distance depth: 24 m from the east shore */
+    expect(field.depthAt(24, 24)).toBeGreaterThan(2.3);
+    expect(field.depthAt(24, 24)).toBeLessThan(2.7);
+    expect(field.shallowCells).toBeGreaterThan(0);
+  });
+});
+
+describe('carving a decoded frontier tile', () => {
+  /* a tile whose floor IS the lake surface, as the encoder writes it: offset = its minimum */
+  function decodedTile({ heightAt, width = 33, spacing = 4, originX = -64, originZ = -64, offset = 50, scale = 0.01 }) {
+    const payload = new Uint8Array(width * width * 2);
+    for (let row = 0; row < width; row++) for (let column = 0; column < width; column++) {
+      const q = Math.round((heightAt(originX + column * spacing, originZ + row * spacing) - offset) / scale);
+      if (q < 0) throw new Error('fixture height below its own floor');
+      const o = (row * width + column) * 2;
+      payload[o] = q & 0xff; payload[o + 1] = q >> 8 & 0xff;
+    }
+    const span = (width - 1) * spacing;
+    return {
+      header: {
+        id: 't', payloadFormat: 'terrain-grid-u16-le-v1',
+        bounds: { minEasting: originX, maxEasting: originX + span, minNorthing: -(originZ + span), maxNorthing: -originZ },
+        grid: { width, height: width, sampleSpacingMetres: spacing, heightOffsetMetres: offset, heightScaleMetres: scale, noDataValue: 65535 },
+      },
+      payload,
+    };
+  }
+  const sampleOf = (decoded, column, row) => {
+    const { grid } = decoded.header, o = (row * grid.width + column) * 2;
+    return grid.heightOffsetMetres + (decoded.payload[o] | decoded.payload[o + 1] << 8) * grid.heightScaleMetres;
+  };
+  const options = { legacyOrigin: { easting: 0, northing: 0 }, verticalDatumOffsetMetres: 0 };
+  const bounds = { x0: -64, x1: 64, z0: -64, z1: 64 };
+  const lake = { ring: [[-48, -48], [48, -48], [48, 48], [-48, 48]], level: 50 };
+
+  it('re-floors a tile whose offset is the lake surface, so the bed can go metres below it', () => {
+    const field = buildFrontierWaterBedField({ bounds, knownBodies: [lake], spacing: 2 });
+    const decoded = decodedTile({ heightAt: (x, z) => {
+      const inLake = x >= -48 && x < 48 && z >= -48 && z < 48;
+      if (inLake && Math.abs(x) <= 4 && Math.abs(z) <= 4) return 53;   /* an island the ring encloses */
+      return inLake ? 50.05 : 52.5;                                     /* the laser's water surface, and the bank */
+    } });
+    const before = Uint8Array.from(decoded.payload);
+    const carved = carveDecodedTerrainTile(decoded, field, options);
+    expect(carved).not.toBe(decoded);
+    expect(carved.waterBed.carvedSamples).toBeGreaterThan(400);
+    /* the new floor sits below the deepest bed this 96 m lake asks for, with room to spare */
+    expect(carved.waterBed.rebasedOffsetMetres).toBeLessThan(sampleOf(carved, 8, 16) - 0.4);
+    expect(carved.waterBed.rebasedOffsetMetres).toBeLessThan(46);
+    expect(carved.header.grid.heightOffsetMetres).toBe(carved.waterBed.rebasedOffsetMetres);
+    /* the verified bytes were not touched; the carved copy has the bed */
+    expect(Buffer.from(decoded.payload).equals(Buffer.from(before))).toBe(true);
+    /* mid-lake (x -32, z 0 -> column 8, row 16), 16 m from the west shore: the field's depth below the level */
+    expect(sampleOf(carved, 8, 16)).toBeCloseTo(50 - field.depthAt(-32, 0), 2);
+    expect(sampleOf(carved, 8, 16)).toBeLessThan(49);
+    /* the lake's middle reaches the profile's maximum, which the old floor could never hold */
+    expect(sampleOf(carved, 4, 4)).toBeGreaterThan(50 - 5.5 - 0.02);
+    /* the bank and the island read exactly as before through the new offset */
+    expect(sampleOf(carved, 0, 16)).toBeCloseTo(52.5, 5);
+    expect(sampleOf(carved, 16, 16)).toBeCloseTo(53, 5);
+    /* carving the carved tile again changes nothing */
+    expect(carveDecodedTerrainTile(carved, field, options)).toBe(carved);
+  });
+
+  it('keeps the offset when the tile already has room, and returns the same object when nothing is in water', () => {
+    const field = buildFrontierWaterBedField({ bounds, knownBodies: [lake], spacing: 2 });
+    const roomy = decodedTile({ offset: 40, heightAt: (x, z) => (x >= -48 && x < 48 && z >= -48 && z < 48 ? 50.05 : 52.5) });
+    const carved = carveDecodedTerrainTile(roomy, field, options);
+    expect(carved.header.grid.heightOffsetMetres).toBe(40);
+    expect(carved.waterBed.rebasedOffsetMetres).toBeNull();
+    const dry = decodedTile({ originX: 5000, originZ: 5000, heightAt: () => 60 });
+    expect(carveDecodedTerrainTile(dry, field, options)).toBe(dry);
+  });
+});

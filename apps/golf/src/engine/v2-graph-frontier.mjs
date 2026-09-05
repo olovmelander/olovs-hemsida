@@ -6,6 +6,7 @@
    hashes, verifies the decoded tile identity/bounds, and creates the exact
    renderer resources consumed by V2TerrainLiveAdapter. */
 import { verifyChunkAssetWeb } from '../../../../packages/course-v2/runtime/decode-web.mjs';
+import { buildFrontierWaterBedField, carveDecodedTerrainTile } from './v2-water-bed.mjs';
 import {
   createTerrainRenderResource,
   deriveTerrainRenderResource,
@@ -331,9 +332,51 @@ export async function loadPublishedGraphTerrainFrontier({
   cryptoImpl = globalThis.crypto,
   DecompressionStreamImpl = globalThis.DecompressionStream,
   signal,
+  waterBeds = null,
 } = {}) {
   if (typeof fetchImpl !== 'function') throw new TypeError('fetchImpl must be a function');
+  if (waterBeds !== null && typeof waterBeds !== 'function') throw new TypeError('waterBeds must be a function or null');
   const reviewed = assertReviewedGraph(graph, geo, config);
+  /* The bridge and the reviewed window depend on the config alone, so they
+     are known before a tile is fetched -- which is when the lake beds must
+     be, because a tile is carved as it is decoded. */
+  const bridge = BRIDGE_MODES.get(config.bridgeMode)(graph.ground.frame, config);
+  const gridOrigin = config.bridgeMode === 'wgs84-legacy-frame'
+    ? config.legacyOriginEpsg3006
+    : config.canonicalOrigin;
+  const frontierBounds = config.expectedFrontierBoundsEpsg5845 || config.expectedBoundsEpsg5845;
+  const expectedLocalBounds = {
+    x0: frontierBounds.minEasting - gridOrigin.easting,
+    x1: frontierBounds.maxEasting - gridOrigin.easting,
+    z0: gridOrigin.northing - frontierBounds.maxNorthing,
+    z1: gridOrigin.northing - frontierBounds.minNorthing,
+  };
+  /* THE LAKE BEDS. Laser does not penetrate water, so a frontier tile inside
+     a lake ring is the lake's surface, a hand's depth under the sheet the app
+     draws -- and every tile is encoded with its own minimum as its floor, so
+     a carve after the fact cannot go below that surface at all. The ring
+     adapter carves as it decodes; so does this. The caller hands over the
+     model's water (rings at their committed levels, and the traced silt
+     shallows) as a function, because the model is inflated beside these
+     tiles and is not a value yet when the load begins. */
+  let waterBed = null, waterBedSummary = null;
+  if (waterBeds) {
+    const water = await waterBeds();
+    if (water && Array.isArray(water.bodies) && water.bodies.length) {
+      const started = Date.now();
+      waterBed = buildFrontierWaterBedField({
+        bounds: expectedLocalBounds,
+        knownBodies: water.bodies,
+        shallows: water.shallows ?? [],
+        toLegacy: bridge.toLegacy,
+        toGrid: bridge.toGrid,
+        ...(water.profile ?? {}),
+      });
+      waterBedSummary = { cells: waterBed.cells, hectares: waterBed.hectares, maximumDepthMetres: waterBed.maximumDepthMetres,
+        shallowCells: waterBed.shallowCells, carvedSamples: 0, carvedTiles: 0, rebasedTiles: 0, fieldMilliseconds: Date.now() - started };
+    }
+  }
+  const carveOptions = { legacyOrigin: gridOrigin, verticalDatumOffsetMetres: bridge.verticalDatumOffsetMetres };
   const applicationBase = new URL(baseUrl, locationHref);
   if (globalThis.location && applicationBase.origin !== globalThis.location.origin) {
     throw new Error('terrain frontier application base must be same-origin');
@@ -356,15 +399,23 @@ export async function loadPublishedGraphTerrainFrontier({
     if (decoded.header.id !== tile.id || !sameBounds(decoded.header.bounds, tile.bounds)) {
       throw new Error(`terrain frontier tile ${tile.id} decoded with a different identity or footprint`);
     }
+    let input = decoded;
+    if (waterBed) {
+      input = carveDecodedTerrainTile(decoded, waterBed, carveOptions);
+      if (input !== decoded) {
+        waterBedSummary.carvedSamples += input.waterBed.carvedSamples;
+        waterBedSummary.carvedTiles++;
+        if (input.waterBed.rebasedOffsetMetres !== null) waterBedSummary.rebasedTiles++;
+      }
+    }
     return createTerrainRenderResource({
       tileId: tile.id,
-      decoded,
+      decoded: input,
       frame: graph.ground.frame,
       lazyRenderData: true,
     });
   });
 
-  const bridge = BRIDGE_MODES.get(config.bridgeMode)(graph.ground.frame, config);
   const aligned = Object.freeze(resources.map(resource => deriveTerrainRenderResource(resource, {
     worldOriginX: resource.worldOriginX + bridge.translateX,
     worldOriginZ: resource.worldOriginZ + bridge.translateZ,
@@ -376,21 +427,11 @@ export async function loadPublishedGraphTerrainFrontier({
      bridge. The identity bridge leaves the tiles on the ground's own canonical
      origin; a legacy-frame bridge moves them onto the pack's origin, and the
      rotation that finishes the job lives in the group matrix, not here. */
-  const gridOrigin = config.bridgeMode === 'wgs84-legacy-frame'
-    ? config.legacyOriginEpsg3006
-    : config.canonicalOrigin;
   /* The frontier is the level-zero window, which is NOT the graph's extent as
      soon as the ground carries world rings: Veckefjärden's graph reaches a
      16,384 m root while its 8 by 8 metre-resolution frontier is 2,048 m across.
      A ground published without rings has one rectangle and says so by omitting
      this field. */
-  const frontierBounds = config.expectedFrontierBoundsEpsg5845 || config.expectedBoundsEpsg5845;
-  const expectedLocalBounds = {
-    x0: frontierBounds.minEasting - gridOrigin.easting,
-    x1: frontierBounds.maxEasting - gridOrigin.easting,
-    z0: gridOrigin.northing - frontierBounds.maxNorthing,
-    z1: gridOrigin.northing - frontierBounds.minNorthing,
-  };
   if (!['x0', 'x1', 'z0', 'z1'].every(key => near(sampler.bounds[key], expectedLocalBounds[key]))) {
     throw new Error('decoded terrain frontier does not fill the reviewed local bounds');
   }
@@ -433,6 +474,9 @@ export async function loadPublishedGraphTerrainFrontier({
     bounds: sampler.bounds,
     legacyBounds,
     bridge,
+    /* the carved lake beds, for the sampler's readers and the gates */
+    waterBed,
+    waterBedSummary: waterBedSummary ? Object.freeze(waterBedSummary) : null,
     /* `heightAt` takes LEGACY world coordinates and so goes through the
        bridge; `heightAtGrid` is for the caller that compares v2 against v2 and
        must not go round it. Under the identity bridge they coincide. */

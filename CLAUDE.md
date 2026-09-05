@@ -2257,6 +2257,58 @@ target)` returns the same numbers with no DOM, which is how the harness
 checked that the tee-to-centre distance on Puttom's 12th is the card's 110 m
 and that the line crosses the lake from 23 to 84 m.
 
+### On a phone the course is the product, and the readout must not cover it
+
+The first GPS mode put a 640 px Kikaren card over the fairway on a 844 px
+phone — green distances, the tapped point, plays-like, the club, layups and
+weather in one panel under a full-width GPS banner — and every data gate
+passed while the course itself was a strip at the bottom. Measured against
+the apps golfers already hold (Hole19, Golfshot, 18Birdies, Garmin, Arccos)
+the shape they all share is the same: the map is the screen, the three green
+numbers sit in a narrow stack at an edge with the centre number largest, a
+tapped distance is drawn AT THE POINT and not in a panel, the club and the
+detail live in a sheet that rests as one row and opens on a pull, and "follow
+me" is a round locate button in a corner. Kikaren is that now, on all six
+courses and both form factors, with one DOM and two layouts:
+
+- `#kikGreen` is the green stack: back over centre over front on a phone, the
+  way the green lies ahead of the ball (a row on desktop, front to back). It
+  docks under the hole card at the right edge, and under the locate button
+  when GPS is on.
+- `#kikTag` floats the tapped distance at the tapped point — `kikTagUpdate`
+  projects the point through the camera every frame and fades it when it
+  leaves the screen. It is what makes a tap feel like a rangefinder.
+- `#kikOut` is the sheet: head (origin, "Från tee", a chevron), the row that
+  always shows (the shot line or the plays-like to green, hazards, the club),
+  and a body (layups, weather) that a phone hides behind a tap on the head.
+  Every surface is rewritten only when its text changes (`kikSwap`), or a
+  GPS fix every four seconds would reset a sheet someone is reading.
+- `#gpsStatus` is a pill (pulse · hole · ±accuracy · ×) beside a locate button
+  that is the follow state; on a phone the row spans the top with the pill at
+  the left and the button at the right, and neither covers anything.
+
+**The follow camera is a hole view, and a pinch is never a tap.** `focusGps` used
+to put the camera 16 m up and 25 m behind the player looking 55 m ahead --
+fine for the next shot, useless for reading the hole, and on the owner's
+phone it read as "I cannot see the slope or the hole". It frames the player
+and the green together now (back 34 + 0.2 d, up 18 + 0.14 d, aimed 0.45 d
+up the line; at 48° fov both stay in frame from 15 to 500 m), set once per
+fix and only translated after, so a pinch to look closer survives walking.
+And the tap handler had no idea how many fingers were down: the second
+finger of a pinch released with under 8 px of travel was a tap (a spurious
+measurement) or, past 450 ms, a long press -- which moves the ball and
+STOPS GPS. That is what "pinching in GPS mode" did. A gesture that ever had
+two fingers is neither now.
+
+`tools/check-caddie-ui.mjs` measures the phone layout rather than trusting
+it: the sheet rests in the bottom 20% of the screen above the quick actions,
+the stack is under 120 px wide at the right edge, the tag's anchor lands
+within 3 px of the tapped pixel, no two surfaces overlap, and the sheet opens
+and folds on its head. Two things to keep: "Mät härifrån" in GPS mode now
+leaves GPS the same way a long press does (before, the GPS origin silently
+won over the moved ball and the button did nothing); and the desktop keeps
+the panel it always had — the sheet's `open` state is inert there by CSS.
+
 ### The clubhouses, and what a photograph is for
 
 **Two of six were not being drawn as clubhouses at all.** The buildings pass
@@ -3031,6 +3083,35 @@ records the 2026-09-05 pass. The lessons that generalise:
   from the clubhouse is clear over the lake. All three are in
   `scenery/angso.js` with their basis; the campsite piers got boats for free
   the moment there was water under them.
+- **The LiDAR vegetation is published here too (2026-09-05), through the
+  same CI chain, and its two runs taught two mechanics.** The first compile
+  refused the shoreline tile l0/4/13 with `heightRH2000 lies outside the
+  declared chunk bounds`: Mälaren's laser plate decodes to
+  0.7600000000000002, a crown standing on it samples exactly that, and the
+  record's millimetre rounding lands 2e-16 BELOW the bound. No other ground
+  had a flat plate as a tile minimum with crowns standing on it.
+  `compileObjectChunks` snaps a height within the record's own 0.001 m of a
+  bound onto the bound (unit-tested); anything further out still fails. And
+  the workflow's census step rewrites `copc-hierarchy-census.json`, which
+  this ground's source manifest — and Puttom's and Johannesberg's — PINS as
+  an artifact, so the acquire's evidence commit left `check-manifests` red
+  and the publish's own gate step would have died on the run's own evidence.
+  `packages/course-geo/acquisition/record-artifact-checksum.mjs` re-pins a
+  registered artifact, the workflow calls it right after the census, and it
+  no-ops where a ground does not register the file (Upsala). The record: one
+  March 2021 leaf-off campaign, 61.0 M points, cloud ground within 0.06 m
+  median of the DTM on all 256 tiles, CI rasters byte-identical to the
+  owner's local build; 85,018 candidates → **14,991 machine-reviewed
+  individuals** on 234 tiles + stand fields on all 256; excluded:water 127
+  (the real shoreline, against the laser rings above), fairway 90, tee 12,
+  green 2. The eyeball (overview + eighteen hole crops) was clean before the
+  publish. In the app: 14,991 + 83,630 stand trees, the legacy lattice cut
+  from all 256 tiles, bases p95 0.053 m, `speciesSource: 'course'` (the
+  birch-led rule in `scenery/angso.js`), `check-course-v2` green on the
+  ring graph. A CI mechanic that now holds: the evidence commit rebases onto
+  the branch before it pushes, so a branch that moved during the hour of
+  compile no longer costs the run.
+
 ## Ribbingsfors — `ribbingsforsbuild/` (no standalone page; app-only)
 
 Ribbingsfors Golf & Kultur: 9 holes, par 36 (played twice for 18/72), a park
@@ -3063,7 +3144,10 @@ is its browser gate.
     node ribbingsforsbuild/parse-osm-wide.mjs      # -> osm-surroundings.json
     node ribbingsforsbuild/detect-sand.mjs         # measure bunkers from z18 sand pixels -> cache/sand-candidates.json + review crops
     node ribbingsforsbuild/apply-sat-shapes.mjs    # accepted bunkers (sat-shapes.json) replace the guide-formula set
-    node ribbingsforsbuild/apply-surroundings.mjs  # merge + gates; IDEMPOTENT, run after every build-course
+    node ribbingsforsbuild/apply-surroundings.mjs  # merge + gates (incl. the Skagern union via lake-union.mjs); IDEMPOTENT, run after every build-course
+    node ribbingsforsbuild/trace-surfaces.mjs      # greens, tee decks, fairways, routes by rule -> surface-traces.json + cache/review/hole-N.png (LOOK)
+    node ribbingsforsbuild/laser-ditches.mjs       # traced ditches re-laid on the laser channel bottoms + crossings -> laser-ditches.json
+    node ribbingsforsbuild/apply-surface-traces.mjs  # folds both in; runs LAST (apply-surroundings keeps laser-laid streams on a rerun)
     node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
     node packages/course-pack/emit-manifest.mjs
     node packages/course-v2/refresh-fallback-v1.mjs ribbingsfors   # or the v2 graph fails closed
@@ -3080,11 +3164,31 @@ the same commit (`pnpm test` fails loudly on both, and
 ### Ground truth the surroundings model encodes
 
 - **Skagern's level is 69.3 m RH 2000; OSM's `ele=66.9` is wrong** (the vista
-  DTM reads a laser-flat 69.35 over the open basin). The big lake ring is OSM
-  shoreline closed offshore, gated by DTM sampling (99.0% of interior samples
-  laser-flat; a measured diagonal cut keeps a far corner of 70–73 m land
-  out). North of the Skagersvik strait the water at ~67.5 m is
-  Gullspångsälven BELOW the lake's outlet — never let the ring swallow it.
+  DTM reads a laser-flat 69.35 over the open basin). **The lake is ONE ring**
+  (`lake-union.mjs`, dossier §18): the laser break-geometry shoreline
+  wherever item 653_44 draws one, OSM shoreline beyond the item, and OSM
+  water inside the item only where the DTM reads laser-flat at lake level —
+  7.4 ha of OSM "water" stands 0.5–7 m above the lake and is refused. The
+  first build kept the OSM ring AND the two break arms at one level "by
+  design"; three coplanar sheets z-fight (the owner's sawtooth screenshot)
+  and the arms' straight clip chord drew foam across open water. The OSM
+  half is still gated by DTM sampling (99.0% of interior samples laser-flat;
+  a measured diagonal cut keeps a far corner of 70–73 m land out). North of
+  the Skagersvik strait the water at ~67.5 m is Gullspångsälven BELOW the
+  lake's outlet — never let the ring swallow it.
+- **A fixed frontier carves its lake beds as the tiles decode — and must
+  re-floor them.** The v2 bed carve used to run only for the ring adapter,
+  so inside this frontier the ground under Skagern was the laser's water
+  surface a hand's depth under the sheet and the shader painted the whole
+  lake as silt (dossier §18.1). `loadPublishedGraphTerrainFrontier` now
+  takes the model's water (`waterBeds`, threaded from main.js as a
+  promise-returning function because the model inflates beside the tiles)
+  and carves each decoded tile. Every frontier tile is encoded with its own
+  minimum as its quantisation floor, and over a lake that minimum IS the
+  lake: a carve clamped at q = 0 gained 0.48 m. `carveDecodedTerrainTile`
+  lowers the tile's offset and shifts every sample before carving. Probe it
+  with `V3D.waterBedAt(x, z)` (depth 5.5, ground 63.8 at (−100,−300)) —
+  the gate in `check-ribbingsfors-v2.mjs` does.
 - **The ditches are one system**: eastern boundary ditch → hole-2 pond
   (77.7 m) → road culvert → the two crossings at green 1 → hole-9 pond
   (72.0 m) → lake. The four synthetic guide-crossing streams are replaced by
@@ -3093,7 +3197,25 @@ the same commit (`pnpm test` fails loudly on both, and
   sits between holes 9 and 1 with its bays at the south end and a mature oak
   in the field. Satellite traces carry per-feature confidence in
   `surroundings-traces.json`; the ±8 m reading error is stated there.
-- **The played surfaces are survey-anchored, not to be hand-retraced (§16).**
+- **The played surfaces are traced BY RULE now, not by hand (§19).** The
+  leaf-off z18 capture shows mown turf vivid against dormant pasture (ExG
+  98–118 on the greens, p90 59 on the rough) and every green as a darker
+  patch inside a lighter collar. `trace-surfaces.mjs` grows each green from
+  its GPS centre on smoothed colour under six loose-to-tight readings and
+  keeps the LARGEST that stays compact (an approach can be as green as its
+  putting surface, so a loose reading leaks and a tight one erodes); all nine
+  pass. Tee decks are laser-flat (5 × 5 m spread < 0.12 m) and mown OR under
+  a card mark — the 8th's decks are dormant brown and flat to 6 cm. The
+  ROUTING is the mown corridor: least-cost from the back tee to the surveyed
+  green, cheapest down the middle of the hole's OWN turf (ownership and
+  routing solved twice), because the GolfTraxx seeds ran through woods on 5
+  and 6. Card marks snap onto decks within 25 m, never two card tees > 25 m
+  apart onto one deck, and the 9th's reviewed DTM-bench control stands.
+  Fairways are the mown mask split by nearest traced line. Ditches are the
+  satellite traces re-laid on the laser top-hat, culverts appearing as the
+  gaps they are, plus two crossings the traces missed. Review sheets are the
+  gate that has eyes: `cache/review/hole-N.png`.
+- **The played surfaces were survey-anchored, not to be hand-retraced (§16)** — still true of HAND tracing.
   The nine green centres ARE the GolfTraxx *Green Center* survey points to
   0.0 m — only the route lengths carried the yards bug, not the green points —
   and they land on the real greens in z18 imagery. **The bunkers are MEASURED
@@ -3130,6 +3252,28 @@ the same commit (`pnpm test` fails loudly on both, and
 - **Clip, don't just filter.** A kept-whole way reached ±39 km (power line)
   and the Skagern shoreline ran 9 km past the vista; everything in
   osm-surroundings.json is clipped to the 4.6 km keep box.
-- The break-geometry water stops at the ITEM edge (E450000 = local x 1025);
-  the straight chord an overlay shows there is two same-level rings meeting,
-  not a defect.
+- The break-geometry water stops at the ITEM edge (E450000 = local x 1024.5).
+  It USED to be drawn as its own rings beside the OSM ring, and the straight
+  chord was called "not a defect" — it was one (foam and shallow colour along
+  a line across open water). The arms are folded into the single Skagern ring
+  now and survive only under `sourceWater.breakLakes` for idempotent reruns.
+- **Ownership and routing are one problem.** Assigning mown cells to the
+  nearest provisional line handed the 5th a strip of the 7th's fairway and a
+  route that escaped into it; a deck matched by distance alone put the 9th's
+  480 mark on the 406's deck (74 m apart on the card). Solve ownership from
+  the routes you get, route again, and refuse a deck another hole owns.
+- **Moving the played ground moves the reviewed CORE cutout, and v2 fails
+  closed.** The traced routes no longer reach the GolfTraxx seeds' far
+  corners, so `playB ± 150` shrank one 36 m cell east and south and every
+  v2 gate failed at once with "expected 316x298 … got 307x289". Re-measure
+  `legacyCoreCutout` in `v2-ribbingsfors-config.mjs` (and the gate's pinned
+  skipped count) off the assertion's own "got" line, never by typing.
+- **A rerun of one script must not undo the next one's work.** apply-surroundings
+  rebuilt `streams` from the satellite traces and silently discarded the laser
+  re-lay; laser-ditches read `model.streams` and would have re-laid laser on
+  laser. Both now read the trace FILE and the surroundings pass keeps
+  laser-laid streams, so the chain is idempotent in either order.
+- **Two water rings at one level over the same water are a z-fight, not a
+  belt and braces.** The engine draws a sheet per ring; overlapping sheets a
+  centimetre apart fight at any distance on a 24-bit depth buffer. One body,
+  one ring — unite in the data, never rely on draw order.

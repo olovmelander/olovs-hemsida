@@ -186,14 +186,27 @@ await tick('läser terrängdata', 0.04);
    the normal course; under ?v2=require the selection throws instead of
    quietly serving GPK1. */
 const previewStarted = performance.now();
+/* The model is inflated beside the terrain selection, and a FIXED FRONTIER
+   needs its water while its tiles decode (the lake beds are carved into the
+   tiles, and a tile cannot be re-floored once its texels exist), so the
+   selection is handed the model's water as a promise-returning function and
+   M below is the same parse, awaited once. */
+const modelPromise = inflate(PACK.sv).then(bytes => JSON.parse(new TextDecoder().decode(bytes)));
 const terrainPreviewPromise = selectV2TerrainSource({
   slug: CMETA.slug,
   geo: GEO,
   packMeta: CMETA,
   search: location.search,
+  waterBeds: async () => {
+    const model = await modelPromise;
+    return {
+      bodies: (model.water || []).filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })),
+      shallows: (model.surround && model.surround.shallows) || [],
+    };
+  },
 }).then(selection => { span('v2 preview: select + decode pilot/surface tiles', previewStarted); return selection; });
-const [b0, b1, bv, V2_SELECTION] = await Promise.all([
-  inflate(PACK.s0), inflate(PACK.s1), inflate(PACK.sv), terrainPreviewPromise,
+const [b0, b1, MODEL, V2_SELECTION] = await Promise.all([
+  inflate(PACK.s0), inflate(PACK.s1), modelPromise, terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
 const TERRAIN_PREVIEW_CONFIG = V2_SELECTION.frontierConfig || PUTTOM_PREVIEW_CONFIG;
@@ -218,7 +231,7 @@ const V2_VEGETATION_LOADING = V2_SELECTION.graph &&
 let V2_VEGETATION = null;
 let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
-const M = JSON.parse(new TextDecoder().decode(bv));
+const M = MODEL;
 const HOLES = M.holes;
 /* A verified descriptor alone may not alter either construction or visible
    ground. The adapter opens those gates separately after backend preflight and
@@ -562,6 +575,20 @@ for (const h of HOLES) {
           `(field ${bed.fieldMilliseconds} ms: ${Object.entries(bed.fieldTimings || {}).map(([k, v]) => `${k} ${v}`).join(', ')})`);
         BOOT_PERF.spans.push({ name: 'v2 water beds: carve rings', ms: bed.milliseconds, tiles: bed.carvedTiles });
       }
+    } else if (TERRAIN_PREVIEW.waterBedSummary) {
+      /* A FIXED FRONTIER has no ring to find flat water in, and until 2026-09
+         had no carve at all: Ribbingsfors' Skagern rendered as pale silt across
+         the whole frontier, because the tiles inside its ring are the laser's
+         water surface a hand's depth under the sheet, and only beyond the
+         frontier did the legacy carve give the lake its depth. Its beds were
+         carved as the tiles decoded (loadPublishedGraphTerrainFrontier, from
+         the model's rings, re-flooring each lake tile); this only reports it.
+         The profile matches the legacy carve so the bed is continuous where
+         the frontier hands over to the legacy MID. */
+      const bed = TERRAIN_PREVIEW.waterBedSummary;
+      console.info(`v2 water beds (frontier): ${bed.hectares} ha carved to ${bed.maximumDepthMetres} m, ` +
+        `${bed.carvedSamples} samples in ${bed.carvedTiles} tiles (${bed.rebasedTiles} re-floored), ${bed.shallowCells} shallow cells`);
+      BOOT_PERF.spans.push({ name: 'v2 water beds: carve frontier (at decode)', ms: bed.fieldMilliseconds, tiles: bed.carvedTiles });
     }
   }
 
@@ -6409,6 +6436,7 @@ document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPre
       if (open) {
         closeMobileSheet();
         closeNote();
+        kikSheet(false);
         drawMini();
       }
     };
@@ -6423,6 +6451,7 @@ document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPre
       if (open) {
         closeMobileSheet();
         closeMini();
+        kikSheet(false);
       }
     };
   }
@@ -7548,7 +7577,11 @@ function syncGpsUi(state, detail) {
   gpsBtn.classList.toggle('on', gpsState.active);
   mobileGpsBtn?.classList.toggle('on', gpsState.active);
   gpsFollowBtn.classList.toggle('on', gpsState.follow);
-  gpsFollowBtn.textContent = gpsState.follow ? 'Följer' : 'Följ';
+  gpsFollowBtn.setAttribute('aria-pressed', String(gpsState.follow));
+  gpsFollowBtn.setAttribute('aria-label', gpsState.follow ? 'Kameran följer dig · tryck för att släppa' : 'Följ min position');
+  gpsFollowBtn.title = gpsFollowBtn.getAttribute('aria-label');
+  /* no fix, no camera to steer: the button only exists while there is a position */
+  gpsFollowBtn.hidden = !gpsState.active;
   document.body.classList.toggle('gps-on', gpsState.active);
 }
 
@@ -7581,14 +7614,25 @@ function drawGpsMarker() {
   scene.add(gpsGroup);
 }
 
+/* the hole view: behind and above the player, looking up the line to the
+   green, high and far enough back that both the player and the green are in
+   frame however far apart they are -- the picture every GPS app opens on,
+   here with the real ground so the slope reads in the shading. The framing
+   is set once per fix; later fixes only translate the camera, so a pinch or
+   a drag to look closer survives walking. */
 function focusGps(instant = false) {
   if (!gpsState.point) return;
   const h = HOLES[hole - 1], p = gpsState.point, target = h.green.c;
   const dx = target[0] - p[0], dz = target[1] - p[1], length = Math.hypot(dx, dz) || 1;
   const fx = dx / length, fz = dz / length;
-  const px = p[0] - fx * 25 - fz * 11, pz = p[1] - fz * 25 + fx * 11;
-  flyTo(V3(px, terrainH(px, pz) + 16, pz),
-        V3(p[0] + fx * Math.min(55, length), terrainH(p[0] + fx * Math.min(55, length), p[1] + fz * Math.min(55, length)) + 2, p[1] + fz * Math.min(55, length)),
+  const back = 34 + length * 0.2, up = 18 + length * 0.14;
+  /* the frame centre sits 7° above the player, so the player stands just over
+     the sheet at the bottom of a phone screen and the green has the rest */
+  const aim = Math.max(10, up / Math.tan(Math.atan2(up, back) - 7 * Math.PI / 180) - back);
+  const px = p[0] - fx * back - fz * 8, pz = p[1] - fz * back + fx * 8;
+  const ax = p[0] + fx * aim, az = p[1] + fz * aim;
+  flyTo(V3(px, Math.max(terrainH(px, pz) + 12, terrainH(p[0], p[1]) + up), pz),
+        V3(ax, terrainH(ax, az) + 3, az),
         instant || RMOTION ? 0 : 1.1);
 }
 
@@ -7689,6 +7733,22 @@ addEventListener('pagehide', () => {
 let kik = false, kikGroup = null, kikPt = null, kikBall = null, kikWx = null, kikWxBusy = false;
 const kikBtn = document.getElementById('rangeBtn');
 const kikOut = document.getElementById('kikOut');
+/* the readout is three surfaces, not one card: the green distances in a stack
+   at the screen's edge, the tapped distance floating at the point itself, and
+   the sheet with everything else -- which on a phone rests as a single row so
+   the course stays in view. Each is rewritten only when its text changes, so a
+   GPS fix every few seconds never resets a sheet someone is reading. */
+const kikGreen = document.getElementById('kikGreen');
+const kikTag = document.getElementById('kikTag');
+const kikTagBox = kikTag.querySelector('.kt-box');
+const kikTagV = new THREE.Vector3();
+const kikTagXY = { x: NaN, y: NaN, visible: false };
+const kikHtml = new Map();
+const kikSwap = (el, html) => { if (kikHtml.get(el) !== html) { el.innerHTML = html; kikHtml.set(el, html); } };
+function kikSheet(open) {
+  kikOut.classList.toggle('open', open);
+  kikOut.querySelector('.kik-head')?.setAttribute('aria-expanded', String(open));
+}
 function setKik(on, quiet = false) {
   kik = Boolean(on);
   kikBtn.classList.toggle('on', kik);
@@ -7708,6 +7768,8 @@ function kikClear() {
   kikErase();
   kikPt = null; kikBall = null;
   kikOut.classList.remove('show');
+  kikGreen.classList.remove('show');
+  kikTag.hidden = true; kikTagXY.visible = false;
   const toolHint = document.getElementById('toolHint');
   if (toolHint && !kik) toolHint.style.display = '';
 }
@@ -7823,31 +7885,62 @@ function kikRender() {
   const haz = H => H.map(z => z.type === 'vatten'
     ? `<span class="kik-haz water">vatten · kort om <b>${m(z.from)}</b> · bär <b>${m(z.to)}</b> m</span>`
     : `<span class="kik-haz sand">bunker <b>${m(z.from)}–${m(z.to)}</b> m</span>`).join('<br>');
-  const gTxt = r.green.front !== null
-    ? `fram <b>${m(r.green.front)}</b> · mitt <b>${m(r.green.centre)}</b> · bak <b>${m(r.green.back)}</b> m`
-    : `mitt <b>${m(r.green.centre)}</b> m`;
+
+  /* the green: back over centre over front, the way it lies ahead of the ball */
+  kikSwap(kikGreen, r.green.front !== null
+    ? `<div class="kg-row back"><i>Bak</i><b>${m(r.green.back)}</b></div>` +
+      `<div class="kg-row mid"><i>Mitt</i><b>${m(r.green.centre)}<em>m</em></b></div>` +
+      `<div class="kg-row front"><i>Fram</i><b>${m(r.green.front)}</b></div>`
+    : `<div class="kg-row mid"><i>Green</i><b>${m(r.green.centre)}<em>m</em></b></div>`);
+  kikGreen.classList.add('show');
+
+  /* the tapped point carries its own number, where the eye already is */
+  const s = r.shot;
+  if (s) {
+    const rise = Math.abs(s.dh) >= 1 ? ` · ${m(Math.abs(s.dh))} m ${s.dh > 0 ? 'upp' : 'ned'}` : '';
+    const over = s.hazards.length ? ` · över ${s.hazards.some(z => z.type === 'vatten') ? '<u>vatten</u>' : 'bunker'}` : '';
+    kikSwap(kikTagBox, `<b>${m(s.dist)}<em>m</em></b><span>spelas <i>${m(s.plays.total)}</i>${rise}${over} · ${s.lie}</span>`);
+    kikTag.hidden = false;
+    kikTagUpdate();
+  } else { kikTag.hidden = true; kikTagXY.visible = false; }
+
+  /* the sheet: head, the row that is always shown, the rest behind a tap on a phone */
   const originLabel = r.fromGps ? `GPS · ±${Math.max(1, Math.round(r.gpsAccuracy || 0))} m`
     : r.fromTee ? `från tee ${r.tee}` : 'från bollen';
-  let html = `<div class="kik-head"><b>Kikaren</b><span class="${r.fromGps ? 'kik-live' : ''}">${originLabel}</span>` +
-             `${r.fromTee || r.fromGps ? '' : '<button class="kik-btn" data-act="tee">Från tee</button>'}</div><div class="kik-body">`;
-  html += `<div class="kik-row">Green · ${gTxt}</div>`;
-  if (r.shot) {
-    const s = r.shot;
-    html += `<div class="kik-row kik-big">Till punkten <b>${m(s.dist)} m</b> · ${m(Math.abs(s.dh))} m ${s.dh >= 0 ? 'uppför' : 'nedför'} · landar i ${s.lie}</div>`;
-    html += `<div class="kik-row">Spelas som <b>${m(s.plays.total)} m</b>${parts(s.plays)}</div>`;
+  let html = `<div class="kik-grab"></div><div class="kik-head" role="button" tabindex="0" aria-expanded="${kikOut.classList.contains('open')}">` +
+             `<b>Kikaren</b><span class="${r.fromGps ? 'kik-live' : ''}">${originLabel}</span>` +
+             `${r.fromTee || r.fromGps ? '' : '<button class="kik-btn" data-act="tee">Från tee</button>'}` +
+             `<svg class="kik-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg></div>`;
+  html += '<div class="kik-peek">';
+  if (s) {
+    html += `<div class="kik-line"><span>Till punkten <b>${m(s.dist)}</b> m · spelas som <b>${m(s.plays.total)}</b>${parts(s.plays)} · ${s.lie}</span>` +
+            `<button class="kik-btn" data-act="ball">Mät härifrån</button></div>`;
     if (s.hazards.length) html += `<div class="kik-row">${haz(s.hazards)}</div>`;
-    html += `<div class="kik-row"><button class="kik-btn" data-act="ball">Mät härifrån</button></div>`;
   } else {
-    html += `<div class="kik-row">Till green spelas som <b>${m(r.toGreen.plays.total)} m</b>${parts(r.toGreen.plays)}</div>`;
+    html += `<div class="kik-line"><span>Till green spelas som <b>${m(r.toGreen.plays.total)}</b> m${parts(r.toGreen.plays)}</span></div>`;
     if (r.toGreen.hazards.length) html += `<div class="kik-row">På linjen: ${haz(r.toGreen.hazards)}</div>`;
   }
   html += kikClubAdvice(r);
+  html += '</div><div class="kik-body">';
   if (r.layups.length) html += `<div class="kik-row">Lägg upp: ${r.layups.map(l => `${l.remain} m kvar → <b>${m(l.shot)}</b> m`).join(' · ')}</div>`;
   html += kikWxLine(r);
   html += '</div>';
-  kikOut.innerHTML = html;
+  kikSwap(kikOut, html);
   kikOut.classList.add('show');
   kikDraw(r);
+}
+/* the floating number follows its point through every camera move; off screen
+   it fades rather than sticking to an edge */
+function kikTagUpdate() {
+  if (!kik || !kikPt || kikTag.hidden) return;
+  const v = kikTagV.set(kikPt[0], terrainH(kikPt[0], kikPt[1]) + 1.1, kikPt[1]).project(camera);
+  const off = v.z > 1 || v.x < -1.04 || v.x > 1.04 || v.y < -1.04 || v.y > 1.04;
+  kikTag.style.opacity = off ? '0' : '1';
+  kikTagXY.visible = !off;
+  if (off) return;
+  const x = (v.x * 0.5 + 0.5) * innerWidth, y = (-v.y * 0.5 + 0.5) * innerHeight;
+  kikTagXY.x = x; kikTagXY.y = y;
+  kikTag.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
 }
 function kikWxLine(r) {
   const w = r.weather;
@@ -7911,11 +8004,19 @@ function kikPlaceBall(clientX, clientY) {
 }
 kikOut.addEventListener('click', e => {
   const b = e.target.closest('[data-act]');
-  if (!b) return;
+  if (!b) {
+    if (e.target.closest('.kik-head')) kikSheet(!kikOut.classList.contains('open'));
+    return;
+  }
   if (b.dataset.act === 'tee') kikBall = null;
-  else if (b.dataset.act === 'ball' && kikPt) { kikBall = kikPt; kikPt = null; }
+  else if (b.dataset.act === 'ball' && kikPt) { if (gpsState.active) stopGps(false); kikBall = kikPt; kikPt = null; }
   else if (b.dataset.act === 'bag') { openBag(); return; }
   kikRender();
+});
+kikOut.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('.kik-head') && !e.target.closest('[data-act]')) {
+    e.preventDefault(); kikSheet(!kikOut.classList.contains('open'));
+  }
 });
 /* ------------------------------------------------- greengrid (yardage book & slope visualization)
    Professional golf simulation green reading:
@@ -8246,12 +8347,20 @@ gridBtn.onclick = () => {
 
 /* a click is a click only if the pointer did not drag (OrbitControls owns drags) */
 {
-  let px0 = 0, py0 = 0, pt0 = 0;
+  let px0 = 0, py0 = 0, pt0 = 0, fingers = 0, pinched = false;
   renderer.domElement.addEventListener('pointerdown', e => {
     px0 = e.clientX; py0 = e.clientY; pt0 = performance.now();
+    /* a second finger makes the gesture a pinch for as long as any finger is
+       down: neither finger's release is a tap, and a slow pinch is not a long
+       press -- it used to move the ball and drop GPS mode when a zoom ended */
+    fingers++; if (fingers > 1) pinched = true;
     if (tour) endTour();
   });
+  const release = () => { fingers = Math.max(0, fingers - 1); if (fingers === 0) pinched = false; };
+  renderer.domElement.addEventListener('pointercancel', release);
   renderer.domElement.addEventListener('pointerup', e => {
+    const wasPinch = pinched; release();
+    if (wasPinch) return;
     const held = performance.now() - pt0, moved = Math.hypot(e.clientX - px0, e.clientY - py0);
     /* in kikaren a long press without a drag puts the ball where the finger is */
     if (kik && moved < 8 && held >= 450 && held < 3000) { kikPlaceBall(e.clientX, e.clientY); return; }
@@ -8931,6 +9040,7 @@ function frame() {
   if (skyDome) skyDome.position.copy(camera.position);
   updateSky();
   updateStrategy(now);
+  kikTagUpdate();
   drawMini();
   if (gridOn) updateGreenGrid(dt, now);
   if (!captureRenderLocked) renderActivePipeline();
@@ -9132,6 +9242,8 @@ window.V3D = {
     } : null,
     gps: { active: gpsState.active, point: gpsState.point ? [...gpsState.point] : null,
            accuracy: gpsState.accuracy, follow: gpsState.follow },
+    kik: { on: kik, point: kikPt ? [...kikPt] : null, ball: kikBall ? [...kikBall] : null,
+           sheetOpen: kikOut.classList.contains('open'), tag: kikTagXY.visible ? { x: kikTagXY.x, y: kikTagXY.y } : null },
   }),
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),
@@ -9500,6 +9612,9 @@ window.V3D = {
   /* the drawing buffer as RGBA bytes, for an in-page metric that must not pay for a PNG each frame */
   captureRaw: IS_GPU ? captureRaw : null,
   startTour, endTour, kikMeasure,
+  /* the GPS hole view, and where a world point lands on the screen (NDC z > 1 = behind the camera) */
+  gpsFocus: (instant = true) => focusGps(instant),
+  toScreen: (x, y, z) => { const v = new THREE.Vector3(x, y, z).project(camera); return { x: (v.x * 0.5 + 0.5) * innerWidth, y: (-v.y * 0.5 + 0.5) * innerHeight, z: v.z }; },
   setSky, skyState: () => skyState, eachSky: fn => skySprites.forEach(fn),
   /* the CANVAS positions, not the world ones: where a marker is actually drawn is
      what a collision check has to measure */

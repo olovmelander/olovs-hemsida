@@ -2,15 +2,15 @@
   "schemaVersion": 1,
   "groundId": "angso",
   "groundName": "Ängsö Golfklubb",
-  "observedOn": "2026-09-04",
+  "observedOn": "2026-09-05",
   "state": "canopy-rasters-built",
   "method": "Node reader over authenticated range requests (copc + laz-perf); ground from the cloud's own class 2/9 returns, mean per 1 m cell, nearest-fill to 60 m, 3x3 mean; height above ground bilinear; CHM = highest non-noise return per cell, 0 where only ground returns exist, NaN where none; densities counted, never copied",
   "haloMetres": 32,
   "frameFingerprint": "bfc6a0f04badb8e31cd874bc28e58ed679dd591164d8cb9a96ca9a96209b9318",
   "groundManifest": "grounds/angso/ground-v2-cf7a5130d03ba59fcfc196b729013488c420459a2fcf846a59f6dea1934334c5.json",
   "campaignsSha256": "e9b790155abcc1c0ee33920ddbffc6b3a3c1ec48830399694cce726ed944dd62",
-  "censusSha256": "831c76ab221ae2d273852a75f91f7431ac85408b83f3b2b109928085b8152976",
-  "rasterDirectory": "packages\\course-geo\\toolchain\\.cache\\vegetation\\angso",
+  "censusSha256": "830d822701120fb5968595faabf8fc727a58db6dcc10d9bccc4c2254008585c7",
+  "rasterDirectory": "../../_temp/veg/rasters",
   "campaigns": [
     {
       "campaignId": "21c036-660_60",
@@ -26,7 +26,7 @@
       "hierarchyNodes": 10301,
       "subdivision": "header-extent per axis (verified; not the specification cube)",
       "tiles": 256,
-      "elapsedMilliseconds": 153423.3,
+      "elapsedMilliseconds": 473496,
       "transfer": {
         "requests": 2535,
         "bytes": 247226613
@@ -240,23 +240,23 @@
       ],
       "files": {
         "chm": {
-          "data": "packages\\course-geo\\toolchain\\.cache\\vegetation\\angso\\chm-21c036-660-60.f32",
-          "sidecar": "packages\\course-geo\\toolchain\\.cache\\vegetation\\angso\\chm-21c036-660-60.json",
+          "data": "../../_temp/veg/rasters/chm-21c036-660-60.f32",
+          "sidecar": "../../_temp/veg/rasters/chm-21c036-660-60.json",
           "sha256": "e499c1135ff652d108c844e94521d76c0c173a84815101162779fdb670853f0d"
         },
         "ground": {
-          "data": "packages\\course-geo\\toolchain\\.cache\\vegetation\\angso\\ground-21c036-660-60.f32",
-          "sidecar": "packages\\course-geo\\toolchain\\.cache\\vegetation\\angso\\ground-21c036-660-60.json",
+          "data": "../../_temp/veg/rasters/ground-21c036-660-60.f32",
+          "sidecar": "../../_temp/veg/rasters/ground-21c036-660-60.json",
           "sha256": "a7daf152fd3b1cf2136e2db8072a05a1d43c7fa26a4f126e6286cc5300da5db8"
         },
         "allReturns": {
-          "data": "packages\\course-geo\\toolchain\\.cache\\vegetation\\angso\\allReturns-21c036-660-60.f32",
-          "sidecar": "packages\\course-geo\\toolchain\\.cache\\vegetation\\angso\\allReturns-21c036-660-60.json",
+          "data": "../../_temp/veg/rasters/allReturns-21c036-660-60.f32",
+          "sidecar": "../../_temp/veg/rasters/allReturns-21c036-660-60.json",
           "sha256": "bd32d0f2af0f38460b06af6b1f47af485a6396bf065a23b6594a1c83fdc02184"
         },
         "firstReturns": {
-          "data": "packages\\course-geo\\toolchain\\.cache\\vegetation\\angso\\firstReturns-21c036-660-60.f32",
-          "sidecar": "packages\\course-geo\\toolchain\\.cache\\vegetation\\angso\\firstReturns-21c036-660-60.json",
+          "data": "../../_temp/veg/rasters/firstReturns-21c036-660-60.f32",
+          "sidecar": "../../_temp/veg/rasters/firstReturns-21c036-660-60.json",
           "sha256": "cbd842ea8427ea8ffbbab642239ca78178e594730c381c9e37f41943c804f31c"
         }
       },
