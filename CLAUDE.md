@@ -3109,6 +3109,9 @@ is its browser gate.
     node ribbingsforsbuild/detect-sand.mjs         # measure bunkers from z18 sand pixels -> cache/sand-candidates.json + review crops
     node ribbingsforsbuild/apply-sat-shapes.mjs    # accepted bunkers (sat-shapes.json) replace the guide-formula set
     node ribbingsforsbuild/apply-surroundings.mjs  # merge + gates (incl. the Skagern union via lake-union.mjs); IDEMPOTENT, run after every build-course
+    node ribbingsforsbuild/trace-surfaces.mjs      # greens, tee decks, fairways, routes by rule -> surface-traces.json + cache/review/hole-N.png (LOOK)
+    node ribbingsforsbuild/laser-ditches.mjs       # traced ditches re-laid on the laser channel bottoms + crossings -> laser-ditches.json
+    node ribbingsforsbuild/apply-surface-traces.mjs  # folds both in; runs LAST (apply-surroundings keeps laser-laid streams on a rerun)
     node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
     node packages/course-pack/emit-manifest.mjs
     node packages/course-v2/refresh-fallback-v1.mjs ribbingsfors   # or the v2 graph fails closed
@@ -3158,7 +3161,25 @@ the same commit (`pnpm test` fails loudly on both, and
   sits between holes 9 and 1 with its bays at the south end and a mature oak
   in the field. Satellite traces carry per-feature confidence in
   `surroundings-traces.json`; the ±8 m reading error is stated there.
-- **The played surfaces are survey-anchored, not to be hand-retraced (§16).**
+- **The played surfaces are traced BY RULE now, not by hand (§19).** The
+  leaf-off z18 capture shows mown turf vivid against dormant pasture (ExG
+  98–118 on the greens, p90 59 on the rough) and every green as a darker
+  patch inside a lighter collar. `trace-surfaces.mjs` grows each green from
+  its GPS centre on smoothed colour under six loose-to-tight readings and
+  keeps the LARGEST that stays compact (an approach can be as green as its
+  putting surface, so a loose reading leaks and a tight one erodes); all nine
+  pass. Tee decks are laser-flat (5 × 5 m spread < 0.12 m) and mown OR under
+  a card mark — the 8th's decks are dormant brown and flat to 6 cm. The
+  ROUTING is the mown corridor: least-cost from the back tee to the surveyed
+  green, cheapest down the middle of the hole's OWN turf (ownership and
+  routing solved twice), because the GolfTraxx seeds ran through woods on 5
+  and 6. Card marks snap onto decks within 25 m, never two card tees > 25 m
+  apart onto one deck, and the 9th's reviewed DTM-bench control stands.
+  Fairways are the mown mask split by nearest traced line. Ditches are the
+  satellite traces re-laid on the laser top-hat, culverts appearing as the
+  gaps they are, plus two crossings the traces missed. Review sheets are the
+  gate that has eyes: `cache/review/hole-N.png`.
+- **The played surfaces were survey-anchored, not to be hand-retraced (§16)** — still true of HAND tracing.
   The nine green centres ARE the GolfTraxx *Green Center* survey points to
   0.0 m — only the route lengths carried the yards bug, not the green points —
   and they land on the real greens in z18 imagery. **The bunkers are MEASURED
@@ -3200,6 +3221,22 @@ the same commit (`pnpm test` fails loudly on both, and
   chord was called "not a defect" — it was one (foam and shallow colour along
   a line across open water). The arms are folded into the single Skagern ring
   now and survive only under `sourceWater.breakLakes` for idempotent reruns.
+- **Ownership and routing are one problem.** Assigning mown cells to the
+  nearest provisional line handed the 5th a strip of the 7th's fairway and a
+  route that escaped into it; a deck matched by distance alone put the 9th's
+  480 mark on the 406's deck (74 m apart on the card). Solve ownership from
+  the routes you get, route again, and refuse a deck another hole owns.
+- **Moving the played ground moves the reviewed CORE cutout, and v2 fails
+  closed.** The traced routes no longer reach the GolfTraxx seeds' far
+  corners, so `playB ± 150` shrank one 36 m cell east and south and every
+  v2 gate failed at once with "expected 316x298 … got 307x289". Re-measure
+  `legacyCoreCutout` in `v2-ribbingsfors-config.mjs` (and the gate's pinned
+  skipped count) off the assertion's own "got" line, never by typing.
+- **A rerun of one script must not undo the next one's work.** apply-surroundings
+  rebuilt `streams` from the satellite traces and silently discarded the laser
+  re-lay; laser-ditches read `model.streams` and would have re-laid laser on
+  laser. Both now read the trace FILE and the surroundings pass keeps
+  laser-laid streams, so the chain is idempotent in either order.
 - **Two water rings at one level over the same water are a z-fight, not a
   belt and braces.** The engine draws a sheet per ring; overlapping sheets a
   centimetre apart fight at any distance on a 24-bit depth buffer. One body,

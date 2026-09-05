@@ -38,14 +38,18 @@ export const RIBBINGSFORS_V2_CONFIG = Object.freeze({
     expectedCoreGrid: Object.freeze({
       dx: 4,
       x0: -468,
-      x1: 792,
+      x1: 756,
       z0: -612,
-      z1: 576,
-      nx: 316,
-      nz: 298,
+      z1: 540,
+      nx: 307,
+      nz: 289,
     }),
-    expectedSkippedBasePoints: 90_520,
-    expectedTotalBasePoints: 94_168,
+    /* re-measured 2026-09-05 off the assertion's own "got" line after the
+       played surfaces were traced by rule: the routes no longer reach the
+       GolfTraxx seeds' far corners, so CORE shrank one 36 m cell east and
+       south (was 316 x 298, 90,520 / 94,168 at x -468..792, z -612..576) */
+    expectedSkippedBasePoints: 85_183,
+    expectedTotalBasePoints: 88_723,
   }),
 });
 

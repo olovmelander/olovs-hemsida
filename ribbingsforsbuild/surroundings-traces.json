@@ -19,30 +19,149 @@
   ],
   "features": {
     "range": {
-      "ring": [[396, -368], [446, -372], [470, -300], [468, -210], [432, -196], [402, -252]],
-      "bays": [450, -204],
-      "loneOak": [478, -288],
+      "ring": [
+        [
+          396,
+          -368
+        ],
+        [
+          446,
+          -372
+        ],
+        [
+          470,
+          -300
+        ],
+        [
+          468,
+          -210
+        ],
+        [
+          432,
+          -196
+        ],
+        [
+          402,
+          -252
+        ]
+      ],
+      "bays": [
+        450,
+        -204
+      ],
+      "loneOak": [
+        478,
+        -288
+      ],
       "prov": "satellite interpretation of the mown practice block between holes 9 and 1, corroborated by the club's own range photographs (bays at the south end, a mature oak standing in the field); club confirmation pending",
       "confidence": "medium"
     },
     "practiceGreens": [
-      { "c": [516, -450], "r": 10, "prov": "mown circle beside the clubhouse; putting green per club photos", "confidence": "medium" },
-      { "c": [542, -427], "r": 12, "prov": "second mown circle south-east of the clubhouse; chipping green per club pages", "confidence": "medium" }
+      {
+        "c": [
+          516,
+          -450
+        ],
+        "r": 10,
+        "prov": "mown circle beside the clubhouse; putting green per club photos",
+        "confidence": "medium"
+      },
+      {
+        "c": [
+          542,
+          -427
+        ],
+        "r": 12,
+        "prov": "second mown circle south-east of the clubhouse; chipping green per club pages",
+        "confidence": "medium"
+      }
     ],
     "parking": [
       {
-        "ring": [[694, -442], [726, -436], [722, -394], [692, -400]],
+        "ring": [
+          [
+            694,
+            -442
+          ],
+          [
+            726,
+            -436
+          ],
+          [
+            722,
+            -394
+          ],
+          [
+            692,
+            -400
+          ]
+        ],
         "surface": "gravel",
         "prov": "rows of parked cars beside the road east of the clubhouse",
         "confidence": "high"
       }
     ],
     "yard": {
-      "ring": [[-384, 126], [-330, 128], [-320, 200], [-336, 244], [-378, 242], [-386, 180]],
+      "ring": [
+        [
+          -384,
+          126
+        ],
+        [
+          -330,
+          128
+        ],
+        [
+          -320,
+          200
+        ],
+        [
+          -336,
+          244
+        ],
+        [
+          -378,
+          242
+        ],
+        [
+          -386,
+          180
+        ]
+      ],
       "buildings": [
-        { "c": [-352, 160], "w": 15, "d": 28, "h": 6, "rot": 0.06, "kind": "machine hall" },
-        { "c": [-361, 196], "w": 8, "d": 18, "h": 4, "rot": 0.06, "kind": "shed" },
-        { "c": [-350, 228], "w": 9, "d": 13, "h": 4, "rot": 0.06, "kind": "shed" }
+        {
+          "c": [
+            -352,
+            160
+          ],
+          "w": 15,
+          "d": 28,
+          "h": 6,
+          "rot": 0.06,
+          "kind": "machine hall"
+        },
+        {
+          "c": [
+            -361,
+            196
+          ],
+          "w": 8,
+          "d": 18,
+          "h": 4,
+          "rot": 0.06,
+          "kind": "shed"
+        },
+        {
+          "c": [
+            -350,
+            228
+          ],
+          "w": 9,
+          "d": 13,
+          "h": 4,
+          "rot": 0.06,
+          "kind": "shed"
+        }
       ],
       "prov": "greenkeeping yard south-west of hole 5: machine hall, two sheds, hardstanding with machinery and material piles",
       "confidence": "high"
@@ -50,21 +169,104 @@
     "ditches": [
       {
         "name": "eastern boundary ditch",
-        "line": [[626, 314], [636, 292], [618, 268], [632, 242], [614, 205], [654, 174], [646, 96], [640, 30], [612, 8], [600, -2]],
+        "line": [
+          [
+            626,
+            314
+          ],
+          [
+            636,
+            292
+          ],
+          [
+            618,
+            268
+          ],
+          [
+            632,
+            242
+          ],
+          [
+            614,
+            205
+          ],
+          [
+            654,
+            174
+          ],
+          [
+            646,
+            96
+          ],
+          [
+            640,
+            30
+          ],
+          [
+            612,
+            8
+          ],
+          [
+            600,
+            -2
+          ]
+        ],
         "w": 1.5,
         "prov": "winding open ditch in the rough east of hole 3 / west of the forest edge, running north into the hole-2 pond; the local rules' drainage trenches",
         "confidence": "medium"
       },
       {
         "name": "green 1 ditch",
-        "line": [[603, -16], [628, -48], [648, -80], [612, -119], [576, -144], [524, -172], [476, -191], [428, -200]],
+        "line": [
+          [
+            603,
+            -16
+          ],
+          [
+            628,
+            -48
+          ],
+          [
+            648,
+            -80
+          ],
+          [
+            612,
+            -119
+          ],
+          [
+            576,
+            -144
+          ],
+          [
+            524,
+            -172
+          ],
+          [
+            476,
+            -191
+          ],
+          [
+            428,
+            -200
+          ]
+        ],
         "w": 1.5,
         "prov": "continuation from the hole-2 pond under the road (culvert visible) and west across the hole-1 approach into the hole-9 pond; matches the banguide's two ditches near green 1",
         "confidence": "medium"
       },
       {
         "name": "hole 9 pond outlet",
-        "line": [[378, -208], [356, -216]],
+        "line": [
+          [
+            378,
+            -208
+          ],
+          [
+            356,
+            -216
+          ]
+        ],
         "w": 1.2,
         "prov": "short visible outlet channel west of the hole-9 pond toward the lake shore; continuation under grass not traced",
         "confidence": "low"
@@ -72,29 +274,123 @@
     ],
     "walls": [
       {
-        "line": [[285, -120], [462, -118]],
+        "line": [
+          [
+            285,
+            -120
+          ],
+          [
+            462,
+            -118
+          ]
+        ],
         "prov": "straight field boundary with bank/stone wall character along the north side of hole 8",
         "confidence": "low"
       },
       {
-        "line": [[178, 433], [578, 428]],
+        "line": [
+          [
+            178,
+            433
+          ],
+          [
+            578,
+            428
+          ]
+        ],
         "prov": "straight old property boundary with wall and track behind green 3",
         "confidence": "medium"
       }
     ],
     "piers": [
-      { "line": [[348, -486], [336, -494]], "prov": "jetty on the shore west of green 9", "confidence": "medium" },
-      { "line": [[486, -645], [493, -654]], "prov": "bathing jetty on the manor shore", "confidence": "medium" }
+      {
+        "line": [
+          [
+            348,
+            -486
+          ],
+          [
+            336,
+            -494
+          ]
+        ],
+        "prov": "jetty on the shore west of green 9",
+        "confidence": "medium"
+      },
+      {
+        "line": [
+          [
+            486,
+            -645
+          ],
+          [
+            493,
+            -654
+          ]
+        ],
+        "prov": "bathing jetty on the manor shore",
+        "confidence": "medium"
+      }
     ],
     "clearfells": [
       {
-        "ring": [[-230, 270], [60, 262], [170, 300], [172, 520], [-80, 522], [-230, 430]],
+        "ring": [
+          [
+            -230,
+            270
+          ],
+          [
+            60,
+            262
+          ],
+          [
+            170,
+            300
+          ],
+          [
+            172,
+            520
+          ],
+          [
+            -80,
+            522
+          ],
+          [
+            -230,
+            430
+          ]
+        ],
         "prov": "clear-felled and young regenerating forest between the greenkeeping yard and the southern spruce block",
         "confidence": "medium"
       }
     ],
     "manorPrecinct": {
-      "ring": [[420, -640], [560, -655], [600, -560], [560, -505], [455, -498], [415, -560]],
+      "ring": [
+        [
+          420,
+          -640
+        ],
+        [
+          560,
+          -655
+        ],
+        [
+          600,
+          -560
+        ],
+        [
+          560,
+          -505
+        ],
+        [
+          455,
+          -498
+        ],
+        [
+          415,
+          -560
+        ]
+      ],
       "kind": "residential",
       "prov": "the Ribbingsfors manor lawns and gardens: manor house with two wings, outbuildings, kitchen-garden enclosure at [478,-550]..[502,-533]; keeps the planter and scatter off the estate grounds",
       "confidence": "medium"
@@ -102,6 +398,22 @@
     "villageHouses": {
       "note": "Skagersvik's village grid is largely unmapped in OSM (only the industrial halls carry footprints). Houses are synthesized by apply-surroundings.mjs inside the OSM residential rings, aligned to the nearest street — the Ås precedent from geobuild.",
       "confidence": "synthesized"
-    }
+    },
+    "connectors": [
+      {
+        "line": [
+          [
+            440,
+            368
+          ],
+          [
+            444,
+            352
+          ]
+        ],
+        "w": 1.2,
+        "prov": "visible connector between the two hole-4 tee ponds; satellite trace"
+      }
+    ]
   }
 }
