@@ -1344,3 +1344,77 @@ below the 9th, two crossing the 8th, one between the two ponds by the 6th, and
 one along the 4th. They ship as `streams` of the same kind, with their depth
 and length in the provenance string; the review sheets are in the gitignored
 cache.
+
+## 21. The practice ground and the manor farm, measured (2026-09-05)
+
+Everything played was measured by §17–§20; everything *beside* the play was
+still read by eye at ±8 m, and it showed. This section closes that.
+
+### 21.1 The range field
+
+The eye-traced range ring lay **31.8 m** from the field it stood for and
+claimed 10,166 m² against a real 6,541 — half of it on mown turf. The field
+itself is the least ambiguous thing in the whole capture: a driving range is
+not mown to fairway height, so in the 2023-04-28 leaf-off image it is dormant
+ground at **excess green 15–17 and brightness 121**, against **53–109 and
+89–103** for every turf beside it. That is a wider separation than any other
+surface pair on this course — wider than sand against grass. Classified per
+pixel, largest component, holes filled, outline simplified to 2 m: **6,541 m²
+over x 387–435, z −386…−226**, a 48 × 160 m strip between the 1st and the 9th,
+exactly where the club's own overview prints DRIVING RANGE.
+
+**The bays are at the far end from the clubhouse, and the laser says so.** The
+engine's generic rule — "the tee is the end of the range you walk to from the
+clubhouse", the rule that replaced six pages' hardcoded coordinate — gives the
+NORTH end here. A tee line is a built, level platform, so each end was searched
+for laser-flat benches (the 5 × 5 m spread the tee-deck rule uses): the south
+end carries **1,362 of 4,324 cells flat to 0.12 m against the north end's
+223**, and the largest mown bench among them is 262 m² at (384.9, −226.2). The
+club's own range photographs put the bays at the south end too, so two records
+that never entered each other agree. The model therefore carries
+`scenery.rangeTee`, and `main.js` prefers a course's measured tee over its own
+rule — the same shape as `scenery.practiceGreens` at Johannesberg.
+
+Two things the imagery does NOT show: any tee line at 0.31 m/px (the bench is a
+laser finding, not a picture), and any tree inside the field — so the traced
+"mature oak standing in the field" is dropped rather than moved.
+
+### 21.2 The practice greens: one measured, one refused
+
+Both were synthetic circles from an eye trace. The test is what a built putting
+green has and pasture does not — an interior greener than its own 3–8 m collar,
+and laser flatness — with the **nine surveyed greens measured the same way as
+the calibration**: contrast 3–45 (median 18), spread 0.11–0.37 m (median 0.18).
+
+| | ExG inside | collar | contrast | laser spread | grower | verdict |
+|---|---|---|---|---|---|---|
+| beside the clubhouse | 109 | 78 | **31** | 0.17 m | accepts 604 m², solidity 0.965 | measured, kept |
+| south-east of it | 54 | 47 | **7** | 0.37 m | refuses | **dropped** |
+
+The second circle sits on a track, below every surveyed green on both tests. A
+scan of the whole clubhouse quarter for green-like discs (contrast ≥ 18,
+ExG ≥ 95, spread ≤ 0.37) finds no second green anywhere near it, so it is
+dropped rather than moved — the same treatment as the five guide bunkers that
+resolved to no sand (§17).
+
+### 21.3 The manor farm: colour and shape are not enough, a hard edge is
+
+The manor precinct rendered empty: OSM has no footprints there and the model
+carried none. The roof rule of §20.3 (low excess green, mid-tone or dark,
+smooth) proposed seven components — and **four of them were patches of dry
+grass between the trees**. What separates a roof from dry grass is the
+boundary: the median |brightness step| across a 3 m span at the box edge reads
+**19–25 on real roofs and 6–11 on every grass patch**, with the measured
+clubhouse scoring 25 as the positive control.
+
+And a component found by colour is only ever HALF a roof, because the shaded
+pitch merges with the building's own cast shadow. Each accepted box is
+therefore grown — width, depth and centre searched — to the rectangle where
+that edge step peaks (44–76 against the seed's 19–26). Six farm buildings are
+adopted, 153–701 m², all in the estate group 230–280 m east of the clubhouse.
+
+The ortho leans a roof away from nadir (the Johannesberg finding), so these
+outlines are the roof AS SEEN and overstate the footprint; the provenance says
+so. The greenkeeping yard is still refused for the reason §20.3 gives — its
+sheet roofs read excess green 16 against gravel at 14–17 — and its three sheds
+keep their by-eye trace.

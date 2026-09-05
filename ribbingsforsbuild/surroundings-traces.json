@@ -21,59 +21,128 @@
     "range": {
       "ring": [
         [
-          396,
-          -368
-        ],
-        [
-          446,
-          -372
-        ],
-        [
-          470,
-          -300
-        ],
-        [
-          468,
-          -210
-        ],
-        [
-          432,
-          -196
-        ],
-        [
           402,
-          -252
+          -386
+        ],
+        [
+          413,
+          -385
+        ],
+        [
+          425,
+          -379
+        ],
+        [
+          431,
+          -373
+        ],
+        [
+          435,
+          -362
+        ],
+        [
+          434,
+          -226
+        ],
+        [
+          423,
+          -227
+        ],
+        [
+          423,
+          -230
+        ],
+        [
+          398,
+          -228
+        ],
+        [
+          398,
+          -232
+        ],
+        [
+          395,
+          -232
+        ],
+        [
+          387,
+          -334
+        ],
+        [
+          390,
+          -336
+        ],
+        [
+          389,
+          -352
+        ],
+        [
+          392,
+          -361
+        ],
+        [
+          395,
+          -362
+        ],
+        [
+          395,
+          -370
         ]
       ],
       "bays": [
-        450,
-        -204
+        384.9,
+        -226.2
       ],
-      "loneOak": [
-        478,
-        -288
-      ],
-      "prov": "satellite interpretation of the mown practice block between holes 9 and 1, corroborated by the club's own range photographs (bays at the south end, a mature oak standing in the field); club confirmation pending",
-      "confidence": "medium"
+      "prov": "the practice field MEASURED off Esri z18 orthoimagery: dormant ground (excess green <= 40, brightness >= 105 — 15-17/121 inside the field against 53-109/89-103 for every turf beside it), largest component, holes filled, outline simplified to 2 m; 6541 m2 over x 387-435, z -386..-226 (trace-practice.mjs 2026-09-05). The eye-traced ring it replaces (kept under sourceRing) lay 31.8 m away and claimed 10166 m2, half of it on mown turf. The bays are at the SOUTH end, which the 1 m laser picks out: 1362 of 4324 cells there are flat to 0.12 m over 5x5 against 223 at the north end, and the largest mown bench among them is 262 m2 at [384.9,-226.2] — the same end the club’s own range photographs show the bays at. No tee line resolves at 0.31 m/px and no tree stands inside the measured field, so the earlier \"mature oak in the field\" is dropped.",
+      "confidence": "high",
+      "sourceRing": {
+        "ring": [
+          [
+            396,
+            -368
+          ],
+          [
+            446,
+            -372
+          ],
+          [
+            470,
+            -300
+          ],
+          [
+            468,
+            -210
+          ],
+          [
+            432,
+            -196
+          ],
+          [
+            402,
+            -252
+          ]
+        ],
+        "bays": [
+          450,
+          -204
+        ],
+        "loneOak": [
+          478,
+          -288
+        ],
+        "prov": "satellite interpretation of the mown practice block between holes 9 and 1, corroborated by the club's own range photographs (bays at the south end, a mature oak standing in the field); club confirmation pending",
+        "note": "the eye-traced ring this replaced, kept so trace-practice.mjs can state the correction on a rerun"
+      }
     },
     "practiceGreens": [
       {
         "c": [
-          516,
-          -450
+          510.4,
+          -451.3
         ],
-        "r": 10,
-        "prov": "mown circle beside the clubhouse; putting green per club photos",
-        "confidence": "medium"
-      },
-      {
-        "c": [
-          542,
-          -427
-        ],
-        "r": 12,
-        "prov": "second mown circle south-east of the clubhouse; chipping green per club pages",
-        "confidence": "medium"
+        "r": 13.9,
+        "prov": "the putting green beside the clubhouse, MEASURED: excess green 109 inside against 78 in its own 3-8 m collar (contrast 31, where the nine surveyed greens read 3-45 with a median 18) and laser-flat at 0.17 m over 5x5 against their median 0.18; the green grower accepts 604 m2 here (set B, solidity 0.965, centroid 1.8 m off the centre). Radius from that area (trace-practice.mjs 2026-09-05)",
+        "confidence": "high"
       }
     ],
     "parking": [
@@ -104,7 +173,10 @@
     "buildings": [
       {
         "id": "ribbingsfors-clubhouse-provisional",
-        "c": [479, -456.5],
+        "c": [
+          479,
+          -456.5
+        ],
         "w": 17,
         "d": 8.5,
         "rot": 0.31,
@@ -117,13 +189,100 @@
       },
       {
         "id": "ribbingsfors-clubhouse-annex",
-        "c": [478.7, -464.5],
+        "c": [
+          478.7,
+          -464.5
+        ],
         "w": 15,
         "d": 9,
         "rot": 0.31,
         "h": 4.2,
         "kind": "house",
         "prov": "dark-roofed building 8 m north of the clubhouse, read off Esri z18 orthoimagery on the same alignment as the clubhouse roof (trace-buildings.mjs review crops, 2026-09-05); dimensions +-2 m",
+        "confidence": "medium"
+      },
+      {
+        "id": "ribbingsfors-manor-farm-0",
+        "c": [
+          729.9,
+          -493.8
+        ],
+        "w": 36.9,
+        "d": 19,
+        "rot": 0.246,
+        "h": 7,
+        "kind": "barn",
+        "prov": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (29.5x9.5 m, fill 1.01) whose boundary carries a hard brightness step (22), grown to the rectangle where that step peaks (62); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+        "confidence": "medium"
+      },
+      {
+        "id": "ribbingsfors-manor-farm-1",
+        "c": [
+          752,
+          -469.6
+        ],
+        "w": 26.6,
+        "d": 7.8,
+        "rot": -1.298,
+        "h": 4.5,
+        "kind": "house",
+        "prov": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (33.2x6.2 m, fill 0.98) whose boundary carries a hard brightness step (33), grown to the rectangle where that step peaks (50); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+        "confidence": "medium"
+      },
+      {
+        "id": "ribbingsfors-manor-farm-2",
+        "c": [
+          715.3,
+          -476.4
+        ],
+        "w": 10.8,
+        "d": 14.2,
+        "rot": -0.18,
+        "h": 4.5,
+        "kind": "house",
+        "prov": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (10.8x7.9 m, fill 0.74) whose boundary carries a hard brightness step (19), grown to the rectangle where that step peaks (44); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+        "confidence": "medium"
+      },
+      {
+        "id": "ribbingsfors-manor-farm-3",
+        "c": [
+          718.9,
+          -463.9
+        ],
+        "w": 24.5,
+        "d": 7,
+        "rot": 0.25,
+        "h": 4.5,
+        "kind": "house",
+        "prov": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (15.3x2.7 m, fill 0.83) whose boundary carries a hard brightness step (26), grown to the rectangle where that step peaks (76); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+        "confidence": "medium"
+      },
+      {
+        "id": "ribbingsfors-manor-farm-4",
+        "c": [
+          758.6,
+          -458.9
+        ],
+        "w": 19.4,
+        "d": 10.7,
+        "rot": -1.253,
+        "h": 4.5,
+        "kind": "house",
+        "prov": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (9.7x4.1 m, fill 0.82) whose boundary carries a hard brightness step (22), grown to the rectangle where that step peaks (51); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
+        "confidence": "medium"
+      },
+      {
+        "id": "ribbingsfors-manor-farm-5",
+        "c": [
+          714.4,
+          -456.4
+        ],
+        "w": 30.6,
+        "d": 22.5,
+        "rot": 0.236,
+        "h": 7,
+        "kind": "barn",
+        "prov": "roof measured off Esri z18 orthoimagery: a smooth low-excess-green component (30.6x9.8 m, fill 0.91) whose boundary carries a hard brightness step (20), grown to the rectangle where that step peaks (51); four candidates that passed colour and shape alone were dry grass and read 6-11 there. The ortho leans a roof away from nadir, so the outline is the roof as seen and overstates the footprint (trace-buildings.mjs 2026-09-05)",
         "confidence": "medium"
       }
     ],
@@ -441,5 +600,15 @@
         "prov": "visible connector between the two hole-4 tee ponds; satellite trace"
       }
     ]
-  }
+  },
+  "refusedPracticeGreens": [
+    {
+      "c": [
+        542,
+        -427
+      ],
+      "was": "second mown circle south-east of the clubhouse; chipping green per club pages",
+      "finding": "refused: excess green 54 inside against 47 in its collar (contrast 7, below every surveyed green) and the laser reads 0.37 m over 5x5 with a track crossing it; the grower refuses this centre. A scan of the whole clubhouse quarter for green-like discs (contrast >= 18, ExG >= 95, spread <= 0.37) finds no second green anywhere near it, so it is dropped rather than moved."
+    }
+  ]
 }

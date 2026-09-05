@@ -9,6 +9,10 @@ const GEOMETRY_KEYS = new Set([
   'bays', 'nets',
   /* the practice greens a course NAMES (Johannesberg), rings like scenery.greens */
   'practiceGreens',
+  /* the range tee a course MEASURES (Ribbingsfors: a laser-flat bench at the
+     field's south end), one world point the engine prefers over its own
+     "the end you walk to from the clubhouse" rule */
+  'rangeTee',
 ]);
 
 const finitePair = value => Array.isArray(value)

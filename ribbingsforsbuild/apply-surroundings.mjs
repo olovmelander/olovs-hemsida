@@ -403,6 +403,9 @@ model.scenery = {
   fairways: [], tees: [], bunkers: [],
   grass: osm.grass,
   range: [ring1(traces.features.range.ring)],
+  /* the measured tee line; without it the engine falls back to its generic
+     "the end you walk to from the clubhouse" rule, which is the wrong end here */
+  rangeTee: traces.features.range.bays ? traces.features.range.bays.map(r1) : null,
   rangeFacilities: null,
   cartPark: null,
 };
