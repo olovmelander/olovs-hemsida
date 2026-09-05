@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "groundId": "angso",
   "groundName": "Ängsö Golfklubb",
-  "observedOn": "2026-09-04",
+  "observedOn": "2026-09-05",
   "state": "census-complete",
   "campaignsSha256": "e9b790155abcc1c0ee33920ddbffc6b3a3c1ec48830399694cce726ed944dd62",
   "method": "LAS header + COPC info VLR + hierarchy pages over authenticated HTTP range requests; point counts are area-weighted sums of octree nodes; no point bytes were read",
@@ -1314,7 +1314,7 @@
       "transfer": {
         "requests": 64,
         "bytes": 332205,
-        "elapsedMilliseconds": 2692
+        "elapsedMilliseconds": 10860.7
       }
     }
   ]
