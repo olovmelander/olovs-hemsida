@@ -1012,6 +1012,75 @@ Uppland clay course. The satellite says otherwise: that ground genuinely is pale
 grass, and the nearest farmland polygon is 238 m away. Measure the imagery before
 retuning shading — this one nearly got "fixed" into being wrong.
 
+### Johannesberg, feature by feature — the trace beyond the holes (2026-09)
+
+`johannesbergbuild/sat-traces.json` is Puttom's `sat-traces.json` for this
+ground, and `reconcile.mjs` fuses it the same way (`prov:"trace"`): the manor
+forecourt and the golfers' gravel car park, the clubhouse apron, the west farm
+track along the pasture and across the heath, six cart paths (three of them
+crossing water, so the generic footbridge stands there), the greenkeepers' yard
+with its sand pit and topdressing heap (`vegetation.sand` renders as sand), the
+range tee line (10–11 bays, hitting WEST, **no net** — the field is open), the
+practice bunker, the reed pond west of the 18th's approach, the ditch that
+crosses the 18th fairway, three clear-fells, "berget" on the 18th
+(`vegetation.rock`, data only — the engine tints rock by slope), and the OB
+stakes the club's plans draw on 2 and 18 (`marking`, the Veckefjärden schema,
+which embed and emit-pack now carry for every build). Two bunkers the hole
+traces missed come from the club's plans: the 7th's greenside (in tree shadow
+on the tiles, placed by registering the plan on its tee disc and green) and the
+13th's big left-front one (plain on both). The record is §7 of
+`docs/courses/johannesberg-source-dossier.md`. Things that bit:
+
+- **Which way a hole plays decides what "left" means.** Holes 1, 2 and 7 play
+  SOUTH (z increasing), so a plan's left is world east. The 2nd's OB stakes
+  were first put on the wrong side for exactly this reason.
+- **Rectangular pale patches are as likely tee pads as bunkers** in a leaf-off
+  image where dormant turf is beige; the 1st's two traced "bunkers" sit where
+  the plan draws none and the plan's two sit in tree shadow. Same count, ~20 m
+  apart, unresolved and written down.
+- **The nine is scenery on the eighteen now, and the eighteen on the nine.**
+  `reconcile.mjs` reads `johannesberg9build/course-model.json` into
+  `scenery`; `tools/build-nine.mjs` drops any parent scenery ring whose centroid
+  is within 3 m of one of its own, so the loop cannot double a ring. That
+  widened the eighteen's legacy CORE west to x −936 (the nine's greens enter
+  `playB`), so the v2 config's `legacyCoreCutout` was re-measured — read it off
+  the assertion's own "got" line, never typed.
+- **A scenery green by the clubhouse is not always a putting green.** The Ö
+  marker took every scenery green within 200 m of the clubhouse, and the
+  nine's 9th finishes 47 m from it (as the eighteen's 18th does on the nine's
+  own pack). A course may now NAME its practice greens
+  (`scenery.practiceGreens`, written by Johannesberg's reconcile, carried by
+  build-nine); the engine, the six pages and `apply-markers` believe the list
+  where it exists and fall back to the 200 m rule where it does not. The
+  migrator classifies the new key as geometry — an unclassified pair fails
+  `migrate-legacy` closed, by design.
+- **Changing a course model changes its migration, and CI checks both.**
+  `check-manifests` hashes `johannesbergbuild/course-model.json` and
+  `johannesberg9build/course-model.json`; `check-migration` regenerates the
+  EPSG:3006 migration through cs2cs and diffs it. This machine has no PROJ, but
+  `pip install pyproj` gives PROJ 9.5.1 and SWEREF 99 TM from WGS 84 is a pure
+  Transverse Mercator step, so a 20-line `cs2cs` shim on PATH lets
+  `migrate-legacy.mjs --write` run unchanged — verified by the 72 unchanged hole
+  fields coming out byte-identical to the committed cs2cs output. Re-record the
+  artifact checksums (models first, then the three migration files) and re-pin
+  the two migration hashes in `acquisition/hole-source-controls.mjs`.
+- **A new pack silently unbinds the v2 ground.** The root index and course
+  manifest pin the live GPK1 entry (`fallbackV1`), so after emit-pack the
+  flagless visit fell back to GPK1 and `check-course-v2` failed five gates
+  with no error line — the fallback is by design silent. Fixing the CORE
+  contract alone changed nothing; the pack hash was the cause.
+  `packages/course-v2/rebind-live-fallback.mjs <groundId>` re-emits the
+  course manifest and root against the live pack from the PUBLISHED chunks
+  (no LiDAR artifacts, no PROJ), then rebuild and run `check-app-build` and
+  `check-course-v2`. Order for any course with a v2 ground: reconcile →
+  embed → emit-pack → emit-manifest → rebind → build → gates.
+- **This container's SwiftShader renders every course black** (`frame is a
+  picture (lum 0.035)` on untouched Ängsö too), so the pixel gates say nothing
+  here; the data gates, the pack byte-identity and the unit suite are what
+  proved the change. Look at it on a real GPU before trusting the render.
+- `render-design.mjs` wrote a bare `&` in the SVG title, so every viewer
+  stopped at line 701 and drew the layout up to the first error only. Fixed.
+
 ## The second courses — three clubs here have a course we were not rendering
 
 Upsala GK has three courses, Johannesberg has 27 holes, and Veckefjärden has a

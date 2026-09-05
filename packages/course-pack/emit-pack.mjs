@@ -61,7 +61,8 @@ const vec = {
     ...(OLD ? { sp: h.sp } : {}),
   })),
   water: model.water.map(w => ({ ring: w.ring, level: w.level, isLake: w.isLake, isSea: !!w.isSea, area: w.area })),
-  marking: OLD ? model.marking.map(m => ({ c: m.color, pts: m.pts })) : [],
+  /* the newer builds carry marking too where a club's plans draw OB stakes (Johannesberg) */
+  marking: (model.marking || []).map(m => ({ c: m.color, pts: m.pts })),
   streams: model.streams.map(s => ({ line: s.line, w: s.w })),
   veg: model.vegetation,
   cover,

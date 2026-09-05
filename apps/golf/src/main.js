@@ -8332,7 +8332,10 @@ const SKY = { holes: [], fac: [] };
      the middle of it and name it wrongly. */
   if (cb) {
     const k = SKY.fac[0];
-    const near = (M.scenery.greens || []).map(centroidOf).filter(c => hyp(c, [k.x, k.z]) < 200);
+    /* a course that NAMES its practice greens (scenery.practiceGreens -- Johannesberg,
+       whose nine finishes 47 m from the clubhouse) is believed; the rest fall back
+       to every scenery green within 200 m */
+    const near = (M.scenery.practiceGreens || M.scenery.greens || []).map(centroidOf).filter(c => hyp(c, [k.x, k.z]) < 200);
     if (near.length) SKY.fac.push({ ch: '\u00d6', nm: '\u00d6vningsgreen',
       x: near.reduce((a, c) => a + c[0], 0) / near.length,
       z: near.reduce((a, c) => a + c[1], 0) / near.length });

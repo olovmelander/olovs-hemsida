@@ -200,14 +200,30 @@ const holes = card.holes.map(h => {
 });
 
 /* ---- the parent's holes become scenery ----------------------------------------- */
+/* The relationship is symmetric: the parent's reconcile may carry THIS nine's holes
+   in its own scenery (Johannesberg does), and those rings must not come back here
+   as scenery on top of the nine's real holes. A parent scenery ring whose centroid
+   lies within 3 m of one of this nine's own rings is the same ring, and is dropped. */
+const cen = r => { let x = 0, z = 0; for (const p of r) { x += p[0]; z += p[1]; } return [x / r.length, z / r.length]; };
+const own = [
+  ...holes.map(h => h.green.ring), ...holes.flatMap(h => h.fairway.rings),
+  ...holes.flatMap(h => h.tees.pads.map(p => p.ring)), ...holes.flatMap(h => h.bunkers.map(b => b.ring)),
+].map(cen);
+const notOwn = rings => (rings || []).filter(r => { const c = cen(r); return !own.some(o => Math.hypot(o[0] - c[0], o[1] - c[1]) < 3); });
 const P = parent.scenery || {};
 const scenery = {
-  greens: [...(P.greens || []), ...parent.holes.map(h => h.green.ring)],
-  fairways: [...(P.fairways || []), ...parent.holes.flatMap(h => h.fairway.rings)],
-  tees: [...(P.tees || []), ...parent.holes.flatMap(h => h.tees.pads.map(p => p.ring))],
-  bunkers: [...(P.bunkers || []), ...parent.holes.flatMap(h => h.bunkers.map(x => x.ring))],
+  greens: [...notOwn(P.greens), ...parent.holes.map(h => h.green.ring)],
+  fairways: [...notOwn(P.fairways), ...parent.holes.flatMap(h => h.fairway.rings)],
+  tees: [...notOwn(P.tees), ...parent.holes.flatMap(h => h.tees.pads.map(p => p.ring))],
+  bunkers: [...notOwn(P.bunkers), ...parent.holes.flatMap(h => h.bunkers.map(x => x.ring))],
   grass: P.grass || [], range: P.range || [],
+  ...(P.practiceGreens ? { practiceGreens: P.practiceGreens } : {}),
+  ...(P.rangeFacilities ? { rangeFacilities: P.rangeFacilities } : {}),
+  ...(P.cartPark ? { cartPark: P.cartPark } : {}),
 };
+const dropped = (P.greens || []).length + (P.fairways || []).length + (P.tees || []).length + (P.bunkers || []).length
+  - (notOwn(P.greens).length + notOwn(P.fairways).length + notOwn(P.tees).length + notOwn(P.bunkers).length);
+if (dropped) console.log('parent scenery: ' + dropped + ' rings were this nine\'s own holes carried back; dropped');
 
 /* Carry the parent's schema through verbatim. Veckefjarden's is the older one
    (lakeLevel, marking, surround, a sponsor line per hole) and its extras are the

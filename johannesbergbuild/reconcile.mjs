@@ -12,7 +12,18 @@
                          range, which OSM does not map here at all
    - osm-features.json   greens, bunkers, water, forest, farmland, roads,
                          buildings
-   - heightfields.json   the ground, and every water level measured                */
+   - heightfields.json   the ground, and every water level measured
+   - sat-traces.json     everything AROUND the holes that OSM has not got and the
+                         tiles show: the two car parks and the clubhouse apron,
+                         the west farm track and the cart paths with their bridges,
+                         the greenkeepers' yard and its sand pit, the range tee line,
+                         the practice bunker, a reed pond and the ditch that crosses
+                         the 18th, three clear-fells, 'berget' on the 18th, the OB
+                         stakes the club's plans draw, and the two bunkers the plans
+                         carry that the hole traces missed (7 and 13)
+   - ../johannesberg9build/course-model.json   the nine, carried here as scenery so
+                         its mown turf reads as mown from the eighteen (the nine
+                         carries the eighteen the same way — tools/build-nine.mjs)  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -28,6 +39,8 @@ const notes = (() => { try { return readJSON(path.join(HERE, 'guide-notes.json')
 const osm = readJSON(path.join(HERE, 'osm-features.json'));
 const traces = readJSON(path.join(HERE, 'sat-shapes.json'));
 const hf = readJSON(path.join(HERE, 'heightfields.json'));
+const straces = (() => { try { return readJSON(path.join(HERE, 'sat-traces.json')); } catch { return {}; } })();
+const nine = (() => { try { return readJSON(path.join(HERE, '..', 'johannesberg9build', 'course-model.json')); } catch { return null; } })();
 
 /* --- terrain sampler ---------------------------------------------------------- */
 const H0 = hf.hf0, grid0 = decodeHF(H0);
@@ -155,6 +168,22 @@ for (const b of bunkers) {
   else H.bunkers.push({ ring: ring1(b.ring), prov: 'osm' });
 }
 
+/* --- the bunkers the hole traces missed and the club's plans carry ------------- */
+/* Two of them: the 7th's greenside bunker stands in tree shadow on the tiles and was
+   placed by registering the club's plan on its tee disc and green; the 13th's big
+   left-front bunker is plain on both. Each carries its own provenance. A traced
+   bunker within 12 m of one the hole already has is the same bunker and is refused,
+   so re-running this can never double a bunker. */
+for (const b of straces.holeBunkers || []) {
+  const H = holes.find(h => h.n === b.hole);
+  if (!H) throw new Error(`sat-traces: holeBunkers names hole ${b.hole}, which is not on the card`);
+  const ring = ring1(b.ring), c = centroid(ring);
+  const dup = H.bunkers.some(x => dist(centroid(x.ring), c) < 12);
+  if (dup) { console.log(`  hole ${b.hole}: traced bunker at ${c.map(r1)} duplicates one already there — skipped`); continue; }
+  if (distToLine(c[0], c[1], H.line) > 60) throw new Error(`sat-traces: hole ${b.hole} bunker at ${c.map(r1)} is ${distToLine(c[0], c[1], H.line).toFixed(0)} m off its own line`);
+  H.bunkers.push({ ring, prov: b.prov || 'sat' });
+}
+
 /* --- water -------------------------------------------------------------------- */
 const water = [];
 for (const w of osm.water) {
@@ -173,6 +202,16 @@ for (const t of traces.holes) for (const w of t.water || []) {
   if (water.some(x => pointInPoly(c[0], c[1], x.ring) || dist(centroid(x.ring), c) < 20)) continue;
   water.push({ id: `t${++pondId}`, ring, name: null, kind: w.kind,
                area: Math.round(Math.abs(polyArea(ring))), level: levelOfRing(ring), isLake: false });
+}
+
+/* the ponds the tiles show and neither OSM nor the hole traces carry: same
+   dedupe as the hole traces, so a pond OSM later maps drops out of here by itself */
+for (const w of straces.water || []) {
+  const ring = ring1(w.ring);
+  const c = centroid(ring);
+  if (water.some(x => pointInPoly(c[0], c[1], x.ring) || dist(centroid(x.ring), c) < 20)) { console.log(`  ${w.id}: water already known here — skipped`); continue; }
+  water.push({ id: w.id, ring, name: null, kind: w.kind || 'pond',
+               area: Math.round(Math.abs(polyArea(ring))), level: levelOfRing(ring), isLake: false, prov: 'trace' });
 }
 
 /* --- the driving range --------------------------------------------------------- */
@@ -220,6 +259,73 @@ for (const pg of traces.practiceGreens || []) {
             + ` nearest card green is ${who} at ${near.toFixed(0)} m  [${pg.confidence}]`);
 }
 
+/* --- everything around the holes: the satellite traces -------------------------- */
+/* Puttom's shape and Puttom's reasons (see puttombuild/reconcile.mjs): the tiles are
+   orthorectified, so a ring read off them is geodata; each carries prov:'trace' and
+   the file carries its own notes and confidence. */
+const tracedBuildings = (straces.buildings || []).map(b => ({
+  id: b.id, ring: ring1(b.ring), h: b.h ?? null, kind: b.kind || 'yes', name: b.name || null,
+  amenity: b.amenity || null, prov: 'trace',
+}));
+const tracedParking = (straces.parking || []).map(p => ({
+  id: p.id, ring: ring1(p.ring), surface: p.surface || 'gravel', prov: 'trace',
+  ...(p.cars === false ? { cars: false } : {}), ...(p.vehicles ? { vehicles: p.vehicles } : {}),
+}));
+const tracedRoads = (straces.roads || []).map(r => ({
+  id: r.id, line: ring1(r.line), kind: r.kind || 'unclassified', surface: r.surface || 'gravel',
+  name: r.name || null, lanes: null, oneway: false, maxspeed: null, lit: false, prov: 'trace',
+}));
+const tracedTracks = (straces.tracks || []).map(t => ({ id: t.id, line: ring1(t.line), kind: t.kind || 'track', surface: t.surface || 'gravel', prov: 'trace' }));
+const tracedPaths = (straces.paths || []).map(t => ({ id: t.id, line: ring1(t.line), kind: t.kind || 'path', surface: t.surface || 'gravel', prov: 'trace' }));
+const tracedStreams = (straces.streams || []).map(s => ({ id: s.id, line: ring1(s.line), kind: s.kind || 'ditch', w: s.kind === 'stream' ? 1.6 : 1.0, prov: 'trace' }));
+const tracedVeg = straces.vegetation || {};
+const tracedSurround = straces.surround ? {
+  clearfells: (straces.surround.clearfells || []).map(ring1),
+  yard: straces.surround.yard ? ring1(straces.surround.yard) : null,
+  hayfields: straces.surround.hayfields ? ring1(straces.surround.hayfields) : null,
+  shallows: (straces.surround.shallows || []).map(ring1),
+} : null;
+const tracedRange = straces.range ? {
+  bays: ring1(straces.range.bays), bayPitch: straces.range.bayPitch ?? 3,
+  nets: (straces.range.nets || []).map(ring1), netHeight: straces.range.netHeight ?? 10,
+  shelterId: straces.range.shelterId || null, hutId: straces.range.hutId || null, prov: 'trace',
+} : null;
+/* The range's tee line must stand inside the range ring it belongs to, or the bays
+   would be hitting from the rough into somebody else's field. */
+if (tracedRange && rangeRings.length) {
+  for (const p of tracedRange.bays) {
+    if (!rangeRings.some(r => pointInPoly(p[0], p[1], r))) throw new Error(`sat-traces: range bay end ${p} is outside every range ring`);
+  }
+}
+/* Marking: the club's plans draw the OB stakes; the trace carries the line they stand
+   on and the stakes are planted every 12 m along it, the spacing the engine's other
+   courses use. The schema is Veckefjärden's ({color, hole, pts}), which the engine and
+   the pack already read. */
+const marking = [];
+for (const m of straces.marking || []) {
+  const line = ring1(m.line);
+  const pts = [];
+  let carry = 0;
+  for (let i = 0; i < line.length - 1; i++) {
+    const [ax, az] = line[i], [bx, bz] = line[i + 1];
+    const L = Math.hypot(bx - ax, bz - az);
+    for (let d = carry; d <= L; d += 12) pts.push([r1(ax + (bx - ax) * d / L), r1(az + (bz - az) * d / L)]);
+    carry = ((L - carry) % 12 + 12) % 12 === 0 ? 0 : 12 - ((L - carry) % 12);
+  }
+  marking.push({ color: m.color || 'w', hole: m.hole, pts });
+}
+const practiceBunkers = straces.practiceBunker ? [ring1(straces.practiceBunker.ring)] : [];
+/* The nine, as scenery: its greens, fairways and tee pads (synthesised in
+   johannesberg9build, prov:"synth") so a golfer on the 18th sees mown corridors
+   west of the manor and not rough. tools/build-nine.mjs drops these again when it
+   carries THIS model's scenery back into the nine, so nothing is doubled. */
+const nineScenery = nine ? {
+  greens: nine.holes.map(h => h.green.ring),
+  fairways: nine.holes.flatMap(h => h.fairway.rings),
+  tees: nine.holes.flatMap(h => h.tees.pads.map(p => p.ring)),
+  bunkers: nine.holes.flatMap(h => h.bunkers.map(b => b.ring)),
+} : { greens: [], fairways: [], tees: [], bunkers: [] };
+
 /* --- the model ---------------------------------------------------------------- */
 const model = {
   version: 1,
@@ -237,25 +343,30 @@ const model = {
   card: { teeNames: card.teeNames, provisional: !!card.provisional },
   holes,
   water,
-  streams: osm.waterway.map(w => ({ id: w.id, line: w.line, kind: w.kind, w: w.kind === 'stream' ? 1.6 : 1.0 })),
+  streams: osm.waterway.map(w => ({ id: w.id, line: w.line, kind: w.kind, w: w.kind === 'stream' ? 1.6 : 1.0 })).concat(tracedStreams),
   coast: { chains: [], beaches: (osm.sand || []).map(s => ({ id: s.id, ring: s.ring })) },
   vegetation: {
     forest: (osm.forest || []).map(f => f.ring),
     wood: (osm.wood || []).map(w => w.ring),
     scrub: (osm.scrub || []).map(s => s.ring),
-    wetland: (osm.wetland || []).map(w => w.ring || w),
-    sand: [], rock: (osm.rock || []).map(r => r.ring),
+    wetland: (osm.wetland || []).map(w => w.ring || w).concat((tracedVeg.wetland || []).map(ring1)),
+    sand: (tracedVeg.sand || []).map(ring1),
+    rock: (osm.rock || []).map(r => r.ring).concat((tracedVeg.rock || []).map(ring1)),
   },
   infra: {
-    paths: osm.paths, tracks: osm.tracks, roads: osm.roads,
-    buildings: osm.buildings, farB: osm.farBuildings,
-    parking: osm.parking || [], piers: osm.piers || [], basins: [],
+    paths: osm.paths.concat(tracedPaths), tracks: osm.tracks.concat(tracedTracks), roads: osm.roads.concat(tracedRoads),
+    buildings: osm.buildings.concat(tracedBuildings), farB: osm.farBuildings,
+    parking: (osm.parking || []).concat(tracedParking), piers: osm.piers || [], basins: [],
     pitches: [], landuse: osm.landuse || [], reserves: osm.reserves || [],
     power: osm.power || { lines: [], towers: [], poles: [] }, railway: osm.railway || [],
   },
+  ...(tracedSurround ? { surround: tracedSurround } : {}),
+  ...(marking.length ? { marking } : {}),
   pois: osm.pois || [],
-  scenery: { greens: practiceGreens, fairways: [], tees: [], bunkers: [], grass: [],
-             range: rangeRings },
+  scenery: { greens: practiceGreens.concat(nineScenery.greens), practiceGreens, fairways: nineScenery.fairways,
+             tees: nineScenery.tees, bunkers: practiceBunkers.concat(nineScenery.bunkers), grass: [],
+             range: rangeRings,
+             ...(tracedRange ? { rangeFacilities: tracedRange } : {}) },
 };
 writeJSON(path.join(HERE, 'course-model.json'), model);
 
@@ -273,6 +384,12 @@ const bkN = holes.reduce((a, h) => a + h.bunkers.length, 0);
 const fwN = holes.reduce((a, h) => a + h.fairway.rings.length, 0);
 const tpN = holes.reduce((a, h) => a + h.tees.pads.length, 0);
 console.log(`assigned: bunkers ${bkN} (${bunkers.length} from OSM), fairways ${fwN}, tee pads ${tpN}; water ${water.length}`);
+console.log(`traced surroundings: ${tracedBuildings.length} buildings, ${tracedParking.length} lots, ${tracedTracks.length} tracks, ${tracedPaths.length} paths,`
+          + ` ${tracedStreams.length} ditches, ${(tracedVeg.sand || []).length} sand, ${(tracedVeg.rock || []).length} rock, ${(tracedVeg.wetland || []).length} wetland,`
+          + ` ${tracedSurround ? tracedSurround.clearfells.length : 0} clear-fells${tracedSurround && tracedSurround.yard ? ', a works yard' : ''},`
+          + ` ${marking.reduce((a, m) => a + m.pts.length, 0)} OB stakes in ${marking.length} runs, range tee line ${tracedRange ? 'yes' : 'no'}`);
+console.log(`scenery: ${model.scenery.greens.length} greens, ${model.scenery.fairways.length} fairway rings, ${model.scenery.tees.length} tee pads, ${model.scenery.bunkers.length} bunkers`
+          + (nine ? ` (the nine carried as scenery)` : ` (no nine-hole model found)`));
 console.log(`\nhole  tee m  green m  rise`);
 for (const h of holes) console.log(`${String(h.n).padStart(4)}  ${h.elev.tee.toFixed(1).padStart(5)}  ${h.elev.green.toFixed(1).padStart(6)}  ${(h.elev.rise >= 0 ? '+' : '') + h.elev.rise.toFixed(1)}`);
 if (card.provisional) console.log('\nNOTE: card.json is PROVISIONAL.');
