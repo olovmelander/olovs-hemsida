@@ -261,6 +261,44 @@
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
       "notes": "Paraphrased hole strategy and hazard interpretation cross-checked against the official guide and Caddee; no guide artwork or photograph is redistributed and geometry is not surveyed."
+    },
+    {
+      "id": "osm-context-wide",
+      "productId": "openstreetmap",
+      "roles": ["topography", "hydrology", "routing", "object"],
+      "lifecycle": "legacy",
+      "use": "supplemental",
+      "sourceUri": "https://api.openstreetmap.org/api/0.6/map?bbox=14.090,58.948,14.160,58.985",
+      "localPath": null,
+      "bboxWgs84": [14.09, 58.948, 14.16, 58.985],
+      "acquiredAt": "2026-09-04",
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "The raw wide-context response stays in the ignored build cache; the checksummed parsed artifact osm-surroundings.json is what is committed.",
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Wide surroundings extract for the compatibility build: the Skagern shoreline (its ele=66.9 tag is rejected against the 69.3 m break-geometry level), the manor and Skagersvik context, forest/wetland/farmland multipolygons, the disused Otterbäcksbanan railway, the power corridor, piers, places and barriers. Projected with the repository Krüger series (agrees with the cs2cs frame origin to <1 mm)."
+    },
+    {
+      "id": "esri-imagery-traces",
+      "productId": "esri-world-imagery",
+      "roles": ["imagery", "topography", "object"],
+      "lifecycle": "legacy",
+      "use": "migration-only",
+      "sourceUri": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+      "localPath": null,
+      "bboxWgs84": [14.09, 58.948, 14.16, 58.985],
+      "acquiredAt": "2026-09-04",
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Tiles stay in the ignored build cache under the service terms; only the read-by-eye trace coordinates in surroundings-traces.json are committed.",
+      "replacementSourceId": "imagery-lm-ortho",
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": 8,
+      "verticalAccuracyMetres": null,
+      "notes": "z17/z18 crops composed by ribbingsforsbuild/sat-crop.mjs with exact per-point local->EPSG:3006->WGS84->tile georeferencing; used to trace the range (whose guide-interpreted placement lay on open lake water), practice greens, parking, the greenkeeping yard, ditches, walls, piers and clear-fells. Interpretation for the compatibility build only; the licensed orthophoto replaces it."
     }
   ],
   "artifacts": [
@@ -268,10 +306,10 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "ribbingsforsbuild/course-model.json",
-      "sha256": "f99ca922f7a810fa40db9ac71e0f8e5dcf101395213a45cf56deaa6af4ee9e17",
-      "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
+      "sha256": "7e8701d9c2d0b4c78449b9044392c7e2718cda1898d5eeccf184168983c53c65",
+      "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
-      "notes": "Current composite local-metre vectors, routing, RH 2000 terrain references and scenery inputs. Hole 9 Gul uses the explicit provisional DTM-bench control rather than the road-crossing card interpolation."
+      "notes": "Current composite local-metre vectors, routing, RH 2000 terrain references and scenery inputs. Hole 9 Gul uses the explicit provisional DTM-bench control rather than the road-crossing card interpolation. The 2026-09 surroundings pass (apply-surroundings.mjs) adds the gated Skagern ring at 69.3 m, traced ditches replacing the synthetic guide crossings, 86 laser-confirmed protected-tree crowns, the corrected range, the greenkeeping yard, Skagersvik context and synthesized village housing."
     },
     {
       "id": "legacy-heightfields",
@@ -286,10 +324,10 @@
       "id": "legacy-tree-cover",
       "kind": "canopy",
       "path": "ribbingsforsbuild/tree-cover.json",
-      "sha256": "f1fe072849e45529baf3a66dcfd0f3181dc961287bbb75a91d33b2d87acb5c56",
-      "derivedFrom": ["laser-lm-skog", "osm-course-boundary", "osm-context-legacy", "protected-trees-reference", "club-guide-reference"],
+      "sha256": "665fcdec9da09c97dce45eb0686cb363d6f36022c7b3d978d488539a822d744c",
+      "derivedFrom": ["laser-lm-skog", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "club-guide-reference"],
       "use": "migration-only",
-      "notes": "Compatibility canopy mask derived from the 2023 COPC CHM with protected trees added and provisional playing surfaces, water and buildings excluded. Individual-tree publication remains subject to the separate v2 review rules."
+      "notes": "Compatibility canopy mask derived from the 2023 COPC CHM with protected trees added and provisional playing surfaces, water and buildings excluded. Individual-tree publication remains subject to the separate v2 review rules. The 2026-09 surroundings pass adds OSM woodland cells and opens the Skagern ring, range, practice greens, parking and yard."
     },
     {
       "id": "legacy-osm-features",
@@ -385,17 +423,35 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-      "sha256": "e71f89bee7c197dbe9ff3cdedaeecbe643b47283b7ace85c740a08a4955acbda",
-      "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
+      "sha256": "fbf96473a8a90ed5ff9170dad10288bc43033b248035fdb06fb8f12b090bfad5",
+      "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Deterministic exact translation of all local x/z geometry to absolute EPSG:3006 coordinates; source scalar RH 2000 heights remain unapproved."
+    },
+    {
+      "id": "surroundings-osm-wide",
+      "kind": "topography",
+      "path": "ribbingsforsbuild/osm-surroundings.json",
+      "sha256": "98220c51b4369ab645646a877dacf8052e31140be5b19286cde47fd9bc28bdc0",
+      "derivedFrom": ["osm-context-wide"],
+      "use": "migration-only",
+      "notes": "Parsed wide OSM surroundings, clipped to a 4.6 km keep box: the Skagern shoreline runs and islands, lakes, waterways, woodland/wetland/farmland multipolygons, roads, tracks, paths, the disused railway, buildings, parking, piers, the power corridor with towers, places and barriers. ODbL attribution preserved in the file."
+    },
+    {
+      "id": "surroundings-traces",
+      "kind": "topography",
+      "path": "ribbingsforsbuild/surroundings-traces.json",
+      "sha256": "eb64a39b55a938a45a1a4c7e930d4eb16613075c61fd82b03a632fef99af3432",
+      "derivedFrom": ["esri-imagery-traces", "club-guide-reference"],
+      "use": "migration-only",
+      "notes": "Read-by-eye satellite traces with per-feature confidence: the corrected driving range, practice greens, main parking, greenkeeping yard and its sheds, three ditch runs, two boundary walls, two jetties, a clear-fell ring and the manor precinct. Coordinates only; no imagery is redistributed."
     },
     {
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/ribbingsfors/migration/residual-report.json",
-      "sha256": "5cc8069dfdc08d6239dbb02c581021fd186b8a75cfec5235f3837c9ead350e0c",
-      "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
+      "sha256": "b89c7a4df9e7028bb049d78cf01842627d0e010ffeac0edd671c2a8361faf618",
+      "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Exact projected-frame translation audit with zero local-frame residuals; independent canonical control is still pending."
     }

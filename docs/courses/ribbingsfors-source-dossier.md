@@ -721,3 +721,134 @@ One concise request can close several blockers. Ask for:
 
 Until those answers arrive, the implementation should clearly describe itself
 as a geospatially derived prototype, not a club-approved digital twin.
+
+## 15. The surroundings survey — everything around the course, mapped (2026-09-05)
+
+A dedicated pass mapped the landscape the course sits in: the lake, the
+ditches, the woods, the manor, the villages, the roads and rails, the
+protected trees and the working yard. Its committed inputs are
+`ribbingsforsbuild/osm-surroundings.json` (a wide OSM parse) and
+`ribbingsforsbuild/surroundings-traces.json` (read-by-eye Esri z17/z18
+traces with per-feature confidence); `ribbingsforsbuild/apply-surroundings.mjs`
+merges both into the course model idempotently and re-gates the result. All
+of it is compatibility-build (GPK1) material under the same provisional
+labels as section 3 — nothing here claims production survey authority.
+
+### 15.1 Lake Skagern — level, extent and two corrections
+
+- **The lake level is 69.3 m (RH 2000), not OSM's `ele=66.9`.** The break
+  geometry says 69.3; the committed vista heightfield reads a laser-flat
+  69.35 over the open basin at [4000,-3000] and [3000,-4000]. The OSM tag is
+  wrong or on another datum and was rejected.
+- The model now carries a **Skagern ring** built from the OSM shoreline
+  (three chained runs, gaps of 26–66 m from members outside the extract),
+  closed offshore through the keep-box corner, with the far-north-east corner
+  cut along the measured diagonal x−z=7600 where the blind closure had swept
+  in 0.7 km² of 70.6–73.6 m land. Gate: ≥95 % of interior vista samples
+  within 0.75 m of 69.35 — measured 99.0 %, worst 1.32 m (32 m cells
+  averaging shore into water).
+- The ring **overlaps the two break-geometry lake polygons at the same
+  level by design** (the break item stops at E 450 000 / local x 1025 — the
+  straight chord visible in overlays is that item edge, harmless because the
+  rings agree on 69.3 and the later ring's carve wins).
+- **Two islets inside the ring are documented simplifications**: the Noret
+  arm's reed islet (centroid laser height 69.96 m, 0.66 m above the lake,
+  edges at the waterline) and a far islet at ~2.6 km. The engine's carve
+  drowns land inside a ring; a keyhole cut would draw a bench line across
+  open water, so the low islets stay under.
+- North of the Skagersvik strait the water drops to ~67.5 m — that is
+  **Gullspångsälven below the Skagern outlet, a different water body**, and
+  the interior gate is what keeps the lake ring from ever swallowing it.
+
+### 15.2 The drainage story — ditches and ponds as one system
+
+The local rules mention drainage trenches; the imagery shows where they are.
+Traced (confidence medium, widths 1.2–1.5 m):
+
+1. **The eastern boundary ditch** winds north through the rough east of
+   hole 3 / west of the forest edge (the banguide's "diken utmed
+   korridoren") into the hole-2 pond at 77.7 m.
+2. From that pond the water passes **under the road at a visible culvert**
+   and runs west as the **green-1 ditch**, wrapping green 1's north side —
+   the banguide's two ditches near green 1 — into the hole-9 pond at 72.0 m.
+3. A short **outlet channel** leaves that pond west toward the shore.
+
+The gradient (hole 3 ≈ 80 m → pond 77.7 → pond 72.0 → lake 69.3) makes the
+system coherent. These traced runs replace the four synthetic guide-crossing
+streams of the first build; a short traced connector joins the two hole-4
+tee ponds ("damm och bäck formar utslaget").
+
+### 15.3 The Ribbingsfors ekhage — 86 protected trees drawn as themselves
+
+Länsstyrelsen's CC0 inventory (section 7 reference data) holds 88 records
+within 250 m, most labelled "Ribbingsfors ekhage": 70 oaks (one 569 cm
+giant), 7 ash, 4 elm, 3 lime, 2 beech, 1 chestnut, 1 aspen/poplar.
+Reconciled against the 2023 laser canopy raster (a ≥3 m return within 4 m),
+**86 of 88 confirmed** and now stand in the model as individual crowns sized
+from trunk circumference. The two unconfirmed (elm 368 cm at the farmyard,
+oak 336 cm west of hole 8 — object ids 9267 and 15731) stay evidence-only:
+a missing return is a review signal, not proof of felling. The measurement
+is frozen in `apply-surroundings.mjs` because the script's own open burns
+would otherwise flip records on rerun (a mature oak stands inside the traced
+parking lot).
+
+### 15.4 The satellite corrections and traces
+
+- **The provisional driving range lay on open lake water.** The guide
+  interpretation in build-course.mjs put its 285 m ellipse at local
+  [15..234, −456..−256] — dark water in every image. The real practice
+  ground is the mown block between the hole-9 and hole-1 corridors south of
+  the clubhouse (bays at its south end, the photographed mature oak standing
+  in the field at [478,−288]); replaced, confidence medium.
+- **Practice greens**: two mown circles by the clubhouse, at [516,−450]
+  (r≈10) and [542,−427] (r≈12) — now `scenery.greens`.
+- **Parking**: the real gravel lot with visible car rows at [694..726,
+  −442..−394], beside the road east of the clubhouse.
+- **Greenkeeping yard** south-west of hole 5: machine hall (15×28 m), two
+  sheds, hardstanding with machinery — `surround.yard` plus three building
+  footprints.
+- **Walls**: two straight boundary lines with bank/stone-wall character
+  (north of hole 8; behind green 3 with its track), confidence low/medium.
+- **Jetties**: one west of green 9, one bathing jetty on the manor shore.
+- **Clear-fell**: one large regenerating felling between the yard and the
+  southern spruce block, planted by the engine at 6 % with stumps.
+- **The manor precinct** is ringed as residential landuse so the planter and
+  scatter keep off the estate lawns; the kitchen-garden enclosure at
+  [478..502, −550..−533] is inside it. The manor operates as
+  https://ribbingsforsherrgard.se/ (Ribbingsfors Herrgård).
+
+### 15.5 The wider OSM landscape
+
+From the wide extract (ODbL, bbox 14.090–14.160 × 58.948–58.985, clipped to
+a 4.6 km keep box, projected with the repo's Krüger series — sub-mm at the
+frame origin):
+
+- **7 forest and 4 wetland rings** (the reedy bays double as
+  `surround.shallows`, so their beds read a few decimetres down rather than
+  the 5.5 m lake carve), 1 scrub, 7 farmland and 24 other landuse rings;
+- **91 roads, 63 tracks, 21 paths**, and the disused **Otterbäcksbanan /
+  Torvedsbanan railway** (3 runs, `usage=tourism` — the rail-bike line whose
+  hire point is the "Gullspång dressinuthyrning" POI);
+- **225 buildings** (37 near incl. the provisional clubhouse and yard sheds;
+  the rest as far boxes) and **482 synthesized village houses** inside the
+  OSM residential rings of Skagersvik and the Gullspång edge, street-aligned
+  — the Ås precedent, since OSM maps almost no house there;
+- the **power corridor** with 44 towers, 2 piers, 5 OSM parking areas;
+- **16 places** as POIs: Skagersvik (village), Väggetorp (hamlet), the
+  Ribbingsfors farm node, eight isolated dwellings, the Sörhult peak with
+  survey point (across the lake), a communication mast and a chimney.
+
+### 15.6 Still unlocated, still open
+
+- **"Kraka-sten"** — the club's own photo set names a bench/net landmark by
+  that name (section 5); no public source locates the stone, and 0.3 m/px
+  imagery cannot. Ask the club where it stands.
+- Local rules mention **exposed rock on closely mown areas**; individual
+  stones are below imagery resolution and await the orthophoto or a site
+  visit.
+- The eastern boundary ditch south of hole 3, the forest drainage grids in
+  the south-west peatland, and any fences are visible but not yet traced
+  feature-by-feature.
+- Everything in this section remains subject to the release blockers of
+  section 13; the Esri-derived traces are migration-only under a blocked
+  redistribution licence (see the source manifest).

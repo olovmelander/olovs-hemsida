@@ -559,8 +559,8 @@
         "status": "projected-source-frame-pending-independent-control",
         "source": "legacyFrame.projectedOriginEpsg3006"
       },
-      "coordinatePairCount": 3382,
-      "outsideCourseVicinity5km": 25,
+      "coordinatePairCount": 8014,
+      "outsideCourseVicinity5km": 40,
       "scopes": {
         "playingGeometry": {
           "coordinatePairCount": 1187,
@@ -598,9 +598,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 3357,
+          "coordinatePairCount": 7974,
           "directFrameDelta": {
-            "count": 3357,
+            "count": 7974,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -619,7 +619,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 3357,
+              "count": 7974,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -633,9 +633,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 3382,
+          "coordinatePairCount": 8014,
           "directFrameDelta": {
-            "count": 3382,
+            "count": 8014,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -654,7 +654,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 3382,
+              "count": 8014,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -670,12 +670,12 @@
       },
       "report": {
         "path": "geo_data/course-v2/ribbingsfors/migration/residual-report.json",
-        "sha256": "5cc8069dfdc08d6239dbb02c581021fd186b8a75cfec5235f3837c9ead350e0c"
+        "sha256": "b89c7a4df9e7028bb049d78cf01842627d0e010ffeac0edd671c2a8361faf618"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-          "sha256": "e71f89bee7c197dbe9ff3cdedaeecbe643b47283b7ace85c740a08a4955acbda"
+          "sha256": "fbf96473a8a90ed5ff9170dad10288bc43033b248035fdb06fb8f12b090bfad5"
         }
       ]
     },
