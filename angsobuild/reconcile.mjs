@@ -156,11 +156,25 @@ for (const b of bunkers) {
 }
 
 /* --- water -------------------------------------------------------------------- */
+/* Mälaren comes from the laser, not from OSM. The extract's one lake ring
+   (w307899187) is the north-eastern bay clipped at the extract edge, drawn
+   through reeds the DTM reads at 0.75-2.4 m; laser-water.json carries the
+   shore traced off the laser plate on every side the course actually meets
+   (build-laser-water.mjs), so the OSM ring is superseded and every laser ring
+   is the sea: isSea draws the page's sheet at the measured level over the bed
+   build-heightfields sank, isLake gives the wide shore bench. */
+const laser = (() => { try { return readJSON(path.join(HERE, 'laser-water.json')); } catch { return null; } })();
+const SUPERSEDED_BY_LASER = new Set(laser ? ['w307899187'] : []);
 const water = [];
 for (const w of osm.water) {
+  if (SUPERSEDED_BY_LASER.has(w.id)) continue;
   const lv = hf.water.find(x => x.id === w.id);
   water.push({ id: w.id, ring: w.ring, name: w.name || null, area: w.area,
                level: lv ? lv.level : null, isLake: w.area > 120000 });
+}
+for (const r of (laser?.rings || [])) {
+  water.push({ id: r.id, ring: r.ring, name: 'Mälaren', area: r.area, level: laser.level,
+               isLake: true, isSea: true, prov: 'laser' });
 }
 /* A traced pond's level comes from build-heightfields, which measured the laser
    plate INSIDE the ring at 1 m and keyed it by centroid; the shoreline
@@ -206,7 +220,10 @@ const model = {
     forest: (osm.forest || []).map(f => f.ring),
     wood: (osm.wood || []).map(w => w.ring),
     scrub: (osm.scrub || []).map(s => s.ring),
-    wetland: (osm.wetland || []).map(w => w.ring || w),
+    /* OSM's reed marshes on the east shore, plus the laser-traced reed belt
+       (vass) along every shore the course meets -- ground the DTM reads within
+       0.9 m of the lake and that the imagery shows as reeds */
+    wetland: [...(osm.wetland || []).map(w => w.ring || w), ...((laser?.reeds?.rings) || []).map(r => r.ring)],
     sand: [], rock: (osm.rock || []).map(r => r.ring),
   },
   infra: {

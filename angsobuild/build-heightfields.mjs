@@ -34,6 +34,7 @@ import {
   quantizeHF, decodeHF, readJSON, writeJSON, bbox, pointInPoly, centroid, polyArea,
 } from './lib.mjs';
 import { HERE, PUBLIC, GROUND_ID, LEGACY_FRAME, LEGACY_ORIGIN_EPSG3006, HF1_HALF_SPAN } from './lib-v2.mjs';
+import { detectMalaren } from './laser-water.mjs';
 
 const osm = readJSON(path.join(HERE, 'osm-features.json'));
 const traces = readJSON(path.join(HERE, 'sat-shapes.json'));
@@ -103,6 +104,30 @@ for (let j = 0; j < HF1.nz; j++) {
 }
 console.log(`HF1: ${HF1.nx}x${HF1.nz} @32 m  x ${HF1.x0}..${HF1.x0 + (HF1.nx - 1) * 32}  z ${HF1.z0}..${HF1.z0 + (HF1.nz - 1) * 32}`);
 console.log(`  samples by level: ${Object.entries(lodCount1).map(([lod, n]) => `l${lod} ${n}`).join(', ')}`);
+
+/* --- Mälaren: sink a bed under the laser plate ---------------------------------- */
+/* A laser DTM carries a lake as its own surface. Left as it is, the page's sea
+   sheet at the lake level and the plate under it are coplanar and flicker, and
+   the flight strips that sit 0.1-0.2 m high poke through as dry flats. The
+   plate is lowered by a shore-distance profile (0.15 m at the edge, 3.5 m at
+   55 m out), the same shape v2-water-bed gives the streamed tiles at boot.
+   Islands are not lake cells and stand; the near-field rings reconcile adds
+   carve their own benches on top of this. */
+const lake = detectMalaren({ sampleAt: sampleAny, half: HF1_HALF_SPAN, courseBox: { x0: HF0.x0, x1: HF0.x0 + (HF0.nx - 1) * 4, z0: HF0.z0, z1: HF0.z0 + (HF0.nz - 1) * 4 }, log: console.log });
+let carved0 = 0, carved1 = 0;
+for (let j = 0; j < HF0.nz; j++) {
+  for (let i = 0; i < HF0.nx; i++) {
+    const depth = lake.bedDepthAt(HF0.x0 + i * HF0.dx, HF0.z0 + j * HF0.dx);
+    if (depth > 0) { h0[j * HF0.nx + i] = Math.min(h0[j * HF0.nx + i], lake.level - depth); carved0++; }
+  }
+}
+for (let j = 0; j < HF1.nz; j++) {
+  for (let i = 0; i < HF1.nx; i++) {
+    const depth = lake.bedDepthAt(HF1.x0 + i * HF1.dx, HF1.z0 + j * HF1.dx);
+    if (depth > 0) { h1[j * HF1.nx + i] = Math.min(h1[j * HF1.nx + i], lake.level - depth); carved1++; }
+  }
+}
+console.log(`  Mälaren bed sunk under ${carved0} HF0 and ${carved1} HF1 samples (level ${lake.level.toFixed(2)} m)`);
 
 const stat = values => {
   let minimum = Infinity, maximum = -Infinity, sum = 0;
@@ -174,12 +199,11 @@ for (const hole of traces.holes) {
   }
 }
 
-/* Mälaren is a real lake at a real level, but the model carries it only as the
-   OSM ring of its western bay (no isSea ring), so seaLevel stays the page's
-   "nothing below water" floor: just under the lowest measured body. */
-const levels = [...water, ...ponds].map(feature => feature.level).filter(value => value != null);
-const seaLevel = levels.length ? Math.round((Math.min(...levels) - 1) * 100) / 100 : 0;
-console.log(`\nlowest measured water ${Math.min(...levels).toFixed(2)} m RH 2000 -> floor ${seaLevel}`);
+/* Mälaren is the sea here: reconcile marks its laser rings isSea, so seaLevel
+   is the level the lake's sheet sits at -- the plate's median inside the
+   course window -- and not merely a floor. */
+const seaLevel = Math.round(lake.level * 100) / 100;
+console.log(`\nMälaren level ${lake.level.toFixed(3)} m RH 2000 (sd ${lake.spread.toFixed(3)} over ${lake.windowCells} window cells) -> seaLevel ${seaLevel}`);
 const describe = feature => (feature.spread == null
   ? `${feature.samples} shore points`
   : `sd ${feature.spread.toFixed(2)} m over ${feature.samples} interior samples`);
@@ -231,6 +255,14 @@ const out = {
   hf0: { ...HF0, ...enc0 },
   hf1: { ...HF1, ...enc1 },
   seaLevel,
+  malaren: {
+    level: seaLevel,
+    spread: Math.round(lake.spread * 1000) / 1000,
+    windowCells: lake.windowCells,
+    hectaresInRoot: Math.round(lake.components.reduce((sum, c) => sum + c.hectares, 0)),
+    bedSamples: { hf0: carved0, hf1: carved1 },
+    profile: '0.15 m at the shore to 3.5 m at 55 m, smoothstep',
+  },
   water,
   ponds,
   wetlands,

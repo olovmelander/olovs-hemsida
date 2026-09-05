@@ -319,7 +319,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "angsobuild/course-model.json",
-      "sha256": "05254715c3a24cb878886be04403a1bc90bbf3ec96a601967d34f908d5fc8a63",
+      "sha256": "b27607cc0117bb0ded8d9500e998cd14db0ee4b2b2b36c6c7bdb1377c108db7e",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -333,12 +333,23 @@
       "id": "legacy-heightfields",
       "kind": "terrain",
       "path": "angsobuild/heightfields.json",
-      "sha256": "9e8e8a7100bf5beb7e621c0813a9f3ee39a9062e92c1a6901f5467234606c767",
+      "sha256": "d81d74ecaf27e7e8122728733090670072758bae119dad57abaa6265b08628e0",
       "derivedFrom": [
         "terrain-lm-1m"
       ],
       "use": "migration-only",
-      "notes": "4 m HF0 and 32 m HF1, in RH 2000, cut from the PUBLISHED Ängsö ring graph (itself Markhöjdmodell 660_60 and its neighbours at factor 1 and averaged overviews) through the derived legacy-to-grid bridge. Not Terrarium: see legacyFrame.heightReference. Water levels are interior medians of the laser plate with their spread recorded."
+      "notes": "4 m HF0 and 32 m HF1, in RH 2000, cut from the PUBLISHED Ängsö ring graph (itself Markhöjdmodell 660_60 and its neighbours at factor 1 and averaged overviews) through the derived legacy-to-grid bridge, with Mälaren's bed sunk under the laser plate (0.15 m at the shore to 3.5 m at 55 m). Not Terrarium: see legacyFrame.heightReference. Water levels are interior medians of the laser plate with their spread recorded."
+    },
+    {
+      "id": "legacy-laser-water",
+      "kind": "composite",
+      "path": "angsobuild/laser-water.json",
+      "sha256": "283d0fdbd47b1185c1f544daef7988b5fcea62904dcaf2a9d22483c2e1a1de36",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "migration-only",
+      "notes": "Mälaren's shoreline traced off the laser-flat plate of the published ring graph (angsobuild/build-laser-water.mjs): the lake components at the regulated level, the flats refused as fields, four near-field rings simplified at 2 m with their islands accounted for, and the level (0.76 m, sd 0.002 over 39,501 window cells). Supersedes OSM w307899187, a clipped north-eastern bay drawn through reeds."
     },
     {
       "id": "legacy-tree-cover",
@@ -379,6 +390,20 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
+      "sha256": "8f61356dc5117135278310b01ec7766df384b2b49804a44d278d2b32e1812669",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic horizontal conversion of the current model -- unchanged holes, plus the laser-traced Mälaren rings -- to absolute EPSG:3006. Projected with the repository Krüger series because PROJ was unavailable; the driver first reproduced the committed cs2cs migration of the pre-rebuild model (its source verified by hash) to 1.334 mm over all 7,284 coordinates and refuses to write otherwise. Legacy scalar heights remain unapproved."
+    },
+    {
+      "id": "migration-course-model-epsg3006-cs2cs",
+      "kind": "composite",
+      "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.cs2cs-2026-09-04.json",
       "sha256": "28cfa8f635210037191a2b3eebbf6ffadf6641d931bc0d77846022c49ce55877",
       "derivedFrom": [
         "terrarium-legacy",
@@ -387,7 +412,7 @@
         "club-guide-legacy"
       ],
       "use": "migration-only",
-      "notes": "Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."
+      "notes": "The PROJ cs2cs migration of 2026-09-04 of the pre-rebuild model, kept as the authority the Krüger-series migration beside it is measured against (1.334 mm worst over 7,284 coordinates). Regenerate the canonical file through migrate-legacy.mjs when the pinned toolchain is available."
     },
     {
       "id": "migration-residual-report",
