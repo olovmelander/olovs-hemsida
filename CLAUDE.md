@@ -1064,6 +1064,18 @@ on the tiles, placed by registering the plan on its tee disc and green) and the
   fields coming out byte-identical to the committed cs2cs output. Re-record the
   artifact checksums (models first, then the three migration files) and re-pin
   the two migration hashes in `acquisition/hole-source-controls.mjs`.
+- **The nine's shapes are measured where the capture allows, by rule.**
+  `johannesbergbuild/trace-nine.mjs` classifies the z18 tiles (ExG, brightness,
+  saturation thresholds sampled on the eighteen's traced features), contours
+  the components and ACCEPTS by rule — a green is a compact disc within 20 m of
+  the routed end, a bunker is sand near a green or the routed end and away
+  from anything the model calls gravel; `build-nine` adopts only accepted
+  shapes (cfg.shapes) and re-ends the route on the measured centre before the
+  card slide. Three greens and two bunkers passed; the leaf-off capture cannot
+  separate fairway from semi (ExG 32–39 against 24) and six greens are dormant
+  and invisible in it, so the rest stays synthesised and the file keeps every
+  refused candidate as evidence. A leafed-on dated ortho through the same tool
+  is what finishes it; by-eye tracing of this image would only add noise.
 - **A new pack silently unbinds the v2 ground.** The root index and course
   manifest pin the live GPK1 entry (`fallbackV1`), so after emit-pack the
   flagless visit fell back to GPK1 and `check-course-v2` failed five gates

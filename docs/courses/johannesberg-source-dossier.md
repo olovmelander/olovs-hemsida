@@ -234,7 +234,7 @@ not that it is complete.
 | Vegetation | published: 2,417 measured crowns + a 64-tile stand field. Leaf-off, so conservative on deciduous; see §4 |
 | Ortho / Topografi 10 | discovered and covered, not acquired; no product terms approved for redistribution |
 | Hole 12 | the tee end is under spruce in every image; the card slide resolves it to within 26 m of the banguide's own disc. See CLAUDE.md before re-tracing |
-| The nine's shapes | greens, fairways and tee pads are SYNTHESISED from the published routes (`prov:"synth"`, no bunkers), and the tiles show real ones: eleven bunkers, kidney-shaped greens, four ponds. A trace of the nine off the z18 tiles is the highest-value open item on this ground; §7.9 says what is there |
+| The nine's shapes | three greens (2, 7, 8) and two bunkers are now MEASURED off the tiles (`prov:"sat"`, §7.9); six greens, every fairway and every tee pad remain synthesised from the routes. The leaf-off capture cannot tell fairway from semi, and six of the nine greens are dormant and indistinguishable from their surrounds in it — a dated, leafed-on ortho is what finishes the nine |
 | Hole 1's two bunkers | the trace puts them 12–30 m short and WEST of the green centre; the club's Bana-1 plan draws them at the green's LEFT edge, which for a hole playing south is east. Same count, ~20 m apart; not resolved at 0.3 m/px — see §7.2 |
 | The felled knoll north of the nine | OSM forest; the imagery shows it clear-felled to scattered seed pines; the 2021 leaf-off LiDAR predates the felling, so the v2 vegetation may still stand a full forest on it. Carried as a `surround.clearfells` ring with that caveat |
 
@@ -391,11 +391,35 @@ set does not know. Both are recorded here and not modelled.
 - **The imagery's date is unknown and it matters twice**: the felled knoll (after
   the 2021 LiDAR) and the reed pond (which OSM never had) both depend on it.
 
-### 7.9 The nine, as the tiles show it
+### 7.9 The nine — measured where the tiles allow, and why that is only a third of it
 
-Read but not traced: nine mown corridors west and north-west of the manor, kidney
-greens with visible collars, at least eleven bunkers (the 5th and 9th greens carry
-two each), four ponds already in OSM, a felled knoll to the north. The routing in
-`nio-routes.geojson` lands on these corridors; the shapes are synthesised. Tracing
-them is one afternoon with the same crops (`c_-500_-850`, `c_-500_-450`) and would
-give both courses their real ground.
+`johannesbergbuild/trace-nine.mjs` classifies the z18 tiles rather than reading
+them by eye: ExG (2G−R−B), brightness and saturation thresholds sampled on the
+eighteen's already-traced greens, fairways, bunkers and rough
+(`cache/sample.mjs`), connected components, an outer pixel contour simplified to
+0.6 m, and ACCEPTANCE BY RULE — a green is a compact disc (Polsby–Popper ≥ 0.6)
+of 200–600 m² within 20 m of the routed end; a bunker is 15–120 m² of sand
+within 60 m of an accepted green or 45 m of the routed end, not at a tee and not
+within 20 m of anything the eighteen's model calls gravel or a building. Every
+candidate stays in `nine-sat-shapes.json` with `accepted` and the numbers that
+decided it; `tools/build-nine.mjs` adopts only the accepted ones and re-ends the
+route on the measured green centre before the card slide, so every length still
+measures the card.
+
+| hole | result | numbers |
+|---|---|---|
+| 2 | green ACCEPTED | 418 m², 13.3 m from the routed end, compactness 0.81 — the peninsula green in the pond, unmistakable on the zoom crop |
+| 7 | green ACCEPTED | 236 m², 12.2 m, compactness 0.63 — the round green by the pond's south arm |
+| 8 | green ACCEPTED | 331 m², 9.8 m, compactness 0.87 — the round green at the lake's west shore |
+| 5 | green refused; one bunker accepted | the routed end lands in a copse; the only vivid patch is a 0.56 sliver. The 22 m² bunker at (−295, −786) is plain sand on the tiles |
+| 9 | green refused; one bunker accepted | the vivid component (1,226 m²) is green + fairway, compactness 0.17. The 32 m² bunker at (−271, −763) is the sand the eighteen's trace had assigned to its 18th |
+| 1, 3, 4, 6 | nothing found | no vivid component within 20 m of the routed end |
+
+**Why the rest is not traced.** The nine's putting surfaces read ExG 90–110 on
+this capture against 120–130 on the eighteen's — cut later, or less irrigated —
+and six of them do not separate from their surrounds at all; the fairways read
+ExG 32–39 against 24 for the rough, a difference the classifier over-segments
+into corridors twice their real width. The classifier's fairway rings are in the
+file as `accepted:false` evidence. This is the leaf-off imagery's limit, not the
+method's: a leafed-on, dated orthophoto (Lantmäteriet's `orto-o2-2025`, already
+discovered covering the AOI) would run through the same tool and finish the nine.

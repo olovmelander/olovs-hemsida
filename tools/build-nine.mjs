@@ -42,6 +42,12 @@ const cfg = readJSON(path.resolve(ROOT, cfgPath));
 const NOTES = cfg.guideNotes ? (readJSON(path.resolve(ROOT, cfg.guideNotes)).holes || {}) : {};
 
 const parent = readJSON(path.join(ROOT, cfg.parentBuild, 'course-model.json'));
+/* Optional measured shapes (cfg.shapes -> <build>/trace-nine.mjs output): a hole
+   whose green was ACCEPTED by the tracer's rules takes the traced ring and centre
+   (the route is re-ended there before the card slide, so the length still measures
+   the card), and its accepted bunkers. Everything not accepted stays synthesised. */
+const SHAPES = cfg.shapes ? readJSON(path.resolve(ROOT, cfg.shapes)) : null;
+const shapeOf = n => SHAPES?.holes?.find(h => h.hole === n) || null;
 const card = readJSON(path.resolve(ROOT, cfg.card));
 const geo = readJSON(path.resolve(ROOT, cfg.routes));
 
@@ -141,7 +147,10 @@ if (missing.length) throw new Error('no published route for hole(s) ' + missing.
 /* ---- the holes ---------------------------------------------------------------- */
 const report = [];
 const holes = card.holes.map(h => {
-  const raw = routes[h.n];
+  const shape = shapeOf(h.n);
+  const tracedGreen = shape?.green?.accepted ? shape.green : null;
+  const raw = routes[h.n].map(p => p.slice());
+  if (tracedGreen) raw[raw.length - 1] = tracedGreen.c.slice();
   const back = h.t[0];                         /* the card's back tee, hole by hole */
   const { line: L, slide } = setLength(raw, back);
   const tee = L[0], green = L[L.length - 1];
@@ -149,7 +158,8 @@ const holes = card.holes.map(h => {
   const F = [Math.sin(b), -Math.cos(b)], R = [-Math.cos(b), Math.sin(b)];
 
   const gr = h.par === 3 ? 13 : h.par === 5 ? 15 : 14;
-  const greenRing = ellipse(green, gr, gr * 0.78, b);
+  const greenRing = tracedGreen ? tracedGreen.ring.map(rnd) : ellipse(green, gr, gr * 0.78, b);
+  const tracedBunkers = (shape?.bunkers || []).filter(b => b.accepted).map(b => ({ ring: b.ring.map(rnd), prov: 'sat' }));
 
   /* a corridor from 42 m out to the green's front, narrowing in. Par 3s get
      none, which is what a par 3 has. */
@@ -184,10 +194,10 @@ const holes = card.holes.map(h => {
     n: h.n, par: h.par, idx: h.hcp, t: h.t,
     line: L.map(rnd), lineLen: +polyLen(L).toFixed(1), lenDev: 0,
     lineSrc: cfg.lineSrc,
-    green: { ring: greenRing, c: rnd(green), prov: 'synth', area: Math.round(Math.PI * gr * gr * 0.78) },
+    green: { ring: greenRing, c: rnd(green), prov: tracedGreen ? 'sat' : 'synth', area: tracedGreen ? tracedGreen.area : Math.round(Math.PI * gr * gr * 0.78) },
     fairway: { rings, prov: 'synth' },
     tees: { pads, marks },
-    bunkers: [],
+    bunkers: tracedBunkers,
     pin: rnd(green),
     elev: { tee: +te.toFixed(1), green: +ge.toFixed(1), rise: +(ge - te).toFixed(1) },
     tiers: 1,

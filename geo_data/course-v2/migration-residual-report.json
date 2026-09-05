@@ -156,127 +156,127 @@
         "status": "horizontal-seed-only-pending-independent-control",
         "source": "legacyFrame.originWgs84"
       },
-      "coordinatePairCount": 14538,
+      "coordinatePairCount": 14666,
       "outsideCourseVicinity5km": 486,
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 1696,
+          "coordinatePairCount": 1760,
           "directFrameDelta": {
-            "count": 1696,
+            "count": 1760,
             "biasMetres": {
-              "x": -4.143448,
-              "z": 2.832205
+              "x": -5.231823,
+              "z": 3.652125
             },
-            "rmseMetres": 31.631862,
-            "p50Metres": 26.809331,
-            "p95Metres": 49.776532,
+            "rmseMetres": 32.158505,
+            "p50Metres": 27.676024,
+            "p95Metres": 49.763128,
             "p99Metres": 56.181684,
             "maxMetres": 56.793468
           },
           "bestFitSimilarity": {
-            "scale": 1.001334984,
-            "rotationDegrees": -2.781487259,
+            "scale": 1.001340818,
+            "rotationDegrees": -2.782131318,
             "translationMetres": {
-              "x": -0.000819,
-              "z": 0.003933
+              "x": -0.00697,
+              "z": 0.008373
             },
             "residuals": {
-              "count": 1696,
+              "count": 1760,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 0.407528,
-              "p50Metres": 0.2936,
-              "p95Metres": 0.805907,
-              "p99Metres": 0.885418,
-              "maxMetres": 0.910197
+              "rmseMetres": 0.406624,
+              "p50Metres": 0.295208,
+              "p95Metres": 0.801685,
+              "p99Metres": 0.888467,
+              "maxMetres": 0.913077
             }
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 14052,
+          "coordinatePairCount": 14180,
           "directFrameDelta": {
-            "count": 14052,
+            "count": 14180,
             "biasMetres": {
-              "x": -11.458681,
-              "z": 11.203125
+              "x": -11.662311,
+              "z": 11.331312
             },
-            "rmseMetres": 99.883543,
-            "p50Metres": 73.818864,
-            "p95Metres": 197.687477,
-            "p99Metres": 231.188613,
+            "rmseMetres": 99.51893,
+            "p50Metres": 73.504266,
+            "p95Metres": 197.598312,
+            "p99Metres": 230.73609,
             "maxMetres": 248.123971
           },
           "bestFitSimilarity": {
-            "scale": 1.001482523,
-            "rotationDegrees": -2.755225343,
+            "scale": 1.001482192,
+            "rotationDegrees": -2.755252497,
             "translationMetres": {
-              "x": -0.257384,
-              "z": -0.055483
+              "x": -0.259016,
+              "z": -0.05078
             },
             "residuals": {
-              "count": 14052,
+              "count": 14180,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 2.025,
-              "p50Metres": 1.212633,
-              "p95Metres": 4.288486,
-              "p99Metres": 7.554529,
-              "maxMetres": 8.738697
+              "rmseMetres": 2.016655,
+              "p50Metres": 1.20448,
+              "p95Metres": 4.263431,
+              "p99Metres": 7.519011,
+              "maxMetres": 8.741514
             }
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 14538,
+          "coordinatePairCount": 14666,
           "directFrameDelta": {
-            "count": 14538,
+            "count": 14666,
             "biasMetres": {
-              "x": -6.660312,
-              "z": 3.188528
+              "x": -6.899073,
+              "z": 3.382417
             },
-            "rmseMetres": 110.010432,
-            "p50Metres": 76.008787,
-            "p95Metres": 222.621073,
-            "p99Metres": 279.447886,
+            "rmseMetres": 109.605877,
+            "p50Metres": 75.513893,
+            "p95Metres": 222.060939,
+            "p99Metres": 279.328752,
             "maxMetres": 301.313237
           },
           "bestFitSimilarity": {
-            "scale": 1.00164899,
-            "rotationDegrees": -2.772348053,
+            "scale": 1.001648599,
+            "rotationDegrees": -2.772385309,
             "translationMetres": {
-              "x": 0.062022,
-              "z": -0.231007
+              "x": 0.060243,
+              "z": -0.22533
             },
             "residuals": {
-              "count": 14538,
+              "count": 14666,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 2.518715,
-              "p50Metres": 1.372753,
-              "p95Metres": 5.921634,
-              "p99Metres": 7.886156,
-              "maxMetres": 9.167822
+              "rmseMetres": 2.508623,
+              "p50Metres": 1.363053,
+              "p95Metres": 5.916148,
+              "p99Metres": 7.879073,
+              "maxMetres": 9.169892
             }
           }
         }
       },
       "report": {
         "path": "geo_data/course-v2/johannesberg/migration/residual-report.json",
-        "sha256": "f3e37fcac926e8f8faa4df93623bd081e534bd538105344a6f201579a5e8a0b2"
+        "sha256": "65ea78bf3776af3cbe245cee6d0886a807997a86638e02ff36d4a0374684e014"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/johannesberg/migration/course-model.epsg3006.json",
-          "sha256": "a2f779ae276a95e486d9723807165fdc937fee008f0973539ea2d778014305e3"
+          "sha256": "73d9979f6e0206219de2a8fcb9116edc24e8c939f2ae47387112bddcfb5cb4c9"
         },
         {
           "path": "geo_data/course-v2/johannesberg/migration/nine-course-model.epsg3006.json",
-          "sha256": "72b54e7da906166c43996cb0eea4912e6d9cbb12f11f1a08eaa3d7038602900d"
+          "sha256": "8765cf5f4eb3643cec7dad4aa6c2dafb533b1755703d0ba8d4a1a459024c1c7b"
         }
       ]
     },

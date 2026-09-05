@@ -326,7 +326,10 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
     courseCount: 10,
     holeCount: 144,
     uniqueGroundWindowCount: 194,
-    requestedWindowReferences: 702,
+    /* 702 until 2026-09-05, when the Johannesberg nine's 2nd, 7th and 8th greens
+       became measured rings (trace-nine.mjs) and two of them reach a second
+       256 m control window */
+    requestedWindowReferences: 704,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,
