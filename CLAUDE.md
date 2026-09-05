@@ -1076,6 +1076,28 @@ on the tiles, placed by registering the plan on its tee disc and green) and the
   and invisible in it, so the rest stays synthesised and the file keeps every
   refused candidate as evidence. A leafed-on dated ortho through the same tool
   is what finishes it; by-eye tracing of this image would only add noise.
+- **Every ring is now measured against the 1 m laser terrain**
+  (`johannesbergbuild/terrain-check.mjs`, ~10 min: the water rings' shift
+  search is the cost). A green is a plateau, a bunker a pit, open water flat;
+  the shift that maximises each signal, medianed over interior maxima, is the
+  offset between the traces and the laser. OSM's ponds sit on the laser to a
+  metre; everything traced from the Esri tiles sits **2–3 m west and 2–4 m
+  north** of its laser feature (bunkers n = 20, greens by two statistics, the
+  reed pond). Recorded in the dossier (§7.10), not applied — that correction
+  belongs with a control survey. Two independent records against one trace
+  refuse it: three traced bunkers no plan draws and no pit confirms are gone
+  (`sat-traces.json` → `refusedBunkers`); one the plan omits but the laser
+  reads as a 0.24 m pit stays.
+- **The laser hillshade locates what a leaf-off image cannot.** Four of the
+  nine's greens (3–6) and one bunker are read off the hillshade
+  (`cache/hs-crop.mjs`, a 10 m legacy grid at 10 px/m) into
+  `nine-laser-shapes.json`, `prov:"laser"`, centres ±5 m; build-nine takes them
+  where no imagery green was accepted (`cfg.laserShapes`). The 5th's green is the
+  mound 33 m east of its routed end — where a 271 m hole from its tee lands — and
+  the sand hollow on the mound's west side is its bunker, not the 9th's.
+- **`guide-inventory.json` is what the club's eighteen plans draw**, hole by
+  hole, with the model's own count beside it; `docs/course-model-vocabulary.md`
+  is every model field the engine reads and what each costs when missing.
 - **A new pack silently unbinds the v2 ground.** The root index and course
   manifest pin the live GPK1 entry (`fallbackV1`), so after emit-pack the
   flagless visit fell back to GPK1 and `check-course-v2` failed five gates

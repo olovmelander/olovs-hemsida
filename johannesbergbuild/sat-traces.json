@@ -2,89 +2,899 @@
   "source": "Esri World Imagery z18 (~0.30 m/px here, early-spring leaf-off capture), orthorectified — a tile's coordinates ARE its georeference, so a reading made on a tools/sat-mosaic.mjs crop converts to world metres with no registration step. Traced 2026-09-05 in the frame frozen in johannesbergbuild/lib.mjs (ORIGIN 59.72733 N, 18.19202 E; north -z, east +x). Bare crops (SAT_PLAIN=1) at 90–260 m, upscaled to 900 px; every ring read by eye off the labelled metre grid, so a coordinate is good to about ±3 m. Where a feature is confirmed by the club's 2026 hole plans (Bana-N.jpg) the notes say so.",
   "tracedOn": "2026-09-05",
   "buildings": [
-    { "id": "trace-tower", "ring": [[-53, -755], [-48, -755], [-48, -749], [-53, -749]], "kind": "yes", "h": 10, "name": null,
+    {
+      "id": "trace-tower",
+      "ring": [
+        [
+          -53,
+          -755
+        ],
+        [
+          -48,
+          -755
+        ],
+        [
+          -48,
+          -749
+        ],
+        [
+          -53,
+          -749
+        ]
+      ],
+      "kind": "yes",
+      "h": 10,
+      "name": null,
       "confidence": "medium",
-      "notes": "A slender structure on the open ground between the old stable (w296165892) and the works yard, ~5 x 6 m at the base, throwing a 17 m shadow in a spring image where the trees throw 12 — about 10 m tall. Use unknown (a small tower or chimney); the height is inferred from the shadow." },
-    { "id": "trace-range-shelter", "ring": [[-204.5, -897], [-200.5, -897], [-200.5, -892.5], [-204.5, -892.5]], "kind": "roof", "h": 2.6, "name": null,
+      "notes": "A slender structure on the open ground between the old stable (w296165892) and the works yard, ~5 x 6 m at the base, throwing a 17 m shadow in a spring image where the trees throw 12 — about 10 m tall. Use unknown (a small tower or chimney); the height is inferred from the shadow."
+    },
+    {
+      "id": "trace-range-shelter",
+      "ring": [
+        [
+          -204.5,
+          -897
+        ],
+        [
+          -200.5,
+          -897
+        ],
+        [
+          -200.5,
+          -892.5
+        ],
+        [
+          -204.5,
+          -892.5
+        ]
+      ],
+      "kind": "roof",
+      "h": 2.6,
+      "name": null,
       "confidence": "medium",
-      "notes": "The small dark object at the south end of the range's tee line: a ball-machine shelter or starter's hut, 4 x 4.5 m, drawn as a canopy on posts." }
+      "notes": "The small dark object at the south end of the range's tee line: a ball-machine shelter or starter's hut, 4 x 4.5 m, drawn as a canopy on posts."
+    }
   ],
   "parking": [
-    { "id": "trace-parking-forecourt", "ring": [[-174, -968], [-152, -973], [-124, -888], [-149, -884]], "surface": "asphalt", "confidence": "high",
-      "notes": "The manor's forecourt: a wide asphalt lot west of Johannesbergs slott with marked bays, ~22 x 88 m along the access road, cars parked along its east edge in the image. Its east edge merges with the asphalt road." },
-    { "id": "trace-parking-club", "ring": [[-156, -878], [-128, -878], [-126, -836], [-156, -836]], "surface": "gravel", "confidence": "high",
-      "notes": "The golfers' gravel car park between the forecourt road and the practice green, two rows of cars in the image (12 counted), ~30 x 42 m." },
-    { "id": "trace-parking-club-apron", "ring": [[-197, -826], [-173, -826], [-173, -804], [-197, -804]], "surface": "gravel", "confidence": "medium",
-      "notes": "The gravel apron east of the clubhouse, between it and the practice green: three vehicles in the image, the staff/cart stand." }
+    {
+      "id": "trace-parking-forecourt",
+      "ring": [
+        [
+          -174,
+          -968
+        ],
+        [
+          -152,
+          -973
+        ],
+        [
+          -124,
+          -888
+        ],
+        [
+          -149,
+          -884
+        ]
+      ],
+      "surface": "asphalt",
+      "confidence": "high",
+      "notes": "The manor's forecourt: a wide asphalt lot west of Johannesbergs slott with marked bays, ~22 x 88 m along the access road, cars parked along its east edge in the image. Its east edge merges with the asphalt road."
+    },
+    {
+      "id": "trace-parking-club",
+      "ring": [
+        [
+          -156,
+          -878
+        ],
+        [
+          -128,
+          -878
+        ],
+        [
+          -126,
+          -836
+        ],
+        [
+          -156,
+          -836
+        ]
+      ],
+      "surface": "gravel",
+      "confidence": "high",
+      "notes": "The golfers' gravel car park between the forecourt road and the practice green, two rows of cars in the image (12 counted), ~30 x 42 m."
+    },
+    {
+      "id": "trace-parking-club-apron",
+      "ring": [
+        [
+          -197,
+          -826
+        ],
+        [
+          -173,
+          -826
+        ],
+        [
+          -173,
+          -804
+        ],
+        [
+          -197,
+          -804
+        ]
+      ],
+      "surface": "gravel",
+      "confidence": "medium",
+      "notes": "The gravel apron east of the clubhouse, between it and the practice green: three vehicles in the image, the staff/cart stand."
+    }
   ],
   "roads": [],
   "tracks": [
-    { "id": "trace-west-track", "line": [[-238, -345], [-234, -270], [-228, -200], [-220, -140], [-205, -80], [-185, -20], [-168, 50], [-158, 120], [-155, 200], [-160, 270], [-170, 320], [-185, 380], [-198, 440], [-205, 480]],
-      "kind": "track", "surface": "gravel", "confidence": "medium",
-      "notes": "The farm/service track along the course's west edge: down the pasture fence west of the 16th (the 'kohage' the 16th plays over), south across the heath past the 14th green and 15th tee to the pond by the 11th tee. Not in OSM. Clear on every crop as a pale gravel line." }
+    {
+      "id": "trace-west-track",
+      "line": [
+        [
+          -238,
+          -345
+        ],
+        [
+          -234,
+          -270
+        ],
+        [
+          -228,
+          -200
+        ],
+        [
+          -220,
+          -140
+        ],
+        [
+          -205,
+          -80
+        ],
+        [
+          -185,
+          -20
+        ],
+        [
+          -168,
+          50
+        ],
+        [
+          -158,
+          120
+        ],
+        [
+          -155,
+          200
+        ],
+        [
+          -160,
+          270
+        ],
+        [
+          -170,
+          320
+        ],
+        [
+          -185,
+          380
+        ],
+        [
+          -198,
+          440
+        ],
+        [
+          -205,
+          480
+        ]
+      ],
+      "kind": "track",
+      "surface": "gravel",
+      "confidence": "medium",
+      "notes": "The farm/service track along the course's west edge: down the pasture fence west of the 16th (the 'kohage' the 16th plays over), south across the heath past the 14th green and 15th tee to the pond by the 11th tee. Not in OSM. Clear on every crop as a pale gravel line."
+    }
   ],
   "paths": [
-    { "id": "trace-path-18-causeway", "line": [[-198, -558], [-197, -572], [-197, -588], [-197, -604]], "kind": "path", "surface": "gravel", "confidence": "high",
-      "notes": "The 18th fairway's walking line where it crosses the ditch between the two ponds: a culvert/plank crossing at (-197,-580), the 'vattenhindret som korsar fairway' of the club's SPELTIPS." },
-    { "id": "trace-path-17-18", "line": [[-196, -350], [-175, -360], [-160, -372]], "kind": "path", "surface": "gravel", "confidence": "high",
-      "notes": "17th tee to 18th tee over the footbridge across the west ditch at (-175,-359); the bridge deck is visible in the image." },
-    { "id": "trace-path-3-bridge", "line": [[305, -214], [325, -203], [345, -195]], "kind": "path", "surface": "gravel", "confidence": "medium",
-      "notes": "The bridge at the north tip of the 3rd's pond ('spela fram dig mot bron' in the club's SPELTIPS), where the 3rd's line crosses the water." },
-    { "id": "trace-path-1-green-road", "line": [[-80, -470], [-60, -440], [-38, -406], [-28, -395]], "kind": "path", "surface": "gravel", "confidence": "medium",
-      "notes": "1st green east to the service road along the farmland edge." },
-    { "id": "trace-path-club-range", "line": [[-160, -855], [-185, -870], [-200, -885], [-205, -893]], "kind": "path", "surface": "gravel", "confidence": "medium",
-      "notes": "From the golfers' car park north-west past the practice bunker to the range tee line." },
-    { "id": "trace-path-kiosk", "line": [[150, 262], [200, 261], [240, 262], [300, 258]], "kind": "path", "surface": "gravel", "confidence": "low",
-      "notes": "The east-west path past the kiosk at the course's hub (13th green, 14th and 7th tees); faint on the tiles." }
+    {
+      "id": "trace-path-18-causeway",
+      "line": [
+        [
+          -198,
+          -558
+        ],
+        [
+          -197,
+          -572
+        ],
+        [
+          -197,
+          -588
+        ],
+        [
+          -197,
+          -604
+        ]
+      ],
+      "kind": "path",
+      "surface": "gravel",
+      "confidence": "high",
+      "notes": "The 18th fairway's walking line where it crosses the ditch between the two ponds: a culvert/plank crossing at (-197,-580), the 'vattenhindret som korsar fairway' of the club's SPELTIPS."
+    },
+    {
+      "id": "trace-path-17-18",
+      "line": [
+        [
+          -196,
+          -350
+        ],
+        [
+          -175,
+          -360
+        ],
+        [
+          -160,
+          -372
+        ]
+      ],
+      "kind": "path",
+      "surface": "gravel",
+      "confidence": "high",
+      "notes": "17th tee to 18th tee over the footbridge across the west ditch at (-175,-359); the bridge deck is visible in the image."
+    },
+    {
+      "id": "trace-path-3-bridge",
+      "line": [
+        [
+          305,
+          -214
+        ],
+        [
+          325,
+          -203
+        ],
+        [
+          345,
+          -195
+        ]
+      ],
+      "kind": "path",
+      "surface": "gravel",
+      "confidence": "medium",
+      "notes": "The bridge at the north tip of the 3rd's pond ('spela fram dig mot bron' in the club's SPELTIPS), where the 3rd's line crosses the water."
+    },
+    {
+      "id": "trace-path-1-green-road",
+      "line": [
+        [
+          -80,
+          -470
+        ],
+        [
+          -60,
+          -440
+        ],
+        [
+          -38,
+          -406
+        ],
+        [
+          -28,
+          -395
+        ]
+      ],
+      "kind": "path",
+      "surface": "gravel",
+      "confidence": "medium",
+      "notes": "1st green east to the service road along the farmland edge."
+    },
+    {
+      "id": "trace-path-club-range",
+      "line": [
+        [
+          -160,
+          -855
+        ],
+        [
+          -185,
+          -870
+        ],
+        [
+          -200,
+          -885
+        ],
+        [
+          -205,
+          -893
+        ]
+      ],
+      "kind": "path",
+      "surface": "gravel",
+      "confidence": "medium",
+      "notes": "From the golfers' car park north-west past the practice bunker to the range tee line."
+    },
+    {
+      "id": "trace-path-kiosk",
+      "line": [
+        [
+          150,
+          262
+        ],
+        [
+          200,
+          261
+        ],
+        [
+          240,
+          262
+        ],
+        [
+          300,
+          258
+        ]
+      ],
+      "kind": "path",
+      "surface": "gravel",
+      "confidence": "low",
+      "notes": "The east-west path past the kiosk at the course's hub (13th green, 14th and 7th tees); faint on the tiles."
+    }
   ],
   "surround": {
-    "yard": [[38, -812], [180, -815], [182, -660], [125, -660], [122, -714], [58, -714], [42, -745]],
+    "yard": [
+      [
+        38,
+        -812
+      ],
+      [
+        180,
+        -815
+      ],
+      [
+        182,
+        -660
+      ],
+      [
+        125,
+        -660
+      ],
+      [
+        122,
+        -714
+      ],
+      [
+        58,
+        -714
+      ],
+      [
+        42,
+        -745
+      ]
+    ],
     "clearfells": [
-      [[355, 650], [430, 635], [520, 650], [600, 660], [660, 700], [662, 760], [600, 792], [520, 812], [430, 812], [362, 782], [352, 700]],
-      [[790, 890], [960, 880], [965, 1010], [870, 1012], [798, 962]],
-      [[-700, -1040], [-600, -1055], [-500, -1035], [-462, -960], [-470, -900], [-520, -860], [-600, -845], [-680, -870], [-705, -950]]
+      [
+        [
+          355,
+          650
+        ],
+        [
+          430,
+          635
+        ],
+        [
+          520,
+          650
+        ],
+        [
+          600,
+          660
+        ],
+        [
+          660,
+          700
+        ],
+        [
+          662,
+          760
+        ],
+        [
+          600,
+          792
+        ],
+        [
+          520,
+          812
+        ],
+        [
+          430,
+          812
+        ],
+        [
+          362,
+          782
+        ],
+        [
+          352,
+          700
+        ]
+      ],
+      [
+        [
+          790,
+          890
+        ],
+        [
+          960,
+          880
+        ],
+        [
+          965,
+          1010
+        ],
+        [
+          870,
+          1012
+        ],
+        [
+          798,
+          962
+        ]
+      ],
+      [
+        [
+          -700,
+          -1040
+        ],
+        [
+          -600,
+          -1055
+        ],
+        [
+          -500,
+          -1035
+        ],
+        [
+          -462,
+          -960
+        ],
+        [
+          -470,
+          -900
+        ],
+        [
+          -520,
+          -860
+        ],
+        [
+          -600,
+          -845
+        ],
+        [
+          -680,
+          -870
+        ],
+        [
+          -705,
+          -950
+        ]
+      ]
     ],
     "notes": "yard: the greenkeepers' compound around the black-roofed barn (w296165907) and the grey hall (w296165889): bare gravel hardstanding, stored material, a topdressing heap. clearfells: (1) the felled block east of the 7th green, ~300 x 160 m, stumps and brash with a few retained trees; (2) a second felling south-east of it beyond the property, reaching past the crop edge; (3) the wooded knoll north of the nine and west of the range, which OSM maps as forest (w?) but the image shows felled to scattered seed pines — the 2021 LiDAR predates this, so the v2 ground may still stand a full forest there."
   },
   "vegetation": {
     "rock": [
-      [[-193, -483], [-172, -478], [-166, -450], [-175, -428], [-190, -430], [-196, -455]]
+      [
+        [
+          -193,
+          -483
+        ],
+        [
+          -172,
+          -478
+        ],
+        [
+          -166,
+          -450
+        ],
+        [
+          -175,
+          -428
+        ],
+        [
+          -190,
+          -430
+        ],
+        [
+          -196,
+          -455
+        ]
+      ]
     ],
     "sand": [
-      [[32, -640], [45, -650], [70, -655], [92, -648], [96, -630], [85, -612], [60, -610], [40, -618]],
-      [[90, -726], [115, -724], [116, -712], [92, -711]]
+      [
+        [
+          32,
+          -640
+        ],
+        [
+          45,
+          -650
+        ],
+        [
+          70,
+          -655
+        ],
+        [
+          92,
+          -648
+        ],
+        [
+          96,
+          -630
+        ],
+        [
+          85,
+          -612
+        ],
+        [
+          60,
+          -610
+        ],
+        [
+          40,
+          -618
+        ]
+      ],
+      [
+        [
+          90,
+          -726
+        ],
+        [
+          115,
+          -724
+        ],
+        [
+          116,
+          -712
+        ],
+        [
+          92,
+          -711
+        ]
+      ]
     ],
     "wetland": [
-      [[502, -200], [520, -196], [530, -186], [523, -172], [512, -168], [503, -180]]
+      [
+        [
+          502,
+          -200
+        ],
+        [
+          520,
+          -196
+        ],
+        [
+          530,
+          -186
+        ],
+        [
+          523,
+          -172
+        ],
+        [
+          512,
+          -168
+        ],
+        [
+          503,
+          -180
+        ]
+      ]
     ],
     "notes": "rock: 'berget' of the 18th's SPELTIPS — the bare grey outcrop with pines east of the 18th fairway 130–190 m short of the green, which the club tells shorter hitters to aim left of. sand: the sand/gravel pit south of the works yard (~60 x 45 m, raw faces) and the topdressing heap beside the barn. wetland: the marshy triangle at the corner of the big field north of the 4th, where two farm tracks meet."
   },
   "water": [
-    { "id": "trace-pond-18-north", "ring": [[-238, -674], [-224, -675], [-216, -665], [-216, -640], [-219, -620], [-224, -606], [-232, -604], [-240, -612], [-242, -635], [-242, -660]], "kind": "pond", "confidence": "medium",
-      "notes": "The reed-covered pond west of the 18th's approach, 25 x 70 m, between the nine's 9th and the OSM pond w539915580; uniformly dark green in the image like the OSM-mapped pond south of it, with a stone bank along its west side. Not in OSM." }
+    {
+      "id": "trace-pond-18-north",
+      "ring": [
+        [
+          -238,
+          -674
+        ],
+        [
+          -224,
+          -675
+        ],
+        [
+          -216,
+          -665
+        ],
+        [
+          -216,
+          -640
+        ],
+        [
+          -219,
+          -620
+        ],
+        [
+          -224,
+          -606
+        ],
+        [
+          -232,
+          -604
+        ],
+        [
+          -240,
+          -612
+        ],
+        [
+          -242,
+          -635
+        ],
+        [
+          -242,
+          -660
+        ]
+      ],
+      "kind": "pond",
+      "confidence": "medium",
+      "notes": "The reed-covered pond west of the 18th's approach, 25 x 70 m, between the nine's 9th and the OSM pond w539915580; uniformly dark green in the image like the OSM-mapped pond south of it, with a stone bank along its west side. Not in OSM."
+    }
   ],
   "streams": [
-    { "id": "trace-ditch-18", "line": [[-213, -583], [-197, -580], [-172, -578]], "kind": "ditch", "confidence": "high",
-      "notes": "The ditch joining the west pond to the dark pond across the 18th fairway 190 m short of the green — the water hazard the club's SPELTIPS warns crosses the fairway." }
+    {
+      "id": "trace-ditch-18",
+      "line": [
+        [
+          -213,
+          -583
+        ],
+        [
+          -197,
+          -580
+        ],
+        [
+          -172,
+          -578
+        ]
+      ],
+      "kind": "ditch",
+      "confidence": "high",
+      "notes": "The ditch joining the west pond to the dark pond across the 18th fairway 190 m short of the green — the water hazard the club's SPELTIPS warns crosses the fairway."
+    }
   ],
   "marking": [
-    { "hole": 18, "color": "w", "line": [[-242, -290], [-243, -370], [-244, -450]], "confidence": "medium",
-      "notes": "OUT OF BOUNDS stakes along the 18th's left (west) from the tee for ~160 m, drawn on the club's Bana-18 plan; they follow the pasture ditch." },
-    { "hole": 2, "color": "w", "line": [[-38, -500], [-33, -440], [-28, -380], [-26, -330]], "confidence": "medium",
-      "notes": "OUT OF BOUNDS stakes along the 2nd's left (east — the hole plays south) between fairway and the gravel service road, drawn on the club's Bana-2 plan." }
+    {
+      "hole": 18,
+      "color": "w",
+      "line": [
+        [
+          -242,
+          -290
+        ],
+        [
+          -243,
+          -370
+        ],
+        [
+          -244,
+          -450
+        ]
+      ],
+      "confidence": "medium",
+      "notes": "OUT OF BOUNDS stakes along the 18th's left (west) from the tee for ~160 m, drawn on the club's Bana-18 plan; they follow the pasture ditch."
+    },
+    {
+      "hole": 2,
+      "color": "w",
+      "line": [
+        [
+          -38,
+          -500
+        ],
+        [
+          -33,
+          -440
+        ],
+        [
+          -28,
+          -380
+        ],
+        [
+          -26,
+          -330
+        ]
+      ],
+      "confidence": "medium",
+      "notes": "OUT OF BOUNDS stakes along the 2nd's left (east — the hole plays south) between fairway and the gravel service road, drawn on the club's Bana-2 plan."
+    }
   ],
   "holeBunkers": [
-    { "hole": 7, "ring": [[401, 604], [408, 603], [410, 607], [407, 611], [401, 610], [399, 607]], "prov": "plan", "confidence": "medium",
-      "notes": "The one greenside bunker on the club's Bana-7 plan, at the green's far-left (south-east) corner. Placed by registering the plan on its tee disc and green (0.35 m/px); the spot lies in tree shadow on the tiles, so the imagery could neither confirm nor refute it." },
-    { "hole": 13, "ring": [[184.5, 294.5], [196, 292], [205, 298], [206, 305], [203, 311], [192, 313], [185, 308]], "prov": "sat", "confidence": "high",
-      "notes": "The large left-front bunker of the 13th, ~20 x 18 m, plain on the tiles (a juniper clump stands in its north-west lobe) and on the club's Bana-13 plan." }
+    {
+      "hole": 7,
+      "ring": [
+        [
+          401,
+          604
+        ],
+        [
+          408,
+          603
+        ],
+        [
+          410,
+          607
+        ],
+        [
+          407,
+          611
+        ],
+        [
+          401,
+          610
+        ],
+        [
+          399,
+          607
+        ]
+      ],
+      "prov": "plan",
+      "confidence": "medium",
+      "notes": "The one greenside bunker on the club's Bana-7 plan, at the green's far-left (south-east) corner. Placed by registering the plan on its tee disc and green (0.35 m/px); the spot lies in tree shadow on the tiles, so the imagery could neither confirm nor refute it."
+    },
+    {
+      "hole": 13,
+      "ring": [
+        [
+          184.5,
+          294.5
+        ],
+        [
+          196,
+          292
+        ],
+        [
+          205,
+          298
+        ],
+        [
+          206,
+          305
+        ],
+        [
+          203,
+          311
+        ],
+        [
+          192,
+          313
+        ],
+        [
+          185,
+          308
+        ]
+      ],
+      "prov": "sat",
+      "confidence": "high",
+      "notes": "The large left-front bunker of the 13th, ~20 x 18 m, plain on the tiles (a juniper clump stands in its north-west lobe) and on the club's Bana-13 plan."
+    },
+    {
+      "hole": 11,
+      "ring": [
+        [
+          21,
+          444
+        ],
+        [
+          26,
+          442.5
+        ],
+        [
+          30,
+          445
+        ],
+        [
+          30.5,
+          449
+        ],
+        [
+          27,
+          451.5
+        ],
+        [
+          22,
+          450.5
+        ],
+        [
+          20,
+          447.5
+        ]
+      ],
+      "prov": "plan",
+      "confidence": "medium",
+      "notes": "The club's bana-11 plan draws TWO greenside bunkers, left and right of the green; the trace found only the left one. The right one is placed by registering the plan on its tee disc and green centre (0.26 m/px, rotation 76.4°) — the same registration puts the plan's left bunker within 4 m of the traced one, which is the check. It lies under the spruce shadow on the tiles."
+    }
   ],
   "range": {
-    "bays": [[-216.5, -941], [-205, -893]], "bayPitch": 5, "nets": [], "netHeight": 0,
-    "hutId": "w378922988", "shelterId": "trace-range-shelter",
-    "confidence": { "bays": "high", "nets": "high" },
+    "bays": [
+      [
+        -216.5,
+        -941
+      ],
+      [
+        -205,
+        -893
+      ]
+    ],
+    "bayPitch": 5,
+    "nets": [],
+    "netHeight": 0,
+    "hutId": "w378922988",
+    "shelterId": "trace-range-shelter",
+    "confidence": {
+      "bays": "high",
+      "nets": "high"
+    },
     "notes": "The tee line runs from the range hut (OSM w378922988, the dark shed at the field's north-east corner) south-south-east along the range's east edge, hitting WEST into the field; 10–11 bay dividers ~5 m apart read as a row of dark squares, on a pale hardstanding strip. There is no safety net — the field is open ground with the felled knoll behind it — so nets is an empty list on purpose."
   },
-  "practiceBunker": { "ring": [[-221, -873], [-212, -875], [-208, -868], [-210, -860], [-218, -859], [-222, -866]], "confidence": "high",
-    "notes": "The practice bunker between the range tee line and the golfers' car park." }
+  "practiceBunker": {
+    "ring": [
+      [
+        -221,
+        -873
+      ],
+      [
+        -212,
+        -875
+      ],
+      [
+        -208,
+        -868
+      ],
+      [
+        -210,
+        -860
+      ],
+      [
+        -218,
+        -859
+      ],
+      [
+        -222,
+        -866
+      ]
+    ],
+    "confidence": "high",
+    "notes": "The practice bunker between the range tee line and the golfers' car park."
+  },
+  "refusedBunkers": [
+    {
+      "hole": 17,
+      "c": [
+        -113,
+        -307
+      ],
+      "notes": "the club's Bana-17 plan draws no bunker on the hole and the 1 m laser DTM shows no pit here (depth -0.07 m); the pale patch the trace took for sand is dormant turf"
+    },
+    {
+      "hole": 16,
+      "c": [
+        -99,
+        -27
+      ],
+      "notes": "100 m short of the green; Bana-16 draws three greenside bunkers and nothing on the fairway, and the laser DTM is flat here (0.04 m)"
+    },
+    {
+      "hole": 18,
+      "c": [
+        -196,
+        -409
+      ],
+      "notes": "on 'berget'; Bana-18 draws one bunker, at the green, and the laser DTM shows no pit here (0.07 m)"
+    }
+  ]
 }

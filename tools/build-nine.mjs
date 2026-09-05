@@ -48,6 +48,11 @@ const parent = readJSON(path.join(ROOT, cfg.parentBuild, 'course-model.json'));
    the card), and its accepted bunkers. Everything not accepted stays synthesised. */
 const SHAPES = cfg.shapes ? readJSON(path.resolve(ROOT, cfg.shapes)) : null;
 const shapeOf = n => SHAPES?.holes?.find(h => h.hole === n) || null;
+/* Optional laser-terrain readings (cfg.laserShapes): green centres and radii, and
+   bunker centres, read off a hillshade of the 1 m DTM where the imagery showed
+   nothing. Used only where no imagery-traced green was accepted; the ring is the
+   synthesiser's ellipse at the measured place, prov:"laser". */
+const LASER = cfg.laserShapes ? readJSON(path.resolve(ROOT, cfg.laserShapes)) : null;
 const card = readJSON(path.resolve(ROOT, cfg.card));
 const geo = readJSON(path.resolve(ROOT, cfg.routes));
 
@@ -149,8 +154,10 @@ const report = [];
 const holes = card.holes.map(h => {
   const shape = shapeOf(h.n);
   const tracedGreen = shape?.green?.accepted ? shape.green : null;
+  const laserGreen = !tracedGreen && LASER?.greens?.[h.n] ? LASER.greens[h.n] : null;
   const raw = routes[h.n].map(p => p.slice());
   if (tracedGreen) raw[raw.length - 1] = tracedGreen.c.slice();
+  else if (laserGreen) raw[raw.length - 1] = laserGreen.c.slice();
   const back = h.t[0];                         /* the card's back tee, hole by hole */
   const { line: L, slide } = setLength(raw, back);
   const tee = L[0], green = L[L.length - 1];
@@ -158,8 +165,11 @@ const holes = card.holes.map(h => {
   const F = [Math.sin(b), -Math.cos(b)], R = [-Math.cos(b), Math.sin(b)];
 
   const gr = h.par === 3 ? 13 : h.par === 5 ? 15 : 14;
-  const greenRing = tracedGreen ? tracedGreen.ring.map(rnd) : ellipse(green, gr, gr * 0.78, b);
-  const tracedBunkers = (shape?.bunkers || []).filter(b => b.accepted).map(b => ({ ring: b.ring.map(rnd), prov: 'sat' }));
+  const greenRing = tracedGreen ? tracedGreen.ring.map(rnd) : laserGreen ? ellipse(green, laserGreen.r, laserGreen.r * 0.85, b) : ellipse(green, gr, gr * 0.78, b);
+  const tracedBunkers = [
+    ...(shape?.bunkers || []).filter(b => b.accepted).map(b => ({ ring: b.ring.map(rnd), prov: 'sat' })),
+    ...((LASER?.bunkers?.[h.n]) || []).map(lb => ({ ring: ellipse(lb.c, lb.r, lb.r * 0.8, b, 10), prov: 'laser' })),
+  ];
 
   /* a corridor from 42 m out to the green's front, narrowing in. Par 3s get
      none, which is what a par 3 has. */
@@ -194,7 +204,8 @@ const holes = card.holes.map(h => {
     n: h.n, par: h.par, idx: h.hcp, t: h.t,
     line: L.map(rnd), lineLen: +polyLen(L).toFixed(1), lenDev: 0,
     lineSrc: cfg.lineSrc,
-    green: { ring: greenRing, c: rnd(green), prov: tracedGreen ? 'sat' : 'synth', area: tracedGreen ? tracedGreen.area : Math.round(Math.PI * gr * gr * 0.78) },
+    green: { ring: greenRing, c: rnd(green), prov: tracedGreen ? 'sat' : laserGreen ? 'laser' : 'synth',
+             area: tracedGreen ? tracedGreen.area : laserGreen ? Math.round(Math.PI * laserGreen.r * laserGreen.r * 0.85) : Math.round(Math.PI * gr * gr * 0.78) },
     fairway: { rings, prov: 'synth' },
     tees: { pads, marks },
     bunkers: tracedBunkers,

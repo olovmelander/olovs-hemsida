@@ -234,7 +234,7 @@ not that it is complete.
 | Vegetation | published: 2,417 measured crowns + a 64-tile stand field. Leaf-off, so conservative on deciduous; see §4 |
 | Ortho / Topografi 10 | discovered and covered, not acquired; no product terms approved for redistribution |
 | Hole 12 | the tee end is under spruce in every image; the card slide resolves it to within 26 m of the banguide's own disc. See CLAUDE.md before re-tracing |
-| The nine's shapes | three greens (2, 7, 8) and two bunkers are now MEASURED off the tiles (`prov:"sat"`, §7.9); six greens, every fairway and every tee pad remain synthesised from the routes. The leaf-off capture cannot tell fairway from semi, and six of the nine greens are dormant and indistinguishable from their surrounds in it — a dated, leafed-on ortho is what finishes the nine |
+| The nine's shapes | three greens (2, 7, 8) measured off the tiles (`prov:"sat"`), four more (3, 4, 5, 6) and one bunker read off the 1 m laser hillshade (`prov:"laser"`, §7.9–7.10); two greens (1, 9), every fairway and every tee pad remain synthesised. A dated, leafed-on ortho would finish the fairways |
 | Hole 1's two bunkers | the trace puts them 12–30 m short and WEST of the green centre; the club's Bana-1 plan draws them at the green's LEFT edge, which for a hole playing south is east. Same count, ~20 m apart; not resolved at 0.3 m/px — see §7.2 |
 | The felled knoll north of the nine | OSM forest; the imagery shows it clear-felled to scattered seed pines; the 2021 leaf-off LiDAR predates the felling, so the v2 vegetation may still stand a full forest on it. Carried as a `surround.clearfells` ring with that caveat |
 
@@ -256,7 +256,7 @@ confidence and the reading it was made from.
 
 | feature | before | after | source of the difference |
 |---|---|---|---|
-| bunkers on the eighteen | 27 | 29 | the 7th's greenside bunker (club plan, registered on tee disc + green) and the 13th's big left-front bunker (tiles + plan) |
+| bunkers on the eighteen | 27 | 27 | +3 from the plans (the 7th's greenside, the 13th's big left-front, the 11th's right), −3 refused where the plan draws none AND the laser DTM shows no pit (17th, 16th's fairway, 18th's rock) — §7.10 |
 | water bodies | 11 | 12 | the reed pond west of the 18th's approach, 1,565 m², level 14.3 m |
 | ditches/streams | 4 | 5 | the ditch that crosses the 18th fairway between its two ponds |
 | buildings | 305 | 307 | a ~10 m slender structure by the old stable; the range's ball shelter |
@@ -291,14 +291,14 @@ on bare 160 m green crops. The card and the drawn lengths are the gates already 
 | 8 | 4 | 355 | 2 | — | fairway bunker at 240 m and left-front greenside, both on the tiles |
 | 9 | 3 | 172 | 1 | — | raised green, one right-front bunker |
 | 10 | 4 | 411 | 1 | — | drops 16 m tee to green, the biggest fall on the course |
-| 11 | 4 | 344 | 1 | pond left of the tees (w539915586) | angled green, one left-front bunker |
+| 11 | 4 | 344 | **2** | pond left of the tees (w539915586) | angled green; the plan's right bunker **added** by registration (the same registration lands the plan's left one within 4 m of the traced one) |
 | 12 | 4 | 374 | 1 | — | over the copse; one left greenside bunker; the bell |
 | 13 | 3 | 154 | **1** | — | **added**: the ~20 × 18 m left-front bunker with a juniper clump in its NW lobe; the kiosk stands 40 m behind the green |
 | 14 | 4 | 355 | 0 | the small dark hollow right of the fairway at 46 m | the plan shows no bunker; the green is a mounded plateau |
 | 15 | 4 | 381 | 2 | — | "spikrakt"; two greenside bunkers |
-| 16 | 5 | 441 | 4 | — | over the pasture; four bunkers, three at the green |
-| 17 | 3 | 168 | 1 | pond right of the green (w539915585) | "grässlänten ner mot vattnet" |
-| 18 | 5 | 475 | 2 | ponds either side at 190 m, the crossing ditch, OB left; "berget" at 130–190 m short of the green | the second traced bunker (−196, −409) is the pale patch on the rock, not on the plan |
+| 16 | 5 | 441 | **3** | — | over the pasture; three greenside bunkers as the plan draws; the traced fourth, 100 m short, refused (no plan, no pit) |
+| 17 | 3 | 168 | **0** | pond right of the green (w539915585) | "grässlänten ner mot vattnet"; the traced bunker refused (the plan draws none, the laser shows no pit) |
+| 18 | 5 | 475 | **1** | ponds either side at 190 m, the crossing ditch, OB left; "berget" at 130–190 m short of the green | the second traced bunker (−196, −409) was the pale patch on the rock: not on the plan, no pit in the laser — refused |
 
 ### 7.3 The clubhouse hub
 
@@ -423,3 +423,55 @@ into corridors twice their real width. The classifier's fairway rings are in the
 file as `accepted:false` evidence. This is the leaf-off imagery's limit, not the
 method's: a leafed-on, dated orthophoto (Lantmäteriet's `orto-o2-2025`, already
 discovered covering the AOI) would run through the same tool and finish the nine.
+
+### 7.10 Every ring against the 1 m laser terrain
+
+`johannesbergbuild/terrain-check.mjs` decodes the 64 published one-metre tiles
+through the loader's own reader, assembles the 2048 m window in EPSG:3006, and
+measures every ring of both courses — taken from the committed cs2cs migration,
+so the frame conversion is not this tool's — against a surface that never entered
+any trace. Three shapes are looked for: a green or tee pad is a **plateau** (mean
+inside minus a 4–10 m collar, and a small std inside), a bunker is a **pit** (a
+2–6 m rim minus the inside), and open water is **flat** in a laser DTM (std
+inside, banks rising over 3–10 m). For each feature the tool also finds the
+shift, in 1 m steps to ±8 m, that maximises its signal; only maxima inside the
+search window count, and their median is the horizontal offset between the traces
+and the laser terrain. `terrain-check.json` holds every number;
+`cache/terrain-check/greens-sheet.png` is the 27 greens at 4× on the hillshade.
+
+| set | n | what the laser says |
+|---|---|---|
+| OSM water rings in the window | 9 | 8 of 9 flat (std ≤ 0.15 m; median 0.04), all 9 banked (+0.25…+0.84 m); best shift median **(+1 E, 0 N)** — OSM's ponds sit on the laser's water to a metre |
+| the traced reed pond | 1 | flat to 0.19 m (reeds), banked +0.52 m, best shift (+4, −1) |
+| the eighteen's bunkers | 27 | median depth 0.20 m, 18 read as pits; best shift median **(+2 E, −3 N)** over the 20 with an interior maximum |
+| the eighteen's greens | 18 | median raise 0.17 m, 10 raised, std median 0.29 m; best shift medians (+2, −4) by raise and (+3, −2) by flatness |
+| the eighteen's tee pads | 44 | std median 0.25 m |
+| the nine's imagery greens (2, 7, 8) | 3 | std **0.04 m** inside all three — the flattest ground on the estate, which is what a putting surface is |
+| the nine's laser greens (3–6) | 4 | 5 and 6 raised (+1.21, +0.58 m); 3 and 4 read level or bowled — 4 is a plateau inside a rim, which this statistic reads as negative |
+
+**Two findings.** First, the OSM-mapped water is registered to the laser within a
+metre while everything traced from the Esri tiles sits a consistent **2–3 m west
+and 2–4 m north** of its laser feature (bunkers n = 20, greens by two statistics,
+the reed pond): a ~3.5 m offset between the imagery's georeference and
+Lantmäteriet's, on this ground. It is recorded and NOT applied — the medians are
+good to about a metre and a correction belongs with a control survey (§6). Second,
+three traced bunkers that no plan draws also show no pit (17th; the 16th's fairway
+one; the 18th's on the rock) and were refused (`sat-traces.json` →
+`refusedBunkers`), while the 10th's traced bunker, which the plan also omits,
+reads as a 0.24 m pit and stays. Two independent records against one trace; one
+record each way and the trace stands.
+
+Model water levels sit a median **4.19 m** above the laser's water surfaces — the
+Terrarium datum step (§3.3), consistent with the tees' 4.55 m and not a defect of
+the rings.
+
+### 7.11 The club's own record, hole by hole
+
+`johannesbergbuild/guide-inventory.json` is what the eighteen 2026 plans draw,
+read on 2026-09-05: bunkers with the player's side, water, OB runs with the
+metres they cover, the fairway plate colours (200 white, 150 yellow, **125 blue**,
+100 red), the flag colours, and the objects the plans mark that the model does not
+carry — the bell on the 12th, the sighting posts on the 12th and 16th, the
+**sighting tower at the 16th tee** ("Avstånd över pinnen från tornet: 140 meter"),
+the flagpoles the 18th aims at. Each row says what the model has beside it, so a
+disagreement is one line, not a search.

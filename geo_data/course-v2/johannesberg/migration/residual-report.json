@@ -23,111 +23,111 @@
   "independentControlAnchors": 0,
   "canonicalOriginPromoted": false,
   "aggregate": {
-    "coordinatePairCount": 14666,
+    "coordinatePairCount": 14654,
     "outsideCourseVicinity5km": 486,
     "scopes": {
       "playingGeometry": {
-        "coordinatePairCount": 1760,
+        "coordinatePairCount": 1754,
         "directFrameDelta": {
-          "count": 1760,
+          "count": 1754,
           "biasMetres": {
-            "x": -5.231823,
-            "z": 3.652125
+            "x": -5.207443,
+            "z": 3.684867
           },
-          "rmseMetres": 32.158505,
-          "p50Metres": 27.676024,
-          "p95Metres": 49.763128,
-          "p99Metres": 56.181684,
-          "maxMetres": 56.793468
+          "rmseMetres": 32.342423,
+          "p50Metres": 28.246703,
+          "p95Metres": 49.864228,
+          "p99Metres": 56.546693,
+          "maxMetres": 57.113412
         },
         "bestFitSimilarity": {
-          "scale": 1.001340818,
-          "rotationDegrees": -2.782131318,
+          "scale": 1.001338796,
+          "rotationDegrees": -2.782171188,
           "translationMetres": {
-            "x": -0.00697,
-            "z": 0.008373
+            "x": -0.007662,
+            "z": 0.007383
           },
           "residuals": {
-            "count": 1760,
+            "count": 1754,
             "biasMetres": {
               "x": 0,
               "z": 0
             },
-            "rmseMetres": 0.406624,
-            "p50Metres": 0.295208,
-            "p95Metres": 0.801685,
-            "p99Metres": 0.888467,
-            "maxMetres": 0.913077
+            "rmseMetres": 0.407872,
+            "p50Metres": 0.299526,
+            "p95Metres": 0.803578,
+            "p99Metres": 0.889306,
+            "maxMetres": 0.915579
           }
         }
       },
       "courseVicinity5km": {
-        "coordinatePairCount": 14180,
+        "coordinatePairCount": 14168,
         "directFrameDelta": {
-          "count": 14180,
+          "count": 14168,
           "biasMetres": {
-            "x": -11.662311,
-            "z": 11.331312
+            "x": -11.661448,
+            "z": 11.346807
           },
-          "rmseMetres": 99.51893,
-          "p50Metres": 73.504266,
+          "rmseMetres": 99.571495,
+          "p50Metres": 73.55486,
           "p95Metres": 197.598312,
-          "p99Metres": 230.73609,
+          "p99Metres": 230.804828,
           "maxMetres": 248.123971
         },
         "bestFitSimilarity": {
-          "scale": 1.001482192,
-          "rotationDegrees": -2.755252497,
+          "scale": 1.001482093,
+          "rotationDegrees": -2.755260153,
           "translationMetres": {
-            "x": -0.259016,
-            "z": -0.05078
+            "x": -0.259271,
+            "z": -0.051057
           },
           "residuals": {
-            "count": 14180,
+            "count": 14168,
             "biasMetres": {
               "x": 0,
               "z": 0
             },
-            "rmseMetres": 2.016655,
-            "p50Metres": 1.20448,
-            "p95Metres": 4.263431,
-            "p99Metres": 7.519011,
-            "maxMetres": 8.741514
+            "rmseMetres": 2.017595,
+            "p50Metres": 1.204634,
+            "p95Metres": 4.263606,
+            "p99Metres": 7.524369,
+            "maxMetres": 8.741292
           }
         }
       },
       "allInventoriedGeometry": {
-        "coordinatePairCount": 14666,
+        "coordinatePairCount": 14654,
         "directFrameDelta": {
-          "count": 14666,
+          "count": 14654,
           "biasMetres": {
-            "x": -6.899073,
-            "z": 3.382417
+            "x": -6.894338,
+            "z": 3.390889
           },
-          "rmseMetres": 109.605877,
-          "p50Metres": 75.513893,
-          "p95Metres": 222.060939,
+          "rmseMetres": 109.659901,
+          "p50Metres": 75.582675,
+          "p95Metres": 222.086467,
           "p99Metres": 279.328752,
           "maxMetres": 301.313237
         },
         "bestFitSimilarity": {
-          "scale": 1.001648599,
-          "rotationDegrees": -2.772385309,
+          "scale": 1.001648517,
+          "rotationDegrees": -2.772388295,
           "translationMetres": {
-            "x": 0.060243,
-            "z": -0.22533
+            "x": 0.060205,
+            "z": -0.225773
           },
           "residuals": {
-            "count": 14666,
+            "count": 14654,
             "biasMetres": {
               "x": 0,
               "z": 0
             },
-            "rmseMetres": 2.508623,
-            "p50Metres": 1.363053,
-            "p95Metres": 5.916148,
-            "p99Metres": 7.879073,
-            "maxMetres": 9.169892
+            "rmseMetres": 2.509689,
+            "p50Metres": 1.363558,
+            "p95Metres": 5.915848,
+            "p99Metres": 7.878684,
+            "maxMetres": 9.169604
           }
         }
       }
@@ -137,16 +137,16 @@
     {
       "source": {
         "path": "johannesbergbuild/course-model.json",
-        "sha256": "191f23244958c3e7e58f82424f2ccb97bebe0db65207a76aadccf98c6db6b0c7"
+        "sha256": "9a65ff9c0a78072e1e5bdd1a7b42052f63ec5e6a438b00818ba4ec219294b971"
       },
       "output": {
         "path": "geo_data/course-v2/johannesberg/migration/course-model.epsg3006.json",
-        "sha256": "73d9979f6e0206219de2a8fcb9116edc24e8c939f2ae47387112bddcfb5cb4c9"
+        "sha256": "11a23400ba7a47cf8f99a7015f0639e3ab3b7cb803e057ce8ed2fbbf847253b5"
       },
-      "coordinatePairCount": 7390,
+      "coordinatePairCount": 7384,
       "ignoredMetadataPairCount": 0,
       "coordinatePathCounts": {
-        "holes.[].bunkers.[].ring.[]": 264,
+        "holes.[].bunkers.[].ring.[]": 248,
         "holes.[].fairway.rings.[].[]": 338,
         "holes.[].green.c": 18,
         "holes.[].green.ring.[]": 224,
@@ -162,7 +162,7 @@
         "infra.roads.[].line.[]": 376,
         "infra.tracks.[].line.[]": 397,
         "marking.[].pts.[]": 29,
-        "scenery.bunkers.[].[]": 34,
+        "scenery.bunkers.[].[]": 44,
         "scenery.fairways.[].[]": 36,
         "scenery.greens.[].[]": 200,
         "scenery.practiceGreens.[].[]": 20,
@@ -180,140 +180,140 @@
         "water.[].ring.[]": 381
       },
       "directFrameDelta": {
-        "count": 7390,
+        "count": 7384,
         "biasMetres": {
-          "x": -6.480805,
-          "z": 3.116884
+          "x": -6.475505,
+          "z": 3.125923
         },
-        "rmseMetres": 109.164349,
-        "p50Metres": 74.990375,
-        "p95Metres": 221.503261,
-        "p99Metres": 279.213866,
+        "rmseMetres": 109.217881,
+        "p50Metres": 75.161477,
+        "p95Metres": 221.570022,
+        "p99Metres": 279.221611,
         "maxMetres": 301.313237
       },
       "bestFitSimilarity": {
-        "scale": 1.001648731,
-        "rotationDegrees": -2.772342316,
+        "scale": 1.001648654,
+        "rotationDegrees": -2.772345432,
         "translationMetres": {
-          "x": 0.061077,
-          "z": -0.228635
+          "x": 0.061026,
+          "z": -0.229087
         },
         "residuals": {
-          "count": 7390,
+          "count": 7384,
           "biasMetres": {
             "x": 0,
             "z": 0
           },
-          "rmseMetres": 2.498792,
-          "p50Metres": 1.356244,
-          "p95Metres": 5.895499,
-          "p99Metres": 7.876576,
-          "maxMetres": 9.171136
+          "rmseMetres": 2.499843,
+          "p50Metres": 1.357065,
+          "p95Metres": 5.896049,
+          "p99Metres": 7.876416,
+          "maxMetres": 9.170828
         }
       },
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 1244,
+          "coordinatePairCount": 1228,
           "directFrameDelta": {
-            "count": 1244,
+            "count": 1228,
             "biasMetres": {
-              "x": 6.928603,
-              "z": -5.095856
+              "x": 7.366242,
+              "z": -5.295609
             },
-            "rmseMetres": 25.615338,
-            "p50Metres": 22.01921,
-            "p95Metres": 39.953277,
-            "p99Metres": 46.24999,
+            "rmseMetres": 25.740192,
+            "p50Metres": 22.138605,
+            "p95Metres": 39.987652,
+            "p99Metres": 46.251628,
             "maxMetres": 47.336771
           },
           "bestFitSimilarity": {
-            "scale": 1.001281831,
-            "rotationDegrees": -2.762699718,
+            "scale": 1.00128255,
+            "rotationDegrees": -2.761987056,
             "translationMetres": {
-              "x": 0.117071,
-              "z": -0.07773
+              "x": 0.12261,
+              "z": -0.083673
             },
             "residuals": {
-              "count": 1244,
+              "count": 1228,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 0.390631,
-              "p50Metres": 0.344635,
-              "p95Metres": 0.72984,
-              "p99Metres": 0.783391,
-              "maxMetres": 0.804165
+              "rmseMetres": 0.390871,
+              "p50Metres": 0.349131,
+              "p95Metres": 0.726654,
+              "p99Metres": 0.777131,
+              "maxMetres": 0.797668
             }
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 7147,
+          "coordinatePairCount": 7141,
           "directFrameDelta": {
-            "count": 7147,
+            "count": 7141,
             "biasMetres": {
-              "x": -11.191833,
-              "z": 10.993356
+              "x": -11.190311,
+              "z": 11.009321
             },
-            "rmseMetres": 99.100775,
-            "p50Metres": 73.093913,
-            "p95Metres": 197.475761,
-            "p99Metres": 230.610485,
+            "rmseMetres": 99.152865,
+            "p50Metres": 73.132374,
+            "p95Metres": 197.487378,
+            "p99Metres": 230.611178,
             "maxMetres": 248.123971
           },
           "bestFitSimilarity": {
-            "scale": 1.001482606,
-            "rotationDegrees": -2.755269449,
+            "scale": 1.001482512,
+            "rotationDegrees": -2.7552773,
             "translationMetres": {
-              "x": -0.252214,
-              "z": -0.056039
+              "x": -0.252476,
+              "z": -0.056321
             },
             "residuals": {
-              "count": 7147,
+              "count": 7141,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 2.009053,
-              "p50Metres": 1.203432,
-              "p95Metres": 4.236836,
-              "p99Metres": 7.455037,
-              "maxMetres": 8.730585
+              "rmseMetres": 2.009983,
+              "p50Metres": 1.204334,
+              "p95Metres": 4.238333,
+              "p99Metres": 7.460314,
+              "maxMetres": 8.730339
             }
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 7390,
+          "coordinatePairCount": 7384,
           "directFrameDelta": {
-            "count": 7390,
+            "count": 7384,
             "biasMetres": {
-              "x": -6.480805,
-              "z": 3.116884
+              "x": -6.475505,
+              "z": 3.125923
             },
-            "rmseMetres": 109.164349,
-            "p50Metres": 74.990375,
-            "p95Metres": 221.503261,
-            "p99Metres": 279.213866,
+            "rmseMetres": 109.217881,
+            "p50Metres": 75.161477,
+            "p95Metres": 221.570022,
+            "p99Metres": 279.221611,
             "maxMetres": 301.313237
           },
           "bestFitSimilarity": {
-            "scale": 1.001648731,
-            "rotationDegrees": -2.772342316,
+            "scale": 1.001648654,
+            "rotationDegrees": -2.772345432,
             "translationMetres": {
-              "x": 0.061077,
-              "z": -0.228635
+              "x": 0.061026,
+              "z": -0.229087
             },
             "residuals": {
-              "count": 7390,
+              "count": 7384,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 2.498792,
-              "p50Metres": 1.356244,
-              "p95Metres": 5.895499,
-              "p99Metres": 7.876576,
-              "maxMetres": 9.171136
+              "rmseMetres": 2.499843,
+              "p50Metres": 1.357065,
+              "p95Metres": 5.896049,
+              "p99Metres": 7.876416,
+              "maxMetres": 9.170828
             }
           }
         }
@@ -322,16 +322,16 @@
     {
       "source": {
         "path": "johannesberg9build/course-model.json",
-        "sha256": "301c9af76ad68bb17eb1db1ee4c30251eceaf57c874c73b36e283fd3713bf126"
+        "sha256": "ade11e5c7af8037eb2d9a1aa07faaf67486ea708eb802f41f3a5942cfbdd536f"
       },
       "output": {
         "path": "geo_data/course-v2/johannesberg/migration/nine-course-model.epsg3006.json",
-        "sha256": "8765cf5f4eb3643cec7dad4aa6c2dafb533b1755703d0ba8d4a1a459024c1c7b"
+        "sha256": "d5c43e278cd9784ad22e2081d9860da8c3b3ad924c57f65069a56421135a6342"
       },
-      "coordinatePairCount": 7276,
+      "coordinatePairCount": 7270,
       "ignoredMetadataPairCount": 18,
       "coordinatePathCounts": {
-        "holes.[].bunkers.[].ring.[]": 28,
+        "holes.[].bunkers.[].ring.[]": 38,
         "holes.[].fairway.rings.[].[]": 36,
         "holes.[].green.c": 9,
         "holes.[].green.ring.[]": 180,
@@ -348,7 +348,7 @@
         "infra.roads.[].line.[]": 376,
         "infra.tracks.[].line.[]": 397,
         "marking.[].pts.[]": 29,
-        "scenery.bunkers.[].[]": 270,
+        "scenery.bunkers.[].[]": 254,
         "scenery.fairways.[].[]": 338,
         "scenery.greens.[].[]": 244,
         "scenery.practiceGreens.[].[]": 20,
@@ -366,140 +366,140 @@
         "water.[].ring.[]": 381
       },
       "directFrameDelta": {
-        "count": 7276,
+        "count": 7270,
         "biasMetres": {
-          "x": -7.323895,
-          "z": 3.65211
+          "x": -7.319739,
+          "z": 3.660009
         },
-        "rmseMetres": 110.05251,
-        "p50Metres": 75.955368,
-        "p95Metres": 222.28165,
-        "p99Metres": 279.376027,
+        "rmseMetres": 110.107035,
+        "p50Metres": 75.993971,
+        "p95Metres": 222.417419,
+        "p99Metres": 279.387373,
         "maxMetres": 301.313237
       },
       "bestFitSimilarity": {
-        "scale": 1.001648477,
-        "rotationDegrees": -2.772427699,
+        "scale": 1.00164839,
+        "rotationDegrees": -2.772430556,
         "translationMetres": {
-          "x": 0.059405,
-          "z": -0.221981
+          "x": 0.059381,
+          "z": -0.222414
         },
         "residuals": {
-          "count": 7276,
+          "count": 7270,
           "biasMetres": {
             "x": 0,
             "z": 0
           },
-          "rmseMetres": 2.518564,
-          "p50Metres": 1.368501,
-          "p95Metres": 5.926482,
-          "p99Metres": 7.881334,
-          "maxMetres": 9.168712
+          "rmseMetres": 2.519644,
+          "p50Metres": 1.370219,
+          "p95Metres": 5.926554,
+          "p99Metres": 7.881792,
+          "maxMetres": 9.168442
         }
       },
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 516,
+          "coordinatePairCount": 526,
           "directFrameDelta": {
-            "count": 516,
+            "count": 526,
             "biasMetres": {
-              "x": -34.54882,
-              "z": 24.742219
+              "x": -34.561976,
+              "z": 24.650692
             },
-            "rmseMetres": 44.108156,
-            "p50Metres": 45.065811,
-            "p95Metres": 55.835074,
-            "p99Metres": 56.518498,
-            "maxMetres": 56.793468
+            "rmseMetres": 44.060108,
+            "p50Metres": 44.870101,
+            "p95Metres": 56.127512,
+            "p99Metres": 56.890551,
+            "maxMetres": 57.113412
           },
           "bestFitSimilarity": {
-            "scale": 1.001907423,
-            "rotationDegrees": -2.758642922,
+            "scale": 1.001904082,
+            "rotationDegrees": -2.758761004,
             "translationMetres": {
-              "x": -0.151339,
-              "z": 0.752212
+              "x": -0.150884,
+              "z": 0.749479
             },
             "residuals": {
-              "count": 516,
+              "count": 526,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 0.164301,
-              "p50Metres": 0.154957,
-              "p95Metres": 0.269698,
-              "p99Metres": 0.395242,
-              "maxMetres": 0.435873
+              "rmseMetres": 0.163851,
+              "p50Metres": 0.157583,
+              "p95Metres": 0.266428,
+              "p99Metres": 0.393198,
+              "maxMetres": 0.434524
             }
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 7033,
+          "coordinatePairCount": 7027,
           "directFrameDelta": {
-            "count": 7033,
+            "count": 7027,
             "biasMetres": {
-              "x": -12.140416,
-              "z": 11.674747
+              "x": -12.140229,
+              "z": 11.689769
             },
-            "rmseMetres": 99.94207,
-            "p50Metres": 73.776882,
-            "p95Metres": 197.659088,
-            "p99Metres": 231.005313,
+            "rmseMetres": 99.99512,
+            "p50Metres": 73.818077,
+            "p95Metres": 197.673282,
+            "p99Metres": 231.039682,
             "maxMetres": 248.123971
           },
           "bestFitSimilarity": {
-            "scale": 1.001481776,
-            "rotationDegrees": -2.755232685,
+            "scale": 1.001481672,
+            "rotationDegrees": -2.75524015,
             "translationMetres": {
-              "x": -0.26595,
-              "z": -0.045427
+              "x": -0.266197,
+              "z": -0.045697
             },
             "residuals": {
-              "count": 7033,
+              "count": 7027,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 2.024313,
-              "p50Metres": 1.204515,
-              "p95Metres": 4.285157,
-              "p99Metres": 7.552222,
-              "maxMetres": 8.752817
+              "rmseMetres": 2.025265,
+              "p50Metres": 1.205043,
+              "p95Metres": 4.287137,
+              "p99Metres": 7.554702,
+              "maxMetres": 8.752619
             }
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 7276,
+          "coordinatePairCount": 7270,
           "directFrameDelta": {
-            "count": 7276,
+            "count": 7270,
             "biasMetres": {
-              "x": -7.323895,
-              "z": 3.65211
+              "x": -7.319739,
+              "z": 3.660009
             },
-            "rmseMetres": 110.05251,
-            "p50Metres": 75.955368,
-            "p95Metres": 222.28165,
-            "p99Metres": 279.376027,
+            "rmseMetres": 110.107035,
+            "p50Metres": 75.993971,
+            "p95Metres": 222.417419,
+            "p99Metres": 279.387373,
             "maxMetres": 301.313237
           },
           "bestFitSimilarity": {
-            "scale": 1.001648477,
-            "rotationDegrees": -2.772427699,
+            "scale": 1.00164839,
+            "rotationDegrees": -2.772430556,
             "translationMetres": {
-              "x": 0.059405,
-              "z": -0.221981
+              "x": 0.059381,
+              "z": -0.222414
             },
             "residuals": {
-              "count": 7276,
+              "count": 7270,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 2.518564,
-              "p50Metres": 1.368501,
-              "p95Metres": 5.926482,
-              "p99Metres": 7.881334,
-              "maxMetres": 9.168712
+              "rmseMetres": 2.519644,
+              "p50Metres": 1.370219,
+              "p95Metres": 5.926554,
+              "p99Metres": 7.881792,
+              "maxMetres": 9.168442
             }
           }
         }

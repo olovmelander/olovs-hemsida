@@ -184,6 +184,18 @@ for (const b of straces.holeBunkers || []) {
   H.bunkers.push({ ring, prov: b.prov || 'sat' });
 }
 
+/* --- bunkers refused by two independent records ---------------------------------- */
+/* A trace that neither the club's plan nor the laser terrain supports is not a bunker:
+   the plan draws none there and the 1 m DTM shows no pit. sat-traces.json names each
+   one with its reasons; the ring within 12 m of the named point is dropped. */
+for (const rb of straces.refusedBunkers || []) {
+  const H = holes.find(h => h.n === rb.hole);
+  if (!H) throw new Error(`sat-traces: refusedBunkers names hole ${rb.hole}, which is not on the card`);
+  const before = H.bunkers.length;
+  H.bunkers = H.bunkers.filter(b => dist(centroid(b.ring), rb.c) >= 12);
+  if (H.bunkers.length === before) console.log(`  hole ${rb.hole}: no traced bunker within 12 m of refused ${rb.c} — nothing to drop`);
+}
+
 /* --- water -------------------------------------------------------------------- */
 const water = [];
 for (const w of osm.water) {
