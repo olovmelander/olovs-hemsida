@@ -68,7 +68,20 @@ if (reference.groundId !== groundId) {
 }
 const referenceSourcePath = reference.source?.path;
 if (!referenceSourcePath) throw new Error('the reference migration records no source model');
-const referenceSourceText = await readFile(join(REPO_ROOT, referenceSourcePath), 'utf8');
+/* The reference's source model is the one cs2cs READ, which may no longer be
+   the file at that path: a re-grounded model carries new water rings and a
+   different coordinate count. --reference-source names the text as it was
+   (typically `git show <sha>:<path>` written to a file), and it is admitted
+   only if it hashes to what the reference recorded. */
+const referenceSourceOverride = flag('reference-source');
+const referenceSourceText = await readFile(
+  referenceSourceOverride ? resolve(referenceSourceOverride) : join(REPO_ROOT, referenceSourcePath), 'utf8');
+if (referenceSourceOverride && reference.source?.sha256) {
+  const actual = createHash('sha256').update(referenceSourceText.replace(/\r\n/g, '\n')).digest('hex');
+  if (actual !== reference.source.sha256) {
+    throw new Error(`--reference-source hashes to ${actual}, not the ${reference.source.sha256} the reference migration recorded`);
+  }
+}
 const referenceFrame = {
   originWgs84: {
     latitude: reference.source.localFrame.originWgs84.latitude,

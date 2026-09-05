@@ -7,6 +7,8 @@ const GEOMETRY_KEYS = new Set([
   /* the range tee line (mat centres) and the safety net (a polyline), traced
      off the tiles for Puttom -- world points like every key above */
   'bays', 'nets',
+  /* the practice greens a course NAMES (Johannesberg), rings like scenery.greens */
+  'practiceGreens',
 ]);
 
 const finitePair = value => Array.isArray(value)

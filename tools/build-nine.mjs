@@ -42,6 +42,17 @@ const cfg = readJSON(path.resolve(ROOT, cfgPath));
 const NOTES = cfg.guideNotes ? (readJSON(path.resolve(ROOT, cfg.guideNotes)).holes || {}) : {};
 
 const parent = readJSON(path.join(ROOT, cfg.parentBuild, 'course-model.json'));
+/* Optional measured shapes (cfg.shapes -> <build>/trace-nine.mjs output): a hole
+   whose green was ACCEPTED by the tracer's rules takes the traced ring and centre
+   (the route is re-ended there before the card slide, so the length still measures
+   the card), and its accepted bunkers. Everything not accepted stays synthesised. */
+const SHAPES = cfg.shapes ? readJSON(path.resolve(ROOT, cfg.shapes)) : null;
+const shapeOf = n => SHAPES?.holes?.find(h => h.hole === n) || null;
+/* Optional laser-terrain readings (cfg.laserShapes): green centres and radii, and
+   bunker centres, read off a hillshade of the 1 m DTM where the imagery showed
+   nothing. Used only where no imagery-traced green was accepted; the ring is the
+   synthesiser's ellipse at the measured place, prov:"laser". */
+const LASER = cfg.laserShapes ? readJSON(path.resolve(ROOT, cfg.laserShapes)) : null;
 const card = readJSON(path.resolve(ROOT, cfg.card));
 const geo = readJSON(path.resolve(ROOT, cfg.routes));
 
@@ -141,7 +152,12 @@ if (missing.length) throw new Error('no published route for hole(s) ' + missing.
 /* ---- the holes ---------------------------------------------------------------- */
 const report = [];
 const holes = card.holes.map(h => {
-  const raw = routes[h.n];
+  const shape = shapeOf(h.n);
+  const tracedGreen = shape?.green?.accepted ? shape.green : null;
+  const laserGreen = !tracedGreen && LASER?.greens?.[h.n] ? LASER.greens[h.n] : null;
+  const raw = routes[h.n].map(p => p.slice());
+  if (tracedGreen) raw[raw.length - 1] = tracedGreen.c.slice();
+  else if (laserGreen) raw[raw.length - 1] = laserGreen.c.slice();
   const back = h.t[0];                         /* the card's back tee, hole by hole */
   const { line: L, slide } = setLength(raw, back);
   const tee = L[0], green = L[L.length - 1];
@@ -149,7 +165,11 @@ const holes = card.holes.map(h => {
   const F = [Math.sin(b), -Math.cos(b)], R = [-Math.cos(b), Math.sin(b)];
 
   const gr = h.par === 3 ? 13 : h.par === 5 ? 15 : 14;
-  const greenRing = ellipse(green, gr, gr * 0.78, b);
+  const greenRing = tracedGreen ? tracedGreen.ring.map(rnd) : laserGreen ? ellipse(green, laserGreen.r, laserGreen.r * 0.85, b) : ellipse(green, gr, gr * 0.78, b);
+  const tracedBunkers = [
+    ...(shape?.bunkers || []).filter(b => b.accepted).map(b => ({ ring: b.ring.map(rnd), prov: 'sat' })),
+    ...((LASER?.bunkers?.[h.n]) || []).map(lb => ({ ring: ellipse(lb.c, lb.r, lb.r * 0.8, b, 10), prov: 'laser' })),
+  ];
 
   /* a corridor from 42 m out to the green's front, narrowing in. Par 3s get
      none, which is what a par 3 has. */
@@ -184,10 +204,11 @@ const holes = card.holes.map(h => {
     n: h.n, par: h.par, idx: h.hcp, t: h.t,
     line: L.map(rnd), lineLen: +polyLen(L).toFixed(1), lenDev: 0,
     lineSrc: cfg.lineSrc,
-    green: { ring: greenRing, c: rnd(green), prov: 'synth', area: Math.round(Math.PI * gr * gr * 0.78) },
+    green: { ring: greenRing, c: rnd(green), prov: tracedGreen ? 'sat' : laserGreen ? 'laser' : 'synth',
+             area: tracedGreen ? tracedGreen.area : laserGreen ? Math.round(Math.PI * laserGreen.r * laserGreen.r * 0.85) : Math.round(Math.PI * gr * gr * 0.78) },
     fairway: { rings, prov: 'synth' },
     tees: { pads, marks },
-    bunkers: [],
+    bunkers: tracedBunkers,
     pin: rnd(green),
     elev: { tee: +te.toFixed(1), green: +ge.toFixed(1), rise: +(ge - te).toFixed(1) },
     tiers: 1,
@@ -200,14 +221,30 @@ const holes = card.holes.map(h => {
 });
 
 /* ---- the parent's holes become scenery ----------------------------------------- */
+/* The relationship is symmetric: the parent's reconcile may carry THIS nine's holes
+   in its own scenery (Johannesberg does), and those rings must not come back here
+   as scenery on top of the nine's real holes. A parent scenery ring whose centroid
+   lies within 3 m of one of this nine's own rings is the same ring, and is dropped. */
+const cen = r => { let x = 0, z = 0; for (const p of r) { x += p[0]; z += p[1]; } return [x / r.length, z / r.length]; };
+const own = [
+  ...holes.map(h => h.green.ring), ...holes.flatMap(h => h.fairway.rings),
+  ...holes.flatMap(h => h.tees.pads.map(p => p.ring)), ...holes.flatMap(h => h.bunkers.map(b => b.ring)),
+].map(cen);
+const notOwn = rings => (rings || []).filter(r => { const c = cen(r); return !own.some(o => Math.hypot(o[0] - c[0], o[1] - c[1]) < 3); });
 const P = parent.scenery || {};
 const scenery = {
-  greens: [...(P.greens || []), ...parent.holes.map(h => h.green.ring)],
-  fairways: [...(P.fairways || []), ...parent.holes.flatMap(h => h.fairway.rings)],
-  tees: [...(P.tees || []), ...parent.holes.flatMap(h => h.tees.pads.map(p => p.ring))],
-  bunkers: [...(P.bunkers || []), ...parent.holes.flatMap(h => h.bunkers.map(x => x.ring))],
+  greens: [...notOwn(P.greens), ...parent.holes.map(h => h.green.ring)],
+  fairways: [...notOwn(P.fairways), ...parent.holes.flatMap(h => h.fairway.rings)],
+  tees: [...notOwn(P.tees), ...parent.holes.flatMap(h => h.tees.pads.map(p => p.ring))],
+  bunkers: [...notOwn(P.bunkers), ...parent.holes.flatMap(h => h.bunkers.map(x => x.ring))],
   grass: P.grass || [], range: P.range || [],
+  ...(P.practiceGreens ? { practiceGreens: P.practiceGreens } : {}),
+  ...(P.rangeFacilities ? { rangeFacilities: P.rangeFacilities } : {}),
+  ...(P.cartPark ? { cartPark: P.cartPark } : {}),
 };
+const dropped = (P.greens || []).length + (P.fairways || []).length + (P.tees || []).length + (P.bunkers || []).length
+  - (notOwn(P.greens).length + notOwn(P.fairways).length + notOwn(P.tees).length + notOwn(P.bunkers).length);
+if (dropped) console.log('parent scenery: ' + dropped + ' rings were this nine\'s own holes carried back; dropped');
 
 /* Carry the parent's schema through verbatim. Veckefjarden's is the older one
    (lakeLevel, marking, surround, a sponsor line per hole) and its extras are the

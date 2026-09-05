@@ -220,4 +220,8 @@ jobs:
             -m "Produced by the ground-vegetation workflow run ${{ github.run_id }} with the repository's Lantmäteriet credentials." \
             -m "Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>" \
             -m "Claude-Session: https://claude.ai/code/session_015uNzTAXTzkXbGYS4eU7kS2"
+          # the branch may have moved while the run was reading points (an
+          # acquire takes an hour): rebase the evidence commit onto it rather
+          # than lose it to a non-fast-forward rejection
+          git pull --rebase origin "${{ github.ref_name }}"
           git push origin "HEAD:${{ github.ref_name }}"

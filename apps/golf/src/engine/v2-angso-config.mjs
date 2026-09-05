@@ -22,29 +22,30 @@ const LEGACY_FRAME = Object.freeze({
   longitude: 16.87100,
   metresPerLatitude: 111320,
   metresPerLongitude: 111320 * Math.cos(59.57390 * Math.PI / 180),
-  /* MEASURED. Ängsö's GPK1 heights are AWS Terrarium on an unrecorded datum;
-     the v2 ground is Lantmäteriet's laser DTM on RH 2000. This is the median
-     difference over 41,636 samples inside the greens, fairways and tee pads,
-     with every sample inside a water ring discarded: MAD 1.8463 m, per class
-     10.4231 m (greens, n=2534), 9.0718 m (fairways, n=37646) and 8.8469 m
-     (tees, n=1456). The whole-overlap median is 8.4043 m.
+  /* MEASURED, and measured to be nothing -- because the pack was RE-GROUNDED
+     (2026-09-05). Ängsö's GPK1 heights used to be AWS Terrarium on an
+     unrecorded datum, and tools/measure-vertical-datum.mjs put them a median
+     9.1166 m above the laser DTM with a MAD of 1.8463 m over 41,636 mown
+     samples -- eight times Veckefjärden's 0.2392 m, and not registration (the
+     best rigid shift of the sample point, 12 m south-west, bought 0.1676 m).
+     Terrarium's SHAPE over this low-relief shore was wrong as well as its
+     datum, and the pack's water rings disagreed with the DTM by -3.66 to
+     +6.10 m, so no single number could carry them. angsobuild/build-heightfields.mjs
+     now cuts HF0 and HF1 from the published laser ring graph, sampled through
+     this same derived bridge, and the re-run measurement is the proof: median
+     0.0008 m, MAD 0.0221 m, registration sweep best at exactly (0, 0). The
+     0.02 m spread is the 4 m compatibility field read against the 1 m window
+     it was cut from, not a disagreement about the datum.
 
-     That MAD is EIGHT TIMES Veckefjärden's 0.2392 m, and it is not
-     registration: the best rigid shift of the legacy sample point is 12 m
-     south-west and buys only 0.1676 m of it. It is the two products genuinely
-     disagreeing about the shape of a low-relief shore -- this course spans
-     -1.75 to 40.11 m over four kilometres -- which is the strongest argument
-     there is for putting the laser ground underneath it.
-
-     One thing corroborates it that never entered it. Mälaren is a regulated
-     lake, and the DTM reads its surface inside the course's own western bay as
-     a laser-flat 0.876 m RH 2000 (range 0.79-1.40); the legacy pack carries
-     that same ring at 9.76 m. The difference, 8.884 m, lands 0.23 m from the
-     mown-ground median -- well inside the MAD.
+     The corroboration that never entered the number still holds, the other
+     way round: the pack now carries Mälaren's western bay at the DTM's own
+     laser-flat 0.84 m (sd 0.12 m over 38,816 interior samples), where the
+     Terrarium pack had it at 9.76 m.
 
      Veckefjärden's number is 20.9924 m and Puttom's 23.6263 m. Copying either
-     here would put the ground eleven or fourteen metres in the air. */
-  verticalDatumOffsetMetres: 9.1166,
+     here would put the ground twenty-one or twenty-four metres in the air:
+     0 is a claim about THIS pack, not a default. */
+  verticalDatumOffsetMetres: 0,
 });
 
 export const ANGSO_V2_CONFIG = Object.freeze({

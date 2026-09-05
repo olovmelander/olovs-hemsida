@@ -61,7 +61,10 @@ const vec = {
     ...(OLD ? { sp: h.sp } : {}),
   })),
   water: model.water.map(w => ({ ring: w.ring, level: w.level, isLake: w.isLake, isSea: !!w.isSea, area: w.area })),
-  marking: OLD ? model.marking.map(m => ({ c: m.color, pts: m.pts })) : [],
+  /* the older schema always carried marking; a newer build carries it once its
+     reconcile has a rule set to place it from (Ängsö's Lokala regler, Johannesberg's
+     hole plans) */
+  marking: (model.marking || []).map(m => ({ c: m.color, pts: m.pts })),
   streams: model.streams.map(s => ({ line: s.line, w: s.w })),
   veg: model.vegetation,
   cover,

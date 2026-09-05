@@ -156,15 +156,39 @@ for (const b of bunkers) {
 }
 
 /* --- water -------------------------------------------------------------------- */
+/* Mälaren comes from the laser, not from OSM. The extract's one lake ring
+   (w307899187) is the north-eastern bay clipped at the extract edge, drawn
+   through reeds the DTM reads at 0.75-2.4 m; laser-water.json carries the
+   shore traced off the laser plate on every side the course actually meets
+   (build-laser-water.mjs), so the OSM ring is superseded and every laser ring
+   is the sea: isSea draws the page's sheet at the measured level over the bed
+   build-heightfields sank, isLake gives the wide shore bench. */
+const laser = (() => { try { return readJSON(path.join(HERE, 'laser-water.json')); } catch { return null; } })();
+const laserStreams = (() => { try { return readJSON(path.join(HERE, 'laser-streams.json')); } catch { return null; } })();
+const marking = (() => { try { return readJSON(path.join(HERE, 'marking.json')); } catch { return null; } })();
+const SUPERSEDED_BY_LASER = new Set(laser ? ['w307899187'] : []);
 const water = [];
 for (const w of osm.water) {
+  if (SUPERSEDED_BY_LASER.has(w.id)) continue;
   const lv = hf.water.find(x => x.id === w.id);
   water.push({ id: w.id, ring: w.ring, name: w.name || null, area: w.area,
                level: lv ? lv.level : null, isLake: w.area > 120000 });
 }
+for (const r of (laser?.rings || [])) {
+  water.push({ id: r.id, ring: r.ring, name: 'Mälaren', area: r.area, level: laser.level,
+               isLake: true, isSea: true, prov: 'laser' });
+}
+/* A traced pond's level comes from build-heightfields, which measured the laser
+   plate INSIDE the ring at 1 m and keyed it by centroid; the shoreline
+   percentile off the 4 m field is only the fallback for a trace it never saw. */
 const levelOfRing = ring => {
   const s = ring.map(p => terr(p[0], p[1])).sort((a, b) => a - b);
   return r1(s[Math.floor(s.length * 0.25)]);
+};
+const measuredPond = ring => {
+  const c = centroid(ring);
+  const hit = (hf.ponds || []).find(p => dist(p.centroid, c) < 1.5 && p.level != null);
+  return hit ? hit.level : null;
 };
 let pondId = 0;
 for (const t of traces.holes) for (const w of t.water || []) {
@@ -172,7 +196,7 @@ for (const t of traces.holes) for (const w of t.water || []) {
   const c = centroid(ring);
   if (water.some(x => pointInPoly(c[0], c[1], x.ring) || dist(centroid(x.ring), c) < 20)) continue;
   water.push({ id: `t${++pondId}`, ring, name: null, kind: w.kind,
-               area: Math.round(Math.abs(polyArea(ring))), level: levelOfRing(ring), isLake: false });
+               area: Math.round(Math.abs(polyArea(ring))), level: measuredPond(ring) ?? levelOfRing(ring), isLake: false });
 }
 
 /* --- the model ---------------------------------------------------------------- */
@@ -192,20 +216,49 @@ const model = {
   card: { teeNames: card.teeNames, provisional: !!card.provisional },
   holes,
   water,
-  streams: osm.waterway.map(w => ({ id: w.id, line: w.line, kind: w.kind, w: w.kind === 'stream' ? 1.6 : 1.0 })),
+  /* OSM's three farm ditches, plus the brooks and dikes the club documents
+     and OSM never had -- read as incised channels off the 1 m laser ground
+     (laser-streams.json): the 9th's brook and its feeder, the 8th's dike, the
+     12th's and 13th's brooks, and the dry dike beside the 10th */
+  streams: [
+    ...osm.waterway.map(w => ({ id: w.id, line: w.line, kind: w.kind, w: w.kind === 'stream' ? 1.6 : 1.0 })),
+    ...(laserStreams?.streams || []).map(s => ({ id: s.id, line: s.line, kind: s.kind, w: s.kind === 'stream' ? 1.6 : 1.0, hole: s.hole, prov: 'laser' })),
+  ],
   coast: { chains: [], beaches: (osm.sand || []).map(s => ({ id: s.id, ring: s.ring })) },
+  /* penalty and out-of-bounds stakes from Lokala regler 2026, placed by the
+     rules build-marking.mjs states (marking.json); colour r/y/w as the pages read it */
+  marking: (marking?.runs || []).map(r => ({ color: r.color, hole: r.hole, rule: r.rule, side: r.side ?? null, pts: r.pts })),
   vegetation: {
     forest: (osm.forest || []).map(f => f.ring),
     wood: (osm.wood || []).map(w => w.ring),
     scrub: (osm.scrub || []).map(s => s.ring),
-    wetland: (osm.wetland || []).map(w => w.ring || w),
+    /* OSM's reed marshes on the east shore, plus the laser-traced reed belt
+       (vass) along every shore the course meets -- ground the DTM reads within
+       0.9 m of the lake and that the imagery shows as reeds */
+    wetland: [...(osm.wetland || []).map(w => w.ring || w), ...((laser?.reeds?.rings) || []).map(r => r.ring)],
     sand: [], rock: (osm.rock || []).map(r => r.ring),
   },
   infra: {
     paths: osm.paths, tracks: osm.tracks, roads: osm.roads,
     buildings: osm.buildings, farB: osm.farBuildings,
-    parking: osm.parking || [], piers: osm.piers || [], basins: [],
-    pitches: [], landuse: osm.landuse || [], reserves: osm.reserves || [],
+    /* OSM's two campsite lots, plus the club's own car park and caravan ground
+       by the clubhouse traced off z18 tiles (sat-shapes.json scenery.parking) */
+    parking: [
+      ...(osm.parking || []),
+      ...((traces.scenery && traces.scenery.parking) || []).map(p => ({
+        id: p.id, ring: ring1(p.ring), surface: p.surface || 'gravel', prov: 'trace',
+        ...(p.cars === false ? { cars: false } : {}), ...(p.vehicles ? { vehicles: p.vehicles } : {}),
+      })),
+    ],
+    piers: osm.piers || [], basins: [],
+    pitches: [],
+    /* a landuse ring OSM drew over the lake or the reed belt comes back
+       re-traced without them (laser-water.json), one entry per piece */
+    landuse: (osm.landuse || []).flatMap(l => {
+      const clipped = laser?.landuse?.rings?.find(c => c.id === l.id);
+      return clipped ? clipped.rings.map((ring, i) => ({ ...l, id: `${l.id}-${i + 1}`, ring, prov: 'laser-clipped' })) : [l];
+    }),
+    reserves: osm.reserves || [],
     power: osm.power || { lines: [], towers: [], poles: [] }, railway: osm.railway || [],
   },
   pois: osm.pois || [],

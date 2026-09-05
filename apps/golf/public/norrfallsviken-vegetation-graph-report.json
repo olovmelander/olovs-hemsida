@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "kind": "vegetation-graph-publication",
+  "state": "published",
+  "groundId": "norrfallsviken",
+  "slug": "norrfallsviken",
+  "observedOn": "2026-09-04",
+  "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+  "activeRoot": {
+    "url": "courses/v2-index.json",
+    "bytes": 4916,
+    "sha256": "a659866ca1c9e29ba5fd76fea1c5a59b3d58bddba0aff4bc98abdd04ca6fb0d9"
+  },
+  "graph": {
+    "frameFingerprint": "f3c5d5b875eb5d4b75726bdaf1a0ba30583a7227dcd2ab854bb469040d3f758a",
+    "courseManifest": {
+      "url": "courses/norrfallsviken/course-v2-2ec1afe5ae8409ffd22a4068eeb714f66ccdc07055a1724f68f8274589c5d597.json",
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "bytes": 4001,
+      "sha256": "2ec1afe5ae8409ffd22a4068eeb714f66ccdc07055a1724f68f8274589c5d597"
+    },
+    "groundManifest": {
+      "url": "grounds/norrfallsviken/ground-v2-6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171.json",
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "bytes": 526497,
+      "sha256": "6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171"
+    },
+    "routing": {
+      "kind": "routing",
+      "url": "courses/norrfallsviken/routing/0e82d8f75742397d6c933614785ac728c2f33d4d24210e282746eeb842cf4d6f.bvch",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "bytes": 2286,
+      "sha256": "0e82d8f75742397d6c933614785ac728c2f33d4d24210e282746eeb842cf4d6f",
+      "decodedBytes": 4122,
+      "decodedSha256": "3f9d344430857794f3277f8f601e98b834e93c963567cca7246faea147be3e2e",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "course-routing-json-v1"
+      ]
+    },
+    "sourceManifestSha256": "5d3bca929aaeda154273e5dbc473b9c69fc290db358bfe4606dcb5af50949e44",
+    "fallbackV1": {
+      "bytes": 437108,
+      "format": 1,
+      "packUrl": "courses/norrfallsviken/pack.bin",
+      "sha256": "f206eb351a434ff446a9295f01c49a3fc0ab050adca913c0e0443ba53dbf7550"
+    },
+    "holes": 18,
+    "tiles": 469,
+    "finestTiles": 256,
+    "shellBytes": 40118,
+    "chunks": 863,
+    "encodedChunkBytes": 24128188,
+    "decodedChunkBytes": 72019375
+  },
+  "vegetation": {
+    "objectTiles": 163,
+    "standTiles": 229,
+    "candidates": {
+      "total": 91417,
+      "byRepresentation": {
+        "excluded": 2957,
+        "individual": 14475,
+        "stand": 73985
+      },
+      "byZone": {
+        "A": 3562,
+        "B": 3929,
+        "C": 83926
+      },
+      "byCampaign": {
+        "25f014-698_67": 89815,
+        "25f014-698_68": 1602
+      },
+      "eligible": 13050
+    },
+    "records": {
+      "tiles": 163,
+      "records": 13050,
+      "encodedBytes": 587228,
+      "baseHeightMisses": []
+    },
+    "stands": {
+      "cellMetres": 4,
+      "tiles": 229,
+      "encodedBytes": 1257183,
+      "measuredCells": 859350,
+      "closedCanopyCells": 223502,
+      "excludedCells": 200715
+    },
+    "identity": {
+      "matched": 0,
+      "moved": 0,
+      "added": 13050,
+      "missing": 0,
+      "nextSequence": 13051
+    }
+  },
+  "filesWritten": 866
+}

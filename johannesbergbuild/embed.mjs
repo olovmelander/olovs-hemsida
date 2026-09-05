@@ -31,12 +31,12 @@ const vec = {
     name: h.name, note: h.note, shape: h.shape,
   })),
   water: model.water.map(w => ({ ring: w.ring, level: w.level, isLake: w.isLake, isSea: !!w.isSea, area: w.area })),
-  marking: [],
+  marking: (model.marking || []).map(m => ({ c: m.color, pts: m.pts })),
   streams: model.streams.map(s => ({ line: s.line, w: s.w })),
   veg: model.vegetation,
   cover,
   infra: model.infra,
-  surround: { clearfells: [], yard: null, hayfields: null, shallows: [] },
+  surround: model.surround ?? { clearfells: [], yard: null, hayfields: null, shallows: [] },
   scenery: model.scenery,
 };
 
