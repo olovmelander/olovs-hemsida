@@ -265,13 +265,19 @@ The second pass the same day (shorelines, greens, buildings, two more ditches):
   course; the live tiles are that capture in the north and a leaf-off date in the
   south with the 1st's green under its winter cover. Hash a tile against the releases
   before believing "the imagery is autumn" — it was, in half the mosaic.
-- **Greens still cannot be traced, and now it is measured six ways** (course map §2):
-  polar edge 0.36, first step 0.44, DTM roughness 0.53 (greens ARE the smoothest
-  surface in the 1 m laser, on all twelve surveyed), the club plan's own green fill
-  0.64 aligned (the plan draws fairway green too), brightness blob 0.54, fusion 0.55,
-  median IoU against the 12 OSM greens. A blind eye-trace of the 13th on the leaf-on
-  image ran east–west; the survey runs north–south. Stop trying without a survey or a
-  finer leafed-on image. The plans DO register better on their DTM-measured bunkers
+- **Greens still cannot be traced, and now it is measured six ways** by a committed
+  tool that scores itself (`geobuild/imagery/green-tracers.mjs`, course map §2):
+  median IoU against the 12 OSM greens is 0.65 first-step, 0.64 the club plan's own
+  fill bunker-registered, 0.54 brightness blob, 0.48 fusion, 0.46 DTM roughness
+  (greens ARE the smoothest surface in the 1 m laser, on all twelve surveyed, but by
+  only half again over their collars), 0.44 polar largest-step. The best of them has
+  areas a median 1.1x the surveyed ones over a 0.8–2.4 range: right on average, wrong
+  hole by hole, because the imagery shows the green COMPLEX and not the putting
+  surface. A blind eye-trace of the 13th on the leaf-on image ran east–west; the
+  survey runs north–south. Stop trying without a survey or a finer leafed-on image.
+  **Three of those six numbers were wrong in this file for a day**, carried over from
+  a scratch script whose thresholds and window differed and one of whose medians was
+  simply misread; the committed tool prints them now, so quote the tool. The plans DO register better on their DTM-measured bunkers
   than on the drawn flag (pin-end error 5–16 m → 2–8 m): the flag is drawn at the pin,
   not the green's centre.
 - **The laser gives the shoreline** (`geobuild/laser-water.mjs`, the Ängsö method with a

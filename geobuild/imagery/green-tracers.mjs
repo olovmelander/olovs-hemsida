@@ -1,14 +1,20 @@
 /* Every way of tracing a putting green that was tried, scored against the surveyed
    (OSM) greens so the number is a measurement and not a hope. The record on
    Veckefjärden (leaf-on release 27982, 12 surveyed greens, median IoU):
-     polar      0.36-0.44 rays from the GPS centre, edge at the largest brightness step -- locks on the apron
-     firststep  0.44   first significant step outward instead of the largest
-     roughness  0.53   1 m DTM roughness region-grow: greens ARE the smoothest surface (0.014-0.025
-                       vs 0.024-0.044 in the collar, on all twelve) but the ratio is only 1.5
-     blob       0.54   1.5 m-smoothed brightness, component round the centre above an adaptive threshold
-     fusion     0.55   blob with the roughness z-score folded in (WR=1)
+     firststep  0.65   first significant step outward from the centre, not the largest
      plan       0.64   the club plan's own green fill, bunker-registered (plan-register.mjs), aligned
-   None reaches survey quality; the six plan greens keep their shape on the survey centre.
+     blob       0.54   1.5 m-smoothed brightness, component round the centre above an adaptive threshold
+     fusion     0.48   blob with the roughness z-score folded in (WR=1)
+     roughness  0.46   1 m DTM roughness region-grow: greens ARE the smoothest surface (0.014-0.025
+                       vs 0.024-0.044 in the collar, on all twelve) but the ratio is only 1.5, so
+                       the grow degenerates to a few tiny patches on some holes
+     polar      0.44   rays from the GPS centre, edge at the LARGEST brightness step -- locks on the apron
+   These are this file's own defaults, printed by its own run; a hand sweep finds better
+   cells for some methods but the defaults are what reproduces. None reaches survey
+   quality, and the best is not a near miss: firststep's areas run a median 1.1x the
+   surveyed ones over 0.8-2.4, the size right on average and the shape wrong hole by
+   hole, because the imagery shows the green COMPLEX and no threshold separates the
+   putting surface from it. The six plan greens keep their shape on the survey centre.
    Run it again only with a new source (a finer leafed-on image, a survey).
 
    Usage:  SAT_REL=27982 node geobuild/imagery/green-tracers.mjs [method|all] [--write out.json]
@@ -65,7 +71,10 @@ if (process.argv[1] && process.argv[1].endsWith('green-tracers.mjs')) {
   const which = process.argv[2] || 'all'; const outIdx = process.argv.indexOf('--write'); const out = outIdx > 0 ? process.argv[outIdx + 1] : null;
   const methods = ['polar', 'firststep', 'roughness', 'blob', 'fusion', 'plan'].filter(k => which === 'all' || which === k);
   let T = null; if (methods.some(k => k === 'roughness' || k === 'fusion')) { const { loadTerrain } = await import('../dtm-lib.mjs'); T = loadTerrain(); }
-  let planTrace = null; if (methods.includes('plan')) { try { planTrace = (await import('./plan-register.mjs')).traceGreen; } catch (e) { console.log('plan: skipped (' + e.message + ')'); } }
+  /* the plans are JPEG on disk and are decoded through Chromium on first use, so the
+     import alone is not enough: a fresh cache would throw ENOENT inside the hole loop */
+  let planTrace = null;
+  if (methods.includes('plan')) { try { const m2 = await import('./plan-register.mjs'); await m2.decodePlans(); planTrace = m2.traceGreen; } catch (e) { console.log('plan: skipped (' + e.message + ')'); } }
   const rough = T ? (x, z) => { const cc = T.hAt(x, z), nb = [T.hAt(x + 1, z), T.hAt(x - 1, z), T.hAt(x, z + 1), T.hAt(x, z - 1)]; return Math.abs(4 * cc - nb.reduce((p, q) => p + q, 0)); } : null;
   const results = {};
   for (const k of methods) {
