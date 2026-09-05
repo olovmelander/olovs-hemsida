@@ -81,6 +81,11 @@ describe('the pilot reaches the whole course', () => {
       }
       for (const point of hole.line || []) { count.line[1]++; if (on(point[0], point[1])) count.line[0]++; }
     }
+    /* the practice ground's bunker beside the inspelsgreen is the 41st: it
+       used to be assigned to the 14th as a fairway bunker 29 m from the tee */
+    for (const ring of model.scenery?.bunkers || []) if (ring.length) {
+      count.bunkers[1]++; if (on(...centroid(ring))) count.bunkers[0]++;
+    }
     atlas.dispose();
     /* every one, not most: this is the whole point of the widening.
        The 29 tee pads are the ones the committed MODEL carries; the app infers

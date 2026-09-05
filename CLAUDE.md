@@ -746,14 +746,18 @@ notes was checked against the model's line geometry and the DEM profile
 (the 11th's green really is in a hollow: 72.6 m at 80 m out, 68.7 m on the
 green). `name` is an editorial tagline; the club names no holes.
 
-**The model's lake names are on the wrong rings.** `reconcile.mjs` calls the
-two LARGEST water rings Stor- and Lill-Rössjön, but Wikipedia/SMHI put both
-lakes ON the course: Stor-Rössjön (14.4 ha, 63°17′48″N 18°56′31″E) is the
-ring the 12th, 15th and 16th play over, Lill-Rössjön (11.3 ha, 63°18′04″N
-18°56′02″E) the pond inside the 4th's dogleg. The 121 ha lake 4 km
-north-west that carries the name today is something else. The club's
-history says "mellan två SMÅ sjöar", which should have been the tell. Not
-yet fixed, because the names choose which rings get the wide shore bench.
+**The model's lake names WERE on the wrong rings, and are fixed.**
+`reconcile.mjs` used to call the two LARGEST water rings Stor- and
+Lill-Rössjön; both are 4 km from the course (Högbysjön, 121 ha, and
+Ovansjösjön, 43 ha). Wikipedia/SMHI put the Rössjön lakes ON the course:
+Stor-Rössjön (13.7 ha ring, SVAR 39 m, laser 39.10 m RH 2000) is the ring
+the 12th, 13th, 14th and 15th play over, Lill-Rössjön (11 ha, SVAR 38 m,
+laser 37.26) the one inside the 4th's dogleg. The club's history says
+"mellan två SMÅ sjöar", which should have been the tell. All twelve
+nameable rings are named now by `puttombuild/laser-features.mjs`, which
+asserts each register coordinate lies INSIDE the ring it names, and the
+two Rössjön rings take the lake treatment beside the two big far ones. See
+"Puttom on the laser" below.
 
 **The club's card disagrees with the aggregators on two cells.** The
 LiveCaddie card (and golfify.io) give hole 11 index 6 and hole 16 index 12;
@@ -918,6 +922,64 @@ now takes the fallback from the LIVE manifest instead of the previous
 root's copy, and the surface preview is recompiled with `--replace`, its
 new sha copied into `PUTTOM_PREVIEW_CONFIG.surfaceDescriptorSha256` (a
 derived constant: from the tool's output, never typed).
+
+### Puttom on the laser — what the 1 m ground says that nothing else did
+
+`puttombuild/laser-features.mjs` reads the PUBLISHED v2 terrain tiles
+through the app's own bridge and writes `laser-features.json`, which
+`reconcile.mjs` folds in (`prov:"laser"`). The full record is
+[`docs/courses/puttom-source-dossier.md`](docs/courses/puttom-source-dossier.md).
+What it found, each of which the pack had wrong or lacked:
+
+- **Terrarium carries canopy, and the 7th's green sat 7.12 m above the
+  ground.** Seventeen greens agree with the laser within ±0.9 m; the 7th's
+  profile (90 → 100 → 84 m, oscillating by ten metres) was trees. The
+  displayed tee/green heights and rises come from the laser now
+  (`elevSrc:"laser"`, Terrarium kept as `elevTerrarium`); the 16th climbs
+  16.1 m, not 12.8. Check `packGreenMinusLaser` before trusting any
+  Terrarium rise under forest.
+- **Four tee marks stood in Stor-Rössjön.** A card-length mark is placed
+  ALONG the line, and on 12, 14 and 15 the line crosses a bay: the 12th's
+  Orange was 22 m inside the ring, on the laser's water plate. The club's
+  LiveCaddie hole plans (`course-graphics.php?course=658&hole=N`, 18 drawn
+  plans with every tee marked) put those tees on the shore to the player's
+  RIGHT, so a wet mark slides right, square to the line, to the best
+  clearance from the ring AND the nearest path or road, never across a road
+  (a walking path may lie between a tee and its water; the 15th's forward
+  tee is the strip between the bay and the service road). `check-app`
+  still probes every marker for tee grass; `tools/sat-mosaic.mjs` draws the
+  marks (hollow where the card put one, solid where it stands) so the slide
+  is judged on the imagery.
+- **The ditches.** OSM has none on the course; a 9 m box residual on the
+  laser finds them, and the 20 that cross or run beside a hole ship as
+  `streams` of kind `ditch`: the tvärdiken the 2026 local rules and plans
+  name at 76 m on the 10th ("75 meter från green"), 56 m on the 18th
+  (water-filled, bridged), 70 m on the 16th, 117 m from the 1st's tee, the
+  bridged crossings on 8, 13 and 17. Roadside drains (`roadDistance ≤ 3`)
+  are excluded, or every road would run in a trench.
+- **A bunker beside a practice green is the practice ground's**: the 153 m²
+  one at the inspelsgreen was the 14th's "fairway bunker 29 m from the
+  tee". `scenery.bunkers` now; `v2-pilot-coverage.test` counts it there.
+- **OSM's 3rd-hole apron is a golf=fairway RELATION** (an untagged outer
+  way with a bunker inner) that `parse-osm` never read, and the 244 m²
+  strip by the 12th green was under a 300 m² floor. Both drawn now.
+
+**A pack change re-binds v2, and there is one command for it now.**
+`packages/course-v2/rebind-fallback.mjs --ground puttom` re-emits the
+course manifest with `fallbackV1` from the LIVE `courses/index.json`,
+carries every tile's layers VERBATIM (the publishers differ on null versus
+absent, and to a byte-identity check those are two manifests), regenerates
+the routing chunk from the published heights, and asserts the ground
+manifest comes out byte-identical — a ground that changed needs a real
+publish. Before it: `emit-pack`, `check-pack`, `emit-manifest`,
+`compile-puttom-surface-preview.mjs --replace` and its sha into
+`PUTTOM_PREVIEW_CONFIG.surfaceDescriptorSha256`. After it: the EPSG:3006
+migration (`migrate-without-proj.mjs`, which now writes `candidateOrigin`
+— the bridge test reads it), its pin in `hole-source-controls.mjs`, and the
+artifact checksums in the ground's `source-manifest.json`, which
+`manifest.node-test` gates. The vegetation publisher's `assembleVegetationGraph`
+writes `surface: null` where publish-ground-rings omits the key; copy
+`tile.layers` whole and both come out the same.
 
 ## More courses — `angso3d`, `upsala3d`, `johannesberg3d` (+ their `*build/`)
 

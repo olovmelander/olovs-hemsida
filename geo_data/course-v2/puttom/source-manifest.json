@@ -340,7 +340,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "puttombuild/course-model.json",
-      "sha256": "a051df71071b41b34babca5751adb26242f3556a0d6111aa5801da6e25f27b90",
+      "sha256": "db966f06373c1986c90fdec0fe5387e036457257638f973d94bda5ee20ba7645",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -378,7 +378,7 @@
       "id": "legacy-osm-features",
       "kind": "topography",
       "path": "puttombuild/osm-features.json",
-      "sha256": "06da599a43f670585cf334ace9f92fbd39d40e6e30c7d195eed144ec896ddb88",
+      "sha256": "ace5d9f1d664a26aaee8d4664ea35b3a227276d26cf64472f0a0eef54cee1ca6",
       "derivedFrom": [
         "osm-legacy"
       ],
@@ -402,7 +402,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/puttom/migration/course-model.epsg3006.json",
-      "sha256": "518beceead88a48ebce53e66282031aed85b57d4e7e4b8058b39f7d8f17d38cf",
+      "sha256": "2f640071cbcb20d8685122b5f04a536c0accb3adf4f89e882c53a4497e2ad414",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",

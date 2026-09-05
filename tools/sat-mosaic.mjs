@@ -43,7 +43,10 @@ const W = Math.round((tx1 - tx0) * 256), H = Math.round((ty1 - ty0) * 256);
 /* legacy metres -> pixel in the crop */
 const px = (x, z) => { const [lon, lat] = toLonLat(x, z); const [tx, ty] = tileOf(lon, lat); return [(tx - tx0) * 256, (ty - ty0) * 256]; };
 const model = JSON.parse(fs.readFileSync(path.join(ROOT, BUILD, "course-model.json"), "utf8"));
-const overlays = { holes: model.holes.map(h => ({ n: h.n, line: h.line, green: h.green?.c })), clubhouse: (model.infra.buildings || []).filter(b => /klubb/i.test(b.name || "")).map(b => b.ring),
+/* tee marks travel too: a mark carries where the card put it and, when
+   reconcile slid it off a bay onto the bank, says so -- drawn hollow where it
+   was and solid where it stands, so the trace can be judged on the imagery */
+const overlays = { holes: model.holes.map(h => ({ n: h.n, line: h.line, green: h.green?.c, marks: (h.tees?.marks || []).map(m => ({ c: m.c, m: m.m, from: m.shore?.from || null })) })), clubhouse: (model.infra.buildings || []).filter(b => /klubb/i.test(b.name || "")).map(b => b.ring),
   water: (model.water || []).filter(w => w.ring).map(w => w.ring), range: (model.scenery && model.scenery.range) || [],
   roads: (model.infra.roads || []).map(r => r.line), tracks: (model.infra.tracks || []).map(t => t.line), paths: (model.infra.paths || []).map(t => t.line),
   buildings: (model.infra.buildings || []).map(b => b.ring), parking: (model.infra.parking || []).map(q => q.ring),
@@ -71,7 +74,12 @@ const dataUrl = await page.evaluate(async ({ tiles, W, H, X0, Y0, tx0, ty0, size
   poly(overlays.roads, "rgba(255,0,255,0.9)", false); poly(overlays.tracks, "rgba(255,120,255,0.9)", false); poly(overlays.paths, "rgba(255,200,80,0.9)", false);
   poly(overlays.buildings, "rgba(255,60,60,0.95)", true); poly(overlays.parking, "rgba(0,255,255,0.9)", true); poly(overlays.nets, "rgba(255,255,255,0.95)", false); poly(overlays.bays, "rgba(0,255,0,0.95)", false);
   for (const h of overlays.holes) { g.strokeStyle = "rgba(255,255,255,0.7)"; g.beginPath(); h.line.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.stroke();
-    if (h.green) { g.fillStyle = "white"; g.font = "bold 16px sans-serif"; g.fillText(String(h.n), h.green[0] + 4, h.green[1] - 4); } }
+    if (h.green) { g.fillStyle = "white"; g.font = "bold 16px sans-serif"; g.fillText(String(h.n), h.green[0] + 4, h.green[1] - 4); }
+    for (const mk of h.marks || []) {
+      if (mk.from) { g.strokeStyle = "rgba(255,80,255,0.9)"; g.beginPath(); g.arc(mk.from[0], mk.from[1], 5, 0, Math.PI * 2); g.stroke(); g.beginPath(); g.moveTo(mk.from[0], mk.from[1]); g.lineTo(mk.c[0], mk.c[1]); g.stroke(); }
+      g.fillStyle = "rgba(255,80,255,0.95)"; g.beginPath(); g.arc(mk.c[0], mk.c[1], 5, 0, Math.PI * 2); g.fill();
+      g.fillStyle = "white"; g.font = "12px sans-serif"; g.fillText(String(mk.m), mk.c[0] + 7, mk.c[1] + 4);
+    } }
   return c.toDataURL("image/png");
 }, { tiles, W, H, X0, Y0, tx0, ty0, size, cx, cz, plain: process.env.SAT_PLAIN === "1",
   grid: (() => { const out = []; const step = size > 1500 ? 250 : 100; for (let x = Math.ceil((cx - size / 2) / step) * step; x <= cx + size / 2; x += step) { const [p] = px(x, cz); out.push([p, 0, `x ${x}`, true]); }
@@ -79,7 +87,8 @@ const dataUrl = await page.evaluate(async ({ tiles, W, H, X0, Y0, tx0, ty0, size
   overlays: { water: overlays.water.map(r => r.map(([x, z]) => px(x, z))), clubhouse: overlays.clubhouse.map(r => r.map(([x, z]) => px(x, z))), range: (overlays.range || []).map(r => (r.ring || r).map(([x, z]) => px(x, z))),
     roads: overlays.roads.map(r => r.map(([x, z]) => px(x, z))), tracks: overlays.tracks.map(r => r.map(([x, z]) => px(x, z))), paths: overlays.paths.map(r => r.map(([x, z]) => px(x, z))),
     buildings: overlays.buildings.map(r => r.map(([x, z]) => px(x, z))), parking: overlays.parking.map(r => r.map(([x, z]) => px(x, z))), nets: overlays.nets.map(r => r.map(([x, z]) => px(x, z))), bays: overlays.bays.map(r => r.map(([x, z]) => px(x, z))),
-    holes: overlays.holes.map(h => ({ n: h.n, line: h.line.map(([x, z]) => px(x, z)), green: h.green ? px(h.green[0], h.green[1]) : null })) } });
+    holes: overlays.holes.map(h => ({ n: h.n, line: h.line.map(([x, z]) => px(x, z)), green: h.green ? px(h.green[0], h.green[1]) : null,
+      marks: (h.marks || []).map(mk => ({ m: mk.m, c: px(mk.c[0], mk.c[1]), from: mk.from ? px(mk.from[0], mk.from[1]) : null })) })) } });
 fs.writeFileSync(path.join(OUT, `${name}.png`), Buffer.from(dataUrl.split(",")[1], "base64"));
 await browser.close();
 console.log(`${name}.png ${W}x${H} px, ${(size / W).toFixed(2)} m/px, tiles ${tiles.length}, centre (${cx}, ${cz}) size ${size} m`);

@@ -23,7 +23,12 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 export const COURSE_MODEL_SHA256 = Object.freeze({
   angso: '28cfa8f635210037191a2b3eebbf6ffadf6641d931bc0d77846022c49ce55877',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
-  puttom: '518beceead88a48ebce53e66282031aed85b57d4e7e4b8058b39f7d8f17d38cf',
+  /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the
+     committed cs2cs migration: worst 1.4 mm over 3,564 coordinates) after the
+     laser pass renamed the lakes, added the ditches and slid four wet tee
+     marks ashore; the hole lines are unchanged and the routing chunk is the
+     same content-addressed file */
+  puttom: '2f640071cbcb20d8685122b5f04a536c0accb3adf4f89e882c53a4497e2ad414',
   ribbingsfors: 'e71f89bee7c197dbe9ff3cdedaeecbe643b47283b7ace85c740a08a4955acbda',
   upsala: 'd0f6f895614c2472505587dd6796d33ec860058264da4286dafec79bd1e43d56',
   'upsala-mellanbanan': '3ccc7f203c1f96f63c270f53e8604da18d2825a7913e071573abb275c92d1864',

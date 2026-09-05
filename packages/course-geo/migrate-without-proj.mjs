@@ -167,6 +167,16 @@ const output = {
     projection: 'packages/course-geo/chmv2/projection.mjs (Krüger series on GRS 80); PROJ was unavailable on the migrating machine',
     projValidation: validation,
   },
+  /* the legacy origin projected, as migrate-legacy records it: the bridge
+     tests and the ground-graph compilers read it, so a migration without it
+     is one the app's own gates cannot measure */
+  candidateOrigin: (() => {
+    const [easting, northing] = latLonToSweref99Tm(frame.originWgs84.latitude, frame.originWgs84.longitude);
+    return {
+      easting: roundedCoordinate(easting), northing: roundedCoordinate(northing), heightRH2000: null,
+      status: 'horizontal-seed-only-pending-independent-control', source: 'legacyFrame.originWgs84',
+    };
+  })(),
   coordinatePairCount: collected.coordinates.length,
   ignoredMetadataPairCount: collected.ignored.length,
   coordinatePaths: coordinatePathCounts(collected.coordinates),
