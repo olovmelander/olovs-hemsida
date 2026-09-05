@@ -1,0 +1,2778 @@
+{
+  "frame": "upsalabuild/course-model.json derived legacyGridBridge",
+  "groundId": "upsala",
+  "sourceCRS": "EPSG:3006",
+  "localCoordinatesRoundedToM": 0.01,
+  "sourceAccuracyM": null,
+  "sources": [
+    {
+      "id": "uppsala-municipality-ortho2024-range-club-016m",
+      "provider": "Uppsala kommun",
+      "product": "Ortofoto 2024",
+      "serviceUrl": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer",
+      "exportRequest": {
+        "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=639480%2C6635900%2C640080%2C6636500&bboxSR=3006&imageSR=3006&size=3750%2C3750&format=png32&transparent=false",
+        "retrievedAt": "2026-09-05T14:23:16.643721+00:00",
+        "sha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "bytes": 29475421,
+        "sourceYear": 2024,
+        "sourceNativeResolutionM": 0.08,
+        "exportExtent": {
+          "xmin": 639480,
+          "ymin": 6635900,
+          "xmax": 640080,
+          "ymax": 6636500,
+          "spatialReference": {
+            "wkid": 3006,
+            "latestWkid": 3006
+          }
+        },
+        "width": 3750,
+        "height": 3750,
+        "rights": "Public map service; specific raster redistribution terms unverified; retain for analysis, do not claim open license."
+      },
+      "exportResponse": {
+        "href": "https://kartportal.uppsala.se/cacheimage/rest/directories/arcgisoutput/ortofoto/Ortofoto_2024_MapServer/_ags_mapc4d0a9a4ecb0460f90ca2d8a15adcc94.png",
+        "width": 3750,
+        "height": 3750,
+        "extent": {
+          "xmin": 639480,
+          "ymin": 6635900,
+          "xmax": 640080,
+          "ymax": 6636500,
+          "spatialReference": {
+            "wkid": 3006,
+            "latestWkid": 3006
+          }
+        },
+        "scale": 604.7231999999999
+      },
+      "exportSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+      "exportPixelSizeM": 0.16,
+      "sourceNativePixelSizeM": 0.08,
+      "imageYear": 2024,
+      "exactFlightDate": null,
+      "horizontalAccuracyM": null,
+      "registration": "ArcGIS export affine EPSG:3006; no fitted registration; does not assert zero positional error",
+      "semanticReference": "https://upsalagk.se/trana-golf/traningsomraden/driving-range/",
+      "semanticReferenceScope": "Club confirms range target greens with bunkers, grass tee, short-game area with two greens and Toptracer; does not identify the material of the six circular bright targets",
+      "licenceNote": "Source-specific orthophoto redistribution licence was not located. Source raster is not included in checkout; derivative vectors retain attribution. Check licence before redistributing source pixels."
+    },
+    {
+      "id": "lantmateriet-ortho2025-range-club-016m",
+      "provider": "Lantmäteriet via Uppsala kommun public WMS proxy",
+      "product": "Ortofoto 0.16 latest mosaic, acquisition year2025 confirmed by flight-year layer",
+      "serviceUrl": "https://kartportal.uppsala.se/proxy/0rt0",
+      "exportRequest": {
+        "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639480.0%2C6635900.0%2C640080.0%2C6636500.0&width=3750&height=3750&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+        "retrievedAt": "2026-09-05T14:40:19.283990+00:00",
+        "sha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+        "bytes": 27159138,
+        "output": "lm2025_range_club_016m.png",
+        "provider": "lm-latest",
+        "crs": "EPSG:3006",
+        "extent": [
+          639480,
+          6635900,
+          640080,
+          6636500
+        ],
+        "dimensions": [
+          3750,
+          3750
+        ],
+        "resolutionM": [
+          0.16,
+          0.16
+        ],
+        "sourceNativeResolutionM": 0.16,
+        "sourceProductYear": null,
+        "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+        "horizontalAccuracyRMSEM": null,
+        "exactFlightDate": null,
+        "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+        "quality": {
+          "rgbMean": [
+            77.58299832888889,
+            94.43920220444444,
+            82.73544234666667
+          ],
+          "rgbStddev": [
+            30.618994129745694,
+            26.705874976808836,
+            22.98168554081602
+          ]
+        }
+      },
+      "flightYearImage": "lm2025_range_club_016m_flightyear.png",
+      "flightYearImageSha256": "f89c147483e76cee5b12996b112310c94990219362f904c3404667c1071f15d2",
+      "exportSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "exportPixelSizeM": 0.16,
+      "imageYear": 2025,
+      "exactFlightDate": null,
+      "horizontalAccuracyM": null,
+      "registration": "Same EPSG3006 WMS extent and3750x3750 grid as2024 municipal source; no fitted registration",
+      "licenceNote": "Preserve source attribution; source raster remains outside checkout."
+    }
+  ],
+  "features": [
+    {
+      "id": "practice-putting-green-clubhouse",
+      "kind": "practice_green",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "manual visible boundary",
+      "boundaryInterpretationUncertaintyM": 1,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 841.39,
+      "originalPixelRings": [
+        [
+          [
+            2066,
+            910
+          ],
+          [
+            2068,
+            890
+          ],
+          [
+            2075,
+            873
+          ],
+          [
+            2086,
+            860
+          ],
+          [
+            2105,
+            850
+          ],
+          [
+            2125,
+            843
+          ],
+          [
+            2145,
+            839
+          ],
+          [
+            2166,
+            839
+          ],
+          [
+            2186,
+            844
+          ],
+          [
+            2207,
+            855
+          ],
+          [
+            2226,
+            868
+          ],
+          [
+            2240,
+            884
+          ],
+          [
+            2251,
+            902
+          ],
+          [
+            2264,
+            925
+          ],
+          [
+            2273,
+            947
+          ],
+          [
+            2274,
+            967
+          ],
+          [
+            2268,
+            986
+          ],
+          [
+            2256,
+            1004
+          ],
+          [
+            2242,
+            1018
+          ],
+          [
+            2222,
+            1031
+          ],
+          [
+            2202,
+            1042
+          ],
+          [
+            2178,
+            1049
+          ],
+          [
+            2155,
+            1050
+          ],
+          [
+            2136,
+            1048
+          ],
+          [
+            2117,
+            1041
+          ],
+          [
+            2102,
+            1030
+          ],
+          [
+            2090,
+            1016
+          ],
+          [
+            2083,
+            999
+          ],
+          [
+            2080,
+            979
+          ],
+          [
+            2077,
+            958
+          ],
+          [
+            2070,
+            935
+          ]
+        ],
+        [
+          [
+            2140,
+            941
+          ],
+          [
+            2146,
+            936
+          ],
+          [
+            2154,
+            934
+          ],
+          [
+            2164,
+            936
+          ],
+          [
+            2174,
+            941
+          ],
+          [
+            2176,
+            950
+          ],
+          [
+            2171,
+            959
+          ],
+          [
+            2162,
+            964
+          ],
+          [
+            2152,
+            964
+          ],
+          [
+            2143,
+            960
+          ],
+          [
+            2139,
+            952
+          ]
+        ]
+      ],
+      "name": "Clubhouse practice putting surface",
+      "material": "grass",
+      "confidence": "high",
+      "containsInteriorExclusion": true,
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -10.15,
+          -236.41
+        ],
+        [
+          -9.17,
+          -232.69
+        ],
+        [
+          -8.82,
+          -229.32
+        ],
+        [
+          -8.46,
+          -226.1
+        ],
+        [
+          -7.44,
+          -223.34
+        ],
+        [
+          -5.61,
+          -221.04
+        ],
+        [
+          -3.29,
+          -219.19
+        ],
+        [
+          -0.3,
+          -217.95
+        ],
+        [
+          2.72,
+          -217.52
+        ],
+        [
+          6.39,
+          -217.54
+        ],
+        [
+          10.26,
+          -218.52
+        ],
+        [
+          13.52,
+          -220.15
+        ],
+        [
+          16.79,
+          -222.11
+        ],
+        [
+          19.11,
+          -224.26
+        ],
+        [
+          21.13,
+          -227.07
+        ],
+        [
+          22.2,
+          -230.07
+        ],
+        [
+          22.16,
+          -233.27
+        ],
+        [
+          20.86,
+          -236.84
+        ],
+        [
+          18.92,
+          -240.59
+        ],
+        [
+          17.28,
+          -243.53
+        ],
+        [
+          15.14,
+          -246.17
+        ],
+        [
+          12.19,
+          -248.37
+        ],
+        [
+          8.9,
+          -250.25
+        ],
+        [
+          5.74,
+          -251.17
+        ],
+        [
+          2.39,
+          -251.3
+        ],
+        [
+          -0.82,
+          -250.78
+        ],
+        [
+          -4.05,
+          -249.78
+        ],
+        [
+          -7.14,
+          -248.29
+        ],
+        [
+          -8.98,
+          -246.28
+        ],
+        [
+          -10.2,
+          -243.61
+        ],
+        [
+          -10.64,
+          -240.43
+        ]
+      ],
+      "holes": [
+        [
+          [
+            0.98,
+            -235.03
+          ],
+          [
+            1.97,
+            -235.79
+          ],
+          [
+            3.26,
+            -236.06
+          ],
+          [
+            4.84,
+            -235.68
+          ],
+          [
+            6.41,
+            -234.82
+          ],
+          [
+            6.67,
+            -233.37
+          ],
+          [
+            5.82,
+            -231.96
+          ],
+          [
+            4.35,
+            -231.22
+          ],
+          [
+            2.76,
+            -231.28
+          ],
+          [
+            1.35,
+            -231.97
+          ],
+          [
+            0.76,
+            -233.28
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "practice-putting-green-range",
+      "kind": "practice_green",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "manual visible boundary",
+      "boundaryInterpretationUncertaintyM": 1,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 351.07,
+      "originalPixelRings": [
+        [
+          [
+            1815,
+            1301
+          ],
+          [
+            1819,
+            1286
+          ],
+          [
+            1828,
+            1272
+          ],
+          [
+            1840,
+            1258
+          ],
+          [
+            1854,
+            1245
+          ],
+          [
+            1870,
+            1232
+          ],
+          [
+            1886,
+            1226
+          ],
+          [
+            1900,
+            1226
+          ],
+          [
+            1914,
+            1231
+          ],
+          [
+            1927,
+            1239
+          ],
+          [
+            1939,
+            1252
+          ],
+          [
+            1947,
+            1268
+          ],
+          [
+            1953,
+            1285
+          ],
+          [
+            1957,
+            1299
+          ],
+          [
+            1953,
+            1314
+          ],
+          [
+            1947,
+            1330
+          ],
+          [
+            1936,
+            1348
+          ],
+          [
+            1924,
+            1358
+          ],
+          [
+            1911,
+            1362
+          ],
+          [
+            1893,
+            1359
+          ],
+          [
+            1874,
+            1352
+          ],
+          [
+            1855,
+            1343
+          ],
+          [
+            1838,
+            1335
+          ],
+          [
+            1826,
+            1325
+          ],
+          [
+            1818,
+            1314
+          ]
+        ]
+      ],
+      "name": "Range-side practice putting surface",
+      "material": "grass",
+      "confidence": "high",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -52.62,
+          -177.37
+        ],
+        [
+          -51.41,
+          -175.56
+        ],
+        [
+          -49.56,
+          -173.89
+        ],
+        [
+          -46.89,
+          -172.51
+        ],
+        [
+          -43.92,
+          -170.96
+        ],
+        [
+          -40.93,
+          -169.72
+        ],
+        [
+          -38.08,
+          -169.14
+        ],
+        [
+          -35.98,
+          -169.7
+        ],
+        [
+          -34,
+          -171.22
+        ],
+        [
+          -32.14,
+          -174.03
+        ],
+        [
+          -31.09,
+          -176.55
+        ],
+        [
+          -30.36,
+          -178.93
+        ],
+        [
+          -30.91,
+          -181.19
+        ],
+        [
+          -31.77,
+          -183.94
+        ],
+        [
+          -32.95,
+          -186.54
+        ],
+        [
+          -34.79,
+          -188.69
+        ],
+        [
+          -36.81,
+          -190.05
+        ],
+        [
+          -39.01,
+          -190.93
+        ],
+        [
+          -41.25,
+          -191.02
+        ],
+        [
+          -43.84,
+          -190.16
+        ],
+        [
+          -46.47,
+          -188.17
+        ],
+        [
+          -48.78,
+          -186.18
+        ],
+        [
+          -50.78,
+          -184.02
+        ],
+        [
+          -52.29,
+          -181.83
+        ],
+        [
+          -53.02,
+          -179.46
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "practice-green-central-island",
+      "kind": "non_turf_island",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "manual visible boundary",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 22.13,
+      "originalPixelRings": [
+        [
+          [
+            2140,
+            941
+          ],
+          [
+            2146,
+            936
+          ],
+          [
+            2154,
+            934
+          ],
+          [
+            2164,
+            936
+          ],
+          [
+            2174,
+            941
+          ],
+          [
+            2176,
+            950
+          ],
+          [
+            2171,
+            959
+          ],
+          [
+            2162,
+            964
+          ],
+          [
+            2152,
+            964
+          ],
+          [
+            2143,
+            960
+          ],
+          [
+            2139,
+            952
+          ]
+        ]
+      ],
+      "name": "Non-turf island in clubhouse practice green",
+      "material": "unknown",
+      "confidence": "medium",
+      "note": "Distinct bounded island around central pole persists in2025, but bright2024 fill becomes dark2025 fill. Material and equipment identity are unresolved. Preserve exclusion from putting surface without inventing hardstanding.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          0.76,
+          -233.28
+        ],
+        [
+          1.35,
+          -231.97
+        ],
+        [
+          2.76,
+          -231.28
+        ],
+        [
+          4.35,
+          -231.22
+        ],
+        [
+          5.82,
+          -231.96
+        ],
+        [
+          6.67,
+          -233.37
+        ],
+        [
+          6.41,
+          -234.82
+        ],
+        [
+          4.84,
+          -235.68
+        ],
+        [
+          3.26,
+          -236.06
+        ],
+        [
+          1.97,
+          -235.79
+        ],
+        [
+          0.98,
+          -235.03
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-platform-west",
+      "kind": "range_tee_pad",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "manual visible boundary",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 83.64,
+      "originalPixelRings": [
+        [
+          [
+            1234,
+            1282
+          ],
+          [
+            1357,
+            1295
+          ],
+          [
+            1355,
+            1320
+          ],
+          [
+            1236,
+            1311
+          ]
+        ]
+      ],
+      "name": "West front hitting platform",
+      "material": "mixed-hardstanding-and-mats",
+      "confidence": "high",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -145.44,
+          -181.35
+        ],
+        [
+          -126.51,
+          -179.2
+        ],
+        [
+          -126.04,
+          -183.18
+        ],
+        [
+          -145.59,
+          -186
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-platform-middle",
+      "kind": "range_tee_pad",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "manual visible boundary",
+      "boundaryInterpretationUncertaintyM": 0.75,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 153.19,
+      "originalPixelRings": [
+        [
+          [
+            1358,
+            1294
+          ],
+          [
+            1390,
+            1304
+          ],
+          [
+            1424,
+            1315
+          ],
+          [
+            1483,
+            1318
+          ],
+          [
+            1518,
+            1323
+          ],
+          [
+            1536,
+            1338
+          ],
+          [
+            1535,
+            1355
+          ],
+          [
+            1356,
+            1340
+          ]
+        ]
+      ],
+      "name": "Middle hitting platform",
+      "material": "mixed-hardstanding-and-mats",
+      "confidence": "high",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -126.47,
+          -175.99
+        ],
+        [
+          -98.01,
+          -172.52
+        ],
+        [
+          -97.75,
+          -175.23
+        ],
+        [
+          -100.53,
+          -177.73
+        ],
+        [
+          -106.08,
+          -178.74
+        ],
+        [
+          -115.48,
+          -179.58
+        ],
+        [
+          -120.83,
+          -181.54
+        ],
+        [
+          -125.88,
+          -183.33
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-platform-east",
+      "kind": "range_tee_pad",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "manual visible boundary",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 147.8,
+      "originalPixelRings": [
+        [
+          [
+            1604,
+            1250
+          ],
+          [
+            1638,
+            1262
+          ],
+          [
+            1675,
+            1277
+          ],
+          [
+            1732,
+            1298
+          ],
+          [
+            1782,
+            1320
+          ],
+          [
+            1813,
+            1333
+          ],
+          [
+            1801,
+            1355
+          ],
+          [
+            1754,
+            1338
+          ],
+          [
+            1705,
+            1317
+          ],
+          [
+            1655,
+            1296
+          ],
+          [
+            1598,
+            1272
+          ]
+        ]
+      ],
+      "name": "East hitting platform",
+      "material": "mixed-hardstanding-and-mats",
+      "confidence": "high",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -87.46,
+          -185.4
+        ],
+        [
+          -78.51,
+          -181.22
+        ],
+        [
+          -70.67,
+          -177.57
+        ],
+        [
+          -62.98,
+          -173.92
+        ],
+        [
+          -55.58,
+          -170.92
+        ],
+        [
+          -53.53,
+          -174.36
+        ],
+        [
+          -58.4,
+          -176.62
+        ],
+        [
+          -66.24,
+          -180.44
+        ],
+        [
+          -75.21,
+          -184.14
+        ],
+        [
+          -81.02,
+          -186.76
+        ],
+        [
+          -86.37,
+          -188.88
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-platform-east-extension",
+      "kind": "range_tee_pad",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "manual visible boundary",
+      "boundaryInterpretationUncertaintyM": 1,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 57.5,
+      "originalPixelRings": [
+        [
+          [
+            1813,
+            1333
+          ],
+          [
+            1842,
+            1345
+          ],
+          [
+            1875,
+            1359
+          ],
+          [
+            1908,
+            1371
+          ],
+          [
+            1919,
+            1394
+          ],
+          [
+            1887,
+            1384
+          ],
+          [
+            1850,
+            1368
+          ],
+          [
+            1801,
+            1355
+          ]
+        ]
+      ],
+      "name": "East turf-coloured hitting extension",
+      "material": "unverified-turf-surface",
+      "confidence": "medium",
+      "note": "Visible marked hitting strip; natural versus artificial turf is not determined from RGB.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -55.58,
+          -170.92
+        ],
+        [
+          -47.84,
+          -168.55
+        ],
+        [
+          -42.04,
+          -165.77
+        ],
+        [
+          -36.99,
+          -163.98
+        ],
+        [
+          -38.61,
+          -167.72
+        ],
+        [
+          -43.8,
+          -169.83
+        ],
+        [
+          -48.98,
+          -172.27
+        ],
+        [
+          -53.53,
+          -174.36
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-circular-target-1",
+      "kind": "range_target_surface",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 11.47,
+      "originalPixelRings": [
+        [
+          [
+            1205.5,
+            1506
+          ],
+          [
+            1214.5,
+            1507
+          ],
+          [
+            1220,
+            1514.5
+          ],
+          [
+            1219,
+            1524.5
+          ],
+          [
+            1211.5,
+            1530
+          ],
+          [
+            1201.5,
+            1529
+          ],
+          [
+            1196,
+            1522.5
+          ],
+          [
+            1198,
+            1510.5
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1180,
+        1490,
+        1230,
+        1540
+      ],
+      "confidence": "medium",
+      "material": "unknown-bright-surface",
+      "note": "Circular bright range target is directly visible; RGB does not establish sand, fabric or artificial material. Do not render as a bunker without independent confirmation.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -152.7,
+          -149.7
+        ],
+        [
+          -153.09,
+          -147.8
+        ],
+        [
+          -152.25,
+          -146.72
+        ],
+        [
+          -150.67,
+          -146.5
+        ],
+        [
+          -149.44,
+          -147.34
+        ],
+        [
+          -149.22,
+          -148.93
+        ],
+        [
+          -150.05,
+          -150.16
+        ],
+        [
+          -151.48,
+          -150.38
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-circular-target-2",
+      "kind": "range_target_surface",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 10.85,
+      "originalPixelRings": [
+        [
+          [
+            1314.5,
+            1463
+          ],
+          [
+            1320.5,
+            1463
+          ],
+          [
+            1329,
+            1469.5
+          ],
+          [
+            1330,
+            1476.5
+          ],
+          [
+            1322.5,
+            1486
+          ],
+          [
+            1314.5,
+            1487
+          ],
+          [
+            1306,
+            1479.5
+          ],
+          [
+            1308,
+            1467.5
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1290,
+        1445,
+        1345,
+        1500
+      ],
+      "confidence": "medium",
+      "material": "unknown-bright-surface",
+      "note": "Circular bright range target is directly visible; RGB does not establish sand, fabric or artificial material. Do not render as a bunker without independent confirmation.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -134.9,
+          -155.91
+        ],
+        [
+          -135.29,
+          -154
+        ],
+        [
+          -133.98,
+          -152.76
+        ],
+        [
+          -132.69,
+          -152.87
+        ],
+        [
+          -131.44,
+          -154.34
+        ],
+        [
+          -131.56,
+          -155.46
+        ],
+        [
+          -132.88,
+          -156.55
+        ],
+        [
+          -133.83,
+          -156.59
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-circular-target-3",
+      "kind": "range_target_surface",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 11.04,
+      "originalPixelRings": [
+        [
+          [
+            1256.5,
+            1597
+          ],
+          [
+            1265.5,
+            1598
+          ],
+          [
+            1272,
+            1607.5
+          ],
+          [
+            1270,
+            1615.5
+          ],
+          [
+            1262.5,
+            1621
+          ],
+          [
+            1254.5,
+            1620
+          ],
+          [
+            1248,
+            1613.5
+          ],
+          [
+            1249,
+            1602.5
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1238,
+        1580,
+        1280,
+        1630
+      ],
+      "confidence": "medium",
+      "material": "unknown-bright-surface",
+      "note": "Circular bright range target is directly visible; RGB does not establish sand, fabric or artificial material. Do not render as a bunker without independent confirmation.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -145.12,
+          -134.69
+        ],
+        [
+          -145.34,
+          -132.94
+        ],
+        [
+          -144.35,
+          -131.87
+        ],
+        [
+          -143.08,
+          -131.66
+        ],
+        [
+          -141.85,
+          -132.49
+        ],
+        [
+          -141.48,
+          -133.76
+        ],
+        [
+          -142.46,
+          -135.31
+        ],
+        [
+          -143.89,
+          -135.53
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-circular-target-4",
+      "kind": "range_target_surface",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 10.84,
+      "originalPixelRings": [
+        [
+          [
+            1527.5,
+            1539
+          ],
+          [
+            1535.5,
+            1540
+          ],
+          [
+            1541,
+            1546.5
+          ],
+          [
+            1538,
+            1559.5
+          ],
+          [
+            1529.5,
+            1563
+          ],
+          [
+            1522.5,
+            1561
+          ],
+          [
+            1517,
+            1551.5
+          ],
+          [
+            1519,
+            1543.5
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1510,
+        1520,
+        1555,
+        1575
+      ],
+      "confidence": "medium",
+      "material": "unknown-bright-surface",
+      "note": "Circular bright range target is directly visible; RGB does not establish sand, fabric or artificial material. Do not render as a bunker without independent confirmation.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -101.7,
+          -142.5
+        ],
+        [
+          -102.06,
+          -141.23
+        ],
+        [
+          -101.24,
+          -139.68
+        ],
+        [
+          -100.14,
+          -139.32
+        ],
+        [
+          -98.76,
+          -139.83
+        ],
+        [
+          -98.2,
+          -141.88
+        ],
+        [
+          -99.04,
+          -142.96
+        ],
+        [
+          -100.31,
+          -143.16
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-circular-target-5",
+      "kind": "range_target_surface",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 11.42,
+      "originalPixelRings": [
+        [
+          [
+            1604.5,
+            1454
+          ],
+          [
+            1612.5,
+            1454
+          ],
+          [
+            1621,
+            1462.5
+          ],
+          [
+            1618,
+            1474.5
+          ],
+          [
+            1609.5,
+            1479
+          ],
+          [
+            1602.5,
+            1477
+          ],
+          [
+            1597,
+            1469.5
+          ],
+          [
+            1598,
+            1459.5
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1580,
+        1440,
+        1630,
+        1490
+      ],
+      "confidence": "medium",
+      "material": "unknown-bright-surface",
+      "note": "Circular bright range target is directly visible; RGB does not establish sand, fabric or artificial material. Do not render as a bunker without independent confirmation.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -88.59,
+          -155.44
+        ],
+        [
+          -88.81,
+          -153.85
+        ],
+        [
+          -87.98,
+          -152.62
+        ],
+        [
+          -86.87,
+          -152.26
+        ],
+        [
+          -85.49,
+          -152.93
+        ],
+        [
+          -84.94,
+          -154.82
+        ],
+        [
+          -86.24,
+          -156.23
+        ],
+        [
+          -87.52,
+          -156.28
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-circular-target-6",
+      "kind": "range_target_surface",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 11.66,
+      "originalPixelRings": [
+        [
+          [
+            1632.5,
+            1524
+          ],
+          [
+            1639.5,
+            1527
+          ],
+          [
+            1644,
+            1533.5
+          ],
+          [
+            1641,
+            1545.5
+          ],
+          [
+            1632.5,
+            1550
+          ],
+          [
+            1624.5,
+            1547
+          ],
+          [
+            1619,
+            1537.5
+          ],
+          [
+            1622,
+            1528.5
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1600,
+        1510,
+        1650,
+        1560
+      ],
+      "confidence": "medium",
+      "material": "unknown-bright-surface",
+      "note": "Circular bright range target is directly visible; RGB does not establish sand, fabric or artificial material. Do not render as a bunker without independent confirmation.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -85.18,
+          -144.27
+        ],
+        [
+          -85.71,
+          -142.85
+        ],
+        [
+          -84.89,
+          -141.3
+        ],
+        [
+          -83.63,
+          -140.77
+        ],
+        [
+          -82.25,
+          -141.44
+        ],
+        [
+          -81.7,
+          -143.34
+        ],
+        [
+          -82.38,
+          -144.41
+        ],
+        [
+          -83.47,
+          -144.93
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-bunker-1",
+      "kind": "range_bunker",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 41.06,
+      "originalPixelRings": [
+        [
+          [
+            1597.5,
+            1734
+          ],
+          [
+            1607.5,
+            1736
+          ],
+          [
+            1615,
+            1745.5
+          ],
+          [
+            1614,
+            1752.5
+          ],
+          [
+            1608.5,
+            1759
+          ],
+          [
+            1585.5,
+            1763
+          ],
+          [
+            1563.5,
+            1781
+          ],
+          [
+            1551,
+            1774.5
+          ],
+          [
+            1549,
+            1763.5
+          ],
+          [
+            1554.5,
+            1754
+          ],
+          [
+            1577.5,
+            1742
+          ],
+          [
+            1583.5,
+            1743
+          ],
+          [
+            1583.5,
+            1739
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1535,
+        1725,
+        1628,
+        1785
+      ],
+      "confidence": "high",
+      "material": "sand",
+      "note": "Irregular white sand patch inside the range. Club confirms range target greens with bunkers; edge geometry comes only from municipal 2024 imagery.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -92.58,
+          -110.87
+        ],
+        [
+          -92.61,
+          -110.23
+        ],
+        [
+          -93.56,
+          -110.43
+        ],
+        [
+          -97.3,
+          -108.65
+        ],
+        [
+          -98.23,
+          -107.16
+        ],
+        [
+          -97.98,
+          -105.39
+        ],
+        [
+          -96.03,
+          -104.28
+        ],
+        [
+          -92.41,
+          -107.02
+        ],
+        [
+          -88.71,
+          -107.52
+        ],
+        [
+          -87.8,
+          -108.53
+        ],
+        [
+          -87.6,
+          -109.64
+        ],
+        [
+          -88.74,
+          -111.21
+        ],
+        [
+          -90.32,
+          -111.58
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-bunker-2",
+      "kind": "range_bunker",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 45.07,
+      "originalPixelRings": [
+        [
+          [
+            1662.5,
+            1753
+          ],
+          [
+            1674.5,
+            1757
+          ],
+          [
+            1679.5,
+            1762
+          ],
+          [
+            1681.5,
+            1757
+          ],
+          [
+            1684,
+            1759.5
+          ],
+          [
+            1681,
+            1765.5
+          ],
+          [
+            1691,
+            1784.5
+          ],
+          [
+            1693,
+            1805.5
+          ],
+          [
+            1681.5,
+            1817
+          ],
+          [
+            1672.5,
+            1819
+          ],
+          [
+            1665,
+            1814.5
+          ],
+          [
+            1663,
+            1809.5
+          ],
+          [
+            1666,
+            1797.5
+          ],
+          [
+            1664,
+            1785.5
+          ],
+          [
+            1647,
+            1768.5
+          ],
+          [
+            1650,
+            1758.5
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1640,
+        1750,
+        1700,
+        1825
+      ],
+      "confidence": "high",
+      "material": "sand",
+      "note": "Irregular white sand patch inside the range. Club confirms range target greens with bunkers; edge geometry comes only from municipal 2024 imagery.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -82.09,
+          -107.35
+        ],
+        [
+          -82.63,
+          -105.77
+        ],
+        [
+          -80.02,
+          -102.96
+        ],
+        [
+          -79.77,
+          -101.03
+        ],
+        [
+          -80.33,
+          -99.13
+        ],
+        [
+          -80.04,
+          -98.32
+        ],
+        [
+          -78.87,
+          -97.55
+        ],
+        [
+          -77.42,
+          -97.82
+        ],
+        [
+          -75.52,
+          -99.59
+        ],
+        [
+          -75.71,
+          -102.95
+        ],
+        [
+          -77.19,
+          -106.05
+        ],
+        [
+          -76.67,
+          -106.99
+        ],
+        [
+          -77.06,
+          -107.4
+        ],
+        [
+          -77.41,
+          -106.62
+        ],
+        [
+          -78.18,
+          -107.45
+        ],
+        [
+          -80.07,
+          -108.16
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-bunker-3",
+      "kind": "range_bunker",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 14.34,
+      "originalPixelRings": [
+        [
+          [
+            1232.5,
+            1801
+          ],
+          [
+            1243.5,
+            1802
+          ],
+          [
+            1249,
+            1806.5
+          ],
+          [
+            1248,
+            1818.5
+          ],
+          [
+            1240.5,
+            1817
+          ],
+          [
+            1229.5,
+            1820
+          ],
+          [
+            1225.5,
+            1824
+          ],
+          [
+            1213.5,
+            1821
+          ],
+          [
+            1216,
+            1809.5
+          ],
+          [
+            1222.5,
+            1804
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1200,
+        1795,
+        1255,
+        1835
+      ],
+      "confidence": "high",
+      "material": "sand",
+      "note": "Irregular white sand patch inside the range. Club confirms range target greens with bunkers; edge geometry comes only from municipal 2024 imagery.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -150.56,
+          -102.66
+        ],
+        [
+          -151.63,
+          -101.82
+        ],
+        [
+          -152.09,
+          -100
+        ],
+        [
+          -150.2,
+          -99.44
+        ],
+        [
+          -149.54,
+          -100.06
+        ],
+        [
+          -147.76,
+          -100.47
+        ],
+        [
+          -146.58,
+          -100.19
+        ],
+        [
+          -146.35,
+          -102.1
+        ],
+        [
+          -147.2,
+          -102.85
+        ],
+        [
+          -148.94,
+          -103.08
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-bunker-4",
+      "kind": "range_bunker",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 48.92,
+      "originalPixelRings": [
+        [
+          [
+            1326.5,
+            1890
+          ],
+          [
+            1337.5,
+            1892
+          ],
+          [
+            1342,
+            1897.5
+          ],
+          [
+            1342,
+            1903.5
+          ],
+          [
+            1325,
+            1930.5
+          ],
+          [
+            1323,
+            1962.5
+          ],
+          [
+            1317.5,
+            1969
+          ],
+          [
+            1305.5,
+            1969
+          ],
+          [
+            1299,
+            1959.5
+          ],
+          [
+            1302,
+            1926.5
+          ],
+          [
+            1313,
+            1899.5
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1290,
+        1880,
+        1350,
+        1975
+      ],
+      "confidence": "high",
+      "material": "sand",
+      "note": "Irregular white sand patch inside the range. Club confirms range target greens with bunkers; edge geometry comes only from municipal 2024 imagery.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -136.7,
+          -86.85
+        ],
+        [
+          -138.61,
+          -82.61
+        ],
+        [
+          -139.29,
+          -77.35
+        ],
+        [
+          -138.31,
+          -75.79
+        ],
+        [
+          -136.4,
+          -75.72
+        ],
+        [
+          -135.48,
+          -76.73
+        ],
+        [
+          -134.97,
+          -81.83
+        ],
+        [
+          -132.09,
+          -86.04
+        ],
+        [
+          -132.06,
+          -87
+        ],
+        [
+          -132.74,
+          -87.9
+        ],
+        [
+          -134.48,
+          -88.29
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-bunker-5",
+      "kind": "range_bunker",
+      "sourceId": "uppsala-municipality-ortho2024-range-club-016m",
+      "observedYear": 2024,
+      "status": "observed-in-2024-orthophoto",
+      "method": "Human-selected bright component: mean RGB >175, RGB spread <55; largest 4-connected component, enclosed holes filled, contour simplified to0.288m",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 42.86,
+      "originalPixelRings": [
+        [
+          [
+            1305.5,
+            2162
+          ],
+          [
+            1314,
+            2166.5
+          ],
+          [
+            1317,
+            2175.5
+          ],
+          [
+            1310,
+            2190.5
+          ],
+          [
+            1311,
+            2219.5
+          ],
+          [
+            1304.5,
+            2235
+          ],
+          [
+            1290.5,
+            2236
+          ],
+          [
+            1284,
+            2230.5
+          ],
+          [
+            1282,
+            2223.5
+          ],
+          [
+            1289,
+            2198.5
+          ],
+          [
+            1290,
+            2174.5
+          ],
+          [
+            1297.5,
+            2164
+          ]
+        ]
+      ],
+      "thresholdROIpx": [
+        1275,
+        2150,
+        1320,
+        2245
+      ],
+      "confidence": "high",
+      "material": "sand",
+      "note": "Irregular white sand patch inside the range. Club confirms range target greens with bunkers; edge geometry comes only from municipal 2024 imagery.",
+      "temporalReview": {
+        "sourceId": "lantmateriet-ortho2025-range-club-016m",
+        "year": 2025,
+        "result": "feature visibly persists;2024 boundary retained",
+        "method": "Visual overlay on same georeferenced grid, without fitting"
+      },
+      "ring": [
+        [
+          -140.76,
+          -44.68
+        ],
+        [
+          -142.02,
+          -43.05
+        ],
+        [
+          -142.32,
+          -39.22
+        ],
+        [
+          -143.59,
+          -35.27
+        ],
+        [
+          -143.31,
+          -34.14
+        ],
+        [
+          -142.31,
+          -33.22
+        ],
+        [
+          -140.07,
+          -33.3
+        ],
+        [
+          -138.94,
+          -35.73
+        ],
+        [
+          -138.92,
+          -40.37
+        ],
+        [
+          -137.72,
+          -42.73
+        ],
+        [
+          -138.14,
+          -44.19
+        ],
+        [
+          -139.47,
+          -44.96
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "practice-shortgame-green-north",
+      "kind": "practice_green",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "status": "observed-in-2025-orthophoto",
+      "method": "Manual trace of visible inner mowing/fringe boundary after2024 construction",
+      "boundaryInterpretationUncertaintyM": 1,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 128,
+      "originalPixelRings": [
+        [
+          [
+            1661,
+            737
+          ],
+          [
+            1668,
+            725
+          ],
+          [
+            1680,
+            718
+          ],
+          [
+            1693,
+            718
+          ],
+          [
+            1705,
+            722
+          ],
+          [
+            1717,
+            730
+          ],
+          [
+            1724,
+            742
+          ],
+          [
+            1726,
+            760
+          ],
+          [
+            1724,
+            779
+          ],
+          [
+            1717,
+            795
+          ],
+          [
+            1709,
+            803
+          ],
+          [
+            1697,
+            811
+          ],
+          [
+            1685,
+            811
+          ],
+          [
+            1675,
+            804
+          ],
+          [
+            1666,
+            792
+          ],
+          [
+            1661,
+            777
+          ],
+          [
+            1658,
+            760
+          ],
+          [
+            1658,
+            747
+          ]
+        ]
+      ],
+      "name": "practice shortgame green north",
+      "material": "grass",
+      "confidence": "high",
+      "semanticReference": "https://upsalagk.se/trana-golf/traningsomraden/driving-range/",
+      "semanticNote": "Club describes short-game area with two greens;2025 imagery shows the two completed surfaces beside practice bunkers. No numbered playing-hole assignment.",
+      "ring": [
+        [
+          -74.74,
+          -268.93
+        ],
+        [
+          -74.82,
+          -266.85
+        ],
+        [
+          -74.44,
+          -264.12
+        ],
+        [
+          -73.73,
+          -261.69
+        ],
+        [
+          -72.37,
+          -259.72
+        ],
+        [
+          -70.81,
+          -258.54
+        ],
+        [
+          -68.9,
+          -258.47
+        ],
+        [
+          -66.94,
+          -259.67
+        ],
+        [
+          -65.61,
+          -260.9
+        ],
+        [
+          -64.4,
+          -263.42
+        ],
+        [
+          -63.97,
+          -266.44
+        ],
+        [
+          -64.18,
+          -269.33
+        ],
+        [
+          -65.22,
+          -271.29
+        ],
+        [
+          -67.09,
+          -272.64
+        ],
+        [
+          -68.98,
+          -273.35
+        ],
+        [
+          -71.05,
+          -273.43
+        ],
+        [
+          -73.01,
+          -272.38
+        ],
+        [
+          -74.2,
+          -270.51
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "practice-shortgame-green-south",
+      "kind": "practice_green",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "status": "observed-in-2025-orthophoto",
+      "method": "Manual trace of visible inner mowing/fringe boundary after2024 construction",
+      "boundaryInterpretationUncertaintyM": 1,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 209.36,
+      "originalPixelRings": [
+        [
+          [
+            1568,
+            917
+          ],
+          [
+            1590,
+            916
+          ],
+          [
+            1610,
+            929
+          ],
+          [
+            1629,
+            950
+          ],
+          [
+            1644,
+            972
+          ],
+          [
+            1659,
+            999
+          ],
+          [
+            1667,
+            1018
+          ],
+          [
+            1666,
+            1031
+          ],
+          [
+            1657,
+            1039
+          ],
+          [
+            1643,
+            1041
+          ],
+          [
+            1626,
+            1037
+          ],
+          [
+            1605,
+            1024
+          ],
+          [
+            1589,
+            1007
+          ],
+          [
+            1574,
+            988
+          ],
+          [
+            1560,
+            966
+          ],
+          [
+            1553,
+            948
+          ],
+          [
+            1555,
+            930
+          ]
+        ]
+      ],
+      "name": "practice shortgame green south",
+      "material": "grass",
+      "confidence": "high",
+      "semanticReference": "https://upsalagk.se/trana-golf/traningsomraden/driving-range/",
+      "semanticNote": "Club describes short-game area with two greens;2025 imagery shows the two completed surfaces beside practice bunkers. No numbered playing-hole assignment.",
+      "ring": [
+        [
+          -92.27,
+          -240.31
+        ],
+        [
+          -92.69,
+          -237.44
+        ],
+        [
+          -91.69,
+          -234.52
+        ],
+        [
+          -89.58,
+          -230.92
+        ],
+        [
+          -87.31,
+          -227.8
+        ],
+        [
+          -84.86,
+          -224.99
+        ],
+        [
+          -81.58,
+          -222.78
+        ],
+        [
+          -78.9,
+          -222.04
+        ],
+        [
+          -76.65,
+          -222.28
+        ],
+        [
+          -75.17,
+          -223.5
+        ],
+        [
+          -74.93,
+          -225.57
+        ],
+        [
+          -76.09,
+          -228.66
+        ],
+        [
+          -78.32,
+          -233.06
+        ],
+        [
+          -80.58,
+          -236.67
+        ],
+        [
+          -83.49,
+          -240.14
+        ],
+        [
+          -86.6,
+          -242.33
+        ],
+        [
+          -90.11,
+          -242.31
+        ]
+      ],
+      "holes": []
+    }
+  ]
+}

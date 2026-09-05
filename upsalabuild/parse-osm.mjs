@@ -132,7 +132,7 @@ const out = {
   water: [], waterway: [], forest: [], wood: [], scrub: [], sand: [], rock: [], wetland: [], grass: [],
   paths: [], tracks: [], roads: [], buildings: [], farBuildings: [],
   parking: [], piers: [], power: { lines: [], towers: [], poles: [] }, railway: [],
-  landuse: [], reserves: [],
+  landuse: [], reserves: [], points: [], barriers: [],
   courseBoundary: null,
 };
 
@@ -144,6 +144,7 @@ const AREA_MIN = { green: 60, fairway: 300, tee: 3, bunker: 6 };
 for (const w of ways.values()) {
   const t = w.tags;
   const closed = isClosed(w);
+  if (t.barrier) { const line = lineOf(w, 0.3); if (line && near(line, 700)) out.barriers.push({ id: 'w' + w.id, line, tags: t, prov: 'osm' }); }
 
   if (t.leisure === 'golf_course' && closed) {
     /* The club's own property line -- the thing white out-of-bounds stakes follow.
@@ -195,7 +196,7 @@ for (const w of ways.values()) {
   } else if (t.waterway && !closed) {
     if (!near(pts, 600)) continue;
     const line = lineOf(w, 1.2);
-    if (line) out.waterway.push({ id: 'w' + w.id, line, kind: t.waterway, name: t.name || null });
+    if (line) out.waterway.push({ id: 'w' + w.id, line, kind: t.waterway, name: t.name || null, ...Object.fromEntries(['tunnel', 'covered', 'layer', 'width'].filter(k => t[k] != null).map(k => [k, t[k]])) });
   } else if (closed && (t.landuse === 'forest' || t.natural === 'wood')) {
     if (!near(pts, 900)) continue;
     const ring = ringOf(w, 2.0);
@@ -263,7 +264,7 @@ for (const w of ways.values()) {
     if (!near(pts, pad)) continue;
     const line = lineOf(w, 1.2);
     if (!line) continue;
-    const rec = { id: 'w' + w.id, line, kind: t.highway, surface: t.surface || null };
+    const rec = { id: 'w' + w.id, line, kind: t.highway, surface: t.surface || null, ...Object.fromEntries(['bridge', 'tunnel', 'layer', 'width'].filter(k => t[k] != null).map(k => [k, t[k]])) };
     if (/^(path|footway|cycleway|bridleway|steps)$/.test(t.highway)) out.paths.push(rec);
     else if (/^(track|service)$/.test(t.highway)) out.tracks.push(rec);
     else out.roads.push({ ...rec, name: t.name || null, lanes: t.lanes ? +t.lanes : null,
@@ -276,6 +277,7 @@ for (const w of ways.values()) {
 for (const [id, t] of nodeTags) {
   const p = nodes.get(id);
   if (!p) continue;
+  if (near([p], 700) && (t.natural || t.amenity || t.barrier || t.man_made || t.golf)) out.points.push({ id: 'n' + id, c: p.map(r1), tags: t, prov: 'osm', positionalAccuracyMetres: null });
   if (t.power === 'tower') { if (near([p], 700)) out.power.towers.push(p.map(r1)); }
   else if (t.power === 'pole') { if (near([p], 700)) out.power.poles.push(p.map(r1)); }
 }

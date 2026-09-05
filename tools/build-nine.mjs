@@ -238,6 +238,8 @@ const scenery = {
   tees: [...notOwn(P.tees), ...parent.holes.flatMap(h => h.tees.pads.map(p => p.ring))],
   bunkers: [...notOwn(P.bunkers), ...parent.holes.flatMap(h => h.bunkers.map(x => x.ring))],
   grass: P.grass || [], range: P.range || [],
+  ...(P.mappedFeatures ? { mappedFeatures: P.mappedFeatures } : {}),
+  ...(P.sourceFeatures ? { sourceFeatures: P.sourceFeatures } : {}),
   ...(P.practiceGreens ? { practiceGreens: P.practiceGreens } : {}),
   ...(P.rangeFacilities ? { rangeFacilities: P.rangeFacilities } : {}),
   ...(P.cartPark ? { cartPark: P.cartPark } : {}),

@@ -22,6 +22,8 @@ import {
   readJSON, writeJSON, r1, ring1, decodeHF, bearing, hyp,
 } from './lib.mjs';
 
+import { applyGroundMapping } from './ground-mapping.mjs';
+
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const card = readJSON(path.join(HERE, 'card.json'));
 const notes = (() => { try { return readJSON(path.join(HERE, 'guide-notes.json')); } catch { return { holes: {} }; } })();
@@ -130,8 +132,8 @@ for (const ch of card.holes) {
     n, par: ch.par, idx: ch.hcp, t: ch.t,
     line, lineLen: r1(lineLen), lenDev: Math.round(lenDev * 100) / 100,
     lineSrc: 'sat-trace', teeSlide: r1(slide), teePadDist: teePadDist == null ? null : r1(teePadDist),
-    green: { ring, c: gc, prov: useOsm ? 'osm' : 'sat', area },
-    fairway: { rings: (tr.fairway.rings || []).map(ring1), prov: 'sat' },
+    green: { ring, c: gc, prov: useOsm ? 'osm' : n === 17 ? 'synth' : 'sat', sourceId: useOsm ? tr._osmGreen.id : null, area },
+    fairway: { rings: (tr.fairway.rings || []).map(ring1), prov: [13, 15].includes(n) ? 'inferred' : 'sat' },
     tees: { pads, marks },
     bunkers: [],
     pin: gc.slice(), elev,
@@ -144,10 +146,11 @@ for (const ch of card.holes) {
 }
 
 /* --- OSM bunkers to their nearest hole line ------------------------------------ */
+const assignedBunkers = new Set();
 for (const b of bunkers) {
   let best = -1, bd = Infinity;
   for (const h of holes) { const d = distToLine(b.c[0], b.c[1], h.line); if (d < bd) { bd = d; best = h.n; } }
-  if (best > 0 && bd < 70) holes.find(h => h.n === best).bunkers.push({ ring: ring1(b.ring), prov: 'osm' });
+  if (best > 0 && bd < 70) { holes.find(h => h.n === best).bunkers.push({ ring: ring1(b.ring), prov: 'osm', sourceId: b.id }); assignedBunkers.add(b.id); }
 }
 
 /* --- water -------------------------------------------------------------------- */
@@ -198,15 +201,19 @@ const model = {
   },
   infra: {
     paths: osm.paths, tracks: osm.tracks, roads: osm.roads,
+    mappedPoints: osm.points || [], barriers: osm.barriers || [],
     buildings: osm.buildings, farB: osm.farBuildings,
     parking: osm.parking || [], piers: osm.piers || [], basins: [],
     pitches: [], landuse: osm.landuse || [], reserves: osm.reserves || [],
     power: osm.power || { lines: [], towers: [], poles: [] }, railway: osm.railway || [],
   },
   pois: osm.pois || [],
-  scenery: { greens: [], fairways: [], tees: [], bunkers: [], grass: [],
+  scenery: { greens: greens.filter((_, i) => !claimed.has(i)).map(g => g.ring), fairways: [],
+             tees: osm.tees.map(t => t.ring), bunkers: bunkers.filter(b => !assignedBunkers.has(b.id)).map(b => b.ring), grass: (osm.grass || []).map(g => g.ring),
+             sourceFeatures: [...greens.filter((_, i) => !claimed.has(i)).map(g => ({ id: g.id, kind: 'green', ring: g.ring, prov: 'osm' })), ...bunkers.filter(b => !assignedBunkers.has(b.id)).map(b => ({ id: b.id, kind: 'bunker', ring: b.ring, prov: 'osm' })), ...osm.tees.map(t => ({ id: t.id, kind: 'tee', ring: t.ring, prov: 'osm' }))],
              range: (osm.drivingRange || []).map(r => r.ring) },
 };
+applyGroundMapping(model);
 writeJSON(path.join(HERE, 'course-model.json'), model);
 
 /* --- report ------------------------------------------------------------------- */

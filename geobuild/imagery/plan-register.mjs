@@ -16,8 +16,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { decodePNG } from '../png.mjs';
-import { ROOT, readJSON, model, survey, inRing, area, centroid, iou, simplifyDP, traceBoundary, jpgToPng } from './lib.mjs';
+import { BUILD, ROOT, readJSON, model, survey, inRing, area, centroid, iou, simplifyDP, traceBoundary, jpgToPng } from './lib.mjs';
 
+if (BUILD !== 'geobuild') throw new Error(`No registered hole-plan anchors for ${BUILD}; Veckefjärden plans cannot be reused on another ground`);
 const anchors = readJSON('geobuild/plan-anchors.json'), m = model(), G = survey();
 const PLANS = path.join(ROOT, 'geobuild/cache/plans'); fs.mkdirSync(PLANS, { recursive: true });
 const mk = (ar, ai, bx, bz) => { const s2 = ar * ar + ai * ai; return { ar, ai, bx, bz, mpp: Math.sqrt(s2), toWorld: (px, py) => [ar * px - ai * py + bx, ai * px + ar * py + bz], toPx: (x, z) => { const ux = x - bx, uz = z - bz; return [(ar * ux + ai * uz) / s2, (ar * uz - ai * ux) / s2]; } }; };

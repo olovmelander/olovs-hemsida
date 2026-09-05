@@ -1,0 +1,121 @@
+{
+  "sourceImagery": "Uppsala kommun Ortofoto_2024 / Swescan; 0.25 m server export of 0.08 m native source",
+  "imageManifest": "/workspace/scratch/a7a2b2d4c861/upsala-sources/ortho2024_025m_epsg3006.manifest.json",
+  "frame": "EPSG:3006 using terrain reader exact legacy-grid bridge; no image fitting",
+  "sourceDates": "DTM 2023-04-26/27; orthophoto product 2024 (exact flight date not exposed)",
+  "accuracy": "Visual corroboration, not an independent surveyed accuracy assessment. Pixel spacing is not horizontal RMSE; accepted boundaries remain dated source derivatives.",
+  "decisions": [
+    {
+      "type": "pond",
+      "id": "w35415024",
+      "decision": "adopt-as-dated-derived-boundary",
+      "reason": "The laser candidate follows the visible basin; corrects coarse west and south polygon corners. Reed/water transition on east bank remains 1-3 m uncertain.",
+      "plot": "review-pond-w35415024.png"
+    },
+    {
+      "type": "pond",
+      "id": "w35415025",
+      "decision": "adopt-as-dated-derived-boundary",
+      "reason": "Candidate follows visible open-water edge more closely, especially tree-lined east bank. Some shore lies under canopy; retain 2-4 m uncertainty there.",
+      "plot": "review-pond-w35415025.png"
+    },
+    {
+      "type": "pond",
+      "id": "w221190914",
+      "decision": "adopt-as-dated-derived-boundary",
+      "reason": "Candidate improves south/west angular overshoot and retains the complete visible pond; water/reed transition remains approximate.",
+      "plot": "review-pond-w221190914.png"
+    },
+    {
+      "type": "pond",
+      "id": "w306287289",
+      "decision": "adopt-as-dated-derived-boundary",
+      "reason": "Candidate follows the complete visible pond and corrects coarse corners; small inward notch on NW bank remains below a few metres, not surveyed.",
+      "plot": "review-pond-w306287289.png"
+    },
+    {
+      "type": "pond",
+      "id": "w438967946",
+      "decision": "adopt-as-dated-derived-boundary",
+      "reason": "Candidate improves angular OSM overshoot and follows the visible basin. Broad extent consistent between 2023 laser and 2024 photograph.",
+      "plot": "review-pond-w438967946.png"
+    },
+    {
+      "type": "pond",
+      "id": "w438964102",
+      "decision": "adopt-as-dated-derived-boundary",
+      "reason": "Candidate removes obvious west and south OSM overshoot onto grass while preserving complete basin; vegetated northern head remains approximate.",
+      "plot": "review-pond-w438964102.png"
+    },
+    {
+      "type": "pond",
+      "id": "w35415031",
+      "decision": "reject-current-candidate",
+      "reason": "Reject entire DTM replacement as generated: the morphology removes a real narrow NW inlet/secondary lobe visible behind a bridge in 2024 imagery. Main basin boundary is useful, but retain water connectivity and inlet geometry separately before adopting.",
+      "plot": "review-pond-w35415031.png"
+    },
+    {
+      "type": "pond",
+      "id": "w306287291",
+      "decision": "reject-current-candidate",
+      "reason": "Reject: DTM threshold deletes NE pond lobe which visibly remains dark/vegetated water in 2024 photograph. A single strict height band is inadequate for this body.",
+      "plot": "review-pond-w306287291.png"
+    },
+    {
+      "type": "pond",
+      "id": "w439104660",
+      "decision": "reject-current-candidate",
+      "reason": "Reject: DTM morphology truncates a real narrow SW inlet/channel visible in imagery. Basin-only tracing is not a complete water boundary.",
+      "plot": "review-pond-w439104660.png"
+    },
+    {
+      "type": "pond",
+      "id": "w439048474",
+      "decision": "reject-current-candidate",
+      "reason": "Reject automatic replacement: surface is strongly vegetated and basin margin is not sufficiently separable from reeds; DTM plate alone cannot establish the current visible water/vegetation boundary.",
+      "plot": "review-pond-w439048474.png"
+    },
+    {
+      "type": "ditch",
+      "course": "upsala",
+      "hole": 18,
+      "decision": "reject-watercourse-adoption",
+      "reason": "Retain measured rough-ground swale as terrain evidence only. Imagery does not establish a continuous channel or watercourse; do not add stream water or hazard marking.",
+      "plot": "review-ditch-upsala-18.png"
+    },
+    {
+      "type": "ditch",
+      "course": "upsala-mellanbanan",
+      "hole": 6,
+      "decision": "reject-watercourse-adoption",
+      "reason": "Reject watercourse identity: candidate follows cart road cutting and road edge through rocky woodland. Possible local roadside drainage cannot justify the full derived polyline.",
+      "plot": "review-ditch-upsala-mellanbanan-6.png"
+    },
+    {
+      "type": "ditch",
+      "course": "upsala-mellanbanan",
+      "hole": 7,
+      "decision": "reject-watercourse-adoption",
+      "reason": "Reject: candidate crosses a clearly visible greenside bunker and then connects it to the existing mapped ditch. This is a least-cost path false connection; bunker depressions must be excluded before ditch tracing.",
+      "plot": "review-ditch-upsala-mellanbanan-7.png"
+    },
+    {
+      "type": "bunker",
+      "course": "upsala",
+      "hole": 17,
+      "index": 4,
+      "decision": "retain-unresolved-material-identity",
+      "reason": "OSM ring overlays a pale, irregular rough/bare patch without clear manicured sand surface. Laser is convex relative to rim (-0.373 m), unlike an ordinary bunker. Could be rocky ground or a disused bunker; requires club or stronger material evidence before removing or relabelling.",
+      "plot": "review-bunker-17-4.png"
+    },
+    {
+      "type": "bunker",
+      "course": "upsala",
+      "hole": 16,
+      "index": 3,
+      "decision": "retrace-from-imagery",
+      "reason": "OSM ring contains a conspicuous southwest lobe of green grass beyond the visible sand. Removing that grassy lobe and tracing the visible sand edge is a supported correction. Tree shadow makes the north/east edge partly uncertain.",
+      "plot": "review-bunker-16-3.png"
+    }
+  ]
+}
