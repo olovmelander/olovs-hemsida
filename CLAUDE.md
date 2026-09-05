@@ -3232,6 +3232,43 @@ records the 2026-09-05 pass. The lessons that generalise:
   ring graph. A CI mechanic that now holds: the evidence commit rebases onto
   the branch before it pushes, so a branch that moved during the hour of
   compile no longer costs the run.
+- **A refusal is not one thing, and treating it as one drew water that is not
+  there.** `laser-ponds` refused two OSM "lakes" in the woods beside the 3rd as
+  "not a water surface" and `reconcile` kept every refused ring in `water`
+  anyway, so the render carried two sheets of water in a forest while the
+  evidence file said they had been refused. **A measurement taken and then
+  ignored is worse than one never made.** A refusal now carries a KIND:
+  `not-traceable` (the laser cannot see enough of this ring — the two far lakes
+  run outside the 4,096 m window; they ARE water and keep their outline) versus
+  `not-water` (no plate at all — reconcile drops the ring and it renders as
+  `vegetation.wetland`). And the SPREAD could not tell those apart: refusing on
+  `spread > 0.5` also threw away a real pond whose ring merely took in its bank.
+  The discriminator is the **plate fraction** of the ring's own interior, and it
+  separates widely rather than being tuned — nine traced ponds 0.618–0.997, the
+  two phantoms 0.081/0.137, threshold 0.15 in the gap. Three records agree the
+  phantoms are dry: 8–14% plate, interiors spreading 1.1–1.4 m, one standing
+  ABOVE its own rim (no water does that), and both the 2018 and the leaf-off
+  2025 orthophoto showing scrub.
+- **Ask a containment question at a point that is genuinely inside.**
+  `traceShore` classified outer-versus-island by testing each loop's FIRST
+  VERTEX — and loops marched along cell edges have every vertex on a cell corner
+  their neighbour shares, where point-in-polygon is a coin flip. One bad toss
+  made an island in a strait read as an outer ring, and Mälaren came out as four
+  rings with two coplanar over one water: Ribbingsfors' z-fight reached by
+  another route. A scanline-span midpoint is inside by construction — the same
+  rule the bunker interior probes already use.
+- **Do not measure a pipeline against a reimplementation of it.** A sweep that
+  compared the model's lake against laser-flat water found with a LOOSER rule
+  than the detector's reported 129 ha of missing lake. Measured like with like —
+  the detector's own mask against its own rings in its own clip box — the rings
+  draw 320.2 ha of a 320.7 ha mask and miss 0.5. The 129 ha was reeds and flat
+  fields the detector refuses on purpose.
+- **And the gate agreed with the bug, for the third time here.** The new
+  "nothing refused as not-water is drawn as water" gate first read the PAGE's
+  water vector — which `embed` strips `id` from to save bytes — so it matched
+  nothing and passed with a phantom deliberately restored. It reads
+  `course-model.json` now. Only the probe caught it: write the probe that makes
+  a new gate FAIL before believing it passes.
 
 - **The course is read off that ground now, and the satellite capture was
   CHOSEN by measurement (2026-09-05).** `angsobuild/dtm.mjs` binds the readers

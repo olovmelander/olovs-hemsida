@@ -212,14 +212,31 @@ for (const t of traces.holes) for (const w of t.water || []) {
    half a metre and so is not a water surface at all -- keeps the ring it had,
    and the reason travels with it. */
 let pondsTraced = 0;
+/* A refusal is not one thing, and treating it as one drew water that is not
+   there. NOT-TRACEABLE means the laser cannot see enough of this ring to trace
+   it (the two far lakes run outside the published window) -- that ring IS
+   water and keeps the outline it had. NOT-WATER means the ring holds no plate
+   at all, and then the model must stop calling it water: OSM w1415933884 and
+   w1415933883 are two 0.1 ha "lakes" mapped in the woods beside the 3rd where
+   the laser reads 8-14% plate over ground that climbs through 1.1-1.4 m, and
+   the 2018 and 2025 orthophotos both show scrub and bare ground. They become
+   the wet hollows they are. A measurement that is taken and then ignored is
+   worse than one never made -- this pipeline refused them and drew them anyway. */
+const notWater = [];
 for (const p of (laserPonds?.ponds || [])) {
   const w = water.find(x => x.id === p.id);
   if (!w) continue;
-  if (p.verdict !== 'traced') { w.laser = { verdict: p.verdict, reason: p.reason }; continue; }
+  if (p.verdict !== 'traced') {
+    w.laser = { verdict: p.verdict, kind: p.kind || null, reason: p.reason };
+    if (p.kind === 'not-water') notWater.push({ ...w });
+    continue;
+  }
   w.ring = p.ring; w.area = p.area; w.level = p.level; w.prov = 'laser';
   w.laser = { plateArea: p.plateArea, spread: p.spread, seedArea: p.seedArea, islands: p.islands, seedVerticesInsidePlate: p.seedVerticesInsidePlate };
   pondsTraced++;
 }
+const notWaterIds = new Set(notWater.map(w => w.id));
+for (let i = water.length - 1; i >= 0; i--) if (notWaterIds.has(water[i].id)) water.splice(i, 1);
 
 /* --- the model ---------------------------------------------------------------- */
 /* THE BUNKERS ARE MEASURED, and the instrument was calibrated before it was
@@ -301,7 +318,8 @@ const model = {
     /* OSM's reed marshes on the east shore, plus the laser-traced reed belt
        (vass) along every shore the course meets -- ground the DTM reads within
        0.9 m of the lake and that the imagery shows as reeds */
-    wetland: [...(osm.wetland || []).map(w => w.ring || w), ...((laser?.reeds?.rings) || []).map(r => r.ring)],
+    wetland: [...(osm.wetland || []).map(w => w.ring || w), ...((laser?.reeds?.rings) || []).map(r => r.ring),
+      ...notWater.map(w => w.ring)],
     sand: [], rock: (osm.rock || []).map(r => r.ring),
   },
   infra: {

@@ -114,13 +114,11 @@ for (const h of M.holes) {
   push(`<g id="hole${h.n}">`);
   for (const r of h.fairway.rings)
     push(`<polygon points="${P(r)}" fill="#3f8a45" stroke="#8fd8ff" stroke-width="0.9" opacity="0.9"/>`);
-  for (const t of h.tees.pads) {
-    const a = t.ang * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
-    const hw = t.w / 2, hd = t.d / 2;
-    const corners = [[-hw, -hd], [hw, -hd], [hw, hd], [-hw, hd]]
-      .map(([u, v]) => [t.cx + u * ca - v * sa, t.cz + u * sa + v * ca]);
-    push(`<polygon points="${P(corners)}" fill="#57a878"/>`);
-  }
+  /* A pad carries its own outline. This used to rebuild a rectangle from w/d,
+     which no pad in this model has, so every one of the 64 came out NaN and the
+     SVG carried 64 unrenderable polygons -- and a measured DTM deck would have
+     been drawn as a box anyway. */
+  for (const t of h.tees.pads) push(`<polygon points="${P(t.ring)}" fill="#57a878"/>`);
   for (const b of h.bunkers)
     push(`<polygon points="${P(b.ring)}" fill="#e2cf9a" stroke="#8a7c53" stroke-width="0.5"/>`);
   push(`<polygon points="${P(h.green.ring)}" fill="#79d97f" stroke="#8fd8ff" stroke-width="1.2"/>`);

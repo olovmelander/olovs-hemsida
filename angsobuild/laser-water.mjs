@@ -161,9 +161,33 @@ export function traceShore(lake, { clip, tolerance = 2, keyholeHectares = 1, for
      lake, or a pond on an island). Orientation-free, so a z-south frame cannot
      invert it. Slivers under 0.05 ha are the clip box cutting a one-cell arm. */
   loops.sort((a, b) => Math.abs(area(b)) - Math.abs(area(a)));
+  /* Ask the containment question at a point that is genuinely INSIDE the loop.
+     These loops are marched along cell edges, so every vertex sits exactly on a
+     cell corner that the neighbouring loop shares -- point-in-polygon on such a
+     point is a coin flip, and one bad toss makes an island read as an outer.
+     That is how a 0.3 ha ring came to be drawn over the strait it lies in, two
+     coplanar sheets over one water. A scanline-span midpoint is inside by
+     construction (the same rule the bunker probes use, for the same reason). */
+  const insidePoint = loop => {
+    let z0 = Infinity, z1 = -Infinity;
+    for (const [, z] of loop) { if (z < z0) z0 = z; if (z > z1) z1 = z; }
+    const z = (z0 + z1) / 2;
+    const xs = [];
+    for (let i = 0, j = loop.length - 1; i < loop.length; j = i++) {
+      const [xi, zi] = loop[i], [xj, zj] = loop[j];
+      if ((zi > z) !== (zj > z)) xs.push((xj - xi) * (z - zi) / (zj - zi) + xi);
+    }
+    xs.sort((a, b) => a - b);
+    if (xs.length < 2) return loop[0];
+    /* the widest span at this scanline, so a thin arm cannot supply the point */
+    let best = 0, bw = -1;
+    for (let k = 0; k + 1 < xs.length; k += 2) if (xs[k + 1] - xs[k] > bw) { bw = xs[k + 1] - xs[k]; best = k; }
+    return [(xs[best] + xs[best + 1]) / 2, z];
+  };
+  const probe = loops.map(insidePoint);
   const depth = loops.map((loop, index) => {
     let d = 0;
-    for (let j = 0; j < index; j++) if (pointInRing(loop[0][0], loop[0][1], loops[j])) d++;
+    for (let j = 0; j < index; j++) if (pointInRing(probe[index][0], probe[index][1], loops[j])) d++;
     return d;
   });
   const outers = loops.filter((loop, i) => depth[i] % 2 === 0 && Math.abs(area(loop)) >= 500);

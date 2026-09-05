@@ -152,9 +152,53 @@ try {
 try {
   const lp = JSON.parse(fs.readFileSync(path.join(HERE, 'laser-ponds.json'), 'utf8'));
   const traced = (lp.ponds || []).filter(p => p.verdict === 'traced');
-  const notFlat = traced.filter(p => !(p.spread <= 0.5)).length;
-  gate(notFlat === 0, `ponds: all ${traced.length} laser-traced ponds read as flat plates (${notFlat} over 0.5 m), ${(lp.ponds || []).length - traced.length} refused with a stated reason`);
+  /* The plate, not the spread, is what says a ring is water: a ring drawn a few
+     metres wide holds a real plate under the bank it took in (t2 reads 0.79 m of
+     spread over 62% plate and is a pond), while the phantoms read 8-14%. */
+  const thin = traced.filter(p => !(p.plateFraction >= 0.15)).length;
+  gate(thin === 0, `ponds: all ${traced.length} laser-traced ponds are a plate over at least 15% of their ring (${thin} under), ${(lp.ponds || []).length - traced.length} refused with a stated reason`);
 } catch (e) { if (e.code !== 'ENOENT') throw e; }
+
+/* --- 8: the model may not draw water where the laser says there is none ------- */
+/* Both halves of this failed at once and neither was visible in any number the
+   build printed: laser-ponds REFUSED two OSM "lakes" in the woods beside the 3rd
+   as not water surfaces and reconcile drew them anyway, and the shore tracer
+   classified one loop of a strait as an outer ring so a 0.3 ha sheet sat inside
+   a 47 ha one at the same level. A measurement taken and then ignored, and two
+   coplanar sheets over one water -- the Ribbingsfors rule, met again here. */
+{
+  const refusedNotWater = new Set();
+  try {
+    const lp = JSON.parse(fs.readFileSync(path.join(HERE, 'laser-ponds.json'), 'utf8'));
+    for (const p of (lp.ponds || [])) if (p.kind === 'not-water') refusedNotWater.add(p.id);
+  } catch (e) { if (e.code !== 'ENOENT') throw e; }
+  /* Read the MODEL here, not the page's vector: embed drops `id` to save bytes,
+     so a gate written against vec.water matches nothing and passes whatever the
+     model does — it agreed with the bug until a probe put a phantom back and it
+     still said ok. The page is checked against the model by the currency gate. */
+  const drawnAnyway = model.water.filter(w => refusedNotWater.has(w.id)).map(w => w.id);
+  gate(drawnAnyway.length === 0,
+    `water: nothing the laser refused as not-water is drawn as water (${refusedNotWater.size} refused${drawnAnyway.length ? ': STILL DRAWN ' + drawnAnyway.join(', ') : ''})`);
+
+  const inRing = (x, z, r) => { let o = false; for (let i = 0, j = r.length - 1; i < r.length; j = i++) { const [xi, zi] = r[i], [xj, zj] = r[j]; if ((zi > z) !== (zj > z) && x < (xj - xi) * (z - zi) / (zj - zi) + xi) o = !o; } return o; };
+  const clashes = [];
+  for (let a = 0; a < vec.water.length; a++) for (let b = 0; b < vec.water.length; b++) {
+    if (a === b) continue;
+    const A = vec.water[a], B = vec.water[b];
+    if (A.level == null || B.level == null || Math.abs(A.level - B.level) >= 0.5) continue;
+    let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
+    for (const [x, z] of B.ring) { x0 = Math.min(x0, x); x1 = Math.max(x1, x); z0 = Math.min(z0, z); z1 = Math.max(z1, z); }
+    let inB = 0, both = 0;
+    for (let x = x0; x <= x1; x += 8) for (let z = z0; z <= z1; z += 8) {
+      if (!inRing(x, z, B.ring)) continue;
+      inB++;
+      if (inRing(x, z, A.ring)) both++;
+    }
+    if (inB >= 4 && both / inB > 0.2) clashes.push(`${B.id || b} is ${(100 * both / inB).toFixed(0)}% inside ${A.id || a} at the same level`);
+  }
+  gate(clashes.length === 0,
+    `water: no two rings at one level overlap — one body, one ring (${vec.water.length} rings${clashes.length ? '; ' + clashes.join('; ') : ''})`);
+}
 
 /* --- measurements -------------------------------------------------------------- */
 console.log('\nmeasurements:');

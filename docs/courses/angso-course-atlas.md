@@ -712,3 +712,87 @@ from a capture that cannot reproduce the surveyed ones (7 of 9 within 3 m), a
 "measured" bunker with no dish under it, and a laser-traced pond that is not
 flat. Fed the April capture's numbers the calibration gate fails, which is how
 it was proved to fire.
+
+## 18. The water pass — two phantom ponds and a sheet on a sheet (2026-09-05)
+
+The water was wrong in three ways at once, and every number the build printed
+was green while it was. What follows is what was measured and what changed.
+
+**Two "lakes" in the woods beside the 3rd were never water.** OSM carries
+`w1415933884` (1,051 m²) and `w1415933883` (735 m²) as `natural=water` in the
+forest between the 3rd and the 4th. Three independent records refuse them:
+
+| record | w1415933884 | w1415933883 | a real pond here |
+|---|---|---|---|
+| laser: interior flat at its own median | **14%** | **8%** | 62–100% |
+| laser: interior spread | 1.07 m | 1.35 m | 0.04–0.19 m |
+| laser: rim minus interior (a pond is a basin) | **−0.12 m** | +0.75 m | +0.05…+1.40 m |
+| 2018-10-25 Maxar ortho | canopy | canopy | open water |
+| 2025-04-13 Vantor ortho, leaf-off | scrub, bare ground, a fallen tree | bare ground | open water |
+
+The first ring's interior stands **above** its own rim, which no body of water
+does. They are wet hollows, and they render as `vegetation.wetland` now instead
+of as two sheets of water in a forest.
+
+**The pipeline had already measured this and drew them anyway.**
+`laser-ponds.mjs` refused both in the previous pass — "not a water surface (a
+plate is flat to a few centimetres)" — and `reconcile.mjs` kept every refused
+ring in `water` regardless. A measurement that is taken and then ignored is
+worse than one never made: it reads as diligence in the evidence file while the
+render says the opposite. The cause was that a refusal was ONE thing. It is two
+now, and they mean opposite things:
+
+- `not-traceable` — the laser cannot see enough of this ring to trace it. The
+  two far lakes (`w1508749365`, `w519749977`) run outside the 4,096 m published
+  window; they ARE water and keep the outline they had.
+- `not-water` — the ring holds no plate at all. `reconcile` drops it from
+  `water`.
+
+**And the spread alone could not tell those apart.** Refusing on
+`spread > 0.5` also threw away a real pond: `t2` spreads 0.79 m because its
+ring took in the bank, while 62% of its interior is a plate at 1.31 m. The
+verdict is the **plate fraction** of the ring's own interior now, and the
+separation is wide rather than tuned — nine traced ponds run 0.618–0.997, the
+two phantoms 0.081 and 0.137, and the threshold sits at 0.15 in the gap. `t2`
+is traced (957 m² ring → 591 m² plate) instead of refused.
+
+**A 0.3 ha sheet sat inside a 47 ha one at the same level.** `traceShore`
+decided outer-versus-island by testing each loop's FIRST VERTEX for containment
+— and these loops are marched along cell edges, so every vertex lies exactly on
+a cell corner its neighbour shares, where point-in-polygon is a coin flip. One
+bad toss made an island in the strait north-east of the course read as an outer
+ring, and Mälaren came out as four rings with two of them coplanar over the same
+water: the Ribbingsfors z-fight, arrived at by a different route. The
+containment question is asked at a **scanline-span midpoint** now — inside by
+construction, the same rule the bunker probes already use — and the lake is
+three rings with no overlap.
+
+**What the model gained.** Water rings 17 → 14: the two phantoms out (to
+wetland), the coplanar fragment resolved into the island it is, `t2` rescued
+and re-traced onto its plate. Every remaining ring is either a laser plate or a
+lake the laser cannot reach and says so.
+
+**A false alarm worth recording, because it nearly became a day's work.** A
+first sweep compared the model's lake against laser-flat water found with a
+looser rule than the pipeline's (±0.25 m band, flat to 0.06 m across 8 m
+neighbours) and reported **129 ha of missing lake**. Measured like with like —
+the detector's own mask against its own rings, inside its own clip box — the
+rings draw 320.2 ha of a 320.7 ha mask and miss 0.5. The 129 ha was reeds, wet
+meadow and flat fields at lake level, which the detector refuses on purpose and
+the reed tracer already carries. **Do not measure a pipeline against a
+reimplementation of it.**
+
+**Two gates, both proved to fire.** `check3d` now fails if anything the laser
+refused as `not-water` is drawn as water, and if any two rings within 0.5 m of
+one level overlap by more than a fifth. Probes that put a phantom back and that
+add a second sheet over Mälaren each make it exit non-zero. The first version of
+the not-water gate read the PAGE's water vector, which `embed` strips `id` from
+to save bytes — so it matched nothing and passed with the phantom restored. It
+reads `course-model.json` now. That is the checker-agrees-with-the-bug trap for
+the third time in this repo; the probe is the only reason it was caught.
+
+**Also fixed on the way**: every one of the 64 tee pads in `design.svg` was
+`NaN`. `render-design.mjs` rebuilt each pad as a rectangle from `w`/`d`/`ang`,
+and no pad in this model has `w` or `d` — they all carry a `ring`, which is now
+what is drawn, so the measured DTM decks appear as their real outlines rather
+than as boxes.
