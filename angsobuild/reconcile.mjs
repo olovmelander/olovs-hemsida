@@ -160,9 +160,26 @@ for (const b of bunkers) {
    (w307899187) is the north-eastern bay clipped at the extract edge, drawn
    through reeds the DTM reads at 0.75-2.4 m; laser-water.json carries the
    shore traced off the laser plate on every side the course actually meets
-   (build-laser-water.mjs), so the OSM ring is superseded and every laser ring
-   is the sea: isSea draws the page's sheet at the measured level over the bed
-   build-heightfields sank, isLake gives the wide shore bench. */
+   (build-laser-water.mjs), so the OSM ring is superseded.
+
+   Every laser ring is a LAKE, and emphatically NOT `isSea`. That flag used to
+   be set here on the reasoning that it "draws the page's sheet at the measured
+   level" -- which it does not: a ring's own sheet is drawn for every water body
+   regardless. What `isSea` means to the engine is that there is an OCEAN AT ONE
+   LEVEL TO THE HORIZON, and it answers by laying a single world-spanning plane
+   at seaLevel - 0.05 across the whole heightfield (main.js), on the assumption
+   -- true only of a sea -- that everything below that level is water.
+
+   Mälaren is a regulated lake at 0.76 m RH 2000 behind Stockholm's locks, and
+   beside it a BARE-EARTH DTM reads reed bed, wet meadow and low field BELOW the
+   water surface. So that plane flooded the mainland: measured on the built app,
+   65.8 ha of dry land was painted as water, reaching 480 m inland and further,
+   with trees standing in it -- and worst when zoomed out, because that is when
+   the coarse ring levels average the shore down under the plane as well. The
+   lake's extent is its shoreline, which the rings already carry.
+
+   isLake stays true: that is what gives the wide shore bench, and it is what
+   every other consumer here (build-marking, the engine's wet test) reads. */
 const laser = (() => { try { return readJSON(path.join(HERE, 'laser-water.json')); } catch { return null; } })();
 /* Every pond re-traced off its own laser plate (laser-ponds.mjs) and the
    features read off the laser and the orthoimagery together
@@ -183,7 +200,7 @@ for (const w of osm.water) {
 }
 for (const r of (laser?.rings || [])) {
   water.push({ id: r.id, ring: r.ring, name: 'Mälaren', area: r.area, level: laser.level,
-               isLake: true, isSea: true, prov: 'laser' });
+               isLake: true, prov: 'laser' });
 }
 /* A traced pond's level comes from build-heightfields, which measured the laser
    plate INSIDE the ring at 1 m and keyed it by centroid; the shoreline
