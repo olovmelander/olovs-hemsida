@@ -164,6 +164,7 @@ for (const b of bunkers) {
    is the sea: isSea draws the page's sheet at the measured level over the bed
    build-heightfields sank, isLake gives the wide shore bench. */
 const laser = (() => { try { return readJSON(path.join(HERE, 'laser-water.json')); } catch { return null; } })();
+const laserStreams = (() => { try { return readJSON(path.join(HERE, 'laser-streams.json')); } catch { return null; } })();
 const SUPERSEDED_BY_LASER = new Set(laser ? ['w307899187'] : []);
 const water = [];
 for (const w of osm.water) {
@@ -214,7 +215,14 @@ const model = {
   card: { teeNames: card.teeNames, provisional: !!card.provisional },
   holes,
   water,
-  streams: osm.waterway.map(w => ({ id: w.id, line: w.line, kind: w.kind, w: w.kind === 'stream' ? 1.6 : 1.0 })),
+  /* OSM's three farm ditches, plus the brooks and dikes the club documents
+     and OSM never had -- read as incised channels off the 1 m laser ground
+     (laser-streams.json): the 9th's brook and its feeder, the 8th's dike, the
+     12th's and 13th's brooks, and the dry dike beside the 10th */
+  streams: [
+    ...osm.waterway.map(w => ({ id: w.id, line: w.line, kind: w.kind, w: w.kind === 'stream' ? 1.6 : 1.0 })),
+    ...(laserStreams?.streams || []).map(s => ({ id: s.id, line: s.line, kind: s.kind, w: s.kind === 'stream' ? 1.6 : 1.0, hole: s.hole, prov: 'laser' })),
+  ],
   coast: { chains: [], beaches: (osm.sand || []).map(s => ({ id: s.id, ring: s.ring })) },
   vegetation: {
     forest: (osm.forest || []).map(f => f.ring),
@@ -230,7 +238,14 @@ const model = {
     paths: osm.paths, tracks: osm.tracks, roads: osm.roads,
     buildings: osm.buildings, farB: osm.farBuildings,
     parking: osm.parking || [], piers: osm.piers || [], basins: [],
-    pitches: [], landuse: osm.landuse || [], reserves: osm.reserves || [],
+    pitches: [],
+    /* a landuse ring OSM drew over the lake or the reed belt comes back
+       re-traced without them (laser-water.json), one entry per piece */
+    landuse: (osm.landuse || []).flatMap(l => {
+      const clipped = laser?.landuse?.rings?.find(c => c.id === l.id);
+      return clipped ? clipped.rings.map((ring, i) => ({ ...l, id: `${l.id}-${i + 1}`, ring, prov: 'laser-clipped' })) : [l];
+    }),
+    reserves: osm.reserves || [],
     power: osm.power || { lines: [], towers: [], poles: [] }, railway: osm.railway || [],
   },
   pois: osm.pois || [],

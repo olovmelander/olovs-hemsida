@@ -319,7 +319,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "angsobuild/course-model.json",
-      "sha256": "b27607cc0117bb0ded8d9500e998cd14db0ee4b2b2b36c6c7bdb1377c108db7e",
+      "sha256": "240ff37e04a4a922971678acb70e9dea812b31ca28dfc12d16bc2dafc8e53443",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -344,12 +344,24 @@
       "id": "legacy-laser-water",
       "kind": "composite",
       "path": "angsobuild/laser-water.json",
-      "sha256": "283d0fdbd47b1185c1f544daef7988b5fcea62904dcaf2a9d22483c2e1a1de36",
+      "sha256": "d9360ebb22c4f095c70d80384379a9885a7bf38d0861a6522ea386edeb21ef53",
       "derivedFrom": [
         "terrain-lm-1m"
       ],
       "use": "migration-only",
       "notes": "Mälaren's shoreline traced off the laser-flat plate of the published ring graph (angsobuild/build-laser-water.mjs): the lake components at the regulated level, the flats refused as fields, four near-field rings simplified at 2 m with their islands accounted for, and the level (0.76 m, sd 0.002 over 39,501 window cells). Supersedes OSM w307899187, a clipped north-eastern bay drawn through reeds."
+    },
+    {
+      "id": "legacy-laser-streams",
+      "kind": "composite",
+      "path": "angsobuild/laser-streams.json",
+      "sha256": "44e978e381e80f20339596d8d0e8f06633a27a7eb86dd65125100e8e7785593d",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "The watercourses the club documents and OSM never had, read as incised channels off the published 1 m laser ground: the 9th's brook and its feeder, the 8th's dike (open where the laser sees it, culverted under the 8th and 7th fairways), the 12th's and 13th's brooks and the dry dike beside the 10th. Ten lines, 1,611 m, each kept only where the channel is at least 0.2 m deep against a 15 m mean for 20 m or more."
     },
     {
       "id": "legacy-tree-cover",

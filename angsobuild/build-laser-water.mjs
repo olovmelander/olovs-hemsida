@@ -12,7 +12,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { legacyGridBridge } from '../apps/golf/src/engine/geodetic-frame.mjs';
 import { createPublishedGroundLookup, openPublishedGround } from '../packages/course-v2/published-ground-lookup.mjs';
-import { writeJSON } from './lib.mjs';
+import { writeJSON, readJSON, bbox, pointInPoly } from './lib.mjs';
 import { HERE, PUBLIC, GROUND_ID, LEGACY_FRAME, LEGACY_ORIGIN_EPSG3006, HF1_HALF_SPAN } from './lib-v2.mjs';
 import { detectMalaren, detectReeds, traceShore, MALAREN_REGULATED_LEVEL, LEVEL_BAND, LARGE_HECTARES, SEAM_METRES } from './laser-water.mjs';
 
@@ -35,6 +35,33 @@ const rings = traceShore(lake, { clip: RING_CLIP, tolerance: 2, keyholeHectares:
 const reedMask = detectReeds(lake);
 const reeds = traceShore(lake, { clip: CARVED_BOX, tolerance: 2, keyholeHectares: Infinity, mask: reedMask.mask, label: 'reeds', log: console.log })
   .filter(r => r.area >= 2000);
+/* OSM landuse drawn over the lake or the reeds: the farmland south of the
+   2nd runs to the open water, and the page paints a field's crop tone AFTER
+   the wetland tint, so the reed belt rendered as ploughed soil. A ring that
+   loses ground to the laser water is re-traced without it. */
+const osm = readJSON(path.join(HERE, 'osm-features.json'));
+const { width, height, spacing, x0: rx0, z0: rz0 } = lake.raster;
+const landuse = [];
+for (const feature of (osm.landuse || [])) {
+  const box = bbox(feature.ring);
+  if (box.x1 < CARVED_BOX.x0 || box.x0 > CARVED_BOX.x1 || box.z1 < CARVED_BOX.z0 || box.z0 > CARVED_BOX.z1) continue;
+  const mask = new Uint8Array(width * height);
+  let cells = 0, removed = 0;
+  for (let r = Math.max(0, Math.floor((box.z0 - rz0) / spacing)); r <= Math.min(height - 1, Math.ceil((box.z1 - rz0) / spacing)); r++) {
+    for (let c = Math.max(0, Math.floor((box.x0 - rx0) / spacing)); c <= Math.min(width - 1, Math.ceil((box.x1 - rx0) / spacing)); c++) {
+      if (!pointInPoly(rx0 + c * spacing, rz0 + r * spacing, feature.ring)) continue;
+      cells++;
+      const i = r * width + c;
+      if (lake.mask[i] || reedMask.mask[i]) { removed++; continue; }
+      mask[i] = 1;
+    }
+  }
+  if (cells < 25 || removed / cells < 0.03) continue;
+  const pieces = traceShore(lake, { clip: { x0: box.x0 - 8, x1: box.x1 + 8, z0: box.z0 - 8, z1: box.z1 + 8 }, tolerance: 2, keyholeHectares: Infinity, mask, label: `${feature.kind} ${feature.id}` })
+    .filter(p => p.area >= 1000);
+  landuse.push({ id: feature.id, kind: feature.kind, removedFraction: +(removed / cells).toFixed(3), rings: pieces.map(p => p.ring) });
+  console.log(`  ${feature.kind} ${feature.id}: ${(removed / cells * 100).toFixed(0)}% under the lake or the reeds -> ${pieces.length} piece(s)`);
+}
 console.log(`${((Date.now() - t0) / 1000).toFixed(1)} s`);
 
 const out = {
@@ -56,6 +83,7 @@ const out = {
     hectaresInRoot: reedMask.hectares,
     rings: reeds.map((r, i) => ({ id: `vass-${i + 1}`, area: Math.round(r.area), points: r.ring.length, ring: r.ring })),
   },
+  landuse: { rule: 'an OSM landuse ring with at least 3% of its cells under the laser lake or the reed belt is re-traced without them', rings: landuse },
 };
 console.log(`reeds: ${out.reeds.rings.length} belts, ${(out.reeds.rings.reduce((s, r) => s + r.area, 0) / 1e4).toFixed(1)} ha, ${out.reeds.rings.reduce((s, r) => s + r.points, 0)} points`);
 writeJSON(path.join(HERE, 'laser-water.json'), out);
