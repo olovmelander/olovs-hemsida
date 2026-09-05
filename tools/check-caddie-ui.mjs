@@ -88,6 +88,18 @@ if (process.env.BANVY_CADDIE_SHOT) {
    Every rectangle here is measured, because the layout that shipped before this
    was a 640 px card over the fairway and every data gate passed. */
 await page.setViewportSize({ width: 390, height: 844 });
+/* the follow camera is a hole view: the player and the green both in frame */
+const framed = await page.evaluate(() => {
+  const V = window.V3D; V.gpsFocus(true);
+  const c = V.caddie(), h = V.HOLES[0], g = h.green.c, p = c.gps.point;
+  const me = V.toScreen(p[0], V.terrainH(p[0], p[1]) + 1, p[1]), green = V.toScreen(g[0], V.terrainH(g[0], g[1]), g[1]);
+  const inside = s => s.z < 1 && s.x > 0 && s.x < 390 && s.y > 0 && s.y < 844;
+  return { me, green, ok: inside(me) && inside(green) && me.y > green.y && me.y < 844 * 0.7 };
+});
+if (process.env.BANVY_CADDIE_SHOT) {
+  await page.screenshot({ path: process.env.BANVY_CADDIE_SHOT.replace(/\.png$/, '-holeview.png'), animations: 'disabled', timeout: 300_000 });
+}
+gate(framed.ok, `the GPS hole view frames player (y ${Math.round(framed.me.y)}) and green (y ${Math.round(framed.green.y)}) together`);
 await page.evaluate(() => window.V3D.setCam('orbit', true));
 const rect = id => document.getElementById(id).getBoundingClientRect().toJSON();
 const overlaps = (a, b) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;

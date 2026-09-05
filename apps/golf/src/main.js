@@ -7614,14 +7614,25 @@ function drawGpsMarker() {
   scene.add(gpsGroup);
 }
 
+/* the hole view: behind and above the player, looking up the line to the
+   green, high and far enough back that both the player and the green are in
+   frame however far apart they are -- the picture every GPS app opens on,
+   here with the real ground so the slope reads in the shading. The framing
+   is set once per fix; later fixes only translate the camera, so a pinch or
+   a drag to look closer survives walking. */
 function focusGps(instant = false) {
   if (!gpsState.point) return;
   const h = HOLES[hole - 1], p = gpsState.point, target = h.green.c;
   const dx = target[0] - p[0], dz = target[1] - p[1], length = Math.hypot(dx, dz) || 1;
   const fx = dx / length, fz = dz / length;
-  const px = p[0] - fx * 25 - fz * 11, pz = p[1] - fz * 25 + fx * 11;
-  flyTo(V3(px, terrainH(px, pz) + 16, pz),
-        V3(p[0] + fx * Math.min(55, length), terrainH(p[0] + fx * Math.min(55, length), p[1] + fz * Math.min(55, length)) + 2, p[1] + fz * Math.min(55, length)),
+  const back = 34 + length * 0.2, up = 18 + length * 0.14;
+  /* the frame centre sits 7° above the player, so the player stands just over
+     the sheet at the bottom of a phone screen and the green has the rest */
+  const aim = Math.max(10, up / Math.tan(Math.atan2(up, back) - 7 * Math.PI / 180) - back);
+  const px = p[0] - fx * back - fz * 8, pz = p[1] - fz * back + fx * 8;
+  const ax = p[0] + fx * aim, az = p[1] + fz * aim;
+  flyTo(V3(px, Math.max(terrainH(px, pz) + 12, terrainH(p[0], p[1]) + up), pz),
+        V3(ax, terrainH(ax, az) + 3, az),
         instant || RMOTION ? 0 : 1.1);
 }
 
@@ -8336,12 +8347,20 @@ gridBtn.onclick = () => {
 
 /* a click is a click only if the pointer did not drag (OrbitControls owns drags) */
 {
-  let px0 = 0, py0 = 0, pt0 = 0;
+  let px0 = 0, py0 = 0, pt0 = 0, fingers = 0, pinched = false;
   renderer.domElement.addEventListener('pointerdown', e => {
     px0 = e.clientX; py0 = e.clientY; pt0 = performance.now();
+    /* a second finger makes the gesture a pinch for as long as any finger is
+       down: neither finger's release is a tap, and a slow pinch is not a long
+       press -- it used to move the ball and drop GPS mode when a zoom ended */
+    fingers++; if (fingers > 1) pinched = true;
     if (tour) endTour();
   });
+  const release = () => { fingers = Math.max(0, fingers - 1); if (fingers === 0) pinched = false; };
+  renderer.domElement.addEventListener('pointercancel', release);
   renderer.domElement.addEventListener('pointerup', e => {
+    const wasPinch = pinched; release();
+    if (wasPinch) return;
     const held = performance.now() - pt0, moved = Math.hypot(e.clientX - px0, e.clientY - py0);
     /* in kikaren a long press without a drag puts the ball where the finger is */
     if (kik && moved < 8 && held >= 450 && held < 3000) { kikPlaceBall(e.clientX, e.clientY); return; }
@@ -9593,6 +9612,9 @@ window.V3D = {
   /* the drawing buffer as RGBA bytes, for an in-page metric that must not pay for a PNG each frame */
   captureRaw: IS_GPU ? captureRaw : null,
   startTour, endTour, kikMeasure,
+  /* the GPS hole view, and where a world point lands on the screen (NDC z > 1 = behind the camera) */
+  gpsFocus: (instant = true) => focusGps(instant),
+  toScreen: (x, y, z) => { const v = new THREE.Vector3(x, y, z).project(camera); return { x: (v.x * 0.5 + 0.5) * innerWidth, y: (-v.y * 0.5 + 0.5) * innerHeight, z: v.z }; },
   setSky, skyState: () => skyState, eachSky: fn => skySprites.forEach(fn),
   /* the CANVAS positions, not the world ones: where a marker is actually drawn is
      what a collision check has to measure */
