@@ -1,0 +1,2314 @@
+{
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "projection": "PROJ EPSG:3006 to EPSG:4326 then legacy local-frame transform",
+  "sources": [
+    {
+      "id": "lantmateriet-ortho2025-range-club-016m",
+      "provider": "Lantmäteriet via Uppsala kommun public WMS proxy",
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639480.0%2C6635900.0%2C640080.0%2C6636500.0&width=3750&height=3750&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "sha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "flightYearImageSha256": "f89c147483e76cee5b12996b112310c94990219362f904c3404667c1071f15d2",
+      "observedYear": 2025,
+      "exactFlightDate": null,
+      "crs": "EPSG:3006",
+      "exportExtent": [
+        639480,
+        6635900,
+        640080,
+        6636500
+      ],
+      "pixelSizeM": 0.16,
+      "absoluteHorizontalAccuracyM": null,
+      "rights": "Public advertised viewing service; source rasters are retained only for analysis. No redistribution right asserted."
+    }
+  ],
+  "features": [
+    {
+      "id": "range-mat-west-01",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.048,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-west",
+      "originalPixelRing": [
+        [
+          1238,
+          1301
+        ],
+        [
+          1248,
+          1302
+        ],
+        [
+          1248,
+          1310
+        ],
+        [
+          1238,
+          1309
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -145.068,
+          -182.932
+        ],
+        [
+          -143.479,
+          -182.712
+        ],
+        [
+          -143.527,
+          -181.434
+        ],
+        [
+          -145.116,
+          -181.654
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-west-02",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.074,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-west",
+      "originalPixelRing": [
+        [
+          1253,
+          1302
+        ],
+        [
+          1262,
+          1302
+        ],
+        [
+          1262,
+          1311
+        ],
+        [
+          1252,
+          1310
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -142.682,
+          -182.682
+        ],
+        [
+          -141.246,
+          -182.628
+        ],
+        [
+          -141.3,
+          -181.19
+        ],
+        [
+          -142.889,
+          -181.41
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-west-03",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 1.843,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-west",
+      "originalPixelRing": [
+        [
+          1268,
+          1303
+        ],
+        [
+          1277,
+          1304
+        ],
+        [
+          1277,
+          1312
+        ],
+        [
+          1268,
+          1311
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -140.295,
+          -182.432
+        ],
+        [
+          -138.865,
+          -182.218
+        ],
+        [
+          -138.913,
+          -180.94
+        ],
+        [
+          -140.343,
+          -181.154
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-west-04",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 1.843,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-west",
+      "originalPixelRing": [
+        [
+          1283,
+          1304
+        ],
+        [
+          1292,
+          1305
+        ],
+        [
+          1292,
+          1313
+        ],
+        [
+          1283,
+          1312
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -137.908,
+          -182.182
+        ],
+        [
+          -136.478,
+          -181.968
+        ],
+        [
+          -136.526,
+          -180.69
+        ],
+        [
+          -137.956,
+          -180.904
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-west-05",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.202,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-west",
+      "originalPixelRing": [
+        [
+          1298,
+          1305
+        ],
+        [
+          1308,
+          1306
+        ],
+        [
+          1307,
+          1315
+        ],
+        [
+          1298,
+          1314
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -135.521,
+          -181.932
+        ],
+        [
+          -133.932,
+          -181.712
+        ],
+        [
+          -134.145,
+          -180.28
+        ],
+        [
+          -135.575,
+          -180.494
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-west-06",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.202,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-west",
+      "originalPixelRing": [
+        [
+          1313,
+          1306
+        ],
+        [
+          1323,
+          1307
+        ],
+        [
+          1322,
+          1316
+        ],
+        [
+          1313,
+          1315
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -133.134,
+          -181.682
+        ],
+        [
+          -131.545,
+          -181.462
+        ],
+        [
+          -131.759,
+          -180.03
+        ],
+        [
+          -133.188,
+          -180.244
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-west-07",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.189,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-west",
+      "originalPixelRing": [
+        [
+          1328,
+          1308
+        ],
+        [
+          1338,
+          1308
+        ],
+        [
+          1337,
+          1317
+        ],
+        [
+          1328,
+          1317
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -130.754,
+          -181.273
+        ],
+        [
+          -129.158,
+          -181.212
+        ],
+        [
+          -129.372,
+          -179.78
+        ],
+        [
+          -130.808,
+          -179.835
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-west-08",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.202,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-west",
+      "originalPixelRing": [
+        [
+          1344,
+          1309
+        ],
+        [
+          1353,
+          1310
+        ],
+        [
+          1353,
+          1319
+        ],
+        [
+          1343,
+          1318
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -128.207,
+          -181.017
+        ],
+        [
+          -126.778,
+          -180.803
+        ],
+        [
+          -126.832,
+          -179.365
+        ],
+        [
+          -128.421,
+          -179.585
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-middle-01",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.432,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-middle",
+      "originalPixelRing": [
+        [
+          1354,
+          1327
+        ],
+        [
+          1364,
+          1328
+        ],
+        [
+          1364,
+          1337
+        ],
+        [
+          1354,
+          1337
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -126.72,
+          -178.08
+        ],
+        [
+          -125.131,
+          -177.86
+        ],
+        [
+          -125.185,
+          -176.422
+        ],
+        [
+          -126.78,
+          -176.482
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-middle-02",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.675,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-middle",
+      "originalPixelRing": [
+        [
+          1373,
+          1329
+        ],
+        [
+          1384,
+          1330
+        ],
+        [
+          1384,
+          1339
+        ],
+        [
+          1373,
+          1339
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -123.701,
+          -177.646
+        ],
+        [
+          -121.952,
+          -177.421
+        ],
+        [
+          -122.007,
+          -175.982
+        ],
+        [
+          -123.761,
+          -176.049
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-middle-03",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.432,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-middle",
+      "originalPixelRing": [
+        [
+          1392,
+          1330
+        ],
+        [
+          1402,
+          1331
+        ],
+        [
+          1402,
+          1340
+        ],
+        [
+          1391,
+          1339
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -120.676,
+          -177.372
+        ],
+        [
+          -119.087,
+          -177.152
+        ],
+        [
+          -119.141,
+          -175.714
+        ],
+        [
+          -120.89,
+          -175.94
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-middle-04",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.675,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-middle",
+      "originalPixelRing": [
+        [
+          1409,
+          1333
+        ],
+        [
+          1420,
+          1333
+        ],
+        [
+          1420,
+          1343
+        ],
+        [
+          1409,
+          1342
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -117.982,
+          -176.791
+        ],
+        [
+          -116.228,
+          -176.725
+        ],
+        [
+          -116.288,
+          -175.127
+        ],
+        [
+          -118.037,
+          -175.353
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-middle-05",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.56,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-middle",
+      "originalPixelRing": [
+        [
+          1429,
+          1334
+        ],
+        [
+          1440,
+          1335
+        ],
+        [
+          1439,
+          1344
+        ],
+        [
+          1429,
+          1344
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -114.798,
+          -176.511
+        ],
+        [
+          -113.049,
+          -176.285
+        ],
+        [
+          -113.263,
+          -174.853
+        ],
+        [
+          -114.858,
+          -174.913
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-middle-06",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.56,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-middle",
+      "originalPixelRing": [
+        [
+          1448,
+          1336
+        ],
+        [
+          1458,
+          1336
+        ],
+        [
+          1458,
+          1346
+        ],
+        [
+          1448,
+          1346
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -111.779,
+          -176.077
+        ],
+        [
+          -110.184,
+          -176.017
+        ],
+        [
+          -110.244,
+          -174.419
+        ],
+        [
+          -111.839,
+          -174.479
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-middle-07",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.304,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-middle",
+      "originalPixelRing": [
+        [
+          1465,
+          1337
+        ],
+        [
+          1475,
+          1337
+        ],
+        [
+          1475,
+          1346
+        ],
+        [
+          1465,
+          1346
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -109.073,
+          -175.815
+        ],
+        [
+          -107.478,
+          -175.755
+        ],
+        [
+          -107.532,
+          -174.317
+        ],
+        [
+          -109.127,
+          -174.377
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-middle-08",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.445,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-middle",
+      "originalPixelRing": [
+        [
+          1483,
+          1338
+        ],
+        [
+          1493,
+          1339
+        ],
+        [
+          1492,
+          1348
+        ],
+        [
+          1482,
+          1348
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -106.208,
+          -175.547
+        ],
+        [
+          -104.619,
+          -175.327
+        ],
+        [
+          -104.832,
+          -173.895
+        ],
+        [
+          -106.428,
+          -173.955
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-middle-09",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.432,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-middle",
+      "originalPixelRing": [
+        [
+          1501,
+          1341
+        ],
+        [
+          1511,
+          1341
+        ],
+        [
+          1511,
+          1351
+        ],
+        [
+          1501,
+          1350
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -103.355,
+          -174.959
+        ],
+        [
+          -101.759,
+          -174.899
+        ],
+        [
+          -101.82,
+          -173.301
+        ],
+        [
+          -103.409,
+          -173.521
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-middle-10",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.304,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-middle",
+      "originalPixelRing": [
+        [
+          1519,
+          1342
+        ],
+        [
+          1529,
+          1343
+        ],
+        [
+          1529,
+          1352
+        ],
+        [
+          1519,
+          1351
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -100.489,
+          -174.691
+        ],
+        [
+          -98.9,
+          -174.471
+        ],
+        [
+          -98.954,
+          -173.033
+        ],
+        [
+          -100.543,
+          -173.253
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-01",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.611,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1614,
+          1263
+        ],
+        [
+          1624,
+          1267
+        ],
+        [
+          1621,
+          1276
+        ],
+        [
+          1611,
+          1272
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -84.86,
+          -186.742
+        ],
+        [
+          -83.289,
+          -186.043
+        ],
+        [
+          -83.822,
+          -184.623
+        ],
+        [
+          -85.393,
+          -185.322
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-02",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.867,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1633,
+          1270
+        ],
+        [
+          1643,
+          1274
+        ],
+        [
+          1640,
+          1284
+        ],
+        [
+          1630,
+          1280
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -81.872,
+          -185.51
+        ],
+        [
+          -80.3,
+          -184.81
+        ],
+        [
+          -80.839,
+          -183.23
+        ],
+        [
+          -82.41,
+          -183.93
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-03",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.547,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1650,
+          1278
+        ],
+        [
+          1660,
+          1282
+        ],
+        [
+          1656,
+          1291
+        ],
+        [
+          1647,
+          1287
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -79.208,
+          -184.129
+        ],
+        [
+          -77.637,
+          -183.43
+        ],
+        [
+          -78.329,
+          -182.016
+        ],
+        [
+          -79.74,
+          -182.709
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-04",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.611,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1665,
+          1284
+        ],
+        [
+          1675,
+          1288
+        ],
+        [
+          1672,
+          1297
+        ],
+        [
+          1662,
+          1293
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -76.851,
+          -183.08
+        ],
+        [
+          -75.28,
+          -182.381
+        ],
+        [
+          -75.812,
+          -180.961
+        ],
+        [
+          -77.384,
+          -181.66
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-05",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.611,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1679,
+          1291
+        ],
+        [
+          1689,
+          1295
+        ],
+        [
+          1686,
+          1304
+        ],
+        [
+          1676,
+          1300
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -74.66,
+          -181.877
+        ],
+        [
+          -73.089,
+          -181.178
+        ],
+        [
+          -73.621,
+          -179.758
+        ],
+        [
+          -75.192,
+          -180.457
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-06",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.611,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1693,
+          1297
+        ],
+        [
+          1703,
+          1301
+        ],
+        [
+          1700,
+          1310
+        ],
+        [
+          1690,
+          1306
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -72.463,
+          -180.834
+        ],
+        [
+          -70.891,
+          -180.135
+        ],
+        [
+          -71.424,
+          -178.715
+        ],
+        [
+          -72.995,
+          -179.414
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-07",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.714,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1709,
+          1304
+        ],
+        [
+          1719,
+          1308
+        ],
+        [
+          1715,
+          1317
+        ],
+        [
+          1705,
+          1313
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -69.952,
+          -179.62
+        ],
+        [
+          -68.381,
+          -178.92
+        ],
+        [
+          -69.073,
+          -177.506
+        ],
+        [
+          -70.644,
+          -178.206
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-08",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.611,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1723,
+          1310
+        ],
+        [
+          1733,
+          1314
+        ],
+        [
+          1730,
+          1323
+        ],
+        [
+          1720,
+          1319
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -67.755,
+          -178.577
+        ],
+        [
+          -66.184,
+          -177.877
+        ],
+        [
+          -66.716,
+          -176.457
+        ],
+        [
+          -68.288,
+          -177.157
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-09",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.611,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1740,
+          1318
+        ],
+        [
+          1750,
+          1322
+        ],
+        [
+          1747,
+          1331
+        ],
+        [
+          1737,
+          1327
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -65.091,
+          -177.196
+        ],
+        [
+          -63.52,
+          -176.497
+        ],
+        [
+          -64.053,
+          -175.077
+        ],
+        [
+          -65.624,
+          -175.776
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-10",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.547,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1757,
+          1325
+        ],
+        [
+          1767,
+          1329
+        ],
+        [
+          1763,
+          1338
+        ],
+        [
+          1754,
+          1334
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -62.421,
+          -175.975
+        ],
+        [
+          -60.85,
+          -175.276
+        ],
+        [
+          -61.542,
+          -173.862
+        ],
+        [
+          -62.954,
+          -174.555
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-11",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.547,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1772,
+          1332
+        ],
+        [
+          1782,
+          1336
+        ],
+        [
+          1778,
+          1345
+        ],
+        [
+          1769,
+          1341
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -60.071,
+          -174.767
+        ],
+        [
+          -58.5,
+          -174.067
+        ],
+        [
+          -59.192,
+          -172.653
+        ],
+        [
+          -60.603,
+          -173.347
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "range-mat-east-12",
+      "kind": "range_mat",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 2.355,
+      "material": "synthetic-turf",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "method": "Manual independent trace of each visible dark rectangular mat in the 0.16 m image; no regular-grid placement",
+      "parentFacilityId": "range-platform-east",
+      "originalPixelRing": [
+        [
+          1786,
+          1338
+        ],
+        [
+          1796,
+          1342
+        ],
+        [
+          1793,
+          1350
+        ],
+        [
+          1783,
+          1346
+        ]
+      ],
+      "heightM": null,
+      "dimensionsSource": "Visible horizontal footprint only",
+      "temporalReview": {
+        "year": 2024,
+        "sourceSha256": "53f6f468e363a1ecb3395cc6066ffc7c39a19017eac92a0d218a7375f81edb35",
+        "result": "Corresponding individual mat visibly present; 2025 ring adopted. Some 2025 edges are blurred or partly covered by a golfer/equipment."
+      },
+      "ring": [
+        [
+          -57.873,
+          -173.724
+        ],
+        [
+          -56.302,
+          -173.024
+        ],
+        [
+          -56.829,
+          -171.764
+        ],
+        [
+          -58.4,
+          -172.463
+        ]
+      ],
+      "holes": []
+    },
+    {
+      "id": "practice-shortgame-bunker-north-2025",
+      "kind": "practice_bunker",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 55.885,
+      "material": "sand",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.8,
+      "method": "Bright-material connected component in a visually selected practice-bunker ROI; simplify 0.24 m; compare thresholds 140/160/200 and inspect full overlay",
+      "replacesSourceIds": [
+        "w438979689"
+      ],
+      "removeFromNumberedPlayingHoles": true,
+      "originalPixelRing": [
+        [
+          1605.0,
+          770.0
+        ],
+        [
+          1604.0,
+          793.0
+        ],
+        [
+          1606.0,
+          801.0
+        ],
+        [
+          1611.0,
+          808.0
+        ],
+        [
+          1615.0,
+          810.0
+        ],
+        [
+          1633.0,
+          809.0
+        ],
+        [
+          1636.0,
+          806.0
+        ],
+        [
+          1637.0,
+          797.0
+        ],
+        [
+          1643.0,
+          803.0
+        ],
+        [
+          1651.0,
+          802.0
+        ],
+        [
+          1653.0,
+          797.0
+        ],
+        [
+          1652.0,
+          780.0
+        ],
+        [
+          1654.0,
+          770.0
+        ],
+        [
+          1644.0,
+          761.0
+        ],
+        [
+          1637.0,
+          759.0
+        ],
+        [
+          1631.0,
+          764.0
+        ],
+        [
+          1626.0,
+          756.0
+        ],
+        [
+          1617.0,
+          755.0
+        ],
+        [
+          1609.0,
+          760.0
+        ],
+        [
+          1605.0,
+          770.0
+        ]
+      ],
+      "thresholdSensitivity": {
+        "adoptedMinimumRgb": 160,
+        "lowThreshold": 140,
+        "highThreshold": 200,
+        "lowAreaM2": 57.894,
+        "highAreaM2": 50.624,
+        "lowVsHighIoU": 0.8695
+      },
+      "semanticReference": "https://upsalagk.se/news/vi-bygger-nytt-2024/",
+      "semanticNote": "Club renovation announcement identifies this practice area between the range and rock. Combined bright sand outline includes its two adjacent lobes; thin internal shadow does not establish an island. Associated OSM ring was assigned to a numbered hole only by proximity.",
+      "heightM": null,
+      "preserveTerrain": true,
+      "ring": [
+        [
+          -83.335,
+          -265.57
+        ],
+        [
+          -83.632,
+          -261.901
+        ],
+        [
+          -83.361,
+          -260.611
+        ],
+        [
+          -82.606,
+          -259.462
+        ],
+        [
+          -81.98,
+          -259.118
+        ],
+        [
+          -79.102,
+          -259.17
+        ],
+        [
+          -78.606,
+          -259.631
+        ],
+        [
+          -78.392,
+          -261.063
+        ],
+        [
+          -77.471,
+          -260.068
+        ],
+        [
+          -76.189,
+          -260.18
+        ],
+        [
+          -75.84,
+          -260.967
+        ],
+        [
+          -75.897,
+          -263.689
+        ],
+        [
+          -75.518,
+          -265.275
+        ],
+        [
+          -77.059,
+          -266.773
+        ],
+        [
+          -78.164,
+          -267.135
+        ],
+        [
+          -79.151,
+          -266.372
+        ],
+        [
+          -79.901,
+          -267.681
+        ],
+        [
+          -81.33,
+          -267.894
+        ],
+        [
+          -82.637,
+          -267.144
+        ]
+      ],
+      "holes": [],
+      "replacesOriginalRings": {
+        "w438979689": [
+          [
+            -78.5,
+            -259.2
+          ],
+          [
+            -78.3,
+            -263.3
+          ],
+          [
+            -79.1,
+            -265.7
+          ],
+          [
+            -80.1,
+            -267.1
+          ],
+          [
+            -83,
+            -266.5
+          ],
+          [
+            -84.3,
+            -264.7
+          ],
+          [
+            -83.7,
+            -258.7
+          ],
+          [
+            -83,
+            -257.9
+          ],
+          [
+            -80.6,
+            -257.8
+          ]
+        ]
+      }
+    },
+    {
+      "id": "practice-shortgame-bunker-south-2025",
+      "kind": "practice_bunker",
+      "sourceId": "lantmateriet-ortho2025-range-club-016m",
+      "observedYear": 2025,
+      "sourceSha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "notSurveyed": true,
+      "areaM2": 82.33,
+      "material": "sand",
+      "status": "accepted-visible-2025",
+      "confidence": "high",
+      "boundaryInterpretationUncertaintyM": 0.8,
+      "method": "Bright-material connected component in a visually selected practice-bunker ROI; simplify 0.24 m; compare thresholds 140/160/200 and inspect full overlay",
+      "replacesSourceIds": [
+        "w438979681"
+      ],
+      "removeFromNumberedPlayingHoles": true,
+      "originalPixelRing": [
+        [
+          1694.0,
+          982.0
+        ],
+        [
+          1688.0,
+          1004.0
+        ],
+        [
+          1700.0,
+          1019.0
+        ],
+        [
+          1711.0,
+          1024.0
+        ],
+        [
+          1715.0,
+          1023.0
+        ],
+        [
+          1717.0,
+          1015.0
+        ],
+        [
+          1719.0,
+          1024.0
+        ],
+        [
+          1730.0,
+          1031.0
+        ],
+        [
+          1740.0,
+          1031.0
+        ],
+        [
+          1748.0,
+          1026.0
+        ],
+        [
+          1751.0,
+          1013.0
+        ],
+        [
+          1751.0,
+          992.0
+        ],
+        [
+          1747.0,
+          978.0
+        ],
+        [
+          1737.0,
+          967.0
+        ],
+        [
+          1721.0,
+          965.0
+        ],
+        [
+          1716.0,
+          969.0
+        ],
+        [
+          1713.0,
+          965.0
+        ],
+        [
+          1702.0,
+          965.0
+        ],
+        [
+          1697.0,
+          976.0
+        ],
+        [
+          1698.0,
+          980.0
+        ],
+        [
+          1694.0,
+          982.0
+        ]
+      ],
+      "thresholdSensitivity": {
+        "adoptedMinimumRgb": 160,
+        "lowThreshold": 140,
+        "highThreshold": 200,
+        "lowAreaM2": 84.634,
+        "highAreaM2": 76.288,
+        "lowVsHighIoU": 0.9014
+      },
+      "semanticReference": "https://upsalagk.se/news/vi-bygger-nytt-2024/",
+      "semanticNote": "Club renovation announcement identifies this practice area between the range and rock. Combined bright sand outline includes its two adjacent lobes; thin internal shadow does not establish an island. Associated OSM ring was assigned to a numbered hole only by proximity.",
+      "heightM": null,
+      "preserveTerrain": true,
+      "ring": [
+        [
+          -70.411,
+          -231.16
+        ],
+        [
+          -71.5,
+          -227.681
+        ],
+        [
+          -69.676,
+          -225.212
+        ],
+        [
+          -67.951,
+          -224.347
+        ],
+        [
+          -67.307,
+          -224.483
+        ],
+        [
+          -66.94,
+          -225.749
+        ],
+        [
+          -66.675,
+          -224.299
+        ],
+        [
+          -64.962,
+          -223.114
+        ],
+        [
+          -63.367,
+          -223.054
+        ],
+        [
+          -62.061,
+          -223.805
+        ],
+        [
+          -61.504,
+          -225.864
+        ],
+        [
+          -61.378,
+          -229.219
+        ],
+        [
+          -61.932,
+          -231.48
+        ],
+        [
+          -63.461,
+          -233.298
+        ],
+        [
+          -66.001,
+          -233.714
+        ],
+        [
+          -66.823,
+          -233.105
+        ],
+        [
+          -67.278,
+          -233.762
+        ],
+        [
+          -69.032,
+          -233.828
+        ],
+        [
+          -69.896,
+          -232.101
+        ],
+        [
+          -69.761,
+          -231.456
+        ]
+      ],
+      "holes": [],
+      "replacesOriginalRings": {
+        "w438979681": [
+          [
+            -61.2,
+            -223.8
+          ],
+          [
+            -61.6,
+            -229.6
+          ],
+          [
+            -63.5,
+            -232.7
+          ],
+          [
+            -64.8,
+            -233.2
+          ],
+          [
+            -66.7,
+            -232.7
+          ],
+          [
+            -67.2,
+            -231.7
+          ],
+          [
+            -67.5,
+            -225.9
+          ],
+          [
+            -66.3,
+            -222.8
+          ],
+          [
+            -64,
+            -221.6
+          ],
+          [
+            -62.6,
+            -221.6
+          ],
+          [
+            -61.8,
+            -222.3
+          ]
+        ]
+      }
+    }
+  ]
+}
