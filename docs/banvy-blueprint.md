@@ -323,7 +323,11 @@ something used every week.
   becomes your position, the Kikaren numbers update as you walk, and the camera can
   follow. The live-position part shipped 4 September 2026 with accuracy display,
   nearest-hole hysteresis, an on-course guard and explicit follow/stop controls.
-  Still to add: a scorecard with the game formats people play here (slag, poäng,
+  On 5 September the phone layout was rebuilt the way the GPS apps golfers
+  already carry do it: the course fills the screen, the green distances stand in
+  a stack at the right edge, a tapped distance floats at the point itself, the
+  club and detail rest as one row in a sheet that opens on a pull, and follow is
+  a round locate button. Still to add: a scorecard with the game formats people play here (slag, poäng,
   matchspel) and a round recap flown as a Flyover. Handicap stays with Min Golf:
   link out to register the round rather than reimplement WHS.
   *GPS tracking shipped 4 September 2026 · Impact: high · Data: device GPS*

@@ -52,6 +52,14 @@ async function boot(search) {
       legacyInsideCoverage: window.V3D.legacyTrees().legacyInsideCoverage,
       tint: window.V3D.tintRefresh(),
       groundProbe: window.V3D.probeGround(0, 0),
+      /* the lake: Skagern's bed under the frontier, and the one sheet that draws it */
+      lakeBed: {
+        open: window.V3D.waterBedAt(-100, -300),    /* open water in the north-east arm, 200 m off any shore */
+        shore: window.V3D.waterBedAt(-100, -600),   /* nearer the arm's east bank */
+        openGround: window.V3D.probeGround(-100, -300).h,
+      },
+      lakeSheets: window.V3D.waterSheets().filter(sheet => sheet.vertices > 5000),
+      lakeRings: window.V3D.waterLevels().filter(body => body.isLake),
     };
   }) : null;
   await page.close();
@@ -102,6 +110,22 @@ gate(objects?.error === null && objects?.loaded?.loadedTiles === 64 &&
 gate(objects?.planned?.individuals > 0 && objects?.planned?.standTrees > 0 &&
   required.report?.legacyInsideCoverage === 0,
   'v2 trees plant and the legacy lattice is absent inside their coverage');
+
+/* The lake. Three coplanar sheets and an uncarved laser surface used to draw
+   Skagern as pale silt with a z-fight sawtooth (2026-09-05, owner's phone
+   screenshots); the model now carries ONE Skagern ring and the frontier
+   carves its bed as the tiles decode. */
+const lake = required.report?.lakeBed;
+gate(required.report?.lakeRings?.length === 1 && required.report?.lakeRings[0].points > 1000,
+  'one lake ring draws Skagern (no overlapping same-level sheets)');
+gate(lake?.open?.inWater === true && lake?.open?.depth >= 5 && lake?.open?.ground < lake?.open?.level - 4.5,
+  'the frontier carries a carved bed under open water (>= 4.5 m under the sheet)');
+gate(lake?.shore?.inWater === true && lake?.shore?.depth > 0.5 && lake?.shore?.depth < lake?.open?.depth,
+  'the bed shoals toward the shore');
+gate(required.report?.lakeSheets?.length === 1 && required.report?.lakeSheets[0].depthMean > 1.5,
+  'the Skagern sheet reads deep water over most of its vertices, not silt');
+const plainLake = plain.report?.lakeBed;
+gate(plainLake?.openGround < 69.3 - 4.5, 'the GPK1 path carves the same lake (legacy carve)');
 
 if (plain.errors.length) console.log(`?v2=0 page error: ${plain.errors[0]}`);
 if (required.errors.length) console.log(`required page error: ${required.errors[0]}`);

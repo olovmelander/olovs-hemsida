@@ -559,8 +559,8 @@
         "status": "projected-source-frame-pending-independent-control",
         "source": "legacyFrame.projectedOriginEpsg3006"
       },
-      "coordinatePairCount": 7666,
-      "outsideCourseVicinity5km": 25,
+      "coordinatePairCount": 9143,
+      "outsideCourseVicinity5km": 27,
       "scopes": {
         "playingGeometry": {
           "coordinatePairCount": 1097,
@@ -598,9 +598,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 7641,
+          "coordinatePairCount": 9116,
           "directFrameDelta": {
-            "count": 7641,
+            "count": 9116,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -619,7 +619,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 7641,
+              "count": 9116,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -633,9 +633,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 7666,
+          "coordinatePairCount": 9143,
           "directFrameDelta": {
-            "count": 7666,
+            "count": 9143,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -654,7 +654,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 7666,
+              "count": 9143,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -670,12 +670,12 @@
       },
       "report": {
         "path": "geo_data/course-v2/ribbingsfors/migration/residual-report.json",
-        "sha256": "f3fe2d04b3920bd0f9c2081290a572723c8c5b25791a3a6083c6d15bda8d02bd"
+        "sha256": "602d98dfee1ddabe36649a53f43a3cc5d48107bf33bf8e732a663fb3e1654d73"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-          "sha256": "985f89615224b39e64aea1b86a2b5274f99ca4edaef6b92cdbb47559952cecaf"
+          "sha256": "ce9c2c93835473088ba3ae8fc646fe07043b28b907638dcab621b178a79a412f"
         }
       ]
     },

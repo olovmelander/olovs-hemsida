@@ -22,8 +22,8 @@
   "independentControlAnchors": 0,
   "canonicalOriginPromoted": false,
   "aggregate": {
-    "coordinatePairCount": 7666,
-    "outsideCourseVicinity5km": 25,
+    "coordinatePairCount": 9143,
+    "outsideCourseVicinity5km": 27,
     "scopes": {
       "playingGeometry": {
         "coordinatePairCount": 1097,
@@ -61,9 +61,9 @@
         }
       },
       "courseVicinity5km": {
-        "coordinatePairCount": 7641,
+        "coordinatePairCount": 9116,
         "directFrameDelta": {
-          "count": 7641,
+          "count": 9116,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -82,7 +82,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 7641,
+            "count": 9116,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -96,9 +96,9 @@
         }
       },
       "allInventoriedGeometry": {
-        "coordinatePairCount": 7666,
+        "coordinatePairCount": 9143,
         "directFrameDelta": {
-          "count": 7666,
+          "count": 9143,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -117,7 +117,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 7666,
+            "count": 9143,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -136,13 +136,13 @@
     {
       "source": {
         "path": "ribbingsforsbuild/course-model.json",
-        "sha256": "d1f08538d48bb92cbffbc42701ab10fdf876267241119304f8a6905187be1def"
+        "sha256": "eef6949d7bfe8523808af7574805acc2226eee0c0865f1473f5a5e016a6cc315"
       },
       "output": {
         "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-        "sha256": "985f89615224b39e64aea1b86a2b5274f99ca4edaef6b92cdbb47559952cecaf"
+        "sha256": "ce9c2c93835473088ba3ae8fc646fe07043b28b907638dcab621b178a79a412f"
       },
-      "coordinatePairCount": 7666,
+      "coordinatePairCount": 9143,
       "ignoredMetadataPairCount": 0,
       "coordinatePathCounts": {
         "evidence.protectedTrees.[].c": 72,
@@ -169,6 +169,7 @@
         "scenery.grass.[].[]": 4,
         "scenery.greens.[].[]": 28,
         "scenery.range.[].[]": 6,
+        "sourceWater.breakLakes.[].ring.[]": 1255,
         "streams.[].line.[]": 22,
         "surround.clearfells.[].[]": 6,
         "surround.shallows.[].[]": 290,
@@ -177,10 +178,10 @@
         "vegetation.scrub.[].[]": 27,
         "vegetation.wetland.[].[]": 290,
         "vegetation.wood.[].[]": 1032,
-        "water.[].ring.[]": 1780
+        "water.[].ring.[]": 2002
       },
       "directFrameDelta": {
-        "count": 7666,
+        "count": 9143,
         "biasMetres": {
           "x": 0,
           "z": 0
@@ -199,7 +200,7 @@
           "z": 0
         },
         "residuals": {
-          "count": 7666,
+          "count": 9143,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -248,9 +249,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 7641,
+          "coordinatePairCount": 9116,
           "directFrameDelta": {
-            "count": 7641,
+            "count": 9116,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -269,7 +270,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 7641,
+              "count": 9116,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -283,9 +284,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 7666,
+          "coordinatePairCount": 9143,
           "directFrameDelta": {
-            "count": 7666,
+            "count": 9143,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -304,7 +305,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 7666,
+              "count": 9143,
               "biasMetres": {
                 "x": 0,
                 "z": 0

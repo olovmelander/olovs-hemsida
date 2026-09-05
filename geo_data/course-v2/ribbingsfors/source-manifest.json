@@ -306,7 +306,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "ribbingsforsbuild/course-model.json",
-      "sha256": "d1f08538d48bb92cbffbc42701ab10fdf876267241119304f8a6905187be1def",
+      "sha256": "eef6949d7bfe8523808af7574805acc2226eee0c0865f1473f5a5e016a6cc315",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Current composite local-metre vectors, routing, RH 2000 terrain references and scenery inputs. Hole 9 Gul uses the explicit provisional DTM-bench control rather than the road-crossing card interpolation. Bunkers are measured sand (apply-sat-shapes.mjs from sat-shapes.json), no longer guide-formula placed. The 2026-09 surroundings pass (apply-surroundings.mjs) adds the gated Skagern ring at 69.3 m, traced ditches replacing the synthetic guide crossings, 86 laser-confirmed protected-tree crowns, the corrected range, the greenkeeping yard, Skagersvik context and synthesized village housing."
@@ -324,7 +324,7 @@
       "id": "legacy-tree-cover",
       "kind": "canopy",
       "path": "ribbingsforsbuild/tree-cover.json",
-      "sha256": "665fcdec9da09c97dce45eb0686cb363d6f36022c7b3d978d488539a822d744c",
+      "sha256": "6af1f619006e47bdd6eada751f3d5366d8154251740cb5128fb9b48f31540ecf",
       "derivedFrom": ["laser-lm-skog", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Compatibility canopy mask derived from the 2023 COPC CHM with protected trees added and provisional playing surfaces, water and buildings excluded. Individual-tree publication remains subject to the separate v2 review rules. The 2026-09 surroundings pass adds OSM woodland cells and opens the Skagern ring, range, practice greens, parking and yard."
@@ -423,7 +423,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-      "sha256": "985f89615224b39e64aea1b86a2b5274f99ca4edaef6b92cdbb47559952cecaf",
+      "sha256": "ce9c2c93835473088ba3ae8fc646fe07043b28b907638dcab621b178a79a412f",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Deterministic exact translation of all local x/z geometry to absolute EPSG:3006 coordinates; source scalar RH 2000 heights remain unapproved."
@@ -459,7 +459,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/ribbingsfors/migration/residual-report.json",
-      "sha256": "f3fe2d04b3920bd0f9c2081290a572723c8c5b25791a3a6083c6d15bda8d02bd",
+      "sha256": "602d98dfee1ddabe36649a53f43a3cc5d48107bf33bf8e732a663fb3e1654d73",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Exact projected-frame translation audit with zero local-frame residuals; independent canonical control is still pending."
