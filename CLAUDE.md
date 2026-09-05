@@ -2659,3 +2659,86 @@ turned up things worth keeping:
   carries its own measured cutout (478 × 343 cells at x0 −576, 156,368 of
   163,954 base points omitted), read the runbook way off the assertion's
   own "got" line.
+
+## Ängsö re-grounded on the laser — and what the published graph is good for
+
+`docs/courses/angso-course-atlas.md` is the complete inventory of this course
+(every hole, pond, stake, ditch, building and rule, with provenance); its §16
+records the 2026-09-05 pass. The lessons that generalise:
+
+- **A machine with no Lantmäteriet credential can still re-ground a pack.**
+  The published ring graph IS the laser DTM: the 256 course tiles reproduce
+  the acquired 1 m window to a quantum (`terrain-1m.f32` synthesised from
+  them re-measures the datum to 0.2 mm of the recorded 9.1166), and the rings
+  reach 16 km — further than any page's far ring. `packages/course-v2/
+  published-ground-lookup.mjs` answers heights from the finest level under a
+  point; `angsobuild/build-heightfields.mjs` cuts HF0/HF1 from it through the
+  derived bridge. Datum 9.1166 m / MAD 1.85 → 0.0008 m / MAD 0.022, best
+  shift (0, 0), 69 model leaves changed and none horizontal. A pack cut from
+  the graph and the streamed ground are then one field BY CONSTRUCTION.
+- **A rebuilt pack must be re-bound, and the publisher is not the only way.**
+  `rebind-course-fallback.mjs` re-emits the course manifest against the live
+  GPK1 entry from the published tiles alone, asserting the ground manifest
+  comes out byte-identical; `publish-ground-rings` needs the ring cache,
+  which a credential-less machine cannot rebuild. The previous course
+  manifest stays on disk as every publish leaves it.
+- **Mälaren has no OSM ring where the course meets it, and the one it has is
+  not where the notes said.** w307899187 is a NORTH-EASTERN bay clipped at
+  the extract edge and drawn through reeds (0.75–2.4 m in the DTM); the
+  ground west of the peninsula is 14–35 m high. The lake is read off the
+  laser plate instead (`angsobuild/laser-water.mjs`): flat to 0.03 m between
+  4 m neighbours, within 0.2 m of the regulated level, and ≥ 100 ha or within
+  60 m of such a component — a flight-strip seam splits the plate into
+  components 0.1–0.2 m apart, and 18 flat fields at the same height do not
+  touch the lake and are refused. **Trace the shore inside a clip that stays
+  clear of the carved terrain**: a ring's edge raises a bank in `terrainH`,
+  so a clip edge inside the MID mesh draws a ridge across the lake. And
+  **sink a bed under the plate in the heightfields**: a sheet at the level
+  over a plate at the level flickers, and strips 0.2 m high poke through as
+  dry flats. Islands are counted (421 in the far field, none inside HF0) and
+  a ring that encloses one is keyholed with a slit kept out of the carved
+  box, because a slit inside it reads as a shoreline to `ringSD`.
+- **Classify holes by containment, never by winding.** The first tracer
+  called the 15 ha island the lake and dropped the lake, because "water on
+  the left" flips meaning in a z-south frame. Depth of nesting is
+  orientation-free.
+- **The wide brown belt at the shore was OSM farmland painted over reeds.**
+  The page applies a landuse crop tone AFTER the wetland tint, so a farmland
+  ring drawn to the open water paints the vass belt as ploughed soil. The
+  reed belt is now traced from the laser (shore ground within 0.9 m of the
+  level, ≤ 120 m from open water) into `vegetation.wetland`, and any landuse
+  ring with ≥ 3 % of its cells under lake or reeds is re-traced without them.
+  Confirm with the imagery before retuning a tint: `tools/sat-mosaic.mjs`
+  runs on Linux now (`BANVY_CHROME`), and the z18 tiles showed the belt.
+- **The laser sees the ditches the imagery cannot.** A brook under alders is
+  an incised channel in bare-earth data: the minimum of height-minus-15 m-mean
+  across ±8 m sections every 2 m along waypoints picked off a residual map,
+  kept where the residual is below −0.2 m for ≥ 20 m. That rule is also what
+  makes culverts honest — the 8th's dike vanishes for 50 m under its fairway
+  and again under the 7th's approach, the 12th's brook under the 12th — and
+  it told a dry dike beside the 10th from a brook (the club: the one hole
+  with no water nearby). Ten lines, 1,611 m, all three watercourses the club
+  documents and the model lacked. The engine draws a `stream` as a carved wet
+  cut with no water ribbon; that is the next engine item, not a data one.
+- **Marking from a rulebook is a stated rule, not a survey.** Lokala regler
+  gives sides and colours; `build-marking.mjs` places red round each pond
+  and along the 17th's left, white at the WOODLAND EDGE (walk out from the
+  fairway edge until the tree-cover raster reads canopy — a fence returns
+  nothing to a laser) where OB or the boar fence is named, never inside 12 m
+  of the centreline; each run is checked to lie on the player's side at three
+  stations. The pages and `emit-pack` dropped `marking` for every newer-schema
+  build; both carry it now.
+- **The migration's reference must be the model cs2cs read.** After a
+  re-ground the current model no longer matches the committed migration's
+  coordinate count; `migrate-without-proj --reference-source` takes the
+  historical text (`git show <sha>:path`), admitted only if it hashes to what
+  the reference recorded. The cs2cs file is kept beside the Krüger one.
+- **Hole 14's trace note said "dogleg right"; its own line turns −71°.** The
+  chord-side inversion again — corrected in `sat-shapes.json`.
+- **The 5th's "little red house" is findable**: of every building within 12°
+  of the last leg, one stands on the axis (OSM 215457959, 792 m, across the
+  bay); the 18th's juniper is the one lone dark tree on the fairway's right
+  edge in the z18 tiles at (−253, 109); Ängsö slott's terrain line of sight
+  from the clubhouse is clear over the lake. All three are in
+  `scenery/angso.js` with their basis; the campsite piers got boats for free
+  the moment there was water under them.

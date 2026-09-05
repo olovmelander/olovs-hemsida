@@ -253,44 +253,59 @@ Walks overall: median 98 m, longest 287 m (11→12), then 238 m (18→1) and
 
 ## 5. Water — every body, level by level
 
-Mälaren aside, **14 closed water bodies and 3 waterways** are in the model.
-Each pond carries its own measured level read off the terrain around it, so
-they render as pools, not craters (levels 6.5 to 42.2 m across the model).
-Six rings are OSM-surveyed, eight (t1–t8) are satellite traces made per hole.
+**17 closed water bodies and 13 waterways** are in the model since the
+re-grounding of 2026-09-05 (§16). Every level is now the median of the laser
+plate measured INSIDE the ring at 1 m, with the spread recorded beside it in
+`heightfields.json` — a laser DTM flattens water, so a well-registered ring
+encloses samples a few centimetres apart, and every course pond here spreads
+0.02–0.52 m. Levels are RH 2000.
 
 | id | where | area | level | serves |
 |---|---|---|---|---|
-| w307899187 | the Mälaren bay west/north of the peninsula (ring spans z −77 to −11,645) | 32 ha (partial ring) | 9.76 (Terrarium; really 0.876 RH 2000) | the lake itself; `isLake` |
-| w1508749365 | (−2082, −791), 2.2 km NW | 4.9 ha | 21.67 | off-course lake |
-| w519749977 | (−2282, −2511), 3.4 km NW | 1.2 ha | 42.24 | off-course lake (highest water in the model) |
-| w1511512726 | (−1928, −1983), 2.8 km NW | 1.0 ha | 32.67 | off-course lake |
-| w1415933884 | (70, 275) | 1,051 m² | 16.97 | hole 4, left-of-green pond (OSM) |
-| w1415933883 | (71, 223) | 735 m² | 16.52 | hole 4, left-of-green pond (OSM) |
-| t1 | (181, 714) | 1,203 m² | 6.50 | holes 2/3 — the lowest pond |
-| t2 | (318, 389) | 957 m² | 8.30 | hole 6 — "dammen i kröken" |
-| t3 | (−345, −900) | 1,318 m² | 22.60 | hole 15 — the carry pond, largest on the course |
-| t4 | (−253, −343) | 296 m² | 25.50 | hole 17, by the green |
-| t5 | (−264, −368) | 169 m² | 27.00 | hole 17, by the green |
-| t6 | (−261, −643) | 190 m² | 24.80 | holes 16/17, by 17's tee |
-| t7 | (−296, 115) | 238 m² | 17.50 | hole 18, mid-fairway |
-| t8 | (−284, 147) | 233 m² | 15.90 | hole 18, mid-fairway |
+| malaren-1 | the south and south-west shore, x −2402..1806, z −94..2602 | 269 ha (2,169 pts, one 15 ha island keyholed) | 0.76 (sd 0.002 over 39,501 window cells) | Mälaren; `isSea` + `isLake`, traced off the laser plate |
+| malaren-2 | the east shore, x 1786..2402 | 47 ha | 0.76 | Mälaren |
+| malaren-3 | the far south-east | 20 ha | 0.76 | Mälaren |
+| malaren-4 | a reedy bay east, (1882..2174, −786..−334) | 0.3 ha | 0.76 | Mälaren |
+| w1508749365 | (−2082, −791), 2.2 km NW | 4.9 ha | 15.96 (sd 0.04) | off-course lake |
+| w519749977 | (−2282, −2511), 3.4 km NW | 1.2 ha | 31.34 (shore percentile; outside the 1 m tiles) | off-course lake |
+| w1511512726 | (−1928, −1983), 2.8 km NW | 1.0 ha | 23.38 (sd 0.06) | off-course lake |
+| w1415933884 | (70, 275) | 1,051 m² | 4.27 | hole 4, left-of-green pond (OSM); the 9th's brook flows into the pair |
+| w1415933883 | (71, 223) | 735 m² | 4.23 | hole 4, left-of-green pond (OSM) |
+| t1 | (181, 714) | 1,203 m² | 1.04 | holes 2/3 — the lowest pond, 0.3 m above the lake |
+| t2 | (318, 389) | 957 m² | 1.31 | hole 6 — "dammen i kröken" |
+| t3 | (−345, −900) | 1,318 m² | 14.88 | hole 15 — the carry pond, largest on the course |
+| t4 | (−253, −343) | 296 m² | 10.93 | hole 17, by the green |
+| t5 | (−264, −368) | 169 m² | 11.78 | hole 17, by the green |
+| t6 | (−261, −643) | 190 m² | 13.60 | holes 16/17, by 17's tee |
+| t7 | (−296, 115) | 238 m² | 7.37 | hole 18, mid-fairway |
+| t8 | (−284, 147) | 233 m² | 6.97 | hole 18, mid-fairway |
 
-The three waterways are all off-course: a 446 m ditch running SE from
-(122, 1339) toward the shore, and two long farm ditches east of the course
-(1.46 km from (1906, −496) to (1107, 123); 795 m from (620, −196) to
-(1067, 147)).
+The Terrarium pack had carried these 4–12 m too high (the 4th's ponds at
+16.97/16.52, the 15th's at 22.6, the 18th's at 17.5/15.9) and OSM's one lake
+ring — the north-eastern bay clipped at the extract edge, drawn through reeds
+the DTM reads at 0.75–2.4 m — at 9.76 m. That ring is superseded.
 
-**Model `seaLevel` is 6** — with no `isSea` ring, reconcile derives the
-"nothing below water" floor as the lowest pond level minus 0.5 m (t1's 6.5).
-The heightfield stage, which sees only OSM's water, records 8.76. The page
-lays its Mälaren sheet at 6 m; where the DEM dips below it around the shore,
-the lake reads through.
+**`seaLevel` is 0.76**, Mälaren's own level: the laser rings are `isSea`, so
+the page draws its sheet at the measured level over a bed
+`build-heightfields.mjs` sinks under every lake cell (0.15 m at the shore to
+3.5 m at 55 m out, in HF0 and HF1 alike). That bed is what lets one sheet
+cover flight strips the DTM reads 0.72–0.96 m without a flicker, and islands
+are simply not lake cells and stand.
 
-**Three watercourses the club documents are deliberately absent** from the
-model (no imagery or OSM evidence to trace): the brook in front of the 9th
-green, the ditch right of the 8th, and the brook crossing the 12th (the 13th's
-"bäcken till höger" is the same north-course system). They are kept in the
-hole notes because they describe the course, not the render.
+**Waterways.** OSM's three farm ditches are all off-course (a 446 m ditch
+running SE from (122, 1339); two long ditches east, 1.46 km and 795 m). The
+ten that matter to play were read off the laser ground on 2026-09-05
+(`laser-streams.json`, §16): the 9th's brook and its feeder, the 8th's dike
+with its culverts under the 8th and 7th fairways, the 12th's brook (culverted
+under the 12th), the 13th's brook along its right rough, and a dry dike beside
+the 10th.
+
+**Reeds.** The imagery shows a wide vass belt between the meadows and the open
+water on every shore the course meets; the laser reads it as ground within
+0.9 m of the lake and within 120 m of open water, and 17 belts totalling
+47 ha enter `vegetation.wetland` beside OSM's eight reed marshes, so the page
+tints them and plants reeds. Two OSM farmland rings that ran over the lake or
+the reeds are re-traced without them.
 
 ## 6. Sand, greens, fairways — the playing surfaces in sum
 
@@ -460,13 +475,14 @@ decision** — nothing to cut when the graph covers the horizon).
 
 - Canonical origin E 605665.5 / N 6605721.5 (0.4 m from the played centroid);
   the legacy origin projects to E 605689.962 / N 6605447.157.
-- Bridge: `wgs84-legacy-frame` — meridian convergence (~1.61° at Ängsö), the
-  frame's own metre, and the **measured vertical datum step 9.1166 m**
-  (median over 41,636 mown samples, MAD 1.8463 m). The MAD is eight times
-  Veckefjärden's because Terrarium genuinely disagrees with the laser about
-  the *shape* of this low-relief shore — the strongest argument for the laser
-  ground. One independent corroboration: Mälaren's DTM-flat 0.876 m against
-  the pack's 9.76 m ring differs by 8.884 m, 0.23 m from the mown median.
+- Bridge: `wgs84-legacy-frame` — meridian convergence (1.6135° at Ängsö),
+  the frame's own metre (scale 0.99778 / 0.99950), and a vertical step that
+  is **exactly 0 since 2026-09-05**: the pack is re-grounded on the laser
+  (§16). Before that the step measured 9.1166 m with a **1.8463 m MAD** over
+  41,636 mown samples — eight times Veckefjärden's, because Terrarium
+  disagreed with the laser about the *shape* of this low-relief shore, not
+  only its datum — and the re-run measurement is the proof it is gone:
+  median 0.0008 m, MAD 0.0221 m, registration sweep best at (0, 0).
 - **Surfaces stay legacy** (`surfacePolicy: 'legacy-ground-atlas'`): with 14
   holes on satellite traces and no survey, no v2 surface layer is claimed.
 - The horizontal migration is seeded but **not control-approved**
@@ -480,9 +496,13 @@ caveat applies to this parkland's deciduous crowns), 3,000 m flight height,
 1.2 declared pulses/m², 224 M points, covering the whole AOI exclusively —
 zero seams. The COPC hierarchy census is complete (33 windows, no point bytes
 read) and the state is **canopy-rasters-built** (`canopy-evidence.json`,
-ground from the cloud's own class 2/9 returns, 32 m halo). What remains is
-the crown census, machine review, exclusion masks and publish — the
-Veckefjärden/Upsala chain.
+ground from the cloud's own class 2/9 returns, 32 m halo). The acquire run
+of the `ground-vegetation` workflow was started on 2026-09-05 (the RUN
+control file), deliberately AFTER the re-grounding and the laser Mälaren
+rings: the compile's water exclusion tests each ring against the DTM's own
+level, and the shoreline tile that refused in the first attempt had no ring
+over it. What remains is the eyeball of the review overlays and the publish
+run — the Veckefjärden/Upsala chain.
 
 ## 14. In the app
 
@@ -499,28 +519,92 @@ the routing chunks.
 
 ## 15. Known gaps — stated, not papered over
 
-1. **Three club-documented watercourses are unmodelled**: the 9th's brook,
-   the 8th's ditch, the 12th/13th brook. Highest-value fidelity items on the
-   course proper; each needs imagery or survey evidence to trace, not a
-   guess.
-2. **No Mälaren ring in the near model** — the lake is a partial OSM ring
-   north-west plus the page's 6 m sheet; the south shore by the camping has
-   beaches and piers but no water polygon, and `coast.chains` is empty. The
-   v2 laser ground reads the real 0.876 m surface and will eventually
-   supersede this.
-3. **The old tee pad ~31 m forward on hole 1** implied by the 2020 card is
+1. **The old tee pad ~31 m forward on hole 1** implied by the 2020 card is
    expected on the ground but not traced.
-4. **`scenery.greens` is empty** — the practice putting greens are not
+2. **`scenery.greens` is empty** — the practice putting greens are not
    modelled (the range is).
-5. **The OSM golf_course polygon is partial** (4 ha, excludes ORIGIN) — no
+3. **The OSM golf_course polygon is partial** (4 ha, excludes ORIGIN) — no
    authoritative property hull exists here.
-6. **Bunker orientation/shape beyond the trace** is only as good as z18
-   imagery; and the trace notes' prose is not always as reliable as the
-   geometry (hole 14's note says "dogleg right" where the line and the club
-   both say left — the chord-side inversion documented in CLAUDE.md).
-7. **v2 vegetation unpublished**; leaf-off 2021 scan will under-detect
-   deciduous crowns when it lands — audit against the satellite raster the
-   way Johannesberg was.
-8. **The card has a wired-in expiry**: hole 1's three circulating lengths
+4. **Bunker orientation/shape beyond the trace** is only as good as z18
+   imagery; the 14 satellite-traced holes still await the licensed 2025
+   orthophoto before a v2 surface layer can be claimed.
+5. **v2 vegetation unpublished** (acquire run in flight); the leaf-off 2021
+   scan will under-detect deciduous crowns when it lands — audit against the
+   satellite raster the way Johannesberg was.
+6. **The card has a wired-in expiry**: hole 1's three circulating lengths
    mean third-party sites still serve 355/396; the model asserts the club's
    2023 card only.
+7. **Marking positions are rules, not a survey** (§16): the club's word
+   fixes side and colour; the stakes stand where a stated rule puts them.
+8. **Ditches render as carved channels only** — the engine draws no water
+   ribbon for a `stream`, so the 9th's brook is a wet cut in the rough rather
+   than a visible run of water. An engine item, not a data one.
+9. **The culverts are inferred from the laser**, not documented: where a
+   dike's channel vanishes for 20–50 m under a fairway and reappears, the
+   model leaves the gap. The club's texts do not say which crossings are
+   piped.
+10. **Ängsö slott and its church are drawn from OSM footprints and general
+    description** (whitewashed block, white church, dark roofs) at 4.5 km;
+    a photograph would settle the roofs. Terrain line of sight from the
+    clubhouse, the 3rd green and the 6th tee is clear over the lake; trees
+    were not counted.
+11. **The hero posters still show the Terrarium ground.** `make-posters.mjs`
+    photographs the app, and the app does not compose a frame in the
+    container this pass ran in (every course's frame is black there while
+    the standalone page renders); re-shoot on a machine with a GPU.
+12. **The canonical origin is still unapproved** — that needs 20+ surveyed
+    control points, which no amount of desk work supplies.
+
+## 16. The second pass — 2026-09-05
+
+Everything above §15 describes the model as it stands after this pass; this
+section records what the pass changed and the evidence for each change.
+
+- **Re-grounded on the laser.** `angsobuild/build-heightfields.mjs` cuts HF0
+  (4 m) and HF1 (32 m, now ±7,520 m) from the *published* ring graph through
+  the derived bridge — no credential needed, the tiles are the acquired
+  window to a quantum. Datum 9.1166 → 0.0008 m, MAD 1.846 → 0.022 m, best
+  shift (0, 0); exactly 69 model leaves changed (54 hole elevations, 14
+  levels, the floor), nothing horizontal. Every hole's new profile agrees
+  with the club's own uphill/downhill words. The v2 config's
+  `verticalDatumOffsetMetres` is 0.
+- **Mälaren, from the plate** (`laser-water.mjs`, `build-laser-water.mjs`):
+  flats within 0.2 m of the regulated level, ≥ 100 ha or within 60 m of one
+  (a flight-strip seam), so 18 in-band field flats were refused; 4 rings
+  traced inside a clip that stays clear of the carved box; 421 islands in the
+  far field, none inside HF0, one 15 ha island keyholed; bed sunk under
+  47,000+ lake samples. The OSM ring w307899187 turned out to be a
+  north-eastern bay, not the "western bay" the earlier notes assumed — the
+  ground west of the peninsula is 14–35 m high.
+- **The reed belt** (17 belts, 47 ha) into `vegetation.wetland`, from the
+  laser (shore ground within 0.9 m of the level) and confirmed on the z18
+  tiles; two OSM farmland rings clipped by it.
+- **Ten watercourses** (`laser-streams.json`, 1,611 m): traced as the
+  minimum of height-minus-15 m-mean across sections, kept where ≥ 0.2 m deep
+  for ≥ 20 m. The 9th's brook flows east into a feeder from the north-west
+  and south into the 4th's north pond; the 8th's dike turns east at z −185
+  and is culverted under the 8th and the 7th; the 12th's brook is culverted
+  under the 12th; the 13th's runs along its right rough and deepens turning
+  east; a 182 m dry dike lies beside the 10th, kept as a dike because the
+  club calls the 10th the one hole with no water nearby.
+- **540 stakes** (`marking.json`, `build-marking.mjs`): red round the ten
+  course ponds and along the whole left of the 17th; white at the woodland
+  edge (tree-cover raster) on the fence and OB sides the club names — right
+  of 2, 6, 7, 16 (second leg) and 17, left of the 16th's tee shot and the
+  15th; the 5/6 internal stakes as white. Every run verified to lie on the
+  player's side it claims at three stations, never inside 12 m of the line.
+- **The clubhouse hub**: the club's own car park, its overflow rows and the
+  caravan ground traced off z18 tiles into `infra.parking` (OSM had only the
+  campsite lots 700 m south).
+- **Scenery module** (`apps/golf/src/engine/scenery/angso.js`): the little
+  red house on the 5th's horizon is OSM way 215457959 — the only building
+  on the last leg's axis (2.2°, 792 m, across the bay); the juniper of "gå
+  över enen" stands at (−253, 109) on the 18th's right edge in the imagery;
+  Ängsö slott and its church at (−777, 4563)/(−877, 4512) on their OSM
+  footprints with a clearing each; a Mälardalen species rule (birch-led on
+  the shore plain under 3 m, more deciduous everywhere). Boats appear at the
+  camping piers on their own now that there is water under them.
+- **Corrections to records**: the hole-14 trace note now says left; the
+  EPSG:3006 migration carries the laser rings (Krüger series, 1.334 mm
+  against the kept cs2cs file); `migrate-without-proj` gained
+  `--reference-source`; `sat-mosaic.mjs` runs on Linux.

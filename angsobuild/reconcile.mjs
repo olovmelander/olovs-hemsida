@@ -241,7 +241,16 @@ const model = {
   infra: {
     paths: osm.paths, tracks: osm.tracks, roads: osm.roads,
     buildings: osm.buildings, farB: osm.farBuildings,
-    parking: osm.parking || [], piers: osm.piers || [], basins: [],
+    /* OSM's two campsite lots, plus the club's own car park and caravan ground
+       by the clubhouse traced off z18 tiles (sat-shapes.json scenery.parking) */
+    parking: [
+      ...(osm.parking || []),
+      ...((traces.scenery && traces.scenery.parking) || []).map(p => ({
+        id: p.id, ring: ring1(p.ring), surface: p.surface || 'gravel', prov: 'trace',
+        ...(p.cars === false ? { cars: false } : {}), ...(p.vehicles ? { vehicles: p.vehicles } : {}),
+      })),
+    ],
+    piers: osm.piers || [], basins: [],
     pitches: [],
     /* a landuse ring OSM drew over the lake or the reed belt comes back
        re-traced without them (laser-water.json), one entry per piece */
