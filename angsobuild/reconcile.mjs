@@ -162,9 +162,17 @@ for (const w of osm.water) {
   water.push({ id: w.id, ring: w.ring, name: w.name || null, area: w.area,
                level: lv ? lv.level : null, isLake: w.area > 120000 });
 }
+/* A traced pond's level comes from build-heightfields, which measured the laser
+   plate INSIDE the ring at 1 m and keyed it by centroid; the shoreline
+   percentile off the 4 m field is only the fallback for a trace it never saw. */
 const levelOfRing = ring => {
   const s = ring.map(p => terr(p[0], p[1])).sort((a, b) => a - b);
   return r1(s[Math.floor(s.length * 0.25)]);
+};
+const measuredPond = ring => {
+  const c = centroid(ring);
+  const hit = (hf.ponds || []).find(p => dist(p.centroid, c) < 1.5 && p.level != null);
+  return hit ? hit.level : null;
 };
 let pondId = 0;
 for (const t of traces.holes) for (const w of t.water || []) {
@@ -172,7 +180,7 @@ for (const t of traces.holes) for (const w of t.water || []) {
   const c = centroid(ring);
   if (water.some(x => pointInPoly(c[0], c[1], x.ring) || dist(centroid(x.ring), c) < 20)) continue;
   water.push({ id: `t${++pondId}`, ring, name: null, kind: w.kind,
-               area: Math.round(Math.abs(polyArea(ring))), level: levelOfRing(ring), isLake: false });
+               area: Math.round(Math.abs(polyArea(ring))), level: measuredPond(ring) ?? levelOfRing(ring), isLake: false });
 }
 
 /* --- the model ---------------------------------------------------------------- */
