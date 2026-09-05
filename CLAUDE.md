@@ -2251,6 +2251,19 @@ courses and both form factors, with one DOM and two layouts:
   that is the follow state; on a phone the row spans the top with the pill at
   the left and the button at the right, and neither covers anything.
 
+**The follow camera is a hole view, and a pinch is never a tap.** `focusGps` used
+to put the camera 16 m up and 25 m behind the player looking 55 m ahead --
+fine for the next shot, useless for reading the hole, and on the owner's
+phone it read as "I cannot see the slope or the hole". It frames the player
+and the green together now (back 34 + 0.2 d, up 18 + 0.14 d, aimed 0.45 d
+up the line; at 48° fov both stay in frame from 15 to 500 m), set once per
+fix and only translated after, so a pinch to look closer survives walking.
+And the tap handler had no idea how many fingers were down: the second
+finger of a pinch released with under 8 px of travel was a tap (a spurious
+measurement) or, past 450 ms, a long press -- which moves the ball and
+STOPS GPS. That is what "pinching in GPS mode" did. A gesture that ever had
+two fingers is neither now.
+
 `tools/check-caddie-ui.mjs` measures the phone layout rather than trusting
 it: the sheet rests in the bottom 20% of the screen above the quick actions,
 the stack is under 120 px wide at the right edge, the tag's anchor lands
