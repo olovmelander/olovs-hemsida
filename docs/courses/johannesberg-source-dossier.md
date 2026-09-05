@@ -575,36 +575,53 @@ duplicated a pad already there). Tee pads went 44 → 52.
 
 ### 8.5 There is no better capture, and that is the answer
 
-Veckefjärden's tracing frame came from Esri Wayback, where release 27982 turned out to
-be one leaf-on capture over the whole course. The same question here has the opposite
-answer, and `johannesbergbuild/imagery-captures.json` records it.
+Veckefjärden's tracing frame came from Esri Wayback, where one release turned out to
+be a single leaf-on capture over the whole course. The same question here has the
+opposite answer, and it is sharper than a release census can put it.
 
-Over this course the Wayback archive holds **three distinct pictures**, not one per
-release: 2014-02-20 (release 10), 2023-02-23 (57965) and 2024-02-08 (37965). The live
-mosaic is a patchwork of the last of those with a later restatement, and measured over
-the greens the two modern captures are indistinguishable:
+`tools/wayback-captures.mjs` hashes the same z18 tile across every release at five
+probes and then asks the metadata service what each distinct state actually is. Over
+this course there are exactly **two captures**, and both cover the whole property
+uniformly:
 
-| capture | eighteen's greens | fairway | the nine's greens |
+| capture | sensor | resolution | served by |
 |---|---|---|---|
-| live mosaic | 112 | 57 | 32 – 78 |
-| 37965 (2024-02-08) | 112 | 57 | 32 – 78 |
-| 57965 (2023-02-23) | 114 | 57 | 32 – 78 |
-| 10 (2014-02-20) | 62 | 45 | 1 – 56 |
+| **2021-03-23** | WV02 | 0.50 m | the live mosaic and every release back to 2024-02-08 |
+| **2012-05-01** | UC-G | 0.30 m | releases 2023-01-11 and older |
 
-(excess green, 2G−R−B, median inside the model's own rings.)
+**The release date is not the capture date, and that mattered here.** A first pass
+counted three distinct pictures because releases 2023-02-23 and 2024-02-08 differ in
+their tile bytes; they are the same 2021-03-23 flight re-encoded. Only the metadata
+service settles it.
 
-So the nine's greens read 32–78 against the eighteen's 112 in **every** modern capture
-Esri holds. That is not a leaf-off frame that a release swap would fix; on this
-evidence the nine's putting surfaces are genuinely weaker turf than the championship
-course's, and §7.9's six unresolved greens will not be resolved by imagery of any date.
-A dated ortho from another supplier, or the club, is what that needs.
+So the working assumption behind §7.9 — that a leaf-on release existed and would
+resolve the nine's greens — is simply false. The only modern imagery of this course
+is a **late-March** capture, before green-up in Uppland, and there is no summer
+capture at any date. Measured (`johannesbergbuild/green-vigour.mjs`, excess green
+2G−R−B inside every green ring of both courses):
+
+| capture | the eighteen's greens | the nine's greens | the nine as a fraction |
+|---|---|---|---|
+| 2021-03-23 (and the live mosaic) | 118 | 32 – 78 | 47 % |
+| 2012-05-01 | 60 | 2 – 58 | 65 % |
+
+The eighteen's greens read 118 in the same late-March frame in which the nine's read
+32–78, so this is not simply "nothing is green in March". On this evidence the nine's
+putting surfaces are genuinely weaker turf than the championship course's, and no
+imagery Esri holds will resolve §7.9's six unmapped greens. The 2012 capture is
+sharper (0.30 m against 0.50 m) and a month later in spring, and is worth a look for
+outlines, but it is fourteen years old and everything in it reads darker.
+
+What would resolve them is a dated ortho from another supplier, the club's own
+photography, or the laser — which is what the four hillshade-read greens in §7.9
+already are.
 
 **Two mechanics worth carrying to the next course.** A Wayback release can restate a
-tile's *bytes* without changing its *picture*, so captures must be separated by decoded
-pixel agreement and not by tile hash — three releases here differ in md5 and are 100 %
-identical in pixels. And the service resolves a request to the latest release ≤ the one
-asked for, so **every** release answers 200 over a tile that has ever been captured: a
-HEAD sweep returns all 190 of them and tells you nothing.
+tile's *bytes* without changing its *picture*, so captures must be separated by the
+metadata service or by decoded pixels, never by tile hash alone. And the service
+resolves a request to the latest release ≤ the one asked for, so **every** release
+answers 200 over a tile that has ever been captured: a HEAD sweep returns all 190 of
+them and tells you nothing.
 
 ### 8.6 The buildings are not moved, and the reason is the measurement
 

@@ -1,1 +1,370 @@
-{"source":"Esri World Imagery z18 (0.30 m/px), the live mosaic and every Wayback release holding a tile over the course, measured by johannesbergbuild/capture-census.mjs. Excess green (2G-R-B) is the median inside the model's own rings; the eighteen's greens are the reference for a maintained putting surface here. Captures are separated by DECODED PIXEL agreement, not by tile hash: a release can restate a tile's bytes without changing its picture.","measuredOn":"2026-09-05","boxes":{"eighteen":[-250,-600,450,100],"nine":[-830,-940,-190,-470]},"captures":[{"release":"live","date":"the mosaic served today","green18Exg":112,"fairway18Exg":57,"nineGreensExg":{"1:synth":54,"2:sat":77,"3:laser":49,"4:laser":56,"5:laser":32,"6:laser":45,"7:sat":69,"8:sat":78,"9:synth":52}},{"release":"27982","date":"2025-04-24","green18Exg":112,"fairway18Exg":57,"nineGreensExg":{"1:synth":54,"2:sat":77,"3:laser":49,"4:laser":56,"5:laser":32,"6:laser":45,"7:sat":69,"8:sat":78,"9:synth":52}},{"release":"37965","date":"2024-02-08","green18Exg":112,"fairway18Exg":57,"nineGreensExg":{"1:synth":54,"2:sat":77,"3:laser":49,"4:laser":56,"5:laser":32,"6:laser":45,"7:sat":69,"8:sat":78,"9:synth":52}},{"release":"57965","date":"2023-02-23","green18Exg":114,"fairway18Exg":57,"nineGreensExg":{"1:synth":54,"2:sat":78,"3:laser":49,"4:laser":56,"5:laser":32,"6:laser":47,"7:sat":69,"8:sat":76,"9:synth":52}},{"release":"10","date":"2014-02-20","green18Exg":62,"fairway18Exg":45,"nineGreensExg":{"1:synth":56,"2:sat":35,"3:laser":32,"4:laser":49,"5:laser":1,"6:laser":36,"7:sat":40,"8:sat":41,"9:synth":56}}],"pixelAgreement":[{"a":"10","b":"27982","eighteenPct":0,"ninePct":0},{"a":"10","b":"37965","eighteenPct":0,"ninePct":0},{"a":"10","b":"57965","eighteenPct":0,"ninePct":0},{"a":"10","b":"live","eighteenPct":0,"ninePct":0},{"a":"27982","b":"37965","eighteenPct":100,"ninePct":100},{"a":"27982","b":"57965","eighteenPct":14.7,"ninePct":11.6},{"a":"27982","b":"live","eighteenPct":100,"ninePct":100},{"a":"37965","b":"57965","eighteenPct":14.7,"ninePct":11.6},{"a":"37965","b":"live","eighteenPct":100,"ninePct":100},{"a":"57965","b":"live","eighteenPct":14.7,"ninePct":11.6}]}
+{
+ "probedOn": "2026-09-05",
+ "build": "johannesbergbuild",
+ "zoom": 18,
+ "origin": {
+  "lat": 59.72733,
+  "lon": 18.19202
+ },
+ "probes": [
+  {
+   "tile": "144321/76523",
+   "p": [
+    185,
+    98
+   ],
+   "lon": 18.195321070288088,
+   "lat": 59.726446960114984,
+   "runs": [
+    {
+     "sha": "ab6a9de37299f85a",
+     "newestRelease": 26334,
+     "newestDate": "2026-08-05",
+     "oldestRelease": 37965,
+     "oldestDate": "2024-02-08",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Vantor"
+     }
+    },
+    {
+     "sha": "98c2ce0bc841ee0d",
+     "newestRelease": 41468,
+     "newestDate": "2024-01-18",
+     "oldestRelease": 57965,
+     "oldestDate": "2023-02-23",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "c0e711d47bce8642",
+     "newestRelease": 11475,
+     "newestDate": "2023-01-11",
+     "oldestRelease": 10,
+     "oldestDate": "2014-02-20",
+     "capture": {
+      "date": "2012-05-01",
+      "res": 0.30000001192092896,
+      "sensor": "UC-G",
+      "provider": "Microsoft"
+     }
+    }
+   ]
+  },
+  {
+   "tile": "144316/76515",
+   "p": [
+    -216,
+    -519
+   ],
+   "lon": 18.188178017492778,
+   "lat": 59.731989360402444,
+   "runs": [
+    {
+     "sha": "4b15c610fa61f7d2",
+     "newestRelease": 26334,
+     "newestDate": "2026-08-05",
+     "oldestRelease": 27982,
+     "oldestDate": "2025-04-24",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Vantor"
+     }
+    },
+    {
+     "sha": "675db28d634d832b",
+     "newestRelease": 6543,
+     "newestDate": "2025-03-27",
+     "oldestRelease": 37965,
+     "oldestDate": "2024-02-08",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "cc209412a60b4d41",
+     "newestRelease": 41468,
+     "newestDate": "2024-01-18",
+     "oldestRelease": 57965,
+     "oldestDate": "2023-02-23",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "89be92c901856325",
+     "newestRelease": 11475,
+     "newestDate": "2023-01-11",
+     "oldestRelease": 10,
+     "oldestDate": "2014-02-20",
+     "capture": {
+      "date": "2012-05-01",
+      "res": 0.30000001192092896,
+      "sensor": "UC-G",
+      "provider": "Microsoft"
+     }
+    }
+   ]
+  },
+  {
+   "tile": "144326/76515",
+   "p": [
+    586,
+    -519
+   ],
+   "lon": 18.202464123083395,
+   "lat": 59.731989360402444,
+   "runs": [
+    {
+     "sha": "300bfc581da2754d",
+     "newestRelease": 26334,
+     "newestDate": "2026-08-05",
+     "oldestRelease": 20512,
+     "oldestDate": "2025-10-23",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Vantor"
+     }
+    },
+    {
+     "sha": "69f2873eacba67c1",
+     "newestRelease": 58924,
+     "newestDate": "2025-09-25",
+     "oldestRelease": 27982,
+     "oldestDate": "2025-04-24",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "01636b9bdb917104",
+     "newestRelease": 6543,
+     "newestDate": "2025-03-27",
+     "oldestRelease": 37965,
+     "oldestDate": "2024-02-08",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "27c32f05cc6a065e",
+     "newestRelease": 41468,
+     "newestDate": "2024-01-18",
+     "oldestRelease": 57965,
+     "oldestDate": "2023-02-23",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "c68a44ae88676224",
+     "newestRelease": 11475,
+     "newestDate": "2023-01-11",
+     "oldestRelease": 10,
+     "oldestDate": "2014-02-20",
+     "capture": {
+      "date": "2012-05-01",
+      "res": 0.30000001192092896,
+      "sensor": "UC-G",
+      "provider": "Microsoft"
+     }
+    }
+   ]
+  },
+  {
+   "tile": "144316/76531",
+   "p": [
+    -216,
+    715
+   ],
+   "lon": 18.188178017492778,
+   "lat": 59.720904559827524,
+   "runs": [
+    {
+     "sha": "d459d32deb600cd6",
+     "newestRelease": 26334,
+     "newestDate": "2026-08-05",
+     "oldestRelease": 20512,
+     "oldestDate": "2025-10-23",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Vantor"
+     }
+    },
+    {
+     "sha": "9eee5ab0f6051c22",
+     "newestRelease": 58924,
+     "newestDate": "2025-09-25",
+     "oldestRelease": 27982,
+     "oldestDate": "2025-04-24",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "4b3e8a154d5cfa8b",
+     "newestRelease": 6543,
+     "newestDate": "2025-03-27",
+     "oldestRelease": 37965,
+     "oldestDate": "2024-02-08",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "917d3174f4a96d69",
+     "newestRelease": 41468,
+     "newestDate": "2024-01-18",
+     "oldestRelease": 57965,
+     "oldestDate": "2023-02-23",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "7a7e6c90e2ebd8a9",
+     "newestRelease": 11475,
+     "newestDate": "2023-01-11",
+     "oldestRelease": 10,
+     "oldestDate": "2014-02-20",
+     "capture": {
+      "date": "2012-05-01",
+      "res": 0.30000001192092896,
+      "sensor": "UC-G",
+      "provider": "Microsoft"
+     }
+    }
+   ]
+  },
+  {
+   "tile": "144326/76531",
+   "p": [
+    586,
+    715
+   ],
+   "lon": 18.202464123083395,
+   "lat": 59.720904559827524,
+   "runs": [
+    {
+     "sha": "1f02d1a5de10b736",
+     "newestRelease": 26334,
+     "newestDate": "2026-08-05",
+     "oldestRelease": 20512,
+     "oldestDate": "2025-10-23",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Vantor"
+     }
+    },
+    {
+     "sha": "625e93febcd15c81",
+     "newestRelease": 58924,
+     "newestDate": "2025-09-25",
+     "oldestRelease": 27982,
+     "oldestDate": "2025-04-24",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "0a7deeb9bb66af56",
+     "newestRelease": 6543,
+     "newestDate": "2025-03-27",
+     "oldestRelease": 37965,
+     "oldestDate": "2024-02-08",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "5c272cf3c41ecba2",
+     "newestRelease": 41468,
+     "newestDate": "2024-01-18",
+     "oldestRelease": 57965,
+     "oldestDate": "2023-02-23",
+     "capture": {
+      "date": "2021-03-23",
+      "res": 0.5,
+      "sensor": "WV02",
+      "provider": "Maxar"
+     }
+    },
+    {
+     "sha": "8a41f594b9354483",
+     "newestRelease": 11475,
+     "newestDate": "2023-01-11",
+     "oldestRelease": 10,
+     "oldestDate": "2014-02-20",
+     "capture": {
+      "date": "2012-05-01",
+      "res": 0.30000001192092896,
+      "sensor": "UC-G",
+      "provider": "Microsoft"
+     }
+    }
+   ]
+  }
+ ],
+ "uniformReleases": [
+  {
+   "release": 26334,
+   "releaseDate": "2026-08-05",
+   "capture": "2021-03-23",
+   "res": 0.5,
+   "sensor": "WV02",
+   "provider": "Vantor"
+  },
+  {
+   "release": 11475,
+   "releaseDate": "2023-01-11",
+   "capture": "2012-05-01",
+   "res": 0.30000001192092896,
+   "sensor": "UC-G",
+   "provider": "Microsoft"
+  }
+ ]
+}

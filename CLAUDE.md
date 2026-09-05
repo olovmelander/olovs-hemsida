@@ -1330,7 +1330,9 @@ The order, which matters because reconcile reads what these write:
     node johannesbergbuild/laser-water.mjs          # -> laser-water.json, every ring vs the plate
     node johannesbergbuild/derive-dtm-features.mjs  # -> dtm-features.json (needs Chromium + the tiles)
     node johannesbergbuild/reconcile.mjs            # folds both in
-    node johannesbergbuild/capture-census.mjs       # -> imagery-captures.json (evidence, not an input)
+    node tools/wayback-captures.mjs --build johannesbergbuild \
+      --out johannesbergbuild/imagery-captures.json     # the captures, with their real dates
+    node johannesbergbuild/green-vigour.mjs         # -> green-vigour.json    (evidence, not an input)
     node johannesbergbuild/check-buildings.mjs      # -> building-check.json  (evidence, not an input)
 
 
@@ -1371,15 +1373,20 @@ Full record: dossier §8. What generalises:
   moved 2.8 m; OSM's 983 m ditch confirmed at 0.68 m and moved 0.6 m. A
   laser-only channel on a hole no club record mentions is recorded as a CANDIDATE
   and not modelled — the same two-records rule that refused three bunkers.
-- **There is no better capture, and measuring that is the answer.** Esri Wayback
-  holds THREE distinct pictures of this course (2014, 2023-02-23, 2024-02-08 =
-  the live mosaic), and the nine's greens read 32–78 excess green against the
-  eighteen's 112 in **every** modern one. So §7.9's six unresolved greens are not
-  a leaf-off frame a release swap would fix. Two mechanics: a release can restate
-  a tile's BYTES without changing its PICTURE, so separate captures by decoded
-  pixel agreement and never by tile hash; and Wayback resolves a request to the
-  latest release ≤ the one asked for, so **every** release answers 200 and a HEAD
-  sweep returns all 190 and tells you nothing.
+- **There is no better capture, and the release date is not the capture date.**
+  `tools/wayback-captures.mjs` (main's generic tool — do not write a second one)
+  finds exactly TWO captures over this course, both covering it uniformly:
+  **2021-03-23** WV02 at 0.50 m, which is the live mosaic and every release back
+  to 2024-02-08, and **2012-05-01** UC-G at 0.30 m. A first pass counted three,
+  because releases 2023-02-23 and 2024-02-08 differ in their tile BYTES — they
+  are the same flight re-encoded, and only the metadata service settles it. So
+  the only modern imagery here is a LATE-MARCH frame and there is no summer
+  capture at any date; §7.9's six unresolved greens are not a leaf-off frame a
+  release swap would fix. Measured (`green-vigour.mjs`), the nine's greens read
+  32–78 excess green where the eighteen's read 118 in the same frame — 47% — so
+  it is the turf, not the season. Second mechanic: Wayback resolves a request to
+  the latest release ≤ the one asked for, so **every** release answers 200 and a
+  HEAD sweep returns all 190 and tells you nothing.
 - **A "better" footprint position is usually the roof leaning.** An ortho is
   rectified to the TERRAIN, so anything standing above it leans radially away
   from the image's nadir point. 107 footprints wanted a 3–11 m shift; the shifts
