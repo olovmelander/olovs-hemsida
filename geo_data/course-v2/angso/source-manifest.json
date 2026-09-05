@@ -319,7 +319,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "angsobuild/course-model.json",
-      "sha256": "240ff37e04a4a922971678acb70e9dea812b31ca28dfc12d16bc2dafc8e53443",
+      "sha256": "d72af9bf6b34a5608324ac806a1ec2b2db3fd0e4e3ddbea565cc99c359102a6a",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -362,6 +362,18 @@
       ],
       "use": "migration-only",
       "notes": "The watercourses the club documents and OSM never had, read as incised channels off the published 1 m laser ground: the 9th's brook and its feeder, the 8th's dike (open where the laser sees it, culverted under the 8th and 7th fairways), the 12th's and 13th's brooks and the dry dike beside the 10th. Ten lines, 1,611 m, each kept only where the channel is at least 0.2 m deep against a 15 m mean for 20 m or more."
+    },
+    {
+      "id": "legacy-marking",
+      "kind": "composite",
+      "path": "angsobuild/marking.json",
+      "sha256": "cc82a6babb02ebd54acac1ff6ca1d85982ab214d34557296a4dbb2767b57973a",
+      "derivedFrom": [
+        "club-guide-legacy",
+        "esri-imagery-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Penalty and out-of-bounds stakes placed by rule from Lokala regler 2026 and the hole texts: red round every course pond and along the whole left of the 17th, white at the woodland edge (satellite tree-cover raster) where the club says out of bounds or the boar fence stands, the 5/6 internal stakes as white. Which side and which colour is the club's; where exactly is a stated rule, never a survey."
     },
     {
       "id": "legacy-tree-cover",

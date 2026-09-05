@@ -165,6 +165,7 @@ for (const b of bunkers) {
    build-heightfields sank, isLake gives the wide shore bench. */
 const laser = (() => { try { return readJSON(path.join(HERE, 'laser-water.json')); } catch { return null; } })();
 const laserStreams = (() => { try { return readJSON(path.join(HERE, 'laser-streams.json')); } catch { return null; } })();
+const marking = (() => { try { return readJSON(path.join(HERE, 'marking.json')); } catch { return null; } })();
 const SUPERSEDED_BY_LASER = new Set(laser ? ['w307899187'] : []);
 const water = [];
 for (const w of osm.water) {
@@ -224,6 +225,9 @@ const model = {
     ...(laserStreams?.streams || []).map(s => ({ id: s.id, line: s.line, kind: s.kind, w: s.kind === 'stream' ? 1.6 : 1.0, hole: s.hole, prov: 'laser' })),
   ],
   coast: { chains: [], beaches: (osm.sand || []).map(s => ({ id: s.id, ring: s.ring })) },
+  /* penalty and out-of-bounds stakes from Lokala regler 2026, placed by the
+     rules build-marking.mjs states (marking.json); colour r/y/w as the pages read it */
+  marking: (marking?.runs || []).map(r => ({ color: r.color, hole: r.hole, rule: r.rule, side: r.side ?? null, pts: r.pts })),
   vegetation: {
     forest: (osm.forest || []).map(f => f.ring),
     wood: (osm.wood || []).map(w => w.ring),
