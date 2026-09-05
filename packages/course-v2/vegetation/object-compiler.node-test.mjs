@@ -10,6 +10,7 @@ import {
   compileObjectChunks,
   headingFromId,
   objectCompilationSummary,
+  snapHeightIntoBounds,
   treeRecord,
 } from './object-compiler.mjs';
 
@@ -167,6 +168,26 @@ test('compiled chunks round-trip through the loader and refuse an unreviewed zon
     records: [make(1, 697100, 'A', { reviewStatus: 'pending' })],
   }), /must be approved/);
   assert.throws(() => compileObjectChunks({ groundId: GROUND, tiles: TILES, records: [make(1, 699999, 'A')] }), /outside every finest tile/);
+});
+
+test('a base height within its millimetre of a float-tailed tile bound is the bound, further out still fails', () => {
+  /* Ängsö tile l0/4/13: the lake plate decodes to 0.7600000000000002 and a crown on it rounds to 0.76 */
+  const plate = 0.7600000000000002;
+  const tiles = [{ id: 'l0/0/0', lod: 0, bounds: { ...TILES[0].bounds, minHeightRH2000: plate, maxHeightRH2000: 11.56 } }];
+  const make = (sequence, base) => treeRecord({
+    id: treeId(GROUND, sequence), groundId: GROUND, candidate: candidate(697100, 7025100, 6, 2),
+    baseHeightRH2000: base, sourceId: 'laser-lm-skog-21c036', capturedAt: '2021-03-15', truthZone: 'C', confidence: 0.6,
+  });
+  assert.equal(make(1, plate).heightRH2000, 0.76, 'the record rounds the float tail away');
+  assert.equal(snapHeightIntoBounds(make(1, plate), tiles[0].bounds).heightRH2000, plate);
+  assert.equal(snapHeightIntoBounds(make(1, 11.5605), tiles[0].bounds).heightRH2000, 11.56, 'the top bound snaps the same way');
+  assert.equal(snapHeightIntoBounds(make(1, 5), tiles[0].bounds).heightRH2000, 5, 'inside the bounds nothing moves');
+  const compiled = compileObjectChunks({ groundId: GROUND, tiles, records: [make(1, plate), make(2, 11.5605)] });
+  const decoded = readChunk(compiled.chunks[0].bytes);
+  assert.deepEqual(decoded.content.records.map(record => record.heightRH2000), [plate, 11.56]);
+  assert.deepEqual(validateObjectRegistry(decoded.content, decoded.header), []);
+  /* a base two millimetres under the plate is not a rounding artefact */
+  assert.throws(() => compileObjectChunks({ groundId: GROUND, tiles, records: [make(1, 0.758)] }), /outside the declared chunk bounds/);
 });
 
 test('stand fields aggregate canopy fraction and heights per campaign', () => {
