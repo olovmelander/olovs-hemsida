@@ -922,3 +922,59 @@ and needs data this pass could not obtain by eye:**
 The reusable outcome of this pass is the tracing tooling itself
 (`sat-crop.mjs`'s grid and surface overlays), so that when the orthophoto or a
 club layer does arrive, the traced comparison is one command away.
+
+## 17. The bunkers are measured now, not placed by formula (2026-09-05)
+
+§16 said the played surfaces should not be hand-retraced, and stood by the
+guide-formula bunkers because they landed on real sand on most holes. Sand,
+though, is the one surface that can be **measured** in the imagery rather than
+read by eye — bright, low-saturation, warm pixels against grass — so the
+bunkers were re-derived from pixels instead:
+
+`ribbingsforsbuild/detect-sand.mjs` composes the Esri z18 tiles over the whole
+course at native resolution (4096 × 3328 px, 0.309 m/px), classifies sand per
+pixel, grows 4-connected components and converts each one's centroid, area and
+covariance axes to frame metres through the exact tile → WGS84 → EPSG:3006 →
+local mapping. Positions therefore carry the imagery's own orthorectification
+error (a few metres) plus classification edges — **not a reading error**, which
+`--find` measured at 7–20 m for the coordinates read by eye in §16.
+
+**Calibration was measured, not assumed.** `--find` searched the brightest 5×5
+patch within 18 m of 19 hypothesised bunkers: sand reads rgb 183–214 /
+170–193 / 136–161 (min channel ≥136, R−B 42–54, G−R −9…−22). The confusers
+each fail one test — the dry-grass mound at [533,−409] reads 166,162,127 with
+G−R −4 (too grey, too dark), the yard roof 192,195,181 has G>R, the white
+house roof 222,219,208 has R−B 14. So the classifier is `min ≥ 132, spread ≤ 75,
+R−B ≥ 30, G−R ≤ −6`, plus geometric exclusions (water, buildings, parking, the
+yard, 7 m of any road) and a played-ground gate (within 75 m of a hole line or
+green, 8–700 m²).
+
+**Result: 32 candidates on the played ground; 21 accepted, 11 rejected, all
+listed in `sat-shapes.json`.** The rejects are pale dry rough along the hole-4
+tree clump, a farmland patch east of the boundary ditch, worn tee ground and
+the greenkeeping yard's hardstanding — visible as such on the review crops the
+tool writes. The 18 accepted bunkers (two split components merged at green 5)
+replace the 24 guide-formula ellipses through `apply-sat-shapes.mjs`, drawn as
+ellipses at the pixel centroid with the covariance axes.
+
+What the measurement says against the guide:
+
+| finding | holes |
+|---|---|
+| guide bunker confirmed on sand, now at its measured position | 1, 2 (×2), 3 (×1), 4 (×2), 5 (greenside), 6 (×3), 7 (×4), 8 (north), 9 (×3) |
+| guide bunker where the imagery shows plain grass — **dropped, not guessed** | 3 (second greenside), 5 (fairway right at 215/245 m), 7 (third at 190 m), 8 (south greenside), 9 (fairway "right" and the shaded left greenside) |
+| side disagreement | hole 9's fairway pair are BOTH left of the line (the guide had one right); hole 1's dogleg bunker lies 8 m west of the provisional line, i.e. on the player's right heading south, where the guide says left — either the guide's side or the provisional line is off |
+
+The dropped entries stay listed under `unresolvedGuideBunkers` with what the
+pixels read there, so the decision is reviewable. Two are genuinely uncertain
+rather than absent — hole 9's left greenside patch reads 152,141,117 (shaded
+sand or shadow) and hole 8's south side 171,169,134 (grey; a path or worn
+grass) — and the licensed orthophoto or a site visit settles them. The
+`guide-notes.json` prose still describes the course as the guide states it
+("bunkrar på båda sidor" at green 8); the render shows what the imagery
+resolves.
+
+Order in the pipeline: `build-course.mjs → apply-sat-shapes.mjs →
+apply-surroundings.mjs` (the surroundings pass burns bunker rings open in the
+tree-cover raster, so it runs last). Every measured bunker is gated ≥9 m from
+its own green centre, so a pale collar can never pass as sand.

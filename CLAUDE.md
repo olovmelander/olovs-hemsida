@@ -2690,6 +2690,8 @@ is its browser gate.
     node ribbingsforsbuild/build-course.mjs        # needs pixi/GDAL + acquisition caches
     node ribbingsforsbuild/fetch-osm-wide.mjs      # wide surroundings extract (no GDAL from here on)
     node ribbingsforsbuild/parse-osm-wide.mjs      # -> osm-surroundings.json
+    node ribbingsforsbuild/detect-sand.mjs         # measure bunkers from z18 sand pixels -> cache/sand-candidates.json + review crops
+    node ribbingsforsbuild/apply-sat-shapes.mjs    # accepted bunkers (sat-shapes.json) replace the guide-formula set
     node ribbingsforsbuild/apply-surroundings.mjs  # merge + gates; IDEMPOTENT, run after every build-course
     node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
     node packages/course-pack/emit-manifest.mjs
@@ -2723,8 +2725,13 @@ the same commit (`pnpm test` fails loudly on both, and
 - **The played surfaces are survey-anchored, not to be hand-retraced (§16).**
   The nine green centres ARE the GolfTraxx *Green Center* survey points to
   0.0 m — only the route lengths carried the yards bug, not the green points —
-  and they land on the real greens in z18 imagery; the guide-formula bunkers
-  land on real sand on 6 of 9 holes (soft spots: 3 and 6). This is a leaf-off
+  and they land on the real greens in z18 imagery. **The bunkers are MEASURED
+  (§17)**: `detect-sand.mjs` classifies sand per pixel (calibrated with
+  `--find` on 19 known bunkers — sand is rgb ~183–214/170–193/136–161, and the
+  dry-grass confuser fails on G−R > −6) and places 18 accepted bunkers at their
+  pixel centroids; five guide-listed bunkers resolved to plain grass and were
+  DROPPED, not guessed (listed in sat-shapes.json). Eyeballed coordinates were
+  7–20 m off the measured centroids — never hand-place a bunker here. This is a leaf-off
   park-and-pasture course where greens/bunkers barely out-contrast grass, so an
   eyeball retrace at ±4 m would degrade survey-good geometry. Green OUTLINES
   stay synthetic ellipses; their POSITIONS are survey-grade. Real surface

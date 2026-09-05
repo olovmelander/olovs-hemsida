@@ -559,13 +559,13 @@
         "status": "projected-source-frame-pending-independent-control",
         "source": "legacyFrame.projectedOriginEpsg3006"
       },
-      "coordinatePairCount": 7756,
+      "coordinatePairCount": 7666,
       "outsideCourseVicinity5km": 25,
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 1187,
+          "coordinatePairCount": 1097,
           "directFrameDelta": {
-            "count": 1187,
+            "count": 1097,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -584,7 +584,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 1187,
+              "count": 1097,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -598,9 +598,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 7731,
+          "coordinatePairCount": 7641,
           "directFrameDelta": {
-            "count": 7731,
+            "count": 7641,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -619,7 +619,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 7731,
+              "count": 7641,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -633,9 +633,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 7756,
+          "coordinatePairCount": 7666,
           "directFrameDelta": {
-            "count": 7756,
+            "count": 7666,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -654,7 +654,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 7756,
+              "count": 7666,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -670,12 +670,12 @@
       },
       "report": {
         "path": "geo_data/course-v2/ribbingsfors/migration/residual-report.json",
-        "sha256": "b3caf1d5bd5c95466ae4db4862ea6b0715265137b5527476b5813ada4ac41535"
+        "sha256": "f3fe2d04b3920bd0f9c2081290a572723c8c5b25791a3a6083c6d15bda8d02bd"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-          "sha256": "43f787e1567c46d7d08bdffd89b51713b04e99a2ee3f897a9ced10c6ea5308df"
+          "sha256": "985f89615224b39e64aea1b86a2b5274f99ca4edaef6b92cdbb47559952cecaf"
         }
       ]
     },

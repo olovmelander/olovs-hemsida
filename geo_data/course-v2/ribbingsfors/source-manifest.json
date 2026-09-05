@@ -306,10 +306,10 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "ribbingsforsbuild/course-model.json",
-      "sha256": "4ecfb3923a71c31b9eb6b155489363d9af2bc01b182ad04012a80d358e30a595",
+      "sha256": "d1f08538d48bb92cbffbc42701ab10fdf876267241119304f8a6905187be1def",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
-      "notes": "Current composite local-metre vectors, routing, RH 2000 terrain references and scenery inputs. Hole 9 Gul uses the explicit provisional DTM-bench control rather than the road-crossing card interpolation. The 2026-09 surroundings pass (apply-surroundings.mjs) adds the gated Skagern ring at 69.3 m, traced ditches replacing the synthetic guide crossings, 86 laser-confirmed protected-tree crowns, the corrected range, the greenkeeping yard, Skagersvik context and synthesized village housing."
+      "notes": "Current composite local-metre vectors, routing, RH 2000 terrain references and scenery inputs. Hole 9 Gul uses the explicit provisional DTM-bench control rather than the road-crossing card interpolation. Bunkers are measured sand (apply-sat-shapes.mjs from sat-shapes.json), no longer guide-formula placed. The 2026-09 surroundings pass (apply-surroundings.mjs) adds the gated Skagern ring at 69.3 m, traced ditches replacing the synthetic guide crossings, 86 laser-confirmed protected-tree crowns, the corrected range, the greenkeeping yard, Skagersvik context and synthesized village housing."
     },
     {
       "id": "legacy-heightfields",
@@ -423,7 +423,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-      "sha256": "43f787e1567c46d7d08bdffd89b51713b04e99a2ee3f897a9ced10c6ea5308df",
+      "sha256": "985f89615224b39e64aea1b86a2b5274f99ca4edaef6b92cdbb47559952cecaf",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Deterministic exact translation of all local x/z geometry to absolute EPSG:3006 coordinates; source scalar RH 2000 heights remain unapproved."
@@ -447,10 +447,19 @@
       "notes": "Read-by-eye satellite traces with per-feature confidence: the corrected driving range, practice greens, main parking, greenkeeping yard and its sheds, three ditch runs, two boundary walls, two jetties, a clear-fell ring and the manor precinct. Coordinates only; no imagery is redistributed."
     },
     {
+      "id": "surface-sand-bunkers",
+      "kind": "surface",
+      "path": "ribbingsforsbuild/sat-shapes.json",
+      "sha256": "cc65bfdec049abd4cc99673b4687a250544431c85ff25189b6f7a62358223452",
+      "derivedFrom": ["esri-imagery-traces", "club-guide-reference"],
+      "use": "migration-only",
+      "notes": "Bunkers measured by per-pixel sand classification of Esri z18 imagery (detect-sand.mjs): 18 accepted sand bunkers with pixel-centroid positions and covariance axes, 11 rejected candidates and 5 guide-listed bunkers that resolved to no sand, all listed. Replaces the guide-formula placement in the compatibility model; coordinates only, no imagery stored."
+    },
+    {
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/ribbingsfors/migration/residual-report.json",
-      "sha256": "b3caf1d5bd5c95466ae4db4862ea6b0715265137b5527476b5813ada4ac41535",
+      "sha256": "f3fe2d04b3920bd0f9c2081290a572723c8c5b25791a3a6083c6d15bda8d02bd",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Exact projected-frame translation audit with zero local-frame residuals; independent canonical control is still pending."

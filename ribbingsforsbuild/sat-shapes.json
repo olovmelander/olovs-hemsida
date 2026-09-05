@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "source": "Esri World Imagery z18, sand classified per pixel by ribbingsforsbuild/detect-sand.mjs (2026-09-05) and reviewed by eye on the review crops; positions are pixel centroids through the exact tile->WGS84->EPSG:3006->local mapping (~0.31 m/px), so the residual error is the imagery's own orthorectification (a few metres) plus classification edges, not a reading error. Migration-only under the blocked Esri redistribution licence; no imagery is stored.",
+  "method": {
+    "classifier": "min(R,G,B) >= 132, max-min <= 75, R-B >= 30, G-R <= -6 — calibrated with --find on 19 known bunkers (sand reads rgb 183–214/170–193/136–161; the dry-grass mound at [533,-409] reads 166,162,127 with G-R -4 and is rejected on warmth; roofs fail on G>R or R-B<30)",
+    "components": "4-connected, >= 40 px; area 8–700 m²; within 75 m of a hole line or green; not inside water, buildings, parking, the yard or within 7 m of a road/track",
+    "review": "32 candidates on the played ground; 21 accepted as sand bunkers, 11 rejected (pale dry rough along the hole-4 tree clump, farmland east of the ditch, yard hardstanding and material piles, worn tee ground)",
+    "shape": "ellipse from the pixel covariance: major/minor = 4 sigma, angle of the principal axis in the x/z plane"
+  },
+  "bunkers": [
+    { "hole": 1, "c": [505.2, -236.2], "major": 20.5, "minor": 6.2, "angleDeg": 34, "area": 73, "candidate": 0, "guide": "the large fairway bunker before the dogleg (guide fromGreen 193 left); measured 127 m from the green and 8 m WEST of the provisional line, i.e. on the player's right while heading south — either the guide's side or the provisional line is off here", "confidence": "high" },
+    { "hole": 2, "c": [538.7, 49.8], "major": 18.4, "minor": 5.8, "angleDeg": -47, "area": 78, "candidate": 1, "guide": "greenside right (west; the hole plays SSW over the pond)", "confidence": "high" },
+    { "hole": 2, "c": [567.7, 71.1], "major": 7.6, "minor": 5.5, "angleDeg": -82, "area": 32, "candidate": 2, "guide": "greenside left (east)", "confidence": "high" },
+    { "hole": 3, "c": [483.0, 370.9], "major": 11.2, "minor": 5.5, "angleDeg": -87, "area": 48, "candidate": 5, "guide": "greenside left (east, playing south); the guide's second left-side bunker resolves to no sand", "confidence": "high" },
+    { "hole": 4, "c": [450.3, 189.2], "major": 27.4, "minor": 6.4, "angleDeg": 73, "area": 112, "candidate": 7, "guide": "fairway bunker left of the dogleg grove (guide fromGreen 118 left); measured 94 m from the green, 9 m left of the line", "confidence": "high" },
+    { "hole": 4, "c": [424.2, 110.6], "major": 9.4, "minor": 3.4, "angleDeg": -37, "area": 23, "candidate": 11, "guide": "greenside right", "confidence": "high" },
+    { "hole": 5, "c": [-139.5, 162.7], "major": 10.0, "minor": 4.0, "angleDeg": 25, "area": 31, "candidate": "16+17", "guide": "greenside right (north); the guide's two right-side fairway bunkers at 215/245 m resolve to plain grass", "confidence": "high" },
+    { "hole": 6, "c": [-12.4, 15.6], "major": 17.6, "minor": 4.0, "angleDeg": 2, "area": 48, "candidate": 22, "guide": "greenside left (north)", "confidence": "high" },
+    { "hole": 6, "c": [-3.3, 56.9], "major": 16.9, "minor": 6.4, "angleDeg": -8, "area": 83, "candidate": 20, "guide": "greenside right (south)", "confidence": "high" },
+    { "hole": 6, "c": [-126.4, 10.0], "major": 23.8, "minor": 5.1, "angleDeg": 0, "area": 91, "candidate": 19, "guide": "fairway left along the road (guide fromGreen 105 left; measured 124)", "confidence": "high" },
+    { "hole": 7, "c": [275.3, 16.1], "major": 11.5, "minor": 6.4, "angleDeg": -7, "area": 57, "candidate": 26, "guide": "greenside left (north)", "confidence": "high" },
+    { "hole": 7, "c": [280.6, 51.8], "major": 10.2, "minor": 4.6, "angleDeg": 25, "area": 35, "candidate": 27, "guide": "greenside right (south)", "confidence": "high" },
+    { "hole": 7, "c": [113.2, 14.6], "major": 16.2, "minor": 6.0, "angleDeg": -8, "area": 76, "candidate": 24, "guide": "fairway left (guide 142/168 left-right pair at ~167 m); the guide's third at 190 m resolves to no sand", "confidence": "high" },
+    { "hole": 7, "c": [109.6, 56.3], "major": 12.9, "minor": 6.5, "angleDeg": -26, "area": 63, "candidate": 25, "guide": "fairway right", "confidence": "high" },
+    { "hole": 8, "c": [472.4, -106.6], "major": 8.8, "minor": 3.9, "angleDeg": 13, "area": 26, "candidate": 28, "guide": "greenside north; the guide's second (south side) resolves to no sand", "confidence": "medium" },
+    { "hole": 9, "c": [405.0, -427.5], "major": 17.8, "minor": 5.6, "angleDeg": -21, "area": 60, "candidate": 29, "guide": "greenside right (east)", "confidence": "high" },
+    { "hole": 9, "c": [377.4, -376.8], "major": 8.9, "minor": 7.2, "angleDeg": -85, "area": 48, "candidate": 31, "guide": "fairway left, 65 m from the green", "confidence": "high" },
+    { "hole": 9, "c": [364.1, -357.4], "major": 15.5, "minor": 4.5, "angleDeg": -76, "area": 53, "candidate": 30, "guide": "fairway left, 88 m from the green (the guide put this pair as left+RIGHT; both are left)", "confidence": "high" }
+  ],
+  "unresolvedGuideBunkers": [
+    { "hole": 3, "guide": "second greenside left (fromGreen 38)", "finding": "no sand; only one sand bunker at the green's east side" },
+    { "hole": 5, "guide": "fairway right at 215 and 245 m", "finding": "the formula positions and their surroundings are plain grass in leaf-off imagery; dropped rather than guessed" },
+    { "hole": 7, "guide": "fairway right at 190 m", "finding": "no sand; two fairway bunkers measured at ~167/171 m" },
+    { "hole": 8, "guide": "greenside south (fromGreen 20 right)", "finding": "no bright sand; brightest patch reads 171,169,134 (grey-neutral) — a path or worn grass" },
+    { "hole": 9, "guide": "greenside left (fromGreen 18) and fairway right (fromGreen 92)", "finding": "left greenside: brightest patch 152,141,117 (shaded, inconclusive); the fairway pair both measure LEFT of the line" }
+  ],
+  "rejectedCandidates": [
+    { "candidate": 3, "c": [629.6, -14.5], "why": "worn ground on the hole-2 tee decks" },
+    { "candidate": 4, "c": [604.6, 239.3], "why": "pale farmland east of the boundary ditch, 64 m from play" },
+    { "candidates": [6, 13, 14, 15], "why": "pale dry rough at the edge of the hole-4 tree clump" },
+    { "candidates": [8, 9, 10, 12], "why": "pale dry strip along the west edge of the hole-4 corridor; irregular, not sand" },
+    { "candidates": [18, 21, 23], "why": "greenkeeping yard hardstanding and material piles" }
+  ]
+}

@@ -22,13 +22,13 @@
   "independentControlAnchors": 0,
   "canonicalOriginPromoted": false,
   "aggregate": {
-    "coordinatePairCount": 7756,
+    "coordinatePairCount": 7666,
     "outsideCourseVicinity5km": 25,
     "scopes": {
       "playingGeometry": {
-        "coordinatePairCount": 1187,
+        "coordinatePairCount": 1097,
         "directFrameDelta": {
-          "count": 1187,
+          "count": 1097,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -47,7 +47,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 1187,
+            "count": 1097,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -61,9 +61,9 @@
         }
       },
       "courseVicinity5km": {
-        "coordinatePairCount": 7731,
+        "coordinatePairCount": 7641,
         "directFrameDelta": {
-          "count": 7731,
+          "count": 7641,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -82,7 +82,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 7731,
+            "count": 7641,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -96,9 +96,9 @@
         }
       },
       "allInventoriedGeometry": {
-        "coordinatePairCount": 7756,
+        "coordinatePairCount": 7666,
         "directFrameDelta": {
-          "count": 7756,
+          "count": 7666,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -117,7 +117,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 7756,
+            "count": 7666,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -136,18 +136,18 @@
     {
       "source": {
         "path": "ribbingsforsbuild/course-model.json",
-        "sha256": "4ecfb3923a71c31b9eb6b155489363d9af2bc01b182ad04012a80d358e30a595"
+        "sha256": "d1f08538d48bb92cbffbc42701ab10fdf876267241119304f8a6905187be1def"
       },
       "output": {
         "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-        "sha256": "43f787e1567c46d7d08bdffd89b51713b04e99a2ee3f897a9ced10c6ea5308df"
+        "sha256": "985f89615224b39e64aea1b86a2b5274f99ca4edaef6b92cdbb47559952cecaf"
       },
-      "coordinatePairCount": 7756,
+      "coordinatePairCount": 7666,
       "ignoredMetadataPairCount": 0,
       "coordinatePathCounts": {
         "evidence.protectedTrees.[].c": 72,
-        "holes.[].bunkers.[].c": 24,
-        "holes.[].bunkers.[].ring.[]": 336,
+        "holes.[].bunkers.[].c": 18,
+        "holes.[].bunkers.[].ring.[]": 252,
         "holes.[].fairway.rings.[].[]": 460,
         "holes.[].green.c": 9,
         "holes.[].green.ring.[]": 162,
@@ -180,7 +180,7 @@
         "water.[].ring.[]": 1780
       },
       "directFrameDelta": {
-        "count": 7756,
+        "count": 7666,
         "biasMetres": {
           "x": 0,
           "z": 0
@@ -199,7 +199,7 @@
           "z": 0
         },
         "residuals": {
-          "count": 7756,
+          "count": 7666,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -213,9 +213,9 @@
       },
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 1187,
+          "coordinatePairCount": 1097,
           "directFrameDelta": {
-            "count": 1187,
+            "count": 1097,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -234,7 +234,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 1187,
+              "count": 1097,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -248,9 +248,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 7731,
+          "coordinatePairCount": 7641,
           "directFrameDelta": {
-            "count": 7731,
+            "count": 7641,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -269,7 +269,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 7731,
+              "count": 7641,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -283,9 +283,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 7756,
+          "coordinatePairCount": 7666,
           "directFrameDelta": {
-            "count": 7756,
+            "count": 7666,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -304,7 +304,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 7756,
+              "count": 7666,
               "biasMetres": {
                 "x": 0,
                 "z": 0
