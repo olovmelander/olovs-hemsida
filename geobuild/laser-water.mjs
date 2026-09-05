@@ -37,10 +37,13 @@
        node geobuild/laser-water.mjs        -> geobuild/laser-water.json       */
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadTerrain, DATUM, inRing, bboxOf, lineD, ringD, median, quant, areaOf, meanPt } from './dtm-lib.mjs';
+import { loadTerrain, datumOf, inRing, bboxOf, lineD, ringD, median, quant, areaOf, meanPt } from './dtm-lib.mjs';
 import { ROOT, simplifyDP, r1 } from './lib.mjs';
 import { detectFlatWater } from '../apps/golf/src/engine/v2-flat-water.mjs';
 import { squaredDistanceTransform } from '../packages/course-v2/distance-transform.mjs';
+
+/* legacy minus RH 2000 for this ground, as its own reviewed v2 contract measured it */
+const DATUM = datumOf('veckefjarden');
 
 export const LAKE_LEVEL_RH2000 = 0.280;   /* the plate, measured: every lake cell in the window reads it */
 export const LEVEL_BAND = 0.20;           /* a component this close to the level may be the lake */

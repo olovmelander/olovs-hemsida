@@ -1317,6 +1317,81 @@ on the tiles, placed by registering the plan on its tee disc and green) and the
 - `render-design.mjs` wrote a bare `&` in the SVG title, so every viewer
   stopped at line 701 and drew the layout up to the first error only. Fixed.
 
+### Johannesberg read off the laser and the imagery (2026-09-05)
+
+The order, which matters because reconcile reads what these write:
+
+    node johannesbergbuild/laser-water.mjs          # -> laser-water.json, every ring vs the plate
+    node johannesbergbuild/derive-dtm-features.mjs  # -> dtm-features.json (needs Chromium + the tiles)
+    node johannesbergbuild/reconcile.mjs            # folds both in
+    node johannesbergbuild/capture-census.mjs       # -> imagery-captures.json (evidence, not an input)
+    node johannesbergbuild/check-buildings.mjs      # -> building-check.json  (evidence, not an input)
+
+
+The two orthorectified sources are a SOURCE here now, not only a check.
+`geobuild/dtm-lib.mjs` takes its frame, its pack origin in EPSG:3006 and its
+vertical datum step from each slug's own reviewed v2 frontier contract, so
+`loadTerrain('<slug>')` works for any course with one and nothing is written
+down twice; `johannesbergbuild/` grew `derive-dtm-features.mjs`,
+`laser-water.mjs`, `capture-census.mjs` and `check-buildings.mjs` on it.
+Full record: dossier §8. What generalises:
+
+- **A pond is a flat plate, and that is a level, a registration check and an
+  outline at once.** Nine of twelve rings enclose a plate over 94–100% of their
+  interior (so the OSM outlines are right, best shift 0–3 m) and the whole pond
+  chain sits inside ONE METRE, 10.24–11.27 m RH 2000, where Terrarium had it
+  spread over 5.2 m. Corrections −1.71 to +2.91 m per ring. **The scatter is the
+  finding, not the offset**: this is the shape error §3.3 measured (MAD 1.72 m),
+  which no single datum number can bridge. The three named lakes are 1.1–3.2 km
+  out, outside the 2 km window, and this ground has no ring graph to reach them.
+- **Calibrate the sand rule on the course you are reading.** Interior rgb
+  155,157,123 against a turf band of 98,122,69 sets luminance ≥ 132.5 and
+  R/G ≥ 0.944 — measured here, not copied from Veckefjärden. 13 of 27 traced
+  bunkers are confirmed by sand over a dish and take the detection's outline;
+  the rest keep theirs and are listed unconfirmed, never dropped.
+- **A whole-ring raster shift search is a coarser instrument than a centroid.**
+  §7.10 put the traces 2–3 m off their laser features; centroid to centroid over
+  the thirteen confirmed the median offset is **0.20 m**. Where both sources see
+  the same bunker the trace is sub-metre.
+- **A TEE TERRACE IS NOT A DITCH.** A tee cut into a slope leaves a cross-slope
+  cut behind and a drop in front, and the valley filter scores that exactly as a
+  channel: three "ditches" 0.9–1.7 m deep and 90–100 m long appeared on the 10th,
+  whose five tee marks run 160 m down a 16 m fall, all 6–18 m from a mark.
+  Guarding on traced PADS misses it (three of those marks have no pad) — guard on
+  every card tee MARK.
+- **The laser's better use was measuring the channels two other records already
+  place.** Re-run between its own endpoints as a least-cost path along the valley
+  bottom, the 18th's traced crossing became 45 m of real channel at 0.41 m and
+  moved 2.8 m; OSM's 983 m ditch confirmed at 0.68 m and moved 0.6 m. A
+  laser-only channel on a hole no club record mentions is recorded as a CANDIDATE
+  and not modelled — the same two-records rule that refused three bunkers.
+- **There is no better capture, and measuring that is the answer.** Esri Wayback
+  holds THREE distinct pictures of this course (2014, 2023-02-23, 2024-02-08 =
+  the live mosaic), and the nine's greens read 32–78 excess green against the
+  eighteen's 112 in **every** modern one. So §7.9's six unresolved greens are not
+  a leaf-off frame a release swap would fix. Two mechanics: a release can restate
+  a tile's BYTES without changing its PICTURE, so separate captures by decoded
+  pixel agreement and never by tile hash; and Wayback resolves a request to the
+  latest release ≤ the one asked for, so **every** release answers 200 and a HEAD
+  sweep returns all 190 and tells you nothing.
+- **A "better" footprint position is usually the roof leaning.** An ortho is
+  rectified to the TERRAIN, so anything standing above it leans radially away
+  from the image's nadir point. 107 footprints wanted a 3–11 m shift; the shifts
+  are radial about one point at mean cos **0.461** against **−0.147** for random
+  directions, growing with distance (r 0.245) and area (r 0.171). Nothing is
+  applied — separating lean from a real error needs heights the model lacks.
+  The first objective ("roof inside + vegetation outside") asked everything to
+  move ten metres into open grass and piled the answers on the search boundary,
+  the same flat-objective tell as the §3.3 datum sweep. Score the CONTRAST
+  between the interior and a 2–5 m collar, and discard a shift that lands on the
+  boundary.
+- **`BUILD` is read at import time, so a wrong place looks like a wrong rule.**
+  `imagery/wayback.mjs` takes its frame from `BUILD`'s model when the module
+  loads and defaults to `geobuild`; the first run loaded Johannesberg's terrain
+  and sampled Veckefjärden's tiles 400 km away, and the traced bunkers came out
+  DARKER than the turf around them. dtm-lib compares the two frames and throws
+  now, naming the fix, and the build scripts set `BUILD` before a dynamic import.
+
 ## The second courses — three clubs here have a course we were not rendering
 
 Upsala GK has three courses, Johannesberg has 27 holes, and Veckefjärden has a

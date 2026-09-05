@@ -32,8 +32,8 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
   ribbingsfors: '1a6d58dc424c34700a8621a746717ea00d7c2e7b5c295e40f26f5e6ef15be5cf',
   upsala: 'd0f6f895614c2472505587dd6796d33ec860058264da4286dafec79bd1e43d56',
   'upsala-mellanbanan': '3ccc7f203c1f96f63c270f53e8604da18d2825a7913e071573abb275c92d1864',
-  johannesberg: '11a23400ba7a47cf8f99a7015f0639e3ab3b7cb803e057ce8ed2fbbf847253b5',
-  'johannesberg-9': 'd5c43e278cd9784ad22e2081d9860da8c3b3ad924c57f65069a56421135a6342',
+  johannesberg: '473dfb98dd4f1f85498252662cf5738b721f86a6897e4a5fecbb93c719df0b20',
+  'johannesberg-9': '2e8ac61987e4b680f56ca61b4e7e5318d77ea742bd8fc5fa2ea0ae95a7a412a4',
   veckefjarden: 'a7a36c6a678be6bee217c077d18636fdae63389f663549fd515c640d42c7c4d2',
   'veckefjarden-korthalsbanan': 'eed0959e725e2904e1970806d3d5dd65c865a4bb0263e169ab28735765042725',
 });
