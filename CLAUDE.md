@@ -3310,7 +3310,8 @@ is its browser gate.
     node ribbingsforsbuild/trace-surfaces.mjs      # greens, tee decks, fairways, routes by rule -> surface-traces.json + cache/review/hole-N.png (LOOK)
     node ribbingsforsbuild/laser-ditches.mjs       # traced ditches re-laid on the laser channel bottoms + crossings -> laser-ditches.json
     node ribbingsforsbuild/apply-surface-traces.mjs  # folds both in; runs LAST (apply-surroundings keeps laser-laid streams on a rerun)
-    node ribbingsforsbuild/trace-buildings.mjs     # roofs by rule -> cache/review/buildings-*.png (the yard refuses; see the dossier)
+    node ribbingsforsbuild/trace-buildings.mjs     # roofs by rule (colour+smoothness+HARD EDGE, then grown to the edge peak)
+    node ribbingsforsbuild/trace-practice.mjs      # the range field, its bays and the practice greens -> practice-traces.json
     node ribbingsforsbuild/wayback-greens.mjs      # the second dated capture: greens refused, bunkers agreed -> wayback-greens.json
     node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
     node packages/course-pack/emit-manifest.mjs
@@ -3384,10 +3385,34 @@ the same commit (`pnpm test` fails loudly on both, and
   (77.7 m) → road culvert → the two crossings at green 1 → hole-9 pond
   (72.0 m) → lake. The four synthetic guide-crossing streams are replaced by
   these traces; the gradient is the check.
-- **The range the guide interpretation placed was in the lake.** The real one
-  sits between holes 9 and 1 with its bays at the south end and a mature oak
-  in the field. Satellite traces carry per-feature confidence in
-  `surroundings-traces.json`; the ±8 m reading error is stated there.
+- **The range field is dormant ground, and that makes it the easiest thing on
+  the course to measure.** A range is not mown to fairway height, so in the
+  leaf-off capture it reads excess green 15–17 and brightness 121 against
+  53–109 and 89–103 for every turf beside it — a wider separation than sand
+  against grass. Classified that way (`trace-practice.mjs`) it is 6,541 m²
+  over x 387–435, z −386…−226; the eye-traced ring it replaced lay **31.8 m**
+  away and claimed 10,166 m², half of it on mown turf. **The bays are at the
+  far end from the clubhouse** — the laser finds 1,362 of 4,324 cells flat to
+  0.12 m at the south end against 223 at the north, with a 262 m² mown bench
+  among them, and the club's own range photographs agree — so the model carries
+  `scenery.rangeTee` and the engine prefers a measured tee over its own "the
+  end you walk to from the clubhouse" rule. No tree stands inside the measured
+  field: the traced "mature oak in the field" is dropped.
+- **Of the two practice greens, one is measured and one does not exist.**
+  Calibrated on the nine surveyed greens (collar contrast 3–45, median 18;
+  laser spread 0.11–0.37 m, median 0.18), the green beside the clubhouse reads
+  contrast 31 at 0.17 m and the grower accepts 604 m² there; the second circle
+  reads contrast 7 at 0.37 m on a track and the grower refuses it. A scan of
+  the whole clubhouse quarter finds no second green, so it is dropped rather
+  than moved.
+- **A roof is not a colour, it is a hard edge.** Colour and smoothness alone
+  proposed seven buildings at the manor and four were dry grass between the
+  trees; the median |brightness step| across the box edge reads 19–25 on real
+  roofs (the measured clubhouse scores 25) and 6–11 on grass. And a colour
+  component is only ever HALF a roof, because the shaded pitch merges with the
+  building's own cast shadow — each accepted box is grown until that step
+  peaks. Six farm buildings adopted, 153–701 m²; the ortho's roof lean means
+  the outline overstates the footprint, and the provenance says so.
 - **The played surfaces are traced BY RULE now, not by hand (§19).** The
   leaf-off z18 capture shows mown turf vivid against dormant pasture (ExG
   98–118 on the greens, p90 59 on the rough) and every green as a darker

@@ -5684,6 +5684,10 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
        beats writing it down: five of these six pages carried Norrfallsvikens hut
        coordinate, and a range traced anywhere else put its flags in another field. */
     const hut = (() => {
+      /* a course that has MEASURED its tee line says so, and is believed —
+         Ribbingsfors's bays are a 369 m2 laser-flat bench at the field's south
+         end, which is the far end from its clubhouse */
+      if (M.scenery.rangeTee) return M.scenery.rangeTee;
       const B = M.infra.buildings || [];
       const cb = B.find(q => q.amenity === 'clubhouse')
               || B.find(q => q.name && /golfklubb|klubbhus/i.test(q.name));

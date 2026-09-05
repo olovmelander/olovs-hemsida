@@ -22,7 +22,7 @@
   "independentControlAnchors": 0,
   "canonicalOriginPromoted": false,
   "aggregate": {
-    "coordinatePairCount": 10365,
+    "coordinatePairCount": 10387,
     "outsideCourseVicinity5km": 27,
     "scopes": {
       "playingGeometry": {
@@ -61,9 +61,9 @@
         }
       },
       "courseVicinity5km": {
-        "coordinatePairCount": 10338,
+        "coordinatePairCount": 10360,
         "directFrameDelta": {
-          "count": 10338,
+          "count": 10360,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -82,7 +82,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 10338,
+            "count": 10360,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -96,9 +96,9 @@
         }
       },
       "allInventoriedGeometry": {
-        "coordinatePairCount": 10365,
+        "coordinatePairCount": 10387,
         "directFrameDelta": {
-          "count": 10365,
+          "count": 10387,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -117,7 +117,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 10365,
+            "count": 10387,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -136,13 +136,13 @@
     {
       "source": {
         "path": "ribbingsforsbuild/course-model.json",
-        "sha256": "dd4395ce879ac69f1c1b9b8a4d9b3b0f91a03b42316573dc1322effa40e135a8"
+        "sha256": "ff0b6a143910153942bc8c9fc2e206af655f9e0cb13ddd516af4a3f005d3970e"
       },
       "output": {
         "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-        "sha256": "2ef0d6a59871cda23881ed8668c09c3f6cc18b3926cc8d83f3fc1686d24a4c83"
+        "sha256": "e908817b558939a767a90815f321a02888a005acc9afde7d860b1e0ef790cd05"
       },
-      "coordinatePairCount": 10365,
+      "coordinatePairCount": 10387,
       "ignoredMetadataPairCount": 0,
       "coordinatePathCounts": {
         "evidence.bunkers.laserCheck.registration.medianShift": 1,
@@ -160,7 +160,7 @@
         "holes.[].tees.marks.[].cardPoint": 27,
         "holes.[].tees.pads.[].c": 15,
         "holes.[].tees.pads.[].ring.[]": 60,
-        "infra.buildings.[].ring.[]": 166,
+        "infra.buildings.[].ring.[]": 190,
         "infra.landuse.[].ring.[]": 566,
         "infra.parking.[].ring.[]": 32,
         "infra.paths.[].line.[]": 342,
@@ -171,8 +171,9 @@
         "infra.roads.[].line.[]": 816,
         "infra.tracks.[].line.[]": 507,
         "scenery.grass.[].[]": 4,
-        "scenery.greens.[].[]": 28,
-        "scenery.range.[].[]": 6,
+        "scenery.greens.[].[]": 14,
+        "scenery.range.[].[]": 17,
+        "scenery.rangeTee": 1,
         "sourceWater.breakLakes.[].ring.[]": 1255,
         "streams.[].line.[]": 213,
         "surround.clearfells.[].[]": 6,
@@ -185,7 +186,7 @@
         "water.[].ring.[]": 1990
       },
       "directFrameDelta": {
-        "count": 10365,
+        "count": 10387,
         "biasMetres": {
           "x": 0,
           "z": 0
@@ -204,7 +205,7 @@
           "z": 0
         },
         "residuals": {
-          "count": 10365,
+          "count": 10387,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -253,9 +254,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 10338,
+          "coordinatePairCount": 10360,
           "directFrameDelta": {
-            "count": 10338,
+            "count": 10360,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -274,7 +275,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 10338,
+              "count": 10360,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -288,9 +289,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 10365,
+          "coordinatePairCount": 10387,
           "directFrameDelta": {
-            "count": 10365,
+            "count": 10387,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -309,7 +310,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 10365,
+              "count": 10387,
               "biasMetres": {
                 "x": 0,
                 "z": 0

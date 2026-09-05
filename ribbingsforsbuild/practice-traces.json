@@ -1,0 +1,308 @@
+{
+ "schemaVersion": 1,
+ "source": "Esri World Imagery z18 (2023-04-28 WorldView-2, leaf-off) and the published 1 m laser terrain; ribbingsforsbuild/trace-practice.mjs 2026-09-05. Migration-only, no imagery stored.",
+ "method": {
+  "field": "dormant ground classified per pixel (excess green <= 40, brightness >= 105 — measured 15–17/121 inside the field against 53–109/89–103 for every turf beside it), opened 1 m, closed 2 m, largest component, holes filled, outline simplified to 2 m",
+  "bays": "each end searched for laser-flat benches (5 x 5 m spread < 0.12 m, components >= 25 m², dark cells < 30% so the pond is not a bench); the end with more flat ground carries the tee line, and its largest bench is the bays",
+  "oak": "dark (brightness < 70) components of 8–400 m² wholly inside the field",
+  "practiceGreens": "excess green inside the disc against a 3–8 m collar, and the laser 5x5 m spread, both calibrated on the nine surveyed greens"
+ },
+ "range": {
+  "ring": [
+   [
+    402,
+    -386
+   ],
+   [
+    413,
+    -385
+   ],
+   [
+    425,
+    -379
+   ],
+   [
+    431,
+    -373
+   ],
+   [
+    435,
+    -362
+   ],
+   [
+    434,
+    -226
+   ],
+   [
+    423,
+    -227
+   ],
+   [
+    423,
+    -230
+   ],
+   [
+    398,
+    -228
+   ],
+   [
+    398,
+    -232
+   ],
+   [
+    395,
+    -232
+   ],
+   [
+    387,
+    -334
+   ],
+   [
+    390,
+    -336
+   ],
+   [
+    389,
+    -352
+   ],
+   [
+    392,
+    -361
+   ],
+   [
+    395,
+    -362
+   ],
+   [
+    395,
+    -370
+   ]
+  ],
+  "area": 6541,
+  "centre": [
+   412.7,
+   -305
+  ],
+  "bays": [
+   384.9,
+   -226.2
+  ],
+  "teeEnd": "south",
+  "ends": {
+   "north": {
+    "flatCells": 223,
+    "cells": 4324,
+    "benches": [
+     {
+      "c": [
+       463.5,
+       -379.7
+      ],
+      "area": 47
+     },
+     {
+      "c": [
+       444.2,
+       -384.9
+      ],
+      "area": 42
+     }
+    ]
+   },
+   "south": {
+    "flatCells": 1362,
+    "cells": 4324,
+    "benches": [
+     {
+      "c": [
+       384.9,
+       -226.2
+      ],
+      "area": 262
+     },
+     {
+      "c": [
+       454.2,
+       -228.7
+      ],
+      "area": 253
+     },
+     {
+      "c": [
+       378.6,
+       -198.4
+      ],
+      "area": 137
+     },
+     {
+      "c": [
+       414.1,
+       -194.3
+      ],
+      "area": 58
+     },
+     {
+      "c": [
+       463.7,
+       -211.7
+      ],
+      "area": 54
+     },
+     {
+      "c": [
+       401.6,
+       -233.1
+      ],
+      "area": 51
+     },
+     {
+      "c": [
+       401.3,
+       -223.6
+      ],
+      "area": 31
+     }
+    ]
+   }
+  },
+  "trees": [],
+  "tracedBefore": {
+   "ring": [
+    [
+     396,
+     -368
+    ],
+    [
+     446,
+     -372
+    ],
+    [
+     470,
+     -300
+    ],
+    [
+     468,
+     -210
+    ],
+    [
+     432,
+     -196
+    ],
+    [
+     402,
+     -252
+    ]
+   ],
+   "centre": [
+    435.7,
+    -283
+   ],
+   "movedMetres": 31.8
+  }
+ },
+ "greenCalibration": {
+  "holes": [
+   {
+    "hole": 1,
+    "exgInside": 117,
+    "exgCollar": 84,
+    "contrast": 33,
+    "spread": 0.18,
+    "roughness": 0.014
+   },
+   {
+    "hole": 2,
+    "exgInside": 117,
+    "exgCollar": 89,
+    "contrast": 28,
+    "spread": 0.2,
+    "roughness": 0.018
+   },
+   {
+    "hole": 3,
+    "exgInside": 107,
+    "exgCollar": 89,
+    "contrast": 18,
+    "spread": 0.15,
+    "roughness": 0.014
+   },
+   {
+    "hole": 4,
+    "exgInside": 99,
+    "exgCollar": 88,
+    "contrast": 11,
+    "spread": 0.3,
+    "roughness": 0.022
+   },
+   {
+    "hole": 5,
+    "exgInside": 100,
+    "exgCollar": 97,
+    "contrast": 3,
+    "spread": 0.34,
+    "roughness": 0.027
+   },
+   {
+    "hole": 6,
+    "exgInside": 102,
+    "exgCollar": 87,
+    "contrast": 15,
+    "spread": 0.17,
+    "roughness": 0.011
+   },
+   {
+    "hole": 7,
+    "exgInside": 105,
+    "exgCollar": 82,
+    "contrast": 23,
+    "spread": 0.11,
+    "roughness": 0.021
+   },
+   {
+    "hole": 8,
+    "exgInside": 103,
+    "exgCollar": 58,
+    "contrast": 45,
+    "spread": 0.16,
+    "roughness": 0.039
+   },
+   {
+    "hole": 9,
+    "exgInside": 109,
+    "exgCollar": 94,
+    "contrast": 15,
+    "spread": 0.37,
+    "roughness": 0.011
+   }
+  ],
+  "summary": {
+   "contrast": 18,
+   "spread": 0.18,
+   "roughness": 0.018,
+   "contrastMin": 3,
+   "spreadMax": 0.37
+  }
+ },
+ "practiceGreens": [
+  {
+   "index": 0,
+   "traced": [
+    510.4,
+    -451.3
+   ],
+   "radius": 11.6,
+   "exgInside": 109,
+   "exgCollar": 78,
+   "contrast": 31,
+   "spread": 0.17,
+   "roughness": 0.017,
+   "grower": {
+    "area": 604,
+    "set": "B",
+    "solidity": 0.965,
+    "centroidShift": 1.8
+   },
+   "verdict": "reads like a green"
+  }
+ ]
+}
