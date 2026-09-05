@@ -2746,9 +2746,10 @@ tiles in one draw, replacing 83.9% of the legacy CORE. The full record is
 ### v2 is the DEFAULT for every course that has one (2026-09)
 
 A flagless visit now serves the v2 ground on every course with a reviewed
-live contract — the eight slugs in `V2_GRAPH_FRONTIER_CONFIGS` plus the
-retained Puttom pilot — and stays pure GPK1, zero v2 requests, on every
-course without one (`johannesberg-9` today). The decision lives in ONE
+live contract — the nine slugs in `V2_GRAPH_FRONTIER_CONFIGS` plus the
+retained Puttom pilot, which since 2026-09-05 is EVERY course in the
+manifest — and would stay pure GPK1, zero v2 requests, on any course
+without one. The decision lives in ONE
 place, `selectV2TerrainSource`: an absent `?v2=` resolves to opt-in exactly
 when the app could actually RENDER that slug's v2 ground (the frontier
 registry, or the pilot), never merely because a graph is published for
@@ -2766,6 +2767,51 @@ measuring what it always measured. Two consequences to remember: any
 page-vs-app parity run must pass `?v2=0` to the app (the standalone pages
 have no v2), and a poster re-shoot (`make-posters.mjs`, deliberately
 unpinned) will now photograph the v2 ground, which is what visitors see.
+
+**The last course without a v2 ground was the Johannesberg nine, and it
+stands on the eighteen's (2026-09-05).** A ground manifest lists its courses
+PER TILE, so a second course on a published ground is a new ground manifest
+that differs from the published one in those lists and in nothing else —
+and every course of the ground must be re-emitted against it in one run,
+or the root carries two ground manifests for one ground and
+`verifyAssetGraph` refuses it (the publish-ground-rings lesson again).
+`rebind-course-fallback.mjs --add-slug <slug> --migration <file>
+--stroke-index-status … --accuracy-tier …` does exactly that on a ground
+with no ring specification (a fixed frontier has none), asserting the
+"nothing else" by comparing the two ground manifests with their tile
+course lists removed, and it keeps a re-emitted course's own hole metadata
+from its published manifest rather than restating it. What follows a
+publish is the same list as for the korthålsbana and Mellanbanan: the slug
+in `V2_PUBLISHED_GRAPH_SLUGS` (and its test), a frontier config spread from
+the parent's with its OWN measured `legacyCoreCutout` (read off the
+assertion's "got" line on a flagless boot, never copied), the scenery alias
+(one clubhouse), then `check-app-build` and `check-course-v2`. Two things
+to know: a re-derived routing chunk lands on a NEW content address on every
+re-emit because the lookup samples the published tiles to sub-millimetre
+differences from the compile-time sampler (22.0708699 against 22.0708697 m)
+— a changed routing hash on a rebind is not a moved hole; and the nine's
+greens and tees never entered the Johannesberg vegetation exclusions,
+because `loadGroundGeometry` reads the ring registry's `courseModels` and
+this ground has no ring spec, so it merged only the eighteen's model. That
+is the ground's own open item, not the nine's: the trees stand where they
+stood before the nine was a v2 course.
+
+**And `check-migration` is a byte gate against cs2cs, which the PROJ-free
+migrator cannot satisfy.** `course geo` was red on every push to `main` for
+a day because three EPSG:3006 migrations (Ängsö, Puttom, Veckefjärden and
+its korthålsbana) had been written by `migrate-without-proj.mjs` — pretty
+JSON, its own generator string, an extra `projValidation` block — while CI
+regenerates each through `migrate-legacy.mjs --check` and compares the
+bytes; Ängsö's was also from an older model (11,744 pairs against the
+current 12,825). The Krüger migrator is for a machine WITHOUT PROJ and its
+output is admissible evidence, but it is not the committed form: before
+pushing, regenerate through cs2cs — `pip install pyproj` and a ten-line
+`cs2cs` shim on PATH reproduce CI's files byte for byte on every ground
+(the coordinates moved by at most 1.4 mm, the tolerance the Krüger run
+printed) — then re-record the seven artifact checksums in the three source
+manifests and the four pins in `hole-source-controls.mjs`. `migrate-legacy
+--check --ground <id>` per ground is how to see ALL the stale ones; the
+check throws on the first.
 
 **And a phone defaults to performance mode.** `LOWQ` is the app's one
 performance switch (tree tiers, instance counts, pixel ratio, the lighter

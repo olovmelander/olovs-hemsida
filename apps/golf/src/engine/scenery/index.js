@@ -37,6 +37,10 @@ const REGISTRY = {
   upsala: () => import('./upsala.js'),
   puttom: () => import('./puttom.js'),
   johannesberg: () => import('./johannesberg.js'),
+  /* The nine stands on the same ground and walks out of the same clubhouse
+     (the long low red range west of the manor), so it takes the same look
+     rather than the engine's cream-and-dark-red default. */
+  'johannesberg-9': () => import('./johannesberg.js'),
   ribbingsfors: () => import('./ribbingsfors.js'),
 };
 

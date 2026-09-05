@@ -17,7 +17,7 @@ import { V2_GRAPH_FRONTIER_CONFIGS } from './v2-frontier-configs.mjs';
    RESOLUTION only: the generic streaming renderer stays gated, so a resolved
    graph is reported and the course keeps rendering from the strongest source
    that has passed the adapter contract. */
-export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze(['angso', 'johannesberg', 'norrfallsviken', 'puttom', 'ribbingsfors', 'upsala', 'upsala-mellanbanan', 'veckefjarden', 'veckefjarden-korthalsbanan']);
+export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze(['angso', 'johannesberg', 'johannesberg-9', 'norrfallsviken', 'puttom', 'ribbingsfors', 'upsala', 'upsala-mellanbanan', 'veckefjarden', 'veckefjarden-korthalsbanan']);
 
 export const V2_GRAPH_RENDERER_GATE = 'graph-renderer-not-activated';
 

@@ -21,21 +21,23 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  angso: '8f61356dc5117135278310b01ec7766df384b2b49804a44d278d2b32e1812669',
+  angso: '58d5718b4f5c026d37e68a903be594c5316bbb249d8e4f325dfed450b70063b0',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
-  /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the
-     committed cs2cs migration: worst 1.4 mm over 3,564 coordinates) after the
-     laser pass renamed the lakes, added the ditches and slid four wet tee
-     marks ashore; the hole lines are unchanged and the routing chunk is the
-     same content-addressed file */
-  puttom: '2f640071cbcb20d8685122b5f04a536c0accb3adf4f89e882c53a4497e2ad414',
+  /* 2026-09-05: the laser pass renamed the lakes, added the ditches and slid
+     four wet tee marks ashore; the hole lines are unchanged and the routing
+     chunk is the same content-addressed file. First re-migrated on a machine
+     without PROJ (migrate-without-proj.mjs, Krüger series, worst 1.4 mm over
+     3,564 coordinates), then regenerated through cs2cs so the committed file
+     is the one CI's check-migration reproduces byte for byte -- the same
+     step Ängsö and Veckefjärden took the same day. */
+  puttom: '4b5ee818964e2575fa4b53bfcbeff120fa23e60cec28e7b4563156eb2b3b7008',
   ribbingsfors: 'ce9c2c93835473088ba3ae8fc646fe07043b28b907638dcab621b178a79a412f',
   upsala: 'd0f6f895614c2472505587dd6796d33ec860058264da4286dafec79bd1e43d56',
   'upsala-mellanbanan': '3ccc7f203c1f96f63c270f53e8604da18d2825a7913e071573abb275c92d1864',
   johannesberg: '11a23400ba7a47cf8f99a7015f0639e3ab3b7cb803e057ce8ed2fbbf847253b5',
   'johannesberg-9': 'd5c43e278cd9784ad22e2081d9860da8c3b3ad924c57f65069a56421135a6342',
-  veckefjarden: '427448197d9a66479f13bb47838d3bc0b9a28dc8d67f9e783b62e3cc919bc3a9',
-  'veckefjarden-korthalsbanan': '6a39100a94e6161e4f385eb2fc76e0c59901a595e5a5b62bdfbcd9de419b2921',
+  veckefjarden: '908c8f0289439cb3db2bb247a080f53087305e544f285f404b6f61e0eecee277',
+  'veckefjarden-korthalsbanan': '719c1d835c82c143dfefc20b85461fefefe0e6650cf714ae24dc3f3cff243936',
 });
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

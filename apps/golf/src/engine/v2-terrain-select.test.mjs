@@ -60,6 +60,7 @@ describe('selectV2TerrainSource', () => {
     expect(V2_PUBLISHED_GRAPH_SLUGS).toEqual([
       'angso',
       'johannesberg',
+      'johannesberg-9',
       'norrfallsviken',
       'puttom',
       'ribbingsfors',

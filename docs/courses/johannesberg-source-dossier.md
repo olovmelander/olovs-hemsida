@@ -230,7 +230,7 @@ not that it is complete.
 |---|---|
 | Canonical origin | `pending-control-approval`; no independent control survey |
 | Played surfaces | satellite traces routed by the 2026 banguide, `prov:"synth"`/trace — not surveyed, so `surfacePolicy` stays `legacy-ground-atlas` |
-| Nine-hole course (`johannesberg-9`) | shares this ground and this terrain window, but is **not yet published as a v2 course**; `emitGroundGraph` takes one course per call |
+| Nine-hole course (`johannesberg-9`) | shares this ground and this terrain window; published as a v2 course on 2026-09-05 (`rebind-course-fallback.mjs --add-slug`, one ground manifest for both courses) with its own measured legacy CORE cutout. Its greens and tees did not enter the vegetation exclusions (no ring spec, so only the eighteen's model was merged) |
 | Vegetation | published: 2,417 measured crowns + a 64-tile stand field. Leaf-off, so conservative on deciduous; see §4 |
 | Ortho / Topografi 10 | discovered and covered, not acquired; no product terms approved for redistribution |
 | Hole 12 | the tee end is under spruce in every image; the card slide resolves it to within 26 m of the banguide's own disc. See CLAUDE.md before re-tracing |
