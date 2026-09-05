@@ -3171,6 +3171,23 @@ records the 2026-09-05 pass. The lessons that generalise:
   coordinate count; `migrate-without-proj --reference-source` takes the
   historical text (`git show <sha>:path`), admitted only if it hashes to what
   the reference recorded. The cs2cs file is kept beside the Krüger one.
+- **A Krüger-written migration is a RED PIPELINE, and it is silent here.**
+  `migrate-without-proj` is admitted only against a committed cs2cs reference,
+  so it is honest about its coordinates — but CI's `check-migration` shells to
+  PROJ, regenerates each file and demands BYTE-IDENTITY, and the substitute
+  differs in the last rounding unit (worst 1.414 mm over Ängsö) and in its
+  `generator` string. Three grounds (angso, puttom, veckefjarden) failed
+  `course geo` on every push to main for a day and a half for exactly that,
+  while every local gate passed. `pip install pyproj` plus the 20-line cs2cs
+  shim (§Johannesberg above) lets `migrate-legacy.mjs --write` run here and
+  settles it. So: **use the substitute to KEEP MOVING, never to land** — a
+  migration that ships must be regenerated through PROJ before the push, and
+  the re-pins that follow are three registries deep (the ground's
+  `source-manifest.json` artifacts, `COURSE_MODEL_SHA256`, and the residual
+  reports). Re-pin `COURSE_MODEL_SHA256` from `COURSE_MODEL_PATHS` by loop and
+  never by hand: a hand-written pass over "the three courses that changed"
+  missed `veckefjarden-korthalsbanan`, whose short-course model the same run
+  had rewritten.
 - **Hole 14's trace note said "dogleg right"; its own line turns −71°.** The
   chord-side inversion again — corrected in `sat-shapes.json`.
 - **The 5th's "little red house" is findable**: of every building within 12°
