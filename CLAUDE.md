@@ -199,6 +199,61 @@ people switch off.
   tween is still in its second frame when the shutter opens. `setCam(mode, true)` moves
   instantly; the harness uses it.
 
+### The course read off the laser terrain and the imagery (2026-09-05)
+
+`docs/courses/veckefjarden-course-map.md` is the inventory, category by category.
+The short version of what changed and why:
+
+- **Two orthorectified records need no registration, so they arbitrate.** The 1 m
+  Markhöjdmodell tiles the app already serves for this ground (decoded from
+  `apps/golf/public/grounds/veckefjarden`, sampled through `legacyGridBridge`) and
+  Esri z18 imagery (0.27 m/px). `geobuild/dtm-lib.mjs` reads both;
+  `geobuild/derive-dtm-features.mjs` writes `dtm-features.json` (bunkers, ditches,
+  tee decks) and `reconcile.mjs` folds it in AFTER the plan traces:
+  `reconcile → apply-shapes → reconcile → derive-dtm-features → reconcile`.
+  The imagery cache is `geobuild/cache/sat18` and needs Chromium for the JPEGs.
+- **Calibrate on what the survey has, then trust the rule where it does not.** Sand in
+  the imagery over a dish in the DTM reproduces all 32 OSM bunkers to 1–2 m; the same
+  rule then found the six unmapped holes' bunkers 0.6–11 m from the re-anchored plan
+  readings and showed the three guide-placed ones for what they were (two 8–19 m off,
+  one on ground with no dish). 52 bunkers now: 32 OSM, 20 DTM, none from the guide, and
+  `check3d` fails if a guide-placed one ever comes back beside a DTM one.
+- **`apply-shapes` anchored the pin on `h.pin`, which reconcile sets to the traced
+  green's own centroid** — so every re-run registered the plan against the previous
+  reading and holes 3 and 5 had walked 19 m from the survey. The anchor is the GPS
+  green centre read from `geo_data/` now, and the traced green is re-centred on it.
+  Anchor a registration on something the registration cannot move.
+- **A ditch is a valley crossing a playing line.** The whole-raster ditch extraction
+  (top-hat, valley filter, skeletons) was noisy in forest and broke on curves; what
+  worked was sampling the valley score ALONG each hole line, taking the peaks, and
+  tracing each crossing sideways by least-cost path on the black top-hat. Eleven
+  ditches, each with its metres-to-green, checked against the club's text ("diket
+  60 meter kvar", "andra diket"). The 3rd's right-hand ditch and the 1st's roadside
+  ditch run along the hole and were snapped between two points read off the hillshade.
+- **Greens cannot be re-traced from this imagery.** Region-growing from the GPS centre
+  reached IoU 0.33–0.80 against the OSM outlines; colour and texture do not separate a
+  green from its fairway at 0.27 m in autumn. Not adopted, and the number is recorded so
+  nobody tries the same thing without a better image.
+- **The club's rules are data.** `geobuild/course-rules.json` transcribes the 2025
+  local rules; reconcile paints every penalty area red (the club abolished yellow in
+  2022) and derives the white OB runs from the club's own list of holes and sides,
+  snapped to the property line where it is near and otherwise placed against the named
+  neighbour. `right()` pairs with `alongLine`'s angle, not `bearing()`'s — the check
+  written with `bearing()` reported every side reflected before the trap in this file
+  was remembered.
+- **A pack change touches five registries.** `courses/index.json` (emit-manifest), the
+  v2 course manifests and root (`tools/rebind-v2-fallback.mjs`, new: binding only,
+  no ring rasters needed), the EPSG:3006 migrations (`migrate-without-proj.mjs`, whose
+  self-check needs the OLD model the reference was made from — hand it a copy of the
+  reference with `source.path` pointed at `git show HEAD:…`), the checksums in
+  `geo_data/course-v2/veckefjarden/source-manifest.json`, and the two checksum tables
+  in `packages/course-geo/acquisition/hole-source-{controls,inventory}.mjs`. The
+  PROJ-free migrator did not carry `candidateOrigin`, and the bridge test fails with a
+  TypeError rather than a measurement without it.
+- **`parse-osm` now walks golf multipolygon relations** (three fairways added to OSM in
+  June 2026) and the reserve's western half is fetched by id — it lies outside the
+  bbox and had never been in the model.
+
 ## Running the older page
 
 Open `veckefjardensgc.html` in a browser. It works from `file://`; a server is only

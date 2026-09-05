@@ -1,0 +1,65 @@
+{
+  "source": "Veckefjärdens GC — Lokala regler och tävlingsvillkor 2025 (PDF linked from veckefjarden.com/banguide/, fetched 2026-09-05). Transcribed verbatim where quoted; sides are the PLAYER'S left/right facing the green. Distances are 'meter kvar' = metres to the green. Every entry here is the club's statement of where a boundary or hazard is; reconcile.mjs derives geometry from it and says which entry a run came from.",
+  "outOfBounds": {
+    "rule": "Regel 18.2. Markeringen för Out of bounds markerar banans yttre gräns med vita pinnar. Dessa är oflyttbara tillverkade föremål.",
+    "holes": {
+      "1": [ { "side": "left", "toward": "range", "quote": "till vänster mot rangen" },
+             { "side": "right", "toward": "korthalsbanan", "along": "road", "quote": "till höger vid vägen mot korthålsbanan" } ],
+      "2": [ { "side": "left", "extent": "whole", "quote": "till vänster efter hela spelfältet" },
+             { "side": "behind-green", "quote": "och bakom greenen" } ],
+      "3": [ { "side": "behind-green", "toward": "korthalsbanan", "quote": "bakom greenen mot korthålsbanan" } ],
+      "4": [ { "side": "right", "extent": "whole", "toward": "korthalsbanan", "quote": "efter hela högerkanten mot korthålsbanan" } ],
+      "5": [ { "side": "right", "toward": "korthalsbanan", "quote": "till höger från korthålsbanan" },
+             { "side": "around-green", "quote": "och hela vägen runt greenen" },
+             { "side": "left", "extent": "whole", "quote": "och till vänster efter hela spelfältet" } ],
+      "10": [ { "side": "right", "extent": "whole", "quote": "efter hela högra delen" } ],
+      "11": [ { "side": "right", "fromToGreen": null, "toToGreen": 100, "quote": "efter hela högra sidan fram till ca 100 meter kvar till hål" } ],
+      "12": [ { "side": "right", "from": "level-with-green", "quote": "på höger sida från i höjd med greenen" },
+              { "side": "around-green", "quote": "och runt hela greenen" } ],
+      "13": [ { "side": "right", "extent": "whole", "quote": "efter hela högra delen av hålet" } ],
+      "16": [ { "side": "right", "fromToGreen": 150, "to": "practice-green", "quote": "på höger sida från ca 150 meter kvar ända upp till övningsgreenen" } ]
+    }
+  },
+  "penaltyAreas": {
+    "colour": "red",
+    "quote": "OBS! Från och med 2022 har Veckefjärdens GC endast röda pliktområden. Alla dammar och diken är definierade som röda pliktområden. Gränsen går vid klippgränsen.",
+    "edge": "mown edge (klippgränsen)",
+    "infinite": {
+      "1": "till vänster från andra bunkern räknat fram till vita pinnar som anvisar banans yttre gräns mot rangen till green, till höger mellan klippgräns och anlagd väg",
+      "2": "till höger från tee 48 mellan hål 2 och 1 och mellan hål 2 och 3",
+      "3": "till höger mellan hål 3 och 2, till vänster mellan hål 3 och 4",
+      "4": "till vänster mellan hål 4 och 3",
+      "6": "framme vänster sida efter diket mellan hål 6 och 15 runt hela greenen",
+      "8": "till vänster från tee mellan hål 8 och 11 och 10, till höger från skogen 170 meter kvar fram till diket 60 meter kvar",
+      "10": "till vänster från andra diket runt hela greenen fram till vägen till hål 11",
+      "11": "till vänster efter diket fram till dammen",
+      "12": "till höger från tee 48 fram till i höjd med greenen",
+      "15": "till vänster från tee mellan hål 15 och hål 6",
+      "17": "till höger mellan 17 och 18 från 200 kvar till 70 meter kvar"
+    }
+  },
+  "bridges": {
+    "quote": "Vi har broar på hål 6, hål 8, hål 10, hål 11 samt mellan hål 16 och 17. Dessa broar är i respektive pliktområdet, det är INTE fri dropp från bron.",
+    "holes": [6, 8, 10, 11, "16-17"]
+  },
+  "drainageDitches": {
+    "quote": "Om bollen ligger i dräneringsdike får man droppa sig fri utan plikt.",
+    "holes": [10, 13],
+    "where": "finklippta/fairway"
+  },
+  "groundUnderRepair": [
+    "blue stakes; blue-white stakes are a no-play zone",
+    "white spray lines",
+    "bunker areas where running water has cut deep furrows through the sand",
+    "ant hills (player's choice: loose impediment or GUR)",
+    "embedded stones and bare rock on a closely mown part of the general area"
+  ],
+  "immovableObstructions": [
+    "paved roads (belagda vägar)",
+    "irrigation and drainage installations",
+    "distance stakes and sprinkler caps marking 200 (white), 150 (yellow) and 100 (red) metres to the green's midpoint",
+    "sprinkler caps near greens: relief per 16.1b within two club-lengths on fairway-height turf"
+  ],
+  "tees": "In club competitions tee 65, 61, 58, 55, 48 and 40 may be used.",
+  "motorisedTransport": "not allowed during a round unless approved by the committee"
+}

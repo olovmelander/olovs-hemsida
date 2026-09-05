@@ -107,8 +107,8 @@ push('</g>');
 
 /* --- paths and roads ---------------------------------------------------------- */
 push('<g fill="none" stroke="#6b6355" stroke-linecap="round" opacity="0.65">');
-for (const l of M.infra.tracks) push(`<polyline points="${P(l)}" stroke-width="2"/>`);
-for (const l of M.infra.paths) push(`<polyline points="${P(l)}" stroke-width="1.2"/>`);
+for (const l of M.infra.tracks) push(`<polyline points="${P(l.line)}" stroke-width="2"/>`);
+for (const l of M.infra.paths) push(`<polyline points="${P(l.line)}" stroke-width="1.2"/>`);
 for (const r of M.infra.roads) push(`<polyline points="${P(r.line)}" stroke-width="2.6" stroke="#7d7566"/>`);
 push('</g>');
 push('<g>');

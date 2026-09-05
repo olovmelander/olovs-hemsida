@@ -49,6 +49,18 @@ try {
 const traceRings = name => SURR.filter(f => f.name === name && f.world && f.world.length >= 3)
   .map(f => simplifyDP([...f.world, f.world[0]], 2).slice(0, -1).map(p => p.map(r1)));
 
+/* Features derived from the 1 m laser terrain and the z18 orthoimagery
+   (geobuild/derive-dtm-features.mjs -> dtm-features.json): bunkers as sand over a
+   dish, the ditches that cross a playing line, and the flat decks under card tee
+   marks. They outrank a plan reading and a guide placement, never an OSM outline. */
+const DTM = (() => { try { return readJSON(path.join(ROOT, 'geobuild/dtm-features.json')); } catch { return { bunkers: [], ditches: [], decks: [] }; } })();
+const dtmBunkers = n => (DTM.bunkers || []).filter(b => b.hole === n);
+const dtmDecks = n => (DTM.decks || []).filter(d => d.hole === n);
+
+/* The club's own local rules, transcribed (geobuild/course-rules.json): which colour
+   its penalty areas are, and where its out-of-bounds stakes stand. */
+const RULES = (() => { try { return readJSON(path.join(ROOT, 'geobuild/course-rules.json')); } catch { return null; } })();
+
 /* the old page's prose and green rotations are worth keeping; its geometry is not */
 const bg = await import('../banguide/lib.mjs');
 const OLD = bg.load().HOLES;
@@ -213,6 +225,12 @@ function greenFor(n) {
    measured from a tee that must therefore exist there. */
 function teesFor(n, line) {
   const pads = (tee.out[n] || []).map(t => ({ ring: t.ring, c: (t.c || centroid(t.ring)).map(r1), prov: 'osm', id: t.id }));
+  /* the flat decks the laser terrain shows under card marks OSM never mapped: a
+     real prepared surface, so it stands in for the synthesised rectangle */
+  for (const d of dtmDecks(n)) {
+    if (pads.some(p => hyp(p.c, d.c) < 4)) continue;
+    pads.push({ ring: ring1(d.ring), c: d.c.map(r1), prov: 'dtm', area: d.area, teeIdx: d.teeIdx });
+  }
   const total = polyLen(line);
   const marks = [];
   for (let k = 0; k < 6; k++) {
@@ -270,6 +288,17 @@ const SIZE = { small: [8, 5.5], medium: [11.5, 7.5], large: [15.5, 9.5] };
 function bunkersFor(n, line) {
   const got = (bunk.out[n] || []).map(b => ({ ring: b.ring, c: (b.c || centroid(b.ring)).map(r1), prov: 'osm', id: b.id }));
   const want = (inv[n]?.bunkers) || [];
+  /* Sand in the orthoimagery over a dish in the laser terrain: where the derivation
+     found a hole's bunkers they replace every plan reading and guide placement on
+     it -- the plan readings landed 2-7 m from them once re-anchored, the guide
+     placements 8-40 m or on ground with no dish at all. OSM outlines are kept. */
+  const dtm = dtmBunkers(n).filter(b => !got.some(o => hyp(o.c, b.c) < 8))
+    .map(b => ({ ring: ring1(b.ring), c: b.c.map(r1), prov: 'dtm', area: b.area, dish: b.dish }));
+  if (dtm.length) return got.concat(dtm);
+  /* Once the terrain has been read, a guide placement with no dish under it is not a
+     bunker: the three the guide placed measured -0.43, -0.20 and +0.13 m of "dish"
+     and no sand, and the DTM found the real ones 8-19 m away or not at all. */
+  if ((DTM.bunkers || []).length) return got;
   /* traced bunkers beat placed ones: real shapes in real places off the club's plan */
   const tr = TRACED[n];
   if (!got.length && tr?.bunkers?.length) {
@@ -393,6 +422,12 @@ const water = osm.water.map(w => ({
 const streams = osm.waterway.filter(w => w.kind !== 'drain' || true).map(w => ({
   id: w.id, line: w.line, kind: w.kind, w: w.kind === 'stream' ? 2.2 : w.kind === 'ditch' ? 1.6 : 3.2,
 }));
+/* the ditches the laser terrain shows crossing the playing lines, which OSM has no
+   waterway for; each carries the hole it crosses and how far from the green */
+for (const [i, d] of (DTM.ditches || []).entries()) {
+  streams.push({ id: `dtm-ditch-${i + 1}`, line: ring1(d.line), kind: 'ditch', w: 1.6, prov: 'dtm',
+                 hole: d.hole, crossesAt: d.crossesAt ?? null, depth: d.meanDepth ?? null, note: d.note || null });
+}
 say(`water: ${water.length} bodies (lake at ${hf.lakeLevel} m, ${water.filter(w => !w.isLake).length} ponds ${Math.min(...water.filter(w => !w.isLake).map(w => w.level))}..${Math.max(...water.map(w => w.level))} m), ${streams.length} watercourses`);
 
 /* --- penalty and boundary marking ---------------------------------------------
@@ -450,10 +485,15 @@ const marking = [];
     return runs.filter(r => r.pts.length >= 3);
   };
 
+  /* The generic rule paints a carry yellow. This club abolished yellow in 2022:
+     "Från och med 2022 har Veckefjärdens GC endast röda pliktområden" -- so the
+     colour is the club's, read from its rules, and the carry rule is left for
+     courses that still stake both. */
+  const REDONLY = RULES?.penaltyAreas?.colour === 'red';
   for (const w of water) {
     for (const run of runsAlongRing(w.ring, 1.4)) {
       const h = holes[run.hole - 1];
-      const color = crosses(h, w.ring) && carryWanted(h) ? 'y' : 'r';
+      const color = !REDONLY && crosses(h, w.ring) && carryWanted(h) ? 'y' : 'r';
       marking.push({ color, hole: run.hole, pts: run.pts, of: w.id });
     }
   }
@@ -480,8 +520,92 @@ const marking = [];
       }
     }
   }
-  /* white: the property line, on the stretches the guide says a hole is bounded */
-  if (osm.courseBoundary) {
+  /* White, from the club's own out-of-bounds list where it exists. Each entry names a
+     hole, a side and what the stakes divide the hole from -- the range, the short
+     course, the practice green, or the property line. The run is derived: along
+     the hole on that side, snapped to the property polygon where it runs within
+     reach, otherwise half way to the named neighbour, otherwise at the edge of
+     the rough; behind or around a green as an arc past the collar. A statement of
+     where the club stakes its course, drawn onto the geometry it has. */
+  const rulesOB = RULES?.outOfBounds?.holes || null;
+  if (rulesOB) {
+    const neighbours = {
+      range: osm.drivingRange.map(d => d.ring),
+      korthalsbanan: scenGreens.map(g => g.ring).concat(fair.spare.map(f => f.ring), tee.spare.map(t => t.ring)),
+      'practice-green': scenGreens.filter(g => hyp(g.c, [234, -465]) < 140).map(g => g.ring),
+    };
+    const nearestOn = (rings, x, z, dirx, dirz) => {
+      /* nearest point of any ring that lies ahead of (x,z) along (dirx,dirz) */
+      let bd = Infinity;
+      for (const r of rings) for (const q of r) {
+        const dx = q[0] - x, dz = q[1] - z, d = Math.hypot(dx, dz);
+        if (d < 1 || (dx * dirx + dz * dirz) / d < 0.5) continue;
+        if (d < bd) bd = d;
+      }
+      return bd;
+    };
+    const mownEdge = (h, x, z, dirx, dirz) => {
+      /* how far out on this side the hole's own mown ground reaches */
+      let e = 0;
+      for (let d = 2; d <= 40; d += 2) {
+        const px = x + dirx * d, pz = z + dirz * d;
+        if (h.fairway.rings.some(r => pointInPoly(px, pz, r)) || pointInPoly(px, pz, h.green.ring)) e = d;
+      }
+      return Math.max(e, 12);
+    };
+    const bnd = osm.courseBoundary?.ring || null;
+    const greenR = h => Math.max(...h.green.ring.map(q => hyp(q, h.green.c)));
+    for (const [hn, entries] of Object.entries(rulesOB)) {
+      const h = holes[+hn - 1];
+      if (!h) continue;
+      const total = polyLen(h.line);
+      for (const e of entries) {
+        const pts = [];
+        if (e.side === 'left' || e.side === 'right') {
+          const sign = e.side === 'right' ? 1 : -1;
+          let s0 = 0, s1 = total;
+          if (e.fromToGreen != null) s0 = Math.max(0, total - e.fromToGreen);
+          if (e.toToGreen != null) s1 = total - e.toToGreen;
+          if (e.from === 'level-with-green') s0 = total - greenR(h) - 8;
+          for (let sd = s0; sd <= s1; sd += 9) {
+            const p = alongLine(h.line, sd / total);
+            const R = right(p.b);
+            const dirx = R[0] * sign, dirz = R[1] * sign;
+            const edge = mownEdge(h, p.x, p.z, dirx, dirz);
+            let off = edge + 6;
+            let snapped = null;
+            if (bnd) {
+              let bd = Infinity;
+              for (const q of bnd) {
+                const dx = q[0] - p.x, dz = q[1] - p.z, d = Math.hypot(dx, dz);
+                if (d < 6 || (dx * dirx + dz * dirz) / d < 0.6) continue;
+                if (d < bd) { bd = d; snapped = q; }
+              }
+              if (bd > 95) snapped = null;
+            }
+            if (snapped) { pts.push([r1(snapped[0]), r1(snapped[1])]); continue; }
+            if (e.toward && neighbours[e.toward]) {
+              const dn = nearestOn(neighbours[e.toward], p.x, p.z, dirx, dirz);
+              if (dn < 120) off = clamp(dn / 2, edge + 3, 60);
+            }
+            pts.push([r1(p.x + dirx * off), r1(p.z + dirz * off)]);
+          }
+        } else if (e.side === 'behind-green' || e.side === 'around-green') {
+          const c = h.green.c, rad = greenR(h) + (e.side === 'around-green' ? 14 : 16);
+          const p = alongLine(h.line, 0.97);
+          const a0 = e.side === 'around-green' ? 0 : Math.PI / 2, a1 = e.side === 'around-green' ? Math.PI * 2 : Math.PI * 1.5;
+          for (let a = a0; a <= a1 + 1e-6; a += (a1 - a0) / (e.side === 'around-green' ? 22 : 9)) {
+            /* angle measured from the hole's forward direction: behind the green is a = PI */
+            const fx = Math.sin(p.b), fz = Math.cos(p.b), R = right(p.b);
+            const ux = fx * Math.cos(a) + R[0] * Math.sin(a), uz = fz * Math.cos(a) + R[1] * Math.sin(a);
+            pts.push([r1(c[0] + ux * rad), r1(c[1] + uz * rad)]);
+          }
+        }
+        const dry = pts.filter(q => !water.some(w => Math.abs(polySD(q[0], q[1], w.ring)) < 4 && pointInPoly(q[0], q[1], w.ring)));
+        if (dry.length >= 3) marking.push({ color: 'w', hole: +hn, pts: dry, of: 'rules:' + (e.toward || e.side), quote: e.quote });
+      }
+    }
+  } else if (osm.courseBoundary) {
     const whiteHoles = new Set(
       Object.entries(inv).filter(([, v]) => (v.boundaries || []).some(b => b.colour === 'white'))
         .map(([k]) => +k));
@@ -502,6 +626,8 @@ const marking = [];
     });
   }
   for (let i = marking.length - 1; i >= 0; i--) if (marking[i].pts.length < 3) marking.splice(i, 1);
+  /* the white runs of the generic path duplicate nothing here: the rules path
+     replaces them wholesale, so a stake never stands twice */
   const count = c => marking.filter(m => m.color === c).length;
   const stakes = marking.reduce((a, m) => a + m.pts.length, 0);
   say(`marking: ${marking.length} runs (${count('r')} red, ${count('y')} yellow, ${count('w')} white), ${stakes} stakes; guide lists 63 runs`);
@@ -531,7 +657,9 @@ const model = {
     roads: osm.roads.map(p => ({ line: p.line, kind: p.kind, name: p.name || null,
       surface: p.surface || null, lanes: p.lanes || null, oneway: !!p.oneway,
       maxspeed: p.maxspeed || null, lit: !!p.lit })),
-    buildings: osm.buildings.map(b => ({ ring: b.ring, h: b.h, kind: b.kind, name: b.name })),
+    buildings: osm.buildings.map(b => ({ ring: b.ring, h: b.h, kind: b.kind, name: b.name }))
+      .concat(SURR.filter(f => f.kind === 'building' && f.world && f.world.length >= 3)
+        .map(f => ({ ring: f.world.map(p => p.map(r1)), h: null, kind: 'yes', name: null, prov: 'trace', trace: f.name }))),
     farB: osm.farBuildings || [],
     parking: (osm.parking || []).map(p => ({ ring: p.ring, surface: p.surface || null, prov: 'osm' }))
       .concat(traceRings('parking-clubhouse-south').map(ring => ({ ring, surface: null, prov: 'trace' }))),

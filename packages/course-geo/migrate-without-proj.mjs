@@ -167,6 +167,10 @@ const output = {
     projection: 'packages/course-geo/chmv2/projection.mjs (Krüger series on GRS 80); PROJ was unavailable on the migrating machine',
     projValidation: validation,
   },
+  /* The candidate origin is the reference's: same ground, same legacy frame, the
+     same seed PROJ projected. The bridge test reads it, and a migration without
+     it fails that test with a TypeError rather than a measurement. */
+  candidateOrigin: reference.candidateOrigin ?? null,
   coordinatePairCount: collected.coordinates.length,
   ignoredMetadataPairCount: collected.ignored.length,
   coordinatePaths: coordinatePathCounts(collected.coordinates),

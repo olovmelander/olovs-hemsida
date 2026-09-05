@@ -1,131 +1,167 @@
 {
- "source": "Per-hole notes condensed from the club's own banguide. veckefjarden.com/banguide/ embeds LiveCaddie course 379 ('Mästerskapsbanan'), whose per-hole text (tools/livecaddie-holes.mjs 379, 2026-09-02) is the condensed version the club also prints in Magasin Veckefjärden 2021-2023; it is kept under `club` in the magazine's clean spelling (the LiveCaddie copy carries OCR artefacts). The longer original, 'Så här spelar du Veckefjärden … hur Peter Forsberg spelar våra 18 hål' (text Gunnar Säfsten, Magasin Veckefjärden 2019 pp. 51-56, issuu.com/devocy/docs/magasin_veckefja_rden_webb), is kept under `club2019`, transcribed from page images. Colour from the club's Lokala regler 2025 (OB and 'oändliga' penalty areas per hole, bridges on 6, 8, 10, 11 and 16/17), the club's om-oss page (Peter Forsberg's opening shot 2003, the pride in hole 14), Svensk Golf 2011 (hole 15 as Tommy Nordström's characteristic hole; 13 as the toughest), the Eurocon sponsor page (hole 15 as Svensk Golf's no. 71 among Sweden's best holes) and bobmenreport.com. Bends, rise, sides and water were checked against the model's line geometry and the DEM profile (tools/hole-geometry.mjs): the 1st climbs 26 m, the 2nd falls 48 m, the 3rd's five bunkers all lie left, the 14th's green sits 20 m inside the shoreline. One club claim the model lacks is avoided in the notes: the 17th's crossing ditch at drive length. `name` is an editorial tagline; the club names no holes and calls only the 14th 'signaturhål'. Sponsor names are deliberately left out. Card: LiveCaddie, GIT and the website agree with banguide/guide-card.json in all 144 cells; the magazine's card is an older measurement. The architect is 'Tommy Norström' in the club's own texts and 'Tommy Nordström' everywhere else.",
- "holes": {
-  "1": {
-   "name": "Rakt uppför",
-   "note": "Inte långt, men rakt uppför – 26 meter upp till green – och tillräckligt för ett spännande andraslag där höjdskillnaden gör längden svår att bedöma. Sikta på greenens breda mitt; vänster om green krävs ett Mickelson-slag. Svårt, men roligt.",
-   "club": "Det första hålet är inte långt men tillräckligt för ett spännande andraslag. Höjdskillnaden gör det svårt att bedöma slagets längd. Svårt, men roligt.",
-   "club2019": "Det första hålet är till längden inte långt. Men tillräckligt långt för ett spännande andraslag. Höjdskillnaden gör det svårt att bedöma slagets längd. Jag siktar mot mitten av green där den är bredast. Landar du bollen vänster om green får du ta fram ett Mickelson-slag. Svårt, men roligt.",
-   "tiers": 1
-  },
-  "2": {
-   "name": "Eaglechansen",
-   "note": "Rondens bästa chans till birdie, kanske eagle. Hålet faller 48 meter: lägg upp på platån före sluttningen, som Peter Forsberg ibland gör med en järnåtta, så blir andraslaget in mot green enkelt. Out of bounds till vänster, tjock ruff till höger.",
-   "club": "Ett missat utslag kan kosta en hel del. Du har out of bounds till vänster och till höger sluttar fairway ut i tjock ruff.",
-   "club2019": "Dagens bästa möjlighet till en birdie, eller varför inte en eagle? Jag brukar lägga upp mig på platån före sluttningen, ibland med bara en järn-8. Ett missat utslag kan kosta en hel del, du har out of bounds till vänster och till höger sluttar fairway ut i tjock ruff. Från platån är det ett förhållandevis enkelt andraslag in mot green – och en eagle eller birdie.",
-   "tiers": 1
-  },
-  "3": {
-   "name": "Ett av de svåraste",
-   "note": "Definitivt ett av banans svåraste hål: 23 meter uppför, med en rad bunkrar längs vänstersidan att undvika. Inspelet mot en upphöjd green som lutar ner mot en bunker kräver precision – och väl uppe är greenen svårputtad.",
-   "club": "Definitivt ett av de svåraste hålen. Man måste vara en riktigt bra spelare för att få bollen att stanna på green som dessutom är svårputtad.",
-   "club2019": "Definitivt ett av de svåraste hålen. Jag försöker att undvika vänstersidan och de fairwaybunkrar som ligger där. Efter en bra drive återstår en hel del att göra. Inspelet till en upphöjd green som dessutom lutar ner mot en bunker kräver precision. Man måste vara en riktigt bra spelare för att få bollen att stanna på green som dessutom är svårputtad.",
-   "tiers": 1
-  },
-  "4": {
-   "name": "Håll vänster",
-   "note": "Korthål nedför med out of bounds längs högerkanten och bunkrar på greenens högra sida. Håll till vänster på green och sikta förbi flaggan – en uppförsputt är att föredra. Våga gå för green: bollen stannar bättre om du landar på den.",
-   "club": "Håll till vänster på green. En uppförsputt är att föredra. Ju bättre man är desto roligare är hålet. Våga gå för green, bollen stannar bättre om du landar på den.",
-   "club2019": "Håll till vänster på green. Det är mitt bästa råd. Alltför ofta har jag försökt att ta mig in på greenens högra sida. Det har ofta slutat i ett bunkerbesök. Med tanke på greenens lutning brukar jag försöka få utslaget förbi flaggan. En uppförsputt är definitivt att föredra. Ju bättre man är desto roligare är hålet. Våga gå för green, bollen stannar bättre om du landar på den.",
-   "tiers": 1
-  },
-  "5": {
-   "name": "Strategiskt andraslag",
-   "note": "Håll en aning höger med utslaget – sluttningen tar bollen tillbaka till fairway. Andraslaget är strategiskt: flirta med bunkern på vänstersidan för ett enkelt tredjeslag, för från höger är greenen som lutar åt vänster svår att hålla. Håll vänster och bli belönad.",
-   "club": "Håll en aning höger med utslaget. Sluttningen tar bollen tillbaka till fairway. Andraslaget är strategiskt. Håll till vänster och bli belönad.",
-   "club2019": "Håll en aning höger med utslaget. Sluttningen tar bollen tillbaka till fairway om du skulle missa. Andraslaget är strategiskt. Flirta med bunkern på vänstersidan och skaffa dig ett relativt enkelt tredjeslag. Om du hamnar på den högra sidan – som jag ofta gör – blir det svårt att få bollen att stanna på en green som lutar åt vänster. Håll till vänster och bli belönad.",
-   "tiers": 1
-  },
-  "6": {
-   "name": "Diket",
-   "note": "Index 2 och en dogleg vänster där den långtslående ställs inför ett delikat val: lägg upp kort om diket som delar fairway, eller slå över det. Går du över, sikta på fairways vänstra sida – närmaste vägen över och bästa inspelsvinkeln. En damm vaktar framför green till höger.",
-   "club": "Valet står mellan att lägga sig kort om det dike som delar fairway eller slå över diket. Om du väljer att gå över diket, sikta på den vänstra sidan av fairway.",
-   "club2019": "Här ställs den som slår långt inför ett delikat beslut. Valet står mellan att lägga sig kort om det dike som delar fairway – eller slå över diket. Om du funderar på att gå över diket – sikta på den vänstra sidan av fairway. Det är närmaste vägen över diket och ger den bästa inspelsvinkeln. Jättebra hål. Jag gillar diket som delar fairway, det gör att det blir ett roligt golfhål. Våga slå hela vägen och landa på green.",
-   "tiers": 1
-  },
-  "7": {
-   "name": "Räcker klubban?",
-   "note": "Ett beskedligt korthål vid första anblicken, men svårare än det ser ut. Välj en klubba som verkligen räcker ända fram till den upphöjda greenen, som vaktas av bunkrar på båda sidor.",
-   "club": "Ett korthål som är svårare än vad det ser ut att vara. Var säker på att du väljer en klubba som räcker ända fram till den upphöjda greenen.",
-   "club2019": "Ett beskedligt korthål vid första anblicken som är svårare än vad det ser ut att vara. Var säker på att du väljer en klubba som räcker ända fram till den upphöjda greenen. Jag försöker slå mig in till green över den högra bunkern med en draw.",
-   "tiers": 1
-  },
-  "8": {
-   "name": "Generöst utslag",
-   "note": "Landningsytan är förhållandevis generös, så dra på – men undvik bunkern på vänster sida. Vinden gör stor skillnad här, och inspelet mot den snedställda greenen är inte enkelt: för kort och bollen hamnar i greenbunkern.",
-   "club": "Landningsytan är förhållandevis generös. Undvik bunkern på vänster sida. Inspelet mot den snedställda greenen är inte helt enkelt.",
-   "club2019": "Ett utslag som inspirerar till att använda alla kroppens inbyggda krafter. Landningsytan är förhållandevis generös. Undvik bunkern på vänster sida. Här är det stor skillnad på resultatet om du har vinden i ryggen eller i ansiktet. Eller från sidan, det gör skillnad kan jag lova. Inspelet mot den snedställda greenen är inte helt enkelt. Är du för kort – som jag ofta är – hamnar bollen i bunkern.",
-   "tiers": 1
-  },
-  "9": {
-   "name": "Vattnet till höger",
-   "note": "Sikta långt till vänster med drivern, särskilt i medvind, för vattnet ligger till höger. Hålet spelas uppför och inspelet kräver mer klubba än många tror: greenen är upphöjd några meter. Lägg inspelet kort om flaggan – returputtarna är snabba.",
-   "club": "Sikta långt till vänster med drivern speciellt när det är medvind. Green är upphöjd några meter. Försök att lägga ditt inspel kort om flaggan.",
-   "club2019": "Jag siktar ofta långt till vänster med drivern speciellt när det är medvind eftersom jag inte vill hamna i vattnet. Inga problem om du slår din drive rakt. Inspelet kräver mer klubba än vad många tror. Green är upphöjd några meter. Försök att lägga ditt inspel kort om flaggan. Returputtarna brukar vara rejält snabba och oberäkneliga liksom puttar från sidan. Men jag lyckas ofta göra ett par. Ett hål som passar mig.",
-   "tiers": 1
-  },
-  "10": {
-   "name": "Placera andraslaget",
-   "note": "Två bunkrar på fairways högra sida, kullar till vänster och out of bounds längs hela högersidan – undvik framför allt ruffen. Andraslaget avgör: lägg det på fairways vänstra sida, för greenen är rejält ondulerad till höger och en bunker vaktar till vänster.",
-   "club": "På fairways högra sida ligger två bunkrar, till vänster några kullar. Undvik framförallt ruffen. Var även noggrann med ditt andra slag.",
-   "club2019": "På fairways högra sida ligger två bunkrar, till vänster några kullar. Underskatta inte utslagets betydelse och undvik framförallt ruffen. Var även noggrann med ditt andra slag, placeringen av det är nyckeln till ett framgångsrikt tredjeslag. Green är rejält ondulerad på den högra sidan och vänster om green ligger en bunker. Försök landa andraslaget på fairways vänstra sida.",
-   "tiers": 1
-  },
-  "11": {
-   "name": "Ser lätt ut",
-   "note": "Ett kort par 4 som ser busenkelt ut. På utslaget: vatten till vänster och out of bounds-linjen till höger. Fundera på hur du vill spela andraslaget – greenens bakre del är lång och ondulerad, och vissa flaggplaceringar kräver din bästa bollkänsla.",
-   "club": "På utslaget får du se upp för vattnet på vänster sida och out of bounds-linjen till höger. Fundera hur du vill spela ditt andraslag.",
-   "club2019": "Ett kort par 4. På utslaget får du se upp för vattnet på vänster sida och out of bounds-linjen till höger. Fundera en extra gång hur du helst vill spela ditt andraslag. Bakre delen av green är lång och ondulerad och det finns en del flaggplaceringar som tvingar fram det yttersta av din bollkänsla. Man tycker hålet ser busenkelt ut, men många gånger går jag därifrån med en bogey.",
-   "tiers": 1
-  },
-  "12": {
-   "name": "Inbunkrad green",
-   "note": "Inte för långt, inte för kort – men vinden är ofta en faktor. Greenen är upphöjd och snällt inbunkrad, så det krävs ett riktigt bra slag: kort eller missriktat rullar bollen med stor sannolikhet ner i någon av bunkrarna. Välj en klubba som räcker fram.",
-   "club": "Green är upphöjd och snällt inbunkrad. Det krävs ett bra slag. Ett kort eller missriktat slag rullar med stor sannolikhet ner i någon av bunkrarna.",
-   "club2019": "Inte för långt, inte för kort. Här är vinden ofta en faktor du måste ta hänsyn till. Green är upphöjd och snällt inbunkrad. Det krävs ett bra slag, du når knappast green med tur. Även här gäller det att välja en klubba som verkligen räcker fram till green. Ett kort eller missriktat slag rullar med stor sannolikhet ner i någon av bunkrarna.",
-   "tiers": 1
-  },
-  "13": {
-   "name": "Banans tuffaste",
-   "note": "Index 1 och Peter Forsbergs favorithål: en lång dogleg höger ner mot fjärden, med out of bounds till höger. Slå en rak drive så nära bunkern i kröken som möjligt, gärna med en svag fade – det öppnar för ett inspel mot en inbjudande green.",
-   "club": "Ett gott råd är att slå en rak drive så nära bunkern som möjligt. Gärna med en svag fade. Det öppnar för ett inspel till en inbjudande green.",
-   "club2019": "Ett jättebra och roligt hål, mitt favorithål på Veckefjärden. Det är härligt när den perfekta driven landar bakom bunkern och studsar åt höger. Ett gott råd är att slå en rak drive så nära bunkern som möjligt. Gärna med en svag fade. Det öppnar för ett inspel till en inbjudande green.",
-   "tiers": 1
-  },
-  "14": {
-   "name": "Signaturhålet",
-   "note": "Veckefjärdens signaturhål: ett underbart korthål till en halvö ute i fjärden, med green omgiven av vatten. Sidvinden tar tag i bollen när den lämnar trädridåns skydd, och i rak motvind är klubbvalet värt en extra tanke. Ett fantastiskt hål.",
-   "club": "Veckefjärdens signaturhål. Greenen är omgiven av vatten. Sidvinden påverkar ofta bollbanan när den lämnar trädridåns skydd. Ett fantastiskt hål.",
-   "club2019": "Veckefjärdens signaturhål. Ett underbart korthål till en halvö i Veckefjärden. Greenen är omgiven av vatten. Sidvinden påverkar ofta bollbanan när den lämnar trädridåns skydd. Om du har oturen att råka ut för rak motvind är det klokt att fundera lite extra över klubbvalet. Ett fantastiskt hål.",
-   "tiers": 1
-  },
-  "15": {
-   "name": "Valmöjligheterna",
-   "note": "Kort par 4 med fjärden längs hela högersidan, av Svensk Golf utsett till ett av Sveriges bästa hål. Det kloka: spela långt fram på vänster sida och slipp andraslaget över vattnet. Det frestande: driver rakt över viken mot green. Ett hål med valmöjligheter.",
-   "club": "Ett klokt sätt är att spela sig långt fram på vänster sida för att slippa slå det korta andraslaget över vattnet. Ett hål med valmöjligheter.",
-   "club2019": "Ett kort par 4 som kan spelas på många olika sätt. Jesper Parnevik siktade på en bunker och slog sedan en spoon direkt i bunkern följt av ett perfekt bunkerslag och en sänkt putt för birdie. Ett klokt sätt är att spela sig långt fram på vänster sida för att slippa slå det korta andraslaget över vattnet. Jag slår över vattnet ibland, beroende på hur ronden gått. Ibland vill du ta en chans att komma ikapp, ibland bara bevaka en bra score. Ett hål med valmöjligheter. Hålet är av Svensk Golf utsett till nr 71 på listan med Sveriges bästa golfhål.",
-   "tiers": 1
-  },
-  "16": {
-   "name": "Favoritklubban",
-   "note": "Ett förhållandevis enkelt par 4, svagt uppför. Placera utslaget så att du kan slå in på green med en favoritklubba – ett halvslag är svårare än ett fullt, och greenen är omgiven av fem bunkrar som gärna tar emot ett duffat inspel.",
-   "club": "Tänk på att placera bollen så att du kan slå in på green med en favoritklubba. Tänk på att halvslag är svårare än ett fullt.",
-   "club2019": "Ett förhållandevis enkelt par 4. Tänk på att placera bollen så att du kan slå in på green med en favoritklubba. Det har hänt en och annan gång att jag duffat en halv sandwedge ner i greenbunkern. Tänk på att halvslag är svårare än ett fullt.",
-   "tiers": 1
-  },
-  "17": {
-   "name": "Kanondrive",
-   "note": "Första av två tuffa avslutningshål. Ett tvärgående dike på fairways vänstra sida drar till sig bollar – når driven inte förbi, lägg upp före vattnet. Den ondulerade greenen rullar av mot vattenhindret till vänster eller bunkern till höger. Par kräver en riktig kanondrive.",
-   "club": "Vattenhinder till vänster eller bunker till höger. Du måste ha en riktig kanondrive för att klara birdie eller par.",
-   "club2019": "Veckefjärden bjuder på två tuffa avslutningshål. På hål 17 är det första hindret ett tvärgående dike på vänster sida av fairway som drar till sig bollar. Om din drive inte når längre än till den passagen kan det vara klokt med en lay-up före vattenhindret. Greenen är ondulerad och de mindre perfekt slagna bollarna rullar gärna av mot vattenhindret till vänster eller bunker till höger. Ett svårt hål för mig. Du måste ha en riktig kanondrive för att klara birdie eller par.",
-   "tiers": 1
-  },
-  "18": {
-   "name": "Över bäcken hem",
-   "note": "Långt par 5 i motlut upp mot klubbhuset, med gott om plats för driven. De flesta lägger andraslaget så nära bäcken som möjligt; den som går för green ska veta att fairway smalnar av rejält på andra sidan. Tänk på nivåskillnaden när du väljer klubba för tredjeslaget.",
-   "club": "Ett spännande slag eftersom fairway smalnar av rejält på andra sidan bäcken. Tänk på nivåskillnaden när du väljer klubba inför tredjeslaget.",
-   "club2019": "Ett långt, utslagsgivande par 5 i ett motlut som accentueras när du passerat bäcken. Det finns gott om plats på fairway för en bra drive. De långt slående väljer kanske att gå för green med sitt andra slag. Ett spännande slag eftersom fairway smalnar av rejält på andra sidan bäcken. De flesta väljer att placera andraslaget så nära bäcken som möjligt. Tänk på nivåskillnaden när du väljer klubba inför tredjeslaget.",
-   "tiers": 1
+  "source": "Per-hole notes condensed from the club's own banguide. veckefjarden.com/banguide/ embeds LiveCaddie course 379 ('Mästerskapsbanan'), whose per-hole text (tools/livecaddie-holes.mjs 379, 2026-09-02) is the condensed version the club also prints in Magasin Veckefjärden 2021-2023; it is kept under `club` in the magazine's clean spelling (the LiveCaddie copy carries OCR artefacts). The longer original, 'Så här spelar du Veckefjärden … hur Peter Forsberg spelar våra 18 hål' (text Gunnar Säfsten, Magasin Veckefjärden 2019 pp. 51-56, issuu.com/devocy/docs/magasin_veckefja_rden_webb), is kept under `club2019`, transcribed from page images. Colour from the club's Lokala regler 2025 (OB and 'oändliga' penalty areas per hole, bridges on 6, 8, 10, 11 and 16/17), the club's om-oss page (Peter Forsberg's opening shot 2003, the pride in hole 14), Svensk Golf 2011 (hole 15 as Tommy Nordström's characteristic hole; 13 as the toughest), the Eurocon sponsor page (hole 15 as Svensk Golf's no. 71 among Sweden's best holes) and bobmenreport.com. Bends, rise, sides and water were checked against the model's line geometry and the DEM profile (tools/hole-geometry.mjs): the 1st climbs 26 m, the 2nd falls 48 m, the 3rd's bunkers lie left (four read off the terrain and imagery, 2-4 m from the plan readings), the 14th's green sits 20 m inside the shoreline. The club's newer page text (veckefjarden.com/banguide/, fetched 2026-09-05, 18 paragraphs) is kept verbatim under `clubWeb` with its `sponsorWeb`; all 18 sponsors match the model's `sp`. Its checkable claims were folded into the notes after the 2026-09-05 terrain derivation (geobuild/dtm-features.json): the 3rd's right-hand ditch and the 17th's ditches short of the green are now in the model, read off the 1 m laser DTM; the 4th's left-hand ditch and the 17th's ditch at drive length are the club's word only. `name` is an editorial tagline; the club names no holes and calls only the 14th 'signaturhål'. Sponsor names are deliberately left out. Card: LiveCaddie, GIT and the website agree with banguide/guide-card.json in all 144 cells; the magazine's card is an older measurement. The architect is 'Tommy Norström' in the club's own texts and 'Tommy Nordström' everywhere else.",
+  "holes": {
+    "1": {
+      "name": "Rakt uppför",
+      "note": "Inte långt, men rakt uppför – 26 meter upp till green – och tillräckligt för ett spännande andraslag där höjdskillnaden gör längden svår att bedöma. Greenen består av två platåer; sikta på dess breda mitt, för vänster om green krävs ett Mickelson-slag. Svårt, men roligt.",
+      "club": "Det första hålet är inte långt men tillräckligt för ett spännande andraslag. Höjdskillnaden gör det svårt att bedöma slagets längd. Svårt, men roligt.",
+      "club2019": "Det första hålet är till längden inte långt. Men tillräckligt långt för ett spännande andraslag. Höjdskillnaden gör det svårt att bedöma slagets längd. Jag siktar mot mitten av green där den är bredast. Landar du bollen vänster om green får du ta fram ett Mickelson-slag. Svårt, men roligt.",
+      "tiers": 1,
+      "clubWeb": "Det första hålet är till längden inte långt – men tillräckligt långt för ett spännande andraslag där höjdskillnaden gör det svårt att bedöma slagets längd. Greenen består av två platåer och en miss till vänster kommer att innebära ett klurigt chipslag.",
+      "sponsorWeb": "Ö-viks brunnsborrning"
+    },
+    "2": {
+      "name": "Eaglechansen",
+      "note": "Rondens bästa chans till birdie, kanske eagle. Hålet faller 48 meter: lägg upp på platån före sluttningen, som Peter Forsberg ibland gör med en järnåtta, så blir andraslaget in mot green enkelt. Out of bounds till vänster, tjock ruff till höger.",
+      "club": "Ett missat utslag kan kosta en hel del. Du har out of bounds till vänster och till höger sluttar fairway ut i tjock ruff.",
+      "club2019": "Dagens bästa möjlighet till en birdie, eller varför inte en eagle? Jag brukar lägga upp mig på platån före sluttningen, ibland med bara en järn-8. Ett missat utslag kan kosta en hel del, du har out of bounds till vänster och till höger sluttar fairway ut i tjock ruff. Från platån är det ett förhållandevis enkelt andraslag in mot green – och en eagle eller birdie.",
+      "tiers": 1,
+      "clubWeb": "En stor möjlighet till en birdie, eller varför inte en eagle? Det mesta hänger på utslaget som kräver lite känsla och ofta en kortare klubba än vad man kan tro på grund av höjdskillnaden. Miss vänster innebär out of bounds och till höger finns ruff och träd.",
+      "sponsorWeb": "LSM – Licens Svets Montage Ö-vik"
+    },
+    "3": {
+      "name": "Ett av de svåraste",
+      "note": "Definitivt ett av banans svåraste hål: 23 meter uppför, med en rad bunkrar längs vänstersidan och ett dike längs den högra. Inspelet mot en upphöjd green som lutar åt vänster ner mot en bunker kräver precision – säkrast är att missa kort om greenen, och väl uppe är den svårputtad.",
+      "club": "Definitivt ett av de svåraste hålen. Man måste vara en riktigt bra spelare för att få bollen att stanna på green som dessutom är svårputtad.",
+      "club2019": "Definitivt ett av de svåraste hålen. Jag försöker att undvika vänstersidan och de fairwaybunkrar som ligger där. Efter en bra drive återstår en hel del att göra. Inspelet till en upphöjd green som dessutom lutar ner mot en bunker kräver precision. Man måste vara en riktigt bra spelare för att få bollen att stanna på green som dessutom är svårputtad.",
+      "tiers": 1,
+      "clubWeb": "Ett av banans svåraste hål. Utslaget bär i väg uppför med bunkrar längs vänstersidan och ett dike längs den högra. Inspelet kräver precision då greenen sluttar vänster ner mot en bunker. Säkrast är att missa kort om greenen.",
+      "sponsorWeb": "OKQ8"
+    },
+    "4": {
+      "name": "Håll vänster",
+      "note": "Korthål nedför med out of bounds längs högerkanten, en bunker som vaktar greenens högra sida och ett dike till vänster. Greenens lutning gör det svårt att få stopp på bollen: håll till vänster, sikta förbi flaggan och våga gå för green – bollen stannar bäst om den landar på den.",
+      "club": "Håll till vänster på green. En uppförsputt är att föredra. Ju bättre man är desto roligare är hålet. Våga gå för green, bollen stannar bättre om du landar på den.",
+      "club2019": "Håll till vänster på green. Det är mitt bästa råd. Alltför ofta har jag försökt att ta mig in på greenens högra sida. Det har ofta slutat i ett bunkerbesök. Med tanke på greenens lutning brukar jag försöka få utslaget förbi flaggan. En uppförsputt är definitivt att föredra. Ju bättre man är desto roligare är hålet. Våga gå för green, bollen stannar bättre om du landar på den.",
+      "tiers": 1,
+      "clubWeb": "En bunker vaktar högra sidan av denna green, till vänster ett dike. Det kan vara svårt att få stopp på bollen i och med greenens lutning. Men våga gå för green, bollen stannar bäst om den landar på den.",
+      "sponsorWeb": "Ahlsells"
+    },
+    "5": {
+      "name": "Strategiskt andraslag",
+      "note": "Håll en aning höger med utslaget – sluttningen tar bollen tillbaka till fairway. Andraslaget är strategiskt: flirta med bunkern på vänstersidan för ett enkelt tredjeslag, för från höger är greenen som lutar åt vänster svår att hålla. Håll vänster och bli belönad.",
+      "club": "Håll en aning höger med utslaget. Sluttningen tar bollen tillbaka till fairway. Andraslaget är strategiskt. Håll till vänster och bli belönad.",
+      "club2019": "Håll en aning höger med utslaget. Sluttningen tar bollen tillbaka till fairway om du skulle missa. Andraslaget är strategiskt. Flirta med bunkern på vänstersidan och skaffa dig ett relativt enkelt tredjeslag. Om du hamnar på den högra sidan – som jag ofta gör – blir det svårt att få bollen att stanna på en green som lutar åt vänster. Håll till vänster och bli belönad.",
+      "tiers": 1,
+      "clubWeb": "Håll en aning höger på utslaget, sluttningen tar ofta bollen tillbaka till fairway om du skulle missa. Andraslaget är strategiskt, det är bra att ligga på vänster sida av banan för att få en bra vinkel in mot den luriga greenen.",
+      "sponsorWeb": "Go Sport Travel"
+    },
+    "6": {
+      "name": "Diket",
+      "note": "Index 2 och en dogleg vänster där den långtslående ställs inför ett delikat val: lägg upp kort om diket som delar fairway, eller slå över det. Går du över, sikta på fairways vänstra sida – närmaste vägen över och bästa inspelsvinkeln. En damm vaktar framför green till höger.",
+      "club": "Valet står mellan att lägga sig kort om det dike som delar fairway eller slå över diket. Om du väljer att gå över diket, sikta på den vänstra sidan av fairway.",
+      "club2019": "Här ställs den som slår långt inför ett delikat beslut. Valet står mellan att lägga sig kort om det dike som delar fairway – eller slå över diket. Om du funderar på att gå över diket – sikta på den vänstra sidan av fairway. Det är närmaste vägen över diket och ger den bästa inspelsvinkeln. Jättebra hål. Jag gillar diket som delar fairway, det gör att det blir ett roligt golfhål. Våga slå hela vägen och landa på green.",
+      "tiers": 1,
+      "clubWeb": "Långtslående har två val på hål 6. Antingen lägga sig kort om diket som korsar fairway eller våga slå över det. Andraslaget kan bli väldigt långt om du hamnar i den tjocka ruffen till höger.",
+      "sponsorWeb": "VTG"
+    },
+    "7": {
+      "name": "Räcker klubban?",
+      "note": "Ett beskedligt korthål vid första anblicken, men svårare än det ser ut. Välj en klubba som verkligen räcker ända fram till den något upphöjda greenen: en bunker sveper sig runt greenens vänstersida och en annan vaktar dess främre del.",
+      "club": "Ett korthål som är svårare än vad det ser ut att vara. Var säker på att du väljer en klubba som räcker ända fram till den upphöjda greenen.",
+      "club2019": "Ett beskedligt korthål vid första anblicken som är svårare än vad det ser ut att vara. Var säker på att du väljer en klubba som räcker ända fram till den upphöjda greenen. Jag försöker slå mig in till green över den högra bunkern med en draw.",
+      "tiers": 1,
+      "clubWeb": "Här är det viktigt att välja rätt klubba för att nå in på den något upphöjda greenen. En bunker sveper sig runt greenens vänstersida och en annan vaktar den främre delen av green.",
+      "sponsorWeb": "Elite Plaza Hotel"
+    },
+    "8": {
+      "name": "Generöst utslag",
+      "note": "Landningsytan är förhållandevis generös, så dra på – men undvik bunkern på vänster sida. Vinden gör stor skillnad här, och inspelet mot den snedställda greenen är inte enkelt: för kort och bollen hamnar i greenbunkern.",
+      "club": "Landningsytan är förhållandevis generös. Undvik bunkern på vänster sida. Inspelet mot den snedställda greenen är inte helt enkelt.",
+      "club2019": "Ett utslag som inspirerar till att använda alla kroppens inbyggda krafter. Landningsytan är förhållandevis generös. Undvik bunkern på vänster sida. Här är det stor skillnad på resultatet om du har vinden i ryggen eller i ansiktet. Eller från sidan, det gör skillnad kan jag lova. Inspelet mot den snedställda greenen är inte helt enkelt. Är du för kort – som jag ofta är – hamnar bollen i bunkern.",
+      "tiers": 1,
+      "clubWeb": "Ett utslag som erbjuder en generös landningsyta och som inbjuder dig till att ta i med allt du har. Inspelet mot den snedställda greenen är inte helt enkelt, det är ofta hänt att man hamnar kort i bunkern.",
+      "sponsorWeb": "SEB"
+    },
+    "9": {
+      "name": "Vattnet till höger",
+      "note": "Sikta långt till vänster med drivern, särskilt i medvind, för vattnet ligger till höger. Hålet spelas uppför och inspelet kräver mer klubba än många tror: greenen är upphöjd några meter. Lägg inspelet kort om flaggan – returputtarna är snabba.",
+      "club": "Sikta långt till vänster med drivern speciellt när det är medvind. Green är upphöjd några meter. Försök att lägga ditt inspel kort om flaggan.",
+      "club2019": "Jag siktar ofta långt till vänster med drivern speciellt när det är medvind eftersom jag inte vill hamna i vattnet. Inga problem om du slår din drive rakt. Inspelet kräver mer klubba än vad många tror. Green är upphöjd några meter. Försök att lägga ditt inspel kort om flaggan. Returputtarna brukar vara rejält snabba och oberäkneliga liksom puttar från sidan. Men jag lyckas ofta göra ett par. Ett hål som passar mig.",
+      "tiers": 1,
+      "clubWeb": "Spela ut och se till att du inte hamnar i vattnet till höger. Tänk över klubbvalet vid inspelet mot den upphöjda greenen, det är ofta längre än vad man kan tro. Men hamna inte för långt upp på green, returputtar nedför backen kan vara ruskigt snabba.",
+      "sponsorWeb": "Måleriproduktion AB"
+    },
+    "10": {
+      "name": "Placera andraslaget",
+      "note": "Två bunkrar på fairways högra sida, kullar till vänster och out of bounds längs hela högersidan – undvik framför allt ruffen. Andraslaget avgör: lägg det på fairways vänstra sida, för greenen vaktas av en stor kulle på höger sida och en bunker till vänster; enklast är att få slå ett fullt tredjeslag med en wedge.",
+      "club": "På fairways högra sida ligger två bunkrar, till vänster några kullar. Undvik framförallt ruffen. Var även noggrann med ditt andra slag.",
+      "club2019": "På fairways högra sida ligger två bunkrar, till vänster några kullar. Underskatta inte utslagets betydelse och undvik framförallt ruffen. Var även noggrann med ditt andra slag, placeringen av det är nyckeln till ett framgångsrikt tredjeslag. Green är rejält ondulerad på den högra sidan och vänster om green ligger en bunker. Försök landa andraslaget på fairways vänstra sida.",
+      "tiers": 1,
+      "clubWeb": "Placering är viktigt på hål 10. Sikta mot banans vänstra sida på andraslaget. Eftersom greenen vaktas av en stor kulle på höger sida är det är enklast om man kan slå ett fullt tredjeslag med en wedge för att få bollen att stanna på greenen.",
+      "sponsorWeb": "CoreIT"
+    },
+    "11": {
+      "name": "Ser lätt ut",
+      "note": "Ett kort par 4 som ser busenkelt ut. På utslaget: vatten till vänster och out of bounds-linjen till höger. Fundera på hur du vill spela andraslaget – greenens bakre del är lång och ondulerad, och vissa flaggplaceringar kräver din bästa bollkänsla.",
+      "club": "På utslaget får du se upp för vattnet på vänster sida och out of bounds-linjen till höger. Fundera hur du vill spela ditt andraslag.",
+      "club2019": "Ett kort par 4. På utslaget får du se upp för vattnet på vänster sida och out of bounds-linjen till höger. Fundera en extra gång hur du helst vill spela ditt andraslag. Bakre delen av green är lång och ondulerad och det finns en del flaggplaceringar som tvingar fram det yttersta av din bollkänsla. Man tycker hålet ser busenkelt ut, men många gånger går jag därifrån med en bogey.",
+      "tiers": 1,
+      "clubWeb": "Ett kort par 4. Se upp för vattnet på vänster sida och out of bounds-linjen till höger. Greenen är lång och spelas olika beroende på flaggplaceringen. Ett lurigt hål som kan se enkelt ut vid första anblick.",
+      "sponsorWeb": "Anytec"
+    },
+    "12": {
+      "name": "Inbunkrad green",
+      "note": "Inte för långt, inte för kort – men vinden är ofta en faktor. Greenen är upphöjd och snällt inbunkrad, så det krävs ett riktigt bra slag: kort eller missriktat rullar bollen med stor sannolikhet ner i någon av bunkrarna. Välj en klubba som räcker fram.",
+      "club": "Green är upphöjd och snällt inbunkrad. Det krävs ett bra slag. Ett kort eller missriktat slag rullar med stor sannolikhet ner i någon av bunkrarna.",
+      "club2019": "Inte för långt, inte för kort. Här är vinden ofta en faktor du måste ta hänsyn till. Green är upphöjd och snällt inbunkrad. Det krävs ett bra slag, du når knappast green med tur. Även här gäller det att välja en klubba som verkligen räcker fram till green. Ett kort eller missriktat slag rullar med stor sannolikhet ner i någon av bunkrarna.",
+      "tiers": 1,
+      "clubWeb": "Green är upphöjd och snällt inbunkrad. Det krävs ett bra slag för att nå upp, du når knappast greenen med tur. Ett kort eller missriktat slag rullar med stor sannolikhet ner i någon av bunkrarna.",
+      "sponsorWeb": "Försäkringsplanering"
+    },
+    "13": {
+      "name": "Banans tuffaste",
+      "note": "Index 1 och Peter Forsbergs favorithål: en lång dogleg höger ner mot fjärden, med out of bounds till höger. Slå en rak drive så nära bunkern i kröken som möjligt, gärna med en svag fade – det öppnar för ett inspel mot en inbjudande green.",
+      "club": "Ett gott råd är att slå en rak drive så nära bunkern som möjligt. Gärna med en svag fade. Det öppnar för ett inspel till en inbjudande green.",
+      "club2019": "Ett jättebra och roligt hål, mitt favorithål på Veckefjärden. Det är härligt när den perfekta driven landar bakom bunkern och studsar åt höger. Ett gott råd är att slå en rak drive så nära bunkern som möjligt. Gärna med en svag fade. Det öppnar för ett inspel till en inbjudande green.",
+      "tiers": 1,
+      "clubWeb": "Ett hål som svänger höger runt ett skogsparti och inbjuder till att gena en aning med utslaget. Den perfekta linjen är så nära fairwaybunkern som möjligt med en svag fade. För mycket höger och bollen är förlorad i tjock växtlighet.",
+      "sponsorWeb": "Malux"
+    },
+    "14": {
+      "name": "Signaturhålet",
+      "note": "Veckefjärdens signaturhål: ett underbart korthål till en halvö ute i fjärden, med green omgiven av vatten. Sidvinden tar tag i bollen när den lämnar trädridåns skydd, och i rak motvind är klubbvalet värt en extra tanke. Ett fantastiskt hål.",
+      "club": "Veckefjärdens signaturhål. Greenen är omgiven av vatten. Sidvinden påverkar ofta bollbanan när den lämnar trädridåns skydd. Ett fantastiskt hål.",
+      "club2019": "Veckefjärdens signaturhål. Ett underbart korthål till en halvö i Veckefjärden. Greenen är omgiven av vatten. Sidvinden påverkar ofta bollbanan när den lämnar trädridåns skydd. Om du har oturen att råka ut för rak motvind är det klokt att fundera lite extra över klubbvalet. Ett fantastiskt hål.",
+      "tiers": 1,
+      "clubWeb": "Veckefjärdens signaturhål. Ett underbart korthål till en halvö i Veckefjärden. Sidvinden påverkar ofta bollbanan när den lämnar trädridåns skydd. Om du har oturen att råka ut för rak motvind är det klokt att fundera lite extra över klubbvalet.",
+      "sponsorWeb": "Domsjö Fabriker"
+    },
+    "15": {
+      "name": "Valmöjligheterna",
+      "note": "Kort par 4 med fjärden längs hela högersidan, av Svensk Golf utsett till ett av Sveriges bästa hål. Det kloka: spela långt fram på vänster sida och slipp andraslaget över vattnet. Det frestande: driver rakt över viken mot green. Ett hål med valmöjligheter.",
+      "club": "Ett klokt sätt är att spela sig långt fram på vänster sida för att slippa slå det korta andraslaget över vattnet. Ett hål med valmöjligheter.",
+      "club2019": "Ett kort par 4 som kan spelas på många olika sätt. Jesper Parnevik siktade på en bunker och slog sedan en spoon direkt i bunkern följt av ett perfekt bunkerslag och en sänkt putt för birdie. Ett klokt sätt är att spela sig långt fram på vänster sida för att slippa slå det korta andraslaget över vattnet. Jag slår över vattnet ibland, beroende på hur ronden gått. Ibland vill du ta en chans att komma ikapp, ibland bara bevaka en bra score. Ett hål med valmöjligheter. Hålet är av Svensk Golf utsett till nr 71 på listan med Sveriges bästa golfhål.",
+      "tiers": 1,
+      "clubWeb": "Ett kort par 4 som kan spelas på många olika sätt. Ibland kanske du frestas att slå bollen över vattnet direkt mot green. Beroende på hur ronden har gått. Det säkra är att spela en kortare klubba från tee och lämna ett slag du är bekväm med in mot greenen.",
+      "sponsorWeb": "Eurocon"
+    },
+    "16": {
+      "name": "Favoritklubban",
+      "note": "Ett förhållandevis enkelt par 4, svagt uppför. Placera utslaget så att du kan slå in på green med en favoritklubba – ett halvslag är svårare än ett fullt, och greenen är omgiven av fem bunkrar som gärna tar emot ett duffat inspel.",
+      "club": "Tänk på att placera bollen så att du kan slå in på green med en favoritklubba. Tänk på att halvslag är svårare än ett fullt.",
+      "club2019": "Ett förhållandevis enkelt par 4. Tänk på att placera bollen så att du kan slå in på green med en favoritklubba. Det har hänt en och annan gång att jag duffat en halv sandwedge ner i greenbunkern. Tänk på att halvslag är svårare än ett fullt.",
+      "tiers": 1,
+      "clubWeb": "Ett förhållandevis enkelt par 4 som vissa kan nå med driver. Placera dig så att du kan slå in mot green med din favoritklubba. Det är lätt att hamna i någon av de många bunkrarna som omringar green.",
+      "sponsorWeb": "Nordins Bilverkstad"
+    },
+    "17": {
+      "name": "Kanondrive",
+      "note": "Första av två tuffa avslutningshål. Ett tvärgående dike på fairways vänstra sida drar till sig bollar – når driven inte förbi, lägg upp före vattnet. Den ondulerade greenen rullar av mot vattenhindret till vänster eller bunkern till höger. Par kräver en riktig kanondrive.",
+      "club": "Vattenhinder till vänster eller bunker till höger. Du måste ha en riktig kanondrive för att klara birdie eller par.",
+      "club2019": "Veckefjärden bjuder på två tuffa avslutningshål. På hål 17 är det första hindret ett tvärgående dike på vänster sida av fairway som drar till sig bollar. Om din drive inte når längre än till den passagen kan det vara klokt med en lay-up före vattenhindret. Greenen är ondulerad och de mindre perfekt slagna bollarna rullar gärna av mot vattenhindret till vänster eller bunker till höger. Ett svårt hål för mig. Du måste ha en riktig kanondrive för att klara birdie eller par.",
+      "tiers": 1,
+      "clubWeb": "Ett riktigt svårt hål. Längden gör att många gör bäst i att spela hålet som ett par 5 och lägga andraslaget kort om vattnet. Inspelet mot greenen är inte enkelt, särskilt med en längre klubba. Vatten väntar till vänster och en bunker till höger.",
+      "sponsorWeb": "Höglandssågen"
+    },
+    "18": {
+      "name": "Över bäcken hem",
+      "note": "Långt par 5 i motlut upp mot klubbhuset, med gott om plats för driven. De flesta lägger andraslaget så nära bäcken som möjligt; den som går för green ska veta att fairway smalnar av rejält på andra sidan. Nivåskillnaden blir ännu tydligare efter diket vid inspelet – välj klubba för tredjeslaget med omsorg.",
+      "club": "Ett spännande slag eftersom fairway smalnar av rejält på andra sidan bäcken. Tänk på nivåskillnaden när du väljer klubba inför tredjeslaget.",
+      "club2019": "Ett långt, utslagsgivande par 5 i ett motlut som accentueras när du passerat bäcken. Det finns gott om plats på fairway för en bra drive. De långt slående väljer kanske att gå för green med sitt andra slag. Ett spännande slag eftersom fairway smalnar av rejält på andra sidan bäcken. De flesta väljer att placera andraslaget så nära bäcken som möjligt. Tänk på nivåskillnaden när du väljer klubba inför tredjeslaget.",
+      "tiers": 1,
+      "clubWeb": "Ett långt par 5 i motlut. Det finns gott om plats på fairway för en bra drive men bäcken gör sig påmind på andraslaget. Välj klubba med omsorg. Nivåskillnaden blir ännu tydligare efter diket vid inspelet.",
+      "sponsorWeb": "El-Centralen"
+    }
   }
- }
 }

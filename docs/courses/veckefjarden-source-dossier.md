@@ -291,6 +291,16 @@ sculpt lays on top.
 
 ## 9. Open, and why
 
+> **2026-09-05.** Several of the items below were applied in the course-map pass
+> ([`veckefjarden-course-map.md`](veckefjarden-course-map.md)): the three yellow
+> runs are red, the OB runs follow the club's list, the three fairway relations and
+> the western reserve polygon are in the model, the club's 18 paragraphs are in
+> `guide-notes.json` under `clubWeb`, and the plan-traced holes were re-anchored on
+> the surveyed green centres after a compounding registration bug was found. Bunkers,
+> ditches and tee decks were read off the 1 m terrain and the z18 imagery. Still open
+> from this list: the water levels, the CR/slope table, the korthålsbanan card, the
+> vegetation species hook, and the control approval.
+
 - **Vegetation.** Two Laserdata Skog campaigns cover the whole AOI with **no
   seam** — `26f015-702_68` flown **2026-06-01 → 2026-06-21** (159.9 M points,
   0.566 m spacing, 831 MB) and `20f015-702_68` from 2020 as the check. Not run:

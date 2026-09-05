@@ -23,11 +23,25 @@ const anchors = readJSON(path.join(ROOT, 'geobuild/plan-anchors.json'));
 const shapes = readJSON(path.join(ROOT, 'geobuild/plan-shapes.json'));
 const HOLES = Object.fromEntries(model.holes.map(h => [h.n, h]));
 
+/* The pin anchor is the SURVEYED green centre, read from the GPS file directly. It
+   used to be h.pin, which reconcile sets to the traced green's own centroid once a
+   trace exists -- so every re-run registered the plan against the previous run's
+   reading and the green walked away from the survey by the reader's offset each
+   time (hole 3 had reached 19 m, hole 5 19 m, hole 7 11 m against 2-4.5 m for every
+   OSM green). The anchor has to be something the trace can never move. */
+const gpsRaw = readJSON(path.join(ROOT, 'geo_data/veckefjarden_clean.json'));
+const GPS = {};
+for (const f of gpsRaw.features) {
+  const p = f.properties, [lo, la] = f.geometry.coordinates;
+  (GPS[+p.hole] ||= {})[p.name] = [(lo - model.origin.lon) * model.mPerLon, -(la - model.origin.lat) * model.mPerLat];
+}
+const pinOf = n => GPS[n]['Green Center'];
+
 /* the same two-anchor similarity the tracer uses; complex arithmetic keeps it honest */
 function reg(n) {
   const A = anchors[String(n)], h = HOLES[n];
   const [p1x, p1y] = A.teePx, [p2x, p2y] = A.pinPx;
-  const [w1x, w1z] = h.line[0], [w2x, w2z] = h.pin;
+  const [w1x, w1z] = h.line[0], [w2x, w2z] = pinOf(n);
   const dpx = p2x - p1x, dpy = p2y - p1y;
   const dwx = w2x - w1x, dwz = w2z - w1z;
   const den = dpx * dpx + dpy * dpy;
@@ -78,6 +92,7 @@ for (const n of [13, 17]) {
   const c = centroid(ring);
   const h = HOLES[n];
   if (h.green.prov !== 'osm') continue;
+  console.log(`  hole ${n}: traced green centre ${hyp(c, pinOf(n)).toFixed(1)} m from the surveyed centre`);
   const co = centroid(h.green.ring);
   const d = hyp(c, co);
   const ratio = Math.abs(polyArea(ring)) / Math.abs(polyArea(h.green.ring));
@@ -95,12 +110,18 @@ for (const n of [1, 2, 3, 4, 5, 7]) {
   const rec = { scale: +R.scale.toFixed(3) };
 
   if (S.green?.length >= 6) {
-    const ring = shrinkRing(toRing(R, S.green), GREEN_SHRINK);
-    const c = centroid(ring);
+    let ring = shrinkRing(toRing(R, S.green), GREEN_SHRINK);
+    let c = centroid(ring);
     const area = Math.abs(polyArea(ring));
-    const dPin = hyp(c, h.pin);
+    const pin = pinOf(n);
+    const dPin = hyp(c, pin);
     if (dPin < 30 && area > 150 && area < 1500) {
-      rec.green = { ring, area: Math.round(area), c: c.map(r1) };
+      /* The survey's green centre is a measured point (2-4.5 m from every OSM outline);
+         the reader's centroid is a plan reading (5-6 m on the blind holes). The shape
+         is the reader's, the position is the survey's: the ring is re-centred. */
+      ring = ring1(ring.map(p => [p[0] + pin[0] - c[0], p[1] + pin[1] - c[1]]));
+      c = centroid(ring);
+      rec.green = { ring, area: Math.round(area), c: c.map(r1), readOffset: r1(dPin) };
     } else console.log(`  hole ${n}: green rejected (${dPin.toFixed(0)} m from pin, ${area.toFixed(0)} m²)`);
   }
   rec.fairways = [];

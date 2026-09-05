@@ -341,7 +341,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "geobuild/course-model.json",
-      "sha256": "9846afc5a689cb76a5369cd6f9bfd7fb10cfa3dc4a8326662a1f7b61433bdc81",
+      "sha256": "6b31022548c0f66539f6ad4eaf2b159174a9253f9b4345dc15444967dcab6f4b",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -379,7 +379,7 @@
       "id": "legacy-osm-features",
       "kind": "topography",
       "path": "geobuild/osm-features.json",
-      "sha256": "1f85e9dba819419329d985255b2e2135eb14594a3d2ad13644177ea8d46320b9",
+      "sha256": "a70ed6b54f6cb92de28e528cc74d6dfac5521240b605c17516ac18e865870a62",
       "derivedFrom": [
         "osm-legacy"
       ],
@@ -413,7 +413,7 @@
       "id": "legacy-traced-holes",
       "kind": "surface",
       "path": "geobuild/traced-holes.json",
-      "sha256": "efd57cd4774cd4dac3a6fda7dc2c0901e09cd6f19a6b2f4c3b1ee61c9e5ca2d6",
+      "sha256": "a2b68741a6c5370e07141daf4a3646d6df657fc13ef08418dc1553e260123acf",
       "derivedFrom": [
         "club-guide-legacy",
         "golftraxx-legacy"
@@ -451,7 +451,7 @@
       "id": "legacy-short-course-model",
       "kind": "composite",
       "path": "veckefjardenkortbuild/course-model.json",
-      "sha256": "2e456204941c64d0c8b3a992a2c85869fe6e476925823fcd0bc25c47d67fc665",
+      "sha256": "cb8af623eb122b2e08e7062b13056c4961284c18920ee97a1edb0e5cb48eb561",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -477,7 +477,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/veckefjarden/migration/course-model.epsg3006.json",
-      "sha256": "f98de4a0aa0c06276d46520d189c428c92efa8cee33fc6893bad2cec492de436",
+      "sha256": "1e3d4868f70b445ffea80e493e62a6669b3e67893a247a9458a20bb8b1121b2b",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -492,7 +492,7 @@
       "id": "migration-short-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/veckefjarden/migration/short-course-model.epsg3006.json",
-      "sha256": "4a6554023dfbe113d72a9bb5d6ada4d3e2fa81a16e6e5b1a8d89078f30f697a2",
+      "sha256": "869dceaaee478bf33799782873c79ab734fd885ad788363a6a421566d7d683df",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -538,6 +538,28 @@
       ],
       "use": "discovery-evidence",
       "notes": "Pinned Laserdata Skog inventory: the active 26f015-702_68 (one June 2026 ALS campaign, 3.119 returns/m2, exclusive over the whole 15.56 km2 AOI, zero seams) and the superseded 2020 item 20f015-702_68 at 0 km2 exclusive. record-laser-campaigns --check re-derives the live catalogue and fails on drift."
+    },
+    {
+      "id": "legacy-dtm-features",
+      "kind": "surface",
+      "path": "geobuild/dtm-features.json",
+      "sha256": "c44b9f0633ce2b46f161c83ac8f9239411994d9e9b84334ae176a4baae9eed87",
+      "derivedFrom": [
+        "esri-imagery-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Bunkers (sand in the z18 orthoimagery over a dish in the published 1 m laser terrain), ditches crossing the playing lines and flat tee decks, derived 2026-09-05 by geobuild/derive-dtm-features.mjs; replaces the plan readings and guide placements on holes 1-5, 7, 13, 15 and 18."
+    },
+    {
+      "id": "legacy-course-rules",
+      "kind": "control",
+      "path": "geobuild/course-rules.json",
+      "sha256": "2cf35437608e457dd272976393695ee6d01f02736735a286165eba0c13fe722e",
+      "derivedFrom": [
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "The club's Lokala regler och tävlingsvillkor 2025, transcribed: out-of-bounds per hole, red-only penalty areas, bridges, drainage ditches. reconcile.mjs derives the white marking from it."
     }
   ],
   "blockers": [

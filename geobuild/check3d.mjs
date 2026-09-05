@@ -187,9 +187,13 @@ if (PHF0) {
     for (const w of model.water) if (polySD(c[0], c[1], w.ring) < 0) { inWater++; break; }
   }
   note.push(`bunkers: ${model.holes.reduce((a, h) => a + h.bunkers.length, 0)} placed, ${inWater} standing in water`);
-  const osmB = model.holes.reduce((a, h) => a + h.bunkers.filter(b => b.prov === 'osm').length, 0);
-  note.push(`provenance: ${osmB} bunkers surveyed, ${model.holes.reduce((a, h) => a + h.bunkers.length, 0) - osmB} from the guide; ` +
-            `${model.holes.filter(h => h.green.prov === 'osm').length}/18 greens surveyed`);
+  const byProv = {};
+  for (const h of model.holes) for (const b of h.bunkers) byProv[b.prov] = (byProv[b.prov] || 0) + 1;
+  const provStr = Object.entries(byProv).map(([k, v]) => `${v} ${k === 'osm' ? 'surveyed' : k === 'dtm' ? 'read off the laser terrain and imagery' : k === 'plan' ? 'off the hole plans' : 'placed from the guide'}`).join(', ');
+  note.push(`provenance: bunkers ${provStr}; ${model.holes.filter(h => h.green.prov === 'osm').length}/18 greens surveyed`);
+  /* a plan reading or a guide placement survives only where nothing better was read:
+     once the terrain derivation exists, a guide-placed bunker is a regression */
+  if (byProv.dtm && byProv.guide) F('provenance', `${byProv.guide} guide-placed bunker(s) remain although the terrain derivation ran`);
 }
 
 /* ------------------------------------------------------------------- report */

@@ -55,11 +55,11 @@ export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
   }),
   veckefjarden: Object.freeze({
     path: 'geobuild/course-model.json',
-    sha256: 'e4aac565ed63e750401923663922cb640930a65acd3479a28e63a2ae47341728',
+    sha256: '6b31022548c0f66539f6ad4eaf2b159174a9253f9b4345dc15444967dcab6f4b',
   }),
   'veckefjarden-korthalsbanan': Object.freeze({
     path: 'veckefjardenkortbuild/course-model.json',
-    sha256: '69628371287d5793a57a893d37261a31a077990d51e50be0cd1e388bffd7d840',
+    sha256: 'cb8af623eb122b2e08e7062b13056c4961284c18920ee97a1edb0e5cb48eb561',
   }),
 });
 

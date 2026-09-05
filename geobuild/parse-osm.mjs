@@ -289,6 +289,27 @@ for (const r of rels) {
   }
 }
 
+/* golf multipolygon relations: three fairway relations were added to OSM in June 2026
+   (r20948903/4/5, near greens 15, 6 and 12) and a relation-only pass for water and
+   forest silently dropped them. Outer ways only, as for the water. */
+for (const r of rels) {
+  if (!r.tags.golf || r.tags.type !== 'multipolygon') continue;
+  const kind = r.tags.golf;
+  for (const m of r.members) {
+    if (m.type !== 'way' || m.role === 'inner') continue;
+    const w = ways.get(m.ref);
+    if (!w || !isClosed(w)) continue;
+    const ring = ringOf(w, kind === 'fairway' || kind === 'rough' ? 0.75 : 0.3);
+    if (!ring) continue;
+    const area = Math.abs(polyArea(ring));
+    const rec = { id: 'w' + w.id, ring, area: Math.round(area), c: centroid(ring).map(r1), rel: r.id };
+    const bucket = kind === 'green' ? out.greens : kind === 'fairway' ? out.fairways : kind === 'tee' ? out.tees
+      : kind === 'bunker' ? out.bunkers : kind === 'rough' ? out.roughs : null;
+    if (!bucket || bucket.some(x => x.id === rec.id)) continue;
+    if (area >= (AREA_MIN[kind] || 0)) bucket.push(rec);
+  }
+}
+
 out.water.sort((a, b) => b.area - a.area);
 const { ORIGIN } = await import('./lib.mjs');
 out.origin = { lat: ORIGIN.lat, lon: ORIGIN.lon };
