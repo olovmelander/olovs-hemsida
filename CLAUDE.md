@@ -3108,6 +3108,52 @@ turned up things worth keeping:
   163,954 base points omitted), read the runbook way off the assertion's
   own "got" line.
 
+### Upsala's reviewed buildings and facilities — and the coordinate that must not travel
+
+`upsalabuild/mapping/` carries the dated-orthophoto review — the municipal
+building footprints, 20 facility polygons, the corrected 17th green, the 8th's
+and 9th's tee pads, the 16th's fourth bunker and the laser-plated ponds — and
+`ground-mapping.mjs` folds it into the reconciled base, stamping
+`model.mappingRevision`. The engine reads it through `scenery.mappedFeatures`
+(complete polygons WITH their interior holes, so an island stays excluded from
+the putting turf), so `surfaceMesh` grew an exact-ring path beside its Chaikin
+one and the range's synthetic target flags stand down where a measured
+`range_target_surface` exists. Three things this pass established:
+
+- **A source-frame coordinate in an evidence payload becomes a 786 km
+  residual.** `migration.mjs` walks the whole model for numeric pairs and
+  converts each as local metres, so the one `centroid3006` riding inside the
+  8th tee's `terrainCorroboration` was migrated as a point 786 km away: the
+  playing geometry's worst direct residual went 44.3 m → 786,483 m and its
+  best-fit rotation −2.155° → −6.67°, which is the frame's own convergence
+  replaced by nonsense. The building records already stated the rule in a
+  comment; it simply had not been applied to the tee, green, bunker and pond
+  evidence. Every payload is stripped through `withoutSourceCoordinates` now,
+  and — because a strip is only as good as the gate that refuses the NEXT
+  payload — `applyGroundMapping` asserts over the FINISHED model that no
+  `*3006` key survives anywhere, not over the fields it happens to know today.
+  The probe that proves it fires is one line: neuter the filter and reconcile
+  dies naming `model.holes[7].tees.pads[0].evidence.terrainCorroboration
+  .flatComponents[0].centroid3006`. **Evidence belongs in `mapping/`; only
+  measurements travel into the model.**
+- **A control-window count may legitimately FALL.** `acquisition.node-test`'s
+  `requestedWindowReferences` went 711 → 709 because the 8th's provisional tee
+  ring straddled six 256 m windows and the two ortho-traced pads that replace
+  it lie inside four. Measured hole by hole, the 8th is the only hole on any
+  course that moved, and `uniqueGroundWindowCount` stays 195 — so it is a
+  tighter footprint, not a window leaving the plan. Attribute a change in that
+  number to a hole before re-pinning it, exactly as the file's own comment says
+  the number is measured and never summed.
+- **`pip install pyproj` is enough to land a migration here.** It brings PROJ
+  9.5.1, and a ~30-line `cs2cs` shim honouring authority axis order
+  (`Transformer.from_crs(..., always_xy=False)`, `-f %.Nf` formatting) lets
+  `migrate-legacy.mjs --write` run unchanged. Prove it before trusting it:
+  `migrate-legacy.mjs --check --ground <g>` reproduces the committed cs2cs
+  output byte-identically on all six untouched grounds, generator string and
+  last rounding unit included. That is the real PROJ, not the Krüger
+  substitute, so unlike `migrate-without-proj.mjs` it is a landing path and not
+  just a way to keep moving.
+
 ## Ängsö re-grounded on the laser — and what the published graph is good for
 
 `docs/courses/angso-course-atlas.md` is the complete inventory of this course

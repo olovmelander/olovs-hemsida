@@ -9,6 +9,23 @@ import { centroid, polyArea, pointInPoly } from './lib.mjs';
 
 const read = name => JSON.parse(fs.readFileSync(new URL(`mapping/${name}`, import.meta.url)));
 const area = ring => Math.round(Math.abs(polyArea(ring)) * 100) / 100;
+
+/* The same rule the building records state, applied to every evidence payload:
+   a source-frame coordinate must not reach the local model. migration.mjs walks
+   the model for numeric pairs and converts each as local metres, so one stray
+   EPSG:3006 centroid is read as a point 786 km away -- which is what it did to
+   the 8th's tee evidence, taking the migration's worst residual from 44 m to
+   786 km and its best-fit rotation from the frame's own -2.155 deg to -6.67.
+   The evidence keeps every measurement; only the source coordinates are cut,
+   and they remain in mapping/ where the review reads them. */
+const SOURCE_COORD_KEY = /3006$/;
+const withoutSourceCoordinates = value => {
+  if (Array.isArray(value)) return value.map(withoutSourceCoordinates);
+  if (!value || typeof value !== 'object') return value;
+  return Object.fromEntries(Object.entries(value)
+    .filter(([key]) => !SOURCE_COORD_KEY.test(key))
+    .map(([key, child]) => [key, withoutSourceCoordinates(child)]));
+};
 export function applyGroundMapping(model) {
   assert.deepEqual(model.origin, { lat: 59.839, lon: 17.4952 }, 'mapping frame changed');
   assert.equal(model.mPerLon, 55930.68, 'mapping longitude scale changed');
@@ -38,10 +55,10 @@ export function applyGroundMapping(model) {
   const g = get('upsala-stora-green17-ortho2024');
   const h17 = model.holes.find(h => h.n === 17), greenRing = projectedRing(g);
   assert(pointInPoly(...h17.green.c, greenRing), 'corrected green must contain the existing provisional pin');
-  h17.green = { ...h17.green, ring: greenRing, area: area(greenRing), prov: 'dated-orthophoto-trace', sourceId: g.id, evidence: g.properties };
+  h17.green = { ...h17.green, ring: greenRing, area: area(greenRing), prov: 'dated-orthophoto-trace', sourceId: g.id, evidence: withoutSourceCoordinates(g.properties) };
   const tee = id => {
     const f = get(id), ring = projectedRing(f), [cx, cz] = centroid(ring);
-    return { ring, cx, cz, ang: 0, prov: 'dated-orthophoto-trace', sourceId: id, evidence: f.properties, preserveTerrain: true };
+    return { ring, cx, cz, ang: 0, prov: 'dated-orthophoto-trace', sourceId: id, evidence: withoutSourceCoordinates(f.properties), preserveTerrain: true };
   };
   model.holes.find(h => h.n === 8).tees.pads = [tee('upsala-stora-hole8-tee-complex-ne-ortho2024'), tee('upsala-stora-hole8-tee-sw-2025')];
   // The visible upper tee corrects a pad drawn on a road. Its shadowed southern
@@ -55,7 +72,7 @@ export function applyGroundMapping(model) {
 
   const bunker = read('bunker16.json'), b = model.holes.find(h => h.n === 16).bunkers[3];
   assert.deepEqual(b.ring, bunker.replacesOriginalRing, 'bunker16 source changed; re-review required');
-  Object.assign(b, { ring: bunker.ring, prov: 'dated-orthophoto-trace', evidence: bunker.source });
+  Object.assign(b, { ring: bunker.ring, prov: 'dated-orthophoto-trace', evidence: withoutSourceCoordinates(bunker.source) });
   for (const p of read('ponds.json').ponds) {
     const w = model.water.find(w => w.id === p.id);
     assert(w && p.ringLaser?.length >= 3, `missing reviewed pond ${p.id}`);
@@ -64,6 +81,20 @@ export function applyGroundMapping(model) {
     Object.assign(w, { ring: p.ringLaser, area: area(p.ringLaser), prov: 'dtm-plate-ortho2024-reviewed',
       evidence: { terrainYear: 2023, imageryYear: 2024, sourceAbsoluteHorizontalAccuracyM: null, boundaryInterpretationUncertaintyM: 2 } });
   }
+  /* The strip above is only as good as a gate that refuses the next payload to
+     carry one: assert it over the finished model rather than over the fields
+     this function happens to know about today. */
+  const leaked = [];
+  (function scan(value, path) {
+    if (Array.isArray(value)) return value.forEach((child, i) => scan(child, `${path}[${i}]`));
+    if (!value || typeof value !== 'object') return;
+    for (const [key, child] of Object.entries(value)) {
+      if (SOURCE_COORD_KEY.test(key)) leaked.push(`${path}.${key}`);
+      scan(child, `${path}.${key}`);
+    }
+  })(model, 'model');
+  assert.deepEqual(leaked, [], 'source-frame coordinates reached the local model; the migration would convert them as local metres');
+
   model.mappingRevision = 'upsala-reviewed-2024-2025-v1';
   return model;
 }
