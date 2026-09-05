@@ -1350,34 +1350,62 @@ cache.
 Everything played was measured by §17–§20; everything *beside* the play was
 still read by eye at ±8 m, and it showed. This section closes that.
 
-### 21.1 The range field
+### 21.1 The range field, and the field that was not the range
 
-The eye-traced range ring lay **31.8 m** from the field it stood for and
-claimed 10,166 m² against a real 6,541 — half of it on mown turf. The field
-itself is the least ambiguous thing in the whole capture: a driving range is
-not mown to fairway height, so in the 2023-04-28 leaf-off image it is dormant
-ground at **excess green 15–17 and brightness 121**, against **53–109 and
-89–103** for every turf beside it. That is a wider separation than any other
-surface pair on this course — wider than sand against grass. Classified per
-pixel, largest component, holes filled, outline simplified to 2 m: **6,541 m²
-over x 387–435, z −386…−226**, a 48 × 160 m strip between the 1st and the 9th,
-exactly where the club's own overview prints DRIVING RANGE.
+The range was measured twice, and the first measurement was of the wrong
+field. It is worth reading in that order, because the classifier was never
+the thing that was wrong.
 
-**The bays are at the far end from the clubhouse, and the laser says so.** The
-engine's generic rule — "the tee is the end of the range you walk to from the
-clubhouse", the rule that replaced six pages' hardcoded coordinate — gives the
-NORTH end here. A tee line is a built, level platform, so each end was searched
-for laser-flat benches (the 5 × 5 m spread the tee-deck rule uses): the south
-end carries **1,362 of 4,324 cells flat to 0.12 m against the north end's
-223**, and the largest mown bench among them is 262 m² at (384.9, −226.2). The
-club's own range photographs put the bays at the south end too, so two records
-that never entered each other agree. The model therefore carries
-`scenery.rangeTee`, and `main.js` prefers a course's measured tee over its own
-rule — the same shape as `scenery.practiceGreens` at Johannesberg.
+**The first reading.** The eye-traced range ring lay 31.8 m from a strip of
+dormant ground between the 9th and the 1st and claimed 10,166 m² against that
+strip's 6,541, half of it on mown turf — so classifying dormant ground against
+mown turf looked like the whole answer. A driving range is not mown to fairway
+height, and in the 2023-04-28 leaf-off capture that strip reads **excess green
+15–17 and brightness 121** against **53–109 and 89–103** for every turf beside
+it, a wider separation than sand against grass. The laser then split its two
+ends cleanly — 1,362 of 4,324 cells flat to 0.12 m at the south against the
+north's 223 — and the club's own range photographs put the bays at the far end
+from the clubhouse, so `scenery.rangeTee` was written from a 262 m² mown bench
+there. Every number in that paragraph is real. **A strip of dormant ground
+between two fairways is also exactly what an unmown hayfield looks like**, and
+that is what this one is.
 
-Two things the imagery does NOT show: any tee line at 0.31 m/px (the bench is a
-laser finding, not a picture), and any tree inside the field — so the traced
-"mature oak standing in the field" is dropped rather than moved.
+**The correction is the owner's.** Shown the render, the owner marked the range
+in red over the open pasture EAST of the 1st. Two records agree with the mark
+and disagree with the trace: the club's overview prints DRIVING RANGE
+east/south-east of KLUBBHUS once the sheet is registered on its own hole discs
+(about −149°, not the 180° the first reading assumed — a plan whose north
+arrow was never read is a plan whose rotation is a guess), and the pasture is
+the only unplayed open ground on the property large enough to hit into.
+
+**The field as adopted** is that pasture, classified by what it is not:
+not forest in the tree-cover raster, not water, not inside a green, fairway,
+tee or bunker ring, not within 25 m of a hole line and not within 8 m of a
+road, track or path; opened 2 m, closed 3 m, the component containing the
+owner's own mark at (600, −347), holes filled, outline simplified to 2 m.
+**40,163 m² over x 504–715, z −432…−172**, centre (614.9, −297.4), 78 points —
+211 × 260 m of pasture, six times the strip it replaces and 180 m east of it.
+
+**The bays are NOT measured here, and the model says so.** The bench test that
+separated the strip's two ends finds nothing on pasture, because pasture is
+flat everywhere: 5,719 of 11,822 cells at the north end read flat to 0.12 m
+over 5 × 5 m against 3,787 at the south, which is a difference in how much of
+each end is inside the field, not a platform. So `range.bays` is null with the
+refusal written beside it, `scenery.rangeTee` is null, and the engine's own
+generic rule stands — the bays are the end of the field you walk to from the
+clubhouse, here the north end, with the shot line running south down the
+pasture away from the clubhouse and away from the 1st. A measured tee would
+override it the moment one exists; nothing is invented to fill the gap.
+
+The imagery shows no tee line at 0.31 m/px either way, and no tree inside the
+field, so the traced "mature oak standing in the field" stays dropped.
+
+**And moving the practice ground moves the terrain contract.** CORE is
+`playB ± 150 m` snapped to 36 and `playB` takes `scenery.range`, so a range
+211 m wide reaching x 715 grew the reviewed legacy cutout from 307 × 289 to
+**334 × 289 (92,824 / 96,526 omitted, x −468…864, z −612…540)**. Re-measured
+off the v2 assertion's own "got" line, as the runbook requires, and re-pinned
+in `v2-ribbingsfors-config.mjs` and `tools/check-ribbingsfors-v2.mjs`.
 
 ### 21.2 The practice greens: one measured, one refused
 

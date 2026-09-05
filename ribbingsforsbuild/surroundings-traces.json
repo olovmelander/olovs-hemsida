@@ -21,80 +21,321 @@
     "range": {
       "ring": [
         [
-          402,
-          -386
+          642,
+          -432
         ],
         [
-          413,
-          -385
+          676,
+          -432
         ],
         [
-          425,
-          -379
+          676,
+          -420
         ],
         [
-          431,
-          -373
+          680,
+          -420
         ],
         [
-          435,
-          -362
+          680,
+          -404
         ],
         [
-          434,
-          -226
+          684,
+          -404
         ],
         [
-          423,
-          -227
+          684,
+          -396
         ],
         [
-          423,
-          -230
+          688,
+          -396
         ],
         [
-          398,
-          -228
+          688,
+          -388
         ],
         [
-          398,
-          -232
+          692,
+          -388
         ],
         [
-          395,
-          -232
+          692,
+          -372
         ],
         [
-          387,
-          -334
+          696,
+          -372
         ],
         [
-          390,
+          700,
+          -364
+        ],
+        [
+          704,
+          -364
+        ],
+        [
+          704,
+          -344
+        ],
+        [
+          708,
+          -344
+        ],
+        [
+          708,
           -336
         ],
         [
-          389,
-          -352
+          700,
+          -332
         ],
         [
-          392,
-          -361
+          700,
+          -320
         ],
         [
-          395,
-          -362
+          704,
+          -320
         ],
         [
-          395,
-          -370
+          708,
+          -312
+        ],
+        [
+          712,
+          -312
+        ],
+        [
+          712,
+          -280
+        ],
+        [
+          715,
+          -280
+        ],
+        [
+          710,
+          -256
+        ],
+        [
+          708,
+          -252
+        ],
+        [
+          704,
+          -252
+        ],
+        [
+          704,
+          -248
+        ],
+        [
+          700,
+          -248
+        ],
+        [
+          700,
+          -228
+        ],
+        [
+          696,
+          -224
+        ],
+        [
+          692,
+          -209
+        ],
+        [
+          684,
+          -208
+        ],
+        [
+          684,
+          -204
+        ],
+        [
+          680,
+          -204
+        ],
+        [
+          680,
+          -188
+        ],
+        [
+          672,
+          -188
+        ],
+        [
+          668,
+          -196
+        ],
+        [
+          656,
+          -196
+        ],
+        [
+          652,
+          -188
+        ],
+        [
+          644,
+          -188
+        ],
+        [
+          644,
+          -180
+        ],
+        [
+          628,
+          -180
+        ],
+        [
+          628,
+          -172
+        ],
+        [
+          615,
+          -172
+        ],
+        [
+          618,
+          -180
+        ],
+        [
+          625,
+          -180
+        ],
+        [
+          627,
+          -190
+        ],
+        [
+          637,
+          -190
+        ],
+        [
+          643,
+          -194
+        ],
+        [
+          643,
+          -202
+        ],
+        [
+          629,
+          -212
+        ],
+        [
+          612,
+          -215
+        ],
+        [
+          612,
+          -204
+        ],
+        [
+          588,
+          -204
+        ],
+        [
+          588,
+          -200
+        ],
+        [
+          577,
+          -200
+        ],
+        [
+          577,
+          -204
+        ],
+        [
+          568,
+          -208
+        ],
+        [
+          568,
+          -224
+        ],
+        [
+          560,
+          -224
+        ],
+        [
+          560,
+          -218
+        ],
+        [
+          553,
+          -218
+        ],
+        [
+          544,
+          -229
+        ],
+        [
+          533,
+          -233
+        ],
+        [
+          527,
+          -246
+        ],
+        [
+          523,
+          -276
+        ],
+        [
+          521,
+          -281
+        ],
+        [
+          518,
+          -281
+        ],
+        [
+          515,
+          -318
+        ],
+        [
+          512,
+          -319
+        ],
+        [
+          513,
+          -333
+        ],
+        [
+          507,
+          -335
+        ],
+        [
+          504,
+          -350
+        ],
+        [
+          506,
+          -409
+        ],
+        [
+          529,
+          -411
+        ],
+        [
+          533,
+          -418
+        ],
+        [
+          560,
+          -418
         ]
       ],
-      "bays": [
-        384.9,
-        -226.2
-      ],
-      "prov": "the practice field MEASURED off Esri z18 orthoimagery: dormant ground (excess green <= 40, brightness >= 105 — 15-17/121 inside the field against 53-109/89-103 for every turf beside it), largest component, holes filled, outline simplified to 2 m; 6541 m2 over x 387-435, z -386..-226 (trace-practice.mjs 2026-09-05). The eye-traced ring it replaces (kept under sourceRing) lay 31.8 m away and claimed 10166 m2, half of it on mown turf. The bays are at the SOUTH end, which the 1 m laser picks out: 1362 of 4324 cells there are flat to 0.12 m over 5x5 against 223 at the north end, and the largest mown bench among them is 262 m2 at [384.9,-226.2] — the same end the club’s own range photographs show the bays at. No tee line resolves at 0.31 m/px and no tree stands inside the measured field, so the earlier \"mature oak in the field\" is dropped.",
-      "confidence": "high",
+      "bays": null,
+      "prov": "the practice field east of the 1st, MEASURED as the open ground the model does not otherwise claim: not forest in the tree-cover raster, not water, not inside a green/fairway/tee/bunker ring, not within 25 m of a hole line, not within 8 m of a road, track or path — the component containing a seed read off the OWNER’S OWN MARK on the app overhead (converted through the clubhouse, parking and manor footprints visible in the same frame), opened 2 m, closed 3 m, simplified to 2 m. 40,163 m2 over x 504-715, z -432..-172, bounded by the estate track north, the treeline east, the 1st’s corridor west and the wood south (trace-practice.mjs 2026-09-05). It replaces a 6,541 m2 strip of DORMANT ground between the 9th and the 1st, 180 m west, which an earlier pass classified as the range because it was the most striking thing in the capture and the eye-traced ring lay near it: a dormant strip here is a hayfield. The club’s own overview agrees with the owner — registered on its nine numbered discs the map is rotated -149 deg, and its DRIVING RANGE and OVNINGSOMRADE labels then fall east and south-east of KLUBBHUS.",
+      "confidence": "medium",
       "sourceRing": {
         "ring": [
           [
@@ -132,7 +373,8 @@
         ],
         "prov": "satellite interpretation of the mown practice block between holes 9 and 1, corroborated by the club's own range photographs (bays at the south end, a mature oak standing in the field); club confirmation pending",
         "note": "the eye-traced ring this replaced, kept so trace-practice.mjs can state the correction on a rerun"
-      }
+      },
+      "baysNote": "NOT measured: a tee line is a built platform, but this pasture is flat everywhere (5,719 of 11,822 cells at the north end read flat to 0.12 m over 5x5, 3,787 at the south), so the bench test that worked on the dormant strip identifies nothing here. The engine’s own rule stands — the bays are the end of the field you walk to from the clubhouse, which is the north end, and the shot line runs south down the field away from the clubhouse and the 1st."
     },
     "practiceGreens": [
       {

@@ -559,7 +559,7 @@
         "status": "projected-source-frame-pending-independent-control",
         "source": "legacyFrame.projectedOriginEpsg3006"
       },
-      "coordinatePairCount": 10387,
+      "coordinatePairCount": 10447,
       "outsideCourseVicinity5km": 27,
       "scopes": {
         "playingGeometry": {
@@ -598,9 +598,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 10360,
+          "coordinatePairCount": 10420,
           "directFrameDelta": {
-            "count": 10360,
+            "count": 10420,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -619,7 +619,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 10360,
+              "count": 10420,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -633,9 +633,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 10387,
+          "coordinatePairCount": 10447,
           "directFrameDelta": {
-            "count": 10387,
+            "count": 10447,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -654,7 +654,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 10387,
+              "count": 10447,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -670,12 +670,12 @@
       },
       "report": {
         "path": "geo_data/course-v2/ribbingsfors/migration/residual-report.json",
-        "sha256": "92680d47975877885c99bac82204d9f677e8a7c57bfe1f42de7566c9925dfb81"
+        "sha256": "1530fa6f7161b6487ca5bf69974520a6e56ec703e59f52680e34fe260cf06cbc"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-          "sha256": "e908817b558939a767a90815f321a02888a005acc9afde7d860b1e0ef790cd05"
+          "sha256": "b2d9068b06a10b064d247b7e20dd16bded702b867ceb35672ad60415dea819e8"
         }
       ]
     },
