@@ -1314,6 +1314,7 @@ and
 |---|---|
 | Frame | `EPSG:5845`; origin E 605,665.5, N 6,605,721.5, H −1.75 m; fingerprint `bfc6a0f04badb8e31cd874bc28e58ed679dd591164d8cb9a96ca9a96209b9318`. The origin still awaits independent control approval. |
 | Finest lattice | 4,096 × 4,096 m, sample-centre bounds E 603,617.5–607,713.5 / N 6,603,673.5–6,607,769.5; 16 × 16 tiles, 4,097 × 4,097 samples, 1 m spacing. |
+| Vertical bridge | **0 m, measured** (2026-09-05): the pack is re-grounded from the published graph — see §14.4. Before: 9.1166 m with a 1.8463 m MAD. |
 | Source | One Markhöjdmodell item, `660_60`, COG SHA-256 `4fc8d1a8…790fd`, captured 2020-02-24 to 2021-04-10. The retained window is `7ce336cb…33b64a`: 16,785,409 samples, every one finite, −1.747 to 40.109 m RH 2000. |
 | Ring graph | 469 tiles over seven levels to a 16,384 m root, `{0:256, 1:64, 2:64, 3:64, 4:16, 5:4, 6:1}`, from nine DTM items. Level 0 reproduces the 256 published course tiles to within one 1 cm quantum on 16,908,500 of 16,908,544 samples. |
 | Laser | One campaign, `21c036-660_60`, flown 2021-03-08 to 2021-04-01, 224,178,995 points, 2.093 returns/m² measured over the AOI. Leaf-off. |
@@ -1380,9 +1381,20 @@ horizontally. That is Ängsö's largest open item.
   complete but **not acquired**) through the authoritative-surface intake.
 - **Esri imagery rights** remain release-blocking for exactly that reason, and
   the committed `tree-cover.json` shares it.
-- **The legacy heightfields are still Terrarium**, with the 1.85 m MAD and the
-  water disagreement in §14.3. *Exit:* re-ground HF0/HF1 from the laser DTM
-  the way `upsalabuild/lib-v2.mjs` documents, moving nothing horizontally.
+- ~~**The legacy heightfields are still Terrarium**~~ — **re-grounded on
+  2026-09-05.** `angsobuild/build-heightfields.mjs` cuts HF0 and HF1 from the
+  PUBLISHED ring graph through the derived bridge (a machine with no
+  Lantmäteriet credential needs no fresh read: the 256 course tiles reproduce
+  the acquired window to a quantum, and the rings reach further than the
+  page's far ring ever does); the datum re-measures at **0.0008 m, MAD
+  0.0221 m, best shift (0, 0)**, exactly 69 model leaves changed and none
+  horizontal. The same pass gave Mälaren its shore (`laser-water.mjs`: the
+  laser-flat plate at the regulated level, four rings, a bed sunk under every
+  lake cell so one sheet covers flight strips 0.24 m apart) and the reed belt
+  the imagery shows, the brooks and dikes the club's texts name
+  (`laser-streams.json`, incised channels off the 1 m ground), and the stakes
+  of Lokala regler 2026 (`build-marking.mjs`). `verticalDatumOffsetMetres` is
+  0 in the config with its evidence.
 - **Vegetation is derived, leaf-off, and NOT published — the compiler
   refused it.** The canopy rasters are built (61 M points over the 256 course
   tiles) and the campaign is pinned, but `compile-vegetation` stops on

@@ -68,7 +68,20 @@ if (reference.groundId !== groundId) {
 }
 const referenceSourcePath = reference.source?.path;
 if (!referenceSourcePath) throw new Error('the reference migration records no source model');
-const referenceSourceText = await readFile(join(REPO_ROOT, referenceSourcePath), 'utf8');
+/* The reference's source model is the one cs2cs READ, which may no longer be
+   the file at that path: a re-grounded model carries new water rings and a
+   different coordinate count. --reference-source names the text as it was
+   (typically `git show <sha>:<path>` written to a file), and it is admitted
+   only if it hashes to what the reference recorded. */
+const referenceSourceOverride = flag('reference-source');
+const referenceSourceText = await readFile(
+  referenceSourceOverride ? resolve(referenceSourceOverride) : join(REPO_ROOT, referenceSourcePath), 'utf8');
+if (referenceSourceOverride && reference.source?.sha256) {
+  const actual = createHash('sha256').update(referenceSourceText.replace(/\r\n/g, '\n')).digest('hex');
+  if (actual !== reference.source.sha256) {
+    throw new Error(`--reference-source hashes to ${actual}, not the ${reference.source.sha256} the reference migration recorded`);
+  }
+}
 const referenceFrame = {
   originWgs84: {
     latitude: reference.source.localFrame.originWgs84.latitude,
@@ -167,10 +180,16 @@ const output = {
     projection: 'packages/course-geo/chmv2/projection.mjs (Krüger series on GRS 80); PROJ was unavailable on the migrating machine',
     projValidation: validation,
   },
-  /* The candidate origin is the reference's: same ground, same legacy frame, the
-     same seed PROJ projected. The bridge test reads it, and a migration without
-     it fails that test with a TypeError rather than a measurement. */
-  candidateOrigin: reference.candidateOrigin ?? null,
+  /* the legacy origin projected, as migrate-legacy records it: the bridge
+     tests and the ground-graph compilers read it, so a migration without it
+     is one the app's own gates cannot measure */
+  candidateOrigin: (() => {
+    const [easting, northing] = latLonToSweref99Tm(frame.originWgs84.latitude, frame.originWgs84.longitude);
+    return {
+      easting: roundedCoordinate(easting), northing: roundedCoordinate(northing), heightRH2000: null,
+      status: 'horizontal-seed-only-pending-independent-control', source: 'legacyFrame.originWgs84',
+    };
+  })(),
   coordinatePairCount: collected.coordinates.length,
   ignoredMetadataPairCount: collected.ignored.length,
   coordinatePaths: coordinatePathCounts(collected.coordinates),

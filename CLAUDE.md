@@ -621,6 +621,39 @@ laser DTM is bare earth. Lantmäteriet's own geoid grid gives 23.3480 m of
 separation here, so the offset is **not** the geoid and Terrarium is not simply
 ellipsoidal — it is a measurement, not a formula.
 
+**The LiDAR vegetation is published here too (2026-09-05), and the sea taught
+the exclusions a rule.** Same `ground-vegetation` CI chain; the inventory is
+ONE June 2025 Riegl **leaf-on** campaign (`25f014`) covering the AOI
+exclusively over three items — the first scan in this chain with no deciduous
+under-detection caveat — of which `699_67` lies wholly north of the 4,096 m
+window and contributes nothing (build-canopy skips it; the workflow's raster
+args follow build-canopy's output, never the inventory, since that run).
+Cloud ground vs the published DTM: ~0.00 m medians on land; the only tiles
+above 5 cm are pure class-9 water at a uniform +0.12–0.14 m — the Gulf's wave
+surface against the DTM's flattened sea, verified by class counts before
+being believed. **The first compile rejected 31,734 forest crowns as
+`excluded:water`**: the sea ring is the coastline closed offshore, its
+southern synthetic edge crosses the peninsula, and even-odd membership
+claimed half the land — the renderer never showed it because the engine
+applies the Ängsö rule (wet = inside a ring AND at its level) while
+`semantic-exclusions` tested membership alone. The fix measures each ring's
+water surface from the DTM itself (p05 of published-ground height over the
+interior; the laser flattens water) and keeps only cells within 1.5 m of it —
+measured, never taken from the model, because legacy models state levels in
+the Terrarium datum ~20 m off the sampled RH 2000 ground. After it:
+excluded:water 309 (the real shoreline) — 91,417 candidates →
+**13,050 machine-reviewed individuals** on 163 object tiles + stand fields on
+all 229 covered tiles, closed-canopy cells 149k → 224k (the southern forest
+back). In the app: 13,050 + 92,677 stand trees, the legacy lattice cut from
+all 229 tiles, bases p95 0.079 m, `speciesSource: 'default'` — right here,
+the engine's default IS the pine mix — and **zero legacy-planted trees remain
+anywhere on this course**: the window covers the whole tree-cover box, so
+every tree standing is measured or stand-field. `check-course-v2` passes on
+the ring graph (469 tiles, 7 levels). One CI mechanic worth remembering: a
+push to the branch while a run is in flight rejects that run's final evidence
+push (non-fast-forward); the chain's outputs survive in the uploaded
+artifact, so recover from there rather than re-running an hour of compile.
+
 **Two appearance facts were wrong and are now corrected from photographs.** The
 clubhouse roof is a red PANTILE (measured rgb(212,166,170) from the ground and
 rgb(190,130,119) overhead, both in flat overcast), not the "dark red-brown" this
@@ -801,14 +834,18 @@ notes was checked against the model's line geometry and the DEM profile
 (the 11th's green really is in a hollow: 72.6 m at 80 m out, 68.7 m on the
 green). `name` is an editorial tagline; the club names no holes.
 
-**The model's lake names are on the wrong rings.** `reconcile.mjs` calls the
-two LARGEST water rings Stor- and Lill-Rössjön, but Wikipedia/SMHI put both
-lakes ON the course: Stor-Rössjön (14.4 ha, 63°17′48″N 18°56′31″E) is the
-ring the 12th, 15th and 16th play over, Lill-Rössjön (11.3 ha, 63°18′04″N
-18°56′02″E) the pond inside the 4th's dogleg. The 121 ha lake 4 km
-north-west that carries the name today is something else. The club's
-history says "mellan två SMÅ sjöar", which should have been the tell. Not
-yet fixed, because the names choose which rings get the wide shore bench.
+**The model's lake names WERE on the wrong rings, and are fixed.**
+`reconcile.mjs` used to call the two LARGEST water rings Stor- and
+Lill-Rössjön; both are 4 km from the course (Högbysjön, 121 ha, and
+Ovansjösjön, 43 ha). Wikipedia/SMHI put the Rössjön lakes ON the course:
+Stor-Rössjön (13.7 ha ring, SVAR 39 m, laser 39.10 m RH 2000) is the ring
+the 12th, 13th, 14th and 15th play over, Lill-Rössjön (11 ha, SVAR 38 m,
+laser 37.26) the one inside the 4th's dogleg. The club's history says
+"mellan två SMÅ sjöar", which should have been the tell. All twelve
+nameable rings are named now by `puttombuild/laser-features.mjs`, which
+asserts each register coordinate lies INSIDE the ring it names, and the
+two Rössjön rings take the lake treatment beside the two big far ones. See
+"Puttom on the laser" below.
 
 **The club's card disagrees with the aggregators on two cells.** The
 LiveCaddie card (and golfify.io) give hole 11 index 6 and hole 16 index 12;
@@ -974,6 +1011,64 @@ root's copy, and the surface preview is recompiled with `--replace`, its
 new sha copied into `PUTTOM_PREVIEW_CONFIG.surfaceDescriptorSha256` (a
 derived constant: from the tool's output, never typed).
 
+### Puttom on the laser — what the 1 m ground says that nothing else did
+
+`puttombuild/laser-features.mjs` reads the PUBLISHED v2 terrain tiles
+through the app's own bridge and writes `laser-features.json`, which
+`reconcile.mjs` folds in (`prov:"laser"`). The full record is
+[`docs/courses/puttom-source-dossier.md`](docs/courses/puttom-source-dossier.md).
+What it found, each of which the pack had wrong or lacked:
+
+- **Terrarium carries canopy, and the 7th's green sat 7.12 m above the
+  ground.** Seventeen greens agree with the laser within ±0.9 m; the 7th's
+  profile (90 → 100 → 84 m, oscillating by ten metres) was trees. The
+  displayed tee/green heights and rises come from the laser now
+  (`elevSrc:"laser"`, Terrarium kept as `elevTerrarium`); the 16th climbs
+  16.1 m, not 12.8. Check `packGreenMinusLaser` before trusting any
+  Terrarium rise under forest.
+- **Four tee marks stood in Stor-Rössjön.** A card-length mark is placed
+  ALONG the line, and on 12, 14 and 15 the line crosses a bay: the 12th's
+  Orange was 22 m inside the ring, on the laser's water plate. The club's
+  LiveCaddie hole plans (`course-graphics.php?course=658&hole=N`, 18 drawn
+  plans with every tee marked) put those tees on the shore to the player's
+  RIGHT, so a wet mark slides right, square to the line, to the best
+  clearance from the ring AND the nearest path or road, never across a road
+  (a walking path may lie between a tee and its water; the 15th's forward
+  tee is the strip between the bay and the service road). `check-app`
+  still probes every marker for tee grass; `tools/sat-mosaic.mjs` draws the
+  marks (hollow where the card put one, solid where it stands) so the slide
+  is judged on the imagery.
+- **The ditches.** OSM has none on the course; a 9 m box residual on the
+  laser finds them, and the 20 that cross or run beside a hole ship as
+  `streams` of kind `ditch`: the tvärdiken the 2026 local rules and plans
+  name at 76 m on the 10th ("75 meter från green"), 56 m on the 18th
+  (water-filled, bridged), 70 m on the 16th, 117 m from the 1st's tee, the
+  bridged crossings on 8, 13 and 17. Roadside drains (`roadDistance ≤ 3`)
+  are excluded, or every road would run in a trench.
+- **A bunker beside a practice green is the practice ground's**: the 153 m²
+  one at the inspelsgreen was the 14th's "fairway bunker 29 m from the
+  tee". `scenery.bunkers` now; `v2-pilot-coverage.test` counts it there.
+- **OSM's 3rd-hole apron is a golf=fairway RELATION** (an untagged outer
+  way with a bunker inner) that `parse-osm` never read, and the 244 m²
+  strip by the 12th green was under a 300 m² floor. Both drawn now.
+
+**A pack change re-binds v2, and there is one command for it now.**
+`packages/course-v2/rebind-fallback.mjs --ground puttom` re-emits the
+course manifest with `fallbackV1` from the LIVE `courses/index.json`,
+carries every tile's layers VERBATIM (the publishers differ on null versus
+absent, and to a byte-identity check those are two manifests), regenerates
+the routing chunk from the published heights, and asserts the ground
+manifest comes out byte-identical — a ground that changed needs a real
+publish. Before it: `emit-pack`, `check-pack`, `emit-manifest`,
+`compile-puttom-surface-preview.mjs --replace` and its sha into
+`PUTTOM_PREVIEW_CONFIG.surfaceDescriptorSha256`. After it: the EPSG:3006
+migration (`migrate-without-proj.mjs`, which now writes `candidateOrigin`
+— the bridge test reads it), its pin in `hole-source-controls.mjs`, and the
+artifact checksums in the ground's `source-manifest.json`, which
+`manifest.node-test` gates. The vegetation publisher's `assembleVegetationGraph`
+writes `surface: null` where publish-ground-rings omits the key; copy
+`tile.layers` whole and both come out the same.
+
 ## More courses — `angso3d`, `upsala3d`, `johannesberg3d` (+ their `*build/`)
 
 Three more Swedish clubs, built on the same engine and the same disciplines. What
@@ -1066,6 +1161,109 @@ rather than green, which reads at first glance like the heath band mis-firing on
 Uppland clay course. The satellite says otherwise: that ground genuinely is pale dry
 grass, and the nearest farmland polygon is 238 m away. Measure the imagery before
 retuning shading — this one nearly got "fixed" into being wrong.
+
+### Johannesberg, feature by feature — the trace beyond the holes (2026-09)
+
+`johannesbergbuild/sat-traces.json` is Puttom's `sat-traces.json` for this
+ground, and `reconcile.mjs` fuses it the same way (`prov:"trace"`): the manor
+forecourt and the golfers' gravel car park, the clubhouse apron, the west farm
+track along the pasture and across the heath, six cart paths (three of them
+crossing water, so the generic footbridge stands there), the greenkeepers' yard
+with its sand pit and topdressing heap (`vegetation.sand` renders as sand), the
+range tee line (10–11 bays, hitting WEST, **no net** — the field is open), the
+practice bunker, the reed pond west of the 18th's approach, the ditch that
+crosses the 18th fairway, three clear-fells, "berget" on the 18th
+(`vegetation.rock`, data only — the engine tints rock by slope), and the OB
+stakes the club's plans draw on 2 and 18 (`marking`, the Veckefjärden schema,
+which embed and emit-pack now carry for every build). Two bunkers the hole
+traces missed come from the club's plans: the 7th's greenside (in tree shadow
+on the tiles, placed by registering the plan on its tee disc and green) and the
+13th's big left-front one (plain on both). The record is §7 of
+`docs/courses/johannesberg-source-dossier.md`. Things that bit:
+
+- **Which way a hole plays decides what "left" means.** Holes 1, 2 and 7 play
+  SOUTH (z increasing), so a plan's left is world east. The 2nd's OB stakes
+  were first put on the wrong side for exactly this reason.
+- **Rectangular pale patches are as likely tee pads as bunkers** in a leaf-off
+  image where dormant turf is beige; the 1st's two traced "bunkers" sit where
+  the plan draws none and the plan's two sit in tree shadow. Same count, ~20 m
+  apart, unresolved and written down.
+- **The nine is scenery on the eighteen now, and the eighteen on the nine.**
+  `reconcile.mjs` reads `johannesberg9build/course-model.json` into
+  `scenery`; `tools/build-nine.mjs` drops any parent scenery ring whose centroid
+  is within 3 m of one of its own, so the loop cannot double a ring. That
+  widened the eighteen's legacy CORE west to x −936 (the nine's greens enter
+  `playB`), so the v2 config's `legacyCoreCutout` was re-measured — read it off
+  the assertion's own "got" line, never typed.
+- **A scenery green by the clubhouse is not always a putting green.** The Ö
+  marker took every scenery green within 200 m of the clubhouse, and the
+  nine's 9th finishes 47 m from it (as the eighteen's 18th does on the nine's
+  own pack). A course may now NAME its practice greens
+  (`scenery.practiceGreens`, written by Johannesberg's reconcile, carried by
+  build-nine); the engine, the six pages and `apply-markers` believe the list
+  where it exists and fall back to the 200 m rule where it does not. The
+  migrator classifies the new key as geometry — an unclassified pair fails
+  `migrate-legacy` closed, by design.
+- **Changing a course model changes its migration, and CI checks both.**
+  `check-manifests` hashes `johannesbergbuild/course-model.json` and
+  `johannesberg9build/course-model.json`; `check-migration` regenerates the
+  EPSG:3006 migration through cs2cs and diffs it. This machine has no PROJ, but
+  `pip install pyproj` gives PROJ 9.5.1 and SWEREF 99 TM from WGS 84 is a pure
+  Transverse Mercator step, so a 20-line `cs2cs` shim on PATH lets
+  `migrate-legacy.mjs --write` run unchanged — verified by the 72 unchanged hole
+  fields coming out byte-identical to the committed cs2cs output. Re-record the
+  artifact checksums (models first, then the three migration files) and re-pin
+  the two migration hashes in `acquisition/hole-source-controls.mjs`.
+- **The nine's shapes are measured where the capture allows, by rule.**
+  `johannesbergbuild/trace-nine.mjs` classifies the z18 tiles (ExG, brightness,
+  saturation thresholds sampled on the eighteen's traced features), contours
+  the components and ACCEPTS by rule — a green is a compact disc within 20 m of
+  the routed end, a bunker is sand near a green or the routed end and away
+  from anything the model calls gravel; `build-nine` adopts only accepted
+  shapes (cfg.shapes) and re-ends the route on the measured centre before the
+  card slide. Three greens and two bunkers passed; the leaf-off capture cannot
+  separate fairway from semi (ExG 32–39 against 24) and six greens are dormant
+  and invisible in it, so the rest stays synthesised and the file keeps every
+  refused candidate as evidence. A leafed-on dated ortho through the same tool
+  is what finishes it; by-eye tracing of this image would only add noise.
+- **Every ring is now measured against the 1 m laser terrain**
+  (`johannesbergbuild/terrain-check.mjs`, ~10 min: the water rings' shift
+  search is the cost). A green is a plateau, a bunker a pit, open water flat;
+  the shift that maximises each signal, medianed over interior maxima, is the
+  offset between the traces and the laser. OSM's ponds sit on the laser to a
+  metre; everything traced from the Esri tiles sits **2–3 m west and 2–4 m
+  north** of its laser feature (bunkers n = 20, greens by two statistics, the
+  reed pond). Recorded in the dossier (§7.10), not applied — that correction
+  belongs with a control survey. Two independent records against one trace
+  refuse it: three traced bunkers no plan draws and no pit confirms are gone
+  (`sat-traces.json` → `refusedBunkers`); one the plan omits but the laser
+  reads as a 0.24 m pit stays.
+- **The laser hillshade locates what a leaf-off image cannot.** Four of the
+  nine's greens (3–6) and one bunker are read off the hillshade
+  (`cache/hs-crop.mjs`, a 10 m legacy grid at 10 px/m) into
+  `nine-laser-shapes.json`, `prov:"laser"`, centres ±5 m; build-nine takes them
+  where no imagery green was accepted (`cfg.laserShapes`). The 5th's green is the
+  mound 33 m east of its routed end — where a 271 m hole from its tee lands — and
+  the sand hollow on the mound's west side is its bunker, not the 9th's.
+- **`guide-inventory.json` is what the club's eighteen plans draw**, hole by
+  hole, with the model's own count beside it; `docs/course-model-vocabulary.md`
+  is every model field the engine reads and what each costs when missing.
+- **A new pack silently unbinds the v2 ground.** The root index and course
+  manifest pin the live GPK1 entry (`fallbackV1`), so after emit-pack the
+  flagless visit fell back to GPK1 and `check-course-v2` failed five gates
+  with no error line — the fallback is by design silent. Fixing the CORE
+  contract alone changed nothing; the pack hash was the cause.
+  `packages/course-v2/rebind-live-fallback.mjs <groundId>` re-emits the
+  course manifest and root against the live pack from the PUBLISHED chunks
+  (no LiDAR artifacts, no PROJ), then rebuild and run `check-app-build` and
+  `check-course-v2`. Order for any course with a v2 ground: reconcile →
+  embed → emit-pack → emit-manifest → rebind → build → gates.
+- **This container's SwiftShader renders every course black** (`frame is a
+  picture (lum 0.035)` on untouched Ängsö too), so the pixel gates say nothing
+  here; the data gates, the pack byte-identity and the unit suite are what
+  proved the change. Look at it on a real GPU before trusting the render.
+- `render-design.mjs` wrote a bare `&` in the SVG title, so every viewer
+  stopped at line 701 and drew the layout up to the first error only. Fixed.
 
 ## The second courses — three clubs here have a course we were not rendering
 
@@ -2714,3 +2912,188 @@ turned up things worth keeping:
   carries its own measured cutout (478 × 343 cells at x0 −576, 156,368 of
   163,954 base points omitted), read the runbook way off the assertion's
   own "got" line.
+
+## Ängsö re-grounded on the laser — and what the published graph is good for
+
+`docs/courses/angso-course-atlas.md` is the complete inventory of this course
+(every hole, pond, stake, ditch, building and rule, with provenance); its §16
+records the 2026-09-05 pass. The lessons that generalise:
+
+- **A machine with no Lantmäteriet credential can still re-ground a pack.**
+  The published ring graph IS the laser DTM: the 256 course tiles reproduce
+  the acquired 1 m window to a quantum (`terrain-1m.f32` synthesised from
+  them re-measures the datum to 0.2 mm of the recorded 9.1166), and the rings
+  reach 16 km — further than any page's far ring. `packages/course-v2/
+  published-ground-lookup.mjs` answers heights from the finest level under a
+  point; `angsobuild/build-heightfields.mjs` cuts HF0/HF1 from it through the
+  derived bridge. Datum 9.1166 m / MAD 1.85 → 0.0008 m / MAD 0.022, best
+  shift (0, 0), 69 model leaves changed and none horizontal. A pack cut from
+  the graph and the streamed ground are then one field BY CONSTRUCTION.
+- **A rebuilt pack must be re-bound, and the publisher is not the only way.**
+  `rebind-course-fallback.mjs` re-emits the course manifest against the live
+  GPK1 entry from the published tiles alone, asserting the ground manifest
+  comes out byte-identical; `publish-ground-rings` needs the ring cache,
+  which a credential-less machine cannot rebuild. The previous course
+  manifest stays on disk as every publish leaves it.
+- **Mälaren has no OSM ring where the course meets it, and the one it has is
+  not where the notes said.** w307899187 is a NORTH-EASTERN bay clipped at
+  the extract edge and drawn through reeds (0.75–2.4 m in the DTM); the
+  ground west of the peninsula is 14–35 m high. The lake is read off the
+  laser plate instead (`angsobuild/laser-water.mjs`): flat to 0.03 m between
+  4 m neighbours, within 0.2 m of the regulated level, and ≥ 100 ha or within
+  60 m of such a component — a flight-strip seam splits the plate into
+  components 0.1–0.2 m apart, and 18 flat fields at the same height do not
+  touch the lake and are refused. **Trace the shore inside a clip that stays
+  clear of the carved terrain**: a ring's edge raises a bank in `terrainH`,
+  so a clip edge inside the MID mesh draws a ridge across the lake. And
+  **sink a bed under the plate in the heightfields**: a sheet at the level
+  over a plate at the level flickers, and strips 0.2 m high poke through as
+  dry flats. Islands are counted (421 in the far field, none inside HF0) and
+  a ring that encloses one is keyholed with a slit kept out of the carved
+  box, because a slit inside it reads as a shoreline to `ringSD`.
+- **Classify holes by containment, never by winding.** The first tracer
+  called the 15 ha island the lake and dropped the lake, because "water on
+  the left" flips meaning in a z-south frame. Depth of nesting is
+  orientation-free.
+- **The wide brown belt at the shore was OSM farmland painted over reeds.**
+  The page applies a landuse crop tone AFTER the wetland tint, so a farmland
+  ring drawn to the open water paints the vass belt as ploughed soil. The
+  reed belt is now traced from the laser (shore ground within 0.9 m of the
+  level, ≤ 120 m from open water) into `vegetation.wetland`, and any landuse
+  ring with ≥ 3 % of its cells under lake or reeds is re-traced without them.
+  Confirm with the imagery before retuning a tint: `tools/sat-mosaic.mjs`
+  runs on Linux now (`BANVY_CHROME`), and the z18 tiles showed the belt.
+- **The laser sees the ditches the imagery cannot.** A brook under alders is
+  an incised channel in bare-earth data: the minimum of height-minus-15 m-mean
+  across ±8 m sections every 2 m along waypoints picked off a residual map,
+  kept where the residual is below −0.2 m for ≥ 20 m. That rule is also what
+  makes culverts honest — the 8th's dike vanishes for 50 m under its fairway
+  and again under the 7th's approach, the 12th's brook under the 12th — and
+  it told a dry dike beside the 10th from a brook (the club: the one hole
+  with no water nearby). Ten lines, 1,611 m, all three watercourses the club
+  documents and the model lacked. The engine draws a `stream` as a carved wet
+  cut with no water ribbon; that is the next engine item, not a data one.
+- **Marking from a rulebook is a stated rule, not a survey.** Lokala regler
+  gives sides and colours; `build-marking.mjs` places red round each pond
+  and along the 17th's left, white at the WOODLAND EDGE (walk out from the
+  fairway edge until the tree-cover raster reads canopy — a fence returns
+  nothing to a laser) where OB or the boar fence is named, never inside 12 m
+  of the centreline; each run is checked to lie on the player's side at three
+  stations. The pages and `emit-pack` dropped `marking` for every newer-schema
+  build; both carry it now.
+- **The migration's reference must be the model cs2cs read.** After a
+  re-ground the current model no longer matches the committed migration's
+  coordinate count; `migrate-without-proj --reference-source` takes the
+  historical text (`git show <sha>:path`), admitted only if it hashes to what
+  the reference recorded. The cs2cs file is kept beside the Krüger one.
+- **Hole 14's trace note said "dogleg right"; its own line turns −71°.** The
+  chord-side inversion again — corrected in `sat-shapes.json`.
+- **The 5th's "little red house" is findable**: of every building within 12°
+  of the last leg, one stands on the axis (OSM 215457959, 792 m, across the
+  bay); the 18th's juniper is the one lone dark tree on the fairway's right
+  edge in the z18 tiles at (−253, 109); Ängsö slott's terrain line of sight
+  from the clubhouse is clear over the lake. All three are in
+  `scenery/angso.js` with their basis; the campsite piers got boats for free
+  the moment there was water under them.
+## Ribbingsfors — `ribbingsforsbuild/` (no standalone page; app-only)
+
+Ribbingsfors Golf & Kultur: 9 holes, par 36 (played twice for 18/72), a park
+and pasture course in the Ribbingsfors manor environment beside Lake Skagern,
+Gullspång. The first course authored DIRECTLY in the grid frame — local metres
+ARE EPSG:3006 minus the origin E448975.5 N6536024.5, so there is no
+convergence rotation and no flat-earth scale error anywhere in this build (and
+`tools/sat-mosaic.mjs` therefore cannot serve it; `ribbingsforsbuild/sat-crop.mjs`
+is its exact-per-point replacement). Everything about sources and rights is in
+[`docs/courses/ribbingsfors-source-dossier.md`](docs/courses/ribbingsfors-source-dossier.md)
+— read §3 before touching the card (the per-hole rows are PROVISIONAL, only
+the three nine-hole tee totals are official) and §15 for the surroundings
+survey. The v2 1 m ground is published and default; `tools/check-ribbingsfors-v2.mjs`
+is its browser gate.
+
+### Where the geometry comes from
+
+| source | used for |
+|---|---|
+| official club totals (Vit 3110 / Gul 2966 / Röd 2525) | the card gate; per-hole rows are secondary and marked so |
+| Lantmäteriet Markhöjdmodell 1 m item 653_44 | the ground (HF0/HF1) and the twelve break-geometry water polygons WITH per-ring levels |
+| Laserdata skog 2023 CHM | the 4 m tree-cover raster (3 m canopy threshold) |
+| GolfTraxx seeds (yards mislabelled as metres — measured, ratio 0.9144) | provisional routing only, card-length-extended back tees |
+| OSM wide extract + Esri z17/z18 traces + Länsstyrelsen protected trees (CC0) | the whole surroundings model below |
+
+### The pipeline
+
+    node ribbingsforsbuild/build-course.mjs        # needs pixi/GDAL + acquisition caches
+    node ribbingsforsbuild/fetch-osm-wide.mjs      # wide surroundings extract (no GDAL from here on)
+    node ribbingsforsbuild/parse-osm-wide.mjs      # -> osm-surroundings.json
+    node ribbingsforsbuild/detect-sand.mjs         # measure bunkers from z18 sand pixels -> cache/sand-candidates.json + review crops
+    node ribbingsforsbuild/apply-sat-shapes.mjs    # accepted bunkers (sat-shapes.json) replace the guide-formula set
+    node ribbingsforsbuild/apply-surroundings.mjs  # merge + gates; IDEMPOTENT, run after every build-course
+    node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
+    node packages/course-pack/emit-manifest.mjs
+    node packages/course-v2/refresh-fallback-v1.mjs ribbingsfors   # or the v2 graph fails closed
+    node packages/course-geo/migrate-legacy.mjs --write --ground ribbingsfors
+    node ribbingsforsbuild/sat-crop.mjs <name> <cx> <cz> <size> [z] [--plain]  # tracing/verification crops
+
+**A pack re-emit is not done until `refresh-fallback-v1` has run** — the v2
+root index and course manifest pin the exact GPK1 bytes, and the runtime
+refuses v2 selection on a mismatch, silently downgrading every flagless visit.
+The migration model and the source manifest's artifact checksums must move in
+the same commit (`pnpm test` fails loudly on both, and
+`hole-source-controls.mjs` pins the EPSG:3006 model hash a third time).
+
+### Ground truth the surroundings model encodes
+
+- **Skagern's level is 69.3 m RH 2000; OSM's `ele=66.9` is wrong** (the vista
+  DTM reads a laser-flat 69.35 over the open basin). The big lake ring is OSM
+  shoreline closed offshore, gated by DTM sampling (99.0% of interior samples
+  laser-flat; a measured diagonal cut keeps a far corner of 70–73 m land
+  out). North of the Skagersvik strait the water at ~67.5 m is
+  Gullspångsälven BELOW the lake's outlet — never let the ring swallow it.
+- **The ditches are one system**: eastern boundary ditch → hole-2 pond
+  (77.7 m) → road culvert → the two crossings at green 1 → hole-9 pond
+  (72.0 m) → lake. The four synthetic guide-crossing streams are replaced by
+  these traces; the gradient is the check.
+- **The range the guide interpretation placed was in the lake.** The real one
+  sits between holes 9 and 1 with its bays at the south end and a mature oak
+  in the field. Satellite traces carry per-feature confidence in
+  `surroundings-traces.json`; the ±8 m reading error is stated there.
+- **The played surfaces are survey-anchored, not to be hand-retraced (§16).**
+  The nine green centres ARE the GolfTraxx *Green Center* survey points to
+  0.0 m — only the route lengths carried the yards bug, not the green points —
+  and they land on the real greens in z18 imagery. **The bunkers are MEASURED
+  (§17)**: `detect-sand.mjs` classifies sand per pixel (calibrated with
+  `--find` on 19 known bunkers — sand is rgb ~183–214/170–193/136–161, and the
+  dry-grass confuser fails on G−R > −6) and places 18 accepted bunkers at their
+  pixel centroids; five guide-listed bunkers resolved to plain grass and were
+  DROPPED, not guessed (listed in sat-shapes.json). Eyeballed coordinates were
+  7–20 m off the measured centroids — never hand-place a bunker here. This is a leaf-off
+  park-and-pasture course where greens/bunkers barely out-contrast grass, so an
+  eyeball retrace at ±4 m would degrade survey-good geometry. Green OUTLINES
+  stay synthetic ellipses; their POSITIONS are survey-grade. Real surface
+  precision needs the ortho (now open CC-BY), the DTM-bench tee method extended
+  to all 27 tees, or club data — never a lower-confidence trace. `sat-crop.mjs`
+  grew a 50 m grid and green/tee/bunker overlays for that future comparison.
+- **86 of 88 protected trees (the "Ribbingsfors ekhage" oaks, CC0) are
+  laser-confirmed** and drawn as individual crowns sized from circumference.
+  The confirmation is FROZEN in apply-surroundings.mjs: re-measuring against
+  the re-burned raster flips the oak standing in the parking lot.
+- **Skagersvik has almost no OSM buildings**, so 482 street-aligned houses
+  are synthesized inside its residential rings (the Ås precedent). The reedy
+  bays' wetland rings double as `surround.shallows`. Two low islets inside
+  water rings are documented as drowned (the engine's carve floors a ring's
+  interior; the Noret islet crests 0.66 m above the lake).
+
+### Traps
+
+- **A lazy regex over OSM XML attributes self-closing nodes' tags to the
+  wrong node.** `<node .../>` followed by `([\s\S]*?)<\/node>` swallows the
+  NEXT tagged node — this misattributed "peak Sörhult" to a node 3 km away
+  during the first inventory scan and cost an hour of sign-error chasing.
+  parse-osm-wide.mjs's alternation `(\/>|>...<\/node>)` is the correct form;
+  the projection was never wrong.
+- **Clip, don't just filter.** A kept-whole way reached ±39 km (power line)
+  and the Skagern shoreline ran 9 km past the vista; everything in
+  osm-surroundings.json is clipped to the 4.6 km keep box.
+- The break-geometry water stops at the ITEM edge (E450000 = local x 1025);
+  the straight chord an overlay shows there is two same-level rings meeting,
+  not a defect.

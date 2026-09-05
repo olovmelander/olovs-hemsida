@@ -147,7 +147,7 @@ const L = [
 ];
 push(`<g transform="translate(16,${H - 122})">`);
 push(`<rect x="-6" y="-16" width="700" height="118" rx="7" fill="#08120c" fill-opacity="0.82"/>`);
-push(`<text x="0" y="-2" fill="#eaf3ec" font-size="13" font-weight="700">Johannesberg Golf & CC — reconciled layout</text>`);
+push(`<text x="0" y="-2" fill="#eaf3ec" font-size="13" font-weight="700">Johannesberg Golf &amp; CC — reconciled layout</text>`);
 L.forEach(([c, t], i) => {
   push(`<rect x="0" y="${8 + i * 15}" width="11" height="11" fill="${c}" stroke="#0d2a12" stroke-width="0.6"/>`);
   push(`<text x="18" y="${17 + i * 15}" fill="#b9cfc0" font-size="10.5">${t}</text>`);

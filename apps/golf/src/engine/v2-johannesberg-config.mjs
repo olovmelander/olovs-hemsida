@@ -96,8 +96,8 @@ export const JOHANNESBERG_V2_CONFIG = Object.freeze({
 
      CORE is playB +/- 150 m snapped to 36, and playB here is NOT the holes: it
      also takes scenery.greens and scenery.range, so CORE reaches z -1152 while
-     the northernmost hole point is at -783. The frontier replaces 180,532 of
-     CORE's 215,272 base points -- 83.9% -- and the rim outside it stays the
+     the northernmost hole point is at -783. The frontier replaces 219,736 of
+     CORE's 261,280 base points -- 84.1% -- and the rim outside it stays the
      seamless GPK1 mesh.
 
      What that rim contains is a REVIEWED trade-off, not an oversight. The
@@ -114,15 +114,15 @@ export const JOHANNESBERG_V2_CONFIG = Object.freeze({
     guardMetres: 8,
     expectedCoreGrid: Object.freeze({
       dx: 4,
-      x0: -612,
+      x0: -936,
       x1: 900,
       z0: -1152,
       z1: 1116,
-      nx: 379,
+      nx: 460,
       nz: 568,
     }),
-    expectedSkippedBasePoints: 180_532,
-    expectedTotalBasePoints: 215_272,
+    expectedSkippedBasePoints: 219_736,
+    expectedTotalBasePoints: 261_280,
   }),
 });
 

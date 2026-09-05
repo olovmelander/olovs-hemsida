@@ -127,7 +127,9 @@ const out = {
 /* Tee pads run from 5 m² (a single forward-tee box) to 230 m² (a full championship
    deck), so the floor has to sit under the smallest real one or a third of the
    course's tees vanish. */
-const AREA_MIN = { green: 60, fairway: 300, tee: 3, bunker: 6 };
+/* The fairway floor was 300 m² and dropped the 244 m² landing strip OSM draws
+   beside the 12th green (w1527461199) -- the club's own hole plan shows it. */
+const AREA_MIN = { green: 60, fairway: 200, tee: 3, bunker: 6 };
 
 for (const w of ways.values()) {
   const t = w.tags;
@@ -286,6 +288,24 @@ for (const r of rels) {
     if (out.forest.some(x => x.id === 'w' + w.id)) continue;
     const ring = ringOf(w, 2.0);
     if (ring) out.forest.push({ id: 'w' + w.id, ring, area: Math.round(Math.abs(polyArea(ring))), rel: r.id });
+  }
+}
+
+/* golf multipolygons: the 3rd's apron is a golf=fairway RELATION whose outer
+   way carries no tags of its own (its inner is a bunker the way pass already
+   took), so until this pass the mown collar round that green was rough */
+for (const r of rels) {
+  if (r.tags.golf !== 'fairway' && r.tags.golf !== 'rough') continue;
+  for (const m of r.members) {
+    if (m.type !== 'way' || m.role === 'inner') continue;
+    const w = ways.get(m.ref);
+    if (!w || !isClosed(w)) continue;
+    const ring = ringOf(w, 0.75);
+    if (!ring) continue;
+    const area = Math.abs(polyArea(ring));
+    const rec = { id: 'w' + w.id, ring, area: Math.round(area), c: centroid(ring).map(r1), rel: r.id };
+    if (r.tags.golf === 'fairway' && area >= AREA_MIN.fairway) out.fairways.push(rec);
+    else if (r.tags.golf === 'rough') out.roughs.push(rec);
   }
 }
 

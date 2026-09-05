@@ -17,7 +17,11 @@ export const PUTTOM_PREVIEW_CONFIG = Object.freeze({
   /* class-sdf-v1: nine exact per-class distance channels over the same 30
      tiles. Derived from compile-puttom-surface-preview.mjs's output, never
      typed -- see docs/v2-course-runbook.md. */
-  surfaceDescriptorSha256: '40aab1776b83c0d76c08461ac3468c1966e44c3cb973aa4b3006ad23ef2b2cbf',
+  /* from compile-puttom-surface-preview.mjs --replace, 2026-09-05: the pack
+     changed (laser lake names and ditches, the 3rd's apron fairway, the
+     practice bunker, the wet tee marks slid ashore), so the surface preview
+     was recompiled against it and re-bound here */
+  surfaceDescriptorSha256: '9e06cde5323095698c49cceb8881fbb05b15d90170fc8d553152ee7609fe9390',
   surfaceProvisionalReason: 'migration-vectors-not-survey-approved',
   frameFingerprint: '07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8',
   packOriginWgs84: Object.freeze({ latitude: 63.2992, longitude: 18.9413 }),

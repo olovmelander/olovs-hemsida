@@ -1,0 +1,17 @@
+{
+  "source": "Lantmäteriet Markhöjdmodell 1 m, the published l0 tiles of the johannesberg v2 ground, rendered as hillshade (johannesbergbuild/cache/hs-crop.mjs) with a 10 m legacy grid and read by eye at 10 px/m. A built green is a plateau with banks and a bunker is a pit with a rim, and both survive in a laser DTM when a leaf-off image shows nothing. Centres are good to about ±5 m and radii to ±3 m; each ring is an ellipse on the hole's axis, the same shape build-nine synthesises, at the measured place instead of the routed end. The imagery-traced greens (nine-sat-shapes.json) take precedence where accepted; these fill in where the classifier found nothing.",
+  "tracedOn": "2026-09-05",
+  "greens": {
+    "3": { "c": [-745, -883], "r": 11, "confidence": "medium", "notes": "a rounded raised area north-east of the routed end, bounded west by the boundary ditch's bank; the least distinct of the four" },
+    "4": { "c": [-637, -843], "r": 13, "confidence": "high", "notes": "a round plateau with a continuous dark rim, 12 m north-west of the routed end — unmistakable" },
+    "5": { "c": [-288, -789], "r": 11, "confidence": "medium", "notes": "the mound complex 33 m east of the routed end, which is where a 271 m hole from the 5th tee lands; the imagery shows the same pale rounded complex with the 22 m² sand hollow on its west side" },
+    "6": { "c": [-557, -655], "r": 12, "confidence": "medium", "notes": "the flat raised area south-east of the routed end, behind the pit-and-mound bunker at (-568,-676)" }
+  },
+  "bunkers": {
+    "6": [ { "c": [-568, -676], "r": 4, "confidence": "medium", "notes": "a pit with a bright mound on its south side, 25 m short-left of the laser green; invisible in the leaf-off imagery" } ]
+  },
+  "refused": {
+    "1": "the routed end sits at the foot of the felled knoll's bank; the ground is smooth and un-terraced for 40 m around and no plateau reads",
+    "9": "two candidates 30 m apart — the mound complex at (-288,-789), which fits the 5th's card length better and is given to the 5th, and a mottled area at the routed end that does not read as a plateau; kept synthesised"
+  }
+}

@@ -147,7 +147,9 @@ to 37 m across Sweden.
 (4.38 MiB encoded, inside the loader's reviewed 8 MiB budget). RH 2000 range
 9.88–44.87 m, every one of 4,198,401 samples finite.
 
-The frontier replaces 180,532 of the legacy CORE's 215,272 base points (83.9 %).
+The frontier replaces 219,736 of the legacy CORE's 261,280 base points (84.1 %;
+it was 180,532 of 215,272 until 2026-09-05, when the nine's greens entered the
+eighteen's scenery and CORE grew west from x −612 to −936 — §7).
 The 2048 m window is centred on the played ground of **both** courses, which
 keeps every hole corridor 110–231 m clear of its edge. The driving range's far
 tip (it runs 213 m beyond the last hole) falls outside and renders from legacy
@@ -232,3 +234,244 @@ not that it is complete.
 | Vegetation | published: 2,417 measured crowns + a 64-tile stand field. Leaf-off, so conservative on deciduous; see §4 |
 | Ortho / Topografi 10 | discovered and covered, not acquired; no product terms approved for redistribution |
 | Hole 12 | the tee end is under spruce in every image; the card slide resolves it to within 26 m of the banguide's own disc. See CLAUDE.md before re-tracing |
+| The nine's shapes | three greens (2, 7, 8) measured off the tiles (`prov:"sat"`), four more (3, 4, 5, 6) and one bunker read off the 1 m laser hillshade (`prov:"laser"`, §7.9–7.10); two greens (1, 9), every fairway and every tee pad remain synthesised. A dated, leafed-on ortho would finish the fairways |
+| Hole 1's two bunkers | the trace puts them 12–30 m short and WEST of the green centre; the club's Bana-1 plan draws them at the green's LEFT edge, which for a hole playing south is east. Same count, ~20 m apart; not resolved at 0.3 m/px — see §7.2 |
+| The felled knoll north of the nine | OSM forest; the imagery shows it clear-felled to scattered seed pines; the 2021 leaf-off LiDAR predates the felling, so the v2 vegetation may still stand a full forest on it. Carried as a `surround.clearfells` ring with that caveat |
+
+## 7. The course, feature by feature (2026-09-05)
+
+A second pass over the whole property, made for one question: is everything the
+ground carries in the model, and does each thing come from a source that can be
+named? Sources: the same Esri z18 tiles the holes were traced from (an early-spring
+leaf-off capture, ~0.30 m/px, read on bare `SAT_PLAIN=1` crops at 90–260 m
+upscaled to 900 px, off a labelled metre grid, so a coordinate is good to about
+±3 m), the club's eighteen 2026 hole plans, and the OSM extract re-fetched on
+2026-09-05 (**unchanged since August: OSM still maps two greens, no bunker, no
+parking, no cart path here**). What the tiles show and OSM lacks is in
+[`johannesbergbuild/sat-traces.json`](../../johannesbergbuild/sat-traces.json),
+which `reconcile.mjs` fuses with `prov:"trace"`; each entry carries its own
+confidence and the reading it was made from.
+
+### 7.1 Counts, before and after
+
+| feature | before | after | source of the difference |
+|---|---|---|---|
+| bunkers on the eighteen | 27 | 27 | +3 from the plans (the 7th's greenside, the 13th's big left-front, the 11th's right), −3 refused where the plan draws none AND the laser DTM shows no pit (17th, 16th's fairway, 18th's rock) — §7.10 |
+| water bodies | 11 | 12 | the reed pond west of the 18th's approach, 1,565 m², level 14.3 m |
+| ditches/streams | 4 | 5 | the ditch that crosses the 18th fairway between its two ponds |
+| buildings | 305 | 307 | a ~10 m slender structure by the old stable; the range's ball shelter |
+| parking lots | 0 | 3 | the manor forecourt (asphalt, ~22 × 88 m), the golfers' gravel car park (~30 × 42 m, 12 cars in the image), the clubhouse apron |
+| tracks | 31 | 32 | the west farm/service track: pasture fence → heath → 11th tee, 830 m |
+| cart paths | 4 | 10 | six walking lines, two of them crossing water (18th causeway, 17→18 bridge) and one the 3rd's bridge |
+| sand rings | 0 | 2 | the sand/gravel pit south of the works yard; the topdressing heap |
+| rock | 0 | 1 | "berget" on the 18th |
+| wetland | 2 | 3 | the marshy field corner north of the 4th |
+| clear-fells | 0 | 3 | east of the 7th green (~300 × 160 m); south-east beyond it; the felled knoll north of the nine |
+| works yard | none | one | the greenkeepers' compound around the barn and grey hall |
+| OB stakes | 0 | 29 in 2 runs | the club's Bana-18 and Bana-2 plans draw them |
+| range tee line | none | 10–11 bays | the row of dividers on the tiles; **no net** — the field is open |
+| practice bunker | none | one | between the tee line and the car park |
+| scenery from the nine | none | 9 greens, 6 fairway rings, 18 tee pads | `johannesberg9build/course-model.json`, carried symmetrically |
+
+### 7.2 The holes — what the plans and the tiles agree on
+
+Every hole's bunker count was compared against its plan; twelve were also checked
+on bare 160 m green crops. The card and the drawn lengths are the gates already in
+`check3d` and are not restated.
+
+| hole | par | m | bunkers | water in play | notes |
+|---|---|---|---|---|---|
+| 1 | 4 | 273 | 2 | pond right at 81–106 m (w539915578) | bunkers: count agrees with the plan, side does not — see §6 |
+| 2 | 4 | 344 | 1 | two ponds the approach threads between; OB stakes left (east) | plays SOUTH; the plan's left is world east |
+| 3 | 5 | 492 | 2 | the long pond; the bridge at (325, −203) is "bron" of the SPELTIPS | two greenside bunkers confirmed on the tiles |
+| 4 | 4 | 431 | 4 | — | two fairway, two greenside, all on the tiles |
+| 5 | 4 | 393 | 1 | — | one left-front bunker; a gravel waste area beside the fairway at 150 m |
+| 6 | 3 | 190 | 2 | — | "dold svacka" — the hollow between the copse and the green |
+| 7 | 5 | 469 | **1** | — | **added**: the plan's one greenside bunker, far-left (south-east) corner, in tree shadow on the tiles |
+| 8 | 4 | 355 | 2 | — | fairway bunker at 240 m and left-front greenside, both on the tiles |
+| 9 | 3 | 172 | 1 | — | raised green, one right-front bunker |
+| 10 | 4 | 411 | 1 | — | drops 16 m tee to green, the biggest fall on the course |
+| 11 | 4 | 344 | **2** | pond left of the tees (w539915586) | angled green; the plan's right bunker **added** by registration (the same registration lands the plan's left one within 4 m of the traced one) |
+| 12 | 4 | 374 | 1 | — | over the copse; one left greenside bunker; the bell |
+| 13 | 3 | 154 | **1** | — | **added**: the ~20 × 18 m left-front bunker with a juniper clump in its NW lobe; the kiosk stands 40 m behind the green |
+| 14 | 4 | 355 | 0 | the small dark hollow right of the fairway at 46 m | the plan shows no bunker; the green is a mounded plateau |
+| 15 | 4 | 381 | 2 | — | "spikrakt"; two greenside bunkers |
+| 16 | 5 | 441 | **3** | — | over the pasture; three greenside bunkers as the plan draws; the traced fourth, 100 m short, refused (no plan, no pit) |
+| 17 | 3 | 168 | **0** | pond right of the green (w539915585) | "grässlänten ner mot vattnet"; the traced bunker refused (the plan draws none, the laser shows no pit) |
+| 18 | 5 | 475 | **1** | ponds either side at 190 m, the crossing ditch, OB left; "berget" at 130–190 m short of the green | the second traced bunker (−196, −409) was the pale patch on the rock: not on the plan, no pit in the laser — refused |
+
+### 7.3 The clubhouse hub
+
+- **Buildings**: the manor complex is fully footprinted in OSM (the hotel, its two
+  wings, Karolinerhuset, the two villas); the clubhouse (`klubbhus`, w296165896,
+  35 × 25 m, Falu red under orange-red tile) is the long low range west of it, with
+  a small red shed at its south-east corner (w296165897). The old stable
+  (w296165892, 63 × 42 m) stands east of the practice green. Two things OSM has not
+  got: a slender ~10 m structure on the open ground south of the stable at
+  (−50, −752), read from a 17 m shadow where the trees throw 12 (use unknown — a
+  small tower or chimney; the height is inferred), and the range's ball shelter.
+- **Parking**: the manor forecourt is a wide asphalt lot with marked bays along the
+  access road, cars along its east edge in the image; the golfers' gravel car park
+  sits between that road and the practice green, two rows of cars; the clubhouse
+  apron east of the clubhouse holds three vehicles. All three are new to the model.
+- **Practice ground**: the putting green (övningsgreen, 660 m², already traced), the
+  practice bunker north-west of it, and the range: a mown field of 3.0 ha hit
+  WEST from a tee line along its east edge — 10–11 bays ~5 m apart on a pale
+  hardstanding strip, the range hut (OSM w378922988) at its north end and the ball
+  shelter at its south end. There is **no safety net** on the tiles: the field is
+  open ground with the felled knoll behind it, so `nets` is empty on purpose.
+- **The greenkeepers' yard** east of the hub: the black-roofed barn (w296165907,
+  61 × 26 m), the grey hall (w296165889), stored material and white bags along the
+  north edge, a topdressing heap beside the barn, and a sand/gravel pit 100 m
+  south with raw excavation faces (~60 × 45 m). A large rectangular fenced
+  paddock west of the hall (x −16..135, z −718..−651) is left as it reads — grazed
+  ground, not yard.
+
+### 7.4 Water, ditches and bridges
+
+Twelve water bodies: Uttran (61.6 ha, the big lake north-east — the course never
+touches it), Hävsjön and Rotsjön far outside, seven OSM ponds on the course, the
+long OSM ring w539915580 that is really three things — the west pond of the
+18th, the brown canal along the farmland edge, and the ditch running south along
+the pasture to the 17th — and the reed pond added here. Four OSM waterways plus
+the added ditch across the 18th fairway. Three crossings are now paths, so the
+engine's generic footbridge stands where a path crosses water: the 18th's
+causeway at (−197, −580), the 17→18 bridge over the west ditch at (−175, −359),
+and the 3rd's bridge. A fourth culvert links the two reed ponds at (−228, −606)
+and is not modelled — its direction could not be read.
+
+### 7.5 Roads, tracks and paths
+
+OSM carries the public roads (Uppsalavägen 1.4 km north, the Johannesberg access
+road from it, Stora Åkerbyvägen through Gottröra to the south-west), 31 tracks
+and 4 paths — most of the hub's service roads are among the tracks. Added: the
+830 m west track along the pasture fence and across the heath (a pale gravel
+line on every crop), and six cart paths. Cart paths on the corridors themselves
+were NOT traced: the fairways are mown to the tee and the golfers walk the turf.
+
+### 7.6 The land around
+
+- **Farmland** (63 OSM polygons) on three sides: the huge field north of the 2nd
+  and 3rd with its rock-islet copses, the pasture west of the 16th ("kohagen" of
+  the SPELTIPS), the fields of Gottröra. A marshy triangle at the corner of the
+  north field where two farm tracks meet is added as wetland.
+- **The heath** ("heden", 14th SPELTIPS): the interior between holes 14, 15, 16
+  and 6 is dry pale grassland over rock, with junipers and scattered pines and
+  bare-rock patches. It is rough in the model, and the tree-cover raster gives it
+  its scattered trees; no polygon describes it and none is needed.
+- **Forest**: nine OSM forest polygons and one wood, dense spruce east and south.
+  The LiDAR generation (§4) supplies the trees on the v2 ground. Two clear-fells
+  east and south-east of the 7th are new; the felled knoll north of the nine is
+  the third, with the caveat in §6.
+- **Rock**: the 18th's "berg" — a bare grey outcrop with pines at (−180, −455), east
+  of the fairway. It is data (`vegetation.rock`); the engine tints rock only by
+  slope, so it does not yet render as rock.
+- **Villages and farms**: Gottröra / Stora Åkerby south-west with its OSM houses;
+  a horse-training oval at (−700, 310); the homestead in the forest at (900, 200);
+  84 far buildings.
+
+### 7.7 What the club's plans add that the tiles cannot
+
+The 2026 plans carry fairway distance markers at **200 (white), 150 (yellow), 125
+(blue) and 100 m (red)** to the green's centre and flag colours for pin position
+(red short, yellow middle, white long) — a 125 m blue marker the engine's plate
+set does not know. Both are recorded here and not modelled.
+
+### 7.8 Method notes worth keeping
+
+- **Which way a hole plays decides what "left" means.** Holes 1, 2 and 7 play
+  SOUTH (z increasing), so the plan's left is world east. The first reading of
+  the 2nd's OB stakes put them on the wrong side of the hole for that reason.
+- **A plan registered on two anchors locates a bunker to ~15 m; the tiles to ~3.**
+  The 13th's bunker came out 30 m off by registration and exact on the tiles;
+  the 7th's is in tree shadow, so registration is all there is and it says so.
+- **Rectangular pale patches are as likely tee pads as bunkers** at 0.3 m/px in a
+  leaf-off image where dormant turf is beige. The 1st's two "bunkers" are the
+  case in point.
+- **The imagery's date is unknown and it matters twice**: the felled knoll (after
+  the 2021 LiDAR) and the reed pond (which OSM never had) both depend on it.
+
+### 7.9 The nine — measured where the tiles allow, and why that is only a third of it
+
+`johannesbergbuild/trace-nine.mjs` classifies the z18 tiles rather than reading
+them by eye: ExG (2G−R−B), brightness and saturation thresholds sampled on the
+eighteen's already-traced greens, fairways, bunkers and rough
+(`cache/sample.mjs`), connected components, an outer pixel contour simplified to
+0.6 m, and ACCEPTANCE BY RULE — a green is a compact disc (Polsby–Popper ≥ 0.6)
+of 200–600 m² within 20 m of the routed end; a bunker is 15–120 m² of sand
+within 60 m of an accepted green or 45 m of the routed end, not at a tee and not
+within 20 m of anything the eighteen's model calls gravel or a building. Every
+candidate stays in `nine-sat-shapes.json` with `accepted` and the numbers that
+decided it; `tools/build-nine.mjs` adopts only the accepted ones and re-ends the
+route on the measured green centre before the card slide, so every length still
+measures the card.
+
+| hole | result | numbers |
+|---|---|---|
+| 2 | green ACCEPTED | 418 m², 13.3 m from the routed end, compactness 0.81 — the peninsula green in the pond, unmistakable on the zoom crop |
+| 7 | green ACCEPTED | 236 m², 12.2 m, compactness 0.63 — the round green by the pond's south arm |
+| 8 | green ACCEPTED | 331 m², 9.8 m, compactness 0.87 — the round green at the lake's west shore |
+| 5 | green refused; one bunker accepted | the routed end lands in a copse; the only vivid patch is a 0.56 sliver. The 22 m² bunker at (−295, −786) is plain sand on the tiles |
+| 9 | green refused; one bunker accepted | the vivid component (1,226 m²) is green + fairway, compactness 0.17. The 32 m² bunker at (−271, −763) is the sand the eighteen's trace had assigned to its 18th |
+| 1, 3, 4, 6 | nothing found | no vivid component within 20 m of the routed end |
+
+**Why the rest is not traced.** The nine's putting surfaces read ExG 90–110 on
+this capture against 120–130 on the eighteen's — cut later, or less irrigated —
+and six of them do not separate from their surrounds at all; the fairways read
+ExG 32–39 against 24 for the rough, a difference the classifier over-segments
+into corridors twice their real width. The classifier's fairway rings are in the
+file as `accepted:false` evidence. This is the leaf-off imagery's limit, not the
+method's: a leafed-on, dated orthophoto (Lantmäteriet's `orto-o2-2025`, already
+discovered covering the AOI) would run through the same tool and finish the nine.
+
+### 7.10 Every ring against the 1 m laser terrain
+
+`johannesbergbuild/terrain-check.mjs` decodes the 64 published one-metre tiles
+through the loader's own reader, assembles the 2048 m window in EPSG:3006, and
+measures every ring of both courses — taken from the committed cs2cs migration,
+so the frame conversion is not this tool's — against a surface that never entered
+any trace. Three shapes are looked for: a green or tee pad is a **plateau** (mean
+inside minus a 4–10 m collar, and a small std inside), a bunker is a **pit** (a
+2–6 m rim minus the inside), and open water is **flat** in a laser DTM (std
+inside, banks rising over 3–10 m). For each feature the tool also finds the
+shift, in 1 m steps to ±8 m, that maximises its signal; only maxima inside the
+search window count, and their median is the horizontal offset between the traces
+and the laser terrain. `terrain-check.json` holds every number;
+`cache/terrain-check/greens-sheet.png` is the 27 greens at 4× on the hillshade.
+
+| set | n | what the laser says |
+|---|---|---|
+| OSM water rings in the window | 9 | 8 of 9 flat (std ≤ 0.15 m; median 0.04), all 9 banked (+0.25…+0.84 m); best shift median **(+1 E, 0 N)** — OSM's ponds sit on the laser's water to a metre |
+| the traced reed pond | 1 | flat to 0.19 m (reeds), banked +0.52 m, best shift (+4, −1) |
+| the eighteen's bunkers | 27 | median depth 0.20 m, 18 read as pits; best shift median **(+2 E, −3 N)** over the 20 with an interior maximum |
+| the eighteen's greens | 18 | median raise 0.17 m, 10 raised, std median 0.29 m; best shift medians (+2, −4) by raise and (+3, −2) by flatness |
+| the eighteen's tee pads | 44 | std median 0.25 m |
+| the nine's imagery greens (2, 7, 8) | 3 | std **0.04 m** inside all three — the flattest ground on the estate, which is what a putting surface is |
+| the nine's laser greens (3–6) | 4 | 5 and 6 raised (+1.21, +0.58 m); 3 and 4 read level or bowled — 4 is a plateau inside a rim, which this statistic reads as negative |
+
+**Two findings.** First, the OSM-mapped water is registered to the laser within a
+metre while everything traced from the Esri tiles sits a consistent **2–3 m west
+and 2–4 m north** of its laser feature (bunkers n = 20, greens by two statistics,
+the reed pond): a ~3.5 m offset between the imagery's georeference and
+Lantmäteriet's, on this ground. It is recorded and NOT applied — the medians are
+good to about a metre and a correction belongs with a control survey (§6). Second,
+three traced bunkers that no plan draws also show no pit (17th; the 16th's fairway
+one; the 18th's on the rock) and were refused (`sat-traces.json` →
+`refusedBunkers`), while the 10th's traced bunker, which the plan also omits,
+reads as a 0.24 m pit and stays. Two independent records against one trace; one
+record each way and the trace stands.
+
+Model water levels sit a median **4.19 m** above the laser's water surfaces — the
+Terrarium datum step (§3.3), consistent with the tees' 4.55 m and not a defect of
+the rings.
+
+### 7.11 The club's own record, hole by hole
+
+`johannesbergbuild/guide-inventory.json` is what the eighteen 2026 plans draw,
+read on 2026-09-05: bunkers with the player's side, water, OB runs with the
+metres they cover, the fairway plate colours (200 white, 150 yellow, **125 blue**,
+100 red), the flag colours, and the objects the plans mark that the model does not
+carry — the bell on the 12th, the sighting posts on the 12th and 16th, the
+**sighting tower at the 16th tee** ("Avstånd över pinnen från tornet: 140 meter"),
+the flagpoles the 18th aims at. Each row says what the model has beside it, so a
+disagreement is one line, not a search.
