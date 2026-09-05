@@ -796,3 +796,54 @@ the third time in this repo; the probe is the only reason it was caught.
 and no pad in this model has `w` or `d` — they all carry a `ring`, which is now
 what is drawn, so the measured DTM decks appear as their real outlines rather
 than as boxes.
+
+## 19. The water on the mainland — "flat" is not "level" (2026-09-05)
+
+Zoomed out, the lake bled inland across the peninsula. The pack's rings were
+not the cause — §18 left them faithful to the laser mask. The cause was the
+RUNTIME's own water pass.
+
+`detectFlatWater` in `apps/golf/src/engine/v2-flat-water.mjs` finds water the
+pack does not know, off the 4 m ring raster, and its whole test for water was:
+a cell is flat if its four neighbours are within 3 cm. **That is a test for
+SMOOTH, not for LEVEL.** A field falling 0.75% clears it at every single cell
+and still drops two metres from one side to the other. So every large smooth
+thing on this ground became a lake:
+
+| what the pass called water | height | how level it is |
+|---|---|---|
+| a field east of the 2nd | 3.76 m | 0.20 |
+| a clearing | 4.62 m | 0.43 |
+| ~2 km of the road north-east | 1.4–4.1 m | 0.33–0.34 |
+| Mälaren | 0.76 m | **1.00** |
+| the two far ponds | 15.94 / 23.38 m | **1.00** |
+
+("how level" = the fraction of the component within 5 cm of its own median.)
+
+Measured over the whole 6 km window: **435 ha painted as water beyond the
+model's rings, 51 components**. Near the course, 19.8 ha, of which 9.4 ha sat
+above 1.5 m where Mälaren cannot reach. The visible symptom is a zoom-out one
+because the mask is baked into the ground colour raster
+(`flatWaterAt ? FLAT_WATER_TINT : colourAt`) as well as laid as sheets.
+
+**The fix is the level test**, and it is the same idea as §18's plate fraction:
+a component is water only if at least 70% of it sits within 5 cm of its own
+median height. Ängsö then reads 14 components and 393.7 ha — the lake beyond
+the ring clip, which is exactly what the pass exists for, is untouched — and
+near the course 4.9 ha, nearly all of it the one-cell fringe at a ring's edge.
+
+**The threshold is bracketed by two grounds rather than tuned on one.** At
+Ängsö the land flats read 0.20–0.64 and every real water body 0.786 or better,
+which suggested 0.8. That was wrong: at Norrfällsviken the **Gulf of Bothnia
+reads 0.787** — the DTM carries its wave surface, and it is the worst real
+water anywhere in this repo — so 0.8 silently deleted the sea. 0.70 sits in the
+gap between 0.64 and 0.786 with margin either side. Checked on every ground
+that runs the pass: Puttom keeps all four lakes its pack does not know and
+loses one 0.5 ha non-level flat; Veckefjärden and Upsala are unchanged;
+Johannesberg drops 4.5 ha of field; nothing model-confirmed is lost anywhere.
+Ribbingsfors is authored in the grid frame on a fixed frontier and never runs
+the pass.
+
+Locked by two unit tests: a gently sloping field must be refused (and appear in
+`refusedNotLevel`), and a lake with a few disturbed cells must still be kept —
+because the discriminator is the FRACTION at one height, not the extreme.

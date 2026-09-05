@@ -3272,6 +3272,27 @@ records the 2026-09-05 pass. The lessons that generalise:
   nothing and passed with a phantom deliberately restored. It reads
   `course-model.json` now. Only the probe caught it: write the probe that makes
   a new gate FAIL before believing it passes.
+- **"Flat" is not "level", and the difference painted a road as a lake.**
+  `detectFlatWater` (the v2 pass that finds water the pack does not know) tested
+  only that a cell sits within 3 cm of its four NEIGHBOURS. A field falling
+  0.75% clears that everywhere at 4 m spacing and still drops two metres across
+  itself, so any large smooth thing became water: at Ängsö **46 ha of field,
+  clearing and a 2 km stretch of road** were tinted and sheeted as lake, which
+  is what "water leaking onto the mainland when you zoom out" was — the tint is
+  baked into the ground raster (`flatWaterAt ? FLAT_WATER_TINT : colourAt`), so
+  it shows at range rather than up close. A component must now also sit at ONE
+  height: ≥ 70% of it within 5 cm of its own median. Ängsö 51 components → 14,
+  435 → 394 ha painted beyond the rings (the lake past the ring clip, which is
+  the whole point of the pass, is untouched), and near the course 19.8 → 4.9 ha.
+  **The threshold is bracketed by two grounds, not tuned on one**: Ängsö's land
+  flats read 0.20–0.64 and its real water 0.79+, while Norrfällsviken's Gulf of
+  Bothnia is the worst real water anywhere here at **0.787** — the DTM carries
+  its wave surface — so 0.8 was too tight and cost the sea. 0.70 sits in the
+  gap. Verified on every ground with a graph: Puttom drops one 0.5 ha non-level
+  flat and keeps all four lakes unknown to its pack, Veckefjärden and Upsala are
+  unchanged, Johannesberg drops 4.5 ha of field, and nothing model-confirmed is
+  lost anywhere. Ribbingsfors is grid-authored on a fixed frontier and never
+  runs the pass at all.
 
 - **The course is read off that ground now, and the satellite capture was
   CHOSEN by measurement (2026-09-05).** `angsobuild/dtm.mjs` binds the readers
