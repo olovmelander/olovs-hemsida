@@ -740,17 +740,19 @@ labels as section 3 — nothing here claims production survey authority.
   geometry says 69.3; the committed vista heightfield reads a laser-flat
   69.35 over the open basin at [4000,-3000] and [3000,-4000]. The OSM tag is
   wrong or on another datum and was rejected.
-- The model now carries a **Skagern ring** built from the OSM shoreline
-  (three chained runs, gaps of 26–66 m from members outside the extract),
+- The model carries **one Skagern ring** (§18). Its OSM half is the shoreline
+  chained from three runs (gaps of 26–66 m from members outside the extract),
   closed offshore through the keep-box corner, with the far-north-east corner
   cut along the measured diagonal x−z=7600 where the blind closure had swept
   in 0.7 km² of 70.6–73.6 m land. Gate: ≥95 % of interior vista samples
   within 0.75 m of 69.35 — measured 99.0 %, worst 1.32 m (32 m cells
   averaging shore into water).
-- The ring **overlaps the two break-geometry lake polygons at the same
-  level by design** (the break item stops at E 450 000 / local x 1025 — the
-  straight chord visible in overlays is that item edge, harmless because the
-  rings agree on 69.3 and the later ring's carve wins).
+- The first build kept that OSM ring **and** the two break-geometry lake
+  polygons at the same level, "by design". That was wrong — three coplanar
+  sheets z-fight, the break polygons' straight item-edge chord drew a foam
+  line across open water, and OSM's over-reach carved laser land into water.
+  §18 records the correction: the three are united into one ring on a raster,
+  the laser shoreline winning wherever the item draws one.
 - **Two islets inside the ring are documented simplifications**: the Noret
   arm's reed islet (centroid laser height 69.96 m, 0.66 m above the lake,
   edges at the waterline) and a far islet at ~2.6 km. The engine's carve
@@ -978,3 +980,95 @@ Order in the pipeline: `build-course.mjs → apply-sat-shapes.mjs →
 apply-surroundings.mjs` (the surroundings pass burns bunker rings open in the
 tree-cover raster, so it runs last). Every measured bunker is gated ≥9 m from
 its own green centre, so a pale collar can never pass as sand.
+
+## 18. The lake as it is drawn — one ring, and a bed under the frontier (2026-09-05)
+
+The owner's phone screenshots of the published app showed Skagern as a pale
+sand plate over almost its whole area, blue only in a near band, with a
+sawtooth edge between the two and green islets standing out of the "sand".
+Two separate defects, one in the data and one in the engine, both measured
+before anything was changed (`V3D.waterBedAt`, `V3D.waterSheets`,
+`V3D.probeGround` over a 300 m grid of the ring's interior).
+
+### 18.1 The engine: a fixed frontier carved no lake bed
+
+Ribbingsfors serves the **fixed 64-tile frontier**, not the streaming ring
+graph, and the v2 lake-bed carve (`engine/v2-water-bed.mjs`) ran only for
+the ring adapter, after its 4 m ring had found the flat water. Inside the
+frontier the ground under Skagern was therefore the laser's own water
+surface — Markhöjdmodell does not penetrate water — at 69.34 m, under a sheet
+the boot had re-measured up to 69.6 m: 0.26 m of "depth", which the water
+shader reads as pale silt bottom showing through thin water. Beyond the
+frontier the GPK1 terrain builder's carve (`terrainH`: 5.5 m over a 55 m
+ramp) gave the lake its depth, which is why the far water was blue and the
+near water was sand. Measured: ground 69.34 at (−400,−300), (−100,−300),
+(200,−600), (500,−900); 64.09 beyond the window.
+
+The fix carves the frontier's tiles **as they decode**, in
+`loadPublishedGraphTerrainFrontier`, from the model's rings (there is no
+flat-water raster to detect here) and the traced silt shallows (capped at
+0.28 m, the legacy rule). It had to happen there and not after boot for a
+reason that took a probe to find: **every frontier tile is encoded with its
+own minimum height as its quantisation floor**, and over a lake that minimum
+IS the lake — a carve clamped at q = 0 landed at 69.14 m, still only 0.48 m
+under the sheet. `carveDecodedTerrainTile` therefore **re-floors** a lake
+tile: lowers its offset to hold the deepest bed asked of it (plus 0.5 m),
+shifts every finite sample by the same count (checked against the uint16
+range and the nodata value), then carves against the new offset. The verified
+bytes are never touched; the render resource is built from the carved copy so
+the CPU sampler and the GPU texels agree. The profile is the legacy carve's
+(0.15 m at the shore, 0.1 m per metre, 5.5 m maximum) so the bed is continuous
+where the frontier hands over to the legacy MID: 63.80 inside, 63.84 outside.
+
+Result on the same probe grid: bed 5.5 m deep 200 m off the shore, shoaling
+to 2.2 m and 2.8 m near the banks, 85.3 ha carved, 770,753 samples in 32 tiles,
+26 of them re-floored, 4,024 shallow cells; the Skagern sheet's mean vertex
+depth went from 0.95 m to 2.33 m. The re-measured level also came down, from
+69.6 to **69.34 m**: the 30th-percentile rule now samples carved shore cells,
+and the sheet sits where the laser says the water is instead of a quarter
+metre up the bank. The eleven ponds inside the window are carved the same
+way (their re-measured levels dropped from +0.26 to +0.08–0.13 m over the
+committed values).
+
+### 18.2 The data: three polygons for one lake
+
+`model.water` carried the OSM Skagern ring and the two break-geometry lake
+arms at the same level, overlapping over 19,348 of the lake's 8 m cells. Three
+sheets at 69.59/69.6 m z-fight — that was the sawtooth — and the break
+polygons' straight clip edge at the item boundary (local x 1024.5) put a foam
+line and a shallow-colour band across open water. Measured against the DTM,
+the OSM ring also **over-reaches**: of the 12.3 ha inside the item that only
+OSM called water, 7.4 ha stands 0.5–7 m above the lake, and a few cells at
+the far north are the Gullspångsälven at 66.75 m below the outlet.
+
+`ribbingsforsbuild/lake-union.mjs` unites them on a 2 m raster:
+
+    water = breakGeometry
+          | (osm & outside item 653_44)
+          | (osm & inside the item & DTM within 0.35 m of 69.35)
+
+so the laser shoreline is the lake's wherever the laser drew one, OSM fills
+only what the break data cannot see, and land the OSM ring wrongly encloses is
+refused. The boundary is traced from the cell lattice (each water cell's four
+edges, right turn at saddles) and simplified with a tolerance that grows with
+distance from the played ground (1 m within 300 m, 2.5 m to 1 km, 6 m to
+2 km, 12 m beyond), which is the point budget the slimmed OSM ring had. The
+result is **one ring of 1,879 points, 655.2 ha**, plus a 1 ha fragment at the
+Skagersvik strait that laser-flat OSM water leaves disconnected. Gate in
+`apply-surroundings.mjs`: every break-geometry shoreline vertex within 1.4 km
+of the origin must lie within 3 m of the union at the median, 12 m at the
+90th — measured 0.90 m / 7.44 m over 547 vertices. The two arms stay in the
+model under `sourceWater.breakLakes` (a key the pack never carries) so the
+script is idempotent; a rerun is byte-identical.
+
+Browser gate: `tools/check-ribbingsfors-v2.mjs` now asserts one lake ring,
+a bed ≥4.5 m under the sheet at (−100,−300), a bed that shoals toward the
+shore, a sheet whose mean vertex depth exceeds 1.5 m, and the same carve on
+the GPK1 path.
+
+What is NOT changed: the +0.25 m clearance rule in the level re-measure is
+still generic engine behaviour (it exists for uncarved beds and both v2
+paths now carve); the far basin beyond the frontier still carves through the
+legacy `terrainH`; and the two low islets stay drowned. A licensed
+orthophoto or the neighbouring break-geometry items would let the far
+shoreline be laser too (§13, blocker 3).

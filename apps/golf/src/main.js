@@ -186,14 +186,27 @@ await tick('läser terrängdata', 0.04);
    the normal course; under ?v2=require the selection throws instead of
    quietly serving GPK1. */
 const previewStarted = performance.now();
+/* The model is inflated beside the terrain selection, and a FIXED FRONTIER
+   needs its water while its tiles decode (the lake beds are carved into the
+   tiles, and a tile cannot be re-floored once its texels exist), so the
+   selection is handed the model's water as a promise-returning function and
+   M below is the same parse, awaited once. */
+const modelPromise = inflate(PACK.sv).then(bytes => JSON.parse(new TextDecoder().decode(bytes)));
 const terrainPreviewPromise = selectV2TerrainSource({
   slug: CMETA.slug,
   geo: GEO,
   packMeta: CMETA,
   search: location.search,
+  waterBeds: async () => {
+    const model = await modelPromise;
+    return {
+      bodies: (model.water || []).filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })),
+      shallows: (model.surround && model.surround.shallows) || [],
+    };
+  },
 }).then(selection => { span('v2 preview: select + decode pilot/surface tiles', previewStarted); return selection; });
-const [b0, b1, bv, V2_SELECTION] = await Promise.all([
-  inflate(PACK.s0), inflate(PACK.s1), inflate(PACK.sv), terrainPreviewPromise,
+const [b0, b1, MODEL, V2_SELECTION] = await Promise.all([
+  inflate(PACK.s0), inflate(PACK.s1), modelPromise, terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
 const TERRAIN_PREVIEW_CONFIG = V2_SELECTION.frontierConfig || PUTTOM_PREVIEW_CONFIG;
@@ -218,7 +231,7 @@ const V2_VEGETATION_LOADING = V2_SELECTION.graph &&
 let V2_VEGETATION = null;
 let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
-const M = JSON.parse(new TextDecoder().decode(bv));
+const M = MODEL;
 const HOLES = M.holes;
 /* A verified descriptor alone may not alter either construction or visible
    ground. The adapter opens those gates separately after backend preflight and
@@ -562,6 +575,20 @@ for (const h of HOLES) {
           `(field ${bed.fieldMilliseconds} ms: ${Object.entries(bed.fieldTimings || {}).map(([k, v]) => `${k} ${v}`).join(', ')})`);
         BOOT_PERF.spans.push({ name: 'v2 water beds: carve rings', ms: bed.milliseconds, tiles: bed.carvedTiles });
       }
+    } else if (TERRAIN_PREVIEW.waterBedSummary) {
+      /* A FIXED FRONTIER has no ring to find flat water in, and until 2026-09
+         had no carve at all: Ribbingsfors' Skagern rendered as pale silt across
+         the whole frontier, because the tiles inside its ring are the laser's
+         water surface a hand's depth under the sheet, and only beyond the
+         frontier did the legacy carve give the lake its depth. Its beds were
+         carved as the tiles decoded (loadPublishedGraphTerrainFrontier, from
+         the model's rings, re-flooring each lake tile); this only reports it.
+         The profile matches the legacy carve so the bed is continuous where
+         the frontier hands over to the legacy MID. */
+      const bed = TERRAIN_PREVIEW.waterBedSummary;
+      console.info(`v2 water beds (frontier): ${bed.hectares} ha carved to ${bed.maximumDepthMetres} m, ` +
+        `${bed.carvedSamples} samples in ${bed.carvedTiles} tiles (${bed.rebasedTiles} re-floored), ${bed.shallowCells} shallow cells`);
+      BOOT_PERF.spans.push({ name: 'v2 water beds: carve frontier (at decode)', ms: bed.fieldMilliseconds, tiles: bed.carvedTiles });
     }
   }
 

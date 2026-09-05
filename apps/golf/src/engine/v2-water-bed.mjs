@@ -254,3 +254,131 @@ export function carveTerrainTile(tile, field, { legacyOrigin, verticalDatumOffse
   }
   return carved;
 }
+
+/**
+ * The bed field for a FIXED FRONTIER: a ground served as one level-zero
+ * window of decoded tiles, with no 4 m ring to find flat water in. The
+ * model's own rings are the only water it knows, so the field is built on
+ * an empty flat-water raster over the frontier's box -- padded so a lake
+ * that runs out of the window keeps deepening to its maximum instead of
+ * shoaling to the shore depth along the window's edge -- and every cell a
+ * ring encloses is water at that ring's level. `shallows` are rings (the
+ * traced silt margins) whose water is capped at `shallowDepthMetres`, the
+ * same rule the legacy terrain builder applies.
+ */
+export function buildFrontierWaterBedField({
+  bounds,
+  knownBodies = [],
+  toLegacy = (x, z) => [x, z],
+  toGrid = (x, z) => [x, z],
+  spacing = 2,
+  paddingMetres = 64,
+  shallows = [],
+  shallowDepthMetres = 0.28,
+  shoreDepthMetres = 0.15,
+  depthPerMetre = 0.1,
+  maximumDepthMetres = 5.5,
+} = {}) {
+  for (const key of ['x0', 'x1', 'z0', 'z1']) finite(bounds?.[key], `bounds.${key}`);
+  if (!(spacing > 0) || !(paddingMetres >= 0)) throw new RangeError('spacing must be positive and padding non-negative');
+  const x0 = bounds.x0 - paddingMetres, z0 = bounds.z0 - paddingMetres;
+  const width = Math.ceil((bounds.x1 - bounds.x0 + 2 * paddingMetres) / spacing);
+  const height = Math.ceil((bounds.z1 - bounds.z0 + 2 * paddingMetres) / spacing);
+  const empty = Object.freeze({
+    width, height, spacing, x0, z0,
+    label: new Int32Array(width * height),
+    components: Object.freeze([]),
+  });
+  const field = buildWaterBedField({
+    flatWater: empty, knownBodies, toLegacy, toGrid,
+    shoreDepthMetres, depthPerMetre, maximumDepthMetres,
+  });
+  /* the silt shallows: a bed a few decimetres down, whatever the shore distance says */
+  const rings = shallows.filter(ring => ring?.length >= 3).map(ring => ({ ring, bb: bbox(ring) }));
+  let capped = 0;
+  if (rings.length) {
+    for (let row = 0; row < height; row++) for (let column = 0; column < width; column++) {
+      const i = row * width + column;
+      if (!field.mask[i] || field.depth[i] <= shallowDepthMetres) continue;
+      const [lx, lz] = toLegacy(x0 + (column + 0.5) * spacing, z0 + (row + 0.5) * spacing);
+      for (const { ring, bb } of rings) {
+        if (lx < bb.x0 || lx > bb.x1 || lz < bb.z0 || lz > bb.z1) continue;
+        if (!inRingIndexed(lx, lz, ring)) continue;
+        field.depth[i] = shallowDepthMetres;
+        capped++;
+        break;
+      }
+    }
+  }
+  return Object.freeze({ ...field, shallowCells: capped, kind: 'frontier' });
+}
+
+/**
+ * Carve one decoded frontier tile, re-basing its quantisation if the bed has
+ * to go below the tile's floor. A frontier tile is encoded with its own
+ * minimum as `heightOffsetMetres`, and over a lake that minimum IS the
+ * water surface: a carve clamped at q = 0 lands a hand's depth under the
+ * sheet, which is the defect it exists to remove. So the tile's offset is
+ * lowered to hold the deepest bed the field asks of it (with a margin), every
+ * finite sample shifted by the same count, and the carve applied against the
+ * new offset. Returns the same object untouched when nothing is carved,
+ * otherwise a new decoded record whose header grid carries the new offset.
+ * The rebased quantisation is checked against the uint16 range and the
+ * nodata value before anything is written.
+ */
+export function carveDecodedTerrainTile(decoded, field, { legacyOrigin, verticalDatumOffsetMetres, floorMarginMetres = 0.5 } = {}) {
+  const header = decoded?.header;
+  if (!header?.grid || !header.bounds) throw new TypeError('a decoded terrain tile with header.grid and header.bounds is required');
+  const grid = header.grid;
+  const payload = decoded.payload instanceof Uint8Array ? decoded.payload : new Uint8Array(decoded.payload);
+  const noData = grid.noDataValue ?? UINT16_NO_DATA_DEFAULT;
+  /* the deepest bed this tile is asked for, and whether it is below the floor */
+  const tileX0 = header.bounds.minEasting - legacyOrigin.easting, tileZ0 = legacyOrigin.northing - header.bounds.maxNorthing;
+  const { width, height, sampleSpacingMetres: spacing } = grid;
+  let deepest = Infinity;
+  for (let row = 0; row < height; row++) {
+    const gz = tileZ0 + row * spacing;
+    for (let column = 0; column < width; column++) {
+      const gx = tileX0 + column * spacing;
+      if (!field.nearWater(gx, gz)) continue;
+      const depth = field.depthAt(gx, gz);
+      if (!(depth > 0)) continue;
+      const level = field.levelAt(gx, gz);
+      if (!Number.isFinite(level)) continue;
+      const q = payload[(row * width + column) * 2] | payload[(row * width + column) * 2 + 1] << 8;
+      if (q === noData) continue;
+      const legacyHeight = grid.heightOffsetMetres + q * grid.heightScaleMetres + verticalDatumOffsetMetres;
+      if (legacyHeight > level + 0.5) continue;
+      deepest = Math.min(deepest, level - depth - verticalDatumOffsetMetres);
+    }
+  }
+  if (!Number.isFinite(deepest)) return decoded;
+  let offset = grid.heightOffsetMetres;
+  let work = payload;
+  if (deepest - floorMarginMetres < offset) {
+    const scale = grid.heightScaleMetres;
+    const nextOffset = Math.floor((deepest - floorMarginMetres) / scale) * scale;
+    const shift = Math.round((offset - nextOffset) / scale);
+    work = new Uint8Array(payload);   /* the verified bytes stay as they were decoded */
+    for (let i = 0; i < work.length; i += 2) {
+      const q = work[i] | work[i + 1] << 8;
+      if (q === noData) continue;
+      const next = q + shift;
+      if (next >= noData || next > 65535) throw new RangeError('re-basing the tile for its lake bed exceeds the uint16 quantisation range');
+      work[i] = next & 0xff; work[i + 1] = next >> 8 & 0xff;
+    }
+    offset = nextOffset;
+  } else if (work === decoded.payload) {
+    work = new Uint8Array(payload);
+  }
+  const carvedGrid = { ...grid, heightOffsetMetres: offset };
+  const carved = carveTerrainTile({ bounds: header.bounds, grid: carvedGrid, payload: work }, field, { legacyOrigin, verticalDatumOffsetMetres });
+  if (!carved) return decoded;
+  return {
+    ...decoded,
+    header: { ...header, grid: carvedGrid },
+    payload: work,
+    terrainRenderData: null,
+    waterBed: { carvedSamples: carved, rebasedOffsetMetres: offset !== grid.heightOffsetMetres ? offset : null },
+  };
+}

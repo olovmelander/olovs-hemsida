@@ -25,6 +25,7 @@ import {
   bearing, centroid, decodeHF, lcg, pointInPoly, polyArea, polyLen, ring1, r1,
 } from '../geobuild/lib.mjs';
 import { teeRoadClearance } from './tee-road-clearance.mjs';
+import { uniteLakeRings } from './lake-union.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -53,6 +54,13 @@ function sampler(spec) {
   };
 }
 const vistaH = sampler(heightfields.hf1);
+const coreH = sampler(heightfields.hf0);
+/* the finest laser product at a point: 4 m over the course window, 32 m beyond */
+const dtmH = (x, z) => coreH(x, z) ?? vistaH(x, z);
+/* Lantmäteriet item 653_44 in local metres: the break geometry describes the
+   lake only inside it (E 440000–450000, N 6530000–6540000) */
+const ITEM = { x0: 440000 - FRAME.easting, x1: 450000 - FRAME.easting, z0: FRAME.northing - 6540000, z1: FRAME.northing - 6530000 };
+const insideItem = (x, z) => x >= ITEM.x0 && x <= ITEM.x1 && z >= ITEM.z0 && z <= ITEM.z1;
 
 /* ------------------------------------------------- the Skagern lake ring */
 function stitchSkagern() {
@@ -106,22 +114,6 @@ function stitchSkagern() {
     if (keepSide(current)) clipped.push(current);
   }
   ring = clipped;
-  /* This ring's bounding box covers the whole CORE grid, so every terrain
-     sample pays a ringSD over it. The shoreline within 1.4 km of the origin
-     keeps its 2 m fidelity (benches and reeds are looked at from the course);
-     beyond that a vertex earns its place only if it moves the line by 12 m. */
-  const slimmed = [];
-  for (let index = 0; index < ring.length; index++) {
-    const point = ring[index];
-    if (Math.hypot(point[0], point[1]) < 1400) { slimmed.push(point); continue; }
-    const previous = slimmed.at(-1), next = ring[(index + 1) % ring.length];
-    if (!previous) { slimmed.push(point); continue; }
-    const dx = next[0] - previous[0], dz = next[1] - previous[1];
-    const length = Math.hypot(dx, dz) || 1;
-    const off = Math.abs((point[0] - previous[0]) * dz - (point[1] - previous[1]) * dx) / length;
-    if (off > 12) slimmed.push(point);
-  }
-  ring = slimmed;
   /* Gate: the interior must read laser-flat at lake level. Sample the vista
      heightfield on a grid well inside the ring; a wrong closure would sweep in
      land (or the lower river reach below the Gullspång outlet) and fail. */
@@ -144,11 +136,65 @@ function stitchSkagern() {
   for (const hole of model.holes) for (const [x, z] of hole.line) {
     if (pointInPoly(x, z, ring)) throw new Error(`hole ${hole.n} line point [${x},${z}] falls inside the Skagern ring`);
   }
+  /* the OSM candidate: one polygon, still to be reconciled with the laser
+     shoreline in the union below */
+  return { ring, area: Math.round(Math.abs(polyArea(ring))) };
+}
+
+/* ------------------------------------------- one lake from two records */
+function uniteSkagern(osmRing, breakLakes) {
+  const started = Date.now();
+  /* tolerance by distance from the played ground: the shoreline a golfer
+     stands beside keeps 1 m, the far basin costs nothing per terrain sample */
+  const play = { x0: Infinity, x1: -Infinity, z0: Infinity, z1: -Infinity };
+  for (const hole of model.holes) for (const [x, z] of hole.line) {
+    play.x0 = Math.min(play.x0, x); play.x1 = Math.max(play.x1, x);
+    play.z0 = Math.min(play.z0, z); play.z1 = Math.max(play.z1, z);
+  }
+  const playDistance = (x, z) => Math.hypot(Math.max(play.x0 - x, 0, x - play.x1), Math.max(play.z0 - z, 0, z - play.z1));
+  const union = uniteLakeRings({
+    authoritative: breakLakes.map(w => w.ring),
+    candidate: osmRing,
+    level: 69.35,             /* what the laser reads on open water */
+    dtmTolerance: 0.35,
+    authoritativeScope: insideItem,
+    dtm: dtmH,
+    spacing: 2,
+    minimumHectares: 0.5,
+    toleranceAt: (x, z) => { const d = playDistance(x, z); return d < 300 ? 1.0 : d < 1000 ? 2.5 : d < 2000 ? 6 : 12; },
+  });
+  const [main, ...fragments] = union.rings;
+  /* Gate: the laser shoreline must come back out. Every break-geometry vertex
+     on a real shore (not the item's clip edge) within 1.4 km of the origin
+     must lie within 3 m of the union ring at the median, 12 m at the 90th. */
+  const segD = (p, a, b) => {
+    const dx = b[0] - a[0], dz = b[1] - a[1], l = dx * dx + dz * dz;
+    let t = l ? ((p[0] - a[0]) * dx + (p[1] - a[1]) * dz) / l : 0;
+    t = Math.max(0, Math.min(1, t));
+    return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dz);
+  };
+  const ringD = (p, r) => { let best = Infinity; for (let i = 0, j = r.length - 1; i < r.length; j = i++) best = Math.min(best, segD(p, r[j], r[i])); return best; };
+  const residuals = breakLakes.flatMap(w => w.ring)
+    .filter(p => p[0] < ITEM.x1 - 2 && Math.hypot(p[0], p[1]) < 1400)
+    .map(p => ringD(p, main.ring)).sort((a, b) => a - b);
+  const p50 = residuals[residuals.length >> 1], p90 = residuals[Math.floor(residuals.length * 0.9)];
+  console.log(`Skagern union: ${union.rings.length} ring(s), ${union.hectares} ha in ${Date.now() - started} ms; ` +
+    `main ${main.ring.length} pts / ${main.hectares} ha; OSM-only water refused on land ${union.dropped.osmOnlyLandHectares} ha, ` +
+    `kept where laser-flat ${union.kept.osmOnlyInsideScopeHectares} ha; laser shoreline residual p50 ${p50.toFixed(2)} m, p90 ${p90.toFixed(2)} m over ${residuals.length} vertices`);
+  if (p50 > 3 || p90 > 12) throw new Error('the union ring does not reproduce the laser shoreline; check the raster spacing and tolerances');
+  const prov = 'ONE ring for the lake: Lantmäteriet break geometry (laser-exact) wherever item 653_44 draws a shoreline, ' +
+    'OSM shoreline (ODbL) beyond the item, and OSM water inside the item only where the DTM reads laser-flat at lake level ' +
+    '(ribbingsforsbuild/lake-union.mjs). Level 69.3 from the break geometry; the vista DTM reads 69.35 on open water; ' +
+    'OSM ele=66.9 rejected. Two low islets inside the ring are drowned simplifications.';
   return {
-    ring: ring1(ring), level: LAKE_LEVEL, isLake: true, isSea: false,
-    area: Math.round(Math.abs(polyArea(ring))),
-    name: 'Skagern',
-    prov: 'OSM shoreline (ODbL) chained and closed offshore; level from Lantmäteriet break geometry (69.3), corroborated laser-flat by the vista DTM; OSM ele=66.9 rejected. Overlaps the break-geometry arm/bay rings at the same level by design; two low islets inside the ring are documented as drowned simplifications.',
+    lake: { ring: ring1(main.ring), level: LAKE_LEVEL, isLake: true, isSea: false,
+      area: Math.round(main.hectares * 10000), name: 'Skagern', prov },
+    fragments: fragments.map((fragment, index) => ({
+      ring: ring1(fragment.ring), level: LAKE_LEVEL, isLake: false, isSea: false,
+      area: Math.round(fragment.hectares * 10000), name: `Skagern (fragment ${index + 1})`,
+      prov: 'laser-flat water at lake level the OSM shoreline encloses beyond the break geometry, disconnected from the main ring by land the DTM refuses; ' + prov,
+    })),
+    report: { p50: +p50.toFixed(2), p90: +p90.toFixed(2), vertices: residuals.length, refusedHectares: union.dropped.osmOnlyLandHectares },
   };
 }
 
@@ -221,7 +267,7 @@ function protectedTreeFeatures() {
 }
 
 /* ---------------------------------------------------------------- merge */
-const skagern = stitchSkagern();
+const skagernOsm = stitchSkagern();
 const smallLakes = osm.lakes.map(lake => {
   const c = centroid(lake.ring);
   const level = vistaH(c[0], c[1]);
@@ -231,7 +277,18 @@ const smallLakes = osm.lakes.map(lake => {
 const breakWater = model.water.filter(w => (w.prov || '').startsWith('Lantmäteriet'));
 if (breakWater.length !== model.water.filter(w => !w.name && !(w.prov || '').startsWith('OSM')).length &&
     breakWater.length === 0) throw new Error('no break-geometry water found; wrong base model');
-model.water = [...breakWater, skagern, ...smallLakes];
+/* The two break-geometry arms are consumed by the union and leave model.water,
+   so a rerun finds them under sourceWater instead: idempotent either way. */
+const breakLakes = model.sourceWater?.breakLakes ?? breakWater.filter(w => w.isLake);
+if (breakLakes.length !== 2) throw new Error(`expected the two break-geometry Skagern arms, found ${breakLakes.length}`);
+model.sourceWater = { ...(model.sourceWater || {}), breakLakes,
+  note: "Lantmäteriet break-geometry lake polygons at 69.3 m, laser-exact inside item 653_44; folded into the Skagern ring by lake-union.mjs and not drawn on their own (the pack never carries this key)" };
+const skagern = uniteSkagern(skagernOsm.ring, breakLakes);
+/* the two arms are consumed by the union; the break-geometry ponds stay */
+model.water = [...breakWater.filter(w => !w.isLake), skagern.lake, ...skagern.fragments, ...smallLakes];
+for (const hole of model.holes) for (const [x, z] of hole.line) {
+  if (pointInPoly(x, z, skagern.lake.ring)) throw new Error(`hole ${hole.n} line point [${x},${z}] falls inside the Skagern ring`);
+}
 
 const pondConnector = { line: [[440, 368], [444, 352]], w: 1.2,
   prov: 'visible connector between the two hole-4 tee ponds; satellite trace' };
@@ -345,7 +402,7 @@ model.evidence.surroundings = {
     laserConfirmed: treeWork.laserConfirmed,
     note: 'only laser-confirmed individuals are drawn; per-record data stays in geo_data/course-v2/ribbingsfors/reference/',
   },
-  skagern: skagern.prov,
+  skagern: { prov: skagern.lake.prov, laserShorelineResidual: skagern.report },
   rangeCorrection: 'the guide-interpreted range ellipse lay on open lake water; replaced by the satellite trace between holes 9 and 1',
 };
 model.evidence.protectedTrees = treeWork.trees.filter(tree => tree.giant).map(tree => ({
@@ -422,7 +479,7 @@ const writeJson = (file, value) => fs.writeFileSync(file, JSON.stringify(value))
 writeJson(path.join(HERE, 'course-model.json'), model);
 writeJson(path.join(HERE, 'tree-cover.json'), treeCover);
 
-console.log(`water: ${model.water.length} rings (${breakWater.length} break + Skagern + ${smallLakes.length} ponds)`);
+console.log(`water: ${model.water.length} rings (${breakWater.filter(w => !w.isLake).length} break ponds + Skagern${skagern.fragments.length ? ` + ${skagern.fragments.length} fragment(s)` : ''} + ${smallLakes.length} OSM ponds)`);
 console.log(`streams: ${model.streams.length} traced ditches (replacing the 4 synthetic guide crossings)`);
 console.log(`vegetation: ${model.vegetation.forest.length} forest, ${model.vegetation.wood.length} protected-tree crowns ` +
   `(${treeWork.laserConfirmed}/${treeWork.trees.length} laser-confirmed), ${model.vegetation.wetland.length} wetland`);

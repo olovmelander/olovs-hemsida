@@ -87,6 +87,36 @@ describe('published graph fixed frontier', () => {
     }
   }, 30_000);
 
+  it('carves the lake beds into the tiles as they decode, re-flooring the lake tiles', async () => {
+    const model = JSON.parse(readFileSync(path.resolve(import.meta.dirname, '../../../../ribbingsforsbuild/course-model.json'), 'utf8'));
+    const skagern = model.water.find(w => w.name === 'Skagern');
+    expect(skagern).toBeTruthy();
+    const plain = await loadPublishedGraphTerrainFrontier({
+      graph: publishedGraph(), geo: GEO, config: RIBBINGSFORS_V2_CONFIG,
+      baseUrl: 'https://proof.test/', locationHref: 'https://proof.test/app', fetchImpl: localFetch(),
+    });
+    const carved = await loadPublishedGraphTerrainFrontier({
+      graph: publishedGraph(), geo: GEO, config: RIBBINGSFORS_V2_CONFIG,
+      baseUrl: 'https://proof.test/', locationHref: 'https://proof.test/app', fetchImpl: localFetch(),
+      waterBeds: async () => ({
+        bodies: model.water.filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })),
+        shallows: model.surround?.shallows ?? [],
+      }),
+    });
+    expect(plain.waterBed).toBeNull();
+    expect(carved.waterBedSummary).toMatchObject({ maximumDepthMetres: 5.5 });
+    expect(carved.waterBedSummary.carvedTiles).toBeGreaterThan(10);
+    expect(carved.waterBedSummary.rebasedTiles).toBeGreaterThan(0);
+    /* open water 200 m off the shore: the laser's flat surface before, metres of bed after */
+    const lakeX = -100, lakeZ = -300;
+    expect(carved.waterBed.inWater(lakeX, lakeZ)).toBe(true);
+    expect(plain.heightAt(lakeX, lakeZ)).toBeCloseTo(skagern.level, 0);
+    expect(carved.heightAt(lakeX, lakeZ)).toBeLessThan(skagern.level - 4);
+    /* the played ground is byte-for-byte what it was: the first green */
+    const [gx, gz] = model.holes[0].green.c;
+    expect(carved.heightAt(gx, gz)).toBe(plain.heightAt(gx, gz));
+  }, 60_000);
+
   it('rejects a changed compatibility-pack frame before requesting a tile', async () => {
     const fetchImpl = localFetch();
     await expect(loadPublishedGraphTerrainFrontier({

@@ -110,6 +110,9 @@ export async function selectV2TerrainSource({
   fetchImpl,
   cacheStorage,
   previewOptions,
+  /* async () => ({ bodies, shallows }) -- the model's water, for the fixed
+     frontier to carve lake beds into its tiles as they decode */
+  waterBeds = null,
 } = {}) {
   if (typeof slug !== 'string' || !slug) throw new TypeError('course slug is required');
   const urlMode = v2RequestMode(search);
@@ -166,6 +169,7 @@ export async function selectV2TerrainSource({
             baseUrl,
             locationHref,
             fetchImpl,
+            waterBeds,
           });
           return finish({
             requestMode,
