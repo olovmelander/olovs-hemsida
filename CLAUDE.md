@@ -3076,6 +3076,43 @@ records the 2026-09-05 pass. The lessons that generalise:
   the branch before it pushes, so a branch that moved during the hour of
   compile no longer costs the run.
 
+- **The course is read off that ground now, and the satellite capture was
+  CHOSEN by measurement (2026-09-05).** `angsobuild/dtm.mjs` binds the readers
+  to this frame; `geobuild/dtm-lib.mjs` became frame-parameterised factories to
+  allow it (Veckefjärden's frame is the default, so its callers are unchanged).
+  **`tools/wayback-captures.mjs` is the new reusable instrument**: it hashes the
+  same z18 tile in all 196 Esri Wayback releases at five probes across a course,
+  so identical bytes are the same imagery and the release where a hash changes
+  is when that block was re-flown. Ängsö is NOT a patchwork (all five probes
+  change together, unlike Veckefjärden) and has two single-capture frames:
+  2025-04-13 Vantor at 0.34 m, which is what the live mosaic serves, and
+  2018-10-25 Maxar at 0.5 m. **The nine OSM-surveyed bunkers chose between them
+  and the newer capture lost**: the sand rule, calibrated per capture from those
+  bunkers against the greens and fairways rather than hardcoded, finds 4 of 9 at
+  a median 4.5 m on the April imagery — spring turf is pale here, the sand is
+  wet, and the sand's median pixel does not pass a cut drawn at turf's 90th
+  percentile — against 8 of 9 at 1.3 m on the 2018 capture. **A newer picture is
+  not a better instrument; make it reproduce something nobody read off it.**
+  That capture's own registration error is measured the same way (slide each
+  sand patch ±8 m, keep the shift that deepens its dish, take the median): (3, 2)
+  m, and applying it is what takes the agreement from 6 of 9 at 4.3 m to 8 of 9
+  at 1.3 m, so the correction is evidence rather than a fudge.
+  `angsobuild/terrain-check.mjs` confirms it from the other side — surveyed
+  greens and bunkers want (−1, −4) and (−2, −1), traced ones (3, 5) and (1, 4).
+  The model gained: bunkers 34 → 47 (the nine surveyed ones untouched as the
+  ruler, 38 measured as sand over a dish, 16 on ground the trace never had,
+  three traced ones with neither sand nor dish DROPPED); eight ponds re-traced
+  off their own laser plate with measured levels by `angsobuild/laser-ponds.mjs`,
+  with **five refused and the reason kept** (two run outside the 4,096 m window
+  and would trace truncated, three have interiors spreading 0.79–1.35 m and so
+  are not water surfaces); four more ditches on holes 2, 14, 17 and 18; and
+  eighteen measured tee decks, the same reading validating the traced pads at a
+  median (1, −0.6) m. `check3d` gained three gates that fail loudly — a capture
+  that cannot reproduce 7 of the 9 surveyed bunkers within 3 m, a "measured"
+  bunker with no dish, a laser-traced pond that is not flat — and the first was
+  proved to fire by feeding it the April numbers. The full record is §17 of the
+  atlas.
+
 ## Ribbingsfors — `ribbingsforsbuild/` (no standalone page; app-only)
 
 Ribbingsfors Golf & Kultur: 9 holes, par 36 (played twice for 18/72), a park

@@ -9,7 +9,15 @@
      georeference, decoded through Chromium because Node has no JPEG decoder.
 
    Both give a height or a colour at a legacy (x, z), which is all the derivation
-   needs. The imagery is cached under geobuild/cache/sat18 (gitignored).            */
+   needs. The imagery is cached under geobuild/cache/sat18 (gitignored).
+
+   Every course has its own frame, so the terrain and the imagery are FACTORIES
+   over a frame description -- { slug, origin, mPerLat, mPerLon, origin3006,
+   cache } -- and the module-level exports are those factories bound to
+   Veckefjärden's frame, so geobuild's own callers are unchanged. Another build
+   passes its frame: loadTerrain(slug, frame), createImagery({ cache, origin,
+   ..., release }) -- and a Wayback RELEASE turns the live patchwork mosaic into
+   one dated capture (tools/wayback-captures.mjs says which).                    */
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
@@ -24,8 +32,9 @@ const PUB = path.join(ROOT, 'apps/golf/public');
 /* the pack origin in EPSG:3006, PROJ cs2cs (docs/courses/veckefjarden-source-dossier.md §6.1) */
 const ORIGIN_3006 = { easting: 684183.801986, northing: 7022564.696685 };
 export const DATUM = 20.9924;            /* legacy minus RH 2000, measured (dossier §6.2) */
+export const VECKEFJARDEN_FRAME = Object.freeze({ slug: 'veckefjarden', origin: ORIGIN, mPerLat: M_PER_LAT, mPerLon: M_PER_LON, origin3006: ORIGIN_3006, cache: CACHE });
 
-export function loadTerrain(slug = 'veckefjarden') {
+export function loadTerrain(slug = 'veckefjarden', frame = VECKEFJARDEN_FRAME) {
   const root = JSON.parse(fs.readFileSync(path.join(PUB, 'courses/v2-index.json'), 'utf8'));
   const entry = root.courses.find(c => c.slug === slug);
   if (!entry) throw new Error(`no v2 course ${slug}`);
@@ -42,10 +51,11 @@ export function loadTerrain(slug = 'veckefjarden') {
     const c0 = Math.round(t.bounds.minEasting - minE), r0 = Math.round(maxN - t.bounds.maxNorthing);
     for (let r = 0; r < g.height; r++) for (let c = 0; c < g.width; c++) dem[(r0 + r) * W + c0 + c] = h[r * g.width + c];
   }
-  const bridge = legacyGridBridge({ latitude: ORIGIN.lat, longitude: ORIGIN.lon, metresPerLatitude: M_PER_LAT, metresPerLongitude: +M_PER_LON.toFixed(2) });
+  const bridge = legacyGridBridge({ latitude: frame.origin.lat, longitude: frame.origin.lon, metresPerLatitude: frame.mPerLat, metresPerLongitude: +frame.mPerLon.toFixed(2) });
   const E0 = minE, N1 = maxN;
-  const legacyToGrid = (x, z) => { const [gx, gz] = bridge.toGrid(x, z); return [ORIGIN_3006.easting + gx, ORIGIN_3006.northing - gz]; };
-  const gridToLegacy = (e, n) => bridge.toLegacy(e - ORIGIN_3006.easting, ORIGIN_3006.northing - n);
+  const O3 = frame.origin3006;
+  const legacyToGrid = (x, z) => { const [gx, gz] = bridge.toGrid(x, z); return [O3.easting + gx, O3.northing - gz]; };
+  const gridToLegacy = (e, n) => bridge.toLegacy(e - O3.easting, O3.northing - n);
   const hAtGrid = (e, n) => {
     const c = e - E0, r = N1 - n, c0 = Math.floor(c), r0 = Math.floor(r);
     if (c0 < 0 || r0 < 0 || c0 + 1 >= W || r0 + 1 >= H) return NaN;
@@ -75,16 +85,23 @@ export function blackTopHat(T, r = 6) {
 
 /* --- the imagery ---------------------------------------------------------------- */
 const Z = 18;
-const SAT = path.join(CACHE, 'sat18');
 const n2 = 2 ** Z;
-const toLonLat = (x, z) => [ORIGIN.lon + x / M_PER_LON, ORIGIN.lat - z / M_PER_LAT];
+const CHROME = process.env.CHROME || process.env.BANVY_CHROME || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+
+/* One imagery source: the live World Imagery mosaic (release null) or one Wayback
+   release, cached under <cache>/sat18[-<release>], read in the course's frame. */
+export function createImagery({ cache = CACHE, origin = ORIGIN, mPerLat = M_PER_LAT, mPerLon = M_PER_LON, release = null } = {}) {
+const SAT = path.join(cache, release ? `sat18-${release}` : 'sat18');
+const tileURL = (tx, ty) => release
+  ? `https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/${release}/${Z}/${ty}/${tx}`
+  : `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${Z}/${ty}/${tx}`;
+const toLonLat = (x, z) => [origin.lon + x / mPerLon, origin.lat - z / mPerLat];
 const tileF = (lon, lat) => [(lon + 180) / 360 * n2, (1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * n2];
 const pxOf = (x, z) => { const [lon, lat] = toLonLat(x, z); const [tx, ty] = tileF(lon, lat); return [tx * 256, ty * 256]; };
 const tiles = new Map();
-const CHROME = process.env.CHROME || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
 /* fetch every z18 tile over the box and decode it to PNG through one Chromium session */
-export async function ensureImagery(x0, z0, x1, z1) {
+async function ensureImagery(x0, z0, x1, z1) {
   fs.mkdirSync(SAT, { recursive: true });
   const [ax, ay] = pxOf(x0, z0), [bx, by] = pxOf(x1, z1);
   const tx0 = Math.floor(Math.min(ax, bx) / 256), tx1 = Math.floor(Math.max(ax, bx) / 256);
@@ -93,7 +110,7 @@ export async function ensureImagery(x0, z0, x1, z1) {
   for (let ty = ty0; ty <= ty1; ty++) for (let tx = tx0; tx <= tx1; tx++) { const jpg = path.join(SAT, `${Z}_${ty}_${tx}.jpg`); if (!fs.existsSync(jpg)) jobs.push({ tx, ty, jpg }); }
   let i = 0;
   await Promise.all(Array.from({ length: 8 }, async () => {
-    while (i < jobs.length) { const j = jobs[i++]; const r = await fetch(`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${Z}/${j.ty}/${j.tx}`); if (!r.ok) throw new Error(`tile ${j.ty}/${j.tx} ${r.status}`); fs.writeFileSync(j.jpg, Buffer.from(await r.arrayBuffer())); }
+    while (i < jobs.length) { const j = jobs[i++]; const r = await fetch(tileURL(j.tx, j.ty)); if (!r.ok) throw new Error(`tile ${j.ty}/${j.tx} ${r.status}`); fs.writeFileSync(j.jpg, Buffer.from(await r.arrayBuffer())); }
   }));
   const todo = [];
   for (let ty = ty0; ty <= ty1; ty++) for (let tx = tx0; tx <= tx1; tx++) { const png = path.join(SAT, `${Z}_${ty}_${tx}.png`); if (!fs.existsSync(png)) todo.push(path.join(SAT, `${Z}_${ty}_${tx}.jpg`), png); }
@@ -121,7 +138,7 @@ function tile(tx, ty) {
   return tiles.get(k);
 }
 /* the imagery's colour at a legacy point, nearest pixel, or null off the cache */
-export function rgbAt(x, z) {
+function rgbAt(x, z) {
   const [gx, gy] = pxOf(x, z);
   const tx = Math.floor(gx / 256), ty = Math.floor(gy / 256);
   const t = tile(tx, ty); if (!t) return null;
@@ -129,7 +146,14 @@ export function rgbAt(x, z) {
   const i = (py * t.width + px) * t.channels;
   return [t.data[i], t.data[i + 1], t.data[i + 2]];
 }
-export const metresPerPixel = (() => { const [a] = pxOf(0, 0), [b] = pxOf(100, 0); return 100 / (b - a); })();
+const metresPerPixel = (() => { const [a] = pxOf(0, 0), [b] = pxOf(100, 0); return 100 / (b - a); })();
+return { ensureImagery, rgbAt, metresPerPixel, pxOf, cacheDir: SAT, release };
+}
+/* geobuild's own callers: Veckefjärden's frame, the live mosaic */
+const DEFAULT_IMAGERY = createImagery();
+export const ensureImagery = (...a) => DEFAULT_IMAGERY.ensureImagery(...a);
+export const rgbAt = (x, z) => DEFAULT_IMAGERY.rgbAt(x, z);
+export const metresPerPixel = DEFAULT_IMAGERY.metresPerPixel;
 
 /* --- small geometry ------------------------------------------------------------- */
 export const inRing = (x, z, r) => { let c = false; for (let i = 0, j = r.length - 1; i < r.length; j = i++) { if ((r[i][1] > z) !== (r[j][1] > z) && x < (r[j][0] - r[i][0]) * (z - r[i][1]) / (r[j][1] - r[i][1]) + r[i][0]) c = !c; } return c; };

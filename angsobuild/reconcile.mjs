@@ -164,6 +164,13 @@ for (const b of bunkers) {
    is the sea: isSea draws the page's sheet at the measured level over the bed
    build-heightfields sank, isLake gives the wide shore bench. */
 const laser = (() => { try { return readJSON(path.join(HERE, 'laser-water.json')); } catch { return null; } })();
+/* Every pond re-traced off its own laser plate (laser-ponds.mjs) and the
+   features read off the laser and the orthoimagery together
+   (derive-dtm-features.mjs): the ditches that cross a playing line and the
+   flat decks under card tee marks no pad covers. Both are optional -- the
+   build stands without them and says which it used. */
+const laserPonds = (() => { try { return readJSON(path.join(HERE, 'laser-ponds.json')); } catch { return null; } })();
+const dtm = (() => { try { return readJSON(path.join(HERE, 'dtm-features.json')); } catch { return null; } })();
 const laserStreams = (() => { try { return readJSON(path.join(HERE, 'laser-streams.json')); } catch { return null; } })();
 const marking = (() => { try { return readJSON(path.join(HERE, 'marking.json')); } catch { return null; } })();
 const SUPERSEDED_BY_LASER = new Set(laser ? ['w307899187'] : []);
@@ -198,8 +205,64 @@ for (const t of traces.holes) for (const w of t.water || []) {
   water.push({ id: `t${++pondId}`, ring, name: null, kind: w.kind,
                area: Math.round(Math.abs(polyArea(ring))), level: measuredPond(ring) ?? levelOfRing(ring), isLake: false });
 }
+/* A pond's SHORELINE is the edge of its own laser plate, not the line an eye
+   drew round it. laser-ponds.mjs grows the connected flat at the ring's own
+   measured level and traces its boundary; a ring it refuses -- water partly
+   outside the published window, or an interior that climbs through more than
+   half a metre and so is not a water surface at all -- keeps the ring it had,
+   and the reason travels with it. */
+let pondsTraced = 0;
+for (const p of (laserPonds?.ponds || [])) {
+  const w = water.find(x => x.id === p.id);
+  if (!w) continue;
+  if (p.verdict !== 'traced') { w.laser = { verdict: p.verdict, reason: p.reason }; continue; }
+  w.ring = p.ring; w.area = p.area; w.level = p.level; w.prov = 'laser';
+  w.laser = { plateArea: p.plateArea, spread: p.spread, seedArea: p.seedArea, islands: p.islands, seedVerticesInsidePlate: p.seedVerticesInsidePlate };
+  pondsTraced++;
+}
 
 /* --- the model ---------------------------------------------------------------- */
+/* THE BUNKERS ARE MEASURED, and the instrument was calibrated before it was
+   believed. derive-dtm-features.mjs reads sand in one dated capture over a
+   dish in the laser terrain; the nine bunkers OpenStreetMap surveyed are the
+   check, and they decided both the capture and the correction. On the live
+   2025-04-13 imagery only 4 of the 9 have a sand-over-dish reading beside
+   them, median 4.5 m -- spring turf here is pale, the sand is wet, and the two
+   populations overlap. On the 2018-10-25 capture 8 of 9 do, median 1.3 m and
+   worst 2.4 m, once that capture's own measured registration error of (3, 2) m
+   is applied; uncorrected the same capture gives 6 of 9 at 4.3 m, so the
+   correction is real and not a fudge. A surveyed bunker is never moved -- it
+   is the ruler. A satellite-traced one is replaced by the measured hull, kept
+   where only the laser confirms it, or DROPPED where neither sand nor a dish
+   is there at all. */
+let bunkersMeasured = 0, bunkersDropped = 0, bunkersAdded = 0;
+if (dtm?.bunkers?.length) {
+  for (const h of holes) {
+    const mine = dtm.bunkers.filter(b => b.hole === h.n);
+    const before = h.bunkers.length;
+    h.bunkers = mine.map(b => ({ ring: ring1(b.ring), prov: b.src === 'osm' ? 'osm' : 'laser',
+      ...(b.src === 'osm' ? {} : { area: b.area, dish: b.dish, src: b.src, ...(b.note ? { note: b.note } : {}) }) }));
+    const added = mine.filter(b => b.note && b.note.startsWith('not in the trace')).length;
+    bunkersMeasured += mine.filter(b => b.src !== 'osm').length;
+    bunkersAdded += added;
+    bunkersDropped += Math.max(0, before - (mine.length - added));
+  }
+}
+/* A card tee no pad covers stands on a laser DECK where there is one: a 5 x 5 m
+   plateau flat to 0.10 m under the mark is prepared ground, and prepared ground
+   under a tee mark is a tee. The app synthesises a deck under every uncovered
+   mark anyway (all 522 markers on the six courses stand on tee grass), so what
+   this adds is not the existence of a pad but its MEASURED outline. */
+let decksAdded = 0;
+for (const d of (dtm?.decks || [])) {
+  const h = holes.find(x => x.n === d.hole);
+  if (!h) continue;
+  const c = centroid(d.ring);
+  if (h.tees.pads.some(p => dist([p.cx, p.cz], c) < 8)) continue;
+  h.tees.pads.push({ ring: ring1(d.ring), cx: r1(c[0]), cz: r1(c[1]), ang: Math.round((h.tees.marks[d.markIdx]?.b ?? 0)), prov: 'dtm', area: d.area });
+  decksAdded++;
+}
+
 const model = {
   version: 1,
   origin: { lat: ORIGIN.lat, lon: ORIGIN.lon },
@@ -223,6 +286,9 @@ const model = {
   streams: [
     ...osm.waterway.map(w => ({ id: w.id, line: w.line, kind: w.kind, w: w.kind === 'stream' ? 1.6 : 1.0 })),
     ...(laserStreams?.streams || []).map(s => ({ id: s.id, line: s.line, kind: s.kind, w: s.kind === 'stream' ? 1.6 : 1.0, hole: s.hole, prov: 'laser' })),
+    /* and the ditches the valley filter found crossing a playing line that no
+       traced watercourse already carried (derive-dtm-features.mjs) */
+    ...(dtm?.ditches || []).map((d, i) => ({ id: `dike-${d.hole}-${i + 1}`, line: d.line, kind: d.kind, w: 1.0, hole: d.hole, prov: 'dtm', meanDepth: d.meanDepth, crossesAt: d.crossesAt })),
   ],
   coast: { chains: [], beaches: (osm.sand || []).map(s => ({ id: s.id, ring: s.ring })) },
   /* penalty and out-of-bounds stakes from Lokala regler 2026, placed by the
@@ -285,7 +351,8 @@ console.log(`green areas ${Math.min(...report.map(r => r.area))}–${Math.max(..
 const bkN = holes.reduce((a, h) => a + h.bunkers.length, 0);
 const fwN = holes.reduce((a, h) => a + h.fairway.rings.length, 0);
 const tpN = holes.reduce((a, h) => a + h.tees.pads.length, 0);
-console.log(`assigned: bunkers ${bkN} (${bunkers.length} from OSM), fairways ${fwN}, tee pads ${tpN}; water ${water.length}`);
+console.log(`bunkers: ${bunkersMeasured} measured off the calibrated capture (${bunkersAdded} the trace never had), ${bunkersDropped} traced ones with neither sand nor a dish dropped`);
+console.log(`assigned: bunkers ${bkN} (${bunkers.length} from OSM), fairways ${fwN}, tee pads ${tpN} (${decksAdded} measured decks); water ${water.length} (${pondsTraced} ponds off the laser plate), streams ${model.streams.length}`);
 {
   const club = (model.infra.buildings || []).filter(b => b.amenity === 'clubhouse')
     .sort((a, b) => Math.abs(polyArea(b.ring)) - Math.abs(polyArea(a.ring)));
