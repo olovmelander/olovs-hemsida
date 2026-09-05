@@ -481,7 +481,7 @@ disagreement is one line, not a search.
 §7 measured the model's rings against the 1 m laser terrain and recorded the
 disagreements. This pass turns the two orthorectified sources into a source of
 geometry rather than a check on one: `johannesbergbuild/derive-dtm-features.mjs`,
-`laser-water.mjs`, `capture-census.mjs` and `check-buildings.mjs`, all on
+`laser-water.mjs`, `green-vigour.mjs` and `check-buildings.mjs`, all on
 `geobuild/dtm-lib.mjs`, which now takes its frame, its pack origin in EPSG:3006 and
 its vertical datum step from each slug's own reviewed v2 frontier contract instead of
 carrying Veckefjärden's constants.

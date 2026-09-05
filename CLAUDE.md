@@ -1341,7 +1341,10 @@ The two orthorectified sources are a SOURCE here now, not only a check.
 vertical datum step from each slug's own reviewed v2 frontier contract, so
 `loadTerrain('<slug>')` works for any course with one and nothing is written
 down twice; `johannesbergbuild/` grew `derive-dtm-features.mjs`,
-`laser-water.mjs`, `capture-census.mjs` and `check-buildings.mjs` on it.
+`laser-water.mjs`, `green-vigour.mjs` and `check-buildings.mjs` on it (the
+capture inventory itself comes from `tools/wayback-captures.mjs`, the repo's own
+generic tool — a course-local census written beside it was deleted rather than
+kept, because two tools writing one `imagery-captures.json` is one too many).
 Full record: dossier §8. What generalises:
 
 - **A pond is a flat plate, and that is a level, a registration check and an
