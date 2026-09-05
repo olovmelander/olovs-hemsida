@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "kind": "vegetation-graph-publication",
+  "state": "published",
+  "groundId": "angso",
+  "slug": "angso",
+  "observedOn": "2026-09-05",
+  "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+  "activeRoot": {
+    "url": "courses/v2-index.json",
+    "bytes": 4916,
+    "sha256": "cda67ec6300bc0d8bec28bf8097a3e6ec1623c51247399d6236f1c63b3ce200b"
+  },
+  "graph": {
+    "frameFingerprint": "bfc6a0f04badb8e31cd874bc28e58ed679dd591164d8cb9a96ca9a96209b9318",
+    "courseManifest": {
+      "url": "courses/angso/course-v2-936fa9bd74422db0453b13a30e0e9c45718fa061ddf57f72f3d6c3750ed32e6c.json",
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "bytes": 3995,
+      "sha256": "936fa9bd74422db0453b13a30e0e9c45718fa061ddf57f72f3d6c3750ed32e6c"
+    },
+    "groundManifest": {
+      "url": "grounds/angso/ground-v2-64b57eea3378930ef6b0b4189e201d6cf786ac644bb0ccf3420429e016b01e30.json",
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "bytes": 552653,
+      "sha256": "64b57eea3378930ef6b0b4189e201d6cf786ac644bb0ccf3420429e016b01e30"
+    },
+    "routing": {
+      "kind": "routing",
+      "url": "courses/angso/routing/3e2fcca6d00e868bdb5ed7f6a8e9c4e197fcee1aec0c7d85e72ea7054b5e3de1.bvch",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "bytes": 2196,
+      "sha256": "3e2fcca6d00e868bdb5ed7f6a8e9c4e197fcee1aec0c7d85e72ea7054b5e3de1",
+      "decodedBytes": 3918,
+      "decodedSha256": "4da52681d4e660cc58683372b7f4cc9a779862e5a130d0122a2d60a20d728c2c",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "course-routing-json-v1"
+      ]
+    },
+    "sourceManifestSha256": "a97fb2a9a3adfdbf17c47dd94e7cc13ee3d80b74b888be4bd9c86151e559fb5f",
+    "fallbackV1": {
+      "bytes": 428821,
+      "format": 1,
+      "packUrl": "courses/angso/pack.bin",
+      "sha256": "c991a54998cffe2c80f01bca07d62ecef75e2a94fcc936dc463a21b2fdc0469b"
+    },
+    "holes": 18,
+    "tiles": 469,
+    "finestTiles": 256,
+    "shellBytes": 59042,
+    "chunks": 961,
+    "encodedChunkBytes": 29825077,
+    "decodedChunkBytes": 73107452
+  },
+  "vegetation": {
+    "objectTiles": 234,
+    "standTiles": 256,
+    "candidates": {
+      "total": 85018,
+      "byRepresentation": {
+        "excluded": 2612,
+        "individual": 16497,
+        "stand": 65909
+      },
+      "byZone": {
+        "A": 3625,
+        "B": 5261,
+        "C": 76132
+      },
+      "byCampaign": {
+        "21c036-660_60": 85018
+      },
+      "eligible": 14991
+    },
+    "records": {
+      "tiles": 234,
+      "records": 14991,
+      "encodedBytes": 705651,
+      "baseHeightMisses": []
+    },
+    "stands": {
+      "cellMetres": 4,
+      "tiles": 256,
+      "encodedBytes": 1499144,
+      "measuredCells": 1016866,
+      "closedCanopyCells": 245526,
+      "excludedCells": 263458
+    },
+    "identity": {
+      "matched": 0,
+      "moved": 0,
+      "added": 14991,
+      "missing": 0,
+      "nextSequence": 14992
+    }
+  },
+  "filesWritten": 964
+}
