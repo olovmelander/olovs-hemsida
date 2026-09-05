@@ -6436,6 +6436,7 @@ document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPre
       if (open) {
         closeMobileSheet();
         closeNote();
+        kikSheet(false);
         drawMini();
       }
     };
@@ -6450,6 +6451,7 @@ document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPre
       if (open) {
         closeMobileSheet();
         closeMini();
+        kikSheet(false);
       }
     };
   }
@@ -7575,7 +7577,11 @@ function syncGpsUi(state, detail) {
   gpsBtn.classList.toggle('on', gpsState.active);
   mobileGpsBtn?.classList.toggle('on', gpsState.active);
   gpsFollowBtn.classList.toggle('on', gpsState.follow);
-  gpsFollowBtn.textContent = gpsState.follow ? 'Följer' : 'Följ';
+  gpsFollowBtn.setAttribute('aria-pressed', String(gpsState.follow));
+  gpsFollowBtn.setAttribute('aria-label', gpsState.follow ? 'Kameran följer dig · tryck för att släppa' : 'Följ min position');
+  gpsFollowBtn.title = gpsFollowBtn.getAttribute('aria-label');
+  /* no fix, no camera to steer: the button only exists while there is a position */
+  gpsFollowBtn.hidden = !gpsState.active;
   document.body.classList.toggle('gps-on', gpsState.active);
 }
 
@@ -7716,6 +7722,22 @@ addEventListener('pagehide', () => {
 let kik = false, kikGroup = null, kikPt = null, kikBall = null, kikWx = null, kikWxBusy = false;
 const kikBtn = document.getElementById('rangeBtn');
 const kikOut = document.getElementById('kikOut');
+/* the readout is three surfaces, not one card: the green distances in a stack
+   at the screen's edge, the tapped distance floating at the point itself, and
+   the sheet with everything else -- which on a phone rests as a single row so
+   the course stays in view. Each is rewritten only when its text changes, so a
+   GPS fix every few seconds never resets a sheet someone is reading. */
+const kikGreen = document.getElementById('kikGreen');
+const kikTag = document.getElementById('kikTag');
+const kikTagBox = kikTag.querySelector('.kt-box');
+const kikTagV = new THREE.Vector3();
+const kikTagXY = { x: NaN, y: NaN, visible: false };
+const kikHtml = new Map();
+const kikSwap = (el, html) => { if (kikHtml.get(el) !== html) { el.innerHTML = html; kikHtml.set(el, html); } };
+function kikSheet(open) {
+  kikOut.classList.toggle('open', open);
+  kikOut.querySelector('.kik-head')?.setAttribute('aria-expanded', String(open));
+}
 function setKik(on, quiet = false) {
   kik = Boolean(on);
   kikBtn.classList.toggle('on', kik);
@@ -7735,6 +7757,8 @@ function kikClear() {
   kikErase();
   kikPt = null; kikBall = null;
   kikOut.classList.remove('show');
+  kikGreen.classList.remove('show');
+  kikTag.hidden = true; kikTagXY.visible = false;
   const toolHint = document.getElementById('toolHint');
   if (toolHint && !kik) toolHint.style.display = '';
 }
@@ -7850,31 +7874,62 @@ function kikRender() {
   const haz = H => H.map(z => z.type === 'vatten'
     ? `<span class="kik-haz water">vatten · kort om <b>${m(z.from)}</b> · bär <b>${m(z.to)}</b> m</span>`
     : `<span class="kik-haz sand">bunker <b>${m(z.from)}–${m(z.to)}</b> m</span>`).join('<br>');
-  const gTxt = r.green.front !== null
-    ? `fram <b>${m(r.green.front)}</b> · mitt <b>${m(r.green.centre)}</b> · bak <b>${m(r.green.back)}</b> m`
-    : `mitt <b>${m(r.green.centre)}</b> m`;
+
+  /* the green: back over centre over front, the way it lies ahead of the ball */
+  kikSwap(kikGreen, r.green.front !== null
+    ? `<div class="kg-row back"><i>Bak</i><b>${m(r.green.back)}</b></div>` +
+      `<div class="kg-row mid"><i>Mitt</i><b>${m(r.green.centre)}<em>m</em></b></div>` +
+      `<div class="kg-row front"><i>Fram</i><b>${m(r.green.front)}</b></div>`
+    : `<div class="kg-row mid"><i>Green</i><b>${m(r.green.centre)}<em>m</em></b></div>`);
+  kikGreen.classList.add('show');
+
+  /* the tapped point carries its own number, where the eye already is */
+  const s = r.shot;
+  if (s) {
+    const rise = Math.abs(s.dh) >= 1 ? ` · ${m(Math.abs(s.dh))} m ${s.dh > 0 ? 'upp' : 'ned'}` : '';
+    const over = s.hazards.length ? ` · över ${s.hazards.some(z => z.type === 'vatten') ? '<u>vatten</u>' : 'bunker'}` : '';
+    kikSwap(kikTagBox, `<b>${m(s.dist)}<em>m</em></b><span>spelas <i>${m(s.plays.total)}</i>${rise}${over} · ${s.lie}</span>`);
+    kikTag.hidden = false;
+    kikTagUpdate();
+  } else { kikTag.hidden = true; kikTagXY.visible = false; }
+
+  /* the sheet: head, the row that is always shown, the rest behind a tap on a phone */
   const originLabel = r.fromGps ? `GPS · ±${Math.max(1, Math.round(r.gpsAccuracy || 0))} m`
     : r.fromTee ? `från tee ${r.tee}` : 'från bollen';
-  let html = `<div class="kik-head"><b>Kikaren</b><span class="${r.fromGps ? 'kik-live' : ''}">${originLabel}</span>` +
-             `${r.fromTee || r.fromGps ? '' : '<button class="kik-btn" data-act="tee">Från tee</button>'}</div><div class="kik-body">`;
-  html += `<div class="kik-row">Green · ${gTxt}</div>`;
-  if (r.shot) {
-    const s = r.shot;
-    html += `<div class="kik-row kik-big">Till punkten <b>${m(s.dist)} m</b> · ${m(Math.abs(s.dh))} m ${s.dh >= 0 ? 'uppför' : 'nedför'} · landar i ${s.lie}</div>`;
-    html += `<div class="kik-row">Spelas som <b>${m(s.plays.total)} m</b>${parts(s.plays)}</div>`;
+  let html = `<div class="kik-grab"></div><div class="kik-head" role="button" tabindex="0" aria-expanded="${kikOut.classList.contains('open')}">` +
+             `<b>Kikaren</b><span class="${r.fromGps ? 'kik-live' : ''}">${originLabel}</span>` +
+             `${r.fromTee || r.fromGps ? '' : '<button class="kik-btn" data-act="tee">Från tee</button>'}` +
+             `<svg class="kik-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg></div>`;
+  html += '<div class="kik-peek">';
+  if (s) {
+    html += `<div class="kik-line"><span>Till punkten <b>${m(s.dist)}</b> m · spelas som <b>${m(s.plays.total)}</b>${parts(s.plays)} · ${s.lie}</span>` +
+            `<button class="kik-btn" data-act="ball">Mät härifrån</button></div>`;
     if (s.hazards.length) html += `<div class="kik-row">${haz(s.hazards)}</div>`;
-    html += `<div class="kik-row"><button class="kik-btn" data-act="ball">Mät härifrån</button></div>`;
   } else {
-    html += `<div class="kik-row">Till green spelas som <b>${m(r.toGreen.plays.total)} m</b>${parts(r.toGreen.plays)}</div>`;
+    html += `<div class="kik-line"><span>Till green spelas som <b>${m(r.toGreen.plays.total)}</b> m${parts(r.toGreen.plays)}</span></div>`;
     if (r.toGreen.hazards.length) html += `<div class="kik-row">På linjen: ${haz(r.toGreen.hazards)}</div>`;
   }
   html += kikClubAdvice(r);
+  html += '</div><div class="kik-body">';
   if (r.layups.length) html += `<div class="kik-row">Lägg upp: ${r.layups.map(l => `${l.remain} m kvar → <b>${m(l.shot)}</b> m`).join(' · ')}</div>`;
   html += kikWxLine(r);
   html += '</div>';
-  kikOut.innerHTML = html;
+  kikSwap(kikOut, html);
   kikOut.classList.add('show');
   kikDraw(r);
+}
+/* the floating number follows its point through every camera move; off screen
+   it fades rather than sticking to an edge */
+function kikTagUpdate() {
+  if (!kik || !kikPt || kikTag.hidden) return;
+  const v = kikTagV.set(kikPt[0], terrainH(kikPt[0], kikPt[1]) + 1.1, kikPt[1]).project(camera);
+  const off = v.z > 1 || v.x < -1.04 || v.x > 1.04 || v.y < -1.04 || v.y > 1.04;
+  kikTag.style.opacity = off ? '0' : '1';
+  kikTagXY.visible = !off;
+  if (off) return;
+  const x = (v.x * 0.5 + 0.5) * innerWidth, y = (-v.y * 0.5 + 0.5) * innerHeight;
+  kikTagXY.x = x; kikTagXY.y = y;
+  kikTag.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
 }
 function kikWxLine(r) {
   const w = r.weather;
@@ -7938,11 +7993,19 @@ function kikPlaceBall(clientX, clientY) {
 }
 kikOut.addEventListener('click', e => {
   const b = e.target.closest('[data-act]');
-  if (!b) return;
+  if (!b) {
+    if (e.target.closest('.kik-head')) kikSheet(!kikOut.classList.contains('open'));
+    return;
+  }
   if (b.dataset.act === 'tee') kikBall = null;
-  else if (b.dataset.act === 'ball' && kikPt) { kikBall = kikPt; kikPt = null; }
+  else if (b.dataset.act === 'ball' && kikPt) { if (gpsState.active) stopGps(false); kikBall = kikPt; kikPt = null; }
   else if (b.dataset.act === 'bag') { openBag(); return; }
   kikRender();
+});
+kikOut.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('.kik-head') && !e.target.closest('[data-act]')) {
+    e.preventDefault(); kikSheet(!kikOut.classList.contains('open'));
+  }
 });
 /* ------------------------------------------------- greengrid (yardage book & slope visualization)
    Professional golf simulation green reading:
@@ -8958,6 +9021,7 @@ function frame() {
   if (skyDome) skyDome.position.copy(camera.position);
   updateSky();
   updateStrategy(now);
+  kikTagUpdate();
   drawMini();
   if (gridOn) updateGreenGrid(dt, now);
   if (!captureRenderLocked) renderActivePipeline();
@@ -9159,6 +9223,8 @@ window.V3D = {
     } : null,
     gps: { active: gpsState.active, point: gpsState.point ? [...gpsState.point] : null,
            accuracy: gpsState.accuracy, follow: gpsState.follow },
+    kik: { on: kik, point: kikPt ? [...kikPt] : null, ball: kikBall ? [...kikBall] : null,
+           sheetOpen: kikOut.classList.contains('open'), tag: kikTagXY.visible ? { x: kikTagXY.x, y: kikTagXY.y } : null },
   }),
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),

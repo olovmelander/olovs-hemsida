@@ -2221,6 +2221,45 @@ target)` returns the same numbers with no DOM, which is how the harness
 checked that the tee-to-centre distance on Puttom's 12th is the card's 110 m
 and that the line crosses the lake from 23 to 84 m.
 
+### On a phone the course is the product, and the readout must not cover it
+
+The first GPS mode put a 640 px Kikaren card over the fairway on a 844 px
+phone — green distances, the tapped point, plays-like, the club, layups and
+weather in one panel under a full-width GPS banner — and every data gate
+passed while the course itself was a strip at the bottom. Measured against
+the apps golfers already hold (Hole19, Golfshot, 18Birdies, Garmin, Arccos)
+the shape they all share is the same: the map is the screen, the three green
+numbers sit in a narrow stack at an edge with the centre number largest, a
+tapped distance is drawn AT THE POINT and not in a panel, the club and the
+detail live in a sheet that rests as one row and opens on a pull, and "follow
+me" is a round locate button in a corner. Kikaren is that now, on all six
+courses and both form factors, with one DOM and two layouts:
+
+- `#kikGreen` is the green stack: back over centre over front on a phone, the
+  way the green lies ahead of the ball (a row on desktop, front to back). It
+  docks under the hole card at the right edge, and under the locate button
+  when GPS is on.
+- `#kikTag` floats the tapped distance at the tapped point — `kikTagUpdate`
+  projects the point through the camera every frame and fades it when it
+  leaves the screen. It is what makes a tap feel like a rangefinder.
+- `#kikOut` is the sheet: head (origin, "Från tee", a chevron), the row that
+  always shows (the shot line or the plays-like to green, hazards, the club),
+  and a body (layups, weather) that a phone hides behind a tap on the head.
+  Every surface is rewritten only when its text changes (`kikSwap`), or a
+  GPS fix every four seconds would reset a sheet someone is reading.
+- `#gpsStatus` is a pill (pulse · hole · ±accuracy · ×) beside a locate button
+  that is the follow state; on a phone the row spans the top with the pill at
+  the left and the button at the right, and neither covers anything.
+
+`tools/check-caddie-ui.mjs` measures the phone layout rather than trusting
+it: the sheet rests in the bottom 20% of the screen above the quick actions,
+the stack is under 120 px wide at the right edge, the tag's anchor lands
+within 3 px of the tapped pixel, no two surfaces overlap, and the sheet opens
+and folds on its head. Two things to keep: "Mät härifrån" in GPS mode now
+leaves GPS the same way a long press does (before, the GPS origin silently
+won over the moved ball and the button did nothing); and the desktop keeps
+the panel it always had — the sheet's `open` state is inert there by CSS.
+
 ### The clubhouses, and what a photograph is for
 
 **Two of six were not being drawn as clubhouses at all.** The buildings pass
