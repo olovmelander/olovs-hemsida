@@ -325,13 +325,18 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
     groundCount: 7,
     courseCount: 10,
     holeCount: 144,
-    uniqueGroundWindowCount: 194,
+    /* 194 and 704 until later on 2026-09-05, when Veckefjärden's water and ditches
+       became laser readings (laser-water.mjs, the 4th's and 18th's ditches): the
+       12th's pond is two lobes and the 2 m fjärd shoreline reaches one more 256 m
+       control window */
+    uniqueGroundWindowCount: 195,
     /* 702 until 2026-09-05, when the Johannesberg nine's 2nd, 7th and 8th greens
        became measured rings (trace-nine.mjs) and two of them reach a second
-       256 m control window; 706 since Ängsö's bunkers and ponds were measured
-       off the laser and the calibrated capture, which moved two of its features
-       into a neighbouring control window */
-    requestedWindowReferences: 706,
+       256 m control window, and 709 when that pass measured three more; 711
+       since Angso bunkers and ponds were measured off the laser and the
+       calibrated capture, which moved two of its features into a neighbouring
+       control window */
+    requestedWindowReferences: 711,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,

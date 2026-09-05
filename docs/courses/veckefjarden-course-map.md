@@ -89,11 +89,21 @@ Adopted on a valley score ≥ 0.4 and a mean depth ≥ 0.3 m, or on the club's w
 | 10 | 366 m | 0.59 m | one of the two the club counts |
 | 16 | 153 m | 0.52 m | — |
 | 17 | 70 m and 31 m | 0.43 / 0.34 m | the crossing ditch the club states and the model lacked |
+| 4 | 22 m | 0.32 m | "till vänster ett dike" — a 99 m valley crossing the line just short of the green, score 0.35, admitted on the club's word |
+| 18 | along, right of the second shot | 0.19 m | "bäcken gör sig påmind på andraslaget" — the 16th's crossing ditch continued 110 m south-east along the laser valley to within 60 m of the line; it never crosses |
 
-Not found with a signature strong enough to adopt: the 4th's left ditch (it runs along,
-under trees), the 8th's at 60 m (score 0.20), the 10th's first ditch, the 18th's brook
-and approach ditch (the DTM shows the tee complex's own mounds there instead). All eleven
-carve the terrain and are staked red, which is what the club's rules say every ditch is.
+Thirteen now. The 10th's "first ditch" is the 366 m crossing already in the table, and
+the 8th has no ditch in the club's text at all (an earlier note here invented one). The
+18th's "diket vid inspelet" is the OSM stream beside the approach pond, 14 m from where
+the valley filter peaks. All thirteen carve the terrain and are staked red, which is
+what the club's rules say every ditch is.
+
+**A re-run of `derive-dtm-features` must not believe its own earlier output.** The
+model folds `dtm-features.json` in on every reconcile, so on the second run the
+crossing filter found every ditch "already in OSM" (it compared against all streams,
+its own included) and the deck finder found no synth pad left to look under: 9 ditches
+and 12 decks silently gone, on the documented chain order too. Both tests now skip
+`prov:"dtm"`; a deck found on an earlier run is re-measured, never inherited.
 
 ### Greens
 
@@ -104,6 +114,40 @@ centre) reached IoU 0.33–0.80 against the OSM greens and was **not** adopted �
 green and its fairway are not separable in 0.27 m autumn imagery by colour (green R 62–77
 against fairway 65–87) or by texture (2.3 against 3.0). The club's "two plateaus" on the
 1st is in the notes, not the geometry.
+
+**The second attempt (later the same day) tried five more ways and measured each on
+the 12 surveyed greens.** Esri's Wayback service holds every past release of World
+Imagery, and release 27982 (2025-04-24) is ONE leaf-on capture over the whole course
+— the live mosaic is a patchwork whose southern tiles are a leaf-off date with the
+1st's green under its winter cover (`geobuild/cache/sat18-27982`, fetched by the
+scratch tool with `SAT_REL=27982`). On that capture every green reads as a paler
+disc by eye at 3 px/m, and still nothing traces it:
+
+| method | median IoU vs the 12 OSM greens |
+|---|---|
+| first significant brightness step outward from the GPS centre | 0.65 |
+| the club plan's own green fill, bunker-registered and aligned | 0.64 — raw 0.51; the plan draws fairway green too |
+| 1.5 m-smoothed brightness blob | 0.54 |
+| brightness with the laser-roughness z-score folded in | 0.48 |
+| 1 m DTM roughness alone (greens ARE the smoothest surface: 0.014–0.025 vs 0.024–0.044 in the collar, on all 12) | 0.46 |
+| polar edge at the largest brightness step (locks on the apron) | 0.44 |
+
+Those are `geobuild/imagery/green-tracers.mjs`'s own numbers at its default
+settings. Quoting the tool rather than a scratch script is deliberate: three of the
+six values first written here were wrong for a day, carried from throwaway code whose
+sampling window and thresholds differed and one of whose medians was simply misread.
+
+The best score is not a near miss. That tracer's areas run a median 1.1 times the
+surveyed ones over a 0.8 to 2.4 range, so it has the size right on average and the
+shape wrong hole by hole — which is what every method here does, because the imagery
+shows the green COMPLEX and no threshold separates the putting surface from it.
+A blind eye-trace of the 13th on the leaf-on image put its oval east–west; the survey
+runs north–south. So the six plan greens keep their plan shape on the survey centre,
+and that is written down as the limit of what exists: a survey or a leafed-on image
+at better than 0.27 m is what finishes them. One thing did improve on the way:
+registering each plan on its DTM-measured bunkers instead of the drawn flag cuts the
+pin-end registration error from 5–16 m to 2–8 m (the flag is drawn where the pin was,
+not at the green's centre).
 
 ### Marking
 
@@ -124,6 +168,24 @@ All 14 ponds measured against the laser plate inside their OSM rings: 10 are dea
 (p05 = p95) at 0.1–0.3 m from the model's level, which confirms both the outlines and the
 Terrarium levels; Hörnsjön alone sits 5.5 m too high (the dossier's finding, left, since
 its GPK1 shore is Terrarium too). The fjärd's ring is where the plate says it is.
+
+**The shorelines are the laser's now** (`geobuild/laser-water.mjs` →
+`laser-water.json`, folded in by reconcile as `prov:"laser"`). The fjärd is one flat
+plate at 0.280 m RH 2000 across the whole DTM window, 116.9 ha, no flight-strip seam.
+Its boundary, traced at 2 m vertices within 300 m of a hole line and 6 m beyond, replaces
+the OSM ring inside the window and is spliced onto the OSM ring on the window edge
+(2044 vertices, no self-intersection, area 196.3 ha against OSM's 196.26). Near the
+course the OSM shore was a median 2.0 m off, p95 8.6 m; two places were really wrong: by
+the 3rd OSM cut a 200 m chord across a convex shore and drew land 17 m into the water,
+and by the 15th's piers a 45 m × 8 m mole carrying the path stands 0.7–1.1 m above the
+water and OSM ends 17 m short of it. The island 14th is NOT an island at water level —
+the laser draws OSM's neck, tighter. Every pond inside the window has a plate (≥ 88 % of
+its interior within ±0.075 m) and its ring is the plate's outline; the 12th's pond is a
+dumbbell the laser splits into two lobes (1054 + 480 m²), carried as two bodies. Levels
+stay the heightfields' — the laser plate in legacy metres lands 0.1–0.4 m from them and
+the Terrarium terrain the GPK1 water sits on is what those levels were measured from —
+with the laser reading kept as `levelLaser` beside each; Hörnsjön's is 101.59 against
+the model's 107.06.
 
 ## 3. The inventory, by category
 
@@ -161,6 +223,15 @@ its GPK1 shore is Terrarium too). The fjärd's ring is where the plate says it i
 
 ## 4. How to look at it
 
+The imagery tools of the second pass live in `geobuild/imagery/` (usage in each header
+and in CLAUDE.md): `wayback.mjs` fetches a dated capture, `crops.mjs` renders the
+tracing crops every finding above was read from (`sheet` all greens, `green` one at
+8 px/m, `evidence` imagery | smoothed brightness | laser roughness, `object` buildings
+and lots), `green-tracers.mjs` re-runs the six methods and prints their IoU,
+`plan-register.mjs` registers the plans on their bunkers, and
+`treecover-vs-imagery.mjs` paints where the raster and a leaf-on read disagree.
+`geobuild/laser-water.mjs` is the shoreline reader.
+
 - `node geobuild/derive-dtm-features.mjs` prints every match (plan bunker → real
   bunker, with the distance), every drop, every ditch with its metres-to-green.
 - The review pictures used here were two-panel crops — hillshade left, imagery right,
@@ -178,14 +249,20 @@ its GPK1 shore is Terrarium too). The fjärd's ring is where the plate says it i
   imagery caught the field unmown and shows no mats; the club's own site speaks of a
   flagpole-lined range with covered bays. A photograph is needed, as at Puttom.
 - **The padel courts and the hotel** are not drawn as what they are (the hotel is a
-  plain building in the clubhouse cluster; the courts are not in OSM).
+  plain building in the clubhouse cluster; the courts are not in OSM). The four
+  buildings read off the screenshot ARE re-read on the z18 orthoimagery now (the two
+  south of the E4 underpass and the two in the machinery yard were 8–13 m out and up to
+  twice their size; one was shadowed material, now a 15 × 25 m shed) — every OSM
+  footprint and parking lot at the clubhouse sits on the imagery exactly.
 - **Cart paths**: OSM's 69 paths are what the model has. The laser terrain shows more
   (the ribbons are clear in hillshade) and the imagery shows them too; they are not
   traced yet. The five bridges the club names (6, 8, 10, 11, 16/17) exist only where a
   mapped path crosses a modelled water line.
-- **The 4th's left ditch, the 8th's at 60 m, the 18th's brook and approach ditch** are
-  the club's word only.
-- **Plan greens** keep the reader's shape. Only a survey or a better image fixes that.
+- **Plan greens** keep the reader's shape. Six methods on two images and the laser
+  terrain cap at a median IoU of 0.65 against the survey, with the size right on
+  average and the shape wrong hole by hole (see §2, Greens). Only a survey or a
+  better image fixes that.
+- **Hörnsjön's outline** is outside the DTM window and stays OSM; four far ponds too.
 - **The v2 vegetation exclusions** were compiled on the pre-correction greens; the
   three greens that moved 11–19 m were not masked where they really are. Real crowns do
   not stand on real greens, so the risk is small, but the next vegetation publish should

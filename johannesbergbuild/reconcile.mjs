@@ -41,6 +41,12 @@ const traces = readJSON(path.join(HERE, 'sat-shapes.json'));
 const hf = readJSON(path.join(HERE, 'heightfields.json'));
 const straces = (() => { try { return readJSON(path.join(HERE, 'sat-traces.json')); } catch { return {}; } })();
 const nine = (() => { try { return readJSON(path.join(HERE, '..', 'johannesberg9build', 'course-model.json')); } catch { return null; } })();
+/* Read off the 1 m laser terrain and the orthoimagery, both optional so a fresh clone
+   still reconciles: laser-water.mjs measures every pond's surface as the flat plate the
+   laser delivers it as, and derive-dtm-features.mjs finds the bunkers, ditches and tee
+   decks the two orthorectified sources agree on. */
+const lw = (() => { try { return readJSON(path.join(HERE, 'laser-water.json')); } catch { return null; } })();
+const dtm = (() => { try { return readJSON(path.join(HERE, 'dtm-features.json')); } catch { return null; } })();
 
 /* --- terrain sampler ---------------------------------------------------------- */
 const H0 = hf.hf0, grid0 = decodeHF(H0);
@@ -226,6 +232,25 @@ for (const w of straces.water || []) {
                area: Math.round(Math.abs(polyArea(ring))), level: levelOfRing(ring), isLake: false, prov: 'trace' });
 }
 
+/* Every level above came from AWS Terrarium, whose datum here is 5.6676 m off RH 2000
+   and whose SHAPE over this parkland is poor. Where the laser delivers a ring's interior
+   as a flat plate, that plate IS the water surface, so it replaces the sampled level --
+   per ring, never as one offset, and only where the plate was actually measured. */
+if (lw) {
+  let n = 0; const moved = [];
+  for (const rec of lw.water) {
+    if (rec.levelLegacy === undefined) continue;
+    const w = water.find(x => x.id === rec.id);
+    if (!w) continue;
+    moved.push(+(rec.levelLegacy - w.level).toFixed(2));
+    w.level = rec.levelLegacy; w.levelSrc = 'laser'; w.levelRH2000 = rec.levelRH2000; w.platePct = Math.round(100 * rec.plateFraction);
+    n++;
+  }
+  const unmeasured = water.filter(w => w.levelSrc !== 'laser').map(w => w.name || w.id);
+  console.log(`water levels: ${n} of ${water.length} rings taken from the laser plate (Terrarium moved ${Math.min(...moved).toFixed(2)} to +${Math.max(...moved).toFixed(2)} m)` +
+    (unmeasured.length ? `; ${unmeasured.join(', ')} lie outside the 1 m window and keep theirs` : ''));
+}
+
 /* --- the driving range --------------------------------------------------------- */
 /* OSM maps no golf=driving_range here — the club's property polygon only mentions
    one in its description — so the range is traced off the imagery exactly like the
@@ -388,6 +413,42 @@ for (const r of report) {
   const bad = r.lenDev > 0.5;
   console.log(`${String(r.n).padStart(4)}  ${r.par}  ${String(r.card).padStart(4)}  ${String(r.lineLen).padStart(6)}  ${String(r.lenDev).padStart(5)}  ${String(r.slide).padStart(5)}  ${String(r.area).padStart(8)}  ${r.prov.padEnd(9)}  ${r.conf}${bad ? '  <-- CHECK' : ''}`);
 }
+/* ------------------------- what the laser and the imagery measured, folded in ----- */
+/* dtm-features.json is derived from two orthorectified sources, so anything in it is
+   registered by construction. It replaces a traced outline only where BOTH sources
+   agree at that place, which is why the counts below are a fraction of the traces:
+   the rest keep the outline they had and are listed as unconfirmed, never dropped. */
+if (dtm) {
+  let bk = 0;
+  for (const d of dtm.bunkers) {
+    const H = holes.find(h => h.n === d.hole); if (!H) continue;
+    if (d.was === null) { H.bunkers.push({ ring: d.ring, prov: 'dtm', dish: d.dish }); bk++; continue; }
+    /* the trace nearest this detection is the one it measured */
+    let best = -1, bd = 1e9;
+    H.bunkers.forEach((b, i) => { const c = centroid(b.ring); const dd = dist(c, d.c); if (dd < bd && b.prov !== 'dtm') { bd = dd; best = i; } });
+    if (best >= 0 && bd <= 12) { H.bunkers[best] = { ring: d.ring, prov: 'dtm', was: d.was, dish: d.dish, movedMetres: d.moved }; bk++; }
+  }
+  /* a tee deck is a plateau under a card tee mark: prepared ground the traces missed */
+  let dk = 0;
+  for (const d of dtm.decks) {
+    const H = holes.find(h => h.n === d.hole); if (!H) continue;
+    if (H.tees.pads.some(q => dist([q.cx, q.cz], d.c) < 7)) continue;
+    const L = H.line, ang = Math.round(Math.atan2(L[1][0] - L[0][0], -(L[1][1] - L[0][1])) * 180 / Math.PI);
+    H.tees.pads.push({ ring: d.ring, cx: r1(d.c[0]), cz: r1(d.c[1]), ang, prov: 'dtm', areaM2: d.area });
+    dk++;
+  }
+  /* and the watercourses the laser could follow along their own valley bottom */
+  let rf = 0;
+  for (const r of dtm.refinedStreams || []) {
+    if (!r.adopted || !r.line) continue;
+    const st = model.streams.find(q => q.id === r.id); if (!st) continue;
+    st.line = r.line; st.prov = 'dtm'; st.meanDepth = r.meanDepth; st.movedMetres = r.medianMoveMetres;
+    rf++;
+  }
+  console.log(`laser + imagery: ${bk} bunkers measured (of ${holes.reduce((a, h) => a + h.bunkers.length, 0)}), ${dk} tee decks added, ${rf} watercourses re-run along their valley`);
+  if ((dtm.ditchCandidates || []).length) console.log(`  ${dtm.ditchCandidates.length} laser-only channel(s) recorded in dtm-features.json and NOT modelled: no club record names water there`);
+}
+
 const devs = report.map(r => r.lenDev);
 const osmN = report.filter(r => r.prov.startsWith('osm')).length;
 console.log(`\nlength dev max ${Math.max(...devs).toFixed(2)}%  ·  greens: ${osmN} from OSM, ${18 - osmN} traced`);

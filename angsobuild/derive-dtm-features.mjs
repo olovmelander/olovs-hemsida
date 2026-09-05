@@ -26,18 +26,18 @@
    Writes angsobuild/dtm-features.json, which reconcile.mjs folds in.        */
 import path from 'node:path';
 import { readJSON, writeJSON } from './lib.mjs';
-import { loadTerrain, imagery, BOX } from './dtm.mjs';
+import { loadTerrain, imagery, BOX, CAPTURE } from './dtm.mjs';
 import { blackTopHat, inRing, bboxOf, lineD, ringD, median, quant, areaOf, meanPt, hull, simplify } from '../geobuild/dtm-lib.mjs';
 
 const HERE = path.dirname(new URL(import.meta.url).pathname);
 const argv = process.argv.slice(2);
-const RELEASE = argv.includes('--release') ? +argv[argv.indexOf('--release') + 1] : null;
+const RELEASE = argv.includes('--release') ? +argv[argv.indexOf('--release') + 1] : CAPTURE;
 const OUT = argv.includes('--out') ? argv[argv.indexOf('--out') + 1] : path.join(HERE, 'dtm-features.json');
 const m = readJSON(path.join(HERE, 'course-model.json'));
 const shapes = readJSON(path.join(HERE, 'sat-shapes.json'));
 const T = loadTerrain();
 const { hAt } = T;
-const I = imagery(RELEASE);
+const I = await imagery(RELEASE);
 console.log(`terrain: ${T.tiles} tiles, ${T.W}x${T.H} at 1 m; imagery ${RELEASE ? `Wayback release ${RELEASE}` : 'live mosaic'}:`, await I.ensureImagery(BOX.x0, BOX.z0, BOX.x1, BOX.z1), `${I.metresPerPixel.toFixed(3)} m/px`);
 
 /* ---------------------------------------------------------------- sand pixels */
@@ -167,9 +167,16 @@ console.log(`sand-over-dish candidates: ${cands.length}`);
    beside it is the CHECK; a satellite-traced one is replaced by the measured
    hull, or, with no sand within reach, kept if its laser dish confirms it and
    dropped if nothing does */
+/* The trace is read from sat-shapes.json, NEVER from the reconciled model:
+   this tool's output is folded back into that model, so reading the model
+   would measure the previous run's answer and a trace-based fallback would
+   drift a little further on every pass. The surveyed bunkers still come from
+   the model, because nothing here ever rewrites them. */
+const tracedOf = n => (shapes.holes.find(t => t.hole === n)?.bunkers || []).map(b => ({ ring: b.ring, prov: 'sat' }));
 const bunkers = [], used = new Set(), log = [], osmCheck = [];
 for (const h of m.holes) {
-  for (const [bi, b] of h.bunkers.entries()) {
+  const source = [...h.bunkers.filter(b => b.prov === 'osm'), ...tracedOf(h.n)];
+  for (const [bi, b] of source.entries()) {
     const bc = meanPt(b.ring);
     let best = null, bd = 1e9;
     for (const [k, c] of cands.entries()) { if (used.has(k) || c.scenery) continue; const d = Math.hypot(c.c[0] - bc[0], c.c[1] - bc[1]); if (d < bd) { bd = d; best = k; } }
@@ -241,8 +248,12 @@ function snap(a, b) {
   return { pts, line: simplify(pts, 0.8).map(p => [+p[0].toFixed(1), +p[1].toFixed(1)]), meanDepth: +mean.toFixed(2) };
 }
 const inWater = (x, z) => m.water.some(w => inRing(x, z, w.ring));
+/* the watercourses that did NOT come from this tool (OSM plus the laser
+   tracing), so a re-run does not congratulate itself for what it added last
+   time and then drop it */
+const knownStreams = m.streams.filter(s => s.prov !== 'dtm');
 const ditches = [], crossings = [];
-const nearStream = line => m.streams.some(st => line.reduce((a, p) => a + lineD(p[0], p[1], st.line), 0) / line.length < 12) || ditches.some(d => line.reduce((a, p) => a + lineD(p[0], p[1], d.line), 0) / line.length < 10);
+const nearStream = line => knownStreams.some(st => line.reduce((a, p) => a + lineD(p[0], p[1], st.line), 0) / line.length < 12) || ditches.some(d => line.reduce((a, p) => a + lineD(p[0], p[1], d.line), 0) / line.length < 10);
 for (const h of m.holes) {
   const L = h.line; let total = 0; const segs = []; for (let i = 0; i < L.length - 1; i++) { const d = Math.hypot(L[i + 1][0] - L[i][0], L[i + 1][1] - L[i][1]); segs.push(d); total += d; }
   const at = s => { let acc = 0; for (let i = 0; i < segs.length; i++) { if (s <= acc + segs[i]) { const t = (s - acc) / segs[i]; return [L[i][0] + (L[i + 1][0] - L[i][0]) * t, L[i][1] + (L[i + 1][1] - L[i][1]) * t, i]; } acc += segs[i]; } return [L[L.length - 1][0], L[L.length - 1][1], segs.length - 1]; };
@@ -252,7 +263,7 @@ for (const h of m.holes) {
     const p = prof[i];
     if (p.score < 0.15 || prof.slice(Math.max(0, i - 12), i + 13).some(q => q.score > p.score)) continue;
     if (inWater(p.p.x, p.p.z)) continue;
-    let sd = 1e9; for (const st of m.streams) sd = Math.min(sd, lineD(p.p.x, p.p.z, st.line));
+    let sd = 1e9; for (const st of knownStreams) sd = Math.min(sd, lineD(p.p.x, p.p.z, st.line));
     crossings.push({ hole: h.n, toGreen: p.toGreen, score: +p.score.toFixed(2), at: [+p.p.x.toFixed(1), +p.p.z.toFixed(1)], knownStreamDist: +sd.toFixed(1) });
     if (sd < 12) continue;                                            /* the model has it */
     if (p.score < 0.4) continue;
@@ -289,13 +300,13 @@ function decks(cx, cz, R) {
 }
 const deckOut = [], padCheck = [];
 for (const h of m.holes) {
-  for (const p of h.tees.pads) {
+  for (const p of h.tees.pads.filter(p => p.prov !== 'dtm')) {
     const pc = [p.cx, p.cz];
     const cand = decks(pc[0], pc[1], 16).filter(d => inRing(pc[0], pc[1], d.ring) || Math.hypot(d.c[0] - pc[0], d.c[1] - pc[1]) < 9).sort((a, b) => b.n - a.n);
     padCheck.push({ hole: h.n, pad: pc, deck: cand.length ? cand[0].c.map(v => +v.toFixed(1)) : null, deckArea: cand.length ? Math.round(areaOf(cand[0].ring)) : null, offsetToDeck: cand.length ? [+(cand[0].c[0] - pc[0]).toFixed(1), +(cand[0].c[1] - pc[1]).toFixed(1)] : null });
   }
   for (const [mi, mk] of h.tees.marks.entries()) {
-    if (h.tees.pads.some(p => inRing(mk.c[0], mk.c[1], p.ring) || Math.hypot(p.cx - mk.c[0], p.cz - mk.c[1]) < 8)) continue;
+    if (h.tees.pads.filter(p => p.prov !== 'dtm').some(p => inRing(mk.c[0], mk.c[1], p.ring) || Math.hypot(p.cx - mk.c[0], p.cz - mk.c[1]) < 8)) continue;
     const cand = decks(mk.c[0], mk.c[1], 20).filter(d => inRing(mk.c[0], mk.c[1], d.ring) || Math.hypot(d.c[0] - mk.c[0], d.c[1] - mk.c[1]) < 9).sort((a, b) => b.n - a.n);
     if (!cand.length || areaOf(cand[0].ring) > 400) continue;
     const ring = cand[0].ring.map(q => [+q[0].toFixed(1), +q[1].toFixed(1)]);

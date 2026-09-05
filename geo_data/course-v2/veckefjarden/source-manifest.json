@@ -341,7 +341,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "geobuild/course-model.json",
-      "sha256": "6b31022548c0f66539f6ad4eaf2b159174a9253f9b4345dc15444967dcab6f4b",
+      "sha256": "938823c626068d8f464c7318dc84e95fa6c11711f215354b229c441b31fc1093",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -425,7 +425,7 @@
       "id": "legacy-surroundings",
       "kind": "topography",
       "path": "geobuild/surroundings-traces.json",
-      "sha256": "2126019260cf925e0ea11c20bfd0670f4396ac23946fc787206fc8fa8e31efa2",
+      "sha256": "f202cb43836e7847fd9e8adca9433151dd35598fd3afd1a39311ad46fb17037b",
       "derivedFrom": [
         "esri-imagery-legacy",
         "osm-legacy"
@@ -451,7 +451,7 @@
       "id": "legacy-short-course-model",
       "kind": "composite",
       "path": "veckefjardenkortbuild/course-model.json",
-      "sha256": "cb8af623eb122b2e08e7062b13056c4961284c18920ee97a1edb0e5cb48eb561",
+      "sha256": "4cdc23854e79f96b65ee34a430cbfbbcd5d884b795d5c7afb68f0e638457647d",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -477,7 +477,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/veckefjarden/migration/course-model.epsg3006.json",
-      "sha256": "427448197d9a66479f13bb47838d3bc0b9a28dc8d67f9e783b62e3cc919bc3a9",
+      "sha256": "a7a36c6a678be6bee217c077d18636fdae63389f663549fd515c640d42c7c4d2",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -492,7 +492,7 @@
       "id": "migration-short-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/veckefjarden/migration/short-course-model.epsg3006.json",
-      "sha256": "6a39100a94e6161e4f385eb2fc76e0c59901a595e5a5b62bdfbcd9de419b2921",
+      "sha256": "eed0959e725e2904e1970806d3d5dd65c865a4bb0263e169ab28735765042725",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -543,7 +543,7 @@
       "id": "legacy-dtm-features",
       "kind": "surface",
       "path": "geobuild/dtm-features.json",
-      "sha256": "c44b9f0633ce2b46f161c83ac8f9239411994d9e9b84334ae176a4baae9eed87",
+      "sha256": "95b80b6c81afeae43051399f2edf00c0f47a625565ea082d41d082fec3c2fe07",
       "derivedFrom": [
         "esri-imagery-legacy"
       ],
@@ -560,6 +560,17 @@
       ],
       "use": "migration-only",
       "notes": "The club's Lokala regler och tävlingsvillkor 2025, transcribed: out-of-bounds per hole, red-only penalty areas, bridges, drainage ditches. reconcile.mjs derives the white marking from it."
+    },
+    {
+      "id": "legacy-laser-water",
+      "kind": "surface",
+      "path": "geobuild/laser-water.json",
+      "sha256": "2365df0897305b69b77414cb7b5b250f5d629a70edc53bd32679227cedd5ecf8",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "migration-only",
+      "notes": "The fjärd's shoreline and every pond's outline read off the flat water plates in the published 1 m laser terrain (0.280 m RH 2000 for the lake), traced at 2 m near the course and spliced onto the OSM ring on the DTM window's edge; derived 2026-09-05 by geobuild/laser-water.mjs, adopted by reconcile.mjs as prov 'laser'."
     }
   ],
   "blockers": [

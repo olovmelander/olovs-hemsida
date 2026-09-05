@@ -141,12 +141,18 @@ for (const h of m.holes) {
     const p = prof[i];
     if (p.score < 0.15 || prof.slice(Math.max(0, i - 12), i + 13).some(q => q.score > p.score)) continue;
     if (inWater(p.p.x, p.p.z)) continue;
-    let sd = 1e9; for (const st of m.streams) sd = Math.min(sd, lineD(p.p.x, p.p.z, st.line));
+    /* OSM's watercourses, never this script's own earlier output: the model folds
+       dtm-features.json in on every reconcile, so a re-run must not mistake its
+       own ditches for OSM's and drop them */
+    let sd = 1e9; for (const st of m.streams) if (st.prov !== 'dtm') sd = Math.min(sd, lineD(p.p.x, p.p.z, st.line));
     if (sd < 12) continue;                                             /* OSM already has it */
     /* adopted on a strong valley signature, or on the club's word: the 17th's crossing
        ditch is a club fact the model lacked */
-    if (p.score < 0.4 && !(h.n === 17 && p.toGreen < 90)) continue;
-    if (Math.hypot(p.p.x - L[0][0], p.p.z - L[0][1]) < 30 || p.toGreen < 25) continue;
+    /* the 4th's is the club's too ("till vänster ett dike" at the green): a 99 m valley
+       crossing the line 22 m short of the green, score 0.35, depth 0.32 */
+    const byWord = (h.n === 17 && p.toGreen < 90) || (h.n === 4 && p.toGreen >= 15 && p.toGreen < 40);
+    if (p.score < 0.4 && !byWord) continue;
+    if (Math.hypot(p.p.x - L[0][0], p.p.z - L[0][1]) < 30 || (p.toGreen < 25 && !byWord)) continue;
     if (h.tees.pads.some(q => q.prov === 'osm' && Math.hypot(q.c[0] - p.p.x, q.c[1] - p.p.z) < 10)) continue;
     const d = p.p.dir;
     const s = snap([p.p.x + d[0] * 45, p.p.z + d[1] * 45], [p.p.x - d[0] * 45, p.p.z - d[1] * 45]);
@@ -164,6 +170,19 @@ for (const h of m.holes) {
     if (nearDitch(line)) continue;
     ditches.push({ hole: h.n, line, kind: 'ditch', meanDepth: +mean.toFixed(2), crossesAt: p.toGreen, src: 'dtm', note: `crosses the playing line ${p.toGreen} m from the green (valley score ${p.score.toFixed(2)})` });
   }
+}
+/* the 18th's brook ("bäcken gör sig påmind på andraslaget"): OSM's brook ends north of
+   the fairway and the laser valley carries on south-east to within 60 m of the line at
+   the second shot, never crossing it -- traced from the OSM end to the valley's end */
+{
+  /* the valley it continues is the 16th's crossing ditch, found in this same run */
+  const ends = [...m.streams.filter(st => st.prov !== 'dtm').map(st => st.line), ...ditches.map(dd => dd.line)].flatMap(l => [l[0], l[l.length - 1]]);
+  const tail = [-45, -658];
+  const from = ends.slice().sort((q1, q2) => Math.hypot(q1[0] + 100, q1[1] + 720) - Math.hypot(q2[0] + 100, q2[1] + 720))[0];
+  const s18 = snap(from, tail);
+  let mean = 0; for (const q of s18.pts) mean += thAt(q[0], q[1]); mean /= s18.pts.length;
+  const line = simplify(s18.pts, 0.8).map(q => [+q[0].toFixed(1), +q[1].toFixed(1)]);
+  ditches.push({ hole: 18, line, kind: 'ditch', meanDepth: +mean.toFixed(2), crossesAt: null, src: 'dtm', note: `the club: "bäcken gör sig påmind på andraslaget" -- the brook's mapped end at (${from.map(v => v.toFixed(0)).join(', ')}) continued ${Math.round(s18.pts.length)} m south-east along the laser valley to (${tail.join(', ')}), right of the line at the second shot; it never crosses the line` });
 }
 /* the two the club names that run ALONG a hole and so never cross a line */
 const h3 = snap([-53, -23], [-78, 77]);
@@ -183,7 +202,7 @@ function decks(cx, cz, R) {
 }
 const deckOut = [];
 for (const h of m.holes) for (const p of h.tees.pads) {
-  if (p.prov !== 'synth') continue;
+  if (p.prov !== 'synth' && p.prov !== 'dtm') continue;   /* a deck found on an earlier run is re-measured, not kept by inheritance */
   const cand = decks(p.c[0], p.c[1], 20).filter(d => inRing(p.c[0], p.c[1], d.ring) || Math.hypot(d.c[0] - p.c[0], d.c[1] - p.c[1]) < 9).sort((a, b) => b.n - a.n);
   if (!cand.length || areaOf(cand[0].ring) > 400) continue;              /* a whole fairway is flat too */
   const ring = cand[0].ring.map(q => [+q[0].toFixed(1), +q[1].toFixed(1)]);

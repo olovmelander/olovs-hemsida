@@ -1072,3 +1072,155 @@ paths now carve); the far basin beyond the frontier still carves through the
 legacy `terrainH`; and the two low islets stay drowned. A licensed
 orthophoto or the neighbouring break-geometry items would let the far
 shoreline be laser too (§13, blocker 3).
+
+## 19. The played surfaces, read by rule off the imagery and the laser (2026-09-05)
+
+§16 concluded that the played surfaces should not be hand-retraced, and that
+stands: a hand trace at ±4 m would have degraded survey-grade centres. What
+the same imagery DOES support is classification by rule, and a second look at
+it showed why: the Esri z18 capture is leaf-off spring, on which every mown
+surface is vivid green against dormant brown pasture, and each green shows as
+a darker, finer patch inside a lighter collar. Measured (`cache/dev/calibrate.mjs`):
+excess green 2G−R−B reads 98–118 at the nine surveyed green centres, p90 59 on
+the rough 70–130 m off the course; the laser plane residual is 0.007–0.016 m
+on the greens against a median 0.036 m on the rough. Two orthorectified
+records, no registration step, and the only question each feature answers is
+whether they agree at a place. `ribbingsforsbuild/trace-surfaces.mjs` writes
+`surface-traces.json` and a review sheet per hole (`cache/review/hole-N.png`,
+looked at); `apply-surface-traces.mjs` folds it in.
+
+### 19.1 Greens — the collar-bounded patch around the survey point
+
+A green is grown from its GPS centre on 0.5 m box-smoothed colour: excess
+green within a drop of the green's own 4 m core and brightness under the core
+plus a cap (the collar is brighter), opened, the component holding the centre,
+holes filled. A green's approach can be exactly as green as its putting
+surface, so the loosest reading leaks down the fairway and fails compactness,
+while the tightest readings erode the green's own edge; the rule therefore
+takes six readings from loose to tight and keeps the **largest that stays
+compact** (180–800 m², solidity ≥ 0.85, centroid within 6 m of the survey
+point). All nine pass. The centres stay the survey points.
+
+| hole | m² | solidity | centroid shift m | reading | laser roughness m |
+|---|---|---|---|---|---|
+| 1 | 406 | 0.983 | 0.9 | D | 0.007 |
+| 2 | 513 | 0.88 | 2.2 | B | 0.007 |
+| 3 | 471 | 0.94 | 2.6 | D | 0.006 |
+| 4 | 321 | 0.861 | 3.2 | B | 0.005 |
+| 5 | 605 | 0.954 | 2.6 | B | 0.011 |
+| 6 | 286 | 0.955 | 1.2 | E | 0.005 |
+| 7 | 497 | 0.97 | 2.4 | B | 0.007 |
+| 8 | 216 | 0.88 | 2.8 | B | 0.01 |
+| 9 | 462 | 0.884 | 1.3 | E | 0.006 |
+
+### 19.2 Tee decks and routing
+
+A deck is laser-flat ground (5 × 5 m spread under 0.12 m) that is mown or
+lies within 12 m of a card mark — the 8th's tees are flat to 6 cm under their
+marks and dormant brown in this capture — 50–600 m², drawn as the oriented box
+of its cells, not within 60 m of the hole's green and not on another hole's
+mown ground. The reviewed DTM-bench control for the 9th's Gul tee
+(`tee-controls.json`) is honoured as it stands.
+
+The provisional routing (GolfTraxx seeds, §3) ran through woods on holes 5
+and 6 and over pasture on 8, which is why 12 of 27 card marks read as rough.
+The mown corridor IS the routing: a least-cost path over a 2 m grid from the
+back tee (its measured deck where one exists, else the card mark) to the
+surveyed green centre — cheapest down the middle of the hole's own mown
+ground, dearer on another hole's turf, dear off the mown mask, prohibitive on
+water — simplified to its bends. Ownership of mown ground and routing depend
+on each other and are solved twice. Card marks stand at the card distance
+from the green along the line and snap onto a deck within 25 m; two card tees
+more than 25 m apart on the card may not share one deck. Where no deck fixes
+the back tee the line slides to the card length as every build here does.
+
+| hole | card back | traced line m | back tee | bends | marks |
+|---|---|---|---|---|---|
+| 1 | 350 | 349.7 | measured deck | 1 | 350 on deck, 343 on deck, 308 on deck |
+| 2 | 175 | 159.3 | measured deck | 2 | 175 on deck, 168 on deck, 140 on deck |
+| 3 | 362 | 362 | card slide | 2 | 362 at card, 330 at card, 280 on deck |
+| 4 | 338 | 340.4 | measured deck | 3 | 338 on deck, 331 on deck, 277 on deck |
+| 5 | 466 | 464.2 | measured deck | 4 | 466 on deck, 465 on deck, 411 at card |
+| 6 | 387 | 387 | card slide | 3 | 387 at card, 334 at card, 276 on deck |
+| 7 | 370 | 370 | card slide | 3 | 370 at card, 365 at card, 307 on deck |
+| 8 | 175 | 175 | card slide | 0 | 175 at card, 135 on deck, 120 on deck |
+| 9 | 502 | 502 | card slide | 5 | 502 at card, 480 on deck, 406 on deck |
+
+| hole | tee | deck m² | box m | mown share | mark moved m |
+|---|---|---|---|---|---|
+| 1 | 350 | 211 | 20.2 × 10.5 | 0.86 | 0.3 |
+| 1 | 343 | 173 | 16.6 × 10.4 | 1 | 5.3 |
+| 1 | 308 | 66 | 11 × 6 | 1 | 18.1 |
+| 2 | 175 | 424 | 28.1 × 15.1 | 0.91 | 18.4 |
+| 2 | 168 | 421 | 28 × 15.1 | 0.88 | 11.4 |
+| 2 | 140 | 189 | 17.1 × 11.1 | 1 | 17.1 |
+| 3 | 280 | 670 | 35.4 × 18.9 | 0.58 | 6.7 |
+| 4 | 338 | 635 | 44.9 × 14.1 | 0.96 | 2.4 |
+| 4 | 331 | 259 | 25.1 × 10.3 | 0.98 | 4.3 |
+| 4 | 277 | 188 | 19 × 9.9 | 1 | 22.9 |
+| 5 | 466 | 348 | 22.9 × 15.2 | 0.39 | 4 |
+| 5 | 465 | 343 | 22.3 × 15.4 | 0.39 | 3.5 |
+| 6 | 276 | 138 | 14.4 × 9.6 | 1 | 21 |
+| 7 | 307 | 149 | 15.2 × 9.8 | 1 | 5.3 |
+| 8 | 135 | 184 | 18 × 10.2 | 0.17 | 6.3 |
+| 8 | 120 | 86 | 13.9 × 6.2 | 0.34 | 4.1 |
+| 9 | 480 | 24 | 6 × 4 | 1 | 0 |
+| 9 | 406 | 87 | 12.6 × 6.9 | 1 | 9.1 |
+
+A mark without a deck keeps its card point and the app synthesises a pad
+there, as on every other course. `tee-road-clearance.test.mjs` now states
+this contract: every measured deck clears every road ribbon; every mark is on
+a deck or declared deckless by the trace; every line ends on the surveyed
+green and starts at the back mark.
+
+### 19.3 Fairways
+
+The mown mask (excess green > 70, brightness 60–150) opened 1 m and closed
+3 m, water, buildings and car parks removed, each cell assigned to the hole
+whose traced line, green (−10 m) or tee mark (−8 m) is nearest within 60 m,
+holes under 200 m² filled (bunkers and greens are drawn above). Where two
+holes' turf is contiguous the boundary between them is a nearest-line split,
+which is invisible in the render because both sides are fairway. The unmown
+strip inside the 9th's dogleg and the copses in the 6th come out as the
+holes in the rings they are.
+
+### 19.4 Ditches, re-laid on the laser
+
+Each satellite-traced ditch (§15.2) is walked vertex to vertex by least-cost
+path along the black top-hat of the 1 m terrain (13 m closing) and kept where
+the channel reads ≥ 0.10 m deep, gaps under 6 m bridged. The runs are the
+open channel; the gaps are culverts — the green-1 ditch breaks under the
+road and again under the approach, exactly where §15.2 put the pipes.
+
+| ditch | traced m | laser m | open runs | mean depth m |
+|---|---|---|---|---|
+| eastern boundary ditch | 410 | 365 | 3 | 0.21 / 0.39 / 0.53 |
+| green 1 ditch | 404 | 307 | 5 | 0.11 / 0.47 / 0.5 / 0.7 / 0.92 |
+| hole 9 pond outlet | 23 | 18 | 1 | 0.2 |
+| hole-4 pond connector | 22 | 20 | 1 | 0.53 |
+
+The valley score sampled every metre along each traced route (across-depth
+minus along-slope over eight directions) then finds the crossings the traces
+missed, snapped and trimmed the same way:
+
+| hole | m from green | mean depth m | valley score |
+|---|---|---|---|
+| 3 | 119 | 0.66 | 0.56 |
+| 6 | 333 | 0.44 | 0.48 |
+
+### 19.5 What this did not change, and what it cannot
+
+Bunkers stay as §17 measured them; the water as §18 built it; the trees are
+the published LiDAR generation. The routes are traced, not surveyed: a hole's
+length is what its corridor measures, and the card's per-hole rows remain
+provisional (§3). The shapes' residual error is the imagery's own
+orthorectification plus the 0.5 m lattice, i.e. one to two metres — the
+licensed orthophoto would halve it and settle the two dormant decks on 8.
+
+One consequence for the app: the legacy CORE grid is `playB ± 150 m` snapped
+to 36 m, and the traced routes end where the corridors end rather than at the
+GolfTraxx seeds' far corners, so CORE shrank from 316 × 298 to 307 × 289 cells
+(x −468…756, z −612…540) and the reviewed `legacyCoreCutout` contract in
+`v2-ribbingsfors-config.mjs` was re-measured off the assertion's own "got"
+line (85,183 of 88,723 base points omitted, was 90,520 of 94,168).
+

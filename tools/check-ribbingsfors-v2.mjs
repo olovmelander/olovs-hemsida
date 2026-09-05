@@ -88,7 +88,7 @@ gate(terrain?.requested === true && terrain?.ready === true && terrain?.status =
   terrain?.mode === 'fixed-frontier' && terrain?.requestMode === 'require',
   'required fixed frontier is active');
 gate(renderer?.meshResolutionMetres === 1 && renderer?.renderedTiles === 64 &&
-  renderer?.drawCalls === 1 && renderer?.skippedBasePoints === 90_520 &&
+  renderer?.drawCalls === 1 && renderer?.skippedBasePoints === 85_183 &&
   renderer?.removedTriangles > 0,
   '64 one-metre tiles replace the reviewed legacy CORE in one draw');
 gate(terrain?.surfaceRepresentation === 'legacy-ground-atlas' &&

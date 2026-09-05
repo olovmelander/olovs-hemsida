@@ -290,11 +290,13 @@ for (const hole of model.holes) for (const [x, z] of hole.line) {
   if (pointInPoly(x, z, skagern.lake.ring)) throw new Error(`hole ${hole.n} line point [${x},${z}] falls inside the Skagern ring`);
 }
 
-const pondConnector = { line: [[440, 368], [444, 352]], w: 1.2,
-  prov: 'visible connector between the two hole-4 tee ponds; satellite trace' };
-model.streams = [
+/* The satellite traces are the BASE; apply-surface-traces.mjs re-lays them
+   on the laser channel bottoms afterwards (laser-ditches.json). A rerun of
+   this script alone must not undo that, so laser-laid streams are kept. */
+const laserLaid = (model.streams || []).some(st => /laser-ditches\.mjs/.test(st.prov || ''));
+model.streams = laserLaid ? model.streams : [
   ...traces.features.ditches.map(d => ({ line: d.line, w: d.w, prov: d.prov, name: d.name })),
-  pondConnector,
+  ...(traces.features.connectors || []).map(d => ({ line: d.line, w: d.w, prov: d.prov })),
 ];
 
 const treeWork = protectedTreeFeatures();
@@ -480,7 +482,7 @@ writeJson(path.join(HERE, 'course-model.json'), model);
 writeJson(path.join(HERE, 'tree-cover.json'), treeCover);
 
 console.log(`water: ${model.water.length} rings (${breakWater.filter(w => !w.isLake).length} break ponds + Skagern${skagern.fragments.length ? ` + ${skagern.fragments.length} fragment(s)` : ''} + ${smallLakes.length} OSM ponds)`);
-console.log(`streams: ${model.streams.length} traced ditches (replacing the 4 synthetic guide crossings)`);
+console.log(laserLaid ? `streams: ${model.streams.length} laser-laid ditch runs kept (apply-surface-traces.mjs)` : `streams: ${model.streams.length} traced ditches (replacing the 4 synthetic guide crossings)`);
 console.log(`vegetation: ${model.vegetation.forest.length} forest, ${model.vegetation.wood.length} protected-tree crowns ` +
   `(${treeWork.laserConfirmed}/${treeWork.trees.length} laser-confirmed), ${model.vegetation.wetland.length} wetland`);
 console.log(`infra: ${model.infra.roads.length} roads, ${model.infra.tracks.length} tracks, ${model.infra.paths.length} paths, ` +

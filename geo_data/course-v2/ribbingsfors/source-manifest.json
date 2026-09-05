@@ -306,7 +306,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "ribbingsforsbuild/course-model.json",
-      "sha256": "eef6949d7bfe8523808af7574805acc2226eee0c0865f1473f5a5e016a6cc315",
+      "sha256": "7056e1f9e586cab20c173f38a046e3ff25c721f524ffbbe49125a04ee0e1f06d",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Current composite local-metre vectors, routing, RH 2000 terrain references and scenery inputs. Hole 9 Gul uses the explicit provisional DTM-bench control rather than the road-crossing card interpolation. Bunkers are measured sand (apply-sat-shapes.mjs from sat-shapes.json), no longer guide-formula placed. The 2026-09 surroundings pass (apply-surroundings.mjs) adds the gated Skagern ring at 69.3 m, traced ditches replacing the synthetic guide crossings, 86 laser-confirmed protected-tree crowns, the corrected range, the greenkeeping yard, Skagersvik context and synthesized village housing."
@@ -324,7 +324,7 @@
       "id": "legacy-tree-cover",
       "kind": "canopy",
       "path": "ribbingsforsbuild/tree-cover.json",
-      "sha256": "6af1f619006e47bdd6eada751f3d5366d8154251740cb5128fb9b48f31540ecf",
+      "sha256": "cd32278f816c66c5e5128b236d75adfd9a848da5481662858484fdd341f24d81",
       "derivedFrom": ["laser-lm-skog", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Compatibility canopy mask derived from the 2023 COPC CHM with protected trees added and provisional playing surfaces, water and buildings excluded. Individual-tree publication remains subject to the separate v2 review rules. The 2026-09 surroundings pass adds OSM woodland cells and opens the Skagern ring, range, practice greens, parking and yard."
@@ -423,7 +423,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-      "sha256": "ce9c2c93835473088ba3ae8fc646fe07043b28b907638dcab621b178a79a412f",
+      "sha256": "1a6d58dc424c34700a8621a746717ea00d7c2e7b5c295e40f26f5e6ef15be5cf",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Deterministic exact translation of all local x/z geometry to absolute EPSG:3006 coordinates; source scalar RH 2000 heights remain unapproved."
@@ -441,7 +441,7 @@
       "id": "surroundings-traces",
       "kind": "topography",
       "path": "ribbingsforsbuild/surroundings-traces.json",
-      "sha256": "eb64a39b55a938a45a1a4c7e930d4eb16613075c61fd82b03a632fef99af3432",
+      "sha256": "efe30047b73d2ec907f61d6310590da3720ca6547c17f6f6ed22cec3d1f0ec46",
       "derivedFrom": ["esri-imagery-traces", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Read-by-eye satellite traces with per-feature confidence: the corrected driving range, practice greens, main parking, greenkeeping yard and its sheds, three ditch runs, two boundary walls, two jetties, a clear-fell ring and the manor precinct. Coordinates only; no imagery is redistributed."
@@ -456,10 +456,28 @@
       "notes": "Bunkers measured by per-pixel sand classification of Esri z18 imagery (detect-sand.mjs): 18 accepted sand bunkers with pixel-centroid positions and covariance axes, 11 rejected candidates and 5 guide-listed bunkers that resolved to no sand, all listed. Replaces the guide-formula placement in the compatibility model; coordinates only, no imagery stored."
     },
     {
+      "id": "surface-traces",
+      "kind": "surface",
+      "path": "ribbingsforsbuild/surface-traces.json",
+      "sha256": "aefb62ff6c95344f0c677dae700bfce72b1a23f721a8682003d4f0ae1ece0653",
+      "derivedFrom": ["esri-imagery-traces","terrain-lm-1m","golftraxx-reference","club-guide-reference"],
+      "use": "migration-only",
+      "notes": "Greens, tee decks, fairways and hole routes traced BY RULE from Esri z18 imagery (mown turf 2G-R-B > 70; each green the collar-bounded patch around the GPS centre, largest compact of six readings) and the published 1 m laser terrain (decks: 5x5 spread < 0.12 m); routes are least-cost paths through each hole's own mown corridor. Every reading and refusal is listed; review sheets per hole in the gitignored cache. Replaces the synthetic green ellipses, route corridors and card-constrained synthetic pads (trace-surfaces.mjs / apply-surface-traces.mjs). Coordinates only, no imagery stored."
+    },
+    {
+      "id": "laser-ditches",
+      "kind": "terrain",
+      "path": "ribbingsforsbuild/laser-ditches.json",
+      "sha256": "8f4223c3c9a34553d31bf4a5dc190f5f65027745729a709fbf5fa4c2cfe3eba0",
+      "derivedFrom": ["terrain-lm-1m","esri-imagery-traces"],
+      "use": "migration-only",
+      "notes": "The satellite-traced ditches re-laid on the laser channel bottom (black top-hat, 13 m closing, least-cost path, kept where >= 0.10 m deep) with per-run depths, plus two crossings the valley score found under the traced routes (laser-ditches.mjs)."
+    },
+    {
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/ribbingsfors/migration/residual-report.json",
-      "sha256": "602d98dfee1ddabe36649a53f43a3cc5d48107bf33bf8e732a663fb3e1654d73",
+      "sha256": "7812b3121686efd41a43e491202c73f699f86e5feea967af82e37cd749808fa8",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Exact projected-frame translation audit with zero local-frame residuals; independent canonical control is still pending."

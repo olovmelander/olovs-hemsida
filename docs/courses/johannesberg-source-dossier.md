@@ -475,3 +475,163 @@ carry — the bell on the 12th, the sighting posts on the 12th and 16th, the
 **sighting tower at the 16th tee** ("Avstånd över pinnen från tornet: 140 meter"),
 the flagpoles the 18th aims at. Each row says what the model has beside it, so a
 disagreement is one line, not a search.
+
+## 8. The laser and the imagery, read directly (2026-09-05)
+
+§7 measured the model's rings against the 1 m laser terrain and recorded the
+disagreements. This pass turns the two orthorectified sources into a source of
+geometry rather than a check on one: `johannesbergbuild/derive-dtm-features.mjs`,
+`laser-water.mjs`, `capture-census.mjs` and `check-buildings.mjs`, all on
+`geobuild/dtm-lib.mjs`, which now takes its frame, its pack origin in EPSG:3006 and
+its vertical datum step from each slug's own reviewed v2 frontier contract instead of
+carrying Veckefjärden's constants.
+
+Four of the five things this could have produced came out; the fifth came out as a
+negative result worth as much as the others.
+
+### 8.1 The ponds are 1.5 m off, and the laser says where they are
+
+A 1 m bare-earth DTM does not penetrate water: a pond arrives as a flat plate at its
+own surface. Nine of the model's twelve water rings enclose a plate at 94–100 % of
+their interior, which confirms the OSM outlines are well registered (best shift 0–3 m)
+and hands over the level for free.
+
+| | |
+|---|---|
+| rings measured | 9 of 12 |
+| plate fraction | 94–100 % of the interior within 0.25 m of the level |
+| levels, RH 2000 | 10.24 – 11.27 m — the whole pond chain inside one metre |
+| the model carried (Terrarium, legacy) | 13.0 – 18.23 m, a 5.2 m spread |
+| correction applied | −1.71 to +2.91 m per ring, median −1.46 m |
+
+The scatter is the point. These ponds are joined by ditches and sit within a metre of
+each other on the ground; Terrarium had them spread over five metres, which is its
+documented shape error over this parkland (§3.3, MAD 1.72 m) rather than a datum step
+one number could bridge. Each ring now carries `levelSrc: "laser"` and its measured
+`levelRH2000`. **Uttran, Hävsjön and Rotsjön keep their Terrarium levels**: they lie
+1.1, 1.4 and 3.2 km from the nearest playing line, outside the 2,048 m window, and
+this ground has no published ring graph to reach them.
+
+### 8.2 The bunkers were already right, and now they are measured
+
+Sand in the imagery over a dish in the terrain. The sand rule is not copied from
+Veckefjärden — it is calibrated on this course's own bunkers, read inside every traced
+ring and in a 3–8 m turf band around it, and the threshold is set between the two
+populations:
+
+| | interior | turf band |
+|---|---|---|
+| median rgb | 155, 157, 123 | 98, 122, 69 |
+| luminance | 145.0 | 96.0 |
+
+giving luminance ≥ 132.5 with R/G ≥ 0.944. Of 6,360 sand components in the play band,
+469 fall in the size band and **30 sit over a dish of 0.15 m or more**; those confirm
+**13 of the 27 traced bunkers**, whose outlines are replaced by the detection's, since
+a hull of sand pixels over a laser dish carries no registration error at all.
+
+**The traces were better than §7.10 implied.** Centroid to centroid the median offset
+is **0.20 m west and 0.20 m in z** over the thirteen, and eleven of the thirteen move
+under 1.5 m. §7.10's 2–3 m came from a raster shift search over whole rings, which is
+a coarser instrument; where both sources see the same bunker, the trace is sub-metre.
+
+The other fourteen keep their traced outlines and are listed unconfirmed, not dropped.
+No unmatched detection was adopted: the rule is that one may only fill a bunker the
+club's plan draws and the model lacks, and on this course there were none.
+
+### 8.3 A tee terrace is not a ditch — and the club's crossings were already there
+
+The directional valley filter's first run found three convincing channels on the 10th,
+0.9–1.7 m below the ground either side and 90–100 m long. They are **tee terraces**: a
+tee cut into a slope leaves a cross-slope cut behind it and a drop in front, and the
+10th runs five tee marks down 160 m of a 16 m fall. All three sat 6–18 m from a tee
+mark. Guarding on the traced *pads* did not catch it because three of those five marks
+have no traced pad; the guard is now every card tee **mark**, at 22 m.
+
+With that, the laser finds no watercourse the model lacks:
+
+- **the 18th** — "ett vattenhinder tvärs över fairway" — is already in the model as
+  `trace-ditch-18`, and the derivation correctly declines to duplicate it;
+- **the 12th**, whose plan draws two ponds "joined by the ditch that crosses it", peaks
+  at a valley score of 0.22 against a 0.28 threshold: the laser does not see a channel
+  there, and the model gains none;
+- one laser-only channel on the 10th (0.95 m deep, 29 m in front of the tee) is
+  recorded in `dtm-features.json` as a **candidate** and is not modelled, under the
+  same two-records rule that refused three traced bunkers in §7.10.
+
+What the laser did do is **measure the two watercourses that were already there**, by
+re-running each between its own endpoints as a least-cost path along the valley bottom:
+
+| | result |
+|---|---|
+| `trace-ditch-18` | adopted: 45 m of channel, mean depth 0.41 m, moved 2.8 m from the screenshot trace |
+| `w1291161525` (OSM) | adopted: 983 m of channel, mean depth 0.68 m, moved 0.6 m — OSM was already right |
+| three others | leave the 1 m window; the modelled lines stand |
+
+### 8.4 Thirteen tee decks
+
+A plateau whose 5 × 5 m spread is under 0.10 m, found under a card tee mark that no
+traced pad covers: 13 found, 38–332 m², of which **8 were new to the model** (the rest
+duplicated a pad already there). Tee pads went 44 → 52.
+
+### 8.5 There is no better capture, and that is the answer
+
+Veckefjärden's tracing frame came from Esri Wayback, where release 27982 turned out to
+be one leaf-on capture over the whole course. The same question here has the opposite
+answer, and `johannesbergbuild/imagery-captures.json` records it.
+
+Over this course the Wayback archive holds **three distinct pictures**, not one per
+release: 2014-02-20 (release 10), 2023-02-23 (57965) and 2024-02-08 (37965). The live
+mosaic is a patchwork of the last of those with a later restatement, and measured over
+the greens the two modern captures are indistinguishable:
+
+| capture | eighteen's greens | fairway | the nine's greens |
+|---|---|---|---|
+| live mosaic | 112 | 57 | 32 – 78 |
+| 37965 (2024-02-08) | 112 | 57 | 32 – 78 |
+| 57965 (2023-02-23) | 114 | 57 | 32 – 78 |
+| 10 (2014-02-20) | 62 | 45 | 1 – 56 |
+
+(excess green, 2G−R−B, median inside the model's own rings.)
+
+So the nine's greens read 32–78 against the eighteen's 112 in **every** modern capture
+Esri holds. That is not a leaf-off frame that a release swap would fix; on this
+evidence the nine's putting surfaces are genuinely weaker turf than the championship
+course's, and §7.9's six unresolved greens will not be resolved by imagery of any date.
+A dated ortho from another supplier, or the club, is what that needs.
+
+**Two mechanics worth carrying to the next course.** A Wayback release can restate a
+tile's *bytes* without changing its *picture*, so captures must be separated by decoded
+pixel agreement and not by tile hash — three releases here differ in md5 and are 100 %
+identical in pixels. And the service resolves a request to the latest release ≤ the one
+asked for, so **every** release answers 200 over a tile that has ever been captured: a
+HEAD sweep returns all 190 of them and tells you nothing.
+
+### 8.6 The buildings are not moved, and the reason is the measurement
+
+107 of 117 footprints inside the imagery box sit on something the imagery reads as a
+roof, and a ±10 m search finds a 3–11 m "better" position for most of them. None is
+applied, because the shifts are substantially **roof lean**: an ortho is rectified to
+the terrain, so anything standing above it leans radially away from the image's nadir
+point. Measured, the shifts are most radial about a single point at a mean cosine of
+**0.461**, against **−0.147** for the same footprints with random directions, and the
+magnitude grows with distance from that point (r = 0.245) and with footprint area
+(r = 0.171). Separating lean from a genuine footprint error needs building heights the
+model does not carry, so `building-check.json` is evidence and nothing else.
+
+The first version of that check scored "roof inside the ring plus vegetation just
+outside it" and asked almost every footprint to move ten metres — into open grass,
+which raises the vegetation term without touching the roof term — with the best shifts
+piling up on the search boundary. That is the same flat-objective tell the vertical
+datum sweep left in §3.3. The objective is the **contrast** between the interior and a
+2–5 m collar now, and a shift that lands on the boundary is flagged and discarded.
+
+### 8.7 The trap that cost the most time
+
+`geobuild/imagery/wayback.mjs` takes its frame from `BUILD`'s own model **at import
+time**, and `BUILD` defaults to `geobuild`. The first run of the derivation therefore
+loaded Johannesberg's terrain and sampled Veckefjärden's tiles, 400 km away, and
+produced a calibration that was internally consistent and completely wrong: the traced
+bunkers came out **darker** than the turf around them. `dtm-lib.mjs` compares the two
+frames now and throws, naming the fix; `derive-dtm-features.mjs` sets `BUILD` before a
+dynamic import. **A wrong place does not look like an error — it looks like a rule that
+needs tuning.**

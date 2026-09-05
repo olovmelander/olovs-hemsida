@@ -297,7 +297,12 @@ sculpt lays on top.
 > the western reserve polygon are in the model, the club's 18 paragraphs are in
 > `guide-notes.json` under `clubWeb`, and the plan-traced holes were re-anchored on
 > the surveyed green centres after a compounding registration bug was found. Bunkers,
-> ditches and tee decks were read off the 1 m terrain and the z18 imagery. Still open
+> ditches and tee decks were read off the 1 m terrain and the z18 imagery. A second
+> pass the same day read the fjärd's shoreline and every pond's outline off the laser's
+> flat water plates (`geobuild/laser-water.mjs`, the lake at 0.280 m RH 2000, no
+> flight-strip seam), added the 4th's and 18th's ditches on the club's word, re-read
+> four screenshot-traced buildings on orthoimagery, and measured six ways of tracing
+> greens against the survey (IoU 0.36–0.64, none adopted). Still open
 > from this list: the water levels, the CR/slope table, the korthålsbanan card, the
 > vegetation species hook, and the control approval.
 

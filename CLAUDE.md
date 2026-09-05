@@ -254,6 +254,64 @@ The short version of what changed and why:
   June 2026) and the reserve's western half is fetched by id — it lies outside the
   bbox and had never been in the model.
 
+The second pass the same day (shorelines, greens, buildings, two more ditches):
+
+- **Esri Wayback is the dated-imagery source, and the live mosaic is a patchwork.**
+  `wayback.maptiles.arcgis.com/.../tile/{release}/{z}/{y}/{x}` serves every past
+  World Imagery release (config at
+  `s3-us-west-2.amazonaws.com/config.maptiles.arcgis.com/waybackconfig.json`; a
+  release 404s where nothing changed — the tile you want is the latest release ≤ yours
+  that has it). Release 27982 (2025-04-24) is ONE leaf-on capture over the whole
+  course; the live tiles are that capture in the north and a leaf-off date in the
+  south with the 1st's green under its winter cover. Hash a tile against the releases
+  before believing "the imagery is autumn" — it was, in half the mosaic.
+- **Greens still cannot be traced, and now it is measured six ways** by a committed
+  tool that scores itself (`geobuild/imagery/green-tracers.mjs`, course map §2):
+  median IoU against the 12 OSM greens is 0.65 first-step, 0.64 the club plan's own
+  fill bunker-registered, 0.54 brightness blob, 0.48 fusion, 0.46 DTM roughness
+  (greens ARE the smoothest surface in the 1 m laser, on all twelve surveyed, but by
+  only half again over their collars), 0.44 polar largest-step. The best of them has
+  areas a median 1.1x the surveyed ones over a 0.8–2.4 range: right on average, wrong
+  hole by hole, because the imagery shows the green COMPLEX and not the putting
+  surface. A blind eye-trace of the 13th on the leaf-on image ran east–west; the
+  survey runs north–south. Stop trying without a survey or a finer leafed-on image.
+  **Three of those six numbers were wrong in this file for a day**, carried over from
+  a scratch script whose thresholds and window differed and one of whose medians was
+  simply misread; the committed tool prints them now, so quote the tool. The plans DO register better on their DTM-measured bunkers
+  than on the drawn flag (pin-end error 5–16 m → 2–8 m): the flag is drawn at the pin,
+  not the green's centre.
+- **The laser gives the shoreline** (`geobuild/laser-water.mjs`, the Ängsö method with a
+  10 ha floor — without it five 25–110 m² shore puddles joined the lake): one plate at
+  0.280 m RH 2000, no seam, traced at 2 m near the course and spliced onto the OSM ring
+  on the DTM window's edge. OSM was a median 2 m off near the course and 17 m off twice
+  (a chord across a convex shore by the 3rd; the 45 m mole at the 15th's piers). Levels
+  stay Terrarium's — the GPK1 terrain the water sits on — with the laser level recorded
+  beside them. The island 14th is not an island at water level.
+- **`derive-dtm-features` re-run on a model that already carries its output silently
+  dropped 9 ditches and 12 decks**, on the documented chain order too: the crossing
+  filter counted its own ditches as "OSM already has it", the deck finder found no
+  synth pad left. It skips `prov:"dtm"` in both tests now. Anything that folds its own
+  output back into its input must know its own provenance.
+- **A screenshot trace is ±7 m; orthoimagery is 0.** The four buildings read off the
+  Google Maps screenshot were 8–13 m out and up to twice their size on the z18
+  tiles; re-read there. Every OSM footprint at the clubhouse sat on the imagery exactly.
+
+**The imagery toolkit is `geobuild/imagery/`** and runs on any build (`BUILD=puttombuild`
+reads that model's frame; `SAT_REL=<release>` selects a Wayback capture; `GPS=<file>`
+names a survey, else the model's own centres stand in):
+
+    node geobuild/imagery/wayback.mjs releases | census <x> <z> | fetch [release] [box]
+    node geobuild/imagery/crops.mjs sheet|green|evidence|object …     # tracing crops with the model drawn over
+    node geobuild/imagery/green-tracers.mjs [all|polar|firststep|roughness|blob|fusion|plan]
+    node geobuild/imagery/plan-register.mjs                            # plans on their bunkers, the fill scored
+    node geobuild/imagery/treecover-vs-imagery.mjs [out.png]
+    node geobuild/laser-water.mjs                                      # shorelines off the laser plates
+    node geobuild/derive-dtm-features.mjs                              # bunkers, ditches, decks off the laser
+
+The last two are Veckefjärden-shaped in their paths (the model, the survey, the window)
+and the method is not: taking them to another ground means the build directory, the
+frame and the water level as parameters — the `loadTerrain(slug)` half already is.
+
 ## Running the older page
 
 Open `veckefjardensgc.html` in a browser. It works from `file://`; a server is only
@@ -1264,6 +1322,81 @@ on the tiles, placed by registering the plan on its tee disc and green) and the
   proved the change. Look at it on a real GPU before trusting the render.
 - `render-design.mjs` wrote a bare `&` in the SVG title, so every viewer
   stopped at line 701 and drew the layout up to the first error only. Fixed.
+
+### Johannesberg read off the laser and the imagery (2026-09-05)
+
+The order, which matters because reconcile reads what these write:
+
+    node johannesbergbuild/laser-water.mjs          # -> laser-water.json, every ring vs the plate
+    node johannesbergbuild/derive-dtm-features.mjs  # -> dtm-features.json (needs Chromium + the tiles)
+    node johannesbergbuild/reconcile.mjs            # folds both in
+    node johannesbergbuild/capture-census.mjs       # -> imagery-captures.json (evidence, not an input)
+    node johannesbergbuild/check-buildings.mjs      # -> building-check.json  (evidence, not an input)
+
+
+The two orthorectified sources are a SOURCE here now, not only a check.
+`geobuild/dtm-lib.mjs` takes its frame, its pack origin in EPSG:3006 and its
+vertical datum step from each slug's own reviewed v2 frontier contract, so
+`loadTerrain('<slug>')` works for any course with one and nothing is written
+down twice; `johannesbergbuild/` grew `derive-dtm-features.mjs`,
+`laser-water.mjs`, `capture-census.mjs` and `check-buildings.mjs` on it.
+Full record: dossier §8. What generalises:
+
+- **A pond is a flat plate, and that is a level, a registration check and an
+  outline at once.** Nine of twelve rings enclose a plate over 94–100% of their
+  interior (so the OSM outlines are right, best shift 0–3 m) and the whole pond
+  chain sits inside ONE METRE, 10.24–11.27 m RH 2000, where Terrarium had it
+  spread over 5.2 m. Corrections −1.71 to +2.91 m per ring. **The scatter is the
+  finding, not the offset**: this is the shape error §3.3 measured (MAD 1.72 m),
+  which no single datum number can bridge. The three named lakes are 1.1–3.2 km
+  out, outside the 2 km window, and this ground has no ring graph to reach them.
+- **Calibrate the sand rule on the course you are reading.** Interior rgb
+  155,157,123 against a turf band of 98,122,69 sets luminance ≥ 132.5 and
+  R/G ≥ 0.944 — measured here, not copied from Veckefjärden. 13 of 27 traced
+  bunkers are confirmed by sand over a dish and take the detection's outline;
+  the rest keep theirs and are listed unconfirmed, never dropped.
+- **A whole-ring raster shift search is a coarser instrument than a centroid.**
+  §7.10 put the traces 2–3 m off their laser features; centroid to centroid over
+  the thirteen confirmed the median offset is **0.20 m**. Where both sources see
+  the same bunker the trace is sub-metre.
+- **A TEE TERRACE IS NOT A DITCH.** A tee cut into a slope leaves a cross-slope
+  cut behind and a drop in front, and the valley filter scores that exactly as a
+  channel: three "ditches" 0.9–1.7 m deep and 90–100 m long appeared on the 10th,
+  whose five tee marks run 160 m down a 16 m fall, all 6–18 m from a mark.
+  Guarding on traced PADS misses it (three of those marks have no pad) — guard on
+  every card tee MARK.
+- **The laser's better use was measuring the channels two other records already
+  place.** Re-run between its own endpoints as a least-cost path along the valley
+  bottom, the 18th's traced crossing became 45 m of real channel at 0.41 m and
+  moved 2.8 m; OSM's 983 m ditch confirmed at 0.68 m and moved 0.6 m. A
+  laser-only channel on a hole no club record mentions is recorded as a CANDIDATE
+  and not modelled — the same two-records rule that refused three bunkers.
+- **There is no better capture, and measuring that is the answer.** Esri Wayback
+  holds THREE distinct pictures of this course (2014, 2023-02-23, 2024-02-08 =
+  the live mosaic), and the nine's greens read 32–78 excess green against the
+  eighteen's 112 in **every** modern one. So §7.9's six unresolved greens are not
+  a leaf-off frame a release swap would fix. Two mechanics: a release can restate
+  a tile's BYTES without changing its PICTURE, so separate captures by decoded
+  pixel agreement and never by tile hash; and Wayback resolves a request to the
+  latest release ≤ the one asked for, so **every** release answers 200 and a HEAD
+  sweep returns all 190 and tells you nothing.
+- **A "better" footprint position is usually the roof leaning.** An ortho is
+  rectified to the TERRAIN, so anything standing above it leans radially away
+  from the image's nadir point. 107 footprints wanted a 3–11 m shift; the shifts
+  are radial about one point at mean cos **0.461** against **−0.147** for random
+  directions, growing with distance (r 0.245) and area (r 0.171). Nothing is
+  applied — separating lean from a real error needs heights the model lacks.
+  The first objective ("roof inside + vegetation outside") asked everything to
+  move ten metres into open grass and piled the answers on the search boundary,
+  the same flat-objective tell as the §3.3 datum sweep. Score the CONTRAST
+  between the interior and a 2–5 m collar, and discard a shift that lands on the
+  boundary.
+- **`BUILD` is read at import time, so a wrong place looks like a wrong rule.**
+  `imagery/wayback.mjs` takes its frame from `BUILD`'s model when the module
+  loads and defaults to `geobuild`; the first run loaded Johannesberg's terrain
+  and sampled Veckefjärden's tiles 400 km away, and the traced bunkers came out
+  DARKER than the turf around them. dtm-lib compares the two frames and throws
+  now, naming the fix, and the build scripts set `BUILD` before a dynamic import.
 
 ## The second courses — three clubs here have a course we were not rendering
 
@@ -3146,6 +3279,9 @@ is its browser gate.
     node ribbingsforsbuild/detect-sand.mjs         # measure bunkers from z18 sand pixels -> cache/sand-candidates.json + review crops
     node ribbingsforsbuild/apply-sat-shapes.mjs    # accepted bunkers (sat-shapes.json) replace the guide-formula set
     node ribbingsforsbuild/apply-surroundings.mjs  # merge + gates (incl. the Skagern union via lake-union.mjs); IDEMPOTENT, run after every build-course
+    node ribbingsforsbuild/trace-surfaces.mjs      # greens, tee decks, fairways, routes by rule -> surface-traces.json + cache/review/hole-N.png (LOOK)
+    node ribbingsforsbuild/laser-ditches.mjs       # traced ditches re-laid on the laser channel bottoms + crossings -> laser-ditches.json
+    node ribbingsforsbuild/apply-surface-traces.mjs  # folds both in; runs LAST (apply-surroundings keeps laser-laid streams on a rerun)
     node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
     node packages/course-pack/emit-manifest.mjs
     node packages/course-v2/refresh-fallback-v1.mjs ribbingsfors   # or the v2 graph fails closed
@@ -3195,7 +3331,25 @@ the same commit (`pnpm test` fails loudly on both, and
   sits between holes 9 and 1 with its bays at the south end and a mature oak
   in the field. Satellite traces carry per-feature confidence in
   `surroundings-traces.json`; the ±8 m reading error is stated there.
-- **The played surfaces are survey-anchored, not to be hand-retraced (§16).**
+- **The played surfaces are traced BY RULE now, not by hand (§19).** The
+  leaf-off z18 capture shows mown turf vivid against dormant pasture (ExG
+  98–118 on the greens, p90 59 on the rough) and every green as a darker
+  patch inside a lighter collar. `trace-surfaces.mjs` grows each green from
+  its GPS centre on smoothed colour under six loose-to-tight readings and
+  keeps the LARGEST that stays compact (an approach can be as green as its
+  putting surface, so a loose reading leaks and a tight one erodes); all nine
+  pass. Tee decks are laser-flat (5 × 5 m spread < 0.12 m) and mown OR under
+  a card mark — the 8th's decks are dormant brown and flat to 6 cm. The
+  ROUTING is the mown corridor: least-cost from the back tee to the surveyed
+  green, cheapest down the middle of the hole's OWN turf (ownership and
+  routing solved twice), because the GolfTraxx seeds ran through woods on 5
+  and 6. Card marks snap onto decks within 25 m, never two card tees > 25 m
+  apart onto one deck, and the 9th's reviewed DTM-bench control stands.
+  Fairways are the mown mask split by nearest traced line. Ditches are the
+  satellite traces re-laid on the laser top-hat, culverts appearing as the
+  gaps they are, plus two crossings the traces missed. Review sheets are the
+  gate that has eyes: `cache/review/hole-N.png`.
+- **The played surfaces were survey-anchored, not to be hand-retraced (§16)** — still true of HAND tracing.
   The nine green centres ARE the GolfTraxx *Green Center* survey points to
   0.0 m — only the route lengths carried the yards bug, not the green points —
   and they land on the real greens in z18 imagery. **The bunkers are MEASURED
@@ -3237,6 +3391,22 @@ the same commit (`pnpm test` fails loudly on both, and
   chord was called "not a defect" — it was one (foam and shallow colour along
   a line across open water). The arms are folded into the single Skagern ring
   now and survive only under `sourceWater.breakLakes` for idempotent reruns.
+- **Ownership and routing are one problem.** Assigning mown cells to the
+  nearest provisional line handed the 5th a strip of the 7th's fairway and a
+  route that escaped into it; a deck matched by distance alone put the 9th's
+  480 mark on the 406's deck (74 m apart on the card). Solve ownership from
+  the routes you get, route again, and refuse a deck another hole owns.
+- **Moving the played ground moves the reviewed CORE cutout, and v2 fails
+  closed.** The traced routes no longer reach the GolfTraxx seeds' far
+  corners, so `playB ± 150` shrank one 36 m cell east and south and every
+  v2 gate failed at once with "expected 316x298 … got 307x289". Re-measure
+  `legacyCoreCutout` in `v2-ribbingsfors-config.mjs` (and the gate's pinned
+  skipped count) off the assertion's own "got" line, never by typing.
+- **A rerun of one script must not undo the next one's work.** apply-surroundings
+  rebuilt `streams` from the satellite traces and silently discarded the laser
+  re-lay; laser-ditches read `model.streams` and would have re-laid laser on
+  laser. Both now read the trace FILE and the surroundings pass keeps
+  laser-laid streams, so the chain is idempotent in either order.
 - **Two water rings at one level over the same water are a z-fight, not a
   belt and braces.** The engine draws a sheet per ring; overlapping sheets a
   centimetre apart fight at any distance on a 24-bit depth buffer. One body,
