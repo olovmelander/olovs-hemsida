@@ -20,7 +20,16 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const CACHE = path.join(HERE, 'cache', 'sat');
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
-export async function loadMosaic(window, { zoom = 18, name = 'course' } = {}) {
+/* Esri World Imagery live tiles, or a dated Wayback release (`release` is the
+   Wayback "M" id, e.g. 57965 = the 2023-02-23 release, which over this course
+   carries the 2019-06-02 WorldView-2 capture; the live layer is 2023-04-28). */
+export const tileUrlFor = release => release
+  ? (zoom, ty, tx) => `https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/${release}/${zoom}/${ty}/${tx}`
+  : (zoom, ty, tx) => `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zoom}/${ty}/${tx}`;
+
+export async function loadMosaic(window, { zoom = 18, name = 'course', release = null } = {}) {
+  const tileUrl = tileUrlFor(release);
+  const tilePrefix = release ? `wb${release}_` : '';
   const n = 2 ** zoom;
   const toLatLon = (x, z) => sweref99TmToLatLon(FRAME.easting + x, FRAME.northing - z);
   const tileOf = (lat, lon) => [(lon + 180) / 360 * n,
@@ -42,14 +51,14 @@ export async function loadMosaic(window, { zoom = 18, name = 'course' } = {}) {
   fs.mkdirSync(CACHE, { recursive: true });
   const mosaicFile = path.join(CACHE, `mosaic-${name}-z${zoom}.png`);
   const sideFile = mosaicFile.replace(/\.png$/, '.json');
-  const side = { zoom, X0, X1, Y0, Y1, W, H, window };
+  const side = { zoom, X0, X1, Y0, Y1, W, H, window, release };
   const fresh = fs.existsSync(mosaicFile) && fs.existsSync(sideFile) && JSON.stringify(JSON.parse(fs.readFileSync(sideFile, 'utf8'))) === JSON.stringify(side);
   if (!fresh) {
     const tiles = [];
     for (let ty = Y0; ty <= Y1; ty++) for (let tx = X0; tx <= X1; tx++) {
-      const file = path.join(CACHE, `${zoom}_${tx}_${ty}.jpg`);
+      const file = path.join(CACHE, `${tilePrefix}${zoom}_${tx}_${ty}.jpg`);
       if (!fs.existsSync(file)) {
-        const response = await fetch(`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zoom}/${ty}/${tx}`);
+        const response = await fetch(tileUrl(zoom, ty, tx));
         if (!response.ok) throw new Error(`tile ${zoom}/${ty}/${tx} ${response.status}`);
         fs.writeFileSync(file, Buffer.from(await response.arrayBuffer()));
       }
@@ -79,7 +88,7 @@ export async function loadMosaic(window, { zoom = 18, name = 'course' } = {}) {
     return [data[i], data[i + 1], data[i + 2]];
   };
   const rgbAtPx = (c, r) => { const i = (r * W + c) * channels; return [data[i], data[i + 1], data[i + 2]]; };
-  return { W, H, X0, Y0, zoom, metresPerPixel, px, world, rgbAt, rgbAtPx, data, channels, file: mosaicFile };
+  return { W, H, X0, Y0, zoom, release, metresPerPixel, px, world, rgbAt, rgbAtPx, data, channels, file: mosaicFile };
 }
 
 /** 2G - R - B: excess green, the mown-turf discriminator on leaf-off imagery. */

@@ -3240,11 +3240,14 @@ is its browser gate.
     node ribbingsforsbuild/fetch-osm-wide.mjs      # wide surroundings extract (no GDAL from here on)
     node ribbingsforsbuild/parse-osm-wide.mjs      # -> osm-surroundings.json
     node ribbingsforsbuild/detect-sand.mjs         # measure bunkers from z18 sand pixels -> cache/sand-candidates.json + review crops
-    node ribbingsforsbuild/apply-sat-shapes.mjs    # accepted bunkers (sat-shapes.json) replace the guide-formula set
+    node ribbingsforsbuild/laser-bunkers.mjs       # each sand bunker against its laser dish -> laser-bunkers.json (+ laser fields in sat-shapes.json)
+    node ribbingsforsbuild/apply-sat-shapes.mjs    # accepted bunkers replace the guide-formula set, at their DISH position; throws on sand over no dish
     node ribbingsforsbuild/apply-surroundings.mjs  # merge + gates (incl. the Skagern union via lake-union.mjs); IDEMPOTENT, run after every build-course
     node ribbingsforsbuild/trace-surfaces.mjs      # greens, tee decks, fairways, routes by rule -> surface-traces.json + cache/review/hole-N.png (LOOK)
     node ribbingsforsbuild/laser-ditches.mjs       # traced ditches re-laid on the laser channel bottoms + crossings -> laser-ditches.json
     node ribbingsforsbuild/apply-surface-traces.mjs  # folds both in; runs LAST (apply-surroundings keeps laser-laid streams on a rerun)
+    node ribbingsforsbuild/trace-buildings.mjs     # roofs by rule -> cache/review/buildings-*.png (the yard refuses; see the dossier)
+    node ribbingsforsbuild/wayback-greens.mjs      # the second dated capture: greens refused, bunkers agreed -> wayback-greens.json
     node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
     node packages/course-pack/emit-manifest.mjs
     node packages/course-v2/refresh-fallback-v1.mjs ribbingsfors   # or the v2 graph fails closed
@@ -3286,6 +3289,33 @@ the same commit (`pnpm test` fails loudly on both, and
   lowers the tile's offset and shifts every sample before carving. Probe it
   with `V3D.waterBedAt(x, z)` (depth 5.5, ground 63.8 at (−100,−300)) —
   the gate in `check-ribbingsfors-v2.mjs` does.
+- **A bunker is sand over a dish, and the dish is where it stands.** All 18
+  measured bunkers sit over a hollow in the 1 m laser (0.11–0.41 m deep, the
+  outside band's median minus the inside's); ten are re-centred 1–5 m onto it
+  by `laser-bunkers.mjs`, and `apply-sat-shapes` THROWS if sand ever reads no
+  dish. The disagreement between sand and dish is the imagery's own
+  registration — median |shift| 3.2 m — and it is confirmed independently by a
+  second capture: of the 196 Esri Wayback releases exactly three distinct
+  images cover this course, and the 2019-06-02 one puts 16 of 18 bunkers a
+  median 2.4 m from where the 2023-04-28 one does. The four guide bunkers that
+  resolved to no sand have no dish either; 36 hollows on open played ground
+  are grass, none sand-coloured.
+- **The greens are traceable in LEAF-OFF imagery only.** The same grower
+  (`green-grower.mjs`, split out so the second image gets the identical rule)
+  refuses all nine on the 2019 leaf-on capture — every reading runs to
+  2,000–4,000 m² against outlines of 216–605, because in June the approach is
+  as green as the putting surface and the bright collar is absent. Recorded
+  with its numbers so it is not retried.
+- **The clubhouse was on the lawn, and the yard cannot be measured at all.**
+  The provisional 30 × 10 m POI rectangle lay 8.5 m off and 63° across the
+  axis of the roof block it stood for; that block is TWO buildings (a pale
+  roof and a dark one 8 m north), and both are traced in
+  `surroundings-traces.json` with `apply-surroundings` replacing the
+  placeholder — the same pattern as the driving range, because
+  `build-course.mjs` needs the acquisition caches and must not be the only
+  home of a measured number. At the greenkeeping yard the roof rule fails
+  honestly: sheet roofs read excess green 16 against gravel hardstanding at
+  14–17, so the three sheds keep their by-eye trace and its ±8 m.
 - **The ditches are one system**: eastern boundary ditch → hole-2 pond
   (77.7 m) → road culvert → the two crossings at green 1 → hole-9 pond
   (72.0 m) → lake. The four synthetic guide-crossing streams are replaced by

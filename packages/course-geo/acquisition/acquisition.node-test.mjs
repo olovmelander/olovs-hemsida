@@ -325,14 +325,17 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
     groundCount: 7,
     courseCount: 10,
     holeCount: 144,
-    /* 194 and 704 until later on 2026-09-05, when Veckefjärden's water and ditches
-       became laser readings (laser-water.mjs, the 4th's and 18th's ditches): the
-       12th's pond is two lobes and the 2 m fjärd shoreline reaches one more 256 m
-       control window */
+    /* 194 until 2026-09-05, when two measurements landed the same day:
+       Veckefjärden's water and ditches became laser readings (laser-water.mjs,
+       the 4th's and 18th's ditches — the 12th's pond is two lobes and the 2 m
+       fjärd shoreline reaches one more 256 m control window), and Ribbingsfors's
+       bunkers were re-centred onto their laser dishes and its clubhouse onto its
+       measured roof. Both are read off the assertion's own "got" line, never
+       added up: the two moves share the window they reached. */
     uniqueGroundWindowCount: 195,
     /* 702 until 2026-09-05, when the Johannesberg nine's 2nd, 7th and 8th greens
        became measured rings (trace-nine.mjs) and two of them reach a second
-       256 m control window */
+       256 m control window; 704 until the two moves above */
     requestedWindowReferences: 709,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,

@@ -12,7 +12,12 @@
    - CROSSINGS the traces missed: the valley score (across-depth minus along-
      slope) sampled every metre along each traced hole route; a peak >= 0.4
      that is not water and not already a ditch is snapped and trimmed the
-     same way.
+     same way;
+   - CHANNELS nobody traced: every elongated hollow >= 0.30 m deep on open
+     played ground that no ditch, water ring, road or bunker claims (the
+     laser-bunkers.mjs dish scan found two — the 9th green's drain to the
+     lake and the road ditch by the 6th green), read along its own axis and
+     extended to the water ring it drains into where one is within reach.
 
      node ribbingsforsbuild/laser-ditches.mjs   -> laser-ditches.json */
 import fs from 'node:fs';
@@ -20,7 +25,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadTerrain } from './laser-lib.mjs';
 import { blackTopHat } from '../geobuild/dtm-lib.mjs';
-import { pointInPoly, r1 } from '../geobuild/lib.mjs';
+import { pointInPoly, polySD, r1 } from '../geobuild/lib.mjs';
+import { labelComponents } from './raster-shapes.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const model = JSON.parse(fs.readFileSync(path.join(HERE, 'course-model.json'), 'utf8'));
@@ -118,10 +124,67 @@ for (const rt of traces.routes) {
     console.log(`crossing on hole ${rt.hole}: ${p.toGreen} m from the green, score ${p.score.toFixed(2)}, depth ${meanDepth(run).toFixed(2)}, ${run.length} m`);
   }
 }
+/* ---- channels nobody traced ---- */
+const cover = JSON.parse(fs.readFileSync(path.join(HERE, 'tree-cover.json'), 'utf8'));
+const coverBytes = Buffer.from(cover.b64, 'base64');
+const treesAt = (x, z) => { const c = Math.floor((x - cover.x0) / cover.cell), r = Math.floor((z - cover.z0) / cover.cell); if (c < 0 || r < 0 || c >= cover.nx || r >= cover.nz) return false; const i = r * cover.nx + c; return ((coverBytes[i >> 2] >> ((i & 3) * 2)) & 3) === 3; };
+const nearPlay = (x, z) => model.holes.some(h => lineD(x, z, h.line) <= 45 || Math.hypot(x - h.green.c[0], z - h.green.c[1]) <= 45);
+const playRings = model.holes.flatMap(h => [h.green.ring, ...h.bunkers.map(b => b.ring), ...h.tees.pads.map(p => p.ring)]);
+const infraLines = [...model.infra.roads, ...model.infra.tracks, ...model.infra.paths].map(f => f.line);
+const hollow = new Uint8Array(T.W * T.H);
+for (let i = 0; i < hollow.length; i++) if (th[i] >= 0.30) hollow[i] = 1;
+const { label, sizes } = labelComponents(hollow, T.W, T.H);
+const cellsOf = new Map();
+for (let i = 0; i < label.length; i++) { const id = label[i]; if (!id || sizes[id] < 30 || sizes[id] > 600) continue; let list = cellsOf.get(id); if (!list) { list = []; cellsOf.set(id, list); } list.push(T.worldOf(i)); }
+const nearestOnRing = (p, ring) => { let best = null, bd = Infinity; for (let i = 0; i < ring.length; i++) { const A = ring[i], B = ring[(i + 1) % ring.length]; const dx = B[0] - A[0], dz = B[1] - A[1], l2 = dx * dx + dz * dz; let t = l2 ? ((p[0] - A[0]) * dx + (p[1] - A[1]) * dz) / l2 : 0; t = Math.max(0, Math.min(1, t)); const q = [A[0] + dx * t, A[1] + dz * t], d = Math.hypot(p[0] - q[0], p[1] - q[1]); if (d < bd) { bd = d; best = q; } } return { q: best, d: bd }; };
+const channels = [];
+for (const cells of cellsOf.values()) {
+  const n = cells.length, cx = cells.reduce((a, p) => a + p[0], 0) / n, cz = cells.reduce((a, p) => a + p[1], 0) / n;
+  if (treesAt(cx, cz) || !nearPlay(cx, cz)) continue;
+  if (model.water.some(w => polySD(cx, cz, w.ring) < 2)) continue;
+  if (infraLines.some(l => lineD(cx, cz, l) < 5)) continue;
+  if (playRings.some(r => polySD(cx, cz, r) < 2)) continue;
+  if (existing.some(l => lineD(cx, cz, l) < 10)) continue;
+  /* principal axis and elongation */
+  let sxx = 0, szz = 0, sxz = 0; for (const [x, z] of cells) { sxx += (x - cx) ** 2; szz += (z - cz) ** 2; sxz += (x - cx) * (z - cz); }
+  const tr = sxx + szz, det = sxx * szz - sxz * sxz, disc = Math.sqrt(Math.max(0, tr * tr / 4 - det)), l1 = tr / 2 + disc, l2 = Math.max(1e-6, tr / 2 - disc);
+  const elong = Math.sqrt(l1 / l2); if (elong < 3) continue;
+  const ang = Math.atan2(l1 - sxx, sxz), ux = Math.cos(ang), uz = Math.sin(ang);
+  const along = cells.map(([x, z]) => (x - cx) * ux + (z - cz) * uz), a0 = Math.min(...along), a1 = Math.max(...along);
+  if (a1 - a0 < 20) continue;
+  /* the deepest cell per 2 m bin along the axis is the channel bottom */
+  const bins = new Map();
+  cells.forEach(([x, z], k) => { const b = Math.floor((along[k] - a0) / 2); const d = thAt(x, z); const cur = bins.get(b); if (!cur || d > cur.d) bins.set(b, { x, z, d }); });
+  let line = [...bins.entries()].sort((p, q) => p[0] - q[0]).map(([, v]) => [v.x, v.z]);
+  /* extend an end to the water ring it drains into, along the channel bottom */
+  const ends = [line[0], line[line.length - 1]];
+  const drains = [];
+  ends.forEach((end, k) => {
+    let best = null;
+    for (const w of model.water) { const { q, d } = nearestOnRing(end, w.ring); if (d <= 35 && (!best || d < best.d)) best = { q, d, name: w.name || 'pond', level: w.level }; }
+    if (!best) return;
+    const seg = snap(end, best.q, 30).slice(1);
+    if (k === 0) line = [...seg.reverse(), ...line]; else line.push(...seg);
+    drains.push({ end: k === 0 ? 'start' : 'end', into: best.name, level: best.level, metres: Math.round(best.d) });
+  });
+  const depth = meanDepth(line);
+  if (depth < 0.25) continue;
+  /* a channel that reaches no water must be long enough to be a ditch and not
+     a hollow: the 22 m blob by the 1st green and a 39 m furrow beside the
+     already-traced boundary ditch fail here, on review */
+  if (!drains.length && a1 - a0 < 40) continue;
+  const holes = model.holes.filter(h => lineD(cx, cz, h.line) <= 45 || Math.hypot(cx - h.green.c[0], cz - h.green.c[1]) <= 45).map(h => h.n);
+  const roadside = Math.min(...infraLines.map(l => lineD(cx, cz, l)));
+  channels.push({ holes, line: round(simplify(line, 0.8)), meanDepth: +depth.toFixed(2), length: Math.round(a1 - a0), area: n, elongation: +elong.toFixed(1), drains, roadDistance: Math.round(roadside),
+    note: `elongated hollow on open ground by hole${holes.length > 1 ? 's' : ''} ${holes.join('/')}${drains.length ? ', draining into ' + drains.map(d => d.into + ' (' + d.level + ' m)').join(' and ') : ''}${roadside < 12 ? ', ' + Math.round(roadside) + ' m from a road' : ''}` });
+  existing.push(line);
+  console.log(`channel by hole ${holes}: ${Math.round(a1 - a0)} m long, ${n} m², ${depth.toFixed(2)} m deep, elongation ${elong.toFixed(1)}${drains.length ? ', drains into ' + drains.map(d => d.into).join('/') : ''}`);
+}
+
 fs.writeFileSync(path.join(HERE, 'laser-ditches.json'), JSON.stringify({
   schemaVersion: 1,
   source: `Lantmäteriet Markhöjdmodell 1 m as published for this ground (${T.tiles} tiles, RH 2000, identity frame), black top-hat with a 13 m closing; ribbingsforsbuild/laser-ditches.mjs 2026-09-05`,
-  rules: { relay: 'each traced ditch walked vertex to vertex by least-cost path along the top-hat within 40 m; kept where >= 0.10 m deep, gaps under 6 m bridged, runs >= 15 m', crossing: 'valley score (across-depth minus 0.8 x along-slope over 8 directions) sampled every metre along each traced route; peaks >= 0.4 not in water, > 30 m from the tee and > 25 m from the green, > 12 m from a known ditch; snapped ±45 m and trimmed; runs >= 30 m and >= 0.2 m mean depth' },
-  refined, crossings,
+  rules: { relay: 'each traced ditch walked vertex to vertex by least-cost path along the top-hat within 40 m; kept where >= 0.10 m deep, gaps under 6 m bridged, runs >= 15 m', crossing: 'valley score (across-depth minus 0.8 x along-slope over 8 directions) sampled every metre along each traced route; peaks >= 0.4 not in water, > 30 m from the tee and > 25 m from the green, > 12 m from a known ditch; snapped ±45 m and trimmed; runs >= 30 m and >= 0.2 m mean depth', channel: 'top-hat components >= 0.30 m deep, 30–600 m², on open ground (tree-cover raster) within 45 m of a hole line or green, >= 2 m outside water/green/bunker/tee rings, >= 5 m from roads, tracks and paths, >= 10 m from a known ditch; principal-axis elongation >= 3 and >= 20 m long; the deepest cell per 2 m bin along the axis is the bottom; an end within 35 m of a water ring is extended to it by least-cost path; mean depth >= 0.25 m; >= 40 m long unless it reaches water' },
+  refined, crossings, channels,
 }, null, 1));
-console.log(`wrote laser-ditches.json: ${refined.length} traces re-laid, ${crossings.length} crossings`);
+console.log(`wrote laser-ditches.json: ${refined.length} traces re-laid, ${crossings.length} crossings, ${channels.length} untraced channels`);

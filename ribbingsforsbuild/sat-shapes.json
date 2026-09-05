@@ -8,37 +8,647 @@
     "shape": "ellipse from the pixel covariance: major/minor = 4 sigma, angle of the principal axis in the x/z plane"
   },
   "bunkers": [
-    { "hole": 1, "c": [505.2, -236.2], "major": 20.5, "minor": 6.2, "angleDeg": 34, "area": 73, "candidate": 0, "guide": "the large fairway bunker before the dogleg (guide fromGreen 193 left); measured 127 m from the green and 8 m WEST of the provisional line, i.e. on the player's right while heading south — either the guide's side or the provisional line is off here", "confidence": "high" },
-    { "hole": 2, "c": [538.7, 49.8], "major": 18.4, "minor": 5.8, "angleDeg": -47, "area": 78, "candidate": 1, "guide": "greenside right (west; the hole plays SSW over the pond)", "confidence": "high" },
-    { "hole": 2, "c": [567.7, 71.1], "major": 7.6, "minor": 5.5, "angleDeg": -82, "area": 32, "candidate": 2, "guide": "greenside left (east)", "confidence": "high" },
-    { "hole": 3, "c": [483.0, 370.9], "major": 11.2, "minor": 5.5, "angleDeg": -87, "area": 48, "candidate": 5, "guide": "greenside left (east, playing south); the guide's second left-side bunker resolves to no sand", "confidence": "high" },
-    { "hole": 4, "c": [450.3, 189.2], "major": 27.4, "minor": 6.4, "angleDeg": 73, "area": 112, "candidate": 7, "guide": "fairway bunker left of the dogleg grove (guide fromGreen 118 left); measured 94 m from the green, 9 m left of the line", "confidence": "high" },
-    { "hole": 4, "c": [424.2, 110.6], "major": 9.4, "minor": 3.4, "angleDeg": -37, "area": 23, "candidate": 11, "guide": "greenside right", "confidence": "high" },
-    { "hole": 5, "c": [-139.5, 162.7], "major": 10.0, "minor": 4.0, "angleDeg": 25, "area": 31, "candidate": "16+17", "guide": "greenside right (north); the guide's two right-side fairway bunkers at 215/245 m resolve to plain grass", "confidence": "high" },
-    { "hole": 6, "c": [-12.4, 15.6], "major": 17.6, "minor": 4.0, "angleDeg": 2, "area": 48, "candidate": 22, "guide": "greenside left (north)", "confidence": "high" },
-    { "hole": 6, "c": [-3.3, 56.9], "major": 16.9, "minor": 6.4, "angleDeg": -8, "area": 83, "candidate": 20, "guide": "greenside right (south)", "confidence": "high" },
-    { "hole": 6, "c": [-126.4, 10.0], "major": 23.8, "minor": 5.1, "angleDeg": 0, "area": 91, "candidate": 19, "guide": "fairway left along the road (guide fromGreen 105 left; measured 124)", "confidence": "high" },
-    { "hole": 7, "c": [275.3, 16.1], "major": 11.5, "minor": 6.4, "angleDeg": -7, "area": 57, "candidate": 26, "guide": "greenside left (north)", "confidence": "high" },
-    { "hole": 7, "c": [280.6, 51.8], "major": 10.2, "minor": 4.6, "angleDeg": 25, "area": 35, "candidate": 27, "guide": "greenside right (south)", "confidence": "high" },
-    { "hole": 7, "c": [113.2, 14.6], "major": 16.2, "minor": 6.0, "angleDeg": -8, "area": 76, "candidate": 24, "guide": "fairway left (guide 142/168 left-right pair at ~167 m); the guide's third at 190 m resolves to no sand", "confidence": "high" },
-    { "hole": 7, "c": [109.6, 56.3], "major": 12.9, "minor": 6.5, "angleDeg": -26, "area": 63, "candidate": 25, "guide": "fairway right", "confidence": "high" },
-    { "hole": 8, "c": [472.4, -106.6], "major": 8.8, "minor": 3.9, "angleDeg": 13, "area": 26, "candidate": 28, "guide": "greenside north; the guide's second (south side) resolves to no sand", "confidence": "medium" },
-    { "hole": 9, "c": [405.0, -427.5], "major": 17.8, "minor": 5.6, "angleDeg": -21, "area": 60, "candidate": 29, "guide": "greenside right (east)", "confidence": "high" },
-    { "hole": 9, "c": [377.4, -376.8], "major": 8.9, "minor": 7.2, "angleDeg": -85, "area": 48, "candidate": 31, "guide": "fairway left, 65 m from the green", "confidence": "high" },
-    { "hole": 9, "c": [364.1, -357.4], "major": 15.5, "minor": 4.5, "angleDeg": -76, "area": 53, "candidate": 30, "guide": "fairway left, 88 m from the green (the guide put this pair as left+RIGHT; both are left)", "confidence": "high" }
+    {
+      "hole": 1,
+      "c": [
+        505.2,
+        -236.2
+      ],
+      "major": 20.5,
+      "minor": 6.2,
+      "angleDeg": 34,
+      "area": 73,
+      "candidate": 0,
+      "guide": "the large fairway bunker before the dogleg (guide fromGreen 193 left); measured 127 m from the green and 8 m WEST of the provisional line, i.e. on the player's right while heading south — either the guide's side or the provisional line is off here",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.22,
+        "floor": 0.35,
+        "topHat": 0.32,
+        "shift": [
+          -2,
+          -1
+        ],
+        "dishAtShift": 0.25,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          505.2,
+          -236.2
+        ],
+        "recentred": false
+      }
+    },
+    {
+      "hole": 2,
+      "c": [
+        538.7,
+        49.8
+      ],
+      "major": 18.4,
+      "minor": 5.8,
+      "angleDeg": -47,
+      "area": 78,
+      "candidate": 1,
+      "guide": "greenside right (west; the hole plays SSW over the pond)",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.3,
+        "floor": 0.53,
+        "topHat": 0.55,
+        "shift": [
+          1,
+          0
+        ],
+        "dishAtShift": 0.36,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          539.7,
+          49.8
+        ],
+        "recentred": true
+      }
+    },
+    {
+      "hole": 2,
+      "c": [
+        567.7,
+        71.1
+      ],
+      "major": 7.6,
+      "minor": 5.5,
+      "angleDeg": -82,
+      "area": 32,
+      "candidate": 2,
+      "guide": "greenside left (east)",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.3,
+        "floor": 0.48,
+        "topHat": 0.47,
+        "shift": [
+          2,
+          0
+        ],
+        "dishAtShift": 0.43,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          569.7,
+          71.1
+        ],
+        "recentred": true
+      }
+    },
+    {
+      "hole": 3,
+      "c": [
+        483,
+        370.9
+      ],
+      "major": 11.2,
+      "minor": 5.5,
+      "angleDeg": -87,
+      "area": 48,
+      "candidate": 5,
+      "guide": "greenside left (east, playing south); the guide's second left-side bunker resolves to no sand",
+      "confidence": "high",
+      "laser": {
+        "dish": -0.09,
+        "floor": 0.06,
+        "topHat": 0.23,
+        "shift": [
+          5,
+          1
+        ],
+        "dishAtShift": 0.19,
+        "converged": true,
+        "verdict": "dish nearby",
+        "c": [
+          488,
+          371.9
+        ],
+        "recentred": true
+      }
+    },
+    {
+      "hole": 4,
+      "c": [
+        450.3,
+        189.2
+      ],
+      "major": 27.4,
+      "minor": 6.4,
+      "angleDeg": 73,
+      "area": 112,
+      "candidate": 7,
+      "guide": "fairway bunker left of the dogleg grove (guide fromGreen 118 left); measured 94 m from the green, 9 m left of the line",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.15,
+        "floor": 0.64,
+        "topHat": 0.26,
+        "shift": [
+          4,
+          3
+        ],
+        "dishAtShift": 0.22,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          454.3,
+          192.2
+        ],
+        "recentred": true
+      }
+    },
+    {
+      "hole": 4,
+      "c": [
+        424.2,
+        110.6
+      ],
+      "major": 9.4,
+      "minor": 3.4,
+      "angleDeg": -37,
+      "area": 23,
+      "candidate": 11,
+      "guide": "greenside right",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.23,
+        "floor": 0.26,
+        "topHat": 0.38,
+        "shift": [
+          8,
+          -5
+        ],
+        "dishAtShift": 0.34,
+        "converged": false,
+        "verdict": "dish",
+        "c": [
+          424.2,
+          110.6
+        ],
+        "recentred": false
+      }
+    },
+    {
+      "hole": 5,
+      "c": [
+        -139.5,
+        162.7
+      ],
+      "major": 10,
+      "minor": 4,
+      "angleDeg": 25,
+      "area": 31,
+      "candidate": "16+17",
+      "guide": "greenside right (north); the guide's two right-side fairway bunkers at 215/245 m resolve to plain grass",
+      "confidence": "high",
+      "laser": {
+        "dish": -0.16,
+        "floor": 0.01,
+        "topHat": 0.15,
+        "shift": [
+          -2,
+          -4
+        ],
+        "dishAtShift": 0.32,
+        "converged": true,
+        "verdict": "dish nearby",
+        "c": [
+          -141.5,
+          158.7
+        ],
+        "recentred": true
+      }
+    },
+    {
+      "hole": 6,
+      "c": [
+        -12.4,
+        15.6
+      ],
+      "major": 17.6,
+      "minor": 4,
+      "angleDeg": 2,
+      "area": 48,
+      "candidate": 22,
+      "guide": "greenside left (north)",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.38,
+        "floor": 0.59,
+        "topHat": 0.29,
+        "shift": [
+          -2,
+          -1
+        ],
+        "dishAtShift": 0.38,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          -12.4,
+          15.6
+        ],
+        "recentred": false
+      }
+    },
+    {
+      "hole": 6,
+      "c": [
+        -3.3,
+        56.9
+      ],
+      "major": 16.9,
+      "minor": 6.4,
+      "angleDeg": -8,
+      "area": 83,
+      "candidate": 20,
+      "guide": "greenside right (south)",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.41,
+        "floor": 0.58,
+        "topHat": 0.51,
+        "shift": [
+          2,
+          -1
+        ],
+        "dishAtShift": 0.46,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          -3.3,
+          56.9
+        ],
+        "recentred": false
+      }
+    },
+    {
+      "hole": 6,
+      "c": [
+        -126.4,
+        10
+      ],
+      "major": 23.8,
+      "minor": 5.1,
+      "angleDeg": 0,
+      "area": 91,
+      "candidate": 19,
+      "guide": "fairway left along the road (guide fromGreen 105 left; measured 124)",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.16,
+        "floor": 0.76,
+        "topHat": 0.32,
+        "shift": [
+          8,
+          -8
+        ],
+        "dishAtShift": 0.45,
+        "converged": false,
+        "verdict": "dish",
+        "c": [
+          -126.4,
+          10
+        ],
+        "recentred": false
+      }
+    },
+    {
+      "hole": 7,
+      "c": [
+        275.3,
+        16.1
+      ],
+      "major": 11.5,
+      "minor": 6.4,
+      "angleDeg": -7,
+      "area": 57,
+      "candidate": 26,
+      "guide": "greenside left (north)",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.35,
+        "floor": 0.48,
+        "topHat": 0.41,
+        "shift": [
+          3,
+          -1
+        ],
+        "dishAtShift": 0.39,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          275.3,
+          16.1
+        ],
+        "recentred": false
+      }
+    },
+    {
+      "hole": 7,
+      "c": [
+        280.6,
+        51.8
+      ],
+      "major": 10.2,
+      "minor": 4.6,
+      "angleDeg": 25,
+      "area": 35,
+      "candidate": 27,
+      "guide": "greenside right (south)",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.26,
+        "floor": 0.3,
+        "topHat": 0.35,
+        "shift": [
+          -1,
+          -3
+        ],
+        "dishAtShift": 0.37,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          279.6,
+          48.8
+        ],
+        "recentred": true
+      }
+    },
+    {
+      "hole": 7,
+      "c": [
+        113.2,
+        14.6
+      ],
+      "major": 16.2,
+      "minor": 6,
+      "angleDeg": -8,
+      "area": 76,
+      "candidate": 24,
+      "guide": "fairway left (guide 142/168 left-right pair at ~167 m); the guide's third at 190 m resolves to no sand",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.17,
+        "floor": 0.29,
+        "topHat": 0.34,
+        "shift": [
+          1,
+          -1
+        ],
+        "dishAtShift": 0.25,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          114.2,
+          13.6
+        ],
+        "recentred": true
+      }
+    },
+    {
+      "hole": 7,
+      "c": [
+        109.6,
+        56.3
+      ],
+      "major": 12.9,
+      "minor": 6.5,
+      "angleDeg": -26,
+      "area": 63,
+      "candidate": 25,
+      "guide": "fairway right",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.11,
+        "floor": 0.16,
+        "topHat": 0.17,
+        "shift": [
+          4,
+          -1
+        ],
+        "dishAtShift": 0.18,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          113.6,
+          55.3
+        ],
+        "recentred": true
+      }
+    },
+    {
+      "hole": 8,
+      "c": [
+        472.4,
+        -106.6
+      ],
+      "major": 8.8,
+      "minor": 3.9,
+      "angleDeg": 13,
+      "area": 26,
+      "candidate": 28,
+      "guide": "greenside north; the guide's second (south side) resolves to no sand",
+      "confidence": "medium",
+      "laser": {
+        "dish": 0.25,
+        "floor": 0.33,
+        "topHat": 0.31,
+        "shift": [
+          1,
+          0
+        ],
+        "dishAtShift": 0.3,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          472.4,
+          -106.6
+        ],
+        "recentred": false
+      }
+    },
+    {
+      "hole": 9,
+      "c": [
+        405,
+        -427.5
+      ],
+      "major": 17.8,
+      "minor": 5.6,
+      "angleDeg": -21,
+      "area": 60,
+      "candidate": 29,
+      "guide": "greenside right (east)",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.31,
+        "floor": 0.46,
+        "topHat": 0.43,
+        "shift": [
+          8,
+          -3
+        ],
+        "dishAtShift": 0.45,
+        "converged": false,
+        "verdict": "dish",
+        "c": [
+          405,
+          -427.5
+        ],
+        "recentred": false
+      }
+    },
+    {
+      "hole": 9,
+      "c": [
+        377.4,
+        -376.8
+      ],
+      "major": 8.9,
+      "minor": 7.2,
+      "angleDeg": -85,
+      "area": 48,
+      "candidate": 31,
+      "guide": "fairway left, 65 m from the green",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.21,
+        "floor": 0.25,
+        "topHat": 0.33,
+        "shift": [
+          4,
+          1
+        ],
+        "dishAtShift": 0.34,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          381.4,
+          -375.8
+        ],
+        "recentred": true
+      }
+    },
+    {
+      "hole": 9,
+      "c": [
+        364.1,
+        -357.4
+      ],
+      "major": 15.5,
+      "minor": 4.5,
+      "angleDeg": -76,
+      "area": 53,
+      "candidate": 30,
+      "guide": "fairway left, 88 m from the green (the guide put this pair as left+RIGHT; both are left)",
+      "confidence": "high",
+      "laser": {
+        "dish": 0.14,
+        "floor": 0.18,
+        "topHat": 0.24,
+        "shift": [
+          2,
+          2
+        ],
+        "dishAtShift": 0.22,
+        "converged": true,
+        "verdict": "dish",
+        "c": [
+          366.1,
+          -355.4
+        ],
+        "recentred": true
+      }
+    }
   ],
   "unresolvedGuideBunkers": [
-    { "hole": 3, "guide": "second greenside left (fromGreen 38)", "finding": "no sand; only one sand bunker at the green's east side" },
-    { "hole": 5, "guide": "fairway right at 215 and 245 m", "finding": "the formula positions and their surroundings are plain grass in leaf-off imagery; dropped rather than guessed" },
-    { "hole": 7, "guide": "fairway right at 190 m", "finding": "no sand; two fairway bunkers measured at ~167/171 m" },
-    { "hole": 8, "guide": "greenside south (fromGreen 20 right)", "finding": "no bright sand; brightest patch reads 171,169,134 (grey-neutral) — a path or worn grass" },
-    { "hole": 9, "guide": "greenside left (fromGreen 18) and fairway right (fromGreen 92)", "finding": "left greenside: brightest patch 152,141,117 (shaded, inconclusive); the fairway pair both measure LEFT of the line" }
+    {
+      "hole": 3,
+      "guide": "second greenside left (fromGreen 38)",
+      "finding": "no sand; only one sand bunker at the green's east side"
+    },
+    {
+      "hole": 5,
+      "guide": "fairway right at 215 and 245 m",
+      "finding": "the formula positions and their surroundings are plain grass in leaf-off imagery; dropped rather than guessed"
+    },
+    {
+      "hole": 7,
+      "guide": "fairway right at 190 m",
+      "finding": "no sand; two fairway bunkers measured at ~167/171 m"
+    },
+    {
+      "hole": 8,
+      "guide": "greenside south (fromGreen 20 right)",
+      "finding": "no bright sand; brightest patch reads 171,169,134 (grey-neutral) — a path or worn grass"
+    },
+    {
+      "hole": 9,
+      "guide": "greenside left (fromGreen 18) and fairway right (fromGreen 92)",
+      "finding": "left greenside: brightest patch 152,141,117 (shaded, inconclusive); the fairway pair both measure LEFT of the line"
+    }
   ],
   "rejectedCandidates": [
-    { "candidate": 3, "c": [629.6, -14.5], "why": "worn ground on the hole-2 tee decks" },
-    { "candidate": 4, "c": [604.6, 239.3], "why": "pale farmland east of the boundary ditch, 64 m from play" },
-    { "candidates": [6, 13, 14, 15], "why": "pale dry rough at the edge of the hole-4 tree clump" },
-    { "candidates": [8, 9, 10, 12], "why": "pale dry strip along the west edge of the hole-4 corridor; irregular, not sand" },
-    { "candidates": [18, 21, 23], "why": "greenkeeping yard hardstanding and material piles" }
-  ]
+    {
+      "candidate": 3,
+      "c": [
+        629.6,
+        -14.5
+      ],
+      "why": "worn ground on the hole-2 tee decks"
+    },
+    {
+      "candidate": 4,
+      "c": [
+        604.6,
+        239.3
+      ],
+      "why": "pale farmland east of the boundary ditch, 64 m from play"
+    },
+    {
+      "candidates": [
+        6,
+        13,
+        14,
+        15
+      ],
+      "why": "pale dry rough at the edge of the hole-4 tree clump"
+    },
+    {
+      "candidates": [
+        8,
+        9,
+        10,
+        12
+      ],
+      "why": "pale dry strip along the west edge of the hole-4 corridor; irregular, not sand"
+    },
+    {
+      "candidates": [
+        18,
+        21,
+        23
+      ],
+      "why": "greenkeeping yard hardstanding and material piles"
+    }
+  ],
+  "laserCheck": {
+    "file": "laser-bunkers.json",
+    "dished": 18,
+    "of": 18,
+    "registration": {
+      "medianShift": [
+        2,
+        -1
+      ],
+      "medianAbs": 3.1622776601683795,
+      "within3m": 8
+    }
+  }
 }
