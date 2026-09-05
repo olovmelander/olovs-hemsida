@@ -62,6 +62,9 @@ const surroundings = fs.existsSync(path.join(HERE, 'osm-surroundings.json'))
 const mapPx = points => points.map(([x, z]) => px(x, z));
 const overlays = {
   holes: model.holes.map(hole => ({ n: hole.n, line: mapPx(hole.line), green: px(...hole.green.c) })),
+  greens: model.holes.map(hole => mapPx(hole.green.ring)),
+  teePads: model.holes.flatMap(hole => hole.tees.pads.map(pad => mapPx(pad.ring))),
+  bunkers: model.holes.flatMap(hole => hole.bunkers.map(bunker => mapPx(bunker.ring))),
   water: model.water.map(item => mapPx(item.ring)),
   buildings: (surroundings ? surroundings.buildings : model.infra.buildings).map(b => mapPx(b.ring)),
   roads: (surroundings ? surroundings.roads : model.infra.roads).map(r => mapPx(r.line)),
@@ -69,7 +72,7 @@ const overlays = {
   range: (model.scenery.range || []).map(mapPx),
 };
 const grid = [];
-const step = size > 1600 ? 500 : 200;
+const step = size > 1600 ? 500 : size > 700 ? 200 : size > 300 ? 100 : 50;
 for (let x = Math.ceil((cx - size / 2) / step) * step; x <= cx + size / 2; x += step) {
   grid.push([...px(x, cz - size / 2), `x${x}`, true, mapPx([[x, cz - size / 2], [x, cz + size / 2]])]);
 }
@@ -105,6 +108,9 @@ const dataUrl = await page.evaluate(async ({ tiles, W, H, tx0, ty0, grid, overla
     g.strokeStyle = 'rgba(255,160,40,0.8)'; for (const line of overlays.roads) poly(line, false);
     g.strokeStyle = 'rgba(255,160,40,0.45)'; for (const line of overlays.tracks) poly(line, false);
     g.strokeStyle = 'rgba(120,255,120,0.8)'; for (const ring of overlays.range) poly(ring, true);
+    g.strokeStyle = 'rgba(60,255,60,0.95)'; for (const ring of overlays.greens) poly(ring, true);
+    g.strokeStyle = 'rgba(255,60,255,0.9)'; for (const ring of overlays.teePads) poly(ring, true);
+    g.strokeStyle = 'rgba(255,255,120,0.9)'; for (const ring of overlays.bunkers) poly(ring, true);
     g.strokeStyle = 'rgba(255,255,255,0.95)'; g.fillStyle = 'white'; g.font = 'bold 16px sans-serif';
     for (const hole of overlays.holes) { poly(hole.line, false); g.fillText(String(hole.n), hole.green[0] + 4, hole.green[1] - 4); }
   }

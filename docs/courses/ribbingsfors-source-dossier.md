@@ -852,3 +852,73 @@ frame origin):
 - Everything in this section remains subject to the release blockers of
   section 13; the Esri-derived traces are migration-only under a blocked
   redistribution licence (see the source manifest).
+
+## 16. Imagery verification of the played surfaces (2026-09-05)
+
+With no licensed orthophoto yet available, the played surfaces were checked
+against **Esri World Imagery z18** (the same migration-only, blocked-licence
+source as §15's traces) to decide whether they can be improved by eye now.
+The crops and the per-green overlays are produced by
+`ribbingsforsbuild/sat-crop.mjs`, which for this pass grew a finer grid
+(50 m on ≤300 m windows) and draws the model's greens, tee pads and bunkers
+on top so model and imagery can be compared directly. Tiles stay in the
+gitignored cache; nothing is redistributed.
+
+**The finding is that the surfaces should NOT be hand-retraced now.** Two
+measured reasons:
+
+1. **The green centres are already survey points, not guesses.** The model's
+   nine green centres reproduce the GolfTraxx *Green Center* survey coordinates
+   to 0.0 m (verified through the frame). Only the GolfTraxx route *lengths*
+   ever carried the yards-as-metres error (§7.3); the green-centre points did
+   not. Against the imagery these centres land on the real putting surfaces on
+   holes 4, 5, 7, 8 and 9, and within reading error on 1, 2 and 6; hole 3 is
+   the one where the centre looks ~15 m from the most distinct mown oval, and
+   even there the survey point is inside the green complex.
+
+2. **The bunkers are guide-formula-placed and land on real sand more often
+   than not.** They are positioned by `fromGreen` distance × side offset from
+   the centreline (`build-course.mjs`), and against the imagery they sit on the
+   actual bright-sand bunkers on holes 4, 5, 7, 8 and 9. The clear soft spots
+   are **holes 3 and 6**, where two or three of the guide ellipses fall on
+   rough or grass hollows rather than the visible sand.
+
+What this course denies a tracer is contrast: it is a **park-and-pasture
+course photographed leaf-off in early spring**, so greens differ from fairway
+by a shade, bunkers are small, and grass hollows read like sand. Reading a ring
+vertex off z18 against a 50 m grid is ±4 m at best, and on this ground the
+distinction between a mown green and its apron, or a bunker and a hollow, is
+often below that. A wholesale retrace would therefore replace survey-grade
+green centres and mostly-correct bunkers with differently-imprecise eyeball
+geometry — the exact failure the repo warns against ("measure the imagery
+before believing"; "a plain picture of the real thing beats a beautiful
+picture of a different thing"). The green **outlines** remain synthetic
+ellipses, but their **positions** are survey-anchored, which is what a distance
+or a routing actually depends on.
+
+**So the identifiable, evidence-backed soft spots are narrow:** the bunker
+placement on holes 3 and 6, and hole 3's green-centre-versus-surface offset.
+These are left for the licensed orthophoto or the club's own data rather than
+"corrected" into new uncertainty — the imagery does not resolve where hole 3's
+bunkers actually are with enough confidence to move them safely.
+
+**What genuinely raises precision from here, in order, is unchanged from §12
+and needs data this pass could not obtain by eye:**
+
+1. The licensed Lantmäteriet orthophoto — now **open data, CC-BY 4.0** since
+   Feb 2025 on the same Geotorget/dl1 channel and account the DTM already uses
+   (`imagery-lm-ortho` in the source manifest). One 0.16–0.25 m window replaces
+   the synthetic green/fairway/bunker outlines, the Esri traces and the tee
+   interpolation at once, and clears most of §13.
+2. Extending the hole-9 **DTM-bench tee method** (`tee-controls.json`, plane
+   RMSE 0.136 m) to all 27 tees — the terrain we already have, no new licence.
+3. The neighbouring **break-geometry items** (653_45, 654_44, 654_45) for the
+   laser-surveyed Skagern waterline with real island holes, retiring the OSM
+   ring and the two documented drowned-islet simplifications.
+4. The club's current **GIT scorecard and any GIS/drainage plan** (§14) — the
+   only source that makes the per-hole card rows and the ditch runs
+   authoritative rather than provisional.
+
+The reusable outcome of this pass is the tracing tooling itself
+(`sat-crop.mjs`'s grid and surface overlays), so that when the orthophoto or a
+club layer does arrive, the traced comparison is one command away.

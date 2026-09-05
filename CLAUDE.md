@@ -2720,6 +2720,17 @@ the same commit (`pnpm test` fails loudly on both, and
   sits between holes 9 and 1 with its bays at the south end and a mature oak
   in the field. Satellite traces carry per-feature confidence in
   `surroundings-traces.json`; the ±8 m reading error is stated there.
+- **The played surfaces are survey-anchored, not to be hand-retraced (§16).**
+  The nine green centres ARE the GolfTraxx *Green Center* survey points to
+  0.0 m — only the route lengths carried the yards bug, not the green points —
+  and they land on the real greens in z18 imagery; the guide-formula bunkers
+  land on real sand on 6 of 9 holes (soft spots: 3 and 6). This is a leaf-off
+  park-and-pasture course where greens/bunkers barely out-contrast grass, so an
+  eyeball retrace at ±4 m would degrade survey-good geometry. Green OUTLINES
+  stay synthetic ellipses; their POSITIONS are survey-grade. Real surface
+  precision needs the ortho (now open CC-BY), the DTM-bench tee method extended
+  to all 27 tees, or club data — never a lower-confidence trace. `sat-crop.mjs`
+  grew a 50 m grid and green/tee/bunker overlays for that future comparison.
 - **86 of 88 protected trees (the "Ribbingsfors ekhage" oaks, CC0) are
   laser-confirmed** and drawn as individual crowns sized from circumference.
   The confirmation is FROZEN in apply-surroundings.mjs: re-measuring against
