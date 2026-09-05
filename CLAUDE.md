@@ -2742,3 +2742,105 @@ records the 2026-09-05 pass. The lessons that generalise:
   from the clubhouse is clear over the lake. All three are in
   `scenery/angso.js` with their basis; the campsite piers got boats for free
   the moment there was water under them.
+## Ribbingsfors — `ribbingsforsbuild/` (no standalone page; app-only)
+
+Ribbingsfors Golf & Kultur: 9 holes, par 36 (played twice for 18/72), a park
+and pasture course in the Ribbingsfors manor environment beside Lake Skagern,
+Gullspång. The first course authored DIRECTLY in the grid frame — local metres
+ARE EPSG:3006 minus the origin E448975.5 N6536024.5, so there is no
+convergence rotation and no flat-earth scale error anywhere in this build (and
+`tools/sat-mosaic.mjs` therefore cannot serve it; `ribbingsforsbuild/sat-crop.mjs`
+is its exact-per-point replacement). Everything about sources and rights is in
+[`docs/courses/ribbingsfors-source-dossier.md`](docs/courses/ribbingsfors-source-dossier.md)
+— read §3 before touching the card (the per-hole rows are PROVISIONAL, only
+the three nine-hole tee totals are official) and §15 for the surroundings
+survey. The v2 1 m ground is published and default; `tools/check-ribbingsfors-v2.mjs`
+is its browser gate.
+
+### Where the geometry comes from
+
+| source | used for |
+|---|---|
+| official club totals (Vit 3110 / Gul 2966 / Röd 2525) | the card gate; per-hole rows are secondary and marked so |
+| Lantmäteriet Markhöjdmodell 1 m item 653_44 | the ground (HF0/HF1) and the twelve break-geometry water polygons WITH per-ring levels |
+| Laserdata skog 2023 CHM | the 4 m tree-cover raster (3 m canopy threshold) |
+| GolfTraxx seeds (yards mislabelled as metres — measured, ratio 0.9144) | provisional routing only, card-length-extended back tees |
+| OSM wide extract + Esri z17/z18 traces + Länsstyrelsen protected trees (CC0) | the whole surroundings model below |
+
+### The pipeline
+
+    node ribbingsforsbuild/build-course.mjs        # needs pixi/GDAL + acquisition caches
+    node ribbingsforsbuild/fetch-osm-wide.mjs      # wide surroundings extract (no GDAL from here on)
+    node ribbingsforsbuild/parse-osm-wide.mjs      # -> osm-surroundings.json
+    node ribbingsforsbuild/detect-sand.mjs         # measure bunkers from z18 sand pixels -> cache/sand-candidates.json + review crops
+    node ribbingsforsbuild/apply-sat-shapes.mjs    # accepted bunkers (sat-shapes.json) replace the guide-formula set
+    node ribbingsforsbuild/apply-surroundings.mjs  # merge + gates; IDEMPOTENT, run after every build-course
+    node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
+    node packages/course-pack/emit-manifest.mjs
+    node packages/course-v2/refresh-fallback-v1.mjs ribbingsfors   # or the v2 graph fails closed
+    node packages/course-geo/migrate-legacy.mjs --write --ground ribbingsfors
+    node ribbingsforsbuild/sat-crop.mjs <name> <cx> <cz> <size> [z] [--plain]  # tracing/verification crops
+
+**A pack re-emit is not done until `refresh-fallback-v1` has run** — the v2
+root index and course manifest pin the exact GPK1 bytes, and the runtime
+refuses v2 selection on a mismatch, silently downgrading every flagless visit.
+The migration model and the source manifest's artifact checksums must move in
+the same commit (`pnpm test` fails loudly on both, and
+`hole-source-controls.mjs` pins the EPSG:3006 model hash a third time).
+
+### Ground truth the surroundings model encodes
+
+- **Skagern's level is 69.3 m RH 2000; OSM's `ele=66.9` is wrong** (the vista
+  DTM reads a laser-flat 69.35 over the open basin). The big lake ring is OSM
+  shoreline closed offshore, gated by DTM sampling (99.0% of interior samples
+  laser-flat; a measured diagonal cut keeps a far corner of 70–73 m land
+  out). North of the Skagersvik strait the water at ~67.5 m is
+  Gullspångsälven BELOW the lake's outlet — never let the ring swallow it.
+- **The ditches are one system**: eastern boundary ditch → hole-2 pond
+  (77.7 m) → road culvert → the two crossings at green 1 → hole-9 pond
+  (72.0 m) → lake. The four synthetic guide-crossing streams are replaced by
+  these traces; the gradient is the check.
+- **The range the guide interpretation placed was in the lake.** The real one
+  sits between holes 9 and 1 with its bays at the south end and a mature oak
+  in the field. Satellite traces carry per-feature confidence in
+  `surroundings-traces.json`; the ±8 m reading error is stated there.
+- **The played surfaces are survey-anchored, not to be hand-retraced (§16).**
+  The nine green centres ARE the GolfTraxx *Green Center* survey points to
+  0.0 m — only the route lengths carried the yards bug, not the green points —
+  and they land on the real greens in z18 imagery. **The bunkers are MEASURED
+  (§17)**: `detect-sand.mjs` classifies sand per pixel (calibrated with
+  `--find` on 19 known bunkers — sand is rgb ~183–214/170–193/136–161, and the
+  dry-grass confuser fails on G−R > −6) and places 18 accepted bunkers at their
+  pixel centroids; five guide-listed bunkers resolved to plain grass and were
+  DROPPED, not guessed (listed in sat-shapes.json). Eyeballed coordinates were
+  7–20 m off the measured centroids — never hand-place a bunker here. This is a leaf-off
+  park-and-pasture course where greens/bunkers barely out-contrast grass, so an
+  eyeball retrace at ±4 m would degrade survey-good geometry. Green OUTLINES
+  stay synthetic ellipses; their POSITIONS are survey-grade. Real surface
+  precision needs the ortho (now open CC-BY), the DTM-bench tee method extended
+  to all 27 tees, or club data — never a lower-confidence trace. `sat-crop.mjs`
+  grew a 50 m grid and green/tee/bunker overlays for that future comparison.
+- **86 of 88 protected trees (the "Ribbingsfors ekhage" oaks, CC0) are
+  laser-confirmed** and drawn as individual crowns sized from circumference.
+  The confirmation is FROZEN in apply-surroundings.mjs: re-measuring against
+  the re-burned raster flips the oak standing in the parking lot.
+- **Skagersvik has almost no OSM buildings**, so 482 street-aligned houses
+  are synthesized inside its residential rings (the Ås precedent). The reedy
+  bays' wetland rings double as `surround.shallows`. Two low islets inside
+  water rings are documented as drowned (the engine's carve floors a ring's
+  interior; the Noret islet crests 0.66 m above the lake).
+
+### Traps
+
+- **A lazy regex over OSM XML attributes self-closing nodes' tags to the
+  wrong node.** `<node .../>` followed by `([\s\S]*?)<\/node>` swallows the
+  NEXT tagged node — this misattributed "peak Sörhult" to a node 3 km away
+  during the first inventory scan and cost an hour of sign-error chasing.
+  parse-osm-wide.mjs's alternation `(\/>|>...<\/node>)` is the correct form;
+  the projection was never wrong.
+- **Clip, don't just filter.** A kept-whole way reached ±39 km (power line)
+  and the Skagern shoreline ran 9 km past the vista; everything in
+  osm-surroundings.json is clipped to the 4.6 km keep box.
+- The break-geometry water stops at the ITEM edge (E450000 = local x 1025);
+  the straight chord an overlay shows there is two same-level rings meeting,
+  not a defect.
