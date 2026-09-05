@@ -306,7 +306,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "ribbingsforsbuild/course-model.json",
-      "sha256": "7056e1f9e586cab20c173f38a046e3ff25c721f524ffbbe49125a04ee0e1f06d",
+      "sha256": "dd4395ce879ac69f1c1b9b8a4d9b3b0f91a03b42316573dc1322effa40e135a8",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Current composite local-metre vectors, routing, RH 2000 terrain references and scenery inputs. Hole 9 Gul uses the explicit provisional DTM-bench control rather than the road-crossing card interpolation. Bunkers are measured sand (apply-sat-shapes.mjs from sat-shapes.json), no longer guide-formula placed. The 2026-09 surroundings pass (apply-surroundings.mjs) adds the gated Skagern ring at 69.3 m, traced ditches replacing the synthetic guide crossings, 86 laser-confirmed protected-tree crowns, the corrected range, the greenkeeping yard, Skagersvik context and synthesized village housing."
@@ -423,7 +423,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-      "sha256": "1a6d58dc424c34700a8621a746717ea00d7c2e7b5c295e40f26f5e6ef15be5cf",
+      "sha256": "2ef0d6a59871cda23881ed8668c09c3f6cc18b3926cc8d83f3fc1686d24a4c83",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Deterministic exact translation of all local x/z geometry to absolute EPSG:3006 coordinates; source scalar RH 2000 heights remain unapproved."
@@ -441,7 +441,7 @@
       "id": "surroundings-traces",
       "kind": "topography",
       "path": "ribbingsforsbuild/surroundings-traces.json",
-      "sha256": "efe30047b73d2ec907f61d6310590da3720ca6547c17f6f6ed22cec3d1f0ec46",
+      "sha256": "1f5e36f1f4de1d4c56ddd3f501d3839f20b48684484c3ad63cd06147c4db9447",
       "derivedFrom": ["esri-imagery-traces", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Read-by-eye satellite traces with per-feature confidence: the corrected driving range, practice greens, main parking, greenkeeping yard and its sheds, three ditch runs, two boundary walls, two jetties, a clear-fell ring and the manor precinct. Coordinates only; no imagery is redistributed."
@@ -450,7 +450,7 @@
       "id": "surface-sand-bunkers",
       "kind": "surface",
       "path": "ribbingsforsbuild/sat-shapes.json",
-      "sha256": "cc65bfdec049abd4cc99673b4687a250544431c85ff25189b6f7a62358223452",
+      "sha256": "b42c69624935cdfab69176e96e9d13f7fcd0f2713c269d0d412d4132f8d1582b",
       "derivedFrom": ["esri-imagery-traces", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Bunkers measured by per-pixel sand classification of Esri z18 imagery (detect-sand.mjs): 18 accepted sand bunkers with pixel-centroid positions and covariance axes, 11 rejected candidates and 5 guide-listed bunkers that resolved to no sand, all listed. Replaces the guide-formula placement in the compatibility model; coordinates only, no imagery stored."
@@ -459,7 +459,7 @@
       "id": "surface-traces",
       "kind": "surface",
       "path": "ribbingsforsbuild/surface-traces.json",
-      "sha256": "aefb62ff6c95344f0c677dae700bfce72b1a23f721a8682003d4f0ae1ece0653",
+      "sha256": "1d17f5aacc23e8eb2e1ee66768aa0953e0d575eadafe68625d6c0fc51fa39c35",
       "derivedFrom": ["esri-imagery-traces","terrain-lm-1m","golftraxx-reference","club-guide-reference"],
       "use": "migration-only",
       "notes": "Greens, tee decks, fairways and hole routes traced BY RULE from Esri z18 imagery (mown turf 2G-R-B > 70; each green the collar-bounded patch around the GPS centre, largest compact of six readings) and the published 1 m laser terrain (decks: 5x5 spread < 0.12 m); routes are least-cost paths through each hole's own mown corridor. Every reading and refusal is listed; review sheets per hole in the gitignored cache. Replaces the synthetic green ellipses, route corridors and card-constrained synthetic pads (trace-surfaces.mjs / apply-surface-traces.mjs). Coordinates only, no imagery stored."
@@ -468,16 +468,34 @@
       "id": "laser-ditches",
       "kind": "terrain",
       "path": "ribbingsforsbuild/laser-ditches.json",
-      "sha256": "8f4223c3c9a34553d31bf4a5dc190f5f65027745729a709fbf5fa4c2cfe3eba0",
+      "sha256": "cf9411eeaf91f486055558e31861873bd890eeab5173ddbc0f934b734517896c",
       "derivedFrom": ["terrain-lm-1m","esri-imagery-traces"],
       "use": "migration-only",
       "notes": "The satellite-traced ditches re-laid on the laser channel bottom (black top-hat, 13 m closing, least-cost path, kept where >= 0.10 m deep) with per-run depths, plus two crossings the valley score found under the traced routes (laser-ditches.mjs)."
     },
     {
+      "id": "laser-bunkers",
+      "kind": "terrain",
+      "path": "ribbingsforsbuild/laser-bunkers.json",
+      "sha256": "c9aba3ac2df94501513a137e4db01f7a5dbe7f78111a74c80af412ac1cdd8e23",
+      "derivedFrom": ["terrain-lm-1m","esri-imagery-traces","club-guide-reference"],
+      "use": "migration-only",
+      "notes": "The sand-classified bunkers checked against the 1 m laser: each one's dish (outside-band median minus inside median), the offset at which that dish is deepest, and the deepest black top-hat cell inside it; the guide bunkers that resolved to no sand tested for a dish on the traced routes; and every unclaimed hollow on open played ground with the imagery's colour over it. All 18 stand over a dish; 10 are re-centred onto it (laser-bunkers.mjs)."
+    },
+    {
+      "id": "second-capture-check",
+      "kind": "control",
+      "path": "ribbingsforsbuild/wayback-greens.json",
+      "sha256": "2a7c35e982baa7ae0e2b617f67b53fd87ac30d220edf967f6c028c879331c163",
+      "derivedFrom": ["esri-imagery-traces"],
+      "use": "migration-only",
+      "notes": "The played surfaces re-read in a SECOND, dated capture found through Esri Wayback (release 57965 = 2019-06-02 WorldView-2, against the live 2023-04-28): the green grower refuses all nine on leaf-on imagery (recorded, with numbers, so it is not retried), and the sand rule run on both captures puts 16 of 18 bunkers in both, centroids a median 2.4 m apart. Coordinates and statistics only; no imagery stored."
+    },
+    {
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/ribbingsfors/migration/residual-report.json",
-      "sha256": "7812b3121686efd41a43e491202c73f699f86e5feea967af82e37cd749808fa8",
+      "sha256": "288258e2abd870ecf5b6de6019e87e3617991093bc90aab2c547b4cf10b5d782",
       "derivedFrom": ["terrain-lm-1m", "water-breaks-lm-1m", "osm-course-boundary", "osm-context-legacy", "osm-context-wide", "esri-imagery-traces", "protected-trees-reference", "golftraxx-reference", "club-guide-reference"],
       "use": "migration-only",
       "notes": "Exact projected-frame translation audit with zero local-frame residuals; independent canonical control is still pending."

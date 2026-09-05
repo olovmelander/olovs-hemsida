@@ -1224,3 +1224,123 @@ GolfTraxx seeds' far corners, so CORE shrank from 316 × 298 to 307 × 289 cells
 `v2-ribbingsfors-config.mjs` was re-measured off the assertion's own "got"
 line (85,183 of 88,723 base points omitted, was 90,520 of 94,168).
 
+
+## 20. Three second opinions: the laser under the bunkers, a dated second capture, and the roofs (2026-09-05)
+
+Everything in §17–§19 was measured from ONE orthoimage and ONE laser model,
+each doing the job it is best at. This section asks each of them to check the
+other's work, and asks a second, independently captured image to check both.
+Nothing here is a new source: it is the same three records, cross-examined.
+
+### 20.1 Every measured bunker stands over a laser dish
+
+`ribbingsforsbuild/laser-bunkers.mjs` measures three things for each of the 18
+sand-classified bunkers, none of which entered its placement:
+
+- **dish** — the median height of a 1.5–5 m band outside the ring minus the
+  median inside it;
+- **shift** — the offset in ±8 m at which that dish is deepest (an optimum ON
+  the search edge has not converged and is flagged as such);
+- **top-hat** — the deepest black-top-hat cell (13 m closing) inside the ring,
+  the ditch tracer's own instrument.
+
+**All 18 stand over a hollow.** Sixteen read a dish at their sand position
+(0.11–0.41 m, floors 0.16–0.76 m); the 3rd's greenside and the 5th's greenside
+read slightly negative there and find their dish 5.1 m and 4.5 m away. That is
+the answer to the question §17 could not ask: sand in the imagery over a dish
+in the laser is what a bunker is, and this course has no exceptions.
+
+**And the disagreement is the imagery's registration.** The median |shift| is
+3.2 m, median (+2, −1) m — the same few metres the trace file states as its
+own error. Where the search converged inside the box and the dish gained at
+least 5 cm, the ring is re-centred onto it: **10 of 18 moved, by 1–5 m**. A
+bunker IS its hollow; the sand centroid is a picture of it taken from orbit.
+
+`apply-sat-shapes.mjs` now uses the laser position where one was measured and
+**throws** if a sand patch ever reads `no dish` — the loud gate for the claim
+this section makes.
+
+The other direction is just as useful. The five guide-listed bunkers §17
+dropped for want of sand were placed by the guide formula on the traced routes
+and tested for a dish within ±12 m: four (the 1st at 193 m, the 5th's pair at
+215 and 245 m, the 9th's at 18 m) find **neither sand nor a dish** — they are
+not there, and the guide's own arithmetic put them nowhere in particular. Two
+(the 8th's south greenside, the 9th's left at 72 m) sit near a 0.29–0.30 m
+hollow but carry no sand; recorded, not adopted.
+
+Finally, every hollow ≥ 0.30 m deep and 12–250 m² on open played ground that
+no bunker, pond, ditch or road claims is listed — 36 of them, **none
+sand-coloured**. They are grass hollows: the ground of a pasture course.
+
+### 20.2 A second capture, four years and one season away
+
+Esri Wayback keeps every World Imagery release since 2014. Hashing the
+course-centre z18 tile across all 196 of them finds **three distinct images
+over Ribbingsfors**, and Esri's own metadata layer dates them: the live layer
+and the 2024/2025 releases carry one **2023-04-28** WorldView-2 capture
+(leaf-off — the image everything was traced from), and release 57965
+(2023-02-23) carries a **2019-06-02** WorldView-2 capture. Leaf-on, June, four
+years earlier, and independently orthorectified.
+
+`ribbingsforsbuild/wayback-greens.mjs` runs both checks it allows.
+
+**The greens: refused, and the refusal is the finding.** The grower of
+`green-grower.mjs` — split out of `trace-surfaces.mjs` for this, so the rule
+run on the second image is literally the rule that made the traces — refuses
+all nine. Every reading runs to 2,000–4,000 m² against traced outlines of
+216–605 m². That is not registration: in June the approach and the fairway are
+as green as the putting surface, and the bright collar the April capture draws
+around every green is simply absent. **This course's greens are traceable in
+leaf-off imagery and not in leaf-on**, and the six readings per hole are kept
+in `wayback-greens.json` so nobody spends the afternoon again.
+
+**The bunkers: 16 of 18 in both captures, a median 2.4 m apart.** Sand is sand
+in any season, so `detect-sand`'s own rule was integrated over a 14 m disc at
+each measured bunker in each image. Sixteen carry sand in both; the centroids
+disagree by a median **2.4 m**, worst 5.4 m. That is an estimate of the
+imagery's positional accuracy that no single capture can produce, and it lands
+where the laser said it would (§20.1's 3.2 m median shift). Two read no sand
+in 2019 — the 5th's greenside and the 8th's greenside, which are precisely the
+two the laser found least convincing (the weakest dish, and §17's only
+`medium` confidence). Either they were built after 2019 or they are shallow
+and grassed at the edges; both readings are recorded and neither is resolved.
+
+### 20.3 The clubhouse was on the lawn
+
+The clubhouse footprint was a 30 × 10 m rectangle laid on the public POI's own
+bearing, explicitly provisional. Measured against the imagery — everything
+within 30 m of the POI whose excess green is at most 25, which excludes grass
+at 60–110 and the gravel track at 40–90 — that ground is one 419 m² block, and
+the block is **two buildings and their yard**: a pale roof running WNW–ESE from
+about (471, −459) to (487, −454), and a dark roof on the same alignment 8 m
+north of it. The old rectangle lay across both and out over the lawn, 8.5 m
+from the block's centre and 63° across its axis.
+
+Both footprints now live in `surroundings-traces.json` (the clubhouse as the
+pale-roofed building, the dark one as `ribbingsfors-clubhouse-annex`) and
+`apply-surroundings.mjs` replaces the placeholder with them — the same way it
+already replaces `build-course.mjs`'s provisional driving range, and for the
+same reason: that file needs the acquisition caches to run, so it must not be
+the only place a measured number lives. The rectangles are read off the roofs
+at 0.31 m/px, so the DIMENSIONS carry a metre or two of edge error; the
+positions and the alignment are measured.
+
+**The greenkeeping yard could not be re-measured, and that is a fact about the
+imagery.** `trace-buildings.mjs` classifies roofs the way the tree-cover work
+classifies turf — low excess green, mid-tone or dark, and SMOOTH at metre
+scale — and it finds the yard's sheet roofs at excess green 16 and its gravel
+hardstanding at 14–17. There is no separation to be had: the components it
+accepts there are the yard surface, not its buildings (one runs to 6,751 m²).
+The three sheds keep their by-eye trace and its stated ±8 m. A licensed
+orthophoto, or any capture with a shadow long enough to measure, settles it.
+
+### 20.4 Six more ditches the traces never saw
+
+While the top-hat was loaded, the same rule that re-laid the traced ditches
+(§19.4) was run over the whole played ground: elongated top-hat components
+≥ 0.25 m deep, ≥ 40 m long unless they reach a water ring, clear of the roads
+and of the ditches already drawn. Six survive review — two draining to Skagern
+below the 9th, two crossing the 8th, one between the two ponds by the 6th, and
+one along the 4th. They ship as `streams` of the same kind, with their depth
+and length in the provenance string; the review sheets are in the gitignored
+cache.

@@ -317,7 +317,18 @@ const yardBuildings = traces.features.yard.buildings.map((building, index) => {
     h: building.h, kind: 'shed', name: null, amenity: null,
     prov: 'greenkeeping yard trace; satellite interpretation' };
 });
-const clubhouse = model.infra.buildings.find(b => b.id === 'ribbingsfors-clubhouse-provisional');
+/* footprints measured off the orthoimagery that OSM has no way of supplying */
+const tracedBuildings = (traces.features.buildings || []).map(building => {
+  const cos = Math.cos(building.rot), sin = Math.sin(building.rot);
+  const w = building.w / 2, d = building.d / 2;
+  const corner = (sx, sz) => [r1(building.c[0] + sx * w * cos - sz * d * sin),
+    r1(building.c[1] + sx * w * sin + sz * d * cos)];
+  return { id: building.id, ring: [corner(-1, -1), corner(1, -1), corner(1, 1), corner(-1, 1)],
+    h: building.h, kind: building.kind, name: building.name ?? null, amenity: building.amenity ?? null, prov: building.prov };
+});
+/* a traced footprint of the same id REPLACES build-course's placeholder */
+const clubhouse = tracedBuildings.some(b => b.id === 'ribbingsfors-clubhouse-provisional') ? null
+  : model.infra.buildings.find(b => b.id === 'ribbingsfors-clubhouse-provisional');
 const nearBuildings = osm.buildings.filter(b => {
   const [x, z] = centroid(b.ring);
   return Math.hypot(x, z) <= 1500;
@@ -331,7 +342,7 @@ model.infra = {
   paths: osm.paths,
   tracks: osm.tracks,
   roads: osm.roads,
-  buildings: [...(clubhouse ? [clubhouse] : []), ...nearBuildings, ...yardBuildings],
+  buildings: [...(clubhouse ? [clubhouse] : []), ...nearBuildings, ...tracedBuildings, ...yardBuildings],
   farB: [
     ...farBuildings.map(b => {
       const [x, z] = centroid(b.ring);

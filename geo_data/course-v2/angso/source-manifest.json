@@ -319,7 +319,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "angsobuild/course-model.json",
-      "sha256": "1e3323b74da1ef46c9412b4c734b22ac434b41254c88cdd0453e054bae2da9f6",
+      "sha256": "b667d39e0309ef98b5c3002cc95efc5821aa4a9e729f8d9ff74ed968fbd0879b",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -414,7 +414,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
-      "sha256": "8f61356dc5117135278310b01ec7766df384b2b49804a44d278d2b32e1812669",
+      "sha256": "e3b664d6fe548307de9044aafb1433be4e32457029d07f085268582ad0fe0602",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -442,7 +442,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/angso/migration/residual-report.json",
-      "sha256": "1099b964124f54abd1ab645c535f9221297a4f2c5eb929a15bccc9f3761b1da9",
+      "sha256": "1e7ea6ad95799c9515671216867f57a115d2bc7cd5a207cbaf2b2b6e809b5e65",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",

@@ -3,7 +3,8 @@
  "source": "Lantmäteriet Markhöjdmodell 1 m as published for this ground (64 tiles, RH 2000, identity frame), black top-hat with a 13 m closing; ribbingsforsbuild/laser-ditches.mjs 2026-09-05",
  "rules": {
   "relay": "each traced ditch walked vertex to vertex by least-cost path along the top-hat within 40 m; kept where >= 0.10 m deep, gaps under 6 m bridged, runs >= 15 m",
-  "crossing": "valley score (across-depth minus 0.8 x along-slope over 8 directions) sampled every metre along each traced route; peaks >= 0.4 not in water, > 30 m from the tee and > 25 m from the green, > 12 m from a known ditch; snapped ±45 m and trimmed; runs >= 30 m and >= 0.2 m mean depth"
+  "crossing": "valley score (across-depth minus 0.8 x along-slope over 8 directions) sampled every metre along each traced route; peaks >= 0.4 not in water, > 30 m from the tee and > 25 m from the green, > 12 m from a known ditch; snapped ±45 m and trimmed; runs >= 30 m and >= 0.2 m mean depth",
+  "channel": "top-hat components >= 0.30 m deep, 30–600 m², on open ground (tree-cover raster) within 45 m of a hole line or green, >= 2 m outside water/green/bunker/tee rings, >= 5 m from roads, tracks and paths, >= 10 m from a known ditch; principal-axis elongation >= 3 and >= 20 m long; the deepest cell per 2 m bin along the axis is the bottom; an end within 35 m of a water ring is extended to it by least-cost path; mean depth >= 0.25 m; >= 40 m long unless it reaches water"
  },
  "refined": [
   {
@@ -865,6 +866,323 @@
    "crossesAt": 333,
    "valleyScore": 0.48,
    "note": "crosses the traced route of hole 6 333 m from the green"
+  }
+ ],
+ "channels": [
+  {
+   "holes": [
+    9
+   ],
+   "line": [
+    [
+     370,
+     -480
+    ],
+    [
+     378,
+     -479
+    ],
+    [
+     390,
+     -474
+    ],
+    [
+     400,
+     -472
+    ],
+    [
+     412,
+     -467
+    ],
+    [
+     437,
+     -460
+    ]
+   ],
+   "meanDepth": 0.56,
+   "length": 64,
+   "area": 163,
+   "elongation": 17.9,
+   "drains": [
+    {
+     "end": "start",
+     "into": "Skagern",
+     "level": 69.3,
+     "metres": 8
+    }
+   ],
+   "roadDistance": 94,
+   "note": "elongated hollow on open ground by hole 9, draining into Skagern (69.3 m)"
+  },
+  {
+   "holes": [
+    9
+   ],
+   "line": [
+    [
+     284,
+     -358
+    ],
+    [
+     288,
+     -353
+    ],
+    [
+     292,
+     -353
+    ],
+    [
+     301,
+     -363
+    ],
+    [
+     303,
+     -363
+    ],
+    [
+     306,
+     -360
+    ],
+    [
+     306,
+     -355
+    ],
+    [
+     308,
+     -353
+    ],
+    [
+     309,
+     -349
+    ],
+    [
+     308,
+     -345
+    ],
+    [
+     317,
+     -297
+    ],
+    [
+     320,
+     -289
+    ],
+    [
+     321,
+     -279
+    ],
+    [
+     340,
+     -261
+    ],
+    [
+     340,
+     -259
+    ],
+    [
+     343,
+     -258
+    ]
+   ],
+   "meanDepth": 0.81,
+   "length": 94,
+   "area": 458,
+   "elongation": 7.4,
+   "drains": [
+    {
+     "end": "start",
+     "into": "Skagern",
+     "level": 69.3,
+     "metres": 27
+    }
+   ],
+   "roadDistance": 225,
+   "note": "elongated hollow on open ground by hole 9, draining into Skagern (69.3 m)"
+  },
+  {
+   "holes": [
+    8
+   ],
+   "line": [
+    [
+     504,
+     -88
+    ],
+    [
+     502,
+     -88
+    ],
+    [
+     479,
+     -72
+    ],
+    [
+     463,
+     -68
+    ]
+   ],
+   "meanDepth": 0.77,
+   "length": 47,
+   "area": 295,
+   "elongation": 3.6,
+   "drains": [],
+   "roadDistance": 12,
+   "note": "elongated hollow on open ground by hole 8"
+  },
+  {
+   "holes": [
+    8
+   ],
+   "line": [
+    [
+     485,
+     -62
+    ],
+    [
+     469,
+     -55
+    ],
+    [
+     461,
+     -54
+    ],
+    [
+     452,
+     -50
+    ],
+    [
+     440,
+     -48
+    ]
+   ],
+   "meanDepth": 0.75,
+   "length": 47,
+   "area": 304,
+   "elongation": 4.3,
+   "drains": [],
+   "roadDistance": 7,
+   "note": "elongated hollow on open ground by hole 8, 7 m from a road"
+  },
+  {
+   "holes": [
+    6
+   ],
+   "line": [
+    [
+     22,
+     16
+    ],
+    [
+     18,
+     11
+    ],
+    [
+     18,
+     5
+    ],
+    [
+     20,
+     3
+    ],
+    [
+     33,
+     3
+    ],
+    [
+     23,
+     3
+    ],
+    [
+     16,
+     -1
+    ],
+    [
+     14,
+     -1
+    ],
+    [
+     12,
+     2
+    ],
+    [
+     7,
+     4
+    ],
+    [
+     -7,
+     5
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     8,
+     3
+    ],
+    [
+     12,
+     3
+    ],
+    [
+     15,
+     6
+    ],
+    [
+     15,
+     16
+    ],
+    [
+     16,
+     17
+    ]
+   ],
+   "meanDepth": 0.46,
+   "length": 42,
+   "area": 188,
+   "elongation": 3.6,
+   "drains": [
+    {
+     "end": "start",
+     "into": "pond",
+     "level": 73.7,
+     "metres": 17
+    },
+    {
+     "end": "end",
+     "into": "pond",
+     "level": 73.7,
+     "metres": 26
+    }
+   ],
+   "roadDistance": 9,
+   "note": "elongated hollow on open ground by hole 6, draining into pond (73.7 m) and pond (73.7 m), 9 m from a road"
+  },
+  {
+   "holes": [
+    4
+   ],
+   "line": [
+    [
+     396,
+     82
+    ],
+    [
+     437,
+     85
+    ],
+    [
+     438,
+     86
+    ]
+   ],
+   "meanDepth": 0.47,
+   "length": 44,
+   "area": 100,
+   "elongation": 16,
+   "drains": [],
+   "roadDistance": 126,
+   "note": "elongated hollow on open ground by hole 4"
   }
  ]
 }

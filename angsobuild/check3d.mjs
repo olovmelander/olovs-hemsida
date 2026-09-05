@@ -130,6 +130,32 @@ gate(P0.b64 === hf.hf0.b64 && P1.b64 === hf.hf1.b64,
   gate(GEO.seaLevel === model.seaLevel, `currency: seaLevel ${GEO.seaLevel} matches model`);
 }
 
+/* --- 7: a measured feature came from a calibrated instrument ------------------- */
+/* The bunkers and the tee decks are read off ONE dated satellite capture over
+   the laser terrain, and an imagery capture is only an instrument once it has
+   reproduced something nobody read off it. The nine bunkers OpenStreetMap
+   surveyed are that something. This gate fails if a re-run ever adopts a
+   capture that does not find them: the live 2025-04-13 imagery finds 4 of 9 at
+   4.5 m and would be refused here; the 2018-10-25 capture the model uses finds
+   8 of 9 at 1.3 m. It also fails if a bunker the model calls measured has no
+   dish under it after all. */
+try {
+  const dtm = JSON.parse(fs.readFileSync(path.join(HERE, 'dtm-features.json'), 'utf8'));
+  const hit = (dtm.osmCheck || []).filter(o => o.dist != null);
+  const worst = hit.length ? Math.max(...hit.map(o => o.dist)) : Infinity;
+  gate(hit.length >= 7 && worst <= 3,
+    `calibration: ${hit.length} of ${(dtm.osmCheck || []).length} surveyed bunkers reproduced by the sand-over-dish rule on capture ${dtm.imagery.release}, worst ${worst.toFixed(1)} m (gate: 7 and 3 m)`);
+  const measured = (dtm.bunkers || []).filter(b => b.src !== 'osm');
+  const shallow = measured.filter(b => !(b.dish >= 0.07)).length;
+  gate(shallow === 0, `bunkers: every one of the ${measured.length} measured bunkers sits over a dish in the laser (${shallow} without)`);
+} catch (e) { if (e.code !== 'ENOENT') throw e; }
+try {
+  const lp = JSON.parse(fs.readFileSync(path.join(HERE, 'laser-ponds.json'), 'utf8'));
+  const traced = (lp.ponds || []).filter(p => p.verdict === 'traced');
+  const notFlat = traced.filter(p => !(p.spread <= 0.5)).length;
+  gate(notFlat === 0, `ponds: all ${traced.length} laser-traced ponds read as flat plates (${notFlat} over 0.5 m), ${(lp.ponds || []).length - traced.length} refused with a stated reason`);
+} catch (e) { if (e.code !== 'ENOENT') throw e; }
+
 /* --- measurements -------------------------------------------------------------- */
 console.log('\nmeasurements:');
 console.log(`  page size ${(src.length / 1024).toFixed(0)} KB`);

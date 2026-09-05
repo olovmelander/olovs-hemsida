@@ -638,3 +638,77 @@ section records what the pass changed and the evidence for each change.
   of a tile bound onto the bound; and the census step rewrites a file this
   manifest pins, so `record-artifact-checksum.mjs` re-pins it inside the
   workflow before the gates read it.
+
+## 17. The third pass — the laser and a dated capture (2026-09-05)
+
+§16 re-grounded this course. This pass reads the course OFF that ground, with
+the Veckefjärden method and one addition of its own: the satellite capture is
+chosen by measurement rather than taken as it comes.
+
+**One frame, three registrations.** `angsobuild/dtm.mjs` binds the readers to
+this course's frame. The 1 m laser terrain is the published ring graph sampled
+through the derived bridge, so a laser sample lands where the model says with
+no fitting; Esri z18 tiles are Web Mercator, so a tile's coordinates ARE its
+georeference; the club's own records need registering and are checked against
+both. `geobuild/dtm-lib.mjs` became frame-parameterised factories to allow it,
+with Veckefjärden's frame as the default so its own callers never noticed.
+
+**The imagery is DATED, and here that took a tool.** `tools/wayback-captures.mjs`
+hashes the same z18 tile in all 196 Wayback releases at five probes across the
+course: identical bytes are the same imagery, and the release where a hash
+changes is when that block was re-flown. Ängsö is **not** a patchwork — unlike
+Veckefjärden, all five probes change at the same release — and it has exactly
+two single-capture frames: **2025-04-13** (Vantor, 0.34 m, live since the
+2025-10-23 release) and **2018-10-25** (Maxar, 0.5 m).
+
+**The surveyed bunkers chose between them, and the newer capture lost.** Nine
+bunkers here come from the OSM survey and never entered any imagery reading, so
+they are the ruler. The sand rule is calibrated on this capture, never
+hardcoded — the surveyed bunkers give the sand population, the greens and
+fairways the turf population, and the cut goes between them:
+
+| capture | surveyed bunkers found | median | worst |
+|---|---|---|---|
+| 2025-04-13, 0.34 m | 4 of 9 | 4.5 m | 4.7 m |
+| 2018-10-25, 0.5 m, uncorrected | 6 of 9 | 4.3 m | 5.5 m |
+| **2018-10-25 with its measured (3, 2) m correction** | **8 of 9** | **1.3 m** | **2.4 m** |
+
+In the April capture the two populations overlap: the sand's median pixel does
+not even pass a cut drawn at turf's 90th percentile (spring turf is pale here
+and the sand is wet). The older, coarser capture separates them cleanly. **A
+newer picture is not a better instrument**, and the way to know is to make it
+reproduce something nobody read off it.
+
+**And the capture's own registration is measured, not assumed.** Each sand
+patch is slid over ±8 m and the shift that deepens its dish most is kept; the
+median over the patches with a real dish is the capture's error, here (3, 2) m.
+The line in the table above is the proof it is real: applying it takes the
+surveyed-bunker agreement from 6 of 9 at 4.3 m to 8 of 9 at 1.3 m.
+`angsobuild/terrain-check.mjs` says the same thing from the other side — the
+OSM-surveyed greens and bunkers want a shift of about (−1, −4) and (−2, −1),
+the satellite-traced ones (3, 5) and (1, 4).
+
+What the pass changed in the model:
+
+- **Bunkers 34 → 47.** The nine surveyed ones are kept untouched as the ruler;
+  38 are measured as sand over a dish, 16 of them on ground the trace never
+  had; three traced bunkers with neither sand nor a dish under them were
+  DROPPED rather than kept for tidiness.
+- **Eight ponds re-traced off their own laser plate**, each with its measured
+  level, because laser does not penetrate water and a pond is therefore a flat
+  plate whose edge is its shoreline. **Five were refused with the reason**: two
+  run outside the 4,096 m published window and would have been traced
+  truncated, and three have interiors spreading 0.79–1.35 m, which is not a
+  water surface at all.
+- **Four more ditches** on holes 2, 14, 17 and 18 (mean depth 0.52–0.75 m),
+  where the valley filter scores a crossing the ten laser-traced watercourses
+  of §16 did not already carry.
+- **Eighteen measured tee decks** under card marks no pad covered. The same
+  reading validates the traced pads: 31 of the 46 have a laser plateau beside
+  them at a median offset of (1, −0.6) m.
+
+**The gates fail loudly.** `check3d` now refuses a model whose bunkers came
+from a capture that cannot reproduce the surveyed ones (7 of 9 within 3 m), a
+"measured" bunker with no dish under it, and a laser-traced pond that is not
+flat. Fed the April capture's numbers the calibration gate fails, which is how
+it was proved to fire.

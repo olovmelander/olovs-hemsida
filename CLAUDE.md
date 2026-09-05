@@ -3209,6 +3209,43 @@ records the 2026-09-05 pass. The lessons that generalise:
   the branch before it pushes, so a branch that moved during the hour of
   compile no longer costs the run.
 
+- **The course is read off that ground now, and the satellite capture was
+  CHOSEN by measurement (2026-09-05).** `angsobuild/dtm.mjs` binds the readers
+  to this frame; `geobuild/dtm-lib.mjs` became frame-parameterised factories to
+  allow it (Veckefjärden's frame is the default, so its callers are unchanged).
+  **`tools/wayback-captures.mjs` is the new reusable instrument**: it hashes the
+  same z18 tile in all 196 Esri Wayback releases at five probes across a course,
+  so identical bytes are the same imagery and the release where a hash changes
+  is when that block was re-flown. Ängsö is NOT a patchwork (all five probes
+  change together, unlike Veckefjärden) and has two single-capture frames:
+  2025-04-13 Vantor at 0.34 m, which is what the live mosaic serves, and
+  2018-10-25 Maxar at 0.5 m. **The nine OSM-surveyed bunkers chose between them
+  and the newer capture lost**: the sand rule, calibrated per capture from those
+  bunkers against the greens and fairways rather than hardcoded, finds 4 of 9 at
+  a median 4.5 m on the April imagery — spring turf is pale here, the sand is
+  wet, and the sand's median pixel does not pass a cut drawn at turf's 90th
+  percentile — against 8 of 9 at 1.3 m on the 2018 capture. **A newer picture is
+  not a better instrument; make it reproduce something nobody read off it.**
+  That capture's own registration error is measured the same way (slide each
+  sand patch ±8 m, keep the shift that deepens its dish, take the median): (3, 2)
+  m, and applying it is what takes the agreement from 6 of 9 at 4.3 m to 8 of 9
+  at 1.3 m, so the correction is evidence rather than a fudge.
+  `angsobuild/terrain-check.mjs` confirms it from the other side — surveyed
+  greens and bunkers want (−1, −4) and (−2, −1), traced ones (3, 5) and (1, 4).
+  The model gained: bunkers 34 → 47 (the nine surveyed ones untouched as the
+  ruler, 38 measured as sand over a dish, 16 on ground the trace never had,
+  three traced ones with neither sand nor dish DROPPED); eight ponds re-traced
+  off their own laser plate with measured levels by `angsobuild/laser-ponds.mjs`,
+  with **five refused and the reason kept** (two run outside the 4,096 m window
+  and would trace truncated, three have interiors spreading 0.79–1.35 m and so
+  are not water surfaces); four more ditches on holes 2, 14, 17 and 18; and
+  eighteen measured tee decks, the same reading validating the traced pads at a
+  median (1, −0.6) m. `check3d` gained three gates that fail loudly — a capture
+  that cannot reproduce 7 of the 9 surveyed bunkers within 3 m, a "measured"
+  bunker with no dish, a laser-traced pond that is not flat — and the first was
+  proved to fire by feeding it the April numbers. The full record is §17 of the
+  atlas.
+
 ## Ribbingsfors — `ribbingsforsbuild/` (no standalone page; app-only)
 
 Ribbingsfors Golf & Kultur: 9 holes, par 36 (played twice for 18/72), a park
@@ -3240,11 +3277,14 @@ is its browser gate.
     node ribbingsforsbuild/fetch-osm-wide.mjs      # wide surroundings extract (no GDAL from here on)
     node ribbingsforsbuild/parse-osm-wide.mjs      # -> osm-surroundings.json
     node ribbingsforsbuild/detect-sand.mjs         # measure bunkers from z18 sand pixels -> cache/sand-candidates.json + review crops
-    node ribbingsforsbuild/apply-sat-shapes.mjs    # accepted bunkers (sat-shapes.json) replace the guide-formula set
+    node ribbingsforsbuild/laser-bunkers.mjs       # each sand bunker against its laser dish -> laser-bunkers.json (+ laser fields in sat-shapes.json)
+    node ribbingsforsbuild/apply-sat-shapes.mjs    # accepted bunkers replace the guide-formula set, at their DISH position; throws on sand over no dish
     node ribbingsforsbuild/apply-surroundings.mjs  # merge + gates (incl. the Skagern union via lake-union.mjs); IDEMPOTENT, run after every build-course
     node ribbingsforsbuild/trace-surfaces.mjs      # greens, tee decks, fairways, routes by rule -> surface-traces.json + cache/review/hole-N.png (LOOK)
     node ribbingsforsbuild/laser-ditches.mjs       # traced ditches re-laid on the laser channel bottoms + crossings -> laser-ditches.json
     node ribbingsforsbuild/apply-surface-traces.mjs  # folds both in; runs LAST (apply-surroundings keeps laser-laid streams on a rerun)
+    node ribbingsforsbuild/trace-buildings.mjs     # roofs by rule -> cache/review/buildings-*.png (the yard refuses; see the dossier)
+    node ribbingsforsbuild/wayback-greens.mjs      # the second dated capture: greens refused, bunkers agreed -> wayback-greens.json
     node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
     node packages/course-pack/emit-manifest.mjs
     node packages/course-v2/refresh-fallback-v1.mjs ribbingsfors   # or the v2 graph fails closed
@@ -3286,6 +3326,33 @@ the same commit (`pnpm test` fails loudly on both, and
   lowers the tile's offset and shifts every sample before carving. Probe it
   with `V3D.waterBedAt(x, z)` (depth 5.5, ground 63.8 at (−100,−300)) —
   the gate in `check-ribbingsfors-v2.mjs` does.
+- **A bunker is sand over a dish, and the dish is where it stands.** All 18
+  measured bunkers sit over a hollow in the 1 m laser (0.11–0.41 m deep, the
+  outside band's median minus the inside's); ten are re-centred 1–5 m onto it
+  by `laser-bunkers.mjs`, and `apply-sat-shapes` THROWS if sand ever reads no
+  dish. The disagreement between sand and dish is the imagery's own
+  registration — median |shift| 3.2 m — and it is confirmed independently by a
+  second capture: of the 196 Esri Wayback releases exactly three distinct
+  images cover this course, and the 2019-06-02 one puts 16 of 18 bunkers a
+  median 2.4 m from where the 2023-04-28 one does. The four guide bunkers that
+  resolved to no sand have no dish either; 36 hollows on open played ground
+  are grass, none sand-coloured.
+- **The greens are traceable in LEAF-OFF imagery only.** The same grower
+  (`green-grower.mjs`, split out so the second image gets the identical rule)
+  refuses all nine on the 2019 leaf-on capture — every reading runs to
+  2,000–4,000 m² against outlines of 216–605, because in June the approach is
+  as green as the putting surface and the bright collar is absent. Recorded
+  with its numbers so it is not retried.
+- **The clubhouse was on the lawn, and the yard cannot be measured at all.**
+  The provisional 30 × 10 m POI rectangle lay 8.5 m off and 63° across the
+  axis of the roof block it stood for; that block is TWO buildings (a pale
+  roof and a dark one 8 m north), and both are traced in
+  `surroundings-traces.json` with `apply-surroundings` replacing the
+  placeholder — the same pattern as the driving range, because
+  `build-course.mjs` needs the acquisition caches and must not be the only
+  home of a measured number. At the greenkeeping yard the roof rule fails
+  honestly: sheet roofs read excess green 16 against gravel hardstanding at
+  14–17, so the three sheds keep their by-eye trace and its ±8 m.
 - **The ditches are one system**: eastern boundary ditch → hole-2 pond
   (77.7 m) → road culvert → the two crossings at green 1 → hole-9 pond
   (72.0 m) → lake. The four synthetic guide-crossing streams are replaced by

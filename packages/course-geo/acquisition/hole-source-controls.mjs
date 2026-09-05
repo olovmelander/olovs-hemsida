@@ -21,21 +21,21 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  angso: '8f61356dc5117135278310b01ec7766df384b2b49804a44d278d2b32e1812669',
+  angso: 'e3b664d6fe548307de9044aafb1433be4e32457029d07f085268582ad0fe0602',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
   /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the
      committed cs2cs migration: worst 1.4 mm over 3,564 coordinates) after the
      laser pass renamed the lakes, added the ditches and slid four wet tee
      marks ashore; the hole lines are unchanged and the routing chunk is the
      same content-addressed file */
-  puttom: '2f640071cbcb20d8685122b5f04a536c0accb3adf4f89e882c53a4497e2ad414',
-  ribbingsfors: '1a6d58dc424c34700a8621a746717ea00d7c2e7b5c295e40f26f5e6ef15be5cf',
+  puttom: '4b5ee818964e2575fa4b53bfcbeff120fa23e60cec28e7b4563156eb2b3b7008',
+  ribbingsfors: '2ef0d6a59871cda23881ed8668c09c3f6cc18b3926cc8d83f3fc1686d24a4c83',
   upsala: 'd0f6f895614c2472505587dd6796d33ec860058264da4286dafec79bd1e43d56',
   'upsala-mellanbanan': '3ccc7f203c1f96f63c270f53e8604da18d2825a7913e071573abb275c92d1864',
   johannesberg: '473dfb98dd4f1f85498252662cf5738b721f86a6897e4a5fecbb93c719df0b20',
   'johannesberg-9': '2e8ac61987e4b680f56ca61b4e7e5318d77ea742bd8fc5fa2ea0ae95a7a412a4',
-  veckefjarden: 'a7a36c6a678be6bee217c077d18636fdae63389f663549fd515c640d42c7c4d2',
-  'veckefjarden-korthalsbanan': 'eed0959e725e2904e1970806d3d5dd65c865a4bb0263e169ab28735765042725',
+  veckefjarden: '9ade6a0a3d7ad58ad41a4efd2bd9b4fbd1941f22a9abca7b3866f3946192a562',
+  'veckefjarden-korthalsbanan': '1cfba8a2b7be03d3f0ea14ecb13946e4c17bd3cb14415c14449a0d9a9b2755cc',
 });
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
