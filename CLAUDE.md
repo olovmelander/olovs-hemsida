@@ -254,6 +254,42 @@ The short version of what changed and why:
   June 2026) and the reserve's western half is fetched by id — it lies outside the
   bbox and had never been in the model.
 
+The second pass the same day (shorelines, greens, buildings, two more ditches):
+
+- **Esri Wayback is the dated-imagery source, and the live mosaic is a patchwork.**
+  `wayback.maptiles.arcgis.com/.../tile/{release}/{z}/{y}/{x}` serves every past
+  World Imagery release (config at
+  `s3-us-west-2.amazonaws.com/config.maptiles.arcgis.com/waybackconfig.json`; a
+  release 404s where nothing changed — the tile you want is the latest release ≤ yours
+  that has it). Release 27982 (2025-04-24) is ONE leaf-on capture over the whole
+  course; the live tiles are that capture in the north and a leaf-off date in the
+  south with the 1st's green under its winter cover. Hash a tile against the releases
+  before believing "the imagery is autumn" — it was, in half the mosaic.
+- **Greens still cannot be traced, and now it is measured six ways** (course map §2):
+  polar edge 0.36, first step 0.44, DTM roughness 0.53 (greens ARE the smoothest
+  surface in the 1 m laser, on all twelve surveyed), the club plan's own green fill
+  0.64 aligned (the plan draws fairway green too), brightness blob 0.54, fusion 0.55,
+  median IoU against the 12 OSM greens. A blind eye-trace of the 13th on the leaf-on
+  image ran east–west; the survey runs north–south. Stop trying without a survey or a
+  finer leafed-on image. The plans DO register better on their DTM-measured bunkers
+  than on the drawn flag (pin-end error 5–16 m → 2–8 m): the flag is drawn at the pin,
+  not the green's centre.
+- **The laser gives the shoreline** (`geobuild/laser-water.mjs`, the Ängsö method with a
+  10 ha floor — without it five 25–110 m² shore puddles joined the lake): one plate at
+  0.280 m RH 2000, no seam, traced at 2 m near the course and spliced onto the OSM ring
+  on the DTM window's edge. OSM was a median 2 m off near the course and 17 m off twice
+  (a chord across a convex shore by the 3rd; the 45 m mole at the 15th's piers). Levels
+  stay Terrarium's — the GPK1 terrain the water sits on — with the laser level recorded
+  beside them. The island 14th is not an island at water level.
+- **`derive-dtm-features` re-run on a model that already carries its output silently
+  dropped 9 ditches and 12 decks**, on the documented chain order too: the crossing
+  filter counted its own ditches as "OSM already has it", the deck finder found no
+  synth pad left. It skips `prov:"dtm"` in both tests now. Anything that folds its own
+  output back into its input must know its own provenance.
+- **A screenshot trace is ±7 m; orthoimagery is 0.** The four buildings read off the
+  Google Maps screenshot were 8–13 m out and up to twice their size on the z18
+  tiles; re-read there. Every OSM footprint at the clubhouse sat on the imagery exactly.
+
 ## Running the older page
 
 Open `veckefjardensgc.html` in a browser. It works from `file://`; a server is only

@@ -419,6 +419,43 @@ const water = osm.water.map(w => ({
   level: levelById[w.id] ?? hf.lakeLevel,
   isLake: w.id === hf.lakeId,
 }));
+/* --- the shorelines read off the laser ground (geobuild/laser-water.mjs) --------
+   Laser does not penetrate water, so the 1 m DTM carries every water surface as a
+   flat plate; the fjärd's is 0.280 m RH 2000, one plate, no flight-strip seam. The
+   shoreline traced round it is 2 m-vertexed near the course and replaces the OSM
+   ring inside the DTM window (spliced on the window boundary, OSM verbatim beyond
+   it): median 2.0 m from the OSM shore near the course, p95 8.6 m, and two real
+   corrections -- a 17 m chord error by the 3rd and the 45 m mole by the 15th's
+   piers that OSM never drew. Every pond inside the window has a plate too, and its
+   ring is the plate's outline; the 12th's pond is a dumbbell the laser splits in
+   two lobes, carried as two bodies. LEVELS stay the heightfields' (Terrarium datum,
+   which is the terrain the pack's water sits on -- the laser plate re-expressed in
+   legacy metres lands 0.1-0.4 m from them); the laser reading is kept as
+   levelLaser beside each. */
+let LASER = null;
+try { LASER = readJSON(path.join(ROOT, 'geobuild/laser-water.json')); } catch (e) { if (e.code !== 'ENOENT') throw e; /* not run yet */ }
+if (LASER) {
+  const byId = Object.fromEntries((LASER.ponds || []).map(q => [q.id, q]));
+  const extra = []; let lakeDone = false, pondsDone = 0;
+  for (const w of water) {
+    if (w.isLake && LASER.lake?.spliced?.length >= 3) {
+      w.ring = ring1(LASER.lake.spliced); w.area = Math.round(polyArea(w.ring)); w.prov = 'laser';
+      w.levelLaser = LASER.lake.levelLegacy; lakeDone = true;
+    }
+    const q = byId[w.id]; if (!q) continue;
+    if (q.plateFound) w.levelLaser = q.levelLegacy;
+    if (q.ringLaser && q.ringLaser.length >= 3) {
+      w.ring = ring1(q.ringLaser); w.area = Math.round(polyArea(w.ring)); w.prov = 'laser'; pondsDone++;
+      for (const [k, lobe] of (q.ringsLaser || []).slice(1).entries()) {
+        const r = lobe.ring || lobe;
+        extra.push({ id: `${w.id}-${String.fromCharCode(98 + k)}`, ring: ring1(r), name: w.name, area: Math.round(polyArea(ring1(r))),
+                     level: w.level, isLake: false, prov: 'laser', levelLaser: q.levelLegacy, lobeOf: w.id });
+      }
+    }
+  }
+  water.push(...extra);
+  say(`laser water: ${lakeDone ? 'fjärd shoreline spliced (' + LASER.lake.spliced.length + ' vertices, level ' + LASER.lake.levelLegacy + ' legacy vs ' + hf.lakeLevel + ' kept), ' : ''}${pondsDone} pond rings from the plate, ${extra.length} extra lobes`);
+}
 const streams = osm.waterway.filter(w => w.kind !== 'drain' || true).map(w => ({
   id: w.id, line: w.line, kind: w.kind, w: w.kind === 'stream' ? 2.2 : w.kind === 'ditch' ? 1.6 : 3.2,
 }));
