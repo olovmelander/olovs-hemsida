@@ -2,7 +2,7 @@
  "schemaVersion": 1,
  "source": "Esri World Imagery z18 (2023-04-28 WorldView-2, leaf-off) and the published 1 m laser terrain; ribbingsforsbuild/trace-practice.mjs 2026-09-05. Migration-only, no imagery stored.",
  "method": {
-  "field": "dormant ground classified per pixel (excess green <= 40, brightness >= 105 — measured 15–17/121 inside the field against 53–109/89–103 for every turf beside it), opened 1 m, closed 2 m, largest component, holes filled, outline simplified to 2 m",
+  "field": "open ground east of the 1st: not forest in the tree-cover raster, not water, not inside a green/fairway/tee/bunker ring, not within 25 m of a hole line, not within 8 m of a road, track or path; opened 2 m, closed 3 m, the component containing the reviewed seed (600,-347) from the owner's own mark, holes filled, outline simplified to 2 m",
   "bays": "each end searched for laser-flat benches (5 x 5 m spread < 0.12 m, components >= 25 m², dark cells < 30% so the pond is not a bench); the end with more flat ground carries the tee line, and its largest bench is the bays",
   "oak": "dark (brightness < 70) components of 8–400 m² wholly inside the field",
   "practiceGreens": "excess green inside the disc against a 3–8 m collar, and the laser 5x5 m spread, both calibrated on the nine surveyed greens"
@@ -10,162 +10,596 @@
  "range": {
   "ring": [
    [
-    402,
-    -386
+    642,
+    -432
    ],
    [
-    413,
-    -385
+    676,
+    -432
    ],
    [
-    425,
-    -379
+    676,
+    -420
    ],
    [
-    431,
-    -373
+    680,
+    -420
    ],
    [
-    435,
-    -362
+    680,
+    -404
    ],
    [
-    434,
-    -226
+    684,
+    -404
    ],
    [
-    423,
-    -227
+    684,
+    -396
    ],
    [
-    423,
-    -230
+    688,
+    -396
    ],
    [
-    398,
-    -228
+    688,
+    -388
    ],
    [
-    398,
-    -232
+    692,
+    -388
    ],
    [
-    395,
-    -232
+    692,
+    -372
    ],
    [
-    387,
-    -334
+    696,
+    -372
    ],
    [
-    390,
+    700,
+    -364
+   ],
+   [
+    704,
+    -364
+   ],
+   [
+    704,
+    -344
+   ],
+   [
+    708,
+    -344
+   ],
+   [
+    708,
     -336
    ],
    [
-    389,
-    -352
+    700,
+    -332
    ],
    [
-    392,
-    -361
+    700,
+    -320
    ],
    [
-    395,
-    -362
+    704,
+    -320
    ],
    [
-    395,
-    -370
+    708,
+    -312
+   ],
+   [
+    712,
+    -312
+   ],
+   [
+    712,
+    -280
+   ],
+   [
+    715,
+    -280
+   ],
+   [
+    710,
+    -256
+   ],
+   [
+    708,
+    -252
+   ],
+   [
+    704,
+    -252
+   ],
+   [
+    704,
+    -248
+   ],
+   [
+    700,
+    -248
+   ],
+   [
+    700,
+    -228
+   ],
+   [
+    696,
+    -224
+   ],
+   [
+    692,
+    -209
+   ],
+   [
+    684,
+    -208
+   ],
+   [
+    684,
+    -204
+   ],
+   [
+    680,
+    -204
+   ],
+   [
+    680,
+    -188
+   ],
+   [
+    672,
+    -188
+   ],
+   [
+    668,
+    -196
+   ],
+   [
+    656,
+    -196
+   ],
+   [
+    652,
+    -188
+   ],
+   [
+    644,
+    -188
+   ],
+   [
+    644,
+    -180
+   ],
+   [
+    628,
+    -180
+   ],
+   [
+    628,
+    -172
+   ],
+   [
+    615,
+    -172
+   ],
+   [
+    618,
+    -180
+   ],
+   [
+    625,
+    -180
+   ],
+   [
+    627,
+    -190
+   ],
+   [
+    637,
+    -190
+   ],
+   [
+    643,
+    -194
+   ],
+   [
+    643,
+    -202
+   ],
+   [
+    629,
+    -212
+   ],
+   [
+    612,
+    -215
+   ],
+   [
+    612,
+    -204
+   ],
+   [
+    588,
+    -204
+   ],
+   [
+    588,
+    -200
+   ],
+   [
+    577,
+    -200
+   ],
+   [
+    577,
+    -204
+   ],
+   [
+    568,
+    -208
+   ],
+   [
+    568,
+    -224
+   ],
+   [
+    560,
+    -224
+   ],
+   [
+    560,
+    -218
+   ],
+   [
+    553,
+    -218
+   ],
+   [
+    544,
+    -229
+   ],
+   [
+    533,
+    -233
+   ],
+   [
+    527,
+    -246
+   ],
+   [
+    523,
+    -276
+   ],
+   [
+    521,
+    -281
+   ],
+   [
+    518,
+    -281
+   ],
+   [
+    515,
+    -318
+   ],
+   [
+    512,
+    -319
+   ],
+   [
+    513,
+    -333
+   ],
+   [
+    507,
+    -335
+   ],
+   [
+    504,
+    -350
+   ],
+   [
+    506,
+    -409
+   ],
+   [
+    529,
+    -411
+   ],
+   [
+    533,
+    -418
+   ],
+   [
+    560,
+    -418
    ]
   ],
-  "area": 6541,
+  "area": 40163,
   "centre": [
-   412.7,
-   -305
+   614.9,
+   -297.4
   ],
   "bays": [
-   384.9,
-   -226.2
+   600.5,
+   -446.2
   ],
-  "teeEnd": "south",
+  "teeEnd": "north",
   "ends": {
    "north": {
-    "flatCells": 223,
-    "cells": 4324,
+    "flatCells": 5719,
+    "cells": 11822,
     "benches": [
      {
       "c": [
-       463.5,
-       -379.7
+       600.5,
+       -446.2
       ],
-      "area": 47
+      "area": 3091
      },
      {
       "c": [
-       444.2,
-       -384.9
+       730.1,
+       -438.5
       ],
-      "area": 42
+      "area": 573
+     },
+     {
+      "c": [
+       636.4,
+       -424.5
+      ],
+      "area": 514
+     },
+     {
+      "c": [
+       515.2,
+       -453.8
+      ],
+      "area": 494
+     },
+     {
+      "c": [
+       499.1,
+       -424.2
+      ],
+      "area": 125
+     },
+     {
+      "c": [
+       703.2,
+       -441.5
+      ],
+      "area": 112
+     },
+     {
+      "c": [
+       506,
+       -431.7
+      ],
+      "area": 111
+     },
+     {
+      "c": [
+       551.7,
+       -430.4
+      ],
+      "area": 109
+     },
+     {
+      "c": [
+       653.8,
+       -452.5
+      ],
+      "area": 84
+     },
+     {
+      "c": [
+       665.6,
+       -463.9
+      ],
+      "area": 39
      }
     ]
    },
    "south": {
-    "flatCells": 1362,
-    "cells": 4324,
+    "flatCells": 3787,
+    "cells": 11822,
     "benches": [
      {
       "c": [
-       384.9,
-       -226.2
+       722.3,
+       -165.9
       ],
-      "area": 262
+      "area": 980
      },
      {
       "c": [
-       454.2,
-       -228.7
+       598.4,
+       -162.1
       ],
-      "area": 253
+      "area": 929
      },
      {
       "c": [
-       378.6,
-       -198.4
+       515.7,
+       -148.2
       ],
-      "area": 137
+      "area": 895
      },
      {
       "c": [
-       414.1,
-       -194.3
+       504.2,
+       -175
       ],
-      "area": 58
+      "area": 328
      },
      {
       "c": [
-       463.7,
-       -211.7
+       582.4,
+       -178.3
       ],
-      "area": 54
+      "area": 77
      },
      {
       "c": [
-       401.6,
-       -233.1
+       671,
+       -167.4
       ],
-      "area": 51
+      "area": 45
      },
      {
       "c": [
-       401.3,
-       -223.6
+       549,
+       -143.3
       ],
-      "area": 31
+      "area": 42
+     },
+     {
+      "c": [
+       613.8,
+       -157.5
+      ],
+      "area": 32
+     },
+     {
+      "c": [
+       656.1,
+       -149.9
+      ],
+      "area": 30
      }
     ]
    }
   },
-  "trees": [],
+  "trees": [
+   {
+    "c": [
+     593.5,
+     -305.7
+    ],
+    "crownArea": 214
+   },
+   {
+    "c": [
+     588.3,
+     -207.2
+    ],
+    "crownArea": 153
+   },
+   {
+    "c": [
+     596,
+     -248.6
+    ],
+    "crownArea": 145
+   },
+   {
+    "c": [
+     707.1,
+     -260.5
+    ],
+    "crownArea": 128
+   },
+   {
+    "c": [
+     592.7,
+     -336.2
+    ],
+    "crownArea": 88
+   },
+   {
+    "c": [
+     653.9,
+     -199.2
+    ],
+    "crownArea": 78
+   },
+   {
+    "c": [
+     629.8,
+     -185.2
+    ],
+    "crownArea": 75
+   },
+   {
+    "c": [
+     619.8,
+     -175
+    ],
+    "crownArea": 46
+   },
+   {
+    "c": [
+     679,
+     -209.8
+    ],
+    "crownArea": 40
+   },
+   {
+    "c": [
+     645.6,
+     -196.1
+    ],
+    "crownArea": 39
+   },
+   {
+    "c": [
+     660.5,
+     -205.5
+    ],
+    "crownArea": 15
+   },
+   {
+    "c": [
+     596.5,
+     -227
+    ],
+    "crownArea": 12
+   },
+   {
+    "c": [
+     604.5,
+     -209
+    ],
+    "crownArea": 12
+   },
+   {
+    "c": [
+     662.5,
+     -200
+    ],
+    "crownArea": 12
+   },
+   {
+    "c": [
+     590.5,
+     -357.5
+    ],
+    "crownArea": 9
+   },
+   {
+    "c": [
+     706.5,
+     -342.5
+    ],
+    "crownArea": 9
+   },
+   {
+    "c": [
+     645.5,
+     -189.5
+    ],
+    "crownArea": 9
+   }
+  ],
   "tracedBefore": {
    "ring": [
     [
@@ -197,7 +631,7 @@
     435.7,
     -283
    ],
-   "movedMetres": 31.8
+   "movedMetres": 179.8
   }
  },
  "greenCalibration": {
@@ -290,10 +724,10 @@
     510.4,
     -451.3
    ],
-   "radius": 11.6,
-   "exgInside": 109,
-   "exgCollar": 78,
-   "contrast": 31,
+   "radius": 13.9,
+   "exgInside": 107,
+   "exgCollar": 72,
+   "contrast": 35,
    "spread": 0.17,
    "roughness": 0.017,
    "grower": {

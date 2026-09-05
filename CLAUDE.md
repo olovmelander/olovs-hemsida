@@ -3369,7 +3369,7 @@ is its browser gate.
     node ribbingsforsbuild/laser-ditches.mjs       # traced ditches re-laid on the laser channel bottoms + crossings -> laser-ditches.json
     node ribbingsforsbuild/apply-surface-traces.mjs  # folds both in; runs LAST (apply-surroundings keeps laser-laid streams on a rerun)
     node ribbingsforsbuild/trace-buildings.mjs     # roofs by rule (colour+smoothness+HARD EDGE, then grown to the edge peak)
-    node ribbingsforsbuild/trace-practice.mjs      # the range field, its bays and the practice greens -> practice-traces.json
+    node ribbingsforsbuild/trace-practice.mjs      # the range field and the practice greens -> practice-traces.json
     node ribbingsforsbuild/wayback-greens.mjs      # the second dated capture: greens refused, bunkers agreed -> wayback-greens.json
     node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
     node packages/course-pack/emit-manifest.mjs
@@ -3443,19 +3443,34 @@ the same commit (`pnpm test` fails loudly on both, and
   (77.7 m) → road culvert → the two crossings at green 1 → hole-9 pond
   (72.0 m) → lake. The four synthetic guide-crossing streams are replaced by
   these traces; the gradient is the check.
-- **The range field is dormant ground, and that makes it the easiest thing on
-  the course to measure.** A range is not mown to fairway height, so in the
-  leaf-off capture it reads excess green 15–17 and brightness 121 against
-  53–109 and 89–103 for every turf beside it — a wider separation than sand
-  against grass. Classified that way (`trace-practice.mjs`) it is 6,541 m²
-  over x 387–435, z −386…−226; the eye-traced ring it replaced lay **31.8 m**
-  away and claimed 10,166 m², half of it on mown turf. **The bays are at the
-  far end from the clubhouse** — the laser finds 1,362 of 4,324 cells flat to
-  0.12 m at the south end against 223 at the north, with a 262 m² mown bench
-  among them, and the club's own range photographs agree — so the model carries
-  `scenery.rangeTee` and the engine prefers a measured tee over its own "the
-  end you walk to from the clubhouse" rule. No tree stands inside the measured
-  field: the traced "mature oak in the field" is dropped.
+- **A perfect classifier can be pointed at the wrong field.** The range was
+  measured twice. The first pass classified the most striking thing in the
+  leaf-off capture — a 48 × 160 m strip of dormant ground between the 9th and
+  the 1st at excess green 15–17 and brightness 121 against 53–109 and 89–103
+  for every turf beside it, a wider separation than sand against grass — and
+  called it the range because the ±8 m eye-traced ring it replaced lay 31.8 m
+  from it. Every number was right and the field was wrong: **a dormant strip
+  between two fairways is a hayfield here.** The owner marked the range in red
+  over the open pasture EAST of the 1st, and the club's own overview agrees
+  once it is registered on its nine numbered discs — the sheet turns out to be
+  rotated **−149°**, not the 180° the first reading assumed, which puts
+  DRIVING RANGE east/south-east of KLUBBHUS. *Register a plan on its own
+  features before reading a label off it, and take the owner's mark as the
+  record it is.* The field as adopted (`trace-practice.mjs`) is that pasture,
+  classified by what it is NOT — not forest, water, a played ring, within 25 m
+  of a hole line or within 8 m of a road — as the component containing the
+  reviewed seed inside the mark: **40,163 m² over x 504–715, z −432…−172**.
+  **The bays are NOT measured**, and the model says so: the bench test that
+  split the strip's two ends finds nothing on pasture, which is flat
+  everywhere (5,719 of 11,822 cells flat to 0.12 m north against 3,787 south),
+  so `range.bays` and `scenery.rangeTee` are null with the refusal written
+  beside them and the engine's own "the end you walk to from the clubhouse"
+  rule stands. `scenery.rangeTee` still exists and is still preferred where a
+  course HAS a measured tee. No tree stands inside the field: the traced
+  "mature oak in the field" is dropped. And because CORE is `playB ± 150 m`
+  and `playB` takes `scenery.range`, moving the range east grew the reviewed
+  legacy cutout from 307 × 289 to **334 × 289** — re-measured off the v2
+  assertion's own "got" line, never typed.
 - **Of the two practice greens, one is measured and one does not exist.**
   Calibrated on the nine surveyed greens (collar contrast 3–45, median 18;
   laser spread 0.11–0.37 m, median 0.18), the green beside the clubhouse reads
