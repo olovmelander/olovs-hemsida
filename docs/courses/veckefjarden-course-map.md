@@ -125,13 +125,22 @@ disc by eye at 3 px/m, and still nothing traces it:
 
 | method | median IoU vs the 12 OSM greens |
 |---|---|
-| polar edge from the GPS centre (largest brightness step) | 0.36 — locks on the apron edge, 2× the area |
-| first significant step outward | 0.44 |
-| 1 m DTM roughness region-grow (greens ARE the smoothest surface: 0.014–0.025 vs 0.024–0.044 in the collar, on all 12) | 0.53 |
-| the club plan's own green fill, bunker-registered | raw 0.51, aligned 0.64 — the plan draws fairway green too |
+| first significant brightness step outward from the GPS centre | 0.65 |
+| the club plan's own green fill, bunker-registered and aligned | 0.64 — raw 0.51; the plan draws fairway green too |
 | 1.5 m-smoothed brightness blob | 0.54 |
-| brightness + roughness fusion | 0.55 |
+| brightness with the laser-roughness z-score folded in | 0.48 |
+| 1 m DTM roughness alone (greens ARE the smoothest surface: 0.014–0.025 vs 0.024–0.044 in the collar, on all 12) | 0.46 |
+| polar edge at the largest brightness step (locks on the apron) | 0.44 |
 
+Those are `geobuild/imagery/green-tracers.mjs`'s own numbers at its default
+settings. Quoting the tool rather than a scratch script is deliberate: three of the
+six values first written here were wrong for a day, carried from throwaway code whose
+sampling window and thresholds differed and one of whose medians was simply misread.
+
+The best score is not a near miss. That tracer's areas run a median 1.1 times the
+surveyed ones over a 0.8 to 2.4 range, so it has the size right on average and the
+shape wrong hole by hole — which is what every method here does, because the imagery
+shows the green COMPLEX and no threshold separates the putting surface from it.
 A blind eye-trace of the 13th on the leaf-on image put its oval east–west; the survey
 runs north–south. So the six plan greens keep their plan shape on the survey centre,
 and that is written down as the limit of what exists: a survey or a leafed-on image
@@ -250,8 +259,9 @@ and lots), `green-tracers.mjs` re-runs the six methods and prints their IoU,
   traced yet. The five bridges the club names (6, 8, 10, 11, 16/17) exist only where a
   mapped path crosses a modelled water line.
 - **Plan greens** keep the reader's shape. Six methods on two images and the laser
-  terrain all cap at IoU 0.5–0.65 against the survey (see §2, Greens). Only a survey or
-  a better image fixes that.
+  terrain cap at a median IoU of 0.65 against the survey, with the size right on
+  average and the shape wrong hole by hole (see §2, Greens). Only a survey or a
+  better image fixes that.
 - **Hörnsjön's outline** is outside the DTM window and stays OSM; four far ponds too.
 - **The v2 vegetation exclusions** were compiled on the pre-correction greens; the
   three greens that moved 11–19 m were not masked where they really are. Real crowns do
