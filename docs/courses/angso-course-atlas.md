@@ -528,9 +528,9 @@ the routing chunks.
 4. **Bunker orientation/shape beyond the trace** is only as good as z18
    imagery; the 14 satellite-traced holes still await the licensed 2025
    orthophoto before a v2 surface layer can be claimed.
-5. **v2 vegetation unpublished** (acquire run in flight); the leaf-off 2021
-   scan will under-detect deciduous crowns when it lands — audit against the
-   satellite raster the way Johannesberg was.
+5. **The 2021 scan is leaf-off** and under-detects deciduous crowns (the
+   vegetation itself is published, §16). The canopy-source audit against the
+   satellite raster, the way Johannesberg's was run, has not been run here.
 6. **The card has a wired-in expiry**: hole 1's three circulating lengths
    mean third-party sites still serve 355/396; the model asserts the club's
    2023 card only.
@@ -608,3 +608,33 @@ section records what the pass changed and the evidence for each change.
   EPSG:3006 migration carries the laser rings (Krüger series, 1.334 mm
   against the kept cs2cs file); `migrate-without-proj` gained
   `--reference-source`; `sat-mosaic.mjs` runs on Linux.
+- **The LiDAR vegetation is published** (ground-vegetation workflow, runs 18
+  acquire and 23 publish, `observed_on` 2026-09-05): one March 2021 leaf-off
+  campaign (`21c036`, item 660_60), 61.0 M points at 1.89 pulses and 2.34
+  returns per m², the cloud's own class-2 ground within −0.00…+0.06 m median
+  of the published DTM on every one of the 256 tiles, and the CI canopy
+  rasters byte-identical (sha256) to the ones built on the owner's machine on
+  2026-09-04. 85,018 crown candidates → 14,991 machine-reviewed individuals on
+  234 object tiles + stand fields on all 256 (245,526 closed-canopy cells).
+  Rejections: not-individual 65,909, radius 36,016, confidence 26,675, zone-A
+  prominence 1,591, farmland 1,469, path 432, building 357, zone-A
+  compactness 352, water 127 (the shoreline — the measured water-surface rule
+  excluded against the §5 laser rings, so Mälaren no longer claims the land
+  its OSM bay ring used to), road 120, fairway 90, tee 12, green 2, practice
+  2, bunker 1. Overview and all eighteen hole overlays eyeballed before the
+  publish: corridors, greens, tee pads and ponds crown-free, the rings on the
+  laser's own shoreline, the islands carrying their crowns. Ground manifest
+  `64b57eea…`, course manifest `936fa9bd…`, fallback the live pack. In the
+  built app (`tools/vegetation-baseline.mjs --course angso`,
+  `check-course-v2 --course angso`, both green): 14,991 individuals +
+  83,630 stand trees planted from the field, the legacy lattice cut from all
+  256 tiles, bases within 0.053 m of the visible ground at p95 (max 0.64 m),
+  `speciesSource: 'course'` (the birch-led Mälardalen rule of
+  `scenery/angso.js`), and the ring graph serving the world rather than the
+  frontier fallback. Two mechanics the runs taught: a crown standing on the lake plate samples the
+  tile's exact minimum height and the record's millimetre rounding drops the
+  float tail (0.7600000000000002 → 0.76), which the strict registry validator
+  refused — `compileObjectChunks` now snaps a height within its own precision
+  of a tile bound onto the bound; and the census step rewrites a file this
+  manifest pins, so `record-artifact-checksum.mjs` re-pins it inside the
+  workflow before the gates read it.

@@ -1,0 +1,766 @@
+{
+  "schemaVersion": 1,
+  "phase": "vegetation-plan-phase-4-published-generation",
+  "courseSlug": "angso",
+  "observedOn": "2026-09-05",
+  "baseUrl": "http://127.0.0.1:8620",
+  "renderer": "swiftshader",
+  "note": "SwiftShader captures are rendering evidence, not hardware performance evidence; boot seconds are indicative only. Zoning in the tree export is provisional until the plan approves zone-A geometry.",
+  "inputs": {
+    "pack": {
+      "url": "courses/angso/pack.bin",
+      "bytes": 428821,
+      "sha256": "c991a54998cffe2c80f01bca07d62ecef75e2a94fcc936dc463a21b2fdc0469b"
+    },
+    "treeCover": {
+      "id": "legacy-tree-cover",
+      "kind": "canopy",
+      "path": "angsobuild/tree-cover.json",
+      "sha256": "89578e3d98c4c8cfe3801974ac3a7484e9970536b3823fe6296174812340e785",
+      "derivedFrom": [
+        "esri-imagery-legacy",
+        "osm-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current imagery-classified canopy raster."
+    },
+    "courseModel": {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "angsobuild/course-model.json",
+      "sha256": "1e3323b74da1ef46c9412b4c734b22ac434b41254c88cdd0453e054bae2da9f6",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Current composite vectors, routing, elevations and scenery inputs. Horizontal geometry is unchanged since the Terrarium build; every hole elevation, water level and the water floor are re-measured from the 1 m DTM (69 changed leaves, all vertical)."
+    },
+    "courseV2Manifest": "course-v2-33b6eda21d930a8d80a65314546afcf19272380581704ef291d97c6ac075c6dc.json",
+    "groundV2Manifest": "ground-v2-64b57eea3378930ef6b0b4189e201d6cf786ac644bb0ccf3420429e016b01e30.json",
+    "groundPreviewDescriptorSha256": null
+  },
+  "runs": [
+    {
+      "mode": "gpk1",
+      "url": "http://127.0.0.1:8620/?bana=angso&det=1&v2=0",
+      "booted": true,
+      "bootSeconds": 43.5,
+      "errors": [],
+      "stats": {
+        "verts": 411316,
+        "tris": 805748,
+        "trees": 44309,
+        "vista": 51941,
+        "tufts": 17142,
+        "bushes": 3026,
+        "stones": 664,
+        "reeds": 16233,
+        "cars": 52,
+        "pylons": 0,
+        "stumps": 0,
+        "draws": 60,
+        "surfaceOverlays": 0,
+        "backend": "webgl2"
+      },
+      "trees": {
+        "total": 44309,
+        "species": {
+          "spruce": 15212,
+          "pine": 12750,
+          "birch": 16347
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 36530,
+          "scrubRing": 290,
+          "satellite": 7250,
+          "shore": 239,
+          "v2Individual": 0,
+          "v2Stand": 0
+        },
+        "zones": {
+          "A": 7602,
+          "B": 9146,
+          "C": 27561
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 670
+          },
+          {
+            "n": 2,
+            "count": 963
+          },
+          {
+            "n": 3,
+            "count": 21
+          },
+          {
+            "n": 4,
+            "count": 357
+          },
+          {
+            "n": 5,
+            "count": 560
+          },
+          {
+            "n": 6,
+            "count": 785
+          },
+          {
+            "n": 7,
+            "count": 860
+          },
+          {
+            "n": 8,
+            "count": 900
+          },
+          {
+            "n": 9,
+            "count": 435
+          },
+          {
+            "n": 10,
+            "count": 700
+          },
+          {
+            "n": 11,
+            "count": 1181
+          },
+          {
+            "n": 12,
+            "count": 511
+          },
+          {
+            "n": 13,
+            "count": 1803
+          },
+          {
+            "n": 14,
+            "count": 1302
+          },
+          {
+            "n": 15,
+            "count": 213
+          },
+          {
+            "n": 16,
+            "count": 1510
+          },
+          {
+            "n": 17,
+            "count": 1469
+          },
+          {
+            "n": 18,
+            "count": 2508
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": null,
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": null,
+        "planned": null,
+        "coverageTiles": 0,
+        "error": null,
+        "graphObjectTiles": null,
+        "graphStandTiles": null,
+        "graphEncodedObjectBytes": null,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 54.7
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 229
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 4163.2
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 8131
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 9779.2
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 9982.5
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 10197.6
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 10905.9
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 16116.3
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 16182.2
+          },
+          {
+            "name": "klar",
+            "atMs": 16274.5
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 5.9
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 137.1
+          },
+          {
+            "name": "procedural textures (DETAIL, GRASSN, SANDN, WATERN)",
+            "ms": 434.6
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 1874.8
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 563.1
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 922.7,
+            "reeds": 16233
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 0
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 1179.8
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 0
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 1442.5
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 1556.3,
+            "trees": 44309,
+            "cells": 470
+          },
+          {
+            "name": "far vista cones",
+            "ms": 410.3,
+            "vista": 51941
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 1023.1
+          }
+        ],
+        "atlasMs": 563,
+        "totalMs": 16299.8,
+        "doneAtMs": 16300.1,
+        "firstFrames": [
+          {
+            "atMs": 16359.9,
+            "ms": 26918,
+            "tris": 13121572,
+            "draws": 141,
+            "tiers": {
+              "t0": 4468,
+              "t1": 4967,
+              "t2": 4879,
+              "t3": 1485
+            }
+          },
+          {
+            "atMs": 43288.1,
+            "ms": 29.2,
+            "tris": 4599634,
+            "draws": 141,
+            "tiers": {
+              "t0": 837,
+              "t1": 1277,
+              "t2": 2400,
+              "t3": 2732
+            }
+          },
+          {
+            "atMs": 43358.2,
+            "ms": 16.1,
+            "tris": 2686039,
+            "draws": 105,
+            "tiers": {
+              "t0": 837,
+              "t1": 1277,
+              "t2": 2400,
+              "t3": 2732
+            }
+          }
+        ],
+        "tintMs": 0
+      },
+      "v2": {
+        "requested": false,
+        "ready": false,
+        "status": "fallback",
+        "reason": null,
+        "selection": {
+          "mode": "off",
+          "requestMode": "off",
+          "graph": null,
+          "graphError": null
+        },
+        "bounds": null,
+        "backend": "webgl2"
+      },
+      "course": {
+        "slug": "angso",
+        "name": "Ängsö GK",
+        "club": "Ängsö Golfklubb",
+        "title": "Ängsö Golfklubb — Banan i 3D",
+        "tag": "Ängsö",
+        "boot": "Stora Bodarna · Mälaren",
+        "build": "angsobuild",
+        "par": 72,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "Vit",
+            "Gul",
+            "Blå",
+            "Röd",
+            "Ora"
+          ],
+          "cols": [
+            16053486,
+            15780154,
+            4886496,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 5,
+          "def": 1
+        },
+        "photos": 4,
+        "packUrl": "courses/angso/pack.bin",
+        "bytes": 428821,
+        "sha256": "c991a54998cffe2c80f01bca07d62ecef75e2a94fcc936dc463a21b2fdc0469b"
+      },
+      "shots": []
+    },
+    {
+      "mode": "v2-require",
+      "url": "http://127.0.0.1:8620/?bana=angso&det=1&v2=require",
+      "booted": true,
+      "bootSeconds": 53,
+      "errors": [],
+      "stats": {
+        "verts": 26985,
+        "tris": 47818,
+        "trees": 98621,
+        "vista": 51799,
+        "tufts": 15932,
+        "bushes": 2822,
+        "stones": 631,
+        "reeds": 15596,
+        "cars": 52,
+        "pylons": 0,
+        "stumps": 0,
+        "draws": 61,
+        "surfaceOverlays": 0,
+        "backend": "webgl2"
+      },
+      "trees": {
+        "total": 98621,
+        "species": {
+          "spruce": 33677,
+          "pine": 28550,
+          "birch": 36394
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 0,
+          "scrubRing": 0,
+          "satellite": 0,
+          "shore": 0,
+          "v2Individual": 14991,
+          "v2Stand": 83630
+        },
+        "zones": {
+          "A": 5696,
+          "B": 8025,
+          "C": 84900
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 387
+          },
+          {
+            "n": 2,
+            "count": 1096
+          },
+          {
+            "n": 3,
+            "count": 47
+          },
+          {
+            "n": 4,
+            "count": 328
+          },
+          {
+            "n": 5,
+            "count": 658
+          },
+          {
+            "n": 6,
+            "count": 1340
+          },
+          {
+            "n": 7,
+            "count": 857
+          },
+          {
+            "n": 8,
+            "count": 602
+          },
+          {
+            "n": 9,
+            "count": 364
+          },
+          {
+            "n": 10,
+            "count": 577
+          },
+          {
+            "n": 11,
+            "count": 895
+          },
+          {
+            "n": 12,
+            "count": 316
+          },
+          {
+            "n": 13,
+            "count": 1029
+          },
+          {
+            "n": 14,
+            "count": 871
+          },
+          {
+            "n": 15,
+            "count": 128
+          },
+          {
+            "n": 16,
+            "count": 925
+          },
+          {
+            "n": 17,
+            "count": 1167
+          },
+          {
+            "n": 18,
+            "count": 2134
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": {
+          "individuals": 14991,
+          "standTrees": 83630,
+          "cellsPlanted": 83630,
+          "cellsSkipped": 933236,
+          "speciesSource": "course",
+          "baseMismatch": {
+            "samples": 14991,
+            "meanAbsMetres": 0.012,
+            "p95Metres": 0.053,
+            "maxMetres": 0.643
+          },
+          "coverageTiles": 256
+        },
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": {
+          "referencedObjectTiles": 234,
+          "referencedStandTiles": 256,
+          "loadedTiles": 256,
+          "records": 14991,
+          "bytes": 2204795,
+          "frameFingerprint": "bfc6a0f04badb8e31cd874bc28e58ed679dd591164d8cb9a96ca9a96209b9318"
+        },
+        "planned": {
+          "individuals": 14991,
+          "standTrees": 83630,
+          "cellsPlanted": 83630,
+          "cellsSkipped": 933236,
+          "speciesSource": "course",
+          "baseMismatch": {
+            "samples": 14991,
+            "meanAbsMetres": 0.012,
+            "p95Metres": 0.053,
+            "maxMetres": 0.643
+          }
+        },
+        "coverageTiles": 256,
+        "error": null,
+        "graphObjectTiles": 234,
+        "graphStandTiles": 256,
+        "graphEncodedObjectBytes": 705651,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 72.5
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 4062.4
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 7018.7
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 17078.3
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 17098.4
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 17118.8
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 17386
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 17865.1
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 22590.1
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 22676.6
+          },
+          {
+            "name": "klar",
+            "atMs": 23310.1
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 1402
+          },
+          {
+            "name": "v2 rings: fetch + verify + decode",
+            "ms": 1220.5,
+            "tiles": 213
+          },
+          {
+            "name": "v2 flat water: detect",
+            "ms": 356
+          },
+          {
+            "name": "v2 water beds: carve rings",
+            "ms": 842,
+            "tiles": 84
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 2567.7
+          },
+          {
+            "name": "procedural textures (DETAIL, GRASSN, SANDN, WATERN)",
+            "ms": 419
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 1729.7
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 467.6
+          },
+          {
+            "name": "v2 prepare (worker, first frontier coverage, preflight)",
+            "ms": 4252
+          },
+          {
+            "name": "ground tint rasters (near 6 m + far 24 m)",
+            "ms": 2096.6
+          },
+          {
+            "name": "v2 vegetation: wait for chunk load",
+            "ms": 3213.1
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 987.4,
+            "reeds": 15596
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 119.7
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 101.1
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 35.4
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 1618
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 1849.4,
+            "trees": 98621,
+            "cells": 892
+          },
+          {
+            "name": "far vista cones",
+            "ms": 228.4,
+            "vista": 51799
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 1257.7
+          },
+          {
+            "name": "v2 stream: first frontier fully resident (after the overlap)",
+            "ms": 504.7,
+            "tiles": 91
+          }
+        ],
+        "atlasMs": 467.6,
+        "totalMs": 23330.6,
+        "doneAtMs": 23330.9,
+        "firstFrames": [
+          {
+            "atMs": 23337.7,
+            "ms": 29418.5,
+            "tris": 12496835,
+            "draws": 141,
+            "tiers": {
+              "t0": 4281,
+              "t1": 3868,
+              "t2": 7275,
+              "t3": 26265
+            }
+          }
+        ],
+        "tintMs": 2097
+      },
+      "v2": {
+        "requested": true,
+        "ready": true,
+        "status": "ready",
+        "reason": null,
+        "selection": {
+          "mode": "fixed-frontier",
+          "requestMode": "require",
+          "graph": {
+            "slug": "angso",
+            "groundId": "angso",
+            "frameFingerprint": "bfc6a0f04badb8e31cd874bc28e58ed679dd591164d8cb9a96ca9a96209b9318",
+            "tiles": 469,
+            "holes": 18,
+            "shellBytes": 59042,
+            "encodedTerrainBytes": 27618086,
+            "surfaceTiles": 0,
+            "objectTiles": 234,
+            "encodedObjectBytes": 705651,
+            "standTiles": 256,
+            "encodedStandBytes": 1499144
+          },
+          "graphError": null
+        },
+        "bounds": {
+          "x0": -1048.4620000000577,
+          "z0": -1810.3430000003427,
+          "x1": 999.5379999999423,
+          "z1": 1261.6569999996573
+        },
+        "backend": "webgl2"
+      },
+      "course": {
+        "slug": "angso",
+        "name": "Ängsö GK",
+        "club": "Ängsö Golfklubb",
+        "title": "Ängsö Golfklubb — Banan i 3D",
+        "tag": "Ängsö",
+        "boot": "Stora Bodarna · Mälaren",
+        "build": "angsobuild",
+        "par": 72,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "Vit",
+            "Gul",
+            "Blå",
+            "Röd",
+            "Ora"
+          ],
+          "cols": [
+            16053486,
+            15780154,
+            4886496,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 5,
+          "def": 1
+        },
+        "photos": 4,
+        "packUrl": "courses/angso/pack.bin",
+        "bytes": 428821,
+        "sha256": "c991a54998cffe2c80f01bca07d62ecef75e2a94fcc936dc463a21b2fdc0469b"
+      },
+      "shots": []
+    }
+  ]
+}

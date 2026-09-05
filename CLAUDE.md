@@ -3047,6 +3047,35 @@ records the 2026-09-05 pass. The lessons that generalise:
   from the clubhouse is clear over the lake. All three are in
   `scenery/angso.js` with their basis; the campsite piers got boats for free
   the moment there was water under them.
+- **The LiDAR vegetation is published here too (2026-09-05), through the
+  same CI chain, and its two runs taught two mechanics.** The first compile
+  refused the shoreline tile l0/4/13 with `heightRH2000 lies outside the
+  declared chunk bounds`: Mälaren's laser plate decodes to
+  0.7600000000000002, a crown standing on it samples exactly that, and the
+  record's millimetre rounding lands 2e-16 BELOW the bound. No other ground
+  had a flat plate as a tile minimum with crowns standing on it.
+  `compileObjectChunks` snaps a height within the record's own 0.001 m of a
+  bound onto the bound (unit-tested); anything further out still fails. And
+  the workflow's census step rewrites `copc-hierarchy-census.json`, which
+  this ground's source manifest — and Puttom's and Johannesberg's — PINS as
+  an artifact, so the acquire's evidence commit left `check-manifests` red
+  and the publish's own gate step would have died on the run's own evidence.
+  `packages/course-geo/acquisition/record-artifact-checksum.mjs` re-pins a
+  registered artifact, the workflow calls it right after the census, and it
+  no-ops where a ground does not register the file (Upsala). The record: one
+  March 2021 leaf-off campaign, 61.0 M points, cloud ground within 0.06 m
+  median of the DTM on all 256 tiles, CI rasters byte-identical to the
+  owner's local build; 85,018 candidates → **14,991 machine-reviewed
+  individuals** on 234 tiles + stand fields on all 256; excluded:water 127
+  (the real shoreline, against the laser rings above), fairway 90, tee 12,
+  green 2. The eyeball (overview + eighteen hole crops) was clean before the
+  publish. In the app: 14,991 + 83,630 stand trees, the legacy lattice cut
+  from all 256 tiles, bases p95 0.053 m, `speciesSource: 'course'` (the
+  birch-led rule in `scenery/angso.js`), `check-course-v2` green on the
+  ring graph. A CI mechanic that now holds: the evidence commit rebases onto
+  the branch before it pushes, so a branch that moved during the hour of
+  compile no longer costs the run.
+
 ## Ribbingsfors — `ribbingsforsbuild/` (no standalone page; app-only)
 
 Ribbingsfors Golf & Kultur: 9 holes, par 36 (played twice for 18/72), a park
