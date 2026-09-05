@@ -559,8 +559,8 @@
         "status": "projected-source-frame-pending-independent-control",
         "source": "legacyFrame.projectedOriginEpsg3006"
       },
-      "coordinatePairCount": 8014,
-      "outsideCourseVicinity5km": 40,
+      "coordinatePairCount": 7756,
+      "outsideCourseVicinity5km": 25,
       "scopes": {
         "playingGeometry": {
           "coordinatePairCount": 1187,
@@ -598,9 +598,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 7974,
+          "coordinatePairCount": 7731,
           "directFrameDelta": {
-            "count": 7974,
+            "count": 7731,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -619,7 +619,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 7974,
+              "count": 7731,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -633,9 +633,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 8014,
+          "coordinatePairCount": 7756,
           "directFrameDelta": {
-            "count": 8014,
+            "count": 7756,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -654,7 +654,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 8014,
+              "count": 7756,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -670,12 +670,12 @@
       },
       "report": {
         "path": "geo_data/course-v2/ribbingsfors/migration/residual-report.json",
-        "sha256": "b89c7a4df9e7028bb049d78cf01842627d0e010ffeac0edd671c2a8361faf618"
+        "sha256": "b3caf1d5bd5c95466ae4db4862ea6b0715265137b5527476b5813ada4ac41535"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-          "sha256": "fbf96473a8a90ed5ff9170dad10288bc43033b248035fdb06fb8f12b090bfad5"
+          "sha256": "43f787e1567c46d7d08bdffd89b51713b04e99a2ee3f897a9ced10c6ea5308df"
         }
       ]
     },

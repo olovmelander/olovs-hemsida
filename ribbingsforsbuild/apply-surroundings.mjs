@@ -106,6 +106,22 @@ function stitchSkagern() {
     if (keepSide(current)) clipped.push(current);
   }
   ring = clipped;
+  /* This ring's bounding box covers the whole CORE grid, so every terrain
+     sample pays a ringSD over it. The shoreline within 1.4 km of the origin
+     keeps its 2 m fidelity (benches and reeds are looked at from the course);
+     beyond that a vertex earns its place only if it moves the line by 12 m. */
+  const slimmed = [];
+  for (let index = 0; index < ring.length; index++) {
+    const point = ring[index];
+    if (Math.hypot(point[0], point[1]) < 1400) { slimmed.push(point); continue; }
+    const previous = slimmed.at(-1), next = ring[(index + 1) % ring.length];
+    if (!previous) { slimmed.push(point); continue; }
+    const dx = next[0] - previous[0], dz = next[1] - previous[1];
+    const length = Math.hypot(dx, dz) || 1;
+    const off = Math.abs((point[0] - previous[0]) * dz - (point[1] - previous[1]) * dx) / length;
+    if (off > 12) slimmed.push(point);
+  }
+  ring = slimmed;
   /* Gate: the interior must read laser-flat at lake level. Sample the vista
      heightfield on a grid well inside the ring; a wrong closure would sweep in
      land (or the lower river reach below the Gullspång outlet) and fail. */
