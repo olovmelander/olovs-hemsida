@@ -22,13 +22,13 @@
   "independentControlAnchors": 0,
   "canonicalOriginPromoted": false,
   "aggregate": {
-    "coordinatePairCount": 3382,
+    "coordinatePairCount": 7666,
     "outsideCourseVicinity5km": 25,
     "scopes": {
       "playingGeometry": {
-        "coordinatePairCount": 1187,
+        "coordinatePairCount": 1097,
         "directFrameDelta": {
-          "count": 1187,
+          "count": 1097,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -47,7 +47,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 1187,
+            "count": 1097,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -61,9 +61,9 @@
         }
       },
       "courseVicinity5km": {
-        "coordinatePairCount": 3357,
+        "coordinatePairCount": 7641,
         "directFrameDelta": {
-          "count": 3357,
+          "count": 7641,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -82,7 +82,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 3357,
+            "count": 7641,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -96,9 +96,9 @@
         }
       },
       "allInventoriedGeometry": {
-        "coordinatePairCount": 3382,
+        "coordinatePairCount": 7666,
         "directFrameDelta": {
-          "count": 3382,
+          "count": 7666,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -117,7 +117,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 3382,
+            "count": 7666,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -136,18 +136,18 @@
     {
       "source": {
         "path": "ribbingsforsbuild/course-model.json",
-        "sha256": "f99ca922f7a810fa40db9ac71e0f8e5dcf101395213a45cf56deaa6af4ee9e17"
+        "sha256": "d1f08538d48bb92cbffbc42701ab10fdf876267241119304f8a6905187be1def"
       },
       "output": {
         "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
-        "sha256": "e71f89bee7c197dbe9ff3cdedaeecbe643b47283b7ace85c740a08a4955acbda"
+        "sha256": "985f89615224b39e64aea1b86a2b5274f99ca4edaef6b92cdbb47559952cecaf"
       },
-      "coordinatePairCount": 3382,
+      "coordinatePairCount": 7666,
       "ignoredMetadataPairCount": 0,
       "coordinatePathCounts": {
-        "evidence.protectedTrees.[].c": 4,
-        "holes.[].bunkers.[].c": 24,
-        "holes.[].bunkers.[].ring.[]": 336,
+        "evidence.protectedTrees.[].c": 72,
+        "holes.[].bunkers.[].c": 18,
+        "holes.[].bunkers.[].ring.[]": 252,
         "holes.[].fairway.rings.[].[]": 460,
         "holes.[].green.c": 9,
         "holes.[].green.ring.[]": 162,
@@ -156,19 +156,31 @@
         "holes.[].tees.marks.[].c": 27,
         "holes.[].tees.pads.[].c": 27,
         "holes.[].tees.pads.[].ring.[]": 108,
-        "infra.buildings.[].ring.[]": 136,
-        "infra.landuse.[].ring.[]": 4,
-        "infra.parking.[].ring.[]": 4,
-        "infra.paths.[].line.[]": 69,
-        "infra.roads.[].line.[]": 350,
-        "infra.tracks.[].line.[]": 180,
-        "scenery.range.[].[]": 24,
-        "streams.[].line.[]": 8,
-        "vegetation.wood.[].[]": 56,
-        "water.[].ring.[]": 1360
+        "infra.buildings.[].ring.[]": 162,
+        "infra.landuse.[].ring.[]": 566,
+        "infra.parking.[].ring.[]": 32,
+        "infra.paths.[].line.[]": 342,
+        "infra.piers.[].line.[]": 8,
+        "infra.power.lines.[].line.[]": 27,
+        "infra.power.towers.[]": 44,
+        "infra.railway.[].line.[]": 84,
+        "infra.roads.[].line.[]": 816,
+        "infra.tracks.[].line.[]": 507,
+        "scenery.grass.[].[]": 4,
+        "scenery.greens.[].[]": 28,
+        "scenery.range.[].[]": 6,
+        "streams.[].line.[]": 22,
+        "surround.clearfells.[].[]": 6,
+        "surround.shallows.[].[]": 290,
+        "surround.yard.[]": 6,
+        "vegetation.forest.[].[]": 418,
+        "vegetation.scrub.[].[]": 27,
+        "vegetation.wetland.[].[]": 290,
+        "vegetation.wood.[].[]": 1032,
+        "water.[].ring.[]": 1780
       },
       "directFrameDelta": {
-        "count": 3382,
+        "count": 7666,
         "biasMetres": {
           "x": 0,
           "z": 0
@@ -187,7 +199,7 @@
           "z": 0
         },
         "residuals": {
-          "count": 3382,
+          "count": 7666,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -201,9 +213,9 @@
       },
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 1187,
+          "coordinatePairCount": 1097,
           "directFrameDelta": {
-            "count": 1187,
+            "count": 1097,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -222,7 +234,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 1187,
+              "count": 1097,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -236,9 +248,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 3357,
+          "coordinatePairCount": 7641,
           "directFrameDelta": {
-            "count": 3357,
+            "count": 7641,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -257,7 +269,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 3357,
+              "count": 7641,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -271,9 +283,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 3382,
+          "coordinatePairCount": 7666,
           "directFrameDelta": {
-            "count": 3382,
+            "count": 7666,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -292,7 +304,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 3382,
+              "count": 7666,
               "biasMetres": {
                 "x": 0,
                 "z": 0

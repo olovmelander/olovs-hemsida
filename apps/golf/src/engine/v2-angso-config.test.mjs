@@ -114,8 +114,10 @@ describe('the reviewed Ängsö frontier rectangle', () => {
 
   it('states a vertical datum step that is this course, not another one', () => {
     /* Veckefjärden 20.9924, Puttom 23.6263. A copied offset is the failure
-       this value exists to make impossible. */
-    expect(ANGSO_V2_CONFIG.legacyFrame.verticalDatumOffsetMetres).toBeCloseTo(9.1166, 4);
+       this value exists to make impossible. Ängsö's is exactly zero because
+       its pack is re-grounded on the laser DTM (angsobuild/build-heightfields.mjs);
+       the pre-rebuild measurement was 9.1166 m with a 1.85 m MAD. */
+    expect(ANGSO_V2_CONFIG.legacyFrame.verticalDatumOffsetMetres).toBe(0);
     expect(ANGSO_V2_CONFIG.bridgeMode).toBe('wgs84-legacy-frame');
     expect(ANGSO_V2_CONFIG.legacyFrame.latitude).toBe(59.5739);
     expect(ANGSO_V2_CONFIG.legacyFrame.longitude).toBe(16.871);

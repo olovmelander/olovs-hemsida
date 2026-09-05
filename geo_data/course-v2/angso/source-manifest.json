@@ -20,7 +20,7 @@
     },
     "metresPerLatitude": 111320,
     "metresPerLongitude": 56375.41,
-    "heightReference": "Terrarium-derived legacy heights; vertical datum was not persisted",
+    "heightReference": "RH 2000. The pack was RE-GROUNDED on 2026-09-05: HF0 and HF1 are cut from the published Lantmäteriet 1 m ring graph (Markhöjdmodell 660_60 over the course, the averaged overviews of nine items to the 16 km root), sampled through the derived legacy-to-grid bridge, replacing the AWS Terrarium field whose datum was never persisted and which stood a median 9.12 m high with a 1.85 m median absolute deviation. Re-measured: median 0.0008 m, MAD 0.0221 m, best registration shift (0, 0).",
     "frame": "local metres about origin; north -z, east +x"
   },
   "canonicalFrame": {
@@ -319,26 +319,61 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "angsobuild/course-model.json",
-      "sha256": "5d096361ddf9be565ec204dc3f1bcbca8a1e3ac42b9cf0a426f1c4388d4277d0",
+      "sha256": "1e3323b74da1ef46c9412b4c734b22ac434b41254c88cdd0453e054bae2da9f6",
       "derivedFrom": [
-        "terrarium-legacy",
+        "terrain-lm-1m",
         "osm-legacy",
         "esri-imagery-legacy",
         "club-guide-legacy"
       ],
       "use": "migration-only",
-      "notes": "Current composite vectors, routing, elevations and scenery inputs."
+      "notes": "Current composite vectors, routing, elevations and scenery inputs. Horizontal geometry is unchanged since the Terrarium build; every hole elevation, water level and the water floor are re-measured from the 1 m DTM (69 changed leaves, all vertical)."
     },
     {
       "id": "legacy-heightfields",
       "kind": "terrain",
       "path": "angsobuild/heightfields.json",
-      "sha256": "c8074de179e653305a0a0e673fa8908f475a0a602289eb3cda35ee2561891756",
+      "sha256": "d81d74ecaf27e7e8122728733090670072758bae119dad57abaa6265b08628e0",
       "derivedFrom": [
-        "terrarium-legacy"
+        "terrain-lm-1m"
       ],
       "use": "migration-only",
-      "notes": "Current 4 m HF0 and 32 m HF1 encoded heightfields."
+      "notes": "4 m HF0 and 32 m HF1, in RH 2000, cut from the PUBLISHED Ängsö ring graph (itself Markhöjdmodell 660_60 and its neighbours at factor 1 and averaged overviews) through the derived legacy-to-grid bridge, with Mälaren's bed sunk under the laser plate (0.15 m at the shore to 3.5 m at 55 m). Not Terrarium: see legacyFrame.heightReference. Water levels are interior medians of the laser plate with their spread recorded."
+    },
+    {
+      "id": "legacy-laser-water",
+      "kind": "composite",
+      "path": "angsobuild/laser-water.json",
+      "sha256": "d9360ebb22c4f095c70d80384379a9885a7bf38d0861a6522ea386edeb21ef53",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "migration-only",
+      "notes": "Mälaren's shoreline traced off the laser-flat plate of the published ring graph (angsobuild/build-laser-water.mjs): the lake components at the regulated level, the flats refused as fields, four near-field rings simplified at 2 m with their islands accounted for, and the level (0.76 m, sd 0.002 over 39,501 window cells). Supersedes OSM w307899187, a clipped north-eastern bay drawn through reeds."
+    },
+    {
+      "id": "legacy-laser-streams",
+      "kind": "composite",
+      "path": "angsobuild/laser-streams.json",
+      "sha256": "44e978e381e80f20339596d8d0e8f06633a27a7eb86dd65125100e8e7785593d",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "The watercourses the club documents and OSM never had, read as incised channels off the published 1 m laser ground: the 9th's brook and its feeder, the 8th's dike (open where the laser sees it, culverted under the 8th and 7th fairways), the 12th's and 13th's brooks and the dry dike beside the 10th. Ten lines, 1,611 m, each kept only where the channel is at least 0.2 m deep against a 15 m mean for 20 m or more."
+    },
+    {
+      "id": "legacy-marking",
+      "kind": "composite",
+      "path": "angsobuild/marking.json",
+      "sha256": "cc82a6babb02ebd54acac1ff6ca1d85982ab214d34557296a4dbb2767b57973a",
+      "derivedFrom": [
+        "club-guide-legacy",
+        "esri-imagery-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Penalty and out-of-bounds stakes placed by rule from Lokala regler 2026 and the hole texts: red round every course pond and along the whole left of the 17th, white at the woodland edge (satellite tree-cover raster) where the club says out of bounds or the boar fence stands, the 5/6 internal stakes as white. Which side and which colour is the club's; where exactly is a stated rule, never a survey."
     },
     {
       "id": "legacy-tree-cover",
@@ -367,7 +402,7 @@
       "id": "legacy-surface-traces",
       "kind": "surface",
       "path": "angsobuild/sat-shapes.json",
-      "sha256": "f829fab133548446861402c2960e8b87f81704b913836743490e6ea5a8349796",
+      "sha256": "d232ee9cffc93a3174011d33d08f4edea0fedf9f5122a7cbdc3a3d7361c97078",
       "derivedFrom": [
         "esri-imagery-legacy",
         "club-guide-legacy"
@@ -379,6 +414,20 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
+      "sha256": "8f61356dc5117135278310b01ec7766df384b2b49804a44d278d2b32e1812669",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic horizontal conversion of the current model -- unchanged holes, plus the laser-traced Mälaren rings -- to absolute EPSG:3006. Projected with the repository Krüger series because PROJ was unavailable; the driver first reproduced the committed cs2cs migration of the pre-rebuild model (its source verified by hash) to 1.334 mm over all 7,284 coordinates and refuses to write otherwise. Legacy scalar heights remain unapproved."
+    },
+    {
+      "id": "migration-course-model-epsg3006-cs2cs",
+      "kind": "composite",
+      "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.cs2cs-2026-09-04.json",
       "sha256": "28cfa8f635210037191a2b3eebbf6ffadf6641d931bc0d77846022c49ce55877",
       "derivedFrom": [
         "terrarium-legacy",
@@ -387,7 +436,7 @@
         "club-guide-legacy"
       ],
       "use": "migration-only",
-      "notes": "Deterministic horizontal conversion of current vector pairs to absolute EPSG:3006 coordinates; legacy scalar heights remain unapproved."
+      "notes": "The PROJ cs2cs migration of 2026-09-04 of the pre-rebuild model, kept as the authority the Krüger-series migration beside it is measured against (1.334 mm worst over 7,284 coordinates). Regenerate the canonical file through migrate-legacy.mjs when the pinned toolchain is available."
     },
     {
       "id": "migration-residual-report",
