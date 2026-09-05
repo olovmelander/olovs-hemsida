@@ -214,6 +214,15 @@ the model's 107.06.
 
 ## 4. How to look at it
 
+The imagery tools of the second pass live in `geobuild/imagery/` (usage in each header
+and in CLAUDE.md): `wayback.mjs` fetches a dated capture, `crops.mjs` renders the
+tracing crops every finding above was read from (`sheet` all greens, `green` one at
+8 px/m, `evidence` imagery | smoothed brightness | laser roughness, `object` buildings
+and lots), `green-tracers.mjs` re-runs the six methods and prints their IoU,
+`plan-register.mjs` registers the plans on their bunkers, and
+`treecover-vs-imagery.mjs` paints where the raster and a leaf-on read disagree.
+`geobuild/laser-water.mjs` is the shoreline reader.
+
 - `node geobuild/derive-dtm-features.mjs` prints every match (plan bunker → real
   bunker, with the distance), every drop, every ditch with its metres-to-green.
 - The review pictures used here were two-panel crops — hillshade left, imagery right,

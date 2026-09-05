@@ -290,6 +290,22 @@ The second pass the same day (shorelines, greens, buildings, two more ditches):
   Google Maps screenshot were 8–13 m out and up to twice their size on the z18
   tiles; re-read there. Every OSM footprint at the clubhouse sat on the imagery exactly.
 
+**The imagery toolkit is `geobuild/imagery/`** and runs on any build (`BUILD=puttombuild`
+reads that model's frame; `SAT_REL=<release>` selects a Wayback capture; `GPS=<file>`
+names a survey, else the model's own centres stand in):
+
+    node geobuild/imagery/wayback.mjs releases | census <x> <z> | fetch [release] [box]
+    node geobuild/imagery/crops.mjs sheet|green|evidence|object …     # tracing crops with the model drawn over
+    node geobuild/imagery/green-tracers.mjs [all|polar|firststep|roughness|blob|fusion|plan]
+    node geobuild/imagery/plan-register.mjs                            # plans on their bunkers, the fill scored
+    node geobuild/imagery/treecover-vs-imagery.mjs [out.png]
+    node geobuild/laser-water.mjs                                      # shorelines off the laser plates
+    node geobuild/derive-dtm-features.mjs                              # bunkers, ditches, decks off the laser
+
+The last two are Veckefjärden-shaped in their paths (the model, the survey, the window)
+and the method is not: taking them to another ground means the build directory, the
+frame and the water level as parameters — the `loadTerrain(slug)` half already is.
+
 ## Running the older page
 
 Open `veckefjardensgc.html` in a browser. It works from `file://`; a server is only
