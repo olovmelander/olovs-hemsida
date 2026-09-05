@@ -25,7 +25,7 @@ const vec = {
     line: h.line, lineLen: h.lineLen, pin: h.pin,
     green: { ring: h.green.ring, c: h.green.c },
     fairway: { rings: h.fairway.rings },
-    tees: { pads: h.tees.pads.map(p => ({ ring: p.ring })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m })) },
+    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}), pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}) })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m })) },
     bunkers: h.bunkers.map(b => ({ ring: b.ring })),
     elev: h.elev, tiers: h.tiers,
     name: h.name, note: h.note, shape: h.shape,

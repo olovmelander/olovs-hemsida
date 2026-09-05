@@ -630,7 +630,7 @@ for (const h of HOLES) {
   const g = { ring: h.green.ring, bb: ringBBox(h.green.ring), hole: h.n, c: h.green.c };
   GI.add(g, g.bb, 26);
   h._g = g;
-  for (const t of h.tees.pads) { const r = { ring: t.ring, bb: ringBBox(t.ring) }; TI.add(r, r.bb, 12); }
+  for (const t of h.tees.pads) { const r = { ring: t.ring, bb: ringBBox(t.ring), preserveTerrain: t.preserveTerrain }; TI.add(r, r.bb, 12); }
   for (const b of h.bunkers) { const r = { ring: b.ring, bb: ringBBox(b.ring), c: centroidOf(b.ring) }; BI.add(r, r.bb, 9); b._r = r; }
   for (const r of h.fairway.rings) { const q = { ring: r, bb: ringBBox(r) }; FI.add(q, q.bb, 16); }
 }
@@ -757,8 +757,10 @@ function legacyTerrainH(x, z) {
     pad += Math.sin(x * 0.115) * Math.cos(z * 0.104) * 0.11;    // borrow
     h = lerp(h, pad, w);
   }
-  /* tees: dead level decks */
+  /* Only inferred decks may alter the terrain; measured mowing extent is not
+     evidence that the entire polygon is flat. */
   for (const t of TI.at(x, z)) {
+    if (t.preserveTerrain) continue;
     const sd = ringSD(x, z, t.ring);
     if (sd > 9) continue;
     const w = 1 - smooth(-0.5, 6.5, sd);
@@ -2653,8 +2655,10 @@ if (legacySurfaceOverlays) {
   const groups = new Map();
   for (const feature of M.scenery.mappedFeatures || []) {
     if (!feature.rings?.[0]?.length) continue;
+    const inAtlas = feature.kind === 'practice_green' || feature.kind === 'range_bunker' || (feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface');
+    if (inAtlas && !legacySurfaceOverlays) continue;
     const group = groups.get(feature.kind) || [];
-    group.push({ rings: feature.rings }); groups.set(feature.kind, group);
+    group.push({ rings: feature.rings, shade: feature.material === 'mixed-hardstanding-and-mats' ? () => ({ col: C.hard.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 }) : undefined }); groups.set(feature.kind, group);
   }
   for (const [kind, polygons] of groups) {
     const shade = kind === 'practice_green' ? shadeGreen(null)
@@ -2664,7 +2668,11 @@ if (legacySurfaceOverlays) {
     const g = surfaceMesh(polygons, 0.085, 1.0, shade, false);
     if (!g) continue;
     const mesh = new THREE.Mesh(g, kind === 'range_bunker' ? nudged(6, makeSand) : nudged(6));
-    mesh.receiveShadow = true; mesh.renderOrder = 6; scene.add(mesh); stats.draws++;
+    mesh.receiveShadow = true; mesh.renderOrder = 6;
+    const turfOverlay = kind === 'practice_green' || kind === 'range_bunker' || (kind === 'range_tee_pad' && polygons.some(p => !p.shade));
+    mesh.userData.tag = turfOverlay ? 'legacy-surface-overlay' : 'mapped-facility-footprint';
+    if (turfOverlay) stats.surfaceOverlays++;
+    scene.add(mesh); stats.draws++;
   }
 }
 

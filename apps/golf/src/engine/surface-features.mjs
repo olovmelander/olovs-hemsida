@@ -80,7 +80,7 @@ export function buildGroundSurfaceFeatures({
   for (const feature of scenery.mappedFeatures || []) {
     const surface = feature.kind === 'practice_green' ? SURFACE.GREEN
       : feature.kind === 'range_bunker' ? SURFACE.SAND
-        : feature.kind === 'range_tee_pad' ? SURFACE.TEE : null;
+        : feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface' ? SURFACE.TEE : null;
     if (surface !== null && validRings(feature.rings).length) {
       features.push({ surface, polygons: [{ rings: feature.rings }], sourceId: feature.id });
     }

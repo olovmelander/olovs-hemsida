@@ -8,6 +8,7 @@ import { sweref99TmToLatLon } from '../packages/course-geo/chmv2/projection.mjs'
 import { centroid, polyArea, pointInPoly } from './lib.mjs';
 
 const read = name => JSON.parse(fs.readFileSync(new URL(`mapping/${name}`, import.meta.url)));
+const surfaceEvidence = p => ({ source: p.source, sourceProductYear: p.sourceProductYear, sourceSha256: p.sourceSha256, sourceHorizontalAccuracyM: p.sourceHorizontalAccuracyM, uncertaintyM: p.uncertaintyM, acceptance: p.acceptance, note: p.note, latestVisualCrossCheckYear: p.latestVisualCrossCheckYear });
 const area = ring => Math.round(Math.abs(polyArea(ring)) * 100) / 100;
 export function applyGroundMapping(model) {
   assert.deepEqual(model.origin, { lat: 59.839, lon: 17.4952 }, 'mapping frame changed');
@@ -38,10 +39,10 @@ export function applyGroundMapping(model) {
   const g = get('upsala-stora-green17-ortho2024');
   const h17 = model.holes.find(h => h.n === 17), greenRing = projectedRing(g);
   assert(pointInPoly(...h17.green.c, greenRing), 'corrected green must contain the existing provisional pin');
-  h17.green = { ...h17.green, ring: greenRing, area: area(greenRing), prov: 'dated-orthophoto-trace', sourceId: g.id, evidence: g.properties };
+  h17.green = { ...h17.green, ring: greenRing, area: area(greenRing), prov: 'dated-orthophoto-trace', sourceId: g.id, evidence: surfaceEvidence(g.properties) };
   const tee = id => {
     const f = get(id), ring = projectedRing(f), [cx, cz] = centroid(ring);
-    return { ring, cx, cz, ang: 0, prov: 'dated-orthophoto-trace', sourceId: id, evidence: f.properties, preserveTerrain: true };
+    return { ring, cx, cz, ang: 0, prov: 'dated-orthophoto-trace', sourceId: id, evidence: surfaceEvidence(f.properties), preserveTerrain: true };
   };
   model.holes.find(h => h.n === 8).tees.pads = [tee('upsala-stora-hole8-tee-complex-ne-ortho2024'), tee('upsala-stora-hole8-tee-sw-2025')];
   // The visible upper tee corrects a pad drawn on a road. Its shadowed southern
@@ -49,6 +50,7 @@ export function applyGroundMapping(model) {
   const h9 = model.holes.find(h => h.n === 9);
   h9.tees.pads = [tee('upsala-stora-hole9-tee-upper-2025')];
   for (const h of model.holes) {
+    h.tees.inferPads = false;
     h.tees.markProvenance = 'scorecard-distance inference; daily marker positions unverified';
     h.teePadDist = Math.round(Math.min(...h.tees.pads.map(p => Math.hypot(p.cx - h.line[0][0], p.cz - h.line[0][1]))) * 10) / 10;
   }

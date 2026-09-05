@@ -72,7 +72,7 @@ const vec = JSON.parse(zlib.inflateRawSync(Buffer.from(VEC64, 'base64')).toStrin
     if (a < 150) small++;
     if (a > 1200) big++;
   }
-  gate(out === 0, `greens: every surveyed centre inside its traced ring (${out} outside)`);
+  gate(out === 0, `greens: every model pin inside its mapped ring (containment, not an independent survey) (${out} outside)`);
   gate(small === 0 && big === 0, `green areas within 150–1200 m² (${small} small, ${big} large)`);
 }
 

@@ -345,7 +345,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "upsalabuild/course-model.json",
-      "sha256": "965c350f8068016d3ff5ecfdf110e6fcbb19cb05ce145e12e7ef3aa489650c7d",
+      "sha256": "47d7ae15a24fcd23b2fda3344d4cbcdd534d3fff1519215c28676da6bf62379f",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
@@ -384,7 +384,7 @@
       "id": "legacy-osm-features",
       "kind": "topography",
       "path": "upsalabuild/osm-features.json",
-      "sha256": "0474b684341297502852dac3fc1396910ed26a42e404b046de56a6d57e36c68a",
+      "sha256": "4669bbd68c59f6af3de31c4f839b5000e3fe9a10dc926250cea3492dec2e2166",
       "derivedFrom": [
         "osm-legacy"
       ],
@@ -445,7 +445,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/upsala/migration/course-model.epsg3006.json",
-      "sha256": "d0f6f895614c2472505587dd6796d33ec860058264da4286dafec79bd1e43d56",
+      "sha256": "e70eb134bbcd6ee09359f3e58caefbbbbf6031a814aae2c2138dfa3002c87fcb",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -537,7 +537,7 @@
       "id": "shipped-middle-course-model",
       "kind": "composite",
       "path": "upsalamellanbuild/course-model.json",
-      "sha256": "8fec7a6d37e653fd59dbdea3f6e130ce95af84e8b4bac4d8172a952a4e2fc816",
+      "sha256": "4b62625f97b7bb846c37822d3635bda0b5e271615110886466b8346ef5d51abe",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
@@ -552,7 +552,7 @@
       "id": "migration-mellanbanan-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/upsala/migration/mellanbanan-course-model.epsg3006.json",
-      "sha256": "4c77d55bf347cfe23e75ec9125eef3934815e22890c1b3cf02ba87ac563c8115",
+      "sha256": "842b4dcc2cf2c3e24970f909f5b285966cca52f0957170d48e52a45c8b01f3c7",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
