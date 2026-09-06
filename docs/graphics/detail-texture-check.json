@@ -1,0 +1,1991 @@
+{
+  "evidence": "Actual baseline and candidate 512\u00b2 DETAIL CanvasTexture; authored and Canvas readback diagnostics; live v2 class-SDF ground material on a uniform synthetic rough plane, plus explicit G/B diagnostic planes. Fixed SwiftShader WebGL2, noon lights, 256x192, DPR 1. Not full-course, WebGPU, phone hardware, FPS or total application memory evidence.",
+  "sourceMainBaseline": "ce3597883a6c7495fc8204c23acac82413f197b7",
+  "helperSha256": "f833aa01f0e0485aea3da74836582209c59b7355f82454dc3b687a6ee3bd2e9f",
+  "materialSourceSha256": "8ffa160b1b4cea27fc0d2c2c9be4e1f3abe4618f83078f1f4e16da4853f72a80",
+  "baselineGeneratorSha256": "3338c460746b6b497539a07cb0a9b88a4f2e40b114e8b1d9d7f8eef1f111c1f1",
+  "fixturePaletteSha256": "86d69081785eb22c0f678c8097b5d85cde394f67e6c43c96ac5444d32215cb56",
+  "mipMethod": "CPU 2x2 box averages of quantized authored bytes and separately of Canvas2D readback, with Uint8ClampedArray quantization at every level. Diagnostic approximation, not a GPU mip readback.",
+  "threeRevision": "185",
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "authored": {
+    "legacy": {
+      "rgbaSha256": "fbb5a2197df82602f69707d3ab82eaf667e14aa1d4f618e329790b2288810bb4",
+      "channels": {
+        "R": {
+          "mean": 127.6063003540039,
+          "std": 58.15920702515464,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 26,
+          "clippedHigh": 27
+        },
+        "G": {
+          "mean": 130.83710861206055,
+          "std": 36.439080774940514,
+          "min": 0,
+          "max": 245,
+          "clippedLow": 1,
+          "clippedHigh": 0
+        },
+        "B": {
+          "mean": 119.99592971801758,
+          "std": 38.206690318090146,
+          "min": 0,
+          "max": 249,
+          "clippedLow": 5,
+          "clippedHigh": 0
+        },
+        "A": {
+          "mean": 36.466861724853516,
+          "std": 60.48774362197895,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 92393,
+          "clippedHigh": 69
+        }
+      },
+      "mips": [
+        {
+          "level": 0,
+          "size": 512,
+          "G": {
+            "border": {
+              "mean": 49.2265625,
+              "p95": 117,
+              "max": 170,
+              "count": 1024
+            },
+            "interior": {
+              "mean": 4.309686888454012,
+              "p95": 11,
+              "max": 27,
+              "count": 523264
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 55.91796875,
+              "p95": 141,
+              "max": 238,
+              "count": 1024
+            },
+            "interior": {
+              "mean": 0.8372905454990215,
+              "p95": 2,
+              "max": 5,
+              "count": 523264
+            }
+          }
+        },
+        {
+          "level": 1,
+          "size": 256,
+          "G": {
+            "border": {
+              "mean": 48.837890625,
+              "p95": 113,
+              "max": 168,
+              "count": 512
+            },
+            "interior": {
+              "mean": 8.185929840686274,
+              "p95": 21,
+              "max": 49,
+              "count": 130560
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 55.767578125,
+              "p95": 140,
+              "max": 238,
+              "count": 512
+            },
+            "interior": {
+              "mean": 1.6752833946078431,
+              "p95": 5,
+              "max": 10,
+              "count": 130560
+            }
+          }
+        },
+        {
+          "level": 2,
+          "size": 128,
+          "G": {
+            "border": {
+              "mean": 46.93359375,
+              "p95": 106,
+              "max": 154,
+              "count": 256
+            },
+            "interior": {
+              "mean": 14.159479576771654,
+              "p95": 36,
+              "max": 81,
+              "count": 32512
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 55.42578125,
+              "p95": 138,
+              "max": 238,
+              "count": 256
+            },
+            "interior": {
+              "mean": 3.3453186515748032,
+              "p95": 9,
+              "max": 18,
+              "count": 32512
+            }
+          }
+        },
+        {
+          "level": 3,
+          "size": 64,
+          "G": {
+            "border": {
+              "mean": 40.671875,
+              "p95": 90,
+              "max": 128,
+              "count": 128
+            },
+            "interior": {
+              "mean": 21.331845238095237,
+              "p95": 54,
+              "max": 101,
+              "count": 8064
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 54.546875,
+              "p95": 128,
+              "max": 234,
+              "count": 128
+            },
+            "interior": {
+              "mean": 6.6009424603174605,
+              "p95": 18,
+              "max": 35,
+              "count": 8064
+            }
+          }
+        },
+        {
+          "level": 4,
+          "size": 32,
+          "G": {
+            "border": {
+              "mean": 30.03125,
+              "p95": 76,
+              "max": 99,
+              "count": 64
+            },
+            "interior": {
+              "mean": 26.021169354838708,
+              "p95": 63,
+              "max": 112,
+              "count": 1984
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 51.703125,
+              "p95": 117,
+              "max": 218,
+              "count": 64
+            },
+            "interior": {
+              "mean": 12.541834677419354,
+              "p95": 34,
+              "max": 65,
+              "count": 1984
+            }
+          }
+        },
+        {
+          "level": 5,
+          "size": 16,
+          "G": {
+            "border": {
+              "mean": 22.3125,
+              "p95": 53,
+              "max": 68,
+              "count": 32
+            },
+            "interior": {
+              "mean": 20.5125,
+              "p95": 46,
+              "max": 72,
+              "count": 480
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 45.1875,
+              "p95": 97,
+              "max": 172,
+              "count": 32
+            },
+            "interior": {
+              "mean": 21.004166666666666,
+              "p95": 57,
+              "max": 94,
+              "count": 480
+            }
+          }
+        },
+        {
+          "level": 6,
+          "size": 8,
+          "G": {
+            "border": {
+              "mean": 15.1875,
+              "p95": 35,
+              "max": 36,
+              "count": 16
+            },
+            "interior": {
+              "mean": 11.544642857142858,
+              "p95": 26,
+              "max": 38,
+              "count": 112
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 30.3125,
+              "p95": 55,
+              "max": 96,
+              "count": 16
+            },
+            "interior": {
+              "mean": 26.294642857142858,
+              "p95": 67,
+              "max": 108,
+              "count": 112
+            }
+          }
+        },
+        {
+          "level": 7,
+          "size": 4,
+          "G": {
+            "border": {
+              "mean": 8.125,
+              "p95": 14,
+              "max": 17,
+              "count": 8
+            },
+            "interior": {
+              "mean": 8.375,
+              "p95": 15,
+              "max": 23,
+              "count": 24
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 15,
+              "p95": 18,
+              "max": 29,
+              "count": 8
+            },
+            "interior": {
+              "mean": 17.833333333333332,
+              "p95": 41,
+              "max": 45,
+              "count": 24
+            }
+          }
+        },
+        {
+          "level": 8,
+          "size": 2,
+          "G": {
+            "border": {
+              "mean": 2,
+              "p95": 3,
+              "max": 4,
+              "count": 4
+            },
+            "interior": {
+              "mean": 2,
+              "p95": 3,
+              "max": 4,
+              "count": 4
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 10.5,
+              "p95": 12,
+              "max": 16,
+              "count": 4
+            },
+            "interior": {
+              "mean": 10.5,
+              "p95": 12,
+              "max": 16,
+              "count": 4
+            }
+          }
+        }
+      ]
+    },
+    "candidate": {
+      "rgbaSha256": "f8a71335b0ce8072c8f979091862e37ebf6f10e038c0cc9737484e3a8f85b24f",
+      "channels": {
+        "R": {
+          "mean": 127.6063003540039,
+          "std": 58.15920702515464,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 26,
+          "clippedHigh": 27
+        },
+        "G": {
+          "mean": 131.09251403808594,
+          "std": 36.49463511451411,
+          "min": 0,
+          "max": 244,
+          "clippedLow": 1,
+          "clippedHigh": 0
+        },
+        "B": {
+          "mean": 119.96361923217773,
+          "std": 38.208456880678554,
+          "min": 8,
+          "max": 253,
+          "clippedLow": 0,
+          "clippedHigh": 0
+        },
+        "A": {
+          "mean": 36.466861724853516,
+          "std": 60.48774362197895,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 92393,
+          "clippedHigh": 69
+        }
+      },
+      "mips": [
+        {
+          "level": 0,
+          "size": 512,
+          "G": {
+            "border": {
+              "mean": 1.6376953125,
+              "p95": 4,
+              "max": 6,
+              "count": 1024
+            },
+            "interior": {
+              "mean": 4.293884157901174,
+              "p95": 11,
+              "max": 27,
+              "count": 523264
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 0.0361328125,
+              "p95": 0,
+              "max": 1,
+              "count": 1024
+            },
+            "interior": {
+              "mean": 0.7531475507583171,
+              "p95": 2,
+              "max": 5,
+              "count": 523264
+            }
+          }
+        },
+        {
+          "level": 1,
+          "size": 256,
+          "G": {
+            "border": {
+              "mean": 3.1328125,
+              "p95": 7,
+              "max": 10,
+              "count": 512
+            },
+            "interior": {
+              "mean": 8.157689950980393,
+              "p95": 21,
+              "max": 47,
+              "count": 130560
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 0.091796875,
+              "p95": 1,
+              "max": 1,
+              "count": 512
+            },
+            "interior": {
+              "mean": 1.5075750612745098,
+              "p95": 4,
+              "max": 9,
+              "count": 130560
+            }
+          }
+        },
+        {
+          "level": 2,
+          "size": 128,
+          "G": {
+            "border": {
+              "mean": 5.984375,
+              "p95": 14,
+              "max": 20,
+              "count": 256
+            },
+            "interior": {
+              "mean": 14.103531003937007,
+              "p95": 36,
+              "max": 76,
+              "count": 32512
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 0.1953125,
+              "p95": 1,
+              "max": 1,
+              "count": 256
+            },
+            "interior": {
+              "mean": 3.014517716535433,
+              "p95": 9,
+              "max": 16,
+              "count": 32512
+            }
+          }
+        },
+        {
+          "level": 3,
+          "size": 64,
+          "G": {
+            "border": {
+              "mean": 11.328125,
+              "p95": 23,
+              "max": 34,
+              "count": 128
+            },
+            "interior": {
+              "mean": 21.107142857142858,
+              "p95": 53,
+              "max": 103,
+              "count": 8064
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 0.796875,
+              "p95": 2,
+              "max": 2,
+              "count": 128
+            },
+            "interior": {
+              "mean": 5.981398809523809,
+              "p95": 18,
+              "max": 32,
+              "count": 8064
+            }
+          }
+        },
+        {
+          "level": 4,
+          "size": 32,
+          "G": {
+            "border": {
+              "mean": 18.9375,
+              "p95": 41,
+              "max": 58,
+              "count": 64
+            },
+            "interior": {
+              "mean": 25.777217741935484,
+              "p95": 63,
+              "max": 110,
+              "count": 1984
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 2.625,
+              "p95": 6,
+              "max": 7,
+              "count": 64
+            },
+            "interior": {
+              "mean": 11.476814516129032,
+              "p95": 33,
+              "max": 57,
+              "count": 1984
+            }
+          }
+        },
+        {
+          "level": 5,
+          "size": 16,
+          "G": {
+            "border": {
+              "mean": 21,
+              "p95": 37,
+              "max": 50,
+              "count": 32
+            },
+            "interior": {
+              "mean": 20.275,
+              "p95": 48,
+              "max": 70,
+              "count": 480
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 7.65625,
+              "p95": 19,
+              "max": 22,
+              "count": 32
+            },
+            "interior": {
+              "mean": 19.464583333333334,
+              "p95": 55,
+              "max": 93,
+              "count": 480
+            }
+          }
+        },
+        {
+          "level": 6,
+          "size": 8,
+          "G": {
+            "border": {
+              "mean": 12.4375,
+              "p95": 31,
+              "max": 35,
+              "count": 16
+            },
+            "interior": {
+              "mean": 11.455357142857142,
+              "p95": 26,
+              "max": 38,
+              "count": 112
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 16.6875,
+              "p95": 31,
+              "max": 43,
+              "count": 16
+            },
+            "interior": {
+              "mean": 24.348214285714285,
+              "p95": 67,
+              "max": 97,
+              "count": 112
+            }
+          }
+        },
+        {
+          "level": 7,
+          "size": 4,
+          "G": {
+            "border": {
+              "mean": 7.5,
+              "p95": 13,
+              "max": 16,
+              "count": 8
+            },
+            "interior": {
+              "mean": 8.083333333333334,
+              "p95": 15,
+              "max": 21,
+              "count": 24
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 13.75,
+              "p95": 21,
+              "max": 26,
+              "count": 8
+            },
+            "interior": {
+              "mean": 22.833333333333332,
+              "p95": 43,
+              "max": 52,
+              "count": 24
+            }
+          }
+        },
+        {
+          "level": 8,
+          "size": 2,
+          "G": {
+            "border": {
+              "mean": 2.5,
+              "p95": 3,
+              "max": 5,
+              "count": 4
+            },
+            "interior": {
+              "mean": 2.5,
+              "p95": 3,
+              "max": 5,
+              "count": 4
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 9.5,
+              "p95": 11,
+              "max": 16,
+              "count": 4
+            },
+            "interior": {
+              "mean": 9.5,
+              "p95": 11,
+              "max": 16,
+              "count": 4
+            }
+          }
+        }
+      ]
+    },
+    "disabled": {
+      "rgbaSha256": "fbb5a2197df82602f69707d3ab82eaf667e14aa1d4f618e329790b2288810bb4",
+      "channels": {
+        "R": {
+          "mean": 127.6063003540039,
+          "std": 58.15920702515464,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 26,
+          "clippedHigh": 27
+        },
+        "G": {
+          "mean": 130.83710861206055,
+          "std": 36.439080774940514,
+          "min": 0,
+          "max": 245,
+          "clippedLow": 1,
+          "clippedHigh": 0
+        },
+        "B": {
+          "mean": 119.99592971801758,
+          "std": 38.206690318090146,
+          "min": 0,
+          "max": 249,
+          "clippedLow": 5,
+          "clippedHigh": 0
+        },
+        "A": {
+          "mean": 36.466861724853516,
+          "std": 60.48774362197895,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 92393,
+          "clippedHigh": 69
+        }
+      }
+    }
+  },
+  "canvasSources": {
+    "legacy": {
+      "rgbaSha256": "f7a22a7f8c27a4a63bf3afc0827635481ba02ac517e57194e2eff8c1f9c59fdf",
+      "channels": {
+        "R": {
+          "mean": 82.6803207397461,
+          "std": 83.24395629753299,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 104901,
+          "clippedHigh": 12360
+        },
+        "G": {
+          "mean": 85.07977676391602,
+          "std": 76.69220569672723,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 101392,
+          "clippedHigh": 10380
+        },
+        "B": {
+          "mean": 77.14751434326172,
+          "std": 72.52387795697322,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 103888,
+          "clippedHigh": 8387
+        },
+        "A": {
+          "mean": 36.466861724853516,
+          "std": 60.48774362197895,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 92393,
+          "clippedHigh": 69
+        }
+      },
+      "mips": [
+        {
+          "level": 0,
+          "size": 512,
+          "G": {
+            "border": {
+              "mean": 84.8720703125,
+              "p95": 193,
+              "max": 255,
+              "count": 1024
+            },
+            "interior": {
+              "mean": 71.79805413710861,
+              "p95": 189,
+              "max": 255,
+              "count": 523264
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 84.732421875,
+              "p95": 201,
+              "max": 255,
+              "count": 1024
+            },
+            "interior": {
+              "mean": 65.5417036142368,
+              "p95": 176,
+              "max": 255,
+              "count": 523264
+            }
+          }
+        },
+        {
+          "level": 1,
+          "size": 256,
+          "G": {
+            "border": {
+              "mean": 53.35546875,
+              "p95": 136,
+              "max": 194,
+              "count": 512
+            },
+            "interior": {
+              "mean": 39.53494178921569,
+              "p95": 104,
+              "max": 238,
+              "count": 130560
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 55.876953125,
+              "p95": 148,
+              "max": 218,
+              "count": 512
+            },
+            "interior": {
+              "mean": 35.406135110294116,
+              "p95": 97,
+              "max": 233,
+              "count": 130560
+            }
+          }
+        },
+        {
+          "level": 2,
+          "size": 128,
+          "G": {
+            "border": {
+              "mean": 39.37109375,
+              "p95": 88,
+              "max": 151,
+              "count": 256
+            },
+            "interior": {
+              "mean": 22.59107406496063,
+              "p95": 58,
+              "max": 200,
+              "count": 32512
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 43.62109375,
+              "p95": 116,
+              "max": 157,
+              "count": 256
+            },
+            "interior": {
+              "mean": 18.118817667322833,
+              "p95": 49,
+              "max": 125,
+              "count": 32512
+            }
+          }
+        },
+        {
+          "level": 3,
+          "size": 64,
+          "G": {
+            "border": {
+              "mean": 30.3046875,
+              "p95": 65,
+              "max": 98,
+              "count": 128
+            },
+            "interior": {
+              "mean": 19.22606646825397,
+              "p95": 48,
+              "max": 102,
+              "count": 8064
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 39.296875,
+              "p95": 103,
+              "max": 148,
+              "count": 128
+            },
+            "interior": {
+              "mean": 10.602430555555555,
+              "p95": 29,
+              "max": 77,
+              "count": 8064
+            }
+          }
+        },
+        {
+          "level": 4,
+          "size": 32,
+          "G": {
+            "border": {
+              "mean": 23.125,
+              "p95": 55,
+              "max": 78,
+              "count": 64
+            },
+            "interior": {
+              "mean": 20.362903225806452,
+              "p95": 50,
+              "max": 86,
+              "count": 1984
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 37.453125,
+              "p95": 90,
+              "max": 140,
+              "count": 64
+            },
+            "interior": {
+              "mean": 10.750504032258064,
+              "p95": 30,
+              "max": 54,
+              "count": 1984
+            }
+          }
+        },
+        {
+          "level": 5,
+          "size": 16,
+          "G": {
+            "border": {
+              "mean": 17.4375,
+              "p95": 41,
+              "max": 52,
+              "count": 32
+            },
+            "interior": {
+              "mean": 15.820833333333333,
+              "p95": 36,
+              "max": 53,
+              "count": 480
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 33.125,
+              "p95": 76,
+              "max": 119,
+              "count": 32
+            },
+            "interior": {
+              "mean": 16.329166666666666,
+              "p95": 44,
+              "max": 64,
+              "count": 480
+            }
+          }
+        },
+        {
+          "level": 6,
+          "size": 8,
+          "G": {
+            "border": {
+              "mean": 12.0625,
+              "p95": 25,
+              "max": 26,
+              "count": 16
+            },
+            "interior": {
+              "mean": 8.6875,
+              "p95": 21,
+              "max": 28,
+              "count": 112
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 23.625,
+              "p95": 41,
+              "max": 71,
+              "count": 16
+            },
+            "interior": {
+              "mean": 20.321428571428573,
+              "p95": 50,
+              "max": 78,
+              "count": 112
+            }
+          }
+        },
+        {
+          "level": 7,
+          "size": 4,
+          "G": {
+            "border": {
+              "mean": 6.75,
+              "p95": 11,
+              "max": 14,
+              "count": 8
+            },
+            "interior": {
+              "mean": 6.583333333333333,
+              "p95": 13,
+              "max": 17,
+              "count": 24
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 11.5,
+              "p95": 18,
+              "max": 21,
+              "count": 8
+            },
+            "interior": {
+              "mean": 14.166666666666666,
+              "p95": 31,
+              "max": 34,
+              "count": 24
+            }
+          }
+        },
+        {
+          "level": 8,
+          "size": 2,
+          "G": {
+            "border": {
+              "mean": 1.5,
+              "p95": 2,
+              "max": 3,
+              "count": 4
+            },
+            "interior": {
+              "mean": 1.5,
+              "p95": 2,
+              "max": 3,
+              "count": 4
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 8,
+              "p95": 9,
+              "max": 12,
+              "count": 4
+            },
+            "interior": {
+              "mean": 8,
+              "p95": 9,
+              "max": 12,
+              "count": 4
+            }
+          }
+        }
+      ]
+    },
+    "candidate": {
+      "rgbaSha256": "6363eee78ecdc62aab11d34bebe1bbdc056c45cf13358720fa4c7821ab65b496",
+      "channels": {
+        "R": {
+          "mean": 82.6761474609375,
+          "std": 83.2413593703043,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 104901,
+          "clippedHigh": 12360
+        },
+        "G": {
+          "mean": 85.25445556640625,
+          "std": 76.82577508685972,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 101363,
+          "clippedHigh": 10450
+        },
+        "B": {
+          "mean": 77.21905517578125,
+          "std": 72.52738501143924,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 103772,
+          "clippedHigh": 8446
+        },
+        "A": {
+          "mean": 36.466861724853516,
+          "std": 60.48774362197895,
+          "min": 0,
+          "max": 255,
+          "clippedLow": 92393,
+          "clippedHigh": 69
+        }
+      },
+      "mips": [
+        {
+          "level": 0,
+          "size": 512,
+          "G": {
+            "border": {
+              "mean": 68.65234375,
+              "p95": 193,
+              "max": 255,
+              "count": 1024
+            },
+            "interior": {
+              "mean": 71.92196673189824,
+              "p95": 190,
+              "max": 255,
+              "count": 523264
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 54.9013671875,
+              "p95": 149,
+              "max": 255,
+              "count": 1024
+            },
+            "interior": {
+              "mean": 65.54828728901663,
+              "p95": 176,
+              "max": 255,
+              "count": 523264
+            }
+          }
+        },
+        {
+          "level": 1,
+          "size": 256,
+          "G": {
+            "border": {
+              "mean": 39.220703125,
+              "p95": 102,
+              "max": 184,
+              "count": 512
+            },
+            "interior": {
+              "mean": 39.54913449754902,
+              "p95": 104,
+              "max": 240,
+              "count": 130560
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 29.615234375,
+              "p95": 83,
+              "max": 152,
+              "count": 512
+            },
+            "interior": {
+              "mean": 35.485179227941174,
+              "p95": 97,
+              "max": 246,
+              "count": 130560
+            }
+          }
+        },
+        {
+          "level": 2,
+          "size": 128,
+          "G": {
+            "border": {
+              "mean": 20.04296875,
+              "p95": 51,
+              "max": 98,
+              "count": 256
+            },
+            "interior": {
+              "mean": 22.611312746062993,
+              "p95": 58,
+              "max": 203,
+              "count": 32512
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 14.34765625,
+              "p95": 40,
+              "max": 58,
+              "count": 256
+            },
+            "interior": {
+              "mean": 18.167907234251967,
+              "p95": 49,
+              "max": 120,
+              "count": 32512
+            }
+          }
+        },
+        {
+          "level": 3,
+          "size": 64,
+          "G": {
+            "border": {
+              "mean": 12.4453125,
+              "p95": 35,
+              "max": 45,
+              "count": 128
+            },
+            "interior": {
+              "mean": 19.222842261904763,
+              "p95": 48,
+              "max": 101,
+              "count": 8064
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 7.4296875,
+              "p95": 18,
+              "max": 36,
+              "count": 128
+            },
+            "interior": {
+              "mean": 10.365947420634921,
+              "p95": 28,
+              "max": 76,
+              "count": 8064
+            }
+          }
+        },
+        {
+          "level": 4,
+          "size": 32,
+          "G": {
+            "border": {
+              "mean": 14.625,
+              "p95": 34,
+              "max": 42,
+              "count": 64
+            },
+            "interior": {
+              "mean": 20.324596774193548,
+              "p95": 49,
+              "max": 84,
+              "count": 1984
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 4.84375,
+              "p95": 12,
+              "max": 19,
+              "count": 64
+            },
+            "interior": {
+              "mean": 9.928427419354838,
+              "p95": 28,
+              "max": 48,
+              "count": 1984
+            }
+          }
+        },
+        {
+          "level": 5,
+          "size": 16,
+          "G": {
+            "border": {
+              "mean": 15.6875,
+              "p95": 28,
+              "max": 39,
+              "count": 32
+            },
+            "interior": {
+              "mean": 15.741666666666667,
+              "p95": 36,
+              "max": 50,
+              "count": 480
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 6.75,
+              "p95": 16,
+              "max": 33,
+              "count": 32
+            },
+            "interior": {
+              "mean": 14.766666666666667,
+              "p95": 40,
+              "max": 66,
+              "count": 480
+            }
+          }
+        },
+        {
+          "level": 6,
+          "size": 8,
+          "G": {
+            "border": {
+              "mean": 9.625,
+              "p95": 23,
+              "max": 26,
+              "count": 16
+            },
+            "interior": {
+              "mean": 8.767857142857142,
+              "p95": 21,
+              "max": 28,
+              "count": 112
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 13,
+              "p95": 25,
+              "max": 41,
+              "count": 16
+            },
+            "interior": {
+              "mean": 18.803571428571427,
+              "p95": 50,
+              "max": 69,
+              "count": 112
+            }
+          }
+        },
+        {
+          "level": 7,
+          "size": 4,
+          "G": {
+            "border": {
+              "mean": 6.125,
+              "p95": 10,
+              "max": 12,
+              "count": 8
+            },
+            "interior": {
+              "mean": 6.291666666666667,
+              "p95": 12,
+              "max": 17,
+              "count": 24
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 11.5,
+              "p95": 17,
+              "max": 25,
+              "count": 8
+            },
+            "interior": {
+              "mean": 18.166666666666668,
+              "p95": 33,
+              "max": 40,
+              "count": 24
+            }
+          }
+        },
+        {
+          "level": 8,
+          "size": 2,
+          "G": {
+            "border": {
+              "mean": 1.5,
+              "p95": 2,
+              "max": 3,
+              "count": 4
+            },
+            "interior": {
+              "mean": 1.5,
+              "p95": 2,
+              "max": 3,
+              "count": 4
+            }
+          },
+          "B": {
+            "border": {
+              "mean": 8,
+              "p95": 10,
+              "max": 12,
+              "count": 4
+            },
+            "interior": {
+              "mean": 8,
+              "p95": 10,
+              "max": 12,
+              "count": 4
+            }
+          }
+        }
+      ]
+    }
+  },
+  "channelDifferenceCounts": {
+    "R": 0,
+    "G": 244095,
+    "B": 255992,
+    "A": 0
+  },
+  "texture": {
+    "size": 512,
+    "baseRgbaBytes": 1048576,
+    "fullMipRgbaBytes": 1398100,
+    "anisotropy": 8,
+    "wrapS": 1000,
+    "wrapT": 1000,
+    "minFilter": 1008,
+    "magFilter": 1006,
+    "colourSpace": "",
+    "generateMipmaps": true,
+    "repeat": [
+      1,
+      1
+    ]
+  },
+  "rows": [
+    {
+      "id": "ground-close-pan-0.35",
+      "material": "ground",
+      "view": "close",
+      "pan": -0.35,
+      "camera": {
+        "position": [
+          3.65,
+          8,
+          9
+        ],
+        "look": [
+          -0.35,
+          0,
+          0
+        ],
+        "fov": 48
+      },
+      "before": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "after": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "comparison": {
+        "maximumChannelDifference": 13,
+        "meanRgbDifference": 1.1038614908854167,
+        "differingPixels": 31803
+      }
+    },
+    {
+      "id": "ground-close-pan0",
+      "material": "ground",
+      "view": "close",
+      "pan": 0,
+      "camera": {
+        "position": [
+          4,
+          8,
+          9
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 48
+      },
+      "before": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "after": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "comparison": {
+        "maximumChannelDifference": 13,
+        "meanRgbDifference": 1.0839911566840277,
+        "differingPixels": 31370
+      }
+    },
+    {
+      "id": "ground-close-pan0.35",
+      "material": "ground",
+      "view": "close",
+      "pan": 0.35,
+      "camera": {
+        "position": [
+          4.35,
+          8,
+          9
+        ],
+        "look": [
+          0.35,
+          0,
+          0
+        ],
+        "fov": 48
+      },
+      "before": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "after": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "comparison": {
+        "maximumChannelDifference": 13,
+        "meanRgbDifference": 1.0614556206597223,
+        "differingPixels": 31088
+      }
+    },
+    {
+      "id": "ground-grazing-pan-0.35",
+      "material": "ground",
+      "view": "grazing",
+      "pan": -0.35,
+      "camera": {
+        "position": [
+          17.65,
+          4,
+          24
+        ],
+        "look": [
+          -0.35,
+          0,
+          -30
+        ],
+        "fov": 48
+      },
+      "before": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "after": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "comparison": {
+        "maximumChannelDifference": 11,
+        "meanRgbDifference": 0.1535983615451389,
+        "differingPixels": 10791
+      }
+    },
+    {
+      "id": "ground-grazing-pan0",
+      "material": "ground",
+      "view": "grazing",
+      "pan": 0,
+      "camera": {
+        "position": [
+          18,
+          4,
+          24
+        ],
+        "look": [
+          0,
+          0,
+          -30
+        ],
+        "fov": 48
+      },
+      "before": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "after": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "comparison": {
+        "maximumChannelDifference": 11,
+        "meanRgbDifference": 0.15452067057291666,
+        "differingPixels": 10896
+      }
+    },
+    {
+      "id": "ground-grazing-pan0.35",
+      "material": "ground",
+      "view": "grazing",
+      "pan": 0.35,
+      "camera": {
+        "position": [
+          18.35,
+          4,
+          24
+        ],
+        "look": [
+          0.35,
+          0,
+          -30
+        ],
+        "fov": 48
+      },
+      "before": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "after": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 2
+      },
+      "comparison": {
+        "maximumChannelDifference": 11,
+        "meanRgbDifference": 0.15528700086805555,
+        "differingPixels": 10958
+      }
+    },
+    {
+      "id": "diagnosticG-close-pan0",
+      "material": "diagnosticG",
+      "view": "close",
+      "pan": 0,
+      "camera": {
+        "position": [
+          0,
+          55,
+          46
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 48
+      },
+      "before": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 3
+      },
+      "after": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 3
+      },
+      "comparison": {
+        "maximumChannelDifference": 120,
+        "meanRgbDifference": 4.170430501302083,
+        "differingPixels": 40664
+      }
+    },
+    {
+      "id": "diagnosticG-grazing-pan0",
+      "material": "diagnosticG",
+      "view": "grazing",
+      "pan": 0,
+      "camera": {
+        "position": [
+          0,
+          10,
+          36
+        ],
+        "look": [
+          0,
+          0,
+          -25
+        ],
+        "fov": 48
+      },
+      "before": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 3
+      },
+      "after": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 3
+      },
+      "comparison": {
+        "maximumChannelDifference": 180,
+        "meanRgbDifference": 2.7070176866319446,
+        "differingPixels": 24652
+      }
+    },
+    {
+      "id": "diagnosticB-close-pan0",
+      "material": "diagnosticB",
+      "view": "close",
+      "pan": 0,
+      "camera": {
+        "position": [
+          0,
+          55,
+          46
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 48
+      },
+      "before": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 4
+      },
+      "after": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 4
+      },
+      "comparison": {
+        "maximumChannelDifference": 191,
+        "meanRgbDifference": 11.531121148003471,
+        "differingPixels": 45899
+      }
+    },
+    {
+      "id": "diagnosticB-grazing-pan0",
+      "material": "diagnosticB",
+      "view": "grazing",
+      "pan": 0,
+      "camera": {
+        "position": [
+          0,
+          10,
+          36
+        ],
+        "look": [
+          0,
+          0,
+          -25
+        ],
+        "fov": 48
+      },
+      "before": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 4
+      },
+      "after": {
+        "drawCalls": 2,
+        "triangles": 3,
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "textures": 6,
+        "textureBytes": 1988608,
+        "attributesBytes": 132,
+        "indicesBytes": 12,
+        "fragmentPrograms": 4
+      },
+      "comparison": {
+        "maximumChannelDifference": 197,
+        "meanRgbDifference": 7.628424750434028,
+        "differingPixels": 28623
+      }
+    }
+  ],
+  "shaders": [
+    {
+      "sha256": "d1ecea2245d7d7651dc88eb2f0bd1a3483872a66428a7a3effd485028c3d7b70",
+      "textureCallSites": 10
+    },
+    {
+      "sha256": "5766b469f117d09d53740140e0cde02366e20306267fc00974ac627546c85f4e",
+      "textureCallSites": 1
+    },
+    {
+      "sha256": "e12b34aef0e6a0e48d87585afd81e554cad140f6d8b911a555cfada8e25b27f1",
+      "textureCallSites": 1
+    },
+    {
+      "sha256": "15f42423ceeae2f25426b84f108a075380ad7987f49dce90e00c26c6605a486f",
+      "textureCallSites": 1
+    }
+  ],
+  "errors": [],
+  "checks": {
+    "threeR185": true,
+    "softwareRenderer": true,
+    "disabledExactAuthoredBytes": true,
+    "unchangedBladeAndGlintBytes": true,
+    "calibratedMoments": true,
+    "improvedAuthoredBorderDerivatives": true,
+    "normalAuthoredBorderDerivatives": true,
+    "completeMatrix": true,
+    "unchangedDrawsAndResources": true,
+    "identicalShaderPrograms": true,
+    "fixedActualBuffer": true,
+    "materialChangesPixels": true,
+    "noBrowserErrors": true,
+    "noNewClipping": true,
+    "normalMipBorderDerivatives": true
+  },
+  "passed": true,
+  "visualReview": {
+    "acceptedScope": "Isolated texture and uniform rough material only; no course review or physical-device performance acceptance.",
+    "observations": [
+      "The straight light/dark division in the baseline close rough-plane view is absent in the candidate.",
+      "The grazing view retains the same horizon and restrained grain without a new visible boundary.",
+      "G/B channel diagnostic views retain irregular variation; full-byte statistics show preserved contrast, and mip border derivatives stay within two times the interior mean.",
+      "Canvas alpha premultiplication still contributes the pre-existing fine texture noise. Authored-byte seam measurements are distinguished from Canvas readback statistics."
+    ],
+    "reviewedImages": [
+      {
+        "file": "ground-close-pan0-legacy.png",
+        "sha256": "62710c30158bbf7aba5d73fc3b73a45a9b72d45eeae885d3cbd97e1b48133cb5"
+      },
+      {
+        "file": "ground-close-pan0-candidate.png",
+        "sha256": "474c249b4bff61e18cd85f1bdb9d54852aac2f8165dd8ffab355520dd4adc513"
+      },
+      {
+        "file": "ground-grazing-pan0-legacy.png",
+        "sha256": "27ef5bd4923c59d33d25218c87b4d8f427969d31834427b1ba1d2270eb837b57"
+      },
+      {
+        "file": "ground-grazing-pan0-candidate.png",
+        "sha256": "0454f152771641dba6402551d773dcda1cc67efade4adfff390bd2cded65a3a0"
+      },
+      {
+        "file": "diagnosticB-close-pan0-legacy.png",
+        "sha256": "263130ca24684b597258d55265c7b788c8e0e692b6ed40ae4fbb6e0138413219"
+      },
+      {
+        "file": "diagnosticB-close-pan0-candidate.png",
+        "sha256": "5dee0a95f1c9aeba88b5f2a79efc1a966a65a81fcab253d89396947116535fc6"
+      },
+      {
+        "file": "diagnosticG-grazing-pan0-legacy.png",
+        "sha256": "f4e1f590a0464c83725ece99968f65ac94708600685452633b6bac3dc87c8a92"
+      },
+      {
+        "file": "diagnosticG-grazing-pan0-candidate.png",
+        "sha256": "3ffce3432335dfa38303c8d8b4e0dd7df49c60fbfaddb2d0d9eccee66a0fe0e6"
+      }
+    ]
+  },
+  "postCaptureChecks": "Clipping and mip-border gates evaluated from the recorded channel summaries after the browser run; no render settings or pixels changed.",
+  "sourceCandidate": {
+    "revision": "dc5d630d7c4065e3d8b9d575734899e106b6440e",
+    "tree": "04344053b64ea8287ec4e5c80d02efd3d8a36b48",
+    "url": "https://github.com/olovmelander/olovs-hemsida/commit/dc5d630d7c4065e3d8b9d575734899e106b6440e",
+    "identity": "Public code checkpoint; helper hash matches the rendered candidate. A test-only performance correction after the app build does not change the rendered helper."
+  }
+}

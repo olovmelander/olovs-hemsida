@@ -69,6 +69,7 @@ import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses } from './engine/water-render-policy.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
+import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
 import { applyCrownDepth } from './engine/crown-depth.mjs';
 import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
 import { smoothShore } from './engine/ring-smoothing.mjs';
@@ -1276,15 +1277,7 @@ function canvasTex(size, draw, { srgb = true, rep = 1 } = {}) {
 const TEX_STARTED = performance.now();
 const DETAIL = canvasTex(512, (g, S) => {
   const im = g.createImageData(S, S), d = im.data;
-  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
-    const i = (y * S + x) * 4;
-    const blade = (Math.sin(x * 2.1 + Math.sin(y * 0.7) * 2) * 0.5 + 0.5) * 0.5
-                + (hash2(x, y) * 0.5);
-    const clump = fbm(x * 0.055, y * 0.055, 3) * 0.5 + 0.5;
-    const macro = fbm(x * 0.012, y * 0.012, 2) * 0.5 + 0.5;
-    d[i] = blade * 255; d[i + 1] = clump * 255; d[i + 2] = macro * 255;
-    d[i + 3] = Math.pow(hash2(x + 977, y + 131), 6) * 255;
-  }
+  fillGroundDetailPixels(d, S, { seamless: GRAPHICS_POLISH });
   g.putImageData(im, 0, 0);
 }, { srgb: false });
 

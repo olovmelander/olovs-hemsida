@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "purpose": "One matched full-app Uppsala overhead view verifies seamless DETAIL integration while preserving rendering settings and mapped content.",
+  "executionAdapter": "swiftshader-software",
+  "performanceEvidence": false,
+  "fullAppVisualComparisonComplete": true,
+  "fullAppVisualComparisonScope": "One low-quality desktop-browser WebGL2 software view; not a real phone or WebGPU validation.",
+  "request": {
+    "course": "upsala",
+    "backend": "webgl2",
+    "autoFallback": true,
+    "q": "lo",
+    "viewport": [
+      384,
+      288
+    ],
+    "dpr": 1,
+    "views": [
+      {
+        "id": "h1_top_noon",
+        "hole": 1,
+        "cam": "top",
+        "preset": "noon"
+      }
+    ]
+  },
+  "graphics": "1 for both revisions",
+  "overallDeadlineSecondsPerAttempt": 180,
+  "captureHarnessSha256": "9062416108628705e5c2bc20953e59f3f95fe5ebff08ae5c1737dd3b073e4105",
+  "captureHarnessOrigin": "Temporary copy of tools/v2-graphics-review.mjs with an overall deadline and preservation of state immediately before screenshot; repository harness unchanged.",
+  "beforeBuild": {
+    "revision": "ce3597883a6c7495fc8204c23acac82413f197b7",
+    "indexSha256": "d6bc03d115bf4c3eb17c56631251f66763a43999ebe0b707ac00449d8a363f58",
+    "assetsInventorySha256": "162a615b256797e7371f3b154f5090bcaa31eb1fd254ba050353f5abc27fd1c5",
+    "entryBundles": [
+      {
+        "file": "assets/index-CGxehWPv.js",
+        "bytes": 1550,
+        "sha256": "f50a39af78f89e8e3131159fa2a9d9e1cf61d6cb4d9ba32aeef3929d33270f9c"
+      },
+      {
+        "file": "assets/main-gomOvHb4.js",
+        "bytes": 318900,
+        "sha256": "87db9abe18e43ebb5d2d3b803d27c67884eb47603238fef96870c0a47d2aae66"
+      }
+    ],
+    "url": "https://github.com/olovmelander/olovs-hemsida/commit/ce3597883a6c7495fc8204c23acac82413f197b7"
+  },
+  "candidateBuild": {
+    "revision": "dc5d630d7c4065e3d8b9d575734899e106b6440e",
+    "codeTree": "04344053b64ea8287ec4e5c80d02efd3d8a36b48",
+    "builtFromLocalRevision": "6a7b5a4a4547aeca58acddf53085e2f4b3ac1bbd",
+    "sourceEquivalence": "The public code tree matches local 80a4204; its only change after the build checkpoint is a unit-test byte-comparison assertion. Application main.js and ground-detail-texture.mjs are identical to the captured build source.",
+    "mainSourceSha256": "41b5de5b95ad520baff0ea6c5e258f6f2b751e9de3b534b9cd19de872f106855",
+    "helperSha256": "f833aa01f0e0485aea3da74836582209c59b7355f82454dc3b687a6ee3bd2e9f",
+    "indexSha256": "219ba67cc300591fc3191c3253a53efeb0b6c02c3edac09885ebaa55b1c6e641",
+    "assetsInventorySha256": "0956dff37fc79605637d1ec7d259d41dc5ba869d54738d60ea6f2ea1dfdf70d1",
+    "entryBundles": [
+      {
+        "file": "assets/index-C9hT1tM3.js",
+        "bytes": 1550,
+        "sha256": "c1621ae600fdfec78d900c87c2d8304f7f668d8803c04e6bc07c66480689e916"
+      },
+      {
+        "file": "assets/main-By8SVuNt.js",
+        "bytes": 320319,
+        "sha256": "7a2c4feecac9481e2516d2d11e651496a06b25c971ac3d1b2377601cd642246d"
+      }
+    ],
+    "url": "https://github.com/olovmelander/olovs-hemsida/commit/dc5d630d7c4065e3d8b9d575734899e106b6440e"
+  },
+  "beforeAttempt": {
+    "rawReportSha256": "ed459185ff54978f4ffdd6ec81971f81a63bf809007f69298ce2772f36ca2dda",
+    "rawHarnessPassed": true,
+    "completedViews": 1,
+    "errors": [],
+    "warningCount": 23,
+    "capture": {
+      "id": "h1_top_noon",
+      "imageSha256": "1470321e73e3ed3ba0ea587a1a5df2c89b8d9ceded9d33f295dd091628c42844",
+      "terrainInventorySha256": "1e6f78a002023e954692899dbcb1419b99cbd194d540815aafdc327afcae1570",
+      "drawCalls": 93,
+      "triangles": 1153299,
+      "visibleTerrainTileCount": 27,
+      "terrainLoadingTiles": 0,
+      "terrainFailedTiles": 0,
+      "rendererMemoryCountersSha256": "16ca27ca19930cfc775e1122f2b908fc9dcf8cb50f1fab067f26c6baff50a979",
+      "rendererReportedMemoryBytes": 405869132
+    },
+    "warningsNote": "Warnings retained in the raw report; no errors and no failed terrain tiles.",
+    "warningsSha256": "a4b25cbb3eea65817186b7e583dd230e4b41f429c918c3707b03f2b0aa63cc25"
+  },
+  "afterAttempt": {
+    "rawReportSha256": "5a4e23fcfc8b6a5a599b6e2ea06551788cfbfc2a8b95eafdbf4403551bcb75f5",
+    "rawHarnessPassed": true,
+    "completedViews": 1,
+    "errors": [],
+    "warningCount": 11,
+    "capture": {
+      "id": "h1_top_noon",
+      "imageSha256": "325a215749ac97bf9d15c25fca55acac31161196e5dfcedcd99afcdecb2f7693",
+      "terrainInventorySha256": "1e6f78a002023e954692899dbcb1419b99cbd194d540815aafdc327afcae1570",
+      "drawCalls": 93,
+      "triangles": 1153299,
+      "visibleTerrainTileCount": 27,
+      "terrainLoadingTiles": 0,
+      "terrainFailedTiles": 0,
+      "rendererMemoryCountersSha256": "16ca27ca19930cfc775e1122f2b908fc9dcf8cb50f1fab067f26c6baff50a979",
+      "rendererReportedMemoryBytes": 405869132
+    },
+    "warningsNote": "Warnings retained in the raw report; no errors and no failed terrain tiles.",
+    "warningsSha256": "0b4d6b1a19f00a5d353c6560a707dfab5c221b197310b1ddf2ceb6e689ed6921"
+  },
+  "comparison": {
+    "invariants": {
+      "model": true,
+      "routing": true,
+      "georeferencing": true,
+      "treeInstances": true,
+      "treePositions": true,
+      "vistaPoints": true,
+      "tintNear": true,
+      "tintFar": true,
+      "surfaceSource": true,
+      "vegetationSource": true,
+      "counts": true,
+      "request": true
+    },
+    "views": [
+      {
+        "id": "h1_top_noon",
+        "matched": true,
+        "captureContractUnchanged": true,
+        "cameraUnchanged": true,
+        "terrainUnchanged": true,
+        "imageChanged": true,
+        "trianglesDelta": 0,
+        "drawCallsDelta": 0
+      }
+    ],
+    "passed": true,
+    "note": "Image changes are expected. Draw/triangle deltas are observations, not FPS evidence; shadow refresh can alter per-frame counters."
+  },
+  "rendererMemoryCountersUnchanged": true,
+  "imageComparison": {
+    "pixels": 110592,
+    "changedPixels": 52406,
+    "maximumAbsoluteChannelDifference": 15,
+    "meanAbsoluteChannelDifference": 0.36350429205246915,
+    "note": "Pixel differences are a correctness diagnostic, not a quality score or an FPS measurement."
+  },
+  "visualReview": {
+    "reviewed": [
+      "baseline h1 top noon",
+      "candidate h1 top noon"
+    ],
+    "acceptedForThisView": true,
+    "findings": [
+      "Ground-detail change is restrained at this overhead distance.",
+      "Course surfaces remain continuous and the mapped objects retain their visible placement.",
+      "No obvious new hard ground edge, texture grid, silhouette change or water disturbance appears in this view."
+    ],
+    "limits": [
+      "This one overhead view does not establish close-up or moving-camera visual quality across every course.",
+      "The repeated-plane material check separately examines close and grazing ground views."
+    ]
+  },
+  "remainingChecks": [
+    "Physical desktop WebGPU and phone WebGL2 at fixed actual drawing-buffer resolution, quality, lighting and camera trajectories.",
+    "Median/p95/p99 frame timings, moving-camera hitches, total startup and total application memory on those devices.",
+    "Uppsala close-up review, Puttom forest load and Veckefjarden water with the same settings; check that automatic quality fallback does not reduce resolution."
+  ],
+  "matchedSettings": {
+    "buffer": [
+      384,
+      288
+    ],
+    "pixelRatio": 1,
+    "quality": {
+      "lowfx": false,
+      "lowq": true,
+      "phone": false,
+      "autoQualityDone": true,
+      "qualityLocked": true,
+      "graphicsPolish": true,
+      "pixelRatio": 1,
+      "bloom": null
+    },
+    "backend": "webgl2",
+    "camera": {
+      "pos": [
+        142.6,
+        354.4,
+        -64.1
+      ],
+      "look": [
+        142.6,
+        24.4,
+        -64.2
+      ],
+      "mode": "top"
+    },
+    "lens": {
+      "fov": 48,
+      "near": 1,
+      "far": 14000,
+      "aspect": 1.3333333333333333,
+      "coordinateSystem": 2000,
+      "reversedDepth": true,
+      "position": [
+        142.61551428844083,
+        354.42294081146144,
+        -64.11186063274644
+      ]
+    },
+    "treeLod": {
+      "mode": "zone",
+      "zoneTiers": [
+        2,
+        3,
+        4,
+        4
+      ],
+      "hero": 200,
+      "full": 60,
+      "impostor": 22,
+      "hysteresis": 0.1,
+      "dwell": 6,
+      "floors": [
+        2,
+        4
+      ],
+      "reach": [
+        250,
+        500
+      ]
+    },
+    "forceTreeTier": 0
+  },
+  "commonFingerprint": {
+    "model": "b8af0395744ab9cafc19688a6bafcbe4535ba6b9ea4724222ad14d0bde9d0b86",
+    "routing": "8fd293def177118ddb39c7bc5470872d67b1d2f9e1b5f3b48d1fe611afab1115",
+    "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+    "treeInstances": "da7ef7223a300d280e5377d07bb7d1df0bff15942dacf31e7208dab6fb7e1868",
+    "treePositions": "6e9a631e8cd88fab2b29bcae8914352dd51237f907b3ac96fa56a8f38d854602",
+    "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+    "tintNear": "b94a2fc1da65a0c5c6672e91446feb2bad7ea6f0f7f252cf7cb9a3e27eec8fd3",
+    "tintFar": "a94f76eb0310cf48a03f903021bb08f362a8a4c255378a1121852937a748cc13",
+    "surfaceSource": null,
+    "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+    "counts": {
+      "trees": 53986,
+      "vista": 33483,
+      "tufts": 6046,
+      "bushes": 1144,
+      "stones": 260,
+      "reeds": 0,
+      "cars": 38,
+      "pylons": 14,
+      "stumps": 0,
+      "surfaceOverlays": 0
+    },
+    "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+  }
+}
