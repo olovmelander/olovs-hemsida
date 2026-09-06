@@ -51,3 +51,9 @@ Both captures were inspected. They use `q=lo`, the container software renderer a
 The six provisional old pad records remain at H13, H14, H15 and H18. H8/H9 retain three earlier reviewed rings with their existing uncertainty. Hidden portions of several tee complexes remain unresolved, including incomplete rear/intermediate sites at H11/H12. These are not filled with guessed outlines.
 
 Absolute source accuracy, many small objects and concealed drainage remain unverified. **Individual species are unverified**: crown records are derived candidates, and rendered species are visual priors. Tee colours and daily marker locations are also unverified. Imagery pixel spacing is not survey accuracy. See [scope.json](scope.json) and the [mapping runbook](README.md) for the remaining full-site mapping work.
+
+## Integration with newer main
+
+Main advanced to `a9c2d441c86542f1179edd6d08c0a3a0d25b5011` during publication. Its Ängsö lake/sea fixes were merged into the reviewed mapping branch. Shared indexes retain both the latest Ängsö and current Upsala/Mellan entries; the merged app, documentation, report and registry changes were compared with both parents. Upsala model and pack bytes remain identical.
+
+After integration, all-course pack checks, source manifests, canonical migration, app lint and production build pass again. The default unit run passes 398 Vitest and 319 Node tests, with two adapter tests skipped because Python PROJ was not selected. Running that adapter suite explicitly passes all three tests, including both skipped cases: all 719 distinct tests are covered and pass. The JSON records the separate logs. Browser captures above remain evidence from the preceding geometry checkpoint; this integration adds the inherited main terrain-tint changes.

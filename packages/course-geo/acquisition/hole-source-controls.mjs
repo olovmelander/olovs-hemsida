@@ -21,7 +21,7 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  angso: 'ea46763857d55eeb569928f25a27f6cfa95dedfa6f10d4f661c69cf2be8690e5',
+  angso: '6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
   /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the
      committed cs2cs migration: worst 1.4 mm over 3,564 coordinates) after the

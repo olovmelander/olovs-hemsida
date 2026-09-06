@@ -889,5 +889,93 @@
       "tree": "dc33eb3374b0fc09269cd0e8cc323ac27383ce44"
     },
     "note": "Published GitHub commits have trees identical to the corresponding local geometry/source checkpoints."
+  },
+  "mainIntegration": {
+    "mainCommit": "a9c2d441c86542f1179edd6d08c0a3a0d25b5011",
+    "localMappingParent": "81d9678",
+    "publishedMappingParent": "9113202e50cac52e1d16b19566eeaf04f99c415b",
+    "changes": "Retain latest main \u00c4ngs\u00f6 lake/sea corrections and combine shared indexes, migration report and registries with reviewed Upsala/Mellan data.",
+    "upsalaGeometryAndPackBytesUnchanged": true,
+    "automaticallyMergedSharedFilesReviewed": true,
+    "fullSuite": {
+      "vitestPassed": 398,
+      "nodePassed": 319,
+      "nodeSkipped": 2,
+      "failed": 0,
+      "skipReason": "The two Python PROJ adapter tests require explicit selection."
+    },
+    "selectedPythonProjSuite": {
+      "passed": 3,
+      "skipped": 0,
+      "failed": 0,
+      "note": "Explicitly selects the installed PROJ adapter; includes both tests skipped by the default full-suite invocation."
+    },
+    "uniqueTestsCoveredAndPassed": 719,
+    "checks": [
+      {
+        "check": "unit-suite",
+        "status": "passed",
+        "evidence": {
+          "path": "upsalabuild/cache/stora-merge-tests.log",
+          "sha256": "b7ef1453520cb5eba17c097f674c577bd18c12617df06f26ec41f83b5b56830a",
+          "retainedInGit": false
+        }
+      },
+      {
+        "check": "explicit-python-proj",
+        "status": "passed",
+        "evidence": {
+          "path": "upsalabuild/cache/stora-merge-proj-tests.log",
+          "sha256": "91191b4be9bc22497c82d890210a846f62a2e60bd9d181ade0bebed25629f03f",
+          "retainedInGit": false
+        }
+      },
+      {
+        "check": "production-build",
+        "status": "passed",
+        "evidence": {
+          "path": "upsalabuild/cache/stora-merge-build.log",
+          "sha256": "a21bea57ebbb006a90c883cb1b0dcbad0d9b5ed32c652ad26509b06a507b6f77",
+          "retainedInGit": false
+        }
+      },
+      {
+        "check": "all-course-packs",
+        "status": "passed",
+        "evidence": {
+          "path": "upsalabuild/cache/stora-merge-check-packs.log",
+          "sha256": "7f507188ca5bba6851e92483a1adc0afaa8903ee1ddf68de77747bf024a269fb",
+          "retainedInGit": false
+        }
+      },
+      {
+        "check": "source-manifests",
+        "status": "passed",
+        "evidence": {
+          "path": "upsalabuild/cache/stora-merge-manifests.log",
+          "sha256": "b06ddf97ccd14a9d07ea8642155006543df8ba5bdcbad968fe4c279bcc2d5927",
+          "retainedInGit": false
+        }
+      },
+      {
+        "check": "canonical-migration",
+        "status": "passed",
+        "evidence": {
+          "path": "upsalabuild/cache/stora-merge-migration.log",
+          "sha256": "5413866754bd66755116aa21e2618af5c060d63ec1529b904883693f325e0ac3",
+          "retainedInGit": false
+        }
+      },
+      {
+        "check": "app-lint",
+        "status": "passed",
+        "evidence": {
+          "path": "upsalabuild/cache/stora-merge-lint.log",
+          "sha256": "0777eb7b1b8f5134d93c02179eb6a791acbe3aa54451c931098771c164db4dbe",
+          "retainedInGit": false
+        }
+      }
+    ],
+    "browserScope": "The recorded browser captures and probes were performed at geometry checkpoint e228362 before this main integration. Upsala geometry and pack bytes are identical after integration; the inherited main terrain-tint code was build/lint/test checked."
   }
 }
