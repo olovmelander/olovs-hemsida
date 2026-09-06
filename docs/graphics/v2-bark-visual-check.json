@@ -1,0 +1,293 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Bounded full-app hero-bark integration attempt; no completed before/after full-app visual comparison.",
+  "executionAdapter": "swiftshader-software",
+  "performanceEvidence": false,
+  "fullAppVisualComparisonComplete": false,
+  "request": {
+    "course": "upsala",
+    "backend": "webgl2",
+    "autoFallback": true,
+    "q": "hi",
+    "viewport": [
+      320,
+      240
+    ],
+    "dpr": 1,
+    "views": [
+      {
+        "id": "h1_mapped_pine_bark_noon",
+        "hole": 1,
+        "cam": "bark",
+        "preset": "noon"
+      }
+    ]
+  },
+  "overallDeadlineSeconds": 180,
+  "captureHarnessSha256": "33e750e64ad17ebb84847be0b87113c03592c51c64af47fb9ff6c0e8ef76f998",
+  "beforeBuild": {
+    "revision": "5d9c4f27514d97fa608f8fef6713717de2c46ea7",
+    "indexSha256": "3f7270d4da0b85cd9c088303fde9ba29690a3c8383c71686baac2e1a7b89b080",
+    "assetsInventorySha256": "2a391c7938f1fc7b848319a871f4f84905d03fa518f62ef040cd7273d3931920",
+    "entryBundles": [
+      {
+        "file": "assets/index-Csaplm2y.js",
+        "bytes": 1550,
+        "sha256": "6755b3478c6cfb22988c19e5d82b3affb6c573e62c4c3d3d8fcae6efa99a540a"
+      },
+      {
+        "file": "assets/main-KPIi1VHB.js",
+        "bytes": 318244,
+        "sha256": "38b3ae70455a8ed1c651f5ca166d221b5596dd6948980767c529fb84b1114a8b"
+      }
+    ]
+  },
+  "beforeAttempt": {
+    "rawReportSha256": "b98627cf93b1c11482b883927425b50ab34165a25d03586be369fd273ef470ac",
+    "rawHarnessPassed": false,
+    "completedViews": 0,
+    "errors": [
+      {
+        "type": "harness-deadline",
+        "text": "Bounded whole-scene review deadline reached"
+      },
+      {
+        "type": "harness",
+        "text": "page.screenshot: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\n    at main (/tmp/banvy-bark-review.mjs:295:32)\n    at async file:///tmp/banvy-bark-review.mjs:324:9"
+      }
+    ],
+    "selectedTree": {
+      "instance": [
+        -11.08,
+        33.02,
+        -213.2,
+        0.73,
+        3.953,
+        1,
+        5,
+        "A",
+        0.685
+      ],
+      "provenance": "v2Individual",
+      "corridorDistanceMetres": 36.04567102995864
+    },
+    "fingerprint": {
+      "model": "b8af0395744ab9cafc19688a6bafcbe4535ba6b9ea4724222ad14d0bde9d0b86",
+      "routing": "8fd293def177118ddb39c7bc5470872d67b1d2f9e1b5f3b48d1fe611afab1115",
+      "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+      "treeInstances": "f5725d12e6097761915087c480206e64ad5a3f2f3f83143aaf55119de00ebe2c",
+      "treePositions": "42bf6b00e58566899411112a651b30b40c7af1208dea6050ac3cc41a8a2ec236",
+      "vistaPoints": "fd9074c259c71a1ff0d6043b8c0b3996c493d8c25f632be6636fb1c651d351d2",
+      "tintNear": "b94a2fc1da65a0c5c6672e91446feb2bad7ea6f0f7f252cf7cb9a3e27eec8fd3",
+      "tintFar": "a94f76eb0310cf48a03f903021bb08f362a8a4c255378a1121852937a748cc13",
+      "surfaceSource": null,
+      "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+      "counts": {
+        "trees": 90195,
+        "vista": 65226,
+        "tufts": 12083,
+        "bushes": 2250,
+        "stones": 483,
+        "reeds": 0,
+        "cars": 38,
+        "pylons": 14,
+        "stumps": 0,
+        "surfaceOverlays": 0
+      },
+      "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+    },
+    "verifiedBeforeScreenshot": {
+      "backend": "webgl2",
+      "quality": {
+        "lowfx": false,
+        "lowq": false,
+        "phone": false,
+        "autoQualityDone": true,
+        "qualityLocked": true,
+        "graphicsPolish": true,
+        "pixelRatio": 1,
+        "bloom": 0.08
+      },
+      "drawingBuffer": [
+        320,
+        240
+      ],
+      "pixelRatio": 1,
+      "camera": {
+        "pos": [
+          -7.5,
+          36.1,
+          -218
+        ],
+        "look": [
+          -11.1,
+          35.2,
+          -213.2
+        ],
+        "mode": "tee"
+      },
+      "lens": {
+        "fov": 48,
+        "near": 1,
+        "far": 14000,
+        "aspect": 1.3333333333333333,
+        "coordinateSystem": 2000,
+        "reversedDepth": true,
+        "position": [
+          -7.516027122890186,
+          36.066721342108636,
+          -217.95196383614635
+        ]
+      },
+      "treeLod": {
+        "mode": "zone",
+        "zoneTiers": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "hero": 64,
+        "full": 24,
+        "impostor": 8,
+        "hysteresis": 0.1,
+        "dwell": 6,
+        "floors": [
+          1,
+          2
+        ],
+        "reach": [
+          500,
+          900
+        ]
+      },
+      "heroCount": 1722,
+      "forcedTier": 0,
+      "terrainActive": true,
+      "terrainPhase": "ready",
+      "stream": {
+        "readyTiles": 86,
+        "loadingTiles": 0,
+        "failedTiles": 0,
+        "renderedTiles": 20,
+        "drawCalls": 1,
+        "triangles": 2662400,
+        "selectedTiles": 20,
+        "requests": {
+          "queued": 0,
+          "running": 0,
+          "jobs": 0
+        }
+      },
+      "terrainInventorySha256": "dad868979d817b3bce930478025f73aafa01662276cf10b4944534eee28513c9",
+      "terrainInventoryCount": 20
+    }
+  },
+  "afterCapture": null,
+  "notes": [
+    "Low quality fixes geographic zone A to the full tree template, so it cannot exercise hero bark. This attempt deliberately uses q=hi, qualitylock=1, DPR 1 and zone mode without forcing LOD.",
+    "The selected pine is an actual v2Individual. Its measured 36.05 m distance to the nearest hole corridor lies safely inside the 90 m hero zone, including the 12 m zone-raster margin.",
+    "Baseline scene booted and reached stable ready terrain with no loading/failed tiles, a 320x240 buffer and 1,722 visible hero trees before screenshot capture.",
+    "The 180-second overall bound closed the page during screenshot rendering. No image completed, no full-app after capture was launched, and no retry was made.",
+    "Use the separately recorded isolated actual-material/geometry captures for appearance review. This attempt alone does not prove the candidate appearance or real-device FPS.",
+    "Physical desktop WebGPU and phone WebGL2 frame-time, camera-motion, startup and memory checks remain unmeasured."
+  ],
+  "isolatedMaterialReview": {
+    "status": "corrected-gradient-reviewed",
+    "acceptedForInspectedMaterialViews": true,
+    "fullAppAcceptance": false,
+    "bumpStrength": 0.05,
+    "evidenceFile": "bark-material-check.json",
+    "evidenceSha256": "cfd72d311da1f5324e11c11b92af08a119195464ab51a530e1a05ab0c06fa1e1",
+    "reviewedHelperSha256": "776464e5177b0f6de73328685406e4069ddc2533e2ea4988a1b1f94312993f9b",
+    "shaderEvidencePassed": true,
+    "derivativeSamplesVerifiedDistinct": true,
+    "reliefVerifiedAgainstSameAlbedoFlat": true,
+    "reviewedImages": [
+      {
+        "file": "normal-pine-noon-close-legacy.png",
+        "sha256": "4ce668a9073de94306f44eb2fdbb2641415648e1b35ee82606961381cf03d7f3"
+      },
+      {
+        "file": "normal-pine-noon-close-calibrated.png",
+        "sha256": "24561fc263e8bd4be48c8796e50e2148894518f74d2ffdd4acd72999fbd6d09a"
+      },
+      {
+        "file": "normal-pine-golden-grazing-legacy.png",
+        "sha256": "3a13d89c0071f615cee655d277eb518f49f26fc7073563f6b5014082ff72022e"
+      },
+      {
+        "file": "normal-pine-golden-grazing-calibrated.png",
+        "sha256": "b454ac10b1c010d9ecb1ad2b5c904e3b7d8e80ec63f7f524c0258c9ebf4dbcca"
+      },
+      {
+        "file": "normal-birch-golden-close-legacy.png",
+        "sha256": "581a8c0ffae622462ea1d63032c8521a7352ceddb2ad3eacffd5e74d45176dd3"
+      },
+      {
+        "file": "normal-birch-golden-close-calibrated.png",
+        "sha256": "7a80e83923af6cad58c4c2b84090f005ffb15f949edd911844b3cc25707517af"
+      },
+      {
+        "file": "normal-pine-noon-above-legacy.png",
+        "sha256": "cd757014f64dacd127bc4f9ee98fecd1fc42f132801302f779a0576f3d275f4a"
+      },
+      {
+        "file": "normal-pine-noon-above-calibrated.png",
+        "sha256": "088b1d3ef9074af5b307725a9404db335329d884b8624b78932ada386d9883c7"
+      }
+    ],
+    "findings": [
+      "At the corrected 0.05 bump strength, vertical grain remains coherent and relief is restrained, without a new obvious seam or exaggerated edge/embossing in these frames.",
+      "The calibrated brightness lift remains subtle and consistent with the existing stylized palette across inspected pine noon/golden and birch golden views.",
+      "Trunk silhouettes and the inspected cap/side boundary remain aligned."
+    ],
+    "limitations": [
+      "Isolated actual material and geometry captures omit full-course wind, fade and environment mapping; they do not replace full-app visual acceptance or real-device performance measurements.",
+      "The earlier isolated review was discarded because cached TSL texture reads flattened the bump gradient. This review uses the rerun with verified distinct finite-difference samples."
+    ],
+    "reviewedSourceRevision": "464f403f19fe518be4ee7264199059520726ed09",
+    "reviewedSourceBinding": "The reviewed helper source SHA256 matches the committed helper bytes; these isolated captures do not use a candidate full-app build.",
+    "validatedLocalRevision": "9b46dbcc2efabc5a114bc38ca8e43b72df62d746",
+    "reviewedSourceTree": "5051911cc60d090830c0e17f615bb566c3b59992",
+    "sourceUrl": "https://github.com/olovmelander/olovs-hemsida/commit/464f403f19fe518be4ee7264199059520726ed09"
+  },
+  "initialCandidateBuild": {
+    "revision": "8b38ecef1f455ffc642aec52f76e2925b96cb39e",
+    "indexSha256": "190b4183986ae4dff9c911f6ec549a0181641f55e95276c3dcd5c184334d8ea2",
+    "assetsInventorySha256": "18e1259d4f4dd029ceac0f931db29c4bfb0f83517db875c01b62d62327529651",
+    "entryBundles": [
+      {
+        "file": "assets/index-BQX3j8Iz.js",
+        "bytes": 1550,
+        "sha256": "74fe2f8ac64b63dd2a59b92497a26a7c8b7921e5073af390d66a8027aa05c275"
+      },
+      {
+        "file": "assets/main-CRqgW_y8.js",
+        "bytes": 318889,
+        "sha256": "ea14f7b877475554af972447e10a95976ff2cb0e5da963a757f8c61d700582d1"
+      }
+    ],
+    "status": "superseded-by-corrected-bump-gradient; never captured in full app"
+  },
+  "candidateBuild": {
+    "revision": "464f403f19fe518be4ee7264199059520726ed09",
+    "tree": "5051911cc60d090830c0e17f615bb566c3b59992",
+    "validatedLocalRevision": "9b46dbcc2efabc5a114bc38ca8e43b72df62d746",
+    "status": "rebuilt from corrected source; not captured in full app",
+    "indexSha256": "d6bc03d115bf4c3eb17c56631251f66763a43999ebe0b707ac00449d8a363f58",
+    "assetsInventorySha256": "be59cce6ab9f57db4854ac68be6c088c1e254a9b68feac7f079f911b590ff939",
+    "entryBundles": [
+      {
+        "file": "assets/index-CGxehWPv.js",
+        "bytes": 1550,
+        "sha256": "f50a39af78f89e8e3131159fa2a9d9e1cf61d6cb4d9ba32aeef3929d33270f9c"
+      },
+      {
+        "file": "assets/main-gomOvHb4.js",
+        "bytes": 318900,
+        "sha256": "87db9abe18e43ebb5d2d3b803d27c67884eb47603238fef96870c0a47d2aae66"
+      }
+    ]
+  }
+}
