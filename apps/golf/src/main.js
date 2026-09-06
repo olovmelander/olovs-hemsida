@@ -64,6 +64,8 @@ import {
   shouldRenderLegacySurfaceOverlays,
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
+import { createLightingEnvironment } from './engine/lighting-environment.mjs';
+import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { smoothShore } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
@@ -209,6 +211,9 @@ const [b0, b1, MODEL, V2_SELECTION] = await Promise.all([
   inflate(PACK.s0), inflate(PACK.s1), modelPromise, terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
+/* Opt-in Pages preview on the same published v2 course data. Keep the current
+   appearance by default until visual and real-device performance review passes. */
+const GRAPHICS_POLISH = TERRAIN_PREVIEW.ready === true && new URLSearchParams(location.search).get('graphics') === '1';
 const TERRAIN_PREVIEW_CONFIG = V2_SELECTION.frontierConfig || PUTTOM_PREVIEW_CONFIG;
 MODEL_PREP_STARTED = performance.now();
 /* Phase 4 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
@@ -1157,6 +1162,9 @@ await tick('startar renderaren', 0.10);
    otherwise a previous slow visit and genuinely constrained devices start light
    instead of spending ten seconds proving they needed to. */
 const qualityParam = new URLSearchParams(location.search).get('q');
+/* Explicit harness control: deterministic clocks alone must not imply a
+   performance policy, and a slow capture must not silently change resolution. */
+const QUALITY_LOCK = new URLSearchParams(location.search).get('qualitylock') === '1';
 let rememberedQuality = null;
 /* ...but NOT under ?det=1. Instance counts change with quality, so a scene that
    sniffs the device is a scene that differs between machines -- and det=1 exists
@@ -1181,7 +1189,7 @@ const LOWQ = qualityParam === 'lo'
   || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice || phoneDevice));
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
 let lowfx = false;
-let autoQualityDone = false;   /* the auto-quality verdict has been reached (a harness waits on it) */
+let autoQualityDone = LOWQ || QUALITY_LOCK;   /* no pending verdict in a fixed-quality visit */
 const RMOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* skyltar: 0 off, 1 hole numbers, 2 numbers + faciliteter. skyMax is 1 on a course
    whose facilities are not in the data, so the cycle never promises an empty layer. */
@@ -1435,27 +1443,24 @@ if (IS_GPU) {
   scene.add(skyDome);
 }
 
-/* A small procedural environment, generated once, so metal and water have
-   something to reflect on both backends. */
-{
-  const env = new THREE.Scene();
-  const m = new THREE.MeshBasicNodeMaterial({ side: THREE.BackSide });
-  const up = normalize(positionLocal).y;
-  m.colorNode = mix(color(0x8fa88f), mix(color(0xcfe2e8), color(0x3d7fb8), pow(saturate(up), 0.5)),
-                    smoothstep(-0.1, 0.05, up));
-  env.add(new THREE.Mesh(new THREE.SphereGeometry(100, 24, 16), m));
-  const pmremStarted = performance.now();
-  const pm = new THREE.PMREMGenerator(renderer);
-  scene.environment = pm.fromScene(env, 0.04).texture;
-  scene.environmentIntensity = 0.58;
-  span('PMREM environment', pmremStarted);
-}
+/* The selected sky and the indirect light share a palette. Bake only on a
+   preset change; the two-map cache adds no steady-state render pass. Resolve
+   the URL here so boot does not bake golden before the requested daylight. */
+const LJUS2P = { kvall: 'golden', dag: 'noon', dis: 'mist', gryning: 'dawn', host: 'host' };
+const INITIAL_PRESET = LJUS2P[(new URLSearchParams(location.search).get('ljus') || '').toLowerCase()] || 'golden';
+const lightingEnvironment = createLightingEnvironment(renderer, scene, {
+  enabled: GRAPHICS_POLISH,
+  maxEntries: 2,
+  onBake: ({ preset: name, started }) => span('PMREM environment', started, { preset: name }),
+});
+lightingEnvironment.setPreset(INITIAL_PRESET, PRESETS[INITIAL_PRESET]);
 
 let presetName = 'golden';
 function setPreset(name) {
   const p = PRESETS[name] || PRESETS.golden;
   preset = p;
   presetName = PRESETS[name] ? name : 'golden';
+  lightingEnvironment.setPreset(presetName, p);
   sun.color.setHex(p.sun); sun.intensity = p.int;
   const d = new THREE.Vector3(...p.dir).normalize();
   uSun.value.copy(d);
@@ -2214,6 +2219,7 @@ if (TERRAIN_PREVIEW.ready) {
     renderStride,
     decorateMaterial: createV2GroundMaterialDecorator({
       atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
+      graphicsPolish: GRAPHICS_POLISH,
       debugMode: surfaceDebugMode,
       tint: GROUND_TINT,
     }),
@@ -4088,6 +4094,7 @@ const TREE_LOD = {
   }, { srgb: false, rep: 1 });
   /* a 12-segment trunk with a root flare, uv'd for the bark */
   const heroTrunk = (r0, r1, h) => {
+    if (GRAPHICS_POLISH) return createHeroTrunkGeometry(r0, r1, h);
     const shaft = new THREE.CylinderGeometry(r0, r1, h, 12, 1, true); shaft.translate(0, h / 2, 0);
     const flare = new THREE.CylinderGeometry(r1, r1 * 1.7, 0.6, 12, 1, true); flare.translate(0, 0.3, 0);
     const cap = new THREE.CircleGeometry(r0, 12); cap.rotateX(-Math.PI / 2); cap.translate(0, h, 0);
@@ -6430,7 +6437,6 @@ function goHole(n, recam, instant) {
    plain copy-paste always reproduces what is on screen. */
 const VY2CAM = { tee: 'tee', green: 'green', fritt: 'orbit', ovan: 'top' };
 const CAM2VY = { tee: 'tee', green: 'green', orbit: 'fritt', top: 'ovan' };
-const LJUS2P = { kvall: 'golden', dag: 'noon', dis: 'mist', gryning: 'dawn', host: 'host' };
 const P2LJUS = { golden: 'kvall', noon: 'dag', mist: 'dis', dawn: 'gryning', host: 'host' };
 function syncURL() {
   try {
@@ -9567,8 +9573,10 @@ window.V3D = {
   v2WorldMorph: ms => { const batches = terrainV2.runtime?.layer?.batches; if (!batches) return null; for (const b of batches.values()) b.morphDurationMilliseconds = Math.max(0, +ms || 0); return Math.max(0, +ms || 0); },
   /* the terrain stream's last plan and residency, for a harness that watches tiles come and go: desired, rendered (fallbacks included), requested, retained, and what is ready or loading */
   v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
-  quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
+  quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, qualityLocked: QUALITY_LOCK,
+                    graphicsPolish: GRAPHICS_POLISH, pixelRatio: renderer.getPixelRatio(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
+  lightingEnvironment: () => lightingEnvironment.snapshot(),
   /* GPU milliseconds since the previous resolve, summed over every render
      pass (shadow, scene, bloom); null unless the page booted with ?gputime=1 */
   gpuTimingEnabled: () => renderer.backend?.trackTimestamp === true,
@@ -9727,9 +9735,10 @@ if (V2_SELECTION.graph && v2StreamProbeRequested(location.search)) {
   console.info('v2 streaming probe:', v2StreamProbe);
 }
 
-addEventListener('pagehide', () => {
+addEventListener('pagehide', event => {
   captureReadbackTarget?.dispose();
   captureReadbackTarget = null;
+  if (!event.persisted) lightingEnvironment.dispose();
 }, { once: true });
 
 BOOT_PERF.doneAtMs = +(performance.now() - bootStarted).toFixed(1);
@@ -9740,7 +9749,7 @@ if (BOOTQ.get('kiosk') === '1') setTimeout(startTour, 1200);
 /* Ten seconds of honest measurement, then a decision: a phone crawling at the
    full treatment gets its pixel ratio and bloom dropped on the fly, and the
    offer of the lightweight build (which also thins the instanced forest). */
-if (!LOWQ) setTimeout(() => {
+if (!LOWQ && !QUALITY_LOCK) setTimeout(() => {
   let checked = 0, bad = 0;
   const qt = window.setInterval(() => {
     if (!fps) return;
