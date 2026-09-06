@@ -164,14 +164,35 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--build', required=True, type=Path)
     parser.add_argument('--evidence', action='append', required=True, type=Path)
+    parser.add_argument('--followup', action='append', default=[], type=Path, help='Apply later accepted review decisions to the comparison')
     parser.add_argument('--out', required=True, type=Path)
     parser.add_argument('--title', help='Course label; defaults to Upsala Stora for upsalabuild, otherwise the build name')
     args = parser.parse_args()
     model = json.loads((args.build / 'course-model.json').read_text())
     holes, features, frame, digests = read_evidence(args.evidence)
+    for path in args.followup:
+        raw = path.read_bytes()
+        followup = json.loads(raw)
+        if followup['frame'] != frame:
+            raise ValueError('Follow-up frame differs')
+        digests.append({'path': path.as_posix(), 'sha256': hashlib.sha256(raw).hexdigest()})
+        for record in followup['holes']:
+            hole = holes[record['hole']]
+            retired = [record['originalPads'][i]['ring'] for i in record['retireOriginalPadIndices']]
+            hole['retainOriginalPadIndices'] = [i for i in hole['retainOriginalPadIndices'] if hole['originalPads'][i]['ring'] not in retired]
+            hole['retireOriginalPadIndices'] = [i for i in range(len(hole['originalPads'])) if i not in hole['retainOriginalPadIndices']]
+            hole['coverage'] = record['coverage']
+            features = [f for f in features if f['hole'] != record['hole'] or f['ring'] not in retired]
+        features.extend(followup['features'])
     model_frame = {key: model[key] for key in ('origin', 'mPerLat', 'mPerLon')}
     if frame != model_frame:
         raise ValueError('Evidence local frame differs from the selected build')
+    if args.followup:
+        for number, hole in holes.items():
+            displayed = [hole['originalPads'][i]['ring'] for i in hole['retainOriginalPadIndices']] + [f['ring'] for f in features if f['hole'] == number]
+            shipped = next(h for h in model['holes'] if h['n'] == number)['tees']['pads']
+            if sorted(tuple(map(tuple, ring)) for ring in displayed) != sorted(tuple(map(tuple, p['ring'])) for p in shipped):
+                raise ValueError(f'Hole {number}: comparison differs from the current model')
     original_count = sum(len(h['originalPads']) for h in holes.values())
     retained = [h['originalPads'][i] for h in holes.values() for i in h.get('retainOriginalPadIndices', [])]
     reviewed_count = sum(previously_reviewed(pad) for pad in retained)
@@ -193,7 +214,8 @@ def main():
              f'{reviewed_count} reviewed and {provisional_count} provisional pads retained',
              color=INK, fontsize=10)
     fig.text(.052, .902,
-             '2025 outlines checked against 2024 orthophotos. Absolute source accuracy is unreported.',
+             ('2024/2025 imagery plus 2020/2023 archive follow-up. Absolute source accuracy is unreported.' if args.followup else
+              '2025 outlines checked against 2024 orthophotos. Absolute source accuracy is unreported.'),
              color=MUTED, fontsize=9.4)
     legend = [
         Line2D([0], [0], color=OLD, linewidth=1.2, linestyle=(0, (3, 2)), label='Original outline'),
@@ -212,7 +234,7 @@ def main():
     stem = args.out.with_suffix('')
     stem.parent.mkdir(parents=True, exist_ok=True)
     description = json.dumps({'build': args.build.as_posix(), 'evidence': digests,
-                              'frame': frame, 'imageryYears': [2024, 2025],
+                              'frame': frame, 'imageryYears': [2020, 2023, 2024, 2025] if args.followup else [2024, 2025],
                               'absoluteHorizontalAccuracyMetres': None}, sort_keys=True)
     svg_path, png_path = stem.with_suffix('.svg'), stem.with_suffix('.png')
     fig.savefig(svg_path, metadata={'Date': None, 'Description': description}, facecolor=BACKGROUND)

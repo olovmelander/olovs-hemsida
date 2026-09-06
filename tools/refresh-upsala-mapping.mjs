@@ -246,7 +246,9 @@ function main(args) {
     '--out', 'upsalabuild/mapping/overview.svg'], { label: 'render geographic overview' });
   run(python, ['geobuild/render-tee-review.py', '--build', 'upsalabuild',
     ...['01-06', '07-12', '13-18'].flatMap(range => ['--evidence', `upsalabuild/mapping/stora-tees-${range}-2025.json`]),
+    '--followup', 'upsalabuild/mapping/stora-tees-followup-2026-09-06.json',
     '--out', 'upsalabuild/mapping/stora-tee-review.svg'], { label: 'render Stora tee comparison' });
+  run(python, ['geobuild/render-stora-followup.py'], { label: 'render continued Stora mapping review' });
   console.log('\nUpsala models, packs, routing references, registries and geographic map refreshed. Run the project validation gates before committing.');
 }
 

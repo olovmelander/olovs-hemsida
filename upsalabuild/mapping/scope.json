@@ -39,7 +39,7 @@
         "paths",
         "tracks"
       ],
-      "gap": "OSM alignment and omitted links require dated imagery review."
+      "gap": "Nine 520 m context panels inspected in 2025 imagery. Existing alignments often follow visible corridors, but corner cutting, widths and omitted wooded links remain unresolved; no new road/trail geometry accepted in this continuation."
     },
     {
       "id": "ponds",
@@ -150,14 +150,14 @@
         "tee-platform",
         "tee-reference"
       ],
-      "gap": "All 18 Stora tee sites reviewed: 53 platform entries comprise 47 dated-image outlines (44 new and three earlier Stora8/9 traces) and six retained provisional originals on holes13/14/15/18. Eight Stora holes remain partial because prior traces do not establish a complete census or shadows hide additional boundaries. The 23 Mellan platforms retain partial hole8 coverage. Daily colours, marker positions, routing and card references remain unchanged and unverified as physical marker observations.",
+      "gap": "Stora has 53 platform entries: 51 imagery outlines and two provisional originals (H13 and upper H15). All 18 sites reviewed; eight retain partial census status. Mellan has 23 platforms with H8 partial. Daily markers and colours remain unverified.",
       "storaReview": {
         "reviewedHoleCount": 18,
         "totalPlatformEntries": 53,
-        "datedImageOutlines": 47,
-        "newAcceptedSourceRecords": 44,
+        "datedImageOutlines": 51,
+        "newAcceptedSourceRecords": 48,
         "retainedEarlierImageTraces": 3,
-        "retainedProvisionalOriginals": 6,
+        "retainedProvisionalOriginals": 2,
         "partialHoles": [
           8,
           9,
@@ -170,21 +170,21 @@
         ],
         "holesWithRetainedProvisionalOriginals": [
           13,
-          14,
-          15,
-          18
+          15
         ],
         "sourceFiles": [
           "stora-tees-01-06-2025.json",
           "stora-tees-07-12-2025.json",
-          "stora-tees-13-18-2025.json"
+          "stora-tees-13-18-2025.json",
+          "stora-tees-followup-2026-09-06.json"
         ],
         "decisions": [
           "Holes8/9 retain three earlier image traces; their complete tee inventory remains unresolved.",
-          "Holes11/12 retain shadow-limited omissions rather than closing hidden outlines.",
           "Hole7 old platform centres were 44.5 m and 56.5 m from the corresponding observed platforms.",
           "Hole15 unsupported short-tee rectangle within continuous fairway retired; card reference retained.",
-          "Six provisional original footprints retained explicitly where the new review cannot establish complete edges."
+          "Archive follow-up: add H12 middle pad, replace H14 forward and H15 lower originals, and replace H18 two rear rectangles with one observed platform.",
+          "Two provisional originals remain at H13 and upper H15. Eight partial sites remain census gaps even where the visible outline is improved.",
+          "2020/2023 archive years are municipal service labels, not independently verified flight dates; all four additions were crosschecked against 2025 imagery."
         ],
         "terrainMethod": "geobuild/tee-platform-survey.mjs measures drainage slope and residual planarity separately, with interior/core/edge/exterior coverage. It never automatically adopts polygons or changes terrain.",
         "routesAndCardReferencesChanged": false,
@@ -198,7 +198,7 @@
         "green",
         "green-reference"
       ],
-      "gap": "All nine Mellan greens now have imagery or OSM outlines; eight centres corrected from imagery. Pin positions and absolute source accuracy remain unverified."
+      "gap": "All 18 Stora greens visually reviewed in 2025 imagery. H16 boundary corrected, removing overlap with sand; H17 previously corrected. Remaining OSM rings retained, with small edge differences unaccepted. All nine Mellan greens have imagery or OSM outlines. Pin positions and absolute accuracy remain unverified."
     },
     {
       "id": "fairways",
@@ -206,7 +206,7 @@
         "fairway",
         "driving-range"
       ],
-      "gap": "Stora13/15 and all six Mellan par4/5 fairways corrected. Other mowing edges and seasonal changes still require review."
+      "gap": "All 14 Stora par4/5 fairways now have reviewed imagery outlines (12 added in this continuation, plus earlier H13/15). H4 preserves a water gap. Par3 H2/H6/H14 coarse corridor polygons remain unresolved; H10 has none. All six Mellan par4/5 fairways were previously corrected. Seasonal edge changes and absolute accuracy remain unverified."
     },
     {
       "id": "bunkers",
@@ -257,5 +257,6 @@
     "Update both courses, GIS export, routing/pack bindings and checksum registries after accepted changes.",
     "Commit each substantial completed improvement; completeSurvey remains false while any category has unverified coverage."
   ],
-  "mappingStatus": "Reviewed improvements adopted; incomplete categories remain explicit and must not be filled with invented geometry."
+  "mappingStatus": "Reviewed improvements adopted; incomplete categories remain explicit and must not be filled with invented geometry.",
+  "continuationDocument": "NEXT-SESSION.md"
 }

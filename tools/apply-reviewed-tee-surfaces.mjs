@@ -76,6 +76,7 @@ export function applyReviewedTeeSurfaces(model, evidenceFiles) {
         seenIds.add(f.id);
         return { ...surfaceGeometry(f), prov: 'dated-orthophoto-trace', sourceId: f.id,
           imagerySourceId: f.sourceId, observedYear: f.observedYear, crosscheckYear: f.crosscheckYear,
+          ...(f.yearBasis ? { yearBasis: f.yearBasis, captureDate: f.captureDate ?? null } : {}),
           sourceSha256: f.sourceSha256, boundaryInterpretationUncertaintyMetres: f.boundaryInterpretationUncertaintyMetres,
           sourceAbsoluteHorizontalAccuracyMetres: null, centreProvenance: 'polygon area centroid; not a tee marker', preserveTerrain: true };
       });

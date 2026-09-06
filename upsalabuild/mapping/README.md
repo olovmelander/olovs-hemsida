@@ -7,6 +7,10 @@ published LiDAR crown candidates. Its source IDs, dates, inferred status and
 unknown accuracy fields remain attached to each feature. Repeated geometry shared
 between the two routings is merged, not counted as another object.
 
+Start the next Codex/VS Code session with [NEXT-SESSION.md](NEXT-SESSION.md).
+The [latest validation](validation-continuation-2026-09-06.md) and
+[continued mapping comparison](stora-followup-review.svg) cover the current checkpoint.
+
 ## Changes adopted
 
 | Feature | Previous model | Reviewed result |
@@ -17,11 +21,12 @@ between the two routings is merged, not counted as another object.
 | Stora17 green | Synthetic410m² oval | Dated orthophoto outline, approximately584m² |
 | Stora8 tees | Incorrect rectangle | Two visible physical tee surfaces; actual terrain preserved |
 | Stora9 upper tee | Pad over road/rough | Visible2025 platform; southern edge limited by shadow |
-| Stora tees, all 18 sites | 38 platform entries, mostly approximate rectangles | 53 physical-platform entries: 44 new dated-image outlines, three retained earlier traces and six explicitly provisional originals |
+| Stora tees, all 18 sites | 38 platform entries, mostly approximate rectangles | 53 physical-platform entries: 48 new image outlines, three retained earlier traces and two provisional originals |
 | Mellan6 green | Inferred ellipse | OSM w221192642, which contains its existing provisional pin |
 | Other eight Mellan greens | Inferred ellipses and endpoints | Visible 2025 outlines, checked against2024; centres are polygon centroids, not surveyed flags |
 | Mellan tees | 45 generated pad entries | 23 visible physical platforms; no inferred colour assignment or terrain flattening; hole8 review remains partial |
-| Stora13/15 fairways | Generated corridors | Dated mowing outlines, with 2–2.5m interpretation uncertainty |
+| All 14 Stora par4/5 fairways | Generated corridors | Dated mowing outlines: H13/15 earlier, 12 more in this continuation; H4 split at water |
+| Stora16 green | Coarse outline overlapping sand | 2025 turf boundary, with 1m interpretation uncertainty; existing pin retained |
 | Six Mellan par4/5 fairways | Straight generated strips | Seven observed polygons, preserving hole8's cart-path gap and hole6's dogleg |
 | Practice area | No practice surfaces | Four greens, four range platforms, six target footprints, five range bunkers and one interior island |
 | Individual range mats | No individual observations | 30 visible mat footprints: eight west, ten middle, twelve east |
@@ -52,7 +57,7 @@ the LiDAR crown population.
 The [18-hole comparison sheet](stora-tee-review.png) ([SVG](stora-tee-review.svg))
 shows original, newly traced and retained outlines at equal metre scales with
 north up. Each panel has its own scale. The
-[latest validation record](validation-stora-tees-2026-09-06.md) covers the rebuilt
+[latest validation record](validation-continuation-2026-09-06.md) covers the rebuilt
 53-platform model and both course environments; earlier validation files retain
 their historical checkpoint results.
 
@@ -61,9 +66,13 @@ the same areas in 2024 and the published 1 m terrain. The three source files
 `stora-tees-01-06-2025.json`, `stora-tees-07-12-2025.json` and
 `stora-tees-13-18-2025.json` contain 44 accepted new platform outlines, original
 geometry and route/card values, source dates and hashes, uncertainty and rejected
-or unresolved candidates. The guarded application produces 53 platform entries:
-47 dated-image outlines, including the three previously reviewed Stora8/9 surfaces,
-and six retained provisional originals on holes 13, 14, 15 and 18.
+or unresolved candidates. The follow-up in `stora-tees-followup-2026-09-06.json` adds four archive-assisted
+traces crosschecked against 2025. The guarded application produces 53 platform
+entries: 51 image outlines, including the three previously reviewed Stora8/9
+surfaces, and two retained provisional originals on H13 and upper H15. H12 gains
+its omitted middle platform; H14 and lower H15 replace guessed rectangles; H18
+replaces two guessed rectangles with one continuous rear platform. Exact flight
+dates for the 2020/2023 municipal archive services are unknown.
 
 The corrections include hole7's two old platform centres, which were 44.5 m and
 56.5 m from the corresponding observed platforms. Hole13's two rear rectangles
@@ -75,9 +84,10 @@ reference remains unchanged.
 
 Eight holes retain partial review status: 8, 9, 11, 12, 13, 14, 15 and 18.
 Holes8/9 explicitly preserve the three prior image traces without treating them
-as a complete census. Holes11/12 have shadow-limited omissions. Six original
-guessed footprints remain explicitly provisional on holes13/14/15/18, where the
-available images do not establish a defensible complete boundary. Canopy-hidden
+as a complete census. Hole11 still has a shadow-limited omission; H12 gains a visible middle pad but
+retains partial census status. Two original guessed footprints remain explicitly
+provisional on H13 and upper H15, where the available images do not establish a
+defensible complete boundary. Canopy-hidden
 edges are not closed by fitting a shape to the card marker. All accepted turf
 tops preserve the existing terrain; daily marker colours, positions, routing and
 scorecard distances remain unchanged. Reviewing every tee site does not certify
@@ -218,9 +228,10 @@ two current models, OSM features, the two migrations and the residual report.
 The driver updates only the two Upsala entries in each of `COURSE_MODEL_SHA256`
 and `LEGACY_COURSE_MODEL_SOURCES`, refusing changed registry structure or concurrent
 edits. It then exports the deduplicated geographic map and renders `overview.svg`
-and `overview.png`, followed by `stora-tee-review.svg` and `stora-tee-review.png`.
-The tee comparison reads the three accepted source files directly and preserves
-their exact vertices. Test expectations and source approvals require their own review.
+and `overview.png`, followed by `stora-tee-review.svg` / PNG and
+`stora-followup-review.svg` / PNG.
+The tee comparison reads the three accepted source files plus the follow-up,
+preserves their exact vertices and checks every displayed ring against the model. Test expectations and source approvals require their own review.
 
 Check reproducibility after the rebuild with the same selected projection backend:
 
@@ -274,7 +285,7 @@ The GeoJSON's `metadata.featureCounts` gives the current inventory; shared geome
 is deduplicated, and historical retired outlines are not counted as active objects.
 Remaining review includes road/trail widths and missing links, concealed drainage
 and crossing structures, unresolved Stora tee edges and omitted shadowed platforms,
-most Stora green/mowing boundaries, partial Mellan8 tee coverage, small equipment,
+remaining small Stora green-edge differences and par3 mowing corridors, partial Mellan8 tee coverage, small equipment,
 building heights and cottage use, individual species,
 rough/field classifications and seasonal tall grass. Default rendering or a coarse
 land-cover prior does not complete any of those categories.

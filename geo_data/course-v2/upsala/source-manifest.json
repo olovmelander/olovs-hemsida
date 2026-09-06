@@ -345,7 +345,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "upsalabuild/course-model.json",
-      "sha256": "22baeccc1565bcba6746d75fb56bd04d4787555e2f7c4c2ec85816ada1c8a1d9",
+      "sha256": "136018182d351fa1fe03a5e530bc53811c5e06fbe07f6f0ce287ff53aeea97b3",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
@@ -445,7 +445,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/upsala/migration/course-model.epsg3006.json",
-      "sha256": "c5733798c5b43bd70d83df631e7e23144274dbfeb428f7bd9d07c98d97c8ad05",
+      "sha256": "d295e5fe6bcd7f7d79541268a0e2a127c10a0f6e020eeab6b9cd90b29348b070",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -473,7 +473,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/upsala/migration/residual-report.json",
-      "sha256": "a93e6bd665fbc9aafa556e8326e4a50e47e648b4706b3dde1869165821c2d821",
+      "sha256": "aa01cae2a17f8b4af7f14e7640273fd7c11ff24bd630adc8365c12c23ed58526",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -537,7 +537,7 @@
       "id": "shipped-middle-course-model",
       "kind": "composite",
       "path": "upsalamellanbuild/course-model.json",
-      "sha256": "9c2921ce76344af978560e361ae55d6737bbd94f4395f7d48d7484879f006ad8",
+      "sha256": "c58bdf9f6cc5c59fd2d319ed9bea8ccd231044f44a40b719efa32f6e87c4b195",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
@@ -552,7 +552,7 @@
       "id": "migration-mellanbanan-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/upsala/migration/mellanbanan-course-model.epsg3006.json",
-      "sha256": "d8d92a7cbe7b410d06888bb8a442740d6829d837e939c4acb3e7e30e5d8391dd",
+      "sha256": "dc0ee72915ef0507d3c267ea2fe0b10e671e63846d1ed90f6cff0258927e3d67",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",

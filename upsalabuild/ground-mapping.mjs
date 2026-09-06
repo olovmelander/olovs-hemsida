@@ -9,6 +9,7 @@ import { sweref99TmToLatLon } from '../packages/course-geo/chmv2/projection.mjs'
 import { centroid, polyArea, pointInPoly } from './lib.mjs';
 import { reviewedFairwayMetadata } from '../tools/apply-reviewed-nine-fairways.mjs';
 import { applyReviewedTeeSurfaces } from '../tools/apply-reviewed-tee-surfaces.mjs';
+import { applyReviewedStoraSurfaces } from '../tools/apply-reviewed-stora-surfaces.mjs';
 
 const read = name => JSON.parse(fs.readFileSync(new URL(`mapping/${name}`, import.meta.url)));
 const surfaceEvidence = p => ({ source: p.source, sourceProductYear: p.sourceProductYear ?? p.observedYear, sourceSha256: p.sourceSha256 ?? p.sourceFiles?.[0]?.sha256, sourceHorizontalAccuracyM: p.sourceHorizontalAccuracyM ?? p.sourceAbsoluteHorizontalAccuracyMetres ?? null, uncertaintyM: p.uncertaintyM ?? p.boundaryInterpretationUncertaintyMetres, acceptance: p.acceptance, note: p.note, latestVisualCrossCheckYear: p.latestVisualCrossCheckYear });
@@ -56,6 +57,7 @@ export function applyGroundMapping(model) {
   // Partly obscured originals are retained only through explicit source decisions.
   model.holes = applyReviewedTeeSurfaces(model, ['01-06', '07-12', '13-18']
     .map(range => read(`stora-tees-${range}-2025.json`))).holes;
+  model.holes = applyReviewedTeeSurfaces(model, [read('stora-tees-followup-2026-09-06.json')]).holes;
   for (const h of model.holes) {
     h.tees.inferPads = false;
     h.tees.markProvenance = 'scorecard-distance inference; daily marker positions unverified';
@@ -82,6 +84,7 @@ export function applyGroundMapping(model) {
     h.fairway = { rings: [f.ring], prov: 'dated-orthophoto-trace', sourceId: f.id,
       evidence: surfaceEvidence(p) };
   }
+  applyReviewedStoraSurfaces(model, read('stora-surfaces-2025.json'));
   for (const f of read('equipment-2025.json').features) {
     const { originalPixelRing, replacesOriginalRings, ring, holes = [], ...runtime } = f;
     for (const sourceId of f.replacesSourceIds || []) {
@@ -111,7 +114,7 @@ export function applyGroundMapping(model) {
     }
   })(model, 'model');
   assert.deepEqual(leaked, [], 'source-frame coordinates reached the local model; the migration would convert them as local metres');
-  model.mappingRevision = 'upsala-reviewed-2024-2025-v3-stora-tees';
+  model.mappingRevision = 'upsala-reviewed-2024-2025-v4-stora-surfaces';
   return model;
 }
 
