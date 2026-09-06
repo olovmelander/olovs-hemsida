@@ -68,6 +68,7 @@ import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses } from './engine/water-render-policy.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
+import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
 import { applyCrownDepth } from './engine/crown-depth.mjs';
 import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
 import { smoothShore } from './engine/ring-smoothing.mjs';
@@ -4074,6 +4075,7 @@ const TREE_LOD = {
      organic and still unmistakably the tree it becomes at 120 m; and a
      12-segment trunk with a bark bump and a root flare. */
   /* bark: vertical fissures, the same field for the bump and the colour */
+  let barkMean;
   const BARK = canvasTex(256, (g, S) => {
     const im = g.createImageData(S, S), d = im.data;
     for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
@@ -4082,6 +4084,7 @@ const TREE_LOD = {
       const b = Math.min(1, Math.max(0, v * 0.7 + fine * 0.3));
       d[i] = d[i + 1] = d[i + 2] = b * 255; d[i + 3] = 255;
     }
+    if (GRAPHICS_POLISH) barkMean = averageBarkSample(d);
     g.putImageData(im, 0, 0);
   }, { srgb: false, rep: 1 });
   /* a 12-segment trunk with a root flare, uv'd for the bark */
@@ -4144,9 +4147,8 @@ const TREE_LOD = {
     }
   }
   const barkMaterial = hex => {
-    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, bumpMap: BARK, bumpScale: 0.05 });
-    const bark = texture(BARK, uv().mul(vec2(3, 1.5))).r;
-    mat.colorNode = color(hex).mul(bark.mul(0.6).add(0.62));
+    const mat = createBarkMaterial({ barkTexture: BARK, hex,
+      graphicsPolish: GRAPHICS_POLISH, meanSample: barkMean });
     mat.positionNode = windSway(false);
     return attachTreeFade(mat);
   };
