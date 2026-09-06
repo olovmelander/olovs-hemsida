@@ -1,0 +1,893 @@
+{
+  "schemaVersion": 1,
+  "validationDate": "2026-09-06",
+  "status": "data and required-v2 checks passed; two legacy luminance failures remain recorded",
+  "geometryCheckpoint": "e228362e69bde55d07306bce17e84b90cd98d940",
+  "sourceCheckpoint": "cc0e97bb34c861387635327689e9cbaa07481e4f",
+  "scope": "Stora tee review and its shared surfaces in the current Stora and Mellan app environments; incomplete site survey",
+  "platformInventory": {
+    "stora": {
+      "newlyTracedAccepted": 44,
+      "previouslyReviewedRetained": 3,
+      "provisionalRetained": 6,
+      "totalPhysicalPadRecords": 53
+    },
+    "mellan": {
+      "ownPhysicalPadRecords": 23,
+      "newStoraRingsSharedExactlyOnce": 44
+    },
+    "loadedCrownRecordsPerGroundView": 4181
+  },
+  "gisExport": {
+    "path": "upsalabuild/mapping/ground-map.geojson",
+    "records": 5826,
+    "uniqueSurveyedPhysicalObjectCensus": false,
+    "note": "Includes geometry, references, context and derived crown candidates. Record count is not a count of unique surveyed objects."
+  },
+  "standalonePayload": {
+    "path": "upsala3d.html",
+    "bytes": 1219443,
+    "kibibytes": 1190.8623,
+    "existingBudgetKibibytes": 1220,
+    "budgetChangedInThisCheckpoint": false,
+    "withinBudget": true
+  },
+  "automatedChecks": [
+    {
+      "check": "unit-suite",
+      "status": "passed",
+      "vitestPassed": 398,
+      "nodePassed": 321,
+      "totalPassed": 719,
+      "failed": 0,
+      "evidence": {
+        "path": "upsalabuild/cache/stora-full-tests.log",
+        "sha256": "548f51d6969128641ce894b25bd176843ac21bd6b0c23f0aa7a62e64250cc522",
+        "retainedInGit": false
+      }
+    },
+    {
+      "check": "check3d",
+      "status": "passed",
+      "evidence": {
+        "path": "upsalabuild/cache/stora-check3d.log",
+        "sha256": "9489f29471b040dd6c698ed351315989e41fe3e7664eb9d4a8b5a6905520c185",
+        "retainedInGit": false
+      }
+    },
+    {
+      "check": "check-pack",
+      "status": "passed",
+      "packPageByteIdentity": true,
+      "evidence": {
+        "path": "upsalabuild/cache/stora-check-pack.log",
+        "sha256": "65a23b38e6c55bf2631ce0f99aedb405aee13cb0c5a1f1e15cfefa376c633295",
+        "retainedInGit": false
+      }
+    },
+    {
+      "check": "check-packs",
+      "status": "passed",
+      "coursePackCount": 10,
+      "evidence": {
+        "path": "upsalabuild/cache/stora-check-packs.log",
+        "sha256": "7f507188ca5bba6851e92483a1adc0afaa8903ee1ddf68de77747bf024a269fb",
+        "retainedInGit": false
+      }
+    },
+    {
+      "check": "source-manifests",
+      "status": "passed",
+      "physicalGroundCount": 7,
+      "courseSlugCount": 10,
+      "existingSourceApprovalGapsRemain": true,
+      "evidence": {
+        "path": "upsalabuild/cache/stora-geo-manifests.log",
+        "sha256": "b06ddf97ccd14a9d07ea8642155006543df8ba5bdcbad968fe4c279bcc2d5927",
+        "retainedInGit": false
+      }
+    },
+    {
+      "check": "canonical-migration",
+      "status": "passed",
+      "groundReports": 7,
+      "convertedModels": 10,
+      "courseSlugs": 10,
+      "evidence": {
+        "path": "upsalabuild/cache/stora-migration-check.log",
+        "sha256": "5413866754bd66755116aa21e2618af5c060d63ec1529b904883693f325e0ac3",
+        "retainedInGit": false
+      }
+    },
+    {
+      "check": "app-lint",
+      "status": "passed",
+      "evidence": {
+        "path": "upsalabuild/cache/stora-lint-app.log",
+        "sha256": "0777eb7b1b8f5134d93c02179eb6a791acbe3aa54451c931098771c164db4dbe",
+        "retainedInGit": false
+      }
+    },
+    {
+      "check": "page-lint",
+      "status": "passed",
+      "evidence": {
+        "path": "upsalabuild/cache/stora-lint-page.log",
+        "sha256": "3b4862c3f0a57cbba283b07c8098256f58b83cc294cb94f957e9b9248a9a94f3",
+        "retainedInGit": false
+      }
+    },
+    {
+      "check": "production-build",
+      "status": "passed",
+      "evidence": {
+        "path": "upsalabuild/cache/stora-app-build.log",
+        "sha256": "e0aefeae863308488e9f2106a2a10e14e29f75483bdd9072ec4ce461d78963bd",
+        "retainedInGit": false
+      }
+    }
+  ],
+  "legacyBrowserGate": {
+    "status": "failed",
+    "exitCode": 1,
+    "courseSlugs": [
+      "upsala",
+      "upsala-mellanbanan"
+    ],
+    "failureCount": 2,
+    "failures": [
+      {
+        "slug": "upsala",
+        "check": "frame is a picture",
+        "luminance": 0.036
+      },
+      {
+        "slug": "upsala-mellanbanan",
+        "check": "frame is a picture",
+        "luminance": 0.036
+      }
+    ],
+    "teePlatformInteriorMaterialProbes": {
+      "upsala": {
+        "passed": 53,
+        "failed": 0
+      },
+      "upsala-mellanbanan": {
+        "passed": 23,
+        "failed": 0
+      }
+    },
+    "applicationErrors": 0,
+    "otherLoggedChecks": "passed for both tested courses",
+    "interpretation": "The retained luminance failures are consistent with the known container software-renderer limitation; this gate did not pass. No all-ten-course browser rerun is claimed.",
+    "evidence": {
+      "path": "upsalabuild/cache/stora-legacy-browser.log",
+      "sha256": "c8edbc84cc35f833993f991db3454726745394c6317955440bab16998bdc5d8b",
+      "retainedInGit": false
+    }
+  },
+  "requiredV2Browser": {
+    "sourceReport": {
+      "path": "upsalabuild/cache/stora-tee-browser/report.json",
+      "sha256": "7ce575210781f47191d3cec779706e6c3b7d967e165147ef2d39031bee960d95",
+      "retainedInGit": false
+    },
+    "quality": "lo",
+    "renderer": "WebGL2 software renderer",
+    "serviceWorkers": "blocked",
+    "serverAndBrowserInSameProcess": true,
+    "browserExecutable": "chromium_headless_shell-1187",
+    "courses": [
+      {
+        "slug": "upsala",
+        "requiredV2": true,
+        "requestMode": "require",
+        "rendererBackend": "webgl2",
+        "meshResolutionMetres": 1,
+        "bootMilliseconds": 24230,
+        "sourceModelPath": "upsalabuild/course-model.json",
+        "sourceModelSha256": "22baeccc1565bcba6746d75fb56bd04d4787555e2f7c4c2ec85816ada1c8a1d9",
+        "expectedPackSha256": "cab66e5164f0edfe40f630eade657f0a37b7cb8b820308cd0b6faaf6a5bb22af",
+        "loadedPackSha256": "cab66e5164f0edfe40f630eade657f0a37b7cb8b820308cd0b6faaf6a5bb22af",
+        "loadedPackBytes": 734793,
+        "publicDistAndLoadedPackMatch": true,
+        "numberedPhysicalPadCount": 53,
+        "allNumberedPadRingsMatchSourceExactly": true,
+        "acceptedStoraRingsMatchedExactlyOnce": 44,
+        "acceptedStoraRingLocation": "numbered hole tee pads",
+        "acceptedRingChecks": [
+          {
+            "id": "upsala-stora-tee-01-rear",
+            "hole": 1,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-01-middle-rear",
+            "hole": 1,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-01-middle-front",
+            "hole": 1,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-01-front",
+            "hole": 1,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-02-rear-long",
+            "hole": 2,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-02-front",
+            "hole": 2,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-03-rear",
+            "hole": 3,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-03-front",
+            "hole": 3,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-04-rear",
+            "hole": 4,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-04-middle-rear",
+            "hole": 4,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-04-middle-front",
+            "hole": 4,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-04-front",
+            "hole": 4,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-05-rear",
+            "hole": 5,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-05-middle-rear",
+            "hole": 5,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-05-middle-front",
+            "hole": 5,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-05-front",
+            "hole": 5,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-06-rear",
+            "hole": 6,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-06-middle",
+            "hole": 6,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-06-front",
+            "hole": 6,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-07-front-north-2025",
+            "hole": 7,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-07-middle-north-2025",
+            "hole": 7,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-07-middle-south-2025",
+            "hole": 7,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-07-back-east-2025",
+            "hole": 7,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-08-front-northeast-2025",
+            "hole": 8,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-09-west-lower-2025",
+            "hole": 9,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-09-north-lower-2025",
+            "hole": 9,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-10-back-southwest-2025",
+            "hole": 10,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-10-middle-southwest-2025",
+            "hole": 10,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-10-middle-northeast-2025",
+            "hole": 10,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-10-front-northeast-2025",
+            "hole": 10,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-11-front-west-2025",
+            "hole": 11,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-12-back-northeast-2025",
+            "hole": 12,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-12-front-southwest-2025",
+            "hole": 12,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-13-rear-2025",
+            "hole": 13,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-14-rear-continuous-2025",
+            "hole": 14,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-16-rear-2025",
+            "hole": 16,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-16-middle-2025",
+            "hole": 16,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-16-front-2025",
+            "hole": 16,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-16-forward-2025",
+            "hole": 16,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-17-rear-continuous-2025",
+            "hole": 17,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-17-middle-round-2025",
+            "hole": 17,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-17-forward-2025",
+            "hole": 17,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-18-middle-2025",
+            "hole": 18,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-18-forward-2025",
+            "hole": 18,
+            "exactMatches": 1
+          }
+        ],
+        "sharedSceneryMatchesCurrentSourceModel": true,
+        "loadedCrownRecords": 4181,
+        "applicationErrors": 0,
+        "httpFailures": 0,
+        "nonCancellationRequestFailures": 0,
+        "cancelledRequestCount": 5,
+        "cancelledRequests": [
+          {
+            "path": "/grounds/upsala/terrain/dcdc472cbda0baa50c50e7d87f6996ae08c40bc718aa09ead0a493e42fe7b5f4.bvch",
+            "browserError": "net::ERR_ABORTED"
+          },
+          {
+            "path": "/grounds/upsala/terrain/05cb879c98a2e3be8d42a510a0131d346da3c05078ba51e7b1dad10b549cfd83.bvch",
+            "browserError": "net::ERR_ABORTED"
+          },
+          {
+            "path": "/grounds/upsala/terrain/0a6b85fb4f4e5413505ab46144f6e5d107a8257a62843c8594e4ee071a10558b.bvch",
+            "browserError": "net::ERR_ABORTED"
+          },
+          {
+            "path": "/grounds/upsala/terrain/c1c34f4280161c2598df3b67eda43b2aa068cf473437509763b89fb708554ef5.bvch",
+            "browserError": "net::ERR_ABORTED"
+          },
+          {
+            "path": "/grounds/upsala/terrain/fcc5c231450586956da2eb962ccb15298d0a799b367296f88ea5f8e02d49828f.bvch",
+            "browserError": "net::ERR_ABORTED"
+          }
+        ],
+        "finalTerrainStream": {
+          "readyTiles": 94,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 9,
+          "drawCalls": 1,
+          "triangles": 1198080,
+          "selectedTiles": 9,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        },
+        "reviewScope": "full source/runtime tee comparisons and two settled camera captures",
+        "completedAt": "2026-09-06T06:43:04.586Z"
+      },
+      {
+        "slug": "upsala-mellanbanan",
+        "requiredV2": true,
+        "requestMode": "require",
+        "rendererBackend": "webgl2",
+        "meshResolutionMetres": 1,
+        "bootMilliseconds": 33089,
+        "sourceModelPath": "upsalamellanbuild/course-model.json",
+        "sourceModelSha256": "9c2921ce76344af978560e361ae55d6737bbd94f4395f7d48d7484879f006ad8",
+        "expectedPackSha256": "851e2edb6ebdb44450975cf3811a9e42db6373270e6a5bfd7e342927ac7a472a",
+        "loadedPackSha256": "851e2edb6ebdb44450975cf3811a9e42db6373270e6a5bfd7e342927ac7a472a",
+        "loadedPackBytes": 732476,
+        "publicDistAndLoadedPackMatch": true,
+        "numberedPhysicalPadCount": 23,
+        "allNumberedPadRingsMatchSourceExactly": true,
+        "acceptedStoraRingsMatchedExactlyOnce": 44,
+        "acceptedStoraRingLocation": "shared scenery tee rings",
+        "acceptedRingChecks": [
+          {
+            "id": "upsala-stora-tee-01-rear",
+            "hole": 1,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-01-middle-rear",
+            "hole": 1,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-01-middle-front",
+            "hole": 1,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-01-front",
+            "hole": 1,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-02-rear-long",
+            "hole": 2,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-02-front",
+            "hole": 2,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-03-rear",
+            "hole": 3,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-03-front",
+            "hole": 3,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-04-rear",
+            "hole": 4,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-04-middle-rear",
+            "hole": 4,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-04-middle-front",
+            "hole": 4,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-04-front",
+            "hole": 4,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-05-rear",
+            "hole": 5,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-05-middle-rear",
+            "hole": 5,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-05-middle-front",
+            "hole": 5,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-05-front",
+            "hole": 5,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-06-rear",
+            "hole": 6,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-06-middle",
+            "hole": 6,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-06-front",
+            "hole": 6,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-07-front-north-2025",
+            "hole": 7,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-07-middle-north-2025",
+            "hole": 7,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-07-middle-south-2025",
+            "hole": 7,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-07-back-east-2025",
+            "hole": 7,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-08-front-northeast-2025",
+            "hole": 8,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-09-west-lower-2025",
+            "hole": 9,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-09-north-lower-2025",
+            "hole": 9,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-10-back-southwest-2025",
+            "hole": 10,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-10-middle-southwest-2025",
+            "hole": 10,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-10-middle-northeast-2025",
+            "hole": 10,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-10-front-northeast-2025",
+            "hole": 10,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-11-front-west-2025",
+            "hole": 11,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-12-back-northeast-2025",
+            "hole": 12,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-12-front-southwest-2025",
+            "hole": 12,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-13-rear-2025",
+            "hole": 13,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-14-rear-continuous-2025",
+            "hole": 14,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-16-rear-2025",
+            "hole": 16,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-16-middle-2025",
+            "hole": 16,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-16-front-2025",
+            "hole": 16,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-16-forward-2025",
+            "hole": 16,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-17-rear-continuous-2025",
+            "hole": 17,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-17-middle-round-2025",
+            "hole": 17,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-17-forward-2025",
+            "hole": 17,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-18-middle-2025",
+            "hole": 18,
+            "exactMatches": 1
+          },
+          {
+            "id": "upsala-stora-tee-18-forward-2025",
+            "hole": 18,
+            "exactMatches": 1
+          }
+        ],
+        "sharedSceneryMatchesCurrentSourceModel": true,
+        "loadedCrownRecords": 4181,
+        "applicationErrors": 0,
+        "httpFailures": 0,
+        "nonCancellationRequestFailures": 0,
+        "cancelledRequestCount": 5,
+        "cancelledRequests": [
+          {
+            "path": "/grounds/upsala/terrain/dcdc472cbda0baa50c50e7d87f6996ae08c40bc718aa09ead0a493e42fe7b5f4.bvch",
+            "browserError": "net::ERR_ABORTED"
+          },
+          {
+            "path": "/grounds/upsala/terrain/05cb879c98a2e3be8d42a510a0131d346da3c05078ba51e7b1dad10b549cfd83.bvch",
+            "browserError": "net::ERR_ABORTED"
+          },
+          {
+            "path": "/grounds/upsala/terrain/0a6b85fb4f4e5413505ab46144f6e5d107a8257a62843c8594e4ee071a10558b.bvch",
+            "browserError": "net::ERR_ABORTED"
+          },
+          {
+            "path": "/grounds/upsala/terrain/c1c34f4280161c2598df3b67eda43b2aa068cf473437509763b89fb708554ef5.bvch",
+            "browserError": "net::ERR_ABORTED"
+          },
+          {
+            "path": "/grounds/upsala/terrain/20aec54e6ad0c4c960f2f1d4ea2f64b88bcc5fe150af99cfa340f93251c62540.bvch",
+            "browserError": "net::ERR_ABORTED"
+          }
+        ],
+        "finalTerrainStream": {
+          "readyTiles": 64,
+          "loadingTiles": 10,
+          "failedTiles": 0,
+          "renderedTiles": 24,
+          "drawCalls": 1,
+          "triangles": 3194880,
+          "selectedTiles": 30,
+          "requests": {
+            "queued": 8,
+            "running": 2,
+            "jobs": 10
+          }
+        },
+        "reviewScope": "one additional boot and geometry smoke; closed with 10 terrain tiles still streaming",
+        "completedAt": "2026-09-06T06:43:45.929Z"
+      }
+    ],
+    "captures": [
+      {
+        "name": "hole-02-rear-kidney-tee",
+        "path": "upsalabuild/cache/stora-tee-browser/hole-02-rear-kidney-tee.png",
+        "sha256": "feb93b66227ab704b5373f5d5105971e09966e56b5aae61b20d71e9b6e895479",
+        "retainedInGit": false,
+        "method": "Playwright presentation PNG from the actual required-v2 app",
+        "dimensionsPixels": [
+          1280,
+          800
+        ],
+        "cameraLocalMetres": {
+          "pos": [
+            321.2,
+            111.4,
+            19.2
+          ],
+          "look": [
+            321.2,
+            23.4,
+            18.2
+          ],
+          "mode": "free"
+        },
+        "cameraCoordinatePrecisionMetres": 0.1,
+        "projectedBoundaryVertices": 21,
+        "visibleBoundaryVertices": 21,
+        "terrainStream": {
+          "readyTiles": 103,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 6,
+          "drawCalls": 1,
+          "triangles": 798720,
+          "selectedTiles": 6,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        },
+        "captureLimits": [
+          "q=lo; WebGL2 container software renderer",
+          "Direct free-camera inspection of the named tee site; the selected card/HUD remains hole 1",
+          "Atlas rasterization can visibly sample polygon edges; exact coordinate equality is verified separately"
+        ]
+      },
+      {
+        "name": "hole-07-tee-complex",
+        "path": "upsalabuild/cache/stora-tee-browser/hole-07-tee-complex.png",
+        "sha256": "a8220a1f86f3e2ece1cdaa2b7684bcc3c6f2749908f5c314680f9b7726071751",
+        "retainedInGit": false,
+        "method": "Playwright presentation PNG from the actual required-v2 app",
+        "dimensionsPixels": [
+          1280,
+          800
+        ],
+        "cameraLocalMetres": {
+          "pos": [
+            -295.7,
+            207.3,
+            387.9
+          ],
+          "look": [
+            -295.7,
+            32.3,
+            386.9
+          ],
+          "mode": "free"
+        },
+        "cameraCoordinatePrecisionMetres": 0.1,
+        "projectedBoundaryVertices": 53,
+        "visibleBoundaryVertices": 53,
+        "terrainStream": {
+          "readyTiles": 94,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 9,
+          "drawCalls": 1,
+          "triangles": 1198080,
+          "selectedTiles": 9,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        },
+        "captureLimits": [
+          "q=lo; WebGL2 container software renderer",
+          "Direct free-camera inspection of the named tee site; the selected card/HUD remains hole 1",
+          "Atlas rasterization can visibly sample polygon edges; exact coordinate equality is verified separately"
+        ]
+      }
+    ],
+    "protectedSourceAndGroundManifestHashesUnchanged": true,
+    "protectedFileHashes": {
+      "geo_data/course-v2/upsala/source-manifest.json": "1ebfc37b7346a0da47d1d531401c15035d8691b090b5c4c3d68bfebef8e04255",
+      "apps/golf/public/grounds/upsala/ground-v2-0b23d862adfa9f4fa9a12c7a5b4e1212980dc4ec673c25aa7aea7ba9ac9d102a.json": "0b23d862adfa9f4fa9a12c7a5b4e1212980dc4ec673c25aa7aea7ba9ac9d102a",
+      "apps/golf/public/grounds/upsala/ground-v2-31e245362daa3a9b1aa7b69ec54574081fa1f1e828f120adc9c172ce5e55613e.json": "31e245362daa3a9b1aa7b69ec54574081fa1f1e828f120adc9c172ce5e55613e",
+      "apps/golf/public/grounds/upsala/ground-v2-674ed9a549abbeb74bc2f42076f8e8fa0e53b76ff2321a9973880db2c6b8478f.json": "674ed9a549abbeb74bc2f42076f8e8fa0e53b76ff2321a9973880db2c6b8478f",
+      "apps/golf/public/grounds/upsala/ground-v2-b93ec95d03df437b45f3cfc5c3fde95c652a0c58f19a7e77fcbbe2809c1c02dd.json": "b93ec95d03df437b45f3cfc5c3fde95c652a0c58f19a7e77fcbbe2809c1c02dd",
+      "apps/golf/public/grounds/upsala/ground-v2-bdac03b72430a0bad7a4e1cbf6511f52c46c4c878e72f53615432807c54440e2.json": "bdac03b72430a0bad7a4e1cbf6511f52c46c4c878e72f53615432807c54440e2",
+      "apps/golf/public/grounds/upsala/ground-v2-df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53.json": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+      "apps/golf/public/grounds/upsala/ground-v2-ec5d03ca646f0f584c69c5d58a4e9b46cb7ea55b7f347497c77363f6aa32fc22.json": "ec5d03ca646f0f584c69c5d58a4e9b46cb7ea55b7f347497c77363f6aa32fc22",
+      "apps/golf/public/grounds/upsala/ground-v2-f2ed4b721cdf650c5a3a178307944df7d04240cafd96e9adc9640fa26131255a.json": "f2ed4b721cdf650c5a3a178307944df7d04240cafd96e9adc9640fa26131255a"
+    },
+    "rawHarnessStatus": "review",
+    "reviewConclusion": {
+      "geometryAndPackPass": true,
+      "noAppErrors": true,
+      "noHttpOrNonCancellationRequestFailures": true,
+      "noFailedTerrainTiles": true,
+      "protectedFilesUnchanged": true
+    },
+    "requestClassificationNote": "Raw requestfailed events are retained. Each course has five net::ERR_ABORTED cancellations, zero HTTP failures and zero non-cancellation failures. Runtime terrain failedTiles is zero; obsolete loading entries can be aborted by the terrain stream controller.",
+    "mellanStreamingLimit": "Mellan was a boot smoke and still had 10 loading tiles when closed; only the Stora H2/H7 captures were checked fully settled."
+  },
+  "reviewMap": {
+    "png": "upsalabuild/mapping/stora-tee-review.png",
+    "svg": "upsalabuild/mapping/stora-tee-review.svg",
+    "deterministicRegenerationVerified": true,
+    "pngSha256": "5612876a2eb259d871dbc7671f863612be4564d3e7ffc69b8294aab2dbc8ab7f",
+    "svgSha256": "1ff234e85457bc1ed75a214404dd93bd7989b567222a44d13894046bbfb41392"
+  },
+  "geographicLimits": [
+    "This remains an incomplete site survey; accepted imagery traces are not certified survey geometry.",
+    "Six old physical-pad records remain explicitly provisional at holes 13, 14, 15 and 18; the three previously reviewed rings at H8/H9 retain their original uncertainty statements.",
+    "Additional tee boundaries at H11/H12 and shadowed portions of H9/H13/H14/H15/H18 remain unresolved; no full hidden outline is invented.",
+    "Individual species, surveyed stem positions, daily tee colours/markers, concealed drainage and much small equipment remain unverified.",
+    "Export pixel spacing does not establish absolute geographic accuracy; source absolute horizontal accuracy remains unknown where not published.",
+    "Runtime crown records are derived candidates and rendered species are visual priors, not botanical observations."
+  ],
+  "publishedCheckpoints": {
+    "geometry": {
+      "commit": "1f0397323475b3db9056c4fa666860a6e6558b40",
+      "tree": "eddd93eb470fc5a719d3efe7490550121cbf1667"
+    },
+    "source": {
+      "commit": "d7e1fe6e240d88684c49d691951d0feb902eacfc",
+      "tree": "dc33eb3374b0fc09269cd0e8cc323ac27383ce44"
+    },
+    "note": "Published GitHub commits have trees identical to the corresponding local geometry/source checkpoints."
+  }
+}

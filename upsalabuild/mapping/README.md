@@ -49,6 +49,13 @@ the LiDAR crown population.
 
 ## Stora tee-platform review
 
+The [18-hole comparison sheet](stora-tee-review.png) ([SVG](stora-tee-review.svg))
+shows original, newly traced and retained outlines at equal metre scales with
+north up. Each panel has its own scale. The
+[latest validation record](validation-stora-tees-2026-09-06.md) covers the rebuilt
+53-platform model and both course environments; earlier validation files retain
+their historical checkpoint results.
+
 All 18 Stora tee sites were reviewed against the georeferenced 2025 orthophotos,
 the same areas in 2024 and the published 1 m terrain. The three source files
 `stora-tees-01-06-2025.json`, `stora-tees-07-12-2025.json` and
@@ -211,7 +218,9 @@ two current models, OSM features, the two migrations and the residual report.
 The driver updates only the two Upsala entries in each of `COURSE_MODEL_SHA256`
 and `LEGACY_COURSE_MODEL_SOURCES`, refusing changed registry structure or concurrent
 edits. It then exports the deduplicated geographic map and renders `overview.svg`
-and `overview.png`. Test expectations and source approvals require their own review.
+and `overview.png`, followed by `stora-tee-review.svg` and `stora-tee-review.png`.
+The tee comparison reads the three accepted source files directly and preserves
+their exact vertices. Test expectations and source approvals require their own review.
 
 Check reproducibility after the rebuild with the same selected projection backend:
 

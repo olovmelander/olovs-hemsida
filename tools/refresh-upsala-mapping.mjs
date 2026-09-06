@@ -51,7 +51,7 @@ Rebuild local Stora and Mellanbanan artifacts from accepted mapping evidence:
   3. Emit both packs/index; canonically migrate both current models using PROJ.
   4. Rebind both published routing/fallback references while preserving the ground graph.
   5. Re-pin six registered artifacts and only the two Upsala hashes in each registry.
-  6. Export geographic GeoJSON and render overview.svg plus overview.png.
+  6. Export geographic GeoJSON and render the overview and Stora tee comparison.
 
 Default invocation writes local generated files. It performs no acquisition,
 dependency installation, Git commit, push or deployment. It aborts at the first
@@ -244,6 +244,9 @@ function main(args) {
   ]);
   run(python, ['geobuild/render-ground-map.py', '--source', 'upsalabuild/mapping/ground-map.geojson',
     '--out', 'upsalabuild/mapping/overview.svg'], { label: 'render geographic overview' });
+  run(python, ['geobuild/render-tee-review.py', '--build', 'upsalabuild',
+    ...['01-06', '07-12', '13-18'].flatMap(range => ['--evidence', `upsalabuild/mapping/stora-tees-${range}-2025.json`]),
+    '--out', 'upsalabuild/mapping/stora-tee-review.svg'], { label: 'render Stora tee comparison' });
   console.log('\nUpsala models, packs, routing references, registries and geographic map refreshed. Run the project validation gates before committing.');
 }
 
