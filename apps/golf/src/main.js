@@ -66,6 +66,8 @@ import {
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
+import { applyCrownDepth } from './engine/crown-depth.mjs';
+import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
 import { smoothShore } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
@@ -4140,6 +4142,17 @@ const TREE_LOD = {
     { crown: fineCrowns[1], trunk: heroTrunk(0.22, 0.46, 9.0) },
     { crown: fineCrowns[2], trunk: heroTrunk(0.16, 0.30, 7.4) },
   ];
+  if (GRAPHICS_POLISH) {
+    /* Bake once into existing colours, before impostor capture. A shared full
+       crown envelope keeps the tint consistent across geographic detail tiers. */
+    for (let s = 0; s < SPECIES.length; s++) {
+      const bounds = SPECIES[s].crown.boundingBox;
+      const envelope = { minY: bounds.min.y, maxY: bounds.max.y };
+      for (const crown of [hero[s].crown, SPECIES[s].crown, decimated[s].crown]) {
+        applyCrownDepth(crown, envelope);
+      }
+    }
+  }
   const barkMaterial = hex => {
     const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, bumpMap: BARK, bumpScale: 0.05 });
     const bark = texture(BARK, uv().mul(vec2(3, 1.5))).r;
@@ -6177,8 +6190,7 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
    scene pass owns them. Keeping this call in one place prevents the WebGPU and
    forced-WebGL paths from quietly exercising different post-processing code. */
 function renderActivePipeline() {
-  if (renderer.__post) renderer.__post.render();
-  else renderer.render(scene, camera);
+  renderPipeline(renderer, scene, camera, lowfx);
 }
 
 /* The shadow camera follows the player, because a 2 km ortho frustum spends its

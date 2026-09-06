@@ -1,0 +1,82 @@
+{
+  "evidence": "Isolated-scene SwiftShader WebGL2 correctness; not an app before/after or real-device FPS benchmark.",
+  "sourceMainBaseline": "a40681dac130275f136f9dae9eb26dbeb279f66b",
+  "helperSha256": "95e2e4853998918c230f277201dd124aa2de44df3117d08e6eddef35cbccd4b3",
+  "threeRevision": "185",
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "samples": 4,
+  "outputBufferType": 1016,
+  "rows": [
+    {
+      "name": "zero-bloom-post",
+      "drawingBuffer": [
+        256,
+        192
+      ],
+      "pixelRatio": 1,
+      "uniqueColours": 101,
+      "drawCalls": 18,
+      "renderCalls": 14,
+      "bloomStrength": 0,
+      "toneMapping": 4,
+      "exposure": 1.2,
+      "outputColorSpace": "srgb"
+    },
+    {
+      "name": "direct-fallback",
+      "drawingBuffer": [
+        256,
+        192
+      ],
+      "pixelRatio": 1,
+      "uniqueColours": 101,
+      "drawCalls": 6,
+      "renderCalls": 2,
+      "bloomStrength": 0,
+      "toneMapping": 4,
+      "exposure": 1.2,
+      "outputColorSpace": "srgb"
+    },
+    {
+      "name": "zero-bloom-post-repeat",
+      "drawingBuffer": [
+        256,
+        192
+      ],
+      "pixelRatio": 1,
+      "uniqueColours": 101,
+      "drawCalls": 18,
+      "renderCalls": 14,
+      "bloomStrength": 0,
+      "toneMapping": 4,
+      "exposure": 1.2,
+      "outputColorSpace": "srgb"
+    }
+  ],
+  "comparison": {
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0,
+    "totalPixels": 49152
+  },
+  "repeat": {
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0,
+    "totalPixels": 49152
+  },
+  "errors": [],
+  "checks": {
+    "threeR185": true,
+    "softwareRenderer": true,
+    "identicalPixels": true,
+    "identicalRepeat": true,
+    "twelveFewerDraws": true,
+    "repeatDrawCount": true,
+    "fixedResolution": true,
+    "fixedOutput": true,
+    "nonblankImage": true,
+    "noBrowserErrors": true
+  },
+  "passed": true
+}
