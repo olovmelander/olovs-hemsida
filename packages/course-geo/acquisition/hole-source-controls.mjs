@@ -30,8 +30,8 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      same content-addressed file */
   puttom: '4b5ee818964e2575fa4b53bfcbeff120fa23e60cec28e7b4563156eb2b3b7008',
   ribbingsfors: 'b2d9068b06a10b064d247b7e20dd16bded702b867ceb35672ad60415dea819e8',
-  upsala: 'cd60a9a9f4e50921eb962f2b4b7a03385f6dee457ce776e8c1cffdd08fce24ae',
-  'upsala-mellanbanan': 'd177caacf96fb4b59f8b5e70fa970b6daacff606888630c7ef9283d32f0d7e32',
+  upsala: '5f967b2a0df1fbda640877abbcfb679b9d40fd37c7c604658687a260b32b4067',
+  'upsala-mellanbanan': 'eff3caa81f25c2c760c4d642aa560b9681d22ca34c0959ca091b0c9e406f406c',
   johannesberg: '473dfb98dd4f1f85498252662cf5738b721f86a6897e4a5fecbb93c719df0b20',
   'johannesberg-9': '2e8ac61987e4b680f56ca61b4e7e5318d77ea742bd8fc5fa2ea0ae95a7a412a4',
   veckefjarden: '9ade6a0a3d7ad58ad41a4efd2bd9b4fbd1941f22a9abca7b3866f3946192a562',

@@ -340,8 +340,11 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
     /* Upsala H8's reviewed tees remove two references (711 ->709). The
        Mellanbanan inventory now reads the shipped GPS-route model, rather than
        the retired guide model: holes3/4/7/8 change by-2/+2/+2/+3 references (->714).
+       The subsequent reviewed Mellan hole8 green/fairway geometry reduces its
+       windows from6 to3 (714 ->711), measured against the preceding committed
+       migration; Stora and Ribbingsfors totals remain96 and52 respectively.
        All144 holes and all195 unique windows remain covered. */
-    requestedWindowReferences: 714,
+    requestedWindowReferences: 711,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,

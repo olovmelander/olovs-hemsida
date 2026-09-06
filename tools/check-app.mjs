@@ -330,6 +330,10 @@ async function checkCourse(c) {
 
   /* SwiftShader needs minutes, not Playwright's default 30 s, to compose a frame */
   const shot = await page.screenshot({ timeout: 300000, animations: 'disabled' });
+  if (process.env.BANVY_CAPTURE_DIR) {
+    fs.mkdirSync(process.env.BANVY_CAPTURE_DIR, { recursive: true });
+    fs.writeFileSync(path.join(process.env.BANVY_CAPTURE_DIR, `${c.slug}.png`), shot);
+  }
   const { decodePNG } = await import('../geobuild/png.mjs');
   const img = decodePNG(shot);
   let sum = 0, dark = 0;

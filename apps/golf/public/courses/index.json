@@ -1,318 +1,318 @@
 {
-  "fmt": 1,
-  "courses": [
-    {
-      "slug": "angso",
-      "name": "Ängsö GK",
-      "club": "Ängsö Golfklubb",
-      "title": "Ängsö Golfklubb — Banan i 3D",
-      "tag": "Ängsö",
-      "boot": "Stora Bodarna · Mälaren",
-      "build": "angsobuild",
-      "par": 72,
-      "holes": 18,
-      "tees": {
-        "names": [
-          "Vit",
-          "Gul",
-          "Blå",
-          "Röd",
-          "Ora"
-        ],
-        "cols": [
-          16053486,
-          15780154,
-          4886496,
-          14702410,
-          14715706
-        ],
-        "hideFrom": 5,
-        "def": 1
-      },
-      "photos": 4,
-      "packUrl": "courses/angso/pack.bin",
-      "bytes": 431015,
-      "sha256": "a3fdf53ec70c7cf0418a6694e6f4b094254fdcd3ed6e3f063020059c75015761"
-    },
-    {
-      "slug": "norrfallsviken",
-      "name": "Norrfällsvikens GK",
-      "club": "Norrfällsvikens Golfklubb",
-      "title": "Norrfällsvikens GK — Seaside i Höga Kusten, i 3D",
-      "tag": "Seaside",
-      "boot": "Mjällom · Höga Kusten",
-      "build": "nvgkbuild",
-      "par": 73,
-      "holes": 18,
-      "tees": {
-        "names": [
-          "Gul",
-          "Röd",
-          "Orange"
-        ],
-        "cols": [
-          15780154,
-          14702410,
-          14715706
-        ],
-        "hideFrom": 4,
-        "def": 0
-      },
-      "photos": 4,
-      "packUrl": "courses/norrfallsviken/pack.bin",
-      "bytes": 437108,
-      "sha256": "f206eb351a434ff446a9295f01c49a3fc0ab050adca913c0e0443ba53dbf7550"
-    },
-    {
-      "slug": "puttom",
-      "name": "Puttom",
-      "club": "Örnsköldsviks Golfklubb",
-      "title": "Örnsköldsviks GK Puttom — Skogsbana i 3D",
-      "tag": "Örnsköldsviks GK",
-      "boot": "Arnäsvall · Örnsköldsvik",
-      "build": "puttombuild",
-      "par": 72,
-      "holes": 18,
-      "tees": {
-        "names": [
-          "Vit",
-          "Gul",
-          "Röd",
-          "Orange"
-        ],
-        "cols": [
-          16053486,
-          15780154,
-          14702410,
-          14715706
-        ],
-        "hideFrom": 5,
-        "def": 1
-      },
-      "photos": 4,
-      "packUrl": "courses/puttom/pack.bin",
-      "bytes": 465853,
-      "sha256": "5d95e9df06cb2c098664797d0fb55feaf028580da33623d4aeda78458243f47d"
-    },
-    {
-      "slug": "upsala",
-      "name": "Upsala GK",
-      "club": "Upsala Golfklubb",
-      "title": "Upsala Golfklubb — Banan i 3D",
-      "tag": "Stora banan",
-      "boot": "Håmö gård · Läby",
-      "build": "upsalabuild",
-      "par": 72,
-      "holes": 18,
-      "tees": {
-        "names": [
-          "62",
-          "59",
-          "56",
-          "51",
-          "47",
-          "42"
-        ],
-        "cols": [
-          1710618,
-          16053486,
-          15780154,
-          4886496,
-          14702410,
-          14715706
-        ],
-        "hideFrom": 5,
-        "def": 2
-      },
-      "photos": 4,
-      "packUrl": "courses/upsala/pack.bin",
-      "bytes": 745714,
-      "sha256": "f0f235772e09c5310096a3f3e2b6c76af79d09fe8cc95dabd00f1dc57e949409"
-    },
-    {
-      "slug": "upsala-mellanbanan",
-      "name": "Mellanbanan",
-      "club": "Upsala Golfklubb",
-      "title": "Upsala GK Mellanbanan — Nio hål i 3D",
-      "tag": "Mellanbanan",
-      "boot": "Håmö gård · Läby",
-      "build": "upsalamellanbuild",
-      "par": 35,
-      "holes": 9,
-      "tees": {
-        "names": [
-          "Vit",
-          "Gul",
-          "Blå",
-          "Röd",
-          "Orange"
-        ],
-        "cols": [
-          16053486,
-          15780154,
-          4886496,
-          14702410,
-          14715706
-        ],
-        "hideFrom": 5,
-        "def": 1
-      },
-      "photos": 3,
-      "packUrl": "courses/upsala-mellanbanan/pack.bin",
-      "bytes": 744258,
-      "sha256": "ab7a12716e0496d4b5b6675f56984c776c9ab15b316b80c2801d3588429de9b9"
-    },
-    {
-      "slug": "johannesberg",
-      "name": "Johannesberg",
-      "club": "Johannesberg Golf & Country Club",
-      "title": "Johannesberg Golf & CC — Banan i 3D",
-      "tag": "Gottröra",
-      "boot": "Gottröra · Uppland",
-      "build": "johannesbergbuild",
-      "par": 72,
-      "holes": 18,
-      "tees": {
-        "names": [
-          "Vit",
-          "Gul",
-          "Blå",
-          "Röd",
-          "Orange"
-        ],
-        "cols": [
-          16053486,
-          15780154,
-          4886496,
-          14702410,
-          14715706
-        ],
-        "hideFrom": 5,
-        "def": 1
-      },
-      "photos": 4,
-      "packUrl": "courses/johannesberg/pack.bin",
-      "bytes": 356593,
-      "sha256": "2c83c4a131ce6580ddd1101c25f94e6043aa649917eeef209e0006053723289c"
-    },
-    {
-      "slug": "johannesberg-9",
-      "name": "Johannesberg 9",
-      "club": "Johannesberg Golf & Country Club",
-      "title": "Johannesberg Golf & CC — Niohålsbanan i 3D",
-      "tag": "Niohålsbanan",
-      "boot": "Gottröra · Uppland",
-      "build": "johannesberg9build",
-      "par": 34,
-      "holes": 9,
-      "tees": {
-        "names": [
-          "Gul",
-          "Röd"
-        ],
-        "cols": [
-          15780154,
-          14702410
-        ],
-        "hideFrom": 3,
-        "def": 0
-      },
-      "photos": 3,
-      "packUrl": "courses/johannesberg-9/pack.bin",
-      "bytes": 354172,
-      "sha256": "899fda5bf2b7232ce87ac0cbba69cc139a5ab15593bb65925cff0c949b089e4c"
-    },
-    {
-      "slug": "veckefjarden",
-      "name": "Veckefjärdens GC",
-      "club": "Veckefjärdens Golfklubb",
-      "title": "Veckefjärdens GC — Mästerskapsbanan i 3D",
-      "tag": "Mästerskapsbanan",
-      "boot": "Örnsköldsvik · Ångermanland",
-      "build": "geobuild",
-      "par": 72,
-      "holes": 18,
-      "tees": {
-        "names": [
-          "65",
-          "61",
-          "58",
-          "55",
-          "48",
-          "40"
-        ],
-        "cols": [
-          1710618,
-          16053486,
-          15780154,
-          4886496,
-          14702410,
-          14715706
-        ],
-        "hideFrom": 5,
-        "def": 2
-      },
-      "photos": 4,
-      "packUrl": "courses/veckefjarden/pack.bin",
-      "bytes": 361542,
-      "sha256": "5a964dd8244072c9458ccf3ea899ee975e3ac85797040697a2020da37567e9ec"
-    },
-    {
-      "slug": "veckefjarden-korthalsbanan",
-      "name": "Korthålsbanan",
-      "club": "Veckefjärdens Golfklubb",
-      "title": "Veckefjärdens GC — Korthålsbanan i 3D",
-      "tag": "Korthålsbanan",
-      "boot": "Örnsköldsvik · Ångermanland",
-      "build": "veckefjardenkortbuild",
-      "par": 27,
-      "holes": 9,
-      "tees": {
-        "names": [
-          "Gul",
-          "Röd"
-        ],
-        "cols": [
-          15780154,
-          14702410
-        ],
-        "hideFrom": 3,
-        "def": 0
-      },
-      "photos": 3,
-      "packUrl": "courses/veckefjarden-korthalsbanan/pack.bin",
-      "bytes": 358765,
-      "sha256": "27a6f35ba0ee5608bf84b24760e8afaae7c8374a09c6ed85e142c490557da341"
-    },
-    {
-      "slug": "ribbingsfors",
-      "name": "Ribbingsfors Golf & Kultur",
-      "club": "Ribbingsfors Golf & Kultur",
-      "title": "Ribbingsfors Golf & Kultur — Nio hål i 3D",
-      "tag": "Park & hagmark",
-      "boot": "Gullspång · Skagern",
-      "build": "ribbingsforsbuild",
-      "par": 36,
-      "holes": 9,
-      "tees": {
-        "names": [
-          "Vit",
-          "Gul",
-          "Röd"
-        ],
-        "cols": [
-          16053486,
-          15780154,
-          14702410
-        ],
-        "hideFrom": 4,
-        "def": 1
-      },
-      "photos": 3,
-      "cardStatus": "Hålavstånd och index är preliminära",
-      "packUrl": "courses/ribbingsfors/pack.bin",
-      "bytes": 219147,
-      "sha256": "2e14128bfce9f1e5bd8e7b939e8e4d0c917915713e5547f78fe90c63200faeb1"
-    }
-  ]
+ "fmt": 1,
+ "courses": [
+  {
+   "slug": "angso",
+   "name": "Ängsö GK",
+   "club": "Ängsö Golfklubb",
+   "title": "Ängsö Golfklubb — Banan i 3D",
+   "tag": "Ängsö",
+   "boot": "Stora Bodarna · Mälaren",
+   "build": "angsobuild",
+   "par": 72,
+   "holes": 18,
+   "tees": {
+    "names": [
+     "Vit",
+     "Gul",
+     "Blå",
+     "Röd",
+     "Ora"
+    ],
+    "cols": [
+     16053486,
+     15780154,
+     4886496,
+     14702410,
+     14715706
+    ],
+    "hideFrom": 5,
+    "def": 1
+   },
+   "photos": 4,
+   "packUrl": "courses/angso/pack.bin",
+   "bytes": 431015,
+   "sha256": "a3fdf53ec70c7cf0418a6694e6f4b094254fdcd3ed6e3f063020059c75015761"
+  },
+  {
+   "slug": "norrfallsviken",
+   "name": "Norrfällsvikens GK",
+   "club": "Norrfällsvikens Golfklubb",
+   "title": "Norrfällsvikens GK — Seaside i Höga Kusten, i 3D",
+   "tag": "Seaside",
+   "boot": "Mjällom · Höga Kusten",
+   "build": "nvgkbuild",
+   "par": 73,
+   "holes": 18,
+   "tees": {
+    "names": [
+     "Gul",
+     "Röd",
+     "Orange"
+    ],
+    "cols": [
+     15780154,
+     14702410,
+     14715706
+    ],
+    "hideFrom": 4,
+    "def": 0
+   },
+   "photos": 4,
+   "packUrl": "courses/norrfallsviken/pack.bin",
+   "bytes": 437108,
+   "sha256": "f206eb351a434ff446a9295f01c49a3fc0ab050adca913c0e0443ba53dbf7550"
+  },
+  {
+   "slug": "puttom",
+   "name": "Puttom",
+   "club": "Örnsköldsviks Golfklubb",
+   "title": "Örnsköldsviks GK Puttom — Skogsbana i 3D",
+   "tag": "Örnsköldsviks GK",
+   "boot": "Arnäsvall · Örnsköldsvik",
+   "build": "puttombuild",
+   "par": 72,
+   "holes": 18,
+   "tees": {
+    "names": [
+     "Vit",
+     "Gul",
+     "Röd",
+     "Orange"
+    ],
+    "cols": [
+     16053486,
+     15780154,
+     14702410,
+     14715706
+    ],
+    "hideFrom": 5,
+    "def": 1
+   },
+   "photos": 4,
+   "packUrl": "courses/puttom/pack.bin",
+   "bytes": 465853,
+   "sha256": "5d95e9df06cb2c098664797d0fb55feaf028580da33623d4aeda78458243f47d"
+  },
+  {
+   "slug": "upsala",
+   "name": "Upsala GK",
+   "club": "Upsala Golfklubb",
+   "title": "Upsala Golfklubb — Banan i 3D",
+   "tag": "Stora banan",
+   "boot": "Håmö gård · Läby",
+   "build": "upsalabuild",
+   "par": 72,
+   "holes": 18,
+   "tees": {
+    "names": [
+     "62",
+     "59",
+     "56",
+     "51",
+     "47",
+     "42"
+    ],
+    "cols": [
+     1710618,
+     16053486,
+     15780154,
+     4886496,
+     14702410,
+     14715706
+    ],
+    "hideFrom": 5,
+    "def": 2
+   },
+   "photos": 4,
+   "packUrl": "courses/upsala/pack.bin",
+   "bytes": 729676,
+   "sha256": "30eac50661379172c5f3a3658d262932199b94ad96af87cfa0324d66814960f7"
+  },
+  {
+   "slug": "upsala-mellanbanan",
+   "name": "Mellanbanan",
+   "club": "Upsala Golfklubb",
+   "title": "Upsala GK Mellanbanan — Nio hål i 3D",
+   "tag": "Mellanbanan",
+   "boot": "Håmö gård · Läby",
+   "build": "upsalamellanbuild",
+   "par": 35,
+   "holes": 9,
+   "tees": {
+    "names": [
+     "Vit",
+     "Gul",
+     "Blå",
+     "Röd",
+     "Orange"
+    ],
+    "cols": [
+     16053486,
+     15780154,
+     4886496,
+     14702410,
+     14715706
+    ],
+    "hideFrom": 5,
+    "def": 1
+   },
+   "photos": 3,
+   "packUrl": "courses/upsala-mellanbanan/pack.bin",
+   "bytes": 728251,
+   "sha256": "2f8c05e35b0e55845c2108f8154f01ee235fea48d07760dd9549a99176f7e289"
+  },
+  {
+   "slug": "johannesberg",
+   "name": "Johannesberg",
+   "club": "Johannesberg Golf & Country Club",
+   "title": "Johannesberg Golf & CC — Banan i 3D",
+   "tag": "Gottröra",
+   "boot": "Gottröra · Uppland",
+   "build": "johannesbergbuild",
+   "par": 72,
+   "holes": 18,
+   "tees": {
+    "names": [
+     "Vit",
+     "Gul",
+     "Blå",
+     "Röd",
+     "Orange"
+    ],
+    "cols": [
+     16053486,
+     15780154,
+     4886496,
+     14702410,
+     14715706
+    ],
+    "hideFrom": 5,
+    "def": 1
+   },
+   "photos": 4,
+   "packUrl": "courses/johannesberg/pack.bin",
+   "bytes": 356593,
+   "sha256": "2c83c4a131ce6580ddd1101c25f94e6043aa649917eeef209e0006053723289c"
+  },
+  {
+   "slug": "johannesberg-9",
+   "name": "Johannesberg 9",
+   "club": "Johannesberg Golf & Country Club",
+   "title": "Johannesberg Golf & CC — Niohålsbanan i 3D",
+   "tag": "Niohålsbanan",
+   "boot": "Gottröra · Uppland",
+   "build": "johannesberg9build",
+   "par": 34,
+   "holes": 9,
+   "tees": {
+    "names": [
+     "Gul",
+     "Röd"
+    ],
+    "cols": [
+     15780154,
+     14702410
+    ],
+    "hideFrom": 3,
+    "def": 0
+   },
+   "photos": 3,
+   "packUrl": "courses/johannesberg-9/pack.bin",
+   "bytes": 354172,
+   "sha256": "899fda5bf2b7232ce87ac0cbba69cc139a5ab15593bb65925cff0c949b089e4c"
+  },
+  {
+   "slug": "veckefjarden",
+   "name": "Veckefjärdens GC",
+   "club": "Veckefjärdens Golfklubb",
+   "title": "Veckefjärdens GC — Mästerskapsbanan i 3D",
+   "tag": "Mästerskapsbanan",
+   "boot": "Örnsköldsvik · Ångermanland",
+   "build": "geobuild",
+   "par": 72,
+   "holes": 18,
+   "tees": {
+    "names": [
+     "65",
+     "61",
+     "58",
+     "55",
+     "48",
+     "40"
+    ],
+    "cols": [
+     1710618,
+     16053486,
+     15780154,
+     4886496,
+     14702410,
+     14715706
+    ],
+    "hideFrom": 5,
+    "def": 2
+   },
+   "photos": 4,
+   "packUrl": "courses/veckefjarden/pack.bin",
+   "bytes": 361542,
+   "sha256": "5a964dd8244072c9458ccf3ea899ee975e3ac85797040697a2020da37567e9ec"
+  },
+  {
+   "slug": "veckefjarden-korthalsbanan",
+   "name": "Korthålsbanan",
+   "club": "Veckefjärdens Golfklubb",
+   "title": "Veckefjärdens GC — Korthålsbanan i 3D",
+   "tag": "Korthålsbanan",
+   "boot": "Örnsköldsvik · Ångermanland",
+   "build": "veckefjardenkortbuild",
+   "par": 27,
+   "holes": 9,
+   "tees": {
+    "names": [
+     "Gul",
+     "Röd"
+    ],
+    "cols": [
+     15780154,
+     14702410
+    ],
+    "hideFrom": 3,
+    "def": 0
+   },
+   "photos": 3,
+   "packUrl": "courses/veckefjarden-korthalsbanan/pack.bin",
+   "bytes": 358765,
+   "sha256": "27a6f35ba0ee5608bf84b24760e8afaae7c8374a09c6ed85e142c490557da341"
+  },
+  {
+   "slug": "ribbingsfors",
+   "name": "Ribbingsfors Golf & Kultur",
+   "club": "Ribbingsfors Golf & Kultur",
+   "title": "Ribbingsfors Golf & Kultur — Nio hål i 3D",
+   "tag": "Park & hagmark",
+   "boot": "Gullspång · Skagern",
+   "build": "ribbingsforsbuild",
+   "par": 36,
+   "holes": 9,
+   "tees": {
+    "names": [
+     "Vit",
+     "Gul",
+     "Röd"
+    ],
+    "cols": [
+     16053486,
+     15780154,
+     14702410
+    ],
+    "hideFrom": 4,
+    "def": 1
+   },
+   "photos": 3,
+   "cardStatus": "Hålavstånd och index är preliminära",
+   "packUrl": "courses/ribbingsfors/pack.bin",
+   "bytes": 219147,
+   "sha256": "2e14128bfce9f1e5bd8e7b939e8e4d0c917915713e5547f78fe90c63200faeb1"
+  }
+ ]
 }

@@ -6,9 +6,9 @@
  *
  * The original Stora cs2cs migration and its exact source are restored from a
  * pinned Git commit on every run. Both current courses use that same verified
- * frame reference. A previously rewritten Krueger migration is never allowed
- * to become its own authority. All child processes use argument arrays and
- * abort this driver on failure. This command does not commit, push or deploy.
+ * frame reference. Canonical migrations use installed PROJ through cs2cs, or
+ * explicitly select real pyproj with COURSE_GEO_PYPROJ_PYTHON. All processes use
+ * argument arrays and abort on failure. This command does not commit, push or deploy.
  */
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
@@ -39,6 +39,7 @@ const REGISTERED_ARTIFACTS = [
   ['shipped-middle-course-model', COURSES[1].model],
   ['migration-course-model-epsg3006', COURSES[0].migration],
   ['migration-mellanbanan-course-model-epsg3006', COURSES[1].migration],
+  ['migration-residual-report', 'geo_data/course-v2/upsala/migration/residual-report.json'],
 ];
 const CONTROL_REGISTRY = 'packages/course-geo/acquisition/hole-source-controls.mjs';
 const INVENTORY_REGISTRY = 'packages/course-geo/acquisition/hole-source-inventory.mjs';
@@ -47,9 +48,9 @@ const HELP = `Usage: node tools/refresh-upsala-mapping.mjs [--python /path/to/py
 Rebuild local Stora and Mellanbanan artifacts from accepted mapping evidence:
   1. Verify the original model, cs2cs migration and generator lineage in Git ${BASE}.
   2. Reconcile Stora, build Mellanbanan, draw the design and embed upsala3d.html.
-  3. Emit both packs and the pack index; migrate both against the original cs2cs pair.
+  3. Emit both packs/index; canonically migrate both current models using PROJ.
   4. Rebind both published routing/fallback references while preserving the ground graph.
-  5. Re-pin five registered artifacts and only the two Upsala hashes in each registry.
+  5. Re-pin six registered artifacts and only the two Upsala hashes in each registry.
   6. Export geographic GeoJSON and render overview.svg plus overview.png.
 
 Default invocation writes local generated files. It performs no acquisition,
@@ -58,6 +59,8 @@ failed step; earlier successful outputs remain available for inspection.
 
 --python selects an already installed Python with numpy and matplotlib.
 Default: CODEX_PRIMARY_RUNTIME_PYTHON when available, otherwise python3.
+Projection uses cs2cs from PATH. Explicitly set COURSE_GEO_PYPROJ_PYTHON to use
+installed pyproj instead; migration reports identify that implementation explicitly.
 --help, -h show this text without reading Git or creating any output.
 
 The pinned commit must already exist locally. Original reference files are
@@ -223,13 +226,10 @@ function main(args) {
     node('packages/course-pack/emit-pack.mjs', [course.build, `apps/golf/public/courses/${course.slug}`, course.slug]);
   }
   node('packages/course-pack/emit-manifest.mjs');
-  for (const course of COURSES) {
-    node('packages/course-geo/migrate-without-proj.mjs', [
-      '--ground', 'upsala', '--model', course.model,
-      '--reference', REFERENCE_MIGRATION, '--reference-source', path.join(ROOT, REFERENCE_MODEL),
-      '--out', course.migration,
-    ]);
-  }
+  node('packages/course-geo/acquisition/record-artifact-checksum.mjs', [
+    '--ground', 'upsala', ...REGISTERED_ARTIFACTS.slice(0, 3).flatMap(([id]) => ['--id', id]),
+  ]);
+  node('packages/course-geo/migrate-legacy.mjs', ['--write', '--ground', 'upsala']);
   for (const course of COURSES) {
     node('tools/rebind-v2-routing.mjs', ['--slug', course.slug, '--build', course.build, '--migration', course.migration, '--write']);
   }

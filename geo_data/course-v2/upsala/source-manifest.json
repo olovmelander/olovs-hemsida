@@ -345,7 +345,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "upsalabuild/course-model.json",
-      "sha256": "02df0fe85de60acdbd5b3b2b4a572c179b3139de110974a4238b3993ff0597b6",
+      "sha256": "a8f35e5d68d9053ce46aacdb208c6d18c02bf0070c3f114fa9be24fcd34da109",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
@@ -445,7 +445,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/upsala/migration/course-model.epsg3006.json",
-      "sha256": "cd60a9a9f4e50921eb962f2b4b7a03385f6dee457ce776e8c1cffdd08fce24ae",
+      "sha256": "5f967b2a0df1fbda640877abbcfb679b9d40fd37c7c604658687a260b32b4067",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -473,7 +473,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/upsala/migration/residual-report.json",
-      "sha256": "c3529f59376b9a596d2efb16a710bf6b5ec5f3bd580ddcd4416eebf85da37bbb",
+      "sha256": "b61e4772a9765bc0f5fb4b244f3be82d6d685052e6fcedfae50817655cf4b51b",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -537,7 +537,7 @@
       "id": "shipped-middle-course-model",
       "kind": "composite",
       "path": "upsalamellanbuild/course-model.json",
-      "sha256": "f772309fe73dbc4d5831c67f11d9ee1f5e7d10bd71913d81a1c774a1c31be1ac",
+      "sha256": "9a8b61e232e98c5cf00a0a87becf200127c004d288fb4db0a9c1117b139e4018",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
@@ -546,13 +546,13 @@
         "club-guide-legacy"
       ],
       "use": "migration-only",
-      "notes": "The Mellanbanan nine the app actually ships, built by tools/build-nine.mjs on the parent ground. Deliberately NOT id-prefixed legacy-, so migrate-legacy.mjs does not try to migrate it to the same output name as the championship model; its EPSG:3006 form is migration-mellanbanan-course-model-epsg3006 below and should be regenerated through PROJ when that toolchain is available."
+      "notes": "The current Mellanbanan nine shipped by the app, built by tools/build-nine.mjs. Canonical migration explicitly selects this registered artifact and the championship model; the historical legacy-middle-model remains recorded but is superseded as a migration input. The current output is migration-mellanbanan-course-model-epsg3006."
     },
     {
       "id": "migration-mellanbanan-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/upsala/migration/mellanbanan-course-model.epsg3006.json",
-      "sha256": "d177caacf96fb4b59f8b5e70fa970b6daacff606888630c7ef9283d32f0d7e32",
+      "sha256": "eff3caa81f25c2c760c4d642aa560b9681d22ca34c0959ca091b0c9e406f406c",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",

@@ -31,10 +31,12 @@ between the two routings is merged, not counted as another object.
 | Small mapped objects | Tagged OSM nodes discarded | 228 tree points, two gates, three fountains, one mast and one flagpole retained in GIS data |
 
 Practice greens and bunkers use the surface atlas. Polygon interior exclusions remain
-holes. The30 mats are individually traced. Material-uncertain targets and mixed range
-platforms use exact footprint meshes. The source-boundary policy disables contour
-smoothing and sand expansion for this ground, including the compiler and standalone
-page. Both routings carry the same physical shared-ground surfaces.
+holes. The 30 mats are individually traced. Material-uncertain targets and mixed range
+platforms use exact footprint meshes. `infra.preserveMappedBoundaries=true` preserves
+the recorded rings through surface collection, terrain compilation and both renderers:
+no shoreline/mowing contour smoothing, second Chaikin pass or bunker expansion. This
+preserves the accepted geometry; it does not improve the source's unknown absolute
+accuracy. Both routings carry the same physical shared-ground surfaces.
 
 The mapped-object policy uses explicit OSM tower/pole points and the seven non-tree
 object points. It suppresses generated physical tee markers, directional/distance
@@ -43,6 +45,31 @@ Provisional tee references remain available to the HUD and cameras. Visible brid
 footprints are mapped; their vertical dimensions and the generic object dimensions
 remain rendering estimates. The228 OSM tree points are not planted again on top of
 the LiDAR crown population.
+
+## Source records and runtime data
+
+The files in this directory retain original source geometry, rejected candidates,
+source dates, hashes, interpretation uncertainty and review decisions. The complete
+course models retain source-feature identities and retirement history, and the GIS
+export carries the applicable provenance for active features. Original EPSG:3006
+and image-pixel evidence stays outside local model geometry. `ground-mapping.mjs`
+uses explicit evidence-field whitelists and checks the finished model for any key
+ending in `3006`, after all mapping integrations.
+
+`packages/course-pack/runtime-scenery.mjs` is shared by pack generation and the
+standalone embedder. Its runtime scenery omits duplicate review-only
+`sourceFeatures`/`retiredSourceFeatures` and keeps each mapped facility's geometry,
+identity, material and compact source reference. Full review records remain in
+the source models and mapping files. This separation keeps the transport bounded
+without dropping a physical surface or making a retired outline active again.
+
+Woodland context is packed losslessly from the source run-length grid into
+`row-major-2bit-lsb-base64-v1`: four cells per byte, with classes 0 unresolved,
+1 conifer-dominant and 2 broadleaf-dominant. The source runs, grid georeference and
+source metadata remain available; the sampler reads either encoding identically.
+This changes storage only. It neither moves crown candidates nor establishes
+individual tree species. The declared raster CRS and four-value extent remain
+metadata interpreted by the woodland sampler, not local vector coordinates.
 
 ## Sources and limits
 
@@ -87,8 +114,85 @@ The existing source manifest's unresolved production/source gates remain unresol
 
 ## Reproduce
 
-Run from the repository root. Acquisition outputs and large raw rasters belong in
-the ignored cache. Every request is recorded with URL, extent and SHA256.
+Run from the repository root after installing the repository's Node dependencies.
+The existing published ground graph, build inputs and Git commit
+`8498cedb8e9cc22467f42e175491072400b3938f` must be available locally. The overview
+renderer needs an installed Python with numpy and matplotlib. The rebuild performs
+no downloads, dependency installation, commit, push or deployment; it stops at the
+first failed step, leaving earlier outputs available for inspection.
+
+After editing accepted evidence, use the complete driver:
+
+```sh
+node tools/refresh-upsala-mapping.mjs --help
+node tools/refresh-upsala-mapping.mjs
+```
+
+Projection uses real PROJ through `cs2cs` on `PATH`; use the repository's pinned
+toolchain for the normal environment. An installed Python PROJ binding is an
+explicit alternative when the command-line executable is unavailable:
+
+```sh
+COURSE_GEO_PYPROJ_PYTHON=/path/to/python3 \
+  node tools/refresh-upsala-mapping.mjs --python /path/to/python3
+```
+
+`--python` selects the overview renderer; its default is
+`CODEX_PRIMARY_RUNTIME_PYTHON` when set, otherwise `python3`.
+`COURSE_GEO_PYPROJ_PYTHON` separately selects projection. The Python used in that example must have pyproj, numpy and
+matplotlib. The adapter uses authority axis order (`always_xy=False`) with
+`PROJ_NETWORK=OFF`; it does not impersonate a `cs2cs` executable. The residual
+report identifies the projection implementation, and `horizontalProjectionBackend()`
+in `packages/course-geo/proj.mjs` exposes the installed pyproj/PROJ versions.
+
+The driver verifies the original committed cs2cs model, migration and generator
+lineage by their byte hashes, then rebuilds both current models, the design,
+standalone embed and packs. It invokes
+`packages/course-geo/migrate-legacy.mjs --write --ground upsala` to project the
+current geometry and regenerate Upsala's canonical residual report plus its entry
+in the combined report. These outputs use the following source/output pairs:
+
+| Current course | Source model | Output under `geo_data/course-v2/upsala/migration/` |
+|---|---|---|
+| Stora | `upsalabuild/course-model.json` | `course-model.epsg3006.json` |
+| Mellanbanan | `upsalamellanbuild/course-model.json` | `mellanbanan-course-model.epsg3006.json` |
+
+The manifest's `shipped-middle-course-model` explicitly supersedes
+`legacy-middle-model` for migration. The historical
+`upsalabuild/mellanbanan-model.json` and its artifact records remain as history;
+they are not the shipped nine or an additional current migration input. Output
+bindings and duplicate names are checked before generation.
+
+The routing rebinder samples moved endpoints from the published 1 m terrain and
+refreshes their streaming tile priorities while asserting that the ground and
+vegetation manifest remain identical. Source pins are refreshed before migration;
+the final source-manifest update covers exactly six registered artifacts: the
+two current models, OSM features, the two migrations and the residual report.
+The driver updates only the two Upsala entries in each of `COURSE_MODEL_SHA256`
+and `LEGACY_COURSE_MODEL_SOURCES`, refusing changed registry structure or concurrent
+edits. It then exports the deduplicated geographic map and renders `overview.svg`
+and `overview.png`. Test expectations and source approvals require their own review.
+
+Check reproducibility after the rebuild with the same selected projection backend:
+
+```sh
+node packages/course-geo/migrate-legacy.mjs --check --ground upsala
+node packages/course-geo/check-manifests.mjs
+```
+
+With Python projection selected, prefix the migration check with
+`COURSE_GEO_PYPROJ_PYTHON=/path/to/python3` as above. Check mode recomputes every
+coordinate and report statistic and requires byte identity while retaining the
+recorded generation implementation. The standard CI check continues to use cs2cs.
+Frame residuals and projection agreement are diagnostics, not independent survey
+accuracy. A Krüger migration from `migrate-without-proj.mjs` is not the canonical
+output of this rebuild.
+
+### Additional source review
+
+Acquisition outputs and large raw rasters belong in the ignored cache. Every request
+is recorded with URL, extent and SHA256. These commands acquire or score evidence;
+review their results before changing the accepted mapping files:
 
 ```sh
 python geobuild/imagery/acquire-upsala.py --provider municipal-2024 --resolution .25 --output-dir upsalabuild/cache/ortho2024
@@ -96,14 +200,9 @@ python geobuild/imagery/acquire-upsala.py --provider lm-latest --resolution .25 
 python geobuild/imagery/acquire-upsala.py --provider buildings --output-dir upsalabuild/cache/buildings
 BUILD=upsalabuild RASTER_MANIFEST=upsalabuild/cache/raster-manifest.json node geobuild/imagery/green-tracers.mjs all
 node geobuild/pond-survey.mjs --build upsalabuild --ground upsala --out upsalabuild/cache/pond-review
-node upsalabuild/reconcile.mjs
-node tools/build-nine.mjs upsalabuild/mellanbanan.json
-node upsalabuild/render-design.mjs
-node upsalabuild/embed.mjs
-node geobuild/export-ground-map.mjs --build upsalabuild --also-build upsalamellanbuild --out upsalabuild/mapping/ground-map.geojson
 ```
 
-`imagery/source.mjs` documents the raster manifest. On municipal2024 imagery the
+`geobuild/imagery/source.mjs` documents the raster manifest. On municipal2024 imagery the
 16 unchanged OSM reference greens score median/minimum IoU: firststep0.86/0.72,
 blob0.84/0.58, fusion0.83/0.64, polar0.58/0.47, roughness0.55/0.16.
 These are agreement scores against OSM with model-derived seeds, not independent
@@ -114,20 +213,17 @@ The portable pond survey preserves islands, narrow connections and all component
 it emits review candidates only. It was also exercised on Puttom. The GIS exporter
 likewise resolves Puttom's own frame and published crown objects.
 
-After editing accepted evidence, run `node tools/refresh-upsala-mapping.mjs`.
-It rebuilds both models, packs, routing bindings, migrations, checksum registries
-and review-map exports. The migration reference is the original committed cs2cs
-model/migration pair, with both byte hashes verified before writing. The routing
-rebinder samples moved endpoints from the published1m terrain and refreshes their
-streaming tile priorities while asserting that the ground and vegetation manifest
-remain identical. The control inventory follows the actual shipped Mellanbanan
-model. The driver deliberately does not change test expectations or source approvals.
-
 `scope.json` preserves every requested mapping category and its unresolved coverage.
 The GeoJSON's `metadata.featureCounts` gives the current inventory; shared geometry
 is deduplicated, and historical retired outlines are not counted as active objects.
+Remaining review includes road/trail widths and missing links, concealed drainage
+and crossing structures, most Stora tee/green/mowing boundaries, partial Mellan8
+tee coverage, small equipment, building heights and cottage use, individual species,
+rough/field classifications and seasonal tall grass. Default rendering or a coarse
+land-cover prior does not complete any of those categories.
 
-Validation includes check3d, byte-identity check-pack, all-course check-packs,
+Validation includes canonical migration checks, source-manifest checks, check3d,
+byte-identity check-pack, all-course check-packs,
 the unit suite, app/page lint, production build and v2 app/renderer checks.
 `tests/upsala-mapping.test.mjs` independently exercises island exclusion, source
 bunker retention, preservation of terrain under tees, and rejection of absolute

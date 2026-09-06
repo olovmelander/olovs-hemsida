@@ -693,127 +693,127 @@
         "status": "horizontal-seed-only-pending-independent-control",
         "source": "legacyFrame.originWgs84"
       },
-      "coordinatePairCount": 28452,
+      "coordinatePairCount": 34332,
       "outsideCourseVicinity5km": 1242,
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 2491,
+          "coordinatePairCount": 3000,
           "directFrameDelta": {
-            "count": 2491,
+            "count": 3000,
             "biasMetres": {
-              "x": -1.133928,
-              "z": -4.743588
+              "x": -1.384397,
+              "z": -7.451077
             },
-            "rmseMetres": 18.885179,
-            "p50Metres": 17.1607,
-            "p95Metres": 31.549878,
-            "p99Metres": 43.269752,
-            "maxMetres": 44.320824
+            "rmseMetres": 20.52364,
+            "p50Metres": 17.697674,
+            "p95Metres": 36.465449,
+            "p99Metres": 44.012261,
+            "maxMetres": 44.616751
           },
           "bestFitSimilarity": {
-            "scale": 1.001703803,
-            "rotationDegrees": -2.15543262,
+            "scale": 1.001815167,
+            "rotationDegrees": -2.156626432,
             "translationMetres": {
-              "x": 0.075159,
-              "z": 0.007588
+              "x": 0.099005,
+              "z": 0.015977
             },
             "residuals": {
-              "count": 2491,
+              "count": 3000,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 0.396458,
-              "p50Metres": 0.376293,
-              "p95Metres": 0.59352,
-              "p99Metres": 0.636234,
-              "maxMetres": 0.655711
+              "rmseMetres": 0.39295,
+              "p50Metres": 0.345324,
+              "p95Metres": 0.600918,
+              "p99Metres": 0.68989,
+              "maxMetres": 0.722592
             }
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 27210,
+          "coordinatePairCount": 33090,
           "directFrameDelta": {
-            "count": 27210,
+            "count": 33090,
             "biasMetres": {
-              "x": 0.429692,
-              "z": -9.301968
+              "x": 0.104263,
+              "z": -10.774381
             },
-            "rmseMetres": 68.229267,
-            "p50Metres": 51.897208,
-            "p95Metres": 134.181719,
-            "p99Metres": 177.621819,
+            "rmseMetres": 62.947871,
+            "p50Metres": 38.891289,
+            "p95Metres": 124.780719,
+            "p99Metres": 175.9825,
             "maxMetres": 196.101965
           },
           "bestFitSimilarity": {
-            "scale": 1.001537023,
-            "rotationDegrees": -2.141457989,
+            "scale": 1.001540151,
+            "rotationDegrees": -2.141692929,
             "translationMetres": {
-              "x": 0.05133,
-              "z": -0.306772
+              "x": 0.102884,
+              "z": -0.277097
             },
             "residuals": {
-              "count": 27210,
+              "count": 33090,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 1.77479,
-              "p50Metres": 0.838069,
-              "p95Metres": 3.735104,
-              "p99Metres": 6.319829,
-              "maxMetres": 8.849198
+              "rmseMetres": 1.628322,
+              "p50Metres": 0.684775,
+              "p95Metres": 3.181859,
+              "p99Metres": 6.273433,
+              "maxMetres": 8.80759
             }
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 28452,
+          "coordinatePairCount": 34332,
           "directFrameDelta": {
-            "count": 28452,
+            "count": 34332,
             "biasMetres": {
-              "x": 6.186026,
-              "z": -12.397775
+              "x": 4.886489,
+              "z": -13.286707
             },
-            "rmseMetres": 82.760424,
-            "p50Metres": 54.653258,
-            "p95Metres": 179.89777,
-            "p99Metres": 256.650259,
+            "rmseMetres": 76.195663,
+            "p50Metres": 42.845518,
+            "p95Metres": 172.740824,
+            "p99Metres": 254.018356,
             "maxMetres": 290.640071
           },
           "bestFitSimilarity": {
-            "scale": 1.0017185,
-            "rotationDegrees": -2.161646806,
+            "scale": 1.001712752,
+            "rotationDegrees": -2.161424491,
             "translationMetres": {
-              "x": 0.138212,
-              "z": -0.510898
+              "x": 0.166331,
+              "z": -0.418995
             },
             "residuals": {
-              "count": 28452,
+              "count": 34332,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 2.771622,
-              "p50Metres": 1.165412,
-              "p95Metres": 7.309772,
-              "p99Metres": 10.743186,
-              "maxMetres": 13.186315
+              "rmseMetres": 2.539486,
+              "p50Metres": 0.958567,
+              "p95Metres": 6.689132,
+              "p99Metres": 10.593926,
+              "maxMetres": 13.266015
             }
           }
         }
       },
       "report": {
         "path": "geo_data/course-v2/upsala/migration/residual-report.json",
-        "sha256": "c8c126e9e9340f05999eec5fa2d413c15969e4f4bdd67e132080befc0c4752b8"
+        "sha256": "b61e4772a9765bc0f5fb4b244f3be82d6d685052e6fcedfae50817655cf4b51b"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/upsala/migration/course-model.epsg3006.json",
-          "sha256": "839e07920d13f1e5338c176b95c620007c21e8964ce4e7573e08dc2a69057490"
+          "sha256": "5f967b2a0df1fbda640877abbcfb679b9d40fd37c7c604658687a260b32b4067"
         },
         {
-          "path": "geo_data/course-v2/upsala/migration/mellanbanan-model.epsg3006.json",
-          "sha256": "3ccc7f203c1f96f63c270f53e8604da18d2825a7913e071573abb275c92d1864"
+          "path": "geo_data/course-v2/upsala/migration/mellanbanan-course-model.epsg3006.json",
+          "sha256": "eff3caa81f25c2c760c4d642aa560b9681d22ca34c0959ca091b0c9e406f406c"
         }
       ]
     },
