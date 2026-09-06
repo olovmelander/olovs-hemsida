@@ -269,8 +269,9 @@ entries, which is useful for comparison before adoption. Review the dated imager
 alongside these measurements; small residuals are evidence of planarity, not a
 claim of independent geographic accuracy or complete material coverage.
 
-`geobuild/imagery/source.mjs` documents the raster manifest. On municipal2024 imagery the
-16 unchanged OSM reference greens score median/minimum IoU: firststep0.86/0.72,
+`geobuild/imagery/source.mjs` documents the raster manifest. In the historical
+municipal2024 benchmark, 16 then-unchanged OSM reference greens scored
+median/minimum IoU: firststep0.86/0.72,
 blob0.84/0.58, fusion0.83/0.64, polar0.58/0.47, roughness0.55/0.16.
 These are agreement scores against OSM with model-derived seeds, not independent
 survey accuracy. No automatic tracer replaced those16 reference outlines. The

@@ -1,0 +1,1340 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-09-06",
+  "geometryCommit": "f44097493d53dca2649f284672a6553f146bb1da",
+  "mainCommit": "002c91c280a972598a526c57d06a26ae6a6a5290",
+  "mergeCommit": "727b82f991b14819652bc86b724119c3856b91df",
+  "mainConflictPolicy": "main is truth; complete conflicting terrain implementation and test files match main",
+  "mainTerrainBlobs": {
+    "apps/golf/src/engine/v2-graph-terrain.mjs": "e9bf15981b3f5d6caab998057969e9b5b2318f51",
+    "apps/golf/src/engine/v2-graph-terrain.test.mjs": "1dee8cecc40a812052641cc4596d407c6f608675"
+  },
+  "completeSurvey": false,
+  "counts": {
+    "storaTees": 53,
+    "storaImageTraces": 51,
+    "storaProvisional": 2,
+    "mellanTees": 23,
+    "newFairways": 12,
+    "newGreens": 1,
+    "followupTees": 4,
+    "gisRecords": 5827,
+    "crownCandidates": 4181
+  },
+  "tests": {
+    "vitest": 481,
+    "node": 322,
+    "failed": 0,
+    "skipped": 0
+  },
+  "artifacts": [
+    {
+      "path": "upsalabuild/course-model.json",
+      "sha256": "136018182d351fa1fe03a5e530bc53811c5e06fbe07f6f0ce287ff53aeea97b3",
+      "bytes": 677125
+    },
+    {
+      "path": "upsalamellanbuild/course-model.json",
+      "sha256": "c58bdf9f6cc5c59fd2d319ed9bea8ccd231044f44a40b719efa32f6e87c4b195",
+      "bytes": 608628
+    },
+    {
+      "path": "apps/golf/public/courses/upsala/pack.bin",
+      "sha256": "a314be5114331f3670161d0e028de1e4beaa31623024963c05de826b20c9e9c1",
+      "bytes": 739439
+    },
+    {
+      "path": "apps/golf/public/courses/upsala-mellanbanan/pack.bin",
+      "sha256": "ad9ebd0464df5ba469515ccdfcf02010d2d04dda339f24a7acb5c5ab61d00944",
+      "bytes": 736634
+    },
+    {
+      "path": "apps/golf/public/courses/v2-index.json",
+      "sha256": "3c05a9dc69bd92bbedb850b4b15a5cd3882988011505b8a6e2de5bdfd4cc2c4f",
+      "bytes": 4916
+    },
+    {
+      "path": "upsala3d.html",
+      "sha256": "16994025b9390a09f664232e53bfd76d43eccfe5a040ebc1607f66fba2028be5",
+      "bytes": 1230408
+    },
+    {
+      "path": "upsalabuild/mapping/stora-surfaces-2025.json",
+      "sha256": "4a9ac93beec840aa3ae3c2d8954523024e7d5bb138d5b7c841e18c4dcd69590e",
+      "bytes": 154441
+    },
+    {
+      "path": "upsalabuild/mapping/stora-tees-followup-2026-09-06.json",
+      "sha256": "2193ff54d9833f09f9b40db157794b221bd591273334dd015bad09d9bc4ba83e",
+      "bytes": 45724
+    },
+    {
+      "path": "upsalabuild/mapping/stora-tees-followup-terrain-2026-09-06.json",
+      "sha256": "87f9ee2b96db102e25230be92cdc1a126c4fa2d9028f39c5b94da2b3a977dd0b",
+      "bytes": 39459
+    },
+    {
+      "path": "upsalabuild/mapping/stora-tee-review.svg",
+      "sha256": "eeca260d2e3834f9198bfbec9f20b42c263588a35171f1818de7e3fa7ddcf883",
+      "bytes": 169215
+    },
+    {
+      "path": "upsalabuild/mapping/stora-tee-review.png",
+      "sha256": "f8dd63f0fd5825ed53c86a1b12e55c271afc07b99fcedc947ab3ae90061eb34a",
+      "bytes": 475486
+    },
+    {
+      "path": "upsalabuild/mapping/stora-followup-review.svg",
+      "sha256": "cadfd86da68b2ba328be1712eca978ebc8ad2a43a766d42a11c56048c8d358d6",
+      "bytes": 109235
+    },
+    {
+      "path": "upsalabuild/mapping/stora-followup-review.png",
+      "sha256": "1f4847be32fd8be2b7d01defae79abe35bb896ee62433ebcafc108270ff82a64",
+      "bytes": 439817
+    },
+    {
+      "path": "upsalabuild/mapping/overview.svg",
+      "sha256": "219f9f31fcfe92a9c7f4a93df3b2fc7cfc2e678f5865b1898cddbec2970d4876",
+      "bytes": 2802466
+    },
+    {
+      "path": "upsalabuild/mapping/overview.png",
+      "sha256": "6d8c133a281374434bcee6a9556f536cac216143706998949999d9d957cfae5d",
+      "bytes": 1149303
+    },
+    {
+      "path": "upsalabuild/mapping/ground-map.geojson",
+      "sha256": "ca4e0a316dbc3490fc442a91832e62e1799a01b8e02b65baea4970062b150d2c",
+      "bytes": 8290328
+    }
+  ],
+  "checks": [
+    {
+      "name": "tests",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-tests.log",
+        "sha256": "009ffb1139fe4efcbb54bb7398385bc77baa9ec13ff25873514b4d2ce05a1d46",
+        "bytes": 61214
+      }
+    },
+    {
+      "name": "check3d",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-check3d.log",
+        "sha256": "cc7ac40d2e14bc01b5cd00e920a81662dd966495f6dc09d2982f06c9b4bc9025",
+        "bytes": 1460
+      }
+    },
+    {
+      "name": "check-pack",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-check-pack.log",
+        "sha256": "b2e212c6596780dab92bd87c888e56a5a2c672be6c99f6b09d619ee3569f83a4",
+        "bytes": 818
+      }
+    },
+    {
+      "name": "check-packs",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-check-packs.log",
+        "sha256": "2e9cefdeec183e44275de37b3e7ea64d61329e04a8e3b4dcf156bf592de4cbe9",
+        "bytes": 1548
+      }
+    },
+    {
+      "name": "geo-manifests",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-geo-manifests.log",
+        "sha256": "df217880f110c01d3398eb6bbd0d399a7a502c441ead510fc058d3c98c11272e",
+        "bytes": 1342
+      }
+    },
+    {
+      "name": "migration-check",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-migration-check.log",
+        "sha256": "f325b26ecac1248939a9f625d3eff3bf3d703bd8224590348bc38150d1568b69",
+        "bytes": 162
+      }
+    },
+    {
+      "name": "lint-app",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-lint-app.log",
+        "sha256": "eb66efcdbfa260c369bb8f8139ab79d7be927289fc5d237dfd320e09ece258f8",
+        "bytes": 1256
+      }
+    },
+    {
+      "name": "lint-page",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-lint-page.log",
+        "sha256": "2f7dff7290d800383ee73a74dba74157e9e777d85ba6a2886c4b449c79b49134",
+        "bytes": 1272
+      }
+    },
+    {
+      "name": "v2-app",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-v2-app.log",
+        "sha256": "c49c77ebd789a28472ce7081349d6e08d1a5bbbc9a96d2a47c33e8866259a3f7",
+        "bytes": 1068
+      }
+    },
+    {
+      "name": "v2-renderer",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-v2-renderer.log",
+        "sha256": "1fb494fa300c920660099ea88d7410de4155876f4a7cd0a63e23b501b647c675",
+        "bytes": 132
+      }
+    },
+    {
+      "name": "legacy-browser",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-legacy-browser.log",
+        "sha256": "8784fa036db549dfe60f4f0a966898d102fec689ce96e12296d1261a4a0a2e51",
+        "bytes": 4460
+      }
+    },
+    {
+      "name": "stora-v2",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-stora-v2.log",
+        "sha256": "837cce344ecd3bba05ea10cd421df933e2c8032503ad4e676598894991ae9371",
+        "bytes": 1258
+      }
+    },
+    {
+      "name": "mellan-v2",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-mellan-v2.log",
+        "sha256": "ebc464440797c592ebd9bb2a74cc0376147f83f5aa185f9d4c91a55f488fb6ee",
+        "bytes": 920
+      }
+    },
+    {
+      "name": "repeat-refresh",
+      "exitCode": 0,
+      "log": {
+        "path": "upsalabuild/cache/final-repeat-refresh.log",
+        "sha256": "87c44ed4cae09268b9d00ca7a78257fd557e05cab9ebc681b06a15bad900b93d",
+        "bytes": 24110
+      }
+    }
+  ],
+  "polygonValidation": {
+    "method": "independent tee-survey polygon validator; translation and uniform positive scaling preserve intersections",
+    "checked": [
+      {
+        "id": "upsala-stora-green-16-2025-review",
+        "part": 0,
+        "vertices": 33
+      },
+      {
+        "id": "upsala-stora-fairway-01-2025-review",
+        "part": 0,
+        "vertices": 47
+      },
+      {
+        "id": "upsala-stora-fairway-03-2025-review",
+        "part": 0,
+        "vertices": 51
+      },
+      {
+        "id": "upsala-stora-fairway-04-2025-review",
+        "part": 0,
+        "vertices": 38
+      },
+      {
+        "id": "upsala-stora-fairway-04-2025-review",
+        "part": 1,
+        "vertices": 24
+      },
+      {
+        "id": "upsala-stora-fairway-05-2025-review",
+        "part": 0,
+        "vertices": 61
+      },
+      {
+        "id": "upsala-stora-fairway-07-2025-review",
+        "part": 0,
+        "vertices": 35
+      },
+      {
+        "id": "upsala-stora-fairway-08-2025-review",
+        "part": 0,
+        "vertices": 64
+      },
+      {
+        "id": "upsala-stora-fairway-09-2025-review",
+        "part": 0,
+        "vertices": 63
+      },
+      {
+        "id": "upsala-stora-fairway-11-2025-review",
+        "part": 0,
+        "vertices": 49
+      },
+      {
+        "id": "upsala-stora-fairway-12-2025-review",
+        "part": 0,
+        "vertices": 54
+      },
+      {
+        "id": "upsala-stora-fairway-16-2025-review",
+        "part": 0,
+        "vertices": 58
+      },
+      {
+        "id": "upsala-stora-fairway-17-2025-review",
+        "part": 0,
+        "vertices": 49
+      },
+      {
+        "id": "upsala-stora-fairway-18-2025-review",
+        "part": 0,
+        "vertices": 46
+      },
+      {
+        "id": "upsala-stora-tee-12-middle-archive-2023",
+        "part": 0,
+        "vertices": 12
+      },
+      {
+        "id": "upsala-stora-tee-14-forward-archive-2023",
+        "part": 0,
+        "vertices": 13
+      },
+      {
+        "id": "upsala-stora-tee-15-lower-archive-2023",
+        "part": 0,
+        "vertices": 14
+      },
+      {
+        "id": "upsala-stora-tee-18-rear-archive-2020",
+        "part": 0,
+        "vertices": 14
+      }
+    ]
+  },
+  "repeatRefresh": {
+    "passed": true,
+    "files": {
+      "upsalabuild/course-model.json": "136018182d351fa1fe03a5e530bc53811c5e06fbe07f6f0ce287ff53aeea97b3",
+      "upsalamellanbuild/course-model.json": "c58bdf9f6cc5c59fd2d319ed9bea8ccd231044f44a40b719efa32f6e87c4b195",
+      "apps/golf/public/courses/upsala/pack.bin": "a314be5114331f3670161d0e028de1e4beaa31623024963c05de826b20c9e9c1",
+      "apps/golf/public/courses/upsala-mellanbanan/pack.bin": "ad9ebd0464df5ba469515ccdfcf02010d2d04dda339f24a7acb5c5ab61d00944",
+      "apps/golf/public/courses/v2-index.json": "3c05a9dc69bd92bbedb850b4b15a5cd3882988011505b8a6e2de5bdfd4cc2c4f",
+      "upsalabuild/mapping/stora-tee-review.svg": "eeca260d2e3834f9198bfbec9f20b42c263588a35171f1818de7e3fa7ddcf883",
+      "upsalabuild/mapping/stora-followup-review.svg": "f1a0566318d4c89a82fb4712b4b7861de09ca8acf74257c6e9a69226e8e01e51"
+    },
+    "note": "Recorded before SVG whitespace normalization; source/model/pack/routing bytes and all geometry unchanged."
+  },
+  "browser": [
+    {
+      "date": "2026-09-06T14:40:11.371Z",
+      "url": "http://127.0.0.1:8620/?bana=upsala&v2=require&det=1&q=lo&qualitylock=1&ren=1&gl=0&lodmode=zone&graphics=1",
+      "executionAdapter": "swiftshader-software",
+      "performanceEvidence": false,
+      "request": {
+        "course": "upsala",
+        "backend": "webgl2",
+        "autoFallback": true,
+        "q": "lo",
+        "viewport": [
+          960,
+          600
+        ],
+        "dpr": 1,
+        "views": [
+          {
+            "id": "h4_top_noon",
+            "hole": 4,
+            "cam": "top",
+            "preset": "noon"
+          },
+          {
+            "id": "h12_tee_noon",
+            "hole": 12,
+            "cam": "tee",
+            "preset": "noon"
+          },
+          {
+            "id": "h16_green_noon",
+            "hole": 16,
+            "cam": "green",
+            "preset": "noon"
+          },
+          {
+            "id": "h18_top_noon",
+            "hole": 18,
+            "cam": "top",
+            "preset": "noon"
+          }
+        ]
+      },
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "Cancelled terrain request: http://127.0.0.1:8620/grounds/upsala/terrain/3e6bb8381984b8afb2cb7d6eec88cfff5244094780ca6e0d53783686f97810ab.bvch",
+        "Cancelled terrain request: http://127.0.0.1:8620/grounds/upsala/terrain/20aec54e6ad0c4c960f2f1d4ea2f64b88bcc5fe150af99cfa340f93251c62540.bvch",
+        "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend.",
+        "[.WebGL-0x368400c47a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+        "[.WebGL-0x368400c47a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now."
+      ],
+      "passed": true,
+      "fingerprint": {
+        "model": "f77491acfa03c91721101077f38e0d7258a88ad3aa47498d81c8d6b92e6aa6a8",
+        "routing": "ba7f36c44bc45e78e9acd33d09e08e563f1bfdecf0ccc6d8d1cb6728abf67873",
+        "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+        "treeInstances": "212c95a8f323e71bab4ce624af9af4ee21efbd66da1dd5c3174767ff07190add",
+        "treePositions": "a63be36fe389df8f8ab7033e631691f1ad2749cc2d20ccb348c89fa92f33de84",
+        "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+        "tintNear": "56db2e75c8c9cd9dfbf63589816c9bde66ce6526f05fa1581e797158e2268c0a",
+        "tintFar": "e4e43e2d1be2d9b0f157533991ffad058ef9668b790bd670aee11675601159a9",
+        "surfaceSource": null,
+        "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "counts": {
+          "trees": 53986,
+          "vista": 33483,
+          "tufts": 5617,
+          "bushes": 1058,
+          "stones": 242,
+          "reeds": 0,
+          "cars": 0,
+          "pylons": 21,
+          "stumps": 0,
+          "surfaceOverlays": 0
+        },
+        "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+      },
+      "localReport": {
+        "path": "upsalabuild/cache/review-2026-09-06/stora-v2-final/report.json",
+        "sha256": "9c8983ce39584e917d650723af68646495b6ecbab5668be01868bcfbc25108e3",
+        "bytes": 143746
+      },
+      "views": [
+        {
+          "id": "h4_top_noon",
+          "hole": 4,
+          "cam": "top",
+          "preset": "noon",
+          "file": "h4_top_noon.png",
+          "imageSha256": "3b86d65977afb3e9b329f44016154de44b887a4ff7f092928e0bf82731898650",
+          "visibleTerrainTileIds": [
+            "l0/2/3",
+            "l0/3/3",
+            "l0/4/3",
+            "l0/2/4",
+            "l0/3/4",
+            "l0/4/4",
+            "l0/2/5",
+            "l0/3/5",
+            "l0/4/5",
+            "l1/3/3",
+            "l1/4/3",
+            "l1/3/4",
+            "l1/4/4",
+            "l2/3/3",
+            "l2/4/3",
+            "l2/3/4",
+            "l2/4/4",
+            "l3/3/3",
+            "l3/4/3",
+            "l3/3/4",
+            "l3/4/4",
+            "l4/1/1",
+            "l4/2/1",
+            "l4/1/2",
+            "l4/2/2",
+            "l5/0/0",
+            "l5/1/0",
+            "l5/0/1",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "before": {
+            "camera": {
+              "pos": [
+                208.8,
+                351.8,
+                97.4
+              ],
+              "look": [
+                208.8,
+                21.8,
+                97.3
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.6,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                208.80537792094935,
+                351.8088266863022,
+                97.38322675253225
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            }
+          },
+          "after": {
+            "camera": {
+              "pos": [
+                208.8,
+                351.8,
+                97.4
+              ],
+              "look": [
+                208.8,
+                21.8,
+                97.3
+              ],
+              "mode": "top"
+            },
+            "terrainStream": {
+              "readyTiles": 86,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 9,
+              "drawCalls": 1,
+              "triangles": 1198080,
+              "selectedTiles": 9,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "rendered": {
+              "drawCalls": 53,
+              "triangles": 1544779,
+              "drawingBuffer": [
+                960,
+                600
+              ]
+            }
+          },
+          "visuallyInspected": true
+        },
+        {
+          "id": "h12_tee_noon",
+          "hole": 12,
+          "cam": "tee",
+          "preset": "noon",
+          "file": "h12_tee_noon.png",
+          "imageSha256": "3e335858da8e7577f339cf81b62917d196421e23d608b0dc6d81741be3b01d5c",
+          "visibleTerrainTileIds": [
+            "l0/0/1",
+            "l0/1/1",
+            "l0/2/1",
+            "l0/0/2",
+            "l0/1/2",
+            "l0/2/2",
+            "l0/0/3",
+            "l0/1/3",
+            "l0/2/3",
+            "l0/0/4",
+            "l0/1/4",
+            "l0/0/5",
+            "l0/1/5",
+            "l0/0/6",
+            "l0/1/6",
+            "l0/0/7",
+            "l0/1/7",
+            "l1/2/2",
+            "l1/3/2",
+            "l1/0/3",
+            "l1/1/3",
+            "l1/2/3",
+            "l1/3/3",
+            "l1/0/4",
+            "l1/1/4",
+            "l1/2/4",
+            "l1/0/5",
+            "l1/1/5",
+            "l1/2/5",
+            "l1/0/6",
+            "l1/1/6",
+            "l1/2/6",
+            "l1/0/7",
+            "l1/1/7",
+            "l1/2/7",
+            "l2/0/3",
+            "l2/1/3",
+            "l2/2/3",
+            "l2/3/3",
+            "l2/0/4",
+            "l2/1/4",
+            "l2/2/4",
+            "l2/3/4",
+            "l2/0/5",
+            "l2/1/5",
+            "l2/2/5",
+            "l2/3/5",
+            "l2/0/6",
+            "l2/1/6",
+            "l2/2/6",
+            "l2/0/7",
+            "l2/1/7",
+            "l2/2/7",
+            "l3/0/3",
+            "l3/1/3",
+            "l3/2/3",
+            "l3/3/3",
+            "l3/0/4",
+            "l3/1/4",
+            "l3/2/4",
+            "l3/3/4",
+            "l3/0/5",
+            "l3/1/5",
+            "l3/2/5",
+            "l3/3/5",
+            "l3/0/6",
+            "l3/1/6",
+            "l3/2/6",
+            "l3/3/6",
+            "l3/0/7",
+            "l3/1/7",
+            "l3/2/7",
+            "l4/0/1",
+            "l4/1/1",
+            "l4/0/2",
+            "l4/1/2",
+            "l4/0/3",
+            "l4/1/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l6/0/0"
+          ],
+          "before": {
+            "camera": {
+              "pos": [
+                -63.8,
+                20.9,
+                -579.2
+              ],
+              "look": [
+                -307.1,
+                21.8,
+                -394.3
+              ],
+              "mode": "tee"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.6,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                -63.772338565029486,
+                20.9147812499939,
+                -579.1525771692451
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            }
+          },
+          "after": {
+            "camera": {
+              "pos": [
+                -63.8,
+                20.9,
+                -579.2
+              ],
+              "look": [
+                -307.1,
+                21.8,
+                -394.3
+              ],
+              "mode": "tee"
+            },
+            "terrainStream": {
+              "readyTiles": 58,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 24,
+              "drawCalls": 1,
+              "triangles": 3194880,
+              "selectedTiles": 24,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "rendered": {
+              "drawCalls": 63,
+              "triangles": 3721813,
+              "drawingBuffer": [
+                960,
+                600
+              ]
+            }
+          },
+          "visuallyInspected": true
+        },
+        {
+          "id": "h16_green_noon",
+          "hole": 16,
+          "cam": "green",
+          "preset": "noon",
+          "file": "h16_green_noon.png",
+          "imageSha256": "ae6e96f2887c55db25a7db3ffa337a85292c6aa081802f47f17435baefdf3609",
+          "visibleTerrainTileIds": [
+            "l0/1/5",
+            "l0/2/5",
+            "l0/0/6",
+            "l0/1/6",
+            "l0/2/6",
+            "l0/0/7",
+            "l0/1/7",
+            "l0/2/7",
+            "l0/3/7",
+            "l1/2/4",
+            "l1/3/4",
+            "l1/1/5",
+            "l1/2/5",
+            "l1/3/5",
+            "l1/0/6",
+            "l1/1/6",
+            "l1/2/6",
+            "l1/3/6",
+            "l1/4/6",
+            "l1/0/7",
+            "l1/1/7",
+            "l1/2/7",
+            "l1/3/7",
+            "l1/4/7",
+            "l2/2/4",
+            "l2/3/4",
+            "l2/1/5",
+            "l2/2/5",
+            "l2/3/5",
+            "l2/4/5",
+            "l2/1/6",
+            "l2/2/6",
+            "l2/3/6",
+            "l2/4/6",
+            "l2/0/7",
+            "l2/1/7",
+            "l2/2/7",
+            "l2/3/7",
+            "l2/4/7",
+            "l2/5/7",
+            "l3/2/4",
+            "l3/3/4",
+            "l3/4/4",
+            "l3/2/5",
+            "l3/3/5",
+            "l3/4/5",
+            "l3/1/6",
+            "l3/2/6",
+            "l3/3/6",
+            "l3/4/6",
+            "l3/5/6",
+            "l3/0/7",
+            "l3/1/7",
+            "l3/2/7",
+            "l3/3/7",
+            "l3/4/7",
+            "l3/5/7",
+            "l4/1/2",
+            "l4/2/2",
+            "l4/0/3",
+            "l4/1/3",
+            "l4/2/3",
+            "l5/0/1",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "before": {
+            "camera": {
+              "pos": [
+                -197.2,
+                47.9,
+                307.2
+              ],
+              "look": [
+                -216.4,
+                33.4,
+                424.4
+              ],
+              "mode": "green"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.6,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                -197.1533350353276,
+                47.91988901587958,
+                307.15158229224835
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            }
+          },
+          "after": {
+            "camera": {
+              "pos": [
+                -197.2,
+                47.9,
+                307.2
+              ],
+              "look": [
+                -216.4,
+                33.4,
+                424.4
+              ],
+              "mode": "green"
+            },
+            "terrainStream": {
+              "readyTiles": 78,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 24,
+              "drawCalls": 1,
+              "triangles": 3194880,
+              "selectedTiles": 24,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "rendered": {
+              "drawCalls": 46,
+              "triangles": 3637204,
+              "drawingBuffer": [
+                960,
+                600
+              ]
+            }
+          },
+          "visuallyInspected": true
+        },
+        {
+          "id": "h18_top_noon",
+          "hole": 18,
+          "cam": "top",
+          "preset": "noon",
+          "file": "h18_top_noon.png",
+          "imageSha256": "913653d88e9afd5a8246df7c39aa777d0173e5cb8274211c1678f9e526a238d8",
+          "visibleTerrainTileIds": [
+            "l0/1/3",
+            "l0/2/3",
+            "l0/3/3",
+            "l0/1/4",
+            "l0/2/4",
+            "l0/3/4",
+            "l1/2/3",
+            "l1/3/3",
+            "l1/2/4",
+            "l1/3/4",
+            "l2/3/3",
+            "l2/3/4",
+            "l3/3/3",
+            "l3/3/4",
+            "l4/1/1",
+            "l4/1/2",
+            "l5/0/0",
+            "l5/0/1",
+            "l6/0/0"
+          ],
+          "before": {
+            "camera": {
+              "pos": [
+                -41.5,
+                353.4,
+                64.7
+              ],
+              "look": [
+                -41.5,
+                23.4,
+                64.6
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.6,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                -41.511070773662944,
+                353.4141868854758,
+                64.6541581999151
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            }
+          },
+          "after": {
+            "camera": {
+              "pos": [
+                -41.5,
+                353.4,
+                64.7
+              ],
+              "look": [
+                -41.5,
+                23.4,
+                64.6
+              ],
+              "mode": "top"
+            },
+            "terrainStream": {
+              "readyTiles": 50,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 8,
+              "drawCalls": 1,
+              "triangles": 1064960,
+              "selectedTiles": 8,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "rendered": {
+              "drawCalls": 52,
+              "triangles": 1443736,
+              "drawingBuffer": [
+                960,
+                600
+              ]
+            }
+          },
+          "visuallyInspected": true
+        }
+      ]
+    },
+    {
+      "date": "2026-09-06T14:44:49.648Z",
+      "url": "http://127.0.0.1:8620/?bana=upsala-mellanbanan&v2=require&det=1&q=lo&qualitylock=1&ren=1&gl=0&lodmode=zone&graphics=1",
+      "executionAdapter": "swiftshader-software",
+      "performanceEvidence": false,
+      "request": {
+        "course": "upsala-mellanbanan",
+        "backend": "webgl2",
+        "autoFallback": true,
+        "q": "lo",
+        "viewport": [
+          960,
+          600
+        ],
+        "dpr": 1,
+        "views": [
+          {
+            "id": "h1_green_noon",
+            "hole": 1,
+            "cam": "green",
+            "preset": "noon"
+          },
+          {
+            "id": "h8_top_noon",
+            "hole": 8,
+            "cam": "top",
+            "preset": "noon"
+          }
+        ]
+      },
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend."
+      ],
+      "passed": true,
+      "fingerprint": {
+        "model": "63754f74da4b008b7c5c59512e1292a430c94337782ef6a27195e195d1e112d1",
+        "routing": "ce9ce55b6df078f50f12b75070333be915b4d4dd6c9c9c0f09910915f7e5c353",
+        "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+        "treeInstances": "8db5840537f4d056ed5607ecc5249faf23ba9a086dffbd047c9cb56143f4d28a",
+        "treePositions": "a63be36fe389df8f8ab7033e631691f1ad2749cc2d20ccb348c89fa92f33de84",
+        "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+        "tintNear": "171df283c64597c09a9e18e3a62a0602ccdee92695089f3b21259cb6bc1ea59e",
+        "tintFar": "c770c8858f726595988e8ed2811a468f4a826146620b4e3a619706a2e9176dbe",
+        "surfaceSource": null,
+        "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "counts": {
+          "trees": 53986,
+          "vista": 33483,
+          "tufts": 3718,
+          "bushes": 644,
+          "stones": 173,
+          "reeds": 0,
+          "cars": 0,
+          "pylons": 21,
+          "stumps": 0,
+          "surfaceOverlays": 0
+        },
+        "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+      },
+      "localReport": {
+        "path": "upsalabuild/cache/review-2026-09-06/mellan-v2-final/report.json",
+        "sha256": "c258f63c700259a66d28fc0bcc68f2226c91c1bed66f38b64be8581e10f83c9a",
+        "bytes": 83976
+      },
+      "views": [
+        {
+          "id": "h1_green_noon",
+          "hole": 1,
+          "cam": "green",
+          "preset": "noon",
+          "file": "h1_green_noon.png",
+          "imageSha256": "dea61efc010848825b8e164692aa830f5ad862179ed88ef3d8de6a6b44b21ee4",
+          "visibleTerrainTileIds": [
+            "l0/6/1",
+            "l0/7/1",
+            "l0/4/2",
+            "l0/5/2",
+            "l0/6/2",
+            "l0/7/2",
+            "l0/4/3",
+            "l0/5/3",
+            "l0/6/3",
+            "l0/7/3",
+            "l0/5/4",
+            "l0/6/4",
+            "l0/7/4",
+            "l0/5/5",
+            "l0/6/5",
+            "l0/7/5",
+            "l0/6/6",
+            "l0/7/6",
+            "l0/7/7",
+            "l1/7/1",
+            "l1/5/2",
+            "l1/6/2",
+            "l1/7/2",
+            "l1/4/3",
+            "l1/5/3",
+            "l1/6/3",
+            "l1/7/3",
+            "l1/4/4",
+            "l1/5/4",
+            "l1/6/4",
+            "l1/7/4",
+            "l1/5/5",
+            "l1/6/5",
+            "l1/7/5",
+            "l1/6/6",
+            "l1/7/6",
+            "l1/7/7",
+            "l2/5/2",
+            "l2/6/2",
+            "l2/7/2",
+            "l2/4/3",
+            "l2/5/3",
+            "l2/6/3",
+            "l2/7/3",
+            "l2/4/4",
+            "l2/5/4",
+            "l2/6/4",
+            "l2/7/4",
+            "l2/5/5",
+            "l2/6/5",
+            "l2/7/5",
+            "l2/6/6",
+            "l2/7/6",
+            "l2/6/7",
+            "l2/7/7",
+            "l3/6/2",
+            "l3/7/2",
+            "l3/4/3",
+            "l3/5/3",
+            "l3/6/3",
+            "l3/7/3",
+            "l3/4/4",
+            "l3/5/4",
+            "l3/6/4",
+            "l3/7/4",
+            "l3/5/5",
+            "l3/6/5",
+            "l3/7/5",
+            "l3/5/6",
+            "l3/6/6",
+            "l3/7/6",
+            "l3/6/7",
+            "l3/7/7",
+            "l4/2/1",
+            "l4/3/1",
+            "l4/2/2",
+            "l4/3/2",
+            "l4/2/3",
+            "l4/3/3",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "before": {
+            "camera": {
+              "pos": [
+                357.2,
+                45.3,
+                -269.9
+              ],
+              "look": [
+                432.9,
+                34.9,
+                -250.1
+              ],
+              "mode": "green"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.6,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                357.23732129006385,
+                45.27949315418289,
+                -269.868306847214
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            }
+          },
+          "after": {
+            "camera": {
+              "pos": [
+                357.2,
+                45.3,
+                -269.9
+              ],
+              "look": [
+                432.9,
+                34.9,
+                -250.1
+              ],
+              "mode": "green"
+            },
+            "terrainStream": {
+              "readyTiles": 78,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 30,
+              "drawCalls": 1,
+              "triangles": 3993600,
+              "selectedTiles": 30,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "rendered": {
+              "drawCalls": 52,
+              "triangles": 4687592,
+              "drawingBuffer": [
+                960,
+                600
+              ]
+            }
+          },
+          "visuallyInspected": true
+        },
+        {
+          "id": "h8_top_noon",
+          "hole": 8,
+          "cam": "top",
+          "preset": "noon",
+          "file": "h8_top_noon.png",
+          "imageSha256": "238a2214920fbafd151e8adf03aedc14740594ff4903a82c546800651366a992",
+          "visibleTerrainTileIds": [
+            "l0/3/3",
+            "l0/4/3",
+            "l0/5/3",
+            "l0/3/4",
+            "l0/4/4",
+            "l0/5/4",
+            "l1/3/3",
+            "l1/4/3",
+            "l1/3/4",
+            "l1/4/4",
+            "l2/3/3",
+            "l2/4/3",
+            "l2/3/4",
+            "l2/4/4",
+            "l3/3/3",
+            "l3/4/3",
+            "l3/3/4",
+            "l3/4/4",
+            "l4/1/1",
+            "l4/2/1",
+            "l4/1/2",
+            "l4/2/2",
+            "l5/0/0",
+            "l5/1/0",
+            "l5/0/1",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "before": {
+            "camera": {
+              "pos": [
+                520,
+                354.9,
+                7.7
+              ],
+              "look": [
+                520,
+                24.9,
+                7.6
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.6,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                520.0379262772226,
+                354.86718740948544,
+                7.678545994519841
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            }
+          },
+          "after": {
+            "camera": {
+              "pos": [
+                520,
+                354.9,
+                7.7
+              ],
+              "look": [
+                520,
+                24.9,
+                7.6
+              ],
+              "mode": "top"
+            },
+            "terrainStream": {
+              "readyTiles": 86,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 8,
+              "drawCalls": 1,
+              "triangles": 1064960,
+              "selectedTiles": 8,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "rendered": {
+              "drawCalls": 47,
+              "triangles": 1478219,
+              "drawingBuffer": [
+                960,
+                600
+              ]
+            }
+          },
+          "visuallyInspected": true
+        }
+      ]
+    }
+  ],
+  "legacyBrowser": {
+    "passed": true,
+    "courses": [
+      "upsala",
+      "upsala-mellanbanan"
+    ],
+    "luminance": [
+      0.376,
+      0.399
+    ],
+    "hardwareRenderingRequested": true
+  },
+  "remainingWork": "scope.json and NEXT-SESSION.md",
+  "sourceImageryCommitted": false,
+  "capturesCommitted": false,
+  "pushedOrDeployed": false
+}

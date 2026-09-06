@@ -20,7 +20,8 @@ First run `git status --short --branch`, `git fetch origin main`,
 `git log -6 --oneline`. At this checkpoint the branch contains `origin/main`
 `002c91c`. Merge `727b82f` kept main's complete terrain implementation and tests
 when resolving conflicts. Commit `5187128` fixes Windows rebuild/review tooling.
-Later mapping and documentation commits are in this branch's log. No push or
+Mapping checkpoint `f440974` contains the continued surface/tee work. Final
+validation and documentation commits are in this branch's log. No push or
 deployment was performed during this continuation.
 
 ## Current state

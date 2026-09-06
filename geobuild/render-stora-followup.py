@@ -50,7 +50,10 @@ def main():
     fig.text(.055, .018, 'Manual image interpretation, not a complete survey. Boundary uncertainty: 1 m green; 2–2.5 m tees; 3–4 m fairways.\nAbsolute source accuracy is unknown. Archive years identify municipal services; exact flight dates are unknown. See the accompanying evidence JSON.', fontsize=10)
     fig.subplots_adjust(left=.055, right=.96, top=.915, bottom=.065, hspace=.35, wspace=.28)
     for extension in ['svg', 'png']:
-        fig.savefig(mapping/f'stora-followup-review.{extension}', dpi=130, metadata={'Date': None} if extension=='svg' else None)
+        output = mapping/f'stora-followup-review.{extension}'
+        fig.savefig(output, dpi=130, metadata={'Date': None} if extension=='svg' else None)
+        if extension == 'svg':
+            output.write_text('\n'.join(line.rstrip() for line in output.read_text().splitlines())+'\n')
     plt.close(fig)
 
 if __name__ == '__main__':
