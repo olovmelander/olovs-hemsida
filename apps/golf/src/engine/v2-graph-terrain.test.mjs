@@ -8,14 +8,24 @@ import { createRingHeightSampler, createTileFrustumTester, graphCoversHorizon } 
    tile, looking straight down. Plane by plane the tile is never wholly
    outside, so three's own test passes it and the planner keeps 32 m ground
    next to the 1 m course. */
-function downwardCamera({ x, y, z }) {
-  const camera = new THREE.PerspectiveCamera(48, 16 / 9, 1.5, 22000);
-  camera.coordinateSystem = 2001; /* WebGPU: z clipped to [0, 1] */
-  camera.position.set(x, y, z);
-  camera.lookAt(x - 40, 0, z - 60);
-  camera.updateProjectionMatrix();
+function cameraMatrix(camera, { coordinateSystem = THREE.WebGPUCoordinateSystem, reversedDepth = false } = {}) {
+  /* Use Three's actual projection for each backend/depth combination without
+     changing the camera's private reversed-depth flag. */
+  const halfHeight = camera.near * Math.tan(camera.fov * Math.PI / 360);
+  const halfWidth = halfHeight * camera.aspect;
+  camera.projectionMatrix.makePerspective(
+    -halfWidth, halfWidth, halfHeight, -halfHeight,
+    camera.near, camera.far, coordinateSystem, reversedDepth,
+  );
   camera.updateMatrixWorld(true);
   return new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+}
+
+function downwardCamera({ x, y, z }, options) {
+  const camera = new THREE.PerspectiveCamera(48, 16 / 9, 1.5, 22000);
+  camera.position.set(x, y, z);
+  camera.lookAt(x - 40, 0, z - 60);
+  return cameraMatrix(camera, options);
 }
 
 describe('the tile frustum test', () => {
@@ -44,6 +54,52 @@ describe('the tile frustum test', () => {
 
   it('rejects a tile the pyramid never reaches, even one that is tall', () => {
     expect(intersects(min.set(2000, 0, 2000), max.set(6000, 400, 6000))).toBe(false);
+  });
+});
+
+describe.each([
+  { label: 'WebGL conventional', coordinateSystem: THREE.WebGLCoordinateSystem, reversedDepth: false },
+  { label: 'WebGL reversed', coordinateSystem: THREE.WebGLCoordinateSystem, reversedDepth: true },
+  { label: 'WebGPU conventional', coordinateSystem: THREE.WebGPUCoordinateSystem, reversedDepth: false },
+  { label: 'WebGPU reversed', coordinateSystem: THREE.WebGPUCoordinateSystem, reversedDepth: true },
+])('terrain visibility with $label depth', options => {
+  it('keeps visible ground throughout a portrait view', () => {
+    /* An automatic WebGPU fallback can retain reversed depth on WebGL. The
+       broken corner unprojection rejected the surroundings even though their
+       centres projected onto the screen; only forced active-hole tiles drew. */
+    const camera = new THREE.PerspectiveCamera(48, 709 / 1277, 1, 14000);
+    camera.position.set(0, 900, 900);
+    camera.lookAt(0, 10, 0);
+    const matrix = cameraMatrix(camera, options);
+    const intersects = createTileFrustumTester(matrix, options);
+    for (const [x, z] of [[0, 0], [-180, -220], [180, -220], [0, 250]]) {
+      const projected = new THREE.Vector3(x, 15, z).applyMatrix4(matrix);
+      expect(Math.abs(projected.x)).toBeLessThan(1);
+      expect(Math.abs(projected.y)).toBeLessThan(1);
+      expect(projected.z).toBeGreaterThan(0);
+      expect(projected.z).toBeLessThan(1);
+      expect(intersects(
+        new THREE.Vector3(x - 64, 0, z - 64),
+        new THREE.Vector3(x + 64, 35, z + 64),
+      )).toBe(true);
+    }
+    expect(intersects(
+      new THREE.Vector3(2000, 0, 2000),
+      new THREE.Vector3(6000, 400, 6000),
+    )).toBe(false);
+  });
+
+  it('still rejects the oversized tile accepted by the plane-only test', () => {
+    const matrix = downwardCamera({ x: -2758, y: 967, z: -2534 }, options);
+    const box = new THREE.Box3(
+      new THREE.Vector3(-8261.5, 23.5, 171.2),
+      new THREE.Vector3(-69.5, 161.7, 8363.2),
+    );
+    const plain = new THREE.Frustum().setFromProjectionMatrix(
+      matrix, options.coordinateSystem, options.reversedDepth,
+    );
+    expect(plain.intersectsBox(box)).toBe(true);
+    expect(createTileFrustumTester(matrix, options)(box.min, box.max)).toBe(false);
   });
 });
 

@@ -58,12 +58,16 @@ export function createTileFrustumTester(localToClip, { coordinateSystem = 2001, 
      world was sky */
   frustum.setFromProjectionMatrix(localToClip, coordinateSystem, reversedDepth);
   const inverse = new THREE.Matrix4().copy(localToClip).invert();
-  const nearZ = coordinateSystem === 2000 ? -1 : 0; /* WebGL clips z to [-1,1], WebGPU to [0,1] */
+  /* Three uses [0, 1] for reversed depth on either backend. Its automatic
+     WebGPU -> WebGL fallback can retain that mode through EXT_clip_control;
+     unprojecting -1 there puts the far corners behind the camera and rejects
+     visible surroundings, leaving only the forced active-hole tiles. */
+  const clipMinZ = !reversedDepth && coordinateSystem === THREE.WebGLCoordinateSystem ? -1 : 0;
   const corners = [];
-  for (const z of [nearZ, 1]) for (const y of [-1, 1]) for (const x of [-1, 1]) {
+  for (const z of [clipMinZ, 1]) for (const y of [-1, 1]) for (const x of [-1, 1]) {
     corners.push(new THREE.Vector3(x, y, z).applyMatrix4(inverse));
   }
-  /* near quad 0..3, far quad 4..7: four lateral edges, and the two quads */
+  /* The two depth quads (near/far order reverses): four lateral edges and both quads. */
   const edges = [[0, 4], [1, 5], [2, 6], [3, 7], [0, 1], [1, 3], [3, 2], [2, 0], [4, 5], [5, 7], [7, 6], [6, 4]];
   const box = new THREE.Box3();
   return function intersects(min, max) {
@@ -599,7 +603,7 @@ export class V2GraphTerrainAdapter {
        4 km children did not, so the planner never refined it -- a 32 m tile
        drawn beside the 1 m course, lit flat as a bright plate. */
     this.projection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse).multiply(this.group.matrixWorld);
-    /* WebGPU clips z to [0, 1] and WebGL to [-1, 1]; the camera says which */
+    /* The camera carries the actual backend and depth mode after any fallback. */
     const intersects = createTileFrustumTester(this.projection, { coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? false });
     const [gx, gz] = this.bridge.toGrid(camera.position.x, camera.position.z);
     const frame = this.runtime.ground.frame;

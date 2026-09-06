@@ -27,15 +27,17 @@ const HELP = `Usage: node tools/v2-graphics-review.mjs (--base URL | --root BUIL
   --width 960 --height 600 --dpr 1 --timeout 600 --chrome PATH
   --compare /path/to/previous/report.json
   --base-path /olovs-hemsida/  (path prefix for --root's internal server)
+  --auto-fallback  (WebGL2 via automatic WebGPU fallback, including its depth mode)
 Software screenshots and mapping/count checks only; no hardware FPS claim.`;
 
 function optionsFrom(argv) {
   const o = { course: 'puttom', backend: 'webgl2', q: 'lo', graphics: '1', views: 'short',
-    width: 960, height: 600, dpr: 1, timeout: 600, bark: false };
+    width: 960, height: 600, dpr: 1, timeout: 600, bark: false, autoFallback: false };
   const allowed = new Set(['base', 'root', 'base-path', 'out', 'course', 'backend', 'q', 'graphics', 'views',
     'width', 'height', 'dpr', 'timeout', 'chrome', 'compare']);
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--bark') { o.bark = true; continue; }
+    if (argv[i] === '--auto-fallback') { o.autoFallback = true; continue; }
     const key = argv[i].replace(/^--/, '');
     if (!argv[i].startsWith('--') || !allowed.has(key) || !argv[i + 1] || argv[i + 1].startsWith('--')) {
       throw new Error(`Unknown or incomplete argument: ${argv[i]}`);
@@ -48,6 +50,7 @@ function optionsFrom(argv) {
   for (const [key, values] of [['backend', ['webgl2', 'webgpu']], ['q', ['lo', 'hi']], ['graphics', ['default', '0', '1']]]) {
     if (!values.includes(o[key])) throw new Error(`Invalid --${key}`);
   }
+  if (o.autoFallback && o.backend !== 'webgl2') throw new Error('--auto-fallback requires --backend webgl2');
   for (const key of ['width', 'height', 'dpr', 'timeout']) {
     o[key] = Number(o[key]);
     if (!Number.isFinite(o[key]) || o[key] <= 0) throw new Error(`Invalid --${key}`);
@@ -190,7 +193,7 @@ async function main(o) {
   const local = o.root ? await serveBuild(o.root, o.basePath) : null;
   const url = new URL(local?.base || o.base);
   for (const [key, value] of Object.entries({ bana: o.course, v2: 'require', det: '1', q: o.q,
-    qualitylock: '1', ren: '1', gl: o.backend === 'webgl2' ? '1' : '0', lodmode: 'zone' })) url.searchParams.set(key, value);
+    qualitylock: '1', ren: '1', gl: o.backend === 'webgl2' && !o.autoFallback ? '1' : '0', lodmode: 'zone' })) url.searchParams.set(key, value);
   if (o.graphics === 'default') url.searchParams.delete('graphics');
   else url.searchParams.set('graphics', o.graphics);
   const args = ['--no-sandbox', '--disable-lcd-text', '--enable-unsafe-swiftshader', '--use-angle=swiftshader'];
@@ -200,7 +203,8 @@ async function main(o) {
   const report = { schemaVersion: 1, date: new Date().toISOString(), url: url.href, graphics: o.graphics,
     executionAdapter: 'swiftshader-software', performanceEvidence: false,
     note: 'Software captures verify correctness only. Compare real-hardware median/p95/p99 frame times separately.',
-    request: { course: o.course, backend: o.backend, q: o.q, viewport: [o.width, o.height], dpr: o.dpr, views: o.views },
+    request: { course: o.course, backend: o.backend, autoFallback: o.autoFallback,
+      q: o.q, viewport: [o.width, o.height], dpr: o.dpr, views: o.views },
     errors: [], warnings: [], views: [], passed: false };
   let browser;
   try {
@@ -211,6 +215,11 @@ async function main(o) {
     browser = await chromium.launch({ ...(executablePath ? { executablePath } : {}), headless: true, args });
     const page = await browser.newPage({ viewport: { width: o.width, height: o.height }, deviceScaleFactor: o.dpr,
       reducedMotion: 'reduce', serviceWorkers: 'block' });
+    if (o.autoFallback) await page.addInitScript(() => {
+      // Exercise the renderer's internal fallback, which can retain reversed
+      // depth on WebGL2. Explicit gl=1 takes a different initialization path.
+      Object.defineProperty(navigator, 'gpu', { configurable: true, value: undefined });
+    });
     const timeout = o.timeout * 1000;
     page.setDefaultTimeout(timeout);
     page.on('pageerror', error => report.errors.push({ type: 'pageerror', text: String(error).slice(0, 3000) }));
@@ -261,6 +270,10 @@ async function main(o) {
         }
       }, view);
       await settle(page, timeout);
+      const visibleTerrainTileIds = await page.evaluate(() => window.V3D.v2WorldVisible?.() ?? null);
+      // These views aim at the course. Forced active-hole tiles can settle
+      // even when a broken frustum rejects every surrounding terrain tile.
+      if (visibleTerrainTileIds?.length === 0) throw new Error('Terrain frustum rejected every tile in a course-facing view');
       const before = await stateAt(page), contract = captureContract(before);
       if (contract.lowq !== (o.q === 'lo') || contract.lowfx !== false || contract.pixelRatio !== expectedDpr
         || !same(contract.buffer, expectedBuffer) || contract.lod.mode !== 'zone') throw new Error(`Unexpected quality/buffer/LOD: ${JSON.stringify(contract)}`);
@@ -271,7 +284,7 @@ async function main(o) {
       const after = await stateAt(page);
       if (!same(contract, captureContract(after)) || after.terrain.stream.loadingTiles !== 0
         || after.terrain.stream.failedTiles !== 0 || !same(before.terrainInventory, after.terrainInventory)) throw new Error(`Scene/quality changed while capturing ${view.id}`);
-      report.views.push({ ...view, file: filename, imageSha256: sha256(bytes), before, after });
+      report.views.push({ ...view, file: filename, imageSha256: sha256(bytes), visibleTerrainTileIds, before, after });
       console.log(`  ${filename}: ${before.renderer.drawCalls} draws, ${before.renderer.triangles} triangles, buffer ${contract.buffer.join('x')}`);
     }
     report.passed = report.errors.length === 0 && report.views.length === o.views.length;
