@@ -50,7 +50,8 @@ export function contractOf(slug) {
 /** legacy minus RH 2000 for a slug, as its own contract measured it. */
 export const datumOf = slug => contractOf(slug).datum;
 
-export function loadTerrain(slug = 'veckefjarden') {
+const BUILD_SLUGS = { geobuild: 'veckefjarden', upsalabuild: 'upsala', upsalamellanbuild: 'upsala-mellanbanan', puttombuild: 'puttom', johannesbergbuild: 'johannesberg', angsobuild: 'angso', nvgkbuild: 'norrfallsviken', ribbingsforsbuild: 'ribbingsfors' };
+export function loadTerrain(slug = process.env.GROUND || BUILD_SLUGS[SAT_BUILD]) {
   const { origin3006: ORIGIN_3006, origin: ORIGIN, mPerLon: M_PER_LON, mPerLat: M_PER_LAT } = contractOf(slug);
   const root = JSON.parse(fs.readFileSync(path.join(PUB, 'courses/v2-index.json'), 'utf8'));
   const entry = root.courses.find(c => c.slug === slug);
@@ -65,6 +66,7 @@ export function loadTerrain(slug = 'veckefjarden') {
   for (const t of l0) {
     const ch = readChunk(fs.readFileSync(path.join(PUB, t.layers.terrain.url)));
     const g = ch.header.grid, h = decodeTerrainGrid(ch.payload, g);
+    if (Math.abs((t.bounds.maxEasting - t.bounds.minEasting) / (g.width - 1) - 1) > 1e-6 || Math.abs((t.bounds.maxNorthing - t.bounds.minNorthing) / (g.height - 1) - 1) > 1e-6) throw new Error(`${slug}: terrain reader requires 1 m level-0 samples`);
     const c0 = Math.round(t.bounds.minEasting - minE), r0 = Math.round(maxN - t.bounds.maxNorthing);
     for (let r = 0; r < g.height; r++) for (let c = 0; c < g.width; c++) dem[(r0 + r) * W + c0 + c] = h[r * g.width + c];
   }
@@ -84,7 +86,7 @@ export function loadTerrain(slug = 'veckefjarden') {
      import time. A terrain loaded for one course and imagery sampled in another's
      frame produces a plausible calibration over ground 400 km away rather than an
      error, so the two frames are compared here and the mismatch is fatal. */
-  if (Math.abs(SAT_FRAME.lat - ORIGIN.lat) > 1e-6 || Math.abs(SAT_FRAME.lon - ORIGIN.lon) > 1e-6) {
+  if (Math.abs(SAT_FRAME.lat - ORIGIN.lat) > 1e-6 || Math.abs(SAT_FRAME.lon - ORIGIN.lon) > 1e-6 || Math.abs(SAT_FRAME.mPerLon - M_PER_LON) > 0.02 || Math.abs(SAT_FRAME.mPerLat - M_PER_LAT) > 0.02) {
     throw new Error(`the imagery frame is ${SAT_BUILD}'s (${SAT_FRAME.lat}, ${SAT_FRAME.lon}) but the terrain is ${slug}'s (${ORIGIN.lat}, ${ORIGIN.lon}); set BUILD=<dir> in the environment BEFORE this module is imported`);
   }
   return { slug, datum: contractOf(slug).datum, dem, W, H, E0, N1, tiles: l0.length, bridge, legacyToGrid, gridToLegacy, hAtGrid, hAt };

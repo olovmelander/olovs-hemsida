@@ -2501,13 +2501,17 @@ function chaikin(ring, rounds = 2) {
 function surfaceMesh(rings, lift, maxEdge, shade, conservative) {
   const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], idx = [];
   for (const surface of rings) {
-    const ring0 = Array.isArray(surface) ? surface : surface.ring;
+    const exactRings = !Array.isArray(surface) && surface.rings;
+    const ring0 = exactRings ? exactRings[0] : Array.isArray(surface) ? surface : surface.ring;
     const surfaceShade = Array.isArray(surface) ? shade : (surface.shade || shade);
     if (ring0.length < 3) continue;
-    const ring = chaikin(ring0);
-    const faces = triangulate(ring);
+    const ring = exactRings ? ring0 : chaikin(ring0);
+    const polygon = exactRings || [ring];
+    const faces = exactRings
+      ? THREE.ShapeUtils.triangulateShape(ring.map(p => new THREE.Vector2(...p)), polygon.slice(1).map(r => r.map(p => new THREE.Vector2(...p))))
+      : triangulate(ring);
     if (!faces.length) continue;
-    const { V, F } = subdivide(ring, faces, maxEdge);
+    const { V, F } = subdivide(polygon.flat(), faces, maxEdge);
     const base = pos.length / 3;
     for (const [x, z] of V) {
       /* conservative: matching heights AT the vertices is not enough where the
@@ -2526,7 +2530,7 @@ function surfaceMesh(rings, lift, maxEdge, shade, conservative) {
       /* the rim seals: a boundary vertex tucks below the terrain instead of
          floating a lift above it, so a grazing view never sees the dark gap
          under the overlay's edge -- the same lesson as the LoD skirts */
-      const bd = ringSD(x, z, ring) > -0.05;
+      const bd = exactRings ? polygon.some(r => Math.abs(ringSD(x, z, r)) < 0.05) : ringSD(x, z, ring) > -0.05;
       pos.push(x, bd ? meshH(x, z) - 0.06 : h + lift, z);
       col.push(g.col[0] * ao, g.col[1] * ao, g.col[2] * ao);
       det.push(g.det); bmp.push(g.bmp); gls.push(g.gls); str.push(g.str);
@@ -2684,6 +2688,27 @@ if (legacySurfaceOverlays) {
   add(green, 0.072, 1.4, null, 4);
   add(tee, 0.086, 2.0, null, 4);
   add(sand, 0.035, 1.8, null, 5, sandMat, true);
+}
+
+/* Dated facility footprints: retain corners and interior exclusions. Aggregate
+   platforms do not establish mat, flag, net-pole or equipment positions. */
+{
+  const groups = new Map();
+  for (const feature of M.scenery.mappedFeatures || []) {
+    if (!feature.rings?.[0]?.length) continue;
+    const group = groups.get(feature.kind) || [];
+    group.push({ rings: feature.rings }); groups.set(feature.kind, group);
+  }
+  for (const [kind, polygons] of groups) {
+    const shade = kind === 'practice_green' ? shadeGreen(null)
+      : kind === 'range_bunker' ? shadeSand
+        : kind === 'range_tee_pad' ? shadeTee()
+          : () => ({ col: kind === 'range_target_surface' ? [0.62, 0.62, 0.58] : C.hard.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 });
+    const g = surfaceMesh(polygons, 0.085, 1.0, shade, false);
+    if (!g) continue;
+    const mesh = new THREE.Mesh(g, kind === 'range_bunker' ? nudged(6, makeSand) : nudged(6));
+    mesh.receiveShadow = true; mesh.renderOrder = 6; scene.add(mesh); stats.draws++;
+  }
 }
 
 /* -------------------------------------------------------------- parking
@@ -5721,7 +5746,7 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
      centre line at real ball-drop distances. The old version strung ten tall
      poles along the field's edge, which read as a fence across the tee line. */
   const rng = (M.scenery.range || [])[0];
-  if (rng) {
+  if (rng && !(M.scenery.mappedFeatures || []).some(f => f.kind === 'range_target_surface')) {
     /* the tee bays stand on the field's WEST edge and the balls fly east */
     /* The tee end is the end of the field you walk to from the clubhouse. Deriving it
        beats writing it down: five of these six pages carried Norrfallsvikens hut

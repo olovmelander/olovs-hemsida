@@ -1,0 +1,1149 @@
+{
+  "type": "FeatureCollection",
+  "name": "Upsala Stora manual surface correction candidates",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::3006"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "upsala-stora-green11-ortho2024",
+      "properties": {
+        "id": "upsala-stora-green11-ortho2024",
+        "hole": 11,
+        "kind": "green",
+        "source": "ortho2024_025m_nw.png",
+        "traceUnits": "pixels on 2x display of 0.25m crop",
+        "uncertaintyM": 1.5,
+        "confidence": "medium-high",
+        "note": "Refines OSM ring to visible putting-surface mowing edge. Existing ring was broadly right. South edge partly affected by tree shadow; north transition low contrast. Visually cross-checked against the corresponding 2025 Lantmateriet orthophoto.",
+        "crs": "EPSG:3006",
+        "sourceProductYear": 2024,
+        "sourceCaptureDay": null,
+        "sourceNativeResolutionM": 0.08,
+        "sourceHorizontalAccuracyM": null,
+        "traceAreaM2": 472.9,
+        "sourceSha256": "819f3c18d2d1b1550eadf5234849e14242775f1dbf3883911efe1c6bc4c84ab1",
+        "traceMethod": "manual visual digitisation, no automatic colour segmentation",
+        "acceptance": "minor optional refinement",
+        "changeComparison": {
+          "oldAreaM2": 511.0,
+          "newAreaM2": 472.9,
+          "rasterComparisonResolutionM": 0.25,
+          "oldNewIoU": 0.911,
+          "maxVertexBoundaryChangeM": 1.61
+        },
+        "latestVisualCrossCheckYear": 2025,
+        "latestVisualCrossCheckSource": "lm2025_025m_r0_c0.png",
+        "latestVisualCrossCheckSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+        "geometricQa": {
+          "closed": true,
+          "finite": true,
+          "selfCrossings": 0
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              639734.25,
+              6636624.5
+            ],
+            [
+              639735.88,
+              6636625.12
+            ],
+            [
+              639738.12,
+              6636624.75
+            ],
+            [
+              639740.38,
+              6636623.62
+            ],
+            [
+              639742.25,
+              6636622.12
+            ],
+            [
+              639743.38,
+              6636619.62
+            ],
+            [
+              639743.88,
+              6636616.62
+            ],
+            [
+              639743.88,
+              6636614.5
+            ],
+            [
+              639744.75,
+              6636611.0
+            ],
+            [
+              639746.25,
+              6636607.5
+            ],
+            [
+              639747.38,
+              6636604.0
+            ],
+            [
+              639747.62,
+              6636601.25
+            ],
+            [
+              639746.88,
+              6636599.0
+            ],
+            [
+              639745.38,
+              6636597.12
+            ],
+            [
+              639743.38,
+              6636596.38
+            ],
+            [
+              639741.25,
+              6636596.12
+            ],
+            [
+              639738.75,
+              6636596.88
+            ],
+            [
+              639735.5,
+              6636596.75
+            ],
+            [
+              639732.25,
+              6636596.88
+            ],
+            [
+              639729.5,
+              6636597.5
+            ],
+            [
+              639727.38,
+              6636598.75
+            ],
+            [
+              639725.88,
+              6636601.12
+            ],
+            [
+              639725.0,
+              6636603.75
+            ],
+            [
+              639724.62,
+              6636606.38
+            ],
+            [
+              639725.0,
+              6636608.75
+            ],
+            [
+              639726.0,
+              6636611.25
+            ],
+            [
+              639727.62,
+              6636613.88
+            ],
+            [
+              639729.5,
+              6636616.62
+            ],
+            [
+              639731.38,
+              6636619.75
+            ],
+            [
+              639732.88,
+              6636622.5
+            ],
+            [
+              639734.25,
+              6636624.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "upsala-stora-green14-ortho2024",
+      "properties": {
+        "id": "upsala-stora-green14-ortho2024",
+        "hole": 14,
+        "kind": "green",
+        "source": "ortho2024_025m_nw.png",
+        "traceUnits": "pixels on 2x display of 0.25m crop",
+        "uncertaintyM": 1,
+        "confidence": "high",
+        "note": "Refines OSM ring to visible putting-surface edge. Clear north/east/south/west mowing boundary. This is not a survey; source horizontal accuracy is unreported. Visually cross-checked against the corresponding 2025 Lantmateriet orthophoto.",
+        "crs": "EPSG:3006",
+        "sourceProductYear": 2024,
+        "sourceCaptureDay": null,
+        "sourceNativeResolutionM": 0.08,
+        "sourceHorizontalAccuracyM": null,
+        "traceAreaM2": 551.6,
+        "sourceSha256": "819f3c18d2d1b1550eadf5234849e14242775f1dbf3883911efe1c6bc4c84ab1",
+        "traceMethod": "manual visual digitisation, no automatic colour segmentation",
+        "acceptance": "minor optional refinement",
+        "changeComparison": {
+          "oldAreaM2": 556.5,
+          "newAreaM2": 551.6,
+          "rasterComparisonResolutionM": 0.25,
+          "oldNewIoU": 0.858,
+          "maxVertexBoundaryChangeM": 2.28
+        },
+        "latestVisualCrossCheckYear": 2025,
+        "latestVisualCrossCheckSource": "lm2025_025m_r0_c0.png",
+        "latestVisualCrossCheckSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+        "geometricQa": {
+          "closed": true,
+          "finite": true,
+          "selfCrossings": 0
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              639707.0,
+              6636477.5
+            ],
+            [
+              639708.88,
+              6636477.88
+            ],
+            [
+              639710.75,
+              6636477.12
+            ],
+            [
+              639712.25,
+              6636475.62
+            ],
+            [
+              639713.75,
+              6636473.25
+            ],
+            [
+              639714.88,
+              6636470.38
+            ],
+            [
+              639715.62,
+              6636467.12
+            ],
+            [
+              639716.0,
+              6636464.0
+            ],
+            [
+              639715.62,
+              6636461.25
+            ],
+            [
+              639714.75,
+              6636458.88
+            ],
+            [
+              639713.5,
+              6636457.0
+            ],
+            [
+              639711.75,
+              6636455.5
+            ],
+            [
+              639709.25,
+              6636454.25
+            ],
+            [
+              639706.5,
+              6636453.0
+            ],
+            [
+              639703.88,
+              6636451.88
+            ],
+            [
+              639701.62,
+              6636450.5
+            ],
+            [
+              639699.25,
+              6636448.5
+            ],
+            [
+              639696.88,
+              6636447.25
+            ],
+            [
+              639694.38,
+              6636446.5
+            ],
+            [
+              639691.88,
+              6636446.62
+            ],
+            [
+              639690.0,
+              6636447.5
+            ],
+            [
+              639688.5,
+              6636448.88
+            ],
+            [
+              639687.62,
+              6636450.75
+            ],
+            [
+              639687.12,
+              6636453.12
+            ],
+            [
+              639687.25,
+              6636455.5
+            ],
+            [
+              639687.88,
+              6636458.25
+            ],
+            [
+              639689.0,
+              6636460.88
+            ],
+            [
+              639690.62,
+              6636463.0
+            ],
+            [
+              639692.75,
+              6636464.5
+            ],
+            [
+              639695.5,
+              6636466.38
+            ],
+            [
+              639697.75,
+              6636468.38
+            ],
+            [
+              639699.62,
+              6636470.62
+            ],
+            [
+              639701.62,
+              6636473.12
+            ],
+            [
+              639704.0,
+              6636475.38
+            ],
+            [
+              639707.0,
+              6636477.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "upsala-stora-green17-ortho2024",
+      "properties": {
+        "id": "upsala-stora-green17-ortho2024",
+        "hole": 17,
+        "kind": "green",
+        "source": "green17_008m.png",
+        "traceUnits": "native 0.08m export pixels",
+        "uncertaintyM": 2,
+        "confidence": "medium",
+        "note": "Replaces a synthetic oval with manually traced principal light, smoothly mown putting surface. Northern extension is clear; east-side darker tongue is collar/apron and is excluded. Western interface has weak colour contrast and is the main 2m trace uncertainty. Visually cross-checked against the corresponding 2025 Lantmateriet orthophoto.",
+        "crs": "EPSG:3006",
+        "sourceProductYear": 2024,
+        "sourceCaptureDay": null,
+        "sourceNativeResolutionM": 0.08,
+        "sourceHorizontalAccuracyM": null,
+        "traceAreaM2": 584.1,
+        "sourceSha256": "fad4cdf04f8d28972f261cdf6b647f21e51918b325d088db463657cfe1c52c54",
+        "traceMethod": "manual visual digitisation, no automatic colour segmentation",
+        "acceptance": "recommended correction",
+        "changeComparison": {
+          "oldAreaM2": 411.3,
+          "newAreaM2": 584.1,
+          "rasterComparisonResolutionM": 0.25,
+          "oldNewIoU": 0.579,
+          "maxVertexBoundaryChangeM": 7.72
+        },
+        "latestVisualCrossCheckYear": 2025,
+        "latestVisualCrossCheckSource": "lm2025_green17_016m.png",
+        "latestVisualCrossCheckSha256": "381cfd677b8acb466c5a8f0630b4562b1eee55e316e4c3797a8ce48686ee79f2",
+        "geometricQa": {
+          "closed": true,
+          "finite": true,
+          "selfCrossings": 0
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              639779.56,
+              6635902.64
+            ],
+            [
+              639782.04,
+              6635902.56
+            ],
+            [
+              639784.36,
+              6635901.68
+            ],
+            [
+              639786.36,
+              6635900.08
+            ],
+            [
+              639787.48,
+              6635898.16
+            ],
+            [
+              639788.12,
+              6635896.0
+            ],
+            [
+              639788.28,
+              6635893.2
+            ],
+            [
+              639788.12,
+              6635890.16
+            ],
+            [
+              639788.2,
+              6635886.88
+            ],
+            [
+              639789.0,
+              6635883.84
+            ],
+            [
+              639790.36,
+              6635880.48
+            ],
+            [
+              639790.68,
+              6635877.44
+            ],
+            [
+              639790.2,
+              6635874.56
+            ],
+            [
+              639789.4,
+              6635872.0
+            ],
+            [
+              639788.12,
+              6635869.52
+            ],
+            [
+              639786.52,
+              6635867.6
+            ],
+            [
+              639784.36,
+              6635866.0
+            ],
+            [
+              639781.8,
+              6635865.12
+            ],
+            [
+              639779.0,
+              6635865.04
+            ],
+            [
+              639776.44,
+              6635865.68
+            ],
+            [
+              639774.28,
+              6635867.2
+            ],
+            [
+              639772.6,
+              6635869.2
+            ],
+            [
+              639771.48,
+              6635871.52
+            ],
+            [
+              639771.24,
+              6635874.4
+            ],
+            [
+              639771.72,
+              6635877.68
+            ],
+            [
+              639772.12,
+              6635880.48
+            ],
+            [
+              639772.2,
+              6635883.44
+            ],
+            [
+              639771.8,
+              6635886.32
+            ],
+            [
+              639771.48,
+              6635888.96
+            ],
+            [
+              639771.64,
+              6635892.0
+            ],
+            [
+              639772.2,
+              6635894.96
+            ],
+            [
+              639773.24,
+              6635897.68
+            ],
+            [
+              639775.0,
+              6635899.92
+            ],
+            [
+              639777.08,
+              6635901.6
+            ],
+            [
+              639779.56,
+              6635902.64
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "upsala-stora-hole8-tee-complex-sw-ortho2024",
+      "properties": {
+        "id": "upsala-stora-hole8-tee-complex-sw-ortho2024",
+        "hole": 8,
+        "kind": "tee-mown-surface",
+        "source": "hole8_tees_008m.png",
+        "traceUnits": "native 0.08m export pixels",
+        "uncertaintyM": 2,
+        "confidence": "medium",
+        "note": "Visible mown tee complex northwest of current model pad. Trace measures mowing extent; 1m terrain plateau corroboration is still required before calling the entire polygon a flat tee deck. Existing pad is in trees/rough and does not describe this surface. Do not assign coloured tee identities from card length. Visually cross-checked against the corresponding 2025 Lantmateriet orthophoto.",
+        "crs": "EPSG:3006",
+        "sourceProductYear": 2024,
+        "sourceCaptureDay": null,
+        "sourceNativeResolutionM": 0.08,
+        "sourceHorizontalAccuracyM": null,
+        "traceAreaM2": 453.6,
+        "sourceSha256": "0e448d52b5095517b23ad339f8f92f215590715a7081b917c930b6e3c12dfa89",
+        "traceMethod": "manual visual digitisation, no automatic colour segmentation",
+        "acceptance": "context-only mowing extent; do not import as one flat tee",
+        "changeComparison": {
+          "minimumNewVertexToOldPadBoundaryM": 21.98
+        },
+        "latestVisualCrossCheckYear": 2025,
+        "terrainCorroboration": {
+          "id": "upsala-stora-hole8-tee-complex-sw-ortho2024",
+          "surfaceSamples": 453,
+          "coreSamples": 327,
+          "p10": 20.020000457763672,
+          "p50": 20.6200008392334,
+          "p90": 20.780000686645508,
+          "coreP10P90Spread": 0.5640010833740234,
+          "corePlaneSlopePercent": 4.115438043887349,
+          "corePlaneResidualP10P90": 0.2640651324500425,
+          "flat5x5Cells": 201,
+          "flat5x5Fraction": 0.44370860927152317,
+          "flatComponents": [
+            {
+              "cells": 201,
+              "centroid3006": [
+                639320.9527363185,
+                6636115.171641791
+              ],
+              "medianRH2000": 20.690000534057617
+            }
+          ],
+          "interpretation": "mown surface can include sloped shoulders and multiple tee terraces; flat masks measure core support, not edge definition"
+        },
+        "geometricQa": {
+          "closed": true,
+          "finite": true,
+          "selfCrossings": 0
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              639302.12,
+              6636114.6
+            ],
+            [
+              639304.44,
+              6636117.88
+            ],
+            [
+              639307.88,
+              6636121.24
+            ],
+            [
+              639311.8,
+              6636124.68
+            ],
+            [
+              639315.24,
+              6636127.48
+            ],
+            [
+              639318.36,
+              6636129.16
+            ],
+            [
+              639320.76,
+              6636129.4
+            ],
+            [
+              639322.76,
+              6636128.68
+            ],
+            [
+              639324.2,
+              6636127.16
+            ],
+            [
+              639326.04,
+              6636127.08
+            ],
+            [
+              639328.12,
+              6636127.56
+            ],
+            [
+              639329.88,
+              6636126.92
+            ],
+            [
+              639331.24,
+              6636125.56
+            ],
+            [
+              639331.88,
+              6636123.64
+            ],
+            [
+              639331.8,
+              6636121.8
+            ],
+            [
+              639331.08,
+              6636120.12
+            ],
+            [
+              639329.56,
+              6636118.28
+            ],
+            [
+              639328.12,
+              6636116.76
+            ],
+            [
+              639326.76,
+              6636114.84
+            ],
+            [
+              639325.4,
+              6636112.76
+            ],
+            [
+              639323.24,
+              6636110.36
+            ],
+            [
+              639320.92,
+              6636108.04
+            ],
+            [
+              639318.52,
+              6636106.2
+            ],
+            [
+              639316.12,
+              6636105.0
+            ],
+            [
+              639313.8,
+              6636104.52
+            ],
+            [
+              639311.64,
+              6636105.0
+            ],
+            [
+              639309.72,
+              6636106.2
+            ],
+            [
+              639307.88,
+              6636108.04
+            ],
+            [
+              639305.96,
+              6636109.72
+            ],
+            [
+              639303.96,
+              6636111.24
+            ],
+            [
+              639302.44,
+              6636112.6
+            ],
+            [
+              639302.12,
+              6636114.6
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "upsala-stora-hole8-tee-complex-ne-ortho2024",
+      "properties": {
+        "id": "upsala-stora-hole8-tee-complex-ne-ortho2024",
+        "hole": 8,
+        "kind": "tee-mown-surface",
+        "source": "hole8_tees_008m.png",
+        "traceUnits": "native 0.08m export pixels",
+        "uncertaintyM": 1,
+        "confidence": "medium-high",
+        "note": "Separate clear mown tee platform north of the southwest complex beside the path and access junction. Source shows worn playing surface and furniture next to it. Geometry is mowing extent; horizontal accuracy unreported and coloured tee identity is unverified. Visually cross-checked against the corresponding 2025 Lantmateriet orthophoto.",
+        "crs": "EPSG:3006",
+        "sourceProductYear": 2024,
+        "sourceCaptureDay": null,
+        "sourceNativeResolutionM": 0.08,
+        "sourceHorizontalAccuracyM": null,
+        "traceAreaM2": 159.3,
+        "sourceSha256": "0e448d52b5095517b23ad339f8f92f215590715a7081b917c930b6e3c12dfa89",
+        "traceMethod": "manual visual digitisation, no automatic colour segmentation",
+        "acceptance": "recommended tee surface",
+        "changeComparison": {
+          "minimumNewVertexToOldPadBoundaryM": 67.77
+        },
+        "latestVisualCrossCheckYear": 2025,
+        "terrainCorroboration": {
+          "id": "upsala-stora-hole8-tee-complex-ne-ortho2024",
+          "surfaceSamples": 161,
+          "coreSamples": 85,
+          "p10": 20.190000534057617,
+          "p50": 20.260000228881836,
+          "p90": 20.350000381469727,
+          "coreP10P90Spread": 0.1100006103515625,
+          "corePlaneSlopePercent": 0.9295482118752283,
+          "corePlaneResidualP10P90": 0.045009243007049816,
+          "flat5x5Cells": 117,
+          "flat5x5Fraction": 0.7267080745341615,
+          "flatComponents": [
+            {
+              "cells": 117,
+              "centroid3006": [
+                639359.6623931624,
+                6636143.269230769
+              ],
+              "medianRH2000": 20.270000457763672
+            }
+          ],
+          "interpretation": "mown surface can include sloped shoulders and multiple tee terraces; flat masks measure core support, not edge definition"
+        },
+        "latestVisualCrossCheckSource": "lm2025_hole8_tees_016m.png",
+        "latestVisualCrossCheckSha256": "ea73dec659b041a72dd57c13b905fc0c93b2351430e086571aec5a247c3c838d",
+        "geometricQa": {
+          "closed": true,
+          "finite": true,
+          "selfCrossings": 0
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              639353.08,
+              6636144.76
+            ],
+            [
+              639354.44,
+              6636146.68
+            ],
+            [
+              639356.44,
+              6636148.6
+            ],
+            [
+              639358.52,
+              6636150.44
+            ],
+            [
+              639360.44,
+              6636151.64
+            ],
+            [
+              639362.28,
+              6636152.28
+            ],
+            [
+              639364.04,
+              6636152.04
+            ],
+            [
+              639365.4,
+              6636151.16
+            ],
+            [
+              639366.36,
+              6636149.8
+            ],
+            [
+              639366.84,
+              6636148.2
+            ],
+            [
+              639366.68,
+              6636146.52
+            ],
+            [
+              639365.96,
+              6636144.84
+            ],
+            [
+              639364.84,
+              6636143.16
+            ],
+            [
+              639363.24,
+              6636141.72
+            ],
+            [
+              639361.48,
+              6636140.2
+            ],
+            [
+              639359.56,
+              6636138.52
+            ],
+            [
+              639357.8,
+              6636137.08
+            ],
+            [
+              639355.88,
+              6636136.2
+            ],
+            [
+              639353.88,
+              6636135.96
+            ],
+            [
+              639352.28,
+              6636136.52
+            ],
+            [
+              639351.16,
+              6636137.48
+            ],
+            [
+              639350.52,
+              6636138.76
+            ],
+            [
+              639350.6,
+              6636140.2
+            ],
+            [
+              639351.16,
+              6636141.88
+            ],
+            [
+              639352.12,
+              6636143.48
+            ],
+            [
+              639353.08,
+              6636144.76
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "upsala-stora-hole8-tee-sw-2025",
+      "properties": {
+        "id": "upsala-stora-hole8-tee-sw-2025",
+        "hole": 8,
+        "kind": "tee-mown-surface",
+        "source": "lm2025_hole8_tees_016m.png",
+        "uncertaintyM": 1.5,
+        "confidence": "medium-high",
+        "acceptance": "recommended tee surface; preserve terrain",
+        "note": "Narrower principal tee mowing surface is distinct in 2025 imagery inside the broader 2024 mown complex. Preserve the independent 1m terrain instead of flattening the whole polygon. Coloured tee identity and daily marker positions remain unassigned.",
+        "traceAreaM2": 327.2,
+        "crs": "EPSG:3006",
+        "sourceProductYear": 2025,
+        "sourceCaptureDay": null,
+        "sourceNativeResolutionM": 0.16,
+        "sourceHorizontalAccuracyM": null,
+        "sourceSha256": "ea73dec659b041a72dd57c13b905fc0c93b2351430e086571aec5a247c3c838d",
+        "traceMethod": "manual visual digitisation; supported by2024 imagery and1mterrain",
+        "geometricQa": {
+          "closed": true,
+          "finite": true,
+          "selfCrossings": 0
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              639324.68,
+              6636127.4
+            ],
+            [
+              639327.24,
+              6636127.08
+            ],
+            [
+              639329.64,
+              6636125.64
+            ],
+            [
+              639331.4,
+              6636123.56
+            ],
+            [
+              639332.04,
+              6636121.0
+            ],
+            [
+              639331.4,
+              6636118.44
+            ],
+            [
+              639329.8,
+              6636115.88
+            ],
+            [
+              639327.4,
+              6636113.0
+            ],
+            [
+              639324.68,
+              6636109.96
+            ],
+            [
+              639321.48,
+              6636106.6
+            ],
+            [
+              639318.44,
+              6636104.36
+            ],
+            [
+              639315.4,
+              6636103.24
+            ],
+            [
+              639313.32,
+              6636103.72
+            ],
+            [
+              639311.24,
+              6636105.0
+            ],
+            [
+              639309.8,
+              6636106.92
+            ],
+            [
+              639309.16,
+              6636109.16
+            ],
+            [
+              639309.48,
+              6636111.72
+            ],
+            [
+              639311.08,
+              6636114.76
+            ],
+            [
+              639313.64,
+              6636117.8
+            ],
+            [
+              639316.2,
+              6636120.84
+            ],
+            [
+              639319.4,
+              6636124.52
+            ],
+            [
+              639322.12,
+              6636126.76
+            ],
+            [
+              639324.68,
+              6636127.4
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "upsala-stora-hole9-tee-upper-2025",
+      "properties": {
+        "id": "upsala-stora-hole9-tee-upper-2025",
+        "hole": 9,
+        "kind": "tee-mown-surface",
+        "source": "lm2025_hole9_tees_016m.png",
+        "uncertaintyM": 2.5,
+        "confidence": "medium",
+        "acceptance": "candidate; shadow limits southern edge",
+        "note": "Real upper tee beside the western access stairs is present in both 2024 and2025 and independently supported by 42 flat5x5 terrain cells near29.64mRH2000. North/east mowing edges are visible. Southern part is shadow-obscured; polygon is approximate there. Existing old modeled pad is ~43m southwest and lies on road/rough. Do not relocate daily coloured markers to force card lengths.",
+        "traceAreaM2": 49.9,
+        "crs": "EPSG:3006",
+        "sourceProductYear": 2025,
+        "sourceCaptureDay": null,
+        "sourceNativeResolutionM": 0.16,
+        "sourceHorizontalAccuracyM": null,
+        "sourceSha256": "bc4e9b4938e1540d4f49e68b896ffc29338231e921050e8ca229fbbfd4a7fba2",
+        "traceMethod": "manual visual digitisation; supported by2024 imagery and1mterrain",
+        "terrainCorroboration": {
+          "samples": 156,
+          "flat5x5Cells": 42,
+          "levelRH2000M": 29.64,
+          "source": "../upsala-terrain-audit/tee-plateau-validation.json"
+        },
+        "geometricQa": {
+          "closed": true,
+          "finite": true,
+          "selfCrossings": 0
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              639735.4,
+              6636416.4
+            ],
+            [
+              639737.0,
+              6636416.08
+            ],
+            [
+              639737.96,
+              6636414.96
+            ],
+            [
+              639738.12,
+              6636413.36
+            ],
+            [
+              639737.48,
+              6636411.76
+            ],
+            [
+              639736.52,
+              6636410.16
+            ],
+            [
+              639735.24,
+              6636409.2
+            ],
+            [
+              639733.64,
+              6636408.24
+            ],
+            [
+              639731.88,
+              6636406.8
+            ],
+            [
+              639730.6,
+              6636406.16
+            ],
+            [
+              639729.48,
+              6636406.64
+            ],
+            [
+              639729.32,
+              6636407.76
+            ],
+            [
+              639729.96,
+              6636409.36
+            ],
+            [
+              639730.76,
+              6636410.8
+            ],
+            [
+              639731.08,
+              6636412.4
+            ],
+            [
+              639732.04,
+              6636414.0
+            ],
+            [
+              639733.64,
+              6636415.44
+            ],
+            [
+              639735.4,
+              6636416.4
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

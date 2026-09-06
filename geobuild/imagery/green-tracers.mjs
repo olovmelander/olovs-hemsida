@@ -20,7 +20,7 @@
    Usage:  SAT_REL=27982 node geobuild/imagery/green-tracers.mjs [method|all] [--write out.json]
    Env:    F (blob threshold fraction, 0.5), WR (roughness weight, 0), THR (first-step, 18)      */
 import fs from 'node:fs';
-import { rgbAt } from './wayback.mjs';
+import { rgbAt, sourceDescription } from './source.mjs';
 import { model, survey, inRing, ringD, area, centroid, median, quant, iou, hull, simplifyDP, traceBoundary } from './lib.mjs';
 
 const m = model(), G = survey();
@@ -63,12 +63,15 @@ export function roughness(n, T, { THR = 0.5 } = {}) {
   const S1 = 1, R1 = 32, n1 = 2 * R1 / S1 + 1; const ro = new Float32Array(n1 * n1); for (let j = 0; j < n1; j++) for (let i = 0; i < n1; i++) ro[j * n1 + i] = rough(c[0] - R1 + i, c[1] - R1 + j);
   const rs = smoothN(ro, 2, n1); const v = Array.from(rs).filter(Number.isFinite); const mu = median(v), sd = (quant(v, 0.84) - quant(v, 0.16)) / 2 || 1; const score = rs.map(x => -(x - mu) / sd);
   const ci = R1, cj = R1; let seed = null, best = -1e9; for (let dj = -4; dj <= 4; dj++) for (let di = -4; di <= 4; di++) { const s = score[(cj + dj) * n1 + ci + di]; if (s > best) { best = s; seed = [ci + di, cj + dj]; } }
+  if (!seed) return [];
   const acc = new Set([seed[1] * n1 + seed[0]]); const q = [seed];
   while (q.length) { const [i, j] = q.shift(); for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const ii = i + di, jj = j + dj; if (ii < 0 || jj < 0 || ii >= n1 || jj >= n1) continue; const k = jj * n1 + ii; if (acc.has(k) || Math.hypot(ii - ci, jj - cj) > 28) continue; if (score[k] > THR) { acc.add(k); q.push([ii, jj]); } } }
   return simplifyDP(hull([...acc].map(k => [c[0] - R1 + (k % n1), c[1] - R1 + Math.floor(k / n1)])), 0.6).map(p => [+p[0].toFixed(1), +p[1].toFixed(1)]);
 }
 if (process.argv[1] && process.argv[1].endsWith('green-tracers.mjs')) {
   const which = process.argv[2] || 'all'; const outIdx = process.argv.indexOf('--write'); const out = outIdx > 0 ? process.argv[outIdx + 1] : null;
+  console.log('Imagery source:', JSON.stringify(sourceDescription));
+  console.log('Reference: OSM outlines, absolute accuracy unknown; model-derived seeds are not independent survey controls.');
   const methods = ['polar', 'firststep', 'roughness', 'blob', 'fusion', 'plan'].filter(k => which === 'all' || which === k);
   let T = null; if (methods.some(k => k === 'roughness' || k === 'fusion')) { const { loadTerrain } = await import('../dtm-lib.mjs'); T = loadTerrain(); }
   /* the plans are JPEG on disk and are decoded through Chromium on first use, so the
@@ -81,8 +84,8 @@ if (process.argv[1] && process.argv[1].endsWith('green-tracers.mjs')) {
     const ious = [], rings = {};
     for (const h of m.holes) { const c = G[h.n]['Green Center']; let ring;
       if (k === 'polar') ring = polar(c); else if (k === 'firststep') ring = polar(c, { first: true }); else if (k === 'roughness') ring = roughness(h.n, T); else if (k === 'blob') ring = blob(h.n); else if (k === 'fusion') ring = blob(h.n, { WR: +(process.env.WR || 1), rough }); else if (k === 'plan') { if (!planTrace) continue; const t = planTrace(h.n, { bunkers: true }); if (!t) continue; const cc = centroid(t.ring), oc = h.green.c; ring = t.ring.map(p => [p[0] + oc[0] - cc[0], p[1] + oc[1] - cc[1]]); }
-      if (!ring || ring.length < 3) continue; rings[h.n] = ring; if (h.green.prov === 'osm') ious.push(iou(ring, h.green.ring)); }
-    results[k] = rings; console.log(`${k.padEnd(10)} median IoU vs the ${ious.length} surveyed greens ${median(ious).toFixed(2)}  min ${Math.min(...ious).toFixed(2)}  areas ${Object.values(rings).map(r => Math.round(area(r))).join(' ')}`);
+      if (!ring || ring.length < 3 || !ring.every(p => p.every(Number.isFinite))) continue; rings[h.n] = ring; if (h.green.prov === 'osm') ious.push(iou(ring, h.green.ring)); }
+    results[k] = rings; console.log(`${k.padEnd(10)} median IoU vs the ${ious.length} OSM reference greens ${median(ious).toFixed(2)}  min ${Math.min(...ious).toFixed(2)}  areas ${Object.values(rings).map(r => Math.round(area(r))).join(' ')}`);
   }
   if (out) { fs.writeFileSync(out, JSON.stringify(results)); console.log('wrote', out); }
 }

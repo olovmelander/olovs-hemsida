@@ -1,0 +1,3715 @@
+{
+  "schemaVersion": 1,
+  "provenance": {
+    "sourceUrl": "https://kartportal.uppsala.se/mapping/rest/services/iOpenData/OpenData_Byggnader/FeatureServer/1",
+    "query": "https://kartportal.uppsala.se/mapping/rest/services/iOpenData/OpenData_Byggnader/FeatureServer/1/query?f=pjson&where=1%3D1&geometry=639119.5%2C6635121.5%2C641167.5%2C6637169.5&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=%2A&returnGeometry=true&outSR=3006",
+    "sourceSha256": "43816b0c7de838f77642400650dfcd4d944443bc88b72a511f2f57cbe99f3db1",
+    "metadataSha256": "bc038e5c7a853d3c2bf06b31947a61abe1ee7e25622bb50a5f921669bbf6a3a7",
+    "transformation": "Exact repository SWEREF99TM inverse -> WGS84 -> committed legacy frame constants; source rings EPSG:3006 retained verbatim",
+    "frame": {
+      "origin": {
+        "lat": 59.839,
+        "lon": 17.4952
+      },
+      "mPerLat": 111320,
+      "mPerLon": 55930.68
+    },
+    "validation": {
+      "maximumRoundtripMetres": 3.472710222553536e-08,
+      "maximumLinearBridgeDiscrepancyMetres": 0.44130489882878227
+    }
+  },
+  "summary": {
+    "inputMunicipalFeatures": 129,
+    "confirmedExisting": 46,
+    "confirmedExistingGeodetic": 45,
+    "recommendedAdoptedFeatures": 43,
+    "removedOsmFootprints": 13,
+    "replacementMunicipalParts": 15,
+    "newFootprints": 28,
+    "finalModelBuildingCount": 444,
+    "retainedOsmBuildings": 401,
+    "deferredStatusUnknown": 83,
+    "deferredActivePhotogrammetry": 1,
+    "deferredActiveComponentsWithUnknownSiblings": 2,
+    "largestOneToOneCentroidDifference": {
+      "municipalId": "uppsala-building-92444",
+      "osmId": "w438967931",
+      "intersectionSquareMetres": 13.36,
+      "municipalCoverage": 0.2229,
+      "osmCoverage": 0.3337,
+      "iou": 0.1542,
+      "centroidDisplacementMetres": 3.702,
+      "boundaryGapMetres": 0,
+      "vertexHausdorffMetres": 4.862,
+      "areaRatioMunicipalToOsm": 1.4973,
+      "strongOverlap": false,
+      "partialOverlap": true
+    },
+    "largestOneToOneBoundaryDifference": {
+      "municipalId": "uppsala-building-92444",
+      "osmId": "w438967931",
+      "intersectionSquareMetres": 13.36,
+      "municipalCoverage": 0.2229,
+      "osmCoverage": 0.3337,
+      "iou": 0.1542,
+      "centroidDisplacementMetres": 3.702,
+      "boundaryGapMetres": 0,
+      "vertexHausdorffMetres": 4.862,
+      "areaRatioMunicipalToOsm": 1.4973,
+      "strongOverlap": false,
+      "partialOverlap": true
+    },
+    "medianOneToOneCentroidDifferenceMetres": 2.274,
+    "notes": [
+      "Status is a coded field, not a boolean:0 means no information; there are no planned/demolished records in this AOI response.",
+      "Unknown records are preserved as evidence and OSM footprints remain; absence in municipality query cannot delete an OSM building.",
+      "Two matched OSM buildings split into2 municipal parts each; preserve both polygons.",
+      "No supplied metric uncertainty or acquisition date; method labels and modification timestamps do not establish centimetre accuracy or survey date.",
+      "Single rings only in this response. Future importer must reject or preserve multipart rings and interior courtyards, never take first ring silently."
+    ]
+  },
+  "removeOsmIds": [
+    "w1216171088",
+    "w1216171089",
+    "w1216171157",
+    "w221193963",
+    "w221193968",
+    "w221193971",
+    "w438967931",
+    "w438991796",
+    "w438991797",
+    "w438991801",
+    "w438991802",
+    "w439104667",
+    "w439105234"
+  ],
+  "records": [
+    {
+      "id": "uppsala-building-92242",
+      "ring": [
+        [
+          1251.932,
+          702.259
+        ],
+        [
+          1251.191,
+          704.309
+        ],
+        [
+          1249.648,
+          703.722
+        ],
+        [
+          1250.299,
+          701.689
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92242",
+      "sourceIds": [],
+      "sourceGlobalId": "{1D5C8172-00C0-42D3-B4D9-279EFA9EED50}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              641110.9389956904,
+              6635459.644415256
+            ],
+            [
+              641110.2742187665,
+              6635457.565735553
+            ],
+            [
+              641108.7063388752,
+              6635458.094417613
+            ],
+            [
+              641109.2818195118,
+              6635460.151436536
+            ],
+            [
+              641110.9389956904,
+              6635459.644415256
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Samhällsfunktion",
+      "modifiedAt": "2025-10-21T11:38:13+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92258",
+      "ring": [
+        [
+          915.705,
+          242.953
+        ],
+        [
+          915.533,
+          244.078
+        ],
+        [
+          913.158,
+          243.71
+        ],
+        [
+          913.33,
+          242.585
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92258",
+      "sourceIds": [],
+      "sourceGlobalId": "{50EF018B-A1A4-4A24-BF4A-02889BA6E0F4}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640756.6840748499,
+              6635906.128204608
+            ],
+            [
+              640756.5540143589,
+              6635904.996044927
+            ],
+            [
+              640754.1609928147,
+              6635905.273654772
+            ],
+            [
+              640754.2910578282,
+              6635906.40571456
+            ],
+            [
+              640756.6840748499,
+              6635906.128204608
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Samhällsfunktion",
+      "modifiedAt": "2025-10-21T11:41:02+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "w439105234",
+      "ring": [
+        [
+          864.764,
+          124.453
+        ],
+        [
+          859.684,
+          128.363
+        ],
+        [
+          855.767,
+          123.283
+        ],
+        [
+          860.847,
+          119.373
+        ]
+      ],
+      "h": null,
+      "kind": "garage",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92259",
+      "sourceIds": [
+        "w439105234"
+      ],
+      "sourceGlobalId": "{4AB967CF-9DE6-4A61-9E1E-A4C97A553DD0}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640701.1639753893,
+              6636022.684038439
+            ],
+            [
+              640696.2240307011,
+              6636018.581991111
+            ],
+            [
+              640692.1079762034,
+              6636023.512993931
+            ],
+            [
+              640697.0480206056,
+              6636027.615045816
+            ],
+            [
+              640701.1639753893,
+              6636022.684038439
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T16:09:54+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92259",
+          "osmId": "w439105234",
+          "intersectionSquareMetres": 31.47,
+          "municipalCoverage": 0.763,
+          "osmCoverage": 0.6585,
+          "iou": 0.5467,
+          "centroidDisplacementMetres": 1.644,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 1.819,
+          "areaRatioMunicipalToOsm": 0.863,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "uppsala-building-92263",
+      "ring": [
+        [
+          816.95,
+          90.173
+        ],
+        [
+          819.799,
+          93.703
+        ],
+        [
+          820.606,
+          93.383
+        ],
+        [
+          821.595,
+          95.947
+        ],
+        [
+          823.84,
+          98.752
+        ],
+        [
+          820.551,
+          101.388
+        ],
+        [
+          822.802,
+          104.2
+        ],
+        [
+          820.771,
+          105.819
+        ],
+        [
+          821.514,
+          106.755
+        ],
+        [
+          817.785,
+          109.751
+        ],
+        [
+          810.556,
+          100.683
+        ],
+        [
+          813.789,
+          98.077
+        ],
+        [
+          811.157,
+          94.808
+        ]
+      ],
+      "h": null,
+      "kind": "house",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92263",
+      "sourceIds": [],
+      "sourceGlobalId": "{CBD64A04-11E1-4339-9623-B7AB79C3A522}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640651.9719862116,
+              6636055.147024772
+            ],
+            [
+              640654.9589614028,
+              6636051.725005858
+            ],
+            [
+              640655.754953457,
+              6636052.076040977
+            ],
+            [
+              640656.8429829241,
+              6636049.549026467
+            ],
+            [
+              640659.1979917982,
+              6636046.830002177
+            ],
+            [
+              640656.0040368098,
+              6636044.06904527
+            ],
+            [
+              640658.3649692948,
+              6636041.342983058
+            ],
+            [
+              640656.3919511734,
+              6636039.647010873
+            ],
+            [
+              640657.1720234057,
+              6636038.739044818
+            ],
+            [
+              640653.550026704,
+              6636035.601988241
+            ],
+            [
+              640645.9649675264,
+              6636044.39496535
+            ],
+            [
+              640649.1049686332,
+              6636047.122951414
+            ],
+            [
+              640646.3450387407,
+              6636050.292031377
+            ],
+            [
+              640651.9719862116,
+              6636055.147024772
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2025-04-09T14:19:11+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92265",
+      "ring": [
+        [
+          813.789,
+          98.077
+        ],
+        [
+          810.573,
+          100.668
+        ],
+        [
+          806.908,
+          96.129
+        ],
+        [
+          811.089,
+          92.768
+        ],
+        [
+          815.887,
+          88.939
+        ],
+        [
+          816.903,
+          90.211
+        ],
+        [
+          811.157,
+          94.808
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92265",
+      "sourceIds": [],
+      "sourceGlobalId": "{17A24E5D-18BE-4ACD-8ADF-93048DB1749B}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640649.1049686332,
+              6636047.122951414
+            ],
+            [
+              640645.9819993046,
+              6636044.410049307
+            ],
+            [
+              640642.1390216084,
+              6636048.809956852
+            ],
+            [
+              640646.1990030544,
+              6636052.32896846
+            ],
+            [
+              640650.8600264913,
+              6636056.340011089
+            ],
+            [
+              640651.9259582921,
+              6636055.107006783
+            ],
+            [
+              640646.3450387407,
+              6636050.292031377
+            ],
+            [
+              640649.1049686332,
+              6636047.122951414
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T14:51:34+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92269",
+      "ring": [
+        [
+          805.615,
+          72.108
+        ],
+        [
+          800.791,
+          77.176
+        ],
+        [
+          796.143,
+          72.784
+        ],
+        [
+          800.952,
+          67.661
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92269",
+      "sourceIds": [],
+      "sourceGlobalId": "{02728085-1A70-408A-BDFE-8E9224999E9F}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640639.9330263545,
+              6636072.779962599
+            ],
+            [
+              640635.2929513638,
+              6636067.529004153
+            ],
+            [
+              640630.4709573028,
+              6636071.745034066
+            ],
+            [
+              640635.0939741051,
+              6636077.049966602
+            ],
+            [
+              640639.9330263545,
+              6636072.779962599
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2026-06-16T13:10:41+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92272",
+      "ring": [
+        [
+          804.721,
+          55.367
+        ],
+        [
+          796.99,
+          58.509
+        ],
+        [
+          790.943,
+          43.555
+        ],
+        [
+          798.673,
+          40.413
+        ]
+      ],
+      "h": null,
+      "kind": "house",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92272",
+      "sourceIds": [],
+      "sourceGlobalId": "{51BFF6B7-2766-4F66-96FC-CADA90897720}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640638.4030419253,
+              6636089.486037232
+            ],
+            [
+              640630.7790033974,
+              6636086.050954823
+            ],
+            [
+              640624.1550163282,
+              6636100.774025079
+            ],
+            [
+              640631.7789590865,
+              6636104.209003455
+            ],
+            [
+              640638.4030419253,
+              6636089.486037232
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2026-06-15T08:27:33+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "w439104667",
+      "ring": [
+        [
+          767.978,
+          37.647
+        ],
+        [
+          764.848,
+          43.041
+        ],
+        [
+          759.443,
+          39.961
+        ],
+        [
+          762.561,
+          34.523
+        ]
+      ],
+      "h": null,
+      "kind": "garage",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92273",
+      "sourceIds": [
+        "w439104667"
+      ],
+      "sourceGlobalId": "{DA26AD1F-DACB-4755-BDDC-1866A9A7C0A1}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640600.9290117569,
+              6636105.810019939
+            ],
+            [
+              640597.9980223277,
+              6636100.298006831
+            ],
+            [
+              640592.4670284623,
+              6636103.172988937
+            ],
+            [
+              640595.3849579006,
+              6636108.728047673
+            ],
+            [
+              640600.9290117569,
+              6636105.810019939
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T17:15:59+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92273",
+          "osmId": "w439104667",
+          "intersectionSquareMetres": 33.09,
+          "municipalCoverage": 0.846,
+          "osmCoverage": 0.5903,
+          "iou": 0.533,
+          "centroidDisplacementMetres": 1.603,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 2.477,
+          "areaRatioMunicipalToOsm": 0.6977,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "w438991797",
+      "ring": [
+        [
+          747.662,
+          -232.527
+        ],
+        [
+          744.403,
+          -218.368
+        ],
+        [
+          737.275,
+          -220.011
+        ],
+        [
+          740.535,
+          -234.164
+        ]
+      ],
+      "h": null,
+      "kind": "garage",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92277",
+      "sourceIds": [
+        "w438991797"
+      ],
+      "sourceGlobalId": "{C22F40A0-2C39-45CB-91BD-4811E2F0350E}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640570.3459801662,
+              6636375.1940434
+            ],
+            [
+              640567.6180492584,
+              6636360.912997072
+            ],
+            [
+              640560.416961474,
+              6636362.284977768
+            ],
+            [
+              640563.146021948,
+              6636376.560970498
+            ],
+            [
+              640570.3459801662,
+              6636375.1940434
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T13:29:01+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92277",
+          "osmId": "w438991797",
+          "intersectionSquareMetres": 88.061,
+          "municipalCoverage": 0.8265,
+          "osmCoverage": 0.67,
+          "iou": 0.5874,
+          "centroidDisplacementMetres": 1.927,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 2.737,
+          "areaRatioMunicipalToOsm": 0.8107,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "uppsala-building-92278",
+      "ring": [
+        [
+          757.639,
+          -260.011
+        ],
+        [
+          751.449,
+          -245.216
+        ],
+        [
+          743.798,
+          -248.452
+        ],
+        [
+          747.757,
+          -257.842
+        ],
+        [
+          740.16,
+          -261.057
+        ],
+        [
+          740.744,
+          -262.435
+        ],
+        [
+          731.234,
+          -266.474
+        ],
+        [
+          732.94,
+          -270.504
+        ],
+        [
+          742.45,
+          -266.464
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92278",
+      "sourceIds": [
+        "w438991796"
+      ],
+      "sourceGlobalId": "{8356A2BE-8902-4078-8C6C-79443B4DFD13}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640579.2979795744,
+              6636403.05500784
+            ],
+            [
+              640573.6580129364,
+              6636388.025989482
+            ],
+            [
+              640565.8729673661,
+              6636390.971983673
+            ],
+            [
+              640569.4820291338,
+              6636400.510951393
+            ],
+            [
+              640561.7519875285,
+              6636403.43801896
+            ],
+            [
+              640562.2840701938,
+              6636404.837907593
+            ],
+            [
+              640552.6069602867,
+              6636408.515974181
+            ],
+            [
+              640554.1629547419,
+              6636412.610027077
+            ],
+            [
+              640563.840010149,
+              6636408.930957293
+            ],
+            [
+              640579.2979795744,
+              6636403.05500784
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2026-06-16T12:39:59+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92278",
+          "osmId": "w438991796",
+          "intersectionSquareMetres": 164.848,
+          "municipalCoverage": 0.7257,
+          "osmCoverage": 0.6351,
+          "iou": 0.5122,
+          "centroidDisplacementMetres": 3.524,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 8.89,
+          "areaRatioMunicipalToOsm": 0.8752,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "uppsala-building-92279",
+      "ring": [
+        [
+          747.757,
+          -257.842
+        ],
+        [
+          747.279,
+          -256.708
+        ],
+        [
+          739.681,
+          -259.92
+        ],
+        [
+          740.16,
+          -261.057
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92279",
+      "sourceIds": [
+        "w438991796"
+      ],
+      "sourceGlobalId": "{D7302FF2-F04C-4C3D-ACBD-D0554183F27F}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640569.4820246082,
+              6636400.511051273
+            ],
+            [
+              640569.046003486,
+              6636399.359024013
+            ],
+            [
+              640561.3149989865,
+              6636402.283045406
+            ],
+            [
+              640561.7519875285,
+              6636403.43801896
+            ],
+            [
+              640569.4820246082,
+              6636400.511051273
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T16:45:30+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92279",
+          "osmId": "w438991796",
+          "intersectionSquareMetres": 10.194,
+          "municipalCoverage": 1.0,
+          "osmCoverage": 0.0393,
+          "iou": 0.0393,
+          "centroidDisplacementMetres": 5.109,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 14.064,
+          "areaRatioMunicipalToOsm": 0.0393,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "w438991802",
+      "ring": [
+        [
+          704.181,
+          -470.173
+        ],
+        [
+          701.007,
+          -464.701
+        ],
+        [
+          695.501,
+          -467.858
+        ],
+        [
+          698.666,
+          -473.349
+        ]
+      ],
+      "h": null,
+      "kind": "garage",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92280",
+      "sourceIds": [
+        "w438991802"
+      ],
+      "sourceGlobalId": "{5E1FF427-3EF1-4B4F-9FE2-870DA702F783}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640517.7979632318,
+              6636611.173972504
+            ],
+            [
+              640514.8259694129,
+              6636605.582029645
+            ],
+            [
+              640509.192977021,
+              6636608.530044495
+            ],
+            [
+              640512.1540002446,
+              6636614.141006927
+            ],
+            [
+              640517.7979632318,
+              6636611.173972504
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T14:56:35+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92280",
+          "osmId": "w438991802",
+          "intersectionSquareMetres": 22.56,
+          "municipalCoverage": 0.559,
+          "osmCoverage": 0.4987,
+          "iou": 0.3579,
+          "centroidDisplacementMetres": 2.574,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 2.762,
+          "areaRatioMunicipalToOsm": 0.8922,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "w438991801",
+      "ring": [
+        [
+          713.019,
+          -483.608
+        ],
+        [
+          704.987,
+          -469.678
+        ],
+        [
+          704.137,
+          -470.197
+        ],
+        [
+          697.839,
+          -473.825
+        ],
+        [
+          705.84,
+          -487.732
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92281",
+      "sourceIds": [
+        "w438991801"
+      ],
+      "sourceGlobalId": "{D7B79C95-F2D9-40C2-86E2-9939B2089FA2}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640526.1410305243,
+              6636624.943986914
+            ],
+            [
+              640518.6239778361,
+              6636610.709969396
+            ],
+            [
+              640517.7529841573,
+              6636611.19695595
+            ],
+            [
+              640511.308029591,
+              6636614.5859902585
+            ],
+            [
+              640518.7949870671,
+              6636628.795023604
+            ],
+            [
+              640526.1410305243,
+              6636624.943986914
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2025-04-09T15:35:40+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92281",
+          "osmId": "w438991801",
+          "intersectionSquareMetres": 122.943,
+          "municipalCoverage": 0.9234,
+          "osmCoverage": 0.6504,
+          "iou": 0.6171,
+          "centroidDisplacementMetres": 2.162,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 3.7,
+          "areaRatioMunicipalToOsm": 0.7044,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "uppsala-building-92282",
+      "ring": [
+        [
+          798.762,
+          -481.456
+        ],
+        [
+          795.354,
+          -476.527
+        ],
+        [
+          792.188,
+          -478.747
+        ],
+        [
+          795.597,
+          -483.676
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92282",
+      "sourceIds": [],
+      "sourceGlobalId": "{41E96363-9135-4CFB-9E20-63E07A84A8C0}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640612.0940272728,
+              6636626.045053381
+            ],
+            [
+              640608.8670427195,
+              6636620.987022565
+            ],
+            [
+              640605.6119820912,
+              6636623.086963114
+            ],
+            [
+              640608.8399653654,
+              6636628.145039147
+            ],
+            [
+              640612.0940272728,
+              6636626.045053381
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2026-06-17T08:03:41+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92283",
+      "ring": [
+        [
+          790.236,
+          -498.248
+        ],
+        [
+          797.389,
+          -493.234
+        ],
+        [
+          789.282,
+          -481.661
+        ],
+        [
+          787.397,
+          -482.98
+        ],
+        [
+          785.26,
+          -479.949
+        ],
+        [
+          781.877,
+          -482.309
+        ],
+        [
+          784.013,
+          -485.359
+        ],
+        [
+          782.144,
+          -486.669
+        ],
+        [
+          784.547,
+          -490.106
+        ],
+        [
+          783.065,
+          -491.173
+        ],
+        [
+          786.344,
+          -495.853
+        ],
+        [
+          787.838,
+          -494.823
+        ]
+      ],
+      "h": null,
+      "kind": "house",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92283",
+      "sourceIds": [],
+      "sourceGlobalId": "{6D860A71-4CED-4F31-8C80-8C2816AA56AC}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640602.9189693865,
+              6636642.512014939
+            ],
+            [
+              640610.2719562608,
+              6636637.770026978
+            ],
+            [
+              640602.591990756,
+              6636625.890048904
+            ],
+            [
+              640600.6539772276,
+              6636627.136982095
+            ],
+            [
+              640598.6289767349,
+              6636624.026037843
+            ],
+            [
+              640595.1509934461,
+              6636626.256998636
+            ],
+            [
+              640597.1749843457,
+              6636629.388014382
+            ],
+            [
+              640595.2530458624,
+              6636630.626968407
+            ],
+            [
+              640597.5299813212,
+              6636634.154976029
+            ],
+            [
+              640596.0050471827,
+              6636635.165006588
+            ],
+            [
+              640599.1119843118,
+              6636639.969985478
+            ],
+            [
+              640600.6469934168,
+              6636638.9960420085
+            ],
+            [
+              640602.9189693865,
+              6636642.512014939
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2026-06-15T07:09:44+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92285",
+      "ring": [
+        [
+          766.896,
+          -498.708
+        ],
+        [
+          761.817,
+          -491.499
+        ],
+        [
+          756.322,
+          -495.362
+        ],
+        [
+          761.4,
+          -502.571
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92285",
+      "sourceIds": [],
+      "sourceGlobalId": "{3418434E-85F6-4274-AB86-2EF66F86895F}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640579.5259828927,
+              6636642.086012121
+            ],
+            [
+              640574.713010072,
+              6636634.684971322
+            ],
+            [
+              640569.0630379688,
+              6636638.339023368
+            ],
+            [
+              640573.8759698343,
+              6636645.740962997
+            ],
+            [
+              640579.5259828927,
+              6636642.086012121
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2026-06-16T12:39:25+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "w1216171088",
+      "ring": [
+        [
+          564.407,
+          -331.309
+        ],
+        [
+          556.848,
+          -328.049
+        ],
+        [
+          551.628,
+          -340.192
+        ],
+        [
+          559.187,
+          -343.453
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92299",
+      "sourceIds": [
+        "w1216171088"
+      ],
+      "sourceGlobalId": "{467CFD0C-B93F-448D-95AA-2DED06B82C03}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640383.0670117715,
+              6636467.021040135
+            ],
+            [
+              640375.6199625495,
+              6636463.474966115
+            ],
+            [
+              640369.9320245322,
+              6636475.420006227
+            ],
+            [
+              640377.3790326762,
+              6636478.966979461
+            ],
+            [
+              640383.0670117715,
+              6636467.021040135
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2026-06-16T07:22:17+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92299",
+          "osmId": "w1216171088",
+          "intersectionSquareMetres": 102.209,
+          "municipalCoverage": 0.9366,
+          "osmCoverage": 0.6612,
+          "iou": 0.6328,
+          "centroidDisplacementMetres": 1.457,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 2.607,
+          "areaRatioMunicipalToOsm": 0.7059,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "w1216171089",
+      "ring": [
+        [
+          575.402,
+          -333.24
+        ],
+        [
+          570.099,
+          -330.091
+        ],
+        [
+          566.388,
+          -336.359
+        ],
+        [
+          571.686,
+          -339.517
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92301",
+      "sourceIds": [
+        "w1216171089"
+      ],
+      "sourceGlobalId": "{9464D1D4-1FB1-42BD-90AC-5C8ADF63620D}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640394.005995495,
+              6636469.368970363
+            ],
+            [
+              640388.8139987655,
+              6636466.019052502
+            ],
+            [
+              640384.860036875,
+              6636472.1460049115
+            ],
+            [
+              640390.0470180438,
+              6636475.505003582
+            ],
+            [
+              640394.005995495,
+              6636469.368970363
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2026-06-16T13:17:22+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92301",
+          "osmId": "w1216171089",
+          "intersectionSquareMetres": 17.573,
+          "municipalCoverage": 0.3897,
+          "osmCoverage": 0.3861,
+          "iou": 0.2406,
+          "centroidDisplacementMetres": 3.231,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 3.93,
+          "areaRatioMunicipalToOsm": 0.9908,
+          "strongOverlap": false,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Reciprocal nearby partial overlap, unique nearest building and comparable area; reviewed comparison"
+    },
+    {
+      "id": "uppsala-building-92308",
+      "ring": [
+        [
+          700.012,
+          -435.768
+        ],
+        [
+          699.928,
+          -433.124
+        ],
+        [
+          698.278,
+          -433.207
+        ],
+        [
+          698.379,
+          -435.855
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92308",
+      "sourceIds": [],
+      "sourceGlobalId": "{15BFFC58-7D2D-4B77-B65C-3E17C0D1683F}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640514.9251100972,
+              6636576.613270709
+            ],
+            [
+              640514.9419490102,
+              6636573.9664628105
+            ],
+            [
+              640513.2857849852,
+              6636573.987303973
+            ],
+            [
+              640513.2872520449,
+              6636576.638744564
+            ],
+            [
+              640514.9251100972,
+              6636576.613270709
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Samhällsfunktion",
+      "modifiedAt": "2025-10-21T11:42:18+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92311",
+      "ring": [
+        [
+          733.025,
+          -445.302
+        ],
+        [
+          729.196,
+          -440.223
+        ],
+        [
+          724.084,
+          -444.087
+        ],
+        [
+          727.906,
+          -449.159
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92311",
+      "sourceIds": [],
+      "sourceGlobalId": "{1472B422-DA27-4B05-A2AA-9D5356F93A88}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640547.6269779048,
+              6636587.39897986
+            ],
+            [
+              640543.9849493348,
+              6636582.175018956
+            ],
+            [
+              640538.7189884174,
+              6636585.844970027
+            ],
+            [
+              640542.355027556,
+              6636591.061953747
+            ],
+            [
+              640547.6269779048,
+              6636587.39897986
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2026-06-16T13:36:35+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92314",
+      "ring": [
+        [
+          771.337,
+          -469.745
+        ],
+        [
+          777.963,
+          -465.113
+        ],
+        [
+          768.278,
+          -451.176
+        ],
+        [
+          761.651,
+          -455.808
+        ],
+        [
+          764.9,
+          -460.47
+        ],
+        [
+          763.427,
+          -461.499
+        ],
+        [
+          766.699,
+          -466.194
+        ],
+        [
+          768.172,
+          -465.165
+        ]
+      ],
+      "h": null,
+      "kind": "house",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92314",
+      "sourceIds": [],
+      "sourceGlobalId": "{A2A20374-0205-4C7F-8693-E471B639BAB7}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640585.0709967639,
+              6636613.294039543
+            ],
+            [
+              640591.8830336798,
+              6636608.913972066
+            ],
+            [
+              640582.7110262137,
+              6636594.609969217
+            ],
+            [
+              640575.898989814,
+              6636598.990036926
+            ],
+            [
+              640578.9760058718,
+              6636603.775043227
+            ],
+            [
+              640577.4619581233,
+              6636604.748034949
+            ],
+            [
+              640580.5609571472,
+              6636609.566965666
+            ],
+            [
+              640582.0750049336,
+              6636608.59397396
+            ],
+            [
+              640585.0709967639,
+              6636613.294039543
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2026-06-15T07:35:31+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92316",
+      "ring": [
+        [
+          780.88,
+          -454.47
+        ],
+        [
+          779.159,
+          -452.017
+        ],
+        [
+          775.472,
+          -454.581
+        ],
+        [
+          777.192,
+          -457.034
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92316",
+      "sourceIds": [],
+      "sourceGlobalId": "{F5D515FE-501C-478E-BB9D-465505C242B0}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640595.206982372,
+              6636598.382014981
+            ],
+            [
+              640593.5769795002,
+              6636595.863961871
+            ],
+            [
+              640589.7869896137,
+              6636598.287963668
+            ],
+            [
+              640591.4169924357,
+              6636600.806016753
+            ],
+            [
+              640595.206982372,
+              6636598.382014981
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2026-06-22T13:33:29+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92317",
+      "ring": [
+        [
+          784.233,
+          -459.36
+        ],
+        [
+          780.854,
+          -454.487
+        ],
+        [
+          777.261,
+          -456.986
+        ],
+        [
+          780.587,
+          -461.785
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92317",
+      "sourceIds": [],
+      "sourceGlobalId": "{11660ADE-DEA5-42F6-A386-6CAA3F2D0879}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640598.3799806046,
+              6636603.398965911
+            ],
+            [
+              640595.1810339972,
+              6636598.398054023
+            ],
+            [
+              640591.4879916726,
+              6636600.760992355
+            ],
+            [
+              640594.6370325687,
+              6636605.685979754
+            ],
+            [
+              640598.3799806046,
+              6636603.398965911
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2026-06-22T13:33:32+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "w221193971",
+      "ring": [
+        [
+          133.627,
+          -184.577
+        ],
+        [
+          130.49,
+          -173.058
+        ],
+        [
+          107.437,
+          -179.323
+        ],
+        [
+          110.557,
+          -190.882
+        ]
+      ],
+      "h": null,
+      "kind": "sport",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92435",
+      "sourceIds": [
+        "w221193971"
+      ],
+      "sourceGlobalId": "{73CDAAAA-5EF0-412B-9432-DADC776A81E9}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              639957.1549934061,
+              6636304.001957846
+            ],
+            [
+              639954.448043019,
+              6636292.365960457
+            ],
+            [
+              639931.1220478227,
+              6636297.758998712
+            ],
+            [
+              639933.8109706306,
+              6636309.435013182
+            ],
+            [
+              639957.1549934061,
+              6636304.001957846
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Totalstation",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-09-16T10:03:30+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92435",
+          "osmId": "w221193971",
+          "intersectionSquareMetres": 272.124,
+          "municipalCoverage": 0.9495,
+          "osmCoverage": 0.8125,
+          "iou": 0.7789,
+          "centroidDisplacementMetres": 2.329,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 3.493,
+          "areaRatioMunicipalToOsm": 0.8557,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "w221193968",
+      "ring": [
+        [
+          112.114,
+          -215.055
+        ],
+        [
+          102.603,
+          -180.659
+        ],
+        [
+          91.12,
+          -183.915
+        ],
+        [
+          100.498,
+          -218.338
+        ]
+      ],
+      "h": null,
+      "kind": "sport",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92436",
+      "sourceIds": [
+        "w221193968"
+      ],
+      "sourceGlobalId": "{9E9DD5CE-AD1B-4439-9DCF-4DB16673C757}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              639934.4589797342,
+              6636333.6659729285
+            ],
+            [
+              639926.2300209438,
+              6636298.91302216
+            ],
+            [
+              639914.606027513,
+              6636301.735013769
+            ],
+            [
+              639922.7009725752,
+              6636336.510015011
+            ],
+            [
+              639934.4589797342,
+              6636333.6659729285
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Totalstation",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-09-16T10:03:31+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92436",
+          "osmId": "w221193968",
+          "intersectionSquareMetres": 374.061,
+          "municipalCoverage": 0.8708,
+          "osmCoverage": 0.6842,
+          "iou": 0.6211,
+          "centroidDisplacementMetres": 2.796,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 4.326,
+          "areaRatioMunicipalToOsm": 0.7857,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "w221193963",
+      "ring": [
+        [
+          143.254,
+          -223.421
+        ],
+        [
+          141.196,
+          -213.717
+        ],
+        [
+          119.174,
+          -218.374
+        ],
+        [
+          121.215,
+          -228.112
+        ]
+      ],
+      "h": null,
+      "kind": "sport",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92440",
+      "sourceIds": [
+        "w221193963"
+      ],
+      "sourceGlobalId": "{59A03E32-44B5-458E-9674-57588A2E25DD}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              639965.3329602837,
+              6636343.207013128
+            ],
+            [
+              639963.6370018722,
+              6636333.425969581
+            ],
+            [
+              639941.4050253062,
+              6636337.250989789
+            ],
+            [
+              639943.0819746802,
+              6636347.065000131
+            ],
+            [
+              639965.3329602837,
+              6636343.207013128
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Totalstation",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T17:06:36+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92440",
+          "osmId": "w221193963",
+          "intersectionSquareMetres": 200.991,
+          "municipalCoverage": 0.8957,
+          "osmCoverage": 0.7871,
+          "iou": 0.721,
+          "centroidDisplacementMetres": 2.274,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 2.495,
+          "areaRatioMunicipalToOsm": 0.8787,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "w438967931",
+      "ring": [
+        [
+          51.303,
+          -256.206
+        ],
+        [
+          45.331,
+          -248.746
+        ],
+        [
+          40.406,
+          -252.528
+        ],
+        [
+          46.38,
+          -260.071
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92444",
+      "sourceIds": [
+        "w438967931"
+      ],
+      "sourceGlobalId": "{9573639D-E8AF-4C41-B574-914302C16779}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              639872.0010169873,
+              6636372.517992207
+            ],
+            [
+              639866.3010485378,
+              6636364.832980383
+            ],
+            [
+              639861.2260152266,
+              6636368.42900518
+            ],
+            [
+              639866.9250239116,
+              6636376.197044483
+            ],
+            [
+              639872.0010169873,
+              6636372.517992207
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Totalstation",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T14:26:49+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92444",
+          "osmId": "w438967931",
+          "intersectionSquareMetres": 13.36,
+          "municipalCoverage": 0.2229,
+          "osmCoverage": 0.3337,
+          "iou": 0.1542,
+          "centroidDisplacementMetres": 3.702,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 4.862,
+          "areaRatioMunicipalToOsm": 1.4973,
+          "strongOverlap": false,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Reciprocal nearby partial overlap, unique nearest building and comparable area; reviewed comparison"
+    },
+    {
+      "id": "uppsala-building-92448",
+      "ring": [
+        [
+          33.159,
+          -309.453
+        ],
+        [
+          30.041,
+          -308.982
+        ],
+        [
+          28.075,
+          -311.382
+        ],
+        [
+          29.195,
+          -314.36
+        ],
+        [
+          32.312,
+          -314.907
+        ],
+        [
+          34.282,
+          -312.405
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92448",
+      "sourceIds": [],
+      "sourceGlobalId": "{F942E22B-ADE9-4882-A130-ACB77E44DA82}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              639851.8220242455,
+              6636425.076011285
+            ],
+            [
+              639848.7169874981,
+              6636424.488040984
+            ],
+            [
+              639846.657973611,
+              6636426.813015407
+            ],
+            [
+              639847.6670200147,
+              6636429.832977684
+            ],
+            [
+              639850.7679637325,
+              6636430.498028658
+            ],
+            [
+              639852.8360065898,
+              6636428.070975699
+            ],
+            [
+              639851.8220242455,
+              6636425.076011285
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Totalstation",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T13:56:00+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-92449",
+      "ring": [
+        [
+          505.878,
+          -349.172
+        ],
+        [
+          497.143,
+          -345.966
+        ],
+        [
+          494.288,
+          -353.814
+        ],
+        [
+          499.421,
+          -355.659
+        ],
+        [
+          507.048,
+          -358.462
+        ],
+        [
+          509.878,
+          -350.617
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92449",
+      "sourceIds": [
+        "w1216171157"
+      ],
+      "sourceGlobalId": "{BB21D022-0608-48B3-8715-334540F9B8EA}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640323.7720316212,
+              6636482.666009203
+            ],
+            [
+              640315.1449619355,
+              6636479.129022585
+            ],
+            [
+              640311.9889622363,
+              6636486.868979541
+            ],
+            [
+              640317.0599991046,
+              6636488.907997621
+            ],
+            [
+              640324.592977311,
+              6636491.999972647
+            ],
+            [
+              640327.7239667452,
+              6636484.261984789
+            ],
+            [
+              640323.7720316212,
+              6636482.666009203
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2026-06-15T14:05:34+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92449",
+          "osmId": "w1216171157",
+          "intersectionSquareMetres": 105.24,
+          "municipalCoverage": 0.9288,
+          "osmCoverage": 0.5845,
+          "iou": 0.5595,
+          "centroidDisplacementMetres": 2.686,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 7.007,
+          "areaRatioMunicipalToOsm": 0.6294,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "uppsala-building-92451",
+      "ring": [
+        [
+          512.728,
+          -352.711
+        ],
+        [
+          509.538,
+          -351.561
+        ],
+        [
+          507.401,
+          -357.485
+        ],
+        [
+          513.29,
+          -359.7
+        ],
+        [
+          515.497,
+          -353.699
+        ]
+      ],
+      "h": null,
+      "kind": "yes",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-92451",
+      "sourceIds": [
+        "w1216171157"
+      ],
+      "sourceGlobalId": "{2DAC6C16-9F4E-486D-B48D-A5AAAA19D67F}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640330.4989574145,
+              6636486.463998329
+            ],
+            [
+              640327.3469949776,
+              6636485.193016735
+            ],
+            [
+              640324.9829514516,
+              6636491.036001125
+            ],
+            [
+              640330.796963145,
+              6636493.473996514
+            ],
+            [
+              640333.2350208423,
+              6636487.556999274
+            ],
+            [
+              640330.4989574145,
+              6636486.463998329
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2026-06-16T13:59:29+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [
+        {
+          "municipalId": "uppsala-building-92451",
+          "osmId": "w1216171157",
+          "intersectionSquareMetres": 40.153,
+          "municipalCoverage": 1.0,
+          "osmCoverage": 0.223,
+          "iou": 0.223,
+          "centroidDisplacementMetres": 7.448,
+          "boundaryGapMetres": 0,
+          "vertexHausdorffMetres": 14.466,
+          "areaRatioMunicipalToOsm": 0.223,
+          "strongOverlap": true,
+          "partialOverlap": true
+        }
+      ],
+      "adoptionReason": "Confirmed existing geodetic footprint; replace overlapping OSM family without 1:1 coercion"
+    },
+    {
+      "id": "uppsala-building-284723",
+      "ring": [
+        [
+          691.958,
+          -113.334
+        ],
+        [
+          697.053,
+          -104.72
+        ],
+        [
+          700.4,
+          -106.707
+        ],
+        [
+          703.771,
+          -101.007
+        ],
+        [
+          693.19,
+          -94.727
+        ],
+        [
+          689.376,
+          -101.174
+        ],
+        [
+          687.831,
+          -100.258
+        ],
+        [
+          684.918,
+          -105.184
+        ],
+        [
+          686.462,
+          -106.1
+        ],
+        [
+          681.353,
+          -114.74
+        ],
+        [
+          690.39,
+          -120.103
+        ],
+        [
+          693.761,
+          -114.403
+        ]
+      ],
+      "h": null,
+      "kind": "house",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-284723",
+      "sourceIds": [],
+      "sourceGlobalId": "{D7F51CDE-1AA8-4238-B020-A026274EC12E}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640519.0680387337,
+              6636253.897032144
+            ],
+            [
+              640524.496970617,
+              6636245.476978048
+            ],
+            [
+              640527.7740229919,
+              6636247.590042436
+            ],
+            [
+              640531.3660059022,
+              6636242.018972968
+            ],
+            [
+              640521.0059653,
+              6636235.338044516
+            ],
+            [
+              640516.9419919101,
+              6636241.639973673
+            ],
+            [
+              640515.4290292377,
+              6636240.665045798
+            ],
+            [
+              640512.3249963638,
+              6636245.479955873
+            ],
+            [
+              640513.8369511385,
+              6636246.455038273
+            ],
+            [
+              640508.3919786941,
+              6636254.899987162
+            ],
+            [
+              640517.2409578796,
+              6636260.605974207
+            ],
+            [
+              640520.8329816654,
+              6636255.034006245
+            ],
+            [
+              640519.0680387337,
+              6636253.897032144
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Totalstation",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2026-03-11T09:29:26+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-369923",
+      "ring": [
+        [
+          752.542,
+          -285.483
+        ],
+        [
+          750.178,
+          -284.054
+        ],
+        [
+          743.207,
+          -295.539
+        ],
+        [
+          747.538,
+          -298.167
+        ],
+        [
+          750.279,
+          -299.829
+        ],
+        [
+          751.273,
+          -298.194
+        ],
+        [
+          757.263,
+          -288.338
+        ],
+        [
+          753.732,
+          -286.203
+        ],
+        [
+          752.843,
+          -285.665
+        ]
+      ],
+      "h": null,
+      "kind": "house",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-369923",
+      "sourceIds": [],
+      "sourceGlobalId": "{45E7A7D1-C823-4A41-8C6E-F8EB2523A08E}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640573.2279661635,
+              6636428.33200051
+            ],
+            [
+              640570.9140451867,
+              6636426.813044557
+            ],
+            [
+              640563.4970468374,
+              6636438.032997388
+            ],
+            [
+              640567.7359877202,
+              6636440.824992643
+            ],
+            [
+              640570.4180390208,
+              6636442.591026225
+            ],
+            [
+              640571.475044085,
+              6636440.994007523
+            ],
+            [
+              640577.8479806107,
+              6636431.36595475
+            ],
+            [
+              640574.392034831,
+              6636429.09695499
+            ],
+            [
+              640573.5219822564,
+              6636428.524976383
+            ],
+            [
+              640573.2279661635,
+              6636428.33200051
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2025-04-09T15:27:20+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-592773",
+      "ring": [
+        [
+          118.412,
+          -361.863
+        ],
+        [
+          112.99,
+          -355.587
+        ],
+        [
+          97.622,
+          -368.903
+        ],
+        [
+          103.043,
+          -375.18
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-592773",
+      "sourceIds": [],
+      "sourceGlobalId": "{90FB49B5-72C8-43B8-905C-A08ABC69CE50}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              639935.2310099907,
+              6636480.701982609
+            ],
+            [
+              639930.0379671372,
+              6636474.221045016
+            ],
+            [
+              639914.1440487979,
+              6636486.956002297
+            ],
+            [
+              639919.3359877584,
+              6636493.436989846
+            ],
+            [
+              639935.2310099907,
+              6636480.701982609
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-10-28T08:56:38+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-808733",
+      "ring": [
+        [
+          828.918,
+          -206.213
+        ],
+        [
+          820.025,
+          -206.066
+        ],
+        [
+          819.935,
+          -213.162
+        ],
+        [
+          828.79,
+          -213.308
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-808733",
+      "sourceIds": [],
+      "sourceGlobalId": "{E77BA420-9423-4FC7-A95B-51B1695D786E}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640652.7270106565,
+              6636351.966036052
+            ],
+            [
+              640643.8250274775,
+              6636351.481023784
+            ],
+            [
+              640643.4659649066,
+              6636358.572955193
+            ],
+            [
+              640652.3300023888,
+              6636359.056048259
+            ],
+            [
+              640652.7270106565,
+              6636351.966036052
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T17:56:44+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-808739",
+      "ring": [
+        [
+          840.876,
+          -206.296
+        ],
+        [
+          837.916,
+          -206.16
+        ],
+        [
+          837.88,
+          -206.213
+        ],
+        [
+          837.661,
+          -211.16
+        ],
+        [
+          840.648,
+          -211.288
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-808739",
+      "sourceIds": [],
+      "sourceGlobalId": "{62D2230F-4E04-4249-A910-4F19833052AF}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640664.6999772692,
+              6636352.503017482
+            ],
+            [
+              640661.7409632233,
+              6636352.2550490135
+            ],
+            [
+              640661.7030252134,
+              6636352.305975255
+            ],
+            [
+              640661.2959849325,
+              6636357.2449874235
+            ],
+            [
+              640664.2830370568,
+              6636357.486019292
+            ],
+            [
+              640664.6999772692,
+              6636352.503017482
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T14:55:19+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-1012769",
+      "ring": [
+        [
+          810.16,
+          -611.303
+        ],
+        [
+          806.846,
+          -606.312
+        ],
+        [
+          806.325,
+          -606.659
+        ],
+        [
+          800.142,
+          -600.145
+        ],
+        [
+          795.796,
+          -604.319
+        ],
+        [
+          801.297,
+          -610.009
+        ],
+        [
+          798.491,
+          -611.878
+        ],
+        [
+          801.84,
+          -616.877
+        ],
+        [
+          804.63,
+          -615.008
+        ],
+        [
+          807.72,
+          -622.274
+        ],
+        [
+          813.252,
+          -619.869
+        ],
+        [
+          809.649,
+          -611.645
+        ]
+      ],
+      "h": null,
+      "kind": "house",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-1012769",
+      "sourceIds": [],
+      "sourceGlobalId": "{BF5A9A68-F449-4D81-A6BA-6B8E8DB0DDE5}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640618.587938485,
+              6636756.315236644
+            ],
+            [
+              640615.458594637,
+              6636751.198573898
+            ],
+            [
+              640614.9235153442,
+              6636751.525930708
+            ],
+            [
+              640608.9786285658,
+              6636744.777502563
+            ],
+            [
+              640604.4675613274,
+              6636748.7865178045
+            ],
+            [
+              640609.7610845515,
+              6636754.68462768
+            ],
+            [
+              640606.8802118015,
+              6636756.447317348
+            ],
+            [
+              640610.0449914391,
+              6636761.572691721
+            ],
+            [
+              640612.9092523674,
+              6636759.809949992
+            ],
+            [
+              640615.7287518516,
+              6636767.192429978
+            ],
+            [
+              640621.3599452559,
+              6636764.99768229
+            ],
+            [
+              640618.0629600886,
+              6636756.638347091
+            ],
+            [
+              640618.587938485,
+              6636756.315236644
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2025-11-03T08:35:47+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-1012770",
+      "ring": [
+        [
+          816.348,
+          -604.077
+        ],
+        [
+          816.397,
+          -604.143
+        ],
+        [
+          822.698,
+          -600.03
+        ],
+        [
+          818.759,
+          -593.838
+        ],
+        [
+          817.31,
+          -594.687
+        ],
+        [
+          814.972,
+          -590.682
+        ],
+        [
+          808.624,
+          -594.727
+        ],
+        [
+          811.323,
+          -598.961
+        ],
+        [
+          812.584,
+          -598.119
+        ],
+        [
+          814.558,
+          -601.196
+        ]
+      ],
+      "h": null,
+      "kind": "house",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-1012770",
+      "sourceIds": [],
+      "sourceGlobalId": "{B515C70E-BAE5-449F-B6E7-6223C709F4EF}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640625.0591812436,
+              6636749.32440336
+            ],
+            [
+              640625.1052357772,
+              6636749.392546824
+            ],
+            [
+              640631.5716680745,
+              6636745.518570392
+            ],
+            [
+              640627.8619262001,
+              6636739.178181543
+            ],
+            [
+              640626.3783198878,
+              6636739.971896952
+            ],
+            [
+              640624.1882548473,
+              6636735.878535455
+            ],
+            [
+              640617.6776748387,
+              6636739.682052888
+            ],
+            [
+              640620.2202471963,
+              6636744.018281446
+            ],
+            [
+              640621.5157109433,
+              6636743.224148139
+            ],
+            [
+              640623.3751282122,
+              6636746.375732341
+            ],
+            [
+              640625.0591812436,
+              6636749.32440336
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2025-11-03T08:35:48+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-1132962",
+      "ring": [
+        [
+          753.175,
+          -478.355
+        ],
+        [
+          747.494,
+          -470.294
+        ],
+        [
+          741.456,
+          -474.562
+        ],
+        [
+          747.137,
+          -482.623
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-1132962",
+      "sourceIds": [],
+      "sourceGlobalId": "{0BD3DC83-F657-4628-8C05-C979D1D732F1}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640566.5559615281,
+              6636621.214031817
+            ],
+            [
+              640561.1720109943,
+              6636612.937992172
+            ],
+            [
+              640554.9630339263,
+              6636616.97696773
+            ],
+            [
+              640560.3469841834,
+              6636625.2530072555
+            ],
+            [
+              640566.5559615281,
+              6636621.214031817
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T16:31:01+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-1132963",
+      "ring": [
+        [
+          806.128,
+          -493.035
+        ],
+        [
+          804.401,
+          -490.485
+        ],
+        [
+          799.997,
+          -493.476
+        ],
+        [
+          801.724,
+          -496.027
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-1132963",
+      "sourceIds": [],
+      "sourceGlobalId": "{CBD8012F-3997-43D1-9EAE-89F375B81C48}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640619.0319528091,
+              6636637.903019719
+            ],
+            [
+              640617.3989805545,
+              6636635.287047628
+            ],
+            [
+              640612.874955348,
+              6636638.110961348
+            ],
+            [
+              640614.5080228964,
+              6636640.727037816
+            ],
+            [
+              640619.0319528091,
+              6636637.903019719
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-04-09T14:38:42+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-1331184",
+      "ring": [
+        [
+          811.914,
+          -406.15
+        ],
+        [
+          802.748,
+          -406.102
+        ],
+        [
+          802.651,
+          -424.879
+        ],
+        [
+          803.576,
+          -424.874
+        ],
+        [
+          803.575,
+          -427.226
+        ],
+        [
+          807.629,
+          -429.239
+        ],
+        [
+          810.512,
+          -424.907
+        ],
+        [
+          811.813,
+          -424.933
+        ]
+      ],
+      "h": null,
+      "kind": "house",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-1331184",
+      "sourceIds": [],
+      "sourceGlobalId": "{77CE25E5-36E0-4FE9-84FB-BEB93A9D3D38}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640628.1188719587,
+              6636551.242927805
+            ],
+            [
+              640618.940679821,
+              6636550.847881111
+            ],
+            [
+              640618.1328624203,
+              6636569.619719143
+            ],
+            [
+              640619.0585880638,
+              6636569.649953862
+            ],
+            [
+              640618.9691527876,
+              6636572.001523005
+            ],
+            [
+              640622.9528000264,
+              6636574.167826849
+            ],
+            [
+              640626.0043756234,
+              6636569.9453519685
+            ],
+            [
+              640627.3057391408,
+              6636570.021631805
+            ],
+            [
+              640628.1188719587,
+              6636551.242927805
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Bostad",
+      "modifiedAt": "2026-02-16T20:51:22+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-1331185",
+      "ring": [
+        [
+          804.67,
+          -437.272
+        ],
+        [
+          809.212,
+          -430.291
+        ],
+        [
+          807.629,
+          -429.239
+        ],
+        [
+          803.575,
+          -427.226
+        ],
+        [
+          801.067,
+          -427.244
+        ],
+        [
+          797.586,
+          -432.644
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-1331185",
+      "sourceIds": [],
+      "sourceGlobalId": "{4874571C-B659-42BF-B4D7-C2693999ABD5}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640619.6844269083,
+              6636582.088260327
+            ],
+            [
+              640624.4986832411,
+              6636575.279865287
+            ],
+            [
+              640622.9528000264,
+              6636574.167826849
+            ],
+            [
+              640618.9691527876,
+              6636572.001523005
+            ],
+            [
+              640616.4567056466,
+              6636571.924014801
+            ],
+            [
+              640612.765253109,
+              6636577.191918534
+            ],
+            [
+              640619.6844269083,
+              6636582.088260327
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2026-02-16T20:51:23+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-1331186",
+      "ring": [
+        [
+          819.291,
+          -455.898
+        ],
+        [
+          816.325,
+          -452.388
+        ],
+        [
+          813.585,
+          -454.713
+        ],
+        [
+          816.552,
+          -458.22
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-1331186",
+      "sourceIds": [],
+      "sourceGlobalId": "{510EFBF1-F1ED-44F8-9740-232526DC00E3}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              640633.6224039654,
+              6636601.267811023
+            ],
+            [
+              640630.7849628107,
+              6636597.645347299
+            ],
+            [
+              640627.952671522,
+              6636599.866631845
+            ],
+            [
+              640630.790970173,
+              6636603.485631404
+            ],
+            [
+              640633.6224039654,
+              6636601.267811023
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2026-02-16T20:49:33+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    },
+    {
+      "id": "uppsala-building-1390787",
+      "ring": [
+        [
+          141.078,
+          -402.931
+        ],
+        [
+          144.333,
+          -397.927
+        ],
+        [
+          141.395,
+          -396.109
+        ],
+        [
+          139.111,
+          -399.81
+        ],
+        [
+          136.654,
+          -398.288
+        ],
+        [
+          135.78,
+          -399.627
+        ]
+      ],
+      "h": null,
+      "kind": "outbuilding",
+      "name": null,
+      "prov": "municipal-measured",
+      "sourceId": "uppsala-building-1390787",
+      "sourceIds": [],
+      "sourceGlobalId": "{9BDFFA3E-683C-4F53-90C5-84C98DFE13CA}",
+      "geometrySource": "uppsala-opendata-buildings",
+      "sourceCrs": "EPSG:3006",
+      "sourceGeometry": {
+        "rings": [
+          [
+            [
+              639956.3829989907,
+              6636522.622814605
+            ],
+            [
+              639959.831379627,
+              6636517.742652391
+            ],
+            [
+              639956.9582645231,
+              6636515.813332668
+            ],
+            [
+              639954.5311640459,
+              6636519.427646628
+            ],
+            [
+              639952.1278660623,
+              6636517.813866017
+            ],
+            [
+              639951.2018771358,
+              6636519.119262007
+            ],
+            [
+              639956.3829989907,
+              6636522.622814605
+            ]
+          ]
+        ]
+      },
+      "status": "Befintligt",
+      "measurementMethod": "Geod. Nätverks-RTK",
+      "municipalSubtype": "Komplementbyggnad",
+      "modifiedAt": "2025-10-28T13:24:49+00:00",
+      "capturedAt": null,
+      "horizontalAccuracyMetres": null,
+      "heightProvenance": "OSM height retained if present; municipal response contains no Z values or measured building height",
+      "comparison": [],
+      "adoptionReason": "Confirmed existing geodetic footprint absent from OSM"
+    }
+  ],
+  "deferred": {
+    "uppsala-building-92261": "Active surveyed main building overlaps OSM w439105232 together with status-unknown municipal annex1547430. Retain the complete OSM footprint until sibling part status is corroborated.",
+    "uppsala-building-1520169": "Active surveyed annex is only 8.14m2 and overlaps 7.7% of OSM footprint w438967927; its main municipal parent1246066 has unknown STATUS. Retain OSM parent until the combined footprint has evidence."
+  },
+  "specialReviewedMatches": {
+    "uppsala-building-92301": "w1216171089",
+    "uppsala-building-92444": "w438967931"
+  }
+}
