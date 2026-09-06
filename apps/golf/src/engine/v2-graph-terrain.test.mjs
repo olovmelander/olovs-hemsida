@@ -8,9 +8,11 @@ import { createRingHeightSampler, createTileFrustumTester, graphCoversHorizon } 
    tile, looking straight down. Plane by plane the tile is never wholly
    outside, so three's own test passes it and the planner keeps 32 m ground
    next to the 1 m course. */
-function downwardCamera({ x, y, z }) {
+function downwardCamera({ x, y, z }, { coordinateSystem, reversedDepth }) {
   const camera = new THREE.PerspectiveCamera(48, 16 / 9, 1.5, 22000);
-  camera.coordinateSystem = 2001; /* WebGPU: z clipped to [0, 1] */
+  camera.coordinateSystem = coordinateSystem;
+  /* Match Renderer._updateCamera, which owns the read-only camera flag. */
+  camera._reversedDepth = reversedDepth;
   camera.position.set(x, y, z);
   camera.lookAt(x - 40, 0, z - 60);
   camera.updateProjectionMatrix();
@@ -18,13 +20,19 @@ function downwardCamera({ x, y, z }) {
   return new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
 }
 
-describe('the tile frustum test', () => {
-  const matrix = downwardCamera({ x: -2758, y: 967, z: -2534 });
-  const intersects = createTileFrustumTester(matrix, { coordinateSystem: 2001 });
+describe.each([
+  { backend: 'WebGL', coordinateSystem: THREE.WebGLCoordinateSystem, reversedDepth: false, nearClipZ: -1, farClipZ: 1 },
+  { backend: 'WebGL', coordinateSystem: THREE.WebGLCoordinateSystem, reversedDepth: true, nearClipZ: 1, farClipZ: 0 },
+  { backend: 'WebGPU', coordinateSystem: THREE.WebGPUCoordinateSystem, reversedDepth: false, nearClipZ: 0, farClipZ: 1 },
+  { backend: 'WebGPU', coordinateSystem: THREE.WebGPUCoordinateSystem, reversedDepth: true, nearClipZ: 1, farClipZ: 0 },
+])('the tile frustum test ($backend, reversed depth $reversedDepth)', convention => {
+  const { coordinateSystem, reversedDepth } = convention;
+  const matrix = downwardCamera({ x: -2758, y: 967, z: -2534 }, convention);
+  const intersects = createTileFrustumTester(matrix, convention);
   const min = new THREE.Vector3(), max = new THREE.Vector3();
 
   it('rejects the 8 km tile that the plane test alone accepts', () => {
-    const plain = new THREE.Frustum().setFromProjectionMatrix(matrix, 2001, false);
+    const plain = new THREE.Frustum().setFromProjectionMatrix(matrix, coordinateSystem, reversedDepth);
     const box = new THREE.Box3(min.set(-8261.5, 23.5, 171.2), max.set(-69.5, 161.7, 8363.2));
     expect(plain.intersectsBox(box)).toBe(true);
     expect(intersects(box.min, box.max)).toBe(false);
@@ -44,6 +52,29 @@ describe('the tile frustum test', () => {
 
   it('rejects a tile the pyramid never reaches, even one that is tall', () => {
     expect(intersects(min.set(2000, 0, 2000), max.set(6000, 400, 6000))).toBe(false);
+  });
+
+  it('keeps visible range ground using the actual fallback camera projection', () => {
+    /* Upsala browser regression: automatic WebGPU -> WebGL fallback retained
+       reversed depth. All camera-visible tiles failed, leaving only the six
+       active-hole tiles forced by routing and sky behind the floating trees. */
+    const camera = new THREE.PerspectiveCamera(48, 1.6, 1, 14000);
+    camera.coordinateSystem = coordinateSystem;
+    camera._reversedDepth = reversedDepth;
+    camera.position.set(-2.1, 91.2, -73.5);
+    camera.lookAt(-102.1, 26.2, -178.5);
+    camera.updateProjectionMatrix();
+    camera.updateMatrixWorld(true);
+    // Verify the domain against Three's generated projection, not a hand-made
+    // matrix. Its reversed branch uses [0, 1] for either backend.
+    expect(new THREE.Vector3(0, 0, -camera.near).applyMatrix4(camera.projectionMatrix).z).toBeCloseTo(convention.nearClipZ, 9);
+    expect(new THREE.Vector3(0, 0, -camera.far).applyMatrix4(camera.projectionMatrix).z).toBeCloseTo(convention.farClipZ, 9);
+    const clip = new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    const test = createTileFrustumTester(clip, convention);
+    const range = new THREE.Box3(min.set(-200, 20, -300), max.set(60, 70, -30));
+    expect(new THREE.Frustum().setFromProjectionMatrix(clip, coordinateSystem, reversedDepth).intersectsBox(range)).toBe(true);
+    expect(test(range.min, range.max)).toBe(true);
+    expect(test(min.set(1000, 20, 1000), max.set(1256, 70, 1256))).toBe(false);
   });
 });
 
