@@ -65,6 +65,7 @@ import {
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
+import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses } from './engine/water-render-policy.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
@@ -218,9 +219,9 @@ const [b0, b1, MODEL, V2_SELECTION] = await Promise.all([
   inflate(PACK.s0), inflate(PACK.s1), modelPromise, terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
-/* Opt-in Pages preview on the same published v2 course data. Keep the current
-   appearance by default until visual and real-device performance review passes. */
-const GRAPHICS_POLISH = TERRAIN_PREVIEW.ready === true && new URLSearchParams(location.search).get('graphics') === '1';
+/* Improved graphics are the default on ready v2 terrain. Keep graphics=0 as
+   the explicit comparison override; course data and quality policy are shared. */
+const GRAPHICS_POLISH = TERRAIN_PREVIEW.ready === true && new URLSearchParams(location.search).get('graphics') !== '0';
 const TERRAIN_PREVIEW_CONFIG = V2_SELECTION.frontierConfig || PUTTOM_PREVIEW_CONFIG;
 MODEL_PREP_STARTED = performance.now();
 /* Phase 4 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
@@ -1427,8 +1428,8 @@ if (IS_GPU) {
   scene.add(skyDome);
 }
 
-/* The selected sky and the indirect light share a palette. Bake only on a
-   preset change; the two-map cache adds no steady-state render pass. Resolve
+/* The selected sky and the indirect light share a palette. Reuse the baker,
+   shader connection and two reflection maps across preset changes. Resolve
    the URL here so boot does not bake golden before the requested daylight. */
 const LJUS2P = { kvall: 'golden', dag: 'noon', dis: 'mist', gryning: 'dawn', host: 'host' };
 const INITIAL_PRESET = LJUS2P[(new URLSearchParams(location.search).get('ljus') || '').toLowerCase()] || 'golden';
@@ -1436,7 +1437,6 @@ const waterLighting = createWaterReflectionLighting({ enabled: GRAPHICS_POLISH }
 waterLighting.setPreset(PRESETS[INITIAL_PRESET]);
 const lightingEnvironment = createLightingEnvironment(renderer, scene, {
   enabled: GRAPHICS_POLISH,
-  maxEntries: 2,
   onBake: ({ preset: name, started }) => span('PMREM environment', started, { preset: name }),
 });
 lightingEnvironment.setPreset(INITIAL_PRESET, PRESETS[INITIAL_PRESET]);
@@ -4552,9 +4552,14 @@ function updateTreeTiers() {
       const zoneMode = TREE_LOD.lodMode === 'zone', ZT = TREE_LOD.zoneTiers;
       for (let i = 0; i < L.length; i++) {
         const k = L[i];
-        const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;
-        const d = Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
-        const px = cellMode ? pxCell : H[k] * Kpx / d;
+        // Geographic tiers and forced review tiers never consult distance.
+        // Keep the screen-mode calculation for its thresholds/corridor floors.
+        let d = 1, px = 0;
+        if (!force && !zoneMode) {
+          const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;
+          d = Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
+          px = cellMode ? pxCell : H[k] * Kpx / d;
+        }
         const cur = T[k];
         let want;
         if (force) want = force;
@@ -9086,8 +9091,9 @@ function updateFrameVisibility(now, dt) {
   treeFadeClock.value = TREE_LOD.fadeClock;
   treeFadeDuration.value = TREE_LOD.fadeS;
   updateTreeTiers();
-  FRAME_MS[FRAME_NO % FRAME_MS.length] = now - last;
-  last = now; frames++; acc += dt; FRAME_NO++;
+  const interval = now - last;
+  FRAME_MS[FRAME_NO % FRAME_MS.length] = interval;
+  last = now; frames++; acc += interval / 1000; FRAME_NO++;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
 }
 
@@ -9193,17 +9199,38 @@ if (terrainV2.kind === 'graph' && terrainV2.active && typeof terrainV2.settle ==
   const settled = await terrainV2.settle(60_000);
   span('v2 stream: first frontier fully resident (after the overlap)', settleStarted, settled ? { tiles: settled.renderedTiles } : {});
 }
-await tick('klar', 1.0);
+await tick('ritar första vyn', 0.98);
+let resolveFirstSceneFrame, rejectFirstSceneFrame;
+const firstSceneFrameReady = new Promise((resolve, reject) => {
+  resolveFirstSceneFrame = resolve; rejectFirstSceneFrame = reject;
+});
 renderer.setAnimationLoop(() => {
   /* the first frames' wall times, for the profiler: shader compiles and
      texture uploads land here and no stage mark sees them */
   if (BOOT_PERF.firstFrames.length < 12) {
     const t = performance.now();
-    frame();
+    try { frame(); }
+    catch (error) {
+      if (!resolveFirstSceneFrame) throw error;
+      resolveFirstSceneFrame = null;
+      renderer.setAnimationLoop(null);
+      rejectFirstSceneFrame(error);
+      return;
+    }
     BOOT_PERF.firstFrames.push({ atMs: +(t - bootStarted).toFixed(1), ms: +(performance.now() - t).toFixed(1),
       tris: renderer.info?.render?.triangles ?? null, draws: renderer.info?.render?.drawCalls ?? null,
       tiers: TREE_LOD.ready ? { t0: TREE_LOD.stats.tier0, t1: TREE_LOD.stats.tier1, t2: TREE_LOD.stats.tier2, t3: TREE_LOD.stats.tier3 } : null });
   } else frame();
+  if (resolveFirstSceneFrame) {
+    const resolve = resolveFirstSceneFrame;
+    resolveFirstSceneFrame = null;
+    BOOT_PERF.firstSceneSubmittedAtMs = +(performance.now() - bootStarted).toFixed(1);
+    waitForGpuFrame(renderer).then(() => {
+      BOOT_PERF.firstSceneGpuReadyAtMs = +(performance.now() - bootStarted).toFixed(1);
+      // Give the canvas a presentation opportunity before fading the cover.
+      requestAnimationFrame(resolve);
+    }, rejectFirstSceneFrame);
+  }
 });
 document.getElementById('hdsub').textContent =
   `${CMETA.tag} · ${IS_GPU ? 'WebGPU' : 'WebGL2'}${terrainV2.rendererState.status === 'ready' ? ' · 1 m preview' : ''}`;
@@ -9790,6 +9817,15 @@ addEventListener('pagehide', event => {
   if (!event.persisted) lightingEnvironment.dispose();
 }, { once: true });
 
+try {
+  await firstSceneFrameReady;
+} catch (error) {
+  msgEl.textContent = 'Kunde inte visa banan. Ladda om och försök igen.';
+  console.error('First scene frame:', error);
+  throw error;
+}
+barEl.style.width = '100%';
+msgEl.textContent = 'klar';
 BOOT_PERF.doneAtMs = +(performance.now() - bootStarted).toFixed(1);
 bootEl.classList.add('done');
 setTimeout(() => { document.getElementById('hint').style.opacity = 0; }, 6000);

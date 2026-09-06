@@ -13,10 +13,15 @@ function fixture(options = {}) {
   const targets = [];
   let generatorDisposals = 0;
   const baker = {
-    bake(palette) {
+    bake(palette, reusable) {
+      if (reusable) {
+        expect(scene.environment).not.toBe(reusable.texture);
+        reusable.palette = palette;
+        return reusable;
+      }
       const target = {
         palette,
-        texture: { id: targets.length },
+        texture: { id: targets.length, image: { height: 1024 } },
         disposals: 0,
         dispose() {
           // Eviction must never leave a live scene sampling a released texture.
@@ -29,7 +34,11 @@ function fixture(options = {}) {
     },
     dispose() { generatorDisposals++; },
   };
-  const controller = createLightingEnvironment(null, scene, { baker, ...options });
+  const renderer = { copyTextureToTexture(source, destination) {
+    const from = targets.find(t => t.texture === source), to = targets.find(t => t.texture === destination);
+    to.palette = from.palette;
+  } };
+  const controller = createLightingEnvironment(renderer, scene, { baker, ...options });
   return { scene, targets, baker, controller, generatorDisposals: () => generatorDisposals };
 }
 
@@ -72,21 +81,20 @@ describe('preset reflection palette', () => {
 });
 
 describe('lighting environment resource ownership', () => {
-  it('bakes lazily, reuses current/recent presets, and evicts the least recently used map', () => {
+  it('keeps one displayed texture and reuses staging across every changed preset', () => {
     const { controller, scene, targets } = fixture();
-    expect(targets).toHaveLength(0);
-    const golden = controller.setPreset('golden', PRESETS.golden);
-    expect(controller.setPreset('golden', PRESETS.golden)).toBe(golden);
-    controller.setPreset('noon', PRESETS.noon);
-    expect(controller.setPreset('golden', PRESETS.golden)).toBe(golden);
-    controller.setPreset('dawn', PRESETS.dawn);
-    expect(targets).toHaveLength(3);
-    expect(targets.map(target => target.disposals)).toEqual([0, 1, 0]);
-    expect(controller.snapshot().cachedPresets).toEqual(['golden', 'dawn']);
+    const displayed = controller.setPreset('golden', PRESETS.golden);
+    expect(controller.setPreset('golden', PRESETS.golden)).toBe(displayed);
+    expect(controller.snapshot().bakes).toBe(1);
+    for (const name of ['noon', 'golden', 'dawn', 'noon']) {
+      expect(controller.setPreset(name, PRESETS[name])).toBe(displayed);
+      expect(targets[0].palette).toEqual(deriveEnvironmentPalette(PRESETS[name]));
+    }
+    expect(targets).toHaveLength(2);
+    expect(targets.map(target => target.disposals)).toEqual([0, 0]);
+    expect(controller.snapshot()).toMatchObject({ allocations: 2, bakes: 5, copies: 4, cachedPresets: ['noon'] });
     expect(scene.environmentIntensity).toBe(LIGHTING_ENVIRONMENT_INTENSITY);
-    controller.setPreset('noon', PRESETS.noon);
-    expect(targets).toHaveLength(4);
-    expect(targets[0].disposals).toBe(1);
+    controller.dispose();
   });
 
   it('keeps one unchanging map across all preset changes when disabled', () => {
@@ -116,6 +124,19 @@ describe('lighting environment resource ownership', () => {
     expect(scene.environment).toBe(texture);
     expect(targets[0].disposals).toBe(0);
     expect(controller.snapshot().cachedPresets).toEqual(['golden']);
+    controller.dispose();
+  });
+
+  it('preserves the displayed map if a later staging bake fails', () => {
+    const { controller, scene, targets, baker } = fixture();
+    controller.setPreset('golden', PRESETS.golden);
+    const noon = controller.setPreset('noon', PRESETS.noon);
+    baker.bake = () => { throw new Error('Failed while overwriting staging'); };
+    expect(() => controller.setPreset('host', PRESETS.host)).toThrow('overwriting staging');
+    expect(scene.environment).toBe(noon);
+    expect(targets[0].palette).toEqual(deriveEnvironmentPalette(PRESETS.noon));
+    expect(targets.map(target => target.disposals)).toEqual([0, 0]);
+    expect(controller.snapshot().cachedPresets).toEqual(['noon']);
     controller.dispose();
   });
 });
