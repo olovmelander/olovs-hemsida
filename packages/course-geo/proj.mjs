@@ -5,6 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const PACKAGE_DIR = dirname(fileURLToPath(import.meta.url));
+const PYPROJ_HELPER = join(PACKAGE_DIR, 'pyproj-horizontal.py');
 
 export const TOOLCHAIN_DIR = join(PACKAGE_DIR, 'toolchain');
 export const GRID_SPEC_PATH = join(TOOLCHAIN_DIR, 'grid-source.json');
@@ -80,6 +81,25 @@ function parseRows(output, expectedRows, label) {
   return rows;
 }
 
+/** Explicit, horizontal-only alternative when a real Python PROJ binding is
+ * installed. This never impersonates cs2cs and does not replace vertical cct. */
+export function horizontalProjectionBackend() {
+  const python = process.env.COURSE_GEO_PYPROJ_PYTHON;
+  if (!python) return { implementation: 'PROJ cs2cs', executable: 'cs2cs', axisOrder: 'authority', network: 'OFF', scope: 'horizontal-only' };
+  const { stdout } = runGeoCommand(python, [PYPROJ_HELPER, '--metadata'], { env: { PROJ_NETWORK: 'OFF' } });
+  return { ...JSON.parse(stdout), executable: python };
+}
+
+function horizontalRows(sourceCrs, targetCrs, decimals, input, rowCount, label) {
+  const python = process.env.COURSE_GEO_PYPROJ_PYTHON;
+  const command = python || 'cs2cs';
+  const args = python
+    ? [PYPROJ_HELPER, '--source', sourceCrs, '--target', targetCrs, '--decimals', String(decimals)]
+    : ['-f', `%.${decimals}f`, sourceCrs, targetCrs];
+  const { stdout } = runGeoCommand(command, args, { input, env: { PROJ_NETWORK: 'OFF' } });
+  return parseRows(stdout, rowCount, python ? `pyproj ${label}` : `cs2cs ${label}`);
+}
+
 /**
  * Transform latitude/longitude points to SWEREF 99 TM.
  *
@@ -94,12 +114,7 @@ export function latLonToSweref99Tm(points, { sourceCrs = 'EPSG:4326', decimals =
     }
     return `${latitude} ${longitude}`;
   }).join('\n') + '\n';
-  const { stdout } = runGeoCommand(
-    'cs2cs',
-    ['-f', `%.${decimals}f`, sourceCrs, 'EPSG:3006'],
-    { input },
-  );
-  return parseRows(stdout, points.length, 'cs2cs').map(([northing, easting]) => ({
+  return horizontalRows(sourceCrs, 'EPSG:3006', decimals, input, points.length, 'forward').map(([northing, easting]) => ({
     easting,
     northing,
   }));
@@ -113,12 +128,7 @@ export function sweref99TmToLatLon(points, { targetCrs = 'EPSG:4619', decimals =
     }
     return `${northing} ${easting}`;
   }).join('\n') + '\n';
-  const { stdout } = runGeoCommand(
-    'cs2cs',
-    ['-f', `%.${decimals}f`, 'EPSG:3006', targetCrs],
-    { input },
-  );
-  return parseRows(stdout, points.length, 'cs2cs inverse').map(([latitude, longitude]) => ({
+  return horizontalRows('EPSG:3006', targetCrs, decimals, input, points.length, 'inverse').map(([latitude, longitude]) => ({
     latitude,
     longitude,
   }));

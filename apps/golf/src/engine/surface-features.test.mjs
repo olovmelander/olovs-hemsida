@@ -5,6 +5,27 @@ import { buildGroundSurfaceFeatures } from './surface-features.mjs';
 const ring = [[0, 0], [4, 0], [4, 4], [0, 4]];
 
 describe('shared ground surface features', () => {
+  it('carries the ground boundary policy through compiler smoothing and sand padding', () => {
+    const mapped = Array.from({ length: 12 }, (_, i) => [Math.cos(i * Math.PI / 6) * 14, Math.sin(i * Math.PI / 6) * 10]);
+    const hole = { n: 1, green: { ring: mapped }, fairway: { rings: [mapped] },
+      tees: { pads: [{ ring: mapped }] }, bunkers: [{ ring: mapped }] };
+    const model = { infra: { preserveMappedBoundaries: true }, scenery: {
+      greens: [mapped], tees: [mapped], fairways: [mapped], bunkers: [mapped],
+      mappedFeatures: [{ id: 'practice-with-island', kind: 'practice_green', rings: [mapped, ring] }],
+    } };
+    const before = JSON.stringify({ hole, model });
+    const exact = buildGroundSurfaceFeatures({ holes: [hole], model, smoothEdges: true });
+    for (const surface of [SURFACE.GREEN, SURFACE.FAIRWAY, SURFACE.TEE, SURFACE.SAND]) {
+      for (const feature of exact.filter(f => f.surface === surface && f.rings)) expect(feature.rings).toEqual([mapped]);
+    }
+    expect(exact.filter(f => f.surface === SURFACE.SAND).map(f => f.pad)).toEqual([0, 0]);
+    expect(exact.find(f => f.sourceId === 'practice-with-island').polygons[0].rings).toEqual([mapped, ring]);
+    expect(JSON.stringify({ hole, model })).toBe(before);
+    const legacy = buildGroundSurfaceFeatures({ holes: [hole], model: { ...model, infra: {} }, smoothEdges: true });
+    expect(legacy.find(f => f.surface === SURFACE.GREEN && f.hole === 1).rings[0]).not.toEqual(mapped);
+    expect(legacy.filter(f => f.surface === SURFACE.SAND).map(f => f.pad)).toEqual([0.5, 0.5]);
+  });
+
   it('preserves the legacy atlas precedence inputs for holes, scenery and infrastructure', () => {
     const features = buildGroundSurfaceFeatures({
       holes: [{

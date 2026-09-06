@@ -190,7 +190,7 @@ const model = {
   card: { teeNames: card.teeNames, provisional: !!card.provisional },
   holes,
   water,
-  streams: osm.waterway.map(w => ({ id: w.id, line: w.line, kind: w.kind, w: w.kind === 'stream' ? 1.6 : 1.0 })),
+  streams: osm.waterway.map(w => ({ ...w, w: w.kind === 'stream' ? 1.6 : 1.0 })),
   coast: { chains: [], beaches: (osm.sand || []).map(s => ({ id: s.id, ring: s.ring })) },
   vegetation: {
     forest: (osm.forest || []).map(f => f.ring),
@@ -217,6 +217,7 @@ applyGroundMapping(model);
 writeJSON(path.join(HERE, 'course-model.json'), model);
 
 /* --- report ------------------------------------------------------------------- */
+for (const r of report) { const h = model.holes.find(h => h.n === r.n); r.area = h.green.area; r.prov = h.green.prov === 'dated-orthophoto-trace' ? 'ortho' : r.prov; }
 console.log('\nhole par  card  drawn   dev%  slide  green m²  source     conf');
 for (const r of report) {
   const bad = r.lenDev > 0.5;

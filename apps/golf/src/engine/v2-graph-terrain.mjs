@@ -58,12 +58,15 @@ export function createTileFrustumTester(localToClip, { coordinateSystem = 2001, 
      world was sky */
   frustum.setFromProjectionMatrix(localToClip, coordinateSystem, reversedDepth);
   const inverse = new THREE.Matrix4().copy(localToClip).invert();
-  const nearZ = coordinateSystem === 2000 ? -1 : 0; /* WebGL clips z to [-1,1], WebGPU to [0,1] */
+  /* Three's reversed projection uses [0,1] on either backend. Automatic
+     WebGPU -> WebGL fallback can retain reversed depth; unprojecting -1 then
+     puts four corners behind the camera and rejects the visible ground. */
+  const minimumClipZ = coordinateSystem === THREE.WebGLCoordinateSystem && !reversedDepth ? -1 : 0;
   const corners = [];
-  for (const z of [nearZ, 1]) for (const y of [-1, 1]) for (const x of [-1, 1]) {
+  for (const z of [minimumClipZ, 1]) for (const y of [-1, 1]) for (const x of [-1, 1]) {
     corners.push(new THREE.Vector3(x, y, z).applyMatrix4(inverse));
   }
-  /* near quad 0..3, far quad 4..7: four lateral edges, and the two quads */
+  /* depth-end quads 0..3 and 4..7: four lateral edges, and the two quads */
   const edges = [[0, 4], [1, 5], [2, 6], [3, 7], [0, 1], [1, 3], [3, 2], [2, 0], [4, 5], [5, 7], [7, 6], [6, 4]];
   const box = new THREE.Box3();
   return function intersects(min, max) {

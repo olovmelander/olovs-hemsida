@@ -59,12 +59,13 @@ import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
+import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
 import {
   requestedSurfaceDebugMode,
   shouldRenderLegacySurfaceOverlays,
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
-import { smoothShore } from './engine/ring-smoothing.mjs';
+import { smoothShore, smoothMownEdges } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { compassBearing, windAlong, playsLike, greenDistances, lineHazards, layupTargets } from './engine/rangefinder.js';
@@ -592,15 +593,16 @@ for (const h of HOLES) {
     }
   }
 
+  const preserveMappedBoundaries = M.infra.preserveMappedBoundaries === true;
   for (const w of M.water) {
     if (w.stream || !w.ring) continue;
-    w.ring = smoothShore(w.ring, near);
+    w.ring = smoothShore(w.ring, near, 3, 3, 8, { preserveMappedBoundaries });
   }
   /* The silt shallows are traced far coarser than the water is -- 12 points with
      a 64 m median segment and one of 427 m -- and they draw the pale margin
      right where the eye is, just off the island 14th. Same treatment. */
   if (M.surround && M.surround.shallows)
-    M.surround.shallows = M.surround.shallows.map(r => smoothShore(r, near));
+    M.surround.shallows = M.surround.shallows.map(r => smoothShore(r, near, 3, 3, 8, { preserveMappedBoundaries }));
 
   /* THE MOWN EDGES, for the same reason and at a finer step.
      Measured across the six courses, fairway rings run a 10-31 m MEDIAN segment
@@ -614,23 +616,19 @@ for (const h of HOLES) {
      rings ARE walked per terrain sample (their pads, and the scatter apron), so
      they get a coarser step and fewer passes -- enough to round a polygon, not
      enough to multiply the ring. */
-  /* These parameters are mirrored in smoothMownEdges (engine/ring-smoothing.mjs),
-     which the v2 surface compiler applies to the pack; change both or neither. */
-  const always = () => true;
-  for (const h of HOLES) {
-    h.green.ring = smoothShore(h.green.ring, always, 2.0, 2, 6);
-    h.fairway.rings = h.fairway.rings.map(r => smoothShore(r, always, 2.5, 3, 6));
-    for (const t of h.tees.pads) if (t.prov !== 'synth') t.ring = smoothShore(t.ring, always, 2.5, 1, 6);
-  }
-  M.scenery.fairways = M.scenery.fairways.map(r => smoothShore(r, always, 2.5, 3, 6));
-  M.scenery.greens = M.scenery.greens.map(r => smoothShore(r, always, 2.0, 2, 6));
+  // Boot and the atlas/v2 compiler apply the same boundary policy. Preserve
+  // the live hole identities used by the rest of boot while replacing only
+  // their copied surface containers, exactly as the previous in-place pass did.
+  const mown = smoothMownEdges({ holes: HOLES, scenery: M.scenery, preserveMappedBoundaries });
+  for (let i = 0; i < HOLES.length; i++) Object.assign(HOLES[i], mown.holes[i]);
+  Object.assign(M.scenery, mown.scenery);
 }
 
 for (const h of HOLES) {
   const g = { ring: h.green.ring, bb: ringBBox(h.green.ring), hole: h.n, c: h.green.c };
   GI.add(g, g.bb, 26);
   h._g = g;
-  for (const t of h.tees.pads) { const r = { ring: t.ring, bb: ringBBox(t.ring) }; TI.add(r, r.bb, 12); }
+  for (const t of h.tees.pads) { const r = { ring: t.ring, bb: ringBBox(t.ring), preserveTerrain: t.preserveTerrain }; TI.add(r, r.bb, 12); }
   for (const b of h.bunkers) { const r = { ring: b.ring, bb: ringBBox(b.ring), c: centroidOf(b.ring) }; BI.add(r, r.bb, 9); b._r = r; }
   for (const r of h.fairway.rings) { const q = { ring: r, bb: ringBBox(r) }; FI.add(q, q.bb, 16); }
 }
@@ -659,6 +657,7 @@ for (const rw of (M.infra.railway || [])) {
 const II = new Grid();      // building footprints, so nothing grows through a wall
 for (const b of M.infra.buildings) { const q = { ring: b.ring, bb: ringBBox(b.ring) }; II.add(q, q.bb, 10); }
 for (const p of (M.infra.parking || [])) { const q = { ring: p.ring, bb: ringBBox(p.ring) }; II.add(q, q.bb, 8); }
+for (const f of M.scenery.mappedFeatures || []) { const ring = f.rings?.[0]; if (ring) { const q = { ring, bb: ringBBox(ring) }; II.add(q, q.bb, 1); } }
 const LI = new Grid();      // landuse: fields, gardens, industry -- ground tint and scatter policy
 for (const l of (M.infra.landuse || [])) { const q = { ring: l.ring, bb: ringBBox(l.ring), kind: l.kind }; LI.add(q, q.bb, 6); }
 const SI = new Grid();      // traced surroundings: clear-fells, the machinery yard, the hayfields
@@ -757,8 +756,10 @@ function legacyTerrainH(x, z) {
     pad += Math.sin(x * 0.115) * Math.cos(z * 0.104) * 0.11;    // borrow
     h = lerp(h, pad, w);
   }
-  /* tees: dead level decks */
+  /* Only inferred decks may alter the terrain; measured mowing extent is not
+     evidence that the entire polygon is flat. */
   for (const t of TI.at(x, z)) {
+    if (t.preserveTerrain) continue;
     const sd = ringSD(x, z, t.ring);
     if (sd > 9) continue;
     const w = 1 - smooth(-0.5, 6.5, sd);
@@ -2501,8 +2502,11 @@ function chaikin(ring, rounds = 2) {
 function surfaceMesh(rings, lift, maxEdge, shade, conservative) {
   const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], idx = [];
   for (const surface of rings) {
-    const exactRings = !Array.isArray(surface) && surface.rings;
-    const ring0 = exactRings ? exactRings[0] : Array.isArray(surface) ? surface : surface.ring;
+    const providedRings = !Array.isArray(surface) && surface.rings;
+    const ring0 = providedRings ? providedRings[0] : Array.isArray(surface) ? surface : surface.ring;
+    // Source rings must not receive a second Chaikin pass in legacy overlays.
+    // Explicit polygon holes and per-surface shade overrides remain intact.
+    const exactRings = providedRings || (M.infra.preserveMappedBoundaries === true ? [ring0] : null);
     const surfaceShade = Array.isArray(surface) ? shade : (surface.shade || shade);
     if (ring0.length < 3) continue;
     const ring = exactRings ? ring0 : chaikin(ring0);
@@ -2531,7 +2535,9 @@ function surfaceMesh(rings, lift, maxEdge, shade, conservative) {
          floating a lift above it, so a grazing view never sees the dark gap
          under the overlay's edge -- the same lesson as the LoD skirts */
       const bd = exactRings ? polygon.some(r => Math.abs(ringSD(x, z, r)) < 0.05) : ringSD(x, z, ring) > -0.05;
-      pos.push(x, bd ? meshH(x, z) - 0.06 : h + lift, z);
+      // Physical mats keep their entire measured footprint above the pad. Turf
+      // overlays still bury the rim to seal their edge against the terrain.
+      pos.push(x, bd && !surface.raisedBoundary ? meshH(x, z) - 0.06 : h + lift, z);
       col.push(g.col[0] * ao, g.col[1] * ao, g.col[2] * ao);
       det.push(g.det); bmp.push(g.bmp); gls.push(g.gls); str.push(g.str);
       mow.push(g.mow || 0, g.mowK || 0);
@@ -2665,10 +2671,10 @@ if (legacySurfaceOverlays) {
     const teeShade = shadeTee();
     for (const pad of h.tees.pads) {
       collar.push({ ring: offsetRing(pad.ring, 2.2), shade: collarShade });
-      tee.push({ ring: pad.ring, shade: teeShade });
+      tee.push(pad.preserveTerrain ? { rings: [pad.ring], shade: teeShade } : { ring: pad.ring, shade: teeShade });
     }
     for (const bunker of h.bunkers) {
-      sand.push({ ring: offsetRing(bunker.ring, 0.5), shade: shadeSand });
+      sand.push({ ring: M.infra.preserveMappedBoundaries ? bunker.ring : offsetRing(bunker.ring, 0.5), shade: shadeSand });
     }
   }
   const quietFair = shadeFair(null);
@@ -2679,7 +2685,7 @@ if (legacySurfaceOverlays) {
   for (const ring of M.scenery.greens) green.push({ ring, shade: shadeGreen(null) });
   for (const ring of M.scenery.tees) tee.push({ ring, shade: shadeTee() });
   for (const ring of M.scenery.bunkers.concat(M.veg.sand)) {
-    sand.push({ ring: offsetRing(ring, 0.5), shade: shadeSand });
+    sand.push({ ring: M.infra.preserveMappedBoundaries ? ring : offsetRing(ring, 0.5), shade: shadeSand });
   }
   /* laid in the order a mower would: the widest cut first, the tightest last */
   add(semi, 0.018, 5.5, null, 1);
@@ -2690,39 +2696,61 @@ if (legacySurfaceOverlays) {
   add(sand, 0.035, 1.8, null, 5, sandMat, true);
 }
 
-/* Dated facility footprints: retain corners and interior exclusions. Aggregate
-   platforms do not establish mat, flag, net-pole or equipment positions. */
+/* Dated facility footprints retain corners and interior exclusions. Mats
+   are individually mapped objects; the surrounding platform is a separate surface. */
 {
   const groups = new Map();
   for (const feature of M.scenery.mappedFeatures || []) {
     if (!feature.rings?.[0]?.length) continue;
+    const inAtlas = feature.kind === 'practice_green' || feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' || (feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface');
+    if (inAtlas && !legacySurfaceOverlays) continue;
     const group = groups.get(feature.kind) || [];
-    group.push({ rings: feature.rings }); groups.set(feature.kind, group);
+    group.push({ rings: feature.rings, raisedBoundary: feature.kind === 'range_mat',
+      shade: feature.material === 'mixed-hardstanding-and-mats'
+        ? () => ({ col: C.hard.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 }) : undefined });
+    groups.set(feature.kind, group);
   }
   for (const [kind, polygons] of groups) {
+    const isSand = kind === 'range_bunker' || kind === 'practice_bunker';
+    const isMat = kind === 'range_mat';
     const shade = kind === 'practice_green' ? shadeGreen(null)
-      : kind === 'range_bunker' ? shadeSand
-        : kind === 'range_tee_pad' ? shadeTee()
-          : () => ({ col: kind === 'range_target_surface' ? [0.62, 0.62, 0.58] : C.hard.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 });
-    const g = surfaceMesh(polygons, 0.085, 1.0, shade, false);
+      : isSand ? shadeSand
+        : isMat ? () => ({ col: L(0x43675a), det: 2.4, bmp: 0.04, gls: 0.1, str: 0 })
+          : kind === 'range_tee_pad' ? shadeTee()
+            : () => ({ col: kind === 'range_target_surface' ? [0.62, 0.62, 0.58] : C.hard.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 });
+    // The 3.5 cm separation from the platform is a rendering estimate, not a
+    // surveyed mat thickness. Keep the exact quad; never sink its boundary.
+    const g = surfaceMesh(polygons, isMat ? 0.12 : 0.085, isMat ? 0.5 : 1.0, shade, false);
     if (!g) continue;
-    const mesh = new THREE.Mesh(g, kind === 'range_bunker' ? nudged(6, makeSand) : nudged(6));
-    mesh.receiveShadow = true; mesh.renderOrder = 6; scene.add(mesh); stats.draws++;
+    const order = isMat ? 7 : 6;
+    const mesh = new THREE.Mesh(g, isSand ? nudged(order, makeSand) : nudged(order));
+    mesh.receiveShadow = true; mesh.renderOrder = order;
+    const turfOverlay = kind === 'practice_green' || isSand || (kind === 'range_tee_pad' && polygons.some(p => !p.shade));
+    mesh.userData.tag = turfOverlay ? 'legacy-surface-overlay' : 'mapped-facility-footprint';
+    if (turfOverlay) stats.surfaceOverlays++;
+    if (isMat) mesh.userData.verticalPlacement = 'estimated rendering offset; mat thickness unmeasured';
+    scene.add(mesh); stats.draws++;
   }
 }
 
-/* -------------------------------------------------------------- parking
-   The three gravel lots OSM maps beside the clubhouse plus the south lot the
-   satellite shows and OSM lacks. Compacted gravel, rows of parked cars, and an
-   engine-heater post at every bay head -- a Norrland car park. */
+/* Parking keeps observed paving and polygon boundaries. Grounds with a
+   mapped-only object inventory do not synthesize parked cars or heater posts. */
 const carSpots = [];
 {
   const lots = (M.infra.parking || []).filter(p => p.ring && p.ring.length >= 3);
   if (groundMode !== 'atlas' && lots.length) {
-    const g = surfaceMesh(lots.map(p => p.ring), 0.045, 4.0, (x, z) => {
+    const parkingShade = (x, z) => {
       const n = fbm(x * 0.2, z * 0.2, 2);
       return { col: C.hard.map(v => v * (0.95 + n * 0.09)), det: 2.6, bmp: 0.4, gls: 0.12, str: 0 };
-    });
+    };
+    const asphaltShade = (x, z) => {
+      const n = fbm(x * 0.2, z * 0.2, 2);
+      return { col: L(0x626668).map(v => v * (0.96 + n * 0.06)), det: 1.3, bmp: 0.08, gls: 0.1, str: 0 };
+    };
+    const g = surfaceMesh(lots.map(p => ({
+      ...(p.prov === 'dated-orthophoto-trace' ? { rings: [p.ring] } : { ring: p.ring }),
+      shade: /\b(asphalt|paved)\b/i.test(p.surface || '') ? asphaltShade : parkingShade,
+    })), 0.045, 4.0, parkingShade);
     if (g) {
       const m = new THREE.Mesh(g, nudged(3));
       m.receiveShadow = true; m.renderOrder = 3;
@@ -2734,7 +2762,7 @@ const carSpots = [];
   for (const p of lots) {
     /* an entrance square is gravel without cars, and a motorhome lot gets its
        motorhomes from the scenery batch instead of cars */
-    if (p.cars === false || p.vehicles === 'motorhome') continue;
+    if (M.infra.objectPlacement === 'mapped-only' || p.cars === false || p.vehicles === 'motorhome') continue;
     const B = obb2(p.ring);
     if (!B || B.hw < 5) continue;
     const c = Math.cos(B.ang), s = Math.sin(B.ang);
@@ -2771,7 +2799,7 @@ const carSpots = [];
 /* a car is two boxes; a car park is fifty of them in three colour buckets */
 {
   for (const r of M.infra.roads) {
-    if (r.kind !== 'trunk' || !r.oneway) continue;
+    if (M.infra.objectPlacement === 'mapped-only' || r.kind !== 'trunk' || !r.oneway) continue;
     const { P } = resamp(r.line, 6);
     for (let i = 2; i < P.length - 2; i++) {
       if (hash2(Math.round(P[i][0]), Math.round(P[i][1])) > 0.045) continue;
@@ -3318,6 +3346,59 @@ if (M.water.some(w => w.isSea)) {
   stats.draws++;
 }
 
+/* Confirmed bridge decks use their observed footprints and end axes. Only the
+   horizontal geometry is mapped: elevation, deck thickness and the neutral
+   material below are rendering estimates. Unmeasured rails are left undetailed. */
+{
+  const V = [], K = [], rendered = [];
+  const topColour = L(0x8a8b86), sideColour = L(0x666964);
+  const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
+  const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
+  for (const bridge of M.infra.bridges || []) {
+    const ring = bridge.ring, axis = bridge.line;
+    if (!ring || ring.length < 3 || !axis || axis.length < 2) continue;
+    const a = axis[0], b = axis[axis.length - 1];
+    const dx = b[0] - a[0], dz = b[1] - a[1], length2 = dx * dx + dz * dz;
+    if (length2 < 0.01) continue;
+    const length = Math.sqrt(length2), ux = dx / length, uz = dz / length;
+    // Sample the visible deck ends and a short approach beyond each end, so a
+    // water-carved centre cell cannot pull the deck down into the channel bed.
+    const ha = Math.max(meshH(...a), meshH(a[0] - ux * 0.8, a[1] - uz * 0.8)) + 0.10;
+    const hb = Math.max(meshH(...b), meshH(b[0] + ux * 0.8, b[1] + uz * 0.8)) + 0.10;
+    if (!Number.isFinite(ha) || !Number.isFinite(hb)) continue;
+    const point = ([x, z], drop = 0) => {
+      const t = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / length2));
+      return [x, ha + (hb - ha) * t - drop, z];
+    };
+    const faces = triangulate(ring);
+    if (!faces.length) continue;
+    for (const [i, j, k] of faces) tri(point(ring[i]), point(ring[k]), point(ring[j]), topColour);
+    for (let i = 0; i < ring.length; i++) {
+      const p = ring[i], q = ring[(i + 1) % ring.length];
+      quad(point(p, 0.18), point(q, 0.18), point(q), point(p), sideColour);
+    }
+    rendered.push({ id: bridge.id, railsObserved: bridge.railsObserved === true,
+      verticalDimensions: 'estimated', deckThicknessM: 0.18, approachLiftM: 0.10,
+      elevationSource: 'rendered terrain sampled at visible deck ends and approaches',
+      material: 'neutral rendering material; physical deck material unverified' });
+  }
+  if (V.length) {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(V, 3));
+    g.setAttribute('color', new THREE.Float32BufferAttribute(K, 3));
+    g.computeVertexNormals();
+    const mesh = new THREE.Mesh(g, new THREE.MeshStandardNodeMaterial({
+      vertexColors: true, roughness: 0.9, metalness: 0, flatShading: true, side: THREE.DoubleSide,
+    }));
+    mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = 7;
+    mesh.userData = { tag: 'mapped-bridge-footprints', features: rendered };
+    scene.add(mesh); stats.draws++;
+    stats.verts += V.length / 3; stats.tris += V.length / 9;
+  }
+  stats.mappedBridges = rendered.length;
+  stats.bridges = rendered.length;
+}
+
 /* the five wooden jetties OSM maps on the fjärd's shore: plank decks over water */
 {
   const lake = M.water.find(w => w.isLake);
@@ -3725,11 +3806,19 @@ const WHY_FOREST_RING = 1, WHY_SCRUB_RING = 2, WHY_SATELLITE = 3, WHY_SHORE = 4,
    stay out of every tile they own: inside verified coverage only the registry
    individuals and the measured stand field plant; outside it the legacy
    population is untouched. Both come from docs/puttom-v2-lidar-tree-placement-plan.md. */
+/* A 10 m woodland class informs the mesh mix only. It never adds/moves trees
+   or identifies a species: the existing verified canopy still owns placement. */
+let woodlandAt = () => null;
+const mappedTreeSpecies = ({ r, x, z, h }) =>
+  woodlandSpeciesPrior({ r, context: woodlandAt(x, z) }) ??
+  SCENERY?.species?.({ r, x, z, h, ringSD, RES });
 let V2_VEG_PLAN = null, V2_VEG_COVER = null;
 if (V2_VEGETATION) {
   if (TERRAIN_PREVIEW.ready && TERRAIN_PREVIEW.bridge) {
     const { createFrameMapper, createCoverage, planV2Vegetation } = V2_VEGETATION.mod;
     const mapper = createFrameMapper({ bridge: TERRAIN_PREVIEW.bridge, frameOrigin: V2_VEGETATION.loaded.frameOrigin });
+    woodlandAt = createWoodlandContextSampler(M.scenery?.woodlandContext, { toEpsg: mapper.toEpsg });
+    if (M.scenery?.woodlandContext) stats.woodlandContext = { sourceVersion: M.scenery.woodlandContext.sourceVersion, nativeResolutionMetres: 10, role: 'leaf-type rendering prior; individual species unknown' };
     V2_VEG_COVER = createCoverage(V2_VEGETATION.loaded, mapper);
     V2_VEG_PLAN = planV2Vegetation(V2_VEGETATION.loaded, {
       mapper,
@@ -3740,9 +3829,7 @@ if (V2_VEGETATION) {
       /* the course's own species rule, where one exists -- the same hook the
          legacy lattice consumes below, closed over ringSD/RES here so the
          vegetation runtime never imports a scenery module */
-      species: SCENERY?.species
-        ? ({ r, x, z, h }) => SCENERY.species({ r, x, z, h, ringSD, RES })
-        : null,
+      species: M.scenery?.woodlandContext || SCENERY?.species ? mappedTreeSpecies : null,
     });
   } else {
     /* the registry is placed through the v2 terrain's own bridge; without
@@ -3860,9 +3947,7 @@ lap('v2 vegetation: plan individuals + stand trees');
        as pine would be a statement about the place that is simply untrue. */
     const sp = kindScrub ? 2
              : (belt && r < 0.7) ? 2
-             : SCENERY && SCENERY.species
-               ? SCENERY.species({ r, x: px, z: pz, h, ringSD, RES })
-               : (r < 0.56 ? 1 : r < 0.83 ? 0 : 2);
+             : (mappedTreeSpecies({ r, x: px, z: pz, h }) ?? (r < 0.56 ? 1 : r < 0.83 ? 0 : 2));
     let s = SPECIES[sp].sc[0] + rnd(i + 61, j + 3) * (SPECIES[sp].sc[1] - SPECIES[sp].sc[0]);
     if (wood < 0.3) s *= 1.2;                    /* a lone tree grows a full crown */
     const sk = s * (kindScrub ? 0.42 : 1);
@@ -4918,6 +5003,44 @@ lap('ground cover (tufts, bushes, stones, stumps)');
   }
 }
 
+/*@MAPPED_OBJECT_SELECTORS*/
+/* Explicit support tags determine placement and asset type. A bend in an OSM
+   power way is not evidence of a tower, nor is missing voltage evidence of a pole. */
+function mappedPowerSupports(power) {
+  const found = new Map();
+  for (const [kind, points] of [['tower', power.towers || []], ['pole', power.poles || []]]) {
+    for (const value of points) {
+      const p = Array.isArray(value) ? value : value.c;
+      if (!Array.isArray(p) || p.length !== 2 || !p.every(Number.isFinite)) throw new Error('Invalid mapped power support');
+      const key = p.join(',');
+      if (found.has(key)) continue;
+      let yaw = 0;
+      for (const way of power.lines || []) {
+        const i = way.line.findIndex(q => q[0] === p[0] && q[1] === p[1]);
+        if (i < 0) continue;
+        const a = way.line[Math.max(0, i - 1)], b = way.line[Math.min(way.line.length - 1, i + 1)];
+        yaw = -Math.atan2(b[1] - a[1], b[0] - a[0]);
+        break;
+      }
+      found.set(key, { c: p.slice(), kind, yaw });
+    }
+  }
+  return [...found.values()];
+}
+function mappedPointObjects(points) {
+  const found = new Map();
+  for (const p of points || []) {
+    const t = p.tags || {};
+    const kind = t.amenity === 'fountain' ? 'fountain' : t.barrier === 'gate' ? 'gate' :
+      t.man_made === 'mast' ? 'mast' : t.man_made === 'flagpole' ? 'flagpole' : null;
+    if (!kind) continue; // OSM tree points must not duplicate the LiDAR crown layer.
+    if (!p.id || !Array.isArray(p.c) || p.c.length !== 2 || !p.c.every(Number.isFinite)) throw new Error('Invalid mapped point object');
+    if (!found.has(p.id)) found.set(p.id, { id: p.id, c: p.c.slice(), kind, tags: { ...t }, prov: p.prov || 'osm' });
+  }
+  return [...found.values()];
+}
+/*@/MAPPED_OBJECT_SELECTORS*/
+
 /* --------------------------------------------------------- power and rail
    Two 130 kV corridors cross the property diagonally -- surveyed tower by tower in
    OSM -- and the Mellansel branch railway runs on its embankment just north of the
@@ -4925,6 +5048,9 @@ lap('ground cover (tufts, bushes, stones, stumps)');
    made the middle distance read as nowhere in particular. */
 {
   const PW = M.infra.power || { lines: [], towers: [], poles: [] };
+  const mappedOnly = M.infra.objectPlacement === 'mapped-only';
+  const supports = mappedOnly ? mappedPowerSupports(PW) : [];
+  const supportByPoint = new Map(supports.map(p => [p.c.join(','), p]));
   const IN = (x, z) => x > -1450 && x < 980 && z > -1900 && z < 700;
   /* a lattice pylon reads at distance as two crossed tapering planes and a crossarm */
   const towerGeo = (() => {
@@ -4951,11 +5077,15 @@ lap('ground cover (tufts, bushes, stones, stumps)');
   })();
   const towers = [], polesArr = [], wire = [];
   const seen = new Set();
+  for (const support of supports) {
+    const [x, z] = support.c;
+    (support.kind === 'tower' ? towers : polesArr).push([x, terrainH(x, z) - 0.3, z, support.yaw]);
+  }
   for (const ln of PW.lines) {
-    const big = (ln.voltage || 0) >= 100000;
-    const attach = big ? 19.5 : 8.2;
-    const L = ln.line;
-    for (let i = 0; i < L.length; i++) {
+    const big = mappedOnly ? ln.line.some(p => supportByPoint.get(p.join(','))?.kind === 'tower') : (ln.voltage || 0) >= 100000;
+    const attach = big ? 19.5 : 8.2; // Rendering estimate; source support heights are unknown.
+    const L = mappedOnly ? ln.line.filter(p => supportByPoint.has(p.join(','))) : ln.line;
+    if (!mappedOnly) for (let i = 0; i < L.length; i++) {
       const [x, z] = L[i];
       if (!IN(x, z)) continue;
       const key = Math.round(x / 4) + ',' + Math.round(z / 4);
@@ -4968,7 +5098,7 @@ lap('ground cover (tufts, bushes, stones, stumps)');
     /* the wires: sagging catenaries between consecutive surveyed supports */
     if (!LOWQ) for (let i = 0; i < L.length - 1; i++) {
       const [x0, z0] = L[i], [x1, z1] = L[i + 1];
-      if (!IN(x0, z0) && !IN(x1, z1)) continue;
+      if (!mappedOnly && !IN(x0, z0) && !IN(x1, z1)) continue;
       const span = Math.hypot(x1 - x0, z1 - z0);
       if (span < 4 || span > 480) continue;
       const h0 = terrainH(x0, z0) + attach, h1 = terrainH(x1, z1) + attach;
@@ -4997,12 +5127,15 @@ lap('ground cover (tufts, bushes, stones, stumps)');
       im.setMatrixAt(k, m4.compose(v3, q, s3));
     }
     im.instanceMatrix.needsUpdate = true;
+    if (mappedOnly) im.userData = { tag: 'mapped-power-support', placement: 'explicit OSM support point', dimensions: 'estimated height and asset geometry', orientation: 'estimated from mapped power way' };
     scene.add(im);
     stats.draws++;
   };
   inst(towerGeo, towers, 0x7d8287);
   inst(poleGeo, polesArr, 0x5c5148);
   stats.pylons = towers.length + polesArr.length;
+  stats.mappedPowerTowers = mappedOnly ? towers.length : 0;
+  stats.mappedPowerPoles = mappedOnly ? polesArr.length : 0;
 
   /* the railway: ballast ribbon, two rails, masts -- and the Botniabanan bridge
      deck held above the water it crosses */
@@ -5081,7 +5214,7 @@ const instancedFurniture = (geo, mat, list, { cast = false, colour = false, into
 const furnitureGroup = new THREE.Group();
 scene.add(furnitureGroup);
 const plateSites = [];
-{
+if (M.infra.objectPlacement !== 'mapped-only') {
   const plateGeo = new THREE.BoxGeometry(0.4, 0.28, 0.06);
   plateGeo.translate(0, 0.62, 0);
   const postGeo = new THREE.CylinderGeometry(0.03, 0.035, 0.62, 5);
@@ -5218,7 +5351,9 @@ for (const h of HOLES) {
   /* A pair of markers per card tee, set the width of a tee apart rather than the
      width of a stance, because that is how far apart they really are and at 0.13 m
      across they are otherwise unreadable from the deck behind them. */
-  const mk = h.tees.marks;
+  // The nominal references still drive the HUD and camera; physical marker
+  // pairs require their own evidence when this ground uses mapped placement.
+  const mk = M.infra.objectPlacement === 'mapped-only' ? [] : h.tees.marks;
   for (let k = 0; k < mk.length; k++) {
     const m = mk[k], b = m.b * Math.PI / 180, R = rightOf(b);
     const colour = new THREE.Color(TEE_COLS[k]);
@@ -5237,6 +5372,66 @@ instancedFurniture(new THREE.CylinderGeometry(0.054, 0.054, 0.12, 12),
   new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x11170f), roughness: 1 }), FURN.cups, { into: flagGroup, tag: 'pins' });
 instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
   new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xffffff), roughness: 0.45, metalness: 0.15 }), FURN.markers, { cast: true, colour: true, into: flagGroup, tag: 'markers' });
+
+/* Mapped OSM point identities, anchored to their source coordinates. Generic
+   dimensions and orientations below are rendering estimates, not measurements.
+   A flagpole does not establish a flag design; a fountain does not establish an
+   ornamental basin; neither detail is invented here. */
+if (M.infra.objectPlacement === 'mapped-only') {
+  const objects = mappedPointObjects(M.infra.mappedPoints);
+  const metal = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x737a7b), roughness: 0.65, metalness: 0.3 });
+  const spray = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xd9ebef), roughness: 0.1, transparent: true, opacity: 0.7 });
+  const numericMetres = value => {
+    const match = typeof value === 'string' && value.match(/^([0-9]+(?:\.[0-9]+)?)\s*(?:m)?$/);
+    return match && +match[1] > 0 ? +match[1] : null;
+  };
+  const nearPathBearing = (x, z) => {
+    let distance = Infinity, yaw = 0;
+    for (const way of [...M.infra.paths, ...M.infra.tracks, ...M.infra.roads]) {
+      for (let i = 1; i < way.line.length; i++) {
+        const a = way.line[i - 1], b = way.line[i], dx = b[0] - a[0], dz = b[1] - a[1];
+        const length2 = dx * dx + dz * dz;
+        if (!length2) continue;
+        const t = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / length2));
+        const d = Math.hypot(x - a[0] - t * dx, z - a[1] - t * dz);
+        if (d < distance) { distance = d; yaw = Math.atan2(dx, dz); }
+      }
+    }
+    return yaw;
+  };
+  for (const object of objects) {
+    const [x, z] = object.c, group = new THREE.Group();
+    let base = terrainH(x, z);
+    if (object.kind === 'fountain') {
+      for (const water of WI.at(x, z)) if (!water.stream && ringSD(x, z, water.ring) <= 0) base = Math.max(base, water.level);
+    }
+    group.position.set(x, base, z);
+    group.userData = { tag: 'mapped-point-object', sourceId: object.id, kind: object.kind,
+      placement: 'OSM point; absolute position accuracy unknown',
+      dimensions: 'generic rendering estimate unless an explicit metre-valued source tag is present',
+      elevation: 'terrain or water sampled; not measured object elevation' };
+    const cylinder = (radius, height, ox = 0, oz = 0, mat = metal) => {
+      const mesh = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, height, 6), mat);
+      mesh.position.set(ox, height / 2, oz); mesh.castShadow = object.kind !== 'fountain';
+      group.add(mesh); stats.draws++;
+    };
+    if (object.kind === 'fountain') {
+      cylinder(0.05, numericMetres(object.tags.height) || 1.4, 0, 0, spray);
+    } else if (object.kind === 'gate') {
+      const width = numericMetres(object.tags.width) || 3, height = numericMetres(object.tags.height) || 1;
+      cylinder(0.055, height, -width / 2); cylinder(0.055, height, width / 2);
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(width, 0.07, 0.07), metal);
+      bar.position.y = height * 0.8; group.add(bar); stats.draws++;
+      group.rotation.y = nearPathBearing(x, z);
+      group.userData.orientation = 'estimated perpendicular to nearest mapped route';
+    } else {
+      const height = numericMetres(object.tags.height) || (object.kind === 'flagpole' ? 6 : 15);
+      cylinder(object.kind === 'flagpole' ? 0.05 : 0.14, height);
+    }
+    scene.add(group);
+  }
+  stats.mappedPointObjects = objects.length;
+}
 
 /* Buildings: every footprint within a kilometre in ONE vertex-coloured mesh --
    walls, gable roofs with the ridge on the long axis, a white fascia line under the
@@ -5488,7 +5683,7 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
             quad(P(uf, -(hd - 0.5), y - 0.06), P(uf, hd - 0.5, y - 0.06), P(uf, hd - 0.5, y + 0.06), P(uf, -(hd - 0.5), y + 0.06), TRIM);
           quad(P(uf, -(hd - 0.5), yLow - 0.06), P(uf, hd - 0.5, yLow - 0.06), P(uf, hd - 0.5, yLow + 0.06), P(uf, -(hd - 0.5), yLow + 0.06), TRIM);
           /* the balcony: a slab out from the glass at first-floor level, a rail on posts */
-          if (CLUB_LOOK.balcony) {
+          if (CLUB_LOOK.balcony && M.infra.objectPlacement !== 'mapped-only') {
             const out = 2.2, y0 = yLow - 0.05, y1 = yLow + 0.22;
             const S = (du, v, y) => P(sgn * (hw + du), v, y);
             const bv0 = -(hd - 0.4), bv1 = hd - 0.4;
@@ -5548,8 +5743,8 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
         const dep = Math.min(dmax, 14);
         const ridgeY = base + hgt + clampf(dep * 0.24, 1.6, 3.2);
         const RP = u => [r0[0] + rux * u + rnx * dep / 2, r0[1] + ruz * u + rnz * dep / 2];
-        /* chimneys on the ridge */
-        for (const uC of [Lb * 0.28, Lb * 0.72]) {
+        /* The two default chimney positions are decorative, not mapped. */
+        for (const uC of M.infra.objectPlacement === 'mapped-only' ? [] : [Lb * 0.28, Lb * 0.72]) {
           const e = ridgeY - 0.45, tC = ridgeY + 1.1;
           const cB = RP(uC);
           const corners = [[-0.45, -0.45], [0.45, -0.45], [0.45, 0.45], [-0.45, 0.45]];
@@ -5561,10 +5756,10 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
           quad([cB[0] - 0.45, tC, cB[1] - 0.45], [cB[0] + 0.45, tC, cB[1] - 0.45],
                [cB[0] + 0.45, tC, cB[1] + 0.45], [cB[0] - 0.45, tC, cB[1] + 0.45], ROOFA);
         }
-        /* The garden front the photographs lead with: a white railed terrace
-           running the whole course-facing wall, the broad stair down to the lawn,
-           the flag row on the lawn below, and the Swedish flag on the ridge. */
-        {
+        /* This generic terrace, four stairs and six flagpoles have inferred
+           positions. A mapped-only ground keeps its source building silhouette
+           and renders additional physical objects only from their own evidence. */
+        if (M.infra.objectPlacement !== 'mapped-only') {
           /* the garden front faces the course -- south-west, toward the putting
              green and the 18th, where every ground photograph stands. Picking the
              west-MOST edge instead hung the terrace on the short gable end. */
@@ -5634,11 +5829,12 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
     }
   }
 
-  /* Ås has no mapped footprints -- the village the southern holes look straight at
-     exists in OSM only as residential landuse. Houses are laid out on a jittered
-     grid inside those rings, kept off the roads, each aligned to its street. */
+  /* Landuse describes a residential area, not individual house footprints.
+     Retain this historical filler only for grounds permitting inferred objects;
+     mapped buildings and source-derived far-building boxes above/below remain. */
+  stats.inferredBuildings = 0;
   for (const q of (M.infra.landuse || [])) {
-    if (q.kind !== 'residential') continue;
+    if (M.infra.objectPlacement === 'mapped-only' || q.kind !== 'residential') continue;
     const bb = ringBBox(q.ring);
     let real = 0;
     for (const b of M.infra.buildings) {
@@ -5676,6 +5872,7 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
       const ring = [[-hw, -hd], [hw, -hd], [hw, hd], [-hw, hd]]
         .map(([u, v]) => [px + u * cs - v * sn, pz + u * sn + v * cs]);
       house(ring, 3.0, wallOf(px, pz, 'house', null), roofOf(px, pz));
+      stats.inferredBuildings++;
       const qq = { ring, bb: ringBBox(ring) };
       II.add(qq, qq.bb, 10);
     }
@@ -5931,11 +6128,9 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
     }
     stats.motorhomes = vans;
   }
-  /* Footbridges: wherever a traced path or track crosses a water ring or a
-     stream, a plank deck with rails carries it over -- deck at the water's
-     level plus a step, span from bank to bank plus a metre each side. The
-     path ribbon below it dips into the bed; the deck is what the eye sees. */
-  {
+  /* Legacy inferred crossings remain for grounds without a reviewed bridge
+     inventory. A mapped-only ground renders only its confirmed deck footprints. */
+  if (M.infra.bridgePlacement !== 'mapped-only') {
     const PLANK = L(0x8a7455), BEAM = L(0x5a4633);
     let bridges = 0;
     const cross = (p, q, a, b) => {
@@ -5984,7 +6179,7 @@ instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
         bridges++;
       }
     }
-    stats.bridges = bridges;
+    stats.bridges = (stats.bridges || 0) + bridges;
   }
   /* Norrfällsvikens kapell -- the fishing village's white wooden chapel of 1649,
      on its surveyed OSM footprint (way 185982798) down by the harbour. It is the

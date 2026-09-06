@@ -18,6 +18,29 @@ describe('mown-edge smoothing shared by boot and compiler', () => {
     for (const p of out) expect(Math.hypot(p[0], p[1])).toBeLessThanOrEqual(10 + 1e-9);
   });
 
+  it('preserves adopted DTM shoreline vertices instead of averaging their steps', () => {
+    const shore = [[0, 0], [12, 0], [12, 2], [10, 2], [10, 10], [6, 10], [6, 8], [0, 8]];
+    const before = JSON.stringify(shore);
+    expect(smoothShore(shore, () => true, 3, 3, 8, { preserveMappedBoundaries: true })).toEqual(shore);
+    expect(JSON.stringify(shore)).toBe(before);
+    expect(smoothShore(shore, () => true)).not.toEqual(shore);
+  });
+
+  it('keeps every adopted green, fairway and tee vertex, including shared scenery and polygon holes', () => {
+    const green = dodecagon(0, 0, 10), fairway = dodecagon(0, 100, 30), tee = dodecagon(0, 200, 12);
+    const holes = [{ n: 1, green: { ring: green }, fairway: { rings: [fairway] }, tees: { pads: [{ ring: tee }] } }];
+    const scenery = { greens: [green], fairways: [fairway], tees: [tee],
+      mappedFeatures: [{ kind: 'practice_green', rings: [green, square(0, 0, 2)] }] };
+    const before = JSON.stringify({ holes, scenery });
+    const out = smoothMownEdges({ holes, scenery, preserveMappedBoundaries: true });
+    expect(JSON.stringify(out)).toBe(before);
+    expect(JSON.stringify({ holes, scenery })).toBe(before);
+    const legacy = smoothMownEdges({ holes, scenery });
+    expect(legacy.holes[0].green.ring).not.toEqual(green);
+    expect(legacy.holes[0].fairway.rings[0]).not.toEqual(fairway);
+    expect(legacy.holes[0].tees.pads[0].ring).not.toEqual(tee);
+  });
+
   it('smooths greens, fairways and mapped tee pads, leaves synthesised pads and the input alone', () => {
     const holes = [{
       n: 1,

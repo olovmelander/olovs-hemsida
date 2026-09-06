@@ -35,7 +35,7 @@ export function deriveTeeBearings(hole) {
 
 export function inferSynthTeePads(hole) {
   const pads = hole.tees?.pads;
-  if (!pads) return hole;
+  if (!pads || hole.tees.inferPads === false) return hole;
   for (const mk of hole.tees.marks || []) {
     if (pads.some(p => inRing(mk.c[0], mk.c[1], p.ring))) continue;
     const b = mk.b * Math.PI / 180;

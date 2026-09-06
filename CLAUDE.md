@@ -3060,11 +3060,15 @@ turned up things worth keeping:
 - **A machine without PROJ can still migrate, if it proves itself first.**
   `packages/course-geo/migrate-without-proj.mjs` re-projects a committed cs2cs
   migration's own source model with the repo's Krüger series and writes nothing
-  unless it reproduces it within 5 mm; on Upsala it agreed to 1.343 mm over all
-  12,925 coordinates. It exists because the shipped Mellanbanan nine had no
-  EPSG:3006 form and the committed one is of the **banguide trace**, which
+  unless it reproduces it within 5 mm; at the original Upsala checkpoint it
+  agreed to 1.343 mm over all 12,925 coordinates. It was introduced because
+  the shipped Mellanbanan nine had no EPSG:3006 form and the committed one was
+  of the **banguide trace**, which
   disagrees with the shipped GPS routing by up to 164 m on holes 7 and 8 —
-  exactly the two that trace had flagged as drawn under canopy.
+  exactly the two that trace had flagged as drawn under canopy. This remains a
+  diagnostic fallback. The current refresh runbook below regenerates both
+  shipped models and their canonical reports through real PROJ, using cs2cs
+  or the explicit Python binding, before checksums are re-pinned.
 - **Measure a legacy CORE cutout by making the frontier serve.** The contract is
   only asserted on the frontier-only path, which a ground with a ring graph
   never takes — but the adapter is CONSTRUCTED before that choice, so `null` is
@@ -3111,48 +3115,82 @@ turned up things worth keeping:
 ### Upsala's reviewed buildings and facilities — and the coordinate that must not travel
 
 `upsalabuild/mapping/` carries the dated-orthophoto review — the municipal
-building footprints, 20 facility polygons, the corrected 17th green, the 8th's
-and 9th's tee pads, the 16th's fourth bunker and the laser-plated ponds — and
+building footprints, facilities, greens, fairways, tee pads, bunkers, laser-plated
+ponds, bridges, parking and woodland context — and
 `ground-mapping.mjs` folds it into the reconciled base, stamping
-`model.mappingRevision`. The engine reads it through `scenery.mappedFeatures`
+`model.mappingRevision`. The engine reads additional practice surfaces through `scenery.mappedFeatures`
 (complete polygons WITH their interior holes, so an island stays excluded from
 the putting turf), so `surfaceMesh` grew an exact-ring path beside its Chaikin
 one and the range's synthetic target flags stand down where a measured
-`range_target_surface` exists. Three things this pass established:
+`range_target_surface` exists. The following residual and window counts record
+the first reviewed checkpoint; they are historical diagnostics, not current
+survey accuracy or current gate totals.
 
 - **A source-frame coordinate in an evidence payload becomes a 786 km
-  residual.** `migration.mjs` walks the whole model for numeric pairs and
-  converts each as local metres, so the one `centroid3006` riding inside the
+  residual.** At that checkpoint, `migration.mjs` walked the whole model for
+  numeric pairs and converted each as local metres, so the `centroid3006` inside the
   8th tee's `terrainCorroboration` was migrated as a point 786 km away: the
   playing geometry's worst direct residual went 44.3 m → 786,483 m and its
   best-fit rotation −2.155° → −6.67°, which is the frame's own convergence
   replaced by nonsense. The building records already stated the rule in a
   comment; it simply had not been applied to the tee, green, bunker and pond
-  evidence. Every payload is stripped through `withoutSourceCoordinates` now,
-  and — because a strip is only as good as the gate that refuses the NEXT
-  payload — `applyGroundMapping` asserts over the FINISHED model that no
-  `*3006` key survives anywhere, not over the fields it happens to know today.
-  The probe that proves it fires is one line: neuter the filter and reconcile
-  dies naming `model.holes[7].tees.pads[0].evidence.terrainCorroboration
-  .flatComponents[0].centroid3006`. **Evidence belongs in `mapping/`; only
-  measurements travel into the model.**
+  evidence. Current surface evidence passes through the explicit
+  `surfaceEvidence` whitelist: source identity, dates, hash, uncertainty and
+  review notes travel; nested source geometry does not. Infrastructure copies
+  scalar evidence and its reviewed local rings/lines explicitly. After every
+  mapping integration, including bridge approaches and woodland context,
+  `applyGroundMapping` scans the FINISHED model recursively and rejects any
+  key ending in `3006`, naming its full path. A scalar metadata value such as
+  `crs: "EPSG:3006"` is allowed. Source coordinate arrays and pixel traces stay
+  in `mapping/`; only deliberate local geometry enters the runtime model.
 - **A control-window count may legitimately FALL.** `acquisition.node-test`'s
-  `requestedWindowReferences` went 711 → 709 because the 8th's provisional tee
-  ring straddled six 256 m windows and the two ortho-traced pads that replace
-  it lie inside four. Measured hole by hole, the 8th is the only hole on any
-  course that moved, and `uniqueGroundWindowCount` stays 195 — so it is a
+  historical `requestedWindowReferences` went 711 → 709 because the 8th's
+  provisional tee ring straddled six 256 m windows and its two replacement
+  ortho-traced pads lay inside four. Measured hole by hole, the 8th was the
+  only hole on any course that moved, and `uniqueGroundWindowCount` remained
+  195 — so it was a
   tighter footprint, not a window leaving the plan. Attribute a change in that
   number to a hole before re-pinning it, exactly as the file's own comment says
   the number is measured and never summed.
-- **`pip install pyproj` is enough to land a migration here.** It brings PROJ
-  9.5.1, and a ~30-line `cs2cs` shim honouring authority axis order
-  (`Transformer.from_crs(..., always_xy=False)`, `-f %.Nf` formatting) lets
-  `migrate-legacy.mjs --write` run unchanged. Prove it before trusting it:
-  `migrate-legacy.mjs --check --ground <g>` reproduces the committed cs2cs
-  output byte-identically on all six untouched grounds, generator string and
-  last rounding unit included. That is the real PROJ, not the Krüger
-  substitute, so unlike `migrate-without-proj.mjs` it is a landing path and not
-  just a way to keep moving.
+- **Select the real projection backend explicitly.** `proj.mjs` uses cs2cs by
+  default. Set `COURSE_GEO_PYPROJ_PYTHON` to an installed Python with pyproj to
+  select `pyproj-horizontal.py`; it uses
+  `Transformer.from_crs(..., always_xy=False)`, fixed-point formatting and
+  `PROJ_NETWORK=OFF`. `horizontalProjectionBackend()` reports the actual
+  binding and PROJ versions. This adapter handles horizontal transforms;
+  vertical controls still use cct and the verified height grid. It does not
+  install dependencies or impersonate an executable. Validate it against the
+  official controls and committed cs2cs geometry before relying on it.
+
+Rebuild the accepted mapping, both packs, canonical migrations and residual
+reports, both published routing/fallback references, checksum registries and
+the geographic overview with:
+
+```sh
+node tools/refresh-upsala-mapping.mjs
+node packages/course-geo/migrate-legacy.mjs --check --ground upsala
+node packages/course-geo/check-manifests.mjs
+```
+
+The refresh reads existing local evidence and verifies its original Git frame
+reference. It does not acquire imagery, commit, push or deploy. Its `--python`
+option selects the installed Python used to render the overview. When selecting
+the real Python PROJ backend, export
+`COURSE_GEO_PYPROJ_PYTHON=/path/to/python3` before both refresh and check.
+Run the project data, pack, lint and test gates before committing the result.
+
+`migration-inputs.mjs` now selects `shipped-middle-course-model`
+(`upsalamellanbuild/course-model.json`) alongside current Stora. Its registered
+output is `migration/mellanbanan-course-model.epsg3006.json`. The historical
+`legacy-middle-model` (`upsalabuild/mellanbanan-model.json`) and its old migration
+remain inventoried as evidence; they no longer supply the current Mellanbanan
+report or control geometry. Upsala's `migration/residual-report.json` covers
+the two shipped models, and the combined report updates only Upsala's entry.
+The canonical `--check` regenerates coordinates and statistics and demands
+byte identity. It retains a recognized report's recorded cs2cs or pyproj
+generation provenance, allowing either real backend to verify the other.
+These residuals measure the frame conversion; independent surveyed controls
+are still required to approve absolute geographic accuracy.
 
 ## Ängsö re-grounded on the laser — and what the published graph is good for
 
@@ -3234,9 +3272,10 @@ records the 2026-09-05 pass. The lessons that generalise:
   differs in the last rounding unit (worst 1.414 mm over Ängsö) and in its
   `generator` string. Three grounds (angso, puttom, veckefjarden) failed
   `course geo` on every push to main for a day and a half for exactly that,
-  while every local gate passed. `pip install pyproj` plus the 20-line cs2cs
-  shim (§Johannesberg above) lets `migrate-legacy.mjs --write` run here and
-  settles it. So: **use the substitute to KEEP MOVING, never to land** — a
+  while every local gate passed. The current supported local PROJ route is
+  `COURSE_GEO_PYPROJ_PYTHON=/path/to/python3` with installed pyproj, as in the
+  Upsala runbook above; no executable shim is needed. So: **use the substitute
+  to KEEP MOVING, never to land** — a
   migration that ships must be regenerated through PROJ before the push, and
   the re-pins that follow are three registries deep (the ground's
   `source-manifest.json` artifacts, `COURSE_MODEL_SHA256`, and the residual

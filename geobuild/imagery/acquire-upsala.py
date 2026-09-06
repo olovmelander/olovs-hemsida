@@ -2,10 +2,10 @@
 """Acquire bounded Upsala primary sources through their advertised public APIs.
 
 Examples (standard library + Pillow):
-  python acquire_upsala_public_sources.py --provider lm-latest --resolution .25 --output-dir sources
-  python acquire_upsala_public_sources.py --provider municipal-2024 --resolution .25 --output-dir sources
-  python acquire_upsala_public_sources.py --provider buildings --output-dir sources
-  python acquire_upsala_public_sources.py --provider lm-latest --resolution .16 --bbox 639480 6635900 640080 6636500 --prefix lm2025_range_club_016m --output-dir sources
+  python geobuild/imagery/acquire-upsala.py --provider lm-latest --resolution .25 --output-dir sources
+  python geobuild/imagery/acquire-upsala.py --provider municipal-2024 --resolution .25 --output-dir sources
+  python geobuild/imagery/acquire-upsala.py --provider buildings --output-dir sources
+  python geobuild/imagery/acquire-upsala.py --provider lm-latest --resolution .16 --bbox 639480 6635900 640080 6636500 --prefix lm2025_range_club_016m --output-dir sources
 
 The default bbox is EPSG:3006 [639119.5,6635121.5,641167.5,6637169.5].
 Raster output is bounded to 4096px per request and includes pixel-centre worldfiles,

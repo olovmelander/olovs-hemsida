@@ -37,12 +37,14 @@ export function buildGroundSurfaceFeatures({
   let holes = inferTeePads ? withInferredTeePads(sourceHoles) : sourceHoles;
   let model = sourceModel;
   if (smoothEdges) {
-    const smoothed = smoothMownEdges({ holes, scenery: sourceModel.scenery || {} });
+    const smoothed = smoothMownEdges({ holes, scenery: sourceModel.scenery || {},
+      preserveMappedBoundaries: sourceModel.infra?.preserveMappedBoundaries === true });
     holes = smoothed.holes;
     model = { ...sourceModel, scenery: smoothed.scenery };
   }
 
   const features = [];
+  const sandPad = model.infra?.preserveMappedBoundaries === true ? 0 : 0.5;
   const rings = (surface, source, extra = {}) => {
     const values = validRings(source);
     if (values.length) features.push({ surface, rings: values, ...extra });
@@ -63,7 +65,7 @@ export function buildGroundSurfaceFeatures({
     const tees = (hole.tees?.pads || []).map(tee => tee?.ring);
     rings(SURFACE.FRINGE, tees, { pad: 2.2, hole: owner });
     rings(SURFACE.TEE, tees, { hole: owner });
-    rings(SURFACE.SAND, (hole.bunkers || []).map(bunker => bunker?.ring), { pad: 0.5, hole: owner });
+    rings(SURFACE.SAND, (hole.bunkers || []).map(bunker => bunker?.ring), { pad: sandPad, hole: owner });
   }
 
   const scenery = model.scenery || {};
@@ -73,14 +75,14 @@ export function buildGroundSurfaceFeatures({
   rings(SURFACE.GREEN, scenery.greens);
   rings(SURFACE.TEE, scenery.tees);
   rings(SURFACE.SEMI, scenery.grass);
-  rings(SURFACE.SAND, [...(scenery.bunkers || []), ...(vegetation.sand || [])], { pad: 0.5 });
+  rings(SURFACE.SAND, [...(scenery.bunkers || []), ...(vegetation.sand || [])], { pad: sandPad });
 
   // These are complete polygons, not independent outer rings: an interior island
   // must remain excluded from the putting turf in the atlas and v2 compiler.
   for (const feature of scenery.mappedFeatures || []) {
     const surface = feature.kind === 'practice_green' ? SURFACE.GREEN
-      : feature.kind === 'range_bunker' ? SURFACE.SAND
-        : feature.kind === 'range_tee_pad' ? SURFACE.TEE : null;
+      : feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' ? SURFACE.SAND
+        : feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface' ? SURFACE.TEE : null;
     if (surface !== null && validRings(feature.rings).length) {
       features.push({ surface, polygons: [{ rings: feature.rings }], sourceId: feature.id });
     }
@@ -95,7 +97,13 @@ export function buildGroundSurfaceFeatures({
     if (surface !== null) rings(surface, source);
   }
 
-  rings(SURFACE.GRAVEL, (infrastructure.parking || []).map(parking => parking?.ring));
+  // A source asphalt tag overrides the historical gravel default; 'unpaved'
+  // must not accidentally match 'paved'. Other grounds retain their default.
+  const parking = infrastructure.parking || [];
+  const parkingSurface = item => /\b(asphalt|paved)\b/i.test(item?.surface || '') ? SURFACE.ASPHALT : SURFACE.GRAVEL;
+  for (const surface of new Set(parking.map(parkingSurface))) {
+    rings(surface, parking.filter(item => parkingSurface(item) === surface).map(item => item?.ring));
+  }
   for (const path of infrastructure.paths || []) line(
     hardSurface(path), path, path?.kind === 'cycleway' ? 1.3 : 0.65,
   );
