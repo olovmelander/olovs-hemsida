@@ -6,14 +6,24 @@
    clubhouse. The model carried an eye-traced range ring (±8 m by its own
    statement) and TWO SYNTHETIC CIRCLES for the practice greens. Measured:
 
-   THE RANGE FIELD is the one unmistakable thing in the capture. A driving
-   range is not mown to fairway height, so in the 2023-04-28 leaf-off image it
-   stands out as dormant ground: excess green 15–17 and brightness 121 inside
-   it against 53–109 and 89–103 for every turf around it — a wider separation
-   than any other surface pair on this course. The field is therefore
-   classified per pixel (the tree-cover rule's shape: colour AND smoothness),
-   the largest component taken, its holes filled and its outline traced. No
-   registration step exists: a tile's coordinates ARE its georeference.
+   THE RANGE FIELD is on the EAST side, and getting that wrong is the lesson.
+   A first pass classified the most striking thing in the capture — a 48 x 160 m
+   strip of dormant ground between the 9th and the 1st, excess green 15–17
+   against 53–109 for every turf beside it — and called it the range, because
+   the eye-traced ring it replaced was near it. The owner, who plays here, put
+   a red circle round the pasture EAST of the 1st instead, and the club's own
+   overview says the same: registered on its nine numbered discs the map turns
+   out to be rotated −149° (not the 180° a first reading assumed), and its
+   DRIVING RANGE and ÖVNINGSOMRÅDE labels then fall east and south-east of
+   KLUBBHUS. A dormant strip is a hayfield here, not a range.
+
+   So the field is the OPEN GROUND east of the 1st: everything the model does
+   not otherwise claim — not forest in the tree-cover raster, not water, not a
+   played corridor (fairway rings and 25 m either side of a hole line), not a
+   road, building or lot — taken as the component containing a reviewed seed
+   inside the owner's mark. Its edges are therefore the real ones the imagery
+   shows: the estate track to the north, the treeline east, the wood south.
+   No registration step exists: a tile's coordinates ARE its georeference.
 
    THE PRACTICE GREENS are the harder half and the honest answer may be that
    the capture cannot place them. Each candidate is asked for two things a
@@ -44,22 +54,37 @@ const T = loadTerrain();
 const S = 1;                                   /* raster spacing, metres */
 /* measured 2026-09-05 in probe boxes: dormant range 15–17 / 121, every turf
    beside it 53–109 / 89–103 */
-const DORMANT = { exgMax: 40, brightMin: 105 };
-const FIELD = { box: { x0: 330, x1: 560, z0: -420, z1: -150 }, minArea: 2000 };
+/* the seed is REVIEWED: the centre of the owner's mark on the app's own
+   overhead, converted through the clubhouse, parking and manor footprints
+   visible in the same frame */
+const FIELD = { box: { x0: 470, x1: 760, z0: -500, z1: -170 }, seed: [600, -347], corridor: 25 };
 
 /* ---------------------------------------------------------------- the field */
+/* tree cover: {0 unknown, 2 open, 3 trees}, two bits per cell */
+const cover = readJson('tree-cover.json');
+const coverBytes = Buffer.from(cover.b64, 'base64');
+const treesAt = (x, z) => { const c = Math.floor((x - cover.x0) / cover.cell), r = Math.floor((z - cover.z0) / cover.cell); if (c < 0 || r < 0 || c >= cover.nx || r >= cover.nz) return true; const i = r * cover.nx + c; return ((coverBytes[i >> 2] >> ((i & 3) * 2)) & 3) === 3; };
+const claimed = [
+  ...model.holes.flatMap(h => [h.green.ring, ...h.fairway.rings, ...h.tees.pads.map(p => p.ring), ...h.bunkers.map(b => b.ring)]),
+  ...model.water.map(w => w.ring), ...model.infra.buildings.map(b => b.ring), ...model.infra.parking.map(p => p.ring),
+];
+const lines = [...model.infra.roads, ...model.infra.tracks, ...model.infra.paths].map(f => f.line);
 const G = gridOver(FIELD.box, S, 0);
 const mask = new Uint8Array(G.width * G.height);
 for (let i = 0; i < mask.length; i++) {
-  const p = IMG.rgbAt(...G.centre(i));
-  if (p && excessGreen(p) <= DORMANT.exgMax && brightness(p) >= DORMANT.brightMin) mask[i] = 1;
+  const [x, z] = G.centre(i);
+  if (treesAt(x, z)) continue;
+  if (model.holes.some(h => distToLine(x, z, h.line) <= FIELD.corridor)) continue;
+  if (claimed.some(ring => pointInPoly(x, z, ring))) continue;
+  if (lines.some(line => distToLine(x, z, line) <= 8)) continue;
+  mask[i] = 1;
 }
-const cleaned = close(open(mask, G.width, G.height, 1), G.width, G.height, 2);
-const { label, sizes } = labelComponents(cleaned, G.width, G.height);
-let bestId = 0;
-for (let id = 1; id < sizes.length; id++) if (sizes[id] > sizes[bestId] || !bestId) bestId = id;
+const cleaned = close(open(mask, G.width, G.height, 2), G.width, G.height, 3);
+const { label } = labelComponents(cleaned, G.width, G.height);
+const seedId = label[G.cellOf(...FIELD.seed)];
+if (!seedId) throw new Error('the reviewed seed does not fall on open ground');
 const member = new Uint8Array(mask.length);
-for (let i = 0; i < member.length; i++) member[i] = label[i] === bestId ? 1 : 0;
+for (let i = 0; i < member.length; i++) member[i] = label[i] === seedId ? 1 : 0;
 const filled = fillHoles(member, G.width, G.height);
 const ring0 = outerRing(i => filled[i], G);
 if (!ring0) throw new Error('no dormant component found where the range should be');
@@ -164,7 +189,7 @@ fs.writeFileSync(path.join(HERE, 'practice-traces.json'), JSON.stringify({
   schemaVersion: 1,
   source: 'Esri World Imagery z18 (2023-04-28 WorldView-2, leaf-off) and the published 1 m laser terrain; ribbingsforsbuild/trace-practice.mjs 2026-09-05. Migration-only, no imagery stored.',
   method: {
-    field: `dormant ground classified per pixel (excess green <= ${DORMANT.exgMax}, brightness >= ${DORMANT.brightMin} — measured 15–17/121 inside the field against 53–109/89–103 for every turf beside it), opened 1 m, closed 2 m, largest component, holes filled, outline simplified to 2 m`,
+    field: `open ground east of the 1st: not forest in the tree-cover raster, not water, not inside a green/fairway/tee/bunker ring, not within ${FIELD.corridor} m of a hole line, not within 8 m of a road, track or path; opened 2 m, closed 3 m, the component containing the reviewed seed (${FIELD.seed}) from the owner's own mark, holes filled, outline simplified to 2 m`,
     bays: 'each end searched for laser-flat benches (5 x 5 m spread < 0.12 m, components >= 25 m², dark cells < 30% so the pond is not a bench); the end with more flat ground carries the tee line, and its largest bench is the bays',
     oak: 'dark (brightness < 70) components of 8–400 m² wholly inside the field',
     practiceGreens: 'excess green inside the disc against a 3–8 m collar, and the laser 5x5 m spread, both calibrated on the nine surveyed greens',

@@ -27,6 +27,30 @@ describe('flat water from the ground', () => {
     expect(water.isWaterAt(field.x0 + 10 * 4, field.z0 + 10 * 4)).toBe(false);
   });
 
+  it('refuses a gently sloping field, which is smooth everywhere but level nowhere', () => {
+    /* The neighbour test only says SMOOTH. A field falling 0.5% is flat to
+       2 cm between 4 m neighbours everywhere and still drops 2 m across
+       itself; before the level test it was drawn as a lake, which is how
+       Ängsö came to paint 46 ha of field, clearing and one road as water. */
+    const slope = raster(100, 100, 4, (c, r) => (r >= 20 && r < 70 && c >= 20 && c < 70 ? 10 + r * 0.02 : 40 + c * 0.4));
+    const water = detectFlatWater({ raster: slope, minimumCells: 100 });
+    expect(water.components.length).toBe(0);
+    expect(water.refusedNotLevel.length).toBe(1);
+    expect(water.refusedNotLevel[0].levelFraction).toBeLessThan(0.5);
+    expect(water.isWaterAt(slope.x0 + 45 * 4, slope.z0 + 45 * 4)).toBe(false);
+  });
+
+  it('keeps a lake that is level even where its own noise straddles the tolerance', () => {
+    /* the discriminator is the FRACTION at one height, not the extreme: a real
+       surface with a few disturbed cells is still a surface */
+    const noisy = raster(100, 100, 4, (c, r) => (c >= 20 && c < 70 && r >= 30 && r < 60
+      ? (c === 21 && r === 31 ? 50.4 : 50 + ((c * 7 + r * 3) % 3) * 0.005)
+      : 40 + c * 0.05 + r * 0.02));
+    const water = detectFlatWater({ raster: noisy, minimumCells: 100 });
+    expect(water.components.length).toBe(1);
+    expect(water.components[0].levelFraction).toBeGreaterThan(0.95);
+  });
+
   it('leaves the part of the lake a known ring already draws, and takes that ring\'s level', () => {
     /* a ring covering the western half of the lake, on the legacy datum */
     const ring = [[field.x0 + 20 * 4, field.z0 + 30 * 4], [field.x0 + 45 * 4, field.z0 + 30 * 4], [field.x0 + 45 * 4, field.z0 + 60 * 4], [field.x0 + 20 * 4, field.z0 + 60 * 4]];

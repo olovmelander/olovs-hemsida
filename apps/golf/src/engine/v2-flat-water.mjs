@@ -37,6 +37,22 @@ export function detectFlatWater({
   flatToleranceMetres = 0.03,
   minimumCells = 300,
   ringMarginMetres = 6,
+  /* Water is LEVEL, and the neighbour test above only says it is SMOOTH.
+     A field falling 0.75% is flat to 3 cm between 4 m neighbours everywhere
+     and still drops two metres across itself, so it passed as a lake -- at
+     Ängsö that painted 46 ha of field, clearing and one road as water, which
+     reads as the lake leaking inland as soon as you zoom out. So a component
+     must also sit at ONE height: at least `levelFractionMinimum` of it within
+     `levelToleranceMetres` of its own median. Calibrated across two grounds
+     that bracket the question -- at Ängsö the flats that are land (fields at
+     1.4 to 4.6 m, a clearing, a road) read 0.20 to 0.64 while every real water
+     body reads 0.79 or better, and at Norrfällsviken the Gulf of Bothnia is
+     the WORST real water there is, 0.787, because the DTM carries its wave
+     surface. So the threshold sits at 0.70, in the gap between 0.64 and 0.786,
+     with margin on both sides. Lower it and a sloping field is a lake again;
+     raise it past 0.78 and the sea stops being water. */
+  levelToleranceMetres = 0.05,
+  levelFractionMinimum = 0.7,
 } = {}) {
   const { width, height, spacing, x0, z0, heights } = raster;
   finite(spacing, 'raster.spacing'); finite(x0, 'raster.x0'); finite(z0, 'raster.z0');
@@ -61,10 +77,11 @@ export function detectFlatWater({
     const id = components.length + 1;
     let top = 0, cells = 0, sum = 0;
     let minColumn = width, maxColumn = 0, minRow = height, maxRow = 0;
+    const sample = [];
     stack[top++] = seed; label[seed] = id;
     while (top) {
       const i = stack[--top];
-      cells++; sum += heights[i];
+      cells++; sum += heights[i]; sample.push(heights[i]);
       const column = i % width, row = (i - column) / width;
       if (column < minColumn) minColumn = column; if (column > maxColumn) maxColumn = column;
       if (row < minRow) minRow = row; if (row > maxRow) maxRow = row;
@@ -74,9 +91,22 @@ export function detectFlatWater({
         label[j] = id; stack[top++] = j;
       }
     }
-    components.push({ id, cells, meanHeight: sum / cells, minColumn, maxColumn, minRow, maxRow });
+    /* one height for the whole component, and how much of it actually sits there */
+    sample.sort((a, b) => a - b);
+    const medianHeight = sample[sample.length >> 1];
+    let atLevel = 0;
+    for (const value of sample) if (Math.abs(value - medianHeight) <= levelToleranceMetres) atLevel++;
+    components.push({
+      id, cells, meanHeight: sum / cells, medianHeight,
+      levelFraction: atLevel / cells,
+      minColumn, maxColumn, minRow, maxRow,
+    });
   }
-  const kept = new Map(components.filter(component => component.cells >= minimumCells).map(component => [component.id, component]));
+  const kept = new Map(components
+    .filter(component => component.cells >= minimumCells && component.levelFraction >= levelFractionMinimum)
+    .map(component => [component.id, component]));
+  const refusedNotLevel = components.filter(component =>
+    component.cells >= minimumCells && component.levelFraction < levelFractionMinimum);
   /* cells inside a body the model already draws are left to that body; the
      component takes the body's level so the two sheets meet without a step */
   const known = knownBodies.filter(body => body.ring?.length >= 3).map(body => ({ ...body, bb: bbox(body.ring) }));
@@ -108,6 +138,7 @@ export function detectFlatWater({
     return Object.freeze({
       id: component.id,
       cells: component.cells,
+      levelFraction: +component.levelFraction.toFixed(3),
       hectares: +(component.cells * spacing * spacing / 10000).toFixed(2),
       /* the flat surface IS the water; a known body's measured level wins where they overlap */
       level: overlap ? overlap.body.level : component.meanHeight,
@@ -125,6 +156,14 @@ export function detectFlatWater({
     mask,
     label,
     components: Object.freeze(result),
+    /* large flats that are smooth but not level: kept out of the water, and
+       named so a harness can say what was refused and why */
+    refusedNotLevel: Object.freeze(refusedNotLevel.map(component => Object.freeze({
+      cells: component.cells,
+      hectares: +(component.cells * spacing * spacing / 10000).toFixed(2),
+      medianHeight: component.medianHeight,
+      levelFraction: +component.levelFraction.toFixed(3),
+    }))),
     isWaterAt(gridX, gridZ) {
       const column = Math.floor((gridX - x0) / spacing), row = Math.floor((gridZ - z0) / spacing);
       if (column < 0 || row < 0 || column >= width || row >= height) return false;

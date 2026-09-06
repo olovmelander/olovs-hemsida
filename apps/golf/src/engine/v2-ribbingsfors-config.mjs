@@ -38,18 +38,21 @@ export const RIBBINGSFORS_V2_CONFIG = Object.freeze({
     expectedCoreGrid: Object.freeze({
       dx: 4,
       x0: -468,
-      x1: 756,
+      x1: 864,
       z0: -612,
       z1: 540,
-      nx: 307,
+      nx: 334,
       nz: 289,
     }),
-    /* re-measured 2026-09-05 off the assertion's own "got" line after the
-       played surfaces were traced by rule: the routes no longer reach the
-       GolfTraxx seeds' far corners, so CORE shrank one 36 m cell east and
-       south (was 316 x 298, 90,520 / 94,168 at x -468..792, z -612..576) */
-    expectedSkippedBasePoints: 85_183,
-    expectedTotalBasePoints: 88_723,
+    /* CORE is playB +- 150 m snapped to 36, and playB takes scenery.range, so
+       every re-measurement of the practice ground moves it. Read off the
+       assertion's own "got" line, never typed. 316 x 298 (90,520 / 94,168,
+       x -468..792, z -612..576) with the GolfTraxx seed routes; 307 x 289
+       (85,183 / 88,723, x -468..756) once the routes were traced by rule; and
+       334 x 289 now the range is the pasture EAST of the 1st reaching x 715
+       rather than a dormant strip at x 435 */
+    expectedSkippedBasePoints: 92_824,
+    expectedTotalBasePoints: 96_526,
   }),
 });
 

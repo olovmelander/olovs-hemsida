@@ -3108,6 +3108,52 @@ turned up things worth keeping:
   163,954 base points omitted), read the runbook way off the assertion's
   own "got" line.
 
+### Upsala's reviewed buildings and facilities — and the coordinate that must not travel
+
+`upsalabuild/mapping/` carries the dated-orthophoto review — the municipal
+building footprints, 20 facility polygons, the corrected 17th green, the 8th's
+and 9th's tee pads, the 16th's fourth bunker and the laser-plated ponds — and
+`ground-mapping.mjs` folds it into the reconciled base, stamping
+`model.mappingRevision`. The engine reads it through `scenery.mappedFeatures`
+(complete polygons WITH their interior holes, so an island stays excluded from
+the putting turf), so `surfaceMesh` grew an exact-ring path beside its Chaikin
+one and the range's synthetic target flags stand down where a measured
+`range_target_surface` exists. Three things this pass established:
+
+- **A source-frame coordinate in an evidence payload becomes a 786 km
+  residual.** `migration.mjs` walks the whole model for numeric pairs and
+  converts each as local metres, so the one `centroid3006` riding inside the
+  8th tee's `terrainCorroboration` was migrated as a point 786 km away: the
+  playing geometry's worst direct residual went 44.3 m → 786,483 m and its
+  best-fit rotation −2.155° → −6.67°, which is the frame's own convergence
+  replaced by nonsense. The building records already stated the rule in a
+  comment; it simply had not been applied to the tee, green, bunker and pond
+  evidence. Every payload is stripped through `withoutSourceCoordinates` now,
+  and — because a strip is only as good as the gate that refuses the NEXT
+  payload — `applyGroundMapping` asserts over the FINISHED model that no
+  `*3006` key survives anywhere, not over the fields it happens to know today.
+  The probe that proves it fires is one line: neuter the filter and reconcile
+  dies naming `model.holes[7].tees.pads[0].evidence.terrainCorroboration
+  .flatComponents[0].centroid3006`. **Evidence belongs in `mapping/`; only
+  measurements travel into the model.**
+- **A control-window count may legitimately FALL.** `acquisition.node-test`'s
+  `requestedWindowReferences` went 711 → 709 because the 8th's provisional tee
+  ring straddled six 256 m windows and the two ortho-traced pads that replace
+  it lie inside four. Measured hole by hole, the 8th is the only hole on any
+  course that moved, and `uniqueGroundWindowCount` stays 195 — so it is a
+  tighter footprint, not a window leaving the plan. Attribute a change in that
+  number to a hole before re-pinning it, exactly as the file's own comment says
+  the number is measured and never summed.
+- **`pip install pyproj` is enough to land a migration here.** It brings PROJ
+  9.5.1, and a ~30-line `cs2cs` shim honouring authority axis order
+  (`Transformer.from_crs(..., always_xy=False)`, `-f %.Nf` formatting) lets
+  `migrate-legacy.mjs --write` run unchanged. Prove it before trusting it:
+  `migrate-legacy.mjs --check --ground <g>` reproduces the committed cs2cs
+  output byte-identically on all six untouched grounds, generator string and
+  last rounding unit included. That is the real PROJ, not the Krüger
+  substitute, so unlike `migrate-without-proj.mjs` it is a landing path and not
+  just a way to keep moving.
+
 ## Ängsö re-grounded on the laser — and what the published graph is good for
 
 `docs/courses/angso-course-atlas.md` is the complete inventory of this course
@@ -3272,6 +3318,27 @@ records the 2026-09-05 pass. The lessons that generalise:
   nothing and passed with a phantom deliberately restored. It reads
   `course-model.json` now. Only the probe caught it: write the probe that makes
   a new gate FAIL before believing it passes.
+- **"Flat" is not "level", and the difference painted a road as a lake.**
+  `detectFlatWater` (the v2 pass that finds water the pack does not know) tested
+  only that a cell sits within 3 cm of its four NEIGHBOURS. A field falling
+  0.75% clears that everywhere at 4 m spacing and still drops two metres across
+  itself, so any large smooth thing became water: at Ängsö **46 ha of field,
+  clearing and a 2 km stretch of road** were tinted and sheeted as lake, which
+  is what "water leaking onto the mainland when you zoom out" was — the tint is
+  baked into the ground raster (`flatWaterAt ? FLAT_WATER_TINT : colourAt`), so
+  it shows at range rather than up close. A component must now also sit at ONE
+  height: ≥ 70% of it within 5 cm of its own median. Ängsö 51 components → 14,
+  435 → 394 ha painted beyond the rings (the lake past the ring clip, which is
+  the whole point of the pass, is untouched), and near the course 19.8 → 4.9 ha.
+  **The threshold is bracketed by two grounds, not tuned on one**: Ängsö's land
+  flats read 0.20–0.64 and its real water 0.79+, while Norrfällsviken's Gulf of
+  Bothnia is the worst real water anywhere here at **0.787** — the DTM carries
+  its wave surface — so 0.8 was too tight and cost the sea. 0.70 sits in the
+  gap. Verified on every ground with a graph: Puttom drops one 0.5 ha non-level
+  flat and keeps all four lakes unknown to its pack, Veckefjärden and Upsala are
+  unchanged, Johannesberg drops 4.5 ha of field, and nothing model-confirmed is
+  lost anywhere. Ribbingsfors is grid-authored on a fixed frontier and never
+  runs the pass at all.
 
 - **The course is read off that ground now, and the satellite capture was
   CHOSEN by measurement (2026-09-05).** `angsobuild/dtm.mjs` binds the readers
@@ -3348,7 +3415,7 @@ is its browser gate.
     node ribbingsforsbuild/laser-ditches.mjs       # traced ditches re-laid on the laser channel bottoms + crossings -> laser-ditches.json
     node ribbingsforsbuild/apply-surface-traces.mjs  # folds both in; runs LAST (apply-surroundings keeps laser-laid streams on a rerun)
     node ribbingsforsbuild/trace-buildings.mjs     # roofs by rule (colour+smoothness+HARD EDGE, then grown to the edge peak)
-    node ribbingsforsbuild/trace-practice.mjs      # the range field, its bays and the practice greens -> practice-traces.json
+    node ribbingsforsbuild/trace-practice.mjs      # the range field and the practice greens -> practice-traces.json
     node ribbingsforsbuild/wayback-greens.mjs      # the second dated capture: greens refused, bunkers agreed -> wayback-greens.json
     node packages/course-pack/emit-pack.mjs ribbingsforsbuild apps/golf/public/courses/ribbingsfors ribbingsfors
     node packages/course-pack/emit-manifest.mjs
@@ -3422,19 +3489,34 @@ the same commit (`pnpm test` fails loudly on both, and
   (77.7 m) → road culvert → the two crossings at green 1 → hole-9 pond
   (72.0 m) → lake. The four synthetic guide-crossing streams are replaced by
   these traces; the gradient is the check.
-- **The range field is dormant ground, and that makes it the easiest thing on
-  the course to measure.** A range is not mown to fairway height, so in the
-  leaf-off capture it reads excess green 15–17 and brightness 121 against
-  53–109 and 89–103 for every turf beside it — a wider separation than sand
-  against grass. Classified that way (`trace-practice.mjs`) it is 6,541 m²
-  over x 387–435, z −386…−226; the eye-traced ring it replaced lay **31.8 m**
-  away and claimed 10,166 m², half of it on mown turf. **The bays are at the
-  far end from the clubhouse** — the laser finds 1,362 of 4,324 cells flat to
-  0.12 m at the south end against 223 at the north, with a 262 m² mown bench
-  among them, and the club's own range photographs agree — so the model carries
-  `scenery.rangeTee` and the engine prefers a measured tee over its own "the
-  end you walk to from the clubhouse" rule. No tree stands inside the measured
-  field: the traced "mature oak in the field" is dropped.
+- **A perfect classifier can be pointed at the wrong field.** The range was
+  measured twice. The first pass classified the most striking thing in the
+  leaf-off capture — a 48 × 160 m strip of dormant ground between the 9th and
+  the 1st at excess green 15–17 and brightness 121 against 53–109 and 89–103
+  for every turf beside it, a wider separation than sand against grass — and
+  called it the range because the ±8 m eye-traced ring it replaced lay 31.8 m
+  from it. Every number was right and the field was wrong: **a dormant strip
+  between two fairways is a hayfield here.** The owner marked the range in red
+  over the open pasture EAST of the 1st, and the club's own overview agrees
+  once it is registered on its nine numbered discs — the sheet turns out to be
+  rotated **−149°**, not the 180° the first reading assumed, which puts
+  DRIVING RANGE east/south-east of KLUBBHUS. *Register a plan on its own
+  features before reading a label off it, and take the owner's mark as the
+  record it is.* The field as adopted (`trace-practice.mjs`) is that pasture,
+  classified by what it is NOT — not forest, water, a played ring, within 25 m
+  of a hole line or within 8 m of a road — as the component containing the
+  reviewed seed inside the mark: **40,163 m² over x 504–715, z −432…−172**.
+  **The bays are NOT measured**, and the model says so: the bench test that
+  split the strip's two ends finds nothing on pasture, which is flat
+  everywhere (5,719 of 11,822 cells flat to 0.12 m north against 3,787 south),
+  so `range.bays` and `scenery.rangeTee` are null with the refusal written
+  beside them and the engine's own "the end you walk to from the clubhouse"
+  rule stands. `scenery.rangeTee` still exists and is still preferred where a
+  course HAS a measured tee. No tree stands inside the field: the traced
+  "mature oak in the field" is dropped. And because CORE is `playB ± 150 m`
+  and `playB` takes `scenery.range`, moving the range east grew the reviewed
+  legacy cutout from 307 × 289 to **334 × 289** — re-measured off the v2
+  assertion's own "got" line, never typed.
 - **Of the two practice greens, one is measured and one does not exist.**
   Calibrated on the nine surveyed greens (collar contrast 3–45, median 18;
   laser spread 0.11–0.37 m, median 0.18), the green beside the clubhouse reads
