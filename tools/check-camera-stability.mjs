@@ -301,7 +301,7 @@ async function main(o) {
   const local = await serveBuild(o.root, '/olovs-hemsida/');
   const url = new URL(local.base);
   Object.entries({ bana: 'upsala', v2: 'require', det: '1', graphics: '1', q: 'lo', qualitylock: '1',
-    ren: '1', gl: '0', lodmode: 'zone', hal: '1', vy: 'top', ljus: 'dag' })
+    ren: '1', gl: '0', lodmode: 'zone', hal: '1', vy: 'ovan', ljus: 'dag' })
     .forEach(([k, v]) => url.searchParams.set(k, v));
   if (o.graphicsDefault) url.searchParams.delete('graphics');
   const report = { schemaVersion: 1, date: new Date().toISOString(), url: url.href,
@@ -313,7 +313,7 @@ async function main(o) {
       views: [{ id: 'h1_top_noon', hole: 1, cam: 'top', preset: 'noon' }] },
     errors: [], warnings: [], views: [], interactions: [], passed: false, stage: 'launch' };
   const persist = () => fs.writeFileSync(path.join(o.out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
-  let browser;
+  let browser, page;
   const deadline = setTimeout(() => {
     report.errors.push({ type: 'harness-deadline', text: '180 second whole-scene deadline reached' });
     report.passed = false; persist();
@@ -322,7 +322,7 @@ async function main(o) {
   try {
     browser = await chromium.launch({ headless: true,
       args: ['--no-sandbox', '--disable-lcd-text', '--enable-unsafe-swiftshader', '--use-angle=swiftshader'] });
-    const page = await browser.newPage({ viewport: { width: 384, height: 288 }, deviceScaleFactor: 1,
+    page = await browser.newPage({ viewport: { width: 384, height: 288 }, deviceScaleFactor: 1,
       reducedMotion: 'no-preference', hasTouch: true, serviceWorkers: 'block' });
     page.setDefaultTimeout(60000);
     await page.addInitScript(() => Object.defineProperty(navigator, 'gpu', { configurable: true, value: undefined }));
@@ -457,6 +457,12 @@ async function main(o) {
     report.stage = 'complete';
   } catch (error) {
     report.passed = false; report.errors.push({ type: 'harness', text: String(error.stack || error) });
+    if (page && !page.isClosed()) {
+      report.failureState = await page.evaluate(() => window.V3D ? {
+        frame: V3D.frame(), settled: V3D.settled(), terrain: V3D.v2Terrain().adapter,
+        shadow: V3D.shadowRest(), buffers: V3D.v2TerrainBuffers?.(), plan: V3D.v2Plan(),
+      } : null).catch(() => null);
+    }
   } finally {
     clearTimeout(deadline);
     persist();

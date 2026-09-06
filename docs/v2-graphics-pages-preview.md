@@ -1,5 +1,11 @@
 # V2 graphics preview on GitHub Pages
 
+**Current status, 2026-09-06:** the owner requested the improved v2 graphics as
+the default. The [performance recovery pass](v2-performance-recovery.md) enables
+them for ready v2 terrain; `graphics=0` remains the comparison override. The
+opt-in instructions and review gates below describe the original preview, not
+the current default. Physical-device performance acceptance remains unmeasured.
+
 Prepared 2026-09-06 against published main
 `a9c2d441c86542f1179edd6d08c0a3a0d25b5011`. The integration branch is
 `codex/v2-graphics-pages-preview`. Only the graphics commits were carried over

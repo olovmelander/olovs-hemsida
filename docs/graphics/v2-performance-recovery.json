@@ -1,0 +1,5090 @@
+{
+  "date": "2026-09-06",
+  "baselineRevision": "798836684ac39f2587cfd189309b10cc330b817f",
+  "sourceCheckpoint": "9ca4a00790f83f8d1ba082016e21b553ba238624",
+  "sourceTree": "34453c3193ab3d0760ec86cc58d723e742ea2b11",
+  "sourceHashes": {
+    "apps/golf/src/main.js": "2776b7ec48fb046844d640e2fe2bd1b5fbc82f023319fc8113e065e8b555e78e",
+    "apps/golf/src/engine/lighting-environment.mjs": "4b1d30a67230041b00fb037286911ea9f595b528bdc1f1ac3155c3aa50470f52",
+    "apps/golf/src/engine/v2-terrain-batch.mjs": "934c33069504012c485b093c5d25d0d2bc868338fb58c06eeb90ad9eb14cff14",
+    "apps/golf/src/engine/first-frame-ready.mjs": "700b62a03d311e0ef3662db038278ed2f5e92b615dc6e7422d1de86f844659dd"
+  },
+  "hardwarePerformanceEvidence": false,
+  "limits": "Software WebGL2 correctness and Node CPU component work only. No physical-device FPS, scene median/p95/p99, moving-camera hitches, total startup or total memory acceptance. Desktop WebGPU and phone WebGL2 remain separate open checks.",
+  "validation": {
+    "vitestTestsPassed": 405,
+    "vitestFilesPassed": 57,
+    "productionBuild": true,
+    "appLint": true,
+    "v2BuildIsolation": true,
+    "sourceManifests": true
+  },
+  "lighting": {
+    "baselineRevision": "798836684ac39f2587cfd189309b10cc330b817f",
+    "candidateCheckpoint": "1153e9841f5ce73be9a038e14bf99ab3c277149b",
+    "sourceHashes": {
+      "before": "ffa62582218e5695e206a50daa051d969fc7f7f7f996158282fb70bb97d54582",
+      "after": "4b1d30a67230041b00fb037286911ea9f595b528bdc1f1ac3155c3aa50470f52"
+    },
+    "hardwarePerformanceEvidence": false,
+    "method": "Isolated 7-object scene, 160x120 DPR1 MSAA4, Three r185 WebGL2 SwiftShader. Same presets, geometry, material settings and PMREM resolution/filtering. Counts include actual node builds and backend calls; software timings are diagnostic only.",
+    "errors": [],
+    "before": {
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "width": 160,
+      "height": 120,
+      "drawingBuffer": [
+        160,
+        120
+      ],
+      "rows": [
+        {
+          "preset": "noon",
+          "handlerMs": 125.20000000298023,
+          "renderAndWaitMs": 4201.199999988079,
+          "sceneBuilds": 2,
+          "allBuilds": 9,
+          "programs": 12,
+          "pipelines": 6,
+          "cache": {
+            "enabled": true,
+            "preset": "noon",
+            "cachedPresets": [
+              "noon"
+            ],
+            "bakes": 1,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 49,
+            "attributesSize": 61332,
+            "geometries": 20,
+            "indexAttributes": 8,
+            "indexAttributesSize": 21684,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 10,
+            "programsSize": 54033,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 3,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 6,
+            "texturesSize": 15960064,
+            "uniformBuffers": 37,
+            "uniformBuffersSize": 5360,
+            "total": 16102473
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "e4f13a32540e95241ca7c4383143fa9d13126ebd8371c58727a846c9866fa020"
+        },
+        {
+          "preset": "golden",
+          "handlerMs": 11.899999991059303,
+          "renderAndWaitMs": 3925.9000000059605,
+          "sceneBuilds": 2,
+          "allBuilds": 3,
+          "programs": 2,
+          "pipelines": 1,
+          "cache": {
+            "enabled": true,
+            "preset": "golden",
+            "cachedPresets": [
+              "noon",
+              "golden"
+            ],
+            "bakes": 2,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 49,
+            "attributesSize": 61332,
+            "geometries": 20,
+            "indexAttributes": 8,
+            "indexAttributesSize": 21684,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 10,
+            "programsSize": 54033,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 37,
+            "uniformBuffersSize": 5360,
+            "total": 25539657
+          },
+          "environment": {
+            "id": 21,
+            "version": 2
+          },
+          "pngSha256": "dde3c94b8c7ebe0474b02c32e032e3fb063dad3d8d02af933fa50b200f58be62"
+        },
+        {
+          "preset": "noon",
+          "handlerMs": 0,
+          "renderAndWaitMs": 80.30000001192093,
+          "sceneBuilds": 2,
+          "allBuilds": 2,
+          "programs": 0,
+          "pipelines": 0,
+          "cache": {
+            "enabled": true,
+            "preset": "noon",
+            "cachedPresets": [
+              "golden",
+              "noon"
+            ],
+            "bakes": 2,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 49,
+            "attributesSize": 61332,
+            "geometries": 20,
+            "indexAttributes": 8,
+            "indexAttributesSize": 21684,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 10,
+            "programsSize": 54033,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 37,
+            "uniformBuffersSize": 5360,
+            "total": 25539657
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "e4f13a32540e95241ca7c4383143fa9d13126ebd8371c58727a846c9866fa020"
+        },
+        {
+          "preset": "host",
+          "handlerMs": 13,
+          "renderAndWaitMs": 3973.5,
+          "sceneBuilds": 2,
+          "allBuilds": 3,
+          "programs": 2,
+          "pipelines": 1,
+          "cache": {
+            "enabled": true,
+            "preset": "host",
+            "cachedPresets": [
+              "noon",
+              "host"
+            ],
+            "bakes": 3,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 49,
+            "attributesSize": 61332,
+            "geometries": 20,
+            "indexAttributes": 8,
+            "indexAttributesSize": 21684,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 10,
+            "programsSize": 54033,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 37,
+            "uniformBuffersSize": 5360,
+            "total": 25539657
+          },
+          "environment": {
+            "id": 25,
+            "version": 2
+          },
+          "pngSha256": "cbe8b98bfd22063817c47f7456b23d735318308e555c5504e625238abfcbfcf4"
+        },
+        {
+          "preset": "mist",
+          "handlerMs": 15,
+          "renderAndWaitMs": 5832.70000000298,
+          "sceneBuilds": 2,
+          "allBuilds": 3,
+          "programs": 2,
+          "pipelines": 1,
+          "cache": {
+            "enabled": true,
+            "preset": "mist",
+            "cachedPresets": [
+              "host",
+              "mist"
+            ],
+            "bakes": 4,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 49,
+            "attributesSize": 61332,
+            "geometries": 20,
+            "indexAttributes": 8,
+            "indexAttributesSize": 21684,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 10,
+            "programsSize": 54033,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 37,
+            "uniformBuffersSize": 5360,
+            "total": 25539657
+          },
+          "environment": {
+            "id": 29,
+            "version": 2
+          },
+          "pngSha256": "f116bd21248b065039463ae8a916be296f71ced88595df1f13584299b2e74e23"
+        },
+        {
+          "preset": "dawn",
+          "handlerMs": 15.299999997019768,
+          "renderAndWaitMs": 3967.6000000089407,
+          "sceneBuilds": 2,
+          "allBuilds": 3,
+          "programs": 2,
+          "pipelines": 1,
+          "cache": {
+            "enabled": true,
+            "preset": "dawn",
+            "cachedPresets": [
+              "mist",
+              "dawn"
+            ],
+            "bakes": 5,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 49,
+            "attributesSize": 61332,
+            "geometries": 20,
+            "indexAttributes": 8,
+            "indexAttributesSize": 21684,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 10,
+            "programsSize": 54033,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 37,
+            "uniformBuffersSize": 5360,
+            "total": 25539657
+          },
+          "environment": {
+            "id": 33,
+            "version": 2
+          },
+          "pngSha256": "2d34b885c2d73cd55f858331edbffdd5826d5e8fac0722e589c2eac5e8edf9d3"
+        },
+        {
+          "preset": "golden",
+          "handlerMs": 11.300000011920929,
+          "renderAndWaitMs": 4556.29999999702,
+          "sceneBuilds": 2,
+          "allBuilds": 3,
+          "programs": 2,
+          "pipelines": 1,
+          "cache": {
+            "enabled": true,
+            "preset": "golden",
+            "cachedPresets": [
+              "dawn",
+              "golden"
+            ],
+            "bakes": 6,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 49,
+            "attributesSize": 61332,
+            "geometries": 20,
+            "indexAttributes": 8,
+            "indexAttributesSize": 21684,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 10,
+            "programsSize": 54033,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 37,
+            "uniformBuffersSize": 5360,
+            "total": 25539657
+          },
+          "environment": {
+            "id": 37,
+            "version": 2
+          },
+          "pngSha256": "dde3c94b8c7ebe0474b02c32e032e3fb063dad3d8d02af933fa50b200f58be62"
+        },
+        {
+          "preset": "noon",
+          "handlerMs": 10.100000008940697,
+          "renderAndWaitMs": 4547.399999991059,
+          "sceneBuilds": 2,
+          "allBuilds": 3,
+          "programs": 2,
+          "pipelines": 1,
+          "cache": {
+            "enabled": true,
+            "preset": "noon",
+            "cachedPresets": [
+              "golden",
+              "noon"
+            ],
+            "bakes": 7,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 49,
+            "attributesSize": 61332,
+            "geometries": 20,
+            "indexAttributes": 8,
+            "indexAttributesSize": 21684,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 10,
+            "programsSize": 54033,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 37,
+            "uniformBuffersSize": 5360,
+            "total": 25539657
+          },
+          "environment": {
+            "id": 41,
+            "version": 2
+          },
+          "pngSha256": "e4f13a32540e95241ca7c4383143fa9d13126ebd8371c58727a846c9866fa020"
+        },
+        {
+          "preset": "host",
+          "handlerMs": 15.799999997019768,
+          "renderAndWaitMs": 5113,
+          "sceneBuilds": 2,
+          "allBuilds": 3,
+          "programs": 2,
+          "pipelines": 1,
+          "cache": {
+            "enabled": true,
+            "preset": "host",
+            "cachedPresets": [
+              "noon",
+              "host"
+            ],
+            "bakes": 8,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 49,
+            "attributesSize": 61332,
+            "geometries": 20,
+            "indexAttributes": 8,
+            "indexAttributesSize": 21684,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 10,
+            "programsSize": 54033,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 37,
+            "uniformBuffersSize": 5360,
+            "total": 25539657
+          },
+          "environment": {
+            "id": 45,
+            "version": 2
+          },
+          "pngSha256": "cbe8b98bfd22063817c47f7456b23d735318308e555c5504e625238abfcbfcf4"
+        }
+      ]
+    },
+    "after": {
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "width": 160,
+      "height": 120,
+      "drawingBuffer": [
+        160,
+        120
+      ],
+      "rows": [
+        {
+          "preset": "noon",
+          "handlerMs": 143,
+          "renderAndWaitMs": 5347.100000008941,
+          "sceneBuilds": 2,
+          "allBuilds": 9,
+          "programs": 12,
+          "pipelines": 6,
+          "cache": {
+            "enabled": true,
+            "preset": "noon",
+            "cachedPresets": [
+              "noon"
+            ],
+            "bakes": 1,
+            "allocations": 1,
+            "copies": 0,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 50,
+            "attributesSize": 66432,
+            "geometries": 21,
+            "indexAttributes": 9,
+            "indexAttributesSize": 26004,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 12,
+            "programsSize": 56879,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 3,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 6,
+            "texturesSize": 15960064,
+            "uniformBuffers": 38,
+            "uniformBuffersSize": 5472,
+            "total": 16114851
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "e4f13a32540e95241ca7c4383143fa9d13126ebd8371c58727a846c9866fa020"
+        },
+        {
+          "preset": "golden",
+          "handlerMs": 5.9000000059604645,
+          "renderAndWaitMs": 4083,
+          "sceneBuilds": 0,
+          "allBuilds": 0,
+          "programs": 0,
+          "pipelines": 0,
+          "cache": {
+            "enabled": true,
+            "preset": "golden",
+            "cachedPresets": [
+              "golden"
+            ],
+            "bakes": 2,
+            "allocations": 2,
+            "copies": 1,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 50,
+            "attributesSize": 66432,
+            "geometries": 21,
+            "indexAttributes": 9,
+            "indexAttributesSize": 26004,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 12,
+            "programsSize": 56879,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 38,
+            "uniformBuffersSize": 5472,
+            "total": 25552035
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "dde3c94b8c7ebe0474b02c32e032e3fb063dad3d8d02af933fa50b200f58be62"
+        },
+        {
+          "preset": "noon",
+          "handlerMs": 7.299999997019768,
+          "renderAndWaitMs": 4548.100000008941,
+          "sceneBuilds": 0,
+          "allBuilds": 0,
+          "programs": 0,
+          "pipelines": 0,
+          "cache": {
+            "enabled": true,
+            "preset": "noon",
+            "cachedPresets": [
+              "noon"
+            ],
+            "bakes": 3,
+            "allocations": 2,
+            "copies": 2,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 50,
+            "attributesSize": 66432,
+            "geometries": 21,
+            "indexAttributes": 9,
+            "indexAttributesSize": 26004,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 12,
+            "programsSize": 56879,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 38,
+            "uniformBuffersSize": 5472,
+            "total": 25552035
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "e4f13a32540e95241ca7c4383143fa9d13126ebd8371c58727a846c9866fa020"
+        },
+        {
+          "preset": "host",
+          "handlerMs": 7.700000002980232,
+          "renderAndWaitMs": 4633.399999991059,
+          "sceneBuilds": 0,
+          "allBuilds": 0,
+          "programs": 0,
+          "pipelines": 0,
+          "cache": {
+            "enabled": true,
+            "preset": "host",
+            "cachedPresets": [
+              "host"
+            ],
+            "bakes": 4,
+            "allocations": 2,
+            "copies": 3,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 50,
+            "attributesSize": 66432,
+            "geometries": 21,
+            "indexAttributes": 9,
+            "indexAttributesSize": 26004,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 12,
+            "programsSize": 56879,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 38,
+            "uniformBuffersSize": 5472,
+            "total": 25552035
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "cbe8b98bfd22063817c47f7456b23d735318308e555c5504e625238abfcbfcf4"
+        },
+        {
+          "preset": "mist",
+          "handlerMs": 6.5,
+          "renderAndWaitMs": 4178.300000011921,
+          "sceneBuilds": 0,
+          "allBuilds": 0,
+          "programs": 0,
+          "pipelines": 0,
+          "cache": {
+            "enabled": true,
+            "preset": "mist",
+            "cachedPresets": [
+              "mist"
+            ],
+            "bakes": 5,
+            "allocations": 2,
+            "copies": 4,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 50,
+            "attributesSize": 66432,
+            "geometries": 21,
+            "indexAttributes": 9,
+            "indexAttributesSize": 26004,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 12,
+            "programsSize": 56879,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 38,
+            "uniformBuffersSize": 5472,
+            "total": 25552035
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "f116bd21248b065039463ae8a916be296f71ced88595df1f13584299b2e74e23"
+        },
+        {
+          "preset": "dawn",
+          "handlerMs": 2.8999999910593033,
+          "renderAndWaitMs": 4348.300000011921,
+          "sceneBuilds": 0,
+          "allBuilds": 0,
+          "programs": 0,
+          "pipelines": 0,
+          "cache": {
+            "enabled": true,
+            "preset": "dawn",
+            "cachedPresets": [
+              "dawn"
+            ],
+            "bakes": 6,
+            "allocations": 2,
+            "copies": 5,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 50,
+            "attributesSize": 66432,
+            "geometries": 21,
+            "indexAttributes": 9,
+            "indexAttributesSize": 26004,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 12,
+            "programsSize": 56879,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 38,
+            "uniformBuffersSize": 5472,
+            "total": 25552035
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "2d34b885c2d73cd55f858331edbffdd5826d5e8fac0722e589c2eac5e8edf9d3"
+        },
+        {
+          "preset": "golden",
+          "handlerMs": 7.5999999940395355,
+          "renderAndWaitMs": 4109.5999999940395,
+          "sceneBuilds": 0,
+          "allBuilds": 0,
+          "programs": 0,
+          "pipelines": 0,
+          "cache": {
+            "enabled": true,
+            "preset": "golden",
+            "cachedPresets": [
+              "golden"
+            ],
+            "bakes": 7,
+            "allocations": 2,
+            "copies": 6,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 50,
+            "attributesSize": 66432,
+            "geometries": 21,
+            "indexAttributes": 9,
+            "indexAttributesSize": 26004,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 12,
+            "programsSize": 56879,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 38,
+            "uniformBuffersSize": 5472,
+            "total": 25552035
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "dde3c94b8c7ebe0474b02c32e032e3fb063dad3d8d02af933fa50b200f58be62"
+        },
+        {
+          "preset": "noon",
+          "handlerMs": 10.5,
+          "renderAndWaitMs": 5565.4000000059605,
+          "sceneBuilds": 0,
+          "allBuilds": 0,
+          "programs": 0,
+          "pipelines": 0,
+          "cache": {
+            "enabled": true,
+            "preset": "noon",
+            "cachedPresets": [
+              "noon"
+            ],
+            "bakes": 8,
+            "allocations": 2,
+            "copies": 7,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 50,
+            "attributesSize": 66432,
+            "geometries": 21,
+            "indexAttributes": 9,
+            "indexAttributesSize": 26004,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 12,
+            "programsSize": 56879,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 38,
+            "uniformBuffersSize": 5472,
+            "total": 25552035
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "e4f13a32540e95241ca7c4383143fa9d13126ebd8371c58727a846c9866fa020"
+        },
+        {
+          "preset": "host",
+          "handlerMs": 2.5999999940395355,
+          "renderAndWaitMs": 4016.2999999970198,
+          "sceneBuilds": 0,
+          "allBuilds": 0,
+          "programs": 0,
+          "pipelines": 0,
+          "cache": {
+            "enabled": true,
+            "preset": "host",
+            "cachedPresets": [
+              "host"
+            ],
+            "bakes": 9,
+            "allocations": 2,
+            "copies": 8,
+            "disposed": false
+          },
+          "memory": {
+            "attributes": 50,
+            "attributesSize": 66432,
+            "geometries": 21,
+            "indexAttributes": 9,
+            "indexAttributesSize": 26004,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 12,
+            "programsSize": 56879,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 4,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 8,
+            "texturesSize": 25397248,
+            "uniformBuffers": 38,
+            "uniformBuffersSize": 5472,
+            "total": 25552035
+          },
+          "environment": {
+            "id": 11,
+            "version": 2
+          },
+          "pngSha256": "cbe8b98bfd22063817c47f7456b23d735318308e555c5504e625238abfcbfcf4"
+        }
+      ]
+    },
+    "comparisons": [
+      {
+        "preset": "noon",
+        "maximumChannelError": 0,
+        "meanChannelError": 0,
+        "differingPixels": 0,
+        "beforeBuilds": 2,
+        "afterBuilds": 2
+      },
+      {
+        "preset": "golden",
+        "maximumChannelError": 0,
+        "meanChannelError": 0,
+        "differingPixels": 0,
+        "beforeBuilds": 2,
+        "afterBuilds": 0
+      },
+      {
+        "preset": "noon",
+        "maximumChannelError": 0,
+        "meanChannelError": 0,
+        "differingPixels": 0,
+        "beforeBuilds": 2,
+        "afterBuilds": 0
+      },
+      {
+        "preset": "host",
+        "maximumChannelError": 0,
+        "meanChannelError": 0,
+        "differingPixels": 0,
+        "beforeBuilds": 2,
+        "afterBuilds": 0
+      },
+      {
+        "preset": "mist",
+        "maximumChannelError": 0,
+        "meanChannelError": 0,
+        "differingPixels": 0,
+        "beforeBuilds": 2,
+        "afterBuilds": 0
+      },
+      {
+        "preset": "dawn",
+        "maximumChannelError": 0,
+        "meanChannelError": 0,
+        "differingPixels": 0,
+        "beforeBuilds": 2,
+        "afterBuilds": 0
+      },
+      {
+        "preset": "golden",
+        "maximumChannelError": 0,
+        "meanChannelError": 0,
+        "differingPixels": 0,
+        "beforeBuilds": 2,
+        "afterBuilds": 0
+      },
+      {
+        "preset": "noon",
+        "maximumChannelError": 0,
+        "meanChannelError": 0,
+        "differingPixels": 0,
+        "beforeBuilds": 2,
+        "afterBuilds": 0
+      },
+      {
+        "preset": "host",
+        "maximumChannelError": 0,
+        "meanChannelError": 0,
+        "differingPixels": 0,
+        "beforeBuilds": 2,
+        "afterBuilds": 0
+      }
+    ],
+    "passed": true
+  },
+  "terrainCpu": {
+    "baselineRevision": "798836684ac39f2587cfd189309b10cc330b817f",
+    "candidateCheckpoint": "1153e9841f5ce73be9a038e14bf99ab3c277149b",
+    "hardwarePerformanceEvidence": false,
+    "method": "Node CPU only: real TerrainTileBatchSet.tick plus sync, 277 frozen synthetic 3x3 resources, 320-slot capacity. Six warmups, 30 alternating A/B batches of 200 settled frames. p95 is a batch-mean distribution, NOT scene slow-frame p95.",
+    "sourceHashes": {
+      "before": "58c1aea59a5ab21ba578e93b8b23f51c54e853387e81c5bbbe07b9a630593ea0",
+      "after": "934c33069504012c485b093c5d25d0d2bc868338fb58c06eeb90ad9eb14cff14"
+    },
+    "samples": {
+      "before": [
+        0.17511885500000005,
+        0.19112554999999987,
+        0.1901484450000004,
+        0.16725889499999994,
+        0.1753922650000004,
+        0.19665082499999983,
+        0.18086588500000006,
+        0.19178524500000038,
+        0.18480075499999998,
+        0.17534546999999975,
+        0.1632963749999999,
+        0.15507070999999997,
+        0.1819396549999999,
+        0.13837788000000045,
+        0.12907350500000006,
+        0.12779397000000017,
+        0.1345876599999997,
+        0.17203009000000066,
+        0.1506077550000009,
+        0.1482287050000002,
+        0.21640907999999967,
+        0.15403298999999948,
+        0.2753046000000006,
+        0.16242407500000014,
+        0.20969630499999994,
+        0.25249221499999974,
+        0.2631501000000003,
+        0.3159795399999996,
+        0.30558769000000097,
+        0.20962764500000047
+      ],
+      "after": [
+        0.03720173999999986,
+        0.06480173499999978,
+        0.0433332299999995,
+        0.039547165000000176,
+        0.05070749499999977,
+        0.062438340000000495,
+        0.03988005499999986,
+        0.03917878999999971,
+        0.040752825000000714,
+        0.03724300499999913,
+        0.039752284999999575,
+        0.04039137500000038,
+        0.03409489000000008,
+        0.04333663999999999,
+        0.0367335700000001,
+        0.04024840499999982,
+        0.033984289999999646,
+        0.03987741000000028,
+        0.035329889999999295,
+        0.03318483999999899,
+        0.04891798999999992,
+        0.04386475000000019,
+        0.03992055499999992,
+        0.03779877499999998,
+        0.08761490999999978,
+        0.09780459999999948,
+        0.06601359000000002,
+        0.08995472000000064,
+        0.057649165000000266,
+        0.0543734900000004
+      ]
+    },
+    "summary": {
+      "before": {
+        "medianMs": 0.18086588500000006,
+        "p95BatchMeanMs": 0.30558769000000097
+      },
+      "after": {
+        "medianMs": 0.04039137500000038,
+        "p95BatchMeanMs": 0.08995472000000064
+      }
+    },
+    "finalBuffersMatch": true
+  },
+  "shadowWork": {
+    "schemaVersion": 1,
+    "date": "2026-09-06T13:35:10.227Z",
+    "baselineRevision": "798836684ac39f2587cfd189309b10cc330b817f",
+    "candidateSourceCheckpoint": "1153e9841f5ce73be9a038e14bf99ab3c277149b",
+    "sourceHashes": {
+      "before": {
+        "batch": "58c1aea59a5ab21ba578e93b8b23f51c54e853387e81c5bbbe07b9a630593ea0",
+        "main": "10768ca18a161129c9ac989803f86eb2a6a437e413da20aeadbe9bd270ee08b4"
+      },
+      "after": {
+        "batch": "934c33069504012c485b093c5d25d0d2bc868338fb58c06eeb90ad9eb14cff14",
+        "main": "d974fccc17453b10f1975f9d911295066b0f354acfefd04d155e2db74cf1f72e"
+      }
+    },
+    "rendererAttributesSourceSha256": "82e7eb71dca1a723f522725a9a824da6eaa04b4f1a8e5a7d21ace7868a9a840d",
+    "threeVersion": "185",
+    "fixture": {
+      "kind": "synthetic",
+      "tiles": 16,
+      "capacity": 32,
+      "textureGrid": [
+        3,
+        3
+      ],
+      "morphDurationMilliseconds": 240
+    },
+    "method": "Actual revision terrain classes and main shadowRest; installed Three common Attributes with observed backend callbacks. Initial allocations excluded. One attribute-manager visit per instance buffer per frame.",
+    "hardwarePerformanceEvidence": false,
+    "timingMeasured": false,
+    "limits": "No physical GPU, driver upload timing, FPS, startup, total memory or actual shadow draw measurement. Synthetic topology and timings isolate state transitions, not full-course GPU load.",
+    "comparisons": [
+      {
+        "id": "regular_16ms_morph",
+        "before": {
+          "frames": 23,
+          "attributeUpdateCallbacks": 15,
+          "attributeUpdateBytes": 7680,
+          "shadowRefreshRequests": 17,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 0,
+              "refreshed": true,
+              "reason": "sun",
+              "morph": 1
+            },
+            {
+              "now": 16,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.9872592687606812
+            },
+            {
+              "now": 32,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.9514074325561523
+            },
+            {
+              "now": 48,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.8960000276565552
+            },
+            {
+              "now": 64,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.8245925903320312
+            },
+            {
+              "now": 80,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.7407407164573669
+            },
+            {
+              "now": 96,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.6480000019073486
+            },
+            {
+              "now": 112,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.5499259233474731
+            },
+            {
+              "now": 128,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.45007407665252686
+            },
+            {
+              "now": 144,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.35199999809265137
+            },
+            {
+              "now": 160,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.25925925374031067
+            },
+            {
+              "now": 176,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.17540740966796875
+            },
+            {
+              "now": 192,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.10400000214576721
+            },
+            {
+              "now": 208,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.048592593520879745
+            },
+            {
+              "now": 224,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.012740740552544594
+            },
+            {
+              "now": 240,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 256,
+              "refreshed": true,
+              "reason": "settled",
+              "morph": 0
+            },
+            {
+              "now": 272,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 288,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 304,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "after": {
+          "frames": 23,
+          "attributeUpdateCallbacks": 15,
+          "attributeUpdateBytes": 7680,
+          "shadowRefreshRequests": 17,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 0,
+              "refreshed": true,
+              "reason": "sun",
+              "morph": 1
+            },
+            {
+              "now": 16,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.9872592687606812
+            },
+            {
+              "now": 32,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.9514074325561523
+            },
+            {
+              "now": 48,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.8960000276565552
+            },
+            {
+              "now": 64,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.8245925903320312
+            },
+            {
+              "now": 80,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.7407407164573669
+            },
+            {
+              "now": 96,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.6480000019073486
+            },
+            {
+              "now": 112,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.5499259233474731
+            },
+            {
+              "now": 128,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.45007407665252686
+            },
+            {
+              "now": 144,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.35199999809265137
+            },
+            {
+              "now": 160,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.25925925374031067
+            },
+            {
+              "now": 176,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.17540740966796875
+            },
+            {
+              "now": 192,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.10400000214576721
+            },
+            {
+              "now": 208,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.048592593520879745
+            },
+            {
+              "now": 224,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.012740740552544594
+            },
+            {
+              "now": 240,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 256,
+              "refreshed": true,
+              "reason": "settled",
+              "morph": 0
+            },
+            {
+              "now": 272,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 288,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 304,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "finalGeometryAndResourcesMatch": true,
+        "passed": true
+      },
+      {
+        "id": "slow_final_frame",
+        "before": {
+          "frames": 5,
+          "attributeUpdateCallbacks": 2,
+          "attributeUpdateBytes": 1024,
+          "shadowRefreshRequests": 4,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 0,
+              "refreshed": true,
+              "reason": "sun",
+              "morph": 1
+            },
+            {
+              "now": 120,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.5
+            },
+            {
+              "now": 1000,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 1016,
+              "refreshed": true,
+              "reason": "settled",
+              "morph": 0
+            },
+            {
+              "now": 1032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "after": {
+          "frames": 5,
+          "attributeUpdateCallbacks": 2,
+          "attributeUpdateBytes": 1024,
+          "shadowRefreshRequests": 4,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 0,
+              "refreshed": true,
+              "reason": "sun",
+              "morph": 1
+            },
+            {
+              "now": 120,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.5
+            },
+            {
+              "now": 1000,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 1016,
+              "refreshed": true,
+              "reason": "settled",
+              "morph": 0
+            },
+            {
+              "now": 1032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "finalGeometryAndResourcesMatch": true,
+        "passed": true
+      },
+      {
+        "id": "settled_60_frames",
+        "before": {
+          "frames": 60,
+          "attributeUpdateCallbacks": 0,
+          "attributeUpdateBytes": 0,
+          "shadowRefreshRequests": 1,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 2000,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2016,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2048,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2064,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2080,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2096,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2112,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2128,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2144,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2160,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2176,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2192,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2208,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2224,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2240,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2256,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2272,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2288,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2304,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2368,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2384,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2400,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2416,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2432,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2448,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2464,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2480,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2496,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2512,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2528,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2544,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2560,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2576,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2592,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2608,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2624,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2640,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2656,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2672,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2688,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2704,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2720,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2736,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2752,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2768,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2784,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2800,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2816,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2832,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2848,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2864,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2880,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2896,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2912,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2928,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2944,
+              "refreshed": true,
+              "reason": "tick",
+              "morph": 0
+            }
+          ]
+        },
+        "after": {
+          "frames": 60,
+          "attributeUpdateCallbacks": 0,
+          "attributeUpdateBytes": 0,
+          "shadowRefreshRequests": 1,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 2000,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2016,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2048,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2064,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2080,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2096,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2112,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2128,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2144,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2160,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2176,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2192,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2208,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2224,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2240,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2256,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2272,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2288,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2304,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2368,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2384,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2400,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2416,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2432,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2448,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2464,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2480,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2496,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2512,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2528,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2544,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2560,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2576,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2592,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2608,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2624,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2640,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2656,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2672,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2688,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2704,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2720,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2736,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2752,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2768,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2784,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2800,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2816,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2832,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2848,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2864,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2880,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2896,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2912,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2928,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2944,
+              "refreshed": true,
+              "reason": "tick",
+              "morph": 0
+            }
+          ]
+        },
+        "finalGeometryAndResourcesMatch": true,
+        "passed": true
+      },
+      {
+        "id": "same_count_payload_replacement",
+        "before": {
+          "frames": 23,
+          "attributeUpdateCallbacks": 0,
+          "attributeUpdateBytes": 0,
+          "shadowRefreshRequests": 2,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "b75483472146b8f10519e356f8124e82ae178ad5126701bfa7fae50aee75b8b5",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 2000,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2016,
+              "refreshed": true,
+              "reason": "settled",
+              "morph": 0
+            },
+            {
+              "now": 2032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2048,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2064,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2080,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2096,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2112,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2128,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2144,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2160,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2176,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2192,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2208,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2224,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2240,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2256,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2272,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2288,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2304,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "after": {
+          "frames": 23,
+          "attributeUpdateCallbacks": 0,
+          "attributeUpdateBytes": 0,
+          "shadowRefreshRequests": 2,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "b75483472146b8f10519e356f8124e82ae178ad5126701bfa7fae50aee75b8b5",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 2000,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2016,
+              "refreshed": true,
+              "reason": "settled",
+              "morph": 0
+            },
+            {
+              "now": 2032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2048,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2064,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2080,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2096,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2112,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2128,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2144,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2160,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2176,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2192,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2208,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2224,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2240,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2256,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2272,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2288,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2304,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "finalGeometryAndResourcesMatch": true,
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  "app": {
+    "before": {
+      "build": {
+        "indexSha256": "1fadb53802a9c0a08fd8e73af5753d60a4ea4afb988141f0909ae20940eb8e69",
+        "assetsInventorySha256": "ea15f9fc9ddde16584b5da180977ad66e2e59b8f550a18152b3486c73608a2b4",
+        "entryBundles": [
+          {
+            "file": "assets/index-DJ7CVQTi.js",
+            "bytes": 1550,
+            "sha256": "4602712181dd07614e874f470c23ebadc699d98c816543be311a2d467a1695a7"
+          },
+          {
+            "file": "assets/main-NSqnj3Gw.js",
+            "bytes": 321372,
+            "sha256": "9a2bfcd4cd5c2f120452cc31f974b062a9ec2e58ef4f58ff7ab97a62c3a58236"
+          }
+        ]
+      },
+      "request": {
+        "course": "upsala",
+        "backend": "webgl2",
+        "autoFallback": true,
+        "q": "lo",
+        "graphics": "1",
+        "viewport": [
+          384,
+          288
+        ],
+        "dpr": 1,
+        "reducedMotion": "no-preference",
+        "hasTouch": true,
+        "freshShadowDiagnostic": false,
+        "views": [
+          {
+            "id": "h1_top_noon",
+            "hole": 1,
+            "cam": "top",
+            "preset": "noon"
+          }
+        ]
+      },
+      "executionAdapter": "swiftshader-software",
+      "performanceEvidence": false,
+      "passed": true,
+      "stage": "complete",
+      "errors": [],
+      "fingerprint": {
+        "model": "b8af0395744ab9cafc19688a6bafcbe4535ba6b9ea4724222ad14d0bde9d0b86",
+        "routing": "8fd293def177118ddb39c7bc5470872d67b1d2f9e1b5f3b48d1fe611afab1115",
+        "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+        "treeInstances": "da7ef7223a300d280e5377d07bb7d1df0bff15942dacf31e7208dab6fb7e1868",
+        "treePositions": "6e9a631e8cd88fab2b29bcae8914352dd51237f907b3ac96fa56a8f38d854602",
+        "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+        "tintNear": "b94a2fc1da65a0c5c6672e91446feb2bad7ea6f0f7f252cf7cb9a3e27eec8fd3",
+        "tintFar": "a94f76eb0310cf48a03f903021bb08f362a8a4c255378a1121852937a748cc13",
+        "surfaceSource": null,
+        "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "counts": {
+          "trees": 53986,
+          "vista": 33483,
+          "tufts": 6046,
+          "bushes": 1144,
+          "stones": 260,
+          "reeds": 0,
+          "cars": 38,
+          "pylons": 14,
+          "stumps": 0,
+          "surfaceOverlays": 0
+        },
+        "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+      },
+      "boot": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "course": {
+          "slug": "upsala",
+          "name": "Upsala GK",
+          "club": "Upsala Golfklubb",
+          "title": "Upsala Golfklubb \u2014 Banan i 3D",
+          "tag": "Stora banan",
+          "boot": "H\u00e5m\u00f6 g\u00e5rd \u00b7 L\u00e4by",
+          "build": "upsalabuild",
+          "par": 72,
+          "holes": 18,
+          "tees": {
+            "names": [
+              "62",
+              "59",
+              "56",
+              "51",
+              "47",
+              "42"
+            ],
+            "cols": [
+              1710618,
+              16053486,
+              15780154,
+              4886496,
+              14702410,
+              14715706
+            ],
+            "hideFrom": 5,
+            "def": 2
+          },
+          "photos": 4,
+          "packUrl": "courses/upsala/pack.bin",
+          "bytes": 697858,
+          "sha256": "70e978edeb298a52382c5ba6fa06e2eaaf2fa0f8376f4999923d10e02c62be0c"
+        },
+        "coverRelease": {
+          "frame": 0,
+          "perf": {
+            "marks": [
+              {
+                "name": "l\u00e4ser terr\u00e4ngdata",
+                "atMs": 72.2
+              },
+              {
+                "name": "startar renderaren",
+                "atMs": 2945.1
+              },
+              {
+                "name": "bygger terr\u00e4ngen",
+                "atMs": 3525
+              },
+              {
+                "name": "bygger terr\u00e4ngen",
+                "atMs": 13172.3
+              },
+              {
+                "name": "bygger horisonten",
+                "atMs": 13240.3
+              },
+              {
+                "name": "l\u00e4gger fairways och greener",
+                "atMs": 13266.7
+              },
+              {
+                "name": "fyller vattnet",
+                "atMs": 14254.4
+              },
+              {
+                "name": "planterar skogen",
+                "atMs": 14517.2
+              },
+              {
+                "name": "s\u00e4tter ut flaggor",
+                "atMs": 21550.4
+              },
+              {
+                "name": "st\u00e4ller ljuset",
+                "atMs": 21619.9
+              },
+              {
+                "name": "klar",
+                "atMs": 22860.2
+              }
+            ],
+            "spans": [
+              {
+                "name": "v2 preview: select + decode pilot/surface tiles",
+                "ms": 755.6
+              },
+              {
+                "name": "v2 rings: fetch + verify + decode",
+                "ms": 1061.6,
+                "tiles": 213
+              },
+              {
+                "name": "v2 flat water: detect",
+                "ms": 242.1
+              },
+              {
+                "name": "v2 water beds: carve rings",
+                "ms": 633,
+                "tiles": 38
+              },
+              {
+                "name": "model prep after terrain data (pads, water levels, shores, grids)",
+                "ms": 2096.6
+              },
+              {
+                "name": "procedural textures (DETAIL, SANDN, WATERN)",
+                "ms": 340.6
+              },
+              {
+                "name": "PMREM environment",
+                "ms": 185.1,
+                "preset": "noon"
+              },
+              {
+                "name": "ground atlas (1 m, CORE)",
+                "ms": 571.5
+              },
+              {
+                "name": "v2 prepare (worker, first frontier coverage, preflight)",
+                "ms": 5614.8
+              },
+              {
+                "name": "ground tint rasters (near 6 m + far 24 m)",
+                "ms": 2565.1
+              },
+              {
+                "name": "v2 vegetation: wait for chunk load",
+                "ms": 866
+              },
+              {
+                "name": "reeds (lattice + SHORE field)",
+                "ms": 31.8,
+                "reeds": 0
+              },
+              {
+                "name": "v2 vegetation: plan individuals + stand trees",
+                "ms": 109.6
+              },
+              {
+                "name": "legacy tree lattice",
+                "ms": 1289.6
+              },
+              {
+                "name": "v2 vegetation: push planned trees",
+                "ms": 6.9
+              },
+              {
+                "name": "tree impostor atlases (3 species, 64 views each)",
+                "ms": 3332
+              },
+              {
+                "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+                "ms": 3631.5,
+                "trees": 53986,
+                "cells": 733
+              },
+              {
+                "name": "far vista cones",
+                "ms": 232.3,
+                "vista": 33483
+              },
+              {
+                "name": "ground cover (tufts, bushes, stones, stumps)",
+                "ms": 1560.8
+              },
+              {
+                "name": "v2 stream: first frontier fully resident (after the overlap)",
+                "ms": 1118.2,
+                "tiles": 55
+              }
+            ],
+            "atlasMs": 571.5,
+            "totalMs": 22880.5,
+            "doneAtMs": 22881.1,
+            "firstFrames": [],
+            "tintMs": 2565
+          }
+        },
+        "perf": {
+          "marks": [
+            {
+              "name": "l\u00e4ser terr\u00e4ngdata",
+              "atMs": 72.2
+            },
+            {
+              "name": "startar renderaren",
+              "atMs": 2945.1
+            },
+            {
+              "name": "bygger terr\u00e4ngen",
+              "atMs": 3525
+            },
+            {
+              "name": "bygger terr\u00e4ngen",
+              "atMs": 13172.3
+            },
+            {
+              "name": "bygger horisonten",
+              "atMs": 13240.3
+            },
+            {
+              "name": "l\u00e4gger fairways och greener",
+              "atMs": 13266.7
+            },
+            {
+              "name": "fyller vattnet",
+              "atMs": 14254.4
+            },
+            {
+              "name": "planterar skogen",
+              "atMs": 14517.2
+            },
+            {
+              "name": "s\u00e4tter ut flaggor",
+              "atMs": 21550.4
+            },
+            {
+              "name": "st\u00e4ller ljuset",
+              "atMs": 21619.9
+            },
+            {
+              "name": "klar",
+              "atMs": 22860.2
+            }
+          ],
+          "spans": [
+            {
+              "name": "v2 preview: select + decode pilot/surface tiles",
+              "ms": 755.6
+            },
+            {
+              "name": "v2 rings: fetch + verify + decode",
+              "ms": 1061.6,
+              "tiles": 213
+            },
+            {
+              "name": "v2 flat water: detect",
+              "ms": 242.1
+            },
+            {
+              "name": "v2 water beds: carve rings",
+              "ms": 633,
+              "tiles": 38
+            },
+            {
+              "name": "model prep after terrain data (pads, water levels, shores, grids)",
+              "ms": 2096.6
+            },
+            {
+              "name": "procedural textures (DETAIL, SANDN, WATERN)",
+              "ms": 340.6
+            },
+            {
+              "name": "PMREM environment",
+              "ms": 185.1,
+              "preset": "noon"
+            },
+            {
+              "name": "ground atlas (1 m, CORE)",
+              "ms": 571.5
+            },
+            {
+              "name": "v2 prepare (worker, first frontier coverage, preflight)",
+              "ms": 5614.8
+            },
+            {
+              "name": "ground tint rasters (near 6 m + far 24 m)",
+              "ms": 2565.1
+            },
+            {
+              "name": "v2 vegetation: wait for chunk load",
+              "ms": 866
+            },
+            {
+              "name": "reeds (lattice + SHORE field)",
+              "ms": 31.8,
+              "reeds": 0
+            },
+            {
+              "name": "v2 vegetation: plan individuals + stand trees",
+              "ms": 109.6
+            },
+            {
+              "name": "legacy tree lattice",
+              "ms": 1289.6
+            },
+            {
+              "name": "v2 vegetation: push planned trees",
+              "ms": 6.9
+            },
+            {
+              "name": "tree impostor atlases (3 species, 64 views each)",
+              "ms": 3332
+            },
+            {
+              "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+              "ms": 3631.5,
+              "trees": 53986,
+              "cells": 733
+            },
+            {
+              "name": "far vista cones",
+              "ms": 232.3,
+              "vista": 33483
+            },
+            {
+              "name": "ground cover (tufts, bushes, stones, stumps)",
+              "ms": 1560.8
+            },
+            {
+              "name": "v2 stream: first frontier fully resident (after the overlap)",
+              "ms": 1118.2,
+              "tiles": 55
+            }
+          ],
+          "atlasMs": 571.5,
+          "totalMs": 22880.5,
+          "doneAtMs": 22881.1,
+          "firstFrames": [
+            {
+              "atMs": 22896,
+              "ms": 7633.7,
+              "tris": 2088689,
+              "draws": 118,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 30534,
+              "ms": 10,
+              "tris": 2088689,
+              "draws": 118,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 30545.8,
+              "ms": 6.6,
+              "tris": 2088689,
+              "draws": 118,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            }
+          ],
+          "tintMs": 2565
+        }
+      },
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "Cancelled terrain request: http://127.0.0.1:39991/olovs-hemsida/grounds/upsala/terrain/094bd77ad9ee7f3070f3088607a7609c72205dfee065557699b146856e41442a.bvch",
+        "Cancelled terrain request: http://127.0.0.1:39991/olovs-hemsida/grounds/upsala/terrain/857cfd52da9b95f30f222ef1b3e14806d510c3a5972a1d4b5842a1c8f5b7ffe4.bvch",
+        "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend."
+      ],
+      "views": [
+        {
+          "id": "h1_top_noon",
+          "imageSha256": "8946a7a52450a9c1791f150e27eccaae1a00b1709b2908500968589f84209185",
+          "before": {
+            "backend": "webgl2",
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 443,
+              "frameCalls": 2,
+              "drawCalls": 93,
+              "triangles": 1153299,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 388,
+                "attributesSize": 177392555,
+                "geometries": 77,
+                "indexAttributes": 51,
+                "indexAttributesSize": 2404464,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 123,
+                "programsSize": 1118532,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 10,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 40,
+                "texturesSize": 128490577,
+                "uniformBuffers": 201,
+                "uniformBuffersSize": 126944,
+                "total": 309533072
+              },
+              "drawingBuffer": [
+                384,
+                288
+              ],
+              "pixelRatio": 1
+            },
+            "camera": {
+              "pos": [
+                142.6,
+                354.4,
+                -64.1
+              ],
+              "look": [
+                142.6,
+                24.4,
+                -64.2
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.3333333333333333,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                142.61551428844083,
+                354.42294081146144,
+                -64.11186063274644
+              ]
+            },
+            "treeLod": {
+              "mode": "zone",
+              "zoneTiers": [
+                2,
+                3,
+                4,
+                4
+              ],
+              "hero": 200,
+              "full": 60,
+              "impostor": 22,
+              "hysteresis": 0.1,
+              "dwell": 6,
+              "floors": [
+                2,
+                4
+              ],
+              "reach": [
+                250,
+                500
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 3,
+              "frames": 10,
+              "sinceRender": 7,
+              "why": "settled",
+              "terrainRevision": 62,
+              "settlePending": false
+            },
+            "terrainBuffers": {
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 6,
+                  "residentLayers": 6,
+                  "textureUploads": 78,
+                  "renderRevision": 81,
+                  "morphing": false,
+                  "frameAttributeVersion": 20,
+                  "paramsAttributeVersion": 61,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 798720,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 62,
+              "morphing": false,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "drawCalls": 1,
+              "triangles": 798720,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 79
+            },
+            "terrainInventorySha256": "1e6f78a002023e954692899dbcb1419b99cbd194d540815aafdc327afcae1570",
+            "terrainMorphsSha256": "1e7dc5a7fa27cd467e029011d7038caef41e263e1b7a9b2175de99d09b75bc98",
+            "terrainTiles": 6
+          },
+          "after": {
+            "backend": "webgl2",
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 467,
+              "frameCalls": 2,
+              "drawCalls": 93,
+              "triangles": 1153299,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 388,
+                "attributesSize": 177392555,
+                "geometries": 77,
+                "indexAttributes": 51,
+                "indexAttributesSize": 2404464,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 123,
+                "programsSize": 1118532,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 10,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 40,
+                "texturesSize": 128490577,
+                "uniformBuffers": 201,
+                "uniformBuffersSize": 126944,
+                "total": 309533072
+              },
+              "drawingBuffer": [
+                384,
+                288
+              ],
+              "pixelRatio": 1
+            },
+            "camera": {
+              "pos": [
+                142.6,
+                354.4,
+                -64.1
+              ],
+              "look": [
+                142.6,
+                24.4,
+                -64.2
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.3333333333333333,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                142.61551428844083,
+                354.42294081146144,
+                -64.11186063274644
+              ]
+            },
+            "treeLod": {
+              "mode": "zone",
+              "zoneTiers": [
+                2,
+                3,
+                4,
+                4
+              ],
+              "hero": 200,
+              "full": 60,
+              "impostor": 22,
+              "hysteresis": 0.1,
+              "dwell": 6,
+              "floors": [
+                2,
+                4
+              ],
+              "reach": [
+                250,
+                500
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 3,
+              "frames": 22,
+              "sinceRender": 19,
+              "why": "settled",
+              "terrainRevision": 62,
+              "settlePending": false
+            },
+            "terrainBuffers": {
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 6,
+                  "residentLayers": 6,
+                  "textureUploads": 78,
+                  "renderRevision": 81,
+                  "morphing": false,
+                  "frameAttributeVersion": 20,
+                  "paramsAttributeVersion": 61,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 798720,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 62,
+              "morphing": false,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "drawCalls": 1,
+              "triangles": 798720,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 79
+            },
+            "terrainInventorySha256": "1e6f78a002023e954692899dbcb1419b99cbd194d540815aafdc327afcae1570",
+            "terrainMorphsSha256": "1e7dc5a7fa27cd467e029011d7038caef41e263e1b7a9b2175de99d09b75bc98",
+            "terrainTiles": 6
+          }
+        }
+      ],
+      "presetSwitches": [
+        {
+          "preset": "host",
+          "handlerMs": 6169.0999999940395,
+          "startFrame": 22,
+          "imageSha256": "9f8e64657af552ed29bda6eadde7efb106718ee3acd9890e423b31f29dfb4821",
+          "lighting": {
+            "enabled": true,
+            "preset": "host",
+            "cachedPresets": [
+              "noon",
+              "host"
+            ],
+            "bakes": 2,
+            "disposed": false
+          },
+          "passed": true,
+          "state": {
+            "backend": "webgl2",
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 510,
+              "frameCalls": 2,
+              "drawCalls": 93,
+              "triangles": 1153299,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 468,
+                "attributesSize": 262155691,
+                "geometries": 77,
+                "indexAttributes": 51,
+                "indexAttributesSize": 2404464,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 121,
+                "programsSize": 1075765,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 11,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 42,
+                "texturesSize": 137927761,
+                "uniformBuffers": 201,
+                "uniformBuffersSize": 126944,
+                "total": 403690625
+              },
+              "drawingBuffer": [
+                384,
+                288
+              ],
+              "pixelRatio": 1
+            },
+            "camera": {
+              "pos": [
+                142.6,
+                354.4,
+                -64.1
+              ],
+              "look": [
+                142.6,
+                24.4,
+                -64.2
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.3333333333333333,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                142.61551428844083,
+                354.42294081146144,
+                -64.11186063274644
+              ]
+            },
+            "treeLod": {
+              "mode": "zone",
+              "zoneTiers": [
+                2,
+                3,
+                4,
+                4
+              ],
+              "hero": 200,
+              "full": 60,
+              "impostor": 22,
+              "hysteresis": 0.1,
+              "dwell": 6,
+              "floors": [
+                2,
+                4
+              ],
+              "reach": [
+                250,
+                500
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 5,
+              "frames": 28,
+              "sinceRender": 4,
+              "why": "settled",
+              "terrainRevision": 62,
+              "settlePending": false
+            },
+            "terrainBuffers": {
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 6,
+                  "residentLayers": 6,
+                  "textureUploads": 78,
+                  "renderRevision": 81,
+                  "morphing": false,
+                  "frameAttributeVersion": 20,
+                  "paramsAttributeVersion": 61,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 798720,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 62,
+              "morphing": false,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "drawCalls": 1,
+              "triangles": 798720,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 79
+            },
+            "terrainInventorySha256": "1e6f78a002023e954692899dbcb1419b99cbd194d540815aafdc327afcae1570",
+            "terrainMorphsSha256": "1e7dc5a7fa27cd467e029011d7038caef41e263e1b7a9b2175de99d09b75bc98",
+            "terrainTiles": 6
+          }
+        },
+        {
+          "preset": "noon",
+          "handlerMs": 1.0999999940395355,
+          "startFrame": 41,
+          "imageSha256": "8946a7a52450a9c1791f150e27eccaae1a00b1709b2908500968589f84209185",
+          "lighting": {
+            "enabled": true,
+            "preset": "noon",
+            "cachedPresets": [
+              "host",
+              "noon"
+            ],
+            "bakes": 2,
+            "disposed": false
+          },
+          "passed": true,
+          "state": {
+            "backend": "webgl2",
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 544,
+              "frameCalls": 2,
+              "drawCalls": 93,
+              "triangles": 1153299,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 548,
+                "attributesSize": 346918827,
+                "geometries": 77,
+                "indexAttributes": 51,
+                "indexAttributesSize": 2404464,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 121,
+                "programsSize": 1075765,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 11,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 42,
+                "texturesSize": 137927761,
+                "uniformBuffers": 201,
+                "uniformBuffersSize": 126944,
+                "total": 488453761
+              },
+              "drawingBuffer": [
+                384,
+                288
+              ],
+              "pixelRatio": 1
+            },
+            "camera": {
+              "pos": [
+                142.6,
+                354.4,
+                -64.1
+              ],
+              "look": [
+                142.6,
+                24.4,
+                -64.2
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.3333333333333333,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                142.61551428844083,
+                354.42294081146144,
+                -64.11186063274644
+              ]
+            },
+            "treeLod": {
+              "mode": "zone",
+              "zoneTiers": [
+                2,
+                3,
+                4,
+                4
+              ],
+              "hero": 200,
+              "full": 60,
+              "impostor": 22,
+              "hysteresis": 0.1,
+              "dwell": 6,
+              "floors": [
+                2,
+                4
+              ],
+              "reach": [
+                250,
+                500
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 7,
+              "frames": 44,
+              "sinceRender": 1,
+              "why": "settled",
+              "terrainRevision": 62,
+              "settlePending": false
+            },
+            "terrainBuffers": {
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 6,
+                  "residentLayers": 6,
+                  "textureUploads": 78,
+                  "renderRevision": 81,
+                  "morphing": false,
+                  "frameAttributeVersion": 20,
+                  "paramsAttributeVersion": 61,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 798720,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 62,
+              "morphing": false,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "drawCalls": 1,
+              "triangles": 798720,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 79
+            },
+            "terrainInventorySha256": "1e6f78a002023e954692899dbcb1419b99cbd194d540815aafdc327afcae1570",
+            "terrainMorphsSha256": "1e7dc5a7fa27cd467e029011d7038caef41e263e1b7a9b2175de99d09b75bc98",
+            "terrainTiles": 6
+          }
+        }
+      ]
+    },
+    "after": {
+      "build": {
+        "indexSha256": "d91650bee0bce7f46c5ac1a2f60a859e5cab368dada8179c3c95d878ec8e4426",
+        "assetsInventorySha256": "dc4cf3e90fc378d535687bfe199eb029c2629baa45df46a4b771ef90ebe1e4c2",
+        "entryBundles": [
+          {
+            "file": "assets/index-BZF1ebSj.js",
+            "bytes": 1550,
+            "sha256": "f58e4b204c43d3726180e64161b955740da59991582d3ff83d1b3859d47d3cc0"
+          },
+          {
+            "file": "assets/main-p4d_dqdO.js",
+            "bytes": 322720,
+            "sha256": "c080a8cf8b66ae60c81a8b339e0ffa79ca0fde7ae4d2d011243d7ffd0b4e2a30"
+          }
+        ]
+      },
+      "request": {
+        "course": "upsala",
+        "backend": "webgl2",
+        "autoFallback": true,
+        "q": "lo",
+        "graphics": "default",
+        "viewport": [
+          384,
+          288
+        ],
+        "dpr": 1,
+        "reducedMotion": "no-preference",
+        "hasTouch": true,
+        "freshShadowDiagnostic": false,
+        "views": [
+          {
+            "id": "h1_top_noon",
+            "hole": 1,
+            "cam": "top",
+            "preset": "noon"
+          }
+        ]
+      },
+      "executionAdapter": "swiftshader-software",
+      "performanceEvidence": false,
+      "passed": true,
+      "stage": "complete",
+      "errors": [],
+      "fingerprint": {
+        "model": "b8af0395744ab9cafc19688a6bafcbe4535ba6b9ea4724222ad14d0bde9d0b86",
+        "routing": "8fd293def177118ddb39c7bc5470872d67b1d2f9e1b5f3b48d1fe611afab1115",
+        "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+        "treeInstances": "da7ef7223a300d280e5377d07bb7d1df0bff15942dacf31e7208dab6fb7e1868",
+        "treePositions": "6e9a631e8cd88fab2b29bcae8914352dd51237f907b3ac96fa56a8f38d854602",
+        "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+        "tintNear": "b94a2fc1da65a0c5c6672e91446feb2bad7ea6f0f7f252cf7cb9a3e27eec8fd3",
+        "tintFar": "a94f76eb0310cf48a03f903021bb08f362a8a4c255378a1121852937a748cc13",
+        "surfaceSource": null,
+        "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "counts": {
+          "trees": 53986,
+          "vista": 33483,
+          "tufts": 6046,
+          "bushes": 1144,
+          "stones": 260,
+          "reeds": 0,
+          "cars": 38,
+          "pylons": 14,
+          "stumps": 0,
+          "surfaceOverlays": 0
+        },
+        "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+      },
+      "boot": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "course": {
+          "slug": "upsala",
+          "name": "Upsala GK",
+          "club": "Upsala Golfklubb",
+          "title": "Upsala Golfklubb \u2014 Banan i 3D",
+          "tag": "Stora banan",
+          "boot": "H\u00e5m\u00f6 g\u00e5rd \u00b7 L\u00e4by",
+          "build": "upsalabuild",
+          "par": 72,
+          "holes": 18,
+          "tees": {
+            "names": [
+              "62",
+              "59",
+              "56",
+              "51",
+              "47",
+              "42"
+            ],
+            "cols": [
+              1710618,
+              16053486,
+              15780154,
+              4886496,
+              14702410,
+              14715706
+            ],
+            "hideFrom": 5,
+            "def": 2
+          },
+          "photos": 4,
+          "packUrl": "courses/upsala/pack.bin",
+          "bytes": 697858,
+          "sha256": "70e978edeb298a52382c5ba6fa06e2eaaf2fa0f8376f4999923d10e02c62be0c"
+        },
+        "coverRelease": {
+          "frame": 10,
+          "perf": {
+            "marks": [
+              {
+                "name": "l\u00e4ser terr\u00e4ngdata",
+                "atMs": 67.3
+              },
+              {
+                "name": "startar renderaren",
+                "atMs": 3182.9
+              },
+              {
+                "name": "bygger terr\u00e4ngen",
+                "atMs": 3805.6
+              },
+              {
+                "name": "bygger terr\u00e4ngen",
+                "atMs": 12773.6
+              },
+              {
+                "name": "bygger horisonten",
+                "atMs": 12796.1
+              },
+              {
+                "name": "l\u00e4gger fairways och greener",
+                "atMs": 12830.8
+              },
+              {
+                "name": "fyller vattnet",
+                "atMs": 13726.2
+              },
+              {
+                "name": "planterar skogen",
+                "atMs": 13895.2
+              },
+              {
+                "name": "s\u00e4tter ut flaggor",
+                "atMs": 20460.2
+              },
+              {
+                "name": "st\u00e4ller ljuset",
+                "atMs": 20543.4
+              },
+              {
+                "name": "ritar f\u00f6rsta vyn",
+                "atMs": 21916.2
+              }
+            ],
+            "spans": [
+              {
+                "name": "v2 preview: select + decode pilot/surface tiles",
+                "ms": 637
+              },
+              {
+                "name": "v2 rings: fetch + verify + decode",
+                "ms": 1097.6,
+                "tiles": 213
+              },
+              {
+                "name": "v2 flat water: detect",
+                "ms": 217.4
+              },
+              {
+                "name": "v2 water beds: carve rings",
+                "ms": 856,
+                "tiles": 38
+              },
+              {
+                "name": "model prep after terrain data (pads, water levels, shores, grids)",
+                "ms": 2458
+              },
+              {
+                "name": "procedural textures (DETAIL, SANDN, WATERN)",
+                "ms": 339.6
+              },
+              {
+                "name": "PMREM environment",
+                "ms": 177.3,
+                "preset": "noon"
+              },
+              {
+                "name": "ground atlas (1 m, CORE)",
+                "ms": 1123.1
+              },
+              {
+                "name": "v2 prepare (worker, first frontier coverage, preflight)",
+                "ms": 3849.9
+              },
+              {
+                "name": "ground tint rasters (near 6 m + far 24 m)",
+                "ms": 3210.6
+              },
+              {
+                "name": "v2 vegetation: wait for chunk load",
+                "ms": 734.1
+              },
+              {
+                "name": "reeds (lattice + SHORE field)",
+                "ms": 27.7,
+                "reeds": 0
+              },
+              {
+                "name": "v2 vegetation: plan individuals + stand trees",
+                "ms": 73.7
+              },
+              {
+                "name": "legacy tree lattice",
+                "ms": 2252.4
+              },
+              {
+                "name": "v2 vegetation: push planned trees",
+                "ms": 8
+              },
+              {
+                "name": "tree impostor atlases (3 species, 64 views each)",
+                "ms": 1105.1
+              },
+              {
+                "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+                "ms": 1293.1,
+                "trees": 53986,
+                "cells": 733
+              },
+              {
+                "name": "far vista cones",
+                "ms": 156.6,
+                "vista": 33483
+              },
+              {
+                "name": "ground cover (tufts, bushes, stones, stumps)",
+                "ms": 2567.2
+              },
+              {
+                "name": "v2 stream: first frontier fully resident (after the overlap)",
+                "ms": 1143.1,
+                "tiles": 55
+              }
+            ],
+            "atlasMs": 1122.4,
+            "totalMs": 21936.6,
+            "doneAtMs": 32774.4,
+            "firstFrames": [
+              {
+                "atMs": 21937.3,
+                "ms": 10431.6,
+                "tris": 2088689,
+                "draws": 118,
+                "tiers": {
+                  "t0": 0,
+                  "t1": 317,
+                  "t2": 56,
+                  "t3": 0
+                }
+              },
+              {
+                "atMs": 32380.7,
+                "ms": 14.2,
+                "tris": 2088689,
+                "draws": 118,
+                "tiers": {
+                  "t0": 0,
+                  "t1": 317,
+                  "t2": 56,
+                  "t3": 0
+                }
+              },
+              {
+                "atMs": 32397.1,
+                "ms": 8.7,
+                "tris": 2088689,
+                "draws": 118,
+                "tiers": {
+                  "t0": 0,
+                  "t1": 317,
+                  "t2": 56,
+                  "t3": 0
+                }
+              },
+              {
+                "atMs": 32464.3,
+                "ms": 5.7,
+                "tris": 1153299,
+                "draws": 93,
+                "tiers": {
+                  "t0": 0,
+                  "t1": 317,
+                  "t2": 56,
+                  "t3": 0
+                }
+              },
+              {
+                "atMs": 32544.5,
+                "ms": 4.7,
+                "tris": 1153299,
+                "draws": 93,
+                "tiers": {
+                  "t0": 0,
+                  "t1": 317,
+                  "t2": 56,
+                  "t3": 0
+                }
+              },
+              {
+                "atMs": 32595.2,
+                "ms": 6.7,
+                "tris": 1153299,
+                "draws": 93,
+                "tiers": {
+                  "t0": 0,
+                  "t1": 317,
+                  "t2": 56,
+                  "t3": 0
+                }
+              },
+              {
+                "atMs": 32609.7,
+                "ms": 5,
+                "tris": 1153299,
+                "draws": 93,
+                "tiers": {
+                  "t0": 0,
+                  "t1": 317,
+                  "t2": 56,
+                  "t3": 0
+                }
+              },
+              {
+                "atMs": 32706.1,
+                "ms": 4.7,
+                "tris": 1153299,
+                "draws": 93,
+                "tiers": {
+                  "t0": 0,
+                  "t1": 317,
+                  "t2": 56,
+                  "t3": 0
+                }
+              },
+              {
+                "atMs": 32753,
+                "ms": 5.5,
+                "tris": 1153299,
+                "draws": 93,
+                "tiers": {
+                  "t0": 0,
+                  "t1": 317,
+                  "t2": 56,
+                  "t3": 0
+                }
+              },
+              {
+                "atMs": 32770.1,
+                "ms": 4.2,
+                "tris": 1153299,
+                "draws": 93,
+                "tiers": {
+                  "t0": 0,
+                  "t1": 317,
+                  "t2": 56,
+                  "t3": 0
+                }
+              }
+            ],
+            "firstSceneSubmittedAtMs": 32369,
+            "firstSceneGpuReadyAtMs": 32759.4,
+            "tintMs": 3210
+          }
+        },
+        "perf": {
+          "marks": [
+            {
+              "name": "l\u00e4ser terr\u00e4ngdata",
+              "atMs": 67.3
+            },
+            {
+              "name": "startar renderaren",
+              "atMs": 3182.9
+            },
+            {
+              "name": "bygger terr\u00e4ngen",
+              "atMs": 3805.6
+            },
+            {
+              "name": "bygger terr\u00e4ngen",
+              "atMs": 12773.6
+            },
+            {
+              "name": "bygger horisonten",
+              "atMs": 12796.1
+            },
+            {
+              "name": "l\u00e4gger fairways och greener",
+              "atMs": 12830.8
+            },
+            {
+              "name": "fyller vattnet",
+              "atMs": 13726.2
+            },
+            {
+              "name": "planterar skogen",
+              "atMs": 13895.2
+            },
+            {
+              "name": "s\u00e4tter ut flaggor",
+              "atMs": 20460.2
+            },
+            {
+              "name": "st\u00e4ller ljuset",
+              "atMs": 20543.4
+            },
+            {
+              "name": "ritar f\u00f6rsta vyn",
+              "atMs": 21916.2
+            }
+          ],
+          "spans": [
+            {
+              "name": "v2 preview: select + decode pilot/surface tiles",
+              "ms": 637
+            },
+            {
+              "name": "v2 rings: fetch + verify + decode",
+              "ms": 1097.6,
+              "tiles": 213
+            },
+            {
+              "name": "v2 flat water: detect",
+              "ms": 217.4
+            },
+            {
+              "name": "v2 water beds: carve rings",
+              "ms": 856,
+              "tiles": 38
+            },
+            {
+              "name": "model prep after terrain data (pads, water levels, shores, grids)",
+              "ms": 2458
+            },
+            {
+              "name": "procedural textures (DETAIL, SANDN, WATERN)",
+              "ms": 339.6
+            },
+            {
+              "name": "PMREM environment",
+              "ms": 177.3,
+              "preset": "noon"
+            },
+            {
+              "name": "ground atlas (1 m, CORE)",
+              "ms": 1123.1
+            },
+            {
+              "name": "v2 prepare (worker, first frontier coverage, preflight)",
+              "ms": 3849.9
+            },
+            {
+              "name": "ground tint rasters (near 6 m + far 24 m)",
+              "ms": 3210.6
+            },
+            {
+              "name": "v2 vegetation: wait for chunk load",
+              "ms": 734.1
+            },
+            {
+              "name": "reeds (lattice + SHORE field)",
+              "ms": 27.7,
+              "reeds": 0
+            },
+            {
+              "name": "v2 vegetation: plan individuals + stand trees",
+              "ms": 73.7
+            },
+            {
+              "name": "legacy tree lattice",
+              "ms": 2252.4
+            },
+            {
+              "name": "v2 vegetation: push planned trees",
+              "ms": 8
+            },
+            {
+              "name": "tree impostor atlases (3 species, 64 views each)",
+              "ms": 1105.1
+            },
+            {
+              "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+              "ms": 1293.1,
+              "trees": 53986,
+              "cells": 733
+            },
+            {
+              "name": "far vista cones",
+              "ms": 156.6,
+              "vista": 33483
+            },
+            {
+              "name": "ground cover (tufts, bushes, stones, stumps)",
+              "ms": 2567.2
+            },
+            {
+              "name": "v2 stream: first frontier fully resident (after the overlap)",
+              "ms": 1143.1,
+              "tiles": 55
+            }
+          ],
+          "atlasMs": 1122.4,
+          "totalMs": 21936.6,
+          "doneAtMs": 32774.4,
+          "firstFrames": [
+            {
+              "atMs": 21937.3,
+              "ms": 10431.6,
+              "tris": 2088689,
+              "draws": 118,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 32380.7,
+              "ms": 14.2,
+              "tris": 2088689,
+              "draws": 118,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 32397.1,
+              "ms": 8.7,
+              "tris": 2088689,
+              "draws": 118,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 32464.3,
+              "ms": 5.7,
+              "tris": 1153299,
+              "draws": 93,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 32544.5,
+              "ms": 4.7,
+              "tris": 1153299,
+              "draws": 93,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 32595.2,
+              "ms": 6.7,
+              "tris": 1153299,
+              "draws": 93,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 32609.7,
+              "ms": 5,
+              "tris": 1153299,
+              "draws": 93,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 32706.1,
+              "ms": 4.7,
+              "tris": 1153299,
+              "draws": 93,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 32753,
+              "ms": 5.5,
+              "tris": 1153299,
+              "draws": 93,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 32770.1,
+              "ms": 4.2,
+              "tris": 1153299,
+              "draws": 93,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            },
+            {
+              "atMs": 32792.6,
+              "ms": 5.1,
+              "tris": 1153299,
+              "draws": 93,
+              "tiers": {
+                "t0": 0,
+                "t1": 317,
+                "t2": 56,
+                "t3": 0
+              }
+            }
+          ],
+          "firstSceneSubmittedAtMs": 32369,
+          "firstSceneGpuReadyAtMs": 32759.4,
+          "tintMs": 3210
+        }
+      },
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "Cancelled terrain request: http://127.0.0.1:41751/olovs-hemsida/grounds/upsala/terrain/dcdc472cbda0baa50c50e7d87f6996ae08c40bc718aa09ead0a493e42fe7b5f4.bvch",
+        "Cancelled terrain request: http://127.0.0.1:41751/olovs-hemsida/grounds/upsala/terrain/177e067ab9db75297f3e343140fd064659b559dfb2c0d48e537a26e3e4ad68fc.bvch",
+        "Cancelled terrain request: http://127.0.0.1:41751/olovs-hemsida/grounds/upsala/terrain/8d7f284f7fe142bc4f844f92e6e85ef34ea7c542be800d082141f12f61a12867.bvch",
+        "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend.",
+        "[.WebGL-0xfac00a2e900]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+        "[.WebGL-0xfac00a2e900]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+        "[.WebGL-0xfac00a2e900]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+        "[.WebGL-0xfac00a2e900]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now. (this message will no longer repeat)"
+      ],
+      "views": [
+        {
+          "id": "h1_top_noon",
+          "imageSha256": "8946a7a52450a9c1791f150e27eccaae1a00b1709b2908500968589f84209185",
+          "before": {
+            "backend": "webgl2",
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 449,
+              "frameCalls": 2,
+              "drawCalls": 93,
+              "triangles": 1153299,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 389,
+                "attributesSize": 177397655,
+                "geometries": 78,
+                "indexAttributes": 52,
+                "indexAttributesSize": 2408784,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 125,
+                "programsSize": 1121378,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 10,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 40,
+                "texturesSize": 128490577,
+                "uniformBuffers": 202,
+                "uniformBuffersSize": 127056,
+                "total": 309545450
+              },
+              "drawingBuffer": [
+                384,
+                288
+              ],
+              "pixelRatio": 1
+            },
+            "camera": {
+              "pos": [
+                142.6,
+                354.4,
+                -64.1
+              ],
+              "look": [
+                142.6,
+                24.4,
+                -64.2
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.3333333333333333,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                142.61551428844083,
+                354.42294081146144,
+                -64.11186063274644
+              ]
+            },
+            "treeLod": {
+              "mode": "zone",
+              "zoneTiers": [
+                2,
+                3,
+                4,
+                4
+              ],
+              "hero": 200,
+              "full": 60,
+              "impostor": 22,
+              "hysteresis": 0.1,
+              "dwell": 6,
+              "floors": [
+                2,
+                4
+              ],
+              "reach": [
+                250,
+                500
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 3,
+              "frames": 13,
+              "sinceRender": 10,
+              "why": "settled",
+              "terrainRevision": 54,
+              "settlePending": false
+            },
+            "terrainBuffers": {
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 6,
+                  "residentLayers": 6,
+                  "textureUploads": 78,
+                  "renderRevision": 73,
+                  "morphing": false,
+                  "frameAttributeVersion": 20,
+                  "paramsAttributeVersion": 53,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 798720,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 54,
+              "morphing": false,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "drawCalls": 1,
+              "triangles": 798720,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 79
+            },
+            "terrainInventorySha256": "1e6f78a002023e954692899dbcb1419b99cbd194d540815aafdc327afcae1570",
+            "terrainMorphsSha256": "1e7dc5a7fa27cd467e029011d7038caef41e263e1b7a9b2175de99d09b75bc98",
+            "terrainTiles": 6
+          },
+          "after": {
+            "backend": "webgl2",
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 473,
+              "frameCalls": 2,
+              "drawCalls": 93,
+              "triangles": 1153299,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 389,
+                "attributesSize": 177397655,
+                "geometries": 78,
+                "indexAttributes": 52,
+                "indexAttributesSize": 2408784,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 125,
+                "programsSize": 1121378,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 10,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 40,
+                "texturesSize": 128490577,
+                "uniformBuffers": 202,
+                "uniformBuffersSize": 127056,
+                "total": 309545450
+              },
+              "drawingBuffer": [
+                384,
+                288
+              ],
+              "pixelRatio": 1
+            },
+            "camera": {
+              "pos": [
+                142.6,
+                354.4,
+                -64.1
+              ],
+              "look": [
+                142.6,
+                24.4,
+                -64.2
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.3333333333333333,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                142.61551428844083,
+                354.42294081146144,
+                -64.11186063274644
+              ]
+            },
+            "treeLod": {
+              "mode": "zone",
+              "zoneTiers": [
+                2,
+                3,
+                4,
+                4
+              ],
+              "hero": 200,
+              "full": 60,
+              "impostor": 22,
+              "hysteresis": 0.1,
+              "dwell": 6,
+              "floors": [
+                2,
+                4
+              ],
+              "reach": [
+                250,
+                500
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 3,
+              "frames": 25,
+              "sinceRender": 22,
+              "why": "settled",
+              "terrainRevision": 54,
+              "settlePending": false
+            },
+            "terrainBuffers": {
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 6,
+                  "residentLayers": 6,
+                  "textureUploads": 78,
+                  "renderRevision": 73,
+                  "morphing": false,
+                  "frameAttributeVersion": 20,
+                  "paramsAttributeVersion": 53,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 798720,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 54,
+              "morphing": false,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "drawCalls": 1,
+              "triangles": 798720,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 79
+            },
+            "terrainInventorySha256": "1e6f78a002023e954692899dbcb1419b99cbd194d540815aafdc327afcae1570",
+            "terrainMorphsSha256": "1e7dc5a7fa27cd467e029011d7038caef41e263e1b7a9b2175de99d09b75bc98",
+            "terrainTiles": 6
+          }
+        }
+      ],
+      "presetSwitches": [
+        {
+          "preset": "host",
+          "handlerMs": 5393.29999999702,
+          "startFrame": 25,
+          "imageSha256": "9f8e64657af552ed29bda6eadde7efb106718ee3acd9890e423b31f29dfb4821",
+          "lighting": {
+            "enabled": true,
+            "preset": "host",
+            "cachedPresets": [
+              "host"
+            ],
+            "bakes": 2,
+            "allocations": 2,
+            "copies": 1,
+            "disposed": false
+          },
+          "passed": true,
+          "state": {
+            "backend": "webgl2",
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 514,
+              "frameCalls": 2,
+              "drawCalls": 93,
+              "triangles": 1153299,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 389,
+                "attributesSize": 177397655,
+                "geometries": 78,
+                "indexAttributes": 52,
+                "indexAttributesSize": 2408784,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 125,
+                "programsSize": 1121378,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 11,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 42,
+                "texturesSize": 137927761,
+                "uniformBuffers": 202,
+                "uniformBuffersSize": 127056,
+                "total": 318982634
+              },
+              "drawingBuffer": [
+                384,
+                288
+              ],
+              "pixelRatio": 1
+            },
+            "camera": {
+              "pos": [
+                142.6,
+                354.4,
+                -64.1
+              ],
+              "look": [
+                142.6,
+                24.4,
+                -64.2
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.3333333333333333,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                142.61551428844083,
+                354.42294081146144,
+                -64.11186063274644
+              ]
+            },
+            "treeLod": {
+              "mode": "zone",
+              "zoneTiers": [
+                2,
+                3,
+                4,
+                4
+              ],
+              "hero": 200,
+              "full": 60,
+              "impostor": 22,
+              "hysteresis": 0.1,
+              "dwell": 6,
+              "floors": [
+                2,
+                4
+              ],
+              "reach": [
+                250,
+                500
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 5,
+              "frames": 30,
+              "sinceRender": 3,
+              "why": "settled",
+              "terrainRevision": 54,
+              "settlePending": false
+            },
+            "terrainBuffers": {
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 6,
+                  "residentLayers": 6,
+                  "textureUploads": 78,
+                  "renderRevision": 73,
+                  "morphing": false,
+                  "frameAttributeVersion": 20,
+                  "paramsAttributeVersion": 53,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 798720,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 54,
+              "morphing": false,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "drawCalls": 1,
+              "triangles": 798720,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 79
+            },
+            "terrainInventorySha256": "1e6f78a002023e954692899dbcb1419b99cbd194d540815aafdc327afcae1570",
+            "terrainMorphsSha256": "1e7dc5a7fa27cd467e029011d7038caef41e263e1b7a9b2175de99d09b75bc98",
+            "terrainTiles": 6
+          }
+        },
+        {
+          "preset": "noon",
+          "handlerMs": 6.299999997019768,
+          "startFrame": 42,
+          "imageSha256": "8946a7a52450a9c1791f150e27eccaae1a00b1709b2908500968589f84209185",
+          "lighting": {
+            "enabled": true,
+            "preset": "noon",
+            "cachedPresets": [
+              "noon"
+            ],
+            "bakes": 3,
+            "allocations": 2,
+            "copies": 2,
+            "disposed": false
+          },
+          "passed": true,
+          "state": {
+            "backend": "webgl2",
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "pixelRatio": 1,
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 577,
+              "frameCalls": 2,
+              "drawCalls": 93,
+              "triangles": 1153299,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 389,
+                "attributesSize": 177397655,
+                "geometries": 78,
+                "indexAttributes": 52,
+                "indexAttributesSize": 2408784,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 125,
+                "programsSize": 1121378,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 11,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 42,
+                "texturesSize": 137927761,
+                "uniformBuffers": 202,
+                "uniformBuffersSize": 127056,
+                "total": 318982634
+              },
+              "drawingBuffer": [
+                384,
+                288
+              ],
+              "pixelRatio": 1
+            },
+            "camera": {
+              "pos": [
+                142.6,
+                354.4,
+                -64.1
+              ],
+              "look": [
+                142.6,
+                24.4,
+                -64.2
+              ],
+              "mode": "top"
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.3333333333333333,
+              "coordinateSystem": 2000,
+              "reversedDepth": true,
+              "position": [
+                142.61551428844083,
+                354.42294081146144,
+                -64.11186063274644
+              ]
+            },
+            "treeLod": {
+              "mode": "zone",
+              "zoneTiers": [
+                2,
+                3,
+                4,
+                4
+              ],
+              "hero": 200,
+              "full": 60,
+              "impostor": 22,
+              "hysteresis": 0.1,
+              "dwell": 6,
+              "floors": [
+                2,
+                4
+              ],
+              "reach": [
+                250,
+                500
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 7,
+              "frames": 46,
+              "sinceRender": 2,
+              "why": "settled",
+              "terrainRevision": 54,
+              "settlePending": false
+            },
+            "terrainBuffers": {
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 6,
+                  "residentLayers": 6,
+                  "textureUploads": 78,
+                  "renderRevision": 73,
+                  "morphing": false,
+                  "frameAttributeVersion": 20,
+                  "paramsAttributeVersion": 53,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 798720,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 54,
+              "morphing": false,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "drawCalls": 1,
+              "triangles": 798720,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 79
+            },
+            "terrainInventorySha256": "1e6f78a002023e954692899dbcb1419b99cbd194d540815aafdc327afcae1570",
+            "terrainMorphsSha256": "1e7dc5a7fa27cd467e029011d7038caef41e263e1b7a9b2175de99d09b75bc98",
+            "terrainTiles": 6
+          }
+        }
+      ]
+    },
+    "comparisons": [
+      {
+        "view": "h1_top_noon",
+        "pixelsIdentical": true,
+        "cameraIdentical": true,
+        "inventoryIdentical": true,
+        "treeZonesIdentical": true,
+        "bufferIdentical": true,
+        "qualityIdentical": true,
+        "draws": [
+          93,
+          93
+        ],
+        "triangles": [
+          1153299,
+          1153299
+        ],
+        "rendererBytes": [
+          309533072,
+          309545450
+        ]
+      },
+      {
+        "view": "host",
+        "pixelsIdentical": true,
+        "cameraIdentical": true,
+        "inventoryIdentical": true,
+        "treeZonesIdentical": true,
+        "bufferIdentical": true,
+        "qualityIdentical": true,
+        "draws": [
+          93,
+          93
+        ],
+        "triangles": [
+          1153299,
+          1153299
+        ],
+        "rendererBytes": [
+          403690625,
+          318982634
+        ]
+      },
+      {
+        "view": "noon",
+        "pixelsIdentical": true,
+        "cameraIdentical": true,
+        "inventoryIdentical": true,
+        "treeZonesIdentical": true,
+        "bufferIdentical": true,
+        "qualityIdentical": true,
+        "draws": [
+          93,
+          93
+        ],
+        "triangles": [
+          1153299,
+          1153299
+        ],
+        "rendererBytes": [
+          488453761,
+          318982634
+        ]
+      }
+    ],
+    "fingerprintsIdentical": true
+  },
+  "rejectedExperiments": {
+    "dynamicPmremBinding": {
+      "sourceNeverPublished": true,
+      "method": "Changing the sampled PMREM texture while keeping the scene node identity stable",
+      "result": "Plain materials retained stale per-object bindings; pixel errors up to 14/255. Replaced by stable displayed texture and public GPU copy."
+    },
+    "invalidCameraAlias": [
+      {
+        "build": {
+          "indexSha256": "1fadb53802a9c0a08fd8e73af5753d60a4ea4afb988141f0909ae20940eb8e69",
+          "assetsInventorySha256": "ea15f9fc9ddde16584b5da180977ad66e2e59b8f550a18152b3486c73608a2b4",
+          "entryBundles": [
+            {
+              "file": "assets/index-DJ7CVQTi.js",
+              "bytes": 1550,
+              "sha256": "4602712181dd07614e874f470c23ebadc699d98c816543be311a2d467a1695a7"
+            },
+            {
+              "file": "assets/main-NSqnj3Gw.js",
+              "bytes": 321372,
+              "sha256": "9a2bfcd4cd5c2f120452cc31f974b062a9ec2e58ef4f58ff7ab97a62c3a58236"
+            }
+          ]
+        },
+        "stage": "preset-host",
+        "passed": false,
+        "errors": [
+          {
+            "type": "harness-deadline",
+            "text": "180 second whole-scene deadline reached"
+          },
+          {
+            "type": "harness",
+            "text": "page.screenshot: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\n    at main (/workspace/scratch/a71837429a4b/banvy-graphics-next/tools/check-camera-stability.mjs:439:35)\n    at async file:///workspace/scratch/a71837429a4b/banvy-graphics-next/tools/check-camera-stability.mjs:465:1"
+          }
+        ]
+      },
+      {
+        "build": {
+          "indexSha256": "d91650bee0bce7f46c5ac1a2f60a859e5cab368dada8179c3c95d878ec8e4426",
+          "assetsInventorySha256": "dc4cf3e90fc378d535687bfe199eb029c2629baa45df46a4b771ef90ebe1e4c2",
+          "entryBundles": [
+            {
+              "file": "assets/index-BZF1ebSj.js",
+              "bytes": 1550,
+              "sha256": "f58e4b204c43d3726180e64161b955740da59991582d3ff83d1b3859d47d3cc0"
+            },
+            {
+              "file": "assets/main-p4d_dqdO.js",
+              "bytes": 322720,
+              "sha256": "c080a8cf8b66ae60c81a8b339e0ffa79ca0fde7ae4d2d011243d7ffd0b4e2a30"
+            }
+          ]
+        },
+        "stage": "settle",
+        "passed": false,
+        "errors": [
+          {
+            "type": "harness",
+            "text": "page.waitForFunction: Timeout 60000ms exceeded.\n    at settle (/workspace/scratch/a71837429a4b/banvy-graphics-next/tools/check-camera-stability.mjs:68:14)\n    at async main (/workspace/scratch/a71837429a4b/banvy-graphics-next/tools/check-camera-stability.mjs:358:5)\n    at async file:///workspace/scratch/a71837429a4b/banvy-graphics-next/tools/check-camera-stability.mjs:469:1"
+          }
+        ]
+      }
+    ],
+    "resolution": "Harness used vy=top, which is not a valid app URL alias and booted orbit. Corrected to vy=ovan and reran both revisions through matched top/noon -> autumn -> noon."
+  }
+}
