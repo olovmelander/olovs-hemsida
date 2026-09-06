@@ -1,0 +1,610 @@
+{
+  "scope": "CPU DETAIL pixel construction only; reused output allocation; warmed, rotating and reversed order across baseline, disabled and seamless. Excludes canvas upload, texture mip generation, full startup, memory peaks and GPU frame times.",
+  "baselineRevision": "ce3597883a6c7495fc8204c23acac82413f197b7",
+  "source": {
+    "helperSha256": "f833aa01f0e0485aea3da74836582209c59b7355f82454dc3b687a6ee3bd2e9f",
+    "baselineFunctionSha256": "34e04aecccf2d3a7326d7e007fcd2632d727875a3dfaf7fb24c63a4894faa039",
+    "baselineRgbaSha256": "fbb5a2197df82602f69707d3ab82eaf667e14aa1d4f618e329790b2288810bb4",
+    "candidateRgbaSha256": "f8a71335b0ce8072c8f979091862e37ebf6f10e038c0cc9737484e3a8f85b24f"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "architecture": "x64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logicalCpus": 9
+  },
+  "width": 512,
+  "height": 512,
+  "rgbaBytes": 1048576,
+  "disabledExactBytes": true,
+  "warmupPerMode": 3,
+  "summaries": {
+    "baseline": {
+      "count": 21,
+      "medianMs": 53.815987999999834,
+      "p95Ms": 75.4920669999999,
+      "p99Ms": 81.55747799999995
+    },
+    "disabled": {
+      "count": 21,
+      "medianMs": 47.37381000000005,
+      "p95Ms": 59.67449399999987,
+      "p99Ms": 73.03176699999995
+    },
+    "seamless": {
+      "count": 21,
+      "medianMs": 45.69351999999981,
+      "p95Ms": 63.565020000000004,
+      "p99Ms": 71.46289700000011
+    }
+  },
+  "samples": [
+    {
+      "round": 0,
+      "mode": "baseline",
+      "milliseconds": 81.55747799999995
+    },
+    {
+      "round": 0,
+      "mode": "disabled",
+      "milliseconds": 42.25120700000002
+    },
+    {
+      "round": 0,
+      "mode": "seamless",
+      "milliseconds": 63.565020000000004
+    },
+    {
+      "round": 1,
+      "mode": "baseline",
+      "milliseconds": 53.815987999999834
+    },
+    {
+      "round": 1,
+      "mode": "seamless",
+      "milliseconds": 71.46289700000011
+    },
+    {
+      "round": 1,
+      "mode": "disabled",
+      "milliseconds": 73.03176699999995
+    },
+    {
+      "round": 2,
+      "mode": "seamless",
+      "milliseconds": 51.69555500000001
+    },
+    {
+      "round": 2,
+      "mode": "baseline",
+      "milliseconds": 54.499127000000044
+    },
+    {
+      "round": 2,
+      "mode": "disabled",
+      "milliseconds": 59.67449399999987
+    },
+    {
+      "round": 3,
+      "mode": "seamless",
+      "milliseconds": 51.57445899999993
+    },
+    {
+      "round": 3,
+      "mode": "disabled",
+      "milliseconds": 49.19111700000008
+    },
+    {
+      "round": 3,
+      "mode": "baseline",
+      "milliseconds": 75.4920669999999
+    },
+    {
+      "round": 4,
+      "mode": "disabled",
+      "milliseconds": 44.093000000000075
+    },
+    {
+      "round": 4,
+      "mode": "seamless",
+      "milliseconds": 40.230469000000085
+    },
+    {
+      "round": 4,
+      "mode": "baseline",
+      "milliseconds": 61.671211000000085
+    },
+    {
+      "round": 5,
+      "mode": "disabled",
+      "milliseconds": 43.50361299999986
+    },
+    {
+      "round": 5,
+      "mode": "baseline",
+      "milliseconds": 49.89942999999994
+    },
+    {
+      "round": 5,
+      "mode": "seamless",
+      "milliseconds": 42.586139
+    },
+    {
+      "round": 6,
+      "mode": "baseline",
+      "milliseconds": 50.727196000000276
+    },
+    {
+      "round": 6,
+      "mode": "disabled",
+      "milliseconds": 44.59632499999998
+    },
+    {
+      "round": 6,
+      "mode": "seamless",
+      "milliseconds": 39.94071599999961
+    },
+    {
+      "round": 7,
+      "mode": "baseline",
+      "milliseconds": 49.31547900000032
+    },
+    {
+      "round": 7,
+      "mode": "seamless",
+      "milliseconds": 39.15417699999989
+    },
+    {
+      "round": 7,
+      "mode": "disabled",
+      "milliseconds": 43.377374000000145
+    },
+    {
+      "round": 8,
+      "mode": "seamless",
+      "milliseconds": 45.9331729999999
+    },
+    {
+      "round": 8,
+      "mode": "baseline",
+      "milliseconds": 60.74165200000016
+    },
+    {
+      "round": 8,
+      "mode": "disabled",
+      "milliseconds": 41.92912200000001
+    },
+    {
+      "round": 9,
+      "mode": "seamless",
+      "milliseconds": 44.15234899999996
+    },
+    {
+      "round": 9,
+      "mode": "disabled",
+      "milliseconds": 49.76904599999989
+    },
+    {
+      "round": 9,
+      "mode": "baseline",
+      "milliseconds": 53.379855000000134
+    },
+    {
+      "round": 10,
+      "mode": "disabled",
+      "milliseconds": 47.40555900000027
+    },
+    {
+      "round": 10,
+      "mode": "seamless",
+      "milliseconds": 40.53658500000029
+    },
+    {
+      "round": 10,
+      "mode": "baseline",
+      "milliseconds": 55.43285100000003
+    },
+    {
+      "round": 11,
+      "mode": "disabled",
+      "milliseconds": 49.93236099999967
+    },
+    {
+      "round": 11,
+      "mode": "baseline",
+      "milliseconds": 46.90207599999985
+    },
+    {
+      "round": 11,
+      "mode": "seamless",
+      "milliseconds": 45.69351999999981
+    },
+    {
+      "round": 12,
+      "mode": "baseline",
+      "milliseconds": 49.18405299999995
+    },
+    {
+      "round": 12,
+      "mode": "disabled",
+      "milliseconds": 57.04107500000009
+    },
+    {
+      "round": 12,
+      "mode": "seamless",
+      "milliseconds": 52.54144599999972
+    },
+    {
+      "round": 13,
+      "mode": "baseline",
+      "milliseconds": 55.459957999999915
+    },
+    {
+      "round": 13,
+      "mode": "seamless",
+      "milliseconds": 41.46518699999979
+    },
+    {
+      "round": 13,
+      "mode": "disabled",
+      "milliseconds": 43.017403000000286
+    },
+    {
+      "round": 14,
+      "mode": "seamless",
+      "milliseconds": 40.182422000000315
+    },
+    {
+      "round": 14,
+      "mode": "baseline",
+      "milliseconds": 49.17236999999977
+    },
+    {
+      "round": 14,
+      "mode": "disabled",
+      "milliseconds": 42.16041099999984
+    },
+    {
+      "round": 15,
+      "mode": "seamless",
+      "milliseconds": 44.56041800000003
+    },
+    {
+      "round": 15,
+      "mode": "disabled",
+      "milliseconds": 47.37381000000005
+    },
+    {
+      "round": 15,
+      "mode": "baseline",
+      "milliseconds": 53.317319999999654
+    },
+    {
+      "round": 16,
+      "mode": "disabled",
+      "milliseconds": 59.020039
+    },
+    {
+      "round": 16,
+      "mode": "seamless",
+      "milliseconds": 49.05070999999998
+    },
+    {
+      "round": 16,
+      "mode": "baseline",
+      "milliseconds": 57.10744499999964
+    },
+    {
+      "round": 17,
+      "mode": "disabled",
+      "milliseconds": 49.34769800000004
+    },
+    {
+      "round": 17,
+      "mode": "baseline",
+      "milliseconds": 49.732224999999744
+    },
+    {
+      "round": 17,
+      "mode": "seamless",
+      "milliseconds": 48.401694000000134
+    },
+    {
+      "round": 18,
+      "mode": "baseline",
+      "milliseconds": 55.23022700000001
+    },
+    {
+      "round": 18,
+      "mode": "disabled",
+      "milliseconds": 57.410997999999836
+    },
+    {
+      "round": 18,
+      "mode": "seamless",
+      "milliseconds": 37.63914100000011
+    },
+    {
+      "round": 19,
+      "mode": "baseline",
+      "milliseconds": 60.80302999999958
+    },
+    {
+      "round": 19,
+      "mode": "seamless",
+      "milliseconds": 52.261375000000044
+    },
+    {
+      "round": 19,
+      "mode": "disabled",
+      "milliseconds": 43.3392230000004
+    },
+    {
+      "round": 20,
+      "mode": "seamless",
+      "milliseconds": 49.452111000000514
+    },
+    {
+      "round": 20,
+      "mode": "baseline",
+      "milliseconds": 47.83266099999946
+    },
+    {
+      "round": 20,
+      "mode": "disabled",
+      "milliseconds": 42.15635300000031
+    }
+  ],
+  "measurementHistory": "The initial two-mode check was expanded to include the disabled helper because main now calls it for ordinary visits. Both runs are retained; these noisy CPU construction percentiles are not full startup or FPS evidence.",
+  "earlierTwoWayCheck": {
+    "scope": "CPU DETAIL pixel construction only; reused output allocation; warmed, alternating order. Excludes canvas upload, texture mip generation, full startup, memory peaks and GPU frame times.",
+    "baselineRevision": "ce3597883a6c7495fc8204c23acac82413f197b7",
+    "source": {
+      "helperSha256": "f833aa01f0e0485aea3da74836582209c59b7355f82454dc3b687a6ee3bd2e9f",
+      "baselineFunctionSha256": "34e04aecccf2d3a7326d7e007fcd2632d727875a3dfaf7fb24c63a4894faa039",
+      "baselineRgbaSha256": "fbb5a2197df82602f69707d3ab82eaf667e14aa1d4f618e329790b2288810bb4",
+      "candidateRgbaSha256": "f8a71335b0ce8072c8f979091862e37ebf6f10e038c0cc9737484e3a8f85b24f"
+    },
+    "environment": {
+      "node": "v24.19.0",
+      "platform": "linux",
+      "architecture": "x64",
+      "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+      "logicalCpus": 9
+    },
+    "width": 512,
+    "height": 512,
+    "rgbaBytes": 1048576,
+    "disabledExactBytes": true,
+    "warmupPerMode": 3,
+    "summaries": {
+      "baseline": {
+        "count": 21,
+        "medianMs": 54.08611400000018,
+        "p95Ms": 59.50543499999981,
+        "p99Ms": 74.77307100000007
+      },
+      "seamless": {
+        "count": 21,
+        "medianMs": 40.929821999999945,
+        "p95Ms": 60.58238800000004,
+        "p99Ms": 65.457582
+      }
+    },
+    "samples": [
+      {
+        "round": 0,
+        "mode": "baseline",
+        "milliseconds": 54.79373900000007
+      },
+      {
+        "round": 0,
+        "mode": "seamless",
+        "milliseconds": 40.929821999999945
+      },
+      {
+        "round": 1,
+        "mode": "seamless",
+        "milliseconds": 37.72098600000004
+      },
+      {
+        "round": 1,
+        "mode": "baseline",
+        "milliseconds": 54.18267700000001
+      },
+      {
+        "round": 2,
+        "mode": "baseline",
+        "milliseconds": 58.21618999999998
+      },
+      {
+        "round": 2,
+        "mode": "seamless",
+        "milliseconds": 65.457582
+      },
+      {
+        "round": 3,
+        "mode": "seamless",
+        "milliseconds": 55.2968249999999
+      },
+      {
+        "round": 3,
+        "mode": "baseline",
+        "milliseconds": 59.50543499999981
+      },
+      {
+        "round": 4,
+        "mode": "baseline",
+        "milliseconds": 50.080110000000104
+      },
+      {
+        "round": 4,
+        "mode": "seamless",
+        "milliseconds": 43.25987299999997
+      },
+      {
+        "round": 5,
+        "mode": "seamless",
+        "milliseconds": 50.99041599999987
+      },
+      {
+        "round": 5,
+        "mode": "baseline",
+        "milliseconds": 52.40625699999987
+      },
+      {
+        "round": 6,
+        "mode": "baseline",
+        "milliseconds": 57.74705000000017
+      },
+      {
+        "round": 6,
+        "mode": "seamless",
+        "milliseconds": 60.58238800000004
+      },
+      {
+        "round": 7,
+        "mode": "seamless",
+        "milliseconds": 40.71481199999994
+      },
+      {
+        "round": 7,
+        "mode": "baseline",
+        "milliseconds": 56.666758999999956
+      },
+      {
+        "round": 8,
+        "mode": "baseline",
+        "milliseconds": 74.77307100000007
+      },
+      {
+        "round": 8,
+        "mode": "seamless",
+        "milliseconds": 40.164507000000185
+      },
+      {
+        "round": 9,
+        "mode": "seamless",
+        "milliseconds": 40.78087900000014
+      },
+      {
+        "round": 9,
+        "mode": "baseline",
+        "milliseconds": 54.974758000000065
+      },
+      {
+        "round": 10,
+        "mode": "baseline",
+        "milliseconds": 57.36608799999999
+      },
+      {
+        "round": 10,
+        "mode": "seamless",
+        "milliseconds": 39.43982599999981
+      },
+      {
+        "round": 11,
+        "mode": "seamless",
+        "milliseconds": 42.4064179999998
+      },
+      {
+        "round": 11,
+        "mode": "baseline",
+        "milliseconds": 53.51762499999995
+      },
+      {
+        "round": 12,
+        "mode": "baseline",
+        "milliseconds": 53.92598500000008
+      },
+      {
+        "round": 12,
+        "mode": "seamless",
+        "milliseconds": 40.06386900000007
+      },
+      {
+        "round": 13,
+        "mode": "seamless",
+        "milliseconds": 36.765783000000056
+      },
+      {
+        "round": 13,
+        "mode": "baseline",
+        "milliseconds": 48.95841100000007
+      },
+      {
+        "round": 14,
+        "mode": "baseline",
+        "milliseconds": 50.89086999999972
+      },
+      {
+        "round": 14,
+        "mode": "seamless",
+        "milliseconds": 41.549179000000095
+      },
+      {
+        "round": 15,
+        "mode": "seamless",
+        "milliseconds": 39.124471000000085
+      },
+      {
+        "round": 15,
+        "mode": "baseline",
+        "milliseconds": 56.474673000000166
+      },
+      {
+        "round": 16,
+        "mode": "baseline",
+        "milliseconds": 52.3781170000002
+      },
+      {
+        "round": 16,
+        "mode": "seamless",
+        "milliseconds": 41.40903299999991
+      },
+      {
+        "round": 17,
+        "mode": "seamless",
+        "milliseconds": 45.03353299999981
+      },
+      {
+        "round": 17,
+        "mode": "baseline",
+        "milliseconds": 54.08611400000018
+      },
+      {
+        "round": 18,
+        "mode": "baseline",
+        "milliseconds": 54.01916799999981
+      },
+      {
+        "round": 18,
+        "mode": "seamless",
+        "milliseconds": 38.256687000000056
+      },
+      {
+        "round": 19,
+        "mode": "seamless",
+        "milliseconds": 59.61215399999992
+      },
+      {
+        "round": 19,
+        "mode": "baseline",
+        "milliseconds": 52.710521999999855
+      },
+      {
+        "round": 20,
+        "mode": "baseline",
+        "milliseconds": 52.13680699999986
+      },
+      {
+        "round": 20,
+        "mode": "seamless",
+        "milliseconds": 38.753761999999824
+      }
+    ]
+  },
+  "validatedPublicCodeRevision": "dc5d630d7c4065e3d8b9d575734899e106b6440e",
+  "validatedPublicCodeTree": "04344053b64ea8287ec4e5c80d02efd3d8a36b48"
+}
