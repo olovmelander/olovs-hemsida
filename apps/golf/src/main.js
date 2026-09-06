@@ -1324,7 +1324,7 @@ sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
    draws for a picture that did not change. ?shadowrest=0 is the before. */
 const SHADOW_REST = new URLSearchParams(location.search).get('shadowrest') !== '0';
 sun.shadow.autoUpdate = !SHADOW_REST;
-const SHADOW_REST_STATE = { sunPos: new THREE.Vector3(NaN, NaN, NaN), target: new THREE.Vector3(NaN, NaN, NaN), tiles: -1, uploads: -1, morphStart: -1, dirtyUntil: 0, renders: 0, frames: 0, sinceRender: 0, why: '' };
+const SHADOW_REST_STATE = { sunPos: new THREE.Vector3(NaN, NaN, NaN), target: new THREE.Vector3(NaN, NaN, NaN), tiles: -1, uploads: -1, morphStart: -1, dirtyUntil: 0, terrainLayer: null, terrainRevision: -1, settlePending: false, renders: 0, frames: 0, sinceRender: 0, why: '' };
 let treeUploadsThisFrame = 0;
 sun.shadow.camera.near = 120; sun.shadow.camera.far = 3400;
 /* Terrain is a huge, gently-sloped receiver, which is the worst case for shadow
@@ -6199,16 +6199,26 @@ const SUN_BASIS = { d: new THREE.Vector3(), right: new THREE.Vector3(), up: new 
 /* What moves a shadow: the sun or its box (placeSun), a tree changing tier or
    fading (an upload this frame, or a fade queue still draining), the terrain
    (a tile arriving or leaving, and the 240 ms morph after it), a flight -- and
-   once a second regardless, so anything not on this list still catches up
-   within a second. Nothing else in the scene casts and moves: the flag cloths
+   every 60 frames regardless, so anything not on this list still catches up.
+   Nothing else in the scene casts and moves: the flag cloths
    wave but do not cast. At rest none of it fires and the pass is skipped. */
 function shadowRest(now) {
   const S = SHADOW_REST_STATE; S.frames++; S.sinceRender++;
   if (!SHADOW_REST) return;
   let why = '';
   if (!sun.position.equals(S.sunPos) || !sun.target.position.equals(S.target)) { S.sunPos.copy(sun.position); S.target.copy(sun.target.position); why = 'sun'; }
-  const batches = terrainV2.runtime?.layer?.batches;
-  if (batches) {
+  const layer = terrainV2.runtime?.layer ?? terrainV2.batch ?? null;
+  if (GRAPHICS_POLISH) {
+    /* This revision follows actual texture/instance changes, including the
+       final zero-morph buffer. A slow frame can skip a time window entirely;
+       it cannot skip this change. Visibility has already synced the layer. */
+    const revision = layer?.renderRevision ?? 0;
+    if (layer !== S.terrainLayer || revision !== S.terrainRevision) {
+      S.terrainLayer = layer; S.terrainRevision = revision;
+      if (!why) why = 'terrain';
+    }
+  } else if (terrainV2.runtime?.layer?.batches) {
+    const batches = terrainV2.runtime.layer.batches;
     let tiles = 0, uploads = 0, morphStart = -1, morphMs = 240;
     for (const b of batches.values()) {
       tiles += b.layersByTile.size; uploads += b.textureUploads; morphMs = b.morphDurationMilliseconds;
@@ -6216,10 +6226,18 @@ function shadowRest(now) {
     }
     if (tiles !== S.tiles || uploads !== S.uploads || morphStart !== S.morphStart) { S.tiles = tiles; S.uploads = uploads; S.morphStart = morphStart; S.dirtyUntil = now + morphMs + 80; }
   }
-  if (!why && now < S.dirtyUntil) why = 'terrain';
+  if (!GRAPHICS_POLISH && !why && now < S.dirtyUntil) why = 'terrain';
   /* a fade under way changes the dither every frame with no upload at all -- the clock is a uniform -- so the map follows the queue, whoever drives the clock */
   if (!why && (treeUploadsThisFrame > 0 || TREE_LOD.queue.length !== TREE_LOD.qHead)) why = 'trees';
   if (!why && flying > 0) why = 'flight';
+  if (GRAPHICS_POLISH) {
+    /* Finish a changing scene with one settled shadow refresh, after the
+       renderer has consumed the previous request. The browser comparison
+       catches a different cached image when the last changing frame alone
+       is retained. A paused capture must not consume this follow-up. */
+    if (why) S.settlePending = true;
+    else if (S.settlePending && !sun.shadow.needsUpdate) { why = 'settled'; S.settlePending = false; }
+  }
   if (!why && S.sinceRender >= 60) why = 'tick';
   treeUploadsThisFrame = 0;
   if (why) { sun.shadow.needsUpdate = true; S.renders++; S.sinceRender = 0; S.why = why; }
@@ -9598,6 +9616,9 @@ window.V3D = {
   setShadowSnap: on => { shadowSnap = !!on; return shadowSnap; },
   /* the harness's bisection switch: the terrain's level morph length in ms (0 pops) */
   v2WorldMorph: ms => { const batches = terrainV2.runtime?.layer?.batches; if (!batches) return null; for (const b of batches.values()) b.morphDurationMilliseconds = Math.max(0, +ms || 0); return Math.max(0, +ms || 0); },
+  /* Live buffer/morph revisions for validation; the adapter's renderer metadata
+     describes activation, so it cannot verify subsequent settling/uploads. */
+  v2TerrainBuffers: () => (terrainV2.runtime?.layer ?? terrainV2.batch)?.stats() ?? null,
   /* the terrain stream's last plan and residency, for a harness that watches tiles come and go: desired, rendered (fallbacks included), requested, retained, and what is ready or loading */
   v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
   quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, qualityLocked: QUALITY_LOCK,
@@ -9709,8 +9730,9 @@ window.V3D = {
   water: (o = {}) => { if (o.glint != null) uWaterGlint.value = +o.glint; if (o.chop != null) uWaterChop.value = +o.chop; return { glint: uWaterGlint.value, chop: uWaterChop.value }; },
   /* the sun's shadow map: re-rendered every frame (three's default) or frozen as it is, for the cost bisection */
   setShadowUpdate: on => { sun.shadow.autoUpdate = !!on; if (on) sun.shadow.needsUpdate = true; return sun.shadow.autoUpdate; },
-  /* the on-demand shadow map: how many frames rendered it, and why the last one did */
-  shadowRest: () => ({ enabled: SHADOW_REST, renders: SHADOW_REST_STATE.renders, frames: SHADOW_REST_STATE.frames, sinceRender: SHADOW_REST_STATE.sinceRender, why: SHADOW_REST_STATE.why }),
+  /* Cache refresh requests; forced auto-update/capture locking can make the
+     actual shadow draw count differ. The terrain revision is diagnostic only. */
+  shadowRest: () => ({ enabled: SHADOW_REST, renders: SHADOW_REST_STATE.renders, frames: SHADOW_REST_STATE.frames, sinceRender: SHADOW_REST_STATE.sinceRender, why: SHADOW_REST_STATE.why, terrainRevision: SHADOW_REST_STATE.terrainRevision, settlePending: SHADOW_REST_STATE.settlePending }),
   /* what is in the scene, by kind: visible objects with geometry, grouped by type, tag and material, with their draw and triangle counts (instances counted once) */
   census: () => { const by = new Map(); scene.traverse(o => { if (!o.visible || !o.geometry) return; const g = o.geometry, tris = (g.index ? g.index.count : g.attributes.position?.count || 0) / 3; const inst = o.isInstancedMesh ? o.count : 1; const key = [o.type, o.userData?.tag || '', o.material?.type || '', o.name || '', o.parent?.name || '', o.isInstancedMesh ? 'inst' : '', Math.round(tris), o.castShadow ? 'cast' : '', o.matrixAutoUpdate ? 'auto' : ''].join('|'); const e = by.get(key) || { objects: 0, instances: 0, tris: 0 }; e.objects++; e.instances += inst; e.tris += tris * inst; by.set(key, e); }); return [...by.entries()].map(([k, v]) => ({ key: k, ...v })).sort((a, b) => b.objects - a.objects); },
   fps: () => fps,

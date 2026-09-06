@@ -9,6 +9,8 @@
  *   --interactions --compare /tmp/camera-before/report.json
  * Add --fresh-shadow to both runs for a separate diagnostic that refreshes
  * the existing shadow map after terrain settling, without changing its quality.
+ * --check-shadow-cache instead captures the ordinary cached view, then a fresh
+ * shadow reference in the same visit and checks image/buffer consistency.
  *
  * Fixed Uppsala H1 top/noon, graphics=1, q=lo, 384x288, DPR1, qualitylock,
  * geographic tree zones, deterministic shader clock, real camera tween clock.
@@ -64,7 +66,8 @@ async function settle(page, timeout) {
   await page.waitForFunction(f0 => {
     const V = window.V3D, a = V.v2Terrain().adapter, p = V.v2Plan();
     const ready = a?.kind === 'graph' && a.phase === 'ready' && a.active === true
-      && a.stream?.loadingTiles === 0 && a.stream.failedTiles === 0 && V.settled() && p;
+      && a.stream?.loadingTiles === 0 && a.stream.failedTiles === 0 && V.settled() && p
+      && V.v2TerrainBuffers?.()?.morphing !== true && V.shadowRest().settlePending !== true;
     if (!ready) { window.__v2GraphicsIdle = null; return false; }
     const signature = JSON.stringify([p.render.slice().sort(), p.ready.slice().sort()]);
     let state = window.__v2GraphicsIdle;
@@ -105,11 +108,14 @@ async function fingerprint(page) {
 async function stateAt(page) {
   return page.evaluate(() => {
     const V = window.V3D;
+    const inventory = V.v2WorldInventory();
     return { backend: V.stats.backend, quality: V.quality(), renderer: V.rendererInfo(),
       camera: V.camInfo(), lens: V.cameraInfo(), treeLod: V.treeLodPx(), tiers: V.treeTiers(),
       terrain: V.v2Terrain().adapter, plan: V.v2Plan(),
+      shadow: V.shadowRest(), terrainBuffers: V.v2TerrainBuffers?.() ?? null,
+      terrainMorphs: inventory.map(t => ({ tileId: t.tileId, morph: t.morph ?? null })).sort((a, b) => a.tileId.localeCompare(b.tileId)),
       // Identity/byte sums describe source terrain data, not shader output.
-      terrainInventory: V.v2WorldInventory().map(t => ({ tileId: t.tileId, identity: t.identity,
+      terrainInventory: inventory.map(t => ({ tileId: t.tileId, identity: t.identity,
         worldOriginX: t.worldOriginX, worldOriginZ: t.worldOriginZ, sampleSpacingMetres: t.sampleSpacingMetres,
         heightOffsetWorld: t.heightOffsetWorld, layerByteSum: t.layerByteSum })).sort((a, b) => a.tileId.localeCompare(b.tileId)),
     };
@@ -138,15 +144,17 @@ function compareReports(previous, report) {
 
 
 function parseArgs(argv) {
-  const o = { interactions: false, freshShadow: false };
+  const o = { interactions: false, freshShadow: false, checkShadowCache: false };
   for (let i = 0; i < argv.length; i++) {
     const key = argv[i];
     if (key === '--interactions') { o.interactions = true; continue; }
     if (key === '--fresh-shadow') { o.freshShadow = true; continue; }
+    if (key === '--check-shadow-cache') { o.checkShadowCache = true; continue; }
     if (!['--root', '--out', '--compare'].includes(key) || !argv[i + 1]) throw new Error(`Invalid argument ${key}`);
     o[key.slice(2)] = path.resolve(argv[++i]);
   }
   if (!o.root || !o.out) throw new Error('Expected --root BUILT_DIR --out OUTPUT_DIR [--interactions] [--fresh-shadow] [--compare REPORT]');
+  if (o.freshShadow && o.checkShadowCache) throw new Error('--check-shadow-cache requires an ordinary cached first capture');
   return o;
 }
 
@@ -363,6 +371,34 @@ async function main(o) {
     report.views.push({ ...report.request.views[0], file: 'h1_top_noon.png', imageSha256: sha256(bytes), visibleTerrainTileIds, before, after });
     report.settledCapturePassed = report.errors.length === 0;
     console.log(`Captured ${before.renderer.drawCalls} draws, ${before.renderer.triangles} triangles`);
+    if (o.checkShadowCache) {
+      report.stage = 'check-shadow-cache'; persist();
+      const startFrame = await page.evaluate(() => { V3D.setShadowUpdate(true); return V3D.frame(); });
+      await page.waitForFunction(frame => V3D.frame() >= frame + 2, startFrame, { polling: 50 });
+      const freshBefore = await stateAt(page);
+      const freshBytes = await page.screenshot({ path: path.join(o.out, 'fresh_shadow_reference.png'), animations: 'disabled' });
+      const freshAfter = await stateAt(page);
+      const restoredAutoUpdate = await page.evaluate(() => V3D.setShadowUpdate(false));
+      const assertions = {
+        exactImageParity: sha256(bytes) === sha256(freshBytes),
+        captureContractPreserved: same(captureContract(after), captureContract(freshBefore)) && same(captureContract(after), captureContract(freshAfter)),
+        cameraPreserved: same(after.camera, freshAfter.camera) && same(after.lens, freshAfter.lens),
+        terrainPreserved: same(after.terrainInventory, freshAfter.terrainInventory),
+        rendererMemoryPreserved: same(after.renderer.memory, freshAfter.renderer.memory),
+        cachedModeRestored: restoredAutoUpdate === false,
+      };
+      if (after.terrainBuffers) {
+        assertions.finalMorphReached = !after.terrainBuffers.morphing && after.terrainMorphs.every(t => t.morph === 0);
+        assertions.cachedRevisionCurrent = after.shadow.terrainRevision === after.terrainBuffers.renderRevision;
+        assertions.settledRefreshFinished = after.shadow.settlePending === false;
+        assertions.settledBuffersUnchanged = same(after.terrainBuffers, freshBefore.terrainBuffers) && same(after.terrainBuffers, freshAfter.terrainBuffers);
+      }
+      report.shadowCacheCheck = { passed: Object.values(assertions).every(Boolean), assertions,
+        file: 'fresh_shadow_reference.png', imageSha256: sha256(freshBytes), startFrame,
+        cached: after, freshBefore, freshAfter, restoredAutoUpdate,
+        note: 'Correctness diagnostic: same visit and settings, existing shadow auto-update temporarily enabled after the ordinary cached capture. No physical FPS claim.' };
+      persist(); console.log(`Shadow cache ${report.shadowCacheCheck.passed ? 'PASS' : 'FAIL'}`);
+    }
     if (o.compare) {
       const previous = JSON.parse(fs.readFileSync(o.compare, 'utf8'));
       report.comparison = compareReports(previous, report);
@@ -378,6 +414,7 @@ async function main(o) {
     }
     report.passed = report.errors.length === 0 && report.settledCapturePassed
       && (!report.comparison || report.comparison.passed)
+      && (!report.shadowCacheCheck || report.shadowCacheCheck.passed)
       && (!o.interactions || (report.interactions.length === 5 && report.interactions.every(r => r.passed)));
     report.stage = 'complete';
   } catch (error) {

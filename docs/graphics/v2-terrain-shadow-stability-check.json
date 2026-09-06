@@ -1,0 +1,5526 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-06T12:27:17.231Z",
+  "purpose": "V2 terrain settling, explicit dirty uploads and cached-shadow consistency. Baseline failure and rejected intermediate attempt remain recorded.",
+  "baseline": {
+    "revision": "2976a4ff1d26abbac27751c8a613cd91c81186f0",
+    "url": "https://github.com/olovmelander/olovs-hemsida/commit/2976a4ff1d26abbac27751c8a613cd91c81186f0"
+  },
+  "candidate": {
+    "revision": "6002140f3b82d83383685f969cd2ea0f17775515",
+    "url": "https://github.com/olovmelander/olovs-hemsida/commit/6002140f3b82d83383685f969cd2ea0f17775515",
+    "codeTree": "f3bdd4ca6c05736f82b243432209c4d5f6305661",
+    "localSourceCheckpoint": "6d7e35ed6eb869d6ff2c238529212e3003b86cf2",
+    "binding": "Public code tree equals the local checkpoint tree used for the candidate production build."
+  },
+  "sourceHashes": {
+    "before": {
+      "batch": "355ac3651165a0550676d9acd618885fd37ec989d7557496550faabbe5e8f2c4",
+      "main": "4ff0c4c75253646bdfa8a9f77143e5db60c667e6a2b8f283c996ae08f05d025e"
+    },
+    "after": {
+      "batch": "58c1aea59a5ab21ba578e93b8b23f51c54e853387e81c5bbbe07b9a630593ea0",
+      "main": "10768ca18a161129c9ac989803f86eb2a6a437e413da20aeadbe9bd270ee08b4"
+    }
+  },
+  "harnesses": {
+    "tools/check-camera-stability.mjs": "125eaa630981f3cd2bf70ca9fb41f70e9eb7397e38bb926f895173820ee1503a",
+    "tools/check-terrain-shadow-work.mjs": "187a19ec8b5aebf5cba0a906f9b4dc1c56765917acc681c4adb000490e5d237a"
+  },
+  "executionAdapter": "swiftshader-software",
+  "physicalDevicePerformanceMeasured": false,
+  "before": {
+    "date": "2026-09-06T12:30:42.679Z",
+    "passed": false,
+    "stage": "complete",
+    "build": {
+      "indexSha256": "b18c20696b0ff852296dc05e5e4506955ff9b30c9a5d7846e9712498470f3e8f",
+      "assetsInventorySha256": "ff2d50d390d3420fa630c239496c96dc0cde67ac601b2ef21af12d8dceba87fb",
+      "entryBundles": [
+        {
+          "file": "assets/index-BG2qowaU.js",
+          "bytes": 1550,
+          "sha256": "db2ed6a930996e7a7bb75aa40b9b6eae20537c0377a155f4473b2d69b6ed07db"
+        },
+        {
+          "file": "assets/main-2kepGyEX.js",
+          "bytes": 320889,
+          "sha256": "9963992b3753501300391b14e3a98f7be06dbdbc9db71f51b2c53b3eedbb9d5c"
+        }
+      ]
+    },
+    "request": {
+      "course": "upsala",
+      "backend": "webgl2",
+      "autoFallback": true,
+      "q": "lo",
+      "graphics": "1",
+      "viewport": [
+        384,
+        288
+      ],
+      "dpr": 1,
+      "reducedMotion": "no-preference",
+      "hasTouch": true,
+      "freshShadowDiagnostic": false,
+      "views": [
+        {
+          "id": "h1_top_noon",
+          "hole": 1,
+          "cam": "top",
+          "preset": "noon"
+        }
+      ]
+    },
+    "errors": [],
+    "warnings": [
+      "Service Worker registration blocked by Playwright",
+      "Cancelled terrain request: http://127.0.0.1:41839/olovs-hemsida/grounds/upsala/terrain/a675b334bd92b9f5b9d65fe89d23ea3f5e2982d0ad2f8ee5822be1af2bbe3f7c.bvch",
+      "Cancelled terrain request: http://127.0.0.1:41839/olovs-hemsida/grounds/upsala/terrain/f72b683c5dcd6f253680c98f9e9c5a3f9ef69d9e9e5ca629751fa76c7a5e1c8e.bvch",
+      "Cancelled terrain request: http://127.0.0.1:41839/olovs-hemsida/grounds/upsala/terrain/094bd77ad9ee7f3070f3088607a7609c72205dfee065557699b146856e41442a.bvch",
+      "Cancelled terrain request: http://127.0.0.1:41839/olovs-hemsida/grounds/upsala/terrain/857cfd52da9b95f30f222ef1b3e14806d510c3a5972a1d4b5842a1c8f5b7ffe4.bvch",
+      "Cancelled terrain request: http://127.0.0.1:41839/olovs-hemsida/grounds/upsala/terrain/de5299b48461ee5e599a8c85f465b75cf73acfeaae4e5e1f0849ad28f58b5fdd.bvch",
+      "Cancelled terrain request: http://127.0.0.1:41839/olovs-hemsida/grounds/upsala/terrain/3e7a43c333c569120eb28598307bc3560f5ec379a97dafaed8589433e3b37beb.bvch",
+      "Cancelled terrain request: http://127.0.0.1:41839/olovs-hemsida/grounds/upsala/terrain/96c07ed7968417e4b9c7495df0c8780dd2e1e6d8406aa643c997a08d30267b8d.bvch",
+      "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend.",
+      "[.WebGL-0x3874006af800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x3874006af800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x3874006af800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x3874006af800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now. (this message will no longer repeat)"
+    ],
+    "fingerprint": {
+      "model": "b8af0395744ab9cafc19688a6bafcbe4535ba6b9ea4724222ad14d0bde9d0b86",
+      "routing": "8fd293def177118ddb39c7bc5470872d67b1d2f9e1b5f3b48d1fe611afab1115",
+      "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+      "treeInstances": "da7ef7223a300d280e5377d07bb7d1df0bff15942dacf31e7208dab6fb7e1868",
+      "treePositions": "6e9a631e8cd88fab2b29bcae8914352dd51237f907b3ac96fa56a8f38d854602",
+      "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+      "tintNear": "b94a2fc1da65a0c5c6672e91446feb2bad7ea6f0f7f252cf7cb9a3e27eec8fd3",
+      "tintFar": "a94f76eb0310cf48a03f903021bb08f362a8a4c255378a1121852937a748cc13",
+      "surfaceSource": null,
+      "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+      "counts": {
+        "trees": 53986,
+        "vista": 33483,
+        "tufts": 6046,
+        "bushes": 1144,
+        "stones": 260,
+        "reeds": 0,
+        "cars": 38,
+        "pylons": 14,
+        "stumps": 0,
+        "surfaceOverlays": 0
+      },
+      "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+    },
+    "overallDeadlineSeconds": 180,
+    "cachedView": {
+      "id": "h1_top_noon",
+      "file": "h1_top_noon.png",
+      "imageSha256": "f6b887fe738c7abda43a4094ab958066801e740774b55d28e43265a172365848",
+      "visibleTerrainTileIds": [
+        "l0/2/3",
+        "l0/3/3",
+        "l0/4/3",
+        "l0/2/4",
+        "l0/3/4",
+        "l0/4/4",
+        "l1/3/3",
+        "l1/4/3",
+        "l1/3/4",
+        "l1/4/4",
+        "l2/3/3",
+        "l2/4/3",
+        "l2/3/4",
+        "l2/4/4",
+        "l3/3/3",
+        "l3/4/3",
+        "l3/3/4",
+        "l3/4/4",
+        "l4/1/1",
+        "l4/2/1",
+        "l4/1/2",
+        "l4/2/2",
+        "l5/0/0",
+        "l5/1/0",
+        "l5/0/1",
+        "l5/1/1",
+        "l6/0/0"
+      ],
+      "before": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 447,
+          "frameCalls": 2,
+          "drawCalls": 93,
+          "triangles": 1153299,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "camera": {
+          "pos": [
+            142.6,
+            354.4,
+            -64.1
+          ],
+          "look": [
+            142.6,
+            24.4,
+            -64.2
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            142.61551428844083,
+            354.42294081146144,
+            -64.11186063274644
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "tiers": {
+          "tier0": 0,
+          "tier1": 317,
+          "tier2": 56,
+          "tier3": 0,
+          "cells": 733,
+          "cellsVisible": 12,
+          "moves": 30739,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 2,
+          "bakeMs": 1006,
+          "fading": 0,
+          "updateMs": 0.10000000894069672,
+          "zoneA": 2380,
+          "zoneB": 4979,
+          "heroPx": 200,
+          "switchPx": 60,
+          "impostorPx": 22,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            2,
+            4
+          ]
+        },
+        "terrainInventory": [
+          {
+            "tileId": "l0/2/3",
+            "identity": "466193073f36af5387170c0b8ebfb5ae540ec11ef72bab00b4eb9958e258f6f6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 513682
+          },
+          {
+            "tileId": "l0/2/4",
+            "identity": "9fabfd30b4d9df83438ae431b2533bf62ebf5154da2c5ebd7be4ff9e3664d44c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 545936
+          },
+          {
+            "tileId": "l0/3/3",
+            "identity": "8dd0b345065596244cf6f94d8f59fa85899f2c01232ec1d2710f27af7ad67d74:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 514410
+          },
+          {
+            "tileId": "l0/3/4",
+            "identity": "123bd7f054314404516efeb29d21f2533c65913f6d58997aac228782586f4f3b:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 515915
+          },
+          {
+            "tileId": "l0/4/3",
+            "identity": "eebc8a5381dde0c1da76478ed336643ac3851a3060bcccc1682a15e50125e1ac:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 520146
+          },
+          {
+            "tileId": "l0/4/4",
+            "identity": "2cd24dd65d97a28270b1d05083a7ee7e48be1a909dbe10d41d9cd8a8bac5639c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 522321
+          }
+        ],
+        "terrainBuffers": null,
+        "terrainMorphs": [
+          {
+            "tileId": "l0/2/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/2/4",
+            "morph": null
+          },
+          {
+            "tileId": "l0/3/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/3/4",
+            "morph": null
+          },
+          {
+            "tileId": "l0/4/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/4/4",
+            "morph": null
+          }
+        ],
+        "shadow": {
+          "enabled": true,
+          "renders": 3,
+          "frames": 12,
+          "sinceRender": 3,
+          "why": "sun"
+        },
+        "plan": {
+          "desired": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "render": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "requests": [],
+          "retain": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "ready": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0",
+            "shell"
+          ],
+          "loading": []
+        },
+        "terrain": {
+          "kind": "graph",
+          "phase": "ready",
+          "active": true,
+          "stream": {
+            "readyTiles": 86,
+            "loadingTiles": 0,
+            "failedTiles": 0,
+            "renderedTiles": 6,
+            "drawCalls": 1,
+            "triangles": 798720,
+            "selectedTiles": 6,
+            "requests": {
+              "queued": 0,
+              "running": 0,
+              "jobs": 0
+            }
+          }
+        }
+      },
+      "after": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 477,
+          "frameCalls": 2,
+          "drawCalls": 93,
+          "triangles": 1153299,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "camera": {
+          "pos": [
+            142.6,
+            354.4,
+            -64.1
+          ],
+          "look": [
+            142.6,
+            24.4,
+            -64.2
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            142.61551428844083,
+            354.42294081146144,
+            -64.11186063274644
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "tiers": {
+          "tier0": 0,
+          "tier1": 317,
+          "tier2": 56,
+          "tier3": 0,
+          "cells": 733,
+          "cellsVisible": 12,
+          "moves": 30739,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 2,
+          "bakeMs": 1006,
+          "fading": 0,
+          "updateMs": 0.20000000298023224,
+          "zoneA": 2380,
+          "zoneB": 4979,
+          "heroPx": 200,
+          "switchPx": 60,
+          "impostorPx": 22,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            2,
+            4
+          ]
+        },
+        "terrainInventory": [
+          {
+            "tileId": "l0/2/3",
+            "identity": "466193073f36af5387170c0b8ebfb5ae540ec11ef72bab00b4eb9958e258f6f6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 513682
+          },
+          {
+            "tileId": "l0/2/4",
+            "identity": "9fabfd30b4d9df83438ae431b2533bf62ebf5154da2c5ebd7be4ff9e3664d44c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 545936
+          },
+          {
+            "tileId": "l0/3/3",
+            "identity": "8dd0b345065596244cf6f94d8f59fa85899f2c01232ec1d2710f27af7ad67d74:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 514410
+          },
+          {
+            "tileId": "l0/3/4",
+            "identity": "123bd7f054314404516efeb29d21f2533c65913f6d58997aac228782586f4f3b:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 515915
+          },
+          {
+            "tileId": "l0/4/3",
+            "identity": "eebc8a5381dde0c1da76478ed336643ac3851a3060bcccc1682a15e50125e1ac:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 520146
+          },
+          {
+            "tileId": "l0/4/4",
+            "identity": "2cd24dd65d97a28270b1d05083a7ee7e48be1a909dbe10d41d9cd8a8bac5639c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 522321
+          }
+        ],
+        "terrainBuffers": null,
+        "terrainMorphs": [
+          {
+            "tileId": "l0/2/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/2/4",
+            "morph": null
+          },
+          {
+            "tileId": "l0/3/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/3/4",
+            "morph": null
+          },
+          {
+            "tileId": "l0/4/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/4/4",
+            "morph": null
+          }
+        ],
+        "shadow": {
+          "enabled": true,
+          "renders": 3,
+          "frames": 27,
+          "sinceRender": 18,
+          "why": "sun"
+        },
+        "plan": {
+          "desired": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "render": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "requests": [],
+          "retain": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "ready": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0",
+            "shell"
+          ],
+          "loading": []
+        },
+        "terrain": {
+          "kind": "graph",
+          "phase": "ready",
+          "active": true,
+          "stream": {
+            "readyTiles": 86,
+            "loadingTiles": 0,
+            "failedTiles": 0,
+            "renderedTiles": 6,
+            "drawCalls": 1,
+            "triangles": 798720,
+            "selectedTiles": 6,
+            "requests": {
+              "queued": 0,
+              "running": 0,
+              "jobs": 0
+            }
+          }
+        }
+      }
+    },
+    "shadowCacheCheck": {
+      "passed": false,
+      "assertions": {
+        "exactImageParity": false,
+        "captureContractPreserved": true,
+        "cameraPreserved": true,
+        "terrainPreserved": true,
+        "rendererMemoryPreserved": true,
+        "cachedModeRestored": true
+      },
+      "file": "fresh_shadow_reference.png",
+      "imageSha256": "a00aacb5cbc1fd1ee80e762eaaafcb8f48778af83a559fe3653a9b4403d102f1",
+      "startFrame": 27,
+      "restoredAutoUpdate": false,
+      "note": "Correctness diagnostic: same visit and settings, existing shadow auto-update temporarily enabled after the ordinary cached capture. No physical FPS claim.",
+      "cachedSnapshot": "cachedView.after",
+      "freshBefore": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 483,
+          "frameCalls": 3,
+          "drawCalls": 118,
+          "triangles": 2088689,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "camera": {
+          "pos": [
+            142.6,
+            354.4,
+            -64.1
+          ],
+          "look": [
+            142.6,
+            24.4,
+            -64.2
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            142.61551428844083,
+            354.42294081146144,
+            -64.11186063274644
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "tiers": {
+          "tier0": 0,
+          "tier1": 317,
+          "tier2": 56,
+          "tier3": 0,
+          "cells": 733,
+          "cellsVisible": 12,
+          "moves": 30739,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 2,
+          "bakeMs": 1006,
+          "fading": 0,
+          "updateMs": 0.5999999940395355,
+          "zoneA": 2380,
+          "zoneB": 4979,
+          "heroPx": 200,
+          "switchPx": 60,
+          "impostorPx": 22,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            2,
+            4
+          ]
+        },
+        "terrainInventory": [
+          {
+            "tileId": "l0/2/3",
+            "identity": "466193073f36af5387170c0b8ebfb5ae540ec11ef72bab00b4eb9958e258f6f6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 513682
+          },
+          {
+            "tileId": "l0/2/4",
+            "identity": "9fabfd30b4d9df83438ae431b2533bf62ebf5154da2c5ebd7be4ff9e3664d44c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 545936
+          },
+          {
+            "tileId": "l0/3/3",
+            "identity": "8dd0b345065596244cf6f94d8f59fa85899f2c01232ec1d2710f27af7ad67d74:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 514410
+          },
+          {
+            "tileId": "l0/3/4",
+            "identity": "123bd7f054314404516efeb29d21f2533c65913f6d58997aac228782586f4f3b:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 515915
+          },
+          {
+            "tileId": "l0/4/3",
+            "identity": "eebc8a5381dde0c1da76478ed336643ac3851a3060bcccc1682a15e50125e1ac:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 520146
+          },
+          {
+            "tileId": "l0/4/4",
+            "identity": "2cd24dd65d97a28270b1d05083a7ee7e48be1a909dbe10d41d9cd8a8bac5639c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 522321
+          }
+        ],
+        "terrainBuffers": null,
+        "terrainMorphs": [
+          {
+            "tileId": "l0/2/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/2/4",
+            "morph": null
+          },
+          {
+            "tileId": "l0/3/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/3/4",
+            "morph": null
+          },
+          {
+            "tileId": "l0/4/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/4/4",
+            "morph": null
+          }
+        ],
+        "shadow": {
+          "enabled": true,
+          "renders": 3,
+          "frames": 29,
+          "sinceRender": 20,
+          "why": "sun"
+        },
+        "plan": {
+          "desired": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "render": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "requests": [],
+          "retain": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "ready": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0",
+            "shell"
+          ],
+          "loading": []
+        },
+        "terrain": {
+          "kind": "graph",
+          "phase": "ready",
+          "active": true,
+          "stream": {
+            "readyTiles": 86,
+            "loadingTiles": 0,
+            "failedTiles": 0,
+            "renderedTiles": 6,
+            "drawCalls": 1,
+            "triangles": 798720,
+            "selectedTiles": 6,
+            "requests": {
+              "queued": 0,
+              "running": 0,
+              "jobs": 0
+            }
+          }
+        }
+      },
+      "freshAfter": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 519,
+          "frameCalls": 3,
+          "drawCalls": 118,
+          "triangles": 2088689,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "camera": {
+          "pos": [
+            142.6,
+            354.4,
+            -64.1
+          ],
+          "look": [
+            142.6,
+            24.4,
+            -64.2
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            142.61551428844083,
+            354.42294081146144,
+            -64.11186063274644
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "tiers": {
+          "tier0": 0,
+          "tier1": 317,
+          "tier2": 56,
+          "tier3": 0,
+          "cells": 733,
+          "cellsVisible": 12,
+          "moves": 30739,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 2,
+          "bakeMs": 1006,
+          "fading": 0,
+          "updateMs": 0.20000000298023224,
+          "zoneA": 2380,
+          "zoneB": 4979,
+          "heroPx": 200,
+          "switchPx": 60,
+          "impostorPx": 22,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            2,
+            4
+          ]
+        },
+        "terrainInventory": [
+          {
+            "tileId": "l0/2/3",
+            "identity": "466193073f36af5387170c0b8ebfb5ae540ec11ef72bab00b4eb9958e258f6f6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 513682
+          },
+          {
+            "tileId": "l0/2/4",
+            "identity": "9fabfd30b4d9df83438ae431b2533bf62ebf5154da2c5ebd7be4ff9e3664d44c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 545936
+          },
+          {
+            "tileId": "l0/3/3",
+            "identity": "8dd0b345065596244cf6f94d8f59fa85899f2c01232ec1d2710f27af7ad67d74:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 514410
+          },
+          {
+            "tileId": "l0/3/4",
+            "identity": "123bd7f054314404516efeb29d21f2533c65913f6d58997aac228782586f4f3b:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 515915
+          },
+          {
+            "tileId": "l0/4/3",
+            "identity": "eebc8a5381dde0c1da76478ed336643ac3851a3060bcccc1682a15e50125e1ac:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 520146
+          },
+          {
+            "tileId": "l0/4/4",
+            "identity": "2cd24dd65d97a28270b1d05083a7ee7e48be1a909dbe10d41d9cd8a8bac5639c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 522321
+          }
+        ],
+        "terrainBuffers": null,
+        "terrainMorphs": [
+          {
+            "tileId": "l0/2/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/2/4",
+            "morph": null
+          },
+          {
+            "tileId": "l0/3/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/3/4",
+            "morph": null
+          },
+          {
+            "tileId": "l0/4/3",
+            "morph": null
+          },
+          {
+            "tileId": "l0/4/4",
+            "morph": null
+          }
+        ],
+        "shadow": {
+          "enabled": true,
+          "renders": 3,
+          "frames": 41,
+          "sinceRender": 32,
+          "why": "sun"
+        },
+        "plan": {
+          "desired": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "render": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "requests": [],
+          "retain": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "ready": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0",
+            "shell"
+          ],
+          "loading": []
+        },
+        "terrain": {
+          "kind": "graph",
+          "phase": "ready",
+          "active": true,
+          "stream": {
+            "readyTiles": 86,
+            "loadingTiles": 0,
+            "failedTiles": 0,
+            "renderedTiles": 6,
+            "drawCalls": 1,
+            "triangles": 798720,
+            "selectedTiles": 6,
+            "requests": {
+              "queued": 0,
+              "running": 0,
+              "jobs": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "after": {
+    "date": "2026-09-06T12:27:17.231Z",
+    "passed": true,
+    "stage": "complete",
+    "build": {
+      "indexSha256": "1fadb53802a9c0a08fd8e73af5753d60a4ea4afb988141f0909ae20940eb8e69",
+      "assetsInventorySha256": "ea15f9fc9ddde16584b5da180977ad66e2e59b8f550a18152b3486c73608a2b4",
+      "entryBundles": [
+        {
+          "file": "assets/index-DJ7CVQTi.js",
+          "bytes": 1550,
+          "sha256": "4602712181dd07614e874f470c23ebadc699d98c816543be311a2d467a1695a7"
+        },
+        {
+          "file": "assets/main-NSqnj3Gw.js",
+          "bytes": 321372,
+          "sha256": "9a2bfcd4cd5c2f120452cc31f974b062a9ec2e58ef4f58ff7ab97a62c3a58236"
+        }
+      ]
+    },
+    "request": {
+      "course": "upsala",
+      "backend": "webgl2",
+      "autoFallback": true,
+      "q": "lo",
+      "graphics": "1",
+      "viewport": [
+        384,
+        288
+      ],
+      "dpr": 1,
+      "reducedMotion": "no-preference",
+      "hasTouch": true,
+      "freshShadowDiagnostic": false,
+      "views": [
+        {
+          "id": "h1_top_noon",
+          "hole": 1,
+          "cam": "top",
+          "preset": "noon"
+        }
+      ]
+    },
+    "errors": [],
+    "warnings": [
+      "Service Worker registration blocked by Playwright",
+      "Cancelled terrain request: http://127.0.0.1:46649/olovs-hemsida/grounds/upsala/terrain/de5299b48461ee5e599a8c85f465b75cf73acfeaae4e5e1f0849ad28f58b5fdd.bvch",
+      "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend.",
+      "[.WebGL-0x504039b4d00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x504039b4d00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x504039b4d00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x504039b4d00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now. (this message will no longer repeat)"
+    ],
+    "fingerprint": {
+      "model": "b8af0395744ab9cafc19688a6bafcbe4535ba6b9ea4724222ad14d0bde9d0b86",
+      "routing": "8fd293def177118ddb39c7bc5470872d67b1d2f9e1b5f3b48d1fe611afab1115",
+      "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+      "treeInstances": "da7ef7223a300d280e5377d07bb7d1df0bff15942dacf31e7208dab6fb7e1868",
+      "treePositions": "6e9a631e8cd88fab2b29bcae8914352dd51237f907b3ac96fa56a8f38d854602",
+      "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+      "tintNear": "b94a2fc1da65a0c5c6672e91446feb2bad7ea6f0f7f252cf7cb9a3e27eec8fd3",
+      "tintFar": "a94f76eb0310cf48a03f903021bb08f362a8a4c255378a1121852937a748cc13",
+      "surfaceSource": null,
+      "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+      "counts": {
+        "trees": 53986,
+        "vista": 33483,
+        "tufts": 6046,
+        "bushes": 1144,
+        "stones": 260,
+        "reeds": 0,
+        "cars": 38,
+        "pylons": 14,
+        "stumps": 0,
+        "surfaceOverlays": 0
+      },
+      "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+    },
+    "overallDeadlineSeconds": 180,
+    "cachedView": {
+      "id": "h1_top_noon",
+      "file": "h1_top_noon.png",
+      "imageSha256": "a00aacb5cbc1fd1ee80e762eaaafcb8f48778af83a559fe3653a9b4403d102f1",
+      "visibleTerrainTileIds": [
+        "l0/2/3",
+        "l0/3/3",
+        "l0/4/3",
+        "l0/2/4",
+        "l0/3/4",
+        "l0/4/4",
+        "l1/3/3",
+        "l1/4/3",
+        "l1/3/4",
+        "l1/4/4",
+        "l2/3/3",
+        "l2/4/3",
+        "l2/3/4",
+        "l2/4/4",
+        "l3/3/3",
+        "l3/4/3",
+        "l3/3/4",
+        "l3/4/4",
+        "l4/1/1",
+        "l4/2/1",
+        "l4/1/2",
+        "l4/2/2",
+        "l5/0/0",
+        "l5/1/0",
+        "l5/0/1",
+        "l5/1/1",
+        "l6/0/0"
+      ],
+      "before": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 447,
+          "frameCalls": 2,
+          "drawCalls": 93,
+          "triangles": 1153299,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "camera": {
+          "pos": [
+            142.6,
+            354.4,
+            -64.1
+          ],
+          "look": [
+            142.6,
+            24.4,
+            -64.2
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            142.61551428844083,
+            354.42294081146144,
+            -64.11186063274644
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "tiers": {
+          "tier0": 0,
+          "tier1": 317,
+          "tier2": 56,
+          "tier3": 0,
+          "cells": 733,
+          "cellsVisible": 12,
+          "moves": 30739,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 2,
+          "bakeMs": 749,
+          "fading": 0,
+          "updateMs": 0.10000000894069672,
+          "zoneA": 2380,
+          "zoneB": 4979,
+          "heroPx": 200,
+          "switchPx": 60,
+          "impostorPx": 22,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            2,
+            4
+          ]
+        },
+        "terrainInventory": [
+          {
+            "tileId": "l0/2/3",
+            "identity": "466193073f36af5387170c0b8ebfb5ae540ec11ef72bab00b4eb9958e258f6f6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 513682
+          },
+          {
+            "tileId": "l0/2/4",
+            "identity": "9fabfd30b4d9df83438ae431b2533bf62ebf5154da2c5ebd7be4ff9e3664d44c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 545936
+          },
+          {
+            "tileId": "l0/3/3",
+            "identity": "8dd0b345065596244cf6f94d8f59fa85899f2c01232ec1d2710f27af7ad67d74:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 514410
+          },
+          {
+            "tileId": "l0/3/4",
+            "identity": "123bd7f054314404516efeb29d21f2533c65913f6d58997aac228782586f4f3b:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 515915
+          },
+          {
+            "tileId": "l0/4/3",
+            "identity": "eebc8a5381dde0c1da76478ed336643ac3851a3060bcccc1682a15e50125e1ac:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 520146
+          },
+          {
+            "tileId": "l0/4/4",
+            "identity": "2cd24dd65d97a28270b1d05083a7ee7e48be1a909dbe10d41d9cd8a8bac5639c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 522321
+          }
+        ],
+        "terrainBuffers": {
+          "batches": [
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 1,
+              "renderedTiles": 0,
+              "residentLayers": 0,
+              "textureUploads": 1,
+              "renderRevision": 3,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 528392,
+              "topologyBytes": 2603535,
+              "triangles": 0,
+              "drawCalls": 0
+            },
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 56,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "textureUploads": 87,
+              "renderRevision": 90,
+              "morphing": false,
+              "frameAttributeVersion": 23,
+              "paramsAttributeVersion": 68,
+              "textureCapacityBytes": 29589952,
+              "topologyBytes": 2603535,
+              "triangles": 798720,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 69,
+          "morphing": false,
+          "renderedTiles": 6,
+          "residentLayers": 6,
+          "drawCalls": 1,
+          "triangles": 798720,
+          "textureCapacityBytes": 30118344,
+          "textureUploads": 88
+        },
+        "terrainMorphs": [
+          {
+            "tileId": "l0/2/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/2/4",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/3/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/3/4",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/4/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/4/4",
+            "morph": 0
+          }
+        ],
+        "shadow": {
+          "enabled": true,
+          "renders": 5,
+          "frames": 11,
+          "sinceRender": 2,
+          "why": "settled",
+          "terrainRevision": 69,
+          "settlePending": false
+        },
+        "plan": {
+          "desired": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "render": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "requests": [],
+          "retain": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "ready": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0",
+            "shell"
+          ],
+          "loading": []
+        },
+        "terrain": {
+          "kind": "graph",
+          "phase": "ready",
+          "active": true,
+          "stream": {
+            "readyTiles": 86,
+            "loadingTiles": 0,
+            "failedTiles": 0,
+            "renderedTiles": 6,
+            "drawCalls": 1,
+            "triangles": 798720,
+            "selectedTiles": 6,
+            "requests": {
+              "queued": 0,
+              "running": 0,
+              "jobs": 0
+            }
+          }
+        }
+      },
+      "after": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 475,
+          "frameCalls": 2,
+          "drawCalls": 93,
+          "triangles": 1153299,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "camera": {
+          "pos": [
+            142.6,
+            354.4,
+            -64.1
+          ],
+          "look": [
+            142.6,
+            24.4,
+            -64.2
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            142.61551428844083,
+            354.42294081146144,
+            -64.11186063274644
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "tiers": {
+          "tier0": 0,
+          "tier1": 317,
+          "tier2": 56,
+          "tier3": 0,
+          "cells": 733,
+          "cellsVisible": 12,
+          "moves": 30739,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 2,
+          "bakeMs": 749,
+          "fading": 0,
+          "updateMs": 0,
+          "zoneA": 2380,
+          "zoneB": 4979,
+          "heroPx": 200,
+          "switchPx": 60,
+          "impostorPx": 22,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            2,
+            4
+          ]
+        },
+        "terrainInventory": [
+          {
+            "tileId": "l0/2/3",
+            "identity": "466193073f36af5387170c0b8ebfb5ae540ec11ef72bab00b4eb9958e258f6f6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 513682
+          },
+          {
+            "tileId": "l0/2/4",
+            "identity": "9fabfd30b4d9df83438ae431b2533bf62ebf5154da2c5ebd7be4ff9e3664d44c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 545936
+          },
+          {
+            "tileId": "l0/3/3",
+            "identity": "8dd0b345065596244cf6f94d8f59fa85899f2c01232ec1d2710f27af7ad67d74:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 514410
+          },
+          {
+            "tileId": "l0/3/4",
+            "identity": "123bd7f054314404516efeb29d21f2533c65913f6d58997aac228782586f4f3b:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 515915
+          },
+          {
+            "tileId": "l0/4/3",
+            "identity": "eebc8a5381dde0c1da76478ed336643ac3851a3060bcccc1682a15e50125e1ac:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 520146
+          },
+          {
+            "tileId": "l0/4/4",
+            "identity": "2cd24dd65d97a28270b1d05083a7ee7e48be1a909dbe10d41d9cd8a8bac5639c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 522321
+          }
+        ],
+        "terrainBuffers": {
+          "batches": [
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 1,
+              "renderedTiles": 0,
+              "residentLayers": 0,
+              "textureUploads": 1,
+              "renderRevision": 3,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 528392,
+              "topologyBytes": 2603535,
+              "triangles": 0,
+              "drawCalls": 0
+            },
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 56,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "textureUploads": 87,
+              "renderRevision": 90,
+              "morphing": false,
+              "frameAttributeVersion": 23,
+              "paramsAttributeVersion": 68,
+              "textureCapacityBytes": 29589952,
+              "topologyBytes": 2603535,
+              "triangles": 798720,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 69,
+          "morphing": false,
+          "renderedTiles": 6,
+          "residentLayers": 6,
+          "drawCalls": 1,
+          "triangles": 798720,
+          "textureCapacityBytes": 30118344,
+          "textureUploads": 88
+        },
+        "terrainMorphs": [
+          {
+            "tileId": "l0/2/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/2/4",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/3/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/3/4",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/4/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/4/4",
+            "morph": 0
+          }
+        ],
+        "shadow": {
+          "enabled": true,
+          "renders": 5,
+          "frames": 25,
+          "sinceRender": 16,
+          "why": "settled",
+          "terrainRevision": 69,
+          "settlePending": false
+        },
+        "plan": {
+          "desired": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "render": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "requests": [],
+          "retain": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "ready": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0",
+            "shell"
+          ],
+          "loading": []
+        },
+        "terrain": {
+          "kind": "graph",
+          "phase": "ready",
+          "active": true,
+          "stream": {
+            "readyTiles": 86,
+            "loadingTiles": 0,
+            "failedTiles": 0,
+            "renderedTiles": 6,
+            "drawCalls": 1,
+            "triangles": 798720,
+            "selectedTiles": 6,
+            "requests": {
+              "queued": 0,
+              "running": 0,
+              "jobs": 0
+            }
+          }
+        }
+      }
+    },
+    "shadowCacheCheck": {
+      "passed": true,
+      "assertions": {
+        "exactImageParity": true,
+        "captureContractPreserved": true,
+        "cameraPreserved": true,
+        "terrainPreserved": true,
+        "rendererMemoryPreserved": true,
+        "cachedModeRestored": true,
+        "finalMorphReached": true,
+        "cachedRevisionCurrent": true,
+        "settledRefreshFinished": true,
+        "settledBuffersUnchanged": true
+      },
+      "file": "fresh_shadow_reference.png",
+      "imageSha256": "a00aacb5cbc1fd1ee80e762eaaafcb8f48778af83a559fe3653a9b4403d102f1",
+      "startFrame": 25,
+      "restoredAutoUpdate": false,
+      "note": "Correctness diagnostic: same visit and settings, existing shadow auto-update temporarily enabled after the ordinary cached capture. No physical FPS claim.",
+      "cachedSnapshot": "cachedView.after",
+      "freshBefore": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 481,
+          "frameCalls": 3,
+          "drawCalls": 118,
+          "triangles": 2088689,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "camera": {
+          "pos": [
+            142.6,
+            354.4,
+            -64.1
+          ],
+          "look": [
+            142.6,
+            24.4,
+            -64.2
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            142.61551428844083,
+            354.42294081146144,
+            -64.11186063274644
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "tiers": {
+          "tier0": 0,
+          "tier1": 317,
+          "tier2": 56,
+          "tier3": 0,
+          "cells": 733,
+          "cellsVisible": 12,
+          "moves": 30739,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 2,
+          "bakeMs": 749,
+          "fading": 0,
+          "updateMs": 0.29999999701976776,
+          "zoneA": 2380,
+          "zoneB": 4979,
+          "heroPx": 200,
+          "switchPx": 60,
+          "impostorPx": 22,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            2,
+            4
+          ]
+        },
+        "terrainInventory": [
+          {
+            "tileId": "l0/2/3",
+            "identity": "466193073f36af5387170c0b8ebfb5ae540ec11ef72bab00b4eb9958e258f6f6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 513682
+          },
+          {
+            "tileId": "l0/2/4",
+            "identity": "9fabfd30b4d9df83438ae431b2533bf62ebf5154da2c5ebd7be4ff9e3664d44c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 545936
+          },
+          {
+            "tileId": "l0/3/3",
+            "identity": "8dd0b345065596244cf6f94d8f59fa85899f2c01232ec1d2710f27af7ad67d74:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 514410
+          },
+          {
+            "tileId": "l0/3/4",
+            "identity": "123bd7f054314404516efeb29d21f2533c65913f6d58997aac228782586f4f3b:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 515915
+          },
+          {
+            "tileId": "l0/4/3",
+            "identity": "eebc8a5381dde0c1da76478ed336643ac3851a3060bcccc1682a15e50125e1ac:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 520146
+          },
+          {
+            "tileId": "l0/4/4",
+            "identity": "2cd24dd65d97a28270b1d05083a7ee7e48be1a909dbe10d41d9cd8a8bac5639c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 522321
+          }
+        ],
+        "terrainBuffers": {
+          "batches": [
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 1,
+              "renderedTiles": 0,
+              "residentLayers": 0,
+              "textureUploads": 1,
+              "renderRevision": 3,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 528392,
+              "topologyBytes": 2603535,
+              "triangles": 0,
+              "drawCalls": 0
+            },
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 56,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "textureUploads": 87,
+              "renderRevision": 90,
+              "morphing": false,
+              "frameAttributeVersion": 23,
+              "paramsAttributeVersion": 68,
+              "textureCapacityBytes": 29589952,
+              "topologyBytes": 2603535,
+              "triangles": 798720,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 69,
+          "morphing": false,
+          "renderedTiles": 6,
+          "residentLayers": 6,
+          "drawCalls": 1,
+          "triangles": 798720,
+          "textureCapacityBytes": 30118344,
+          "textureUploads": 88
+        },
+        "terrainMorphs": [
+          {
+            "tileId": "l0/2/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/2/4",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/3/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/3/4",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/4/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/4/4",
+            "morph": 0
+          }
+        ],
+        "shadow": {
+          "enabled": true,
+          "renders": 5,
+          "frames": 27,
+          "sinceRender": 18,
+          "why": "settled",
+          "terrainRevision": 69,
+          "settlePending": false
+        },
+        "plan": {
+          "desired": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "render": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "requests": [],
+          "retain": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "ready": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0",
+            "shell"
+          ],
+          "loading": []
+        },
+        "terrain": {
+          "kind": "graph",
+          "phase": "ready",
+          "active": true,
+          "stream": {
+            "readyTiles": 86,
+            "loadingTiles": 0,
+            "failedTiles": 0,
+            "renderedTiles": 6,
+            "drawCalls": 1,
+            "triangles": 798720,
+            "selectedTiles": 6,
+            "requests": {
+              "queued": 0,
+              "running": 0,
+              "jobs": 0
+            }
+          }
+        }
+      },
+      "freshAfter": {
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 517,
+          "frameCalls": 3,
+          "drawCalls": 118,
+          "triangles": 2088689,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "camera": {
+          "pos": [
+            142.6,
+            354.4,
+            -64.1
+          ],
+          "look": [
+            142.6,
+            24.4,
+            -64.2
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            142.61551428844083,
+            354.42294081146144,
+            -64.11186063274644
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "tiers": {
+          "tier0": 0,
+          "tier1": 317,
+          "tier2": 56,
+          "tier3": 0,
+          "cells": 733,
+          "cellsVisible": 12,
+          "moves": 30739,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 2,
+          "bakeMs": 749,
+          "fading": 0,
+          "updateMs": 1.1000000089406967,
+          "zoneA": 2380,
+          "zoneB": 4979,
+          "heroPx": 200,
+          "switchPx": 60,
+          "impostorPx": 22,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            2,
+            4
+          ]
+        },
+        "terrainInventory": [
+          {
+            "tileId": "l0/2/3",
+            "identity": "466193073f36af5387170c0b8ebfb5ae540ec11ef72bab00b4eb9958e258f6f6:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 513682
+          },
+          {
+            "tileId": "l0/2/4",
+            "identity": "9fabfd30b4d9df83438ae431b2533bf62ebf5154da2c5ebd7be4ff9e3664d44c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": -198.7709999999497,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 545936
+          },
+          {
+            "tileId": "l0/3/3",
+            "identity": "8dd0b345065596244cf6f94d8f59fa85899f2c01232ec1d2710f27af7ad67d74:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 514410
+          },
+          {
+            "tileId": "l0/3/4",
+            "identity": "123bd7f054314404516efeb29d21f2533c65913f6d58997aac228782586f4f3b:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 57.22900000005029,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 515915
+          },
+          {
+            "tileId": "l0/4/3",
+            "identity": "eebc8a5381dde0c1da76478ed336643ac3851a3060bcccc1682a15e50125e1ac:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -287.10900000017136,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 520146
+          },
+          {
+            "tileId": "l0/4/4",
+            "identity": "2cd24dd65d97a28270b1d05083a7ee7e48be1a909dbe10d41d9cd8a8bac5639c:rgba8x2-height-parent-octnormal-v1",
+            "worldOriginX": 313.2290000000503,
+            "worldOriginZ": -31.109000000171363,
+            "sampleSpacingMetres": 1,
+            "heightOffsetWorld": 13.280000000000001,
+            "layerByteSum": 522321
+          }
+        ],
+        "terrainBuffers": {
+          "batches": [
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 1,
+              "renderedTiles": 0,
+              "residentLayers": 0,
+              "textureUploads": 1,
+              "renderRevision": 3,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 528392,
+              "topologyBytes": 2603535,
+              "triangles": 0,
+              "drawCalls": 0
+            },
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 56,
+              "renderedTiles": 6,
+              "residentLayers": 6,
+              "textureUploads": 87,
+              "renderRevision": 90,
+              "morphing": false,
+              "frameAttributeVersion": 23,
+              "paramsAttributeVersion": 68,
+              "textureCapacityBytes": 29589952,
+              "topologyBytes": 2603535,
+              "triangles": 798720,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 69,
+          "morphing": false,
+          "renderedTiles": 6,
+          "residentLayers": 6,
+          "drawCalls": 1,
+          "triangles": 798720,
+          "textureCapacityBytes": 30118344,
+          "textureUploads": 88
+        },
+        "terrainMorphs": [
+          {
+            "tileId": "l0/2/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/2/4",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/3/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/3/4",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/4/3",
+            "morph": 0
+          },
+          {
+            "tileId": "l0/4/4",
+            "morph": 0
+          }
+        ],
+        "shadow": {
+          "enabled": true,
+          "renders": 5,
+          "frames": 39,
+          "sinceRender": 30,
+          "why": "settled",
+          "terrainRevision": 69,
+          "settlePending": false
+        },
+        "plan": {
+          "desired": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "render": [
+            "l0/2/3",
+            "l0/2/4",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/4/3",
+            "l0/4/4"
+          ],
+          "requests": [],
+          "retain": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "ready": [
+            "l0/2/2",
+            "l0/2/3",
+            "l0/2/4",
+            "l0/2/5",
+            "l0/3/2",
+            "l0/3/3",
+            "l0/3/4",
+            "l0/3/5",
+            "l0/4/2",
+            "l0/4/3",
+            "l0/4/4",
+            "l0/4/5",
+            "l0/5/2",
+            "l0/5/3",
+            "l0/5/4",
+            "l0/5/5",
+            "l1/2/2",
+            "l1/2/3",
+            "l1/2/4",
+            "l1/2/5",
+            "l1/3/2",
+            "l1/3/3",
+            "l1/3/4",
+            "l1/3/5",
+            "l1/4/2",
+            "l1/4/3",
+            "l1/4/4",
+            "l1/4/5",
+            "l1/5/2",
+            "l1/5/3",
+            "l1/5/4",
+            "l1/5/5",
+            "l2/2/2",
+            "l2/2/3",
+            "l2/2/4",
+            "l2/2/5",
+            "l2/3/2",
+            "l2/3/3",
+            "l2/3/4",
+            "l2/3/5",
+            "l2/4/2",
+            "l2/4/3",
+            "l2/4/4",
+            "l2/4/5",
+            "l2/5/2",
+            "l2/5/3",
+            "l2/5/4",
+            "l2/5/5",
+            "l3/2/2",
+            "l3/2/3",
+            "l3/2/4",
+            "l3/2/5",
+            "l3/3/2",
+            "l3/3/3",
+            "l3/3/4",
+            "l3/3/5",
+            "l3/4/2",
+            "l3/4/3",
+            "l3/4/4",
+            "l3/4/5",
+            "l3/5/2",
+            "l3/5/3",
+            "l3/5/4",
+            "l3/5/5",
+            "l4/0/0",
+            "l4/0/1",
+            "l4/0/2",
+            "l4/0/3",
+            "l4/1/0",
+            "l4/1/1",
+            "l4/1/2",
+            "l4/1/3",
+            "l4/2/0",
+            "l4/2/1",
+            "l4/2/2",
+            "l4/2/3",
+            "l4/3/0",
+            "l4/3/1",
+            "l4/3/2",
+            "l4/3/3",
+            "l5/0/0",
+            "l5/0/1",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0",
+            "shell"
+          ],
+          "loading": []
+        },
+        "terrain": {
+          "kind": "graph",
+          "phase": "ready",
+          "active": true,
+          "stream": {
+            "readyTiles": 86,
+            "loadingTiles": 0,
+            "failedTiles": 0,
+            "renderedTiles": 6,
+            "drawCalls": 1,
+            "triangles": 798720,
+            "selectedTiles": 6,
+            "requests": {
+              "queued": 0,
+              "running": 0,
+              "jobs": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "requestsMatch": true,
+    "courseTreesTintAndRoutingMatch": true,
+    "cameraAndLensMatch": true,
+    "qualityAndBufferMatch": true,
+    "terrainInventoryMatch": true,
+    "fixedTreeSettingsMatch": true,
+    "visibleTreeTiersMatch": true,
+    "rendererMemoryCountersMatch": true,
+    "restingDrawsAndTrianglesMatch": true,
+    "baselineFreshMatchesCandidateCached": true,
+    "candidateCacheCheckPassed": true
+  },
+  "cachedVersusFreshPixels": {
+    "before": {
+      "pixels": 110592,
+      "changedPixels": 349,
+      "maximumAbsoluteChannelDifference": 58,
+      "meanAbsoluteChannelDifference": 0.04951232156635803
+    },
+    "after": {
+      "pixels": 110592,
+      "changedPixels": 0,
+      "maximumAbsoluteChannelDifference": 0,
+      "meanAbsoluteChannelDifference": 0.0
+    }
+  },
+  "workAccounting": {
+    "schemaVersion": 1,
+    "date": "2026-09-06T12:27:32.254Z",
+    "baselineRevision": "2976a4ff1d26abbac27751c8a613cd91c81186f0",
+    "candidateSourceCheckpoint": "6d7e35ed6eb869d6ff2c238529212e3003b86cf2",
+    "sourceHashes": {
+      "before": {
+        "batch": "355ac3651165a0550676d9acd618885fd37ec989d7557496550faabbe5e8f2c4",
+        "main": "4ff0c4c75253646bdfa8a9f77143e5db60c667e6a2b8f283c996ae08f05d025e"
+      },
+      "after": {
+        "batch": "58c1aea59a5ab21ba578e93b8b23f51c54e853387e81c5bbbe07b9a630593ea0",
+        "main": "10768ca18a161129c9ac989803f86eb2a6a437e413da20aeadbe9bd270ee08b4"
+      }
+    },
+    "rendererAttributesSourceSha256": "82e7eb71dca1a723f522725a9a824da6eaa04b4f1a8e5a7d21ace7868a9a840d",
+    "threeVersion": "185",
+    "fixture": {
+      "kind": "synthetic",
+      "tiles": 16,
+      "capacity": 32,
+      "textureGrid": [
+        3,
+        3
+      ],
+      "morphDurationMilliseconds": 240
+    },
+    "method": "Actual revision terrain classes and main shadowRest; installed Three common Attributes with observed backend callbacks. Initial allocations excluded. One attribute-manager visit per instance buffer per frame.",
+    "hardwarePerformanceEvidence": false,
+    "timingMeasured": false,
+    "limits": "No physical GPU, driver upload timing, FPS, startup, total memory or actual shadow draw measurement. Synthetic topology and timings isolate state transitions, not full-course GPU load.",
+    "comparisons": [
+      {
+        "id": "regular_16ms_morph",
+        "before": {
+          "frames": 23,
+          "attributeUpdateCallbacks": 46,
+          "attributeUpdateBytes": 23552,
+          "shadowRefreshRequests": 20,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 0,
+              "refreshed": true,
+              "reason": "sun",
+              "morph": 1
+            },
+            {
+              "now": 16,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.9872592687606812
+            },
+            {
+              "now": 32,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.9514074325561523
+            },
+            {
+              "now": 48,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.8960000276565552
+            },
+            {
+              "now": 64,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.8245925903320312
+            },
+            {
+              "now": 80,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.7407407164573669
+            },
+            {
+              "now": 96,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.6480000019073486
+            },
+            {
+              "now": 112,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.5499259233474731
+            },
+            {
+              "now": 128,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.45007407665252686
+            },
+            {
+              "now": 144,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.35199999809265137
+            },
+            {
+              "now": 160,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.25925925374031067
+            },
+            {
+              "now": 176,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.17540740966796875
+            },
+            {
+              "now": 192,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.10400000214576721
+            },
+            {
+              "now": 208,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.048592593520879745
+            },
+            {
+              "now": 224,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.012740740552544594
+            },
+            {
+              "now": 240,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 256,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 272,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 288,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 304,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "after": {
+          "frames": 23,
+          "attributeUpdateCallbacks": 15,
+          "attributeUpdateBytes": 7680,
+          "shadowRefreshRequests": 17,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 0,
+              "refreshed": true,
+              "reason": "sun",
+              "morph": 1
+            },
+            {
+              "now": 16,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.9872592687606812
+            },
+            {
+              "now": 32,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.9514074325561523
+            },
+            {
+              "now": 48,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.8960000276565552
+            },
+            {
+              "now": 64,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.8245925903320312
+            },
+            {
+              "now": 80,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.7407407164573669
+            },
+            {
+              "now": 96,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.6480000019073486
+            },
+            {
+              "now": 112,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.5499259233474731
+            },
+            {
+              "now": 128,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.45007407665252686
+            },
+            {
+              "now": 144,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.35199999809265137
+            },
+            {
+              "now": 160,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.25925925374031067
+            },
+            {
+              "now": 176,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.17540740966796875
+            },
+            {
+              "now": 192,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.10400000214576721
+            },
+            {
+              "now": 208,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.048592593520879745
+            },
+            {
+              "now": 224,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.012740740552544594
+            },
+            {
+              "now": 240,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 256,
+              "refreshed": true,
+              "reason": "settled",
+              "morph": 0
+            },
+            {
+              "now": 272,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 288,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 304,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "finalGeometryAndResourcesMatch": true,
+        "passed": true
+      },
+      {
+        "id": "slow_final_frame",
+        "before": {
+          "frames": 5,
+          "attributeUpdateCallbacks": 10,
+          "attributeUpdateBytes": 5120,
+          "shadowRefreshRequests": 2,
+          "finalShadowMatchesTerrain": false,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 0,
+              "refreshed": true,
+              "reason": "sun",
+              "morph": 1
+            },
+            {
+              "now": 120,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.5
+            },
+            {
+              "now": 1000,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 1016,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 1032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "after": {
+          "frames": 5,
+          "attributeUpdateCallbacks": 2,
+          "attributeUpdateBytes": 1024,
+          "shadowRefreshRequests": 4,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 0,
+              "refreshed": true,
+              "reason": "sun",
+              "morph": 1
+            },
+            {
+              "now": 120,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0.5
+            },
+            {
+              "now": 1000,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 1016,
+              "refreshed": true,
+              "reason": "settled",
+              "morph": 0
+            },
+            {
+              "now": 1032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "finalGeometryAndResourcesMatch": true,
+        "passed": true
+      },
+      {
+        "id": "settled_60_frames",
+        "before": {
+          "frames": 60,
+          "attributeUpdateCallbacks": 120,
+          "attributeUpdateBytes": 61440,
+          "shadowRefreshRequests": 1,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 2000,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2016,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2048,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2064,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2080,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2096,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2112,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2128,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2144,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2160,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2176,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2192,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2208,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2224,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2240,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2256,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2272,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2288,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2304,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2368,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2384,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2400,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2416,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2432,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2448,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2464,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2480,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2496,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2512,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2528,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2544,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2560,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2576,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2592,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2608,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2624,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2640,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2656,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2672,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2688,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2704,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2720,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2736,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2752,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2768,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2784,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2800,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2816,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2832,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2848,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2864,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2880,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2896,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2912,
+              "refreshed": true,
+              "reason": "tick",
+              "morph": 0
+            },
+            {
+              "now": 2928,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2944,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "after": {
+          "frames": 60,
+          "attributeUpdateCallbacks": 0,
+          "attributeUpdateBytes": 0,
+          "shadowRefreshRequests": 1,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "6fddf58ed6d24ae456201a19a9e5336ac54792e3ae05d698431050b834b6ae32",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 2000,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2016,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2048,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2064,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2080,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2096,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2112,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2128,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2144,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2160,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2176,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2192,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2208,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2224,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2240,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2256,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2272,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2288,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2304,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2368,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2384,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2400,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2416,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2432,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2448,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2464,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2480,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2496,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2512,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2528,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2544,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2560,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2576,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2592,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2608,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2624,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2640,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2656,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2672,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2688,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2704,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2720,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2736,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2752,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2768,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2784,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2800,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2816,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2832,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2848,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2864,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2880,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2896,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2912,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2928,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2944,
+              "refreshed": true,
+              "reason": "tick",
+              "morph": 0
+            }
+          ]
+        },
+        "finalGeometryAndResourcesMatch": true,
+        "passed": true
+      },
+      {
+        "id": "same_count_payload_replacement",
+        "before": {
+          "frames": 23,
+          "attributeUpdateCallbacks": 46,
+          "attributeUpdateBytes": 23552,
+          "shadowRefreshRequests": 20,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "b75483472146b8f10519e356f8124e82ae178ad5126701bfa7fae50aee75b8b5",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 2000,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2016,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2032,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2048,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2064,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2080,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2096,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2112,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2128,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2144,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2160,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2176,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2192,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2208,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2224,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2240,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2256,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2272,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2288,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2304,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "after": {
+          "frames": 23,
+          "attributeUpdateCallbacks": 0,
+          "attributeUpdateBytes": 0,
+          "shadowRefreshRequests": 2,
+          "finalShadowMatchesTerrain": true,
+          "geometryFingerprint": "9b1b4d64672d2735fa7c83c1d263a3320f68f9734fa373d4b69b55b8b8b83f3b",
+          "finalTerrainFingerprint": "b75483472146b8f10519e356f8124e82ae178ad5126701bfa7fae50aee75b8b5",
+          "instanceBufferBytes": 1024,
+          "textureCapacityBytes": 2304,
+          "trace": [
+            {
+              "now": 2000,
+              "refreshed": true,
+              "reason": "terrain",
+              "morph": 0
+            },
+            {
+              "now": 2016,
+              "refreshed": true,
+              "reason": "settled",
+              "morph": 0
+            },
+            {
+              "now": 2032,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2048,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2064,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2080,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2096,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2112,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2128,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2144,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2160,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2176,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2192,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2208,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2224,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2240,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2256,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2272,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2288,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2304,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2320,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2336,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            },
+            {
+              "now": 2352,
+              "refreshed": false,
+              "reason": null,
+              "morph": 0
+            }
+          ]
+        },
+        "finalGeometryAndResourcesMatch": true,
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  "rejectedIntermediate": {
+    "localSourceCheckpoint": "1e713fa",
+    "mainSourceSha256": "1c84a7bad5b5eb879b3aaaffd4c3d67a60a9710af1b2d48306189afdf3388554",
+    "build": {
+      "indexSha256": "444a92e10f8aac1e80e774e8dd3ade6ac2e1cf18f6d88f98c0e9c307fd99d6e7",
+      "assetsInventorySha256": "40051e78a6af7f21e0a988e65c4aaa111ac43f17fef348fe3463048dc18a7a44",
+      "entryBundles": [
+        {
+          "file": "assets/index-BG2qowaU.js",
+          "bytes": 1550,
+          "sha256": "db2ed6a930996e7a7bb75aa40b9b6eae20537c0377a155f4473b2d69b6ed07db"
+        },
+        {
+          "file": "assets/index-CSkHwgJT.js",
+          "bytes": 1550,
+          "sha256": "89914c09887743b3b69ef4f3b5ad21344ac0b6d47b957ed48eaa513c5039bedb"
+        },
+        {
+          "file": "assets/main-2kepGyEX.js",
+          "bytes": 320889,
+          "sha256": "9963992b3753501300391b14e3a98f7be06dbdbc9db71f51b2c53b3eedbb9d5c"
+        },
+        {
+          "file": "assets/main-DFpncjBe.js",
+          "bytes": 321223,
+          "sha256": "b923d7a0ef137c316e2c90284778aa8c6c5f4a8cd4600544bde3b5eba34671a9"
+        }
+      ]
+    },
+    "passed": false,
+    "errors": [],
+    "cacheAssertions": {
+      "exactImageParity": false,
+      "captureContractPreserved": true,
+      "cameraPreserved": true,
+      "terrainPreserved": true,
+      "rendererMemoryPreserved": true,
+      "cachedModeRestored": true,
+      "finalMorphReached": true,
+      "cachedRevisionCurrent": true,
+      "settledBuffersUnchanged": true
+    },
+    "cachedImageSha256": "f6b887fe738c7abda43a4094ab958066801e740774b55d28e43265a172365848",
+    "freshImageSha256": "a00aacb5cbc1fd1ee80e762eaaafcb8f48778af83a559fe3653a9b4403d102f1",
+    "pixelComparison": {
+      "pixels": 110592,
+      "changedPixels": 349,
+      "maximumAbsoluteChannelDifference": 58,
+      "meanAbsoluteChannelDifference": 0.04951232156635803
+    },
+    "interpretation": "Tracking terrain revisions alone fixed missed final terrain updates but did not close the browser image mismatch. The final candidate also performs one settled refresh after the renderer consumes the last changing-frame request."
+  },
+  "validation": {
+    "vitestTests": 399,
+    "vitestFiles": 56,
+    "newRegressionCases": 15,
+    "productionBuild": true,
+    "appLint": true,
+    "appIsolation": true,
+    "sourceManifests": true
+  },
+  "limits": [
+    "Software rendering proves this bounded Uppsala image/buffer comparison, not physical-device FPS.",
+    "Render-work traces are synthetic and use actual Three Attributes with observed backend callbacks, not GPU timings or measured driver transfers.",
+    "Real desktop WebGPU and phone WebGL2 median/p95/p99 frame times, moving-camera hitches, startup and total memory remain unmeasured.",
+    "Uppsala close motion, Puttom forest load, Veckefjarden water and phone touch/pinch/flight takeover still need physical-device acceptance at matched actual buffers/settings; check normal automatic fallback separately."
+  ],
+  "passed": true
+}

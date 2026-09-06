@@ -53,8 +53,8 @@ function heightTexture(width, height, capacity) {
 function installInstanceAttributes(geometry, capacity) {
   const frame = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 4), 4);
   const params = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 4), 4);
-  frame.setUsage(THREE.DynamicDrawUsage);
-  params.setUsage(THREE.DynamicDrawUsage);
+  /* These buffers own their dirty flags. DynamicDrawUsage makes the WebGPU
+     backend upload them even on frames where every tile is already settled. */
   geometry.setAttribute('aTerrainFrame', frame);
   geometry.setAttribute('aTerrainParams', params);
   return { frame, params };
@@ -112,6 +112,16 @@ function smoothMorph(startedAt, now, duration) {
   return 1 - eased;
 }
 
+/* Compare the values the GPU receives, not doubles against rounded Float32s.
+   Stable non-integer origins must not dirty the buffer again every frame. */
+function writeVector4(array, offset, x, y, z, w) {
+  x = Math.fround(x); y = Math.fround(y); z = Math.fround(z); w = Math.fround(w);
+  if (Object.is(array[offset], x) && Object.is(array[offset + 1], y) &&
+      Object.is(array[offset + 2], z) && Object.is(array[offset + 3], w)) return false;
+  array[offset] = x; array[offset + 1] = y; array[offset + 2] = z; array[offset + 3] = w;
+  return true;
+}
+
 export class TerrainTextureBatch {
   constructor({
     width,
@@ -156,6 +166,8 @@ export class TerrainTextureBatch {
     this.morphStartByTile = new Map();
     this.current = [];
     this.textureUploads = 0;
+    this.renderRevision = 0;
+    this.morphing = false;
     this.disposed = false;
   }
 
@@ -223,7 +235,7 @@ export class TerrainTextureBatch {
         this.morphStartByTile.set(resource.tileId, resource.tileId === 'shell' ? null : now);
       }
     }
-    if (textureChanged) this.texture.needsUpdate = true;
+    if (textureChanged) { this.texture.needsUpdate = true; this.renderRevision++; }
     this.current = [...resources];
     return this.tick(now);
   }
@@ -233,7 +245,7 @@ export class TerrainTextureBatch {
     finite(now, 'now');
     const frame = this.attributes.frame.array;
     const params = this.attributes.params.array;
-    let morphing = false;
+    let morphing = false, frameChanged = false, paramsChanged = false;
     for (let index = 0; index < this.current.length; index++) {
       const resource = this.current[index];
       const layer = this.layersByTile.get(resource.tileId);
@@ -248,23 +260,26 @@ export class TerrainTextureBatch {
         resource.geometricErrorMetres * 2,
         resource.maximumMorphDeltaMetres * 1.5,
       ));
-      frame.set([
+      frameChanged = writeVector4(frame, index * 4,
         resource.worldOriginX,
         resource.worldOriginZ,
         resource.heightOffsetWorld,
         resource.sampleSpacingMetres,
-      ], index * 4);
-      params.set([
+      ) || frameChanged;
+      paramsChanged = writeVector4(params, index * 4,
         resource.heightScaleMetres,
         skirtDepth,
         morph,
         layer,
-      ], index * 4);
+      ) || paramsChanged;
     }
+    const countChanged = this.geometry.instanceCount !== this.current.length;
     this.geometry.instanceCount = this.current.length;
     this.mesh.visible = this.geometry.instanceCount > 0;
-    this.attributes.frame.needsUpdate = this.geometry.instanceCount > 0;
-    this.attributes.params.needsUpdate = this.geometry.instanceCount > 0;
+    if (frameChanged) this.attributes.frame.needsUpdate = true;
+    if (paramsChanged) this.attributes.params.needsUpdate = true;
+    if (frameChanged || paramsChanged || countChanged) this.renderRevision++;
+    this.morphing = morphing;
     return Object.freeze({ count: this.geometry.instanceCount, morphing });
   }
 
@@ -274,7 +289,7 @@ export class TerrainTextureBatch {
   inventory() {
     const layerBytes = this.width * this.height * 8;
     const data = this.texture.image.data;
-    return this.current.map(resource => {
+    return this.current.map((resource, index) => {
       const layer = this.layersByTile.get(resource.tileId);
       let sum = 0;
       const start = layer * layerBytes;
@@ -293,6 +308,7 @@ export class TerrainTextureBatch {
       return Object.freeze({
         meanNormal: count ? [+(nx / count).toFixed(3), +(ny / count).toFixed(3), +(nz / count).toFixed(3)] : null,
         tileId: resource.tileId,
+        morph: this.attributes.params.array[index * 4 + 2],
         batch: this.mesh.userData.tag,
         layer,
         identity: this.identityByTile.get(resource.tileId) ?? null,
@@ -315,6 +331,10 @@ export class TerrainTextureBatch {
       renderedTiles: this.geometry.instanceCount,
       residentLayers: this.layersByTile.size,
       textureUploads: this.textureUploads,
+      renderRevision: this.renderRevision,
+      morphing: this.morphing,
+      frameAttributeVersion: this.attributes.frame.version,
+      paramsAttributeVersion: this.attributes.params.version,
       textureCapacityBytes: this.texture.image.data.byteLength,
       topologyBytes: this.topology.cpuBytes,
       triangles: this.geometry.instanceCount * this.topology.triangleCount,
@@ -351,6 +371,7 @@ export class TerrainTileBatchSet {
     this.group.name = 'banvy-v2-terrain';
     this.group.userData.tag = 'v2-terrain-root';
     this.batches = new Map();
+    this.renderRevision = 0;
     this.disposed = false;
   }
 
@@ -389,22 +410,35 @@ export class TerrainTileBatchSet {
     if (regularKeys.length > 1) {
       throw new Error('one render frontier may not mix regular terrain grid dimensions');
     }
-    let morphing = false;
+    let morphing = false, changed = false;
     for (const [key, batch] of this.batches) {
       if (grouped.has(key)) continue;
+      const before = batch.renderRevision;
       batch.sync([], { now });
+      changed ||= batch.renderRevision !== before;
     }
     for (const [key, resources] of grouped) {
-      const state = this.#batch(key, resources[0]).sync(resources, { now });
+      const batch = this.#batch(key, resources[0]), before = batch.renderRevision;
+      const state = batch.sync(resources, { now });
       morphing ||= state.morphing;
+      changed ||= batch.renderRevision !== before;
     }
+    if (changed) this.renderRevision++;
     this.group.visible = renderResources.length > 0;
     return Object.freeze({ renderedTiles: renderResources.length, morphing });
   }
 
   tick(now = nowMilliseconds()) {
-    let morphing = false;
-    for (const batch of this.batches.values()) morphing ||= batch.tick(now).morphing;
+    let morphing = false, changed = false;
+    for (const batch of this.batches.values()) {
+      const before = batch.renderRevision;
+      /* Always advance every batch; ||= around tick() skips all later work
+         as soon as an earlier batch reports an unfinished transition. */
+      const state = batch.tick(now);
+      morphing ||= state.morphing;
+      changed ||= batch.renderRevision !== before;
+    }
+    if (changed) this.renderRevision++;
     return Object.freeze({ morphing });
   }
 
@@ -416,6 +450,8 @@ export class TerrainTileBatchSet {
     const batches = [...this.batches.values()].map(batch => batch.stats());
     return Object.freeze({
       batches: Object.freeze(batches),
+      renderRevision: this.renderRevision,
+      morphing: batches.some(batch => batch.morphing),
       renderedTiles: batches.reduce((sum, batch) => sum + batch.renderedTiles, 0),
       residentLayers: batches.reduce((sum, batch) => sum + batch.residentLayers, 0),
       drawCalls: batches.reduce((sum, batch) => sum + batch.drawCalls, 0),
@@ -428,6 +464,7 @@ export class TerrainTileBatchSet {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
+    this.renderRevision++;
     for (const batch of this.batches.values()) batch.dispose();
     this.batches.clear();
     this.group.removeFromParent();
