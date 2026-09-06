@@ -1,0 +1,577 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Software visual and invariant comparison, not a real-device performance benchmark.",
+  "executionAdapter": "swiftshader-software",
+  "performanceEvidence": false,
+  "request": {
+    "course": "puttom",
+    "backend": "webgl2",
+    "autoFallback": true,
+    "q": "lo",
+    "viewport": [
+      480,
+      360
+    ],
+    "dpr": 1,
+    "views": [
+      {
+        "id": "h1_tee_noon",
+        "hole": 1,
+        "cam": "tee",
+        "preset": "noon"
+      },
+      {
+        "id": "h1_pine_crown_noon",
+        "hole": 1,
+        "cam": "bark",
+        "preset": "noon"
+      }
+    ]
+  },
+  "captureHarnessSha256": "b1a62be76a3bdfd6ad8486ceeb3ca29cdabc62177aaf6a534ab5db93c0f32d0a",
+  "before": {
+    "build": {
+      "revision": "a40681dac130275f136f9dae9eb26dbeb279f66b",
+      "indexSha256": "136810ff0d1b9236bc11cda4db63818ef4982d497b3330db20f97cb431ff0cf2",
+      "assetsInventorySha256": "bf7b1174bfe3edbae9f9923a3fbf447e2cbced7cee09573df83b4a40bdd02da9",
+      "assetFiles": 46,
+      "mainBundles": [
+        {
+          "file": "assets/main-B4tQb56W.js",
+          "sha256": "6d193cf6a505df6f5f950ce64b81744edfb4d84e4759bbc01cc7580d596ac488",
+          "bytes": 317334
+        }
+      ]
+    },
+    "rawReportSha256": "c22b2a5cf9ebad915fece6b7aedec07b1db966c18f126f14bc597d8095b9368f",
+    "rawHarnessPassed": false,
+    "errors": [
+      {
+        "type": "requestfailed",
+        "url": "http://127.0.0.1:39639/olovs-hemsida/grounds/puttom/preview.json",
+        "text": "net::ERR_ABORTED"
+      }
+    ],
+    "warningCount": 11,
+    "fingerprint": {
+      "model": "c45b8c7e73f81b561a52ddc0d246acee8998dddcedbd7100ef2571110d461e2a",
+      "routing": "43ff073b337ded4ad1f1f01c2c1f72dd893f586128041ee05664ea44f9428ca2",
+      "georeferencing": "24fe876efc33e10415cd16207dc5341d48a54269a5036512888c412b9864ed7e",
+      "treeInstances": "7eb00a640585ff0f9117b37faeba68ae9d7ade9d831913e31e8757de23823f44",
+      "treePositions": "5ddb8d535c72f1a57ab576f30eaace1841c9c67ca66362d9b780a673ad3f52b7",
+      "vistaPoints": "db1a8b2583f4121be46f425d240d0563d93559bb5726fd0db73e05e0bb08147e",
+      "tintNear": "db9ba3a295c0c3c66305150233cbc68ea1344e56da0e015f378b2a3ff44b60bf",
+      "tintFar": "31807e99ccf535eca7a0354698c4b38002f41a0575ca0e810f0236658b657181",
+      "surfaceSource": "5d95e9df06cb2c098664797d0fb55feaf028580da33623d4aeda78458243f47d",
+      "vegetationSource": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
+      "counts": {
+        "trees": 51844,
+        "vista": 29731,
+        "tufts": 2523,
+        "bushes": 410,
+        "stones": 110,
+        "reeds": 230,
+        "cars": 67,
+        "pylons": 0,
+        "stumps": 0,
+        "surfaceOverlays": 0
+      },
+      "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+    },
+    "views": [
+      {
+        "id": "h1_tee_noon",
+        "imageSha256": "90083ceb68e48bb21630f97d55f026314d5ecb6781eef97c85bd3956637795d5",
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "drawingBuffer": [
+          480,
+          360
+        ],
+        "pixelRatio": 1,
+        "camera": {
+          "pos": [
+            -82.5,
+            70.5,
+            -257.9
+          ],
+          "look": [
+            -160.7,
+            69.9,
+            -466.1
+          ],
+          "mode": "tee"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            -82.53925966372682,
+            70.45504836927861,
+            -257.9467750689116
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "treeCounts": {
+          "tier0": 0,
+          "tier1": 611,
+          "tier2": 2012,
+          "tier3": 4264,
+          "cells": 445,
+          "cellsVisible": 81,
+          "zoneA": 3568,
+          "zoneB": 12230
+        },
+        "terrainActive": true,
+        "terrainPhase": "ready",
+        "stream": {
+          "readyTiles": 62,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 24,
+          "drawCalls": 1,
+          "triangles": 3194880,
+          "selectedTiles": 24,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        },
+        "terrainInventorySha256": "6dd3634adf22178d2ba16145cf6527d2762e1a8ede0e52e017b0850cbec36a63",
+        "terrainInventoryCount": 24,
+        "visibleTerrainTileCount": 66,
+        "visibleTerrainTileIdsSha256": "428e627ebf72dafb08e96cbcdf78b4a7e1e518edbcfb493a03d23d547356cf39"
+      },
+      {
+        "id": "h1_pine_crown_noon",
+        "imageSha256": "872d99574b14fbaba9e958dcc3ac7f15f1db39478cb66c5c91f6adc2d2842cc7",
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "drawingBuffer": [
+          480,
+          360
+        ],
+        "pixelRatio": 1,
+        "camera": {
+          "pos": [
+            -78.8,
+            77.2,
+            -270.8
+          ],
+          "look": [
+            -92.8,
+            77.8,
+            -252.8
+          ],
+          "mode": "tee"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            -78.8,
+            77.23099999999998,
+            -270.75
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "treeCounts": {
+          "tier0": 0,
+          "tier1": 1211,
+          "tier2": 3179,
+          "tier3": 10882,
+          "cells": 445,
+          "cellsVisible": 113,
+          "zoneA": 3568,
+          "zoneB": 12230
+        },
+        "terrainActive": true,
+        "terrainPhase": "ready",
+        "stream": {
+          "readyTiles": 78,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 26,
+          "drawCalls": 1,
+          "triangles": 3461120,
+          "selectedTiles": 26,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        },
+        "terrainInventorySha256": "396e218642fb68fc452b427859848f6420a9478529120b5938d319fae49e0115",
+        "terrainInventoryCount": 26,
+        "visibleTerrainTileCount": 81,
+        "visibleTerrainTileIdsSha256": "f78cfe3d13dff2e06ec3b92298d4d0af50fb2634a9cbd762aa51f9f50df50bcb"
+      }
+    ]
+  },
+  "after": {
+    "build": {
+      "revision": "6468c3044191fa97e6a114ad8e8e47aa30f06afa",
+      "indexSha256": "657fea7e483ac1571cadc88c9704bc5e0379afb51a358f7367132b24c2d63883",
+      "assetsInventorySha256": "d9f69428f0d232033f4f66e0db4c383d9f76da55aa1fc2e0b552be04bf4c4b75",
+      "assetFiles": 46,
+      "mainBundles": [
+        {
+          "file": "assets/main-UFWL_JUU.js",
+          "sha256": "bbd30e6d6aebb66d9b7cb904ba9729dc261d415f1d96e866e237b877f0ca05c3",
+          "bytes": 318239
+        }
+      ]
+    },
+    "rawReportSha256": "2614751ac24ec7e07b95e9a72c93663053191948bd6de8a598cc25ce7fbd7fd7",
+    "rawHarnessPassed": false,
+    "errors": [
+      {
+        "type": "requestfailed",
+        "url": "http://127.0.0.1:39661/olovs-hemsida/grounds/puttom/preview.json",
+        "text": "net::ERR_ABORTED"
+      }
+    ],
+    "warningCount": 21,
+    "fingerprint": {
+      "model": "c45b8c7e73f81b561a52ddc0d246acee8998dddcedbd7100ef2571110d461e2a",
+      "routing": "43ff073b337ded4ad1f1f01c2c1f72dd893f586128041ee05664ea44f9428ca2",
+      "georeferencing": "24fe876efc33e10415cd16207dc5341d48a54269a5036512888c412b9864ed7e",
+      "treeInstances": "7eb00a640585ff0f9117b37faeba68ae9d7ade9d831913e31e8757de23823f44",
+      "treePositions": "5ddb8d535c72f1a57ab576f30eaace1841c9c67ca66362d9b780a673ad3f52b7",
+      "vistaPoints": "db1a8b2583f4121be46f425d240d0563d93559bb5726fd0db73e05e0bb08147e",
+      "tintNear": "db9ba3a295c0c3c66305150233cbc68ea1344e56da0e015f378b2a3ff44b60bf",
+      "tintFar": "31807e99ccf535eca7a0354698c4b38002f41a0575ca0e810f0236658b657181",
+      "surfaceSource": "5d95e9df06cb2c098664797d0fb55feaf028580da33623d4aeda78458243f47d",
+      "vegetationSource": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
+      "counts": {
+        "trees": 51844,
+        "vista": 29731,
+        "tufts": 2523,
+        "bushes": 410,
+        "stones": 110,
+        "reeds": 230,
+        "cars": 67,
+        "pylons": 0,
+        "stumps": 0,
+        "surfaceOverlays": 0
+      },
+      "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+    },
+    "views": [
+      {
+        "id": "h1_tee_noon",
+        "imageSha256": "fe865630affd9587c3316e937d9b81efc8dbfef3a4099c043b3a54d6954a12d7",
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "drawingBuffer": [
+          480,
+          360
+        ],
+        "pixelRatio": 1,
+        "camera": {
+          "pos": [
+            -82.5,
+            70.5,
+            -257.9
+          ],
+          "look": [
+            -160.7,
+            69.9,
+            -466.1
+          ],
+          "mode": "tee"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            -82.53925966372682,
+            70.45504836927861,
+            -257.9467750689116
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "treeCounts": {
+          "tier0": 0,
+          "tier1": 611,
+          "tier2": 2012,
+          "tier3": 4264,
+          "cells": 445,
+          "cellsVisible": 81,
+          "zoneA": 3568,
+          "zoneB": 12230
+        },
+        "terrainActive": true,
+        "terrainPhase": "ready",
+        "stream": {
+          "readyTiles": 62,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 24,
+          "drawCalls": 1,
+          "triangles": 3194880,
+          "selectedTiles": 24,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        },
+        "terrainInventorySha256": "6dd3634adf22178d2ba16145cf6527d2762e1a8ede0e52e017b0850cbec36a63",
+        "terrainInventoryCount": 24,
+        "visibleTerrainTileCount": 66,
+        "visibleTerrainTileIdsSha256": "428e627ebf72dafb08e96cbcdf78b4a7e1e518edbcfb493a03d23d547356cf39"
+      },
+      {
+        "id": "h1_pine_crown_noon",
+        "imageSha256": "87bede8b18b43b9a5bd6285d9783197731432d1dacb9faa859942d4b1588126a",
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "drawingBuffer": [
+          480,
+          360
+        ],
+        "pixelRatio": 1,
+        "camera": {
+          "pos": [
+            -78.8,
+            77.2,
+            -270.8
+          ],
+          "look": [
+            -92.8,
+            77.8,
+            -252.8
+          ],
+          "mode": "tee"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            -78.8,
+            77.23099999999998,
+            -270.75
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "treeCounts": {
+          "tier0": 0,
+          "tier1": 1211,
+          "tier2": 3179,
+          "tier3": 10882,
+          "cells": 445,
+          "cellsVisible": 113,
+          "zoneA": 3568,
+          "zoneB": 12230
+        },
+        "terrainActive": true,
+        "terrainPhase": "ready",
+        "stream": {
+          "readyTiles": 78,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 26,
+          "drawCalls": 1,
+          "triangles": 3461120,
+          "selectedTiles": 26,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        },
+        "terrainInventorySha256": "396e218642fb68fc452b427859848f6420a9478529120b5938d319fae49e0115",
+        "terrainInventoryCount": 26,
+        "visibleTerrainTileCount": 81,
+        "visibleTerrainTileIdsSha256": "f78cfe3d13dff2e06ec3b92298d4d0af50fb2634a9cbd762aa51f9f50df50bcb"
+      }
+    ]
+  },
+  "rawComparisonPassed": false,
+  "matchedDataChecks": {
+    "model": true,
+    "routing": true,
+    "georeferencing": true,
+    "treeInstances": true,
+    "treePositions": true,
+    "vistaPoints": true,
+    "tintNear": true,
+    "tintFar": true,
+    "surfaceSource": true,
+    "vegetationSource": true,
+    "counts": true,
+    "request": true
+  },
+  "matchedViewChecks": [
+    {
+      "id": "h1_tee_noon",
+      "matched": true,
+      "captureContractUnchanged": true,
+      "cameraUnchanged": true,
+      "terrainUnchanged": true,
+      "imageChanged": true
+    },
+    {
+      "id": "h1_pine_crown_noon",
+      "matched": true,
+      "captureContractUnchanged": true,
+      "cameraUnchanged": true,
+      "terrainUnchanged": true,
+      "imageChanged": true
+    }
+  ],
+  "notes": [
+    "Retained raw harness status and errors; no error was removed or reclassified.",
+    "Both images in each run are emitted only after the harness validates stable ready terrain, zero loading/failed tiles, camera, and quality contracts.",
+    "Different draw/triangle counters can reflect shadow/post scheduling and are not real-hardware performance evidence.",
+    "No live crown geometry buffers are hashed by this harness; focused source tests separately check unchanged topology, normals and attribute allocation.",
+    "Both raw runs report one identical unresolved preview.json net::ERR_ABORTED request. Boot and both settled views complete with ready v2 terrain; no shader or page errors are recorded. The raw harness/comparison failures are retained."
+  ],
+  "visualReview": {
+    "completed": true,
+    "views": [
+      "h1_tee_noon",
+      "h1_pine_crown_noon"
+    ],
+    "finding": "Restrained changes are visible in canopy shading: slightly lighter warmer upper crowns and darker lower/sheltered areas. Silhouettes, tree placements, course surfaces, buildings and terrain continuity remain visually unchanged in both fixed views.",
+    "limitation": "These two software views do not establish real-device FPS or visual quality across every course, lighting preset or detail tier."
+  }
+}

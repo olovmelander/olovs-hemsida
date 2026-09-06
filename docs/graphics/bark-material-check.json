@@ -1,0 +1,1181 @@
+{
+  "evidence": "Material-only actual BARK generator and hero trunk geometry, SwiftShader WebGL2. Fixed live noon/golden lights, no wind/fade/environment map. Not full-course, WebGPU or real-device FPS evidence.",
+  "sourceMainBaseline": "5d9c4f27514d97fa608f8fef6713717de2c46ea7",
+  "barkGeneratorSha256": "05d2734ea322e220528705c6d1f7255165cd79f2ed171e506338555c382164bb",
+  "canvasGeneratorSha256": "7aba709b9c1caef1a8b15ede808efc64c755a72cef98d45b253869b37f12f0b5",
+  "helperSha256": "776464e5177b0f6de73328685406e4069ddc2533e2ea4988a1b1f94312993f9b",
+  "trunkGeometrySourceSha256": "4fc810591518070e1fa39d1283b1101acb1148b6a3d8e68decd95e04f771e3c9",
+  "shaderCountsMeaning": "newFragmentShaders lists compilations in this capture; an empty list means cached program reuse.",
+  "threeRevision": "185",
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "clipControl": true,
+  "reversedDepthCheck": "measured",
+  "bark": {
+    "width": 256,
+    "height": 256,
+    "rgbaSha256": "2b69c5ac6b7639d35ef791d3b9830caddb864e8ac76b72e33d4022cd43b2c975",
+    "meanSample": 0.5094007903454351,
+    "rgbaBaseBytes": 262144,
+    "mipmappedRgbaBytes": 349524,
+    "anisotropy": 8,
+    "repeat": [
+      1,
+      1
+    ],
+    "generateMipmaps": true,
+    "colourSpace": "",
+    "baselineMeanMultiplier": 0.925640474207261,
+    "calibratedMeanMultiplier": 1
+  },
+  "geometryFingerprints": [
+    {
+      "reversed": false,
+      "species": "pine",
+      "vertices": 66,
+      "triangles": 60,
+      "bounds": [
+        [
+          -0.7820000052452087,
+          -1.1920929132713809e-08,
+          -0.7820000052452087
+        ],
+        [
+          0.7820000052452087,
+          9,
+          0.7820000052452087
+        ]
+      ],
+      "buffers": [
+        {
+          "name": "position",
+          "bytes": 792,
+          "sha256": "fe992a58c77d1f87a6e3dc1412cb13a12398415df9216851712836a525ef91e4"
+        },
+        {
+          "name": "normal",
+          "bytes": 792,
+          "sha256": "5cfc88c7755a99ffe019d8f0ce094a3085afdbf7f39fc53ac922145032a2a173"
+        },
+        {
+          "name": "uv",
+          "bytes": 528,
+          "sha256": "07ee1bbd513fd9b6c6d0afb202905488c8e3db51bea69843d86510860b32744b"
+        },
+        {
+          "name": "index",
+          "bytes": 720,
+          "sha256": "9ca8150fd08737203f121bb53e293743a87ee79f4f3faf627a5d82894831f7c4"
+        }
+      ]
+    },
+    {
+      "reversed": false,
+      "species": "birch",
+      "vertices": 66,
+      "triangles": 60,
+      "bounds": [
+        [
+          -0.5099999904632568,
+          -4.7683716530855236e-08,
+          -0.5099999904632568
+        ],
+        [
+          0.5099999904632568,
+          7.400000095367432,
+          0.5099999904632568
+        ]
+      ],
+      "buffers": [
+        {
+          "name": "position",
+          "bytes": 792,
+          "sha256": "8a0ab965f2a606120d02100100ccd097605ab57bbb3012640a4865a4a10e6fe0"
+        },
+        {
+          "name": "normal",
+          "bytes": 792,
+          "sha256": "3b52060b6639335497d11138e9d71d362be5f6328dc7b3fe1d622e96c7c0bceb"
+        },
+        {
+          "name": "uv",
+          "bytes": 528,
+          "sha256": "07ee1bbd513fd9b6c6d0afb202905488c8e3db51bea69843d86510860b32744b"
+        },
+        {
+          "name": "index",
+          "bytes": 720,
+          "sha256": "9ca8150fd08737203f121bb53e293743a87ee79f4f3faf627a5d82894831f7c4"
+        }
+      ]
+    },
+    {
+      "reversed": true,
+      "species": "pine",
+      "vertices": 66,
+      "triangles": 60,
+      "bounds": [
+        [
+          -0.7820000052452087,
+          -1.1920929132713809e-08,
+          -0.7820000052452087
+        ],
+        [
+          0.7820000052452087,
+          9,
+          0.7820000052452087
+        ]
+      ],
+      "buffers": [
+        {
+          "name": "position",
+          "bytes": 792,
+          "sha256": "fe992a58c77d1f87a6e3dc1412cb13a12398415df9216851712836a525ef91e4"
+        },
+        {
+          "name": "normal",
+          "bytes": 792,
+          "sha256": "5cfc88c7755a99ffe019d8f0ce094a3085afdbf7f39fc53ac922145032a2a173"
+        },
+        {
+          "name": "uv",
+          "bytes": 528,
+          "sha256": "07ee1bbd513fd9b6c6d0afb202905488c8e3db51bea69843d86510860b32744b"
+        },
+        {
+          "name": "index",
+          "bytes": 720,
+          "sha256": "9ca8150fd08737203f121bb53e293743a87ee79f4f3faf627a5d82894831f7c4"
+        }
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "id": "normal-pine-noon-close",
+      "species": "pine",
+      "preset": "noon",
+      "view": "close",
+      "captures": {
+        "legacy": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 8,
+              "barkTextureSamples": 4,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "43d581731e73623426542b0e55887b7a7ca41163d1f2923639d464defb44df9a"
+            }
+          ]
+        },
+        "disabled": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "aligned": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 8,
+              "barkTextureSamples": 4,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "4716146b261352837ea88d2de9d72c1e32981f3601d9bb8bde5f1b8a2e7502cf"
+            }
+          ]
+        },
+        "calibrated": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 8,
+              "barkTextureSamples": 4,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "67601f06afe9cb31605dd60744b82262977065fecd0909cbb964bd7f45f199dc"
+            }
+          ]
+        },
+        "flat": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 5,
+              "barkTextureSamples": 1,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "f421bfdf82ff20247a0aa3bac4f79ea5e3f87c8dc30a80929c3640cf24a73cae"
+            }
+          ]
+        }
+      },
+      "comparisons": {
+        "disabled": {
+          "maximumChannelError": 0,
+          "meanChannelError": 0,
+          "differingPixels": 0,
+          "totalPixels": 49152
+        },
+        "aligned": {
+          "maximumChannelError": 1,
+          "meanChannelError": 0.016021728515625,
+          "differingPixels": 2770,
+          "totalPixels": 49152
+        },
+        "calibrated": {
+          "maximumChannelError": 5,
+          "meanChannelError": 0.465972900390625,
+          "differingPixels": 15266,
+          "totalPixels": 49152
+        },
+        "reliefAgainstFlat": {
+          "maximumChannelError": 1,
+          "meanChannelError": 0.015324910481770834,
+          "differingPixels": 2583,
+          "totalPixels": 49152
+        }
+      }
+    },
+    {
+      "id": "normal-pine-noon-above",
+      "species": "pine",
+      "preset": "noon",
+      "view": "above",
+      "captures": {
+        "legacy": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "disabled": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "aligned": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "calibrated": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "flat": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        }
+      },
+      "comparisons": {
+        "disabled": {
+          "maximumChannelError": 0,
+          "meanChannelError": 0,
+          "differingPixels": 0,
+          "totalPixels": 49152
+        },
+        "aligned": {
+          "maximumChannelError": 1,
+          "meanChannelError": 0.007700602213541667,
+          "differingPixels": 1239,
+          "totalPixels": 49152
+        },
+        "calibrated": {
+          "maximumChannelError": 6,
+          "meanChannelError": 0.19036356608072916,
+          "differingPixels": 5826,
+          "totalPixels": 49152
+        },
+        "reliefAgainstFlat": {
+          "maximumChannelError": 1,
+          "meanChannelError": 0.006281534830729167,
+          "differingPixels": 1067,
+          "totalPixels": 49152
+        }
+      }
+    },
+    {
+      "id": "normal-pine-noon-grazing",
+      "species": "pine",
+      "preset": "noon",
+      "view": "grazing",
+      "captures": {
+        "legacy": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "disabled": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "aligned": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "calibrated": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "flat": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        }
+      },
+      "comparisons": {
+        "disabled": {
+          "maximumChannelError": 0,
+          "meanChannelError": 0,
+          "differingPixels": 0,
+          "totalPixels": 49152
+        },
+        "aligned": {
+          "maximumChannelError": 1,
+          "meanChannelError": 0.013651529947916666,
+          "differingPixels": 2066,
+          "totalPixels": 49152
+        },
+        "calibrated": {
+          "maximumChannelError": 5,
+          "meanChannelError": 0.3642679850260417,
+          "differingPixels": 17020,
+          "totalPixels": 49152
+        },
+        "reliefAgainstFlat": {
+          "maximumChannelError": 1,
+          "meanChannelError": 0.011967976888020834,
+          "differingPixels": 1839,
+          "totalPixels": 49152
+        }
+      }
+    },
+    {
+      "id": "normal-pine-golden-close",
+      "species": "pine",
+      "preset": "golden",
+      "view": "close",
+      "captures": {
+        "legacy": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "disabled": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "aligned": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "calibrated": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "flat": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        }
+      },
+      "comparisons": {
+        "disabled": {
+          "maximumChannelError": 0,
+          "meanChannelError": 0,
+          "differingPixels": 0,
+          "totalPixels": 49152
+        },
+        "aligned": {
+          "maximumChannelError": 2,
+          "meanChannelError": 0.020172119140625,
+          "differingPixels": 3294,
+          "totalPixels": 49152
+        },
+        "calibrated": {
+          "maximumChannelError": 7,
+          "meanChannelError": 0.5658111572265625,
+          "differingPixels": 15246,
+          "totalPixels": 49152
+        },
+        "reliefAgainstFlat": {
+          "maximumChannelError": 2,
+          "meanChannelError": 0.019739786783854168,
+          "differingPixels": 3216,
+          "totalPixels": 49152
+        }
+      }
+    },
+    {
+      "id": "normal-pine-golden-above",
+      "species": "pine",
+      "preset": "golden",
+      "view": "above",
+      "captures": {
+        "legacy": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "disabled": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "aligned": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "calibrated": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "flat": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        }
+      },
+      "comparisons": {
+        "disabled": {
+          "maximumChannelError": 0,
+          "meanChannelError": 0,
+          "differingPixels": 0,
+          "totalPixels": 49152
+        },
+        "aligned": {
+          "maximumChannelError": 2,
+          "meanChannelError": 0.010477701822916666,
+          "differingPixels": 1601,
+          "totalPixels": 49152
+        },
+        "calibrated": {
+          "maximumChannelError": 7,
+          "meanChannelError": 0.20726521809895834,
+          "differingPixels": 5810,
+          "totalPixels": 49152
+        },
+        "reliefAgainstFlat": {
+          "maximumChannelError": 2,
+          "meanChannelError": 0.008783976236979166,
+          "differingPixels": 1392,
+          "totalPixels": 49152
+        }
+      }
+    },
+    {
+      "id": "normal-pine-golden-grazing",
+      "species": "pine",
+      "preset": "golden",
+      "view": "grazing",
+      "captures": {
+        "legacy": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "disabled": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "aligned": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "calibrated": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "flat": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        }
+      },
+      "comparisons": {
+        "disabled": {
+          "maximumChannelError": 0,
+          "meanChannelError": 0,
+          "differingPixels": 0,
+          "totalPixels": 49152
+        },
+        "aligned": {
+          "maximumChannelError": 2,
+          "meanChannelError": 0.019129435221354168,
+          "differingPixels": 2441,
+          "totalPixels": 49152
+        },
+        "calibrated": {
+          "maximumChannelError": 6,
+          "meanChannelError": 0.4623311360677083,
+          "differingPixels": 17072,
+          "totalPixels": 49152
+        },
+        "reliefAgainstFlat": {
+          "maximumChannelError": 2,
+          "meanChannelError": 0.0160369873046875,
+          "differingPixels": 2165,
+          "totalPixels": 49152
+        }
+      }
+    },
+    {
+      "id": "normal-birch-golden-close",
+      "species": "birch",
+      "preset": "golden",
+      "view": "close",
+      "captures": {
+        "legacy": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 8,
+              "barkTextureSamples": 4,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "16d7507ae45443d374acdbe03b9b58c569aa93d59807c7ec9701734050ed7f24"
+            }
+          ]
+        },
+        "disabled": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "aligned": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 8,
+              "barkTextureSamples": 4,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "35f89c4a780ae6b42c3ff95dc43709e9b0fb5da102b73cd5f5f00e0813d5f55c"
+            }
+          ]
+        },
+        "calibrated": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 8,
+              "barkTextureSamples": 4,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "c4fe1abafa024a428284cc5dc04cf902c8008cc3f75d02ca5637896b4ad1cac2"
+            }
+          ]
+        },
+        "flat": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": false,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 5,
+              "barkTextureSamples": 1,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "c3c3f0bb21d56f62907a2cb9e646574be1b1a292f224db6907eb3647d2dc6b38"
+            }
+          ]
+        }
+      },
+      "comparisons": {
+        "disabled": {
+          "maximumChannelError": 0,
+          "meanChannelError": 0,
+          "differingPixels": 0,
+          "totalPixels": 49152
+        },
+        "aligned": {
+          "maximumChannelError": 3,
+          "meanChannelError": 0.027130126953125,
+          "differingPixels": 3113,
+          "totalPixels": 49152
+        },
+        "calibrated": {
+          "maximumChannelError": 10,
+          "meanChannelError": 0.7588348388671875,
+          "differingPixels": 9906,
+          "totalPixels": 49152
+        },
+        "reliefAgainstFlat": {
+          "maximumChannelError": 3,
+          "meanChannelError": 0.022389729817708332,
+          "differingPixels": 2601,
+          "totalPixels": 49152
+        }
+      }
+    },
+    {
+      "id": "reversed-pine-golden-close",
+      "species": "pine",
+      "preset": "golden",
+      "view": "close",
+      "captures": {
+        "legacy": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": true,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 8,
+              "barkTextureSamples": 4,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "43d581731e73623426542b0e55887b7a7ca41163d1f2923639d464defb44df9a"
+            }
+          ]
+        },
+        "disabled": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": true,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": []
+        },
+        "aligned": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": true,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 8,
+              "barkTextureSamples": 4,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "4716146b261352837ea88d2de9d72c1e32981f3601d9bb8bde5f1b8a2e7502cf"
+            }
+          ]
+        },
+        "calibrated": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": true,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 8,
+              "barkTextureSamples": 4,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "67601f06afe9cb31605dd60744b82262977065fecd0909cbb964bd7f45f199dc"
+            }
+          ]
+        },
+        "flat": {
+          "drawCalls": 2,
+          "triangles": 61,
+          "drawingBuffer": [
+            256,
+            192
+          ],
+          "pixelRatio": 1,
+          "reversedDepth": true,
+          "samples": 4,
+          "textures": 4,
+          "texturesBytes": 940286,
+          "attributesBytes": 2148,
+          "indicesBytes": 720,
+          "newFragmentShaders": [
+            {
+              "textureSamples": 5,
+              "barkTextureSamples": 1,
+              "selfSubtractingGradient": false,
+              "samplerUniforms": 2,
+              "sourceSha256": "f421bfdf82ff20247a0aa3bac4f79ea5e3f87c8dc30a80929c3640cf24a73cae"
+            }
+          ]
+        }
+      },
+      "comparisons": {
+        "disabled": {
+          "maximumChannelError": 0,
+          "meanChannelError": 0,
+          "differingPixels": 0,
+          "totalPixels": 49152
+        },
+        "aligned": {
+          "maximumChannelError": 2,
+          "meanChannelError": 0.020172119140625,
+          "differingPixels": 3294,
+          "totalPixels": 49152
+        },
+        "calibrated": {
+          "maximumChannelError": 7,
+          "meanChannelError": 0.5658111572265625,
+          "differingPixels": 15246,
+          "totalPixels": 49152
+        },
+        "reliefAgainstFlat": {
+          "maximumChannelError": 2,
+          "meanChannelError": 0.019739786783854168,
+          "differingPixels": 3216,
+          "totalPixels": 49152
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "checks": {
+    "threeR185": true,
+    "softwareRenderer": true,
+    "completeMatrix": true,
+    "disabledExactPixels": true,
+    "reliefChangesPixels": true,
+    "reliefAgainstSameAlbedoFlat": true,
+    "unchangedDrawsAndTriangles": true,
+    "unchangedBufferAndTextureMemory": true,
+    "fixedBuffer": true,
+    "noAdditionalTextureSamples": true,
+    "distinctFiniteDifferenceSamples": true,
+    "noBrowserErrors": true
+  },
+  "passed": true,
+  "validatedPublicCodeRevision": "464f403f19fe518be4ee7264199059520726ed09",
+  "validatedPublicCodeTree": "5051911cc60d090830c0e17f615bb566c3b59992",
+  "validatedPublicCodeUrl": "https://github.com/olovmelander/olovs-hemsida/commit/464f403f19fe518be4ee7264199059520726ed09"
+}

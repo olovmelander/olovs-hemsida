@@ -8,31 +8,33 @@ import { createRingHeightSampler, createTileFrustumTester, graphCoversHorizon } 
    tile, looking straight down. Plane by plane the tile is never wholly
    outside, so three's own test passes it and the planner keeps 32 m ground
    next to the 1 m course. */
-function downwardCamera({ x, y, z }, { coordinateSystem, reversedDepth }) {
-  const camera = new THREE.PerspectiveCamera(48, 16 / 9, 1.5, 22000);
-  camera.coordinateSystem = coordinateSystem;
-  /* Match Renderer._updateCamera, which owns the read-only camera flag. */
-  camera._reversedDepth = reversedDepth;
-  camera.position.set(x, y, z);
-  camera.lookAt(x - 40, 0, z - 60);
-  camera.updateProjectionMatrix();
+function cameraMatrix(camera, { coordinateSystem = THREE.WebGPUCoordinateSystem, reversedDepth = false } = {}) {
+  /* Use Three's actual projection for each backend/depth combination without
+     changing the camera's private reversed-depth flag. */
+  const halfHeight = camera.near * Math.tan(camera.fov * Math.PI / 360);
+  const halfWidth = halfHeight * camera.aspect;
+  camera.projectionMatrix.makePerspective(
+    -halfWidth, halfWidth, halfHeight, -halfHeight,
+    camera.near, camera.far, coordinateSystem, reversedDepth,
+  );
   camera.updateMatrixWorld(true);
   return new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
 }
 
-describe.each([
-  { backend: 'WebGL', coordinateSystem: THREE.WebGLCoordinateSystem, reversedDepth: false, nearClipZ: -1, farClipZ: 1 },
-  { backend: 'WebGL', coordinateSystem: THREE.WebGLCoordinateSystem, reversedDepth: true, nearClipZ: 1, farClipZ: 0 },
-  { backend: 'WebGPU', coordinateSystem: THREE.WebGPUCoordinateSystem, reversedDepth: false, nearClipZ: 0, farClipZ: 1 },
-  { backend: 'WebGPU', coordinateSystem: THREE.WebGPUCoordinateSystem, reversedDepth: true, nearClipZ: 1, farClipZ: 0 },
-])('the tile frustum test ($backend, reversed depth $reversedDepth)', convention => {
-  const { coordinateSystem, reversedDepth } = convention;
-  const matrix = downwardCamera({ x: -2758, y: 967, z: -2534 }, convention);
-  const intersects = createTileFrustumTester(matrix, convention);
+function downwardCamera({ x, y, z }, options) {
+  const camera = new THREE.PerspectiveCamera(48, 16 / 9, 1.5, 22000);
+  camera.position.set(x, y, z);
+  camera.lookAt(x - 40, 0, z - 60);
+  return cameraMatrix(camera, options);
+}
+
+describe('the tile frustum test', () => {
+  const matrix = downwardCamera({ x: -2758, y: 967, z: -2534 });
+  const intersects = createTileFrustumTester(matrix, { coordinateSystem: 2001 });
   const min = new THREE.Vector3(), max = new THREE.Vector3();
 
   it('rejects the 8 km tile that the plane test alone accepts', () => {
-    const plain = new THREE.Frustum().setFromProjectionMatrix(matrix, coordinateSystem, reversedDepth);
+    const plain = new THREE.Frustum().setFromProjectionMatrix(matrix, 2001, false);
     const box = new THREE.Box3(min.set(-8261.5, 23.5, 171.2), max.set(-69.5, 161.7, 8363.2));
     expect(plain.intersectsBox(box)).toBe(true);
     expect(intersects(box.min, box.max)).toBe(false);
@@ -53,28 +55,51 @@ describe.each([
   it('rejects a tile the pyramid never reaches, even one that is tall', () => {
     expect(intersects(min.set(2000, 0, 2000), max.set(6000, 400, 6000))).toBe(false);
   });
+});
 
-  it('keeps visible range ground using the actual fallback camera projection', () => {
-    /* Upsala browser regression: automatic WebGPU -> WebGL fallback retained
-       reversed depth. All camera-visible tiles failed, leaving only the six
-       active-hole tiles forced by routing and sky behind the floating trees. */
-    const camera = new THREE.PerspectiveCamera(48, 1.6, 1, 14000);
-    camera.coordinateSystem = coordinateSystem;
-    camera._reversedDepth = reversedDepth;
-    camera.position.set(-2.1, 91.2, -73.5);
-    camera.lookAt(-102.1, 26.2, -178.5);
-    camera.updateProjectionMatrix();
-    camera.updateMatrixWorld(true);
-    // Verify the domain against Three's generated projection, not a hand-made
-    // matrix. Its reversed branch uses [0, 1] for either backend.
-    expect(new THREE.Vector3(0, 0, -camera.near).applyMatrix4(camera.projectionMatrix).z).toBeCloseTo(convention.nearClipZ, 9);
-    expect(new THREE.Vector3(0, 0, -camera.far).applyMatrix4(camera.projectionMatrix).z).toBeCloseTo(convention.farClipZ, 9);
-    const clip = new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-    const test = createTileFrustumTester(clip, convention);
-    const range = new THREE.Box3(min.set(-200, 20, -300), max.set(60, 70, -30));
-    expect(new THREE.Frustum().setFromProjectionMatrix(clip, coordinateSystem, reversedDepth).intersectsBox(range)).toBe(true);
-    expect(test(range.min, range.max)).toBe(true);
-    expect(test(min.set(1000, 20, 1000), max.set(1256, 70, 1256))).toBe(false);
+describe.each([
+  { label: 'WebGL conventional', coordinateSystem: THREE.WebGLCoordinateSystem, reversedDepth: false },
+  { label: 'WebGL reversed', coordinateSystem: THREE.WebGLCoordinateSystem, reversedDepth: true },
+  { label: 'WebGPU conventional', coordinateSystem: THREE.WebGPUCoordinateSystem, reversedDepth: false },
+  { label: 'WebGPU reversed', coordinateSystem: THREE.WebGPUCoordinateSystem, reversedDepth: true },
+])('terrain visibility with $label depth', options => {
+  it('keeps visible ground throughout a portrait view', () => {
+    /* An automatic WebGPU fallback can retain reversed depth on WebGL. The
+       broken corner unprojection rejected the surroundings even though their
+       centres projected onto the screen; only forced active-hole tiles drew. */
+    const camera = new THREE.PerspectiveCamera(48, 709 / 1277, 1, 14000);
+    camera.position.set(0, 900, 900);
+    camera.lookAt(0, 10, 0);
+    const matrix = cameraMatrix(camera, options);
+    const intersects = createTileFrustumTester(matrix, options);
+    for (const [x, z] of [[0, 0], [-180, -220], [180, -220], [0, 250]]) {
+      const projected = new THREE.Vector3(x, 15, z).applyMatrix4(matrix);
+      expect(Math.abs(projected.x)).toBeLessThan(1);
+      expect(Math.abs(projected.y)).toBeLessThan(1);
+      expect(projected.z).toBeGreaterThan(0);
+      expect(projected.z).toBeLessThan(1);
+      expect(intersects(
+        new THREE.Vector3(x - 64, 0, z - 64),
+        new THREE.Vector3(x + 64, 35, z + 64),
+      )).toBe(true);
+    }
+    expect(intersects(
+      new THREE.Vector3(2000, 0, 2000),
+      new THREE.Vector3(6000, 400, 6000),
+    )).toBe(false);
+  });
+
+  it('still rejects the oversized tile accepted by the plane-only test', () => {
+    const matrix = downwardCamera({ x: -2758, y: 967, z: -2534 }, options);
+    const box = new THREE.Box3(
+      new THREE.Vector3(-8261.5, 23.5, 171.2),
+      new THREE.Vector3(-69.5, 161.7, 8363.2),
+    );
+    const plain = new THREE.Frustum().setFromProjectionMatrix(
+      matrix, options.coordinateSystem, options.reversedDepth,
+    );
+    expect(plain.intersectsBox(box)).toBe(true);
+    expect(createTileFrustumTester(matrix, options)(box.min, box.max)).toBe(false);
   });
 });
 

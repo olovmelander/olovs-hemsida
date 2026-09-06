@@ -1,0 +1,1874 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Bounded full-app camera-motion integration and matched settled Uppsala correctness check. Failed and unfinished gates are retained.",
+  "executionAdapter": "swiftshader-software",
+  "performanceEvidence": false,
+  "overallPassed": false,
+  "fullAppVisualComparisonComplete": true,
+  "exactSettledPixelParityPassed": false,
+  "browserInteractionComparisonComplete": false,
+  "scope": "One Uppsala H1 overhead scene in desktop Chromium using automatic WebGPU-to-WebGL2 fallback with reversed depth. Chromium-dispatched trusted input is not a physical phone test. No desktop WebGPU rendering run or hardware FPS evidence.",
+  "request": {
+    "course": "upsala",
+    "backend": "webgl2",
+    "autoFallback": true,
+    "q": "lo",
+    "graphics": "1",
+    "viewport": [
+      384,
+      288
+    ],
+    "dpr": 1,
+    "reducedMotion": "no-preference",
+    "hasTouch": true,
+    "views": [
+      {
+        "id": "h1_top_noon",
+        "hole": 1,
+        "cam": "top",
+        "preset": "noon"
+      }
+    ]
+  },
+  "overallDeadlineSecondsPerAttempt": 180,
+  "beforeBuild": {
+    "revision": "8a864d5830adfccd0dde49e7518b6c89fd2227d7",
+    "url": "https://github.com/olovmelander/olovs-hemsida/commit/8a864d5830adfccd0dde49e7518b6c89fd2227d7",
+    "indexSha256": "219ba67cc300591fc3191c3253a53efeb0b6c02c3edac09885ebaa55b1c6e641",
+    "assetsInventorySha256": "e5a7b07d8c7149da799b728edfb097ae1decc76ed6cca44dcfc0235f212fd672",
+    "entryBundles": [
+      {
+        "file": "assets/index-C9hT1tM3.js",
+        "bytes": 1550,
+        "sha256": "c1621ae600fdfec78d900c87c2d8304f7f668d8803c04e6bc07c66480689e916"
+      },
+      {
+        "file": "assets/main-By8SVuNt.js",
+        "bytes": 320319,
+        "sha256": "7a2c4feecac9481e2516d2d11e651496a06b25c971ac3d1b2377601cd642246d"
+      }
+    ]
+  },
+  "candidateBuild": {
+    "revision": "e90209e48eddcbb25b16409c1432dfb3ce4bbaa1",
+    "url": "https://github.com/olovmelander/olovs-hemsida/commit/e90209e48eddcbb25b16409c1432dfb3ce4bbaa1",
+    "indexSha256": "b18c20696b0ff852296dc05e5e4506955ff9b30c9a5d7846e9712498470f3e8f",
+    "assetsInventorySha256": "ff2d50d390d3420fa630c239496c96dc0cde67ac601b2ef21af12d8dceba87fb",
+    "entryBundles": [
+      {
+        "file": "assets/index-BG2qowaU.js",
+        "bytes": 1550,
+        "sha256": "db2ed6a930996e7a7bb75aa40b9b6eae20537c0377a155f4473b2d69b6ed07db"
+      },
+      {
+        "file": "assets/main-2kepGyEX.js",
+        "bytes": 320889,
+        "sha256": "9963992b3753501300391b14e3a98f7be06dbdbc9db71f51b2c53b3eedbb9d5c"
+      }
+    ],
+    "codeTree": "37b0b27c25c10faf6775813953a370b5508949e7",
+    "localSourceCheckpoint": "3d62f06ec656c940bc26be05857776b1f4659fcd",
+    "sourceBinding": "Public checkpoint tree equals local source checkpoint tree. Production build preceded only test-file changes, with unchanged application sources.",
+    "mainSourceSha256": "4ff0c4c75253646bdfa8a9f77143e5db60c667e6a2b8f283c996ae08f05d025e",
+    "gestureHelperSha256": "83ae4d0f4aa5003425141cf4f4da9a1cb7e1d8cf148be9851c8940c4a30cd1da"
+  },
+  "harness": {
+    "path": "tools/check-camera-stability.mjs",
+    "executedCandidateHarnessSha256": "7bc0865a2f8ce7f66df18e6d85344fef13a84165df835572f594efae72ae093e",
+    "finalHarnessSha256": "1a60986ea3e7ead9a2d6e293dafc3a40f9d71ac7b67e228ef1d95b0f26363072",
+    "postRunChange": "After the original bounded run: strengthened the uncompleted pinch path with distinct-touch-ID and orbit-distance assertions, corrected the generic comparison note, then added --fresh-shadow for the separately recorded diagnostic pair. The pinch strengthening remains unexecuted. Original captured data and failed parity gate are unchanged.",
+    "baselineSourceNote": "Baseline executed the same capture path. Only the unused interaction setup was hardened before candidate execution."
+  },
+  "beforeAttempt": {
+    "rawReportSha256": "41732de638eeaa9e90cd2cc1e46b52d0dc14f7c054b08e43a06f879ae340df4a",
+    "rawHarnessPassed": true,
+    "stageAtExit": "complete",
+    "settledCaptureCompleted": true,
+    "errors": [],
+    "warnings": [
+      "Service Worker registration blocked by Playwright",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/dcdc472cbda0baa50c50e7d87f6996ae08c40bc718aa09ead0a493e42fe7b5f4.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/05cb879c98a2e3be8d42a510a0131d346da3c05078ba51e7b1dad10b549cfd83.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/0a6b85fb4f4e5413505ab46144f6e5d107a8257a62843c8594e4ee071a10558b.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/c1c34f4280161c2598df3b67eda43b2aa068cf473437509763b89fb708554ef5.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/caf52b4aceee598c6daffd9881462ee295870a80de9518017a03ad16f3ffb7ee.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/8b2ddfd8620abace70557e9313362829fd594a195db633a2feb282a7b7f825bd.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/f2c92f11a39a1c857657e5cb51ca1cd1f9caa512f400d21b4fbb2980ab3b8097.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/d17b3da719b9d280011b67bfe2c775d8fa18ff92edfe4fd79b62e06cc31000a0.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/a675b334bd92b9f5b9d65fe89d23ea3f5e2982d0ad2f8ee5822be1af2bbe3f7c.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/94ae4f799f0428ea1ba393f3dc2d2551b73300c806a388553e4dbcc8dbc5f6a0.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/f72b683c5dcd6f253680c98f9e9c5a3f9ef69d9e9e5ca629751fa76c7a5e1c8e.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/094bd77ad9ee7f3070f3088607a7609c72205dfee065557699b146856e41442a.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/591e24512b811062463761ce4c353b0c4cda708ca12caace6b83c507df90fd0d.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/857cfd52da9b95f30f222ef1b3e14806d510c3a5972a1d4b5842a1c8f5b7ffe4.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/6e9db95ac23c24926999898bfca327a5294c3e62fc567c6e3d8608cdd28e2237.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/50150270dd3b2f011e6565f212aa1cc24dc24c653ec2f379c9718dbcab23f14f.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/3e7a43c333c569120eb28598307bc3560f5ec379a97dafaed8589433e3b37beb.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/6d0e0fe4ce7c82a3626a1d2cc83bf5100149fb2790757394a6f48e272b7cff36.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/43bcf150e0ec96553c5cfd824d4b40c2f5397c409fa185029100459f059c4159.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/2eebb33ef08239afabb8868485b75f9d6983fbe855d8df49f5096c2b4ecdd903.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/177e067ab9db75297f3e343140fd064659b559dfb2c0d48e537a26e3e4ad68fc.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/a327e36abec013dfceb9368583d3d362ff7374228a93093f1827115bf662e6ef.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/329ae09eb0462aa530f84625ea97b100818ab676c7acf8eebe9c81d1f90ccc59.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/96c07ed7968417e4b9c7495df0c8780dd2e1e6d8406aa643c997a08d30267b8d.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/c93343cc98f3c142655402c74e1e7b18c13fc9ef68a7133da3ea95cc0f690a3f.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/f684f1b426f02d1e11e2d7f8e8511dc93823f3a0e71787e9906f0c2e58cf7434.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/37a71e6fd33e87758ebb199c293224366b089cf49d1e844cf51f0ada16601dfa.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/8a2b45eaef78e1f2908eedb0390df82a31ba6e47261d9f2ff2eb45305fb4d93a.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/3e6bb8381984b8afb2cb7d6eec88cfff5244094780ca6e0d53783686f97810ab.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/04bcdff53eb9ef6f38c8859f3432f4eca553ccef32982233d15c2f12550fa9af.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/0342c800e1bf8d2a704ab8bf5e55fbee3bc118f0206ef669d375805bfef6c1a2.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/045dbcb28dffe18b60c036cc7f63f2ff5d19fbbd3a63d75b5bab7ed33cdc7b79.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/c801fef46efc95156b86a17b85fd4938682fec7d210077938491c6e29348e24e.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/1b3f0cf9a00727220929a09a956128ee4f533fc9d56082f0a35f0cc7c573ef92.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/729c594fa69939a6f24cc797fd79fa05a4745fb872f136f8b884fc23dcb12fe3.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/442f0c5b9d4285a5354d3f0d663eb7f8aa04364abaaf51cd20964e4efebf61da.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43175/olovs-hemsida/grounds/upsala/terrain/20aec54e6ad0c4c960f2f1d4ea2f64b88bcc5fe150af99cfa340f93251c62540.bvch",
+      "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend.",
+      "[.WebGL-0x394c0359b800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x394c0359b800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x394c0359b800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x394c0359b800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now. (this message will no longer repeat)"
+    ],
+    "capture": {
+      "id": "h1_top_noon",
+      "imageSha256": "a00aacb5cbc1fd1ee80e762eaaafcb8f48778af83a559fe3653a9b4403d102f1",
+      "camera": {
+        "pos": [
+          142.6,
+          354.4,
+          -64.1
+        ],
+        "look": [
+          142.6,
+          24.4,
+          -64.2
+        ],
+        "mode": "top"
+      },
+      "lens": {
+        "fov": 48,
+        "near": 1,
+        "far": 14000,
+        "aspect": 1.3333333333333333,
+        "coordinateSystem": 2000,
+        "reversedDepth": true,
+        "position": [
+          142.61551428844083,
+          354.42294081146144,
+          -64.11186063274644
+        ]
+      },
+      "visibleTerrainTileCount": 27,
+      "terrainInventorySha256": "1ce116bfd83fa2ee6e22831c5897f88a56dd0e60956dfe9172ca74206f22efac",
+      "residentTerrainTextureCount": 6,
+      "loadingTiles": 0,
+      "failedTiles": 0,
+      "rendererBeforeCapture": {
+        "calls": 449,
+        "frameCalls": 3,
+        "drawCalls": 118,
+        "triangles": 2088689,
+        "points": 0,
+        "lines": 48,
+        "timestamp": 0,
+        "memory": {
+          "attributes": 413,
+          "attributesSize": 179376323,
+          "geometries": 82,
+          "indexAttributes": 56,
+          "indexAttributesSize": 2415384,
+          "indirectStorageAttributes": 0,
+          "indirectStorageAttributesSize": 0,
+          "programs": 129,
+          "programsSize": 1243803,
+          "readbackBuffers": 0,
+          "readbackBuffersSize": 0,
+          "renderTargets": 10,
+          "storageAttributes": 0,
+          "storageAttributesSize": 0,
+          "textures": 41,
+          "texturesSize": 128545177,
+          "uniformBuffers": 212,
+          "uniformBuffersSize": 130880,
+          "total": 311711567
+        },
+        "drawingBuffer": [
+          384,
+          288
+        ],
+        "pixelRatio": 1
+      },
+      "rendererAfterCapture": {
+        "calls": 473,
+        "frameCalls": 2,
+        "drawCalls": 93,
+        "triangles": 1153299,
+        "points": 0,
+        "lines": 48,
+        "timestamp": 0,
+        "memory": {
+          "attributes": 413,
+          "attributesSize": 179376323,
+          "geometries": 82,
+          "indexAttributes": 56,
+          "indexAttributesSize": 2415384,
+          "indirectStorageAttributes": 0,
+          "indirectStorageAttributesSize": 0,
+          "programs": 129,
+          "programsSize": 1243803,
+          "readbackBuffers": 0,
+          "readbackBuffersSize": 0,
+          "renderTargets": 10,
+          "storageAttributes": 0,
+          "storageAttributesSize": 0,
+          "textures": 41,
+          "texturesSize": 128545177,
+          "uniformBuffers": 212,
+          "uniformBuffersSize": 130880,
+          "total": 311711567
+        },
+        "drawingBuffer": [
+          384,
+          288
+        ],
+        "pixelRatio": 1
+      },
+      "treeTiersBefore": {
+        "tier0": 0,
+        "tier1": 317,
+        "tier2": 56,
+        "tier3": 0,
+        "cells": 733,
+        "cellsVisible": 12,
+        "moves": 35829,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 4,
+        "bakeMs": 1331,
+        "fading": 0,
+        "updateMs": 0.29999999701976776,
+        "zoneA": 2380,
+        "zoneB": 4979,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      },
+      "treeTiersAfter": {
+        "tier0": 0,
+        "tier1": 317,
+        "tier2": 56,
+        "tier3": 0,
+        "cells": 733,
+        "cellsVisible": 12,
+        "moves": 35829,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 4,
+        "bakeMs": 1331,
+        "fading": 0,
+        "updateMs": 0.7000000029802322,
+        "zoneA": 2380,
+        "zoneB": 4979,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      }
+    }
+  },
+  "afterAttempt": {
+    "rawReportSha256": "a37a74c94a9fd6040c192d17d514b10ca28614dd4a4609770e0f5e8fa87314ce",
+    "rawHarnessPassed": false,
+    "stageAtExit": "interactions",
+    "settledCaptureCompleted": true,
+    "errors": [
+      {
+        "type": "harness-deadline",
+        "text": "180 second whole-scene deadline reached"
+      },
+      {
+        "type": "harness",
+        "text": "cdpSession.send: Target page, context or browser has been closed\n    at interactionChecks (/workspace/scratch/a71837429a4b/banvy-graphics-next/tools/check-camera-stability.mjs:255:13)\n    at async main (/workspace/scratch/a71837429a4b/banvy-graphics-next/tools/check-camera-stability.mjs:353:7)\n    at async file:///workspace/scratch/a71837429a4b/banvy-graphics-next/tools/check-camera-stability.mjs:370:1"
+      }
+    ],
+    "warnings": [
+      "Service Worker registration blocked by Playwright",
+      "Cancelled terrain request: http://127.0.0.1:43369/olovs-hemsida/grounds/upsala/terrain/0a6b85fb4f4e5413505ab46144f6e5d107a8257a62843c8594e4ee071a10558b.bvch",
+      "Cancelled terrain request: http://127.0.0.1:43369/olovs-hemsida/grounds/upsala/terrain/8d9955697f339e189b978d749d0e51e7c9124af7dccfcb3f499c5b73b6da2d0a.bvch",
+      "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend.",
+      "[.WebGL-0x393401748d00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x393401748d00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x393401748d00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+      "[.WebGL-0x393401748d00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now. (this message will no longer repeat)"
+    ],
+    "capture": {
+      "id": "h1_top_noon",
+      "imageSha256": "f6b887fe738c7abda43a4094ab958066801e740774b55d28e43265a172365848",
+      "camera": {
+        "pos": [
+          142.6,
+          354.4,
+          -64.1
+        ],
+        "look": [
+          142.6,
+          24.4,
+          -64.2
+        ],
+        "mode": "top"
+      },
+      "lens": {
+        "fov": 48,
+        "near": 1,
+        "far": 14000,
+        "aspect": 1.3333333333333333,
+        "coordinateSystem": 2000,
+        "reversedDepth": true,
+        "position": [
+          142.61551428844083,
+          354.42294081146144,
+          -64.11186063274644
+        ]
+      },
+      "visibleTerrainTileCount": 27,
+      "terrainInventorySha256": "1ce116bfd83fa2ee6e22831c5897f88a56dd0e60956dfe9172ca74206f22efac",
+      "residentTerrainTextureCount": 6,
+      "loadingTiles": 0,
+      "failedTiles": 0,
+      "rendererBeforeCapture": {
+        "calls": 448,
+        "frameCalls": 2,
+        "drawCalls": 93,
+        "triangles": 1153299,
+        "points": 0,
+        "lines": 48,
+        "timestamp": 0,
+        "memory": {
+          "attributes": 413,
+          "attributesSize": 179376323,
+          "geometries": 82,
+          "indexAttributes": 56,
+          "indexAttributesSize": 2415384,
+          "indirectStorageAttributes": 0,
+          "indirectStorageAttributesSize": 0,
+          "programs": 129,
+          "programsSize": 1243803,
+          "readbackBuffers": 0,
+          "readbackBuffersSize": 0,
+          "renderTargets": 10,
+          "storageAttributes": 0,
+          "storageAttributesSize": 0,
+          "textures": 41,
+          "texturesSize": 128545177,
+          "uniformBuffers": 212,
+          "uniformBuffersSize": 130880,
+          "total": 311711567
+        },
+        "drawingBuffer": [
+          384,
+          288
+        ],
+        "pixelRatio": 1
+      },
+      "rendererAfterCapture": {
+        "calls": 476,
+        "frameCalls": 2,
+        "drawCalls": 93,
+        "triangles": 1153299,
+        "points": 0,
+        "lines": 48,
+        "timestamp": 0,
+        "memory": {
+          "attributes": 413,
+          "attributesSize": 179376323,
+          "geometries": 82,
+          "indexAttributes": 56,
+          "indexAttributesSize": 2415384,
+          "indirectStorageAttributes": 0,
+          "indirectStorageAttributesSize": 0,
+          "programs": 129,
+          "programsSize": 1243803,
+          "readbackBuffers": 0,
+          "readbackBuffersSize": 0,
+          "renderTargets": 10,
+          "storageAttributes": 0,
+          "storageAttributesSize": 0,
+          "textures": 41,
+          "texturesSize": 128545177,
+          "uniformBuffers": 212,
+          "uniformBuffersSize": 130880,
+          "total": 311711567
+        },
+        "drawingBuffer": [
+          384,
+          288
+        ],
+        "pixelRatio": 1
+      },
+      "treeTiersBefore": {
+        "tier0": 0,
+        "tier1": 317,
+        "tier2": 56,
+        "tier3": 0,
+        "cells": 733,
+        "cellsVisible": 12,
+        "moves": 30739,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 2,
+        "bakeMs": 1516,
+        "fading": 0,
+        "updateMs": 0.6000000089406967,
+        "zoneA": 2380,
+        "zoneB": 4979,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      },
+      "treeTiersAfter": {
+        "tier0": 0,
+        "tier1": 317,
+        "tier2": 56,
+        "tier3": 0,
+        "cells": 733,
+        "cellsVisible": 12,
+        "moves": 30739,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 2,
+        "bakeMs": 1516,
+        "fading": 0,
+        "updateMs": 0.8999999910593033,
+        "zoneA": 2380,
+        "zoneB": 4979,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      }
+    }
+  },
+  "comparison": {
+    "invariants": {
+      "model": true,
+      "routing": true,
+      "georeferencing": true,
+      "treeInstances": true,
+      "treePositions": true,
+      "vistaPoints": true,
+      "tintNear": true,
+      "tintFar": true,
+      "surfaceSource": true,
+      "vegetationSource": true,
+      "counts": true,
+      "request": true
+    },
+    "views": [
+      {
+        "id": "h1_top_noon",
+        "matched": true,
+        "captureContractUnchanged": true,
+        "cameraUnchanged": true,
+        "terrainUnchanged": true,
+        "imageChanged": true,
+        "trianglesDelta": -935390,
+        "drawCallsDelta": -25
+      }
+    ],
+    "passed": false,
+    "note": "Settled pixel parity is required for this motion-only pass. Draw/triangle and renderer memory counters are observations, not physical FPS or total app memory.",
+    "exactPngParity": false,
+    "rendererMemoryCountersUnchanged": true
+  },
+  "imageComparison": {
+    "pixels": 110592,
+    "changedPixels": 349,
+    "maximumAbsoluteChannelDifference": 58,
+    "meanAbsoluteChannelDifference": 0.04951232156635803,
+    "exactParity": false,
+    "note": "The strict exact-image gate failed and remains failed. Differences are localized around a few bunker edges at the right of the frame; no causal attribution is established."
+  },
+  "restingFrameObservations": {
+    "source": "Renderer counters sampled after each screenshot, once the baseline shadow refresh had finished. No FPS inference.",
+    "before": {
+      "drawCalls": 93,
+      "triangles": 1153299,
+      "memory": {
+        "attributes": 413,
+        "attributesSize": 179376323,
+        "geometries": 82,
+        "indexAttributes": 56,
+        "indexAttributesSize": 2415384,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 129,
+        "programsSize": 1243803,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 10,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 41,
+        "texturesSize": 128545177,
+        "uniformBuffers": 212,
+        "uniformBuffersSize": 130880,
+        "total": 311711567
+      }
+    },
+    "after": {
+      "drawCalls": 93,
+      "triangles": 1153299,
+      "memory": {
+        "attributes": 413,
+        "attributesSize": 179376323,
+        "geometries": 82,
+        "indexAttributes": 56,
+        "indexAttributesSize": 2415384,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 129,
+        "programsSize": 1243803,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 10,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 41,
+        "texturesSize": 128545177,
+        "uniformBuffers": 212,
+        "uniformBuffersSize": 130880,
+        "total": 311711567
+      }
+    },
+    "note": "Baseline pre-capture counters included 118 draws/2,088,689 triangles, followed by 93/1,153,299 after screenshot. Both resting observations match. Memory is Three renderer resource accounting, not total app or process memory."
+  },
+  "browserInteractions": [
+    {
+      "id": "tween_mouse_drag",
+      "before": {
+        "camera": {
+          "pos": [
+            142.61551428844086,
+            354.42294081146144,
+            -64.11186063270908
+          ],
+          "look": [
+            142.61551428844086,
+            24.422940811461466,
+            -64.21186063270908
+          ],
+          "ground": 24.422603880338315
+        },
+        "flight": {
+          "flying": 0,
+          "tour": 0,
+          "t": 0,
+          "duration": 0,
+          "orbitT": 0,
+          "fov": 48,
+          "cardPending": false,
+          "hole": 1
+        },
+        "settled": false,
+        "frame": 27,
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 478,
+          "frameCalls": 2,
+          "drawCalls": 93,
+          "triangles": 1153299,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "automaticDestination": {
+          "pos": [
+            218.43469703239003,
+            37.891106264804094,
+            -15.283886161988592
+          ],
+          "look": [
+            276,
+            24.039633331554406,
+            66.6
+          ],
+          "ground": 22.89110626480409
+        }
+      },
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "trusted": true,
+          "before": {
+            "frame": 27,
+            "camera": {
+              "pos": [
+                142.61551428844086,
+                354.42294081146144,
+                -64.11186063270908
+              ],
+              "look": [
+                142.61551428844086,
+                24.422940811461466,
+                -64.21186063270908
+              ],
+              "ground": 24.422603880338315
+            },
+            "flight": {
+              "flying": 0,
+              "tour": 0,
+              "t": 0,
+              "duration": 0,
+              "orbitT": 0,
+              "fov": 48,
+              "cardPending": false,
+              "hole": 1
+            },
+            "settled": false
+          },
+          "after": {
+            "frame": 27,
+            "camera": {
+              "pos": [
+                142.61551428844086,
+                354.42294081146144,
+                -64.11186063270908
+              ],
+              "look": [
+                142.61551428844086,
+                24.422940811461466,
+                -64.21186063270908
+              ],
+              "ground": 24.422603880338315
+            },
+            "flight": {
+              "flying": 0,
+              "tour": 0,
+              "t": 0,
+              "duration": 0,
+              "orbitT": 0,
+              "fov": 48,
+              "cardPending": false,
+              "hole": 1
+            },
+            "settled": true
+          }
+        }
+      ],
+      "after": {
+        "camera": {
+          "pos": [
+            142.61548813031027,
+            354.42295596281116,
+            -64.21153167106662
+          ],
+          "look": [
+            142.61551428844083,
+            24.422940811461462,
+            -64.21186063270908
+          ],
+          "ground": 24.42294063560101
+        },
+        "flight": {
+          "flying": 0,
+          "tour": 0,
+          "t": 0,
+          "duration": 0,
+          "orbitT": 0,
+          "fov": 48,
+          "cardPending": false,
+          "hole": 1
+        },
+        "settled": false,
+        "frame": 28,
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 481,
+          "frameCalls": 3,
+          "drawCalls": 118,
+          "triangles": 2130505,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        }
+      },
+      "afterTwoFrames": {
+        "camera": {
+          "pos": [
+            142.61546490464616,
+            354.42295596281116,
+            -64.21153434870575
+          ],
+          "look": [
+            142.61551428844083,
+            24.422940811461462,
+            -64.21186063270908
+          ],
+          "ground": 24.422941461528318
+        },
+        "flight": {
+          "flying": 0,
+          "tour": 0,
+          "t": 0,
+          "duration": 0,
+          "orbitT": 0,
+          "fov": 48,
+          "cardPending": false,
+          "hole": 1
+        },
+        "settled": false,
+        "frame": 30,
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 486,
+          "frameCalls": 3,
+          "drawCalls": 117,
+          "triangles": 2132452,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        }
+      },
+      "later": {
+        "camera": {
+          "pos": [
+            142.61543502995735,
+            354.42295596281116,
+            -64.21154029210473
+          ],
+          "look": [
+            142.61551428844083,
+            24.422940811461462,
+            -64.21186063270908
+          ],
+          "ground": 24.42294253222528
+        },
+        "flight": {
+          "flying": 0,
+          "tour": 0,
+          "t": 0,
+          "duration": 0,
+          "orbitT": 0,
+          "fov": 48,
+          "cardPending": false,
+          "hole": 1
+        },
+        "settled": true,
+        "frame": 33,
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 492,
+          "frameCalls": 2,
+          "drawCalls": 93,
+          "triangles": 1175880,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 424,
+            "attributesSize": 179466299,
+            "geometries": 84,
+            "indexAttributes": 58,
+            "indexAttributesSize": 2440086,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 131,
+            "programsSize": 1276570,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 42,
+            "texturesSize": 128894615,
+            "uniformBuffers": 216,
+            "uniformBuffersSize": 132320,
+            "total": 312209890
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        }
+      },
+      "assertions": {
+        "browserTrustedEvents": true,
+        "automaticMotionStopped": true,
+        "eventuallySettled": true,
+        "bufferPreserved": true,
+        "qualityPreserved": true,
+        "tweenObservedBeforeGesture": true,
+        "didNotCompleteInterruptedTween": true,
+        "inputMovedCamera": true
+      },
+      "distanceFromInterruptedDestinationMetres": 329.14265555000856,
+      "passed": true
+    },
+    {
+      "id": "tween_wheel_zoom",
+      "before": {
+        "camera": {
+          "pos": [
+            142.61551428844086,
+            354.42294081146144,
+            -64.11186063270908
+          ],
+          "look": [
+            142.61551428844086,
+            24.422940811461466,
+            -64.21186063270908
+          ],
+          "ground": 24.422603880338315
+        },
+        "flight": {
+          "flying": 0,
+          "tour": 0,
+          "t": 0,
+          "duration": 0,
+          "orbitT": 0,
+          "fov": 48,
+          "cardPending": false,
+          "hole": 1
+        },
+        "settled": false,
+        "frame": 33,
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 492,
+          "frameCalls": 2,
+          "drawCalls": 93,
+          "triangles": 1175880,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 424,
+            "attributesSize": 179466299,
+            "geometries": 84,
+            "indexAttributes": 58,
+            "indexAttributesSize": 2440086,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 131,
+            "programsSize": 1276570,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 42,
+            "texturesSize": 128894615,
+            "uniformBuffers": 216,
+            "uniformBuffersSize": 132320,
+            "total": 312209890
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "automaticDestination": {
+          "pos": [
+            218.43469703239003,
+            37.891106264804094,
+            -15.283886161988592
+          ],
+          "look": [
+            276,
+            24.039633331554406,
+            66.6
+          ],
+          "ground": 22.89110626480409
+        }
+      },
+      "events": [
+        {
+          "type": "wheel",
+          "pointerType": null,
+          "trusted": true,
+          "before": {
+            "frame": 35,
+            "camera": {
+              "pos": [
+                143.8799983148891,
+                351.42290707084777,
+                -62.97183025856626
+              ],
+              "look": [
+                143.88019681963195,
+                24.41930648868901,
+                -62.9715703985619
+              ],
+              "ground": 24.366184344350568
+            },
+            "flight": {
+              "flying": 0,
+              "tour": 0,
+              "t": 0,
+              "duration": 0,
+              "orbitT": 0,
+              "fov": 48,
+              "cardPending": false,
+              "hole": 1
+            },
+            "settled": false
+          },
+          "after": {
+            "frame": 35,
+            "camera": {
+              "pos": [
+                143.88001621164375,
+                331.90213041189156,
+                -62.97181924880122
+              ],
+              "look": [
+                143.88019681963195,
+                24.41930648868901,
+                -62.97157039856191
+              ],
+              "ground": 24.36618395478357
+            },
+            "flight": {
+              "flying": 0,
+              "tour": 0,
+              "t": 0,
+              "duration": 0,
+              "orbitT": 0,
+              "fov": 48,
+              "cardPending": false,
+              "hole": 1
+            },
+            "settled": false
+          }
+        }
+      ],
+      "after": {
+        "camera": {
+          "pos": [
+            143.88002202574927,
+            331.90213041189156,
+            -62.971823366515586
+          ],
+          "look": [
+            143.88019681963195,
+            24.419306488689006,
+            -62.9715703985619
+          ],
+          "ground": 24.366183868900716
+        },
+        "flight": {
+          "flying": 0,
+          "tour": 0,
+          "t": 0,
+          "duration": 0,
+          "orbitT": 0,
+          "fov": 48,
+          "cardPending": false,
+          "hole": 1
+        },
+        "settled": false,
+        "frame": 36,
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 501,
+          "frameCalls": 3,
+          "drawCalls": 98,
+          "triangles": 2363648,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 424,
+            "attributesSize": 179466299,
+            "geometries": 84,
+            "indexAttributes": 58,
+            "indexAttributesSize": 2440086,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 131,
+            "programsSize": 1276570,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 43,
+            "texturesSize": 128981974,
+            "uniformBuffers": 217,
+            "uniformBuffersSize": 132480,
+            "total": 312297409
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        }
+      },
+      "afterTwoFrames": {
+        "camera": {
+          "pos": [
+            143.88003295467007,
+            331.90213041189156,
+            -62.97183057919393
+          ],
+          "look": [
+            143.88019681963195,
+            24.419306488689006,
+            -62.9715703985619
+          ],
+          "ground": 24.36618370467238
+        },
+        "flight": {
+          "flying": 0,
+          "tour": 0,
+          "t": 0,
+          "duration": 0,
+          "orbitT": 0,
+          "fov": 48,
+          "cardPending": false,
+          "hole": 1
+        },
+        "settled": false,
+        "frame": 38,
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 507,
+          "frameCalls": 3,
+          "drawCalls": 98,
+          "triangles": 2402054,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 424,
+            "attributesSize": 179466299,
+            "geometries": 84,
+            "indexAttributes": 58,
+            "indexAttributesSize": 2440086,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 131,
+            "programsSize": 1276570,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 43,
+            "texturesSize": 128981974,
+            "uniformBuffers": 217,
+            "uniformBuffersSize": 132480,
+            "total": 312297409
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        }
+      },
+      "later": {
+        "camera": {
+          "pos": [
+            143.8800380733262,
+            331.90213041189156,
+            -62.97183373351482
+          ],
+          "look": [
+            143.88019681963195,
+            24.419306488689006,
+            -62.97157039856191
+          ],
+          "ground": 24.366183626570002
+        },
+        "flight": {
+          "flying": 0,
+          "tour": 0,
+          "t": 0,
+          "duration": 0,
+          "orbitT": 0,
+          "fov": 48,
+          "cardPending": false,
+          "hole": 1
+        },
+        "settled": true,
+        "frame": 39,
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "renderer": {
+          "calls": 510,
+          "frameCalls": 3,
+          "drawCalls": 98,
+          "triangles": 2135814,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 424,
+            "attributesSize": 179466299,
+            "geometries": 84,
+            "indexAttributes": 58,
+            "indexAttributesSize": 2440086,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 131,
+            "programsSize": 1276570,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 43,
+            "texturesSize": 128981974,
+            "uniformBuffers": 217,
+            "uniformBuffersSize": 132480,
+            "total": 312297409
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        }
+      },
+      "assertions": {
+        "browserTrustedEvents": true,
+        "automaticMotionStopped": true,
+        "eventuallySettled": true,
+        "bufferPreserved": true,
+        "qualityPreserved": true,
+        "tweenObservedBeforeGesture": true,
+        "didNotCompleteInterruptedTween": true,
+        "inputMovedCamera": true
+      },
+      "distanceFromInterruptedDestinationMetres": 307.04237465878583,
+      "passed": true
+    }
+  ],
+  "uncompletedBrowserInteractions": [
+    {
+      "id": "flight_touch_drag",
+      "status": "unmeasured",
+      "reason": "180-second whole-scene deadline interrupted CDP touchEnd before final state and assertions were recorded."
+    },
+    {
+      "id": "tour_touch_pinch",
+      "status": "not-started",
+      "reason": "Whole-scene deadline was reached in the preceding case."
+    },
+    {
+      "id": "explicit_instant_view",
+      "status": "not-started",
+      "reason": "Whole-scene deadline was reached in an earlier case. Initial matched-view capture did use the instant setCam path."
+    }
+  ],
+  "interactionInterpretation": "Mouse drag and wheel zoom both produced trusted real canvas events, stopped the active named-view tween, moved the camera, then settled more than 20 m from the interrupted green-view destination with the original buffer/quality. V3D.settled includes tree-tier settling; the check permits bounded settling and rejects merely finishing at the old destination. Source-level tests separately cover exact takeover callbacks and same-frame visibility.",
+  "matchedSettings": {
+    "backend": "webgl2",
+    "buffer": [
+      384,
+      288
+    ],
+    "pixelRatio": 1,
+    "quality": {
+      "lowfx": false,
+      "lowq": true,
+      "phone": false,
+      "autoQualityDone": true,
+      "qualityLocked": true,
+      "graphicsPolish": true,
+      "pixelRatio": 1,
+      "bloom": null
+    },
+    "treeLod": {
+      "mode": "zone",
+      "zoneTiers": [
+        2,
+        3,
+        4,
+        4
+      ],
+      "hero": 200,
+      "full": 60,
+      "impostor": 22,
+      "hysteresis": 0.1,
+      "dwell": 6,
+      "floors": [
+        2,
+        4
+      ],
+      "reach": [
+        250,
+        500
+      ]
+    },
+    "forceTreeTier": 0
+  },
+  "commonFingerprint": {
+    "model": "b8af0395744ab9cafc19688a6bafcbe4535ba6b9ea4724222ad14d0bde9d0b86",
+    "routing": "8fd293def177118ddb39c7bc5470872d67b1d2f9e1b5f3b48d1fe611afab1115",
+    "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+    "treeInstances": "da7ef7223a300d280e5377d07bb7d1df0bff15942dacf31e7208dab6fb7e1868",
+    "treePositions": "6e9a631e8cd88fab2b29bcae8914352dd51237f907b3ac96fa56a8f38d854602",
+    "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+    "tintNear": "b94a2fc1da65a0c5c6672e91446feb2bad7ea6f0f7f252cf7cb9a3e27eec8fd3",
+    "tintFar": "a94f76eb0310cf48a03f903021bb08f362a8a4c255378a1121852937a748cc13",
+    "surfaceSource": null,
+    "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+    "counts": {
+      "trees": 53986,
+      "vista": 33483,
+      "tufts": 6046,
+      "bushes": 1144,
+      "stones": 260,
+      "reeds": 0,
+      "cars": 38,
+      "pylons": 14,
+      "stumps": 0,
+      "surfaceOverlays": 0
+    },
+    "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+  },
+  "visualReview": {
+    "reviewed": [
+      "baseline h1_top_noon.png",
+      "candidate h1_top_noon.png",
+      "10x absolute pixel-difference image"
+    ],
+    "findings": [
+      "Both captures show continuous course surfaces, the same visible tree and object placement, and the same overall framing.",
+      "349 pixels differ near a few bunker edges; exact settled parity remains unresolved."
+    ],
+    "acceptedForExactParity": false,
+    "limits": [
+      "One overhead software-rendered image pair cannot establish moving-camera hitches or phone interaction quality.",
+      "No full-course touch or pinch assertion completed before the deadline."
+    ]
+  },
+  "remainingChecks": [
+    "Verify cached-shadow appearance during real-device course loading and movement; exact settled parity has now passed in the separate matched fresh-shadow diagnostic.",
+    "Complete full-app phone WebGL2 touch drag/pinch and flight/tour takeover checks, including preserved lens and no return tween.",
+    "Measure physical desktop WebGPU and phone WebGL2 median/p95/p99 frame times, moving-camera hitches, startup and total memory at the same actual drawing-buffer resolution, quality, lighting and camera trajectories.",
+    "Review Uppsala close camera movement, Puttom forest load and Veckefjarden water without changing mapped objects or geographic detail zones; confirm automatic fallback never lowers resolution."
+  ],
+  "freshShadowDiagnostic": {
+    "purpose": "One targeted matched pair tests the source-audit finding that a cached shadow can remain stale when the wall-clock dirty window expires between slow software-rendered frames. This diagnostic is separate from the original strict failed capture.",
+    "passed": true,
+    "originalReportsPreserved": true,
+    "productionChanges": false,
+    "hardwarePerformanceEvidence": false,
+    "sourceCheckpoint": "e90209e48eddcbb25b16409c1432dfb3ce4bbaa1",
+    "baselineCheckpoint": "8a864d5830adfccd0dde49e7518b6c89fd2227d7",
+    "harnessSha256": "1a60986ea3e7ead9a2d6e293dafc3a40f9d71ac7b67e228ef1d95b0f26363072",
+    "request": {
+      "course": "upsala",
+      "backend": "webgl2",
+      "autoFallback": true,
+      "q": "lo",
+      "graphics": "1",
+      "viewport": [
+        384,
+        288
+      ],
+      "dpr": 1,
+      "reducedMotion": "no-preference",
+      "hasTouch": true,
+      "freshShadowDiagnostic": true,
+      "views": [
+        {
+          "id": "h1_top_noon",
+          "hole": 1,
+          "cam": "top",
+          "preset": "noon"
+        }
+      ]
+    },
+    "protocol": [
+      "Use the original baseline and candidate builds, identical 384\u00d7288 actual drawing buffer, DPR 1, q=lo, graphics=1, quality lock, noon lighting, H1 top view and geographic tree zones.",
+      "Wait for the existing camera/terrain settling condition.",
+      "Call the existing V3D.setShadowUpdate(true) API; wait at least two completed frames.",
+      "Capture and compare; then restore V3D.setShadowUpdate(false). No input interactions are attempted."
+    ],
+    "buildsUnchangedFromOriginalCapture": true,
+    "beforeAttempt": {
+      "rawReportSha256": "005b0e3d617554c787ebef9b8e2a5cfeb4de7c5893bd86be217e3bf4f2bcfbc4",
+      "passed": true,
+      "build": {
+        "indexSha256": "219ba67cc300591fc3191c3253a53efeb0b6c02c3edac09885ebaa55b1c6e641",
+        "assetsInventorySha256": "e5a7b07d8c7149da799b728edfb097ae1decc76ed6cca44dcfc0235f212fd672",
+        "entryBundles": [
+          {
+            "file": "assets/index-C9hT1tM3.js",
+            "bytes": 1550,
+            "sha256": "c1621ae600fdfec78d900c87c2d8304f7f668d8803c04e6bc07c66480689e916"
+          },
+          {
+            "file": "assets/main-By8SVuNt.js",
+            "bytes": 320319,
+            "sha256": "7a2c4feecac9481e2516d2d11e651496a06b25c971ac3d1b2377601cd642246d"
+          }
+        ]
+      },
+      "stageAtExit": "complete",
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "Cancelled terrain request: http://127.0.0.1:45315/olovs-hemsida/grounds/upsala/terrain/ff30588c42d6267af096182308007a2bc6cae81eed757c7936e2bdeb245808dd.bvch",
+        "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend.",
+        "[.WebGL-0x302c01999400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+        "[.WebGL-0x302c01999400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+        "[.WebGL-0x302c01999400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+        "[.WebGL-0x302c01999400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now. (this message will no longer repeat)"
+      ],
+      "shadowRefresh": {
+        "before": {
+          "enabled": true,
+          "renders": 7,
+          "frames": 10,
+          "sinceRender": 0,
+          "why": "terrain"
+        },
+        "startFrame": 10,
+        "requestedAutoUpdate": true,
+        "afterTwoFrames": {
+          "frame": 12,
+          "shadow": {
+            "enabled": true,
+            "renders": 7,
+            "frames": 12,
+            "sinceRender": 2,
+            "why": "terrain"
+          }
+        },
+        "afterCapture": {
+          "frame": 23,
+          "shadow": {
+            "enabled": true,
+            "renders": 7,
+            "frames": 23,
+            "sinceRender": 13,
+            "why": "terrain"
+          }
+        },
+        "restoredAutoUpdate": false
+      },
+      "capture": {
+        "id": "h1_top_noon",
+        "imageSha256": "a00aacb5cbc1fd1ee80e762eaaafcb8f48778af83a559fe3653a9b4403d102f1",
+        "visibleTerrainTileCount": 27,
+        "terrainInventorySha256": "1ce116bfd83fa2ee6e22831c5897f88a56dd0e60956dfe9172ca74206f22efac",
+        "camera": {
+          "pos": [
+            142.6,
+            354.4,
+            -64.1
+          ],
+          "look": [
+            142.6,
+            24.4,
+            -64.2
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            142.61551428844083,
+            354.42294081146144,
+            -64.11186063274644
+          ]
+        },
+        "rendererBeforeCapture": {
+          "calls": 453,
+          "frameCalls": 3,
+          "drawCalls": 118,
+          "triangles": 2088689,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "rendererAfterCapture": {
+          "calls": 486,
+          "frameCalls": 3,
+          "drawCalls": 118,
+          "triangles": 2088689,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "loadingTiles": 0,
+        "failedTiles": 0
+      }
+    },
+    "afterAttempt": {
+      "rawReportSha256": "b63c90a184f83a65fe02b10cb8e2fbb5c1486d78d7d5f896620871809429ac5a",
+      "passed": true,
+      "build": {
+        "indexSha256": "b18c20696b0ff852296dc05e5e4506955ff9b30c9a5d7846e9712498470f3e8f",
+        "assetsInventorySha256": "ff2d50d390d3420fa630c239496c96dc0cde67ac601b2ef21af12d8dceba87fb",
+        "entryBundles": [
+          {
+            "file": "assets/index-BG2qowaU.js",
+            "bytes": 1550,
+            "sha256": "db2ed6a930996e7a7bb75aa40b9b6eae20537c0377a155f4473b2d69b6ed07db"
+          },
+          {
+            "file": "assets/main-2kepGyEX.js",
+            "bytes": 320889,
+            "sha256": "9963992b3753501300391b14e3a98f7be06dbdbc9db71f51b2c53b3eedbb9d5c"
+          }
+        ]
+      },
+      "stageAtExit": "complete",
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "Cancelled terrain request: http://127.0.0.1:39245/olovs-hemsida/grounds/upsala/terrain/dcdc472cbda0baa50c50e7d87f6996ae08c40bc718aa09ead0a493e42fe7b5f4.bvch",
+        "Cancelled terrain request: http://127.0.0.1:39245/olovs-hemsida/grounds/upsala/terrain/c1c34f4280161c2598df3b67eda43b2aa068cf473437509763b89fb708554ef5.bvch",
+        "Cancelled terrain request: http://127.0.0.1:39245/olovs-hemsida/grounds/upsala/terrain/05cb879c98a2e3be8d42a510a0131d346da3c05078ba51e7b1dad10b549cfd83.bvch",
+        "Cancelled terrain request: http://127.0.0.1:39245/olovs-hemsida/grounds/upsala/terrain/0a6b85fb4f4e5413505ab46144f6e5d107a8257a62843c8594e4ee071a10558b.bvch",
+        "Cancelled terrain request: http://127.0.0.1:39245/olovs-hemsida/grounds/upsala/terrain/857cfd52da9b95f30f222ef1b3e14806d510c3a5972a1d4b5842a1c8f5b7ffe4.bvch",
+        "Cancelled terrain request: http://127.0.0.1:39245/olovs-hemsida/grounds/upsala/terrain/518ff571146e77bd598b637f79993950ffa8cd984dd853b08e35392489bd1ffa.bvch",
+        "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend.",
+        "[.WebGL-0x17bc0310ff00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+        "[.WebGL-0x17bc0310ff00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+        "[.WebGL-0x17bc0310ff00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now.",
+        "[.WebGL-0x17bc0310ff00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): Running out of reserved outsideRenderPass queueSerial. ending renderPass now. (this message will no longer repeat)"
+      ],
+      "shadowRefresh": {
+        "before": {
+          "enabled": true,
+          "renders": 3,
+          "frames": 11,
+          "sinceRender": 5,
+          "why": "sun"
+        },
+        "startFrame": 11,
+        "requestedAutoUpdate": true,
+        "afterTwoFrames": {
+          "frame": 15,
+          "shadow": {
+            "enabled": true,
+            "renders": 3,
+            "frames": 15,
+            "sinceRender": 9,
+            "why": "sun"
+          }
+        },
+        "afterCapture": {
+          "frame": 27,
+          "shadow": {
+            "enabled": true,
+            "renders": 3,
+            "frames": 27,
+            "sinceRender": 21,
+            "why": "sun"
+          }
+        },
+        "restoredAutoUpdate": false
+      },
+      "capture": {
+        "id": "h1_top_noon",
+        "imageSha256": "a00aacb5cbc1fd1ee80e762eaaafcb8f48778af83a559fe3653a9b4403d102f1",
+        "visibleTerrainTileCount": 27,
+        "terrainInventorySha256": "1ce116bfd83fa2ee6e22831c5897f88a56dd0e60956dfe9172ca74206f22efac",
+        "camera": {
+          "pos": [
+            142.6,
+            354.4,
+            -64.1
+          ],
+          "look": [
+            142.6,
+            24.4,
+            -64.2
+          ],
+          "mode": "top"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            142.61551428844083,
+            354.42294081146144,
+            -64.11186063274644
+          ]
+        },
+        "rendererBeforeCapture": {
+          "calls": 457,
+          "frameCalls": 3,
+          "drawCalls": 118,
+          "triangles": 2088689,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "rendererAfterCapture": {
+          "calls": 493,
+          "frameCalls": 3,
+          "drawCalls": 118,
+          "triangles": 2088689,
+          "points": 0,
+          "lines": 48,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 413,
+            "attributesSize": 179376323,
+            "geometries": 82,
+            "indexAttributes": 56,
+            "indexAttributesSize": 2415384,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 129,
+            "programsSize": 1243803,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 10,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 41,
+            "texturesSize": 128545177,
+            "uniformBuffers": 212,
+            "uniformBuffersSize": 130880,
+            "total": 311711567
+          },
+          "drawingBuffer": [
+            384,
+            288
+          ],
+          "pixelRatio": 1
+        },
+        "loadingTiles": 0,
+        "failedTiles": 0
+      }
+    },
+    "comparison": {
+      "invariants": {
+        "model": true,
+        "routing": true,
+        "georeferencing": true,
+        "treeInstances": true,
+        "treePositions": true,
+        "vistaPoints": true,
+        "tintNear": true,
+        "tintFar": true,
+        "surfaceSource": true,
+        "vegetationSource": true,
+        "counts": true,
+        "request": true
+      },
+      "views": [
+        {
+          "id": "h1_top_noon",
+          "matched": true,
+          "captureContractUnchanged": true,
+          "cameraUnchanged": true,
+          "terrainUnchanged": true,
+          "imageChanged": false,
+          "trianglesDelta": 0,
+          "drawCallsDelta": 0
+        }
+      ],
+      "passed": true,
+      "note": "Settled pixel parity is required for this motion-only pass. Draw/triangle and renderer memory counters are observations, not physical FPS or total app memory.",
+      "exactPngParity": true,
+      "rendererMemoryCountersUnchanged": true
+    },
+    "imageComparison": {
+      "pixels": 110592,
+      "changedPixels": 0,
+      "maximumAbsoluteChannelDifference": 0,
+      "meanAbsoluteChannelDifference": 0.0,
+      "exactPngParity": true
+    },
+    "interpretation": "After refreshing the already-existing shadow map, the two images are byte-identical and every data, camera, terrain, quality and resource invariant matches. This supports the stale-shadow timing explanation for the original 349 differing pixels. The original cached-shadow pair remains failed and is not relabeled; touch/pinch integration and physical-device performance remain unmeasured.",
+    "shadowCounterNote": "V3D.shadowRest reports cache invalidations and their reasons. Its renders counter does not count additional automatic shadow draws during this diagnostic. Renderer draw counts were 118 before and after both captures; these include the intentionally refreshed shadow map and are not FPS measurements."
+  }
+}

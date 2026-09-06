@@ -492,7 +492,36 @@ function groundTintColour(tint, wp, fallbackColour) {
   return colour;
 }
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null }) {
+/* Both v2 representations use the same four detail samples. The polish only
+   reuses channels from those samples for roughness: smooth putting turf stays
+   quiet, while clumps and aggregate break up broad highlights. It adds scalar
+   shader work, not textures, normal sampling, geometry or a render pass.
+   graphicsPolish=false builds the previous constant-roughness material for A/B. */
+function v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish }) {
+  const detailScale = shade.x.max(0.45);
+  const fineSample = texture(DETAIL, wp.mul(detailScale.mul(0.11)));
+  const macroSample = texture(DETAIL, wp.mul(0.0085));
+  const sandSample = texture(DETAIL, wp.mul(0.22));
+  const hardSample = texture(DETAIL, wp.mul(0.13));
+  const turfDetail = fineSample.r.sub(0.5).mul(0.30).add(macroSample.b.sub(0.5).mul(0.18));
+  const sandDetail = sandSample.r.sub(0.5).mul(0.16);
+  const hardDetail = hardSample.g.sub(0.5).mul(0.13);
+  const surfaceDetail = mix(mix(turfDetail, sandDetail, meta.g), hardDetail, meta.b);
+  let roughness = float(0.97).sub(shade.z.mul(0.62));
+  if (graphicsPolish) {
+    // The existing bump strength describes the cut: green 0.13, rough 1.25.
+    // Even at texture extrema the roughness change stays below 0.05. The
+    // texture's existing mipmaps also remove this variation under minification.
+    const turfAmount = clamp(shade.y, 0.1, 1.3).mul(0.06).add(0.02);
+    const turfVariation = fineSample.g.sub(0.5).mul(turfAmount);
+    const sandVariation = sandSample.g.sub(0.5).mul(0.045);
+    const hardVariation = hardSample.r.sub(0.5).mul(0.065);
+    roughness = roughness.add(mix(mix(turfVariation, sandVariation, meta.g), hardVariation, meta.b));
+  }
+  return { surfaceDetail, roughness: clamp(roughness, 0.42, 0.99) };
+}
+
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish }) {
   const channels = atlas.data.channels;
   const classes = [...channels, SURFACE.ROUGH];
   const roughIndex = classes.length - 1;
@@ -502,6 +531,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   const debugColours = classes.map(sid => surfaceDebugColour(sid));
   const swizzle = ['r', 'g', 'b', 'a'];
   return material => {
+    material.userData.graphicsPolish = graphicsPolish && debugMode === 'off';
     /* Sampled at the LEGACY world position for the same reason the pair
        material is: the descriptor's samplingFrame says which world the raster
        was drawn in, and for the migration preview that is the pack's own. */
@@ -607,13 +637,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     const shade = blend4(index => styles[index].shade);
     const meta = blend4(index => styles[index].meta);
 
-    const detailScale = shade.x.max(0.45);
-    const fine = texture(DETAIL, wp.mul(detailScale.mul(0.11))).r.sub(0.5);
-    const macro = texture(DETAIL, wp.mul(0.0085)).b.sub(0.5);
-    const turfDetail = fine.mul(0.30).add(macro.mul(0.18));
-    const sandDetail = texture(DETAIL, wp.mul(0.22)).r.sub(0.5).mul(0.16);
-    const hardDetail = texture(DETAIL, wp.mul(0.13)).g.sub(0.5).mul(0.13);
-    const surfaceDetail = mix(mix(turfDetail, sandDetail, meta.g), hardDetail, meta.b);
+    const { surfaceDetail, roughness } = v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish });
 
     const fields = texture(atlas.texF, uvAtlas);
     const routeDistance = fields.r.mul(255 * atlas.data.routeStepMetres);
@@ -635,7 +659,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     /* the same linear share the pair material restores -- see its note */
     const litBase = mix(base.mul(base), base, 0.18);
     material.colorNode = litBase.mul(float(1).add(surfaceDetail).add(mowNode));
-    material.roughnessNode = clamp(float(0.97).sub(shade.z.mul(0.62)), 0.42, 0.99);
+    material.roughnessNode = roughness;
     material.metalness = 0;
     /* the atlas owns its textures; nothing was created here to dispose */
     material.userData.terrainPreviewTextures = [];
@@ -646,14 +670,15 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null }) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false }) {
   if (!['off', 'weights'].includes(debugMode)) throw new TypeError(`unknown surface debug mode: ${debugMode}`);
+  if (typeof graphicsPolish !== 'boolean') throw new TypeError('graphicsPolish must be a boolean');
   if (atlas?.data?.representation === 'class-sdf-v1') {
     if (!atlas.texSdf?.length || !atlas.texF || !atlas.data.channels?.length) {
       throw new TypeError('the per-class v2 terrain material requires SDF textures and a channel palette');
     }
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint }),
+      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint, graphicsPolish }),
       atlas,
     );
   }
@@ -661,6 +686,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
   const styleTexture = makeStyleTexture(C, SHADE, { includeNatural: true });
   const debugPaletteTexture = debugMode === 'weights' ? makeSurfaceDebugPaletteTexture() : null;
   return bindV2SurfaceAuthority(material => {
+    material.userData.graphicsPolish = graphicsPolish && debugMode === 'off';
     /* Sampled with the LEGACY world position, deliberately, even though the
        mesh under it is drawn rotated out of EPSG:3006. The two v2 artefacts are
        not in the same frame: the terrain tiles are real grid-north DTM, but the
@@ -741,13 +767,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
     const strength = mix(float(0), mix(secondaryShade.a, primaryShade.a, primaryWeight), active);
     const meta = mix(secondaryMeta, primaryMeta, primaryWeight).mul(inBounds);
 
-    const detailScale = shade.x.max(0.45);
-    const fine = texture(DETAIL, wp.mul(detailScale.mul(0.11))).r.sub(0.5);
-    const macro = texture(DETAIL, wp.mul(0.0085)).b.sub(0.5);
-    const turfDetail = fine.mul(0.30).add(macro.mul(0.18));
-    const sandDetail = texture(DETAIL, wp.mul(0.22)).r.sub(0.5).mul(0.16);
-    const hardDetail = texture(DETAIL, wp.mul(0.13)).g.sub(0.5).mul(0.13);
-    const surfaceDetail = mix(mix(turfDetail, sandDetail, meta.g), hardDetail, meta.b);
+    const { surfaceDetail, roughness } = v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish });
 
     const routeDistance = fields.g.mul(255 / 4);
     const ringDistance = fields.a.mul(255 * 0.16);
@@ -765,7 +785,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
        restores the missing ambient body without flattening class contrast. */
     const litBase = mix(base.mul(base), base, 0.18);
     material.colorNode = litBase.mul(float(1).add(surfaceDetail).add(mow));
-    material.roughnessNode = clamp(float(0.97).sub(shade.z.mul(0.62)), 0.42, 0.99);
+    material.roughnessNode = roughness;
     material.metalness = 0;
     material.userData.terrainPreviewTextures = [styleTexture];
     material.userData.surfaceDebugMode = debugMode;

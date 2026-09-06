@@ -65,7 +65,18 @@ import {
   shouldRenderLegacySurfaceOverlays,
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
-import { smoothShore, smoothMownEdges } from './engine/ring-smoothing.mjs';
+import { createLightingEnvironment } from './engine/lighting-environment.mjs';
+import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
+import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
+import { configureWaterRenderPasses } from './engine/water-render-policy.mjs';
+import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
+import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
+import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
+import { bindCameraGestureInterrupt } from './engine/camera-gesture-interrupt.mjs';
+import { applyCrownDepth } from './engine/crown-depth.mjs';
+import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
+import { smoothShore } from './engine/ring-smoothing.mjs';
+import { smoothMownEdges } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { compassBearing, windAlong, playsLike, greenDistances, lineHazards, layupTargets } from './engine/rangefinder.js';
@@ -210,6 +221,9 @@ const [b0, b1, MODEL, V2_SELECTION] = await Promise.all([
   inflate(PACK.s0), inflate(PACK.s1), modelPromise, terrainPreviewPromise,
 ]);
 const TERRAIN_PREVIEW = V2_SELECTION.source;
+/* Improved graphics are the default on ready v2 terrain. Keep graphics=0 as
+   the explicit comparison override; course data and quality policy are shared. */
+const GRAPHICS_POLISH = TERRAIN_PREVIEW.ready === true && new URLSearchParams(location.search).get('graphics') !== '0';
 const TERRAIN_PREVIEW_CONFIG = V2_SELECTION.frontierConfig || PUTTOM_PREVIEW_CONFIG;
 MODEL_PREP_STARTED = performance.now();
 /* Phase 4 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
@@ -1158,6 +1172,9 @@ await tick('startar renderaren', 0.10);
    otherwise a previous slow visit and genuinely constrained devices start light
    instead of spending ten seconds proving they needed to. */
 const qualityParam = new URLSearchParams(location.search).get('q');
+/* Explicit harness control: deterministic clocks alone must not imply a
+   performance policy, and a slow capture must not silently change resolution. */
+const QUALITY_LOCK = new URLSearchParams(location.search).get('qualitylock') === '1';
 let rememberedQuality = null;
 /* ...but NOT under ?det=1. Instance counts change with quality, so a scene that
    sniffs the device is a scene that differs between machines -- and det=1 exists
@@ -1182,7 +1199,7 @@ const LOWQ = qualityParam === 'lo'
   || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice || phoneDevice));
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
 let lowfx = false;
-let autoQualityDone = false;   /* the auto-quality verdict has been reached (a harness waits on it) */
+let autoQualityDone = LOWQ || QUALITY_LOCK;   /* no pending verdict in a fixed-quality visit */
 const RMOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* skyltar: 0 off, 1 hole numbers, 2 numbers + faciliteter. skyMax is 1 on a course
    whose facilities are not in the data, so the cycle never promises an empty layer. */
@@ -1264,30 +1281,7 @@ function canvasTex(size, draw, { srgb = true, rep = 1 } = {}) {
 const TEX_STARTED = performance.now();
 const DETAIL = canvasTex(512, (g, S) => {
   const im = g.createImageData(S, S), d = im.data;
-  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
-    const i = (y * S + x) * 4;
-    const blade = (Math.sin(x * 2.1 + Math.sin(y * 0.7) * 2) * 0.5 + 0.5) * 0.5
-                + (hash2(x, y) * 0.5);
-    const clump = fbm(x * 0.055, y * 0.055, 3) * 0.5 + 0.5;
-    const macro = fbm(x * 0.012, y * 0.012, 2) * 0.5 + 0.5;
-    d[i] = blade * 255; d[i + 1] = clump * 255; d[i + 2] = macro * 255;
-    d[i + 3] = Math.pow(hash2(x + 977, y + 131), 6) * 255;
-  }
-  g.putImageData(im, 0, 0);
-}, { srgb: false });
-
-/* A tangent-space normal map of grass blades: the derivative of the same clump
-   field, which is why the bump and the albedo agree instead of fighting. */
-const GRASSN = canvasTex(512, (g, S) => {
-  const im = g.createImageData(S, S), d = im.data;
-  const H = (x, y) => fbm(x * 0.16, y * 0.16, 3) * 0.6 + Math.sin(x * 1.9 + Math.sin(y * 0.8)) * 0.12;
-  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
-    const i = (y * S + x) * 4;
-    const nx = (H(x - 1, y) - H(x + 1, y)) * 1.6, ny = (H(x, y - 1) - H(x, y + 1)) * 1.6;
-    const l = Math.hypot(nx, ny, 1);
-    d[i] = (nx / l * 0.5 + 0.5) * 255; d[i + 1] = (ny / l * 0.5 + 0.5) * 255;
-    d[i + 2] = (1 / l * 0.5 + 0.5) * 255; d[i + 3] = 255;
-  }
+  fillGroundDetailPixels(d, S, { seamless: GRAPHICS_POLISH });
   g.putImageData(im, 0, 0);
 }, { srgb: false });
 
@@ -1316,7 +1310,7 @@ const WATERN = canvasTex(512, (g, S) => {
   }
   g.putImageData(im, 0, 0);
 }, { srgb: false });
-span('procedural textures (DETAIL, GRASSN, SANDN, WATERN)', TEX_STARTED);
+span('procedural textures (DETAIL, SANDN, WATERN)', TEX_STARTED);
 
 /* ------------------------------------------------------------- lighting */
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
@@ -1333,7 +1327,7 @@ sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
    draws for a picture that did not change. ?shadowrest=0 is the before. */
 const SHADOW_REST = new URLSearchParams(location.search).get('shadowrest') !== '0';
 sun.shadow.autoUpdate = !SHADOW_REST;
-const SHADOW_REST_STATE = { sunPos: new THREE.Vector3(NaN, NaN, NaN), target: new THREE.Vector3(NaN, NaN, NaN), tiles: -1, uploads: -1, morphStart: -1, dirtyUntil: 0, renders: 0, frames: 0, sinceRender: 0, why: '' };
+const SHADOW_REST_STATE = { sunPos: new THREE.Vector3(NaN, NaN, NaN), target: new THREE.Vector3(NaN, NaN, NaN), tiles: -1, uploads: -1, morphStart: -1, dirtyUntil: 0, terrainLayer: null, terrainRevision: -1, settlePending: false, renders: 0, frames: 0, sinceRender: 0, why: '' };
 let treeUploadsThisFrame = 0;
 sun.shadow.camera.near = 120; sun.shadow.camera.far = 3400;
 /* Terrain is a huge, gently-sloped receiver, which is the worst case for shadow
@@ -1436,27 +1430,26 @@ if (IS_GPU) {
   scene.add(skyDome);
 }
 
-/* A small procedural environment, generated once, so metal and water have
-   something to reflect on both backends. */
-{
-  const env = new THREE.Scene();
-  const m = new THREE.MeshBasicNodeMaterial({ side: THREE.BackSide });
-  const up = normalize(positionLocal).y;
-  m.colorNode = mix(color(0x8fa88f), mix(color(0xcfe2e8), color(0x3d7fb8), pow(saturate(up), 0.5)),
-                    smoothstep(-0.1, 0.05, up));
-  env.add(new THREE.Mesh(new THREE.SphereGeometry(100, 24, 16), m));
-  const pmremStarted = performance.now();
-  const pm = new THREE.PMREMGenerator(renderer);
-  scene.environment = pm.fromScene(env, 0.04).texture;
-  scene.environmentIntensity = 0.58;
-  span('PMREM environment', pmremStarted);
-}
+/* The selected sky and the indirect light share a palette. Reuse the baker,
+   shader connection and two reflection maps across preset changes. Resolve
+   the URL here so boot does not bake golden before the requested daylight. */
+const LJUS2P = { kvall: 'golden', dag: 'noon', dis: 'mist', gryning: 'dawn', host: 'host' };
+const INITIAL_PRESET = LJUS2P[(new URLSearchParams(location.search).get('ljus') || '').toLowerCase()] || 'golden';
+const waterLighting = createWaterReflectionLighting({ enabled: GRAPHICS_POLISH });
+waterLighting.setPreset(PRESETS[INITIAL_PRESET]);
+const lightingEnvironment = createLightingEnvironment(renderer, scene, {
+  enabled: GRAPHICS_POLISH,
+  onBake: ({ preset: name, started }) => span('PMREM environment', started, { preset: name }),
+});
+lightingEnvironment.setPreset(INITIAL_PRESET, PRESETS[INITIAL_PRESET]);
 
 let presetName = 'golden';
 function setPreset(name) {
   const p = PRESETS[name] || PRESETS.golden;
   preset = p;
   presetName = PRESETS[name] ? name : 'golden';
+  lightingEnvironment.setPreset(presetName, p);
+  waterLighting.setPreset(p);
   sun.color.setHex(p.sun); sun.intensity = p.int;
   const d = new THREE.Vector3(...p.dir).normalize();
   uSun.value.copy(d);
@@ -2215,6 +2208,7 @@ if (TERRAIN_PREVIEW.ready) {
     renderStride,
     decorateMaterial: createV2GroundMaterialDecorator({
       atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
+      graphicsPolish: GRAPHICS_POLISH,
       debugMode: surfaceDebugMode,
       tint: GROUND_TINT,
     }),
@@ -3127,6 +3121,7 @@ await tick('fyller vattnet', 0.52);
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
 function makeWater({ mask = null } = {}) {
   const m = new THREE.MeshBasicNodeMaterial({ transparent: true, side: THREE.DoubleSide });
+  configureWaterRenderPasses(m, { mask });
   /* A sheet sits a quarter-metre over a bed the DTM draws at the water's own
      surface, and three kilometres out a 24-bit depth buffer cannot tell the
      two apart: the lake flickered. A depth bias toward the camera settles it
@@ -3162,13 +3157,12 @@ function makeWater({ mask = null } = {}) {
   const V = normalize(cameraPosition.sub(positionWorld));
   const fres = pow(oneMinus(saturate(N.dot(V))), 4.2).mul(0.93).add(0.035);
 
-  /* the sky in the mirror direction, built from the same three colours the dome uses
-     so the fjord and the sky above it can never disagree */
+  /* The preview uses the indirect-light palette for the analytic reflection.
+     Angle, Fresnel, waves and the water body's own depth colours stay the same. */
   const R = reflect(V.negate(), N);
   const up = saturate(R.y);
   const sunUp = uSun.y.max(0.02);
-  const skyC = mix(mix(color(0xd9c6ad), color(0xcfe0e6), smoothstep(0.10, 0.52, sunUp)),
-                   mix(color(0x21538f), color(0x3479b4), sunUp), pow(up, 0.45));
+  const skyC = waterLighting.reflectedSkyColour(up, sunUp);
 
   /* depth: the bed falls away from the bank, so the shallows keep their own colour.
      The ramp is the water's own scale -- 30 m of shallows suits a fjord, but on a
@@ -4161,6 +4155,7 @@ const TREE_LOD = {
      organic and still unmistakably the tree it becomes at 120 m; and a
      12-segment trunk with a bark bump and a root flare. */
   /* bark: vertical fissures, the same field for the bump and the colour */
+  let barkMean;
   const BARK = canvasTex(256, (g, S) => {
     const im = g.createImageData(S, S), d = im.data;
     for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
@@ -4169,10 +4164,12 @@ const TREE_LOD = {
       const b = Math.min(1, Math.max(0, v * 0.7 + fine * 0.3));
       d[i] = d[i + 1] = d[i + 2] = b * 255; d[i + 3] = 255;
     }
+    if (GRAPHICS_POLISH) barkMean = averageBarkSample(d);
     g.putImageData(im, 0, 0);
   }, { srgb: false, rep: 1 });
   /* a 12-segment trunk with a root flare, uv'd for the bark */
   const heroTrunk = (r0, r1, h) => {
+    if (GRAPHICS_POLISH) return createHeroTrunkGeometry(r0, r1, h);
     const shaft = new THREE.CylinderGeometry(r0, r1, h, 12, 1, true); shaft.translate(0, h / 2, 0);
     const flare = new THREE.CylinderGeometry(r1, r1 * 1.7, 0.6, 12, 1, true); flare.translate(0, 0.3, 0);
     const cap = new THREE.CircleGeometry(r0, 12); cap.rotateX(-Math.PI / 2); cap.translate(0, h, 0);
@@ -4218,10 +4215,20 @@ const TREE_LOD = {
     { crown: fineCrowns[1], trunk: heroTrunk(0.22, 0.46, 9.0) },
     { crown: fineCrowns[2], trunk: heroTrunk(0.16, 0.30, 7.4) },
   ];
+  if (GRAPHICS_POLISH) {
+    /* Bake once into existing colours, before impostor capture. A shared full
+       crown envelope keeps the tint consistent across geographic detail tiers. */
+    for (let s = 0; s < SPECIES.length; s++) {
+      const bounds = SPECIES[s].crown.boundingBox;
+      const envelope = { minY: bounds.min.y, maxY: bounds.max.y };
+      for (const crown of [hero[s].crown, SPECIES[s].crown, decimated[s].crown]) {
+        applyCrownDepth(crown, envelope);
+      }
+    }
+  }
   const barkMaterial = hex => {
-    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, bumpMap: BARK, bumpScale: 0.05 });
-    const bark = texture(BARK, uv().mul(vec2(3, 1.5))).r;
-    mat.colorNode = color(hex).mul(bark.mul(0.6).add(0.62));
+    const mat = createBarkMaterial({ barkTexture: BARK, hex,
+      graphicsPolish: GRAPHICS_POLISH, meanSample: barkMean });
     mat.positionNode = windSway(false);
     return attachTreeFade(mat);
   };
@@ -4631,9 +4638,14 @@ function updateTreeTiers() {
       const zoneMode = TREE_LOD.lodMode === 'zone', ZT = TREE_LOD.zoneTiers;
       for (let i = 0; i < L.length; i++) {
         const k = L[i];
-        const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;
-        const d = Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
-        const px = cellMode ? pxCell : H[k] * Kpx / d;
+        // Geographic tiers and forced review tiers never consult distance.
+        // Keep the screen-mode calculation for its thresholds/corridor floors.
+        let d = 1, px = 0;
+        if (!force && !zoneMode) {
+          const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;
+          d = Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
+          px = cellMode ? pxCell : H[k] * Kpx / d;
+        }
         const cur = T[k];
         let want;
         if (force) want = force;
@@ -6365,8 +6377,7 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
    scene pass owns them. Keeping this call in one place prevents the WebGPU and
    forced-WebGL paths from quietly exercising different post-processing code. */
 function renderActivePipeline() {
-  if (renderer.__post) renderer.__post.render();
-  else renderer.render(scene, camera);
+  renderPipeline(renderer, scene, camera, lowfx);
 }
 
 /* The shadow camera follows the player, because a 2 km ortho frustum spends its
@@ -6389,16 +6400,26 @@ const SUN_BASIS = { d: new THREE.Vector3(), right: new THREE.Vector3(), up: new 
 /* What moves a shadow: the sun or its box (placeSun), a tree changing tier or
    fading (an upload this frame, or a fade queue still draining), the terrain
    (a tile arriving or leaving, and the 240 ms morph after it), a flight -- and
-   once a second regardless, so anything not on this list still catches up
-   within a second. Nothing else in the scene casts and moves: the flag cloths
+   every 60 frames regardless, so anything not on this list still catches up.
+   Nothing else in the scene casts and moves: the flag cloths
    wave but do not cast. At rest none of it fires and the pass is skipped. */
 function shadowRest(now) {
   const S = SHADOW_REST_STATE; S.frames++; S.sinceRender++;
   if (!SHADOW_REST) return;
   let why = '';
   if (!sun.position.equals(S.sunPos) || !sun.target.position.equals(S.target)) { S.sunPos.copy(sun.position); S.target.copy(sun.target.position); why = 'sun'; }
-  const batches = terrainV2.runtime?.layer?.batches;
-  if (batches) {
+  const layer = terrainV2.runtime?.layer ?? terrainV2.batch ?? null;
+  if (GRAPHICS_POLISH) {
+    /* This revision follows actual texture/instance changes, including the
+       final zero-morph buffer. A slow frame can skip a time window entirely;
+       it cannot skip this change. Visibility has already synced the layer. */
+    const revision = layer?.renderRevision ?? 0;
+    if (layer !== S.terrainLayer || revision !== S.terrainRevision) {
+      S.terrainLayer = layer; S.terrainRevision = revision;
+      if (!why) why = 'terrain';
+    }
+  } else if (terrainV2.runtime?.layer?.batches) {
+    const batches = terrainV2.runtime.layer.batches;
     let tiles = 0, uploads = 0, morphStart = -1, morphMs = 240;
     for (const b of batches.values()) {
       tiles += b.layersByTile.size; uploads += b.textureUploads; morphMs = b.morphDurationMilliseconds;
@@ -6406,10 +6427,18 @@ function shadowRest(now) {
     }
     if (tiles !== S.tiles || uploads !== S.uploads || morphStart !== S.morphStart) { S.tiles = tiles; S.uploads = uploads; S.morphStart = morphStart; S.dirtyUntil = now + morphMs + 80; }
   }
-  if (!why && now < S.dirtyUntil) why = 'terrain';
+  if (!GRAPHICS_POLISH && !why && now < S.dirtyUntil) why = 'terrain';
   /* a fade under way changes the dither every frame with no upload at all -- the clock is a uniform -- so the map follows the queue, whoever drives the clock */
   if (!why && (treeUploadsThisFrame > 0 || TREE_LOD.queue.length !== TREE_LOD.qHead)) why = 'trees';
   if (!why && flying > 0) why = 'flight';
+  if (GRAPHICS_POLISH) {
+    /* Finish a changing scene with one settled shadow refresh, after the
+       renderer has consumed the previous request. The browser comparison
+       catches a different cached image when the last changing frame alone
+       is retained. A paused capture must not consume this follow-up. */
+    if (why) S.settlePending = true;
+    else if (S.settlePending && !sun.shadow.needsUpdate) { why = 'settled'; S.settlePending = false; }
+  }
   if (!why && S.sinceRender >= 60) why = 'tick';
   treeUploadsThisFrame = 0;
   if (why) { sun.shadow.needsUpdate = true; S.renders++; S.sinceRender = 0; S.why = why; }
@@ -6542,6 +6571,7 @@ function drawCard() {
 
 const camTween = { on: false, t: 0, dur: 1.5, from: new THREE.Vector3(), to: new THREE.Vector3(),
                    lookFrom: new THREE.Vector3(), lookTo: new THREE.Vector3() };
+let heldFlightLens = false;
 /* The ground keeps the camera out of itself gently (engine/camera-clamp.mjs):
    eye height is eased toward, a rise ahead along the camera's own motion is
    climbed before it arrives, and what the ground lifted it gives back when
@@ -6564,6 +6594,15 @@ function flyTo(pos, look, dur = 1.5) {
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 
 function setCam(mode, instant) {
+  /* Gesture takeover keeps a flight's lens. A later named view deliberately
+     returns to the player's lens, without overriding other explicit FOVs. */
+  if (heldFlightLens) {
+    heldFlightLens = false;
+    if (Math.abs(camera.fov - tourFlight.baseFov) > 1e-3) {
+      camera.fov = tourFlight.baseFov;
+      camera.updateProjectionMatrix();
+    }
+  }
   camMode = mode;
   const DUR = (instant || RMOTION) ? 0 : 1.5;
   syncURL();
@@ -6625,7 +6664,6 @@ function goHole(n, recam, instant) {
    plain copy-paste always reproduces what is on screen. */
 const VY2CAM = { tee: 'tee', green: 'green', fritt: 'orbit', ovan: 'top' };
 const CAM2VY = { tee: 'tee', green: 'green', orbit: 'fritt', top: 'ovan' };
-const LJUS2P = { kvall: 'golden', dag: 'noon', dis: 'mist', gryning: 'dawn', host: 'host' };
 const P2LJUS = { golden: 'kvall', noon: 'dag', mist: 'dis', dawn: 'gryning', host: 'host' };
 function syncURL() {
   try {
@@ -7303,11 +7341,12 @@ function applyFlightCamera() {
   if (Math.abs(camera.fov - tourFlight.fov) > 1e-3) { camera.fov = tourFlight.fov; camera.updateProjectionMatrix(); }
 }
 /* leave the shot: the lens goes back to the player's */
-function stopFlight() {
+function stopFlight({ preserveView = false } = {}) {
   flying = 0;
+  heldFlightLens = preserveView;
   tourFlight.st = null;
   tourFlight.cardPending = false;
-  if (Math.abs(camera.fov - tourFlight.baseFov) > 1e-3) { camera.fov = tourFlight.baseFov; camera.updateProjectionMatrix(); }
+  if (!preserveView && Math.abs(camera.fov - tourFlight.baseFov) > 1e-3) { camera.fov = tourFlight.baseFov; camera.updateProjectionMatrix(); }
   const el = document.getElementById('tourCard');
   if (el) el.classList.remove('show');
 }
@@ -7416,14 +7455,21 @@ function startTour() {
   flying = 1e-4;
 }
 
-function endTour() {
+function endTour({ preserveView = false } = {}) {
   tour = 0;
-  stopFlight();
+  stopFlight({ preserveView });
   document.body.classList.remove('tour');
   setClean(false);
-  setCam(camMode);
+  if (!preserveView) setCam(camMode);
 }
 document.getElementById('tourBtn').onclick = startTour;
+
+/* A recognized orbit/pan/pinch/wheel gesture owns the current view. Unlike an
+   explicit tour stop, takeover must not start a return tween or reset its lens. */
+if (GRAPHICS_POLISH) bindCameraGestureInterrupt({
+  controls, tween: camTween, isFlying: () => flying > 0, isTour: () => Boolean(tour),
+  stopFlight, endTour,
+});
 
 /* ------------------------------------------------------- personal caddie
    One local bag drives both the labels painted on the hole and Kikaren's club
@@ -8621,7 +8667,7 @@ gridBtn.onclick = () => {
        down: neither finger's release is a tap, and a slow pinch is not a long
        press -- it used to move the ball and drop GPS mode when a zoom ended */
     fingers++; if (fingers > 1) pinched = true;
-    if (tour) endTour();
+    if (tour && !GRAPHICS_POLISH) endTour();
   });
   const release = () => { fingers = Math.max(0, fingers - 1); if (fingers === 0) pinched = false; };
   renderer.domElement.addEventListener('pointercancel', release);
@@ -9229,21 +9275,29 @@ let last = performance.now(), acc = 0, frames = 0, fps = 0;
    longer than any fixed wait and a screenshot shows the LAST frame drawn */
 let FRAME_NO = 0, TIER_FRAME = 0;   /* the frame the tree tiers last changed on */
 const FRAME_MS = new Float32Array(120);   /* the last frames' intervals, for the harness (V3D.frameTimes) */
-function frame() {
-  const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
-  terrainV2.tick(now);
+function updateFrameVisibility(now, dt) {
   /* the world graph streams by screen-space error against the real camera */
   if (terrainV2.kind === 'graph' && terrainV2.active) {
+    /* The graph adapter refreshes camera matrices before its frustum test;
+       tree visibility below consumes that same pose, without a second sync. */
     terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
-  }
+  } else if (GRAPHICS_POLISH) camera.updateMatrixWorld(true);
   /* the crossfade clock: real time, a fixed 1/60 under det, or whatever the harness set */
   if (!TREE_LOD.clockDriven) TREE_LOD.fadeClock += DET ? 1 / 60 : dt;
   treeFadeClock.value = TREE_LOD.fadeClock;
   treeFadeDuration.value = TREE_LOD.fadeS;
   updateTreeTiers();
-  FRAME_MS[FRAME_NO % FRAME_MS.length] = now - last;
-  last = now; frames++; acc += dt; FRAME_NO++;
+  const interval = now - last;
+  FRAME_MS[FRAME_NO % FRAME_MS.length] = interval;
+  last = now; frames++; acc += interval / 1000; FRAME_NO++;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
+}
+
+function frame() {
+  const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
+  /* Morph state remains current before the ground clamp samples terrain. */
+  terrainV2.tick(now);
+  if (!GRAPHICS_POLISH) updateFrameVisibility(now, dt);
 
   if (camTween.on) {
     camTween.t += dt / camTween.dur;
@@ -9301,6 +9355,10 @@ function frame() {
     /* never underground, and never so close to it that the near plane clips through -- eased, see groundClamp */
     groundClamp.step(camera.position, dt);
   } else groundClamp.reset();
+  /* Motion, controls and the existing ground clamp all finish before the
+     preview selects visible terrain/trees. Frame bookkeeping stays beside
+     tree updates so settled() still waits for the same two rendered frames. */
+  if (GRAPHICS_POLISH) updateFrameVisibility(now, dt);
   placeSun();
   shadowRest(now);
   if (skyMesh) skyMesh.position.copy(camera.position);
@@ -9337,17 +9395,38 @@ if (terrainV2.kind === 'graph' && terrainV2.active && typeof terrainV2.settle ==
   const settled = await terrainV2.settle(60_000);
   span('v2 stream: first frontier fully resident (after the overlap)', settleStarted, settled ? { tiles: settled.renderedTiles } : {});
 }
-await tick('klar', 1.0);
+await tick('ritar första vyn', 0.98);
+let resolveFirstSceneFrame, rejectFirstSceneFrame;
+const firstSceneFrameReady = new Promise((resolve, reject) => {
+  resolveFirstSceneFrame = resolve; rejectFirstSceneFrame = reject;
+});
 renderer.setAnimationLoop(() => {
   /* the first frames' wall times, for the profiler: shader compiles and
      texture uploads land here and no stage mark sees them */
   if (BOOT_PERF.firstFrames.length < 12) {
     const t = performance.now();
-    frame();
+    try { frame(); }
+    catch (error) {
+      if (!resolveFirstSceneFrame) throw error;
+      resolveFirstSceneFrame = null;
+      renderer.setAnimationLoop(null);
+      rejectFirstSceneFrame(error);
+      return;
+    }
     BOOT_PERF.firstFrames.push({ atMs: +(t - bootStarted).toFixed(1), ms: +(performance.now() - t).toFixed(1),
       tris: renderer.info?.render?.triangles ?? null, draws: renderer.info?.render?.drawCalls ?? null,
       tiers: TREE_LOD.ready ? { t0: TREE_LOD.stats.tier0, t1: TREE_LOD.stats.tier1, t2: TREE_LOD.stats.tier2, t3: TREE_LOD.stats.tier3 } : null });
   } else frame();
+  if (resolveFirstSceneFrame) {
+    const resolve = resolveFirstSceneFrame;
+    resolveFirstSceneFrame = null;
+    BOOT_PERF.firstSceneSubmittedAtMs = +(performance.now() - bootStarted).toFixed(1);
+    waitForGpuFrame(renderer).then(() => {
+      BOOT_PERF.firstSceneGpuReadyAtMs = +(performance.now() - bootStarted).toFixed(1);
+      // Give the canvas a presentation opportunity before fading the cover.
+      requestAnimationFrame(resolve);
+    }, rejectFirstSceneFrame);
+  }
 });
 document.getElementById('hdsub').textContent =
   `${CMETA.tag} · ${IS_GPU ? 'WebGPU' : 'WebGL2'}${terrainV2.rendererState.status === 'ready' ? ' · 1 m preview' : ''}`;
@@ -9760,10 +9839,15 @@ window.V3D = {
   setShadowSnap: on => { shadowSnap = !!on; return shadowSnap; },
   /* the harness's bisection switch: the terrain's level morph length in ms (0 pops) */
   v2WorldMorph: ms => { const batches = terrainV2.runtime?.layer?.batches; if (!batches) return null; for (const b of batches.values()) b.morphDurationMilliseconds = Math.max(0, +ms || 0); return Math.max(0, +ms || 0); },
+  /* Live buffer/morph revisions for validation; the adapter's renderer metadata
+     describes activation, so it cannot verify subsequent settling/uploads. */
+  v2TerrainBuffers: () => (terrainV2.runtime?.layer ?? terrainV2.batch)?.stats() ?? null,
   /* the terrain stream's last plan and residency, for a harness that watches tiles come and go: desired, rendered (fallbacks included), requested, retained, and what is ready or loading */
   v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
-  quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, pixelRatio: renderer.getPixelRatio(),
+  quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, qualityLocked: QUALITY_LOCK,
+                    graphicsPolish: GRAPHICS_POLISH, pixelRatio: renderer.getPixelRatio(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
+  lightingEnvironment: () => lightingEnvironment.snapshot(),
   /* GPU milliseconds since the previous resolve, summed over every render
      pass (shadow, scene, bloom); null unless the page booted with ?gputime=1 */
   gpuTimingEnabled: () => renderer.backend?.trackTimestamp === true,
@@ -9869,8 +9953,9 @@ window.V3D = {
   water: (o = {}) => { if (o.glint != null) uWaterGlint.value = +o.glint; if (o.chop != null) uWaterChop.value = +o.chop; return { glint: uWaterGlint.value, chop: uWaterChop.value }; },
   /* the sun's shadow map: re-rendered every frame (three's default) or frozen as it is, for the cost bisection */
   setShadowUpdate: on => { sun.shadow.autoUpdate = !!on; if (on) sun.shadow.needsUpdate = true; return sun.shadow.autoUpdate; },
-  /* the on-demand shadow map: how many frames rendered it, and why the last one did */
-  shadowRest: () => ({ enabled: SHADOW_REST, renders: SHADOW_REST_STATE.renders, frames: SHADOW_REST_STATE.frames, sinceRender: SHADOW_REST_STATE.sinceRender, why: SHADOW_REST_STATE.why }),
+  /* Cache refresh requests; forced auto-update/capture locking can make the
+     actual shadow draw count differ. The terrain revision is diagnostic only. */
+  shadowRest: () => ({ enabled: SHADOW_REST, renders: SHADOW_REST_STATE.renders, frames: SHADOW_REST_STATE.frames, sinceRender: SHADOW_REST_STATE.sinceRender, why: SHADOW_REST_STATE.why, terrainRevision: SHADOW_REST_STATE.terrainRevision, settlePending: SHADOW_REST_STATE.settlePending }),
   /* what is in the scene, by kind: visible objects with geometry, grouped by type, tag and material, with their draw and triangle counts (instances counted once) */
   census: () => { const by = new Map(); scene.traverse(o => { if (!o.visible || !o.geometry) return; const g = o.geometry, tris = (g.index ? g.index.count : g.attributes.position?.count || 0) / 3; const inst = o.isInstancedMesh ? o.count : 1; const key = [o.type, o.userData?.tag || '', o.material?.type || '', o.name || '', o.parent?.name || '', o.isInstancedMesh ? 'inst' : '', Math.round(tris), o.castShadow ? 'cast' : '', o.matrixAutoUpdate ? 'auto' : ''].join('|'); const e = by.get(key) || { objects: 0, instances: 0, tris: 0 }; e.objects++; e.instances += inst; e.tris += tris * inst; by.set(key, e); }); return [...by.entries()].map(([k, v]) => ({ key: k, ...v })).sort((a, b) => b.objects - a.objects); },
   fps: () => fps,
@@ -9922,11 +10007,21 @@ if (V2_SELECTION.graph && v2StreamProbeRequested(location.search)) {
   console.info('v2 streaming probe:', v2StreamProbe);
 }
 
-addEventListener('pagehide', () => {
+addEventListener('pagehide', event => {
   captureReadbackTarget?.dispose();
   captureReadbackTarget = null;
+  if (!event.persisted) lightingEnvironment.dispose();
 }, { once: true });
 
+try {
+  await firstSceneFrameReady;
+} catch (error) {
+  msgEl.textContent = 'Kunde inte visa banan. Ladda om och försök igen.';
+  console.error('First scene frame:', error);
+  throw error;
+}
+barEl.style.width = '100%';
+msgEl.textContent = 'klar';
 BOOT_PERF.doneAtMs = +(performance.now() - bootStarted).toFixed(1);
 bootEl.classList.add('done');
 setTimeout(() => { document.getElementById('hint').style.opacity = 0; }, 6000);
@@ -9935,7 +10030,7 @@ if (BOOTQ.get('kiosk') === '1') setTimeout(startTour, 1200);
 /* Ten seconds of honest measurement, then a decision: a phone crawling at the
    full treatment gets its pixel ratio and bloom dropped on the fly, and the
    offer of the lightweight build (which also thins the instanced forest). */
-if (!LOWQ) setTimeout(() => {
+if (!LOWQ && !QUALITY_LOCK) setTimeout(() => {
   let checked = 0, bad = 0;
   const qt = window.setInterval(() => {
     if (!fps) return;
