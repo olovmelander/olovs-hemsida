@@ -3,31 +3,211 @@
   "objective": "Map the whole golf ground with geographically supported shapes, positions and object identities. Cover every requested category; do not equate visually plausible rendering with verified mapping.",
   "completeSurvey": false,
   "categories": [
-    {"id":"objects","kinds":["mast","flagpole","gate","fountain","power-tower","power-pole"],"gap":"Complete small-object inventory and dimensions remain unverified."},
-    {"id":"trees","kinds":["tree-crown-candidate","tree-osm-point"],"gap":"Crown candidates and OSM points are different observations, not an additive stem census."},
-    {"id":"equipment","kinds":["range_mat","range_equipment","fountain","flagpole"],"gap":"Individual range equipment review in progress; benches, bins, signs and maintenance equipment need visible evidence."},
-    {"id":"trails","kinds":["paths","tracks"],"gap":"OSM alignment and omitted links require dated imagery review."},
-    {"id":"ponds","kinds":["water"],"gap":"Six outlines reviewed; other shorelines retain original provenance and topology uncertainties."},
-    {"id":"trenches","kinds":["trench"],"gap":"Terrain depressions alone do not establish trenches; no new candidate approved."},
-    {"id":"ditches","kinds":["waterway"],"subtype":"ditch/drain","gap":"Existing tagged watercourses retained; all three new valley-filter proposals rejected."},
-    {"id":"buildings","kinds":["buildings","building-context-box"],"gap":"43 municipal footprints adopted; other outlines and most heights remain unverified."},
-    {"id":"driving-range-equipment","kinds":["range_target_surface","range_mat","range_equipment"],"gap":"Target footprints do not establish material, poles, distances or individual machinery."},
-    {"id":"driving-range-pads","kinds":["range_tee_pad"],"gap":"Four aggregate platform footprints mapped; individual mat review in progress."},
-    {"id":"forest","kinds":["forest","wood","scrub"],"gap":"Forest boundaries and changes since the terrain/canopy capture require review."},
-    {"id":"obstacles","kinds":["rock","gate","barrier","power-line"],"gap":"Rock, fence, sign and other small obstacle completeness is unverified."},
-    {"id":"bridges","kinds":["bridge","culvert"],"gap":"Crossings require visible structure or explicit source tags; intersections alone are not bridges."},
-    {"id":"parking-lots","kinds":["parking"],"gap":"2025 outline and omitted-row review in progress; parked vehicles are transient."},
-    {"id":"training-greens","kinds":["practice_green"],"gap":"Four reviewed greens; full short-game layout still being reviewed."},
-    {"id":"roads","kinds":["roads"],"gap":"OSM source retained; widths and junction footprints require review."},
-    {"id":"species","kinds":["tree-species-observation"],"gap":"Rendering species defaults are not individual species identifications."},
-    {"id":"tees","kinds":["tee","tee-platform","tee-reference"],"gap":"Most marker positions and many pads remain inferred; reviewed physical pads must not be shifted to fit a scorecard."},
-    {"id":"greens","kinds":["green","green-reference"],"gap":"Mellanbanan inferred green outlines and endpoints under 2025 review."},
-    {"id":"fairways","kinds":["fairway","driving-range"],"gap":"Stora13/15 review in progress; other mowing boundaries and inferred Mellanbanan strips remain to review."},
-    {"id":"bunkers","kinds":["bunker","range_bunker","practice_bunker"],"gap":"All86 source bunkers retained; practice sand changes and hole ownership under review."},
-    {"id":"rough","kinds":["rough","grass"],"gap":"Default rough shading does not count as a mapped mowing boundary."},
-    {"id":"fields","kinds":["landuse"],"gap":"Tagged landuse polygons retained; current crop and mowing class not verified."},
-    {"id":"cottages","kinds":["buildings"],"subtype":"cabin/cottage","gap":"A building footprint alone does not establish use as a cottage."},
-    {"id":"high-grass","kinds":["high_grass","meadow"],"gap":"Seasonal tall-grass boundaries and height require dated evidence."}
+    {
+      "id": "objects",
+      "kinds": [
+        "mast",
+        "flagpole",
+        "gate",
+        "fountain",
+        "power-tower",
+        "power-pole"
+      ],
+      "gap": "Explicit OSM power supports and seven non-tree tagged points used. Unobserved procedural props suppressed; full small-object census and dimensions remain unverified."
+    },
+    {
+      "id": "trees",
+      "kinds": [
+        "tree-crown-candidate",
+        "tree-osm-point"
+      ],
+      "gap": "Crown candidates and OSM points are different observations, not an additive stem census."
+    },
+    {
+      "id": "equipment",
+      "kinds": [
+        "range_mat",
+        "range_equipment",
+        "fountain",
+        "flagpole"
+      ],
+      "gap": "30 individually traced range mats and seven tagged non-tree OSM objects mapped; benches, bins, signs and maintenance equipment still need visible evidence."
+    },
+    {
+      "id": "trails",
+      "kinds": [
+        "paths",
+        "tracks"
+      ],
+      "gap": "OSM alignment and omitted links require dated imagery review."
+    },
+    {
+      "id": "ponds",
+      "kinds": [
+        "water"
+      ],
+      "gap": "Six outlines reviewed; other shorelines retain original provenance and topology uncertainties."
+    },
+    {
+      "id": "trenches",
+      "kinds": [
+        "trench"
+      ],
+      "gap": "Terrain depressions alone do not establish trenches; no new candidate approved."
+    },
+    {
+      "id": "ditches",
+      "kinds": [
+        "waterway"
+      ],
+      "subtype": "ditch/drain",
+      "gap": "Existing tagged watercourses retained; all three new valley-filter proposals rejected."
+    },
+    {
+      "id": "buildings",
+      "kinds": [
+        "buildings",
+        "building-context-box"
+      ],
+      "gap": "43 municipal footprints adopted; other outlines and most heights remain unverified."
+    },
+    {
+      "id": "driving-range-equipment",
+      "kinds": [
+        "range_target_surface",
+        "range_mat",
+        "range_equipment"
+      ],
+      "gap": "Target footprints do not establish material, poles, distances or individual machinery."
+    },
+    {
+      "id": "driving-range-pads",
+      "kinds": [
+        "range_tee_pad"
+      ],
+      "gap": "Four aggregate platform footprints and30 individual mats mapped. Surface interpretation and unknown vertical dimensions remain explicit."
+    },
+    {
+      "id": "forest",
+      "kinds": [
+        "forest",
+        "wood",
+        "scrub"
+      ],
+      "gap": "NMDv2.0 supplies coarse broadleaf/conifer context, not individual species or new forest boundaries; newer v2.1 equivalence is unverified."
+    },
+    {
+      "id": "obstacles",
+      "kinds": [
+        "rock",
+        "gate",
+        "barrier",
+        "power-line"
+      ],
+      "gap": "Rock, fence, sign and other small obstacle completeness is unverified."
+    },
+    {
+      "id": "bridges",
+      "kinds": [
+        "footbridge",
+        "bridge",
+        "culvert"
+      ],
+      "gap": "Three visible bridge decks and a corrected approach mapped. Ten tagged culverts preserved; hidden crossing structures and deck heights remain unverified."
+    },
+    {
+      "id": "parking-lots",
+      "kinds": [
+        "parking"
+      ],
+      "gap": "Two additional visible parking areas adopted after review of the five OSM areas; canopy-hidden continuation remains unverified. Vehicles are transient."
+    },
+    {
+      "id": "training-greens",
+      "kinds": [
+        "practice_green"
+      ],
+      "gap": "Four reviewed greens; full short-game layout still being reviewed."
+    },
+    {
+      "id": "roads",
+      "kinds": [
+        "roads"
+      ],
+      "gap": "OSM source retained; widths and junction footprints require review."
+    },
+    {
+      "id": "species",
+      "kinds": [
+        "tree-species-observation"
+      ],
+      "gap": "Coarse woodland leaf-type dominance informs rendering priors; individual botanical species remain unidentified."
+    },
+    {
+      "id": "tees",
+      "kinds": [
+        "tee",
+        "tee-platform",
+        "tee-reference"
+      ],
+      "gap": "23 Mellan platforms and three Stora8/9 surfaces traced, with colour assignments unverified. Mellan8 coverage remains partial. Most Stora tees and daily marker positions still need review."
+    },
+    {
+      "id": "greens",
+      "kinds": [
+        "green",
+        "green-reference"
+      ],
+      "gap": "All nine Mellan greens now have imagery or OSM outlines; eight centres corrected from imagery. Pin positions and absolute source accuracy remain unverified."
+    },
+    {
+      "id": "fairways",
+      "kinds": [
+        "fairway",
+        "driving-range"
+      ],
+      "gap": "Stora13/15 and all six Mellan par4/5 fairways corrected. Other mowing edges and seasonal changes still require review."
+    },
+    {
+      "id": "bunkers",
+      "kinds": [
+        "bunker",
+        "range_bunker",
+        "practice_bunker"
+      ],
+      "gap": "All86 OSM source IDs tracked; two reclassified and retraced practice bunkers, one grass-covered sand outline retired, five additional range bunkers mapped. Other temporal changes remain to review."
+    },
+    {
+      "id": "rough",
+      "kinds": [
+        "rough",
+        "grass"
+      ],
+      "gap": "Default rough shading does not count as a mapped mowing boundary."
+    },
+    {
+      "id": "fields",
+      "kinds": [
+        "landuse"
+      ],
+      "gap": "Tagged landuse polygons retained; current crop and mowing class not verified."
+    },
+    {
+      "id": "cottages",
+      "kinds": [
+        "buildings"
+      ],
+      "subtype": "cabin/cottage",
+      "gap": "A building footprint alone does not establish use as a cottage."
+    },
+    {
+      "id": "high-grass",
+      "kinds": [
+        "high_grass",
+        "meadow"
+      ],
+      "gap": "Seasonal tall-grass boundaries and height require dated evidence."
+    }
   ],
   "acceptance": [
     "Use terrain for shape, dated imagery for material and visible edges, explicit records for identity.",
@@ -36,5 +216,6 @@
     "Preserve islands, narrow connections, polygon topology and actual terrain under observed mowing extents.",
     "Update both courses, GIS export, routing/pack bindings and checksum registries after accepted changes.",
     "Commit each substantial completed improvement; completeSurvey remains false while any category has unverified coverage."
-  ]
+  ],
+  "mappingStatus": "Reviewed improvements adopted; incomplete categories remain explicit and must not be filled with invented geometry."
 }

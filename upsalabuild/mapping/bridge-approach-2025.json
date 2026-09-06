@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "sources": {
+    "bridge03_approach": {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640375%2C6636220%2C640445%2C6636280&width=438&height=375&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-05T23:22:04.181033+00:00",
+      "sha256": "8fe1e162224a80099e00f29064f3bc7665cd9c861322f45e8ca8539baf9e33a4",
+      "bytes": 239642,
+      "output": "bridge03_approach.png",
+      "extent": [
+        640375,
+        6636220,
+        640445,
+        6636280
+      ],
+      "dimensions": [
+        438,
+        375
+      ],
+      "crs": "EPSG:3006",
+      "sourceFlightYear": 2025,
+      "sourceHorizontalAccuracyRMSEM": null,
+      "nativeResolutionM": 0.16,
+      "exactCaptureDate": null,
+      "sourceAbsoluteHorizontalAccuracyM": null,
+      "flightYearEvidence": "Full-area 2025 flight-year metadata raster and earlier deck review; exact capture day unavailable."
+    }
+  },
+  "features": [
+    {
+      "id": "upsala-footbridge-approach-w438983252",
+      "kind": "path-terminal-correction",
+      "osmId": "w438983252",
+      "collection": "infra.paths",
+      "bridgeId": "upsala-footbridge-w438983250",
+      "assertOriginalLine": [
+        [
+          554.9,
+          -128
+        ],
+        [
+          561.8,
+          -123.5
+        ],
+        [
+          589.3,
+          -112.5
+        ],
+        [
+          597.5,
+          -105.6
+        ],
+        [
+          599.1,
+          -100.9
+        ]
+      ],
+      "line": [
+        [
+          554.9,
+          -128
+        ],
+        [
+          561.8,
+          -123.5
+        ],
+        [
+          589.3,
+          -112.5
+        ],
+        [
+          597.5,
+          -105.6
+        ],
+        [
+          602.135,
+          -102.243
+        ]
+      ],
+      "prov": "osm-with-reviewed-bridge-connection",
+      "sourceId": "bridge03_approach",
+      "sourceSha256": "8fe1e162224a80099e00f29064f3bc7665cd9c861322f45e8ca8539baf9e33a4",
+      "sourceUrl": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640375%2C6636220%2C640445%2C6636280&width=438&height=375&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "observedYear": 2025,
+      "boundaryInterpretationUncertaintyM": 1.5,
+      "absoluteHorizontalAccuracyRMSEM": null,
+      "notSurveyed": true,
+      "status": "accepted",
+      "changedVertexIndices": [
+        4
+      ],
+      "originalGapM": 3.319,
+      "resultGapM": 0,
+      "unchangedPrefixVertices": 4,
+      "review": "2025 native 0.16 m image resolves the bridge north landing and its approach between the mown surfaces. Move only the terminal shared node onto that verified deck endpoint. The older full OSM approach geometry is retained and is not newly certified by this correction.",
+      "surface": null,
+      "surfaceNote": "Path surface/material unresolved; do not label this entire route asphalt or gravel from the terminal review."
+    }
+  ]
+}

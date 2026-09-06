@@ -14,6 +14,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
+import { createWoodlandContextSampler } from '../apps/golf/src/engine/woodland-context.mjs';
 
 const BUILD_SLUGS = {
   geobuild: 'veckefjarden', puttombuild: 'puttom', upsalabuild: 'upsala',
@@ -23,7 +24,8 @@ const BUILD_SLUGS = {
 };
 const GEOMETRY_KEYS = new Set([
   'ring', 'rings', 'holes', 'line', 'lines', 'c', 'point', 'coordinates',
-  'geometry', 'sourceGeometry', 'originalPixelRings', 'cx', 'cz',
+  'geometry', 'sourceGeometry', 'evidenceGeometry', 'originalPixelRings',
+  'originalPixelRing', 'assertOriginalLine', 'axis', 'abutments', 'cx', 'cz',
 ]);
 const hash = value => createHash('sha256').update(value).digest('hex');
 const same = (a, b) => a[0] === b[0] && a[1] === b[1];
@@ -87,7 +89,8 @@ function classify(record, fallback) {
     placementMethod: method || (synthetic ? 'inferred' : osm ? 'osm-mapping' : null),
     surveyed,
     horizontalAccuracyMetres: record?.horizontalAccuracyMetres ??
-      record?.sourceAbsoluteHorizontalAccuracyM ?? record?.positionalAccuracyMetres ?? null,
+      record?.sourceAbsoluteHorizontalAccuracyM ?? record?.absoluteHorizontalAccuracyRMSEM ??
+      record?.positionalAccuracyMetres ?? null,
   };
 }
 
@@ -250,6 +253,14 @@ export async function exportGroundMap({ root = process.cwd(), builds, ground = n
     geometries(m.coast?.beaches, 'coast.beaches', 'beach');
     for (const [key, records] of Object.entries(m.infra || {})) {
       if (key === 'farB' || key === 'power' || !Array.isArray(records)) continue;
+      if (key === 'bridges') {
+        for (const [index, record] of records.entries()) {
+          if (!polygon(record, `infra.bridges[${index}]`, record.kind || 'bridge')) {
+            throw new Error(`bridge lacks a mapped footprint: ${build}:${index}`);
+          }
+        }
+        continue;
+      }
       if (key === 'mappedPoints' || key === 'points') {
         records.forEach((record, index) => {
           const tags = record.tags || {};
@@ -309,6 +320,9 @@ export async function exportGroundMap({ root = process.cwd(), builds, ground = n
         standFieldStatus: 'Retained in the referenced ground graph; no procedural individual trees exported.',
         projection: 'EPSG:3006 inverse via repository GRS80 series. SWEREF99 and WGS84 treated as coincident; no epoch transformation.',
       };
+      const woodland = models.find(item => item.build === build)?.model.scenery?.woodlandContext;
+      const woodlandAt = createWoodlandContextSampler(woodland, { toEpsg: (e, n) => [e, n] });
+      summary.woodlandContext = woodland ? { sourceVersion: woodland.sourceVersion, nativeResolutionMetres: 10, conifer: 0, broadleaf: 0, unknown: 0 } : null;
       for (const tile of published.tiles) {
         if (tile.layers?.stands) summary.standFieldTiles++;
         if (!tile.layers?.objects) continue;
@@ -320,10 +334,16 @@ export async function exportGroundMap({ root = process.cwd(), builds, ground = n
           seenObjects.add(identity);
           const [lat, lon] = sweref99TmToLatLon(record.easting, record.northing);
           const crown = record.class === 'tree' && record.placementMethod === 'derived-lidar';
+          const leafType = crown ? woodlandAt(record.easting, record.northing) : null;
+          if (crown && summary.woodlandContext) summary.woodlandContext[leafType === 1 ? 'conifer' : leafType === 2 ? 'broadleaf' : 'unknown']++;
           add({ type: 'Point', coordinates: [round(lon), round(lat)] }, {
             ...record, prov: record.placementMethod,
             ...(crown ? { positionMeaning: 'LiDAR crown candidate; stem position is not surveyed.',
-              species: null, speciesStatus: 'not identified', shapeMeaning: 'radius is an estimated crown radius' } : {}),
+              species: null, speciesStatus: 'not identified', shapeMeaning: 'radius is an estimated crown radius',
+              ...(woodland ? { woodlandLeafTypeContext: leafType === 1 ? 'conifer-dominant' : leafType === 2 ? 'broadleaf-dominant' : null,
+                woodlandContextSource: woodland.source, woodlandContextSourceVersion: woodland.sourceVersion,
+                woodlandContextResolutionMetres: 10, woodlandContextSourceSha256: woodland.sourceSha256,
+                woodlandContextMeaning: 'Coarse stand context; not individual species identification.' } : {}) } : {}),
             chunkSha256: tile.layers.objects.sha256,
           }, { build: null, path: `${published.groundId}/${tile.id}/${record.id}`,
             kind: crown ? 'tree-crown-candidate' : record.class });

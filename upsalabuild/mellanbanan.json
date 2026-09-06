@@ -6,9 +6,13 @@
   "routes": "upsalabuild/mellanbanan-routes.geojson",
   "guideNotes": "upsalabuild/guide-notes-mellanbanan.json",
   "lineSrc": "published 18Birdies hole route (mellanbanan-routes.geojson), tee end slid to the card Vit length",
-  "conf": "provisional: routing from published GPS routes, shapes synthesised",
-  "note": "Upsala GK Mellanbanan. Environment shared verbatim with the Stora banan (upsalabuild/course-model.json); the eighteen is carried here as scenery. Hole routing from published GPS routes, which agree with the club banguide trace on seven of nine holes and correct the two the banguide drew under canopy; hole lengths exact from the club card; greens, fairways and tee pads synthesised and marked prov:\"synth\". Hole6 green uses the existing OSM outline w221192642 containing its provisional route endpoint; its pin and routing remain unchanged.",
+  "conf": "All nine greens,23 physical tee platforms and7 fairway polygons reviewed; daily markers and tee colour assignments remain provisional",
+  "note": "Upsala Mellanbanan shares Stora ground. Eight greens traced against dated2024/2025 orthophotos; hole6 uses OSM. All six long-hole fairways have reviewed mowing boundaries (seven polygons, including the gap on hole8). Twenty-three physical tee platforms are mapped independently of card-derived markers; hole8tee coverage remains partial. Nominal green centres are derived; daily markers and colour-to-platform assignments are unverified.",
   "greenSourceIds": {
     "6": "w221192642"
-  }
+  },
+  "reviewedGreens": "upsalabuild/mapping/mellan-greens-2025.json",
+  "inferPads": false,
+  "reviewedTees": "upsalabuild/mapping/mellan-tees-2025.json",
+  "reviewedFairways": "upsalabuild/mapping/mellan-fairways-2025.json"
 }

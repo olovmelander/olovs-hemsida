@@ -9,7 +9,7 @@ from pathlib import Path
 
 import matplotlib
 matplotlib.use('Agg')
-matplotlib.rcParams.update({'font.family': 'DejaVu Sans', 'svg.fonttype': 'none'})
+matplotlib.rcParams.update({'font.family': 'DejaVu Sans', 'svg.fonttype': 'none', 'svg.hashsalt': 'upsala-ground-map-v1'})
 import matplotlib.pyplot as plt
 from matplotlib.patches import PathPatch, Circle, Rectangle, Patch
 from matplotlib.path import Path as MplPath
@@ -54,6 +54,9 @@ colors = {
     'tee': ('#92b278', '#648452', .35, 4),
     'bunker': ('#f3df9b', '#bd9f58', .4, 6),
     'range_bunker': ('#f3df9b', '#bd9f58', .5, 6),
+    'practice_bunker': ('#f3df9b', '#bd9f58', .5, 6),
+    'range_mat': ('#345c4a', '#254536', .3, 8),
+    'footbridge': ('#a88b68', '#705c43', .5, 8),
     'range_tee_pad': ('#9b978f', '#625f59', .5, 6),
     'range_target_surface': ('#f4f1e7', '#938c76', .7, 6),
     'non_turf_island': ('#ece7d4', '#756e5f', .5, 7),
@@ -184,7 +187,7 @@ fig.legend(handles=legend,loc='upper left',bbox_to_anchor=(.768,.39),frameon=Fal
 fig.text(.035,.161,'DATED EVIDENCE, WITH VISIBLE LIMITS',fontsize=9,fontweight='bold',color='#3d4d3e')
 fig.text(.035,.133,'2024 municipal and 2025 imagery traces · municipal building survey methods · OSM geometry · 2021 LiDAR crown candidates',
     fontsize=8.5,color='#626557')
-fig.text(.035,.109,'Unknown absolute accuracy remains unknown. Crown centres are not surveyed stems; species are unverified. Inferred surfaces remain in the model.',
+fig.text(.035,.109,'Unknown absolute accuracy remains unknown. Crown centres are not surveyed stems; species are unverified. Guide references remain provisional.',
     fontsize=8.5,color='#626557')
 fig.text(.035,.085,'The map shows existing vector geometry without smoothing. The practice inset retains the island inside the clubhouse putting green.',
     fontsize=8.5,color='#626557')
@@ -192,7 +195,9 @@ fig.text(.035,.049,f"Source: ground-map.geojson · SHA-256 {hashlib.sha256(raw).
     fontsize=7.5,color='#76796d')
 
 out=Path(args.out);out.parent.mkdir(parents=True,exist_ok=True)
-fig.savefig(out,facecolor=bg)
+fig.savefig(out,facecolor=bg,metadata={'Date': None})
+if out.suffix.lower() == '.svg':
+    out.write_text('\n'.join(line.rstrip() for line in out.read_text().splitlines()) + '\n')
 fig.savefig(out.with_suffix('.png'),dpi=160,facecolor=bg)
 counts={}
 for f in plotted: counts[kind(f)]=counts.get(kind(f),0)+1

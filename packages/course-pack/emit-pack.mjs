@@ -20,6 +20,7 @@ import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { writePack, sha256 } from './lib.mjs';
+import { runtimeScenery } from './runtime-scenery.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const [buildDir, outDir, slugArg] = process.argv.slice(2);
@@ -65,13 +66,13 @@ const vec = {
      reconcile has a rule set to place it from (Ängsö's Lokala regler, Johannesberg's
      hole plans) */
   marking: (model.marking || []).map(m => ({ c: m.color, pts: m.pts })),
-  streams: model.streams.map(s => ({ line: s.line, w: s.w })),
+  streams: model.streams.map(s => ({ line: s.line, w: s.w, ...(model.infra.bridgePlacement === 'mapped-only' ? Object.fromEntries(['id', 'kind', 'tunnel', 'covered', 'layer', 'width'].filter(k => s[k] !== undefined).map(k => [k, s[k]])) : {}) })),
   veg: model.vegetation,
   cover,
   infra: model.infra,
   /* the newer builds may carry traced surroundings too (Puttom: the works yard) */
   surround: model.surround ?? { clearfells: [], yard: null, hayfields: null, shallows: [] },
-  scenery: model.scenery,
+  scenery: runtimeScenery(model),
 };
 /* ------------------------------------------------------------------------------- */
 

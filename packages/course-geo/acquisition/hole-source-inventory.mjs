@@ -39,11 +39,11 @@ export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
   }),
   upsala: Object.freeze({
     path: 'upsalabuild/course-model.json',
-    sha256: '47d7ae15a24fcd23b2fda3344d4cbcdd534d3fff1519215c28676da6bf62379f',
+    sha256: '02df0fe85de60acdbd5b3b2b4a572c179b3139de110974a4238b3993ff0597b6',
   }),
   'upsala-mellanbanan': Object.freeze({
     path: 'upsalamellanbuild/course-model.json',
-    sha256: '8253cfff76e64923320ae22df471937e99130a73793de4dc9698026241e1f691',
+    sha256: 'f772309fe73dbc4d5831c67f11d9ee1f5e7d10bd71913d81a1c774a1c31be1ac',
   }),
   johannesberg: Object.freeze({
     path: 'johannesbergbuild/course-model.json',

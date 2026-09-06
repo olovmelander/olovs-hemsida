@@ -12,10 +12,9 @@
 
    What each contributes, and what none of them is allowed to become:
 
-   - The CARD is the length. Every hole is slid along its own axis until the
-     polyline measures the club's printed back-tee distance exactly -- the same
-     rule the six built courses use, and the reason a slide is a statement about
-     where the tee is rather than a fudge.
+   - The CARD is the displayed length. The provisional route start is slid until
+     the polyline measures its printed back-tee distance. This is a modelling
+     assumption, not evidence for the physical deck or daily marker position.
    - The ROUTES are the shape and the direction. They are published third-party
      geometry, not a club survey, so their endpoints stay provisional and are
      never relabelled as a surveyed green centre. What they are good for is the
@@ -25,13 +24,15 @@
      holes are carried into `scenery` so its mown turf still reads as mown when
      you stand on the nine. That is symmetric, and it is what M.scenery is for.
 
-   Greens, fairways and tee pads are SYNTHESISED around the routes and marked
-   prov:"synth". The club published where its holes run, not the outline of every
-   green, and this tool does not pretend otherwise.                            */
+   Unreviewed surfaces are synthesised around the routes and marked prov:"synth".
+   Reviewed outlines can replace them. cfg.inferPads=false suppresses inferred
+   decks; cfg.reviewedTees imports physical surfaces without assigning colours. */
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
+import { applyReviewedNineTees } from './apply-reviewed-nine-tees.mjs';
+import { applyReviewedNineFairways } from './apply-reviewed-nine-fairways.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJSON = p => JSON.parse(fs.readFileSync(p, 'utf8'));
@@ -47,6 +48,7 @@ const parent = readJSON(path.join(ROOT, cfg.parentBuild, 'course-model.json'));
    (the route is re-ended there before the card slide, so the length still measures
    the card), and its accepted bunkers. Everything not accepted stays synthesised. */
 const SHAPES = cfg.shapes ? readJSON(path.resolve(ROOT, cfg.shapes)) : null;
+const REVIEWED_GREENS = cfg.reviewedGreens ? readJSON(path.resolve(ROOT, cfg.reviewedGreens)).features : [];
 const shapeOf = n => SHAPES?.holes?.find(h => h.hole === n) || null;
 /* Optional laser-terrain readings (cfg.laserShapes): green centres and radii, and
    bunker centres, read off a hillshade of the 1 m DTM where the imagery showed
@@ -151,11 +153,13 @@ if (missing.length) throw new Error('no published route for hole(s) ' + missing.
 
 /* ---- the holes ---------------------------------------------------------------- */
 const report = [];
-const holes = card.holes.map(h => {
+let holes = card.holes.map(h => {
   const shape = shapeOf(h.n);
-  const tracedGreen = shape?.green?.accepted ? shape.green : null;
+  const reviewed = REVIEWED_GREENS.find(g => g.hole === h.n);
+  const tracedGreen = reviewed || (shape?.green?.accepted ? shape.green : null);
   const laserGreen = !tracedGreen && LASER?.greens?.[h.n] ? LASER.greens[h.n] : null;
   const raw = routes[h.n].map(p => p.slice());
+  if (reviewed && JSON.stringify(rnd(raw.at(-1))) !== JSON.stringify(reviewed.originalC)) throw new Error(`hole ${h.n}: reviewed route reference changed`);
   if (tracedGreen) raw[raw.length - 1] = tracedGreen.c.slice();
   else if (laserGreen) raw[raw.length - 1] = laserGreen.c.slice();
   const back = h.t[0];                         /* the card's back tee, hole by hole */
@@ -165,7 +169,7 @@ const holes = card.holes.map(h => {
   const F = [Math.sin(b), -Math.cos(b)], R = [-Math.cos(b), Math.sin(b)];
 
   const gr = h.par === 3 ? 13 : h.par === 5 ? 15 : 14;
-  const greenRing = tracedGreen ? tracedGreen.ring.map(rnd) : laserGreen ? ellipse(green, laserGreen.r, laserGreen.r * 0.85, b) : ellipse(green, gr, gr * 0.78, b);
+  const greenRing = reviewed ? structuredClone(reviewed.ring) : tracedGreen ? tracedGreen.ring.map(rnd) : laserGreen ? ellipse(green, laserGreen.r, laserGreen.r * 0.85, b) : ellipse(green, gr, gr * 0.78, b);
   const tracedBunkers = [
     ...(shape?.bunkers || []).filter(b => b.accepted).map(b => ({ ring: b.ring.map(rnd), prov: 'sat' })),
     ...((LASER?.bunkers?.[h.n]) || []).map(lb => ({ ring: ellipse(lb.c, lb.r, lb.r * 0.8, b, 10), prov: 'laser' })),
@@ -186,28 +190,27 @@ const holes = card.holes.map(h => {
     rings.push([...pts.map(p => p[0]), ...pts.reverse().map(p => p[1])].map(rnd));
   }
 
-  /* one pad per CARD tee, each at its own printed distance back from the green
-     along the hole's axis. Not from the published tee points: the card is the
-     authority on how far a tee plays, every card tee must have ground under its
-     marker, and the published set is neither complete nor colour-certain. Where
-     a published point does exist it is measured against, never used. */
+  /* Provisional markers follow card distance along the axis. If requested,
+     inferred pads accompany them. Reviewed decks are imported independently
+     below; the scorecard cannot establish their boundaries or colour ownership. */
   const pads = [], marks = [];
   h.t.forEach((len, k) => {
     const c = rnd([green[0] - F[0] * len, green[1] - F[1] * len]);
-    pads.push({ ring: ellipse(c, 6.5, 4.6, b, 8), c, prov: 'synth', teeIdx: k });
+    if (cfg.inferPads !== false) pads.push({ ring: ellipse(c, 6.5, 4.6, b, 8), c, prov: 'synth', teeIdx: k });
     marks.push({ teeIdx: k, m: len, c, b: +(b * 180 / Math.PI).toFixed(1) });
   });
 
   const te = groundAt(tee[0], tee[1]), ge = groundAt(green[0], green[1]);
-  report.push({ n: h.n, slide, routeLen: polyLen(raw), pub: pubTee[h.n], backC: pads[0].c });
+  report.push({ n: h.n, slide, routeLen: polyLen(raw), pub: pubTee[h.n], backC: marks[0]?.c ?? rnd(tee) });
   return {
     n: h.n, par: h.par, idx: h.hcp, t: h.t,
     line: L.map(rnd), lineLen: +polyLen(L).toFixed(1), lenDev: 0,
     lineSrc: cfg.lineSrc,
-    green: { ring: greenRing, c: rnd(green), prov: tracedGreen ? 'sat' : laserGreen ? 'laser' : 'synth',
+    green: { ring: greenRing, c: rnd(green), prov: reviewed ? 'dated-orthophoto-trace' : tracedGreen ? 'sat' : laserGreen ? 'laser' : 'synth',
+             ...(reviewed ? { sourceId: reviewed.id, observedYear: reviewed.observedYear, sourceAbsoluteHorizontalAccuracyMetres: null, boundaryInterpretationUncertaintyMetres: reviewed.boundaryInterpretationUncertaintyMetres, centreProvenance: reviewed.centreProvenance } : {}),
              area: tracedGreen ? tracedGreen.area : laserGreen ? Math.round(Math.PI * laserGreen.r * laserGreen.r * 0.85) : Math.round(Math.PI * gr * gr * 0.78) },
     fairway: { rings, prov: 'synth' },
-    tees: { pads, marks },
+    tees: { pads, marks, ...(cfg.inferPads === false ? { inferPads: false } : {}) },
     bunkers: tracedBunkers,
     pin: rnd(green),
     elev: { tee: +te.toFixed(1), green: +ge.toFixed(1), rise: +(ge - te).toFixed(1) },
@@ -238,6 +241,19 @@ for (const [number, sourceId] of Object.entries(cfg.greenSourceIds || {})) {
   hole.green = { ...hole.green, ring: structuredClone(ring), area: Math.round(Math.abs(twiceArea) / 2), prov: source.prov, sourceId, positionalAccuracyMetres: null };
 }
 
+/* Physical platforms were reviewed against the archived source-route model.
+   Apply after green reconciliation, before scenery deduplication. Current
+   card-derived markers are provisional and do not control deck geometry. */
+if (cfg.reviewedTees) {
+  const evidence = readJSON(path.resolve(ROOT, cfg.reviewedTees));
+  holes = applyReviewedNineTees({ origin: parent.origin, mPerLat: parent.mPerLat, mPerLon: parent.mPerLon, holes },
+    { evidence, sourceRoutes: geo, card }).holes;
+}
+if (cfg.reviewedFairways) {
+  holes = applyReviewedNineFairways({ origin: parent.origin, mPerLat: parent.mPerLat, mPerLon: parent.mPerLon, holes },
+    readJSON(path.resolve(ROOT, cfg.reviewedFairways))).holes;
+}
+
 /* ---- the parent's holes become scenery ----------------------------------------- */
 /* The relationship is symmetric: the parent's reconcile may carry THIS nine's holes
    in its own scenery (Johannesberg does), and those rings must not come back here
@@ -257,7 +273,9 @@ const scenery = {
   bunkers: [...notOwn(P.bunkers), ...parent.holes.flatMap(h => h.bunkers.map(x => x.ring))],
   grass: P.grass || [], range: P.range || [],
   ...(P.mappedFeatures ? { mappedFeatures: P.mappedFeatures } : {}),
+  ...(P.woodlandContext ? { woodlandContext: P.woodlandContext } : {}),
   ...(P.sourceFeatures ? { sourceFeatures: P.sourceFeatures } : {}),
+  ...(P.retiredSourceFeatures ? { retiredSourceFeatures: P.retiredSourceFeatures } : {}),
   ...(P.practiceGreens ? { practiceGreens: P.practiceGreens } : {}),
   ...(P.rangeFacilities ? { rangeFacilities: P.rangeFacilities } : {}),
   ...(P.cartPark ? { cartPark: P.cartPark } : {}),
@@ -316,7 +334,8 @@ for (const h of holes) {
     h.lineLen.toFixed(1).padStart(9) + ((h.elev.rise >= 0 ? '+' : '') + h.elev.rise.toFixed(1)).padStart(8) + '   ' + pub);
 }
 console.log('\nworst length deviation from the card: ' + maxDev.toFixed(2) + ' m');
-const walks = holes.map((h, i) => hyp(h.green.c, holes[(i + 1) % N].tees.pads[0].c));
+/* The first physical deck is an ordering detail, not the back-tee marker. */
+const walks = holes.map((h, i) => hyp(h.green.c, holes[(i + 1) % N].tees.marks[0]?.c ?? holes[(i + 1) % N].line[0]));
 const sw = [...walks].sort((a, b) => a - b);
 const close = walks[N - 1];
 console.log('walk green->next tee: median ' + sw[Math.floor(N / 2)].toFixed(0) + ' m, range ' +

@@ -28,7 +28,9 @@ const BASE = process.argv.slice(2).find(a => !a.startsWith('--')) || 'http://127
    flag and still checks everything. */
 const ONLY = (process.argv.find(a => a.startsWith('--only=')) || '').slice(7).split(',').filter(Boolean);
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
+const BUNDLED_CHROME = chromium.executablePath();
+const CHROME = process.env.BANVY_CHROME || (fs.existsSync(LINUX_CHROME) ? LINUX_CHROME :
+  fs.existsSync(BUNDLED_CHROME) ? BUNDLED_CHROME : undefined);
 
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/index.json'), 'utf8'));
 let bad = 0;
@@ -86,6 +88,7 @@ async function checkCourse(c) {
     url: location.search,
     ground: (() => {
       const V = window.V3D, info = V.groundInfo();
+      const mappedObjectsOnly = V.M?.infra?.objectPlacement === 'mapped-only';
       const greenMisses = V.HOLES.filter(h => V.groundSample(h.green.c[0], h.green.c[1])?.surface !== 4).map(h => h.n);
       /* A crescent bunker's centroid can lie outside its own ring (Upsala's 3rd
          does), so probe a point that is inside by construction: the midpoint of
@@ -124,11 +127,27 @@ async function checkCourse(c) {
          it asks what the ground actually is at the marker, not what the model
          intended -- 5 is SURFACE.TEE, 3 the fringe collar a deck sits in. */
       const teeMisses = [];
-      let teeMarks = 0;
-      for (const h of V.HOLES) for (const mk of (h.tees.marks || [])) {
-        teeMarks++;
-        const s = V.groundSample(mk.c[0], mk.c[1])?.surface;
-        if (s !== 5 && s !== 3) teeMisses.push(`${h.n}/${mk.teeIdx}:${s}`);
+      let teeMarks = 0, teePlatforms = 0;
+      const holesMissingPlatforms = mappedObjectsOnly ? V.HOLES
+        .filter(h => !Array.isArray(h.tees?.pads) || h.tees.pads.length === 0).map(h => h.n) : [];
+      if (mappedObjectsOnly) {
+        // The HUD's nominal tee references are not physical marker objects.
+        // Probe the actual deck interiors, including concave polygons whose
+        // vertex average can lie outside, so bad/wet turf still fails loudly.
+        for (const h of V.HOLES) for (const [i, pad] of (h.tees.pads || []).entries()) {
+          teePlatforms++;
+          const ring = pad.ring;
+          if (!ring || ring.length < 3) { teeMisses.push(`${h.n}/pad${i}:invalid`); continue; }
+          const c = ring.reduce((a, p) => [a[0] + p[0] / ring.length, a[1] + p[1] / ring.length], [0, 0]);
+          const p = interiorPoint(ring, c), s = V.groundSample(p[0], p[1])?.surface;
+          if (s !== 5 && s !== 3) teeMisses.push(`${h.n}/pad${i}:${s}`);
+        }
+      } else {
+        for (const h of V.HOLES) for (const mk of (h.tees.marks || [])) {
+          teeMarks++;
+          const s = V.groundSample(mk.c[0], mk.c[1])?.surface;
+          if (s !== 5 && s !== 3) teeMisses.push(`${h.n}/${mk.teeIdx}:${s}`);
+        }
       }
       /* A tee's two markers straddle the line: the axis between them must be
          PERPENDICULAR to the direction of play. Measured against the hole line
@@ -162,7 +181,8 @@ async function checkCourse(c) {
           axis.push(rec);
         }
       }
-      return { ...info, greenMisses, bunkerMisses, plates, teeMarks, teeMisses, axis, perf: V.perf() };
+      return { ...info, greenMisses, bunkerMisses, plates, teeMarks, teePlatforms, teeMisses,
+        holesMissingPlatforms, mappedObjectsOnly, axis, perf: V.perf() };
     })(),
   }));
 
@@ -195,9 +215,12 @@ async function checkCourse(c) {
     const med = g.length ? g[g.length >> 1] : 0;
     gate(med <= 25, `marker axes square to the surveyed green direction too (median ${med.toFixed(1)}°, worst ${(g[g.length - 1] || 0).toFixed(1)}°)`);
   }
-  gate(got.ground.teeMisses.length === 0,
-    `all ${got.ground.teeMarks} tee markers stand on tee grass` +
-    (got.ground.teeMisses.length ? ` -- ${got.ground.teeMisses.length} do not (hole/tee:surface ${got.ground.teeMisses.slice(0, 4).join(' ')})` : ''));
+  gate(got.ground.teeMisses.length === 0 && got.ground.holesMissingPlatforms.length === 0,
+    (got.ground.mappedObjectsOnly
+      ? `all ${got.ground.teePlatforms} physical tee-platform interiors are tee turf; no physical marker pairs are inferred`
+      : `all ${got.ground.teeMarks} tee markers stand on tee grass`) +
+    (got.ground.teeMisses.length ? ` -- ${got.ground.teeMisses.length} do not (hole/tee:surface ${got.ground.teeMisses.slice(0, 4).join(' ')})` : '') +
+    (got.ground.holesMissingPlatforms.length ? ` -- missing physical tee platforms on holes ${got.ground.holesMissingPlatforms.join(', ')}` : ''));
   {
     /* 2 m, not zero: the post sits 15 m off the centre line, so at a polyline
        vertex the bearing -- and with it the post's own distance -- jumps, and no
@@ -215,12 +238,14 @@ async function checkCourse(c) {
        expectation is computed rather than assumed, and a course with no
        eligible hole is asserted to have exactly zero -- which still catches
        plates being invented where none belong. */
-    const eligible = cardHoles.filter(h => h.par >= 4 && h.t[0] > 160).length;
+    const eligible = got.ground.mappedObjectsOnly ? 0 : cardHoles.filter(h => h.par >= 4 && h.t[0] > 160).length;
     const ok = eligible ? (p.length > 0 && bad.length === 0) : p.length === 0;
     gate(ok, eligible
       ? `${p.length} distance plates measure their own label (worst ${worst.toFixed(2)} m)` +
         (bad.length ? ` -- ${bad.length} off, e.g. hole ${bad[0].hole} says ${bad[0].says} at ${bad[0].err > 0 ? '+' : ''}${bad[0].err} m` : '')
-      : `no distance plates, and none is due: ${cardHoles.length} holes, none par 4+ over 160 m` +
+      : (got.ground.mappedObjectsOnly
+        ? 'no distance plates: mapped-only ground has no observed physical plate records'
+        : `no distance plates, and none is due: ${cardHoles.length} holes, none par 4+ over 160 m`) +
         (p.length ? ` -- but ${p.length} were planted` : ''));
   }
   console.log(`  perf atlas ${got.ground.perf.atlasMs} ms, boot JS ${got.ground.perf.totalMs} ms`);

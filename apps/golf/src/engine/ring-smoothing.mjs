@@ -19,8 +19,10 @@
    to 0.8 m at every green vertex -- an error the transect audit measured and
    nothing else could see. */
 
-export function smoothShore(ring, near, step = 3, passes = 3, minPts = 8) {
-  if (!ring || ring.length < minPts) return ring;
+export function smoothShore(ring, near, step = 3, passes = 3, minPts = 8, { preserveMappedBoundaries = false } = {}) {
+  // An adopted source boundary is geometry, not a sketch to beautify. Pixel
+  // traces and DTM plate edges retain every supplied vertex under this policy.
+  if (preserveMappedBoundaries || !ring || ring.length < minPts) return ring;
   const dense = [];
   for (let i = 0; i < ring.length; i++) {
     const a = ring[i], b = ring[(i + 1) % ring.length];
@@ -63,19 +65,20 @@ const always = () => true;
    Returns NEW hole and scenery objects; the caller's model is not touched, so
    a compiler can smooth a pack it must not mutate and the app can smooth its
    own live copy. Synthesised tee pads are already rectangles and stay so. */
-export function smoothMownEdges({ holes = [], scenery = {} } = {}) {
+export function smoothMownEdges({ holes = [], scenery = {}, preserveMappedBoundaries = false } = {}) {
+  const smoothRing = preserveMappedBoundaries ? ring => ring : smoothShore;
   const smoothedHoles = holes.map(h => {
     if (!h || typeof h !== 'object') return h;
     const out = { ...h };
-    if (h.green?.ring) out.green = { ...h.green, ring: smoothShore(h.green.ring, always, 2.0, 2, 6) };
+    if (h.green?.ring) out.green = { ...h.green, ring: smoothRing(h.green.ring, always, 2.0, 2, 6) };
     if (h.fairway?.rings) {
-      out.fairway = { ...h.fairway, rings: h.fairway.rings.map(r => smoothShore(r, always, 2.5, 3, 6)) };
+      out.fairway = { ...h.fairway, rings: h.fairway.rings.map(r => smoothRing(r, always, 2.5, 3, 6)) };
     }
     if (h.tees?.pads) {
       out.tees = {
         ...h.tees,
         pads: h.tees.pads.map(t => (t && t.prov !== 'synth' && !t.preserveTerrain && t.ring
-          ? { ...t, ring: smoothShore(t.ring, always, 2.5, 1, 6) }
+          ? { ...t, ring: smoothRing(t.ring, always, 2.5, 1, 6) }
           : t)),
       };
     }
@@ -83,10 +86,10 @@ export function smoothMownEdges({ holes = [], scenery = {} } = {}) {
   });
   const smoothedScenery = { ...scenery };
   if (Array.isArray(scenery.fairways)) {
-    smoothedScenery.fairways = scenery.fairways.map(r => smoothShore(r, always, 2.5, 3, 6));
+    smoothedScenery.fairways = scenery.fairways.map(r => smoothRing(r, always, 2.5, 3, 6));
   }
   if (Array.isArray(scenery.greens)) {
-    smoothedScenery.greens = scenery.greens.map(r => smoothShore(r, always, 2.0, 2, 6));
+    smoothedScenery.greens = scenery.greens.map(r => smoothRing(r, always, 2.0, 2, 6));
   }
   return { holes: smoothedHoles, scenery: smoothedScenery };
 }
