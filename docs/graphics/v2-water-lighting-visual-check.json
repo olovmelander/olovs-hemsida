@@ -1,0 +1,364 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Software visual and invariant comparison, not a real-device performance benchmark.",
+  "executionAdapter": "swiftshader-software",
+  "performanceEvidence": false,
+  "request": {
+    "course": "veckefjarden",
+    "backend": "webgl2",
+    "autoFallback": true,
+    "q": "lo",
+    "viewport": [
+      384,
+      288
+    ],
+    "dpr": 1,
+    "views": [
+      {
+        "id": "h14_green_golden",
+        "hole": 14,
+        "cam": "green",
+        "preset": "golden"
+      }
+    ]
+  },
+  "captureHarnessSha256": "b53b14551b52446db3756492c90e476bd50e00a049b7c0f86c1bbce6706ad6d9",
+  "before": {
+    "build": {
+      "revision": "241a3eeb4999442604d6e5ec41bfa020db822b30",
+      "indexSha256": "657fea7e483ac1571cadc88c9704bc5e0379afb51a358f7367132b24c2d63883",
+      "assetsInventorySha256": "d9f69428f0d232033f4f66e0db4c383d9f76da55aa1fc2e0b552be04bf4c4b75",
+      "assetFiles": 46,
+      "entryBundles": [
+        {
+          "file": "assets/index-CUzgbiZj.js",
+          "sha256": "2dc8f08d75c174edc960563ab80a4a7d90f1841744777c3b565a2491edb43a47",
+          "bytes": 1550
+        },
+        {
+          "file": "assets/main-UFWL_JUU.js",
+          "sha256": "bbd30e6d6aebb66d9b7cb904ba9729dc261d415f1d96e866e237b877f0ca05c3",
+          "bytes": 318239
+        }
+      ]
+    },
+    "rawReportSha256": "14e3396d5cf132502c28b8ab6272c0c97619f7c33b61c6b50289a12ff13542aa",
+    "rawHarnessPassed": true,
+    "errors": [],
+    "warningCount": 11,
+    "fingerprint": {
+      "model": "cb1135faf1d037728b5f74b92a7b1601a38349fc0a8bff24c3e305a9f1f85569",
+      "routing": "3f67c23412c25afb36a3ddb9b9d9be3e4c281154e9e0f88be16515677c58f251",
+      "georeferencing": "2aa622fcc210b0a679bd67d9d03f17a6ea3ef5d5be0d76bda1cad246cf786652",
+      "treeInstances": "7110dc53b64160588069a46a604e2f00f9c5e7a4bd071a9cccf0b718b0a7232e",
+      "treePositions": "929be1ab8d81cd4f7470d4629a97b0f34c4a7dc0d101740ea3226c2a1ece93a0",
+      "vistaPoints": "ccde480e6f50264cf818ad8e1f77171aef80ecc13b2737789b6332f3967174a5",
+      "tintNear": "34082f5f24c69408720d1a435971fb1a96adc5d44cb06b1e0875d0029e3e45c5",
+      "tintFar": "9ad806b47ca6107d693d9dc6731255d99dd3535b65dcab0a0a4f90f41e6e7d3d",
+      "surfaceSource": null,
+      "vegetationSource": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
+      "counts": {
+        "trees": 17510,
+        "vista": 25921,
+        "tufts": 7900,
+        "bushes": 1437,
+        "stones": 304,
+        "reeds": 1614,
+        "cars": 115,
+        "pylons": 85,
+        "stumps": 96,
+        "surfaceOverlays": 0
+      },
+      "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+    },
+    "views": [
+      {
+        "id": "h14_green_golden",
+        "imageSha256": "41ca059ffb2aab8477242af9324498a635c012b11d7201606382ed40e4e07c34",
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "drawingBuffer": [
+          384,
+          288
+        ],
+        "pixelRatio": 1,
+        "camera": {
+          "pos": [
+            -596,
+            37.7,
+            -787.6
+          ],
+          "look": [
+            -627.6,
+            24.5,
+            -738
+          ],
+          "mode": "green"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            -595.960072622217,
+            37.7231087478671,
+            -787.5880600562756
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "treeCounts": {
+          "tier0": 0,
+          "tier1": 147,
+          "tier2": 4,
+          "tier3": 371,
+          "cells": 256,
+          "cellsVisible": 19,
+          "zoneA": 2958,
+          "zoneB": 5412
+        },
+        "terrainActive": true,
+        "terrainPhase": "ready",
+        "stream": {
+          "readyTiles": 42,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 16,
+          "drawCalls": 1,
+          "triangles": 2129920,
+          "selectedTiles": 16,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        },
+        "terrainInventorySha256": "2a561f35f1f469e07a2298ad239599eefd268bd836aab8284adbe78fc80fa3cc",
+        "terrainInventoryCount": 16,
+        "visibleTerrainTileCount": 74,
+        "visibleTerrainTileIdsSha256": "d09b496d2b5a0161e42aaa0bc0e2f3240fa9e7fd2adac50570b5ffbcd0c1e484"
+      }
+    ]
+  },
+  "after": {
+    "build": {
+      "revision": "99274ee10b54d6a58dccee9f4598e478b38f3a11",
+      "indexSha256": "3f7270d4da0b85cd9c088303fde9ba29690a3c8383c71686baac2e1a7b89b080",
+      "assetsInventorySha256": "2a391c7938f1fc7b848319a871f4f84905d03fa518f62ef040cd7273d3931920",
+      "assetFiles": 46,
+      "entryBundles": [
+        {
+          "file": "assets/index-Csaplm2y.js",
+          "sha256": "6755b3478c6cfb22988c19e5d82b3affb6c573e62c4c3d3d8fcae6efa99a540a",
+          "bytes": 1550
+        },
+        {
+          "file": "assets/main-KPIi1VHB.js",
+          "sha256": "38b3ae70455a8ed1c651f5ca166d221b5596dd6948980767c529fb84b1114a8b",
+          "bytes": 318244
+        }
+      ]
+    },
+    "rawReportSha256": "47331b58c40a8433269ece901e5d79d8732c3ebae2e8efa9a78c09e928a84bbb",
+    "rawHarnessPassed": true,
+    "errors": [],
+    "warningCount": 13,
+    "fingerprint": {
+      "model": "cb1135faf1d037728b5f74b92a7b1601a38349fc0a8bff24c3e305a9f1f85569",
+      "routing": "3f67c23412c25afb36a3ddb9b9d9be3e4c281154e9e0f88be16515677c58f251",
+      "georeferencing": "2aa622fcc210b0a679bd67d9d03f17a6ea3ef5d5be0d76bda1cad246cf786652",
+      "treeInstances": "7110dc53b64160588069a46a604e2f00f9c5e7a4bd071a9cccf0b718b0a7232e",
+      "treePositions": "929be1ab8d81cd4f7470d4629a97b0f34c4a7dc0d101740ea3226c2a1ece93a0",
+      "vistaPoints": "ccde480e6f50264cf818ad8e1f77171aef80ecc13b2737789b6332f3967174a5",
+      "tintNear": "34082f5f24c69408720d1a435971fb1a96adc5d44cb06b1e0875d0029e3e45c5",
+      "tintFar": "9ad806b47ca6107d693d9dc6731255d99dd3535b65dcab0a0a4f90f41e6e7d3d",
+      "surfaceSource": null,
+      "vegetationSource": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
+      "counts": {
+        "trees": 17510,
+        "vista": 25921,
+        "tufts": 7900,
+        "bushes": 1437,
+        "stones": 304,
+        "reeds": 1614,
+        "cars": 115,
+        "pylons": 85,
+        "stumps": 96,
+        "surfaceOverlays": 0
+      },
+      "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+    },
+    "views": [
+      {
+        "id": "h14_green_golden",
+        "imageSha256": "86b7786e8614cd95444455055ec87fc0ba82eccd640b465e707cef3c246e328a",
+        "backend": "webgl2",
+        "quality": {
+          "lowfx": false,
+          "lowq": true,
+          "phone": false,
+          "autoQualityDone": true,
+          "qualityLocked": true,
+          "graphicsPolish": true,
+          "pixelRatio": 1,
+          "bloom": null
+        },
+        "drawingBuffer": [
+          384,
+          288
+        ],
+        "pixelRatio": 1,
+        "camera": {
+          "pos": [
+            -596,
+            37.7,
+            -787.6
+          ],
+          "look": [
+            -627.6,
+            24.5,
+            -738
+          ],
+          "mode": "green"
+        },
+        "lens": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.3333333333333333,
+          "coordinateSystem": 2000,
+          "reversedDepth": true,
+          "position": [
+            -595.960072622217,
+            37.7231087478671,
+            -787.5880600562756
+          ]
+        },
+        "treeLod": {
+          "mode": "zone",
+          "zoneTiers": [
+            2,
+            3,
+            4,
+            4
+          ],
+          "hero": 200,
+          "full": 60,
+          "impostor": 22,
+          "hysteresis": 0.1,
+          "dwell": 6,
+          "floors": [
+            2,
+            4
+          ],
+          "reach": [
+            250,
+            500
+          ]
+        },
+        "treeCounts": {
+          "tier0": 0,
+          "tier1": 147,
+          "tier2": 4,
+          "tier3": 371,
+          "cells": 256,
+          "cellsVisible": 19,
+          "zoneA": 2958,
+          "zoneB": 5412
+        },
+        "terrainActive": true,
+        "terrainPhase": "ready",
+        "stream": {
+          "readyTiles": 42,
+          "loadingTiles": 0,
+          "failedTiles": 0,
+          "renderedTiles": 16,
+          "drawCalls": 1,
+          "triangles": 2129920,
+          "selectedTiles": 16,
+          "requests": {
+            "queued": 0,
+            "running": 0,
+            "jobs": 0
+          }
+        },
+        "terrainInventorySha256": "2a561f35f1f469e07a2298ad239599eefd268bd836aab8284adbe78fc80fa3cc",
+        "terrainInventoryCount": 16,
+        "visibleTerrainTileCount": 74,
+        "visibleTerrainTileIdsSha256": "d09b496d2b5a0161e42aaa0bc0e2f3240fa9e7fd2adac50570b5ffbcd0c1e484"
+      }
+    ]
+  },
+  "rawComparisonPassed": true,
+  "matchedDataChecks": {
+    "model": true,
+    "routing": true,
+    "georeferencing": true,
+    "treeInstances": true,
+    "treePositions": true,
+    "vistaPoints": true,
+    "tintNear": true,
+    "tintFar": true,
+    "surfaceSource": true,
+    "vegetationSource": true,
+    "counts": true,
+    "request": true
+  },
+  "matchedViewChecks": [
+    {
+      "id": "h14_green_golden",
+      "matched": true,
+      "captureContractUnchanged": true,
+      "cameraUnchanged": true,
+      "terrainUnchanged": true,
+      "imageChanged": true
+    }
+  ],
+  "notes": [
+    "Raw harness status and errors are retained.",
+    "The fixed h14 green/approach view under golden lighting is selected directly in the initial URL, avoiding unrelated hole1 streaming.",
+    "Images are emitted only after stable ready terrain, zero loading/failed tiles, camera and quality contracts pass.",
+    "Frame draw/triangle counters are omitted because shadow/post scheduling makes isolated frames unsuitable for performance comparison.",
+    "This harness fingerprints authoritative mapped data and terrain inventory. Source-level tests separately verify material policy and shader topology; it does not directly hash live water geometry buffers.",
+    "Physical desktop WebGPU and phone WebGL2 frame-time, motion, startup and memory checks remain unmeasured.",
+    "The captured boot stats expose no separate ordinary/masked-water mesh counts. Whole-model and terrain fingerprints match; no additional expensive scene traversal was performed."
+  ],
+  "visualReview": {
+    "completed": true,
+    "view": "h14_green_golden",
+    "finding": "The lake reflection is subtly brighter and more neutral in this golden-light view. Sun-glare placement, wave pattern, shoreline/foam, rocks, peninsula silhouette and course geometry remain visually aligned, with no visible rendering regression.",
+    "limitation": "The bright sun glare dominates this view, so the tonal improvement is restrained. One software view does not establish behavior across every preset/course or real-device performance."
+  }
+}

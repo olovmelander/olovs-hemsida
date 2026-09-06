@@ -65,6 +65,8 @@ import {
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
+import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
+import { configureWaterRenderPasses } from './engine/water-render-policy.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { applyCrownDepth } from './engine/crown-depth.mjs';
 import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
@@ -1285,21 +1287,6 @@ const DETAIL = canvasTex(512, (g, S) => {
   g.putImageData(im, 0, 0);
 }, { srgb: false });
 
-/* A tangent-space normal map of grass blades: the derivative of the same clump
-   field, which is why the bump and the albedo agree instead of fighting. */
-const GRASSN = canvasTex(512, (g, S) => {
-  const im = g.createImageData(S, S), d = im.data;
-  const H = (x, y) => fbm(x * 0.16, y * 0.16, 3) * 0.6 + Math.sin(x * 1.9 + Math.sin(y * 0.8)) * 0.12;
-  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
-    const i = (y * S + x) * 4;
-    const nx = (H(x - 1, y) - H(x + 1, y)) * 1.6, ny = (H(x, y - 1) - H(x, y + 1)) * 1.6;
-    const l = Math.hypot(nx, ny, 1);
-    d[i] = (nx / l * 0.5 + 0.5) * 255; d[i + 1] = (ny / l * 0.5 + 0.5) * 255;
-    d[i + 2] = (1 / l * 0.5 + 0.5) * 255; d[i + 3] = 255;
-  }
-  g.putImageData(im, 0, 0);
-}, { srgb: false });
-
 const SANDN = canvasTex(256, (g, S) => {
   const im = g.createImageData(S, S), d = im.data;
   const H = (x, y) => Math.sin(x * 0.42 + Math.sin(y * 0.11) * 3.2) * 0.5 + fbm(x * 0.3, y * 0.3, 2) * 0.4;
@@ -1325,7 +1312,7 @@ const WATERN = canvasTex(512, (g, S) => {
   }
   g.putImageData(im, 0, 0);
 }, { srgb: false });
-span('procedural textures (DETAIL, GRASSN, SANDN, WATERN)', TEX_STARTED);
+span('procedural textures (DETAIL, SANDN, WATERN)', TEX_STARTED);
 
 /* ------------------------------------------------------------- lighting */
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
@@ -1450,6 +1437,8 @@ if (IS_GPU) {
    the URL here so boot does not bake golden before the requested daylight. */
 const LJUS2P = { kvall: 'golden', dag: 'noon', dis: 'mist', gryning: 'dawn', host: 'host' };
 const INITIAL_PRESET = LJUS2P[(new URLSearchParams(location.search).get('ljus') || '').toLowerCase()] || 'golden';
+const waterLighting = createWaterReflectionLighting({ enabled: GRAPHICS_POLISH });
+waterLighting.setPreset(PRESETS[INITIAL_PRESET]);
 const lightingEnvironment = createLightingEnvironment(renderer, scene, {
   enabled: GRAPHICS_POLISH,
   maxEntries: 2,
@@ -1463,6 +1452,7 @@ function setPreset(name) {
   preset = p;
   presetName = PRESETS[name] ? name : 'golden';
   lightingEnvironment.setPreset(presetName, p);
+  waterLighting.setPreset(p);
   sun.color.setHex(p.sun); sun.intensity = p.int;
   const d = new THREE.Vector3(...p.dir).normalize();
   uSun.value.copy(d);
@@ -3107,6 +3097,7 @@ await tick('fyller vattnet', 0.52);
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
 function makeWater({ mask = null } = {}) {
   const m = new THREE.MeshBasicNodeMaterial({ transparent: true, side: THREE.DoubleSide });
+  configureWaterRenderPasses(m, { mask });
   /* A sheet sits a quarter-metre over a bed the DTM draws at the water's own
      surface, and three kilometres out a 24-bit depth buffer cannot tell the
      two apart: the lake flickered. A depth bias toward the camera settles it
@@ -3142,13 +3133,12 @@ function makeWater({ mask = null } = {}) {
   const V = normalize(cameraPosition.sub(positionWorld));
   const fres = pow(oneMinus(saturate(N.dot(V))), 4.2).mul(0.93).add(0.035);
 
-  /* the sky in the mirror direction, built from the same three colours the dome uses
-     so the fjord and the sky above it can never disagree */
+  /* The preview uses the indirect-light palette for the analytic reflection.
+     Angle, Fresnel, waves and the water body's own depth colours stay the same. */
   const R = reflect(V.negate(), N);
   const up = saturate(R.y);
   const sunUp = uSun.y.max(0.02);
-  const skyC = mix(mix(color(0xd9c6ad), color(0xcfe0e6), smoothstep(0.10, 0.52, sunUp)),
-                   mix(color(0x21538f), color(0x3479b4), sunUp), pow(up, 0.45));
+  const skyC = waterLighting.reflectedSkyColour(up, sunUp);
 
   /* depth: the bed falls away from the bank, so the shallows keep their own colour.
      The ramp is the water's own scale -- 30 m of shallows suits a fjord, but on a

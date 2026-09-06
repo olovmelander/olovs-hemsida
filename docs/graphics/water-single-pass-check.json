@@ -1,0 +1,960 @@
+{
+  "evidence": "Isolated actual-water-shader SwiftShader WebGL2 correctness; synthetic fixed textures and time. Not full-course, WebGPU, or real-device FPS evidence.",
+  "sourceMainBaseline": "241a3eeb4999442604d6e5ec41bfa020db822b30",
+  "waterShaderSourceSha256": "b49546456e7845651af5bb229d1058898bd79ef18d745b420b049534f5d8f083",
+  "helperSha256": "d51f41f1cfb39e97d28ed0194fbfab3d252f99e3347d93bb6b8ac0a026bf85fb",
+  "lightingPreview": {
+    "enabled": true,
+    "preset": "golden",
+    "sourceSha256": "75c350ae8be64162326ee70bc57bc8af47ce37810196a83fdb8cf8135dbff493",
+    "presetsSourceSha256": "4cb4b57b92779e1621dec23e6a6b65c853878c201cd324e5b5f9a94beaa6fc76"
+  },
+  "threeRevision": "185",
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "clipControl": true,
+  "reversedDepthCheck": "measured",
+  "rows": [
+    {
+      "id": "normal-pond-above",
+      "kind": "pond",
+      "view": "above",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [
+          {
+            "textureSamples": 5,
+            "samplerUniforms": 2
+          }
+        ],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 9431
+    },
+    {
+      "id": "normal-pond-below",
+      "kind": "pond",
+      "view": "below",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 7035
+    },
+    {
+      "id": "normal-pond-grazing",
+      "kind": "pond",
+      "view": "grazing",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 421
+    },
+    {
+      "id": "normal-lake-above",
+      "kind": "lake",
+      "view": "above",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [
+          {
+            "textureSamples": 5,
+            "samplerUniforms": 2
+          }
+        ],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 9431
+    },
+    {
+      "id": "normal-lake-below",
+      "kind": "lake",
+      "view": "below",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 7035
+    },
+    {
+      "id": "normal-lake-grazing",
+      "kind": "lake",
+      "view": "grazing",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 421
+    },
+    {
+      "id": "normal-sea-above",
+      "kind": "sea",
+      "view": "above",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [
+          {
+            "textureSamples": 5,
+            "samplerUniforms": 2
+          }
+        ],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 30208
+    },
+    {
+      "id": "normal-sea-below",
+      "kind": "sea",
+      "view": "below",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 28113
+    },
+    {
+      "id": "normal-sea-grazing",
+      "kind": "sea",
+      "view": "grazing",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 3009
+    },
+    {
+      "id": "normal-masked-above",
+      "kind": "masked",
+      "view": "above",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [
+          {
+            "textureSamples": 6,
+            "samplerUniforms": 3
+          }
+        ],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 2448
+    },
+    {
+      "id": "normal-masked-below",
+      "kind": "masked",
+      "view": "below",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 2314
+    },
+    {
+      "id": "normal-masked-grazing",
+      "kind": "masked",
+      "view": "grazing",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": false,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 868
+    },
+    {
+      "id": "reversed-pond-above",
+      "kind": "pond",
+      "view": "above",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [
+          {
+            "textureSamples": 5,
+            "samplerUniforms": 2
+          }
+        ],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 9431
+    },
+    {
+      "id": "reversed-pond-below",
+      "kind": "pond",
+      "view": "below",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 7035
+    },
+    {
+      "id": "reversed-pond-grazing",
+      "kind": "pond",
+      "view": "grazing",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 421
+    },
+    {
+      "id": "reversed-lake-above",
+      "kind": "lake",
+      "view": "above",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [
+          {
+            "textureSamples": 5,
+            "samplerUniforms": 2
+          }
+        ],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 9431
+    },
+    {
+      "id": "reversed-lake-below",
+      "kind": "lake",
+      "view": "below",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 7035
+    },
+    {
+      "id": "reversed-lake-grazing",
+      "kind": "lake",
+      "view": "grazing",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 421
+    },
+    {
+      "id": "reversed-sea-above",
+      "kind": "sea",
+      "view": "above",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [
+          {
+            "textureSamples": 5,
+            "samplerUniforms": 2
+          }
+        ],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 30208
+    },
+    {
+      "id": "reversed-sea-below",
+      "kind": "sea",
+      "view": "below",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 28113
+    },
+    {
+      "id": "reversed-sea-grazing",
+      "kind": "sea",
+      "view": "grazing",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 5,
+        "forceSinglePass": true,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 3009
+    },
+    {
+      "id": "reversed-masked-above",
+      "kind": "masked",
+      "view": "above",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [
+          {
+            "textureSamples": 6,
+            "samplerUniforms": 3
+          }
+        ],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 2448
+    },
+    {
+      "id": "reversed-masked-below",
+      "kind": "masked",
+      "view": "below",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 2314
+    },
+    {
+      "id": "reversed-masked-grazing",
+      "kind": "masked",
+      "view": "grazing",
+      "before": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "after": {
+        "drawCalls": 6,
+        "forceSinglePass": false,
+        "waterShaders": [],
+        "drawingBuffer": [
+          256,
+          192
+        ],
+        "pixelRatio": 1,
+        "reversedDepth": true,
+        "samples": 4,
+        "outputBufferType": 1016
+      },
+      "difference": {
+        "maximumChannelError": 0,
+        "differingPixels": 0,
+        "totalPixels": 49152
+      },
+      "waterContributionPixels": 868
+    }
+  ],
+  "errors": [],
+  "checks": {
+    "threeR185": true,
+    "softwareRenderer": true,
+    "completeMatrix": true,
+    "identicalPixels": true,
+    "waterActuallyVisible": true,
+    "expectedDrawReduction": true,
+    "maskedStaysTwoPass": true,
+    "fixedSettings": true,
+    "noBrowserErrors": true
+  },
+  "passed": true,
+  "shaderCountsMeaning": "waterShaders lists new water fragment compilations during that capture; an empty list means the existing shader was reused."
+}
