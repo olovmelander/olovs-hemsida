@@ -31,6 +31,28 @@ function fixture() {
 }
 
 describe('Three r185 v2 terrain batching', () => {
+  it('skips settled tile work but honors resync, time rewind and morph-duration edits', () => {
+    const resource = fixture().get('l0/0/0');
+    const batch = new TerrainTextureBatch({ width: resource.width, height: resource.height, capacity: 2 });
+    batch.sync([resource], { now: 0 });
+    const settled = batch.tick(240), revision = batch.renderRevision;
+    expect(batch.tick(1000)).toBe(settled);
+    expect(batch.sync([resource], { now: 1000 })).toBe(settled);
+    expect(batch.renderRevision).toBe(revision);
+    expect(batch.tick(120).morphing).toBe(true);
+    expect(batch.attributes.params.array[2]).toBeCloseTo(0.5);
+    batch.tick(1000);
+    batch.morphDurationMilliseconds = 2000;
+    expect(batch.tick(1000).morphing).toBe(true);
+    expect(batch.attributes.params.array[2]).toBeCloseTo(0.5);
+    batch.tick(2000);
+    batch.sync([{ ...resource, worldOriginX: 17.25 }], { now: 2100 });
+    expect(batch.attributes.frame.array[0]).toBe(17.25);
+    batch.sync([], { now: 2200 });
+    expect(batch.tick(2300)).toEqual({ count: 0, morphing: false });
+    expect(batch.mesh.visible).toBe(false);
+    batch.dispose();
+  });
   it('renders regular tiles with one shared topology and one draw call', () => {
     const resources = fixture();
     const layer = new TerrainTileBatchSet({ maximumTiles: 2, morphDurationMilliseconds: 240 });

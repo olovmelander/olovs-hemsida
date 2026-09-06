@@ -11,6 +11,8 @@
  * the existing shadow map after terrain settling, without changing its quality.
  * --check-shadow-cache instead captures the ordinary cached view, then a fresh
  * shadow reference in the same visit and checks image/buffer consistency.
+ * --preset-switches also checks autumn/day switching and records boot-cover
+ * readiness. Timings under this software adapter are diagnostics, not FPS.
  *
  * Fixed Uppsala H1 top/noon, graphics=1, q=lo, 384x288, DPR1, qualitylock,
  * geographic tree zones, deterministic shader clock, real camera tween clock.
@@ -150,6 +152,8 @@ function parseArgs(argv) {
     if (key === '--interactions') { o.interactions = true; continue; }
     if (key === '--fresh-shadow') { o.freshShadow = true; continue; }
     if (key === '--check-shadow-cache') { o.checkShadowCache = true; continue; }
+    if (key === '--preset-switches') { o.presetSwitches = true; continue; }
+    if (key === '--graphics-default') { o.graphicsDefault = true; continue; }
     if (!['--root', '--out', '--compare'].includes(key) || !argv[i + 1]) throw new Error(`Invalid argument ${key}`);
     o[key.slice(2)] = path.resolve(argv[++i]);
   }
@@ -299,11 +303,12 @@ async function main(o) {
   Object.entries({ bana: 'upsala', v2: 'require', det: '1', graphics: '1', q: 'lo', qualitylock: '1',
     ren: '1', gl: '0', lodmode: 'zone', hal: '1', vy: 'top', ljus: 'dag' })
     .forEach(([k, v]) => url.searchParams.set(k, v));
+  if (o.graphicsDefault) url.searchParams.delete('graphics');
   const report = { schemaVersion: 1, date: new Date().toISOString(), url: url.href,
     executionAdapter: 'swiftshader-software', performanceEvidence: false,
     note: 'Correctness only. Browser-dispatched input is trusted Chromium input, not a physical phone gesture.',
     overallDeadlineSeconds: 180, build: buildIdentity(o.root),
-    request: { course: 'upsala', backend: 'webgl2', autoFallback: true, q: 'lo', graphics: '1',
+    request: { course: 'upsala', backend: 'webgl2', autoFallback: true, q: 'lo', graphics: o.graphicsDefault ? 'default' : '1',
       viewport: [384, 288], dpr: 1, reducedMotion: 'no-preference', hasTouch: true, freshShadowDiagnostic: o.freshShadow,
       views: [{ id: 'h1_top_noon', hole: 1, cam: 'top', preset: 'noon' }] },
     errors: [], warnings: [], views: [], interactions: [], passed: false, stage: 'launch' };
@@ -321,6 +326,14 @@ async function main(o) {
       reducedMotion: 'no-preference', hasTouch: true, serviceWorkers: 'block' });
     page.setDefaultTimeout(60000);
     await page.addInitScript(() => Object.defineProperty(navigator, 'gpu', { configurable: true, value: undefined }));
+    await page.addInitScript(() => {
+      const observer = new MutationObserver(() => {
+        if (!document.querySelector('#boot.done')) return;
+        window.__bootCoverRelease = { frame: window.V3D?.frame(), perf: window.V3D?.perf() };
+        observer.disconnect();
+      });
+      observer.observe(document, { subtree: true, attributes: true, attributeFilter: ['class'] });
+    });
     page.on('pageerror', error => report.errors.push({ type: 'pageerror', text: String(error) }));
     page.on('console', message => {
       const text = message.text();
@@ -336,7 +349,8 @@ async function main(o) {
     console.log('Loading fixed Uppsala scene');
     await page.goto(url.href, { waitUntil: 'load' });
     await page.waitForSelector('#boot.done');
-    report.boot = await page.evaluate(() => ({ backend: V3D.stats.backend, quality: V3D.quality(), course: V3D.course() }));
+    report.boot = await page.evaluate(() => ({ backend: V3D.stats.backend, quality: V3D.quality(), course: V3D.course(),
+      coverRelease: window.__bootCoverRelease, perf: V3D.perf() }));
     if (report.boot.backend !== 'webgl2' || !report.boot.quality.graphicsPolish || !report.boot.quality.qualityLocked) throw new Error('Backend/preview/quality contract mismatch');
     report.fingerprint = await fingerprint(page);
     await page.evaluate(() => { V3D.setPreset('noon'); V3D.goHole(1, true, true); V3D.setCam('top', true); });
@@ -412,9 +426,33 @@ async function main(o) {
       report.stage = 'interactions'; persist();
       await interactionChecks(page, rows => { report.interactions = rows; persist(); });
     }
+    if (o.presetSwitches) {
+      report.presetSwitches = [];
+      for (const preset of ['host', 'noon']) {
+        report.stage = `preset-${preset}`; persist();
+        const change = await page.evaluate(preset => {
+          const started = performance.now(), frame = V3D.frame();
+          V3D.setPreset(preset);
+          return { handlerMs: performance.now() - started, startFrame: frame };
+        }, preset);
+        const row = { preset, ...change, passed: false };
+        report.presetSwitches.push(row); persist();
+        await settle(page, 60000);
+        const state = await stateAt(page);
+        const file = `h1_top_${preset}_switch.png`;
+        const pixels = await page.screenshot({ path: path.join(o.out, file), animations: 'disabled' });
+        const lighting = await page.evaluate(() => V3D.lightingEnvironment());
+        const passed = same(contract, captureContract(state)) && same(after.terrainInventory, state.terrainInventory)
+          && same(after.camera, state.camera) && lighting.preset === preset;
+        Object.assign(row, { file, imageSha256: sha256(pixels), lighting, state, passed });
+        persist();
+        if (!passed) throw new Error('Preset switch changed the scene contract');
+      }
+    }
     report.passed = report.errors.length === 0 && report.settledCapturePassed
       && (!report.comparison || report.comparison.passed)
       && (!report.shadowCacheCheck || report.shadowCacheCheck.passed)
+      && (!o.presetSwitches || (report.presetSwitches?.length === 2 && report.presetSwitches.every(row => row.passed)))
       && (!o.interactions || (report.interactions.length === 5 && report.interactions.every(r => r.passed)));
     report.stage = 'complete';
   } catch (error) {

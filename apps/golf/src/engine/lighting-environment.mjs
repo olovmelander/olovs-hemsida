@@ -1,5 +1,5 @@
 import * as THREE from 'three/webgpu';
-import { color, mix, normalize, positionLocal, pow, saturate, smoothstep } from 'three/tsl';
+import { mix, normalize, positionLocal, pow, saturate, smoothstep, uniform } from 'three/tsl';
 
 export const LIGHTING_ENVIRONMENT_INTENSITY = 0.58;
 
@@ -31,89 +31,84 @@ export function deriveEnvironmentPalette(preset, enabled = true) {
 
 function createEnvironmentBaker(renderer) {
   let generator = null;
+  const env = new THREE.Scene();
+  const material = new THREE.MeshBasicNodeMaterial({ side: THREE.BackSide });
+  const geometry = new THREE.SphereGeometry(100, 24, 16);
+  const paletteNodes = Object.fromEntries(Object.keys(BASE).map(key => [key, uniform(new THREE.Color())]));
+  const up = normalize(positionLocal).y;
+  material.colorNode = mix(paletteNodes.ground,
+    mix(paletteNodes.horizon, paletteNodes.zenith, pow(saturate(up), 0.5)),
+    smoothstep(-0.1, 0.05, up));
+  env.add(new THREE.Mesh(geometry, material));
   return {
-    bake(palette) {
+    bake(palette, renderTarget = null) {
       generator ??= new THREE.PMREMGenerator(renderer);
-      const env = new THREE.Scene();
-      const material = new THREE.MeshBasicNodeMaterial({ side: THREE.BackSide });
-      const geometry = new THREE.SphereGeometry(100, 24, 16);
-      const up = normalize(positionLocal).y;
-      material.colorNode = mix(color(palette.ground),
-        mix(color(palette.horizon), color(palette.zenith), pow(saturate(up), 0.5)),
-        smoothstep(-0.1, 0.05, up));
-      env.add(new THREE.Mesh(geometry, material));
-      try {
-        return generator.fromScene(env, 0.04);
-      } finally {
-        geometry.dispose();
-        material.dispose();
-        env.clear();
-      }
+      for (const key of Object.keys(BASE)) paletteNodes[key].value.copy(palette[key]);
+      // Same sphere, gradient, 256px faces and filtering; only uniforms change.
+      return generator.fromScene(env, 0.04, 0.1, 100, { renderTarget });
     },
     dispose() {
       generator?.dispose();
       generator = null;
+      geometry.dispose();
+      material.dispose();
+      env.clear();
     },
   };
 }
 
-/** Own the current reflection texture and at most one previous preset.
- * Call setPreset only from the preset handler; there is no animation-frame work.
- * The optional baker boundary lets lifecycle tests track real resource ownership
- * without requiring a GPU. A baker returns { texture, dispose() } per bake.
+/** Keep the displayed texture identity stable for the lifetime of the scene.
+ * Replacing scene.environment in r185 invalidates every scene shader. A stable
+ * PMREM node with changing texture values also leaves cached plain-material
+ * bindings stale. Instead bake into one reusable staging map, then copy its
+ * pixels into the displayed map. This uses the renderer's public texture-copy
+ * API, with unchanged formats, sampling and no additional scene render pass.
+ *
+ * Only the current preset is cached. Returning to another preset rebakes the
+ * small environment, but does not rebuild scene shaders or allocate GPU maps.
+ * At most two maps are owned; a failed bake leaves the displayed map intact.
  */
 export function createLightingEnvironment(renderer, scene, {
   enabled = true,
-  maxEntries = 2,
   baker = createEnvironmentBaker(renderer),
   onBake,
 } = {}) {
-  if (!Number.isInteger(maxEntries) || maxEntries < 1 || maxEntries > 2) {
-    throw new RangeError('The environment cache must hold one or two maps.');
-  }
-  const cache = new Map();
-  let current = null;
-  let presetName = null;
-  let disposed = false;
-  let bakes = 0;
+  let current = null, staging = null, currentKey = null, presetName = null;
+  let disposed = false, bakes = 0, allocations = 0, copies = 0;
   return {
     setPreset(name, preset) {
       if (disposed) throw new Error('The lighting environment has been disposed.');
       const key = enabled ? name : 'baseline';
-      let target = cache.get(key);
-      if (!target) {
+      if (key !== currentKey) {
         const started = performance.now();
-        target = baker.bake(deriveEnvironmentPalette(preset, enabled));
+        const target = baker.bake(deriveEnvironmentPalette(preset, enabled), staging);
+        if (target !== staging) allocations++;
         bakes++;
-        cache.set(key, target);
+        if (!current) current = target;
+        else {
+          if (staging && staging !== target) staging.dispose();
+          staging = target;
+          renderer.copyTextureToTexture(staging.texture, current.texture);
+          copies++;
+        }
+        currentKey = key;
         onBake?.({ preset: key, started, ms: performance.now() - started });
-      } else {
-        cache.delete(key);
-        cache.set(key, target);
       }
-      // Publish the replacement before releasing a target the scene was using.
-      scene.environment = target.texture;
+      scene.environment = current.texture;
       scene.environmentIntensity = LIGHTING_ENVIRONMENT_INTENSITY;
-      current = target;
       presetName = name;
-      while (cache.size > maxEntries) {
-        const oldest = cache.keys().next().value;
-        const evicted = cache.get(oldest);
-        cache.delete(oldest);
-        evicted.dispose();
-      }
-      return target.texture;
+      return current.texture;
     },
     snapshot() {
-      return { enabled, preset: presetName, cachedPresets: [...cache.keys()], bakes, disposed };
+      return { enabled, preset: presetName, cachedPresets: currentKey === null ? [] : [currentKey],
+        bakes, allocations, copies, disposed };
     },
     dispose() {
       if (disposed) return;
       disposed = true;
       if (current && scene.environment === current.texture) scene.environment = null;
-      for (const target of cache.values()) target.dispose();
-      cache.clear();
-      current = null;
+      current?.dispose(); staging?.dispose();
+      current = null; staging = null; currentKey = null;
       baker.dispose();
     },
   };

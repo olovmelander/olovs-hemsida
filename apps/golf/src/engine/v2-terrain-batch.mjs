@@ -168,6 +168,10 @@ export class TerrainTextureBatch {
     this.textureUploads = 0;
     this.renderRevision = 0;
     this.morphing = false;
+    this.instanceStateDirty = true;
+    this.lastTickNow = -Infinity;
+    this.lastMorphDuration = morphDurationMilliseconds;
+    this.tickState = Object.freeze({ count: 0, morphing: false });
     this.disposed = false;
   }
 
@@ -212,6 +216,10 @@ export class TerrainTextureBatch {
     if (!Array.isArray(resources)) throw new TypeError('resources must be an array');
     if (resources.length > this.capacity) throw new Error(`terrain batch received ${resources.length} resources; capacity is ${this.capacity}`);
     finite(now, 'now');
+    // The stream publishes the same frozen render resources on every plan,
+    // including at rest. A repeated plan needs only its unfinished morph.
+    if (resources.length === this.current.length && resources.every((resource, index) =>
+      resource === this.current[index] && Object.isFrozen(resource))) return this.tick(now);
     const seen = new Set();
     for (const resource of resources) {
       this.#checkResource(resource);
@@ -237,12 +245,23 @@ export class TerrainTextureBatch {
     }
     if (textureChanged) { this.texture.needsUpdate = true; this.renderRevision++; }
     this.current = [...resources];
+    this.instanceStateDirty = true;
     return this.tick(now);
   }
 
   tick(now = nowMilliseconds()) {
     if (this.disposed) throw new Error('terrain texture batch is disposed');
     finite(now, 'now');
+    // Once settled, transforms/skirts stay fixed until sync. Preserve explicit
+    // morph-duration edits and rewound clocks used by the review harness.
+    if (!this.instanceStateDirty && !this.morphing &&
+        this.lastMorphDuration === this.morphDurationMilliseconds && now >= this.lastTickNow) {
+      this.lastTickNow = now;
+      return this.tickState;
+    }
+    this.instanceStateDirty = false;
+    this.lastTickNow = now;
+    this.lastMorphDuration = this.morphDurationMilliseconds;
     const frame = this.attributes.frame.array;
     const params = this.attributes.params.array;
     let morphing = false, frameChanged = false, paramsChanged = false;
@@ -280,7 +299,8 @@ export class TerrainTextureBatch {
     if (paramsChanged) this.attributes.params.needsUpdate = true;
     if (frameChanged || paramsChanged || countChanged) this.renderRevision++;
     this.morphing = morphing;
-    return Object.freeze({ count: this.geometry.instanceCount, morphing });
+    this.tickState = Object.freeze({ count: this.geometry.instanceCount, morphing });
+    return this.tickState;
   }
 
   /** What is drawn right now, tile by tile, with a fingerprint of the bytes
