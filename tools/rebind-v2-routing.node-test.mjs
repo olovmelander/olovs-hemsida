@@ -21,7 +21,7 @@ const round = x => Math.round(x * 1000) / 1000;
 
 function fixture() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'routing-rebind-'));
-  fs.symlinkSync(path.join(REPO, 'packages'), path.join(dir, 'packages'), 'dir');
+  fs.symlinkSync(path.join(REPO, 'packages'), path.join(dir, 'packages'), process.platform === 'win32' ? 'junction' : 'dir');
   const pub = path.join(dir, 'public');
   const write = (relative, bytes) => { const dest = path.join(dir, relative); fs.mkdirSync(path.dirname(dest), { recursive: true }); fs.writeFileSync(dest, bytes); };
   const model = { origin: { lat: 59.839, lon: 17.4952 }, mPerLat: 111320, mPerLon: 55930.68, frame: 'local metres about ORIGIN; north -z, east +x', holes: [{ n: 1, par: 4, idx: 3, line: [[1, -1], [4, -4]], green: { c: [4, -4] } }] };
@@ -67,6 +67,26 @@ test('unchanged routing and ground are byte-identical; dry preparation writes no
     assert.equal(plan.report.sampledHeights, 0);
     assert.equal(plan.report.reusedHeights, 2);
     assert.deepEqual(fs.readFileSync(path.join(F.pub, 'courses/v2-index.json')), before);
+  } finally { F.cleanup(); }
+});
+
+test('root editor line endings are accepted without weakening immutable manifest hashes', async () => {
+  const F = fixture();
+  try {
+    const rootPath = path.join(F.pub, 'courses/v2-index.json');
+    const original = fs.readFileSync(rootPath);
+    for (const ending of ['\n', '\r\n']) {
+      const bytes = Buffer.concat([original, Buffer.from(ending)]);
+      fs.writeFileSync(rootPath, bytes);
+      const plan = await prepareRoutingRebind(F.options);
+      assert.equal(plan.report.groundManifestUnchanged, F.graph.references.ground.sha256);
+      assert.deepEqual(fs.readFileSync(rootPath), bytes);
+    }
+    fs.writeFileSync(rootPath, JSON.stringify(F.root, null, 2));
+    await assert.rejects(prepareRoutingRebind(F.options), /root is not canonical/);
+    fs.writeFileSync(rootPath, Buffer.concat([original, Buffer.from('\r\n')]));
+    fs.appendFileSync(path.join(F.pub, F.root.courses[0].manifest.url), '\n');
+    await assert.rejects(prepareRoutingRebind(F.options), /published reference is stale or corrupt/);
   } finally { F.cleanup(); }
 });
 

@@ -170,7 +170,7 @@ export async function exportGroundMap({ root = process.cwd(), builds, ground = n
       if (output.length < 4) throw new Error(`degenerate polygon ring in ${build}`);
       return output;
     };
-    metadata.modelSources.push({ build, file: path.relative(root, file), sha256: hash(bytes),
+    metadata.modelSources.push({ build, file: path.relative(root, file).split(path.sep).join('/'), sha256: hash(bytes),
       localFrame: { origin: model.origin, mPerLat: model.mPerLat, mPerLon: model.mPerLon } });
     return { build, model, transform, ring };
   });

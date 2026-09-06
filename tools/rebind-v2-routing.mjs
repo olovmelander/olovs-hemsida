@@ -62,7 +62,10 @@ export async function prepareRoutingRebind({ repoRoot = DEFAULT_ROOT, publicDir 
     return bytes;
   };
   const root = json('courses/v2-index.json');
-  if (!Buffer.from(I.canonicalJsonBytes(root)).equals(fs.readFileSync(inside(publicDir, 'courses/v2-index.json')))) throw new Error('published v2 root is not canonical');
+  // The mutable root may have a single editor/Git line ending. Immutable
+  // manifests and chunks below still require exact byte counts and hashes.
+  const rootText = fs.readFileSync(inside(publicDir, 'courses/v2-index.json'), 'utf8').replace(/\r?\n$/, '');
+  if (I.canonicalJson(root) !== rootText) throw new Error('published v2 root is not canonical');
   const previousEntry = root.courses.find(course => course.slug === slug);
   if (!previousEntry) throw new Error(`v2 root has no ${slug}`);
   const previousCourse = JSON.parse(verifyReference(previousEntry.manifest));
