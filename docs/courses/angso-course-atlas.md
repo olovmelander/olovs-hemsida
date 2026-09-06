@@ -847,3 +847,129 @@ the pass.
 Locked by two unit tests: a gently sloping field must be refused (and appear in
 `refusedNotLevel`), and a lake with a few disturbed cells must still be kept —
 because the discriminator is the FRACTION at one height, not the extreme.
+
+## 20. Mälaren is not the sea (2026-09-05)
+
+The owner reported, three times and with screenshots, that water still ran onto
+the mainland when they zoomed out, that the lake/land edge was a staircase, and
+that there was water where the trees are — and in the last screenshot, water
+over the holes themselves, *but only when zoomed out*.
+
+§19's level test was live on the deployed site (confirmed: `levelFractionMinimum`
+= 0.7 in the served `v2-graph-terrain` chunk — the first grep missed it because
+it scanned only the three assets linked from `index.html`, and Vite code-splits).
+So the blue was a different mechanism, and it was found by measuring rather than
+by re-fixing what was already fixed.
+
+### What was cleared first
+
+Each of these was measured and came back clean, which is what left only one
+candidate standing:
+
+| candidate | measurement | verdict |
+|---|---|---|
+| the flat-water mask over the course | 0 of 1,314 hole-line samples, 0 of 22,540 course-box samples | clean |
+| the model's water rings | every ring 0.0% land inside by the 1 m laser | clean |
+| the ground tint over the course | 0 blue cells of 6,084; every green reads `[72,154,76]` | clean |
+| coarse ring levels sinking land | 0.40% of land at lod 6, worst 0.87 m, all at x 1740 — 1.3 km from the course | negligible |
+| `vegetation.wetland` (the ex-phantom rings) | `wetland` is not read by main.js at all; `C.wet` is olive, not blue | not a source |
+
+### The cause: one flag
+
+`reconcile.mjs` set **`isSea: true`** on Mälaren's three laser rings, on the
+stated reasoning that it "draws the page's sheet at the measured level". It does
+not — a ring's own sheet is drawn for every water body regardless. What `isSea`
+means to the engine is *there is an ocean at one level to the horizon*, and both
+the app (`main.js`) and the page answer it by laying **one world-spanning plane
+at `seaLevel − 0.05` across the whole heightfield** — a 56 × 64 grid over ~15 km,
+whose vertices are 270 m apart — on the assumption, true only of a sea, that
+everything below that level is water.
+
+Mälaren is a regulated lake at 0.76 m RH 2000 behind Stockholm's locks. Beside
+it a BARE-EARTH laser DTM reads reed bed, wet meadow and low field *below the
+water surface*. So the plane at 0.71 m flooded the shore — and it explains all
+four complaints at once, including the one that looked strangest:
+
+- **water on the mainland**, wherever bare ground sits under 0.71 m;
+- **the staircase**, because a flat plane intersecting a terrain mesh draws its
+  waterline along that mesh's own lattice;
+- **water among the trees**, because the trees are planted on fine ground while
+  the plane cut them at a fixed height;
+- **only when zoomed out**, because that is when the coarse ring levels are drawn
+  and their averaged shore samples drop under the plane as well.
+
+The same flag also pushed `seaLevel` down the sea branch (`hf.seaLevel`, 0.76)
+instead of the inland "just under the lowest water" branch (0.26).
+
+### The second half: a literal that meant nothing inland
+
+Removing the flag alone was not enough. The vista tint rule read
+
+```js
+if (h < 0.5) return SEA_TINT;
+```
+
+a bare literal, applied to every course. It is a sound rule for a sea — the sea
+surface is 0 **by definition** and what is under it is seabed, so out there a
+height test really is a water test. Inland it is not a water test at all. It is
+now gated on the course having a sea and drawn at that sea's own level:
+
+```js
+const HAS_SEA = M.water.some(w => w.isSea);
+const VISTA_SEA_LEVEL = HAS_SEA ? GEO.seaLevel + 0.5 : -Infinity;
+```
+
+Provably inert everywhere else: Norrfällsviken's sea level is 0, so its
+threshold is 0 + 0.5 = **0.5, bit-identical**; every other course's water sits at
+15–69 m and the old literal never fired.
+
+### Measured, before and after
+
+The instrument is the app's own `V3D.probeGround`, read over a 24 m grid across
+±4,000 m (111,556 cells), classifying a cell as leaked if its tint is
+blue-dominant while neither the flat-water mask nor any ring calls it water:
+
+| | before | after |
+|---|---|---|
+| blue on land | 1,143 cells = **65.8 ha** | 161 cells = **9.3 ha** |
+| reach inland | up to 480 m, and 54 cells beyond that | **24 m — one cell — every one of them** |
+| genuine water cells | 22,205 | 22,205 (unchanged) |
+
+The 9.3 ha that remained was exactly one cell of the far raster at the
+waterline — which is the third complaint, the staircase, in its own right.
+
+### The third fix: a cell is a fraction, not a verdict
+
+The tint asked `flatWaterAt` at the cell CENTRE and painted the whole cell by
+the answer. So a 24 m cell of open lake was made out of a corner that happened
+to catch a water sample, and every shoreline became a hard 24 m step. The mask
+is 4 m, so a far cell holds 36 of its samples and a near cell 4: take the
+coverage and blend by it. Only cells ON an edge pay for the supersample — a cell
+whose four neighbours agree with it is uniform by construction — so it is a few
+thousand cells of the quarter-million, not all of them.
+
+| | before | after `isSea` + the vista rule | after the coverage blend |
+|---|---|---|---|
+| blue on land | **65.8 ha** | 9.3 ha | **0.7 ha** (12 cells) |
+| reach inland | 480 m and beyond | 24 m | 24 m |
+| genuine water cells | 22,205 | 22,205 | 22,205 |
+
+94× less false water than it started with, and not one cell of real water lost
+at any step. The blend can only ever reduce a leak: a cell that is one tenth
+water now reads one tenth blue where it used to read fully blue.
+
+**And it cost 393 ms, not four seconds.** The first measurement of the blend put
+the tint bake at 3.6 s → 7.8 s, which would have been too much to keep. It was
+one sample of each, and the "after" was taken while `check-app` was driving ten
+browsers on the same machine. Interleaved A,B,A,B over three rounds against two
+builds served side by side: A 3063 ms, B 3456 ms, and in the third round B was
+the faster of the two. The rule §16 already states for timing — trust the
+interleaved A/B, never one run's absolute number — applies to CPU boot work just
+as it does to frame times.
+
+**The lesson is the flag's, not the shore's.** `isSea` reads like a description
+of a body of water and is in fact an instruction to the renderer about the whole
+world. A lake got it because the name sounded right for "big water with a
+measured level", and the cost was 65.8 ha of dry land under water half a
+kilometre inland. A flag that changes what is drawn beyond its own polygon
+should say so in its name or be gated on something measured.

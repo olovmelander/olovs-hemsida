@@ -3340,6 +3340,59 @@ records the 2026-09-05 pass. The lessons that generalise:
   lost anywhere. Ribbingsfors is grid-authored on a fixed frontier and never
   runs the pass at all.
 
+- **`isSea` is not a description of a lake, it is an instruction about the whole
+  world — and it flooded the mainland.** Ängsö's three Mälaren rings carried
+  `isSea: true`, set on the reasoning that it "draws the page's sheet at the
+  measured level". It does not: a ring's own sheet is drawn for every water body
+  regardless. What the flag means to the engine is *an ocean at one level to the
+  horizon*, and the app and the page both answer it by laying **one plane at
+  `seaLevel − 0.05` across the entire heightfield** (a 56 × 64 grid over ~15 km),
+  on the assumption — true only of a sea — that everything below that line is
+  water. Mälaren is a regulated lake at 0.76 m behind Stockholm's locks, and
+  beside it a BARE-EARTH laser DTM reads reed bed, wet meadow and low field
+  BELOW the water surface, so the plane drowned the shore. That one flag is all
+  four symptoms the owner reported: water on the mainland, a staircase waterline
+  (a flat plane cuts a terrain mesh along that mesh's own lattice), water among
+  the trees (planted on fine ground, cut at a fixed height), and **worst when
+  zoomed out**, because that is when the coarse ring levels are drawn and their
+  averaged shore samples drop under the plane too. It had also pushed `seaLevel`
+  down the sea branch (0.76) instead of the inland "just under the lowest water"
+  one (0.26). The other half was a literal: the vista tint's `if (h < 0.5) return
+  SEA_TINT` is a sound rule for a SEA — the sea surface is 0 by definition, so
+  out there a height test really is a water test — and means nothing inland. It
+  is gated on the course having a sea and drawn at that sea's own level now,
+  which is bit-identical at Norrfällsviken (0 + 0.5) and never fires on the five
+  courses whose water sits at 15–69 m. Measured on the built app with its own
+  `V3D.probeGround` over 111,556 cells: blue-on-land **65.8 ha → 9.3 ha**,
+  reaching **480 m and beyond → 24 m, one far-raster cell, every one of them**,
+  with the 22,205 genuine water cells unchanged. Four other candidates were
+  cleared by measurement first — the flat-water mask (0 of 22,540 course-box
+  samples), every water ring (0.0% land inside by the laser), the ground tint
+  over the course (0 blue of 6,084), and coarse-LOD sinking (0.40% at lod 6,
+  worst 0.87 m, all 1.3 km away) — which is what left the flag standing.
+- **A tint cell is a FRACTION of water, not a verdict on it.** The ground tint
+  asked `flatWaterAt` at each cell's CENTRE and painted the whole cell by the
+  answer, so a 24 m cell of open lake was made out of a corner that caught one
+  water sample and every shoreline came out as a hard 24 m step — the staircase
+  the owner saw along the water's edge. The mask is 4 m, so a far cell holds 36
+  of its samples and a near cell 4: take the coverage and blend by it. Only cells
+  ON an edge pay for the supersample (a cell whose four neighbours agree with it
+  is uniform by construction), a few thousand of the quarter-million. It can only
+  ever reduce a leak — a cell one tenth water reads one tenth blue where it used
+  to read fully blue — and it took Ängsö's blue-on-land 9.3 ha → **0.7 ha**, for
+  **65.8 → 0.7 ha** over the three fixes with all 22,205 real water cells intact.
+- **The flat-water mask samples as 1/255, so its sheet has never been visible.**
+  `new THREE.DataTexture(FLAT_WATER.mask, …, RedFormat, UnsignedByteType)` stores
+  the detector's 0/1 bytes in an R8 **unorm** texture, so `texture(mask).r` returns
+  0.0039 where the mask says water and the sheet's opacity is multiplied to
+  nothing. It was never noticed because the symptom people chased was its DEPTH
+  write (Ribbingsfors' brown lake, fixed with `depthWrite = false`), which a clear
+  fragment does regardless of colour. So water the ground itself found is drawn
+  today by its TINT alone. Not changed here on purpose: it makes water APPEAR, on
+  six courses, and it landed in the middle of a report that there was too much of
+  it — the fix is a 0/255 copy for the texture, leaving `detectFlatWater`'s 0/1
+  contract and every CPU consumer alone, and it wants an eye on a real GPU.
+
 - **The course is read off that ground now, and the satellite capture was
   CHOSEN by measurement (2026-09-05).** `angsobuild/dtm.mjs` binds the readers
   to this frame; `geobuild/dtm-lib.mjs` became frame-parameterised factories to

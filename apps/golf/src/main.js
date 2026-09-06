@@ -1738,22 +1738,65 @@ function createGroundTintTextures() {
 }
 const toSrgbByte = v => Math.max(0, Math.min(255, Math.round(255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055))));
 const SEA_TINT = [0.055, 0.085, 0.105];
+/* "Below the water line is water" is true of a SEA and of nothing else. The sea
+   surface is 0 by definition and the ground under it is seabed, so on a coastal
+   course a height test IS a water test out to the horizon. Inland it is not: a
+   bare-earth laser DTM reads reed bed, wet meadow and low field BELOW the
+   surface of the lake beside them, so the same test paints dry land as water.
+   Ängsö measured 65.8 ha of it, 480 m inland and further, with trees standing
+   in the blue. So the vista's water tint is gated on the course actually having
+   a sea, and it is drawn at THAT sea's own level rather than at a literal 0.5 m
+   -- which was a number that meant nothing on the five inland courses and was
+   wrong on the one lake course whose level happens to sit near it. Water the
+   ground itself found (the flat-water mask, tested first) is unaffected: that
+   is a measurement of the surface, not a contour. */
+const HAS_SEA = M.water.some(w => w.isSea);
+const VISTA_SEA_LEVEL = HAS_SEA ? GEO.seaLevel + 0.5 : -Infinity;
 /* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
    and a flat the sheet misses never reads as a pale plate */
 const FLAT_WATER_TINT = [0.05, 0.075, 0.09];
 function fillGroundTintTextures(tint, heightAt) {
   const H = (x, z) => { const h = heightAt(x, z); return Number.isFinite(h) ? h : demH(x, z); };
   const flatWaterAt = typeof terrainV2.isFlatWaterAt === 'function' ? (x, z) => terrainV2.isFlatWaterAt(x, z) : () => false;
+  const FLAT_WATER_SPACING = terrainV2.flatWater?.spacing || 4;
   const started = performance.now();
+  /* A cell is not water or land, it is a FRACTION of each. Asking `flatWaterAt`
+     at the cell CENTRE alone makes a 24 m cell of open lake out of a corner that
+     happens to catch a water sample, and a hard 24 m step out of a shoreline --
+     which is the staircase along the water's edge, and a leak up to a cell wide.
+     The mask is 4 m, so a far cell holds 36 of its samples and a near cell 4:
+     take the coverage and blend by it. Only cells ON an edge pay for it (a cell
+     whose four neighbours agree with it is uniform by construction), so this is
+     a few thousand cells of the quarter-million, not all of them. */
+  const SUB = Math.max(1, Math.min(6, Math.round(FLAT_WATER_SPACING)));
   const fill = (layer, colourAt) => {
     const { n, dx, bounds, texture } = layer;
     const data = texture.image.data;
+    const wet = new Uint8Array(n * n);
+    for (let j = 0; j < n; j++) {
+      const z = bounds.z0 + (j + 0.5) * dx;
+      for (let i = 0; i < n; i++) wet[j * n + i] = flatWaterAt(bounds.x0 + (i + 0.5) * dx, z) ? 1 : 0;
+    }
+    const steps = Math.max(1, Math.min(SUB, Math.round(dx / FLAT_WATER_SPACING)));
     for (let j = 0; j < n; j++) {
       const z = bounds.z0 + (j + 0.5) * dx;
       for (let i = 0; i < n; i++) {
         const x = bounds.x0 + (i + 0.5) * dx;
-        const c = flatWaterAt(x, z) ? FLAT_WATER_TINT : colourAt(x, z);
-        const o = (j * n + i) * 4;
+        const k = j * n + i, here = wet[k];
+        const edge = steps > 1 && (
+          (i > 0 && wet[k - 1] !== here) || (i < n - 1 && wet[k + 1] !== here) ||
+          (j > 0 && wet[k - n] !== here) || (j < n - 1 && wet[k + n] !== here));
+        let f = here;
+        if (edge) {
+          let hit = 0;
+          for (let b = 0; b < steps; b++) for (let a = 0; a < steps; a++)
+            if (flatWaterAt(x + ((a + 0.5) / steps - 0.5) * dx, z + ((b + 0.5) / steps - 0.5) * dx)) hit++;
+          f = hit / (steps * steps);
+        }
+        const c = f >= 1 ? FLAT_WATER_TINT
+          : f <= 0 ? colourAt(x, z)
+          : colourAt(x, z).map((v, ch) => lerp(v, FLAT_WATER_TINT[ch], f));
+        const o = k * 4;
         data[o] = toSrgbByte(c[0]); data[o + 1] = toSrgbByte(c[1]); data[o + 2] = toSrgbByte(c[2]); data[o + 3] = 255;
       }
     }
@@ -1780,7 +1823,7 @@ function fillGroundTintTextures(tint, heightAt) {
     const near = nearBox(x, z);
     if (near) return near.map(fromSrgbByte);
     const h = H(x, z);
-    if (h < 0.5) return SEA_TINT;
+    if (h < VISTA_SEA_LEVEL) return SEA_TINT;
     const sl = Math.hypot(H(x + GROUND_TINT_FAR.dx, z) - h, H(x, z + GROUND_TINT_FAR.dx) - h) / GROUND_TINT_FAR.dx;
     const t = clampf((h - 24) / 150, 0, 1);
     const rocky = smooth(0.22, 0.62, sl);
