@@ -22,7 +22,9 @@ function fixture() {
 
 describe('reviewed physical tee surfaces', () => {
   it('adopts exact footprints while preserving terrain, card references and other ground', () => {
-    const { model, evidence } = fixture(), before = structuredClone(model);
+    const { model, evidence } = fixture();
+    model.holes[0].tees.pads[0].optionalGeneratorMetadata = undefined;
+    const before = structuredClone(model);
     const result = applyReviewedTeeSurfaces(model, [evidence]);
     expect(model).toEqual(before);
     expect(result.water).toBe(model.water);

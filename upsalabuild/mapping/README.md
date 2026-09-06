@@ -17,6 +17,7 @@ between the two routings is merged, not counted as another object.
 | Stora17 green | Synthetic410m² oval | Dated orthophoto outline, approximately584m² |
 | Stora8 tees | Incorrect rectangle | Two visible physical tee surfaces; actual terrain preserved |
 | Stora9 upper tee | Pad over road/rough | Visible2025 platform; southern edge limited by shadow |
+| Stora tees, all 18 sites | 38 platform entries, mostly approximate rectangles | 53 physical-platform entries: 44 new dated-image outlines, three retained earlier traces and six explicitly provisional originals |
 | Mellan6 green | Inferred ellipse | OSM w221192642, which contains its existing provisional pin |
 | Other eight Mellan greens | Inferred ellipses and endpoints | Visible 2025 outlines, checked against2024; centres are polygon centroids, not surveyed flags |
 | Mellan tees | 45 generated pad entries | 23 visible physical platforms; no inferred colour assignment or terrain flattening; hole8 review remains partial |
@@ -45,6 +46,45 @@ Provisional tee references remain available to the HUD and cameras. Visible brid
 footprints are mapped; their vertical dimensions and the generic object dimensions
 remain rendering estimates. The228 OSM tree points are not planted again on top of
 the LiDAR crown population.
+
+## Stora tee-platform review
+
+All 18 Stora tee sites were reviewed against the georeferenced 2025 orthophotos,
+the same areas in 2024 and the published 1 m terrain. The three source files
+`stora-tees-01-06-2025.json`, `stora-tees-07-12-2025.json` and
+`stora-tees-13-18-2025.json` contain 44 accepted new platform outlines, original
+geometry and route/card values, source dates and hashes, uncertainty and rejected
+or unresolved candidates. The guarded application produces 53 platform entries:
+47 dated-image outlines, including the three previously reviewed Stora8/9 surfaces,
+and six retained provisional originals on holes 13, 14, 15 and 18.
+
+The corrections include hole7's two old platform centres, which were 44.5 m and
+56.5 m from the corresponding observed platforms. Hole13's two rear rectangles
+become one visible elongated deck. Hole14 and hole17 also have continuous turf
+platforms that were represented by separate rectangles. Missing forward platforms
+on holes 16, 17 and 18 are included. Hole15's unsupported short-tee rectangle is
+retired because the imagery shows continuous fairway at that location; its card
+reference remains unchanged.
+
+Eight holes retain partial review status: 8, 9, 11, 12, 13, 14, 15 and 18.
+Holes8/9 explicitly preserve the three prior image traces without treating them
+as a complete census. Holes11/12 have shadow-limited omissions. Six original
+guessed footprints remain explicitly provisional on holes13/14/15/18, where the
+available images do not establish a defensible complete boundary. Canopy-hidden
+edges are not closed by fitting a shape to the card marker. All accepted turf
+tops preserve the existing terrain; daily marker colours, positions, routing and
+scorecard distances remain unchanged. Reviewing every tee site does not certify
+that every physical tee surface or current marker has been mapped.
+
+`geobuild/tee-platform-survey.mjs` measures the published terrain beneath a
+candidate polygon. It reports drainage slope separately from residual planarity,
+using both the full interior and a 2 m inner core where enough samples exist.
+Edge and exterior comparisons expose shoulders and surrounding relief. A sloping
+but planar surface is different from a bowl or uneven ground; none of those
+measurements alone identifies the material or establishes its boundary. The tool
+records missing samples, source hashes and the selected frame, never changes
+terrain or geometry, and never automatically adopts a candidate. Its build and
+ground arguments make the same measurement usable on other published grounds.
 
 ## Source records and runtime data
 
@@ -200,7 +240,14 @@ python geobuild/imagery/acquire-upsala.py --provider lm-latest --resolution .25 
 python geobuild/imagery/acquire-upsala.py --provider buildings --output-dir upsalabuild/cache/buildings
 BUILD=upsalabuild RASTER_MANIFEST=upsalabuild/cache/raster-manifest.json node geobuild/imagery/green-tracers.mjs all
 node geobuild/pond-survey.mjs --build upsalabuild --ground upsala --out upsalabuild/cache/pond-review
+node geobuild/tee-platform-survey.mjs --build upsalabuild --ground upsala --evidence upsalabuild/mapping/stora-tees-01-06-2025.json --out upsalabuild/cache/stora-tees-01-06-terrain.json
 ```
+
+Repeat the tee survey with the `07-12` and `13-18` source files to measure their
+accepted candidates. Omitting `--evidence` measures the current model's platform
+entries, which is useful for comparison before adoption. Review the dated imagery
+alongside these measurements; small residuals are evidence of planarity, not a
+claim of independent geographic accuracy or complete material coverage.
 
 `geobuild/imagery/source.mjs` documents the raster manifest. On municipal2024 imagery the
 16 unchanged OSM reference greens score median/minimum IoU: firststep0.86/0.72,
@@ -217,8 +264,9 @@ likewise resolves Puttom's own frame and published crown objects.
 The GeoJSON's `metadata.featureCounts` gives the current inventory; shared geometry
 is deduplicated, and historical retired outlines are not counted as active objects.
 Remaining review includes road/trail widths and missing links, concealed drainage
-and crossing structures, most Stora tee/green/mowing boundaries, partial Mellan8
-tee coverage, small equipment, building heights and cottage use, individual species,
+and crossing structures, unresolved Stora tee edges and omitted shadowed platforms,
+most Stora green/mowing boundaries, partial Mellan8 tee coverage, small equipment,
+building heights and cottage use, individual species,
 rough/field classifications and seasonal tall grass. Default rendering or a coarse
 land-cover prior does not complete any of those categories.
 

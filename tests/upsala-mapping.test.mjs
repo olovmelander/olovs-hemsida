@@ -27,7 +27,7 @@ describe('reviewed Upsala ground mapping', () => {
   });
   it('does not recreate false tee decks beneath provisional markers', () => {
     const holes = withInferredTeePads(model.holes.filter(h => [8, 9].includes(h.n)));
-    expect(holes.map(h => h.tees.pads.length)).toEqual([2, 1]);
+    expect(holes.map(h => h.tees.pads.length)).toEqual([3, 3]);
     expect(holes.flatMap(h => h.tees.pads).every(p => p.preserveTerrain)).toBe(true);
   });
   it('does not feed source EPSG coordinates or pixel traces to the local-frame migration', () => {

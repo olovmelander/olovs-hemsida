@@ -150,7 +150,47 @@
         "tee-platform",
         "tee-reference"
       ],
-      "gap": "23 Mellan platforms and three Stora8/9 surfaces traced, with colour assignments unverified. Mellan8 coverage remains partial. Most Stora tees and daily marker positions still need review."
+      "gap": "All 18 Stora tee sites reviewed: 53 platform entries comprise 47 dated-image outlines (44 new and three earlier Stora8/9 traces) and six retained provisional originals on holes13/14/15/18. Eight Stora holes remain partial because prior traces do not establish a complete census or shadows hide additional boundaries. The 23 Mellan platforms retain partial hole8 coverage. Daily colours, marker positions, routing and card references remain unchanged and unverified as physical marker observations.",
+      "storaReview": {
+        "reviewedHoleCount": 18,
+        "totalPlatformEntries": 53,
+        "datedImageOutlines": 47,
+        "newAcceptedSourceRecords": 44,
+        "retainedEarlierImageTraces": 3,
+        "retainedProvisionalOriginals": 6,
+        "partialHoles": [
+          8,
+          9,
+          11,
+          12,
+          13,
+          14,
+          15,
+          18
+        ],
+        "holesWithRetainedProvisionalOriginals": [
+          13,
+          14,
+          15,
+          18
+        ],
+        "sourceFiles": [
+          "stora-tees-01-06-2025.json",
+          "stora-tees-07-12-2025.json",
+          "stora-tees-13-18-2025.json"
+        ],
+        "decisions": [
+          "Holes8/9 retain three earlier image traces; their complete tee inventory remains unresolved.",
+          "Holes11/12 retain shadow-limited omissions rather than closing hidden outlines.",
+          "Hole7 old platform centres were 44.5 m and 56.5 m from the corresponding observed platforms.",
+          "Hole15 unsupported short-tee rectangle within continuous fairway retired; card reference retained.",
+          "Six provisional original footprints retained explicitly where the new review cannot establish complete edges."
+        ],
+        "terrainMethod": "geobuild/tee-platform-survey.mjs measures drainage slope and residual planarity separately, with interior/core/edge/exterior coverage. It never automatically adopts polygons or changes terrain.",
+        "routesAndCardReferencesChanged": false,
+        "dailyMarkerAssignmentsVerified": false,
+        "completeSurvey": false
+      }
     },
     {
       "id": "greens",

@@ -7,6 +7,10 @@
 import assert from 'node:assert/strict';
 
 const frameOf = m => ({ origin: m.origin, mPerLat: m.mPerLat, mPerLon: m.mPerLon });
+// Reconcile creates optional metadata properties with undefined values; JSON
+// source archives omit those properties. Preserve every serialized value.
+const sourceValue = v => Array.isArray(v) ? v.map(sourceValue)
+  : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).filter(([, x]) => x !== undefined).map(([k, x]) => [k, sourceValue(x)])) : v;
 const point = p => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite);
 const cross = (a, b, c) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
 const onSegment = (a, b, p) => Math.abs(cross(a, b, p)) < 1e-9
@@ -46,7 +50,7 @@ export function applyReviewedTeeSurfaces(model, evidenceFiles) {
       const h = model.holes.find(h => h.n === record.hole);
       assert(h && !reviewed.has(h.n) && !replacements.has(h.n), `unknown or duplicate reviewed hole ${record.hole}`);
       reviewed.add(h.n);
-      assert.deepEqual(h.tees.pads, record.originalPads, `hole ${h.n}: tee source changed since review`);
+      assert.deepEqual(sourceValue(h.tees.pads), record.originalPads, `hole ${h.n}: tee source changed since review`);
       assert.deepEqual(h.line, record.originalLine, `hole ${h.n}: route changed since review`);
       assert.deepEqual(h.tees.marks, record.originalMarks, `hole ${h.n}: marker references changed since review`);
       assert.deepEqual(h.t, record.originalDistances, `hole ${h.n}: card distances changed since review`);
