@@ -70,6 +70,7 @@ import { configureWaterRenderPasses } from './engine/water-render-policy.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
 import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
+import { bindCameraGestureInterrupt } from './engine/camera-gesture-interrupt.mjs';
 import { applyCrownDepth } from './engine/crown-depth.mjs';
 import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
 import { smoothShore } from './engine/ring-smoothing.mjs';
@@ -6351,6 +6352,7 @@ function drawCard() {
 
 const camTween = { on: false, t: 0, dur: 1.5, from: new THREE.Vector3(), to: new THREE.Vector3(),
                    lookFrom: new THREE.Vector3(), lookTo: new THREE.Vector3() };
+let heldFlightLens = false;
 /* The ground keeps the camera out of itself gently (engine/camera-clamp.mjs):
    eye height is eased toward, a rise ahead along the camera's own motion is
    climbed before it arrives, and what the ground lifted it gives back when
@@ -6373,6 +6375,15 @@ function flyTo(pos, look, dur = 1.5) {
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 
 function setCam(mode, instant) {
+  /* Gesture takeover keeps a flight's lens. A later named view deliberately
+     returns to the player's lens, without overriding other explicit FOVs. */
+  if (heldFlightLens) {
+    heldFlightLens = false;
+    if (Math.abs(camera.fov - tourFlight.baseFov) > 1e-3) {
+      camera.fov = tourFlight.baseFov;
+      camera.updateProjectionMatrix();
+    }
+  }
   camMode = mode;
   const DUR = (instant || RMOTION) ? 0 : 1.5;
   syncURL();
@@ -7111,11 +7122,12 @@ function applyFlightCamera() {
   if (Math.abs(camera.fov - tourFlight.fov) > 1e-3) { camera.fov = tourFlight.fov; camera.updateProjectionMatrix(); }
 }
 /* leave the shot: the lens goes back to the player's */
-function stopFlight() {
+function stopFlight({ preserveView = false } = {}) {
   flying = 0;
+  heldFlightLens = preserveView;
   tourFlight.st = null;
   tourFlight.cardPending = false;
-  if (Math.abs(camera.fov - tourFlight.baseFov) > 1e-3) { camera.fov = tourFlight.baseFov; camera.updateProjectionMatrix(); }
+  if (!preserveView && Math.abs(camera.fov - tourFlight.baseFov) > 1e-3) { camera.fov = tourFlight.baseFov; camera.updateProjectionMatrix(); }
   const el = document.getElementById('tourCard');
   if (el) el.classList.remove('show');
 }
@@ -7224,14 +7236,21 @@ function startTour() {
   flying = 1e-4;
 }
 
-function endTour() {
+function endTour({ preserveView = false } = {}) {
   tour = 0;
-  stopFlight();
+  stopFlight({ preserveView });
   document.body.classList.remove('tour');
   setClean(false);
-  setCam(camMode);
+  if (!preserveView) setCam(camMode);
 }
 document.getElementById('tourBtn').onclick = startTour;
+
+/* A recognized orbit/pan/pinch/wheel gesture owns the current view. Unlike an
+   explicit tour stop, takeover must not start a return tween or reset its lens. */
+if (GRAPHICS_POLISH) bindCameraGestureInterrupt({
+  controls, tween: camTween, isFlying: () => flying > 0, isTour: () => Boolean(tour),
+  stopFlight, endTour,
+});
 
 /* ------------------------------------------------------- personal caddie
    One local bag drives both the labels painted on the hole and Kikaren's club
@@ -8429,7 +8448,7 @@ gridBtn.onclick = () => {
        down: neither finger's release is a tap, and a slow pinch is not a long
        press -- it used to move the ball and drop GPS mode when a zoom ended */
     fingers++; if (fingers > 1) pinched = true;
-    if (tour) endTour();
+    if (tour && !GRAPHICS_POLISH) endTour();
   });
   const release = () => { fingers = Math.max(0, fingers - 1); if (fingers === 0) pinched = false; };
   renderer.domElement.addEventListener('pointercancel', release);
@@ -9037,13 +9056,13 @@ let last = performance.now(), acc = 0, frames = 0, fps = 0;
    longer than any fixed wait and a screenshot shows the LAST frame drawn */
 let FRAME_NO = 0, TIER_FRAME = 0;   /* the frame the tree tiers last changed on */
 const FRAME_MS = new Float32Array(120);   /* the last frames' intervals, for the harness (V3D.frameTimes) */
-function frame() {
-  const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
-  terrainV2.tick(now);
+function updateFrameVisibility(now, dt) {
   /* the world graph streams by screen-space error against the real camera */
   if (terrainV2.kind === 'graph' && terrainV2.active) {
+    /* The graph adapter refreshes camera matrices before its frustum test;
+       tree visibility below consumes that same pose, without a second sync. */
     terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
-  }
+  } else if (GRAPHICS_POLISH) camera.updateMatrixWorld(true);
   /* the crossfade clock: real time, a fixed 1/60 under det, or whatever the harness set */
   if (!TREE_LOD.clockDriven) TREE_LOD.fadeClock += DET ? 1 / 60 : dt;
   treeFadeClock.value = TREE_LOD.fadeClock;
@@ -9052,6 +9071,13 @@ function frame() {
   FRAME_MS[FRAME_NO % FRAME_MS.length] = now - last;
   last = now; frames++; acc += dt; FRAME_NO++;
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
+}
+
+function frame() {
+  const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
+  /* Morph state remains current before the ground clamp samples terrain. */
+  terrainV2.tick(now);
+  if (!GRAPHICS_POLISH) updateFrameVisibility(now, dt);
 
   if (camTween.on) {
     camTween.t += dt / camTween.dur;
@@ -9109,6 +9135,10 @@ function frame() {
     /* never underground, and never so close to it that the near plane clips through -- eased, see groundClamp */
     groundClamp.step(camera.position, dt);
   } else groundClamp.reset();
+  /* Motion, controls and the existing ground clamp all finish before the
+     preview selects visible terrain/trees. Frame bookkeeping stays beside
+     tree updates so settled() still waits for the same two rendered frames. */
+  if (GRAPHICS_POLISH) updateFrameVisibility(now, dt);
   placeSun();
   shadowRest(now);
   if (skyMesh) skyMesh.position.copy(camera.position);
