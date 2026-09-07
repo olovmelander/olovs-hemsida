@@ -347,6 +347,76 @@ This repository may keep those values in its ignored root `.env`; invoke Node
 readers with `node --env-file=.env ...` as shown below. Never commit secrets,
 authenticated URLs, headers or logs containing them.
 
+#### Local `.env` and cloud access through GitHub Actions
+
+Lantmäteriet can also be accessed from the repository's GitHub Actions runners.
+When a cloud session has no local `.env`, use the existing credentialed workflow
+and retrieve its evidence/output. A missing local file does not mean the GitHub
+acquisition route is unavailable.
+
+| Where the acquisition runs | How credentials reach the reader |
+|---|---|
+| Local workspace | Ignored root `.env`, loaded with `node --env-file=.env ...`, or process environment variables. |
+| GitHub Actions runner | Repository Actions secrets `LANTMATERIET_USERNAME` and `LANTMATERIET_PASSWORD`, explicitly mapped into the step's `env`. The reader runs with `node ...`; no local `.env` file is needed. |
+| Another cloud terminal/session | A GitHub connection can be used to request an authorized workflow and fetch its artifacts. Connecting/cloning the repository does not itself inject Actions secrets into that terminal. Direct provider requests there need separately configured credentials. |
+
+The existing workflows use the username/password pair, not the optional bearer
+token supported by some local readers. Per-hole tree-height checks additionally
+use `SKOGSSTYRELSEN_USERNAME` and `SKOGSSTYRELSEN_PASSWORD`. Check configured secret
+names under repository **Settings → Secrets and variables → Actions**, and use
+the workflow's bounded access preflight to verify actual provider access. An
+empty/missing secret or a product-specific denial is not fixed by changing data
+quality thresholds. See [GitHub's secrets documentation](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets)
+for the injection mechanism and event restrictions.
+
+Verified workflow choices:
+
+| Workflow | Inputs and use | Outputs and side effects |
+|---|---|---|
+| [Per-hole source controls](../.github/workflows/course-geo-hole-controls.yml) | Manual `ground`, `providers`, `batch_count`, `batch_index`. Supports all seven registered grounds. Use `ground=upsala`, `providers=laser` to check Lantmäteriet alone. | Read-only repository permission; aggregate `hole-source-evidence-<ground>-<run-number>` artifact retained 14 days. This checks source windows; it does not build a complete terrain/vegetation generation. |
+| [Provider access and Puttom proof](../.github/workflows/course-geo-access.yml) | Manual dispatch has no ground input. Includes authenticated access plus Puttom-specific acquisition, compilation and rendering. | Read-only repository permission; derived preview/evidence artifacts, generally retained 7 days. It is a substantial Puttom pipeline, not a generic Upsala downloader. |
+| [Ground vegetation](../.github/workflows/veckefjarden-vegetation.yml) | Despite its filename, accepts `ground`, `publish` and required `observed_on`. Requires a pinned campaign inventory and existing published ground. | **Both modes commit and push to the selected branch.** `publish=false` acquires, machine-reviews and saves evidence/overlays; `publish=true` also publishes the ground graph for all shared courses. Compile/review artifacts are retained 7 days. Choose this only when those branch writes are within the work's authorized scope. |
+
+The controls workflow still probes Puttom in its provider preflight, then reads
+the selected ground. `providers=both` may proceed with only one available provider;
+inspect the effective provider and the report, not only a green workflow badge.
+Machine review in the vegetation job is not per-object human approval.
+Its artifact contains compile/review output, not the raw canopy rasters. The
+Puttom access workflow allows some exploratory measurements to fail without
+failing the whole job; inspect those results before claiming product access.
+
+Use the repository's **Actions → course geo per-hole source controls → Run
+workflow** interface, selecting the reviewed remote branch and inputs. Where an
+authenticated GitHub CLI is available, the equivalent Upsala example is:
+
+```powershell
+gh workflow run course-geo-hole-controls.yml --repo olovmelander/olovs-hemsida --ref codex/upsala-ground-mapping -f ground=upsala -f providers=laser -F batch_count=1 -F batch_index=0
+gh run list --repo olovmelander/olovs-hemsida --workflow course-geo-hole-controls.yml --branch codex/upsala-ground-mapping --limit 5
+gh run watch <run-id> --repo olovmelander/olovs-hemsida --exit-status
+gh run view <run-id> --repo olovmelander/olovs-hemsida --json conclusion,headSha,url
+gh run download <run-id> --repo olovmelander/olovs-hemsida --pattern 'hole-source-evidence-upsala-*' --dir upsalabuild/cache/github-hole-controls-<run-id>
+```
+
+The first command starts cloud work; the others inspect/download it. Select the
+run matching the intended branch, commit and dispatch, wait for completion, and
+retain its ID, head SHA, source hashes, provider result and report before artifact
+expiry. Local unpushed changes are absent from the remote run. Confirm the
+workflow exists on the default branch and the chosen ref,
+and that the caller can dispatch/read Actions. The automatic push triggers in
+the access/controls workflows target `codex/terrain-v2-runtime-integration`; the
+vegetation `RUN` trigger targets `claude/**`. An ordinary push to the current
+`codex/upsala-ground-mapping` branch does not trigger these acquisition jobs.
+Do not change a `RUN` file merely to test access: its workflow can push outputs.
+See the official [dispatch](https://cli.github.com/manual/gh_workflow_run) and
+[artifact download](https://cli.github.com/manual/gh_run_download) commands.
+
+Keep credentials on the runner; retrieve derived data and sanitised evidence,
+never secret values or an exported `.env`. This workflow configuration is
+verified from the repository; current credential validity and provider coverage
+are established by an actual authorized run, not by this documentation update.
+
+#### Python review and horizontal PROJ alternative
+
 For Python review tools, select a real interpreter and install their declared
 dependencies in an ignored virtual environment: Pillow/pyproj for imagery,
 NumPy/Matplotlib for terrain reports and vector sheets. Do not assume Windows'

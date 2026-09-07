@@ -232,6 +232,15 @@ an alternative source of geographic truth. A useful working procedure is:
 
 ## 5. Verified mapping tools and Windows setup
 
+For authenticated Lantmäteriet reads, use the ignored root `.env` locally or the
+repository's GitHub Actions secrets in the cloud. Follow the runbook's
+[local and GitHub access instructions](v2-course-runbook.md#local-env-and-cloud-access-through-github-actions)
+for the existing workflows, dispatch inputs and evidence download. Cloud runners
+receive process environment variables, so omit `--env-file=.env` there unless an
+actual local file was deliberately configured. A GitHub connection alone does
+not copy Actions secrets into another terminal. Review workflow side effects:
+the ground-vegetation job commits/pushes even with `publish=false`.
+
 Run from the repository root. The installed interpreter used for Upsala review
 is available in this workspace as follows; on another machine, select an
 installed equivalent rather than copying a nonexistent executable path.
