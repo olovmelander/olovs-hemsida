@@ -5,10 +5,19 @@ Branch: `codex/upsala-ground-mapping`.
 
 ## Start here
 
+The course-building documentation was consolidated on September 7 after mapping
+checkpoint `7dbe4e3`. Read [the docs index](../../docs/README.md),
+[production guide](../../docs/v2-course-runbook.md),
+[mapping workflow](../../docs/v2-course-mapping-workflow.md) and
+[model vocabulary](../../docs/course-model-vocabulary.md) before choosing tools.
+They distinguish generic commands, Upsala adapters and remaining implementation
+gaps. This handoff remains the source for the current ground-specific next tasks.
+
 Open this repository in VS Code, select this branch, and give Codex this prompt:
 
 > Read upsalabuild/mapping/NEXT-SESSION.md, upsalabuild/mapping/README.md,
-> upsalabuild/mapping/scope.json and the latest validation report. Inspect the
+> upsalabuild/mapping/scope.json, docs/v2-course-mapping-workflow.md,
+> docs/v2-course-runbook.md and the latest validation report. Inspect the
 > working tree and fetch origin/main. Continue the highest-priority unresolved
 > mapping work using recorded evidence. Main is the
 > source of truth for conflicts. Preserve existing user changes, route/card

@@ -1,20 +1,38 @@
-# Course v2 production guide — the PUTTOM standard
+# Course v2 production guide
 
-> Status: working standard, first consolidated edition, 2026-09-04.
+> Updated 2026-09-07 against repository code and published manifests at `7dbe4e3`.
 >
 > Puttom is the reference implementation for the spatial, tile, provenance,
 > runtime and validation framework. It is not yet the authority for every data
 > layer: its 1 m terrain and LiDAR vegetation are implemented, but its canonical
 > origin is still marked provisional, its played-surface vectors are migrated
 > rather than surveyed, its zone-A tree approval was automated rather than
-> human, and v2 remains opt-in. A new course must reproduce the framework and
-> close its own evidence gates; it must not copy Puttom's provisional values.
+> human. V2 is already the default for supported course configurations, with
+> improved graphics on when v2 is ready. The live root contains nine course
+> slugs on seven grounds; all ground graphs still have zero authoritative
+> surface tiles. These are implemented, progressively reviewed environments,
+> not completed surveys. A new course must close its own evidence gates.
 
 This is the practical guide for recreating an existing course or building a new
 one to the same standard as PUTTOM v2. It brings together the workflow that was
 previously spread across code, manifests, implementation plans and handoff
 notes. Use it as the production checklist and update it whenever a generic
 compiler command, schema or gate changes.
+
+Start with the [mapping workflow](v2-course-mapping-workflow.md) for the object
+inventory, source acquisition, review tools, safe update loop and next-session
+template. This guide defines the spatial, compilation and release contracts.
+Use the [model vocabulary](course-model-vocabulary.md) to translate observations
+into the model, and [performance recovery](v2-performance-recovery.md) for the
+current runtime and graphics rules. The [docs index](README.md) identifies
+current instructions versus historical plans.
+
+For an existing course, first identify the specific deficient layer and preserve
+accepted geometry and terrain. A new tee outline does not require a fresh terrain
+publication. For a new ground, follow all stages and implement the missing
+ground-specific adapters explicitly; there is no universal course-creation CLI.
+The release targets below define the intended complete digital twin. A passing
+build, dense feature count or attractive render does not prove those targets.
 
 The deeper design rationale remains in
 [`course-digital-twin-implementation-plan.md`](course-digital-twin-implementation-plan.md).
@@ -40,7 +58,7 @@ constants.
 | Trees and vegetation | Individual positions come from survey or data-derived crown evidence; dense forest uses measured stand fields. Every base samples the exact published terrain. Procedural large objects are forbidden in the playing truth zone. |
 | Stable objects | Buildings, bridges, fences, signs, lights, furniture, boulders and drainage objects have stable IDs, source/date/accuracy/review fields and tile ownership. |
 | Distribution | Course and ground are separate, chunks are immutable and content-addressed, a coarse shell loads independently, and every payload is verified before use. |
-| Runtime | WebGPU and WebGL2 use the same geography, height sampler, surface semantics and zone-A transforms. Unsupported, partial or hash-invalid v2 data fails closed to the declared v1 fallback. |
+| Runtime | WebGPU and WebGL2 use the same geography, height sampler, surface semantics and zone-A transforms. Default/`v2=1` can use the declared GPK1 fallback; `v2=require` rejects unmet v2 requirements. |
 | Validation | Geometry, provenance, visuals, both render backends, caching, offline reopen and named hardware budgets pass per course and per hole. Human visual inspection is mandatory because self-consistency tests cannot prove resemblance to the real course. |
 
 The non-negotiable rules are:
@@ -70,7 +88,7 @@ shape. They are not constants for another course.
 | Terrain identity | 64 finest tiles, 4,227,136 compared samples, exact against the retained preview at the recorded checkpoint. |
 | Surface preview | 30 of the 64 finest tiles, on the 1 m lattice; `class-sdf-v1`; derived from the current GPK1 vectors; explicitly “migrerade ytor (ej inmätta)”. It is a separate preview descriptor and is not attached as an authoritative surface layer in the current ground graph. |
 | Vegetation | 3,502 `derived-lidar` individual records plus 64 measured 4 m stand-field tiles; 64 object tiles; stable base heights from the published terrain. The current generation used versioned machine review by owner decision, not per-object human review. |
-| Runtime | v2 is selected explicitly with `?bana=puttom&v2=1`; `v2=require` turns any fallback into a hard test failure. GPK1 remains the default production path. |
+| Runtime | Flagless visits select v2 when its configured requirements can be met. `?v2=0` selects GPK1; `v2=require` makes unmet v2 requirements a hard failure. Improved graphics are default for ready v2; `graphics=0` is the explicit comparison path. |
 | Frame status | Runtime assets carry an `EPSG:5845` frame and fingerprint, but the source manifest still records zero independent origin anchors and `pending-control-approval`. Treat it as a migration frame, not an approved survey origin. |
 
 The authoritative current graph is reached through
@@ -128,6 +146,8 @@ exact terms supplied with an order. The external routes were last checked on
 | Independent canopy cross-check | Meta/WRI Canopy Height Maps v2 COGs from the public Data for Good bucket, as used by [`build-chmv2-window.mjs`](../packages/course-geo/chmv2/build-chmv2-window.mjs). | Optical, independent-sensor check for canopy presence, height bias, seams and clear-fells. Do not replace the newer local laser just because the optical model disagrees. Record object URL, ETag, size and licence attribution. |
 | Supplementary map features | [OpenStreetMap](https://www.openstreetmap.org/copyright), acquired as a dated extract or bounded Overpass result. | Useful for cross-checking roads, paths, water, buildings and sometimes golf geometry. ODbL lineage and attribution must remain explicit. OSM alone never upgrades a green, fairway or tee to authoritative. |
 | Routing and card | Current club scorecard, course guide and maintenance material, supplied or explicitly licensed by the club. | Good authority for par, tee names, lengths and intended routing. A diagram without coordinates is corroboration, not a spatial survey. Record edition/publication date. |
+| Municipal primary mapping | Municipal GIS, primary/base maps, survey exports and their layer dictionaries. [Uppsala's base-map entrypoint](https://www.uppsala.se/kommun-och-politik/kartor/baskarta/) was rechecked 2026-09-07. | Particularly useful for road edges, tree observations, buildings, bridges and drainage. Decode each record's method, status, epoch and accuracy; municipal layers have mixed quality. Preserve open lines as lines, unknown dates as unknown, and explicit rights for the exact export/product. |
+| Dated photographs and historical maps | Club archives, municipal orthophoto archives, survey reports and site photographs with identifiable viewpoints. | Cross-check object identity and change over time. A rendered building proposal or ungeoreferenced course diagram cannot place an object. Record camera/capture context, registration controls and uncertainty before digitizing. |
 | Geology/context | SGU geology/soil-depth and other public contextual layers. | Broad context for rock/soil appearance only. Do not derive individual boulder outlines from regional geology. |
 | Existing Banvy model | GPK1, legacy course model, Terrarium, old traces, GolfTraxx and imagery-derived rasters already inventoried in the ground manifest. | Migration and regression comparison only unless the source rights and accuracy are independently approved. Esri/Google-derived traces and GolfTraxx coordinates are not production authority in v2. |
 
@@ -138,9 +158,19 @@ dates, CRS, stated accuracy, licence, redistribution decision, toolchain,
 reviewer and review date. Credentials and authorization headers are never
 serialized.
 
+The current [Lantmäteriet product notice](https://www.lantmateriet.se/sv/geodata/vara-produkter/Produktnyheter/Geografisk-information/markhojdmodell-nedladdning-utokas-med-mer-innehall/)
+confirms the move to 10 × 10 km height items and associated water break geometry
+and metadata. Rechecked 2026-09-07; do not reuse a retired 2.5 km item recipe.
+The older imagery notes' claims that orthorectification has no registration
+error or that OSM green outlines are surveyed are superseded by this guide.
+
 ### Accuracy labels
 
-Accuracy is a statement backed by evidence, not a source nickname.
+Accuracy is a statement backed by evidence, not a source nickname. These are
+project acceptance targets, not a claim that existing courses meet them. Keep
+source precision, interpolation resolution, measured residuals and an adopted
+feature's uncertainty separate. A precise surveyed edge joined by an interpreted
+segment does not make the entire polygon centimetre-accurate.
 
 | Tier | Meaning | Initial release target |
 |---|---|---|
@@ -317,6 +347,20 @@ This repository may keep those values in its ignored root `.env`; invoke Node
 readers with `node --env-file=.env ...` as shown below. Never commit secrets,
 authenticated URLs, headers or logs containing them.
 
+For Python review tools, select a real interpreter and install their declared
+dependencies in an ignored virtual environment: Pillow/pyproj for imagery,
+NumPy/Matplotlib for terrain reports and vector sheets. Do not assume Windows'
+`python` application alias is an installed interpreter. The accepted Upsala
+environment and rebuild command are documented in its
+[handoff](../upsalabuild/mapping/NEXT-SESSION.md).
+
+`COURSE_GEO_PYPROJ_PYTHON` can select an installed Python with the real PROJ
+binding for supported horizontal migration/review commands. This alternative
+does not replace the pinned geoid grid, `cct` or vertical control checks. Do not
+use a hand-coded approximate projection as the canonical migration authority.
+Inspect a CLI parser before running `--help`: older scripts may treat an unknown
+flag as a normal acquisition/publication run.
+
 ### 6.2 What is committed
 
 ```text
@@ -372,18 +416,68 @@ hash or count until the upstream difference is understood and reviewed.
 4. Add `geo_data/course-v2/<ground-id>/source-manifest.json`, initially with
    explicit blockers and `null` values rather than invented metadata. Copy the
    shape of a nearby manifest, not its coordinates, checksums or approvals.
-5. If the ground is to use the current acquisition commands, add it to the
-   supported-ground registry in
-   [`acquisition/pilots.mjs`](../packages/course-geo/acquisition/pilots.mjs).
-6. Generalize the Puttom-only seams listed in section 9 before attempting to
-   publish the new ground. The second course must produce a per-course config,
-   not a renamed `PUTTOM_PREVIEW_CONFIG` copy scattered through the app.
+5. Register ground identity in `EXPECTED_GROUNDS` in
+   [`manifest.mjs`](../packages/course-geo/manifest.mjs). The acquisition list in
+   [`acquisition/pilots.mjs`](../packages/course-geo/acquisition/pilots.mjs)
+   derives from it; preserve the historical `PILOT_GROUND_IDS` cohort. Add source,
+   routing and app registrations required by the target's actual consumers.
+6. Check the support matrix in section 9. Add reviewed terrain/ring specs and a
+   ground driver where missing. The live frontier registry already exists at
+   [`v2-frontier-configs.mjs`](../apps/golf/src/engine/v2-frontier-configs.mjs);
+   adding a config can enable default v2 and is part of the release change.
 
 Gate:
 
 ```powershell
 pnpm check:geo-sources
 ```
+
+#### Starting without an existing course model
+
+Skip the legacy freeze when there is no existing course. Current v2 drivers still
+require a checked GPK1 fallback and canonical routing input; they cannot bootstrap
+a course from an empty directory. Obtain enough source evidence and establish the
+frame in Stages 3–5 before authoring those inputs:
+
+1. Implement a ground-specific authoring adapter producing `course-model.json`,
+   `heightfields.json` and `card.json`, with optional `tree-cover.json`.
+   [`ribbingsforsbuild/build-course.mjs`](../ribbingsforsbuild/build-course.mjs)
+   demonstrates the output chain. Its provisional synthetic pads and fairway
+   rules are historical compromises, not a template for measured geometry.
+   Preserve canonical master vectors and derive the compatibility model from
+   them with an explicit frame.
+2. Register the build directory, club labels and tee names/colours in `COURSES`
+   in [`emit-manifest.mjs`](../packages/course-pack/emit-manifest.mjs). Its default
+   selection currently assumes a yellow tee colour; generalize that rule if the
+   real card differs instead of inventing a yellow tee. Emit and verify the pack:
+
+   ```powershell
+   node packages/course-pack/emit-pack.mjs <build-directory> apps/golf/public/courses/<slug> <slug>
+   node packages/course-pack/emit-manifest.mjs
+   node tools/check-packs.mjs
+   ```
+
+   These commands write the local fallback pack/index. Add model/card and app
+   validation for the new course. A standalone HTML page is optional; custom
+   appearance can be registered in
+   [`scenery/index.js`](../apps/golf/src/engine/scenery/index.js) when needed.
+3. Inventory the generated model and exact checksums in the source manifest.
+   [`migration-inputs.mjs`](../packages/course-geo/migration-inputs.mjs) currently
+   selects composite artifacts whose ID starts `legacy-` and path ends
+   `model.json`; that adapter naming does not change the source's actual lineage.
+   For a model authored as exact projected offsets, declare
+   `legacyFrame.projectedOriginEpsg3006` in the source manifest so migration uses
+   exact translation. Do not substitute this declaration for a legacy
+   metres-per-degree frame. Keep all model metadata consistent.
+4. Run `migrate-legacy.mjs --write --ground <ground-id>` and its `--check`
+   equivalent under the configured PROJ environment to produce the input consumed
+   by the ground driver. Independent control/approval remains a separate gate;
+   the migration wrapper does not certify new data automatically.
+5. Compile a reviewed v2 graph only after those inputs exist. Register the
+   published slug in `V2_PUBLISHED_GRAPH_SLUGS` in
+   [`v2-terrain-select.mjs`](../apps/golf/src/engine/v2-terrain-select.mjs), and add
+   its independently reviewed live frontier contract at Stage 10. There is no
+   generic command that performs this complete registration sequence.
 
 ### Stage 1 — freeze the existing course
 
@@ -405,15 +499,25 @@ pnpm --filter @banvy/golf build
 node tools/serve.mjs apps/golf/dist 8620
 ```
 
-Then capture the standard images and, where applicable, the vegetation state:
+Capture GPK1 comparison images to a fresh directory; `goldens.mjs` forces
+`v2=0`. Its standard matrix assumes an 18-hole routing. For nine-hole courses
+use a reviewed custom view list. Capture current v2 separately with the
+configurable graphics review in section 8.1.
 
 ```powershell
-node tools/goldens.mjs http://127.0.0.1:8620 --course <slug> --out-dir tools/goldens
-node tools/vegetation-baseline.mjs http://127.0.0.1:8620 --course <slug> --label phase0 --shots
+node tools/goldens.mjs http://127.0.0.1:8620 --course <18-hole-slug> --out-dir <new-review-directory>/gpk1
 ```
 
 Goldens are approval candidates. A human must inspect and approve them before
 they become a regression baseline.
+
+For a ground with published v2 vegetation, use `vegetation-baseline.mjs` with
+`--label v2 --out <new-report.json> --shots --shot-dir <new-directory>`.
+`--label phase0` asserts that v2 vegetation is absent even on the required-v2
+visit; reserve it for an actual pre-vegetation checkpoint. The helper assumes
+slug equals ground ID for source/ground provenance and chooses manifest names
+from a directory listing. Independently record hashes resolved from the live
+root; adapt this provenance lookup before relying on it for a shared child slug.
 
 ### Stage 2 — migrate legacy vectors without promoting them
 
@@ -524,11 +628,37 @@ Create a ground config containing derived/reviewed values equivalent to
 - expected pyramid shape, derived from a reviewed compile;
 - regression identity gate against the approved previous generation.
 
-Use GDAL to cut a COG on the exact pixel-edge window, inspect it and emit a
-row-major XYZ stream. The current Puttom CI implementation is the copyable
-command sequence in
-[`course-geo-access.yml`](../.github/workflows/course-geo-access.yml), but the
-coordinates and item are course data and must come from the new config.
+Use the verified acquisition path for the ground. The COG range-reader
+[`build-terrain-window.mjs`](../packages/course-geo/acquisition/build-terrain-window.mjs)
+reads factor-1 samples on the reviewed lattice without a GDAL subprocess. Its
+[`terrain-window-specs.mjs`](../packages/course-geo/acquisition/terrain-window-specs.mjs)
+currently covers Ängsö, Johannesberg, Norrfällsviken and Upsala. For example,
+when deliberately acquiring/replacing Upsala terrain:
+
+```powershell
+node --env-file=.env packages/course-geo/acquisition/build-terrain-window.mjs --ground upsala --out upsalabuild/cache/terrain-review
+```
+
+Acquisition writes raw cache rasters and the ground's compact acquisition
+evidence. Review those inputs before compiling. For a deliberate terrain change,
+write the initial compilation into a fresh staging tree:
+
+```powershell
+node packages/course-v2/compile-upsala-ground-graph.mjs --terrain-f32 upsalabuild/cache/terrain-review/terrain-1m.f32 --out upsalabuild/cache/terrain-review/staging-public
+```
+
+This driver emits a terrain-only ground and both course/root references. A direct
+write to `apps/golf/public` would replace the selected ring/vegetation generation,
+even though old immutable bytes survive. Reconcile all required rings, vegetation,
+fallback assets and source registrations into a complete verified graph before
+activation; the staging output alone is not a complete deployable app. Ordinary
+surface corrections use mapping refresh/rebinding instead. These are Upsala
+commands, not a template accepting an unregistered ground by changing its name.
+
+The GDAL cut/XYZ path remains available in
+[`course-geo-access.yml`](../.github/workflows/course-geo-access.yml). Cut on the
+exact pixel-edge window and distinguish sample centres from raster extents.
+Coordinates, item precedence and hashes come from the target ground's config.
 
 The compiler must reject:
 
@@ -545,8 +675,9 @@ The generic compile primitives are
 [`terrain-compiler-node.mjs`](../packages/course-v2/terrain-compiler-node.mjs),
 [`terrain-pyramid.mjs`](../packages/course-v2/terrain-pyramid.mjs) and
 [`emit-ground-graph-node.mjs`](../packages/course-v2/emit-ground-graph-node.mjs).
-The current command-line driver is Puttom-specific and must be parameterized or
-paired with a reviewed driver for the new ground.
+Seven `compile-<ground>-ground-graph.mjs` drivers currently exist. There is no
+generic `compile-ground-graph.mjs`. A new ground still needs a reviewed driver
+using these common primitives and independent fixtures.
 
 #### 6.2 Nested rings and shell
 
@@ -555,11 +686,16 @@ the surrounding levels:
 
 ```powershell
 node --env-file=.env packages/course-geo/acquisition/build-ground-rings.mjs --ground <ground-id>
-node packages/course-v2/publish-ground-rings.mjs --ground <ground-id> --slug <slug>
+node packages/course-v2/publish-ground-rings.mjs --ground <ground-id> --slug <all-course-slugs-comma-separated>
 ```
 
-Both commands currently register only Puttom; add a per-ground ring spec before
-using them. LOD0 must compare with and reuse every published 1 m terrain tile.
+Both commands use
+[`ground-rings-registry.mjs`](../packages/course-v2/ground-rings-registry.mjs),
+currently covering Ängsö, Norrfällsviken, Puttom, Upsala and Veckefjärden. Add a
+reviewed spec for another ground. Ring publication reads its standard cache;
+there is no custom raster-directory flag. Include every course sharing the
+ground, for example `--ground upsala --slug upsala,upsala-mellanbanan`.
+LOD0 must compare with and reuse every published 1 m terrain tile.
 The evidence file records exact DTM items, ETags, sizes, overview behavior,
 bytes read, raster hashes and sample statistics. Capture the edge of every ring
 and the horizon; an internally valid hierarchy can still reveal holes if the
@@ -574,6 +710,14 @@ green centres/pins and centre lines against current club material. Store routing
 in canonical coordinates and sample route heights from the exact ground
 generation. Tee pads are polygons; a slid centre-line start is not an adequate
 tee location.
+
+Keep physical platforms, mobile tee markers, scorecard tee sets and routing
+starts separate. A visible platform does not identify its tee colour or current
+marker location. Review wider windows than existing pads to find omissions;
+record census completeness separately from outline review. Adopt exact reviewed
+rings through guarded helpers; preserve terrain and disable inferred pads where
+the model supports `preserveTerrain`/`inferPads`. See the
+[mapping workflow](v2-course-mapping-workflow.md) for before/after evidence.
 
 Every centre-line vertex and tee/green probe must lie on the intended terrain
 frontier. Compare the new terrain with the legacy field per hole. Puttom found
@@ -605,9 +749,13 @@ The evaluator and compiler library are generic
 ([`authoritative-surface-preflight.mjs`](../packages/course-v2/authoritative-surface-preflight.mjs)
 and
 [`authoritative-surface-compiler-node.mjs`](../packages/course-v2/authoritative-surface-compiler-node.mjs)),
-but a generic CLI and graph publisher do not yet exist. Add them before the
-second course. Production surfaces attach atomically to `tiles[].layers.surface`;
-they do not coexist with the migration preview over the same ground.
+but a generic CLI and graph publisher do not yet exist. Implement and validate
+those before claiming a completed authoritative-surface publication. The
+compiler returns assets without writing a publication. Production surfaces must
+attach to `tiles[].layers.surface` as one reviewed graph generation; they must
+not coexist with the migration preview over the same ground. All seven current
+ground graphs still have zero such surface tiles. An imagery-reviewed GPK1
+outline improves the compatibility atlas without passing this intake by itself.
 
 Compiler/review requirements:
 
@@ -659,6 +807,14 @@ bridge changes geometry. Asphalt, gravel, dirt and path are surface classes.
 Bridge decks, curbs, walls and rails are explicit geometry. Painted markings
 may remain a small rendering layer tied to the surveyed road geometry.
 
+Municipal surveyed road edges are valuable additional input, but an open edge
+is neither a centreline nor a complete polygon. Record the uncertainty of
+interpreted joins independently. Preserve holes in hard-surface polygons and
+remove the specific superseded coarse feature to avoid duplicate strips. In the
+current compatibility path, `mappedFeatures` can carry `paved_path`; an unknown
+hard-surface material has a neutral gravel rendering default, not a surveyed
+material classification.
+
 Current Puttom road/path geometry still originates largely in the migrated
 course model and semantic exclusion adapter. There is no general authoritative
 road/building importer yet, so this is a required compiler task for a new
@@ -672,6 +828,15 @@ record must validate, be inside its owning tile and carry the real placement
 method. Use terrain/breaklines for continuous rock, walls and ridges; the
 object registry is for individual boulders/details.
 
+An observation need not become a 3D object immediately. Current `infra.drainage`
+and `infra.barriers` can retain surveyed lines in the GIS export while width,
+height and material remain unknown. Moving such lines into legacy `streams`
+would introduce synthetic terrain carving. Bridge footprint placement can be
+source-backed while deck height, thickness and appearance remain rendering
+estimates. These observations cannot satisfy the strict v2 object registry merely
+by inventing its required dimensions or dates. See the
+[vocabulary](course-model-vocabulary.md) for the actual model contracts.
+
 Before publishing:
 
 - generate a diff against the previous registry;
@@ -684,7 +849,9 @@ Before publishing:
 
 ### Stage 9 — derive and publish vegetation
 
-The implemented Puttom sequence is reusable once the ground is registered.
+The canopy/compiler/publisher path resolves registered, published grounds. Some
+review and optical cross-check adapters still have Puttom-specific defaults;
+check the stated limits below before using them elsewhere.
 
 1. **Pin campaigns.** Run `record-laser-campaigns.mjs --check`; deliberately
    `--write` after reviewing drift.
@@ -715,7 +882,7 @@ The implemented Puttom sequence is reusable once the ground is registered.
      --out <outside-repo>/vegetation/compile
      --raster <campaign-id>=<chm.f32>:<chm.json> [...]
      --approvals <approved-candidate-keys.json>
-      --previous <previous-registry.json>
+     --previous <previous-registry.json>
    ```
 
    On Windows, pass `--raster` paths relative to the repository for now. The
@@ -733,7 +900,7 @@ The implemented Puttom sequence is reusable once the ground is registered.
    per hole:
 
    ```powershell
-   node packages/course-v2/vegetation/render-review.mjs --ground <ground-id> --rasters <outside-repo>/vegetation --candidates <outside-repo>/vegetation/compile/candidates.json
+   node packages/course-v2/vegetation/render-review.mjs --ground <ground-id> --rasters <outside-repo>/vegetation --candidates <outside-repo>/vegetation/compile/candidates.json --out <outside-repo>/vegetation/review
    ```
 
    Review canopy, candidate centres/radii, stands, exclusions, voids, campaign
@@ -745,23 +912,44 @@ The implemented Puttom sequence is reusable once the ground is registered.
    individual:
 
    ```powershell
-   node packages/course-geo/chmv2/build-chmv2-window.mjs --ground <ground-id> --out <outside-repo>/vegetation
-   node packages/course-v2/vegetation/run-chmv2-crosscheck.mjs --ground <ground-id> --compile <outside-repo>/vegetation/compile
+   node packages/course-geo/chmv2/build-chmv2-window.mjs --ground <ground-id> --grid <actual-campaign-sidecar.json> --url <covering-chmv2-tile.tif> --out <outside-repo>/vegetation --evidence <crosscheck-window.json>
    ```
+
+   Supply both the actual campaign grid and a geographically covering CHMv2
+   URL; omitted values still default to Puttom. The source raster is EPSG:3857
+   and is sampled onto the campaign's EPSG:3006 grid.
+
+   `run-chmv2-crosscheck.mjs --ground <ground-id> --compile <compile-dir>
+   --tile <tile-id> --out <report.json>` currently reads only the standard
+   `packages/course-geo/toolchain/.cache/acquisition/<ground-id>-vegetation`
+   cache and requires the first campaign seam to be a northing seam. `--compile`
+   does not change its raster input directory. It cannot directly follow the
+   external-directory example above. Adapt the CLI for different cache layouts,
+   no seam or an easting seam, using the reusable
+   [`chmv2-crosscheck.mjs`](../packages/course-v2/vegetation/chmv2-crosscheck.mjs)
+   comparison functions; do not fabricate a seam to satisfy the wrapper.
 
 7. **Publish only approved output.** The publisher refuses the
    `--approve-all-individuals` harness result:
 
    ```powershell
-   node packages/course-v2/vegetation/publish-vegetation.mjs --ground <ground-id> --slug <slug> --compile <outside-repo>/vegetation/compile
+   node packages/course-v2/vegetation/publish-vegetation.mjs --ground <ground-id> --compile <outside-repo>/vegetation/compile --public apps/golf/public
    ```
+
+   Omitting `--slug` selects every published course on the ground. An explicit
+   comma-separated list must include all siblings; partial ground publication
+   is rejected.
 
 8. **Measure the ownership switch.** There must be zero legacy trees inside the
    published object/stand coverage and no duplicate population:
 
    ```powershell
-   node tools/vegetation-baseline.mjs http://127.0.0.1:8620 --course <slug> --label v2 --shots
+   node tools/vegetation-baseline.mjs http://127.0.0.1:8620 --course <slug> --label v2 --shots --out <new-report.json> --shot-dir <new-review-directory>
    ```
+
+   Verify provenance against the live root separately; this baseline helper's
+   source/ground lookup still assumes slug equals ground ID. See Stage 1 before
+   using its report for a shared child routing.
 
 Prefer a human approvals file for zone A. `--machine-review` is a versioned,
 auditable alternative implemented after an explicit Puttom owner decision; it
@@ -769,11 +957,20 @@ does not satisfy the original per-object human-review target and must be stated
 as such in evidence. `--approve-all-individuals` is only a pipeline harness and
 must never publish.
 
-### Stage 10 — wire runtime selection without a Puttom copy
+Separate municipal tree observations, derived crowns and stand representations.
+Broadleaf/conifer context does not identify botanical species. Do not plant a
+second population from survey points without evidence of object identity, or
+retire an old crown solely because a camera view looks crowded. Compare its
+coordinates and crown radius with dated source evidence and the proposed change.
 
-Before a second course can boot v2, replace the single exported
-`PUTTOM_PREVIEW_CONFIG` with a registry keyed by course/ground. Split fields by
-their real authority:
+### Stage 10 — register and verify runtime selection
+
+Add a reviewed contract to
+[`v2-frontier-configs.mjs`](../apps/golf/src/engine/v2-frontier-configs.mjs).
+The published graph root and the live frontier registry are separate gates;
+publication alone is not a configured runtime. Puttom retains a separate preview
+path, so do not remove its config while onboarding another ground. Split fields
+by their real authority:
 
 - **derived:** frame fingerprint, descriptor hashes and bounds from compiler
   output;
@@ -794,67 +991,160 @@ Runtime requirements:
 3. Display the shell, then prioritize active-hole terrain/surface/object tiles.
 4. Use one visible-ground sampler for terrain construction, camera, water,
    routing, objects and probes.
-5. Keep v2 loading dynamic so a plain GPK1 visit does not download it.
-6. `?v2=1` may report and use the declared v1 fallback; `?v2=require` must fail
-   the test if any v2 requirement cannot be served.
+5. Keep v2 loading dynamic so an explicit `?v2=0` GPK1 visit does not download it.
+6. Flagless visits and `?v2=1` select configured v2 and may use the declared
+   fallback. `?v2=require` must fail the test if requirements cannot be served.
+   Adding a live config changes default behavior and needs release validation.
 7. Cancel stale fetch/decode/upload work on hole/course switches and evict
    resources through the common pool.
 8. Keep zone-A coordinates, dimensions, collisions and surface IDs identical
    on WebGPU and WebGL2. Scale effects and peripheral LOD before geographic
    truth.
 
-### Stage 11 — publish atomically and retain rollback
+Improved graphics are on by default for ready v2; `graphics=0` is the comparison
+path. Preserve the stable environment texture identity across lighting changes,
+the first-GPU-frame loading-cover fence and settled terrain-plan reuse described
+in [performance recovery](v2-performance-recovery.md). Do not hide the loading
+cover early or change terrain truth to conceal a startup/performance problem.
+
+### Stage 11 — publish immutable generations and retain rollback
 
 Use [`emit-ground-graph-node.mjs`](../packages/course-v2/emit-ground-graph-node.mjs)
-for publication. A publication writes immutable chunks first, then a new
-ground manifest, course manifest and root reference. Never mutate an existing
-hash-named chunk.
+for graph publication. It writes immutable chunks first, then ground/course
+manifests, with the root reference written last. Existing immutable bytes must
+match exactly. Its local root write uses `writeFile`, not an atomic rename:
+root-last ordering is not an atomic deployment guarantee. Stage and validate the
+complete graph, then use the deployment system's atomic release mechanism for
+public activation. Never mutate an existing hash-named chunk.
 
 Record before/after root, course and ground hashes and the exact previous
 course-manifest URL. Verify the new graph through the same decoder the browser
 uses. Build and test before pruning anything.
 
-After approval, inspect pruning as a dry run, retain at least the active and
-named rollback generations, then apply the exact reviewed set:
+Choose the operation matching the changed layer:
+
+| Change | Required local work |
+|---|---|
+| Model geometry/routing | Rebuild all affected models/packs and `courses/index.json`, run canonical migration, then rebind routing and fallback references. Preserve unchanged ground bytes. |
+| Pack bytes only; routing unchanged | `rebind-v2-fallback.mjs` updates fallback references only. It writes immediately and does not update routing, source checksums or surface-preview bindings. |
+| Terrain, surface, objects or stands | Compile and publish a new ground generation and update every course sharing it. Recheck ground-specific source registrations and runtime contracts. |
+
+For model geometry changes, the reusable routing helper defaults to a dry run:
+
+```powershell
+node tools/rebind-v2-routing.mjs --slug upsala --build upsalabuild --migration geo_data/course-v2/upsala/migration/course-model.epsg3006.json
+node tools/rebind-v2-routing.mjs --slug upsala --build upsalabuild --migration geo_data/course-v2/upsala/migration/course-model.epsg3006.json --write
+```
+
+Run only after model, pack, index and migration agree. It verifies inputs, samples
+route heights at a default maximum 1 m spacing, checks for concurrent input
+changes and asserts unchanged ground-manifest bytes. Repeat for affected sibling
+routings. Refresh source-manifest artifact hashes and control/inventory registry
+bindings from reviewed output, not merely to silence validation errors.
+
+For a fallback-only update with unchanged routing:
+
+```powershell
+node tools/rebind-v2-fallback.mjs --slug upsala,upsala-mellanbanan
+```
+
+For normal Upsala mapping changes, use the complete accepted driver instead of
+manually reproducing these subsets:
+
+```powershell
+$env:COURSE_GEO_PYPROJ_PYTHON = (Resolve-Path upsalabuild/cache/review-venv/Scripts/python.exe).Path
+node tools/refresh-upsala-mapping.mjs --python $env:COURSE_GEO_PYPROJ_PYTHON
+```
+
+This is an Upsala adapter. It rebuilds both models/packs, migrations, routing
+bindings, registered provenance and GIS/review sheets while preserving terrain.
+It verifies original Git-frame lineage and stops at the first failure; inspect
+earlier local outputs before retrying. It does not acquire sources, install
+dependencies or activate a remote release. See its
+[handoff](../upsalabuild/mapping/NEXT-SESSION.md) for setup and inputs.
+
+Pruning is optional maintenance, not a required mapping step. The pruner retains
+the selected course plus explicit `--also` manifests and preview descriptors;
+it does not automatically protect sibling courses. For a shared ground, include
+every active sibling and every rollback manifest through repeated `--also`.
+Inspect the reference closure before any `--apply`. A single-course dry-run
+template is:
 
 ```powershell
 node packages/course-v2/prune-generations.mjs --slug <slug> --also courses/<slug>/course-v2-<rollback-sha>.json
-node packages/course-v2/prune-generations.mjs --slug <slug> --also courses/<slug>/course-v2-<rollback-sha>.json --apply
 ```
 
-The pruner also protects the retained terrain/surface preview descriptors. Do
-not use a filesystem wildcard or manual deletion in place of its reference
-closure.
+Do not use this incomplete template on a shared ground or substitute filesystem
+wildcards for reference closure. Preserve rollback until the new release has
+passed validation. Documentation-only work needs no publication or pruning.
 
 ## 8. Validation and release checklist
 
 ### 8.1 Cheap gates first
 
-Run fast/schema gates before browser and hardware captures:
+Select checks for the changed layers. Documentation-only changes need path/link,
+command and diff review, not terrain regeneration or a graphics benchmark.
+For a model/graph implementation change, run schema and geometry gates before
+browser captures, and complete the relevant ground-specific model/pack checks:
 
 ```powershell
 pnpm check:geo-sources
 pnpm check:geo-migration
 pnpm test
 pnpm check:course-v2
-pnpm check:course-v2-renderer
 pnpm --filter @banvy/golf build
 pnpm check:course-v2-app
+pnpm check:course-v2-renderer
 ```
 
-Then exercise the real app:
+Serve the built app in a separate terminal:
 
 ```powershell
-node tools/check-app.mjs
-node tools/check-basepath.mjs
-node tools/check-pwa.mjs
-node tools/world-capture.mjs http://127.0.0.1:8620 --course <slug>
+node tools/serve.mjs apps/golf/dist 8620
 ```
 
-Set `BANVY_GPU=1` for capture tools when real GPU evidence is required. Without
-it, Chromium may use SwiftShader; that proves rendering logic but not hardware
-performance. Run both default/WebGPU-preferred and forced WebGL2 (`?gl=1`), and
-low, balanced and high profiles where supported.
+Exercise legacy, default-v2 and required-v2 separately. These are concrete
+Upsala examples; use supported slugs/views for another ground:
+
+```powershell
+node tools/check-app.mjs http://127.0.0.1:8620 --only=upsala,upsala-mellanbanan
+node tools/check-course-v2.mjs http://127.0.0.1:8620 --course upsala
+node tools/check-course-v2.mjs http://127.0.0.1:8620 --course upsala-mellanbanan
+node tools/check-upsala-v2.mjs http://127.0.0.1:8620
+node tools/check-basepath.mjs
+node tools/check-pwa.mjs
+```
+
+`check-app` selects explicit GPK1. `check-course-v2` verifies actual default-v2
+and opt-out behavior, one slug at a time; the Upsala check adds required-v2 and
+ground-specific probes. `check-renderer-build.mjs` uses a temporary build rather
+than overwriting the served app output.
+
+Capture settled views sequentially, with separate evidence directories:
+
+```powershell
+node tools/v2-graphics-review.mjs --base http://127.0.0.1:8620 --out upsalabuild/cache/next-v2-stora --course upsala --backend webgl2 --auto-fallback --q lo --graphics 1 --views 4:top:noon,16:green:noon --timeout 600 --chrome 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+```
+
+The review tool supports `--backend webgl2|webgpu`, `--q lo|hi` and explicit
+`--graphics 0|1`. Its `--graphics default` assertion is stale at this checkpoint;
+use `1` and the default-course check above until that assertion is corrected.
+`--auto-fallback` is WebGL2-only and tests automatic WebGPU fallback, which is
+different from forced `gl=1`. `--views` uses `top`; a raw app URL uses `vy=ovan`.
+Choose real holes for nine-hole routings: `world-capture.mjs` still hardcodes
+holes 14/18 and is unsuitable unchanged for them.
+
+The graphics review harness forces software rasterisation. `BANVY_GPU=1` selects
+hardware launch arguments only in tools using `browser-args.mjs`; it is not a
+universal GPU override or device certification. Record the actual adapter for
+hardware budgets. `check-app` accepts `BANVY_CHROME`; graphics review uses
+`--chrome`/`CHROME_BIN`. Do not assume all tools share browser overrides.
+
+Wait for a ready active graph, zero loading/failed tiles, stable residency and
+complete displayed frames; `#boot.done` alone is insufficient. Run SwiftShader
+sessions sequentially: parallel Upsala reviews exhausted the original startup
+timeout. Preserve failed-run evidence and distinguish resource contention from
+application errors before retrying with `--timeout 600`.
 
 ### 8.2 Geodetic and terrain acceptance
 
@@ -896,7 +1186,7 @@ low, balanced and high profiles where supported.
 
 ### 8.5 Runtime, cache and performance acceptance
 
-- Plain GPK1 visit remains unchanged until the default switch is approved.
+- Flagless supported courses reach v2; `v2=0` remains the tested GPK1 path.
 - `v2=require` reaches a ready graph with no page/shader/decode error and no
   loading tiles after settle.
 - Course and hole switch, cancellation, fallback and rollback are tested.
@@ -907,7 +1197,7 @@ low, balanced and high profiles where supported.
 - Performance is recorded on named browser/device/GPU builds, not inferred
   from SwiftShader.
 
-Initial budgets from the programme plan are: shell visible ≤ 3.0 s p75 on the
+Initial targets from the programme plan, not measured guarantees, are: shell visible ≤ 3.0 s p75 on the
 chosen mid-tier Android/4G profile, active hole refined ≤ 5.0 s p75, cached
 course interactive ≤ 1.5 s p75, no terrain/object main-thread task > 50 ms,
 desktop WebGPU ≤ 16.7 ms p95, mobile WebGL2 ≤ 22 ms p95 and never sustained
@@ -915,9 +1205,17 @@ below 30 fps, active mobile decoded terrain+surface+objects ≤ 64 MiB, terrain
 draw calls ≤ 8. Record network bytes, decoded heap, GPU bytes, uploads, tiles,
 objects, draws and shader compilation per hole.
 
+Use the named course/device budget and matched cameras, viewport, DPR, quality,
+lighting and source/graph fingerprints for comparisons. Runtime counters are
+not a direct VRAM measurement. Software rendering checks cannot certify these
+hardware targets. Preserve the performance fixes in
+[the current runtime guide](v2-performance-recovery.md).
+
 ### 8.6 Definition of done for one ground
 
-A ground may be called “PUTTOM v2 standard” only when all boxes are true:
+A ground meets the full production target only when all boxes are true. An
+incremental mapping checkpoint can be accepted with explicit remaining gaps;
+record its scope and do not relabel it as a complete or perfectly surveyed twin.
 
 - [ ] Ground/course identity and sharing model are approved.
 - [ ] Source manifest passes with exact source, licence and checksum evidence.
@@ -928,6 +1226,8 @@ A ground may be called “PUTTOM v2 standard” only when all boxes are true:
 - [ ] Authoritative surface polygons replace migration surfaces atomically.
 - [ ] Water, roads, paths, buildings and stable objects have explicit ownership
       and source lineage.
+- [ ] The category inventory distinguishes complete, partial, absent and unknown
+      coverage; unknown dimensions/materials/species remain explicit.
 - [ ] Zone-A individual objects are reviewed; measured stand coverage is
       separated from representative rendering.
 - [ ] Root, course, ground and all chunks pass content/schema verification.
@@ -936,32 +1236,43 @@ A ground may be called “PUTTOM v2 standard” only when all boxes are true:
 - [ ] Named hardware meets the performance budget or has an approved,
       documented profile change that preserves active-hole truth.
 - [ ] Previous generation is retained and rollback is tested.
-- [ ] The v2 default switch is a separate, explicit release decision.
+- [ ] Any default-selection/configuration change is included in release review.
 
-## 9. Generalization status after course two
+## 9. Current tool support and remaining implementation
 
-Ribbingsfors is now the second real ground using the graph, terrain and
-vegetation contracts. It proved the reusable fixed-frontier path, but several
-production entry points remain ground-specific. This table distinguishes what
-the second implementation actually generalized from the work still required.
+Snapshot at `7dbe4e3`, 2026-09-07. Source/migration registration covers seven
+grounds and ten course slugs; the live v2 root contains nine course slugs on
+seven grounds. Registration, acquisition support and runtime publication are
+different sets. Resolve the current manifests before copying this snapshot.
 
-| Concern | Reused or implemented | Remaining work |
+| Concern | Implemented support | Remaining work for a new ground |
 |---|---|---|
-| Frame bridge | Ribbingsfors has a reviewed static config and exact EPSG:3006/RH 2000 identity bridge in [`v2-ribbingsfors-config.mjs`](../apps/golf/src/engine/v2-ribbingsfors-config.mjs). | Consolidate all ground configs, including Puttom's fitted legacy bridge, behind one registry/schema. |
-| Chunk, manifest, terrain and runtime primitives | `packages/course-v2/` schemas, codecs, emitter, sampler, manager and renderer now pass against two real graph publications. | Preserve the common contracts and add every new ground as an independent fixture, never by weakening counts or hashes. |
-| Source manifests and migration | Ribbingsfors is registered, migrated and included in the seven-ground/ten-course validation report. | Extend geometry-key review whenever another legacy schema differs and replace provisional migrations with approved source geometry. |
-| Discovery/acquisition | The acquisition ground list, CLIs, tests and CI matrix now include Ribbingsfors; the historical pilot list remains deliberately separate. | Move remaining workflow-specific ground literals into one validated production registry. |
-| Terrain graph | Generic compiler/emitter primitives | Replace `puttom-ground-graph.mjs` and `compile-puttom-ground-graph.mjs` with config-driven ground commands. |
-| World rings | Generic ring compiler; Ribbingsfors publishes four LODs over its 2,048 m extent. | `build-ground-rings.mjs` and `publish-ground-rings.mjs` still map only Puttom's horizon hierarchy. Add a validated ground ring registry and a Ribbingsfors same-source horizon before default enablement. |
-| Surfaces | Generic source validator/compiler library; the live adapter has an explicit, fail-closed zero-v2-surface policy bound to the verified GPK atlas. | Acquire authoritative Ribbingsfors boundaries, add the generic preflight/publisher and replace the compatibility atlas with reviewed v2 surface tiles. Do not base new authority on `compile-puttom-surface-preview.mjs`. |
-| Vegetation | Canopy/compiler/publisher selection now resolves the active ground through the published root; Ribbingsfors' object and stand layers render live. | Replace provisional line-distance truth zones with approved geometry and complete zone-A human review. |
-| Roads/buildings/non-tree objects | Strict registry contract and legacy rendering | Build an authoritative vector/object normalization and publication driver. |
-| Runtime selection | The generic graph resolver plus fixed-frontier loader can activate a reviewed non-Puttom graph; required mode verifies 64 Ribbingsfors chunks and fails closed. | Replace the remaining direct `PUTTOM_PREVIEW_CONFIG` paths in selection/build checks with the consolidated ground registry. |
-| Capture and CI | Shared browser tools plus [`check-ribbingsfors-v2.mjs`](../tools/check-ribbingsfors-v2.mjs) test both flagless and required paths. | Parameterize the ground-specific browser proof and finish generalizing Puttom-named capture/build tooling. |
+| Identity and source acquisition | `EXPECTED_GROUNDS` feeds acquisition selection; source/migration validators cover the registered inventory. | Register actual identity, routing, evidence and supported geometry keys. Historical pilots are separate. |
+| Coordinates | Canonical EPSG:3006/RH 2000 contracts and per-ground legacy bridges; explicit pyproj alternative for supported horizontal tools. | Independently approve the target frame and any vertical bridge. Never copy another course's fitted offset. |
+| Finest terrain | GDAL-free window registry for Ängsö, Johannesberg, Norrfällsviken and Upsala; GDAL path also exists. Seven ground graph drivers share compiler/emitter primitives. | Add a reviewed source/window spec and driver where absent. No generic all-ground compile CLI exists. |
+| World rings | Shared registry supports Ängsö, Norrfällsviken, Puttom, Upsala and Veckefjärden. | Other grounds need reviewed specs. Publish every shared routing against the same ground generation. |
+| Surfaces | Generic authoritative preflight/compiler libraries; Puttom wrapper and separate migration class/SDF preview. Other live paths use `legacy-ground-atlas`. | Complete controlled source intake and generic publication integration. All current ground graphs have zero authoritative surface tiles. |
+| Vegetation | Canopy acquisition, candidates, stable registry, stand compiler and shared-ground publication. | Review real truth zones and zone-A objects. CHMv2 CLI defaults/seam/cache assumptions need adaptation for other inputs. |
+| Infrastructure | Strict v2 object schema; legacy exact mapped polygons and bridge footprints; GIS-only drainage/barrier/tree observations. | Normalize source observations and acquire missing dimensions/epochs. A generic authoritative infrastructure importer/publisher is still absent. |
+| Mapping review | Reusable image/model overlays, tee/pond diagnostics and shared-ground GIS export. Upsala has guarded adoption helpers and a complete refresh driver. | Supply explicit panels and provider adapters; review plot labels/extents. Do not present Upsala-only scripts as generic commands. |
+| Runtime | Live `v2-frontier-configs.mjs`, common graph resolver/loader/sampler and a separate Puttom preview path. | Add reviewed derived/measured/config fields and validate default activation, backend parity and fallback. |
+| Capture | Generic `check-course-v2.mjs`, configurable graphics review and ground-specific browser probes. | Choose valid holes/views and inspect actual frames. Repair the graphics-review default assertion before using that mode. |
 
-The abstraction now has two real configurations behind it. Continue replacing
-ground literals only when the shared contract is exercised by both; moving a
-Puttom literal into a generically named module is not generalization.
+Published terrain/object/stand tile counts at this checkpoint:
+
+| Ground | Terrain | Objects | Stands |
+|---|---:|---:|---:|
+| Ängsö | 469 | 234 | 256 |
+| Johannesberg | 85 | 50 | 64 |
+| Norrfällsviken | 469 | 163 | 229 |
+| Puttom | 277 | 64 | 64 |
+| Ribbingsfors | 85 | 60 | 64 |
+| Upsala (shared) | 277 | 58 | 64 |
+| Veckefjärden (shared) | 277 | 51 | 64 |
+
+These are manifest inventories, not resident tile counts or completeness scores.
+Generalize only after independent grounds exercise the same contract; moving a
+Puttom literal into a generically named module does not make it reusable.
 
 ## 10. Failure patterns worth keeping visible
 
@@ -994,10 +1305,24 @@ Puttom literal into a generically named module is not generalization.
 - **SwiftShader is not hardware evidence.** Record the actual adapter and GPU
   timing support.
 - **A new GPK1 changes bindings.** Recompile migration-only surface comparison,
-  rebind fallback hashes, republish the graph and rerun build/base-path gates.
+  where present, and rebind fallback hashes. Geometry changes also require
+  canonical migration and routing rebinding; do not regenerate unchanged terrain.
 - **Windows line endings affect recorded hashes.** Hash normalized LF where the
   manifest contract says LF; compare committed blobs before assuming source
   drift.
+- **Evidence metadata can become accidental geometry.** The migration walker
+  collects numeric coordinate pairs. Keep source EPSG arrays, image pixels and
+  original assertions outside runtime models; use an explicit whitelist of local
+  geometry and scalar metadata when adopting a feature.
+- **Export resolution and database dates are not survey accuracy or capture
+  dates.** Decode layer methods and preserve unknown epochs. Do not transform
+  an EPSG:3006 server response again just because its native service is EPSG:3011.
+- **An observation count is not a census.** Shared feature occurrences, tree
+  crowns and survey points may refer to the same place. Report reviewed outlines,
+  unresolved inventory and ownership separately.
+- **A silhouette is not an object identity check.** Compare coordinates, extents
+  and dated evidence before removing a tree or moving a building. An excavation
+  trench in an archaeological report need not be a present-day drainage ditch.
 
 ### Coastal grounds — what Norrfällsviken added
 
@@ -1060,17 +1385,20 @@ what the budget buys in 256 m tiles, not a number to copy.
    publish stable registries.
 10. Wire the ground through the per-course registry, publish content-addressed
     manifests, run every gate and inspect every hole on both backends.
-11. Retain/test rollback; switch the default only by an explicit release
-    decision.
+11. Retain/test rollback and validate any default configuration change as part
+    of release. Supported v2 courses already default to v2.
+12. Save a reviewed checkpoint with source hashes, commands/results, known gaps
+    and an exact next-session task. Use the
+    [mapping workflow template](v2-course-mapping-workflow.md#8-save-a-reviewable-checkpoint-and-a-useful-next-session).
 
 That sequence is the reusable PUTTOM framework: source truth first, one
 canonical metre-based frame, one shared tile lattice, independently reviewable
 layers, one visible-ground sampler, content-addressed publication and evidence
 at every boundary.
 
-## 12. Worked implementation: Ribbingsfors (2026-09-04)
+## 12. Worked implementation: Ribbingsfors (September 4 snapshot, runtime updated September 7)
 
-Ribbingsfors is the first second-course application of this workflow. It is a
+Ribbingsfors was the first application of this workflow after Puttom. It is a
 useful reproducible implementation, but it is **not release-ready spatial
 authority**. The detailed source and rights record is
 [`courses/ribbingsfors-source-dossier.md`](courses/ribbingsfors-source-dossier.md);
@@ -1079,7 +1407,10 @@ the machine-readable ledger is
 
 ### 12.1 Reproduction commands and retained artifacts
 
-Run from the repository root. Authenticated readers load the existing `.env`;
+These commands record the September 4 build recipe and source campaign. Run
+from the repository root only when rebuilding that generation deliberately;
+for a new acquisition use its actual observation date, review campaign drift
+and keep the earlier evidence. Authenticated readers load the existing `.env`;
 credentials and authorization headers must never enter an artifact or log.
 
 ```powershell
@@ -1136,9 +1467,10 @@ bathymetry or authoritative golf-surface boundaries.
 
 ### 12.3 Runtime state and release gates
 
-The graph is published and Ribbingsfors now has a reviewed, ground-specific
-fixed-frontier runtime contract. With `?bana=ribbingsfors&v2=1` or
-`?bana=ribbingsfors&v2=require`, the app fetches and verifies all 64 finest
+The graph is published and Ribbingsfors has a reviewed, ground-specific
+fixed-frontier runtime contract. A flagless `?bana=ribbingsfors` visit selects
+v2; `v2=1` selects the same path explicitly and `v2=require` makes failure fatal.
+The app fetches and verifies all 64 finest
 terrain chunks, renders the 1 m frontier as one batched draw, applies the exact
 EPSG:3006/RH 2000 identity bridge and cuts the corresponding GPK1 CORE only
 after GPU preflight succeeds. Required mode fails closed on any byte, hash,
@@ -1154,9 +1486,9 @@ far procedural ground-tint contract as Puttom's class-SDF material, so rough,
 forest, heath, wetland and shore retain the shared v2 appearance rather than
 collapsing to flat `C.rough`; this visual parity does not promote the provisional
 atlas to authoritative v2 surface data. The v2 vegetation transaction then replaces
-legacy planting within its 64 measured coverage tiles. The ordinary flagless
-path remains the tested GPK1 compatibility path; default v2 enablement is still
-a separate release decision.
+legacy planting within its 64 measured coverage tiles. The explicit `v2=0`
+opt-out remains the tested GPK1 compatibility path. Default v2 rendering is an
+implemented runtime choice, not a certificate of complete spatial authority.
 
 The remaining release gates are material:
 
@@ -1181,19 +1513,23 @@ The remaining release gates are material:
   with the reproducible poster recipes in `tools/make-posters.mjs`; they contain
   no official-site, Caddee or GolfTraxx pixels.
 
-Ribbingsfors may remain selectable as a clearly marked prototype while these
-gates are open. Default/public v2 enablement is a separate decision after the
-club card, rights, orthophoto or survey geometry, visible marking and human
-visual review are complete.
+Ribbingsfors remains a provisional spatial reconstruction while these gates
+are open. Preserve that qualification even though v2 rendering is already the
+default, and close the source, rights and review gates before claiming full
+production accuracy.
 
-## 13. Worked implementation: Upsala (2026-09-04)
+## 13. Worked implementation: Upsala (September 4 terrain, September 7 mapping)
 
 Upsala Golfklubb at Håmö gård is the ground that separates a **datum step**
 from a **bad height field**, and the first here whose window crosses a source
 seam. Its full source and rights record is
 [`courses/upsala-source-dossier.md`](courses/upsala-source-dossier.md); the
-ledger is
+original acquisition ledger is
 [`source-manifest.json`](../geo_data/course-v2/upsala/source-manifest.json).
+Its older pending-source text has not caught up with every later acquisition.
+Use the dated canopy evidence, live graph and mapping records below together;
+reconciling those source-status entries is a provenance task, not grounds to
+repeat an acquisition whose exact bytes and review already exist.
 
 ### 13.1 What is new here, and is generic
 
@@ -1228,20 +1564,21 @@ ledger is
   rings spread 0.01–0.45 m. `build-heightfields.mjs` now fails above 1.5 m,
   because a ring that is not flat is misregistered and the level under it is a
   guess.
-- **A machine without PROJ can still migrate a model, if it proves itself
-  first.** `packages/course-geo/migrate-without-proj.mjs` re-projects a
+- **The projection implementation must prove its lineage.** The historical
+  `packages/course-geo/migrate-without-proj.mjs` substitute re-projects a
   committed cs2cs migration's own source model with the repository's Krüger
   series and refuses to write anything unless it reproduces it within 5 mm. On
-  Upsala it agreed to **1.343 mm over all 12,925 coordinates**. Use it only as
-  a substitute, and regenerate through `migrate-legacy.mjs` when the pinned
-  toolchain is available.
-- **Measure the legacy CORE cutout by making the frontier serve.** The contract
-  is only asserted on the frontier-only path, and a ground with a published ring
-  graph never takes it — but the adapter is CONSTRUCTED before that choice, so a
-  `null` contract is a boot error. Point the config's
-  `expectedBoundsEpsg5845` at the pre-ring generation, put a deliberately wrong
-  contract in, and boot: the assertion prints what it actually got. Restore
-  both afterwards.
+  Upsala it agreed to **1.343 mm over all 12,925 coordinates**. The current
+  Windows refresh instead runs `migrate-legacy.mjs` through installed `cs2cs`
+  or explicitly selected real pyproj using `COURSE_GEO_PYPROJ_PYTHON`, and
+  records which implementation ran. Projection agreement does not establish
+  source accuracy or approve a vertical datum.
+- **Validate the legacy CORE cutout only where it is used.** An earlier adapter
+  required the contract at construction even when a ring graph would build no
+  legacy CORE. That requirement moved to the frontier adapter's `prepare()`.
+  A ring-only configuration may now retain `legacyCoreCutout: null`; if a
+  frontier-only path is to serve, measure and review its actual omission before
+  enabling it. Do not invent a cutout to satisfy an unused constructor check.
 
 ### 13.2 Result
 
@@ -1253,39 +1590,75 @@ ledger is
 | Ring graph | 7 levels, 277 tiles (64/64/64/64/16/4/1) to a 16,384 m root, 0.82–68.15 m RH 2000. Level zero reproduces the published 1 m tiles over all 4,227,136 samples to within half a quantum. |
 | Courses | Two on one ground: `upsala` (18, stroke index verified) and `upsala-mellanbanan` (9, stroke index club-sourced but not gated). |
 | Vertical bridge | **0 m, measured.** See 13.1. |
-| Runtime | `?bana=upsala&v2=require` and the same for Mellanbanan render the ring graph as the only terrain: 277 tiles, 1 m mesh, one draw call, no legacy CORE/MID/FAR. `tools/check-upsala-v2.mjs` is the browser proof; 20 gates, both courses, both paths. |
+| Runtime | Both slugs select v2 by default; `v2=0` is the explicit GPK1 opt-out and `v2=require` fails closed. The published graph contains 277 tiles with 1 m finest data; current residency and mesh detail depend on the streaming plan. `tools/check-upsala-v2.mjs` checks both opt-out and required paths; `tools/check-course-v2.mjs` checks the actual flagless default. |
 
-### 13.3 Release gates still open
+### 13.3 Accepted mapping through September 7
 
-The same four this ground started with, minus the terrain half of one:
+Upsala now demonstrates the existing-course workflow: preserve accepted geometry,
+inspect dated evidence, adopt only supported changes, rebuild both routings and
+record unresolved claims separately. The reusable procedure is in
+[`v2-course-mapping-workflow.md`](v2-course-mapping-workflow.md); the concrete
+commands and evidence are in the
+[mapping README](../upsalabuild/mapping/README.md) and
+[next-session handoff](../upsalabuild/mapping/NEXT-SESSION.md).
 
-- **Playing surfaces are not surveyed.** OSM greens and bunkers, a banguide
-  routing read off Esri imagery, and the card's own lengths. The published graph
-  carries zero v2 surface tiles rather than presenting that as an intake.
-- **Esri imagery rights** remain release-blocking for exactly that reason. The
-  licensed 2025 orthophoto over this AOI is discovered and complete but not
-  acquired.
-- **No independent control**, so the canonical origin stays provisional.
-- **No LiDAR vegetation.** Both Laserdata Skog items over this ground are
-  discovered and reachable; until they are read, the trees come from the
-  Esri-classified cover raster and share the rights blocker.
+| Layer | September 7 checkpoint and limits |
+|---|---|
+| Imagery | The mapping review acquired georeferenced 2025 Lantmäteriet imagery through the municipal service, a 2024 municipal comparison and targeted older archive windows. Exact requests, raster hashes and extents are retained; raw images stay in ignored cache. This does not mean every STAC-download source row in the older ledger has been acquired. |
+| Tees | Stora has 54 physical records, including 52 imagery-reviewed outlines and two provisional originals. Mellan has 24 own platforms. The final additions are Stora H11 rear and Mellan H8 north. Several sites retain partial census status; a reviewed outline does not prove that every platform was found. |
+| Playing surfaces | All 14 Stora par4/5 fairways have reviewed boundaries and all 18 green sites were visually checked. Good existing shapes were retained; H16 green was corrected, three unsupported par3 fairway polygons were retired and H8's 85.98 m² Sahara bunker was added. These mixed-source surfaces still render through the compatibility atlas; the graph has zero authoritative v2 surface tiles. |
+| Infrastructure | A 116.240 m² practice-path polygon replaces a complete obsolete track. RTK edges, digitised edges and interpreted joins keep their separate uncertainties. Four bridge decks have mapped horizontal footprints; vertical dimensions remain qualified rendering estimates. New ditch and fence/hedge/wall lines remain GIS evidence where width, depth or height is unknown. |
+| Municipal observations | A separate source layer contains 231 observations, including 148 open road edges and 50 tree points. Open road edges are not automatically closed pavement polygons. Tree points distinguish broadleaf/conifer, not botanical species or proven one-to-one crown identity. |
+| Buildings and vegetation | 444 building footprints and 4,181 published crown candidates are retained. The live ground has 58 object tiles and 64 stand tiles. The earlier claim that no LiDAR vegetation was acquired or published is obsolete; crown candidates remain derived evidence, not a complete stem survey. |
+| Independent terrain check | 250 municipal ground points compared against the exact published 1 m DTM give median DTM-minus-source +0.0627 m and RMSE 0.2252 m; 42 points lack complete fine coverage. All outliers remain. No global offset or terrain edit was applied, and these clustered points do not certify every playing surface. |
 
-Default v2 enablement for this ground is a separate decision, as for every
-other.
+The [September 7 validation](../upsalabuild/mapping/validation-2026-09-07.md)
+records 831 passing tests, both-course pack/migration checks, inspected browser
+views and source/model hashes. Software browser reviews ran sequentially after
+concurrent attempts timed out. They establish rendering correctness, not hardware
+performance. The main terrain implementation and its tests were preserved.
 
-## 14. Worked implementation: Ängsö (2026-09-04)
+### 13.4 Remaining evidence and release gates
+
+- **Complete authoritative-surface intake remains open.** Imagery review is a
+  real improvement with stated interpretation uncertainty; it does not turn all
+  inherited routing, surfaces or imagery derivatives into surveyed authority.
+  Keep source rights and redistribution decisions explicit, and reconcile the
+  old source ledger with later acquired evidence before a release audit.
+- **The canonical origin remains provisional.** Municipal height observations
+  provide independent QA, but do not replace a spatially distributed control
+  survey and named origin approval. Their registration dates are not capture
+  dates and their RMSE does not meet this guide's 0.15 m tier-B target.
+- **Hidden geometry and physical identity remain unresolved.** Stora H13 and
+  upper H15 tee boundaries, several tee censuses, southern bridge approaches,
+  parking/path topology, measured object dimensions and botanical species need
+  stronger evidence. Re-tracing the same shadows will not establish them.
+- **Plans and photos need geographic verification.** The new 2026 Halfway House
+  is documented as opened but its defensible geographic footprint is still
+  missing. Planned practice-green works are not as-built boundaries. Preserve
+  the reviewed geometry until newer evidence resolves those changes.
+
+Default v2 rendering is already active for both Upsala courses. Accuracy claims
+remain limited by these recorded evidence gaps; neither runtime activation nor
+passing tests establishes a complete survey.
+
+## 14. Worked implementation: Ängsö (September 4–5 history, status checked September 7)
 
 Ängsö Golfklubb at Stora Bodarna is the ground that separated two things every
 earlier course had let coincide: **the metre window a course needs** and **the
 metre window a visitor preloads**. Everything else here is the established
 path — legacy GPK1 pack kept in its own frame, published 1 m terrain, nested
-rings to a 16 km root, a `wgs84-legacy-frame` bridge with a measured vertical
-step. It is **not release-ready spatial authority**; §14.4 says why.
+rings to a 16 km root, a `wgs84-legacy-frame` bridge whose vertical step became
+zero after re-grounding. It is **not release-ready spatial authority**; §14.4
+separates the remaining gaps from resolved implementation failures.
 
 ### 14.1 Reproduction commands
 
-Run from the repository root. Authenticated readers load the existing `.env`;
-credentials and authorization headers must never enter an artifact or log.
+This is the dated September 4 terrain/acquisition recipe, not an instruction to
+overwrite later vegetation publication or repeat downloads before inspection.
+For new source reads use their actual observation date and review campaign
+drift. Run from the repository root. Authenticated readers load the existing
+`.env`; credentials and authorization headers never enter an artifact or log.
 
 ```powershell
 pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen discover-pilots -- --ground angso --observed-on 2026-09-04
@@ -1319,7 +1692,8 @@ and
 | Ring graph | 469 tiles over seven levels to a 16,384 m root, `{0:256, 1:64, 2:64, 3:64, 4:16, 5:4, 6:1}`, from nine DTM items. Level 0 reproduces the 256 published course tiles to within one 1 cm quantum on 16,908,500 of 16,908,544 samples. |
 | Laser | One campaign, `21c036-660_60`, flown 2021-03-08 to 2021-04-01, 224,178,995 points, 2.093 returns/m² measured over the AOI. Leaf-off. |
 | Canopy | 61,035,865 points read over the 256 course tiles: 2.34 returns/m², 15.6% void, 27.2% canopy of measured cells. The cloud's own ground returns agree with the published DTM to a per-tile median of 0.00 m. |
-| Runtime | `?bana=angso&v2=1` verifies the graph and renders 469 tiles in ONE draw at 1 m mesh resolution, zero failed tiles, no page errors. |
+| Published vegetation | The generation published September 5 contains 14,991 derived individuals in 234 object tiles and 256 measured stand tiles. The flight is leaf-off; individual identity, species and zone-A review remain separate evidence questions. |
+| Runtime | Flagless `?bana=angso` selects v2; `v2=0` selects GPK1 and `v2=require` fails closed. The graph contains 469 tiles with 1 m finest terrain. The older all-469-tiles/one-draw result is a historical capture, not a promise that every current view keeps all tiles resident or submits every tile at full detail. |
 
 ### 14.3 The three things this ground taught
 
@@ -1336,8 +1710,8 @@ those bounds rather than from the tile count — `columns × rows`, not
 the played geometry and 452 m north and south. Every earlier ground selects
 its whole level zero at column 0, row 0 through the same code with no branch,
 and Ribbingsfors' ten browser gates pass unchanged. Beyond the rectangle the
-ground is not missing: the streaming ring renderer draws every published
-level-zero tile, and construction heights fall through to level 1, which on
+ground is not missing: the graph makes every published level-zero tile available
+to the streaming plan, and construction heights fall through to level 1, which on
 this ground spans the same 4,096 m at 2 m — finer than the 4 m legacy field.
 
 **A null contract is a fact, not a gap.** `V2TerrainLiveAdapter` refused to
@@ -1363,9 +1737,10 @@ them. On this ground that is survivable only because the ring adapter measures
 every water level against the world before the model; on a ground served by
 the frontier alone it would not be. The permanent fix is Upsala's: re-ground
 the legacy heightfields from the laser DTM in RH 2000, moving nothing
-horizontally. That is Ängsö's largest open item.
+horizontally. That fix was completed on September 5; the measurements below
+record the result. It is no longer an open terrain-rebuild task.
 
-### 14.4 Open blockers
+### 14.4 Current gaps and resolved failures
 
 - **No independent control.** The canonical origin is a compiler-chosen
   provisional frame; `canonicalFrame.origin` stays null in the source manifest.
@@ -1395,28 +1770,32 @@ horizontally. That is Ängsö's largest open item.
   (`laser-streams.json`, incised channels off the 1 m ground), and the stakes
   of Lokala regler 2026 (`build-marking.mjs`). `verticalDatumOffsetMetres` is
   0 in the config with its evidence.
-- **Vegetation is derived, leaf-off, and NOT published — the compiler
-  refused it.** The canopy rasters are built (61 M points over the 256 course
-  tiles) and the campaign is pinned, but `compile-vegetation` stops on
+- **The initial vegetation failure was resolved before publication.** The first
+  compile refused a shoreline object with:
 
   > tile l0/4/13 registry is invalid: objects.records[13].heightRH2000 lies
   > outside the declared chunk bounds
 
-  and that refusal is correct. Tile `l0/4/13` is the Mälaren shoreline, height
+  That refusal was useful evidence. Tile `l0/4/13` is the Mälaren shoreline, height
   bounds 0.76–11.56 m; its western neighbour `l0/3/13` is open water, min and
   max both 0.76 m — a perfectly flat plane, which is what a laser DTM over a
-  lake is. A crown base outside that band is a tree standing on the water: a
-  March leaf-off flight over a lake returns from the surface, and a ground
-  classifier can place them below the flattened plane. The fix is a semantic
-  exclusion driven by a water level that can be trusted — which on this ground
-  means re-grounding the legacy heightfields FIRST, because the model's own
-  water rings are Terrarium and disagree with the DTM by −3.66 to +6.10 m.
-  Sequence it after the re-grounding, not before. Note also that the canopy
-  raster is sized from `ground.bounds`, which for a ring-published ground is
-  the 16 km ROOT: 16,384² cells, 1 GB per layer, and a compile that ran for an
-  hour at 5 GB resident before reaching that gate. Both tools should take the
-  course window. Zone-A approval, when it happens, will be versioned machine
-  review rather than per-object human review, and must say so.
+  lake is. The invalid base required checking ground sampling, water exclusion
+  and source classification; the error alone did not prove the identity of a
+  real tree. Reliable water levels had to precede semantic exclusions because
+  the old Terrarium rings disagreed with the DTM by −3.66 to +6.10 m. A second
+  historical failure used the 16 km root as the canopy raster extent: 16,384²
+  cells, about 1 GB per layer and a run reaching 5 GB resident. Bound canopy
+  work to the reviewed course window and inspect the effective dimensions
+  before executing it.
+
+  Vegetation was subsequently published on **September 5**: the current graph
+  has 234 object tiles and 256 stand tiles. See the dated
+  [publication run note](../geo_data/course-v2/angso/vegetation/RUN) and
+  [phase-4 browser evidence](../geo_data/course-v2/angso/vegetation/phase4-vegetation.json).
+  That browser report describes its own historical manifest generation; resolve
+  the live root for current hashes. Derived individuals and measured stands
+  remain distinct, and neither record establishes botanical species or a
+  complete independent stem survey.
 - **The flight is leaf-off** (March/April), which under-detects deciduous
   crowns; on a course with birch and oak that is a systematic bias, not noise,
   and it must be stated wherever a crown count is quoted.
@@ -1426,5 +1805,6 @@ horizontally. That is Ängsö's largest open item.
   (355 / 386 / 396) of which only 386 makes the printed totals add up — but the
   source is an aggregator transcription, not a dated club sheet.
 
-Default/public v2 enablement for this ground is a separate decision, as for
-every other.
+Default v2 rendering is already active for Ängsö. Keep the unresolved control,
+surface, rights and card qualifications visible independently of that runtime
+choice, and validate new source generations against their own dated evidence.
