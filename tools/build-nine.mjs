@@ -33,6 +33,7 @@ import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { applyReviewedNineTees } from './apply-reviewed-nine-tees.mjs';
 import { applyReviewedNineFairways } from './apply-reviewed-nine-fairways.mjs';
+import { mergeMellanTeeReview20260907 } from './apply-mellan-tee-review-2026-09-07.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJSON = p => JSON.parse(fs.readFileSync(p, 'utf8'));
@@ -245,7 +246,9 @@ for (const [number, sourceId] of Object.entries(cfg.greenSourceIds || {})) {
    Apply after green reconciliation, before scenery deduplication. Current
    card-derived markers are provisional and do not control deck geometry. */
 if (cfg.reviewedTees) {
-  const evidence = readJSON(path.resolve(ROOT, cfg.reviewedTees));
+  let evidence = readJSON(path.resolve(ROOT, cfg.reviewedTees));
+  if (cfg.reviewedTeesFollowup) evidence = mergeMellanTeeReview20260907(evidence,
+    readJSON(path.resolve(ROOT, cfg.reviewedTeesFollowup)));
   holes = applyReviewedNineTees({ origin: parent.origin, mPerLat: parent.mPerLat, mPerLon: parent.mPerLon, holes },
     { evidence, sourceRoutes: geo, card }).holes;
 }

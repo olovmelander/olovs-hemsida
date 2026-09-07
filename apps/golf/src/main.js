@@ -58,7 +58,7 @@ import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, P
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
-import { buildGroundSurfaceFeatures } from './engine/surface-features.mjs';
+import { buildGroundSurfaceFeatures, mappedPathSurface } from './engine/surface-features.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
 import {
   requestedSurfaceDebugMode,
@@ -2696,11 +2696,14 @@ if (legacySurfaceOverlays) {
   const groups = new Map();
   for (const feature of M.scenery.mappedFeatures || []) {
     if (!feature.rings?.[0]?.length) continue;
-    const inAtlas = feature.kind === 'practice_green' || feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' || (feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface');
+    const pathSurface = mappedPathSurface(feature);
+    const inAtlas = pathSurface !== null || feature.kind === 'practice_green' || feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' || (feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface');
     if (inAtlas && !legacySurfaceOverlays) continue;
     const group = groups.get(feature.kind) || [];
     group.push({ rings: feature.rings, raisedBoundary: feature.kind === 'range_mat',
-      shade: feature.material === 'mixed-hardstanding-and-mats'
+      shade: pathSurface !== null
+        ? () => ({ col: pathSurface === SURFACE.ASPHALT ? L(0x626668) : C.hard.slice(), det: 1.3, bmp: 0.08, gls: 0.1, str: 0 })
+        : feature.material === 'mixed-hardstanding-and-mats'
         ? () => ({ col: C.hard.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 }) : undefined });
     groups.set(feature.kind, group);
   }
@@ -2719,10 +2722,11 @@ if (legacySurfaceOverlays) {
     const order = isMat ? 7 : 6;
     const mesh = new THREE.Mesh(g, isSand ? nudged(order, makeSand) : nudged(order));
     mesh.receiveShadow = true; mesh.renderOrder = order;
-    const turfOverlay = kind === 'practice_green' || isSand || (kind === 'range_tee_pad' && polygons.some(p => !p.shade));
+    const turfOverlay = kind === 'paved_path' || kind === 'practice_green' || isSand || (kind === 'range_tee_pad' && polygons.some(p => !p.shade));
     mesh.userData.tag = turfOverlay ? 'legacy-surface-overlay' : 'mapped-facility-footprint';
     if (turfOverlay) stats.surfaceOverlays++;
     if (isMat) mesh.userData.verticalPlacement = 'estimated rendering offset; mat thickness unmeasured';
+    if (kind === 'paved_path') mesh.userData.materialMeaning = 'explicit asphalt where documented; otherwise generic hard-surface display, physical material unverified';
     scene.add(mesh); stats.draws++;
   }
 }

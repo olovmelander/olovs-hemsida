@@ -62,6 +62,8 @@ colors = {
     'non_turf_island': ('#ece7d4', '#756e5f', .5, 7),
     'water': ('#afd4df', '#659cac', .5, 5),
     'parking': ('#dad5cd', '#aaa396', .4, 3),
+    'paved_path': ('#c5c2b9', '#89867f', .4, 6),
+    'bridge': ('#a88b68', '#705c43', .5, 8),
     'buildings': ('#a79b8d', '#71695e', .5, 7),
     'building-context-box': ('#c5bbb1', '#94897b', .3, 3),
 }
@@ -102,9 +104,11 @@ def plot_ground(axis, bounds, show_routes=False, detail_view=False):
         linewidth=.15, alpha=.38, zorder=4))
     for f in plotted:
         k, g = kind(f), f['geometry']
-        if g['type'] == 'LineString' and k in ['waterway', 'roads', 'tracks', 'paths']:
+        if g['type'] == 'LineString' and k in ['waterway', 'roads', 'tracks', 'paths', 'drainage', 'barriers']:
             points = np.array([xy(p) for p in g['coordinates']])
             if k == 'waterway': color, width, z, style = '#679ea9', .55, 5, '-'
+            elif k == 'drainage': color, width, z, style = '#397e94', .65, 6, '--'
+            elif k == 'barriers': color, width, z, style = '#88694d', .6, 6, ':'
             elif k == 'roads': color, width, z, style = '#9a938a', 1.8, 3, '-'
             else: color, width, z, style = '#9d958a', .5, 6, ':'
             axis.plot(points[:, 0], points[:, 1], color=color, linewidth=width,

@@ -214,7 +214,7 @@ def main():
              f'{reviewed_count} reviewed and {provisional_count} provisional pads retained',
              color=INK, fontsize=10)
     fig.text(.052, .902,
-             ('2024/2025 imagery plus 2020/2023 archive follow-up. Absolute source accuracy is unreported.' if args.followup else
+             ('2024/2025 imagery plus archive-assisted review. Service years are not confirmed flight dates.' if args.followup else
               '2025 outlines checked against 2024 orthophotos. Absolute source accuracy is unreported.'),
              color=MUTED, fontsize=9.4)
     legend = [
@@ -234,7 +234,7 @@ def main():
     stem = args.out.with_suffix('')
     stem.parent.mkdir(parents=True, exist_ok=True)
     description = json.dumps({'build': args.build.as_posix(), 'evidence': digests,
-                              'frame': frame, 'imageryYears': [2020, 2023, 2024, 2025] if args.followup else [2024, 2025],
+                              'frame': frame, 'sourceProductYears': sorted({2024, 2025, *(f['observedYear'] for f in features)}),
                               'absoluteHorizontalAccuracyMetres': None}, sort_keys=True)
     svg_path, png_path = stem.with_suffix('.svg'), stem.with_suffix('.png')
     fig.savefig(svg_path, metadata={'Date': None, 'Description': description}, facecolor=BACKGROUND)

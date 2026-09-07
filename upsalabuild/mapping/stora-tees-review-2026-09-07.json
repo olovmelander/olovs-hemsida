@@ -1,0 +1,813 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-07",
+  "courseId": "upsala",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "completeSurvey": false,
+  "baselineModelSha256": "136018182d351fa1fe03a5e530bc53811c5e06fbe07f6f0ce287ff53aeea97b3",
+  "sources": [
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2015/ImageServer/exportImage?f=pjson&bbox=639898%2C6636578%2C640118%2C6636798&bboxSR=3006&imageSR=3006&size=2200%2C2200&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:26:32.169393+00:00",
+      "sha256": "210b6286f42be00001b2d369c6e16e2635bc14c6b8dd48ea75ec52bd8a61cd25",
+      "bytes": 4298115,
+      "output": "stora-h11.png",
+      "provider": "municipal-service-2015",
+      "crs": "EPSG:3006",
+      "extent": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ],
+      "dimensions": [
+        2200,
+        2200
+      ],
+      "sourceProductYear": 2015,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache.",
+      "id": "uppsala-service-2015-upsala-h11",
+      "year": 2015
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2017/ImageServer/exportImage?f=pjson&bbox=639898%2C6636578%2C640118%2C6636798&bboxSR=3006&imageSR=3006&size=2200%2C2200&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:12.715874+00:00",
+      "sha256": "e69af1549df02ffb341caa09229737d4208bb23204c9b4ade91938d8ca4c4e70",
+      "bytes": 5041898,
+      "output": "stora-h11.png",
+      "provider": "municipal-service-2017",
+      "crs": "EPSG:3006",
+      "extent": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ],
+      "dimensions": [
+        2200,
+        2200
+      ],
+      "sourceProductYear": 2017,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache.",
+      "id": "uppsala-service-2017-upsala-h11",
+      "year": 2017
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2018/ImageServer/exportImage?f=pjson&bbox=639898%2C6636578%2C640118%2C6636798&bboxSR=3006&imageSR=3006&size=2200%2C2200&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:14.616641+00:00",
+      "sha256": "e19c85e2227d92c9aacd574158e1bc69c75274cffc08a3fdaea6c8890d30c1cd",
+      "bytes": 5604982,
+      "output": "stora-h11.png",
+      "provider": "municipal-service-2018",
+      "crs": "EPSG:3006",
+      "extent": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ],
+      "dimensions": [
+        2200,
+        2200
+      ],
+      "sourceProductYear": 2018,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache.",
+      "id": "uppsala-service-2018-upsala-h11",
+      "year": 2018
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2020/ImageServer/exportImage?f=pjson&bbox=639898%2C6636578%2C640118%2C6636798&bboxSR=3006&imageSR=3006&size=2200%2C2200&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:18.219520+00:00",
+      "sha256": "6f5862818a87f69f33bf6cd5e11b3245f265fc9e560e86d4f91b3c5c566c5b77",
+      "bytes": 6059678,
+      "output": "stora-h11.png",
+      "provider": "municipal-service-2020",
+      "crs": "EPSG:3006",
+      "extent": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ],
+      "dimensions": [
+        2200,
+        2200
+      ],
+      "sourceProductYear": 2020,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache.",
+      "id": "uppsala-service-2020-upsala-h11",
+      "year": 2020
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2023_1800/MapServer/export?f=pjson&bbox=639898%2C6636578%2C640118%2C6636798&bboxSR=3006&imageSR=3006&size=2200%2C2200&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:22.843988+00:00",
+      "sha256": "414847f1c019b5d877a2d1a2254c3548d77482ee1d2c976a3d2016a0efbba28b",
+      "bytes": 5404272,
+      "output": "stora-h11.png",
+      "provider": "municipal-service-2023",
+      "crs": "EPSG:3006",
+      "extent": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ],
+      "dimensions": [
+        2200,
+        2200
+      ],
+      "sourceProductYear": 2023,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache.",
+      "id": "uppsala-service-2023-upsala-h11",
+      "year": 2023
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:13.592647+00:00",
+      "sha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "bytes": 30086397,
+      "output": "lm_latest_r0_c0.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        639119.5,
+        6636145.5,
+        640143.5,
+        6637169.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          67.0768432021141,
+          86.90458118915558,
+          78.06652051210403
+        ],
+        "rgbStddev": [
+          23.66317059159542,
+          20.34003590031184,
+          16.514177228578706
+        ]
+      },
+      "id": "lm2025-lm_latest_r0_c0",
+      "year": 2025
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6636145.5%2C641167.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:13.615781+00:00",
+      "sha256": "472062ee1fb58cb587cb8ccb217d9f1c4513960bf8f8757048401a891980e3ab",
+      "bytes": 34408712,
+      "output": "lm_latest_r0_c1.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        640143.5,
+        6636145.5,
+        641167.5,
+        6637169.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          68.9146072268486,
+          85.35816782712936,
+          78.1598824262619
+        ],
+        "rgbStddev": [
+          26.709571998492056,
+          23.629725018292064,
+          18.870814955647436
+        ]
+      },
+      "id": "lm2025-lm_latest_r0_c1",
+      "year": 2025
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:14.961060+00:00",
+      "sha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+      "bytes": 35937935,
+      "output": "lm_latest_r1_c0.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        639119.5,
+        6635121.5,
+        640143.5,
+        6636145.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          60.3605614900589,
+          77.40978902578354,
+          71.28555810451508
+        ],
+        "rgbStddev": [
+          23.552454705567094,
+          22.25756963901018,
+          16.536067956876117
+        ]
+      },
+      "id": "lm2025-lm_latest_r1_c0",
+      "year": 2025
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6635121.5%2C641167.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:18.816140+00:00",
+      "sha256": "61f45a853f39e6504d1830f40af3bbfa09ad609bbd21c756ac632257b8a365d5",
+      "bytes": 36514240,
+      "output": "lm_latest_r1_c1.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        640143.5,
+        6635121.5,
+        641167.5,
+        6636145.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          69.33867365121841,
+          84.2480217218399,
+          79.79142940044403
+        ],
+        "rgbStddev": [
+          33.446294014043374,
+          29.016855750269027,
+          26.094708833571445
+        ]
+      },
+      "id": "lm2025-lm_latest_r1_c1",
+      "year": 2025
+    }
+  ],
+  "features": [
+    {
+      "id": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+      "hole": 11,
+      "kind": "tee",
+      "status": "accepted",
+      "sourceId": "uppsala-service-2023-upsala-h11",
+      "sourceSha256": "414847f1c019b5d877a2d1a2254c3548d77482ee1d2c976a3d2016a0efbba28b",
+      "observedYear": 2023,
+      "crosscheckYear": 2025,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "captureDate": null,
+      "boundaryInterpretationUncertaintyMetres": 3,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "ring": [
+        [
+          253.577,
+          -585.389
+        ],
+        [
+          255.944,
+          -586.369
+        ],
+        [
+          263.154,
+          -587.069
+        ],
+        [
+          272.777,
+          -587.385
+        ],
+        [
+          281.43,
+          -587.739
+        ],
+        [
+          286.475,
+          -587.645
+        ],
+        [
+          290.233,
+          -586.92
+        ],
+        [
+          292.114,
+          -585.293
+        ],
+        [
+          293.006,
+          -583.217
+        ],
+        [
+          292.642,
+          -581.287
+        ],
+        [
+          291.428,
+          -579.971
+        ],
+        [
+          288.774,
+          -579.099
+        ],
+        [
+          284.691,
+          -578.962
+        ],
+        [
+          279.747,
+          -579.149
+        ],
+        [
+          274.893,
+          -579.138
+        ],
+        [
+          270.035,
+          -579.03
+        ],
+        [
+          264.979,
+          -578.832
+        ],
+        [
+          260.659,
+          -577.537
+        ],
+        [
+          257.326,
+          -576.691
+        ],
+        [
+          254.616,
+          -576.891
+        ],
+        [
+          252.624,
+          -578.133
+        ],
+        [
+          251.623,
+          -579.921
+        ],
+        [
+          251.804,
+          -582.15
+        ],
+        [
+          252.556,
+          -584.066
+        ]
+      ],
+      "c": [
+        271.797,
+        -582.807
+      ],
+      "area": 340.526,
+      "prov": "dated-orthophoto-trace",
+      "tracePanel": {
+        "id": "h11-rear",
+        "extentEPSG3006": [
+          640040,
+          6636675,
+          640110,
+          6636745
+        ],
+        "image": "h11-rear.png",
+        "sha256": "47560c4ea6bc8a4f5fc823befa1423823004a79cc5510675f3373528f12b400a"
+      },
+      "originalPixelRing": [
+        [
+          228,
+          411
+        ],
+        [
+          252,
+          400
+        ],
+        [
+          326,
+          390
+        ],
+        [
+          425,
+          383
+        ],
+        [
+          514,
+          376
+        ],
+        [
+          566,
+          375
+        ],
+        [
+          605,
+          381
+        ],
+        [
+          625,
+          397
+        ],
+        [
+          635,
+          418
+        ],
+        [
+          632,
+          438
+        ],
+        [
+          620,
+          452
+        ],
+        [
+          593,
+          462
+        ],
+        [
+          551,
+          465
+        ],
+        [
+          500,
+          465
+        ],
+        [
+          450,
+          467
+        ],
+        [
+          400,
+          470
+        ],
+        [
+          348,
+          474
+        ],
+        [
+          304,
+          489
+        ],
+        [
+          270,
+          499
+        ],
+        [
+          242,
+          498
+        ],
+        [
+          221,
+          486
+        ],
+        [
+          210,
+          468
+        ],
+        [
+          211,
+          445
+        ],
+        [
+          218,
+          425
+        ]
+      ],
+      "method": "Manual composite boundary: 2023 west lobe and north edge; 2025 east lobe; 2017 long southern mowing edge where later shadows overlap. Interpolation across residual shadow gaps is included in the 3 m boundary interpretation uncertainty. This adds the visible continuous platform; terrace divisions and daily colours are unverified.",
+      "temporalReview": "Visible current mowing edges crosschecked in the 2025 product; archive helps resolve shadows. Exact capture dates and current hidden-edge position remain unverified.",
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "holeAssociationConfidence": "high",
+      "holeAssociationBasis": "Physical tee complex adjacent to the published route start, oriented toward the independently mapped green; no colour or daily marker assignment.",
+      "crosscheckSourceIds": [
+        "uppsala-service-2015-upsala-h11",
+        "uppsala-service-2017-upsala-h11",
+        "uppsala-service-2018-upsala-h11",
+        "uppsala-service-2020-upsala-h11",
+        "lm2025-lm_latest_r0_c0",
+        "lm2025-lm_latest_r0_c1",
+        "lm2025-lm_latest_r1_c0",
+        "lm2025-lm_latest_r1_c1"
+      ]
+    }
+  ],
+  "holes": [
+    {
+      "hole": 11,
+      "originalPads": [
+        {
+          "ring": [
+            [
+              198.045,
+              -580.168
+            ],
+            [
+              200.058,
+              -580.592
+            ],
+            [
+              201.775,
+              -579.777
+            ],
+            [
+              202.965,
+              -578.232
+            ],
+            [
+              203.388,
+              -576.216
+            ],
+            [
+              203.064,
+              -574.228
+            ],
+            [
+              201.761,
+              -572.777
+            ],
+            [
+              199.978,
+              -571.844
+            ],
+            [
+              198.003,
+              -572.419
+            ],
+            [
+              196.286,
+              -573.234
+            ],
+            [
+              195.345,
+              -574.77
+            ],
+            [
+              195.43,
+              -577.017
+            ],
+            [
+              196.253,
+              -578.986
+            ]
+          ],
+          "cx": 199.3738642053455,
+          "cz": -576.2190167177997,
+          "area": 53.19699750000291,
+          "ang": 0,
+          "prov": "dated-orthophoto-trace",
+          "sourceId": "upsala-stora-tee-11-front-west-2025",
+          "imagerySourceId": "lm2025_025m_r0_c0",
+          "observedYear": 2025,
+          "crosscheckYear": 2024,
+          "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+          "boundaryInterpretationUncertaintyMetres": 1.5,
+          "sourceAbsoluteHorizontalAccuracyMetres": null,
+          "centreProvenance": "polygon area centroid; not a tee marker",
+          "preserveTerrain": true
+        }
+      ],
+      "originalLine": [
+        [
+          291.4,
+          -576.4
+        ],
+        [
+          170,
+          -563
+        ],
+        [
+          60,
+          -528
+        ],
+        [
+          -25,
+          -511
+        ],
+        [
+          -74.8,
+          -496.8
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            291.4,
+            -576.4
+          ],
+          "b": -96.3,
+          "m": 376
+        },
+        {
+          "c": [
+            278.4,
+            -575
+          ],
+          "b": -96.3,
+          "m": 363
+        },
+        {
+          "c": [
+            268.5,
+            -573.9
+          ],
+          "b": -96.3,
+          "m": 353
+        },
+        {
+          "c": [
+            203.9,
+            -566.7
+          ],
+          "b": -96.3,
+          "m": 288
+        },
+        {
+          "c": [
+            203.9,
+            -566.7
+          ],
+          "b": -96.3,
+          "m": 288
+        },
+        {
+          "c": [
+            164.4,
+            -561.2
+          ],
+          "b": -107.7,
+          "m": 248
+        }
+      ],
+      "originalDistances": [
+        376,
+        363,
+        353,
+        288,
+        288,
+        248
+      ],
+      "coverage": "partial",
+      "retainOriginalPadIndices": [
+        0
+      ],
+      "retireOriginalPadIndices": [],
+      "note": "Additional platform accepted separately from the retained source geometry; site census remains partial."
+    }
+  ],
+  "reviewViews": [
+    {
+      "path": "upsalabuild/cache/tee-review-2026-09-07/stora-candidate-2025/report.json",
+      "sha256": "b7f9a56f6c95e78f177ebe9396c4f8210667753284574d3752e6c1f6d0f96562",
+      "panels": [
+        {
+          "id": "h11-rear",
+          "extentEPSG3006": [
+            640040,
+            6636675,
+            640110,
+            6636745
+          ],
+          "image": "h11-rear.png",
+          "sha256": "e81510da9d5ffac5b7d3a165921eab8bb18d3bf10b36cf7093705f9909ad3a2f"
+        },
+        {
+          "id": "h13-front",
+          "extentEPSG3006": [
+            639450,
+            6636342,
+            639500,
+            6636392
+          ],
+          "image": "h13-front.png",
+          "sha256": "e05f35ddbfd8f2193c63843a59542173eb3d1c8e899fd5fb3ef7f15ec2b8b86c"
+        },
+        {
+          "id": "h15-upper",
+          "extentEPSG3006": [
+            639688,
+            6636335,
+            639728,
+            6636375
+          ],
+          "image": "h15-upper.png",
+          "sha256": "eef3294a0268355e94262f501269938af6c7aa649fdac95dd8eb45c34526879f"
+        }
+      ]
+    },
+    {
+      "path": "upsalabuild/cache/tee-review-2026-09-07/stora-candidate-2023/report.json",
+      "sha256": "72ae53825323d074aaf1cbfd72416d531e85c747824f446036f0b51d5525af9e",
+      "panels": [
+        {
+          "id": "h11-rear",
+          "extentEPSG3006": [
+            640040,
+            6636675,
+            640110,
+            6636745
+          ],
+          "image": "h11-rear.png",
+          "sha256": "e841a766b8572c6f71c8fc407d2964be256a57c0ac32e10d921317c3f902281d"
+        },
+        {
+          "id": "h13-front",
+          "extentEPSG3006": [
+            639450,
+            6636342,
+            639500,
+            6636392
+          ],
+          "image": "h13-front.png",
+          "sha256": "ed031c863b44f7bb42da8084b56038215fe4519cc8891fd3f691e4d1485bdf9f"
+        },
+        {
+          "id": "h15-upper",
+          "extentEPSG3006": [
+            639688,
+            6636335,
+            639728,
+            6636375
+          ],
+          "image": "h15-upper.png",
+          "sha256": "c0538e7ddc875f38c313b3d9e93365b2b13bb26276b54ff80248b0d763555248"
+        }
+      ]
+    }
+  ],
+  "terrainCorroborationFile": "stora-tee-terrain-review-2026-09-07.json"
+}

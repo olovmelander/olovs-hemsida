@@ -19,9 +19,10 @@
       "id": "trees",
       "kinds": [
         "tree-crown-candidate",
-        "tree-osm-point"
+        "tree-osm-point",
+        "tree-survey-observation"
       ],
-      "gap": "Crown candidates and OSM points are different observations, not an additive stem census."
+      "gap": "50 municipal network-RTK tree positions (32 broadleaf, 18 conifer) retained as separate source observations. 4181 LiDAR crowns and 228 OSM points are not an additive stem census; identities and botanical species are unresolved."
     },
     {
       "id": "equipment",
@@ -37,9 +38,11 @@
       "id": "trails",
       "kinds": [
         "paths",
-        "tracks"
+        "tracks",
+        "paved_path",
+        "road-edge"
       ],
-      "gap": "Nine 520 m context panels inspected in 2025 imagery. Existing alignments often follow visible corridors, but corner cutting, widths and omitted wooded links remain unresolved; no new road/trail geometry accepted in this continuation."
+      "gap": "One 116.240 m2 practice path replaces the entire coarse w438967934 strip using reviewed municipal boundaries. 148 municipal road-edge observations retained separately; open edges do not establish closed paved areas. Other alignments, widths and hidden links remain incomplete."
     },
     {
       "id": "ponds",
@@ -58,10 +61,11 @@
     {
       "id": "ditches",
       "kinds": [
-        "waterway"
+        "waterway",
+        "drainage"
       ],
       "subtype": "ditch/drain",
-      "gap": "Existing tagged watercourses retained; all three new valley-filter proposals rejected."
+      "gap": "13 municipal ditch records reviewed: four new drainage lines (one surrounding-context line), nine existing corridors corroborated without duplicates. Widths, depths, flow and water permanence are unknown; no synthetic terrain carving adopted."
     },
     {
       "id": "buildings",
@@ -69,7 +73,7 @@
         "buildings",
         "building-context-box"
       ],
-      "gap": "43 municipal footprints adopted; other outlines and most heights remain unverified."
+      "gap": "444 footprints retained, including 43 municipal adopted components/additions. 2026 Halfway House news and 7.2 x 6.4 m plan found, but no identifiable georeferenced as-built footprint; do not confuse other new municipal records with that house."
     },
     {
       "id": "driving-range-equipment",
@@ -102,9 +106,10 @@
         "rock",
         "gate",
         "barrier",
-        "power-line"
+        "power-line",
+        "barriers"
       ],
-      "gap": "Rock, fence, sign and other small obstacle completeness is unverified."
+      "gap": "19 surveyed fence/hedge/wall boundary lines added as geographic observations, with unmeasured vertical geometry. No invented 3D fence details. Rock, sign and small-object coverage remains incomplete."
     },
     {
       "id": "bridges",
@@ -113,35 +118,36 @@
         "bridge",
         "culvert"
       ],
-      "gap": "Three visible bridge decks and a corrected approach mapped. Ten tagged culverts preserved; hidden crossing structures and deck heights remain unverified."
+      "gap": "Four observed bridge footprints, including one additional municipal southern crossing, with exact horizontal geometry. Deck elevation, thickness, rails and southern approach connectivity remain unmeasured or unreviewed."
     },
     {
       "id": "parking-lots",
       "kinds": [
         "parking"
       ],
-      "gap": "Two additional visible parking areas adopted after review of the five OSM areas; canopy-hidden continuation remains unverified. Vehicles are transient."
+      "gap": "Seven existing mapped lots retained. Municipal parking-edge observations acquired for future polygon/topology review; no blind filling of open boundaries. Vehicles are transient."
     },
     {
       "id": "training-greens",
       "kinds": [
         "practice_green"
       ],
-      "gap": "Four reviewed greens; full short-game layout still being reviewed."
+      "gap": "Four reviewed greens retained. Museum Hamo report and club redevelopment plans add context; plans and historical excavation maps do not prove current completed construction."
     },
     {
       "id": "roads",
       "kinds": [
-        "roads"
+        "roads",
+        "road-edge"
       ],
-      "gap": "OSM source retained; widths and junction footprints require review."
+      "gap": "148 municipal open edge records acquired; 120 are usable source observations and 28 have unknown method/50 m accuracy. Footway, carriageway and parking edges are not automatically filled as road polygons."
     },
     {
       "id": "species",
       "kinds": [
         "tree-species-observation"
       ],
-      "gap": "Coarse woodland leaf-type dominance informs rendering priors; individual botanical species remain unidentified."
+      "gap": "50 surveyed trees distinguish broadleaf/conifer only. Coarse woodland context and these leaf types do not identify botanical species."
     },
     {
       "id": "tees",
@@ -150,12 +156,12 @@
         "tee-platform",
         "tee-reference"
       ],
-      "gap": "Stora has 53 platform entries: 51 imagery outlines and two provisional originals (H13 and upper H15). All 18 sites reviewed; eight retain partial census status. Mellan has 23 platforms with H8 partial. Daily markers and colours remain unverified.",
+      "gap": "Stora has 54 platform entries: 52 imagery outlines and two provisional originals (H13 and upper H15). H11 rear and Mellan H8 north added from wider archive review, with 2025 crosschecks. Mellan has 24 platforms; partial census and daily marker/colour gaps remain.",
       "storaReview": {
         "reviewedHoleCount": 18,
-        "totalPlatformEntries": 53,
-        "datedImageOutlines": 51,
-        "newAcceptedSourceRecords": 48,
+        "totalPlatformEntries": 54,
+        "datedImageOutlines": 52,
+        "newAcceptedSourceRecords": 49,
         "retainedEarlierImageTraces": 3,
         "retainedProvisionalOriginals": 2,
         "partialHoles": [
@@ -176,7 +182,8 @@
           "stora-tees-01-06-2025.json",
           "stora-tees-07-12-2025.json",
           "stora-tees-13-18-2025.json",
-          "stora-tees-followup-2026-09-06.json"
+          "stora-tees-followup-2026-09-06.json",
+          "stora-tees-review-2026-09-07.json"
         ],
         "decisions": [
           "Holes8/9 retain three earlier image traces; their complete tee inventory remains unresolved.",
@@ -184,7 +191,8 @@
           "Hole15 unsupported short-tee rectangle within continuous fairway retired; card reference retained.",
           "Archive follow-up: add H12 middle pad, replace H14 forward and H15 lower originals, and replace H18 two rear rectangles with one observed platform.",
           "Two provisional originals remain at H13 and upper H15. Eight partial sites remain census gaps even where the visible outline is improved.",
-          "2020/2023 archive years are municipal service labels, not independently verified flight dates; all four additions were crosschecked against 2025 imagery."
+          "2020/2023 archive years are municipal service labels, not independently verified flight dates; all four additions were crosschecked against 2025 imagery.",
+          "2026-09-07 wider archive review adds H11 rear platform; H13 and upper H15 remain provisional. Mellan H8 north added separately. Archive service years are not capture dates."
         ],
         "terrainMethod": "geobuild/tee-platform-survey.mjs measures drainage slope and residual planarity separately, with interior/core/edge/exterior coverage. It never automatically adopts polygons or changes terrain.",
         "routesAndCardReferencesChanged": false,
@@ -206,7 +214,7 @@
         "fairway",
         "driving-range"
       ],
-      "gap": "All 14 Stora par4/5 fairways now have reviewed imagery outlines (12 added in this continuation, plus earlier H13/15). H4 preserves a water gap. Par3 H2/H6/H14 coarse corridor polygons remain unresolved; H10 has none. All six Mellan par4/5 fairways were previously corrected. Seasonal edge changes and absolute accuracy remain unverified."
+      "gap": "All 14 Stora par4/5 fairways retain reviewed boundaries. Unsupported coarse fairway classifications at par3 H2/H6/H14 retired after paired 2024/2025 review; no invented replacement mowing class. H10 has none. All six Mellan long-hole fairways remain reviewed."
     },
     {
       "id": "bunkers",
@@ -215,7 +223,7 @@
         "range_bunker",
         "practice_bunker"
       ],
-      "gap": "All86 OSM source IDs tracked; two reclassified and retraced practice bunkers, one grass-covered sand outline retired, five additional range bunkers mapped. Other temporal changes remain to review."
+      "gap": "All 86 OSM IDs tracked; H8 Sahara exposed sand added (85.98 m2) after 2024/2025 imagery and club-source review. Earlier practice/range/retirement corrections retained. Depth, movable rakes and remaining temporal changes are unverified."
     },
     {
       "id": "rough",
@@ -258,5 +266,23 @@
     "Commit each substantial completed improvement; completeSurvey remains false while any category has unverified coverage."
   ],
   "mappingStatus": "Reviewed improvements adopted; incomplete categories remain explicit and must not be filled with invented geometry.",
-  "continuationDocument": "NEXT-SESSION.md"
+  "continuationDocument": "NEXT-SESSION.md",
+  "latestReviewDate": "2026-09-07",
+  "sourceObservations": {
+    "file": "municipal-objects-2026-09-07.geojson",
+    "count": 231,
+    "roadEdges": 148,
+    "trees": 50,
+    "ditches": 13,
+    "boundaries": 19,
+    "bridges": 1,
+    "automaticAdoption": false
+  },
+  "terrainCrosscheck": {
+    "report": "municipal-ground-height-check-2026-09-07.json",
+    "sourceRecords": 292,
+    "compared": 250,
+    "outside1mCoverage": 42,
+    "terrainChanged": false
+  }
 }

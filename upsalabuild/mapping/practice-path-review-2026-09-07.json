@@ -1,0 +1,949 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-09-07",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "completeSurvey": false,
+  "source": {
+    "provider": "Uppsala kommun",
+    "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6278",
+    "querySha256": "bbef4f5058fae29ac73e20de723089d5250794f3bc9c4e6bc72b8491cc0f0af7",
+    "metadataSha256": "24a99ff468b22b8a9b5d6f64b4c4a338cecc5a18dc8f07af3e428ec5f241328e",
+    "sourceCoordinates": "EPSG:3006 returned from native EPSG:3011",
+    "retrievedDate": "2026-09-07",
+    "sourceObjects": [
+      {
+        "objectId": 766761,
+        "geometry": {
+          "paths": [
+            [
+              [
+                639766.9972163312,
+                6636293.794327643
+              ],
+              [
+                639767.3460495552,
+                6636294.127103817
+              ],
+              [
+                639769.4720170328,
+                6636295.833505318
+              ],
+              [
+                639772.2053076767,
+                6636298.160530953
+              ],
+              [
+                639773.7757860168,
+                6636299.502774127
+              ],
+              [
+                639776.4053174009,
+                6636301.78276243
+              ],
+              [
+                639779.2644968854,
+                6636304.13671024
+              ],
+              [
+                639781.1705367441,
+                6636305.552407257
+              ],
+              [
+                639783.191612256,
+                6636306.883339558
+              ],
+              [
+                639785.6401604237,
+                6636308.249453797
+              ],
+              [
+                639788.4757672271,
+                6636310.189280687
+              ],
+              [
+                639790.8176345573,
+                6636311.80477865
+              ],
+              [
+                639792.5496848568,
+                6636312.852484699
+              ],
+              [
+                639794.2803005817,
+                6636313.931852879
+              ],
+              [
+                639796.4361304349,
+                6636315.094041477
+              ],
+              [
+                639798.7253708259,
+                6636316.119352652
+              ],
+              [
+                639801.3352251862,
+                6636317.07972266
+              ],
+              [
+                639804.2997140685,
+                6636317.928952143
+              ],
+              [
+                639806.1967636589,
+                6636318.491613285
+              ],
+              [
+                639808.896702949,
+                6636319.21766124
+              ],
+              [
+                639810.8109728,
+                6636319.749275433
+              ],
+              [
+                639812.4060632829,
+                6636320.3141686935
+              ],
+              [
+                639812.884786328,
+                6636320.1504007
+              ],
+              [
+                639813.1153897973,
+                6636319.737187011
+              ],
+              [
+                639812.5117998075,
+                6636319.031959432
+              ],
+              [
+                639810.4656388576,
+                6636316.9690655945
+              ],
+              [
+                639808.3261581672,
+                6636315.09260653
+              ],
+              [
+                639805.9734165093,
+                6636312.782722618
+              ],
+              [
+                639804.1718506723,
+                6636310.896853114
+              ]
+            ]
+          ]
+        },
+        "attributes": {
+          "STYPE": 1667,
+          "STATUS": 3,
+          "REGDATE": 1761051490000,
+          "MODIFICATIONDATE": 1761641719000,
+          "ACCURACYPLAN": 0.5,
+          "ORIGINPLAN": 324
+        }
+      },
+      {
+        "objectId": 766763,
+        "geometry": {
+          "paths": [
+            [
+              [
+                639806.7790763798,
+                6636288.966438286
+              ],
+              [
+                639806.7536193188,
+                6636292.333663951
+              ],
+              [
+                639806.9903761792,
+                6636294.590010609
+              ],
+              [
+                639807.2367134824,
+                6636296.634910246
+              ],
+              [
+                639808.043535065,
+                6636300.802497563
+              ],
+              [
+                639808.9020788821,
+                6636303.362452264
+              ],
+              [
+                639810.0941340498,
+                6636306.509406909
+              ],
+              [
+                639810.9064004777,
+                6636308.685838837
+              ],
+              [
+                639811.5121031927,
+                6636310.747121139
+              ],
+              [
+                639812.5792243243,
+                6636313.846079016
+              ],
+              [
+                639813.3127391706,
+                6636315.891834183
+              ],
+              [
+                639814.1922586828,
+                6636317.520542568
+              ],
+              [
+                639815.8819232943,
+                6636319.503729571
+              ],
+              [
+                639818.0953635048,
+                6636321.15054061
+              ],
+              [
+                639820.3009427631,
+                6636322.500341926
+              ],
+              [
+                639822.7717132989,
+                6636323.607941547
+              ],
+              [
+                639828.6830126211,
+                6636325.930734211
+              ],
+              [
+                639836.1796647089,
+                6636328.695374329
+              ],
+              [
+                639838.4229965953,
+                6636329.154523482
+              ],
+              [
+                639839.5737056878,
+                6636328.888889509
+              ],
+              [
+                639840.261853107,
+                6636328.311048258
+              ]
+            ]
+          ]
+        },
+        "attributes": {
+          "STYPE": 1667,
+          "STATUS": 3,
+          "REGDATE": 1761051636000,
+          "MODIFICATIONDATE": 1761051866000,
+          "ACCURACYPLAN": 0.5,
+          "ORIGINPLAN": 324
+        }
+      },
+      {
+        "objectId": 766764,
+        "geometry": {
+          "paths": [
+            [
+              [
+                639837.7215826918,
+                6636332.4196614595
+              ],
+              [
+                639832.9104609733,
+                6636330.480401964
+              ],
+              [
+                639826.5406765648,
+                6636327.874711497
+              ],
+              [
+                639816.9820710962,
+                6636324.3433706025
+              ],
+              [
+                639808.4207078274,
+                6636321.598647908
+              ],
+              [
+                639801.7813802221,
+                6636319.682444901
+              ],
+              [
+                639799.5037814437,
+                6636319.1026414875
+              ],
+              [
+                639794.761341206,
+                6636318.569993997
+              ],
+              [
+                639790.3876892007,
+                6636318.663076517
+              ],
+              [
+                639786.8610455398,
+                6636319.350711594
+              ],
+              [
+                639784.135664542,
+                6636320.471790594
+              ],
+              [
+                639781.8596714099,
+                6636322.195828865
+              ],
+              [
+                639780.6790519188,
+                6636323.704771319
+              ],
+              [
+                639779.8925685063,
+                6636325.284416902
+              ],
+              [
+                639779.9803058496,
+                6636326.268229616
+              ],
+              [
+                639780.9428489049,
+                6636328.403829551
+              ]
+            ]
+          ]
+        },
+        "attributes": {
+          "STYPE": 1667,
+          "STATUS": 3,
+          "REGDATE": 1761051685000,
+          "MODIFICATIONDATE": 1761051866000,
+          "ACCURACYPLAN": 0.5,
+          "ORIGINPLAN": 324
+        }
+      },
+      {
+        "objectId": 768391,
+        "geometry": {
+          "paths": [
+            [
+              [
+                639805.5995366912,
+                6636309.2320620315
+              ],
+              [
+                639807.4560166652,
+                6636311.388148488
+              ],
+              [
+                639809.7491673274,
+                6636313.610559922
+              ],
+              [
+                639810.8929191369,
+                6636314.552142843
+              ],
+              [
+                639811.2272019682,
+                6636314.229700346
+              ],
+              [
+                639811.0925885675,
+                6636313.460949241
+              ],
+              [
+                639809.3439858763,
+                6636309.038809456
+              ],
+              [
+                639808.0240281869,
+                6636305.441079315
+              ],
+              [
+                639807.150152459,
+                6636302.75342138
+              ],
+              [
+                639806.5885094479,
+                6636300.185800944
+              ],
+              [
+                639806.0720894298,
+                6636297.556675212
+              ],
+              [
+                639805.5518367141,
+                6636294.546049904
+              ],
+              [
+                639805.2909279248,
+                6636291.420066584
+              ],
+              [
+                639805.348302153,
+                6636289.685481317
+              ]
+            ]
+          ]
+        },
+        "attributes": {
+          "STYPE": 1667,
+          "STATUS": 3,
+          "REGDATE": 1761641647000,
+          "MODIFICATIONDATE": 1761641647000,
+          "ACCURACYPLAN": 0.5,
+          "ORIGINPLAN": 324
+        }
+      },
+      {
+        "objectId": 768403,
+        "geometry": {
+          "paths": [
+            [
+              [
+                639805.559126725,
+                6636309.266862406
+              ],
+              [
+                639800.0643788265,
+                6636301.892309947
+              ],
+              [
+                639797.4148135564,
+                6636296.995077518
+              ],
+              [
+                639794.880150978,
+                6636287.721806704
+              ],
+              [
+                639791.7334685886,
+                6636279.033830049
+              ],
+              [
+                639789.4365609775,
+                6636273.483704947
+              ]
+            ]
+          ]
+        },
+        "attributes": {
+          "STYPE": 1667,
+          "STATUS": 3,
+          "REGDATE": 1761645074000,
+          "MODIFICATIONDATE": 1761645698000,
+          "ACCURACYPLAN": 0.025,
+          "ORIGINPLAN": 109
+        }
+      },
+      {
+        "objectId": 768404,
+        "geometry": {
+          "paths": [
+            [
+              [
+                639787.7084882344,
+                6636274.409165653
+              ],
+              [
+                639789.9893062576,
+                6636279.366755927
+              ],
+              [
+                639793.699152695,
+                6636290.122694587
+              ],
+              [
+                639796.163370144,
+                6636298.503213273
+              ],
+              [
+                639799.2604462521,
+                6636304.39605563
+              ],
+              [
+                639804.1929814133,
+                6636310.876692479
+              ]
+            ]
+          ]
+        },
+        "attributes": {
+          "STYPE": 1667,
+          "STATUS": 3,
+          "REGDATE": 1761645074000,
+          "MODIFICATIONDATE": 1761645716000,
+          "ACCURACYPLAN": 0.025,
+          "ORIGINPLAN": 109
+        }
+      }
+    ]
+  },
+  "visualCheck": {
+    "schemaVersion": 1,
+    "automaticAdoption": false,
+    "model": {
+      "path": "upsalabuild/course-model.json",
+      "sha256": "136018182d351fa1fe03a5e530bc53811c5e06fbe07f6f0ce287ff53aeea97b3"
+    },
+    "projection": "pyproj EPSG:4326 to EPSG:3006, longitude/latitude from declared local frame",
+    "sources": [
+      {
+        "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+        "retrievedAt": "2026-09-06T14:09:13.592647+00:00",
+        "sha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+        "bytes": 30086397,
+        "output": "lm_latest_r0_c0.png",
+        "provider": "lm-latest",
+        "crs": "EPSG:3006",
+        "extent": [
+          639119.5,
+          6636145.5,
+          640143.5,
+          6637169.5
+        ],
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "resolutionM": [
+          0.25,
+          0.25
+        ],
+        "sourceNativeResolutionM": 0.16,
+        "sourceProductYear": null,
+        "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+        "horizontalAccuracyRMSEM": null,
+        "exactFlightDate": null,
+        "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+        "quality": {
+          "rgbMean": [
+            67.0768432021141,
+            86.90458118915558,
+            78.06652051210403
+          ],
+          "rgbStddev": [
+            23.66317059159542,
+            20.34003590031184,
+            16.514177228578706
+          ]
+        }
+      },
+      {
+        "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6636145.5%2C641167.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+        "retrievedAt": "2026-09-06T14:09:13.615781+00:00",
+        "sha256": "472062ee1fb58cb587cb8ccb217d9f1c4513960bf8f8757048401a891980e3ab",
+        "bytes": 34408712,
+        "output": "lm_latest_r0_c1.png",
+        "provider": "lm-latest",
+        "crs": "EPSG:3006",
+        "extent": [
+          640143.5,
+          6636145.5,
+          641167.5,
+          6637169.5
+        ],
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "resolutionM": [
+          0.25,
+          0.25
+        ],
+        "sourceNativeResolutionM": 0.16,
+        "sourceProductYear": null,
+        "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+        "horizontalAccuracyRMSEM": null,
+        "exactFlightDate": null,
+        "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+        "quality": {
+          "rgbMean": [
+            68.9146072268486,
+            85.35816782712936,
+            78.1598824262619
+          ],
+          "rgbStddev": [
+            26.709571998492056,
+            23.629725018292064,
+            18.870814955647436
+          ]
+        }
+      },
+      {
+        "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+        "retrievedAt": "2026-09-06T14:09:14.961060+00:00",
+        "sha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+        "bytes": 35937935,
+        "output": "lm_latest_r1_c0.png",
+        "provider": "lm-latest",
+        "crs": "EPSG:3006",
+        "extent": [
+          639119.5,
+          6635121.5,
+          640143.5,
+          6636145.5
+        ],
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "resolutionM": [
+          0.25,
+          0.25
+        ],
+        "sourceNativeResolutionM": 0.16,
+        "sourceProductYear": null,
+        "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+        "horizontalAccuracyRMSEM": null,
+        "exactFlightDate": null,
+        "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+        "quality": {
+          "rgbMean": [
+            60.3605614900589,
+            77.40978902578354,
+            71.28555810451508
+          ],
+          "rgbStddev": [
+            23.552454705567094,
+            22.25756963901018,
+            16.536067956876117
+          ]
+        }
+      },
+      {
+        "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6635121.5%2C641167.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+        "retrievedAt": "2026-09-06T14:09:18.816140+00:00",
+        "sha256": "61f45a853f39e6504d1830f40af3bbfa09ad609bbd21c756ac632257b8a365d5",
+        "bytes": 36514240,
+        "output": "lm_latest_r1_c1.png",
+        "provider": "lm-latest",
+        "crs": "EPSG:3006",
+        "extent": [
+          640143.5,
+          6635121.5,
+          641167.5,
+          6636145.5
+        ],
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "resolutionM": [
+          0.25,
+          0.25
+        ],
+        "sourceNativeResolutionM": 0.16,
+        "sourceProductYear": null,
+        "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+        "horizontalAccuracyRMSEM": null,
+        "exactFlightDate": null,
+        "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+        "quality": {
+          "rgbMean": [
+            69.33867365121841,
+            84.2480217218399,
+            79.79142940044403
+          ],
+          "rgbStddev": [
+            33.446294014043374,
+            29.016855750269027,
+            26.094708833571445
+          ]
+        }
+      }
+    ],
+    "panels": [
+      {
+        "id": "survey-path",
+        "extentEPSG3006": [
+          639770,
+          6636260,
+          639840,
+          6636330
+        ],
+        "image": "survey-path.png",
+        "sha256": "88e8f1d5c01bd1fb0b028a2637a1144dba7af1a7089b57b1d2c8fd8cd341dc48"
+      }
+    ],
+    "evidence": {
+      "path": "upsalabuild/cache/infra-review-2026-09-07/survey-evidence.json",
+      "sha256": "efa8d7888b9636385350cbd6c811ccf28d0bf15975438d07e45cb59826d97dd8"
+    }
+  },
+  "features": [
+    {
+      "id": "upsala-practice-path-2026-09-07",
+      "status": "accepted",
+      "kind": "paved_path",
+      "material": "unverified-hard-surface",
+      "displayMaterial": "gravel-default",
+      "ring": [
+        [
+          -5.362,
+          -210.168
+        ],
+        [
+          -10.075,
+          -206.317
+        ],
+        [
+          -9.604,
+          -206.135
+        ],
+        [
+          -9.39,
+          -205.714
+        ],
+        [
+          -10.018,
+          -205.032
+        ],
+        [
+          -12.136,
+          -203.049
+        ],
+        [
+          -14.339,
+          -201.256
+        ],
+        [
+          -16.772,
+          -199.037
+        ],
+        [
+          -18.639,
+          -197.222
+        ],
+        [
+          -18.618,
+          -197.201
+        ],
+        [
+          -23.78,
+          -190.915
+        ],
+        [
+          -27.089,
+          -185.146
+        ],
+        [
+          -29.86,
+          -176.87
+        ],
+        [
+          -33.963,
+          -166.268
+        ],
+        [
+          -36.423,
+          -161.403
+        ],
+        [
+          -34.735,
+          -160.414
+        ],
+        [
+          -32.237,
+          -165.87
+        ],
+        [
+          -28.773,
+          -174.428
+        ],
+        [
+          -25.898,
+          -183.593
+        ],
+        [
+          -23.072,
+          -188.384
+        ],
+        [
+          -17.317,
+          -195.542
+        ],
+        [
+          -17.278,
+          -195.506
+        ],
+        [
+          -15.346,
+          -197.589
+        ],
+        [
+          -12.976,
+          -199.722
+        ],
+        [
+          -11.801,
+          -200.619
+        ],
+        [
+          -6.64,
+          -205.376
+        ],
+        [
+          -4.372,
+          -206.938
+        ]
+      ],
+      "areaM2": 116.24,
+      "sourceBoundaryEPSG3006": [
+        [
+          639816.9820710962,
+          6636324.3433706025
+        ],
+        [
+          639812.4060632829,
+          6636320.3141686935
+        ],
+        [
+          639812.884786328,
+          6636320.1504007
+        ],
+        [
+          639813.1153897973,
+          6636319.737187011
+        ],
+        [
+          639812.5117998075,
+          6636319.031959432
+        ],
+        [
+          639810.4656388576,
+          6636316.9690655945
+        ],
+        [
+          639808.3261581672,
+          6636315.09260653
+        ],
+        [
+          639805.9734165093,
+          6636312.782722618
+        ],
+        [
+          639804.1718506723,
+          6636310.896853114
+        ],
+        [
+          639804.1929814133,
+          6636310.876692479
+        ],
+        [
+          639799.2604462521,
+          6636304.39605563
+        ],
+        [
+          639796.163370144,
+          6636298.503213273
+        ],
+        [
+          639793.699152695,
+          6636290.122694587
+        ],
+        [
+          639789.9893062576,
+          6636279.366755927
+        ],
+        [
+          639787.7084882344,
+          6636274.409165653
+        ],
+        [
+          639789.4365609775,
+          6636273.483704947
+        ],
+        [
+          639791.7334685886,
+          6636279.033830049
+        ],
+        [
+          639794.880150978,
+          6636287.721806704
+        ],
+        [
+          639797.4148135564,
+          6636296.995077518
+        ],
+        [
+          639800.0643788265,
+          6636301.892309947
+        ],
+        [
+          639805.559126725,
+          6636309.266862406
+        ],
+        [
+          639805.5995366912,
+          6636309.2320620315
+        ],
+        [
+          639807.4560166652,
+          6636311.388148488
+        ],
+        [
+          639809.7491673274,
+          6636313.610559922
+        ],
+        [
+          639810.8929191369,
+          6636314.552142843
+        ],
+        [
+          639815.8819232943,
+          6636319.503729571
+        ],
+        [
+          639818.0953635048,
+          6636321.15054061
+        ]
+      ],
+      "replacesTrack": {
+        "id": "w438967934",
+        "line": [
+          [
+            -4.1,
+            -208.9
+          ],
+          [
+            -17.9,
+            -197.2
+          ],
+          [
+            -28.8,
+            -183.3
+          ],
+          [
+            -36.8,
+            -158.1
+          ]
+        ],
+        "kind": "service",
+        "surface": null
+      },
+      "placementMethod": "survey-and-orthophoto-review",
+      "horizontalAccuracyMetres": null,
+      "rtkSourceReportedPlanAccuracyM": 0.025,
+      "imageDigitisedSourceReportedPlanAccuracyM": 0.5,
+      "joinInterpretationUncertaintyM": 2,
+      "note": "Reviewed continuous hard path from practice-area road junction to the southern surveyed extent. Municipal edge locations retained; three short joins close source edge gaps and define the reviewed extent. Southern cap is not proof that every trail ends there. Material and height are unmeasured. The entire obsolete service-track line is retired; no parallel generic ribbon remains.",
+      "sourceComposition": "766764 vertex3 -> 766761 vertices21..28 -> reversed768404 -> reversed768403 -> 768391 vertices0..3 -> 766763 vertices12..13; close. Indices are zero-based.",
+      "sourceCaptureDate": null,
+      "sourceRegistrationDateIsCaptureDate": false,
+      "preserveBoundary": true,
+      "preserveTerrain": true
+    }
+  ]
+}

@@ -1,0 +1,1329 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-07",
+  "courseId": "upsala-mellanbanan",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "completeSurvey": false,
+  "baselineModelSha256": "c58bdf9f6cc5c59fd2d319ed9bea8ccd231044f44a40b719efa32f6e87c4b195",
+  "sources": [
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2015/ImageServer/exportImage?f=pjson&bbox=640267%2C6635890%2C640407%2C6636030&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:26:33.667234+00:00",
+      "sha256": "2cc870161a6ec3111842dfbd081a5f19008641329bb04c2c7ff4ade6ec601ad4",
+      "bytes": 1911935,
+      "output": "mellan-h08.png",
+      "provider": "municipal-service-2015",
+      "crs": "EPSG:3006",
+      "extent": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2015,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache.",
+      "id": "uppsala-service-2015-upsala-mellanbanan-h8",
+      "year": 2015
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2017/ImageServer/exportImage?f=pjson&bbox=640267%2C6635890%2C640407%2C6636030&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:11.971564+00:00",
+      "sha256": "30653fa154b39905ddc45b8286fd31df1669bb3d25fab074f31cf1af813fc2f5",
+      "bytes": 2020068,
+      "output": "mellan-h08.png",
+      "provider": "municipal-service-2017",
+      "crs": "EPSG:3006",
+      "extent": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2017,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache.",
+      "id": "uppsala-service-2017-upsala-mellanbanan-h8",
+      "year": 2017
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2018/ImageServer/exportImage?f=pjson&bbox=640267%2C6635890%2C640407%2C6636030&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:16.202268+00:00",
+      "sha256": "ba891a4b300ba0284dd42b9261eea8e8b3cabd4d3b55e87af815df96f631456b",
+      "bytes": 2372681,
+      "output": "mellan-h08.png",
+      "provider": "municipal-service-2018",
+      "crs": "EPSG:3006",
+      "extent": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2018,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache.",
+      "id": "uppsala-service-2018-upsala-mellanbanan-h8",
+      "year": 2018
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2020/ImageServer/exportImage?f=pjson&bbox=640267%2C6635890%2C640407%2C6636030&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:19.874256+00:00",
+      "sha256": "e2da37b9bf8c61a2114e26573c5cc77cbbeab396bab9a3abf96855762cd1b9bf",
+      "bytes": 2445653,
+      "output": "mellan-h08.png",
+      "provider": "municipal-service-2020",
+      "crs": "EPSG:3006",
+      "extent": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2020,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache.",
+      "id": "uppsala-service-2020-upsala-mellanbanan-h8",
+      "year": 2020
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2023_1800/MapServer/export?f=pjson&bbox=640267%2C6635890%2C640407%2C6636030&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:22.590389+00:00",
+      "sha256": "051abf1cdfdbba130a75f71e728c8942cec30883c26cd74037987ec5c715b68b",
+      "bytes": 2245914,
+      "output": "mellan-h08.png",
+      "provider": "municipal-service-2023",
+      "crs": "EPSG:3006",
+      "extent": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2023,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache.",
+      "id": "uppsala-service-2023-upsala-mellanbanan-h8",
+      "year": 2023
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:13.592647+00:00",
+      "sha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "bytes": 30086397,
+      "output": "lm_latest_r0_c0.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        639119.5,
+        6636145.5,
+        640143.5,
+        6637169.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          67.0768432021141,
+          86.90458118915558,
+          78.06652051210403
+        ],
+        "rgbStddev": [
+          23.66317059159542,
+          20.34003590031184,
+          16.514177228578706
+        ]
+      },
+      "id": "lm2025-lm_latest_r0_c0",
+      "year": 2025
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6636145.5%2C641167.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:13.615781+00:00",
+      "sha256": "472062ee1fb58cb587cb8ccb217d9f1c4513960bf8f8757048401a891980e3ab",
+      "bytes": 34408712,
+      "output": "lm_latest_r0_c1.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        640143.5,
+        6636145.5,
+        641167.5,
+        6637169.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          68.9146072268486,
+          85.35816782712936,
+          78.1598824262619
+        ],
+        "rgbStddev": [
+          26.709571998492056,
+          23.629725018292064,
+          18.870814955647436
+        ]
+      },
+      "id": "lm2025-lm_latest_r0_c1",
+      "year": 2025
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:14.961060+00:00",
+      "sha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+      "bytes": 35937935,
+      "output": "lm_latest_r1_c0.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        639119.5,
+        6635121.5,
+        640143.5,
+        6636145.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          60.3605614900589,
+          77.40978902578354,
+          71.28555810451508
+        ],
+        "rgbStddev": [
+          23.552454705567094,
+          22.25756963901018,
+          16.536067956876117
+        ]
+      },
+      "id": "lm2025-lm_latest_r1_c0",
+      "year": 2025
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6635121.5%2C641167.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:18.816140+00:00",
+      "sha256": "61f45a853f39e6504d1830f40af3bbfa09ad609bbd21c756ac632257b8a365d5",
+      "bytes": 36514240,
+      "output": "lm_latest_r1_c1.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        640143.5,
+        6635121.5,
+        641167.5,
+        6636145.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          69.33867365121841,
+          84.2480217218399,
+          79.79142940044403
+        ],
+        "rgbStddev": [
+          33.446294014043374,
+          29.016855750269027,
+          26.094708833571445
+        ]
+      },
+      "id": "lm2025-lm_latest_r1_c1",
+      "year": 2025
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+      "retrievedAt": "2026-09-06T14:09:53.158753+00:00",
+      "sha256": "819f3c18d2d1b1550eadf5234849e14242775f1dbf3883911efe1c6bc4c84ab1",
+      "bytes": 29677154,
+      "output": "municipal_2024_r0_c0.png",
+      "provider": "municipal-2024",
+      "crs": "EPSG:3006",
+      "extent": [
+        639119.5,
+        6636145.5,
+        640143.5,
+        6637169.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.08,
+      "sourceProductYear": 2024,
+      "sourceFlightYearVerification": null,
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          141.23515808582306,
+          145.28400838375092,
+          118.31202173233032
+        ],
+        "rgbStddev": [
+          37.36154677858317,
+          29.903824819464496,
+          32.79189832453486
+        ]
+      },
+      "id": "municipal2024-municipal_2024_r0_c0",
+      "year": 2024
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=640143.5%2C6636145.5%2C641167.5%2C6637169.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+      "retrievedAt": "2026-09-06T14:09:58.791278+00:00",
+      "sha256": "cd215bc90186b564d35c34d4972f71eaa0377c8f51142dccc8d19b793792b7b1",
+      "bytes": 32724574,
+      "output": "municipal_2024_r0_c1.png",
+      "provider": "municipal-2024",
+      "crs": "EPSG:3006",
+      "extent": [
+        640143.5,
+        6636145.5,
+        641167.5,
+        6637169.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.08,
+      "sourceProductYear": 2024,
+      "sourceFlightYearVerification": null,
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          111.6005927324295,
+          118.9674956202507,
+          92.78847765922546
+        ],
+        "rgbStddev": [
+          32.38195763674691,
+          29.027782369919723,
+          25.602221020757163
+        ]
+      },
+      "id": "municipal2024-municipal_2024_r0_c1",
+      "year": 2024
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+      "retrievedAt": "2026-09-06T14:09:58.785215+00:00",
+      "sha256": "bad26765a849f9233423e3469fd4fe451bb73bc68a9c419efb2139286f6c9038",
+      "bytes": 34606012,
+      "output": "municipal_2024_r1_c0.png",
+      "provider": "municipal-2024",
+      "crs": "EPSG:3006",
+      "extent": [
+        639119.5,
+        6635121.5,
+        640143.5,
+        6636145.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.08,
+      "sourceProductYear": 2024,
+      "sourceFlightYearVerification": null,
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          107.28538990020752,
+          115.33382719755173,
+          87.96308654546738
+        ],
+        "rgbStddev": [
+          32.74916760961028,
+          31.18985448142877,
+          23.19895776429142
+        ]
+      },
+      "id": "municipal2024-municipal_2024_r1_c0",
+      "year": 2024
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=640143.5%2C6635121.5%2C641167.5%2C6636145.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+      "retrievedAt": "2026-09-06T14:10:31.335285+00:00",
+      "sha256": "0c5a93d078d592ed8bad3f9237fd53866416172db9e9063feaf6a7332d9301d1",
+      "bytes": 34083466,
+      "output": "municipal_2024_r1_c1.png",
+      "provider": "municipal-2024",
+      "crs": "EPSG:3006",
+      "extent": [
+        640143.5,
+        6635121.5,
+        641167.5,
+        6636145.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.08,
+      "sourceProductYear": 2024,
+      "sourceFlightYearVerification": null,
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          121.97428262233734,
+          127.35559785366058,
+          104.33787029981613
+        ],
+        "rgbStddev": [
+          41.298158077831594,
+          37.3591771296688,
+          37.20889018178118
+        ]
+      },
+      "id": "municipal2024-municipal_2024_r1_c1",
+      "year": 2024
+    }
+  ],
+  "features": [
+    {
+      "id": "mellan-8-tee-north-archive-review-2026-09-07",
+      "hole": 8,
+      "kind": "tee",
+      "status": "accepted",
+      "sourceId": "uppsala-service-2015-upsala-mellanbanan-h8",
+      "sourceSha256": "2cc870161a6ec3111842dfbd081a5f19008641329bb04c2c7ff4ade6ec601ad4",
+      "observedYear": 2015,
+      "crosscheckYear": 2025,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "captureDate": null,
+      "boundaryInterpretationUncertaintyMetres": 2.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "ring": [
+        [
+          489.765,
+          149.098
+        ],
+        [
+          491.277,
+          149.433
+        ],
+        [
+          493.163,
+          150.893
+        ],
+        [
+          495.772,
+          153.423
+        ],
+        [
+          497.78,
+          155.305
+        ],
+        [
+          498.9,
+          156.875
+        ],
+        [
+          498.581,
+          157.974
+        ],
+        [
+          497.301,
+          158.828
+        ],
+        [
+          495.485,
+          159.176
+        ],
+        [
+          494.042,
+          158.844
+        ],
+        [
+          492.207,
+          157.872
+        ],
+        [
+          490.576,
+          156.976
+        ],
+        [
+          488.972,
+          155.388
+        ],
+        [
+          488.069,
+          153.617
+        ],
+        [
+          487.785,
+          151.94
+        ],
+        [
+          488.328,
+          150.432
+        ]
+      ],
+      "c": [
+        492.894,
+        154.507
+      ],
+      "area": 63.97,
+      "prov": "dated-orthophoto-trace",
+      "tracePanel": {
+        "id": "h08-upper",
+        "extentEPSG3006": [
+          640303,
+          6635950,
+          640353,
+          6636000
+        ],
+        "image": "h08-upper.png",
+        "sha256": "0f65f59026d2566792802eb1c84c9d8416e3ebb0149404dbe27e4bbb2fb0c994"
+      },
+      "originalPixelRing": [
+        [
+          338,
+          277
+        ],
+        [
+          360,
+          281
+        ],
+        [
+          388,
+          301
+        ],
+        [
+          427,
+          336
+        ],
+        [
+          457,
+          362
+        ],
+        [
+          474,
+          384
+        ],
+        [
+          470,
+          400
+        ],
+        [
+          452,
+          413
+        ],
+        [
+          426,
+          419
+        ],
+        [
+          405,
+          415
+        ],
+        [
+          378,
+          402
+        ],
+        [
+          354,
+          390
+        ],
+        [
+          330,
+          368
+        ],
+        [
+          316,
+          343
+        ],
+        [
+          311,
+          319
+        ],
+        [
+          318,
+          297
+        ]
+      ],
+      "method": "Manual complete visible mowing boundary from municipal service 2015, crosschecked against surviving visible north/east/south edges in 2024 and 2025. Distinct platform north of existing accepted southern ring; no hidden current reconstruction inferred.",
+      "temporalReview": "Visible current mowing edges crosschecked in the 2025 product; archive helps resolve shadows. Exact capture dates and current hidden-edge position remain unverified.",
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "holeAssociationConfidence": "high",
+      "holeAssociationBasis": "Physical tee complex adjacent to the published route start, oriented toward the independently mapped green; no colour or daily marker assignment.",
+      "crosscheckSourceIds": [
+        "uppsala-service-2017-upsala-mellanbanan-h8",
+        "uppsala-service-2018-upsala-mellanbanan-h8",
+        "uppsala-service-2020-upsala-mellanbanan-h8",
+        "uppsala-service-2023-upsala-mellanbanan-h8",
+        "lm2025-lm_latest_r0_c0",
+        "lm2025-lm_latest_r0_c1",
+        "lm2025-lm_latest_r1_c0",
+        "lm2025-lm_latest_r1_c1",
+        "municipal2024-municipal_2024_r0_c0",
+        "municipal2024-municipal_2024_r0_c1",
+        "municipal2024-municipal_2024_r1_c0",
+        "municipal2024-municipal_2024_r1_c1"
+      ],
+      "resolvesCandidateId": "mellan-8-middle-path"
+    }
+  ],
+  "holes": [
+    {
+      "hole": 8,
+      "originalPads": [
+        {
+          "ring": [
+            [
+              495.727,
+              170.395
+            ],
+            [
+              498.257,
+              169.49
+            ],
+            [
+              500.97,
+              170.343
+            ],
+            [
+              502.898,
+              172.166
+            ],
+            [
+              503.81,
+              174.451
+            ],
+            [
+              503.707,
+              177.197
+            ],
+            [
+              502.423,
+              178.149
+            ],
+            [
+              499.71,
+              177.296
+            ],
+            [
+              497.504,
+              176.212
+            ],
+            [
+              495.529,
+              175.637
+            ],
+            [
+              494.598,
+              173.852
+            ],
+            [
+              494.415,
+              172.095
+            ]
+          ],
+          "c": [
+            499.322,
+            173.711
+          ],
+          "area": 56.267,
+          "prov": "ortho-trace",
+          "sourceId": "mellan-8-tee-upper",
+          "imagerySourceId": "ortho2024_025m_se",
+          "observedYear": 2024,
+          "crosscheckYear": 2025,
+          "boundaryInterpretationUncertaintyMetres": 2,
+          "sourceAbsoluteHorizontalAccuracyMetres": null,
+          "centreProvenance": "polygon area centroid; not a tee marker",
+          "preserveTerrain": true
+        }
+      ],
+      "originalLine": [
+        [
+          503.4,
+          175.7
+        ],
+        [
+          522.5,
+          -17.3
+        ],
+        [
+          606.3,
+          -108.2
+        ],
+        [
+          618.9,
+          -117.5
+        ],
+        [
+          614.5,
+          -119
+        ]
+      ],
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 338,
+          "c": [
+            495.2,
+            197.3
+          ],
+          "b": 20.7
+        },
+        {
+          "teeIdx": 1,
+          "m": 338,
+          "c": [
+            495.2,
+            197.3
+          ],
+          "b": 20.7
+        },
+        {
+          "teeIdx": 2,
+          "m": 320,
+          "c": [
+            501.6,
+            180.4
+          ],
+          "b": 20.7
+        },
+        {
+          "teeIdx": 3,
+          "m": 320,
+          "c": [
+            501.6,
+            180.4
+          ],
+          "b": 20.7
+        },
+        {
+          "teeIdx": 4,
+          "m": 285,
+          "c": [
+            513.9,
+            147.7
+          ],
+          "b": 20.7
+        }
+      ],
+      "originalDistances": [
+        338,
+        338,
+        320,
+        320,
+        285
+      ],
+      "coverage": "partial",
+      "retainOriginalPadIndices": [
+        0
+      ],
+      "retireOriginalPadIndices": [],
+      "note": "Additional platform accepted separately from the retained source geometry; site census remains partial."
+    }
+  ],
+  "originalHoleFeatures": [
+    {
+      "id": "mellan-8-tee-upper",
+      "hole": 8,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "mellan-8-tee-upper",
+      "ring": [
+        [
+          495.727,
+          170.395
+        ],
+        [
+          498.257,
+          169.49
+        ],
+        [
+          500.97,
+          170.343
+        ],
+        [
+          502.898,
+          172.166
+        ],
+        [
+          503.81,
+          174.451
+        ],
+        [
+          503.707,
+          177.197
+        ],
+        [
+          502.423,
+          178.149
+        ],
+        [
+          499.71,
+          177.296
+        ],
+        [
+          497.504,
+          176.212
+        ],
+        [
+          495.529,
+          175.637
+        ],
+        [
+          494.598,
+          173.852
+        ],
+        [
+          494.415,
+          172.095
+        ]
+      ],
+      "c": [
+        499.322,
+        173.711
+      ],
+      "area": 56.267,
+      "prov": "ortho-trace",
+      "sourceIds": [
+        "ortho2024_025m_se",
+        "lm2025_025m_r1_c1"
+      ],
+      "sourceId": "ortho2024_025m_se",
+      "observedYear": 2024,
+      "crosscheckYear": 2025,
+      "temporalReview": "Same physical platform corroborated. Mowing wear and shadows differ; no identifiable platform reconstruction.",
+      "boundaryInterpretationUncertaintyMetres": 2,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "holeAssociationConfidence": "high",
+      "holeAssociationBasis": "Located in distinct tee complex adjacent to this published route start and aimed toward the independently identified green; colour ownership is not inferred",
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "method": "Manual physical mown platform boundary interpretation on 2024 imagery, checked against 2025 and 1 m laser plateau",
+      "terrain": {
+        "source": {
+          "provider": "Lantm\u00e4teriet",
+          "product": "Markh\u00f6jdmodell 1 m; RH2000",
+          "publishedGroundManifest": {
+            "bytes": 263314,
+            "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+            "sha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+            "url": "grounds/upsala/ground-v2-df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53.json"
+          },
+          "datumOffsetM": 0,
+          "sampling": "Exact EPSG:3006 pixel-world coordinates sampled in the published 1 m grid; 5\u00d75 adjacent samples span 4\u00d74 m."
+        },
+        "interiorSamples": 55,
+        "medianHeightRH2000M": 34.08,
+        "interiorP90MinusP10M": 0.347,
+        "minimumFiveByFiveSampleRangeM": 0.035,
+        "flatFiveByFiveSampleCentresBelow015M": 23,
+        "interpretation": "Plateau corroborates visible mowing boundary; no terrain flattening requested."
+      },
+      "originalPads": [
+        {
+          "ring": [
+            [
+              503.4,
+              186.4
+            ],
+            [
+              500.4,
+              188.7
+            ],
+            [
+              495.7,
+              188.2
+            ],
+            [
+              491.9,
+              185.2
+            ],
+            [
+              491.4,
+              181.4
+            ],
+            [
+              494.4,
+              179.1
+            ],
+            [
+              499.1,
+              179.6
+            ],
+            [
+              502.9,
+              182.6
+            ]
+          ],
+          "c": [
+            497.4,
+            183.9
+          ],
+          "prov": "synth",
+          "teeIdx": 0
+        },
+        {
+          "ring": [
+            [
+              503.4,
+              186.4
+            ],
+            [
+              500.4,
+              188.7
+            ],
+            [
+              495.7,
+              188.2
+            ],
+            [
+              491.9,
+              185.2
+            ],
+            [
+              491.4,
+              181.4
+            ],
+            [
+              494.4,
+              179.1
+            ],
+            [
+              499.1,
+              179.6
+            ],
+            [
+              502.9,
+              182.6
+            ]
+          ],
+          "c": [
+            497.4,
+            183.9
+          ],
+          "prov": "synth",
+          "teeIdx": 1
+        },
+        {
+          "ring": [
+            [
+              510.2,
+              169.7
+            ],
+            [
+              507.2,
+              172
+            ],
+            [
+              502.5,
+              171.5
+            ],
+            [
+              498.7,
+              168.5
+            ],
+            [
+              498.2,
+              164.7
+            ],
+            [
+              501.2,
+              162.4
+            ],
+            [
+              505.9,
+              162.9
+            ],
+            [
+              509.7,
+              165.9
+            ]
+          ],
+          "c": [
+            504.2,
+            167.2
+          ],
+          "prov": "synth",
+          "teeIdx": 2
+        },
+        {
+          "ring": [
+            [
+              510.2,
+              169.7
+            ],
+            [
+              507.2,
+              172
+            ],
+            [
+              502.5,
+              171.5
+            ],
+            [
+              498.7,
+              168.5
+            ],
+            [
+              498.2,
+              164.7
+            ],
+            [
+              501.2,
+              162.4
+            ],
+            [
+              505.9,
+              162.9
+            ],
+            [
+              509.7,
+              165.9
+            ]
+          ],
+          "c": [
+            504.2,
+            167.2
+          ],
+          "prov": "synth",
+          "teeIdx": 3
+        },
+        {
+          "ring": [
+            [
+              523.5,
+              137.3
+            ],
+            [
+              520.5,
+              139.6
+            ],
+            [
+              515.8,
+              139.1
+            ],
+            [
+              512,
+              136.1
+            ],
+            [
+              511.5,
+              132.3
+            ],
+            [
+              514.5,
+              130
+            ],
+            [
+              519.2,
+              130.5
+            ],
+            [
+              523,
+              133.5
+            ]
+          ],
+          "c": [
+            517.5,
+            134.8
+          ],
+          "prov": "synth",
+          "teeIdx": 4
+        }
+      ],
+      "originalMarks": [
+        {
+          "teeIdx": 0,
+          "m": 338,
+          "c": [
+            497.4,
+            183.9
+          ],
+          "b": 22.3
+        },
+        {
+          "teeIdx": 1,
+          "m": 338,
+          "c": [
+            497.4,
+            183.9
+          ],
+          "b": 22.3
+        },
+        {
+          "teeIdx": 2,
+          "m": 320,
+          "c": [
+            504.2,
+            167.2
+          ],
+          "b": 22.3
+        },
+        {
+          "teeIdx": 3,
+          "m": 320,
+          "c": [
+            504.2,
+            167.2
+          ],
+          "b": 22.3
+        },
+        {
+          "teeIdx": 4,
+          "m": 285,
+          "c": [
+            517.5,
+            134.8
+          ],
+          "b": 22.3
+        }
+      ],
+      "originalRouteStart": [
+        504.2,
+        167.3
+      ],
+      "nearestOriginalPadCentreMetres": 4.503,
+      "waterIntersectionSquareMetres": 0,
+      "sourceCrop": {
+        "cropExtentEPSG3006": [
+          640261.5,
+          6635886,
+          640421.5,
+          6636046
+        ],
+        "requestedCropExtentEPSG3006": [
+          640261.563750426,
+          6635886.063042892,
+          640421.563750426,
+          6636046.063042892
+        ],
+        "resolutionM": 0.25,
+        "ring": [
+          [
+            287,
+            333
+          ],
+          [
+            297,
+            329
+          ],
+          [
+            308,
+            332
+          ],
+          [
+            316,
+            339
+          ],
+          [
+            320,
+            348
+          ],
+          [
+            320,
+            359
+          ],
+          [
+            315,
+            363
+          ],
+          [
+            304,
+            360
+          ],
+          [
+            295,
+            356
+          ],
+          [
+            287,
+            354
+          ],
+          [
+            283,
+            347
+          ],
+          [
+            282,
+            340
+          ]
+        ]
+      },
+      "originalPadsSha256": "06b86f2e7047ff56cca1556b075bb3301bf3f05072bc46e9d249a61886a4d036"
+    }
+  ],
+  "originalReferenceArchiveSha256": "e51d4eacd973bc73184e4c07e10b9dbbd57ea163786194a021a70934e683d73c",
+  "reviewViews": [
+    {
+      "path": "upsalabuild/cache/tee-review-2026-09-07/mellan-candidate-2025/report.json",
+      "sha256": "e8037c933ca26e6cc7232fe9e2b1870e6c6f9923a85e5cacf43778a787441aa9",
+      "panels": [
+        {
+          "id": "h08-upper",
+          "extentEPSG3006": [
+            640303,
+            6635950,
+            640353,
+            6636000
+          ],
+          "image": "h08-upper.png",
+          "sha256": "c53dd1b3205090dc55f5e7a60612b322548c1826ac2b4f46db98fb3932251753"
+        }
+      ]
+    },
+    {
+      "path": "upsalabuild/cache/tee-review-2026-09-07/mellan-candidate-2015/report.json",
+      "sha256": "9d461f9aaac887fc9e52cec092e9e4ad4a395ddae84969a3601ed698d456a74e",
+      "panels": [
+        {
+          "id": "h08-upper",
+          "extentEPSG3006": [
+            640303,
+            6635950,
+            640353,
+            6636000
+          ],
+          "image": "h08-upper.png",
+          "sha256": "36a91fed1e9286b804a40d516d0087d8f879521a3f5fb7d4629d18b21431cc49"
+        }
+      ]
+    }
+  ],
+  "terrainCorroborationFile": "mellan-tee-terrain-review-2026-09-07.json",
+  "resolvedCandidate": {
+    "id": "mellan-8-middle-path",
+    "kind": "unclassified-flat-area",
+    "status": "unadopted-candidate",
+    "possibleHole": 8,
+    "holeAssociationConfidence": "unverified",
+    "c": [
+      490.866,
+      153.709
+    ],
+    "coordinate3006": [
+      640327.75,
+      6635979.25
+    ],
+    "reason": "Small flat patch by path bend; mown tee perimeter cannot be fully separated from path and bare ground. Possible markers in 2025 do not resolve footprint.",
+    "teeColours": null,
+    "boundary": null,
+    "sourceYears": [
+      2024,
+      2025
+    ]
+  }
+}

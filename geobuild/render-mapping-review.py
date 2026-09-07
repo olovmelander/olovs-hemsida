@@ -120,7 +120,10 @@ def main():
             raise ValueError('Evidence/model local frames differ')
         for feature in evidence['features']:
             for ring in feature.get('rings', [feature.get('ring')]):
-                objects.append((feature.get('kind', 'tee'), feature['hole'], project(ring), '#ff4040', True))
+                if ring:
+                    objects.append((feature.get('kind', 'tee'), feature.get('hole'), project(ring), '#ff4040', True))
+            if feature.get('line'):
+                objects.append((feature.get('kind', 'line'), feature.get('hole'), project(feature['line']), '#ff4040', False))
     font = ImageFont.truetype('C:/Windows/Fonts/arial.ttf', 18) if Path('C:/Windows/Fonts/arial.ttf').exists() else ImageFont.load_default()
     records = []
     size = 720

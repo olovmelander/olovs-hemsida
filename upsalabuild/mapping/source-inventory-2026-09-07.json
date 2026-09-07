@@ -1,0 +1,1071 @@
+{
+  "schemaVersion": 1,
+  "ground": "upsala",
+  "reviewDate": "2026-09-07",
+  "siteIdentity": "Upsala Golfklubb, H?m? G?rd, L?by. Excludes Uppsala Golf/GolfUppsala in Uppsala-N?s.",
+  "completeSurvey": false,
+  "reviewBboxEPSG3006": [
+    639100,
+    6635100,
+    641200,
+    6637200
+  ],
+  "primarySource": [
+    {
+      "id": "municipal-primary-6292",
+      "name": "Markhöjder - geodetiskt inmätta",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6292",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 292,
+      "sourceRecords": [
+        {
+          "layer": 6292,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6292?f=pjson",
+          "file": "6292-meta.json",
+          "status": 200,
+          "sha256": "0d3f500e0d382bd44a718c1ab8cade24f7497c1a2b1db87fa7a1fab12cdc074b",
+          "bytes": 59006,
+          "retrievedAt": "2026-09-07T06:26:55.201Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 6292,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6292/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "6292-query.json",
+          "status": 200,
+          "sha256": "a1efa8d5bbde114e8b936054ba0a00f395957b226ec1618c97a0f5a4b6f1a141",
+          "bytes": 207642,
+          "retrievedAt": "2026-09-07T06:27:03.839Z",
+          "featureCount": 292,
+          "exceededTransferLimit": false
+        }
+      ],
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-6291",
+      "name": "Gatuhöjder - geodetiskt inmätta",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6291",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 66,
+      "sourceRecords": [
+        {
+          "layer": 6291,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6291?f=pjson",
+          "file": "6291-meta.json",
+          "status": 200,
+          "sha256": "10d124147782f1501216032e213326b184130c66106e2d37703b568bee1a97d8",
+          "bytes": 59007,
+          "retrievedAt": "2026-09-07T06:26:55.206Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 6291,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6291/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "6291-query.json",
+          "status": 200,
+          "sha256": "820b8e119a619260790a5b714342ab4b6dba6da29b07ac35f1e56b1cd0d6f94f",
+          "bytes": 49639,
+          "retrievedAt": "2026-09-07T06:27:03.371Z",
+          "featureCount": 66,
+          "exceededTransferLimit": false
+        }
+      ],
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-6287",
+      "name": "Sockelhöjder",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6287",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 25,
+      "sourceRecords": [
+        {
+          "layer": 6287,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6287?f=pjson",
+          "file": "6287-meta.json",
+          "status": 200,
+          "sha256": "670d6d887920984ca2dc95f40780775d3a3cd03eead6d68162e5b7ac52baad62",
+          "bytes": 60769,
+          "retrievedAt": "2026-09-07T06:27:04.509Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 6287,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6287/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "6287-query.json",
+          "status": 200,
+          "sha256": "501a30c8d1adbdbf92cc0c6ec20f21bbd37d27c72c73d4aed27f2de7b2354360",
+          "bytes": 20463,
+          "retrievedAt": "2026-09-07T06:27:04.628Z",
+          "featureCount": 25,
+          "exceededTransferLimit": false
+        }
+      ],
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-6288",
+      "name": "Nockhöjd",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6288",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 0,
+      "sourceRecords": [
+        {
+          "layer": 6288,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6288?f=pjson",
+          "file": "6288-meta.json",
+          "status": 200,
+          "sha256": "260bfb09a91ff8bd25c5ffac2d4cd37f6f9dd50f919915cd7fae18eab1a0c716",
+          "bytes": 60869,
+          "retrievedAt": "2026-09-07T06:27:04.516Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 6288,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6288/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "6288-query.json",
+          "status": 200,
+          "sha256": "8df159301c63334852abb2fcd63da631dba62887b8ab77b7310cbf76edcb2588",
+          "bytes": 3357,
+          "retrievedAt": "2026-09-07T06:27:04.628Z",
+          "featureCount": 0,
+          "exceededTransferLimit": false
+        }
+      ],
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-6289",
+      "name": "Färdigt golv",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6289",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 10,
+      "sourceRecords": [
+        {
+          "layer": 6289,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6289?f=pjson",
+          "file": "6289-meta.json",
+          "status": 200,
+          "sha256": "5d99d98e1da86581a76ac146da8e039fa7b31a6eccaf85b9ea7eab9918c2d5cd",
+          "bytes": 60875,
+          "retrievedAt": "2026-09-07T06:27:04.517Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 6289,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6289/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "6289-query.json",
+          "status": 200,
+          "sha256": "117baae22babdd6a9be3e848c03b6c6c51bc5a50e6f5533871944ccdf27e3edd",
+          "bytes": 10328,
+          "retrievedAt": "2026-09-07T06:27:04.650Z",
+          "featureCount": 10,
+          "exceededTransferLimit": false
+        }
+      ],
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-513",
+      "name": "Stomnätspunkt, plan",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/513",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 23,
+      "sourceRecords": [
+        {
+          "layer": 513,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/513?f=pjson",
+          "file": "513-meta.json",
+          "status": 200,
+          "sha256": "0ff72b086de93f8fbe0a865e52f4fd97d35357a0d922506c435a2f4b40da539b",
+          "bytes": 68687,
+          "retrievedAt": "2026-09-07T06:27:04.747Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 513,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/513/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "513-query.json",
+          "status": 200,
+          "sha256": "2a92c50aa4a559f3eda2d601ccb04c82e26b0689a14e27fdfe40e78f59599fc5",
+          "bytes": 20683,
+          "retrievedAt": "2026-09-07T06:27:04.836Z",
+          "featureCount": 23,
+          "exceededTransferLimit": false
+        }
+      ],
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-514",
+      "name": "Stomnätspunkt, höjd",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/514",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 3,
+      "sourceRecords": [
+        {
+          "layer": 514,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/514?f=pjson",
+          "file": "514-meta.json",
+          "status": 200,
+          "sha256": "8bd614efcdb65359d45be98137e3df1abb9f0b61cfed64e91557e0a8c7e386bf",
+          "bytes": 63729,
+          "retrievedAt": "2026-09-07T06:27:04.746Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 514,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/514/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "514-query.json",
+          "status": 200,
+          "sha256": "d880031a9bf84588351dea69bba746883e9a23f31995a873d5f67124558102b1",
+          "bytes": 5656,
+          "retrievedAt": "2026-09-07T06:27:04.834Z",
+          "featureCount": 3,
+          "exceededTransferLimit": false
+        }
+      ],
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-6278",
+      "name": "Vägkant, linje",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6278",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 148,
+      "sourceRecords": [
+        {
+          "layer": 6278,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6278?f=pjson",
+          "file": "6278-meta.json",
+          "status": 200,
+          "sha256": "24a99ff468b22b8a9b5d6f64b4c4a338cecc5a18dc8f07af3e428ec5f241328e",
+          "bytes": 77373,
+          "retrievedAt": "2026-09-07T06:27:13.794Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 6278,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6278/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "6278-query.json",
+          "status": 200,
+          "sha256": "bbef4f5058fae29ac73e20de723089d5250794f3bc9c4e6bc72b8491cc0f0af7",
+          "bytes": 248598,
+          "retrievedAt": "2026-09-07T06:27:13.933Z",
+          "featureCount": 148,
+          "exceededTransferLimit": false
+        }
+      ],
+      "summary": {
+        "Körbana / Geod. Nätverks-RTK / Befintligt": 29,
+        "Körbana / Bordsdig. Ortofoto underlag / Befintligt": 3,
+        "Beläggning / Geod. Nätverks-RTK / Befintligt": 9,
+        "Gångbana / Skärmdig. Ortofoto underlag / Befintligt": 6,
+        "Körbana / Skärmdig. Ortofoto underlag / Befintligt": 25,
+        "Gång- och cykelbana / Geod. Nätverks-RTK / Befintligt": 4,
+        "Gångbana / Geod. Nätverks-RTK / Befintligt": 5,
+        "Gångbana / Ingen information / Befintligt": 1,
+        "Övrigt / Ingen information / Befintligt": 27,
+        "Sämre bilväg / Geod. Nätverks-RTK / Befintligt": 3,
+        "Sämre bilväg / Skärmdig. Ortofoto underlag / Befintligt": 2,
+        "Gång- och cykelbana / Skärmdig. Ortofoto underlag / Befintligt": 16,
+        "Parkeringsplats / Skärmdig. Ortofoto underlag / Befintligt": 12,
+        "Parkeringsplats / Geod. Nätverks-RTK / Befintligt": 6
+      },
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-562",
+      "name": "Mark (punkt)",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/562",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 50,
+      "sourceRecords": [
+        {
+          "layer": 562,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/562?f=pjson",
+          "file": "562-meta.json",
+          "status": 200,
+          "sha256": "bf9d4af4eabc227b10f0dc639c04515aa924e5eb8d1f82fb1f5ade1ba419d97e",
+          "bytes": 65790,
+          "retrievedAt": "2026-09-07T06:27:13.799Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 562,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/562/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "562-query.json",
+          "status": 200,
+          "sha256": "091abc18c7b4c7fb8dfee30f0e2362e5eefc63d6652cf0b9536b45f6e711988b",
+          "bytes": 37265,
+          "retrievedAt": "2026-09-07T06:27:13.926Z",
+          "featureCount": 50,
+          "exceededTransferLimit": false
+        }
+      ],
+      "summary": {
+        "Lövträd / Geod. Nätverks-RTK / Befintligt": 32,
+        "Barrträd / Geod. Nätverks-RTK / Befintligt": 18
+      },
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-563",
+      "name": "Markkantlinje",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/563",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 32,
+      "sourceRecords": [
+        {
+          "layer": 563,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/563?f=pjson",
+          "file": "563-meta.json",
+          "status": 200,
+          "sha256": "64782124fb6ef419618f72f1ab23dee70d92bad9c31c40ec393cb92478280091",
+          "bytes": 88530,
+          "retrievedAt": "2026-09-07T06:27:13.719Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 563,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/563/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "563-query.json",
+          "status": 200,
+          "sha256": "e48da467a983e841617e182edd30c2d497eb1326a4d6e29cb90fe39dbaeb9075",
+          "bytes": 63908,
+          "retrievedAt": "2026-09-07T06:27:13.814Z",
+          "featureCount": 32,
+          "exceededTransferLimit": false
+        }
+      ],
+      "summary": {
+        "Övrig mark / Geod. Nätverks-RTK / Befintligt": 28,
+        "Övrig mark / Skärmdig. Ortofoto underlag / Befintligt": 4
+      },
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-564",
+      "name": "Vattenkonstruktion (linje)",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/564",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 13,
+      "sourceRecords": [
+        {
+          "layer": 564,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/564?f=pjson",
+          "file": "564-meta.json",
+          "status": 200,
+          "sha256": "b693824ae66cc0de25ecde6f3111fee159a994f4feaa90c4595d28f57e629c7d",
+          "bytes": 62503,
+          "retrievedAt": "2026-09-07T06:27:13.961Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 564,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/564/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "564-query.json",
+          "status": 200,
+          "sha256": "306b2093acaaf797d54d466f2b97d31d56f2077aa02c9926403db269efcfee65",
+          "bytes": 22704,
+          "retrievedAt": "2026-09-07T06:27:14.054Z",
+          "featureCount": 13,
+          "exceededTransferLimit": false
+        }
+      ],
+      "summary": {
+        "Dike / Geod. Nätverks-RTK / Befintligt": 5,
+        "Dike / Skärmdig. Ortofoto underlag / Befintligt": 8
+      },
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-568",
+      "name": "Anläggning, linje",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/568",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 1,
+      "sourceRecords": [
+        {
+          "layer": 568,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/568?f=pjson",
+          "file": "568-meta.json",
+          "status": 200,
+          "sha256": "bb6da87be68fc5529b584ef7011f69b17f58649ed5d10021c1324eb98c9263a3",
+          "bytes": 78993,
+          "retrievedAt": "2026-09-07T06:27:13.966Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 568,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/568/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "568-query.json",
+          "status": 200,
+          "sha256": "0151a8df387f65cac309c14d780669b0e6390279facd3a155d280a8ad3105d3d",
+          "bytes": 4528,
+          "retrievedAt": "2026-09-07T06:27:14.077Z",
+          "featureCount": 1,
+          "exceededTransferLimit": false
+        }
+      ],
+      "summary": {
+        "Bro / Geod. Nätverks-RTK / Befintligt": 1
+      },
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-570",
+      "name": "Markanordning, linje",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/570",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 19,
+      "sourceRecords": [
+        {
+          "layer": 570,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/570?f=pjson",
+          "file": "570-meta.json",
+          "status": 200,
+          "sha256": "8639ae4ce95af9a3f2c6d8e22e28c57580521a75f4c3bcb76b3e95d64c72f344",
+          "bytes": 83347,
+          "retrievedAt": "2026-09-07T06:27:14.106Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 570,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/570/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "570-query.json",
+          "status": 200,
+          "sha256": "24d4ba7c565d0c6241833897c00e8e3b0cc7004a56197664db86289a4ffea55c",
+          "bytes": 23527,
+          "retrievedAt": "2026-09-07T06:27:14.236Z",
+          "featureCount": 19,
+          "exceededTransferLimit": false
+        }
+      ],
+      "summary": {
+        "Staket / Geod. Nätverks-RTK / Befintligt": 1,
+        "Plank / Geod. Nätverks-RTK / Befintligt": 2,
+        "Stödmur / Geod. Nätverks-RTK / Befintligt": 2,
+        "Mur / Geod. Nätverks-RTK / Befintligt": 1,
+        "Stängsel / Geod. Nätverks-RTK / Befintligt": 9,
+        "Häck / Geod. Nätverks-RTK / Befintligt": 4
+      },
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-571",
+      "name": "Anläggning, yta",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/571",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 1,
+      "sourceRecords": [
+        {
+          "layer": 571,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/571?f=pjson",
+          "file": "571-meta.json",
+          "status": 200,
+          "sha256": "bfa08903d39c786e1a9119edac4e280313fd08822b529776c803895ea7321fe1",
+          "bytes": 73397,
+          "retrievedAt": "2026-09-07T06:27:14.116Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 571,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/571/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "571-query.json",
+          "status": 200,
+          "sha256": "e92ebcb037a4e1e8216831662590895a4e27fb3c76d8549e631a07cd04fc31ed",
+          "bytes": 4353,
+          "retrievedAt": "2026-09-07T06:27:14.202Z",
+          "featureCount": 1,
+          "exceededTransferLimit": false
+        }
+      ],
+      "summary": {
+        "Bro / Geod. Nätverks-RTK / Befintligt": 1
+      },
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-575",
+      "name": "Ledningsanordning",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/575",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 2,
+      "sourceRecords": [
+        {
+          "layer": 575,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/575?f=pjson",
+          "file": "575-meta.json",
+          "status": 200,
+          "sha256": "0407e02b2ab76a1e2d8e115ba108c610f341330fd334d386958980cc6d697199",
+          "bytes": 68369,
+          "retrievedAt": "2026-09-07T06:27:04.867Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 575,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/575/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "575-query.json",
+          "status": 200,
+          "sha256": "6629d1fab62e61ec2e1de3d8e05010b0b23d00605a48c9d8d485d2464ab0c661",
+          "bytes": 5842,
+          "retrievedAt": "2026-09-07T06:27:04.956Z",
+          "featureCount": 2,
+          "exceededTransferLimit": false
+        }
+      ],
+      "summary": {
+        "Elanordning / Geod. Nätverks-RTK / Befintligt": 2
+      },
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    },
+    {
+      "id": "municipal-primary-6179890",
+      "name": "Byggnad",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6179890",
+      "nativeCrs": "EPSG:3011",
+      "queryCrs": "EPSG:3006",
+      "featureCount": 145,
+      "sourceRecords": [
+        {
+          "layer": 6179890,
+          "type": "meta",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6179890?f=pjson",
+          "file": "6179890-meta.json",
+          "status": 200,
+          "sha256": "bd307dfac77135a5b67f75568f616155f82f162a72ba7b34cbc26d69922d202b",
+          "bytes": 104117,
+          "retrievedAt": "2026-09-07T06:26:45.224Z",
+          "exceededTransferLimit": false
+        },
+        {
+          "layer": 6179890,
+          "type": "query",
+          "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6179890/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006",
+          "file": "6179890-query.json",
+          "status": 200,
+          "sha256": "03bb0337bc306038b21452aed82007b9002be4d004aabfb0c83ee5745a55653d",
+          "bytes": 260504,
+          "retrievedAt": "2026-09-07T06:26:55.172Z",
+          "featureCount": 145,
+          "exceededTransferLimit": false
+        }
+      ],
+      "summary": {
+        "Övrig byggnad / LMV:s EK-databaser / Befintligt": 40,
+        "Komplementbyggnad / LMV:s EK-databaser / Befintligt": 7,
+        "Bostad / LMV:s EK-databaser / Befintligt": 14,
+        "Övrig byggnad / Geod. Nätverks-RTK / Befintligt": 10,
+        "Industri / Geod. Nätverks-RTK / Befintligt": 1,
+        "Samhällsfunktion / Geod. Nätverks-RTK / Befintligt": 4,
+        "Komplementbyggnad / Geod. Nätverks-RTK / Befintligt": 33,
+        "Bostad / Geod. Nätverks-RTK / Befintligt": 21,
+        "Komplementbyggnad / Geod. Totalstation / Befintligt": 7,
+        "Övrig byggnad / Geod. Totalstation / Befintligt": 4,
+        "Bostad / Geod. Totalstation / Befintligt": 1,
+        "Komplementbyggnad / Fotogr. Digital (Digital kamera, DMC) / Befintligt": 1,
+        "Komplementbyggnad / Kartografiskt läge / Befintligt": 2
+      },
+      "acceptance": "Each record requires status, method, uncertainty and temporal interpretation. No bulk runtime adoption."
+    }
+  ],
+  "otherDownloads": [
+    {
+      "name": "museum",
+      "url": "https://www.upplandsmuseet.se/globalassets/publikationer/rapportserien/rapporter-2024/2024_23-gravfalt-och-boplatser_web.pdf",
+      "status": 200,
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/museum.pdf",
+      "bytes": 6797326,
+      "sha256": "4c513a9c47ac41043ffc93126ff3b821e15c525457423f00f612c7733b30288f",
+      "retrievedAt": "2026-09-07T06:23:47.096Z"
+    },
+    {
+      "name": "mapping",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services?f=pjson",
+      "status": 200,
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/mapping.json",
+      "bytes": 787,
+      "sha256": "4e9155f1eacf89fe982de258edaeca2e4d5fbedc9449776097defb6dea51cd6d",
+      "retrievedAt": "2026-09-07T06:23:47.217Z"
+    },
+    {
+      "name": "open",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/iOpenData?f=pjson",
+      "status": 200,
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/open.json",
+      "bytes": 290,
+      "sha256": "1f4888b90081b3cc6ece9194a5ce9b93354e2c9e47b61212f571d09cb8fda782",
+      "retrievedAt": "2026-09-07T06:23:47.264Z"
+    },
+    {
+      "name": "maps",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/Publika?f=pjson",
+      "status": 200,
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/maps.json",
+      "bytes": 80,
+      "sha256": "5350d216bd85c7df18dcf66b9257114af99f04e5ffdbdfff3f4d425cf4a8db79",
+      "retrievedAt": "2026-09-07T06:23:47.299Z"
+    },
+    {
+      "id": "trees",
+      "type": "meta",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nParkNatur/Traddatabas_utan_fallda_trad/MapServer/0?f=pjson",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/trees-meta.json",
+      "bytes": 588428,
+      "sha256": "a5b2ac3d7c26d7b91dd84fe066727ab5bd0808cf1437506c2cb28848e45a1f6b",
+      "retrievedAt": "2026-09-07T06:25:06.598Z"
+    },
+    {
+      "id": "trees",
+      "type": "query",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nParkNatur/Traddatabas_utan_fallda_trad/MapServer/0/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006&resultRecordCount=2000",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/trees-query.json",
+      "bytes": 4868,
+      "sha256": "006ecd4b7a03de3f53c8c6d6c3cde3dcc2d35612ce4a74ac9569e3c926f5d0c1",
+      "retrievedAt": "2026-09-07T06:25:06.700Z",
+      "count": 0
+    },
+    {
+      "id": "furniture",
+      "type": "meta",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nParkNatur/Inventering_parkmobler_titta/FeatureServer/2?f=pjson",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/furniture-meta.json",
+      "bytes": 87502,
+      "sha256": "23241140aeeb34a67c8b89091b38db60ff2031d0953d6bcceaea94b782c0fd19",
+      "retrievedAt": "2026-09-07T06:25:06.731Z"
+    },
+    {
+      "id": "furniture",
+      "type": "query",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nParkNatur/Inventering_parkmobler_titta/FeatureServer/2/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006&resultRecordCount=2000",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/furniture-query.json",
+      "bytes": 186,
+      "sha256": "a55bb6698e18248835763911a749dcaeb37f0653105a1bd3c7a32120971f13b3",
+      "retrievedAt": "2026-09-07T06:25:08.406Z",
+      "count": 0
+    },
+    {
+      "id": "nature",
+      "type": "meta",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/iExternaKartan/Miljo/MapServer/27?f=pjson",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/nature-meta.json",
+      "bytes": 9774,
+      "sha256": "b07d688ecc828d1c267cf52a591b27aea9dd47adb4c6f22856cc29d0f66c6d7c",
+      "retrievedAt": "2026-09-07T06:25:08.429Z"
+    },
+    {
+      "id": "nature",
+      "type": "query",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/iExternaKartan/Miljo/MapServer/27/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006&resultRecordCount=2000",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/nature-query.json",
+      "bytes": 24676,
+      "sha256": "48f0174fe7876aac143e2d0f87e357cd4ada0a6382f465e072727e9f9308a67b",
+      "retrievedAt": "2026-09-07T06:25:08.500Z",
+      "count": 5
+    },
+    {
+      "id": "groundheights",
+      "type": "meta",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6292?f=pjson",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/groundheights-meta.json",
+      "bytes": 59006,
+      "sha256": "0d3f500e0d382bd44a718c1ab8cade24f7497c1a2b1db87fa7a1fab12cdc074b",
+      "retrievedAt": "2026-09-07T06:25:08.525Z"
+    },
+    {
+      "id": "groundheights",
+      "type": "query",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6292/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006&resultRecordCount=2000",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/groundheights-query.json",
+      "bytes": 207642,
+      "sha256": "a1efa8d5bbde114e8b936054ba0a00f395957b226ec1618c97a0f5a4b6f1a141",
+      "retrievedAt": "2026-09-07T06:25:17.475Z",
+      "count": 292
+    },
+    {
+      "id": "ridge",
+      "type": "meta",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6288?f=pjson",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/ridge-meta.json",
+      "bytes": 60869,
+      "sha256": "260bfb09a91ff8bd25c5ffac2d4cd37f6f9dd50f919915cd7fae18eab1a0c716",
+      "retrievedAt": "2026-09-07T06:25:17.506Z"
+    },
+    {
+      "id": "ridge",
+      "type": "query",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nPlanBygg/Bygglov_Primarkarta_utskrift/MapServer/6288/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006&resultRecordCount=2000",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/ridge-query.json",
+      "bytes": 3357,
+      "sha256": "8df159301c63334852abb2fcd63da631dba62887b8ab77b7310cbf76edcb2588",
+      "retrievedAt": "2026-09-07T06:25:25.590Z",
+      "count": 0
+    },
+    {
+      "id": "heights",
+      "type": "meta",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/iExternaKartan/ByggaBo/MapServer/1?f=pjson",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/heights-meta.json",
+      "bytes": 13138,
+      "sha256": "707a7ee6e116be0fa0e189917a2db45af4e2a5d0ad12b75c3a2d87b6d0096628",
+      "retrievedAt": "2026-09-07T06:25:25.624Z"
+    },
+    {
+      "id": "heights",
+      "type": "query",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/iExternaKartan/ByggaBo/MapServer/1/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006&resultRecordCount=2000",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/heights-query.json",
+      "bytes": 101,
+      "sha256": "11b9a3e7bfe712a560cff859efa13a3ec2311164f42ebc8de187d7db97212160",
+      "retrievedAt": "2026-09-07T06:25:25.670Z",
+      "error": {
+        "code": 400,
+        "message": "Pagination is not supported.",
+        "details": []
+      }
+    },
+    {
+      "id": "controls",
+      "type": "meta",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/iExternaKartan/ByggaBo/MapServer/2?f=pjson",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/controls-meta.json",
+      "bytes": 12756,
+      "sha256": "c91ba0ad4f13e00b4b361c380df2b417b143ee673768bc30b311078c1977c320",
+      "retrievedAt": "2026-09-07T06:25:25.697Z"
+    },
+    {
+      "id": "controls",
+      "type": "query",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/iExternaKartan/ByggaBo/MapServer/2/query?f=pjson&where=1%3D1&geometry=639100%2C6635100%2C641200%2C6637200&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&outSR=3006&resultRecordCount=2000",
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/controls-query.json",
+      "bytes": 101,
+      "sha256": "11b9a3e7bfe712a560cff859efa13a3ec2311164f42ebc8de187d7db97212160",
+      "retrievedAt": "2026-09-07T06:25:25.741Z",
+      "error": {
+        "code": 400,
+        "message": "Pagination is not supported.",
+        "details": []
+      }
+    },
+    {
+      "id": "nytt-servicehus-2026",
+      "url": "https://upsalagk.se/news/nytt-servicehus-2026/",
+      "status": 200,
+      "finalUrl": "https://upsalagk.se/news/nytt-servicehus-2026/",
+      "sha256": "ea94e9f278bdefdaf661899a3d345f6c3697438cf81b776dbb8f6b7818cdd53d",
+      "bytes": 551016,
+      "retrievedAt": "2026-09-07T06:26:55.011Z"
+    },
+    {
+      "id": "invigning-2026",
+      "url": "https://upsalagk.se/news/invigning-2026/",
+      "status": 404,
+      "finalUrl": "https://upsalagk.se/news/invigning-2026/",
+      "sha256": "37d0d3366d49afb00a9e68f115e882c26e8408188a9da5449401cc86346e7881",
+      "bytes": 521427,
+      "retrievedAt": "2026-09-07T06:26:55.857Z"
+    },
+    {
+      "id": "halfway-house-smygoppnat-2026",
+      "url": "https://upsalagk.se/news/halfway-house-smygoppnat-2026/",
+      "status": 200,
+      "finalUrl": "https://upsalagk.se/news/halfway-house-smygoppnat-2026/",
+      "sha256": "b6533562797c73af39a8691bf98cd0eb2b8ac540493946128a46218e585be2ac",
+      "bytes": 537185,
+      "retrievedAt": "2026-09-07T06:26:56.418Z"
+    },
+    {
+      "id": "ar-det-var-pa-ingang-2023",
+      "url": "https://upsalagk.se/news/ar-det-var-pa-ingang-2023/",
+      "status": 200,
+      "finalUrl": "https://upsalagk.se/news/ar-det-var-pa-ingang-2023/",
+      "sha256": "219897cf7366ed468b71912c85fdb62b177cd225377e97b681be27f35757c32b",
+      "bytes": 558511,
+      "retrievedAt": "2026-09-07T06:26:56.925Z"
+    },
+    {
+      "id": "brev-fran-ordforanden",
+      "url": "https://upsalagk.se/news/brev-fran-ordforanden/",
+      "status": 200,
+      "finalUrl": "https://upsalagk.se/news/brev-fran-ordforanden/",
+      "sha256": "6012b5b3ba85a89bbb8879a9d9c9247d71a065ffb7c5cfb018e0e6463c52b732",
+      "bytes": 549436,
+      "retrievedAt": "2026-09-07T06:26:57.393Z"
+    },
+    {
+      "id": "medlemsinformation-sommar-2025",
+      "url": "https://upsalagk.se/news/medlemsinformation-sommar-2025/",
+      "status": 200,
+      "finalUrl": "https://upsalagk.se/news/medlemsinformation-sommar-2025/",
+      "sha256": "18a21ee0a713ae130a8f700e88f529a13df3ee0d44b529c06a3e528ed5f0e613",
+      "bytes": 551459,
+      "retrievedAt": "2026-09-07T06:26:57.838Z"
+    },
+    {
+      "url": "https://upsalagk.se/wp-content/uploads/2026/03/1.webp",
+      "file": "servicehouse-photo-1.webp",
+      "sha256": "f27f10b9b07d172f0523d8dff84a52e3cf3e66780cf8560c5b9d1dfe89a791ba",
+      "bytes": 23646,
+      "retrievedAt": "2026-09-07T06:28:11.932Z"
+    },
+    {
+      "url": "https://upsalagk.se/wp-content/uploads/2026/03/2.webp",
+      "file": "servicehouse-photo-2.webp",
+      "sha256": "69316641fd0b34fe5bcb2ccb4c6bcde8722557cbb44e8477ad8a6886b1334914",
+      "bytes": 23442,
+      "retrievedAt": "2026-09-07T06:28:11.956Z"
+    },
+    {
+      "url": "https://upsalagk.se/wp-content/uploads/2026/03/3.webp",
+      "file": "servicehouse-photo-3.webp",
+      "sha256": "90d319eb9f55c6216898b529c99a8777dff00742fe47c08bf9709c91dff1b01a",
+      "bytes": 19622,
+      "retrievedAt": "2026-09-07T06:28:11.976Z"
+    },
+    {
+      "url": "https://upsalagk.se/wp-content/uploads/2026/03/4.webp",
+      "file": "servicehouse-photo-4.webp",
+      "sha256": "30720322e76c6fa422a27ea308f20886078674d135b1676ddc18aeda5beee30b",
+      "bytes": 186688,
+      "retrievedAt": "2026-09-07T06:28:12.013Z"
+    },
+    {
+      "url": "https://upsalagk.se/wp-content/uploads/2026/05/img-8440-2048x1164.webp",
+      "file": "servicehouse-photo-5.webp",
+      "sha256": "d1e8d795b48973a7f526bd60974a5a9b082a4225e56e96d310a930b991a4c093",
+      "bytes": 253152,
+      "retrievedAt": "2026-09-07T06:28:12.054Z"
+    },
+    {
+      "url": "https://upsalagk.se/wp-content/uploads/2026/06/unknown.webp",
+      "file": "servicehouse-inauguration.webp",
+      "sha256": "cf320cf034bb418e6be0f3bf3c5bc1b5e83d78cdc51fb2b19f43f9c90b28b024",
+      "bytes": 4442,
+      "retrievedAt": "2026-09-07T06:36:09.077Z"
+    }
+  ],
+  "sourceDecisions": [
+    {
+      "id": "municipal-tree-inventory",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nParkNatur/Traddatabas_utan_fallda_trad/MapServer/0",
+      "count": 0,
+      "decision": "No records in window; does not imply absence of trees. Primary-map562 supplies50 leaf-type observations instead."
+    },
+    {
+      "id": "municipal-park-furniture",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/nParkNatur/Inventering_parkmobler_titta/FeatureServer/2",
+      "count": 0,
+      "decision": "No records in window; does not establish absence of benches, bins or private course equipment."
+    },
+    {
+      "id": "nature-areas",
+      "url": "https://kartportal.uppsala.se/mapping/rest/services/iExternaKartan/Miljo/MapServer/27",
+      "count": 5,
+      "decision": "Retain regional context only. Nature-value classification is not a current mowing boundary or individual species inventory.",
+      "objects": [
+        {
+          "OBJECTID": 18883,
+          "Eko_ID": "5.85.6",
+          "Namn": "Läby-västerby 2",
+          "Naturvardesklass": "Högt naturvärde - naturvärdesklass 2",
+          "Naturtypsgrupp": "Äng och betesmark"
+        },
+        {
+          "OBJECTID": 19365,
+          "Eko_ID": "5.99.27",
+          "Namn": "S LILLÄNGEN",
+          "Naturvardesklass": "Högsta naturvärde - naturvärdesklass 1",
+          "Naturtypsgrupp": "Skog och träd, boreal skog"
+        },
+        {
+          "OBJECTID": 21198,
+          "Eko_ID": "7.85.3",
+          "Namn": "400M Sö Ryttarvreten",
+          "Naturvardesklass": "Påtagligt naturvärde - naturvärdesklass 3",
+          "Naturtypsgrupp": "Skog och träd, boreal skog"
+        },
+        {
+          "OBJECTID": 21199,
+          "Eko_ID": "7.85.4",
+          "Namn": "400M Sö Ryttarvreten",
+          "Naturvardesklass": "Påtagligt naturvärde - naturvärdesklass 3",
+          "Naturtypsgrupp": "Skog och träd, boreal skog"
+        },
+        {
+          "OBJECTID": 21326,
+          "Eko_ID": "7.99.11",
+          "Namn": "200M S Lillängen",
+          "Naturvardesklass": "Påtagligt naturvärde - naturvärdesklass 3",
+          "Naturtypsgrupp": "Skog och träd, boreal skog"
+        }
+      ]
+    },
+    {
+      "id": "museum-2024-23",
+      "url": "https://www.upplandsmuseet.se/globalassets/publikationer/rapportserien/rapporter-2024/2024_23-gravfalt-och-boplatser_web.pdf",
+      "sha256": "4c513a9c47ac41043ffc93126ff3b821e15c525457423f00f612c7733b30288f",
+      "publicationYear": 2024,
+      "fieldworkDate": "2024 April/May inconsistent in report; club dates13?17May",
+      "horizontalCrs": "SWEREF99 TM/EPSG:3006",
+      "verticalCrs": "RH2000",
+      "surveyMethod": "GPS/networkRTK stated for plan documentation",
+      "licence": "CCBY except indicated content; base-map copyright separately noted",
+      "candidateSearchBoxEPSG3006": [
+        639700,
+        6636300,
+        639800,
+        6636420
+      ],
+      "usefulPages": [
+        9,
+        10,
+        11,
+        20
+      ],
+      "decision": "Identify practice-area bedrock, two greens/bunkers, path, utilities and sprinkler-well candidate. Do not apply PDF pixelcoordinates as surveycontrols.",
+      "controlDiscrepancy": {
+        "imageDimensions": [
+          987,
+          792
+        ],
+        "lowerCrossPixel": [
+          255,
+          701
+        ],
+        "lowerLabelEN": [
+          639710,
+          6636326
+        ],
+        "upperCrossPixel": [
+          727,
+          112
+        ],
+        "upperLabelEN": [
+          639790,
+          6636406
+        ],
+        "twentyMetreScaleBarPixels": 119,
+        "inference": "Eastingdelta agrees with20mscale; northinglabeldelta80m occupies~99m by thatscale. No georeferencing correction assumed."
+      },
+      "exclusions": [
+        "Archaeological excavations and buried structures are not persistent modern open ditches.",
+        "Oak/spruce charcoal specimens are ancient material, not current living tree species.",
+        "Construction rope, workers and temporary soil heaps are not permanent objects."
+      ]
+    },
+    {
+      "id": "servicehouse-2026",
+      "url": "https://upsalagk.se/news/nytt-servicehus-2026/",
+      "confirmationUrl": "https://upsalagk.se/news/halfway-house-smygoppnat-2026/",
+      "announcedDemolitionDate": "2026-03-03",
+      "confirmedOpeningDate": "2026-05-14",
+      "plannedFloorAreaM2": 46,
+      "dimensionedPlanM": [
+        7.2,
+        6.4
+      ],
+      "decision": "Built facility identity confirmed. Exactas-built footprint and placement remain unlocated; preserve as a mapping task.",
+      "rejectedCandidates": [
+        {
+          "layer": 6179890,
+          "objectId": 1512570,
+          "reason": "370.98m? cartographic object; wrongsize and weak10m source accuracy."
+        },
+        {
+          "layer": 6179890,
+          "objectId": 1520169,
+          "reason": "8.14m? record; does not match46m? servicehouse."
+        }
+      ],
+      "photoInterpretation": "Three dimensioned/directional plan images; exteriormarketingrender is not a built photograph; openingimage is interior; inaugurationstockimage has no geographic content."
+    },
+    {
+      "id": "practice-rebuild-status",
+      "urls": [
+        "https://upsalagk.se/news/vi-bygger-nytt-2024/",
+        "https://upsalagk.se/news/medlemsinformation-sommar-2025/",
+        "https://upsalagk.se/news/klubbchefsbrev-maj-2026-2-2/"
+      ],
+      "decision": "Plans and ongoing work do not establish that two practicegreens were merged. Preserve accepted2025 shapes."
+    },
+    {
+      "id": "archival-drainage-and-tree-maintenance",
+      "url": "https://upsalagk.se/news/brev-fran-ordforanden/",
+      "decision": "Club confirms cleared ditches at Stora4 and Mellan6/8 before2023 and discusses felling at Stora3/9/14/17. Use as temporal context; no exact new placement."
+    }
+  ],
+  "deliverables": {
+    "normalisedObjects": "municipal-objects-2026-09-07.json",
+    "sanitisedGeographicObservations": "municipal-objects-2026-09-07.geojson",
+    "totalGeographicObservations": 231,
+    "reviewedNonRoadRecords": 83,
+    "roadEdges": 148,
+    "roadEdgesUnsuitableForPrecision": 28,
+    "sourceOnlyRoadEdgesSuitableForFurtherReview": 120,
+    "imageryComparisons": "cache/review-2026-09-07/source-inventory/objects-review",
+    "acquisitionHelper": "geobuild/acquire-upsala-survey.mjs",
+    "applicationSummary": {
+      "newModelObservations": 24,
+      "gisOnlyDrainage": 4,
+      "gisOnlyBoundaries": 19,
+      "renderedHorizontalBridgeFootprint": 1,
+      "existingStreamCorroborations": 9,
+      "unlinkedTreeObservations": 50,
+      "roadEdgesUnsuitableForPrecision": 28,
+      "openRoadEdgeObservations": 148,
+      "roadEdgesContributingToReviewedPath": 6
+    }
+  },
+  "accessLimits": [
+    "Uppsala_3D publicdirectory requires token; no authenticated or private endpoints accessed.",
+    "Primary-map service/layer copyrightText is empty; do not infer aCC licence from publicquery capability. Raw metadata, imagery and PDFs remain localcache.",
+    "Query envelopes return intersectingfeatures that may extend beyond the requestedbox; this is not proof of courseownership."
+  ]
+}

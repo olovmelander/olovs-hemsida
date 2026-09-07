@@ -10,6 +10,10 @@ import { centroid, polyArea, pointInPoly } from './lib.mjs';
 import { reviewedFairwayMetadata } from '../tools/apply-reviewed-nine-fairways.mjs';
 import { applyReviewedTeeSurfaces } from '../tools/apply-reviewed-tee-surfaces.mjs';
 import { applyReviewedStoraSurfaces } from '../tools/apply-reviewed-stora-surfaces.mjs';
+import { applyReviewedStoraPar3Sahara } from '../tools/apply-reviewed-stora-par3-sahara.mjs';
+import { mergeMellanTeeReview20260907 } from '../tools/apply-mellan-tee-review-2026-09-07.mjs';
+import { applyUpsalaPracticePath } from '../tools/apply-upsala-practice-path.mjs';
+import { applyMunicipalObjects20260907 } from '../tools/apply-upsala-municipal-objects.mjs';
 
 const read = name => JSON.parse(fs.readFileSync(new URL(`mapping/${name}`, import.meta.url)));
 const surfaceEvidence = p => ({ source: p.source, sourceProductYear: p.sourceProductYear ?? p.observedYear, sourceSha256: p.sourceSha256 ?? p.sourceFiles?.[0]?.sha256, sourceHorizontalAccuracyM: p.sourceHorizontalAccuracyM ?? p.sourceAbsoluteHorizontalAccuracyMetres ?? null, uncertaintyM: p.uncertaintyM ?? p.boundaryInterpretationUncertaintyMetres, acceptance: p.acceptance, note: p.note, latestVisualCrossCheckYear: p.latestVisualCrossCheckYear });
@@ -58,6 +62,7 @@ export function applyGroundMapping(model) {
   model.holes = applyReviewedTeeSurfaces(model, ['01-06', '07-12', '13-18']
     .map(range => read(`stora-tees-${range}-2025.json`))).holes;
   model.holes = applyReviewedTeeSurfaces(model, [read('stora-tees-followup-2026-09-06.json')]).holes;
+  model.holes = applyReviewedTeeSurfaces(model, [read('stora-tees-review-2026-09-07.json')]).holes;
   for (const h of model.holes) {
     h.tees.inferPads = false;
     h.tees.markProvenance = 'scorecard-distance inference; daily marker positions unverified';
@@ -85,6 +90,7 @@ export function applyGroundMapping(model) {
       evidence: surfaceEvidence(p) };
   }
   applyReviewedStoraSurfaces(model, read('stora-surfaces-2025.json'));
+  applyReviewedStoraPar3Sahara(model, read('stora-par3-sahara-review-2026-09-07.json'));
   for (const f of read('equipment-2025.json').features) {
     const { originalPixelRing, replacesOriginalRings, ring, holes = [], ...runtime } = f;
     for (const sourceId of f.replacesSourceIds || []) {
@@ -97,6 +103,8 @@ export function applyGroundMapping(model) {
   }
   applyInfrastructureMapping(model);
   applyBridgeApproachMapping(model);
+  applyUpsalaPracticePath(model, read('practice-path-review-2026-09-07.json'));
+  applyMunicipalObjects20260907(model, read('municipal-objects-2026-09-07.json'));
   retireReviewedBunker(model);
   applySharedMellanSurfaces(model);
   model.scenery.woodlandContext = compactWoodlandContext(read('woodland-leaf-type-context.json'));
@@ -114,7 +122,7 @@ export function applyGroundMapping(model) {
     }
   })(model, 'model');
   assert.deepEqual(leaked, [], 'source-frame coordinates reached the local model; the migration would convert them as local metres');
-  model.mappingRevision = 'upsala-reviewed-2024-2025-v4-stora-surfaces';
+  model.mappingRevision = 'upsala-reviewed-2026-09-v5-survey-and-surfaces';
   return model;
 }
 
@@ -122,7 +130,9 @@ export function applyGroundMapping(model) {
    nine-hole model. The nine inherits these records and drops its own geometry
    from scenery. Thus each footprint is rendered once in either course. */
 export function applySharedMellanSurfaces(model, evidence = {
-  greens: read('mellan-greens-2025.json'), tees: read('mellan-tees-2025.json'), fairways: read('mellan-fairways-2025.json'),
+  greens: read('mellan-greens-2025.json'),
+  tees: mergeMellanTeeReview20260907(read('mellan-tees-2025.json'), read('mellan-tees-review-2026-09-07.json')),
+  fairways: read('mellan-fairways-2025.json'),
 }) {
   const scenery = model.scenery, records = [], removeIds = new Set(), removeRings = new Set();
   const key = ring => JSON.stringify(ring);
@@ -151,6 +161,7 @@ export function applySharedMellanSurfaces(model, evidence = {
         const metadata = kind === 'fairways' ? reviewedFairwayMetadata(feature) : {
           prov: 'dated-orthophoto-trace', sourceId: feature.id, imagerySourceId: feature.sourceId,
           observedYear: feature.observedYear, crosscheckYear: feature.crosscheckYear,
+          yearBasis: feature.yearBasis, captureDate: feature.captureDate, sourceSha256: feature.sourceSha256,
           boundaryInterpretationUncertaintyMetres: feature.boundaryInterpretationUncertaintyMetres,
           sourceAbsoluteHorizontalAccuracyMetres: null,
         };

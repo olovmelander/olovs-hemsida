@@ -87,6 +87,7 @@ export function applyReviewedNineTees(model, { evidence, sourceRoutes, card }) {
       ring: structuredClone(feature.ring), c: feature.c.slice(), area: feature.area,
       prov: feature.prov, sourceId: feature.id, imagerySourceId: feature.sourceId,
       observedYear: feature.observedYear, crosscheckYear: feature.crosscheckYear,
+      yearBasis: feature.yearBasis, captureDate: feature.captureDate, sourceSha256: feature.sourceSha256,
       boundaryInterpretationUncertaintyMetres: feature.boundaryInterpretationUncertaintyMetres,
       sourceAbsoluteHorizontalAccuracyMetres: feature.sourceAbsoluteHorizontalAccuracyMetres,
       centreProvenance: 'polygon area centroid; not a tee marker', preserveTerrain: true,

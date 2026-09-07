@@ -8,8 +8,33 @@ unknown accuracy fields remain attached to each feature. Repeated geometry share
 between the two routings is merged, not counted as another object.
 
 Start the next Codex/VS Code session with [NEXT-SESSION.md](NEXT-SESSION.md).
-The [latest validation](validation-continuation-2026-09-06.md) and
+The [latest validation](validation-2026-09-07.md) and
 [continued mapping comparison](stora-followup-review.svg) cover the current checkpoint.
+
+## Review added on 7 September 2026
+
+- Added the archive-reviewed rear Stora H11 tee and northern Mellan H8 tee;
+  current totals are **54** and **24**. H13 and upper H15 remain provisional.
+- Added H8's **85.98 m? Sahara bunker**, supported by paired 2024/2025 imagery
+  and club documentation. Removed three unsupported par3 fairway classifications.
+- Replaced one coarse practice-area service strip with **116.240 m?** of reviewed
+  path polygon, preserving municipal edges and explicitly qualified joins.
+- Added four drainage observations, 19 fence/hedge/wall lines and one bridge.
+  Drainage and boundary records do not invent water, carving or vertical props.
+- Saved **231 municipal observations**: 148 open road edges, 50 surveyed tree
+  positions, 13 ditches, 19 boundaries and one bridge. These are source records,
+  including corroborations/context, not 231 additional physical objects in 3D.
+- Compared 250 municipal ground heights with the published 1 m terrain: median
+  difference +0.063 m, RMSE 0.225 m. Another 42 points are outside 1 m coverage.
+  Terrain was not shifted or refitted.
+
+See [tee evidence](tee-sites-review-2026-09-07.md),
+[par3/Sahara review](par3-sahara-review-2026-09-07.md),
+[path review](practice-path-review-2026-09-07.md),
+[municipal observations](municipal-objects-2026-09-07.geojson), and
+[height comparison](municipal-ground-height-check-2026-09-07.md).
+Registration dates, archive-service years and actual capture dates remain distinct.
+No exact botanical species are inferred from broadleaf/conifer labels.
 
 ## Changes adopted
 
@@ -21,17 +46,17 @@ The [latest validation](validation-continuation-2026-09-06.md) and
 | Stora17 green | Synthetic410m² oval | Dated orthophoto outline, approximately584m² |
 | Stora8 tees | Incorrect rectangle | Two visible physical tee surfaces; actual terrain preserved |
 | Stora9 upper tee | Pad over road/rough | Visible2025 platform; southern edge limited by shadow |
-| Stora tees, all 18 sites | 38 platform entries, mostly approximate rectangles | 53 physical-platform entries: 48 new image outlines, three retained earlier traces and two provisional originals |
+| Stora tees, all 18 sites | 38 platform entries, mostly approximate rectangles | 54 physical-platform entries: 49 new image outlines, three retained earlier traces and two provisional originals |
 | Mellan6 green | Inferred ellipse | OSM w221192642, which contains its existing provisional pin |
 | Other eight Mellan greens | Inferred ellipses and endpoints | Visible 2025 outlines, checked against2024; centres are polygon centroids, not surveyed flags |
-| Mellan tees | 45 generated pad entries | 23 visible physical platforms; no inferred colour assignment or terrain flattening; hole8 review remains partial |
+| Mellan tees | 45 generated pad entries | 24 visible physical platforms; no inferred colour assignment or terrain flattening; hole8 review remains partial |
 | All 14 Stora par4/5 fairways | Generated corridors | Dated mowing outlines: H13/15 earlier, 12 more in this continuation; H4 split at water |
 | Stora16 green | Coarse outline overlapping sand | 2025 turf boundary, with 1m interpretation uncertainty; existing pin retained |
 | Six Mellan par4/5 fairways | Straight generated strips | Seven observed polygons, preserving hole8's cart-path gap and hole6's dogleg |
 | Practice area | No practice surfaces | Four greens, four range platforms, six target footprints, five range bunkers and one interior island |
 | Individual range mats | No individual observations | 30 visible mat footprints: eight west, ten middle, twelve east |
 | Practice bunkers | Two older outlines assigned to Stora holes | Updated 2025 sand boundaries in the practice area |
-| Bridges and approaches | Generic path/water intersections | Three visible bridge decks; one centreline moved3.5m and its approach reconnected |
+| Bridges and approaches | Generic path/water intersections | Four bridge decks: three imagery reviews plus one municipal southern crossing; heights and the new approaches remain unmeasured |
 | Parking | Five OSM areas | Two additional visible parking areas; canopy-hidden continuation remains unresolved |
 | Ponds | OSM outlines | Six reviewed DTM plate outlines; original levels retained |
 | Small mapped objects | Tagged OSM nodes discarded | 228 tree points, two gates, three fountains, one mast and one flagpole retained in GIS data |
@@ -57,8 +82,8 @@ the LiDAR crown population.
 The [18-hole comparison sheet](stora-tee-review.png) ([SVG](stora-tee-review.svg))
 shows original, newly traced and retained outlines at equal metre scales with
 north up. Each panel has its own scale. The
-[latest validation record](validation-continuation-2026-09-06.md) covers the rebuilt
-53-platform model and both course environments; earlier validation files retain
+[latest validation record](validation-2026-09-07.md) covers the rebuilt
+54-platform model and both course environments; earlier validation files retain
 their historical checkpoint results.
 
 All 18 Stora tee sites were reviewed against the georeferenced 2025 orthophotos,
@@ -67,8 +92,8 @@ the same areas in 2024 and the published 1 m terrain. The three source files
 `stora-tees-13-18-2025.json` contain 44 accepted new platform outlines, original
 geometry and route/card values, source dates and hashes, uncertainty and rejected
 or unresolved candidates. The follow-up in `stora-tees-followup-2026-09-06.json` adds four archive-assisted
-traces crosschecked against 2025. The guarded application produces 53 platform
-entries: 51 image outlines, including the three previously reviewed Stora8/9
+traces crosschecked against 2025. The wider 2026-09-07 review adds H11 rear from the 2017 archive service, again checked against 2025. The guarded application produces 54 platform
+entries: 52 image outlines, including the three previously reviewed Stora8/9
 surfaces, and two retained provisional originals on H13 and upper H15. H12 gains
 its omitted middle platform; H14 and lower H15 replace guessed rectangles; H18
 replaces two guessed rectangles with one continuous rear platform. Exact flight

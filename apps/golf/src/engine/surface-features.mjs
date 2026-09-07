@@ -19,6 +19,13 @@ function hardSurface(item) {
   return SURFACE.GRAVEL;
 }
 
+// The generic hard-surface display is gravel-coloured. Only an explicit source
+// material of asphalt selects asphalt; a surveyed outline does not prove paving.
+export function mappedPathSurface(feature) {
+  if (feature?.kind !== 'paved_path') return null;
+  return feature.material === 'asphalt' ? SURFACE.ASPHALT : SURFACE.GRAVEL;
+}
+
 /**
  * Recreate the exact polygon/line precedence used by the GPK1 runtime atlas.
  * This intentionally has no Three.js dependency so Node compilers can produce
@@ -95,6 +102,15 @@ export function buildGroundSurfaceFeatures({
         : /rock|stone|scree/.test(kind) ? SURFACE.ROCK
           : /mud/.test(kind) ? SURFACE.MUD : null;
     if (surface !== null) rings(surface, source);
+  }
+
+  // Surveyed hard-surface boundaries must override broad woodland polygons.
+  // Keep complete polygons, including islands, for both atlas and v2 compilation.
+  for (const feature of scenery.mappedFeatures || []) {
+    const surface = mappedPathSurface(feature);
+    if (surface !== null && validRings(feature.rings).length) {
+      features.push({ surface, polygons: [{ rings: feature.rings }], sourceId: feature.id });
+    }
   }
 
   // A source asphalt tag overrides the historical gravel default; 'unpaved'

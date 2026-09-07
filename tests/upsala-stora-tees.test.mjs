@@ -8,19 +8,20 @@ import { sweref99TmToLatLon } from '../packages/course-geo/chmv2/projection.mjs'
 const read = file => JSON.parse(fs.readFileSync(new URL(`../${file}`, import.meta.url)));
 const evidence = ['01-06', '07-12', '13-18'].map(part => read(`upsalabuild/mapping/stora-tees-${part}-2025.json`));
 const followup = read('upsalabuild/mapping/stora-tees-followup-2026-09-06.json');
-const accepted = [...evidence.flatMap(e => e.features), ...followup.features];
+const latestReview = read('upsalabuild/mapping/stora-tees-review-2026-09-07.json');
+const accepted = [...evidence.flatMap(e => e.features), ...followup.features, ...latestReview.features];
 const key = ring => JSON.stringify(ring);
 
 describe('reviewed Stora tee platforms in shipped ground models', () => {
   it('preserves all archived route and marker references while retaining explicit survey gaps', () => {
     const model = read('upsalabuild/course-model.json');
-    expect(model.holes.map(h => h.tees.pads.length)).toEqual([4, 2, 2, 4, 4, 3, 4, 3, 3, 4, 1, 3, 2, 2, 2, 4, 3, 3]);
+    expect(model.holes.map(h => h.tees.pads.length)).toEqual([4, 2, 2, 4, 4, 3, 4, 3, 3, 4, 2, 3, 2, 2, 2, 4, 3, 3]);
     const pads = model.holes.flatMap(h => h.tees.pads);
-    expect(pads).toHaveLength(53);
-    expect(pads.filter(p => p.prov === 'dated-orthophoto-trace')).toHaveLength(51);
+    expect(pads).toHaveLength(54);
+    expect(pads.filter(p => p.prov === 'dated-orthophoto-trace')).toHaveLength(52);
     expect(pads.filter(p => p.prov !== 'dated-orthophoto-trace')).toHaveLength(2);
     expect(pads.every(p => p.preserveTerrain && p.teeIdx == null)).toBe(true);
-    const latest = new Map([...evidence.flatMap(e => e.holes), ...followup.holes].map(h => [h.hole, h]));
+    const latest = new Map([...evidence.flatMap(e => e.holes), ...followup.holes, ...latestReview.holes].map(h => [h.hole, h]));
     for (const record of latest.values()) {
       const h = model.holes.find(h => h.n === record.hole);
       expect(h.line).toEqual(record.originalLine);
@@ -36,8 +37,8 @@ describe('reviewed Stora tee platforms in shipped ground models', () => {
     }
   });
 
-  it('renders each of the 48 newly traced rings exactly once in both courses without smoothing', () => {
-    expect(accepted).toHaveLength(48);
+  it('renders each of the 49 newly traced rings exactly once in both courses without smoothing', () => {
+    expect(accepted).toHaveLength(49);
     for (const build of ['upsalabuild', 'upsalamellanbuild']) {
       const model = read(`${build}/course-model.json`);
       for (const smoothEdges of [false, true]) {

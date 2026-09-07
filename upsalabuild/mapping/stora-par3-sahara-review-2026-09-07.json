@@ -1,0 +1,1355 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-09-07",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "baselineModelSha256": "136018182d351fa1fe03a5e530bc53811c5e06fbe07f6f0ce287ff53aeea97b3",
+  "completeSurvey": false,
+  "scope": "Three Stora par3 legacy fairway claims and the missing hole 8 Sahara bunker. Existing accepted surfaces outside this scope are unchanged.",
+  "method": "Manual side-by-side review of georeferenced 2025 and 2024 orthophotos; source imagery retained only in ignored cache. Local coordinates are derived by pyproj from exact EPSG:3006 panel extents with no fitted registration.",
+  "tracePixelConvention": "Raw left panel: 720 by 720 pixels with a 44 pixel header; x east, y south. See sourcePanels for exact extents and hashes.",
+  "limitations": [
+    "Product years do not supply exact flight dates or absolute horizontal accuracy.",
+    "Retirement removes an unsupported fairway classification; it does not establish exact rough type or grass height.",
+    "No current survey of hidden ground, daily equipment or bunker depth is claimed.",
+    "H10 remains without a fairway and was not changed."
+  ],
+  "features": [
+    {
+      "id": "upsala-stora-par3-02-fairway-retirement-2026-09-07",
+      "hole": 2,
+      "kind": "fairway",
+      "action": "retire",
+      "status": "accepted",
+      "originalShape": {
+        "rings": [
+          [
+            [
+              288.6,
+              -7.7
+            ],
+            [
+              280.7,
+              -27.1
+            ],
+            [
+              273.8,
+              -46.6
+            ],
+            [
+              268.9,
+              -64.6
+            ],
+            [
+              265.7,
+              -83.6
+            ],
+            [
+              292.3,
+              -92.4
+            ],
+            [
+              301.1,
+              -75.4
+            ],
+            [
+              308.2,
+              -57.4
+            ],
+            [
+              313.3,
+              -36.9
+            ],
+            [
+              317.4,
+              -16.3
+            ]
+          ]
+        ],
+        "prov": "sat"
+      },
+      "rings": [],
+      "evidence": {
+        "source": "Lantmateriet 2025 orthophoto and Uppsala municipal 2024 orthophoto",
+        "sourceProductYear": 2025,
+        "latestVisualCrossCheckYear": 2024,
+        "sourceHorizontalAccuracyM": null,
+        "uncertaintyM": null,
+        "acceptance": "Retire unsupported coarse legacy fairway polygon after paired dated visual review; no substitute ground material boundary accepted.",
+        "note": "The legacy corridor crosses the visible paved cart path, exposed rock, scattered canopy and heterogeneous unmown/longer vegetation. The short maintained green approach is north of the corridor; neither 2024 nor 2025 supports the old long polygon as a continuous fairway. Retire only this unsupported fairway claim; no exact replacement grass class or mowing height is asserted."
+      },
+      "sourcePanels": [
+        {
+          "sourceProductYear": 2025,
+          "reportPath": "upsalabuild/cache/review-2026-09-07/surface-review/source-2025/report.json",
+          "reportSha256": "edf2f5e736f38a3d9d7db80ca4d74f3e761190ec219f60c0fe0a9323b72c3593",
+          "id": "h02-fairway",
+          "extentEPSG3006": [
+            640047.9944066211,
+            6636102.993566871,
+            640192.8286139314,
+            6636247.827774182
+          ],
+          "image": "h02-fairway.png",
+          "sha256": "10885734fbfb08f576265745c2d49cf1fc80cd6b934ca259736b697240d420b8",
+          "sourceFiles": [
+            {
+              "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+              "retrievedAt": "2026-09-06T14:09:13.592647+00:00",
+              "sha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+              "bytes": 30086397,
+              "output": "lm_latest_r0_c0.png",
+              "provider": "lm-latest",
+              "crs": "EPSG:3006",
+              "extent": [
+                639119.5,
+                6636145.5,
+                640143.5,
+                6637169.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.16,
+              "sourceProductYear": null,
+              "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  67.0768432021141,
+                  86.90458118915558,
+                  78.06652051210403
+                ],
+                "rgbStddev": [
+                  23.66317059159542,
+                  20.34003590031184,
+                  16.514177228578706
+                ]
+              }
+            },
+            {
+              "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6636145.5%2C641167.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+              "retrievedAt": "2026-09-06T14:09:13.615781+00:00",
+              "sha256": "472062ee1fb58cb587cb8ccb217d9f1c4513960bf8f8757048401a891980e3ab",
+              "bytes": 34408712,
+              "output": "lm_latest_r0_c1.png",
+              "provider": "lm-latest",
+              "crs": "EPSG:3006",
+              "extent": [
+                640143.5,
+                6636145.5,
+                641167.5,
+                6637169.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.16,
+              "sourceProductYear": null,
+              "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  68.9146072268486,
+                  85.35816782712936,
+                  78.1598824262619
+                ],
+                "rgbStddev": [
+                  26.709571998492056,
+                  23.629725018292064,
+                  18.870814955647436
+                ]
+              }
+            },
+            {
+              "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+              "retrievedAt": "2026-09-06T14:09:14.961060+00:00",
+              "sha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+              "bytes": 35937935,
+              "output": "lm_latest_r1_c0.png",
+              "provider": "lm-latest",
+              "crs": "EPSG:3006",
+              "extent": [
+                639119.5,
+                6635121.5,
+                640143.5,
+                6636145.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.16,
+              "sourceProductYear": null,
+              "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  60.3605614900589,
+                  77.40978902578354,
+                  71.28555810451508
+                ],
+                "rgbStddev": [
+                  23.552454705567094,
+                  22.25756963901018,
+                  16.536067956876117
+                ]
+              }
+            },
+            {
+              "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6635121.5%2C641167.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+              "retrievedAt": "2026-09-06T14:09:18.816140+00:00",
+              "sha256": "61f45a853f39e6504d1830f40af3bbfa09ad609bbd21c756ac632257b8a365d5",
+              "bytes": 36514240,
+              "output": "lm_latest_r1_c1.png",
+              "provider": "lm-latest",
+              "crs": "EPSG:3006",
+              "extent": [
+                640143.5,
+                6635121.5,
+                641167.5,
+                6636145.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.16,
+              "sourceProductYear": null,
+              "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  69.33867365121841,
+                  84.2480217218399,
+                  79.79142940044403
+                ],
+                "rgbStddev": [
+                  33.446294014043374,
+                  29.016855750269027,
+                  26.094708833571445
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sourceProductYear": 2024,
+          "reportPath": "upsalabuild/cache/review-2026-09-07/surface-review/source-2024/report.json",
+          "reportSha256": "7acc83ef801b6edf98391cdbf7f9bac33c96f2dfd4ab2fd005c2247763fa3020",
+          "id": "h02-fairway",
+          "extentEPSG3006": [
+            640047.9944066211,
+            6636102.993566871,
+            640192.8286139314,
+            6636247.827774182
+          ],
+          "image": "h02-fairway.png",
+          "sha256": "b505f4708ea9fc8d8e1a30688d3c8d2eba077efcfedbbe5a659ae516097d862d",
+          "sourceFiles": [
+            {
+              "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+              "retrievedAt": "2026-09-06T14:09:53.158753+00:00",
+              "sha256": "819f3c18d2d1b1550eadf5234849e14242775f1dbf3883911efe1c6bc4c84ab1",
+              "bytes": 29677154,
+              "output": "municipal_2024_r0_c0.png",
+              "provider": "municipal-2024",
+              "crs": "EPSG:3006",
+              "extent": [
+                639119.5,
+                6636145.5,
+                640143.5,
+                6637169.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.08,
+              "sourceProductYear": 2024,
+              "sourceFlightYearVerification": null,
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  141.23515808582306,
+                  145.28400838375092,
+                  118.31202173233032
+                ],
+                "rgbStddev": [
+                  37.36154677858317,
+                  29.903824819464496,
+                  32.79189832453486
+                ]
+              }
+            },
+            {
+              "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=640143.5%2C6636145.5%2C641167.5%2C6637169.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+              "retrievedAt": "2026-09-06T14:09:58.791278+00:00",
+              "sha256": "cd215bc90186b564d35c34d4972f71eaa0377c8f51142dccc8d19b793792b7b1",
+              "bytes": 32724574,
+              "output": "municipal_2024_r0_c1.png",
+              "provider": "municipal-2024",
+              "crs": "EPSG:3006",
+              "extent": [
+                640143.5,
+                6636145.5,
+                641167.5,
+                6637169.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.08,
+              "sourceProductYear": 2024,
+              "sourceFlightYearVerification": null,
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  111.6005927324295,
+                  118.9674956202507,
+                  92.78847765922546
+                ],
+                "rgbStddev": [
+                  32.38195763674691,
+                  29.027782369919723,
+                  25.602221020757163
+                ]
+              }
+            },
+            {
+              "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+              "retrievedAt": "2026-09-06T14:09:58.785215+00:00",
+              "sha256": "bad26765a849f9233423e3469fd4fe451bb73bc68a9c419efb2139286f6c9038",
+              "bytes": 34606012,
+              "output": "municipal_2024_r1_c0.png",
+              "provider": "municipal-2024",
+              "crs": "EPSG:3006",
+              "extent": [
+                639119.5,
+                6635121.5,
+                640143.5,
+                6636145.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.08,
+              "sourceProductYear": 2024,
+              "sourceFlightYearVerification": null,
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  107.28538990020752,
+                  115.33382719755173,
+                  87.96308654546738
+                ],
+                "rgbStddev": [
+                  32.74916760961028,
+                  31.18985448142877,
+                  23.19895776429142
+                ]
+              }
+            },
+            {
+              "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=640143.5%2C6635121.5%2C641167.5%2C6636145.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+              "retrievedAt": "2026-09-06T14:10:31.335285+00:00",
+              "sha256": "0c5a93d078d592ed8bad3f9237fd53866416172db9e9063feaf6a7332d9301d1",
+              "bytes": 34083466,
+              "output": "municipal_2024_r1_c1.png",
+              "provider": "municipal-2024",
+              "crs": "EPSG:3006",
+              "extent": [
+                640143.5,
+                6635121.5,
+                641167.5,
+                6636145.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.08,
+              "sourceProductYear": 2024,
+              "sourceFlightYearVerification": null,
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  121.97428262233734,
+                  127.35559785366058,
+                  104.33787029981613
+                ],
+                "rgbStddev": [
+                  41.298158077831594,
+                  37.3591771296688,
+                  37.20889018178118
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "observations": [
+        {
+          "interpretation": "paved cart path",
+          "panelPixel": [
+            445,
+            450
+          ],
+          "localPoint": [
+            308.251,
+            -40.123
+          ],
+          "observedYears": [
+            2024,
+            2025
+          ]
+        },
+        {
+          "interpretation": "heterogeneous rough with exposed patches",
+          "panelPixel": [
+            364,
+            416
+          ],
+          "localPoint": [
+            292.264,
+            -47.567
+          ],
+          "observedYears": [
+            2024,
+            2025
+          ]
+        }
+      ]
+    },
+    {
+      "id": "upsala-stora-par3-06-fairway-retirement-2026-09-07",
+      "hole": 6,
+      "kind": "fairway",
+      "action": "retire",
+      "status": "accepted",
+      "originalShape": {
+        "rings": [
+          [
+            [
+              -134.8,
+              493.3
+            ],
+            [
+              -147.1,
+              491.4
+            ],
+            [
+              -171.8,
+              487.6
+            ],
+            [
+              -184.1,
+              486.5
+            ],
+            [
+              -208.6,
+              487.5
+            ],
+            [
+              -220.9,
+              488
+            ],
+            [
+              -234.2,
+              489.2
+            ],
+            [
+              -258.4,
+              491.5
+            ],
+            [
+              -270.4,
+              494.4
+            ],
+            [
+              -294.1,
+              501.7
+            ],
+            [
+              -297,
+              512
+            ],
+            [
+              -286,
+              516
+            ],
+            [
+              -268,
+              521
+            ],
+            [
+              -250,
+              528
+            ],
+            [
+              -232,
+              532
+            ],
+            [
+              -214,
+              532
+            ],
+            [
+              -196,
+              531
+            ],
+            [
+              -178,
+              529
+            ],
+            [
+              -158,
+              525
+            ],
+            [
+              -134,
+              520
+            ]
+          ]
+        ],
+        "prov": "sat"
+      },
+      "rings": [],
+      "evidence": {
+        "source": "Lantmateriet 2025 orthophoto and Uppsala municipal 2024 orthophoto",
+        "sourceProductYear": 2025,
+        "latestVisualCrossCheckYear": 2024,
+        "sourceHorizontalAccuracyM": null,
+        "uncertaintyM": null,
+        "acceptance": "Retire unsupported coarse legacy fairway polygon after paired dated visual review; no substitute ground material boundary accepted.",
+        "note": "The legacy corridor crosses the paved cart path and includes a broad heterogeneous strip between established tee platforms and green. The maintained oval immediately east of the green is physically separate from the coarse corridor and remains a tee/approach classification question. Both years show that the existing continuous fairway polygon is incorrect. Retire that claim without inventing an alternative mowing boundary."
+      },
+      "sourcePanels": [
+        {
+          "sourceProductYear": 2025,
+          "reportPath": "upsalabuild/cache/review-2026-09-07/surface-review/source-2025/report.json",
+          "reportSha256": "edf2f5e736f38a3d9d7db80ca4d74f3e761190ec219f60c0fe0a9323b72c3593",
+          "id": "h06-fairway",
+          "extentEPSG3006": [
+            639522.0325250046,
+            6635485.533237654,
+            639745.6229931412,
+            6635709.12370579
+          ],
+          "image": "h06-fairway.png",
+          "sha256": "5338a7a38ec367a68a6f207c3481d4885c4fa14513e970e744b7a454c5af4b39",
+          "sourceFiles": [
+            {
+              "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+              "retrievedAt": "2026-09-06T14:09:14.961060+00:00",
+              "sha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+              "bytes": 35937935,
+              "output": "lm_latest_r1_c0.png",
+              "provider": "lm-latest",
+              "crs": "EPSG:3006",
+              "extent": [
+                639119.5,
+                6635121.5,
+                640143.5,
+                6636145.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.16,
+              "sourceProductYear": null,
+              "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  60.3605614900589,
+                  77.40978902578354,
+                  71.28555810451508
+                ],
+                "rgbStddev": [
+                  23.552454705567094,
+                  22.25756963901018,
+                  16.536067956876117
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sourceProductYear": 2024,
+          "reportPath": "upsalabuild/cache/review-2026-09-07/surface-review/source-2024/report.json",
+          "reportSha256": "7acc83ef801b6edf98391cdbf7f9bac33c96f2dfd4ab2fd005c2247763fa3020",
+          "id": "h06-fairway",
+          "extentEPSG3006": [
+            639522.0325250046,
+            6635485.533237654,
+            639745.6229931412,
+            6635709.12370579
+          ],
+          "image": "h06-fairway.png",
+          "sha256": "aa55608a0eaab2519a656e39c47bed81cb7c082a4a5cd367f20bac959d898c21",
+          "sourceFiles": [
+            {
+              "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+              "retrievedAt": "2026-09-06T14:09:58.785215+00:00",
+              "sha256": "bad26765a849f9233423e3469fd4fe451bb73bc68a9c419efb2139286f6c9038",
+              "bytes": 34606012,
+              "output": "municipal_2024_r1_c0.png",
+              "provider": "municipal-2024",
+              "crs": "EPSG:3006",
+              "extent": [
+                639119.5,
+                6635121.5,
+                640143.5,
+                6636145.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.08,
+              "sourceProductYear": 2024,
+              "sourceFlightYearVerification": null,
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  107.28538990020752,
+                  115.33382719755173,
+                  87.96308654546738
+                ],
+                "rgbStddev": [
+                  32.74916760961028,
+                  31.18985448142877,
+                  23.19895776429142
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "observations": [
+        {
+          "interpretation": "paved cart path",
+          "panelPixel": [
+            350,
+            396
+          ],
+          "localPoint": [
+            -218.239,
+            506.381
+          ],
+          "observedYears": [
+            2024,
+            2025
+          ]
+        },
+        {
+          "interpretation": "heterogeneous grass strip",
+          "panelPixel": [
+            316,
+            440
+          ],
+          "localPoint": [
+            -229.276,
+            519.63
+          ],
+          "observedYears": [
+            2024,
+            2025
+          ]
+        }
+      ]
+    },
+    {
+      "id": "upsala-stora-par3-14-fairway-retirement-2026-09-07",
+      "hole": 14,
+      "kind": "fairway",
+      "action": "retire",
+      "status": "accepted",
+      "originalShape": {
+        "rings": [
+          [
+            [
+              -132,
+              -400
+            ],
+            [
+              -132,
+              -385
+            ],
+            [
+              -128,
+              -373
+            ],
+            [
+              -120,
+              -368
+            ],
+            [
+              -110,
+              -366
+            ],
+            [
+              -102,
+              -369
+            ],
+            [
+              -98,
+              -378
+            ],
+            [
+              -98,
+              -392
+            ],
+            [
+              -102,
+              -402
+            ],
+            [
+              -112,
+              -407
+            ],
+            [
+              -124,
+              -406
+            ]
+          ]
+        ],
+        "prov": "sat"
+      },
+      "rings": [],
+      "evidence": {
+        "source": "Lantmateriet 2025 orthophoto and Uppsala municipal 2024 orthophoto",
+        "sourceProductYear": 2025,
+        "latestVisualCrossCheckYear": 2024,
+        "sourceHorizontalAccuracyM": null,
+        "uncertaintyM": null,
+        "acceptance": "Retire unsupported coarse legacy fairway polygon after paired dated visual review; no substitute ground material boundary accepted.",
+        "note": "The legacy polygon encloses several tree canopies, patchy longer vegetation and part of the north bunker. Its irregular rounded boundary follows no visible mowing edge in either 2024 or 2025. Retire the unsupported fairway classification while keeping the observed green, bunker, tee, tree and terrain records."
+      },
+      "sourcePanels": [
+        {
+          "sourceProductYear": 2025,
+          "reportPath": "upsalabuild/cache/review-2026-09-07/surface-review/source-2025/report.json",
+          "reportSha256": "edf2f5e736f38a3d9d7db80ca4d74f3e761190ec219f60c0fe0a9323b72c3593",
+          "id": "h14-fairway",
+          "extentEPSG3006": [
+            639649.9777076615,
+            6636446.218001832,
+            639750.8996538667,
+            6636547.139948037
+          ],
+          "image": "h14-fairway.png",
+          "sha256": "6007adf873c86307172cb87a51997f7a97e6361c8da1d7fd1f10b3e22041a702",
+          "sourceFiles": [
+            {
+              "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+              "retrievedAt": "2026-09-06T14:09:13.592647+00:00",
+              "sha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+              "bytes": 30086397,
+              "output": "lm_latest_r0_c0.png",
+              "provider": "lm-latest",
+              "crs": "EPSG:3006",
+              "extent": [
+                639119.5,
+                6636145.5,
+                640143.5,
+                6637169.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.16,
+              "sourceProductYear": null,
+              "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  67.0768432021141,
+                  86.90458118915558,
+                  78.06652051210403
+                ],
+                "rgbStddev": [
+                  23.66317059159542,
+                  20.34003590031184,
+                  16.514177228578706
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sourceProductYear": 2024,
+          "reportPath": "upsalabuild/cache/review-2026-09-07/surface-review/source-2024/report.json",
+          "reportSha256": "7acc83ef801b6edf98391cdbf7f9bac33c96f2dfd4ab2fd005c2247763fa3020",
+          "id": "h14-fairway",
+          "extentEPSG3006": [
+            639649.9777076615,
+            6636446.218001832,
+            639750.8996538667,
+            6636547.139948037
+          ],
+          "image": "h14-fairway.png",
+          "sha256": "34c5763cff7aac20d7371f6212e751555e49a419e6b248b161dfd149c897ba95",
+          "sourceFiles": [
+            {
+              "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+              "retrievedAt": "2026-09-06T14:09:53.158753+00:00",
+              "sha256": "819f3c18d2d1b1550eadf5234849e14242775f1dbf3883911efe1c6bc4c84ab1",
+              "bytes": 29677154,
+              "output": "municipal_2024_r0_c0.png",
+              "provider": "municipal-2024",
+              "crs": "EPSG:3006",
+              "extent": [
+                639119.5,
+                6636145.5,
+                640143.5,
+                6637169.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.08,
+              "sourceProductYear": 2024,
+              "sourceFlightYearVerification": null,
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  141.23515808582306,
+                  145.28400838375092,
+                  118.31202173233032
+                ],
+                "rgbStddev": [
+                  37.36154677858317,
+                  29.903824819464496,
+                  32.79189832453486
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "observations": [
+        {
+          "interpretation": "tree canopy",
+          "panelPixel": [
+            458,
+            355
+          ],
+          "localPoint": [
+            -101.134,
+            -392.997
+          ],
+          "observedYears": [
+            2024,
+            2025
+          ]
+        },
+        {
+          "interpretation": "heterogeneous rough",
+          "panelPixel": [
+            367,
+            321
+          ],
+          "localPoint": [
+            -113.673,
+            -398.236
+          ],
+          "observedYears": [
+            2024,
+            2025
+          ]
+        }
+      ]
+    },
+    {
+      "id": "upsala-stora-hole8-sahara-sand-2025",
+      "hole": 8,
+      "kind": "bunker",
+      "action": "add",
+      "status": "accepted",
+      "name": "Sahara",
+      "originalBunkers": [],
+      "rings": [
+        [
+          [
+            -181.339,
+            -312.591
+          ],
+          [
+            -180.404,
+            -312.556
+          ],
+          [
+            -179.489,
+            -312.001
+          ],
+          [
+            -178.805,
+            -310.829
+          ],
+          [
+            -178.336,
+            -309.457
+          ],
+          [
+            -178.183,
+            -307.993
+          ],
+          [
+            -178.238,
+            -306.536
+          ],
+          [
+            -178.835,
+            -304.475
+          ],
+          [
+            -179.625,
+            -302.838
+          ],
+          [
+            -180.407,
+            -301.409
+          ],
+          [
+            -181.465,
+            -300.928
+          ],
+          [
+            -182.511,
+            -300.76
+          ],
+          [
+            -183.85,
+            -301.123
+          ],
+          [
+            -185.076,
+            -301.69
+          ],
+          [
+            -186.215,
+            -301.837
+          ],
+          [
+            -187.681,
+            -301.579
+          ],
+          [
+            -188.704,
+            -302.035
+          ],
+          [
+            -189.403,
+            -302.79
+          ],
+          [
+            -189.584,
+            -303.526
+          ],
+          [
+            -189.548,
+            -304.463
+          ],
+          [
+            -189.098,
+            -305.383
+          ],
+          [
+            -188.34,
+            -306.188
+          ],
+          [
+            -187.174,
+            -306.769
+          ],
+          [
+            -186.019,
+            -307.038
+          ],
+          [
+            -184.957,
+            -307.623
+          ],
+          [
+            -184.511,
+            -308.44
+          ],
+          [
+            -184.356,
+            -309.788
+          ],
+          [
+            -183.89,
+            -311.125
+          ],
+          [
+            -183.232,
+            -312.037
+          ],
+          [
+            -182.277,
+            -312.522
+          ]
+        ]
+      ],
+      "areaM2": 85.98,
+      "tracePanel": {
+        "id": "h08-green",
+        "extentEPSG3006": [
+          639622.3942829231,
+          6636377.414977221,
+          639697.3942829231,
+          6636452.414977221
+        ],
+        "image": "h08-green.png",
+        "sha256": "c9fbe08a40b50d327becb03393184fbfa5553fe080cab2175120aea7ef9b4c28"
+      },
+      "tracedPanelPixelRings": [
+        [
+          [
+            139,
+            354
+          ],
+          [
+            148,
+            354
+          ],
+          [
+            157,
+            359
+          ],
+          [
+            164,
+            370
+          ],
+          [
+            169,
+            383
+          ],
+          [
+            171,
+            397
+          ],
+          [
+            171,
+            411
+          ],
+          [
+            166,
+            431
+          ],
+          [
+            159,
+            447
+          ],
+          [
+            152,
+            461
+          ],
+          [
+            142,
+            466
+          ],
+          [
+            132,
+            468
+          ],
+          [
+            119,
+            465
+          ],
+          [
+            107,
+            460
+          ],
+          [
+            96,
+            459
+          ],
+          [
+            82,
+            462
+          ],
+          [
+            72,
+            458
+          ],
+          [
+            65,
+            451
+          ],
+          [
+            63,
+            444
+          ],
+          [
+            63,
+            435
+          ],
+          [
+            67,
+            426
+          ],
+          [
+            74,
+            418
+          ],
+          [
+            85,
+            412
+          ],
+          [
+            96,
+            409
+          ],
+          [
+            106,
+            403
+          ],
+          [
+            110,
+            395
+          ],
+          [
+            111,
+            382
+          ],
+          [
+            115,
+            369
+          ],
+          [
+            121,
+            360
+          ],
+          [
+            130,
+            355
+          ]
+        ]
+      ],
+      "sourcePanels": [
+        {
+          "sourceProductYear": 2025,
+          "reportPath": "upsalabuild/cache/review-2026-09-07/surface-review/source-2025/report.json",
+          "reportSha256": "edf2f5e736f38a3d9d7db80ca4d74f3e761190ec219f60c0fe0a9323b72c3593",
+          "id": "h08-green",
+          "extentEPSG3006": [
+            639622.3942829231,
+            6636377.414977221,
+            639697.3942829231,
+            6636452.414977221
+          ],
+          "image": "h08-green.png",
+          "sha256": "c9fbe08a40b50d327becb03393184fbfa5553fe080cab2175120aea7ef9b4c28",
+          "sourceFiles": [
+            {
+              "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+              "retrievedAt": "2026-09-06T14:09:13.592647+00:00",
+              "sha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+              "bytes": 30086397,
+              "output": "lm_latest_r0_c0.png",
+              "provider": "lm-latest",
+              "crs": "EPSG:3006",
+              "extent": [
+                639119.5,
+                6636145.5,
+                640143.5,
+                6637169.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.16,
+              "sourceProductYear": null,
+              "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  67.0768432021141,
+                  86.90458118915558,
+                  78.06652051210403
+                ],
+                "rgbStddev": [
+                  23.66317059159542,
+                  20.34003590031184,
+                  16.514177228578706
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "sourceProductYear": 2024,
+          "reportPath": "upsalabuild/cache/review-2026-09-07/surface-review/source-2024/report.json",
+          "reportSha256": "7acc83ef801b6edf98391cdbf7f9bac33c96f2dfd4ab2fd005c2247763fa3020",
+          "id": "h08-green",
+          "extentEPSG3006": [
+            639622.3942829231,
+            6636377.414977221,
+            639697.3942829231,
+            6636452.414977221
+          ],
+          "image": "h08-green.png",
+          "sha256": "1c3fc1aebc5e49262941b2ef68d4d8926280b61343fd6c057157c54b20e0405f",
+          "sourceFiles": [
+            {
+              "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+              "retrievedAt": "2026-09-06T14:09:53.158753+00:00",
+              "sha256": "819f3c18d2d1b1550eadf5234849e14242775f1dbf3883911efe1c6bc4c84ab1",
+              "bytes": 29677154,
+              "output": "municipal_2024_r0_c0.png",
+              "provider": "municipal-2024",
+              "crs": "EPSG:3006",
+              "extent": [
+                639119.5,
+                6636145.5,
+                640143.5,
+                6637169.5
+              ],
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "resolutionM": [
+                0.25,
+                0.25
+              ],
+              "sourceNativeResolutionM": 0.08,
+              "sourceProductYear": 2024,
+              "sourceFlightYearVerification": null,
+              "horizontalAccuracyRMSEM": null,
+              "exactFlightDate": null,
+              "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+              "quality": {
+                "rgbMean": [
+                  141.23515808582306,
+                  145.28400838375092,
+                  118.31202173233032
+                ],
+                "rgbStddev": [
+                  37.36154677858317,
+                  29.903824819464496,
+                  32.79189832453486
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "evidence": {
+        "source": "Lantmateriet 2025 orthophoto through advertised Uppsala municipal WMS",
+        "sourceProductYear": 2025,
+        "latestVisualCrossCheckYear": 2024,
+        "sourceHorizontalAccuracyM": null,
+        "uncertaintyM": 1,
+        "acceptance": "Visible exposed sand boundary traced on the 2025 orthophoto and crosschecked on municipal 2024 imagery; club confirms a new left-greenside bunker in November 2022.",
+        "note": "The existing Stora hole 8 model has no bunker. Sand is completely visible in both reviewed products. Trace the exposed sand edge only; the surrounding grass collar, bunker depth, rake positions and 2026 changes are unverified."
+      },
+      "documentaryEvidence": [
+        {
+          "url": "https://upsalagk.se/news/brev-fran-ordforanden/",
+          "title": "Brev till medlemmarna",
+          "publishedDate": "2022-11-23",
+          "retrievedDate": "2026-09-07",
+          "publisher": "Upsala Golfklubb",
+          "supports": "The club reports construction of the 53rd bunker, Sahara, left of the eighth green in place of the removed tree. Documentary identity corroborates the two georeferenced imagery observations; the article does not supply survey coordinates."
+        }
+      ]
+    }
+  ]
+}

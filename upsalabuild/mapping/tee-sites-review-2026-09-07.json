@@ -1,0 +1,1139 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-07",
+  "completeSurvey": false,
+  "method": "Manual source/model review across 2015, 2017, 2018, 2020, 2023 municipal archive services and previously acquired 2024/2025 products. Actual reviewed source windows extend beyond existing accepted pads. No historical service label is asserted to be an exact capture date.",
+  "reviewWindows": [
+    {
+      "id": "stora-h11",
+      "extentEPSG3006": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ]
+    },
+    {
+      "id": "stora-h13",
+      "extentEPSG3006": [
+        639370,
+        6636275,
+        639530,
+        6636435
+      ]
+    },
+    {
+      "id": "stora-h15",
+      "extentEPSG3006": [
+        639634,
+        6636282,
+        639774,
+        6636422
+      ]
+    },
+    {
+      "id": "mellan-h08",
+      "extentEPSG3006": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ]
+    }
+  ],
+  "acquisitionSources": [
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2015/ImageServer/exportImage?f=pjson&bbox=640267%2C6635890%2C640407%2C6636030&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:26:33.667234+00:00",
+      "sha256": "2cc870161a6ec3111842dfbd081a5f19008641329bb04c2c7ff4ade6ec601ad4",
+      "bytes": 1911935,
+      "output": "mellan-h08.png",
+      "provider": "municipal-service-2015",
+      "crs": "EPSG:3006",
+      "extent": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2015,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2015/ImageServer/exportImage?f=pjson&bbox=639898%2C6636578%2C640118%2C6636798&bboxSR=3006&imageSR=3006&size=2200%2C2200&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:26:32.169393+00:00",
+      "sha256": "210b6286f42be00001b2d369c6e16e2635bc14c6b8dd48ea75ec52bd8a61cd25",
+      "bytes": 4298115,
+      "output": "stora-h11.png",
+      "provider": "municipal-service-2015",
+      "crs": "EPSG:3006",
+      "extent": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ],
+      "dimensions": [
+        2200,
+        2200
+      ],
+      "sourceProductYear": 2015,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2015/ImageServer/exportImage?f=pjson&bbox=639370%2C6636275%2C639530%2C6636435&bboxSR=3006&imageSR=3006&size=1600%2C1600&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:26:33.318483+00:00",
+      "sha256": "a2716ce4fe004fb43b2d72ba64e92b3ca024bda9fc5ae87be513c1608ab8dc04",
+      "bytes": 2118939,
+      "output": "stora-h13.png",
+      "provider": "municipal-service-2015",
+      "crs": "EPSG:3006",
+      "extent": [
+        639370,
+        6636275,
+        639530,
+        6636435
+      ],
+      "dimensions": [
+        1600,
+        1600
+      ],
+      "sourceProductYear": 2015,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2015/ImageServer/exportImage?f=pjson&bbox=639634%2C6636282%2C639774%2C6636422&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:26:33.069734+00:00",
+      "sha256": "9827569197ef8b1ca450bb05d7432a6d9a7688877d7b3dcaaee342c25ff19c20",
+      "bytes": 1850788,
+      "output": "stora-h15.png",
+      "provider": "municipal-service-2015",
+      "crs": "EPSG:3006",
+      "extent": [
+        639634,
+        6636282,
+        639774,
+        6636422
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2015,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2017/ImageServer/exportImage?f=pjson&bbox=640267%2C6635890%2C640407%2C6636030&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:11.971564+00:00",
+      "sha256": "30653fa154b39905ddc45b8286fd31df1669bb3d25fab074f31cf1af813fc2f5",
+      "bytes": 2020068,
+      "output": "mellan-h08.png",
+      "provider": "municipal-service-2017",
+      "crs": "EPSG:3006",
+      "extent": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2017,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2017/ImageServer/exportImage?f=pjson&bbox=639898%2C6636578%2C640118%2C6636798&bboxSR=3006&imageSR=3006&size=2200%2C2200&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:12.715874+00:00",
+      "sha256": "e69af1549df02ffb341caa09229737d4208bb23204c9b4ade91938d8ca4c4e70",
+      "bytes": 5041898,
+      "output": "stora-h11.png",
+      "provider": "municipal-service-2017",
+      "crs": "EPSG:3006",
+      "extent": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ],
+      "dimensions": [
+        2200,
+        2200
+      ],
+      "sourceProductYear": 2017,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2017/ImageServer/exportImage?f=pjson&bbox=639370%2C6636275%2C639530%2C6636435&bboxSR=3006&imageSR=3006&size=1600%2C1600&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:10.926855+00:00",
+      "sha256": "e4a2a71031b1d8a6f572d81dde3bf3466b36d7fdf3c86e654a12f3544845c404",
+      "bytes": 2304419,
+      "output": "stora-h13.png",
+      "provider": "municipal-service-2017",
+      "crs": "EPSG:3006",
+      "extent": [
+        639370,
+        6636275,
+        639530,
+        6636435
+      ],
+      "dimensions": [
+        1600,
+        1600
+      ],
+      "sourceProductYear": 2017,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2017/ImageServer/exportImage?f=pjson&bbox=639634%2C6636282%2C639774%2C6636422&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:10.811789+00:00",
+      "sha256": "c3a07cb96849fa3bf777402ba18a098116fe74cadb6153f54e447f22587b9964",
+      "bytes": 1973066,
+      "output": "stora-h15.png",
+      "provider": "municipal-service-2017",
+      "crs": "EPSG:3006",
+      "extent": [
+        639634,
+        6636282,
+        639774,
+        6636422
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2017,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2018/ImageServer/exportImage?f=pjson&bbox=640267%2C6635890%2C640407%2C6636030&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:16.202268+00:00",
+      "sha256": "ba891a4b300ba0284dd42b9261eea8e8b3cabd4d3b55e87af815df96f631456b",
+      "bytes": 2372681,
+      "output": "mellan-h08.png",
+      "provider": "municipal-service-2018",
+      "crs": "EPSG:3006",
+      "extent": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2018,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2018/ImageServer/exportImage?f=pjson&bbox=639898%2C6636578%2C640118%2C6636798&bboxSR=3006&imageSR=3006&size=2200%2C2200&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:14.616641+00:00",
+      "sha256": "e19c85e2227d92c9aacd574158e1bc69c75274cffc08a3fdaea6c8890d30c1cd",
+      "bytes": 5604982,
+      "output": "stora-h11.png",
+      "provider": "municipal-service-2018",
+      "crs": "EPSG:3006",
+      "extent": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ],
+      "dimensions": [
+        2200,
+        2200
+      ],
+      "sourceProductYear": 2018,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2018/ImageServer/exportImage?f=pjson&bbox=639370%2C6636275%2C639530%2C6636435&bboxSR=3006&imageSR=3006&size=1600%2C1600&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:15.757020+00:00",
+      "sha256": "b8b03d116b30b6927a55cccb0ae8bf381ac404d9c69c667d4ddc6bc90a048277",
+      "bytes": 2917406,
+      "output": "stora-h13.png",
+      "provider": "municipal-service-2018",
+      "crs": "EPSG:3006",
+      "extent": [
+        639370,
+        6636275,
+        639530,
+        6636435
+      ],
+      "dimensions": [
+        1600,
+        1600
+      ],
+      "sourceProductYear": 2018,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2018/ImageServer/exportImage?f=pjson&bbox=639634%2C6636282%2C639774%2C6636422&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:15.195168+00:00",
+      "sha256": "8d66bb104821c19fa661969f3b6f98a1dd2d2f8103380808d6783636ee45eb71",
+      "bytes": 2358441,
+      "output": "stora-h15.png",
+      "provider": "municipal-service-2018",
+      "crs": "EPSG:3006",
+      "extent": [
+        639634,
+        6636282,
+        639774,
+        6636422
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2018,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2020/ImageServer/exportImage?f=pjson&bbox=640267%2C6635890%2C640407%2C6636030&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:19.874256+00:00",
+      "sha256": "e2da37b9bf8c61a2114e26573c5cc77cbbeab396bab9a3abf96855762cd1b9bf",
+      "bytes": 2445653,
+      "output": "mellan-h08.png",
+      "provider": "municipal-service-2020",
+      "crs": "EPSG:3006",
+      "extent": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2020,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2020/ImageServer/exportImage?f=pjson&bbox=639898%2C6636578%2C640118%2C6636798&bboxSR=3006&imageSR=3006&size=2200%2C2200&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:18.219520+00:00",
+      "sha256": "6f5862818a87f69f33bf6cd5e11b3245f265fc9e560e86d4f91b3c5c566c5b77",
+      "bytes": 6059678,
+      "output": "stora-h11.png",
+      "provider": "municipal-service-2020",
+      "crs": "EPSG:3006",
+      "extent": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ],
+      "dimensions": [
+        2200,
+        2200
+      ],
+      "sourceProductYear": 2020,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2020/ImageServer/exportImage?f=pjson&bbox=639370%2C6636275%2C639530%2C6636435&bboxSR=3006&imageSR=3006&size=1600%2C1600&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:19.432075+00:00",
+      "sha256": "2562560c33344d64152a3f65889f0162abc51bec2611034b4a31fa941dc4e579",
+      "bytes": 3026755,
+      "output": "stora-h13.png",
+      "provider": "municipal-service-2020",
+      "crs": "EPSG:3006",
+      "extent": [
+        639370,
+        6636275,
+        639530,
+        6636435
+      ],
+      "dimensions": [
+        1600,
+        1600
+      ],
+      "sourceProductYear": 2020,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2020/ImageServer/exportImage?f=pjson&bbox=639634%2C6636282%2C639774%2C6636422&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:18.915891+00:00",
+      "sha256": "6b38f087d34546c7a1c0ed44a1935b9280a1237e7d2dec6bb8a0ee21a20366b3",
+      "bytes": 2456402,
+      "output": "stora-h15.png",
+      "provider": "municipal-service-2020",
+      "crs": "EPSG:3006",
+      "extent": [
+        639634,
+        6636282,
+        639774,
+        6636422
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2020,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2023_1800/MapServer/export?f=pjson&bbox=640267%2C6635890%2C640407%2C6636030&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:22.590389+00:00",
+      "sha256": "051abf1cdfdbba130a75f71e728c8942cec30883c26cd74037987ec5c715b68b",
+      "bytes": 2245914,
+      "output": "mellan-h08.png",
+      "provider": "municipal-service-2023",
+      "crs": "EPSG:3006",
+      "extent": [
+        640267,
+        6635890,
+        640407,
+        6636030
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2023,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2023_1800/MapServer/export?f=pjson&bbox=639898%2C6636578%2C640118%2C6636798&bboxSR=3006&imageSR=3006&size=2200%2C2200&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:22.843988+00:00",
+      "sha256": "414847f1c019b5d877a2d1a2254c3548d77482ee1d2c976a3d2016a0efbba28b",
+      "bytes": 5404272,
+      "output": "stora-h11.png",
+      "provider": "municipal-service-2023",
+      "crs": "EPSG:3006",
+      "extent": [
+        639898,
+        6636578,
+        640118,
+        6636798
+      ],
+      "dimensions": [
+        2200,
+        2200
+      ],
+      "sourceProductYear": 2023,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2023_1800/MapServer/export?f=pjson&bbox=639370%2C6636275%2C639530%2C6636435&bboxSR=3006&imageSR=3006&size=1600%2C1600&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:21.047669+00:00",
+      "sha256": "2366aa4b68b47c246bebb42012390965667d05f3976e3c462c617b98c51a2c99",
+      "bytes": 2889800,
+      "output": "stora-h13.png",
+      "provider": "municipal-service-2023",
+      "crs": "EPSG:3006",
+      "extent": [
+        639370,
+        6636275,
+        639530,
+        6636435
+      ],
+      "dimensions": [
+        1600,
+        1600
+      ],
+      "sourceProductYear": 2023,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2023_1800/MapServer/export?f=pjson&bbox=639634%2C6636282%2C639774%2C6636422&bboxSR=3006&imageSR=3006&size=1400%2C1400&format=png32&transparent=false",
+      "retrievedAt": "2026-09-07T06:24:22.325116+00:00",
+      "sha256": "c47eca8f99557ac94ea2b18d441fa9fb52257368094ca90d8bc269dd292393ed",
+      "bytes": 2276166,
+      "output": "stora-h15.png",
+      "provider": "municipal-service-2023",
+      "crs": "EPSG:3006",
+      "extent": [
+        639634,
+        6636282,
+        639774,
+        6636422
+      ],
+      "dimensions": [
+        1400,
+        1400
+      ],
+      "sourceProductYear": 2023,
+      "captureDate": null,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "exportResolutionMetres": 0.1,
+      "rights": "Public viewing API; redistribution rights not established. Keep raster in local cache."
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "stora-h11-rear",
+      "status": "accepted-addition",
+      "evidenceFile": "stora-tees-review-2026-09-07.json",
+      "terrainFile": "stora-tee-terrain-review-2026-09-07.json",
+      "reason": "Wider context found the rear platform outside the prior 75 m crop; cross-year visible edges and an independently planar terrain cap corroborate the addition. Partial census status retained."
+    },
+    {
+      "id": "mellan-h08-north",
+      "status": "accepted-addition",
+      "evidenceFile": "mellan-tees-review-2026-09-07.json",
+      "terrainFile": "mellan-tee-terrain-review-2026-09-07.json",
+      "resolvesCandidateId": "mellan-8-middle-path",
+      "reason": "2015 archive exposes the complete mown platform; later visible edges and the planar laser cap agree. Two other known H8 candidate locations stay unadopted."
+    },
+    {
+      "id": "stora-h13-forward-provisional",
+      "status": "retained-unresolved",
+      "approximateReviewTargetEPSG3006": [
+        639482,
+        6636372
+      ],
+      "originalGeometry": {
+        "pads": [
+          {
+            "ring": [
+              [
+                -342.1,
+                -276.6
+              ],
+              [
+                -335.8,
+                -265.3
+              ],
+              [
+                -342.7,
+                -261.4
+              ],
+              [
+                -349,
+                -272.7
+              ]
+            ],
+            "cx": -342.4,
+            "cz": -269,
+            "ang": 61,
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -404.127,
+                -239.103
+              ],
+              [
+                -401.042,
+                -241.487
+              ],
+              [
+                -396.96,
+                -243.834
+              ],
+              [
+                -391.853,
+                -246.892
+              ],
+              [
+                -387.79,
+                -248.739
+              ],
+              [
+                -384.781,
+                -249.126
+              ],
+              [
+                -382.565,
+                -248.292
+              ],
+              [
+                -381.135,
+                -246.488
+              ],
+              [
+                -380.712,
+                -244.472
+              ],
+              [
+                -381.535,
+                -242.503
+              ],
+              [
+                -383.594,
+                -240.83
+              ],
+              [
+                -387.168,
+                -238.715
+              ],
+              [
+                -392.007,
+                -236.147
+              ],
+              [
+                -396.338,
+                -233.81
+              ],
+              [
+                -399.376,
+                -232.674
+              ],
+              [
+                -401.36,
+                -232.998
+              ],
+              [
+                -403.04,
+                -234.812
+              ],
+              [
+                -404.211,
+                -236.856
+              ]
+            ],
+            "cx": -392.5120217397136,
+            "cz": -241.06653642578965,
+            "area": 208.3597305000003,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-13-rear-2025",
+            "imagerySourceId": "lm2025_025m_r0_c0",
+            "observedYear": 2025,
+            "crosscheckYear": 2024,
+            "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+            "boundaryInterpretationUncertaintyMetres": 1.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ],
+        "line": [
+          [
+            -398.3,
+            -239.2
+          ],
+          [
+            -340,
+            -270.4
+          ],
+          [
+            -270,
+            -311.4
+          ],
+          [
+            -200,
+            -361.6
+          ],
+          [
+            -170,
+            -390.4
+          ],
+          [
+            -145.4,
+            -443
+          ]
+        ],
+        "marks": [
+          {
+            "c": [
+              -398.3,
+              -239.2
+            ],
+            "b": 61.8,
+            "m": 333
+          },
+          {
+            "c": [
+              -398.3,
+              -239.2
+            ],
+            "b": 61.8,
+            "m": 333
+          },
+          {
+            "c": [
+              -387.7,
+              -244.9
+            ],
+            "b": 61.8,
+            "m": 321
+          },
+          {
+            "c": [
+              -338.3,
+              -271.4
+            ],
+            "b": 59.6,
+            "m": 265
+          },
+          {
+            "c": [
+              -338.3,
+              -271.4
+            ],
+            "b": 59.6,
+            "m": 265
+          },
+          {
+            "c": [
+              -302.1,
+              -292.6
+            ],
+            "b": 59.6,
+            "m": 223
+          }
+        ],
+        "distances": [
+          333,
+          333,
+          321,
+          265,
+          265,
+          223
+        ]
+      },
+      "reason": "The 2025 mowing arc visibly differs from the provisional rectangle, but the southern/eastern edge is beneath conifer crowns and shadows across all five archive services. The service-2018 dry-turf strip and service-2023 dormant turf do not reveal a complete current perimeter. A guessed oval would still invent hidden geometry.",
+      "nextEvidence": "Georeferenced oblique photographs or club survey of the turf perimeter; preserve route and card anchors."
+    },
+    {
+      "id": "stora-h15-upper-provisional",
+      "status": "retained-unresolved",
+      "approximateReviewTargetEPSG3006": [
+        639711,
+        6636357
+      ],
+      "originalGeometry": {
+        "pads": [
+          {
+            "ring": [
+              [
+                -110.3,
+                -237.2
+              ],
+              [
+                -118.5,
+                -249.8
+              ],
+              [
+                -110.1,
+                -255.2
+              ],
+              [
+                -101.9,
+                -242.6
+              ]
+            ],
+            "cx": -110.2,
+            "cz": -246.2,
+            "ang": 237,
+            "preserveTerrain": true
+          },
+          {
+            "ring": [
+              [
+                -125.755,
+                -240.337
+              ],
+              [
+                -124.146,
+                -241.631
+              ],
+              [
+                -122.126,
+                -242.804
+              ],
+              [
+                -120.241,
+                -243.15
+              ],
+              [
+                -118.61,
+                -242.255
+              ],
+              [
+                -117.734,
+                -240.66
+              ],
+              [
+                -117.712,
+                -238.471
+              ],
+              [
+                -118.518,
+                -236.418
+              ],
+              [
+                -120.054,
+                -234.288
+              ],
+              [
+                -121.862,
+                -233.211
+              ],
+              [
+                -123.724,
+                -233.489
+              ],
+              [
+                -125.346,
+                -234.592
+              ],
+              [
+                -126.322,
+                -236.296
+              ],
+              [
+                -126.56,
+                -238.284
+              ]
+            ],
+            "cx": -122.02371733908608,
+            "cz": -238.221895128545,
+            "area": 64.43286600000283,
+            "ang": 0,
+            "prov": "dated-orthophoto-trace",
+            "sourceId": "upsala-stora-tee-15-lower-archive-2023",
+            "imagerySourceId": "uppsala-service-2023-stora-tee-15",
+            "observedYear": 2023,
+            "crosscheckYear": 2025,
+            "yearBasis": "municipal archive service name; exact flight date unknown",
+            "captureDate": null,
+            "sourceSha256": "5f6961780fcb433ffa224a297651ca55c9560827c5bb43c77ea39c3cac088932",
+            "boundaryInterpretationUncertaintyMetres": 2.5,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ],
+        "line": [
+          [
+            -111.3,
+            -245.5
+          ],
+          [
+            -190,
+            -194.5
+          ],
+          [
+            -260,
+            -144.7
+          ],
+          [
+            -320,
+            -93.2
+          ],
+          [
+            -367.7,
+            -31.1
+          ]
+        ],
+        "marks": [
+          {
+            "c": [
+              -111.4,
+              -245.5
+            ],
+            "b": -122.9,
+            "m": 337
+          },
+          {
+            "c": [
+              -118.9,
+              -240.6
+            ],
+            "b": -122.9,
+            "m": 328
+          },
+          {
+            "c": [
+              -118.9,
+              -240.6
+            ],
+            "b": -122.9,
+            "m": 328
+          },
+          {
+            "c": [
+              -126.5,
+              -235.7
+            ],
+            "b": -122.9,
+            "m": 319
+          },
+          {
+            "c": [
+              -126.5,
+              -235.7
+            ],
+            "b": -122.9,
+            "m": 319
+          },
+          {
+            "c": [
+              -205.7,
+              -183.3
+            ],
+            "b": -125.4,
+            "m": 224
+          }
+        ],
+        "distances": [
+          337,
+          328,
+          328,
+          319,
+          319,
+          224
+        ]
+      },
+      "reason": "The north/east arc is clearer in service-2023; the south/west boundary and separation from the already accepted lower platform remain covered by trees or shadows. The source images suggest connected mowing turf but cannot determine a physical platform division.",
+      "nextEvidence": "Ground-level perimeter/control measurements resolving the upper platform edge and any terrace division; do not merge the accepted lower pad by appearance alone."
+    },
+    {
+      "id": "mellan-h08-existing-southern",
+      "status": "retained-unresolved-outer-edge",
+      "originalGeometry": {
+        "pads": [
+          {
+            "ring": [
+              [
+                495.727,
+                170.395
+              ],
+              [
+                498.257,
+                169.49
+              ],
+              [
+                500.97,
+                170.343
+              ],
+              [
+                502.898,
+                172.166
+              ],
+              [
+                503.81,
+                174.451
+              ],
+              [
+                503.707,
+                177.197
+              ],
+              [
+                502.423,
+                178.149
+              ],
+              [
+                499.71,
+                177.296
+              ],
+              [
+                497.504,
+                176.212
+              ],
+              [
+                495.529,
+                175.637
+              ],
+              [
+                494.598,
+                173.852
+              ],
+              [
+                494.415,
+                172.095
+              ]
+            ],
+            "c": [
+              499.322,
+              173.711
+            ],
+            "area": 56.267,
+            "prov": "ortho-trace",
+            "sourceId": "mellan-8-tee-upper",
+            "imagerySourceId": "ortho2024_025m_se",
+            "observedYear": 2024,
+            "crosscheckYear": 2025,
+            "boundaryInterpretationUncertaintyMetres": 2,
+            "sourceAbsoluteHorizontalAccuracyMetres": null,
+            "centreProvenance": "polygon area centroid; not a tee marker",
+            "preserveTerrain": true
+          }
+        ],
+        "line": [
+          [
+            503.4,
+            175.7
+          ],
+          [
+            522.5,
+            -17.3
+          ],
+          [
+            606.3,
+            -108.2
+          ],
+          [
+            618.9,
+            -117.5
+          ],
+          [
+            614.5,
+            -119
+          ]
+        ],
+        "marks": [
+          {
+            "teeIdx": 0,
+            "m": 338,
+            "c": [
+              495.2,
+              197.3
+            ],
+            "b": 20.7
+          },
+          {
+            "teeIdx": 1,
+            "m": 338,
+            "c": [
+              495.2,
+              197.3
+            ],
+            "b": 20.7
+          },
+          {
+            "teeIdx": 2,
+            "m": 320,
+            "c": [
+              501.6,
+              180.4
+            ],
+            "b": 20.7
+          },
+          {
+            "teeIdx": 3,
+            "m": 320,
+            "c": [
+              501.6,
+              180.4
+            ],
+            "b": 20.7
+          },
+          {
+            "teeIdx": 4,
+            "m": 285,
+            "c": [
+              513.9,
+              147.7
+            ],
+            "b": 20.7
+          }
+        ],
+        "distances": [
+          338,
+          338,
+          320,
+          320,
+          285
+        ]
+      },
+      "reason": "Older imagery suggests maintained turf beyond the accepted ring, but the outer eastern/southern edge remains hidden in later imagery. Retain the accepted trace until a defensible replacement perimeter is available."
+    },
+    {
+      "id": "stora-h06-near-green-oval",
+      "status": "unclassified-maintained-turf-observation",
+      "sourcePanel": "upsalabuild/cache/review-2026-09-06/fairways-2025/h06-fairway.png",
+      "approximateRawPanelPixel": [
+        155,
+        400
+      ],
+      "reason": "A broad maintained oval is visible near the green, substantially ahead of all published 128-204 m card references. No source identifies it as an active tee. Tee identity cannot be inferred from mowing colour or flatness; surface reviewer may record its visible material separately.",
+      "nextEvidence": "Club hole plan or georeferenced ground photograph identifying use."
+    }
+  ],
+  "validation": {
+    "focusedCommand": "npx vitest run tests/upsala-tee-review-2026-09-07.test.mjs",
+    "focusedTestsPassed": 4,
+    "geometryAcceptance": "manual, not automatic",
+    "terrainChanged": false,
+    "routingChanged": false,
+    "absoluteHorizontalAccuracyMetres": null
+  }
+}

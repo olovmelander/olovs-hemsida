@@ -1,0 +1,697 @@
+{
+  "schemaVersion": 1,
+  "build": "upsalabuild",
+  "groundId": "upsala",
+  "selectedCourseSlug": "upsala",
+  "reviewRequired": true,
+  "automaticAdoption": false,
+  "method": {
+    "sampling": "native 1 m DTM lattice inside or on polygon; missing and off-grid samples counted",
+    "plane": "ordinary least squares height = intercept + east gradient + north gradient; all interior and separate inner core",
+    "minimumFitSamples": 12,
+    "edgeBandM": 2,
+    "exteriorBandM": 2,
+    "residuals": "height minus fitted drainage plane; slope does not imply poor planarity",
+    "coreBoundary": "strictly more than 2 m inside the polygon",
+    "centreHeight": "bilinear finite native DTM corners, no extrapolation or NoData fill",
+    "acceptance": "none; compare dated imagery and acquisition dates; terrain alone does not prove a tee outline",
+    "absoluteHorizontalAccuracyM": null,
+    "absoluteVerticalAccuracyM": null
+  },
+  "provenance": {
+    "model": {
+      "path": "upsalabuild\\course-model.json",
+      "sha256": "136018182d351fa1fe03a5e530bc53811c5e06fbe07f6f0ce287ff53aeea97b3",
+      "localFrame": {
+        "origin": {
+          "lat": 59.839,
+          "lon": 17.4952
+        },
+        "mPerLat": 111320,
+        "mPerLon": 55930.68
+      }
+    },
+    "evidence": {
+      "path": "upsalabuild\\mapping\\stora-tees-review-2026-09-07.json",
+      "sha256": "e84fde315d08208b20e4735ff3941be532cabc258e286c71381efef18ee23854",
+      "coordinateFrame": "source model local [x,z]",
+      "suppliedProvenance": null
+    },
+    "courseManifestSha256": "96e9ea926f48452ece92a3511a6c0ecfbb8b4bff2600687a0fc9f2025a9c439e",
+    "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+    "groundSourceManifestSha256": "4821828a4c65e3621801071a2d368fc104f202c312416625ae47fc65dcb935dc",
+    "publishedFrame": {
+      "axisMapping": {
+        "worldX": "easting - originEasting",
+        "worldY": "heightRH2000 - originHeightRH2000",
+        "worldZ": "originNorthing - northing"
+      },
+      "compoundCrs": "EPSG:5845",
+      "fingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+      "horizontalCrs": "EPSG:3006",
+      "origin": {
+        "easting": 640143.5,
+        "heightRH2000": 13.28,
+        "northing": 6636145.5
+      },
+      "verticalCrs": "EPSG:5613"
+    },
+    "transformation": "repository flat-earth inverse to latitude/longitude, then SWEREF99TM projection; no fitted registration",
+    "measurementCrs": "EPSG:3006",
+    "heightDatum": "RH2000 / EPSG:5613",
+    "terrainBounds": {
+      "e0": 639119.5,
+      "n0": 6635121.5,
+      "e1": 641167.5,
+      "n1": 6637169.5
+    },
+    "tiles": [
+      {
+        "id": "l0/0/0",
+        "url": "grounds/upsala/terrain/dcdc472cbda0baa50c50e7d87f6996ae08c40bc718aa09ead0a493e42fe7b5f4.bvch",
+        "sha256": "dcdc472cbda0baa50c50e7d87f6996ae08c40bc718aa09ead0a493e42fe7b5f4",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/1/0",
+        "url": "grounds/upsala/terrain/05cb879c98a2e3be8d42a510a0131d346da3c05078ba51e7b1dad10b549cfd83.bvch",
+        "sha256": "05cb879c98a2e3be8d42a510a0131d346da3c05078ba51e7b1dad10b549cfd83",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/2/0",
+        "url": "grounds/upsala/terrain/0a6b85fb4f4e5413505ab46144f6e5d107a8257a62843c8594e4ee071a10558b.bvch",
+        "sha256": "0a6b85fb4f4e5413505ab46144f6e5d107a8257a62843c8594e4ee071a10558b",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/3/0",
+        "url": "grounds/upsala/terrain/c1c34f4280161c2598df3b67eda43b2aa068cf473437509763b89fb708554ef5.bvch",
+        "sha256": "c1c34f4280161c2598df3b67eda43b2aa068cf473437509763b89fb708554ef5",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/4/0",
+        "url": "grounds/upsala/terrain/caf52b4aceee598c6daffd9881462ee295870a80de9518017a03ad16f3ffb7ee.bvch",
+        "sha256": "caf52b4aceee598c6daffd9881462ee295870a80de9518017a03ad16f3ffb7ee",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/5/0",
+        "url": "grounds/upsala/terrain/8b2ddfd8620abace70557e9313362829fd594a195db633a2feb282a7b7f825bd.bvch",
+        "sha256": "8b2ddfd8620abace70557e9313362829fd594a195db633a2feb282a7b7f825bd",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/6/0",
+        "url": "grounds/upsala/terrain/d17b3da719b9d280011b67bfe2c775d8fa18ff92edfe4fd79b62e06cc31000a0.bvch",
+        "sha256": "d17b3da719b9d280011b67bfe2c775d8fa18ff92edfe4fd79b62e06cc31000a0",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/7/0",
+        "url": "grounds/upsala/terrain/f2c92f11a39a1c857657e5cb51ca1cd1f9caa512f400d21b4fbb2980ab3b8097.bvch",
+        "sha256": "f2c92f11a39a1c857657e5cb51ca1cd1f9caa512f400d21b4fbb2980ab3b8097",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/0/1",
+        "url": "grounds/upsala/terrain/b5c0dcda9ba206b67fade94c75a0779ac9c50b75983cdf2f4d48d8ad934d6d39.bvch",
+        "sha256": "b5c0dcda9ba206b67fade94c75a0779ac9c50b75983cdf2f4d48d8ad934d6d39",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/1/1",
+        "url": "grounds/upsala/terrain/a675b334bd92b9f5b9d65fe89d23ea3f5e2982d0ad2f8ee5822be1af2bbe3f7c.bvch",
+        "sha256": "a675b334bd92b9f5b9d65fe89d23ea3f5e2982d0ad2f8ee5822be1af2bbe3f7c",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/2/1",
+        "url": "grounds/upsala/terrain/94ae4f799f0428ea1ba393f3dc2d2551b73300c806a388553e4dbcc8dbc5f6a0.bvch",
+        "sha256": "94ae4f799f0428ea1ba393f3dc2d2551b73300c806a388553e4dbcc8dbc5f6a0",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/3/1",
+        "url": "grounds/upsala/terrain/f72b683c5dcd6f253680c98f9e9c5a3f9ef69d9e9e5ca629751fa76c7a5e1c8e.bvch",
+        "sha256": "f72b683c5dcd6f253680c98f9e9c5a3f9ef69d9e9e5ca629751fa76c7a5e1c8e",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/4/1",
+        "url": "grounds/upsala/terrain/094bd77ad9ee7f3070f3088607a7609c72205dfee065557699b146856e41442a.bvch",
+        "sha256": "094bd77ad9ee7f3070f3088607a7609c72205dfee065557699b146856e41442a",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/5/1",
+        "url": "grounds/upsala/terrain/f98bd9ae417003f730dd456277daf31ad62c8aff05d3f96137e0aca3dccc2288.bvch",
+        "sha256": "f98bd9ae417003f730dd456277daf31ad62c8aff05d3f96137e0aca3dccc2288",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/6/1",
+        "url": "grounds/upsala/terrain/591e24512b811062463761ce4c353b0c4cda708ca12caace6b83c507df90fd0d.bvch",
+        "sha256": "591e24512b811062463761ce4c353b0c4cda708ca12caace6b83c507df90fd0d",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/7/1",
+        "url": "grounds/upsala/terrain/857cfd52da9b95f30f222ef1b3e14806d510c3a5972a1d4b5842a1c8f5b7ffe4.bvch",
+        "sha256": "857cfd52da9b95f30f222ef1b3e14806d510c3a5972a1d4b5842a1c8f5b7ffe4",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/0/2",
+        "url": "grounds/upsala/terrain/6e9db95ac23c24926999898bfca327a5294c3e62fc567c6e3d8608cdd28e2237.bvch",
+        "sha256": "6e9db95ac23c24926999898bfca327a5294c3e62fc567c6e3d8608cdd28e2237",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/1/2",
+        "url": "grounds/upsala/terrain/50150270dd3b2f011e6565f212aa1cc24dc24c653ec2f379c9718dbcab23f14f.bvch",
+        "sha256": "50150270dd3b2f011e6565f212aa1cc24dc24c653ec2f379c9718dbcab23f14f",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/2/2",
+        "url": "grounds/upsala/terrain/de5299b48461ee5e599a8c85f465b75cf73acfeaae4e5e1f0849ad28f58b5fdd.bvch",
+        "sha256": "de5299b48461ee5e599a8c85f465b75cf73acfeaae4e5e1f0849ad28f58b5fdd",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/3/2",
+        "url": "grounds/upsala/terrain/3e7a43c333c569120eb28598307bc3560f5ec379a97dafaed8589433e3b37beb.bvch",
+        "sha256": "3e7a43c333c569120eb28598307bc3560f5ec379a97dafaed8589433e3b37beb",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/4/2",
+        "url": "grounds/upsala/terrain/6d0e0fe4ce7c82a3626a1d2cc83bf5100149fb2790757394a6f48e272b7cff36.bvch",
+        "sha256": "6d0e0fe4ce7c82a3626a1d2cc83bf5100149fb2790757394a6f48e272b7cff36",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/5/2",
+        "url": "grounds/upsala/terrain/43bcf150e0ec96553c5cfd824d4b40c2f5397c409fa185029100459f059c4159.bvch",
+        "sha256": "43bcf150e0ec96553c5cfd824d4b40c2f5397c409fa185029100459f059c4159",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/6/2",
+        "url": "grounds/upsala/terrain/ae0436582a8a2c221df81eb92a216159fe2aa8afc691b130904e8e1187487813.bvch",
+        "sha256": "ae0436582a8a2c221df81eb92a216159fe2aa8afc691b130904e8e1187487813",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/7/2",
+        "url": "grounds/upsala/terrain/2eebb33ef08239afabb8868485b75f9d6983fbe855d8df49f5096c2b4ecdd903.bvch",
+        "sha256": "2eebb33ef08239afabb8868485b75f9d6983fbe855d8df49f5096c2b4ecdd903",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/0/3",
+        "url": "grounds/upsala/terrain/a327e36abec013dfceb9368583d3d362ff7374228a93093f1827115bf662e6ef.bvch",
+        "sha256": "a327e36abec013dfceb9368583d3d362ff7374228a93093f1827115bf662e6ef",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/1/3",
+        "url": "grounds/upsala/terrain/177e067ab9db75297f3e343140fd064659b559dfb2c0d48e537a26e3e4ad68fc.bvch",
+        "sha256": "177e067ab9db75297f3e343140fd064659b559dfb2c0d48e537a26e3e4ad68fc",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/2/3",
+        "url": "grounds/upsala/terrain/329ae09eb0462aa530f84625ea97b100818ab676c7acf8eebe9c81d1f90ccc59.bvch",
+        "sha256": "329ae09eb0462aa530f84625ea97b100818ab676c7acf8eebe9c81d1f90ccc59",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/3/3",
+        "url": "grounds/upsala/terrain/679aa374c8399b4923e11efb30293e1d447028e259178c013037e92715e4ada7.bvch",
+        "sha256": "679aa374c8399b4923e11efb30293e1d447028e259178c013037e92715e4ada7",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/4/3",
+        "url": "grounds/upsala/terrain/c93343cc98f3c142655402c74e1e7b18c13fc9ef68a7133da3ea95cc0f690a3f.bvch",
+        "sha256": "c93343cc98f3c142655402c74e1e7b18c13fc9ef68a7133da3ea95cc0f690a3f",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/5/3",
+        "url": "grounds/upsala/terrain/96c07ed7968417e4b9c7495df0c8780dd2e1e6d8406aa643c997a08d30267b8d.bvch",
+        "sha256": "96c07ed7968417e4b9c7495df0c8780dd2e1e6d8406aa643c997a08d30267b8d",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/6/3",
+        "url": "grounds/upsala/terrain/1a1467b7addd0669ae239f0a2f936724fe2bb159dc18dc1c087f13fd0644e5bc.bvch",
+        "sha256": "1a1467b7addd0669ae239f0a2f936724fe2bb159dc18dc1c087f13fd0644e5bc",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/7/3",
+        "url": "grounds/upsala/terrain/f684f1b426f02d1e11e2d7f8e8511dc93823f3a0e71787e9906f0c2e58cf7434.bvch",
+        "sha256": "f684f1b426f02d1e11e2d7f8e8511dc93823f3a0e71787e9906f0c2e58cf7434",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/0/4",
+        "url": "grounds/upsala/terrain/37a71e6fd33e87758ebb199c293224366b089cf49d1e844cf51f0ada16601dfa.bvch",
+        "sha256": "37a71e6fd33e87758ebb199c293224366b089cf49d1e844cf51f0ada16601dfa",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/1/4",
+        "url": "grounds/upsala/terrain/8a2b45eaef78e1f2908eedb0390df82a31ba6e47261d9f2ff2eb45305fb4d93a.bvch",
+        "sha256": "8a2b45eaef78e1f2908eedb0390df82a31ba6e47261d9f2ff2eb45305fb4d93a",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/2/4",
+        "url": "grounds/upsala/terrain/3e6bb8381984b8afb2cb7d6eec88cfff5244094780ca6e0d53783686f97810ab.bvch",
+        "sha256": "3e6bb8381984b8afb2cb7d6eec88cfff5244094780ca6e0d53783686f97810ab",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/3/4",
+        "url": "grounds/upsala/terrain/04bcdff53eb9ef6f38c8859f3432f4eca553ccef32982233d15c2f12550fa9af.bvch",
+        "sha256": "04bcdff53eb9ef6f38c8859f3432f4eca553ccef32982233d15c2f12550fa9af",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/4/4",
+        "url": "grounds/upsala/terrain/0342c800e1bf8d2a704ab8bf5e55fbee3bc118f0206ef669d375805bfef6c1a2.bvch",
+        "sha256": "0342c800e1bf8d2a704ab8bf5e55fbee3bc118f0206ef669d375805bfef6c1a2",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/5/4",
+        "url": "grounds/upsala/terrain/045dbcb28dffe18b60c036cc7f63f2ff5d19fbbd3a63d75b5bab7ed33cdc7b79.bvch",
+        "sha256": "045dbcb28dffe18b60c036cc7f63f2ff5d19fbbd3a63d75b5bab7ed33cdc7b79",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/6/4",
+        "url": "grounds/upsala/terrain/c801fef46efc95156b86a17b85fd4938682fec7d210077938491c6e29348e24e.bvch",
+        "sha256": "c801fef46efc95156b86a17b85fd4938682fec7d210077938491c6e29348e24e",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/7/4",
+        "url": "grounds/upsala/terrain/e5b630417093eccba46d2816a9a2d6b221ca4000fec178031c891c90f18c2ea4.bvch",
+        "sha256": "e5b630417093eccba46d2816a9a2d6b221ca4000fec178031c891c90f18c2ea4",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/0/5",
+        "url": "grounds/upsala/terrain/731a8e129e6d9066e04f68e991295a842da1f6f4bd973320b8a02c7a21dea59a.bvch",
+        "sha256": "731a8e129e6d9066e04f68e991295a842da1f6f4bd973320b8a02c7a21dea59a",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/1/5",
+        "url": "grounds/upsala/terrain/17444b083992cbbde64f7b0f5bfce053cfab69f40fe4925b7846c5dd5a8fb2ee.bvch",
+        "sha256": "17444b083992cbbde64f7b0f5bfce053cfab69f40fe4925b7846c5dd5a8fb2ee",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/2/5",
+        "url": "grounds/upsala/terrain/64efbe456b1077abde380ca1ab9b439bd2a7299eefabeb6cdd2395c870ccdadb.bvch",
+        "sha256": "64efbe456b1077abde380ca1ab9b439bd2a7299eefabeb6cdd2395c870ccdadb",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/3/5",
+        "url": "grounds/upsala/terrain/440122a949ad25326a95e415fa05bedea3dc5e60c8ad27c01414c5d0228be87a.bvch",
+        "sha256": "440122a949ad25326a95e415fa05bedea3dc5e60c8ad27c01414c5d0228be87a",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/4/5",
+        "url": "grounds/upsala/terrain/4f20898606102791ad15ac9221ae2df4566fd7c362203820d72c718d17cd8107.bvch",
+        "sha256": "4f20898606102791ad15ac9221ae2df4566fd7c362203820d72c718d17cd8107",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/5/5",
+        "url": "grounds/upsala/terrain/1b3f0cf9a00727220929a09a956128ee4f533fc9d56082f0a35f0cc7c573ef92.bvch",
+        "sha256": "1b3f0cf9a00727220929a09a956128ee4f533fc9d56082f0a35f0cc7c573ef92",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/6/5",
+        "url": "grounds/upsala/terrain/518ff571146e77bd598b637f79993950ffa8cd984dd853b08e35392489bd1ffa.bvch",
+        "sha256": "518ff571146e77bd598b637f79993950ffa8cd984dd853b08e35392489bd1ffa",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/7/5",
+        "url": "grounds/upsala/terrain/8d7f284f7fe142bc4f844f92e6e85ef34ea7c542be800d082141f12f61a12867.bvch",
+        "sha256": "8d7f284f7fe142bc4f844f92e6e85ef34ea7c542be800d082141f12f61a12867",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/0/6",
+        "url": "grounds/upsala/terrain/8d9955697f339e189b978d749d0e51e7c9124af7dccfcb3f499c5b73b6da2d0a.bvch",
+        "sha256": "8d9955697f339e189b978d749d0e51e7c9124af7dccfcb3f499c5b73b6da2d0a",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/1/6",
+        "url": "grounds/upsala/terrain/2f30709208c324ea6fb9ae1604b0b809f36b585398c7ceca191d5f044408f1cb.bvch",
+        "sha256": "2f30709208c324ea6fb9ae1604b0b809f36b585398c7ceca191d5f044408f1cb",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/2/6",
+        "url": "grounds/upsala/terrain/8bd29486dc126614c0e678fc49b30d0c05bba20c744add0a40d3e80564aab46a.bvch",
+        "sha256": "8bd29486dc126614c0e678fc49b30d0c05bba20c744add0a40d3e80564aab46a",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/3/6",
+        "url": "grounds/upsala/terrain/fcc5c231450586956da2eb962ccb15298d0a799b367296f88ea5f8e02d49828f.bvch",
+        "sha256": "fcc5c231450586956da2eb962ccb15298d0a799b367296f88ea5f8e02d49828f",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/4/6",
+        "url": "grounds/upsala/terrain/ccf0447cfe52685377fa022ea22bc976b41b51f5dc0bb29d28fadae0e782c941.bvch",
+        "sha256": "ccf0447cfe52685377fa022ea22bc976b41b51f5dc0bb29d28fadae0e782c941",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/5/6",
+        "url": "grounds/upsala/terrain/48d58fc04f14941bc2894d610f900970d0ea7df456e691a95468e31c7fa3a82b.bvch",
+        "sha256": "48d58fc04f14941bc2894d610f900970d0ea7df456e691a95468e31c7fa3a82b",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/6/6",
+        "url": "grounds/upsala/terrain/729c594fa69939a6f24cc797fd79fa05a4745fb872f136f8b884fc23dcb12fe3.bvch",
+        "sha256": "729c594fa69939a6f24cc797fd79fa05a4745fb872f136f8b884fc23dcb12fe3",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/7/6",
+        "url": "grounds/upsala/terrain/442f0c5b9d4285a5354d3f0d663eb7f8aa04364abaaf51cd20964e4efebf61da.bvch",
+        "sha256": "442f0c5b9d4285a5354d3f0d663eb7f8aa04364abaaf51cd20964e4efebf61da",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/0/7",
+        "url": "grounds/upsala/terrain/20aec54e6ad0c4c960f2f1d4ea2f64b88bcc5fe150af99cfa340f93251c62540.bvch",
+        "sha256": "20aec54e6ad0c4c960f2f1d4ea2f64b88bcc5fe150af99cfa340f93251c62540",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/1/7",
+        "url": "grounds/upsala/terrain/42a993c6d1047b6289193f9c46e8f608be577b53b8d9590dd2d357b3aac88258.bvch",
+        "sha256": "42a993c6d1047b6289193f9c46e8f608be577b53b8d9590dd2d357b3aac88258",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/2/7",
+        "url": "grounds/upsala/terrain/b35d1270f8ab0bf7fa7cd14792c64daf2caafe566307669ea2c33167b94bac02.bvch",
+        "sha256": "b35d1270f8ab0bf7fa7cd14792c64daf2caafe566307669ea2c33167b94bac02",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/3/7",
+        "url": "grounds/upsala/terrain/ff30588c42d6267af096182308007a2bc6cae81eed757c7936e2bdeb245808dd.bvch",
+        "sha256": "ff30588c42d6267af096182308007a2bc6cae81eed757c7936e2bdeb245808dd",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/4/7",
+        "url": "grounds/upsala/terrain/ecef3a686b78fd03a66a3d520a358285e89ac175601643346d70dabac2e336ff.bvch",
+        "sha256": "ecef3a686b78fd03a66a3d520a358285e89ac175601643346d70dabac2e336ff",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/5/7",
+        "url": "grounds/upsala/terrain/e771dbbbb1616075a256f27b7e506db9b9e73db3a96be29a24f3fabebdb2a279.bvch",
+        "sha256": "e771dbbbb1616075a256f27b7e506db9b9e73db3a96be29a24f3fabebdb2a279",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/6/7",
+        "url": "grounds/upsala/terrain/3a1958e3e38808df8e13dd5ceba119450eaf7599e2f532ba060a1298eaa45a89.bvch",
+        "sha256": "3a1958e3e38808df8e13dd5ceba119450eaf7599e2f532ba060a1298eaa45a89",
+        "heightQuantizationStepM": 0.01
+      },
+      {
+        "id": "l0/7/7",
+        "url": "grounds/upsala/terrain/8adde46a2844abfdb826d0346b6d9fe5472bd90e89cf077172ab5954b6453ddc.bvch",
+        "sha256": "8adde46a2844abfdb826d0346b6d9fe5472bd90e89cf077172ab5954b6453ddc",
+        "heightQuantizationStepM": 0.01
+      }
+    ],
+    "terrainSourceUnmodified": true
+  },
+  "summary": {
+    "platforms": 1,
+    "completeInteriorCoverage": 1,
+    "measuredPlanes": 1,
+    "supportedCorePlanes": 1,
+    "automaticAdoptions": 0
+  },
+  "platforms": [
+    {
+      "id": "upsala-stora-tee-11-rear-archive-review-2026-09-07",
+      "hole": 11,
+      "reviewRequired": true,
+      "automaticAdoption": false,
+      "areaM2": 341.491547,
+      "ringEPSG3006": [
+        [
+          640062.166842,
+          6636709.320331
+        ],
+        [
+          640064.500344,
+          6636710.389748
+        ],
+        [
+          640071.694558,
+          6636711.362278
+        ],
+        [
+          640081.319825,
+          6636712.042079
+        ],
+        [
+          640089.972224,
+          6636712.723226
+        ],
+        [
+          640095.028214,
+          6636712.819994
+        ],
+        [
+          640098.81913,
+          6636712.237144
+        ],
+        [
+          640100.764333,
+          6636710.68138
+        ],
+        [
+          640101.736031,
+          6636708.63925
+        ],
+        [
+          640101.444363,
+          6636706.695614
+        ],
+        [
+          640100.278257,
+          6636705.333796
+        ],
+        [
+          640097.653259,
+          6636704.361497
+        ],
+        [
+          640093.5694,
+          6636704.070117
+        ],
+        [
+          640088.611036,
+          6636704.070164
+        ],
+        [
+          640083.750281,
+          6636703.875634
+        ],
+        [
+          640078.889181,
+          6636703.583966
+        ],
+        [
+          640073.833185,
+          6636703.194824
+        ],
+        [
+          640069.555686,
+          6636701.736588
+        ],
+        [
+          640066.249693,
+          6636700.764639
+        ],
+        [
+          640063.528139,
+          6636700.862176
+        ],
+        [
+          640061.486315,
+          6636702.028788
+        ],
+        [
+          640060.416347,
+          6636703.778828
+        ],
+        [
+          640060.513481,
+          6636706.014522
+        ],
+        [
+          640061.194272,
+          6636707.958822
+        ]
+      ],
+      "coverage": {
+        "interior": {
+          "expectedSamples": 344,
+          "finiteSamples": 344,
+          "outsideGridSamples": 0,
+          "noDataSamples": 0,
+          "finiteFraction": 1,
+          "complete": true
+        },
+        "edge": {
+          "expectedSamples": 172,
+          "finiteSamples": 172,
+          "outsideGridSamples": 0,
+          "noDataSamples": 0,
+          "finiteFraction": 1,
+          "complete": true
+        },
+        "core": {
+          "expectedSamples": 172,
+          "finiteSamples": 172,
+          "outsideGridSamples": 0,
+          "noDataSamples": 0,
+          "finiteFraction": 1,
+          "complete": true
+        },
+        "exterior": {
+          "expectedSamples": 199,
+          "finiteSamples": 199,
+          "outsideGridSamples": 0,
+          "noDataSamples": 0,
+          "finiteFraction": 1,
+          "complete": true
+        }
+      },
+      "centre": {
+        "method": "polygon area centroid; DTM height uses finite native corners only",
+        "epsg3006": [
+          640080.510929,
+          6636707.427062
+        ],
+        "insideRing": true,
+        "sampledHeightRH2000M": 19.161451,
+        "fittedHeightRH2000M": 19.110989
+      },
+      "fullPlane": {
+        "sampleCount": 344,
+        "anchorEPSG3006": [
+          640080.584302,
+          6636707.438953
+        ],
+        "anchorHeightRH2000M": 19.110581,
+        "eastGradientMPerM": -0.003868,
+        "northGradientMPerM": -0.01038,
+        "slopePercent": 1.107748,
+        "slopeDegrees": 0.634667,
+        "uphillBearingDegrees": 200.439374,
+        "residuals": {
+          "count": 344,
+          "meanM": 0,
+          "medianM": 0.009155,
+          "p05M": -0.072276,
+          "p95M": 0.050444,
+          "p95MinusP05M": 0.122721,
+          "rmseM": 0.040709,
+          "maxAbsoluteM": 0.198402
+        }
+      },
+      "corePlane": {
+        "sampleCount": 172,
+        "anchorEPSG3006": [
+          640080.517442,
+          6636707.505814
+        ],
+        "anchorHeightRH2000M": 19.130407,
+        "eastGradientMPerM": -0.003787,
+        "northGradientMPerM": -0.01351,
+        "slopePercent": 1.403109,
+        "slopeDegrees": 0.803869,
+        "uphillBearingDegrees": 195.659047,
+        "residuals": {
+          "count": 172,
+          "meanM": 0,
+          "medianM": 0.001448,
+          "p05M": -0.038505,
+          "p95M": 0.036605,
+          "p95MinusP05M": 0.07511,
+          "rmseM": 0.023234,
+          "maxAbsoluteM": 0.066254
+        }
+      },
+      "edgeCoreComparison": {
+        "referencePlane": "core",
+        "edge": {
+          "count": 172,
+          "meanM": -0.040951,
+          "medianM": -0.030659,
+          "p05M": -0.129154,
+          "p95M": 0.024734,
+          "p95MinusP05M": 0.153888,
+          "rmseM": 0.06121,
+          "maxAbsoluteM": 0.223315
+        },
+        "core": {
+          "count": 172,
+          "meanM": 0,
+          "medianM": 0.001448,
+          "p05M": -0.038505,
+          "p95M": 0.036605,
+          "p95MinusP05M": 0.07511,
+          "rmseM": 0.023234,
+          "maxAbsoluteM": 0.066254
+        },
+        "exterior": {
+          "count": 199,
+          "meanM": -0.28364,
+          "medianM": -0.255361,
+          "p05M": -0.530001,
+          "p95M": -0.049611,
+          "p95MinusP05M": 0.48039,
+          "rmseM": 0.323513,
+          "maxAbsoluteM": 0.73089
+        },
+        "edgeMinusCoreMeanResidualM": -0.040951,
+        "exteriorMinusCoreMeanResidualM": -0.28364
+      },
+      "measurementStatus": "measured-evidence-only",
+      "warnings": []
+    }
+  ]
+}
