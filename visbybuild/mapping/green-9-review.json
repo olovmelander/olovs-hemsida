@@ -29,9 +29,20 @@
       "record": "Region Gotland 0.25 m orthophoto, summer capture labelled 2022",
       "measurement": "visbybuild/cache/crops/ortho-green9-summer.png, same window",
       "reading": "leaf-on and mown: a distinctly darker, uniformly mown oval runs roughly local x -556..-511, z 106..144, centred near (-533, 125). The model's ring continues about 40 m south of it over ground that reads as paler approach. This is the frame that separates the putting surface from the complex."
+    },
+    {
+      "record": "OpenStreetMap, independently surveyed and never an input to this model",
+      "measurement": "17 golf=green polygons inside the property hull way/199830330; one of them is 1670 m2 at local (-538, 142)",
+      "reading": "OSM's largest green by far, the same area and effectively the same place as the model's hole-9 ring, and it stands beside the clubhouse and the car park. Every other OSM green is a normal putting-surface size. OSM carries no per-green ref and only one hole line on the whole course, so it cannot say which hole any green belongs to."
     }
   ],
   "convergence": "Four records that never entered each other put the putting surface north of the model's centroid: the survey at (-529, 116), the bunker midpoint at (-535, 133), the summer mow oval centred near (-533, 125). They agree within 18 m of each other and disagree with the model's (-543, 162) by 30..48 m.",
   "nextStep": "Re-trace the ring on the summer capture with the same rule the other greens were traced by, then re-run visbybuild/mapping/golftraxx-review.mjs: hole 9 should move from modelRecordDisputed into the agreed set. Do not hand-place it; the tools are visbybuild/ortho-crop.mjs (--gotland for the summer frame) and visbybuild/sat-crop.mjs.",
-  "caveat": "Neither orthophoto is approved control. The 0.16 m frame is served by Lantmateriet's public viewing service and its derivative terms are unresolved; the Gotland capture's terms are likewise open. Both are used here as tracing and review evidence and neither is redistributed."
+  "caveat": "Neither orthophoto is approved control. The 0.16 m frame is served by Lantmateriet's public viewing service and its derivative terms are unresolved; the Gotland capture's terms are likewise open. Both are used here as tracing and review evidence and neither is redistributed.",
+  "alternativeReading": {
+    "hypothesis": "The 1670 m2 polygon is not hole 9's green at all but the club's PRACTICE putting green, which stands beside a clubhouse by convention and is commonly 1000-2000 m2 where a hole green is 300-500.",
+    "whyItMatters": "It changes the fix. If the ring is a green complex, hole 9's green is a re-trace of its northern part. If it is the practice green, hole 9's green has never been traced, and the polygon belongs in scenery.practiceGreens -- which the engine and apply-markers read for the O marker, and which a course may name explicitly rather than leave to the 200 m rule.",
+    "howToSettle": "On the summer capture, a putting green is a single smooth surface with several holes and no approach, no greenside bunkering serving a line of play, and a path from the clubhouse; a hole green sits at the end of its corridor with its bunkers flanking the line. The two greenside bunkers here flank the NORTHERN part of the shape, which favours the complex reading; the shape's proximity to the clubhouse and car park favours the practice reading. Neither is settled here.",
+    "doNotAssume": "Do not resolve this by moving the ring. Both readings are consistent with a 48 m centroid error, and only a trace on the summer frame separates them."
+  }
 }
