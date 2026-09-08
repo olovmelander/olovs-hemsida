@@ -10161,5 +10161,17 @@
     ]
   },
   "contextPath": "geo_data/course-v2/visby/mapping/osm-context-epsg3006.geojson",
-  "waterPath": "geo_data/course-v2/visby/mapping/water-breakgeometry-simple-epsg3006.geojson"
+  "waterPath": "geo_data/course-v2/visby/mapping/water-breakgeometry-simple-epsg3006.geojson",
+  "clubhouseWayId": "way/530655631",
+  "clubhouseEvidence": {
+    "building": "OSM way 530655631, 688 m2, local (-520, 205)",
+    "why": [
+      "the club places its restaurant terrace facing the sea toward the Karlsoarna, and the 0.16 m 2026 orthophoto shows a deck along this building's sea front and nothing of the kind on any other footprint here",
+      "the club's 13-hole putting course omsluter klubbhuset and runs from the old clubhouse toward the 18th green; this building stands 106 m from the 18th green and 25 m from the shore",
+      "the proshop, reception, restaurant and bar are all inside the clubhouse per the club opening hours, which makes it one large building, and this is the largest on the hub"
+    ],
+    "notChosen": "way/530655628 is larger at 924 m2 but stands 800 m north-east among the works buildings, under the dark industrial roofs the orthophoto shows",
+    "status": "reviewed identification, not a club-declared reference"
+  },
+  "vistaLandcoverPath": "geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson"
 }

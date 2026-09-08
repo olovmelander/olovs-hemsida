@@ -248,7 +248,29 @@ export async function buildCourse() {
       if (!relevant) continue;
       if (g.coordinates.length !== 1) { skippedContext.push({ id, reason: 'polygon contains interior rings not yet supported by this compatibility context layer' }); continue; }
       const ring = localRing(g.coordinates[0], id);
-      if (tags.building) infra.buildings.push({ id, ring, h: Number.parseFloat(tags.height) || 5, kind: tags.building === 'apartments' ? 'block' : 'house', name: tags.name || null, sourceId: feature.properties.sourceId, heightStatus: tags.height ? 'OSM-tag-unverified' : 'generic-rendering-height-not-measured' });
+      /* NOBODY HAD NAMED THE CLUBHOUSE, so the engine drew it as one of 32
+         anonymous grey houses: its clubhouse test asks for `amenity=clubhouse`
+         or a name matching golfklubb|klubbhus, and OSM tags none of the seven
+         buildings inside this property with either -- there is no
+         `amenity=clubhouse` anywhere in the whole extract. So it got no
+         levelled bench, no mown apron, no clubhouse look and no K marker.
+
+         Which building it is comes from geometry.json, where a reviewed
+         assertion belongs, not from a coordinate written into code. The
+         building it names is checked against the club's own account rather
+         than accepted: the restaurant terrace faces the sea toward the
+         Karlsöarna, the putting course "omsluter klubbhuset", and the 0.16 m
+         orthophoto shows exactly that building with a deck on its sea front,
+         25 m from the shore and 106 m from the 18th green. */
+      if (tags.building) {
+        const isClubhouse = id === geometry.clubhouseWayId;
+        infra.buildings.push({ id, ring, h: Number.parseFloat(tags.height) || (isClubhouse ? 0 : 5),
+          kind: tags.building === 'apartments' ? 'block' : 'house',
+          name: tags.name || (isClubhouse ? 'Klubbhus, Visby GK' : null),
+          ...(isClubhouse ? { amenity: 'clubhouse' } : {}),
+          sourceId: feature.properties.sourceId,
+          heightStatus: tags.height ? 'OSM-tag-unverified' : 'generic-rendering-height-not-measured' });
+      }
       if (tags.amenity === 'parking') infra.parking.push({ id, ring, surface: tags.surface || 'unknown', cars: false });
       if (tags.landuse) infra.landuse.push({ id, ring, kind: tags.landuse });
       if (tags.landuse === 'grass') scenery.grass.push(ring);

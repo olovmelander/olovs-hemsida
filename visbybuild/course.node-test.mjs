@@ -83,8 +83,20 @@ test('Visby published compatibility pack preserves canonical observed geometry a
   assert.equal(model.vegetation.forest.length + model.vegetation.wood.length, 30);
   assert.equal(model.infra.vegetationPlacement, 'measured-only');
   assert.equal(model.infra.terrainPlacement, 'measured-only');
-  assert.equal(model.infra.vegetationPlacement, 'measured-only');
   assert.equal(model.infra.objectPlacement, 'mapped-only');
+  /* SOMEBODY HAS TO NAME THE CLUBHOUSE. The engine finds one by
+     `amenity=clubhouse` or a name matching golfklubb|klubbhus, and OSM tags
+     none of this property's buildings with either -- there is no
+     `amenity=clubhouse` in the whole extract -- so it rendered as one of 32
+     anonymous grey houses with no levelled bench, no mown apron, no clubhouse
+     look and no K marker. The identification is reviewed in geometry.json
+     beside its evidence, and asserted here against that file rather than
+     against a coordinate written down twice. */
+  assert.ok(geometry.clubhouseWayId, 'geometry.json must declare which building is the clubhouse');
+  const clubhouses = model.infra.buildings.filter(building => building.amenity === 'clubhouse');
+  assert.equal(clubhouses.length, 1);
+  assert.equal(clubhouses[0].id, geometry.clubhouseWayId);
+  assert.match(clubhouses[0].name, /klubbhus/i);
   assert.equal(model.evidence.terrainModifiedForPlayingSurfaces, false);
   assert.equal(model.evidence.canonicalOriginApproval, 'pending-independent-control');
 });

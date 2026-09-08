@@ -63,7 +63,7 @@ agreement is a transcription check, not independent measurement.
 | 41 | `tee-41` | 1952 | 2264 | 4216 |
 
 The club's approximate 6,300-m description does not replace the card's exact
-6,230-m total. Front/back par sums are 34/38, total 72. Stroke indexes are a
+6,230-m total. Front/back par sums are **35/37**, total 72 -- this line read 34/38 until 2026-09-08, when a third source was compared cell by cell against `card.json`; the card was right and the prose was wrong. Stroke indexes are a
 permutation of 1–18. Numeric tee names are deliberate: Caddee's color mappings
 and ordering differ between the two courses, so a shared color-to-number
 assumption would misidentify tees.

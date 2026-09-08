@@ -38,7 +38,7 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      and 311 landuse rings out to 6 km -- which is the first geometry in this
      model that lies OUTSIDE the 2,048 m acquired terrain, by design: it is the
      horizon's dressing, not the property's survey. */
-  visby: 'fd1d419510619152722ce9a4f75162ed642bd0a493f48c7425f3772f540d997f',
+  visby: 'bc8c194c08d4f5876b6bdd44ca98f562a1fa0564448c21cdf0230879439b6e69',
   lidingo: 'bffda03d0ee5cf0056d22e5e4262adc8016ed8f0b4a79fc766d2cf0db536cf74',
   angso: '6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',

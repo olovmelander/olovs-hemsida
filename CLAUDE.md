@@ -4036,6 +4036,102 @@ clubhouse (way 530655631, 688 m²) is currently just one of 32 anonymous houses
 and gets none of the clubhouse treatment. There are **zero `historic=*` objects
 in the whole extract**, which is striking for Gotland.
 
+### The club's own records, found and not yet read
+
+A search of the club's published material turned up three records that outrank
+anything measured here, and none of them is on the page you would look at first.
+They are listed because acting on them is the next work, not because it is done.
+
+- **Caddee publishes eighteen professional hole plans, and they draw all six
+  tee pads as separate hatched decks with their numbers.** That is precisely the
+  record the orthophoto could not supply, and it supersedes the card-offset
+  derivation the moment somebody registers it. The plans also carry carry
+  distances, green-depth arrows and, on some holes, a tee-to-green elevation
+  profile. Identity confirmed the honest way: par and index on all 18 holes
+  against `card.json`, 18 of 18. Two measurements came out of a first reading —
+  **the plans quote the distance to the green's FRONT where the card quotes its
+  centre** (hole 1: a uniform −14 m, with green depth 29 printed beside it), so
+  the plans can derive green depth per hole; and **hole 14 is an exception worth
+  flagging rather than resolving**, its plan reading 160 and 140 for tees 63 and
+  59 against the card's 155 and 136 while its other four tees show the expected
+  −15.
+- **Pierre Fulke Design's masterplan of 2022-07-12**, an A0 sheet at 1:2000 on
+  aerial photography with every green, fairway, bunker and water body outlined,
+  and an eighteen-hole *Åtgärdsbeskrivning* listing the works hole by hole: new
+  tees, new bunker designs with their areas, new greens. It is the club's own
+  drawing of its own ground and it is registerable exactly as Veckefjärden's
+  hole plans were. **It also settles the hole-3 dispute**: the sheet names
+  "Hål 3 (gamla)" and gives it "fortsatt skötsel av spelytor för nyttjande som
+  övningsområde", so the old third is a practice ground now — which is what the
+  GolfTraxx survey's 234 m green-centre disagreement on hole 3 has been all
+  along. The survey is not wrong about a hole; it is right about a hole that no
+  longer plays.
+- **The SGF widget carries a slope and course-rating table per tee**, and it sat
+  inside the scorecard asset this repo already acquired and hashed on
+  2026-09-07 without ever being extracted. It names each tee numerically, which
+  independently confirms the tee set is exactly 63/59/55/51/46/41, and its
+  `sortOrder` puts **59 first** — corroborating the display default this build
+  chose for its own reasons. The club's own 2014 rating PDFs disagree with it in
+  every cell, all in the same direction, which is what Sweden's 2020 WHS
+  re-rating looks like. Do not merge the two tables.
+
+Two more things the same search settled. **The card is confirmed 144 of 144** by
+a third source and by a live re-fetch of the SGF widget that is byte-identical
+to the repo's stored capture — with the caveat that golfisverige, Caddee and the
+widget may all descend from SGF's GIT database, so it is a strong transcription
+check and not an independent measurement; nothing published anywhere gives a
+measured per-hole length. And **`docs/courses/visby-source-research.md` said the
+front and back nines are par 34 and 38**; the card's own values and all three
+external sources make them **35 and 37**. The prose was wrong and is corrected.
+
+### Skansudde fyr stands by the first tee, and nothing had drawn it
+
+`apps/golf/src/engine/scenery/visby.js` is this course's module. The clubhouse
+is **white render under a dark blue-grey profiled sheet-metal roof**, two
+storeys at the west gable block dropping to one and an attic, with a raised
+terrace on a low wall of pale Gotland limestone along its whole sea front facing
+west-south-west — the club's own line is "utsikten mot Karlsöarna ifrån
+uteserveringen". Every one of those is from a **daylight** photograph; the club's
+own hero shot of the building is a blue-hour picture and gives shape only, which
+is the rule that once painted Puttom's red clubhouse blue.
+
+**Nobody had named it.** The engine finds a clubhouse by `amenity=clubhouse` or
+a name matching `golfklubb|klubbhus`, and OSM tags none of this property's seven
+buildings with either — there is no `amenity=clubhouse` anywhere in the extract
+— so the clubhouse rendered as one of 32 anonymous grey houses with no levelled
+bench, no mown apron, no clubhouse look and no K marker. Which building it is
+now lives in `mapping/geometry.json` beside its evidence, and the artifact test
+asserts the model against that file rather than against a coordinate written
+down twice.
+
+The landmark is **Skansudde fyrplats**, and it is the first thing a visitor sees
+because the app opens on the 1st tee twenty metres away. The light is of 1890,
+the keeper's house of 1892, the station was manned until 1938, and sv.wikipedia
+says the club "har omgetts av Visby golfklubb sedan 1958, som tidigare använde
+boningshuset som klubbhus" — the house the club started in is let today as
+Fyrhuset. It is OSM way 530655632, and it is **Falu-red vertical board with
+white frames, corner boards and bargeboards under a near-black roof**, the 1892
+specification in the club's own history: "rödfärgades med blyvita snickerier".
+The station outbuilding beside it (way 530655633) is white board-and-batten
+under the same dark roof. **The 1936 concrete tower is not in OpenStreetMap at
+all** — too small to be mapped — so the module draws it, at a position measured
+off the orthophoto rather than placed by eye: the only white thing on the point,
+a bright blob whose centre is stable to 0.03 m across three brightness cuts, at
+local (−603.3, 190.4) with a p90 radius of 2.2 m. **Its height is not measured**
+and the module says so: a shadow reading was attempted and refused, because this
+is a rocky shore where the dark mask is rock and water as much as shadow and the
+flight's capture time is not published. 9 m is an assumption, written down as
+one.
+
+**And the woods here are Gotland's, not the engine's default.** Three records
+agree and none is a guess about Sweden in general: OSM's own forest here carries
+`leaf_type=needleleaved`; the published LiDAR generation's 3,040 crowns measure
+a **median height of 10.9 m at a median crown radius of 4.6 m**, a ratio of 0.42
+that is a broad pine or a broadleaf and nothing like a spruce's 0.2; and the
+reserve texts for this coast name tall and en. The engine's default plants over
+a quarter spruce. Here spruce is the rare one and birch rises on the low ground
+near the shore, which is where this course spends most of its round.
+
 ### Running it
 
     node visbybuild/sat-crop.mjs   <name> <cx> <cz> <size> [z] [--plain]   # Esri z18, 0.32 m

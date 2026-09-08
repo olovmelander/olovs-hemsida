@@ -190,6 +190,7 @@ the source images are not redistributed as runtime textures.
 | No measured trees; `vegetation.*` all empty | **3,012 machine-reviewed individuals** + stand fields on all 256 tiles, acquired and eyeballed; publish still to run |
 | `npm run check:visby` 28/29; manifest gate red | 29/29 and green -- hole 16's fairway was desynced from `geometry.json` and six checksums were stale |
 | CLAUDE.md had no Visby section | it has one |
+| The clubhouse was one of 32 anonymous grey houses; no scenery module | named, and `scenery/visby.js` carries its photographed look, a Gotland species rule, Fyrhuset and **Skansudde fyr's 1936 tower** |
 | No distant trees at all: both vista loops gated on a tree-cover raster this course has none of | the far ring **ungated**, fed by a wide OSM land cover clipped to ±6 km (**279 farmland polygons against 24 forest**); `vegetation.*` and `infra.landuse` are no longer empty |
 | Six numbered tee marks per hole on ONE point, span 0 m | the back tee on its platform and each shorter tee walked up the observed route by the card's own difference: **85 of 108 marks move, 18 points become 80** |
 | 65 bunkers in `scenery`, no hole owns any | **48 assigned to their hole**, 17 left in scenery with the reason |
@@ -254,11 +255,49 @@ the source images are not redistributed as runtime textures.
    Check the water sheets at the same time: 99.9% of 583,473 ring-interior
    samples sit within 0.02 m of their own bed, so every sheet is coplanar with
    the ground under it and `aDepth` is zero everywhere.
-7. The clubhouse (OSM way 530655631, 688 m2) is one of 32 anonymous footprints
-   and gets no clubhouse treatment; there is no `scenery/visby.js` module.
+7. **DONE.** The clubhouse is named in the model (declared in
+   [`geometry.json`](geometry.json) beside its evidence, applied by
+   [`apply-clubhouse.mjs`](apply-clubhouse.mjs), asserted by the artifact test)
+   and `apps/golf/src/engine/scenery/visby.js` carries its look from daylight
+   photographs, a Gotland pine-led species rule from three agreeing records, the
+   Falu-red Fyrhuset and white station outbuilding, and the 1936 concrete tower
+   of Skansudde fyr at a position measured off the orthophoto. The tower's
+   HEIGHT is an assumption and says so.
 8. Independent horizontal/vertical controls and canonical-origin approval remain
    unresolved; the software frame is not promoted by any of the above.
 9. Orthophoto derivative terms, photo/media reuse and production release remain
    open. The imagery is used for tracing and review and is never redistributed.
 10. Per-hole human visual review, both backends, named devices, offline and
    performance checks remain to be done with the runbook gates.
+
+## The club's own records, found on 2026-09-08 and not yet read
+
+Three published records outrank anything measured here. Acting on them is the
+next work; nothing below is done.
+
+1. **Caddee's eighteen hole plans draw all six tee pads as separate hatched
+   decks with their numbers**, plus carry distances, green-depth arrows and some
+   elevation profiles. Identity confirmed by par and index on all 18 holes
+   against `card.json`, 18/18. This is the record that supersedes the
+   card-offset tee derivation. Two first readings: the plans quote the distance
+   to the green's FRONT where the card quotes its centre (hole 1: a uniform
+   -14 m with green depth 29 beside it), so green depth per hole is derivable;
+   and hole 14 reads 160/140 for tees 63/59 against the card's 155/136 while its
+   other four tees show the expected -15 -- flag, do not resolve.
+2. **Pierre Fulke Design's masterplan of 2022-07-12**, A0 at 1:2000 on aerial
+   photography, every green, fairway, bunker and water body outlined, with an
+   eighteen-hole *Åtgärdsbeskrivning* of works. Registerable exactly as
+   Veckefjärden's hole plans were. **It settles hole 3**: the sheet names "Hål 3
+   (gamla)" as a practice area, so the GolfTraxx survey's 234 m disagreement
+   there is the survey being right about a hole that no longer plays.
+3. **The SGF widget's slope and course-rating table per tee** sits inside the
+   scorecard asset this repo acquired and hashed on 2026-09-07 and was never
+   extracted. It names each tee numerically -- confirming the set is exactly
+   63/59/55/51/46/41 -- and its `sortOrder` puts 59 first, corroborating the
+   display default. The club's own 2014 rating PDFs disagree in every cell in
+   one direction, which is the 2020 WHS re-rating. Do not merge the tables.
+
+The card is confirmed 144/144 by a third source and by a live SGF re-fetch that
+is byte-identical to the stored capture -- with the caveat that the aggregators
+and the widget may all descend from SGF's GIT database, so it is a transcription
+check and not an independent measurement.
