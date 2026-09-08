@@ -19,6 +19,7 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { basicAuthorization, httpRange, openCog } from '../cog/cog-reader.mjs';
 import { lantmaterietCredentials } from './credentials.mjs';
+import { croppedFromSquare, publishedItemExtent } from './ring-item-extent.mjs';
 import { dtmItemsFor, ringLevelExtent, ringSpecFor } from '../../course-v2/ground-rings-registry.mjs';
 import { readChunk } from '../../course-v2/chunk-node.mjs';
 import { decodeTerrainGrid } from '../../course-v2/terrain-grid.mjs';
@@ -63,10 +64,20 @@ async function openItem(item) {
   const range = httpRange(item.href, { authorization });
   const cog = await openCog(range);
   if (cog.epsg !== 3006) throw new Error(`${item.id} is not EPSG:3006`);
-  if (Math.abs(cog.originX - item.minEasting) > 1e-6 || Math.abs(cog.originY - item.maxNorthing) > 1e-6) {
-    throw new Error(`${item.id} origin ${cog.originX},${cog.originY} is not the item square`);
-  }
-  const opened = { item, cog, range };
+  /* A COASTAL ITEM IS NOT ITS SQUARE. Lantmäteriet clips a coastal item's
+     raster to the ground it has, so the published rectangle can be a
+     sub-rectangle of the nominal 10 km square -- and on ANY edge. This used
+     to assert the raster origin WAS the square's north-west corner, which
+     holds for an inland item and for Norrfällsviken's items (clipped south
+     and east, so their NW corner survives) and is false at Visby, whose
+     636_68 and 637_68 both start 5,000 m east of their square's west edge.
+     What actually has to be true is weaker and is what the reads below
+     depend on: the published rectangle lies inside the nominal square, and
+     its pixel centres sit on the same metre lattice. `published` is that
+     measured rectangle, and every clip and pixel index downstream uses it
+     rather than the nominal square. */
+  const published = publishedItemExtent(cog, item);
+  const opened = { item, cog, range, published };
   openItems.set(item.id, opened);
   itemEvidence.set(item.id, {
     id: item.id,
@@ -76,6 +87,10 @@ async function openItem(item) {
     lastModified: head.headers.get('last-modified'),
     overviews: cog.levels.map(level => level.factor),
     noData: cog.noData,
+    /* the rectangle actually published, which for a coastal item is smaller
+       than the square its id names */
+    publishedExtent: published,
+    croppedFromSquareMetres: croppedFromSquare(published, item),
     levelsUsed: [],
   });
   return opened;
@@ -94,7 +109,7 @@ async function readLevel(level) {
   for (const item of items) {
     const opened = await openItem(item);
     if (!opened) continue; /* the square is not published: open sea */
-    const { cog, range } = opened;
+    const { cog, range, published } = opened;
     const factor = level.source.factor;
     /* an item may stop its overview chain early (the coast item is small);
        the finest overview no coarser than the level is then read bilinearly */
@@ -104,24 +119,24 @@ async function readLevel(level) {
     itemEvidence.get(item.id).levelsUsed.push({ lod: level.lod, overviewFactor: cogLevel.factor });
     /* the part of the level lattice inside this item */
     const step = level.sampleSpacingMetres;
-    const c0 = Math.max(0, Math.ceil((item.minEasting - extent.minEasting) / step - 1e-9));
-    const c1 = Math.min(size - 1, Math.floor((item.maxEasting - extent.minEasting) / step - 1e-9));
-    const r0 = Math.max(0, Math.ceil((extent.maxNorthing - item.maxNorthing) / step - 1e-9));
-    const r1 = Math.min(size - 1, Math.floor((extent.maxNorthing - item.minNorthing) / step - 1e-9));
+    const c0 = Math.max(0, Math.ceil((published.minEasting - extent.minEasting) / step - 1e-9));
+    const c1 = Math.min(size - 1, Math.floor((published.maxEasting - extent.minEasting) / step - 1e-9));
+    const r0 = Math.max(0, Math.ceil((extent.maxNorthing - published.maxNorthing) / step - 1e-9));
+    const r1 = Math.min(size - 1, Math.floor((extent.maxNorthing - published.minNorthing) / step - 1e-9));
     if (c1 < c0 || r1 < r0) continue;
     const before = range.transfer.bytes, beforeRequests = range.transfer.requests;
     if (cogLevel.factor === 1 && factor === 1) {
       /* level samples ARE pixel centres (x.5), `subsample` pixels apart */
-      const pixelColumn0 = Math.round((extent.minEasting + c0 * step) - item.minEasting - 0.5);
-      const pixelRow0 = Math.round(item.maxNorthing - (extent.maxNorthing - r0 * step) - 0.5);
+      const pixelColumn0 = Math.round((extent.minEasting + c0 * step) - published.minEasting - 0.5);
+      const pixelRow0 = Math.round(published.maxNorthing - (extent.maxNorthing - r0 * step) - 0.5);
       const columns = c1 - c0 + 1, rows = r1 - r0 + 1;
       const window = await cogLevel.readWindow({ column0: pixelColumn0, row0: pixelRow0, columns, rows, step: level.source.subsample });
       for (let r = 0; r < rows; r++) for (let c = 0; c < columns; c++) values[(r0 + r) * size + c0 + c] = window[r * columns + c];
     } else {
       /* overview pixel centres sit at item origin + factor * (index + 0.5) */
       const read = cogLevel.factor;
-      const px = e => (e - item.minEasting) / read - 0.5;
-      const py = n => (item.maxNorthing - n) / read - 0.5;
+      const px = e => (e - published.minEasting) / read - 0.5;
+      const py = n => (published.maxNorthing - n) / read - 0.5;
       const pc0 = Math.max(0, Math.floor(px(extent.minEasting + c0 * step)));
       const pc1 = Math.min(cogLevel.width - 1, Math.ceil(px(extent.minEasting + c1 * step)));
       const pr0 = Math.max(0, Math.floor(py(extent.maxNorthing - r0 * step)));

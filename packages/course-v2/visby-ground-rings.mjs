@@ -45,6 +45,12 @@ export const VISBY_GROUND_RINGS = Object.freeze({
       strokeIndexStatus: 'verified',
     }),
   }),
+  /* This ground's own terrain source ids: unlike every inland ground here it
+     does not register a single 'terrain-lm-1m', because its window is cut
+     from two named coastal items. publish-ground-rings records the ring
+     evidence as derived from these, and the manifest refuses an id it does
+     not carry. */
+  terrainSourceIds: Object.freeze(['terrain-lm-636-68', 'terrain-lm-637-68']),
   tileSegments: 256,
   /* Lantmäteriet dtm-cog items are 10 km squares named <northing/10 km>_<easting/10 km> */
   dtm: Object.freeze({
@@ -82,20 +88,33 @@ export const VISBY_GROUND_RINGS = Object.freeze({
      itself sits on are not full squares either -- they are clipped to the
      shore.
 
-     Measured against the items' own published polygons on a 64 m probe grid
-     about this frame origin:
+     Measured by exact rectangle intersection of the items' own published
+     `proj:bbox` extents against each ring, which is what matters because
+     every level is gated separately:
 
-       ring        published   would need sea fill
-        4,096 m     100.0%       0.0%   <- the current window, all real data
-        8,192 m      80.2%      19.8%
-       12,288 m      66.9%      33.1%
-       16,384 m      59.8%      40.2%
+       level(s)     ring       published   would need sea fill
+        0, 1         4,096 m    100.00%       0.00%   <- all real data
+        2            8,192 m     83.55%      16.45%
+        3, 4, 5, 6  16,384 m     62.60%      37.40%
 
-     Norrfällsviken's largest level measured 6.3% and it capped at 15%. Forty
-     per cent is a different regime, and the honest reading is that it is not
-     an anomaly to be capped away: it is the Baltic, seen from a course whose
-     own holes run along the beach. RH 2000 is referenced to mean sea level,
-     so the surface out there is known rather than missing.
+     Norrfällsviken's largest level measured 6.3% and it capped at 15%. Nearly
+     forty per cent is a different regime, and the honest reading is that it
+     is not an anomaly to be capped away: it is the Baltic, seen from a course
+     whose own holes run along the beach. RH 2000 is referenced to mean sea
+     level, so the surface out there is known rather than missing.
+
+     EXPECT THE FIRST ACQUIRE RUN TO REFUSE, and do not pre-empt it. The
+     western component's boundary is the west edge of the published items, a
+     straight line at E 685000 that runs through open water at this latitude
+     and through low shore further along it, so the inherited 3 m ceiling is
+     the threshold most likely to fail -- and on an island whose whole west
+     coast lies between 0 and 11 m it is also the test carrying the least
+     discriminating power here. The median and the fraction are what separate
+     a hole in the sea from a lost land square on this ground, because
+     Gotland's interior rises tens of metres above either. Let fillSeaHoles
+     print the component's own median, fraction and highest boundary sample,
+     then set all three thresholds from THOSE numbers with the run quoted
+     beside them.
 
      What must NOT be relaxed is the discriminator. A component is filled only
      if it is bounded by water in the middle (MEDIAN, which a few mixed shore
@@ -121,9 +140,9 @@ export const VISBY_GROUND_RINGS = Object.freeze({
     boundaryMedianMaximumHeightRH2000: 0.25,
     boundaryWaterMinimumFraction: 0.75,
     boundaryMaximumHeightRH2000: 3,
-    /* measured 40.2% at the 16 km root; the cap catches a lost delivery, the
+    /* measured 37.40% at the 16 km root; the cap catches a lost delivery, the
        boundary tests catch a lost land square */
     maximumFilledFraction: 0.5,
-    provenance: 'boundary thresholds measured at Norrfällsviken on the same datum; the fill fraction measured here from the items\' own published polygons, pending the acquire run\'s exact per-level numbers',
+    provenance: 'boundary thresholds measured at Norrfällsviken on the same datum; the fill fraction measured here by exact intersection of the items\' own published proj:bbox extents, pending the acquire run\'s exact per-level numbers',
   }),
 });

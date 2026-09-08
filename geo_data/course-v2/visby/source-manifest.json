@@ -864,7 +864,7 @@
       "id": "measured-canopy-evidence",
       "kind": "canopy",
       "path": "geo_data/course-v2/visby/vegetation/canopy-evidence.json",
-      "sha256": "474af78251ee920395632091950f349459873614d5dc5934a33e5c95227ba67b",
+      "sha256": "f182e90de5216a1ac18c57511e488a93dd93befdd6adcadad9244de8c949467c",
       "derivedFrom": [
         "laser-lm-24e002-636-68",
         "laser-lm-24e002-637-68",
@@ -1027,6 +1027,18 @@
       ],
       "use": "discovery-evidence",
       "notes": "Pinned Laserdata Skog inventory: ONE 24e002 City Mapper 2 campaign, captured 2024-02-03 to 2024-04-28, covering the AOI exclusively over items 24e002-636_68 (13,769,262 points, 0.649 returns/m2) and 24e002-637_68 (47,387,337 points, 1.811 returns/m2). The item boundary at N 6370000 is a provenance seam inside one campaign rather than a campaign seam, and it lies 562 m south of the southernmost played point. The scan is LEAF-OFF (February to April), so the deciduous under-detection recorded for Johannesberg and Upsala applies here; Kronholmen is pine and juniper ground, which limits it without removing it. record-laser-campaigns --check re-derives the live catalogue and fails on drift."
+    },
+    {
+      "id": "copc-hierarchy-census",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/acquisition/copc-hierarchy-census.json",
+      "sha256": "45d92d401271070158c3fea2353140dd28f2595fa7afb6c01b4290ba88c7de6e",
+      "derivedFrom": [
+        "laser-lm-24e002-636-68",
+        "laser-lm-24e002-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "COPC headers, the COPC VLR and the full hierarchy pages for both items, read over authenticated range requests with no point bytes. Written by the ground-vegetation workflow, which re-pins this checksum in the same run because it rewrites the file every time it runs."
     }
   ],
   "blockers": [
