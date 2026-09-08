@@ -324,3 +324,25 @@ The card is confirmed 144/144 by a third source and by a live SGF re-fetch that
 is byte-identical to the stored capture -- with the caveat that the aggregators
 and the widget may all descend from SGF's GIT database, so it is a transcription
 check and not an independent measurement.
+
+## Two sources found on 2026-09-08 that fill layers this model has empty
+
+1. **Per-hole prose EXISTS after all**, from a third party rather than the club:
+   Svensk Golf's banbesök (nr 6/2021, published 2021-12-22) carries named
+   playing commentary for three holes -- *Höjdarhålet* (hål 2, "klassisk risk-
+   och belöningsdesign … utslaget över havsviken"), *Skräckhindret* (hål 11,
+   "vattenhindret som slingrar sig fram längs med högersidan") and *Vackraste
+   punkten* (hål 6, "ett av norra Europas absolut bildskönaste par 5"). Visby
+   has **no `guide-notes.json` at all**, so the HUD shows no hole text; this is
+   what a first one would be written from, with `club` empty and `basis` naming
+   Svensk Golf. Hole 11's right-side water independently corroborates the local
+   rule below.
+2. **The club's local rules are hole-specific, and this model has no `marking`
+   whatsoever.** `visbygk.com/golf` carries: internal OB for holes 10 and 6 (a
+   ball at rest on 18's and 3's fairway respectively), an **infinite** red
+   penalty area on the RIGHT of hole 11, a drop zone at the front of tee 41 on
+   hole 17, a left-side penalty area off the 18th tee, and a no-play zone on the
+   nine's 5th. That is exactly the `course-rules.json` shape Veckefjärden
+   already uses, and the Ängsö rule applies: marking from a rulebook is a stated
+   rule, not a survey, so each run is placed and then checked to lie on the
+   player's own side.

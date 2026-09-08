@@ -72,8 +72,20 @@ const COURSES = [
     title: 'Visby Golfklubb — Banan i 3D', tag: 'Kronholmen', boot: 'Västergarn · Gotland',
     status: 'provisional', overviewUrl: 'courses/visby/overview.svg',
     // Numbered tees are official; their physical colour associations are unknown.
-    // Neutral UI swatches and an explicit default avoid inventing a yellow tee.
-    tees: { names: ['63', '59', '55', '51', '46', '41'], cols: [0xd6ddd6, 0xd6ddd6, 0xd6ddd6, 0xd6ddd6, 0xd6ddd6, 0xd6ddd6], def: 1, hideFrom: 5 } },
+    /* The six swatches were neutral grey with an explicit def, because the
+       colours behind these course-rating names were unknown and the file
+       refused to invent a yellow tee. They are known now, read off Caddee's own
+       `color` fields: 63 Vit, 59 Svart, 55 GUL, 51 Blå, 46 Orange, 41 Röd. Note
+       this card is WHITE-first where both other six-tee cards here are
+       black-first, which is why it had to be read rather than copied — and note
+       the club uses a DIFFERENT scheme on its nine, where 63/59 and 46/41 swap
+       (Caddee carries both blocks; the eighteen is the one whose sort_order
+       puts 59 first, agreeing with the SGF widget).
+       `def` is gone with the grey: yellow is 55 and the engine derives it, so
+       Visby now opens on the tee its members play like every other course. It
+       used to open on 59 because SGF's slope table lists 59 first — a display
+       order in a calculator, not a statement about who plays what. */
+    tees: { names: ['63', '59', '55', '51', '46', '41'], cols: [0xf4f4ee, 0x1a1a1a, 0xf0c93a, 0x4a8fe0, 0xe08b3a, 0xe0574a], hideFrom: 5 } },
   { slug: 'lidingo', build: 'lidingobuild', name: 'Lidingö GK', club: 'Lidingö Golfklubb',
     title: 'Lidingö Golfklubb — Banan i 3D', tag: 'Preliminär 3D', boot: 'Lidingö · Stockholm',
     status: 'provisional',

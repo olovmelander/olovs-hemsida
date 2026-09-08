@@ -4193,6 +4193,42 @@ reserve texts for this coast name tall and en. The engine's default plants over
 a quarter spruce. Here spruce is the rare one and birch rises on the low ground
 near the shore, which is where this course spends most of its round.
 
+### The tee colours were unknown, and grey swatches hid a gate that could not pass
+
+Visby's manifest shipped **six identical grey swatches** with an explicit
+`def: 1`, on the honest reasoning that the colours behind these course-rating
+names were unknown and the file would not invent a yellow tee. That left a
+latent failure nobody had run into: `check-app`'s default-tee gate asserts
+`got.teeOn === cols.indexOf(0xf0c93a)` **unconditionally**, and with no yellow in
+the table `indexOf` returns −1, so the gate cannot pass for this course. It has
+never been seen because that gate needs a browser and this container has none.
+
+Caddee publishes the colours in its own `color` fields, and reading them raw
+rather than through a summary matters, because it carries **two blocks**:
+
+| tee | eighteen | the nine |
+|---|---|---|
+| 63 | **Vit** | Svart |
+| 59 | **Svart** | Vit |
+| 55 | **Gul** | Gul |
+| 51 | **Blå** | Blå |
+| 46 | **Orange** | Röd |
+| 41 | **Röd** | Orange |
+
+The club uses a **different scheme on each of its two courses** — 63/59 and
+46/41 swap — and the eighteen is the block whose `sort_order` puts 59 first,
+which is what the SGF widget's own slope table does too. Both blocks agree on
+the one thing the engine turns on: **Gul is 55**, index 2. This card is also
+**white-first** where both other six-tee cards here are black-first, which is
+exactly why it had to be read and not copied.
+
+So the swatches are the club's colours now and `def` is gone with the grey:
+yellow is 55, the engine derives it, and Visby opens on the tee its members play
+like every other course. It used to open on 59 because SGF lists 59 first — a
+display order in a calculator, not a statement about who plays what, and the
+override existed only while the yellow was unknown. The pack is untouched; this
+is a manifest field, so none of the three checksum registries move.
+
 ### Running it
 
     node visbybuild/sat-crop.mjs   <name> <cx> <cz> <size> [z] [--plain]   # Esri z18, 0.32 m
