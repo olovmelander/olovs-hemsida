@@ -461,17 +461,51 @@ gate. Tested here, where no credential is needed.
 
 ## 9. What is open
 
-- **The played surfaces are two records that disagree and the file does not say
-  which is authoritative**: 11 OSM green rings of 2011–2016 vintage at a median
-  544 m² against 7 hand traces on the 2019 ortho at a median 412 m².
+Measured against the model as rebuilt on 2026-09-08 (CI run 34225400018), not
+against the plan.
+
+**Closed today**, and recorded here so the list is not read as unchanged:
+hole 13's bunker is in the model; the 2025 capture answered the §5 refusals that
+were caused by the 2019 one; the card marks are placed by searching a pad's
+interior rather than at its centroid, which with eight new decks took the
+card-distance residual from a median **10.88 m to 1.16 m**; and the sea went from
+9.90 to 607.74 ha.
+
+Still open, worst first:
+
+- **The played surfaces are two records that disagree, and nothing says which is
+  authoritative**: 11 OSM green rings of 2011–2016 vintage at a median 544 m²
+  against 7 hand traces on the 2019 ortho at a median 412 m². The 2025 capture
+  cannot arbitrate — five methods refused (§6) — and the lead is a finer laser,
+  not a newer photograph.
+- **The shoreline has no photographic record at all.** The capture was requested
+  over the played ground and stops 159 m short of the water: 0 of 98,571
+  sea-plate samples fall inside it. The sea is laser plus an OSM Landsat
+  coastline, and the OSM record is 30 m data, so read its few-metre agreement as
+  POSITION and never as shape. Closing this is one wider request on the same
+  service — which the repository has deliberately not made, because bulk tiling
+  an e-service backend is a question about service usage rather than licence.
 - **Green 9's ring is the one the laser refuses** — interior roughness 0.0313
   against a collar of 0.0308, where the other 17 run 1.82–3.86.
-- **Seven holes carry one observed tee pad for five card tees**, and the card
-  mark is placed at the pad's centroid rather than at the point inside it
-  nearest the card distance.
-- **Hole 13's bunker is measured and not yet in the model.**
+- **Four holes carry one observed tee pad for five card tees** (5, 6, 11 and 12),
+  down from seven. Two of the ninety marks sit **0.02 m** outside their pad's
+  edge, which is the 0.1 m coordinate rounding and not a placement error.
+- **The fairway rings and the 34 confirmed bunker outlines are scored candidates
+  and are not adopted.** Seven of the twelve fairway holes rest on one record
+  plus a rule; the bunkers' away-from-mapped census is not stable under its own
+  calibration loop, though the 34 confirmations are.
+- **41.7% of the tree-cover raster has no second record under it** (75,734
+  cells), because the review crops are hole boxes plus 90 m. Adopted whole with
+  that stated, on the ground that the checked part beats the model's own wood
+  rings by 2.2–2.5× and the alternative was no raster at all.
+- **Two 600 m² islets will flatten.** The v2 bed carve skips anything more than
+  0.5 m above the water; eight of the ten traced islands clear that and these two
+  do not.
 - **The forest floor has no ground class**, so measured canopy is painted as
   mown-green rough.
 - **The six par 3s carry no fairway and no semi at all.**
-- Current national imagery at 0.16 m is now obtainable, so the refusals in §5
-  that were caused by the 2019 capture deserve re-running rather than quoting.
+- **No posters.** `photos` is 0 in the manifest, so the chooser card shows the
+  gradient. The shot harness needs a real GPU; this ground has never been
+  photographed by it.
+- **Nothing here is a survey.** Every gate in the ledger that asks for
+  independent control remains open, and the model says so on every hole.
