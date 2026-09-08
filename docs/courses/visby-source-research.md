@@ -164,6 +164,99 @@ inaccessible with the configured account despite available metadata. The local
 candidate does not close those gates. Rebuild instructions and the remaining
 mapping work are in the [implementation handoff](../../visbybuild/mapping/NEXT-SESSION.md).
 
+## What 2026-09-08 added
+
+### An independent per-hole survey, and the two records it convicts
+
+[`geo_data/visby_clean.json`](../../geo_data/visby_clean.json) is Visby GK's
+18×5 GPS survey, pulled from GolfTraxx **course id 62230SW** ("Visby Golfklubb,
+Vastergarn Kronholmen 415, Visby, SW") with the repo's own
+[`golftraxx_extract.py`](../../geo_data/golftraxx_extract.py). Until now this
+ground had NO independent per-hole geometry at all: the section above records
+that neither the SGF scorecard nor Caddee carries a latitude or longitude.
+
+[`golftraxx-review.mjs`](../../visbybuild/mapping/golftraxx-review.mjs) joins it
+to the EPSG:3006 frame through the repo's own Krüger series and measures the
+agreement rather than asserting it. **Fifteen holes agree at a median 2.09 m
+and a maximum 3.24 m** between the survey's green centre and the model's traced
+green centroid. Retargeting each traced corridor onto the survey's own
+endpoints, all fifteen come out shorter than the card by a one-sided **−5.7% to
+−17.0%, median −8.4%** — the signature of a right hole assignment, since the
+provider's back-tee marker stands in front of the card's back tee. It also
+supplies **hole 12**, whose physical platform no source image ever showed:
+−36.7% against the card before, −8.2% after.
+
+Three holes disagree and the review separates them by fault:
+
+- **Holes 3 and 4: the provider is wrong.** Their survey endpoints imply holes
+  18.3% and 52.7% *longer* than the card, which a played line cannot be. The
+  imagery shows both are real golf features on the shared property — a mown
+  green with a greenside bunker at local [−96, −554], a tee-like apron at
+  [−47, −593] — most likely on the separate nine.
+- **Hole 9: the model is wrong**, and four records agree. See
+  [`green-9-review.json`](../../visbybuild/mapping/green-9-review.json).
+
+This survey is third-party geometry. It is recorded as a cross-check; it
+supplies no approved control and by itself moved no geometry.
+
+### The orthophoto question is answered, and the answer is free
+
+The section above records that "National 2026 orthophoto pixels are still
+inaccessible with the configured account". The COG still is — `dl1` answers 401
+unauthenticated and 403 for this account — but **the pixels are servable
+without credentials** through the viewing service Min karta proxies:
+
+| source | resolution | capture | reachable |
+|---|---|---|---|
+| **Lantmäteriet `Ortofoto_0.16`** via `minkarta.lantmateriet.se/map/ortofoto` | **0.16 m** RGBI | **2026-04-10**, leaf-off | yes, no credentials |
+| **Region Gotland `Ortofoto_2022`** ImageServer | 0.25 m | summer, leaf-on | yes, open service |
+| Lantmäteriet `orto-f2-2026` COG on `dl1` | 0.16 m | same flight | **no** — 401/403 |
+| Esri World Imagery z18 | 0.3214 m | WorldView-2, **2016-08-24** | yes |
+| municipal 2022 image (what the model was traced from) | — | 2022 | retained |
+
+Esri z19, z20 and z21 all return the same 2,521-byte "Map data not yet
+available" placeholder, so z18 is its floor rather than a choice. The two
+reachable orthophotos are therefore **twice the sampling and ten years newer**
+than the imagery every Visby trace so far was read from, and they are a leaf-off
+and a leaf-on frame of the same ground — which is the pair a mown boundary
+needs. [`ortho-crop.mjs`](../../visbybuild/ortho-crop.mjs) serves both in this
+frame with the model drawn over.
+
+Rights are recorded, not resolved. Lantmäteriet's ortho STAC declares
+CC-BY-4.0 and also states that use is legally reviewed under GDPR and requires
+accepting special terms; the proxy's capabilities carry no Fees or
+AccessConstraints element; Region Gotland's terms are likewise open. Both are
+used as tracing and review evidence, neither is redistributed, and no
+orthophoto is or becomes a runtime texture.
+
+### Measured vegetation, and a sixteen-kilometre ground
+
+Both credentialed chains ran in CI, where the Lantmäteriet secrets are, started
+by pushing a control file to this branch.
+
+**Vegetation.** The pinned inventory is one campaign — 24e002, City Mapper 2,
+2024-02-03…04-28, **leaf-off** — over `24e002-636_68` (13,769,262 points) and
+`24e002-637_68` (47,387,337). Acquire run 34201242013 turned 31,657 crown
+candidates into **3,012 machine-reviewed individuals** on 116 object tiles plus
+stand fields on all 256. The cloud's own class-2 ground sits within **0.00 m
+median of the published DTM on every land tile**, which is an independent
+sensor pass confirming the terrain. Leaf-off is the caveat: it is the condition
+under which Johannesberg's measured canopy fell 43.9% → 17.6%.
+
+**Terrain.** [`visby-ground-rings.mjs`](../../packages/course-v2/visby-ground-rings.mjs)
+takes the ground from a 4,096 m five-level pyramid to a **16,384 m root over
+seven levels, 469 tiles**, published by run 34204274378. Nearly forty per cent
+of that root is open Baltic that Markhöjdmodell does not tile at all — the whole
+`*_67` column of 10 km squares answers 404 while all four eastern neighbours
+answer 200 — and the acquire measured the fill rather than assuming it: one
+component per level, boundary median **0.230 m RH 2000 at every level**, which
+is exactly the sea plateau inside the course window, and filled with that same
+height. Every threshold in the spec is this ground's own measurement now.
+
+Neither publish promotes the software frame: `canonicalFrame.origin` remains
+`null` with `originStatus:'pending-control-approval'`, and independent controls,
+derivative terms and production release stay open.
+
 ## Photographs, videos and historical references
 
 Exact downloadable image URLs are enumerated in the ledger. Useful entrypoints
