@@ -7,5 +7,20 @@
 # them at the gates: build-canopy rewrites canopy-evidence.json, which this
 # ground pins, so the publish failed on its own evidence. The workflow re-pins
 # it now, beside the census re-pin that exists for the same reason.
+#
+# Run 34204225370 compiled them again and lost them again, this time on
+# lidingobuild/course.node-test's `objects === 0` - a guard that was true only
+# while this ground had no generation, and which a successful publish therefore
+# necessarily breaks. The workflow publishes BEFORE it gates, so the first run
+# to attach object registries failed on its own success. That test asserts the
+# invariant now (objects and stand fields on the finest tiles only, never on the
+# coarse rings whose samples are averaged ground, every tile but the root
+# keeping its parentId) rather than the absence of a generation.
+#
+# And this re-fire waits for the model rebuild on purpose. compile-vegetation
+# builds its exclusion mask from the migration model, and the model changed
+# under it today: 8 measured tee decks, a green bunker on the 13th, and a sea
+# that went from 9.90 to 607.74 ha. Exclusions computed against the old model
+# would have kept trees off ground that has moved. Rebuilt in run 34225400018.
 publish=true
 observed_on=2026-09-08
