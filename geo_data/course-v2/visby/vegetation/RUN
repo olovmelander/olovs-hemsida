@@ -10,3 +10,9 @@ observed_on=2026-09-08
 # because none was detected on one. Published AFTER the ring graph, so the
 # generation attaches to the 469-tile world rather than to the pyramid it
 # replaced.
+# re-fire 2026-09-08: run 34204613884 compiled and published the generation
+# and then lost it at the commit step -- a rebase conflict on this ground's
+# source-manifest.json, because the sea-flag commit re-pinned checksums in that
+# same file while the run was reading points. The chain is deterministic with
+# the same observed_on, so this repeats it against a settled branch. Do not push
+# to the branch while it runs.
