@@ -97,6 +97,28 @@ test('Visby published compatibility pack preserves canonical observed geometry a
   assert.equal(clubhouses.length, 1);
   assert.equal(clubhouses[0].id, geometry.clubhouseWayId);
   assert.match(clubhouses[0].name, /klubbhus/i);
+  /* THE CLUB DRAWS ITS OWN TEES, and the derivation is checked against that.
+     Caddee's eighteen hole plans put a numbered disc on every tee: all 18 draw
+     six, and 16 group them at exactly as many distinct places as the card has
+     distinct lengths, in that order from the back tee to the front -- which is
+     the shape `teeMarks` derives. Nothing is READ off the plans, which are
+     stylised illustrations and are not registered; what is counted is
+     structure, which is falsifiable and was falsified twice: holes 13 and 14
+     draw at separate places two tees the card gives one length, and on 14 the
+     plan's PRINTED distances agree with its own drawing against the card. Those
+     two are recorded, not resolved. */
+  const plans = json('./mapping/hole-plans.json');
+  assert.equal(plans.summary.holesWhereThePlanDrawsSixTees, 18);
+  assert.equal(plans.summary.holesWhereTheGroupingMatchesTheCard, 16);
+  assert.deepEqual(plans.summary.disagreements.map(row => row.hole), [13, 14]);
+  for (const row of plans.holes) {
+    if (!row.matchesCardStructure) continue;
+    const hole = model.holes.find(candidate => candidate.n === row.hole);
+    const points = new Set(hole.tees.marks.map(mark => mark.c.join(','))).size;
+    if (hole.tees.status === 'unresolved-physical-platform') { assert.equal(points, 1); continue; }
+    assert.equal(points, row.planGroupSizesBackToFront.length,
+      `hole ${row.hole} must stand its tees at as many places as its own plan draws`);
+  }
   assert.equal(model.evidence.terrainModifiedForPlayingSurfaces, false);
   assert.equal(model.evidence.canonicalOriginApproval, 'pending-independent-control');
 });

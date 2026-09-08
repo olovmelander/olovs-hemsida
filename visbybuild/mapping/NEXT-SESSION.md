@@ -275,11 +275,16 @@ the source images are not redistributed as runtime textures.
 Three published records outrank anything measured here. Acting on them is the
 next work; nothing below is done.
 
-1. **Caddee's eighteen hole plans draw all six tee pads as separate hatched
-   decks with their numbers**, plus carry distances, green-depth arrows and some
-   elevation profiles. Identity confirmed by par and index on all 18 holes
-   against `card.json`, 18/18. This is the record that supersedes the
-   card-offset tee derivation. Two first readings: the plans quote the distance
+1. **Caddee's eighteen hole plans draw all six tees as numbered discs on the
+   hole**, plus carry distances, green-depth arrows and some elevation profiles.
+   Identity confirmed by par and index on all 18 holes against `card.json`,
+   18/18. This is the record that supersedes the card-offset tee derivation --
+   and it has been COUNTED already ([`read-hole-plans.mjs`](read-hole-plans.mjs)
+   → [`hole-plans.json`](hole-plans.json), gated by the artifact test): all 18
+   draw six tees and 16 group them exactly as the card does, back to front,
+   which is the shape the model derives. What remains is READING positions off
+   them, which needs a registration and a measurement of the drawings' own
+   distortion; nothing here has either. Two first readings: the plans quote the distance
    to the green's FRONT where the card quotes its centre (hole 1: a uniform
    -14 m with green depth 29 beside it), so green depth per hole is derivable;
    and hole 14 reads 160/140 for tees 63/59 against the card's 155/136 while its

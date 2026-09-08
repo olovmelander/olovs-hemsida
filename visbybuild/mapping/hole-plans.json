@@ -1,0 +1,599 @@
+{
+ "source": {
+  "publisher": "Caddee",
+  "page": "https://www.caddee.se/klubb/visby-golfklubb",
+  "courseId": "9e6fa30e-fe7e-4a95-923d-4b4727144ff8",
+  "retrieved": "2026-09-08",
+  "rights": "(c) Caddee; fetched for review and never redistributed, and no pixel leaves this repository",
+  "identity": "par and stroke index on all 18 holes match visbybuild/card.json, 18 of 18"
+ },
+ "method": "/* What Caddee's eighteen hole plans say about where Visby's six tees stand.\n\n   The club publishes a professional plan per hole through Caddee, and every one\n   of them DRAWS THE TEES: a numbered blue disc per tee, on the hole, strung from\n   the back tee up towards the green. That is the record the orthophoto could not\n   supply -- `mapping/tee-decks.json` records the refusal and its numbers -- and\n   the model's tee positions are derived rather than read, so this asks the plans\n   whether the derivation's SHAPE is right.\n\n   IT DOES NOT REGISTER THE DRAWINGS, and that is deliberate. They are stylised\n   illustrations, not orthophotography; a similarity fitted on two anchors would\n   read positions whose error is the drawing's own distortion, and nothing here\n   measures that distortion. What can be counted without registering anything is\n   the STRUCTURE: how many distinct places the plan puts six tees in, and whether\n   they run down the hole in card order. Both are falsifiable, and both are what\n   the derivation assumes.\n\n   The discs are found by colour and shape, not by reading their numbers: a disc\n   is 21-22 px across at 270-310 px of Caddee's own navy, two tees sharing a spot",
+ "holes": [
+  {
+   "hole": 1,
+   "card": [
+    159,
+    146,
+    120,
+    120,
+    95,
+    95
+   ],
+   "cardGroups": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "planDiscComponents": 4,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 4,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 2,
+   "card": [
+    411,
+    390,
+    360,
+    319,
+    275,
+    275
+   ],
+   "cardGroups": [
+    1,
+    1,
+    1,
+    1,
+    2
+   ],
+   "planDiscComponents": 5,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    1,
+    1,
+    2
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 5,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 3,
+   "card": [
+    525,
+    490,
+    490,
+    448,
+    400,
+    380
+   ],
+   "cardGroups": [
+    1,
+    2,
+    1,
+    1,
+    1
+   ],
+   "planDiscComponents": 5,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    2,
+    1,
+    1,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 5,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 4,
+   "card": [
+    310,
+    287,
+    287,
+    250,
+    250,
+    216
+   ],
+   "cardGroups": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "planDiscComponents": 4,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 4,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 5,
+   "card": [
+    170,
+    157,
+    142,
+    134,
+    121,
+    97
+   ],
+   "cardGroups": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "planDiscComponents": 6,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 6,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 6,
+   "card": [
+    447,
+    423,
+    403,
+    358,
+    358,
+    334
+   ],
+   "cardGroups": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ],
+   "planDiscComponents": 5,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 5,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 7,
+   "card": [
+    200,
+    171,
+    141,
+    141,
+    141,
+    112
+   ],
+   "cardGroups": [
+    1,
+    1,
+    3,
+    1
+   ],
+   "planDiscComponents": 4,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    3,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 4,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 8,
+   "card": [
+    414,
+    388,
+    345,
+    288,
+    288,
+    242
+   ],
+   "cardGroups": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ],
+   "planDiscComponents": 5,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 5,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 9,
+   "card": [
+    334,
+    292,
+    292,
+    251,
+    251,
+    201
+   ],
+   "cardGroups": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "planDiscComponents": 4,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 4,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 10,
+   "card": [
+    476,
+    464,
+    412,
+    412,
+    372,
+    372
+   ],
+   "cardGroups": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "planDiscComponents": 4,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 4,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 11,
+   "card": [
+    329,
+    297,
+    297,
+    244,
+    244,
+    208
+   ],
+   "cardGroups": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "planDiscComponents": 4,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 4,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 12,
+   "card": [
+    321,
+    311,
+    311,
+    274,
+    222,
+    222
+   ],
+   "cardGroups": [
+    1,
+    2,
+    1,
+    2
+   ],
+   "planDiscComponents": 4,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    2,
+    1,
+    2
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 1,
+   "modelMatchesPlanStructure": false
+  },
+  {
+   "hole": 13,
+   "card": [
+    376,
+    367,
+    367,
+    309,
+    271,
+    271
+   ],
+   "cardGroups": [
+    1,
+    2,
+    1,
+    2
+   ],
+   "planDiscComponents": 5,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    1,
+    1,
+    2
+   ],
+   "matchesCardStructure": false,
+   "modelDistinctTeePoints": 4,
+   "modelMatchesPlanStructure": false
+  },
+  {
+   "hole": 14,
+   "card": [
+    155,
+    136,
+    136,
+    120,
+    120,
+    94
+   ],
+   "cardGroups": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "planDiscComponents": 5,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ],
+   "matchesCardStructure": false,
+   "modelDistinctTeePoints": 4,
+   "modelMatchesPlanStructure": false
+  },
+  {
+   "hole": 15,
+   "card": [
+    413,
+    385,
+    350,
+    316,
+    316,
+    290
+   ],
+   "cardGroups": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ],
+   "planDiscComponents": 5,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 5,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 16,
+   "card": [
+    482,
+    464,
+    443,
+    408,
+    367,
+    367
+   ],
+   "cardGroups": [
+    1,
+    1,
+    1,
+    1,
+    2
+   ],
+   "planDiscComponents": 5,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    1,
+    1,
+    2
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 5,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 17,
+   "card": [
+    192,
+    174,
+    154,
+    139,
+    123,
+    100
+   ],
+   "cardGroups": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "planDiscComponents": 6,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 6,
+   "modelMatchesPlanStructure": true
+  },
+  {
+   "hole": 18,
+   "card": [
+    516,
+    477,
+    440,
+    395,
+    395,
+    340
+   ],
+   "cardGroups": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ],
+   "planDiscComponents": 5,
+   "planTeesDrawn": 6,
+   "planGroupSizesBackToFront": [
+    1,
+    1,
+    1,
+    2,
+    1
+   ],
+   "matchesCardStructure": true,
+   "modelDistinctTeePoints": 5,
+   "modelMatchesPlanStructure": true
+  }
+ ],
+ "summary": {
+  "holesWhereThePlanDrawsSixTees": 18,
+  "holesWhereTheGroupingMatchesTheCard": 16,
+  "meaning": "the plans are not registered and no position is read from them. What is counted is whether the club draws its six tees at as many distinct places as its card has distinct lengths, and in that order from the back tee to the front -- which is exactly what the model derives",
+  "modelMatchesPlanStructure": 15,
+  "disagreements": [
+   {
+    "hole": 13,
+    "card": [
+     376,
+     367,
+     367,
+     309,
+     271,
+     271
+    ],
+    "cardGroups": [
+     1,
+     2,
+     1,
+     2
+    ],
+    "planGroups": [
+     1,
+     1,
+     1,
+     1,
+     2
+    ],
+    "reading": "the plan draws at a separate place two tees the card gives the same length, which a club may legitimately do; and on hole 14 a second record agrees, the plan PRINTING 160 and 140 for tees 63 and 59 against the card 155 and 136 while its other four tees show the expected offset to the green front. The card is what this build ships; the disagreement is recorded, not resolved."
+   },
+   {
+    "hole": 14,
+    "card": [
+     155,
+     136,
+     136,
+     120,
+     120,
+     94
+    ],
+    "cardGroups": [
+     1,
+     2,
+     2,
+     1
+    ],
+    "planGroups": [
+     1,
+     1,
+     1,
+     2,
+     1
+    ],
+    "reading": "the plan draws at a separate place two tees the card gives the same length, which a club may legitimately do; and on hole 14 a second record agrees, the plan PRINTING 160 and 140 for tees 63 and 59 against the card 155 and 136 while its other four tees show the expected offset to the green front. The card is what this build ships; the disagreement is recorded, not resolved."
+   }
+  ]
+ }
+}

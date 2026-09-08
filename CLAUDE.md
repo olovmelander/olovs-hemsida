@@ -4043,12 +4043,27 @@ anything measured here, and none of them is on the page you would look at first.
 They are listed because acting on them is the next work, not because it is done.
 
 - **Caddee publishes eighteen professional hole plans, and they draw all six
-  tee pads as separate hatched decks with their numbers.** That is precisely the
-  record the orthophoto could not supply, and it supersedes the card-offset
-  derivation the moment somebody registers it. The plans also carry carry
+  tees as numbered discs on the hole.** That is precisely the record the
+  orthophoto could not supply, and it supersedes the card-offset derivation the
+  moment somebody registers it. **It has been counted, and it agrees.**
+  `mapping/read-hole-plans.mjs` finds the discs by colour and size — Caddee's
+  own navy at 21–22 px, doubled where two tees share a spot and tripled where
+  three do — and rejects the left-hand distance table as the column of five it
+  is. **All 18 plans draw six tees, and 16 group them at exactly as many
+  distinct places as the card has distinct lengths, in that order from the back
+  tee to the front**, which is the shape `teeMarks` derives. Nothing is READ off
+  them: they are stylised illustrations, not orthophotography, and a similarity
+  fitted on two anchors would read positions whose error is the drawing's own
+  distortion, which nothing here measures. Structure is falsifiable, and it
+  falsified twice — **holes 13 and 14 draw at separate places two tees the card
+  gives one length**, and on 14 the plan's own printed distances agree with its
+  own drawing against the card (160 and 140 for tees 63 and 59 against 155 and
+  136, while its other four show the expected offset). Recorded, not resolved:
+  the card is what ships. The plans also carry carry
   distances, green-depth arrows and, on some holes, a tee-to-green elevation
   profile. Identity confirmed the honest way: par and index on all 18 holes
-  against `card.json`, 18 of 18. Two measurements came out of a first reading —
+  against `card.json`, 18 of 18. Two more measurements came out of a first
+  reading —
   **the plans quote the distance to the green's FRONT where the card quotes its
   centre** (hole 1: a uniform −14 m, with green depth 29 printed beside it), so
   the plans can derive green depth per hole; and **hole 14 is an exception worth
