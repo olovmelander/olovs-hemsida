@@ -860,11 +860,16 @@ is on the page you would look at first:
 `tools/hole-geometry.mjs <build>` prints what the model says about every
 hole — bend and where, tee/green heights and the DEM profile, bunkers and
 water by the PLAYER'S side — and every side, slope and crossing in the notes
-was checked against it. Two traps it carries: lib's `right()` pairs with
+was checked against it. THREE traps it carries: lib's `right()` pairs with
 `alongLine`'s angle, not with `bearing()`, so mixing them reflects sides
-(CLAUDE.md's old warning, met again); and a dogleg's direction is the sign
+(CLAUDE.md's old warning, met again); a dogleg's direction is the sign
 of the heading change — the elbow of a LEFT dogleg lies RIGHT of the
-tee–green chord, so a chord-side label is inverted. Where the club and the
+tee–green chord, so a chord-side label is inverted; and until 2026-09-08 it
+took a water's side from the ring's **centroid**, which is right for a pond
+and meaningless for a coastline — see Visby's release pass below, where it
+put the Baltic on the wrong hand of the 18th against the club's own rulebook.
+It reads the closest approach now, and says "both sides" where the line
+crosses. Where the club and the
 model disagree (Johannesberg's 11th "rakt" against a 29° bend; the 18th's
 fairway-crossing hazard 9 m off the modelled line; Norrfällsviken's dogleg
 distances) the notes say neither. Facts the club states and the model lacks
@@ -3882,12 +3887,23 @@ rewrote.
 
 ### The LiDAR vegetation, and the layer that is genuinely absent
 
-`vegetation.forest/wood/scrub/wetland/sand/rock` are ALL empty, and that is not
-a modelling shortcut: **OSM has zero vegetation polygons of any class inside the
-played bbox + 500 m** — nearest forest 795 m, nearest wood 982 m — while the
-imagery measures ~22.4 ha (18.1%) of canopy inside the very same property hull.
-The absence is in the data, not on the ground, and waiting for OSM will never
-fill it.
+`vegetation.*` carries only DISTANT rings, and that is not a modelling
+shortcut: **OSM has zero vegetation polygons of any class inside the played
+bbox + 500 m** — nearest forest 795 m, nearest wood 982 m — while the imagery
+measures ~22.4 ha (18.1%) of canopy inside the very same property hull. The
+model now holds 24 forest rings (1005 ha), 6 wood (228 ha), 3 scrub and 4
+wetland, and **measured, not one square metre of any of them comes within
+300 m of the played ground**; only 0.3 ha of `sand` does. The absence near the
+holes is in the data, not on the ground, and waiting for OSM will never fill it.
+
+**So the v2 generation owns every tree on this course, and the GPK1 path has
+none.** The middle planted ring is gated on a tree-cover raster (`M.cover`);
+Visby has no `tree-cover.json`, so on `?v2=0` the planter stands up ZERO trees
+and `check-app` says so in as many words (`tree export (0) matches the planter
+count (0)`). That is deliberate and is what the far-ring ungating below is
+about — but it means the GPK1 fallback shows Kronholmen bare, and the fallback
+is what a visitor gets if the v2 ground ever fails to load. It is a
+degradation, not an untruth, and it is written down here rather than found.
 
 The credentialed chain ran in CI (the secrets live there; `dl1` answers 401 from
 a session container). Pinned inventory: **one campaign, 24e002, City Mapper 2,
@@ -4228,6 +4244,66 @@ like every other course. It used to open on 59 because SGF lists 59 first — a
 display order in a calculator, not a statement about who plays what, and the
 override existed only while the yellow was unknown. The pack is untouched; this
 is a manifest field, so none of the three checksum registries move.
+
+### The release pass — what had to be true before this course went public
+
+- **The 3rd is the club's 3rd, and the club's own map says so.** The club
+  rebuilt its third for the 2023 season where the old fifteenth lay, and this
+  model's hole-3 green is traced from the 2022 municipal photo — the wrong side
+  of that date. The 2026 imagery cannot settle it: a live green complex and a
+  green kept mown as a practice ground are the same picture from above, which
+  is what Fulke Design's masterplan says to expect.
+  `visbybuild/mapping/register-overview.mjs` asks a different record instead —
+  Caddee's overview plan, whose per-hole par and index match this repo's card
+  on all eighteen. It finds the numbered discs BY COLOUR, drops the legend's
+  own, and fits a rigid similarity by ICP against the hole MIDPOINTS; **no
+  numeral is ever read**, and the check that never entered the fit is that the
+  result reproduces the numerals legible by eye at holes 1, 3, 4, 5 and 6. The
+  residual is large (median 46.5 m at 2.12 m/px) and beside the point, so the
+  statistic reported with it is the **assignment margin** — next-nearest disc
+  over assigned disc, median 3.61×, worst 1.42× — because the question is which
+  disc belongs to which hole, not how well the map draws. Our hole 3 lands on
+  the disc the club numbers 3. The 2023 green SHAPE is still unconfirmed and
+  the hålguide says so.
+- **The card and hole 1 have a dated expiry.** visbygk.com published
+  "Renovering av hål 1" on 2026-08-13: the rebuild starts late October 2026 and
+  the new hole is planned to open spring 2027 — tee 46/41 lowered, a new 41
+  built, a bigger green, the right bunker gone and two new ones left, no
+  bunkers left on the way to the green. The model shows autumn 2026, which is
+  what it is built from. The same text independently corroborates it: the club
+  writes of THE right bunker, singular, and the model has exactly one.
+- **A RING'S CENTROID IS NOT ITS SIDE, and the 18th had the Baltic on the wrong
+  hand.** `tools/hole-geometry.mjs` — the tool every side in every hålguide was
+  checked against — took a water's side from the ring's CENTROID. Fine for a
+  pond; meaningless for a coastline. Visby's sea ring spans x −2048..143 and
+  z −2048..461 and its centroid falls a kilometre north of a hole whose tee is
+  at z 353, so the 18th was reported with the sea on its right while the club's
+  local rule reads "pliktområdet till vänster". The side is taken at the
+  CLOSEST APPROACH now and a crossing line is reported as crossing. Measured
+  over all nine builds: 25 crossing lines go from an arbitrary L/R to "both
+  sides", and only three non-crossing sides flip — Visby's 11th and 18th on the
+  sea ring, and Upsala's 5th on a water no note mentions. **A wrong side that
+  survives is one nobody re-derived from a second record**; the club's rulebook
+  is what caught this.
+- **`isSea` does not drown Kronholmen, and that was measured before believing
+  it.** The Ängsö lesson is that `isSea` lays one plane at `seaLevel − 0.05`
+  across the whole heightfield. Here seaLevel is 0.23 and the land minimum is
+  0.170: decoding HF0 with the engine's own codec, 568,411 of 1,050,625 samples
+  sit at the sea plateau and **exactly ONE** non-sea sample lies under the
+  plane. The vista tint's band is a course quantity (`seaTintBandMetres` 0.05,
+  measured by connectivity) rather than the inherited 0.5.
+- **A gap that is declared is not a gap that is missing.** `check-app` requires
+  a physical tee platform per hole on a mapped-only ground, and Visby's 12th has
+  none — no source image has ever shown it, so build-course refuses to invent a
+  pad and stamps `tees.status: 'unresolved-physical-platform'`, which emit-pack
+  carries into the pack. The gate reads that declaration: an UNdeclared missing
+  platform still fails, a declaration on a hole that HAS a pad fails too, and
+  the exception is printed either way.
+- **`acquisition.node-test`'s window count moved and had to be attributed, not
+  re-pinned.** 891 → 893, all of it Visby's 7th (4 → 6 references): its three
+  newly-assigned bunkers reach 11 m further east and 12 m further north than
+  its green did. Isolated by emptying just those bunkers (94) and by restoring
+  just the old single-point tee marks (96) — the bunkers are the whole cause.
 
 ### Running it
 
