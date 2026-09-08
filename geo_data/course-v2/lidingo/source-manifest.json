@@ -432,7 +432,7 @@
       "id": "terrain-window-acquisition",
       "kind": "acquisition",
       "path": "geo_data/course-v2/lidingo/acquisition/terrain-window.json",
-      "sha256": "8e1fa4935fa889c748cc6913d68391ef858f95588459b7bc1b7194c8ea29b809",
+      "sha256": "f479718d07661b39a2f75cdce694fd95a2f5c44881a6980fd8e66c630f49ce82",
       "derivedFrom": [
         "terrain-lm-1m"
       ],
@@ -643,7 +643,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "lidingobuild/course-model.json",
-      "sha256": "51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12",
+      "sha256": "0f0d32f4afd9256f1166cf6a5427c36bb13e49aa2230280ef25a82fbce9b74f3",
       "derivedFrom": [
         "terrain-lm-1m",
         "water-breaks-lm-1m",
@@ -670,7 +670,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/lidingo/migration/course-model.epsg3006.json",
-      "sha256": "bffda03d0ee5cf0056d22e5e4262adc8016ed8f0b4a79fc766d2cf0db536cf74",
+      "sha256": "35c59339a04db91748be4abecc9376c8733374ebf1823c8316362be4a12cf984",
       "derivedFrom": [
         "terrain-lm-1m",
         "water-breaks-lm-1m",
@@ -686,7 +686,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/lidingo/migration/residual-report.json",
-      "sha256": "8badc6885df4ba51ce64167e60af24cd17369a02a4c83bee9321ab9d90b06da8",
+      "sha256": "e77ffb502ed23c791c66b0f99a7428cfd45e5fa9fed955facbde8865ee152aae",
       "derivedFrom": [
         "terrain-lm-1m",
         "water-breaks-lm-1m",
@@ -835,7 +835,7 @@
       "id": "building-roof-evidence",
       "kind": "control",
       "path": "lidingobuild/mapping/building-height-evidence.json",
-      "sha256": "ee6a17e74d942c79da14e37225aeb975dfc4bfe68ca045ce231c8925a5a89896",
+      "sha256": "37302773508c2b56de528b027f05b13f4528592a8887170dc5fa43ee03815d1c",
       "derivedFrom": [
         "laser-lm-skog",
         "terrain-lm-1m",
@@ -849,7 +849,7 @@
       "id": "building-roof-candidates",
       "kind": "topography",
       "path": "lidingobuild/mapping/building-roof-meshes.json",
-      "sha256": "b4fba5a233fc72f168ceb0fd337f5aa43ed860c736c46afe6763e8447c10bd9a",
+      "sha256": "8273731cc64852e860cf39483c2f254ebbbd66e7e46e5c59fd98e289acdcc35e",
       "derivedFrom": [
         "laser-lm-skog",
         "terrain-lm-1m",
