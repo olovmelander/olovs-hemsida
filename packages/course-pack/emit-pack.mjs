@@ -83,8 +83,17 @@ const b64ToRaw = s => Buffer.from(s, 'base64');
 const slug = slugArg || path.basename(buildDir.replace(/\/$/, '')).replace(/build$/, '');
 const pack = writePack({
   slug,
+  /* seaTintBandMetres is how far ABOVE seaLevel the vista still counts a
+     sample as water, and it is a course quantity because a constant cannot
+     serve both kinds of coast. Where a bare-earth DTM carries the sea as a
+     flattened surface, that surface can read a few centimetres ABOVE the
+     level the model declares -- at Visby it reads 0.240 against a declared
+     0.230, so a band of zero finds 8.8 ha of a 6,539 ha sea. A course that
+     does not declare one keeps the engine's own 0.5 m, so nothing already
+     published moves. */
   geo: { origin: model.origin, mPerLon: model.mPerLon,
-         seaLevel: OLD ? model.lakeLevel : model.seaLevel, frame: model.frame },
+         seaLevel: OLD ? model.lakeLevel : model.seaLevel, frame: model.frame,
+         ...(model.seaTintBandMetres === undefined ? {} : { seaTintBandMetres: model.seaTintBandMetres }) },
   hf0: { x0: hf.hf0.x0, z0: hf.hf0.z0, dx: hf.hf0.dx, nx: hf.hf0.nx, nz: hf.hf0.nz, h0: hf.hf0.h0, hs: hf.hf0.hs },
   hf1: { x0: hf.hf1.x0, z0: hf.hf1.z0, dx: hf.hf1.dx, nx: hf.hf1.nx, nz: hf.hf1.nz, h0: hf.hf1.h0, hs: hf.hf1.hs },
   streams: [b64ToRaw(hf.hf0.b64), b64ToRaw(hf.hf1.b64), raw(vec)],

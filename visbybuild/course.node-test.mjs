@@ -57,10 +57,25 @@ test('water render partitions preserve source topology, levels and physical shor
     assert.deepEqual(water.ring, feature.geometry.coordinates[0].map(coordinate => local(coordinate.slice(0, 2))));
     assert.deepEqual(water.shoreline.lines, parent.properties.shoreline.lines.map(line => ({ line: line.map(coordinate => local(coordinate.slice(0, 2))) })));
     assert.equal(water.level, feature.properties.heightRH2000);
-    assert.equal(water.isSea, false);
+    /* The model no longer disagrees with its own source about what the sea
+       is. It used to write isSea:false on every ring while carrying
+       sourceIsSea from the national water break geometry -- so 906.7 ha of
+       Baltic across seven rings was flagged neither sea nor lake, which cost
+       it the horizon plane, the 55 m shore bench, the foam and the wetness
+       test, and left the vista tint painting the open sea as forest. It
+       adopts the source now, and the count is asserted below so a silent
+       flip in either direction fails. */
+    assert.equal(water.isSea, feature.properties.isSea);
+    assert.equal(water.isLake, true, 'every Visby ring takes the wide shore treatment, the sea included');
     assert.equal(water.sourceIsSea, feature.properties.isSea);
     assert.equal(water.bathymetry, null);
   });
+  assert.equal(model.water.filter(water => water.isSea).length, 7, 'seven rings are the Baltic');
+  assert.equal(model.water.filter(water => water.isSea).reduce((sum, water) => sum + water.area, 0) > 9e6, true,
+    'and they are the water that matters: over 900 ha against 24 ha of inland ponds');
+  /* Measured on Visby's own far ring by connectivity, not by height: 0.05 m
+     mislabels 1.7 ha of enclosed low pocket where 0.5 m mislabels 7.5. */
+  assert.equal(model.seaTintBandMetres, 0.05);
   assert.equal(canonical.features.reduce((sum, feature) => sum + feature.geometry.coordinates.length - 1, 0), 10);
 });
 

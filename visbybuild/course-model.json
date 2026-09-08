@@ -8,6 +8,7 @@
   "mPerLon": 59906.61,
   "frame": "local metres from EPSG:3006; east +x, north -z; origin E687748.5 N6370951.5; heights RH 2000",
   "seaLevel": 0.23,
+  "seaTintBandMetres": 0.05,
   "holes": [
     {
       "n": 1,
@@ -9298,8 +9299,8 @@
         ]
       },
       "level": 0.23,
-      "isLake": false,
-      "isSea": false,
+      "isLake": true,
+      "isSea": true,
       "sourceIsSea": true,
       "area": 3507252.5220136847,
       "sourceId": "water-breaks-lm-1m",
@@ -17108,8 +17109,8 @@
         ]
       },
       "level": 0.23,
-      "isLake": false,
-      "isSea": false,
+      "isLake": true,
+      "isSea": true,
       "sourceIsSea": true,
       "area": 1311542.835126038,
       "sourceId": "water-breaks-lm-1m",
@@ -24218,8 +24219,8 @@
         ]
       },
       "level": 0.23,
-      "isLake": false,
-      "isSea": false,
+      "isLake": true,
+      "isSea": true,
       "sourceIsSea": true,
       "area": 4188887.268661801,
       "sourceId": "water-breaks-lm-1m",
@@ -28872,8 +28873,8 @@
         ]
       },
       "level": 0.23,
-      "isLake": false,
-      "isSea": false,
+      "isLake": true,
+      "isSea": true,
       "sourceIsSea": true,
       "area": 28117.647494591012,
       "sourceId": "water-breaks-lm-1m",
@@ -33394,8 +33395,8 @@
         ]
       },
       "level": 0.23,
-      "isLake": false,
-      "isSea": false,
+      "isLake": true,
+      "isSea": true,
       "sourceIsSea": true,
       "area": 114.77702991029679,
       "sourceId": "water-breaks-lm-1m",
@@ -37968,8 +37969,8 @@
         ]
       },
       "level": 0.23,
-      "isLake": false,
-      "isSea": false,
+      "isLake": true,
+      "isSea": true,
       "sourceIsSea": true,
       "area": 774.7220467592753,
       "sourceId": "water-breaks-lm-1m",
@@ -43002,8 +43003,8 @@
         ]
       },
       "level": 0.23,
-      "isLake": false,
-      "isSea": false,
+      "isLake": true,
+      "isSea": true,
       "sourceIsSea": true,
       "area": 30033.573750034026,
       "sourceId": "water-breaks-lm-1m",

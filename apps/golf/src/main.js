@@ -1750,8 +1750,22 @@ const SEA_TINT = [0.055, 0.085, 0.105];
    wrong on the one lake course whose level happens to sit near it. Water the
    ground itself found (the flat-water mask, tested first) is unaffected: that
    is a measurement of the surface, not a contour. */
+/* ... and one more thing the Ängsö rewrite could not have known, because
+   Ängsö has no sea. The band above the level is not decoration: where the
+   bare-earth DTM carries the sea as a FLATTENED surface, that surface can sit
+   a few centimetres above the level the model declares. Visby's reads 0.240 m
+   against a declared 0.230, so a band of zero finds 8.8 ha of a 6,539 ha sea
+   and the rest of the Baltic paints as forest. Half a metre is right for a sea
+   at 0 with land rising fast behind it, and wrong on an island whose coast
+   lies between 0 and 11 m: measured on Visby's own far ring by connectivity
+   rather than by height -- a cell below the cut that reaches the box edge is
+   open sea, one that does not is an enclosed pocket and is the error -- 0.5 m
+   mislabels 7.5 ha against 1.7 ha at 0.05 m, for 160 ha more sea out of
+   6,539. So the band is a course quantity now; a course that does not declare
+   one keeps the 0.5 m and does not move. */
 const HAS_SEA = M.water.some(w => w.isSea);
-const VISTA_SEA_LEVEL = HAS_SEA ? GEO.seaLevel + 0.5 : -Infinity;
+const VISTA_SEA_BAND = Number.isFinite(GEO.seaTintBandMetres) ? GEO.seaTintBandMetres : 0.5;
+const VISTA_SEA_LEVEL = HAS_SEA ? GEO.seaLevel + VISTA_SEA_BAND : -Infinity;
 /* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
    and a flat the sheet misses never reads as a pale plate */
 const FLAT_WATER_TINT = [0.05, 0.075, 0.09];
@@ -4795,7 +4809,7 @@ if (M.cover) {
       if (openLand(px, pz)) continue;
       if (rnd2(i + 19, j + 13) > 0.8) continue;
       const h = terrainH(px, pz);
-      if (h < GEO.seaLevel + 0.5) continue;
+      if (h < GEO.seaLevel + VISTA_SEA_BAND) continue;
       if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.4, pz, 0.8 + rnd2(i + 5, j + 23) * 0.7);
     }
