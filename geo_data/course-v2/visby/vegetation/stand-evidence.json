@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "state": "provisional-measured-stand-fields",
+  "observedOn": "2026-09-07",
+  "frameFingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
+  "campaignId": "24e002",
+  "captureStart": "2024-02-03T00:00:00Z",
+  "captureEnd": "2024-04-28T00:00:00Z",
+  "sourceItems": [
+    "24e002-636_68",
+    "24e002-637_68"
+  ],
+  "sourceEvidence": "geo_data/course-v2/visby/vegetation/canopy-evidence.json",
+  "surfacePath": "visbybuild/mapping/playing-surfaces.geojson",
+  "canopySource": {
+    "data": "visbybuild/cache/vegetation/chm-24e002.f32",
+    "sidecar": "visbybuild/cache/vegetation/chm-24e002.json",
+    "bytes": 16777216,
+    "sha256": "0eeb72535d54df5c3b0f6cfdf2f752ecdcacc067866022eee86682ec3a213c57"
+  },
+  "groundSource": {
+    "data": "visbybuild/cache/vegetation/ground-24e002.f32",
+    "sidecar": "visbybuild/cache/vegetation/ground-24e002.json",
+    "bytes": 16777216,
+    "sha256": "46a1120c180107dcaad0e1cfcf8315463bc3bf6a963b8861edb2fa3d9901d51f"
+  },
+  "inputs": [
+    {
+      "path": "visbybuild/mapping/playing-surfaces.geojson",
+      "sha256": "9be8ca06669671b3b3208eada7aecfc0d8d13549a794a0c9962dcc29642de1e5"
+    },
+    {
+      "path": "visbybuild/mapping/practice-surfaces.geojson",
+      "sha256": "bcaab1f9094a4079b79cd0d9545bdd05520122557c55857c948377baa70bd20f"
+    },
+    {
+      "path": "geo_data/course-v2/visby/reference/osm-golf-epsg3006.geojson",
+      "sha256": "1c4e80f4aaea71035d97feeb3cefe01d0fbc8845291a605911c316c14d6875fe"
+    },
+    {
+      "path": "geo_data/course-v2/visby/mapping/water-breakgeometry-epsg3006.geojson",
+      "sha256": "b18499faae4354ef2ce95ef1910d7a5c2172457014087adcf9b622ea957e06af"
+    }
+  ],
+  "terrainStageSource": {
+    "path": "visbybuild/cache/terrain-stage/terrain-stage-assets.json",
+    "sha256": "0746e8d9ff8bf2d7649704246cbabae5038f5d6d80c7db4da64ab1c3a40aad68"
+  },
+  "canopySampleSpacingMetres": 2,
+  "cellMetres": 4,
+  "canopyThresholdMetres": 2,
+  "stands": {
+    "tiles": 256,
+    "encodedBytes": 716489,
+    "measuredCells": 804673,
+    "closedCanopyCells": 151918,
+    "excludedCells": 391630
+  },
+  "individualObjectRecords": 0,
+  "exclusions": {
+    "features": 270,
+    "cells2m": 2530542,
+    "fraction": 0.6033282279968262,
+    "byKind": {
+      "building": {
+        "features": 32,
+        "excludedCells": 3762,
+        "bufferMetres": 6
+      },
+      "water": {
+        "features": 26,
+        "excludedCells": 2343896,
+        "bufferMetres": 3
+      },
+      "green": {
+        "features": 35,
+        "excludedCells": 3019,
+        "bufferMetres": 2
+      },
+      "tee": {
+        "features": 19,
+        "excludedCells": 1002,
+        "bufferMetres": 2
+      },
+      "bunker": {
+        "features": 70,
+        "excludedCells": 4159,
+        "bufferMetres": 2
+      },
+      "fairway": {
+        "features": 16,
+        "excludedCells": 29770,
+        "bufferMetres": 1
+      },
+      "practice": {
+        "features": 1,
+        "excludedCells": 4642,
+        "bufferMetres": 1
+      },
+      "road": {
+        "features": 33,
+        "excludedCells": 23895,
+        "bufferMetres": 5
+      },
+      "path": {
+        "features": 38,
+        "excludedCells": 16695,
+        "bufferMetres": 3
+      }
+    },
+    "buffers": [
+      {
+        "code": 1,
+        "kind": "building",
+        "bufferMetres": 6
+      },
+      {
+        "code": 2,
+        "kind": "water",
+        "bufferMetres": 3
+      },
+      {
+        "code": 3,
+        "kind": "green",
+        "bufferMetres": 2
+      },
+      {
+        "code": 4,
+        "kind": "tee",
+        "bufferMetres": 2
+      },
+      {
+        "code": 5,
+        "kind": "bunker",
+        "bufferMetres": 2
+      },
+      {
+        "code": 6,
+        "kind": "fairway",
+        "bufferMetres": 1
+      },
+      {
+        "code": 7,
+        "kind": "practice",
+        "bufferMetres": 1
+      },
+      {
+        "code": 8,
+        "kind": "road",
+        "bufferMetres": 5
+      },
+      {
+        "code": 10,
+        "kind": "path",
+        "bufferMetres": 3
+      }
+    ],
+    "runtimeJitterGuardMetres": 4,
+    "jitterGuardAdditionalCells": 58827,
+    "sourceValidity": {
+      "invalidCanopyCells": 1764102,
+      "unknownGroundCells": 32,
+      "belowVegetationElevationThresholdCells": 2816,
+      "minimumVegetationGroundRH2000": 0,
+      "excludedAdditionalCells": 45064
+    }
+  },
+  "layerIndex": {
+    "path": "visbybuild/cache/vegetation/stands-stage/layer-index.json",
+    "sha256": "097b2a33e16bcccee57497d0e0dd34586e08b139baeba2616d99b73f1254bf8b"
+  },
+  "baseHeightPolicy": {
+    "source": "same frame and finest terrain tile bounds as Visby staged terrain",
+    "terrainSha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898",
+    "storedIndividualBases": 0,
+    "rule": "Runtime stand representatives must sample the exact visible terrain; canopy-ground is only the HAG normalization source."
+  },
+  "limitations": [
+    "Measured 4m canopy fractions and heights support representative vegetation; no individual stems or species were measured.",
+    "Current presence since the 2024 capture remains subject to current imagery/site review.",
+    "OSM, 2022 imagery-derived playing surfaces and national water exclusions are retained with distinct provenance.",
+    "Void, invalid and below 0 m RH2000 cloud-ground cells are excluded conservatively; negative terrain remains valid terrain.",
+    "No procedural population or object registry is generated; runtime representative size/species remains a display policy.",
+    "Chunks remain staged; no runtime root or source manifest is published by this command."
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "reviewedAt": "2026-09-07T21:12:05.568Z",
+  "baseUrl": "http://127.0.0.1:8640",
+  "status": "passed",
+  "reviewBuildContext": {
+    "isolated": false,
+    "note": null
+  },
+  "modelSha256": "51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12",
+  "checks": [
+    {
+      "ok": true,
+      "message": "No browser exceptions",
+      "errors": []
+    },
+    {
+      "ok": true,
+      "message": "Plain Lidingö URL selects the measured 1 m graph by default"
+    },
+    {
+      "ok": true,
+      "message": "Every facility ring and courtyard island survived the pack unchanged"
+    },
+    {
+      "ok": true,
+      "message": "29 source parking areas, no inferred occupancy"
+    },
+    {
+      "ok": true,
+      "message": "Practice greens and hardstanding are visible in the active surface atlas",
+      "details": [
+        {
+          "id": "lidingo-courtyard-putting-green-2019",
+          "expectedSurface": 4,
+          "matches": 198,
+          "totalInteriorPoints": 205
+        },
+        {
+          "id": "lidingo-courtyard-hardstanding-2019",
+          "expectedSurface": 14,
+          "matches": 356,
+          "totalInteriorPoints": 370
+        },
+        {
+          "id": "lidingo-range-target-green-2019",
+          "expectedSurface": 4,
+          "matches": 408,
+          "totalInteriorPoints": 416
+        },
+        {
+          "id": "lidingo-range-east-access-2019",
+          "expectedSurface": 14,
+          "matches": 355,
+          "totalInteriorPoints": 449
+        },
+        {
+          "id": "lidingo-clubhouse-practice-green-osm",
+          "expectedSurface": 4,
+          "matches": 647,
+          "totalInteriorPoints": 654
+        },
+        {
+          "id": "lidingo-south-practice-green-osm",
+          "expectedSurface": 4,
+          "matches": 699,
+          "totalInteriorPoints": 710
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "message": "Five measured roof meshes replace their generic buildings"
+    }
+  ],
+  "screenshots": [
+    "lidingobuild/cache/facility-review/runtime-clubhouse.png",
+    "lidingobuild/cache/facility-review/runtime-range-buildings.png"
+  ],
+  "limitations": [
+    "2019 surface observations and 2021 roof returns do not establish current as-built positions.",
+    "Two roof surfaces are incomplete; unknown parts remain open."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "sourceId": "municipal-public-map-lm-ortho",
+  "url": "https://karta.lidingo.se/wms?servicename=baskarta_extern&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=theme-lm_orto_025&STYLES=&SRS=EPSG%3A3011&BBOX=156615%2C6584170%2C157866%2C6585594&WIDTH=2502&HEIGHT=2848&FORMAT=image%2Fpng&TRANSPARENT=FALSE",
+  "retrievedAt": "2026-09-07T19:59:30.780292+00:00",
+  "httpStatus": 200,
+  "contentType": "image/png",
+  "bytes": 15285164,
+  "sha256": "066530d1717893a1613e3470a4a0186ec5877e8b63a46f02ca8387eff869d077",
+  "path": "lidingobuild/cache/imagery-public-map/lidingo-public-ortho-0p5m.png",
+  "worldfilePath": "lidingobuild/cache/imagery-public-map/lidingo-public-ortho-0p5m.pgw",
+  "horizontalCrs": "EPSG:3011",
+  "bboxEpsg3011": [
+    156615,
+    6584170,
+    157866,
+    6585594
+  ],
+  "width": 2502,
+  "height": 2848,
+  "requestedSampleSpacingMetres": 0.5,
+  "captureDate": null,
+  "sourceGsdMetres": 0.25,
+  "sourceGsdBasis": "Public theme metadata: Lantmateriets ortofoto - 0,25 m/pixel",
+  "accessRoute": "Public municipal map WMS offered to unauthenticated visitors; no credentials or authorization bypass. Separate from the denied national download product.",
+  "licence": "Public-view reference only; exact derivative/distribution terms not yet established. Does not inherit CC0 from municipality-owned 2019 imagery.",
+  "reviewStatus": "unreviewed-image-awaiting-date-and-registration-check"
+}

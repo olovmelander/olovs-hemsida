@@ -1,0 +1,311 @@
+{
+  "schemaVersion": 1,
+  "generator": "course-geo/legacy-vector-migrator@1",
+  "groundId": "visby",
+  "courseSlugs": [
+    "visby"
+  ],
+  "status": "blocked-pending-independent-control-and-rh2000-height",
+  "transform": {
+    "source": "local metres about an explicit EPSG:3006 source-frame origin",
+    "target": "absolute EPSG:3006 coordinate pairs [easting,northing]",
+    "implementation": "exact translation: easting = originEasting + x; northing = originNorthing - z",
+    "datumCaveat": "The projected source frame avoids the approximate metres-per-degree legacy converter, but independent controls are still required before canonical-origin approval."
+  },
+  "candidateOrigin": {
+    "easting": 687748.5,
+    "northing": 6370951.5,
+    "heightRH2000": null,
+    "status": "projected-source-frame-pending-independent-control",
+    "source": "legacyFrame.projectedOriginEpsg3006"
+  },
+  "independentControlAnchors": 0,
+  "canonicalOriginPromoted": false,
+  "aggregate": {
+    "coordinatePairCount": 19790,
+    "outsideCourseVicinity5km": 0,
+    "scopes": {
+      "playingGeometry": {
+        "coordinatePairCount": 1328,
+        "directFrameDelta": {
+          "count": 1328,
+          "biasMetres": {
+            "x": 0.000005,
+            "z": 0.000004
+          },
+          "rmseMetres": 0.000287,
+          "p50Metres": 0,
+          "p95Metres": 0.000556,
+          "p99Metres": 0.000635,
+          "maxMetres": 0.000689
+        },
+        "bestFitSimilarity": {
+          "scale": 0.999999993,
+          "rotationDegrees": 5.37e-7,
+          "translationMetres": {
+            "x": 0.000003,
+            "z": 0.000004
+          },
+          "residuals": {
+            "count": 1328,
+            "biasMetres": {
+              "x": 0,
+              "z": 0
+            },
+            "rmseMetres": 0.000287,
+            "p50Metres": 0.000016,
+            "p95Metres": 0.000555,
+            "p99Metres": 0.000633,
+            "maxMetres": 0.000697
+          }
+        }
+      },
+      "courseVicinity5km": {
+        "coordinatePairCount": 19790,
+        "directFrameDelta": {
+          "count": 19790,
+          "biasMetres": {
+            "x": 0,
+            "z": 0
+          },
+          "rmseMetres": 0.00011,
+          "p50Metres": 0,
+          "p95Metres": 0.000308,
+          "p99Metres": 0.000535,
+          "maxMetres": 0.000689
+        },
+        "bestFitSimilarity": {
+          "scale": 1,
+          "rotationDegrees": -1.8e-8,
+          "translationMetres": {
+            "x": 0,
+            "z": 0
+          },
+          "residuals": {
+            "count": 19790,
+            "biasMetres": {
+              "x": 0,
+              "z": 0
+            },
+            "rmseMetres": 0.00011,
+            "p50Metres": 0.000001,
+            "p95Metres": 0.000308,
+            "p99Metres": 0.000535,
+            "maxMetres": 0.000689
+          }
+        }
+      },
+      "allInventoriedGeometry": {
+        "coordinatePairCount": 19790,
+        "directFrameDelta": {
+          "count": 19790,
+          "biasMetres": {
+            "x": 0,
+            "z": 0
+          },
+          "rmseMetres": 0.00011,
+          "p50Metres": 0,
+          "p95Metres": 0.000308,
+          "p99Metres": 0.000535,
+          "maxMetres": 0.000689
+        },
+        "bestFitSimilarity": {
+          "scale": 1,
+          "rotationDegrees": -1.8e-8,
+          "translationMetres": {
+            "x": 0,
+            "z": 0
+          },
+          "residuals": {
+            "count": 19790,
+            "biasMetres": {
+              "x": 0,
+              "z": 0
+            },
+            "rmseMetres": 0.00011,
+            "p50Metres": 0.000001,
+            "p95Metres": 0.000308,
+            "p99Metres": 0.000535,
+            "maxMetres": 0.000689
+          }
+        }
+      }
+    }
+  },
+  "models": [
+    {
+      "source": {
+        "path": "visbybuild/course-model.json",
+        "sha256": "9e7f580c7bc6fc9d9fb50db14c9fb15000fc3bd9dfd466569e53470e4c73caa7"
+      },
+      "output": {
+        "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
+        "sha256": "17946a0470be6d03169159572b19c276098d485a4af6f700cb7ba3fa2cdf98a4"
+      },
+      "coordinatePairCount": 19790,
+      "ignoredMetadataPairCount": 0,
+      "coordinatePathCounts": {
+        "holes.[].fairway.rings.[].[]": 442,
+        "holes.[].green.c": 18,
+        "holes.[].green.ring.[]": 590,
+        "holes.[].line.[]": 65,
+        "holes.[].pin": 18,
+        "holes.[].tees.marks.[].c": 108,
+        "holes.[].tees.pads.[].ring.[]": 87,
+        "infra.buildings.[].ring.[]": 183,
+        "infra.paths.[].line.[]": 162,
+        "infra.roads.[].line.[]": 357,
+        "infra.tracks.[].line.[]": 25,
+        "scenery.bunkers.[].[]": 989,
+        "scenery.fairways.[].[]": 58,
+        "scenery.range.[].[]": 27,
+        "water.[].ring.[]": 3493,
+        "water.[].shoreline.lines.[].line.[]": 13168
+      },
+      "directFrameDelta": {
+        "count": 19790,
+        "biasMetres": {
+          "x": 0,
+          "z": 0
+        },
+        "rmseMetres": 0.00011,
+        "p50Metres": 0,
+        "p95Metres": 0.000308,
+        "p99Metres": 0.000535,
+        "maxMetres": 0.000689
+      },
+      "bestFitSimilarity": {
+        "scale": 1,
+        "rotationDegrees": -1.8e-8,
+        "translationMetres": {
+          "x": 0,
+          "z": 0
+        },
+        "residuals": {
+          "count": 19790,
+          "biasMetres": {
+            "x": 0,
+            "z": 0
+          },
+          "rmseMetres": 0.00011,
+          "p50Metres": 0.000001,
+          "p95Metres": 0.000308,
+          "p99Metres": 0.000535,
+          "maxMetres": 0.000689
+        }
+      },
+      "scopes": {
+        "playingGeometry": {
+          "coordinatePairCount": 1328,
+          "directFrameDelta": {
+            "count": 1328,
+            "biasMetres": {
+              "x": 0.000005,
+              "z": 0.000004
+            },
+            "rmseMetres": 0.000287,
+            "p50Metres": 0,
+            "p95Metres": 0.000556,
+            "p99Metres": 0.000635,
+            "maxMetres": 0.000689
+          },
+          "bestFitSimilarity": {
+            "scale": 0.999999993,
+            "rotationDegrees": 5.37e-7,
+            "translationMetres": {
+              "x": 0.000003,
+              "z": 0.000004
+            },
+            "residuals": {
+              "count": 1328,
+              "biasMetres": {
+                "x": 0,
+                "z": 0
+              },
+              "rmseMetres": 0.000287,
+              "p50Metres": 0.000016,
+              "p95Metres": 0.000555,
+              "p99Metres": 0.000633,
+              "maxMetres": 0.000697
+            }
+          }
+        },
+        "courseVicinity5km": {
+          "coordinatePairCount": 19790,
+          "directFrameDelta": {
+            "count": 19790,
+            "biasMetres": {
+              "x": 0,
+              "z": 0
+            },
+            "rmseMetres": 0.00011,
+            "p50Metres": 0,
+            "p95Metres": 0.000308,
+            "p99Metres": 0.000535,
+            "maxMetres": 0.000689
+          },
+          "bestFitSimilarity": {
+            "scale": 1,
+            "rotationDegrees": -1.8e-8,
+            "translationMetres": {
+              "x": 0,
+              "z": 0
+            },
+            "residuals": {
+              "count": 19790,
+              "biasMetres": {
+                "x": 0,
+                "z": 0
+              },
+              "rmseMetres": 0.00011,
+              "p50Metres": 0.000001,
+              "p95Metres": 0.000308,
+              "p99Metres": 0.000535,
+              "maxMetres": 0.000689
+            }
+          }
+        },
+        "allInventoriedGeometry": {
+          "coordinatePairCount": 19790,
+          "directFrameDelta": {
+            "count": 19790,
+            "biasMetres": {
+              "x": 0,
+              "z": 0
+            },
+            "rmseMetres": 0.00011,
+            "p50Metres": 0,
+            "p95Metres": 0.000308,
+            "p99Metres": 0.000535,
+            "maxMetres": 0.000689
+          },
+          "bestFitSimilarity": {
+            "scale": 1,
+            "rotationDegrees": -1.8e-8,
+            "translationMetres": {
+              "x": 0,
+              "z": 0
+            },
+            "residuals": {
+              "count": 19790,
+              "biasMetres": {
+                "x": 0,
+                "z": 0
+              },
+              "rmseMetres": 0.00011,
+              "p50Metres": 0.000001,
+              "p95Metres": 0.000308,
+              "p99Metres": 0.000535,
+              "maxMetres": 0.000689
+            }
+          }
+        }
+      }
+    }
+  ],
+  "blockers": [
+    "Measure and review independent control anchors distributed across the physical ground.",
+    "Acquire authoritative RH 2000 terrain/control height before assigning originHeightRH2000.",
+    "Keep all converted vectors migration-only until residuals are checked against authoritative imagery or survey data."
+  ]
+}

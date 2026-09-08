@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "state": "provisional-measured-stand-fields",
+  "observedOn": "2026-09-07",
+  "frameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
+  "campaignId": "21c031-658_67",
+  "capturedAt": "2021-03-23",
+  "sourceEvidence": "geo_data/course-v2/lidingo/vegetation/canopy-evidence.json",
+  "canopySource": {
+    "data": "lidingobuild/cache/vegetation/chm-21c031-658_67.f32",
+    "sidecar": "lidingobuild/cache/vegetation/chm-21c031-658_67.json",
+    "bytes": 16777216,
+    "sha256": "6988474edda685ea0b71355834b46ff7d23b2eb0310ffff1a07b591a1a838b2b"
+  },
+  "inputs": [
+    {
+      "path": "lidingobuild/mapping/playing-surfaces.geojson",
+      "sha256": "d5309cbfefbfc8f498be15100156a1ca99fe49442d61c56d89abd0f5d48f9f29"
+    },
+    {
+      "path": "lidingobuild/mapping/facilities.geojson",
+      "sha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a"
+    },
+    {
+      "path": "lidingobuild/mapping/infrastructure.geojson",
+      "sha256": "27d80d50dc24f8f3910e79a7366f40a8c883c8cd132d4ea96cb0133e105b115d"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+      "sha256": "d25889882339c4259bc38a3d475a9113b70dc6092d9f98782c3812e4e8999ec0"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/mapping/water-breakgeometry-epsg3006.geojson",
+      "sha256": "0798e7f91b2f546d9efa8f636af079864340b39ef26828e54d10ab63cfb8b6c0"
+    }
+  ],
+  "cellMetres": 4,
+  "canopyThresholdMetres": 2,
+  "stands": {
+    "tiles": 64,
+    "encodedBytes": 580917,
+    "measuredCells": 256229,
+    "closedCanopyCells": 135823,
+    "excludedCells": 61219
+  },
+  "individualObjectRecords": 0,
+  "exclusions": {
+    "features": 1124,
+    "cells": 1291337,
+    "fraction": 0.3078787326812744,
+    "byKind": {
+      "building": {
+        "features": 562,
+        "excludedCells": 324910,
+        "bufferMetres": 6
+      },
+      "water": {
+        "features": 14,
+        "excludedCells": 122283,
+        "bufferMetres": 3
+      },
+      "green": {
+        "features": 35,
+        "excludedCells": 14640,
+        "bufferMetres": 2
+      },
+      "tee": {
+        "features": 56,
+        "excludedCells": 9824,
+        "bufferMetres": 2
+      },
+      "bunker": {
+        "features": 53,
+        "excludedCells": 4129,
+        "bufferMetres": 2
+      },
+      "fairway": {
+        "features": 18,
+        "excludedCells": 87596,
+        "bufferMetres": 1
+      },
+      "practice": {
+        "features": 13,
+        "excludedCells": 21599,
+        "bufferMetres": 1
+      },
+      "road": {
+        "features": 186,
+        "excludedCells": 246133,
+        "bufferMetres": 5
+      },
+      "path": {
+        "features": 178,
+        "excludedCells": 238548,
+        "bufferMetres": 3
+      },
+      "stream": {
+        "features": 9,
+        "excludedCells": 1484,
+        "bufferMetres": 0
+      }
+    },
+    "buffers": [
+      {
+        "code": 1,
+        "kind": "building",
+        "bufferMetres": 6
+      },
+      {
+        "code": 2,
+        "kind": "water",
+        "bufferMetres": 3
+      },
+      {
+        "code": 3,
+        "kind": "green",
+        "bufferMetres": 2
+      },
+      {
+        "code": 4,
+        "kind": "tee",
+        "bufferMetres": 2
+      },
+      {
+        "code": 5,
+        "kind": "bunker",
+        "bufferMetres": 2
+      },
+      {
+        "code": 6,
+        "kind": "fairway",
+        "bufferMetres": 1
+      },
+      {
+        "code": 7,
+        "kind": "practice",
+        "bufferMetres": 1
+      },
+      {
+        "code": 8,
+        "kind": "road",
+        "bufferMetres": 5
+      },
+      {
+        "code": 10,
+        "kind": "path",
+        "bufferMetres": 3
+      },
+      {
+        "code": 11,
+        "kind": "stream",
+        "bufferMetres": 0
+      }
+    ],
+    "sourceValidity": {
+      "invalidCanopyCells": 489492,
+      "unknownGroundCells": 0,
+      "belowVegetationElevationThresholdCells": 2,
+      "minimumVegetationGroundRH2000": 0,
+      "excludedAdditionalCells": 271548
+    }
+  },
+  "uncertainty": {
+    "treeStemPositions": "not-measured-no-individual-records",
+    "captureDate": "2021-03-23",
+    "currentPresence": "not-confirmed-against-newest2025imagery",
+    "canopyHorizontalAccuracyMetres": null,
+    "canopyVerticalAccuracyMetres": null,
+    "sourcePulseDensityPerSquareMetre": 1.24,
+    "measuredAreaRepresentation": "canopy fraction and height statistics in4m cells; representative rendering only",
+    "negativeGroundPolicy": "Negative RH2000 elevations can be valid terrain; this vegetation generation conservatively excludes such cells, as well as unknown ground, from planting."
+  },
+  "layerIndex": {
+    "path": "lidingobuild/cache/vegetation/stands-stage/layer-index.json",
+    "sha256": "472dbb5a65318464c9997b3494dfe28e2ee354cecda4f64c7d631f958fd5bb7b"
+  },
+  "limitations": [
+    "Stand cells encode measured canopy fraction and heights; rendered representatives are not individually positioned surveyed trees.",
+    "The2021scan and provisional2019surface/OSMexclusions require current imagery/site review.",
+    "No individual crown records or procedural large-object claims were added.",
+    "Polygon holes are preserved before applying documented exclusion buffer bands."
+  ]
+}

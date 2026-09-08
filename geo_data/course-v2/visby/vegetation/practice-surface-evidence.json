@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "observedOn": "2026-09-07",
+  "sourceEvidence": "geo_data/course-v2/visby/reference/gotland-ortho-2022.json",
+  "sourceImage": {
+    "url": "https://imageserver.gotland.se/arcgis/rest/directories/arcgisoutput/Ortofoto/Ortofoto_2022_ImageServer/_ags_6a144296_d984_4c16_89ba_a27a7350003d.png",
+    "acquiredAt": "2026-09-07T19:31:13.948961+00:00",
+    "path": "visbybuild/cache/geodata-2026-09-07/gotland-2022-0p5m.png",
+    "bytes": 22144608,
+    "sha256": "aac5fa4a1ce429258cd020e0a139939576ac67bde02e010fc822feb446111153",
+    "contentType": "image/png",
+    "etag": "\"1a07d5a676b\""
+  },
+  "outputPath": "visbybuild/mapping/practice-surfaces.geojson",
+  "outputSha256": "bcaab1f9094a4079b79cd0d9545bdd05520122557c55857c948377baa70bd20f",
+  "previewPath": "visbybuild/cache/vegetation/review/practice-range-source-review.png",
+  "previewSha256": "7713e586b4d10fcac7b663df894c76caa476a8df0b1c34c2eb15e4a8ef0d1902",
+  "featureCount": 1,
+  "areaSquareMetres": 18586.375,
+  "sourcePixels": [
+    [
+      1070,
+      2585
+    ],
+    [
+      1080,
+      2490
+    ],
+    [
+      1140,
+      2330
+    ],
+    [
+      1200,
+      2200
+    ],
+    [
+      1260,
+      2070
+    ],
+    [
+      1300,
+      2030
+    ],
+    [
+      1340,
+      2040
+    ],
+    [
+      1327,
+      2098
+    ],
+    [
+      1300,
+      2104
+    ],
+    [
+      1272,
+      2120
+    ],
+    [
+      1270,
+      2155
+    ],
+    [
+      1283,
+      2172
+    ],
+    [
+      1305,
+      2182
+    ],
+    [
+      1330,
+      2200
+    ],
+    [
+      1315,
+      2225
+    ],
+    [
+      1300,
+      2245
+    ],
+    [
+      1298,
+      2280
+    ],
+    [
+      1310,
+      2310
+    ],
+    [
+      1333,
+      2338
+    ],
+    [
+      1330,
+      2390
+    ],
+    [
+      1300,
+      2415
+    ],
+    [
+      1255,
+      2460
+    ],
+    [
+      1220,
+      2490
+    ],
+    [
+      1218,
+      2560
+    ],
+    [
+      1180,
+      2610
+    ],
+    [
+      1120,
+      2610
+    ]
+  ],
+  "limitations": [
+    "Visible maintained/open field limits are manually interpreted at 0.5 m output resolution; source registration has not been independently checked.",
+    "The practice field is not assigned to a numbered hole. Its footprint does not establish the identity of isolated LiDAR returns as trees or range structures.",
+    "2022 imagery and 2024 laser have different capture years; current field limits remain unverified."
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "kind": "lidingo-terrain-intake-compilation",
+  "state": "staged-terrain-only",
+  "acquiredOn": "2026-09-07",
+  "source": {
+    "itemIds": [
+      "658_67"
+    ],
+    "sourceFloat32Sha256": "80ffcd4865daa00f8e2393f43b8fcb1b37e020f968c0656a0189f80dde1de923",
+    "acquisitionEvidence": "geo_data/course-v2/lidingo/acquisition/terrain-window.json",
+    "sourceRaster": "lidingobuild/cache/terrain-review/terrain-1m.f32",
+    "sampleSpacingMetres": 1,
+    "pixelEdgeWindowEpsg3006": {
+      "west": 676676,
+      "north": 6587424,
+      "east": 678725,
+      "south": 6585375
+    }
+  },
+  "referenceExtent": {
+    "bounds": {
+      "minEasting": 677162.4695162405,
+      "minNorthing": 6585834.26442794,
+      "maxEasting": 678148.3896708095,
+      "maxNorthing": 6586998.97064295
+    },
+    "marginMetres": {
+      "west": 485.969516240526,
+      "east": 576.110329190502,
+      "south": 458.7644279403612,
+      "north": 424.5293570496142
+    },
+    "routeCount": 18,
+    "featureCount": 80,
+    "status": "unreviewed-supplementary-OSM",
+    "note": "Margin is checked against retained reference vertices. It is not an approved property or playing-surface survey."
+  },
+  "bounds": {
+    "minEasting": 676676.5,
+    "minNorthing": 6585375.5,
+    "minHeightRH2000": -0.04739104583859444,
+    "maxEasting": 678724.5,
+    "maxNorthing": 6587423.5,
+    "maxHeightRH2000": 61.1399040222168
+  },
+  "frame": {
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "origin": {
+      "easting": 677700.5,
+      "northing": 6586399.5,
+      "heightRH2000": -0.05
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldY": "heightRH2000 - originHeightRH2000",
+      "worldZ": "originNorthing - northing"
+    },
+    "fingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6"
+  },
+  "frameStatus": "provisional-preview-convention-not-approved-canonical-origin",
+  "compile": {
+    "sourceSamples": 4198401,
+    "finiteSamples": 4198401,
+    "tileChunks": 85,
+    "rootTiles": 1,
+    "uniqueChunks": 86,
+    "encodedBytes": 7803796,
+    "decodedBytes": 11360428,
+    "shellEncodedBytes": 109686,
+    "shellDecodedBytes": 132098,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 64,
+        "encodedBytes": 5595417,
+        "decodedBytes": 8454272
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 16,
+        "encodedBytes": 1565287,
+        "decodedBytes": 2113568
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 4,
+        "encodedBytes": 423717,
+        "decodedBytes": 528392
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 1,
+        "encodedBytes": 109689,
+        "decodedBytes": 132098
+      }
+    ]
+  },
+  "validation": {
+    "allChunksDecoded": 86,
+    "missingSamples": 0
+  },
+  "preview": {
+    "path": "lidingobuild/cache/terrain-stage/preview.json",
+    "bytes": 29812,
+    "sha256": "777cb53e68d74177be34d447b506d78838e50b14ae5d71da04b7e4bde77628e6"
+  },
+  "releaseGates": {
+    "playableCourse": false,
+    "authoritativeSurfaces": false,
+    "canonicalOriginApproved": false,
+    "measuredVegetation": false,
+    "perHoleVisualReview": false,
+    "remotePublication": false
+  },
+  "next": "Review current source geometry, close missing played-surface inventory and independent-origin gates before emitting a playable course graph."
+}

@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "lidingo-ground-graph",
+  "state": "published-provisional",
+  "provisionalReasons": [
+    "independent-origin-and-local-residual-controls-pending",
+    "playing-surfaces-machine-traced-2019-not-as-built",
+    "canopy-capture-2021-and-current-course-changes-need-review",
+    "tee-colour-and-flag-positions-unknown"
+  ],
+  "source": {
+    "terrainItem": "658_67",
+    "terrainFloat32Sha256": "80ffcd4865daa00f8e2393f43b8fcb1b37e020f968c0656a0189f80dde1de923",
+    "sampleSpacingMetres": 1
+  },
+  "frame": {
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "origin": {
+      "easting": 677700.5,
+      "northing": 6586399.5,
+      "heightRH2000": -0.05
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldY": "heightRH2000 - originHeightRH2000",
+      "worldZ": "originNorthing - northing"
+    },
+    "fingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6"
+  },
+  "terrain": {
+    "sourceSamples": 4198401,
+    "finiteSamples": 4198401,
+    "tileChunks": 85,
+    "rootTiles": 1,
+    "uniqueChunks": 86,
+    "encodedBytes": 7803796,
+    "decodedBytes": 11360428,
+    "shellEncodedBytes": 109686,
+    "shellDecodedBytes": 132098,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 64,
+        "encodedBytes": 5595417,
+        "decodedBytes": 8454272
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 16,
+        "encodedBytes": 1565287,
+        "decodedBytes": 2113568
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 4,
+        "encodedBytes": 423717,
+        "decodedBytes": 528392
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 1,
+        "encodedBytes": 109689,
+        "decodedBytes": 132098
+      }
+    ]
+  },
+  "graph": {
+    "slug": "lidingo",
+    "groundId": "lidingo",
+    "frameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
+    "rootBytes": 605,
+    "rootSha256": "99626b9456fcb34683e394d4710893ef66b89a1c8b15d6945a3ae543098f4a97",
+    "courseManifestSha256": "7f15acd0c2a8c3d667413ce9084a7e35be24648f789ca24c793c727b48eca6d1",
+    "groundManifestSha256": "6732ca39f30b00dbce720225d42149da5d0f9d9fd0753d0f871fc67f4184877a",
+    "routingSha256": "dbf998c8ded3596445d274d247b47aa53d83e489bde3bcc55523b0a80095387e",
+    "holes": 18,
+    "tiles": 85,
+    "finestTiles": 64,
+    "shellBytes": 109686,
+    "chunks": 151,
+    "encodedChunkBytes": 8386360,
+    "decodedChunkBytes": 12411686,
+    "holeTileBufferMetres": 90
+  }
+}

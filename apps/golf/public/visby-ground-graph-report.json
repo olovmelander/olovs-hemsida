@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "kind": "visby-ground-graph",
+  "state": "published-provisional",
+  "provisionalReasons": [
+    "independent-origin-and-local-residual-controls-pending",
+    "playing-surfaces-and-routes-source-derived-not-as-built",
+    "numeric-tee-marker-and-daily-flag-positions-unverified"
+  ],
+  "source": {
+    "terrainItems": [
+      "636_68",
+      "637_68"
+    ],
+    "terrainFloat32Sha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898",
+    "sampleSpacingMetres": 1
+  },
+  "frame": {
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "origin": {
+      "easting": 687748.5,
+      "northing": 6370951.5,
+      "heightRH2000": 0.1
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldY": "heightRH2000 - originHeightRH2000",
+      "worldZ": "originNorthing - northing"
+    },
+    "fingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511"
+  },
+  "terrain": {
+    "sourceSamples": 16785409,
+    "finiteSamples": 16785409,
+    "tileChunks": 341,
+    "rootTiles": 1,
+    "uniqueChunks": 342,
+    "encodedBytes": 8475164,
+    "decodedBytes": 45177516,
+    "shellEncodedBytes": 43591,
+    "shellDecodedBytes": 132098,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 256,
+        "encodedBytes": 5835809,
+        "decodedBytes": 33817088
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 64,
+        "encodedBytes": 1841377,
+        "decodedBytes": 8454272
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 16,
+        "encodedBytes": 551225,
+        "decodedBytes": 2113568
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 4,
+        "encodedBytes": 159598,
+        "decodedBytes": 528392
+      },
+      {
+        "lod": 4,
+        "sampleSpacingMetres": 16,
+        "tiles": 1,
+        "encodedBytes": 43564,
+        "decodedBytes": 132098
+      }
+    ]
+  },
+  "graph": {
+    "slug": "visby",
+    "groundId": "visby",
+    "frameFingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
+    "rootBytes": 594,
+    "rootSha256": "1fb281ac5265ce0355c58710b0fc04dd54724a5262b46d56778ffd19150839bc",
+    "courseManifestSha256": "4995a4de82a5e06464cea521b38612e2036db9f3536f36d91ae853952add8b60",
+    "groundManifestSha256": "82137bd40b2488fa64ad1c5039c92363178c3c0f6c4e9f9069b23d6569fd8910",
+    "routingSha256": "1feffbb64d377f792225fd271f56737fe86983de0a8272e290988614ccb8ce1a",
+    "holes": 18,
+    "tiles": 341,
+    "finestTiles": 256,
+    "shellBytes": 43591,
+    "chunks": 599,
+    "encodedChunkBytes": 9193309,
+    "decodedChunkBytes": 49374762,
+    "holeTileBufferMetres": 90
+  }
+}

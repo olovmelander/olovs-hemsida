@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "observedOn": "2026-09-07",
+  "state": "source-exclusion-check-passed",
+  "sourceLayerIndex": {
+    "path": "visbybuild/cache/vegetation/stands-stage/layer-index.json",
+    "sha256": "097b2a33e16bcccee57497d0e0dd34586e08b139baeba2616d99b73f1254bf8b"
+  },
+  "counts": {
+    "eligibleStandCells": 167090,
+    "plannedRepresentatives": 61428,
+    "cellSourceHits": 0,
+    "representativeSourceHits": 0
+  },
+  "protectedSourceFeatures": 270,
+  "hits": [],
+  "terrainBases": {
+    "frameFingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
+    "sourceTerrainSha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898",
+    "nonfiniteBases": 0,
+    "maximumDifferenceFromUnquantizedDtmMetres": 0.004943591291121763,
+    "method": "Representative bases sampled from the exact staged finest terrain chunks; independently compared against the retained unquantized 1m source samples."
+  },
+  "runtimePlanning": {
+    "individuals": 0,
+    "standTrees": 61428,
+    "cellsPlanted": 61428,
+    "cellsSkipped": 743245,
+    "speciesSource": "default",
+    "baseMismatch": {
+      "samples": 0,
+      "meanAbsMetres": null,
+      "p95Metres": null,
+      "maxMetres": null
+    },
+    "note": "Runtime representative count and display species are visualization output, not measured stem counts or species observations."
+  },
+  "method": "All eligible 4m stand-cell centres and actual deterministic runtime representative positions checked independently against polygon interiors with holes and 1m road /0.5m path centre-line corridors.",
+  "limitations": [
+    "These checks concern retained source geometry and planned placements, not current field accuracy.",
+    "2024 laser and 2022 orthophoto are different vintages; source panels cannot confirm later changes.",
+    "Representative stand positions are not measured individual tree stems."
+  ]
+}

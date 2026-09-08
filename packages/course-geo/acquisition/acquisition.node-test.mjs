@@ -42,6 +42,7 @@ import { loadRepositoryHoleSourceControlPlan } from './hole-source-inventory.mjs
 import {
   discoverGroundLaserControl,
   executeGroundHoleSourceControls,
+  runAuthenticatedGroundHoleSourceControls,
 } from './hole-source-runner.mjs';
 
 const HASH_A = 'a'.repeat(64);
@@ -322,9 +323,10 @@ test('automatic object candidates require both usable Laserdata and tree height'
 test('repository inventory plans Laserdata and tree-height controls for every hole on every course', () => {
   const plan = loadRepositoryHoleSourceControlPlan();
   assert.deepEqual(plan.summary, {
-    groundCount: 7,
-    courseCount: 10,
-    holeCount: 144,
+    groundCount: 9,
+    courseCount: 12,
+    pendingCourseSlugs: [],
+    holeCount: 180,
     /* 194 until 2026-09-05, when two measurements landed the same day:
        Veckefjärden's water and ditches became laser readings (laser-water.mjs,
        the 4th's and 18th's ditches — the 12th's pond is two lobes and the 2 m
@@ -332,7 +334,8 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
        bunkers were re-centred onto their laser dishes and its clubhouse onto its
        measured roof. Both are read off the assertion's own "got" line, never
        added up: the two moves share the window they reached. */
-    uniqueGroundWindowCount: 195,
+    // Visby's frozen 18-hole inventory adds 30 distinct ground windows.
+    uniqueGroundWindowCount: 250,
     /* 702 until 2026-09-05, when the Johannesberg nine's 2nd, 7th and 8th greens
        became measured rings (trace-nine.mjs) and two of them reach a second
        256 m control window, and 709 when the Ribbingsfors pass measured its
@@ -344,7 +347,10 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
        windows from6 to3 (714 ->711), measured against the preceding committed
        migration; Stora and Ribbingsfors totals remain96 and52 respectively.
        All144 holes and all195 unique windows remain covered. */
-    requestedWindowReferences: 711,
+    // Lidingö's first source-derived model adds 18 holes, 25 distinct ground
+    // windows and 86 requested references, measured from the frozen polygons.
+    // Visby adds 94 references; Lidingo remains at 25 windows / 86 references.
+    requestedWindowReferences: 891,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,
@@ -353,6 +359,10 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
     plan.grounds.flatMap(ground => ground.courseSlugs).sort(),
     Object.values(EXPECTED_GROUNDS).flat().sort(),
   );
+  const visby = plan.grounds.find(ground => ground.groundId === 'visby');
+  assert.equal(visby.summary.holeCount, 18);
+  assert.equal(visby.courses.length, 1);
+  assert.ok(visby.windows.length > 0);
   for (const ground of plan.grounds) {
     for (const course of ground.courses) {
       assert.equal(course.holes.length, course.holeCount);
@@ -392,6 +402,15 @@ test('live Laserdata control discovery covers the complete expanded ground windo
   assert.equal(result.laser.coverage.complete, true);
   assert.equal(result.laser.items[0].pointDensityPerSquareMetre, 1.7);
   assert.equal(result.laser.items[0].assets.data.type, 'application/vnd.laszip+copc');
+});
+
+test('Visby source acquisition still requires credentials after its provisional model is added', async () => {
+  let requests = 0;
+  await assert.rejects(runAuthenticatedGroundHoleSourceControls('visby', {
+    providers: ['tree-height'],
+    fetchImpl: async () => { requests++; throw new Error('must not acquire'); },
+  }), /Skogsstyrelsen credentials are required/);
+  assert.equal(requests, 0);
 });
 
 test('authenticated control evidence omits window coordinates and raw provider payloads', async () => {

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "state": "bounded-point-window-retained",
+  "retrievedAt": "2026-09-07T20:44:58.349Z",
+  "capturedAt": "2021-03-23",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "bboxEpsg3006": [
+    677610,
+    6586220,
+    677710,
+    6586550
+  ],
+  "source": {
+    "sourceId": "laser-lm-skog",
+    "itemId": "21c031-658_67",
+    "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c031/m21c031-658_67.copc.laz",
+    "catalogueSha256": "7a16aeb3b8d7aea2f8c38b0a247868a9c0c33b309bebc4fdaa8cc57d5ad43848",
+    "etag": "\"7f2f60e485969d95b7fc79e5ba8ee9dd\"",
+    "bytes": 1349562664,
+    "fullAssetSha256Verified": false
+  },
+  "rasterlessPoints": {
+    "path": "lidingobuild/cache/buildings/laser-2021-points.json",
+    "sha256": "99e059dc03b2923a4803815085e38546f49393996023445676a4fa80389c0365",
+    "bytes": 3273331
+  },
+  "statistics": {
+    "nodes": 23,
+    "decodedPoints": 688600,
+    "pointsInWindow": 68601,
+    "firstReturns": 59879,
+    "byClass": {
+      "1": 14547,
+      "2": 53850,
+      "7": 140,
+      "18": 64
+    },
+    "nodeCountsExact": true
+  },
+  "transfer": {
+    "requests": 43,
+    "bytes": 5903489
+  },
+  "method": "Every source point in the bounded window, all intersecting COPC hierarchy nodes, exact decoded node counts. No point classification is changed.",
+  "limitations": [
+    "Classification 1 is unclassified and includes roof and vegetation returns. Footprint/interior selection is a spatial hypothesis, not a building classifier.",
+    "The 2021 source and 2019 roof image cannot prove current building outlines or current use.",
+    "Full asset SHA not verified: bounded reads retain the source identity, ETag, size and exact node counts."
+  ]
+}

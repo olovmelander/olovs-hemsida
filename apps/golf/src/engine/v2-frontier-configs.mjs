@@ -15,18 +15,22 @@
    produced them; this file only says which ones are live. */
 import { ANGSO_V2_CONFIGS } from './v2-angso-config.mjs';
 import { JOHANNESBERG_V2_CONFIGS } from './v2-johannesberg-config.mjs';
+import { LIDINGO_V2_CONFIGS } from './v2-lidingo-config.mjs';
 import { NORRFALLSVIKEN_V2_CONFIGS } from './v2-norrfallsviken-config.mjs';
 import { V2_GRAPH_FRONTIER_CONFIGS as RIBBINGSFORS } from './v2-ribbingsfors-config.mjs';
 import { UPSALA_V2_CONFIGS } from './v2-upsala-config.mjs';
 import { VECKEFJARDEN_V2_CONFIGS } from './v2-veckefjarden-config.mjs';
+import { VISBY_V2_CONFIGS } from './v2-visby-config.mjs';
 
 export const V2_GRAPH_FRONTIER_CONFIGS = Object.freeze({
   ...ANGSO_V2_CONFIGS,
   ...JOHANNESBERG_V2_CONFIGS,
+  ...LIDINGO_V2_CONFIGS,
   ...NORRFALLSVIKEN_V2_CONFIGS,
   ...RIBBINGSFORS,
   ...UPSALA_V2_CONFIGS,
   ...VECKEFJARDEN_V2_CONFIGS,
+  ...VISBY_V2_CONFIGS,
 });
 
 /* A record's own slug and the key it is registered under must agree, or a

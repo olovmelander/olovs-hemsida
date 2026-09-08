@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "state": "refined-source-derived-provisional",
+  "recordedAt": "2026-09-07T21:12:16.875Z",
+  "counts": {
+    "playingSurfaces": {
+      "green": 20,
+      "tee": 37,
+      "fairway": 13,
+      "bunker": 40
+    },
+    "facilityFeatures": 14,
+    "parking": 29,
+    "sourceGolfPaths": 6,
+    "measuredRoofs": 5,
+    "roofTriangles": 7069
+  },
+  "sources": {
+    "model": "51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12",
+    "playingSurfaces": "d5309cbfefbfc8f498be15100156a1ca99fe49442d61c56d89abd0f5d48f9f29",
+    "facilities": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+    "infrastructure": "27d80d50dc24f8f3910e79a7366f40a8c883c8cd132d4ea96cb0133e105b115d",
+    "roofMeshes": "4f25c1495768b4defe359c0b068a0df76667363e6fa67128f8602b34b3402934",
+    "pack": "846e291417f7dcf44a906400c1b505c07b2cb338ab2173fd2f80bed79ec60873"
+  },
+  "checks": {
+    "focusedLidingoTests": {
+      "passed": 28
+    },
+    "roofRoadPathRendererTests": {
+      "passed": 8
+    },
+    "normalApplicationBuild": "passed",
+    "publishedGraphIntegrity": "passed",
+    "geographicManifestChecks": "passed",
+    "canonicalMigration": "passed",
+    "fullSuite": {
+      "status": "passed",
+      "vitest": { "passed": 515, "failed": 0 },
+      "node": { "passed": 379, "failed": 0, "skipped": 2 },
+      "log": "lidingobuild/cache/tests-refinement-final.log",
+      "acquisitionInventory": {
+        "uniqueGroundWindows": 250,
+        "requestedWindowReferences": 891,
+        "lidingo": { "uniqueGroundWindows": 25, "requestedWindowReferences": 86 }
+      }
+    },
+    "browser": {
+      "3d-validation": {
+        "status": "passed",
+        "checks": 18,
+        "url": "http://127.0.0.1:8640/?bana=lidingo&v2=require&det=1&ljus=dag",
+        "failedChecks": 0
+      },
+      "3d-validation-webgl": {
+        "status": "passed",
+        "checks": 18,
+        "url": "http://127.0.0.1:8640/?bana=lidingo&v2=require&det=1&ljus=dag&gl=1",
+        "failedChecks": 0
+      },
+      "facility-runtime-validation": {
+        "status": "passed",
+        "checks": 6,
+        "url": "http://127.0.0.1:8640",
+        "failedChecks": 0
+      },
+      "placement-audit": {
+        "status": "passed",
+        "checks": 7,
+        "url": "http://127.0.0.1:8640/?bana=lidingo&v2=require&det=1&ljus=dag",
+        "failedChecks": 0
+      }
+    },
+    "defaultAndOptOutGraph": "passed",
+    "fallbackAppScorecardAndPlatforms": "passed",
+    "roadVertices": {
+      "count": 42205,
+      "displayOffsetMetres": 0.03,
+      "maximumFloat32OffsetErrorMetres": 0.00004584752023298333
+    }
+  },
+  "browserReports": [
+    "mapping/3d-validation.json",
+    "mapping/3d-validation-webgl.json",
+    "mapping/facility-runtime-validation.json",
+    "mapping/placement-audit.json"
+  ],
+  "preview": {
+    "url": "http://127.0.0.1:8640/?bana=lidingo",
+    "normalViteConfiguration": true,
+    "outDir": "lidingobuild/cache/final-review-dist"
+  },
+  "limitations": [
+    "Source surfaces are dated2019; roofs/canopy dated2021. Current alterations require newer controlled evidence.",
+    "Two roof TINs preserve unsupported areas as explicit gaps.",
+    "Flags and tee colours remain nominal viewing references; individual tree stems and furniture are not surveyed.",
+    "Independent coordinate controls and authoritative surface approvals remain open."
+  ]
+}

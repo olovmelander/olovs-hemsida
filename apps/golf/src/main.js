@@ -59,6 +59,7 @@ import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildGroundSurfaceFeatures, mappedPathSurface } from './engine/surface-features.mjs';
+import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
 import {
   requestedSurfaceDebugMode,
@@ -69,6 +70,7 @@ import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses } from './engine/water-render-policy.mjs';
+import { waterShoreDistance } from './engine/water-shore.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
 import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
@@ -211,6 +213,7 @@ const terrainPreviewPromise = selectV2TerrainSource({
   search: location.search,
   waterBeds: async () => {
     const model = await modelPromise;
+    if (model.infra?.terrainPlacement === 'measured-only') return null;
     return {
       bodies: (model.water || []).filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })),
       shallows: (model.surround && model.surround.shallows) || [],
@@ -511,7 +514,7 @@ for (const h of HOLES) {
      before WI indexes it, which is long before the batch installs. If the
      install then fails, these levels stay v2-derived over legacy ground: on
      this course at most 0.5 m out, and every body still renders as water. */
-  if (TERRAIN_PREVIEW.ready && typeof TERRAIN_PREVIEW.heightAt === 'function') {
+  if (M.infra.terrainPlacement !== 'measured-only' && TERRAIN_PREVIEW.ready && typeof TERRAIN_PREVIEW.heightAt === 'function') {
     /* CLEARANCE, and it is not a fudge. Lantmateriet's Markhojdmodell over
        water is the WATER SURFACE -- laser does not penetrate -- so the "ground"
        the frontier reports inside a lake ring IS the surface, and there is no
@@ -746,6 +749,9 @@ function terrainH(x, z) {
   return visibleGroundHeightAt ? visibleGroundHeightAt(x, z) : legacyTerrainH(x, z);
 }
 function legacyTerrainH(x, z) {
+  // A measured ground opts out of synthetic green shaping, bunker dishes,
+  // water bathymetry and noise in the compatibility path as well as in v2.
+  if (M.infra.terrainPlacement === 'measured-only') return demH(x, z);
   let h = demH(x, z);
 
   /* greens: a pad flat enough to putt on, tilted gently back to front, tiered
@@ -2867,16 +2873,20 @@ function resamp(L, step) {
   P.push(L[L.length - 1]); S.push(s);
   return { P, S };
 }
+const ROAD_DRAPE_PROOFS = [];
 function buildRoad(runs, asphalt) {
   const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], idx = [];
+  const measuredOnly = M.infra.terrainPlacement === 'measured-only';
+  const measuredLift = 0.03; // Rendering separation only, never roadbed thickness.
   let ri = 0;
   for (const run of runs) {
     if (run.line.length < 2) continue;
     const { P, S } = resamp(run.line, 3);
     if (P.length < 2) continue;
     const lift = run.lift + (ri++ % 8) * 0.004;
-    /* the graded centreline: box-filtered ground, never below run.minH (bridges) */
-    const hraw = P.map(p => terrainH(p[0], p[1]));
+    /* Legacy grading is a rendering estimate. A measured source ground must
+       not acquire a box-filtered roadbed, crown or guessed bridge minimum. */
+    const hraw = measuredOnly ? [] : P.map(p => terrainH(p[0], p[1]));
     const hs = hraw.map((_, i) => {
       let a = 0, n = 0;
       for (let k = -8; k <= 8; k++) { const j = i + k; if (j >= 0 && j < hraw.length) { a += hraw[j]; n++; } }
@@ -2899,8 +2909,9 @@ function buildRoad(runs, asphalt) {
         const x = P[i][0] + nx * u, z = P[i][1] + nz * u;
         const verge = Math.abs(u) > run.w + 0.01;
         const crown = 0.05 * (1 - (u / run.w) ** 2);
-        const h = verge ? terrainH(x, z) + 0.03
-                        : hs[i] + Math.max(0, crown) + lift;
+        const h = measuredOnly ? terrainH(x, z) + measuredLift
+                    : verge ? terrainH(x, z) + 0.03
+                            : hs[i] + Math.max(0, crown) + lift;
         const ao = horizonAO(x, z, h);
         let cc;
         if (verge && run.tone && !asphalt) {
@@ -2949,6 +2960,21 @@ function buildRoad(runs, asphalt) {
   g.setAttribute('aMow', new THREE.Float32BufferAttribute(mow, 2));
   g.setIndex(idx);
   g.computeVertexNormals();
+  if (measuredOnly) {
+    // Inspect the Float32 vertices actually submitted to the renderer, including
+    // both road edges and shoulders, against their own sampled ground positions.
+    const p = g.getAttribute('position');
+    let minimumOffset = Infinity, maximumOffset = -Infinity, maximumError = 0;
+    for (let i = 0; i < p.count; i++) {
+      const offset = p.getY(i) - terrainH(p.getX(i), p.getZ(i));
+      minimumOffset = Math.min(minimumOffset, offset);
+      maximumOffset = Math.max(maximumOffset, offset);
+      maximumError = Math.max(maximumError, Math.abs(offset - measuredLift));
+    }
+    ROAD_DRAPE_PROOFS.push({ vertices: p.count, asphalt, expectedOffsetMetres: measuredLift,
+      minimumOffsetMetres: minimumOffset, maximumOffsetMetres: maximumOffset,
+      maximumOffsetErrorMetres: maximumError, syntheticGrading: false });
+  }
   stats.verts += pos.length / 3; stats.tris += idx.length / 3;
   return g;
 }
@@ -3123,7 +3149,7 @@ await tick('fyller vattnet', 0.52);
    surface runs out into foam -- and writes the answer. */
 /* probe gains: the sun glint and the fine chop, each 1 unless a harness turns it down (V3D.water) */
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
-function makeWater({ mask = null } = {}) {
+function makeWater({ mask = null, showBed = true } = {}) {
   const m = new THREE.MeshBasicNodeMaterial({ transparent: true, side: THREE.DoubleSide });
   configureWaterRenderPasses(m, { mask });
   /* A sheet sits a quarter-metre over a bed the DTM draws at the water's own
@@ -3177,7 +3203,9 @@ function makeWater({ mask = null } = {}) {
   /* the regulated fjärd's bottom reading up through thin water: pale silt in the
      shallowest film, then the dark olive weed the close aerial shows */
   const aDp = attribute('aDepth', 'float');
-  const bed = oneMinus(smoothstep(0.12, 1.1, aDp)).mul(aFoam);
+  // A surface-only DTM supplies no bed observation. Keep its water shader
+  // independent of the coplanar terrain instead of displaying invented silt.
+  const bed = showBed ? oneMinus(smoothstep(0.12, 1.1, aDp)).mul(aFoam) : float(0);
   const bedCol = mix(color(0x8a7a5c), color(0x2e4a35), smoothstep(0.18, 0.6, aDp));
   body = mix(body, bedCol, bed.mul(0.85));
 
@@ -3222,7 +3250,9 @@ function makeWater({ mask = null } = {}) {
   m.opacityNode = opacity;
   return m;
 }
-const waterMat = makeWater();
+// makeWater already applies the backend's DEPTH_SIGN to its visual depth bias;
+// overriding it with a fixed sign would push WebGPU water below its DTM.
+const waterMat = makeWater({ showBed: M.infra.terrainPlacement !== 'measured-only' });
 
 for (const w of M.water) {
   if (w.ring.length < 3) continue;
@@ -3236,7 +3266,7 @@ for (const w of M.water) {
   const foamy = w.isLake ? 1 : 0;
   for (const [x, z] of V) {
     pos.push(x, w.level, z);
-    sh.push(Math.max(0, -ringSD(x, z, w.ring)));
+    sh.push(waterShoreDistance(x, z, w));
     fm.push(foamy);
     /* how much water actually stands over the carved bed: the fjärd is a regulated
        lake and its wide pale margins are silt bottom UNDER water, so the shallows
@@ -3701,7 +3731,8 @@ const SHORE = (() => {
    fringe -- densest on the reserve side, thinned where the course plays along the
    water so the views stay open. A reed is three crossed blades; ten thousand of
    them are one draw call. */
-{
+// A water polygon and a flat DTM do not establish an observed reed bed.
+if (M.infra.vegetationPlacement !== 'measured-only') {
   const lake = M.water.find(w => w.isLake);
   if (lake) {
     const pts = [];
@@ -3858,6 +3889,7 @@ lap('v2 vegetation: plan individuals + stand trees');
     if (LOWQ && rnd(i + 77, j + 55) < 0.45) continue;
     const px = x + (rnd(i, j) - 0.5) * GAP * 1.75;
     const pz = z + (rnd(i + 991, j + 77) - 0.5) * GAP * 1.75;
+    if (M.infra.vegetationPlacement === 'measured-only') continue;
     if (V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) continue;
     let wood = 0, kindScrub = false, why = 0;
     for (const v of VI.at(px, pz)) {
@@ -4857,8 +4889,9 @@ lap('far vista cones', { vista: stats.vista | 0 });
    where before there was a smooth surface, and that is most of the difference.
 
    They go only where the ground is neither mown nor wooded, and never inside the
-   playing corridor, because rough this deep is a hazard and the corridor is not. */
-{
+   playing corridor, because rough this deep is a hazard and the corridor is not.
+   Source-only placement cannot turn unmapped rough into bushes or boulders. */
+if (M.infra.objectPlacement !== 'mapped-only' && M.infra.vegetationPlacement !== 'measured-only') {
   const tuft = (() => {
     const g = new THREE.BufferGeometry();
     const p = [], n = [];
@@ -5608,9 +5641,24 @@ if (M.infra.objectPlacement === 'mapped-only') {
       && (b.amenity === 'clubhouse' || (b.name && /golfklubb|klubbhus/i.test(b.name))))
     .sort((a, b) => areaOf(b.ring) - areaOf(a.ring))[0] || null;
 
+  stats.measuredRoofBuildings = 0;
+  stats.measuredRoofTriangles = 0;
+  stats.genericRoofBuildings = 0;
   for (const b of M.infra.buildings) {
     if (b.ring.length < 3) continue;
     if (b.amenity === 'place_of_worship') continue;   /* the chapel is bespoke */
+    if (b.roofSurface) {
+      const geometry = measuredRoofGeometry(b.roofSurface, terrainH);
+      // Roof shade follows the dark roof observation. Facade material remains
+      // a neutral rendering approximation; no borrowed clubhouse windows,
+      // overhangs, balconies, eave height or extra roof above the source TIN.
+      const wall = L(0xc5c0b4), roof = L(0x3c4141);
+      for (const [a, c, d] of geometry.triangles) tri(a, c, d, roof);
+      for (const [a, c, d, e] of geometry.walls) quad(a, c, d, e, wall);
+      stats.measuredRoofBuildings++;
+      stats.measuredRoofTriangles += geometry.triangles.length;
+      continue;
+    }
     const [cx, cz] = centroidOf(b.ring);
     const isClub = b === clubBuilding;
     if (b.kind === 'roof') { canopy(b.ring, b.h || 3.0); continue; }
@@ -5622,6 +5670,7 @@ if (M.infra.objectPlacement === 'mapped-only') {
        annex that continues the clubhouse's blue, a shed with a dark roof --
        where the generic hashed palette would guess */
     const look = (SCENERY && SCENERY.buildingLooks && b.id && SCENERY.buildingLooks[b.id]) || null;
+    stats.genericRoofBuildings++;
     house(b.ring, hgt, isClub ? L(CLUB_LOOK.wall) : look?.wall ? L(look.wall) : wallOf(cx, cz, b.kind, b.name),
           isClub ? L(CLUB_LOOK.roof) : look?.roof ? L(look.roof) : roofOf(cx, cz), isClub && !CLUB_LOOK.gable);
     let glazedEdge = -1;
@@ -5959,7 +6008,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
      centre line at real ball-drop distances. The old version strung ten tall
      poles along the field's edge, which read as a fence across the tee line. */
   const rng = (M.scenery.range || [])[0];
-  if (rng && !(M.scenery.mappedFeatures || []).some(f => f.kind === 'range_target_surface')) {
+  if (M.infra.objectPlacement !== 'mapped-only' && rng &&
+      !(M.scenery.mappedFeatures || []).some(f => f.kind === 'range_target_surface')) {
     /* the tee bays stand on the field's WEST edge and the balls fly east */
     /* The tee end is the end of the field you walk to from the clubhouse. Deriving it
        beats writing it down: five of these six pages carried Norrfallsvikens hut
@@ -5992,6 +6042,7 @@ if (M.infra.objectPlacement === 'mapped-only') {
       if (ringSD(fx, fz, rng) > -6) continue;
       const fy = terrainH(fx, fz);
       pole(fx, fy, fz, 3.2, 0.06, WHITE);
+      stats.inferredRangeTargets = (stats.inferredRangeTargets || 0) + 1;
       const col = FCOL[k % 3];
       quad([fx, fy + 2.5, fz], [fx + rx * 1.1, fy + 2.5, fz + rz * 1.1],
            [fx + rx * 1.1, fy + 3.1, fz + rz * 1.1], [fx, fy + 3.1, fz], col);
@@ -9570,6 +9621,10 @@ window.V3D = {
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
            tufts: stats.tufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
            reeds: stats.reeds | 0, cars: stats.cars | 0, pylons: stats.pylons | 0, stumps: stats.stumps | 0,
+           inferredRangeTargets: stats.inferredRangeTargets | 0,
+           measuredRoofBuildings: stats.measuredRoofBuildings | 0,
+           measuredRoofTriangles: stats.measuredRoofTriangles | 0,
+           genericRoofBuildings: stats.genericRoofBuildings | 0,
            draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
            backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
@@ -9613,6 +9668,7 @@ window.V3D = {
   v2WorldFrustum: () => (typeof terrainV2.frustumReport === 'function' ? terrainV2.frustumReport() : null),
   vistaPoints: () => (VISTA_PTS ? Array.from(VISTA_PTS) : []),
   setWaterVisible: on => { for (const m of WATER_MESHES) m.visible = on !== false; return WATER_MESHES.length; },
+  roadDraping: () => ROAD_DRAPE_PROOFS.map(proof => ({ ...proof })),
   /* hide or show meshes by tag, instance count or material type, to find what draws what */
   setMeshesVisible: ({ tag, minInstances, material, world } = {}, on = true) => {
     let n = 0;

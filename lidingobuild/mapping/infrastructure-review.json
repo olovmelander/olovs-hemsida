@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "status": "provisional-source-semantics-repaired",
+  "inputs": [
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+      "sha256": "d25889882339c4259bc38a3d475a9113b70dc6092d9f98782c3812e4e8999ec0"
+    },
+    {
+      "path": "lidingobuild/mapping/facilities.geojson",
+      "sha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a"
+    }
+  ],
+  "output": {
+    "path": "lidingobuild/mapping/infrastructure.geojson",
+    "sha256": "27d80d50dc24f8f3910e79a7366f40a8c883c8cd132d4ea96cb0133e105b115d"
+  },
+  "toolchain": {
+    "shapely": "2.1.2",
+    "geos": "3.13.1"
+  },
+  "counts": {
+    "sourceParkingAreas": 28,
+    "adoptedParkingAreas": 26,
+    "retiredClubParkingAreas": 2,
+    "unchangedGolfPaths": 6,
+    "outputFeatures": 32
+  },
+  "geometryChecks": {
+    "allOutputGeometryValid": true,
+    "sourceVerticesChanged": 0,
+    "verticesSynthesized": 0,
+    "ringsClippedOrSimplified": 0
+  },
+  "parkingAreaSemantics": "https://wiki.openstreetmap.org/wiki/Tag:amenity%3Dparking",
+  "parkingFacilityOverlaps": [
+    {
+      "sourceId": "way/32428960",
+      "sourceAreaSquareMetres": 1558.323,
+      "facilities": [
+        {
+          "facilityId": "lidingo-upper-parking-north-2019",
+          "facilityKind": "parking",
+          "intersectionSquareMetres": 705.002,
+          "fractionOfSourceParking": 0.452411
+        },
+        {
+          "facilityId": "lidingo-upper-parking-south-2019",
+          "facilityKind": "parking",
+          "intersectionSquareMetres": 214.802,
+          "fractionOfSourceParking": 0.137842
+        }
+      ]
+    },
+    {
+      "sourceId": "way/221846968",
+      "sourceAreaSquareMetres": 870.052,
+      "facilities": [
+        {
+          "facilityId": "lidingo-clubhouse-parking-2019",
+          "facilityKind": "parking",
+          "intersectionSquareMetres": 685.685,
+          "fractionOfSourceParking": 0.788097
+        }
+      ]
+    }
+  ],
+  "retiredSourceFeatures": [
+    {
+      "sourceFeatureId": "way/32428960",
+      "replacedBy": [
+        "lidingo-upper-parking-north-2019",
+        "lidingo-upper-parking-south-2019"
+      ],
+      "sourceAreaSquareMetres": 1558.323,
+      "overlapSquareMetres": 919.804,
+      "sourceAreaOutsideObservedReplacementSquareMetres": 638.519,
+      "decision": "omit-entire-coarse-club-parking-source-from-rendered-inventory",
+      "reason": "Explicitly reviewed same club facility. Retain observed 2019 footprint; do not turn uncertain coarse-source remainder into rendered slivers. The unmatched remainder is unresolved, not asserted absent.",
+      "originalRetainedAt": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson"
+    },
+    {
+      "sourceFeatureId": "way/221846968",
+      "replacedBy": [
+        "lidingo-clubhouse-parking-2019"
+      ],
+      "sourceAreaSquareMetres": 870.052,
+      "overlapSquareMetres": 685.685,
+      "sourceAreaOutsideObservedReplacementSquareMetres": 184.367,
+      "decision": "omit-entire-coarse-club-parking-source-from-rendered-inventory",
+      "reason": "Explicitly reviewed same club facility. Retain observed 2019 footprint; do not turn uncertain coarse-source remainder into rendered slivers. The unmatched remainder is unresolved, not asserted absent.",
+      "originalRetainedAt": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson"
+    }
+  ],
+  "omittedNonAreas": [],
+  "unchangedGolfPathIds": [
+    "way/296422983",
+    "way/296422993",
+    "way/296423003",
+    "way/427426741",
+    "way/427426774",
+    "way/427426781"
+  ],
+  "existingBuildingAreaCheck": {
+    "sourceBuildingFeatures": 562,
+    "allBuildingsAlreadyPolygon": true
+  },
+  "limitations": [
+    "Area semantics do not improve the original OSM position accuracy or observation epoch.",
+    "Neighbouring parking areas are geographic context, not asserted golf-club property or visitor access.",
+    "No parked cars, bay centres, path widths or bridge positions are synthesized.",
+    "The two superseded club lots retain unresolved source remainder areas; review current licensed imagery before extending the 2019 traces."
+  ]
+}

@@ -11,6 +11,37 @@ import { NORRFALLSVIKEN_GROUND_GRAPH_CONFIG } from '../../course-v2/norrfallsvik
 import { UPSALA_GROUND_GRAPH_CONFIG } from '../../course-v2/upsala-ground-graph.mjs';
 
 export const TERRAIN_WINDOW_SPECS = Object.freeze({
+  visby: Object.freeze({
+    /* Initial coastal context window around the complete OSM property extent
+       E687076..688432/N6370517..6371990. The cropped coastal source products
+       share the N6370000 seam; both actual source extents are pinned below.
+       This is source intake, not an approved canonical ground origin. */
+    sourceItemIds: ['636_68', '637_68'],
+    sourceExtents: Object.freeze({
+      '636_68': Object.freeze({ west: 685000, north: 6370000, east: 690000, south: 6365000 }),
+      '637_68': Object.freeze({ west: 685000, north: 6380000, east: 690000, south: 6370000 }),
+    }),
+    sampleSpacingMetres: 1,
+    width: 4097,
+    height: 4097,
+    originEasting: 685700.5,
+    originNorthing: 6372999.5,
+    pixelEdgeWindow: { west: 685700, north: 6373000, east: 689797, south: 6368903 },
+    plausibleHeightRangeRH2000: { minimum: -5, maximum: 100 },
+  }),
+  lidingo: Object.freeze({
+    /* Initial source window around the complete 2026-09-07 OSM golf extent.
+       The provisional ground origin is 677700.5,6586399.5; independent
+       origin controls and current played-surface review remain pending. */
+    sourceItemIds: ['658_67'],
+    sampleSpacingMetres: 1,
+    width: 2049,
+    height: 2049,
+    originEasting: 676676.5,
+    originNorthing: 6587423.5,
+    pixelEdgeWindow: { west: 676676, north: 6587424, east: 678725, south: 6585375 },
+    plausibleHeightRangeRH2000: { minimum: -5, maximum: 100 },
+  }),
   angso: Object.freeze({
     sourceItemIds: ANGSO_GROUND_GRAPH_CONFIG.sourceItemIds,
     sampleSpacingMetres: 1,

@@ -1,0 +1,257 @@
+{
+  "sourceImageSha256": "aac5fa4a1ce429258cd020e0a139939576ac67bde02e010fc822feb446111153",
+  "method": "reviewed-seeded-pixel-components",
+  "accepted": 65,
+  "rejected": [
+    {
+      "seed": [
+        1076,
+        499
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        1090,
+        517
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        1241,
+        960
+      ],
+      "reason": "invalid or sub-resolution contour"
+    },
+    {
+      "seed": [
+        1080,
+        1260
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        969,
+        2252
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1115,
+        2244
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1110,
+        2142
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1102,
+        2164
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1220,
+        2080
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1380,
+        1655
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1988,
+        1500
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        2040,
+        1570
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        2391,
+        1696
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        2460,
+        1770
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        2460,
+        1830
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        2570,
+        2600
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1130,
+        2666
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1168,
+        2664
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1620,
+        1970
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1577,
+        1945
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1760,
+        1950
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1810,
+        1950
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        2025,
+        2645
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1600,
+        2918
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        1640,
+        2950
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        1590,
+        2940
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        2170,
+        2940
+      ],
+      "reason": "invalid or sub-resolution contour"
+    },
+    {
+      "seed": [
+        2200,
+        2930
+      ],
+      "reason": "invalid or sub-resolution contour"
+    },
+    {
+      "seed": [
+        1370,
+        1680
+      ],
+      "reason": "no bounded sand component at seed"
+    },
+    {
+      "seed": [
+        1249,
+        940
+      ],
+      "reason": "invalid or sub-resolution contour"
+    },
+    {
+      "seed": [
+        1588,
+        2900
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        1590,
+        2925
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        1640,
+        2945
+      ],
+      "reason": "multiple contours or significant interior island require manual tracing"
+    },
+    {
+      "seed": [
+        1417,
+        2660
+      ],
+      "reason": "no bounded sand component at seed"
+    }
+  ],
+  "review": "machine visual source-overlay review; not independent approval",
+  "parameters": {
+    "minimumChannelR": 115,
+    "rToGRatio": 1.01,
+    "bToGRatio": 0.88,
+    "maxChannelDifference": 55,
+    "closingKernelPixels": 5,
+    "maxExtentPixels": 150,
+    "contourTolerancePixels": 1.5,
+    "seedSearchRadiusPixels": 24,
+    "unresolvedInteriorNoiseLimitSquareMetres": 4
+  }
+}

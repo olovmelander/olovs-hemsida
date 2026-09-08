@@ -1,0 +1,2067 @@
+{
+  "schemaVersion": 1,
+  "courseId": "visby",
+  "courseScope": "Main 18-hole course only; separate nine-hole identities excluded",
+  "status": "provisional-source-derived-not-surveyed",
+  "completeness": "All 18 green identities correlated; 17 visible representative tee pads retained; hole 12 physical tee unresolved with separate virtual fairway flyover start",
+  "sourceImage": "visbybuild/cache/geodata-2026-09-07/gotland-2022-0p5m.png",
+  "sourceImageSha256": "aac5fa4a1ce429258cd020e0a139939576ac67bde02e010fc822feb446111153",
+  "pixelConvention": "Full retained image; pixel centres: E=686900.25+0.5*x, N=6372149.75-0.5*y; EPSG:3006",
+  "horizontalCrs": "EPSG:3006",
+  "sourceYear": 2022,
+  "captureDate": null,
+  "licence": "Exact orthophoto and Caddee reuse terms unresolved; local provisional derivative only; no publication clearance",
+  "registrationAccuracyMetres": null,
+  "interpretationUncertaintyMetres": 5,
+  "reviewer": "Codex machine visual interpretation; independent human review pending",
+  "sources": {
+    "gotland-ortho-2022": "geo_data/course-v2/visby/reference/gotland-ortho-2022.json",
+    "openstreetmap-golf": "geo_data/course-v2/visby/reference/osm-golf-epsg3006.geojson",
+    "caddee-main-overview": "visbybuild/cache/club-sources-2026-09-07-full/caddee-18-overview.png",
+    "caddee-main-hole-pattern": "visbybuild/cache/club-sources-2026-09-07-full/caddee-18-hole-NN.png"
+  },
+  "holes": [
+    {
+      "holeNumber": 1,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311553675",
+      "greenPixel": [
+        549.96,
+        2440.28
+      ],
+      "greenEpsg3006": [
+        687175.229,
+        6370929.609
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        536.44,
+        2742.84
+      ],
+      "teeEpsg3006": [
+        687168.472,
+        6370778.329
+      ],
+      "teeRingPixels": [
+        [
+          524.05,
+          2765.22
+        ],
+        [
+          546.53,
+          2765.6
+        ],
+        [
+          548.98,
+          2721.2
+        ],
+        [
+          526.44,
+          2719.45
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          536.44,
+          2742.84
+        ],
+        [
+          549.96,
+          2440.28
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687168.472,
+          6370778.329
+        ],
+        [
+          687175.23,
+          6370929.61
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-01",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeSurfaceSourceId": "way/1311553674",
+      "teeRingEpsg3006": [
+        [
+          687162.275,
+          6370767.14
+        ],
+        [
+          687173.515,
+          6370766.95
+        ],
+        [
+          687174.74,
+          6370789.15
+        ],
+        [
+          687163.47,
+          6370790.025
+        ],
+        [
+          687162.275,
+          6370767.14
+        ]
+      ],
+      "teeSurfaceMethod": "retained OSM tee footprint",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 254.36
+    },
+    {
+      "holeNumber": 2,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311556978",
+      "greenPixel": [
+        935.49,
+        1819.14
+      ],
+      "greenEpsg3006": [
+        687367.996,
+        6371240.182
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        628.13,
+        2510.84
+      ],
+      "teeEpsg3006": [
+        687214.314,
+        6370894.328
+      ],
+      "teeRingPixels": [
+        [
+          638.24,
+          2508.84
+        ],
+        [
+          626.94,
+          2501.22
+        ],
+        [
+          623.95,
+          2505.08
+        ],
+        [
+          617.92,
+          2512.85
+        ],
+        [
+          629.5,
+          2520.44
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          628.13,
+          2510.84
+        ],
+        [
+          850,
+          2220
+        ],
+        [
+          900,
+          1990
+        ],
+        [
+          935.49,
+          1819.14
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687214.314,
+          6370894.328
+        ],
+        [
+          687325.25,
+          6371039.75
+        ],
+        [
+          687350.25,
+          6371154.75
+        ],
+        [
+          687367.995,
+          6371240.18
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-02",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeSurfaceSourceId": "way/1311556977",
+      "teeRingEpsg3006": [
+        [
+          687219.37,
+          6370895.33
+        ],
+        [
+          687213.72,
+          6370899.14
+        ],
+        [
+          687212.225,
+          6370897.21
+        ],
+        [
+          687209.21,
+          6370893.325
+        ],
+        [
+          687215.0,
+          6370889.53
+        ],
+        [
+          687219.37,
+          6370895.33
+        ]
+      ],
+      "teeSurfaceMethod": "retained OSM tee footprint",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 50.1
+    },
+    {
+      "holeNumber": 3,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "medium",
+      "greenSourceId": null,
+      "greenPixel": [
+        1345.05,
+        848.65
+      ],
+      "greenEpsg3006": [
+        687572.776,
+        6371725.424
+      ],
+      "greenCentreMethod": "centroid of manually observed putting boundary in retained 2022 orthophoto; dormant/reconstruction contrast limits confidence",
+      "greenRingPixels": [
+        [
+          1347,
+          830
+        ],
+        [
+          1368,
+          827
+        ],
+        [
+          1374,
+          833
+        ],
+        [
+          1369,
+          844
+        ],
+        [
+          1352,
+          864
+        ],
+        [
+          1341,
+          870
+        ],
+        [
+          1323,
+          868
+        ],
+        [
+          1317,
+          862
+        ],
+        [
+          1322,
+          849
+        ],
+        [
+          1333,
+          838
+        ]
+      ],
+      "teePixel": [
+        959.58,
+        1687.76
+      ],
+      "teeEpsg3006": [
+        687380.039,
+        6371305.872
+      ],
+      "teeRingPixels": [
+        [
+          951,
+          1666
+        ],
+        [
+          976,
+          1672
+        ],
+        [
+          967,
+          1710
+        ],
+        [
+          944,
+          1704
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          959.58,
+          1687.76
+        ],
+        [
+          1010,
+          1460
+        ],
+        [
+          1090,
+          1230
+        ],
+        [
+          1200,
+          1100
+        ],
+        [
+          1290,
+          940
+        ],
+        [
+          1345.05,
+          848.65
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687380.039,
+          6371305.872
+        ],
+        [
+          687405.25,
+          6371419.75
+        ],
+        [
+          687445.25,
+          6371534.75
+        ],
+        [
+          687500.25,
+          6371599.75
+        ],
+        [
+          687545.25,
+          6371679.75
+        ],
+        [
+          687572.775,
+          6371725.425
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-03"
+      ],
+      "notes": [
+        "Main hole 3 uses the dormant northbound corridor from approximately (975,1620) through (1090,1230) and (1200,1100). The green maintained curve to (1478,1268) is separate nine-hole 9. Green in 2022 appears reconstructed; OSM does not include it.",
+        "Putting boundary has faint contrast in 2022; exact current green extent requires independent review."
+      ],
+      "teeRingEpsg3006": [
+        [
+          687375.75,
+          6371316.75
+        ],
+        [
+          687388.25,
+          6371313.75
+        ],
+        [
+          687383.75,
+          6371294.75
+        ],
+        [
+          687372.25,
+          6371297.75
+        ],
+        [
+          687375.75,
+          6371316.75
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "medium",
+      "greenRingEpsg3006": [
+        [
+          687573.75,
+          6371734.75
+        ],
+        [
+          687584.25,
+          6371736.25
+        ],
+        [
+          687587.25,
+          6371733.25
+        ],
+        [
+          687584.75,
+          6371727.75
+        ],
+        [
+          687576.25,
+          6371717.75
+        ],
+        [
+          687570.75,
+          6371714.75
+        ],
+        [
+          687561.75,
+          6371715.75
+        ],
+        [
+          687558.75,
+          6371718.75
+        ],
+        [
+          687561.25,
+          6371725.25
+        ],
+        [
+          687566.75,
+          6371730.75
+        ],
+        [
+          687573.75,
+          6371734.75
+        ]
+      ],
+      "greenAreaSquareMetres": 367.25,
+      "teeAreaSquareMetres": 240.0
+    },
+    {
+      "holeNumber": 4,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311725882",
+      "greenPixel": [
+        1038.79,
+        496.06
+      ],
+      "greenEpsg3006": [
+        687419.645,
+        6371901.721
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        1579.88,
+        811.77
+      ],
+      "teeEpsg3006": [
+        687690.188,
+        6371743.867
+      ],
+      "teeRingPixels": [
+        [
+          1573,
+          797
+        ],
+        [
+          1594,
+          807
+        ],
+        [
+          1586,
+          827
+        ],
+        [
+          1566,
+          816
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          1579.88,
+          811.77
+        ],
+        [
+          1320,
+          640
+        ],
+        [
+          1038.79,
+          496.06
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687690.188,
+          6371743.867
+        ],
+        [
+          687560.25,
+          6371829.75
+        ],
+        [
+          687419.645,
+          6371901.72
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-04",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeRingEpsg3006": [
+        [
+          687686.75,
+          6371751.25
+        ],
+        [
+          687697.25,
+          6371746.25
+        ],
+        [
+          687693.25,
+          6371736.25
+        ],
+        [
+          687683.25,
+          6371741.75
+        ],
+        [
+          687686.75,
+          6371751.25
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 119.62
+    },
+    {
+      "holeNumber": 5,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311725884",
+      "greenPixel": [
+        872.06,
+        912.14
+      ],
+      "greenEpsg3006": [
+        687336.279,
+        6371693.68
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        896.21,
+        585.0
+      ],
+      "teeEpsg3006": [
+        687348.355,
+        6371857.252
+      ],
+      "teeRingPixels": [
+        [
+          890,
+          560
+        ],
+        [
+          905,
+          561
+        ],
+        [
+          903,
+          609
+        ],
+        [
+          887,
+          609
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          896.21,
+          585.0
+        ],
+        [
+          872.06,
+          912.14
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687348.355,
+          6371857.252
+        ],
+        [
+          687336.28,
+          6371693.68
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-05",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeRingEpsg3006": [
+        [
+          687345.25,
+          6371869.75
+        ],
+        [
+          687352.75,
+          6371869.25
+        ],
+        [
+          687351.75,
+          6371845.25
+        ],
+        [
+          687343.75,
+          6371845.25
+        ],
+        [
+          687345.25,
+          6371869.75
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 188.25
+    },
+    {
+      "holeNumber": 6,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311727864",
+      "greenPixel": [
+        870.19,
+        1736.37
+      ],
+      "greenEpsg3006": [
+        687335.345,
+        6371281.566
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        966.82,
+        988.44
+      ],
+      "teeEpsg3006": [
+        687383.659,
+        6371655.53
+      ],
+      "teeRingPixels": [
+        [
+          963,
+          975
+        ],
+        [
+          981,
+          983
+        ],
+        [
+          970,
+          1002
+        ],
+        [
+          953,
+          994
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          966.82,
+          988.44
+        ],
+        [
+          900,
+          1280
+        ],
+        [
+          870.19,
+          1736.37
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687383.659,
+          6371655.53
+        ],
+        [
+          687350.25,
+          6371509.75
+        ],
+        [
+          687335.345,
+          6371281.565
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-06",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeRingEpsg3006": [
+        [
+          687381.75,
+          6371662.25
+        ],
+        [
+          687390.75,
+          6371658.25
+        ],
+        [
+          687385.25,
+          6371648.75
+        ],
+        [
+          687376.75,
+          6371652.75
+        ],
+        [
+          687381.75,
+          6371662.25
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 104.12
+    },
+    {
+      "holeNumber": 7,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311727865",
+      "greenPixel": [
+        1303.24,
+        1631.52
+      ],
+      "greenEpsg3006": [
+        687551.87,
+        6371333.989
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        984.31,
+        1742.5
+      ],
+      "teeEpsg3006": [
+        687392.403,
+        6371278.5
+      ],
+      "teeRingPixels": [
+        [
+          952,
+          1740
+        ],
+        [
+          966,
+          1729
+        ],
+        [
+          1014,
+          1739
+        ],
+        [
+          1009,
+          1755
+        ],
+        [
+          970,
+          1751
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          984.31,
+          1742.5
+        ],
+        [
+          1303.24,
+          1631.52
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687392.403,
+          6371278.5
+        ],
+        [
+          687551.87,
+          6371333.99
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-07",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeRingEpsg3006": [
+        [
+          687376.25,
+          6371279.75
+        ],
+        [
+          687383.25,
+          6371285.25
+        ],
+        [
+          687407.25,
+          6371280.25
+        ],
+        [
+          687404.75,
+          6371272.25
+        ],
+        [
+          687385.25,
+          6371274.25
+        ],
+        [
+          687376.25,
+          6371279.75
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "medium",
+      "teeAreaSquareMetres": 251.5
+    },
+    {
+      "holeNumber": 8,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311727868",
+      "greenPixel": [
+        931.14,
+        2265.17
+      ],
+      "greenEpsg3006": [
+        687365.819,
+        6371017.164
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        1391.29,
+        1601.12
+      ],
+      "teeEpsg3006": [
+        687595.893,
+        6371349.191
+      ],
+      "teeRingPixels": [
+        [
+          1389,
+          1592
+        ],
+        [
+          1400,
+          1598
+        ],
+        [
+          1393,
+          1610
+        ],
+        [
+          1383,
+          1605
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          1391.29,
+          1601.12
+        ],
+        [
+          1220,
+          1920
+        ],
+        [
+          1080,
+          2140
+        ],
+        [
+          931.14,
+          2265.17
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687595.893,
+          6371349.191
+        ],
+        [
+          687510.25,
+          6371189.75
+        ],
+        [
+          687440.25,
+          6371079.75
+        ],
+        [
+          687365.82,
+          6371017.165
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-08",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeRingEpsg3006": [
+        [
+          687594.75,
+          6371353.75
+        ],
+        [
+          687600.25,
+          6371350.75
+        ],
+        [
+          687596.75,
+          6371344.75
+        ],
+        [
+          687591.75,
+          6371347.25
+        ],
+        [
+          687594.75,
+          6371353.75
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 41.75
+    },
+    {
+      "holeNumber": 9,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311727869",
+      "greenPixel": [
+        610,
+        2720
+      ],
+      "greenEpsg3006": [
+        687205.25,
+        6370789.75
+      ],
+      "greenCentreMethod": "representative visible putting-surface target south of internal bunker; OSM polygon centroid is near the bunker island and is unsuitable as a navigation target",
+      "greenRingPixels": null,
+      "teePixel": [
+        1160.5,
+        2216.5
+      ],
+      "teeEpsg3006": [
+        687480.5,
+        6371041.5
+      ],
+      "teeRingPixels": [
+        [
+          1147,
+          2226
+        ],
+        [
+          1159,
+          2232
+        ],
+        [
+          1174,
+          2207
+        ],
+        [
+          1162,
+          2201
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          1160.5,
+          2216.5
+        ],
+        [
+          900,
+          2410
+        ],
+        [
+          715,
+          2585
+        ],
+        [
+          610,
+          2720
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687480.5,
+          6371041.5
+        ],
+        [
+          687350.25,
+          6370944.75
+        ],
+        [
+          687257.75,
+          6370857.25
+        ],
+        [
+          687205.25,
+          6370789.75
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-09",
+        "openstreetmap-golf"
+      ],
+      "notes": [
+        "Large elongated OSM green retained: the guide and photo both show an internal bunker/island, so size alone does not establish an error. Putting versus apron boundary remains unverified.",
+        "Target is an observed putting-surface point, not an official measured green centre or pin. Internal bunker material takes precedence over the broad OSM green footprint."
+      ],
+      "teeRingEpsg3006": [
+        [
+          687473.75,
+          6371036.75
+        ],
+        [
+          687479.75,
+          6371033.75
+        ],
+        [
+          687487.25,
+          6371046.25
+        ],
+        [
+          687481.25,
+          6371049.25
+        ],
+        [
+          687473.75,
+          6371036.75
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 97.5
+    },
+    {
+      "holeNumber": 10,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311741107",
+      "greenPixel": [
+        1670.7,
+        2936.48
+      ],
+      "greenEpsg3006": [
+        687735.602,
+        6370681.511
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        928.88,
+        2758.41
+      ],
+      "teeEpsg3006": [
+        687364.692,
+        6370770.544
+      ],
+      "teeRingPixels": [
+        [
+          912,
+          2752
+        ],
+        [
+          941,
+          2748
+        ],
+        [
+          947,
+          2763
+        ],
+        [
+          917,
+          2770
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          928.88,
+          2758.41
+        ],
+        [
+          1250,
+          2710
+        ],
+        [
+          1510,
+          2810
+        ],
+        [
+          1670.7,
+          2936.48
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687364.692,
+          6370770.544
+        ],
+        [
+          687525.25,
+          6370794.75
+        ],
+        [
+          687655.25,
+          6370744.75
+        ],
+        [
+          687735.6,
+          6370681.51
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-10",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeRingEpsg3006": [
+        [
+          687356.25,
+          6370773.75
+        ],
+        [
+          687370.75,
+          6370775.75
+        ],
+        [
+          687373.75,
+          6370768.25
+        ],
+        [
+          687358.75,
+          6370764.75
+        ],
+        [
+          687356.25,
+          6370773.75
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "medium",
+      "teeAreaSquareMetres": 129.25
+    },
+    {
+      "holeNumber": 11,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311741110",
+      "greenPixel": [
+        2398.56,
+        2998.64
+      ],
+      "greenEpsg3006": [
+        688099.528,
+        6370650.43
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        1851.73,
+        3155.85
+      ],
+      "teeEpsg3006": [
+        687826.113,
+        6370571.825
+      ],
+      "teeRingPixels": [
+        [
+          1831,
+          3150
+        ],
+        [
+          1862,
+          3138
+        ],
+        [
+          1873,
+          3161
+        ],
+        [
+          1841,
+          3174
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          1851.73,
+          3155.85
+        ],
+        [
+          2080,
+          3000
+        ],
+        [
+          2250,
+          2955
+        ],
+        [
+          2398.56,
+          2998.64
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687826.113,
+          6370571.825
+        ],
+        [
+          687940.25,
+          6370649.75
+        ],
+        [
+          688025.25,
+          6370672.25
+        ],
+        [
+          688099.53,
+          6370650.43
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-11",
+        "openstreetmap-golf"
+      ],
+      "notes": [
+        "The visible coastal tee southeast of green 17 belongs to hole 11; the southwest pad belongs to hole 18. Identification corroborated with the per-hole diagrams and water side. Representative pad may not correspond to the present longest numbered tee."
+      ],
+      "teeRingEpsg3006": [
+        [
+          687815.75,
+          6370574.75
+        ],
+        [
+          687831.25,
+          6370580.75
+        ],
+        [
+          687836.75,
+          6370569.25
+        ],
+        [
+          687820.75,
+          6370562.75
+        ],
+        [
+          687815.75,
+          6370574.75
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 217.88
+    },
+    {
+      "holeNumber": 12,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311741111",
+      "greenPixel": [
+        2125.1,
+        2470.71
+      ],
+      "greenEpsg3006": [
+        687962.8,
+        6370914.396
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": null,
+      "teeEpsg3006": null,
+      "teeRingPixels": null,
+      "teeIdentity": "pending visible pad identification",
+      "routePixels": [
+        [
+          2285,
+          2830
+        ],
+        [
+          2200,
+          2750
+        ],
+        [
+          2160,
+          2640
+        ],
+        [
+          2125.1,
+          2470.71
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          688042.75,
+          6370734.75
+        ],
+        [
+          688000.25,
+          6370774.75
+        ],
+        [
+          687980.25,
+          6370829.75
+        ],
+        [
+          687962.8,
+          6370914.395
+        ]
+      ],
+      "routeStatus": "virtual flyover start on visible lower fairway; physical tee unresolved",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-12",
+        "openstreetmap-golf"
+      ],
+      "notes": [
+        "No unambiguous standalone tee pad identified in 2022 source; trees/rough at rejected (2365,2865) must not be promoted to a tee. Hole identity and green remain mapped, representative start pending.",
+        "Explicit navigation placeholder on observed lower fairway at (2285,2830); this is not a physical tee or a scorecard measurement start and supplies no pad geometry. Root implementation decision 2026-09-07."
+      ],
+      "virtualStartPixel": [
+        2285,
+        2830
+      ],
+      "virtualStartEpsg3006": [
+        688042.75,
+        6370734.75
+      ]
+    },
+    {
+      "holeNumber": 13,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311742268",
+      "greenPixel": [
+        2778.29,
+        2502.03
+      ],
+      "greenEpsg3006": [
+        688289.397,
+        6370898.737
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        2220.63,
+        2447.5
+      ],
+      "teeEpsg3006": [
+        688010.565,
+        6370925.998
+      ],
+      "teeRingPixels": [
+        [
+          2205,
+          2447
+        ],
+        [
+          2217,
+          2435
+        ],
+        [
+          2235,
+          2444
+        ],
+        [
+          2225,
+          2462
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          2220.63,
+          2447.5
+        ],
+        [
+          2380,
+          2550
+        ],
+        [
+          2520,
+          2570
+        ],
+        [
+          2690,
+          2530
+        ],
+        [
+          2778.29,
+          2502.03
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          688010.565,
+          6370925.998
+        ],
+        [
+          688090.25,
+          6370874.75
+        ],
+        [
+          688160.25,
+          6370864.75
+        ],
+        [
+          688245.25,
+          6370884.75
+        ],
+        [
+          688289.395,
+          6370898.735
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-13",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeRingEpsg3006": [
+        [
+          688002.75,
+          6370926.25
+        ],
+        [
+          688008.75,
+          6370932.25
+        ],
+        [
+          688017.75,
+          6370927.75
+        ],
+        [
+          688012.75,
+          6370918.75
+        ],
+        [
+          688002.75,
+          6370926.25
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "medium",
+      "teeAreaSquareMetres": 104.25
+    },
+    {
+      "holeNumber": 14,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311742273",
+      "greenPixel": [
+        2345.75,
+        2109.23
+      ],
+      "greenEpsg3006": [
+        688073.127,
+        6371095.133
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        2560.31,
+        2271.45
+      ],
+      "teeEpsg3006": [
+        688180.407,
+        6371014.026
+      ],
+      "teeRingPixels": [
+        [
+          2548,
+          2276
+        ],
+        [
+          2565,
+          2285
+        ],
+        [
+          2573,
+          2267
+        ],
+        [
+          2555,
+          2258
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          2560.31,
+          2271.45
+        ],
+        [
+          2345.75,
+          2109.23
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          688180.407,
+          6371014.026
+        ],
+        [
+          688073.125,
+          6371095.135
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-14",
+        "openstreetmap-golf"
+      ],
+      "notes": [
+        "OSM centre agrees with visible 2022 putting area on close inspection. Exact ring may differ; retained OSM geometry remains independently unverified."
+      ],
+      "teeRingEpsg3006": [
+        [
+          688174.25,
+          6371011.75
+        ],
+        [
+          688182.75,
+          6371007.25
+        ],
+        [
+          688186.75,
+          6371016.25
+        ],
+        [
+          688177.75,
+          6371020.75
+        ],
+        [
+          688174.25,
+          6371011.75
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "medium",
+      "teeAreaSquareMetres": 95.62
+    },
+    {
+      "holeNumber": 15,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311747379",
+      "greenPixel": [
+        1747.49,
+        1661.86
+      ],
+      "greenEpsg3006": [
+        687773.996,
+        6371318.819
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        2307.56,
+        1924.66
+      ],
+      "teeEpsg3006": [
+        688054.032,
+        6371187.419
+      ],
+      "teeRingPixels": [
+        [
+          2293,
+          1925
+        ],
+        [
+          2305,
+          1912
+        ],
+        [
+          2322,
+          1923
+        ],
+        [
+          2310,
+          1938
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          2307.56,
+          1924.66
+        ],
+        [
+          2140,
+          1880
+        ],
+        [
+          1970,
+          1765
+        ],
+        [
+          1747.49,
+          1661.86
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          688054.032,
+          6371187.419
+        ],
+        [
+          687970.25,
+          6371209.75
+        ],
+        [
+          687885.25,
+          6371267.25
+        ],
+        [
+          687773.995,
+          6371318.82
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-15",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeRingEpsg3006": [
+        [
+          688046.75,
+          6371187.25
+        ],
+        [
+          688052.75,
+          6371193.75
+        ],
+        [
+          688061.25,
+          6371188.25
+        ],
+        [
+          688055.25,
+          6371180.75
+        ],
+        [
+          688046.75,
+          6371187.25
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "medium",
+      "teeAreaSquareMetres": 95.5
+    },
+    {
+      "holeNumber": 16,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311750634",
+      "greenPixel": [
+        2037.98,
+        2688.74
+      ],
+      "greenEpsg3006": [
+        687919.241,
+        6370805.382
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        1727.66,
+        1854.39
+      ],
+      "teeEpsg3006": [
+        687764.08,
+        6371222.555
+      ],
+      "teeRingPixels": [
+        [
+          1706,
+          1836
+        ],
+        [
+          1718,
+          1830
+        ],
+        [
+          1749,
+          1870
+        ],
+        [
+          1736,
+          1879
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          1727.66,
+          1854.39
+        ],
+        [
+          1840,
+          2020
+        ],
+        [
+          1950,
+          2180
+        ],
+        [
+          2015,
+          2380
+        ],
+        [
+          2005,
+          2530
+        ],
+        [
+          2037.98,
+          2688.74
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687764.08,
+          6371222.555
+        ],
+        [
+          687820.25,
+          6371139.75
+        ],
+        [
+          687875.25,
+          6371059.75
+        ],
+        [
+          687907.75,
+          6370959.75
+        ],
+        [
+          687902.75,
+          6370884.75
+        ],
+        [
+          687919.24,
+          6370805.38
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-16",
+        "openstreetmap-golf"
+      ],
+      "notes": [
+        "Main hole 16 starts on the visible pad around (1724,1862) and uses the east corridor, right/east of water, through (1840,2020), (1950,2180), (2015,2380), (2005,2530) to green (2038,2689). The north-south strip around x1600 is separate nine-hole 3."
+      ],
+      "teeRingEpsg3006": [
+        [
+          687753.25,
+          6371231.75
+        ],
+        [
+          687759.25,
+          6371234.75
+        ],
+        [
+          687774.75,
+          6371214.75
+        ],
+        [
+          687768.25,
+          6371210.25
+        ],
+        [
+          687753.25,
+          6371231.75
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 186.88
+    },
+    {
+      "holeNumber": 17,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311750635",
+      "greenPixel": [
+        1842.39,
+        3070.7
+      ],
+      "greenEpsg3006": [
+        687821.444,
+        6370614.402
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        2014.5,
+        2769.0
+      ],
+      "teeEpsg3006": [
+        687907.5,
+        6370765.25
+      ],
+      "teeRingPixels": [
+        [
+          2011,
+          2757
+        ],
+        [
+          2026,
+          2763
+        ],
+        [
+          2018,
+          2781
+        ],
+        [
+          2003,
+          2775
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          2014.5,
+          2769.0
+        ],
+        [
+          1842.39,
+          3070.7
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687907.5,
+          6370765.25
+        ],
+        [
+          687821.445,
+          6370614.4
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-17",
+        "openstreetmap-golf"
+      ],
+      "notes": [],
+      "teeRingEpsg3006": [
+        [
+          687905.75,
+          6370771.25
+        ],
+        [
+          687913.25,
+          6370768.25
+        ],
+        [
+          687909.25,
+          6370759.25
+        ],
+        [
+          687901.75,
+          6370762.25
+        ],
+        [
+          687905.75,
+          6370771.25
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 79.5
+    },
+    {
+      "holeNumber": 18,
+      "status": "provisional-source-derived-not-surveyed",
+      "identityConfidence": "high",
+      "greenSourceId": "way/1311750636",
+      "greenPixel": [
+        835.9,
+        2935.08
+      ],
+      "greenEpsg3006": [
+        687318.198,
+        6370682.209
+      ],
+      "greenCentreMethod": "OSM polygon centroid; hole identity independently correlated with Caddee overview and 2022 orthophoto",
+      "greenRingPixels": null,
+      "teePixel": [
+        1729.5,
+        3103.0
+      ],
+      "teeEpsg3006": [
+        687765.0,
+        6370598.25
+      ],
+      "teeRingPixels": [
+        [
+          1719,
+          3087
+        ],
+        [
+          1750,
+          3101
+        ],
+        [
+          1740,
+          3119
+        ],
+        [
+          1709,
+          3105
+        ]
+      ],
+      "teeIdentity": "unnamed representative visible tee pad; no numbered tee or official measured distance assertion",
+      "routePixels": [
+        [
+          1729.5,
+          3103.0
+        ],
+        [
+          1560,
+          2950
+        ],
+        [
+          1260,
+          2900
+        ],
+        [
+          835.9,
+          2935.08
+        ]
+      ],
+      "routeEpsg3006": [
+        [
+          687765.0,
+          6370598.25
+        ],
+        [
+          687680.25,
+          6370674.75
+        ],
+        [
+          687530.25,
+          6370699.75
+        ],
+        [
+          687318.2,
+          6370682.21
+        ]
+      ],
+      "routeStatus": "indicative source-observed centreline; independent review pending",
+      "provenance": [
+        "gotland-ortho-2022",
+        "caddee-main-overview",
+        "caddee-main-hole-18",
+        "openstreetmap-golf"
+      ],
+      "notes": [
+        "Visible coastal tee southwest of green 17; the southeast pad belongs to hole 11. Independent numbered-tee identity remains pending."
+      ],
+      "teeRingEpsg3006": [
+        [
+          687759.75,
+          6370606.25
+        ],
+        [
+          687775.25,
+          6370599.25
+        ],
+        [
+          687770.25,
+          6370590.25
+        ],
+        [
+          687754.75,
+          6370597.25
+        ],
+        [
+          687759.75,
+          6370606.25
+        ]
+      ],
+      "teeSurfaceMethod": "manually observed rectangular mowing edge in retained 2022 orthophoto; tree-shadow edges uncertain",
+      "teePadConfidence": "high",
+      "teeAreaSquareMetres": 174.5
+    }
+  ]
+}

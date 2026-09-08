@@ -1,0 +1,75 @@
+{
+  "sourceUrl": "https://api.openstreetmap.org/api/0.6/map?bbox=18.115,59.370,18.145,59.385",
+  "acquiredOn": "2026-09-07",
+  "sourceSha256": "3de50cf3fb9e20e6de9b367cbae93a8ad43d6c6b28091ce89f0074e956b1ddfc",
+  "bboxWgs84": [
+    18.1191947,
+    59.3735013,
+    18.1361814,
+    59.3843145
+  ],
+  "completeWayCount": 1100,
+  "golfFeatureCounts": {
+    "driving_range": 2,
+    "driving_range_tee": 2,
+    "fairway": 5,
+    "green": 15,
+    "bunker": 13,
+    "tee": 19,
+    "path": 6,
+    "hole": 18
+  },
+  "routeHoleRefs": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18"
+  ],
+  "routeParTotal": 70,
+  "incompleteWaysOmitted": [],
+  "relations": [
+    {
+      "id": "3942404",
+      "tags": {
+        "alt_name": "Lidingä GK",
+        "description": "Sweden's oldest 18-hole course.",
+        "landuse": "leisure",
+        "leisure": "golf_course",
+        "name": "Lidingö Golfklubb",
+        "type": "multipolygon",
+        "website": "https://www.lidingogk.se/"
+      },
+      "members": [
+        {
+          "type": "way",
+          "ref": "4874914",
+          "role": "outer"
+        },
+        {
+          "type": "way",
+          "ref": "4874892",
+          "role": "outer"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Golf surfaces include old Bing/Mapbox-derived OSM geometry and need review against current licensed imagery.",
+    "Route and surface OSM edit timestamps are not observation or survey dates.",
+    "The full extract includes neighbouring property; it is retained as acquisition evidence, never a claim of golf-property ownership."
+  ]
+}

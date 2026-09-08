@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "status": "provisional-source-derived-not-surveyed",
+  "inputs": [
+    {
+      "path": "visbybuild/mapping/route-reference.json",
+      "sha256": "e24099de16048accc60164e59d5a04804451159fe08a7a92f80edff06eae4df3"
+    },
+    {
+      "path": "visbybuild/mapping/surface-traces-2022.json",
+      "sha256": "33a220254765d5ec20564f8cbc988508ec61cb0e4e03a25f9f978ec0b73dec91"
+    },
+    {
+      "path": "visbybuild/mapping/surface-stage.geojson",
+      "sha256": "ec22017abbf1ae6b4ae4c7b7ea012497996120ce8f12f969f00800946323ef85"
+    },
+    {
+      "path": "geo_data/course-v2/visby/reference/osm-golf-epsg3006.geojson",
+      "sha256": "1c4e80f4aaea71035d97feeb3cefe01d0fbc8845291a605911c316c14d6875fe"
+    },
+    {
+      "path": "visbybuild/mapping/build-playing-surfaces.py",
+      "sha256": "30d94973a7c23dfd7080e1b47573aa243bbd62886f985eea8f5654ce7b922d54"
+    },
+    {
+      "path": "visbybuild/mapping/assemble-geometry.py",
+      "sha256": "ed7e14c2dc17d3d2d440de00596e67d33cf2ddd5c7d967554f516a9c39d5c19c"
+    }
+  ],
+  "output": {
+    "path": "visbybuild/mapping/playing-surfaces.geojson",
+    "sha256": "9be8ca06669671b3b3208eada7aecfc0d8d13549a794a0c9962dcc29642de1e5"
+  },
+  "counts": {
+    "green": 18,
+    "tee": 17,
+    "fairway": 16,
+    "bunker": 65
+  },
+  "holesWithGreen": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "holesWithAssociatedTee": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "holesWithFairway": [
+    2,
+    3,
+    4,
+    6,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    15,
+    16,
+    18
+  ],
+  "validation": {
+    "finiteClosedValidPolygons": true,
+    "uniqueFeatureIds": true,
+    "fairwayForEveryPar4AndPar5": true,
+    "cardDistancesUsedToPlaceGeometry": false,
+    "terrainModified": false,
+    "oneGreenPerMainHole": true,
+    "physicalTeeOn17HolesAndExplicitUnresolvedHole12": true
+  },
+  "independentHumanReview": false,
+  "independentControlApproved": false,
+  "limitations": [
+    "2022 imagery cannot establish current mowing limits or later alterations.",
+    "Numeric tee-marker associations, daily pins, fringes, all tee platforms and bunker completeness remain unverified.",
+    "Image reuse terms and independent positional controls remain unresolved; this is a local provisional implementation, not an approved production survey.",
+    "Two observed fairway corridors on the separate nine are retained as unassigned scenery; the nine has no playable routing.",
+    "Sand contours omit ambiguous connected components; bunkers remain unassigned shared-ground scenery rather than inferred hole ownership.",
+    "Hole12 has no asserted physical tee: the initial camera is explicitly on an observed fairway area; its route is an indicative flyover only."
+  ],
+  "holesWithVirtualFlyoverStart": [
+    12
+  ]
+}

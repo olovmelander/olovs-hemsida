@@ -1,0 +1,1304 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "imagery-municipal-2019",
+  "sourceImage": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+  "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+  "previousOutputSha256": "16afdeb87b474d5e45bfd4cb1fcce3a52b7b220d1119a2ccf9278fd7e6aa64d4",
+  "reviewStatus": "machine-visual-review",
+  "observedYear": 2019,
+  "notSurveyed": true,
+  "pixelConvention": "Zero-based source-pixel centres; panel-relative pixels plus origin. EPSG:3011 worldfile supplies 0.5m spacing; transformation to EPSG:3006 does not establish registration accuracy.",
+  "excludedOsmFeatures": {
+    "way/143587593": "Second bunker south of green10 is displaced approximately25m from the visible2019 sand footprint. Replaced by a source-pixel trace; unchanged OSM ring remains in the retained original evidence."
+  },
+  "traces": [
+    {
+      "id": "lidingo-bunker-10-near-ortho2019",
+      "kind": "bunker",
+      "hole": 10,
+      "panel": "round2-bunker10near",
+      "origin": [
+        535,
+        920
+      ],
+      "pixels": [
+        [
+          18,
+          12
+        ],
+        [
+          22,
+          12
+        ],
+        [
+          26,
+          16
+        ],
+        [
+          29,
+          22
+        ],
+        [
+          28,
+          28
+        ],
+        [
+          24,
+          33
+        ],
+        [
+          21,
+          36
+        ],
+        [
+          17,
+          36
+        ],
+        [
+          14,
+          32
+        ],
+        [
+          12,
+          28
+        ],
+        [
+          12,
+          23
+        ],
+        [
+          13,
+          18
+        ],
+        [
+          15,
+          15
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible sand footprint southeast of green10, replacing the OSM bunker displaced southwest onto the fairway. The larger light-soil surrounding bank is excluded."
+    },
+    {
+      "id": "lidingo-tee-02-b-ortho2019",
+      "kind": "tee",
+      "hole": 2,
+      "panel": "round2-tee2rear",
+      "origin": [
+        1404,
+        1603
+      ],
+      "pixels": [
+        [
+          104,
+          101
+        ],
+        [
+          112,
+          103
+        ],
+        [
+          118,
+          108
+        ],
+        [
+          122,
+          115
+        ],
+        [
+          121,
+          121
+        ],
+        [
+          117,
+          125
+        ],
+        [
+          111,
+          124
+        ],
+        [
+          105,
+          120
+        ],
+        [
+          100,
+          115
+        ],
+        [
+          99,
+          108
+        ]
+      ],
+      "uncertaintyMetres": 2,
+      "note": "Distinct physical platform southwest of the existing mapped forward platform. Its western edge is partly shadowed. No marker-color assignment."
+    },
+    {
+      "id": "lidingo-tee-02-c-ortho2019",
+      "kind": "tee",
+      "hole": 2,
+      "panel": "round2-tee2rear",
+      "origin": [
+        1404,
+        1603
+      ],
+      "pixels": [
+        [
+          113,
+          176
+        ],
+        [
+          121,
+          177
+        ],
+        [
+          128,
+          185
+        ],
+        [
+          133,
+          195
+        ],
+        [
+          131,
+          206
+        ],
+        [
+          125,
+          214
+        ],
+        [
+          119,
+          213
+        ],
+        [
+          114,
+          205
+        ],
+        [
+          110,
+          195
+        ],
+        [
+          109,
+          185
+        ]
+      ],
+      "uncertaintyMetres": 2,
+      "note": "Distinct rear physical platform beside the path crossing, south of the other tee2 platforms; retained2019 footprint only."
+    },
+    {
+      "id": "lidingo-tee-04-b-ortho2019",
+      "kind": "tee",
+      "hole": 4,
+      "panel": "round2-tee4forward",
+      "origin": [
+        1600,
+        1570
+      ],
+      "pixels": [
+        [
+          136,
+          286
+        ],
+        [
+          143,
+          285
+        ],
+        [
+          150,
+          291
+        ],
+        [
+          154,
+          300
+        ],
+        [
+          159,
+          309
+        ],
+        [
+          168,
+          327
+        ],
+        [
+          172,
+          339
+        ],
+        [
+          172,
+          345
+        ],
+        [
+          166,
+          350
+        ],
+        [
+          159,
+          349
+        ],
+        [
+          150,
+          337
+        ],
+        [
+          146,
+          327
+        ],
+        [
+          142,
+          316
+        ],
+        [
+          138,
+          302
+        ],
+        [
+          134,
+          294
+        ]
+      ],
+      "uncertaintyMetres": 2,
+      "note": "Elongated middle platform west of the path; complete southern end checked in the extended2019 source crop. Guide4 corroborates the combined middle-platform identity, not color positions."
+    },
+    {
+      "id": "lidingo-tee-04-c-ortho2019",
+      "kind": "tee",
+      "hole": 4,
+      "panel": "round2-tee4forward",
+      "origin": [
+        1600,
+        1570
+      ],
+      "pixels": [
+        [
+          78,
+          224
+        ],
+        [
+          86,
+          226
+        ],
+        [
+          93,
+          233
+        ],
+        [
+          100,
+          241
+        ],
+        [
+          99,
+          248
+        ],
+        [
+          94,
+          252
+        ],
+        [
+          87,
+          249
+        ],
+        [
+          81,
+          242
+        ],
+        [
+          77,
+          233
+        ]
+      ],
+      "uncertaintyMetres": 2,
+      "note": "Small forward platform inside the bend of the path. Maintained edge is visible in2019 and gross position matches guide4."
+    },
+    {
+      "id": "lidingo-tee-10-b-ortho2019",
+      "kind": "tee",
+      "hole": 10,
+      "panel": "round2-tee10forward",
+      "origin": [
+        480,
+        1400
+      ],
+      "pixels": [
+        [
+          189,
+          142
+        ],
+        [
+          199,
+          140
+        ],
+        [
+          209,
+          143
+        ],
+        [
+          214,
+          150
+        ],
+        [
+          211,
+          160
+        ],
+        [
+          205,
+          168
+        ],
+        [
+          197,
+          170
+        ],
+        [
+          190,
+          168
+        ],
+        [
+          184,
+          162
+        ],
+        [
+          181,
+          153
+        ],
+        [
+          184,
+          146
+        ]
+      ],
+      "uncertaintyMetres": 2,
+      "note": "Clear forward platform east of the path bend before hole10 fairway; marker colors unresolved."
+    },
+    {
+      "id": "lidingo-tee-10-c-ortho2019",
+      "kind": "tee",
+      "hole": 10,
+      "panel": "round2-tee10forward",
+      "origin": [
+        480,
+        1400
+      ],
+      "pixels": [
+        [
+          143,
+          225
+        ],
+        [
+          153,
+          224
+        ],
+        [
+          162,
+          231
+        ],
+        [
+          166,
+          241
+        ],
+        [
+          161,
+          253
+        ],
+        [
+          152,
+          265
+        ],
+        [
+          142,
+          274
+        ],
+        [
+          132,
+          276
+        ],
+        [
+          125,
+          269
+        ],
+        [
+          126,
+          258
+        ],
+        [
+          131,
+          247
+        ],
+        [
+          138,
+          236
+        ]
+      ],
+      "uncertaintyMetres": 2,
+      "note": "Longer middle platform southeast of the path, separate from both the rear2019 pad and forward pad. Southern boundary inspected beyond the initial crop."
+    },
+    {
+      "id": "lidingo-tee-17-b-ortho2019",
+      "kind": "tee",
+      "hole": 17,
+      "panel": "round2-tee17",
+      "origin": [
+        1167,
+        962
+      ],
+      "pixels": [
+        [
+          92,
+          101
+        ],
+        [
+          102,
+          99
+        ],
+        [
+          117,
+          101
+        ],
+        [
+          124,
+          106
+        ],
+        [
+          125,
+          114
+        ],
+        [
+          121,
+          120
+        ],
+        [
+          112,
+          123
+        ],
+        [
+          102,
+          123
+        ],
+        [
+          91,
+          119
+        ],
+        [
+          86,
+          113
+        ],
+        [
+          87,
+          106
+        ]
+      ],
+      "uncertaintyMetres": 2,
+      "note": "Visible western physical platform on the open lawn north of the upper parking area. Existing OSM tee17 is a different northern platform."
+    },
+    {
+      "id": "lidingo-tee-17-c-ortho2019",
+      "kind": "tee",
+      "hole": 17,
+      "panel": "round2-tee17",
+      "origin": [
+        1167,
+        962
+      ],
+      "pixels": [
+        [
+          197,
+          81
+        ],
+        [
+          207,
+          79
+        ],
+        [
+          217,
+          81
+        ],
+        [
+          224,
+          85
+        ],
+        [
+          226,
+          92
+        ],
+        [
+          223,
+          100
+        ],
+        [
+          215,
+          105
+        ],
+        [
+          204,
+          106
+        ],
+        [
+          195,
+          102
+        ],
+        [
+          190,
+          96
+        ],
+        [
+          190,
+          89
+        ]
+      ],
+      "uncertaintyMetres": 2,
+      "note": "Visible eastern physical platform north of the old upper parking area; later practice-area construction remains a separate2025 change review."
+    },
+    {
+      "id": "lidingo-bunker-04-west-ortho2019",
+      "kind": "bunker",
+      "hole": 4,
+      "panel": "round2-hole4-bunkers",
+      "origin": [
+        1390,
+        1490
+      ],
+      "pixels": [
+        [
+          45,
+          46
+        ],
+        [
+          47,
+          43
+        ],
+        [
+          50,
+          43
+        ],
+        [
+          52,
+          45
+        ],
+        [
+          53,
+          49
+        ],
+        [
+          52,
+          53
+        ],
+        [
+          49,
+          57
+        ],
+        [
+          45,
+          57
+        ],
+        [
+          43,
+          53
+        ],
+        [
+          43,
+          49
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible western fairway sand footprint; guide4 corroborates the bunker on the left of the approach, with98m distance annotation."
+    },
+    {
+      "id": "lidingo-bunker-04-east-ortho2019",
+      "kind": "bunker",
+      "hole": 4,
+      "panel": "round2-hole4-bunkers",
+      "origin": [
+        1390,
+        1490
+      ],
+      "pixels": [
+        [
+          136,
+          103
+        ],
+        [
+          141,
+          103
+        ],
+        [
+          145,
+          106
+        ],
+        [
+          150,
+          109
+        ],
+        [
+          153,
+          110
+        ],
+        [
+          151,
+          114
+        ],
+        [
+          146,
+          116
+        ],
+        [
+          140,
+          117
+        ],
+        [
+          135,
+          115
+        ],
+        [
+          131,
+          112
+        ],
+        [
+          132,
+          108
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible eastern fairway sand footprint; guide4 corroborates the bunker on the right of the approach, with147m distance annotation."
+    },
+    {
+      "id": "lidingo-bunker-05-green-ortho2019",
+      "kind": "bunker",
+      "hole": 5,
+      "panel": "round2-hole5-greenbunker",
+      "origin": [
+        841,
+        1726
+      ],
+      "pixels": [
+        [
+          38,
+          34
+        ],
+        [
+          42,
+          33
+        ],
+        [
+          46,
+          36
+        ],
+        [
+          47,
+          41
+        ],
+        [
+          46,
+          47
+        ],
+        [
+          44,
+          52
+        ],
+        [
+          39,
+          54
+        ],
+        [
+          35,
+          51
+        ],
+        [
+          34,
+          45
+        ],
+        [
+          33,
+          39
+        ],
+        [
+          35,
+          36
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible sand/water footprint east of green5. Surrounding bare-soil apron and drain depression north of it are excluded; guide5 corroborates greenside bunker identity."
+    },
+    {
+      "id": "lidingo-bunker-05-fairway-ortho2019",
+      "kind": "bunker",
+      "hole": 5,
+      "panel": "fairway-05",
+      "origin": [
+        720,
+        1346
+      ],
+      "pixels": [
+        [
+          191,
+          225
+        ],
+        [
+          196,
+          223
+        ],
+        [
+          200,
+          225
+        ],
+        [
+          202,
+          231
+        ],
+        [
+          201,
+          236
+        ],
+        [
+          199,
+          240
+        ],
+        [
+          194,
+          243
+        ],
+        [
+          188,
+          242
+        ],
+        [
+          184,
+          239
+        ],
+        [
+          184,
+          233
+        ],
+        [
+          187,
+          229
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible gray sand footprint left of fairway5 in north-up imagery; adjacent hole8 lies farther west. Current guide corroborates this side bunker."
+    },
+    {
+      "id": "lidingo-bunker-07-approach-n-ortho2019",
+      "kind": "bunker",
+      "hole": 7,
+      "panel": "fairway-07",
+      "origin": [
+        602,
+        1711
+      ],
+      "pixels": [
+        [
+          205,
+          172
+        ],
+        [
+          209,
+          173
+        ],
+        [
+          212,
+          177
+        ],
+        [
+          218,
+          181
+        ],
+        [
+          217,
+          185
+        ],
+        [
+          213,
+          189
+        ],
+        [
+          208,
+          187
+        ],
+        [
+          204,
+          183
+        ],
+        [
+          200,
+          179
+        ],
+        [
+          201,
+          175
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible northern approach bunker east of hole7 fairway, before the greenside pair."
+    },
+    {
+      "id": "lidingo-bunker-07-approach-s-ortho2019",
+      "kind": "bunker",
+      "hole": 7,
+      "panel": "fairway-07",
+      "origin": [
+        602,
+        1711
+      ],
+      "pixels": [
+        [
+          220,
+          223
+        ],
+        [
+          225,
+          223
+        ],
+        [
+          231,
+          226
+        ],
+        [
+          234,
+          230
+        ],
+        [
+          231,
+          234
+        ],
+        [
+          225,
+          237
+        ],
+        [
+          220,
+          235
+        ],
+        [
+          216,
+          231
+        ],
+        [
+          216,
+          227
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible southern approach bunker northeast of hole7 pond."
+    },
+    {
+      "id": "lidingo-bunker-10-mid-n-ortho2019",
+      "kind": "bunker",
+      "hole": 10,
+      "panel": "round2-hole10-bunkers",
+      "origin": [
+        690,
+        1180
+      ],
+      "pixels": [
+        [
+          28,
+          31
+        ],
+        [
+          33,
+          31
+        ],
+        [
+          38,
+          35
+        ],
+        [
+          40,
+          40
+        ],
+        [
+          37,
+          44
+        ],
+        [
+          32,
+          47
+        ],
+        [
+          27,
+          46
+        ],
+        [
+          23,
+          43
+        ],
+        [
+          22,
+          38
+        ],
+        [
+          24,
+          34
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible gray sand footprint on the eastern edge of the middle hole10 fairway, north of the smaller pair."
+    },
+    {
+      "id": "lidingo-bunker-10-mid-c-ortho2019",
+      "kind": "bunker",
+      "hole": 10,
+      "panel": "round2-hole10-bunkers",
+      "origin": [
+        690,
+        1180
+      ],
+      "pixels": [
+        [
+          43,
+          71
+        ],
+        [
+          48,
+          69
+        ],
+        [
+          51,
+          72
+        ],
+        [
+          51,
+          77
+        ],
+        [
+          48,
+          81
+        ],
+        [
+          45,
+          85
+        ],
+        [
+          41,
+          83
+        ],
+        [
+          39,
+          79
+        ],
+        [
+          39,
+          75
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible middle sand footprint in the fairway10 eastern bunker group."
+    },
+    {
+      "id": "lidingo-bunker-10-mid-s-ortho2019",
+      "kind": "bunker",
+      "hole": 10,
+      "panel": "round2-hole10-bunkers",
+      "origin": [
+        690,
+        1180
+      ],
+      "pixels": [
+        [
+          60,
+          83
+        ],
+        [
+          63,
+          82
+        ],
+        [
+          66,
+          85
+        ],
+        [
+          65,
+          89
+        ],
+        [
+          62,
+          92
+        ],
+        [
+          58,
+          92
+        ],
+        [
+          57,
+          89
+        ],
+        [
+          58,
+          86
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible southern small sand footprint in the fairway10 eastern bunker group."
+    },
+    {
+      "id": "lidingo-bunker-12-approach-ortho2019",
+      "kind": "bunker",
+      "hole": 12,
+      "panel": "round2-hole12-east",
+      "origin": [
+        964,
+        603
+      ],
+      "pixels": [
+        [
+          34,
+          64
+        ],
+        [
+          39,
+          64
+        ],
+        [
+          44,
+          67
+        ],
+        [
+          44,
+          71
+        ],
+        [
+          41,
+          76
+        ],
+        [
+          37,
+          79
+        ],
+        [
+          33,
+          77
+        ],
+        [
+          30,
+          74
+        ],
+        [
+          30,
+          69
+        ],
+        [
+          32,
+          66
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible approach bunker southwest of green12, separate from the previously mapped bunker immediately west of the green."
+    },
+    {
+      "id": "lidingo-bunker-14-n-ortho2019",
+      "kind": "bunker",
+      "hole": 14,
+      "panel": "round2-hole14-bunkers",
+      "origin": [
+        920,
+        790
+      ],
+      "pixels": [
+        [
+          29,
+          31
+        ],
+        [
+          34,
+          30
+        ],
+        [
+          38,
+          33
+        ],
+        [
+          40,
+          38
+        ],
+        [
+          38,
+          42
+        ],
+        [
+          34,
+          46
+        ],
+        [
+          30,
+          46
+        ],
+        [
+          26,
+          42
+        ],
+        [
+          25,
+          37
+        ],
+        [
+          27,
+          34
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible northern sand footprint near the hole14 fairway approach; bare-soil surroundings are not adopted."
+    },
+    {
+      "id": "lidingo-bunker-14-s-ortho2019",
+      "kind": "bunker",
+      "hole": 14,
+      "panel": "round2-hole14-bunkers",
+      "origin": [
+        920,
+        790
+      ],
+      "pixels": [
+        [
+          55,
+          53
+        ],
+        [
+          61,
+          53
+        ],
+        [
+          64,
+          56
+        ],
+        [
+          64,
+          59
+        ],
+        [
+          60,
+          61
+        ],
+        [
+          55,
+          61
+        ],
+        [
+          51,
+          59
+        ],
+        [
+          51,
+          56
+        ]
+      ],
+      "uncertaintyMetres": 1,
+      "note": "Visible southern sand footprint near the hole14 fairway approach."
+    }
+  ],
+  "osmBunkerHoleAssociations": {
+    "221846970": 6,
+    "221846980": 1,
+    "331796623": 15,
+    "427426787": 18,
+    "427426800": 16,
+    "427426882": 16,
+    "1530687906": 17,
+    "1530687907": 17
+  },
+  "unadoptedInspections": [
+    {
+      "hole": 13,
+      "kind": "fairway",
+      "status": "western-fragment-rejected-after-overlay",
+      "reason": "The candidate approach fragment included indistinct rough below the maintained strip. It was rejected after overlay inspection; the original central fairway patch remains. Newer mowing cannot silently replace2019 geometry."
+    },
+    {
+      "hole": 13,
+      "kind": "bunker",
+      "status": "2025-reported-change-unmapped",
+      "reason": "The club reports a new left greenside bunker in2025. Its2019 absence cannot establish a current ring; no geometry taken from an ungeoreferenced guide or undated differently licensed image."
+    },
+    {
+      "hole": 1,
+      "kind": "tee",
+      "status": "additional-forward-platform-not-adopted",
+      "reason": "No complete separate forward-platform boundary could be followed confidently in the inspected2019 crop."
+    },
+    {
+      "hole": 18,
+      "kind": "bunker",
+      "status": "ambiguous-bare-soil-patch-not-adopted",
+      "reason": "Bare soil and a depression north of the retained approach bunker could be altered landscaping or an older bunker; current guide depicts a mound. No sand polygon invented for this ambiguous patch."
+    }
+  ],
+  "rejectedTraces": [
+    {
+      "id": "lidingo-fairway-13-west-ortho2019",
+      "kind": "fairway",
+      "hole": 13,
+      "panel": "round2-hole13-west",
+      "origin": [
+        484,
+        602
+      ],
+      "pixels": [
+        [
+          32,
+          45
+        ],
+        [
+          44,
+          49
+        ],
+        [
+          59,
+          52
+        ],
+        [
+          73,
+          57
+        ],
+        [
+          87,
+          62
+        ],
+        [
+          99,
+          67
+        ],
+        [
+          113,
+          78
+        ],
+        [
+          125,
+          90
+        ],
+        [
+          121,
+          98
+        ],
+        [
+          108,
+          98
+        ],
+        [
+          96,
+          94
+        ],
+        [
+          82,
+          89
+        ],
+        [
+          65,
+          83
+        ],
+        [
+          46,
+          79
+        ],
+        [
+          33,
+          70
+        ],
+        [
+          24,
+          60
+        ]
+      ],
+      "uncertaintyMetres": 3,
+      "note": "Visible 2019 maintained approach immediately southeast of green13. The eastern tree-shadow gap before the central fairway remains untraced. This is a historical fragment, not the wider current mowing shown in undated summer imagery; the reported2025 new greenside bunker is not invented.",
+      "decision": "rejected-after-source-overlay",
+      "reason": "The proposed southeastern fragment included rough below an indistinct maintained edge. A reliable complete2019 approach ring could not be established; it is preserved here as rejected review evidence only."
+    }
+  ]
+}

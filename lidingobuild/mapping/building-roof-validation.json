@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "state": "source-geometry-and-height-checks-passed",
+  "meshSource": {
+    "path": "lidingobuild/mapping/building-roof-meshes.json",
+    "sha256": "4f25c1495768b4defe359c0b068a0df76667363e6fa67128f8602b34b3402934"
+  },
+  "checks": [
+    {
+      "id": "way/32262176",
+      "state": "machine-reviewed-partial-measured-roof-candidate",
+      "passed": true,
+      "vertices": 669,
+      "triangles": 1192,
+      "upwardWindingTriangles": 1192,
+      "minimumSignedTriangleAreaSquareMetres": 0.009082116469684537,
+      "sourceReturnVertices": 528,
+      "sourceReturnHeightMaximumRoundingDifferenceMetres": 1.8310546892053026e-06,
+      "outsideFootprintAreaSquareMetres": 8.55716894747555e-06,
+      "overlappingTriangleAreaSquareMetres": 0.0,
+      "footprintCoverageFraction": 0.9227681751413699,
+      "uncoveredRegionDifferenceSquareMetres": 1.2946527179392487e-05,
+      "wallSegments": 100,
+      "maximumWallDistanceFromSourceFootprintMetres": 5.281414611844536e-07
+    },
+    {
+      "id": "way/32262169",
+      "state": "machine-reviewed-measured-roof-candidate",
+      "passed": true,
+      "vertices": 303,
+      "triangles": 523,
+      "upwardWindingTriangles": 523,
+      "minimumSignedTriangleAreaSquareMetres": 0.0013245909089347721,
+      "sourceReturnVertices": 222,
+      "sourceReturnHeightMaximumRoundingDifferenceMetres": 1.8310546892053026e-06,
+      "outsideFootprintAreaSquareMetres": 3.4375891427452913e-06,
+      "overlappingTriangleAreaSquareMetres": -5.684341886080802e-14,
+      "footprintCoverageFraction": 0.9999999757067267,
+      "uncoveredRegionDifferenceSquareMetres": 8.585376336910284e-06,
+      "wallSegments": 64,
+      "maximumWallDistanceFromSourceFootprintMetres": 5.077903019569417e-07
+    },
+    {
+      "id": "way/32262183",
+      "state": "machine-reviewed-partial-measured-roof-candidate",
+      "passed": true,
+      "vertices": 890,
+      "triangles": 1616,
+      "upwardWindingTriangles": 1616,
+      "minimumSignedTriangleAreaSquareMetres": 0.0033999999562744033,
+      "sourceReturnVertices": 737,
+      "sourceReturnHeightMaximumRoundingDifferenceMetres": 1.8310546892053026e-06,
+      "outsideFootprintAreaSquareMetres": 1.2452401064940517e-05,
+      "overlappingTriangleAreaSquareMetres": -1.1368683772161603e-13,
+      "footprintCoverageFraction": 0.8974632558747337,
+      "uncoveredRegionDifferenceSquareMetres": 1.0370309473847804e-05,
+      "wallSegments": 103,
+      "maximumWallDistanceFromSourceFootprintMetres": 5.213922899595411e-07
+    },
+    {
+      "id": "way/26408210",
+      "state": "machine-reviewed-measured-roof-candidate",
+      "passed": true,
+      "vertices": 1133,
+      "triangles": 2105,
+      "upwardWindingTriangles": 2105,
+      "minimumSignedTriangleAreaSquareMetres": 0.0009887031578882217,
+      "sourceReturnVertices": 974,
+      "sourceReturnHeightMaximumRoundingDifferenceMetres": 1.8310546892053026e-06,
+      "outsideFootprintAreaSquareMetres": 1.3255967537791145e-05,
+      "overlappingTriangleAreaSquareMetres": -1.1368683772161603e-13,
+      "footprintCoverageFraction": 0.9984405983562066,
+      "uncoveredRegionDifferenceSquareMetres": 7.081130265109174e-06,
+      "wallSegments": 105,
+      "maximumWallDistanceFromSourceFootprintMetres": 5.430216510312347e-07
+    },
+    {
+      "id": "way/26408211",
+      "state": "machine-reviewed-measured-roof-candidate",
+      "passed": true,
+      "vertices": 886,
+      "triangles": 1633,
+      "upwardWindingTriangles": 1633,
+      "minimumSignedTriangleAreaSquareMetres": 0.0006999999943189324,
+      "sourceReturnVertices": 751,
+      "sourceReturnHeightMaximumRoundingDifferenceMetres": 1.8310546892053026e-06,
+      "outsideFootprintAreaSquareMetres": 7.66255025264073e-06,
+      "overlappingTriangleAreaSquareMetres": 1.7053025658242404e-13,
+      "footprintCoverageFraction": 0.9991538955846978,
+      "uncoveredRegionDifferenceSquareMetres": 1.0242963502968478e-05,
+      "wallSegments": 92,
+      "maximumWallDistanceFromSourceFootprintMetres": 5.825465165156222e-07
+    }
+  ],
+  "totals": {
+    "buildings": 5,
+    "triangles": 7069,
+    "sourceReturnVertices": 3212
+  },
+  "visualization": "lidingobuild/cache/buildings/building-roof-mesh-panels.png",
+  "limitations": [
+    "Checks establish source preservation, finite geometry, winding and explicit gaps; they do not establish independent positional accuracy.",
+    "Two source footprints have substantial unsupported roof regions. Those areas remain unknown; no synthetic roof fill or internal wall edges were added."
+  ]
+}

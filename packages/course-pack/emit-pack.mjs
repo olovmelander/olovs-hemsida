@@ -21,6 +21,7 @@ import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { writePack, sha256 } from './lib.mjs';
 import { runtimeScenery } from './runtime-scenery.mjs';
+import { runtimeWater } from './runtime-water.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const [buildDir, outDir, slugArg] = process.argv.slice(2);
@@ -55,13 +56,13 @@ const vec = {
     line: h.line, lineLen: h.lineLen, pin: h.pin,
     green: { ring: h.green.ring, c: h.green.c },
     fairway: { rings: h.fairway.rings },
-    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}), pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}) })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m })) },
+    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}), ...(h.tees.status ? { status: h.tees.status } : {}), pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}) })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m })) },
     bunkers: h.bunkers.map(b => ({ ring: b.ring })),
     elev: h.elev, tiers: h.tiers,
     name: h.name, note: h.note, shape: h.shape,
     ...(OLD ? { sp: h.sp } : {}),
   })),
-  water: model.water.map(w => ({ ring: w.ring, level: w.level, isLake: w.isLake, isSea: !!w.isSea, area: w.area })),
+  water: model.water.map(runtimeWater),
   /* the older schema always carried marking; a newer build carries it once its
      reconcile has a rule set to place it from (Ängsö's Lokala regler, Johannesberg's
      hole plans) */

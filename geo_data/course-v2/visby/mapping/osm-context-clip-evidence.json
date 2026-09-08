@@ -1,0 +1,994 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "sourcePath": "geo_data/course-v2/visby/reference/osm-golf-epsg3006.geojson",
+  "sourceSha256": "1c4e80f4aaea71035d97feeb3cefe01d0fbc8845291a605911c316c14d6875fe",
+  "outputPath": "geo_data/course-v2/visby/mapping/osm-context-epsg3006.geojson",
+  "outputSha256": "d71f80ddc813e9f5a171a8bda0f37d6d97da68d7d8e63cdc94d675fdd91526f5",
+  "sourceFeatures": 122,
+  "outputFeatures": 124,
+  "changedByClipping": 4,
+  "checks": [
+    {
+      "sourceFeatureId": "node/286283987",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/2098276390",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/2098276753",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/2098276771",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/2098276799",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/2563137423",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/2563137432",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/2563137435",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/2563137438",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/2563137441",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/4070158485",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/6845355985",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/8953473484",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/14105166949",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/14105166950",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "node/14105166951",
+      "sourceType": "Point",
+      "fragments": 1,
+      "sourceMeasure": 0.0,
+      "clippedMeasure": 0.0,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/4551968",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 7090.410742410328,
+      "clippedMeasure": 6946.147944836303,
+      "changed": true
+    },
+    {
+      "sourceFeatureId": "way/4551969",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 6113.810222140266,
+      "clippedMeasure": 1258.5121858577631,
+      "changed": true
+    },
+    {
+      "sourceFeatureId": "way/26141962",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 6415.353765633641,
+      "clippedMeasure": 1818.451925825947,
+      "changed": true
+    },
+    {
+      "sourceFeatureId": "way/199830294",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 111.49966516598036,
+      "clippedMeasure": 111.49966516598036,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/199830307",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 310.00727668446615,
+      "clippedMeasure": 310.00727668446615,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/199830309",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 9.535503543661818,
+      "clippedMeasure": 9.535503543661818,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/199830318",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 187.3630101084584,
+      "clippedMeasure": 187.3630101084584,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/199830333",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 94.20755131085049,
+      "clippedMeasure": 94.20755131085049,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/199830337",
+      "sourceType": "LineString",
+      "fragments": 2,
+      "sourceMeasure": 1604.3914062521221,
+      "clippedMeasure": 1604.3914062521221,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/199830341",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 399.68732696111147,
+      "clippedMeasure": 399.68732696111147,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/199830347",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 116.40996570694178,
+      "clippedMeasure": 116.40996570694178,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/199830361",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 150.40849204184823,
+      "clippedMeasure": 150.40849204184823,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/358245610",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 201.67601046413594,
+      "clippedMeasure": 201.67601046413594,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/358245614",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 775.7124970807541,
+      "clippedMeasure": 775.7124970807541,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/358245657",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 2117.6204134632153,
+      "clippedMeasure": 1598.8323952582173,
+      "changed": true
+    },
+    {
+      "sourceFeatureId": "way/362467521",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 37.279212357467166,
+      "clippedMeasure": 37.279212357467166,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/362467522",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 206.1897853638635,
+      "clippedMeasure": 206.1897853638635,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/362467523",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 21.312150838886332,
+      "clippedMeasure": 21.312150838886332,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/362467524",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 36.44285978214934,
+      "clippedMeasure": 36.44285978214934,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/362467525",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 62.29224285034299,
+      "clippedMeasure": 62.29224285034299,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/425186231",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 542.0568429659003,
+      "clippedMeasure": 542.0568429659003,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/530655627",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 106.36262847800533,
+      "clippedMeasure": 106.36262847800535,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/530655628",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 924.4988702297268,
+      "clippedMeasure": 924.4988702297267,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/530655629",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 42.62206718041847,
+      "clippedMeasure": 42.622067180418476,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/530655630",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 181.87366553673115,
+      "clippedMeasure": 181.87366553673112,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/530655631",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 687.5187579666105,
+      "clippedMeasure": 687.5187579666103,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/530655632",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 116.89814972102738,
+      "clippedMeasure": 116.8981497210274,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/530655633",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 82.30110094312283,
+      "clippedMeasure": 82.30110094312282,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/530655671",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 470.2145228733061,
+      "clippedMeasure": 470.2145228733061,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/549809883",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 166.35977812937418,
+      "clippedMeasure": 166.35977812937418,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/597491147",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 373.3922248625612,
+      "clippedMeasure": 373.3922248625612,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/597491148",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 203.85036416287392,
+      "clippedMeasure": 203.85036416287394,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/597491149",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 154.67477804077083,
+      "clippedMeasure": 154.67477804077083,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/597491150",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 72.59666094899077,
+      "clippedMeasure": 72.59666094899077,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/597491151",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 84.87732710172304,
+      "clippedMeasure": 84.87732710172304,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/597491152",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 40.64790229406886,
+      "clippedMeasure": 40.64790229406886,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/597491153",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 77.28932219178589,
+      "clippedMeasure": 77.28932219178589,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/967786480",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 207.09688900024054,
+      "clippedMeasure": 207.09688900024054,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/967786481",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 211.75673920923424,
+      "clippedMeasure": 211.75673920923424,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/967786482",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 23.865911623041526,
+      "clippedMeasure": 23.865911623041526,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/967786483",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 584.8922679993642,
+      "clippedMeasure": 584.8922679993642,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1109543051",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 181.293114007499,
+      "clippedMeasure": 181.293114007499,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1112258903",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 143.23009978362344,
+      "clippedMeasure": 143.23009978362344,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1112259570",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 169.66081777380361,
+      "clippedMeasure": 169.66081777380361,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1112265268",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 263.62128269826485,
+      "clippedMeasure": 263.62128269826485,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1112270178",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 136.29698116892,
+      "clippedMeasure": 136.29698116892,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1168109311",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 671.806570632706,
+      "clippedMeasure": 671.806570632706,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1308641633",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 30446.662569307453,
+      "clippedMeasure": 30446.662569307446,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309534302",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 63.861830711219255,
+      "clippedMeasure": 63.861830711219255,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309534303",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 307.00274607526006,
+      "clippedMeasure": 307.00274607526006,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309534308",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 113.66391462703567,
+      "clippedMeasure": 113.66391462703568,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309534309",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 171.01635421510395,
+      "clippedMeasure": 171.01635421510392,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309534310",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 150.0785571132313,
+      "clippedMeasure": 150.07855711323128,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309534318",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 151.70196470510913,
+      "clippedMeasure": 151.70196470510913,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309534319",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 79.69965766435051,
+      "clippedMeasure": 79.69965766435051,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309534320",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 51.32884312676613,
+      "clippedMeasure": 51.32884312676613,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309534321",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 126.95227254006434,
+      "clippedMeasure": 126.95227254006434,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542500",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 20.47149090501255,
+      "clippedMeasure": 20.47149090501255,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542501",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 24.65153161337404,
+      "clippedMeasure": 24.651531613374036,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542502",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 41.434433224823884,
+      "clippedMeasure": 41.434433224823884,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542503",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 36.16200206471168,
+      "clippedMeasure": 36.16200206471168,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542504",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 29.357249629799615,
+      "clippedMeasure": 29.357249629799615,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542505",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 122.63071538425116,
+      "clippedMeasure": 122.63071538425115,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542506",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 62.461701395179205,
+      "clippedMeasure": 62.461701395179205,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542507",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 81.49824002052425,
+      "clippedMeasure": 81.49824002052425,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542508",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 103.38212499823615,
+      "clippedMeasure": 103.38212499823615,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542509",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 54.39048392284193,
+      "clippedMeasure": 54.39048392284192,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542518",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 54.363538259917995,
+      "clippedMeasure": 54.36353825991799,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542519",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 98.47050603645673,
+      "clippedMeasure": 98.47050603645673,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542528",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 87.9894805257372,
+      "clippedMeasure": 87.9894805257372,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542529",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 116.7219562339867,
+      "clippedMeasure": 116.72195623398669,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542531",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 85.74398698892998,
+      "clippedMeasure": 85.74398698892998,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309542532",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 110.10862675388414,
+      "clippedMeasure": 110.10862675388414,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309945197",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 33.32534577274491,
+      "clippedMeasure": 33.32534577274491,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309945200",
+      "sourceType": "LineString",
+      "fragments": 2,
+      "sourceMeasure": 103.74748913986943,
+      "clippedMeasure": 103.74748913986943,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309945201",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 5.654527302485611,
+      "clippedMeasure": 5.65452730248561,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309945202",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 122.00665232635308,
+      "clippedMeasure": 122.00665232635308,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309945203",
+      "sourceType": "Polygon",
+      "fragments": 1,
+      "sourceMeasure": 40.668270846316666,
+      "clippedMeasure": 40.668270846316666,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1309950566",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 1275.1362303336875,
+      "clippedMeasure": 1275.1362303336875,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311554941",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 173.43858404251216,
+      "clippedMeasure": 173.43858404251216,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311554942",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 6.268114108071827,
+      "clippedMeasure": 6.268114108071827,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311556976",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 63.57382227232921,
+      "clippedMeasure": 63.57382227232921,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311561183",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 56.666593235564996,
+      "clippedMeasure": 56.666593235564996,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311723439",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 37.67909357793685,
+      "clippedMeasure": 37.67909357793685,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311723440",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 106.05817533608506,
+      "clippedMeasure": 106.05817533608506,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311723441",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 23.500192916326906,
+      "clippedMeasure": 23.500192916326906,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311723442",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 99.85076802840412,
+      "clippedMeasure": 99.85076802840412,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311723443",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 74.12766099984121,
+      "clippedMeasure": 74.12766099984121,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311725880",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 345.51070097784134,
+      "clippedMeasure": 345.51070097784134,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311725881",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 114.64120020975405,
+      "clippedMeasure": 114.64120020975405,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311725883",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 147.9446730435464,
+      "clippedMeasure": 147.9446730435464,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311725885",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 144.22868636235506,
+      "clippedMeasure": 144.22868636235506,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311727866",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 269.60725269947375,
+      "clippedMeasure": 269.60725269947375,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311727867",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 96.91156465816053,
+      "clippedMeasure": 96.91156465816053,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311741106",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 83.2150275167333,
+      "clippedMeasure": 83.2150275167333,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311741108",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 261.0522320923765,
+      "clippedMeasure": 261.0522320923765,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311741109",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 438.3216512260041,
+      "clippedMeasure": 438.3216512260041,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311741112",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 76.17626829089572,
+      "clippedMeasure": 76.17626829089572,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311742269",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 123.0460151668236,
+      "clippedMeasure": 123.0460151668236,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311742270",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 352.09561845540435,
+      "clippedMeasure": 352.09561845540435,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311742271",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 216.59374285640075,
+      "clippedMeasure": 216.59374285640075,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311742272",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 222.64175775135504,
+      "clippedMeasure": 222.64175775135504,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311747380",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 156.11164813037178,
+      "clippedMeasure": 156.11164813037178,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311747381",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 39.090172549592474,
+      "clippedMeasure": 39.090172549592474,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1311750637",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 70.66083800822423,
+      "clippedMeasure": 70.66083800822423,
+      "changed": false
+    },
+    {
+      "sourceFeatureId": "way/1548148732",
+      "sourceType": "LineString",
+      "fragments": 1,
+      "sourceMeasure": 23.389810424139544,
+      "clippedMeasure": 23.389810424139544,
+      "changed": false
+    }
+  ],
+  "limitations": [
+    "Infrastructure remains supplementary OSM observation geometry.",
+    "Clipping creates artificial endpoints and polygon boundaries, not physical boundaries.",
+    "Point traffic observations do not establish road footprints or widths."
+  ]
+}

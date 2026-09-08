@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "imagery-municipal-2019",
+  "sourceImage": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+  "sourceCrs": "EPSG:3011",
+  "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+  "pixelConvention": "Zero-based source-pixel centres; easting = 156615.25 + 0.5 * column, northing = 6585593.75 - 0.5 * row. Each panel origin is an integer source-pixel offset.",
+  "observedYear": 2019,
+  "captureDate": null,
+  "reviewStatus": "machine-visual-review",
+  "notSurveyed": true,
+  "licence": "CC0-1.0",
+  "traces": [
+    {
+      "id": "lidingo-fairway-12-ortho2019",
+      "kind": "fairway",
+      "hole": 12,
+      "panel": "fairway-12",
+      "origin": [245, 139],
+      "pixels": [[222,247],[254,253],[282,266],[328,285],[366,305],[391,326],[410,351],[435,364],[462,367],[498,379],[525,397],[546,416],[562,429],[588,435],[620,433],[651,429],[682,431],[711,442],[737,458],[760,477],[789,489],[820,496],[838,506],[829,521],[802,528],[781,526],[759,518],[739,511],[719,519],[696,526],[665,535],[637,535],[615,527],[600,523],[581,536],[555,531],[536,520],[511,523],[486,519],[470,500],[457,482],[452,461],[441,432],[427,413],[407,399],[384,393],[359,381],[337,372],[311,363],[287,355],[264,347],[245,337],[224,329],[213,312],[211,290],[215,270]],
+      "uncertaintyMetres": 3,
+      "note": "Visible maintained central fairway extent in the 2019 dormant-season orthophoto, following the bend from the northwestern landing area toward the eastern green. The low-contrast apron beside the greenside bunkers is left outside this trace. The public summer map view corroborated identity and gross mowing pattern only; every adopted vertex is measured in the retained 2019 source image. Current mowing, recent alterations and absolute registration remain unverified."
+    },
+    {
+      "id": "lidingo-fairway-13-ortho2019",
+      "kind": "fairway",
+      "hole": 13,
+      "panel": "fairway-13",
+      "origin": [414, 522],
+      "pixels": [[267,154],[276,154],[301,150],[321,153],[337,148],[354,151],[373,148],[394,155],[416,161],[443,167],[465,177],[480,190],[483,204],[475,215],[458,220],[439,219],[421,212],[401,209],[384,214],[363,216],[341,217],[318,211],[296,210],[278,203],[268,188],[264,170]],
+      "uncertaintyMetres": 3,
+      "note": "Observed central maintained fairway patch east of the western green; dormant-season contrast makes some edge turns interpretive. The shaded western approach beside trees is left untraced because its 2019 edge cannot be followed reliably. The polygon excludes the green, woodland and the separate southern hole. It does not extend toward the tee by route buffering. Public summer imagery corroborated which short-grass strip belongs to this route; all vertices retain the 2019 source-pixel positions."
+    }
+  ],
+  "unadoptedInspections": [
+    {
+      "hole": 16,
+      "kind": "fairway",
+      "panel": "fairway-16",
+      "origin": [1435,456],
+      "status": "no-fairway-polygon-adopted",
+      "reason": "The official card identifies a par 3. The 2019 approach has patchy short grass and a worn mound before the green, with no sufficiently clear fairway mowing edge separable from rough. A fairway was not synthesized to complete a per-hole count."
+    }
+  ],
+  "independentHumanReview": false,
+  "independentControlApproved": false
+}

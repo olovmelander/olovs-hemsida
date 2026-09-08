@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "observedOn": "2026-09-07",
+  "state": "source-exclusion-check-passed",
+  "sourceLayerIndex": {
+    "path": "lidingobuild/cache/vegetation/stands-stage/layer-index.json",
+    "sha256": "472dbb5a65318464c9997b3494dfe28e2ee354cecda4f64c7d631f958fd5bb7b"
+  },
+  "counts": {
+    "eligibleCanopyCells": 163281,
+    "buildingFootprintHits": 0,
+    "roadCentreLineHits": 0,
+    "pathCentreLineHits": 0
+  },
+  "protectedSourceFeatures": 926,
+  "hits": [],
+  "method": "Every eligible emitted4m cell centre checked independently against source building/road polygons and1m road /0.5m path centre-line corridors. Buffered exclusion implementation uses scanline rasterization; this check uses point-in-ring and point-to-segment evaluation.",
+  "limitations": [
+    "This checks current staged exclusions against retained source geometry; it cannot prove current real-world building or tree positions.",
+    "2021 laser and2019 municipal orthophoto are different vintages; newer2025 imagery access is pending.",
+    "Representative stand placements are not individual observed tree locations; no individual objects are emitted."
+  ]
+}

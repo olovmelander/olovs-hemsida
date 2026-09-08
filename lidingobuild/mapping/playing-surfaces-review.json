@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "status": "provisional-source-derived-not-surveyed",
+  "sourceImage": {
+    "path": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+    "sha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+    "horizontalCrs": "EPSG:3011",
+    "observedYear": 2019,
+    "captureDate": null,
+    "licence": "CC0-1.0"
+  },
+  "inputs": [
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+      "sha256": "d25889882339c4259bc38a3d475a9113b70dc6092d9f98782c3812e4e8999ec0"
+    },
+    {
+      "path": "lidingobuild/mapping/surface-traces-2019.json",
+      "sha256": "e4be361972acd0bfedfb273b1fa235c750d6a304a526cc7329e196fba06f21bb"
+    },
+    {
+      "path": "lidingobuild/mapping/fairway-traces-review.json",
+      "sha256": "117491192102d20c9a463e11794fb44601ba566bd206b9d74be8647ea46f6d4a"
+    },
+    {
+      "path": "lidingobuild/mapping/surface-refinements-2019.json",
+      "sha256": "e067e561d8fc3da3bc38f86cc021df05795030ad438bd17952990f202c27e083"
+    },
+    {
+      "path": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sha256": "18a4743f5d7ecb443ea0ae65257299305603b364cd55867654e1cf757953682b"
+    },
+    {
+      "path": "lidingobuild/mapping/build-playing-surfaces.py",
+      "sha256": "7d0cf4f640dfcc9d4a818d51b91f360456beb148acd43fa0a29a91b60f911011"
+    }
+  ],
+  "featureCount": 110,
+  "counts": {
+    "green": 20,
+    "tee": 37,
+    "fairway": 13,
+    "bunker": 40
+  },
+  "holesWithGreen": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "holesWithAssociatedTee": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "sourceTraceCount": 62,
+  "unchangedOsmRings": 48,
+  "independentHumanReview": false,
+  "independentControlApproved": false,
+  "limitations": [
+    "2019 winter/dormant-season imagery has low-contrast maintained boundaries; interpretation uncertainty is separate from unmeasured registration error.",
+    "OSM geometry retains original rings, revision dates and unknown measurement epoch.",
+    "No tee-color associations or pin positions were inferred.",
+    "Known2024-2026 course changes and newer imagery need separate review; these polygons are provisional.",
+    "The two unassociated OSM greens and one unassociated tee remain supplementary features with no asserted playing-hole role.",
+    "Hole10 rear tee differs substantially in the newer undated summer view; its 2019 physical pad is retained explicitly as historical and provisional.",
+    "Visible greenside and fairway bunkers were added where the 2019 source supports complete rings; bunker inventory and all physical tee platforms are still incomplete.",
+    "Hole13 retains its central maintained fairway patch; an attempted western fragment was rejected after overlay review because its lower edge included indistinct rough. Hole16 has no adopted fairway polygon because its par3 approach edge is ambiguous."
+  ],
+  "excludedOsmFeatures": {
+    "way/143587548": "Bunker10 ring falls on the actual green in georeferenced2019 imagery; replaced by the visible eastern sand footprint.",
+    "way/143587542": "Green10 ring is visibly displaced west from the maintained green in georeferenced2019 imagery; replaced by an explicit source-pixel trace.",
+    "way/427429855": "OSM green tag is at the physical tee12 platform north of green11. Removed as a green and replaced by an explicitly traced tee12.",
+    "way/143587593": "Second bunker south of green10 is displaced approximately25m from the visible2019 sand footprint. Replaced by a source-pixel trace; unchanged OSM ring remains in the retained original evidence."
+  },
+  "holesWithAssociatedFairway": [
+    2,
+    4,
+    5,
+    7,
+    8,
+    10,
+    12,
+    13,
+    14,
+    15,
+    17,
+    18
+  ],
+  "validation": {
+    "closedFinitePolygonRings": true,
+    "uniqueFeatureIds": true,
+    "allPolygonsValid": true,
+    "positiveAreaGreaterThanOneSquareMetre": true,
+    "oneAssociatedGreenPerHole": true,
+    "physicalTeePlatformAssociatedEveryHole": true,
+    "fairwayForEveryPar4AndPar5": true,
+    "independentRegistrationAccuracy": null
+  },
+  "additionalInspectionsNotAdopted": [
+    {
+      "hole": 16,
+      "kind": "fairway",
+      "panel": "fairway-16",
+      "origin": [
+        1435,
+        456
+      ],
+      "status": "no-fairway-polygon-adopted",
+      "reason": "The official card identifies a par 3. The 2019 approach has patchy short grass and a worn mound before the green, with no sufficiently clear fairway mowing edge separable from rough. A fairway was not synthesized to complete a per-hole count."
+    },
+    {
+      "hole": 13,
+      "kind": "fairway",
+      "status": "western-fragment-rejected-after-overlay",
+      "reason": "The candidate approach fragment included indistinct rough below the maintained strip. It was rejected after overlay inspection; the original central fairway patch remains. Newer mowing cannot silently replace2019 geometry."
+    },
+    {
+      "hole": 13,
+      "kind": "bunker",
+      "status": "2025-reported-change-unmapped",
+      "reason": "The club reports a new left greenside bunker in2025. Its2019 absence cannot establish a current ring; no geometry taken from an ungeoreferenced guide or undated differently licensed image."
+    },
+    {
+      "hole": 1,
+      "kind": "tee",
+      "status": "additional-forward-platform-not-adopted",
+      "reason": "No complete separate forward-platform boundary could be followed confidently in the inspected2019 crop."
+    },
+    {
+      "hole": 18,
+      "kind": "bunker",
+      "status": "ambiguous-bare-soil-patch-not-adopted",
+      "reason": "Bare soil and a depression north of the retained approach bunker could be altered landscaping or an older bunker; current guide depicts a mound. No sand polygon invented for this ambiguous patch."
+    }
+  ],
+  "output": {
+    "path": "lidingobuild/mapping/playing-surfaces.geojson",
+    "sha256": "d5309cbfefbfc8f498be15100156a1ca99fe49442d61c56d89abd0f5d48f9f29"
+  },
+  "refinementRound": {
+    "previousOutputSha256": "16afdeb87b474d5e45bfd4cb1fcce3a52b7b220d1119a2ccf9278fd7e6aa64d4",
+    "newTraceCount": 21,
+    "rejectedTraceIds": [
+      "lidingo-fairway-13-west-ortho2019"
+    ],
+    "osmBunkerAssociations": {
+      "221846970": 6,
+      "221846980": 1,
+      "331796623": 15,
+      "427426787": 18,
+      "427426800": 16,
+      "427426882": 16,
+      "1530687906": 17,
+      "1530687907": 17
+    },
+    "sourceGeometryEpoch": 2019,
+    "laterMowingOrBunkerChangesAdopted": false
+  }
+}

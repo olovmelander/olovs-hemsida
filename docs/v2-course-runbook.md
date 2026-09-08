@@ -1,6 +1,7 @@
 # Course v2 production guide
 
-> Updated 2026-09-07 against repository code and published manifests at `7dbe4e3`.
+> Updated 2026-09-07 against repository code and locally published manifests,
+> including the provisional Lidingö implementation.
 >
 > Puttom is the reference implementation for the spatial, tile, provenance,
 > runtime and validation framework. It is not yet the authority for every data
@@ -8,8 +9,8 @@
 > origin is still marked provisional, its played-surface vectors are migrated
 > rather than surveyed, its zone-A tree approval was automated rather than
 > human. V2 is already the default for supported course configurations, with
-> improved graphics on when v2 is ready. The live root contains nine course
-> slugs on seven grounds; all ground graphs still have zero authoritative
+> improved graphics on when v2 is ready. The live root contains ten course
+> slugs on eight grounds; all ground graphs still have zero authoritative
 > surface tiles. These are implemented, progressively reviewed environments,
 > not completed surveys. A new course must close its own evidence gates.
 
@@ -486,6 +487,10 @@ hash or count until the upstream difference is understood and reviewed.
 4. Add `geo_data/course-v2/<ground-id>/source-manifest.json`, initially with
    explicit blockers and `null` values rather than invented metadata. Copy the
    shape of a nearby manifest, not its coordinates, checksums or approvals.
+   Set `legacyFrame: null` when no compatibility model exists. Inventory actual
+   checksummed source/discovery artifacts; do not invent a legacy frame or model
+   merely to enter acquisition. A manifest with an inventoried legacy model must
+   carry its real frame.
 5. Register ground identity in `EXPECTED_GROUNDS` in
    [`manifest.mjs`](../packages/course-geo/manifest.mjs). The acquisition list in
    [`acquisition/pilots.mjs`](../packages/course-geo/acquisition/pilots.mjs)
@@ -504,6 +509,37 @@ pnpm check:geo-sources
 
 #### Starting without an existing course model
 
+Source intake is a supported checkpoint before a playable model exists. Register
+the physical ground and acquire its evidence, leaving canonical-origin approval
+pending. The all-ground hole-control inventory reports such courses explicitly
+in `pendingCourseSlugs` and claims no holes or successful control windows for
+them. Explicit legacy migration and per-hole controls reject a source-only ground;
+all-ground legacy migration skips it. A course preview may expose source coverage
+and the factual card while play and live v2 selection remain gated. Lidingö's
+[handoff](../lidingobuild/mapping/NEXT-SESSION.md) records the subsequent move
+from source intake to provisional 3D: exact 1 m terrain, observed 2019 playing
+surfaces and measured 2021 canopy stands. Its origin and authoritative-surface
+approval gates remain open. `?bana=lidingo` renders 3D; `view=sources` retains
+the initial source comparison.
+
+The [Lidingö mapping iteration](../lidingobuild/mapping/README.md) separates
+playing surfaces, facility surfaces, normalized infrastructure and measured roof
+meshes. It adds eight tee platforms and 12 bunkers, restores six golf paths and
+parking-area semantics, and preserves unsupported roof regions explicitly.
+Source polygons keep their terrain elevations; renderer detail cannot silently
+introduce inferred furniture, ground clutter or graded road embankments on a
+measured-only ground.
+
+Visby's [implementation handoff](../visbybuild/mapping/NEXT-SESSION.md) records
+another transition from source intake to local provisional 3D, with six numeric
+tee names and an explicit unresolved physical tee on hole 12. Its source preview
+remains available through `view=sources`; source/control and production approval
+remain open independently of the runnable model.
+The [coastal terrain reader](../packages/course-geo/acquisition/terrain-window-intersection.mjs)
+uses the COG's actual geotransform and extent: a nominal 10 km item may be cropped
+at the coast. It preserves factor-1 sample centres and rejects gaps, overlapping
+source samples, misalignment and nodata instead of filling missing sea heights.
+
 Skip the legacy freeze when there is no existing course. Current v2 drivers still
 require a checked GPK1 fallback and canonical routing input; they cannot bootstrap
 a course from an empty directory. Obtain enough source evidence and establish the
@@ -517,9 +553,10 @@ frame in Stages 3–5 before authoring those inputs:
    Preserve canonical master vectors and derive the compatibility model from
    them with an explicit frame.
 2. Register the build directory, club labels and tee names/colours in `COURSES`
-   in [`emit-manifest.mjs`](../packages/course-pack/emit-manifest.mjs). Its default
-   selection currently assumes a yellow tee colour; generalize that rule if the
-   real card differs instead of inventing a yellow tee. Emit and verify the pack:
+   in [`emit-manifest.mjs`](../packages/course-pack/emit-manifest.mjs). A configured
+   `tees.def` selects an explicit default when verified colour associations are
+   absent; Visby's six numbered tees use index 1 (59). Do not invent a yellow
+   tee to satisfy a display default. Emit and verify the pack:
 
    ```powershell
    node packages/course-pack/emit-pack.mjs <build-directory> apps/golf/public/courses/<slug> <slug>
@@ -548,6 +585,42 @@ frame in Stages 3–5 before authoring those inputs:
    [`v2-terrain-select.mjs`](../apps/golf/src/engine/v2-terrain-select.mjs), and add
    its independently reviewed live frontier contract at Stage 10. There is no
    generic command that performs this complete registration sequence.
+
+#### Visby provisional implementation
+
+The local main-course implementation has 18 holes, par 72 and six official
+numbered tees (63, 59, 55, 51, 46, 41). Canonical EPSG:3006 authoring retains
+18 green outlines, 17 observed physical tee platforms, 16 fairway rings and
+65 bunker outlines. Fourteen fairway rings serve 13 main holes; two are
+unassigned context on the separate nine, which is not registered as playable.
+Bunkers remain shared-ground scenery. A separately observed driving-range field
+is tracked independently from these main-course counts.
+
+Hole 12 has no confirmed physical tee. Its required explicit status,
+`unresolved-physical-platform`, empty pads and sourced camera reference inside
+observed fairway allow a virtual flyover without generating a platform. Other
+holes still require observed pads. Numeric tee associations and daily pins are
+unverified; scorecard lengths never move geometry.
+
+The full 4097-sample national 1 m window produces 341 terrain tiles, including
+256 finest tiles. The default view uses a complete 64-tile native-metre
+rectangle around the played property. The 256 measured stand chunks use
+2024 canopy evidence and source exclusions; rebuild them whenever playing or
+practice surfaces change. National water's 25 polygons and ten interior rings
+become 40 exact-union simple pieces. Their original shoreline chains suppress
+artificial partition, source-item and acquisition-boundary effects on both
+rendering backends, without inventing bathymetry.
+
+The exact software frame is recorded in the runtime config and `legacyFrame`.
+The source manifest's `canonicalFrame.origin` remains null-valued and
+`originStatus` remains `pending-control-approval`. Municipal image derivatives,
+media reuse, contemporary mapping controls and production release are still
+unapproved. See the [source research](courses/visby-source-research.md) and
+[rebuild handoff](../visbybuild/mapping/NEXT-SESSION.md) for inputs, commands and
+remaining work. The four course artifact tests run without raw caches or network
+access; source rebuilds and source-preservation browser probes need their
+retained terrain/canopy stages. A runnable local candidate does not close the
+runbook's independent acceptance gates.
 
 ### Stage 1 — freeze the existing course
 
@@ -1310,22 +1383,24 @@ record its scope and do not relabel it as a complete or perfectly surveyed twin.
 
 ## 9. Current tool support and remaining implementation
 
-Snapshot at `7dbe4e3`, 2026-09-07. Source/migration registration covers seven
-grounds and ten course slugs; the live v2 root contains nine course slugs on
-seven grounds. Registration, acquisition support and runtime publication are
+Updated 2026-09-07 with Lidingö's and Visby's provisional graphs. Source
+registration covers nine grounds and twelve course slugs, all with compatibility
+models. The local public v2 root contains eleven course slugs on nine grounds.
+Registration, acquisition support and runtime publication are
 different sets. Resolve the current manifests before copying this snapshot.
 
 | Concern | Implemented support | Remaining work for a new ground |
 |---|---|---|
 | Identity and source acquisition | `EXPECTED_GROUNDS` feeds acquisition selection; source/migration validators cover the registered inventory. | Register actual identity, routing, evidence and supported geometry keys. Historical pilots are separate. |
 | Coordinates | Canonical EPSG:3006/RH 2000 contracts and per-ground legacy bridges; explicit pyproj alternative for supported horizontal tools. | Independently approve the target frame and any vertical bridge. Never copy another course's fitted offset. |
-| Finest terrain | GDAL-free window registry for Ängsö, Johannesberg, Norrfällsviken and Upsala; GDAL path also exists. Seven ground graph drivers share compiler/emitter primitives. | Add a reviewed source/window spec and driver where absent. No generic all-ground compile CLI exists. |
+| Finest terrain | GDAL-free window registry includes Ängsö, Johannesberg, Lidingö, Norrfällsviken, Upsala and Visby; GDAL path also exists. Nine locally published grounds share compiler/emitter primitives. | Add a reviewed source/window spec and driver where absent. No generic all-ground compile CLI exists. |
 | World rings | Shared registry supports Ängsö, Norrfällsviken, Puttom, Upsala and Veckefjärden. | Other grounds need reviewed specs. Publish every shared routing against the same ground generation. |
 | Surfaces | Generic authoritative preflight/compiler libraries; Puttom wrapper and separate migration class/SDF preview. Other live paths use `legacy-ground-atlas`. | Complete controlled source intake and generic publication integration. All current ground graphs have zero authoritative surface tiles. |
 | Vegetation | Canopy acquisition, candidates, stable registry, stand compiler and shared-ground publication. | Review real truth zones and zone-A objects. CHMv2 CLI defaults/seam/cache assumptions need adaptation for other inputs. |
 | Infrastructure | Strict v2 object schema; legacy exact mapped polygons and bridge footprints; GIS-only drainage/barrier/tree observations. | Normalize source observations and acquire missing dimensions/epochs. A generic authoritative infrastructure importer/publisher is still absent. |
 | Mapping review | Reusable image/model overlays, tee/pond diagnostics and shared-ground GIS export. Upsala has guarded adoption helpers and a complete refresh driver. | Supply explicit panels and provider adapters; review plot labels/extents. Do not present Upsala-only scripts as generic commands. |
 | Runtime | Live `v2-frontier-configs.mjs`, common graph resolver/loader/sampler and a separate Puttom preview path. | Add reviewed derived/measured/config fields and validate default activation, backend parity and fallback. |
+| Source-preserving compatibility | Lidingö and Visby use `infra.terrainPlacement:'measured-only'` and `vegetationPlacement:'measured-only'`, preserving source terrain/water and suppressing the legacy tree lattice. Stand-only graphs are valid without individual-tree records; optional water shoreline lines preserve original shores across simple-polygon partitions. | Unknown bathymetry must not trigger bed carving or a silt appearance. Respect backend depth-bias sign without moving source water planes. |
 | Capture | Generic `check-course-v2.mjs`, configurable graphics review and ground-specific browser probes. | Choose valid holes/views and inspect actual frames. Repair the graphics-review default assertion before using that mode. |
 
 Published terrain/object/stand tile counts at this checkpoint:
@@ -1334,11 +1409,13 @@ Published terrain/object/stand tile counts at this checkpoint:
 |---|---:|---:|---:|
 | Ängsö | 469 | 234 | 256 |
 | Johannesberg | 85 | 50 | 64 |
+| Lidingö | 85 | 0 | 64 |
 | Norrfällsviken | 469 | 163 | 229 |
 | Puttom | 277 | 64 | 64 |
 | Ribbingsfors | 85 | 60 | 64 |
 | Upsala (shared) | 277 | 58 | 64 |
 | Veckefjärden (shared) | 277 | 51 | 64 |
+| Visby | 341 | 0 | 256 |
 
 These are manifest inventories, not resident tile counts or completeness scores.
 Generalize only after independent grounds exercise the same contract; moving a

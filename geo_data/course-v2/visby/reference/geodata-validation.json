@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "observedOn": "2026-09-07",
+  "verifiedSourceAssets": 38,
+  "verifiedSourceBytes": 25183750,
+  "osmFeatureCount": 171,
+  "comparedCoordinatePairs": 3588,
+  "maximumProjectionResidualMetres": 0,
+  "invalidGeometries": [],
+  "property": {
+    "osmId": "way/199830330",
+    "bboxEpsg3006": [
+      687076.1035647502,
+      6370516.74000113,
+      688432.1488042905,
+      6371989.725481339
+    ],
+    "squareMetres": 1237163.0318994704
+  },
+  "holeObservations": [
+    {
+      "id": "way/1553919218",
+      "tags": {
+        "golf": "hole",
+        "handicap": "7",
+        "par": "4",
+        "ref": "2"
+      },
+      "geometryType": "LineString",
+      "vertices": 5,
+      "isClosed": true,
+      "lengthMetres": 51.89785701826382,
+      "courseAssociation": null,
+      "approval": "pending-source-review"
+    },
+    {
+      "id": "way/1553919219",
+      "tags": {
+        "golf": "hole",
+        "handicap": "7",
+        "par": "4",
+        "ref": "2"
+      },
+      "geometryType": "LineString",
+      "vertices": 2,
+      "isClosed": false,
+      "lengthMetres": 347.58714465274556,
+      "courseAssociation": null,
+      "approval": "pending-source-review"
+    }
+  ],
+  "terrainOriginsIntersectingOsmProperty": [
+    {
+      "sourceFeatureId": "1",
+      "properties": {
+        "matdatum": "2024-02-05",
+        "lagesbestamningsmetod": "Luftburen laserskanning",
+        "lagesosakerhetplan": 0.3,
+        "lagesosakerhethojd": 0.1,
+        "geodataproducent": "Lantmateriet"
+      },
+      "intersectionSquareMetres": 87938.32648872287,
+      "fractionOfOsmProperty": 0.07108062900465699
+    },
+    {
+      "sourceFeatureId": "2",
+      "properties": {
+        "matdatum": "2024-02-03",
+        "lagesbestamningsmetod": "Luftburen laserskanning",
+        "lagesosakerhetplan": 0.3,
+        "lagesosakerhethojd": 0.1,
+        "geodataproducent": "Lantmateriet"
+      },
+      "intersectionSquareMetres": 1149224.7054107708,
+      "fractionOfOsmProperty": 0.9289193709953619
+    }
+  ],
+  "orthophoto": {
+    "dimensions": [
+      3500,
+      3600
+    ],
+    "actualSourceDatasetCount": 2,
+    "overviewRecords": 6
+  },
+  "limitations": [
+    "Projection replay and geometry validity do not prove geographic accuracy.",
+    "OSM property is a supplementary mapped golf boundary, not a cadastral boundary.",
+    "Terrain date intersections use retained source-origin polygons and the OSM boundary.",
+    "No current hole-route association or surface authority was approved."
+  ]
+}

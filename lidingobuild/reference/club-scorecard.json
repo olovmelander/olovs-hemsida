@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "courseId": "lidingo",
+  "courseName": "Lidingö Golfklubb",
+  "holeCount": 18,
+  "par": 70,
+  "unit": "metres",
+  "source": {
+    "url": "https://www.lidingogk.se/media/4kcbkotc/scorekort-2025.jpg",
+    "parentPage": "https://www.lidingogk.se/banan/slope-lokala-regler-aeven-scorekort/",
+    "assetId": "scorecard-rules-scorekort-2025",
+    "sha256": "383ec14cb0a2674f2141b12e7fe46929b01137cb85e08353e10aebc9d2f5607b",
+    "retrievedDate": "2026-09-07",
+    "editionLabel": "2025 filename; linked as current scorecard on club's 2026 slope/local-rules page",
+    "publicationDate": null,
+    "captureDate": null,
+    "method": "Visual transcription of the official scorecard; all printed front/back/total sums checked",
+    "reviewer": "Codex machine transcription; no independent human review",
+    "decision": "Factual routing/card evidence only. Does not establish tee-pad coordinates, dimensions or geometry authority.",
+    "rights": "No grant to redistribute the source image found. Original image stays in ignored local reference cache. This file records factual numeric card values."
+  },
+  "tees": [
+    { "id": "white", "name": "Vit", "front": 2569, "back": 3217, "total": 5786 },
+    { "id": "yellow", "name": "Gul", "front": 2397, "back": 2976, "total": 5373 },
+    { "id": "blue", "name": "Blå", "front": 2221, "back": 2837, "total": 5058 },
+    { "id": "red", "name": "Röd", "front": 2041, "back": 2477, "total": 4518 },
+    { "id": "orange", "name": "Orange", "front": 1775, "back": 2190, "total": 3965 }
+  ],
+  "holes": [
+    { "number": 1, "par": 3, "index": 14, "lengths": { "white": 162, "yellow": 162, "blue": 155, "red": 128, "orange": 120 } },
+    { "number": 2, "par": 5, "index": 6, "lengths": { "white": 498, "yellow": 472, "blue": 414, "red": 414, "orange": 360 } },
+    { "number": 3, "par": 3, "index": 10, "lengths": { "white": 196, "yellow": 173, "blue": 145, "red": 132, "orange": 130 } },
+    { "number": 4, "par": 4, "index": 4, "lengths": { "white": 395, "yellow": 358, "blue": 337, "red": 301, "orange": 210 } },
+    { "number": 5, "par": 4, "index": 18, "lengths": { "white": 262, "yellow": 262, "blue": 252, "red": 233, "orange": 230 } },
+    { "number": 6, "par": 3, "index": 8, "lengths": { "white": 188, "yellow": 166, "blue": 148, "red": 142, "orange": 125 } },
+    { "number": 7, "par": 4, "index": 2, "lengths": { "white": 351, "yellow": 336, "blue": 323, "red": 299, "orange": 260 } },
+    { "number": 8, "par": 4, "index": 12, "lengths": { "white": 356, "yellow": 332, "blue": 319, "red": 285, "orange": 240 } },
+    { "number": 9, "par": 3, "index": 16, "lengths": { "white": 161, "yellow": 136, "blue": 128, "red": 107, "orange": 100 } },
+    { "number": 10, "par": 5, "index": 7, "lengths": { "white": 492, "yellow": 446, "blue": 416, "red": 374, "orange": 325 } },
+    { "number": 11, "par": 3, "index": 17, "lengths": { "white": 134, "yellow": 125, "blue": 125, "red": 109, "orange": 105 } },
+    { "number": 12, "par": 5, "index": 3, "lengths": { "white": 470, "yellow": 470, "blue": 458, "red": 392, "orange": 355 } },
+    { "number": 13, "par": 4, "index": 11, "lengths": { "white": 343, "yellow": 305, "blue": 294, "red": 271, "orange": 230 } },
+    { "number": 14, "par": 4, "index": 15, "lengths": { "white": 325, "yellow": 310, "blue": 290, "red": 227, "orange": 220 } },
+    { "number": 15, "par": 4, "index": 1, "lengths": { "white": 377, "yellow": 357, "blue": 332, "red": 302, "orange": 270 } },
+    { "number": 16, "par": 3, "index": 9, "lengths": { "white": 194, "yellow": 163, "blue": 142, "red": 129, "orange": 100 } },
+    { "number": 17, "par": 5, "index": 13, "lengths": { "white": 449, "yellow": 421, "blue": 411, "red": 374, "orange": 315 } },
+    { "number": 18, "par": 4, "index": 5, "lengths": { "white": 433, "yellow": 379, "blue": 369, "red": 299, "orange": 270 } }
+  ],
+  "links": {
+    "club": "https://www.lidingogk.se/",
+    "overview": "https://www.lidingogk.se/banan/",
+    "banguide": "https://www.lidingogk.se/banan/nya-banguiden/",
+    "interactiveGuide": "https://banguider.se/lidingo-golfklubb/18-halsbanan",
+    "scorecard": "https://www.lidingogk.se/media/4kcbkotc/scorekort-2025.jpg",
+    "flyovers": "https://www.lidingogk.se/banan/flyover/",
+    "gallery": "https://www.lidingogk.se/banan/bildgalleri/",
+    "gallery2026": "https://www.lidingogk.se/banan/bildgalleri/bildgalleri-2026/",
+    "localRules": "https://www.lidingogk.se/media/tl1nt1n3/lidingoe-gk-lokala-regler-2026-03-16.pdf"
+  }
+}

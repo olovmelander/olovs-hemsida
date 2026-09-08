@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "state": "passed",
+  "observedOn": "2026-09-07",
+  "browser": "152.0.7977.82",
+  "previewSha256": "3698fc54fd7143ff2e1e5b8117831b4b068a0d281932fd3b0d39d357aa558f41",
+  "checks": [
+    "chooser lists provisional 3D; explicit source view retains all 144 official scorecard cells",
+    "hole selection by button and keyboard, URL state, zoom, overview and surface toggle",
+    "desktop/mobile scrolling, no page errors, no failed resources, no playable pack or 3D engine requested",
+    "corrupt preview is rejected before rendering",
+    "visited preview reopens offline with its selected hole"
+  ],
+  "screenshots": [
+    "lidingobuild/cache/app-review/desktop.png",
+    "lidingobuild/cache/app-review/mobile.png"
+  ],
+  "scope": "Source-only app preview. These checks do not approve course geography, frame controls or a playable 3D release."
+}

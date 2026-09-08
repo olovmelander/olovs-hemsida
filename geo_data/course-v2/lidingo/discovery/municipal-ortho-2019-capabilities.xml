@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding="UTF-8" standalone="no" ?>
+<WMS_Capabilities version="1.3.0"  xmlns="http://www.opengis.net/wms"   xmlns:sld="http://www.opengis.net/sld"   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xmlns:ms="http://mapserver.gis.umn.edu/mapserver"   xsi:schemaLocation="http://www.opengis.net/wms http://schemas.opengis.net/wms/1.3.0/capabilities_1_3_0.xsd  http://www.opengis.net/sld http://schemas.opengis.net/sld/1.1.0/sld_capabilities.xsd  http://mapserver.gis.umn.edu/mapserver https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;service=WMS&amp;version=1.3.0&amp;request=GetSchemaExtension">
+
+<!-- MapServer version 7.6.4 OUTPUT=PNG OUTPUT=JPEG SUPPORTS=PROJ SUPPORTS=AGG SUPPORTS=FREETYPE SUPPORTS=CAIRO SUPPORTS=SVG_SYMBOLS SUPPORTS=SVGCAIRO SUPPORTS=ICONV SUPPORTS=FRIBIDI SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=WFS_SERVER SUPPORTS=WFS_CLIENT SUPPORTS=WCS_SERVER SUPPORTS=FASTCGI SUPPORTS=THREADS SUPPORTS=GEOS SUPPORTS=POINT_Z_M SUPPORTS=PBF INPUT=JPEG INPUT=POSTGIS INPUT=OGR INPUT=GDAL INPUT=SHAPEFILE -->
+
+<Service>
+  <Name>WMS</Name>
+  <Title>SpatialMap 4.4.0</Title>
+  <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/>
+  <ContactInformation>
+  </ContactInformation>
+  <MaxWidth>10000</MaxWidth>
+  <MaxHeight>10000</MaxHeight>
+</Service>
+
+<Capability>
+  <Request>
+    <GetCapabilities>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetCapabilities>
+    <GetMap>
+      <Format>image/png</Format>
+      <Format>image/jpg</Format>
+      <Format>image/gif</Format>
+      <Format>image/svg+xml</Format>
+      <Format>image/jpeg</Format>
+      <Format>image/png; mode=8bit</Format>
+      <Format>image/vnd.jpeg-png</Format>
+      <Format>image/vnd.jpeg-png8</Format>
+      <Format>application/x-pdf</Format>
+      <Format>image/tiff</Format>
+      <Format>application/x-protobuf</Format>
+      <Format>application/json</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetMap>
+    <GetFeatureInfo>
+      <Format>text/plain</Format>
+      <Format>application/vnd.ogc.gml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetFeatureInfo>
+    <sld:DescribeLayer>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </sld:DescribeLayer>
+    <sld:GetLegendGraphic>
+      <Format>image/png</Format>
+      <Format>image/jpg</Format>
+      <Format>image/gif</Format>
+      <Format>image/jpeg</Format>
+      <Format>image/png; mode=8bit</Format>
+      <Format>image/vnd.jpeg-png</Format>
+      <Format>image/vnd.jpeg-png8</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </sld:GetLegendGraphic>
+    <ms:GetStyles>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </ms:GetStyles>
+  </Request>
+  <Exception>
+    <Format>XML</Format>
+    <Format>INIMAGE</Format>
+    <Format>BLANK</Format>
+  </Exception>
+  <sld:UserDefinedSymbolization SupportSLD="1" UserLayer="0" UserStyle="1" RemoteWFS="0" InlineFeature="0" RemoteWCS="0"/>
+  <Layer>
+    <Title>SpatialMap 4.4.0</Title>
+    <Abstract></Abstract>
+    <CRS>EPSG:3011</CRS>
+    <CRS>EPSG:3011</CRS>
+    <CRS>EPSG:3012</CRS>
+    <CRS>EPSG:4326</CRS>
+    <EX_GeographicBoundingBox>
+        <westBoundLongitude>17.8116</westBoundLongitude>
+        <eastBoundLongitude>18.6211</eastBoundLongitude>
+        <southBoundLatitude>59.2453</southBoundLatitude>
+        <northBoundLatitude>59.4821</northBoundLatitude>
+    </EX_GeographicBoundingBox>
+    <BoundingBox CRS="EPSG:3011"
+                minx="6.57016e+06" miny="139322" maxx="6.59638e+06" maxy="185197" />
+    <MinScaleDenominator>100</MinScaleDenominator>
+    <Layer>
+      <Name>theme-ortofoto2019</Name>
+<!-- WARNING: Mandatory metadata '..._GROUP_TITLE' was missing in this context. -->
+      <Title>theme-ortofoto2019</Title>
+      <Abstract>theme-ortofoto2019</Abstract>
+    <Style>
+       <Name>default</Name>
+       <Title>default</Title>
+       <LegendURL width="30" height="5">
+          <Format>image/png</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=theme-ortofoto2019&amp;format=image/png&amp;STYLE=default"/>
+       </LegendURL>
+    </Style>
+      <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>theme-ortofoto2019_i1</Name>
+        <Title>ortofoto2019-wms</Title>
+        <CRS>epsg:3011</CRS>
+        <EX_GeographicBoundingBox>
+            <westBoundLongitude>18.0702</westBoundLongitude>
+            <eastBoundLongitude>18.3169</eastBoundLongitude>
+            <southBoundLatitude>59.3168</southBoundLatitude>
+            <northBoundLatitude>59.4069</northBoundLatitude>
+        </EX_GeographicBoundingBox>
+        <BoundingBox CRS="epsg:3011"
+                    minx="6.578e+06" miny="154000" maxx="6.588e+06" maxy="168000" />
+        <MetadataURL type="TC211">
+          <Format>text/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;request=GetMetadata&amp;layer=theme-ortofoto2019_i1"/>
+        </MetadataURL>
+      </Layer>
+    </Layer>
+<!-- WARNING: This layer has its status set to DEFAULT and will always be displayed when doing a GetMap request even if it is not requested by the client. This is not in line with the expected behavior of a WMS server. Using status ON or OFF is recommended. -->
+    <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>internal-copyright</Name>
+<!-- WARNING: Mandatory metadata '..._title' was missing in this context. -->
+        <Title>internal-copyright</Title>
+        <!-- WARNING: Optional Ex_GeographicBoundingBox could not be established for this layer.  Consider setting the EXTENT in the LAYER object, or wms_extent metadata. Also check that your data exists in the DATA statement -->
+        <MetadataURL type="TC211">
+          <Format>text/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&amp;request=GetMetadata&amp;layer=internal-copyright"/>
+        </MetadataURL>
+    </Layer>
+  </Layer>
+</Capability>
+</WMS_Capabilities>

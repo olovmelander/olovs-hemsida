@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "imagery-municipal-2019",
+  "sourceImage": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+  "sourceImageSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+  "worldFile": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+  "worldFileSha256": "18a4743f5d7ecb443ea0ae65257299305603b364cd55867654e1cf757953682b",
+  "horizontalCrs": "EPSG:3011",
+  "reviewStatus": "machine-visual-review",
+  "observedYear": 2019,
+  "notSurveyed": true,
+  "registrationAccuracy": "not independently checked",
+  "features": [
+    {"id":"lidingo-courtyard-putting-green-2019","kind":"practice_green","parentFacilityId":"lidingo-clubhouse","name":"Puttinggreen vid klubbhuset","origin":[1050,1150],"pixels":[[190,112],[195,109],[207,109],[215,112],[217,120],[220,129],[218,137],[213,141],[201,143],[195,141],[192,135],[190,123]],"uncertaintyMetres":1.5,"note":"Small distinct green enclosed by the two clubhouse-area buildings and paths; separate from the larger putting green to the southeast."},
+    {"id":"lidingo-courtyard-hardstanding-2019","kind":"paved_path","parentFacilityId":"lidingo-clubhouse","material":"unverified-hard-surface","origin":[1050,1150],"pixels":[[179,103],[226,96],[233,112],[231,135],[229,145],[225,152],[218,153],[183,145],[176,139],[176,121]],"holes":[[[190,112],[195,109],[207,109],[215,112],[217,120],[220,129],[218,137],[213,141],[201,143],[195,141],[192,135],[190,123]]],"uncertaintyMetres":1.5,"note":"Visible hardstanding surrounding the enclosed putting green. Interior turf remains an explicit hole. Physical paving material unknown."},
+    {"id":"lidingo-clubhouse-parking-2019","kind":"parking","parentFacilityId":"lidingo-clubhouse","material":"unverified-hard-surface","origin":[1050,1150],"pixels":[[121,174],[157,180],[174,183],[173,193],[183,194],[179,211],[176,220],[160,221],[157,237],[139,232],[116,225],[105,218]],"uncertaintyMetres":2,"note":"Observed car-park apron west of the clubhouse; cars identify use but their positions are not adopted. Footprint clipped against retained building rings."},
+    {"id":"lidingo-upper-parking-north-2019","kind":"parking","parentFacilityId":"lidingo-upper-parking","material":"unverified-hard-surface","origin":[1000,1140],"pixels":[[53,95],[105,111],[125,121],[128,136],[136,146],[127,158],[106,153],[88,145],[74,133],[62,123],[42,120]],"uncertaintyMetres":3,"note":"Visible 2019 northern hardstanding; shadowed edges omitted. Later practice-area changes reported in 2025 are unresolved, so this is explicitly historical geometry."},
+    {"id":"lidingo-upper-parking-south-2019","kind":"parking","parentFacilityId":"lidingo-upper-parking","material":"unverified-hard-surface","origin":[1000,1140],"pixels":[[77,143],[95,151],[109,156],[126,163],[119,176],[109,178],[89,169],[78,169]],"uncertaintyMetres":3,"note":"Separate visible 2019 apron. Tree-covered middle portion is deliberately not joined across uncertain boundaries."},
+    {"id":"lidingo-range-field-2019","kind":"range_field","parentFacilityId":"lidingo-driving-range","origin":[980,1450],"pixels":[[130,32],[175,34],[205,46],[211,112],[210,180],[207,207],[196,227],[197,311],[197,328],[196,393],[202,436],[211,473],[188,489],[139,489],[119,480],[68,466],[49,448],[32,421],[22,399],[22,374],[35,315],[54,250],[78,168],[105,86]],"uncertaintyMetres":2.5,"note":"Observed range grass field. Covered buildings, northern hardstanding and southern tee apron excluded. Replaces the broad supplementary OSM range surface, not a surveyed mowing boundary."},
+    {"id":"lidingo-range-north-platform-2019","kind":"range_tee_pad","parentFacilityId":"lidingo-driving-range","material":"mixed-hardstanding-and-mats","origin":[980,1450],"pixels":[[129,18],[155,20],[155,9],[180,8],[193,11],[201,20],[211,30],[212,42],[199,36],[175,31],[150,29],[128,27]],"uncertaintyMetres":1.5,"note":"Visible northern practice hardstanding with a row of mats. A continuous platform is supported; individual mat count, dividers and dimensions remain unmeasured. OSM way41197436 previously drew this as grass."},
+    {"id":"lidingo-range-south-platform-2019","kind":"range_tee_pad","parentFacilityId":"lidingo-driving-range","material":"mixed-hardstanding-and-mats","origin":[980,1450],"pixels":[[70,484],[90,490],[126,493],[157,494],[189,491],[190,505],[160,507],[122,504],[99,501],[72,494]],"uncertaintyMetres":1.5,"note":"Southern mat apron in front of the low range shelter and eastward extension. Shelter footprint and mats are separate physical features; no synthetic pitch-spaced bays."},
+    {"id":"lidingo-range-east-platform-north-2019","kind":"range_tee_pad","parentFacilityId":"lidingo-driving-range","material":"unverified-turf-surface","origin":[980,1450],"pixels":[[201,336],[225,335],[227,348],[201,351]],"uncertaintyMetres":1.5,"note":"First clearly visible green practice strip south of the large range building. Exact turf/mat construction unknown."},
+    {"id":"lidingo-range-east-platform-south-2019","kind":"range_tee_pad","parentFacilityId":"lidingo-driving-range","material":"unverified-turf-surface","origin":[980,1450],"pixels":[[206,381],[235,378],[239,394],[207,397]],"uncertaintyMetres":1.5,"note":"Second clearly visible green practice strip. The intervening patchy strip is left unresolved rather than joined into one invented platform."},
+    {"id":"lidingo-range-target-green-2019","kind":"practice_green","parentFacilityId":"lidingo-driving-range","material":"unverified-turf-surface","origin":[980,1450],"pixels":[[104,260],[111,254],[126,251],[143,251],[153,256],[158,268],[159,276],[150,283],[138,287],[122,290],[114,287],[107,279]],"uncertaintyMetres":2,"note":"Distinct green target surface within the range. No target flag, daily cup position or distance marker is inferred."},
+    {"id":"lidingo-range-east-access-2019","kind":"paved_path","parentFacilityId":"lidingo-driving-range","material":"unverified-hard-surface","origin":[980,1450],"pixels":[[239,221],[252,217],[257,239],[266,271],[273,286],[274,297],[267,306],[250,310],[247,284],[241,252]],"uncertaintyMetres":2,"note":"Visible service hardstanding between the large range building and road; excludes the building footprint. No parking stalls or vehicles inferred."}
+  ],
+  "adoptedOsmFeatures": [
+    {"id":"lidingo-clubhouse-practice-green-osm","sourceFeatureId":"way/296422967","kind":"practice_green","parentFacilityId":"lidingo-clubhouse","name":"Stora puttinggreenen","note":"Retained source ring, visually corroborated beside clubhouse. Remove its duplicate from generic scenery greens."},
+    {"id":"lidingo-south-practice-green-osm","sourceFeatureId":"way/221846981","kind":"practice_green","parentFacilityId":"lidingo-south-practice","name":"Övningsgreen söder om rangen","note":"OSM explicitly names putting green; 2019 image confirms position. Retain exact source ring and avoid duplicating scenery green."}
+  ],
+  "pending": [
+    "2025 upper-parking practice-area works require a newer georeferenced as-built source.",
+    "Range net lines, pole heights, individual mats, bins, benches and dividers remain unmeasured.",
+    "Building wall footprints and roof outlines are not interchangeable where eaves overhang.",
+    "Source contains 2019 observations; current green extents and practice equipment are unverified."
+  ]
+}

@@ -57,6 +57,9 @@
 /courses/*/course-v2-*.json
   Cache-Control: public, max-age=31536000, immutable
 
+/courses/*/intake-*.json
+  Cache-Control: public, max-age=31536000, immutable
+
 /courses/*/routing/*.bvch
   Cache-Control: public, max-age=31536000, immutable
 

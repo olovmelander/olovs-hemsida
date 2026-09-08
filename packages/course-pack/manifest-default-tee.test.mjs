@@ -19,8 +19,15 @@ describe('manifest default tee', () => {
     for (const c of manifest.courses) expect(Number.isInteger(c.tees.def), c.slug).toBe(true);
   });
 
-  it('points at the yellow swatch, whatever the tee is named', () => {
-    for (const c of manifest.courses) expect(c.tees.cols[c.tees.def], c.slug).toBe(YELLOW);
+  it('uses the verified yellow swatch where the course has that colour association', () => {
+    for (const c of manifest.courses.filter(c => c.slug !== 'visby')) expect(c.tees.cols[c.tees.def], c.slug).toBe(YELLOW);
+  });
+
+  it('retains Visby numbered tees with an explicit display default and neutral unverified colours', () => {
+    const tees = manifest.courses.find(c => c.slug === 'visby').tees;
+    expect(tees.names).toEqual(['63', '59', '55', '51', '46', '41']);
+    expect(tees.names[tees.def]).toBe('59');
+    expect(tees.cols).toEqual(Array(6).fill(0xd6ddd6));
   });
 
   it('is a real column on the card', () => {

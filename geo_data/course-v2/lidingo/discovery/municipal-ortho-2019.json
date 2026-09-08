@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "provider": "Lidingö stad",
+  "sourceId": "lidingo-municipal-ortho-2019",
+  "retrievedAt": "2026-09-07T19:20:13.351225+00:00",
+  "url": "https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=theme-ortofoto2019_i1&STYLES=&SRS=EPSG%3A3011&BBOX=156615%2C6584170%2C157866%2C6585594&WIDTH=2502&HEIGHT=2848&FORMAT=image%2Fpng&TRANSPARENT=FALSE",
+  "sourceService": "https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata",
+  "layer": "theme-ortofoto2019_i1",
+  "campaignLabel": "2019",
+  "captureDate": null,
+  "contentType": "image/png",
+  "horizontalCrs": "EPSG:3011",
+  "bboxEpsg3011": [
+    156615,
+    6584170,
+    157866,
+    6585594
+  ],
+  "requestedCoverageEpsg3006": [
+    677060,
+    6585730,
+    678250,
+    6587100
+  ],
+  "width": 2502,
+  "height": 2848,
+  "sampleSpacingMetres": 0.5,
+  "productGsdMetres": null,
+  "path": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+  "worldfilePath": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+  "bytes": 17487471,
+  "sha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+  "licence": {
+    "state": "primary-terms-verification-pending",
+    "candidate": "CC0 (municipal 2019 open-data service; independently listed by JOSM imagery index)",
+    "secondaryCatalogueUrl": "https://josm.openstreetmap.de/wiki/Maps/Sweden",
+    "note": "Public access and the oppendata service name do not by themselves settle redistribution rights. Retain as measurement/reference input in local cache."
+  },
+  "limitations": [
+    "2019 is the service/campaign label; exact capture date and source GSD have not been established.",
+    "The requested 0.5 m pixel spacing is an output sampling choice and does not establish positional accuracy.",
+    "Review against current club material and newer national orthophoto before adopting changed boundaries."
+  ]
+}

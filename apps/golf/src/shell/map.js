@@ -9,6 +9,15 @@ import 'leaflet/dist/leaflet.css';
 import { ICONS } from './icons.js';
 
 export const COURSE_LOCATIONS = {
+  visby: {
+    // Club-linked Caddee main-course location; navigation marker only.
+    lat: 57.441010, lng: 18.118760, region: 'Gotland',
+    regionTag: 'Kronholmen · Seaside', city: 'Västergarn', iconName: 'wave',
+  },
+  lidingo: {
+    lat: 59.37927, lng: 18.12738, region: 'Mälardalen',
+    regionTag: 'Lidingö · Parkbana', city: 'Lidingö', iconName: 'tree',
+  },
   angso: {
     lat: 59.5675,
     lng: 16.8684,
@@ -78,6 +87,7 @@ const LINES = {
 };
 
 const MAP_REGIONS = [
+  { id: 'gotland', label: 'Gotland', regions: ['Gotland'] },
   { id: 'hogakusten', label: 'Höga Kusten', regions: ['Höga Kusten'] },
   { id: 'malardalen', label: 'Mälardalen & Uppland', regions: ['Mälardalen'] },
   { id: 'vastragotaland', label: 'Västra Götaland', regions: ['Västra Götaland'] },
@@ -151,7 +161,7 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
     previewPanel.innerHTML = `
       <div class="mpp-card">
         <button class="mpp-close-btn" id="mppCloseBtn">${ICONS.close(14)}</button>
-        <div class="mpp-shot" style="background-image: url('${import.meta.env.BASE_URL}courses/${course.slug}/hero-1.webp')">
+        <div class="mpp-shot" ${course.overviewUrl || course.photos ? `style="background-image: url('${import.meta.env.BASE_URL}${course.overviewUrl || `courses/${course.slug}/hero-1.webp`}')"` : ''}>
           <div class="mpp-badges">
             <span class="cat-badge">${iconSvg} <span>${esc(loc.regionTag)}</span></span>
             ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : ''}
@@ -162,15 +172,15 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
           </div>
         </div>
         <div class="mpp-body">
-          <p class="mpp-line">${esc(LINES[course.slug] || course.club)}</p>
+          <p class="mpp-line">${esc(course.description || LINES[course.slug] || course.club)}</p>
           <div class="mpp-facts">
             <span>Par <b>${course.par}</b></span>
             <span><b>${course.holes}</b> hål</span>
             <span><b>${course.tees.names.length}</b> tees</span>
-            <span class="mpp-tag">3D</span>
+            <span class="mpp-tag">${course.status === 'mapping' ? 'Under kartläggning' : '3D'}</span>
           </div>
           <button class="mpp-play-btn" id="mppPlayBtn">
-            <span>${isCurrent ? 'Fortsätt spela' : 'Starta banan i 3D'}</span>
+            <span>${course.status === 'mapping' ? 'Visa bankarta' : isCurrent ? 'Fortsätt spela' : 'Starta banan i 3D'}</span>
             <span class="mpp-arrow">→</span>
           </button>
         </div>

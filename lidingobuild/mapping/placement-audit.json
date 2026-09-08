@@ -1,0 +1,1091 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "observedAt": "2026-09-07T21:12:16.069Z",
+  "url": "http://127.0.0.1:8640/?bana=lidingo&v2=require&det=1&ljus=dag",
+  "mode": "placement-policy-regression",
+  "status": "passed",
+  "checks": [
+    {
+      "ok": true,
+      "label": "no-browser-exceptions",
+      "details": []
+    },
+    {
+      "ok": true,
+      "label": "source-placement-policies-active"
+    },
+    {
+      "ok": true,
+      "label": "no-unobserved-procedural-ground-cover",
+      "details": {
+        "tufts": 0,
+        "bushes": 0,
+        "stones": 0,
+        "stumps": 0,
+        "reeds": 0
+      }
+    },
+    {
+      "ok": true,
+      "label": "no-inferred-range-target-flags",
+      "details": 0
+    },
+    {
+      "ok": true,
+      "label": "no-inferred-parking-occupancy",
+      "details": 0
+    },
+    {
+      "ok": true,
+      "label": "submitted-road-vertices-follow-their-own-ground-samples",
+      "details": [
+        {
+          "vertices": 42205,
+          "asphalt": true,
+          "expectedOffsetMetres": 0.03,
+          "minimumOffsetMetres": 0.029962831288576908,
+          "maximumOffsetMetres": 0.030045847520232982,
+          "maximumOffsetErrorMetres": 0.00004584752023298333,
+          "syntheticGrading": false
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "label": "measured-stand-representatives-retained",
+      "details": {
+        "none": 0,
+        "forestRing": 0,
+        "scrubRing": 0,
+        "satellite": 0,
+        "shore": 0,
+        "v2Individual": 0,
+        "v2Stand": 46115
+      }
+    }
+  ],
+  "state": {
+    "stats": {
+      "verts": 142569,
+      "tris": 281746,
+      "trees": 46115,
+      "vista": 0,
+      "tufts": 0,
+      "bushes": 0,
+      "stones": 0,
+      "reeds": 0,
+      "cars": 0,
+      "pylons": 0,
+      "stumps": 0,
+      "inferredRangeTargets": 0,
+      "measuredRoofBuildings": 5,
+      "measuredRoofTriangles": 7069,
+      "genericRoofBuildings": 557,
+      "draws": 32,
+      "surfaceOverlays": 0,
+      "backend": "webgpu"
+    },
+    "terrain": {
+      "requested": true,
+      "ready": true,
+      "status": "ready",
+      "kind": "fixed-frontier",
+      "courseSurfaceOverlayMeshes": 0,
+      "surfaceDebugMode": "off",
+      "surfaceRepresentation": "legacy-ground-atlas",
+      "surfacePolicy": "legacy-ground-atlas",
+      "reason": null,
+      "selection": {
+        "mode": "fixed-frontier",
+        "requestMode": "require",
+        "defaulted": false,
+        "publishedGraphSlugs": [
+          "angso",
+          "johannesberg",
+          "lidingo",
+          "norrfallsviken",
+          "puttom",
+          "ribbingsfors",
+          "upsala",
+          "upsala-mellanbanan",
+          "veckefjarden",
+          "veckefjarden-korthalsbanan",
+          "visby"
+        ],
+        "graph": {
+          "slug": "lidingo",
+          "groundId": "lidingo",
+          "frameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
+          "tiles": 85,
+          "holes": 18,
+          "shellBytes": 109686,
+          "encodedTerrainBytes": 7803796,
+          "surfaceTiles": 0,
+          "objectTiles": 0,
+          "encodedObjectBytes": 0,
+          "standTiles": 64,
+          "encodedStandBytes": 580917
+        },
+        "graphError": null
+      },
+      "label": "Lidingö GK · Lantmäteriet 1 m · Preliminära spelytor",
+      "surface": null,
+      "bounds": {
+        "x0": -1024,
+        "z0": -1024,
+        "x1": 1024,
+        "z1": 1024
+      },
+      "legacyBounds": {
+        "x0": -1024,
+        "z0": -1024,
+        "x1": 1024,
+        "z1": 1024
+      },
+      "bridge": {
+        "translateX": 0,
+        "translateY": -0.05,
+        "translateZ": 0,
+        "rotationRadians": 0,
+        "scaleX": 1,
+        "scaleZ": 1
+      },
+      "source": {
+        "renderedTiles": 64,
+        "encodedBytes": 5595417,
+        "decodedBytes": 8454272,
+        "gpuBytes": 33817088,
+        "terrainEncodedBytes": 5595417,
+        "terrainDecodedBytes": 8454272,
+        "terrainGpuBytes": 33817088,
+        "surfaceEncodedBytes": 0,
+        "surfaceDecodedBytes": 0,
+        "surfaceTextureBytes": 0
+      },
+      "adapter": {
+        "kind": "fixed-frontier",
+        "surfacePolicy": "legacy-ground-atlas",
+        "phase": "ready",
+        "requested": true,
+        "sourceReady": true,
+        "preflightReady": true,
+        "active": true,
+        "renderer": {
+          "status": "ready",
+          "renderStride": 1,
+          "meshResolutionMetres": 1,
+          "skippedBasePoints": 112840,
+          "emittedBasePoints": 4080,
+          "totalBasePoints": 116920,
+          "coreGrid": {
+            "dx": 4,
+            "x0": -684,
+            "x1": 576,
+            "z0": -756,
+            "z1": 720,
+            "nx": 316,
+            "nz": 370
+          },
+          "guardMetres": 8,
+          "fallbackRebuilt": false,
+          "removedTriangles": 5440,
+          "batches": [
+            {
+              "width": 257,
+              "height": 257,
+              "capacity": 64,
+              "renderedTiles": 64,
+              "residentLayers": 64,
+              "textureUploads": 64,
+              "renderRevision": 2,
+              "morphing": false,
+              "frameAttributeVersion": 1,
+              "paramsAttributeVersion": 1,
+              "textureCapacityBytes": 33817088,
+              "topologyBytes": 2603535,
+              "triangles": 8519680,
+              "drawCalls": 1
+            }
+          ],
+          "renderRevision": 1,
+          "morphing": false,
+          "renderedTiles": 64,
+          "residentLayers": 64,
+          "drawCalls": 1,
+          "triangles": 8519680,
+          "textureCapacityBytes": 33817088,
+          "textureUploads": 64
+        }
+      },
+      "renderer": {
+        "status": "ready",
+        "renderStride": 1,
+        "meshResolutionMetres": 1,
+        "skippedBasePoints": 112840,
+        "emittedBasePoints": 4080,
+        "totalBasePoints": 116920,
+        "coreGrid": {
+          "dx": 4,
+          "x0": -684,
+          "x1": 576,
+          "z0": -756,
+          "z1": 720,
+          "nx": 316,
+          "nz": 370
+        },
+        "guardMetres": 8,
+        "fallbackRebuilt": false,
+        "removedTriangles": 5440,
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 64,
+            "renderedTiles": 64,
+            "residentLayers": 64,
+            "textureUploads": 64,
+            "renderRevision": 2,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 33817088,
+            "topologyBytes": 2603535,
+            "triangles": 8519680,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 1,
+        "morphing": false,
+        "renderedTiles": 64,
+        "residentLayers": 64,
+        "drawCalls": 1,
+        "triangles": 8519680,
+        "textureCapacityBytes": 33817088,
+        "textureUploads": 64
+      },
+      "stream": null,
+      "backend": "webgpu"
+    },
+    "trees": {
+      "total": 46115,
+      "species": {
+        "spruce": 15949,
+        "pine": 25397,
+        "birch": 4769
+      },
+      "reasons": {
+        "none": 0,
+        "forestRing": 0,
+        "scrubRing": 0,
+        "satellite": 0,
+        "shore": 0,
+        "v2Individual": 0,
+        "v2Stand": 46115
+      },
+      "zones": {
+        "A": 5614,
+        "B": 13950,
+        "C": 26551
+      },
+      "holes": [
+        {
+          "n": 1,
+          "count": 58
+        },
+        {
+          "n": 2,
+          "count": 1163
+        },
+        {
+          "n": 3,
+          "count": 1093
+        },
+        {
+          "n": 4,
+          "count": 1280
+        },
+        {
+          "n": 5,
+          "count": 24
+        },
+        {
+          "n": 6,
+          "count": 55
+        },
+        {
+          "n": 7,
+          "count": 1510
+        },
+        {
+          "n": 8,
+          "count": 2074
+        },
+        {
+          "n": 9,
+          "count": 65
+        },
+        {
+          "n": 10,
+          "count": 1433
+        },
+        {
+          "n": 11,
+          "count": 596
+        },
+        {
+          "n": 12,
+          "count": 3473
+        },
+        {
+          "n": 13,
+          "count": 77
+        },
+        {
+          "n": 14,
+          "count": 368
+        },
+        {
+          "n": 15,
+          "count": 1520
+        },
+        {
+          "n": 16,
+          "count": 948
+        },
+        {
+          "n": 17,
+          "count": 1102
+        },
+        {
+          "n": 18,
+          "count": 2725
+        }
+      ],
+      "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+      "v2": {
+        "individuals": 0,
+        "standTrees": 46115,
+        "cellsPlanted": 46115,
+        "cellsSkipped": 210114,
+        "speciesSource": "default",
+        "baseMismatch": {
+          "samples": 0,
+          "meanAbsMetres": null,
+          "p95Metres": null,
+          "maxMetres": null
+        },
+        "coverageTiles": 64
+      },
+      "legacyInsideCoverage": 0,
+      "instances": null
+    },
+    "roadDraping": [
+      {
+        "vertices": 42205,
+        "asphalt": true,
+        "expectedOffsetMetres": 0.03,
+        "minimumOffsetMetres": 0.029962831288576908,
+        "maximumOffsetMetres": 0.030045847520232982,
+        "maximumOffsetErrorMetres": 0.00004584752023298333,
+        "syntheticGrading": false
+      }
+    ],
+    "policies": {
+      "objects": "mapped-only",
+      "terrain": "measured-only",
+      "vegetation": "measured-only"
+    },
+    "mapped": {
+      "buildings": 562,
+      "paths": 157,
+      "tracks": 13,
+      "roads": 125,
+      "parking": 29,
+      "bridges": 0,
+      "facilities": [
+        {
+          "id": "lidingo-courtyard-putting-green-2019",
+          "kind": "practice_green"
+        },
+        {
+          "id": "lidingo-courtyard-hardstanding-2019",
+          "kind": "paved_path"
+        },
+        {
+          "id": "lidingo-range-north-platform-2019",
+          "kind": "range_tee_pad"
+        },
+        {
+          "id": "lidingo-range-south-platform-2019",
+          "kind": "range_tee_pad"
+        },
+        {
+          "id": "lidingo-range-east-platform-north-2019",
+          "kind": "range_tee_pad"
+        },
+        {
+          "id": "lidingo-range-east-platform-south-2019",
+          "kind": "range_tee_pad"
+        },
+        {
+          "id": "lidingo-range-target-green-2019",
+          "kind": "practice_green"
+        },
+        {
+          "id": "lidingo-range-east-access-2019",
+          "kind": "paved_path"
+        },
+        {
+          "id": "lidingo-clubhouse-practice-green-osm",
+          "kind": "practice_green"
+        },
+        {
+          "id": "lidingo-south-practice-green-osm",
+          "kind": "practice_green"
+        }
+      ],
+      "rangeRings": 1,
+      "rangeFacilities": null,
+      "cartPark": null,
+      "water": [
+        {
+          "id": null,
+          "name": null,
+          "level": 0.1,
+          "isLake": false,
+          "points": 38,
+          "bb": {
+            "x0": 919.1080809598789,
+            "x1": 1024,
+            "z0": -1024,
+            "z1": -891.5800000000745
+          }
+        },
+        {
+          "id": null,
+          "name": null,
+          "level": 0.1,
+          "isLake": false,
+          "points": 105,
+          "bb": {
+            "x0": -1024,
+            "x1": -642.090830367757,
+            "z0": 482.26718750037253,
+            "z1": 1024
+          }
+        },
+        {
+          "id": null,
+          "name": null,
+          "level": 0.1,
+          "isLake": false,
+          "points": 6,
+          "bb": {
+            "x0": -576.0697759670438,
+            "x1": -548.673049327801,
+            "z0": 1020.410000000149,
+            "z1": 1024
+          }
+        },
+        {
+          "id": null,
+          "name": null,
+          "level": 4.72,
+          "isLake": true,
+          "points": 38,
+          "bb": {
+            "x0": 301.35999999998603,
+            "x1": 341.5600000000559,
+            "z0": 449.84999999962747,
+            "z1": 517.5999999996275
+          }
+        },
+        {
+          "id": null,
+          "name": null,
+          "level": 14.05,
+          "isLake": true,
+          "points": 29,
+          "bb": {
+            "x0": -209.31999999994878,
+            "x1": -154.54000000003725,
+            "z0": 265.1399999996647,
+            "z1": 307.03000000026077
+          }
+        },
+        {
+          "id": null,
+          "name": null,
+          "level": 22.35,
+          "isLake": true,
+          "points": 28,
+          "bb": {
+            "x0": 19.010000000009313,
+            "x1": 64.47999999998137,
+            "z0": -415.37000000011176,
+            "z1": -343.0800000000745
+          }
+        },
+        {
+          "id": null,
+          "name": null,
+          "level": 26.02,
+          "isLake": true,
+          "points": 49,
+          "bb": {
+            "x0": 66.69999999995343,
+            "x1": 175.05000000004657,
+            "z0": -659.6500000003725,
+            "z1": -528.9900000002235
+          }
+        }
+      ]
+    }
+  },
+  "requests": [
+    {
+      "url": "http://127.0.0.1:8640/courses/lidingo/pack.bin?v=846e291417f7dcf4",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/courses/lidingo/course-v2-7f15acd0c2a8c3d667413ce9084a7e35be24648f789ca24c793c727b48eca6d1.json",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/ground-v2-6732ca39f30b00dbce720225d42149da5d0f9d9fd0753d0f871fc67f4184877a.json",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/369d4a72d36095190ff7fd840a3361832bcecd429ecebf549fb4284d8c33782d.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/5de8334f8bfff0c0cc8c2eac7ffdd69e19433da2f128c0876cbdbd922821381a.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/a05547651a90edb675af30a07a8bcb6f4ac49cde29aa1cd51da7f3c25ee512ef.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/d0284a6866f5eb55157d409e2257c45931fda0a7b89027cbc43681ffd5ebcf33.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/71505940189e49a6937c422f23625a47afe7ca0e57dc3fb192b0dffdf4162f87.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/6564a73c5fad92af1d308f10d2d7830c158abc198e06d60fb8d56a1aafc94f31.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/3376b83b4a1172afed5973f6cd9a6eb04fba49edcb32c7aca94622b09b341376.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/89ebcf29ee7b033c9a93aec36a18ddbde70d0c077bf2f99f118dd29d75195ae2.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/999acc93c43dd0e31b045bb05a1f89a7c099369503a1717aef95ee0b6e64aac5.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/4f9da7a978d5b9591e9bffba1c1c99b2931ee6a5a5a3a19caeeeb391946353a0.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/7a8acf400b23319201250399e2583f401fb65f3b3f0f770e8d14708f91ede09c.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/1fb75e732a069de694f88702854fc4897756a453f6647c9e1c3cd431e67553df.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/74c5c9a17dac413344b80d755cc9b0a6ac2611aa416d50ae76380f6648ffce22.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/5ced1527305309b75ddb46e9180130cf8b3151f36d4ac508ad8038a17f790a88.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/a9274e372886d85c63b4c686bdd075aaef77288c0ededef1d62f748bf17c2907.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/d835b4baac1100fca828f683b9d1269a54f62758c9a796ef50f3f727bf7fe0e5.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/615a84afe67aae26a7e302ca0d41796057efce8d96d439409457766809fdffc4.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/8ae3d781c957113740d056ec7292b5e24f320850b28266a78cf1bf56b6583c65.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/340e8829577a8f7194c72dfd0e16421db601210c8a39bed0f10d24c33b357a22.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/af68749adccb23315e84337ba15c5df2f789ec462b21e6e35d55c7f54a5be7f9.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/bfd0f1effd5016ff5df8dfcc8ec7aef83e65c633a559ca74cb27a96fc2b24c3f.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/18aea61120e460c2a424ec3ebec0f7b5fc9709720548449c7287d79e3b6cd09a.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/191442fa3094c08770588c7de8a1c5e1f3c8fe61bd88ffc57bb4485b275fab75.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/ebef5e88760d42bb976b50a04fa9dd05073672eba499dc3bc2a20639399f58a7.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/c2bd909e28d34eabc0e1cb3674a9d206393ef9b987af6d39db7733bec8801841.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/78182e88147033be0700642985170791506f10c8c69157cee5cf7b576f39ae37.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/bddbb588f780b7d68e4b1497c44e6eda0e34f26ad6f2d0b647093fed34394dd5.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/55e5f0cf32c85bf3e1d8fbabaa11a6765b7278fd5ce89beda71fc69b54b3f425.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/8ecb70933fcfc5fd1cc8d678a49fec33db4c078c09d75e265f644569c1b2fc92.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/67cbd9076b9de2274aea2f6024238ca408d5a44b2eb5b3b0324f0d9317d40448.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/3e27417da179d3de30fc0edeb19eea8fc6f41074c5940ca2945136994b44c207.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/ff2780cbdbf91d522e9842406e29682f55b62f4ccc747096e28bac647feeff0a.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/6c26eb34a59f2189d7341ac001e9f2d426d8413082ec47549a988266b760e289.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/d5738e1f7a2e90a7b27a72b427278338a6b3f61eb7f296bde6ca1008a49b8d9f.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/44a3535888b55d784289880c865970272345de9fc9e775e28837baa927b7ca2f.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/48fb517f97cca589cf9676f91da033ed31240916961f68c560ab90939f6363a4.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/a41d1b971f594b71f36a8ab8d4462b62a7e8abcc6249b6920e13b3c6a7d4cbc5.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/5a0164d539739c67e56596b4eb7f02083d16f36d67c39d2254a31c9dfdd9d007.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/c7f8e26b22bd8313cfcf82ff19569d498b3a3aeece5c60d0a08eb9f44c9dc8c1.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/a26e91edc679da401997c33965a23e76d3f85d0074c4c60a7c762ff1bc3292c6.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/93e8d1ea10ed203b97bb9e0b0ca74297612039187ba7ae2b53efbb35a3a266a3.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/fa149fd8fd59d9791ead5dfcd2862346d4caf76b8aec8db998bf01461f976525.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/29ead2a4b588c12da584a7137c3ed0ba10a3d55ee3725e578fa864c3552741ab.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/08bc0bec9c1e930e121ff1b6e776329fa6d8c1e093d72bf57117c6ba519196eb.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/15845e71324baee51348c923ad901aa24be33800ce8e67f285ec34a656283883.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/e21e7c02fe1ab35e0370c176d3581b6beacb052133a4022dc73e3487382a618e.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/fae09b4a2c99d952aa94497b6c46a72917a2808e348722f5307e51548fd66bd0.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/811d2f9ce34fa1f1b9a1215988ff89b63ff8e4d9316b9576bced00ee53488686.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/70a91d36cc89f0440a819363129d10303ff2a9e1c7da19b4e94abbd79d530bdd.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/0229478d21c1dd54bbd43b94f77f2eeaab1a1ed20b48855690ba8ece7835b71e.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/2d12469cc5bf91236556bb0885a5f3bee25e5ceb102699a0a70399a58e6a5ecd.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/339768f25dfcde09dc08c3b32bfb9033fc917b1d878b38f051facbeefd9846c8.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/b20db2af7cf169277feaff28483b0751828a8524a1f289446844b45bc4757479.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/f232c4e7c3691d82b58bafe561b48d8c1c732556ae66119d8964e1e60f3ffa08.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/ba969754630c007c5485b845a2fcb02d6259f1e2c947ae3bd70b1412071a7707.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/3d16c8c44230444156c0b61f723992f3f3cc7ec9cb00902637354c8c93b9c733.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/3c3e1b851ff987e7f617ec65f40e045424ee76547ab16cc0f1ba56ff1c2b5d36.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/16b348038713be2a13a9180f3afef83399d8c7178aa2b6d696070960f69034b9.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/4124a6c83bc819a93b4fb0228da771d4455493f3bd5d7fcfd9582f2b0887e3ea.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/a4c1763d1eb7c46784a6360ddf9f7b56e30448c70af66909e195d66ea9cadb37.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/3af5a1b8f9779b8c170f6d169dd4179b43d46d9a8617f4c62c0b25374b569bf0.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/396c69f75d0b06d27659047b2d339531fc57cee261356f07cd12392f0c088b44.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/3b64ca6749224d8696ceb6a1453a0d4442c1580eb0824d387e9949c3962c1303.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/terrain/913e1e2e2bf2be315e3d14829e7287ab40368cbca68634ab2500662e14311be6.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/2a8fe8226e00ab55f222af4e87c35c435e5f71489d86b52ac1e04e1d1a030eb8.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/6f9f81f6d50fe7a36793b30499b88d85abc3a65b9e3bd0d0f2ddbe066b5108f5.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/e41a0e71ade99b547e250bb68390853f308d0d6b796f356bc580f0e05eae395b.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/e033469c724f03ea1fa564eafe3bf6905c4d1554a6422844f074762466a263be.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/9bf54f647f7592116ba98b4ab0a851820d6c794f049dd8280a881020cbdcf879.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/84aa93f1f0b75a3f2eea4b5cfb76b732273cddf9663e3f6dc569187cde34c541.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/705a731e863725a962c448f15822542f2e2110730eae0413cbebb72d6e6d16bf.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/21d12d96319e1d9fa69e2ee1abc85ff7233a026d0596fd8ca9bbf3383f3aff42.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/bfaf24acd4c356a9589991f3c06b15aa9d8678670748ecf915b03f5f9bf893ee.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/64de1e700c162b20064be061079e78ee8db7a9e262321a3605e4155113e09731.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/3028fa818af157fd7cf998072bbac8fdc03d6cf12ff227efe483a19df54869c5.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/3342355aceaccd5ea1bd1d4d967bc4134c9f3af789f3b8c1e65486e252534557.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/b4d257dc410303ad8554d276c42f8f1e990aeb7c280a7a7c2ccc6ad47b5e3429.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/f0c0e24ca1e82be9e0d97b86df47933e721ca5fd3bb55895d8432422102afa21.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/c44e2d425f7865a83dea919b8b9a48f40ddf340114c7af71494268e7b9b24c30.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/8417ab4076b99d95242f0baffc7cb10140cf5f30ec2b942b5496ece11743a2a0.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/7d48400e409a762e2336bbc53ff89bff45a444aa5f61e46710516017395237b0.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/d41ae63f4fd78b68e85c8815df0e2088e82112db698547a73de98f20a9ff91fd.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/4cbae3e7347364db34495cc8305447263e5aa932483115a43ce980de55c5715b.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/543bee8d49df758589f417d416b8dea5f51ecbdf5c9c3a90a372419ec165333b.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/ec4a084fdbcfd18e0ba266e002f3840c720794e6faa21d1f1cef90f75d0b8050.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/a5fecd441a4b4b003c000aa631c46d430650417249a20250e79011736cc729d2.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/edac26bd7138e111e64738d077fa924ef9e91f5e56f8b8b630a986e314a1ffc5.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/01828711d34e308b72123b26f23a6d41dd312dd36787d2d6663be87e049d294c.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/ab20560266878497e355a91e5f8d8642370914edbead592ead853b10cb22e6b1.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/efa73590671cbf1fb6a1b6fbe893b7d6a07b537e5f2e9d29e39f50d704042afb.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/47981f5ec978d77844b75ecc94e00c9267043fef246430b435ee900980632ece.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/110a44f83df7a5d09694145edec5dd9a0b6ee3fdc1d29b3be8911f3f4ce07bbf.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/8e6df42d770e1513dfcac10d31c597ffc2679f383d340bcd2949b2ee8061346f.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/8e640d220f06720837e2b9329259a542d3a78a9c00e838c469de00b6d35a8e5b.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/70286ce4e67cd760c0d34efcbaf46aa3d80a19484a65d9a462cd86463125268a.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/3aa1aa4a7b4a89fe845adee3b05c13aba21b656606fc8f0b17039f9527fb3136.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/09b50a2069b9d682e4435952cc218d68c2678585509bc97811accd4f5d916e98.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/48f32b1d1b6b3c254d5a4659348cba6b32f544c8f4ca5f2c06609a89bed95da2.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/53e5dfe8a14b79df01650998f461267b79a9f5b65284e87253c84351d33a763d.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/fb2e6ab8205c845ad019a7345a2bbc6d84a033b42257d461e95db36e7111d3d4.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/a36346e7b2290474cc2ef34bf344fe46698e98f320c856079dac77cecd8c3b76.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/44239f36baf670c7f51e560199742b3c56503549221b52f107259006af4e1752.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/fec1eda28bc54179b6f5a26126958ac5d62b1dabb36ef06b3096ad938119cbdc.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/186071ad30d3f26be9d5ab0d4f100f36e5c1618967af205dd9f283109f1c4046.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/bcca4f9e5cd043aa7b5cf4ff2df2637c9fd77d57baf5e530528d3c54d32963d5.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/b93e1c7c394e0cfda281b808d699a9ae5212fce811896e69ce31fc1ced415ac3.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/580365af91220801aed3f2464fb205b6bf51aff6d6993fdc46bd7fbc0944395e.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/754d5ac2f3369e78449be2b6f3028c0500a0b94fc93bd34a89cd876a08616251.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/6fced5d4f966cc8b4b83546ed9d6b7a853f4c50a943ca58d1208be0c2bf1f4fe.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/e95fa2c138f55aff0b3a00893a955797accbc19a5bbae9ab790fda58710a76a9.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/2eaaa55409abd0141d837726e74306773c84af5cbca787a600687ae42a3081c3.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/79ea6f5e7de7c28ad2cdd33e4234e3c9552254c6ee8434ce397cc27904457201.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/c79fcb17fe204494fea916332400fa5b9bfedce9e6f88d9a0039a49665edee9e.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/b5f87a3a8cf7eee8fc9019bb2c54f5c54cdf7a699e66367f6c580708b9b3cf7c.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/b6a4eaecb6f4b1d5495496b72aee1ffe2080dfdbe7a0be7554aca1b685bce200.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/ead8465dda1e7786540329fca0650a1bba1cbcdd8642148b012fd968531bc7e6.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/23900c28f21d48228284e19b09a2c0e60f79dfd4b3b7c8fd45b36e8ec2c7088e.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/e022e7b047e673ccf808d6b54b31d47a873e6cf5c5779c530f418f75bfdcc474.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/c26a0cc23ea51d322790d370abfca9441e633d7d9462a4ad8957fe5604ef60ac.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/068be16c21fd59fe4e93f06b970ea692651024bf2021559af5423d92e4b41dcf.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/bdf8c35ac556cde9064cebf80e7dea325290d4ec6438bd2f20a14d99a6104fd9.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/782d9cc7d84711a31deffdc76a64913ee09ab4187558846059602150ca1617d2.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/09f2560e2646d5cadba04d76e53a26fc2d3abf0e51c4d45dfe14267f35a550c8.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/c13c66525eb0acfe7c5d449e22bc7dcf9265e1c08ffc040ae2c2648d9bc8efc6.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/11126da160f2835169772dba703b45343048c64c654184aa497c738bc9896a75.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/e5eb243fa95c2a7716af8ce0739f126c0aa5f5a833158ac43fe57871d19c04bd.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/2db9a62cb39c5a5744504c92487662f67d221ee5db5762c7eb11d3e385cd1f7a.bvch",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8640/grounds/lidingo/stands/c36572ffe185eb649e5eb16571e08ccc0eaebb2a711a6d95a6cca6200a7b2ca3.bvch",
+      "status": 200
+    }
+  ],
+  "screenshots": [
+    "lidingobuild/cache/placement-audit/review-hole-12.png",
+    "lidingobuild/cache/placement-audit/review-hole-18.png"
+  ],
+  "inspectedSourceFiles": [
+    {
+      "path": "apps/golf/src/main.js",
+      "sha256": "7497f1876d8c1eca11da269c04cfab00834a1db9d73453c50814ea35d949e494"
+    },
+    {
+      "path": "lidingobuild/course-model.json",
+      "sha256": "51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12"
+    }
+  ],
+  "limitations": [
+    "Source-preservation and placement-policy audit, not current survey approval.",
+    "Canopy trees are representatives from 2021 stand cells, not measured individual stems.",
+    "Building dimensions and facility identities require their separate evidence review."
+  ]
+}

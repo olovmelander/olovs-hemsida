@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "url": "https://www.openstreetmap.org/api/0.6/map?bbox=18.105,57.429,18.145,57.455",
+  "method": "GET",
+  "acquiredAt": "2026-09-07T19:30:26.616Z",
+  "path": "visbybuild/cache/geodata-2026-09-07/osm-map-api.xml",
+  "bytes": 870735,
+  "sha256": "6f15b74f8afe7acc8e572d38f82a5a1109ee35f4ffb75d9c3faef9e5c4742946",
+  "contentType": "application/xml; charset=utf-8",
+  "etag": null,
+  "lastModified": null,
+  "query": null,
+  "bboxWgs84": [
+    18.105,
+    57.429,
+    18.145,
+    57.455
+  ],
+  "golfBboxEpsg3006": [
+    687076.1035647502,
+    6370516.74000113,
+    688432.1488042905,
+    6371989.725481339
+  ],
+  "baseTimestamp": null,
+  "licence": "ODbL-1.0",
+  "termsUrl": "https://www.openstreetmap.org/copyright",
+  "attribution": "© OpenStreetMap contributors",
+  "horizontalCrs": "EPSG:4326; derived EPSG:3006 with pyproj/PROJ always_xy",
+  "counts": {
+    "highway": 62,
+    "bird_hide": 1,
+    "pin": 2,
+    "coastline": 2,
+    "golf_course": 1,
+    "building": 32,
+    "water": 1,
+    "tee": 2,
+    "green": 17,
+    "path": 26,
+    "bunker": 5,
+    "water_hazard": 15,
+    "rough": 3,
+    "hole": 2
+  },
+  "relations": [
+    {
+      "type": "relation",
+      "id": 17948855,
+      "version": 3,
+      "timestamp": "2024-08-18T21:20:43Z",
+      "tags": {
+        "natural": "water",
+        "type": "multipolygon",
+        "water": "lake",
+        "wikidata": "Q838709",
+        "wikipedia": "sv:Paviken"
+      },
+      "members": [
+        {
+          "type": "way",
+          "ref": 293798115,
+          "role": "outer"
+        },
+        {
+          "type": "way",
+          "ref": 549136716,
+          "role": "outer"
+        },
+        {
+          "type": "way",
+          "ref": 1308672221,
+          "role": "inner"
+        }
+      ]
+    }
+  ],
+  "holes": [
+    {
+      "id": "way/1553919218",
+      "tags": {
+        "golf": "hole",
+        "handicap": "7",
+        "par": "4",
+        "ref": "2"
+      },
+      "endpointsWgs84": [
+        [
+          18.1198283,
+          57.4423693
+        ],
+        [
+          18.1198283,
+          57.4423693
+        ]
+      ]
+    },
+    {
+      "id": "way/1553919219",
+      "tags": {
+        "golf": "hole",
+        "handicap": "7",
+        "par": "4",
+        "ref": "2"
+      },
+      "endpointsWgs84": [
+        [
+          18.1198206,
+          57.4422965
+        ],
+        [
+          18.1223748,
+          57.4450972
+        ]
+      ]
+    }
+  ],
+  "limitations": [
+    "OSM dates are edit timestamps, not capture dates.",
+    "No independent control or surface approval.",
+    "Relations retained verbatim; their topology has not been flattened into invented polygons.",
+    "Route association must be reviewed against official club guide before gameplay adoption.",
+    "Both current hole lines are ref=2/par=4/handicap=7, with no explicit course membership. Do not merge or select one silently.",
+    "golf=water_hazard identifies an OSM golf tag, not verified standing water or a surveyed penalty-area boundary."
+  ]
+}

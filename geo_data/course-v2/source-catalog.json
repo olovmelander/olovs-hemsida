@@ -193,6 +193,70 @@
         "reviewStatus": "approved",
         "notes": "The Ribbingsfors snapshot uses Länsstyrelsen Västra Götalands län dataset LstO Skyddsvärda Träd. Individual records are supporting inventory evidence, not current-survival or survey control."
       }
+    },
+    {
+      "id": "lidingo-club-media",
+      "provider": "Lidingö Golfklubb and credited photographers or video producers",
+      "product": "Official course galleries, photographs and linked flyover videos",
+      "homepage": "https://www.lidingogk.se/banan/",
+      "horizontalCrs": null,
+      "verticalCrs": null,
+      "licence": {
+        "id": "Unverified club and creator-specific permission",
+        "attribution": "Record Lidingö Golfklubb, creator credit, source URL and capture date where supplied.",
+        "redistribution": "No redistribution grant was located; retain raw images and videos in ignored local reference storage only.",
+        "derivatives": "No licence for registered geometry or media derivatives is inferred from public viewing.",
+        "reviewStatus": "pending",
+        "notes": "Official gallery and flyover source pages were retrieved on 2026-09-07. Viewpoint, capture date and spatial accuracy must be evaluated for each observation."
+      }
+    },
+    {
+      "id": "lidingo-municipal-orthophoto",
+      "provider": "Lidingö stad",
+      "product": "2019 municipal orthophoto WMS open-data service",
+      "homepage": "https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata",
+      "horizontalCrs": "EPSG:3011 (SWEREF 99 18 00) for the retained export",
+      "verticalCrs": null,
+      "licence": {
+        "id": "CC0-1.0",
+        "attribution": "Liding? stad; retain source endpoint, campaign label, request and retrieval metadata.",
+        "redistribution": "Allowed by the official CC0 distribution metadata for the exact 2019 WMS endpoint.",
+        "derivatives": "CC0 allows derived traces. Spatial registration and current-condition review remain independent adoption gates.",
+        "reviewStatus": "approved",
+        "notes": "Official https://metadata.lidingo.se/store/3/resource/32 identifies the exact 2019 WMS and CC0 on 2026-09-07. Evidence retained in lidingo/mapping/municipal-ortho-2019-licence.json. Source GSD, exact capture date and local residuals unknown. This approval does not cover the separate public national-imagery WMS."
+      }
+    },
+    {
+      "id": "visby-club-media",
+      "provider": "Visby Golfklubb / Kronholmen Golf AB and credited creators",
+      "product": "Official club photographs, media and Caddee diagrams",
+      "homepage": "https://www.visbygk.com/press-media/",
+      "horizontalCrs": null,
+      "verticalCrs": null,
+      "licence": {
+        "id": "Exact primary permission unresolved",
+        "attribution": "Visby Golfklubb / Kronholmen Golf AB and credited creators",
+        "redistribution": "Raw source media remain in ignored local reference storage; no redistribution grant established.",
+        "derivatives": "Production geometry derived from imagery requires source-specific rights and spatial review.",
+        "reviewStatus": "pending",
+        "notes": "Rechecked 2026-09-07. Public viewing and a dated service name do not establish spatial accuracy, image capture date or a reuse grant. Preserve exact URL, metadata and SHA-256 per acquired asset."
+      }
+    },
+    {
+      "id": "gotland-municipal-orthophoto",
+      "provider": "Region Gotland",
+      "product": "Municipal orthophoto image-service archive",
+      "homepage": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto",
+      "horizontalCrs": "EPSG:3015; retained export EPSG:3006",
+      "verticalCrs": null,
+      "licence": {
+        "id": "Exact primary permission unresolved",
+        "attribution": "Region Gotland",
+        "redistribution": "Raw source media remain in ignored local reference storage; no redistribution grant established.",
+        "derivatives": "Production geometry derived from imagery requires source-specific rights and spatial review.",
+        "reviewStatus": "pending",
+        "notes": "Rechecked 2026-09-07. Public viewing and a dated service name do not establish spatial accuracy, image capture date or a reuse grant. Preserve exact URL, metadata and SHA-256 per acquired asset."
+      }
     }
   ]
 }

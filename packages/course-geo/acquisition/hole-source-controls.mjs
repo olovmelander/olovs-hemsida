@@ -6,6 +6,8 @@ export const DEFAULT_HOLE_PADDING_METRES = 48;
 export const DEFAULT_CONTROL_SPAN_METRES = 256;
 
 export const COURSE_MODEL_PATHS = Object.freeze({
+  visby: 'geo_data/course-v2/visby/migration/course-model.epsg3006.json',
+  lidingo: 'geo_data/course-v2/lidingo/migration/course-model.epsg3006.json',
   angso: 'geo_data/course-v2/angso/migration/course-model.epsg3006.json',
   norrfallsviken: 'geo_data/course-v2/norrfallsviken/migration/course-model.epsg3006.json',
   puttom: 'geo_data/course-v2/puttom/migration/course-model.epsg3006.json',
@@ -21,6 +23,8 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
+  visby: '17946a0470be6d03169159572b19c276098d485a4af6f700cb7ba3fa2cdf98a4',
+  lidingo: 'bffda03d0ee5cf0056d22e5e4262adc8016ed8f0b4a79fc766d2cf0db536cf74',
   angso: '6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
   /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the
@@ -384,6 +388,7 @@ export function allCourseHoleSourceControlPlan(grounds) {
     summary: Object.freeze({
       groundCount: ordered.length,
       courseCount: courseSlugs.length,
+      pendingCourseSlugs: Object.freeze(ordered.flatMap(ground => ground.pendingCourseSlugs || [])),
       holeCount: ordered.reduce((total, ground) => total + ground.summary.holeCount, 0),
       uniqueGroundWindowCount: ordered.reduce((total, ground) => total + ground.summary.uniqueWindowCount, 0),
       requestedWindowReferences: ordered.reduce((total, ground) =>

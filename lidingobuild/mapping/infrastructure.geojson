@@ -1,0 +1,2152 @@
+{
+  "type": "FeatureCollection",
+  "name": "Lidingö normalized supplementary infrastructure",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "axisOrder": [
+    "easting",
+    "northing"
+  ],
+  "sourceId": "lidingo-osm-2026-09-07",
+  "licence": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "way/5198085",
+      "properties": {
+        "osmType": "way",
+        "osmId": "5198085",
+        "osmVersion": "4",
+        "osmTimestamp": "2025-12-19T23:11:19Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "amenity": "parking"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/5198085",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              678565.8442697369,
+              6585949.811736199
+            ],
+            [
+              678577.6105153388,
+              6585949.040581978
+            ],
+            [
+              678589.9066821208,
+              6585946.20899119
+            ],
+            [
+              678602.0651271914,
+              6585941.475006516
+            ],
+            [
+              678614.3297372402,
+              6585934.615950259
+            ],
+            [
+              678623.1662577565,
+              6585927.9183184905
+            ],
+            [
+              678629.4729422147,
+              6585922.004476795
+            ],
+            [
+              678633.1452297057,
+              6585917.761670856
+            ],
+            [
+              678640.3249972363,
+              6585905.900223
+            ],
+            [
+              678581.4465004564,
+              6585896.046788457
+            ],
+            [
+              678568.1232862439,
+              6585902.5436644005
+            ],
+            [
+              678565.8442697369,
+              6585949.811736199
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/32259954",
+      "properties": {
+        "osmType": "way",
+        "osmId": "32259954",
+        "osmVersion": "3",
+        "osmTimestamp": "2024-10-02T08:46:38Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "amenity": "parking",
+          "parking": "surface",
+          "source": "Yahoo;survey",
+          "surface": "asphalt"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/32259954",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              678509.8020530407,
+              6586081.372978668
+            ],
+            [
+              678550.3019065205,
+              6586051.100293078
+            ],
+            [
+              678526.8071255542,
+              6586017.525386357
+            ],
+            [
+              678488.4549574533,
+              6586052.44998135
+            ],
+            [
+              678509.8020530407,
+              6586081.372978668
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/32260322",
+      "properties": {
+        "osmType": "way",
+        "osmId": "32260322",
+        "osmVersion": "3",
+        "osmTimestamp": "2024-10-02T08:46:38Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "amenity": "parking"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/32260322",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              678583.2339949462,
+              6586017.436883183
+            ],
+            [
+              678585.5023524738,
+              6586033.023738446
+            ],
+            [
+              678613.3860232576,
+              6586029.479084164
+            ],
+            [
+              678614.9899157286,
+              6586027.815103719
+            ],
+            [
+              678609.116424546,
+              6586020.232607805
+            ],
+            [
+              678605.2331135799,
+              6586014.372448305
+            ],
+            [
+              678583.2339949462,
+              6586017.436883183
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/32428950",
+      "properties": {
+        "osmType": "way",
+        "osmId": "32428950",
+        "osmVersion": "5",
+        "osmTimestamp": "2020-08-13T07:51:58Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "amenity": "parking",
+          "source": "Yahoo;survey"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/32428950",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677505.6529050387,
+              6586505.1447366895
+            ],
+            [
+              677520.7537243603,
+              6586536.902227158
+            ],
+            [
+              677542.2968311198,
+              6586523.829125652
+            ],
+            [
+              677531.1103087319,
+              6586503.229330406
+            ],
+            [
+              677524.5375613299,
+              6586498.515340766
+            ],
+            [
+              677523.2087031829,
+              6586495.430629563
+            ],
+            [
+              677517.9737059607,
+              6586495.307342367
+            ],
+            [
+              677505.6529050387,
+              6586505.1447366895
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/32997732",
+      "properties": {
+        "osmType": "way",
+        "osmId": "32997732",
+        "osmVersion": "1",
+        "osmTimestamp": "2009-04-10T21:29:13Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "amenity": "parking",
+          "created_by": "Potlatch 0.10f"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/32997732",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              678085.9659907847,
+              6585576.7368377885
+            ],
+            [
+              678140.1907342718,
+              6585576.637938359
+            ],
+            [
+              678140.1669353411,
+              6585566.153563314
+            ],
+            [
+              678085.9482457518,
+              6585566.241605458
+            ],
+            [
+              678085.9659907847,
+              6585576.7368377885
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/41178033",
+      "properties": {
+        "osmType": "way",
+        "osmId": "41178033",
+        "osmVersion": "1",
+        "osmTimestamp": "2009-09-20T10:27:54Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "amenity": "parking"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/41178033",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677043.6834947105,
+              6586843.530060114
+            ],
+            [
+              677040.8151191311,
+              6586852.651983254
+            ],
+            [
+              677075.9042200134,
+              6586864.534286395
+            ],
+            [
+              677079.7950617711,
+              6586854.47891513
+            ],
+            [
+              677043.6834947105,
+              6586843.530060114
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/52583105",
+      "properties": {
+        "osmType": "way",
+        "osmId": "52583105",
+        "osmVersion": "3",
+        "osmTimestamp": "2020-08-13T08:04:52Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "amenity": "parking",
+          "source": "Yahoo;survey",
+          "wheelchair": "yes"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/52583105",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677660.5554209744,
+              6586198.933410246
+            ],
+            [
+              677678.9976821325,
+              6586195.941837646
+            ],
+            [
+              677685.8408612213,
+              6586193.219032552
+            ],
+            [
+              677687.9554826046,
+              6586187.218145464
+            ],
+            [
+              677686.4415609154,
+              6586180.444407294
+            ],
+            [
+              677679.7982360676,
+              6586178.916421513
+            ],
+            [
+              677673.5055809892,
+              6586182.880727505
+            ],
+            [
+              677669.460746508,
+              6586184.909856215
+            ],
+            [
+              677662.4910173215,
+              6586191.05050425
+            ],
+            [
+              677661.6318970714,
+              6586194.556550071
+            ],
+            [
+              677660.5554209744,
+              6586198.933410246
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/61646732",
+      "properties": {
+        "osmType": "way",
+        "osmId": "61646732",
+        "osmVersion": "1",
+        "osmTimestamp": "2010-06-10T11:14:07Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "amenity": "parking",
+          "source": "Yahoo"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/61646732",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              678518.7705444307,
+              6585855.613253882
+            ],
+            [
+              678537.0092984749,
+              6585855.783397928
+            ],
+            [
+              678537.2632850586,
+              6585828.360301086
+            ],
+            [
+              678510.9689992662,
+              6585828.110769405
+            ],
+            [
+              678510.7825931471,
+              6585848.444075103
+            ],
+            [
+              678518.8379498099,
+              6585848.523464003
+            ],
+            [
+              678518.7705444307,
+              6585855.613253882
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281520393",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281520393",
+        "osmVersion": "2",
+        "osmTimestamp": "2022-03-28T19:55:54Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281520393",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677089.6482795544,
+              6586695.37466729
+            ],
+            [
+              677089.254031352,
+              6586705.727760305
+            ],
+            [
+              677097.5482251191,
+              6586706.2503756955
+            ],
+            [
+              677097.0503594321,
+              6586714.200882662
+            ],
+            [
+              677115.0234849376,
+              6586715.322237768
+            ],
+            [
+              677115.8304722094,
+              6586702.356565123
+            ],
+            [
+              677108.9566809454,
+              6586701.878192209
+            ],
+            [
+              677109.3753141458,
+              6586696.589354575
+            ],
+            [
+              677089.6482795544,
+              6586695.37466729
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281520400",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281520400",
+        "osmVersion": "3",
+        "osmTimestamp": "2026-08-20T00:02:26Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281520400",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677082.5355875903,
+              6586745.393586151
+            ],
+            [
+              677071.6233240166,
+              6586752.900567029
+            ],
+            [
+              677062.113147086,
+              6586739.718997899
+            ],
+            [
+              677068.6948472621,
+              6586734.652095835
+            ],
+            [
+              677065.6262033102,
+              6586729.712816763
+            ],
+            [
+              677073.992279511,
+              6586723.480503371
+            ],
+            [
+              677084.1145819711,
+              6586736.713098352
+            ],
+            [
+              677078.9539776719,
+              6586740.352184934
+            ],
+            [
+              677082.5355875903,
+              6586745.393586151
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281520410",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281520410",
+        "osmVersion": "3",
+        "osmTimestamp": "2026-08-20T00:00:54Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281520410",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677073.6579157069,
+              6586665.908194319
+            ],
+            [
+              677084.7287882849,
+              6586667.0404627
+            ],
+            [
+              677084.1624557893,
+              6586672.567726822
+            ],
+            [
+              677096.3543254335,
+              6586673.819487308
+            ],
+            [
+              677096.754722843,
+              6586669.89036671
+            ],
+            [
+              677101.687322546,
+              6586670.389239461
+            ],
+            [
+              677102.4289649208,
+              6586663.186207466
+            ],
+            [
+              677096.5735265147,
+              6586662.588315104
+            ],
+            [
+              677097.0433589292,
+              6586657.056528283
+            ],
+            [
+              677074.7331345901,
+              6586655.107473685
+            ],
+            [
+              677073.6579157069,
+              6586665.908194319
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281520419",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281520419",
+        "osmVersion": "3",
+        "osmTimestamp": "2026-08-20T00:01:00Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281520419",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677088.7759323367,
+              6586627.9185601
+            ],
+            [
+              677104.7048373605,
+              6586629.32319917
+            ],
+            [
+              677105.7958748911,
+              6586616.973063524
+            ],
+            [
+              677100.1890154047,
+              6586616.654476137
+            ],
+            [
+              677100.508685695,
+              6586611.048737384
+            ],
+            [
+              677078.4711762549,
+              6586609.223983738
+            ],
+            [
+              677077.7094966741,
+              6586619.526396715
+            ],
+            [
+              677089.4283325544,
+              6586620.555213103
+            ],
+            [
+              677088.7759323367,
+              6586627.9185601
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281520422",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281520422",
+        "osmVersion": "2",
+        "osmTimestamp": "2026-08-20T00:01:05Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281520422",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677040.3167197546,
+              6586625.66978309
+            ],
+            [
+              677052.2019296094,
+              6586626.304801248
+            ],
+            [
+              677061.7629205053,
+              6586626.875540337
+            ],
+            [
+              677063.3113360318,
+              6586626.9815639695
+            ],
+            [
+              677064.1229830051,
+              6586615.733553362
+            ],
+            [
+              677062.9755274359,
+              6586615.813604078
+            ],
+            [
+              677053.4909246782,
+              6586615.190682349
+            ],
+            [
+              677053.8434310479,
+              6586609.854136097
+            ],
+            [
+              677041.2035688219,
+              6586609.172601229
+            ],
+            [
+              677040.3167197546,
+              6586625.66978309
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281561455",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281561455",
+        "osmVersion": "2",
+        "osmTimestamp": "2014-05-14T12:39:30Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281561455",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              676939.5259711562,
+              6586661.575599444
+            ],
+            [
+              676943.9084529927,
+              6586651.58773672
+            ],
+            [
+              676962.3757655907,
+              6586659.657010212
+            ],
+            [
+              676959.6091165147,
+              6586665.516156646
+            ],
+            [
+              676965.025972409,
+              6586668.0672333725
+            ],
+            [
+              676959.6545009033,
+              6586680.339561686
+            ],
+            [
+              676943.6127071696,
+              6586673.3318296345
+            ],
+            [
+              676947.2821731777,
+              6586664.961102934
+            ],
+            [
+              676939.5259711562,
+              6586661.575599444
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281561456",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281561456",
+        "osmVersion": "2",
+        "osmTimestamp": "2014-05-14T12:39:30Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281561456",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              676937.7511484935,
+              6586624.266437575
+            ],
+            [
+              676958.2786594331,
+              6586633.302037832
+            ],
+            [
+              676965.6553884443,
+              6586616.606987185
+            ],
+            [
+              676956.879901325,
+              6586612.749927463
+            ],
+            [
+              676954.3953070147,
+              6586618.053527106
+            ],
+            [
+              676947.3399051412,
+              6586614.76774991
+            ],
+            [
+              676942.7154081655,
+              6586613.034467016
+            ],
+            [
+              676937.7511484935,
+              6586624.266437575
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281629608",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281629608",
+        "osmVersion": "2",
+        "osmTimestamp": "2026-08-20T00:07:30Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281629608",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677127.3138257741,
+              6586458.861766707
+            ],
+            [
+              677131.8991161914,
+              6586462.890789196
+            ],
+            [
+              677135.4605699128,
+              6586465.33281033
+            ],
+            [
+              677146.2427634632,
+              6586465.838315362
+            ],
+            [
+              677145.6527434597,
+              6586472.111664527
+            ],
+            [
+              677161.9896633431,
+              6586473.323740989
+            ],
+            [
+              677163.0532230703,
+              6586461.56339153
+            ],
+            [
+              677157.4973555363,
+              6586461.001775486
+            ],
+            [
+              677157.9739910093,
+              6586455.448005953
+            ],
+            [
+              677141.0620878522,
+              6586453.9971022755
+            ],
+            [
+              677134.5604355284,
+              6586448.484197749
+            ],
+            [
+              677127.3138257741,
+              6586458.861766707
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281629609",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281629609",
+        "osmVersion": "2",
+        "osmTimestamp": "2026-08-20T00:06:35Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281629609",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677076.5625388767,
+              6586542.745341442
+            ],
+            [
+              677085.8217206688,
+              6586543.446961884
+            ],
+            [
+              677085.3598971637,
+              6586549.536735191
+            ],
+            [
+              677096.7677802017,
+              6586550.406007269
+            ],
+            [
+              677095.9651499467,
+              6586560.9741531
+            ],
+            [
+              677075.2930018783,
+              6586559.391871028
+            ],
+            [
+              677076.5625388767,
+              6586542.745341442
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281629610",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281629610",
+        "osmVersion": "2",
+        "osmTimestamp": "2026-08-20T00:07:13Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281629610",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677141.4339626165,
+              6586516.823915172
+            ],
+            [
+              677123.5921652379,
+              6586515.4298451
+            ],
+            [
+              677124.142247146,
+              6586508.429727365
+            ],
+            [
+              677117.4069767082,
+              6586507.902094119
+            ],
+            [
+              677118.2837746004,
+              6586496.724053768
+            ],
+            [
+              677137.1574514959,
+              6586498.1999271745
+            ],
+            [
+              677136.5922776758,
+              6586505.400077115
+            ],
+            [
+              677142.29008597,
+              6586505.84564672
+            ],
+            [
+              677141.4339626165,
+              6586516.823915172
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281629611",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281629611",
+        "osmVersion": "2",
+        "osmTimestamp": "2026-08-20T00:07:06Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281629611",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677137.4753242274,
+              6586562.663588528
+            ],
+            [
+              677121.2002625865,
+              6586561.354123466
+            ],
+            [
+              677121.7580464876,
+              6586554.432432075
+            ],
+            [
+              677115.0068685117,
+              6586553.881747699
+            ],
+            [
+              677115.9011580166,
+              6586542.816049069
+            ],
+            [
+              677133.8244618543,
+              6586544.046628739
+            ],
+            [
+              677133.3052622551,
+              6586550.144863355
+            ],
+            [
+              677138.4471100864,
+              6586550.553214294
+            ],
+            [
+              677137.4753242274,
+              6586562.663588528
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281629612",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281629612",
+        "osmVersion": "2",
+        "osmTimestamp": "2026-08-20T00:07:33Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281629612",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677137.9133576399,
+              6586426.972602934
+            ],
+            [
+              677129.6693066708,
+              6586417.720092651
+            ],
+            [
+              677147.2324933289,
+              6586402.127401641
+            ],
+            [
+              677153.7575748579,
+              6586409.448083855
+            ],
+            [
+              677157.8067824097,
+              6586405.857328843
+            ],
+            [
+              677165.2723122155,
+              6586414.236980962
+            ],
+            [
+              677152.1383587006,
+              6586425.899776305
+            ],
+            [
+              677146.391794693,
+              6586419.4520124085
+            ],
+            [
+              677137.9133576399,
+              6586426.972602934
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281816040",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281816040",
+        "osmVersion": "2",
+        "osmTimestamp": "2022-07-07T07:12:05Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281816040",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              676996.7857326997,
+              6586444.246937978
+            ],
+            [
+              677001.1558776317,
+              6586448.377235947
+            ],
+            [
+              677001.60931609,
+              6586450.1159175895
+            ],
+            [
+              677000.3392389975,
+              6586456.335111674
+            ],
+            [
+              677009.4637383241,
+              6586460.766211715
+            ],
+            [
+              677006.4275642227,
+              6586467.516037185
+            ],
+            [
+              677021.5026214308,
+              6586473.9210801795
+            ],
+            [
+              677026.3044827213,
+              6586463.127674477
+            ],
+            [
+              677021.2237968461,
+              6586460.804169286
+            ],
+            [
+              677023.6996384338,
+              6586454.719538011
+            ],
+            [
+              677008.54298602,
+              6586448.232603101
+            ],
+            [
+              677001.3086871147,
+              6586441.592700804
+            ],
+            [
+              676996.7857326997,
+              6586444.246937978
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281816047",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281816047",
+        "osmVersion": "1",
+        "osmTimestamp": "2014-05-14T12:39:29Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281816047",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              676973.4213027793,
+              6586549.087277864
+            ],
+            [
+              676957.4872364595,
+              6586542.318764722
+            ],
+            [
+              676959.335005072,
+              6586537.977883705
+            ],
+            [
+              676949.5322858684,
+              6586533.8162412
+            ],
+            [
+              676953.9501791957,
+              6586523.439713337
+            ],
+            [
+              676974.1129928238,
+              6586532.012196635
+            ],
+            [
+              676971.8626833415,
+              6586537.293306159
+            ],
+            [
+              676977.4362061542,
+              6586539.662139663
+            ],
+            [
+              676973.4213027793,
+              6586549.087277864
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281816048",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281816048",
+        "osmVersion": "1",
+        "osmTimestamp": "2014-05-14T12:39:29Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281816048",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677016.6918832128,
+              6586419.317518791
+            ],
+            [
+              677010.9861001406,
+              6586406.771628555
+            ],
+            [
+              677028.6887841732,
+              6586398.757302282
+            ],
+            [
+              677032.3674881975,
+              6586406.836578342
+            ],
+            [
+              677038.1288190873,
+              6586404.229251303
+            ],
+            [
+              677043.2673062127,
+              6586415.521862613
+            ],
+            [
+              677027.3840707011,
+              6586422.71803451
+            ],
+            [
+              677024.2787947854,
+              6586415.881219582
+            ],
+            [
+              677016.6918832128,
+              6586419.317518791
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/281816049",
+      "properties": {
+        "osmType": "way",
+        "osmId": "281816049",
+        "osmVersion": "1",
+        "osmTimestamp": "2014-05-14T12:39:30Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/281816049",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              676989.7025619189,
+              6586506.657439499
+            ],
+            [
+              676974.4031461226,
+              6586500.063573492
+            ],
+            [
+              676976.6369077214,
+              6586494.893211208
+            ],
+            [
+              676968.616635284,
+              6586491.428387404
+            ],
+            [
+              676973.0195589974,
+              6586481.251914796
+            ],
+            [
+              676990.4050182594,
+              6586488.746446625
+            ],
+            [
+              676987.5274085132,
+              6586495.392189832
+            ],
+            [
+              676993.4673800813,
+              6586497.9566444075
+            ],
+            [
+              676989.7025619189,
+              6586506.657439499
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/282519637",
+      "properties": {
+        "osmType": "way",
+        "osmId": "282519637",
+        "osmVersion": "1",
+        "osmTimestamp": "2014-05-17T15:58:15Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "private",
+          "amenity": "parking",
+          "parking": "surface",
+          "supervised": "no"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/282519637",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              678421.9936820049,
+              6585868.2623900995
+            ],
+            [
+              678430.0044441835,
+              6585886.1611165535
+            ],
+            [
+              678457.5555730686,
+              6585874.971272068
+            ],
+            [
+              678455.1639214251,
+              6585869.694744541
+            ],
+            [
+              678434.8675097985,
+              6585876.944593789
+            ],
+            [
+              678429.3416296063,
+              6585864.639034432
+            ],
+            [
+              678427.9226116897,
+              6585865.642673126
+            ],
+            [
+              678421.9936820049,
+              6585868.2623900995
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/1459942685",
+      "properties": {
+        "osmType": "way",
+        "osmId": "1459942685",
+        "osmVersion": "1",
+        "osmTimestamp": "2025-12-19T23:11:19Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "access": "permit",
+          "amenity": "parking"
+        },
+        "kind": "parking",
+        "sourceFeatureId": "way/1459942685",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+        "geometryNormalization": "closed-amenity-parking-way-to-area; area=no-excluded",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              678471.4656278836,
+              6585814.345354503
+            ],
+            [
+              678473.3215214033,
+              6585809.514761081
+            ],
+            [
+              678476.798009544,
+              6585809.054400795
+            ],
+            [
+              678480.3715646563,
+              6585808.587475318
+            ],
+            [
+              678497.4436892907,
+              6585806.349147722
+            ],
+            [
+              678504.024320414,
+              6585811.745490343
+            ],
+            [
+              678478.7094877034,
+              6585813.772945551
+            ],
+            [
+              678475.1221559539,
+              6585814.049629756
+            ],
+            [
+              678471.4656278836,
+              6585814.345354503
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/296422983",
+      "properties": {
+        "osmType": "way",
+        "osmId": "296422983",
+        "osmVersion": "2",
+        "osmTimestamp": "2025-01-13T17:07:08Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "golf": "path",
+          "highway": "footway",
+          "source": "Bing"
+        },
+        "kind": "path",
+        "sourceFeatureId": "way/296422983",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+        "geometryNormalization": "unchanged-golf-path-line",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677571.1600634027,
+            6586368.317108673
+          ],
+          [
+            677579.3748265577,
+            6586381.807141394
+          ],
+          [
+            677580.3593403146,
+            6586393.429512094
+          ],
+          [
+            677579.6097631935,
+            6586402.840292128
+          ],
+          [
+            677579.2379207888,
+            6586410.752110612
+          ],
+          [
+            677582.0309035475,
+            6586422.760591271
+          ],
+          [
+            677594.3526639882,
+            6586428.893579042
+          ],
+          [
+            677602.7484428243,
+            6586433.080000463
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/296422993",
+      "properties": {
+        "osmType": "way",
+        "osmId": "296422993",
+        "osmVersion": "1",
+        "osmTimestamp": "2014-08-07T09:57:17Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "golf": "path",
+          "source": "Bing"
+        },
+        "kind": "path",
+        "sourceFeatureId": "way/296422993",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+        "geometryNormalization": "unchanged-golf-path-line",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677400.0098692626,
+            6586366.065735182
+          ],
+          [
+            677396.7298579324,
+            6586357.993622158
+          ],
+          [
+            677386.5873818926,
+            6586352.945021577
+          ],
+          [
+            677376.2166008553,
+            6586352.759276039
+          ],
+          [
+            677369.2099456475,
+            6586352.43036431
+          ],
+          [
+            677358.5737416493,
+            6586344.927470636
+          ],
+          [
+            677353.9086941221,
+            6586314.229350037
+          ],
+          [
+            677341.294594632,
+            6586303.276846064
+          ],
+          [
+            677333.5651518307,
+            6586285.8511186745
+          ],
+          [
+            677326.1709709511,
+            6586267.827771263
+          ],
+          [
+            677324.7493306894,
+            6586252.527065503
+          ],
+          [
+            677328.4621539555,
+            6586231.980400962
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/296423003",
+      "properties": {
+        "osmType": "way",
+        "osmId": "296423003",
+        "osmVersion": "2",
+        "osmTimestamp": "2025-01-13T17:07:08Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "golf": "path",
+          "highway": "footway",
+          "source": "Bing"
+        },
+        "kind": "path",
+        "sourceFeatureId": "way/296423003",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+        "geometryNormalization": "unchanged-golf-path-line",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677644.654586039,
+            6586368.0468620015
+          ],
+          [
+            677659.8361675988,
+            6586372.541292766
+          ],
+          [
+            677664.6130920174,
+            6586374.90714918
+          ],
+          [
+            677669.735583998,
+            6586381.783649779
+          ],
+          [
+            677679.8488700818,
+            6586387.445042389
+          ],
+          [
+            677689.727106438,
+            6586392.5377935385
+          ],
+          [
+            677692.3330222239,
+            6586401.136117181
+          ],
+          [
+            677687.4109941979,
+            6586415.893382261
+          ],
+          [
+            677680.6687082623,
+            6586422.89224818
+          ],
+          [
+            677671.8118876017,
+            6586429.479426628
+          ],
+          [
+            677665.3139652989,
+            6586432.976823678
+          ],
+          [
+            677658.8511690651,
+            6586436.4535781
+          ],
+          [
+            677646.8452661125,
+            6586440.428078138
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/427426741",
+      "properties": {
+        "osmType": "way",
+        "osmId": "427426741",
+        "osmVersion": "2",
+        "osmTimestamp": "2025-01-13T17:07:08Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "golf": "path",
+          "highway": "footway",
+          "source": "survey;Bing"
+        },
+        "kind": "path",
+        "sourceFeatureId": "way/427426741",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+        "geometryNormalization": "unchanged-golf-path-line",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            677749.2241392602,
+            6586672.003686102
+          ],
+          [
+            677747.8056718368,
+            6586630.795930911
+          ],
+          [
+            677747.2634755331,
+            6586614.744496371
+          ],
+          [
+            677744.8002108266,
+            6586610.256889146
+          ],
+          [
+            677742.214968509,
+            6586606.789561545
+          ],
+          [
+            677740.5287162198,
+            6586605.137751539
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/427426774",
+      "properties": {
+        "osmType": "way",
+        "osmId": "427426774",
+        "osmVersion": "2",
+        "osmTimestamp": "2025-01-13T17:07:08Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "golf": "path",
+          "highway": "footway",
+          "source": "Mapbox"
+        },
+        "kind": "path",
+        "sourceFeatureId": "way/427426774",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+        "geometryNormalization": "unchanged-golf-path-line",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            678139.7912940247,
+            6586561.410298988
+          ],
+          [
+            678119.8412180477,
+            6586570.216934858
+          ],
+          [
+            678105.7137892372,
+            6586571.993315931
+          ],
+          [
+            678102.3437616613,
+            6586565.74523495
+          ],
+          [
+            678096.8826031344,
+            6586552.07145054
+          ],
+          [
+            678072.777011834,
+            6586545.459413596
+          ],
+          [
+            678054.7800785477,
+            6586541.923510152
+          ],
+          [
+            678042.3806256128,
+            6586536.855923606
+          ],
+          [
+            678027.8103838309,
+            6586532.812485961
+          ],
+          [
+            677998.6789062414,
+            6586524.291265593
+          ],
+          [
+            677980.6657724509,
+            6586517.955711657
+          ],
+          [
+            677965.1686305244,
+            6586509.9097634815
+          ],
+          [
+            677939.5094166957,
+            6586484.322139956
+          ],
+          [
+            677928.2529600982,
+            6586477.089454825
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/427426781",
+      "properties": {
+        "osmType": "way",
+        "osmId": "427426781",
+        "osmVersion": "3",
+        "osmTimestamp": "2026-04-07T14:17:12Z",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "reviewStatus": "source-semantics-normalized-not-surveyed",
+        "tags": {
+          "golf": "path",
+          "highway": "footway",
+          "source": "Mapbox"
+        },
+        "kind": "path",
+        "sourceFeatureId": "way/427426781",
+        "sourceGeometryType": "LineString",
+        "sourceCollection": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+        "geometryNormalization": "unchanged-golf-path-line",
+        "coordinateValuesChanged": false,
+        "notSurveyed": true,
+        "licence": "ODbL-1.0"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            678102.3437616613,
+            6586565.74523495
+          ],
+          [
+            678086.8035419639,
+            6586579.265492996
+          ],
+          [
+            678071.7856176993,
+            6586592.33087115
+          ]
+        ]
+      }
+    }
+  ]
+}

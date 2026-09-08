@@ -1,0 +1,261 @@
+{
+  "type": "FeatureCollection",
+  "name": "Visby provisional practice surfaces",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "axisOrder": [
+    "easting",
+    "northing"
+  ],
+  "status": "provisional-source-derived-not-surveyed",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "range-field-image-2022",
+      "properties": {
+        "kind": "range_field",
+        "hole": null,
+        "sourceId": "gotland-ortho-2022",
+        "observedYear": 2022,
+        "captureDate": null,
+        "reviewStatus": "machine-visual-review",
+        "notSurveyed": true,
+        "method": "manual-image-boundary-digitization",
+        "interpretationUncertaintyMetres": 4,
+        "registrationAccuracy": "not independently checked",
+        "licence": "exact service terms unresolved; local provisional derivative only",
+        "areaSquareMetres": 18586.38,
+        "sourceImage": "visbybuild/cache/geodata-2026-09-07/gotland-2022-0p5m.png",
+        "sourceImageSha256": "aac5fa4a1ce429258cd020e0a139939576ac67bde02e010fc822feb446111153",
+        "sourceEvidence": "geo_data/course-v2/visby/reference/gotland-ortho-2022.json",
+        "sourcePixels": [
+          [
+            1070,
+            2585
+          ],
+          [
+            1080,
+            2490
+          ],
+          [
+            1140,
+            2330
+          ],
+          [
+            1200,
+            2200
+          ],
+          [
+            1260,
+            2070
+          ],
+          [
+            1300,
+            2030
+          ],
+          [
+            1340,
+            2040
+          ],
+          [
+            1327,
+            2098
+          ],
+          [
+            1300,
+            2104
+          ],
+          [
+            1272,
+            2120
+          ],
+          [
+            1270,
+            2155
+          ],
+          [
+            1283,
+            2172
+          ],
+          [
+            1305,
+            2182
+          ],
+          [
+            1330,
+            2200
+          ],
+          [
+            1315,
+            2225
+          ],
+          [
+            1300,
+            2245
+          ],
+          [
+            1298,
+            2280
+          ],
+          [
+            1310,
+            2310
+          ],
+          [
+            1333,
+            2338
+          ],
+          [
+            1330,
+            2390
+          ],
+          [
+            1300,
+            2415
+          ],
+          [
+            1255,
+            2460
+          ],
+          [
+            1220,
+            2490
+          ],
+          [
+            1218,
+            2560
+          ],
+          [
+            1180,
+            2610
+          ],
+          [
+            1120,
+            2610
+          ]
+        ],
+        "pixelCoordinateConvention": "full image pixel centres; E=686900.25+0.5*x, N=6372149.75-0.5*y",
+        "note": "Observed open driving-range field east of the clubhouse road. The adjacent narrow practice fairway is separate. The eastern boundary detours around visible trees near source pixels (1300,2140) and (1320,2280). This is a provisional playing-footprint interpretation, not a cadastral boundary or a current vegetation survey."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687435.25,
+              6370857.25
+            ],
+            [
+              687440.25,
+              6370904.75
+            ],
+            [
+              687470.25,
+              6370984.75
+            ],
+            [
+              687500.25,
+              6371049.75
+            ],
+            [
+              687530.25,
+              6371114.75
+            ],
+            [
+              687550.25,
+              6371134.75
+            ],
+            [
+              687570.25,
+              6371129.75
+            ],
+            [
+              687563.75,
+              6371100.75
+            ],
+            [
+              687550.25,
+              6371097.75
+            ],
+            [
+              687536.25,
+              6371089.75
+            ],
+            [
+              687535.25,
+              6371072.25
+            ],
+            [
+              687541.75,
+              6371063.75
+            ],
+            [
+              687552.75,
+              6371058.75
+            ],
+            [
+              687565.25,
+              6371049.75
+            ],
+            [
+              687557.75,
+              6371037.25
+            ],
+            [
+              687550.25,
+              6371027.25
+            ],
+            [
+              687549.25,
+              6371009.75
+            ],
+            [
+              687555.25,
+              6370994.75
+            ],
+            [
+              687566.75,
+              6370980.75
+            ],
+            [
+              687565.25,
+              6370954.75
+            ],
+            [
+              687550.25,
+              6370942.25
+            ],
+            [
+              687527.75,
+              6370919.75
+            ],
+            [
+              687510.25,
+              6370904.75
+            ],
+            [
+              687509.25,
+              6370869.75
+            ],
+            [
+              687490.25,
+              6370844.75
+            ],
+            [
+              687460.25,
+              6370844.75
+            ],
+            [
+              687435.25,
+              6370857.25
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

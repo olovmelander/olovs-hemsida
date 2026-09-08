@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "variant": "offline",
+  "status": "passed",
+  "startedAt": "2026-09-07T21:21:28.556Z",
+  "completedAt": "2026-09-07T21:22:10.522Z",
+  "url": "http://127.0.0.1:8643/?bana=visby&v2=0&gl=1&det=1&ljus=dag",
+  "sources": {
+    "sourceTerrainSha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898",
+    "courseModelSha256": "9e7f580c7bc6fc9d9fb50db14c9fb15000fc3bd9dfd466569e53470e4c73caa7",
+    "routeReferenceSha256": "e24099de16048accc60164e59d5a04804451159fe08a7a92f80edff06eae4df3",
+    "waterSha256": "b18499faae4354ef2ce95ef1910d7a5c2172457014087adcf9b622ea957e06af",
+    "compatibilityWaterSha256": "026e7177de3c50f95cc5936bf0bf3ccecebd5c7a19ed9102d76c8361fd6b2b1f",
+    "standIndexSha256": "cf4d3584b3f953c1c2b76a18b5bba3dd05314a9e205abd845e0e7ab291ebcf2a",
+    "graph": {
+      "slug": "visby",
+      "groundId": "visby",
+      "frameFingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
+      "rootBytes": 594,
+      "rootSha256": "1fb281ac5265ce0355c58710b0fc04dd54724a5262b46d56778ffd19150839bc",
+      "courseManifestSha256": "4995a4de82a5e06464cea521b38612e2036db9f3536f36d91ae853952add8b60",
+      "groundManifestSha256": "82137bd40b2488fa64ad1c5039c92363178c3c0f6c4e9f9069b23d6569fd8910",
+      "routingSha256": "1feffbb64d377f792225fd271f56737fe86983de0a8272e290988614ccb8ce1a",
+      "holes": 18,
+      "tiles": 341,
+      "finestTiles": 256,
+      "shellBytes": 43591,
+      "chunks": 599,
+      "encodedChunkBytes": 9193309,
+      "decodedChunkBytes": 49374762,
+      "holeTileBufferMetres": 90
+    },
+    "frame": {
+      "easting": 687748.5,
+      "northing": 6370951.5,
+      "heightRH2000": 0.1,
+      "latitude": 57.44236399463288,
+      "longitude": 18.12847826436399,
+      "text": "local metres from EPSG:3006; east +x, north -z; origin E687748.5 N6370951.5; heights RH 2000"
+    }
+  },
+  "checks": [
+    {
+      "ok": true,
+      "message": "Retained native-metre source contains the complete 4097 by 4097 sample window"
+    },
+    {
+      "ok": true,
+      "message": "All18 authored hole routes have finite green navigation targets"
+    },
+    {
+      "ok": true,
+      "message": "17 observed physical tee pads and the explicit unresolved hole12 platform survive the authored model"
+    },
+    {
+      "ok": true,
+      "message": "Published graph contains the full341-tile source pyramid and256 stand chunks"
+    },
+    {
+      "ok": true,
+      "message": "Compatibility water preserves all10 source island interiors",
+      "details": {
+        "sourceFeatures": 25,
+        "compatibilityPieces": 40,
+        "islands": 10
+      }
+    },
+    {
+      "ok": true,
+      "message": "Visited Visby pack is cached under a controlling service worker",
+      "details": {
+        "workbox-precache-v2-http://127.0.0.1:8643/": 52,
+        "banvy-manifest": 1,
+        "banvy-packs": 1
+      }
+    },
+    {
+      "ok": true,
+      "message": "Owned origin server is stopped before offline browser relaunch"
+    },
+    {
+      "ok": true,
+      "message": "Persistent offline relaunch restores the real18-hole Visby card and geometry from cache",
+      "details": {
+        "course": {
+          "slug": "visby",
+          "name": "Visby GK",
+          "club": "Visby Golfklubb",
+          "title": "Visby Golfklubb — Banan i 3D",
+          "tag": "Kronholmen",
+          "boot": "Västergarn · Gotland",
+          "build": "visbybuild",
+          "par": 72,
+          "holes": 18,
+          "tees": {
+            "names": [
+              "63",
+              "59",
+              "55",
+              "51",
+              "46",
+              "41"
+            ],
+            "cols": [
+              14081494,
+              14081494,
+              14081494,
+              14081494,
+              14081494,
+              14081494
+            ],
+            "def": 1,
+            "hideFrom": 5
+          },
+          "photos": 0,
+          "overviewUrl": "courses/visby/overview.svg",
+          "status": "provisional",
+          "packUrl": "courses/visby/pack.bin",
+          "bytes": 452748,
+          "sha256": "32a8ec1e07082f2fe47ed274e061863cfbd5e6c0306f326734c91099abff9d30"
+        },
+        "holes": [
+          {
+            "n": 1,
+            "par": 3,
+            "pads": 1
+          },
+          {
+            "n": 2,
+            "par": 4,
+            "pads": 1
+          },
+          {
+            "n": 3,
+            "par": 5,
+            "pads": 1
+          },
+          {
+            "n": 4,
+            "par": 4,
+            "pads": 1
+          },
+          {
+            "n": 5,
+            "par": 3,
+            "pads": 1
+          },
+          {
+            "n": 6,
+            "par": 5,
+            "pads": 1
+          },
+          {
+            "n": 7,
+            "par": 3,
+            "pads": 1
+          },
+          {
+            "n": 8,
+            "par": 4,
+            "pads": 1
+          },
+          {
+            "n": 9,
+            "par": 4,
+            "pads": 1
+          },
+          {
+            "n": 10,
+            "par": 5,
+            "pads": 1
+          },
+          {
+            "n": 11,
+            "par": 4,
+            "pads": 1
+          },
+          {
+            "n": 12,
+            "par": 4,
+            "pads": 0
+          },
+          {
+            "n": 13,
+            "par": 4,
+            "pads": 1
+          },
+          {
+            "n": 14,
+            "par": 3,
+            "pads": 1
+          },
+          {
+            "n": 15,
+            "par": 4,
+            "pads": 1
+          },
+          {
+            "n": 16,
+            "par": 5,
+            "pads": 1
+          },
+          {
+            "n": 17,
+            "par": 3,
+            "pads": 1
+          },
+          {
+            "n": 18,
+            "par": 5,
+            "pads": 1
+          }
+        ],
+        "terrain": {
+          "requested": false,
+          "ready": false,
+          "status": "fallback",
+          "kind": "fixed-frontier",
+          "courseSurfaceOverlayMeshes": 0,
+          "surfaceDebugMode": "off",
+          "surfaceRepresentation": null,
+          "surfacePolicy": "v2-atlas",
+          "reason": null,
+          "selection": {
+            "mode": "off",
+            "requestMode": "off",
+            "defaulted": false,
+            "publishedGraphSlugs": [
+              "angso",
+              "johannesberg",
+              "lidingo",
+              "norrfallsviken",
+              "puttom",
+              "ribbingsfors",
+              "upsala",
+              "upsala-mellanbanan",
+              "veckefjarden",
+              "veckefjarden-korthalsbanan",
+              "visby"
+            ],
+            "graph": null,
+            "graphError": null
+          },
+          "label": null,
+          "surface": null,
+          "bounds": null,
+          "legacyBounds": null,
+          "bridge": null,
+          "source": {
+            "renderedTiles": 0,
+            "encodedBytes": 0,
+            "decodedBytes": 0,
+            "gpuBytes": 0
+          },
+          "adapter": {
+            "kind": "fixed-frontier",
+            "surfacePolicy": "v2-atlas",
+            "phase": "fallback",
+            "requested": false,
+            "sourceReady": false,
+            "preflightReady": false,
+            "active": false,
+            "renderer": {
+              "status": "fallback"
+            }
+          },
+          "renderer": {
+            "status": "fallback"
+          },
+          "stream": null,
+          "backend": "webgl2"
+        },
+        "camera": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.25,
+          "coordinateSystem": 2000,
+          "reversedDepth": false,
+          "position": [
+            -556.3360603028331,
+            33.72557477154215,
+            225.4238358121362
+          ]
+        }
+      }
+    },
+    {
+      "ok": true,
+      "message": "A never-downloaded course reports the useful offline message",
+      "details": "banan är inte nedladdad och servern svarar inte — banor du redan öppnat fungerar offline"
+    },
+    {
+      "ok": true,
+      "message": "Offline relaunch has no uncaught browser exceptions",
+      "details": []
+    }
+  ],
+  "backend": null,
+  "vegetation": null,
+  "screenshots": [
+    "visbybuild/cache/runtime-review/offline-overview.png"
+  ],
+  "detailedReport": "visbybuild/cache/runtime-review/offline.json",
+  "limitations": [
+    "Provisional source preservation and rendering review, not survey approval or current-course validation.",
+    "2022 interpreted playing surfaces and unnamed representative tees; hole12 uses a virtual fairway start without physical pad geometry.",
+    "2024 canopy stand representatives are not measured stem positions.",
+    "Source water levels may be representative medians of nonconstant source Z; bathymetry is unknown.",
+    "Offline mode explicitly requests the cached GPK1 fallback with v2=0; no claim that the complete v2 terrain graph is cached. The owned origin server was stopped before browser relaunch."
+  ]
+}

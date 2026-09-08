@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "courseSlugs": [
+    "visby"
+  ],
+  "kind": "visby-terrain-intake-compilation",
+  "state": "staged-terrain-only",
+  "acquiredOn": "2026-09-07",
+  "source": {
+    "itemIds": [
+      "636_68",
+      "637_68"
+    ],
+    "sourceFloat32Sha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898",
+    "acquisitionEvidence": "geo_data/course-v2/visby/acquisition/terrain-window.json",
+    "sourceRaster": "visbybuild/cache/terrain-review/terrain-1m.f32",
+    "sampleSpacingMetres": 1,
+    "pixelEdgeWindowEpsg3006": {
+      "west": 685700,
+      "north": 6373000,
+      "east": 689797,
+      "south": 6368903
+    }
+  },
+  "referenceExtent": {
+    "propertyFeatureId": "way/199830330",
+    "bounds": {
+      "minEasting": 687076.1035647502,
+      "minNorthing": 6370516.74000113,
+      "maxEasting": 688432.1488042905,
+      "maxNorthing": 6371989.725481339
+    },
+    "marginMetres": {
+      "west": 1375.6035647501703,
+      "east": 1364.351195709547,
+      "south": 1613.2400011299178,
+      "north": 1009.774518661201
+    },
+    "sourcePath": "geo_data/course-v2/visby/reference/osm-golf-epsg3006.geojson",
+    "status": "unreviewed-supplementary-OSM",
+    "note": "Coverage checked against the identified property polygon. This is not an approved property or playing-surface survey."
+  },
+  "bounds": {
+    "minEasting": 685700.5,
+    "minNorthing": 6368903.5,
+    "minHeightRH2000": 0.10083846747875214,
+    "maxEasting": 689796.5,
+    "maxNorthing": 6372999.5,
+    "maxHeightRH2000": 11.012860298156738
+  },
+  "frame": {
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "origin": {
+      "easting": 687748.5,
+      "northing": 6370951.5,
+      "heightRH2000": 0.1
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldY": "heightRH2000 - originHeightRH2000",
+      "worldZ": "originNorthing - northing"
+    },
+    "fingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511"
+  },
+  "frameStatus": "provisional-preview-convention-not-approved-canonical-origin",
+  "compile": {
+    "sourceSamples": 16785409,
+    "finiteSamples": 16785409,
+    "tileChunks": 341,
+    "rootTiles": 1,
+    "uniqueChunks": 342,
+    "encodedBytes": 8475164,
+    "decodedBytes": 45177516,
+    "shellEncodedBytes": 43591,
+    "shellDecodedBytes": 132098,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 256,
+        "encodedBytes": 5835809,
+        "decodedBytes": 33817088
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 64,
+        "encodedBytes": 1841377,
+        "decodedBytes": 8454272
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 16,
+        "encodedBytes": 551225,
+        "decodedBytes": 2113568
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 4,
+        "encodedBytes": 159598,
+        "decodedBytes": 528392
+      },
+      {
+        "lod": 4,
+        "sampleSpacingMetres": 16,
+        "tiles": 1,
+        "encodedBytes": 43564,
+        "decodedBytes": 132098
+      }
+    ]
+  },
+  "validation": {
+    "allChunksDecoded": 342,
+    "missingSamples": 0
+  },
+  "stagingManifest": {
+    "path": "visbybuild/cache/terrain-stage/terrain-stage-assets.json",
+    "bytes": 349545,
+    "sha256": "0746e8d9ff8bf2d7649704246cbabae5038f5d6d80c7db4da64ab1c3a40aad68"
+  },
+  "preview": {
+    "path": "visbybuild/cache/terrain-stage/preview.json",
+    "bytes": 29643,
+    "sha256": "458192e678965ff3cb81abf30490d5730b7e0ae3fd040dd716cdabdc911b83dc",
+    "sampleSpacingMetres": 2,
+    "tiles": 64,
+    "note": "The screenshot descriptor uses the existing 2 m LOD under its 64-tile limit; all 256 finest 1 m tiles and coarser assets are retained in this staging tree."
+  },
+  "releaseGates": {
+    "playableCourse": false,
+    "authoritativeSurfaces": false,
+    "canonicalOriginApproved": false,
+    "measuredVegetation": false,
+    "perHoleVisualReview": false,
+    "remotePublication": false
+  },
+  "next": "Register current routing and surfaces against licensed imagery and independent controls before authoring a playable course graph. Source sea heights represent the water surface, never bathymetry."
+}

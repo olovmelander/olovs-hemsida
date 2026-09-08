@@ -1,0 +1,1129 @@
+{
+  "type": "FeatureCollection",
+  "name": "Lidingo provisional facilities",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "lidingo-courtyard-putting-green-2019",
+      "properties": {
+        "kind": "practice_green",
+        "parentFacilityId": "lidingo-clubhouse",
+        "name": "Puttinggreen vid klubbhuset",
+        "note": "Small distinct green enclosed by the two clubhouse-area buildings and paths; separate from the larger putting green to the southeast.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677645.9625075364,
+              6586495.503963715
+            ],
+            [
+              677648.392351469,
+              6586497.115057546
+            ],
+            [
+              677654.38617551,
+              6586497.385388406
+            ],
+            [
+              677658.4496410014,
+              6586496.06715293
+            ],
+            [
+              677659.6288322334,
+              6586492.1163252415
+            ],
+            [
+              677661.3300363175,
+              6586487.688539702
+            ],
+            [
+              677660.5112859886,
+              6586483.647601743
+            ],
+            [
+              677658.1039693822,
+              6586481.537022619
+            ],
+            [
+              677652.155200304,
+              6586480.2677214695
+            ],
+            [
+              677649.1132332092,
+              6586481.131526922
+            ],
+            [
+              677647.4796119698,
+              6586484.060856289
+            ],
+            [
+              677646.210310715,
+              6586490.0096251285
+            ],
+            [
+              677645.9625075364,
+              6586495.503963715
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-courtyard-hardstanding-2019",
+      "properties": {
+        "kind": "paved_path",
+        "parentFacilityId": "lidingo-clubhouse",
+        "material": "unverified-hard-surface",
+        "note": "Visible hardstanding surrounding the enclosed putting green. Interior turf remains an explicit hole. Physical paving material unknown.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677640.3494073307,
+              6586499.767935058
+            ],
+            [
+              677641.0371905611,
+              6586496.184290826
+            ],
+            [
+              677644.5281235906,
+              6586496.972952993
+            ],
+            [
+              677664.9210728052,
+              6586501.589901239
+            ],
+            [
+              677667.4403774987,
+              6586496.4726492055
+            ],
+            [
+              677666.9595406265,
+              6586484.9394305665
+            ],
+            [
+              677666.1858453081,
+              6586479.899521783
+            ],
+            [
+              677664.3455965689,
+              6586476.313014077
+            ],
+            [
+              677660.8717265615,
+              6586475.655836016
+            ],
+            [
+              677643.2095194189,
+              6586478.863255192
+            ],
+            [
+              677639.5779569848,
+              6586481.702474349
+            ],
+            [
+              677639.1724611324,
+              6586490.69320998
+            ],
+            [
+              677640.2654208783,
+              6586499.751528307
+            ],
+            [
+              677640.3494073307,
+              6586499.767935058
+            ]
+          ],
+          [
+            [
+              677646.210310715,
+              6586490.0096251285
+            ],
+            [
+              677647.4796119698,
+              6586484.060856289
+            ],
+            [
+              677649.1132332092,
+              6586481.131526922
+            ],
+            [
+              677652.155200304,
+              6586480.2677214695
+            ],
+            [
+              677658.1039693822,
+              6586481.537022619
+            ],
+            [
+              677660.5112859886,
+              6586483.647601743
+            ],
+            [
+              677661.3300363175,
+              6586487.688539702
+            ],
+            [
+              677659.6288322334,
+              6586492.1163252415
+            ],
+            [
+              677658.4496410014,
+              6586496.06715293
+            ],
+            [
+              677654.38617551,
+              6586497.385388406
+            ],
+            [
+              677648.392351469,
+              6586497.115057546
+            ],
+            [
+              677645.9625075364,
+              6586495.503963715
+            ],
+            [
+              677646.210310715,
+              6586490.0096251285
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-clubhouse-parking-2019",
+      "properties": {
+        "kind": "parking",
+        "parentFacilityId": "lidingo-clubhouse",
+        "material": "unverified-hard-surface",
+        "note": "Observed car-park apron west of the clubhouse; cars identify use but their positions are not adopted. Footprint clipped against retained building rings.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677612.8947293154,
+              6586462.98147587
+            ],
+            [
+              677631.0113643222,
+              6586460.795554014
+            ],
+            [
+              677639.570197016,
+              6586459.680065472
+            ],
+            [
+              677639.2959865681,
+              6586454.662684827
+            ],
+            [
+              677644.3133672592,
+              6586454.388474322
+            ],
+            [
+              677642.6983929907,
+              6586445.807113906
+            ],
+            [
+              677641.4026841503,
+              6586441.24416363
+            ],
+            [
+              677633.4334465921,
+              6586440.384239078
+            ],
+            [
+              677632.2954297632,
+              6586432.324891882
+            ],
+            [
+              677623.1920572966,
+              6586434.416824503
+            ],
+            [
+              677611.5462039636,
+              6586437.39509028
+            ],
+            [
+              677605.8941740544,
+              6586440.643685149
+            ],
+            [
+              677612.8947293154,
+              6586462.98147587
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-upper-parking-north-2019",
+      "properties": {
+        "kind": "parking",
+        "parentFacilityId": "lidingo-upper-parking",
+        "material": "unverified-hard-surface",
+        "note": "Visible 2019 northern hardstanding; shadowed edges omitted. Later practice-area changes reported in 2025 are unresolved, so this is explicitly historical geometry.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 3,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677551.9505256198,
+              6586504.777408796
+            ],
+            [
+              677578.284194896,
+              6586497.957080022
+            ],
+            [
+              677588.4991744127,
+              6586493.412779304
+            ],
+            [
+              677590.3355432835,
+              6586485.988083831
+            ],
+            [
+              677594.556700377,
+              6586481.173451979
+            ],
+            [
+              677590.3316637455,
+              6586474.976881659
+            ],
+            [
+              677579.7298369341,
+              6586477.001229726
+            ],
+            [
+              677570.5588834989,
+              6586480.591615701
+            ],
+            [
+              677563.2957608193,
+              6586486.270052162
+            ],
+            [
+              677557.0766636055,
+              6586490.9945731005
+            ],
+            [
+              677547.0193783556,
+              6586492.042477492
+            ],
+            [
+              677551.9505256198,
+              6586504.777408796
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-upper-parking-south-2019",
+      "properties": {
+        "kind": "parking",
+        "parentFacilityId": "lidingo-upper-parking",
+        "material": "unverified-hard-surface",
+        "note": "Separate visible 2019 apron. Tree-covered middle portion is deliberately not joined across uncertain boundaries.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 3,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677565.0194916371,
+              6586481.342783205
+            ],
+            [
+              677574.190444871,
+              6586477.752397344
+            ],
+            [
+              677581.2958750696,
+              6586475.5703567155
+            ],
+            [
+              677589.9448161166,
+              6586472.456928086
+            ],
+            [
+              677586.7412772482,
+              6586465.805927835
+            ],
+            [
+              677581.7914802459,
+              6586464.581682455
+            ],
+            [
+              677571.5990290651,
+              6586468.626499103
+            ],
+            [
+              677566.1046922242,
+              6586468.378696564
+            ],
+            [
+              677565.0194916371,
+              6586481.342783205
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-range-field-2019",
+      "properties": {
+        "kind": "range_field",
+        "parentFacilityId": "lidingo-driving-range",
+        "note": "Observed range grass field. Covered buildings, northern hardstanding and southern tee apron excluded. Replaces the broad supplementary OSM range surface, not a surveyed mowing boundary.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 2.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677585.9854609089,
+              6586382.688636551
+            ],
+            [
+              677608.5073511406,
+              6586382.703395803
+            ],
+            [
+              677623.7622372651,
+              6586377.385392215
+            ],
+            [
+              677628.2459498402,
+              6586344.554526307
+            ],
+            [
+              677629.2783151726,
+              6586310.566998269
+            ],
+            [
+              677628.38809272,
+              6586297.013313436
+            ],
+            [
+              677623.3442971903,
+              6586286.775808816
+            ],
+            [
+              677625.7360577178,
+              6586244.841570405
+            ],
+            [
+              677626.1190172876,
+              6586236.350320154
+            ],
+            [
+              677627.0837863792,
+              6586203.861247862
+            ],
+            [
+              677631.0493565007,
+              6586182.5185407065
+            ],
+            [
+              677636.3782195651,
+              6586164.240325482
+            ],
+            [
+              677625.2504868961,
+              6586155.730442331
+            ],
+            [
+              677600.7757076691,
+              6586154.626626486
+            ],
+            [
+              677590.5832608901,
+              6586158.671456668
+            ],
+            [
+              677564.794138779,
+              6586164.515379633
+            ],
+            [
+              677554.8984366066,
+              6586173.078102171
+            ],
+            [
+              677545.7989626657,
+              6586186.181244131
+            ],
+            [
+              677540.3085189511,
+              6586196.944648
+            ],
+            [
+              677539.745345276,
+              6586209.431776332
+            ],
+            [
+              677544.909559557,
+              6586239.194250246
+            ],
+            [
+              677552.9355186175,
+              6586272.08879887
+            ],
+            [
+              677563.0759373658,
+              6586313.587233417
+            ],
+            [
+              677574.7148049085,
+              6586355.153253267
+            ],
+            [
+              677585.9854609089,
+              6586382.688636551
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-range-north-platform-2019",
+      "properties": {
+        "kind": "range_tee_pad",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "mixed-hardstanding-and-mats",
+        "note": "Visible northern practice hardstanding with a row of mats. A continuous platform is supported; individual mat count, dividers and dimensions remain unmeasured. OSM way41197436 previously drew this as grass.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677585.1705930319,
+              6586389.658902163
+            ],
+            [
+              677598.2022635058,
+              6586389.245642578
+            ],
+            [
+              677597.954462692,
+              6586394.739980172
+            ],
+            [
+              677610.4190665453,
+              6586395.802649273
+            ],
+            [
+              677616.9799570963,
+              6586394.597049082
+            ],
+            [
+              677621.1785854808,
+              6586390.281900362
+            ],
+            [
+              677626.398711787,
+              6586385.51232087
+            ],
+            [
+              677627.168525041,
+              6586379.54102464
+            ],
+            [
+              677620.5400523047,
+              6586382.245081144
+            ],
+            [
+              677608.4397691509,
+              6586384.201851581
+            ],
+            [
+              677595.9075833593,
+              6586384.63763879
+            ],
+            [
+              677584.8738538453,
+              6586385.141007943
+            ],
+            [
+              677585.1705930319,
+              6586389.658902163
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-range-south-platform-2019",
+      "properties": {
+        "kind": "range_tee_pad",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "mixed-hardstanding-and-mats",
+        "note": "Southern mat apron in front of the low range shelter and eastward extension. Shelter footprint and mats are separate physical features; no synthetic pitch-spaced bays.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677566.1985926311,
+              6586155.569699916
+            ],
+            [
+              677576.3234577855,
+              6586153.023325658
+            ],
+            [
+              677594.372506707,
+              6586152.335836417
+            ],
+            [
+              677609.8790768591,
+              6586152.534683413
+            ],
+            [
+              677625.7950259234,
+              6586154.753998553
+            ],
+            [
+              677626.6098871015,
+              6586147.7837309465
+            ],
+            [
+              677611.6703816581,
+              6586146.108955216
+            ],
+            [
+              677592.6223609496,
+              6586146.751391304
+            ],
+            [
+              677581.0666200051,
+              6586147.731729813
+            ],
+            [
+              677567.4228314706,
+              6586150.6199016655
+            ],
+            [
+              677566.1985926311,
+              6586155.569699916
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-range-east-platform-north-2019",
+      "properties": {
+        "kind": "range_tee_pad",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "unverified-turf-surface",
+        "note": "First clearly visible green practice strip south of the large range building. Exact turf/mat construction unknown.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677628.2971747019,
+              6586232.44454574
+            ],
+            [
+              677640.2622955334,
+              6586233.48467951
+            ],
+            [
+              677641.5541173902,
+              6586227.036424102
+            ],
+            [
+              677628.635079836,
+              6586224.952266012
+            ],
+            [
+              677628.2971747019,
+              6586232.44454574
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-range-east-platform-south-2019",
+      "properties": {
+        "kind": "range_tee_pad",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "unverified-turf-surface",
+        "note": "Second clearly visible green practice strip. The intervening patchy strip is left unresolved rather than joined into one invented platform.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 1.5,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677631.8083160103,
+              6586210.0803413335
+            ],
+            [
+              677646.2258099242,
+              6586212.2320795795
+            ],
+            [
+              677648.584182843,
+              6586204.330421742
+            ],
+            [
+              677632.6682327301,
+              6586202.111103088
+            ],
+            [
+              677631.8083160103,
+              6586210.0803413335
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-range-target-green-2019",
+      "properties": {
+        "kind": "practice_green",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "unverified-turf-surface",
+        "note": "Distinct green target surface within the range. No target flag, daily cup position or distance marker is inferred.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677578.1350485078,
+              6586268.220301538
+            ],
+            [
+              677581.4962824369,
+              6586271.3749024235
+            ],
+            [
+              677588.920979462,
+              6586273.21126452
+            ],
+            [
+              677597.412228496,
+              6586273.594225198
+            ],
+            [
+              677602.5197164989,
+              6586271.322069917
+            ],
+            [
+              677605.2874678719,
+              6586265.4408822395
+            ],
+            [
+              677605.96716977,
+              6586261.467527206
+            ],
+            [
+              677601.6294919199,
+              6586257.768386741
+            ],
+            [
+              677595.7257771717,
+              6586255.500120968
+            ],
+            [
+              677587.80159457,
+              6586253.641232307
+            ],
+            [
+              677583.7381316057,
+              6586254.959471515
+            ],
+            [
+              677580.0615185925,
+              6586258.797663796
+            ],
+            [
+              677578.1350485078,
+              6586268.220301538
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-range-east-access-2019",
+      "properties": {
+        "kind": "paved_path",
+        "parentFacilityId": "lidingo-driving-range",
+        "material": "unverified-hard-surface",
+        "note": "Visible service hardstanding between the large range building and road; excludes the building footprint. No parking stalls or vehicles inferred.",
+        "sourceId": "imagery-municipal-2019",
+        "sourceSha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+        "observedYear": 2019,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "licence": "CC0-1.0",
+        "method": "observed source pixels, worldfile, EPSG:3011 to EPSG:3006 using PROJ; no smoothing"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677644.6870031855,
+              6586290.74138754
+            ],
+            [
+              677651.0902041604,
+              6586293.032181791
+            ],
+            [
+              677654.0832279129,
+              6586282.156139543
+            ],
+            [
+              677659.2994636588,
+              6586266.375351673
+            ],
+            [
+              677663.1337675684,
+              6586259.0407605525
+            ],
+            [
+              677663.8810507241,
+              6586253.568948377
+            ],
+            [
+              677660.5873965726,
+              6586248.915890511
+            ],
+            [
+              677652.1862534585,
+              6586246.534989151
+            ],
+            [
+              677650.1020937688,
+              6586259.4540273305
+            ],
+            [
+              677646.3843147205,
+              6586275.302396068
+            ],
+            [
+              677644.6870031855,
+              6586290.74138754
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-clubhouse-practice-green-osm",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677672.0457873459,
+              6586476.419435249
+            ],
+            [
+              677679.3588242785,
+              6586476.763330735
+            ],
+            [
+              677681.4445456662,
+              6586471.374466274
+            ],
+            [
+              677684.2230996013,
+              6586464.200354053
+            ],
+            [
+              677685.2393823742,
+              6586449.002906656
+            ],
+            [
+              677685.8604932723,
+              6586442.329563198
+            ],
+            [
+              677684.8170706247,
+              6586438.622528866
+            ],
+            [
+              677676.9246833558,
+              6586437.649157789
+            ],
+            [
+              677668.0469916088,
+              6586438.14618889
+            ],
+            [
+              677663.1906090527,
+              6586444.007005456
+            ],
+            [
+              677667.4897284927,
+              6586449.997216778
+            ],
+            [
+              677666.4960382645,
+              6586458.180910958
+            ],
+            [
+              677666.9958558345,
+              6586466.06680656
+            ],
+            [
+              677669.6530097391,
+              6586474.422173989
+            ],
+            [
+              677672.0457873459,
+              6586476.419435249
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "lidingo-clubhouse-practice-green-osm",
+        "sourceFeatureId": "way/296422967",
+        "kind": "practice_green",
+        "parentFacilityId": "lidingo-clubhouse",
+        "name": "Stora puttinggreenen",
+        "note": "Retained source ring, visually corroborated beside clubhouse. Remove its duplicate from generic scenery greens.",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "sourceSha256": "d25889882339c4259bc38a3d475a9113b70dc6092d9f98782c3812e4e8999ec0",
+        "observedYear": null,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "registrationAccuracy": "not independently checked",
+        "method": "unmodified supplementary OSM ring; 2019 visual correspondence; purpose association only"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lidingo-south-practice-green-osm",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              677671.7056300449,
+              6586110.294838394
+            ],
+            [
+              677674.7161836808,
+              6586107.994030307
+            ],
+            [
+              677677.9889359376,
+              6586096.727932107
+            ],
+            [
+              677681.860345329,
+              6586092.337511708
+            ],
+            [
+              677681.2679057205,
+              6586085.450975798
+            ],
+            [
+              677670.6204916302,
+              6586081.448521486
+            ],
+            [
+              677663.9136246024,
+              6586074.731758593
+            ],
+            [
+              677660.038387775,
+              6586069.519869637
+            ],
+            [
+              677655.3139296095,
+              6586069.29775689
+            ],
+            [
+              677654.2312863888,
+              6586076.105535023
+            ],
+            [
+              677656.8735881997,
+              6586084.9062618725
+            ],
+            [
+              677657.2589023778,
+              6586096.199372067
+            ],
+            [
+              677657.7986494428,
+              6586107.354763074
+            ],
+            [
+              677660.5800485339,
+              6586109.927887187
+            ],
+            [
+              677666.4913760594,
+              6586110.808037257
+            ],
+            [
+              677671.7056300449,
+              6586110.294838394
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "lidingo-south-practice-green-osm",
+        "sourceFeatureId": "way/221846981",
+        "kind": "practice_green",
+        "parentFacilityId": "lidingo-south-practice",
+        "name": "Övningsgreen söder om rangen",
+        "note": "OSM explicitly names putting green; 2019 image confirms position. Retain exact source ring and avoid duplicating scenery green.",
+        "sourceId": "lidingo-osm-2026-09-07",
+        "sourceSha256": "d25889882339c4259bc38a3d475a9113b70dc6092d9f98782c3812e4e8999ec0",
+        "observedYear": null,
+        "notSurveyed": true,
+        "reviewStatus": "machine-visual-review",
+        "registrationAccuracy": "not independently checked",
+        "method": "unmodified supplementary OSM ring; 2019 visual correspondence; purpose association only"
+      }
+    }
+  ]
+}

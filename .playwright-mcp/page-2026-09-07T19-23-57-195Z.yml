@@ -1,0 +1,350 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - link "← Alla golfbanor" [ref=e4] [cursor=pointer]:
+      - /url: /
+    - link "Banvy" [ref=e5] [cursor=pointer]:
+      - /url: /
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - text: Lidingö · Stockholm
+      - heading "Lidingö Golfklubb" [level=1] [ref=e8]
+      - paragraph [ref=e9]: 18 hål · Par 70 · Fem tees
+    - generic [ref=e10]: Under kartläggning
+  - paragraph [ref=e11]: Upptäck klubbens scorekort och en första bankarta. 3D-banan är under arbete; kartans ytor och hålrutter är preliminära.
+  - generic [ref=e12]:
+    - region "Preliminär bankarta" [ref=e13]:
+      - generic [ref=e14]:
+        - button "Visa hela banan" [ref=e15] [cursor=pointer]
+        - generic [ref=e16]:
+          - checkbox "Kartlagda ytor" [checked] [ref=e17]
+          - text: Kartlagda ytor
+        - generic [ref=e18]: N ↑
+      - img "Välj ett hål på den preliminära kartan" [ref=e19]:
+        - button "Visa hål 1" [ref=e75] [cursor=pointer]:
+          - generic [ref=e78]: "1"
+        - button "Visa hål 2" [ref=e79] [cursor=pointer]:
+          - generic [ref=e82]: "2"
+        - button "Visa hål 3" [ref=e83] [cursor=pointer]:
+          - generic [ref=e86]: "3"
+        - button "Visa hål 4" [ref=e87] [cursor=pointer]:
+          - generic [ref=e90]: "4"
+        - button "Visa hål 5" [ref=e91] [cursor=pointer]:
+          - generic [ref=e94]: "5"
+        - button "Visa hål 6" [ref=e95] [cursor=pointer]:
+          - generic [ref=e98]: "6"
+        - button "Visa hål 7" [ref=e99] [cursor=pointer]:
+          - generic [ref=e102]: "7"
+        - button "Visa hål 8" [ref=e103] [cursor=pointer]:
+          - generic [ref=e106]: "8"
+        - button "Visa hål 9" [ref=e107] [cursor=pointer]:
+          - generic [ref=e110]: "9"
+        - button "Visa hål 10" [ref=e111] [cursor=pointer]:
+          - generic [ref=e114]: "10"
+        - button "Visa hål 11" [ref=e115] [cursor=pointer]:
+          - generic [ref=e118]: "11"
+        - button "Visa hål 12" [ref=e119] [cursor=pointer]:
+          - generic [ref=e122]: "12"
+        - button "Visa hål 13" [ref=e123] [cursor=pointer]:
+          - generic [ref=e126]: "13"
+        - button "Visa hål 14" [ref=e127] [cursor=pointer]:
+          - generic [ref=e130]: "14"
+        - button "Visa hål 15" [ref=e131] [cursor=pointer]:
+          - generic [ref=e134]: "15"
+        - button "Visa hål 16" [ref=e135] [cursor=pointer]:
+          - generic [ref=e138]: "16"
+        - button "Visa hål 17" [ref=e139] [cursor=pointer]:
+          - generic [ref=e142]: "17"
+        - button "Visa hål 18" [ref=e143] [cursor=pointer]:
+          - generic [ref=e146]: "18"
+      - generic [ref=e147]:
+        - generic [ref=e148]: Green
+        - generic [ref=e150]: Fairway
+        - generic [ref=e152]: Tee
+        - generic [ref=e154]: Bunker
+      - paragraph [ref=e156]:
+        - text: "Preliminära rutter och ytor:"
+        - link "© OpenStreetMap contributors · ODbL" [ref=e157] [cursor=pointer]:
+          - /url: https://www.openstreetmap.org/copyright
+        - text: . Saknade ytor visas inte.
+    - complementary [ref=e158]:
+      - generic [ref=e159]:
+        - text: Välj hål
+        - generic [ref=e160]:
+          - button "1" [pressed] [ref=e161] [cursor=pointer]
+          - button "2" [ref=e162] [cursor=pointer]
+          - button "3" [ref=e163] [cursor=pointer]
+          - button "4" [ref=e164] [cursor=pointer]
+          - button "5" [ref=e165] [cursor=pointer]
+          - button "6" [ref=e166] [cursor=pointer]
+          - button "7" [ref=e167] [cursor=pointer]
+          - button "8" [ref=e168] [cursor=pointer]
+          - button "9" [ref=e169] [cursor=pointer]
+          - button "10" [ref=e170] [cursor=pointer]
+          - button "11" [ref=e171] [cursor=pointer]
+          - button "12" [ref=e172] [cursor=pointer]
+          - button "13" [ref=e173] [cursor=pointer]
+          - button "14" [ref=e174] [cursor=pointer]
+          - button "15" [ref=e175] [cursor=pointer]
+          - button "16" [ref=e176] [cursor=pointer]
+          - button "17" [ref=e177] [cursor=pointer]
+          - button "18" [ref=e178] [cursor=pointer]
+        - generic [ref=e179]:
+          - heading "Hål 1 Par 3 · Index 14" [level=2] [ref=e180]
+          - generic [ref=e181]:
+            - generic [ref=e182]:
+              - term [ref=e183]: Vit
+              - definition [ref=e184]: 162 m
+            - generic [ref=e185]:
+              - term [ref=e186]: Gul
+              - definition [ref=e187]: 162 m
+            - generic [ref=e188]:
+              - term [ref=e189]: Blå
+              - definition [ref=e190]: 155 m
+            - generic [ref=e191]:
+              - term [ref=e192]: Röd
+              - definition [ref=e193]: 128 m
+            - generic [ref=e194]:
+              - term [ref=e195]: Orange
+              - definition [ref=e196]: 120 m
+          - paragraph [ref=e197]: Rutten visar hålets riktning. Tee-markeringarnas och flaggans exakta lägen är ännu inte fastställda.
+      - generic [ref=e198]:
+        - heading "Arbetet med banan" [level=2] [ref=e199]
+        - paragraph [ref=e200]: Klubbens scorekort och alla 18 hålrutter finns med. Kartunderlaget innehåller 15 greener, 19 tee-ytor, 5 fairways och 13 bunkrar.
+        - paragraph [ref=e201]: Ytorna behöver kompletteras och granskas, särskilt efter klubbens senaste banändringar.
+      - generic [ref=e202]:
+        - heading "Utforska hos klubben" [level=2] [ref=e203]
+        - link "Klubbens banguide" [ref=e204] [cursor=pointer]:
+          - /url: https://www.lidingogk.se/banan/nya-banguiden/
+          - text: Klubbens banguide
+          - generic [aria-hidden] [ref=e205]: ↗
+        - link "Scorekort och lokala regler" [ref=e206] [cursor=pointer]:
+          - /url: https://www.lidingogk.se/banan/slope-lokala-regler-aeven-scorekort/
+          - text: Scorekort och lokala regler
+          - generic [aria-hidden] [ref=e207]: ↗
+        - link "Banan hos Lidingö GK" [ref=e208] [cursor=pointer]:
+          - /url: https://www.lidingogk.se/banan/
+          - text: Banan hos Lidingö GK
+          - generic [aria-hidden] [ref=e209]: ↗
+        - link "Flyover – alla 18 hål" [ref=e210] [cursor=pointer]:
+          - /url: https://www.lidingogk.se/banan/flyover/
+          - text: Flyover – alla 18 hål
+          - generic [aria-hidden] [ref=e211]: ↗
+        - link "Klubbens bildgalleri 2026" [ref=e212] [cursor=pointer]:
+          - /url: https://www.lidingogk.se/banan/bildgalleri/bildgalleri-2026/
+          - text: Klubbens bildgalleri 2026
+          - generic [aria-hidden] [ref=e213]: ↗
+        - link "Lokala regler 2026" [ref=e214] [cursor=pointer]:
+          - /url: https://www.lidingogk.se/media/tl1nt1n3/lidingoe-gk-lokala-regler-2026-03-16.pdf
+          - text: Lokala regler 2026
+          - generic [aria-hidden] [ref=e215]: ↗
+  - generic [ref=e216]:
+    - heading "Klubbens scorekort" [level=2] [ref=e217]
+    - paragraph [ref=e218]: Meter till green enligt klubbens publicerade scorekort. Välj ett hål för att visa det på kartan.
+    - table [ref=e220]:
+      - caption [ref=e221]: Lidingö Golfklubb · 18 hål · meter
+      - rowgroup [ref=e222]:
+        - row [ref=e223]:
+          - columnheader "Hål" [ref=e224]
+          - columnheader "Par" [ref=e225]
+          - columnheader "Index" [ref=e226]
+          - columnheader "Vit" [ref=e227]
+          - columnheader "Gul" [ref=e228]
+          - columnheader "Blå" [ref=e229]
+          - columnheader "Röd" [ref=e230]
+          - columnheader "Orange" [ref=e231]
+      - rowgroup [ref=e232]:
+        - row [ref=e233]:
+          - rowheader [ref=e234]:
+            - button "1" [pressed] [ref=e235] [cursor=pointer]
+          - cell "3" [ref=e236]
+          - cell "14" [ref=e237]
+          - cell "162" [ref=e238]
+          - cell "162" [ref=e239]
+          - cell "155" [ref=e240]
+          - cell "128" [ref=e241]
+          - cell "120" [ref=e242]
+        - row [ref=e243]:
+          - rowheader [ref=e244]:
+            - button "2" [ref=e245] [cursor=pointer]
+          - cell "5" [ref=e246]
+          - cell "6" [ref=e247]
+          - cell "498" [ref=e248]
+          - cell "472" [ref=e249]
+          - cell "414" [ref=e250]
+          - cell "414" [ref=e251]
+          - cell "360" [ref=e252]
+        - row [ref=e253]:
+          - rowheader [ref=e254]:
+            - button "3" [ref=e255] [cursor=pointer]
+          - cell "3" [ref=e256]
+          - cell "10" [ref=e257]
+          - cell "196" [ref=e258]
+          - cell "173" [ref=e259]
+          - cell "145" [ref=e260]
+          - cell "132" [ref=e261]
+          - cell "130" [ref=e262]
+        - row [ref=e263]:
+          - rowheader [ref=e264]:
+            - button "4" [ref=e265] [cursor=pointer]
+          - cell "4" [ref=e266]
+          - cell "4" [ref=e267]
+          - cell "395" [ref=e268]
+          - cell "358" [ref=e269]
+          - cell "337" [ref=e270]
+          - cell "301" [ref=e271]
+          - cell "210" [ref=e272]
+        - row [ref=e273]:
+          - rowheader [ref=e274]:
+            - button "5" [ref=e275] [cursor=pointer]
+          - cell "4" [ref=e276]
+          - cell "18" [ref=e277]
+          - cell "262" [ref=e278]
+          - cell "262" [ref=e279]
+          - cell "252" [ref=e280]
+          - cell "233" [ref=e281]
+          - cell "230" [ref=e282]
+        - row [ref=e283]:
+          - rowheader [ref=e284]:
+            - button "6" [ref=e285] [cursor=pointer]
+          - cell "3" [ref=e286]
+          - cell "8" [ref=e287]
+          - cell "188" [ref=e288]
+          - cell "166" [ref=e289]
+          - cell "148" [ref=e290]
+          - cell "142" [ref=e291]
+          - cell "125" [ref=e292]
+        - row [ref=e293]:
+          - rowheader [ref=e294]:
+            - button "7" [ref=e295] [cursor=pointer]
+          - cell "4" [ref=e296]
+          - cell "2" [ref=e297]
+          - cell "351" [ref=e298]
+          - cell "336" [ref=e299]
+          - cell "323" [ref=e300]
+          - cell "299" [ref=e301]
+          - cell "260" [ref=e302]
+        - row [ref=e303]:
+          - rowheader [ref=e304]:
+            - button "8" [ref=e305] [cursor=pointer]
+          - cell "4" [ref=e306]
+          - cell "12" [ref=e307]
+          - cell "356" [ref=e308]
+          - cell "332" [ref=e309]
+          - cell "319" [ref=e310]
+          - cell "285" [ref=e311]
+          - cell "240" [ref=e312]
+        - row [ref=e313]:
+          - rowheader [ref=e314]:
+            - button "9" [ref=e315] [cursor=pointer]
+          - cell "3" [ref=e316]
+          - cell "16" [ref=e317]
+          - cell "161" [ref=e318]
+          - cell "136" [ref=e319]
+          - cell "128" [ref=e320]
+          - cell "107" [ref=e321]
+          - cell "100" [ref=e322]
+        - row [ref=e323]:
+          - rowheader [ref=e324]:
+            - button "10" [ref=e325] [cursor=pointer]
+          - cell "5" [ref=e326]
+          - cell "7" [ref=e327]
+          - cell "492" [ref=e328]
+          - cell "446" [ref=e329]
+          - cell "416" [ref=e330]
+          - cell "374" [ref=e331]
+          - cell "325" [ref=e332]
+        - row [ref=e333]:
+          - rowheader [ref=e334]:
+            - button "11" [ref=e335] [cursor=pointer]
+          - cell "3" [ref=e336]
+          - cell "17" [ref=e337]
+          - cell "134" [ref=e338]
+          - cell "125" [ref=e339]
+          - cell "125" [ref=e340]
+          - cell "109" [ref=e341]
+          - cell "105" [ref=e342]
+        - row [ref=e343]:
+          - rowheader [ref=e344]:
+            - button "12" [ref=e345] [cursor=pointer]
+          - cell "5" [ref=e346]
+          - cell "3" [ref=e347]
+          - cell "470" [ref=e348]
+          - cell "470" [ref=e349]
+          - cell "458" [ref=e350]
+          - cell "392" [ref=e351]
+          - cell "355" [ref=e352]
+        - row [ref=e353]:
+          - rowheader [ref=e354]:
+            - button "13" [ref=e355] [cursor=pointer]
+          - cell "4" [ref=e356]
+          - cell "11" [ref=e357]
+          - cell "343" [ref=e358]
+          - cell "305" [ref=e359]
+          - cell "294" [ref=e360]
+          - cell "271" [ref=e361]
+          - cell "230" [ref=e362]
+        - row [ref=e363]:
+          - rowheader [ref=e364]:
+            - button "14" [ref=e365] [cursor=pointer]
+          - cell "4" [ref=e366]
+          - cell "15" [ref=e367]
+          - cell "325" [ref=e368]
+          - cell "310" [ref=e369]
+          - cell "290" [ref=e370]
+          - cell "227" [ref=e371]
+          - cell "220" [ref=e372]
+        - row [ref=e373]:
+          - rowheader [ref=e374]:
+            - button "15" [ref=e375] [cursor=pointer]
+          - cell "4" [ref=e376]
+          - cell "1" [ref=e377]
+          - cell "377" [ref=e378]
+          - cell "357" [ref=e379]
+          - cell "332" [ref=e380]
+          - cell "302" [ref=e381]
+          - cell "270" [ref=e382]
+        - row [ref=e383]:
+          - rowheader [ref=e384]:
+            - button "16" [ref=e385] [cursor=pointer]
+          - cell "3" [ref=e386]
+          - cell "9" [ref=e387]
+          - cell "194" [ref=e388]
+          - cell "163" [ref=e389]
+          - cell "142" [ref=e390]
+          - cell "129" [ref=e391]
+          - cell "100" [ref=e392]
+        - row [ref=e393]:
+          - rowheader [ref=e394]:
+            - button "17" [ref=e395] [cursor=pointer]
+          - cell "5" [ref=e396]
+          - cell "13" [ref=e397]
+          - cell "449" [ref=e398]
+          - cell "421" [ref=e399]
+          - cell "411" [ref=e400]
+          - cell "374" [ref=e401]
+          - cell "315" [ref=e402]
+        - row [ref=e403]:
+          - rowheader [ref=e404]:
+            - button "18" [ref=e405] [cursor=pointer]
+          - cell "4" [ref=e406]
+          - cell "5" [ref=e407]
+          - cell "433" [ref=e408]
+          - cell "379" [ref=e409]
+          - cell "369" [ref=e410]
+          - cell "299" [ref=e411]
+          - cell "270" [ref=e412]
+      - rowgroup [ref=e413]:
+        - row [ref=e414]:
+          - rowheader "Totalt" [ref=e415]
+          - cell "70" [ref=e416]
+          - cell "—" [ref=e417]
+          - cell "5786" [ref=e418]
+          - cell "5373" [ref=e419]
+          - cell "5058" [ref=e420]
+          - cell "4518" [ref=e421]
+          - cell "3965" [ref=e422]
+    - paragraph [ref=e423]:
+      - text: "Källa:"
+      - link "Lidingö GK:s publicerade scorekort" [ref=e424] [cursor=pointer]:
+        - /url: https://www.lidingogk.se/banan/slope-lokala-regler-aeven-scorekort/
+      - text: ", avläst 7 september 2026."

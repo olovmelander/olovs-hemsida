@@ -16,6 +16,8 @@ export const EXPECTED_GROUNDS = Object.freeze({
   ribbingsfors: ['ribbingsfors'],
   upsala: ['upsala', 'upsala-mellanbanan'],
   johannesberg: ['johannesberg', 'johannesberg-9'],
+  lidingo: ['lidingo'],
+  visby: ['visby'],
   veckefjarden: ['veckefjarden', 'veckefjarden-korthalsbanan'],
 });
 
@@ -176,6 +178,11 @@ export function validateSourceManifest(manifest, options = {}) {
   }
   bbox(manifest.targetBboxWgs84, label + '.targetBboxWgs84', fail);
   validateLegacyFrame(manifest.legacyFrame, label, fail);
+  if (manifest.legacyFrame === null && Array.isArray(manifest.artifacts) && manifest.artifacts.some(artifact =>
+    artifact?.kind === 'composite' && typeof artifact.id === 'string' &&
+    artifact.id.startsWith('legacy-') && /model\.json$/.test(artifact.path))) {
+    fail(label + '.legacyFrame', 'inventoried legacy models require their explicit frame');
+  }
   validateCanonicalFrame(manifest.canonicalFrame, label, fail);
 
   if (!Array.isArray(manifest.sources) || manifest.sources.length === 0) {
@@ -318,6 +325,8 @@ export function validateSourceManifest(manifest, options = {}) {
 
 function validateLegacyFrame(legacy, label, fail) {
   const at = label + '.legacyFrame';
+  // A new ground may have source evidence before any compatibility model exists.
+  if (legacy === null) return;
   if (!object(legacy)) { fail(at, 'must be an object'); return; }
   exactKeys(legacy, new Set([
     'buildDirectory', 'originWgs84', 'metresPerLatitude', 'metresPerLongitude',

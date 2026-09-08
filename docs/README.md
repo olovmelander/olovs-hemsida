@@ -12,6 +12,10 @@ tested during the Upsala work.
 | [V2 performance recovery](v2-performance-recovery.md) | Current default graphics, first-frame loading behavior, terrain resource reuse and valid performance comparisons. |
 | [Upsala mapping handoff](../upsalabuild/mapping/NEXT-SESSION.md) | Latest accepted Upsala checkpoint, exact rebuild/validation commands, local inputs and remaining work. |
 | [Upsala mapping inventory](../upsalabuild/mapping/README.md) | Current mapping coverage, review artifacts and category gaps. |
+| [Lidingö 3D mapping handoff](../lidingobuild/mapping/NEXT-SESSION.md) | Provisional 18-hole course on Lantmäteriet 1 m terrain, measured canopy, orthophoto traces, reproducible checks and remaining survey/current-condition gates. |
+| [Lidingö source research](courses/lidingo-source-research.md) | Official card, banguide, dated planning documents, photographs, flyovers, source checksums and rights limitations. |
+| [Visby source-intake handoff](../visbybuild/mapping/NEXT-SESSION.md) | Kronholmen's main 18-hole course, app preview, source acquisition, verification and remaining 3D authoring work. |
+| [Visby source research](courses/visby-source-research.md) | Official course resources, Caddee guides, scorecard, photography and source limitations. |
 
 For a new physical ground, read the production guide and create a source and
 coverage ledger before compiling. A new routing on an existing ground shares

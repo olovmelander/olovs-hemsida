@@ -22,7 +22,7 @@
     },
     "targetBboxWgs84": { "$ref": "#/$defs/bbox" },
     "legacyFrame": {
-      "type": "object",
+      "type": ["object", "null"],
       "additionalProperties": false,
       "required": [
         "buildDirectory", "originWgs84", "metresPerLatitude",

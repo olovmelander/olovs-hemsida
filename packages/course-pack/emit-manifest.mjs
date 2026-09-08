@@ -68,9 +68,28 @@ const COURSES = [
     title: 'Ribbingsfors Golf & Kultur — Nio hål i 3D', tag: 'Park & hagmark', boot: 'Gullspång · Skagern',
     cardStatus: 'Hålavstånd och index är preliminära',
     tees: { names: ['Vit', 'Gul', 'Röd'], cols: [0xf4f4ee, 0xf0c93a, 0xe0574a], hideFrom: 4 } },
+  { slug: 'visby', build: 'visbybuild', name: 'Visby GK', club: 'Visby Golfklubb',
+    title: 'Visby Golfklubb — Banan i 3D', tag: 'Kronholmen', boot: 'Västergarn · Gotland',
+    status: 'provisional', overviewUrl: 'courses/visby/overview.svg',
+    // Numbered tees are official; their physical colour associations are unknown.
+    // Neutral UI swatches and an explicit default avoid inventing a yellow tee.
+    tees: { names: ['63', '59', '55', '51', '46', '41'], cols: [0xd6ddd6, 0xd6ddd6, 0xd6ddd6, 0xd6ddd6, 0xd6ddd6, 0xd6ddd6], def: 1, hideFrom: 5 } },
+  { slug: 'lidingo', build: 'lidingobuild', name: 'Lidingö GK', club: 'Lidingö Golfklubb',
+    title: 'Lidingö Golfklubb — Banan i 3D', tag: 'Preliminär 3D', boot: 'Lidingö · Stockholm',
+    status: 'provisional',
+    overviewUrl: 'courses/lidingo/overview.svg',
+    tees: { names: ['Vit', 'Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 5 } },
 ];
 
-const entries = COURSES.map(c => {
+// A bounded refresh keeps other courses' published rows intact while a new
+// course is being prepared in the same workspace. Full regeneration stays the
+// default and still requires every configured pack to exist.
+const onlyArg = process.argv.slice(2).find(arg => arg.startsWith('--only='));
+const only = onlyArg?.slice('--only='.length);
+if (process.argv.slice(2).some(arg => arg !== onlyArg) || (onlyArg && !COURSES.some(c => c.slug === only))) {
+  throw new Error('Use emit-manifest.mjs [--only=<configured-course-slug>]');
+}
+const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
   const cardHoles = readCard(ROOT, c.build);
   const packFile = path.join(ROOT, 'apps/golf/public/courses', c.slug, 'pack.bin');
   const buf = fs.readFileSync(packFile);
@@ -85,8 +104,9 @@ const entries = COURSES.map(c => {
      quietly open those two on the back tee. A course with no yellow is an error
      rather than a fallback, because the default would then be a guess and this
      table is where that decision belongs. */
-  const def = c.tees.cols.indexOf(TEE_YELLOW);
-  if (def < 0) throw new Error(`${c.slug}: no yellow tee in the display table, so no default tee`);
+  const def = c.tees.def ?? c.tees.cols.indexOf(TEE_YELLOW);
+  if (!Number.isInteger(def) || def < 0 || def >= nTee)
+    throw new Error(`${c.slug}: specify a valid default tee when no verified yellow tee is present`);
   const par = cardHoles.reduce((a, h) => a + h.par, 0);
   /* How many posters the chooser card may cycle through. Counted from what is
      actually committed rather than declared, so a course that loses a poster
@@ -105,6 +125,8 @@ const entries = COURSES.map(c => {
        pipeline built a course is part of that contract. */
     build: c.build,
     par, holes: cardHoles.length, tees: { ...c.tees, def }, photos,
+    ...(c.overviewUrl ? { overviewUrl: c.overviewUrl } : {}),
+    ...(c.status ? { status: c.status } : {}),
     ...(c.cardStatus ? { cardStatus: c.cardStatus } : {}),
     /* RELATIVE, with no leading slash: the manifest is data, and data does not
        get to know where the site is mounted. The app prefixes its own base
@@ -114,7 +136,16 @@ const entries = COURSES.map(c => {
   };
 });
 
-fs.writeFileSync(OUT, JSON.stringify({ fmt: 1, courses: entries }, null, 1) + '\n');
+let manifest = { fmt: 1, courses: entries };
+if (only) {
+  const previous = JSON.parse(fs.readFileSync(OUT, 'utf8'));
+  if (previous.fmt !== 1 || !Array.isArray(previous.courses) ||
+      new Set(previous.courses.map(c => c.slug)).size !== previous.courses.length) throw new Error('Invalid existing course manifest');
+  const found = previous.courses.some(c => c.slug === only);
+  manifest = { ...previous, courses: previous.courses.map(c => c.slug === only ? entries[0] : c) };
+  if (!found) manifest.courses.push(entries[0]);
+}
+fs.writeFileSync(OUT, JSON.stringify(manifest, null, 1) + '\n');
 for (const e of entries)
   console.log(`${e.slug.padEnd(16)} par ${e.par}  ${String(e.tees.names.length)} tees  ${(e.bytes / 1024).toFixed(0).padStart(4)} KB  ${e.sha256.slice(0, 12)}…`);
 console.log(`wrote ${path.relative(ROOT, OUT)}`);

@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "variant": "source",
+  "status": "passed",
+  "startedAt": "2026-09-07T21:09:48.176Z",
+  "completedAt": "2026-09-07T21:09:48.177Z",
+  "sources": {
+    "sourceTerrainSha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898",
+    "courseModelSha256": "237b9b69274d5673fadfddfc34db2b26fef3d1630fded0c4dfd151f3577edb67",
+    "routeReferenceSha256": "e24099de16048accc60164e59d5a04804451159fe08a7a92f80edff06eae4df3",
+    "waterSha256": "b18499faae4354ef2ce95ef1910d7a5c2172457014087adcf9b622ea957e06af",
+    "compatibilityWaterSha256": "026e7177de3c50f95cc5936bf0bf3ccecebd5c7a19ed9102d76c8361fd6b2b1f",
+    "standIndexSha256": "b736088e84abf1b88557e772f4fbb39804c925a29b6bd336c08e5f1d950ff2b5",
+    "graph": {
+      "slug": "visby",
+      "groundId": "visby",
+      "frameFingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
+      "rootBytes": 594,
+      "rootSha256": "fb25910c16465c3cb42453f3abf09f9579edbd5e71f51ad0a790a1d51c127c68",
+      "courseManifestSha256": "893ed8df085c0537c0e754dbc872382fff776046facfed260ec7d4c75aaaf050",
+      "groundManifestSha256": "8fac49efe8722b324751119680f5d1402de0fc62fa0e03334e8b15032bce36fd",
+      "routingSha256": "1feffbb64d377f792225fd271f56737fe86983de0a8272e290988614ccb8ce1a",
+      "holes": 18,
+      "tiles": 341,
+      "finestTiles": 256,
+      "shellBytes": 43591,
+      "chunks": 599,
+      "encodedChunkBytes": 9193244,
+      "decodedChunkBytes": 49374762,
+      "holeTileBufferMetres": 90
+    },
+    "frame": {
+      "easting": 687748.5,
+      "northing": 6370951.5,
+      "heightRH2000": 0.1,
+      "latitude": 57.44236399463288,
+      "longitude": 18.12847826436399,
+      "text": "local metres from EPSG:3006; east +x, north -z; origin E687748.5 N6370951.5; heights RH 2000"
+    }
+  },
+  "checks": [
+    {
+      "ok": true,
+      "message": "Retained native-metre source contains the complete 4097 by 4097 sample window"
+    },
+    {
+      "ok": true,
+      "message": "All18 authored hole routes have finite green navigation targets"
+    },
+    {
+      "ok": true,
+      "message": "17 observed physical tee pads and the explicit unresolved hole12 platform survive the authored model"
+    },
+    {
+      "ok": true,
+      "message": "Published graph contains the full341-tile source pyramid and256 stand chunks"
+    },
+    {
+      "ok": true,
+      "message": "Compatibility water preserves all10 source island interiors",
+      "details": {
+        "sourceFeatures": 25,
+        "compatibilityPieces": 40,
+        "islands": 10
+      }
+    }
+  ],
+  "backend": null,
+  "vegetation": null,
+  "screenshots": [],
+  "detailedReport": "visbybuild/cache/runtime-review/source.json",
+  "limitations": [
+    "Provisional source preservation and rendering review, not survey approval or current-course validation.",
+    "2022 interpreted playing surfaces and unnamed representative tees; hole12 uses a virtual fairway start without physical pad geometry.",
+    "2024 canopy stand representatives are not measured stem positions.",
+    "Source water levels may be representative medians of nonconstant source Z; bathymetry is unknown."
+  ]
+}

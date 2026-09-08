@@ -132,6 +132,18 @@ export default defineConfig({
 
         runtimeCaching: [
           {
+            // Intake previews are verified, content-addressed JSON just like
+            // playable assets; a visited preview remains available offline.
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/courses\/[^/]+\/intake-[a-f0-9]{64}\.json$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-course-intakes',
+              expiration: { maxEntries: 12, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
             /* The descriptor is provisional and may be replaced after a newly
                reviewed terrain build, so revalidate it before using cache. */
             urlPattern: ({ url, sameOrigin }) => sameOrigin &&

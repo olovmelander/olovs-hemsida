@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "phase": "authenticated-finest-terrain-window",
+  "groundId": "lidingo",
+  "acquiredOn": "2026-09-07",
+  "state": "acquisition-evidence-only",
+  "reader": "packages/course-geo/cog/cog-reader.mjs over authenticated HTTP range requests",
+  "readerNote": "factor-1 samples are source pixels copied exactly; no overview and no resampling is involved",
+  "provider": {
+    "name": "Lantmateriet",
+    "product": "Markhojdmodell Nedladdning",
+    "collection": "dtm-cog",
+    "licence": "CC-BY-4.0"
+  },
+  "lattice": {
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "compoundCrs": "EPSG:5845",
+    "coordinateOrder": [
+      "easting",
+      "northing"
+    ],
+    "sampleSpacingMetres": 1,
+    "width": 2049,
+    "height": 2049,
+    "originEasting": 676676.5,
+    "originNorthing": 6587423.5,
+    "sampleCentreBounds": {
+      "minEasting": 676676.5,
+      "maxEasting": 678724.5,
+      "minNorthing": 6585375.5,
+      "maxNorthing": 6587423.5
+    },
+    "pixelEdgeWindow": {
+      "west": 676676,
+      "north": 6587424,
+      "east": 678725,
+      "south": 6585375
+    }
+  },
+  "sourceItems": [
+    {
+      "id": "658_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m658_67.tif",
+      "etag": "\"2e0334a2009e8128061059185cee1af9\"",
+      "contentLength": 258114060,
+      "lastModified": "Wed, 13 May 2026 14:48:37 GMT",
+      "noData": -9999,
+      "overviewFactors": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "overviewFactorUsed": 1,
+      "windowPixels": {
+        "column0": 6676,
+        "row0": 2576,
+        "columns": 2049,
+        "rows": 2049
+      },
+      "latticeWindow": {
+        "column0": 0,
+        "row0": 0,
+        "columns": 2049,
+        "rows": 2049
+      }
+    }
+  ],
+  "raster": {
+    "path": "lidingobuild/cache/terrain-review/terrain-1m.f32",
+    "format": "row-major little-endian Float32, north-up",
+    "bytes": 16793604,
+    "sha256": "80ffcd4865daa00f8e2393f43b8fcb1b37e020f968c0656a0189f80dde1de923"
+  },
+  "samples": {
+    "total": 4198401,
+    "finite": 4198401,
+    "minimumHeightRH2000": -0.04739104583859444,
+    "maximumHeightRH2000": 61.1399040222168,
+    "reviewedBand": {
+      "minimum": -5,
+      "maximum": 100
+    }
+  },
+  "transfer": {
+    "rangeRequests": 25,
+    "rangeBytes": 14980306,
+    "elapsedMilliseconds": 2257
+  }
+}

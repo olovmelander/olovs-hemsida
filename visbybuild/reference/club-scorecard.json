@@ -1,0 +1,324 @@
+{
+  "schemaVersion": 1,
+  "courseId": "visby",
+  "courseName": "Visby Golfklubb – 18-hålsbanan",
+  "holeCount": 18,
+  "par": 72,
+  "unit": "metres",
+  "source": {
+    "url": "https://prd-sgf-widget-api.azurewebsites.net/api/widget/302e8ccf-fb86-4d6f-9d65-3348e0ecd29b/scorecard",
+    "parentPage": "https://www.visbygk.com/golf/",
+    "assetId": "sgf-scorecard",
+    "sha256": "2711b6564deb457f4f1cc5a6e0611121c5964c2011f4c54fc82acda0a0f14858",
+    "retrievedDate": "2026-09-07",
+    "editionLabel": "Current public SGF scorecard embedded on the club golf page at retrieval; no edition date supplied",
+    "publicationDate": null,
+    "captureDate": null,
+    "method": "Extracted from original SGF widget HTTP response in normal club browser context; all 18 pars, 18 indexes and 108 lengths agree exactly with club-linked Caddee; all six totals agree with Caddee published tee totals. Front/back sums derived.",
+    "reviewer": "Codex machine comparison; no independent human review",
+    "decision": "Factual routing/card evidence only. Numeric tee identities retained; no tee-pad position, height or spatial authority established.",
+    "rights": "No redistribution grant for source pages, diagrams or photos found. Raw source evidence remains in ignored cache. This file records factual numeric card values."
+  },
+  "corroboration": {
+    "url": "https://www.caddee.se/klubb/visby-golfklubb",
+    "sha256": "dd812e63b6688263cda050123d9e4ec5672c9fb90df4cd88bc5bc9ede4f74bd6",
+    "providerCourseId": "c33d3bba-77d2-4ba6-8f88-9723bd3a23ec"
+  },
+  "tees": [
+    {
+      "id": "tee-63",
+      "name": "63",
+      "front": 2970,
+      "back": 3260,
+      "total": 6230
+    },
+    {
+      "id": "tee-59",
+      "name": "59",
+      "front": 2744,
+      "back": 3075,
+      "total": 5819
+    },
+    {
+      "id": "tee-55",
+      "name": "55",
+      "front": 2580,
+      "back": 2910,
+      "total": 5490
+    },
+    {
+      "id": "tee-51",
+      "name": "51",
+      "front": 2309,
+      "back": 2617,
+      "total": 4926
+    },
+    {
+      "id": "tee-46",
+      "name": "46",
+      "front": 2179,
+      "back": 2430,
+      "total": 4609
+    },
+    {
+      "id": "tee-41",
+      "name": "41",
+      "front": 1952,
+      "back": 2264,
+      "total": 4216
+    }
+  ],
+  "holes": [
+    {
+      "number": 1,
+      "par": 3,
+      "index": 15,
+      "lengths": {
+        "tee-63": 159,
+        "tee-59": 146,
+        "tee-55": 120,
+        "tee-51": 120,
+        "tee-46": 95,
+        "tee-41": 95
+      }
+    },
+    {
+      "number": 2,
+      "par": 4,
+      "index": 7,
+      "lengths": {
+        "tee-63": 411,
+        "tee-59": 390,
+        "tee-55": 360,
+        "tee-51": 319,
+        "tee-46": 275,
+        "tee-41": 275
+      }
+    },
+    {
+      "number": 3,
+      "par": 5,
+      "index": 5,
+      "lengths": {
+        "tee-63": 525,
+        "tee-59": 490,
+        "tee-55": 490,
+        "tee-51": 448,
+        "tee-46": 400,
+        "tee-41": 380
+      }
+    },
+    {
+      "number": 4,
+      "par": 4,
+      "index": 13,
+      "lengths": {
+        "tee-63": 310,
+        "tee-59": 287,
+        "tee-55": 287,
+        "tee-51": 250,
+        "tee-46": 250,
+        "tee-41": 216
+      }
+    },
+    {
+      "number": 5,
+      "par": 3,
+      "index": 11,
+      "lengths": {
+        "tee-63": 170,
+        "tee-59": 157,
+        "tee-55": 142,
+        "tee-51": 134,
+        "tee-46": 121,
+        "tee-41": 97
+      }
+    },
+    {
+      "number": 6,
+      "par": 5,
+      "index": 3,
+      "lengths": {
+        "tee-63": 447,
+        "tee-59": 423,
+        "tee-55": 403,
+        "tee-51": 358,
+        "tee-46": 358,
+        "tee-41": 334
+      }
+    },
+    {
+      "number": 7,
+      "par": 3,
+      "index": 9,
+      "lengths": {
+        "tee-63": 200,
+        "tee-59": 171,
+        "tee-55": 141,
+        "tee-51": 141,
+        "tee-46": 141,
+        "tee-41": 112
+      }
+    },
+    {
+      "number": 8,
+      "par": 4,
+      "index": 1,
+      "lengths": {
+        "tee-63": 414,
+        "tee-59": 388,
+        "tee-55": 345,
+        "tee-51": 288,
+        "tee-46": 288,
+        "tee-41": 242
+      }
+    },
+    {
+      "number": 9,
+      "par": 4,
+      "index": 17,
+      "lengths": {
+        "tee-63": 334,
+        "tee-59": 292,
+        "tee-55": 292,
+        "tee-51": 251,
+        "tee-46": 251,
+        "tee-41": 201
+      }
+    },
+    {
+      "number": 10,
+      "par": 5,
+      "index": 18,
+      "lengths": {
+        "tee-63": 476,
+        "tee-59": 464,
+        "tee-55": 412,
+        "tee-51": 412,
+        "tee-46": 372,
+        "tee-41": 372
+      }
+    },
+    {
+      "number": 11,
+      "par": 4,
+      "index": 4,
+      "lengths": {
+        "tee-63": 329,
+        "tee-59": 297,
+        "tee-55": 297,
+        "tee-51": 244,
+        "tee-46": 244,
+        "tee-41": 208
+      }
+    },
+    {
+      "number": 12,
+      "par": 4,
+      "index": 8,
+      "lengths": {
+        "tee-63": 321,
+        "tee-59": 311,
+        "tee-55": 311,
+        "tee-51": 274,
+        "tee-46": 222,
+        "tee-41": 222
+      }
+    },
+    {
+      "number": 13,
+      "par": 4,
+      "index": 16,
+      "lengths": {
+        "tee-63": 376,
+        "tee-59": 367,
+        "tee-55": 367,
+        "tee-51": 309,
+        "tee-46": 271,
+        "tee-41": 271
+      }
+    },
+    {
+      "number": 14,
+      "par": 3,
+      "index": 12,
+      "lengths": {
+        "tee-63": 155,
+        "tee-59": 136,
+        "tee-55": 136,
+        "tee-51": 120,
+        "tee-46": 120,
+        "tee-41": 94
+      }
+    },
+    {
+      "number": 15,
+      "par": 4,
+      "index": 2,
+      "lengths": {
+        "tee-63": 413,
+        "tee-59": 385,
+        "tee-55": 350,
+        "tee-51": 316,
+        "tee-46": 316,
+        "tee-41": 290
+      }
+    },
+    {
+      "number": 16,
+      "par": 5,
+      "index": 10,
+      "lengths": {
+        "tee-63": 482,
+        "tee-59": 464,
+        "tee-55": 443,
+        "tee-51": 408,
+        "tee-46": 367,
+        "tee-41": 367
+      }
+    },
+    {
+      "number": 17,
+      "par": 3,
+      "index": 14,
+      "lengths": {
+        "tee-63": 192,
+        "tee-59": 174,
+        "tee-55": 154,
+        "tee-51": 139,
+        "tee-46": 123,
+        "tee-41": 100
+      }
+    },
+    {
+      "number": 18,
+      "par": 5,
+      "index": 6,
+      "lengths": {
+        "tee-63": 516,
+        "tee-59": 477,
+        "tee-55": 440,
+        "tee-51": 395,
+        "tee-46": 395,
+        "tee-41": 340
+      }
+    }
+  ],
+  "notes": [
+    "Club prose states approximately 6,300 m from back tee; current exact SGF/Caddee tee 63 total is 6,230 m.",
+    "Use numeric tee names. Caddee color mappings and sort orders differ between the main course and nine-hole course; no global color-to-number conversion is adopted.",
+    "Separate Hål 19–27 (9 hålsb) is not this routing. Caddee repeats its nine holes as an 18-hole scorecard; repetitions are not additional physical holes."
+  ],
+  "links": {
+    "club": "https://www.visbygk.com/",
+    "overview": "https://www.visbygk.com/om-banorna/",
+    "banguide": "https://www.caddee.se/klubb/visby-golfklubb",
+    "interactiveGuide": "https://www.caddee.se/klubb/visby-golfklubb",
+    "scorecard": "https://www.visbygk.com/golf/",
+    "gallery": "https://www.visbygk.com/om-banorna/",
+    "localRules": "https://www.visbygk.com/golf/",
+    "practice": "https://www.visbygk.com/trackman-range/",
+    "videos": "https://www.youtube.com/@visbygolfklubb1958",
+    "press": "https://www.visbygk.com/press-media/"
+  }
+}

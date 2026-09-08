@@ -17,6 +17,10 @@ import {
 import { COURSE_DATA_DIR, REPO_ROOT } from './pilots.mjs';
 
 export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
+  visby: Object.freeze({ path: 'visbybuild/course-model.json', sha256: '9e7f580c7bc6fc9d9fb50db14c9fb15000fc3bd9dfd466569e53470e4c73caa7',
+    projectedOriginEpsg3006: Object.freeze({ easting: 687748.5, northing: 6370951.5 }) }),
+  lidingo: Object.freeze({ path: 'lidingobuild/course-model.json', sha256: '51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12',
+    projectedOriginEpsg3006: Object.freeze({ easting: 677700.5, northing: 6586399.5 }) }),
   angso: Object.freeze({
     path: 'angsobuild/course-model.json',
     sha256: 'f163f2b3fcd5f032149129a0b03c5411cb3485a3454018a5976a1c0306b0059e',
@@ -139,15 +143,47 @@ export function loadGroundHoleSourceControlPlan(groundId, {
   discovery = undefined,
 } = {}) {
   if (!EXPECTED_GROUNDS[groundId]) throw new Error(`unknown physical ground ${groundId}`);
-  const manifest = { groundId, courseSlugs: EXPECTED_GROUNDS[groundId] };
-  const courseModels = {};
-  for (const courseSlug of EXPECTED_GROUNDS[groundId]) {
-    courseModels[courseSlug] = loadCourseModel(groundId, courseSlug);
+  const manifest = readJson(path.join(COURSE_DATA_DIR, groundId, 'source-manifest.json'));
+  if (manifest.groundId !== groundId || JSON.stringify(manifest.courseSlugs) !== JSON.stringify(EXPECTED_GROUNDS[groundId])) {
+    throw new Error(`${groundId} source manifest does not match the registered course inventory`);
   }
   let resolvedDiscovery = discovery;
   if (resolvedDiscovery === undefined) {
     const discoveryFile = path.join(COURSE_DATA_DIR, groundId, 'acquisition', 'd2-discovery.json');
     resolvedDiscovery = fs.existsSync(discoveryFile) ? readJson(discoveryFile) : null;
+  }
+  if (resolvedDiscovery && resolvedDiscovery.groundId !== groundId) {
+    throw new Error(`discovery ground ${resolvedDiscovery.groundId} does not match ${groundId}`);
+  }
+  if (manifest.legacyFrame === null) {
+    // Source acquisition can precede a playable model. Keep that ground visible
+    // in the inventory without inventing holes or successful control windows.
+    if (manifest.courseSlugs.some(slug => COURSE_MODEL_PATHS[slug])) {
+      throw new Error(`${groundId} has registered migration models but no compatibility frame`);
+    }
+    return Object.freeze({
+      schemaVersion: 1,
+      phase: 'D2-per-hole-source-control-plan',
+      groundId,
+      courseSlugs: Object.freeze([...manifest.courseSlugs]),
+      planningState: 'source-intake-pending-playable-model',
+      pendingCourseSlugs: Object.freeze([...manifest.courseSlugs]),
+      discoveryState: resolvedDiscovery ? 'checksummed-snapshot-available' : 'discovery-pending',
+      courses: Object.freeze([]),
+      windows: Object.freeze([]),
+      summary: Object.freeze({
+        courseCount: manifest.courseSlugs.length,
+        holeCount: 0,
+        uniqueWindowCount: 0,
+        requestedWindowReferences: 0,
+        laserStates: Object.freeze({}),
+        treeHeightStates: Object.freeze({}),
+      }),
+    });
+  }
+  const courseModels = {};
+  for (const courseSlug of EXPECTED_GROUNDS[groundId]) {
+    courseModels[courseSlug] = loadCourseModel(groundId, courseSlug);
   }
   return groundHoleSourceControlPlan({ manifest, courseModels, discovery: resolvedDiscovery });
 }

@@ -313,6 +313,78 @@
    "packUrl": "courses/ribbingsfors/pack.bin",
    "bytes": 219147,
    "sha256": "2e14128bfce9f1e5bd8e7b939e8e4d0c917915713e5547f78fe90c63200faeb1"
+  },
+  {
+   "slug": "visby",
+   "name": "Visby GK",
+   "club": "Visby Golfklubb",
+   "title": "Visby Golfklubb — Banan i 3D",
+   "tag": "Kronholmen",
+   "boot": "Västergarn · Gotland",
+   "build": "visbybuild",
+   "par": 72,
+   "holes": 18,
+   "tees": {
+    "names": [
+     "63",
+     "59",
+     "55",
+     "51",
+     "46",
+     "41"
+    ],
+    "cols": [
+     14081494,
+     14081494,
+     14081494,
+     14081494,
+     14081494,
+     14081494
+    ],
+    "def": 1,
+    "hideFrom": 5
+   },
+   "photos": 0,
+   "overviewUrl": "courses/visby/overview.svg",
+   "status": "provisional",
+   "packUrl": "courses/visby/pack.bin",
+   "bytes": 452748,
+   "sha256": "32a8ec1e07082f2fe47ed274e061863cfbd5e6c0306f326734c91099abff9d30"
+  },
+  {
+   "slug": "lidingo",
+   "name": "Lidingö GK",
+   "club": "Lidingö Golfklubb",
+   "title": "Lidingö Golfklubb — Banan i 3D",
+   "tag": "Preliminär 3D",
+   "boot": "Lidingö · Stockholm",
+   "build": "lidingobuild",
+   "par": 70,
+   "holes": 18,
+   "tees": {
+    "names": [
+     "Vit",
+     "Gul",
+     "Blå",
+     "Röd",
+     "Orange"
+    ],
+    "cols": [
+     16053486,
+     15780154,
+     4886496,
+     14702410,
+     14715706
+    ],
+    "hideFrom": 5,
+    "def": 1
+   },
+   "photos": 0,
+   "overviewUrl": "courses/lidingo/overview.svg",
+   "status": "provisional",
+   "packUrl": "courses/lidingo/pack.bin",
+   "bytes": 470574,
+   "sha256": "846e291417f7dcf44a906400c1b505c07b2cb338ab2173fd2f80bed79ec60873"
   }
  ]
 }

@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "variant": "fallback",
+  "status": "passed",
+  "startedAt": "2026-09-07T21:20:27.981Z",
+  "completedAt": "2026-09-07T21:20:42.511Z",
+  "url": "http://127.0.0.1:8642/?bana=visby&det=1&ljus=dag&gl=1",
+  "sources": {
+    "sourceTerrainSha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898",
+    "courseModelSha256": "9e7f580c7bc6fc9d9fb50db14c9fb15000fc3bd9dfd466569e53470e4c73caa7",
+    "routeReferenceSha256": "e24099de16048accc60164e59d5a04804451159fe08a7a92f80edff06eae4df3",
+    "waterSha256": "b18499faae4354ef2ce95ef1910d7a5c2172457014087adcf9b622ea957e06af",
+    "compatibilityWaterSha256": "026e7177de3c50f95cc5936bf0bf3ccecebd5c7a19ed9102d76c8361fd6b2b1f",
+    "standIndexSha256": "cf4d3584b3f953c1c2b76a18b5bba3dd05314a9e205abd845e0e7ab291ebcf2a",
+    "graph": {
+      "slug": "visby",
+      "groundId": "visby",
+      "frameFingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
+      "rootBytes": 594,
+      "rootSha256": "1fb281ac5265ce0355c58710b0fc04dd54724a5262b46d56778ffd19150839bc",
+      "courseManifestSha256": "4995a4de82a5e06464cea521b38612e2036db9f3536f36d91ae853952add8b60",
+      "groundManifestSha256": "82137bd40b2488fa64ad1c5039c92363178c3c0f6c4e9f9069b23d6569fd8910",
+      "routingSha256": "1feffbb64d377f792225fd271f56737fe86983de0a8272e290988614ccb8ce1a",
+      "holes": 18,
+      "tiles": 341,
+      "finestTiles": 256,
+      "shellBytes": 43591,
+      "chunks": 599,
+      "encodedChunkBytes": 9193309,
+      "decodedChunkBytes": 49374762,
+      "holeTileBufferMetres": 90
+    },
+    "frame": {
+      "easting": 687748.5,
+      "northing": 6370951.5,
+      "heightRH2000": 0.1,
+      "latitude": 57.44236399463288,
+      "longitude": 18.12847826436399,
+      "text": "local metres from EPSG:3006; east +x, north -z; origin E687748.5 N6370951.5; heights RH 2000"
+    }
+  },
+  "checks": [
+    {
+      "ok": true,
+      "message": "Retained native-metre source contains the complete 4097 by 4097 sample window"
+    },
+    {
+      "ok": true,
+      "message": "All18 authored hole routes have finite green navigation targets"
+    },
+    {
+      "ok": true,
+      "message": "17 observed physical tee pads and the explicit unresolved hole12 platform survive the authored model"
+    },
+    {
+      "ok": true,
+      "message": "Published graph contains the full341-tile source pyramid and256 stand chunks"
+    },
+    {
+      "ok": true,
+      "message": "Compatibility water preserves all10 source island interiors",
+      "details": {
+        "sourceFeatures": 25,
+        "compatibilityPieces": 40,
+        "islands": 10
+      }
+    },
+    {
+      "ok": true,
+      "message": "No uncaught browser exceptions",
+      "details": []
+    },
+    {
+      "ok": true,
+      "message": "Loaded pack retains all18 holes and hole12 has no fabricated physical pad"
+    },
+    {
+      "ok": true,
+      "message": "Runtime water polygons leave every sampled source island uncovered"
+    },
+    {
+      "ok": true,
+      "message": "Graph-index network outage selects explicit GPK1 terrain fallback",
+      "details": {
+        "requested": true,
+        "ready": false,
+        "status": "fallback",
+        "kind": "fixed-frontier",
+        "courseSurfaceOverlayMeshes": 0,
+        "surfaceDebugMode": "off",
+        "surfaceRepresentation": null,
+        "surfacePolicy": "v2-atlas",
+        "reason": "course-not-enabled",
+        "selection": {
+          "mode": "fallback",
+          "requestMode": "opt-in",
+          "defaulted": true,
+          "publishedGraphSlugs": [
+            "angso",
+            "johannesberg",
+            "lidingo",
+            "norrfallsviken",
+            "puttom",
+            "ribbingsfors",
+            "upsala",
+            "upsala-mellanbanan",
+            "veckefjarden",
+            "veckefjarden-korthalsbanan",
+            "visby"
+          ],
+          "graph": null,
+          "graphError": "v2 root manifest could not be loaded"
+        },
+        "label": null,
+        "surface": null,
+        "bounds": null,
+        "legacyBounds": null,
+        "bridge": null,
+        "source": {
+          "renderedTiles": 0,
+          "encodedBytes": 0,
+          "decodedBytes": 0,
+          "gpuBytes": 0
+        },
+        "adapter": {
+          "kind": "fixed-frontier",
+          "surfacePolicy": "v2-atlas",
+          "phase": "fallback",
+          "requested": true,
+          "sourceReady": false,
+          "preflightReady": false,
+          "active": false,
+          "renderer": {
+            "status": "fallback"
+          }
+        },
+        "renderer": {
+          "status": "fallback"
+        },
+        "stream": null,
+        "backend": "webgl2"
+      }
+    },
+    {
+      "ok": true,
+      "message": "Fallback terrain supplies finite heights across the active course"
+    },
+    {
+      "ok": true,
+      "message": "All18 goHole green cameras settle above terrain and show their finite green target",
+      "details": [
+        {
+          "hole": 1,
+          "active": 1,
+          "position": [
+            -591.6767151789484,
+            16.595068720533305,
+            75.40825163398102
+          ],
+          "greenProjected": {
+            "x": 720,
+            "y": 475.42597939340027,
+            "depth": 0.965806271955881,
+            "visible": true
+          },
+          "groundBelow": 1.5950687205333074
+        },
+        {
+          "hole": 2,
+          "active": 2,
+          "position": [
+            -416.8270037699368,
+            17.656235856990776,
+            -192.4876591689527
+          ],
+          "greenProjected": {
+            "x": 719.9999999999994,
+            "y": 464.51905027197597,
+            "depth": 0.9808562370362608,
+            "visible": true
+          },
+          "groundBelow": 2.6562358569907776
+        },
+        {
+          "hole": 3,
+          "active": 3,
+          "position": [
+            -248.76976312229306,
+            17.153843250503336,
+            -679.9616384504761
+          ],
+          "greenProjected": {
+            "x": 719.9999999999991,
+            "y": 462.55577708660127,
+            "depth": 0.9834699243046268,
+            "visible": true
+          },
+          "groundBelow": 2.1538432505033445
+        },
+        {
+          "hole": 4,
+          "active": 4,
+          "position": [
+            -258.93067275188537,
+            17.009341841910967,
+            -896.4543667715702
+          ],
+          "greenProjected": {
+            "x": 720.0000000000013,
+            "y": 466.8134756625205,
+            "depth": 0.9777416792257198,
+            "visible": true
+          },
+          "groundBelow": 2.009341841910965
+        },
+        {
+          "hole": 5,
+          "active": 5,
+          "position": [
+            -392.08152951167443,
+            19.273096508228058,
+            -797.6513460570229
+          ],
+          "greenProjected": {
+            "x": 719.9999999999981,
+            "y": 474.4541638086004,
+            "depth": 0.9671606400851315,
+            "visible": true
+          },
+          "groundBelow": 4.273096508228073
+        },
+        {
+          "hole": 6,
+          "active": 6,
+          "position": [
+            -390.69400158031436,
+            18.332151598942698,
+            -428.45631036741753
+          ],
+          "greenProjected": {
+            "x": 720,
+            "y": 464.72309264493913,
+            "depth": 0.9805417920422741,
+            "visible": true
+          },
+          "groundBelow": 3.33215159894271
+        },
+        {
+          "hole": 7,
+          "active": 7,
+          "position": [
+            -256.44859154658786,
+            16.33365245007213,
+            -378.6158270389468
+          ],
+          "greenProjected": {
+            "x": 720,
+            "y": 474.3447785500243,
+            "depth": 0.967479495035154,
+            "visible": true
+          },
+          "groundBelow": 1.3336524500721323
+        },
+        {
+          "hole": 8,
+          "active": 8,
+          "position": [
+            -291.46413440342593,
+            17.98401900721497,
+            -121.45991219925716
+          ],
+          "greenProjected": {
+            "x": 719.9999999999998,
+            "y": 463.969679864341,
+            "depth": 0.9815904486915541,
+            "visible": true
+          },
+          "groundBelow": 2.9840190072149824
+        },
+        {
+          "hole": 9,
+          "active": 9,
+          "position": [
+            -469.82879918297743,
+            19.688326537509028,
+            93.41246580895131
+          ],
+          "greenProjected": {
+            "x": 719.9999999999994,
+            "y": 464.8374749964143,
+            "depth": 0.9804045282441985,
+            "visible": true
+          },
+          "groundBelow": 4.688326537509022
+        },
+        {
+          "hole": 10,
+          "active": 10,
+          "position": [
+            -85.34240256379469,
+            16.484865543042975,
+            192.6124577924116
+          ],
+          "greenProjected": {
+            "x": 719.9999999999998,
+            "y": 464.0628994872202,
+            "depth": 0.9814482129501296,
+            "visible": true
+          },
+          "groundBelow": 1.4848655430429671
+        },
+        {
+          "hole": 11,
+          "active": 11,
+          "position": [
+            274.2641838806836,
+            17.294480428055714,
+            261.84373726843813
+          ],
+          "greenProjected": {
+            "x": 720.0000000000001,
+            "y": 467.0840563529953,
+            "depth": 0.9773063714248487,
+            "visible": true
+          },
+          "groundBelow": 2.29448042805571
+        },
+        {
+          "hole": 12,
+          "active": 12,
+          "position": [
+            211.68544825199822,
+            16.27483403815986,
+            103.66609300304572
+          ],
+          "greenProjected": {
+            "x": 719.9999999999991,
+            "y": 472.03208798874977,
+            "depth": 0.9706553764092007,
+            "visible": true
+          },
+          "groundBelow": 1.2748340381598617
+        },
+        {
+          "hole": 13,
+          "active": 13,
+          "position": [
+            456.5734691429411,
+            17.37785865876291,
+            59.76636095782754
+          ],
+          "greenProjected": {
+            "x": 719.9999999999997,
+            "y": 467.4670198991053,
+            "depth": 0.9768341568468577,
+            "visible": true
+          },
+          "groundBelow": 2.3778586587629156
+        },
+        {
+          "hole": 14,
+          "active": 14,
+          "position": [
+            355.57656717172273,
+            18.510289422889844,
+            -100.17642705614512
+          ],
+          "greenProjected": {
+            "x": 719.999999999999,
+            "y": 476.8641351071865,
+            "depth": 0.9638014142372485,
+            "visible": true
+          },
+          "groundBelow": 3.510289422889848
+        },
+        {
+          "hole": 15,
+          "active": 15,
+          "position": [
+            97.14625115211422,
+            17.59037651650605,
+            -316.47220631829964
+          ],
+          "greenProjected": {
+            "x": 720,
+            "y": 466.8036418471801,
+            "depth": 0.9777067845059166,
+            "visible": true
+          },
+          "groundBelow": 2.590376516506057
+        },
+        {
+          "hole": 16,
+          "active": 16,
+          "position": [
+            172.51873738309428,
+            17.395038537019122,
+            33.251681307552616
+          ],
+          "greenProjected": {
+            "x": 720.0000000000003,
+            "y": 463.21179589022285,
+            "depth": 0.9825828417837592,
+            "visible": true
+          },
+          "groundBelow": 2.3950385370191194
+        },
+        {
+          "hole": 17,
+          "active": 17,
+          "position": [
+            115.94586693477936,
+            16.19642565298852,
+            294.01168882972854
+          ],
+          "greenProjected": {
+            "x": 720.0000000000009,
+            "y": 473.75351075535457,
+            "depth": 0.9681329184197075,
+            "visible": true
+          },
+          "groundBelow": 1.196425652988525
+        },
+        {
+          "hole": 18,
+          "active": 18,
+          "position": [
+            -309.5861258657775,
+            16.508299608849818,
+            275.3596327228372
+          ],
+          "greenProjected": {
+            "x": 719.9999999999995,
+            "y": 462.4047226291308,
+            "depth": 0.9836964124277553,
+            "visible": true
+          },
+          "groundBelow": 1.5082996088498277
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "message": "All camera navigation completed without uncaught browser exceptions",
+      "details": []
+    }
+  ],
+  "backend": "webgl2",
+  "vegetation": {
+    "coverageTiles": 0,
+    "renderedStandRepresentatives": 0,
+    "legacyInsideCoverage": 0
+  },
+  "screenshots": [
+    "visbybuild/cache/runtime-review/fallback-overview.png"
+  ],
+  "detailedReport": "visbybuild/cache/runtime-review/fallback.json",
+  "limitations": [
+    "Provisional source preservation and rendering review, not survey approval or current-course validation.",
+    "2022 interpreted playing surfaces and unnamed representative tees; hole12 uses a virtual fairway start without physical pad geometry.",
+    "2024 canopy stand representatives are not measured stem positions.",
+    "Source water levels may be representative medians of nonconstant source Z; bathymetry is unknown.",
+    "Only the graph index request was made unavailable; HTML, scripts and the GPK1 pack stayed available. This is a graph-resource outage fallback test, not a fully offline installation."
+  ]
+}

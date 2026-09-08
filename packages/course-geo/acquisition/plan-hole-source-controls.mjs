@@ -19,5 +19,8 @@ if (json) {
       `${ground.summary.uniqueWindowCount} windows, ${ground.discoveryState}`,
     );
   }
+  if (plan.summary.pendingCourseSlugs.length) {
+    console.log(`  Pending playable models (no holes/windows claimed): ${plan.summary.pendingCourseSlugs.join(', ')}`);
+  }
   console.log('Production remains disabled; local density/raster evidence is required per window.');
 }

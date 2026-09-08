@@ -296,6 +296,10 @@ export async function runAuthenticatedGroundHoleSourceControls(groundId, {
 } = {}) {
   if (!EXPECTED_GROUNDS[groundId]) throw new Error(`unknown physical ground ${groundId}`);
   validProviders(providers);
+  const initialPlan = loadGroundHoleSourceControlPlan(groundId, { discovery: null });
+  if (initialPlan.planningState === 'source-intake-pending-playable-model') {
+    throw new Error(`${groundId} has source evidence only; per-hole controls require a complete inventoried playable model`);
+  }
   if (providers.includes('laser') && !lantmaterietCredentials) {
     throw new Error('Lantmäteriet credentials are required for per-hole Laserdata controls');
   }
@@ -304,7 +308,6 @@ export async function runAuthenticatedGroundHoleSourceControls(groundId, {
   }
   if (!workRoot) throw new Error('per-hole controls require an ephemeral work root');
 
-  const initialPlan = loadGroundHoleSourceControlPlan(groundId, { discovery: null });
   const discovery = providers.includes('laser')
     ? await discoverGroundLaserControl(initialPlan, { fetchImpl })
     : null;

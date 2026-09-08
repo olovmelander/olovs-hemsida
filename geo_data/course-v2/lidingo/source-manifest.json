@@ -1,0 +1,909 @@
+{
+  "$schema": "../../../packages/course-geo/source-manifest.schema.json",
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "groundName": "Lidingö Golfklubb",
+  "courseSlugs": [
+    "lidingo"
+  ],
+  "targetBboxWgs84": [
+    18.1093219082564,
+    59.36909583539647,
+    18.147022734124498,
+    59.38833274716611
+  ],
+  "legacyFrame": {
+    "buildDirectory": "lidingobuild",
+    "originWgs84": {
+      "latitude": 59.378715385375614,
+      "longitude": 18.12816746741512
+    },
+    "metresPerLatitude": 111320,
+    "metresPerLongitude": 56702.08,
+    "heightReference": "Absolute RH 2000 from retained Lantmäteriet 1 m DTM; independent local residual checks pending",
+    "frame": "exact local metres from EPSG:3006; east +x, north -z",
+    "projectedOriginEpsg3006": {
+      "easting": 677700.5,
+      "northing": 6586399.5,
+      "axisMapping": {
+        "worldX": "easting - originEasting",
+        "worldZ": "originNorthing - northing"
+      }
+    }
+  },
+  "canonicalFrame": {
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "originStatus": "pending-control-approval",
+    "origin": {
+      "easting": null,
+      "northing": null,
+      "heightRH2000": null
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldZ": "originNorthing - northing",
+      "worldY": "heightRH2000 - originHeightRH2000"
+    }
+  },
+  "sources": [
+    {
+      "id": "terrain-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m658_67.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.1093219082564,
+        59.36909583539647,
+        18.147022734124498,
+        59.38833274716611
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "93ee63ed933290d8c60f1037e72ea4151bfa0318f2d5cd62e2c65e541c98d407",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Authenticated 1 m window from item 658_67 acquired with factor-1 reads: 4,198,401 finite EPSG:3006/RH 2000 samples. Source checksum is the provider-advertised complete COG SHA-256; this session read bounded ranges and did not download/re-hash all 258,114,060 bytes. Retained Float32 window SHA-256 80ffcd4865daa00f8e2393f43b8fcb1b37e020f968c0656a0189f80dde1de923, lattice and ETag are in acquisition/terrain-window.json. Item capture spans 2021-03-23 through 2025-05-31, so capturedAt remains null until local source epochs are resolved. Advertised uncertainty is not an independent local residual."
+    },
+    {
+      "id": "water-breaks-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "hydrology",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m658_67_brytgeometri.gpkg",
+      "localPath": null,
+      "bboxWgs84": [
+        18.1093219082564,
+        59.36909583539647,
+        18.147022734124498,
+        59.38833274716611
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "892d247c76cb2be712e4966045957f7f34c63fae4b368f038d69130aea619600",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Complete source GPKG checksum verified. Clipped EPSG:3006 PolygonZ/MultiPolygonZ source preserves all 7 outer polygons and RH 2000 water levels; no retained holes. Acquisition clip edges are not claimed as shoreline. See mapping/water-breakgeometry-review.json; no bathymetry inferred."
+    },
+    {
+      "id": "imagery-lm-ortho",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.1093219082564,
+        59.36909583539647,
+        18.147022734124498,
+        59.38833274716611
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2025-05-31",
+      "checksum": null,
+      "checksumReason": "Complete ortho-o2-2025 campaign discovered: items o65850_6750_25_mr25 and o65850_6775_25_mr25, 0.16 m RGBI captured 2025-05-31. STAC supplies no imagery checksum and imagery bytes are not acquired.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Verified flight-metadata responses retained in STAC evidence. Two source items cover the target AOI; imagery access, exact retained window identity and product-specific rights review remain pending. Never render raw orthophoto as ground texture. Existing configured account returned HTTP 403 for the checked 2025 asset on 2026-09-07; access remains unresolved."
+    },
+    {
+      "id": "laser-lm-skog",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "terrain",
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c031/m21c031-658_67.copc.laz",
+      "localPath": null,
+      "bboxWgs84": [
+        18.1093219082564,
+        59.36909583539647,
+        18.147022734124498,
+        59.38833274716611
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": "2021-03-23",
+      "checksum": "7a16aeb3b8d7aea2f8c38b0a247868a9c0c33b309bebc4fdaa8cc57d5ad43848",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Bounded COPC reads acquired 11,677,559 interior non-noise returns over 64 windows, with 64 m halos. Four retained 2048×2048 1 m rasters preserve measured/void cells. SHA identifies provider-advertised whole source; 99,116,447 transferred bytes were range-read, not a complete source rehash. Derived canopy is area evidence, not individual-tree survey. See vegetation/canopy-evidence.json."
+    },
+    {
+      "id": "topography-lm-10",
+      "productId": "lantmateriet-topografi-10",
+      "roles": [
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.1093219082564,
+        59.36909583539647,
+        18.147022734124498,
+        59.38833274716611
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Exact source asset not acquired; source identity, date and applicable rights remain pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Acquire infrastructure, shorelines and land-cover corroboration; golf maintained boundaries require separate evidence."
+    },
+    {
+      "id": "tree-height-sks",
+      "productId": "skogsstyrelsen-tradhojd",
+      "roles": [
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://www.skogsstyrelsen.se/e-tjanster-och-kartor/karttjanster/geodatatjanster/ladda-ner-geodata/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.1093219082564,
+        59.36909583539647,
+        18.147022734124498,
+        59.38833274716611
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Exact source asset not acquired; source identity, date and applicable rights remain pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supporting canopy-height raster only; exact campaign and local window remain pending."
+    },
+    {
+      "id": "survey-control",
+      "productId": "controlled-course-survey",
+      "roles": [
+        "control",
+        "terrain",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "project://survey/lidingo",
+      "localPath": null,
+      "bboxWgs84": [
+        18.1093219082564,
+        59.36909583539647,
+        18.147022734124498,
+        59.38833274716611
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Exact source asset not acquired; source identity, date and applicable rights remain pending.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "No independent RH 2000-tied survey anchors, signed accuracy report or derivative grant has been acquired. Required for frame approval and precise play-critical features."
+    },
+    {
+      "id": "lidingo-osm-2026-09-07",
+      "productId": "openstreetmap",
+      "roles": [
+        "routing",
+        "surface",
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "acquired",
+      "use": "supplemental",
+      "sourceUri": "https://api.openstreetmap.org/api/0.6/map?bbox=18.115,59.370,18.145,59.385",
+      "localPath": null,
+      "bboxWgs84": [
+        18.115,
+        59.37,
+        18.145,
+        59.385
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "3de50cf3fb9e20e6de9b367cbae93a8ad43d6c6b28091ce89f0074e956b1ddfc",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "D",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Complete bounded OSM XML snapshot and normalized EPSG:3006 geometry. Geometry is unreviewed supplementary evidence; OSM edits do not establish capture dates, survey accuracy or current course configuration. Missing playing surfaces remain missing. Raw OSM XML is retained in ignored local reference storage; normalized source-derived artifacts are committed below."
+    },
+    {
+      "id": "club-course",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://www.lidingogk.se/banan/",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "7cc99c601ea1d1d2c5303ba95040afbb5065fc1751c110d603b2ddd7c6ce1270",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Official course information viewed on 2026-09-07. Checksum is the acquired HTML page; no publication/capture date, spatial control or media redistribution grant inferred."
+    },
+    {
+      "id": "club-scorecard",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://www.lidingogk.se/media/4kcbkotc/scorekort-2025.jpg",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "383ec14cb0a2674f2141b12e7fe46929b01137cb85e08353e10aebc9d2f5607b",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Official scorekort-2025.jpg, linked from the 2026 club card/rules page. Factual 18-hole/par70 card transcribed and all five tee/front/back totals checked by machine review. No geometry control, independent human review or raw-image distribution grant inferred."
+    },
+    {
+      "id": "club-banguide",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://banguider.se/lidingo-golfklubb/18-halsbanan",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "e3aa7d79e618e9fb083ce3b124383a4833f4b4ca5e6d56abe093726f7d72724e",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Club-linked Banguider course guide: reference for identifying and comparing holes only. Schematics have no known CRS/control; no traced spatial authority or redistribution licence is claimed."
+    },
+    {
+      "id": "club-photos",
+      "productId": "lidingo-club-media",
+      "roles": [
+        "imagery",
+        "object"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://www.lidingogk.se/banan/bildgalleri/",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "be8a2223a6ab5234400fa8435f0456752d117f7fdaf1bc315eb1ccb174e1371e",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Club gallery pages and images retained only in ignored local cache. Useful for identity and recency where viewpoints are recognizable; camera geometry, capture dates and distribution rights are unverified."
+    },
+    {
+      "id": "club-flyovers",
+      "productId": "lidingo-club-media",
+      "roles": [
+        "imagery",
+        "course-guide"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://www.lidingogk.se/banan/flyover/",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "b6dcee703c4ec1b809167c3c49b5a2d06b18bc6a84022ad27309889ba4afd891",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Club flyover links are visual reference only; no frame registration, recording date or video derivative/distribution grant is inferred."
+    },
+    {
+      "id": "imagery-municipal-2019",
+      "productId": "lidingo-municipal-orthophoto",
+      "roles": [
+        "imagery",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=theme-ortofoto2019_i1&STYLES=&SRS=EPSG%3A3011&BBOX=156615%2C6584170%2C157866%2C6585594&WIDTH=2502&HEIGHT=2848&FORMAT=image%2Fpng&TRANSPARENT=FALSE",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Retained 2019 municipal orthophoto, exported at 0.5 m per pixel in EPSG:3011 with worldfile. Official municipal distribution metadata resource/32 explicitly licences this exact service as CC0-1.0; see mapping/municipal-ortho-2019-licence.json. Source GSD, exact capture date and local control residuals unknown. Traces are machine-reviewed candidates; 2019 cannot establish later course changes."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "osm-source-inventory",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/reference/osm-inventory.json",
+      "sha256": "dc965cae616fdfe63c0654b65a01367db4362ba48ef696932fcc2fb629ddeb5a",
+      "derivedFrom": [
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Retained feature inventory and conversion metadata; counts do not establish completeness or approval."
+    },
+    {
+      "id": "osm-projected-golf-features",
+      "kind": "surface",
+      "path": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+      "sha256": "7a6923f5df11f3d2e16cb51deea076cdc77b770a55341d4ed436eb9417ee7d06",
+      "derivedFrom": [
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Canonical EPSG:3006 source observations only, not authoritative surface intake or runtime geometry."
+    },
+    {
+      "id": "terrain-window-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/acquisition/terrain-window.json",
+      "sha256": "8e1fa4935fa889c748cc6913d68391ef858f95588459b7bc1b7194c8ea29b809",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact 1 m lattice, source ETag/bytes, range-read measurements, local Float32 hash and height range. Raw raster is ignored and is not a published v2 graph."
+    },
+    {
+      "id": "club-source-inventory",
+      "kind": "acquisition",
+      "path": "lidingobuild/reference/club-source-assets.json",
+      "sha256": "65c40bad483ca0a01bc7a752106c1d005d40c2d560519a4c51145c6d2cbdc2f3",
+      "derivedFrom": [
+        "club-course",
+        "club-scorecard",
+        "club-banguide",
+        "club-photos",
+        "club-flyovers"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source URLs, retrieval dates, byte checksums and rights limitations. Raw pages and media remain in ignored cache."
+    },
+    {
+      "id": "municipal-ortho-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/discovery/municipal-ortho-2019.json",
+      "sha256": "bfafed40fe253cb9d7461be241da94c27f99097e0f3a038d40da7c791cf6989b",
+      "derivedFrom": [
+        "imagery-municipal-2019"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Sanitized WMS request, EPSG:3011 extent, local raster hash and primary-terms-pending caveat; no raw imagery embedded."
+    },
+    {
+      "id": "club-scorecard-facts",
+      "kind": "routing",
+      "path": "lidingobuild/reference/club-scorecard.json",
+      "sha256": "4372f058e73af18845839a538fc1831bb86e5cbd5e1eeecffb460830348257e4",
+      "derivedFrom": [
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Factual numeric card values with official-image checksum and sum verification; no tee geometry or playable model claimed."
+    },
+    {
+      "id": "national-source-discovery",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/acquisition/d2-discovery.json",
+      "sha256": "092a9e3a79254e2907f833630d6a62776edb3c3eed6ecdf13c4449890f0f4d13",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "laser-lm-skog",
+        "imagery-lm-ortho",
+        "tree-height-sks"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Complete STAC discovery and verified metadata responses; catalogue availability is separate from data acquisition, source rights and release readiness."
+    },
+    {
+      "id": "national-source-access",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/discovery/source-access.json",
+      "sha256": "bf416114bab8dd68f120fe06d566e7f67770ee3f4013b2a3c06fe1662247beb2",
+      "derivedFrom": [
+        "water-breaks-lm-1m",
+        "laser-lm-skog",
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Sanitized actual endpoint checks: downloaded verified water GPKG, COPC HEAD access and orthophoto HTTP 403. No credentials serialized."
+    },
+    {
+      "id": "terrain-intake-compilation",
+      "kind": "terrain",
+      "path": "geo_data/course-v2/lidingo/acquisition/terrain-compile.json",
+      "sha256": "5c080407934fb74fdb4609ebec548bdf92e1a758f879beb412a061f353e4fa1e",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Staged terrain-only compilation report and provisional frame. No published course graph, authoritative surface layer or playable runtime claimed."
+    },
+    {
+      "id": "club-evidence-validation",
+      "kind": "acquisition",
+      "path": "lidingobuild/reference/club-evidence-validation.json",
+      "sha256": "c26d853bde0932d878f6eb323b2844f6fa9a0744799a5732536b75195417f50e",
+      "derivedFrom": [
+        "club-course",
+        "club-scorecard",
+        "club-banguide",
+        "club-photos",
+        "club-flyovers"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact retained source byte/hash checks and card fact sum checks; no human geometry review or redistribution rights inferred."
+    },
+    {
+      "id": "course-mapping-intake",
+      "kind": "composite",
+      "path": "lidingobuild/mapping/intake.json",
+      "sha256": "3698fc54fd7143ff2e1e5b8117831b4b068a0d281932fd3b0d39d357aa558f41",
+      "derivedFrom": [
+        "lidingo-osm-2026-09-07",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Per-hole source intake with official numeric card and retained EPSG:3006 OSM routes/surfaces. Missing outlines, tee identities and approval remain explicit; no fabricated compatibility model, synthesized pads/markers or live v2 graph."
+    },
+    {
+      "id": "route-overview-review",
+      "kind": "routing",
+      "path": "lidingobuild/mapping/route-overview-review.json",
+      "sha256": "72f944cc7cc1a6190d03ae4d148609b62585821e004a953add706ab6d7f5cb75",
+      "derivedFrom": [
+        "lidingo-osm-2026-09-07",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Machine visual corroboration of all 18 gross route positions, numbers and directions against the club overview; source vectors unchanged. Not detailed per-hole review, human approval or independent control."
+    },
+    {
+      "id": "municipal-imagery-primary-licence",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/mapping/municipal-ortho-2019-licence.json",
+      "sha256": "3c166de51e1c05e5c60d5d7df0eba88faf50787df6ac243d41f1dc51ad39e040",
+      "derivedFrom": [
+        "imagery-municipal-2019"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Primary CC0 licence evidence for exact 2019 endpoint; does not license the separate public national orthophoto view."
+    },
+    {
+      "id": "water-breakgeometry-clipped",
+      "kind": "topography",
+      "path": "geo_data/course-v2/lidingo/mapping/water-breakgeometry-epsg3006.geojson",
+      "sha256": "e54c6f6cdd1366fab2314218a47ab396bb5f525746f96511a419bfe9c00d5b06",
+      "derivedFrom": [
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source-clipped 3D water polygons, topology and levels preserved."
+    },
+    {
+      "id": "water-breakgeometry-review",
+      "kind": "control",
+      "path": "geo_data/course-v2/lidingo/mapping/water-breakgeometry-review.json",
+      "sha256": "9c2c664f4d754d39a33d78cfeeb92adb2bfa9cb8b28860feeec0d375af2a1805",
+      "derivedFrom": [
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source SHA, topology, height and acquisition-edge audit; not independent survey approval."
+    },
+    {
+      "id": "terrain-vista-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/mapping/terrain-vista.json",
+      "sha256": "b75ed57f3464a0b07dc4a673e2d10d228c828bf2f221e9807fe830f6b59e8c09",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Four source items, 257×257 samples at 32 m over the 8192 m context extent; byte identities and no-data checks."
+    },
+    {
+      "id": "canopy-raster-acquisition",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/lidingo/vegetation/canopy-evidence.json",
+      "sha256": "c4698cc3e4bc6d989989075fcc91a6ded1d27dbeb6871a0add2a2d2f869f32a0",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "2021 campaign-constrained point-cloud rasters with explicit voids, density, transfer and DTM ground comparison."
+    },
+    {
+      "id": "canopy-stand-compilation",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/lidingo/vegetation/stand-evidence.json",
+      "sha256": "8ecd4b09d7f3d434833e5bb6da8aa7181476a169ea56d10f305afe48f1d2f8f4",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "lidingo-osm-2026-09-07",
+        "imagery-municipal-2019",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Measured 4 m stand fields and semantic exclusions; no individual-tree registry or stem survey."
+    },
+    {
+      "id": "playing-surface-candidates",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/playing-surfaces.geojson",
+      "sha256": "601ccf4f5b0ce626c90821f79681656dc9110d4a1c027a31d029a91d87557126",
+      "derivedFrom": [
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Per-feature observed geometry and uncertainty; source polygons and 2019 CC0 image traces; machine review only."
+    },
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "lidingobuild/course-model.json",
+      "sha256": "51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "laser-lm-skog",
+        "lidingo-osm-2026-09-07",
+        "imagery-municipal-2019",
+        "club-scorecard"
+      ],
+      "use": "migration-only",
+      "notes": "Source-derived exact projected compatibility adapter. Terrain is preserved; no inferred physical tees, extended routes or synthetic fairway corridors. Flags and coloured tee starts are UI references. Survey gates remain open."
+    },
+    {
+      "id": "compatibility-heightfields",
+      "kind": "terrain",
+      "path": "lidingobuild/heightfields.json",
+      "sha256": "edd9b11fae8ab7619814397f0408d92abe14238656d5a5a461a2456fc3c56d0d",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "migration-only",
+      "notes": "4 m fallback sampling of acquired 1 m source and 32 m context; the live v2 graph retains 1 m spacing."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/lidingo/migration/course-model.epsg3006.json",
+      "sha256": "bffda03d0ee5cf0056d22e5e4262adc8016ed8f0b4a79fc766d2cf0db536cf74",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "laser-lm-skog",
+        "lidingo-osm-2026-09-07",
+        "imagery-municipal-2019",
+        "club-scorecard"
+      ],
+      "use": "migration-only",
+      "notes": "Exact translation back to EPSG:3006, preserving source coordinates and RH 2000 heights."
+    },
+    {
+      "id": "migration-residual-report",
+      "kind": "control",
+      "path": "geo_data/course-v2/lidingo/migration/residual-report.json",
+      "sha256": "8badc6885df4ba51ce64167e60af24cd17369a02a4c83bee9321ab9d90b06da8",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "laser-lm-skog",
+        "lidingo-osm-2026-09-07",
+        "imagery-municipal-2019",
+        "club-scorecard"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic frame translation audit, not independent survey controls."
+    },
+    {
+      "id": "runtime-contract",
+      "kind": "control",
+      "path": "lidingobuild/mapping/runtime-contract.json",
+      "sha256": "1d1fe1b490feb4568aa8a2f3db79d1979ab1d59f018f3135ccf888259b548a0e",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "laser-lm-skog",
+        "lidingo-osm-2026-09-07",
+        "imagery-municipal-2019",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Provisional software bridge, bounds and legacy grid omission contract. Human geospatial approval remains pending."
+    },
+    {
+      "id": "playing-surface-review",
+      "kind": "control",
+      "path": "lidingobuild/mapping/playing-surfaces-review.json",
+      "sha256": "41113a5dfcc38cc6ece6a363f730b9f0e4620f33e6621963510d4461ce0d6e89",
+      "derivedFrom": [
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Per-polygon source, geometry, association and omission review; explicit retained source hashes and unknown registration accuracy."
+    },
+    {
+      "id": "playing-surface-pixel-traces",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/surface-traces-2019.json",
+      "sha256": "e4be361972acd0bfedfb273b1fa235c750d6a304a526cc7329e196fba06f21bb",
+      "derivedFrom": [
+        "imagery-municipal-2019"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Observed pixel vertices on the retained georeferenced CC0 2019 image; no schematic or card-derived shapes."
+    },
+    {
+      "id": "fairway-trace-review",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/fairway-traces-review.json",
+      "sha256": "117491192102d20c9a463e11794fb44601ba566bd206b9d74be8647ea46f6d4a",
+      "derivedFrom": [
+        "imagery-municipal-2019"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Independent observed 2019 fairway12/13 pixel traces and omission of unresolvable hole16 fairway."
+    },
+    {
+      "id": "facility-surface-candidates",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/facilities.geojson",
+      "sha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a",
+      "derivedFrom": [
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Named practice greens, range field and platforms, courtyard paving with turf island, and observed parking. One runtime owner per physical surface; generic material where unknown."
+    },
+    {
+      "id": "facility-surface-review",
+      "kind": "control",
+      "path": "lidingobuild/mapping/facilities-review.json",
+      "sha256": "c60d02369ddf20070f6dbbf3c00e6878c48737b98ed0c1480588e6425299ace1",
+      "derivedFrom": [
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source identities, valid polygons, retained interior rings, qualified building clips and pending current facility alterations."
+    },
+    {
+      "id": "facility-pixel-traces",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/facility-traces-2019.json",
+      "sha256": "5a7833d7051047ac88acf68ba5380054da74976646e60743b8e94d89f074129d",
+      "derivedFrom": [
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Reproducible source-pixel authoring and explicit OSM facility associations; no invented furniture, bay spacing or tree locations."
+    },
+    {
+      "id": "normalized-infrastructure",
+      "kind": "topography",
+      "path": "lidingobuild/mapping/infrastructure.geojson",
+      "sha256": "27d80d50dc24f8f3910e79a7366f40a8c883c8cd132d4ea96cb0133e105b115d",
+      "derivedFrom": [
+        "lidingo-osm-2026-09-07",
+        "imagery-municipal-2019"
+      ],
+      "use": "discovery-evidence",
+      "notes": "26 closed parking ways interpreted as source areas and six golf paths restored from the split reference; two coarse club parking rings retired in favour of observed surfaces."
+    },
+    {
+      "id": "normalized-infrastructure-review",
+      "kind": "control",
+      "path": "lidingobuild/mapping/infrastructure-review.json",
+      "sha256": "6408efa819b1c82f915e30f3054f48558040b53b132a9899ae36147a91435034",
+      "derivedFrom": [
+        "lidingo-osm-2026-09-07",
+        "imagery-municipal-2019"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact vertex identity, parking area semantics, retired footprint overlap and unresolved remainder recorded."
+    },
+    {
+      "id": "surface-refinement-traces",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/surface-refinements-2019.json",
+      "sha256": "e067e561d8fc3da3bc38f86cc021df05795030ad438bd17952990f202c27e083",
+      "derivedFrom": [
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Additional observed tee platforms, bunkers and hole13 approach; displaced supplementary rings retired explicitly."
+    },
+    {
+      "id": "building-laser-acquisition",
+      "kind": "acquisition",
+      "path": "lidingobuild/mapping/building-laser-acquisition.json",
+      "sha256": "8df76aabd512262e43cc945a0a3fc5241cbac51936abe03300bbe3ee938edd7a",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Small bounded source point-cloud window for course facility buildings; retained transfer and point identities."
+    },
+    {
+      "id": "building-roof-evidence",
+      "kind": "control",
+      "path": "lidingobuild/mapping/building-height-evidence.json",
+      "sha256": "ee6a17e74d942c79da14e37225aeb975dfc4bfe68ca045ce231c8925a5a89896",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "terrain-lm-1m",
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Dated first-return roof evidence, planar support, source correspondence and withheld sparse shed."
+    },
+    {
+      "id": "building-roof-candidates",
+      "kind": "topography",
+      "path": "lidingobuild/mapping/building-roof-meshes.json",
+      "sha256": "b4fba5a233fc72f168ceb0fd337f5aa43ed860c736c46afe6763e8447c10bd9a",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "terrain-lm-1m",
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Five finite roof surface TIN candidates at absolute RH2000 heights. Clubhouse/north facility are explicitly partial; unsupported roof and wall regions remain omitted. Facade architecture unmeasured."
+    },
+    {
+      "id": "building-roof-validation",
+      "kind": "control",
+      "path": "lidingobuild/mapping/building-roof-validation.json",
+      "sha256": "d949fd1697ed8bc79de7476d8a9cdd6047dd52f08315633cdf15eb67cb2b2faf",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "terrain-lm-1m",
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Independent TIN area, winding, source heights, footprint containment, uncovered topology and supported wall perimeter checks."
+    }
+  ],
+  "blockers": [
+    {
+      "id": "incomplete-playing-geometry",
+      "severity": "release-blocking",
+      "description": "The provisional model uses observed 2019/source polygons; completeness and current 2024–2026 alterations are not independently approved.",
+      "exitGate": "Review every hole against licensed current orthophoto and club evidence; acquire/trace only supported physical outlines and identify remaining uncertainty."
+    },
+    {
+      "id": "canonical-control-pending",
+      "severity": "release-blocking",
+      "description": "Canonical origin has no independent survey anchors. Proposed local adapter origin is a working coordinate reference, not an approved control frame.",
+      "exitGate": "Acquire independent EPSG:3006/RH 2000 controls, assess residuals and approve the immutable ground origin."
+    },
+    {
+      "id": "surface-intake-pending",
+      "severity": "release-blocking",
+      "description": "No playing-surface source has passed authoritative v2 intake. Source OSM geometry and official schematics cannot establish survey authority.",
+      "exitGate": "Complete licensed controlled source intake and reviewed per-feature provenance before attaching authoritative surface tiles."
+    },
+    {
+      "id": "club-media-rights-pending",
+      "severity": "release-blocking",
+      "description": "No club or Banguider grant for redistribution or geometric derivatives was located. Raw photos, guides and videos are local-only reference.",
+      "exitGate": "Obtain and record applicable permission before distributing protected source media or using traced derivatives as production input."
+    },
+    {
+      "id": "vegetation-and-stable-objects-pending",
+      "severity": "quality",
+      "description": "Measured 2021 canopy stands, clipped national water and supplementary OSM facilities are acquired. Contemporary stand boundaries, individual large objects and local residuals remain unapproved.",
+      "exitGate": "Acquire campaign-constrained evidence, review playing truth zones and source-derived object placement, and compile terrain-sampled bases."
+    }
+  ]
+}

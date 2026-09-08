@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "sourcePath": "geo_data/course-v2/visby/mapping/water-breakgeometry-epsg3006.geojson",
+  "sourceSha256": "b18499faae4354ef2ce95ef1910d7a5c2172457014087adcf9b622ea957e06af",
+  "outputPath": "geo_data/course-v2/visby/mapping/water-breakgeometry-simple-epsg3006.geojson",
+  "outputSha256": "026e7177de3c50f95cc5936bf0bf3ccecebd5c7a19ed9102d76c8361fd6b2b1f",
+  "sourceFeatures": 25,
+  "compatibilityPieces": 40,
+  "outputInteriorRings": 0,
+  "maximumSymmetricDifferenceSquareMetres": 3.3260863785411487e-09,
+  "checks": [
+    {
+      "parentWaterId": "lm-636-68-water-1",
+      "sourceAreaSquareMetres": 3507252.522013684,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 0.0003507252522013684,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-1",
+      "sourceAreaSquareMetres": 620.2068500002956,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-2",
+      "sourceAreaSquareMetres": 15184.703400006561,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1.5184703400006562e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-3",
+      "sourceAreaSquareMetres": 557.0362500011993,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-4",
+      "sourceAreaSquareMetres": 1306.553699996306,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-5",
+      "sourceAreaSquareMetres": 2368.830099998183,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-6",
+      "sourceAreaSquareMetres": 9621.309700007312,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-7",
+      "sourceAreaSquareMetres": 5559470.82410913,
+      "pieces": 6,
+      "symmetricDifferenceSquareMetres": 2.39771866250571e-09,
+      "overlapSquareMetres": -9.313225746154785e-10,
+      "acceptedToleranceSquareMetres": 0.0005559470824109129,
+      "cuts": [
+        {
+          "method": "horizontal-split-through-interior",
+          "northing": 6370490.7,
+          "pieces": 4
+        },
+        {
+          "method": "horizontal-split-through-interior",
+          "northing": 6370564.859999999,
+          "pieces": 3
+        }
+      ]
+    },
+    {
+      "parentWaterId": "lm-637-68-water-8",
+      "sourceAreaSquareMetres": 3928.7162000047706,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-9",
+      "sourceAreaSquareMetres": 4184.497550012074,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-10",
+      "sourceAreaSquareMetres": 943.5532500032708,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-11",
+      "sourceAreaSquareMetres": 6365.957100004986,
+      "pieces": 2,
+      "symmetricDifferenceSquareMetres": 6.016102060968365e-10,
+      "overlapSquareMetres": -2.7284841053187847e-12,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": [
+        {
+          "method": "horizontal-split-through-interior",
+          "northing": 6371637.32,
+          "pieces": 2
+        }
+      ]
+    },
+    {
+      "parentWaterId": "lm-637-68-water-13",
+      "sourceAreaSquareMetres": 2530.7745499978664,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-14",
+      "sourceAreaSquareMetres": 416.24730001444385,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-15",
+      "sourceAreaSquareMetres": 2609.821450000214,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-16",
+      "sourceAreaSquareMetres": 1321.0959500052104,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-17",
+      "sourceAreaSquareMetres": 2304.6572499997224,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-18",
+      "sourceAreaSquareMetres": 2058.0461000048786,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-19",
+      "sourceAreaSquareMetres": 13985.722549975348,
+      "pieces": 2,
+      "symmetricDifferenceSquareMetres": 7.123032441658239e-10,
+      "overlapSquareMetres": 9.094947017729282e-12,
+      "acceptedToleranceSquareMetres": 1.3985722549975348e-06,
+      "cuts": [
+        {
+          "method": "horizontal-split-through-interior",
+          "northing": 6371171.73,
+          "pieces": 2
+        }
+      ]
+    },
+    {
+      "parentWaterId": "lm-637-68-water-20",
+      "sourceAreaSquareMetres": 139.90779999883992,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-21",
+      "sourceAreaSquareMetres": 2027.9116499950148,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-22",
+      "sourceAreaSquareMetres": 2558.18864999247,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-23",
+      "sourceAreaSquareMetres": 15656.282450030161,
+      "pieces": 3,
+      "symmetricDifferenceSquareMetres": 9.090827535196411e-10,
+      "overlapSquareMetres": -5.4569682106375694e-12,
+      "acceptedToleranceSquareMetres": 1.5656282450030162e-06,
+      "cuts": [
+        {
+          "method": "horizontal-split-through-interior",
+          "northing": 6371557.83,
+          "pieces": 2
+        },
+        {
+          "method": "horizontal-split-through-interior",
+          "northing": 6371621.855,
+          "pieces": 2
+        }
+      ]
+    },
+    {
+      "parentWaterId": "lm-637-68-water-24",
+      "sourceAreaSquareMetres": 941.3211499943412,
+      "pieces": 1,
+      "symmetricDifferenceSquareMetres": 0.0,
+      "overlapSquareMetres": 0.0,
+      "acceptedToleranceSquareMetres": 1e-06,
+      "cuts": []
+    },
+    {
+      "parentWaterId": "lm-637-68-water-25",
+      "sourceAreaSquareMetres": 149163.87700007658,
+      "pieces": 7,
+      "symmetricDifferenceSquareMetres": 3.3260863785411487e-09,
+      "overlapSquareMetres": 2.3283064365386963e-10,
+      "acceptedToleranceSquareMetres": 1.4916387700007658e-05,
+      "cuts": [
+        {
+          "method": "horizontal-split-through-interior",
+          "northing": 6372409.35,
+          "pieces": 2
+        },
+        {
+          "method": "horizontal-split-through-interior",
+          "northing": 6372298.18,
+          "pieces": 3
+        },
+        {
+          "method": "horizontal-split-through-interior",
+          "northing": 6372197.145,
+          "pieces": 2
+        },
+        {
+          "method": "horizontal-split-through-interior",
+          "northing": 6372442.539999999,
+          "pieces": 3
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Compatibility pieces partition the same water union; cut lines are artificial and must not become shore banks.",
+    "Canonical geometry with islands remains the mapping authority.",
+    "Some sea vertices have spatially varying source Z; the compatibility application still needs an explicit render-time water-level treatment."
+  ]
+}

@@ -164,8 +164,13 @@ for (const slug of slugs) {
      half-loaded, and must never leave two populations over one ground. */
   const objects = plain.report?.objects;
   if (objects?.loaded) {
-    gate(objects.error === null && objects.planned?.individuals > 0 &&
-      objects.planned?.standTrees > 0,
+    // A measured stand field does not imply a surveyed individual registry.
+    // Gate each published layer against its own declared population.
+    gate(objects.error === null &&
+      objects.loaded.referencedObjectTiles === objects.graphObjectTiles &&
+      objects.loaded.referencedStandTiles === objects.graphStandTiles &&
+      (objects.loaded.records > 0 ? objects.planned?.individuals > 0 : objects.planned?.individuals === 0) &&
+      (objects.graphStandTiles > 0 ? objects.planned?.standTrees > 0 : objects.planned?.standTrees === 0),
       'published vegetation layers verify, load and plant');
   } else {
     gate(objects?.error === null || objects?.error === undefined,

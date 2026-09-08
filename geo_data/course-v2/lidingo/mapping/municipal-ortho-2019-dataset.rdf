@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:schema="http://schema.org/"
+	xmlns:adms="http://www.w3.org/ns/adms#"
+	xmlns:odrs="http://schema.theodi.org/odrs#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
+	xmlns:store="https://metadata.lidingo.se/store/"
+	xmlns:pubeu="http://publications.europa.eu/resource/authority/"
+	xmlns:es="http://entrystore.org/terms/"
+	xmlns:geosparql="http://www.opengis.net/ont/geosparql#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:dcat="http://www.w3.org/ns/dcat#"
+	xmlns:prov="http://www.w3.org/ns/prov#"
+	xmlns:foaf="http://xmlns.com/foaf/0.1/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description rdf:about="https://sws.geonames.org/2696332">
+	<rdfs:label xml:lang="sv">Lidingö kommun</rdfs:label>
+</rdf:Description>
+<dcat:Dataset rdf:about="https://metadata.lidingo.se/store/3/resource/31">
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-08-18</dcterms:modified>
+	<dcterms:title xml:lang="sv">Ortofoto 2019</dcterms:title>
+	<dcterms:description xml:lang="sv">Ortofoto 2019 via Karttjänst.</dcterms:description>
+	<dcterms:publisher rdf:resource="https://metadata.lidingo.se/store/2/resource/2"/>
+	<dcterms:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-08-18</dcterms:issued>
+	<dcterms:language rdf:resource="http://publications.europa.eu/resource/authority/language/SWE"/>
+	<dcterms:spatial rdf:resource="https://sws.geonames.org/2696332"/>
+	<dcterms:spatial rdf:nodeID="genid-start-373bf12f7bade4334812a6b1bfbb0ad98492"/>
+	<dcat:keyword xml:lang="sv">2019</dcat:keyword>
+	<dcat:keyword xml:lang="sv">Flygfoto</dcat:keyword>
+	<dcat:keyword xml:lang="sv">Ortofoto</dcat:keyword>
+	<dcterms:accessRights rdf:resource="http://publications.europa.eu/resource/authority/access-right/PUBLIC"/>
+	<dcat:distribution rdf:resource="https://metadata.lidingo.se/store/3/resource/32"/>
+	<dcat:theme rdf:resource="http://publications.europa.eu/resource/authority/data-theme/SOCI"/>
+	<dcterms:temporal rdf:nodeID="genid-start-373bf12f7bade4334812a6b1bfbb0ad98493"/>
+	<dcat:contactPoint rdf:resource="https://metadata.lidingo.se/store/2/resource/3"/>
+	<dcat:inSeries rdf:resource="https://metadata.lidingo.se/store/3/resource/20"/>
+</dcat:Dataset>
+<dcterms:Location rdf:nodeID="genid-start-373bf12f7bade4334812a6b1bfbb0ad98492">
+	<dcat:bbox rdf:datatype="http://www.opengis.net/ont/geosparql#wktLiteral">POLYGON((18.080411755655778 59.403287648783646,18.3023087853096 59.403287648783646,18.3023087853096 59.322907241414185,18.080411755655778 59.322907241414185,18.080411755655778 59.403287648783646))</dcat:bbox>
+</dcterms:Location>
+<dcterms:PeriodOfTime rdf:nodeID="genid-start-373bf12f7bade4334812a6b1bfbb0ad98493">
+	<dcat:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-12-31</dcat:endDate>
+</dcterms:PeriodOfTime>
+
+</rdf:RDF>

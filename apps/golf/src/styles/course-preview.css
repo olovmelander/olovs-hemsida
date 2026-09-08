@@ -1,0 +1,33 @@
+html.course-intake{height:auto;min-height:100%;overflow:auto}
+body.course-intake{height:auto;min-height:100%;overflow:auto;background:#0d1c16;color:#e9f0e5}
+body.course-intake>:not(#courseIntake):not(script){display:none!important}
+#courseIntake{max-width:1320px;margin:auto;padding:28px 40px 64px;font-family:Outfit,system-ui,sans-serif}
+#courseIntake a{color:#b8d7b2;text-underline-offset:4px}
+#courseIntake button{font:inherit;cursor:pointer;color:inherit;background:#203c2e;border:1px solid #49604b;border-radius:8px;padding:9px 12px}
+#courseIntake button:hover,#courseIntake button.selected{background:#c8dcaa;color:#15281e;border-color:#c8dcaa}
+#courseIntake :focus-visible{outline:3px solid #e5c28f;outline-offset:4px}
+.intake-header,.intake-heading{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.intake-back{font-size:14px;text-decoration:none}.intake-brand{font-weight:800;font-size:24px;text-decoration:none}.intake-brand i{color:#84bc83;font-style:normal}
+.intake-heading{margin-top:46px}.intake-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#abc0a4}
+#courseIntake h1{font-size:clamp(28px,4vw,46px);letter-spacing:-.03em;margin:8px 0 10px;font-weight:600}
+.intake-heading p{color:#c3cfbb;font-size:15px}.intake-status{padding:8px 12px;border:1px solid #766847;background:#352f20;color:#e5c995;border-radius:30px;font-size:12px;white-space:nowrap}
+.intake-intro{max-width:780px;font-size:16px;line-height:1.65;color:#afc0ad;margin:22px 0 30px}
+.intake-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,1fr);gap:24px;align-items:start}
+.intake-map-panel,.intake-hole-panel,.intake-progress,.intake-resources,.intake-card{border:1px solid #354c39;border-radius:14px;background:#14271d;overflow:hidden}
+.intake-map-tools{padding:12px 16px;display:flex;align-items:center;gap:16px;font-size:12px;border-bottom:1px solid #354c39}.intake-map-tools>span{margin-left:auto}.intake-map-tools input{accent-color:#bdd899;vertical-align:middle}
+#intakeMap{display:block;width:100%;height:560px;background:#1a3025}
+.intake-route{cursor:pointer}.route-hit{fill:none;stroke:transparent;stroke-width:22}.route-line{fill:none;stroke:#b3c8ac;stroke-width:2.4;stroke-dasharray:5 5;pointer-events:none}
+.intake-route circle{fill:#b4c9a3;stroke:#1a3025;stroke-width:2}.intake-route text{font-family:Outfit,system-ui,sans-serif;font-size:13px;text-anchor:middle;fill:#182d20;font-weight:700}
+.intake-route.selected .route-line,.intake-route:focus .route-line{stroke:#f7d28e;stroke-width:4;stroke-dasharray:none}.intake-route.selected circle{fill:#f7d28e}
+.intake-map-key{display:flex;flex-wrap:wrap;gap:16px;padding:14px 18px;font-size:11px;color:#c5d0be}.intake-map-key i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+.intake-attribution{font-size:11px!important;line-height:1.65;color:#aabcaa;padding:0 18px 16px}
+.intake-sidebar{display:grid;gap:18px}.intake-hole-panel,.intake-progress,.intake-resources{padding:23px}
+.intake-hole-buttons{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:14px 0 24px}.intake-hole-buttons button{padding:8px 4px!important;font-variant-numeric:tabular-nums}
+#courseIntake h2{font-size:19px;font-weight:500;margin-bottom:12px}#intakeHole h2 span{font-size:12px;color:#b8c8ad;margin-left:8px}
+.intake-tee-lengths{display:grid;grid-template-columns:repeat(auto-fit,minmax(44px,1fr));gap:8px;margin:18px 0}.intake-tee-lengths dt{font-size:11px;color:#acbea6;margin-bottom:6px}.intake-tee-lengths dd{font-size:19px;font-variant-numeric:tabular-nums}.intake-tee-lengths small{font-size:10px;color:#94a68d}
+.intake-map-unavailable{padding:32px 24px;color:#afc0ad;line-height:1.65}
+#intakeHole p,.intake-progress p{font-size:13px;line-height:1.65;color:#aebeaa}.intake-progress p+p{margin-top:10px}
+.intake-resources a{display:flex;justify-content:space-between;font-size:13px;padding:12px 0;border-top:1px solid #354c39;text-decoration:none}
+.intake-card{margin-top:26px;padding:25px}.intake-card>p{font-size:13px;line-height:1.65;color:#aebeaa}.intake-card .intake-attribution{padding:14px 0 0}
+.intake-table-scroll{overflow:auto;margin-top:18px}.intake-card table{width:100%;border-collapse:collapse;min-width:580px;font-size:13px;font-variant-numeric:tabular-nums}.intake-card caption{text-align:left;color:#94ad90;margin-bottom:12px;font-size:11px}.intake-card th,.intake-card td{text-align:right;padding:10px 12px;border-bottom:1px solid #314832}.intake-card th:first-child{text-align:left}.intake-card thead{color:#bdd0b2}.intake-card tr.selected{background:#263f2b}.intake-card tfoot{font-weight:600;color:#d4e3bc}
+@media(max-width:760px){#courseIntake{padding:20px 16px 40px}.intake-heading{margin-top:30px;align-items:flex-start;flex-direction:column;gap:14px}.intake-layout{grid-template-columns:1fr}.intake-intro{font-size:14px;margin:18px 0 22px}#intakeMap{height:450px}.intake-card{padding:18px}.intake-map-tools{gap:10px;padding:10px}.intake-map-tools button{padding:8px!important}.intake-status{font-size:11px}}

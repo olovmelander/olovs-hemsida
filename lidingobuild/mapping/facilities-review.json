@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "state": "provisional-source-derived-not-surveyed",
+  "features": 14,
+  "kinds": {
+    "practice_green": 4,
+    "paved_path": 2,
+    "parking": 3,
+    "range_field": 1,
+    "range_tee_pad": 4
+  },
+  "inputs": [
+    {
+      "path": "lidingobuild/mapping/facility-traces-2019.json",
+      "sha256": "5a7833d7051047ac88acf68ba5380054da74976646e60743b8e94d89f074129d"
+    },
+    {
+      "path": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "sha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691"
+    },
+    {
+      "path": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
+      "sha256": "18a4743f5d7ecb443ea0ae65257299305603b364cd55867654e1cf757953682b"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+      "sha256": "d25889882339c4259bc38a3d475a9113b70dc6092d9f98782c3812e4e8999ec0"
+    },
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "sha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7"
+    }
+  ],
+  "output": {
+    "path": "lidingobuild/mapping/facilities.geojson",
+    "sha256": "8fa659a74607c0bf72da55da661915e7cf777af00e90b5bb9692bae26cf8990a"
+  },
+  "adjustments": [
+    {
+      "id": "lidingo-courtyard-hardstanding-2019",
+      "removedBuildingOverlapM2": 79.269,
+      "method": "difference against retained OSM building footprints; source epochs and horizontal accuracy differ"
+    }
+  ],
+  "pending": [
+    "2025 upper-parking practice-area works require a newer georeferenced as-built source.",
+    "Range net lines, pole heights, individual mats, bins, benches and dividers remain unmeasured.",
+    "Building wall footprints and roof outlines are not interchangeable where eaves overhang.",
+    "Source contains 2019 observations; current green extents and practice equipment are unverified."
+  ],
+  "inventory": [
+    {
+      "id": "lidingo-courtyard-putting-green-2019",
+      "kind": "practice_green",
+      "facility": "lidingo-clubhouse",
+      "areaM2": 209.744,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-courtyard-hardstanding-2019",
+      "kind": "paved_path",
+      "facility": "lidingo-clubhouse",
+      "areaM2": 375.219,
+      "interiorRings": 1
+    },
+    {
+      "id": "lidingo-clubhouse-parking-2019",
+      "kind": "parking",
+      "facility": "lidingo-clubhouse",
+      "areaM2": 810.977,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-upper-parking-north-2019",
+      "kind": "parking",
+      "facility": "lidingo-upper-parking",
+      "areaM2": 713.855,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-upper-parking-south-2019",
+      "kind": "parking",
+      "facility": "lidingo-upper-parking",
+      "areaM2": 233.743,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-range-field-2019",
+      "kind": "range_field",
+      "facility": "lidingo-driving-range",
+      "areaM2": 15676.809,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-range-north-platform-2019",
+      "kind": "range_tee_pad",
+      "facility": "lidingo-driving-range",
+      "areaM2": 353.615,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-range-south-platform-2019",
+      "kind": "range_tee_pad",
+      "facility": "lidingo-driving-range",
+      "areaM2": 341.615,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-range-east-platform-north-2019",
+      "kind": "range_tee_pad",
+      "facility": "lidingo-driving-range",
+      "areaM2": 87.998,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-range-east-platform-south-2019",
+      "kind": "range_tee_pad",
+      "facility": "lidingo-driving-range",
+      "areaM2": 123.872,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-range-target-green-2019",
+      "kind": "practice_green",
+      "facility": "lidingo-driving-range",
+      "areaM2": 419.613,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-range-east-access-2019",
+      "kind": "paved_path",
+      "facility": "lidingo-driving-range",
+      "areaM2": 448.863,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-clubhouse-practice-green-osm",
+      "kind": "practice_green",
+      "facility": "lidingo-clubhouse",
+      "areaM2": 656.183,
+      "interiorRings": 0
+    },
+    {
+      "id": "lidingo-south-practice-green-osm",
+      "kind": "practice_green",
+      "facility": "lidingo-south-practice",
+      "areaM2": 712.085,
+      "interiorRings": 0
+    }
+  ]
+}

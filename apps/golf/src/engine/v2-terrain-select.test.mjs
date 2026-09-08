@@ -60,6 +60,7 @@ describe('selectV2TerrainSource', () => {
     expect(V2_PUBLISHED_GRAPH_SLUGS).toEqual([
       'angso',
       'johannesberg',
+      'lidingo',
       'norrfallsviken',
       'puttom',
       'ribbingsfors',
@@ -67,6 +68,7 @@ describe('selectV2TerrainSource', () => {
       'upsala-mellanbanan',
       'veckefjarden',
       'veckefjarden-korthalsbanan',
+      'visby',
     ]);
     expect(Object.isFrozen(V2_PUBLISHED_GRAPH_SLUGS)).toBe(true);
   });

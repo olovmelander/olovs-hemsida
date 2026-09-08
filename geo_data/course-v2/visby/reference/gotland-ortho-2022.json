@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "provider": "Region Gotland",
+  "sourceId": "visby-municipal-ortho-2022",
+  "campaignLabel": "2022",
+  "captureDate": null,
+  "horizontalCrs": "EPSG:3006",
+  "nativeServiceCrs": "EPSG:3015",
+  "bboxEpsg3006": [
+    686900,
+    6370350,
+    688650,
+    6372150
+  ],
+  "width": 3500,
+  "height": 3600,
+  "outputSampleSpacingMetres": 0.5,
+  "advertisedProductGsdMetres": 0.25,
+  "image": {
+    "url": "https://imageserver.gotland.se/arcgis/rest/directories/arcgisoutput/Ortofoto/Ortofoto_2022_ImageServer/_ags_6a144296_d984_4c16_89ba_a27a7350003d.png",
+    "acquiredAt": "2026-09-07T19:31:13.948961+00:00",
+    "path": "visbybuild/cache/geodata-2026-09-07/gotland-2022-0p5m.png",
+    "bytes": 22144608,
+    "sha256": "aac5fa4a1ce429258cd020e0a139939576ac67bde02e010fc822feb446111153",
+    "contentType": "image/png",
+    "etag": "\"1a07d5a676b\""
+  },
+  "export": {
+    "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?f=pjson&bbox=686900%2C6370350%2C688650%2C6372150&bboxSR=3006&imageSR=3006&size=3500%2C3600&format=png&interpolation=RSP_BilinearInterpolation&adjustAspectRatio=false&noDataInterpretation=esriNoDataMatchAny",
+    "acquiredAt": "2026-09-07T19:31:13.177993+00:00",
+    "path": "visbybuild/cache/geodata-2026-09-07/gotland-2022-export.json",
+    "bytes": 367,
+    "sha256": "d2318245a0d65cae2b3376fcec759d6626878f3762cc311e1337326bc51da6c3",
+    "contentType": "text/plain; charset=UTF-8",
+    "etag": "\"6950f518\""
+  },
+  "footprintQuery": {
+    "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/query?f=pjson&where=1%3D1&geometry=686900%2C6370350%2C688650%2C6372150&geometryType=esriGeometryEnvelope&inSR=3006&spatialRel=esriSpatialRelIntersects&outFields=%2A&returnGeometry=true&outSR=3006",
+    "acquiredAt": "2026-09-07T19:31:09.296940+00:00",
+    "path": "visbybuild/cache/geodata-2026-09-07/gotland-2022-footprints.json",
+    "bytes": 1389698,
+    "sha256": "91baf70883276abc6ee2ac114f93b3c6871ac206626fbd9790b3de1cd143db88",
+    "contentType": "text/plain; charset=UTF-8",
+    "etag": "\"f3f3960d\""
+  },
+  "worldfilePath": "visbybuild/cache/geodata-2026-09-07/gotland-2022-0p5m.pgw",
+  "footprintCount": 8,
+  "sourceDatasets": [
+    {
+      "OBJECTID": 410,
+      "Name": "637_68_0075_2022",
+      "MinPS": 0,
+      "MaxPS": 3,
+      "LowPS": 0.25,
+      "HighPS": 1,
+      "Category": 1,
+      "Tag": "Dataset",
+      "GroupName": "",
+      "ProductName": "",
+      "CenterX": 113694.783352615,
+      "CenterY": 6369590.659138068,
+      "ZOrder": null,
+      "Shape.STArea()": 6249741.20761921,
+      "Shape.STLength()": 9999.79288630296
+    },
+    {
+      "OBJECTID": 409,
+      "Name": "637_68_0050_2022",
+      "MinPS": 0,
+      "MaxPS": 3,
+      "LowPS": 0.25,
+      "HighPS": 1,
+      "Category": 1,
+      "Tag": "Dataset",
+      "GroupName": "",
+      "ProductName": "",
+      "CenterX": 111198.622806,
+      "CenterY": 6369728.536045254,
+      "ZOrder": null,
+      "Shape.STArea()": 6249913.74854724,
+      "Shape.STLength()": 9999.931067267742
+    }
+  ],
+  "overviewRecordCount": 6,
+  "rgbMean": [
+    62.26900103174603,
+    77.79419992063492,
+    85.12394777777777
+  ],
+  "rgbStandardDeviation": [
+    33.65133464110241,
+    29.010188944527325,
+    27.629608979231126
+  ],
+  "licence": {
+    "state": "primary-terms-verification-pending",
+    "copyright": null,
+    "copyrightReason": "The 2022 service copyrightText is empty; other service attribution cannot be inherited.",
+    "redistribution": "local measurement/review cache only"
+  },
+  "limitations": [
+    "2022 is the service campaign label; exact image capture dates remain unknown.",
+    "Requested 0.5 m pixels are resampled from the advertised 0.25 m product.",
+    "Output georeferencing does not establish independent positional accuracy.",
+    "Inspect against current club sources and 2026 national imagery metadata for changed features.",
+    "Raw orthophoto is not a runtime material and is not redistributed."
+  ]
+}

@@ -39,7 +39,20 @@ test('all registered physical-ground manifests and committed checksums validate'
 test('all registered course slugs are accounted for exactly once', () => {
   const manifests = Object.keys(EXPECTED_GROUNDS).map(manifest);
   assert.deepEqual(validateGroundCoverage(manifests), []);
-  assert.equal(manifests.flatMap(item => item.courseSlugs).length, 10);
+  assert.equal(manifests.flatMap(item => item.courseSlugs).length, 12);
+});
+
+test('source-only grounds have no invented legacy frame or migratable model', () => {
+  const value = clone(manifest('lidingo'));
+  // Construct this state: an active intake can legitimately gain its first
+  // compatibility model without invalidating the null-frame schema test.
+  value.legacyFrame = null;
+  value.artifacts = value.artifacts.filter(a => !(a.kind === 'composite' && a.id.startsWith('legacy-') && /model\.json$/.test(a.path)));
+  assert.deepEqual(validate(value), []);
+  value.artifacts[0].kind = 'composite';
+  value.artifacts[0].id = 'legacy-course-model';
+  value.artifacts[0].path = 'lidingobuild/course-model.json';
+  assert.match(validate(value).join('\n'), /inventoried legacy models require their explicit frame/);
 });
 
 test('unapproved canonical origin is rejected', () => {

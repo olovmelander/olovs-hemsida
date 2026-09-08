@@ -1,0 +1,2979 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "provider": "Region Gotland",
+  "discoveredAt": "2026-09-07T19:27:41.340Z",
+  "catalog": {
+    "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto?f=pjson",
+    "method": "GET",
+    "acquiredAt": "2026-09-07T19:27:41.334Z",
+    "path": "visbybuild/cache/geodata-2026-09-07/gotland-imagery-services.json",
+    "bytes": 1539,
+    "sha256": "1a4f4a063bfe66f7349a351344b68f23dce09cb7993da4fdc6aa8236d03e9abb",
+    "contentType": "text/plain; charset=UTF-8",
+    "etag": null,
+    "lastModified": null
+  },
+  "services": [
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ekokarta1940/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.374Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ekokarta1940-metadata.json",
+      "bytes": 5529,
+      "sha256": "5da0fe80e741254937bd1fdace060383397df73207f3e711ab039cc2753d47d1",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"d23b10c6\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ekokarta1940",
+      "description": "",
+      "extent": {
+        "xmin": 118415.84754948613,
+        "ymin": 6385693.475637772,
+        "xmax": 128580.44908881339,
+        "ymax": 6395773.00079913,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 1.0128140234483114,
+      "pixelSizeY": 1.0128140234483116,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Catalog item categories.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ekonomikarta/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.412Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ekonomikarta-metadata.json",
+      "bytes": 5873,
+      "sha256": "f94d4ad89e4b7582831d3bd3f075c0d999e5485617373071df2d4a8f68c1145c",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"7b3c8dae\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ekonomikarta",
+      "description": "",
+      "extent": {
+        "xmin": 102289.02365525633,
+        "ymin": 6307822.540897538,
+        "xmax": 185873.18545039033,
+        "ymax": 6475864.193250077,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.857044909,
+      "pixelSizeY": 0.8570449089999994,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Catalog item categories.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Shape.STArea()",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape.STArea()",
+          "domain": null
+        },
+        {
+          "name": "Shape.STLength()",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape.STLength()",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/HILLSHADE/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.448Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-HILLSHADE-metadata.json",
+      "bytes": 3105,
+      "sha256": "49fcfbb7f5c50c411dd6caf26f4c4b66ada7f65bd6106b8815c3de49b9ce50a6",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"cee00284\"",
+      "lastModified": null,
+      "name": "Ortofoto/HILLSHADE",
+      "description": "Hillshade raster genererad från höjdata(RH2000)",
+      "extent": {
+        "xmin": 101291.01030159026,
+        "ymin": 6309349.9037442515,
+        "xmax": 185771.01030159026,
+        "ymax": 6475749.9037442515,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015,
+          "vcsWkid": 105702,
+          "latestVcsWkid": 5613
+        }
+      },
+      "pixelSizeX": 1.25,
+      "pixelSizeY": 1.25,
+      "bandCount": 1,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/HOJDRASTER/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.477Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-HOJDRASTER-metadata.json",
+      "bytes": 3469,
+      "sha256": "3f2d384efc9f0763ad49d8d8457ebfad6b92da2b11ffbbe43ae6e5d779ce20e5",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"75dfff9d\"",
+      "lastModified": null,
+      "name": "Ortofoto/HOJDRASTER",
+      "description": "<DIV STYLE=\"text-align:Left;\"><DIV><P><SPAN>Rastret är framtaget från las-data från Lantmäteriet. Den har cellstorlek 1,25m och Triangulering Linjär med ingen förtunning.</SPAN></P></DIV></DIV>",
+      "extent": {
+        "xmin": 101291.01030159026,
+        "ymin": 6309349.9037442515,
+        "xmax": 185771.01030159026,
+        "ymax": 6475749.9037442515,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015,
+          "vcsWkid": 105702,
+          "latestVcsWkid": 5613
+        }
+      },
+      "pixelSizeX": 1.25,
+      "pixelSizeY": 1.25,
+      "bandCount": 1,
+      "pixelType": "F32",
+      "copyrightText": "Tomas Looström",
+      "fields": [],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto2005/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.512Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto2005-metadata.json",
+      "bytes": 5464,
+      "sha256": "df8f12a88d29a946a9922071aac435d4f74976aa8fcaed408074fce70b4c3456",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"be5c92de\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto2005",
+      "description": "Ortofoto Gotland 2005",
+      "extent": {
+        "xmin": -14999.999999999978,
+        "ymin": 6305000,
+        "xmax": 79999.99999999988,
+        "ymax": 6480000,
+        "spatialReference": {
+          "wkid": 3028,
+          "latestWkid": 3028
+        }
+      },
+      "pixelSizeX": 0.9999999999999984,
+      "pixelSizeY": 1,
+      "bandCount": 1,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Kategorier för katalogobjekt.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto2010/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.549Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto2010-metadata.json",
+      "bytes": 2859,
+      "sha256": "3cf28774bea95c17d73403757d7504914ddbb39012b47b5cda9ee28c4a1d990e",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"ca6ed420\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto2010",
+      "description": "Orotofoto år 2010",
+      "extent": {
+        "xmin": 99900.02708702162,
+        "ymin": 6306700.022123301,
+        "xmax": 189900.02708702162,
+        "ymax": 6476700.022123301,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.5,
+      "pixelSizeY": 0.5,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto2012/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.585Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto2012-metadata.json",
+      "bytes": 5487,
+      "sha256": "b98dfe0be4c5523610eed9a3978d5dfce4b62b9499f16da60e3dc3fe45642b2c",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"f6c7f1f8\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto2012",
+      "description": "Ortofoto Gotland 2012",
+      "extent": {
+        "xmin": 95000,
+        "ymin": 6305000,
+        "xmax": 190000,
+        "ymax": 6485000,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.5,
+      "pixelSizeY": 0.5,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Kategorier för katalogobjekt.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto2014/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.617Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto2014-metadata.json",
+      "bytes": 5493,
+      "sha256": "b84929fd7a80c0738d7e6fbf6589a15a7363a0562fd1bf7baa306eebbbf3eed3",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"bafb2f85\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto2014",
+      "description": "Ortofoto Gotland 2014",
+      "extent": {
+        "xmin": 100000,
+        "ymin": 6307500,
+        "xmax": 187500,
+        "ymax": 6480000,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.25,
+      "pixelSizeY": 0.25,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Kategorier för katalogobjekt.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto2016/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.646Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto2016-metadata.json",
+      "bytes": 5853,
+      "sha256": "e0453fef90d1f73d46236f7065c6e9c7972a8bc3a9ec08210f21021d8b72f389",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"54479293\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto2016",
+      "description": "Ortofoto Gotland 2016",
+      "extent": {
+        "xmin": 100000,
+        "ymin": 6307500,
+        "xmax": 187500,
+        "ymax": 6480000,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.25,
+      "pixelSizeY": 0.25,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Kategorier för katalogobjekt.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto2018/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.674Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto2018-metadata.json",
+      "bytes": 5663,
+      "sha256": "e75b9c9a4a5ffbcf7bd17e76ed2890971be41ec8f4c1e8a96d13eeab118eaee1",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"326b2f5e\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto2018",
+      "description": "Gotland ortofoto 2018",
+      "extent": {
+        "xmin": 100000,
+        "ymin": 6307500,
+        "xmax": 187500,
+        "ymax": 6480000,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.25,
+      "pixelSizeY": 0.25,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "GI enhet, RG",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Kategorier för katalogobjekt.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto2020_wgs84/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.707Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto2020_wgs84-metadata.json",
+      "bytes": 5939,
+      "sha256": "68e62d99743a700e77c5112732299718052ea12cfb5271a9d2f7c95cf68aee6a",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"4f313d4a\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto2020_wgs84",
+      "description": "LM's Ortofoto 2020 i wgs84 förmat anpassad till arcgis online default koordinat förmat. ",
+      "extent": {
+        "xmin": 1994876.4477999993,
+        "ymin": 7737016.695800002,
+        "xmax": 2158615.6477999995,
+        "ymax": 8059643.575800002,
+        "spatialReference": {
+          "wkid": 102100,
+          "latestWkid": 3857
+        }
+      },
+      "pixelSizeX": 0.16000000000000017,
+      "pixelSizeY": 0.15999999999999995,
+      "bandCount": 4,
+      "pixelType": "U8",
+      "copyrightText": "Lantmäteriet, Region Gotland",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Kategorier för katalogobjekt.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto2020/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.743Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto2020-metadata.json",
+      "bytes": 5561,
+      "sha256": "afb3f097bb408413726a189bf42f9729aa1194af1f89bf67fa473b0ab894e6d1",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"937743f4\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto2020",
+      "description": "Ortofoto år 2020 från Lantmäteriet ",
+      "extent": {
+        "xmin": 100000,
+        "ymin": 6307500,
+        "xmax": 187500,
+        "ymax": 6480000,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.16,
+      "pixelSizeY": 0.16,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "Lantmäteriet, Region Gotland",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Kategorier för katalogobjekt.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/ORTOFOTO_2020_Almedalen/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.772Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-ORTOFOTO_2020_Almedalen-metadata.json",
+      "bytes": 2941,
+      "sha256": "1829485ee1329195c9e1e34989e776176f34d62d871a83827dc5f176ea38fc51",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"fae2ca6f\"",
+      "lastModified": null,
+      "name": "Ortofoto/ORTOFOTO_2020_Almedalen",
+      "description": "Ortofoto 2020, Klippt för Almedalsveckans karta.",
+      "extent": {
+        "xmin": 121317.76000000001,
+        "ymin": 6389544.8,
+        "xmax": 124119.84000000001,
+        "ymax": 6393140.64,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.1600000000000001,
+      "pixelSizeY": 0.15999999999999337,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.802Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto_2022-metadata.json",
+      "bytes": 5643,
+      "sha256": "ed832b9896e92be66c956c4c75afce2bdcf089bc5bfcb120c99b2f0154937c3f",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"9501359b\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto_2022",
+      "description": "",
+      "extent": {
+        "xmin": 101291.0103000002,
+        "ymin": 6307954.783600001,
+        "xmax": 185990.2603000002,
+        "ymax": 6477670.533600001,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.25,
+      "pixelSizeY": 0.25,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Catalog item categories.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Shape.STArea()",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape.STArea()",
+          "domain": null
+        },
+        {
+          "name": "Shape.STLength()",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape.STLength()",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_Roma/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.830Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto_Roma-metadata.json",
+      "bytes": 5791,
+      "sha256": "47904222185d6924adc665374b19bce6084479954543aff10498aeb23f955ab9",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"b9d3240b\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto_Roma",
+      "description": "Ortofoto, Roma, Drone",
+      "extent": {
+        "xmin": 132453.37584016,
+        "ymin": 6377166.734285289,
+        "xmax": 132631.90387876,
+        "ymax": 6377314.00699609,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.013601099999999545,
+      "pixelSizeY": 0.013601100000015782,
+      "bandCount": 4,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Kategorier för katalogobjekt.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.863Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ortofoto-metadata.json",
+      "bytes": 5522,
+      "sha256": "0abc73b5a430c281897612c06c1673ec968f0cea115d66abe847efd879a0fdc2",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"26540bfd\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ortofoto",
+      "description": "Gotland ortfoto 2018",
+      "extent": {
+        "xmin": 100000,
+        "ymin": 6307500,
+        "xmax": 187500,
+        "ymax": 6480000,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.25,
+      "pixelSizeY": 0.25,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "GI enhet, RG",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Kategorier för katalogobjekt.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ringmuren/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.895Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Ringmuren-metadata.json",
+      "bytes": 5729,
+      "sha256": "2f9d72d4c74d7d4051c0ab69afed2d279fe7bf4c2988c03fb9a5602eacaa9772",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"2835dfdb\"",
+      "lastModified": null,
+      "name": "Ortofoto/Ringmuren",
+      "description": "Ortofoto, Ringmuren",
+      "extent": {
+        "xmin": 123055.49,
+        "ymin": 6391534.175,
+        "xmax": 123306.1399999998,
+        "ymax": 6391752.975,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.049999999999958196,
+      "pixelSizeY": 0.04999999999995743,
+      "bandCount": 4,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Catalog item categories.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Salthamn_storre/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.945Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Salthamn_storre-metadata.json",
+      "bytes": 6217,
+      "sha256": "7205135a5c1df9fcacf0bb37e62cd1c28bc4fb530de6e1cb66a6cfde2a43557e",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"539b3b76\"",
+      "lastModified": null,
+      "name": "Ortofoto/Salthamn_storre",
+      "description": "Ortofoto omfattar större område i Salthamn",
+      "extent": {
+        "xmin": 128632.866804157,
+        "ymin": 6401226.05691018,
+        "xmax": 129357.141804157,
+        "ymax": 6401922.33191018,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015,
+          "vcsWkid": 105702,
+          "latestVcsWkid": 5613
+        }
+      },
+      "pixelSizeX": 0.0249999999999998,
+      "pixelSizeY": 0.025000000000013376,
+      "bandCount": 4,
+      "pixelType": "U8",
+      "copyrightText": "GI enhet, RG",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Catalog item categories.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/utbyggnad_va_2020/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:41.977Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-utbyggnad_va_2020-metadata.json",
+      "bytes": 2809,
+      "sha256": "af8a22c7235ef311b9fc57d07ca20f6df822e0fe5baa56a9b11e9d9253f33d25",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"9e6165a2\"",
+      "lastModified": null,
+      "name": "Ortofoto/utbyggnad_va_2020",
+      "description": "",
+      "extent": {
+        "xmin": 112183.68,
+        "ymin": 6369574.88,
+        "xmax": 115030.08,
+        "ymax": 6375432.8,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.1600000000000005,
+      "pixelSizeY": 0.15999999999999798,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Visborg/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:42.006Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Visborg-metadata.json",
+      "bytes": 6143,
+      "sha256": "b079195b862d6e8ef6a608feb52d48e42a83d8e5c458caf8a9a63e1d1af08a0d",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"4f9f1c12\"",
+      "lastModified": null,
+      "name": "Ortofoto/Visborg",
+      "description": "Visborg ortofoto",
+      "extent": {
+        "xmin": 121295.451465049,
+        "ymin": 6387848.62744715,
+        "xmax": 122067.451465049,
+        "ymax": 6388693.66744715,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015,
+          "vcsWkid": 105702,
+          "latestVcsWkid": 5613
+        }
+      },
+      "pixelSizeX": 0.02,
+      "pixelSizeY": 0.02000000000000088,
+      "bandCount": 4,
+      "pixelType": "U8",
+      "copyrightText": "GI enhet, RG",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Catalog item categories.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Inactive",
+                "code": 5
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape_Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Length",
+          "domain": null
+        },
+        {
+          "name": "Shape_Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape_Area",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    },
+    {
+      "url": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Visby_2022/ImageServer?f=pjson",
+      "method": "GET",
+      "acquiredAt": "2026-09-07T19:27:42.031Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/gotland-Visby_2022-metadata.json",
+      "bytes": 5610,
+      "sha256": "62e102d9c02f1314e55055532a374913e4e140d235c1b161392e4483bc15a44f",
+      "contentType": "text/plain; charset=UTF-8",
+      "etag": "\"9fdd51c8\"",
+      "lastModified": null,
+      "name": "Ortofoto/Visby_2022",
+      "description": "",
+      "extent": {
+        "xmin": 118335.86290000007,
+        "ymin": 6385055.979599999,
+        "xmax": 129010.86290000007,
+        "ymax": 6397812.229599999,
+        "spatialReference": {
+          "wkid": 3015,
+          "latestWkid": 3015
+        }
+      },
+      "pixelSizeX": 0.25,
+      "pixelSizeY": 0.25,
+      "bandCount": 3,
+      "pixelType": "U8",
+      "copyrightText": "",
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID",
+          "domain": null
+        },
+        {
+          "name": "Name",
+          "type": "esriFieldTypeString",
+          "alias": "Name",
+          "domain": null,
+          "length": 200
+        },
+        {
+          "name": "MinPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MinPS",
+          "domain": null
+        },
+        {
+          "name": "MaxPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "MaxPS",
+          "domain": null
+        },
+        {
+          "name": "LowPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "LowPS",
+          "domain": null
+        },
+        {
+          "name": "HighPS",
+          "type": "esriFieldTypeDouble",
+          "alias": "HighPS",
+          "domain": null
+        },
+        {
+          "name": "Category",
+          "type": "esriFieldTypeInteger",
+          "alias": "Category",
+          "domain": {
+            "type": "codedValue",
+            "name": "MosaicCatalogItemCategoryDomain",
+            "description": "Catalog item categories.",
+            "codedValues": [
+              {
+                "name": "Unknown",
+                "code": 0
+              },
+              {
+                "name": "Primary",
+                "code": 1
+              },
+              {
+                "name": "Overview",
+                "code": 2
+              },
+              {
+                "name": "Unprocessed Overview",
+                "code": 3
+              },
+              {
+                "name": "Partial Overview",
+                "code": 4
+              },
+              {
+                "name": "Uploaded",
+                "code": 253
+              },
+              {
+                "name": "Incomplete",
+                "code": 254
+              },
+              {
+                "name": "Custom",
+                "code": 255
+              }
+            ],
+            "mergePolicy": "esriMPTDefaultValue",
+            "splitPolicy": "esriSPTDefaultValue"
+          }
+        },
+        {
+          "name": "Tag",
+          "type": "esriFieldTypeString",
+          "alias": "Tag",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "GroupName",
+          "type": "esriFieldTypeString",
+          "alias": "GroupName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "ProductName",
+          "type": "esriFieldTypeString",
+          "alias": "ProductName",
+          "domain": null,
+          "length": 100
+        },
+        {
+          "name": "CenterX",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterX",
+          "domain": null
+        },
+        {
+          "name": "CenterY",
+          "type": "esriFieldTypeDouble",
+          "alias": "CenterY",
+          "domain": null
+        },
+        {
+          "name": "ZOrder",
+          "type": "esriFieldTypeInteger",
+          "alias": "ZOrder",
+          "domain": null
+        },
+        {
+          "name": "Shape",
+          "type": "esriFieldTypeGeometry",
+          "alias": "Shape",
+          "domain": null
+        },
+        {
+          "name": "Shape.STArea()",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape.STArea()",
+          "domain": null
+        },
+        {
+          "name": "Shape.STLength()",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape.STLength()",
+          "domain": null
+        }
+      ],
+      "maxImageWidth": 15000,
+      "maxImageHeight": 4100
+    }
+  ],
+  "limitations": [
+    "Public endpoint access does not establish redistribution or derivative rights.",
+    "A service year is a campaign label, not a verified per-pixel capture date.",
+    "Native municipal grid EPSG:3015 differs from the course master grid EPSG:3006."
+  ]
+}

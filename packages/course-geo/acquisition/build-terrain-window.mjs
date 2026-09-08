@@ -21,6 +21,7 @@ import { fileURLToPath } from 'node:url';
 import { basicAuthorization, httpRange, openCog } from '../cog/cog-reader.mjs';
 import { lantmaterietCredentials } from './credentials.mjs';
 import { TERRAIN_WINDOW_SPECS } from './terrain-window-specs.mjs';
+import { terrainWindowIntersection, copyTerrainWindow, summarizeTerrainWindow } from './terrain-window-intersection.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const ITEM_METRES = 10000;
@@ -95,34 +96,18 @@ async function main() {
     const range = httpRange(item.href, { authorization });
     const cog = await openCog(range);
     if (cog.epsg !== 3006) throw new Error(`${item.id} is not EPSG:3006`);
-    if (Math.abs(cog.originX - item.minEasting) > 1e-6 || Math.abs(cog.originY - item.maxNorthing) > 1e-6) {
-      throw new Error(`${item.id} origin ${cog.originX},${cog.originY} is not its 10 km square`);
-    }
     const level = cog.levelForFactor(1);
     if (!level) throw new Error(`${item.id} has no full-resolution level`);
-
-    /* The reviewed lattice rows/columns that fall inside this item. Sample
-       centres are x.5, so the sample at easting E is the pixel whose index
-       within the item is E - item.minEasting - 0.5. */
-    const c0 = Math.max(0, Math.ceil(item.minEasting - originEasting));
-    const c1 = Math.min(width - 1, Math.floor(item.maxEasting - originEasting));
-    const r0 = Math.max(0, Math.ceil(originNorthing - item.maxNorthing));
-    const r1 = Math.min(height - 1, Math.floor(originNorthing - item.minNorthing));
-    if (c1 < c0 || r1 < r0) continue;
-    const pixelColumn0 = Math.round(originEasting + c0 - item.minEasting - 0.5);
-    const pixelRow0 = Math.round(item.maxNorthing - (originNorthing - r0) - 0.5);
-    const columns = c1 - c0 + 1;
-    const rows = r1 - r0 + 1;
-    if (pixelColumn0 < 0 || pixelRow0 < 0 ||
-        pixelColumn0 + columns > level.width || pixelRow0 + rows > level.height) {
-      throw new Error(`${item.id} window ${pixelColumn0},${pixelRow0} ${columns}x${rows} leaves the item`);
+    const intersection = terrainWindowIntersection(spec, item, level);
+    if (!intersection) throw new Error(`${item.id} has no source pixels in the requested window`);
+    const expectedExtent = spec.sourceExtents?.[item.id];
+    if (expectedExtent && Object.entries(expectedExtent).some(([key, value]) => intersection.sourceExtent[key] !== value)) {
+      throw new Error(`${item.id} source extent differs from the reviewed cropped product`);
     }
     const beforeBytes = range.transfer.bytes;
     const beforeRequests = range.transfer.requests;
-    const window = await level.readWindow({ column0: pixelColumn0, row0: pixelRow0, columns, rows });
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < columns; c++) values[(r0 + r) * width + c0 + c] = window[r * columns + c];
-    }
+    const window = await level.readWindow(intersection.windowPixels);
+    copyTerrainWindow(values, width, intersection, window, cog.noData);
     bytes += range.transfer.bytes - beforeBytes;
     requests += range.transfer.requests - beforeRequests;
     level.dropCache();
@@ -135,27 +120,15 @@ async function main() {
       noData: cog.noData,
       overviewFactors: cog.levels.map(entry => entry.factor),
       overviewFactorUsed: 1,
-      windowPixels: { column0: pixelColumn0, row0: pixelRow0, columns, rows },
-      latticeWindow: { column0: c0, row0: r0, columns, rows },
+      sourceExtent: intersection.sourceExtent,
+      sourceRaster: { width: level.width, height: level.height, originX: level.originX, originY: level.originY, pixelScaleX: level.pixelScaleX, pixelScaleY: level.pixelScaleY },
+      windowPixels: intersection.windowPixels,
+      latticeWindow: intersection.latticeWindow,
     });
   }
 
-  let finite = 0;
-  let minimum = Infinity;
-  let maximum = -Infinity;
-  for (const value of values) {
-    if (!Number.isFinite(value)) continue;
-    finite++;
-    if (value < minimum) minimum = value;
-    if (value > maximum) maximum = value;
-  }
-  if (finite !== values.length) {
-    throw new Error(`${values.length - finite} of ${values.length} window samples are nodata or unread`);
-  }
   const band = spec.plausibleHeightRangeRH2000;
-  if (minimum < band.minimum || maximum > band.maximum) {
-    throw new Error(`window RH 2000 range ${minimum}-${maximum} m leaves the reviewed band ${band.minimum}-${band.maximum}`);
-  }
+  const { finite, minimum, maximum } = summarizeTerrainWindow(values, band);
 
   const raster = Buffer.from(values.buffer, values.byteOffset, values.byteLength);
   const rasterPath = path.join(cacheDir, 'terrain-1m.f32');

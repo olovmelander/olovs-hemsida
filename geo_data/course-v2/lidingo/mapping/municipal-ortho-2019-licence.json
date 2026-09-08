@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "observedAt": "2026-09-07T19:58:21.392207+00:00",
+  "state": "primary-source-licence-confirmed",
+  "provider": "Lidingo stad",
+  "sourceId": "imagery-municipal-2019",
+  "licence": "CC0-1.0",
+  "licenceUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+  "sources": [
+    {
+      "url": "https://metadata.lidingo.se/store/3/resource/31",
+      "path": "geo_data/course-v2/lidingo/mapping/municipal-ortho-2019-dataset.rdf",
+      "sha256": "e6a80c2b682e4cc0037d2cded53883ac9d5d210aa3debfaf7bcbb669e8a0b80d",
+      "bytes": 3094,
+      "contentType": "application/rdf+xml; charset=UTF-8",
+      "licenceUrls": [],
+      "accessUrls": [],
+      "keywords": [
+        "2019",
+        "Flygfoto",
+        "Ortofoto"
+      ]
+    },
+    {
+      "url": "https://metadata.lidingo.se/store/3/resource/32",
+      "path": "geo_data/course-v2/lidingo/mapping/municipal-ortho-2019-distribution.rdf",
+      "sha256": "206fefb1ebc8d590b6044fd854b08b45d995eed8a238fd4bbedcc15ccb9c0932",
+      "bytes": 1527,
+      "contentType": "application/rdf+xml; charset=UTF-8",
+      "licenceUrls": [
+        "http://creativecommons.org/publicdomain/zero/1.0/"
+      ],
+      "accessUrls": [
+        "https://karta.lidingo.se/wms?servicename=wms_ortofoto_2019_oppendata&service=WMS&request=GetCapabilities"
+      ],
+      "keywords": []
+    },
+    {
+      "url": "https://metadata.lidingo.se/store/3/resource/20",
+      "path": "geo_data/course-v2/lidingo/mapping/municipal-ortho-series.rdf",
+      "sha256": "ed990fa11253efa5130413e6657b1199c6d73ec45e219786d5d60f49e277dab0",
+      "bytes": 3059,
+      "contentType": "application/rdf+xml; charset=UTF-8",
+      "licenceUrls": [],
+      "accessUrls": [],
+      "keywords": [
+        "2018",
+        "2019",
+        "Flygfoto",
+        "Ortofoto",
+        "2012"
+      ]
+    }
+  ],
+  "decision": "The official municipal distribution metadata explicitly licenses the exact retained 2019 WMS endpoint under CC0. This replaces the previous secondary-catalogue-only rights status.",
+  "remainingUnknowns": [
+    "Exact capture date and product GSD",
+    "Local positional residuals",
+    "Contemporary condition after the 2019 campaign",
+    "No newer municipal campaign identified from this series record"
+  ],
+  "encodingNote": "Exact upstream RDF bytes retained. Some label bytes are not valid UTF8 despite the XML declaration; ASCII licence and endpoint values parsed without ambiguity."
+}

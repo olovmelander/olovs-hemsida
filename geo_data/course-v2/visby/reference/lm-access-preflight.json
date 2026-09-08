@@ -1,0 +1,61 @@
+{
+  "groundId": "visby",
+  "observedAt": "2026-09-07T19:32:07.569Z",
+  "credentialState": "basic",
+  "terrain": {
+    "ready": true,
+    "credentialType": "basic",
+    "assetId": "636_68",
+    "httpStatus": 206,
+    "rangeSupported": true,
+    "bytesRead": 16,
+    "sourceBytes": 13213009
+  },
+  "laser": {
+    "ready": true,
+    "credentialType": "basic",
+    "collection": "dsm-skoglig-copc",
+    "assetId": "24e002-636_68",
+    "httpStatus": 206,
+    "rangeSupported": true,
+    "bytesRead": 589,
+    "sourceBytes": 89316475,
+    "pointDataRecordFormat": 6,
+    "advertisedPointCount": 13769262,
+    "pointDensityPerSquareMetre": 1.1
+  },
+  "orthophoto": {
+    "collection": "orto-f2-2026",
+    "assets": [
+      {
+        "id": "o63675_6850_25_mr26",
+        "status": 403,
+        "error": null,
+        "readable": false
+      },
+      {
+        "id": "o63675_6875_25_mr26",
+        "status": 403,
+        "error": null,
+        "readable": false
+      },
+      {
+        "id": "o63700_6850_25_mr26",
+        "status": 403,
+        "error": null,
+        "readable": false
+      },
+      {
+        "id": "o63700_6875_25_mr26",
+        "status": 403,
+        "error": null,
+        "readable": false
+      }
+    ],
+    "readable": 0,
+    "total": 4,
+    "authorized": false,
+    "forbidden": true,
+    "unauthenticated": false
+  }
+}

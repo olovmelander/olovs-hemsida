@@ -1,0 +1,1064 @@
+{
+  "$schema": "../../../packages/course-geo/source-manifest.schema.json",
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "groundName": "Visby Golfklubb – Kronholmen",
+  "courseSlugs": [
+    "visby"
+  ],
+  "targetBboxWgs84": [
+    18.105,
+    57.429,
+    18.145,
+    57.455
+  ],
+  "legacyFrame": {
+    "buildDirectory": "visbybuild",
+    "originWgs84": {
+      "latitude": 57.44236399463288,
+      "longitude": 18.12847826436399
+    },
+    "metresPerLatitude": 111320,
+    "metresPerLongitude": 59906.61,
+    "heightReference": "Absolute RH 2000 from acquired Lantmäteriet 1 m DTM; independent local controls pending",
+    "frame": "local metres from EPSG:3006; east +x, north -z; origin E687748.5 N6370951.5; heights RH 2000",
+    "projectedOriginEpsg3006": {
+      "easting": 687748.5,
+      "northing": 6370951.5,
+      "axisMapping": {
+        "worldX": "easting - originEasting",
+        "worldZ": "originNorthing - northing"
+      }
+    }
+  },
+  "canonicalFrame": {
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "originStatus": "pending-control-approval",
+    "origin": {
+      "easting": null,
+      "northing": null,
+      "heightRH2000": null
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldZ": "originNorthing - northing",
+      "worldY": "heightRH2000 - originHeightRH2000"
+    }
+  },
+  "sources": [
+    {
+      "id": "terrain-lm-636-68",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m636_68.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "c874ab401f10973b55d88cce5dcbce17694c652293a2dee251aed982c63457ce",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Authenticated factor-1 window acquired from this coastal cropped COG. Complete-file SHA-256 is provider-advertised; only bounded ranges were read locally. Exact output raster hash, sample-centre lattice, source geotransform and transfer statistics are in acquisition/terrain-window.json. Source epochs span 2024-02-03T00:00:00Z through 2024-02-05T00:00:00Z; these are item-wide and not an independent local survey. The local provisional 3D uses this exact terrain; canonical origin approval remains pending."
+    },
+    {
+      "id": "water-breaks-lm-636-68",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "hydrology",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m636_68_brytgeometri.gpkg",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "4eefba0956978ce80962f7ef667d0e66a8bd2eea6faefea3f61a23f700dcc69e",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Complete source GeoPackage SHA verified. Clipped EPSG:3006 water retains source levels and ten interior islands across both source items. Compatibility partition preserves polygon union; acquisition edges are not shoreline and heights are not bathymetry. See mapping/water-breakgeometry-review.json."
+    },
+    {
+      "id": "terrain-lm-637-68",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m637_68.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "f5b68af7a3cef61b5e17ca3936324261ba9ca1916658907dbe0d8dff45debeee",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Authenticated factor-1 window acquired from this coastal cropped COG. Complete-file SHA-256 is provider-advertised; only bounded ranges were read locally. Exact output raster hash, sample-centre lattice, source geotransform and transfer statistics are in acquisition/terrain-window.json. Source epochs span 2024-02-03T00:00:00Z through 2026-04-10T00:00:00Z; these are item-wide and not an independent local survey. The local provisional 3D uses this exact terrain; canonical origin approval remains pending."
+    },
+    {
+      "id": "water-breaks-lm-637-68",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "hydrology",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m637_68_brytgeometri.gpkg",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "40662aea9102a76b6253ccec54832b0b61542b7199b1881476d2449e69176348",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Complete source GeoPackage SHA verified. Clipped EPSG:3006 water retains source levels and ten interior islands across both source items. Compatibility partition preserves polygon union; acquisition edges are not shoreline and heights are not bathymetry. See mapping/water-breakgeometry-review.json."
+    },
+    {
+      "id": "laser-lm-24e002-636-68",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "canopy",
+        "object",
+        "terrain"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/24e002/m24e002-636_68.copc.laz",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": "2024-03-16",
+      "checksum": "e43ecb61cddbe4aa4033e973df70bf4a504fe6260eb682ce4ea208a7fa51a1b1",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Bounded 2024 COPC hierarchy and point reads acquired measured 2 m canopy over the complete 4096 m terrain footprint. Whole-source checksum is provider-advertised, not a locally rehashed complete download. Explicit voids retained. 4 m stands are area representatives; no surveyed individual trees. See vegetation/canopy-evidence.json and stand-evidence.json."
+    },
+    {
+      "id": "laser-lm-24e002-637-68",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "canopy",
+        "object",
+        "terrain"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/24e002/m24e002-637_68.copc.laz",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": "2024-03-16",
+      "checksum": "2a25c67a111b6230d498e02fe5277bb288c71e9282a143f93334c3916b9e8c6a",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Bounded 2024 COPC hierarchy and point reads acquired measured 2 m canopy over the complete 4096 m terrain footprint. Whole-source checksum is provider-advertised, not a locally rehashed complete download. Explicit voids retained. 4 m stands are area representatives; no surveyed individual trees. See vegetation/canopy-evidence.json and stand-evidence.json."
+    },
+    {
+      "id": "imagery-lm-o63675-6850-25-mr26",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2026_F2/o63675_6850_25_mr26.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2026-04-10",
+      "checksum": null,
+      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Discovered current 0.16 m RGBI ortho-f2-2026 campaign, with flight metadata retained. Configured account returned HTTP 403; no orthophoto pixels acquired. Product access/use terms and independent spatial registration remain unresolved. Do not render raw orthophoto as the ground material."
+    },
+    {
+      "id": "imagery-lm-o63675-6875-25-mr26",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2026_F2/o63675_6875_25_mr26.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2026-04-10",
+      "checksum": null,
+      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Discovered current 0.16 m RGBI ortho-f2-2026 campaign, with flight metadata retained. Configured account returned HTTP 403; no orthophoto pixels acquired. Product access/use terms and independent spatial registration remain unresolved. Do not render raw orthophoto as the ground material."
+    },
+    {
+      "id": "imagery-lm-o63700-6850-25-mr26",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2026_F2/o63700_6850_25_mr26.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2026-04-10",
+      "checksum": null,
+      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Discovered current 0.16 m RGBI ortho-f2-2026 campaign, with flight metadata retained. Configured account returned HTTP 403; no orthophoto pixels acquired. Product access/use terms and independent spatial registration remain unresolved. Do not render raw orthophoto as the ground material."
+    },
+    {
+      "id": "imagery-lm-o63700-6875-25-mr26",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2026_F2/o63700_6875_25_mr26.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2026-04-10",
+      "checksum": null,
+      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Discovered current 0.16 m RGBI ortho-f2-2026 campaign, with flight metadata retained. Configured account returned HTTP 403; no orthophoto pixels acquired. Product access/use terms and independent spatial registration remain unresolved. Do not render raw orthophoto as the ground material."
+    },
+    {
+      "id": "topography-lm-10",
+      "productId": "lantmateriet-topografi-10",
+      "roles": [
+        "topography",
+        "object",
+        "hydrology"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://geotorget.lantmateriet.se/dokument/projects/topografi-10-nedladdning-vektor/released/2026.05/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Infrastructure and shoreline corroboration pending exact ordered dataset and terms."
+    },
+    {
+      "id": "tree-height-sks",
+      "productId": "skogsstyrelsen-tradhojd",
+      "roles": [
+        "canopy",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://www.skogsstyrelsen.se/e-tjanster-och-kartor/karttjanster/geodatatjanster/ladda-ner-geodata/",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supporting canopy-height raster; no Visby raster acquired. Pin the actual laser campaign; this is not independent stem evidence."
+    },
+    {
+      "id": "survey-control",
+      "productId": "controlled-course-survey",
+      "roles": [
+        "control",
+        "terrain",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "project://survey/visby",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Source data bytes not acquired; discovery and access results are retained separately.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "No independent EPSG:3006/RH2000 controls, controlled club CAD or signed accuracy report acquired. Course-level map markers cannot approve the canonical origin."
+    },
+    {
+      "id": "visby-osm-2026-09-07",
+      "productId": "openstreetmap",
+      "roles": [
+        "routing",
+        "surface",
+        "topography",
+        "hydrology",
+        "object"
+      ],
+      "lifecycle": "acquired",
+      "use": "supplemental",
+      "sourceUri": "https://www.openstreetmap.org/api/0.6/map?bbox=18.105,57.429,18.145,57.455",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "6f15b74f8afe7acc8e572d38f82a5a1109ee35f4ffb75d9c3faef9e5c4742946",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Current bounded official OSM API snapshot, normalized with real pyproj/PROJ. Edit dates are not capture dates. The property serves 27 holes; 17 green observations, two tees, no fairways and five bunkers are incomplete and unassigned. Two ambiguous ref=2 features (including one closed ring) remain observations, never numbered playable routes. ODbL lineage and attribution retained."
+    },
+    {
+      "id": "club-course",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://www.visbygk.com/om-banorna/",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "a833242da165cfbb200e0e0ffa42c4739abc5c4c82ed0f95c42c8fb0592c94c1",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Official course page establishes separate main 18-hole par72 and nine-hole par36 courses; coarse course descriptions do not establish survey control."
+    },
+    {
+      "id": "club-scorecard",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://prd-sgf-widget-api.azurewebsites.net/api/widget/302e8ccf-fb86-4d6f-9d65-3348e0ecd29b/scorecard",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "2711b6564deb457f4f1cc5a6e0611121c5964c2011f4c54fc82acda0a0f14858",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Live official SGF widget response acquired in normal club browser context; all18 pars/indexes and108 tee lengths agree with club-linked Caddee. Numeric tee labels retained. No exact tee-marker or pin position inferred."
+    },
+    {
+      "id": "club-banguide",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://www.caddee.se/klubb/visby-golfklubb",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "dd812e63b6688263cda050123d9e4ec5672c9fb90df4cd88bc5bc9ede4f74bd6",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Club-linked Caddee supplies all27 diagrams and shared overview. Diagrams use green-front approach distances, not scorecard lengths; nine-hole data serializes repeated18 rows. No per-hole CRS or geometric controls."
+    },
+    {
+      "id": "club-media",
+      "productId": "visby-club-media",
+      "roles": [
+        "imagery",
+        "object",
+        "course-guide"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://www.visbygk.com/press-media/",
+      "localPath": null,
+      "bboxWgs84": null,
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "9fdbfda2778383b7be9965d63277a1aecc337d0a465902de43b65e440b7813fa",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Official pages, photos, diagrams and historical PDFs catalogued with61 source hashes. Publication months are not photo capture dates; no image redistribution grant located. Raw media stay in ignored cache."
+    },
+    {
+      "id": "visby-municipal-ortho-2022",
+      "productId": "gotland-municipal-orthophoto",
+      "roles": [
+        "imagery",
+        "surface",
+        "object"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://imageserver.gotland.se/arcgis/rest/directories/arcgisoutput/Ortofoto/Ortofoto_2022_ImageServer/_ags_6a144296_d984_4c16_89ba_a27a7350003d.png",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": "2026-09-07",
+      "capturedAt": null,
+      "checksum": "aac5fa4a1ce429258cd020e0a139939576ac67bde02e010fc822feb446111153",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "2022-campaign image acquired at0.5m output spacing from advertised0.25m source, reprojected EPSG:3015 to EPSG:3006. 3500x3600 pixels, worldfile and stable export request in retained ledger. Exact capture date, primary licence and absolute registration error unknown; reference only, never a runtime texture."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "osm-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/reference/osm-acquisition.json",
+      "sha256": "ac4e86af31494134291e3d8c1e5d3082070b9f1245b3b1da64ed41baa3dc8677",
+      "derivedFrom": [
+        "visby-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact source identity, dates, feature inventory and explicit ambiguous route observations."
+    },
+    {
+      "id": "osm-golf-epsg3006",
+      "kind": "surface",
+      "path": "geo_data/course-v2/visby/reference/osm-golf-epsg3006.geojson",
+      "sha256": "1c4e80f4aaea71035d97feeb3cefe01d0fbc8845291a605911c316c14d6875fe",
+      "derivedFrom": [
+        "visby-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Unreviewed source observations, not approved golf surface geometry. Context features remain independent of property membership."
+    },
+    {
+      "id": "osm-golf-wgs84",
+      "kind": "surface",
+      "path": "geo_data/course-v2/visby/reference/osm-golf-wgs84.geojson",
+      "sha256": "e1ffbb412428d72b1e21f898f1da1228abbe09d2890f1404014a978cc8b888ca",
+      "derivedFrom": [
+        "visby-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Unreviewed source observations, not approved golf surface geometry. Context features remain independent of property membership."
+    },
+    {
+      "id": "national-discovery",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/acquisition/d2-discovery.json",
+      "sha256": "013b5544b5095f2c87e725424d58d3a92a06f0f854310af2849a49544a434891",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68",
+        "water-breaks-lm-636-68",
+        "water-breaks-lm-637-68",
+        "laser-lm-24e002-636-68",
+        "laser-lm-24e002-637-68",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63700-6875-25-mr26",
+        "tree-height-sks"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Complete STAC discovery/metadata is distinct from acquired pixels and production readiness."
+    },
+    {
+      "id": "national-access",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/reference/lm-access-preflight.json",
+      "sha256": "df967febc3c0cc2037859d6c2986ee45b0df3d9b129233b4b99760fc20f79f5f",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68",
+        "laser-lm-24e002-636-68",
+        "laser-lm-24e002-637-68",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63700-6875-25-mr26"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Sanitized range access checks and all four current orthophoto denials; no credentials."
+    },
+    {
+      "id": "national-retained-assets",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/reference/lm-retained-assets.json",
+      "sha256": "473820769a1b4614f462a6d0da9acd27321ae5bb462b411c10a92b365031f39e",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68",
+        "water-breaks-lm-636-68",
+        "water-breaks-lm-637-68",
+        "laser-lm-24e002-636-68",
+        "laser-lm-24e002-637-68",
+        "imagery-lm-o63675-6850-25-mr26",
+        "imagery-lm-o63675-6875-25-mr26",
+        "imagery-lm-o63700-6850-25-mr26",
+        "imagery-lm-o63700-6875-25-mr26"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact metadata and water GeoPackage download sizes/hashes, checked against STAC."
+    },
+    {
+      "id": "municipal-imagery-catalog",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/reference/gotland-imagery-services.json",
+      "sha256": "b6b2f9829fa30cd4ad4f3d60bc15971ca0973091daf20ecaca879b208145757a",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Historical public service inventory; service presence alone is not local coverage or permission."
+    },
+    {
+      "id": "municipal-ortho",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/reference/gotland-ortho-2022.json",
+      "sha256": "797c83fa768f86a3b6cac42b74e837bbc4b186832e8ad9e3f1f1804e70250090",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Georeferenced acquisition, original worldfile, source footprints and image hash; local-only reference."
+    },
+    {
+      "id": "terrain-window",
+      "kind": "terrain",
+      "path": "geo_data/course-v2/visby/acquisition/terrain-window.json",
+      "sha256": "0158bb1aa177080603c78ccaddcb248efaef73c4beaa002116fff7507cc89ab0",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "16,785,409 exact1m source samples, cropped coastal COG extents and source bytes/ETags. No independent control approval."
+    },
+    {
+      "id": "terrain-compile",
+      "kind": "terrain",
+      "path": "geo_data/course-v2/visby/acquisition/terrain-compile.json",
+      "sha256": "50b47ede4fbd18bafa87c9da8129d772c04c422822fed323046ebc11d340539f",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Staged terrain-only tile compilation and decode validation; no live course/ground publication."
+    },
+    {
+      "id": "geodata-validation",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/reference/geodata-validation.json",
+      "sha256": "ad09ff4eaa7904bba0876c14b08abbb0d846309b9bd941b7d77cf8f73dfb1da5",
+      "derivedFrom": [
+        "visby-osm-2026-09-07",
+        "terrain-lm-636-68",
+        "terrain-lm-637-68",
+        "visby-municipal-ortho-2022"
+      ],
+      "use": "discovery-evidence",
+      "notes": "38 retained source hashes, exact PROJ replay, valid geometry and source-origin intersections. Property terrain dates are 2024-02-03 and 2024-02-05; this does not establish an independent position residual."
+    },
+    {
+      "id": "club-reference",
+      "kind": "acquisition",
+      "path": "visbybuild/reference/club-resources.json",
+      "sha256": "ef60e9f246b603e0a132746bb2cdcf572afb43312a69abadfcddc302d26db5fd",
+      "derivedFrom": [
+        "club-course",
+        "club-scorecard",
+        "club-banguide",
+        "club-media"
+      ],
+      "use": "discovery-evidence",
+      "notes": "61 original source hashes and27 physical-hole guides, source details/rights and factual verification."
+    },
+    {
+      "id": "club-scorecard-facts",
+      "kind": "routing",
+      "path": "visbybuild/reference/club-scorecard.json",
+      "sha256": "92470ff02eb6c9e152c161c2dac457865c168305f50e512af6052a86257a4eee",
+      "derivedFrom": [
+        "club-scorecard",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Main18 factual card, par72, six numeric tees and source comparison."
+    },
+    {
+      "id": "mapping-intake",
+      "kind": "composite",
+      "path": "visbybuild/mapping/intake.json",
+      "sha256": "9dc64e9f18593806c3b9c0f4f2f06f424754b8052cf032c40a1063907a7543ae",
+      "derivedFrom": [
+        "visby-osm-2026-09-07",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Reviewable preview with source-only surface observations and official card. No assigned hole routes or invented pads/pins."
+    },
+    {
+      "id": "source-route-crosswalk",
+      "kind": "routing",
+      "path": "visbybuild/mapping/route-reference.json",
+      "sha256": "dc7cd03351cce7417288a9b9c7eb98e6f195c541b32f174ef2ce0bdb2d315c28",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "All 18 main-course identities matched against guide and 2022 image; explicit pixels and source associations; independent review pending."
+    },
+    {
+      "id": "playing-surface-pixel-traces",
+      "kind": "surface",
+      "path": "visbybuild/mapping/surface-traces-2022.json",
+      "sha256": "3434d16aff10e5ccde27c91eaf2c4a23f194dad4cc8681dddc70a88cdc2dbbf4",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Reproducible source-pixel polygons and sand seeds; interpretation uncertainty separate from unknown registration accuracy."
+    },
+    {
+      "id": "playing-surface-candidates",
+      "kind": "surface",
+      "path": "visbybuild/mapping/playing-surfaces.geojson",
+      "sha256": "082566d7eb4561c59245d877d39a58bcd326ad8370b72886c061c37c26710fa2",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Observed provisional surface polygons; OSM ring lineage and image trace methods retained per feature. Production rights and contemporary verification remain unresolved."
+    },
+    {
+      "id": "playing-surface-review",
+      "kind": "control",
+      "path": "visbybuild/mapping/playing-surfaces-review.json",
+      "sha256": "a5691c5a705b07c374799b03f4c888a2d14bc1478d013eaca4034ed23c304fbe",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Geometry, association, coverage and source-byte audit; not survey approval."
+    },
+    {
+      "id": "canonical-routing-candidate",
+      "kind": "composite",
+      "path": "visbybuild/mapping/geometry.json",
+      "sha256": "9eccfd77d45c840080b9977188f3a795d8f24ec3e6964e99e2f6f45c3c9fd775",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "EPSG:3006 main-course authoring geometry; cardinal tee lengths do not determine source coordinates."
+    },
+    {
+      "id": "bunker-contour-review",
+      "kind": "control",
+      "path": "visbybuild/mapping/bunker-contour-review.json",
+      "sha256": "53be03cb4b6c815fcb5d81ed4cc7ee0b3067a55eb85b4c28b85530c290fcbadf",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Image component parameters and omitted unresolved contours."
+    },
+    {
+      "id": "water-canonical-geometry",
+      "kind": "topography",
+      "path": "geo_data/course-v2/visby/mapping/water-breakgeometry-epsg3006.geojson",
+      "sha256": "1482881d11ed9d728270aa47be5523ea16f37b439a9a1ef30074055e96ea31b3",
+      "derivedFrom": [
+        "water-breaks-lm-636-68",
+        "water-breaks-lm-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Canonical source-clipped PolygonZ/MultiPolygonZ with islands retained."
+    },
+    {
+      "id": "water-compatibility-geometry",
+      "kind": "topography",
+      "path": "geo_data/course-v2/visby/mapping/water-breakgeometry-simple-epsg3006.geojson",
+      "sha256": "4b569278686dbad6a0be6c0ab48effcbe0b1dd40cca2364de39fa9d28966fd45",
+      "derivedFrom": [
+        "water-breaks-lm-636-68",
+        "water-breaks-lm-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact area-preserving simple-polygon decomposition for GPK1; artificial cuts explicitly distinguished from shores."
+    },
+    {
+      "id": "osm-context-clipped",
+      "kind": "topography",
+      "path": "geo_data/course-v2/visby/mapping/osm-context-epsg3006.geojson",
+      "sha256": "b7b12ea6557048e9955e8557f6a47e68c46447fb3e976975f4cea084811af891",
+      "derivedFrom": [
+        "visby-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source context clipped to measured terrain; footprints are supplementary, heights and widths may be generic."
+    },
+    {
+      "id": "measured-canopy-evidence",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/visby/vegetation/canopy-evidence.json",
+      "sha256": "474af78251ee920395632091950f349459873614d5dc5934a33e5c95227ba67b",
+      "derivedFrom": [
+        "laser-lm-24e002-636-68",
+        "laser-lm-24e002-637-68",
+        "terrain-lm-636-68",
+        "terrain-lm-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "2024 campaign constrained 2 m canopy from bounded COPC reads, with density/void metadata."
+    },
+    {
+      "id": "measured-stand-evidence",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/visby/vegetation/stand-evidence.json",
+      "sha256": "ebe8914557e5c00ca734c673f21dd2a0e877d524b5faa1b9535e5f681f214e83",
+      "derivedFrom": [
+        "laser-lm-24e002-636-68",
+        "laser-lm-24e002-637-68",
+        "terrain-lm-636-68",
+        "terrain-lm-637-68",
+        "water-breaks-lm-636-68",
+        "water-breaks-lm-637-68",
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "4 m measured stand cells with current playing-surface and water exclusions; zero individual stem claims."
+    },
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "visbybuild/course-model.json",
+      "sha256": "9e7f580c7bc6fc9d9fb50db14c9fb15000fc3bd9dfd466569e53470e4c73caa7",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68",
+        "water-breaks-lm-636-68",
+        "water-breaks-lm-637-68",
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide",
+        "club-scorecard"
+      ],
+      "use": "migration-only",
+      "notes": "Provisional compatibility model using exact projected offsets. Measured terrain unchanged; pins and numeric tee starts are camera references only."
+    },
+    {
+      "id": "compatibility-heightfields",
+      "kind": "terrain",
+      "path": "visbybuild/heightfields.json",
+      "sha256": "b75930682627753aed5ea7e7acf51ed33caef2d6159b8b706aa9f6f7037ec1c9",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68"
+      ],
+      "use": "migration-only",
+      "notes": "4 m/16 m exact source decimations for fallback; live v2 terrain retains 1 m spacing."
+    },
+    {
+      "id": "runtime-contract",
+      "kind": "control",
+      "path": "visbybuild/mapping/runtime-contract.json",
+      "sha256": "96589d6ada19d7b6f6adb601db4086e200c0b4886ee8c0f03393ea7a12898aa2",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68",
+        "water-breaks-lm-636-68",
+        "water-breaks-lm-637-68",
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Terrain bounds, origin and fallback/graph bridge contract; geospatial approval pending."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
+      "sha256": "17946a0470be6d03169159572b19c276098d485a4af6f700cb7ba3fa2cdf98a4",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68",
+        "water-breaks-lm-636-68",
+        "water-breaks-lm-637-68",
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide",
+        "club-scorecard"
+      ],
+      "use": "migration-only",
+      "notes": "Exact projected-offset roundtrip, without geographic scale distortion."
+    },
+    {
+      "id": "migration-residual-report",
+      "kind": "control",
+      "path": "geo_data/course-v2/visby/migration/residual-report.json",
+      "sha256": "4a9995cdf4559bb98748b254cbd113257e2c81041f5f18c931605b4b38deb76a",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68",
+        "water-breaks-lm-636-68",
+        "water-breaks-lm-637-68",
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide",
+        "club-scorecard"
+      ],
+      "use": "migration-only",
+      "notes": "Software coordinate preservation, not independent survey control."
+    },
+    {
+      "id": "water-review",
+      "kind": "control",
+      "path": "geo_data/course-v2/visby/mapping/water-breakgeometry-evidence.json",
+      "sha256": "d631ca715db895dcf35767d4e19936f2666df66bb64575e6bc87458c1563229c",
+      "derivedFrom": [
+        "water-breaks-lm-636-68",
+        "water-breaks-lm-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Water source, topology, height and partition audit."
+    },
+    {
+      "id": "practice-surface-candidate",
+      "kind": "surface",
+      "path": "visbybuild/mapping/practice-surfaces.geojson",
+      "sha256": "6fb6c82d34d2dbfb1f1f91da04d6fbdf6964f7b25c01e8b9a871680913315004",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Observed range field excludes measured height cells that may be range structures, retaining visible boundary trees."
+    },
+    {
+      "id": "practice-surface-review",
+      "kind": "control",
+      "path": "geo_data/course-v2/visby/vegetation/practice-surface-evidence.json",
+      "sha256": "ca62c2641ed6f1a6e1ba224d8793da88852e123b7713ec5878ea40c19cdd75e2",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source pixel vertices, retained image hash and independent overlay review of range footprint."
+    }
+  ],
+  "blockers": [
+    {
+      "id": "hole-routing-unresolved",
+      "severity": "release-blocking",
+      "description": "All 18 main-course identities have provisional source-derived routes. Independent contemporary routing review and coordinate controls remain pending; ambiguous OSM ref2 records are not used as authority.",
+      "exitGate": "Identify all18 holes against club guide and suitably licensed georeferenced imagery, retaining controls, registration residuals and independent checks."
+    },
+    {
+      "id": "playing-surfaces-incomplete",
+      "severity": "release-blocking",
+      "description": "Main-course greens, representative physical tees, fairways and observed bunkers are implemented. All tee platforms, current mowing edges, fringes and the separate nine remain incompletely reviewed.",
+      "exitGate": "Review every hole and its neighbouring shared-course scenery; adopt only supported outlines with source/frame/accuracy decisions."
+    },
+    {
+      "id": "canonical-origin-unapproved",
+      "severity": "release-blocking",
+      "description": "A fixed software frame at the measured terrain midpoint is now used consistently. No independent survey anchors approve its canonical status.",
+      "exitGate": "Acquire EPSG:3006/RH2000 controls and approve an immutable physical-ground origin after residual checks."
+    },
+    {
+      "id": "current-ortho-access",
+      "severity": "release-blocking",
+      "description": "2026 national imagery discovered but configured credentials return403. Older2022 municipal reference has unresolved primary reuse terms.",
+      "exitGate": "Resolve product access and exact applicable terms; compare suitable current pixels before adopting source-derived playing geometry."
+    },
+    {
+      "id": "media-derivative-rights",
+      "severity": "release-blocking",
+      "description": "Club/Caddee images and municipal orthophoto have no verified production derivative/distribution grant.",
+      "exitGate": "Record source-specific permissions before redistributing protected source media or adopting traced production geometry."
+    },
+    {
+      "id": "vegetation-and-objects",
+      "severity": "release-blocking",
+      "description": "2024 measured canopy, national water with preserved islands and OSM context are implemented. Individual trees, present-day change and building dimensions remain unapproved.",
+      "exitGate": "Extract campaign-constrained canopy and review source-derived trees, roads, buildings and shore/water geometry against the published terrain."
+    },
+    {
+      "id": "playable-runtime-pending",
+      "severity": "release-blocking",
+      "description": "A local provisional compatibility pack and measured v2 graph are implemented; complete independent human, named device and all-season visual acceptance remains pending.",
+      "exitGate": "Complete source/frame/authoring gates, compile immutable graph with fallback and verify settled WebGPU/WebGL2 and device/offline behavior."
+    }
+  ]
+}

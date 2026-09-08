@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "acquiredOn": "2026-09-07",
+  "credentialHandling": "Existing ignored .env account used only in HTTP request headers; no credentials serialized.",
+  "sources": [
+    {
+      "kind": "water-breakgeometry",
+      "itemId": "658_67",
+      "url": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m658_67_brytgeometri.gpkg",
+      "checkedAt": "2026-09-07T19:21:26.874Z",
+      "httpStatus": 200,
+      "etag": "\"f20d81fdc42032673345c801edfa77c2\"",
+      "contentLength": 548864,
+      "lastModified": "Wed, 13 May 2026 14:44:22 GMT",
+      "state": "downloaded-checksum-verified-unclipped",
+      "bytes": 548864,
+      "sha256": "892d247c76cb2be712e4966045957f7f34c63fae4b368f038d69130aea619600",
+      "path": "lidingobuild/cache/water-breakgeometry/658_67.gpkg"
+    },
+    {
+      "kind": "laser-copc",
+      "itemId": "21c031-658_67",
+      "url": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c031/m21c031-658_67.copc.laz",
+      "checkedAt": "2026-09-07T19:21:27.102Z",
+      "httpStatus": 200,
+      "etag": "\"7f2f60e485969d95b7fc79e5ba8ee9dd\"",
+      "contentLength": 1349562664,
+      "lastModified": "Sat, 23 May 2026 18:52:59 GMT",
+      "state": "access-confirmed-data-not-read"
+    },
+    {
+      "kind": "orthophoto",
+      "itemId": "o65850_6750_25_mr25",
+      "url": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25.tif",
+      "checkedAt": "2026-09-07T19:21:27.165Z",
+      "httpStatus": 403,
+      "etag": null,
+      "contentLength": null,
+      "lastModified": null,
+      "state": "access-not-available-with-configured-account"
+    }
+  ]
+}

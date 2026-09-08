@@ -4,3 +4,24 @@ apps/golf/public/grounds/puttom/*.json text eol=lf
 geo_data/**/*.json text eol=lf
 geobuild/*.json text eol=lf
 *build/*.json text eol=lf
+apps/golf/public/courses/*/intake-*.json text eol=lf
+# Retained acquisition/trace byte identities are also referenced by raw SHA
+# evidence. Preserve their dated bytes across Windows and Linux checkouts.
+geo_data/course-v2/lidingo/reference/*.geojson -text
+geo_data/course-v2/lidingo/mapping/*.geojson -text
+geo_data/course-v2/lidingo/mapping/*.rdf -text
+lidingobuild/mapping/playing-surfaces.geojson -text
+lidingobuild/mapping/facilities.geojson -text
+lidingobuild/mapping/infrastructure.geojson -text
+lidingobuild/mapping/*.json text eol=lf
+apps/golf/public/grounds/lidingo/*.json text eol=lf
+apps/golf/public/courses/lidingo/course-v2-*.json text eol=lf
+geo_data/course-v2/visby/**/*.geojson -text
+visbybuild/**/*.geojson -text
+visbybuild/**/*.json text eol=lf
+visbybuild/**/*.py text eol=lf
+visbybuild/**/*.mjs text eol=lf
+geo_data/course-v2/visby/**/*.py text eol=lf
+geo_data/course-v2/visby/**/*.mjs text eol=lf
+apps/golf/public/grounds/visby/*.json text eol=lf
+apps/golf/public/courses/visby/course-v2-*.json text eol=lf

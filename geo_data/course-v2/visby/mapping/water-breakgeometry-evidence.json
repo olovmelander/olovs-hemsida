@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "observedOn": "2026-09-07",
+  "sourceAssets": [
+    {
+      "url": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m636_68_brytgeometri.gpkg",
+      "kind": "water-breakgeometry-geopackage",
+      "acquiredAt": "2026-09-07T19:32:08.323Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/m636_68_brytgeometri.gpkg",
+      "bytes": 135168,
+      "sha256": "4eefba0956978ce80962f7ef667d0e66a8bd2eea6faefea3f61a23f700dcc69e",
+      "etag": "\"9694677dbc588274c6490575706cd514\"",
+      "contentType": "binary/octet-stream",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "inputPolygonCount": 1
+    },
+    {
+      "url": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m637_68_brytgeometri.gpkg",
+      "kind": "water-breakgeometry-geopackage",
+      "acquiredAt": "2026-09-07T19:32:08.369Z",
+      "path": "visbybuild/cache/geodata-2026-09-07/m637_68_brytgeometri.gpkg",
+      "bytes": 212992,
+      "sha256": "40662aea9102a76b6253ccec54832b0b61542b7199b1881476d2449e69176348",
+      "etag": "\"728f912d965a84bbc5143ea3fdca2bc7\"",
+      "contentType": "binary/octet-stream",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "inputPolygonCount": 27
+    }
+  ],
+  "outputPath": "geo_data/course-v2/visby/mapping/water-breakgeometry-epsg3006.geojson",
+  "outputSha256": "b18499faae4354ef2ce95ef1910d7a5c2172457014087adcf9b622ea957e06af",
+  "boundsEpsg3006": [
+    685700.5,
+    6368903.5,
+    689796.5,
+    6372999.5
+  ],
+  "polygons": 25,
+  "seaComponents": 2,
+  "preservedInteriorRings": 10,
+  "shorelineChecks": [
+    {
+      "sourceFeatureId": "636_68/polygons/1",
+      "chains": 2,
+      "suppressedArtificialEdges": 4,
+      "retainedLengthMetres": 1770.6286777371151,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/1",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 93.64490418361173,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/2",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 778.2334111701251,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/3",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 91.42013857344982,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/4",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 142.3818493799482,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/5",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 225.12662280461194,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/6",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 410.58286135675627,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/7",
+      "chains": 4,
+      "suppressedArtificialEdges": 4,
+      "retainedLengthMetres": 8844.311538718632,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/8",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 437.59552527904015,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/9",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 266.96501803617554,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/10",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 126.02035056699567,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/11",
+      "chains": 2,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 541.3731955094405,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/13",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 214.96926351119856,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/14",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 83.42434387075042,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/15",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 501.1806270566391,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/16",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 177.8986488119507,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/17",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 279.87702314456465,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/18",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 198.34962647942345,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/19",
+      "chains": 2,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 1728.099577576895,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/20",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 87.34790421446844,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/21",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 220.25549135584828,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/22",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 595.1884102056576,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/23",
+      "chains": 3,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 1424.0858936506743,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/24",
+      "chains": 1,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 133.31258506705797,
+      "symmetricDifferenceLengthMetres": 0.0
+    },
+    {
+      "sourceFeatureId": "637_68/polygons/25",
+      "chains": 5,
+      "suppressedArtificialEdges": 0,
+      "retainedLengthMetres": 3695.3096543260335,
+      "symmetricDifferenceLengthMetres": 0.0
+    }
+  ],
+  "sourceHeightsRH2000": [
+    0.18,
+    0.23,
+    0.25,
+    0.35,
+    0.37,
+    0.43,
+    0.44,
+    0.45,
+    0.48,
+    0.51,
+    0.54,
+    0.6,
+    0.63,
+    0.73,
+    0.83,
+    0.95,
+    1.15,
+    1.19,
+    1.21,
+    1.5,
+    1.7,
+    1.9
+  ],
+  "offshoreReferencePointsEpsg3006": {
+    "636_68": [
+      686000,
+      6369500
+    ],
+    "637_68": [
+      686000,
+      6371500
+    ]
+  },
+  "limitations": [
+    "Source polygon geometry and water-surface vertex Z were preserved through clipping.",
+    "Inland water Z is constant; sea polygons have a spatially varying source Z. heightRH2000 is only a representative median for variable-Z components; retained vertices remain the source evidence.",
+    "Sea association uses declared offshore points corroborated by the retained course orthophoto; source classification=1 alone does not distinguish sea and pond.",
+    "Clipping boundaries and the shared source-item boundary are not physical shores.",
+    "shoreline.lines suppresses segments lying on the AOI or source-item rectangle boundaries, including the N6370000 sea seam; retained lines are source water-boundary observations, not a surveyed present-day tidal shore.",
+    "No bathymetry, pond depth, current water level or golf penalty-area status is inferred."
+  ]
+}

@@ -1,0 +1,1120 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "state": "roof-height-evidence-candidates",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "sourceEpoch": "2021-03-23",
+  "inputs": [
+    {
+      "path": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",
+      "bytes": 1697495,
+      "sha256": "2f15ec752e6201a5652f05d8be4b5b9b8e05413beaead454c86eded79a4657c7"
+    },
+    {
+      "path": "lidingobuild/cache/terrain-review/terrain-1m.f32",
+      "bytes": 16793604,
+      "sha256": "80ffcd4865daa00f8e2393f43b8fcb1b37e020f968c0656a0189f80dde1de923"
+    },
+    {
+      "path": "lidingobuild/cache/buildings/laser-2021-points.json",
+      "bytes": 3273331,
+      "sha256": "99e059dc03b2923a4803815085e38546f49393996023445676a4fa80389c0365"
+    },
+    {
+      "path": "lidingobuild/mapping/building-laser-acquisition.json",
+      "bytes": 1752,
+      "sha256": "8df76aabd512262e43cc945a0a3fc5241cbac51936abe03300bbe3ee938edd7a"
+    },
+    {
+      "path": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.png",
+      "bytes": 17487471,
+      "sha256": "cd12fca3a779b19199f591306a7090c39c19eb9d8b91f57f69bdb301c6496691"
+    }
+  ],
+  "sourceIds": [
+    "lidingo-osm-2026-09-07",
+    "laser-lm-skog",
+    "terrain-lm-1m",
+    "imagery-municipal-2019"
+  ],
+  "method": {
+    "footprintInsetMetres": 0.6,
+    "minimumHeightAboveDtmMetres": 1.5,
+    "sourceClassification": 1,
+    "firstReturnsOnly": true,
+    "roofPlanes": "Deterministic RANSAC, 0.18 m residual inlier band, maximum slope 1.2, least-squares refit; summary evidence, not a roof-style classifier."
+  },
+  "buildings": [
+    {
+      "id": "way/32262176",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedAt": "2021-03-23",
+      "tags": {
+        "amenity": "community_centre",
+        "building": "civic",
+        "building:levels": "1",
+        "community_centre": "club_home",
+        "description": "The golf course is Swedens oldest 18 hole golf course.",
+        "name": "Lidingö Golfklubb",
+        "source": "survey;yahoo_imagery",
+        "sport": "golf",
+        "website": "https://www.lidingogk.se/",
+        "wikidata": "Q89303488"
+      },
+      "footprintSha256": "32e34e893385dd7932e1aa5ea7bb22587d04a534669eaea526ca10e0080fb3a0",
+      "footprintAreaSquareMetres": 590.37,
+      "horizontalBoundsEpsg3006": [
+        677639.9364104522,
+        6586440.052383891,
+        677665.0147147559,
+        6586477.342980753
+      ],
+      "minimumRotatedRectangleMetres": {
+        "long": 33.31,
+        "short": 22.69
+      },
+      "footprintReturnCount": 788,
+      "footprintClasses": {
+        "1": 605,
+        "2": 183
+      },
+      "selectedInteriorFirstReturns": 531,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 531,
+        "minimum": 31.29,
+        "p05": 32.32,
+        "median": 33.43,
+        "p95": 33.93,
+        "maximum": 34.06
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 531,
+        "minimum": 1.703,
+        "p05": 3.27,
+        "median": 3.69,
+        "p95": 4.128,
+        "maximum": 4.659
+      },
+      "footprintBoundaryDtmRH2000": {
+        "count": 11,
+        "minimum": 28.52,
+        "p05": 28.563,
+        "median": 29.066,
+        "p95": 29.82,
+        "maximum": 29.954
+      },
+      "footprintCentroidDtmRH2000": 29.621,
+      "planarSupportFraction": 0.919,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 284,
+          "originEpsg3006": [
+            677653.5308851219,
+            6586459.632429381
+          ],
+          "coefficients": [
+            0.01712258998760238,
+            0.04790032307170211,
+            33.210993530563094
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 284,
+            "minimum": 0.001,
+            "p05": 0.006,
+            "median": 0.068,
+            "p95": 0.178,
+            "maximum": 0.205
+          },
+          "slopeDegrees": 2.91
+        },
+        {
+          "index": 1,
+          "pointCount": 101,
+          "originEpsg3006": [
+            677653.5308851219,
+            6586459.632429381
+          ],
+          "coefficients": [
+            -0.0067225066689873,
+            0.026015812160951945,
+            32.65441122607924
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 101,
+            "minimum": 0.005,
+            "p05": 0.01,
+            "median": 0.083,
+            "p95": 0.167,
+            "maximum": 0.19
+          },
+          "slopeDegrees": 1.54
+        },
+        {
+          "index": 2,
+          "pointCount": 103,
+          "originEpsg3006": [
+            677653.5308851219,
+            6586459.632429381
+          ],
+          "coefficients": [
+            0.0056889131601883065,
+            0.05289459519321582,
+            33.56170497894566
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 103,
+            "minimum": 0.002,
+            "p05": 0.006,
+            "median": 0.062,
+            "p95": 0.173,
+            "maximum": 0.191
+          },
+          "slopeDegrees": 3.05
+        }
+      ],
+      "imageAssociation": {
+        "sourceId": "imagery-municipal-2019",
+        "year": 2019,
+        "status": "machine-visual-reviewed",
+        "meaning": "Visible roof corresponds to the retained footprint; roof displacement and source years remain uncalibrated.",
+        "review": "Inspected original facility overlay and source-return panels. Large roof interiors are visually clear of tree crowns; the small shed has sparse returns."
+      },
+      "renderingAdoption": null,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "limitations": [
+        "First-return class 1 is unclassified; spatial selection can include a tree, chimney, or roof fixture.",
+        "Ground is an interpolated DTM beneath the structure, not a measured foundation or wall base.",
+        "Roof candidate heights are not eave/wall heights; do not assign them directly to the legacy building h field."
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-partial-measured-roof-candidate",
+        "sourceReturns": 528,
+        "additionalMeasuredEdgeReturns": 40,
+        "triangles": 1192,
+        "vertices": 669,
+        "footprintCoverageFraction": 0.922768,
+        "boundarySupportDistanceMetres": {
+          "count": 119,
+          "minimum": 0.229,
+          "p05": 0.424,
+          "median": 1.293,
+          "p95": 5.729,
+          "maximum": 6.865
+        },
+        "maximumTriangleEdgeMetres": 4.843,
+        "roofClearanceAboveDtmMetres": {
+          "count": 669,
+          "minimum": 3.082,
+          "p05": 3.31,
+          "median": 3.727,
+          "p95": 4.187,
+          "maximum": 4.511
+        },
+        "roofHeightRH2000": {
+          "count": 669,
+          "minimum": 32.19,
+          "p05": 32.32,
+          "median": 33.377,
+          "p95": 33.959,
+          "maximum": 34.06
+        },
+        "interpolatedBoundaryVertices": 102,
+        "unsupportedBoundaryVertices": 17,
+        "supportedWallBoundaryMetres": 96.268,
+        "sourceFootprintPerimeterMetres": 113.656,
+        "uncoveredRoofAreaSquareMetres": 45.5956,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      }
+    },
+    {
+      "id": "way/32262169",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedAt": "2021-03-23",
+      "tags": {
+        "building": "sport",
+        "building:levels": "1",
+        "source": "survey;yahoo_imagery"
+      },
+      "footprintSha256": "2b951d2b4db8a2d0006b9a0813fa282fcc9e30f03805a08a364880fd12864633",
+      "footprintAreaSquareMetres": 211.8,
+      "horizontalBoundsEpsg3006": [
+        677632.3066476025,
+        6586424.568668857,
+        677654.0815519799,
+        6586438.781527359
+      ],
+      "minimumRotatedRectangleMetres": {
+        "long": 20.12,
+        "short": 10.55
+      },
+      "footprintReturnCount": 294,
+      "footprintClasses": {
+        "1": 228,
+        "2": 65,
+        "18": 1
+      },
+      "selectedInteriorFirstReturns": 205,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 205,
+        "minimum": 31.43,
+        "p05": 31.532,
+        "median": 31.88,
+        "p95": 32.058,
+        "maximum": 32.11
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 205,
+        "minimum": 2.941,
+        "p05": 3.039,
+        "median": 3.477,
+        "p95": 3.79,
+        "maximum": 3.862
+      },
+      "footprintBoundaryDtmRH2000": {
+        "count": 7,
+        "minimum": 28.142,
+        "p05": 28.165,
+        "median": 28.437,
+        "p95": 28.467,
+        "maximum": 28.468
+      },
+      "footprintCentroidDtmRH2000": 28.375,
+      "planarSupportFraction": 0.9707,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 174,
+          "originEpsg3006": [
+            677643.5230731708,
+            6586431.66039024
+          ],
+          "coefficients": [
+            -0.01035103013205164,
+            -0.03750695506996421,
+            31.885987383613223
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 174,
+            "minimum": 0.0,
+            "p05": 0.009,
+            "median": 0.072,
+            "p95": 0.163,
+            "maximum": 0.192
+          },
+          "slopeDegrees": 2.23
+        },
+        {
+          "index": 1,
+          "pointCount": 25,
+          "originEpsg3006": [
+            677643.5230731708,
+            6586431.66039024
+          ],
+          "coefficients": [
+            -0.007732157982128924,
+            -0.034019212592101056,
+            31.636327366331166
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 25,
+            "minimum": 0.001,
+            "p05": 0.004,
+            "median": 0.026,
+            "p95": 0.082,
+            "maximum": 0.087
+          },
+          "slopeDegrees": 2.0
+        }
+      ],
+      "imageAssociation": {
+        "sourceId": "imagery-municipal-2019",
+        "year": 2019,
+        "status": "machine-visual-reviewed",
+        "meaning": "Visible roof corresponds to the retained footprint; roof displacement and source years remain uncalibrated.",
+        "review": "Inspected original facility overlay and source-return panels. Large roof interiors are visually clear of tree crowns; the small shed has sparse returns."
+      },
+      "renderingAdoption": null,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "limitations": [
+        "First-return class 1 is unclassified; spatial selection can include a tree, chimney, or roof fixture.",
+        "Ground is an interpolated DTM beneath the structure, not a measured foundation or wall base.",
+        "Roof candidate heights are not eave/wall heights; do not assign them directly to the legacy building h field."
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-measured-roof-candidate",
+        "sourceReturns": 222,
+        "additionalMeasuredEdgeReturns": 23,
+        "triangles": 523,
+        "vertices": 303,
+        "footprintCoverageFraction": 1.0,
+        "boundarySupportDistanceMetres": {
+          "count": 64,
+          "minimum": 0.028,
+          "p05": 0.191,
+          "median": 0.947,
+          "p95": 1.544,
+          "maximum": 2.328
+        },
+        "maximumTriangleEdgeMetres": 2.11,
+        "roofClearanceAboveDtmMetres": {
+          "count": 303,
+          "minimum": 2.915,
+          "p05": 3.012,
+          "median": 3.478,
+          "p95": 3.802,
+          "maximum": 3.914
+        },
+        "roofHeightRH2000": {
+          "count": 303,
+          "minimum": 31.43,
+          "p05": 31.462,
+          "median": 31.83,
+          "p95": 32.05,
+          "maximum": 32.11
+        },
+        "interpolatedBoundaryVertices": 64,
+        "unsupportedBoundaryVertices": 0,
+        "supportedWallBoundaryMetres": 61.295,
+        "sourceFootprintPerimeterMetres": 61.295,
+        "uncoveredRoofAreaSquareMetres": 0.0,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      }
+    },
+    {
+      "id": "way/32262183",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedAt": "2021-03-23",
+      "tags": {
+        "building": "sport",
+        "source": "survey;yahoo_imagery",
+        "sport": "golf"
+      },
+      "footprintSha256": "44d3101d73b28f6da45e1477bf655ac315cc5eb3d59c071712674dbf95db2b9b",
+      "footprintAreaSquareMetres": 780.54,
+      "horizontalBoundsEpsg3006": [
+        677632.5307752304,
+        6586496.184290826,
+        677669.5834197524,
+        6586531.7982188845
+      ],
+      "minimumRotatedRectangleMetres": {
+        "long": 34.51,
+        "short": 31.88
+      },
+      "footprintReturnCount": 1075,
+      "footprintClasses": {
+        "1": 930,
+        "2": 139,
+        "7": 5,
+        "18": 1
+      },
+      "selectedInteriorFirstReturns": 737,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 737,
+        "minimum": 33.65,
+        "p05": 34.168,
+        "median": 37.26,
+        "p95": 39.89,
+        "maximum": 42.52
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 737,
+        "minimum": 1.549,
+        "p05": 2.565,
+        "median": 4.981,
+        "p95": 7.085,
+        "maximum": 10.16
+      },
+      "footprintBoundaryDtmRH2000": {
+        "count": 12,
+        "minimum": 30.66,
+        "p05": 30.738,
+        "median": 31.162,
+        "p95": 34.042,
+        "maximum": 35.008
+      },
+      "footprintCentroidDtmRH2000": 32.473,
+      "planarSupportFraction": 0.9267,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 348,
+          "originEpsg3006": [
+            677648.3545997291,
+            6586514.601601086
+          ],
+          "coefficients": [
+            0.007094226196425768,
+            -0.02848849896450867,
+            37.20047153240137
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 348,
+            "minimum": 0.0,
+            "p05": 0.004,
+            "median": 0.033,
+            "p95": 0.144,
+            "maximum": 0.239
+          },
+          "slopeDegrees": 1.68
+        },
+        {
+          "index": 1,
+          "pointCount": 118,
+          "originEpsg3006": [
+            677648.3545997291,
+            6586514.601601086
+          ],
+          "coefficients": [
+            -0.036099271818616,
+            -0.01750282586746188,
+            33.93990837894379
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 118,
+            "minimum": 0.0,
+            "p05": 0.003,
+            "median": 0.04,
+            "p95": 0.105,
+            "maximum": 0.169
+          },
+          "slopeDegrees": 2.3
+        },
+        {
+          "index": 2,
+          "pointCount": 111,
+          "originEpsg3006": [
+            677648.3545997291,
+            6586514.601601086
+          ],
+          "coefficients": [
+            -0.011785706578803712,
+            0.037975317573353706,
+            37.11219549831008
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 111,
+            "minimum": 0.001,
+            "p05": 0.007,
+            "median": 0.061,
+            "p95": 0.169,
+            "maximum": 0.223
+          },
+          "slopeDegrees": 2.28
+        },
+        {
+          "index": 3,
+          "pointCount": 61,
+          "originEpsg3006": [
+            677648.3545997291,
+            6586514.601601086
+          ],
+          "coefficients": [
+            0.020476215434659165,
+            -0.04748890878502299,
+            40.29244317717004
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 61,
+            "minimum": 0.001,
+            "p05": 0.006,
+            "median": 0.055,
+            "p95": 0.13,
+            "maximum": 0.25
+          },
+          "slopeDegrees": 2.96
+        },
+        {
+          "index": 4,
+          "pointCount": 45,
+          "originEpsg3006": [
+            677648.3545997291,
+            6586514.601601086
+          ],
+          "coefficients": [
+            -0.015104537677105989,
+            -0.04650314714233961,
+            36.58508722637549
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 45,
+            "minimum": 0.0,
+            "p05": 0.007,
+            "median": 0.043,
+            "p95": 0.129,
+            "maximum": 0.218
+          },
+          "slopeDegrees": 2.8
+        }
+      ],
+      "imageAssociation": {
+        "sourceId": "imagery-municipal-2019",
+        "year": 2019,
+        "status": "machine-visual-reviewed",
+        "meaning": "Visible roof corresponds to the retained footprint; roof displacement and source years remain uncalibrated.",
+        "review": "Inspected original facility overlay and source-return panels. Large roof interiors are visually clear of tree crowns; the small shed has sparse returns."
+      },
+      "renderingAdoption": null,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "limitations": [
+        "First-return class 1 is unclassified; spatial selection can include a tree, chimney, or roof fixture.",
+        "Ground is an interpolated DTM beneath the structure, not a measured foundation or wall base.",
+        "Roof candidate heights are not eave/wall heights; do not assign them directly to the legacy building h field."
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-partial-measured-roof-candidate",
+        "sourceReturns": 737,
+        "additionalMeasuredEdgeReturns": 54,
+        "triangles": 1616,
+        "vertices": 890,
+        "footprintCoverageFraction": 0.897463,
+        "boundarySupportDistanceMetres": {
+          "count": 135,
+          "minimum": 0.062,
+          "p05": 0.191,
+          "median": 0.947,
+          "p95": 4.076,
+          "maximum": 4.287
+        },
+        "maximumTriangleEdgeMetres": 4.592,
+        "roofClearanceAboveDtmMetres": {
+          "count": 890,
+          "minimum": 1.187,
+          "p05": 2.502,
+          "median": 4.496,
+          "p95": 6.807,
+          "maximum": 7.886
+        },
+        "roofHeightRH2000": {
+          "count": 890,
+          "minimum": 33.499,
+          "p05": 34.114,
+          "median": 37.21,
+          "p95": 39.87,
+          "maximum": 40.8
+        },
+        "interpolatedBoundaryVertices": 106,
+        "unsupportedBoundaryVertices": 29,
+        "supportedWallBoundaryMetres": 97.725,
+        "sourceFootprintPerimeterMetres": 128.636,
+        "uncoveredRoofAreaSquareMetres": 80.0343,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      }
+    },
+    {
+      "id": "way/26408210",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedAt": "2021-03-23",
+      "tags": {
+        "building": "yes",
+        "source": "Yahoo"
+      },
+      "footprintSha256": "67102ea5a2d0754a39eca30364ebc8a5a91f92422f23579faeca1d8f35401ef7",
+      "footprintAreaSquareMetres": 594.0,
+      "horizontalBoundsEpsg3006": [
+        677629.4641241891,
+        6586242.149447633,
+        677648.8164939953,
+        6586283.5944418125
+      ],
+      "minimumRotatedRectangleMetres": {
+        "long": 40.01,
+        "short": 15.19
+      },
+      "footprintReturnCount": 1342,
+      "footprintClasses": {
+        "1": 1098,
+        "2": 242,
+        "7": 1,
+        "18": 1
+      },
+      "selectedInteriorFirstReturns": 947,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 947,
+        "minimum": 23.05,
+        "p05": 28.14,
+        "median": 32.38,
+        "p95": 35.37,
+        "maximum": 39.42
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 947,
+        "minimum": 1.586,
+        "p05": 6.328,
+        "median": 9.867,
+        "p95": 13.362,
+        "maximum": 17.558
+      },
+      "footprintBoundaryDtmRH2000": {
+        "count": 6,
+        "minimum": 21.945,
+        "p05": 22.198,
+        "median": 23.013,
+        "p95": 25.157,
+        "maximum": 25.665
+      },
+      "footprintCentroidDtmRH2000": 21.739,
+      "planarSupportFraction": 0.9641,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 640,
+          "originEpsg3006": [
+            677638.9561351647,
+            6586262.768827886
+          ],
+          "coefficients": [
+            -0.8806046419895646,
+            -0.13106174563080186,
+            32.720820054683315
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 640,
+            "minimum": 0.0,
+            "p05": 0.006,
+            "median": 0.058,
+            "p95": 0.158,
+            "maximum": 0.194
+          },
+          "slopeDegrees": 41.68
+        },
+        {
+          "index": 1,
+          "pointCount": 204,
+          "originEpsg3006": [
+            677638.9561351647,
+            6586262.768827886
+          ],
+          "coefficients": [
+            0.8764243330070308,
+            0.12919313794798626,
+            38.26300370606811
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 204,
+            "minimum": 0.0,
+            "p05": 0.006,
+            "median": 0.048,
+            "p95": 0.15,
+            "maximum": 0.195
+          },
+          "slopeDegrees": 41.54
+        },
+        {
+          "index": 2,
+          "pointCount": 37,
+          "originEpsg3006": [
+            677638.9561351647,
+            6586262.768827886
+          ],
+          "coefficients": [
+            -0.8714227164329013,
+            -0.13114444967702,
+            32.980900805133174
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 37,
+            "minimum": 0.002,
+            "p05": 0.004,
+            "median": 0.034,
+            "p95": 0.125,
+            "maximum": 0.198
+          },
+          "slopeDegrees": 41.39
+        },
+        {
+          "index": 3,
+          "pointCount": 32,
+          "originEpsg3006": [
+            677638.9561351647,
+            6586262.768827886
+          ],
+          "coefficients": [
+            -0.8743124938545993,
+            -0.1290540798893245,
+            32.48950037532152
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 32,
+            "minimum": 0.001,
+            "p05": 0.007,
+            "median": 0.029,
+            "p95": 0.117,
+            "maximum": 0.17
+          },
+          "slopeDegrees": 41.47
+        }
+      ],
+      "imageAssociation": {
+        "sourceId": "imagery-municipal-2019",
+        "year": 2019,
+        "status": "machine-visual-reviewed",
+        "meaning": "Visible roof corresponds to the retained footprint; roof displacement and source years remain uncalibrated.",
+        "review": "Inspected original facility overlay and source-return panels. Large roof interiors are visually clear of tree crowns; the small shed has sparse returns."
+      },
+      "renderingAdoption": null,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "limitations": [
+        "First-return class 1 is unclassified; spatial selection can include a tree, chimney, or roof fixture.",
+        "Ground is an interpolated DTM beneath the structure, not a measured foundation or wall base.",
+        "Roof candidate heights are not eave/wall heights; do not assign them directly to the legacy building h field."
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-measured-roof-candidate",
+        "sourceReturns": 974,
+        "additionalMeasuredEdgeReturns": 61,
+        "triangles": 2105,
+        "vertices": 1133,
+        "footprintCoverageFraction": 0.998441,
+        "boundarySupportDistanceMetres": {
+          "count": 113,
+          "minimum": 0.165,
+          "p05": 0.309,
+          "median": 0.791,
+          "p95": 2.981,
+          "maximum": 3.162
+        },
+        "maximumTriangleEdgeMetres": 3.413,
+        "roofClearanceAboveDtmMetres": {
+          "count": 1133,
+          "minimum": 3.302,
+          "p05": 4.872,
+          "median": 9.689,
+          "p95": 13.216,
+          "maximum": 13.946
+        },
+        "roofHeightRH2000": {
+          "count": 1133,
+          "minimum": 25.174,
+          "p05": 26.695,
+          "median": 32.14,
+          "p95": 35.284,
+          "maximum": 35.87
+        },
+        "interpolatedBoundaryVertices": 108,
+        "unsupportedBoundaryVertices": 5,
+        "supportedWallBoundaryMetres": 101.663,
+        "sourceFootprintPerimeterMetres": 109.444,
+        "uncoveredRoofAreaSquareMetres": 0.9263,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      }
+    },
+    {
+      "id": "way/26408211",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedAt": "2021-03-23",
+      "tags": {
+        "building": "yes",
+        "created_by": "Potlatch 0.10b"
+      },
+      "footprintSha256": "e3dca22fbb18e3b7a22762af23489c421c2fb943c7b66466c11f3101ee824df7",
+      "footprintAreaSquareMetres": 409.64,
+      "horizontalBoundsEpsg3006": [
+        677673.4914312676,
+        6586264.188076047,
+        677695.5023330441,
+        6586299.222298119
+      ],
+      "minimumRotatedRectangleMetres": {
+        "long": 32.8,
+        "short": 12.5
+      },
+      "footprintReturnCount": 1058,
+      "footprintClasses": {
+        "1": 869,
+        "2": 186,
+        "7": 2,
+        "18": 1
+      },
+      "selectedInteriorFirstReturns": 732,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 732,
+        "minimum": 22.75,
+        "p05": 26.97,
+        "median": 30.79,
+        "p95": 33.05,
+        "maximum": 33.32
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 732,
+        "minimum": 1.523,
+        "p05": 5.596,
+        "median": 9.184,
+        "p95": 11.451,
+        "maximum": 11.669
+      },
+      "footprintBoundaryDtmRH2000": {
+        "count": 5,
+        "minimum": 21.01,
+        "p05": 21.086,
+        "median": 21.547,
+        "p95": 21.693,
+        "maximum": 21.693
+      },
+      "footprintCentroidDtmRH2000": 21.522,
+      "planarSupportFraction": 0.9385,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 426,
+          "originEpsg3006": [
+            677683.6384016386,
+            6586281.953565574
+          ],
+          "coefficients": [
+            -0.9379439734382728,
+            -0.2866200109483539,
+            31.61804005984434
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 426,
+            "minimum": 0.0,
+            "p05": 0.006,
+            "median": 0.052,
+            "p95": 0.154,
+            "maximum": 0.179
+          },
+          "slopeDegrees": 44.44
+        },
+        {
+          "index": 1,
+          "pointCount": 231,
+          "originEpsg3006": [
+            677683.6384016386,
+            6586281.953565574
+          ],
+          "coefficients": [
+            0.9256333004713178,
+            0.28583871901415936,
+            34.87482413117777
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 231,
+            "minimum": 0.0,
+            "p05": 0.004,
+            "median": 0.045,
+            "p95": 0.145,
+            "maximum": 0.208
+          },
+          "slopeDegrees": 44.09
+        },
+        {
+          "index": 2,
+          "pointCount": 30,
+          "originEpsg3006": [
+            677683.6384016386,
+            6586281.953565574
+          ],
+          "coefficients": [
+            -0.9409161128485838,
+            -0.284403628218556,
+            31.892256575734955
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 30,
+            "minimum": 0.001,
+            "p05": 0.004,
+            "median": 0.063,
+            "p95": 0.134,
+            "maximum": 0.193
+          },
+          "slopeDegrees": 44.51
+        }
+      ],
+      "imageAssociation": {
+        "sourceId": "imagery-municipal-2019",
+        "year": 2019,
+        "status": "machine-visual-reviewed",
+        "meaning": "Visible roof corresponds to the retained footprint; roof displacement and source years remain uncalibrated.",
+        "review": "Inspected original facility overlay and source-return panels. Large roof interiors are visually clear of tree crowns; the small shed has sparse returns."
+      },
+      "renderingAdoption": null,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "limitations": [
+        "First-return class 1 is unclassified; spatial selection can include a tree, chimney, or roof fixture.",
+        "Ground is an interpolated DTM beneath the structure, not a measured foundation or wall base.",
+        "Roof candidate heights are not eave/wall heights; do not assign them directly to the legacy building h field."
+      ],
+      "roofSurface": {
+        "status": "machine-reviewed-measured-roof-candidate",
+        "sourceReturns": 751,
+        "additionalMeasuredEdgeReturns": 64,
+        "triangles": 1633,
+        "vertices": 886,
+        "footprintCoverageFraction": 0.999154,
+        "boundarySupportDistanceMetres": {
+          "count": 92,
+          "minimum": 0.087,
+          "p05": 0.175,
+          "median": 1.207,
+          "p95": 2.616,
+          "maximum": 2.948
+        },
+        "maximumTriangleEdgeMetres": 2.981,
+        "roofClearanceAboveDtmMetres": {
+          "count": 886,
+          "minimum": 3.089,
+          "p05": 4.165,
+          "median": 8.797,
+          "p95": 11.389,
+          "maximum": 11.669
+        },
+        "roofHeightRH2000": {
+          "count": 886,
+          "minimum": 24.479,
+          "p05": 25.132,
+          "median": 30.41,
+          "p95": 33.008,
+          "maximum": 33.32
+        },
+        "interpolatedBoundaryVertices": 92,
+        "unsupportedBoundaryVertices": 0,
+        "supportedWallBoundaryMetres": 90.563,
+        "sourceFootprintPerimeterMetres": 90.563,
+        "uncoveredRoofAreaSquareMetres": 0.3466,
+        "interpretation": "Dated first-return roof surface TIN; original planar-supported return heights, locally fitted boundary heights, no architectural roof style assumed."
+      }
+    },
+    {
+      "id": "way/221846983",
+      "sourceId": "lidingo-osm-2026-09-07",
+      "observedAt": "2021-03-23",
+      "tags": {
+        "building": "yes",
+        "source": "Yahoo"
+      },
+      "footprintSha256": "e8ae47389bce8a44fba24d06d8f8030a00932a6472a1f464671c9c32486188bd",
+      "footprintAreaSquareMetres": 15.15,
+      "horizontalBoundsEpsg3006": [
+        677655.3528956051,
+        6586235.723235568,
+        677659.7330021528,
+        6586239.937729799
+      ],
+      "minimumRotatedRectangleMetres": {
+        "long": 3.99,
+        "short": 3.81
+      },
+      "footprintReturnCount": 56,
+      "footprintClasses": {
+        "1": 39,
+        "2": 17
+      },
+      "selectedInteriorFirstReturns": 18,
+      "selectionBoundaryInsetMetres": 0.6,
+      "roofCandidateAbsoluteHeightRH2000": {
+        "count": 18,
+        "minimum": 26.74,
+        "p05": 26.783,
+        "median": 27.465,
+        "p95": 28.306,
+        "maximum": 28.34
+      },
+      "roofCandidateHeightAboveDtm": {
+        "count": 18,
+        "minimum": 2.278,
+        "p05": 2.346,
+        "median": 2.836,
+        "p95": 3.81,
+        "maximum": 3.879
+      },
+      "footprintBoundaryDtmRH2000": {
+        "count": 5,
+        "minimum": 24.26,
+        "p05": 24.282,
+        "median": 24.371,
+        "p95": 24.648,
+        "maximum": 24.684
+      },
+      "footprintCentroidDtmRH2000": 24.604,
+      "planarSupportFraction": 0.7222,
+      "planes": [
+        {
+          "index": 0,
+          "pointCount": 13,
+          "originEpsg3006": [
+            677657.4983333333,
+            6586237.890000001
+          ],
+          "coefficients": [
+            -0.4251257769464098,
+            -0.10698836276831614,
+            27.403578762148534
+          ],
+          "equation": "RH2000 = a*(E-originE) + b*(N-originN) + c",
+          "absoluteResidualMetres": {
+            "count": 13,
+            "minimum": 0.004,
+            "p05": 0.013,
+            "median": 0.054,
+            "p95": 0.109,
+            "maximum": 0.129
+          },
+          "slopeDegrees": 23.67
+        }
+      ],
+      "imageAssociation": {
+        "sourceId": "imagery-municipal-2019",
+        "year": 2019,
+        "status": "machine-visual-reviewed",
+        "meaning": "Visible roof corresponds to the retained footprint; roof displacement and source years remain uncalibrated.",
+        "review": "Inspected original facility overlay and source-return panels. Large roof interiors are visually clear of tree crowns; the small shed has sparse returns."
+      },
+      "renderingAdoption": null,
+      "wallHeightMetres": null,
+      "eaveHeightRH2000": null,
+      "roofType": null,
+      "limitations": [
+        "First-return class 1 is unclassified; spatial selection can include a tree, chimney, or roof fixture.",
+        "Ground is an interpolated DTM beneath the structure, not a measured foundation or wall base.",
+        "Roof candidate heights are not eave/wall heights; do not assign them directly to the legacy building h field."
+      ],
+      "roofSurface": {
+        "status": "withheld",
+        "reasons": [
+          "insufficient planar-supported returns"
+        ]
+      }
+    }
+  ],
+  "visualEvidence": "lidingobuild/cache/buildings/building-roof-source-panels.png",
+  "limitations": [
+    "No building classification exists in this source; accepted roof/footprint correspondence needs visual review.",
+    "2019 image and 2021 laser establish dated source geometry; present-day geometry and uses need current evidence.",
+    "Ground height, roof-return height, eave height and wall height are distinct quantities."
+  ]
+}

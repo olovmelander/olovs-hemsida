@@ -111,6 +111,11 @@ const manifestPaths = readdir(GEO_ROOT, { withFileTypes: true })
 const groundReports = [];
 for (const manifestPath of await manifestPaths) {
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  if (manifest.legacyFrame === null) {
+    if (selectedGround) throw new Error(`${manifest.groundId} has source evidence only; author and inventory a compatibility model before migration`);
+    console.log(`${manifest.groundId}: source intake only, no legacy model to migrate`);
+    continue;
+  }
   const modelInputs = selectMigrationInputs(manifest);
 
   const projectedFrame = manifest.legacyFrame.projectedOriginEpsg3006;

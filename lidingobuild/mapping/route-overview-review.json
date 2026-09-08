@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "reviewDate": "2026-09-07",
+  "reviewer": "Codex source-research agent; machine visual review",
+  "status": "gross-routing-corroborated-only",
+  "scope": "Compare all 18 supplementary OSM route numbers, gross positions and directions in the generated overview with the club-linked whole-course guide. No geometry adoption or independent human approval.",
+  "sources": [
+    {
+      "id": "club-guide-overview",
+      "url": "https://banguider.se/uploads/product/27c01eccd87e3692c4708c59175158a1.png",
+      "parentUrl": "https://www.lidingogk.se/banan/nya-banguiden/",
+      "cachePath": "lidingobuild/reference/cache/club-2026-09-07/banguide-27c01eccd87e3692c4708c59175158a1.png",
+      "sha256": "3fc891caa61f1df5132bae7f348372cd60fd73d102061197858231981493bbe4",
+      "byteLength": 849670,
+      "nativeCrs": null,
+      "captureDate": null,
+      "accuracy": "Ungeoreferenced illustrative guide; no metric accuracy adopted",
+      "rights": "Local reference only; no distribution or derivative-geometry grant found"
+    },
+    {
+      "id": "osm-master-vectors",
+      "path": "geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson",
+      "sha256": "d25889882339c4259bc38a3d475a9113b70dc6092d9f98782c3812e4e8999ec0",
+      "byteLength": 130846,
+      "horizontalCrs": "EPSG:3006",
+      "axisOrder": ["easting", "northing"],
+      "reviewStatus": "unreviewed-supplementary",
+      "licence": "ODbL-1.0"
+    },
+    {
+      "id": "generated-overview",
+      "path": "apps/golf/public/courses/lidingo/overview.svg",
+      "sha256": "49f2b409d1b4c93487d97d3e96c8e7f8234ca266a012944be8c5414a51c6a98d",
+      "byteLength": 19259
+    },
+    {
+      "id": "published-intake",
+      "path": "apps/golf/public/courses/lidingo/intake-3698fc54fd7143ff2e1e5b8117831b4b068a0d281932fd3b0d39d357aa558f41.json",
+      "sha256": "3698fc54fd7143ff2e1e5b8117831b4b068a0d281932fd3b0d39d357aa558f41",
+      "byteLength": 110285
+    }
+  ],
+  "reviewImage": {
+    "path": "lidingobuild/reference/cache/club-2026-09-07/preview-route-review.png",
+    "sha256": "c6b6ff55817278025de8424b6dd689ddf99af547811a617a233513315a01c84c",
+    "byteLength": 97872,
+    "toolchain": "PyMuPDF 1.28.2, SVG converted to PDF and rendered at scale 1"
+  },
+  "holes": [
+    { "hole": 1, "routeId": "way/1530686612", "observation": "Central route plays south/southeast toward the maintenance-building area." },
+    { "hole": 2, "routeId": "way/1530686613", "observation": "Long southeastern corridor plays toward the southern extremity." },
+    { "hole": 3, "routeId": "way/1530686614", "observation": "Short southeastern return plays northwest beside hole 2." },
+    { "hole": 4, "routeId": "way/1530686615", "observation": "Eastern central corridor returns northwest toward the clubhouse." },
+    { "hole": 5, "routeId": "way/1530686616", "observation": "West of the range, route plays southwest then bends west." },
+    { "hole": 6, "routeId": "way/1530686617", "observation": "Short lower-central route plays southeast beside the range." },
+    { "hole": 7, "routeId": "way/1530686618", "observation": "Southern western-loop route plays northwest." },
+    { "hole": 8, "routeId": "way/1530686619", "observation": "From the southwest edge, route returns northeast." },
+    { "hole": 9, "routeId": "way/1530686620", "observation": "Short route plays southwest toward the kiosk and hole-10 start area." },
+    { "hole": 10, "routeId": "way/1530686623", "observation": "Long western corridor plays north, matching the guide's turn into the back nine." },
+    { "hole": 11, "routeId": "way/1530686624", "observation": "Short far-western route plays north toward the northwestern extremity." },
+    { "hole": 12, "routeId": "way/1530686625", "observation": "From the northwestern extremity, route plays east/southeast." },
+    { "hole": 13, "routeId": "way/1530686626", "observation": "Middle western back-nine corridor reverses toward west/northwest." },
+    { "hole": 14, "routeId": "way/1530686627", "observation": "Lower western back-nine corridor returns east/southeast." },
+    { "hole": 15, "routeId": "way/1530686628", "observation": "Route east of the central road plays north/northeast." },
+    { "hole": 16, "routeId": "way/1530686629", "observation": "Short companion route to hole 15 plays south." },
+    { "hole": 17, "routeId": "way/1530686630", "observation": "Upper eastern arm plays east." },
+    { "hole": 18, "routeId": "way/1530686631", "observation": "Lower eastern arm returns west toward the clubhouse." }
+  ],
+  "result": {
+    "holesCompared": 18,
+    "grossNumberingOrDirectionConflictsFound": 0,
+    "routeCoordinatesExactlyMatchInput": true,
+    "geometryModified": false,
+    "independentControlsEstablished": false,
+    "independentHumanReview": false,
+    "perHoleRoutingReleaseGateSatisfied": false
+  },
+  "limitations": [
+    "This is a qualitative whole-course comparison, not map registration. No controls, metric residuals or geometric accuracy were established.",
+    "Guide publication/capture epoch is unknown. Several 2024–2026 course changes are documented separately in the research dossier.",
+    "Exact tee colors, dedicated tee pads, pins, green boundaries, landing geometry and route lengths remain unapproved.",
+    "Only 15 green features, 19 tee areas, five fairways and 13 bunkers exist in the supplementary OSM intake; missing features were not supplied by this review.",
+    "Rear-nine orange distances on the official card do not establish physical tee positions; those markers are absent from the hole guides.",
+    "Independent per-hole comparisons with dated licensed imagery and appropriate control evidence remain required before production geometry adoption."
+  ]
+}

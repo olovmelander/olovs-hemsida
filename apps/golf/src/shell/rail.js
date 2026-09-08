@@ -5,8 +5,11 @@
    =========================================================================== */
 import '../styles/shell.css';
 import { ICONS } from './icons.js';
+import { COURSE_PREVIEWS } from '../course-previews.mjs';
 
 const CATEGORIES = {
+  visby: { id: 'kust', label: 'Kronholmen · Seaside', iconName: 'wave' },
+  lidingo: { id: 'skog', label: 'Lidingö · Parkbana', iconName: 'tree' },
   angso: { id: 'kust', label: 'Mälaren · Halvö', iconName: 'wave' },
   norrfallsviken: { id: 'kust', label: 'Höga Kusten · Seaside', iconName: 'wave' },
   puttom: { id: 'skog', label: 'Örnsköldsvik · Skog & Sjö', iconName: 'tree' },
@@ -36,6 +39,7 @@ const LINES = {
 const TEE_WORD = n => `${n} tees`;
 
 export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = false }) {
+  courses = [...courses, ...COURSE_PREVIEWS.filter(p => !courses.some(c => c.slug === p.slug))];
   const el = document.createElement('div');
   el.id = 'chooser';
   el.setAttribute('role', 'dialog');
@@ -81,7 +85,7 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
     <div class="chooser-head">
       <div class="chooser-title-wrap">
         <h1 class="chooser-main-title">Välj golfbana</h1>
-        <p class="chooser-subtitle">Utforska ${courses.length} svenska golfbanor mätta mot klubbarnas originalkort och modellerade i full 3D-terräng.</p>
+        <p class="chooser-subtitle">Utforska ${courses.filter(c => c.status !== 'mapping').length} svenska golfbanor i 3D och följ nya banor under kartläggning.</p>
       </div>
 
       <div class="chooser-controls" id="chooserControls">
@@ -110,29 +114,31 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
             return `
               <li class="card-item" data-slug="${c.slug}" data-category="${cat.id}" data-search="${esc(c.name + ' ' + c.club + ' ' + c.tag + ' ' + (LINES[c.slug] || '')).toLowerCase()}">
                 <button class="card ${isCurrent ? 'is-current' : ''}" type="button" data-slug="${c.slug}">
-                  <div class="shot" data-slug="${c.slug}" data-photos="${c.photos || 1}"
-                       style="background-image: url('${import.meta.env.BASE_URL}courses/${c.slug}/hero-1.webp')">
+                  <div class="shot" data-slug="${c.slug}" data-photos="${c.photos || 0}"
+                       ${c.overviewUrl || c.photos ? `style="background-image: url('${import.meta.env.BASE_URL}${c.overviewUrl || `courses/${c.slug}/hero-1.webp`}')"` : ''}>
                     <span class="shot-frames" aria-hidden="true"></span>
                     <div class="shot-badges">
                       <span class="cat-badge">${iconSvg} <span>${esc(cat.label)}</span></span>
                       ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : ''}
+                      ${c.status === 'mapping' ? '<span class="current-badge">Under kartläggning</span>' : ''}
+                      ${c.status === 'provisional' ? '<span class="current-badge">Preliminär 3D</span>' : ''}
                     </div>
                     <div class="on-shot">
                       <p class="where">${esc(c.club)}</p>
                       <h2>${esc(c.name)}</h2>
                     </div>
                     <div class="shot-hover-action">
-                      <span>${isCurrent ? 'Fortsätt spela' : 'Starta bana'}</span>
+                      <span>${c.status === 'mapping' ? 'Visa bankarta' : isCurrent ? 'Fortsätt spela' : 'Starta bana'}</span>
                       <span class="sha-arrow">→</span>
                     </div>
                   </div>
                   <div class="body">
-                    <p class="line">${esc(LINES[c.slug] || c.club)}</p>
+                    <p class="line">${esc(c.description || LINES[c.slug] || c.club)}</p>
                     <div class="facts">
                       <div class="fact-item"><span class="f-lbl">Par</span> <b class="f-val">${c.par}</b></div>
                       <div class="fact-item"><span class="f-lbl">Hål</span> <b class="f-val">${c.holes}</b></div>
                       <div class="fact-item"><span class="f-lbl">Utslag</span> <b class="f-val">${TEE_WORD(c.tees.names.length)}</b></div>
-                      <div class="fact-item fact-tag"><b>3D</b></div>
+                      <div class="fact-item fact-tag"><b>${c.status === 'mapping' ? 'Bankarta' : '3D'}</b></div>
                     </div>
                   </div>
                 </button>

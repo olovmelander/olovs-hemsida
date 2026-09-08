@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "hole": 16,
+  "state": "source-boundary-corrected-exclusions-checked",
+  "sourceImage": {
+    "url": "https://imageserver.gotland.se/arcgis/rest/directories/arcgisoutput/Ortofoto/Ortofoto_2022_ImageServer/_ags_6a144296_d984_4c16_89ba_a27a7350003d.png",
+    "acquiredAt": "2026-09-07T19:31:13.948961+00:00",
+    "path": "visbybuild/cache/geodata-2026-09-07/gotland-2022-0p5m.png",
+    "bytes": 22144608,
+    "sha256": "aac5fa4a1ce429258cd020e0a139939576ac67bde02e010fc822feb446111153",
+    "contentType": "image/png",
+    "etag": "\"1a07d5a676b\""
+  },
+  "canopySource": {
+    "data": "visbybuild/cache/vegetation/chm-24e002.f32",
+    "sidecar": "visbybuild/cache/vegetation/chm-24e002.json",
+    "bytes": 16777216,
+    "sha256": "0eeb72535d54df5c3b0f6cfdf2f752ecdcacc067866022eee86682ec3a213c57"
+  },
+  "baselineSource": {
+    "path": "visbybuild/cache/vegetation/review/hole16-tree-baseline.json",
+    "sha256": "8fbd31a8fae57007e4daf3e40eccf154c5f56e5b7ac372991dae1c5266539d37"
+  },
+  "matchedRuntimeInstance": {
+    "easting": 687921.538797671,
+    "northing": 6370889.313415212,
+    "sourcePixel": [
+      2042.5775953419507,
+      2520.873169576749
+    ],
+    "heightMetres": 13.123921492882074,
+    "nearestH16SurfaceMetres": 3.5840503110670796,
+    "sourceChm3x3MaximumMetres": 13.010181427001953,
+    "label": 1,
+    "runtimeLocalX": 173.04,
+    "runtimeLocalZ": 62.19,
+    "runtimeScreenBasePixels": [
+      687.8,
+      855.5
+    ],
+    "runtimeViewportPixels": [
+      1440,
+      900
+    ],
+    "runtimeSpeciesIndex": 1,
+    "matchEvidence": "visby_sources headless WebGPU treeReview16; exact projected coordinate and source pixel match"
+  },
+  "decision": "Corrected only fairway16 eastern outline near source y2475..2563 to follow the visible maintained-field edge. The matched stand point lies within the corrected source-derived playing footprint. Laser measurements remain unchanged; their presence does not establish a physical stem on the mown ground.",
+  "targetedChecks": {
+    "matchedRepresentativeAbsent": true,
+    "observedGapCandidatesRetained": 9,
+    "observedGapCandidatesBefore": 9
+  },
+  "priorSurfaceSource": {
+    "path": "visbybuild/mapping/playing-surfaces.geojson",
+    "sha256": "ab2390957c178ba09827c898cd775f970892d71b72c5986823d9a3dd4f2bb3e9"
+  },
+  "surfaceSource": {
+    "path": "visbybuild/mapping/playing-surfaces.geojson",
+    "sha256": "9be8ca06669671b3b3208eada7aecfc0d8d13549a794a0c9962dcc29642de1e5"
+  },
+  "previewPath": "visbybuild/cache/vegetation/review/hole16-vegetation-source.png",
+  "candidates": [
+    {
+      "easting": 687889.9322423283,
+      "northing": 6370861.588814825,
+      "sourcePixel": [
+        1979.3644846566021,
+        2576.322370350361
+      ],
+      "heightMetres": 5.25,
+      "nearestH16SurfaceMetres": 3.177115303180557,
+      "sourceChm3x3MaximumMetres": 5.029252529144287,
+      "label": 1
+    },
+    {
+      "easting": 687896.4983157925,
+      "northing": 6370859.9029807765,
+      "sourcePixel": [
+        1992.4966315850616,
+        2579.6940384469926
+      ],
+      "heightMetres": 4.148614602163434,
+      "nearestH16SurfaceMetres": 7.129637560191262,
+      "sourceChm3x3MaximumMetres": 11.734702110290527,
+      "label": 2
+    },
+    {
+      "easting": 687884.8596787238,
+      "northing": 6370857.992496919,
+      "sourcePixel": [
+        1969.2193574476987,
+        2583.515006162226
+      ],
+      "heightMetres": 11.806235600728542,
+      "nearestH16SurfaceMetres": 8.644039064660417,
+      "sourceChm3x3MaximumMetres": 11.403007507324219,
+      "label": 3
+    },
+    {
+      "easting": 687888.3310060278,
+      "northing": 6370855.267645245,
+      "sourcePixel": [
+        1976.1620120555162,
+        2588.964709509164
+      ],
+      "heightMetres": 8.984923796867951,
+      "nearestH16SurfaceMetres": 9.674584722728177,
+      "sourceChm3x3MaximumMetres": 11.533858299255371,
+      "label": 4
+    },
+    {
+      "easting": 687890.3001211528,
+      "northing": 6370849.2208901495,
+      "sourcePixel": [
+        1980.100242305547,
+        2601.0582197010517
+      ],
+      "heightMetres": 10.569907777640038,
+      "nearestH16SurfaceMetres": 15.52919073485977,
+      "sourceChm3x3MaximumMetres": 10.351739883422852,
+      "label": 5
+    },
+    {
+      "easting": 687889.1440248201,
+      "northing": 6370844.003836464,
+      "sourcePixel": [
+        1977.788049640134,
+        2611.4923270717263
+      ],
+      "heightMetres": 7.189560621976852,
+      "nearestH16SurfaceMetres": 20.775622314515783,
+      "sourceChm3x3MaximumMetres": 14.010330200195312,
+      "label": 6
+    },
+    {
+      "easting": 687903.9451544238,
+      "northing": 6370837.280236433,
+      "sourcePixel": [
+        2007.3903088476509,
+        2624.9395271334797
+      ],
+      "heightMetres": 11.339888980146497,
+      "nearestH16SurfaceMetres": 23.62995680201917,
+      "sourceChm3x3MaximumMetres": 15.413946151733398,
+      "label": 7
+    },
+    {
+      "easting": 687897.633034654,
+      "northing": 6370833.887975213,
+      "sourcePixel": [
+        1994.7660693079233,
+        2631.724049573764
+      ],
+      "heightMetres": 10.75977233890444,
+      "nearestH16SurfaceMetres": 25.80014797681189,
+      "sourceChm3x3MaximumMetres": 15.256914138793945,
+      "label": 8
+    },
+    {
+      "easting": 687900.1593809063,
+      "northing": 6370828.988364496,
+      "sourcePixel": [
+        1999.818761812523,
+        2641.5232710074633
+      ],
+      "heightMetres": 7.42891566157341,
+      "nearestH16SurfaceMetres": 20.914546958784687,
+      "sourceChm3x3MaximumMetres": 8.8396577835083,
+      "label": 9
+    }
+  ],
+  "limitations": [
+    "The other source-supported tree crowns near the H16 approach gap remain; no gap-wide or route-wide vegetation clearing was applied.",
+    "Mowing boundaries are interpreted from 2022 imagery with unverified registration accuracy; 2024 canopy can overhang that playing footprint without locating a trunk there.",
+    "A stand representative does not locate a measured stem, and display species is not a surveyed species observation."
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "teeNames": [
+    "63",
+    "59",
+    "55",
+    "51",
+    "46",
+    "41"
+  ],
+  "source": {
+    "url": "https://prd-sgf-widget-api.azurewebsites.net/api/widget/302e8ccf-fb86-4d6f-9d65-3348e0ecd29b/scorecard",
+    "parentPage": "https://www.visbygk.com/golf/",
+    "assetId": "sgf-scorecard",
+    "sha256": "2711b6564deb457f4f1cc5a6e0611121c5964c2011f4c54fc82acda0a0f14858",
+    "retrievedDate": "2026-09-07",
+    "editionLabel": "Current public SGF scorecard embedded on the club golf page at retrieval; no edition date supplied",
+    "publicationDate": null,
+    "captureDate": null,
+    "method": "Extracted from original SGF widget HTTP response in normal club browser context; all 18 pars, 18 indexes and 108 lengths agree exactly with club-linked Caddee; all six totals agree with Caddee published tee totals. Front/back sums derived.",
+    "reviewer": "Codex machine comparison; no independent human review",
+    "decision": "Factual routing/card evidence only. Numeric tee identities retained; no tee-pad position, height or spatial authority established.",
+    "rights": "No redistribution grant for source pages, diagrams or photos found. Raw source evidence remains in ignored cache. This file records factual numeric card values."
+  },
+  "holes": [
+    {
+      "n": 1,
+      "par": 3,
+      "hcp": 15,
+      "t": [
+        159,
+        146,
+        120,
+        120,
+        95,
+        95
+      ]
+    },
+    {
+      "n": 2,
+      "par": 4,
+      "hcp": 7,
+      "t": [
+        411,
+        390,
+        360,
+        319,
+        275,
+        275
+      ]
+    },
+    {
+      "n": 3,
+      "par": 5,
+      "hcp": 5,
+      "t": [
+        525,
+        490,
+        490,
+        448,
+        400,
+        380
+      ]
+    },
+    {
+      "n": 4,
+      "par": 4,
+      "hcp": 13,
+      "t": [
+        310,
+        287,
+        287,
+        250,
+        250,
+        216
+      ]
+    },
+    {
+      "n": 5,
+      "par": 3,
+      "hcp": 11,
+      "t": [
+        170,
+        157,
+        142,
+        134,
+        121,
+        97
+      ]
+    },
+    {
+      "n": 6,
+      "par": 5,
+      "hcp": 3,
+      "t": [
+        447,
+        423,
+        403,
+        358,
+        358,
+        334
+      ]
+    },
+    {
+      "n": 7,
+      "par": 3,
+      "hcp": 9,
+      "t": [
+        200,
+        171,
+        141,
+        141,
+        141,
+        112
+      ]
+    },
+    {
+      "n": 8,
+      "par": 4,
+      "hcp": 1,
+      "t": [
+        414,
+        388,
+        345,
+        288,
+        288,
+        242
+      ]
+    },
+    {
+      "n": 9,
+      "par": 4,
+      "hcp": 17,
+      "t": [
+        334,
+        292,
+        292,
+        251,
+        251,
+        201
+      ]
+    },
+    {
+      "n": 10,
+      "par": 5,
+      "hcp": 18,
+      "t": [
+        476,
+        464,
+        412,
+        412,
+        372,
+        372
+      ]
+    },
+    {
+      "n": 11,
+      "par": 4,
+      "hcp": 4,
+      "t": [
+        329,
+        297,
+        297,
+        244,
+        244,
+        208
+      ]
+    },
+    {
+      "n": 12,
+      "par": 4,
+      "hcp": 8,
+      "t": [
+        321,
+        311,
+        311,
+        274,
+        222,
+        222
+      ]
+    },
+    {
+      "n": 13,
+      "par": 4,
+      "hcp": 16,
+      "t": [
+        376,
+        367,
+        367,
+        309,
+        271,
+        271
+      ]
+    },
+    {
+      "n": 14,
+      "par": 3,
+      "hcp": 12,
+      "t": [
+        155,
+        136,
+        136,
+        120,
+        120,
+        94
+      ]
+    },
+    {
+      "n": 15,
+      "par": 4,
+      "hcp": 2,
+      "t": [
+        413,
+        385,
+        350,
+        316,
+        316,
+        290
+      ]
+    },
+    {
+      "n": 16,
+      "par": 5,
+      "hcp": 10,
+      "t": [
+        482,
+        464,
+        443,
+        408,
+        367,
+        367
+      ]
+    },
+    {
+      "n": 17,
+      "par": 3,
+      "hcp": 14,
+      "t": [
+        192,
+        174,
+        154,
+        139,
+        123,
+        100
+      ]
+    },
+    {
+      "n": 18,
+      "par": 5,
+      "hcp": 6,
+      "t": [
+        516,
+        477,
+        440,
+        395,
+        395,
+        340
+      ]
+    }
+  ]
+}

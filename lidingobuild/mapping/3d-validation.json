@@ -1,0 +1,534 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "status": "passed",
+  "startedAt": "2026-09-07T21:11:27.830Z",
+  "completedAt": "2026-09-07T21:11:40.960Z",
+  "url": "http://127.0.0.1:8640/?bana=lidingo&v2=require&det=1&ljus=dag",
+  "backend": "webgpu",
+  "reviewBuildContext": {
+    "isolated": false
+  },
+  "sources": {
+    "terrainFloat32Sha256": "80ffcd4865daa00f8e2393f43b8fcb1b37e020f968c0656a0189f80dde1de923",
+    "waterGeojsonSha256": "0798e7f91b2f546d9efa8f636af079864340b39ef26828e54d10ab63cfb8b6c0",
+    "graph": {
+      "slug": "lidingo",
+      "groundId": "lidingo",
+      "frameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
+      "rootBytes": 605,
+      "rootSha256": "99626b9456fcb34683e394d4710893ef66b89a1c8b15d6945a3ae543098f4a97",
+      "courseManifestSha256": "7f15acd0c2a8c3d667413ce9084a7e35be24648f789ca24c793c727b48eca6d1",
+      "groundManifestSha256": "6732ca39f30b00dbce720225d42149da5d0f9d9fd0753d0f871fc67f4184877a",
+      "routingSha256": "dbf998c8ded3596445d274d247b47aa53d83e489bde3bcc55523b0a80095387e",
+      "holes": 18,
+      "tiles": 85,
+      "finestTiles": 64,
+      "shellBytes": 109686,
+      "chunks": 151,
+      "encodedChunkBytes": 8386360,
+      "decodedChunkBytes": 12411686,
+      "holeTileBufferMetres": 90
+    },
+    "roofMeshSha256": "4f25c1495768b4defe359c0b068a0df76667363e6fa67128f8602b34b3402934",
+    "standLayerIndexSha256AtReview": "472dbb5a65318464c9997b3494dfe28e2ee354cecda4f64c7d631f958fd5bb7b"
+  },
+  "checks": [
+    {
+      "ok": true,
+      "message": "Source model retains all five measured roofs, exact RH2000 heights and only supported wall endpoints",
+      "details": [
+        {
+          "id": "way/32262176",
+          "exists": true,
+          "comparedVertices": 669,
+          "comparedWallEndpoints": 200,
+          "maximumHorizontalDifferenceMetres": 0,
+          "maximumHeightDifferenceMetres": 0,
+          "exactHeights": true,
+          "triangleIndicesEqual": true,
+          "metadataEqual": true,
+          "genericHeightRemoved": true,
+          "ok": true
+        },
+        {
+          "id": "way/32262169",
+          "exists": true,
+          "comparedVertices": 303,
+          "comparedWallEndpoints": 128,
+          "maximumHorizontalDifferenceMetres": 0,
+          "maximumHeightDifferenceMetres": 0,
+          "exactHeights": true,
+          "triangleIndicesEqual": true,
+          "metadataEqual": true,
+          "genericHeightRemoved": true,
+          "ok": true
+        },
+        {
+          "id": "way/32262183",
+          "exists": true,
+          "comparedVertices": 890,
+          "comparedWallEndpoints": 206,
+          "maximumHorizontalDifferenceMetres": 0,
+          "maximumHeightDifferenceMetres": 0,
+          "exactHeights": true,
+          "triangleIndicesEqual": true,
+          "metadataEqual": true,
+          "genericHeightRemoved": true,
+          "ok": true
+        },
+        {
+          "id": "way/26408210",
+          "exists": true,
+          "comparedVertices": 1133,
+          "comparedWallEndpoints": 210,
+          "maximumHorizontalDifferenceMetres": 0,
+          "maximumHeightDifferenceMetres": 0,
+          "exactHeights": true,
+          "triangleIndicesEqual": true,
+          "metadataEqual": true,
+          "genericHeightRemoved": true,
+          "ok": true
+        },
+        {
+          "id": "way/26408211",
+          "exists": true,
+          "comparedVertices": 886,
+          "comparedWallEndpoints": 184,
+          "maximumHorizontalDifferenceMetres": 0,
+          "maximumHeightDifferenceMetres": 0,
+          "exactHeights": true,
+          "triangleIndicesEqual": true,
+          "metadataEqual": true,
+          "genericHeightRemoved": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "message": "Every roof coordinate and wall endpoint survives canonical migration at documented millimetre rounding",
+      "details": {
+        "coordinatePairs": 4809,
+        "expectedCoordinatePairs": 4809,
+        "roofs": [
+          {
+            "id": "way/32262176",
+            "exists": true,
+            "comparedVertices": 669,
+            "comparedWallEndpoints": 200,
+            "maximumHorizontalDifferenceMetres": 0.0004990000743418932,
+            "maximumHeightDifferenceMetres": 0,
+            "exactHeights": true,
+            "triangleIndicesEqual": true,
+            "metadataEqual": true,
+            "genericHeightRemoved": true,
+            "ok": true
+          },
+          {
+            "id": "way/32262169",
+            "exists": true,
+            "comparedVertices": 303,
+            "comparedWallEndpoints": 128,
+            "maximumHorizontalDifferenceMetres": 0.0004980000667273998,
+            "maximumHeightDifferenceMetres": 0,
+            "exactHeights": true,
+            "triangleIndicesEqual": true,
+            "metadataEqual": true,
+            "genericHeightRemoved": true,
+            "ok": true
+          },
+          {
+            "id": "way/32262183",
+            "exists": true,
+            "comparedVertices": 890,
+            "comparedWallEndpoints": 206,
+            "maximumHorizontalDifferenceMetres": 0.0004949999274685979,
+            "maximumHeightDifferenceMetres": 0,
+            "exactHeights": true,
+            "triangleIndicesEqual": true,
+            "metadataEqual": true,
+            "genericHeightRemoved": true,
+            "ok": true
+          },
+          {
+            "id": "way/26408210",
+            "exists": true,
+            "comparedVertices": 1133,
+            "comparedWallEndpoints": 210,
+            "maximumHorizontalDifferenceMetres": 0.0004949998110532761,
+            "maximumHeightDifferenceMetres": 0,
+            "exactHeights": true,
+            "triangleIndicesEqual": true,
+            "metadataEqual": true,
+            "genericHeightRemoved": true,
+            "ok": true
+          },
+          {
+            "id": "way/26408211",
+            "exists": true,
+            "comparedVertices": 886,
+            "comparedWallEndpoints": 184,
+            "maximumHorizontalDifferenceMetres": 0.0004980005323886871,
+            "maximumHeightDifferenceMetres": 0,
+            "exactHeights": true,
+            "triangleIndicesEqual": true,
+            "metadataEqual": true,
+            "genericHeightRemoved": true,
+            "ok": true
+          }
+        ]
+      }
+    },
+    {
+      "ok": true,
+      "message": "Renderer roof conversion keeps upward winding, exact top heights and the supported partial wall inventory",
+      "details": [
+        {
+          "id": "way/26408210",
+          "triangles": 2105,
+          "walls": 105,
+          "upwardTriangles": 2105,
+          "finiteWalls": true,
+          "wallTopsExact": true
+        },
+        {
+          "id": "way/26408211",
+          "triangles": 1633,
+          "walls": 92,
+          "upwardTriangles": 1633,
+          "finiteWalls": true,
+          "wallTopsExact": true
+        },
+        {
+          "id": "way/32262169",
+          "triangles": 523,
+          "walls": 64,
+          "upwardTriangles": 523,
+          "finiteWalls": true,
+          "wallTopsExact": true
+        },
+        {
+          "id": "way/32262176",
+          "triangles": 1192,
+          "walls": 100,
+          "upwardTriangles": 1192,
+          "finiteWalls": true,
+          "wallTopsExact": true
+        },
+        {
+          "id": "way/32262183",
+          "triangles": 1616,
+          "walls": 103,
+          "upwardTriangles": 1616,
+          "finiteWalls": true,
+          "wallTopsExact": true
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "message": "No uncaught browser exceptions",
+      "details": []
+    },
+    {
+      "ok": true,
+      "message": "Browser loaded the final published course and ground manifest identities"
+    },
+    {
+      "ok": true,
+      "message": "Browser loaded every final measured stand chunk identity without individual records",
+      "details": {
+        "expectedStandBytes": 580917,
+        "loadedBytes": 580917,
+        "chunks": 64
+      }
+    },
+    {
+      "ok": true,
+      "message": "Requested graphics backend is active",
+      "details": {
+        "expected": "webgpu",
+        "actual": "webgpu"
+      }
+    },
+    {
+      "ok": true,
+      "message": "Measured v2 terrain is active"
+    },
+    {
+      "ok": true,
+      "message": "Runtime mesh resolution is 1 metre"
+    },
+    {
+      "ok": true,
+      "message": "100 source-grid probes preserve RH2000 within centimetre quantization",
+      "details": {
+        "probes": 100,
+        "maxHeightErrorMetres": 0.004797134399414205
+      }
+    },
+    {
+      "ok": true,
+      "message": "All seven source water polygons retain their exact LM RH2000 levels",
+      "details": [
+        {
+          "id": "lm-658-67-water-14-part-1",
+          "matchMethod": "EPSG3006 local ring bounds (pack omits IDs)",
+          "boundsErrorMetres": 0,
+          "expectedRH2000": 0.1,
+          "runtimeLevel": 0.1,
+          "difference": 0
+        },
+        {
+          "id": "lm-658-67-water-14-part-2",
+          "matchMethod": "EPSG3006 local ring bounds (pack omits IDs)",
+          "boundsErrorMetres": 0,
+          "expectedRH2000": 0.1,
+          "runtimeLevel": 0.1,
+          "difference": 0
+        },
+        {
+          "id": "lm-658-67-water-14-part-3",
+          "matchMethod": "EPSG3006 local ring bounds (pack omits IDs)",
+          "boundsErrorMetres": 0,
+          "expectedRH2000": 0.1,
+          "runtimeLevel": 0.1,
+          "difference": 0
+        },
+        {
+          "id": "lm-658-67-water-44-part-1",
+          "matchMethod": "EPSG3006 local ring bounds (pack omits IDs)",
+          "boundsErrorMetres": 0,
+          "expectedRH2000": 4.72,
+          "runtimeLevel": 4.72,
+          "difference": 0
+        },
+        {
+          "id": "lm-658-67-water-45-part-1",
+          "matchMethod": "EPSG3006 local ring bounds (pack omits IDs)",
+          "boundsErrorMetres": 0,
+          "expectedRH2000": 14.05,
+          "runtimeLevel": 14.05,
+          "difference": 0
+        },
+        {
+          "id": "lm-658-67-water-46-part-1",
+          "matchMethod": "EPSG3006 local ring bounds (pack omits IDs)",
+          "boundsErrorMetres": 0,
+          "expectedRH2000": 22.35,
+          "runtimeLevel": 22.35,
+          "difference": 0
+        },
+        {
+          "id": "lm-658-67-water-47-part-1",
+          "matchMethod": "EPSG3006 local ring bounds (pack omits IDs)",
+          "boundsErrorMetres": 0,
+          "expectedRH2000": 26.02,
+          "runtimeLevel": 26.02,
+          "difference": 0
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "message": "No inferred flat-water field or carved water bed is active"
+    },
+    {
+      "ok": true,
+      "message": "Measured stand fields cover all 64 finest terrain tiles, including void cells"
+    },
+    {
+      "ok": true,
+      "message": "Legacy vegetation does not leak into measured coverage"
+    },
+    {
+      "ok": true,
+      "message": "No individual tree records are rendered"
+    },
+    {
+      "ok": true,
+      "message": "Every rendered tree is a representative derived from measured stand cells"
+    },
+    {
+      "ok": true,
+      "message": "Loaded browser pack preserves every measured roof vertex, RH2000 height, triangle and supported wall endpoint exactly",
+      "details": [
+        {
+          "id": "way/32262176",
+          "exists": true,
+          "comparedVertices": 669,
+          "comparedWallEndpoints": 200,
+          "maximumHorizontalDifferenceMetres": 0,
+          "maximumHeightDifferenceMetres": 0,
+          "exactHeights": true,
+          "triangleIndicesEqual": true,
+          "metadataEqual": true,
+          "genericHeightRemoved": true,
+          "ok": true
+        },
+        {
+          "id": "way/32262169",
+          "exists": true,
+          "comparedVertices": 303,
+          "comparedWallEndpoints": 128,
+          "maximumHorizontalDifferenceMetres": 0,
+          "maximumHeightDifferenceMetres": 0,
+          "exactHeights": true,
+          "triangleIndicesEqual": true,
+          "metadataEqual": true,
+          "genericHeightRemoved": true,
+          "ok": true
+        },
+        {
+          "id": "way/32262183",
+          "exists": true,
+          "comparedVertices": 890,
+          "comparedWallEndpoints": 206,
+          "maximumHorizontalDifferenceMetres": 0,
+          "maximumHeightDifferenceMetres": 0,
+          "exactHeights": true,
+          "triangleIndicesEqual": true,
+          "metadataEqual": true,
+          "genericHeightRemoved": true,
+          "ok": true
+        },
+        {
+          "id": "way/26408210",
+          "exists": true,
+          "comparedVertices": 1133,
+          "comparedWallEndpoints": 210,
+          "maximumHorizontalDifferenceMetres": 0,
+          "maximumHeightDifferenceMetres": 0,
+          "exactHeights": true,
+          "triangleIndicesEqual": true,
+          "metadataEqual": true,
+          "genericHeightRemoved": true,
+          "ok": true
+        },
+        {
+          "id": "way/26408211",
+          "exists": true,
+          "comparedVertices": 886,
+          "comparedWallEndpoints": 184,
+          "maximumHorizontalDifferenceMetres": 0,
+          "maximumHeightDifferenceMetres": 0,
+          "exactHeights": true,
+          "triangleIndicesEqual": true,
+          "metadataEqual": true,
+          "genericHeightRemoved": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "message": "Five measured roofs render 7069 triangles while the generic path renders only the other eligible buildings",
+      "details": {
+        "measuredBuildings": 5,
+        "measuredTriangles": 7069,
+        "genericBuildings": 557,
+        "expectedGenericBuildings": 557
+      }
+    }
+  ],
+  "vegetation": {
+    "coverageTiles": 64,
+    "loadedRecords": 0,
+    "renderedStandRepresentatives": 46115,
+    "renderedIndividualTrees": 0,
+    "legacyInsideCoverage": 0
+  },
+  "roofs": {
+    "measuredBuildings": 5,
+    "measuredTriangles": 7069,
+    "genericBuildings": 557,
+    "expectedGenericBuildings": 557,
+    "sourceTotals": {
+      "buildings": 5,
+      "vertices": 3881,
+      "triangles": 7069,
+      "wallSegments": 464
+    },
+    "browserChecks": [
+      {
+        "id": "way/32262176",
+        "exists": true,
+        "comparedVertices": 669,
+        "comparedWallEndpoints": 200,
+        "maximumHorizontalDifferenceMetres": 0,
+        "maximumHeightDifferenceMetres": 0,
+        "exactHeights": true,
+        "triangleIndicesEqual": true,
+        "metadataEqual": true,
+        "genericHeightRemoved": true,
+        "ok": true
+      },
+      {
+        "id": "way/32262169",
+        "exists": true,
+        "comparedVertices": 303,
+        "comparedWallEndpoints": 128,
+        "maximumHorizontalDifferenceMetres": 0,
+        "maximumHeightDifferenceMetres": 0,
+        "exactHeights": true,
+        "triangleIndicesEqual": true,
+        "metadataEqual": true,
+        "genericHeightRemoved": true,
+        "ok": true
+      },
+      {
+        "id": "way/32262183",
+        "exists": true,
+        "comparedVertices": 890,
+        "comparedWallEndpoints": 206,
+        "maximumHorizontalDifferenceMetres": 0,
+        "maximumHeightDifferenceMetres": 0,
+        "exactHeights": true,
+        "triangleIndicesEqual": true,
+        "metadataEqual": true,
+        "genericHeightRemoved": true,
+        "ok": true
+      },
+      {
+        "id": "way/26408210",
+        "exists": true,
+        "comparedVertices": 1133,
+        "comparedWallEndpoints": 210,
+        "maximumHorizontalDifferenceMetres": 0,
+        "maximumHeightDifferenceMetres": 0,
+        "exactHeights": true,
+        "triangleIndicesEqual": true,
+        "metadataEqual": true,
+        "genericHeightRemoved": true,
+        "ok": true
+      },
+      {
+        "id": "way/26408211",
+        "exists": true,
+        "comparedVertices": 886,
+        "comparedWallEndpoints": 184,
+        "maximumHorizontalDifferenceMetres": 0,
+        "maximumHeightDifferenceMetres": 0,
+        "exactHeights": true,
+        "triangleIndicesEqual": true,
+        "metadataEqual": true,
+        "genericHeightRemoved": true,
+        "ok": true
+      }
+    ]
+  },
+  "screenshots": [
+    "lidingobuild/cache/review/lidingo-measured-runtime-overview.png",
+    "lidingobuild/cache/review/lidingo-measured-runtime-hole-7.png",
+    "lidingobuild/cache/review/lidingo-measured-runtime-hole-12.png",
+    "lidingobuild/cache/review/lidingo-measured-runtime-hole-18.png"
+  ],
+  "detailedReport": "lidingobuild/cache/review/lidingo-measured-runtime.json",
+  "limitations": [
+    "These checks prove source preservation and rendering provenance, not independent survey accuracy or current tree presence.",
+    "Rendered trees are stand representatives from 2021 canopy measurements; no measured stem positions are claimed.",
+    "The source-ground water level has no bathymetry. No physical depth is inferred.",
+    "The clubhouse and northern facility roofs remain partial source-supported meshes; unsupported roof areas and wall segments are omitted."
+  ]
+}

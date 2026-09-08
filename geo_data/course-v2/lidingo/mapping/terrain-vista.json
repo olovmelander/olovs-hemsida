@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "state": "acquired-background-terrain-candidate",
+  "acquiredAt": "2026-09-07T20:01:27.923Z",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "compoundCrs": "EPSG:5845",
+  "lattice": {
+    "width": 257,
+    "height": 257,
+    "originEasting": 673604.5,
+    "originNorthing": 6590495.5,
+    "sampleSpacingMetres": 32
+  },
+  "bounds": {
+    "minEasting": 673604.5,
+    "maxEasting": 681796.5,
+    "minNorthing": 6582303.5,
+    "maxNorthing": 6590495.5
+  },
+  "raster": {
+    "path": "lidingobuild/cache/terrain-vista/terrain-vista.f32",
+    "format": "row-major little-endian Float32, north-up",
+    "bytes": 264196,
+    "sha256": "d287f250e20617ffd8f21d33bbcd367f6bd09122653569967851afa3db1692cc"
+  },
+  "sources": [
+    {
+      "id": "658_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m658_67.tif",
+      "stacUrl": "https://api.lantmateriet.se/stac-hojd/v1/collections/dtm-cog/items/658_67",
+      "stacResponseSha256": "e2beec5173cedfe982f1a7567dba0870b66ecf954982f21f707ca1e2e0eb2db4",
+      "advertisedChecksum": "122093ee63ed933290d8c60f1037e72ea4151bfa0318f2d5cd62e2c65e541c98d407",
+      "sourceBbox": [
+        17.98777943595573,
+        59.320358631755006,
+        18.17159292518451,
+        59.414181278360466
+      ],
+      "sourceCapture": "2023-04-27T00:00:00Z",
+      "etag": "\"2e0334a2009e8128061059185cee1af9\"",
+      "sourceBytes": 258114060,
+      "overviewFactor": 32,
+      "overviewPixelScaleMetres": [
+        32,
+        32
+      ],
+      "sourceWindow": {
+        "column0": 112,
+        "row0": 0,
+        "columns": 201,
+        "rows": 242
+      },
+      "transfer": {
+        "requests": 2,
+        "bytes": 336829
+      }
+    },
+    {
+      "id": "658_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m658_68.tif",
+      "stacUrl": "https://api.lantmateriet.se/stac-hojd/v1/collections/dtm-cog/items/658_68",
+      "stacResponseSha256": "aafa6e440cf5c56446d65168929d69d44d91742a133eb526ae9aa81c122d6859",
+      "advertisedChecksum": "122092e37c1d1ca10bc2523a5a585fed6f0d37bb53e21b20a3599d106e41ac3bf129",
+      "sourceBbox": [
+        18.163229146820388,
+        59.31597893387153,
+        18.347452694272967,
+        59.41002275903112
+      ],
+      "sourceCapture": "2023-04-27T00:00:00Z",
+      "etag": "\"f8d5fb4ef5402d27c2f3abd36e429cd9\"",
+      "sourceBytes": 221414918,
+      "overviewFactor": 32,
+      "overviewPixelScaleMetres": [
+        32,
+        32
+      ],
+      "sourceWindow": {
+        "column0": 0,
+        "row0": 0,
+        "columns": 57,
+        "rows": 242
+      },
+      "transfer": {
+        "requests": 2,
+        "bytes": 304994
+      }
+    },
+    {
+      "id": "659_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_67.tif",
+      "stacUrl": "https://api.lantmateriet.se/stac-hojd/v1/collections/dtm-cog/items/659_67",
+      "stacResponseSha256": "76f90ed2da53f088555c77f3ba6f84e29f10d580b706575e4d2578dbc27c9713",
+      "advertisedChecksum": "1220e7c33c09104322b07013b8140b1091b8069020f504a687fab6c9a85281d43fd7",
+      "sourceBbox": [
+        17.99568105390193,
+        59.41002275903112,
+        18.180008806627974,
+        59.503858257516946
+      ],
+      "sourceCapture": "2023-04-27T00:00:00Z",
+      "etag": "\"dd2fc0a638727c1d165a5c0c4e5843e7\"",
+      "sourceBytes": 272835442,
+      "overviewFactor": 32,
+      "overviewPixelScaleMetres": [
+        32,
+        32
+      ],
+      "sourceWindow": {
+        "column0": 112,
+        "row0": 296,
+        "columns": 201,
+        "rows": 17
+      },
+      "transfer": {
+        "requests": 2,
+        "bytes": 332216
+      }
+    },
+    {
+      "id": "659_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_68.tif",
+      "stacUrl": "https://api.lantmateriet.se/stac-hojd/v1/collections/dtm-cog/items/659_68",
+      "stacResponseSha256": "f72cc517bf541f0a89d08d7cdd9aa0bac0416bb07139f7cbde1569a58966a26d",
+      "advertisedChecksum": "122085dad09567def3cbd4176c593a0ed318e8b03c36b819c80785461f5475df0a8f",
+      "sourceBbox": [
+        18.17159292518451,
+        59.40562748402562,
+        18.35633314513788,
+        59.499684918499334
+      ],
+      "sourceCapture": "2023-05-03T12:00:00Z",
+      "etag": "\"20a06d493b64eb20a0a2af31b60d2687\"",
+      "sourceBytes": 286050432,
+      "overviewFactor": 32,
+      "overviewPixelScaleMetres": [
+        32,
+        32
+      ],
+      "sourceWindow": {
+        "column0": 0,
+        "row0": 296,
+        "columns": 57,
+        "rows": 17
+      },
+      "transfer": {
+        "requests": 2,
+        "bytes": 353189
+      }
+    }
+  ],
+  "samples": {
+    "total": 66049,
+    "finite": 66049,
+    "minimumHeightRH2000": 0.05000235140323639,
+    "maximumHeightRH2000": 67.06786346435547
+  },
+  "method": "Bilinear sampling of factor-32 COG overviews onto a 32 m lattice aligned to the finest ground sample-centre lattice; edge sampling clamped inside each source item.",
+  "licence": "CC-BY-4.0",
+  "attribution": "Markhojdmodell Nedladdning, © Lantmateriet, processed information, CC BY 4.0.",
+  "durationMilliseconds": 1696,
+  "limitations": [
+    "Background terrain only; fine playing terrain is not replaced.",
+    "Coarse overviews average shores and local relief; no independent local accuracy claim.",
+    "No missing samples, procedural sea fill or unknown heights substituted.",
+    "Adjacent 10 km source seams require runtime terrain/ring review."
+  ]
+}
