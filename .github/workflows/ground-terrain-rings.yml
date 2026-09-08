@@ -191,10 +191,10 @@ jobs:
           # from the checksums pinned beside them. Re-pinning them here would
           # assert that Visby's current bytes are correct, which nobody in this
           # run has checked, so they are left for whoever is working on Visby.
-          cat > /tmp/tolerated <<'EOF'
-all registered physical-ground manifests and committed checksums validate
-Visby published compatibility pack preserves canonical observed geometry and all official card values
-EOF
+          printf '%s\n' \
+            'all registered physical-ground manifests and committed checksums validate' \
+            'Visby published compatibility pack preserves canonical observed geometry and all official card values' \
+            > /tmp/tolerated
           pnpm test 2>&1 | tee /tmp/test.log || true
           grep -E '^not ok [0-9]+ - ' /tmp/test.log | sed -E 's/^not ok [0-9]+ - //' | sort -u > /tmp/failed || true
           if [ -s /tmp/failed ]; then
