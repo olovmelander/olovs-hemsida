@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { readPack, inflateStream } from '../packages/course-pack/lib.mjs';
 import { centroid, decodeHF, pointInPoly, polyLen } from '../geobuild/lib.mjs';
-import { teeMarks, vistaLandcover } from './build-course.mjs';
+import { holeNotes, teeMarks, vistaLandcover } from './build-course.mjs';
 import { runtimeWater } from '../packages/course-pack/runtime-water.mjs';
 import { assertVisbyCanonicalRouting, visbyRuntimeContract } from '../packages/course-v2/compile-visby-ground-graph.mjs';
 import { VISBY_V2_CONFIG } from '../apps/golf/src/engine/v2-visby-config.mjs';
@@ -119,6 +119,20 @@ test('Visby published compatibility pack preserves canonical observed geometry a
     assert.equal(points, row.planGroupSizesBackToFront.length,
       `hole ${row.hole} must stand its tees at as many places as its own plan draws`);
   }
+  /* ALL EIGHTEEN HOLES SHOWED THE SAME DISCLAIMER where every other course
+     shows a description of the hole -- `note` is the line a player reads under
+     the hole number. There is no club-authored text to use (Caddee's per-hole
+     description field is present and empty on all 18), so the hålguide is
+     written from records that do exist and each hole says which in its `basis`.
+     Re-derived here through the generator's own rule so the two cannot drift,
+     and `name` stays null on every hole: this ground does not coin epithets,
+     and the HUD's own "Hål N" is true. */
+  const guide = json('./guide-notes.json');
+  const notes = holeNotes(guide);
+  for (const hole of model.holes) assert.equal(hole.note, notes.get(hole.n).note);
+  assert.equal(new Set(model.holes.map(hole => hole.note)).size, 18);
+  assert.ok(model.holes.every(hole => hole.name === null));
+  assert.equal(guide.holes.filter(hole => hole.press).length, 3, 'only holes 2, 6 and 11 have published prose');
   assert.equal(model.evidence.terrainModifiedForPlayingSurfaces, false);
   assert.equal(model.evidence.canonicalOriginApproval, 'pending-independent-control');
 });

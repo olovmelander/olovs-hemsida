@@ -148,6 +148,40 @@ export function vistaLandcover(collection) {
   return { vegetation, landuse };
 }
 
+/* THE HUD SHOWED THE SAME DISCLAIMER ON ALL EIGHTEEN HOLES.
+
+   `note` is the line a player actually reads under the hole number, and every
+   other course here fills it with a description of that hole. Visby filled all
+   eighteen with one provenance sentence, because there is no club-authored text
+   to fill it with: visbygk.com publishes none, and its guide vendor Caddee has
+   a per-hole description field that is present and EMPTY on all eighteen.
+
+   `guide-notes.json` is what that gap is filled with instead, and it is filled
+   from records rather than from invention: the model's own geometry as
+   `tools/hole-geometry.mjs` reports it (bends, sides, rises, bunkers and water
+   from the PLAYER's view), the club's Lokala regler where they name a hole, and
+   the one published per-hole prose that exists anywhere -- three holes in
+   Svensk Golf nr 6/2021, quoted verbatim and attributed to the magazine, never
+   to the club. Each hole carries the `basis` it was written from, so a reader
+   can check the sentence against the record.
+
+   `name` stays null on every hole. Other builds carry an editorial tagline
+   there and the HUD shows it as the hole's name; on a ground whose whole policy
+   is that a gap is recorded as a gap, "Hål 7" is the true answer and a coined
+   epithet is not. */
+export function holeNotes(guide) {
+  if (guide?.schemaVersion !== 1 || !Array.isArray(guide.holes) || guide.holes.length !== 18) throw new Error('Visby guide notes need schemaVersion 1 and all 18 holes');
+  const byHole = new Map();
+  for (const [index, hole] of guide.holes.entries()) {
+    if (hole.n !== index + 1) throw new Error(`Visby guide notes are out of order at ${hole.n}`);
+    if (typeof hole.note !== 'string' || hole.note.trim().length < 20) throw new Error(`Hole ${hole.n} guide note is missing or too short to be a description`);
+    if (hole.name !== null) throw new Error(`Hole ${hole.n} may not carry an invented hole name on this ground`);
+    if (typeof hole.basis !== 'string' || !hole.basis.trim()) throw new Error(`Hole ${hole.n} guide note must say what it was written from`);
+    byHole.set(hole.n, hole);
+  }
+  return byHole;
+}
+
 function interiorCentre(ring, label) {
   const centre = centroid(ring);
   if (!pointInPoly(...centre, ring)) throw new Error(`${label}: centroid is outside its ring; provide an explicit interior reference`);
@@ -165,7 +199,7 @@ export function makeHeightSampler(fine) {
   };
 }
 
-export function buildHoles(card, geometry, heightAt) {
+export function buildHoles(card, geometry, heightAt, notes = null) {
   if (geometry?.groundId !== 'visby' || geometry.courseSlug !== 'visby' || geometry.horizontalCrs !== 'EPSG:3006' ||
       JSON.stringify(geometry.axisOrder) !== JSON.stringify(['easting', 'northing'])) throw new Error('Visby geometry requires its declared ground, course and EPSG:3006 axis order');
   if (card.holes?.length !== 18 || geometry.holes?.length !== 18 ||
@@ -210,7 +244,9 @@ export function buildHoles(card, geometry, heightAt) {
       tees: { inferPads: false, pads, marks, ...(unresolvedPlatform ? { status: 'unresolved-physical-platform', sourceIds: input.tees.sourceIds } : {}) },
       bunkers: (input.bunkers ?? []).map((bunker, number) => ({ ring: localRing(bunker.ring, `Hole ${row.number} bunker ${number + 1}`), sourceIds: bunker.sourceIds ?? [] })),
       elev: { tee: r1(teeHeight), green: r1(greenHeight), rise: r1(greenHeight - teeHeight) }, tiers: 1, name: null,
-      note: (input.notes ?? 'Preliminär 3D-bana från källunderlag. Terräng: Lantmäteriet 1 m. Spelytor och hålrutter behöver fortsatt kontroll. Flaggor och utslagsreferenser är visningspunkter.') + (unresolvedPlatform ? ' Hål 12: utslagsplatsen är ännu inte identifierad. Flygningen startar ungefärligt på observerad fairway.' : ''),
+      note: notes?.get(row.number)?.note
+        ?? (input.notes ?? 'Preliminär 3D-bana från källunderlag. Terräng: Lantmäteriet 1 m. Spelytor och hålrutter behöver fortsatt kontroll. Flaggor och utslagsreferenser är visningspunkter.')
+          + (unresolvedPlatform ? ' Hål 12: utslagsplatsen är ännu inte identifierad. Flygningen startar ungefärligt på observerad fairway.' : ''),
       sourceIds: input.sourceIds ?? [], confidence: 'source-derived-candidate-not-surveyed', pinStatus: 'virtual-green-target; daily flag location unknown' };
   });
   if (holes.reduce((sum, h) => sum + h.par, 0) !== card.par || card.par !== 72) throw new Error('Visby card par must reconcile to 72');
@@ -232,7 +268,7 @@ export async function buildCourse() {
   const heightAt = makeHeightSampler(fine);
   const card = await json('visbybuild/reference/club-scorecard.json');
   const geometry = await json('visbybuild/mapping/geometry.json');
-  const holes = buildHoles(card, geometry, heightAt);
+  const holes = buildHoles(card, geometry, heightAt, holeNotes(await json('visbybuild/guide-notes.json')));
   const context = projectedFeatures(await json(geometry.contextPath ?? 'geo_data/course-v2/visby/mapping/osm-context-epsg3006.geojson'), 'Visby context');
   const { vegetation, landuse } = vistaLandcover(await json(geometry.vistaLandcoverPath ?? 'geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson'));
   const infra = { paths: [], tracks: [], roads: [], buildings: [], farB: [], parking: [], piers: [], basins: [], pitches: [], landuse, reserves: [], power: { lines: [], towers: [], poles: [] }, railway: [], objectPlacement: 'mapped-only', bridgePlacement: 'mapped-only', vegetationPlacement: 'measured-only', terrainPlacement: 'measured-only', preserveMappedBoundaries: true };
