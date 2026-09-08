@@ -1,0 +1,453 @@
+{
+  "schemaVersion": 1,
+  "reviewedOn": "2026-09-08",
+  "state": "measurement-evidence-only",
+  "generator": "lidingobuild/mapping/review-golftraxx-survey.mjs",
+  "survey": {
+    "path": "geo_data/lidingo_clean.json",
+    "sha256": "a5ff0ce053ef6149ecfbf0da5a008c32d6513120655beb55652c99888e2a944d",
+    "provider": "GolfTraxx",
+    "courseId": "18130SW",
+    "courseName": "Lidingö Golfklubb",
+    "listedAddress": "Trolldalsvägen 2, Lidingö",
+    "layoutUrl": "https://golftraxx.com/full-layout?coursename=Liding%C3%B6+Golfklubb&zipcode=18130SW&city=Liding%C3%B6&state=SW&static=true",
+    "directoryUrl": "https://golftraxx.com/courses-by-state?state=SW&static=true",
+    "retrievedOn": "2026-09-08",
+    "extractor": "geo_data/golftraxx_extract.py",
+    "holes": 18,
+    "points": 90,
+    "rights": "Third-party published hole geometry. Retained as measurement evidence and per-hole anchors; it is not a club survey and carries no stated accuracy."
+  },
+  "comparedAgainst": [
+    {
+      "path": "lidingobuild/card.json",
+      "sha256": "4dd110547fe6427e11b199e4f33e5d8572ff2e5f15d03070a2572eef70253868",
+      "role": "official card; never entered the survey"
+    },
+    {
+      "path": "lidingobuild/mapping/playing-surfaces.geojson",
+      "sha256": "d5309cbfefbfc8f498be15100156a1ca99fe49442d61c56d89abd0f5d48f9f29",
+      "role": "observed playing surfaces; never entered the survey"
+    }
+  ],
+  "projection": {
+    "method": "packages/course-geo/chmv2/projection.mjs (Krüger series on GRS 80)",
+    "note": "Used to MEASURE residuals in EPSG:3006 only. No published coordinate is produced here; PROJ remains the authority for the migration."
+  },
+  "identityCheck": {
+    "question": "Do the survey holes whose Tee Target equals their back tee reproduce the card's par 3s?",
+    "surveyTeeEqualsTargetHoles": [
+      1,
+      3,
+      6,
+      9,
+      11,
+      16
+    ],
+    "cardPar3Holes": [
+      1,
+      3,
+      6,
+      9,
+      11,
+      16
+    ],
+    "agrees": true,
+    "note": "A survey hole with no separate landing target is a par 3. Six of six agree with the card, with no false positive, so the hole numbering of the extraction is confirmed by a record the extraction never read."
+  },
+  "greenRegistration": {
+    "question": "Does each Green Center land on that hole's observed green?",
+    "holesMatchingObservedGreenHole": 18,
+    "holesContainedByObservedGreen": 16,
+    "medianDistanceToCentroidMetres": 5.25,
+    "maxDistanceToCentroidMetres": 18.6,
+    "medianOffsetEastingMetres": 1.59,
+    "medianOffsetNorthingMetres": -2.58,
+    "medianOffsetMagnitudeMetres": 5.24,
+    "decision": "The median offset is far smaller than the scatter, so this is a SCATTER result and not a measured bias. No shift is applied to either record.",
+    "holes": [
+      {
+        "hole": 1,
+        "nearestObservedGreenHole": 1,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 2.75,
+        "offsetEastingMetres": 1.76,
+        "offsetNorthingMetres": -2.12,
+        "observedGreenSourceFeatureId": null,
+        "observedGreenMethod": "manual-image-boundary-digitization",
+        "observedGreenAreaSquareMetres": 572.5
+      },
+      {
+        "hole": 2,
+        "nearestObservedGreenHole": 2,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 6.85,
+        "offsetEastingMetres": 0.78,
+        "offsetNorthingMetres": -6.8,
+        "observedGreenSourceFeatureId": "way/143591667",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 421.8
+      },
+      {
+        "hole": 3,
+        "nearestObservedGreenHole": 3,
+        "matchesHole": true,
+        "containedByObservedGreen": false,
+        "distanceToCentroidMetres": 13.18,
+        "offsetEastingMetres": 4.82,
+        "offsetNorthingMetres": -12.27,
+        "observedGreenSourceFeatureId": null,
+        "observedGreenMethod": "manual-image-boundary-digitization",
+        "observedGreenAreaSquareMetres": 398.7
+      },
+      {
+        "hole": 4,
+        "nearestObservedGreenHole": 4,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 5.87,
+        "offsetEastingMetres": 1.59,
+        "offsetNorthingMetres": -5.64,
+        "observedGreenSourceFeatureId": "way/296422990",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 414.1
+      },
+      {
+        "hole": 5,
+        "nearestObservedGreenHole": 5,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 1.43,
+        "offsetEastingMetres": 1.26,
+        "offsetNorthingMetres": -0.68,
+        "observedGreenSourceFeatureId": "way/296422971",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 499.6
+      },
+      {
+        "hole": 6,
+        "nearestObservedGreenHole": 6,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 0.64,
+        "offsetEastingMetres": -0.48,
+        "offsetNorthingMetres": 0.41,
+        "observedGreenSourceFeatureId": null,
+        "observedGreenMethod": "manual-image-boundary-digitization",
+        "observedGreenAreaSquareMetres": 535.9
+      },
+      {
+        "hole": 7,
+        "nearestObservedGreenHole": 7,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 4.77,
+        "offsetEastingMetres": 3.38,
+        "offsetNorthingMetres": 3.37,
+        "observedGreenSourceFeatureId": null,
+        "observedGreenMethod": "manual-image-boundary-digitization",
+        "observedGreenAreaSquareMetres": 411.9
+      },
+      {
+        "hole": 8,
+        "nearestObservedGreenHole": 8,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 10.05,
+        "offsetEastingMetres": 2.35,
+        "offsetNorthingMetres": 9.77,
+        "observedGreenSourceFeatureId": "way/296422974",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 355.3
+      },
+      {
+        "hole": 9,
+        "nearestObservedGreenHole": 9,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 9.27,
+        "offsetEastingMetres": -7.09,
+        "offsetNorthingMetres": -5.97,
+        "observedGreenSourceFeatureId": "way/143587585",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 326.8
+      },
+      {
+        "hole": 10,
+        "nearestObservedGreenHole": 10,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 5.51,
+        "offsetEastingMetres": 4.5,
+        "offsetNorthingMetres": -3.17,
+        "observedGreenSourceFeatureId": null,
+        "observedGreenMethod": "manual-image-boundary-digitization",
+        "observedGreenAreaSquareMetres": 625.9
+      },
+      {
+        "hole": 11,
+        "nearestObservedGreenHole": 11,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 4.98,
+        "offsetEastingMetres": -3.94,
+        "offsetNorthingMetres": -3.05,
+        "observedGreenSourceFeatureId": "way/427429853",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 555.8
+      },
+      {
+        "hole": 12,
+        "nearestObservedGreenHole": 12,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 11.77,
+        "offsetEastingMetres": -3.68,
+        "offsetNorthingMetres": -11.18,
+        "observedGreenSourceFeatureId": null,
+        "observedGreenMethod": "manual-image-boundary-digitization",
+        "observedGreenAreaSquareMetres": 324.6
+      },
+      {
+        "hole": 13,
+        "nearestObservedGreenHole": 13,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 4.94,
+        "offsetEastingMetres": -2.76,
+        "offsetNorthingMetres": 4.1,
+        "observedGreenSourceFeatureId": "way/221846967",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 544.2
+      },
+      {
+        "hole": 14,
+        "nearestObservedGreenHole": 14,
+        "matchesHole": true,
+        "containedByObservedGreen": false,
+        "distanceToCentroidMetres": 18.6,
+        "offsetEastingMetres": 8.93,
+        "offsetNorthingMetres": -16.31,
+        "observedGreenSourceFeatureId": null,
+        "observedGreenMethod": "manual-image-boundary-digitization",
+        "observedGreenAreaSquareMetres": 390.9
+      },
+      {
+        "hole": 15,
+        "nearestObservedGreenHole": 15,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 3.33,
+        "offsetEastingMetres": 1.2,
+        "offsetNorthingMetres": 3.11,
+        "observedGreenSourceFeatureId": "way/331796643",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 707.4
+      },
+      {
+        "hole": 16,
+        "nearestObservedGreenHole": 16,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 7.05,
+        "offsetEastingMetres": 2.05,
+        "offsetNorthingMetres": 6.74,
+        "observedGreenSourceFeatureId": "way/427426825",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 561.7
+      },
+      {
+        "hole": 17,
+        "nearestObservedGreenHole": 17,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 2.12,
+        "offsetEastingMetres": 1.59,
+        "offsetNorthingMetres": -1.4,
+        "observedGreenSourceFeatureId": "way/427426867",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 780.2
+      },
+      {
+        "hole": 18,
+        "nearestObservedGreenHole": 18,
+        "matchesHole": true,
+        "containedByObservedGreen": true,
+        "distanceToCentroidMetres": 4.22,
+        "offsetEastingMetres": 2.53,
+        "offsetNorthingMetres": -3.37,
+        "observedGreenSourceFeatureId": "way/296423010",
+        "observedGreenMethod": "unchanged-osm-source-ring",
+        "observedGreenAreaSquareMetres": 742.1
+      }
+    ]
+  },
+  "routeScale": {
+    "question": "Does the survey's own tee-to-green route reproduce the card length?",
+    "medianRatioToCard": 0.9165,
+    "minRatioToCard": 0.9148,
+    "maxRatioToCard": 0.9186,
+    "metresPerYard": 0.9144,
+    "finding": "Every hole but the first measures a near-constant fraction of its card length, and that fraction is the yard. The survey's route lengths were laid out so that the metric card number reads as YARDS — the same defect Ribbingsfors measured in this provider.",
+    "consequence": "The back-tee points are DERIVED, not surveyed, and are never adopted as tee positions. Observed tee pads remain the only tee geometry. The survey contributes green centres and the hole axis.",
+    "holes": [
+      {
+        "hole": 1,
+        "par": 3,
+        "cardBackTeeMetres": 162,
+        "surveyRouteMetres": 171.9,
+        "ratioToCard": 1.0613,
+        "surveyRouteAsYards": 188
+      },
+      {
+        "hole": 2,
+        "par": 5,
+        "cardBackTeeMetres": 498,
+        "surveyRouteMetres": 456.1,
+        "ratioToCard": 0.9159,
+        "surveyRouteAsYards": 498.8
+      },
+      {
+        "hole": 3,
+        "par": 3,
+        "cardBackTeeMetres": 196,
+        "surveyRouteMetres": 179.6,
+        "ratioToCard": 0.9165,
+        "surveyRouteAsYards": 196.4
+      },
+      {
+        "hole": 4,
+        "par": 4,
+        "cardBackTeeMetres": 395,
+        "surveyRouteMetres": 361.3,
+        "ratioToCard": 0.9148,
+        "surveyRouteAsYards": 395.2
+      },
+      {
+        "hole": 5,
+        "par": 4,
+        "cardBackTeeMetres": 262,
+        "surveyRouteMetres": 239.7,
+        "ratioToCard": 0.9149,
+        "surveyRouteAsYards": 262.1
+      },
+      {
+        "hole": 6,
+        "par": 3,
+        "cardBackTeeMetres": 188,
+        "surveyRouteMetres": 172.1,
+        "ratioToCard": 0.9156,
+        "surveyRouteAsYards": 188.2
+      },
+      {
+        "hole": 7,
+        "par": 4,
+        "cardBackTeeMetres": 351,
+        "surveyRouteMetres": 322,
+        "ratioToCard": 0.9175,
+        "surveyRouteAsYards": 352.2
+      },
+      {
+        "hole": 8,
+        "par": 4,
+        "cardBackTeeMetres": 356,
+        "surveyRouteMetres": 326.6,
+        "ratioToCard": 0.9175,
+        "surveyRouteAsYards": 357.2
+      },
+      {
+        "hole": 9,
+        "par": 3,
+        "cardBackTeeMetres": 161,
+        "surveyRouteMetres": 147.6,
+        "ratioToCard": 0.9165,
+        "surveyRouteAsYards": 161.4
+      },
+      {
+        "hole": 10,
+        "par": 5,
+        "cardBackTeeMetres": 492,
+        "surveyRouteMetres": 450.5,
+        "ratioToCard": 0.9157,
+        "surveyRouteAsYards": 492.7
+      },
+      {
+        "hole": 11,
+        "par": 3,
+        "cardBackTeeMetres": 134,
+        "surveyRouteMetres": 123.1,
+        "ratioToCard": 0.9183,
+        "surveyRouteAsYards": 134.6
+      },
+      {
+        "hole": 12,
+        "par": 5,
+        "cardBackTeeMetres": 470,
+        "surveyRouteMetres": 430.4,
+        "ratioToCard": 0.9158,
+        "surveyRouteAsYards": 470.7
+      },
+      {
+        "hole": 13,
+        "par": 4,
+        "cardBackTeeMetres": 343,
+        "surveyRouteMetres": 314.7,
+        "ratioToCard": 0.9175,
+        "surveyRouteAsYards": 344.2
+      },
+      {
+        "hole": 14,
+        "par": 4,
+        "cardBackTeeMetres": 325,
+        "surveyRouteMetres": 298.5,
+        "ratioToCard": 0.9186,
+        "surveyRouteAsYards": 326.5
+      },
+      {
+        "hole": 15,
+        "par": 4,
+        "cardBackTeeMetres": 377,
+        "surveyRouteMetres": 345.2,
+        "ratioToCard": 0.9157,
+        "surveyRouteAsYards": 377.5
+      },
+      {
+        "hole": 16,
+        "par": 3,
+        "cardBackTeeMetres": 194,
+        "surveyRouteMetres": 177.7,
+        "ratioToCard": 0.9159,
+        "surveyRouteAsYards": 194.3
+      },
+      {
+        "hole": 17,
+        "par": 5,
+        "cardBackTeeMetres": 449,
+        "surveyRouteMetres": 411.7,
+        "ratioToCard": 0.917,
+        "surveyRouteAsYards": 450.3
+      },
+      {
+        "hole": 18,
+        "par": 4,
+        "cardBackTeeMetres": 433,
+        "surveyRouteMetres": 397,
+        "ratioToCard": 0.9169,
+        "surveyRouteAsYards": 434.2
+      }
+    ]
+  },
+  "adoption": {
+    "adopted": [
+      "Green Center as the per-hole anchor for associating observed surfaces to holes"
+    ],
+    "refused": [
+      "TheTipsTee Back Reach as a tee position (derived; carries the yards defect)",
+      "Tee Target as a surveyed landing point (it is the same derived construction)",
+      "Green Front/Back as a green outline (they bracket the green complex, not the putting surface)"
+    ],
+    "note": "Adopting an anchor is not adopting geometry. Observed polygons keep their own vertices."
+  }
+}
