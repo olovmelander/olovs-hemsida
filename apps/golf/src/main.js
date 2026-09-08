@@ -94,7 +94,6 @@ import {
   V2_GRAPH_RENDERER_GATE,
   V2_OBJECT_LAYER_GATE,
 } from './engine/v2-terrain-select.mjs';
-import { gridOriginEpsg3006 } from './engine/v2-frontier-configs.mjs';
 import { V2TerrainLiveAdapter } from './engine/v2-terrain-live-adapter.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 
@@ -285,7 +284,7 @@ if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
       source: TERRAIN_PREVIEW,
       courseSlug: CMETA.slug,
       baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
-      legacyOriginEpsg3006: gridOriginEpsg3006(TERRAIN_PREVIEW_CONFIG),
+      legacyOriginEpsg3006: TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,
     });
     try {
       const ringStarted = performance.now();

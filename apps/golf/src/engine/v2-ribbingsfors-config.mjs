@@ -22,6 +22,22 @@ export const RIBBINGSFORS_V2_CONFIG = Object.freeze({
     northing: 6536024.5,
     heightRH2000: 69.14,
   }),
+  /* THE EPSG:3006 COORDINATES OF LOCAL (0, 0), which every consumer of a
+     published tile needs: a tile states its bounds in the grid and the engine
+     draws in local metres, x = easting - origin.easting and z =
+     origin.northing - northing. On a pack authored in the older flat-earth
+     frame this is a SEPARATE point from the canonical grid origin -- 6 m apart
+     at Norrfällsviken, 313 m at Upsala, 460 m at Veckefjärden. This pack is
+     authored directly in the grid, so the two are the same point by
+     construction and the numbers are written once, above.
+
+     It is declared rather than inferred because inference is what broke: the
+     frontier loader fell back to `canonicalOrigin` for a bridge like this one
+     and the ring adapter's caller did not, so the first grid-authored ground
+     to get a ring graph threw `legacyOriginEpsg3006.easting must be finite`,
+     its v2 source failed, and the flagless visit fell back to GPK1 in silence
+     while every data gate passed. */
+  legacyOriginEpsg3006: Object.freeze({ easting: 448975.5, northing: 6536024.5 }),
   packOriginWgs84: Object.freeze({
     latitude: 58.9607905493,
     longitude: 14.1128725388,
