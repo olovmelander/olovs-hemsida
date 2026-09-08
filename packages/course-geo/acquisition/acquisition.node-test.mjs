@@ -350,6 +350,15 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
     // Lidingö's first source-derived model adds 18 holes, 25 distinct ground
     // windows and 86 requested references, measured from the frozen polygons.
     // Visby adds 94 references; Lidingo remains at 25 windows / 86 references.
+    /* UNCHANGED by Lidingö's 2026-09-08 model rebuild, and that is the finding
+       rather than an omission: the rebuild added eight measured tee decks and a
+       green bunker on the 13th, and MEASURED against the rebuilt migration every
+       one of them falls inside a 256 m window this plan already requested - the
+       per-hole reference counts are identical hole for hole (4 6 2 6 6 4 6 4 2
+       6 2 8 3 6 6 3 6 6). What the rebuild did move is the migration's own
+       checksum, which is a THIRD registry away in hole-source-controls.mjs and
+       is what the run actually failed on. Measure before re-pinning: a count
+       that does not move is worth knowing. */
     requestedWindowReferences: 891,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,

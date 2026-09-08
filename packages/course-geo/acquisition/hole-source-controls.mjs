@@ -24,7 +24,7 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
   visby: '17946a0470be6d03169159572b19c276098d485a4af6f700cb7ba3fa2cdf98a4',
-  lidingo: 'bffda03d0ee5cf0056d22e5e4262adc8016ed8f0b4a79fc766d2cf0db536cf74',
+  lidingo: '35c59339a04db91748be4abecc9376c8733374ebf1823c8316362be4a12cf984',
   angso: '6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
   /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the
