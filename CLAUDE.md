@@ -3117,6 +3117,20 @@ turned up things worth keeping:
   163,954 base points omitted), read the runbook way off the assertion's
   own "got" line.
 
+**Upsala and Mellanbanan carry NO ground cover, and it may be on purpose.**
+main.js's tuft/bush/stone scatter is gated on
+`M.infra.objectPlacement !== 'mapped-only'`, which these two declare, so they
+plant none — measured against the same build with the clause lifted, 5,723
+tufts, 1,091 bushes and 241 stones. The block's own comment justifies it
+("Source-only placement cannot turn unmapped rough into bushes or boulders"),
+and the clause predates the Visby work — it arrived with `7426f03`, the Mellan
+mapping commit — so this is recorded as a QUESTION for the owner rather than
+fixed: `objectPlacement` governs mapped OBJECTS (buildings, benches, bridges)
+while ground cover is vegetation, and the semantically matching flag would be
+`vegetationPlacement`, which Upsala does not declare at all. Changing it alters
+the appearance of two shipped courses on a judgement that is not the renderer's
+to make.
+
 ### Upsala's reviewed buildings and facilities — and the coordinate that must not travel
 
 `upsalabuild/mapping/` carries the dated-orthophoto review — the municipal
@@ -4330,6 +4344,19 @@ is a manifest field, so none of the three checksum registries move.
   covered · backend preflight passed*, no page error, and
   `check-course-v2 --course visby` green on all ten including *published
   vegetation layers verify, load and plant*.
+- **A SUPERLATIVE IN PROSE IS A CLAIM ABOUT THE CARD, AND NOTHING GATES IT.**
+  The hålguide's 9th read *"Kortets lättaste hål"* while the card gives that
+  hole index 17 and the 10th index 18 — so the HUD printed "Par 4 · Index 17"
+  and "the card's easiest hole" in two panels of the same card, at the same
+  time, on a real club's course. The front nine carries the odd indexes, so 17
+  is the easiest of THOSE, which is what the sentence should have said. Every
+  numeric gate passed: `check:visby` 33/33, the source-manifest gate, the pack
+  byte-identity — because prose is not a number and nothing compares the two.
+  All five superlatives in the file were then checked against the card by
+  hand: the 3rd IS the longest (525 m against 516 and 482), the 8th IS index 1,
+  the 15th IS index 2, and only the 9th was wrong. **Check a superlative
+  against the column it quotes** — the file's own convention had it right twice
+  and wrong once, which is what made it findable at all.
 - **AND THE FIRST FIX FOR IT TURNED `main` RED, which is the more general
   lesson.** The obvious repair was one shared helper imported by both callers.
   That promoted `v2-frontier-configs.mjs` from a module rolldown INLINES into
