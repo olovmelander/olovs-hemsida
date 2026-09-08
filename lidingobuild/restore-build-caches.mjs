@@ -85,19 +85,39 @@ const steps = {
         }
         return;
       }
-      differences.push({ at, reviewed: a, fresh: b, volatile: at.split('.').some(part => VOLATILE.has(part)) });
+      /* Three kinds, and only one of them is a source having moved.
+         VOLATILE: a clock, a transfer counter, an origin's own cache token.
+         ADDED: a field the acquisition tool has GROWN since this record was
+           written - reviewed has nothing to disagree with, so there is nothing
+           to check, and refusing it would only mean the record can never be
+           refreshed. It is adopted and printed, and from the next run on it is
+           an ordinary field that must match.
+         MATERIAL: a value that CHANGED or a field that DISAPPEARED. That is the
+           window or its sources differing, and it fails. */
+      const volatile = at.split('.').some(part => VOLATILE.has(part));
+      const added = a === undefined && b !== undefined;
+      differences.push({ at, reviewed: a, fresh: b, kind: volatile ? 'volatile' : added ? 'added' : 'material' });
     };
-    walk(record, readJson(file), '');
-    const material = differences.filter(d => !d.volatile);
-    for (const d of differences.filter(d => d.volatile)) {
-      process.stdout.write(`    tolerated: ${d.at} ${JSON.stringify(d.reviewed)} -> ${JSON.stringify(d.fresh)}\n`);
+    const fresh = readJson(file);
+    walk(record, fresh, '');
+    for (const d of differences.filter(d => d.kind !== 'material')) {
+      process.stdout.write(`    ${d.kind}: ${d.at} ${JSON.stringify(d.reviewed)} -> ${JSON.stringify(d.fresh)}\n`);
     }
+    const material = differences.filter(d => d.kind === 'material');
     if (material.length) {
       throw new Error(`${file}: the re-acquisition describes a different window than the reviewed record:\n`
         + material.map(d => `    ${d.at}: reviewed ${JSON.stringify(d.reviewed)}, got ${JSON.stringify(d.fresh)}`).join('\n'));
     }
-    fs.writeFileSync(path.join(ROOT, file), reviewed);
-    process.stdout.write('  terrain window: the reviewed record restored (only its clocks differed)\n');
+    /* Keep the FRESH record - it is a superset - but put the reviewed values
+       back over the volatile fields, so a re-run that changed nothing real
+       leaves the file byte-identical and the ledger quiet. */
+    const at = (root, dotted) => dotted.split('.').slice(0, -1).reduce((node, key) => node?.[key], root);
+    for (const d of differences.filter(d => d.kind === 'volatile')) {
+      const parent = at(fresh, d.at);
+      if (parent) parent[d.at.split('.').pop()] = d.reviewed;
+    }
+    fs.writeFileSync(path.join(ROOT, file), JSON.stringify(fresh, null, 2) + '\n');
+    process.stdout.write('  terrain window: reviewed values restored over the volatile fields\n');
   },
   /* The acquirer rewrites the committed record with a new acquiredAt and
      durationMilliseconds, and build-course compares that record by STRICT

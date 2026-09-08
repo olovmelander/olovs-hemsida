@@ -49,6 +49,12 @@ const base = 'geo_data/course-v2/lidingo/';
 artifact('municipal-imagery-primary-licence', 'acquisition', base + 'mapping/municipal-ortho-2019-licence.json', ['imagery-municipal-2019'], 'Primary CC0 licence evidence for exact 2019 endpoint; does not license the separate public national orthophoto view.');
 artifact('water-breakgeometry-clipped', 'topography', base + 'mapping/water-breakgeometry-epsg3006.geojson', ['water-breaks-lm-1m'], 'Source-clipped 3D water polygons, topology and levels preserved.');
 artifact('water-breakgeometry-review', 'control', base + 'mapping/water-breakgeometry-review.json', ['water-breaks-lm-1m'], 'Source SHA, topology, height and acquisition-edge audit; not independent survey approval.');
+/* The 1 m window's own record. It was pinned once and never re-pinned, because
+   nothing registered it - so a re-acquisition, which rewrites its clocks, failed
+   the checksum gate. The guard against a source actually moving is
+   restore-build-caches, which compares this record field by field against the
+   committed one; this is only the bookkeeping. */
+artifact('terrain-window-acquisition', 'acquisition', base + 'acquisition/terrain-window.json', ['terrain-lm-1m'], 'Exact 1 m lattice, source ETag/bytes, range-read measurements, local Float32 hash and height range. Raw raster is ignored and is not a published v2 graph.');
 artifact('terrain-vista-acquisition', 'acquisition', base + 'mapping/terrain-vista.json', ['terrain-lm-1m'], 'Four source items, 257×257 samples at 32 m over the 8192 m context extent; byte identities and no-data checks.');
 artifact('canopy-raster-acquisition', 'canopy', base + 'vegetation/canopy-evidence.json', ['laser-lm-skog', 'terrain-lm-1m'], '2021 campaign-constrained point-cloud rasters with explicit voids, density, transfer and DTM ground comparison.');
 artifact('canopy-stand-compilation', 'canopy', base + 'vegetation/stand-evidence.json', ['laser-lm-skog', ...lineage], 'Measured 4 m stand fields and semantic exclusions; no individual-tree registry or stem survey.');

@@ -58,3 +58,12 @@ attempt4: the new check worked and it fired - and it proved the thing that
   measured directly by the raster hash) from anything material, printing every
   tolerated difference so a source that really moved is visible rather than
   absorbed. Volatile is NAMED, not widened until it passes.
+attempt: 6
+attempt5: the named differ worked and told us exactly what it was. Tolerated:
+  acquiredOn and transfer.elapsedMilliseconds. Material: two fields the reviewed
+  record does not have at all - sourceItems[].sourceExtent and .sourceRaster,
+  which build-terrain-window has GROWN since that record was written. That is a
+  tool getting more descriptive, not a source moving, and reviewed has nothing
+  to disagree with. The check now separates ADDED from MATERIAL: an addition is
+  adopted and printed, a changed or DISAPPEARED field still fails. And the
+  ledger registers the record at last, so it is re-pinned like everything else.
