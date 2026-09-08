@@ -86,6 +86,29 @@ identities, while recording the 18 serialized card entries. The nine-hole tee
 count differs between the club golf and course pages; this does not affect the
 verified main-course card and remains unresolved for future nine-hole intake.
 
+### The card and hole 1 have a dated expiry, announced by the club
+
+The club published [**Renovering av hål 1**](https://www.visbygk.com/nyheter/renovering-av-hal-1/)
+on **2026-08-13**: a major rebuild of the first hole starts in **late October
+2026**, is to be finished before Christmas, and the new hole is planned to open
+for play in **spring 2027**. What the club says will change: tee 46/41 lowered
+for sight of the green from the back tee and a new tee 41 built; the green made
+larger and longer for more pin positions; **the right bunker removed and two new
+ones built to the left**; no bunkers left on the way to the green; larger
+foregreen and run-offs, plus a re-made old tee for playing over the bay on hole
+2, mown in with the first's foregreen; and new irrigation over every close-mown
+surface.
+
+So this model shows hole 1 as it stands in **autumn 2026**, which is what it is
+built from, and it goes out of date in spring 2027 — the same kind of dated
+expiry Norrfällsviken's card carries. Nothing is changed for it here; a model
+must show the ground that exists.
+
+The same text is also **independent corroboration** of the model's hole 1, from a
+record that never entered it: the club writes of *the* right bunker, singular,
+and the model carries exactly one bunker right of that hole (R10 m at 21 m to
+green) beside one left (L15 m at 16 m).
+
 ## Diagrams, coordinates and geographic review
 
 The Caddee overview was visually inspected. Blue numbers identify the eighteen;
