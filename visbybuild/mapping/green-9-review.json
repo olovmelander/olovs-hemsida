@@ -1,0 +1,37 @@
+{
+  "reviewedFor": "visby",
+  "hole": 9,
+  "question": "Where is hole 9's putting surface? The model's traced ring is an area outlier and its centroid disagrees with the GolfTraxx survey by 48 m.",
+  "finding": "The model's green-9 ring is a green COMPLEX read as one shape: it takes in the approach south of the putting surface. Its centroid therefore falls on the apron rather than on the green.",
+  "status": "measured, not corrected -- a re-trace is a measurement, not an edit, and is left as the next step with the instrument now built",
+  "records": [
+    {
+      "record": "the model's own traced ring",
+      "measurement": "1670 m2, 48 x 79 m, centroid local (-543.0, 162.0)",
+      "reading": "the fifteen greens the GolfTraxx survey agrees with measure 308..528 m2. Hole 9's ring is 3.2x the largest of them and nearly 80 m long, which no putting surface on this course is."
+    },
+    {
+      "record": "the club's card against the traced corridor",
+      "measurement": "the modelled line runs 375.1 m against a card 334 m, +12.3%",
+      "reading": "the only hole of the eighteen whose modelled line exceeds its card, which a played line cannot do: the played length is measured along the playing line, so a corridor polyline to the real green can never be longer. Retargeted onto the survey's green centre it becomes -7.9%, inside the -5.7..-17.0% band the fifteen agreed holes occupy."
+    },
+    {
+      "record": "the GolfTraxx GPS survey",
+      "measurement": "green centre local (-529.4, 116.4)",
+      "reading": "48.15 m from the model's centroid, while agreeing with the other fifteen at a median 2.09 m and a maximum 3.24 m."
+    },
+    {
+      "record": "Lantmateriet 0.16 m orthophoto, flown 2026-04-10",
+      "measurement": "visbybuild/cache/crops/ortho-green9.png, 200 m window at native 0.16 m",
+      "reading": "the two greenside bunkers flank the NORTHERN part of the ring; their midpoint is near local (-535, 133). Early-spring turf flattens the mow contrast, so the collar is legible but the putting-surface edge is not traceable from this frame alone."
+    },
+    {
+      "record": "Region Gotland 0.25 m orthophoto, summer capture labelled 2022",
+      "measurement": "visbybuild/cache/crops/ortho-green9-summer.png, same window",
+      "reading": "leaf-on and mown: a distinctly darker, uniformly mown oval runs roughly local x -556..-511, z 106..144, centred near (-533, 125). The model's ring continues about 40 m south of it over ground that reads as paler approach. This is the frame that separates the putting surface from the complex."
+    }
+  ],
+  "convergence": "Four records that never entered each other put the putting surface north of the model's centroid: the survey at (-529, 116), the bunker midpoint at (-535, 133), the summer mow oval centred near (-533, 125). They agree within 18 m of each other and disagree with the model's (-543, 162) by 30..48 m.",
+  "nextStep": "Re-trace the ring on the summer capture with the same rule the other greens were traced by, then re-run visbybuild/mapping/golftraxx-review.mjs: hole 9 should move from modelRecordDisputed into the agreed set. Do not hand-place it; the tools are visbybuild/ortho-crop.mjs (--gotland for the summer frame) and visbybuild/sat-crop.mjs.",
+  "caveat": "Neither orthophoto is approved control. The 0.16 m frame is served by Lantmateriet's public viewing service and its derivative terms are unresolved; the Gotland capture's terms are likewise open. Both are used here as tracing and review evidence and neither is redistributed."
+}

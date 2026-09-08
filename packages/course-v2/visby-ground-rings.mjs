@@ -103,18 +103,32 @@ export const VISBY_GROUND_RINGS = Object.freeze({
      whose own holes run along the beach. RH 2000 is referenced to mean sea
      level, so the surface out there is known rather than missing.
 
-     EXPECT THE FIRST ACQUIRE RUN TO REFUSE, and do not pre-empt it. The
-     western component's boundary is the west edge of the published items, a
-     straight line at E 685000 that runs through open water at this latitude
-     and through low shore further along it, so the inherited 3 m ceiling is
-     the threshold most likely to fail -- and on an island whose whole west
-     coast lies between 0 and 11 m it is also the test carrying the least
-     discriminating power here. The median and the fraction are what separate
-     a hole in the sea from a lost land square on this ground, because
-     Gotland's interior rises tens of metres above either. Let fillSeaHoles
-     print the component's own median, fraction and highest boundary sample,
-     then set all three thresholds from THOSE numbers with the run quoted
-     beside them.
+     MEASURED by acquire run 34203277715 (2026-09-08), which read all seven
+     levels in 25 s and left EVERY sample of every level finite:
+
+       lod  spacing  heights RH 2000     sea fill
+        0    1 m     0.101 .. 11.013     none
+        1    2 m     0.101 .. 10.967     none
+        2    4 m     0.180 .. 19.191     1 component, 18.83%
+        3    8 m     0.002 .. 58.157     1 component, 39.71%
+        4   16 m     0.004 .. 58.089     1 component, 39.71%
+        5   32 m     0.013 .. 57.723     1 component, 39.79%
+        6   64 m     0.025 .. 57.649     1 component, 39.90%
+
+     One component per level, and it is the Baltic: its boundary median is
+     0.230 m RH 2000 at EVERY level, which is exactly the height of the sea
+     plateau inside the course window measured independently from the
+     published ground (8,766,382 of 16,785,409 samples at 0.230 m). Its
+     boundary maximum is 0.230 m at lod 2 and 0.290 m at lod 3 and coarser,
+     its water fraction 1.000 and then 0.836-0.839, and it is filled with
+     0.230 m -- its own boundary's median, which is the sea's own level.
+
+     The inherited 3 m ceiling was expected to refuse and did not: the west
+     edge of the published items really is open water along its whole length,
+     0.29 m at worst. So the thresholds below are this ground's own now, set
+     from those numbers with stated headroom rather than carried from another
+     coast, and every one of them is far below Gotland's interior at 58 m --
+     which is the thing a lost LAND square would have to sneak past.
 
      What must NOT be relaxed is the discriminator. A component is filled only
      if it is bounded by water in the middle (MEDIAN, which a few mixed shore
@@ -135,14 +149,33 @@ export const VISBY_GROUND_RINGS = Object.freeze({
      instrument: do not relax the rule to get past it, and never relax
      coverageGate.requireEverySampleFinite instead. */
   seaFill: Object.freeze({
-    reason: 'Markhöjdmodell does not tile the open Baltic west of Gotland -- the whole *_67 column is unpublished and both coastal items are clipped to the shore; RH 2000 is referenced to mean sea level',
-    boundaryWaterHeightRH2000: 0.25,
-    boundaryMedianMaximumHeightRH2000: 0.25,
+    reason: 'Markhöjdmodell does not tile the open Baltic west of Gotland -- run 34203277715 confirmed both 636_67 and 637_67 answer 404 while all four of their eastern neighbours answer 200, and both coastal items are clipped 5,000 m off their west edge; RH 2000 is referenced to mean sea level',
+    /* the sea plateau reads 0.230 m; this counts a boundary sample as water */
+    boundaryWaterHeightRH2000: 0.35,
+    /* THE discriminator. Measured 0.230 m at every level, against Gotland's
+       interior at 58 m. The 0.25 m carried from Norrfällsviken passed with two
+       centimetres to spare, which is too little to survive a re-fly; 0.5 m is
+       still two orders of magnitude below anything that is not sea. */
+    boundaryMedianMaximumHeightRH2000: 0.5,
+    /* measured 1.000 at lod 2 and 0.836-0.839 at lod 3 and coarser */
     boundaryWaterMinimumFraction: 0.75,
-    boundaryMaximumHeightRH2000: 3,
-    /* measured 37.40% at the 16 km root; the cap catches a lost delivery, the
-       boundary tests catch a lost land square */
+    /* measured 0.230 m at lod 2 and 0.290 m at lod 3 and coarser. Tightened
+       from the inherited 3 m, which was Norrfällsviken's measurement on a
+       coast that rises to 90 m inside its course window; this one does not
+       rise above 11 m inside its own, so a ceiling that loose gates nothing. */
+    boundaryMaximumHeightRH2000: 1,
+    /* measured 39.90% at the coarsest level; the cap catches a lost delivery,
+       the boundary tests catch a lost land square */
     maximumFilledFraction: 0.5,
-    provenance: 'boundary thresholds measured at Norrfällsviken on the same datum; the fill fraction measured here by exact intersection of the items\' own published proj:bbox extents, pending the acquire run\'s exact per-level numbers',
+    provenance: 'every threshold measured on this ground by acquire run 34203277715 (2026-09-08); no value here is carried from another coast',
   }),
+  /* BOTH COASTAL ITEMS STOP THEIR OVERVIEW CHAIN AT 16x. 636_68 and 637_68
+     publish factors 1,2,4,8,16 while the inland 636_69 and 637_69 reach 32, so
+     levels 5 and 6 -- which ask for 32 -- fall back over the coastal items to
+     the finest coarser overview available and resample. That is the
+     substitution build-ground-rings already carries and the reason it carries
+     it; the acquisition evidence records the factor each item actually served
+     per level (5:16 and 6:16 against 5:32 and 6:32), so it is visible rather
+     than discovered later from a soft horizon. Both items are also cropped:
+     636_68 by 5,000 m west and 5,000 m south, 637_68 by 5,000 m west. */
 });
