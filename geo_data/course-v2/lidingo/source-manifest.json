@@ -883,6 +883,76 @@
       ],
       "use": "discovery-evidence",
       "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
+    },
+    {
+      "id": "golftraxx-survey",
+      "kind": "control",
+      "path": "geo_data/lidingo_clean.json",
+      "sha256": "a5ff0ce053ef6149ecfbf0da5a008c32d6513120655beb55652c99888e2a944d",
+      "derivedFrom": [
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Third-party published GolfTraxx hole geometry for course 18130SW, 18 holes x 5 points. Its Green Center points are adopted as a per-hole ANCHOR only; its tee points are refused, because every hole but the first measures 0.915-0.919 of its card length and that fraction is the yard."
+    },
+    {
+      "id": "golftraxx-survey-review",
+      "kind": "control",
+      "path": "lidingobuild/mapping/golftraxx-survey-review.json",
+      "sha256": "439aed9766639d8e720f196f647a64c2ac5c07cd5d4d2d0a1731f233da26f502",
+      "derivedFrom": [
+        "club-scorecard",
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "The survey measured against two records it never saw: the card (its six no-target holes are exactly the six par 3s) and the observed greens (all 18 centres on the right hole, 16 strictly inside, median 5.25 m). The median offset is far smaller than the scatter, so no shift is applied to either record."
+    },
+    {
+      "id": "ground-rings-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/acquisition/ground-rings.json",
+      "sha256": "dde9863f63ad5eec867b8f0427f1b945d9076062f62f65319a7801494b37feb0",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Seven nested Markhojdmodell ring levels to a 16,384 m root, read by authenticated range request. Level 0 reproduces all 64 published 1 m tiles to 0.005 m. Every sample of every level is finite and no sea fill has anything to justify: Markhojdmodell tiles the Baltic here with real depth, reaching -10.157 m."
+    },
+    {
+      "id": "laser-campaign-inventory",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/lidingo/acquisition/laser-campaigns.json",
+      "sha256": "25b377315c604d5bbbfe4a63f2f8b83cdfea82f9fd7fe6af3a90684797c28933",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pinned Laserdata Skog inventory: one campaign 21c031-658_67 captured 2021-03-23, 217,740,127 points at 2.156 returns/m2, exclusive over the AOI with no seam. Skogsstyrelsen calls it Terrain Mapper Omdrev 2 and LEAF-OFF, which under-detects deciduous crowns on a park course."
+    },
+    {
+      "id": "ortho-colour-calibration",
+      "kind": "control",
+      "path": "lidingobuild/mapping/ortho-calibration.json",
+      "sha256": "6e8f8b4ea208f319be454234c1f2c7bd09a67faaec353338c9c62e8c966f6fc5",
+      "derivedFrom": [
+        "imagery-municipal-2019",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Colour classes measured on THIS course, on features mapped without reference to them: sand luminance 140 against turf 89-100 and wood 66, excess-green 19 against turf 37-41. A rule calibrated on another course is calibrated on another course s light."
+    },
+    {
+      "id": "bunker-detection-refusal",
+      "kind": "control",
+      "path": "lidingobuild/mapping/bunker-detection.json",
+      "sha256": "38af61832d8324cf5b62c921d29f77fbec32719ed1eb98f8fe0fc36d695bfa71",
+      "derivedFrom": [
+        "imagery-municipal-2019",
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "The identical sand-in-a-hollow rule run over both available captures, scored on the 40 already-mapped bunkers. It recovers 9 of 40 on the 2019 CC0 frame and 8 of 40 on a leaf-on 0.30 m one, against 8 of 9 at Angso. NOTHING IS ADOPTED; the number is recorded so the attempt is not repeated without a better capture."
     }
   ],
   "blockers": [
