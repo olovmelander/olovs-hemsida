@@ -3968,6 +3968,32 @@ recomputed when the numbers do.
   chromaticity, not the triple. Walls stay unmeasured: an ortho gives a roof and
   never a facade.
 
+### The vegetation, and three runs to publish it
+
+**2,544 machine-reviewed individuals** on 64 object tiles plus stand fields on
+all 64, published 2026-09-08 — at the third attempt. The first two compiled the
+same generation and lost it at the gates, and neither failure was in the trees:
+`build-canopy` rewrites evidence this ground pins, and `course.node-test`
+asserted the ground carries no object registries, which is true only until a
+publish succeeds. The workflow publishes BEFORE it gates, so that run failed on
+its own success.
+
+- **A vegetation publish must wait for the model under it.** `compile-vegetation`
+  builds its exclusion mask from the migration model, and Lidingö's moved the
+  same day — eight measured tee decks, a bunker on the 13th, a sea that went from
+  9.90 to 607.74 ha. Firing before the rebuild would have kept trees off ground
+  that had moved and put them on ground that had not. The published mask covers
+  1,124 features and 30.8% of cells: 562 buildings, 14 water, 35 greens, 56 tees,
+  53 bunkers. The individual count moved by exactly one between the discarded
+  runs and this one, which is the mask doing its job.
+- **Crown yield is derivable, and its comparator is not.** 2,544 individuals over
+  217.3 ha of closed canopy is **11.7 per hectare**. An earlier note put it at
+  11.5 "against 39–48 on comparable grounds"; the first was close and
+  unreproducible, and the second is not derivable from anything committed — this
+  is the only ground whose vegetation evidence records a closed-canopy cell
+  count, so no other ground's individual count can be turned into a yield. Quote
+  the yield; withdraw the comparison.
+
 ### Things this ground taught
 
 - **Tee marks are placed by searching the pad's interior, not its centroid.**

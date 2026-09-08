@@ -402,10 +402,31 @@ Two traps closed around the publish:
   `scenery.greens` empty — so the exclusion set knew about none of them and the
   planter was free to stand a tree on a putting surface.
 
-Crown yield is **11.5 individuals per canopy hectare against 39–48** on
-comparable grounds. That is pulse density, not leaf state: measured here, the
-leaf-off canopy and the leaf-on imagery agree, so Johannesberg's deciduous
-under-detection does not transfer to this ground and must not be cited for it.
+**The generation is PUBLISHED (2026-09-08, CI run 34226265268)**, at the third
+attempt: the first two compiled it and lost it at the gates, neither time for a
+reason involving the trees. **2,544 machine-reviewed individuals on 64 object
+tiles**, stand fields on all 64, objects only at lod 0, and all 276 parent links
+intact — the strip that once silently downgraded two other grounds to the fixed
+frontier. The exclusion mask was computed against the model as rebuilt earlier
+the same day, which is why it covers 1,124 features and 30.8% of cells: 562
+buildings, 14 water bodies, 35 greens, 56 tees, 53 bunkers. Waiting for that
+rebuild is why this is the third attempt and not the second.
+
+Crown yield, derived from the published generation and its own stand evidence,
+is **2,544 individuals over 217.3 ha of closed canopy = 11.7 per hectare**
+(135,823 closed-canopy cells at 4 m). An earlier draft of this section and of
+the scenery module put it at 11.5 "against 39–48 on comparable grounds"; the
+first figure was close and unreproducible, and the comparator is **not derivable
+from anything committed** — this is the only ground here whose vegetation
+evidence records a closed-canopy cell count, so the other grounds' individual
+counts cannot be turned into a yield without measuring their canopy. The
+comparison is withdrawn rather than repeated.
+
+What can be said, from the pinned inventory and the canopy evidence, is that the
+scan is thin AND leaf-off, and that both cut the same way: 2.156 all returns/m²
+over the whole 10 km item, 2.784 over the AOI this build reads at 1.24 pulses/m²,
+against Veckefjärden's 3.119 and Norrfällsviken's 3.4. Do not attribute a thin
+generation to leaf state or to density without measuring which.
 
 ## 8. Appearance
 
