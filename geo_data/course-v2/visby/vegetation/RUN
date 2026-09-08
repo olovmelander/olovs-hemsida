@@ -1,0 +1,18 @@
+publish=true
+observed_on=2026-09-08
+# publish: acquire run 34201242013 eyeballed 2026-09-08 -- 31,657 candidates ->
+# 3,012 machine-reviewed individuals on 116 object tiles, stand fields on all
+# 256, cloud ground within 0.00 m median of the published DTM on every land
+# tile, baseHeightMisses empty. The overhead shows crowns on canopy and none in
+# the corridors; hole 16's crop has the fairway, the pond and the hole line
+# crown-free, hole 9's the same. Exclusions fired on water 58, road 159,
+# building 83, fairway 49, practice 27, path 44, tee 1 -- and not one green,
+# because none was detected on one. Published AFTER the ring graph, so the
+# generation attaches to the 469-tile world rather than to the pyramid it
+# replaced.
+# re-fire 2026-09-08: run 34204613884 compiled and published the generation
+# and then lost it at the commit step -- a rebase conflict on this ground's
+# source-manifest.json, because the sea-flag commit re-pinned checksums in that
+# same file while the run was reading points. The chain is deterministic with
+# the same observed_on, so this repeats it against a settled branch. Do not push
+# to the branch while it runs.

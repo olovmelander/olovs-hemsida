@@ -1,0 +1,1472 @@
+{
+  "reviewedFor": "visby",
+  "source": "visbybuild/mapping/geometry.json scenery.bunkers, all traced from the 2022 municipal orthophoto",
+  "rule": {
+    "statement": "assigned to the hole whose green ring or fairway ring is nearest, when that is within 25 m and at least 8 m nearer than the next hole; refused when the bunker is on the separate nine, when nothing mown is in reach, or when two holes cannot be separated",
+    "nearMetres": 25,
+    "marginMetres": 8,
+    "nineMetres": 25,
+    "why": "the model's mown rings rather than its centre lines, because a bunker is placed against a green or a fairway and not against an abstract axis",
+    "doesNotMoveGeometry": true
+  },
+  "totals": {
+    "bunkers": 65,
+    "assigned": 48,
+    "refusedOnTheNine": 1,
+    "refusedNothingInReach": 14,
+    "refusedAmbiguous": 2,
+    "perHole": {
+      "1": 2,
+      "2": 3,
+      "3": 4,
+      "4": 3,
+      "5": 2,
+      "6": 4,
+      "7": 3,
+      "8": 1,
+      "9": 4,
+      "10": 2,
+      "11": 2,
+      "12": 1,
+      "13": 2,
+      "14": 2,
+      "15": 2,
+      "16": 4,
+      "17": 3,
+      "18": 4
+    }
+  },
+  "caveat": "Visby is a 27-hole property and only the eighteen is routed here, so a refusal is the expected outcome for the nine's bunkers. The model records just two of the nine's corridors, so most refused bunkers cannot be attributed to it positively either; they stay in scenery with their numbers.",
+  "bunkers": [
+    {
+      "index": 0,
+      "areaSquareMetres": 186,
+      "centroidEpsg3006": [
+        687401.96,
+        6371911.61
+      ],
+      "hole": 4,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 201.8,
+      "nearest": {
+        "hole": 4,
+        "toGreenRingMetres": 5.5,
+        "toFairwayRingMetres": 14.1
+      },
+      "runnerUp": {
+        "hole": 3,
+        "toGreenRingMetres": 244.7,
+        "toFairwayRingMetres": 207.3
+      }
+    },
+    {
+      "index": 1,
+      "areaSquareMetres": 187,
+      "centroidEpsg3006": [
+        687412.62,
+        6371882.67
+      ],
+      "hole": 4,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 180.8,
+      "nearest": {
+        "hole": 4,
+        "toGreenRingMetres": 9.8,
+        "toFairwayRingMetres": -0.8
+      },
+      "runnerUp": {
+        "hole": 3,
+        "toGreenRingMetres": 216.4,
+        "toFairwayRingMetres": 180
+      }
+    },
+    {
+      "index": 2,
+      "areaSquareMetres": 147,
+      "centroidEpsg3006": [
+        687526.57,
+        6371835.5
+      ],
+      "hole": 4,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 72.7,
+      "nearest": {
+        "hole": 4,
+        "toGreenRingMetres": 108.3,
+        "toFairwayRingMetres": -3.2
+      },
+      "runnerUp": {
+        "hole": 3,
+        "toGreenRingMetres": 111.2,
+        "toFairwayRingMetres": 69.5
+      }
+    },
+    {
+      "index": 3,
+      "areaSquareMetres": 208,
+      "centroidEpsg3006": [
+        687553.45,
+        6371736.7
+      ],
+      "hole": 3,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 34.5,
+      "nearest": {
+        "hole": 3,
+        "toGreenRingMetres": 13.6,
+        "toFairwayRingMetres": 3
+      },
+      "runnerUp": {
+        "hole": 4,
+        "toGreenRingMetres": 194,
+        "toFairwayRingMetres": 37.4
+      }
+    },
+    {
+      "index": 4,
+      "areaSquareMetres": 65,
+      "centroidEpsg3006": [
+        687573.75,
+        6371749.08
+      ],
+      "hole": 3,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 17.2,
+      "nearest": {
+        "hole": 3,
+        "toGreenRingMetres": 14.2,
+        "toFairwayRingMetres": 1.9
+      },
+      "runnerUp": {
+        "hole": 4,
+        "toGreenRingMetres": 198.5,
+        "toFairwayRingMetres": 19.1
+      }
+    },
+    {
+      "index": 5,
+      "areaSquareMetres": 24,
+      "centroidEpsg3006": [
+        687521.46,
+        6371650.5
+      ],
+      "hole": 3,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 139.8,
+      "nearest": {
+        "hole": 3,
+        "toGreenRingMetres": 76.7,
+        "toFairwayRingMetres": -10.4
+      },
+      "runnerUp": {
+        "hole": 4,
+        "toGreenRingMetres": 253,
+        "toFairwayRingMetres": 129.4
+      }
+    },
+    {
+      "index": 6,
+      "areaSquareMetres": 92,
+      "centroidEpsg3006": [
+        687455.36,
+        6371538.03
+      ],
+      "hole": 3,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 129.9,
+      "nearest": {
+        "hole": 3,
+        "toGreenRingMetres": 207.1,
+        "toFairwayRingMetres": -21.9
+      },
+      "runnerUp": {
+        "hole": 6,
+        "toGreenRingMetres": 268.2,
+        "toFairwayRingMetres": 108
+      }
+    },
+    {
+      "index": 7,
+      "areaSquareMetres": 205,
+      "centroidEpsg3006": [
+        687637.86,
+        6371515.11
+      ],
+      "hole": null,
+      "refusal": "lies on the separate nine that shares this property",
+      "onNine": true,
+      "marginMetres": 131,
+      "nearest": {
+        "hole": 3,
+        "toGreenRingMetres": 210.6,
+        "toFairwayRingMetres": 59.1
+      },
+      "runnerUp": {
+        "hole": 7,
+        "toGreenRingMetres": 190.1,
+        "toFairwayRingMetres": null
+      }
+    },
+    {
+      "index": 8,
+      "areaSquareMetres": 121,
+      "centroidEpsg3006": [
+        687331.33,
+        6371729.94
+      ],
+      "hole": 5,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 122.1,
+      "nearest": {
+        "hole": 5,
+        "toGreenRingMetres": 19.3,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 6,
+        "toGreenRingMetres": 431.8,
+        "toFairwayRingMetres": 141.3
+      }
+    },
+    {
+      "index": 9,
+      "areaSquareMetres": 193,
+      "centroidEpsg3006": [
+        687355.59,
+        6371698.25
+      ],
+      "hole": 5,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 97,
+      "nearest": {
+        "hole": 5,
+        "toGreenRingMetres": 11.7,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 6,
+        "toGreenRingMetres": 400.7,
+        "toFairwayRingMetres": 108.7
+      }
+    },
+    {
+      "index": 10,
+      "areaSquareMetres": 166,
+      "centroidEpsg3006": [
+        687304.75,
+        6371520.22
+      ],
+      "hole": 6,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 94.9,
+      "nearest": {
+        "hole": 6,
+        "toGreenRingMetres": 223.7,
+        "toFairwayRingMetres": 1.5
+      },
+      "runnerUp": {
+        "hole": 3,
+        "toGreenRingMetres": 322.4,
+        "toFairwayRingMetres": 96.4
+      }
+    },
+    {
+      "index": 11,
+      "areaSquareMetres": 187,
+      "centroidEpsg3006": [
+        687326.39,
+        6371460.14
+      ],
+      "hole": 6,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 66.4,
+      "nearest": {
+        "hole": 6,
+        "toGreenRingMetres": 162.2,
+        "toFairwayRingMetres": 2.6
+      },
+      "runnerUp": {
+        "hole": 3,
+        "toGreenRingMetres": 347.5,
+        "toFairwayRingMetres": 69
+      }
+    },
+    {
+      "index": 12,
+      "areaSquareMetres": 179,
+      "centroidEpsg3006": [
+        687322.91,
+        6371315.86
+      ],
+      "hole": 6,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 40.2,
+      "nearest": {
+        "hole": 6,
+        "toGreenRingMetres": 19.6,
+        "toFairwayRingMetres": 19.7
+      },
+      "runnerUp": {
+        "hole": 3,
+        "toGreenRingMetres": 465.8,
+        "toFairwayRingMetres": 59.8
+      }
+    },
+    {
+      "index": 13,
+      "areaSquareMetres": 72,
+      "centroidEpsg3006": [
+        687352.75,
+        6371323.3
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 30 m, hole 6)",
+      "onNine": false,
+      "marginMetres": 0.9,
+      "nearest": {
+        "hole": 6,
+        "toGreenRingMetres": 30.2,
+        "toFairwayRingMetres": 30.2
+      },
+      "runnerUp": {
+        "hole": 3,
+        "toGreenRingMetres": 444.6,
+        "toFairwayRingMetres": 31.1
+      }
+    },
+    {
+      "index": 14,
+      "areaSquareMetres": 89,
+      "centroidEpsg3006": [
+        687323.1,
+        6371285.3
+      ],
+      "hole": 6,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 38.2,
+      "nearest": {
+        "hole": 6,
+        "toGreenRingMetres": 6.3,
+        "toFairwayRingMetres": 50.2
+      },
+      "runnerUp": {
+        "hole": 2,
+        "toGreenRingMetres": 44.5,
+        "toFairwayRingMetres": 64.7
+      }
+    },
+    {
+      "index": 15,
+      "areaSquareMetres": 233,
+      "centroidEpsg3006": [
+        687354.16,
+        6371225.9
+      ],
+      "hole": 2,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 36.7,
+      "nearest": {
+        "hole": 2,
+        "toGreenRingMetres": 12.8,
+        "toFairwayRingMetres": 6.1
+      },
+      "runnerUp": {
+        "hole": 6,
+        "toGreenRingMetres": 42.7,
+        "toFairwayRingMetres": 113.6
+      }
+    },
+    {
+      "index": 16,
+      "areaSquareMetres": 200,
+      "centroidEpsg3006": [
+        687378.32,
+        6371115.56
+      ],
+      "hole": 2,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 49.3,
+      "nearest": {
+        "hole": 2,
+        "toGreenRingMetres": 109.6,
+        "toFairwayRingMetres": 2.4
+      },
+      "runnerUp": {
+        "hole": 8,
+        "toGreenRingMetres": 85.6,
+        "toFairwayRingMetres": 51.7
+      }
+    },
+    {
+      "index": 17,
+      "areaSquareMetres": 95,
+      "centroidEpsg3006": [
+        687340.5,
+        6371119.96
+      ],
+      "hole": 2,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 83.3,
+      "nearest": {
+        "hole": 2,
+        "toGreenRingMetres": 109.7,
+        "toFairwayRingMetres": 2.3
+      },
+      "runnerUp": {
+        "hole": 8,
+        "toGreenRingMetres": 93.7,
+        "toFairwayRingMetres": 85.6
+      }
+    },
+    {
+      "index": 18,
+      "areaSquareMetres": 169,
+      "centroidEpsg3006": [
+        687534.53,
+        6371344.66
+      ],
+      "hole": 7,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 91.1,
+      "nearest": {
+        "hole": 7,
+        "toGreenRingMetres": 8.7,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 8,
+        "toGreenRingMetres": 353.3,
+        "toFairwayRingMetres": 99.8
+      }
+    },
+    {
+      "index": 19,
+      "areaSquareMetres": 74,
+      "centroidEpsg3006": [
+        687568.98,
+        6371340.6
+      ],
+      "hole": 7,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 99.1,
+      "nearest": {
+        "hole": 7,
+        "toGreenRingMetres": 9.8,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 8,
+        "toGreenRingMetres": 366.6,
+        "toFairwayRingMetres": 109
+      }
+    },
+    {
+      "index": 20,
+      "areaSquareMetres": 140,
+      "centroidEpsg3006": [
+        687935.58,
+        6371413.15
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 125 m, hole 15)",
+      "onNine": false,
+      "marginMetres": 154.7,
+      "nearest": {
+        "hole": 15,
+        "toGreenRingMetres": 171.4,
+        "toFairwayRingMetres": 125
+      },
+      "runnerUp": {
+        "hole": 16,
+        "toGreenRingMetres": 592.7,
+        "toFairwayRingMetres": 279.6
+      }
+    },
+    {
+      "index": 21,
+      "areaSquareMetres": 197,
+      "centroidEpsg3006": [
+        687811.21,
+        6371321.96
+      ],
+      "hole": 15,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 158.2,
+      "nearest": {
+        "hole": 15,
+        "toGreenRingMetres": 25.1,
+        "toFairwayRingMetres": 0.1
+      },
+      "runnerUp": {
+        "hole": 16,
+        "toGreenRingMetres": 513.6,
+        "toFairwayRingMetres": 158.3
+      }
+    },
+    {
+      "index": 22,
+      "areaSquareMetres": 98,
+      "centroidEpsg3006": [
+        687896.45,
+        6371266.25
+      ],
+      "hole": 15,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 126.6,
+      "nearest": {
+        "hole": 15,
+        "toGreenRingMetres": 123.9,
+        "toFairwayRingMetres": 5
+      },
+      "runnerUp": {
+        "hole": 16,
+        "toGreenRingMetres": 446.4,
+        "toFairwayRingMetres": 131.6
+      }
+    },
+    {
+      "index": 23,
+      "areaSquareMetres": 258,
+      "centroidEpsg3006": [
+        688104.96,
+        6371210.88
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 102 m, hole 15)",
+      "onNine": false,
+      "marginMetres": 9.8,
+      "nearest": {
+        "hole": 15,
+        "toGreenRingMetres": 338.5,
+        "toFairwayRingMetres": 102.3
+      },
+      "runnerUp": {
+        "hole": 14,
+        "toGreenRingMetres": 112.1,
+        "toFairwayRingMetres": null
+      }
+    },
+    {
+      "index": 24,
+      "areaSquareMetres": 153,
+      "centroidEpsg3006": [
+        688070.75,
+        6371113.67
+      ],
+      "hole": 14,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 96.9,
+      "nearest": {
+        "hole": 14,
+        "toGreenRingMetres": 10.9,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 15,
+        "toGreenRingMetres": 349.4,
+        "toFairwayRingMetres": 107.7
+      }
+    },
+    {
+      "index": 25,
+      "areaSquareMetres": 170,
+      "centroidEpsg3006": [
+        688083.17,
+        6371075.06
+      ],
+      "hole": 14,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 135.2,
+      "nearest": {
+        "hole": 14,
+        "toGreenRingMetres": 11.1,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 15,
+        "toGreenRingMetres": 381.8,
+        "toFairwayRingMetres": 146.3
+      }
+    },
+    {
+      "index": 26,
+      "areaSquareMetres": 183,
+      "centroidEpsg3006": [
+        688113.12,
+        6371079.45
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 27 m, hole 14)",
+      "onNine": false,
+      "marginMetres": 134.3,
+      "nearest": {
+        "hole": 14,
+        "toGreenRingMetres": 27.2,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 15,
+        "toGreenRingMetres": 403.7,
+        "toFairwayRingMetres": 161.4
+      }
+    },
+    {
+      "index": 27,
+      "areaSquareMetres": 133,
+      "centroidEpsg3006": [
+        688265.22,
+        6371018.38
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 97 m, hole 13)",
+      "onNine": false,
+      "marginMetres": 93.6,
+      "nearest": {
+        "hole": 13,
+        "toGreenRingMetres": 111.7,
+        "toFairwayRingMetres": 97.4
+      },
+      "runnerUp": {
+        "hole": 14,
+        "toGreenRingMetres": 191.1,
+        "toFairwayRingMetres": null
+      }
+    },
+    {
+      "index": 28,
+      "areaSquareMetres": 128,
+      "centroidEpsg3006": [
+        688307.07,
+        6371001.3
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 83 m, hole 13)",
+      "onNine": false,
+      "marginMetres": 153.1,
+      "nearest": {
+        "hole": 13,
+        "toGreenRingMetres": 97.2,
+        "toFairwayRingMetres": 83.2
+      },
+      "runnerUp": {
+        "hole": 14,
+        "toGreenRingMetres": 236.3,
+        "toFairwayRingMetres": null
+      }
+    },
+    {
+      "index": 29,
+      "areaSquareMetres": 154,
+      "centroidEpsg3006": [
+        688285.17,
+        6370974.92
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 55 m, hole 13)",
+      "onNine": false,
+      "marginMetres": 173.5,
+      "nearest": {
+        "hole": 13,
+        "toGreenRingMetres": 67.7,
+        "toFairwayRingMetres": 54.5
+      },
+      "runnerUp": {
+        "hole": 14,
+        "toGreenRingMetres": 228.1,
+        "toFairwayRingMetres": null
+      }
+    },
+    {
+      "index": 30,
+      "areaSquareMetres": 135,
+      "centroidEpsg3006": [
+        688301.9,
+        6370957.3
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 39 m, hole 13)",
+      "onNine": false,
+      "marginMetres": 212.3,
+      "nearest": {
+        "hole": 13,
+        "toGreenRingMetres": 53.4,
+        "toFairwayRingMetres": 39.2
+      },
+      "runnerUp": {
+        "hole": 14,
+        "toGreenRingMetres": 251.4,
+        "toFairwayRingMetres": null
+      }
+    },
+    {
+      "index": 31,
+      "areaSquareMetres": 158,
+      "centroidEpsg3006": [
+        688253.13,
+        6370906.54
+      ],
+      "hole": 13,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 254.9,
+      "nearest": {
+        "hole": 13,
+        "toGreenRingMetres": 19.4,
+        "toFairwayRingMetres": -8.8
+      },
+      "runnerUp": {
+        "hole": 14,
+        "toGreenRingMetres": 246.1,
+        "toFairwayRingMetres": null
+      }
+    },
+    {
+      "index": 32,
+      "areaSquareMetres": 210,
+      "centroidEpsg3006": [
+        688278.29,
+        6370881.93
+      ],
+      "hole": 13,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 260.2,
+      "nearest": {
+        "hole": 13,
+        "toGreenRingMetres": 12.1,
+        "toFairwayRingMetres": 13.2
+      },
+      "runnerUp": {
+        "hole": 12,
+        "toGreenRingMetres": 304.6,
+        "toFairwayRingMetres": 272.2
+      }
+    },
+    {
+      "index": 33,
+      "areaSquareMetres": 64,
+      "centroidEpsg3006": [
+        687160.88,
+        6370937.63
+      ],
+      "hole": 1,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 89.4,
+      "nearest": {
+        "hole": 1,
+        "toGreenRingMetres": 8.3,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 9,
+        "toGreenRingMetres": 107.4,
+        "toFairwayRingMetres": 97.7
+      }
+    },
+    {
+      "index": 34,
+      "areaSquareMetres": 141,
+      "centroidEpsg3006": [
+        687185.62,
+        6370910.98
+      ],
+      "hole": 1,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 51.2,
+      "nearest": {
+        "hole": 1,
+        "toGreenRingMetres": 10.7,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 9,
+        "toGreenRingMetres": 72.9,
+        "toFairwayRingMetres": 61.8
+      }
+    },
+    {
+      "index": 35,
+      "areaSquareMetres": 63,
+      "centroidEpsg3006": [
+        687269.25,
+        6370881.35
+      ],
+      "hole": 9,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 95.5,
+      "nearest": {
+        "hole": 9,
+        "toGreenRingMetres": 49.8,
+        "toFairwayRingMetres": 2.3
+      },
+      "runnerUp": {
+        "hole": 1,
+        "toGreenRingMetres": 97.8,
+        "toFairwayRingMetres": null
+      }
+    },
+    {
+      "index": 36,
+      "areaSquareMetres": 138,
+      "centroidEpsg3006": [
+        687223.25,
+        6370858.56
+      ],
+      "hole": 9,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 77.5,
+      "nearest": {
+        "hole": 9,
+        "toGreenRingMetres": 10.9,
+        "toFairwayRingMetres": -2.7
+      },
+      "runnerUp": {
+        "hole": 1,
+        "toGreenRingMetres": 74.8,
+        "toFairwayRingMetres": null
+      }
+    },
+    {
+      "index": 37,
+      "areaSquareMetres": 75,
+      "centroidEpsg3006": [
+        687202.57,
+        6370811.93
+      ],
+      "hole": 9,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 119.4,
+      "nearest": {
+        "hole": 9,
+        "toGreenRingMetres": -12.2,
+        "toFairwayRingMetres": -12.2
+      },
+      "runnerUp": {
+        "hole": 1,
+        "toGreenRingMetres": 107.2,
+        "toFairwayRingMetres": null
+      }
+    },
+    {
+      "index": 38,
+      "areaSquareMetres": 140,
+      "centroidEpsg3006": [
+        687232.32,
+        6370829.15
+      ],
+      "hole": 9,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 95.6,
+      "nearest": {
+        "hole": 9,
+        "toGreenRingMetres": 7,
+        "toFairwayRingMetres": 2.2
+      },
+      "runnerUp": {
+        "hole": 10,
+        "toGreenRingMetres": 509.4,
+        "toFairwayRingMetres": 97.8
+      }
+    },
+    {
+      "index": 39,
+      "areaSquareMetres": 202,
+      "centroidEpsg3006": [
+        687573.25,
+        6370724.82
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 29 m, hole 18)",
+      "onNine": false,
+      "marginMetres": 9.1,
+      "nearest": {
+        "hole": 18,
+        "toGreenRingMetres": 241.3,
+        "toFairwayRingMetres": 28.5
+      },
+      "runnerUp": {
+        "hole": 10,
+        "toGreenRingMetres": 153.1,
+        "toFairwayRingMetres": 37.6
+      }
+    },
+    {
+      "index": 40,
+      "areaSquareMetres": 312,
+      "centroidEpsg3006": [
+        687604.41,
+        6370737.23
+      ],
+      "hole": 10,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 30.1,
+      "nearest": {
+        "hole": 10,
+        "toGreenRingMetres": 127.2,
+        "toFairwayRingMetres": 15.4
+      },
+      "runnerUp": {
+        "hole": 18,
+        "toGreenRingMetres": 274.4,
+        "toFairwayRingMetres": 45.5
+      }
+    },
+    {
+      "index": 41,
+      "areaSquareMetres": 170,
+      "centroidEpsg3006": [
+        687780.57,
+        6371151.46
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 28 m, hole 16)",
+      "onNine": false,
+      "marginMetres": 114.3,
+      "nearest": {
+        "hole": 16,
+        "toGreenRingMetres": 359.9,
+        "toFairwayRingMetres": 27.6
+      },
+      "runnerUp": {
+        "hole": 15,
+        "toGreenRingMetres": 149.6,
+        "toFairwayRingMetres": 141.8
+      }
+    },
+    {
+      "index": 42,
+      "areaSquareMetres": 152,
+      "centroidEpsg3006": [
+        687779.83,
+        6371060.71
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 88 m, hole 16)",
+      "onNine": false,
+      "marginMetres": 137.3,
+      "nearest": {
+        "hole": 16,
+        "toGreenRingMetres": 278.7,
+        "toFairwayRingMetres": 88
+      },
+      "runnerUp": {
+        "hole": 12,
+        "toGreenRingMetres": 225.3,
+        "toFairwayRingMetres": 231.1
+      }
+    },
+    {
+      "index": 43,
+      "areaSquareMetres": 192,
+      "centroidEpsg3006": [
+        687918.8,
+        6371061.88
+      ],
+      "hole": 16,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 135.4,
+      "nearest": {
+        "hole": 16,
+        "toGreenRingMetres": 241.3,
+        "toFairwayRingMetres": 6.4
+      },
+      "runnerUp": {
+        "hole": 12,
+        "toGreenRingMetres": 143.2,
+        "toFairwayRingMetres": 141.8
+      }
+    },
+    {
+      "index": 44,
+      "areaSquareMetres": 39,
+      "centroidEpsg3006": [
+        687928.04,
+        6370989.39
+      ],
+      "hole": 16,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 70.5,
+      "nearest": {
+        "hole": 16,
+        "toGreenRingMetres": 168.9,
+        "toFairwayRingMetres": 2.6
+      },
+      "runnerUp": {
+        "hole": 12,
+        "toGreenRingMetres": 73.7,
+        "toFairwayRingMetres": 73.1
+      }
+    },
+    {
+      "index": 45,
+      "areaSquareMetres": 90,
+      "centroidEpsg3006": [
+        687942.72,
+        6370904.1
+      ],
+      "hole": null,
+      "refusal": "holes 12 and 16 are only 3.7 m apart in reach",
+      "onNine": false,
+      "marginMetres": 3.7,
+      "nearest": {
+        "hole": 12,
+        "toGreenRingMetres": 9.3,
+        "toFairwayRingMetres": 12.1
+      },
+      "runnerUp": {
+        "hole": 16,
+        "toGreenRingMetres": 85.3,
+        "toFairwayRingMetres": 13
+      }
+    },
+    {
+      "index": 46,
+      "areaSquareMetres": 90,
+      "centroidEpsg3006": [
+        687936.72,
+        6370819.95
+      ],
+      "hole": 16,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 22.3,
+      "nearest": {
+        "hole": 16,
+        "toGreenRingMetres": 8.5,
+        "toFairwayRingMetres": 52.9
+      },
+      "runnerUp": {
+        "hole": 12,
+        "toGreenRingMetres": 83.3,
+        "toFairwayRingMetres": 30.8
+      }
+    },
+    {
+      "index": 47,
+      "areaSquareMetres": 175,
+      "centroidEpsg3006": [
+        687957.35,
+        6370820.25
+      ],
+      "hole": 12,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 18,
+      "nearest": {
+        "hole": 12,
+        "toGreenRingMetres": 80.4,
+        "toFairwayRingMetres": 10.7
+      },
+      "runnerUp": {
+        "hole": 16,
+        "toGreenRingMetres": 28.7,
+        "toFairwayRingMetres": 62.7
+      }
+    },
+    {
+      "index": 48,
+      "areaSquareMetres": 93,
+      "centroidEpsg3006": [
+        687910.13,
+        6370782.63
+      ],
+      "hole": 16,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 59.5,
+      "nearest": {
+        "hole": 16,
+        "toGreenRingMetres": 8.6,
+        "toFairwayRingMetres": 84.5
+      },
+      "runnerUp": {
+        "hole": 12,
+        "toGreenRingMetres": 126.9,
+        "toFairwayRingMetres": 68.1
+      }
+    },
+    {
+      "index": 49,
+      "areaSquareMetres": 70,
+      "centroidEpsg3006": [
+        687678.85,
+        6370910.2
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 147 m, hole 10)",
+      "onNine": false,
+      "marginMetres": 64,
+      "nearest": {
+        "hole": 10,
+        "toGreenRingMetres": 223,
+        "toFairwayRingMetres": 147.4
+      },
+      "runnerUp": {
+        "hole": 16,
+        "toGreenRingMetres": 254.8,
+        "toFairwayRingMetres": 211.4
+      }
+    },
+    {
+      "index": 50,
+      "areaSquareMetres": 159,
+      "centroidEpsg3006": [
+        687654.68,
+        6370871.15
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 102 m, hole 10)",
+      "onNine": false,
+      "marginMetres": 84.9,
+      "nearest": {
+        "hole": 10,
+        "toGreenRingMetres": 192.3,
+        "toFairwayRingMetres": 101.6
+      },
+      "runnerUp": {
+        "hole": 18,
+        "toGreenRingMetres": 371.3,
+        "toFairwayRingMetres": 186.6
+      }
+    },
+    {
+      "index": 51,
+      "areaSquareMetres": 111,
+      "centroidEpsg3006": [
+        687814.36,
+        6370831.64
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 83 m, hole 16)",
+      "onNine": false,
+      "marginMetres": 65,
+      "nearest": {
+        "hole": 16,
+        "toGreenRingMetres": 99.5,
+        "toFairwayRingMetres": 82.8
+      },
+      "runnerUp": {
+        "hole": 12,
+        "toGreenRingMetres": 156.4,
+        "toFairwayRingMetres": 147.8
+      }
+    },
+    {
+      "index": 52,
+      "areaSquareMetres": 126,
+      "centroidEpsg3006": [
+        687728.96,
+        6370705.57
+      ],
+      "hole": 10,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 83.2,
+      "nearest": {
+        "hole": 10,
+        "toGreenRingMetres": 13.4,
+        "toFairwayRingMetres": 1.5
+      },
+      "runnerUp": {
+        "hole": 18,
+        "toGreenRingMetres": 393.6,
+        "toFairwayRingMetres": 84.7
+      }
+    },
+    {
+      "index": 53,
+      "areaSquareMetres": 264,
+      "centroidEpsg3006": [
+        687806.5,
+        6370625.86
+      ],
+      "hole": 17,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 62.9,
+      "nearest": {
+        "hole": 17,
+        "toGreenRingMetres": 11.3,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 10,
+        "toGreenRingMetres": 74.2,
+        "toFairwayRingMetres": 81.4
+      }
+    },
+    {
+      "index": 54,
+      "areaSquareMetres": 162,
+      "centroidEpsg3006": [
+        687848.14,
+        6370619.32
+      ],
+      "hole": 17,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 32.5,
+      "nearest": {
+        "hole": 17,
+        "toGreenRingMetres": 13,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 11,
+        "toGreenRingMetres": 242,
+        "toFairwayRingMetres": 45.6
+      }
+    },
+    {
+      "index": 55,
+      "areaSquareMetres": 110,
+      "centroidEpsg3006": [
+        688020.03,
+        6370678.34
+      ],
+      "hole": 11,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 43.3,
+      "nearest": {
+        "hole": 11,
+        "toGreenRingMetres": 70.7,
+        "toFairwayRingMetres": -2.4
+      },
+      "runnerUp": {
+        "hole": 12,
+        "toGreenRingMetres": 230.9,
+        "toFairwayRingMetres": 41
+      }
+    },
+    {
+      "index": 56,
+      "areaSquareMetres": 160,
+      "centroidEpsg3006": [
+        688078,
+        6370669.84
+      ],
+      "hole": 11,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 45.4,
+      "nearest": {
+        "hole": 11,
+        "toGreenRingMetres": 14.2,
+        "toFairwayRingMetres": -2.6
+      },
+      "runnerUp": {
+        "hole": 12,
+        "toGreenRingMetres": 259.4,
+        "toFairwayRingMetres": 42.8
+      }
+    },
+    {
+      "index": 57,
+      "areaSquareMetres": 173,
+      "centroidEpsg3006": [
+        688129.07,
+        6370759.82
+      ],
+      "hole": null,
+      "refusal": "nothing mown on the eighteen within 25 m (nearest 81 m, hole 12)",
+      "onNine": false,
+      "marginMetres": 13.5,
+      "nearest": {
+        "hole": 12,
+        "toGreenRingMetres": 218.2,
+        "toFairwayRingMetres": 80.9
+      },
+      "runnerUp": {
+        "hole": 13,
+        "toGreenRingMetres": 197.8,
+        "toFairwayRingMetres": 94.4
+      }
+    },
+    {
+      "index": 58,
+      "areaSquareMetres": 130,
+      "centroidEpsg3006": [
+        687295.07,
+        6370689.03
+      ],
+      "hole": 18,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 59.4,
+      "nearest": {
+        "hole": 18,
+        "toGreenRingMetres": 7.5,
+        "toFairwayRingMetres": 34.7
+      },
+      "runnerUp": {
+        "hole": 10,
+        "toGreenRingMetres": 426.4,
+        "toFairwayRingMetres": 66.9
+      }
+    },
+    {
+      "index": 59,
+      "areaSquareMetres": 188,
+      "centroidEpsg3006": [
+        687331.78,
+        6370694.14
+      ],
+      "hole": 18,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 57.4,
+      "nearest": {
+        "hole": 18,
+        "toGreenRingMetres": 9.3,
+        "toFairwayRingMetres": 3.4
+      },
+      "runnerUp": {
+        "hole": 10,
+        "toGreenRingMetres": 389.8,
+        "toFairwayRingMetres": 60.8
+      }
+    },
+    {
+      "index": 60,
+      "areaSquareMetres": 92,
+      "centroidEpsg3006": [
+        687362.3,
+        6370680.66
+      ],
+      "hole": 18,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 92.9,
+      "nearest": {
+        "hole": 18,
+        "toGreenRingMetres": 26,
+        "toFairwayRingMetres": -12
+      },
+      "runnerUp": {
+        "hole": 10,
+        "toGreenRingMetres": 359.3,
+        "toFairwayRingMetres": 80.8
+      }
+    },
+    {
+      "index": 61,
+      "areaSquareMetres": 154,
+      "centroidEpsg3006": [
+        687337.63,
+        6370665.9
+      ],
+      "hole": 18,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 81.3,
+      "nearest": {
+        "hole": 18,
+        "toGreenRingMetres": 8.4,
+        "toFairwayRingMetres": 8.2
+      },
+      "runnerUp": {
+        "hole": 10,
+        "toGreenRingMetres": 384.4,
+        "toFairwayRingMetres": 89.5
+      }
+    },
+    {
+      "index": 62,
+      "areaSquareMetres": 54,
+      "centroidEpsg3006": [
+        687557.06,
+        6371315.44
+      ],
+      "hole": 7,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 72.7,
+      "nearest": {
+        "hole": 7,
+        "toGreenRingMetres": 8.6,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 8,
+        "toGreenRingMetres": 339,
+        "toFairwayRingMetres": 81.3
+      }
+    },
+    {
+      "index": 63,
+      "areaSquareMetres": 183,
+      "centroidEpsg3006": [
+        687423.02,
+        6371076.11
+      ],
+      "hole": 8,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 61.4,
+      "nearest": {
+        "hole": 8,
+        "toGreenRingMetres": 66.9,
+        "toFairwayRingMetres": -5.4
+      },
+      "runnerUp": {
+        "hole": 2,
+        "toGreenRingMetres": 156.6,
+        "toFairwayRingMetres": 56
+      }
+    },
+    {
+      "index": 64,
+      "areaSquareMetres": 102,
+      "centroidEpsg3006": [
+        687821.39,
+        6370595.39
+      ],
+      "hole": 17,
+      "refusal": null,
+      "onNine": false,
+      "marginMetres": 70.2,
+      "nearest": {
+        "hole": 17,
+        "toGreenRingMetres": 10.1,
+        "toFairwayRingMetres": null
+      },
+      "runnerUp": {
+        "hole": 11,
+        "toGreenRingMetres": 272.7,
+        "toFairwayRingMetres": 80.3
+      }
+    }
+  ]
+}

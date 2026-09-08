@@ -1,0 +1,17 @@
+publish=true
+levels=
+# publish: acquire run 34203277715 read all seven levels in 25 s and left every
+# sample of every level finite. Read before this: one sea-fill component per
+# level, boundary median 0.230 m RH 2000 at every one of them -- exactly the
+# sea plateau measured independently inside the course window -- boundary
+# maximum 0.230 then 0.290 m, water fraction 1.000 then 0.836..0.839, filled
+# with its own boundary median. 636_67 and 637_67 answer 404 while all four
+# eastern neighbours answer 200, so the unpublished column is confirmed. Both
+# coastal items stop their overview chain at 16x and levels 5 and 6 resample
+# over them, which the evidence records per item per level. Every threshold in
+# the spec is now this ground's own measurement rather than Norrfallsviken's.
+
+# re-fire 2026-09-08: run 34203813246 compiled every level and failed one
+# gate, the frontier bounds contract, which a ring publish legitimately moves
+# from the 4,096 m window to the 16,384 m root. Contract updated in the commit
+# before this one.

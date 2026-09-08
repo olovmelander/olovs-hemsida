@@ -19,15 +19,28 @@ describe('manifest default tee', () => {
     for (const c of manifest.courses) expect(Number.isInteger(c.tees.def), c.slug).toBe(true);
   });
 
-  it('uses the verified yellow swatch where the course has that colour association', () => {
-    for (const c of manifest.courses.filter(c => c.slug !== 'visby')) expect(c.tees.cols[c.tees.def], c.slug).toBe(YELLOW);
+  it('uses the verified yellow swatch, on every course', () => {
+    for (const c of manifest.courses) expect(c.tees.cols[c.tees.def], c.slug).toBe(YELLOW);
   });
 
-  it('retains Visby numbered tees with an explicit display default and neutral unverified colours', () => {
+  /* Visby was the exception to the rule above, and the word in its old name was
+     UNVERIFIED: it shipped six identical grey swatches and an explicit def of 1
+     because nobody had established which colour sat behind each of its
+     course-rating names, and the file would not invent a yellow tee to satisfy
+     a convention. They are established now, from Caddee's own `color` fields --
+     63 Vit, 59 Svart, 55 GUL, 51 Blå, 46 Orange, 41 Röd -- so the exception is
+     gone and the general rule above covers it. Two things are worth keeping
+     here rather than in a comment on the generator. The club uses a DIFFERENT
+     scheme on its nine (63/59 and 46/41 swap), so Caddee carries two blocks and
+     the eighteen is the one whose sort_order puts 59 first, agreeing with the
+     SGF widget; and this is the only six-tee card here that is white-first
+     where the other two are black-first, which is why it could never be copied
+     from them. */
+  it('gives Visby the colours the club publishes, and the yellow it opens on', () => {
     const tees = manifest.courses.find(c => c.slug === 'visby').tees;
     expect(tees.names).toEqual(['63', '59', '55', '51', '46', '41']);
-    expect(tees.names[tees.def]).toBe('59');
-    expect(tees.cols).toEqual(Array(6).fill(0xd6ddd6));
+    expect(tees.cols).toEqual([0xf4f4ee, 0x1a1a1a, YELLOW, 0x4a8fe0, 0xe08b3a, 0xe0574a]);
+    expect(tees.names[tees.def]).toBe('55');
   });
 
   it('is a real column on the card', () => {
@@ -43,5 +56,6 @@ describe('manifest default tee', () => {
     const by = s => manifest.courses.find(c => c.slug === s);
     expect(by('upsala').tees.names[by('upsala').tees.def]).toBe('56');
     expect(by('veckefjarden').tees.names[by('veckefjarden').tees.def]).toBe('58');
+    expect(by('visby').tees.names[by('visby').tees.def]).toBe('55');
   });
 });

@@ -185,16 +185,18 @@ jobs:
           # ground's own regression through, which is the thing the gate exists
           # to catch.
           #
-          # Both entries below are Visby's, they arrived together in 480e53d on
-          # the base branch, and they are the SAME two failures with or without
-          # this publish: five of Visby's committed artifacts hash differently
-          # from the checksums pinned beside them. Re-pinning them here would
-          # assert that Visby's current bytes are correct, which nobody in this
-          # run has checked, so they are left for whoever is working on Visby.
-          printf '%s\n' \
-            'all registered physical-ground manifests and committed checksums validate' \
-            'Visby published compatibility pack preserves canonical observed geometry and all official card values' \
-            > /tmp/tolerated
+          # The list is EMPTY on this branch, and that is the point. It used to
+          # carry Visby's two failures -- the stale artifact checksums and the
+          # pack that no longer matched its reviewed source vectors -- which
+          # arrived together in 480e53d on the base branch. Both are fixed here:
+          # hole 16's fairway ring is re-synced from mapping/geometry.json, the
+          # six drifted checksums are re-pinned, and the migration is
+          # regenerated through real PROJ. Leaving their names on a tolerated
+          # list after that would mean a genuine regression in exactly those two
+          # gates passes in silence, which is the same fault as a checker that
+          # agrees with the bug. Add a name back only with the run that shows it
+          # failing and the reason it is not this ground's to fix.
+          : > /tmp/tolerated
           pnpm test 2>&1 | tee /tmp/test.log || true
           grep -E '^not ok [0-9]+ - ' /tmp/test.log | sed -E 's/^not ok [0-9]+ - //' | sort -u > /tmp/failed || true
           if [ -s /tmp/failed ]; then

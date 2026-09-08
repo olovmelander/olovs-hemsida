@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "kind": "vegetation-graph-publication",
+  "state": "published",
+  "groundId": "visby",
+  "slug": "visby",
+  "observedOn": "2026-09-08",
+  "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+  "activeRoot": {
+    "url": "courses/v2-index.json",
+    "bytes": 5935,
+    "sha256": "4f52c207069202691003115d9f9a756d98d6a98df395f0151ddc1355e9c9454c"
+  },
+  "graph": {
+    "frameFingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
+    "courseManifest": {
+      "url": "courses/visby/course-v2-5c44ae1c7999f0ce7383fc8b87f5728118ac4f046571928cd13c95450d46aa88.json",
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "bytes": 3859,
+      "sha256": "5c44ae1c7999f0ce7383fc8b87f5728118ac4f046571928cd13c95450d46aa88"
+    },
+    "groundManifest": {
+      "url": "grounds/visby/ground-v2-98c29c691ccf425008e62758c3710203064e6016f133eb09801c186f5a9b76f5.json",
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "bytes": 500364,
+      "sha256": "98c29c691ccf425008e62758c3710203064e6016f133eb09801c186f5a9b76f5"
+    },
+    "routing": {
+      "kind": "routing",
+      "url": "courses/visby/routing/ebebcad697ac2b52604d359b7b0466d966ee8d750f33ceafca769bee44c9f303.bvch",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "bytes": 1809,
+      "sha256": "ebebcad697ac2b52604d359b7b0466d966ee8d750f33ceafca769bee44c9f303",
+      "decodedBytes": 3182,
+      "decodedSha256": "712a2d247ec9f82dd8fd4878e246ca809688d3c4f6e48948c1ea28be412ebad5",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "course-routing-json-v1"
+      ]
+    },
+    "sourceManifestSha256": "029273b330bd5e7ef4909b9a6aad5985cb814b29f37122f4c555d1659827b72f",
+    "fallbackV1": {
+      "bytes": 452780,
+      "format": 1,
+      "packUrl": "courses/visby/pack.bin",
+      "sha256": "28697c94e0f173d6d0467577fefcbf7efbf25e221251dbed41ecfaa827ca9992"
+    },
+    "holes": 18,
+    "tiles": 469,
+    "finestTiles": 256,
+    "shellBytes": 30223,
+    "chunks": 843,
+    "encodedChunkBytes": 10954307,
+    "decodedChunkBytes": 67670105
+  },
+  "vegetation": {
+    "objectTiles": 116,
+    "standTiles": 256,
+    "candidates": {
+      "total": 31657,
+      "byRepresentation": {
+        "excluded": 421,
+        "individual": 3249,
+        "stand": 27987
+      },
+      "byZone": {
+        "A": 1301,
+        "B": 507,
+        "C": 29849
+      },
+      "byCampaign": {
+        "24e002-636_68": 7030,
+        "24e002-637_68": 24627
+      },
+      "eligible": 3040
+    },
+    "records": {
+      "tiles": 116,
+      "records": 3040,
+      "encodedBytes": 205662,
+      "baseHeightMisses": []
+    },
+    "stands": {
+      "cellMetres": 4,
+      "tiles": 256,
+      "encodedBytes": 727339,
+      "measuredCells": 517144,
+      "closedCanopyCells": 114651,
+      "excludedCells": 85879
+    },
+    "identity": {
+      "matched": 0,
+      "moved": 0,
+      "added": 3040,
+      "missing": 0,
+      "nextSequence": 3041
+    }
+  },
+  "filesWritten": 846
+}

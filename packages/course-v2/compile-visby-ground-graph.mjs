@@ -55,6 +55,29 @@ export function visbyRuntimeContract(model, frame, bounds) {
   return { frame, bounds, frontierBounds: VISBY_FRONTIER_BOUNDS, expectedTileCount: 64, packOriginWgs84: { latitude: model.origin.lat, longitude: model.origin.lon }, packMetresPerLongitude: model.mPerLon, packFrame: model.frame, core, cutout };
 }
 
+/** The ground manifest the given public directory currently serves, or null. */
+export async function readLiveGroundManifest(publicDirectory) {
+  try {
+    const rootIndex = JSON.parse(await readFile(path.join(publicDirectory, 'courses/v2-index.json'), 'utf8'));
+    const entry = rootIndex.courses.find(course => course.groundId === 'visby');
+    if (!entry) return null;
+    const courseManifest = JSON.parse(await readFile(path.join(publicDirectory, entry.manifest.url), 'utf8'));
+    return JSON.parse(await readFile(path.join(publicDirectory, courseManifest.groundManifest.url), 'utf8'));
+  } catch { return null; /* nothing published yet, or a partial tree: nothing to defend */ }
+}
+
+/** Why this compiler must not write over a published ground, or null if it may.
+    A ring quadtree is recognised by its explicit parent links: levels share no
+    index lattice, so the tile manager reads parentId rather than deriving it,
+    and a pyramid written over the top would carry none. */
+export function ringGraphRefusal(liveGroundManifest) {
+  const tiles = liveGroundManifest?.tiles;
+  if (!Array.isArray(tiles)) return null;
+  const parents = tiles.filter(tile => tile.parentId).length;
+  if (!parents) return null;
+  return `a ring graph is published for this ground (${tiles.length} tiles, ${parents} with a parent); publish-ground-rings.mjs owns apps/golf/public now. Compile to the staged default and publish through the rings.`;
+}
+
 export async function compileVisbyGroundGraph({ outputDirectory = 'visbybuild/cache/graph-stage' } = {}) {
   const terrainPath = path.join(ROOT, 'visbybuild/cache/terrain-review/terrain-1m.f32');
   const sourceBytes = await readFile(terrainPath);
@@ -85,6 +108,20 @@ export async function compileVisbyGroundGraph({ outputDirectory = 'visbybuild/ca
     fallbackV1: { format: 1, packUrl: 'courses/visby/pack.bin', bytes: packBytes.length, sha256: hash(packBytes) },
     heightAt: (easting, northing) => sampler.sample(easting, northing)?.heightRH2000 ?? NaN, holeTileBufferMetres: 90 });
   const output = path.resolve(ROOT, outputDirectory);
+  /* THIS COMPILER NO LONGER OWNS apps/golf/public. It writes the 341-tile
+     source pyramid, and publish-ground-rings writes a 469-tile ring quadtree
+     over the same paths -- so re-running this with --out apps/golf/public
+     after a ring publish would replace the ring world with the pyramid, and
+     because the pyramid carries no parentId the tile manager would silently
+     fall back to the fixed 64-tile frontier with no error anywhere. That is
+     the Ribbingsfors rule ("a rerun of one script must not undo the next
+     one's work") meeting the parentId strip the notes record. The staged
+     default is untouched; only the published directory is defended, and only
+     when a ring graph is actually there to defend. */
+  if (output === path.join(ROOT, 'apps/golf/public')) {
+    const refusal = ringGraphRefusal(await readLiveGroundManifest(output));
+    if (refusal) throw new Error(refusal);
+  }
   await writeGroundGraphFiles(output, graph);
   await write(path.join(ROOT, 'visbybuild/mapping/runtime-contract.json'), contract);
   const report = { schemaVersion: 1, kind: 'visby-ground-graph', state: output === path.join(ROOT, 'apps/golf/public') ? 'published-provisional' : 'staged-provisional',

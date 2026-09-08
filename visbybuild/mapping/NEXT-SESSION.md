@@ -1,6 +1,7 @@
 # Visby GK / Kronholmen — provisional 3D handoff
 
-Checkpoint: 2026-09-07, local working tree. Follow the
+Checkpoint: 2026-09-08 (see "What changed on 2026-09-08" below; the 2026-09-07
+intake this describes is otherwise unchanged). Follow the
 [runbook](../../docs/v2-course-runbook.md),
 [mapping workflow](../../docs/v2-course-mapping-workflow.md),
 [club research](../../docs/courses/visby-source-research.md) and
@@ -178,17 +179,170 @@ is available, but the configured account's pixel requests return HTTP 403.
 Municipal 2022 image derivative terms and club/Caddee media reuse remain open;
 the source images are not redistributed as runtime textures.
 
+## What changed on 2026-09-08
+
+| Was | Is |
+|---|---|
+| No independent per-hole geometry existed at all | [`geo_data/visby_clean.json`](../../geo_data/visby_clean.json): the club's 18x5 GolfTraxx GPS survey (course id 62230SW), measured against the model by [`golftraxx-review.mjs`](golftraxx-review.mjs) |
+| H12's tee unresolved, its line -36.7% against the card | the survey supplies it; retargeted the hole reads -8.2%, inside the band with the other fourteen |
+| Traces read off Esri z18, 0.3214 m/px, WorldView-2 2016-08-24 | [`ortho-crop.mjs`](../ortho-crop.mjs) serves Lantmateriet's **0.16 m 2026-04-10** flight with no credentials, plus Region Gotland's **0.25 m summer** capture as a second dated frame |
+| Environment stopped at 2,048 m; 341 tiles, 5 levels, no `parentId` | ring spec registered for a **16 km root over 7 levels, 469 tiles**; acquire measured, publish in flight |
+| No measured trees; `vegetation.*` all empty | **3,012 machine-reviewed individuals** + stand fields on all 256 tiles, acquired and eyeballed; publish still to run |
+| `npm run check:visby` 28/29; manifest gate red | 29/29 and green -- hole 16's fairway was desynced from `geometry.json` and six checksums were stale |
+| CLAUDE.md had no Visby section | it has one |
+| The clubhouse was one of 32 anonymous grey houses; no scenery module | named, and `scenery/visby.js` carries its photographed look, a Gotland species rule, Fyrhuset and **Skansudde fyr's 1936 tower** |
+| No distant trees at all: both vista loops gated on a tree-cover raster this course has none of | the far ring **ungated**, fed by a wide OSM land cover clipped to ±6 km (**279 farmland polygons against 24 forest**); `vegetation.*` and `infra.landuse` are no longer empty |
+| Six numbered tee marks per hole on ONE point, span 0 m | the back tee on its platform and each shorter tee walked up the observed route by the card's own difference: **85 of 108 marks move, 18 points become 80** |
+| 65 bunkers in `scenery`, no hole owns any | **48 assigned to their hole**, 17 left in scenery with the reason |
+| The Baltic flagged neither sea nor lake | seven rings `isSea` + `isLake`, `seaTintBandMetres` 0.05, and **the generator agrees** -- `build-course.mjs` used to write `isSea:false` and would have reverted it |
+| The vegetation publish had never landed | **3,249 individuals + 256 stand tiles published** on the 469-tile ring graph (run 34207369939) |
+
 ## Remaining mapping and approval work
 
-1. Identify H12's physical tee and every numbered tee association using suitable
-   source evidence. Preserve the explicit virtual start until then.
-2. Review current boundaries, missing tee platforms, fringes, bunker completeness
-   and detailed practice facilities. Keep the separate nine's identity distinct.
-3. Obtain independent horizontal/vertical controls and resolve canonical-origin
-   approval without promoting the existing software frame automatically.
-4. Resolve current orthophoto access and derivative terms, photo/media reuse and
-   production release conditions. Public availability is not a license grant.
-5. Review vegetation truth areas, individual objects, building dimensions and
-   present-day changes; keep unknown attributes explicit.
-6. Complete per-hole human visual review, both rendering backends, named mobile
-   devices, offline behavior and performance checks using the runbook gates.
+1. **Settle hole 9.** [`green-9-review.json`](green-9-review.json) has four
+   records agreeing the traced ring is wrong and two readings of WHY that
+   disagree; a trace on the summer capture separates them. Do not move the ring.
+   One correction has been folded in: OSM is NOT an independent check here.
+   Seventeen of the eighteen model greens carry
+   `sourceIds:["visby-osm-2026-09-07"]` and the two area multisets are identical
+   apart from hole 3's, so asking OSM whether the model's greens are right is
+   asking the model about itself.
+2. **DONE, and the imagery refused its half.** The six numbered tees no longer
+   share one point: `teeMarks` in [`build-course.mjs`](../build-course.mjs)
+   holds the back tee on its observed platform and walks each shorter tee UP the
+   observed route by the card's own difference from the back tee -- 85 of 108
+   marks move, 18 points become 80, and `elev.tee` is re-read at the 59 tee.
+   Only differences are used, never absolute route length, so a route short of
+   its card (this one is, by a median 8%) does not corrupt the tee spacing; the
+   walk is clamped inside the measured line, so nothing is extrapolated and no
+   pad is inferred. `tees.inferPads` stays false. What the ORTHOPHOTO could not
+   do is recorded in [`tee-decks.json`](tee-decks.json) with its numbers: the
+   reading recovers 10 of the 17 mapped decks on the independent 2026 flight, at
+   a median 5.4 m and with areas 0.21-1.88x theirs, which is not an instrument.
+   It does corroborate that 90 of the 108 derived points sit on compact mown
+   ground, and none lands in water, a bunker, a building or on a green.
+3. **DONE.** 48 of the 65 observed bunkers now carry the hole that owns them
+   ([`assign-bunkers.mjs`](assign-bunkers.mjs), reviewed in
+   [`bunker-ownership-review.json`](bunker-ownership-review.json)); the
+   remaining 17 stay in `scenery.bunkers` because no hole's green or fairway
+   claims them by the margin the rule requires -- most belong to the separate
+   nine that shares this property. No outline moved.
+4. `vegetation.forest/wood/scrub/wetland/sand/rock` stay empty, and OSM will
+   never fill them: it has **zero** vegetation polygons inside the played bbox
+   +500 m while the imagery measures ~22.4 ha of canopy inside the same hull.
+   The LiDAR stand field and individuals are the source on the course itself.
+5. **DONE, by fixing the gate rather than by building a raster.** Both vista
+   loops sat inside `if (M.cover)`, so this course had no distant trees at all;
+   the far ring never reads the raster's contents, only its box, and it runs
+   unconditionally now (skipping the measured LiDAR coverage where a course has
+   no raster). It is fed by
+   [`osm-vista-landcover-epsg3006.geojson`](../../geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson),
+   a wide OSM extract clipped to ±6 km: 279 farmland polygons against 24 forest,
+   so 37.6% of the land in the far ring carries cones against Gotland's real
+   ~45% forest cover. `visbybuild/tree-cover.json` is still absent and is not
+   needed. The photograph-classified attempt stays refused; it under-detected
+   canopy 4.5×.
+6. **The sea half is DONE; the two remaining halves are measured and one is
+   not a gap at all.** Seven rings carry `isSea` and `isLake`,
+   `seaTintBandMetres` is 0.05, and `build-course.mjs` writes all of it now, so
+   a rebuild cannot revert it.
+   - **`coast` is not a gap.** Nothing in the engine reads `model.coast` --
+     grep the whole app -- so an empty array is the correct value and filling it
+     would be work that changes nothing. Recorded so nobody spends a session on
+     it.
+   - **The water sheets ARE coplanar with their beds, and only on the GPK1
+     path.** Measured on `heightfields.json` under the seven sea rings: 566,872
+     samples at a mean depth of **-0.000 m**, none deeper than 0.10 m, because
+     Markhojdmodell carries the Baltic as a flattened plate (111,049 published
+     ring-graph samples read 0.230 m mean over a 0.23-0.24 m range -- there is
+     no bathymetry here at all). So under `?v2=0` the shader has no depth to
+     shade 907 ha of sea with. Under the default v2 boot the ring adapter's
+     `carveWaterBeds` runs unconditionally and gives it one; what is switched
+     off for this course is only the FRONTIER path's carve, by
+     `main.js`'s `waterBeds` provider returning null on
+     `terrainPlacement === 'measured-only'`.
+   - Two things a session that can RENDER should check, in this order. Does the
+     default boot's carve actually reach the sea (the objection that it would
+     ridge along the 40 partitions' artificial cut edges is answered -- the
+     depth comes from a distance transform over the UNION mask, so neighbouring
+     pieces fill each other's cuts)? And does the v2 water-level re-measurement
+     block leave `seaLevel` at 0.23, or raise it off shore samples? Neither can
+     be settled without looking at it, and 0 of 1,229 played ring and mark
+     points lie inside a sea ring, so a carve cannot touch a playing surface.
+7. **DONE.** The clubhouse is named in the model (declared in
+   [`geometry.json`](geometry.json) beside its evidence, applied by
+   [`apply-clubhouse.mjs`](apply-clubhouse.mjs), asserted by the artifact test)
+   and `apps/golf/src/engine/scenery/visby.js` carries its look from daylight
+   photographs, a Gotland pine-led species rule from three agreeing records, the
+   white Fyrhuset (the 1890 light-and-dwelling, way 530655633) and the Falu-red
+   1892 bostadshus beside it (way 530655632), and the 1936 concrete tower of
+   Skansudde fyr at a position measured off the orthophoto and its published
+   height of 10.4 m. A first reading swapped the two houses' NAMES -- their
+   colours were keyed to the OSM ids and were right either way -- and assumed
+   the tower's height where fyrwiki publishes it; both are corrected, and which
+   footprint is which is still inferred from distance to the tower.
+8. Independent horizontal/vertical controls and canonical-origin approval remain
+   unresolved; the software frame is not promoted by any of the above.
+9. Orthophoto derivative terms, photo/media reuse and production release remain
+   open. The imagery is used for tracing and review and is never redistributed.
+10. Per-hole human visual review, both backends, named devices, offline and
+   performance checks remain to be done with the runbook gates.
+
+## The club's own records, found on 2026-09-08 and not yet read
+
+Three published records outrank anything measured here. Acting on them is the
+next work; nothing below is done.
+
+1. **Caddee's eighteen hole plans draw all six tees as numbered discs on the
+   hole**, plus carry distances, green-depth arrows and some elevation profiles.
+   Identity confirmed by par and index on all 18 holes against `card.json`,
+   18/18. This is the record that supersedes the card-offset tee derivation --
+   and it has been COUNTED already ([`read-hole-plans.mjs`](read-hole-plans.mjs)
+   → [`hole-plans.json`](hole-plans.json), gated by the artifact test): all 18
+   draw six tees and 16 group them exactly as the card does, back to front,
+   which is the shape the model derives. What remains is READING positions off
+   them, which needs a registration and a measurement of the drawings' own
+   distortion; nothing here has either. Two first readings: the plans quote the distance
+   to the green's FRONT where the card quotes its centre (hole 1: a uniform
+   -14 m with green depth 29 beside it), so green depth per hole is derivable;
+   and hole 14 reads 160/140 for tees 63/59 against the card's 155/136 while its
+   other four tees show the expected -15 -- flag, do not resolve.
+2. **Pierre Fulke Design's masterplan of 2022-07-12**, A0 at 1:2000 on aerial
+   photography, every green, fairway, bunker and water body outlined, with an
+   eighteen-hole *Åtgärdsbeskrivning* of works. Registerable exactly as
+   Veckefjärden's hole plans were. **It settles hole 3**: the sheet names "Hål 3
+   (gamla)" as a practice area, so the GolfTraxx survey's 234 m disagreement
+   there is the survey being right about a hole that no longer plays.
+3. **The SGF widget's slope and course-rating table per tee** sits inside the
+   scorecard asset this repo acquired and hashed on 2026-09-07 and was never
+   extracted. It names each tee numerically -- confirming the set is exactly
+   63/59/55/51/46/41 -- and its `sortOrder` puts 59 first, corroborating the
+   display default. The club's own 2014 rating PDFs disagree in every cell in
+   one direction, which is the 2020 WHS re-rating. Do not merge the tables.
+
+The card is confirmed 144/144 by a third source and by a live SGF re-fetch that
+is byte-identical to the stored capture -- with the caveat that the aggregators
+and the widget may all descend from SGF's GIT database, so it is a transcription
+check and not an independent measurement.
+
+## Two sources found on 2026-09-08 that fill layers this model has empty
+
+1. **Per-hole prose EXISTS after all**, from a third party rather than the club:
+   Svensk Golf's banbesök (nr 6/2021, published 2021-12-22) carries named
+   playing commentary for three holes -- *Höjdarhålet* (hål 2, "klassisk risk-
+   och belöningsdesign … utslaget över havsviken"), *Skräckhindret* (hål 11,
+   "vattenhindret som slingrar sig fram längs med högersidan") and *Vackraste
+   punkten* (hål 6, "ett av norra Europas absolut bildskönaste par 5"). Visby
+   has **no `guide-notes.json` at all**, so the HUD shows no hole text; this is
+   what a first one would be written from, with `club` empty and `basis` naming
+   Svensk Golf. Hole 11's right-side water independently corroborates the local
+   rule below.
+2. **The club's local rules are hole-specific, and this model has no `marking`
+   whatsoever.** `visbygk.com/golf` carries: internal OB for holes 10 and 6 (a
+   ball at rest on 18's and 3's fairway respectively), an **infinite** red
+   penalty area on the RIGHT of hole 11, a drop zone at the front of tee 41 on
+   hole 17, a left-side penalty area off the 18th tee, and a no-play zone on the
+   nine's 5th. That is exactly the `course-rules.json` shape Veckefjärden
+   already uses, and the Ängsö rule applies: marking from a rulebook is a stated
+   rule, not a survey, so each run is placed and then checked to lie on the
+   player's own side.

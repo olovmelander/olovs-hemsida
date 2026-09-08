@@ -68,7 +68,7 @@ const islands = water.features.flatMap(f => (f.geometry.type === 'MultiPolygon' 
 gate(source.length === 4097*4097*4, 'Retained native-metre source contains the complete 4097 by 4097 sample window');
 gate(model.holes.length === 18 && model.holes.every((h,i) => h.n === i+1 && h.line.length >= 2 && finitePair(h.green.c)), 'All18 authored hole routes have finite green navigation targets');
 gate(model.holes.reduce((n,h) => n+h.tees.pads.length,0) === 17 && model.holes[11].tees.pads.length === 0 && model.holes[11].tees.status === 'unresolved-physical-platform', '17 observed physical tee pads and the explicit unresolved hole12 platform survive the authored model');
-gate(published.graph.tiles === 341 && published.graph.finestTiles === 256 && stands.assets.length === 256, 'Published graph contains the full341-tile source pyramid and256 stand chunks');
+gate(published.graph.tiles === 469 && published.graph.finestTiles === 256 && stands.assets.length === 256, 'Published graph contains the 469-tile ring quadtree, all 256 native-metre tiles and 256 stand chunks');
 gate(sourceWater.length === model.water.length && islands.length === 10 && islands.every(i => model.water.every(w => !inside(i.point,w.ring))), 'Compatibility water preserves all10 source island interiors', { sourceFeatures:water.features.length, compatibilityPieces:sourceWater.length, islands:islands.length });
 const points = [];
 for (let row=0;row<8;row++) for(let col=0;col<8;col++) points.push({label:`frontier-${row}-${col}`,x:-896+256*col,z:-1152+256*row});

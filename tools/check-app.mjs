@@ -128,8 +128,23 @@ async function checkCourse(c) {
          intended -- 5 is SURFACE.TEE, 3 the fringe collar a deck sits in. */
       const teeMisses = [];
       let teeMarks = 0, teePlatforms = 0;
+      /* A mapped-only ground carries a physical platform for every hole --
+         unless its own model DECLARES one unresolved, which is how a gap is
+         handled on such a ground: recorded, never filled. Visby's 12th is the
+         case; no source image has ever shown its tee, so build-course refuses
+         to invent a pad and stamps tees.status instead, which emit-pack carries
+         into the pack. Reading that declaration is not the same as dropping the
+         requirement: an UNdeclared missing platform still fails, and a
+         declaration on a hole that HAS a pad fails too, so the exception cannot
+         quietly spread. The declared holes are printed either way. */
+      const declaredUnresolved = mappedObjectsOnly ? V.HOLES
+        .filter(h => h.tees?.status === 'unresolved-physical-platform').map(h => h.n) : [];
+      const staleUnresolved = mappedObjectsOnly ? V.HOLES
+        .filter(h => h.tees?.status === 'unresolved-physical-platform'
+          && Array.isArray(h.tees?.pads) && h.tees.pads.length > 0).map(h => h.n) : [];
       const holesMissingPlatforms = mappedObjectsOnly ? V.HOLES
-        .filter(h => !Array.isArray(h.tees?.pads) || h.tees.pads.length === 0).map(h => h.n) : [];
+        .filter(h => (!Array.isArray(h.tees?.pads) || h.tees.pads.length === 0)
+          && h.tees?.status !== 'unresolved-physical-platform').map(h => h.n) : [];
       if (mappedObjectsOnly) {
         // The HUD's nominal tee references are not physical marker objects.
         // Probe the actual deck interiors, including concave polygons whose
@@ -182,7 +197,7 @@ async function checkCourse(c) {
         }
       }
       return { ...info, greenMisses, bunkerMisses, plates, teeMarks, teePlatforms, teeMisses,
-        holesMissingPlatforms, mappedObjectsOnly, axis, perf: V.perf() };
+        holesMissingPlatforms, declaredUnresolved, staleUnresolved, mappedObjectsOnly, axis, perf: V.perf() };
     })(),
   }));
 
@@ -215,12 +230,16 @@ async function checkCourse(c) {
     const med = g.length ? g[g.length >> 1] : 0;
     gate(med <= 25, `marker axes square to the surveyed green direction too (median ${med.toFixed(1)}°, worst ${(g[g.length - 1] || 0).toFixed(1)}°)`);
   }
-  gate(got.ground.teeMisses.length === 0 && got.ground.holesMissingPlatforms.length === 0,
+  gate(got.ground.teeMisses.length === 0 && got.ground.holesMissingPlatforms.length === 0
+    && (got.ground.staleUnresolved || []).length === 0,
     (got.ground.mappedObjectsOnly
       ? `all ${got.ground.teePlatforms} physical tee-platform interiors are tee turf; no physical marker pairs are inferred`
       : `all ${got.ground.teeMarks} tee markers stand on tee grass`) +
+    ((got.ground.declaredUnresolved || []).length
+      ? ` (no physical platform on hole${got.ground.declaredUnresolved.length > 1 ? 's' : ''} ${got.ground.declaredUnresolved.join(', ')}, declared)` : '') +
     (got.ground.teeMisses.length ? ` -- ${got.ground.teeMisses.length} do not (hole/tee:surface ${got.ground.teeMisses.slice(0, 4).join(' ')})` : '') +
-    (got.ground.holesMissingPlatforms.length ? ` -- missing physical tee platforms on holes ${got.ground.holesMissingPlatforms.join(', ')}` : ''));
+    (got.ground.holesMissingPlatforms.length ? ` -- missing physical tee platforms on holes ${got.ground.holesMissingPlatforms.join(', ')}, undeclared` : '') +
+    ((got.ground.staleUnresolved || []).length ? ` -- holes ${got.ground.staleUnresolved.join(', ')} declare an unresolved platform and have one` : ''));
   {
     /* 2 m, not zero: the post sits 15 m off the centre line, so at a polyline
        vertex the bearing -- and with it the post's own distance -- jumps, and no

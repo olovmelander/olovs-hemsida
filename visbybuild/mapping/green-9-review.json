@@ -1,0 +1,58 @@
+{
+  "reviewedFor": "visby",
+  "hole": 9,
+  "question": "Where is hole 9's putting surface? The model's traced ring is an area outlier and its centroid disagrees with the GolfTraxx survey by 48 m.",
+  "finding": "The model's green-9 ring is a green COMPLEX read as one shape: it takes in the approach south of the putting surface. Its centroid therefore falls on the apron rather than on the green.",
+  "status": "measured six ways and still not corrected: the re-trace that would settle it is refused by its own score. green-trace-review.json shows the outline is not traceable on either frame -- median IoU 0.52 at a median 1.93x the model's area on the summer capture, worse on the finer April one -- so replacing the ring would swap a known-wrong outline for an unknown-wrong one.",
+  "records": [
+    {
+      "record": "the model's own traced ring",
+      "measurement": "1670 m2, 48 x 79 m, centroid local (-543.0, 162.0)",
+      "reading": "the fifteen greens the GolfTraxx survey agrees with measure 308..528 m2. Hole 9's ring is 3.2x the largest of them and nearly 80 m long, which no putting surface on this course is."
+    },
+    {
+      "record": "the club's card against the traced corridor",
+      "measurement": "the modelled line runs 375.1 m against a card 334 m, +12.3%",
+      "reading": "the only hole of the eighteen whose modelled line exceeds its card, which a played line cannot do: the played length is measured along the playing line, so a corridor polyline to the real green can never be longer. Retargeted onto the survey's green centre it becomes -7.9%, inside the -5.7..-17.0% band the fifteen agreed holes occupy."
+    },
+    {
+      "record": "the GolfTraxx GPS survey",
+      "measurement": "green centre local (-529.4, 116.4)",
+      "reading": "48.15 m from the model's centroid, while agreeing with the other fifteen at a median 2.09 m and a maximum 3.24 m."
+    },
+    {
+      "record": "Lantmateriet 0.16 m orthophoto, flown 2026-04-10",
+      "measurement": "visbybuild/cache/crops/ortho-green9.png, 200 m window at native 0.16 m",
+      "reading": "the two greenside bunkers flank the NORTHERN part of the ring; their midpoint is near local (-535, 133). Early-spring turf flattens the mow contrast, so the collar is legible but the putting-surface edge is not traceable from this frame alone."
+    },
+    {
+      "record": "Region Gotland 0.25 m orthophoto, summer capture labelled 2022",
+      "measurement": "visbybuild/cache/crops/ortho-green9-summer.png, same window",
+      "reading": "leaf-on and mown: a distinctly darker, uniformly mown oval runs roughly local x -556..-511, z 106..144, centred near (-533, 125). The model's ring continues about 40 m south of it over ground that reads as paler approach. This is the frame that separates the putting surface from the complex."
+    },
+    {
+      "record": "OpenStreetMap -- WHICH IS THE SOURCE OF THIS RING, not a check on it",
+      "measurement": "17 golf=green ways inside the property hull way/199830330. The model carries 18 greens and seventeen of them declare sourceIds [\"visby-osm-2026-09-07\"]; only hole 3's comes from the 2022 municipal image, because OSM has no green there. The two area multisets are identical.",
+      "reading": "A correction to an earlier note in this file, which called OSM \"independently surveyed and never an input to this model\". It is the input. So OSM agreeing with the ring is circular and carries no weight, and the 1670 m2 shape is OSM's own golf=green rather than a mis-trace: whatever is wrong with it is wrong in OpenStreetMap. What does NOT change is the GolfTraxx line of evidence, which never entered either OSM or this model, nor the card-length or imagery lines."
+    },
+    {
+      "record": "a rule-based re-trace anchored on the GPS survey, on both orthophotos",
+      "measurement": "visbybuild/mapping/green-trace-review.json; on the 2022 summer frame the grow accepts 160 m2 at its tightest threshold, centred 57.8 m from the model ring's centroid and 11.1 m from the survey; on the 2026 April frame 307 m2, 56.7 m and 9.9 m",
+      "reading": "Two frames, independently, find a compact mown feature beside the survey point and refuse to grow anything like the 1670 m2 ring. On the fifteen agreed holes the same tracer lands a median 2.6 m from the model's own centre, so it is not a tracer that wanders. It still does not separate the two readings below: a green complex and a practice green look the same to it."
+    },
+    {
+      "record": "the structure of OSM's own coverage",
+      "measurement": "17 golf=green ways for 18 holes; the missing one is hole 3, whose green the model traced from the 2022 image instead",
+      "reading": "Worth putting beside the fact that hole 3 is also the hole GolfTraxx gets wrong by 232 m. Two different sources are silent or wrong about the same hole, which is a reason to look at hole 3 on the imagery rather than to assume either is a coincidence."
+    }
+  ],
+  "convergence": "Four records that never entered each other put the putting surface north of the model's centroid: the survey at (-529, 116), the bunker midpoint at (-535, 133), the summer mow oval centred near (-533, 125). They agree within 18 m of each other and disagree with the model's (-543, 162) by 30..48 m.",
+  "nextStep": "Re-trace the ring on the summer capture with the same rule the other greens were traced by, then re-run visbybuild/mapping/golftraxx-review.mjs: hole 9 should move from modelRecordDisputed into the agreed set. Do not hand-place it; the tools are visbybuild/ortho-crop.mjs (--gotland for the summer frame) and visbybuild/sat-crop.mjs.",
+  "caveat": "Neither orthophoto is approved control. The 0.16 m frame is served by Lantmateriet's public viewing service and its derivative terms are unresolved; the Gotland capture's terms are likewise open. Both are used here as tracing and review evidence and neither is redistributed.",
+  "alternativeReading": {
+    "hypothesis": "The 1670 m2 polygon is not hole 9's green at all but the club's PRACTICE putting green, which stands beside a clubhouse by convention and is commonly 1000-2000 m2 where a hole green is 300-500.",
+    "whyItMatters": "It changes the fix. If the ring is a green complex, hole 9's green is a re-trace of its northern part. If it is the practice green, hole 9's green has never been traced, and the polygon belongs in scenery.practiceGreens -- which the engine and apply-markers read for the O marker, and which a course may name explicitly rather than leave to the 200 m rule.",
+    "howToSettle": "Unchanged in substance, but note that OSM tags this shape golf=green, which is the tag for a hole's putting green and not for a practice one -- so the practice reading now requires OSM to have mistagged it. Against that: OSM carries only 17 greens for 18 holes, so one hole green is missing from it either way. On the summer capture, a putting green is a single smooth surface with several holes and no approach; a hole green sits at the end of its corridor with its bunkers flanking the line. Neither is settled here.",
+    "doNotAssume": "Do not resolve this by moving the ring. Both readings are consistent with a 48 m centroid error, and only a trace on the summer frame separates them."
+  }
+}

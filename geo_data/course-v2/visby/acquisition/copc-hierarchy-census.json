@@ -1,0 +1,2047 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "groundName": "Visby Golfklubb – Kronholmen",
+  "observedOn": "2026-09-08",
+  "state": "census-complete",
+  "campaignsSha256": "b995946c316fcab8406cac5ad093d8f0e223653d132de18b442a0ffcba954fdd",
+  "method": "LAS header + COPC info VLR + hierarchy pages over authenticated HTTP range requests; point counts are area-weighted sums of octree nodes; no point bytes were read",
+  "full": true,
+  "windows": [
+    {
+      "id": "aoi",
+      "role": "whole AOI",
+      "bboxEpsg3006": [
+        686275.809,
+        6369400.06,
+        688808.445,
+        6372403.068
+      ]
+    },
+    {
+      "id": "origin-1024",
+      "role": "legacy origin, straddles the seam",
+      "bboxEpsg3006": [
+        687236.5,
+        6370439.5,
+        688260.5,
+        6371463.5
+      ]
+    },
+    {
+      "id": "seam-northing-6370000-north-512",
+      "role": "north of the seam",
+      "bboxEpsg3006": [
+        687492.5,
+        6370000,
+        688004.5,
+        6370512
+      ]
+    },
+    {
+      "id": "seam-northing-6370000-south-512",
+      "role": "south of the seam",
+      "bboxEpsg3006": [
+        687492.5,
+        6369488,
+        688004.5,
+        6370000
+      ]
+    },
+    {
+      "id": "w256-687104-6370560",
+      "role": "hole 1 control window",
+      "bboxEpsg3006": [
+        687104,
+        6370560,
+        687360,
+        6370816
+      ]
+    },
+    {
+      "id": "w256-687104-6370816",
+      "role": "hole 1 control window",
+      "bboxEpsg3006": [
+        687104,
+        6370816,
+        687360,
+        6371072
+      ]
+    },
+    {
+      "id": "w256-687360-6370816",
+      "role": "hole 2 control window",
+      "bboxEpsg3006": [
+        687360,
+        6370816,
+        687616,
+        6371072
+      ]
+    },
+    {
+      "id": "w256-687104-6371072",
+      "role": "hole 2 control window",
+      "bboxEpsg3006": [
+        687104,
+        6371072,
+        687360,
+        6371328
+      ]
+    },
+    {
+      "id": "w256-687360-6371072",
+      "role": "hole 2 control window",
+      "bboxEpsg3006": [
+        687360,
+        6371072,
+        687616,
+        6371328
+      ]
+    },
+    {
+      "id": "w256-687616-6371072",
+      "role": "hole 3 control window",
+      "bboxEpsg3006": [
+        687616,
+        6371072,
+        687872,
+        6371328
+      ]
+    },
+    {
+      "id": "w256-687104-6371328",
+      "role": "hole 3 control window",
+      "bboxEpsg3006": [
+        687104,
+        6371328,
+        687360,
+        6371584
+      ]
+    },
+    {
+      "id": "w256-687360-6371328",
+      "role": "hole 3 control window",
+      "bboxEpsg3006": [
+        687360,
+        6371328,
+        687616,
+        6371584
+      ]
+    },
+    {
+      "id": "w256-687616-6371328",
+      "role": "hole 3 control window",
+      "bboxEpsg3006": [
+        687616,
+        6371328,
+        687872,
+        6371584
+      ]
+    },
+    {
+      "id": "w256-687104-6371584",
+      "role": "hole 3 control window",
+      "bboxEpsg3006": [
+        687104,
+        6371584,
+        687360,
+        6371840
+      ]
+    },
+    {
+      "id": "w256-687360-6371584",
+      "role": "hole 3 control window",
+      "bboxEpsg3006": [
+        687360,
+        6371584,
+        687616,
+        6371840
+      ]
+    },
+    {
+      "id": "w256-687616-6371584",
+      "role": "hole 3 control window",
+      "bboxEpsg3006": [
+        687616,
+        6371584,
+        687872,
+        6371840
+      ]
+    },
+    {
+      "id": "w256-687104-6371840",
+      "role": "hole 4 control window",
+      "bboxEpsg3006": [
+        687104,
+        6371840,
+        687360,
+        6372096
+      ]
+    },
+    {
+      "id": "w256-687360-6371840",
+      "role": "hole 4 control window",
+      "bboxEpsg3006": [
+        687360,
+        6371840,
+        687616,
+        6372096
+      ]
+    },
+    {
+      "id": "w256-687616-6371840",
+      "role": "hole 4 control window",
+      "bboxEpsg3006": [
+        687616,
+        6371840,
+        687872,
+        6372096
+      ]
+    },
+    {
+      "id": "w256-687616-6370816",
+      "role": "hole 8 control window",
+      "bboxEpsg3006": [
+        687616,
+        6370816,
+        687872,
+        6371072
+      ]
+    },
+    {
+      "id": "w256-687360-6370560",
+      "role": "hole 9 control window",
+      "bboxEpsg3006": [
+        687360,
+        6370560,
+        687616,
+        6370816
+      ]
+    },
+    {
+      "id": "w256-687616-6370560",
+      "role": "hole 10 control window",
+      "bboxEpsg3006": [
+        687616,
+        6370560,
+        687872,
+        6370816
+      ]
+    },
+    {
+      "id": "w256-687616-6370304",
+      "role": "hole 11 control window",
+      "bboxEpsg3006": [
+        687616,
+        6370304,
+        687872,
+        6370560
+      ]
+    },
+    {
+      "id": "w256-687872-6370304",
+      "role": "hole 11 control window",
+      "bboxEpsg3006": [
+        687872,
+        6370304,
+        688128,
+        6370560
+      ]
+    },
+    {
+      "id": "w256-688128-6370304",
+      "role": "hole 11 control window",
+      "bboxEpsg3006": [
+        688128,
+        6370304,
+        688384,
+        6370560
+      ]
+    },
+    {
+      "id": "w256-687872-6370560",
+      "role": "hole 11 control window",
+      "bboxEpsg3006": [
+        687872,
+        6370560,
+        688128,
+        6370816
+      ]
+    },
+    {
+      "id": "w256-688128-6370560",
+      "role": "hole 11 control window",
+      "bboxEpsg3006": [
+        688128,
+        6370560,
+        688384,
+        6370816
+      ]
+    },
+    {
+      "id": "w256-687872-6370816",
+      "role": "hole 12 control window",
+      "bboxEpsg3006": [
+        687872,
+        6370816,
+        688128,
+        6371072
+      ]
+    },
+    {
+      "id": "w256-688128-6370816",
+      "role": "hole 13 control window",
+      "bboxEpsg3006": [
+        688128,
+        6370816,
+        688384,
+        6371072
+      ]
+    },
+    {
+      "id": "w256-687872-6371072",
+      "role": "hole 14 control window",
+      "bboxEpsg3006": [
+        687872,
+        6371072,
+        688128,
+        6371328
+      ]
+    },
+    {
+      "id": "w256-688128-6371072",
+      "role": "hole 14 control window",
+      "bboxEpsg3006": [
+        688128,
+        6371072,
+        688384,
+        6371328
+      ]
+    },
+    {
+      "id": "w256-687872-6371328",
+      "role": "hole 15 control window",
+      "bboxEpsg3006": [
+        687872,
+        6371328,
+        688128,
+        6371584
+      ]
+    },
+    {
+      "id": "w256-687104-6370304",
+      "role": "hole 18 control window",
+      "bboxEpsg3006": [
+        687104,
+        6370304,
+        687360,
+        6370560
+      ]
+    },
+    {
+      "id": "w256-687360-6370304",
+      "role": "hole 18 control window",
+      "bboxEpsg3006": [
+        687360,
+        6370304,
+        687616,
+        6370560
+      ]
+    }
+  ],
+  "items": [
+    {
+      "itemId": "24e002-636_68",
+      "role": "active",
+      "captureStart": "2024-02-03T00:00:00Z",
+      "captureEnd": "2024-04-28T00:00:00Z",
+      "status": "ok",
+      "headerMatchesInfo": true,
+      "header": {
+        "version": "1.4",
+        "pointFormat": 6,
+        "pointLength": 30,
+        "pointCount": 13769262,
+        "vlrCount": 3,
+        "evlrCount": 1,
+        "min": [
+          685000,
+          6365000,
+          -313.43
+        ],
+        "max": [
+          689999.99,
+          6369999.99,
+          29.55
+        ],
+        "scale": [
+          0.01,
+          0.01,
+          0.01
+        ]
+      },
+      "copc": {
+        "center": [
+          687499.995,
+          6367499.995,
+          -141.94
+        ],
+        "halfSizeMetres": 2500.005,
+        "spacingMetres": 39.062578,
+        "rootHierarchyOffset": 89281019,
+        "rootHierarchySize": 35456,
+        "gpsTimeMinimum": 390989683.722,
+        "gpsTimeMaximum": 391160407.15
+      },
+      "hierarchy": {
+        "pagesRead": 6,
+        "pagesSkipped": 0,
+        "complete": true,
+        "nodes": 1391,
+        "nodesByDepth": {
+          "0": 1,
+          "1": 3,
+          "2": 12,
+          "3": 48,
+          "4": 74,
+          "5": 299,
+          "6": 954
+        },
+        "pointsByDepth": {
+          "0": 34398,
+          "1": 34168,
+          "2": 204018,
+          "3": 1694504,
+          "4": 1850356,
+          "5": 5867631,
+          "6": 4084187
+        },
+        "sumOfNodePoints": 13769262,
+        "matchesHeader": true
+      },
+      "dataBounds": [
+        685000,
+        6365000,
+        689999.99,
+        6369999.99
+      ],
+      "windows": [
+        {
+          "id": "aoi",
+          "bboxEpsg3006": [
+            686275.809,
+            6369400.06,
+            688808.445,
+            6372403.068
+          ],
+          "squareMetres": 7605526.2,
+          "estimatedPoints": 131354,
+          "estimatedAllReturnDensityPerSquareMetre": 0.017,
+          "pointsByDepth": {
+            "0": 2091,
+            "1": 3070,
+            "2": 15301,
+            "3": 85567,
+            "4": 5611,
+            "5": 19715
+          },
+          "nodesTouched": 20,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 5,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "origin-1024",
+          "bboxEpsg3006": [
+            687236.5,
+            6370439.5,
+            688260.5,
+            6371463.5
+          ],
+          "squareMetres": 1048576,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "seam-northing-6370000-north-512",
+          "bboxEpsg3006": [
+            687492.5,
+            6370000,
+            688004.5,
+            6370512
+          ],
+          "squareMetres": 262144,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "seam-northing-6370000-south-512",
+          "bboxEpsg3006": [
+            687492.5,
+            6369488,
+            688004.5,
+            6370000
+          ],
+          "squareMetres": 262144,
+          "estimatedPoints": 19519,
+          "estimatedAllReturnDensityPerSquareMetre": 0.074,
+          "pointsByDepth": {
+            "0": 361,
+            "1": 632,
+            "2": 2617,
+            "3": 15909
+          },
+          "nodesTouched": 7,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 3,
+          "deepestNodeSizeMetres": 624.999,
+          "deepestNodesTouched": 2,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6370560",
+          "bboxEpsg3006": [
+            687104,
+            6370560,
+            687360,
+            6370816
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6370816",
+          "bboxEpsg3006": [
+            687104,
+            6370816,
+            687360,
+            6371072
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6370816",
+          "bboxEpsg3006": [
+            687360,
+            6370816,
+            687616,
+            6371072
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6371072",
+          "bboxEpsg3006": [
+            687104,
+            6371072,
+            687360,
+            6371328
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6371072",
+          "bboxEpsg3006": [
+            687360,
+            6371072,
+            687616,
+            6371328
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6371072",
+          "bboxEpsg3006": [
+            687616,
+            6371072,
+            687872,
+            6371328
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6371328",
+          "bboxEpsg3006": [
+            687104,
+            6371328,
+            687360,
+            6371584
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6371328",
+          "bboxEpsg3006": [
+            687360,
+            6371328,
+            687616,
+            6371584
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6371328",
+          "bboxEpsg3006": [
+            687616,
+            6371328,
+            687872,
+            6371584
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6371584",
+          "bboxEpsg3006": [
+            687104,
+            6371584,
+            687360,
+            6371840
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6371584",
+          "bboxEpsg3006": [
+            687360,
+            6371584,
+            687616,
+            6371840
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6371584",
+          "bboxEpsg3006": [
+            687616,
+            6371584,
+            687872,
+            6371840
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6371840",
+          "bboxEpsg3006": [
+            687104,
+            6371840,
+            687360,
+            6372096
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6371840",
+          "bboxEpsg3006": [
+            687360,
+            6371840,
+            687616,
+            6372096
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6371840",
+          "bboxEpsg3006": [
+            687616,
+            6371840,
+            687872,
+            6372096
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6370816",
+          "bboxEpsg3006": [
+            687616,
+            6370816,
+            687872,
+            6371072
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6370560",
+          "bboxEpsg3006": [
+            687360,
+            6370560,
+            687616,
+            6370816
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6370560",
+          "bboxEpsg3006": [
+            687616,
+            6370560,
+            687872,
+            6370816
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6370304",
+          "bboxEpsg3006": [
+            687616,
+            6370304,
+            687872,
+            6370560
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687872-6370304",
+          "bboxEpsg3006": [
+            687872,
+            6370304,
+            688128,
+            6370560
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-688128-6370304",
+          "bboxEpsg3006": [
+            688128,
+            6370304,
+            688384,
+            6370560
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687872-6370560",
+          "bboxEpsg3006": [
+            687872,
+            6370560,
+            688128,
+            6370816
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-688128-6370560",
+          "bboxEpsg3006": [
+            688128,
+            6370560,
+            688384,
+            6370816
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687872-6370816",
+          "bboxEpsg3006": [
+            687872,
+            6370816,
+            688128,
+            6371072
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-688128-6370816",
+          "bboxEpsg3006": [
+            688128,
+            6370816,
+            688384,
+            6371072
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687872-6371072",
+          "bboxEpsg3006": [
+            687872,
+            6371072,
+            688128,
+            6371328
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-688128-6371072",
+          "bboxEpsg3006": [
+            688128,
+            6371072,
+            688384,
+            6371328
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687872-6371328",
+          "bboxEpsg3006": [
+            687872,
+            6371328,
+            688128,
+            6371584
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6370304",
+          "bboxEpsg3006": [
+            687104,
+            6370304,
+            687360,
+            6370560
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6370304",
+          "bboxEpsg3006": [
+            687360,
+            6370304,
+            687616,
+            6370560
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        }
+      ],
+      "transfer": {
+        "requests": 8,
+        "bytes": 45261,
+        "elapsedMilliseconds": 1694
+      }
+    },
+    {
+      "itemId": "24e002-637_68",
+      "role": "active",
+      "captureStart": "2024-02-03T00:00:00Z",
+      "captureEnd": "2024-04-28T00:00:00Z",
+      "status": "ok",
+      "headerMatchesInfo": true,
+      "header": {
+        "version": "1.4",
+        "pointFormat": 6,
+        "pointLength": 30,
+        "pointCount": 47387337,
+        "vlrCount": 3,
+        "evlrCount": 1,
+        "min": [
+          685000,
+          6370000,
+          -1198.93
+        ],
+        "max": [
+          689999.99,
+          6374999.99,
+          36.96
+        ],
+        "scale": [
+          0.01,
+          0.01,
+          0.01
+        ]
+      },
+      "copc": {
+        "center": [
+          687499.995,
+          6372499.995,
+          -580.985
+        ],
+        "halfSizeMetres": 2500.005,
+        "spacingMetres": 39.062578,
+        "rootHierarchyOffset": 278750997,
+        "rootHierarchySize": 64416,
+        "gpsTimeMinimum": 390990767.549,
+        "gpsTimeMaximum": 391160367.754
+      },
+      "hierarchy": {
+        "pagesRead": 1,
+        "pagesSkipped": 0,
+        "complete": true,
+        "nodes": 2013,
+        "nodesByDepth": {
+          "0": 1,
+          "1": 4,
+          "2": 16,
+          "3": 64,
+          "4": 164,
+          "5": 528,
+          "6": 1236
+        },
+        "pointsByDepth": {
+          "0": 51358,
+          "1": 56282,
+          "2": 363552,
+          "3": 2315370,
+          "4": 6962624,
+          "5": 26834895,
+          "6": 10803256
+        },
+        "sumOfNodePoints": 47387337,
+        "matchesHeader": true
+      },
+      "dataBounds": [
+        685000,
+        6370000,
+        689999.99,
+        6374999.99
+      ],
+      "windows": [
+        {
+          "id": "aoi",
+          "bboxEpsg3006": [
+            686275.809,
+            6369400.06,
+            688808.445,
+            6372403.068
+          ],
+          "squareMetres": 7605526.2,
+          "estimatedPoints": 7032343,
+          "estimatedAllReturnDensityPerSquareMetre": 0.925,
+          "pointsByDepth": {
+            "0": 12503,
+            "1": 12440,
+            "2": 70986,
+            "3": 384335,
+            "4": 1684262,
+            "5": 3714180,
+            "6": 1153638
+          },
+          "nodesTouched": 297,
+          "nodesWhollyInside": 228,
+          "deepestDepth": 6,
+          "deepestNodeSizeMetres": 78.125,
+          "deepestNodesTouched": 104,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "origin-1024",
+          "bboxEpsg3006": [
+            687236.5,
+            6370439.5,
+            688260.5,
+            6371463.5
+          ],
+          "squareMetres": 1048576,
+          "estimatedPoints": 1725952,
+          "estimatedAllReturnDensityPerSquareMetre": 1.646,
+          "pointsByDepth": {
+            "0": 2154,
+            "1": 2328,
+            "2": 12243,
+            "3": 64577,
+            "4": 566143,
+            "5": 984456,
+            "6": 94051
+          },
+          "nodesTouched": 70,
+          "nodesWhollyInside": 27,
+          "deepestDepth": 6,
+          "deepestNodeSizeMetres": 78.125,
+          "deepestNodesTouched": 9,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "seam-northing-6370000-north-512",
+          "bboxEpsg3006": [
+            687492.5,
+            6370000,
+            688004.5,
+            6370512
+          ],
+          "squareMetres": 262144,
+          "estimatedPoints": 63922,
+          "estimatedAllReturnDensityPerSquareMetre": 0.244,
+          "pointsByDepth": {
+            "0": 539,
+            "1": 631,
+            "2": 3088,
+            "3": 8611,
+            "4": 51053
+          },
+          "nodesTouched": 11,
+          "nodesWhollyInside": 1,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 4,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "seam-northing-6370000-south-512",
+          "bboxEpsg3006": [
+            687492.5,
+            6369488,
+            688004.5,
+            6370000
+          ],
+          "squareMetres": 262144,
+          "estimatedPoints": 0,
+          "estimatedAllReturnDensityPerSquareMetre": 0,
+          "pointsByDepth": {},
+          "nodesTouched": 0,
+          "nodesWhollyInside": 0,
+          "deepestDepth": -1,
+          "deepestNodeSizeMetres": null,
+          "deepestNodesTouched": 0,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6370560",
+          "bboxEpsg3006": [
+            687104,
+            6370560,
+            687360,
+            6370816
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 48298,
+          "estimatedAllReturnDensityPerSquareMetre": 0.737,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 108,
+            "2": 700,
+            "3": 3778,
+            "4": 43577
+          },
+          "nodesTouched": 7,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 2,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6370816",
+          "bboxEpsg3006": [
+            687104,
+            6370816,
+            687360,
+            6371072
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 64137,
+          "estimatedAllReturnDensityPerSquareMetre": 0.979,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 108,
+            "2": 700,
+            "3": 3106,
+            "4": 60088
+          },
+          "nodesTouched": 8,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 4,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6370816",
+          "bboxEpsg3006": [
+            687360,
+            6370816,
+            687616,
+            6371072
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 86251,
+          "estimatedAllReturnDensityPerSquareMetre": 1.316,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 131,
+            "2": 733,
+            "3": 3993,
+            "4": 53321,
+            "5": 27937
+          },
+          "nodesTouched": 13,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 2,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6371072",
+          "bboxEpsg3006": [
+            687104,
+            6371072,
+            687360,
+            6371328
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 75256,
+          "estimatedAllReturnDensityPerSquareMetre": 1.148,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 108,
+            "2": 702,
+            "3": 3147,
+            "4": 71164
+          },
+          "nodesTouched": 10,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 4,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6371072",
+          "bboxEpsg3006": [
+            687360,
+            6371072,
+            687616,
+            6371328
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 114738,
+          "estimatedAllReturnDensityPerSquareMetre": 1.751,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 131,
+            "2": 744,
+            "3": 3844,
+            "4": 65150,
+            "5": 44736
+          },
+          "nodesTouched": 18,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 3,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6371072",
+          "bboxEpsg3006": [
+            687616,
+            6371072,
+            687872,
+            6371328
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 164804,
+          "estimatedAllReturnDensityPerSquareMetre": 2.515,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 794,
+            "3": 4684,
+            "4": 20662,
+            "5": 138371
+          },
+          "nodesTouched": 19,
+          "nodesWhollyInside": 1,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 9,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6371328",
+          "bboxEpsg3006": [
+            687104,
+            6371328,
+            687360,
+            6371584
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 95437,
+          "estimatedAllReturnDensityPerSquareMetre": 1.456,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 108,
+            "2": 706,
+            "3": 3241,
+            "4": 91248
+          },
+          "nodesTouched": 8,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 4,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6371328",
+          "bboxEpsg3006": [
+            687360,
+            6371328,
+            687616,
+            6371584
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 146272,
+          "estimatedAllReturnDensityPerSquareMetre": 2.232,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 131,
+            "2": 767,
+            "3": 3502,
+            "4": 80486,
+            "5": 61252
+          },
+          "nodesTouched": 14,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 3,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6371328",
+          "bboxEpsg3006": [
+            687616,
+            6371328,
+            687872,
+            6371584
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 173737,
+          "estimatedAllReturnDensityPerSquareMetre": 2.651,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 841,
+            "3": 3817,
+            "4": 18019,
+            "5": 150767
+          },
+          "nodesTouched": 17,
+          "nodesWhollyInside": 1,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 9,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6371584",
+          "bboxEpsg3006": [
+            687104,
+            6371584,
+            687360,
+            6371840
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 76612,
+          "estimatedAllReturnDensityPerSquareMetre": 1.169,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 108,
+            "2": 706,
+            "3": 3241,
+            "4": 72423
+          },
+          "nodesTouched": 6,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 2,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6371584",
+          "bboxEpsg3006": [
+            687360,
+            6371584,
+            687616,
+            6371840
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 108567,
+          "estimatedAllReturnDensityPerSquareMetre": 1.657,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 131,
+            "2": 767,
+            "3": 3502,
+            "4": 62924,
+            "5": 41109
+          },
+          "nodesTouched": 11,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 2,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6371584",
+          "bboxEpsg3006": [
+            687616,
+            6371584,
+            687872,
+            6371840
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 91295,
+          "estimatedAllReturnDensityPerSquareMetre": 1.393,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 841,
+            "3": 3817,
+            "4": 12492,
+            "5": 73851
+          },
+          "nodesTouched": 12,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 6,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6371840",
+          "bboxEpsg3006": [
+            687104,
+            6371840,
+            687360,
+            6372096
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 31466,
+          "estimatedAllReturnDensityPerSquareMetre": 0.48,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 108,
+            "2": 706,
+            "3": 2439,
+            "4": 28079
+          },
+          "nodesTouched": 9,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 4,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6371840",
+          "bboxEpsg3006": [
+            687360,
+            6371840,
+            687616,
+            6372096
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 54894,
+          "estimatedAllReturnDensityPerSquareMetre": 0.838,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 131,
+            "2": 767,
+            "3": 2840,
+            "4": 26452,
+            "5": 24568
+          },
+          "nodesTouched": 16,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 3,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6371840",
+          "bboxEpsg3006": [
+            687616,
+            6371840,
+            687872,
+            6372096
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 85184,
+          "estimatedAllReturnDensityPerSquareMetre": 1.3,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 841,
+            "3": 3325,
+            "4": 12956,
+            "5": 67769
+          },
+          "nodesTouched": 18,
+          "nodesWhollyInside": 1,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 9,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6370816",
+          "bboxEpsg3006": [
+            687616,
+            6370816,
+            687872,
+            6371072
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 93570,
+          "estimatedAllReturnDensityPerSquareMetre": 1.428,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 773,
+            "3": 5064,
+            "4": 18685,
+            "5": 68755
+          },
+          "nodesTouched": 14,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 6,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6370560",
+          "bboxEpsg3006": [
+            687360,
+            6370560,
+            687616,
+            6370816
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 58457,
+          "estimatedAllReturnDensityPerSquareMetre": 0.892,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 131,
+            "2": 733,
+            "3": 4020,
+            "4": 36983,
+            "5": 16456
+          },
+          "nodesTouched": 14,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 2,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6370560",
+          "bboxEpsg3006": [
+            687616,
+            6370560,
+            687872,
+            6370816
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 61081,
+          "estimatedAllReturnDensityPerSquareMetre": 0.932,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 773,
+            "3": 4311,
+            "4": 15621,
+            "5": 40082
+          },
+          "nodesTouched": 15,
+          "nodesWhollyInside": 1,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 6,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687616-6370304",
+          "bboxEpsg3006": [
+            687616,
+            6370304,
+            687872,
+            6370560
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 18927,
+          "estimatedAllReturnDensityPerSquareMetre": 0.289,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 773,
+            "3": 2099,
+            "4": 15762
+          },
+          "nodesTouched": 8,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 4,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687872-6370304",
+          "bboxEpsg3006": [
+            687872,
+            6370304,
+            688128,
+            6370560
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 46888,
+          "estimatedAllReturnDensityPerSquareMetre": 0.715,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 773,
+            "3": 2099,
+            "4": 43723
+          },
+          "nodesTouched": 9,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 4,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-688128-6370304",
+          "bboxEpsg3006": [
+            688128,
+            6370304,
+            688384,
+            6370560
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 9076,
+          "estimatedAllReturnDensityPerSquareMetre": 0.138,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 773,
+            "3": 2076,
+            "4": 5933
+          },
+          "nodesTouched": 6,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 2,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687872-6370560",
+          "bboxEpsg3006": [
+            687872,
+            6370560,
+            688128,
+            6370816
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 82249,
+          "estimatedAllReturnDensityPerSquareMetre": 1.255,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 773,
+            "3": 4299,
+            "4": 26890,
+            "5": 49993
+          },
+          "nodesTouched": 17,
+          "nodesWhollyInside": 1,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 6,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-688128-6370560",
+          "bboxEpsg3006": [
+            688128,
+            6370560,
+            688384,
+            6370816
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 65096,
+          "estimatedAllReturnDensityPerSquareMetre": 0.993,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 773,
+            "3": 3300,
+            "4": 11377,
+            "5": 49352
+          },
+          "nodesTouched": 11,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 4,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687872-6370816",
+          "bboxEpsg3006": [
+            687872,
+            6370816,
+            688128,
+            6371072
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 102411,
+          "estimatedAllReturnDensityPerSquareMetre": 1.563,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 773,
+            "3": 5048,
+            "4": 21829,
+            "5": 74468
+          },
+          "nodesTouched": 15,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 6,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-688128-6370816",
+          "bboxEpsg3006": [
+            688128,
+            6370816,
+            688384,
+            6371072
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 124078,
+          "estimatedAllReturnDensityPerSquareMetre": 1.893,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 773,
+            "3": 3716,
+            "4": 17200,
+            "5": 102096
+          },
+          "nodesTouched": 10,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 156.25,
+          "deepestNodesTouched": 4,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687872-6371072",
+          "bboxEpsg3006": [
+            687872,
+            6371072,
+            688128,
+            6371328
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 171981,
+          "estimatedAllReturnDensityPerSquareMetre": 2.624,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 794,
+            "3": 4679,
+            "4": 22442,
+            "5": 143343,
+            "6": 430
+          },
+          "nodesTouched": 22,
+          "nodesWhollyInside": 1,
+          "deepestDepth": 6,
+          "deepestNodeSizeMetres": 78.125,
+          "deepestNodesTouched": 1,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-688128-6371072",
+          "bboxEpsg3006": [
+            688128,
+            6371072,
+            688384,
+            6371328
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 238213,
+          "estimatedAllReturnDensityPerSquareMetre": 3.635,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 794,
+            "3": 4262,
+            "4": 24415,
+            "5": 145412,
+            "6": 63036
+          },
+          "nodesTouched": 19,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 6,
+          "deepestNodeSizeMetres": 78.125,
+          "deepestNodesTouched": 5,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687872-6371328",
+          "bboxEpsg3006": [
+            687872,
+            6371328,
+            688128,
+            6371584
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 186935,
+          "estimatedAllReturnDensityPerSquareMetre": 2.852,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 159,
+            "2": 841,
+            "3": 3837,
+            "4": 21027,
+            "5": 158620,
+            "6": 2317
+          },
+          "nodesTouched": 26,
+          "nodesWhollyInside": 1,
+          "deepestDepth": 6,
+          "deepestNodeSizeMetres": 78.125,
+          "deepestNodesTouched": 8,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687104-6370304",
+          "bboxEpsg3006": [
+            687104,
+            6370304,
+            687360,
+            6370560
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 6694,
+          "estimatedAllReturnDensityPerSquareMetre": 0.102,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 108,
+            "2": 700,
+            "3": 5751
+          },
+          "nodesTouched": 4,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 3,
+          "deepestNodeSizeMetres": 624.999,
+          "deepestNodesTouched": 1,
+          "deepestNodesEmpty": 0
+        },
+        {
+          "id": "w256-687360-6370304",
+          "bboxEpsg3006": [
+            687360,
+            6370304,
+            687616,
+            6370560
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 8339,
+          "estimatedAllReturnDensityPerSquareMetre": 0.127,
+          "pointsByDepth": {
+            "0": 135,
+            "1": 131,
+            "2": 733,
+            "3": 4097,
+            "4": 3244
+          },
+          "nodesTouched": 9,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 4,
+          "deepestNodeSizeMetres": 312.499,
+          "deepestNodesTouched": 2,
+          "deepestNodesEmpty": 0
+        }
+      ],
+      "transfer": {
+        "requests": 3,
+        "bytes": 65005,
+        "elapsedMilliseconds": 539.8
+      }
+    }
+  ]
+}

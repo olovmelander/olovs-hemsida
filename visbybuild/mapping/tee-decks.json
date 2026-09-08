@@ -1,0 +1,8229 @@
+{
+ "method": "numbered tee decks read at the card's own distance along each observed route, on the independent 2026 national flight",
+ "capture": {
+  "detector": "lm016, Lantmateriet 0.16 m national orthophoto 2026-04-10, read at 0.5 m",
+  "secondOpinion": "gotland, Region Gotland 0.25 m summer 2022",
+  "note": "the mapped decks were traced ON the Gotland 2022 image, so its agreement with them is self-agreement; the April flight is the independent record"
+ },
+ "rules": {
+  "hypothesis": "the model's own derivation: the back tee on the observed platform, each shorter tee walked up the observed route by the card's difference from the back tee",
+  "searchRadiusMetres": 26.0,
+  "areaSquareMetresRange": [
+   30.0,
+   700.0
+  ],
+  "collarMetres": 14.0,
+  "readingCuts": [
+   2.0,
+   3.0,
+   4.0,
+   5.5,
+   7.0,
+   9.0
+  ],
+  "minRectangularity": 0.6,
+  "minGreennessOverCollar": 4.0,
+  "maxSmoothnessRatio": 1.0,
+  "flatnessIsCorroborationOnly": "35% of the played box is flatter than 0.10 m over 5 m, so a flatness test cannot detect a deck on this links"
+ },
+ "calibration": [
+  {
+   "hole": 1,
+   "mappedAreaSquareMetres": 254.4,
+   "recovered": false,
+   "centreDeltaMetres": null,
+   "areaRatio": null,
+   "greennessOverCollar": null
+  },
+  {
+   "hole": 2,
+   "mappedAreaSquareMetres": 50.1,
+   "recovered": true,
+   "centreDeltaMetres": 8.3,
+   "areaRatio": 1.88,
+   "greennessOverCollar": 6.0
+  },
+  {
+   "hole": 3,
+   "mappedAreaSquareMetres": 240.0,
+   "recovered": true,
+   "centreDeltaMetres": 7.4,
+   "areaRatio": 0.58,
+   "greennessOverCollar": 10.5
+  },
+  {
+   "hole": 4,
+   "mappedAreaSquareMetres": 119.6,
+   "recovered": true,
+   "centreDeltaMetres": 7.9,
+   "areaRatio": 0.35,
+   "greennessOverCollar": 7.0
+  },
+  {
+   "hole": 5,
+   "mappedAreaSquareMetres": 188.2,
+   "recovered": true,
+   "centreDeltaMetres": 2.6,
+   "areaRatio": 0.51,
+   "greennessOverCollar": 15.0
+  },
+  {
+   "hole": 6,
+   "mappedAreaSquareMetres": 104.1,
+   "recovered": false,
+   "centreDeltaMetres": null,
+   "areaRatio": null,
+   "greennessOverCollar": null
+  },
+  {
+   "hole": 7,
+   "mappedAreaSquareMetres": 251.5,
+   "recovered": false,
+   "centreDeltaMetres": null,
+   "areaRatio": null,
+   "greennessOverCollar": null
+  },
+  {
+   "hole": 8,
+   "mappedAreaSquareMetres": 41.8,
+   "recovered": false,
+   "centreDeltaMetres": null,
+   "areaRatio": null,
+   "greennessOverCollar": null
+  },
+  {
+   "hole": 9,
+   "mappedAreaSquareMetres": 97.5,
+   "recovered": false,
+   "centreDeltaMetres": null,
+   "areaRatio": null,
+   "greennessOverCollar": null
+  },
+  {
+   "hole": 10,
+   "mappedAreaSquareMetres": 129.2,
+   "recovered": false,
+   "centreDeltaMetres": null,
+   "areaRatio": null,
+   "greennessOverCollar": null
+  },
+  {
+   "hole": 11,
+   "mappedAreaSquareMetres": 217.9,
+   "recovered": true,
+   "centreDeltaMetres": 3.1,
+   "areaRatio": 0.21,
+   "greennessOverCollar": 7.0
+  },
+  {
+   "hole": 13,
+   "mappedAreaSquareMetres": 104.2,
+   "recovered": true,
+   "centreDeltaMetres": 5.9,
+   "areaRatio": 1.88,
+   "greennessOverCollar": 8.0
+  },
+  {
+   "hole": 14,
+   "mappedAreaSquareMetres": 95.6,
+   "recovered": false,
+   "centreDeltaMetres": null,
+   "areaRatio": null,
+   "greennessOverCollar": null
+  },
+  {
+   "hole": 15,
+   "mappedAreaSquareMetres": 95.5,
+   "recovered": true,
+   "centreDeltaMetres": 4.6,
+   "areaRatio": 0.56,
+   "greennessOverCollar": 10.0
+  },
+  {
+   "hole": 16,
+   "mappedAreaSquareMetres": 186.9,
+   "recovered": true,
+   "centreDeltaMetres": 5.6,
+   "areaRatio": 1.75,
+   "greennessOverCollar": 13.0
+  },
+  {
+   "hole": 17,
+   "mappedAreaSquareMetres": 79.5,
+   "recovered": true,
+   "centreDeltaMetres": 2.7,
+   "areaRatio": 1.54,
+   "greennessOverCollar": 5.0
+  },
+  {
+   "hole": 18,
+   "mappedAreaSquareMetres": 174.5,
+   "recovered": true,
+   "centreDeltaMetres": 5.2,
+   "areaRatio": 0.9,
+   "greennessOverCollar": 7.0
+  }
+ ],
+ "holes": [
+  {
+   "hole": 1,
+   "par": 3,
+   "card": [
+    159,
+    146,
+    120,
+    120,
+    95,
+    95
+   ],
+   "lineLengthMetres": 151.4,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 159,
+     "cardPoint": [
+      -581.24,
+      175.42
+     ],
+     "reading": {
+      "centre": [
+       -574.82,
+       169.11
+      ],
+      "areaSquareMetres": 124.8,
+      "sizeMetres": [
+       15.0,
+       12.0
+      ],
+      "rectangularity": 0.693,
+      "greennessOverCollar": 5.0,
+      "smoothnessRatio": 0.463,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 9.0,
+      "ring": [
+       [
+        -578.7,
+        163.53
+       ],
+       [
+        -575.2,
+        163.53
+       ],
+       [
+        -575.2,
+        166.53
+       ],
+       [
+        -571.7,
+        166.53
+       ],
+       [
+        -571.2,
+        163.53
+       ],
+       [
+        -567.2,
+        163.53
+       ],
+       [
+        -567.2,
+        171.53
+       ],
+       [
+        -571.2,
+        171.53
+       ],
+       [
+        -571.2,
+        174.03
+       ],
+       [
+        -573.2,
+        172.53
+       ],
+       [
+        -574.2,
+        175.53
+       ],
+       [
+        -578.7,
+        176.03
+       ],
+       [
+        -579.7,
+        172.03
+       ],
+       [
+        -581.7,
+        172.53
+       ],
+       [
+        -582.7,
+        169.53
+       ],
+       [
+        -582.2,
+        165.53
+       ],
+       [
+        -579.2,
+        165.03
+       ],
+       [
+        -578.7,
+        166.53
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.05,
+      "distanceToGreenMetres": 147.1,
+      "lateralMetres": 5.0,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 146,
+     "cardPoint": [
+      -579.55,
+      162.48
+     ],
+     "reading": {
+      "centre": [
+       -574.82,
+       169.11
+      ],
+      "areaSquareMetres": 124.8,
+      "sizeMetres": [
+       15.0,
+       12.0
+      ],
+      "rectangularity": 0.693,
+      "greennessOverCollar": 5.0,
+      "smoothnessRatio": 0.463,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 8.1,
+      "ring": [
+       [
+        -578.7,
+        163.53
+       ],
+       [
+        -575.2,
+        163.53
+       ],
+       [
+        -575.2,
+        166.53
+       ],
+       [
+        -571.7,
+        166.53
+       ],
+       [
+        -571.2,
+        163.53
+       ],
+       [
+        -567.2,
+        163.53
+       ],
+       [
+        -567.2,
+        171.53
+       ],
+       [
+        -571.2,
+        171.53
+       ],
+       [
+        -571.2,
+        174.03
+       ],
+       [
+        -573.2,
+        172.53
+       ],
+       [
+        -574.2,
+        175.53
+       ],
+       [
+        -578.7,
+        176.03
+       ],
+       [
+        -579.7,
+        172.03
+       ],
+       [
+        -581.7,
+        172.53
+       ],
+       [
+        -582.7,
+        169.53
+       ],
+       [
+        -582.2,
+        165.53
+       ],
+       [
+        -579.2,
+        165.03
+       ],
+       [
+        -578.7,
+        166.53
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.05,
+      "distanceToGreenMetres": 147.1,
+      "lateralMetres": 5.0,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 120,
+     "cardPoint": [
+      -578.39,
+      136.51
+     ],
+     "reading": {
+      "centre": [
+       -556.21,
+       148.79
+      ],
+      "areaSquareMetres": 45.0,
+      "sizeMetres": [
+       11.5,
+       4.5
+      ],
+      "rectangularity": 0.87,
+      "greennessOverCollar": 6.5,
+      "smoothnessRatio": 0.889,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 25.3,
+      "ring": [
+       [
+        -558.2,
+        143.53
+       ],
+       [
+        -553.2,
+        143.53
+       ],
+       [
+        -553.2,
+        147.53
+       ],
+       [
+        -555.2,
+        148.53
+       ],
+       [
+        -555.2,
+        155.53
+       ],
+       [
+        -558.2,
+        155.53
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.223,
+      "distanceToGreenMetres": 126.0,
+      "lateralMetres": 22.7,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 120,
+     "cardPoint": [
+      -578.39,
+      136.51
+     ],
+     "reading": {
+      "centre": [
+       -556.21,
+       148.79
+      ],
+      "areaSquareMetres": 45.0,
+      "sizeMetres": [
+       11.5,
+       4.5
+      ],
+      "rectangularity": 0.87,
+      "greennessOverCollar": 6.5,
+      "smoothnessRatio": 0.889,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 25.3,
+      "ring": [
+       [
+        -558.2,
+        143.53
+       ],
+       [
+        -553.2,
+        143.53
+       ],
+       [
+        -553.2,
+        147.53
+       ],
+       [
+        -555.2,
+        148.53
+       ],
+       [
+        -555.2,
+        155.53
+       ],
+       [
+        -558.2,
+        155.53
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 2,
+      "flatness5mMetres": 0.223,
+      "distanceToGreenMetres": 126.0,
+      "lateralMetres": 22.7,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 95,
+     "cardPoint": [
+      -577.27,
+      111.53
+     ],
+     "reading": {
+      "centre": [
+       -575.46,
+       86.56
+      ],
+      "areaSquareMetres": 272.5,
+      "sizeMetres": [
+       27.3,
+       15.9
+      ],
+      "rectangularity": 0.627,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.641,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 25.0,
+      "ring": [
+       [
+        -576.2,
+        73.03
+       ],
+       [
+        -575.2,
+        73.03
+       ],
+       [
+        -575.2,
+        75.53
+       ],
+       [
+        -571.7,
+        75.53
+       ],
+       [
+        -571.7,
+        77.53
+       ],
+       [
+        -575.2,
+        76.53
+       ],
+       [
+        -577.2,
+        78.03
+       ],
+       [
+        -577.2,
+        80.03
+       ],
+       [
+        -572.2,
+        79.03
+       ],
+       [
+        -571.2,
+        83.53
+       ],
+       [
+        -567.2,
+        83.53
+       ],
+       [
+        -569.2,
+        99.53
+       ],
+       [
+        -576.2,
+        98.53
+       ],
+       [
+        -576.2,
+        95.53
+       ],
+       [
+        -578.7,
+        95.53
+       ],
+       [
+        -578.7,
+        93.03
+       ],
+       [
+        -579.7,
+        93.03
+       ],
+       [
+        -579.2,
+        90.53
+       ],
+       [
+        -582.2,
+        90.53
+       ],
+       [
+        -582.2,
+        87.53
+       ],
+       [
+        -578.7,
+        87.53
+       ],
+       [
+        -578.7,
+        86.03
+       ],
+       [
+        -582.7,
+        86.53
+       ],
+       [
+        -583.2,
+        81.53
+       ],
+       [
+        -579.2,
+        81.53
+       ],
+       [
+        -578.7,
+        79.53
+       ],
+       [
+        -587.2,
+        79.03
+       ],
+       [
+        -587.2,
+        77.03
+       ],
+       [
+        -584.2,
+        75.53
+       ],
+       [
+        -582.2,
+        76.53
+       ],
+       [
+        -581.2,
+        74.53
+       ],
+       [
+        -577.2,
+        74.53
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.64,
+      "distanceToGreenMetres": 64.7,
+      "lateralMetres": 0.7,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 95,
+     "cardPoint": [
+      -577.27,
+      111.53
+     ],
+     "reading": {
+      "centre": [
+       -575.46,
+       86.56
+      ],
+      "areaSquareMetres": 272.5,
+      "sizeMetres": [
+       27.3,
+       15.9
+      ],
+      "rectangularity": 0.627,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.641,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 25.0,
+      "ring": [
+       [
+        -576.2,
+        73.03
+       ],
+       [
+        -575.2,
+        73.03
+       ],
+       [
+        -575.2,
+        75.53
+       ],
+       [
+        -571.7,
+        75.53
+       ],
+       [
+        -571.7,
+        77.53
+       ],
+       [
+        -575.2,
+        76.53
+       ],
+       [
+        -577.2,
+        78.03
+       ],
+       [
+        -577.2,
+        80.03
+       ],
+       [
+        -572.2,
+        79.03
+       ],
+       [
+        -571.2,
+        83.53
+       ],
+       [
+        -567.2,
+        83.53
+       ],
+       [
+        -569.2,
+        99.53
+       ],
+       [
+        -576.2,
+        98.53
+       ],
+       [
+        -576.2,
+        95.53
+       ],
+       [
+        -578.7,
+        95.53
+       ],
+       [
+        -578.7,
+        93.03
+       ],
+       [
+        -579.7,
+        93.03
+       ],
+       [
+        -579.2,
+        90.53
+       ],
+       [
+        -582.2,
+        90.53
+       ],
+       [
+        -582.2,
+        87.53
+       ],
+       [
+        -578.7,
+        87.53
+       ],
+       [
+        -578.7,
+        86.03
+       ],
+       [
+        -582.7,
+        86.53
+       ],
+       [
+        -583.2,
+        81.53
+       ],
+       [
+        -579.2,
+        81.53
+       ],
+       [
+        -578.7,
+        79.53
+       ],
+       [
+        -587.2,
+        79.03
+       ],
+       [
+        -587.2,
+        77.03
+       ],
+       [
+        -584.2,
+        75.53
+       ],
+       [
+        -582.2,
+        76.53
+       ],
+       [
+        -581.2,
+        74.53
+       ],
+       [
+        -577.2,
+        74.53
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 4,
+      "flatness5mMetres": 0.64,
+      "distanceToGreenMetres": 64.7,
+      "lateralMetres": 0.7,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 6,
+   "distinctDecks": 3
+  },
+  {
+   "hole": 2,
+   "par": 4,
+   "card": [
+    411,
+    390,
+    360,
+    319,
+    275,
+    275
+   ],
+   "lineLengthMetres": 387.8,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 411,
+     "cardPoint": [
+      -533.68,
+      56.52
+     ],
+     "reading": {
+      "centre": [
+       -538.72,
+       51.96
+      ],
+      "areaSquareMetres": 125.8,
+      "sizeMetres": [
+       16.2,
+       12.2
+      ],
+      "rectangularity": 0.634,
+      "greennessOverCollar": 7.0,
+      "smoothnessRatio": 0.851,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 6.8,
+      "ring": [
+       [
+        -540.01,
+        44.39
+       ],
+       [
+        -539.01,
+        44.39
+       ],
+       [
+        -538.51,
+        47.89
+       ],
+       [
+        -541.01,
+        48.39
+       ],
+       [
+        -540.01,
+        51.89
+       ],
+       [
+        -538.51,
+        52.39
+       ],
+       [
+        -538.51,
+        48.89
+       ],
+       [
+        -535.01,
+        47.89
+       ],
+       [
+        -535.01,
+        45.89
+       ],
+       [
+        -532.51,
+        46.39
+       ],
+       [
+        -533.01,
+        49.89
+       ],
+       [
+        -532.51,
+        51.89
+       ],
+       [
+        -530.51,
+        52.39
+       ],
+       [
+        -530.51,
+        56.39
+       ],
+       [
+        -542.01,
+        56.89
+       ],
+       [
+        -544.01,
+        55.89
+       ],
+       [
+        -543.01,
+        54.89
+       ],
+       [
+        -546.51,
+        54.39
+       ],
+       [
+        -546.51,
+        46.39
+       ],
+       [
+        -541.01,
+        47.89
+       ],
+       [
+        -539.51,
+        47.39
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.602,
+      "distanceToGreenMetres": 386.5,
+      "lateralMetres": 6.8,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 390,
+     "cardPoint": [
+      -520.95,
+      39.82
+     ],
+     "reading": {
+      "centre": [
+       -521.64,
+       33.22
+      ],
+      "areaSquareMetres": 132.5,
+      "sizeMetres": [
+       18.2,
+       9.7
+      ],
+      "rectangularity": 0.751,
+      "greennessOverCollar": 11.0,
+      "smoothnessRatio": 0.581,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 6.6,
+      "ring": [
+       [
+        -522.01,
+        24.39
+       ],
+       [
+        -518.51,
+        24.39
+       ],
+       [
+        -518.51,
+        28.39
+       ],
+       [
+        -514.01,
+        28.39
+       ],
+       [
+        -514.51,
+        31.39
+       ],
+       [
+        -516.51,
+        32.89
+       ],
+       [
+        -517.01,
+        35.89
+       ],
+       [
+        -520.51,
+        38.39
+       ],
+       [
+        -519.51,
+        40.39
+       ],
+       [
+        -528.51,
+        40.39
+       ],
+       [
+        -529.01,
+        36.39
+       ],
+       [
+        -526.51,
+        36.39
+       ],
+       [
+        -526.51,
+        31.89
+       ],
+       [
+        -524.51,
+        28.39
+       ],
+       [
+        -522.51,
+        28.39
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.687,
+      "distanceToGreenMetres": 361.2,
+      "lateralMetres": 4.6,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 360,
+     "cardPoint": [
+      -502.76,
+      15.97
+     ],
+     "reading": {
+      "centre": [
+       -521.64,
+       33.22
+      ],
+      "areaSquareMetres": 132.5,
+      "sizeMetres": [
+       18.2,
+       9.7
+      ],
+      "rectangularity": 0.751,
+      "greennessOverCollar": 11.0,
+      "smoothnessRatio": 0.581,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 25.6,
+      "ring": [
+       [
+        -522.01,
+        24.39
+       ],
+       [
+        -518.51,
+        24.39
+       ],
+       [
+        -518.51,
+        28.39
+       ],
+       [
+        -514.01,
+        28.39
+       ],
+       [
+        -514.51,
+        31.39
+       ],
+       [
+        -516.51,
+        32.89
+       ],
+       [
+        -517.01,
+        35.89
+       ],
+       [
+        -520.51,
+        38.39
+       ],
+       [
+        -519.51,
+        40.39
+       ],
+       [
+        -528.51,
+        40.39
+       ],
+       [
+        -529.01,
+        36.39
+       ],
+       [
+        -526.51,
+        36.39
+       ],
+       [
+        -526.51,
+        31.89
+       ],
+       [
+        -524.51,
+        28.39
+       ],
+       [
+        -522.51,
+        28.39
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 1,
+      "flatness5mMetres": 0.687,
+      "distanceToGreenMetres": 361.2,
+      "lateralMetres": 4.6,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 319,
+     "cardPoint": [
+      -477.89,
+      -16.63
+     ],
+     "reading": {
+      "centre": [
+       -481.03,
+       -21.7
+      ],
+      "areaSquareMetres": 37.5,
+      "sizeMetres": [
+       12.0,
+       4.0
+      ],
+      "rectangularity": 0.781,
+      "greennessOverCollar": 6.0,
+      "smoothnessRatio": 0.893,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 6.0,
+      "ring": [
+       [
+        -486.51,
+        -23.61
+       ],
+       [
+        -482.01,
+        -23.61
+       ],
+       [
+        -482.01,
+        -22.11
+       ],
+       [
+        -474.51,
+        -23.61
+       ],
+       [
+        -474.01,
+        -21.61
+       ],
+       [
+        -477.51,
+        -21.61
+       ],
+       [
+        -477.51,
+        -19.61
+       ],
+       [
+        -485.51,
+        -20.11
+       ],
+       [
+        -486.01,
+        -19.11
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.08,
+      "distanceToGreenMetres": 292.9,
+      "lateralMetres": 5.6,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 275,
+     "cardPoint": [
+      -451.2,
+      -51.61
+     ],
+     "reading": {
+      "centre": [
+       -430.57,
+       -55.7
+      ],
+      "areaSquareMetres": 62.5,
+      "sizeMetres": [
+       7.5,
+       7.5
+      ],
+      "rectangularity": 1.111,
+      "greennessOverCollar": 6.0,
+      "smoothnessRatio": 0.528,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 21.0,
+      "ring": [
+       [
+        -434.51,
+        -59.61
+       ],
+       [
+        -426.51,
+        -59.61
+       ],
+       [
+        -426.51,
+        -52.11
+       ],
+       [
+        -434.51,
+        -51.61
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.23,
+      "distanceToGreenMetres": 235.3,
+      "lateralMetres": 13.9,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 275,
+     "cardPoint": [
+      -451.2,
+      -51.61
+     ],
+     "reading": {
+      "centre": [
+       -430.57,
+       -55.7
+      ],
+      "areaSquareMetres": 62.5,
+      "sizeMetres": [
+       7.5,
+       7.5
+      ],
+      "rectangularity": 1.111,
+      "greennessOverCollar": 6.0,
+      "smoothnessRatio": 0.528,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 21.0,
+      "ring": [
+       [
+        -434.51,
+        -59.61
+       ],
+       [
+        -426.51,
+        -59.61
+       ],
+       [
+        -426.51,
+        -52.11
+       ],
+       [
+        -434.51,
+        -51.61
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 4,
+      "flatness5mMetres": 0.23,
+      "distanceToGreenMetres": 235.3,
+      "lateralMetres": 13.9,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 6,
+   "distinctDecks": 4
+  },
+  {
+   "hole": 3,
+   "par": 5,
+   "card": [
+    525,
+    490,
+    490,
+    448,
+    400,
+    380
+   ],
+   "lineLengthMetres": 468.7,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 525,
+     "cardPoint": [
+      -369.35,
+      -356.45
+     ],
+     "reading": {
+      "centre": [
+       -363.11,
+       -353.44
+      ],
+      "areaSquareMetres": 116.8,
+      "sizeMetres": [
+       14.0,
+       11.5
+      ],
+      "rectangularity": 0.725,
+      "greennessOverCollar": 11.0,
+      "smoothnessRatio": 0.761,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 6.9,
+      "ring": [
+       [
+        -365.5,
+        -360.78
+       ],
+       [
+        -361.5,
+        -360.78
+       ],
+       [
+        -361.5,
+        -356.78
+       ],
+       [
+        -357.5,
+        -356.78
+       ],
+       [
+        -358.0,
+        -352.28
+       ],
+       [
+        -357.0,
+        -350.78
+       ],
+       [
+        -355.5,
+        -352.78
+       ],
+       [
+        -356.0,
+        -348.78
+       ],
+       [
+        -370.0,
+        -349.28
+       ],
+       [
+        -369.0,
+        -356.78
+       ],
+       [
+        -365.5,
+        -356.78
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.245,
+      "distanceToGreenMetres": 468.4,
+      "lateralMetres": 5.4,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 490,
+     "cardPoint": [
+      -360.5,
+      -390.34
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 490,
+     "cardPoint": [
+      -360.5,
+      -390.34
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 448,
+     "cardPoint": [
+      -351.42,
+      -431.34
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 400,
+     "cardPoint": [
+      -339.9,
+      -477.89
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 380,
+     "cardPoint": [
+      -333.33,
+      -496.78
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    }
+   ],
+   "teesRead": 1,
+   "distinctDecks": 1
+  },
+  {
+   "hole": 4,
+   "par": 4,
+   "card": [
+    310,
+    287,
+    287,
+    250,
+    250,
+    216
+   ],
+   "lineLengthMetres": 313.7,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 310,
+     "cardPoint": [
+      -59.05,
+      -793.85
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 287,
+     "cardPoint": [
+      -78.7,
+      -805.84
+     ],
+     "reading": {
+      "centre": [
+       -85.05,
+       -791.6
+      ],
+      "areaSquareMetres": 44.2,
+      "sizeMetres": [
+       8.2,
+       7.5
+      ],
+      "rectangularity": 0.72,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.818,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 15.6,
+      "ring": [
+       [
+        -88.43,
+        -795.36
+       ],
+       [
+        -87.93,
+        -794.36
+       ],
+       [
+        -87.43,
+        -795.36
+       ],
+       [
+        -86.93,
+        -794.36
+       ],
+       [
+        -86.43,
+        -795.36
+       ],
+       [
+        -81.43,
+        -794.36
+       ],
+       [
+        -81.93,
+        -786.36
+       ],
+       [
+        -85.93,
+        -787.36
+       ],
+       [
+        -85.93,
+        -790.86
+       ],
+       [
+        -89.43,
+        -790.86
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.405,
+      "distanceToGreenMetres": 291.8,
+      "lateralMetres": 15.4,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 287,
+     "cardPoint": [
+      -78.7,
+      -805.84
+     ],
+     "reading": {
+      "centre": [
+       -85.05,
+       -791.6
+      ],
+      "areaSquareMetres": 44.2,
+      "sizeMetres": [
+       8.2,
+       7.5
+      ],
+      "rectangularity": 0.72,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.818,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 15.6,
+      "ring": [
+       [
+        -88.43,
+        -795.36
+       ],
+       [
+        -87.93,
+        -794.36
+       ],
+       [
+        -87.43,
+        -795.36
+       ],
+       [
+        -86.93,
+        -794.36
+       ],
+       [
+        -86.43,
+        -795.36
+       ],
+       [
+        -81.43,
+        -794.36
+       ],
+       [
+        -81.93,
+        -786.36
+       ],
+       [
+        -85.93,
+        -787.36
+       ],
+       [
+        -85.93,
+        -790.86
+       ],
+       [
+        -89.43,
+        -790.86
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 1,
+      "flatness5mMetres": 0.405,
+      "distanceToGreenMetres": 291.8,
+      "lateralMetres": 15.4,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 250,
+     "cardPoint": [
+      -109.56,
+      -826.24
+     ],
+     "reading": {
+      "centre": [
+       -114.7,
+       -818.67
+      ],
+      "areaSquareMetres": 73.2,
+      "sizeMetres": [
+       11.5,
+       7.5
+      ],
+      "rectangularity": 0.849,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.912,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 9.2,
+      "ring": [
+       [
+        -117.93,
+        -822.86
+       ],
+       [
+        -109.93,
+        -822.86
+       ],
+       [
+        -109.93,
+        -814.86
+       ],
+       [
+        -120.93,
+        -815.86
+       ],
+       [
+        -121.93,
+        -818.36
+       ],
+       [
+        -117.93,
+        -818.86
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.072,
+      "distanceToGreenMetres": 252.2,
+      "lateralMetres": 9.1,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 250,
+     "cardPoint": [
+      -109.56,
+      -826.24
+     ],
+     "reading": {
+      "centre": [
+       -114.7,
+       -818.67
+      ],
+      "areaSquareMetres": 73.2,
+      "sizeMetres": [
+       11.5,
+       7.5
+      ],
+      "rectangularity": 0.849,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.912,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 9.2,
+      "ring": [
+       [
+        -117.93,
+        -822.86
+       ],
+       [
+        -109.93,
+        -822.86
+       ],
+       [
+        -109.93,
+        -814.86
+       ],
+       [
+        -120.93,
+        -815.86
+       ],
+       [
+        -121.93,
+        -818.36
+       ],
+       [
+        -117.93,
+        -818.86
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 3,
+      "flatness5mMetres": 0.072,
+      "distanceToGreenMetres": 252.2,
+      "lateralMetres": 9.1,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 216,
+     "cardPoint": [
+      -137.93,
+      -844.99
+     ],
+     "reading": {
+      "centre": [
+       -132.2,
+       -837.77
+      ],
+      "areaSquareMetres": 50.5,
+      "sizeMetres": [
+       14.4,
+       5.6
+      ],
+      "rectangularity": 0.626,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.929,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 9.2,
+      "ring": [
+       [
+        -137.93,
+        -843.36
+       ],
+       [
+        -135.93,
+        -843.36
+       ],
+       [
+        -134.93,
+        -840.86
+       ],
+       [
+        -132.93,
+        -841.86
+       ],
+       [
+        -131.93,
+        -839.86
+       ],
+       [
+        -129.43,
+        -839.36
+       ],
+       [
+        -130.93,
+        -838.36
+       ],
+       [
+        -127.93,
+        -837.86
+       ],
+       [
+        -126.93,
+        -832.86
+       ],
+       [
+        -129.93,
+        -831.86
+       ],
+       [
+        -129.93,
+        -834.86
+       ],
+       [
+        -133.93,
+        -834.86
+       ],
+       [
+        -133.93,
+        -837.86
+       ],
+       [
+        -131.43,
+        -838.86
+       ],
+       [
+        -137.93,
+        -838.86
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.165,
+      "distanceToGreenMetres": 227.0,
+      "lateralMetres": 2.9,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 5,
+   "distinctDecks": 3
+  },
+  {
+   "hole": 5,
+   "par": 3,
+   "card": [
+    170,
+    157,
+    142,
+    134,
+    121,
+    97
+   ],
+   "lineLengthMetres": 164.0,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 170,
+     "cardPoint": [
+      -400.75,
+      -908.35
+     ],
+     "reading": {
+      "centre": [
+       -399.69,
+       -904.52
+      ],
+      "areaSquareMetres": 62.2,
+      "sizeMetres": [
+       8.5,
+       8.0
+      ],
+      "rectangularity": 0.915,
+      "greennessOverCollar": 13.0,
+      "smoothnessRatio": 0.522,
+      "readingCut": 9.0,
+      "metresFromCardPoint": 4.0,
+      "ring": [
+       [
+        -403.47,
+        -908.35
+       ],
+       [
+        -395.47,
+        -908.35
+       ],
+       [
+        -395.47,
+        -900.35
+       ],
+       [
+        -398.97,
+        -900.35
+       ],
+       [
+        -400.47,
+        -904.85
+       ],
+       [
+        -400.47,
+        -901.85
+       ],
+       [
+        -403.97,
+        -899.35
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.165,
+      "distanceToGreenMetres": 162.8,
+      "lateralMetres": 0.5,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 157,
+     "cardPoint": [
+      -400.91,
+      -895.33
+     ],
+     "reading": {
+      "centre": [
+       -399.69,
+       -904.52
+      ],
+      "areaSquareMetres": 62.2,
+      "sizeMetres": [
+       8.5,
+       8.0
+      ],
+      "rectangularity": 0.915,
+      "greennessOverCollar": 13.0,
+      "smoothnessRatio": 0.522,
+      "readingCut": 9.0,
+      "metresFromCardPoint": 9.3,
+      "ring": [
+       [
+        -403.47,
+        -908.35
+       ],
+       [
+        -395.47,
+        -908.35
+       ],
+       [
+        -395.47,
+        -900.35
+       ],
+       [
+        -398.97,
+        -900.35
+       ],
+       [
+        -400.47,
+        -904.85
+       ],
+       [
+        -400.47,
+        -901.85
+       ],
+       [
+        -403.97,
+        -899.35
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.165,
+      "distanceToGreenMetres": 162.8,
+      "lateralMetres": 0.5,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 142,
+     "cardPoint": [
+      -402.02,
+      -880.37
+     ],
+     "reading": {
+      "centre": [
+       -399.69,
+       -904.52
+      ],
+      "areaSquareMetres": 62.2,
+      "sizeMetres": [
+       8.5,
+       8.0
+      ],
+      "rectangularity": 0.915,
+      "greennessOverCollar": 13.0,
+      "smoothnessRatio": 0.522,
+      "readingCut": 9.0,
+      "metresFromCardPoint": 24.3,
+      "ring": [
+       [
+        -403.47,
+        -908.35
+       ],
+       [
+        -395.47,
+        -908.35
+       ],
+       [
+        -395.47,
+        -900.35
+       ],
+       [
+        -398.97,
+        -900.35
+       ],
+       [
+        -400.47,
+        -904.85
+       ],
+       [
+        -400.47,
+        -901.85
+       ],
+       [
+        -403.97,
+        -899.35
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.165,
+      "distanceToGreenMetres": 162.8,
+      "lateralMetres": 0.5,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 134,
+     "cardPoint": [
+      -402.61,
+      -872.39
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 121,
+     "cardPoint": [
+      -403.56,
+      -859.42
+     ],
+     "reading": {
+      "centre": [
+       -402.35,
+       -834.2
+      ],
+      "areaSquareMetres": 57.8,
+      "sizeMetres": [
+       14.6,
+       5.6
+      ],
+      "rectangularity": 0.711,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.93,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 25.3,
+      "ring": [
+       [
+        -400.47,
+        -842.35
+       ],
+       [
+        -399.47,
+        -832.35
+       ],
+       [
+        -401.97,
+        -828.35
+       ],
+       [
+        -406.47,
+        -828.35
+       ],
+       [
+        -404.97,
+        -835.85
+       ],
+       [
+        -402.97,
+        -836.35
+       ],
+       [
+        -401.47,
+        -839.35
+       ],
+       [
+        -403.47,
+        -841.35
+       ],
+       [
+        -400.47,
+        -841.35
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.237,
+      "distanceToGreenMetres": 92.5,
+      "lateralMetres": 3.1,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 97,
+     "cardPoint": [
+      -405.33,
+      -835.49
+     ],
+     "reading": {
+      "centre": [
+       -402.35,
+       -834.2
+      ],
+      "areaSquareMetres": 57.8,
+      "sizeMetres": [
+       14.6,
+       5.6
+      ],
+      "rectangularity": 0.711,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.93,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 3.3,
+      "ring": [
+       [
+        -400.47,
+        -842.35
+       ],
+       [
+        -399.47,
+        -832.35
+       ],
+       [
+        -401.97,
+        -828.35
+       ],
+       [
+        -406.47,
+        -828.35
+       ],
+       [
+        -404.97,
+        -835.85
+       ],
+       [
+        -402.97,
+        -836.35
+       ],
+       [
+        -401.47,
+        -839.35
+       ],
+       [
+        -403.47,
+        -841.35
+       ],
+       [
+        -400.47,
+        -841.35
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 4,
+      "flatness5mMetres": 0.237,
+      "distanceToGreenMetres": 92.5,
+      "lateralMetres": 3.1,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 5,
+   "distinctDecks": 2
+  },
+  {
+   "hole": 6,
+   "par": 5,
+   "card": [
+    447,
+    423,
+    403,
+    358,
+    358,
+    334
+   ],
+   "lineLengthMetres": 378.2,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 447,
+     "cardPoint": [
+      -365.25,
+      -705.35
+     ],
+     "reading": {
+      "centre": [
+       -377.64,
+       -705.91
+      ],
+      "areaSquareMetres": 92.5,
+      "sizeMetres": [
+       12.0,
+       11.5
+      ],
+      "rectangularity": 0.67,
+      "greennessOverCollar": 7.0,
+      "smoothnessRatio": 0.979,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 12.4,
+      "ring": [
+       [
+        -376.18,
+        -713.35
+       ],
+       [
+        -372.68,
+        -713.35
+       ],
+       [
+        -372.68,
+        -707.35
+       ],
+       [
+        -374.68,
+        -704.85
+       ],
+       [
+        -373.68,
+        -703.35
+       ],
+       [
+        -372.68,
+        -705.35
+       ],
+       [
+        -372.68,
+        -701.35
+       ],
+       [
+        -385.18,
+        -701.35
+       ],
+       [
+        -384.18,
+        -704.85
+       ],
+       [
+        -382.18,
+        -706.85
+       ],
+       [
+        -381.18,
+        -705.85
+       ],
+       [
+        -380.68,
+        -709.85
+       ],
+       [
+        -379.68,
+        -710.35
+       ],
+       [
+        -379.68,
+        -707.85
+       ],
+       [
+        -376.68,
+        -709.85
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.415,
+      "distanceToGreenMetres": 377.2,
+      "lateralMetres": 12.9,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 423,
+     "cardPoint": [
+      -369.94,
+      -681.8
+     ],
+     "reading": {
+      "centre": [
+       -377.64,
+       -705.91
+      ],
+      "areaSquareMetres": 92.5,
+      "sizeMetres": [
+       12.0,
+       11.5
+      ],
+      "rectangularity": 0.67,
+      "greennessOverCollar": 7.0,
+      "smoothnessRatio": 0.979,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 25.3,
+      "ring": [
+       [
+        -376.18,
+        -713.35
+       ],
+       [
+        -372.68,
+        -713.35
+       ],
+       [
+        -372.68,
+        -707.35
+       ],
+       [
+        -374.68,
+        -704.85
+       ],
+       [
+        -373.68,
+        -703.35
+       ],
+       [
+        -372.68,
+        -705.35
+       ],
+       [
+        -372.68,
+        -701.35
+       ],
+       [
+        -385.18,
+        -701.35
+       ],
+       [
+        -384.18,
+        -704.85
+       ],
+       [
+        -382.18,
+        -706.85
+       ],
+       [
+        -381.18,
+        -705.85
+       ],
+       [
+        -380.68,
+        -709.85
+       ],
+       [
+        -379.68,
+        -710.35
+       ],
+       [
+        -379.68,
+        -707.85
+       ],
+       [
+        -376.68,
+        -709.85
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.415,
+      "distanceToGreenMetres": 377.2,
+      "lateralMetres": 12.9,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 403,
+     "cardPoint": [
+      -374.4,
+      -662.31
+     ],
+     "reading": {
+      "centre": [
+       -374.52,
+       -675.2
+      ],
+      "areaSquareMetres": 48.2,
+      "sizeMetres": [
+       11.5,
+       5.0
+      ],
+      "rectangularity": 0.839,
+      "greennessOverCollar": 10.0,
+      "smoothnessRatio": 0.77,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 12.9,
+      "ring": [
+       [
+        -376.68,
+        -681.35
+       ],
+       [
+        -374.18,
+        -681.35
+       ],
+       [
+        -373.68,
+        -678.35
+       ],
+       [
+        -372.18,
+        -678.85
+       ],
+       [
+        -371.18,
+        -676.85
+       ],
+       [
+        -371.18,
+        -673.85
+       ],
+       [
+        -373.68,
+        -672.85
+       ],
+       [
+        -372.68,
+        -669.35
+       ],
+       [
+        -376.68,
+        -669.35
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.132,
+      "distanceToGreenMetres": 348.0,
+      "lateralMetres": 3.0,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 358,
+     "cardPoint": [
+      -384.46,
+      -618.44
+     ],
+     "reading": {
+      "centre": [
+       -401.72,
+       -619.5
+      ],
+      "areaSquareMetres": 63.8,
+      "sizeMetres": [
+       15.5,
+       4.5
+      ],
+      "rectangularity": 0.914,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.778,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 17.3,
+      "ring": [
+       [
+        -408.68,
+        -622.35
+       ],
+       [
+        -401.18,
+        -622.35
+       ],
+       [
+        -400.18,
+        -620.35
+       ],
+       [
+        -393.18,
+        -620.35
+       ],
+       [
+        -392.68,
+        -621.35
+       ],
+       [
+        -392.68,
+        -618.85
+       ],
+       [
+        -393.18,
+        -617.35
+       ],
+       [
+        -408.68,
+        -617.35
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.102,
+      "distanceToGreenMetres": 287.6,
+      "lateralMetres": 17.1,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 358,
+     "cardPoint": [
+      -384.46,
+      -618.44
+     ],
+     "reading": {
+      "centre": [
+       -401.72,
+       -619.5
+      ],
+      "areaSquareMetres": 63.8,
+      "sizeMetres": [
+       15.5,
+       4.5
+      ],
+      "rectangularity": 0.914,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.778,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 17.3,
+      "ring": [
+       [
+        -408.68,
+        -622.35
+       ],
+       [
+        -401.18,
+        -622.35
+       ],
+       [
+        -400.18,
+        -620.35
+       ],
+       [
+        -393.18,
+        -620.35
+       ],
+       [
+        -392.68,
+        -621.35
+       ],
+       [
+        -392.68,
+        -618.85
+       ],
+       [
+        -393.18,
+        -617.35
+       ],
+       [
+        -408.68,
+        -617.35
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 3,
+      "flatness5mMetres": 0.102,
+      "distanceToGreenMetres": 287.6,
+      "lateralMetres": 17.1,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 334,
+     "cardPoint": [
+      -389.82,
+      -595.05
+     ],
+     "reading": {
+      "centre": [
+       -409.55,
+       -598.84
+      ],
+      "areaSquareMetres": 72.0,
+      "sizeMetres": [
+       13.0,
+       6.5
+      ],
+      "rectangularity": 0.852,
+      "greennessOverCollar": 4.5,
+      "smoothnessRatio": 0.8,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 20.1,
+      "ring": [
+       [
+        -412.68,
+        -606.35
+       ],
+       [
+        -408.68,
+        -605.35
+       ],
+       [
+        -408.68,
+        -601.35
+       ],
+       [
+        -405.68,
+        -600.85
+       ],
+       [
+        -405.68,
+        -593.35
+       ],
+       [
+        -412.18,
+        -592.85
+       ],
+       [
+        -412.68,
+        -601.35
+       ],
+       [
+        -410.68,
+        -601.85
+       ],
+       [
+        -412.68,
+        -602.85
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.228,
+      "distanceToGreenMetres": 265.7,
+      "lateralMetres": 20.1,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 6,
+   "distinctDecks": 4
+  },
+  {
+   "hole": 7,
+   "par": 3,
+   "card": [
+    200,
+    171,
+    141,
+    141,
+    141,
+    112
+   ],
+   "lineLengthMetres": 168.8,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 200,
+     "cardPoint": [
+      -359.67,
+      -327.08
+     ],
+     "reading": {
+      "centre": [
+       -362.32,
+       -303.08
+      ],
+      "areaSquareMetres": 73.2,
+      "sizeMetres": [
+       12.5,
+       8.5
+      ],
+      "rectangularity": 0.689,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.667,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 24.1,
+      "ring": [
+       [
+        -366.67,
+        -306.71
+       ],
+       [
+        -355.67,
+        -306.71
+       ],
+       [
+        -354.67,
+        -304.71
+       ],
+       [
+        -355.67,
+        -302.71
+       ],
+       [
+        -360.17,
+        -302.21
+       ],
+       [
+        -361.17,
+        -297.71
+       ],
+       [
+        -363.17,
+        -299.21
+       ],
+       [
+        -367.67,
+        -297.71
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.475,
+      "distanceToGreenMetres": 182.6,
+      "lateralMetres": 20.5,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 171,
+     "cardPoint": [
+      -331.87,
+      -335.43
+     ],
+     "reading": {
+      "centre": [
+       -315.99,
+       -336.34
+      ],
+      "areaSquareMetres": 73.0,
+      "sizeMetres": [
+       11.5,
+       10.0
+      ],
+      "rectangularity": 0.635,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.826,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 15.9,
+      "ring": [
+       [
+        -319.67,
+        -342.71
+       ],
+       [
+        -314.67,
+        -342.71
+       ],
+       [
+        -316.67,
+        -342.21
+       ],
+       [
+        -316.67,
+        -340.71
+       ],
+       [
+        -314.67,
+        -338.71
+       ],
+       [
+        -311.67,
+        -338.71
+       ],
+       [
+        -311.67,
+        -335.21
+       ],
+       [
+        -309.17,
+        -334.71
+       ],
+       [
+        -310.67,
+        -331.71
+       ],
+       [
+        -312.17,
+        -333.71
+       ],
+       [
+        -315.67,
+        -333.71
+       ],
+       [
+        -315.17,
+        -331.71
+       ],
+       [
+        -319.67,
+        -330.71
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.507,
+      "distanceToGreenMetres": 127.9,
+      "lateralMetres": 4.4,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 141,
+     "cardPoint": [
+      -303.53,
+      -345.29
+     ],
+     "reading": {
+      "centre": [
+       -315.99,
+       -336.34
+      ],
+      "areaSquareMetres": 73.0,
+      "sizeMetres": [
+       11.5,
+       10.0
+      ],
+      "rectangularity": 0.635,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.826,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 15.3,
+      "ring": [
+       [
+        -319.67,
+        -342.71
+       ],
+       [
+        -314.67,
+        -342.71
+       ],
+       [
+        -316.67,
+        -342.21
+       ],
+       [
+        -316.67,
+        -340.71
+       ],
+       [
+        -314.67,
+        -338.71
+       ],
+       [
+        -311.67,
+        -338.71
+       ],
+       [
+        -311.67,
+        -335.21
+       ],
+       [
+        -309.17,
+        -334.71
+       ],
+       [
+        -310.67,
+        -331.71
+       ],
+       [
+        -312.17,
+        -333.71
+       ],
+       [
+        -315.67,
+        -333.71
+       ],
+       [
+        -315.17,
+        -331.71
+       ],
+       [
+        -319.67,
+        -330.71
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 1,
+      "flatness5mMetres": 0.507,
+      "distanceToGreenMetres": 127.9,
+      "lateralMetres": 4.4,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 141,
+     "cardPoint": [
+      -303.53,
+      -345.29
+     ],
+     "reading": {
+      "centre": [
+       -315.99,
+       -336.34
+      ],
+      "areaSquareMetres": 73.0,
+      "sizeMetres": [
+       11.5,
+       10.0
+      ],
+      "rectangularity": 0.635,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.826,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 15.3,
+      "ring": [
+       [
+        -319.67,
+        -342.71
+       ],
+       [
+        -314.67,
+        -342.71
+       ],
+       [
+        -316.67,
+        -342.21
+       ],
+       [
+        -316.67,
+        -340.71
+       ],
+       [
+        -314.67,
+        -338.71
+       ],
+       [
+        -311.67,
+        -338.71
+       ],
+       [
+        -311.67,
+        -335.21
+       ],
+       [
+        -309.17,
+        -334.71
+       ],
+       [
+        -310.67,
+        -331.71
+       ],
+       [
+        -312.17,
+        -333.71
+       ],
+       [
+        -315.67,
+        -333.71
+       ],
+       [
+        -315.17,
+        -331.71
+       ],
+       [
+        -319.67,
+        -330.71
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 1,
+      "flatness5mMetres": 0.507,
+      "distanceToGreenMetres": 127.9,
+      "lateralMetres": 4.4,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 141,
+     "cardPoint": [
+      -303.53,
+      -345.29
+     ],
+     "reading": {
+      "centre": [
+       -315.99,
+       -336.34
+      ],
+      "areaSquareMetres": 73.0,
+      "sizeMetres": [
+       11.5,
+       10.0
+      ],
+      "rectangularity": 0.635,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.826,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 15.3,
+      "ring": [
+       [
+        -319.67,
+        -342.71
+       ],
+       [
+        -314.67,
+        -342.71
+       ],
+       [
+        -316.67,
+        -342.21
+       ],
+       [
+        -316.67,
+        -340.71
+       ],
+       [
+        -314.67,
+        -338.71
+       ],
+       [
+        -311.67,
+        -338.71
+       ],
+       [
+        -311.67,
+        -335.21
+       ],
+       [
+        -309.17,
+        -334.71
+       ],
+       [
+        -310.67,
+        -331.71
+       ],
+       [
+        -312.17,
+        -333.71
+       ],
+       [
+        -315.67,
+        -333.71
+       ],
+       [
+        -315.17,
+        -331.71
+       ],
+       [
+        -319.67,
+        -330.71
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 1,
+      "flatness5mMetres": 0.507,
+      "distanceToGreenMetres": 127.9,
+      "lateralMetres": 4.4,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 112,
+     "cardPoint": [
+      -276.14,
+      -354.82
+     ],
+     "reading": {
+      "centre": [
+       -265.84,
+       -359.42
+      ],
+      "areaSquareMetres": 253.5,
+      "sizeMetres": [
+       21.5,
+       19.5
+      ],
+      "rectangularity": 0.605,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.6,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 11.3,
+      "ring": [
+       [
+        -268.67,
+        -370.71
+       ],
+       [
+        -267.67,
+        -370.71
+       ],
+       [
+        -267.67,
+        -364.71
+       ],
+       [
+        -264.17,
+        -364.71
+       ],
+       [
+        -264.17,
+        -366.21
+       ],
+       [
+        -263.17,
+        -365.21
+       ],
+       [
+        -263.67,
+        -367.21
+       ],
+       [
+        -260.17,
+        -368.71
+       ],
+       [
+        -259.67,
+        -367.71
+       ],
+       [
+        -255.67,
+        -368.21
+       ],
+       [
+        -255.67,
+        -366.71
+       ],
+       [
+        -259.67,
+        -366.71
+       ],
+       [
+        -259.67,
+        -358.21
+       ],
+       [
+        -259.17,
+        -359.21
+       ],
+       [
+        -255.67,
+        -358.21
+       ],
+       [
+        -255.67,
+        -351.21
+       ],
+       [
+        -267.67,
+        -350.71
+       ],
+       [
+        -267.67,
+        -354.71
+       ],
+       [
+        -271.17,
+        -354.71
+       ],
+       [
+        -272.17,
+        -356.21
+       ],
+       [
+        -275.67,
+        -355.71
+       ],
+       [
+        -275.67,
+        -358.71
+       ],
+       [
+        -277.67,
+        -359.71
+       ],
+       [
+        -276.17,
+        -362.21
+       ],
+       [
+        -277.17,
+        -363.71
+       ],
+       [
+        -275.67,
+        -364.71
+       ],
+       [
+        -275.17,
+        -363.21
+       ],
+       [
+        -275.67,
+        -365.71
+       ],
+       [
+        -273.17,
+        -365.71
+       ],
+       [
+        -274.17,
+        -366.71
+       ],
+       [
+        -270.17,
+        -366.21
+       ],
+       [
+        -270.67,
+        -368.71
+       ],
+       [
+        -269.17,
+        -367.71
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.077,
+      "distanceToGreenMetres": 72.9,
+      "lateralMetres": 1.0,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 6,
+   "distinctDecks": 3
+  },
+  {
+   "hole": 8,
+   "par": 4,
+   "card": [
+    414,
+    388,
+    345,
+    288,
+    288,
+    242
+   ],
+   "lineLengthMetres": 408.6,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 414,
+     "cardPoint": [
+      -152.85,
+      -398.55
+     ],
+     "reading": {
+      "centre": [
+       -161.3,
+       -383.17
+      ],
+      "areaSquareMetres": 66.8,
+      "sizeMetres": [
+       10.0,
+       7.5
+      ],
+      "rectangularity": 0.89,
+      "greennessOverCollar": 5.0,
+      "smoothnessRatio": 0.681,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 17.5,
+      "ring": [
+       [
+        -165.18,
+        -389.05
+       ],
+       [
+        -163.18,
+        -387.55
+       ],
+       [
+        -164.68,
+        -386.55
+       ],
+       [
+        -163.18,
+        -384.55
+       ],
+       [
+        -162.18,
+        -384.55
+       ],
+       [
+        -162.18,
+        -388.55
+       ],
+       [
+        -157.68,
+        -387.55
+       ],
+       [
+        -157.68,
+        -379.55
+       ],
+       [
+        -165.18,
+        -378.55
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.372,
+      "distanceToGreenMetres": 391.7,
+      "lateralMetres": 0.8,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 388,
+     "cardPoint": [
+      -164.61,
+      -375.35
+     ],
+     "reading": {
+      "centre": [
+       -161.3,
+       -383.17
+      ],
+      "areaSquareMetres": 66.8,
+      "sizeMetres": [
+       10.0,
+       7.5
+      ],
+      "rectangularity": 0.89,
+      "greennessOverCollar": 5.0,
+      "smoothnessRatio": 0.681,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 8.5,
+      "ring": [
+       [
+        -165.18,
+        -389.05
+       ],
+       [
+        -163.18,
+        -387.55
+       ],
+       [
+        -164.68,
+        -386.55
+       ],
+       [
+        -163.18,
+        -384.55
+       ],
+       [
+        -162.18,
+        -384.55
+       ],
+       [
+        -162.18,
+        -388.55
+       ],
+       [
+        -157.68,
+        -387.55
+       ],
+       [
+        -157.68,
+        -379.55
+       ],
+       [
+        -165.18,
+        -378.55
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.372,
+      "distanceToGreenMetres": 391.7,
+      "lateralMetres": 0.8,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 345,
+     "cardPoint": [
+      -184.95,
+      -337.47
+     ],
+     "reading": {
+      "centre": [
+       -181.02,
+       -339.8
+      ],
+      "areaSquareMetres": 110.8,
+      "sizeMetres": [
+       19.5,
+       8.0
+      ],
+      "rectangularity": 0.71,
+      "greennessOverCollar": 11.0,
+      "smoothnessRatio": 0.804,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 4.6,
+      "ring": [
+       [
+        -181.18,
+        -350.55
+       ],
+       [
+        -178.18,
+        -350.05
+       ],
+       [
+        -177.18,
+        -347.05
+       ],
+       [
+        -177.18,
+        -334.55
+       ],
+       [
+        -181.18,
+        -334.55
+       ],
+       [
+        -181.18,
+        -330.55
+       ],
+       [
+        -184.68,
+        -330.55
+       ],
+       [
+        -185.18,
+        -342.55
+       ],
+       [
+        -181.68,
+        -342.55
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.025,
+      "distanceToGreenMetres": 344.2,
+      "lateralMetres": 2.4,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 288,
+     "cardPoint": [
+      -211.93,
+      -287.26
+     ],
+     "reading": {
+      "centre": [
+       -201.39,
+       -287.9
+      ],
+      "areaSquareMetres": 63.2,
+      "sizeMetres": [
+       10.5,
+       9.5
+      ],
+      "rectangularity": 0.634,
+      "greennessOverCollar": 6.0,
+      "smoothnessRatio": 0.902,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 10.6,
+      "ring": [
+       [
+        -205.18,
+        -292.55
+       ],
+       [
+        -198.18,
+        -291.55
+       ],
+       [
+        -194.18,
+        -286.55
+       ],
+       [
+        -201.18,
+        -286.55
+       ],
+       [
+        -201.18,
+        -282.55
+       ],
+       [
+        -205.18,
+        -282.55
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.787,
+      "distanceToGreenMetres": 288.8,
+      "lateralMetres": 9.0,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 288,
+     "cardPoint": [
+      -211.93,
+      -287.26
+     ],
+     "reading": {
+      "centre": [
+       -201.39,
+       -287.9
+      ],
+      "areaSquareMetres": 63.2,
+      "sizeMetres": [
+       10.5,
+       9.5
+      ],
+      "rectangularity": 0.634,
+      "greennessOverCollar": 6.0,
+      "smoothnessRatio": 0.902,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 10.6,
+      "ring": [
+       [
+        -205.18,
+        -292.55
+       ],
+       [
+        -198.18,
+        -291.55
+       ],
+       [
+        -194.18,
+        -286.55
+       ],
+       [
+        -201.18,
+        -286.55
+       ],
+       [
+        -201.18,
+        -282.55
+       ],
+       [
+        -205.18,
+        -282.55
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 3,
+      "flatness5mMetres": 0.787,
+      "distanceToGreenMetres": 288.8,
+      "lateralMetres": 9.0,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 242,
+     "cardPoint": [
+      -233.69,
+      -246.73
+     ],
+     "reading": {
+      "centre": [
+       -249.45,
+       -237.87
+      ],
+      "areaSquareMetres": 129.2,
+      "sizeMetres": [
+       15.9,
+       12.9
+      ],
+      "rectangularity": 0.63,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.75,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 18.1,
+      "ring": [
+       [
+        -246.68,
+        -247.05
+       ],
+       [
+        -245.18,
+        -246.05
+       ],
+       [
+        -245.18,
+        -242.55
+       ],
+       [
+        -247.18,
+        -242.55
+       ],
+       [
+        -247.18,
+        -238.55
+       ],
+       [
+        -243.18,
+        -238.55
+       ],
+       [
+        -243.18,
+        -234.55
+       ],
+       [
+        -245.18,
+        -234.55
+       ],
+       [
+        -245.18,
+        -230.55
+       ],
+       [
+        -253.18,
+        -230.55
+       ],
+       [
+        -253.18,
+        -238.05
+       ],
+       [
+        -257.18,
+        -238.55
+       ],
+       [
+        -257.18,
+        -241.55
+       ],
+       [
+        -252.68,
+        -242.05
+       ],
+       [
+        -252.68,
+        -243.55
+       ],
+       [
+        -249.18,
+        -244.55
+       ],
+       [
+        -249.18,
+        -246.55
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.108,
+      "distanceToGreenMetres": 221.3,
+      "lateralMetres": 9.2,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 6,
+   "distinctDecks": 4
+  },
+  {
+   "hole": 9,
+   "par": 4,
+   "card": [
+    334,
+    292,
+    292,
+    251,
+    251,
+    201
+   ],
+   "lineLengthMetres": 375.1,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 334,
+     "cardPoint": [
+      -269.35,
+      -89.05
+     ],
+     "reading": {
+      "centre": [
+       -269.28,
+       -63.37
+      ],
+      "areaSquareMetres": 44.5,
+      "sizeMetres": [
+       8.0,
+       7.5
+      ],
+      "rectangularity": 0.742,
+      "greennessOverCollar": 6.0,
+      "smoothnessRatio": 0.926,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 25.7,
+      "ring": [
+       [
+        -272.09,
+        -66.75
+       ],
+       [
+        -264.09,
+        -66.75
+       ],
+       [
+        -266.09,
+        -62.75
+       ],
+       [
+        -268.09,
+        -62.75
+       ],
+       [
+        -268.09,
+        -58.75
+       ],
+       [
+        -271.59,
+        -58.75
+       ],
+       [
+        -271.59,
+        -62.75
+       ],
+       [
+        -272.59,
+        -58.75
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.483,
+      "distanceToGreenMetres": 358.2,
+      "lateralMetres": 20.6,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 292,
+     "cardPoint": [
+      -303.04,
+      -63.97
+     ],
+     "reading": {
+      "centre": [
+       -307.91,
+       -58.19
+      ],
+      "areaSquareMetres": 203.8,
+      "sizeMetres": [
+       23.5,
+       14.0
+      ],
+      "rectangularity": 0.618,
+      "greennessOverCollar": 11.0,
+      "smoothnessRatio": 0.889,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 7.6,
+      "ring": [
+       [
+        -304.59,
+        -70.75
+       ],
+       [
+        -304.09,
+        -66.75
+       ],
+       [
+        -300.09,
+        -66.75
+       ],
+       [
+        -300.09,
+        -62.25
+       ],
+       [
+        -302.09,
+        -54.75
+       ],
+       [
+        -306.59,
+        -53.75
+       ],
+       [
+        -305.59,
+        -53.25
+       ],
+       [
+        -306.09,
+        -48.25
+       ],
+       [
+        -307.59,
+        -45.25
+       ],
+       [
+        -307.59,
+        -46.75
+       ],
+       [
+        -309.59,
+        -46.75
+       ],
+       [
+        -309.09,
+        -48.25
+       ],
+       [
+        -311.09,
+        -51.25
+       ],
+       [
+        -317.09,
+        -50.75
+       ],
+       [
+        -316.09,
+        -53.75
+       ],
+       [
+        -318.09,
+        -54.75
+       ],
+       [
+        -315.09,
+        -55.25
+       ],
+       [
+        -316.59,
+        -58.75
+       ],
+       [
+        -312.09,
+        -58.75
+       ],
+       [
+        -312.09,
+        -62.75
+       ],
+       [
+        -309.09,
+        -63.25
+       ],
+       [
+        -309.09,
+        -65.75
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.105,
+      "distanceToGreenMetres": 324.1,
+      "lateralMetres": 1.7,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 292,
+     "cardPoint": [
+      -303.04,
+      -63.97
+     ],
+     "reading": {
+      "centre": [
+       -307.91,
+       -58.19
+      ],
+      "areaSquareMetres": 203.8,
+      "sizeMetres": [
+       23.5,
+       14.0
+      ],
+      "rectangularity": 0.618,
+      "greennessOverCollar": 11.0,
+      "smoothnessRatio": 0.889,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 7.6,
+      "ring": [
+       [
+        -304.59,
+        -70.75
+       ],
+       [
+        -304.09,
+        -66.75
+       ],
+       [
+        -300.09,
+        -66.75
+       ],
+       [
+        -300.09,
+        -62.25
+       ],
+       [
+        -302.09,
+        -54.75
+       ],
+       [
+        -306.59,
+        -53.75
+       ],
+       [
+        -305.59,
+        -53.25
+       ],
+       [
+        -306.09,
+        -48.25
+       ],
+       [
+        -307.59,
+        -45.25
+       ],
+       [
+        -307.59,
+        -46.75
+       ],
+       [
+        -309.59,
+        -46.75
+       ],
+       [
+        -309.09,
+        -48.25
+       ],
+       [
+        -311.09,
+        -51.25
+       ],
+       [
+        -317.09,
+        -50.75
+       ],
+       [
+        -316.09,
+        -53.75
+       ],
+       [
+        -318.09,
+        -54.75
+       ],
+       [
+        -315.09,
+        -55.25
+       ],
+       [
+        -316.59,
+        -58.75
+       ],
+       [
+        -312.09,
+        -58.75
+       ],
+       [
+        -312.09,
+        -62.75
+       ],
+       [
+        -309.09,
+        -63.25
+       ],
+       [
+        -309.09,
+        -65.75
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 1,
+      "flatness5mMetres": 0.105,
+      "distanceToGreenMetres": 324.1,
+      "lateralMetres": 1.7,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 251,
+     "cardPoint": [
+      -335.95,
+      -39.52
+     ],
+     "reading": {
+      "centre": [
+       -329.37,
+       -29.27
+      ],
+      "areaSquareMetres": 154.5,
+      "sizeMetres": [
+       19.5,
+       13.0
+      ],
+      "rectangularity": 0.609,
+      "greennessOverCollar": 5.0,
+      "smoothnessRatio": 0.75,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 12.2,
+      "ring": [
+       [
+        -333.59,
+        -34.75
+       ],
+       [
+        -322.09,
+        -34.75
+       ],
+       [
+        -320.09,
+        -32.75
+       ],
+       [
+        -320.09,
+        -27.75
+       ],
+       [
+        -323.09,
+        -27.75
+       ],
+       [
+        -325.59,
+        -22.75
+       ],
+       [
+        -327.59,
+        -22.75
+       ],
+       [
+        -328.09,
+        -26.75
+       ],
+       [
+        -332.09,
+        -26.75
+       ],
+       [
+        -332.09,
+        -24.75
+       ],
+       [
+        -336.09,
+        -24.75
+       ],
+       [
+        -336.09,
+        -21.25
+       ],
+       [
+        -336.59,
+        -22.75
+       ],
+       [
+        -340.09,
+        -22.75
+       ],
+       [
+        -340.09,
+        -26.75
+       ],
+       [
+        -336.09,
+        -26.75
+       ],
+       [
+        -335.59,
+        -33.25
+       ],
+       [
+        -334.59,
+        -32.25
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.178,
+      "distanceToGreenMetres": 289.6,
+      "lateralMetres": 12.2,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 251,
+     "cardPoint": [
+      -335.95,
+      -39.52
+     ],
+     "reading": {
+      "centre": [
+       -329.37,
+       -29.27
+      ],
+      "areaSquareMetres": 154.5,
+      "sizeMetres": [
+       19.5,
+       13.0
+      ],
+      "rectangularity": 0.609,
+      "greennessOverCollar": 5.0,
+      "smoothnessRatio": 0.75,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 12.2,
+      "ring": [
+       [
+        -333.59,
+        -34.75
+       ],
+       [
+        -322.09,
+        -34.75
+       ],
+       [
+        -320.09,
+        -32.75
+       ],
+       [
+        -320.09,
+        -27.75
+       ],
+       [
+        -323.09,
+        -27.75
+       ],
+       [
+        -325.59,
+        -22.75
+       ],
+       [
+        -327.59,
+        -22.75
+       ],
+       [
+        -328.09,
+        -26.75
+       ],
+       [
+        -332.09,
+        -26.75
+       ],
+       [
+        -332.09,
+        -24.75
+       ],
+       [
+        -336.09,
+        -24.75
+       ],
+       [
+        -336.09,
+        -21.25
+       ],
+       [
+        -336.59,
+        -22.75
+       ],
+       [
+        -340.09,
+        -22.75
+       ],
+       [
+        -340.09,
+        -26.75
+       ],
+       [
+        -336.09,
+        -26.75
+       ],
+       [
+        -335.59,
+        -33.25
+       ],
+       [
+        -334.59,
+        -32.25
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 3,
+      "flatness5mMetres": 0.178,
+      "distanceToGreenMetres": 289.6,
+      "lateralMetres": 12.2,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 201,
+     "cardPoint": [
+      -376.09,
+      -9.71
+     ],
+     "reading": {
+      "centre": [
+       -372.21,
+       13.35
+      ],
+      "areaSquareMetres": 74.5,
+      "sizeMetres": [
+       11.8,
+       9.9
+      ],
+      "rectangularity": 0.641,
+      "greennessOverCollar": 5.0,
+      "smoothnessRatio": 0.929,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 23.4,
+      "ring": [
+       [
+        -375.59,
+        7.25
+       ],
+       [
+        -374.09,
+        9.75
+       ],
+       [
+        -374.09,
+        7.25
+       ],
+       [
+        -373.09,
+        7.25
+       ],
+       [
+        -373.09,
+        9.75
+       ],
+       [
+        -372.59,
+        8.75
+       ],
+       [
+        -368.59,
+        9.25
+       ],
+       [
+        -368.09,
+        15.25
+       ],
+       [
+        -366.09,
+        15.25
+       ],
+       [
+        -367.09,
+        18.25
+       ],
+       [
+        -368.09,
+        16.75
+       ],
+       [
+        -378.09,
+        16.75
+       ],
+       [
+        -376.09,
+        15.25
+       ],
+       [
+        -378.09,
+        13.25
+       ],
+       [
+        -376.09,
+        13.25
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.325,
+      "distanceToGreenMetres": 229.8,
+      "lateralMetres": 20.8,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 6,
+   "distinctDecks": 4
+  },
+  {
+   "hole": 10,
+   "par": 5,
+   "card": [
+    476,
+    464,
+    412,
+    412,
+    372,
+    372
+   ],
+   "lineLengthMetres": 403.9,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 476,
+     "cardPoint": [
+      -385.35,
+      180.25
+     ],
+     "reading": {
+      "centre": [
+       -400.82,
+       177.86
+      ],
+      "areaSquareMetres": 57.2,
+      "sizeMetres": [
+       10.5,
+       7.5
+      ],
+      "rectangularity": 0.727,
+      "greennessOverCollar": 5.0,
+      "smoothnessRatio": 0.954,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 15.6,
+      "ring": [
+       [
+        -399.35,
+        171.47
+       ],
+       [
+        -398.35,
+        171.47
+       ],
+       [
+        -397.35,
+        175.97
+       ],
+       [
+        -397.35,
+        181.47
+       ],
+       [
+        -405.35,
+        182.47
+       ],
+       [
+        -405.35,
+        181.47
+       ],
+       [
+        -401.35,
+        180.97
+       ],
+       [
+        -405.35,
+        180.47
+       ],
+       [
+        -405.35,
+        177.97
+       ],
+       [
+        -402.85,
+        177.97
+       ],
+       [
+        -402.85,
+        173.47
+       ],
+       [
+        -401.35,
+        172.47
+       ],
+       [
+        -399.35,
+        173.47
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.18,
+      "distanceToGreenMetres": 420.3,
+      "lateralMetres": 5.6,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 464,
+     "cardPoint": [
+      -373.35,
+      179.38
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 412,
+     "cardPoint": [
+      -321.93,
+      171.63
+     ],
+     "reading": {
+      "centre": [
+       -304.77,
+       157.46
+      ],
+      "areaSquareMetres": 76.2,
+      "sizeMetres": [
+       16.1,
+       7.6
+      ],
+      "rectangularity": 0.625,
+      "greennessOverCollar": 12.0,
+      "smoothnessRatio": 0.585,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 22.3,
+      "ring": [
+       [
+        -297.85,
+        152.47
+       ],
+       [
+        -297.35,
+        157.47
+       ],
+       [
+        -301.35,
+        157.47
+       ],
+       [
+        -301.35,
+        161.47
+       ],
+       [
+        -309.35,
+        161.47
+       ],
+       [
+        -309.35,
+        157.47
+       ],
+       [
+        -313.35,
+        157.47
+       ],
+       [
+        -312.85,
+        155.47
+       ],
+       [
+        -299.35,
+        154.47
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.135,
+      "distanceToGreenMetres": 322.3,
+      "lateralMetres": 11.5,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 412,
+     "cardPoint": [
+      -321.93,
+      171.63
+     ],
+     "reading": {
+      "centre": [
+       -304.77,
+       157.46
+      ],
+      "areaSquareMetres": 76.2,
+      "sizeMetres": [
+       16.1,
+       7.6
+      ],
+      "rectangularity": 0.625,
+      "greennessOverCollar": 12.0,
+      "smoothnessRatio": 0.585,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 22.3,
+      "ring": [
+       [
+        -297.85,
+        152.47
+       ],
+       [
+        -297.35,
+        157.47
+       ],
+       [
+        -301.35,
+        157.47
+       ],
+       [
+        -301.35,
+        161.47
+       ],
+       [
+        -309.35,
+        161.47
+       ],
+       [
+        -309.35,
+        157.47
+       ],
+       [
+        -313.35,
+        157.47
+       ],
+       [
+        -312.85,
+        155.47
+       ],
+       [
+        -299.35,
+        154.47
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 2,
+      "flatness5mMetres": 0.135,
+      "distanceToGreenMetres": 322.3,
+      "lateralMetres": 11.5,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 372,
+     "cardPoint": [
+      -282.37,
+      165.66
+     ],
+     "reading": {
+      "centre": [
+       -304.77,
+       157.46
+      ],
+      "areaSquareMetres": 76.2,
+      "sizeMetres": [
+       16.1,
+       7.6
+      ],
+      "rectangularity": 0.625,
+      "greennessOverCollar": 12.0,
+      "smoothnessRatio": 0.585,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 23.9,
+      "ring": [
+       [
+        -297.85,
+        152.47
+       ],
+       [
+        -297.35,
+        157.47
+       ],
+       [
+        -301.35,
+        157.47
+       ],
+       [
+        -301.35,
+        161.47
+       ],
+       [
+        -309.35,
+        161.47
+       ],
+       [
+        -309.35,
+        157.47
+       ],
+       [
+        -313.35,
+        157.47
+       ],
+       [
+        -312.85,
+        155.47
+       ],
+       [
+        -299.35,
+        154.47
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 2,
+      "flatness5mMetres": 0.135,
+      "distanceToGreenMetres": 322.3,
+      "lateralMetres": 11.5,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 372,
+     "cardPoint": [
+      -282.37,
+      165.66
+     ],
+     "reading": {
+      "centre": [
+       -304.77,
+       157.46
+      ],
+      "areaSquareMetres": 76.2,
+      "sizeMetres": [
+       16.1,
+       7.6
+      ],
+      "rectangularity": 0.625,
+      "greennessOverCollar": 12.0,
+      "smoothnessRatio": 0.585,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 23.9,
+      "ring": [
+       [
+        -297.85,
+        152.47
+       ],
+       [
+        -297.35,
+        157.47
+       ],
+       [
+        -301.35,
+        157.47
+       ],
+       [
+        -301.35,
+        161.47
+       ],
+       [
+        -309.35,
+        161.47
+       ],
+       [
+        -309.35,
+        157.47
+       ],
+       [
+        -313.35,
+        157.47
+       ],
+       [
+        -312.85,
+        155.47
+       ],
+       [
+        -299.35,
+        154.47
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 2,
+      "flatness5mMetres": 0.135,
+      "distanceToGreenMetres": 322.3,
+      "lateralMetres": 11.5,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 5,
+   "distinctDecks": 2
+  },
+  {
+   "hole": 11,
+   "par": 4,
+   "card": [
+    329,
+    297,
+    297,
+    244,
+    244,
+    208
+   ],
+   "lineLengthMetres": 303.5,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 329,
+     "cardPoint": [
+      75.55,
+      379.05
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 297,
+     "cardPoint": [
+      102.92,
+      362.39
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 297,
+     "cardPoint": [
+      102.92,
+      362.39
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 244,
+     "cardPoint": [
+      146.7,
+      332.51
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 244,
+     "cardPoint": [
+      146.7,
+      332.51
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 208,
+     "cardPoint": [
+      176.43,
+      312.21
+     ],
+     "reading": {
+      "centre": [
+       187.32,
+       312.27
+      ],
+      "areaSquareMetres": 35.8,
+      "sizeMetres": [
+       9.2,
+       5.7
+      ],
+      "rectangularity": 0.687,
+      "greennessOverCollar": 9.0,
+      "smoothnessRatio": 0.857,
+      "readingCut": 9.0,
+      "metresFromCardPoint": 10.9,
+      "ring": [
+       [
+        187.55,
+        309.19
+       ],
+       [
+        191.55,
+        309.19
+       ],
+       [
+        191.55,
+        313.19
+       ],
+       [
+        188.05,
+        313.19
+       ],
+       [
+        187.55,
+        315.69
+       ],
+       [
+        185.55,
+        316.19
+       ],
+       [
+        182.55,
+        313.19
+       ],
+       [
+        182.55,
+        311.19
+       ],
+       [
+        187.05,
+        311.19
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.078,
+      "distanceToGreenMetres": 174.9,
+      "lateralMetres": 6.2,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 1,
+   "distinctDecks": 1
+  },
+  {
+   "hole": 12,
+   "par": 4,
+   "card": [
+    321,
+    311,
+    311,
+    274,
+    222,
+    222
+   ],
+   "lineLengthMetres": 203.3,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 321,
+     "cardPoint": [
+      294.25,
+      216.75
+     ],
+     "reading": {
+      "centre": [
+       291.95,
+       202.81
+      ],
+      "areaSquareMetres": 47.8,
+      "sizeMetres": [
+       11.0,
+       6.5
+      ],
+      "rectangularity": 0.668,
+      "greennessOverCollar": 7.0,
+      "smoothnessRatio": 0.778,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 14.1,
+      "ring": [
+       [
+        291.46,
+        199.56
+       ],
+       [
+        298.46,
+        199.56
+       ],
+       [
+        298.46,
+        202.06
+       ],
+       [
+        293.96,
+        202.06
+       ],
+       [
+        292.96,
+        206.56
+       ],
+       [
+        286.96,
+        206.56
+       ],
+       [
+        287.96,
+        204.56
+       ],
+       [
+        286.96,
+        200.56
+       ],
+       [
+        288.96,
+        200.56
+       ],
+       [
+        290.46,
+        202.56
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.115,
+      "distanceToGreenMetres": 192.1,
+      "lateralMetres": 8.6,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 311,
+     "cardPoint": [
+      286.97,
+      209.9
+     ],
+     "reading": {
+      "centre": [
+       291.95,
+       202.81
+      ],
+      "areaSquareMetres": 47.8,
+      "sizeMetres": [
+       11.0,
+       6.5
+      ],
+      "rectangularity": 0.668,
+      "greennessOverCollar": 7.0,
+      "smoothnessRatio": 0.778,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 8.7,
+      "ring": [
+       [
+        291.46,
+        199.56
+       ],
+       [
+        298.46,
+        199.56
+       ],
+       [
+        298.46,
+        202.06
+       ],
+       [
+        293.96,
+        202.06
+       ],
+       [
+        292.96,
+        206.56
+       ],
+       [
+        286.96,
+        206.56
+       ],
+       [
+        287.96,
+        204.56
+       ],
+       [
+        286.96,
+        200.56
+       ],
+       [
+        288.96,
+        200.56
+       ],
+       [
+        290.46,
+        202.56
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.115,
+      "distanceToGreenMetres": 192.1,
+      "lateralMetres": 8.6,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 311,
+     "cardPoint": [
+      286.97,
+      209.9
+     ],
+     "reading": {
+      "centre": [
+       291.95,
+       202.81
+      ],
+      "areaSquareMetres": 47.8,
+      "sizeMetres": [
+       11.0,
+       6.5
+      ],
+      "rectangularity": 0.668,
+      "greennessOverCollar": 7.0,
+      "smoothnessRatio": 0.778,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 8.7,
+      "ring": [
+       [
+        291.46,
+        199.56
+       ],
+       [
+        298.46,
+        199.56
+       ],
+       [
+        298.46,
+        202.06
+       ],
+       [
+        293.96,
+        202.06
+       ],
+       [
+        292.96,
+        206.56
+       ],
+       [
+        286.96,
+        206.56
+       ],
+       [
+        287.96,
+        204.56
+       ],
+       [
+        286.96,
+        200.56
+       ],
+       [
+        288.96,
+        200.56
+       ],
+       [
+        290.46,
+        202.56
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.115,
+      "distanceToGreenMetres": 192.1,
+      "lateralMetres": 8.6,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 274,
+     "cardPoint": [
+      260.02,
+      184.54
+     ],
+     "reading": {
+      "centre": [
+       267.13,
+       175.96
+      ],
+      "areaSquareMetres": 93.8,
+      "sizeMetres": [
+       18.0,
+       8.5
+      ],
+      "rectangularity": 0.613,
+      "greennessOverCollar": 6.5,
+      "smoothnessRatio": 1.0,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 11.1,
+      "ring": [
+       [
+        262.96,
+        167.56
+       ],
+       [
+        265.96,
+        168.56
+       ],
+       [
+        271.96,
+        174.56
+       ],
+       [
+        271.46,
+        186.06
+       ],
+       [
+        270.96,
+        182.56
+       ],
+       [
+        266.96,
+        182.56
+       ],
+       [
+        266.96,
+        178.56
+       ],
+       [
+        263.96,
+        178.56
+       ],
+       [
+        263.96,
+        182.56
+       ],
+       [
+        262.96,
+        182.56
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.033,
+      "distanceToGreenMetres": 155.6,
+      "lateralMetres": 11.1,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 222,
+     "cardPoint": [
+      237.86,
+      138.56
+     ],
+     "reading": {
+      "centre": [
+       228.19,
+       159.84
+      ],
+      "areaSquareMetres": 58.8,
+      "sizeMetres": [
+       11.5,
+       7.5
+      ],
+      "rectangularity": 0.681,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.875,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 23.4,
+      "ring": [
+       [
+        223.46,
+        154.56
+       ],
+       [
+        230.96,
+        154.56
+       ],
+       [
+        230.96,
+        166.56
+       ],
+       [
+        226.96,
+        166.56
+       ],
+       [
+        226.96,
+        158.56
+       ],
+       [
+        222.96,
+        156.56
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.14,
+      "distanceToGreenMetres": 121.0,
+      "lateralMetres": 16.4,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 222,
+     "cardPoint": [
+      237.86,
+      138.56
+     ],
+     "reading": {
+      "centre": [
+       228.19,
+       159.84
+      ],
+      "areaSquareMetres": 58.8,
+      "sizeMetres": [
+       11.5,
+       7.5
+      ],
+      "rectangularity": 0.681,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.875,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 23.4,
+      "ring": [
+       [
+        223.46,
+        154.56
+       ],
+       [
+        230.96,
+        154.56
+       ],
+       [
+        230.96,
+        166.56
+       ],
+       [
+        226.96,
+        166.56
+       ],
+       [
+        226.96,
+        158.56
+       ],
+       [
+        222.96,
+        156.56
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 4,
+      "flatness5mMetres": 0.14,
+      "distanceToGreenMetres": 121.0,
+      "lateralMetres": 16.4,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 6,
+   "distinctDecks": 3
+  },
+  {
+   "hole": 13,
+   "par": 4,
+   "card": [
+    376,
+    367,
+    367,
+    309,
+    271,
+    271
+   ],
+   "lineLengthMetres": 299.1,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 376,
+     "cardPoint": [
+      260.45,
+      25.25
+     ],
+     "reading": {
+      "centre": [
+       256.27,
+       33.29
+      ],
+      "areaSquareMetres": 131.0,
+      "sizeMetres": [
+       16.4,
+       12.4
+      ],
+      "rectangularity": 0.642,
+      "greennessOverCollar": 9.0,
+      "smoothnessRatio": 0.811,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 9.1,
+      "ring": [
+       [
+        250.95,
+        24.13
+       ],
+       [
+        255.95,
+        28.63
+       ],
+       [
+        259.45,
+        29.13
+       ],
+       [
+        258.45,
+        30.13
+       ],
+       [
+        262.45,
+        31.13
+       ],
+       [
+        264.45,
+        29.63
+       ],
+       [
+        264.45,
+        32.63
+       ],
+       [
+        262.45,
+        35.13
+       ],
+       [
+        263.45,
+        35.63
+       ],
+       [
+        262.95,
+        38.13
+       ],
+       [
+        250.95,
+        38.13
+       ],
+       [
+        251.95,
+        37.13
+       ],
+       [
+        249.45,
+        35.13
+       ],
+       [
+        250.45,
+        34.13
+       ],
+       [
+        247.45,
+        32.13
+       ],
+       [
+        247.95,
+        30.63
+       ],
+       [
+        252.45,
+        30.63
+       ],
+       [
+        252.45,
+        26.63
+       ],
+       [
+        250.45,
+        26.63
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.105,
+      "distanceToGreenMetres": 299.7,
+      "lateralMetres": 9.7,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 367,
+     "cardPoint": [
+      268.38,
+      29.56
+     ],
+     "reading": {
+      "centre": [
+       256.27,
+       33.29
+      ],
+      "areaSquareMetres": 131.0,
+      "sizeMetres": [
+       16.4,
+       12.4
+      ],
+      "rectangularity": 0.642,
+      "greennessOverCollar": 9.0,
+      "smoothnessRatio": 0.811,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 12.7,
+      "ring": [
+       [
+        250.95,
+        24.13
+       ],
+       [
+        255.95,
+        28.63
+       ],
+       [
+        259.45,
+        29.13
+       ],
+       [
+        258.45,
+        30.13
+       ],
+       [
+        262.45,
+        31.13
+       ],
+       [
+        264.45,
+        29.63
+       ],
+       [
+        264.45,
+        32.63
+       ],
+       [
+        262.45,
+        35.13
+       ],
+       [
+        263.45,
+        35.63
+       ],
+       [
+        262.95,
+        38.13
+       ],
+       [
+        250.95,
+        38.13
+       ],
+       [
+        251.95,
+        37.13
+       ],
+       [
+        249.45,
+        35.13
+       ],
+       [
+        250.45,
+        34.13
+       ],
+       [
+        247.45,
+        32.13
+       ],
+       [
+        247.95,
+        30.63
+       ],
+       [
+        252.45,
+        30.63
+       ],
+       [
+        252.45,
+        26.63
+       ],
+       [
+        250.45,
+        26.63
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.105,
+      "distanceToGreenMetres": 299.7,
+      "lateralMetres": 9.7,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 367,
+     "cardPoint": [
+      268.38,
+      29.56
+     ],
+     "reading": {
+      "centre": [
+       256.27,
+       33.29
+      ],
+      "areaSquareMetres": 131.0,
+      "sizeMetres": [
+       16.4,
+       12.4
+      ],
+      "rectangularity": 0.642,
+      "greennessOverCollar": 9.0,
+      "smoothnessRatio": 0.811,
+      "readingCut": 4.0,
+      "metresFromCardPoint": 12.7,
+      "ring": [
+       [
+        250.95,
+        24.13
+       ],
+       [
+        255.95,
+        28.63
+       ],
+       [
+        259.45,
+        29.13
+       ],
+       [
+        258.45,
+        30.13
+       ],
+       [
+        262.45,
+        31.13
+       ],
+       [
+        264.45,
+        29.63
+       ],
+       [
+        264.45,
+        32.63
+       ],
+       [
+        262.45,
+        35.13
+       ],
+       [
+        263.45,
+        35.63
+       ],
+       [
+        262.95,
+        38.13
+       ],
+       [
+        250.95,
+        38.13
+       ],
+       [
+        251.95,
+        37.13
+       ],
+       [
+        249.45,
+        35.13
+       ],
+       [
+        250.45,
+        34.13
+       ],
+       [
+        247.45,
+        32.13
+       ],
+       [
+        247.95,
+        30.63
+       ],
+       [
+        252.45,
+        30.63
+       ],
+       [
+        252.45,
+        26.63
+       ],
+       [
+        250.45,
+        26.63
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.105,
+      "distanceToGreenMetres": 299.7,
+      "lateralMetres": 9.7,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 309,
+     "cardPoint": [
+      317.16,
+      60.94
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 271,
+     "cardPoint": [
+      350.43,
+      77.99
+     ],
+     "reading": {
+      "centre": [
+       354.93,
+       72.78
+      ],
+      "areaSquareMetres": 102.2,
+      "sizeMetres": [
+       22.0,
+       7.1
+      ],
+      "rectangularity": 0.65,
+      "greennessOverCollar": 9.0,
+      "smoothnessRatio": 0.714,
+      "readingCut": 7.0,
+      "metresFromCardPoint": 6.9,
+      "ring": [
+       [
+        344.45,
+        67.63
+       ],
+       [
+        350.45,
+        67.63
+       ],
+       [
+        350.45,
+        68.63
+       ],
+       [
+        354.45,
+        68.63
+       ],
+       [
+        356.45,
+        70.63
+       ],
+       [
+        360.45,
+        71.13
+       ],
+       [
+        362.45,
+        74.63
+       ],
+       [
+        364.45,
+        74.63
+       ],
+       [
+        364.45,
+        78.63
+       ],
+       [
+        358.45,
+        78.63
+       ],
+       [
+        356.45,
+        74.63
+       ],
+       [
+        348.45,
+        74.63
+       ],
+       [
+        348.95,
+        71.13
+       ],
+       [
+        344.45,
+        70.63
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.138,
+      "distanceToGreenMetres": 191.9,
+      "lateralMetres": 5.8,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 271,
+     "cardPoint": [
+      350.43,
+      77.99
+     ],
+     "reading": {
+      "centre": [
+       354.93,
+       72.78
+      ],
+      "areaSquareMetres": 102.2,
+      "sizeMetres": [
+       22.0,
+       7.1
+      ],
+      "rectangularity": 0.65,
+      "greennessOverCollar": 9.0,
+      "smoothnessRatio": 0.714,
+      "readingCut": 7.0,
+      "metresFromCardPoint": 6.9,
+      "ring": [
+       [
+        344.45,
+        67.63
+       ],
+       [
+        350.45,
+        67.63
+       ],
+       [
+        350.45,
+        68.63
+       ],
+       [
+        354.45,
+        68.63
+       ],
+       [
+        356.45,
+        70.63
+       ],
+       [
+        360.45,
+        71.13
+       ],
+       [
+        362.45,
+        74.63
+       ],
+       [
+        364.45,
+        74.63
+       ],
+       [
+        364.45,
+        78.63
+       ],
+       [
+        358.45,
+        78.63
+       ],
+       [
+        356.45,
+        74.63
+       ],
+       [
+        348.45,
+        74.63
+       ],
+       [
+        348.95,
+        71.13
+       ],
+       [
+        344.45,
+        70.63
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 4,
+      "flatness5mMetres": 0.138,
+      "distanceToGreenMetres": 191.9,
+      "lateralMetres": 5.8,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 5,
+   "distinctDecks": 2
+  },
+  {
+   "hole": 14,
+   "par": 3,
+   "card": [
+    155,
+    136,
+    136,
+    120,
+    120,
+    94
+   ],
+   "lineLengthMetres": 134.5,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 155,
+     "cardPoint": [
+      430.65,
+      -62.05
+     ],
+     "reading": {
+      "centre": [
+       429.65,
+       -80.07
+      ],
+      "areaSquareMetres": 34.0,
+      "sizeMetres": [
+       9.1,
+       5.5
+      ],
+      "rectangularity": 0.677,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.519,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 18.0,
+      "ring": [
+       [
+        430.68,
+        -84.88
+       ],
+       [
+        432.18,
+        -84.38
+       ],
+       [
+        432.18,
+        -80.88
+       ],
+       [
+        433.68,
+        -79.88
+       ],
+       [
+        430.68,
+        -76.88
+       ],
+       [
+        427.68,
+        -76.88
+       ],
+       [
+        427.68,
+        -77.88
+       ],
+       [
+        425.68,
+        -76.88
+       ],
+       [
+        425.68,
+        -80.88
+       ],
+       [
+        430.18,
+        -80.88
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.957,
+      "distanceToGreenMetres": 122.1,
+      "lateralMetres": 12.6,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 136,
+     "cardPoint": [
+      416.18,
+      -74.42
+     ],
+     "reading": {
+      "centre": [
+       429.65,
+       -80.07
+      ],
+      "areaSquareMetres": 34.0,
+      "sizeMetres": [
+       9.1,
+       5.5
+      ],
+      "rectangularity": 0.677,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.519,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 14.6,
+      "ring": [
+       [
+        430.68,
+        -84.88
+       ],
+       [
+        432.18,
+        -84.38
+       ],
+       [
+        432.18,
+        -80.88
+       ],
+       [
+        433.68,
+        -79.88
+       ],
+       [
+        430.68,
+        -76.88
+       ],
+       [
+        427.68,
+        -76.88
+       ],
+       [
+        427.68,
+        -77.88
+       ],
+       [
+        425.68,
+        -76.88
+       ],
+       [
+        425.68,
+        -80.88
+       ],
+       [
+        430.18,
+        -80.88
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.957,
+      "distanceToGreenMetres": 122.1,
+      "lateralMetres": 12.6,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 136,
+     "cardPoint": [
+      416.18,
+      -74.42
+     ],
+     "reading": {
+      "centre": [
+       429.65,
+       -80.07
+      ],
+      "areaSquareMetres": 34.0,
+      "sizeMetres": [
+       9.1,
+       5.5
+      ],
+      "rectangularity": 0.677,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.519,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 14.6,
+      "ring": [
+       [
+        430.68,
+        -84.88
+       ],
+       [
+        432.18,
+        -84.38
+       ],
+       [
+        432.18,
+        -80.88
+       ],
+       [
+        433.68,
+        -79.88
+       ],
+       [
+        430.68,
+        -76.88
+       ],
+       [
+        427.68,
+        -76.88
+       ],
+       [
+        427.68,
+        -77.88
+       ],
+       [
+        425.68,
+        -76.88
+       ],
+       [
+        425.68,
+        -80.88
+       ],
+       [
+        430.18,
+        -80.88
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.957,
+      "distanceToGreenMetres": 122.1,
+      "lateralMetres": 12.6,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 120,
+     "cardPoint": [
+      403.42,
+      -84.07
+     ],
+     "reading": {
+      "centre": [
+       401.25,
+       -89.41
+      ],
+      "areaSquareMetres": 31.0,
+      "sizeMetres": [
+       7.7,
+       5.0
+      ],
+      "rectangularity": 0.813,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 1.0,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 5.8,
+      "ring": [
+       [
+        399.68,
+        -92.88
+       ],
+       [
+        404.68,
+        -92.38
+       ],
+       [
+        402.68,
+        -85.88
+       ],
+       [
+        398.18,
+        -86.38
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.16,
+      "distanceToGreenMetres": 93.8,
+      "lateralMetres": 3.0,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 120,
+     "cardPoint": [
+      403.42,
+      -84.07
+     ],
+     "reading": {
+      "centre": [
+       401.25,
+       -89.41
+      ],
+      "areaSquareMetres": 31.0,
+      "sizeMetres": [
+       7.7,
+       5.0
+      ],
+      "rectangularity": 0.813,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 1.0,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 5.8,
+      "ring": [
+       [
+        399.68,
+        -92.88
+       ],
+       [
+        404.68,
+        -92.38
+       ],
+       [
+        402.68,
+        -85.88
+       ],
+       [
+        398.18,
+        -86.38
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 3,
+      "flatness5mMetres": 0.16,
+      "distanceToGreenMetres": 93.8,
+      "lateralMetres": 3.0,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 94,
+     "cardPoint": [
+      382.68,
+      -99.75
+     ],
+     "reading": {
+      "centre": [
+       401.25,
+       -89.41
+      ],
+      "areaSquareMetres": 31.0,
+      "sizeMetres": [
+       7.7,
+       5.0
+      ],
+      "rectangularity": 0.813,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 1.0,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 21.3,
+      "ring": [
+       [
+        399.68,
+        -92.88
+       ],
+       [
+        404.68,
+        -92.38
+       ],
+       [
+        402.68,
+        -85.88
+       ],
+       [
+        398.18,
+        -86.38
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 3,
+      "flatness5mMetres": 0.16,
+      "distanceToGreenMetres": 93.8,
+      "lateralMetres": 3.0,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 6,
+   "distinctDecks": 2
+  },
+  {
+   "hole": 15,
+   "par": 4,
+   "card": [
+    413,
+    385,
+    350,
+    316,
+    316,
+    290
+   ],
+   "lineLengthMetres": 312.0,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 413,
+     "cardPoint": [
+      304.05,
+      -235.95
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 385,
+     "cardPoint": [
+      277.09,
+      -243.5
+     ],
+     "reading": {
+      "centre": [
+       264.4,
+       -238.46
+      ],
+      "areaSquareMetres": 33.8,
+      "sizeMetres": [
+       8.0,
+       4.0
+      ],
+      "rectangularity": 1.055,
+      "greennessOverCollar": 7.0,
+      "smoothnessRatio": 0.805,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 13.7,
+      "ring": [
+       [
+        265.0,
+        -242.95
+       ],
+       [
+        266.5,
+        -242.45
+       ],
+       [
+        266.5,
+        -234.45
+       ],
+       [
+        262.0,
+        -234.45
+       ],
+       [
+        262.0,
+        -241.95
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.227,
+      "distanceToGreenMetres": 271.6,
+      "lateralMetres": 8.1,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 350,
+     "cardPoint": [
+      243.27,
+      -252.52
+     ],
+     "reading": {
+      "centre": [
+       245.03,
+       -247.03
+      ],
+      "areaSquareMetres": 115.8,
+      "sizeMetres": [
+       13.5,
+       12.5
+      ],
+      "rectangularity": 0.686,
+      "greennessOverCollar": 7.0,
+      "smoothnessRatio": 0.864,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 5.8,
+      "ring": [
+       [
+        238.5,
+        -254.45
+       ],
+       [
+        246.0,
+        -253.45
+       ],
+       [
+        246.5,
+        -250.45
+       ],
+       [
+        250.5,
+        -250.45
+       ],
+       [
+        250.5,
+        -246.45
+       ],
+       [
+        252.5,
+        -246.45
+       ],
+       [
+        252.5,
+        -241.95
+       ],
+       [
+        251.5,
+        -242.95
+       ],
+       [
+        238.5,
+        -241.45
+       ],
+       [
+        238.5,
+        -246.45
+       ],
+       [
+        243.5,
+        -246.45
+       ],
+       [
+        243.0,
+        -250.45
+       ],
+       [
+        240.5,
+        -250.95
+       ],
+       [
+        240.0,
+        -249.95
+       ],
+       [
+        239.5,
+        -250.95
+       ],
+       [
+        239.0,
+        -249.95
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.155,
+      "distanceToGreenMetres": 250.6,
+      "lateralMetres": 4.8,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 316,
+     "cardPoint": [
+      212.03,
+      -264.82
+     ],
+     "reading": {
+      "centre": [
+       220.2,
+       -254.92
+      ],
+      "areaSquareMetres": 35.0,
+      "sizeMetres": [
+       7.5,
+       5.5
+      ],
+      "rectangularity": 0.848,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.75,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 12.8,
+      "ring": [
+       [
+        216.5,
+        -258.45
+       ],
+       [
+        222.5,
+        -258.45
+       ],
+       [
+        222.5,
+        -250.45
+       ],
+       [
+        219.5,
+        -250.45
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.058,
+      "distanceToGreenMetres": 225.2,
+      "lateralMetres": 3.7,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 316,
+     "cardPoint": [
+      212.03,
+      -264.82
+     ],
+     "reading": {
+      "centre": [
+       220.2,
+       -254.92
+      ],
+      "areaSquareMetres": 35.0,
+      "sizeMetres": [
+       7.5,
+       5.5
+      ],
+      "rectangularity": 0.848,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.75,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 12.8,
+      "ring": [
+       [
+        216.5,
+        -258.45
+       ],
+       [
+        222.5,
+        -258.45
+       ],
+       [
+        222.5,
+        -250.45
+       ],
+       [
+        219.5,
+        -250.45
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 3,
+      "flatness5mMetres": 0.058,
+      "distanceToGreenMetres": 225.2,
+      "lateralMetres": 3.7,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 290,
+     "cardPoint": [
+      190.5,
+      -279.39
+     ],
+     "reading": {
+      "centre": [
+       172.16,
+       -282.91
+      ],
+      "areaSquareMetres": 34.2,
+      "sizeMetres": [
+       7.5,
+       5.5
+      ],
+      "rectangularity": 0.83,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.692,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 18.7,
+      "ring": [
+       [
+        170.5,
+        -286.45
+       ],
+       [
+        174.5,
+        -286.45
+       ],
+       [
+        174.5,
+        -278.45
+       ],
+       [
+        172.5,
+        -278.45
+       ],
+       [
+        170.5,
+        -281.95
+       ],
+       [
+        168.5,
+        -282.45
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.143,
+      "distanceToGreenMetres": 170.4,
+      "lateralMetres": 7.4,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 5,
+   "distinctDecks": 4
+  },
+  {
+   "hole": 16,
+   "par": 5,
+   "card": [
+    482,
+    464,
+    443,
+    408,
+    367,
+    367
+   ],
+   "lineLengthMetres": 458.5,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 482,
+     "cardPoint": [
+      13.25,
+      -273.15
+     ],
+     "reading": {
+      "centre": [
+       8.92,
+       -277.07
+      ],
+      "areaSquareMetres": 268.0,
+      "sizeMetres": [
+       35.1,
+       12.5
+      ],
+      "rectangularity": 0.613,
+      "greennessOverCollar": 11.5,
+      "smoothnessRatio": 0.456,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 5.8,
+      "ring": [
+       [
+        0.52,
+        -292.15
+       ],
+       [
+        3.52,
+        -290.65
+       ],
+       [
+        2.52,
+        -287.15
+       ],
+       [
+        4.52,
+        -287.15
+       ],
+       [
+        4.52,
+        -285.15
+       ],
+       [
+        6.52,
+        -285.15
+       ],
+       [
+        6.52,
+        -287.15
+       ],
+       [
+        8.02,
+        -286.65
+       ],
+       [
+        10.52,
+        -283.65
+       ],
+       [
+        10.52,
+        -281.15
+       ],
+       [
+        12.02,
+        -281.15
+       ],
+       [
+        13.52,
+        -278.15
+       ],
+       [
+        16.02,
+        -277.65
+       ],
+       [
+        16.52,
+        -274.15
+       ],
+       [
+        21.52,
+        -269.65
+       ],
+       [
+        21.02,
+        -268.65
+       ],
+       [
+        22.52,
+        -268.65
+       ],
+       [
+        22.02,
+        -267.15
+       ],
+       [
+        24.02,
+        -265.15
+       ],
+       [
+        14.52,
+        -265.15
+       ],
+       [
+        14.52,
+        -269.15
+       ],
+       [
+        7.52,
+        -269.15
+       ],
+       [
+        6.52,
+        -273.15
+       ],
+       [
+        2.52,
+        -273.15
+       ],
+       [
+        6.02,
+        -273.65
+       ],
+       [
+        2.52,
+        -274.15
+       ],
+       [
+        2.52,
+        -276.15
+       ],
+       [
+        6.02,
+        -276.15
+       ],
+       [
+        6.02,
+        -277.15
+       ],
+       [
+        -1.48,
+        -277.65
+       ],
+       [
+        -1.48,
+        -288.65
+       ],
+       [
+        0.02,
+        -289.15
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.12,
+      "distanceToGreenMetres": 467.2,
+      "lateralMetres": 2.1,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 464,
+     "cardPoint": [
+      23.98,
+      -258.68
+     ],
+     "reading": {
+      "centre": [
+       8.92,
+       -277.07
+      ],
+      "areaSquareMetres": 268.0,
+      "sizeMetres": [
+       35.1,
+       12.5
+      ],
+      "rectangularity": 0.613,
+      "greennessOverCollar": 11.5,
+      "smoothnessRatio": 0.456,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 23.8,
+      "ring": [
+       [
+        0.52,
+        -292.15
+       ],
+       [
+        3.52,
+        -290.65
+       ],
+       [
+        2.52,
+        -287.15
+       ],
+       [
+        4.52,
+        -287.15
+       ],
+       [
+        4.52,
+        -285.15
+       ],
+       [
+        6.52,
+        -285.15
+       ],
+       [
+        6.52,
+        -287.15
+       ],
+       [
+        8.02,
+        -286.65
+       ],
+       [
+        10.52,
+        -283.65
+       ],
+       [
+        10.52,
+        -281.15
+       ],
+       [
+        12.02,
+        -281.15
+       ],
+       [
+        13.52,
+        -278.15
+       ],
+       [
+        16.02,
+        -277.65
+       ],
+       [
+        16.52,
+        -274.15
+       ],
+       [
+        21.52,
+        -269.65
+       ],
+       [
+        21.02,
+        -268.65
+       ],
+       [
+        22.52,
+        -268.65
+       ],
+       [
+        22.02,
+        -267.15
+       ],
+       [
+        24.02,
+        -265.15
+       ],
+       [
+        14.52,
+        -265.15
+       ],
+       [
+        14.52,
+        -269.15
+       ],
+       [
+        7.52,
+        -269.15
+       ],
+       [
+        6.52,
+        -273.15
+       ],
+       [
+        2.52,
+        -273.15
+       ],
+       [
+        6.02,
+        -273.65
+       ],
+       [
+        2.52,
+        -274.15
+       ],
+       [
+        2.52,
+        -276.15
+       ],
+       [
+        6.52,
+        -275.65
+       ],
+       [
+        6.02,
+        -277.15
+       ],
+       [
+        -1.48,
+        -277.65
+       ],
+       [
+        -1.48,
+        -288.65
+       ],
+       [
+        0.52,
+        -290.15
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 0,
+      "flatness5mMetres": 0.12,
+      "distanceToGreenMetres": 467.2,
+      "lateralMetres": 2.1,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 443,
+     "cardPoint": [
+      35.77,
+      -241.3
+     ],
+     "reading": {
+      "centre": [
+       50.34,
+       -245.42
+      ],
+      "areaSquareMetres": 66.0,
+      "sizeMetres": [
+       11.0,
+       7.5
+      ],
+      "rectangularity": 0.8,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.966,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 15.1,
+      "ring": [
+       [
+        46.02,
+        -249.15
+       ],
+       [
+        54.52,
+        -249.15
+       ],
+       [
+        55.52,
+        -244.65
+       ],
+       [
+        54.02,
+        -241.65
+       ],
+       [
+        47.02,
+        -241.15
+       ],
+       [
+        46.52,
+        -245.15
+       ],
+       [
+        44.02,
+        -245.65
+       ],
+       [
+        46.02,
+        -247.15
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.378,
+      "distanceToGreenMetres": 417.8,
+      "lateralMetres": 14.4,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 408,
+     "cardPoint": [
+      55.41,
+      -212.33
+     ],
+     "reading": {
+      "centre": [
+       55.67,
+       -224.18
+      ],
+      "areaSquareMetres": 221.2,
+      "sizeMetres": [
+       30.4,
+       11.3
+      ],
+      "rectangularity": 0.643,
+      "greennessOverCollar": 10.0,
+      "smoothnessRatio": 0.423,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 11.9,
+      "ring": [
+       [
+        44.52,
+        -236.15
+       ],
+       [
+        49.52,
+        -235.15
+       ],
+       [
+        49.52,
+        -234.15
+       ],
+       [
+        50.52,
+        -235.15
+       ],
+       [
+        54.02,
+        -234.15
+       ],
+       [
+        51.52,
+        -232.15
+       ],
+       [
+        57.52,
+        -230.15
+       ],
+       [
+        58.52,
+        -228.65
+       ],
+       [
+        57.52,
+        -225.65
+       ],
+       [
+        61.02,
+        -225.15
+       ],
+       [
+        61.52,
+        -223.15
+       ],
+       [
+        64.02,
+        -224.65
+       ],
+       [
+        65.52,
+        -221.65
+       ],
+       [
+        64.52,
+        -218.15
+       ],
+       [
+        65.52,
+        -214.15
+       ],
+       [
+        62.52,
+        -213.15
+       ],
+       [
+        63.02,
+        -210.65
+       ],
+       [
+        60.02,
+        -211.65
+       ],
+       [
+        61.02,
+        -212.65
+       ],
+       [
+        59.02,
+        -213.15
+       ],
+       [
+        58.02,
+        -215.65
+       ],
+       [
+        57.02,
+        -214.65
+       ],
+       [
+        55.52,
+        -216.15
+       ],
+       [
+        55.02,
+        -221.15
+       ],
+       [
+        56.02,
+        -221.65
+       ],
+       [
+        55.02,
+        -222.65
+       ],
+       [
+        54.52,
+        -221.15
+       ],
+       [
+        52.02,
+        -221.15
+       ],
+       [
+        51.02,
+        -225.15
+       ],
+       [
+        46.52,
+        -225.65
+       ],
+       [
+        46.02,
+        -231.15
+       ],
+       [
+        43.52,
+        -233.65
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.283,
+      "distanceToGreenMetres": 397.2,
+      "lateralMetres": 6.9,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 367,
+     "cardPoint": [
+      78.49,
+      -178.44
+     ],
+     "reading": {
+      "centre": [
+       86.31,
+       -198.3
+      ],
+      "areaSquareMetres": 118.5,
+      "sizeMetres": [
+       14.3,
+       12.9
+      ],
+      "rectangularity": 0.641,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.6,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 21.3,
+      "ring": [
+       [
+        86.52,
+        -204.65
+       ],
+       [
+        89.52,
+        -204.65
+       ],
+       [
+        90.52,
+        -201.15
+       ],
+       [
+        92.52,
+        -201.15
+       ],
+       [
+        90.52,
+        -196.15
+       ],
+       [
+        93.52,
+        -193.15
+       ],
+       [
+        86.52,
+        -193.15
+       ],
+       [
+        86.52,
+        -191.15
+       ],
+       [
+        84.52,
+        -191.15
+       ],
+       [
+        84.52,
+        -193.15
+       ],
+       [
+        82.52,
+        -193.15
+       ],
+       [
+        82.52,
+        -197.15
+       ],
+       [
+        80.52,
+        -197.15
+       ],
+       [
+        80.52,
+        -200.65
+       ],
+       [
+        77.52,
+        -201.65
+       ],
+       [
+        78.52,
+        -203.65
+       ],
+       [
+        80.52,
+        -202.15
+       ],
+       [
+        80.52,
+        -203.15
+       ],
+       [
+        86.52,
+        -203.15
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.142,
+      "distanceToGreenMetres": 358.6,
+      "lateralMetres": 17.7,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 367,
+     "cardPoint": [
+      78.49,
+      -178.44
+     ],
+     "reading": {
+      "centre": [
+       86.31,
+       -198.3
+      ],
+      "areaSquareMetres": 118.5,
+      "sizeMetres": [
+       14.3,
+       12.9
+      ],
+      "rectangularity": 0.641,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.6,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 21.3,
+      "ring": [
+       [
+        86.52,
+        -204.65
+       ],
+       [
+        89.52,
+        -204.65
+       ],
+       [
+        90.52,
+        -201.15
+       ],
+       [
+        92.52,
+        -201.15
+       ],
+       [
+        90.52,
+        -196.15
+       ],
+       [
+        93.52,
+        -193.15
+       ],
+       [
+        86.52,
+        -193.15
+       ],
+       [
+        86.52,
+        -191.15
+       ],
+       [
+        84.52,
+        -191.15
+       ],
+       [
+        84.52,
+        -193.15
+       ],
+       [
+        82.52,
+        -193.15
+       ],
+       [
+        82.52,
+        -197.15
+       ],
+       [
+        80.52,
+        -197.15
+       ],
+       [
+        80.52,
+        -200.65
+       ],
+       [
+        77.52,
+        -201.65
+       ],
+       [
+        78.52,
+        -203.65
+       ],
+       [
+        80.52,
+        -202.15
+       ],
+       [
+        80.52,
+        -203.15
+       ],
+       [
+        86.52,
+        -203.15
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 4,
+      "flatness5mMetres": 0.142,
+      "distanceToGreenMetres": 358.6,
+      "lateralMetres": 17.7,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 6,
+   "distinctDecks": 4
+  },
+  {
+   "hole": 17,
+   "par": 3,
+   "card": [
+    192,
+    174,
+    154,
+    139,
+    123,
+    100
+   ],
+   "lineLengthMetres": 173.7,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 192,
+     "cardPoint": [
+      158.65,
+      185.05
+     ],
+     "reading": {
+      "centre": [
+       155.41,
+       185.89
+      ],
+      "areaSquareMetres": 96.5,
+      "sizeMetres": [
+       14.5,
+       10.5
+      ],
+      "rectangularity": 0.634,
+      "greennessOverCollar": 5.0,
+      "smoothnessRatio": 0.88,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 3.3,
+      "ring": [
+       [
+        152.57,
+        181.05
+       ],
+       [
+        160.07,
+        181.05
+       ],
+       [
+        161.07,
+        184.55
+       ],
+       [
+        163.07,
+        184.55
+       ],
+       [
+        163.07,
+        187.05
+       ],
+       [
+        160.07,
+        189.05
+       ],
+       [
+        156.07,
+        189.05
+       ],
+       [
+        156.07,
+        192.05
+       ],
+       [
+        152.57,
+        189.05
+       ],
+       [
+        149.07,
+        191.05
+       ],
+       [
+        148.07,
+        185.55
+       ],
+       [
+        149.57,
+        185.55
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.435,
+      "distanceToGreenMetres": 172.2,
+      "lateralMetres": 3.3,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 174,
+     "cardPoint": [
+      150.51,
+      201.13
+     ],
+     "reading": {
+      "centre": [
+       142.67,
+       214.2
+      ],
+      "areaSquareMetres": 437.0,
+      "sizeMetres": [
+       44.0,
+       14.5
+      ],
+      "rectangularity": 0.685,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.792,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 15.2,
+      "ring": [
+       [
+        148.07,
+        192.55
+       ],
+       [
+        151.07,
+        198.05
+       ],
+       [
+        154.57,
+        198.55
+       ],
+       [
+        154.57,
+        201.05
+       ],
+       [
+        152.07,
+        201.05
+       ],
+       [
+        151.07,
+        209.05
+       ],
+       [
+        148.07,
+        209.05
+       ],
+       [
+        148.07,
+        221.05
+       ],
+       [
+        144.07,
+        221.05
+       ],
+       [
+        144.07,
+        232.55
+       ],
+       [
+        142.57,
+        233.05
+       ],
+       [
+        143.07,
+        234.55
+       ],
+       [
+        141.07,
+        237.05
+       ],
+       [
+        140.07,
+        233.05
+       ],
+       [
+        132.07,
+        233.05
+       ],
+       [
+        132.07,
+        227.55
+       ],
+       [
+        132.57,
+        225.05
+       ],
+       [
+        136.07,
+        225.05
+       ],
+       [
+        136.07,
+        209.05
+       ],
+       [
+        140.07,
+        209.05
+       ],
+       [
+        141.07,
+        197.05
+       ],
+       [
+        144.07,
+        197.05
+       ],
+       [
+        144.07,
+        193.05
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.298,
+      "distanceToGreenMetres": 141.3,
+      "lateralMetres": 0.3,
+      "teeIndex": 1
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 154,
+     "cardPoint": [
+      140.6,
+      218.5
+     ],
+     "reading": {
+      "centre": [
+       142.67,
+       214.2
+      ],
+      "areaSquareMetres": 437.0,
+      "sizeMetres": [
+       44.0,
+       14.5
+      ],
+      "rectangularity": 0.685,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.792,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 4.8,
+      "ring": [
+       [
+        148.07,
+        192.55
+       ],
+       [
+        151.07,
+        198.05
+       ],
+       [
+        154.57,
+        198.55
+       ],
+       [
+        154.57,
+        201.05
+       ],
+       [
+        152.07,
+        201.05
+       ],
+       [
+        151.07,
+        209.05
+       ],
+       [
+        148.07,
+        209.05
+       ],
+       [
+        148.07,
+        221.05
+       ],
+       [
+        144.07,
+        221.05
+       ],
+       [
+        144.07,
+        232.55
+       ],
+       [
+        142.57,
+        233.05
+       ],
+       [
+        143.07,
+        234.55
+       ],
+       [
+        141.07,
+        237.05
+       ],
+       [
+        140.07,
+        233.05
+       ],
+       [
+        132.07,
+        233.05
+       ],
+       [
+        132.07,
+        227.55
+       ],
+       [
+        132.57,
+        225.05
+       ],
+       [
+        136.07,
+        225.05
+       ],
+       [
+        136.07,
+        209.05
+       ],
+       [
+        140.07,
+        209.05
+       ],
+       [
+        141.07,
+        197.05
+       ],
+       [
+        144.07,
+        197.05
+       ],
+       [
+        144.07,
+        193.05
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 1,
+      "flatness5mMetres": 0.298,
+      "distanceToGreenMetres": 141.3,
+      "lateralMetres": 0.3,
+      "teeIndex": 2
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 139,
+     "cardPoint": [
+      133.17,
+      231.53
+     ],
+     "reading": {
+      "centre": [
+       142.67,
+       214.2
+      ],
+      "areaSquareMetres": 437.0,
+      "sizeMetres": [
+       44.0,
+       14.5
+      ],
+      "rectangularity": 0.685,
+      "greennessOverCollar": 8.0,
+      "smoothnessRatio": 0.792,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 19.8,
+      "ring": [
+       [
+        148.07,
+        192.55
+       ],
+       [
+        151.07,
+        198.05
+       ],
+       [
+        154.57,
+        198.55
+       ],
+       [
+        154.57,
+        201.05
+       ],
+       [
+        152.07,
+        201.05
+       ],
+       [
+        151.07,
+        209.05
+       ],
+       [
+        148.07,
+        209.05
+       ],
+       [
+        148.07,
+        221.05
+       ],
+       [
+        144.07,
+        221.05
+       ],
+       [
+        144.07,
+        232.55
+       ],
+       [
+        142.57,
+        233.05
+       ],
+       [
+        143.07,
+        234.55
+       ],
+       [
+        141.07,
+        237.05
+       ],
+       [
+        140.07,
+        233.05
+       ],
+       [
+        132.07,
+        233.05
+       ],
+       [
+        132.07,
+        227.55
+       ],
+       [
+        132.57,
+        225.05
+       ],
+       [
+        136.07,
+        225.05
+       ],
+       [
+        136.07,
+        209.05
+       ],
+       [
+        140.07,
+        209.05
+       ],
+       [
+        141.07,
+        197.05
+       ],
+       [
+        144.07,
+        197.05
+       ],
+       [
+        144.07,
+        193.05
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 1,
+      "flatness5mMetres": 0.298,
+      "distanceToGreenMetres": 141.3,
+      "lateralMetres": 0.3,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 123,
+     "cardPoint": [
+      125.24,
+      245.43
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 100,
+     "cardPoint": [
+      113.84,
+      265.41
+     ],
+     "reading": {
+      "centre": [
+       112.61,
+       284.33
+      ],
+      "areaSquareMetres": 115.8,
+      "sizeMetres": [
+       15.6,
+       11.8
+      ],
+      "rectangularity": 0.627,
+      "greennessOverCollar": 7.0,
+      "smoothnessRatio": 0.774,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 19.0,
+      "ring": [
+       [
+        112.07,
+        277.05
+       ],
+       [
+        115.07,
+        278.05
+       ],
+       [
+        117.07,
+        285.05
+       ],
+       [
+        119.57,
+        285.05
+       ],
+       [
+        120.07,
+        283.55
+       ],
+       [
+        120.07,
+        289.05
+       ],
+       [
+        115.07,
+        289.05
+       ],
+       [
+        115.07,
+        293.05
+       ],
+       [
+        112.07,
+        293.05
+       ],
+       [
+        112.07,
+        285.05
+       ],
+       [
+        104.07,
+        284.55
+       ],
+       [
+        104.57,
+        281.05
+       ],
+       [
+        108.07,
+        281.05
+       ],
+       [
+        108.07,
+        278.05
+       ],
+       [
+        112.07,
+        278.05
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.103,
+      "distanceToGreenMetres": 65.5,
+      "lateralMetres": 8.3,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 5,
+   "distinctDecks": 3
+  },
+  {
+   "hole": 18,
+   "par": 5,
+   "card": [
+    516,
+    477,
+    440,
+    395,
+    395,
+    340
+   ],
+   "lineLengthMetres": 479.0,
+   "tees": [
+    {
+     "teeIndex": 0,
+     "cardMetres": 516,
+     "cardPoint": [
+      15.45,
+      351.65
+     ],
+     "reading": {
+      "centre": [
+       14.92,
+       349.86
+      ],
+      "areaSquareMetres": 143.0,
+      "sizeMetres": [
+       14.5,
+       13.5
+      ],
+      "rectangularity": 0.731,
+      "greennessOverCollar": 7.0,
+      "smoothnessRatio": 0.75,
+      "readingCut": 5.5,
+      "metresFromCardPoint": 1.9,
+      "ring": [
+       [
+        11.44,
+        343.71
+       ],
+       [
+        11.94,
+        344.71
+       ],
+       [
+        20.94,
+        343.71
+       ],
+       [
+        20.94,
+        355.71
+       ],
+       [
+        16.94,
+        355.71
+       ],
+       [
+        16.94,
+        357.71
+       ],
+       [
+        13.44,
+        357.71
+       ],
+       [
+        11.44,
+        355.21
+       ],
+       [
+        12.44,
+        354.21
+       ],
+       [
+        7.44,
+        351.21
+       ],
+       [
+        5.94,
+        346.71
+       ],
+       [
+        9.44,
+        346.21
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.197,
+      "distanceToGreenMetres": 475.6,
+      "lateralMetres": 1.5,
+      "teeIndex": 0
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 1,
+     "cardMetres": 477,
+     "cardPoint": [
+      -13.82,
+      325.88
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 2,
+     "cardMetres": 440,
+     "cardPoint": [
+      -41.29,
+      301.09
+     ],
+     "reading": null,
+     "refusal": "no compact mown deck within 26 m of the card point"
+    },
+    {
+     "teeIndex": 3,
+     "cardMetres": 395,
+     "cardPoint": [
+      -76.81,
+      275.32
+     ],
+     "reading": {
+      "centre": [
+       -69.07,
+       271.32
+      ],
+      "areaSquareMetres": 275.8,
+      "sizeMetres": [
+       24.0,
+       19.0
+      ],
+      "rectangularity": 0.605,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.947,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 8.7,
+      "ring": [
+       [
+        -79.06,
+        259.71
+       ],
+       [
+        -65.06,
+        259.71
+       ],
+       [
+        -65.06,
+        267.21
+       ],
+       [
+        -60.06,
+        267.71
+       ],
+       [
+        -59.56,
+        275.71
+       ],
+       [
+        -63.06,
+        275.71
+       ],
+       [
+        -63.06,
+        279.71
+       ],
+       [
+        -67.06,
+        279.71
+       ],
+       [
+        -67.06,
+        284.21
+       ],
+       [
+        -75.56,
+        283.21
+       ],
+       [
+        -75.06,
+        279.71
+       ],
+       [
+        -71.06,
+        279.71
+       ],
+       [
+        -71.06,
+        278.71
+       ],
+       [
+        -79.06,
+        278.71
+       ],
+       [
+        -79.06,
+        275.71
+       ],
+       [
+        -67.56,
+        276.71
+       ],
+       [
+        -67.56,
+        275.71
+       ],
+       [
+        -71.06,
+        275.71
+       ],
+       [
+        -71.06,
+        271.71
+       ],
+       [
+        -75.06,
+        271.71
+       ],
+       [
+        -75.06,
+        261.71
+       ],
+       [
+        -79.06,
+        261.71
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.23,
+      "distanceToGreenMetres": 363.1,
+      "lateralMetres": 5.2,
+      "teeIndex": 3
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 4,
+     "cardMetres": 395,
+     "cardPoint": [
+      -76.81,
+      275.32
+     ],
+     "reading": {
+      "centre": [
+       -69.07,
+       271.32
+      ],
+      "areaSquareMetres": 275.8,
+      "sizeMetres": [
+       24.0,
+       19.0
+      ],
+      "rectangularity": 0.605,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.947,
+      "readingCut": 2.0,
+      "metresFromCardPoint": 8.7,
+      "ring": [
+       [
+        -79.06,
+        259.71
+       ],
+       [
+        -65.06,
+        259.71
+       ],
+       [
+        -65.06,
+        267.21
+       ],
+       [
+        -60.06,
+        267.71
+       ],
+       [
+        -59.56,
+        275.71
+       ],
+       [
+        -63.06,
+        275.71
+       ],
+       [
+        -63.06,
+        279.71
+       ],
+       [
+        -67.06,
+        279.71
+       ],
+       [
+        -67.06,
+        284.21
+       ],
+       [
+        -75.56,
+        283.21
+       ],
+       [
+        -75.06,
+        279.71
+       ],
+       [
+        -71.06,
+        279.71
+       ],
+       [
+        -71.06,
+        278.71
+       ],
+       [
+        -79.06,
+        278.71
+       ],
+       [
+        -79.06,
+        275.71
+       ],
+       [
+        -67.56,
+        276.71
+       ],
+       [
+        -67.56,
+        275.71
+       ],
+       [
+        -71.06,
+        275.71
+       ],
+       [
+        -71.06,
+        271.71
+       ],
+       [
+        -75.06,
+        271.71
+       ],
+       [
+        -75.06,
+        261.71
+       ],
+       [
+        -79.06,
+        261.71
+       ]
+      ],
+      "sharesDeckWithTeeIndex": 3,
+      "flatness5mMetres": 0.23,
+      "distanceToGreenMetres": 363.1,
+      "lateralMetres": 5.2,
+      "teeIndex": 4
+     },
+     "refusal": null
+    },
+    {
+     "teeIndex": 5,
+     "cardMetres": 340,
+     "cardPoint": [
+      -131.06,
+      266.28
+     ],
+     "reading": {
+      "centre": [
+       -147.63,
+       257.54
+      ],
+      "areaSquareMetres": 126.0,
+      "sizeMetres": [
+       15.5,
+       10.5
+      ],
+      "rectangularity": 0.774,
+      "greennessOverCollar": 4.0,
+      "smoothnessRatio": 0.944,
+      "readingCut": 3.0,
+      "metresFromCardPoint": 18.7,
+      "ring": [
+       [
+        -155.06,
+        251.71
+       ],
+       [
+        -147.06,
+        251.71
+       ],
+       [
+        -147.06,
+        255.71
+       ],
+       [
+        -139.06,
+        255.71
+       ],
+       [
+        -139.06,
+        262.71
+       ],
+       [
+        -146.56,
+        262.71
+       ],
+       [
+        -147.06,
+        259.21
+       ],
+       [
+        -148.06,
+        260.21
+       ],
+       [
+        -151.06,
+        259.21
+       ],
+       [
+        -151.06,
+        261.71
+       ],
+       [
+        -154.56,
+        261.71
+       ]
+      ],
+      "sharesDeckWithTeeIndex": null,
+      "flatness5mMetres": 0.115,
+      "distanceToGreenMetres": 283.4,
+      "lateralMetres": 5.9,
+      "teeIndex": 5
+     },
+     "refusal": null
+    }
+   ],
+   "teesRead": 4,
+   "distinctDecks": 3
+  }
+ ],
+ "selfScore": {
+  "mappedDecksRecovered": 10,
+  "mappedDecksSought": 17,
+  "meaning": "the mapped decks were traced on the 2022 summer capture, so recovering them on the 2026 April flight is a cross-capture test of the reading, not of the trace",
+  "teesRead": 90,
+  "teesSought": 108,
+  "distinctDecks": 52
+ },
+ "verdict": {
+  "adopted": "no outline; the derivation in build-course.mjs teeMarks places the marks and this file corroborates it",
+  "why": "the reading recovers only 10 of the 17 MAPPED decks on the independent April flight, at a median 5.4 m from their centres and with areas 0.21 to 1.88 times theirs. An instrument that misses two of every five features it is calibrated on, and sizes the rest between a fifth and twice, cannot be trusted to outline features nobody has mapped.",
+  "whatItDoesSupport": "90 of the 108 derived tee points have a compact mown patch within 26 m, on 52 distinct patches. That is corroboration that the derived points land on mown ground rather than in scrub, water or a bunker -- separately verified: no derived mark lands in water, a bunker, a building or on a green. It is NOT evidence that a constructed tee deck stands at each one, and must not be read as such.",
+  "whatWouldFinishIt": "a club record of its own tee positions, or a leafed-on ortho at 0.16 m or finer. The one leaf-on capture here is 0.25 m and 2022, and is the image these decks were traced FROM, so it cannot arbitrate its own trace."
+ }
+}

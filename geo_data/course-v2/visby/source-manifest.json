@@ -764,7 +764,7 @@
       "id": "playing-surface-pixel-traces",
       "kind": "surface",
       "path": "visbybuild/mapping/surface-traces-2022.json",
-      "sha256": "3434d16aff10e5ccde27c91eaf2c4a23f194dad4cc8681dddc70a88cdc2dbbf4",
+      "sha256": "d93e294920316d6f95e2f8a71b1c3fa368717ee5161cc1230062ed71c9902cf1",
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
@@ -777,7 +777,7 @@
       "id": "playing-surface-candidates",
       "kind": "surface",
       "path": "visbybuild/mapping/playing-surfaces.geojson",
-      "sha256": "082566d7eb4561c59245d877d39a58bcd326ad8370b72886c061c37c26710fa2",
+      "sha256": "8662159a469bbf111129d53fb3b6014c32fbb4f72fc5903bb311a1909d1e9dfe",
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
@@ -790,7 +790,7 @@
       "id": "playing-surface-review",
       "kind": "control",
       "path": "visbybuild/mapping/playing-surfaces-review.json",
-      "sha256": "a5691c5a705b07c374799b03f4c888a2d14bc1478d013eaca4034ed23c304fbe",
+      "sha256": "19bcfeaf90c664daac6665dd94368c4e5f317d9633d3c8366b5254c05edfd5cd",
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
@@ -803,7 +803,7 @@
       "id": "canonical-routing-candidate",
       "kind": "composite",
       "path": "visbybuild/mapping/geometry.json",
-      "sha256": "9eccfd77d45c840080b9977188f3a795d8f24ec3e6964e99e2f6f45c3c9fd775",
+      "sha256": "7b3ae37093a28d3006b84d32baebf7642bafbe129fd662fbdca7527cc71983ca",
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
@@ -861,10 +861,21 @@
       "notes": "Source context clipped to measured terrain; footprints are supplementary, heights and widths may be generic."
     },
     {
+      "id": "osm-vista-landcover",
+      "kind": "topography",
+      "path": "geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson",
+      "sha256": "ebac60d9f7864301169a6a4bf502e0e82ea9c2c188c036bc5ed1266116a4816d",
+      "derivedFrom": [
+        "visby-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "OpenStreetMap land cover clipped to +-6 km of the frame, for the far vista ring and the ground tint beyond the measured window. Vista dressing, not a survey of the played property: nothing here plants a tree on the course, which is measured-only. 279 farmland polygons against 24 forest is what makes it worth having -- Gotland is farmed."
+    },
+    {
       "id": "measured-canopy-evidence",
       "kind": "canopy",
       "path": "geo_data/course-v2/visby/vegetation/canopy-evidence.json",
-      "sha256": "474af78251ee920395632091950f349459873614d5dc5934a33e5c95227ba67b",
+      "sha256": "8545bc8a2cca39692059fbf924dd7629f1e11d6f74c1714673bbb8642601ed34",
       "derivedFrom": [
         "laser-lm-24e002-636-68",
         "laser-lm-24e002-637-68",
@@ -878,7 +889,7 @@
       "id": "measured-stand-evidence",
       "kind": "canopy",
       "path": "geo_data/course-v2/visby/vegetation/stand-evidence.json",
-      "sha256": "ebe8914557e5c00ca734c673f21dd2a0e877d524b5faa1b9535e5f681f214e83",
+      "sha256": "2a87bcf8ac4a08bfe540f305325e5735027efb40a5a6be368829aa5822c5b45d",
       "derivedFrom": [
         "laser-lm-24e002-636-68",
         "laser-lm-24e002-637-68",
@@ -898,7 +909,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "visbybuild/course-model.json",
-      "sha256": "9e7f580c7bc6fc9d9fb50db14c9fb15000fc3bd9dfd466569e53470e4c73caa7",
+      "sha256": "0895ee4c56568e00fe14270b8ed3695f08d89112a9e12fb8f1875214c9710e60",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -946,7 +957,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-      "sha256": "17946a0470be6d03169159572b19c276098d485a4af6f700cb7ba3fa2cdf98a4",
+      "sha256": "ebbe4d63da87134f8214ac832862e2c2b0205339c7a3129e5c13aa0b1ae289fb",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -964,7 +975,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/visby/migration/residual-report.json",
-      "sha256": "4a9995cdf4559bb98748b254cbd113257e2c81041f5f18c931605b4b38deb76a",
+      "sha256": "6d88f0cc9149b50f2f37bd948eeb64def8a692586fb09caa44bbe5e1b37c18fd",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -1015,6 +1026,42 @@
       ],
       "use": "discovery-evidence",
       "notes": "Source pixel vertices, retained image hash and independent overlay review of range footprint."
+    },
+    {
+      "id": "laser-campaign-inventory",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/acquisition/laser-campaigns.json",
+      "sha256": "b995946c316fcab8406cac5ad093d8f0e223653d132de18b442a0ffcba954fdd",
+      "derivedFrom": [
+        "laser-lm-24e002-636-68",
+        "laser-lm-24e002-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pinned Laserdata Skog inventory: ONE 24e002 City Mapper 2 campaign, captured 2024-02-03 to 2024-04-28, covering the AOI exclusively over items 24e002-636_68 (13,769,262 points, 0.649 returns/m2) and 24e002-637_68 (47,387,337 points, 1.811 returns/m2). The item boundary at N 6370000 is a provenance seam inside one campaign rather than a campaign seam, and it lies 562 m south of the southernmost played point. The scan is LEAF-OFF (February to April), so the deciduous under-detection recorded for Johannesberg and Upsala applies here; Kronholmen is pine and juniper ground, which limits it without removing it. record-laser-campaigns --check re-derives the live catalogue and fails on drift."
+    },
+    {
+      "id": "copc-hierarchy-census",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/acquisition/copc-hierarchy-census.json",
+      "sha256": "451e9f1136847d158c43c5711409ca8c4534c998f384e1f92673196a95d35647",
+      "derivedFrom": [
+        "laser-lm-24e002-636-68",
+        "laser-lm-24e002-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "COPC headers, the COPC VLR and the full hierarchy pages for both items, read over authenticated range requests with no point bytes. Written by the ground-vegetation workflow, which re-pins this checksum in the same run because it rewrites the file every time it runs."
+    },
+    {
+      "id": "ground-rings",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/acquisition/ground-rings.json",
+      "sha256": "c75e72ca2b9f368088edc41252354c67e2ecfadf41fa0edb0c4713b5256cb6e3",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
     }
   ],
   "blockers": [

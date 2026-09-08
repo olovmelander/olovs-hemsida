@@ -88,13 +88,13 @@ import {
 } from './engine/caddie.js';
 import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
-import { gridOriginFor } from './engine/v2-frontier-configs.mjs';
 import {
   selectV2TerrainSource,
   v2StreamProbeRequested,
   V2_GRAPH_RENDERER_GATE,
   V2_OBJECT_LAYER_GATE,
 } from './engine/v2-terrain-select.mjs';
+import { gridOriginEpsg3006 } from './engine/v2-frontier-configs.mjs';
 import { V2TerrainLiveAdapter } from './engine/v2-terrain-live-adapter.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 
@@ -285,11 +285,7 @@ if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
       source: TERRAIN_PREVIEW,
       courseSlug: CMETA.slug,
       baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
-      /* the SAME grid origin the frontier loader used: a grid-authored pack
-         measures off its canonical origin and a flat-earth one off its
-         projected legacy origin, and Lidingö is the first ring-graph ground of
-         the former kind, where this field is simply absent. */
-      legacyOriginEpsg3006: gridOriginFor(TERRAIN_PREVIEW_CONFIG),
+      legacyOriginEpsg3006: gridOriginEpsg3006(TERRAIN_PREVIEW_CONFIG),
     });
     try {
       const ringStarted = performance.now();
@@ -1766,8 +1762,22 @@ const SEA_TINT = [0.055, 0.085, 0.105];
    wrong on the one lake course whose level happens to sit near it. Water the
    ground itself found (the flat-water mask, tested first) is unaffected: that
    is a measurement of the surface, not a contour. */
+/* ... and one more thing the Ängsö rewrite could not have known, because
+   Ängsö has no sea. The band above the level is not decoration: where the
+   bare-earth DTM carries the sea as a FLATTENED surface, that surface can sit
+   a few centimetres above the level the model declares. Visby's reads 0.240 m
+   against a declared 0.230, so a band of zero finds 8.8 ha of a 6,539 ha sea
+   and the rest of the Baltic paints as forest. Half a metre is right for a sea
+   at 0 with land rising fast behind it, and wrong on an island whose coast
+   lies between 0 and 11 m: measured on Visby's own far ring by connectivity
+   rather than by height -- a cell below the cut that reaches the box edge is
+   open sea, one that does not is an enclosed pocket and is the error -- 0.5 m
+   mislabels 7.5 ha against 1.7 ha at 0.05 m, for 160 ha more sea out of
+   6,539. So the band is a course quantity now; a course that does not declare
+   one keeps the 0.5 m and does not move. */
 const HAS_SEA = M.water.some(w => w.isSea);
-const VISTA_SEA_LEVEL = HAS_SEA ? GEO.seaLevel + 0.5 : -Infinity;
+const VISTA_SEA_BAND = Number.isFinite(GEO.seaTintBandMetres) ? GEO.seaTintBandMetres : 0.5;
+const VISTA_SEA_LEVEL = HAS_SEA ? GEO.seaLevel + VISTA_SEA_BAND : -Infinity;
 /* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
    and a flat the sheet misses never reads as a pale plate */
 const FLAT_WATER_TINT = [0.05, 0.075, 0.09];
@@ -4761,7 +4771,18 @@ lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
-if (M.cover) {
+{
+  /* THE FAR RING IS NOT THE IMAGERY'S RING, and it used to be gated on it.
+     Both loops below sat inside `if (M.cover)`, so a course with no tree-cover
+     raster got no distant trees AT ALL -- and the far ring never reads the
+     raster's contents anyway, only its box, as the ground it must not close
+     over. That was invisible while every course had one; Visby has none (OSM
+     carries no vegetation polygon inside its property and the LiDAR generation
+     owns everything it covers), and with a ring graph reaching 16 km the
+     horizon was bare hills to the skyline. The middle ring, which does read the
+     raster, is still gated; the far ring skips the imagery's box where there is
+     one and the MEASURED vegetation where there is not, so the six courses that
+     have a raster are untouched. */
   const cv = M.cover;
   const inset = 50;
   const pts = [];
@@ -4786,10 +4807,10 @@ if (M.cover) {
     /* and the water only the ground knows: flat lake surfaces past the rings */
     return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz);
   };
-  const cvx1 = cv.x0 + cv.nx * cv.cell, cvz1 = cv.z0 + cv.nz * cv.cell;
+  const cvx1 = cv ? cv.x0 + cv.nx * cv.cell : 0, cvz1 = cv ? cv.z0 + cv.nz * cv.cell : 0;
   /* the data ring: where the plans or the survey still reach */
   const GAP2 = LOWQ ? 18 : 13;
-  for (let z = cv.z0; z < cvz1; z += GAP2) {
+  if (cv) for (let z = cv.z0; z < cvz1; z += GAP2) {
     if (shouldYieldWork()) await yieldWork();
     for (let x = cv.x0; x < cvx1; x += GAP2) {
       const i = Math.floor(x / GAP2), j = Math.floor(z / GAP2);
@@ -4811,7 +4832,7 @@ if (M.cover) {
       if (openLand(px, pz)) continue;
       if (rnd2(i + 19, j + 13) > 0.8) continue;
       const h = terrainH(px, pz);
-      if (h < GEO.seaLevel + 0.5) continue;
+      if (h < GEO.seaLevel + VISTA_SEA_BAND) continue;
       if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.4, pz, 0.8 + rnd2(i + 5, j + 23) * 0.7);
     }
@@ -4822,10 +4843,13 @@ if (M.cover) {
   for (let z = FARR.z0; z < FARR.z1; z += GAP3) {
     if (shouldYieldWork()) await yieldWork();
     for (let x = FARR.x0; x < FARR.x1; x += GAP3) {
-      if (x > cv.x0 && x < cvx1 && z > cv.z0 && z < cvz1) continue;
+      if (cv && x > cv.x0 && x < cvx1 && z > cv.z0 && z < cvz1) continue;
       const i = Math.floor(x / GAP3), j = Math.floor(z / GAP3);
       const px = x + (rnd2(i + 51, j + 29) - 0.5) * GAP3 * 1.6;
       const pz = z + (rnd2(i + 87, j + 61) - 0.5) * GAP3 * 1.6;
+      /* where a course has no raster, the measured generation is the box this
+         ring must not close over -- its trees are already standing there */
+      if (!cv && V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) continue;
       if (fbm(px * 0.0011, pz * 0.0011, 2) < -0.18) continue;   /* pasture gaps */
       if (openLand(px, pz)) continue;
       /* a course may declare places this ring must not close over -- a churchyard

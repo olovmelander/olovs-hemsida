@@ -133,7 +133,15 @@ async function main() {
     kind: 'acquisition',
     path: path.relative(ROOT, evidencePath).replaceAll('\\', '/'),
     sha256: createHash('sha256').update(fs.readFileSync(evidencePath, 'utf8').replace(/\r\n/g, '\n')).digest('hex'),
-    derivedFrom: ['terrain-lm-1m'],
+    /* the ground's OWN terrain source ids. This was the literal
+       'terrain-lm-1m', which every inland ground here happens to use as its
+       single source id -- but manifest.mjs rejects an artifact whose
+       derivedFrom names a source the manifest does not carry, and Visby's two
+       coastal items are registered as terrain-lm-636-68 and terrain-lm-637-68,
+       so a ring publish there would have taken check-manifests red. A spec
+       that does not declare its ids keeps the old literal, so nothing already
+       published changes. */
+    derivedFrom: [...(spec.terrainSourceIds || ['terrain-lm-1m'])],
     /* the manifest schema knows two uses; this is evidence of what was read,
        the terrain product itself stays `planned` until its origin is approved */
     use: 'discovery-evidence',

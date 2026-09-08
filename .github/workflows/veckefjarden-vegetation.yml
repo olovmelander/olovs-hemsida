@@ -136,15 +136,20 @@ jobs:
             --out "$RUNNER_TEMP/veg/rasters" \
             --observed-on "$OBSERVED_ON"
 
-      # build-canopy above rewrote canopy-evidence.json, which some grounds PIN
-      # in their source manifest (Lidingö registers it as
-      # canopy-raster-acquisition). The census re-pin two steps up exists for
-      # exactly this reason and this is the same case: without it the publish's
-      # own gates fail on the run's own evidence, which is what happened on
-      # Lidingö's first publish. A ground that does not register the id is a
-      # no-op here, the same as the census step.
-      - name: Re-pin the canopy evidence checksum in the source manifest
-        run: node packages/course-geo/acquisition/record-artifact-checksum.mjs --ground "$GROUND" --id canopy-raster-acquisition
+      # build-canopy has just rewritten this ground's canopy-evidence.json, and
+      # four grounds PIN that file -- under four different artifact ids, because
+      # each named it for itself: canopy-evidence at Johannesberg,
+      # canopy-raster-acquisition at Lidingö, canopy-raster-evidence at
+      # Ribbingsfors, measured-canopy-evidence at Visby. A step naming ids could
+      # only ever re-pin some of them, so this re-pins by the PATH the run
+      # rewrote and a ground that does not register the file is a no-op. Without
+      # it the publish dies on its own evidence, which is exactly what the
+      # census step above already exists to prevent.
+      - name: Re-pin the canopy evidence the canopy build just rewrote
+        run: |
+          node packages/course-geo/acquisition/record-artifact-checksum.mjs \
+            --ground "$GROUND" \
+            --path "geo_data/course-v2/$GROUND/vegetation/canopy-evidence.json"
 
       - name: Compile the machine-reviewed generation
         run: |

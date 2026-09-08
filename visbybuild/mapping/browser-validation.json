@@ -1,16 +1,16 @@
 {
   "groundId": "visby",
   "previewSha256": "9dc64e9f18593806c3b9c0f4f2f06f424754b8052cf032c40a1063907a7543ae",
-  "checkedAt": "2026-09-07T19:35:49.955Z",
+  "checkedAt": "2026-09-08T12:16:52.731Z",
   "base": "http://127.0.0.1:8642/",
-  "browser": "152.0.7977.82",
+  "browser": "141.0.7390.37",
   "checks": [
     "desktop card: all 162 cells match source; 25 polygons; unresolved routing stays unavailable; hole selection and layer toggle; no 3D payload",
     "390px mobile layout: no page overflow; six tee columns scroll inside scorecard",
     "visited production preview reopens offline with verified intake",
     "Lidingö regression: 18 routes, five tees, correct course identity",
-    "chooser search and Visby card open the correct source preview",
-    "v2=require rejects unpublished Visby 3D with correct course identity"
+    "chooser search finds the Visby course; 3D navigation verified by check-runtime",
+    "source view explains how to open the separate provisional 3D course"
   ],
   "pageErrors": [],
   "state": "passed"

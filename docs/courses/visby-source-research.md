@@ -63,7 +63,7 @@ agreement is a transcription check, not independent measurement.
 | 41 | `tee-41` | 1952 | 2264 | 4216 |
 
 The club's approximate 6,300-m description does not replace the card's exact
-6,230-m total. Front/back par sums are 34/38, total 72. Stroke indexes are a
+6,230-m total. Front/back par sums are **35/37**, total 72 -- this line read 34/38 until 2026-09-08, when a third source was compared cell by cell against `card.json`; the card was right and the prose was wrong. Stroke indexes are a
 permutation of 1–18. Numeric tee names are deliberate: Caddee's color mappings
 and ordering differ between the two courses, so a shared color-to-number
 assumption would misidentify tees.
@@ -85,6 +85,29 @@ new physical holes. The inventory keeps only the first nine unique diagram
 identities, while recording the 18 serialized card entries. The nine-hole tee
 count differs between the club golf and course pages; this does not affect the
 verified main-course card and remains unresolved for future nine-hole intake.
+
+### The card and hole 1 have a dated expiry, announced by the club
+
+The club published [**Renovering av hål 1**](https://www.visbygk.com/nyheter/renovering-av-hal-1/)
+on **2026-08-13**: a major rebuild of the first hole starts in **late October
+2026**, is to be finished before Christmas, and the new hole is planned to open
+for play in **spring 2027**. What the club says will change: tee 46/41 lowered
+for sight of the green from the back tee and a new tee 41 built; the green made
+larger and longer for more pin positions; **the right bunker removed and two new
+ones built to the left**; no bunkers left on the way to the green; larger
+foregreen and run-offs, plus a re-made old tee for playing over the bay on hole
+2, mown in with the first's foregreen; and new irrigation over every close-mown
+surface.
+
+So this model shows hole 1 as it stands in **autumn 2026**, which is what it is
+built from, and it goes out of date in spring 2027 — the same kind of dated
+expiry Norrfällsviken's card carries. Nothing is changed for it here; a model
+must show the ground that exists.
+
+The same text is also **independent corroboration** of the model's hole 1, from a
+record that never entered it: the club writes of *the* right bunker, singular,
+and the model carries exactly one bunker right of that hole (R10 m at 21 m to
+green) beside one left (L15 m at 16 m).
 
 ## Diagrams, coordinates and geographic review
 
@@ -163,6 +186,138 @@ and production approval remain open. National 2026 orthophoto pixels are still
 inaccessible with the configured account despite available metadata. The local
 candidate does not close those gates. Rebuild instructions and the remaining
 mapping work are in the [implementation handoff](../../visbybuild/mapping/NEXT-SESSION.md).
+
+## What 2026-09-08 added
+
+### An independent per-hole survey, and the two records it convicts
+
+[`geo_data/visby_clean.json`](../../geo_data/visby_clean.json) is Visby GK's
+18×5 GPS survey, pulled from GolfTraxx **course id 62230SW** ("Visby Golfklubb,
+Vastergarn Kronholmen 415, Visby, SW") with the repo's own
+[`golftraxx_extract.py`](../../geo_data/golftraxx_extract.py). Until now this
+ground had NO independent per-hole geometry at all: the section above records
+that neither the SGF scorecard nor Caddee carries a latitude or longitude.
+
+[`golftraxx-review.mjs`](../../visbybuild/mapping/golftraxx-review.mjs) joins it
+to the EPSG:3006 frame through the repo's own Krüger series and measures the
+agreement rather than asserting it. **Fifteen holes agree at a median 2.09 m
+and a maximum 3.24 m** between the survey's green centre and the model's traced
+green centroid. Retargeting each traced corridor onto the survey's own
+endpoints, all fifteen come out shorter than the card by a one-sided **−5.7% to
+−17.0%, median −8.4%** — the signature of a right hole assignment, since the
+provider's back-tee marker stands in front of the card's back tee. It also
+supplies **hole 12**, whose physical platform no source image ever showed:
+−36.7% against the card before, −8.2% after.
+
+Three holes disagree and the review separates them by fault:
+
+- **Holes 3 and 4: the provider is wrong.** Their survey endpoints imply holes
+  18.3% and 52.7% *longer* than the card, which a played line cannot be. The
+  imagery shows both are real golf features on the shared property — a mown
+  green with a greenside bunker at local [−96, −554], a tee-like apron at
+  [−47, −593] — most likely on the separate nine.
+- **Hole 9: the model is wrong**, and four records agree. See
+  [`green-9-review.json`](../../visbybuild/mapping/green-9-review.json).
+
+This survey is third-party geometry. It is recorded as a cross-check; it
+supplies no approved control and by itself moved no geometry.
+
+### The orthophoto question is answered, and the answer is free
+
+The section above records that "National 2026 orthophoto pixels are still
+inaccessible with the configured account". The COG still is — `dl1` answers 401
+unauthenticated and 403 for this account — but **the pixels are servable
+without credentials** through the viewing service Min karta proxies:
+
+| source | resolution | capture | reachable |
+|---|---|---|---|
+| **Lantmäteriet `Ortofoto_0.16`** via `minkarta.lantmateriet.se/map/ortofoto` | **0.16 m** RGBI | **2026-04-10**, leaf-off | yes, no credentials |
+| **Region Gotland `Ortofoto_2022`** ImageServer | 0.25 m | summer, leaf-on | yes, open service |
+| Lantmäteriet `orto-f2-2026` COG on `dl1` | 0.16 m | same flight | **no** — 401/403 |
+| Esri World Imagery z18 | 0.3214 m | WorldView-2, **2016-08-24** | yes |
+| municipal 2022 image (what the model was traced from) | — | 2022 | retained |
+
+Esri z19, z20 and z21 all return the same 2,521-byte "Map data not yet
+available" placeholder, so z18 is its floor rather than a choice. The two
+reachable orthophotos are therefore **twice the sampling and ten years newer**
+than the imagery every Visby trace so far was read from, and they are a leaf-off
+and a leaf-on frame of the same ground — which is the pair a mown boundary
+needs. [`ortho-crop.mjs`](../../visbybuild/ortho-crop.mjs) serves both in this
+frame with the model drawn over.
+
+Rights are recorded, not resolved. Lantmäteriet's ortho STAC declares
+CC-BY-4.0 and also states that use is legally reviewed under GDPR and requires
+accepting special terms; the proxy's capabilities carry no Fees or
+AccessConstraints element; Region Gotland's terms are likewise open. Both are
+used as tracing and review evidence, neither is redistributed, and no
+orthophoto is or becomes a runtime texture.
+
+### Measured vegetation, and a sixteen-kilometre ground
+
+Both credentialed chains ran in CI, where the Lantmäteriet secrets are, started
+by pushing a control file to this branch.
+
+**Vegetation.** The pinned inventory is one campaign — 24e002, City Mapper 2,
+2024-02-03…04-28, **leaf-off** — over `24e002-636_68` (13,769,262 points) and
+`24e002-637_68` (47,387,337). Acquire run 34201242013 turned 31,657 crown
+candidates into **3,012 machine-reviewed individuals** on 116 object tiles plus
+stand fields on all 256. The cloud's own class-2 ground sits within **0.00 m
+median of the published DTM on every land tile**, which is an independent
+sensor pass confirming the terrain. Leaf-off is the caveat: it is the condition
+under which Johannesberg's measured canopy fell 43.9% → 17.6%.
+
+**Terrain.** [`visby-ground-rings.mjs`](../../packages/course-v2/visby-ground-rings.mjs)
+takes the ground from a 4,096 m five-level pyramid to a **16,384 m root over
+seven levels, 469 tiles**, published by run 34204274378. Nearly forty per cent
+of that root is open Baltic that Markhöjdmodell does not tile at all — the whole
+`*_67` column of 10 km squares answers 404 while all four eastern neighbours
+answer 200 — and the acquire measured the fill rather than assuming it: one
+component per level, boundary median **0.230 m RH 2000 at every level**, which
+is exactly the sea plateau inside the course window, and filled with that same
+height. Every threshold in the spec is this ground's own measurement now.
+
+Neither publish promotes the software frame: `canonicalFrame.origin` remains
+`null` with `originStatus:'pending-control-approval'`, and independent controls,
+derivative terms and production release stay open.
+
+### The third hole was rebuilt, and the club's own map says the numbering holds
+
+The club replaced its third: golfbranschen reported in 2022 that "det nya tredje
+hålet går där gamla hål 15 låg, mellan hål 6 och gamla hål 3", playable from the
+2023 season, and Pierre Fulke Design's masterplan keeps the old third mown as a
+practice area. **This build's hole-3 green is traced from the 2022 municipal
+orthophoto**, which is the wrong side of that date — so the fair worry is that
+the model carries the OLD third under the club's current number.
+
+The imagery cannot settle it. On the 2026 flight the traced green is a live,
+maintained complex with its bunkers and its pond, and so is a green kept mown as
+a practice ground; from above the two are the same picture, which is exactly
+what the masterplan says to expect.
+
+The club's own overview map settles it, and
+[`register-overview.mjs`](../../visbybuild/mapping/register-overview.mjs) is how.
+Caddee publishes a plan of the whole property with a numbered disc per hole
+(blue for the eighteen, green for the nine) whose per-hole par and stroke index
+match this repo's card on all eighteen. The tool finds the discs **by colour**,
+drops the legend's own disc, and fits a rigid similarity by ICP against the
+model's hole MIDPOINTS — the anchor that beat both ends at Veckefjärden, because
+a disc is drawn beside its hole rather than at either end of it. **No numeral is
+ever read**, so the arrangement alone does the identifying, and the check that
+never entered the fit is that the result reproduces the numbers a reader can see
+on the image at holes 1, 3, 4, 5 and 6.
+
+Result ([`overview-registration.json`](../../visbybuild/mapping/overview-registration.json)):
+18 discs, median residual 21.9 px = **46.5 m** at the fitted 2.12 m/px, worst
+73.9 px at the 18th. A 46 m residual is large next to a green, and irrelevant to
+the question asked — so what is reported beside it is the **assignment margin**,
+the distance to the next nearest disc over the distance to the assigned one:
+median **3.61×**, worst **1.42×** at the 8th. Nothing is near a coin toss, and
+the model's hole 3 lands on the disc the club's current map numbers 3.
+
+What that does and does not establish: the **numbering** is confirmed, and the
+2022 trace is consistent with it because the new third was built where a green
+already stood — the old fifteenth's. The **exact 2023 green shape** is not
+confirmed by anything, and `visbybuild/guide-notes.json` says so on hole 3.
 
 ## Photographs, videos and historical references
 

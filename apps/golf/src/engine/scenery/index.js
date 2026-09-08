@@ -39,6 +39,11 @@ const REGISTRY = {
   johannesberg: () => import('./johannesberg.js'),
   lidingo: () => import('./lidingo.js'),
   ribbingsfors: () => import('./ribbingsfors.js'),
+  /* Visby carries a clubhouse spec, a species rule and one landmark: the 1936
+     concrete tower of Skansudde fyr, which stands twenty metres from the 1st
+     tee -- the first thing the app shows -- and is too small for OSM to have
+     mapped, so nothing but a module can put it there. */
+  visby: () => import('./visby.js'),
 };
 
 /* Loaded once, early: a course module may supply BOTH a species rule (which the

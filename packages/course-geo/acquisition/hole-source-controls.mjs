@@ -23,7 +23,22 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  visby: '17946a0470be6d03169159572b19c276098d485a4af6f700cb7ba3fa2cdf98a4',
+  /* 2026-09-08: re-migrated through PROJ 9.5.1 (pyproj 3.7.2) four times. Hole
+     16's fairway ring was re-synced from mapping/geometry.json, which the model
+     had never been rebuilt against; the seven rings the national water break
+     geometry calls sea were flagged isSea and isLake with the measured vista
+     band recorded beside seaLevel; 48 of the 65 observed bunkers were given the
+     hole that owns them; and the six numbered tees, which had all shared one
+     point per hole against a card spanning 112 m a hole, were walked up each
+     observed route by the card's own difference from the back tee. Only the
+     last moves coordinates, and it moves 85 tee cameras and nothing else --
+     no green, route, fairway, bunker or water vertex changes, which the
+     residual report shows as an unchanged pair count. A fifth pass added the
+     wide OSM land cover -- 24 forest, 6 wood, 3 scrub, 4 wetland, 5 sand rings
+     and 311 landuse rings out to 6 km -- which is the first geometry in this
+     model that lies OUTSIDE the 2,048 m acquired terrain, by design: it is the
+     horizon's dressing, not the property's survey. */
+  visby: 'ebbe4d63da87134f8214ac832862e2c2b0205339c7a3129e5c13aa0b1ae289fb',
   lidingo: '35c59339a04db91748be4abecc9376c8733374ebf1823c8316362be4a12cf984',
   angso: '6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
