@@ -108,19 +108,42 @@ backend is a question about service usage rather than about the licence, and
 this does not need to test it. The pixels stay in the ignored cache; what this
 repository publishes is derived vector geometry carrying that attribution.
 
+**And Lidingö stad published a 2018 capture that nothing here knew about.**
+Probing the servicename pattern finds 2012, 2018 and 2019 and nothing else;
+2018 is LEAF-ON full summer, on the same service and under the same CC0
+dedication — the cleanest grant over this course, since it permits deriving
+geometry, publishing the vectors and redistributing the imagery outright.
+**The municipal service's native spacing is about 0.16 m, not the 0.5 m at
+which it had always been sampled**, so both municipal frames were being read at
+a third of their resolution.
+
 Measured like for like on one 0.25 m analysis grid, inside rings mapped without
 reference to any of them:
 
-| capture | sand−turf luminance gap | excess-green gap | bunkers recovered |
-|---|---:|---:|---|
-| Lantmäteriet 0.16 m, 2025-05-31, leaf-on | **+53.5** | **+17.0** | **34 of 40** at a median **0.9 m** |
-| Lidingö stad 0.5 m, 2019, leaf-off | +2.9 | +6.0 | 13 of 40 at 1.2 m |
-| Esri z18 0.30 m, leaf-on | −25.9 | −31.0 | 30 of 40 at 1.6 m |
+| capture | licence | sand−turf luminance gap | recovered | median | accepted away from any mapped bunker |
+|---|---|---:|---|---:|---:|
+| **Lantmäteriet 0.16 m, 2025-05-31, leaf-on** | CC BY 4.0 | **+53.5** | 34 of 40 | **0.9 m** | **37** |
+| Lidingö stad 0.16 m, 2018, leaf-on | **CC0** | −16.7 | **35 of 40** | 1.4 m | 170 |
+| Lidingö stad 0.16 m, 2019, leaf-off | CC0 | +1.5 | 11 of 40 | 1.1 m | 58 |
+| Lidingö stad 0.5 m, 2019, leaf-off | CC0 | +2.9 | 13 of 40 | 1.2 m | 63 |
+| Esri z18 0.30 m, 2025-05-19, leaf-on | Esri MLA | −25.9 | 30 of 40 | 1.6 m | 78 |
 
-A negative gap means the distributions overlap and no threshold exists at all,
-which is what the Esri mosaic does here; it still recovers 30, because the laser
-hollow carries it. Every colour threshold is measured on its own capture and
-sits midway in that capture's own gap; none is copied between captures.
+A negative gap means the distributions overlap and no threshold on luminance
+alone exists; both leaf-on captures with a negative gap still recover most
+bunkers, because the laser hollow carries them. **2018 has the best recall and
+by far the worst precision** — 170 accepted candidates away from any mapped
+bunker against the Lantmäteriet frame's 37 — because its whole image is
+brighter and hazier (turf luminance p50 139 against 83), so sand does not stand
+out from turf even where it is plainly sand to the eye. The Lantmäteriet frame
+wins on precision, on positional agreement and on recency; 2018 is the best
+CC0 instrument and corroborates it.
+
+**Re-sampling the 2019 frame at its native 0.16 m changed nothing: 11 of 40
+against 13 of 40 at 0.5 m.** That refutes the plausible hypothesis that the
+0.5 m export was what made it weak. Its problem is the SEASON — dormant turf as
+bright as sand — and no amount of resolution fixes a capture taken in the wrong
+month. Every colour threshold is measured on its own capture and sits midway in
+that capture's own gap; none is copied between captures.
 
 ## 4. A centroid taken about the EPSG:3006 origin is not a centroid
 

@@ -57,8 +57,10 @@ RESIDUAL = dtm - nd.median_filter(np.nan_to_num(dtm, nan=0.0), size=LOCAL_WINDOW
 # and its Esri equivalent, and sit in the gap the measurement leaves.
 CAPTURES = {
     'lm-2025': {'label': 'Lantmäteriet Ortofoto 0.16 m, captured 2025-05-31, leaf-on (CC BY 4.0, Min karta)'},
-    'ortho-2019': {'label': 'Lidingö stad 2019 orthophoto (CC0), 0.5 m, leaf-off spring'},
-    'esri-2026': {'label': 'Esri World Imagery z18, 0.30 m, leaf-on'},
+    'municipal-2018': {'label': 'Lidingö stad 2018 orthophoto, 0.16 m native, LEAF-ON summer (CC0)'},
+    'municipal-2019': {'label': 'Lidingö stad 2019 orthophoto, 0.16 m native, leaf-off spring (CC0)'},
+    'ortho-2019': {'label': 'Lidingö stad 2019 orthophoto resampled to 0.5 m, leaf-off spring (CC0)'},
+    'esri-2026': {'label': 'Esri World Imagery z18, 0.30 m, leaf-on, capture 2025-05-19'},
 }
 # ONE analysis grid for every capture, so what the comparison measures is the
 # capture's own separation of sand from turf and not the grid it was resampled
@@ -118,7 +120,30 @@ def read_lm2025(EE, NN):
     return img[r, c]
 
 
-READERS = {'lm-2025': read_lm2025, 'ortho-2019': read_ortho2019, 'esri-2026': read_esri}
+def _municipal(year):
+    """A Lidingö stad capture at its NATIVE 0.16 m, requested in EPSG:3011.
+
+    The 0.5 m snapshot this build has always used is a request parameter and
+    not the source: the service's native spacing measures about 0.16 m, so
+    every conclusion drawn from the 0.5 m export understated it. And 2018
+    exists, which nothing here knew: same service, same CC0 dedication, and
+    LEAF-ON summer where 2019 is dormant spring."""
+    key = f'municipal{year}'
+    def read(EE, NN):
+        if key not in _sources:
+            meta = json.loads((ROOT / f'geo_data/course-v2/lidingo/discovery/municipal-ortho-{year}-native.json').read_text())
+            _sources[key] = (np.asarray(Image.open(ROOT / meta['path']).convert('RGB')),
+                             [float(x) for x in (ROOT / meta['worldfilePath']).read_text().split()])
+        img, w = _sources[key]
+        X, Y = _to3011.transform(EE, NN)
+        c = np.clip(np.round((X - w[4]) / w[0]).astype(np.int32), 0, img.shape[1] - 1)
+        r = np.clip(np.round((Y - w[5]) / w[3]).astype(np.int32), 0, img.shape[0] - 1)
+        return img[r, c]
+    return read
+
+
+READERS = {'lm-2025': read_lm2025, 'municipal-2018': _municipal(2018), 'municipal-2019': _municipal(2019),
+           'ortho-2019': read_ortho2019, 'esri-2026': read_esri}
 
 
 def calibrate(sample, mapped_rings, turf_rings):

@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "sourceId": "imagery-municipal-2018-native",
+  "provider": "Lidingö stad",
+  "service": "https://karta.lidingo.se/wms",
+  "servicename": "wms_ortofoto_2018_oppendata",
+  "layer": "theme-ortofoto2018_i1",
+  "campaignLabel": "2018",
+  "retrievedAt": "2026-09-08T08:21:51.355955+00:00",
+  "horizontalCrs": "EPSG:3011",
+  "requestedCoverageEpsg3006": {
+    "minEasting": 677060,
+    "minNorthing": 6585730,
+    "maxEasting": 678250,
+    "maxNorthing": 6587100
+  },
+  "bboxEpsg3011": [
+    156615.36,
+    6584170.72,
+    157865.92,
+    6585593.12
+  ],
+  "sampleSpacingMetres": 0.16,
+  "nativeSpacingMetres": 0.16,
+  "nativeSpacingEvidence": "measured, not published: the radial power spectrum of a 200 m box cuts off at 2.75-2.82 cycles/m, and the same estimator calibrated against Esri z19 (documented 0.3042 m) reads 12% pessimistic. The service resamples to any requested size, so the 0.5 m snapshot retained beside this one is a request parameter and not the limit of the source.",
+  "captureDate": null,
+  "captureDateEvidence": "year only. The DCAT record gives a temporal extent ending 2018-12-31 and no flight date is published anywhere reachable. The SEASON is measured from the pixels: leaf-on, full summer.",
+  "season": "leaf-on, full summer",
+  "width": 7816,
+  "height": 8890,
+  "bands": "RGB",
+  "path": "lidingobuild/cache/municipal-ortho-2018-native/lidingo-2018-0p16m.png",
+  "worldfilePath": "lidingobuild/cache/municipal-ortho-2018-native/lidingo-2018-0p16m.pgw",
+  "bytes": 125189475,
+  "sha256": "b38e3e53a05afd0b73fa32ed555f78d6475f389264e0524dfab94ff27e212ea4",
+  "requests": [
+    {
+      "row": 0,
+      "column": 0,
+      "bboxEpsg3011": [
+        156615.36,
+        6584937.76,
+        157270.72,
+        6585593.12
+      ],
+      "widthPixels": 4096,
+      "heightPixels": 4096,
+      "bytes": 40127074,
+      "sha256": "184f0595043684c850f782afbe1699dea09d00733deab0135dd2df9c9ff7c6bf"
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "bboxEpsg3011": [
+        157270.72,
+        6584937.76,
+        157865.92,
+        6585593.12
+      ],
+      "widthPixels": 3720,
+      "heightPixels": 4096,
+      "bytes": 34685978,
+      "sha256": "eae841ff0a99aa0e6032c1482976070d72ce859d8fb2c092231042f655ef2e3a"
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "bboxEpsg3011": [
+        156615.36,
+        6584282.4,
+        157270.72,
+        6584937.76
+      ],
+      "widthPixels": 4096,
+      "heightPixels": 4096,
+      "bytes": 39220047,
+      "sha256": "3c1466f3284147b62296ef30fda26ecc8bee139a76c4e1bbfec9ecd61a8cf245"
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "bboxEpsg3011": [
+        157270.72,
+        6584282.4,
+        157865.92,
+        6584937.76
+      ],
+      "widthPixels": 3720,
+      "heightPixels": 4096,
+      "bytes": 36052610,
+      "sha256": "3dbbbe9956799adfadd58fd3cfd83d6a72d7358fa0bb6e6a8f6428c33d448ba9"
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "bboxEpsg3011": [
+        156615.36,
+        6584170.72,
+        157270.72,
+        6584282.4
+      ],
+      "widthPixels": 4096,
+      "heightPixels": 698,
+      "bytes": 7215576,
+      "sha256": "85e9d4f8c4c4a7baf3b071bef316da7c17374a86a92f26faa1fc8fcaf4cd2835"
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "bboxEpsg3011": [
+        157270.72,
+        6584170.72,
+        157865.92,
+        6584282.4
+      ],
+      "widthPixels": 3720,
+      "heightPixels": 698,
+      "bytes": 6310451,
+      "sha256": "6e1dfc7830eb43c09a75061b98142238dbb9d0f47baef86c3d163b2a8ddd039e"
+    }
+  ],
+  "licence": {
+    "id": "CC0-1.0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "assertedBy": "https://metadata.lidingo.se/store/3/resource/30",
+    "note": "the municipality's own DCAT distribution record dedicates this exact service to the public domain, so deriving geometry, publishing the vectors and redistributing the imagery are all permitted outright. That is a cleaner grant than any other capture over this course."
+  },
+  "limitations": [
+    "The exact flight date is not published for any Lidingö stad campaign; only the year and the season read off the pixels.",
+    "RGB only.",
+    "Orthorectified to the terrain, so anything standing above it leans radially away from nadir."
+  ]
+}
