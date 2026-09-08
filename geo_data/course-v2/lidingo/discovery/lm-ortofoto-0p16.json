@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "sourceId": "imagery-lm-ortofoto-0p16",
+  "provider": "Lantmäteriet",
+  "product": "Ortofoto",
+  "service": "https://minkarta.lantmateriet.se/map/ortofoto/",
+  "layer": "Ortofoto_0.16",
+  "retrievedAt": "2026-09-08T07:32:45.837516+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "windowEpsg3006": {
+    "minEasting": 677056.0,
+    "minNorthing": 6585728.0,
+    "maxEasting": 678252.8,
+    "maxNorthing": 6587100.8
+  },
+  "sampleSpacingMetres": 0.16,
+  "nativeSpacingMetres": 0.16,
+  "nativeSpacingEvidence": "the service does not interpolate past native: a request at 0.04 m returns an exact 4x nearest-neighbour upsample of a 0.16 m grid",
+  "width": 7480,
+  "height": 8580,
+  "bands": "RGB",
+  "captureDate": "2025-05-31",
+  "captureDateEvidence": "read, not assumed: the Ortofoto_0.16_fs layer draws the image seams over this ground labelled with their flight timestamps, and Ortofoto_0.16_meta prints the flight year. Both were fetched over a 2.5 km box centred on the course and are retained beside the image.",
+  "path": "lidingobuild/cache/lm-ortho-2025/lidingo-lm-0p16m.png",
+  "worldfilePath": "lidingobuild/cache/lm-ortho-2025/lidingo-lm-0p16m.pgw",
+  "bytes": 72628052,
+  "sha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+  "requests": [
+    {
+      "row": 0,
+      "column": 0,
+      "bboxEpsg3006": [
+        677056.0,
+        6586445.44,
+        677711.36,
+        6587100.8
+      ],
+      "widthPixels": 4096,
+      "heightPixels": 4096,
+      "bytes": 2263101,
+      "sha256": "f320bbc944d6deaddaf708202cb818471f8076d4090b041d918eba7f2ab43c50"
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "bboxEpsg3006": [
+        677711.36,
+        6586445.44,
+        678252.8,
+        6587100.8
+      ],
+      "widthPixels": 3384,
+      "heightPixels": 4096,
+      "bytes": 1928612,
+      "sha256": "83a2252c7943273e810f1c183afbab5615faa79956a11081332acc1abbb1ec00"
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "bboxEpsg3006": [
+        677056.0,
+        6585790.08,
+        677711.36,
+        6586445.44
+      ],
+      "widthPixels": 4096,
+      "heightPixels": 4096,
+      "bytes": 2253606,
+      "sha256": "f6acef22b590361d3a80372daa275418b9637ea606aa270fece1a6fc92a4d19a"
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "bboxEpsg3006": [
+        677711.36,
+        6585790.08,
+        678252.8,
+        6586445.44
+      ],
+      "widthPixels": 3384,
+      "heightPixels": 4096,
+      "bytes": 2005547,
+      "sha256": "7b3cd79ce9d47afbba9cfbf201ce33bf8e4a9b8ffe43265998222cf3b7f763c1"
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "bboxEpsg3006": [
+        677056.0,
+        6585728.0,
+        677711.36,
+        6585790.08
+      ],
+      "widthPixels": 4096,
+      "heightPixels": 388,
+      "bytes": 246860,
+      "sha256": "3ad2535373433b558cebdca66eaf1d414f4b87d58d12f08aea9dab703a13285a"
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "bboxEpsg3006": [
+        677711.36,
+        6585728.0,
+        678252.8,
+        6585790.08
+      ],
+      "widthPixels": 3384,
+      "heightPixels": 388,
+      "bytes": 208134,
+      "sha256": "3124bd5bfb7015f4a313be2b21f5931cab46f78179841b1407447e319e5c9fb1"
+    }
+  ],
+  "sidecars": [
+    {
+      "layer": "Ortofoto_0.16_fs",
+      "path": "lidingobuild/cache/lm-ortho-2025/seams.png",
+      "sha256": "a284ff65c1ce335f159b6cac3b20ab591d80a447bc893eb00370933d4bdbc6bf"
+    },
+    {
+      "layer": "Ortofoto_0.16_meta",
+      "path": "lidingobuild/cache/lm-ortho-2025/meta.png",
+      "sha256": "4d3ad234121d9aa226e7fb4c7cf825e9b9f9f62f640be4bda0f68470fbd779da"
+    }
+  ],
+  "licence": {
+    "id": "CC-BY-4.0",
+    "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0",
+    "url": "https://www.lantmateriet.se/sv/kartor/vara-karttjanster/min-karta/",
+    "note": "Lantmäteriet permits publishing images and screen clips from Min karta with that attribution, and explicitly contemplates processed information. The pixels are not redistributed by this repository; derived vector geometry is, carrying the attribution. Whether bulk programmatic tiling of the e-service backend is acceptable SERVICE USAGE is a separate question from the licence and is not settled here, which is why the whole window is six requests."
+  },
+  "limitations": [
+    "RGB only on this route; the 0.16 m NIR band is download-only behind a Geotorget entitlement.",
+    "One capture date over the whole course, but the mosaic is a national product and a seam could fall inside a future window; the _fs sidecar is what would show it.",
+    "Orthorectification is to the terrain, so anything standing above it leans radially away from nadir - a roof outline overstates its footprint."
+  ]
+}

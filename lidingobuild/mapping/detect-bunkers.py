@@ -45,39 +45,99 @@ RESIDUAL = dtm - nd.median_filter(np.nan_to_num(dtm, nan=0.0), size=LOCAL_WINDOW
 # Each capture's thresholds are measured on that capture by calibrate-ortho.py
 # and its Esri equivalent, and sit in the gap the measurement leaves.
 CAPTURES = {
-    'ortho-2019': {
-        'label': 'Lidingö stad 2019 orthophoto (CC0), 0.5 m, leaf-off spring',
-        'step': 0.5, 'sandLuminance': 118.0, 'sandExcessGreen': 29.0, 'sandRedOverGreen': None,
-    },
-    'esri-2026': {
-        'label': 'Esri World Imagery z18, 0.30 m, leaf-on',
-        'step': 0.30, 'sandLuminance': 110.0, 'sandExcessGreen': 70.0, 'sandRedOverGreen': 0.90,
-    },
+    'lm-2025': {'label': 'Lantmäteriet Ortofoto 0.16 m, captured 2025-05-31, leaf-on (CC BY 4.0, Min karta)'},
+    'ortho-2019': {'label': 'Lidingö stad 2019 orthophoto (CC0), 0.5 m, leaf-off spring'},
+    'esri-2026': {'label': 'Esri World Imagery z18, 0.30 m, leaf-on'},
 }
-MIN_AREA, MAX_AREA = 8.0, 150.0     # the mapped rings measure 8-75 m^2
-HOLLOW_CELL = 0.12                  # m below the local median, per cell
-HOLLOW_MEDIAN = 0.20                # m, the component's own median
-MIN_COMPACTNESS = 0.35              # 4*pi*N/E^2 over cells; a path is long and thin
-MIN_LUMINANCE_MEDIAN = 110.0
+# ONE analysis grid for every capture, so what the comparison measures is the
+# capture's own separation of sand from turf and not the grid it was resampled
+# onto. 0.25 m is finer than the 0.5 m frame and coarser than the 0.16 m one;
+# a bunker is metres across, so nothing is lost, and a 0.16 m grid over this
+# window is 64 million cells and does not fit in memory as float.
+ANALYSIS_STEP = 0.25
+BLOCK_ROWS = 512                    # the window is read a band at a time
+# Every one of these comes from the 40 mapped bunkers' own measured spread, and
+# the loose ones are loose on purpose: the per-cell test already required BOTH
+# sand colour and a hollow, so a component gate that also re-litigates them
+# just throws away bunkers. Measured per mapped bunker on the 2025 capture,
+# 35 of 40 read sand over half their interior, 33 of 40 sit in a hollow over
+# half of it, and 31 of 40 do both - and the first cut of these gates, tuned on
+# a capture where sand and turf barely separated at all, then reduced that 31
+# to 8. The score below is what says whether a gate is earning its place.
+MIN_AREA, MAX_AREA = 8.0, 250.0     # the mapped rings measure 16-75 m^2
+HOLLOW_CELL = 0.12                  # m below the local 15 m median, per cell
+HOLLOW_MEDIAN = 0.12                # the component's own median, same rule
+MIN_COMPACTNESS = 0.25              # 4*pi*N/E^2 over cells; a path is long and thin
+MIN_LUMINANCE_MEDIAN = 110.0        # the mapped bunkers that read sand run 146-200
 
 _to3011 = Transformer.from_crs(3006, 3011, always_xy=True)
 
 
+_sources = {}
+
+
 def read_ortho2019(EE, NN):
-    img = np.asarray(Image.open(CACHE / 'municipal-ortho-2019/lidingo-2019-0p5m.png').convert('RGB')).astype(np.float32)
-    w = [float(x) for x in (CACHE / 'municipal-ortho-2019/lidingo-2019-0p5m.pgw').read_text().split()]
+    if 'ortho2019' not in _sources:
+        _sources['ortho2019'] = (
+            np.asarray(Image.open(CACHE / 'municipal-ortho-2019/lidingo-2019-0p5m.png').convert('RGB')),
+            [float(x) for x in (CACHE / 'municipal-ortho-2019/lidingo-2019-0p5m.pgw').read_text().split()])
+    img, w = _sources['ortho2019']
     X, Y = _to3011.transform(EE, NN)
-    c = np.clip(np.round((X - w[4]) / w[0]).astype(int), 0, img.shape[1] - 1)
-    r = np.clip(np.round((Y - w[5]) / w[3]).astype(int), 0, img.shape[0] - 1)
+    c = np.clip(np.round((X - w[4]) / w[0]).astype(np.int32), 0, img.shape[1] - 1)
+    r = np.clip(np.round((Y - w[5]) / w[3]).astype(np.int32), 0, img.shape[0] - 1)
     return img[r, c]
 
 
 def read_esri(EE, NN):
-    from esri_mosaic import EsriMosaic
-    return EsriMosaic().sample(EE, NN)
+    if 'esri' not in _sources:
+        from esri_mosaic import EsriMosaic
+        _sources['esri'] = EsriMosaic()
+    return _sources['esri'].sample(EE, NN)
 
 
-READERS = {'ortho-2019': read_ortho2019, 'esri-2026': read_esri}
+def read_lm2025(EE, NN):
+    if 'lm2025' not in _sources:
+        meta = json.loads((ROOT / 'geo_data/course-v2/lidingo/discovery/lm-ortofoto-0p16.json').read_text())
+        _sources['lm2025'] = (np.asarray(Image.open(ROOT / meta['path']).convert('RGB')),
+                              [float(x) for x in (ROOT / meta['worldfilePath']).read_text().split()])
+    img, w = _sources['lm2025']
+    # already EPSG:3006, so pixel <-> world is the worldfile alone
+    c = np.clip(np.round((EE - w[4]) / w[0]).astype(np.int32), 0, img.shape[1] - 1)
+    r = np.clip(np.round((NN - w[5]) / w[3]).astype(np.int32), 0, img.shape[0] - 1)
+    return img[r, c]
+
+
+READERS = {'lm-2025': read_lm2025, 'ortho-2019': read_ortho2019, 'esri-2026': read_esri}
+
+
+def calibrate(sample, mapped_rings, turf_rings):
+    """Put each threshold in the gap this capture's OWN pixels leave.
+
+    A threshold copied between captures is a threshold calibrated on another
+    day's light, and the three captures here differ by more than resolution:
+    one is dormant spring, two are high summer. So sand and mown turf are
+    sampled inside rings that were mapped without reference to any of them, and
+    the cut goes midway between sand's low tail and turf's high tail. The gap
+    itself is reported, because a NEGATIVE gap means the distributions overlap
+    and no threshold exists - which is the honest answer for one of the three."""
+    sand = np.concatenate([sample(e, n).astype(np.float32) for e, n in mapped_rings if len(e)])
+    turf = np.concatenate([sample(e, n).astype(np.float32) for e, n in turf_rings if len(e)])
+    def idx(a):
+        R, G, B = a[..., 0], a[..., 1], a[..., 2]
+        return 0.299 * R + 0.587 * G + 0.114 * B, 2 * G - R - B, R / np.maximum(G, 1)
+    s_lum, s_exg, s_rg = idx(sand)
+    t_lum, t_exg, t_rg = idx(turf)
+    lum_gap = float(np.percentile(s_lum, 20) - np.percentile(t_lum, 90))
+    exg_gap = float(np.percentile(t_exg, 10) - np.percentile(s_exg, 80))
+    return {
+        'sandLuminance': float((np.percentile(s_lum, 20) + np.percentile(t_lum, 90)) / 2),
+        'sandExcessGreen': float((np.percentile(s_exg, 80) + np.percentile(t_exg, 10)) / 2),
+        'sandRedOverGreen': float((np.percentile(s_rg, 20) + np.percentile(t_rg, 90)) / 2),
+        'luminanceGap': round(lum_gap, 1), 'excessGreenGap': round(exg_gap, 1),
+        'sandPixels': int(len(sand)), 'turfPixels': int(len(turf)),
+        'sandLuminancePercentiles': [round(float(np.percentile(s_lum, q)), 1) for q in (20, 50, 80)],
+        'turfLuminancePercentiles': [round(float(np.percentile(t_lum, q)), 1) for q in (10, 50, 90)],
+    }
 
 
 def rings_of(g):
@@ -90,54 +150,91 @@ def mapped_bunkers(surfaces):
         if f['properties']['kind'] != 'bunker':
             continue
         r = rings_of(f['geometry'])[0]
+        # about the FIRST VERTEX, never about the EPSG:3006 origin: a bunker's
+        # raw cross products are ~4.6e12 and sum to ~-90, so the centroid is the
+        # ninth significant figure of a double. Measured before this line, the
+        # 40 bunker centroids were out by a median 20.6 m and 36 of them fell
+        # outside their own bounding box - which is what made this detector look
+        # like it could not find bunkers it was in fact sitting on top of.
+        ox, oy = r[0][0], r[0][1]
         a = cx = cy = 0.0
         for i in range(len(r) - 1):
-            x0, y0 = r[i][:2]; x1, y1 = r[i + 1][:2]
+            x0, y0 = r[i][0] - ox, r[i][1] - oy
+            x1, y1 = r[i + 1][0] - ox, r[i + 1][1] - oy
             cr = x0 * y1 - x1 * y0; a += cr; cx += (x0 + x1) * cr; cy += (y0 + y1) * cr
         # 29 of the 40 are image traces and carry NO sourceFeatureId. Keying a
         # recovery score on that id collapses all 29 into one entry and reports
         # 2 of 40 while the rule is in fact finding them: the score agreed with
         # a bug, not with the data. Identity is the index.
         out.append({'index': len(out), 'id': f['properties'].get('sourceFeatureId'),
-                    'hole': f['properties'].get('hole'), 'easting': cx / (3 * a),
-                    'northing': cy / (3 * a), 'area': abs(a) / 2})
+                    'hole': f['properties'].get('hole'), 'easting': ox + cx / (3 * a),
+                    'northing': oy + cy / (3 * a), 'area': abs(a) / 2})
     return out
+
+
+def ring_interior(ring, shrink=0.75, step=0.25):
+    xs = np.array([p[0] for p in ring]); ys = np.array([p[1] for p in ring])
+    cx, cy = xs.mean(), ys.mean()
+    xs = cx + (xs - cx) * shrink; ys = cy + (ys - cy) * shrink
+    if xs.max() - xs.min() < 1 or ys.max() - ys.min() < 1:
+        return np.array([]), np.array([])
+    ge, gn = np.meshgrid(np.arange(xs.min(), xs.max(), step), np.arange(ys.min(), ys.max(), step))
+    inside = np.zeros(ge.shape, bool)
+    for i in range(len(xs) - 1):
+        ax, ay, bx, by = xs[i], ys[i], xs[i + 1], ys[i + 1]
+        with np.errstate(divide='ignore', invalid='ignore'):
+            inside ^= ((ay > gn) != (by > gn)) & (ge < ax + (gn - ay) * (bx - ax) / np.where(by == ay, 1e-9, by - ay))
+    return ge[inside], gn[inside]
 
 
 def run(capture):
     spec = CAPTURES[capture]
-    step = spec['step']
+    step = ANALYSIS_STEP
     easts = np.arange(WINDOW['minEasting'], WINDOW['maxEasting'] + step / 2, step)
     norths = np.arange(WINDOW['maxNorthing'], WINDOW['minNorthing'] - step / 2, -step)
-    EE, NN = np.meshgrid(easts, norths)
-    rgb = READERS[capture](EE, NN)
-    R, G, B = rgb[..., 0], rgb[..., 1], rgb[..., 2]
-    LUM = 0.299 * R + 0.587 * G + 0.114 * B
-    EXG = 2 * G - R - B
-    RG = R / np.maximum(G, 1)
-
-    row = np.clip(np.round(DTM_N - NN).astype(int), 0, dtm.shape[0] - 1)
-    col = np.clip(np.round(EE - DTM_W).astype(int), 0, dtm.shape[1] - 1)
-    HOLLOW = RESIDUAL[row, col]
-
-    sand = (LUM >= spec['sandLuminance']) & (EXG <= spec['sandExcessGreen'])
-    if spec['sandRedOverGreen'] is not None:
-        sand &= RG >= spec['sandRedOverGreen']
-    sand &= HOLLOW <= -HOLLOW_CELL
-    sand = nd.binary_closing(sand, np.ones((3, 3), bool))
+    reader = READERS[capture]
 
     surfaces = json.loads((ROOT / 'lidingobuild/mapping/playing-surfaces.geojson').read_text(encoding='utf8'))
-    from scipy.spatial import cKDTree
-    pts = np.array([[p[0], p[1]] for f in surfaces['features'] for r in rings_of(f['geometry']) for p in r])
-    tree = cKDTree(pts)
-    ys, xs = np.nonzero(sand)
-    near = np.zeros(sand.shape, bool)
-    if len(xs):
-        d, _ = tree.query(np.stack([easts[xs], norths[ys]], axis=1), k=1)
-        keep = d <= 60
-        near[ys[keep], xs[keep]] = True
-    sand = near
+    cal = calibrate(
+        reader,
+        [ring_interior(rings_of(f['geometry'])[0]) for f in surfaces['features'] if f['properties']['kind'] == 'bunker'],
+        [ring_interior(r) for f in surfaces['features'] if f['properties']['kind'] in ('green', 'fairway', 'tee')
+         for r in rings_of(f['geometry'])])
 
+    from scipy.spatial import cKDTree
+    tree = cKDTree(np.array([[p[0], p[1]] for f in surfaces['features']
+                             for r in rings_of(f['geometry']) for p in r]))
+
+    sand = np.zeros((len(norths), len(easts)), bool)
+    lum_all = np.zeros(sand.shape, np.float32)
+    exg_all = np.zeros(sand.shape, np.float32)
+    rg_all = np.zeros(sand.shape, np.float32)
+    hollow_all = np.zeros(sand.shape, np.float32)
+    for y0 in range(0, len(norths), BLOCK_ROWS):
+        y1 = min(y0 + BLOCK_ROWS, len(norths))
+        EE, NN = np.meshgrid(easts, norths[y0:y1])
+        rgb = reader(EE, NN).astype(np.float32)
+        R, G, B = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+        lum = 0.299 * R + 0.587 * G + 0.114 * B
+        exg = 2 * G - R - B
+        rg = R / np.maximum(G, 1)
+        row = np.clip(np.round(DTM_N - NN).astype(np.int32), 0, dtm.shape[0] - 1)
+        col = np.clip(np.round(EE - DTM_W).astype(np.int32), 0, dtm.shape[1] - 1)
+        hollow = RESIDUAL[row, col]
+        block = ((lum >= cal['sandLuminance']) & (exg <= cal['sandExcessGreen'])
+                 & (rg >= cal['sandRedOverGreen']) & (hollow <= -HOLLOW_CELL))
+        # keep it on the course: within 60 m of a mapped playing surface
+        ys, xs = np.nonzero(block)
+        if len(xs):
+            d, _ = tree.query(np.stack([easts[xs], norths[y0 + ys]], axis=1), k=1)
+            block[:] = False
+            keep = d <= 60
+            block[ys[keep], xs[keep]] = True
+        sand[y0:y1] = block
+        lum_all[y0:y1] = lum; exg_all[y0:y1] = exg; rg_all[y0:y1] = rg; hollow_all[y0:y1] = hollow
+        del EE, NN, rgb, R, G, B, lum, exg, rg, hollow, row, col
+
+    sand = nd.binary_closing(sand, np.ones((3, 3), bool))
     labels, count = nd.label(sand, structure=np.ones((3, 3), bool))
     slices = nd.find_objects(labels)
     mapped = mapped_bunkers(surfaces)
@@ -153,19 +250,18 @@ def run(capture):
         if area < MIN_AREA or area > MAX_AREA:
             continue
         gy = sy + sl[0].start; gx = sx + sl[1].start
-        ce, cn = easts[gx], norths[gy]
-        centre = (float(ce.mean()), float(cn.mean()))
+        centre = (float(easts[gx].mean()), float(norths[gy].mean()))
         edge = len(sx) - float(nd.binary_erosion(sub, np.ones((3, 3), bool)).sum())
         compactness = 4 * np.pi * len(sx) / max(edge * edge, 1e-9)
         nearest = min(((np.hypot(centre[0] - m['easting'], centre[1] - m['northing']), m['index'], m) for m in mapped))
         candidates.append({
             'centreEasting': round(centre[0], 2), 'centreNorthing': round(centre[1], 2),
             'areaSquareMetres': round(area, 1),
-            'medianHollowMetres': round(float(np.median(HOLLOW[gy, gx])), 3),
+            'medianHollowMetres': round(float(np.median(hollow_all[gy, gx])), 3),
             'compactness': round(float(compactness), 3),
-            'medianLuminance': round(float(np.median(LUM[gy, gx])), 1),
-            'medianExcessGreen': round(float(np.median(EXG[gy, gx])), 1),
-            'medianRedOverGreen': round(float(np.median(RG[gy, gx])), 3),
+            'medianLuminance': round(float(np.median(lum_all[gy, gx])), 1),
+            'medianExcessGreen': round(float(np.median(exg_all[gy, gx])), 1),
+            'medianRedOverGreen': round(float(np.median(rg_all[gy, gx])), 3),
             'nearestMappedBunkerMetres': round(float(nearest[0]), 1),
             'nearestMappedBunkerIndex': nearest[2]['index'],
             'nearestMappedBunkerHole': nearest[2]['hole'],
@@ -186,12 +282,16 @@ def run(capture):
     missed = [m for m in mapped if m['index'] not in recovered]
     new = sorted([c for c in accepted if c['nearestMappedBunkerMetres'] > 12], key=lambda c: -c['areaSquareMetres'])
     return {
-        'capture': capture, 'captureLabel': spec['label'], 'rule': {
-            'sandLuminanceMinimum': spec['sandLuminance'], 'sandExcessGreenMaximum': spec['sandExcessGreen'],
-            'sandRedOverGreenMinimum': spec['sandRedOverGreen'], 'localMedianWindowMetres': LOCAL_WINDOW_METRES,
+        'capture': capture, 'captureLabel': spec['label'], 'analysisStepMetres': step, 'calibration': cal,
+        'rule': {
+            'sandLuminanceMinimum': round(cal['sandLuminance'], 1),
+            'sandExcessGreenMaximum': round(cal['sandExcessGreen'], 1),
+            'sandRedOverGreenMinimum': round(cal['sandRedOverGreen'], 3),
+            'localMedianWindowMetres': LOCAL_WINDOW_METRES,
             'perCellHollowMetres': HOLLOW_CELL, 'componentMedianHollowMetres': HOLLOW_MEDIAN,
             'minimumAreaSquareMetres': MIN_AREA, 'maximumAreaSquareMetres': MAX_AREA,
-            'minimumCompactness': MIN_COMPACTNESS, 'minimumMedianLuminance': MIN_LUMINANCE_MEDIAN},
+            'minimumCompactness': MIN_COMPACTNESS, 'minimumMedianLuminance': MIN_LUMINANCE_MEDIAN,
+            'note': 'every colour threshold is measured on THIS capture and sits midway in the gap its own sand and turf pixels leave'},
         'mappedBunkers': len(mapped), 'candidates': len(candidates), 'accepted': len(accepted),
         'recoveredMappedBunkers': len(recovered),
         'recoveredMedianMetres': round(float(np.median(list(recovered.values()))), 1) if recovered else None,
@@ -210,6 +310,9 @@ if __name__ == '__main__':
         r = run(capture)
         results.append(r)
         print(f"{capture:11} {r['captureLabel']}")
+        c = r['calibration']
+        print(f"            calibration  sand/turf luminance gap {c['luminanceGap']:+6.1f}, excess-green gap {c['excessGreenGap']:+6.1f}"
+              f"  (sand lum p20/50/80 {c['sandLuminancePercentiles']}, turf p10/50/90 {c['turfLuminancePercentiles']})")
         print(f"            candidates {r['candidates']:4d}  accepted {r['accepted']:4d}  "
               f"recovers {r['recoveredMappedBunkers']:2d}/{r['mappedBunkers']} mapped bunkers"
               + (f" at a median {r['recoveredMedianMetres']} m" if r['recoveredMedianMetres'] else '')

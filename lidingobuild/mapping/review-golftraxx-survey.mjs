@@ -52,15 +52,24 @@ const dist = (a, b) => Math.hypot(a.easting - b.easting, a.northing - b.northing
 
 /* ---- polygon helpers over EPSG:3006 rings ------------------------------- */
 const ringsOf = (g) => (g.type === 'Polygon' ? [g.coordinates[0]] : g.coordinates.map((p) => p[0]));
+/* About the ring's FIRST VERTEX. On raw EPSG:3006 coordinates the shoelace
+   cross products are ~4.6e12 and their sum is the polygon's area, so a small
+   ring's centroid is the ninth significant figure of a double and the rounding
+   error is metres. Measured on this course's own polygons: greens were out by a
+   median 2.83 m and up to 9.15 m before this, which is the same size as the
+   agreement being reported below - so the first version of this report was
+   measuring its own arithmetic as much as the survey. */
 function ringCentroid(ring) {
+  const ox = ring[0][0]; const oy = ring[0][1];
   let a = 0; let cx = 0; let cy = 0;
   for (let i = 0; i < ring.length - 1; i += 1) {
-    const [x0, y0] = ring[i]; const [x1, y1] = ring[i + 1];
+    const x0 = ring[i][0] - ox; const y0 = ring[i][1] - oy;
+    const x1 = ring[i + 1][0] - ox; const y1 = ring[i + 1][1] - oy;
     const cross = x0 * y1 - x1 * y0;
     a += cross; cx += (x0 + x1) * cross; cy += (y0 + y1) * cross;
   }
   if (Math.abs(a) < 1e-9) return null;
-  return { easting: cx / (3 * a), northing: cy / (3 * a), area: Math.abs(a) / 2 };
+  return { easting: ox + cx / (3 * a), northing: oy + cy / (3 * a), area: Math.abs(a) / 2 };
 }
 function pointInRing(point, ring) {
   let inside = false;

@@ -53,18 +53,32 @@ export function polyArea(ring) {
   return a / 2;                                   // signed; sign is winding
 }
 
+/* The shoelace sum is taken about the ring's FIRST VERTEX, not about the
+   coordinate origin. Algebraically that changes nothing; in floating point it
+   is the difference between a correct centroid and a meaningless one, and this
+   helper is now called on rings in EPSG:3006 as well as in a course's own local
+   metres. There, a bunker's cross products are each about 4.6e12 and their sum
+   is about -90: the answer is the ninth significant figure of a double, and the
+   error swamps it. Measured on Lidingö's own mapped polygons before this line
+   existed: fairways were out by a median 0.31 m, greens 2.83 m, tee pads 6.45 m,
+   and BUNKERS 20.6 m with a worst case of 150 m - 36 of 40 bunker centroids fell
+   outside their own bounding box. The error scales with 1/area, so the smaller
+   the feature the worse it gets, which is precisely backwards from useful. */
 export function centroid(ring) {
+  const ox = ring[0][0], oz = ring[0][1];
   let a = 0, cx = 0, cz = 0;
   for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const f = ring[j][0] * ring[i][1] - ring[i][0] * ring[j][1];
-    a += f; cx += (ring[j][0] + ring[i][0]) * f; cz += (ring[j][1] + ring[i][1]) * f;
+    const jx = ring[j][0] - ox, jz = ring[j][1] - oz;
+    const ix = ring[i][0] - ox, iz = ring[i][1] - oz;
+    const f = jx * iz - ix * jz;
+    a += f; cx += (jx + ix) * f; cz += (jz + iz) * f;
   }
   if (Math.abs(a) < 1e-9) {                       // degenerate: fall back to mean
     let mx = 0, mz = 0;
     for (const p of ring) { mx += p[0]; mz += p[1]; }
     return [mx / ring.length, mz / ring.length];
   }
-  return [cx / (3 * a), cz / (3 * a)];
+  return [ox + cx / (3 * a), oz + cz / (3 * a)];
 }
 
 export function bbox(pts) {
