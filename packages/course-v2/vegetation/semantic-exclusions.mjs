@@ -213,7 +213,16 @@ export function courseExclusionFeatures(geometry) {
   rings('fairway', holes.flatMap(hole => hole.fairway?.rings || []));
   rings('tee', holes.flatMap(hole => (hole.tees?.pads || []).map(pad => pad.ring)));
   rings('bunker', holes.flatMap(hole => (hole.bunkers || []).map(bunker => bunker.ring)));
-  rings('practice', [...(geometry.scenery?.greens || []), ...(geometry.scenery?.fairways || []), ...(geometry.scenery?.tees || [])]);
+  /* scenery.practiceGreens is a SEPARATE key from scenery.greens, added when a
+     course learned to name its practice greens rather than have the marker
+     layer guess them by distance from the clubhouse. Lidingö is the ground that
+     found this: it keeps all three of its practice greens there and its
+     scenery.greens is EMPTY, so without this line the exclusion set knows about
+     none of them and the planter is free to stand trees on a putting surface.
+     Johannesberg and its nine also carry the key. A course that does not use it
+     gains nothing here and loses nothing. */
+  rings('practice', [...(geometry.scenery?.greens || []), ...(geometry.scenery?.practiceGreens || []),
+    ...(geometry.scenery?.fairways || []), ...(geometry.scenery?.tees || [])]);
   /* the range is a list of rings in the migrated model and a single ring in
      older ones; passing a list as a ring rasterised nothing and put trees on
      the driving range, which the first published generation showed */

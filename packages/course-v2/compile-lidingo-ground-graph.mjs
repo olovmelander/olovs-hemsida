@@ -36,6 +36,34 @@ if (migrated.groundId !== 'lidingo' || holes.length !== 18) throw new Error('Inc
 const index = await json('apps/golf/public/courses/index.json');
 const entry = index.courses.find(c => c.slug === 'lidingo');
 if (!entry) throw new Error('Publish the compatibility pack before the graph');
+/* THIS COMPILER IS SUPERSEDED, AND ITS FAILURE MODE IS SILENT DELETION.
+
+   It attaches the bespoke 4 m stand fields and nothing else, then emits the
+   whole ground graph. Lidingö's ground is now published by the generic chain -
+   publish-ground-rings for the seven ring levels, publish-vegetation for the
+   machine-reviewed individuals and their stand fields - and re-running this
+   would emit a graph with the bespoke stands, no object layers and no rings:
+   thousands of measured trees and a 16 km world gone, with every numeric gate
+   still passing because the graph it produced is internally consistent.
+
+   So it refuses once a generation is live, and names what to run instead. A
+   ground with no published objects is untouched by this. */
+const liveRoot = await json('apps/golf/public/courses/v2-index.json').catch(() => null);
+if (liveRoot) {
+  const live = liveRoot.courses?.find(c => c.groundId === 'lidingo');
+  if (live) {
+    const ground = await json(path.join('apps/golf/public', live.groundManifest?.url || '')).catch(() => null);
+    const objects = ground?.tiles?.filter(t => t.layers?.objects).length || 0;
+    const levels = new Set((ground?.tiles || []).map(t => t.lod)).size;
+    if (objects || levels > 4) {
+      throw new Error(
+        `lidingo already has a published ${levels}-level graph carrying objects on ${objects} tiles. `
+        + 'This bespoke compiler would replace it with a stands-only, ring-less graph and delete that '
+        + 'generation silently. Use packages/course-v2/publish-ground-rings.mjs and '
+        + 'packages/course-v2/vegetation/publish-vegetation.mjs instead.');
+    }
+  }
+}
 const sampler = new TerrainPyramidSampler(compilation.pyramid);
 /* attachLidingoStands verifies source rasters, exclusions, bounds and the
  * frame fingerprint before returning a compilation with stand-layer refs. */
