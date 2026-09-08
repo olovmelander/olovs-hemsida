@@ -104,11 +104,24 @@ jobs:
             exit 1
           fi
 
+      # The preflight reaches the provider over the network before any real work
+      # has been done, so a transient there costs a whole run for nothing: run 4
+      # died on an ETIMEDOUT reaching Lantmäteriet while runs 2 and 3 either side
+      # of it reported "ready". Three attempts with a pause between them; a real
+      # denial still fails, because a denial is deterministic and survives them.
       - name: Lantmäteriet access preflight (exits 2 on denial)
         env:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
-        run: node packages/course-geo/acquisition/access-preflight.mjs --ground "$GROUND" --provider lantmateriet
+        run: |
+          for attempt in 1 2 3; do
+            if node packages/course-geo/acquisition/access-preflight.mjs --ground "$GROUND" --provider lantmateriet; then
+              exit 0
+            fi
+            echo "preflight attempt $attempt did not pass; retrying" >&2
+            sleep $((attempt * 10))
+          done
+          node packages/course-geo/acquisition/access-preflight.mjs --ground "$GROUND" --provider lantmateriet
 
       # Level 0 is read at 1 m and compared sample for sample against the
       # published course tiles, so this step also proves the reader and the
