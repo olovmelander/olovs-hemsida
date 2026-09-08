@@ -861,6 +861,17 @@
       "notes": "Source context clipped to measured terrain; footprints are supplementary, heights and widths may be generic."
     },
     {
+      "id": "osm-vista-landcover",
+      "kind": "topography",
+      "path": "geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson",
+      "sha256": "ebac60d9f7864301169a6a4bf502e0e82ea9c2c188c036bc5ed1266116a4816d",
+      "derivedFrom": [
+        "visby-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "OpenStreetMap land cover clipped to +-6 km of the frame, for the far vista ring and the ground tint beyond the measured window. Vista dressing, not a survey of the played property: nothing here plants a tree on the course, which is measured-only. 279 farmland polygons against 24 forest is what makes it worth having -- Gotland is farmed."
+    },
+    {
       "id": "measured-canopy-evidence",
       "kind": "canopy",
       "path": "geo_data/course-v2/visby/vegetation/canopy-evidence.json",
@@ -898,7 +909,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "visbybuild/course-model.json",
-      "sha256": "e98eb7af33dd7575ae91d79fef712e173740e21ddaa38da3f06f46db761923cd",
+      "sha256": "fb94a390d654793453b202ed066955c9de98468d86f927b9143250a136963744",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -946,7 +957,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-      "sha256": "27d0aee513081a056f7e1d5bf888286dd16f95a81ebb3bbf579557208b1a66d3",
+      "sha256": "fd1d419510619152722ce9a4f75162ed642bd0a493f48c7425f3772f540d997f",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -964,7 +975,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/visby/migration/residual-report.json",
-      "sha256": "2d5e9de2b9f84aa698071660d066e2a317f6da230a54e60ccf042db7962a86aa",
+      "sha256": "320d78984697feb621f8fb580aabab1cbbadab792b44a683597faaf3fb6b2940",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",

@@ -3977,6 +3977,43 @@ and at least 8 m nearer to it than to any other. The remaining 17 stay in
 the eighteen, which is where the separate nine plays. **No outline moved**, and
 the partition is asserted: every ring before is a ring after, none twice.
 
+### The far vista ring was gated on a raster, and Visby has none
+
+Both vista-cone loops sat inside `if (M.cover)` in main.js, so a course with no
+tree-cover raster got **no distant trees at all** — and the far ring never reads
+the raster's contents anyway, only its box, as the ground it must not close
+over. Invisible while every course had one; Visby has none, and with a ring
+graph reaching 16 km its horizon was bare hills to the skyline. The far ring
+runs unconditionally now, skipping the imagery's box where there is one and the
+MEASURED vegetation coverage where there is not, so the six courses that have a
+raster are untouched cone for cone. The middle ring, which does read the
+raster's classes, is still gated on it.
+
+**And Gotland is FARMED, which the horizon has to know.** `vegetation.*` and
+`infra.landuse` were all empty, because the committed OSM context is clipped to
+the played property — inside which OSM genuinely has no vegetation polygon of
+any class. True about 123 ha, useless about the 16 km world: the far ring plants
+a cone on any land not declared open, so with nothing declared open it would
+have carpeted the island. `visbybuild/mapping/build-vista-landcover.mjs` reads
+four raw-API tiles over ±6 km (Overpass resets on responses this size; the map
+API does not) and clips — never merely filters — into a committed EPSG:3006
+artifact: **279 farmland polygons against 24 forest**, plus 6 wood, 5 sand, 4
+wetland, 3 scrub, 15 residential and 2 heath. Measured on the result, 34.3% of
+the land inside the far ring is declared open and the ring's own noise gaps take
+another 21.4%, so **37.6% of the land carries cones** — against Gotland's real
+forest cover of roughly 45%, so this errs on the sparse side, which is the side
+to err on. It is the first geometry in this model that lies outside the 2,048 m
+acquired terrain, deliberately: it is the horizon's dressing, not the property's
+survey, and `vegetationPlacement: 'measured-only'` still short-circuits the
+legacy on-course planter outright.
+
+**No tree-cover raster was built, and that is the finding.** An earlier attempt
+to classify one off the photograph under-detected canopy 4.5× and was refused
+rather than shipped. It is not needed: the LiDAR generation owns everything
+inside its own 2,048 m coverage, and the far ring now covers everything outside
+it. A course does not need a cover raster; it needs the loop not to be gated on
+one.
+
 ### What OSM can and cannot supply here
 
 **OSM IS AN INPUT HERE, NOT A CHECK — this catches people out.** Seventeen of

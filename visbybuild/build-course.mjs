@@ -109,6 +109,45 @@ export function teeMarks({ line, lineLen, lengths, nearest, pads, unresolvedPlat
   });
 }
 
+/* GOTLAND IS FARMED, and the horizon has to know it.
+
+   `vegetation.*` and `infra.landuse` were all empty here, because the committed
+   OSM context is clipped to the played property -- inside which OSM has no
+   vegetation polygon of any class, a true statement about 123 ha and a useless
+   one about the 16 km world the ring graph renders. The far vista ring plants a
+   cone on any land not declared open, so with nothing declared open it would
+   have carpeted an island whose OSM cover is 279 farmland polygons against 24
+   forest.
+
+   This is VISTA DRESSING and stays that: `vegetationPlacement` is
+   `measured-only`, which short-circuits the legacy on-course planter outright,
+   and the LiDAR generation owns everything inside its own coverage. What these
+   rings do is tint the ground beyond the measured window and tell the far ring
+   where a conifer does not stand. They reach +-6 km, well outside the 2,048 m
+   acquired terrain, so they are converted here rather than through `localRing`,
+   which rightly refuses anything off that window. */
+export function vistaLandcover(collection) {
+  if (collection?.type !== 'FeatureCollection' || collection.crs?.properties?.name !== 'EPSG:3006') throw new Error('Visby vista land cover must declare EPSG:3006');
+  const keep = collection.frame?.keepBoxMetres;
+  if (!(keep > 0)) throw new Error('Visby vista land cover must declare its keep box');
+  const vegetation = { forest: [], wood: [], scrub: [], wetland: [], sand: [], rock: [] };
+  const landuse = [];
+  for (const feature of collection.features) {
+    if (feature.geometry?.type !== 'Polygon' || feature.geometry.coordinates.length !== 1) throw new Error(`${feature.id}: vista land cover must be a single-ring polygon`);
+    const closed = feature.geometry.coordinates[0];
+    if (closed.length < 4 || closed[0].some((value, index) => Math.abs(value - closed.at(-1)[index]) > 1e-6)) throw new Error(`${feature.id}: vista ring must be closed`);
+    const ring = closed.slice(0, -1).map(local);
+    if (ring.some(([x, z]) => Math.abs(x) > keep + 1e-6 || Math.abs(z) > keep + 1e-6)) throw new Error(`${feature.id}: vista ring leaves the declared keep box`);
+    if (feature.properties?.group === 'vegetation') {
+      if (!(feature.properties.kind in vegetation)) throw new Error(`${feature.id}: unknown vegetation class ${feature.properties.kind}`);
+      vegetation[feature.properties.kind].push(ring);
+    } else if (feature.properties?.group === 'landuse') {
+      landuse.push({ ring, kind: feature.properties.kind, sourceId: feature.properties.sourceId });
+    } else throw new Error(`${feature.id}: vista land cover needs a vegetation or landuse group`);
+  }
+  return { vegetation, landuse };
+}
+
 function interiorCentre(ring, label) {
   const centre = centroid(ring);
   if (!pointInPoly(...centre, ring)) throw new Error(`${label}: centroid is outside its ring; provide an explicit interior reference`);
@@ -195,8 +234,8 @@ export async function buildCourse() {
   const geometry = await json('visbybuild/mapping/geometry.json');
   const holes = buildHoles(card, geometry, heightAt);
   const context = projectedFeatures(await json(geometry.contextPath ?? 'geo_data/course-v2/visby/mapping/osm-context-epsg3006.geojson'), 'Visby context');
-  const vegetation = { forest: [], wood: [], scrub: [], wetland: [], sand: [], rock: [] };
-  const infra = { paths: [], tracks: [], roads: [], buildings: [], farB: [], parking: [], piers: [], basins: [], pitches: [], landuse: [], reserves: [], power: { lines: [], towers: [], poles: [] }, railway: [], objectPlacement: 'mapped-only', bridgePlacement: 'mapped-only', vegetationPlacement: 'measured-only', terrainPlacement: 'measured-only', preserveMappedBoundaries: true };
+  const { vegetation, landuse } = vistaLandcover(await json(geometry.vistaLandcoverPath ?? 'geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson'));
+  const infra = { paths: [], tracks: [], roads: [], buildings: [], farB: [], parking: [], piers: [], basins: [], pitches: [], landuse, reserves: [], power: { lines: [], towers: [], poles: [] }, railway: [], objectPlacement: 'mapped-only', bridgePlacement: 'mapped-only', vegetationPlacement: 'measured-only', terrainPlacement: 'measured-only', preserveMappedBoundaries: true };
   const scenery = { greens: [], fairways: [], tees: [], bunkers: [], grass: [], range: [], rangeFacilities: null, cartPark: null };
   for (const key of ['greens', 'fairways', 'tees', 'bunkers', 'grass', 'range']) scenery[key] = (geometry.scenery?.[key] ?? []).map((ring, index) => localRing(ring, `${key} ${index + 1}`));
   const streams = [], skippedContext = [];

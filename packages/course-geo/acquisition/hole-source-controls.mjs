@@ -33,8 +33,12 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      observed route by the card's own difference from the back tee. Only the
      last moves coordinates, and it moves 85 tee cameras and nothing else --
      no green, route, fairway, bunker or water vertex changes, which the
-     residual report shows as an unchanged pair count. */
-  visby: '27d0aee513081a056f7e1d5bf888286dd16f95a81ebb3bbf579557208b1a66d3',
+     residual report shows as an unchanged pair count. A fifth pass added the
+     wide OSM land cover -- 24 forest, 6 wood, 3 scrub, 4 wetland, 5 sand rings
+     and 311 landuse rings out to 6 km -- which is the first geometry in this
+     model that lies OUTSIDE the 2,048 m acquired terrain, by design: it is the
+     horizon's dressing, not the property's survey. */
+  visby: 'fd1d419510619152722ce9a4f75162ed642bd0a493f48c7425f3772f540d997f',
   lidingo: 'bffda03d0ee5cf0056d22e5e4262adc8016ed8f0b4a79fc766d2cf0db536cf74',
   angso: '6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',

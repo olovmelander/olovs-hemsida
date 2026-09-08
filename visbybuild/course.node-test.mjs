@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { readPack, inflateStream } from '../packages/course-pack/lib.mjs';
 import { centroid, decodeHF, pointInPoly, polyLen } from '../geobuild/lib.mjs';
-import { teeMarks } from './build-course.mjs';
+import { teeMarks, vistaLandcover } from './build-course.mjs';
 import { runtimeWater } from '../packages/course-pack/runtime-water.mjs';
 import { assertVisbyCanonicalRouting, visbyRuntimeContract } from '../packages/course-v2/compile-visby-ground-graph.mjs';
 import { VISBY_V2_CONFIG } from '../apps/golf/src/engine/v2-visby-config.mjs';
@@ -69,6 +69,19 @@ test('Visby published compatibility pack preserves canonical observed geometry a
   assert.equal(teePoints.size, 80);
   assert.equal(model.holes.filter(hole => new Set(hole.tees.marks.map(mark => mark.c.join(','))).size === 1).length, 1,
     'only hole 12, whose platform is unresolved, may still share one point across all six tees');
+  /* The horizon's land cover is the committed OSM artifact and nothing else --
+     re-derived through the generator's own rule, so a hand edit to either side
+     fails. It is vista dressing: it reaches +-6 km, well beyond the 2,048 m
+     acquired terrain, and it plants nothing on the course, which stays
+     measured-only. What it is FOR is the far ring's open-land test: Gotland's
+     OSM cover here is 279 farmland polygons against 24 forest, and a horizon
+     that ignores that carpets a farmed island in conifers. */
+  const vista = vistaLandcover(json('../geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson'));
+  assert.deepEqual(model.vegetation, vista.vegetation);
+  assert.deepEqual(model.infra.landuse, vista.landuse);
+  assert.equal(model.infra.landuse.filter(item => item.kind === 'farmland').length, 279);
+  assert.equal(model.vegetation.forest.length + model.vegetation.wood.length, 30);
+  assert.equal(model.infra.vegetationPlacement, 'measured-only');
   assert.equal(model.infra.terrainPlacement, 'measured-only');
   assert.equal(model.infra.vegetationPlacement, 'measured-only');
   assert.equal(model.infra.objectPlacement, 'mapped-only');

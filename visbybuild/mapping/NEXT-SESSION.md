@@ -190,6 +190,7 @@ the source images are not redistributed as runtime textures.
 | No measured trees; `vegetation.*` all empty | **3,012 machine-reviewed individuals** + stand fields on all 256 tiles, acquired and eyeballed; publish still to run |
 | `npm run check:visby` 28/29; manifest gate red | 29/29 and green -- hole 16's fairway was desynced from `geometry.json` and six checksums were stale |
 | CLAUDE.md had no Visby section | it has one |
+| No distant trees at all: both vista loops gated on a tree-cover raster this course has none of | the far ring **ungated**, fed by a wide OSM land cover clipped to ±6 km (**279 farmland polygons against 24 forest**); `vegetation.*` and `infra.landuse` are no longer empty |
 | Six numbered tee marks per hole on ONE point, span 0 m | the back tee on its platform and each shorter tee walked up the observed route by the card's own difference: **85 of 108 marks move, 18 points become 80** |
 | 65 bunkers in `scenery`, no hole owns any | **48 assigned to their hole**, 17 left in scenery with the reason |
 | The Baltic flagged neither sea nor lake | seven rings `isSea` + `isLake`, `seaTintBandMetres` 0.05, and **the generator agrees** -- `build-course.mjs` used to write `isSea:false` and would have reverted it |
@@ -229,15 +230,17 @@ the source images are not redistributed as runtime textures.
    never fill them: it has **zero** vegetation polygons inside the played bbox
    +500 m while the imagery measures ~22.4 ha of canopy inside the same hull.
    The LiDAR stand field and individuals are the source on the course itself.
-5. **`visbybuild/tree-cover.json` does not exist, and Visby is the only build
-   here without one.** Both vista-cone loops sit inside a dead `if (M.cover)`
-   branch, so beyond the LiDAR coverage there are no distant trees at all --
-   which matters much more now that the ground reaches 16 km instead of 2. The
-   measured-only vegetation policy is not what blocks this: it short-circuits
-   the legacy on-course planter, while the cone loops are a separate gate. The
-   Norrfallsviken path (`fetch-sat.mjs` then `build-treecover.py`) is the
-   recipe, calibrated on THIS course's own OSM greens rather than on numbers
-   carried from another ground.
+5. **DONE, by fixing the gate rather than by building a raster.** Both vista
+   loops sat inside `if (M.cover)`, so this course had no distant trees at all;
+   the far ring never reads the raster's contents, only its box, and it runs
+   unconditionally now (skipping the measured LiDAR coverage where a course has
+   no raster). It is fed by
+   [`osm-vista-landcover-epsg3006.geojson`](../../geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson),
+   a wide OSM extract clipped to ±6 km: 279 farmland polygons against 24 forest,
+   so 37.6% of the land in the far ring carries cones against Gotland's real
+   ~45% forest cover. `visbybuild/tree-cover.json` is still absent and is not
+   needed. The photograph-classified attempt stays refused; it under-detected
+   canopy 4.5×.
 6. `coast` is empty and no water ring carries `isSea`, on a course where the
    median green stands 82 m from the Baltic. Seven rings already carry
    `sourceIsSea:true`/`waterKind:'sea'` and account for **907 of 931 ha** of

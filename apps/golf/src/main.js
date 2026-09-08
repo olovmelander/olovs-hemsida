@@ -4759,7 +4759,18 @@ lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
-if (M.cover) {
+{
+  /* THE FAR RING IS NOT THE IMAGERY'S RING, and it used to be gated on it.
+     Both loops below sat inside `if (M.cover)`, so a course with no tree-cover
+     raster got no distant trees AT ALL -- and the far ring never reads the
+     raster's contents anyway, only its box, as the ground it must not close
+     over. That was invisible while every course had one; Visby has none (OSM
+     carries no vegetation polygon inside its property and the LiDAR generation
+     owns everything it covers), and with a ring graph reaching 16 km the
+     horizon was bare hills to the skyline. The middle ring, which does read the
+     raster, is still gated; the far ring skips the imagery's box where there is
+     one and the MEASURED vegetation where there is not, so the six courses that
+     have a raster are untouched. */
   const cv = M.cover;
   const inset = 50;
   const pts = [];
@@ -4784,10 +4795,10 @@ if (M.cover) {
     /* and the water only the ground knows: flat lake surfaces past the rings */
     return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz);
   };
-  const cvx1 = cv.x0 + cv.nx * cv.cell, cvz1 = cv.z0 + cv.nz * cv.cell;
+  const cvx1 = cv ? cv.x0 + cv.nx * cv.cell : 0, cvz1 = cv ? cv.z0 + cv.nz * cv.cell : 0;
   /* the data ring: where the plans or the survey still reach */
   const GAP2 = LOWQ ? 18 : 13;
-  for (let z = cv.z0; z < cvz1; z += GAP2) {
+  if (cv) for (let z = cv.z0; z < cvz1; z += GAP2) {
     if (shouldYieldWork()) await yieldWork();
     for (let x = cv.x0; x < cvx1; x += GAP2) {
       const i = Math.floor(x / GAP2), j = Math.floor(z / GAP2);
@@ -4820,10 +4831,13 @@ if (M.cover) {
   for (let z = FARR.z0; z < FARR.z1; z += GAP3) {
     if (shouldYieldWork()) await yieldWork();
     for (let x = FARR.x0; x < FARR.x1; x += GAP3) {
-      if (x > cv.x0 && x < cvx1 && z > cv.z0 && z < cvz1) continue;
+      if (cv && x > cv.x0 && x < cvx1 && z > cv.z0 && z < cvz1) continue;
       const i = Math.floor(x / GAP3), j = Math.floor(z / GAP3);
       const px = x + (rnd2(i + 51, j + 29) - 0.5) * GAP3 * 1.6;
       const pz = z + (rnd2(i + 87, j + 61) - 0.5) * GAP3 * 1.6;
+      /* where a course has no raster, the measured generation is the box this
+         ring must not close over -- its trees are already standing there */
+      if (!cv && V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) continue;
       if (fbm(px * 0.0011, pz * 0.0011, 2) < -0.18) continue;   /* pasture gaps */
       if (openLand(px, pz)) continue;
       /* a course may declare places this ring must not close over -- a churchyard
