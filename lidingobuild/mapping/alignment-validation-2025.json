@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "baselineCommit": "fcd6fa17e4ebd81b727d1ffc47b91bc3e6b260da",
+  "inputs": {
+    "lidingobuild/course-model.json": "f6ff8a5f5bad203b9ab2940bf5fb25d4b9938f7b152475b3d8d679f0f0ce51cd",
+    "lidingobuild/mapping/putting-cuts-2025.json": "23c37274be78a5c4f875677e1e700d0e12a9ea1c8f421fca458517754e766cf2",
+    "lidingobuild/mapping/approaches-2025.geojson": "6054a2f236a48095ff260d97b384cff759d0b60ba3ac23893ed657ee582004e9",
+    "lidingobuild/mapping/playing-surfaces.geojson": "e88a534ab64ec2c466d5f10f38673cc98b5dc202fc94898a310d458d272af766",
+    "apps/golf/public/courses/lidingo/pack.bin": "d46bd658db9ddc21558e59d542b6a35430752841f9057f85d0024d21e682d0a1"
+  },
+  "preservedModelSha256": "83c581ac2f79c4d05be6889b1fc91f3b2731165fd10ec9559d86b5880b1e4666",
+  "preservedGroundManifestSha256": "17836ef643f9f09be0741becfb2af340c90b4cf88bc9b514ca4ffe1fc29841ed",
+  "terrainTiles": 277,
+  "greens": [
+    {
+      "hole": 1,
+      "areaBeforeM2": 572.49,
+      "areaAfterM2": 441.78,
+      "targetMovementMetres": 0.58
+    },
+    {
+      "hole": 2,
+      "areaBeforeM2": 421.75,
+      "areaAfterM2": 348.06,
+      "targetMovementMetres": 3.94
+    },
+    {
+      "hole": 5,
+      "areaBeforeM2": 499.61,
+      "areaAfterM2": 370.11,
+      "targetMovementMetres": 2.06
+    },
+    {
+      "hole": 6,
+      "areaBeforeM2": 535.87,
+      "areaAfterM2": 499.12,
+      "targetMovementMetres": 2.18
+    },
+    {
+      "hole": 7,
+      "areaBeforeM2": 411.86,
+      "areaAfterM2": 326.39,
+      "targetMovementMetres": 3.02
+    },
+    {
+      "hole": 8,
+      "areaBeforeM2": 355.34,
+      "areaAfterM2": 376.13,
+      "targetMovementMetres": 0.96
+    },
+    {
+      "hole": 9,
+      "areaBeforeM2": 326.85,
+      "areaAfterM2": 439.62,
+      "targetMovementMetres": 8.81
+    },
+    {
+      "hole": 10,
+      "areaBeforeM2": 625.84,
+      "areaAfterM2": 504.42,
+      "targetMovementMetres": 2.41
+    },
+    {
+      "hole": 11,
+      "areaBeforeM2": 555.84,
+      "areaAfterM2": 380.7,
+      "targetMovementMetres": 4.28
+    },
+    {
+      "hole": 12,
+      "areaBeforeM2": 324.62,
+      "areaAfterM2": 439.74,
+      "targetMovementMetres": 7.69
+    },
+    {
+      "hole": 13,
+      "areaBeforeM2": 544.23,
+      "areaAfterM2": 427.9,
+      "targetMovementMetres": 4.58
+    },
+    {
+      "hole": 14,
+      "areaBeforeM2": 390.87,
+      "areaAfterM2": 480.28,
+      "targetMovementMetres": 5.39
+    },
+    {
+      "hole": 16,
+      "areaBeforeM2": 561.69,
+      "areaAfterM2": 386.53,
+      "targetMovementMetres": 1.75
+    },
+    {
+      "hole": 17,
+      "areaBeforeM2": 780.17,
+      "areaAfterM2": 420.58,
+      "targetMovementMetres": 1.67
+    }
+  ],
+  "approaches": [
+    {
+      "hole": 1,
+      "observedAreaM2": 1826.1,
+      "visibleSemiSquareMetresAt1m": 1155
+    },
+    {
+      "hole": 3,
+      "observedAreaM2": 988.37,
+      "visibleSemiSquareMetresAt1m": 986
+    },
+    {
+      "hole": 6,
+      "observedAreaM2": 1918.14,
+      "visibleSemiSquareMetresAt1m": 32
+    },
+    {
+      "hole": 9,
+      "observedAreaM2": 1591.4,
+      "visibleSemiSquareMetresAt1m": 900
+    },
+    {
+      "hole": 11,
+      "observedAreaM2": 200.34,
+      "visibleSemiSquareMetresAt1m": 176
+    },
+    {
+      "hole": 16,
+      "observedAreaM2": 1861.44,
+      "visibleSemiSquareMetresAt1m": 1424
+    }
+  ],
+  "teeStartsInsideObservedPads": 90,
+  "selectedTeeRoutesVerified": 90,
+  "gpsControls": 5,
+  "gpsMaximumErrorMetres": 0.00074,
+  "vegetation": [
+    {
+      "lowQuality": false,
+      "instances": 45081,
+      "individuals": 2544,
+      "greenTrunkConflicts": 0,
+      "approachTrunkConflicts": 0
+    },
+    {
+      "lowQuality": true,
+      "instances": 30646,
+      "individuals": 2544,
+      "greenTrunkConflicts": 0,
+      "approachTrunkConflicts": 0
+    }
+  ],
+  "limitations": [
+    "Machine visual review against May 2025 imagery; no independent registration or survey.",
+    "Four shaded putting surfaces retain earlier boundaries. Mowing height and current tee/flag colours are unmeasured.",
+    "Vegetation checks compare displayed trunk positions; they do not establish individual stem/species survey accuracy.",
+    "Browser could not reach the local preview (ERR_BLOCKED_BY_CLIENT); no interactive 3D or device-performance approval."
+  ]
+}

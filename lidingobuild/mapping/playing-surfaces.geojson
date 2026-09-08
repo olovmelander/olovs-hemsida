@@ -226,66 +226,112 @@
       "properties": {
         "kind": "green",
         "hole": 9,
-        "sourceId": "lidingo-osm-2026-09-07",
-        "sourceFeatureId": "way/143587585",
-        "sourceVersion": "1",
-        "sourceTimestamp": "2011-12-31T15:36:43Z",
-        "observedYear": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "unchanged-osm-source-ring",
-        "associationStatus": "gross-source-image-and-guide-corroboration",
-        "geometryReview": "Preserved supplementary OSM geometry; not upgraded to orthophoto precision or survey authority.",
-        "licence": "ODbL-1.0",
-        "areaSquareMetres": 326.85
+        "method": "manual-image-putting-cut-digitization",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 439.62,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677429.2697707963,
-              6586365.2314549275
+              677417.84,
+              6586373.04
             ],
             [
-              677427.7401174027,
-              6586371.873300686
+              677421.04,
+              6586375.28
             ],
             [
-              677430.8335541168,
-              6586377.494334107
+              677424.88,
+              6586377.04
             ],
             [
-              677437.447854257,
-              6586379.633912733
+              677428.88,
+              6586378.32
             ],
             [
-              677441.989873144,
-              6586380.460585971
+              677433.52,
+              6586379.76
             ],
             [
-              677448.2965902397,
-              6586376.184326475
+              677437.36,
+              6586380.56
             ],
             [
-              677449.7541607957,
-              6586371.0781172495
+              677440.88,
+              6586379.76
             ],
             [
-              677446.7187520013,
-              6586364.221888288
+              677443.28,
+              6586378.16
             ],
             [
-              677440.1754973892,
-              6586360.568920406
+              677444.24,
+              6586375.44
             ],
             [
-              677434.0830115232,
-              6586360.282817695
+              677443.12,
+              6586372.56
             ],
             [
-              677429.2697707963,
-              6586365.2314549275
+              677440.88,
+              6586369.52
+            ],
+            [
+              677438.64,
+              6586366
+            ],
+            [
+              677436.4,
+              6586362.48
+            ],
+            [
+              677433.84,
+              6586359.28
+            ],
+            [
+              677430.32,
+              6586357.04
+            ],
+            [
+              677426.32,
+              6586356.08
+            ],
+            [
+              677422.96,
+              6586357.36
+            ],
+            [
+              677420.56,
+              6586359.6
+            ],
+            [
+              677418.64,
+              6586362.48
+            ],
+            [
+              677417.52,
+              6586366.32
+            ],
+            [
+              677417.2,
+              6586369.84
+            ],
+            [
+              677417.84,
+              6586373.04
             ]
           ]
         ]
@@ -372,94 +418,116 @@
       "properties": {
         "kind": "green",
         "hole": 2,
-        "sourceId": "lidingo-osm-2026-09-07",
-        "sourceFeatureId": "way/143591667",
-        "sourceVersion": "1",
-        "sourceTimestamp": "2011-12-31T15:52:24Z",
-        "observedYear": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "unchanged-osm-source-ring",
-        "associationStatus": "gross-source-image-and-guide-corroboration",
-        "geometryReview": "Preserved supplementary OSM geometry; not upgraded to orthophoto precision or survey authority.",
-        "licence": "ODbL-1.0",
-        "areaSquareMetres": 421.75
+        "method": "manual-image-putting-cut-digitization",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 348.06,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              678035.6408079352,
-              6585844.443144274
+              678033.84,
+              6585854.96
             ],
             [
-              678033.8995032107,
-              6585852.29045764
+              678036.24,
+              6585856.56
             ],
             [
-              678034.8070426815,
-              6585858.8796608765
+              678039.44,
+              6585856.72
             ],
             [
-              678035.3887123547,
-              6585862.721178683
+              678042.32,
+              6585855.44
             ],
             [
-              678037.8707574133,
-              6585865.124347116
+              678044.88,
+              6585852.88
             ],
             [
-              678041.138054929,
-              6585863.906529097
+              678047.12,
+              6585850.48
             ],
             [
-              678042.592610625,
-              6585862.14606414
+              678050.64,
+              6585848.4
             ],
             [
-              678044.1404837889,
-              6585858.404871292
+              678053.68,
+              6585846.8
             ],
             [
-              678045.8111917078,
-              6585855.438980618
+              678055.76,
+              6585844.24
             ],
             [
-              678051.0445097743,
-              6585851.2691932125
+              678056.4,
+              6585841.36
             ],
             [
-              678055.6345588618,
-              6585847.827467125
+              678055.12,
+              6585838.32
             ],
             [
-              678055.5360435641,
-              6585843.39532754
+              678052.4,
+              6585835.12
             ],
             [
-              678054.8435279407,
-              6585838.64523983
+              678049.36,
+              6585832.72
             ],
             [
-              678051.8256671074,
-              6585834.688939515
+              678045.68,
+              6585831.44
             ],
             [
-              678045.8924596463,
-              6585834.26442794
+              678042.96,
+              6585831.92
             ],
             [
-              678040.4311065476,
-              6585836.750622774
+              678040.88,
+              6585833.68
             ],
             [
-              678037.6339828903,
-              6585841.035193632
+              678039.44,
+              6585836.4
             ],
             [
-              678035.6408079352,
-              6585844.443144274
+              678038.16,
+              6585840.24
+            ],
+            [
+              678037.36,
+              6585843.76
+            ],
+            [
+              678036.08,
+              6585846.8
+            ],
+            [
+              678034.32,
+              6585849.36
+            ],
+            [
+              678032.88,
+              6585851.92
+            ],
+            [
+              678033.84,
+              6585854.96
             ]
           ]
         ]
@@ -656,66 +724,120 @@
       "properties": {
         "kind": "green",
         "hole": 13,
-        "sourceId": "lidingo-osm-2026-09-07",
-        "sourceFeatureId": "way/221846967",
-        "sourceVersion": "1",
-        "sourceTimestamp": "2013-05-17T14:52:07Z",
-        "observedYear": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "unchanged-osm-source-ring",
-        "associationStatus": "gross-source-image-and-guide-corroboration",
-        "geometryReview": "Preserved supplementary OSM geometry; not upgraded to orthophoto precision or survey authority.",
-        "licence": "ODbL-1.0",
-        "areaSquareMetres": 544.23
+        "method": "manual-image-putting-cut-digitization",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 427.9,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677267.1416633063,
-              6586811.050291421
+              677255.28,
+              6586807.92
             ],
             [
-              677277.2000668016,
-              6586808.165438298
+              677257.36,
+              6586810
             ],
             [
-              677286.4452895813,
-              6586802.96738759
+              677260.72,
+              6586810.32
             ],
             [
-              677288.8120617445,
-              6586794.848081001
+              677264.4,
+              6586809.2
             ],
             [
-              677287.5902778539,
-              6586788.389343567
+              677267.92,
+              6586807.76
             ],
             [
-              677278.7455926675,
-              6586784.929725879
+              677271.6,
+              6586806.32
             ],
             [
-              677269.2540327158,
-              6586785.554962312
+              677275.6,
+              6586805.68
             ],
             [
-              677261.0310844812,
-              6586794.91620655
+              677279.12,
+              6586803.92
             ],
             [
-              677260.6817848943,
-              6586802.360681204
+              677281.68,
+              6586801.36
             ],
             [
-              677263.753109436,
-              6586808.448947658
+              677283.12,
+              6586798.16
             ],
             [
-              677267.1416633063,
-              6586811.050291421
+              677283.12,
+              6586794.32
+            ],
+            [
+              677281.36,
+              6586790.64
+            ],
+            [
+              677278.8,
+              6586787.76
+            ],
+            [
+              677275.44,
+              6586785.84
+            ],
+            [
+              677272.08,
+              6586785.52
+            ],
+            [
+              677269.36,
+              6586786.8
+            ],
+            [
+              677266.96,
+              6586789.04
+            ],
+            [
+              677266,
+              6586792.08
+            ],
+            [
+              677264.24,
+              6586794.48
+            ],
+            [
+              677260.88,
+              6586796.88
+            ],
+            [
+              677258,
+              6586799.44
+            ],
+            [
+              677256.08,
+              6586802.48
+            ],
+            [
+              677255.12,
+              6586805.36
+            ],
+            [
+              677255.28,
+              6586807.92
             ]
           ]
         ]
@@ -1043,66 +1165,108 @@
       "properties": {
         "kind": "green",
         "hole": 5,
-        "sourceId": "lidingo-osm-2026-09-07",
-        "sourceFeatureId": "way/296422971",
-        "sourceVersion": "1",
-        "sourceTimestamp": "2014-08-07T09:57:16Z",
-        "observedYear": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "unchanged-osm-source-ring",
-        "associationStatus": "gross-source-image-and-guide-corroboration",
-        "geometryReview": "Preserved supplementary OSM geometry; not upgraded to orthophoto precision or survey authority.",
-        "licence": "ODbL-1.0",
-        "areaSquareMetres": 499.61
+        "method": "manual-image-putting-cut-digitization",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 370.11,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677434.9327300081,
-              6586220.51769788
+              677424.88,
+              6586238
             ],
             [
-              677425.3043919005,
-              6586224.024651598
+              677427.44,
+              6586240.88
             ],
             [
-              677423.362619417,
-              6586232.77723478
+              677430.64,
+              6586242.32
             ],
             [
-              677425.8052660413,
-              6586239.293336779
+              677434.32,
+              6586242.32
             ],
             [
-              677433.6693635243,
-              6586240.878201616
+              677437.84,
+              6586241.2
             ],
             [
-              677444.1261570862,
-              6586239.239149685
+              677441.04,
+              6586239.28
             ],
             [
-              677449.8683792478,
-              6586234.021883306
+              677443.76,
+              6586236.88
             ],
             [
-              677451.7757934886,
-              6586225.88107199
+              677446.16,
+              6586233.36
             ],
             [
-              677449.9266377229,
-              6586219.693933701
+              677448.08,
+              6586229.84
             ],
             [
-              677446.4035791892,
-              6586216.796179687
+              677449.2,
+              6586225.68
             ],
             [
-              677434.9327300081,
-              6586220.51769788
+              677448.4,
+              6586222.32
+            ],
+            [
+              677446,
+              6586220.4
+            ],
+            [
+              677442.8,
+              6586219.92
+            ],
+            [
+              677439.76,
+              6586221.52
+            ],
+            [
+              677435.92,
+              6586222.96
+            ],
+            [
+              677432.08,
+              6586224.08
+            ],
+            [
+              677429.36,
+              6586226
+            ],
+            [
+              677427.28,
+              6586229.2
+            ],
+            [
+              677425.68,
+              6586232.4
+            ],
+            [
+              677424.72,
+              6586235.28
+            ],
+            [
+              677424.88,
+              6586238
             ]
           ]
         ]
@@ -1114,70 +1278,120 @@
       "properties": {
         "kind": "green",
         "hole": 8,
-        "sourceId": "lidingo-osm-2026-09-07",
-        "sourceFeatureId": "way/296422974",
-        "sourceVersion": "1",
-        "sourceTimestamp": "2014-08-07T09:57:16Z",
-        "observedYear": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "unchanged-osm-source-ring",
-        "associationStatus": "gross-source-image-and-guide-corroboration",
-        "geometryReview": "Preserved supplementary OSM geometry; not upgraded to orthophoto precision or survey authority.",
-        "licence": "ODbL-1.0",
-        "areaSquareMetres": 355.34
+        "method": "manual-image-putting-cut-digitization",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 376.13,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677525.4549424765,
-              6586385.975938539
+              677530.8,
+              6586405.04
             ],
             [
-              677525.4332188616,
-              6586392.978563799
+              677533.2,
+              6586407.6
             ],
             [
-              677529.0048941954,
-              6586401.376776308
+              677536.08,
+              6586408.4
             ],
             [
-              677532.7621628745,
-              6586405.824645631
+              677539.12,
+              6586407.28
             ],
             [
-              677536.7253555376,
-              6586406.010862244
+              677542,
+              6586405.36
             ],
             [
-              677541.3389617514,
-              6586405.313155698
+              677545.2,
+              6586403.6
             ],
             [
-              677546.6543020551,
-              6586402.518338249
+              677547.92,
+              6586401.36
             ],
             [
-              677549.2390859864,
-              6586399.584064964
+              677549.36,
+              6586398.8
             ],
             [
-              677549.482755009,
-              6586394.398539944
+              677549.52,
+              6586395.92
             ],
             [
-              677545.9678604763,
-              6586391.211100903
+              677547.92,
+              6586393.2
             ],
             [
-              677531.8827552227,
-              6586385.664569898
+              677545.2,
+              6586391.44
             ],
             [
-              677525.4549424765,
-              6586385.975938539
+              677541.36,
+              6586390.48
+            ],
+            [
+              677537.52,
+              6586389.84
+            ],
+            [
+              677534,
+              6586387.92
+            ],
+            [
+              677530.48,
+              6586385.68
+            ],
+            [
+              677527.6,
+              6586384.72
+            ],
+            [
+              677524.88,
+              6586385.36
+            ],
+            [
+              677523.28,
+              6586387.28
+            ],
+            [
+              677522.8,
+              6586389.84
+            ],
+            [
+              677523.76,
+              6586392.88
+            ],
+            [
+              677526,
+              6586395.76
+            ],
+            [
+              677528.4,
+              6586398.8
+            ],
+            [
+              677529.68,
+              6586401.84
+            ],
+            [
+              677530.8,
+              6586405.04
             ]
           ]
         ]
@@ -3078,82 +3292,120 @@
       "properties": {
         "kind": "green",
         "hole": 16,
-        "sourceId": "lidingo-osm-2026-09-07",
-        "sourceFeatureId": "way/427426825",
-        "sourceVersion": "1",
-        "sourceTimestamp": "2016-06-26T16:05:41Z",
-        "observedYear": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "unchanged-osm-source-ring",
-        "associationStatus": "gross-source-image-and-guide-corroboration",
-        "geometryReview": "Preserved supplementary OSM geometry; not upgraded to orthophoto precision or survey authority.",
-        "licence": "ODbL-1.0",
-        "areaSquareMetres": 561.69
+        "method": "manual-image-putting-cut-digitization",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 386.53,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677790.0132257093,
-              6586661.4322990645
+              677769.84,
+              6586680.56
             ],
             [
-              677782.8152177902,
-              6586658.651213494
+              677773.04,
+              6586682.16
             ],
             [
-              677773.5370914737,
-              6586661.259222783
+              677776.24,
+              6586683.92
             ],
             [
-              677769.0297826729,
-              6586666.232983492
+              677779.12,
+              6586685.84
             ],
             [
-              677764.4512785875,
-              6586672.720119114
+              677782.16,
+              6586686.8
             ],
             [
-              677765.4086676425,
-              6586678.252124267
+              677784.88,
+              6586686.64
             ],
             [
-              677775.6073848193,
-              6586682.077716053
+              677787.12,
+              6586684.88
             ],
             [
-              677779.7625499285,
-              6586691.117058203
+              677787.76,
+              6586682.32
             ],
             [
-              677786.3541596638,
-              6586692.152142864
+              677787.6,
+              6586678.96
             ],
             [
-              677788.15533284,
-              6586687.854025754
+              677787.92,
+              6586675.44
             ],
             [
-              677786.7976883212,
-              6586682.7269669175
+              677789.36,
+              6586672.4
             ],
             [
-              677787.3845080128,
-              6586676.665393834
+              677790.96,
+              6586668.88
             ],
             [
-              677791.3555527207,
-              6586670.149697287
+              677791.92,
+              6586665.52
             ],
             [
-              677791.891501926,
-              6586665.290185323
+              677791.28,
+              6586662.48
             ],
             [
-              677790.0132257093,
-              6586661.4322990645
+              677789.2,
+              6586660.72
+            ],
+            [
+              677786.16,
+              6586660.4
+            ],
+            [
+              677782.96,
+              6586661.68
+            ],
+            [
+              677779.6,
+              6586663.76
+            ],
+            [
+              677776.56,
+              6586666
+            ],
+            [
+              677773.84,
+              6586668.56
+            ],
+            [
+              677771.6,
+              6586671.76
+            ],
+            [
+              677769.68,
+              6586675.12
+            ],
+            [
+              677769.2,
+              6586677.84
+            ],
+            [
+              677769.84,
+              6586680.56
             ]
           ]
         ]
@@ -3271,78 +3523,116 @@
       "properties": {
         "kind": "green",
         "hole": 17,
-        "sourceId": "lidingo-osm-2026-09-07",
-        "sourceFeatureId": "way/427426867",
-        "sourceVersion": "1",
-        "sourceTimestamp": "2016-06-26T16:05:43Z",
-        "observedYear": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "unchanged-osm-source-ring",
-        "associationStatus": "gross-source-image-and-guide-corroboration",
-        "geometryReview": "Preserved supplementary OSM geometry; not upgraded to orthophoto precision or survey authority.",
-        "licence": "ODbL-1.0",
-        "areaSquareMetres": 780.17
+        "method": "manual-image-putting-cut-digitization",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 420.58,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              678061.8979376261,
-              6586588.786796388
+              678055.76,
+              6586600.56
             ],
             [
-              678053.3554015257,
-              6586588.696471899
+              678058.8,
+              6586603.6
             ],
             [
-              678050.1169638578,
-              6586594.265039979
+              678062.48,
+              6586605.68
             ],
             [
-              678051.6677928141,
-              6586605.066738875
+              678066,
+              6586608.08
             ],
             [
-              678060.3245073665,
-              6586609.132700036
+              678069.68,
+              6586610.16
             ],
             [
-              678068.8342502748,
-              6586611.6081131175
+              678073.2,
+              6586611.12
             ],
             [
-              678077.4286628624,
-              6586615.425826095
+              678076.88,
+              6586610.96
             ],
             [
-              678086.5786475112,
-              6586615.544841345
+              678080.56,
+              6586609.84
             ],
             [
-              678094.2638491075,
-              6586607.988885163
+              678083.44,
+              6586607.92
             ],
             [
-              678092.7475042066,
-              6586602.976888974
+              678085.2,
+              6586604.88
             ],
             [
-              678078.4320074987,
-              6586594.138555766
+              678085.2,
+              6586601.84
             ],
             [
-              678071.7856176993,
-              6586592.33087115
+              678083.6,
+              6586598.96
             ],
             [
-              678068.2763030498,
-              6586589.3996754605
+              678081.04,
+              6586597.36
             ],
             [
-              678061.8979376261,
-              6586588.786796388
+              678077.84,
+              6586595.92
+            ],
+            [
+              678074.48,
+              6586594.64
+            ],
+            [
+              678071.12,
+              6586593.36
+            ],
+            [
+              678067.44,
+              6586590.96
+            ],
+            [
+              678063.76,
+              6586589.68
+            ],
+            [
+              678060.88,
+              6586589.84
+            ],
+            [
+              678058.32,
+              6586591.44
+            ],
+            [
+              678056.56,
+              6586594
+            ],
+            [
+              678055.44,
+              6586597.04
+            ],
+            [
+              678055.76,
+              6586600.56
             ]
           ]
         ]
@@ -3624,90 +3914,120 @@
       "properties": {
         "kind": "green",
         "hole": 11,
-        "sourceId": "lidingo-osm-2026-09-07",
-        "sourceFeatureId": "way/427429853",
-        "sourceVersion": "1",
-        "sourceTimestamp": "2016-06-26T16:10:05Z",
-        "observedYear": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "unchanged-osm-source-ring",
-        "associationStatus": "gross-source-image-and-guide-corroboration",
-        "geometryReview": "Preserved supplementary OSM geometry; not upgraded to orthophoto precision or survey authority.",
-        "licence": "ODbL-1.0",
-        "areaSquareMetres": 555.84
+        "method": "manual-image-putting-cut-digitization",
+        "interpretationUncertaintyMetres": 2,
+        "registrationAccuracy": "not independently checked",
+        "areaSquareMetres": 380.7,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677200.8219519206,
-              6586946.528045563
+              677178.64,
+              6586961.36
             ],
             [
-              677203.7794472503,
-              6586943.276488845
+              677181.2,
+              6586963.28
             ],
             [
-              677203.7353746326,
-              6586937.787511574
+              677184.08,
+              6586963.44
             ],
             [
-              677202.4343690437,
-              6586931.681961894
+              677187.12,
+              6586961.84
             ],
             [
-              677198.4511898702,
-              6586933.268331831
+              677189.84,
+              6586959.44
             ],
             [
-              677188.4735114446,
-              6586936.502876077
+              677191.76,
+              6586955.92
             ],
             [
-              677179.8621935577,
-              6586944.329343886
+              677193.04,
+              6586951.76
             ],
             [
-              677180.8118980665,
-              6586950.161905425
+              677193.36,
+              6586948.24
             ],
             [
-              677180.5979128907,
-              6586954.72429238
+              677195.12,
+              6586944.56
             ],
             [
-              677178.778845351,
-              6586962.211353772
+              677196.88,
+              6586941.84
             ],
             [
-              677179.1925993299,
-              6586966.490919789
+              677197.84,
+              6586938.64
             ],
             [
-              677184.9270952378,
-              6586966.503380845
+              677196.56,
+              6586935.92
             ],
             [
-              677191.8758716101,
-              6586962.825649022
+              677193.68,
+              6586934.64
             ],
             [
-              677197.423799437,
-              6586960.387033732
+              677190.48,
+              6586935.44
             ],
             [
-              677197.6518983957,
-              6586955.5241975505
+              677187.76,
+              6586936.88
             ],
             [
-              677197.8518111275,
-              6586951.262261054
+              677185.04,
+              6586938.96
             ],
             [
-              677200.8219519206,
-              6586946.528045563
+              677182,
+              6586940.88
+            ],
+            [
+              677179.28,
+              6586941.84
+            ],
+            [
+              677177.2,
+              6586943.92
+            ],
+            [
+              677176.4,
+              6586946.64
+            ],
+            [
+              677177.2,
+              6586950.32
+            ],
+            [
+              677178.64,
+              6586953.52
+            ],
+            [
+              677178.64,
+              6586956.88
+            ],
+            [
+              677178.64,
+              6586961.36
             ]
           ]
         ]
@@ -6879,86 +7199,128 @@
       "properties": {
         "kind": "green",
         "hole": 10,
-        "sourceId": "imagery-municipal-2019",
-        "observedYear": 2019,
-        "captureDate": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "manual-image-boundary-digitization",
-        "sourcePixelTrace": "lidingo-green-10-ortho2019",
+        "method": "manual-image-putting-cut-digitization",
         "interpretationUncertaintyMetres": 2,
         "registrationAccuracy": "not independently checked",
-        "note": "Actual visible maintained green east of the displaced OSM green10 ring; eastern sand edge used only to distinguish the neighboring bunker.",
-        "licence": "CC0-1.0",
-        "areaSquareMetres": 625.84
+        "areaSquareMetres": 504.42,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677252.465,
-              6586686.465
+              677254.64,
+              6586683.44
             ],
             [
-              677258.004,
-              6586685.714
+              677257.04,
+              6586685.2
             ],
             [
-              677262.634,
-              6586682.92
+              677260.24,
+              6586685.36
             ],
             [
-              677271.148,
-              6586682.804
+              677263.6,
+              6586683.44
             ],
             [
-              677277.3,
-              6586679.577
+              677267.28,
+              6586682
             ],
             [
-              677280.544,
-              6586674.218
+              677271.12,
+              6586681.36
             ],
             [
-              677281.269,
-              6586669.246
+              677274.8,
+              6586680.08
             ],
             [
-              677278.929,
-              6586665.637
+              677277.52,
+              6586677.36
             ],
             [
-              677274.547,
-              6586662.937
+              677278.96,
+              6586674.48
             ],
             [
-              677269.687,
-              6586659.715
+              677278.8,
+              6586671.44
             ],
             [
-              677263.738,
-              6586658.445
+              677277.04,
+              6586668.4
             ],
             [
-              677258.176,
-              6586659.696
+              677275.44,
+              6586665.36
             ],
             [
-              677254.023,
-              6586663.012
+              677274,
+              6586661.68
             ],
             [
-              677251.278,
-              6586668.394
+              677273.04,
+              6586658
             ],
             [
-              677250.395,
-              6586676.862
+              677271.44,
+              6586654.96
             ],
             [
-              677252.465,
-              6586686.465
+              677269.2,
+              6586653.04
+            ],
+            [
+              677266.32,
+              6586652.56
+            ],
+            [
+              677264.08,
+              6586654.16
+            ],
+            [
+              677262.32,
+              6586657.04
+            ],
+            [
+              677261.52,
+              6586660.88
+            ],
+            [
+              677260.24,
+              6586664.88
+            ],
+            [
+              677258.8,
+              6586668.56
+            ],
+            [
+              677256.72,
+              6586672.24
+            ],
+            [
+              677254.96,
+              6586675.76
+            ],
+            [
+              677253.68,
+              6586679.44
+            ],
+            [
+              677254.64,
+              6586683.44
             ]
           ]
         ]
@@ -6970,86 +7332,124 @@
       "properties": {
         "kind": "green",
         "hole": 1,
-        "sourceId": "imagery-municipal-2019",
-        "observedYear": 2019,
-        "captureDate": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "manual-image-boundary-digitization",
-        "sourcePixelTrace": "lidingo-green-01-ortho2019",
+        "method": "manual-image-putting-cut-digitization",
         "interpretationUncertaintyMetres": 2,
         "registrationAccuracy": "not independently checked",
-        "note": "Dormant-season mowing boundary is low contrast. Guide used only to identify the green, not to supply its coordinates.",
-        "licence": "CC0-1.0",
-        "areaSquareMetres": 572.49
+        "areaSquareMetres": 441.78,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677711.52,
-              6586273.736
+              677707.92,
+              6586269.84
             ],
             [
-              677716.492,
-              6586274.46
+              677709.84,
+              6586271.92
             ],
             [
-              677720.601,
-              6586272.143
+              677712.88,
+              6586272.72
             ],
             [
-              677723.346,
-              6586266.761
+              677715.6,
+              6586271.92
             ],
             [
-              677727.09,
-              6586261.425
+              677717.52,
+              6586269.68
             ],
             [
-              677730.38,
-              6586255.067
+              677719.44,
+              6586266.48
             ],
             [
-              677730.264,
-              6586246.553
+              677722.64,
+              6586263.44
             ],
             [
-              677727.515,
-              6586240.923
+              677725.68,
+              6586259.92
             ],
             [
-              677722.133,
-              6586238.178
+              677728.24,
+              6586255.92
             ],
             [
-              677717.57,
-              6586239.474
+              677730,
+              6586251.92
             ],
             [
-              677714.37,
-              6586243.834
+              677730,
+              6586248.08
             ],
             [
-              677711.602,
-              6586249.715
+              677728.56,
+              6586244.4
             ],
             [
-              677708.2,
-              6586258.571
+              677726.32,
+              6586241.84
             ],
             [
-              677707.385,
-              6586265.541
+              677723.44,
+              6586240.08
             ],
             [
-              677708.636,
-              6586271.103
+              677720.56,
+              6586238.96
             ],
             [
-              677711.52,
-              6586273.736
+              677718,
+              6586240.24
+            ],
+            [
+              677716.08,
+              6586242.8
+            ],
+            [
+              677715.12,
+              6586246.48
+            ],
+            [
+              677714.32,
+              6586250.48
+            ],
+            [
+              677712.56,
+              6586254
+            ],
+            [
+              677710.48,
+              6586257.2
+            ],
+            [
+              677708.72,
+              6586260.56
+            ],
+            [
+              677707.6,
+              6586264.4
+            ],
+            [
+              677707.28,
+              6586267.28
+            ],
+            [
+              677707.92,
+              6586269.84
             ]
           ]
         ]
@@ -7156,82 +7556,124 @@
       "properties": {
         "kind": "green",
         "hole": 6,
-        "sourceId": "imagery-municipal-2019",
-        "observedYear": 2019,
-        "captureDate": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "manual-image-boundary-digitization",
-        "sourcePixelTrace": "lidingo-green-06-ortho2019",
+        "method": "manual-image-putting-cut-digitization",
         "interpretationUncertaintyMetres": 2,
         "registrationAccuracy": "not independently checked",
-        "note": "Visible kidney-shaped maintained green south of the small bunker; apron not intentionally included.",
-        "licence": "CC0-1.0",
-        "areaSquareMetres": 535.87
+        "areaSquareMetres": 499.12,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677599.442,
-              6586106.518
+              677597.2,
+              6586102.64
             ],
             [
-              677606.345,
-              6586108.832
+              677599.92,
+              6586105.36
             ],
             [
-              677610.431,
-              6586107.014
+              677603.28,
+              6586106.16
             ],
             [
-              677617.923,
-              6586107.352
+              677607.12,
+              6586105.68
             ],
             [
-              677624.484,
-              6586106.146
+              677610.8,
+              6586104.72
             ],
             [
-              677626.662,
-              6586102.24
+              677614.64,
+              6586105.52
             ],
             [
-              677625.434,
-              6586096.179
+              677618.64,
+              6586108.08
             ],
             [
-              677620.709,
-              6586089.96
+              677622,
+              6586109.52
             ],
             [
-              677614.396,
-              6586085.671
+              677624.88,
+              6586109.36
             ],
             [
-              677607.858,
-              6586086.377
+              677626.96,
+              6586107.44
             ],
             [
-              677602.705,
-              6586089.648
+              677628.24,
+              6586104.56
             ],
             [
-              677597.62,
-              6586091.421
+              677628.24,
+              6586101.04
             ],
             [
-              677594.943,
-              6586095.304
+              677626.8,
+              6586097.68
             ],
             [
-              677595.671,
-              6586101.343
+              677624.4,
+              6586094.48
             ],
             [
-              677599.442,
-              6586106.518
+              677621.68,
+              6586091.12
+            ],
+            [
+              677618.64,
+              6586088.08
+            ],
+            [
+              677615.44,
+              6586086.32
+            ],
+            [
+              677611.92,
+              6586086.32
+            ],
+            [
+              677608.24,
+              6586087.92
+            ],
+            [
+              677604.4,
+              6586090.16
+            ],
+            [
+              677600.72,
+              6586092.24
+            ],
+            [
+              677598,
+              6586094.8
+            ],
+            [
+              677596.4,
+              6586097.52
+            ],
+            [
+              677596.08,
+              6586100.24
+            ],
+            [
+              677597.2,
+              6586102.64
             ]
           ]
         ]
@@ -7243,78 +7685,112 @@
       "properties": {
         "kind": "green",
         "hole": 7,
-        "sourceId": "imagery-municipal-2019",
-        "observedYear": 2019,
-        "captureDate": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "manual-image-boundary-digitization",
-        "sourcePixelTrace": "lidingo-green-07-ortho2019",
+        "method": "manual-image-putting-cut-digitization",
         "interpretationUncertaintyMetres": 2,
         "registrationAccuracy": "not independently checked",
-        "note": "Visible elongated green west of two sand bunkers; no bunker or apron vertices adopted as green.",
-        "licence": "CC0-1.0",
-        "areaSquareMetres": 411.86
+        "areaSquareMetres": 326.39,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677371.201,
-              6586228.857
+              677373.2,
+              6586228.4
             ],
             [
-              677376.106,
-              6586231.081
+              677375.44,
+              6586230.48
             ],
             [
-              677382.077,
-              6586231.85
+              677378.16,
+              6586230.8
             ],
             [
-              677385.686,
-              6586229.511
+              677380.56,
+              6586229.36
             ],
             [
-              677385.979,
-              6586223.017
+              677382,
+              6586226.32
             ],
             [
-              677384.639,
-              6586219.453
+              677382.96,
+              6586222.96
             ],
             [
-              677384.432,
-              6586212.938
+              677384.72,
+              6586220.08
             ],
             [
-              677382.727,
-              6586206.354
+              677386.64,
+              6586217.68
             ],
             [
-              677378.434,
-              6586201.656
+              677387.76,
+              6586214.64
             ],
             [
-              677373.394,
-              6586202.43
+              677387.92,
+              6586210.96
             ],
             [
-              677370.694,
-              6586206.813
+              677387.12,
+              6586207.28
             ],
             [
-              677368.858,
-              6586214.237
+              677385.2,
+              6586204.24
             ],
             [
-              677367.998,
-              6586222.206
+              677382.32,
+              6586202.16
             ],
             [
-              677371.201,
-              6586228.857
+              677378.8,
+              6586202
+            ],
+            [
+              677376.08,
+              6586203.44
+            ],
+            [
+              677374.64,
+              6586206.16
+            ],
+            [
+              677373.68,
+              6586210
+            ],
+            [
+              677373.36,
+              6586213.84
+            ],
+            [
+              677372.72,
+              6586217.36
+            ],
+            [
+              677372.24,
+              6586221.52
+            ],
+            [
+              677371.92,
+              6586225.52
+            ],
+            [
+              677373.2,
+              6586228.4
             ]
           ]
         ]
@@ -7326,74 +7802,116 @@
       "properties": {
         "kind": "green",
         "hole": 12,
-        "sourceId": "imagery-municipal-2019",
-        "observedYear": 2019,
-        "captureDate": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "manual-image-boundary-digitization",
-        "sourcePixelTrace": "lidingo-green-12-ortho2019",
+        "method": "manual-image-putting-cut-digitization",
         "interpretationUncertaintyMetres": 2,
         "registrationAccuracy": "not independently checked",
-        "note": "Green at the eastern end of hole12. Route endpoint lies toward the approach; it was not used as a polygon centre.",
-        "licence": "CC0-1.0",
-        "areaSquareMetres": 324.62
+        "areaSquareMetres": 439.74,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677577.6,
-              6586812.742
+              677564.56,
+              6586792.88
             ],
             [
-              677583.572,
-              6586813.511
+              677567.6,
+              6586796.56
             ],
             [
-              677587.181,
-              6586811.172
+              677571.44,
+              6586800.24
             ],
             [
-              677590.403,
-              6586806.312
+              677574.64,
+              6586803.76
             ],
             [
-              677591.74,
-              6586798.865
+              677577.68,
+              6586807.12
             ],
             [
-              677588.491,
-              6586793.213
+              677580.4,
+              6586808.88
             ],
             [
-              677585.107,
-              6586790.558
+              677583.12,
+              6586809.04
             ],
             [
-              677581.157,
-              6586789.378
+              677585.68,
+              6586806.8
             ],
             [
-              677578.092,
-              6586790.742
+              677587.6,
+              6586803.44
             ],
             [
-              677575.392,
-              6586795.124
+              677588.4,
+              6586799.76
             ],
             [
-              677573.646,
-              6586800.551
+              677589.04,
+              6586795.76
             ],
             [
-              677573.875,
-              6586806.567
+              677590,
+              6586791.44
             ],
             [
-              677577.6,
-              6586812.742
+              677589.52,
+              6586787.6
+            ],
+            [
+              677587.28,
+              6586784.88
+            ],
+            [
+              677584.4,
+              6586783.44
+            ],
+            [
+              677581.04,
+              6586783.28
+            ],
+            [
+              677577.84,
+              6586784.4
+            ],
+            [
+              677574.48,
+              6586785.68
+            ],
+            [
+              677571.76,
+              6586786.64
+            ],
+            [
+              677568.56,
+              6586786.8
+            ],
+            [
+              677565.68,
+              6586788.56
+            ],
+            [
+              677563.6,
+              6586790
+            ],
+            [
+              677564.56,
+              6586792.88
             ]
           ]
         ]
@@ -7405,94 +7923,128 @@
       "properties": {
         "kind": "green",
         "hole": 14,
-        "sourceId": "imagery-municipal-2019",
-        "observedYear": 2019,
-        "captureDate": null,
+        "sourceId": "imagery-lm-ortho",
+        "observedYear": 2025,
+        "captureDate": "2025-05-31",
+        "sourceImageSha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+        "sourceReview": "lidingobuild/mapping/putting-cuts-2025.json",
         "reviewStatus": "machine-visual-review",
         "notSurveyed": true,
-        "method": "manual-image-boundary-digitization",
-        "sourcePixelTrace": "lidingo-green-14-ortho2019",
+        "method": "manual-image-putting-cut-digitization",
         "interpretationUncertaintyMetres": 2,
         "registrationAccuracy": "not independently checked",
-        "note": "Visible diagonal maintained green below the path near Trolldalsvägen. Current mowing/edge needs newer imagery review.",
-        "licence": "CC0-1.0",
-        "areaSquareMetres": 390.87
+        "areaSquareMetres": 480.28,
+        "geometryReview": "Visible putting cut digitized by visual review in the unwarped 2025 source; fringe and apron excluded. Interpretation uncertainty is not registration accuracy.",
+        "licence": "CC-BY-4.0",
+        "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              677566.569,
-              6586691.123
+              677546.32,
+              6586683.28
             ],
             [
-              677571.996,
-              6586692.869
+              677548.24,
+              6586685.68
             ],
             [
-              677576.536,
-              6586692.073
+              677551.44,
+              6586687.76
             ],
             [
-              677580.123,
-              6586690.232
+              677554.8,
+              6586688.4
             ],
             [
-              677582.323,
-              6586685.827
+              677558.64,
+              6586688.24
             ],
             [
-              677581.527,
-              6586681.287
+              677562.32,
+              6586689.04
             ],
             [
-              677577.167,
-              6586678.087
+              677565.68,
+              6586690.64
             ],
             [
-              677573.284,
-              6586675.409
+              677569.36,
+              6586692.24
             ],
             [
-              677567.38,
-              6586673.141
+              677573.2,
+              6586692.72
             ],
             [
-              677563.542,
-              6586669.465
+              677576.24,
+              6586691.12
             ],
             [
-              677558.615,
-              6586667.741
+              677578.48,
+              6586688.24
             ],
             [
-              677555.028,
-              6586669.581
+              677579.92,
+              6586685.2
             ],
             [
-              677553.349,
-              6586673.509
+              677579.92,
+              6586681.84
             ],
             [
-              677555.667,
-              6586677.618
+              677578.32,
+              6586678.8
             ],
             [
-              677559.028,
-              6586680.773
+              677575.44,
+              6586677.04
             ],
             [
-              677562.889,
-              6586683.95
+              677572.08,
+              6586676.24
             ],
             [
-              677565.228,
-              6586687.559
+              677568.4,
+              6586675.76
             ],
             [
-              677566.569,
-              6586691.123
+              677565.04,
+              6586674.96
+            ],
+            [
+              677561.36,
+              6586673.36
+            ],
+            [
+              677557.68,
+              6586672.4
+            ],
+            [
+              677553.84,
+              6586672.4
+            ],
+            [
+              677550.48,
+              6586673.36
+            ],
+            [
+              677548.24,
+              6586675.12
+            ],
+            [
+              677546.48,
+              6586677.68
+            ],
+            [
+              677545.84,
+              6586680.56
+            ],
+            [
+              677546.32,
+              6586683.28
             ]
           ]
         ]

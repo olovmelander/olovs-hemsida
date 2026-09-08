@@ -197,3 +197,9 @@ report['teeDecks2025']=({'sourceCapture':decks['sourceCapture'],
 report['refinementRound']={'previousOutputSha256':refinements['previousOutputSha256'],'newTraceCount':len(refinements['traces']),'rejectedTraceIds':[t['id'] for t in refinements.get('rejectedTraces',[])],'osmBunkerAssociations':refinements['osmBunkerHoleAssociations'],'sourceGeometryEpoch':2019,'laterMowingOrBunkerChangesAdopted':bool(additions and additions['features'])}
 (OUT/'playing-surfaces-review.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
 print(json.dumps({k:report[k] for k in ['counts','holesWithGreen','holesWithAssociatedTee','sourceTraceCount']}))
+
+# Apply dated, exact-original-guarded reviews after compiling the historical
+# intake. A full cache rebuild must not restore superseded putting cuts.
+import subprocess
+import sys
+subprocess.run([sys.executable, str(OUT / 'apply-putting-cuts.py')], check=True)

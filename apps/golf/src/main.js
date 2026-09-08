@@ -960,10 +960,17 @@ let groundAtlas = null;
 /* the indexed queries return what ringSD and distToLine return, without
    walking every edge of a 378-vertex forest ring for every point (ring-index.mjs) */
 const classifyAnalytic = createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distToLine, smooth });
+const approaches = (M.scenery.mappedFeatures || []).filter(f => f.kind === 'mown_approach');
 const classify = (x, z) => {
   if (!groundAtlas?.contains(x, z)) {
     const c = classifyAnalytic(x, z);
-    if (SCENERY?.canopyFloor && coverAt(x, z) === 3) {
+    const mownApproach = approaches.some(f => ringSD(x, z, f.rings[0], 0) <= 0 &&
+      !f.rings.slice(1).some(r => ringSD(x, z, r, 0) <= 0));
+    if (mownApproach) {
+      c.fair = Math.max(c.fair, 0.35); // same semi-rough weight as the atlas
+      c.forest = 0;
+    }
+    if (!mownApproach && SCENERY?.canopyFloor && coverAt(x, z) === 3) {
       c.forest = Math.max(c.forest, 1 - Math.max(c.green, c.fringe, c.tee, c.fair, c.sand, c.path, c.wet));
     }
     return c;
@@ -2705,6 +2712,9 @@ if (legacySurfaceOverlays) {
     }
   }
   const quietFair = shadeFair(null);
+  for (const feature of approaches) {
+    semi.push({ rings: feature.rings, shade: shadeSemi(HOLES.find(h => h.n === feature.hole)) });
+  }
   const sceneryFairShade = (x, z) => ({ ...quietFair(x, z), str: 0.35, mowK: 0 });
   for (const ring of M.scenery.fairways.concat(M.scenery.range)) {
     fair.push({ ring, shade: sceneryFairShade });
@@ -2728,6 +2738,7 @@ if (legacySurfaceOverlays) {
 {
   const groups = new Map();
   for (const feature of M.scenery.mappedFeatures || []) {
+    if (feature.kind === 'mown_approach') continue; // drawn at the semi-rough tier above
     if (!feature.rings?.[0]?.length) continue;
     const pathSurface = mappedPathSurface(feature);
     const inAtlas = pathSurface !== null || feature.kind === 'practice_green' || feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' || (feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface');
@@ -8997,6 +9008,15 @@ miniBase.width = mini.width; miniBase.height = mini.height;
   for (const r of M.veg.forest.concat(M.veg.wood)) { path2(r, true); g.fill(); }
   g.fillStyle = 'rgba(38,88,116,.95)';
   for (const w of M.water) { if (w.area < 400) continue; path2(w.ring, true); g.fill(); }
+  g.fillStyle = 'rgba(68,111,62,.9)';
+  for (const feature of approaches) {
+    g.beginPath();
+    for (const ring of feature.rings) {
+      ring.forEach((p, i) => i ? g.lineTo(MX(p[0]), MZ(p[1])) : g.moveTo(MX(p[0]), MZ(p[1])));
+      g.closePath();
+    }
+    g.fill('evenodd');
+  }
   g.fillStyle = 'rgba(84,140,78,.9)';
   for (const h of HOLES) { for (const r of h.fairway.rings) { path2(r, true); g.fill(); } }
   for (const r of M.scenery.fairways) { path2(r, true); g.fill(); }

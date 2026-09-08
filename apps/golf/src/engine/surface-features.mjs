@@ -87,7 +87,8 @@ export function buildGroundSurfaceFeatures({
   // These are complete polygons, not independent outer rings: an interior island
   // must remain excluded from the putting turf in the atlas and v2 compiler.
   for (const feature of scenery.mappedFeatures || []) {
-    const surface = feature.kind === 'practice_green' ? SURFACE.GREEN
+    const surface = feature.kind === 'mown_approach' ? SURFACE.SEMI
+      : feature.kind === 'practice_green' ? SURFACE.GREEN
       : feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' ? SURFACE.SAND
         : feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface' ? SURFACE.TEE : null;
     if (surface !== null && validRings(feature.rings).length) {

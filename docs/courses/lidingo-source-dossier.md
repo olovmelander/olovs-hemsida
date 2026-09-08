@@ -1,5 +1,7 @@
 # Lidingö Golfklubb — source dossier
 
+**Later same-day update:** [the alignment review](lidingo-alignment-2025-review.md) adopts 14 manually interpreted putting cuts and six mown approaches, fixes the runtime GPS/tee frame, and documents the retained environment. The automated tracing refusals and earlier measurements below remain historical evidence; they are not the newly adopted source geometry.
+
 The club-reference intake is [`lidingo-source-research.md`](lidingo-source-research.md)
 and it still stands: 128 retrieved assets, the official card, the guide sheets,
 the dated planning documents and what each of them may and may not be used for.

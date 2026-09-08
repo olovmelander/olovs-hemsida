@@ -5,6 +5,9 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import fs from 'node:fs';
+import { applyReviewedSurfaces, applyReviewedApproaches } from './apply-reviewed-surfaces.mjs';
+import { openPublishedGround, createPublishedGroundLookup } from '../packages/course-v2/published-ground-lookup.mjs';
 import { centroid, pointInPoly, polyArea, polyLen, quantizeHF } from '../geobuild/lib.mjs';
 import { LIDINGO_GROUND_GRAPH_CONFIG as TERRAIN, assertLidingoAcquisition } from '../packages/course-v2/lidingo-ground-graph.mjs';
 
@@ -312,11 +315,18 @@ export async function buildCourse() {
       dx: v.sampleSpacingMetres, ...quantizeHF(vista, v.width, v.height, 0.25) } };
   await write('lidingobuild/card.json', { teeNames: card.tees.map(t => t.name), source: card.source,
     holes: holes.map(h => ({ n: h.n, par: h.par, hcp: h.idx, t: h.t })) });
-  await write('lidingobuild/course-model.json', model);
+  const published = openPublishedGround(fs, path, path.join(ROOT, 'apps/golf/public'), 'lidingo');
+  const lookup = createPublishedGroundLookup(published.ground, published.readAsset);
+  const finalModel = applyReviewedApproaches(applyReviewedSurfaces(model,
+    await json('lidingobuild/mapping/playing-surfaces.geojson'),
+    await json('lidingobuild/mapping/putting-cuts-2025.json'),
+    (x,z) => lookup.heightAt(x + FRAME.easting, FRAME.northing - z)),
+    await json('lidingobuild/mapping/approaches-2025.geojson'));
+  await write('lidingobuild/course-model.json', finalModel);
   await write('lidingobuild/heightfields.json', hf);
   console.log(JSON.stringify({ holes: holes.length, par: card.par, surfaces: surfaces.length, facilities: facilities.length, buildings: infra.buildings.length,
     water: water.length, fineSamples: fine.length, vistaSamples: vista.length }));
-  return model;
+  return finalModel;
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   buildCourse().catch(error => { console.error(error); process.exitCode = 1; });

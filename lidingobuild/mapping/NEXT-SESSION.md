@@ -1,4 +1,12 @@
-# Lidingö 3D mapping handoff — 2026-09-07
+# Lidingö 3D mapping handoff
+
+## Current checkpoint — 2026-09-08
+
+Read [the dated alignment review](../../docs/courses/lidingo-alignment-2025-review.md) before the historical handoff below. Fourteen putting cuts and six par-three approaches now use reviewed May 2025 pixels. GPS, camera and Spelsinne share the exact projected frame and selected-tee route; the canopy raster also supplies forest-floor material. Run `npm run check:lidingo-alignment` for source/pack parity, 90 tee starts, retained model content and both runtime tree populations.
+
+The existing 277-tile ground generation is preserved. The bounded change has a separate runtime placement audit: neither population has a trunk on any green or new approach. Historic stand-input pins were not rewritten to imply recompilation. New raw vegetation compilation must still pass its own source gates. The full source build reapplies the dated cuts; the bounded vector refresh requires no reconstructed raw terrain cache. The four shaded greens and detailed current facilities/equipment remain unapproved.
+
+## Historical handoff — 2026-09-07
 
 The later mapping/placement iteration is documented in the
 [mapping README](README.md). It supersedes the first-pass counts below:

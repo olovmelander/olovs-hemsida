@@ -9,7 +9,7 @@ const manifestPath = path.join(ROOT, 'geo_data/course-v2/lidingo/source-manifest
 const m = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const has = p => fs.existsSync(path.join(ROOT, p));
 const read = p => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
-const lineage = ['terrain-lm-1m', 'water-breaks-lm-1m', 'laser-lm-skog', 'lidingo-osm-2026-09-07', 'imagery-municipal-2019', 'club-scorecard'];
+const lineage = ['terrain-lm-1m', 'water-breaks-lm-1m', 'laser-lm-skog', 'lidingo-osm-2026-09-07', 'imagery-municipal-2019', 'imagery-lm-ortho', 'club-scorecard'];
 if (has('lidingobuild/course-model.json')) {
   const model = read('lidingobuild/course-model.json');
   m.legacyFrame = {
@@ -57,9 +57,12 @@ artifact('water-breakgeometry-review', 'control', base + 'mapping/water-breakgeo
 artifact('terrain-window-acquisition', 'acquisition', base + 'acquisition/terrain-window.json', ['terrain-lm-1m'], 'Exact 1 m lattice, source ETag/bytes, range-read measurements, local Float32 hash and height range. Raw raster is ignored and is not a published v2 graph.');
 artifact('terrain-vista-acquisition', 'acquisition', base + 'mapping/terrain-vista.json', ['terrain-lm-1m'], 'Four source items, 257×257 samples at 32 m over the 8192 m context extent; byte identities and no-data checks.');
 artifact('canopy-raster-acquisition', 'canopy', base + 'vegetation/canopy-evidence.json', ['laser-lm-skog', 'terrain-lm-1m'], '2021 campaign-constrained point-cloud rasters with explicit voids, density, transfer and DTM ground comparison.');
-artifact('canopy-stand-compilation', 'canopy', base + 'vegetation/stand-evidence.json', ['laser-lm-skog', ...lineage], 'Measured 4 m stand fields and semantic exclusions; no individual-tree registry or stem survey.');
-artifact('playing-surface-candidates', 'surface', 'lidingobuild/mapping/playing-surfaces.geojson', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07'], 'Per-feature observed geometry and uncertainty; source polygons and 2019 CC0 image traces; machine review only.');
-artifact('playing-surface-review', 'control', 'lidingobuild/mapping/playing-surfaces-review.json', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07'], 'Per-polygon source, geometry, association and omission review; explicit retained source hashes and unknown registration accuracy.');
+artifact('canopy-stand-compilation', 'canopy', base + 'vegetation/stand-evidence.json', ['laser-lm-skog', ...lineage.filter(id => id !== 'imagery-lm-ortho')], 'Measured 4 m stand fields and semantic exclusions; no individual-tree registry or stem survey.');
+artifact('playing-surface-candidates', 'surface', 'lidingobuild/mapping/playing-surfaces.geojson', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07', 'imagery-lm-ortho'], 'Per-feature observed geometry and uncertainty. Fourteen putting cuts replaced by explicit May 2025 pixel traces; four greens retain earlier boundaries under shadow. Machine visual review only; no independent registration or survey.');
+artifact('playing-surface-review', 'control', 'lidingobuild/mapping/playing-surfaces-review.json', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07', 'imagery-lm-ortho'], 'Per-polygon source, geometry, association and omission review; includes dated 2025 putting-cut adoption and retains the historic review.');
+artifact('putting-cut-pixel-review-2025', 'control', 'lidingobuild/mapping/putting-cuts-2025.json', ['imagery-lm-ortho'], 'Fourteen manually interpreted putting edges with original geometry, exact source pixel vertices and image hash, 2 m interpretation uncertainty, and four explicit omissions. Does not adopt the refused automated green trace.');
+artifact('mown-approach-pixel-review-2025', 'surface', 'lidingobuild/mapping/approaches-2025.geojson', ['imagery-lm-ortho'], 'Visible mown approach footprints on the six par threes. Semi-rough is a display class; mowing height and fairway grade are unmeasured. Explicit source pixels; gaps, ponds and rough retained.');
+artifact('alignment-validation-2025', 'control', 'lidingobuild/mapping/alignment-validation-2025.json', lineage, 'Reproducible checks of adopted cuts, pack parity, projected GPS, tee containment and current runtime vegetation conflicts. This validates software alignment, not survey accuracy or browser performance.');
 artifact('facility-surface-candidates', 'surface', 'lidingobuild/mapping/facilities.geojson', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07'], 'Named practice greens, range field and platforms, courtyard paving with turf island, and observed parking. One runtime owner per physical surface; generic material where unknown.');
 artifact('facility-surface-review', 'control', 'lidingobuild/mapping/facilities-review.json', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07'], 'Source identities, valid polygons, retained interior rings, qualified building clips and pending current facility alterations.');
 artifact('facility-pixel-traces', 'surface', 'lidingobuild/mapping/facility-traces-2019.json', ['imagery-municipal-2019', 'lidingo-osm-2026-09-07'], 'Reproducible source-pixel authoring and explicit OSM facility associations; no invented furniture, bay spacing or tree locations.');
@@ -109,7 +112,7 @@ artifact('bunker-detection-refusal', 'control', 'lidingobuild/mapping/bunker-det
 // Existing immutable acquisition evidence is checked too; don't silently repair
 // checksums on files not generated by this continuation.
 const incomplete = m.blockers.find(b => b.id === 'incomplete-playing-geometry');
-incomplete.description = 'The provisional model uses observed 2019/source polygons; completeness and current 2024–2026 alterations are not independently approved.';
+incomplete.description = 'The provisional model combines observed source/2019 geometry with fourteen reviewed May 2025 putting cuts and six mown approaches. Four shaded greens and remaining facility, bunker and fairway alterations still need independent contemporary review.';
 m.blockers.find(b => b.id === 'vegetation-and-stable-objects-pending').description =
   'Measured 2021 canopy stands, clipped national water and supplementary OSM facilities are acquired. Contemporary stand boundaries, individual large objects and local residuals remain unapproved.';
 if (process.argv.includes('--runtime-validated')) {

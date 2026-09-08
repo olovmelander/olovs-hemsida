@@ -85,6 +85,15 @@ export async function prepareRoutingRebind({ repoRoot = DEFAULT_ROOT, publicDir 
   const frame = migrated.source.localFrame;
   if (frame?.originWgs84?.latitude !== model.origin?.lat || frame?.originWgs84?.longitude !== model.origin?.lon ||
       frame?.metresPerLatitude !== model.mPerLat || frame?.metresPerLongitude !== model.mPerLon) throw new Error('migration and model legacy frames differ');
+  const projectedOrigin = frame.projectedOriginEpsg3006;
+  if (projectedOrigin) {
+    const expected = `local metres from EPSG:3006; east +x, north -z; origin E${projectedOrigin.easting} N${projectedOrigin.northing}; heights RH 2000`;
+    if (![projectedOrigin.easting, projectedOrigin.northing].every(Number.isFinite) || model.frame !== expected) {
+      throw new Error('migration and model projected frames differ');
+    }
+  } else if (model.frame?.startsWith('local metres from EPSG:3006;')) {
+    throw new Error('migration is missing the model projected origin');
+  }
   const sourceHoles = migrated.geometry?.holes || migrated.holes;
   if (!Array.isArray(sourceHoles) || sourceHoles.length !== previousCourse.holes.length || model.holes?.length !== sourceHoles.length) throw new Error('hole count changed; this tool refreshes existing course routing only');
 
@@ -105,7 +114,8 @@ export async function prepareRoutingRebind({ repoRoot = DEFAULT_ROOT, publicDir 
     for (let k = 0; k < local.line.length; k++) {
       if (!finitePoint(local.line[k])) throw new Error(`hole ${hole.n}: invalid local routing point`);
       const [x, z] = local.line[k];
-      const projected = I.latLonToSweref99Tm(model.origin.lat - z / model.mPerLat, model.origin.lon + x / model.mPerLon);
+      const projected = projectedOrigin ? [projectedOrigin.easting + x, projectedOrigin.northing - z]
+        : I.latLonToSweref99Tm(model.origin.lat - z / model.mPerLat, model.origin.lon + x / model.mPerLon);
       if (Math.hypot(projected[0] - hole.line[k][0], projected[1] - hole.line[k][1]) > 0.005) throw new Error(`hole ${hole.n}: migration point ${k} disagrees with the current model projection`);
     }
     return { number: hole.n, par: published.par, strokeIndex: published.strokeIndex, strokeIndexStatus: published.strokeIndexStatus, accuracyTier: published.accuracyTier, line: hole.line.map(point => point.slice(0, 2)) };

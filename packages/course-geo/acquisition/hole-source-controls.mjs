@@ -39,7 +39,7 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      model that lies OUTSIDE the 2,048 m acquired terrain, by design: it is the
      horizon's dressing, not the property's survey. */
   visby: 'ebbe4d63da87134f8214ac832862e2c2b0205339c7a3129e5c13aa0b1ae289fb',
-  lidingo: '35c59339a04db91748be4abecc9376c8733374ebf1823c8316362be4a12cf984',
+  lidingo: 'd69694419b9ffdeac83df9496bd703a5b94044fee1793c6b56ad7df2363c890f',
   angso: '6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
   /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the

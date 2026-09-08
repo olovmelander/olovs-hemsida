@@ -167,7 +167,7 @@
   ],
   "output": {
     "path": "lidingobuild/mapping/playing-surfaces.geojson",
-    "sha256": "41f3ab4bcf0197e25e5355a50dc9497344816d05f6ab30fef089c25827f8587b"
+    "sha256": "e88a534ab64ec2c466d5f10f38673cc98b5dc202fc94898a310d458d272af766"
   },
   "newerCaptureAdditions": {
     "sourceCapture": {
@@ -312,5 +312,27 @@
     },
     "sourceGeometryEpoch": 2019,
     "laterMowingOrBunkerChangesAdopted": true
+  },
+  "puttingCuts2025": {
+    "review": "lidingobuild/mapping/putting-cuts-2025.json",
+    "sha256": "23c37274be78a5c4f875677e1e700d0e12a9ea1c8f421fca458517754e766cf2",
+    "replacedHoles": [
+      1,
+      2,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16,
+      17
+    ],
+    "independentRegistrationAccuracyMetres": null,
+    "independentHumanReview": false
   }
 }

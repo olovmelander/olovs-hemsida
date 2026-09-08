@@ -19,14 +19,18 @@ const [compiler, emitter, frameModule, sampling, chunks, pack, canonical, projec
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const round = x => Math.round(x * 1000) / 1000;
 
-function fixture() {
+function fixture({ projectedFrame = false } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'routing-rebind-'));
   fs.symlinkSync(path.join(REPO, 'packages'), path.join(dir, 'packages'), process.platform === 'win32' ? 'junction' : 'dir');
   const pub = path.join(dir, 'public');
   const write = (relative, bytes) => { const dest = path.join(dir, relative); fs.mkdirSync(path.dirname(dest), { recursive: true }); fs.writeFileSync(dest, bytes); };
   const model = { origin: { lat: 59.839, lon: 17.4952 }, mPerLat: 111320, mPerLon: 55930.68, frame: 'local metres about ORIGIN; north -z, east +x', holes: [{ n: 1, par: 4, idx: 3, line: [[1, -1], [4, -4]], green: { c: [4, -4] } }] };
-  const project = ([x, z]) => projection.latLonToSweref99Tm(model.origin.lat - z / model.mPerLat, model.origin.lon + x / model.mPerLon).map(round);
-  const origin = projection.latLonToSweref99Tm(model.origin.lat, model.origin.lon);
+  const projectedOrigin = projectedFrame ? { easting: 677700.5, northing: 6586399.5 } : null;
+  if (projectedOrigin) model.frame = `local metres from EPSG:3006; east +x, north -z; origin E${projectedOrigin.easting} N${projectedOrigin.northing}; heights RH 2000`;
+  const project = ([x, z]) => (projectedOrigin ? [projectedOrigin.easting + x, projectedOrigin.northing - z]
+    : projection.latLonToSweref99Tm(model.origin.lat - z / model.mPerLat, model.origin.lon + x / model.mPerLon)).map(round);
+  const origin = projectedOrigin ? [projectedOrigin.easting, projectedOrigin.northing]
+    : projection.latLonToSweref99Tm(model.origin.lat, model.origin.lon);
   const e0 = Math.floor(origin[0]) - 2, n1 = Math.ceil(origin[1]) + 12;
   const size = 17, heights = Float32Array.from({ length: size * size }, (_, i) => 40 + (i % size) * 0.25 + Math.floor(i / size) * 0.5);
   const compilation = compiler.compileTerrainAssets({ groundId: 'fixture-ground', courseSlugs: ['fixture-course', 'other-course'], heights, width: size, height: size, originEasting: e0, originNorthing: n1, sampleSpacingMetres: 1, tileSegments: 4 });
@@ -41,7 +45,7 @@ function fixture() {
   const saveSources = ({ updatePack = true } = {}) => {
     const bytes = Buffer.from(JSON.stringify(model));
     write('fixturebuild/course-model.json', bytes);
-    write('migration.json', JSON.stringify({ groundId: 'fixture-ground', source: { path: 'fixturebuild/course-model.json', sha256: sha(bytes), localFrame: { originWgs84: { latitude: model.origin.lat, longitude: model.origin.lon }, metresPerLatitude: model.mPerLat, metresPerLongitude: model.mPerLon } }, target: { horizontalCrs: 'EPSG:3006', coordinateOrder: ['easting', 'northing'] }, geometry: { holes: model.holes.map(hole => ({ ...hole, line: hole.line.map(project) })) } }));
+    write('migration.json', JSON.stringify({ groundId: 'fixture-ground', source: { path: 'fixturebuild/course-model.json', sha256: sha(bytes), localFrame: { originWgs84: { latitude: model.origin.lat, longitude: model.origin.lon }, metresPerLatitude: model.mPerLat, metresPerLongitude: model.mPerLon, ...(projectedOrigin ? { projectedOriginEpsg3006: projectedOrigin } : {}) } }, target: { horizontalCrs: 'EPSG:3006', coordinateOrder: ['easting', 'northing'] }, geometry: { holes: model.holes.map(hole => ({ ...hole, line: hole.line.map(project) })) } }));
     if (updatePack) fallback();
   };
   const input = { compilation, frame: frameModule.createProvisionalFrame(compilation.bounds), sourceManifestSha256: 'a'.repeat(64), fallbackV1: fallback(), heightAt: (e, n) => sampler.sample(e, n)?.heightRH2000 ?? NaN, holeTileBufferMetres: 1 };
@@ -135,5 +139,25 @@ test('input changes after preparation prevent changing the root index', async ()
     fs.appendFileSync(path.join(F.dir, 'fixturebuild/course-model.json'), '\n');
     assert.throws(() => writeRoutingRebind(plan), /input changed during preparation/);
     assert.deepEqual(fs.readFileSync(path.join(F.pub, 'courses/v2-index.json')), before);
+  } finally { F.cleanup(); }
+});
+
+
+test('exact projected models rebind without passing through a legacy degree approximation', async () => {
+  const F = fixture({ projectedFrame: true });
+  try {
+    F.move([8, -5]); F.saveSources();
+    const plan = await prepareRoutingRebind(F.options);
+    const routing = chunks.readChunk([...plan.writes].find(([url]) => url.endsWith('.bvch'))[1]).content;
+    assert.deepEqual(routing.holes[0].line[1].slice(0, 2), [677708.5, 6586404.5]);
+    assert.equal(plan.report.groundManifestUnchanged, F.graph.references.ground.sha256);
+    const filename = path.join(F.dir, 'migration.json');
+    const bad = JSON.parse(fs.readFileSync(filename));
+    bad.source.localFrame.projectedOriginEpsg3006.easting += 1;
+    fs.writeFileSync(filename, JSON.stringify(bad));
+    await assert.rejects(prepareRoutingRebind(F.options), /projected frames differ/);
+    delete bad.source.localFrame.projectedOriginEpsg3006;
+    fs.writeFileSync(filename, JSON.stringify(bad));
+    await assert.rejects(prepareRoutingRebind(F.options), /missing the model projected origin/);
   } finally { F.cleanup(); }
 });
