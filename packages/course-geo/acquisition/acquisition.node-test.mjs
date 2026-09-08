@@ -350,7 +350,15 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
     // Lidingö's first source-derived model adds 18 holes, 25 distinct ground
     // windows and 86 requested references, measured from the frozen polygons.
     // Visby adds 94 references; Lidingo remains at 25 windows / 86 references.
-    requestedWindowReferences: 891,
+    /* 891 until assign-bunkers.mjs gave Visby's bunkers their holes: the 7th
+       took three of them, and they reach 11 m further east and 12 m further
+       north than its green did, which carries that hole's box across two more
+       256 m control windows (4 -> 6 references, 94 -> 96). MEASURED, hole by
+       hole, against the preceding committed migration and not summed -- the
+       7th is the only hole on any course whose windows move, its new tee marks
+       change nothing on their own, and uniqueGroundWindowCount stays 250
+       because both windows were already reached by a neighbour. */
+    requestedWindowReferences: 893,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,
