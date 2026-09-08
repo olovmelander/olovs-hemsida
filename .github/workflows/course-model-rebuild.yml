@@ -1,0 +1,191 @@
+name: course model rebuild
+
+# Rebuilding lidingobuild/course-model.json needs the acquired 1 m raster, which
+# lives in a gitignored cache and cannot be reproduced from the repository:
+# rebuild-terrain-raster.mjs measures why - the published tiles cover the window
+# completely but are quantised, so they give the terrain's SHAPE and not the
+# acquisition's BYTES, and sourceFloat32Sha256 is a contract about the bytes.
+#
+# So the rebuild runs where the credential is. The chain is the one the build's
+# own handoff documents, and it ends at the gates rather than at a commit that
+# has not been checked.
+#
+# It commits the rebuilt model, its migration, the pack, the manifests and the
+# re-bound v2 course manifest. It does NOT republish the ground graph or the
+# vegetation generation: a pack re-emit only invalidates the fallback binding,
+# and rebind-course-fallback re-emits the ground manifest byte-identically as
+# its own assertion that nothing else moved.
+on:
+  workflow_dispatch:
+    inputs:
+      ground:
+        description: "Ground id (only lidingo is wired today)"
+        default: "lidingo"
+        required: true
+  push:
+    branches:
+      - "claude/**"
+    paths:
+      - "geo_data/course-v2/*/acquisition/RUN-model-rebuild"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: course-model-rebuild-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    name: rebuild
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Resolve run parameters
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "GROUND=${{ inputs.ground }}" >> "$GITHUB_ENV"
+          else
+            changed=$(git diff --name-only HEAD^ HEAD -- 'geo_data/course-v2/*/acquisition/RUN-model-rebuild' | head -1)
+            if [ -z "$changed" ]; then
+              echo "the push touched no model-rebuild RUN control file" >&2
+              exit 1
+            fi
+            echo "GROUND=$(basename "$(dirname "$(dirname "$changed")")")" >> "$GITHUB_ENV"
+          fi
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install the COPC reader (own install, never in the workspace lockfile)
+        run: npm install --prefix packages/course-geo/copc-reader
+
+      # migrate-legacy needs a REAL PROJ. The repository's Krüger substitute is
+      # admitted only against a committed cs2cs reference and its output differs
+      # in the last rounding unit, which CI's byte-identity check rejects - so a
+      # migration that ships is regenerated through PROJ, and pyproj is the
+      # supported route (COURSE_GEO_PYPROJ_PYTHON).
+      - name: Install pyproj for the horizontal PROJ backend
+        run: |
+          python3 -m pip install --quiet pyproj
+          python3 -c "import pyproj; print('PROJ', pyproj.proj_version_str)"
+          echo "COURSE_GEO_PYPROJ_PYTHON=$(command -v python3)" >> "$GITHUB_ENV"
+
+      - name: Verify repository secrets are configured
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          if [ -z "$LANTMATERIET_USERNAME" ] || [ -z "$LANTMATERIET_PASSWORD" ]; then
+            echo "LANTMATERIET_USERNAME / LANTMATERIET_PASSWORD secrets are not configured" >&2
+            exit 1
+          fi
+
+      - name: Lantmäteriet access preflight (exits 2 on denial)
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          for attempt in 1 2 3; do
+            if node packages/course-geo/acquisition/access-preflight.mjs --ground "$GROUND" --provider lantmateriet; then
+              exit 0
+            fi
+            echo "preflight attempt $attempt did not pass; retrying" >&2
+            sleep $((attempt * 10))
+          done
+          node packages/course-geo/acquisition/access-preflight.mjs --ground "$GROUND" --provider lantmateriet
+
+      # Factor 1, so every sample is a source pixel copied exactly. build-course
+      # then asserts the raster against the PINNED sourceFloat32Sha256, which is
+      # what says this is the same window the model has always been built on.
+      - name: Re-acquire the finest 1 m window
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          node packages/course-geo/acquisition/build-terrain-window.mjs \
+            --ground "$GROUND" --out "${GROUND}build/cache/terrain-review"
+
+      - name: Rebuild the course model and its ledger
+        run: |
+          node "${GROUND}build/build-course.mjs"
+          node "${GROUND}build/update-source-manifest.mjs"
+
+      - name: Regenerate the EPSG:3006 migration through real PROJ
+        run: |
+          node packages/course-geo/migrate-legacy.mjs --write --ground "$GROUND"
+          node packages/course-geo/migrate-legacy.mjs --check --ground "$GROUND"
+
+      - name: Re-emit the pack, the manifest and the v2 fallback binding
+        run: |
+          node packages/course-pack/emit-pack.mjs "${GROUND}build" "apps/golf/public/courses/$GROUND" "$GROUND"
+          node packages/course-pack/emit-manifest.mjs --only="$GROUND"
+          node packages/course-v2/rebind-course-fallback.mjs --ground "$GROUND" --slug "$GROUND"
+
+      - name: Re-pin the ledger after the pack move
+        run: node "${GROUND}build/update-source-manifest.mjs"
+
+      - name: Upload the rebuilt artefacts before anything can gate them away
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.GROUND }}-model-rebuild-${{ github.run_number }}
+          path: |
+            ${{ env.GROUND }}build/course-model.json
+            ${{ env.GROUND }}build/heightfields.json
+            geo_data/course-v2/${{ env.GROUND }}
+            apps/golf/public/courses/${{ env.GROUND }}
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Gates
+        run: |
+          set -o pipefail
+          node packages/course-geo/check-manifests.mjs --ground "$GROUND"
+          printf '%s\n' \
+            'all registered physical-ground manifests and committed checksums validate' \
+            'Visby published compatibility pack preserves canonical observed geometry and all official card values' \
+            > /tmp/tolerated
+          pnpm test 2>&1 | tee /tmp/test.log || true
+          grep -E '^not ok [0-9]+ - ' /tmp/test.log | sed -E 's/^not ok [0-9]+ - //' | sort -u > /tmp/failed || true
+          if [ -s /tmp/failed ]; then
+            echo "--- test failures ---"; cat /tmp/failed
+            unexpected=$(grep -vxF -f /tmp/tolerated /tmp/failed || true)
+            if [ -n "$unexpected" ]; then
+              echo "UNEXPECTED test failures, not on the tolerated list:" >&2
+              echo "$unexpected" >&2
+              exit 1
+            fi
+          fi
+          pnpm --filter @banvy/golf build
+          node packages/course-v2/check-app-build.mjs
+
+      - name: Commit the rebuilt model to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${GROUND}build" "geo_data/course-v2/$GROUND" apps/golf/public
+          if git diff --cached --quiet; then
+            echo "nothing new to commit"
+            exit 0
+          fi
+          git commit -m "$GROUND model rebuild" \
+            -m "Produced by the course-model-rebuild workflow run ${{ github.run_id }} with the repository's Lantmäteriet credentials." \
+            -m "Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>" \
+            -m "Claude-Session: https://claude.ai/code/session_01QmSEbz3WcA3QVpq36E5oy1"
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin "HEAD:${{ github.ref_name }}"

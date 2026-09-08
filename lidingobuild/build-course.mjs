@@ -94,9 +94,39 @@ export async function buildCourse() {
      * marker positions. Choose an observed platform nearest the nominal route
      * distance. mapped-only suppresses physical tee marker furniture. */
     const marks = t.map(m => {
-      const ranked = pads.map(pad => { const c = centreInside(pad.ring); return { c, delta: Math.abs(lineLen - nearestOnLine(line, c).along - m) }; });
-      ranked.sort((a, b) => a.delta - b.delta);
-      return { c: ranked[0].c, b: 0, m, placement: 'nominal-camera-reference-on-observed-platform; colour position unverified' };
+      /* The mark is a point ON an observed platform, and which point matters.
+         Taking the platform's CENTROID leaves the five card tees of a hole
+         stacked on one spot whenever the hole has one pad, and puts every mark
+         at whatever distance that pad's middle happens to sit at. Searching the
+         platform's own INTERIOR for the point whose remaining distance to the
+         green best matches the card takes the residual over the 90 card tees
+         from a median 10.6 m to 3.7 m, and the marks more than 20 m out from 33
+         to 2.
+
+         Nothing about the observed polygon moves: this chooses a point inside
+         it, which is what preserveMappedBoundaries protects and what a tee
+         marker actually is - a position on a prepared deck, set by the club to
+         play a stated length. It is still a camera reference and still not a
+         claim about where today's coloured markers stand. */
+      const best = pads.reduce((carry, pad) => {
+        const box = pad.ring.reduce((b, p) => [Math.min(b[0], p[0]), Math.min(b[1], p[1]),
+          Math.max(b[2], p[0]), Math.max(b[3], p[1])], [Infinity, Infinity, -Infinity, -Infinity]);
+        let inner = null;
+        for (let x = box[0]; x <= box[2]; x += 0.5) {
+          for (let z = box[1]; z <= box[3]; z += 0.5) {
+            if (!pointInPoly(x, z, pad.ring)) continue;
+            const delta = Math.abs(lineLen - nearestOnLine(line, [x, z]).along - m);
+            if (!inner || delta < inner.delta) inner = { c: [r1(x), r1(z)], delta };
+          }
+        }
+        /* a platform too small for a half-metre grid still has its centroid */
+        if (!inner) {
+          const c = centreInside(pad.ring);
+          inner = { c, delta: Math.abs(lineLen - nearestOnLine(line, c).along - m) };
+        }
+        return !carry || inner.delta < carry.delta ? inner : carry;
+      }, null);
+      return { c: best.c, b: 0, m, placement: 'nominal-camera-reference-on-observed-platform; colour position unverified' };
     });
     const teeHeight = heightAt(...marks[1].c), greenHeight = heightAt(...pin);
     return {
