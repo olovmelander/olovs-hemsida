@@ -1,0 +1,200 @@
+{
+ "source": {
+  "publisher": "Caddee",
+  "map": "course overview, both courses, numbered disc per hole",
+  "page": "https://www.caddee.se/klubb/visby-golfklubb",
+  "retrieved": "2026-09-08",
+  "rights": "(c) Caddee; fetched for review, never redistributed, and no pixel leaves this repository",
+  "identity": "the same guide's per-hole par and stroke index match visbybuild/card.json on all 18"
+ },
+ "method": "blue discs found by colour, legend disc dropped, rigid similarity fitted by ICP against the model hole MIDPOINTS; no numeral is read",
+ "discsFound": 18,
+ "medianResidualPixels": 21.9,
+ "medianResidualMetres": 46.5,
+ "maxResidualPixels": 73.9,
+ "mapScaleMetresPerPixel": 2.12,
+ "assignmentMargin": {
+  "what": "distance to the next nearest disc divided by the distance to the assigned one; 1.0 would be a coin toss",
+  "worstHole": 8,
+  "worst": 1.42,
+  "median": 3.61
+ },
+ "holes": [
+  {
+   "hole": 1,
+   "discPixel": [
+    262,
+    598
+   ],
+   "residualPixels": 8,
+   "marginOverNextDisc": 8.35
+  },
+  {
+   "hole": 2,
+   "discPixel": [
+    339,
+    490
+   ],
+   "residualPixels": 31.9,
+   "marginOverNextDisc": 2.65
+  },
+  {
+   "hole": 3,
+   "discPixel": [
+    363,
+    279
+   ],
+   "residualPixels": 22.7,
+   "marginOverNextDisc": 3.16
+  },
+  {
+   "hole": 4,
+   "discPixel": [
+    389,
+    131
+   ],
+   "residualPixels": 25.8,
+   "marginOverNextDisc": 3.92
+  },
+  {
+   "hole": 5,
+   "discPixel": [
+    317,
+    171
+   ],
+   "residualPixels": 4.2,
+   "marginOverNextDisc": 19.79
+  },
+  {
+   "hole": 6,
+   "discPixel": [
+    315,
+    302
+   ],
+   "residualPixels": 18.4,
+   "marginOverNextDisc": 2.5
+  },
+  {
+   "hole": 7,
+   "discPixel": [
+    399,
+    387
+   ],
+   "residualPixels": 11.2,
+   "marginOverNextDisc": 8.61
+  },
+  {
+   "hole": 8,
+   "discPixel": [
+    391,
+    481
+   ],
+   "residualPixels": 39.1,
+   "marginOverNextDisc": 1.42
+  },
+  {
+   "hole": 9,
+   "discPixel": [
+    323,
+    589
+   ],
+   "residualPixels": 21.6,
+   "marginOverNextDisc": 3.69
+  },
+  {
+   "hole": 10,
+   "discPixel": [
+    457,
+    670
+   ],
+   "residualPixels": 22.2,
+   "marginOverNextDisc": 1.75
+  },
+  {
+   "hole": 11,
+   "discPixel": [
+    642,
+    688
+   ],
+   "residualPixels": 13.3,
+   "marginOverNextDisc": 4.25
+  },
+  {
+   "hole": 12,
+   "discPixel": [
+    641,
+    623
+   ],
+   "residualPixels": 26.9,
+   "marginOverNextDisc": 2.88
+  },
+  {
+   "hole": 13,
+   "discPixel": [
+    725,
+    579
+   ],
+   "residualPixels": 27.2,
+   "marginOverNextDisc": 2.21
+  },
+  {
+   "hole": 14,
+   "discPixel": [
+    703,
+    494
+   ],
+   "residualPixels": 7.7,
+   "marginOverNextDisc": 12.34
+  },
+  {
+   "hole": 15,
+   "discPixel": [
+    606,
+    401
+   ],
+   "residualPixels": 8.9,
+   "marginOverNextDisc": 10.62
+  },
+  {
+   "hole": 16,
+   "discPixel": [
+    596,
+    493
+   ],
+   "residualPixels": 33.5,
+   "marginOverNextDisc": 3.53
+  },
+  {
+   "hole": 17,
+   "discPixel": [
+    586,
+    674
+   ],
+   "residualPixels": 9.9,
+   "marginOverNextDisc": 5.95
+  },
+  {
+   "hole": 18,
+   "discPixel": [
+    414,
+    626
+   ],
+   "residualPixels": 73.9,
+   "marginOverNextDisc": 2.24
+  }
+ ],
+ "readsByEye": {
+  "note": "the check that never entered the fit: these numerals are legible on the image and the assignment reproduces them",
+  "holes": [
+   1,
+   3,
+   4,
+   5,
+   6
+  ]
+ },
+ "verdict": {
+  "numberingAgrees": true,
+  "hole3": "The club rebuilt its third for the 2023 season where the old fifteenth lay, and the model's hole-3 green is traced from the 2022 municipal image -- so the worry was that this build carries the OLD third. It does not: the model's hole 3 registers onto the disc the club's current map numbers 3. The 2022 trace is consistent with that, because the new third was built on ground that already had a green -- the old fifteenth's."
+ }
+}

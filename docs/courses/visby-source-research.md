@@ -257,6 +257,45 @@ Neither publish promotes the software frame: `canonicalFrame.origin` remains
 `null` with `originStatus:'pending-control-approval'`, and independent controls,
 derivative terms and production release stay open.
 
+### The third hole was rebuilt, and the club's own map says the numbering holds
+
+The club replaced its third: golfbranschen reported in 2022 that "det nya tredje
+hålet går där gamla hål 15 låg, mellan hål 6 och gamla hål 3", playable from the
+2023 season, and Pierre Fulke Design's masterplan keeps the old third mown as a
+practice area. **This build's hole-3 green is traced from the 2022 municipal
+orthophoto**, which is the wrong side of that date — so the fair worry is that
+the model carries the OLD third under the club's current number.
+
+The imagery cannot settle it. On the 2026 flight the traced green is a live,
+maintained complex with its bunkers and its pond, and so is a green kept mown as
+a practice ground; from above the two are the same picture, which is exactly
+what the masterplan says to expect.
+
+The club's own overview map settles it, and
+[`register-overview.mjs`](../../visbybuild/mapping/register-overview.mjs) is how.
+Caddee publishes a plan of the whole property with a numbered disc per hole
+(blue for the eighteen, green for the nine) whose per-hole par and stroke index
+match this repo's card on all eighteen. The tool finds the discs **by colour**,
+drops the legend's own disc, and fits a rigid similarity by ICP against the
+model's hole MIDPOINTS — the anchor that beat both ends at Veckefjärden, because
+a disc is drawn beside its hole rather than at either end of it. **No numeral is
+ever read**, so the arrangement alone does the identifying, and the check that
+never entered the fit is that the result reproduces the numbers a reader can see
+on the image at holes 1, 3, 4, 5 and 6.
+
+Result ([`overview-registration.json`](../../visbybuild/mapping/overview-registration.json)):
+18 discs, median residual 21.9 px = **46.5 m** at the fitted 2.12 m/px, worst
+73.9 px at the 18th. A 46 m residual is large next to a green, and irrelevant to
+the question asked — so what is reported beside it is the **assignment margin**,
+the distance to the next nearest disc over the distance to the assigned one:
+median **3.61×**, worst **1.42×** at the 8th. Nothing is near a coin toss, and
+the model's hole 3 lands on the disc the club's current map numbers 3.
+
+What that does and does not establish: the **numbering** is confirmed, and the
+2022 trace is consistent with it because the new third was built where a green
+already stood — the old fifteenth's. The **exact 2023 green shape** is not
+confirmed by anything, and `visbybuild/guide-notes.json` says so on hole 3.
+
 ## Photographs, videos and historical references
 
 Exact downloadable image URLs are enumerated in the ledger. Useful entrypoints
