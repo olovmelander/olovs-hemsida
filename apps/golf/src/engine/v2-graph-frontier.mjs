@@ -14,6 +14,7 @@ import {
 } from '../../../../packages/course-v2/runtime/terrain-render-data.mjs';
 import { resolveV2AssetUrl } from '../../../../packages/course-v2/runtime/http.mjs';
 import { inscribedLegacyBounds, legacyGridBridge } from './geodetic-frame.mjs';
+import { gridOriginEpsg3006 } from './v2-frontier-configs.mjs';
 
 const EPSILON = 1e-6;
 const MAX_CONCURRENT_REQUESTS = 4;
@@ -341,9 +342,7 @@ export async function loadPublishedGraphTerrainFrontier({
      are known before a tile is fetched -- which is when the lake beds must
      be, because a tile is carved as it is decoded. */
   const bridge = BRIDGE_MODES.get(config.bridgeMode)(graph.ground.frame, config);
-  const gridOrigin = config.bridgeMode === 'wgs84-legacy-frame'
-    ? config.legacyOriginEpsg3006
-    : config.canonicalOrigin;
+  const gridOrigin = gridOriginEpsg3006(config);
   const frontierBounds = config.expectedFrontierBoundsEpsg5845 || config.expectedBoundsEpsg5845;
   const expectedLocalBounds = {
     x0: frontierBounds.minEasting - gridOrigin.easting,
