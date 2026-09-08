@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "measuredOn": "2026-09-08",
+  "source": {
+    "imagery": "lidingo-municipal-ortho-2019 (CC0), 0.5 m, EPSG:3011",
+    "calibratedOn": "features already in playing-surfaces.geojson and the OSM context extract"
+  },
+  "classes": {
+    "green": {
+      "n": 36023,
+      "rgb": [
+        87.0,
+        95.0,
+        61.0
+      ],
+      "luminance": [
+        82.5,
+        88.8,
+        99.6
+      ],
+      "excessGreen": [
+        35.0,
+        41.0,
+        48.0
+      ],
+      "redOverGreen": [
+        0.863,
+        0.914,
+        0.96
+      ]
+    },
+    "fairway": {
+      "n": 304886,
+      "rgb": [
+        101.0,
+        105.0,
+        71.0
+      ],
+      "luminance": [
+        82.8,
+        99.9,
+        118.5
+      ],
+      "excessGreen": [
+        27.0,
+        37.0,
+        44.0
+      ],
+      "redOverGreen": [
+        0.895,
+        0.965,
+        1.018
+      ]
+    },
+    "tee": {
+      "n": 18403,
+      "rgb": [
+        92.0,
+        99.0,
+        64.0
+      ],
+      "luminance": [
+        76.1,
+        92.8,
+        108.5
+      ],
+      "excessGreen": [
+        24.0,
+        39.0,
+        50.0
+      ],
+      "redOverGreen": [
+        0.873,
+        0.936,
+        1.0
+      ]
+    },
+    "bunker": {
+      "n": 3903,
+      "rgb": [
+        135.0,
+        144.0,
+        132.0
+      ],
+      "luminance": [
+        102.5,
+        140.2,
+        190.1
+      ],
+      "excessGreen": [
+        10.0,
+        19.0,
+        26.0
+      ],
+      "redOverGreen": [
+        0.924,
+        0.962,
+        1.0
+      ]
+    },
+    "wood": {
+      "n": 1627558,
+      "rgb": [
+        63.0,
+        69.0,
+        56.0
+      ],
+      "luminance": [
+        37.1,
+        66.1,
+        100.1
+      ],
+      "excessGreen": [
+        6.0,
+        17.0,
+        33.0
+      ],
+      "redOverGreen": [
+        0.798,
+        0.913,
+        1.0
+      ]
+    }
+  }
+}
