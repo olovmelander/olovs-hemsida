@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 1,
+  "measuredOn": "2026-09-08",
+  "state": "measurement-evidence-only",
+  "generator": "lidingobuild/mapping/trace-2025-greens.py",
+  "sourceCapture": {
+    "id": "lm-ortofoto-0p16",
+    "captureDate": "2025-05-31",
+    "sha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+    "licence": "CC-BY-4.0",
+    "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
+  },
+  "horizontalCrs": "EPSG:3006",
+  "analysisStepMetres": 0.25,
+  "scoredAgainst": "the OSM green rings that carry a hole; they never entered any rule here",
+  "calibration": {
+    "greenPixels": 23595,
+    "referencePixels": 2112,
+    "greenExcessGreenPercentiles": [
+      31.0,
+      35.0,
+      39.0
+    ],
+    "referenceExcessGreenPercentiles": [
+      1.0,
+      20.0,
+      38.0
+    ],
+    "greenLuminancePercentiles": [
+      82.1,
+      91.0,
+      97.8
+    ],
+    "referenceLuminancePercentiles": [
+      49.8,
+      80.1,
+      98.1
+    ],
+    "excessGreenSeparation": -7.0,
+    "note": "a NEGATIVE separation means the two distributions overlap and no colour threshold exists; the reference is the ground 25-40 m out, which on this course is approach, semi and rough"
+  },
+  "scores": {
+    "colourgrow": {
+      "scoredAgainst": 0,
+      "grewOnHoles": 0,
+      "medianIou": null,
+      "minIou": null,
+      "maxIou": null,
+      "medianAreaRatio": null
+    },
+    "firststep": {
+      "scoredAgainst": 11,
+      "grewOnHoles": 18,
+      "medianIou": 0.294,
+      "minIou": 0.162,
+      "maxIou": 0.433,
+      "medianAreaRatio": 3.41
+    },
+    "largeststep": {
+      "scoredAgainst": 11,
+      "grewOnHoles": 18,
+      "medianIou": 0.365,
+      "minIou": 0.183,
+      "maxIou": 0.487,
+      "medianAreaRatio": 2.733
+    },
+    "roughness": {
+      "scoredAgainst": 2,
+      "grewOnHoles": 2,
+      "medianIou": 0.603,
+      "minIou": 0.586,
+      "maxIou": 0.619,
+      "medianAreaRatio": 0.786
+    },
+    "fusion": {
+      "scoredAgainst": 0,
+      "grewOnHoles": 0,
+      "medianIou": null,
+      "minIou": null,
+      "maxIou": null,
+      "medianAreaRatio": null
+    }
+  },
+  "verdict": {
+    "bestMethod": "roughness",
+    "bestMedianIou": 0.603,
+    "bestGrewOnHoles": 2,
+    "bar": "median IoU >= 0.75 against the OSM rings AND a region on at least 16 of 18 holes; Veckefjarden's best of six tracers reached 0.65 and was refused, so a method at or under that is one this repository has already decided against",
+    "adopt": false
+  },
+  "holes": [
+    {
+      "hole": 1,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 1568.3
+        },
+        "largeststep": {
+          "areaSquareMetres": 1259.0
+        }
+      }
+    },
+    {
+      "hole": 2,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 1438.1,
+          "iouAgainstOsmRing": 0.294,
+          "areaRatioAgainstOsmRing": 3.41
+        },
+        "largeststep": {
+          "areaSquareMetres": 1401.7,
+          "iouAgainstOsmRing": 0.301,
+          "areaRatioAgainstOsmRing": 3.323
+        }
+      }
+    },
+    {
+      "hole": 3,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 1645.0
+        },
+        "largeststep": {
+          "areaSquareMetres": 1729.2
+        }
+      }
+    },
+    {
+      "hole": 4,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 2366.1,
+          "iouAgainstOsmRing": 0.17,
+          "areaRatioAgainstOsmRing": 5.714
+        },
+        "largeststep": {
+          "areaSquareMetres": 1381.9,
+          "iouAgainstOsmRing": 0.298,
+          "areaRatioAgainstOsmRing": 3.337
+        }
+      }
+    },
+    {
+      "hole": 5,
+      "methods": {
+        "roughness": {
+          "areaSquareMetres": 455.9,
+          "iouAgainstOsmRing": 0.619,
+          "areaRatioAgainstOsmRing": 0.913
+        },
+        "firststep": {
+          "areaSquareMetres": 1891.2,
+          "iouAgainstOsmRing": 0.264,
+          "areaRatioAgainstOsmRing": 3.785
+        },
+        "largeststep": {
+          "areaSquareMetres": 1236.0,
+          "iouAgainstOsmRing": 0.404,
+          "areaRatioAgainstOsmRing": 2.474
+        }
+      }
+    },
+    {
+      "hole": 6,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 2250.0
+        },
+        "largeststep": {
+          "areaSquareMetres": 1645.2
+        }
+      }
+    },
+    {
+      "hole": 7,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 1938.6
+        },
+        "largeststep": {
+          "areaSquareMetres": 1421.5
+        }
+      }
+    },
+    {
+      "hole": 8,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 1612.5,
+          "iouAgainstOsmRing": 0.219,
+          "areaRatioAgainstOsmRing": 4.538
+        },
+        "largeststep": {
+          "areaSquareMetres": 934.2,
+          "iouAgainstOsmRing": 0.365,
+          "areaRatioAgainstOsmRing": 2.629
+        }
+      }
+    },
+    {
+      "hole": 9,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 2019.2,
+          "iouAgainstOsmRing": 0.162,
+          "areaRatioAgainstOsmRing": 6.178
+        },
+        "largeststep": {
+          "areaSquareMetres": 1715.3,
+          "iouAgainstOsmRing": 0.183,
+          "areaRatioAgainstOsmRing": 5.248
+        }
+      }
+    },
+    {
+      "hole": 10,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 2440.2
+        },
+        "largeststep": {
+          "areaSquareMetres": 2292.1
+        }
+      }
+    },
+    {
+      "hole": 11,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 1657.4,
+          "iouAgainstOsmRing": 0.322,
+          "areaRatioAgainstOsmRing": 2.982
+        },
+        "largeststep": {
+          "areaSquareMetres": 1560.6,
+          "iouAgainstOsmRing": 0.342,
+          "areaRatioAgainstOsmRing": 2.808
+        }
+      }
+    },
+    {
+      "hole": 12,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 1714.9
+        },
+        "largeststep": {
+          "areaSquareMetres": 1538.6
+        }
+      }
+    },
+    {
+      "hole": 13,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 2129.9,
+          "iouAgainstOsmRing": 0.256,
+          "areaRatioAgainstOsmRing": 3.914
+        },
+        "largeststep": {
+          "areaSquareMetres": 1798.0,
+          "iouAgainstOsmRing": 0.296,
+          "areaRatioAgainstOsmRing": 3.304
+        }
+      }
+    },
+    {
+      "hole": 14,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 1933.6
+        },
+        "largeststep": {
+          "areaSquareMetres": 2373.3
+        }
+      }
+    },
+    {
+      "hole": 15,
+      "methods": {
+        "roughness": {
+          "areaSquareMetres": 465.5,
+          "iouAgainstOsmRing": 0.586,
+          "areaRatioAgainstOsmRing": 0.658
+        },
+        "firststep": {
+          "areaSquareMetres": 1702.3,
+          "iouAgainstOsmRing": 0.383,
+          "areaRatioAgainstOsmRing": 2.406
+        },
+        "largeststep": {
+          "areaSquareMetres": 1469.6,
+          "iouAgainstOsmRing": 0.406,
+          "areaRatioAgainstOsmRing": 2.077
+        }
+      }
+    },
+    {
+      "hole": 16,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 1760.7,
+          "iouAgainstOsmRing": 0.319,
+          "areaRatioAgainstOsmRing": 3.135
+        },
+        "largeststep": {
+          "areaSquareMetres": 1418.3,
+          "iouAgainstOsmRing": 0.396,
+          "areaRatioAgainstOsmRing": 2.525
+        }
+      }
+    },
+    {
+      "hole": 17,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 1777.8,
+          "iouAgainstOsmRing": 0.433,
+          "areaRatioAgainstOsmRing": 2.279
+        },
+        "largeststep": {
+          "areaSquareMetres": 1394.2,
+          "iouAgainstOsmRing": 0.487,
+          "areaRatioAgainstOsmRing": 1.787
+        }
+      }
+    },
+    {
+      "hole": 18,
+      "methods": {
+        "firststep": {
+          "areaSquareMetres": 2334.4,
+          "iouAgainstOsmRing": 0.318,
+          "areaRatioAgainstOsmRing": 3.146
+        },
+        "largeststep": {
+          "areaSquareMetres": 2028.0,
+          "iouAgainstOsmRing": 0.366,
+          "areaRatioAgainstOsmRing": 2.733
+        }
+      }
+    }
+  ]
+}

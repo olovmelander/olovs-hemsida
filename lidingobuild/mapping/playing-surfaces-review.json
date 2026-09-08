@@ -29,19 +29,19 @@
     },
     {
       "path": "lidingobuild/cache/municipal-ortho-2019/lidingo-2019-0p5m.pgw",
-      "sha256": "18a4743f5d7ecb443ea0ae65257299305603b364cd55867654e1cf757953682b"
+      "sha256": "f43b802689ef2fbea0accf6325eda20ffc1e52a09f4b97dc4374a1c96789e8cc"
     },
     {
       "path": "lidingobuild/mapping/build-playing-surfaces.py",
-      "sha256": "7d0cf4f640dfcc9d4a818d51b91f360456beb148acd43fa0a29a91b60f911011"
+      "sha256": "e74ac72394ad3536e10115296397a0a7adac5a0e5b7cfc7d025b8517bf6ac0f8"
     }
   ],
-  "featureCount": 110,
+  "featureCount": 111,
   "counts": {
     "green": 20,
     "tee": 37,
     "fairway": 13,
-    "bunker": 40
+    "bunker": 41
   },
   "holesWithGreen": [
     1,
@@ -117,6 +117,7 @@
     17,
     18
   ],
+  "outputPrecisionMetres": 0.001,
   "validation": {
     "closedFinitePolygonRings": true,
     "uniqueFeatureIds": true,
@@ -166,7 +167,41 @@
   ],
   "output": {
     "path": "lidingobuild/mapping/playing-surfaces.geojson",
-    "sha256": "d5309cbfefbfc8f498be15100156a1ca99fe49442d61c56d89abd0f5d48f9f29"
+    "sha256": "e61f934a93409c6272119ff06e275368528b20eb4449e8dcc68160da6b2a5dd6"
+  },
+  "newerCaptureAdditions": {
+    "sourceCapture": {
+      "id": "lm-ortofoto-0p16",
+      "captureDate": "2025-05-31",
+      "sha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+      "licence": "CC-BY-4.0",
+      "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
+    },
+    "rule": {
+      "sandLuminanceMinimum": 119.1,
+      "sandExcessGreenMaximum": 18.5,
+      "sandRedOverGreenMinimum": 0.931,
+      "localMedianWindowMetres": 15,
+      "perCellHollowMetres": 0.12,
+      "componentMedianHollowMetres": 0.12,
+      "minimumAreaSquareMetres": 8.0,
+      "maximumAreaSquareMetres": 250.0,
+      "minimumCompactness": 0.25,
+      "minimumMedianLuminance": 110.0,
+      "note": "every colour threshold is measured on THIS capture and sits midway in the gap its own sand and turf pixels leave"
+    },
+    "adopted": [
+      {
+        "id": "lidingo-bunker-13-green-lm2025",
+        "kind": "bunker",
+        "hole": 13,
+        "datingVerdict": "built between municipal-2019 and lm-2025-05-31",
+        "clubRecord": "course-council page: a new LEFT GREEN BUNKER on hole 13, among the works reported by 2025",
+        "maskAreaSquareMetres": 32.7,
+        "polygonAreaSquareMetres": 31.33
+      }
+    ],
+    "note": "rings measured on a capture NEWER than the 2019 pixel traces and carried in EPSG:3006; adopted only where a club document dates the work and the older captures show the ground without it"
   },
   "refinementRound": {
     "previousOutputSha256": "16afdeb87b474d5e45bfd4cb1fcce3a52b7b220d1119a2ccf9278fd7e6aa64d4",
@@ -185,6 +220,6 @@
       "1530687907": 17
     },
     "sourceGeometryEpoch": 2019,
-    "laterMowingOrBunkerChangesAdopted": false
+    "laterMowingOrBunkerChangesAdopted": true
   }
 }

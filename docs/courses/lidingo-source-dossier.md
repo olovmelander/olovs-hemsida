@@ -145,6 +145,18 @@ bright as sand — and no amount of resolution fixes a capture taken in the wron
 month. Every colour threshold is measured on its own capture and sits midway in
 that capture's own gap; none is copied between captures.
 
+**The 2025 Lantmäteriet capture is now THE photo record for this ground.** The
+owner's instruction, and the numbers above are the same answer: 2018 buys one
+extra bunker (35 against 34) for three times the false accepts (208 accepted
+components against 71) and half a metre of positional agreement. The older
+captures keep exactly one job, and it is a job only they can do — **dating**. A
+feature absent in 2018 and 2019 and present in 2025 was built between them,
+which is how the club's reported works are told from its proposals. Everything
+photo-derived from here is read off 2025-05-31 and says so in its own record;
+`lidingobuild/mapping/lm2025.py` is the one reader, so four surface classes
+cannot each calibrate a different rule on the same pixels and then disagree
+about what the photograph says.
+
 ## 4. A centroid taken about the EPSG:3006 origin is not a centroid
 
 The finding that cost the most and explains the most.
@@ -223,7 +235,46 @@ coordinate typed into the tool. The first draft guessed hole 17's and sampled
 thirty metres of fairway, which read as no sand in every capture and would have
 been written down as a refusal of the club's own statement.
 
-## 6. Vegetation
+## 6. Greens cannot be traced here either, and now it is measured five ways
+
+This repository has refused traced greens once and accepted them once, and the
+difference was the photograph. At Veckefjärden six methods on a 0.27 m autumn
+frame reached a median IoU of 0.65 against the surveyed outlines and none was
+adopted. At Ribbingsfors a leaf-off capture made mown turf vivid against dormant
+pasture and all nine passed. Lidingö's frame is finer than either at 0.16 m, so
+the question was open, and `lidingobuild/mapping/trace-2025-greens.py` asks it
+five ways at once. Every method is scored against the **11 OSM green rings that
+carry a hole** — geometry nobody read off this capture.
+
+| method | grew on | scored | median IoU | median area ratio |
+|---|---:|---:|---:|---:|
+| colourgrow — region growth on excess green | 0/18 | 0 | — | — |
+| firststep — per ray, the first sustained fall | 18/18 | 11 | 0.294 | 3.41 |
+| largeststep — per ray, the steepest fall | 18/18 | 11 | 0.365 | 2.73 |
+| roughness — growth on 1 m laser roughness | 2/18 | 2 | **0.603** | **0.786** |
+| fusion — colour and smoothness together | 0/18 | 0 | — | — |
+
+**Mown turf is one colour in this frame.** Excess green does not stop at a
+green's edge: region growth from the GPS centre reaches 1,300–2,900 m² at a
+compactness of 0.08–0.23, against real greens of 246–921 m², because the collar
+and the approach are the same colour as the putting surface in late May. The two
+polar methods do produce a ring on every hole, and both produce the wrong one —
+2.7 to 3.4 times the surveyed area, which is the same "the imagery shows the
+green COMPLEX and not the putting surface" that Veckefjärden measured.
+
+The interesting residual is **roughness**. It is the only signal whose answer is
+the RIGHT SIZE (0.786 of the surveyed area against the polar methods' 2.7–3.4×)
+and it scores best where it works — but it forms a compact component on only two
+of eighteen holes at the thresholds tried, so it is a lead and not a method. A
+green really is the smoothest turf on a course; a 1 m laser over a 25 m green is
+about 600 samples, and that is evidently not enough to bound it. A finer laser
+would be the thing to try, not a newer photograph.
+
+So the green rings stay as they are: 13 unchanged OSM rings and 7 traced off the
+2019 frame. The bar this was measured against — median IoU ≥ 0.75 and a region
+on at least 16 of 18 holes — is in the tool, and so is the refusal.
+
+## 7. Vegetation
 
 The bespoke stand pipeline produced 4 m stand fields and **zero individual
 trees**. `record-laser-campaigns.mjs` needs no credential and no point byte, so
@@ -256,7 +307,7 @@ comparable grounds. That is pulse density, not leaf state: measured here, the
 leaf-off canopy and the leaf-on imagery agree, so Johannesberg's deciduous
 under-detection does not transfer to this ground and must not be cited for it.
 
-## 7. Appearance
+## 8. Appearance
 
 `apps/golf/src/engine/scenery/lidingo.js`. Without a module a course silently
 takes the engine's defaults, and the defaults are Veckefjärden's old school —
@@ -279,7 +330,7 @@ they stay in the ignored cache, and one contains identifiable people.
 The species rule raises the deciduous share on the club's own description and
 its photographs, and on nothing else.
 
-## 8. What is open
+## 9. What is open
 
 - **The played surfaces are two records that disagree and the file does not say
   which is authoritative**: 11 OSM green rings of 2011–2016 vintage at a median

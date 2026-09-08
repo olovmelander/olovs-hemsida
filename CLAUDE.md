@@ -3704,3 +3704,200 @@ the same commit (`pnpm test` fails loudly on both, and
   belt and braces.** The engine draws a sheet per ring; overlapping sheets a
   centimetre apart fight at any distance on a 24-bit depth buffer. One body,
   one ring — unite in the data, never rely on draw order.
+
+## Lidingö GK — `lidingobuild/` (no standalone page; app-only)
+
+Lidingö Golfklubb, 18 holes on Lidingö outside Stockholm. The **second course
+authored directly in the grid frame** after Ribbingsfors: local metres ARE
+EPSG:3006 minus the origin **E677700.5 N6586399.5**, `bridgeMode:
+'epsg3006-local-rh2000'`, so there is no meridian convergence and no flat-earth
+scale error anywhere in this build. Heights are RH 2000 throughout — there is no
+vertical datum offset to measure here either, because the pack was cut from the
+laser DTM rather than from Terrarium. The full record is
+[`docs/courses/lidingo-source-dossier.md`](docs/courses/lidingo-source-dossier.md).
+
+### Where the geometry comes from
+
+| source | used for |
+|---|---|
+| the club's 2025 scorecard (`scorekort-2025.jpg`) | all card values; five tees Vit/Gul/Blå/Röd/Orange |
+| the GolfTraxx GPS survey (`geo_data/lidingo_clean.json`, id **18130SW**) | the per-hole anchor: green centres and back tees |
+| **Lantmäteriet Ortofoto 0.16 m, captured 2025-05-31** (CC BY 4.0, Min karta) | THE photo record — every photo-derived measurement on this ground |
+| Lantmäteriet Markhöjdmodell 1 m (scan 2021-03-23) | the ground, the water levels and every "is it a hollow" test |
+| Lantmäteriet 1 m break geometry | the water rings, with their own measured levels |
+| OpenStreetMap | greens, tees, fairways, bunkers, 562 buildings, roads, paths, parking, landuse |
+
+### The 2025 capture is the photo record, and it was chosen by measurement
+
+Five captures were run through **one identical bunker rule** on one 0.25 m
+analysis grid, scored by how many of the 40 already-mapped bunkers each recovers
+— geometry that never entered either rule:
+
+| capture | accepted | recovered of 40 | median | licence |
+|---|---:|---:|---:|---|
+| **Lantmäteriet 0.16 m, 2025-05-31, leaf-on** | **71** | 34 | **0.9 m** | CC BY 4.0 |
+| Lidingö stad 0.16 m, 2018, leaf-on | 208 | **35** | 1.4 m | CC0 |
+| Lidingö stad 0.16 m, 2019, leaf-off | 70 | 11 | 1.1 m | CC0 |
+| Lidingö stad 0.5 m, 2019, leaf-off | 76 | 13 | 1.2 m | CC0 |
+| Esri z18 0.30 m, 2025-05-19 | 109 | 30 | 1.6 m | Esri MLA |
+
+2018 buys one extra bunker for three times the false accepts and half a metre of
+agreement. The older captures keep exactly one job, and it is one only they can
+do — **dating**. `lidingobuild/mapping/lm2025.py` is the single reader, so four
+surface classes cannot each calibrate a different rule on the same pixels and
+then disagree about what the photograph says.
+
+- **Re-sampling the 2019 frame at its native 0.16 m changed nothing** — 11 of 40
+  against 13 at 0.5 m. That refutes the obvious hypothesis. Its problem is the
+  SEASON, dormant turf as bright as sand, and no resolution fixes a capture taken
+  in the wrong month. **The municipal service's native spacing is 0.16 m, not the
+  0.5 m at which it had always been sampled**, so both municipal frames had been
+  read at a third of their resolution.
+- **The blind spot has a date on it.** The photograph is 2025 and the laser is
+  2021, so a bunker built between them has sand and NO hollow, by construction.
+  The rule cannot see it, and hole 13's new left green bunker is the proof: the
+  club's course council reports building it, the model carried no bunker on the
+  hole at all, and the capture plainly shows one. Sand that fails only the hollow
+  test is REPORTED as `sandWithoutHollow`, never dropped, and adopted only where
+  a club document dates the work and the older captures show the ground without
+  it (`date-course-changes.py` → `change-dating.json`).
+
+### A centroid taken about the EPSG:3006 origin is not a centroid
+
+The finding that cost the most here and explains the most. A shoelace centroid
+summed about the coordinate origin, on raw EPSG:3006, computes cross products of
+~4.6e12 that sum to ~−90 — so the answer is the ninth significant figure of a
+double. Measured on this build's 40 bunkers the centroids were out by a **median
+20.60 m, worst 149.98 m, and 36 of the 40 fell outside their own bounding box**;
+greens were out 2.83 m, tees 6.45 m, fairways 0.31 m (a small ring suffers most).
+It made the bunker detector look as though it could not find bunkers it was
+sitting on top of: recovery went **8 of 40 → 34 of 40** on the fix alone. Sum
+about the ring's FIRST VERTEX. `geobuild/lib.mjs`'s shared `centroid()` had it
+too, so this was never a Lidingö-only bug.
+
+Two more from the same pass: the recovery score first read 2/40 then 8/40 because
+29 of the 40 bunkers carry `sourceFeatureId: null` and collapsed into ONE key —
+**a gate that agrees with a bug**; and the committed survey agreement figure had
+to be corrected from 5.25 m to **3.27 m** once the centroids were right.
+
+### Greens cannot be traced here, and it is measured five ways
+
+`trace-2025-greens.py` scores five methods against the 11 OSM green rings that
+carry a hole: colourgrow 0/18 holes, firststep 0.294, largeststep 0.365,
+roughness 0.603 on the 2 holes where it forms a component, fusion 0/18. **Mown
+turf is one colour in this frame** — region growth from the GPS centre reaches
+1,300–2,900 m² at compactness 0.08–0.23 against real greens of 246–921 m², and
+the polar methods return 2.7–3.4× the surveyed area, which is Veckefjärden's
+"the imagery shows the green COMPLEX and not the putting surface" again at
+0.16 m. The interesting residual is **roughness**: it is the only signal whose
+answer is the right SIZE (0.786 of the surveyed area) and it scores best where it
+works, but a 1 m laser over a 25 m green is ~600 samples and that is not enough
+to bound it. A finer laser is the thing to try, not a newer photograph.
+
+### The pipeline
+
+    node lidingobuild/build-course.mjs          # needs the acquired 1 m raster in the ignored cache
+    node lidingobuild/update-source-manifest.mjs
+    node packages/course-geo/migrate-legacy.mjs --write --ground lidingo   # needs real PROJ
+    node packages/course-pack/emit-pack.mjs lidingobuild apps/golf/public/courses/lidingo lidingo
+    node packages/course-pack/emit-manifest.mjs --only=lidingo
+    node packages/course-v2/rebind-course-fallback.mjs --ground lidingo --slug lidingo
+    node packages/course-geo/check-manifests.mjs --ground lidingo
+    node --test lidingobuild/course.node-test.mjs
+
+**The model rebuild cannot run on a machine without the Lantmäteriet credential.**
+`build-course.mjs` asserts its 1 m raster against a pinned `sourceFloat32Sha256`,
+and `rebuild-terrain-raster.mjs` measures why the published tiles cannot stand in:
+they cover the window completely (4,198,401 of 4,198,401 samples) but are
+QUANTISED, so they give the terrain's SHAPE and not the acquisition's BYTES, and
+that pin is a contract about the bytes. It refuses to write rather than produce a
+raster that would pass by luck. So the rebuild runs where the credential is —
+`.github/workflows/course-model-rebuild.yml`, fired by a push touching
+`geo_data/course-v2/<ground>/acquisition/RUN-model-rebuild` (this session's GitHub
+App holds contents:write but not actions:write, so a RUN file is the trigger and
+`workflow_dispatch` stays for humans).
+
+**A projected coordinate is written to the MILLIMETRE**, and that is a decision
+about reproducibility rather than about precision. Two PROJ builds agree on this
+transform to about a nanometre — nine orders of magnitude inside the metres of
+interpretation uncertainty every trace states — so a full-precision float made
+every rerun on a different machine rewrite every ring, and CI (whose pyproj is not
+this container's) would have committed a 19,000-line phantom diff in which a
+re-measured surface is indistinguishable from a library upgrade.
+
+### The v2 ground — one terrain to the horizon
+
+`?bana=lidingo` boots the ring graph by default: **277 tiles in 7 levels to a
+16,384 m root**, 64 of them at 1 m over the reviewed 2,048 m window, every level
+cut from Markhöjdmodell so there is no seam between a laser course and a coarser
+field around it. The rings reach real open Baltic on every side and the height
+model carries DEPTH there rather than a flattened surface: **−10.157 m at the
+lowest against 72.725 m on the Nacka höjder**.
+
+- **A frontier is not a graph**, and this ground met the trap the runbook names.
+  `expectedBoundsEpsg5845` was the 2,048 m window while the ground had no rings,
+  which was the same rectangle and therefore correct by accident. When the rings
+  landed the graph resolved with all 277 tiles and was refused with "published
+  graph bounds do not match the reviewed lidingo extraction", and the world fell
+  back to the fixed frontier. It failed loudly, which is the point. The config now
+  carries the graph's extent in `expectedBoundsEpsg5845` and the window in
+  `expectedFrontierBoundsEpsg5845`.
+- **`gridOriginFor(config)`** in `v2-frontier-configs.mjs` is where a config's
+  grid origin comes from now: `legacyOriginEpsg3006` for a `wgs84-legacy-frame`
+  ground and `canonicalOrigin` for a grid-authored one. It throws by name on a
+  non-finite origin. Two call sites read it (`v2-graph-frontier.mjs` and
+  `main.js`); before it, each derived the origin its own way and a grid-authored
+  ground got a `NaN` translation with no error.
+- **`compile-lidingo-ground-graph.mjs` fails closed** if handed a published graph
+  that already carries objects or more than four levels, naming
+  `publish-ground-rings` / `publish-vegetation` instead — compiling over a
+  published generation is how a vegetation publish gets silently discarded.
+
+### Two gates that had to change, and why each is not a weakening
+
+- **`objects === 0` was a guard on a state that publishing necessarily breaks.**
+  `course.node-test.mjs` asserted the ground carries no object registries, which
+  was true only while Lidingö had no LiDAR generation. The vegetation workflow
+  runs its publish BEFORE its gates, so the first run that attached object
+  registries failed on that assertion — a gate failing because its own chain
+  succeeded. It asserts the INVARIANT now: objects and stand fields live on the
+  finest tiles only, never on the coarse rings whose samples are averaged ground,
+  and every tile but the root keeps its explicit `parentId`.
+- **`check-manifests.mjs --ground <id>` narrows the EXIT CODE only.** It still
+  prints every ground's errors; it just does not fail this ground's run for
+  another ground's drift. A concurrent session's checksum drift on Visby was
+  otherwise failing every Lidingö publish, and re-pinning another course's
+  checksums to get green would have been the wrong fix twice over.
+- **`semantic-exclusions.mjs` now reads `scenery.practiceGreens`** alongside
+  greens, fairways and tees. A practice green is a putting surface; without it the
+  vegetation compile was free to stand measured trees on one.
+
+### Things this ground taught
+
+- **Tee marks are placed by searching the pad's interior, not its centroid.**
+  `build-course.mjs` now walks the pad at 0.5 m for the point whose card distance
+  best matches, which took the residual median from 10.6 m to **3.7 m** and the
+  marks more than 20 m out from **33 to 2**.
+- **The survey is verified before it is used.** `review-golftraxx-survey.mjs`
+  gates it against the card and the observed surfaces: the par-3 identity agrees
+  6 of 6, all 18 green centres land on the right hole (16 of them inside the
+  mapped ring, median 3.27 m), and the route-to-card ratio has a median of
+  **0.9165** — which is 1 yard in metres (0.9144), the same GolfTraxx units bug
+  Ribbingsfors measured. The routes are yards; the POINTS are not.
+- **A WMS 1.3.0 request in EPSG:3011 takes its bbox northing-first**, and a
+  10,000 px GetMap comes back truncated. The acquisition asks for 4,096 px parts
+  and DECODES each one before accepting it.
+- **Read a coordinate off the model, never off a guess.** The first change-dating
+  pass typed hole 17's bunker coordinate by hand, sampled 30 m of fairway, read no
+  sand in any capture — and would have recorded a false refusal of the club's own
+  dated statement. It reads the model's own ring centroid now. Hole 17's IS the
+  September 2024 bunker (turf 2018, turf 2019, sand 2025); the phantom is on
+  hole 15.
+- **This ground's scan is thinner than any other here, and it is leaf-off.** One
+  campaign, `21c031-658_67`, captured **2021-03-23** at **2.784 all returns/m²**
+  and **1.24 pulses/m²** — against Veckefjärden's 3.119 and Norrfällsviken's 3.4 —
+  with 11.7% void cells and canopy on 59.8% of the measured ones. Both facts cut
+  the same way and must be stated together: a March scan under-detects deciduous
+  crowns (the Johannesberg caveat), and half the pulse density of the other
+  grounds finds fewer crowns of any kind. Do not attribute a thin generation to
+  one of them without measuring which.

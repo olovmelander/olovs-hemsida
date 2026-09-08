@@ -133,5 +133,18 @@ test('the live frame and cutout are pinned to the acquired extent, not a WGS84 a
   assert.equal(ground.frame.fingerprint, LIDINGO_V2_CONFIG.frameFingerprint);
   assert.equal(ground.tiles.filter(t => t.lod === 0 && t.layers.terrain).length, 64);
   assert.equal(ground.tiles.filter(t => t.layers.stands).length, 64);
-  assert.equal(ground.tiles.filter(t => t.layers.objects).length, 0);
+  /* Objects are the measured individuals a vegetation publish attaches, and how
+     many there are is what the compile finds -- so this asserts the INVARIANT
+     and not a frozen count. It used to assert zero, which was true only while
+     this ground had no generation: the publish step runs before these gates, so
+     the run that first attached object registries failed on a guard that its
+     own success necessarily breaks. What must stay true is that vegetation
+     never reaches the coarse rings, whose samples are averaged ground. */
+  for (const tile of ground.tiles.filter(t => t.lod > 0)) {
+    assert.equal(tile.layers.objects ?? null, null, 'objects live on the finest tiles only');
+    assert.equal(tile.layers.stands ?? null, null, 'stand fields live on the finest tiles only');
+  }
+  assert.ok(ground.tiles.filter(t => t.layers.objects).length <= 64, 'object registries stay within the 64 finest tiles');
+  assert.equal(ground.tiles.filter(t => t.parentId).length, ground.tiles.length - 1,
+    'every tile but the root keeps its explicit parent link');
 });

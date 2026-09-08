@@ -22,6 +22,13 @@ osm = json.loads(osm_path.read_text(encoding='utf8'))
 traces = json.loads(trace_path.read_text(encoding='utf8'))
 extra_traces = json.loads(extra_trace_path.read_text(encoding='utf8'))
 refinements = json.loads(refinement_path.read_text(encoding='utf8'))
+# The 2019 traces are PIXELS in one image's frame; the 2025 additions are
+# rings already in EPSG:3006, measured on a different capture. They are read
+# separately for exactly that reason - a file whose coordinates are already
+# world metres must not go through the pixel path, and must not be asserted
+# against the 2019 image the pixel path is registered to.
+additions_path = OUT / 'surface-additions-2025.json'
+additions = json.loads(additions_path.read_text(encoding='utf8')) if additions_path.exists() else None
 assert extra_traces['sourceImage']==traces['sourceImage']
 assert refinements['sourceImage']==traces['sourceImage']
 traces['traces'].extend(extra_traces['traces'])
@@ -33,6 +40,14 @@ world = [float(x) for x in world_path.read_text().split()]
 assert sha256(image_path.read_bytes()).hexdigest()==extra_traces['sourceImageSha256']
 assert sha256(image_path.read_bytes()).hexdigest()==refinements['sourceImageSha256']
 project = Transformer.from_crs(3011,3006,always_xy=True)
+# A projected coordinate is written to the MILLIMETRE. Two PROJ builds agree
+# on this transform to about a nanometre, which is nine orders of magnitude
+# inside the metres of interpretation uncertainty each trace states - so a
+# full-precision float makes every rerun on a different machine rewrite every
+# ring and a reviewer cannot tell a re-measured surface from a library upgrade.
+OUTPUT_PRECISION_METRES = 0.001
+def at_output_precision(e,n):
+    return [round(e,3),round(n,3)]
 to_source = Transformer.from_crs(3006,3011,always_xy=True)
 greens = {143591667:2,296422990:4,296422971:5,296422974:8,143587585:9,143587542:10,427429853:11,221846967:13,331796643:15,427426825:16,427426867:17,296423010:18}
 tees = {221832565:3,221832567:3,221832578:3,296422978:8,296422999:8,331796626:7,331796654:7,331796609:16,331796648:16,331796671:16,427426704:15,427426720:15,427426728:15,427426821:18,427426836:18,1530686621:9,1530686622:9,296422981:17}
@@ -53,9 +68,28 @@ for t in traces['traces']:
     for px,py in t['pixels']:
         x,y=px+t['origin'][0],py+t['origin'][1]
         e,n=project.transform(world[4]+world[0]*x,world[5]+world[3]*y)
-        points.append([e,n])
+        points.append(at_output_precision(e,n))
     if points[0]!=points[-1]: points.append(points[0])
     features.append({'type':'Feature','id':t['id'],'properties':{'kind':t['kind'],'hole':t['hole'],'sourceId':traces['sourceId'],'observedYear':2019,'captureDate':None,'reviewStatus':'machine-visual-review','notSurveyed':True,'method':'manual-image-boundary-digitization','sourcePixelTrace':t['id'],'interpretationUncertaintyMetres':t['uncertaintyMetres'],'registrationAccuracy':'not independently checked','note':t['note'],'licence':'CC0-1.0'},'geometry':{'type':'Polygon','coordinates':[points]}})
+if additions:
+    # each capture states its own sha256, so a ring adopted from one image can
+    # never be silently re-attributed to another
+    capture = additions['sourceCapture']
+    assert additions['horizontalCrs'] == 'EPSG:3006', additions['horizontalCrs']
+    for a in additions['features']:
+        ring = [at_output_precision(pt[0],pt[1]) for pt in a['ring']]
+        if ring[0] != ring[-1]:
+            ring.append(ring[0])
+        features.append({'type':'Feature','id':a['id'],'properties':{
+            'kind':a['kind'],'hole':a['hole'],'sourceId':capture['id'],
+            'observedYear':a['observedYear'],'captureDate':capture['captureDate'],
+            'sourceImageSha256':capture['sha256'],
+            'reviewStatus':a['reviewStatus'],'notSurveyed':a['notSurveyed'],
+            'method':a['method'],'datingVerdict':a['datingVerdict'],
+            'clubRecord':a['clubRecord'],'note':a['note'],
+            'registrationAccuracy':'not independently checked',
+            'licence':capture['licence'],'attribution':capture['attribution']},
+            'geometry':{'type':'Polygon','coordinates':[ring]}})
 assert len({f['id'] for f in features})==len(features),'duplicate feature IDs'
 for f in features:
     ring=f['geometry']['coordinates'][0]
@@ -85,10 +119,21 @@ report={'schemaVersion':1,'groundId':'lidingo','status':'provisional-source-deri
 report['inputs']=[{'path':str(p.relative_to(ROOT)).replace('\\','/'),'sha256':sha256(p.read_bytes()).hexdigest()} for p in [osm_path,trace_path,extra_trace_path,refinement_path,world_path,Path(__file__)]]
 report['excludedOsmFeatures']=traces.get('excludedOsmFeatures',{})
 report['holesWithAssociatedFairway']=sorted(set(f['properties']['hole'] for f in features if f['properties']['kind']=='fairway' and f['properties']['hole']))
+report['outputPrecisionMetres']=OUTPUT_PRECISION_METRES
 report['validation']={'closedFinitePolygonRings':True,'uniqueFeatureIds':True,'allPolygonsValid':True,'positiveAreaGreaterThanOneSquareMetre':True,'oneAssociatedGreenPerHole':True,'physicalTeePlatformAssociatedEveryHole':True,'fairwayForEveryPar4AndPar5':set(report['holesWithAssociatedFairway'])=={2,4,5,7,8,10,12,13,14,15,17,18},'independentRegistrationAccuracy':None}
 report['additionalInspectionsNotAdopted']=extra_traces['unadoptedInspections']+refinements['unadoptedInspections']
 report['output']={'path':'lidingobuild/mapping/playing-surfaces.geojson','sha256':sha256((OUT/'playing-surfaces.geojson').read_bytes()).hexdigest()}
 report['limitations'].extend(['The two unassociated OSM greens and one unassociated tee remain supplementary features with no asserted playing-hole role.','Hole10 rear tee differs substantially in the newer undated summer view; its 2019 physical pad is retained explicitly as historical and provisional.','Visible greenside and fairway bunkers were added where the 2019 source supports complete rings; bunker inventory and all physical tee platforms are still incomplete.','Hole13 retains its central maintained fairway patch; an attempted western fragment was rejected after overlay review because its lower edge included indistinct rough. Hole16 has no adopted fairway polygon because its par3 approach edge is ambiguous.'])
-report['refinementRound']={'previousOutputSha256':refinements['previousOutputSha256'],'newTraceCount':len(refinements['traces']),'rejectedTraceIds':[t['id'] for t in refinements.get('rejectedTraces',[])],'osmBunkerAssociations':refinements['osmBunkerHoleAssociations'],'sourceGeometryEpoch':2019,'laterMowingOrBunkerChangesAdopted':False}
+_built={f['id']:f for f in features}
+report['newerCaptureAdditions']=({'sourceCapture':additions['sourceCapture'],'rule':additions['rule'],
+  'adopted':[{'id':f['id'],'kind':f['kind'],'hole':f['hole'],'datingVerdict':f['datingVerdict'],
+              'clubRecord':f['clubRecord'],
+              'maskAreaSquareMetres':f['areaSquareMetres'],
+              'polygonAreaSquareMetres':_built[f['id']]['properties']['areaSquareMetres']}
+             for f in additions['features']],
+  'note':'rings measured on a capture NEWER than the 2019 pixel traces and carried in EPSG:3006; '
+         'adopted only where a club document dates the work and the older captures show the ground without it'}
+  if additions else None)
+report['refinementRound']={'previousOutputSha256':refinements['previousOutputSha256'],'newTraceCount':len(refinements['traces']),'rejectedTraceIds':[t['id'] for t in refinements.get('rejectedTraces',[])],'osmBunkerAssociations':refinements['osmBunkerHoleAssociations'],'sourceGeometryEpoch':2019,'laterMowingOrBunkerChangesAdopted':bool(additions and additions['features'])}
 (OUT/'playing-surfaces-review.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
 print(json.dumps({k:report[k] for k in ['counts','holesWithGreen','holesWithAssociatedTee','sourceTraceCount']}))

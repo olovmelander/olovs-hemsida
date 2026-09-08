@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "measuredOn": "2026-09-08",
+  "state": "measured-candidate-geometry",
+  "generator": "lidingobuild/mapping/trace-2025-bunkers.py",
+  "sourceCapture": {
+    "id": "lm-ortofoto-0p16",
+    "captureDate": "2025-05-31",
+    "sha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+    "licence": "CC-BY-4.0",
+    "attribution": "Datakälla Lantmäteriets Min karta; ©Lantmäteriet; bearbetad; CC BY 4.0"
+  },
+  "horizontalCrs": "EPSG:3006",
+  "rule": {
+    "sandLuminanceMinimum": 119.1,
+    "sandExcessGreenMaximum": 18.5,
+    "sandRedOverGreenMinimum": 0.931,
+    "localMedianWindowMetres": 15,
+    "perCellHollowMetres": 0.12,
+    "componentMedianHollowMetres": 0.12,
+    "minimumAreaSquareMetres": 8.0,
+    "maximumAreaSquareMetres": 250.0,
+    "minimumCompactness": 0.25,
+    "minimumMedianLuminance": 110.0,
+    "note": "every colour threshold is measured on THIS capture and sits midway in the gap its own sand and turf pixels leave"
+  },
+  "features": [
+    {
+      "id": "lidingo-bunker-13-green-lm2025",
+      "kind": "bunker",
+      "hole": 13,
+      "areaSquareMetres": 32.7,
+      "vertices": 39,
+      "ring": [
+        [
+          677279.7,
+          6586779.5
+        ],
+        [
+          677279.6,
+          6586779.0
+        ],
+        [
+          677279.7,
+          6586778.5
+        ],
+        [
+          677279.7,
+          6586778.0
+        ],
+        [
+          677279.7,
+          6586777.5
+        ],
+        [
+          677280.1,
+          6586777.1
+        ],
+        [
+          677280.5,
+          6586776.7
+        ],
+        [
+          677281.0,
+          6586776.5
+        ],
+        [
+          677281.5,
+          6586776.5
+        ],
+        [
+          677282.0,
+          6586776.5
+        ],
+        [
+          677282.5,
+          6586776.2
+        ],
+        [
+          677283.0,
+          6586775.9
+        ],
+        [
+          677283.5,
+          6586775.9
+        ],
+        [
+          677284.0,
+          6586776.0
+        ],
+        [
+          677284.3,
+          6586776.4
+        ],
+        [
+          677284.4,
+          6586776.9
+        ],
+        [
+          677284.6,
+          6586777.4
+        ],
+        [
+          677284.8,
+          6586777.9
+        ],
+        [
+          677285.2,
+          6586778.3
+        ],
+        [
+          677285.4,
+          6586778.8
+        ],
+        [
+          677285.7,
+          6586779.2
+        ],
+        [
+          677285.7,
+          6586779.7
+        ],
+        [
+          677285.6,
+          6586780.2
+        ],
+        [
+          677285.4,
+          6586780.7
+        ],
+        [
+          677285.1,
+          6586781.2
+        ],
+        [
+          677284.9,
+          6586781.7
+        ],
+        [
+          677284.4,
+          6586782.0
+        ],
+        [
+          677284.0,
+          6586782.4
+        ],
+        [
+          677283.6,
+          6586782.8
+        ],
+        [
+          677283.1,
+          6586783.1
+        ],
+        [
+          677282.6,
+          6586783.3
+        ],
+        [
+          677282.1,
+          6586783.1
+        ],
+        [
+          677281.6,
+          6586782.8
+        ],
+        [
+          677281.3,
+          6586782.3
+        ],
+        [
+          677281.0,
+          6586781.8
+        ],
+        [
+          677280.7,
+          6586781.3
+        ],
+        [
+          677280.4,
+          6586780.8
+        ],
+        [
+          677280.1,
+          6586780.3
+        ],
+        [
+          677279.7,
+          6586779.9
+        ],
+        [
+          677279.7,
+          6586779.5
+        ]
+      ],
+      "method": "measured sand component on the 2025-05-31 capture, grown from the dated site",
+      "observedYear": 2025,
+      "clubRecord": "course-council page: a new LEFT GREEN BUNKER on hole 13, among the works reported by 2025",
+      "datingVerdict": "built between municipal-2019 and lm-2025-05-31",
+      "datingEvidence": {
+        "municipal-2018": {
+          "luminanceAboveTurf": -12.6,
+          "medianExcessGreen": 39.0,
+          "readsAsSand": false
+        },
+        "municipal-2019": {
+          "luminanceAboveTurf": -7.5,
+          "medianExcessGreen": 34.0,
+          "readsAsSand": false
+        },
+        "lm-2025-05-31": {
+          "luminanceAboveTurf": 83.7,
+          "medianExcessGreen": 13.0,
+          "readsAsSand": true
+        }
+      },
+      "note": "the left green bunker the club reports building; the hole carried no bunker at all",
+      "reviewStatus": "machine-measured; no independent human survey",
+      "notSurveyed": true
+    }
+  ]
+}
