@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_BAG, MAX_BAG_CLUBS, gpsToLocal, nearestHole, normalizeBag, parseBag,
-  pointAlongLine, recommendClub, strategyForHole,
+  pointAlongLine, playableLine, recommendClub, strategyForHole,
 } from './caddie.js';
 
 describe('bag', () => {
@@ -42,6 +42,24 @@ describe('GPS frame', () => {
     expect(z).toBeCloseTo(-111.32);
   });
 
+  it('matches independent PROJ controls across Lidingö instead of rotating GPS into the legacy frame', () => {
+    const projected = { origin: { lat:59.378715385375614, lon:18.12816746741512 }, mPerLon:56702.08,
+      frame:'local metres from EPSG:3006; east +x, north -z; origin E677700.5 N6586399.5; heights RH 2000' };
+    // EPSG:3006 -> EPSG:4326, PROJ/pyproj always_xy, offline database.
+    // The controls are fixed projected locations, not this implementation's inverse.
+    for (const [latitude,longitude,e,n] of [
+      [59.378715385375614,18.12816746741512,677700.5,6586399.5],
+      [59.37298170859494,18.116360534826395,677060,6585730],
+      [59.3847644331165,18.138404685012777,678250,6587100],
+      [59.38435276735087,18.118109417201236,677100,6587000],
+      [59.373128933026656,18.13644843160652,678200,6585800],
+    ]) {
+      const [x,z] = gpsToLocal({latitude,longitude},projected);
+      expect(Math.hypot(x-(e-677700.5),z-(6586399.5-n))).toBeLessThan(.005);
+    }
+    expect(() => gpsToLocal({latitude:59.38,longitude:18.13},{...projected,frame:'local metres from EPSG:3006; missing origin'})).toThrow(/origo/);
+  });
+
   it('selects the nearest hole but keeps the current one inside the hysteresis', () => {
     const holes = [
       { n: 1, line: [[0, 0], [0, -100]] },
@@ -76,5 +94,20 @@ describe('strategy', () => {
     const strategy = strategyForHole(par3);
     expect(strategy.zones[0].kind).toBe('green');
     expect(strategy.zones[0].distance).toBe(145);
+  });
+
+  it('plays directly from the chosen par-three tee to the visible target', () => {
+    const h = { par: 3, pin: [5, -152], line: [[0, 0], [0, -160]], tees: { marks: [{ c: [18, -25] }] } };
+    const before = structuredClone(h);
+    const strategy = strategyForHole(h);
+    expect(strategy.line).toEqual([[18, -25], [5, -152]]);
+    expect(strategy.primary).toEqual(h.pin);
+    expect(strategy.total).toBeCloseTo(Math.hypot(13, 127));
+    expect(h).toEqual(before);
+  });
+
+  it('keeps forward doglegs without a sideways shot or a stale green endpoint', () => {
+    const h = { ...hole, pin: [105, -310], tees: { marks: [{ c: [18, -25] }] } };
+    expect(playableLine(h).line).toEqual([[18, -25], [0, -200], [105, -310]]);
   });
 });

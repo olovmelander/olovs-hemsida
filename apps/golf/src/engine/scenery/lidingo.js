@@ -48,6 +48,10 @@ export const clubhouse = {
   terrace: true,
 };
 
+// Use the retained 2025 canopy raster for floor appearance as well as trees.
+// Source polygons for greens, paths, sand and other maintained ground win.
+export const canopyFloor = true;
+
 /* THE WOODS. The club calls its own course "en något kuperad parkbana där
    fairways ligger inbäddade bland vackra villor och välskötta skogsdungar" -
    a slightly undulating PARK course whose fairways sit among villas and

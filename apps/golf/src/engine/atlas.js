@@ -9,6 +9,7 @@
 import * as THREE from 'three/webgpu';
 import { ringBBox } from './geom.js';
 import { SURFACE, SURFACE_PRIORITY } from './surface.js';
+import { canopySampler } from './canopy-cover.mjs';
 
 const MAX_EDGE_DISTANCE = 8;
 /* Route distance is stored in a byte at 0.25 m so the shader can rebuild mow
@@ -163,7 +164,7 @@ function buildBoundaryField(bounds, classes) {
 }
 
 /** Pure, Node-testable raster half of createGroundAtlas(). */
-export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1, boundaryOnly = false, classesOnly = false }) {
+export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1, boundaryOnly = false, classesOnly = false, canopyFloor = null }) {
   if (!(res > 0)) throw new Error('ground atlas resolution must be positive');
   const w = Math.max(1, Math.ceil((CORE.x1 - CORE.x0) / res));
   const h = Math.max(1, Math.ceil((CORE.z1 - CORE.z0) / res));
@@ -184,6 +185,20 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1,
     ranks[k] = rank;
     if (feature.hole && route) route.owner[k] = feature.hole;
   };
+
+  // Seed forest floor from this course's observed canopy, then let every
+  // higher-priority played/hard/wet surface win. No polygon growth, new mesh,
+  // tree placement or per-frame work; this runs once with atlas construction.
+  if (canopyFloor) {
+    const sample = canopySampler(canopyFloor);
+    const feature = { surface: SURFACE.FOREST };
+    const area = rasterBounds({ x0: canopyFloor.x0, z0: canopyFloor.z0,
+      x1: canopyFloor.x0 + canopyFloor.nx * canopyFloor.cell,
+      z1: canopyFloor.z0 + canopyFloor.nz * canopyFloor.cell }, bounds);
+    for (let j = area.j0; j <= area.j1; j++) for (let i = area.i0; i <= area.i1; i++) {
+      if (sample(bounds.x0 + (i + 0.5) * res, bounds.z0 + (j + 0.5) * res) === 3) paint(i, j, feature);
+    }
+  }
 
   function fillRing(ring, feature) {
     if (!ring || ring.length < 3) return;

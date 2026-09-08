@@ -2,6 +2,8 @@
    There is deliberately no DOM or THREE here: club advice and coordinate
    conversion must be testable without starting the renderer. */
 
+import { latLonToSweref99Tm } from '../../../../packages/course-geo/chmv2/projection.mjs';
+
 const DEFAULT_CLUBS = [
   ['driver', 'Driver', 210],
   ['wood-3', 'Trä 3', 190],
@@ -85,6 +87,16 @@ export function gpsToLocal(coords, geo, metresPerLatitude = PACK_METRES_PER_LATI
   if (![latitude, longitude, lat0, lon0, metresPerLatitude, metresPerLongitude].every(Number.isFinite)) {
     throw new TypeError('GPS-fixen eller banans koordinatram är ofullständig');
   }
+  if (Math.abs(latitude) > 90 || Math.abs(longitude) > 180) throw new RangeError('Ogiltig GPS-position');
+  // Grid-authored packs (Lidingö and Visby) declare their exact origin in the
+  // retained GEO frame. Their metre-per-degree fields are legacy metadata:
+  // using those fields rotates a Lidingö GPS fix up to 36 m off its green.
+  if (String(geo?.frame || '').startsWith('local metres from EPSG:3006;')) {
+    const match = geo.frame.match(/^local metres from EPSG:3006; east \+x, north -z; origin E(-?\d+(?:\.\d+)?) N(-?\d+(?:\.\d+)?);/);
+    if (!match) throw new TypeError('Banans projicerade koordinatram saknar ett giltigt origo');
+    const [easting, northing] = latLonToSweref99Tm(latitude, longitude);
+    return [easting - Number(match[1]), Number(match[2]) - northing];
+  }
   return [(longitude - lon0) * metresPerLongitude, (lat0 - latitude) * metresPerLatitude];
 }
 
@@ -126,14 +138,20 @@ export function pointAlongLine(line, distance) {
   return [...line[line.length - 1]];
 }
 
-function playableLine(hole, teeIndex) {
+export function playableLine(hole, teeIndex = 0) {
   const line = hole?.line || [];
   const origin = hole?.tees?.marks?.[teeIndex]?.c || hole?.tees?.marks?.[0]?.c || line[0];
   if (!origin || line.length < 2) return { origin, line: origin ? [origin] : [], total: 0 };
+  const target = hole.pin || hole.green?.c || line[line.length - 1];
   const hit = nearestPointOnLine(origin, line);
   const out = [[...origin]];
-  if (hit.point && Math.hypot(origin[0] - hit.point[0], origin[1] - hit.point[1]) > 0.5) out.push(hit.point);
-  for (let i = (hit.segment ?? 0) + 1; i < line.length; i++) out.push([...line[i]]);
+  // A tee may sit beside the survey centreline. A shot joins the next forward
+  // waypoint directly; it does not first play sideways to its projection.
+  // Par threes aim at the visible green target, not an old OSM route endpoint.
+  if (hole.par > 3) for (let i = (hit.segment ?? 0) + 1; i < line.length - 1; i++) {
+    if (Math.hypot(line[i][0] - out.at(-1)[0], line[i][1] - out.at(-1)[1]) > 0.01) out.push([...line[i]]);
+  }
+  if (Math.hypot(target[0] - out.at(-1)[0], target[1] - out.at(-1)[1]) > 0.01) out.push([...target]);
   const total = out.slice(1).reduce((sum, p, i) => sum + Math.hypot(p[0] - out[i][0], p[1] - out[i][1]), 0);
   return { origin: [...origin], line: out, total };
 }

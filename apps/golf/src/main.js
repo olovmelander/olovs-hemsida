@@ -58,6 +58,7 @@ import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, P
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
+import { canopySampler } from './engine/canopy-cover.mjs';
 import { buildGroundSurfaceFeatures, mappedPathSurface } from './engine/surface-features.mjs';
 import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
@@ -84,7 +85,7 @@ import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { compassBearing, windAlong, playsLike, greenDistances, lineHazards, layupTargets } from './engine/rangefinder.js';
 import {
   DEFAULT_BAG, MAX_BAG_CLUBS, gpsToLocal, nearestHole, normalizeBag, parseBag,
-  pointAlongLine, recommendClub, strategyForHole,
+  pointAlongLine, playableLine, recommendClub, strategyForHole,
 } from './engine/caddie.js';
 import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
@@ -947,14 +948,8 @@ let coverAt = () => 0;
 let coverEdgeFade = () => 0;
 if (M.cover) {
   const cv = M.cover;
-  const bytes = Uint8Array.from(atob(cv.b64), c => c.charCodeAt(0));
   const cx1 = cv.x0 + cv.nx * cv.cell, cz1 = cv.z0 + cv.nz * cv.cell;
-  coverAt = (x, z) => {
-    const i = Math.floor((x - cv.x0) / cv.cell), j = Math.floor((z - cv.z0) / cv.cell);
-    if (i < 0 || j < 0 || i >= cv.nx || j >= cv.nz) return 0;
-    const k = j * cv.nx + i;
-    return (bytes[k >> 2] >> ((k & 3) * 2)) & 3;
-  };
+  coverAt = canopySampler(cv);
   coverEdgeFade = (x, z) => smooth(0, 240, Math.min(x - cv.x0, cx1 - x, z - cv.z0, cz1 - z));
 }
 
@@ -966,7 +961,13 @@ let groundAtlas = null;
    walking every edge of a 378-vertex forest ring for every point (ring-index.mjs) */
 const classifyAnalytic = createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distToLine, smooth });
 const classify = (x, z) => {
-  if (!groundAtlas?.contains(x, z)) return classifyAnalytic(x, z);
+  if (!groundAtlas?.contains(x, z)) {
+    const c = classifyAnalytic(x, z);
+    if (SCENERY?.canopyFloor && coverAt(x, z) === 3) {
+      c.forest = Math.max(c.forest, 1 - Math.max(c.green, c.fringe, c.tee, c.fair, c.sand, c.path, c.wet));
+    }
+    return c;
+  }
   const c = groundAtlas.classifyAt(x, z);
   /* THE APRON, and it is what keeps things off the mown ground.
      Every scatter loop -- trees, bushes, tufts, stones -- rejects a candidate
@@ -2090,7 +2091,8 @@ if (groundMode === 'atlas') {
   const features = buildGroundSurfaceFeatures({ holes: HOLES, model: M });
 
   const atlasStarted = performance.now();
-  groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1 });
+  groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1,
+    canopyFloor: SCENERY?.canopyFloor ? M.cover : null });
   BOOT_PERF.atlasMs = +(performance.now() - atlasStarted).toFixed(1);
   span('ground atlas (1 m, CORE)', atlasStarted);
 }
@@ -6704,33 +6706,33 @@ function setCam(mode, instant) {
   if (window.__navDrawer) window.__navDrawer.updateActiveCam(mode);
   const h = HOLES[hole - 1];
   const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
-  const p0 = alongLine(h.line, 0), p1 = alongLine(h.line, 1);
-  const b = alongLine(h.line, 0.02).b;
+  const played = playableLine(h, teeIdx).line;
+  const b = alongLine(played, 0.02).b;
   const F = [Math.sin(b), Math.cos(b)];
   if (mode === 'tee') {
     /* standing on the tee at eye height, looking down the hole. The aim point is a
        little short of the green so the whole corridor is in frame rather than a flag
        three hundred metres away filling the middle of an empty picture. */
     const x = mk.c[0] - F[0] * 7, z = mk.c[1] - F[1] * 7;
-    const aim = alongLine(h.line, 0.72);
+    const aim = alongLine(played, 0.72);
     flyTo(V3(x, terrainH(x, z) + 2.4, z), V3(aim.x, terrainH(aim.x, aim.z) + 3, aim.z), DUR);
   } else if (mode === 'green') {
     /* the approach, not a plan of the green: back down the fairway at the height a
        ball is at when it lands, so the complex is seen the way it is played */
-    const p = alongLine(h.line, 0.80);
+    const p = alongLine(played, 0.80);
     const G = [Math.sin(p.b), Math.cos(p.b)];
     const x = p.x - G[0] * 24 + G[1] * 16, z = p.z - G[1] * 24 - G[0] * 16;
     flyTo(V3(x, terrainH(x, z) + 15, z),
           V3(h.pin[0], terrainH(h.pin[0], h.pin[1]) + 1.5, h.pin[1]), DUR);
   } else if (mode === 'top') {
-    const m = alongLine(h.line, 0.5);
+    const m = alongLine(played, 0.5);
     flyTo(V3(m.x, terrainH(m.x, m.z) + 330, m.z + 0.1), V3(m.x, terrainH(m.x, m.z), m.z), DUR);
   } else {
     /* Behind and above the tee, looking down the hole. High enough to read the shape,
        low enough that the horizon and the sky are in frame -- a plan view from 400 m
        tells you where the bunkers are but nothing about what the shot looks like. */
-    const m = alongLine(h.line, 0.4);
-    const len = polyLen(h.line);
+    const m = alongLine(played, 0.4);
+    const len = polyLen(played);
     const x = mk.c[0] - F[0] * (36 + len * 0.10) - F[1] * 26;
     const z = mk.c[1] - F[1] * (36 + len * 0.10) + F[0] * 26;
     flyTo(V3(x, terrainH(x, z) + 24 + len * 0.045, z),
@@ -9019,7 +9021,8 @@ function drawMini() {
   mctx.strokeStyle = strategyOn ? 'rgba(205,231,211,.34)' : '#8cf0a8';
   mctx.lineWidth = strategyOn ? 1.5 : 3.2; mctx.lineJoin = 'round';
   mctx.beginPath();
-  h.line.forEach((p, i) => i ? mctx.lineTo(MX(p[0]), MZ(p[1])) : mctx.moveTo(MX(p[0]), MZ(p[1])));
+  const played = playableLine(h, teeIdx);
+  played.line.forEach((p, i) => i ? mctx.lineTo(MX(p[0]), MZ(p[1])) : mctx.moveTo(MX(p[0]), MZ(p[1])));
   mctx.stroke();
   if (strategyOn && currentStrategy) {
     mctx.save();
@@ -9044,7 +9047,7 @@ function drawMini() {
     mctx.restore();
   }
   mctx.fillStyle = '#f0a23a';
-  mctx.beginPath(); mctx.arc(MX(h.line[0][0]), MZ(h.line[0][1]), 4.5, 0, TAU); mctx.fill();
+  mctx.beginPath(); mctx.arc(MX(played.origin[0]), MZ(played.origin[1]), 4.5, 0, TAU); mctx.fill();
   /* a flag, not a dot. Red on green is the one pair a deuteranope cannot split, so
      the pin is told apart by its shape as much as by its vermillion. */
   {
