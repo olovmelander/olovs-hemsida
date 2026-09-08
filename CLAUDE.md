@@ -4318,17 +4318,31 @@ is a manifest field, so none of the three checksum registries move.
   canonical grid origin (6 m apart at Norrfällsviken, 313 m at Upsala, 460 m at
   Veckefjärden) and those configs declare `legacyOriginEpsg3006`; a
   GRID-AUTHORED pack has no separate legacy frame at all, so Ribbingsfors,
-  Lidingö and Visby declare none — correctly, because writing that pair down
-  twice is the `const hut` duplication. `v2-graph-frontier.mjs` knew the rule
-  and had it inline; `main.js`, handing the RING adapter its origin, had no
-  rule and read the field straight off the config. Invisible while every
-  ring-graph ground happened to be a flat-earth one — **Visby is the first
-  grid-authored ground with a ring graph.** The rule has one home now,
-  `gridOriginEpsg3006` in `v2-frontier-configs.mjs`, used by both callers and
-  throwing rather than returning nothing; Ribbingsfors and Lidingö were saved
-  only by not having a ring graph yet. Before: 6 gates failed. After: *213 ring
-  tiles read for the model in 5049 ms · first frontier covered · backend
-  preflight passed*, no page error.
+  Lidingö and Visby declared none. `v2-graph-frontier.mjs` INFERRED the answer
+  for them — falling back to `canonicalOrigin`, which is right — while
+  `main.js`, handing the RING adapter its origin, read the field and got
+  nothing. Invisible while every ring-graph ground happened to be a flat-earth
+  one — **Visby is the first grid-authored ground with a ring graph.** The
+  field is DECLARED by every config now, including the three grid-authored
+  ones where it equals their canonical origin by construction, and both paths
+  read that one field and throw rather than infer. Before: 6 gates failed.
+  After: *213 ring tiles read for the model in 5049 ms · first frontier
+  covered · backend preflight passed*, no page error, and
+  `check-course-v2 --course visby` green on all ten including *published
+  vegetation layers verify, load and plant*.
+- **AND THE FIRST FIX FOR IT TURNED `main` RED, which is the more general
+  lesson.** The obvious repair was one shared helper imported by both callers.
+  That promoted `v2-frontier-configs.mjs` from a module rolldown INLINES into
+  `main-*.js` to a **shared chunk between two importers** — and a shared chunk
+  is a static import, so `check-app-build` correctly refused it: *every v2
+  module must stay behind a dynamic import so a flagless visit fetches none of
+  them*. The gate's roots are the HTML entry AND the player chunk it routes
+  to, so main.js may not statically reach any `v2-*` chunk. **A helper shared
+  between `main.js` and a v2 module is not free** — it changes the chunk graph
+  — and renaming the file to dodge the `v2-` test would have been the checker
+  agreeing with the bug. Declaring the field per config keeps the bundle
+  exactly as it was: measured, no `v2-frontier-configs-*.js` chunk is emitted
+  at all.
 
 ### Running it
 

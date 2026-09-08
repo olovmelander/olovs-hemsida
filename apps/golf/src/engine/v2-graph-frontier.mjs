@@ -14,7 +14,6 @@ import {
 } from '../../../../packages/course-v2/runtime/terrain-render-data.mjs';
 import { resolveV2AssetUrl } from '../../../../packages/course-v2/runtime/http.mjs';
 import { inscribedLegacyBounds, legacyGridBridge } from './geodetic-frame.mjs';
-import { gridOriginEpsg3006 } from './v2-frontier-configs.mjs';
 
 const EPSILON = 1e-6;
 const MAX_CONCURRENT_REQUESTS = 4;
@@ -342,7 +341,16 @@ export async function loadPublishedGraphTerrainFrontier({
      are known before a tile is fetched -- which is when the lake beds must
      be, because a tile is carved as it is decoded. */
   const bridge = BRIDGE_MODES.get(config.bridgeMode)(graph.ground.frame, config);
-  const gridOrigin = gridOriginEpsg3006(config);
+  /* WHERE THIS GROUND'S LOCAL METRES HAVE THEIR ZERO, in EPSG:3006. Every
+     config declares it, including the grid-authored ones whose legacy origin
+     IS their canonical origin -- this used to fall back to `canonicalOrigin`
+     for them, which was right for this loader and silently WRONG for the ring
+     adapter, whose own caller had no such fallback. One field, read the same
+     way everywhere, is what stops the two paths disagreeing again. */
+  const gridOrigin = config.legacyOriginEpsg3006;
+  if (!Number.isFinite(gridOrigin?.easting) || !Number.isFinite(gridOrigin?.northing)) {
+    throw new TypeError(`${config?.slug || 'a v2 config'} declares no EPSG:3006 origin for its local metres`);
+  }
   const frontierBounds = config.expectedFrontierBoundsEpsg5845 || config.expectedBoundsEpsg5845;
   const expectedLocalBounds = {
     x0: frontierBounds.minEasting - gridOrigin.easting,
