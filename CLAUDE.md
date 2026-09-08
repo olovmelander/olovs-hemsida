@@ -3704,3 +3704,250 @@ the same commit (`pnpm test` fails loudly on both, and
   belt and braces.** The engine draws a sheet per ring; overlapping sheets a
   centimetre apart fight at any distance on a 24-bit depth buffer. One body,
   one ring — unite in the data, never rely on draw order.
+
+## Visby GK / Kronholmen — `visbybuild/` (app-only), the first course that is mostly sea
+
+Visby Golfklubb: 18 holes, par 72, on Kronholmen at Västergarn on Gotland's west
+coast — a links where the median green stands 82 m from the Baltic and 17.3% of
+the property boundary IS the shore. `?bana=visby`. The full evidence is
+[`docs/courses/visby-source-research.md`](docs/courses/visby-source-research.md)
+and the handoff is `visbybuild/mapping/NEXT-SESSION.md`; read them before
+touching geometry, because this build runs a stricter provenance policy than any
+other here: `infra.terrainPlacement` and `vegetationPlacement` are
+`measured-only`, `objectPlacement` and `bridgePlacement` are `mapped-only`,
+`tees.inferPads` is `false` on every hole, and the source manifest's
+`canonicalFrame.origin` is still `null` with
+`originStatus:'pending-control-approval'`. Nothing here may be inferred to fill
+a gap; a gap is recorded as a gap.
+
+Like Ribbingsfors it is authored **directly in the grid frame** — local metres
+ARE EPSG:3006 minus the origin E687748.5 N6370951.5, heights RH 2000, east +x,
+north −z — so there is no convergence rotation and no flat-earth scale error
+anywhere. That also means `tools/sat-mosaic.mjs` cannot serve it: Gotland sits
+3.1° east of the central meridian and a flat-earth frame would put every overlay
+tens of metres out. `visbybuild/sat-crop.mjs` and `visbybuild/ortho-crop.mjs`
+are its exact-per-point replacements.
+
+### The orthophoto: 0.16 m, 2026, and no credentials needed
+
+**This is the best imagery any course here has, and it is free.** Lantmäteriet's
+national orthophoto over this block is the **2026-04-10 flight at 0.16 m RGBI**,
+and while its COG on `dl1` answers 401 unauthenticated (403 for this repo's own
+account), its PIXELS are servable through the viewing service Min karta proxies:
+
+    https://minkarta.lantmateriet.se/map/ortofoto  layer Ortofoto_0.16
+
+Against it, Esri World Imagery — which every Visby trace so far was read from —
+is WorldView-2 from **2016-08-24** at 0.5 m source, served no finer than z18
+(0.3214 m/px) because **z19, z20 and z21 all return the same 2,521-byte "Map
+data not yet available" placeholder**. So z18 is Esri's floor everywhere in
+Sweden, not a choice. Region Gotland's open ImageServer
+(`imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022`) adds a
+genuine SECOND dated capture at 0.25 m, and it is **summer**: leaf-on and mown,
+so mow lines read where the April frame flattens them. Use both — the pair is
+what settles a mown boundary.
+
+Three request conventions, each measured, each costing a blank image or a lie:
+
+- **WMS 1.3.0 with EPSG:3006 wants the bbox NORTHING FIRST** and returns pure
+  white easting-first. `ortho-crop.mjs` speaks 1.1.1 with `SRS=` instead.
+- The service **caps a request at 4096 × 4096**, and the played bbox at 0.16 m
+  is 7163 × 8475, so a native-resolution course view must be mosaicked.
+- **Region Gotland's `f=image` returns a two-tone tRNS artefact, not imagery** —
+  go through `f=pjson` and download the `href` it names.
+
+The imagery is a **tracing source and never a runtime texture**, which is this
+ground's stated policy. Lantmäteriet's ortho STAC declares CC-BY-4.0 and also
+says use is legally reviewed and requires accepting special terms; the proxy's
+capabilities carry no Fees or AccessConstraints element. Recorded, not resolved.
+
+### The GolfTraxx survey, and the two things it found
+
+`geo_data/visby_clean.json` is the club's 18×5 GPS survey, pulled from
+GolfTraxx **course id 62230SW** ("Visby Golfklubb, Vastergarn Kronholmen 415")
+with the repo's own extractor. It is the first independent per-hole geometry
+this ground has had — the 2026-09-07 intake established that neither the SGF
+scorecard nor Caddee carries any latitude or longitude at all.
+`visbybuild/mapping/golftraxx-review.mjs` measures the agreement rather than
+asserting it and writes `golftraxx-survey-review.json`.
+
+**Fifteen holes agree at a median 2.09 m and a maximum 3.24 m** between the
+survey's green centre and the model's traced green centroid — two records that
+never entered each other. And the statistic that separates a right hole
+assignment from a wrong one is the LENGTH: retargeting each traced corridor onto
+the survey's own endpoints, all fifteen come out SHORTER than the card by a
+one-sided **−5.7% to −17.0%, median −8.4%**. That is what a right assignment
+looks like (the provider's back-tee marker stands in front of the card's back
+tee); a wrong one scatters. It also **resolves hole 12**, whose physical tee
+platform no source image ever showed: its modelled line was −36.7% against the
+card and the survey puts it at −8.2%, in the band with everything else.
+
+Three holes disagree, and the review separates them **by which record is at
+fault** rather than lumping them together:
+
+- **Holes 3 and 4 convict the PROVIDER.** Their survey endpoints imply holes
+  18.3% and 52.7% LONGER than the card, which a played line cannot be. The
+  imagery shows both points are real golf features — a mown green with a
+  greenside bunker at local [−96, −554], a tee-like apron at [−47, −593] — but
+  they stand on the shared property away from the eighteen's third and fourth
+  holes, most likely on the separate nine.
+- **Hole 9 convicts the MODEL**, and four records now agree it does. See below.
+
+### Hole 9: an area outlier, and the reading that is still open
+
+`visbybuild/mapping/green-9-review.json` is the record. Green 9's traced ring
+measures **1670 m² and 48 × 79 m against 308–528 m² for the fifteen agreed
+greens** — 3.2× the largest of them. Its modelled line is **the only one of the
+eighteen longer than its card (+12.3%)**, which a played line cannot be. The
+survey puts the centre 48 m north of the ring's centroid; the two greenside
+bunkers flank the ring's NORTHERN part, midpoint near (−535, 133); and on the
+summer capture a distinctly darker, uniformly mown oval sits centred near
+(−533, 125) while the ring runs on ~40 m south of it over paler approach.
+
+**What the ring IS remains open, and it changes the fix.** Either it is a green
+COMPLEX read as one shape — and hole 9's green is a re-trace of its northern
+part — or it is the club's **practice putting green**, which stands beside a
+clubhouse by convention and is commonly 1000–2000 m² where a hole green is
+300–500. OSM independently carries a 1670 m² green at (−538, 142), its largest
+by far, beside the clubhouse and the car park. If that is the reading, hole 9's
+green has never been traced and the polygon belongs in
+`scenery.practiceGreens`. **Do not resolve this by moving the ring**: both
+readings are consistent with a 48 m centroid error, and only a trace on the
+summer frame separates them.
+
+### The environment: mostly sea, and Lantmäteriet does not tile it
+
+`packages/course-v2/visby-ground-rings.mjs` takes the ground to a **16 km root
+over seven levels** on Norrfällsviken's topology (the finest window is the same
+sixteen tiles per side), replacing a 4,096 m five-level pyramid whose tiles
+carry no `parentId` — so the streaming ring runtime never engaged and everything
+past the 2,048 m frontier was the legacy heightfields, which themselves stop at
+2,048 m.
+
+**Nearly forty per cent of that root is open Baltic that Markhöjdmodell does not
+tile at all.** The whole `*_67` column of 10 km squares west of Gotland is
+unpublished — 636_67 and 637_67 answer 404 while all four eastern neighbours
+answer 200 — and both coastal items the course stands on are clipped 5,000 m off
+their WEST edge. Acquire run 34203277715 read all seven levels in 25 s and left
+every sample of every level finite:
+
+| lod | spacing | heights RH 2000 | sea fill |
+|---|---|---|---|
+| 0 | 1 m | 0.101 … 11.013 | none |
+| 1 | 2 m | 0.101 … 10.967 | none |
+| 2 | 4 m | 0.180 … 19.191 | 1 component, 18.83% |
+| 3 | 8 m | 0.002 … 58.157 | 1 component, 39.71% |
+| 4–6 | 16/32/64 m | … 58.089 / 57.723 / 57.649 | 1 component, 39.71 / 39.79 / 39.90% |
+
+That component IS the Baltic: its **boundary median is 0.230 m RH 2000 at every
+level** — exactly the sea plateau measured independently inside the course
+window (8,766,382 of 16,785,409 samples at 0.230 m) — and it is filled with that
+same measured height. Every threshold in the spec is this ground's own now, not
+Norrfällsviken's: the inherited 3 m ceiling was expected to refuse and did not,
+and is tightened to 1 m because Norrfällsviken measured it on a coast rising to
+90 m inside its course window while this one does not pass 11 m inside its own.
+The median test went the other way, 0.25 → 0.5 m, because it passed with two
+centimetres to spare. **The fraction cap is not what protects this**; the
+boundary test is, and Gotland's interior at 58 m is what a lost land square
+would have to sneak past.
+
+**A coastal item is not its square.** `build-ground-rings` used to assert that a
+10 km item's raster origin IS its square's north-west corner. That holds inland,
+and it holds for Norrfällsviken's items because those are clipped south and east
+so their NW corner survives — nobody had met the other case. Visby's are clipped
+WEST and the first acquire threw on lod 0 in 32 seconds.
+`packages/course-geo/acquisition/ring-item-extent.mjs` measures and asserts the
+weaker property the reads actually depend on (the published rectangle lies
+inside the square and its pixel centres sit on the same metre lattice), and
+every clip and pixel index uses that measured rectangle. Reinstating the old
+assertion fails three of its tests.
+
+**Both coastal items stop their overview chain at 16×** while the inland pair
+reach 32×, so ring levels 5 and 6 fall back and resample over them — the
+substitution `build-ground-rings` already carried, now recorded per item per
+level in the evidence.
+
+**An artifact id is not a stable handle for a file.** `publish-ground-rings`
+recorded its evidence as `derivedFrom: ['terrain-lm-1m']`, a literal every
+inland ground happens to use; Visby's sources are `terrain-lm-636-68` and
+`terrain-lm-637-68`, and `manifest.mjs` refuses an artifact naming a source its
+manifest does not carry. A ring spec may declare `terrainSourceIds` now. The
+same lesson found a live bug: the vegetation workflow's acquire rewrites
+`canopy-evidence.json`, which **four grounds pin under four different ids**
+(`canopy-evidence` at Johannesberg, `canopy-raster-acquisition` at Lidingö,
+`canopy-raster-evidence` at Ribbingsfors, `measured-canopy-evidence` at Visby),
+so its re-pin step could only ever catch some of them.
+`record-artifact-checksum.mjs` takes `--path` now and re-pins by the file a run
+rewrote.
+
+### The LiDAR vegetation, and the layer that is genuinely absent
+
+`vegetation.forest/wood/scrub/wetland/sand/rock` are ALL empty, and that is not
+a modelling shortcut: **OSM has zero vegetation polygons of any class inside the
+played bbox + 500 m** — nearest forest 795 m, nearest wood 982 m — while the
+imagery measures ~22.4 ha (18.1%) of canopy inside the very same property hull.
+The absence is in the data, not on the ground, and waiting for OSM will never
+fill it.
+
+The credentialed chain ran in CI (the secrets live there; `dl1` answers 401 from
+a session container). Pinned inventory: **one campaign, 24e002, City Mapper 2,
+2024-02-03…04-28, leaf-off**, over `24e002-636_68` (13,769,262 pts) and
+`24e002-637_68` (47,387,337 pts). The item boundary at N 6370000 is a seam of
+PROVENANCE inside one campaign, 562 m south of the southernmost played point.
+Acquire run 34201242013: **31,657 crown candidates → 3,012 machine-reviewed
+individuals** on 116 object tiles, plus stand fields on all 256 tiles (517,144
+measured cells, 114,767 closed-canopy). Exclusions fired on water 58, road 159,
+building 83, fairway 49, practice 27, path 44, tee 1 — and **not one green**,
+because none was detected there. `baseHeightMisses` empty. Cloud ground minus
+the published DTM is **0.00 m median on every land tile**, which is an
+independent sensor pass confirming the terrain.
+
+Leaf-off is the caveat: it is the condition under which Johannesberg's canopy
+fell 43.9% → 17.6%. Kronholmen is pine and juniper ground, which limits that
+without removing it, and `tools/audit-canopy-sources.mjs` is what settles it —
+the deciding statistic is the laser height where the raster claims canopy and
+the laser does not, never the fraction.
+
+### What OSM can and cannot supply here
+
+The property hull exists and is free, independent corroboration: **way
+199830330, 41 nodes, 123.716 ha, `golf:course=27_hole`**. Inside it: 17 greens,
+15 water hazards, 26 cart paths (3.799 km), 5 bunkers, 2 tee pads, 3 rough
+patches, 2 pin nodes — 6.5% of the property, **zero `golf=fairway`**, and only
+one hole line (both `golf=hole` ways are `ref=2`), so OSM cannot assign a green
+to a hole. It CAN supply the sea: three continuous coastline chains, 5.875 km,
+sharing four nodes with the hull. It supplies buildings as bare footprints only
+— 7 inside the hull, **none named, no `amenity=clubhouse` anywhere**, so the
+clubhouse (way 530655631, 688 m²) is currently just one of 32 anonymous houses
+and gets none of the clubhouse treatment. There are **zero `historic=*` objects
+in the whole extract**, which is striking for Gotland.
+
+### Running it
+
+    node visbybuild/sat-crop.mjs   <name> <cx> <cz> <size> [z] [--plain]   # Esri z18, 0.32 m
+    node visbybuild/ortho-crop.mjs <name> <cx> <cz> <size> [--plain] [--gotland]
+    node visbybuild/mapping/golftraxx-review.mjs
+    npm run check:visby
+    node packages/course-geo/check-manifests.mjs
+
+The rebuild chain (needs the ignored caches and, for the credentialed halves,
+CI) is in `visbybuild/mapping/NEXT-SESSION.md`. Two CI control files drive the
+credentialed work from a `claude/**` branch push, which is the trigger a session
+holding contents:write but not actions:write can use:
+`geo_data/course-v2/visby/vegetation/RUN` and
+`geo_data/course-v2/visby/acquisition/RUN-terrain-rings`, each carrying
+`publish=` and its own parameters.
+
+**PROJ is available here after `pip install pyproj`** (3.7.2 on PROJ 9.5.1);
+export `COURSE_GEO_PYPROJ_PYTHON=$(which python3)` and
+`migrate-legacy.mjs --write --ground visby` runs for real, so a migration
+regenerated on this machine is NOT the Krüger substitute CLAUDE.md calls a red
+pipeline. Visby's frame is a pure EPSG:3006 translation, so PROJ agrees with it
+to microns (direct frame delta 0.000005 m, best-fit rotation 5.4e-7°).
+
+**A model change here travels three registries deep**, and the branch arrived
+with all of them stale: the pack and `courses/index.json`, the EPSG:3006
+migration and its residual reports, the source manifest's artifact checksums,
+and `COURSE_MODEL_SHA256` in
+`packages/course-geo/acquisition/hole-source-controls.mjs`. Re-pin that last one
+by looping over `COURSE_MODEL_PATHS` and comparing, never by hand.
