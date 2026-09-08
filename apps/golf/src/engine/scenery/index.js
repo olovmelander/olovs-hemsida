@@ -37,6 +37,7 @@ const REGISTRY = {
   upsala: () => import('./upsala.js'),
   puttom: () => import('./puttom.js'),
   johannesberg: () => import('./johannesberg.js'),
+  lidingo: () => import('./lidingo.js'),
   ribbingsfors: () => import('./ribbingsfors.js'),
 };
 
