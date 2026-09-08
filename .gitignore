@@ -28,3 +28,9 @@ apps/golf/.pwa-profile/
 johannesberg9build/cache/
 visbybuild/cache/
 visbybuild/shots/
+
+# Visby's orthophoto tile cache: tracing source, never redistributed
+visbybuild/cache/
+
+# python bytecode from the mapping tools
+__pycache__/
