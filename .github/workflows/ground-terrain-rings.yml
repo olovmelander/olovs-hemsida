@@ -1,0 +1,236 @@
+name: ground terrain rings
+
+# The Lantmäteriet credentials live as repository secrets, so the credentialed
+# Markhöjdmodell range reads run here, where the secrets are — the same pattern
+# as ground-vegetation. Any ground with a reviewed ring specification in
+# packages/course-v2/ground-rings-registry.mjs can run; the ground comes from
+# the RUN file's own path (or the dispatch input).
+#
+# Two modes, one deterministic chain:
+#
+#   acquire (default): access preflight → build the ring rasters level by
+#     level → commit the acquisition evidence to the branch. The evidence is
+#     what says which 10 km squares answered, what each level measured and
+#     what any sea fill covered, so the reviewed thresholds can be replaced by
+#     THIS ground's own numbers before anything publishes.
+#   publish: repeats the same read, then publishes the rings as the ground
+#     graph for every course of the ground and runs the cheap gates before
+#     committing the chunks and manifests.
+#
+# The ring rasters themselves stay in the runner's gitignored toolchain cache
+# and are uploaded as an artifact; they are inputs, not repository content.
+on:
+  workflow_dispatch:
+    inputs:
+      ground:
+        description: "Ground id (must have a ring spec in ground-rings-registry.mjs)"
+        default: "lidingo"
+        required: true
+      publish:
+        description: "Publish the compiled rings as the ground graph (only after reading an acquire run's evidence)"
+        type: boolean
+        default: false
+      levels:
+        description: "Optional comma-separated lods to read; empty reads every level"
+        default: ""
+        required: false
+  # A push to a ground's terrain RUN control file starts a run with the
+  # parameters it carries — the trigger for callers holding contents:write but
+  # not actions:write. The workflow's own evidence commit does not touch RUN
+  # and pushes with GITHUB_TOKEN, so it can never retrigger itself.
+  push:
+    branches:
+      - "claude/**"
+    paths:
+      - "geo_data/course-v2/*/acquisition/RUN-terrain-rings"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ground-terrain-rings-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  rings:
+    name: rings
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # the pushed RUN file is found by diffing against the parent commit
+          fetch-depth: 2
+
+      - name: Resolve run parameters (dispatch inputs, or the pushed RUN control file)
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "GROUND=${{ inputs.ground }}" >> "$GITHUB_ENV"
+            echo "PUBLISH=${{ inputs.publish }}" >> "$GITHUB_ENV"
+            echo "LEVELS=${{ inputs.levels }}" >> "$GITHUB_ENV"
+          else
+            changed=$(git diff --name-only HEAD^ HEAD -- 'geo_data/course-v2/*/acquisition/RUN-terrain-rings' | head -1)
+            if [ -z "$changed" ]; then
+              echo "the push touched no terrain RUN control file" >&2
+              exit 1
+            fi
+            ground=$(basename "$(dirname "$(dirname "$changed")")")
+            # shellcheck disable=SC1090
+            . "$changed"
+            echo "GROUND=${ground}" >> "$GITHUB_ENV"
+            echo "PUBLISH=${publish}" >> "$GITHUB_ENV"
+            echo "LEVELS=${levels}" >> "$GITHUB_ENV"
+          fi
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      # pnpm test runs a Visby stand test that imports the COPC reader, which
+      # keeps its own install and is deliberately absent from the workspace
+      # lockfile. Without this the suite fails on ERR_MODULE_NOT_FOUND and the
+      # failure looks like Visby's data rather than a missing dependency.
+      - name: Install the COPC reader (own install, never in the workspace lockfile)
+        run: npm install --prefix packages/course-geo/copc-reader
+
+      - name: Verify repository secrets are configured
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          if [ -z "$LANTMATERIET_USERNAME" ] || [ -z "$LANTMATERIET_PASSWORD" ]; then
+            echo "LANTMATERIET_USERNAME / LANTMATERIET_PASSWORD secrets are not configured" >&2
+            exit 1
+          fi
+
+      # The preflight reaches the provider over the network before any real work
+      # has been done, so a transient there costs a whole run for nothing: run 4
+      # died on an ETIMEDOUT reaching Lantmäteriet while runs 2 and 3 either side
+      # of it reported "ready". Three attempts with a pause between them; a real
+      # denial still fails, because a denial is deterministic and survives them.
+      - name: Lantmäteriet access preflight (exits 2 on denial)
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          for attempt in 1 2 3; do
+            if node packages/course-geo/acquisition/access-preflight.mjs --ground "$GROUND" --provider lantmateriet; then
+              exit 0
+            fi
+            echo "preflight attempt $attempt did not pass; retrying" >&2
+            sleep $((attempt * 10))
+          done
+          node packages/course-geo/acquisition/access-preflight.mjs --ground "$GROUND" --provider lantmateriet
+
+      # Level 0 is read at 1 m and compared sample for sample against the
+      # published course tiles, so this step also proves the reader and the
+      # published ground see the same source. A sea-fill refusal here NAMES the
+      # boundary median, the water fraction and the highest boundary sample of
+      # the component it refused: those are the numbers that replace the ring
+      # spec's reviewed thresholds. Read them; do not widen the rule to pass.
+      - name: Read the ring rasters from Markhöjdmodell
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          if [ -n "$LEVELS" ]; then
+            node packages/course-geo/acquisition/build-ground-rings.mjs --ground "$GROUND" --only "$LEVELS"
+          else
+            node packages/course-geo/acquisition/build-ground-rings.mjs --ground "$GROUND"
+          fi
+
+      - name: Publish the rings as the ground graph for every course of the ground
+        if: env.PUBLISH == 'true'
+        run: |
+          SLUGS=$(node --input-type=module -e "
+            import { ringSpecFor } from './packages/course-v2/ground-rings-registry.mjs';
+            process.stdout.write(ringSpecFor(process.env.GROUND).courseSlugs.join(','));")
+          echo "slugs: $SLUGS"
+          node packages/course-v2/publish-ground-rings.mjs \
+            --ground "$GROUND" --slug "$SLUGS" --public apps/golf/public
+
+      - name: Upload the acquisition evidence and the ring rasters
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.GROUND }}-ground-rings-${{ env.PUBLISH == 'true' && 'publish' || 'acquire' }}-${{ github.run_number }}
+          path: |
+            geo_data/course-v2/${{ env.GROUND }}/acquisition/ground-rings.json
+            packages/course-geo/toolchain/.cache/acquisition/${{ env.GROUND }}-ground-rings
+          if-no-files-found: error
+          retention-days: 7
+
+      # --ground scopes the EXIT CODE to this ground. Every manifest is still
+      # validated and printed; what it stops is an unrelated ground's in-flight
+      # work failing a publish that has nothing to do with it. The first publish
+      # run here was lost exactly that way -- the rings compiled, and then the
+      # repo-wide manifest gate failed on another course's stale checksums, so
+      # the commit step never ran.
+      - name: Gates (manifests, unit tests, build, app-build graph verify)
+        if: env.PUBLISH == 'true'
+        run: |
+          set -o pipefail
+          node packages/course-geo/check-manifests.mjs --ground "$GROUND"
+
+          # The suite is run in full, and it fails this job on anything it has
+          # not been told about. What it tolerates is named, one line per
+          # failure, with the reason -- a blanket "|| true" would let this
+          # ground's own regression through, which is the thing the gate exists
+          # to catch.
+          #
+          # The list is EMPTY on this branch, and that is the point. It used to
+          # carry Visby's two failures -- the stale artifact checksums and the
+          # pack that no longer matched its reviewed source vectors -- which
+          # arrived together in 480e53d on the base branch. Both are fixed here:
+          # hole 16's fairway ring is re-synced from mapping/geometry.json, the
+          # six drifted checksums are re-pinned, and the migration is
+          # regenerated through real PROJ. Leaving their names on a tolerated
+          # list after that would mean a genuine regression in exactly those two
+          # gates passes in silence, which is the same fault as a checker that
+          # agrees with the bug. Add a name back only with the run that shows it
+          # failing and the reason it is not this ground's to fix.
+          : > /tmp/tolerated
+          pnpm test 2>&1 | tee /tmp/test.log || true
+          grep -E '^not ok [0-9]+ - ' /tmp/test.log | sed -E 's/^not ok [0-9]+ - //' | sort -u > /tmp/failed || true
+          if [ -s /tmp/failed ]; then
+            echo "--- test failures ---"; cat /tmp/failed
+            unexpected=$(grep -vxF -f /tmp/tolerated /tmp/failed || true)
+            if [ -n "$unexpected" ]; then
+              echo "UNEXPECTED test failures, not on the tolerated list:" >&2
+              echo "$unexpected" >&2
+              exit 1
+            fi
+            echo "all failures are on the tolerated list (pre-existing, another ground)"
+          fi
+
+          pnpm --filter @banvy/golf build
+          node packages/course-v2/check-app-build.mjs
+
+      - name: Commit the evidence (and, when publishing, the graph) to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "geo_data/course-v2/$GROUND"
+          if [ "$PUBLISH" = "true" ]; then
+            git add apps/golf/public
+          fi
+          if git diff --cached --quiet; then
+            echo "nothing new to commit"
+            exit 0
+          fi
+          git commit -m "$GROUND ground rings ${{ env.PUBLISH == 'true' && 'publish' || 'acquisition evidence' }}" \
+            -m "Produced by the ground-terrain-rings workflow run ${{ github.run_id }} with the repository's Lantmäteriet credentials." \
+            -m "Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>" \
+            -m "Claude-Session: https://claude.ai/code/session_01QmSEbz3WcA3QVpq36E5oy1"
+          # the branch may have moved while the run was reading the COGs:
+          # rebase the evidence commit onto it rather than lose it to a
+          # non-fast-forward rejection
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin "HEAD:${{ github.ref_name }}"
