@@ -1,6 +1,7 @@
 # Visby GK / Kronholmen — provisional 3D handoff
 
-Checkpoint: 2026-09-07, local working tree. Follow the
+Checkpoint: 2026-09-08 (see "What changed on 2026-09-08" below; the 2026-09-07
+intake this describes is otherwise unchanged). Follow the
 [runbook](../../docs/v2-course-runbook.md),
 [mapping workflow](../../docs/v2-course-mapping-workflow.md),
 [club research](../../docs/courses/visby-source-research.md) and
@@ -178,17 +179,44 @@ is available, but the configured account's pixel requests return HTTP 403.
 Municipal 2022 image derivative terms and club/Caddee media reuse remain open;
 the source images are not redistributed as runtime textures.
 
+## What changed on 2026-09-08
+
+| Was | Is |
+|---|---|
+| No independent per-hole geometry existed at all | [`geo_data/visby_clean.json`](../../geo_data/visby_clean.json): the club's 18x5 GolfTraxx GPS survey (course id 62230SW), measured against the model by [`golftraxx-review.mjs`](golftraxx-review.mjs) |
+| H12's tee unresolved, its line -36.7% against the card | the survey supplies it; retargeted the hole reads -8.2%, inside the band with the other fourteen |
+| Traces read off Esri z18, 0.3214 m/px, WorldView-2 2016-08-24 | [`ortho-crop.mjs`](../ortho-crop.mjs) serves Lantmateriet's **0.16 m 2026-04-10** flight with no credentials, plus Region Gotland's **0.25 m summer** capture as a second dated frame |
+| Environment stopped at 2,048 m; 341 tiles, 5 levels, no `parentId` | ring spec registered for a **16 km root over 7 levels, 469 tiles**; acquire measured, publish in flight |
+| No measured trees; `vegetation.*` all empty | **3,012 machine-reviewed individuals** + stand fields on all 256 tiles, acquired and eyeballed; publish still to run |
+| `npm run check:visby` 28/29; manifest gate red | 29/29 and green -- hole 16's fairway was desynced from `geometry.json` and six checksums were stale |
+| CLAUDE.md had no Visby section | it has one |
+
 ## Remaining mapping and approval work
 
-1. Identify H12's physical tee and every numbered tee association using suitable
-   source evidence. Preserve the explicit virtual start until then.
-2. Review current boundaries, missing tee platforms, fringes, bunker completeness
-   and detailed practice facilities. Keep the separate nine's identity distinct.
-3. Obtain independent horizontal/vertical controls and resolve canonical-origin
-   approval without promoting the existing software frame automatically.
-4. Resolve current orthophoto access and derivative terms, photo/media reuse and
-   production release conditions. Public availability is not a license grant.
-5. Review vegetation truth areas, individual objects, building dimensions and
-   present-day changes; keep unknown attributes explicit.
-6. Complete per-hole human visual review, both rendering backends, named mobile
-   devices, offline behavior and performance checks using the runbook gates.
+1. **Settle hole 9.** [`green-9-review.json`](green-9-review.json) has four
+   records agreeing the traced ring is wrong and two readings of WHY that
+   disagree; a trace on the summer capture separates them. Do not move the ring.
+2. **The six numbered tees still share one point per hole** (`marks[].c`
+   identical across all six, span 0 m) while the card spans 6230 m to 4216 m --
+   roughly 112 m a hole. They are camera references, as `evidence
+   .numericTeePositions` says, but the 0.16 m frame now resolves individual tee
+   decks and the survey gives an independent back tee, so they are traceable
+   rather than merely unknown.
+3. All 65 bunkers sit in `scenery.bunkers` with no hole ownership, and OSM's own
+   5 bunkers and 17 greens are an independent check that has not been run.
+4. `vegetation.forest/wood/scrub/wetland/sand/rock` stay empty, and OSM will
+   never fill them: it has **zero** vegetation polygons inside the played bbox
+   +500 m while the imagery measures ~22.4 ha of canopy inside the same hull.
+   The LiDAR stand field and individuals are the source.
+5. `coast` is empty and no water ring carries `isSea`, on a course where the
+   median green stands 82 m from the Baltic. OSM's three coastline chains share
+   four nodes with the property hull. Read CLAUDE.md's Angso section first --
+   `isSea` is an instruction about the whole world, not a label on a ring.
+6. The clubhouse (OSM way 530655631, 688 m2) is one of 32 anonymous footprints
+   and gets no clubhouse treatment; there is no `scenery/visby.js` module.
+7. Independent horizontal/vertical controls and canonical-origin approval remain
+   unresolved; the software frame is not promoted by any of the above.
+8. Orthophoto derivative terms, photo/media reuse and production release remain
+   open. The imagery is used for tracing and review and is never redistributed.
+9. Per-hole human visual review, both backends, named devices, offline and
+   performance checks remain to be done with the runbook gates.
