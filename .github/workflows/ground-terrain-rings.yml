@@ -1,0 +1,178 @@
+name: ground terrain rings
+
+# The Lantmäteriet credentials live as repository secrets, so the credentialed
+# Markhöjdmodell range reads run here, where the secrets are — the same pattern
+# as ground-vegetation. Any ground with a reviewed ring specification in
+# packages/course-v2/ground-rings-registry.mjs can run; the ground comes from
+# the RUN file's own path (or the dispatch input).
+#
+# Two modes, one deterministic chain:
+#
+#   acquire (default): access preflight → build the ring rasters level by
+#     level → commit the acquisition evidence to the branch. The evidence is
+#     what says which 10 km squares answered, what each level measured and
+#     what any sea fill covered, so the reviewed thresholds can be replaced by
+#     THIS ground's own numbers before anything publishes.
+#   publish: repeats the same read, then publishes the rings as the ground
+#     graph for every course of the ground and runs the cheap gates before
+#     committing the chunks and manifests.
+#
+# The ring rasters themselves stay in the runner's gitignored toolchain cache
+# and are uploaded as an artifact; they are inputs, not repository content.
+on:
+  workflow_dispatch:
+    inputs:
+      ground:
+        description: "Ground id (must have a ring spec in ground-rings-registry.mjs)"
+        default: "lidingo"
+        required: true
+      publish:
+        description: "Publish the compiled rings as the ground graph (only after reading an acquire run's evidence)"
+        type: boolean
+        default: false
+      levels:
+        description: "Optional comma-separated lods to read; empty reads every level"
+        default: ""
+        required: false
+  # A push to a ground's terrain RUN control file starts a run with the
+  # parameters it carries — the trigger for callers holding contents:write but
+  # not actions:write. The workflow's own evidence commit does not touch RUN
+  # and pushes with GITHUB_TOKEN, so it can never retrigger itself.
+  push:
+    branches:
+      - "claude/**"
+    paths:
+      - "geo_data/course-v2/*/acquisition/RUN-terrain-rings"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ground-terrain-rings-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  rings:
+    name: rings
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # the pushed RUN file is found by diffing against the parent commit
+          fetch-depth: 2
+
+      - name: Resolve run parameters (dispatch inputs, or the pushed RUN control file)
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "GROUND=${{ inputs.ground }}" >> "$GITHUB_ENV"
+            echo "PUBLISH=${{ inputs.publish }}" >> "$GITHUB_ENV"
+            echo "LEVELS=${{ inputs.levels }}" >> "$GITHUB_ENV"
+          else
+            changed=$(git diff --name-only HEAD^ HEAD -- 'geo_data/course-v2/*/acquisition/RUN-terrain-rings' | head -1)
+            if [ -z "$changed" ]; then
+              echo "the push touched no terrain RUN control file" >&2
+              exit 1
+            fi
+            ground=$(basename "$(dirname "$(dirname "$changed")")")
+            # shellcheck disable=SC1090
+            . "$changed"
+            echo "GROUND=${ground}" >> "$GITHUB_ENV"
+            echo "PUBLISH=${publish}" >> "$GITHUB_ENV"
+            echo "LEVELS=${levels}" >> "$GITHUB_ENV"
+          fi
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify repository secrets are configured
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          if [ -z "$LANTMATERIET_USERNAME" ] || [ -z "$LANTMATERIET_PASSWORD" ]; then
+            echo "LANTMATERIET_USERNAME / LANTMATERIET_PASSWORD secrets are not configured" >&2
+            exit 1
+          fi
+
+      - name: Lantmäteriet access preflight (exits 2 on denial)
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: node packages/course-geo/acquisition/access-preflight.mjs --ground "$GROUND" --provider lantmateriet
+
+      # Level 0 is read at 1 m and compared sample for sample against the
+      # published course tiles, so this step also proves the reader and the
+      # published ground see the same source. A sea-fill refusal here NAMES the
+      # boundary median, the water fraction and the highest boundary sample of
+      # the component it refused: those are the numbers that replace the ring
+      # spec's reviewed thresholds. Read them; do not widen the rule to pass.
+      - name: Read the ring rasters from Markhöjdmodell
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          if [ -n "$LEVELS" ]; then
+            node packages/course-geo/acquisition/build-ground-rings.mjs --ground "$GROUND" --only "$LEVELS"
+          else
+            node packages/course-geo/acquisition/build-ground-rings.mjs --ground "$GROUND"
+          fi
+
+      - name: Publish the rings as the ground graph for every course of the ground
+        if: env.PUBLISH == 'true'
+        run: |
+          SLUGS=$(node --input-type=module -e "
+            import { ringSpecFor } from './packages/course-v2/ground-rings-registry.mjs';
+            process.stdout.write(ringSpecFor(process.env.GROUND).courseSlugs.join(','));")
+          echo "slugs: $SLUGS"
+          node packages/course-v2/publish-ground-rings.mjs \
+            --ground "$GROUND" --slug "$SLUGS" --public apps/golf/public
+
+      - name: Gates (manifests, unit tests, build, app-build graph verify)
+        if: env.PUBLISH == 'true'
+        run: |
+          node packages/course-geo/check-manifests.mjs
+          pnpm test
+          pnpm --filter @banvy/golf build
+          node packages/course-v2/check-app-build.mjs
+
+      - name: Upload the acquisition evidence and the ring rasters
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.GROUND }}-ground-rings-${{ env.PUBLISH == 'true' && 'publish' || 'acquire' }}-${{ github.run_number }}
+          path: |
+            geo_data/course-v2/${{ env.GROUND }}/acquisition/ground-rings.json
+            packages/course-geo/toolchain/.cache/acquisition/${{ env.GROUND }}-ground-rings
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Commit the evidence (and, when publishing, the graph) to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "geo_data/course-v2/$GROUND"
+          if [ "$PUBLISH" = "true" ]; then
+            git add apps/golf/public
+          fi
+          if git diff --cached --quiet; then
+            echo "nothing new to commit"
+            exit 0
+          fi
+          git commit -m "$GROUND ground rings ${{ env.PUBLISH == 'true' && 'publish' || 'acquisition evidence' }}" \
+            -m "Produced by the ground-terrain-rings workflow run ${{ github.run_id }} with the repository's Lantmäteriet credentials." \
+            -m "Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>" \
+            -m "Claude-Session: https://claude.ai/code/session_01QmSEbz3WcA3QVpq36E5oy1"
+          # the branch may have moved while the run was reading the COGs:
+          # rebase the evidence commit onto it rather than lose it to a
+          # non-fast-forward rejection
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin "HEAD:${{ github.ref_name }}"

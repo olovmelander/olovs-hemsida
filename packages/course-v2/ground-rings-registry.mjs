@@ -9,6 +9,7 @@
    and publication commands still have to be run, and each one gates its own
    evidence. */
 import { ANGSO_GROUND_RINGS } from './angso-ground-rings.mjs';
+import { LIDINGO_GROUND_RINGS } from './lidingo-ground-rings.mjs';
 import { NORRFALLSVIKEN_GROUND_RINGS } from './norrfallsviken-ground-rings.mjs';
 import { PUTTOM_GROUND_RINGS } from './puttom-ground-rings.mjs';
 import { UPSALA_GROUND_RINGS } from './upsala-ground-rings.mjs';
@@ -16,6 +17,7 @@ import { VECKEFJARDEN_GROUND_RINGS } from './veckefjarden-ground-rings.mjs';
 
 export const GROUND_RINGS = Object.freeze({
   angso: ANGSO_GROUND_RINGS,
+  lidingo: LIDINGO_GROUND_RINGS,
   norrfallsviken: NORRFALLSVIKEN_GROUND_RINGS,
   puttom: PUTTOM_GROUND_RINGS,
   upsala: UPSALA_GROUND_RINGS,

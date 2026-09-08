@@ -1,0 +1,7 @@
+# Control file for the ground-terrain-rings workflow. A push that changes this
+# file on a claude/** branch starts a credentialed Markhöjdmodell ring read for
+# this ground. Keep publish=false until an acquire run's ground-rings.json has
+# been read: it is what says which 10 km squares answered and what any sea fill
+# actually covered.
+publish=false
+levels=
