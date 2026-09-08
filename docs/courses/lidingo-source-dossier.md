@@ -194,12 +194,34 @@ of them within 45 m of a green — and never adopted on its own. The second reco
 for one of these is the club's own dated statement that a bunker was built
 there, read hole by hole.
 
-Two rings are their own findings and are not yet acted on. **Hole 15's** reads
-mown turf on the 2019 capture, mown turf on the 2025 capture and no dish in the
-laser: three records, two of them newer than the ring, and none of them sand.
-**Hole 17's** reads sand in 2025 and turf in 2019 with no dish — which is not a
-dead bunker but the September 2024 one the club reports, correctly absent from
-every older record.
+**Both bunkers the club reports building are now DATED, by
+`date-course-changes.py`.** A club document says something was built; three
+orthophotos spanning 2018–2025 say whether the ground shows it and between which
+two captures it appeared. Sand is read against mown turf 12 m away *in the same
+frame*, because each capture is exposed differently and "bright" means nothing
+on its own.
+
+| site | 2018 | 2019 | 2025-05-31 | verdict |
+|---|---:|---:|---:|---|
+| hole 13 green bunker | −12.6 | −7.5 | **+83.7** | built between 2019 and 2025-05-31 |
+| hole 17 green bunker | +6.4 | +0.7 | **+86.5** | built between 2019 and 2025-05-31 |
+
+(luminance above that frame's own turf reference.)
+
+Both match the club's own dated statements, and hole 17's settles a question the
+older records could not: **its existing ring is the September 2024 bunker**, not
+a dead one. It reads turf in 2018 and 2019 and sand in 2025 because it did not
+exist when either older record was made, and it sits in no laser dish because
+the laser is 2021. Four records agree in each case.
+
+**Hole 15's ring is the phantom**: mown turf on 2018, on 2019 and on 2025, and
+no dish in the laser — four records, three of them able to see a bunker there,
+and none of them does.
+
+A site is read at the model's OWN ring centroid where one exists, never at a
+coordinate typed into the tool. The first draft guessed hole 17's and sampled
+thirty metres of fairway, which read as no sand in every capture and would have
+been written down as a refusal of the club's own statement.
 
 ## 6. Vegetation
 
