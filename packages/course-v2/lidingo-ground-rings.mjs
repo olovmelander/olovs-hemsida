@@ -66,15 +66,29 @@ export const LIDINGO_GROUND_RINGS = Object.freeze({
   ]),
   /* The 16 km square is the Stockholm inner archipelago: Lidingö itself, the
      Värtan and Askrikefjärden either side of it, Nacka's höjder to the south
-     and the Danderyd/Täby ground to the north. The retained 2 km course
-     window measures -0.047 to 61.140 m RH 2000 and nothing within eight
-     kilometres of the clubhouse comes near two hundred metres, so this band
-     is wide enough to be no gate on the data and narrow enough that a wrong
-     item or a unit slip fails. */
-  coverageGate: Object.freeze({ minimumHeightRH2000: -10, maximumHeightRH2000: 200, requireEverySampleFinite: true }),
-  /* Lidingö is an island, so the coarse rings run out over open Baltic water
-     where Markhöjdmodell may carry nodata rather than a flattened surface --
-     the behaviour Norrfällsviken measured on its own coastal item.
+     and the Danderyd/Täby ground to the north.
+
+     The band is MEASURED, and the first read is what measured it. A reviewed
+     -10 m floor -- chosen from the course window's own -0.047 m, on the
+     assumption that a DTM with no bathymetry cannot go far below the sea --
+     failed at lod 3 on a real -10.157 m, and it failed correctly: the 8 km
+     ring had already reached -3.46 m, so the descent is the data and not a
+     unit slip. Markhöjdmodell carries depth under this water rather than a
+     flattened surface at zero, which is also why no sea fill has ever had a
+     nodata component to justify here. Ring extremes from run 34194608775:
+     lod 0 -0.05..61.14, lod 1 -0.58..61.12, lod 2 -3.46..69.39,
+     lod 3 -10.16..72.72. The band below is about twice that envelope either
+     side: wide enough to be no gate on the data, and narrow enough that a
+     wrong item -- an Uppland or Norrland square -- or a decimetre-for-metre
+     slip still fails. */
+  coverageGate: Object.freeze({ minimumHeightRH2000: -20, maximumHeightRH2000: 150, requireEverySampleFinite: true }),
+  /* Lidingö is an island, so the coarse rings run out over open Baltic water,
+     where Norrfällsviken measured nodata on its own coastal item.
+
+     Here they do NOT: every sample of every ring read finite, so this rule has
+     never had a component to judge and is a guard rather than a description.
+     It stays declared because it costs nothing and fails closed if a future
+     re-fly leaves a hole; it is not evidence that anything was filled.
 
      These thresholds are the ones Norrfällsviken MEASURED on Baltic water in
      this same RH 2000 datum, carried here as the reviewed starting point
