@@ -74,9 +74,25 @@ WINDOW = _dtm_meta['window']
 LOCAL_WINDOW_METRES = 15
 RESIDUAL = DTM - nd.median_filter(np.nan_to_num(DTM, nan=0.0), size=LOCAL_WINDOW_METRES, mode='nearest')
 
-# The laser is 2021-03-23 and the photograph is 2025-05-31. Anything built
-# between them has colour and no shape, which is not a defect of either record.
-DTM_CAPTURE = '2021-03-23'
+# THE HEIGHT MODEL'S OWN CAPTURE DATE IS NOT RECORDED. This ground's
+# source-manifest holds `capturedAt: null` for terrain-lm-1m, and the item is
+# published over a 2021-03-23 .. 2025-05-31 span; 2021-03-23 is the capture date
+# of a DIFFERENT product, the co-located Laserdata Skog point cloud
+# (laser-lm-skog, campaign 21c031). An earlier draft of this module asserted that
+# date for the DTM and it propagated into six evidence files before an
+# adversarial check caught it. Quote the manifest, never the neighbouring
+# product.
+#
+# The blind spot is real anyway, and it is MEASURED rather than inferred from a
+# date: hole 13 carries sand in the 2025 photograph over ground the height model
+# reads as flat, and the club's own course council says it built a bunker there.
+# So the shape record predates at least that work, whatever its metadata says.
+# Anything built between the two records has colour and no shape.
+DTM_CAPTURE = None
+DTM_CAPTURE_NOTE = ('not recorded: source-manifest terrain-lm-1m capturedAt is null and the item spans '
+                    '2021-03-23..2025-05-31; 2021-03-23 belongs to the Laserdata Skog point cloud '
+                    '(laser-lm-skog, campaign 21c031), a different product')
+LASER_POINTCLOUD_CAPTURE = '2021-03-23'
 IMAGE_CAPTURE = _meta['captureDate']
 
 

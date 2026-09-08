@@ -274,6 +274,106 @@ So the green rings stay as they are: 13 unchanged OSM rings and 7 traced off the
 2019 frame. The bar this was measured against — median IoU ≥ 0.75 and a region
 on at least 16 of 18 holes — is in the tool, and so is the refusal.
 
+## 6b. Six layers measured on the 2025 capture, and adversarially checked
+
+Each layer was measured by one pass and then checked by another whose default
+was that the measurement is wrong. All six came back **sound-with-corrections**
+with no stray edits; every check re-derived the headline numbers from the raw
+rasters with its own code, and every one found statements in the delivered file
+that the file's own computed fields contradict. Those are corrected by
+`reconcile-2025-evidence.py`, whose `--check` mode is the gate that a re-run of a
+tracer has not reintroduced one.
+
+| layer | what it found | adopted |
+|---|---|---|
+| shoreline and sea | two 1 m plates and one 593.8 ha 2 m plate, all at a constant **0.100 m RH 2000**, against the OSM coastline at a median **2.85 m** (fine) and **5.27 m** (context) | yes — 607.75 ha replacing 9.90 |
+| fairways | mown separates from rough and forest jointly (held-out TPR 0.901) but is **2.1×** a fairway; a fairway-grade cut reaches median ring IoU **0.665** on all 12 par 4s and 5s | candidate |
+| bunkers and sand | the detection confirms **34 of 40** mapped bunkers at sub-metre registration and offers each a 0.16 m outline | candidate |
+| tee decks | flatness does **not** define a deck here — every flatness and slope gap is negative — 42 platforms, **8** where the platform and a card distance agree | yes — 8 decks |
+| tree cover | a texture-plus-shadow classifier reaches IoU **0.774** / recall 0.947 against the laser canopy where the model's own wood rings reach **0.321** / 0.346 | yes — the raster |
+| buildings | the relief lean is real but **~0.6 m** at a median 296 m radius, radial about each mosaic block | nothing applied |
+
+**The sea was the largest single gap, and the fix is a union rather than an
+addition.** The model drew 9.90 ha of Baltic: three fragments of a 20.657 km²
+break-geometry feature, clipped to the 2,048 m terrain window — and the clip is
+not a source-item edge, it is the window, centred on the model origin to 0.000 m
+and identical to the published level-0 ring extent. The plates measure the same
+water at one level, so `build-coast-rings.py` unites all five, finest first, into
+one ring per body: **607.75 ha in three rings**. Two sheets at one level over one
+body are a z-fight, not a belt and braces, so the fragments are replaced and not
+joined.
+
+- **`isSea` stays FALSE**, and that is the Ängsö rule applied rather than
+  caution. The flag is not a description of a body of water; it is an instruction
+  about the whole world, and the engine answers it by laying one plane across the
+  entire heightfield on the assumption — true only of an unbounded ocean — that
+  everything below that line is water. This ring is real sea and still stops at
+  the acquisition edge, so the assumption does not hold for it. A ring draws its
+  own sheet regardless, which is what actually makes water visible.
+- **Islands are not subtracted, and that is measured.** `carveTerrainTile` skips
+  any sample more than `surfaceToleranceMetres` (0.5 m) above the level, so eight
+  of the ten traced islands — median 0.76–2.75 m, maximum 3.24–13.27 m — stand.
+  Two islets of 612 and 700 m² sit inside that tolerance and will flatten; they
+  are named in the file rather than left to be found.
+- **The one photo record cannot see this feature at all**: 0 of 98,571 sea-plate
+  samples fall inside the capture, which was requested over the played ground and
+  stops 159 m short of the water. A dated blind spot with no second record, and
+  the fix is a wider capture — the same service and the same six requests.
+
+**A big water ring is affordable only with a cutoff, and this is where that was
+found.** `terrainH` called `ringSD` with no cutoff, so the edge index had to
+expand cell rings until it found the EXACT distance to a shore a kilometre away —
+and the next line throws away anything over 26 m. Measured on the united
+6,609-vertex ring over the 513×513 heightfield window: **4,911 ms without a
+cutoff, 156 ms with one**, every value under the cutoff bit-identical and every
+sign the same. 60 m covers both consumers with margin (the lake bed's 55 m ramp,
+the outside's 26 m). Simplifying the ring was tried first and is the wrong lever:
+at a 1 m tolerance it drops 6,609 → 1,936 vertices and only reaches 3,211 ms,
+because the cost was never the vertex count.
+
+**Flatness does not define a tee deck on this ground.** Every flatness and slope
+gap measured between the 37 mapped tees and the ground around them is NEGATIVE.
+A deck's own edge step does better — but only as an enrichment, not a separation:
+measured across matched populations at the rule's own 25 m² floor, tee components
+sit at p25 0.134 against confuser components' p90 0.139, so the distributions
+touch. Nine of eighty confuser components pass and eleven of nineteen held-out
+tees are recovered. The eight decks adopted are the ones where the measured
+platform AND a card distance agree, with card residuals of **0.01–2.83 m**, and
+they take the card marks standing on measured ground from 52 of 90 to **61 of
+90**. One of the eight self-intersects where the 1 m boundary trace pinches to a
+single cell; the repair is recorded on the feature rather than applied silently.
+
+**The tree-cover raster is the one this ground never had**, and it is not a
+passive candidate: `emit-pack` reads `<build>/tree-cover.json` directly, so it
+goes live the moment the pack is re-emitted. It is adopted whole with its
+limitation stated — 41.7% of it (75,734 cells) has no second record under it,
+because the review crops are hole boxes plus 90 m — on the ground that the
+checked part beats the model's own wood rings by 2.2–2.5× under every variation
+tried, and that the alternative is what this ground has today, which is no raster
+at all.
+
+**The clubhouse roof was near-black and is not.** The scenery module's own note
+said a flat-light photograph would let it be measured and that there wasn't one.
+This is that frame: 13,182 pixels inside the footprint eroded 2 m and within
+1.2 m of a laser roof return read a median rgb **(90, 99, 107)** — a mid grey
+with a slight blue cast, interquartile ten counts — sitting 0.30 of the way from
+that frame's deepest shadow to its brightest paint, where the module's 0x2a2c2b
+sits at 0.031. A sunlit nadir reading is not a paint chip, so what is carried
+over is the RATIO and the chromaticity: 0x5c656d, the measured chromaticity
+scaled to keep its 0.743 of the engine's own hard-surface albedo. There is no
+ridge to state — the roof is two near-level plates under 2°, stepping down 1.17 m
+to the south. The walls stay unmeasured: an ortho gives a roof and never a
+facade.
+
+**The relief lean is real here and it is not one lean.** The `Ortofoto_0.16_fs`
+sidecar shows this "capture" is 15 timestamped frames in three flight lines, so
+the lean is radial about EACH block's own nadir. It is ~0.6 m at a median 296 m
+radius — an order of magnitude below Johannesberg's 3–11 m — and nothing is
+applied. The verification also corrected the statistic: a mean cosine against a
+global permutation baseline is pseudoreplication over four frames, and against a
+within-block baseline it gives p = 0.401. The evidence is the frame-level test:
+4 of 4 blocks outward, t = 5.15 on df 3.
+
 ## 7. Vegetation
 
 The bespoke stand pipeline produced 4 m stand fields and **zero individual

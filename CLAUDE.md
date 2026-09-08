@@ -3872,6 +3872,73 @@ lowest against 72.725 m on the Nacka höjder**.
   greens, fairways and tees. A practice green is a putting surface; without it the
   vegetation compile was free to stand measured trees on one.
 
+### Six layers off one capture, each checked by an agent trying to break it
+
+Shoreline, fairways, bunkers, tee decks, tree cover and buildings were measured
+on the 2025 frame and then verified adversarially. All six came back
+sound-with-corrections, and **every one of them contained a statement its own
+computed fields contradict** — a doubled island count, a quartile gap overstated
+2.1×, a mask score published where the ring score belongs, a wood-ring count of
+six beside its own list of five. `reconcile-2025-evidence.py` corrects those from
+the files' own fields and gates with `--check` that a re-run has not reintroduced
+one. The lesson is not that the measurements were wrong; they reproduced exactly.
+It is that **the prose is what a later reader quotes**, and prose does not get
+recomputed when the numbers do.
+
+- **A big water ring is affordable only with a CUTOFF.** `terrainH` called
+  `ringSD` with none, so the edge index expanded cell rings until it found the
+  exact distance to a shore a kilometre away — and the next line drops anything
+  over 26 m. On Lidingö's united 6,609-vertex sea ring over the 513×513
+  heightfield: **4,911 ms without, 156 ms with**, every value under the cutoff
+  bit-identical and every sign the same. 60 m covers both consumers (the lake
+  bed's 55 m ramp, the outside's 26 m). Simplifying the ring is the wrong lever
+  and measuring says so: 6,609 → 1,936 vertices only reaches 3,211 ms, because
+  the cost was never the vertex count. This is engine-wide and helps every course
+  with a large water body.
+- **`isSea` stays false even on a real sea, when the ring stops.** The flag is an
+  instruction about the whole world — the engine lays one plane across the entire
+  heightfield — and it is true only of an unbounded ocean. Lidingö's Baltic is
+  real and its ring ends at the acquisition edge, so the assumption does not hold
+  for it. A ring draws its own sheet regardless, which is what actually makes
+  water visible. Same rule that drowned Ängsö's mainland, applied before rather
+  than after.
+- **One body, one ring — so a better shoreline is a UNION, not an addition.** The
+  model drew 9.90 ha of Baltic in three fragments clipped to the terrain window
+  (and the clip is the window, not a source-item edge: centred on the model origin
+  to 0.000 m). Five measured plates at one level unite to **607.75 ha in three
+  rings**, finest first so the 1 m trace wins where it overlaps the 2 m one.
+- **An island inside a water ring survives if it clears the carve's tolerance.**
+  `carveTerrainTile` skips any sample more than 0.5 m above the level, so eight of
+  ten traced islands stand and two 600 m² islets flatten. Measure that before
+  keyholing a ring; Ribbingsfors documented drowned islets without it.
+- **Flatness does not define a tee deck**, at least not here: every flatness and
+  slope gap between the mapped tees and the ground around them is NEGATIVE. The
+  edge step does better and is still only an enrichment — matched populations put
+  tee p25 at 0.134 against confuser p90 0.139, so the distributions touch. Which
+  is why the eight decks adopted are the ones where the platform AND a card
+  distance agree, and the other 34 are platforms.
+- **Measure a gap across matched populations or it means nothing.** That tee
+  headline was first 18 hand-traced RINGS against 56 detected COMPONENTS, which
+  are not comparable objects; the +0.098 m it reported becomes −0.005 m when both
+  sides are the detector's own components at the rule's own floor.
+- **A "capture" can be many frames, and then there is no one nadir.** The
+  `Ortofoto_0.16_fs` sidecar shows 15 timestamped frames in three flight lines, so
+  relief lean is radial about EACH block. A mean cosine against a global
+  permutation baseline is pseudoreplication over the frames (p = 0.401 against a
+  within-block baseline); the evidence is the frame-level test, 4 of 4 outward at
+  t = 5.15 on df 3. The lean is ~0.6 m at a median 296 m radius here, an order of
+  magnitude below Johannesberg's, and nothing is applied.
+- **`emit-pack` reads `<build>/tree-cover.json` directly**, so a raster written
+  there is live geometry the moment the pack is re-emitted — not a candidate
+  waiting to be wired. Say so where the file is written.
+- **The clubhouse roof was near-black because the only photographs were golden
+  hour, and the module said so.** Its own note asked for a flat-light frame; this
+  capture is one, and the roof measures a mid blue-grey at 0.30 of the way from
+  the frame's deepest shadow to its brightest paint where the page's value sat at
+  0.031. A sunlit nadir reading is not a paint chip, so carry the RATIO and the
+  chromaticity, not the triple. Walls stay unmeasured: an ortho gives a roof and
+  never a facade.
+
 ### Things this ground taught
 
 - **Tee marks are placed by searching the pad's interior, not its centroid.**
@@ -3894,9 +3961,13 @@ lowest against 72.725 m on the Nacka höjder**.
   September 2024 bunker (turf 2018, turf 2019, sand 2025); the phantom is on
   hole 15.
 - **This ground's scan is thinner than any other here, and it is leaf-off.** One
-  campaign, `21c031-658_67`, captured **2021-03-23** at **2.784 all returns/m²**
-  and **1.24 pulses/m²** — against Veckefjärden's 3.119 and Norrfällsviken's 3.4 —
-  with 11.7% void cells and canopy on 59.8% of the measured ones. Both facts cut
+  campaign, `21c031-658_67`, captured **2021-03-23**. Two densities are committed
+  over two extents and must not be mixed: the pinned campaign inventory measures
+  the whole 10 km item at **2.156 all returns/m²** over 217,740,127 points, and
+  the canopy evidence measures the AOI this build reads at **2.784 all returns/m²**
+  and **1.24 pulses/m²** over 18,077,669 — against Veckefjärden's 3.119 and
+  Norrfällsviken's 3.4 — with 11.7% void cells and canopy on 59.8% of the
+  measured ones. Say which extent you mean. Both facts cut
   the same way and must be stated together: a March scan under-detects deciduous
   crowns (the Johannesberg caveat), and half the pulse density of the other
   grounds finds fewer crowns of any kind. Do not attribute a thin generation to

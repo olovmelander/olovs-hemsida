@@ -838,7 +838,18 @@ function legacyTerrainH(x, z) {
       if (d < w.w * 3.6) shoreDamp = Math.min(shoreDamp, smooth(w.w * 1.6, w.w * 3.6, d));
       continue;
     }
-    const sd = ringSD(x, z, w.ring);
+    /* THE CUTOFF IS WHAT MAKES A BIG WATER RING AFFORDABLE. ringSDIndexed is
+       exact while |result| < cutoff and past it returns at least the cutoff
+       with the right sign - and nothing below reads a value outside that band:
+       the next line drops anything over 26 m outside, and the deepest read
+       inside is the lake bed's own 55 m ramp (a sea's is 18). Without a cutoff
+       the index still has to expand cell rings until it finds the EXACT
+       distance to a shore a kilometre away, and then this line throws it away.
+       Measured on Lidingö's united 6,609-vertex sea ring over the 513x513
+       heightfield window: 4,911 ms without, 156 ms with, every value under the
+       cutoff bit-identical and every sign the same. 60 covers both consumers
+       with margin; raise it if either ramp is ever widened. */
+    const sd = ringSD(x, z, w.ring, 60);
     if (sd > 26) continue;
     shoreDamp = Math.min(shoreDamp, smooth(2, 9, sd));
     /* the traced silt shallows: the satellite's wide pale margins are a bed a few

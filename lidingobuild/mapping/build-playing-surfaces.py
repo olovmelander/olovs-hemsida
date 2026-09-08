@@ -29,6 +29,13 @@ refinements = json.loads(refinement_path.read_text(encoding='utf8'))
 # against the 2019 image the pixel path is registered to.
 additions_path = OUT / 'surface-additions-2025.json'
 additions = json.loads(additions_path.read_text(encoding='utf8')) if additions_path.exists() else None
+# The tee decks measured on the same capture. Only the decks whose PLATFORM
+# (laser + photograph) and whose CARD distance agree are read here - the
+# two-records rule, applied by adoption string rather than by re-deriving it,
+# so the evidence file stays the single place that decides.
+decks_path = OUT / 'tee-deck-2025.json'
+decks = json.loads(decks_path.read_text(encoding='utf8')) if decks_path.exists() else None
+TWO_RECORD_DECK = 'measured-candidate-deck; two records agree'
 assert extra_traces['sourceImage']==traces['sourceImage']
 assert refinements['sourceImage']==traces['sourceImage']
 traces['traces'].extend(extra_traces['traces'])
@@ -71,6 +78,48 @@ for t in traces['traces']:
         points.append(at_output_precision(e,n))
     if points[0]!=points[-1]: points.append(points[0])
     features.append({'type':'Feature','id':t['id'],'properties':{'kind':t['kind'],'hole':t['hole'],'sourceId':traces['sourceId'],'observedYear':2019,'captureDate':None,'reviewStatus':'machine-visual-review','notSurveyed':True,'method':'manual-image-boundary-digitization','sourcePixelTrace':t['id'],'interpretationUncertaintyMetres':t['uncertaintyMetres'],'registrationAccuracy':'not independently checked','note':t['note'],'licence':'CC0-1.0'},'geometry':{'type':'Polygon','coordinates':[points]}})
+if decks:
+    capture = {'id': decks['sourceCapture']['id'], 'captureDate': decks['sourceCapture']['captureDate'],
+               'sha256': decks['sourceCapture']['sha256'],
+               'licence': decks['sourceCapture']['licence'],
+               'attribution': decks['sourceCapture']['attribution']}
+    adopted_decks = [d for d in decks['decks'] if d['adoption'].startswith(TWO_RECORD_DECK)]
+    for d in adopted_decks:
+        ring = [at_output_precision(*pt) for pt in d['geometry']['coordinates'][0]]
+        if ring[0] != ring[-1]:
+            ring.append(ring[0])
+        # A boundary trace on a 1 m grid PINCHES where the component narrows to
+        # one cell, and a pinch is a ring self-intersection. Repairing it is a
+        # geometry fix and is recorded as one; it is never silent, and the area
+        # it costs is reported beside the cell count it came from.
+        repaired = None
+        polygon = shape({'type': 'Polygon', 'coordinates': [ring]})
+        if not polygon.is_valid:
+            fixed = polygon.buffer(0)
+            parts = sorted(getattr(fixed, 'geoms', [fixed]), key=lambda g: -g.area)
+            assert parts and parts[0].area > 1, d['id']
+            repaired = {'reason': explain_validity(polygon),
+                        'cellAreaSquareMetres': d['areaSquareMetres'],
+                        'repairedAreaSquareMetres': round(parts[0].area, 2),
+                        'discardedParts': len(parts) - 1}
+            ring = [at_output_precision(x, y) for x, y in parts[0].exterior.coords]
+        hole = d['cardCorroboration']['hole']
+        features.append({'type':'Feature','id':d['id'],'properties':{
+            'kind':'tee','hole':hole,'sourceId':capture['id'],
+            'observedYear':2025,'captureDate':capture['captureDate'],
+            'sourceImageSha256':capture['sha256'],
+            'reviewStatus':'machine-measured; no independent human survey','notSurveyed':True,
+            'method':'laser-flat mown platform measured on the 2025 capture, corroborated by a card distance',
+            'cardTee':d['cardCorroboration']['tee'],
+            'cardMetres':d['cardCorroboration']['cardMetres'],
+            'cardResidualMetres':d['cardCorroboration']['residualMetres'],
+            'edgeStepMetres':d['edgeStepMetres'],
+            'independentSecondRecord':True,
+            **({'ringRepairedFromTracePinch':repaired} if repaired else {}),
+            'registrationAccuracy':'not independently checked',
+            'licence':capture['licence'],'attribution':capture['attribution']},
+            'geometry':{'type':'Polygon','coordinates':[ring]}})
+
 if additions:
     # each capture states its own sha256, so a ring adopted from one image can
     # never be silently re-attributed to another
@@ -134,6 +183,17 @@ report['newerCaptureAdditions']=({'sourceCapture':additions['sourceCapture'],'ru
   'note':'rings measured on a capture NEWER than the 2019 pixel traces and carried in EPSG:3006; '
          'adopted only where a club document dates the work and the older captures show the ground without it'}
   if additions else None)
+report['teeDecks2025']=({'sourceCapture':decks['sourceCapture'],
+  'adopted':[{'id':d['id'],'hole':d['cardCorroboration']['hole'],'tee':d['cardCorroboration']['tee'],
+              'cardMetres':d['cardCorroboration']['cardMetres'],
+              'cardResidualMetres':d['cardCorroboration']['residualMetres'],
+              'edgeStepMetres':d['edgeStepMetres'],
+              'polygonAreaSquareMetres':_built[d['id']]['properties']['areaSquareMetres']}
+             for d in adopted_decks],
+  'notAdopted':{k:v for k,v in decks['adoptionSummary'].items() if not k.startswith(TWO_RECORD_DECK)},
+  'note':'only decks whose measured platform AND card distance agree are adopted; the rest stay in '
+         'tee-deck-2025.json as measured platforms with one record'}
+  if decks else None)
 report['refinementRound']={'previousOutputSha256':refinements['previousOutputSha256'],'newTraceCount':len(refinements['traces']),'rejectedTraceIds':[t['id'] for t in refinements.get('rejectedTraces',[])],'osmBunkerAssociations':refinements['osmBunkerHoleAssociations'],'sourceGeometryEpoch':2019,'laterMowingOrBunkerChangesAdopted':bool(additions and additions['features'])}
 (OUT/'playing-surfaces-review.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
 print(json.dumps({k:report[k] for k in ['counts','holesWithGreen','holesWithAssociatedTee','sourceTraceCount']}))

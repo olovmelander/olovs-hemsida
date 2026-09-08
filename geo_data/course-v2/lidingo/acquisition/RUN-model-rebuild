@@ -1,0 +1,25 @@
+# Rebuild lidingobuild/course-model.json where the Lantmäteriet credential is.
+#
+# build-course.mjs asserts its 1 m raster against a pinned sourceFloat32Sha256,
+# and that raster lives in a gitignored cache: rebuild-terrain-raster.mjs
+# measures why the published tiles cannot stand in for it - they cover the
+# window completely but are QUANTISED, so they give the terrain's shape and not
+# the acquisition's bytes, and the pin is a contract about the bytes.
+#
+# This run must pick up, all of it in one rebuild:
+#   - the united sea, 607.75 ha in three rings replacing 9.90 ha of fragments
+#     clipped to the terrain window (mapping/coast-rings.geojson)
+#   - the eight measured tee decks, which take card marks standing on measured
+#     ground from 52 of 90 to 61
+#   - hole 13's bunker, the one the club's course council reports building
+#   - millimetre output precision, so this machine's PROJ and CI's agree
+#   - the 3 m tree-cover raster this ground never had (emit-pack reads
+#     lidingobuild/tree-cover.json directly)
+#
+# It also clears the one known failure on the branch:
+# course.node-test's "every published green and physical tee is an observed
+# source polygon" fails by sub-millimetre amounts until the model is rebuilt
+# from the rounded rings.
+run: rebuild
+ground: lidingo
+requestedOn: 2026-09-08

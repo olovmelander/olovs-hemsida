@@ -150,16 +150,40 @@ export async function buildCourse() {
       if (rings.length !== 1) throw new Error('Compatibility water cannot silently discard islands');
       const ring = rings[0].map(local), level = f.properties.heightRH2000;
       if (!Number.isFinite(level)) throw new Error('Water lacks RH 2000 level');
-      // fid14 is clipped coastal water. Its three bounded fragments cannot
-      // define the runtime's unbounded sea/horizon mask; render these as local
-      // water meshes at their actual source level, never as inland lakes.
-      const coastal = f.properties.sourceFid === 14;
+      /* fid14 is the sea, and the break geometry carries it clipped to the
+         2,048 m terrain window - three fragments totalling 9.90 ha of a
+         20.657 km2 source feature, closed with a straight chord across open
+         water. It is superseded here by the united laser plates below, which
+         measure the same water at the same level over 607.75 ha. Two rings at
+         one level over one body are a z-fight, not a belt and braces, so this
+         is a REPLACEMENT: the fragments are skipped rather than joined. */
+      if (f.properties.sourceFid === 14) continue;
       water.push({ id: `${f.id}-part-${part + 1}`, sourceFeatureId: f.id,
-        ring, level, isLake: !coastal, isSea: false, area: Math.abs(polyArea(ring)),
-        waterKind: coastal ? 'coastal-water' : 'inland-pond',
+        ring, level, isLake: true, isSea: false, area: Math.abs(polyArea(ring)),
+        waterKind: 'inland-pond',
         sourceId: 'water-breaks-lm-1m', clipBoundaryIsShore: false });
     }
   }
+  /* The sea, measured off the 1 m and 2 m laser plates and united into one
+     ring per body (lidingobuild/mapping/build-coast-rings.py). isSea stays
+     FALSE: that flag is not a description of a body of water, it is an
+     instruction about the whole world - the engine answers it by laying one
+     plane across the entire heightfield - and this ring, real sea though it is,
+     stops at the acquisition edge. A ring draws its own sheet regardless. */
+  const coastRings = requireProjected(await json('lidingobuild/mapping/coast-rings.geojson'), 'United sea');
+  for (const f of coastRings) {
+    if (f.geometry.type !== 'Polygon' || f.geometry.coordinates.length !== 1) {
+      throw new Error(`${f.id}: a united sea ring must be one outer ring`);
+    }
+    const ring = f.geometry.coordinates[0].map(local);
+    const level = f.properties.heightRH2000;
+    if (!Number.isFinite(level)) throw new Error(`${f.id}: sea ring lacks its RH 2000 level`);
+    water.push({ id: f.id, sourceFeatureId: f.id, ring, level, isLake: false, isSea: false,
+      area: Math.abs(polyArea(ring)), waterKind: 'sea',
+      sourceId: f.properties.sourceId, clipBoundaryIsShore: false });
+  }
+  if (!water.some(w => w.waterKind === 'sea')) throw new Error('Lidingö is a coastal course and its sea is missing');
+
   const vegetation = { forest: [], wood: [], scrub: [], wetland: [], sand: [], rock: [] };
   const infra = { paths: [], tracks: [], roads: [], buildings: [], farB: [], parking: [], piers: [], basins: [], pitches: [],
     landuse: [], reserves: [], power: { lines: [], towers: [], poles: [] }, railway: [],

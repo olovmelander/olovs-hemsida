@@ -1,0 +1,377 @@
+{
+  "schemaVersion": 1,
+  "measuredOn": "2026-09-08",
+  "generator": "lidingobuild/mapping/build-treecover-2025.py",
+  "state": "measured-candidate-geometry",
+  "layer": "tree cover and forest",
+  "horizontalCrs": "EPSG:3006",
+  "sourceCapture": {
+    "id": "imagery-lm-ortofoto-0p16",
+    "captureDate": "2025-05-31",
+    "sha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+    "provider": "Lantmäteriet",
+    "product": "Ortofoto",
+    "licence": "Lantmäteriet Ortofoto via minkarta; see geo_data/course-v2/lidingo/discovery/source-access.json",
+    "attribution": "© Lantmäteriet",
+    "sampleSpacingMetres": 0.16,
+    "windowEpsg3006": {
+      "minEasting": 677056.0,
+      "minNorthing": 6585728.0,
+      "maxEasting": 678252.8,
+      "maxNorthing": 6587100.8
+    }
+  },
+  "raster": {
+    "path": "lidingobuild/tree-cover.json",
+    "cellMetres": 3.0,
+    "frame": "page-local metres from the model origin: east +x, SOUTH +z; E = x + 677700.5, N = 6586399.5 - z",
+    "x0": -642.0,
+    "z0": -699.0,
+    "nx": 398,
+    "nz": 456,
+    "legend": {
+      "0": "unknown",
+      "2": "open",
+      "3": "trees"
+    },
+    "packing": "two bits per cell, crumb k at byte k>>2 shift (k&3)*2 (little bitorder); decoder verified against geobuild/nvgkbuild/puttombuild tree-cover.json, which decode to values {2,3} only with byte counts equal to ceil(nx*nz/4)",
+    "windowIsTheCapture": "the window is the capture's own coverage snapped inward to the 3 m grid; the photograph reaches only 110-119 m beyond the played bounding box, against the 700 m margin Veckefjärden's raster carries"
+  },
+  "rule": {
+    "form": "trees = relativeTexture(4.8 m) > TEX_CUT AND minimumLuminance(4.8 m) < DARK_CUT, then a 3x3 majority vote, then known ground burned open",
+    "why": "Veckefjärden's classifier lesson, re-measured here: mown turf is bright, green AND SMOOTH; sunlit leaf-on canopy is bright and green but violently textured; a tree's shadow on grass is dark but dead smooth. Texture is the discriminator, not colour. The second term is the same idea from the other side: a crown at this sun stands beside genuine darkness and a fairway does not.",
+    "workingResolutionMetres": 0.96,
+    "preparation": "the 0.16 m capture block-averaged 6x to 0.96 m; colour smoothed over 3 px (2.88 m); texture is the standard deviation of luminance over 5 px (4.80 m); the shadow anchor is the minimum of luminance over the same window",
+    "relativeTexture": "100 * sigma(luminance) / mean(luminance)",
+    "calibration": {
+      "method": "every cut is swept on ground this model already labels, on this capture only: the interiors of the 18 wood rings (eroded two cells, clear of any playing surface) against the interiors of the greens, fairways and tee pads (eroded two cells, clear of wood). The cut is the one that minimises wood-missed plus turf-falsely-claimed. A negative decile gap would mean the two distributions overlap and no threshold exists.",
+      "texture": {
+        "cut": 7.4,
+        "decileGap": 5.48,
+        "woodMissed": 0.0382,
+        "turfFalselyClaimed": 0.0399,
+        "hardSurfaceFalselyClaimed": 0.6604,
+        "woodDeciles": [
+          10.52,
+          17.75,
+          26.23
+        ],
+        "turfDeciles": [
+          1.63,
+          2.51,
+          5.04
+        ],
+        "hardDeciles": [
+          2.95,
+          12.06,
+          29.63
+        ]
+      },
+      "shadowAnchor": {
+        "cut": 62.0,
+        "decileGap": 19.18,
+        "woodMissed": 0.0563,
+        "turfFalselyClaimed": 0.0053,
+        "hardSurfaceFalselyClaimed": 0.234,
+        "woodDeciles": [
+          32.7,
+          39.26,
+          54.3
+        ],
+        "turfDeciles": [
+          73.48,
+          78.26,
+          83.96
+        ],
+        "hardDeciles": [
+          53.01,
+          85.61,
+          131.86
+        ]
+      },
+      "normalisedExcessGreen": {
+        "cut": 1.2,
+        "decileGap": 0.02,
+        "positiveMissed": 0.1216,
+        "negativeFalselyClaimed": 0.0227,
+        "positiveDeciles": [
+          0.71,
+          6.69,
+          15.78
+        ],
+        "negativeDeciles": [
+          -2.97,
+          -0.2,
+          0.69
+        ],
+        "woodVersusTurfDecileGap": -17.25,
+        "woodDeciles": [
+          0.46,
+          5.94,
+          13.13
+        ],
+        "turfDeciles": [
+          12.06,
+          16.47,
+          17.71
+        ],
+        "sweptAgainst": "vegetation (wood interiors + turf interiors) versus hard standing (building and parking interiors)",
+        "note": "measured and NOT used as a term. It answers \"is this vegetation at all\" -- hard standing sits at or below zero -- but it cannot answer \"is this canopy\": against turf it runs the WRONG WAY, a fairway being greener than a crown, and its wood-versus-turf decile gap is negative. Adding it as a third term costs recall (see score.variantsMeasuredNotAdopted). Buildings and parking are burned open from the model instead, which is exact."
+      }
+    },
+    "thresholds": {
+      "relativeTextureCut": 7.4,
+      "minimumLuminanceCut": 62.0,
+      "majorityVote": "3x3, strictly more than half"
+    },
+    "burnedOpen": [
+      "playing-surfaces.geojson greens, fairways, tees and bunkers",
+      "course-model.json water rings",
+      "course-model.json building footprints (562)",
+      "course-model.json parking rings (29)"
+    ],
+    "notBurned": "roads and paths are lines with generic rendering widths and a crown legitimately overhangs a road, so no road corridor is burned; the diagnostic is reported below",
+    "roadDiagnostic": {
+      "roadVertexSamplesInsideWindow": 407,
+      "classedTrees": 143,
+      "fraction": 0.351,
+      "note": "road centre-line vertices that land in a cell the raster calls trees. A crown really does overhang a suburban road here, so this is reported rather than burned away."
+    }
+  },
+  "independentCheck": {
+    "record": "the 2021-03-23 laser canopy height model of the ground-vegetation chain",
+    "whyIndependent": "it is a different sensor, a different year and a different pipeline, and no part of it entered the classifier or its calibration",
+    "access": "the numeric rasters (lidingobuild/cache/vegetation/chm-*.f32) are a gitignored CI cache and are NOT on this machine; the committed review renders under geo_data/course-v2/lidingo/vegetation/review are read instead. render-review.mjs encodes the CHM as grey v = round(20 + min(1, h/30) * 235) with dark blue (12,18,48) for no return, at 1 m per pixel, into 18 crops whose bboxes legend.json records.",
+    "decode": "h = (v - 20) / 235 * 30 for grey pixels; pixels the renderer drew over are excluded by re-rasterising every line it draws and dilating 5x5, because the fairway rings are drawn in grey 170 and would decode as 19.15 m of canopy",
+    "georeferenceProof": {
+      "test": "the renderer draws the model hole centre lines in white; rasterising the same lines here and asking whether each sample lands within one pixel of a white pixel tests the crops' georeference with geometry the classifier never used",
+      "samples": 15552,
+      "landedOnWhite": 15492,
+      "fraction": 0.9961
+    },
+    "laserCanopyThresholdMetres": 2.0,
+    "cellRule": "a cell is laser canopy if at least half of its >=5 valid 1 m samples stand 2 m or more above ground, laser open if at most a fifth do; the rest are held out as ambiguous",
+    "ambiguousCells": 7001,
+    "vintageCaveat": "the laser is 2021-03-23 and LEAF-OFF, the photograph is 2025-05-31 and leaf-on. Disagreement is expected in both directions and is not by itself an error of either record: a March scan under-detects deciduous crowns (the Johannesberg caveat), and four years separate them."
+  },
+  "score": {
+    "adopted": {
+      "label": "imagery classifier (adopted)",
+      "truePositive": 49203,
+      "falsePositive": 11608,
+      "falseNegative": 2780,
+      "trueNegative": 35162,
+      "precision": 0.809,
+      "recall": 0.947,
+      "iou": 0.774,
+      "accuracy": 0.854
+    },
+    "baseline": {
+      "label": "model wood rings burned solid (what the model already has)",
+      "truePositive": 17968,
+      "falsePositive": 3978,
+      "falseNegative": 34015,
+      "trueNegative": 42792,
+      "precision": 0.819,
+      "recall": 0.346,
+      "iou": 0.321,
+      "accuracy": 0.615
+    },
+    "singleTermVariants": [
+      {
+        "label": "texture term alone",
+        "truePositive": 50392,
+        "falsePositive": 22718,
+        "falseNegative": 1591,
+        "trueNegative": 24052,
+        "precision": 0.689,
+        "recall": 0.969,
+        "iou": 0.675,
+        "accuracy": 0.754
+      },
+      {
+        "label": "shadow term alone",
+        "truePositive": 49236,
+        "falsePositive": 12432,
+        "falseNegative": 2747,
+        "trueNegative": 34338,
+        "precision": 0.798,
+        "recall": 0.947,
+        "iou": 0.764,
+        "accuracy": 0.846
+      }
+    ],
+    "spatialHalves": [
+      {
+        "label": "adopted, west half of the capture only",
+        "truePositive": 25828,
+        "falsePositive": 5689,
+        "falseNegative": 1473,
+        "trueNegative": 17124,
+        "precision": 0.819,
+        "recall": 0.946,
+        "iou": 0.783,
+        "accuracy": 0.857
+      },
+      {
+        "label": "adopted, east half of the capture only",
+        "truePositive": 23375,
+        "falsePositive": 5919,
+        "falseNegative": 1307,
+        "trueNegative": 18038,
+        "precision": 0.798,
+        "recall": 0.947,
+        "iou": 0.764,
+        "accuracy": 0.851
+      }
+    ],
+    "beatsWhatTheModelHas": {
+      "iouAdopted": 0.774,
+      "iouBaseline": 0.321,
+      "statement": "the classifier reaches IoU 0.774 against the laser where the model's own wood rings, burned solid, reach 0.321 -- the rings recall only 0.346 of the laser's canopy because six of the eighteen lie wholly outside the capture and the rest miss the woodland between them"
+    },
+    "variantsMeasuredNotAdopted": [
+      {
+        "label": "adopted plus mean luminance < the turf floor (77.7)",
+        "truePositive": 47455,
+        "falsePositive": 8254,
+        "falseNegative": 4528,
+        "trueNegative": 38516,
+        "precision": 0.852,
+        "recall": 0.913,
+        "iou": 0.788,
+        "accuracy": 0.871,
+        "ringCalibrationError": 0.0798
+      },
+      {
+        "label": "adopted plus a vegetation gate (normalised excess green > 1.20)",
+        "truePositive": 45278,
+        "falsePositive": 8238,
+        "falseNegative": 6705,
+        "trueNegative": 38532,
+        "precision": 0.846,
+        "recall": 0.871,
+        "iou": 0.752,
+        "accuracy": 0.849,
+        "ringCalibrationError": 0.1137
+      }
+    ],
+    "ringCalibrationErrorAdopted": 0.051,
+    "howTheFormWasChosen": "by the RING CALIBRATION, never by the laser. The adopted form leaves ring calibration error 0.0510; the luminance variant leaves 0.0798 and the vegetation variant 0.1137, so neither was selected -- even though the luminance variant scores HIGHER against the laser. Choosing a form by the check would spend the check, and this is written down so a reader can see the trade rather than take it on trust."
+  },
+  "theDecidingStatistic": {
+    "question": "where the imagery claims canopy and the laser does not, is the laser height piled at zero (the imagery over-detected) or does it carry branch height (a leaf-off scan thinned a real crown)? -- the Johannesberg rule",
+    "disputedCells": 11608,
+    "disputedAreaHectares": 10.45,
+    "distanceToNearestLaserCanopyCell": {
+      "within3m": 0.408,
+      "within6m": 0.715,
+      "within9m": 0.891,
+      "within12m": 0.949
+    },
+    "reading": "89.1% of the disputed cells lie within 9 m of a cell the laser itself calls canopy, so most of the disagreement is an EDGE effect: a leaf-on May crown is wider than its leaf-off March skeleton, the shadow anchor reaches 2.4 m past a crown edge, and the majority vote adds a cell. It is a fattening of the canopy boundary, not canopy invented in open ground.",
+    "genuinelyIsolated": {
+      "cells": 1265,
+      "areaHectares": 1.14,
+      "fractionOfDisputed": 0.109,
+      "maxLaserHeightQuantiles_p50_p75_p90": [
+        0.0,
+        0.0,
+        0.13
+      ],
+      "fractionWithMaxHeightBelowHalfMetre": 0.915,
+      "verdict": "piled at zero. By the Johannesberg rule this residual is genuine OVER-DETECTION by the imagery, not canopy the leaf-off scan missed, and it is the honest cost of the rule."
+    },
+    "reverseDisagreement": {
+      "cells": 2780,
+      "meanLaserHeightQuantiles_p50_p90": [
+        5.74,
+        13.87
+      ],
+      "reading": "where the imagery says open and the laser says canopy the laser height is real (metres, not centimetres), so these are crowns the photograph does not show as canopy: felled or thinned between 2021 and 2025, or standing over ground the burn rules claim."
+    }
+  },
+  "statistics": {
+    "windowCells": 181488,
+    "windowAreaHectares": 163.3,
+    "canopyFractionOverWindow": 0.694,
+    "openFractionOverWindow": 0.306,
+    "unknownCells": 0,
+    "canopyInsideWoodRings": 0.9284,
+    "laserCanopyInsideWoodRings": 0.7462,
+    "woodRingCellsWithLaser": 24078,
+    "canopyOutsideWoodRings": 0.6986,
+    "canopyAreaOutsideWoodRingsHectares": 76.1,
+    "laserCoveredCells": 105754,
+    "laserCoverageFractionOfWindow": 0.583,
+    "laserCanopyFractionWhereCovered": 0.4915,
+    "classifierCanopyFractionWhereCovered": 0.6324
+  },
+  "refusals": [
+    {
+      "kind": "outside-the-capture",
+      "what": "wood rings the photograph does not reach",
+      "woodRingsWhollyInside": 7,
+      "woodRingsPartlyInside": 6,
+      "woodRingsWhollyOutside": [
+        6,
+        7,
+        8,
+        12,
+        13
+      ],
+      "detail": "the capture spans E 677056-678253 N 6585728-6587101. Six of the eighteen wood rings lie entirely outside it and six more only partly inside, so the raster cannot thin them and they keep whatever the model already says."
+    },
+    {
+      "kind": "outside-the-capture",
+      "what": "the single scrub ring",
+      "rings": 1,
+      "overlapsCapture": 0,
+      "detail": "vegetation.scrub's one ring stands at E 677088-677276 N 6585392-6585424, clear of the photograph. Nothing is said about it."
+    },
+    {
+      "kind": "no-independent-check",
+      "what": "the part of the window the review crops do not cover",
+      "cells": 75734,
+      "fractionOfWindow": 0.417,
+      "detail": "the laser record available on this machine is the eighteen hole crops, which cover the played ground and 90 m round it. Over the remaining cells the classification is stated with its calibration behind it and nothing independent under it."
+    },
+    {
+      "kind": "measured-over-detection",
+      "what": "the isolated disputed cells",
+      "cells": 1265,
+      "areaHectares": 1.14,
+      "detail": "kept as a measured cost, not silently removed. Trimming them would mean tuning the rule on the record that checks it."
+    },
+    {
+      "kind": "not-attempted",
+      "what": "forest RING geometry for vegetation.forest",
+      "detail": "this layer emits a raster and no rings. A polygon is a claim about a boundary; the raster is a claim about a cell, and only the second is what the classifier measured. vegetation.forest stays empty."
+    },
+    {
+      "kind": "dated-blind-spot",
+      "what": "growth and felling between 2021 and 2025",
+      "detail": "the laser is four years older than the photograph, so neither record can date a change on its own. Where they disagree the older captures (2018, 2019) are the dating instrument, and that is a different measurement from this one."
+    }
+  ],
+  "adoptionIsNotPassive": {
+    "statement": "packages/course-pack/emit-pack.mjs reads `<build>/tree-cover.json` directly, so lidingobuild/tree-cover.json goes LIVE the moment emit-pack runs on this build. There is no wiring step and no candidate stage. Calling it \"a candidate for the orchestrator to wire in\" understated it.",
+    "decisionTaken": "adopted whole, with the one-record limitation stated: 41.7% of the raster (75,734 cells) has no second record under it, because the review crops are hole boxes plus 90 m. The checked part beats the model's own wood rings by 2.2-2.5x under every variation the verification could apply, and the alternative - no raster at all, which is what this ground has today - is worse everywhere."
+  },
+  "verification": {
+    "checkedBy": "an adversarial verification agent whose default was that the measurement is wrong",
+    "checkedOn": "2026-09-08",
+    "layer": "tree cover and forest",
+    "verdict": "sound-with-corrections",
+    "reproducedIndependently": "the classifier's IoU 0.774 / recall 0.947 against the laser canopy, and the wood rings' own 0.321 / 0.346, were reproduced under every variation tried",
+    "correctedInThisFile": [
+      "the wood-ring count that contradicted the file's own computed lists",
+      "the one-record status of 41.7% of the raster, now stated as a taken decision rather than a caveat"
+    ],
+    "standingLimitations": [
+      "the raster is one record over 41.7% of its area",
+      "the shape record is the height model and the colour record is 2025; a stand felled or grown between them is seen by only one of the two"
+    ],
+    "note": "the check re-derived headline numbers from the raw rasters with its own code and confirmed that no tracked file outside this layer was modified. Corrections below are to STATEMENTS, not to measurements: no threshold, rule or measured value changed."
+  }
+}

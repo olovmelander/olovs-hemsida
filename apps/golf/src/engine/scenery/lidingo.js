@@ -14,16 +14,35 @@
    those frames establish: both modern ones are golden hour, and this repository
    has already painted one clubhouse's storey blue by reading colour out of
    evening light, so the wall is given as a neutral off-white rather than a
-   measured tint, and the roof as a near-black grey. A flat-light photograph
-   would let both be measured properly; there isn't one yet, and that is
-   written down rather than guessed around.
+   measured tint.
+
+   THE ROOF IS NOW MEASURED, and it was not near-black. This note used to say a
+   flat-light photograph would settle it and that there wasn't one; the
+   2025-05-31 Lantmateriet ortho IS one. Inside the footprint eroded 2 m and
+   within 1.2 m of a laser roof return, 13,182 pixels read a median rgb
+   (90, 99, 107) - a MID grey with a slight blue cast, interquartile ten counts,
+   sitting 0.30 of the way from that frame's deepest shadow (29, 39, 49) to its
+   brightest paint (232, 237, 240) and at 0.743 of the luminance of the asphalt
+   beside it (129, 131, 133). The old 0x2a2c2b sits at 0.031 on the same scale:
+   an order of magnitude darker than the building is.
+
+   A sunlit nadir reading with atmospheric path radiance in it is not a paint
+   chip, so what is carried over is the RATIO and the CHROMATICITY, not the raw
+   triple: the measured chromaticity scaled so its luminance keeps that 0.743
+   against the engine's own hard-surface albedo 0x8a857b. And there is NO RIDGE
+   to state - the roof over this footprint is two near-level plates, both under
+   2 degrees, stepping down 1.17 m to the south across a line running about
+   east-west. A ridge azimuth would be an invention.
+
+   The walls stay unmeasured, and deliberately: an ortho gives a roof and never
+   a facade. Guessing a wall colour invents an appearance for a real business.
 
    Single storey, so ONE window row. windowRows is a list of sill heights, and a
    second row on a building that has none is the sort of small invention that
    makes a real club's clubhouse into a generic one. */
 export const clubhouse = {
   wall: 0xeff0ec,          /* off-white; tint not measured, see above */
-  roof: 0x2a2c2b,          /* near-black shallow roof with deep eaves */
+  roof: 0x5c656d,          /* measured: mid blue-grey at 0.743 of asphalt, 2025 ortho */
   height: 3.9,             /* one storey under an almost flat roof */
   windowRows: [1.5],
   terrace: true,
@@ -47,10 +66,22 @@ export const clubhouse = {
    handed to the planter would be thin in exactly these species. MEASURED ON
    THIS GROUND THAT DOES NOT HOLD - the leaf-off canopy and the leaf-on imagery
    agree closely enough that under-detection is not what this rule corrects.
-   What is low is the crown YIELD: 11.5 individuals per canopy hectare against
-   39-48 on comparable grounds, and that is pulse density (2.156 returns/m2),
-   not leaf state. Keep the two apart. A rule justified by the wrong mechanism
-   survives until somebody fixes that mechanism, and then quietly becomes wrong.
+   THE DENSITY IS LOW AND THERE ARE TWO NUMBERS FOR IT, over two extents, and
+   they must not be mixed. The pinned campaign inventory
+   (acquisition/laser-campaigns.json) measures the whole 10 km item: 217,740,127
+   points at 2.156 all returns/m2, declared 1.2. The canopy evidence
+   (vegetation/canopy-evidence.json) measures the AOI this build reads:
+   18,077,669 points at 2.784 all returns/m2 and 1.24 pulses/m2. Both are
+   committed; say which extent you mean. Against Veckefjarden's 3.119 and
+   Norrfallsviken's 3.4, either way this scan is about half their pulse density.
+
+   So the scan is BOTH leaf-off AND thin, and those cut the same way. An earlier
+   draft of this note also cited a crown yield of "11.5 individuals per canopy
+   hectare against 39-48"; that figure is in no committed artifact and is not
+   reproducible from one, so it is withdrawn rather than repeated. Do not
+   attribute a thin generation to leaf state or to density without measuring
+   which - a rule justified by the wrong mechanism survives until somebody fixes
+   that mechanism, and then quietly becomes wrong.
 
    0 spruce, 1 pine, 2 birch, matching the SPECIES table's own order. Low ground
    near the mown edges goes birch-led; the higher rocky ground stays pine-led,

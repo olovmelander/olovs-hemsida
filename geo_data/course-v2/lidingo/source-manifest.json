@@ -631,7 +631,7 @@
       "id": "playing-surface-candidates",
       "kind": "surface",
       "path": "lidingobuild/mapping/playing-surfaces.geojson",
-      "sha256": "e61f934a93409c6272119ff06e275368528b20eb4449e8dcc68160da6b2a5dd6",
+      "sha256": "41f3ab4bcf0197e25e5355a50dc9497344816d05f6ab30fef089c25827f8587b",
       "derivedFrom": [
         "imagery-municipal-2019",
         "lidingo-osm-2026-09-07"
@@ -718,7 +718,7 @@
       "id": "playing-surface-review",
       "kind": "control",
       "path": "lidingobuild/mapping/playing-surfaces-review.json",
-      "sha256": "ae7c1a972d3df07592d8f2a3c281db7844575aab5d89968e83ff9cb0322522b9",
+      "sha256": "df0958ce5d8b3a615eb4af967c54a11782c80fb1f04c46773ae5d53746a91c30",
       "derivedFrom": [
         "imagery-municipal-2019",
         "lidingo-osm-2026-09-07"
@@ -906,7 +906,7 @@
         "lidingo-osm-2026-09-07"
       ],
       "use": "discovery-evidence",
-      "notes": "The survey measured against two records it never saw: the card (its six no-target holes are exactly the six par 3s) and the observed greens (all 18 centres on the right hole, 16 strictly inside, median 5.25 m). The median offset is far smaller than the scatter, so no shift is applied to either record."
+      "notes": "The survey measured against two records it never saw: the card (its six no-target holes are exactly the six par 3s) and the observed greens (all 18 centres on the right hole, 16 strictly inside, median 3.27 m). The median offset is far smaller than the scatter, so no shift is applied to either record."
     },
     {
       "id": "laser-campaign-inventory",
@@ -942,6 +942,139 @@
       ],
       "use": "discovery-evidence",
       "notes": "The identical sand-in-a-hollow rule run over both available captures, scored on the 40 already-mapped bunkers. It recovers 9 of 40 on the 2019 CC0 frame and 8 of 40 on a leaf-on 0.30 m one, against 8 of 9 at Angso. NOTHING IS ADOPTED; the number is recorded so the attempt is not repeated without a better capture."
+    },
+    {
+      "id": "lm2025-shared-reader",
+      "kind": "control",
+      "path": "lidingobuild/mapping/lm2025.py",
+      "sha256": "50739610154fe934b2595936e881756db4522b25a7c655dbaa37132d46865aad",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "One reader for the 2025 capture and the 1 m laser, so four surface classes cannot each calibrate a different rule on the same pixels and then disagree about what the photograph says."
+    },
+    {
+      "id": "green-trace-2025",
+      "kind": "control",
+      "path": "lidingobuild/mapping/green-trace-2025.json",
+      "sha256": "5eebbbe8123c6c8eb4d99b6af56037e4461f7eaf73a1a04082030b6ac17d5734",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "terrain-lm-1m",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Five green-tracing methods scored against the 11 OSM green rings, which never entered any rule: best median IoU 0.365 by a method that grows on every hole, 0.603 by one that grows on two. REFUSED. Mown turf is one colour in this frame, and the polar readings return 2.7-3.4x the surveyed area - the green complex, not the putting surface."
+    },
+    {
+      "id": "coast-2025",
+      "kind": "topography",
+      "path": "lidingobuild/mapping/coast-2025.json",
+      "sha256": "3623367b6f8dfe7ff1cb9cb4d050539d821f8b126d20970f931fb1d70dedc841",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "The sea as laser-flat plates at a measured 0.100 m RH 2000, traced to closed rings, scored against the OSM coastline at a median 2.85 m over the fine pair and 5.27 m over the context ring. The 2025 capture cannot see this feature at all - 0 of 98,571 plate samples fall inside it - so the layer is laser-only and says so."
+    },
+    {
+      "id": "coast-rings",
+      "kind": "topography",
+      "path": "lidingobuild/mapping/coast-rings.geojson",
+      "sha256": "985423a2a2d34cdf5e6f96edafc73f2b232004a486baadaa29a753eb2ea7142a",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "The five plates united into one ring per body, 607.75 ha replacing the break geometry's 9.90 ha of window-clipped fragments. One body, one ring: two sheets at one level over one water are a z-fight. isSea stays false - that flag is an instruction about the whole world and this ring stops at the acquisition edge."
+    },
+    {
+      "id": "fairway-trace-2025",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/fairway-trace-2025.json",
+      "sha256": "02131bdc9c8359d2efd6325e07cd14195267bdb08b2317ed19f1451c85ff8eda",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "terrain-lm-1m",
+        "lidingo-osm-2026-09-07"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Mown turf separates from rough and forest jointly (held-out true-positive rate 0.901) but is 2.1x a fairway; a fairway-grade cut reproduces the five held-out OSM rings at a median ring IoU of 0.665 on all 12 par 4s and 5s. CANDIDATE: seven of the twelve rest on one record plus a rule, and each piece is tagged."
+    },
+    {
+      "id": "bunker-trace-2025",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/bunker-trace-2025.json",
+      "sha256": "31e4b602a2318dbbece12be96933b90ab314eae7b9ac3f8b1783885f27a69909",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "The 2025 detection confirms 34 of the 40 mapped bunkers at sub-metre registration and offers each a measured 0.16 m outline; 6 keep their own ring with a dated refusal. NOTHING ADOPTED. The 37 accepts away from any mapped bunker are not a stable census - closing the calibration loop moves them to 30 while the 34 stay."
+    },
+    {
+      "id": "tee-deck-2025",
+      "kind": "surface",
+      "path": "lidingobuild/mapping/tee-deck-2025.json",
+      "sha256": "4c05ae5e6e67b257b299170d40a2e116016445918f4f72f89d4b86e6feb5a82b",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Flatness does NOT define a tee deck here - every flatness and slope gap measured is negative - and the edge step is an enrichment rather than a separation: matched populations put tee p25 at 0.134 against confuser p90 0.139. 42 platforms, 8 adopted where the measured platform AND a card distance agree."
+    },
+    {
+      "id": "tree-cover-2025-evidence",
+      "kind": "control",
+      "path": "lidingobuild/mapping/tree-cover-2025.json",
+      "sha256": "ec8e7bb3f0fa64b6f6b422c8e3d20df5b5fe64b17d162b917c95532373c29a01",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "A two-term classifier - relative texture over 4.8 m plus a shadow anchor - reproduces the laser canopy at IoU 0.774 / recall 0.947 where the model's own 18 wood rings reach 0.321 / 0.346. 41.7% of the adopted raster has no second record under it, and that is stated as a taken decision."
+    },
+    {
+      "id": "tree-cover-raster",
+      "kind": "canopy",
+      "path": "lidingobuild/tree-cover.json",
+      "sha256": "d79c4ebc9054917db09dd6b742c0f1c3a8a09882cd5f055b240939a006a8edae",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "The 3 m two-bit canopy raster this ground never had, 398 x 456 cells. emit-pack reads this path directly, so it is live geometry and not a candidate."
+    },
+    {
+      "id": "building-check-2025",
+      "kind": "control",
+      "path": "lidingobuild/mapping/building-check-2025.json",
+      "sha256": "10f871d762c3b0ef06528d695da361e0900a066bde6299fa08289d72aed993a9",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "lidingo-osm-2026-09-07",
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Registration and presence against the 2025 capture. NOTHING APPLIED: the relief lean is real but only ~0.6 m at a median 296 m radius, and it is radial about EACH mosaic block - this capture is 15 timestamped frames in three flight lines. The clubhouse roof measures a mid blue-grey, not the near-black the page claimed."
+    },
+    {
+      "id": "evidence-reconciliation-2025",
+      "kind": "control",
+      "path": "lidingobuild/mapping/reconcile-2025-evidence.py",
+      "sha256": "628d50ddecfca7e6088aeaf0f8ae14ca5b9656ce55f82b27f8c595bb934fc208",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Applies the adversarial verification's corrections to the six evidence files from their own computed fields, and gates with --check that a re-run has not reintroduced one."
     }
   ],
   "blockers": [

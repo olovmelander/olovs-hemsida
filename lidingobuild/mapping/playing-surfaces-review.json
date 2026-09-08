@@ -33,13 +33,13 @@
     },
     {
       "path": "lidingobuild/mapping/build-playing-surfaces.py",
-      "sha256": "e74ac72394ad3536e10115296397a0a7adac5a0e5b7cfc7d025b8517bf6ac0f8"
+      "sha256": "950a47a87e59e1f12f8201a0b00dd4329028619f1b09db3a8bf8e594d9876ffb"
     }
   ],
-  "featureCount": 111,
+  "featureCount": 119,
   "counts": {
     "green": 20,
-    "tee": 37,
+    "tee": 45,
     "fairway": 13,
     "bunker": 41
   },
@@ -167,7 +167,7 @@
   ],
   "output": {
     "path": "lidingobuild/mapping/playing-surfaces.geojson",
-    "sha256": "e61f934a93409c6272119ff06e275368528b20eb4449e8dcc68160da6b2a5dd6"
+    "sha256": "41f3ab4bcf0197e25e5355a50dc9497344816d05f6ab30fef089c25827f8587b"
   },
   "newerCaptureAdditions": {
     "sourceCapture": {
@@ -202,6 +202,97 @@
       }
     ],
     "note": "rings measured on a capture NEWER than the 2019 pixel traces and carried in EPSG:3006; adopted only where a club document dates the work and the older captures show the ground without it"
+  },
+  "teeDecks2025": {
+    "sourceCapture": {
+      "id": "lm-ortofoto-0p16",
+      "captureDate": "2025-05-31",
+      "sha256": "bcec0932c68497b690fe1020e3426ca2596519ebf5875eb3a65ed0c120660c2e",
+      "sampleSpacingMetres": 0.16,
+      "licence": "Lantmäteriet Ortofoto, CC BY 4.0",
+      "attribution": "© Lantmäteriet, Ortofoto 0.16 m, flown 2025-05-31",
+      "registration": "none needed: the capture is sampled in EPSG:3006 and a tile's coordinates ARE its georeference"
+    },
+    "adopted": [
+      {
+        "id": "lidingo-tee-deck-2025-005",
+        "hole": 14,
+        "tee": "yellow",
+        "cardMetres": 310,
+        "cardResidualMetres": 1.26,
+        "edgeStepMetres": 0.287,
+        "polygonAreaSquareMetres": 44.5
+      },
+      {
+        "id": "lidingo-tee-deck-2025-007",
+        "hole": 13,
+        "tee": "red",
+        "cardMetres": 271,
+        "cardResidualMetres": 0.04,
+        "edgeStepMetres": 0.138,
+        "polygonAreaSquareMetres": 59.0
+      },
+      {
+        "id": "lidingo-tee-deck-2025-008",
+        "hole": 13,
+        "tee": "blue",
+        "cardMetres": 294,
+        "cardResidualMetres": 0.01,
+        "edgeStepMetres": 0.217,
+        "polygonAreaSquareMetres": 47.0
+      },
+      {
+        "id": "lidingo-tee-deck-2025-019",
+        "hole": 18,
+        "tee": "red",
+        "cardMetres": 299,
+        "cardResidualMetres": 2.83,
+        "edgeStepMetres": 0.185,
+        "polygonAreaSquareMetres": 35.0
+      },
+      {
+        "id": "lidingo-tee-deck-2025-022",
+        "hole": 1,
+        "tee": "orange",
+        "cardMetres": 120,
+        "cardResidualMetres": 0.03,
+        "edgeStepMetres": 0.173,
+        "polygonAreaSquareMetres": 83.5
+      },
+      {
+        "id": "lidingo-tee-deck-2025-027",
+        "hole": 2,
+        "tee": "yellow",
+        "cardMetres": 472,
+        "cardResidualMetres": 0.03,
+        "edgeStepMetres": 0.129,
+        "polygonAreaSquareMetres": 23.0
+      },
+      {
+        "id": "lidingo-tee-deck-2025-030",
+        "hole": 2,
+        "tee": "blue",
+        "cardMetres": 414,
+        "cardResidualMetres": 0.01,
+        "edgeStepMetres": 0.159,
+        "polygonAreaSquareMetres": 112.0
+      },
+      {
+        "id": "lidingo-tee-deck-2025-033",
+        "hole": 2,
+        "tee": "orange",
+        "cardMetres": 360,
+        "cardResidualMetres": 0.04,
+        "edgeStepMetres": 0.138,
+        "polygonAreaSquareMetres": 70.0
+      }
+    ],
+    "notAdopted": {
+      "corroborates-an-already-mapped-tee": 27,
+      "platform-with-one-record-only; not a tee claim": 6,
+      "measured-candidate-deck; the card agrees but does not discriminate (the platform lies wholly off the end of the hole line)": 1
+    },
+    "note": "only decks whose measured platform AND card distance agree are adopted; the rest stay in tee-deck-2025.json as measured platforms with one record"
   },
   "refinementRound": {
     "previousOutputSha256": "16afdeb87b474d5e45bfd4cb1fcce3a52b7b220d1119a2ccf9278fd7e6aa64d4",
