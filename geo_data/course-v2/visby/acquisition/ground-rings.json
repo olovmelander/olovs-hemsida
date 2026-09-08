@@ -1,0 +1,568 @@
+{
+  "kind": "ground-rings",
+  "groundId": "visby",
+  "observedOn": "2026-09-08",
+  "provider": {
+    "name": "Lantmäteriet",
+    "collection": "dtm-cog",
+    "authenticated": true,
+    "credentialsSerialized": false,
+    "licence": "CC BY 4.0",
+    "attribution": "Markhöjdmodell Nedladdning, © Lantmäteriet, bearbetad, CC BY 4.0"
+  },
+  "tileSegments": 256,
+  "levels": [
+    {
+      "lod": 0,
+      "sampleSpacingMetres": 1,
+      "tilesPerSide": 16,
+      "extent": {
+        "minEasting": 685700.5,
+        "maxEasting": 689796.5,
+        "maxNorthing": 6372999.5,
+        "minNorthing": 6368903.5,
+        "spanMetres": 4096,
+        "size": 4097
+      },
+      "source": {
+        "kind": "published-and-dtm",
+        "factor": 1,
+        "subsample": 1
+      },
+      "items": [
+        "636_68",
+        "637_68"
+      ],
+      "samples": 16785409,
+      "finite": 16785409,
+      "minimumHeightRH2000": 0.10083846747875214,
+      "maximumHeightRH2000": 11.012860298156738,
+      "requests": 90,
+      "bytes": 21619062,
+      "elapsedSeconds": 9.187,
+      "rasterSha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898",
+      "seaFill": {
+        "components": 0,
+        "filledSamples": 0,
+        "filledFraction": 0,
+        "detail": []
+      },
+      "publishedAgreement": {
+        "tiles": 256,
+        "samples": 16908544,
+        "withinQuantum": 16908544,
+        "maximumDifferenceMetres": 0.005000114440917969
+      }
+    },
+    {
+      "lod": 1,
+      "sampleSpacingMetres": 2,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 685700.5,
+        "maxEasting": 689796.5,
+        "maxNorthing": 6372999.5,
+        "minNorthing": 6368903.5,
+        "spanMetres": 4096,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 1,
+        "subsample": 2
+      },
+      "items": [
+        "636_68",
+        "637_68"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 0.10083846747875214,
+      "maximumHeightRH2000": 10.967398643493652,
+      "requests": 90,
+      "bytes": 21619062,
+      "elapsedSeconds": 4.375,
+      "rasterSha256": "bae537bbc0440cc30d5c47a365c633297dedd1a2ad9df409aa7d77b70027f05c",
+      "seaFill": {
+        "components": 0,
+        "filledSamples": 0,
+        "filledFraction": 0,
+        "detail": []
+      }
+    },
+    {
+      "lod": 2,
+      "sampleSpacingMetres": 4,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 683652.5,
+        "maxEasting": 691844.5,
+        "maxNorthing": 6375047.5,
+        "minNorthing": 6366855.5,
+        "spanMetres": 8192,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 4,
+        "subsample": 1
+      },
+      "items": [
+        "636_68",
+        "636_69",
+        "637_68",
+        "637_69"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 0.18000000715255737,
+      "maximumHeightRH2000": 19.1906795501709,
+      "requests": 20,
+      "bytes": 6561365,
+      "elapsedSeconds": 4.62,
+      "rasterSha256": "f8ef648f0f283f0630bf3cc85df8fc9bd3ff3aaf04c48701bf11397ebecea047",
+      "seaFill": {
+        "components": 1,
+        "filledSamples": 790353,
+        "filledFraction": 0.18825095554236004,
+        "detail": [
+          {
+            "samples": 790353,
+            "boundarySamples": 2673,
+            "boundaryMedianHeightRH2000": 0.23000000417232513,
+            "boundaryMaximumHeightRH2000": 0.23004673421382904,
+            "boundaryWaterFraction": 1,
+            "filledHeightRH2000": 0.23000000417232513
+          }
+        ]
+      }
+    },
+    {
+      "lod": 3,
+      "sampleSpacingMetres": 8,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 679556.5,
+        "maxEasting": 695940.5,
+        "maxNorthing": 6379143.5,
+        "minNorthing": 6362759.5,
+        "spanMetres": 16384,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 8,
+        "subsample": 1
+      },
+      "items": [
+        "636_67",
+        "636_68",
+        "636_69",
+        "637_67",
+        "637_68",
+        "637_69"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 0.0017144175944849849,
+      "maximumHeightRH2000": 58.15679931640625,
+      "requests": 20,
+      "bytes": 7262738,
+      "elapsedSeconds": 3.298,
+      "rasterSha256": "9b2ede2cbda517f77086552441acf8ac47cf6194cff1ccf2d9d871abc0a2ee68",
+      "seaFill": {
+        "components": 1,
+        "filledSamples": 1667094,
+        "filledFraction": 0.3970783162446846,
+        "detail": [
+          {
+            "samples": 1667094,
+            "boundarySamples": 2674,
+            "boundaryMedianHeightRH2000": 0.23000000417232513,
+            "boundaryMaximumHeightRH2000": 0.28999999165534973,
+            "boundaryWaterFraction": 0.8362004487658938,
+            "filledHeightRH2000": 0.23000000417232513
+          }
+        ]
+      }
+    },
+    {
+      "lod": 4,
+      "sampleSpacingMetres": 16,
+      "tilesPerSide": 4,
+      "extent": {
+        "minEasting": 679556.5,
+        "maxEasting": 695940.5,
+        "maxNorthing": 6379143.5,
+        "minNorthing": 6362759.5,
+        "spanMetres": 16384,
+        "size": 1025
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 16,
+        "subsample": 1
+      },
+      "items": [
+        "636_67",
+        "636_68",
+        "636_69",
+        "637_67",
+        "637_68",
+        "637_69"
+      ],
+      "samples": 1050625,
+      "finite": 1050625,
+      "minimumHeightRH2000": 0.004219523165374994,
+      "maximumHeightRH2000": 58.089237213134766,
+      "requests": 6,
+      "bytes": 1917226,
+      "elapsedSeconds": 1.331,
+      "rasterSha256": "4242370408be10a25d0414dcf0ecfe06a22d0ea3b096e53307e8cfcf2885fd3e",
+      "seaFill": {
+        "components": 1,
+        "filledSamples": 417233,
+        "filledFraction": 0.3971283759666865,
+        "detail": [
+          {
+            "samples": 417233,
+            "boundarySamples": 1337,
+            "boundaryMedianHeightRH2000": 0.23000000417232513,
+            "boundaryMaximumHeightRH2000": 0.28999999165534973,
+            "boundaryWaterFraction": 0.8369483919222139,
+            "filledHeightRH2000": 0.23000000417232513
+          }
+        ]
+      }
+    },
+    {
+      "lod": 5,
+      "sampleSpacingMetres": 32,
+      "tilesPerSide": 2,
+      "extent": {
+        "minEasting": 679556.5,
+        "maxEasting": 695940.5,
+        "maxNorthing": 6379143.5,
+        "minNorthing": 6362759.5,
+        "spanMetres": 16384,
+        "size": 513
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 1
+      },
+      "items": [
+        "636_67",
+        "636_68",
+        "636_69",
+        "637_67",
+        "637_68",
+        "637_69"
+      ],
+      "samples": 263169,
+      "finite": 263169,
+      "minimumHeightRH2000": 0.013113830238580704,
+      "maximumHeightRH2000": 57.722835540771484,
+      "requests": 5,
+      "bytes": 977652,
+      "elapsedSeconds": 0.993,
+      "rasterSha256": "235112daa4ae1dd1e71a4553907d50da312caee09ecfb808fd0d3b9b157864a5",
+      "seaFill": {
+        "components": 1,
+        "filledSamples": 104728,
+        "filledFraction": 0.3979496065266046,
+        "detail": [
+          {
+            "samples": 104728,
+            "boundarySamples": 669,
+            "boundaryMedianHeightRH2000": 0.23000000417232513,
+            "boundaryMaximumHeightRH2000": 0.28999999165534973,
+            "boundaryWaterFraction": 0.8370702541106129,
+            "filledHeightRH2000": 0.23000000417232513
+          }
+        ]
+      }
+    },
+    {
+      "lod": 6,
+      "sampleSpacingMetres": 64,
+      "tilesPerSide": 1,
+      "extent": {
+        "minEasting": 679556.5,
+        "maxEasting": 695940.5,
+        "maxNorthing": 6379143.5,
+        "minNorthing": 6362759.5,
+        "spanMetres": 16384,
+        "size": 257
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 2
+      },
+      "items": [
+        "636_67",
+        "636_68",
+        "636_69",
+        "637_67",
+        "637_68",
+        "637_69"
+      ],
+      "samples": 66049,
+      "finite": 66049,
+      "minimumHeightRH2000": 0.024704741314053535,
+      "maximumHeightRH2000": 57.64935302734375,
+      "requests": 5,
+      "bytes": 977652,
+      "elapsedSeconds": 0.962,
+      "rasterSha256": "b86c62cca97ff40645cd306b4a7ea7054b110625c3e590872980683fe937e24c",
+      "seaFill": {
+        "components": 1,
+        "filledSamples": 26354,
+        "filledFraction": 0.3990067979833154,
+        "detail": [
+          {
+            "samples": 26354,
+            "boundarySamples": 335,
+            "boundaryMedianHeightRH2000": 0.23000000417232513,
+            "boundaryMaximumHeightRH2000": 0.28999999165534973,
+            "boundaryWaterFraction": 0.8388059701492537,
+            "filledHeightRH2000": 0.23000000417232513
+          }
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "636_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m636_68.tif",
+      "etag": "\"95c655157daee16de540b1cb51d497b2\"",
+      "contentLength": 13213009,
+      "lastModified": "Thu, 14 May 2026 05:08:26 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 685000,
+        "maxNorthing": 6370000,
+        "maxEasting": 690000,
+        "minNorthing": 6365000
+      },
+      "croppedFromSquareMetres": {
+        "west": 5000,
+        "east": 0,
+        "north": 0,
+        "south": 5000
+      },
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 16
+        }
+      ]
+    },
+    {
+      "id": "637_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m637_68.tif",
+      "etag": "\"83cd19767946c097f07aea4e370dad0f\"",
+      "contentLength": 89604937,
+      "lastModified": "Mon, 22 Jun 2026 15:54:46 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 685000,
+        "maxNorthing": 6380000,
+        "maxEasting": 690000,
+        "minNorthing": 6370000
+      },
+      "croppedFromSquareMetres": {
+        "west": 5000,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 16
+        }
+      ]
+    },
+    {
+      "id": "636_69",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m636_69.tif",
+      "etag": "\"e275ddc30ed93e0215695ab36ef5a1ad\"",
+      "contentLength": 291333041,
+      "lastModified": "Mon, 22 Jun 2026 15:57:58 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 690000,
+        "maxNorthing": 6370000,
+        "maxEasting": 700000,
+        "minNorthing": 6360000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "637_69",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m637_69.tif",
+      "etag": "\"23bfc2d578ea2bd12da07cb24102b2b2\"",
+      "contentLength": 301380366,
+      "lastModified": "Mon, 22 Jun 2026 16:00:03 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 690000,
+        "maxNorthing": 6380000,
+        "maxEasting": 700000,
+        "minNorthing": 6370000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "636_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m636_67.tif",
+      "published": false,
+      "levelsUsed": []
+    },
+    {
+      "id": "637_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/63_6/m637_67.tif",
+      "published": false,
+      "levelsUsed": []
+    }
+  ],
+  "seaFillRule": "nodata components bounded ENTIRELY by finite samples at or below seaFill.boundaryMaximumHeightRH2000 are filled with the median of their own boundary; a component with land on its boundary, or with no finite boundary, fails the build",
+  "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
+  "elapsedSeconds": 25.243
+}
