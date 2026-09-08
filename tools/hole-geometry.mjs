@@ -60,9 +60,21 @@ function project(L, p) {
   }
   return best;
 }
+/* nearest point ON a closed ring to p -- which is not its centroid, and the
+   difference is the whole of the bug below. */
+function ringPointNear(ring, p) {
+  let best = { d: 1e9, q: ring[0] };
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const a = ring[j], b = ring[i];
+    const s = ptSeg(p[0], p[1], a[0], a[1], b[0], b[1]);
+    if (s.d < best.d) best = { d: s.d, q: [a[0] + (b[0] - a[0]) * s.t, a[1] + (b[1] - a[1]) * s.t] };
+  }
+  return best.q;
+}
 function ringNear(L, ring, step = 4) {
   let best = { sd: 1e9, f: 0, p: L[0] }; const tot = polyLen(L);
   for (let s = 0; s <= tot; s += step) { const p = at(L, s); const sd = polySD(p[0], p[1], ring); if (sd < best.sd) best = { sd, f: s / tot, p }; }
+  best.q = ringPointNear(ring, best.p);
   return best;
 }
 
@@ -81,8 +93,16 @@ for (const h of H) {
   const gc = h.green?.c || h.pin || B;
   const bunk = (h.bunkers || []).map(bk => { const c = centroid(bk.ring); const p = project(L, c); return `${p.lat > 0 ? 'R' : 'L'}${Math.abs(p.lat).toFixed(0)}m @${Math.round(hyp(c, gc))}m-to-green`; });
   const wat = water.map(w => ({ w, n: ringNear(L, w.ring) })).filter(x => x.n.sd < 40).map(x => {
-    const side = project(L, centroid(x.w.ring)).lat > 0 ? 'R' : 'L';
-    return `${x.w.name}${x.w.level != null ? ` (lvl ${x.w.level})` : ''}: ${x.n.sd < 0 ? 'LINE CROSSES IT' : Math.round(x.n.sd) + ' m off the line'} at f=${x.n.f.toFixed(2)}, ${side} side, green ${Math.max(0, Math.round(polySD(gc[0], gc[1], x.w.ring)))} m, tee ${Math.max(0, Math.round(polySD(A[0], A[1], x.w.ring)))} m`;
+    /* THE SIDE IS THE SIDE OF THE WATER YOU CAN REACH, so it is taken at the
+       closest approach and not from the ring's CENTROID, which is what this
+       line used to do. A centroid is fine for a pond and meaningless for a
+       coastline: Visby's sea ring wraps the whole west of the peninsula, its
+       centroid falls a kilometre north of the 18th, and the hole was reported
+       with the Baltic on its right while the club's own local rule -- and the
+       geometry -- put it on the left. A line that runs INTO the water has no
+       side at all, so say so rather than pick one. */
+    const side = x.n.sd < 0 ? '-' : project(L, x.n.q).lat > 0 ? 'R' : 'L';
+    return `${x.w.name}${x.w.level != null ? ` (lvl ${x.w.level})` : ''}: ${x.n.sd < 0 ? 'LINE CROSSES IT' : Math.round(x.n.sd) + ' m off the line'} at f=${x.n.f.toFixed(2)}, ${x.n.sd < 0 ? 'both sides' : `${side} side`}, green ${Math.max(0, Math.round(polySD(gc[0], gc[1], x.w.ring)))} m, tee ${Math.max(0, Math.round(polySD(A[0], A[1], x.w.ring)))} m`;
   });
   const str = streams.map(s => { let best = { d: 1e9 }; for (const p of s.pts) { const pr = project(L, p); if (pr.d < best.d) best = pr; } return best.d < 30 ? `stream#${s.i} ${Math.round(best.d)} m at f=${best.f.toFixed(2)} ${best.lat > 0 ? 'R' : 'L'}` : null; }).filter(Boolean);
   const nxt = m.holes[k + 1];

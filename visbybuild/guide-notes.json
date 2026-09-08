@@ -73,8 +73,9 @@
       "basis": "model: 174 m rak linje; vatten 2 m från linjen på höger sida vid 44 % och 11 m vid 35 %; bunkrar 19 m höger och 27/18 m vänster från green.",
       "rules": "Droppzon: vid pliktområdet på hål 17 får spelaren droppa med ett slags plikt i droppzonen \"som utgörs av främre delen av tee 41 (hål 17)\"." },
     { "n": 18, "name": null,
-      "note": "Avslutande par 5 med kraftig dogleg vänster tidigt och en stigning på drygt en meter fram till green vid klubbhuset. Fyra bunkrar omger greenområdet.",
-      "basis": "model: 479 m, dogleg vänster 47 grader med krön 24 % ut; bunkrar 24/20 m höger och 44/24 m vänster från green.",
-      "caveat": "Klubbens lokala regel nämner ett pliktområde till VÄNSTER efter utslaget medan modellen placerar vattnet till höger. Sidan anges därför inte här." }
+      "note": "Avslutande par 5 med kraftig dogleg vänster tidigt, därefter längs havet som ligger knappt tjugo meter från spellinjen på vänster sida och trettio meter från green. Ett mindre vatten ligger till höger inför inspelet, och fyra bunkrar omger greenområdet vid klubbhuset.",
+      "basis": "model: 479 m, dogleg vänster 47 grader med krön 24 % ut; havet 18 m från linjen på vänster sida vid 63 % och 34 m från green, ett vatten 16 m höger vid 86 %; bunkrar 24/20 m höger och 44/24 m vänster från green; stigning +1.3 m.",
+      "rules": "\"Om efter ett slag från tee på hål 18, spelaren inte vet om spelarens boll är i pliktområdet till vänster, får spelaren spela en provisorisk boll från tee enligt Regel 18.3.\"",
+      "caveat": "Sidan angavs tidigare inte här, eftersom klubbens lokala regel sade VÄNSTER och tools/hole-geometry.mjs sade höger. Felet låg i verktyget: det tog vattnets sida ur ringens TYNGDPUNKT, vilket duger för en damm men inte för en kustlinje vars ring omsluter hela halvöns västsida och har sin tyngdpunkt en kilometer norr om hålet. Mätt vid närmaste punkt ligger havet till vänster, och klubben och modellen är därmed överens." }
   ]
 }
