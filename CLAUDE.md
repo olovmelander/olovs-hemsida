@@ -4304,6 +4304,31 @@ is a manifest field, so none of the three checksum registries move.
   newly-assigned bunkers reach 11 m further east and 12 m further north than
   its green did. Isolated by emptying just those bunkers (94) and by restoring
   just the old single-point tee marks (96) — the bunkers are the whole cause.
+- **THE 16 KM RING WORLD WAS NEVER RENDERED BY ANYBODY, and every data gate
+  passed.** `check-course-v2` on the flagless URL threw
+  `TypeError: legacyOriginEpsg3006.easting must be finite`, so the v2 source
+  failed and the default visit fell back to GPK1 — **silently, by design**,
+  which is exactly what made it invisible: the course opened, looked plausible
+  on the legacy 2 km terrain, and passed the pack, manifest, checksum, card and
+  submersion gates. Only a browser gate that asserts the graph ACTUALLY SERVES
+  could see it.
+  One number with two meanings. A published tile states its bounds in EPSG:3006
+  and the engine draws in local metres, so every consumer needs the grid
+  coordinates of the local zero. A flat-earth pack's LEGACY origin is not its
+  canonical grid origin (6 m apart at Norrfällsviken, 313 m at Upsala, 460 m at
+  Veckefjärden) and those configs declare `legacyOriginEpsg3006`; a
+  GRID-AUTHORED pack has no separate legacy frame at all, so Ribbingsfors,
+  Lidingö and Visby declare none — correctly, because writing that pair down
+  twice is the `const hut` duplication. `v2-graph-frontier.mjs` knew the rule
+  and had it inline; `main.js`, handing the RING adapter its origin, had no
+  rule and read the field straight off the config. Invisible while every
+  ring-graph ground happened to be a flat-earth one — **Visby is the first
+  grid-authored ground with a ring graph.** The rule has one home now,
+  `gridOriginEpsg3006` in `v2-frontier-configs.mjs`, used by both callers and
+  throwing rather than returning nothing; Ribbingsfors and Lidingö were saved
+  only by not having a ring graph yet. Before: 6 gates failed. After: *213 ring
+  tiles read for the model in 5049 ms · first frontier covered · backend
+  preflight passed*, no page error.
 
 ### Running it
 
