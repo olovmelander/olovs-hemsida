@@ -51,10 +51,34 @@ function verify(label, file, expected) {
 }
 
 const steps = {
-  /* Written by the workflow's own build-terrain-window step; only checked here. */
+  /* Written by the workflow's own build-terrain-window step - which also
+     REWRITES this committed record with a new acquiredOn and fresh transfer
+     counters. The first version of this check read the record from the working
+     tree and compared the fresh raster with the fresh record: self-consistent by
+     construction, and therefore proof of nothing. It reads the COMMITTED record
+     now, which is what makes it a reproducibility check, and then restores it -
+     the record is also a ledger artifact, so a re-acquisition that returns
+     identical pixels must not show up as a changed source. */
   'terrain-window': () => {
-    const evidence = readJson('geo_data/course-v2/lidingo/acquisition/terrain-window.json');
-    verify('terrain window', 'lidingobuild/cache/terrain-review/terrain-1m.f32', evidence.raster.sha256);
+    const file = 'geo_data/course-v2/lidingo/acquisition/terrain-window.json';
+    const committedBytes = spawnSync('git', ['show', `HEAD:${file}`],
+      { cwd: ROOT, encoding: 'buffer', maxBuffer: 64 * 1024 * 1024 });
+    if (committedBytes.status !== 0) throw new Error(`git show HEAD:${file} failed`);
+    const reviewed = committedBytes.stdout;
+    const record = JSON.parse(reviewed.toString('utf8'));
+    verify('terrain window', record.raster.path, record.raster.sha256);
+    /* everything but the clocks and the byte counters must be the same window,
+       so a moved source item or a changed lattice fails rather than being
+       papered over by the restore below */
+    const fresh = readJson(file);
+    const stable = value => JSON.stringify(value, (key, inner) =>
+      ['acquiredOn', 'transfer', 'lastModified'].includes(key) ? undefined : inner);
+    if (stable(fresh) !== stable(record)) {
+      throw new Error(`${file}: the re-acquisition describes a different window than the reviewed record. `
+        + 'Only its clocks and byte counters may differ.');
+    }
+    fs.writeFileSync(path.join(ROOT, file), reviewed);
+    process.stdout.write('  terrain window: the reviewed record restored (only its clocks differed)\n');
   },
   /* The acquirer rewrites the committed record with a new acquiredAt and
      durationMilliseconds, and build-course compares that record by STRICT

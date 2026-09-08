@@ -38,3 +38,13 @@ attempt2: all four caches restored and verified, then build-course refused with
   passed from a clean checkout. build-building-evidence.py writes both and its
   recorded inputs still hash to today's sources, so the pair is regenerated
   rather than re-pinned.
+attempt: 4
+attempt3: the whole chain ran - caches restored, roof evidence regenerated,
+  model rebuilt, migration through PROJ, pack and manifests re-emitted, artefact
+  uploaded - and the last gate failed on one file: acquisition/terrain-window
+  .json, which the re-acquisition rewrites with fresh clocks and which
+  update-source-manifest does not register. Worse, the restore step's own check
+  on it was reading the record the same run had just rewritten, so it was
+  self-consistent by construction and proved nothing. It reads the COMMITTED
+  record now - which makes it a real reproducibility check - asserts the window
+  is otherwise identical, and restores it.
