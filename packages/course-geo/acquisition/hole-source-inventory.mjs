@@ -17,7 +17,7 @@ import {
 import { COURSE_DATA_DIR, REPO_ROOT } from './pilots.mjs';
 
 export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
-  visby: Object.freeze({ path: 'visbybuild/course-model.json', sha256: '32121c1b362c1029c1f6da7f6b151b8e471ad3c4c99e552037cb83461d519739',
+  visby: Object.freeze({ path: 'visbybuild/course-model.json', sha256: '9d485f6826f2275a1dbd8c8092ac447f210d64b2508406e1349f5d71a83c8699',
     projectedOriginEpsg3006: Object.freeze({ easting: 687748.5, northing: 6370951.5 }) }),
   lidingo: Object.freeze({ path: 'lidingobuild/course-model.json', sha256: '51a202de17c182c219c3509163961581b64056838fb798b6f9f24abf734f1c12',
     projectedOriginEpsg3006: Object.freeze({ easting: 677700.5, northing: 6586399.5 }) }),

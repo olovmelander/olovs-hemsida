@@ -1,0 +1,233 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "reviewedAt": "2026-09-08",
+  "status": "provisional-image-interpretation-not-surveyed",
+  "source": {
+    "id": "visby-municipal-ortho-2022",
+    "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687338.5%2C6370821.5%2C687698.5%2C6371181.5&bboxSR=3006&imageSR=3006&size=1440%2C1440&format=png&f=pjson",
+    "sha256": "a02d9b133090fde4b4d2dd84e13835c703d5c3d2a2636be5fc310728d7ce3e2e",
+    "bytes": 2659772,
+    "retrievedAt": "2026-09-08T18:23:16.497513+00:00",
+    "imageSize": [
+      1440,
+      1440
+    ],
+    "extentEpsg3006": [
+      687338.5,
+      6370821.5,
+      687698.5,
+      6371181.5
+    ],
+    "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+    "observedYear": 2022,
+    "captureDate": null,
+    "interpretationUncertaintyMetres": 2,
+    "registrationAccuracy": "not independently measured",
+    "rawImageRedistributed": false
+  },
+  "identitySources": [
+    {
+      "url": "https://www.visbygk.com/trackman-range/",
+      "role": "Club describes short game areas beside the range and putting green beside clubhouse."
+    },
+    {
+      "url": "https://caddee-prod-media.s3.amazonaws.com/course-images/9e6fa30e-fe7e-4a95-923d-4b4727144ff8/overview-normal_web_Uq25HHk.png",
+      "role": "Schematic identity of the short-game area and separate nine; not used as metric geometry.",
+      "sha256": "c7d38f59f27ebe7df78ee44396373cb686ac7c9d923955e4a042a837474711fa"
+    }
+  ],
+  "greens": [
+    {
+      "id": "range-short-game-green-2022",
+      "kind": "practice-green",
+      "identity": "Short-game area beside the range, marked OVN. OMR. on the club-linked Caddee overview. Separate from the clubhouse putting green.",
+      "ringPixels": [
+        [
+          835,
+          1170
+        ],
+        [
+          861,
+          1170
+        ],
+        [
+          889,
+          1179
+        ],
+        [
+          907,
+          1196
+        ],
+        [
+          914,
+          1216
+        ],
+        [
+          908,
+          1236
+        ],
+        [
+          895,
+          1247
+        ],
+        [
+          874,
+          1250
+        ],
+        [
+          852,
+          1247
+        ],
+        [
+          832,
+          1251
+        ],
+        [
+          812,
+          1261
+        ],
+        [
+          792,
+          1263
+        ],
+        [
+          778,
+          1253
+        ],
+        [
+          772,
+          1238
+        ],
+        [
+          775,
+          1216
+        ],
+        [
+          790,
+          1200
+        ],
+        [
+          811,
+          1192
+        ],
+        [
+          822,
+          1182
+        ],
+        [
+          835,
+          1170
+        ]
+      ]
+    },
+    {
+      "id": "nine-course-green-beside-range-2022",
+      "kind": "neighbouring-course-green",
+      "identity": "Maintained green at the south end of the corridor east of the range; the club-linked overview associates this corridor with hole 3 on the separate nine. Rendered as unnumbered scenery, without playable routing or a daily flag.",
+      "ringPixels": [
+        [
+          991,
+          924
+        ],
+        [
+          1010,
+          918
+        ],
+        [
+          1032,
+          927
+        ],
+        [
+          1045,
+          943
+        ],
+        [
+          1049,
+          963
+        ],
+        [
+          1042,
+          983
+        ],
+        [
+          1049,
+          1001
+        ],
+        [
+          1071,
+          1018
+        ],
+        [
+          1084,
+          1034
+        ],
+        [
+          1084,
+          1049
+        ],
+        [
+          1074,
+          1054
+        ],
+        [
+          1059,
+          1049
+        ],
+        [
+          1043,
+          1039
+        ],
+        [
+          1023,
+          1032
+        ],
+        [
+          1005,
+          1032
+        ],
+        [
+          985,
+          1037
+        ],
+        [
+          969,
+          1036
+        ],
+        [
+          958,
+          1026
+        ],
+        [
+          956,
+          1012
+        ],
+        [
+          966,
+          997
+        ],
+        [
+          982,
+          983
+        ],
+        [
+          987,
+          969
+        ],
+        [
+          986,
+          952
+        ],
+        [
+          991,
+          924
+        ]
+      ]
+    }
+  ],
+  "limitations": [
+    "2022 conservative visible mowing boundaries, estimated 2 m interpretation uncertainty; independent registration and current condition unverified.",
+    "No new daily flags, numbered routing, equipment or dimensions are inferred.",
+    "Range mats and netting are visible but not adopted as fabricated generic equipment."
+  ]
+}

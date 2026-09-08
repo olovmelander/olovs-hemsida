@@ -1,0 +1,1786 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "reviewedAt": "2026-09-08",
+  "baselineGitCommit": "0d3dc03627e72d35f67f80139f59d72965333b4d",
+  "status": "provisional-image-interpretation-not-surveyed",
+  "sources": {
+    "hole-01": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687091.61%2C6370727.41%2C687251.61%2C6370887.41&bboxSR=3006&imageSR=3006&size=640%2C640&format=png&f=pjson",
+      "sha256": "e94b08dce3ee22ac50dd3e2364f5746bc28390214571afe435588361605fd74a",
+      "bytes": 550557,
+      "retrievedAt": "2026-09-08T18:21:08.727622+00:00",
+      "imageSize": [
+        640,
+        640
+      ],
+      "extentEpsg3006": [
+        687091.61,
+        6370727.41,
+        687251.61,
+        6370887.41
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-02": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687150.56%2C6370843.39%2C687360.56%2C6371053.39&bboxSR=3006&imageSR=3006&size=840%2C840&format=png&f=pjson",
+      "sha256": "c0ebb15a5e394075d3e934302f1208740e1cdb21e55c1a0e49f7c3fab959d113",
+      "bytes": 939669,
+      "retrievedAt": "2026-09-08T18:20:56.667793+00:00",
+      "imageSize": [
+        840,
+        840
+      ],
+      "extentEpsg3006": [
+        687150.56,
+        6370843.39,
+        687360.56,
+        6371053.39
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-03": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687272.3%2C6371251.21%2C687522.3%2C6371501.21&bboxSR=3006&imageSR=3006&size=1000%2C1000&format=png&f=pjson",
+      "sha256": "f5ca4319798662857ce31c4734a33a9062eb6368263ab3629e1d95bb3e676525",
+      "bytes": 1334186,
+      "retrievedAt": "2026-09-08T18:20:56.646954+00:00",
+      "imageSize": [
+        1000,
+        1000
+      ],
+      "extentEpsg3006": [
+        687272.3,
+        6371251.21,
+        687522.3,
+        6371501.21
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-04": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687560.98%2C6371679.78%2C687740.98%2C6371859.78&bboxSR=3006&imageSR=3006&size=720%2C720&format=png&f=pjson",
+      "sha256": "a476c169a13454a0424ef392b1332485405feb88d8265e508616272311128810",
+      "bytes": 608516,
+      "retrievedAt": "2026-09-08T18:21:20.590769+00:00",
+      "imageSize": [
+        720,
+        720
+      ],
+      "extentEpsg3006": [
+        687560.98,
+        6371679.78,
+        687740.98,
+        6371859.78
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-05": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687255.67%2C6371730.85%2C687435.67%2C6371910.85&bboxSR=3006&imageSR=3006&size=720%2C720&format=png&f=pjson",
+      "sha256": "6f68b6b6a9b911f5cb4d32c6a813657b460852ec09ef0902d39989491cc41bf6",
+      "bytes": 658493,
+      "retrievedAt": "2026-09-08T18:21:21.592595+00:00",
+      "imageSize": [
+        720,
+        720
+      ],
+      "extentEpsg3006": [
+        687255.67,
+        6371730.85,
+        687435.67,
+        6371910.85
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-06": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687261.04%2C6371490.46%2C687481.04%2C6371710.46&bboxSR=3006&imageSR=3006&size=880%2C880&format=png&f=pjson",
+      "sha256": "97690791808901a7b9b289be3ceb3b06268e30b123074dd389a5a336f86a3b25",
+      "bytes": 1038998,
+      "retrievedAt": "2026-09-08T18:21:32.487134+00:00",
+      "imageSize": [
+        880,
+        880
+      ],
+      "extentEpsg3006": [
+        687261.04,
+        6371490.46,
+        687481.04,
+        6371710.46
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-07": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687338.96%2C6371197.96%2C687528.96%2C6371387.96&bboxSR=3006&imageSR=3006&size=760%2C760&format=png&f=pjson",
+      "sha256": "3d2a0b8252b2c2afc34353e5f2a2f2defa58f476d7fc27572e8f50731e94bcb2",
+      "bytes": 753481,
+      "retrievedAt": "2026-09-08T18:21:44.088661+00:00",
+      "imageSize": [
+        760,
+        760
+      ],
+      "extentEpsg3006": [
+        687338.96,
+        6371197.96,
+        687528.96,
+        6371387.96
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-08": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687425.2%2C6371143.43%2C687685.2%2C6371403.43&bboxSR=3006&imageSR=3006&size=1040%2C1040&format=png&f=pjson",
+      "sha256": "7aeaeffb0bc18b6cafff0f6eb79ad8de278b9916130e3fc6cce66bc97fd33154",
+      "bytes": 1325692,
+      "retrievedAt": "2026-09-08T18:21:43.955508+00:00",
+      "imageSize": [
+        1040,
+        1040
+      ],
+      "extentEpsg3006": [
+        687425.2,
+        6371143.43,
+        687685.2,
+        6371403.43
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-09": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687322.12%2C6370896.85%2C687532.12%2C6371106.85&bboxSR=3006&imageSR=3006&size=840%2C840&format=png&f=pjson",
+      "sha256": "55bd30a93d2a2053e09487ad8e51c35e97c849d78a98efb3d85a8286ef8cc874",
+      "bytes": 779078,
+      "retrievedAt": "2026-09-08T18:21:55.446653+00:00",
+      "imageSize": [
+        840,
+        840
+      ],
+      "extentEpsg3006": [
+        687322.12,
+        6370896.85,
+        687532.12,
+        6371106.85
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-10": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687311.11%2C6370673.3%2C687521.11%2C6370883.3&bboxSR=3006&imageSR=3006&size=840%2C840&format=png&f=pjson",
+      "sha256": "472dadb8d6ad0ff8bef8e59d14d3bc641c1a6d8be1459d6262132d00e406011b",
+      "bytes": 885459,
+      "retrievedAt": "2026-09-08T18:22:07.346829+00:00",
+      "imageSize": [
+        840,
+        840
+      ],
+      "extentEpsg3006": [
+        687311.11,
+        6370673.3,
+        687521.11,
+        6370883.3
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-11": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687776.08%2C6370505.94%2C687976.08%2C6370705.94&bboxSR=3006&imageSR=3006&size=800%2C800&format=png&f=pjson",
+      "sha256": "7dce3867b65c954d3b1210472d90e4409e989a063f3864059e00c8190b668aeb",
+      "bytes": 794034,
+      "retrievedAt": "2026-09-08T18:22:07.075968+00:00",
+      "imageSize": [
+        800,
+        800
+      ],
+      "extentEpsg3006": [
+        687776.08,
+        6370505.94,
+        687976.08,
+        6370705.94
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-12": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687941.5%2C6370561.5%2C688201.5%2C6370821.5&bboxSR=3006&imageSR=3006&size=1040%2C1040&format=png&f=pjson",
+      "sha256": "b3be61817cdb0806de7a49b4daa14f1d405b2ec7ebd7bd8845bb3c7569851559",
+      "bytes": 1442990,
+      "retrievedAt": "2026-09-08T18:22:20.039170+00:00",
+      "imageSize": [
+        1040,
+        1040
+      ],
+      "extentEpsg3006": [
+        687941.5,
+        6370561.5,
+        688201.5,
+        6370821.5
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-13": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687960.49%2C6370804.65%2C688150.49%2C6370994.65&bboxSR=3006&imageSR=3006&size=760%2C760&format=png&f=pjson",
+      "sha256": "93e8bae03f5e82a196a2b091a54585b324389b675ab1c7c6d485c4942c824b39",
+      "bytes": 771674,
+      "retrievedAt": "2026-09-08T18:22:30.624744+00:00",
+      "imageSize": [
+        760,
+        760
+      ],
+      "extentEpsg3006": [
+        687960.49,
+        6370804.65,
+        688150.49,
+        6370994.65
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-14": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=688076.08%2C6370952.42%2C688236.08%2C6371112.42&bboxSR=3006&imageSR=3006&size=640%2C640&format=png&f=pjson",
+      "sha256": "1e87d14c8469c6650339568df1a0db4f3bee439f7efd2ec239e24bb5d065426f",
+      "bytes": 510817,
+      "retrievedAt": "2026-09-08T18:22:30.392252+00:00",
+      "imageSize": [
+        640,
+        640
+      ],
+      "extentEpsg3006": [
+        688076.08,
+        6370952.42,
+        688236.08,
+        6371112.42
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-15": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687887.11%2C6371098.75%2C688107.11%2C6371318.75&bboxSR=3006&imageSR=3006&size=880%2C880&format=png&f=pjson",
+      "sha256": "1d07ebb462ef33c97032e33f877304e28cd680aaf47f1bafabdea6bbfe4d49e9",
+      "bytes": 995060,
+      "retrievedAt": "2026-09-08T18:22:42.185973+00:00",
+      "imageSize": [
+        880,
+        880
+      ],
+      "extentEpsg3006": [
+        687887.11,
+        6371098.75,
+        688107.11,
+        6371318.75
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-16": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687696.4%2C6371075.0%2C687896.4%2C6371275.0&bboxSR=3006&imageSR=3006&size=800%2C800&format=png&f=pjson",
+      "sha256": "d90800073085bf98ee67d84f8b11f94ddbac5d2ad94cf494012a022a09ad8d56",
+      "bytes": 846955,
+      "retrievedAt": "2026-09-08T18:22:53.374264+00:00",
+      "imageSize": [
+        800,
+        800
+      ],
+      "extentEpsg3006": [
+        687696.4,
+        6371075,
+        687896.4,
+        6371275
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-17": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687794.71%2C6370635.29%2C687974.71%2C6370815.29&bboxSR=3006&imageSR=3006&size=720%2C720&format=png&f=pjson",
+      "sha256": "fd9ea01693fefe4049f4912cdec2992034185dcfecd38c4f4160839f98abf2d3",
+      "bytes": 656537,
+      "retrievedAt": "2026-09-08T18:22:53.108298+00:00",
+      "imageSize": [
+        720,
+        720
+      ],
+      "extentEpsg3006": [
+        687794.71,
+        6370635.29,
+        687974.71,
+        6370815.29
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    },
+    "hole-18": {
+      "id": "visby-municipal-ortho-2022",
+      "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687567.13%2C6370516.58%2C687817.13%2C6370766.58&bboxSR=3006&imageSR=3006&size=1000%2C1000&format=png&f=pjson",
+      "sha256": "986d7c6e47a8be5d8c3e2568bed97d67db819da89b561dd4b1fd9a15296b3d5d",
+      "bytes": 1209251,
+      "retrievedAt": "2026-09-08T18:23:05.124315+00:00",
+      "imageSize": [
+        1000,
+        1000
+      ],
+      "extentEpsg3006": [
+        687567.13,
+        6370516.58,
+        687817.13,
+        6370766.58
+      ],
+      "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+      "observedYear": 2022,
+      "captureDate": null,
+      "interpretationUncertaintyMetres": 2,
+      "registrationAccuracy": "not independently measured",
+      "rawImageRedistributed": false
+    }
+  },
+  "method": {
+    "boundary": "Manual visible turf boundary interpretation on the exact 0.25 m municipal 2022 export; only distinct prepared platforms adopted.",
+    "camera": "Retain the back references. For shorter virtual starts outside all observed pads, use the nearest platform interior inset by 1.5 m only within 25 m. This is a display reference, not evidence of numbered tee identity or daily marker position.",
+    "maxCameraMoveMetres": 25,
+    "cameraInsetMetres": 1.5,
+    "rawImageRedistributed": false
+  },
+  "holes": [
+    {
+      "n": 2,
+      "sourceKey": "hole-02",
+      "additionalPads": [
+        {
+          "id": "hole-02-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              286,
+              543
+            ],
+            [
+              321,
+              492
+            ],
+            [
+              345,
+              508
+            ],
+            [
+              310,
+              560
+            ],
+            [
+              286,
+              543
+            ]
+          ],
+          "areaSquareMetres": 113.344
+        },
+        {
+          "id": "hole-02-additional-platform-02-2022",
+          "ringPixels": [
+            [
+              382,
+              404
+            ],
+            [
+              409,
+              368
+            ],
+            [
+              439,
+              390
+            ],
+            [
+              412,
+              426
+            ],
+            [
+              382,
+              404
+            ]
+          ],
+          "areaSquareMetres": 104.625
+        },
+        {
+          "id": "hole-02-additional-platform-03-2022",
+          "ringPixels": [
+            [
+              516,
+              311
+            ],
+            [
+              538,
+              274
+            ],
+            [
+              561,
+              290
+            ],
+            [
+              538,
+              327
+            ],
+            [
+              516,
+              311
+            ]
+          ],
+          "areaSquareMetres": 74.531
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-59": [
+          308.453671,
+          551.551963
+        ],
+        "tee-55": [
+          336.657358,
+          509.649341
+        ],
+        "tee-51": [
+          523.952765,
+          309.364845
+        ],
+        "tee-46": [
+          539.863723,
+          282.605508
+        ],
+        "tee-41": [
+          539.863723,
+          282.605508
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 59,
+          "fromLocal": [
+            -521.4490491759099,
+            40.475590694506074
+          ],
+          "distanceMetres": 4.521
+        },
+        {
+          "tee": 55,
+          "fromLocal": [
+            -503.2534051415141,
+            16.62357740058144
+          ],
+          "distanceMetres": 13.781
+        },
+        {
+          "tee": 51,
+          "fromLocal": [
+            -478.38602496117323,
+            -15.974174101115565
+          ],
+          "distanceMetres": 14.292
+        },
+        {
+          "tee": 46,
+          "fromLocal": [
+            -451.69908037739276,
+            -50.95712693220503
+          ],
+          "distanceMetres": 22.714
+        },
+        {
+          "tee": 41,
+          "fromLocal": [
+            -451.69908037739276,
+            -50.95712693220503
+          ],
+          "distanceMetres": 22.714
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "sourceKey": "hole-04",
+      "additionalPads": [
+        {
+          "id": "hole-04-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              408,
+              390
+            ],
+            [
+              468,
+              420
+            ],
+            [
+              448,
+              456
+            ],
+            [
+              390,
+              423
+            ],
+            [
+              408,
+              390
+            ]
+          ],
+          "areaSquareMetres": 164.625
+        },
+        {
+          "id": "hole-04-additional-platform-02-2022",
+          "ringPixels": [
+            [
+              287,
+              330
+            ],
+            [
+              334,
+              357
+            ],
+            [
+              320,
+              382
+            ],
+            [
+              272,
+              352
+            ],
+            [
+              287,
+              330
+            ]
+          ],
+          "areaSquareMetres": 95.594
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-51": [
+          306.84567,
+          348.320277
+        ],
+        "tee-46": [
+          306.84567,
+          348.320277
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 51,
+          "fromLocal": [
+            -108.36660713162453,
+            -825.4507770648551
+          ],
+          "distanceMetres": 4.902
+        },
+        {
+          "tee": 46,
+          "fromLocal": [
+            -108.36660713162453,
+            -825.4507770648551
+          ],
+          "distanceMetres": 4.902
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "sourceKey": "hole-05",
+      "additionalPads": [
+        {
+          "id": "hole-05-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              350,
+              291
+            ],
+            [
+              380,
+              292
+            ],
+            [
+              376,
+              339
+            ],
+            [
+              347,
+              339
+            ],
+            [
+              350,
+              291
+            ]
+          ],
+          "areaSquareMetres": 87.688
+        },
+        {
+          "id": "hole-05-additional-platform-02-2022",
+          "ringPixels": [
+            [
+              347,
+              347
+            ],
+            [
+              376,
+              347
+            ],
+            [
+              371,
+              397
+            ],
+            [
+              343,
+              397
+            ],
+            [
+              347,
+              347
+            ]
+          ],
+          "areaSquareMetres": 89.062
+        },
+        {
+          "id": "hole-05-additional-platform-03-2022",
+          "ringPixels": [
+            [
+              378,
+              466
+            ],
+            [
+              405,
+              468
+            ],
+            [
+              399,
+              506
+            ],
+            [
+              372,
+              502
+            ],
+            [
+              378,
+              466
+            ]
+          ],
+          "areaSquareMetres": 63.562
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-59": [
+          366.911736,
+          256.4
+        ],
+        "tee-46": [
+          356.310402,
+          391.0
+        ],
+        "tee-41": [
+          378.922745,
+          496.960106
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 59,
+          "fromLocal": [
+            -401.102065971742,
+            -892.7872633437701
+          ],
+          "distanceMetres": 2.463
+        },
+        {
+          "tee": 46,
+          "fromLocal": [
+            -403.7523995930793,
+            -856.8849551770852
+          ],
+          "distanceMetres": 4.715
+        },
+        {
+          "tee": 41,
+          "fromLocal": [
+            -405.51928867397083,
+            -832.950083065962
+          ],
+          "distanceMetres": 7.728
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "sourceKey": "hole-06",
+      "additionalPads": [
+        {
+          "id": "hole-06-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              447,
+              311
+            ],
+            [
+              482,
+              326
+            ],
+            [
+              462,
+              367
+            ],
+            [
+              427,
+              351
+            ],
+            [
+              447,
+              311
+            ]
+          ],
+          "areaSquareMetres": 107.969
+        },
+        {
+          "id": "hole-06-additional-platform-02-2022",
+          "ringPixels": [
+            [
+              413,
+              446
+            ],
+            [
+              433,
+              457
+            ],
+            [
+              416,
+              489
+            ],
+            [
+              395,
+              477
+            ],
+            [
+              413,
+              446
+            ]
+          ],
+          "areaSquareMetres": 52.938
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-59": [
+          464.079904,
+          324.847765
+        ],
+        "tee-55": [
+          459.172807,
+          359.110352
+        ],
+        "tee-51": [
+          413.604335,
+          480.720542
+        ],
+        "tee-46": [
+          413.604335,
+          480.720542
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 59,
+          "fromLocal": [
+            -370.20225747250436,
+            -680.6361805401973
+          ],
+          "distanceMetres": 3.142
+        },
+        {
+          "tee": 55,
+          "fromLocal": [
+            -374.6699182405203,
+            -661.1415657129705
+          ],
+          "distanceMetres": 8.287
+        },
+        {
+          "tee": 51,
+          "fromLocal": [
+            -384.7221549685562,
+            -617.2786823517101
+          ],
+          "distanceMetres": 21.511
+        },
+        {
+          "tee": 46,
+          "fromLocal": [
+            -384.7221549685562,
+            -617.2786823517101
+          ],
+          "distanceMetres": 21.511
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "sourceKey": "hole-07",
+      "additionalPads": [
+        {
+          "id": "hole-07-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              434,
+              384
+            ],
+            [
+              460,
+              375
+            ],
+            [
+              471,
+              398
+            ],
+            [
+              443,
+              410
+            ],
+            [
+              434,
+              384
+            ]
+          ],
+          "areaSquareMetres": 47.906
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-59": [
+          265.459905,
+          435.364639
+        ],
+        "tee-55": [
+          445.673022,
+          386.308638
+        ],
+        "tee-51": [
+          445.673022,
+          386.308638
+        ],
+        "tee-46": [
+          445.673022,
+          386.308638
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 59,
+          "fromLocal": [
+            -328.70783045377544,
+            -336.5306553589388
+          ],
+          "distanceMetres": 16.992
+        },
+        {
+          "tee": 55,
+          "fromLocal": [
+            -300.37420678531834,
+            -346.3899540061169
+          ],
+          "distanceMetres": 6.886
+        },
+        {
+          "tee": 51,
+          "fromLocal": [
+            -300.37420678531834,
+            -346.3899540061169
+          ],
+          "distanceMetres": 6.886
+        },
+        {
+          "tee": 46,
+          "fromLocal": [
+            -300.37420678531834,
+            -346.3899540061169
+          ],
+          "distanceMetres": 6.886
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "sourceKey": "hole-08",
+      "additionalPads": [
+        {
+          "id": "hole-08-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              551,
+              440
+            ],
+            [
+              585,
+              451
+            ],
+            [
+              568,
+              491
+            ],
+            [
+              534,
+              479
+            ],
+            [
+              551,
+              440
+            ]
+          ],
+          "areaSquareMetres": 96.156
+        },
+        {
+          "id": "hole-08-additional-platform-02-2022",
+          "ringPixels": [
+            [
+              486,
+              651
+            ],
+            [
+              515,
+              670
+            ],
+            [
+              497,
+              706
+            ],
+            [
+              465,
+              691
+            ],
+            [
+              486,
+              651
+            ]
+          ],
+          "areaSquareMetres": 93.156
+        },
+        {
+          "id": "hole-08-additional-platform-03-2022",
+          "ringPixels": [
+            [
+              408,
+              826
+            ],
+            [
+              423,
+              838
+            ],
+            [
+              400,
+              864
+            ],
+            [
+              386,
+              852
+            ],
+            [
+              408,
+              826
+            ]
+          ],
+          "areaSquareMetres": 40.438
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-59": [
+          676.31269,
+          223.068141
+        ],
+        "tee-51": [
+          478.199625,
+          678.765694
+        ],
+        "tee-46": [
+          478.199625,
+          678.765694
+        ],
+        "tee-41": [
+          394.431364,
+          851.324417
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 59,
+          "fromLocal": [
+            -164.9102338287812,
+            -374.7861519105309
+          ],
+          "distanceMetres": 23.9
+        },
+        {
+          "tee": 51,
+          "fromLocal": [
+            -212.2303069374611,
+            -286.6906884575858
+          ],
+          "distanceMetres": 9.578
+        },
+        {
+          "tee": 46,
+          "fromLocal": [
+            -212.2303069374611,
+            -286.6906884575858
+          ],
+          "distanceMetres": 9.578
+        },
+        {
+          "tee": 41,
+          "fromLocal": [
+            -233.99754056745385,
+            -246.166775269231
+          ],
+          "distanceMetres": 11.685
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "sourceKey": "hole-09",
+      "additionalPads": [
+        {
+          "id": "hole-09-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              484,
+              350
+            ],
+            [
+              507,
+              374
+            ],
+            [
+              470,
+              411
+            ],
+            [
+              445,
+              389
+            ],
+            [
+              484,
+              350
+            ]
+          ],
+          "areaSquareMetres": 111.625
+        },
+        {
+          "id": "hole-09-additional-platform-02-2022",
+          "ringPixels": [
+            [
+              407,
+              482
+            ],
+            [
+              429,
+              505
+            ],
+            [
+              387,
+              535
+            ],
+            [
+              371,
+              513
+            ],
+            [
+              407,
+              482
+            ]
+          ],
+          "areaSquareMetres": 91.062
+        },
+        {
+          "id": "hole-09-additional-platform-03-2022",
+          "ringPixels": [
+            [
+              295,
+              681
+            ],
+            [
+              314,
+              707
+            ],
+            [
+              280,
+              725
+            ],
+            [
+              268,
+              701
+            ],
+            [
+              295,
+              681
+            ]
+          ],
+          "areaSquareMetres": 66.062
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-59": [
+          492.467734,
+          367.507602
+        ],
+        "tee-55": [
+          492.467734,
+          367.507602
+        ],
+        "tee-51": [
+          399.137365,
+          496.688585
+        ],
+        "tee-46": [
+          399.137365,
+          496.688585
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 59,
+          "fromLocal": [
+            -301.71612669067827,
+            -64.95558343705858
+          ],
+          "distanceMetres": 2.143
+        },
+        {
+          "tee": 55,
+          "fromLocal": [
+            -301.71612669067827,
+            -64.95558343705858
+          ],
+          "distanceMetres": 2.143
+        },
+        {
+          "tee": 51,
+          "fromLocal": [
+            -334.62948846014984,
+            -40.50746250656816
+          ],
+          "distanceMetres": 12.312
+        },
+        {
+          "tee": 46,
+          "fromLocal": [
+            -334.62948846014984,
+            -40.50746250656816
+          ],
+          "distanceMetres": 12.312
+        }
+      ]
+    },
+    {
+      "n": 11,
+      "sourceKey": "hole-11",
+      "additionalPads": [
+        {
+          "id": "hole-11-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              397,
+              482
+            ],
+            [
+              440,
+              466
+            ],
+            [
+              456,
+              496
+            ],
+            [
+              410,
+              515
+            ],
+            [
+              397,
+              482
+            ]
+          ],
+          "areaSquareMetres": 103.469
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-59": [
+          217.664442,
+          508.361159
+        ],
+        "tee-55": [
+          217.664442,
+          508.361159
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 59,
+          "fromLocal": [
+            104.04154383593581,
+            361.63138330750843
+          ],
+          "distanceMetres": 24.646
+        },
+        {
+          "tee": 55,
+          "fromLocal": [
+            104.04154383593581,
+            361.63138330750843
+          ],
+          "distanceMetres": 24.646
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "sourceKey": "hole-15",
+      "additionalPads": [
+        {
+          "id": "hole-15-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              512,
+              533
+            ],
+            [
+              546,
+              558
+            ],
+            [
+              530,
+              576
+            ],
+            [
+              499,
+              549
+            ],
+            [
+              512,
+              533
+            ]
+          ],
+          "areaSquareMetres": 58.094
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-59": [
+          521.823693,
+          547.670697
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 59,
+          "fromLocal": [
+            278.47624221765847,
+            -243.1303595643938
+          ],
+          "distanceMetres": 15.885
+        }
+      ]
+    },
+    {
+      "n": 16,
+      "sourceKey": "hole-16",
+      "additionalPads": [
+        {
+          "id": "hole-16-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              314,
+              275
+            ],
+            [
+              333,
+              264
+            ],
+            [
+              361,
+              302
+            ],
+            [
+              342,
+              315
+            ],
+            [
+              314,
+              275
+            ]
+          ],
+          "areaSquareMetres": 67.312
+        },
+        {
+          "id": "hole-16-additional-platform-02-2022",
+          "ringPixels": [
+            [
+              347,
+              316
+            ],
+            [
+              364,
+              307
+            ],
+            [
+              377,
+              326
+            ],
+            [
+              360,
+              339
+            ],
+            [
+              347,
+              316
+            ]
+          ],
+          "areaSquareMetres": 31.25
+        },
+        {
+          "id": "hole-16-additional-platform-03-2022",
+          "ringPixels": [
+            [
+              476,
+              507
+            ],
+            [
+              502,
+              479
+            ],
+            [
+              523,
+              508
+            ],
+            [
+              498,
+              533
+            ],
+            [
+              476,
+              507
+            ]
+          ],
+          "areaSquareMetres": 79.438
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-59": [
+          322.665304,
+          276.916244
+        ],
+        "tee-55": [
+          361.831313,
+          330.046313
+        ],
+        "tee-51": [
+          488.345,
+          502.523065
+        ],
+        "tee-46": [
+          498.368259,
+          524.146459
+        ],
+        "tee-41": [
+          498.368259,
+          524.146459
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 59,
+          "fromLocal": [
+            25.68483441586929,
+            -256.1585995402772
+          ],
+          "distanceMetres": 3.445
+        },
+        {
+          "tee": 55,
+          "fromLocal": [
+            37.47361824109501,
+            -238.77974526497763
+          ],
+          "distanceMetres": 2.379
+        },
+        {
+          "tee": 51,
+          "fromLocal": [
+            57.12159128313788,
+            -209.81498813947843
+          ],
+          "distanceMetres": 17.556
+        },
+        {
+          "tee": 46,
+          "fromLocal": [
+            80.21485962094586,
+            -175.93747691498783
+          ],
+          "distanceMetres": 18.241
+        },
+        {
+          "tee": 41,
+          "fromLocal": [
+            80.21485962094586,
+            -175.93747691498783
+          ],
+          "distanceMetres": 18.241
+        }
+      ]
+    },
+    {
+      "n": 17,
+      "sourceKey": "hole-17",
+      "additionalPads": [
+        {
+          "id": "hole-17-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              397,
+              265
+            ],
+            [
+              421,
+              276
+            ],
+            [
+              401,
+              315
+            ],
+            [
+              376,
+              304
+            ],
+            [
+              397,
+              265
+            ]
+          ],
+          "areaSquareMetres": 73.812
+        },
+        {
+          "id": "hole-17-additional-platform-02-2022",
+          "ringPixels": [
+            [
+              369,
+              323
+            ],
+            [
+              389,
+              334
+            ],
+            [
+              373,
+              364
+            ],
+            [
+              355,
+              353
+            ],
+            [
+              369,
+              323
+            ]
+          ],
+          "areaSquareMetres": 45.938
+        },
+        {
+          "id": "hole-17-additional-platform-03-2022",
+          "ringPixels": [
+            [
+              358,
+              368
+            ],
+            [
+              378,
+              379
+            ],
+            [
+              362,
+              405
+            ],
+            [
+              340,
+              394
+            ],
+            [
+              358,
+              368
+            ]
+          ],
+          "areaSquareMetres": 45.812
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-59": [
+          408.903273,
+          277.055856
+        ],
+        "tee-51": [
+          351.45129,
+          388.000173
+        ],
+        "tee-46": [
+          348.870981,
+          391.727287
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 59,
+          "fromLocal": [
+            150.08083065037255,
+            201.88484627723173
+          ],
+          "distanceMetres": 3.948
+        },
+        {
+          "tee": 51,
+          "fromLocal": [
+            132.7380013594303,
+            232.28593626073783
+          ],
+          "distanceMetres": 1.623
+        },
+        {
+          "tee": 46,
+          "fromLocal": [
+            124.80985082642815,
+            246.18357739605491
+          ],
+          "distanceMetres": 14.808
+        }
+      ]
+    },
+    {
+      "n": 18,
+      "sourceKey": "hole-18",
+      "additionalPads": [
+        {
+          "id": "hole-18-additional-platform-01-2022",
+          "ringPixels": [
+            [
+              666,
+              544
+            ],
+            [
+              706,
+              567
+            ],
+            [
+              690,
+              589
+            ],
+            [
+              651,
+              566
+            ],
+            [
+              666,
+              544
+            ]
+          ],
+          "areaSquareMetres": 76.594
+        },
+        {
+          "id": "hole-18-additional-platform-02-2022",
+          "ringPixels": [
+            [
+              504,
+              448
+            ],
+            [
+              544,
+              466
+            ],
+            [
+              531,
+              496
+            ],
+            [
+              490,
+              479
+            ],
+            [
+              504,
+              448
+            ]
+          ],
+          "areaSquareMetres": 91.969
+        }
+      ],
+      "cameraReferencesPixels": {
+        "tee-55": [
+          536.142062,
+          469.043442
+        ]
+      },
+      "cameraMoves": [
+        {
+          "tee": 55,
+          "fromLocal": [
+            -39.915819997946066,
+            302.32598548857965
+          ],
+          "distanceMetres": 7.42
+        }
+      ]
+    }
+  ],
+  "notAdopted": {
+    "1": "Previous reviewed three-platform inventory retained. Planned October 2026 works are not existing geometry.",
+    "3": "Post-2022 rebuilding; no additional platform boundary established in this window.",
+    "10": "Shorter references use a mown corridor; separate platform boundaries not established.",
+    "12": "Physical platforms remain unresolved; crop includes the fairway start and preceding green.",
+    "13": "Large rectangle near service buildings may be a turf nursery; no tee identity asserted.",
+    "14": "Connected turf/approach edges are ambiguous; no additional platform adopted."
+  },
+  "limitations": [
+    "All outlines are interpreted from 2022 imagery with estimated 2 m boundary uncertainty. Independent georegistration and subsequent changes remain unverified.",
+    "This expands the platform inventory; it does not establish every platform, current numeric tee associations or daily marker positions.",
+    "Hole 9 green/approach discrepancy and hole 12 routing/start remain unresolved.",
+    "Source rights and independent review retain their existing pending status."
+  ],
+  "summary": {
+    "newPlatforms": 27,
+    "areaSquareMetres": 2174.031,
+    "movedReferences": 38,
+    "onPlatformBefore": 12,
+    "onPlatformAfter": 57,
+    "movesMetres": [
+      4.521,
+      13.781,
+      14.292,
+      22.714,
+      22.714,
+      4.902,
+      4.902,
+      2.463,
+      4.715,
+      7.728,
+      3.142,
+      8.287,
+      21.511,
+      21.511,
+      16.992,
+      6.886,
+      6.886,
+      6.886,
+      23.9,
+      9.578,
+      9.578,
+      11.685,
+      2.143,
+      2.143,
+      12.312,
+      12.312,
+      24.646,
+      24.646,
+      15.885,
+      3.445,
+      2.379,
+      17.556,
+      18.241,
+      18.241,
+      3.948,
+      1.623,
+      14.808,
+      7.42
+    ],
+    "holeNumbers": [
+      2,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      11,
+      15,
+      16,
+      17,
+      18
+    ],
+    "coverageCountsScope": "The 12 holes receiving additional platforms; first-hole work is retained separately."
+  }
+}

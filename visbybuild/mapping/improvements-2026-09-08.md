@@ -121,3 +121,63 @@ The combined tree passes 519 Vitest tests and the complete Node suite (387
 passed, three existing environment-dependent skips), the production build,
 published-graph gate, Visby migration currency check and all-course source
 planning for 180 holes. Source-image and in-app visual QA remain distinct.
+
+## Continued tee and range environment pass
+
+Continuation from published main `0d3dc03627e72d35f67f80139f59d72965333b4d`.
+All 18 tee areas were inspected on retained municipal 2022 exports at 0.25 m
+per pixel. A separate range window was checked against the club-linked Caddee
+property overview and the club's training-area page. The overview establishes
+feature identity only; every adopted vertex comes from the georeferenced image.
+
+| Change | Result |
+| --- | --- |
+| Physical tee turf | 27 additional platforms on holes 2, 4, 5, 6, 7, 8, 9, 11, 15, 16, 17 and 18; 2,174.03 m² of additional observed turf. Total inventory: 19 → 46 platforms. |
+| Virtual tee starts | 38 shorter-tee references move 1.6–24.6 m onto nearby observed turf. Back references are retained. Starts on observed platforms increase from 22 to 67 out of 108. |
+| Short-game green | 576.31 m² surface beside the range, separate from the earlier clubhouse putting green. |
+| Neighbouring course | 562.19 m² green at the end of the corridor east of the range, retained as scenery without playable nine-hole routing. |
+| Generation | Both source overlays are applied by full generation and the cache-independent adoption command. Source records preserve original pixels, export grids and image hashes. |
+| Coastal water | Existing protection rerun against the expanded played geometry; the measured ground generation and sea topology remain unchanged. |
+
+Virtual camera corrections use the nearest platform interior, inset by 1.5 m,
+only within 25 m of the earlier reference. This bounded display correction does
+not establish which numbered marker occupies which platform. The 2022 mowing
+edges carry an estimated 2 m interpretation uncertainty; independent geographic
+control and later changes are still unverified. No surveyed daily tee positions,
+new equipment, trees, building dimensions or current mowing precision are claimed.
+
+`tee-platform-review.json` retains all inspected windows, accepted polygons,
+old camera references and displacement measurements. It also records the areas
+not adopted: the post-2022 third-hole rebuild, unresolved hole 12 platforms,
+ambiguous connected turf at holes 10 and 14, and the possible turf nursery near
+hole 13. The H9 green/approach discrepancy remains unresolved. The first-hole
+renovation announced for October 2026 and spring 2027 opening is future work as
+of this review and has not replaced the source model.
+
+`environment-surfaces-review.json` keeps the short-game and neighbouring green
+identities distinct. The two greens and all new tee polygons are valid, mutually
+separate from other tee platforms, and have zero area overlap with mapped water,
+buildings, bunkers or main-course greens. Their source overlays were inspected;
+`facility-validation.json` retains these geometry results.
+
+Additional reproducible source QA, using the existing Python mapping dependencies:
+
+```sh
+python visbybuild/mapping/acquire-facility-windows.py
+python visbybuild/mapping/check-facility-review.py --write --overlay
+```
+
+The acquisition command replays committed review grids after cameras change;
+raw images and overlays remain in ignored cache. The adoption and publishing
+commands above regenerate the model, pack, fallback binding and migration.
+Refresh the two Visby acquisition-registry hashes after migration as described
+above. The final pack is 528,573 bytes; measured ground manifest remains
+`98c29c691ccf425008e62758c3710203064e6016f133eb09801c186f5a9b76f5`.
+
+Validation: 41 Visby tests, source-ledger gate, all-course source planning,
+coastal topology regression, 519 Vitest tests and 390 Node tests passed (three
+existing skips). Production build and the published-graph build gate pass.
+The deployed page was opened, but the cloud browser could not create WebGPU or
+WebGL2, failing at graphics initialization. These results are source-image and
+software validation; in-app tee-height, aerial and grazing-angle acceptance is
+still open.

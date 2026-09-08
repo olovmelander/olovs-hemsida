@@ -803,7 +803,7 @@
       "id": "canonical-routing-candidate",
       "kind": "composite",
       "path": "visbybuild/mapping/geometry.json",
-      "sha256": "3c1f4a15c7dc5c6944a05accf83b45af397656fb31377c8eb98907441172d5d8",
+      "sha256": "17ba2e5e4d69c0102f788812ac3290ae10d35a07fa35d8ffcad5dd5a08e08b7c",
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
@@ -909,7 +909,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "visbybuild/course-model.json",
-      "sha256": "32121c1b362c1029c1f6da7f6b151b8e471ad3c4c99e552037cb83461d519739",
+      "sha256": "9d485f6826f2275a1dbd8c8092ac447f210d64b2508406e1349f5d71a83c8699",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -957,7 +957,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-      "sha256": "daa5498e95c44caebfa15edfdf78fa541fa48a9e8b2f7d1dd66e9fd0af29ab25",
+      "sha256": "474f10049d49c0b5c40d6a6d6f6e2493403adb7ce1bc71a4e326689b6db7a36e",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -975,7 +975,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/visby/migration/residual-report.json",
-      "sha256": "fcc92bacfa97e281f1602e2f704dcd06e4ca06e9e332b1b74839f880c2a7efc4",
+      "sha256": "71ec694bb1d03c2e2f861d41b71120726584aad54b03065b14802d09e72ce583",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -1073,6 +1073,30 @@
       ],
       "use": "discovery-evidence",
       "notes": "Source image registration and pixel boundaries for a clubhouse practice green and two additional first-hole platforms. Camera references are inside observed surfaces; numbered tee associations and daily markers remain unverified."
+    },
+    {
+      "id": "expanded-tee-platform-review",
+      "kind": "control",
+      "path": "visbybuild/mapping/tee-platform-review.json",
+      "sha256": "b983cf4b2ae326833a442bfd99abcf6c0114c4f76203dc0461e104c11577389d",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022"
+      ],
+      "use": "discovery-evidence",
+      "notes": "All 18 tee windows inspected; 27 additional physical platforms on 12 holes, with bounded virtual-camera corrections. Retained source pixels and image hashes; not current numbered-marker or survey evidence."
+    },
+    {
+      "id": "range-environment-surface-review",
+      "kind": "control",
+      "path": "visbybuild/mapping/environment-surfaces-review.json",
+      "sha256": "f4a7658ea231e571d85127a8d9fdb6cf78c18792c36b6242dfa8dccfa2b87cc2",
+      "derivedFrom": [
+        "visby-municipal-ortho-2022",
+        "visby-osm-2026-09-07",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Registered mowing boundaries for the short-game green and neighbouring nine-course green beside the range. Schematic guide corroborates identity only; no new playable routing or equipment inferred."
     }
   ],
   "blockers": [

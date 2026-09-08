@@ -11,9 +11,69 @@ import { assertV2LegacyCutoutContract } from '../apps/golf/src/engine/v2-legacy-
 import { loadPublishedGraphTerrainFrontier } from '../apps/golf/src/engine/v2-graph-frontier.mjs';
 import { local } from './frame.mjs';
 import { applyReviewedFacilities, facilityPoint } from './mapping/reviewed-facilities.mjs';
+import { applyReviewedTeePlatforms } from './mapping/reviewed-tee-platforms.mjs';
+import { applyReviewedEnvironment } from './mapping/reviewed-environment.mjs';
 
 const bytes = relative => readFileSync(new URL(relative, import.meta.url));
 const json = relative => JSON.parse(bytes(relative));
+
+test('expanded tee inventory survives regeneration and keeps reviewed cameras on real turf', () => {
+  const geometry = json('./mapping/geometry.json'), model = json('./course-model.json');
+  const review = json('./mapping/tee-platform-review.json');
+  assert.equal(Object.keys(review.sources).length, 18);
+  assert.deepEqual(applyReviewedTeePlatforms(geometry, review), geometry);
+  const unreviewed = structuredClone(geometry);
+  for (const entry of review.holes) {
+    const hole = unreviewed.holes[entry.n - 1];
+    const ids = new Set(entry.additionalPads.map(pad => pad.id));
+    hole.tees.pads = hole.tees.pads.filter(pad => !ids.has(pad.reviewId));
+    for (const tee of Object.keys(entry.cameraReferencesPixels)) delete hole.tees.references[tee];
+  }
+  assert.deepEqual(applyReviewedTeePlatforms(unreviewed, review), geometry, 'source overlay reconstructs the adopted authoring geometry');
+  assert.equal(model.holes.reduce((n, hole) => n + hole.tees.pads.length, 0), 46);
+  for (const entry of review.holes) {
+    const hole = model.holes[entry.n - 1], source = review.sources[entry.sourceKey];
+    for (const pad of entry.additionalPads) {
+      const expected = pad.ringPixels.map(p => local(facilityPoint({ source }, p)));
+      assert.ok(hole.tees.pads.some(p => JSON.stringify(p.ring) === JSON.stringify(expected)));
+    }
+    for (const move of entry.cameraMoves) {
+      const index = [63, 59, 55, 51, 46, 41].indexOf(move.tee), mark = hole.tees.marks[index];
+      const distance = Math.hypot(mark.c[0] - move.fromLocal[0], mark.c[1] - move.fromLocal[1]);
+      assert.ok(distance <= review.method.maxCameraMoveMetres + 1e-6);
+      assert.ok(Math.abs(distance - move.distanceMetres) < 0.001);
+      assert.ok(hole.tees.pads.some(p => pointInPoly(...mark.c, p.ring)));
+      assert.ok(mark.placement.includes('daily marker location unverified'));
+    }
+  }
+});
+
+test('tee review rejects bad source grids, duplicate holes and cameras off platforms', () => {
+  const geometry = json('./mapping/geometry.json'), original = json('./mapping/tee-platform-review.json');
+  let review = structuredClone(original);
+  review.sources[review.holes[0].sourceKey].imageSize[0] = 0;
+  assert.throws(() => applyReviewedTeePlatforms(geometry, review), /image coordinates/);
+  review = structuredClone(original); review.holes.push(review.holes[0]);
+  assert.throws(() => applyReviewedTeePlatforms(geometry, review), /unique hole/);
+  review = structuredClone(original); review.holes[0].cameraReferencesPixels['tee-59'] = [0, 0];
+  assert.throws(() => applyReviewedTeePlatforms(geometry, review), /inside an observed/);
+  review = structuredClone(original); review.holes[0].cameraReferencesPixels['tee-63'] = [300, 500];
+  assert.throws(() => applyReviewedTeePlatforms(geometry, review), /retain back references/);
+});
+
+test('range-side greens retain source outlines and regenerate without duplication', () => {
+  const geometry = json('./mapping/geometry.json'), model = json('./course-model.json');
+  const review = json('./mapping/environment-surfaces-review.json');
+  assert.deepEqual(applyReviewedEnvironment(geometry, review), geometry);
+  assert.equal(model.scenery.greens.length, 3);
+  for (const entry of review.greens) {
+    const slot = geometry.scenery.reviewedEnvironmentGreenIndices[entry.id];
+    assert.deepEqual(model.scenery.greens[slot], entry.ringPixels.map(p => local(facilityPoint(review, p))));
+  }
+  const bad = structuredClone(geometry);
+  bad.scenery.reviewedEnvironmentGreenIndices[review.greens[0].id] = 999;
+  assert.throws(() => applyReviewedEnvironment(bad, review), /index is stale/);
+});
 
 test('reviewed clubhouse practice green and first-hole cameras retain image registration and observed platforms', () => {
   const geometry = json('./mapping/geometry.json'), model = json('./course-model.json');
