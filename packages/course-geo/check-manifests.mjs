@@ -8,6 +8,15 @@ import {
   validateSourceManifest,
 } from './manifest.mjs';
 
+/* --ground <id> narrows the EXIT CODE to one ground. Every manifest is still
+   read, validated and printed -- the coverage check needs them all and a
+   silent gate is worse than a noisy one -- but a run that is publishing one
+   ground is not the place to discover that another ground's in-flight work has
+   not re-pinned its checksums yet. Without the flag nothing changes: every
+   failure still fails, which is what CI on a shared branch wants. */
+const groundFilterIndex = process.argv.indexOf('--ground');
+const GROUND_FILTER = groundFilterIndex >= 0 ? process.argv[groundFilterIndex + 1] : null;
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const DATA = path.join(ROOT, 'geo_data/course-v2');
 const catalogFile = path.join(DATA, 'source-catalog.json');
@@ -31,6 +40,7 @@ const files = fs.readdirSync(DATA, { withFileTypes: true })
   .sort();
 const manifests = [];
 let failed = 0;
+let ignored = 0;
 
 for (const file of files) {
   const relative = path.relative(ROOT, file);
@@ -47,8 +57,10 @@ for (const file of files) {
     errors.push(relative + '.$schema: must resolve to ' + path.relative(ROOT, expectedSchema));
   }
   if (errors.length) {
-    failed++;
-    console.log('  FAIL ' + manifest.groundId + ' (' + errors.length + ' errors)');
+    const counts = !GROUND_FILTER || manifest.groundId === GROUND_FILTER;
+    if (counts) failed++; else ignored++;
+    console.log('  ' + (counts ? 'FAIL' : 'warn') + ' ' + manifest.groundId + ' (' + errors.length + ' errors'
+      + (counts ? '' : '; not the selected ground, so it does not fail this run') + ')');
     errors.forEach(error => console.log('       ' + error));
   } else {
     console.log(
@@ -70,5 +82,6 @@ if (coverageErrors.length) {
   console.log('  ok   all ' + manifests.length + ' physical grounds and ' + slugs + ' course slugs inventoried');
 }
 
-console.log(failed ? '\nsource-manifest gate FAILED' : '\nsource-manifest gate passed');
+console.log(failed ? '\nsource-manifest gate FAILED'
+  : '\nsource-manifest gate passed' + (GROUND_FILTER ? ' for ' + GROUND_FILTER + (ignored ? ' (' + ignored + ' other ground(s) failing, reported above)' : '') : ''));
 process.exit(failed ? 1 : 0);

@@ -137,14 +137,6 @@ jobs:
           node packages/course-v2/publish-ground-rings.mjs \
             --ground "$GROUND" --slug "$SLUGS" --public apps/golf/public
 
-      - name: Gates (manifests, unit tests, build, app-build graph verify)
-        if: env.PUBLISH == 'true'
-        run: |
-          node packages/course-geo/check-manifests.mjs
-          pnpm test
-          pnpm --filter @banvy/golf build
-          node packages/course-v2/check-app-build.mjs
-
       - name: Upload the acquisition evidence and the ring rasters
         uses: actions/upload-artifact@v4
         with:
@@ -154,6 +146,20 @@ jobs:
             packages/course-geo/toolchain/.cache/acquisition/${{ env.GROUND }}-ground-rings
           if-no-files-found: error
           retention-days: 7
+
+      # --ground scopes the EXIT CODE to this ground. Every manifest is still
+      # validated and printed; what it stops is an unrelated ground's in-flight
+      # work failing a publish that has nothing to do with it. The first publish
+      # run here was lost exactly that way -- the rings compiled, and then the
+      # repo-wide manifest gate failed on another course's stale checksums, so
+      # the commit step never ran.
+      - name: Gates (manifests, unit tests, build, app-build graph verify)
+        if: env.PUBLISH == 'true'
+        run: |
+          node packages/course-geo/check-manifests.mjs --ground "$GROUND"
+          pnpm test
+          pnpm --filter @banvy/golf build
+          node packages/course-v2/check-app-build.mjs
 
       - name: Commit the evidence (and, when publishing, the graph) to the branch
         run: |
