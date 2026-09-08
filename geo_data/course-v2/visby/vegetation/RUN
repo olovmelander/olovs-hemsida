@@ -1,5 +1,12 @@
-publish=false
+publish=true
 observed_on=2026-09-08
-# acquire: first LiDAR vegetation run for Visby. Commits the census, canopy
-# evidence and review overlays to this branch for the eyeball. Publish only
-# after the overlays show crown-free greens, tees, fairways and shoreline.
+# publish: acquire run 34201242013 eyeballed 2026-09-08 -- 31,657 candidates ->
+# 3,012 machine-reviewed individuals on 116 object tiles, stand fields on all
+# 256, cloud ground within 0.00 m median of the published DTM on every land
+# tile, baseHeightMisses empty. The overhead shows crowns on canopy and none in
+# the corridors; hole 16's crop has the fairway, the pond and the hole line
+# crown-free, hole 9's the same. Exclusions fired on water 58, road 159,
+# building 83, fairway 49, practice 27, path 44, tee 1 -- and not one green,
+# because none was detected on one. Published AFTER the ring graph, so the
+# generation attaches to the 469-tile world rather than to the pyramid it
+# replaced.
