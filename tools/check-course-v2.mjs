@@ -161,9 +161,20 @@ for (const slug of slugs) {
 
   /* Vegetation is optional: a ground publishes object and stand layers only
      once its LiDAR generation exists. Absent layers must be absent, not
-     half-loaded, and must never leave two populations over one ground. */
+     half-loaded, and must never leave two populations over one ground.
+
+     THE DEAD-BOOT CASE HAS TO BE ITS OWN BRANCH, because otherwise this reads
+     as a pass. A failed boot leaves `plain.report` null, so `objects` is
+     undefined, `objects?.loaded` is falsy and the else below asks
+     `objects?.error === undefined` -- which is TRUE of nothing at all. Visby
+     printed "no v2 vegetation is published for this ground" beside five other
+     failures while its ground manifest published 116 object and 256 stand
+     tiles: the checker agreeing with the bug, for the fourth time in this
+     repository. Nothing was measured, so nothing may be asserted. */
   const objects = plain.report?.objects;
-  if (objects?.loaded) {
+  if (!plain.booted || !plain.report) {
+    gate(false, 'the flagless boot completed, so its vegetation could be measured at all');
+  } else if (objects?.loaded) {
     // A measured stand field does not imply a surveyed individual registry.
     // Gate each published layer against its own declared population.
     gate(objects.error === null &&

@@ -3117,19 +3117,24 @@ turned up things worth keeping:
   163,954 base points omitted), read the runbook way off the assertion's
   own "got" line.
 
-**Upsala and Mellanbanan carry NO ground cover, and it may be on purpose.**
-main.js's tuft/bush/stone scatter is gated on
-`M.infra.objectPlacement !== 'mapped-only'`, which these two declare, so they
-plant none — measured against the same build with the clause lifted, 5,723
-tufts, 1,091 bushes and 241 stones. The block's own comment justifies it
-("Source-only placement cannot turn unmapped rough into bushes or boulders"),
-and the clause predates the Visby work — it arrived with `7426f03`, the Mellan
-mapping commit — so this is recorded as a QUESTION for the owner rather than
-fixed: `objectPlacement` governs mapped OBJECTS (buildings, benches, bridges)
-while ground cover is vegetation, and the semantically matching flag would be
-`vegetationPlacement`, which Upsala does not declare at all. Changing it alters
-the appearance of two shipped courses on a judgement that is not the renderer's
-to make.
+**Upsala and Mellanbanan lost their entire ground cover to a clause meant for
+another course, and I first said it was pre-existing. It was not.** main.js's
+tuft/bush/stone scatter had NO condition at `9d7806f`; the Visby work gave it
+`objectPlacement !== 'mapped-only' && vegetationPlacement !== 'measured-only'`,
+and these two are the only courses that declare the first without the second —
+so they, and only they, stopped planting 5,723 tufts, 1,091 bushes and 241
+stones. **A tuft of fescue is not a mapped object**: `objectPlacement` governs
+buildings, benches and bridges, the things a ground states the position of, and
+the scatter is gated on the vegetation policy alone now. Visby and Lidingö
+declare both flags and are unaffected either way, which is exactly what made
+the extra clause look free.
+
+The way I got it wrong is the more useful half. I grepped
+`objectPlacement !== 'mapped-only'` across the old file, found it at three
+lines, and concluded the clause predated the branch — but those are the
+balcony, the marker and the furniture blocks. **Grep tells you a string exists,
+never that it is the one you are looking at**; diff the BLOCK, which here opens
+with a bare `{` on main and a two-clause `if` after.
 
 ### Upsala's reviewed buildings and facilities — and the coordinate that must not travel
 
@@ -4339,7 +4344,9 @@ is a manifest field, so none of the three checksum registries move.
   one — **Visby is the first grid-authored ground with a ring graph.** The
   field is DECLARED by every config now, including the three grid-authored
   ones where it equals their canonical origin by construction, and both paths
-  read that one field and throw rather than infer. Before: 6 gates failed.
+  read that one field and throw rather than infer. (An intermediate commit put
+  the rule in a shared `gridOriginEpsg3006` helper; the next one deleted it for
+  the chunking reason below, so do not go looking for that function.) Before: 6 gates failed.
   After: *213 ring tiles read for the model in 5049 ms · first frontier
   covered · backend preflight passed*, no page error, and
   `check-course-v2 --course visby` green on all ten including *published

@@ -109,8 +109,15 @@ jobs:
       - name: Verify synthetic v2 graph
         run: node packages/course-v2/check-synthetic.mjs
 
-      - name: Test player v1 fallback and isolated v2 runtime
-        run: pnpm exec vitest run
+      # `pnpm test` and not `vitest run`: the suite is vitest PLUS 63 node --test
+      # files, and this workflow's own hand-written lists above cover 23 of them.
+      # The 40 that were in neither list ran in no workflow at all -- including
+      # every Visby and Lidingö test in the repository, on the two courses this
+      # branch put in front of the public. A list maintained in two places is
+      # the drift this repo keeps paying for; package.json is the one that says
+      # what the suite is, so CI runs that.
+      - name: Test player v1 fallback, the v2 runtime and every build's own suite
+        run: pnpm test
 
       - name: Build isolated Three r185 renderer proof
         run: node packages/course-v2/check-renderer-build.mjs

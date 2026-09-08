@@ -34,6 +34,7 @@ const LINES = {
   'upsala-mellanbanan': 'Upsala GK:s andra nio, där åttans tee blickar ut över stora banan och fyrans green ligger tjugo meter från dammen.',
   'johannesberg-9': 'Johannesbergs andra nio, med en damm tvärs igenom och ett andrahål som faller drygt tolv meter ner mot vattnet.',
   'veckefjarden-korthalsbanan': 'Veckefjärdens korthålsbana: nio korta hål i tallskogen, med fjärden i sikte från tredje tee.',
+  visby: 'Links på Kronholmen vid Västergarn där Östersjön ligger några tiotal meter från de flesta greenerna; ritad av Pierre Fulke och Adam Mednickson.',
 };
 
 const TEE_WORD = n => `${n} tees`;

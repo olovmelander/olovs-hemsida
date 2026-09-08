@@ -4918,8 +4918,19 @@ lap('far vista cones', { vista: stats.vista | 0 });
 
    They go only where the ground is neither mown nor wooded, and never inside the
    playing corridor, because rough this deep is a hazard and the corridor is not.
-   Source-only placement cannot turn unmapped rough into bushes or boulders. */
-if (M.infra.objectPlacement !== 'mapped-only' && M.infra.vegetationPlacement !== 'measured-only') {
+   Source-only placement cannot turn unmapped rough into bushes or boulders.
+
+   GATED ON THE VEGETATION POLICY, AND ONLY THAT. A tuft of fescue is not a
+   mapped OBJECT -- `objectPlacement` governs buildings, benches and bridges,
+   the things a ground states the position of -- and gating this on it as well
+   cost Upsala GK and Mellanbanan their entire ground cover (5,723 tufts, 1,091
+   bushes and 241 stones, measured), because those two declare `mapped-only`
+   objects and no vegetation policy at all. They are the only courses that
+   declare one without the other, so they were the only ones it could hit, and
+   nothing had drawn ground cover on them since. Visby and Lidingö declare
+   `vegetationPlacement: 'measured-only'` and are unaffected either way, which
+   is what made the extra clause look free. */
+if (M.infra.vegetationPlacement !== 'measured-only') {
   const tuft = (() => {
     const g = new THREE.BufferGeometry();
     const p = [], n = [];
