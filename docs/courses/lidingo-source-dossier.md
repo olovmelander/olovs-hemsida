@@ -430,6 +430,35 @@ they stay in the ignored cache, and one contains identifiable people.
 The species rule raises the deciduous share on the club's own description and
 its photographs, and on nothing else.
 
+## 8b. What it takes to rebuild this model anywhere
+
+`build-course.mjs` reads **four** gitignored caches, and the model-rebuild
+workflow's first run found that out by dying on the second one:
+
+| cache | acquirer | credential |
+|---|---|---|
+| `cache/terrain-review/terrain-1m.f32` | `acquisition/build-terrain-window.mjs --ground lidingo` | Lantmäteriet |
+| `cache/terrain-vista/terrain-vista.f32` | `reference/acquire-terrain-vista.mjs` | Lantmäteriet |
+| `cache/buildings/laser-2021-points.json` | `lidingobuild/acquire-building-laser.mjs --refresh` | Lantmäteriet |
+| `cache/municipal-ortho-2019/lidingo-2019-0p5m.png` | `reference/acquire-municipal-ortho.py` | none (public WMS) |
+
+`lidingobuild/restore-build-caches.mjs` runs all four and verifies each against
+the sha256 its committed record carries, so a source that has moved fails there
+rather than producing a model that silently differs.
+
+**Three of the four rewrite committed evidence with a fresh timestamp**, and
+`build-course` compares the vista record by STRICT EQUALITY and the laser
+window's report by sha256 — so a plain re-run breaks the build it exists to
+serve. The reviewed record is restored afterwards, and the order is what makes
+that a check rather than a concealment: the raster and the point file are
+verified against the hashes that record carries first. The third such file, the
+2019 orthophoto's own discovery record, was found only because the working tree
+was not clean after a restore.
+
+It also settles a claim §3 had been making in prose: **the 2019 municipal
+orthophoto re-acquires byte-identical to its pinned snapshot**, now in a runnable
+gate. Tested here, where no credential is needed.
+
 ## 9. What is open
 
 - **The played surfaces are two records that disagree and the file does not say

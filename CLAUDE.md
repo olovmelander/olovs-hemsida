@@ -3817,6 +3817,28 @@ raster that would pass by luck. So the rebuild runs where the credential is —
 App holds contents:write but not actions:write, so a RUN file is the trigger and
 `workflow_dispatch` stays for humans).
 
+**COUNT THE CACHES A BUILD READS BEFORE CLAIMING IT CAN BE REBUILT.** That
+workflow's first run re-acquired the 1 m window perfectly — 4,198,401 finite
+samples over 25 range requests — and then died on the second line of
+`build-course`, which reads **four** gitignored caches and had a step for one:
+the 1 m window, an 8,192 m vista at overview factor 32, a bounded laser point
+window, and the 2019 municipal orthophoto. Each had a committed acquirer; what
+was missing was one place that runs them and then says whether what came back is
+what the reviewed evidence describes. `grep -n "cache/"` over the build, plus
+every path its evidence files hash, is the check — and until it comes back
+covered, the model can only be rebuilt on a machine that happens to be holding
+those caches, which is not a rebuildable model. `lidingobuild/restore-build-
+caches.mjs` is the shape of the fix.
+
+**And an acquirer that rewrites its own evidence breaks the build it serves.**
+Three of Lidingö's four write a fresh `retrievedAt`/`acquiredAt` into a COMMITTED
+record, and `build-course` compares one of those by STRICT EQUALITY and another
+by sha256 — so a plain re-run fails on a timestamp. Verify the raster or the
+point file against the hash the reviewed record carries FIRST, then put the
+reviewed record back; that order is what makes it a check rather than a
+concealment. The tell that a third file was doing it too was simply that the
+working tree was not clean after a restore — so run one, then `git status`.
+
 **A projected coordinate is written to the MILLIMETRE**, and that is a decision
 about reproducibility rather than about precision. Two PROJ builds agree on this
 transform to about a nanometre — nine orders of magnitude inside the metres of
