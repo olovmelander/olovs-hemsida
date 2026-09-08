@@ -3,7 +3,7 @@
   "hole": 9,
   "question": "Where is hole 9's putting surface? The model's traced ring is an area outlier and its centroid disagrees with the GolfTraxx survey by 48 m.",
   "finding": "The model's green-9 ring is a green COMPLEX read as one shape: it takes in the approach south of the putting surface. Its centroid therefore falls on the apron rather than on the green.",
-  "status": "measured, not corrected -- a re-trace is a measurement, not an edit, and is left as the next step with the instrument now built",
+  "status": "measured six ways and still not corrected: the re-trace that would settle it is refused by its own score. green-trace-review.json shows the outline is not traceable on either frame -- median IoU 0.52 at a median 1.93x the model's area on the summer capture, worse on the finer April one -- so replacing the ring would swap a known-wrong outline for an unknown-wrong one.",
   "records": [
     {
       "record": "the model's own traced ring",
@@ -34,6 +34,11 @@
       "record": "OpenStreetMap, independently surveyed and never an input to this model",
       "measurement": "17 golf=green polygons inside the property hull way/199830330; one of them is 1670 m2 at local (-538, 142)",
       "reading": "OSM's largest green by far, the same area and effectively the same place as the model's hole-9 ring, and it stands beside the clubhouse and the car park. Every other OSM green is a normal putting-surface size. OSM carries no per-green ref and only one hole line on the whole course, so it cannot say which hole any green belongs to."
+    },
+    {
+      "record": "a rule-based re-trace anchored on the GPS survey, on both orthophotos",
+      "measurement": "visbybuild/mapping/green-trace-review.json; on the 2022 summer frame the grow accepts 160 m2 at its tightest threshold, centred 57.8 m from the model ring's centroid and 11.1 m from the survey; on the 2026 April frame 307 m2, 56.7 m and 9.9 m",
+      "reading": "Two frames, independently, find a compact mown feature beside the survey point and refuse to grow anything like the 1670 m2 ring. On the fifteen agreed holes the same tracer lands a median 2.6 m from the model's own centre, so it is not a tracer that wanders. It still does not separate the two readings below: a green complex and a practice green look the same to it."
     }
   ],
   "convergence": "Four records that never entered each other put the putting surface north of the model's centroid: the survey at (-529, 116), the bunker midpoint at (-535, 133), the summer mow oval centred near (-533, 125). They agree within 18 m of each other and disagree with the model's (-543, 162) by 30..48 m.",
