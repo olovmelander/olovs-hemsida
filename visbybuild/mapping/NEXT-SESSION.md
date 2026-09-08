@@ -207,16 +207,34 @@ the source images are not redistributed as runtime textures.
 4. `vegetation.forest/wood/scrub/wetland/sand/rock` stay empty, and OSM will
    never fill them: it has **zero** vegetation polygons inside the played bbox
    +500 m while the imagery measures ~22.4 ha of canopy inside the same hull.
-   The LiDAR stand field and individuals are the source.
-5. `coast` is empty and no water ring carries `isSea`, on a course where the
-   median green stands 82 m from the Baltic. OSM's three coastline chains share
-   four nodes with the property hull. Read CLAUDE.md's Angso section first --
-   `isSea` is an instruction about the whole world, not a label on a ring.
-6. The clubhouse (OSM way 530655631, 688 m2) is one of 32 anonymous footprints
+   The LiDAR stand field and individuals are the source on the course itself.
+5. **`visbybuild/tree-cover.json` does not exist, and Visby is the only build
+   here without one.** Both vista-cone loops sit inside a dead `if (M.cover)`
+   branch, so beyond the LiDAR coverage there are no distant trees at all --
+   which matters much more now that the ground reaches 16 km instead of 2. The
+   measured-only vegetation policy is not what blocks this: it short-circuits
+   the legacy on-course planter, while the cone loops are a separate gate. The
+   Norrfallsviken path (`fetch-sat.mjs` then `build-treecover.py`) is the
+   recipe, calibrated on THIS course's own OSM greens rather than on numbers
+   carried from another ground.
+6. `coast` is empty and no water ring carries `isSea`, on a course where the
+   median green stands 82 m from the Baltic. Seven rings already carry
+   `sourceIsSea:true`/`waterKind:'sea'` and account for **907 of 931 ha** of
+   water, yet all 40 are written `isSea:false`, so the vista tint paints the
+   Baltic as forest-green. Read CLAUDE.md's Angso section first -- `isSea` is
+   an instruction about the whole world, not a label on a ring -- but note the
+   Angso objection was TESTED here and does not apply: a sea plane at 0.18 m
+   would cover **0.01 ha** of dry land at Visby against Angso's 65.8 ha,
+   because this coast starts at 0.24 m and Angso's reed beds sat below their
+   lake. OSM's three coastline chains share four nodes with the property hull.
+   Check the water sheets at the same time: 99.9% of 583,473 ring-interior
+   samples sit within 0.02 m of their own bed, so every sheet is coplanar with
+   the ground under it and `aDepth` is zero everywhere.
+7. The clubhouse (OSM way 530655631, 688 m2) is one of 32 anonymous footprints
    and gets no clubhouse treatment; there is no `scenery/visby.js` module.
-7. Independent horizontal/vertical controls and canonical-origin approval remain
+8. Independent horizontal/vertical controls and canonical-origin approval remain
    unresolved; the software frame is not promoted by any of the above.
-8. Orthophoto derivative terms, photo/media reuse and production release remain
+9. Orthophoto derivative terms, photo/media reuse and production release remain
    open. The imagery is used for tracing and review and is never redistributed.
-9. Per-hole human visual review, both backends, named devices, offline and
+10. Per-hole human visual review, both backends, named devices, offline and
    performance checks remain to be done with the runbook gates.
