@@ -23,9 +23,18 @@ if (has('lidingobuild/course-model.json')) {
 }
 const laser = m.sources.find(s => s.id === 'laser-lm-skog');
 const canopy = read('geo_data/course-v2/lidingo/vegetation/canopy-evidence.json');
-Object.assign(laser, { lifecycle: 'acquired', acquiredAt: '2026-09-07', capturedAt: '2021-03-23',
-  checksum: canopy.sourceIdentity.catalogueSha256, checksumReason: null,
-  notes: 'Bounded COPC reads acquired 11,677,559 interior non-noise returns over 64 windows, with 64 m halos. Four retained 2048×2048 1 m rasters preserve measured/void cells. SHA identifies provider-advertised whole source; 99,116,447 transferred bytes were range-read, not a complete source rehash. Derived canopy is area evidence, not individual-tree survey. See vegetation/canopy-evidence.json.' });
+/* This ground moved off its bespoke stand pipeline onto the repository's
+   generic vegetation chain, and the generic build-canopy writes a DIFFERENT
+   evidence shape: campaigns[] with per-tile transfer and totals, pinned by
+   campaignsSha256 and censusSha256, where the bespoke one carried a
+   sourceIdentity block. Read whichever is present rather than assuming, so a
+   ground can be migrated without its ledger throwing. */
+const canopyChecksum = canopy.sourceIdentity?.catalogueSha256 || canopy.campaignsSha256;
+const campaign = canopy.campaigns?.[0] || null;
+Object.assign(laser, { lifecycle: 'acquired', acquiredAt: '2026-09-08',
+  capturedAt: (campaign?.captureStart || '2021-03-23T00:00:00Z').slice(0, 10),
+  checksum: canopyChecksum, checksumReason: null,
+  notes: `Bounded COPC reads over ${campaign ? campaign.tiles : 64} finest tiles with a ${canopy.haloMetres || 32} m halo, through the repository's generic vegetation chain rather than this ground's original bespoke one. The checksum pins the campaign inventory, which is what identifies the source: the point bytes are range-read, never rehashed whole. The campaign is LEAF-OFF (2021-03-23), which Johannesberg measured to under-detect deciduous crowns, and this is a park course. See vegetation/canopy-evidence.json and the review overlays beside it.` });
 m.sources.find(s => s.id === 'water-breaks-lm-1m').notes =
   'Complete source GPKG checksum verified. Clipped EPSG:3006 PolygonZ/MultiPolygonZ source preserves all 7 outer polygons and RH 2000 water levels; no retained holes. Acquisition clip edges are not claimed as shoreline. See mapping/water-breakgeometry-review.json; no bathymetry inferred.';
 m.sources.find(s => s.id === 'imagery-municipal-2019').notes =

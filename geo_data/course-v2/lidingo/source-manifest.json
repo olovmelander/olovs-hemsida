@@ -147,15 +147,15 @@
         18.147022734124498,
         59.38833274716611
       ],
-      "acquiredAt": "2026-09-07",
+      "acquiredAt": "2026-09-08",
       "capturedAt": "2021-03-23",
-      "checksum": "7a16aeb3b8d7aea2f8c38b0a247868a9c0c33b309bebc4fdaa8cc57d5ad43848",
+      "checksum": "25b377315c604d5bbbfe4a63f2f8b83cdfea82f9fd7fe6af3a90684797c28933",
       "checksumReason": null,
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "Bounded COPC reads acquired 11,677,559 interior non-noise returns over 64 windows, with 64 m halos. Four retained 2048×2048 1 m rasters preserve measured/void cells. SHA identifies provider-advertised whole source; 99,116,447 transferred bytes were range-read, not a complete source rehash. Derived canopy is area evidence, not individual-tree survey. See vegetation/canopy-evidence.json."
+      "notes": "Bounded COPC reads over 64 finest tiles with a 32 m halo, through the repository's generic vegetation chain rather than this ground's original bespoke one. The checksum pins the campaign inventory, which is what identifies the source: the point bytes are range-read, never rehashed whole. The campaign is LEAF-OFF (2021-03-23), which Johannesberg measured to under-detect deciduous crowns, and this is a park course. See vegetation/canopy-evidence.json and the review overlays beside it."
     },
     {
       "id": "topography-lm-10",
@@ -603,7 +603,7 @@
       "id": "canopy-raster-acquisition",
       "kind": "canopy",
       "path": "geo_data/course-v2/lidingo/vegetation/canopy-evidence.json",
-      "sha256": "c4698cc3e4bc6d989989075fcc91a6ded1d27dbeb6871a0add2a2d2f869f32a0",
+      "sha256": "5f847f92d72eafdfcf2c31d9790270967edc754980050ac82cfcbc569c7ae573",
       "derivedFrom": [
         "laser-lm-skog",
         "terrain-lm-1m"
@@ -946,7 +946,7 @@
       "id": "bunker-detection-refusal",
       "kind": "control",
       "path": "lidingobuild/mapping/bunker-detection.json",
-      "sha256": "014271d867bca8c12df9b3225b5643cfb4dcf8d7f53cf7aef1463b4a35f0f124",
+      "sha256": "aeb4b356cc9babaa46bc49f351aa0ab27f9f5dc7bfd543962e4b03f126663624",
       "derivedFrom": [
         "imagery-municipal-2019",
         "terrain-lm-1m"

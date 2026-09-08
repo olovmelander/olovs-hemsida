@@ -5,6 +5,17 @@ to read sand, and the published 1 m laser DTM has to read a hollow under it.
 Sand alone finds gravel paths, winter wear and dry rough; a hollow alone finds
 every ditch and tee terrace.
 
+THE RULE HAS A BLIND SPOT AND IT IS A DATED ONE. The imagery is 2025-05-31 and
+the laser is 2021-03-23, so a bunker BUILT BETWEEN THEM has sand and no hollow,
+and this rule cannot see it by construction. Hole 13 is the proof: the club's
+course council reports building a left green bunker there, the model carries no
+bunker on the hole at all, the 2025 capture plainly shows one below the green -
+and this detector does not flag it, because in 2021 the ground was still flat.
+So sand that fails only the hollow test is REPORTED, not dropped, as
+`sandWithoutHollow`. It is a candidate list, not an adoption: what would make
+one of those two records is the club's own dated statement that a bunker was
+built there, and that has to be read hole by hole.
+
 The SAME rule runs on both captures, with each capture's own thresholds
 measured on that capture, and the score is how many of the 40 already-mapped
 bunkers it recovers. A newer or higher-resolution picture is not automatically
@@ -281,8 +292,67 @@ def run(capture):
                 recovered[i] = c['nearestMappedBunkerMetres']
     missed = [m for m in mapped if m['index'] not in recovered]
     new = sorted([c for c in accepted if c['nearestMappedBunkerMetres'] > 12], key=lambda c: -c['areaSquareMetres'])
+    # THE DATED BLIND SPOT: sand with no hollow under it. Same colour rule, same
+    # size and shape gates, but the terrain test dropped. A bunker built after
+    # the 2021 laser lives here and nowhere else.
+    colour_only = np.zeros(sand.shape, bool)
+    for y0 in range(0, len(norths), BLOCK_ROWS):
+        y1 = min(y0 + BLOCK_ROWS, len(norths))
+        EE, NN = np.meshgrid(easts, norths[y0:y1])
+        rgb = reader(EE, NN).astype(np.float32)
+        R, G, B = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+        lum = 0.299 * R + 0.587 * G + 0.114 * B
+        exg = 2 * G - R - B
+        rg = R / np.maximum(G, 1)
+        blk = (lum >= cal['sandLuminance']) & (exg <= cal['sandExcessGreen']) & (rg >= cal['sandRedOverGreen'])
+        ys2, xs2 = np.nonzero(blk)
+        if len(xs2):
+            d2, _ = tree.query(np.stack([easts[xs2], norths[y0 + ys2]], axis=1), k=1)
+            blk[:] = False
+            k2 = d2 <= 60
+            blk[ys2[k2], xs2[k2]] = True
+        colour_only[y0:y1] = blk
+        del EE, NN, rgb, R, G, B, lum, exg, rg, blk
+    colour_only = nd.binary_closing(colour_only, np.ones((3, 3), bool))
+    lab2, n2 = nd.label(colour_only, structure=np.ones((3, 3), bool))
+    sl2 = nd.find_objects(lab2)
+    dry = []
+    for c in range(1, n2 + 1):
+        sub = sl2[c - 1]
+        if sub is None:
+            continue
+        piece = lab2[sub] == c
+        sy, sx = np.nonzero(piece)
+        area = len(sx) * cell
+        if area < MIN_AREA or area > MAX_AREA:
+            continue
+        gy = sy + sub[0].start; gx = sx + sub[1].start
+        hollow = float(np.median(hollow_all[gy, gx]))
+        if hollow <= -HOLLOW_MEDIAN:
+            continue                      # already in `accepted`
+        edge = len(sx) - float(nd.binary_erosion(piece, np.ones((3, 3), bool)).sum())
+        if 4 * np.pi * len(sx) / max(edge * edge, 1e-9) < MIN_COMPACTNESS:
+            continue
+        if float(np.median(lum_all[gy, gx])) < MIN_LUMINANCE_MEDIAN:
+            continue
+        ce, cn = float(easts[gx].mean()), float(norths[gy].mean())
+        nearest = min(((np.hypot(ce - m['easting'], cn - m['northing']), m['index'], m) for m in mapped))
+        if nearest[0] <= 12:
+            continue                      # it is a mapped bunker the laser simply missed
+        dry.append({'centreEasting': round(ce, 2), 'centreNorthing': round(cn, 2),
+                    'areaSquareMetres': round(area, 1), 'medianHollowMetres': round(hollow, 3),
+                    'medianLuminance': round(float(np.median(lum_all[gy, gx])), 1),
+                    'nearestMappedBunkerMetres': round(float(nearest[0]), 1),
+                    'nearestMappedBunkerHole': nearest[2]['hole']})
+    dry.sort(key=lambda c: -c['areaSquareMetres'])
+
     return {
         'capture': capture, 'captureLabel': spec['label'], 'analysisStepMetres': step, 'calibration': cal,
+        'sandWithoutHollow': {
+            'why': ('the imagery is newer than the laser, so a bunker built between them has sand and no dish. '
+                    'Reported, never adopted: what would make the second record is the club\'s own dated '
+                    'statement that a bunker was built there.'),
+            'count': len(dry), 'candidates': dry[:60]},
         'rule': {
             'sandLuminanceMinimum': round(cal['sandLuminance'], 1),
             'sandExcessGreenMaximum': round(cal['sandExcessGreen'], 1),
@@ -313,6 +383,7 @@ if __name__ == '__main__':
         c = r['calibration']
         print(f"            calibration  sand/turf luminance gap {c['luminanceGap']:+6.1f}, excess-green gap {c['excessGreenGap']:+6.1f}"
               f"  (sand lum p20/50/80 {c['sandLuminancePercentiles']}, turf p10/50/90 {c['turfLuminancePercentiles']})")
+        print(f"            sand with NO hollow under it (newer than the 2021 laser): {r['sandWithoutHollow']['count']}")
         print(f"            candidates {r['candidates']:4d}  accepted {r['accepted']:4d}  "
               f"recovers {r['recoveredMappedBunkers']:2d}/{r['mappedBunkers']} mapped bunkers"
               + (f" at a median {r['recoveredMedianMetres']} m" if r['recoveredMedianMetres'] else '')
