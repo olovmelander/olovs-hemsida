@@ -6,3 +6,6 @@ levels=
 # publishes. 40.2% of the 16 km root is untiled open Baltic, measured from
 # the items own polygons; if the run refuses a component, read the boundary
 # median it names rather than widening the rule.
+# re-fire 2026-09-08: run 34201653506 threw on lod 0 because the reader
+# asserted a coastal item's raster origin IS its square's north-west corner,
+# which is false for both of Visby's west-cropped items. Fixed in aece6fc.
