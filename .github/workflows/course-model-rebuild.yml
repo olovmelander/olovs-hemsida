@@ -82,7 +82,7 @@ jobs:
       # supported route (COURSE_GEO_PYPROJ_PYTHON).
       - name: Install pyproj for the horizontal PROJ backend
         run: |
-          python3 -m pip install --quiet pyproj pillow
+          python3 -m pip install --quiet pyproj pillow numpy shapely matplotlib
           python3 -c "import pyproj; print('PROJ', pyproj.proj_version_str)"
           python3 -c "import PIL; print('Pillow', PIL.__version__)"
           echo "COURSE_GEO_PYPROJ_PYTHON=$(command -v python3)" >> "$GITHUB_ENV"
@@ -134,6 +134,16 @@ jobs:
           LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
           LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
         run: node "${GROUND}build/restore-build-caches.mjs"
+
+      # building-roof-meshes.json pins a sha256 for building-height-evidence.json
+      # that the committed evidence has NEVER had - both files were created in
+      # one commit, already inconsistent, so build-course's own roof-evidence
+      # guard has never passed from a clean checkout. The generator writes BOTH,
+      # deterministically, from inputs whose hashes still match today's sources,
+      # so regenerating the pair is what makes them agree - re-pinning one to the
+      # other would only have recorded the inconsistency.
+      - name: Regenerate the roof height evidence and meshes from the restored caches
+        run: python3 "${GROUND}build/build-building-evidence.py" > /dev/null
 
       - name: Rebuild the course model and its ledger
         run: |

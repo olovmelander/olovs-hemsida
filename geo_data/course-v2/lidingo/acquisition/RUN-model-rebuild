@@ -30,3 +30,11 @@ attempt1: run 34221039176 failed at build-course in 37 s. The terrain
   is one of FOUR gitignored caches it reads and the only one the workflow had a
   step for. restore-build-caches.mjs now runs every committed acquirer and
   proves what comes back against the hash the reviewed evidence carries.
+attempt: 3
+attempt2: all four caches restored and verified, then build-course refused with
+  "Roof evidence changed at building-height-evidence.json". Not drift: that file
+  and building-roof-meshes.json were CREATED in one commit already inconsistent
+  - the meshes pin a hash the evidence has never had - so this guard has never
+  passed from a clean checkout. build-building-evidence.py writes both and its
+  recorded inputs still hash to today's sources, so the pair is regenerated
+  rather than re-pinned.
