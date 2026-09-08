@@ -4144,24 +4144,45 @@ now lives in `mapping/geometry.json` beside its evidence, and the artifact test
 asserts the model against that file rather than against a coordinate written
 down twice.
 
-The landmark is **Skansudde fyrplats**, and it is the first thing a visitor sees
-because the app opens on the 1st tee twenty metres away. The light is of 1890,
-the keeper's house of 1892, the station was manned until 1938, and sv.wikipedia
-says the club "har omgetts av Visby golfklubb sedan 1958, som tidigare använde
-boningshuset som klubbhus" — the house the club started in is let today as
-Fyrhuset. It is OSM way 530655632, and it is **Falu-red vertical board with
-white frames, corner boards and bargeboards under a near-black roof**, the 1892
-specification in the club's own history: "rödfärgades med blyvita snickerier".
-The station outbuilding beside it (way 530655633) is white board-and-batten
-under the same dark roof. **The 1936 concrete tower is not in OpenStreetMap at
-all** — too small to be mapped — so the module draws it, at a position measured
-off the orthophoto rather than placed by eye: the only white thing on the point,
-a bright blob whose centre is stable to 0.03 m across three brightness cuts, at
-local (−603.3, 190.4) with a p90 radius of 2.2 m. **Its height is not measured**
-and the module says so: a shadow reading was attempted and refused, because this
-is a rocky shore where the dark mask is rock and water as much as shadow and the
-flight's capture time is not published. 9 m is an assumption, written down as
-one.
+The landmark is **Skansudde fyrplats**, twenty metres from the 1st tee the app
+opens on, and its three structures were first written down with two of them
+swapped. sv.wikipedia's own photo caption names them in order — *"Fyrplatsen
+2023 med från vänster bostadshuset, den gamla fyren och längst till höger den
+nya betongfyren"* — and with fyrwiki that settles it:
+
+- **1890, "den gamla fyren", still standing** ("Den första, ännu bevarade
+  fyren") — not a tower at all but a combined light-and-dwelling in timber,
+  *"Vitt fyrhus med utbyggnad på gaveln"*, its seaward gable carrying a burspråk
+  with a 5th-order lamp. **WHITE**, and it is the building the club lets as
+  **Fyrhuset**: helagotland, 2016, *"det gamla fyrhuset från 1890, som är den
+  lilla vita stugan bredvid själva fyren"*. The bay window in every interior
+  photograph is that burspråk.
+- **1892, the bostadshus** for the station's staff, a Bark & Warburg prefab —
+  and it is of THIS house that sv.wikipedia says *"Huset rödfärgades med blyvita
+  snickerier"*. **Falu red with white joinery**, and the club's first clubhouse:
+  *"omges sedan 1958 av Visby golfklubb som tidigare använt bostadshuset som
+  klubbhus"*.
+
+The first reading here called the red house Fyrhuset and the white one a plain
+outbuilding, and hung the 1892 "rödfärgades" line on the 1890 building. **The
+colours were right anyway** — they are keyed to the OSM ids and those did not
+move — so nothing rendered wrong; the names and dates were what was swapped.
+What stays INFERRED is which footprint is which, because no photograph here is
+georeferenced: the mapping rests on distance from the tower, helagotland's white
+cottage being the one *bredvid själva fyren* and way 530655633 standing 9 m from
+it against 530655632's 17 m. A captioned club photograph would close it.
+
+**The 1936 concrete tower is not in OpenStreetMap at all** — too small to be
+mapped — so the module draws it, at a position measured off the orthophoto
+rather than placed by eye: the only white thing on the point, a bright blob
+whose centre is stable to 0.03 m across three brightness cuts, at local
+(−603.3, 190.4) with a p90 radius of 2.2 m. **Its height is published**, and the
+module first drew it at an assumed 9 m: fyrwiki's table gives *"Tornets höjd m
+10,4"* against *"Nuvarande fyr år 1936"*, with a lyshöjd of 13.6 m, and a 4th-
+order lens under *"en åttakantig fyrkur"* — the eight-sided lantern the module
+draws. The 10.4 m had been attributed here to an 1890 tower it replaced, and
+there was no 1890 tower; the number was never the old light's and always this
+one's.
 
 **And the woods here are Gotland's, not the engine's default.** Three records
 agree and none is a guess about Sweden in general: OSM's own forest here carries

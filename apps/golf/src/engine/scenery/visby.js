@@ -18,14 +18,26 @@
    roof is dark blue-grey profiled SHEET METAL, ribs running down a steep pitch,
    measured rgb(37,46,59) sunlit and rgb(34,58,85) from the air — not pantile,
    not shingle, and nothing like the terracotta this engine defaults to. Two
-   storeys at the west gable block, dropping to one and an attic eastward, so
-   the window rows are set for two.
+   storeys at one gable block, dropping to one and an attic, so the window rows
+   are set for two.
+
+   WHICH gable block is not established, and an earlier note here said "the west
+   one" from a photograph nobody could orient. The footprint settles the shape
+   and refuses the compass: OSM way 530655631 measures 28.8 m east-west by
+   38.2 m north-south with its long axis on bearing 156°, so this complex runs
+   NNW-SSE and its ends are north and south. Nothing here needs to know which:
+   the engine picks the glazed end from where the course is, never from a
+   coordinate.
 
    The terrace is the building's whole point: a raised deck along the entire sea
-   front on a low retaining wall of flat pale Gotland limestone, facing broadly
-   west-south-west over the putting course to the sea — the club's own words are
-   "utsikten mot Karlsöarna ifrån uteserveringen". `terrace: true` is the
-   engine's own apron and bench, which is exactly right here. */
+   front on a low retaining wall of flat pale Gotland limestone, looking out
+   over the putting course to the water. The club names the view — "utsikten mot
+   Karlsöarna ifrån uteserveringen" — and from this footprint Stora and Lilla
+   Karlsö bear 206° and 211° at 16-19 km while Västergarns utholme, which the
+   club names in the same breath for Fyrhuset, bears 255° at 1.1 km. So the arc
+   is west round to south-south-west, not the flat "west-south-west" this note
+   used to give. `terrace: true` is the engine's own apron and bench, which is
+   exactly right here. */
 export const clubhouse = {
   wall: 0xe8e7e2,          /* white render */
   roof: 0x38414d,          /* dark blue-grey profiled sheet metal */
@@ -37,43 +49,60 @@ export const clubhouse = {
 /* THE LIGHTHOUSE STATION BY THE FIRST TEE, which the model carried as two
    anonymous houses and a gap where a lighthouse is.
 
-   Skansudde fyrplats: a light of 1890, the keeper's dwelling of 1892, the
-   station manned until 1938 and — sv.wikipedia — "har omgetts av Visby
-   golfklubb sedan 1958, som tidigare använde boningshuset som klubbhus". The
-   dwelling is let today as Fyrhuset and stands twenty metres from the 1st tee,
-   which is the view a visitor gets first, since the app opens on the tee.
+   Skansudde fyrplats stands twenty metres from the 1st tee, which is the view a
+   visitor gets first because the app opens there. sv.wikipedia's own photo
+   caption names all three structures in order -- "Fyrplatsen 2023 med från
+   vänster bostadshuset, den gamla fyren och längst till höger den nya
+   betongfyren" -- and that, with fyrwiki, is what the colours below rest on:
 
-     way/530655632, 117 m2 — Fyrhuset, the 1892 keeper's house. Falu-red
-       VERTICAL BOARD timber with white window frames, white corner boards and
-       white bargeboards (Wikimedia Commons, "Skansudde fyr October 2023",
-       measured rgb(111,64,59) sunlit), under a near-black gabled roof. A glazed
-       veranda of small white panes runs the full sea-facing side and the
-       orthophoto shows exactly that strip. sv.wikipedia on the 1892 house:
-       "rödfärgades med blyvita snickerier".
-     way/530655633, 82 m2 — the station outbuilding. WHITE board-and-batten with
-       white trim under a near-black roof (same Commons set).
+     1890, "den gamla fyren" and still standing ("Den första, ännu bevarade
+       fyren"): not a tower at all but a combined light-and-dwelling in timber,
+       "Vitt fyrhus med utbyggnad på gaveln", its seaward gable carrying a
+       burspråk with a 5th-order fyrlykta. WHITE. This is the building the club
+       lets as FYRHUSET -- helagotland, 2016: "det gamla fyrhuset från 1890, som
+       är den lilla vita stugan bredvid själva fyren" -- rebuilt on its own
+       foundation after a 2016 permit, which is what the club's "byggt på
+       grunden av den gamla fyren" means, and the bay window every interior
+       photograph shows is that same burspråk.
+     1892, the bostadshus for the station's staff: a Bark & Warburg prefab, and
+       sv.wikipedia says of THIS house "Huset rödfärgades med blyvita
+       snickerier". FALU RED with white joinery. It is also the club's first
+       clubhouse: "omges sedan 1958 av Visby golfklubb som tidigare använt
+       bostadshuset som klubbhus".
 
-   The engine's generic pass would paint both from its neighbourhood rule, which
-   knows nothing about either. */
+   An earlier reading here had those two the wrong way round -- it called the
+   red house Fyrhuset and the white one a plain outbuilding, and hung the 1892
+   "rödfärgades" line on the 1890 building. The COLOURS were right either way,
+   because they are keyed to the OSM ids below and those did not move; only the
+   names and dates were swapped, and they are corrected rather than quietly
+   changed. What is still INFERRED is which footprint is which: no photograph
+   here is georeferenced, so the mapping rests on the two houses' distance from
+   the tower (helagotland's white cottage is the one "bredvid själva fyren",
+   and 530655633 stands 9 m from it against 530655632's 17 m). If a captioned
+   club photograph ever settles it, check that before anything else. */
 export const buildingLooks = {
-  'way/530655632': { wall: 0x8f4a41, roof: 0x2b2d30 },
-  'way/530655633': { wall: 0xe9e7e0, roof: 0x2b2d30 },
+  'way/530655632': { wall: 0x8f4a41, roof: 0x2b2d30 },   /* 1892 bostadshuset, 117 m2 */
+  'way/530655633': { wall: 0xe9e7e0, roof: 0x2b2d30 },   /* 1890 Fyrhuset, 82 m2 */
 };
 
-/* The 1936 tower itself is NOT a footprint in OpenStreetMap — too small to be
-   mapped — so it is drawn here, at a position measured off the orthophoto: the
-   only white thing on the point, a compact bright blob whose centre is stable
-   to 0.03 m across three brightness cuts at local (-603.3, 190.4), p90 radius
-   2.2 m. A white painted concrete cylinder with a white railed gallery, a
-   polygonal lantern house and a white conical roof (Commons, daylight).
+/* The 1936 tower is NOT a footprint in OpenStreetMap -- too small to be mapped
+   -- so it is drawn here, at a position measured off the orthophoto: the only
+   white thing on the point, a compact bright blob whose centre is stable to
+   0.03 m across three brightness cuts at local (-603.3, 190.4), p90 radius
+   2.2 m. Fyrwiki describes it as "ett torn i betong krönt med en åttakantig
+   fyrkur", with a 4th-order lens, which is the eight-sided lantern below.
 
-   ITS HEIGHT IS NOT MEASURED. The 1890 tower it replaced was 10.4 m; a shadow
-   reading was attempted and refused, because this is a rocky shore where the
-   dark mask is rocks and water as much as shadow and the flight's capture time
-   is not published. 9 m is an assumption and is written down as one. */
+   ITS HEIGHT IS PUBLISHED and no longer assumed: fyrwiki's own table gives
+   "Tornets höjd m 10,4" against "Nuvarande fyr år 1936", with a lyshöjd of
+   13.6 m. This module first drew it at an assumed 9 m and attributed the 10.4 m
+   to an 1890 tower it replaced -- but there was no 1890 tower, only the white
+   fyrhus above, so that number was never the old light's and always this one's.
+   A shadow reading was attempted and refused: this is a rocky shore where the
+   dark mask is rock and water as much as shadow, and the flight's capture time
+   is not published. It did not need one. */
 const TOWER = [-603.3, 190.4];
 const TOWER_RADIUS = 2.2;
-const TOWER_HEIGHT = 9.0;     /* assumed, not measured -- see above */
+const TOWER_HEIGHT = 10.4;    /* fyrwiki, "Tornets höjd m 10,4" */
 
 /* Kronholmen's woods are Gotland's: pine over limestone, with juniper under it
    and birch and rowan where the ground is damp or sheltered. Three records

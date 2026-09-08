@@ -274,9 +274,13 @@ the source images are not redistributed as runtime textures.
    [`apply-clubhouse.mjs`](apply-clubhouse.mjs), asserted by the artifact test)
    and `apps/golf/src/engine/scenery/visby.js` carries its look from daylight
    photographs, a Gotland pine-led species rule from three agreeing records, the
-   Falu-red Fyrhuset and white station outbuilding, and the 1936 concrete tower
-   of Skansudde fyr at a position measured off the orthophoto. The tower's
-   HEIGHT is an assumption and says so.
+   white Fyrhuset (the 1890 light-and-dwelling, way 530655633) and the Falu-red
+   1892 bostadshus beside it (way 530655632), and the 1936 concrete tower of
+   Skansudde fyr at a position measured off the orthophoto and its published
+   height of 10.4 m. A first reading swapped the two houses' NAMES -- their
+   colours were keyed to the OSM ids and were right either way -- and assumed
+   the tower's height where fyrwiki publishes it; both are corrected, and which
+   footprint is which is still inferred from distance to the tower.
 8. Independent horizontal/vertical controls and canonical-origin approval remain
    unresolved; the software frame is not promoted by any of the above.
 9. Orthophoto derivative terms, photo/media reuse and production release remain
