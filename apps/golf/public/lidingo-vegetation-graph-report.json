@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "kind": "vegetation-graph-publication",
+  "state": "published",
+  "groundId": "lidingo",
+  "slug": "lidingo",
+  "observedOn": "2026-09-08",
+  "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+  "activeRoot": {
+    "url": "courses/v2-index.json",
+    "bytes": 5935,
+    "sha256": "b4ddc1c5a3c29f78b76488259d4c53b853fc799c4f899bc5c13dd368d6e22933"
+  },
+  "graph": {
+    "frameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
+    "courseManifest": {
+      "url": "courses/lidingo/course-v2-dab89ecb947704d6a905b2f459997230a2098865e017b83de69b912076744fd7.json",
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "bytes": 3876,
+      "sha256": "dab89ecb947704d6a905b2f459997230a2098865e017b83de69b912076744fd7"
+    },
+    "groundManifest": {
+      "url": "grounds/lidingo/ground-v2-17836ef643f9f09be0741becfb2af340c90b4cf88bc9b514ca4ffe1fc29841ed.json",
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "bytes": 262801,
+      "sha256": "17836ef643f9f09be0741becfb2af340c90b4cf88bc9b514ca4ffe1fc29841ed"
+    },
+    "routing": {
+      "kind": "routing",
+      "url": "courses/lidingo/routing/570608be516129e5250f6edd117da1089ae8d146d8b49a89c64067b2348a332f.bvch",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "bytes": 1685,
+      "sha256": "570608be516129e5250f6edd117da1089ae8d146d8b49a89c64067b2348a332f",
+      "decodedBytes": 2709,
+      "decodedSha256": "0107e5f3f78c929cc5e099fb70143603aad3a845da154e354d7c039deb71fa20",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "course-routing-json-v1"
+      ]
+    },
+    "sourceManifestSha256": "9b6090c707a32de2c9eb02416d9fe4c3a0dc8fd5e7d3ba286644d408af101284",
+    "fallbackV1": {
+      "bytes": 498402,
+      "format": 1,
+      "packUrl": "courses/lidingo/pack.bin",
+      "sha256": "dde4fc9495937474b7f39c67d0c50518af43e55441ccb77f543e55b3f8d060c7"
+    },
+    "holes": 18,
+    "tiles": 277,
+    "finestTiles": 64,
+    "shellBytes": 66346,
+    "chunks": 407,
+    "encodedChunkBytes": 18235567,
+    "decodedChunkBytes": 38945838
+  },
+  "vegetation": {
+    "objectTiles": 64,
+    "standTiles": 64,
+    "candidates": {
+      "total": 33974,
+      "byRepresentation": {
+        "excluded": 4327,
+        "individual": 2911,
+        "stand": 26736
+      },
+      "byZone": {
+        "A": 2360,
+        "B": 5836,
+        "C": 25778
+      },
+      "byCampaign": {
+        "21c031-658_67": 33974
+      },
+      "eligible": 2544
+    },
+    "records": {
+      "tiles": 64,
+      "records": 2544,
+      "encodedBytes": 146500,
+      "baseHeightMisses": []
+    },
+    "stands": {
+      "cellMetres": 4,
+      "tiles": 64,
+      "encodedBytes": 565849,
+      "measuredCells": 256229,
+      "closedCanopyCells": 124754,
+      "excludedCells": 58371
+    },
+    "identity": {
+      "matched": 0,
+      "moved": 0,
+      "added": 2544,
+      "missing": 0,
+      "nextSequence": 2545
+    }
+  },
+  "filesWritten": 410
+}
