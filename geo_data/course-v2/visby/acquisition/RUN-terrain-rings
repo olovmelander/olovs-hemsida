@@ -10,3 +10,8 @@ levels=
 # coastal items stop their overview chain at 16x and levels 5 and 6 resample
 # over them, which the evidence records per item per level. Every threshold in
 # the spec is now this ground's own measurement rather than Norrfallsviken's.
+
+# re-fire 2026-09-08: run 34203813246 compiled every level and failed one
+# gate, the frontier bounds contract, which a ring publish legitimately moves
+# from the 4,096 m window to the 16,384 m root. Contract updated in the commit
+# before this one.
