@@ -336,16 +336,15 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
     /* 702 until 2026-09-05, when the Johannesberg nine's 2nd, 7th and 8th greens
        became measured rings (trace-nine.mjs) and two of them reach a second
        256 m control window, and 709 when the Ribbingsfors pass measured its
-       own; the number is MEASURED after every such pass, never summed. It rose
-       to 711 and fell BACK to 709 the same day: Upsala's reviewed mapping
-       replaced the 8th's tee pad -- one provisional ring straddling six 256 m
-       windows -- with the two ortho-traced pads the imagery actually shows,
-       which lie inside four. Measured hole by hole, the 8th is the only hole on
-       any course that moved (6 -> 4) and uniqueGroundWindowCount is unchanged at
-       195, so this is a tighter footprint and not a window leaving the plan. A
-       FALLING count is as legitimate as a rising one when a trace replaces a
-       guess. */
-    requestedWindowReferences: 709,
+       own; the number is MEASURED after every such pass, never summed */
+    /* Upsala H8's reviewed tees remove two references (711 ->709). The
+       Mellanbanan inventory now reads the shipped GPS-route model, rather than
+       the retired guide model: holes3/4/7/8 change by-2/+2/+2/+3 references (->714).
+       The subsequent reviewed Mellan hole8 green/fairway geometry reduces its
+       windows from6 to3 (714 ->711), measured against the preceding committed
+       migration; Stora and Ribbingsfors totals remain96 and52 respectively.
+       All144 holes and all195 unique windows remain covered. */
+    requestedWindowReferences: 711,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,

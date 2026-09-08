@@ -1,0 +1,165 @@
+{
+  "id": "retired-osm-bunker-w438984738",
+  "sourceId": "w438984738",
+  "sourceFeatureKind": "bunker",
+  "decision": "retire-exposed-sand-surface",
+  "originalRing": [
+    [
+      1144.9,
+      -190.4
+    ],
+    [
+      1145.4,
+      -192.5
+    ],
+    [
+      1143.8,
+      -195.2
+    ],
+    [
+      1142,
+      -195.2
+    ],
+    [
+      1140.9,
+      -194.6
+    ],
+    [
+      1140.1,
+      -193.1
+    ],
+    [
+      1139.7,
+      -191.1
+    ],
+    [
+      1140.7,
+      -188.5
+    ],
+    [
+      1143,
+      -188
+    ]
+  ],
+  "originalAreaM2": 30,
+  "originalSourceRecord": {
+    "id": "w438984738",
+    "ring": [
+      [
+        1144.9,
+        -190.4
+      ],
+      [
+        1145.4,
+        -192.5
+      ],
+      [
+        1143.8,
+        -195.2
+      ],
+      [
+        1142,
+        -195.2
+      ],
+      [
+        1140.9,
+        -194.6
+      ],
+      [
+        1140.1,
+        -193.1
+      ],
+      [
+        1139.7,
+        -191.1
+      ],
+      [
+        1140.7,
+        -188.5
+      ],
+      [
+        1143,
+        -188
+      ]
+    ],
+    "area": 30,
+    "c": [
+      1142.5,
+      -191.7
+    ]
+  },
+  "priorModelOwnership": [
+    {
+      "buildDirectory": "upsalabuild",
+      "path": "scenery.bunkers[13]",
+      "courseContext": "Mellanbanan hole 3 approach"
+    },
+    {
+      "buildDirectory": "upsalamellanbuild",
+      "path": "scenery.bunkers[13]",
+      "courseContext": "Mellanbanan hole 3 approach"
+    }
+  ],
+  "observations": [
+    {
+      "year": 2024,
+      "interpretation": "No exposed sand. The OSM polygon falls on a grass-covered mottled patch inside a broader darker rough lobe at the fairway edge. Adjacent active sand features are distinctly bright in the same imagery."
+    },
+    {
+      "year": 2025,
+      "interpretation": "The entire OSM polygon is grass-covered and mowing stripes continue over the site. No exposed-sand boundary is visible. It lies on the current fairway/approach edge."
+    }
+  ],
+  "terrain": {
+    "insideSamples": 30,
+    "annulusSamples": 128,
+    "annulusPlaneCoefficients": [
+      0.060766950240094986,
+      -0.02696104947045641,
+      34.571260743906386
+    ],
+    "annulusPlaneRMSEMetres": 0.06943010031179374,
+    "insideMedianRH2000Metres": 34.11900923398251,
+    "insideMedianResidualToAnnulusPlaneMetres": -0.4407665698746115,
+    "insideResidualRangeMetres": [
+      -0.596998874040203,
+      -0.2727930151724536
+    ],
+    "interpretation": "Terrain indicates local shape only; dated imagery is the authority for current sand/turf material."
+  },
+  "confidence": "high for absence of exposed sand in these two captures",
+  "sourceAbsoluteHorizontalAccuracyMetres": null,
+  "retirementMeaning": "Remove the exposed-sand material polygon from active scenery. Retain source ID and original geometry as a retired source feature. Keep the published terrain depression; no elevation flattening or invented fill geometry. Do not claim a confirmed construction date or historical cause.",
+  "cropEvidence": {
+    "crs": "EPSG:3006",
+    "extent": [
+      640942.3532422924,
+      6636324.370731698,
+      640992.3532422924,
+      6636374.370731698
+    ],
+    "sourceSampleResolutionMetres": 0.25,
+    "reviewImages": [
+      "bunker-w438984738-2024-review.png",
+      "bunker-w438984738-2025-review.png"
+    ]
+  },
+  "sources": [
+    {
+      "year": 2025,
+      "file": "lm2025_025m_r0_c1.png",
+      "sha256": "472062ee1fb58cb587cb8ccb217d9f1c4513960bf8f8757048401a891980e3ab",
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6636145.5%2C641167.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "nativeResolutionMetres": 0.16,
+      "exactFlightDate": null
+    },
+    {
+      "year": 2024,
+      "file": "ortho2024_025m_ne.png",
+      "sha256": "cd215bc90186b564d35c34d4972f71eaa0377c8f51142dccc8d19b793792b7b1",
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=640143.5%2C6636145.5%2C641167.5%2C6637169.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+      "nativeResolutionMetres": 0.08,
+      "exactFlightDate": null
+    }
+  ]
+}

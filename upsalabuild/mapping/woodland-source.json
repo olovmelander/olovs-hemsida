@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "source": "NMD2023 v2.0, Naturvårdsverket",
+  "version": "2.0",
+  "license": "CC0-1.0",
+  "sourceResolutionMetres": 10,
+  "speciesImageryYears": [
+    2021,
+    2022,
+    2023
+  ],
+  "absoluteHorizontalAccuracyMetres": null,
+  "retrievedAt": "2026-09-05",
+  "request": "https://geodata.naturvardsverket.se/inspire/lc-nmd/ows?service=WMS&version=1.1.1&request=GetMap&layers=LC.LandCoverRaster.Bas_2.0&srs=EPSG%3A3006&bbox=637000%2C6633000%2C643000%2C6639000&width=600&height=600&format=image%2Fgeotiff&styles=",
+  "sourceRasterSha256": "7e49ae5d118a927bd3404ea9707b3b8ab12ab57f5663873eee2ef4cd520d4484",
+  "contextSha256": "eff8a3b4283a3984c6dc3875e50c0f1bce1a9421cd498ad9719f71953cd04431",
+  "licenceAndProductDocumentation": "https://geodata.naturvardsverket.se/nedladdning/marktacke/NMD2023/Basskikt_v2_x/NMD2023_Produktbeskrivning_Basskikt_NMD2023_v2_1.pdf",
+  "speciesDocumentation": "https://geodata.naturvardsverket.se/nedladdning/marktacke/NMD2023/Tillaggsskikt/NMD2023_Produktbeskrivning_till%C3%A4gsskikt_Tr%C3%A4dslag.pdf",
+  "method": "Group independently verified WMS palette classes by woodland leaf-type dominance; four-connected components >=2500m2; erode10m at their boundaries; mixed and temporary forest excluded. The source GeoTIFF is a palette image, not raw NMD codes.",
+  "usage": "Rendering prior only, restricted to independently supported existing canopy; never move trees or assign observed individual species. A birch mesh is a broadleaf visual proxy.",
+  "newerVersion": {
+    "version": "2.1",
+    "published": "2026-03-23",
+    "url": "https://geodata.naturvardsverket.se/nedladdning/marktacke/NMD2023/Basskikt_v2_x/NMD2023_basskikt_v2_1.zip",
+    "status": "Not acquired; Upsala equivalence unverified; official changelog includes changes within previously covered areas.",
+    "archiveInspection": "A public128KiB range request confirmed one ZIP-DEFLATE national TIFF requiring1,194,356,226compressed bytes. No spatially segmented TIFF members or decompression index."
+  },
+  "renderingPrior": {
+    "minimumDominantCrownCoverProbability": 0.7,
+    "interpretation": "Chosen rendering probability, not measured stand percentages or individual species confidence. The threshold concerns crown area, not tree counts.",
+    "conditionalPineSpruceRatio": [
+      56,
+      27
+    ],
+    "unknownContext": "Preserve existing course representation and unknown individual species."
+  },
+  "paletteClassLookup": {
+    "0": {
+      "code": 3,
+      "label": "3 Åkermark"
+    },
+    "10": {
+      "code": 112,
+      "label": "112 Granskog på fastmark"
+    },
+    "11": {
+      "code": 113,
+      "label": "113 Barrblandskog på fastmark"
+    },
+    "12": {
+      "code": 114,
+      "label": "114 Lövblandad barrskog på fastmark"
+    },
+    "13": {
+      "code": 115,
+      "label": "115 Triviallövskog på fastmark"
+    },
+    "14": {
+      "code": 116,
+      "label": "116 Ädellövskog på fastmark"
+    },
+    "15": {
+      "code": 117,
+      "label": "117 Triviallövskog med ädellövinslag på fastmark"
+    },
+    "16": {
+      "code": 118,
+      "label": "118 Temporärt ej skog på fastmark"
+    },
+    "17": {
+      "code": 121,
+      "label": "121 Tallskog på våtmark"
+    },
+    "18": {
+      "code": 122,
+      "label": "122 Granskog på våtmark"
+    },
+    "19": {
+      "code": 123,
+      "label": "123 Barrblandskog på våtmark"
+    },
+    "20": {
+      "code": 124,
+      "label": "124 Lövblandad barrskog på våtmark"
+    },
+    "21": {
+      "code": 125,
+      "label": "125 Triviallövskog på våtmark"
+    },
+    "22": {
+      "code": 126,
+      "label": "126 Ädellövskog på våtmark"
+    },
+    "23": {
+      "code": 127,
+      "label": "127 Triviallövskog med ädellövinslag på våtmark"
+    },
+    "24": {
+      "code": 128,
+      "label": "128 Temporärt ej skog på våtmark"
+    },
+    "42": {
+      "code": 411,
+      "label": "411 Öppen fastmark utan vegetation (ej glaciär eller varaktigt snöfält)"
+    },
+    "9": {
+      "code": 111,
+      "label": "111 Tallskog på fastmark"
+    }
+  }
+}

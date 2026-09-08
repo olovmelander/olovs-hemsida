@@ -1,9 +1,16 @@
 # The imagery toolkit
 
+> Historical Veckefjärden tool notes, accuracy language corrected 2026-09-07.
+> Use the [current mapping workflow](../../docs/v2-course-mapping-workflow.md)
+> and [production guide](../../docs/v2-course-runbook.md) for new work. These
+> scripts have differing frame/provider/ground assumptions; the newer source
+> acquisition and review adapters are listed in that workflow. Historical
+> references to a survey require their own source evidence.
+
 Tools for reading a golf course off dated aerial imagery and the 1 m laser terrain,
-and for measuring how well any such reading agrees with what is already surveyed.
-They were written for the Veckefjärden mapping pass of 2026-09-05 and run on any
-build whose model carries a frame.
+and for measuring agreement with existing reference geometry. They were written
+for the Veckefjärden mapping pass of 2026-09-05. Check each script's actual
+parameters and fixed assumptions before using it on another build.
 
 Every tool here reads the same four environment switches:
 
@@ -52,11 +59,12 @@ SAT_REL=27982 node geobuild/imagery/crops.mjs evidence ev.png 13 17 9 16
 SAT_REL=27982 node geobuild/imagery/crops.mjs object club.png 234 -465 200 [ppm]
 ```
 
-The tiles are orthorectified, so a coordinate read off a gridded crop is already a
-world coordinate. There is no registration step and no registration error. That is
-the whole reason these crops are trustworthy where a screenshot trace is not: the
-four buildings read off a Google Maps screenshot were 8 to 13 m out and up to twice
-their true size, and `object` is what showed it.
+The tiles are georeferenced, so gridded crops provide world coordinates without
+manually registering each screenshot. Orthorectification does not eliminate
+source position error, source age or uncertainty in the interpreted edge. Check
+independent controls and retain provider metadata. In the historical comparison,
+four buildings read from a Google Maps screenshot differed by 8 to 13 m and up to
+twice their size; `object` exposed that disagreement.
 
 - **sheet** puts all eighteen greens on one image with the model drawn over each.
   Use it first, to see which holes are worth a closer look.
@@ -68,9 +76,10 @@ their true size, and `object` is what showed it.
 - **object** draws buildings, roads, parking, water, greens and bunkers over the
   imagery, for checking placed geometry rather than mown surfaces.
 
-Colours are constant across all four: cyan a surveyed green, orange a plan-traced
+Colours are constant across all four: cyan an OSM-reference green, orange a plan-traced
 green, yellow bunkers, white buildings and tee pads, red a traced building, and a
-magenta cross at the surveyed green centre.
+magenta cross at the reference green centre. Those display labels do not certify
+the underlying outlines as surveyed.
 
 ## green-tracers.mjs — six methods, each scoring itself
 
@@ -80,12 +89,13 @@ SAT_REL=27982 node geobuild/imagery/green-tracers.mjs blob --write greens.json
 SAT_REL=27982 F=0.6 WR=1 node geobuild/imagery/green-tracers.mjs fusion
 ```
 
-Twelve of Veckefjärden's greens are surveyed in OpenStreetMap, so any tracer can be
-scored against ground truth it never saw. That is what this file is for. It exists
-as the evidence for NOT tracing greens here, and re-running it is only worthwhile
-when a genuinely new source arrives.
+Twelve of Veckefjärden's greens have OpenStreetMap reference outlines. The tracer
+scores agreement with those outlines; their OSM provenance alone does not make
+them independent surveyed ground truth. This historical comparison supported
+retaining the existing outlines. Re-run it when a stronger source supports a
+specific improvement, preserving the distinction between agreement and accuracy.
 
-| method | what it does | median IoU vs the 12 surveyed greens |
+| method | what it does | median IoU vs the 12 OSM reference greens |
 |---|---|---|
 | `firststep` | the first significant brightness step outward from the centre | 0.65 |
 | `plan` | the club plan's own green fill, bunker-registered, aligned | 0.64 |
@@ -99,7 +109,7 @@ A hand sweep of thresholds finds better cells for some methods; the defaults are
 reproduces, so the defaults are what is quoted.
 
 Read the best score carefully before treating it as a near miss. The first-step
-tracer's areas are a median 1.1 times the surveyed ones and range from 0.8 to 2.4,
+tracer's areas are a median 1.1 times the reference ones and range from 0.8 to 2.4,
 so it gets the size right on average and the shape wrong hole by hole. That is the
 signature of every method here: the imagery shows the green COMPLEX, not the putting
 surface, and no threshold separates the two. The laser agrees that greens are the
@@ -179,12 +189,13 @@ build directory, the frame and the lake level the way the tools in this director
 
 ## Rules these tools were written to enforce
 
-- **Calibrate on what the survey has, then trust the rule where it does not.** Every
-  threshold here was fitted on surveyed features and only then applied to unmapped
-  ones. A tracer that cannot state its agreement with ground truth is a guess.
-- **Two orthorectified records arbitrate.** The laser terrain and the z18 imagery
-  carry no registration error, so where they disagree with a traced or drawn source,
-  they are right.
+- **Keep calibration separate from validation.** Fit thresholds on identified
+  reference features, then check independent examples. Report the reference's
+  own source/accuracy and inspect each proposed adoption; a fitted score does not
+  establish accuracy for an unseen feature.
+- **Resolve source disagreements with evidence.** Terrain and georeferenced
+  imagery have different dates, resolution and measurement uncertainty. Compare
+  controls and the feature each product measures before preferring one source.
 - **Anchor a registration on something the registration cannot move.** An earlier
   version of the plan pipeline anchored on a value the pipeline itself rewrote, and
   two holes walked 19 m from the survey over successive runs.

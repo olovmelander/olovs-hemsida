@@ -1,0 +1,926 @@
+{
+  "schemaVersion": 1,
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "sourceModelSha256": "965c350f8068016d3ff5ecfdf110e6fcbb19cb05ce145e12e7ef3aa489650c7d",
+  "sources": {
+    "bridge02": {
+      "id": "bridge02",
+      "provider": "Lantm\u00e4teriet via Uppsala kommuns publicly advertised WMS",
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639934%2C6636077%2C639958%2C6636101&width=150&height=150&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-05T22:52:49.992580+00:00",
+      "sha256": "8b269c9236d729f34cd786409c02daa44ba88d2d5cc05527ec784617dd422de9",
+      "crs": "EPSG:3006",
+      "extent": [
+        639934,
+        6636077,
+        639958,
+        6636101
+      ],
+      "dimensions": [
+        150,
+        150
+      ],
+      "nativeResolutionM": 0.16,
+      "flightYear": 2025,
+      "exactCaptureDate": null,
+      "absoluteHorizontalAccuracyRMSEM": null,
+      "notSurveyed": true,
+      "rights": "Public viewing service. Raster redistribution terms unverified; source image excluded from repository."
+    },
+    "bridge03": {
+      "id": "bridge03",
+      "provider": "Lantm\u00e4teriet via Uppsala kommuns publicly advertised WMS",
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640416%2C6636225%2C640440%2C6636249&width=150&height=150&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-05T22:52:49.992047+00:00",
+      "sha256": "5642b45261019f98f72d4a940d0c621978b59a4575f69d59bb4e5815b0c3a5da",
+      "crs": "EPSG:3006",
+      "extent": [
+        640416,
+        6636225,
+        640440,
+        6636249
+      ],
+      "dimensions": [
+        150,
+        150
+      ],
+      "nativeResolutionM": 0.16,
+      "flightYear": 2025,
+      "exactCaptureDate": null,
+      "absoluteHorizontalAccuracyRMSEM": null,
+      "notSurveyed": true,
+      "rights": "Public viewing service. Raster redistribution terms unverified; source image excluded from repository."
+    },
+    "parking05": {
+      "id": "parking05",
+      "provider": "Lantm\u00e4teriet via Uppsala kommuns publicly advertised WMS",
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=641320%2C6637220%2C641435%2C6637335&width=719&height=719&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-05T22:52:50.409570+00:00",
+      "sha256": "b7af90bcb02eb740055b12a430cb6c9a4abd5395ee7edc0393eace9730b45bd2",
+      "crs": "EPSG:3006",
+      "extent": [
+        641320,
+        6637220,
+        641435,
+        6637335
+      ],
+      "dimensions": [
+        719,
+        719
+      ],
+      "nativeResolutionM": 0.16,
+      "flightYear": 2025,
+      "exactCaptureDate": null,
+      "absoluteHorizontalAccuracyRMSEM": null,
+      "notSurveyed": true,
+      "rights": "Public viewing service. Raster redistribution terms unverified; source image excluded from repository."
+    },
+    "lm2025_range_club_016m": {
+      "id": "lm2025_range_club_016m",
+      "provider": "Lantm\u00e4teriet via Uppsala kommuns publicly advertised WMS",
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639480.0%2C6635900.0%2C640080.0%2C6636500.0&width=3750&height=3750&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-05T14:40:19.283990+00:00",
+      "sha256": "757db9fe8362424c116520f2243c57d33d07ca7ad8ef4fa0707b26bc3a1d1a76",
+      "crs": "EPSG:3006",
+      "extent": [
+        639480.0,
+        6635900.0,
+        640080.0,
+        6636500.0
+      ],
+      "dimensions": [
+        3750,
+        3750
+      ],
+      "nativeResolutionM": 0.16,
+      "flightYear": 2025,
+      "exactCaptureDate": null,
+      "absoluteHorizontalAccuracyRMSEM": null,
+      "notSurveyed": true,
+      "rights": "Public viewing service. Raster redistribution terms unverified; source image excluded from repository."
+    }
+  },
+  "features": [
+    {
+      "id": "upsala-footbridge-w438979736",
+      "kind": "footbridge",
+      "ring": [
+        [
+          116.309,
+          26.264
+        ],
+        [
+          118.696,
+          26.514
+        ],
+        [
+          118.368,
+          30.982
+        ],
+        [
+          115.981,
+          30.732
+        ]
+      ],
+      "sourceId": "bridge02",
+      "observedYear": 2025,
+      "method": "manual review and trace of georeferenced 2025 orthophoto",
+      "status": "accepted",
+      "boundaryInterpretationUncertaintyM": 0.45,
+      "absoluteHorizontalAccuracyRMSEM": null,
+      "notSurveyed": true,
+      "areaM2": 10.78,
+      "osmId": "w438979736",
+      "railsObserved": true,
+      "deckMaterial": null,
+      "railHeightM": null,
+      "deckHeightM": null,
+      "evidenceGeometry": {
+        "crs": "EPSG:3006",
+        "ring": [
+          [
+            639947.76,
+            6636092.52
+          ],
+          [
+            639950.16,
+            6636092.36
+          ],
+          [
+            639950.0,
+            6636087.88
+          ],
+          [
+            639947.6,
+            6636088.04
+          ]
+        ],
+        "pixelRing": [
+          [
+            86,
+            53
+          ],
+          [
+            101,
+            54
+          ],
+          [
+            100,
+            82
+          ],
+          [
+            85,
+            81
+          ]
+        ],
+        "viewExtent": [
+          639934,
+          6636077,
+          639958,
+          6636101
+        ],
+        "viewDimensions": [
+          150,
+          150
+        ]
+      },
+      "axis": [
+        [
+          117.502,
+          26.389
+        ],
+        [
+          117.174,
+          30.857
+        ]
+      ],
+      "abutments": [
+        [
+          117.502,
+          26.389
+        ],
+        [
+          117.174,
+          30.857
+        ]
+      ],
+      "abutmentInterpretation": "Endpoints of visible deck, not surveyed foundation geometry.",
+      "visibleWidthM": 2.41,
+      "visibleLengthM": 4.48,
+      "assertOriginalLine": [
+        [
+          117.5,
+          25.7
+        ],
+        [
+          115.9,
+          32.5
+        ]
+      ],
+      "pathCentrelineChangeRecommended": false,
+      "centroidShiftFromOldPathM": 0.8
+    },
+    {
+      "id": "upsala-footbridge-w438983250",
+      "kind": "footbridge",
+      "ring": [
+        [
+          601.086,
+          -101.962
+        ],
+        [
+          603.183,
+          -102.523
+        ],
+        [
+          604.02,
+          -99.291
+        ],
+        [
+          601.762,
+          -98.737
+        ]
+      ],
+      "sourceId": "bridge03",
+      "observedYear": 2025,
+      "method": "manual review and trace of georeferenced 2025 orthophoto",
+      "status": "accepted",
+      "boundaryInterpretationUncertaintyM": 0.4,
+      "absoluteHorizontalAccuracyRMSEM": null,
+      "notSurveyed": true,
+      "areaM2": 7.48,
+      "osmId": "w438983250",
+      "railsObserved": true,
+      "deckMaterial": null,
+      "railHeightM": null,
+      "deckHeightM": null,
+      "evidenceGeometry": {
+        "crs": "EPSG:3006",
+        "ring": [
+          [
+            640428.48,
+            6636239.08
+          ],
+          [
+            640430.56,
+            6636239.72
+          ],
+          [
+            640431.52,
+            6636236.52
+          ],
+          [
+            640429.28,
+            6636235.88
+          ]
+        ],
+        "pixelRing": [
+          [
+            78,
+            62
+          ],
+          [
+            91,
+            58
+          ],
+          [
+            97,
+            78
+          ],
+          [
+            83,
+            82
+          ]
+        ],
+        "viewExtent": [
+          640416,
+          6636225,
+          640440,
+          6636249
+        ],
+        "viewDimensions": [
+          150,
+          150
+        ]
+      },
+      "axis": [
+        [
+          602.135,
+          -102.243
+        ],
+        [
+          602.891,
+          -99.014
+        ]
+      ],
+      "abutments": [
+        [
+          602.135,
+          -102.243
+        ],
+        [
+          602.891,
+          -99.014
+        ]
+      ],
+      "abutmentInterpretation": "Endpoints of visible deck, not surveyed foundation geometry.",
+      "visibleWidthM": 2.25,
+      "visibleLengthM": 3.32,
+      "assertOriginalLine": [
+        [
+          599.1,
+          -100.9
+        ],
+        [
+          600.1,
+          -96.4
+        ]
+      ],
+      "pathCentrelineChangeRecommended": true,
+      "centroidShiftFromOldPathM": 3.52
+    },
+    {
+      "id": "upsala-footbridge-w438979738",
+      "kind": "footbridge",
+      "ring": [
+        [
+          187.346,
+          52.95
+        ],
+        [
+          189.4,
+          53.548
+        ],
+        [
+          187.492,
+          59.676
+        ],
+        [
+          185.399,
+          59.037
+        ]
+      ],
+      "sourceId": "lm2025_range_club_016m",
+      "observedYear": 2025,
+      "method": "manual review and trace of georeferenced 2025 orthophoto",
+      "status": "accepted",
+      "boundaryInterpretationUncertaintyM": 0.5,
+      "absoluteHorizontalAccuracyRMSEM": null,
+      "notSurveyed": true,
+      "areaM2": 13.9,
+      "osmId": "w438979738",
+      "railsObserved": true,
+      "deckMaterial": null,
+      "railHeightM": null,
+      "deckHeightM": null,
+      "evidenceGeometry": {
+        "crs": "EPSG:3006",
+        "ring": [
+          [
+            640019.92,
+            6636068.52
+          ],
+          [
+            640022.0,
+            6636068.0
+          ],
+          [
+            640020.32,
+            6636061.8
+          ],
+          [
+            640018.2,
+            6636062.36
+          ]
+        ],
+        "pixelRing": [
+          [
+            298,
+            62
+          ],
+          [
+            350,
+            75
+          ],
+          [
+            308,
+            230
+          ],
+          [
+            255,
+            216
+          ]
+        ],
+        "viewExtent": [
+          640008,
+          6636047,
+          640032,
+          6636071
+        ],
+        "viewDimensions": [
+          600,
+          600
+        ]
+      },
+      "axis": [
+        [
+          188.373,
+          53.249
+        ],
+        [
+          186.445,
+          59.356
+        ]
+      ],
+      "abutments": [
+        [
+          188.373,
+          53.249
+        ],
+        [
+          186.445,
+          59.356
+        ]
+      ],
+      "abutmentInterpretation": "Endpoints of visible deck, not surveyed foundation geometry.",
+      "visibleWidthM": 2.17,
+      "visibleLengthM": 6.41,
+      "assertOriginalLine": [
+        [
+          188.4,
+          52.8
+        ],
+        [
+          185.6,
+          61.7
+        ]
+      ],
+      "pathCentrelineChangeRecommended": false,
+      "centroidShiftFromOldPathM": 1.02
+    },
+    {
+      "id": "upsala-parking-south",
+      "kind": "parking",
+      "ring": [
+        [
+          95.256,
+          -218.624
+        ],
+        [
+          98.895,
+          -217.686
+        ],
+        [
+          91.156,
+          -183.963
+        ],
+        [
+          87.652,
+          -184.255
+        ],
+        [
+          76.329,
+          -189.005
+        ],
+        [
+          76.052,
+          -190.136
+        ],
+        [
+          80.463,
+          -207.577
+        ],
+        [
+          81.28,
+          -210.188
+        ],
+        [
+          86.027,
+          -208.968
+        ],
+        [
+          87.623,
+          -215.31
+        ],
+        [
+          89.87,
+          -217.707
+        ]
+      ],
+      "sourceId": "lm2025_range_club_016m",
+      "observedYear": 2025,
+      "method": "manual review and trace of georeferenced 2025 orthophoto",
+      "status": "accepted",
+      "boundaryInterpretationUncertaintyM": 1.5,
+      "absoluteHorizontalAccuracyRMSEM": null,
+      "notSurveyed": true,
+      "areaM2": 473.0,
+      "name": "South parking beside long building",
+      "surface": "asphalt",
+      "surfaceConfidence": "medium",
+      "coverage": "Visible marked bays and shared aisle; excludes building and northern existing parking w438967919.",
+      "assertNoExistingIds": [
+        "upsala-parking-south"
+      ],
+      "evidenceGeometry": {
+        "crs": "EPSG:3006",
+        "ring": [
+          [
+            639917.44,
+            6636336.59679878
+          ],
+          [
+            639921.12,
+            6636335.796493903
+          ],
+          [
+            639914.64,
+            6636301.783536585
+          ],
+          [
+            639911.12,
+            6636301.943597561
+          ],
+          [
+            639899.6,
+            6636306.265243903
+          ],
+          [
+            639899.28,
+            6636307.385670732
+          ],
+          [
+            639903.04,
+            6636324.992378049
+          ],
+          [
+            639903.76,
+            6636327.633384147
+          ],
+          [
+            639908.56,
+            6636326.592987805
+          ],
+          [
+            639909.92,
+            6636332.995426829
+          ],
+          [
+            639912.08,
+            6636335.476371951
+          ]
+        ],
+        "pixelRing": [
+          [
+            318,
+            105
+          ],
+          [
+            364,
+            115
+          ],
+          [
+            283,
+            540
+          ],
+          [
+            239,
+            538
+          ],
+          [
+            95,
+            484
+          ],
+          [
+            91,
+            470
+          ],
+          [
+            138,
+            250
+          ],
+          [
+            147,
+            217
+          ],
+          [
+            207,
+            230
+          ],
+          [
+            224,
+            150
+          ],
+          [
+            251,
+            119
+          ]
+        ],
+        "viewExtent": [
+          639892,
+          6636240,
+          639972,
+          6636345
+        ],
+        "viewDimensions": [
+          1000,
+          1312
+        ]
+      },
+      "overlapExistingParkingM2": 0.0
+    },
+    {
+      "id": "upsala-parking-north-bays",
+      "kind": "parking",
+      "ring": [
+        [
+          64.17,
+          -355.13
+        ],
+        [
+          71.125,
+          -355.267
+        ],
+        [
+          76.258,
+          -353.713
+        ],
+        [
+          77.308,
+          -345.513
+        ],
+        [
+          79.903,
+          -333.814
+        ],
+        [
+          81.388,
+          -328.718
+        ],
+        [
+          83.843,
+          -323.905
+        ],
+        [
+          86.341,
+          -318.13
+        ],
+        [
+          83.705,
+          -315.99
+        ],
+        [
+          80.329,
+          -317.557
+        ],
+        [
+          75.736,
+          -322.851
+        ],
+        [
+          71.38,
+          -325.976
+        ],
+        [
+          67.52,
+          -327.401
+        ],
+        [
+          63.795,
+          -328.182
+        ],
+        [
+          65.514,
+          -331.397
+        ],
+        [
+          63.786,
+          -336.423
+        ],
+        [
+          62.21,
+          -343.363
+        ],
+        [
+          61.055,
+          -348.767
+        ],
+        [
+          59.94,
+          -350.969
+        ],
+        [
+          61.546,
+          -353.309
+        ]
+      ],
+      "sourceId": "lm2025_range_club_016m",
+      "observedYear": 2025,
+      "method": "manual review and trace of georeferenced 2025 orthophoto",
+      "status": "accepted",
+      "boundaryInterpretationUncertaintyM": 2,
+      "absoluteHorizontalAccuracyRMSEM": null,
+      "notSurveyed": true,
+      "areaM2": 523.32,
+      "name": "North parking bays and aisle",
+      "surface": "asphalt",
+      "surfaceConfidence": "medium",
+      "coverage": "Visible southern section of north parking; northern tree-covered hardstanding remains unresolved.",
+      "assertNoExistingIds": [
+        "upsala-parking-north-bays"
+      ],
+      "evidenceGeometry": {
+        "crs": "EPSG:3006",
+        "ring": [
+          [
+            639881.16,
+            6636471.92
+          ],
+          [
+            639888.12,
+            6636472.32
+          ],
+          [
+            639893.32,
+            6636470.96
+          ],
+          [
+            639894.68,
+            6636462.8
+          ],
+          [
+            639897.72,
+            6636451.2
+          ],
+          [
+            639899.4,
+            6636446.16
+          ],
+          [
+            639902.04,
+            6636441.44
+          ],
+          [
+            639904.76,
+            6636435.76
+          ],
+          [
+            639902.2,
+            6636433.52
+          ],
+          [
+            639898.76,
+            6636434.96
+          ],
+          [
+            639893.96,
+            6636440.08
+          ],
+          [
+            639889.48,
+            6636443.04
+          ],
+          [
+            639885.56,
+            6636444.32
+          ],
+          [
+            639881.8,
+            6636444.96
+          ],
+          [
+            639883.4,
+            6636448.24
+          ],
+          [
+            639881.48,
+            6636453.2
+          ],
+          [
+            639879.64,
+            6636460.08
+          ],
+          [
+            639878.28,
+            6636465.44
+          ],
+          [
+            639877.08,
+            6636467.6
+          ],
+          [
+            639878.6,
+            6636470.0
+          ]
+        ],
+        "pixelRing": [
+          [
+            327,
+            601
+          ],
+          [
+            414,
+            596
+          ],
+          [
+            479,
+            613
+          ],
+          [
+            496,
+            715
+          ],
+          [
+            534,
+            860
+          ],
+          [
+            555,
+            923
+          ],
+          [
+            588,
+            982
+          ],
+          [
+            622,
+            1053
+          ],
+          [
+            590,
+            1081
+          ],
+          [
+            547,
+            1063
+          ],
+          [
+            487,
+            999
+          ],
+          [
+            431,
+            962
+          ],
+          [
+            382,
+            946
+          ],
+          [
+            335,
+            938
+          ],
+          [
+            355,
+            897
+          ],
+          [
+            331,
+            835
+          ],
+          [
+            308,
+            749
+          ],
+          [
+            291,
+            682
+          ],
+          [
+            276,
+            655
+          ],
+          [
+            295,
+            625
+          ]
+        ],
+        "viewExtent": [
+          639855,
+          6636430,
+          639941,
+          6636520
+        ],
+        "viewDimensions": [
+          1075,
+          1125
+        ]
+      },
+      "overlapExistingParkingM2": 0.0
+    }
+  ],
+  "integrationNotes": [
+    "Copy local ring/axis/abutments and scalar provenance to model. Keep evidenceGeometry only in evidence file; model migration interprets coordinate arrays as local.",
+    "Use bridge ring to represent visible footprint. Abutment/deck elevation and rail height remain unknown. Terrain draping is an estimate.",
+    "Only w438983250 path centreline is recommended for change; assert original line before replacement. Other old bridge path lines include approach length and can remain.",
+    "Retain all OSM culvert tags. Never generate a wooden footbridge from a geometric waterway intersection alone.",
+    "Both new parking footprints have zero overlap with five existing parking polygons. North footprint deliberately covers only reviewed visible section."
+  ]
+}

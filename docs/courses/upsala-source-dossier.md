@@ -1,5 +1,13 @@
 # Upsala Golfklubb — source dossier
 
+> Historical source/terrain snapshot from September 4. For the later imagery,
+> municipal survey and object review, use the
+> [current mapping handoff](../../upsalabuild/mapping/NEXT-SESSION.md).
+> For new work follow the [production guide](../v2-course-runbook.md) and
+> [mapping workflow](../v2-course-mapping-workflow.md). Acquisition/status claims
+> below describe their recorded date; resolve the live graph and later evidence
+> before treating them as current gaps.
+
 > Compiled 2026-09-04, alongside taking this ground to the 1 m v2 terrain.
 > Everything here is either a source that was read on that date and is quoted,
 > or a measurement made in this repository and reproducible from a command in

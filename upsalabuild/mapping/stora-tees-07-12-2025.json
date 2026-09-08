@@ -1,0 +1,4512 @@
+{
+  "schemaVersion": 1,
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "baselineModelSha256": "a8f35e5d68d9053ce46aacdb208c6d18c02bf0070c3f114fa9be24fcd34da109",
+  "baselineGitCommit": "ba30002",
+  "sources": [
+    {
+      "id": "lm2025_025m_r0_c0",
+      "year": 2025,
+      "sha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "extent": [
+        639119.5,
+        6636145.5,
+        640143.5,
+        6637169.5
+      ],
+      "crs": "EPSG:3006",
+      "exportResolutionMetres": 0.25,
+      "nativeResolutionMetres": 0.16,
+      "horizontalAccuracyMetres": null,
+      "captureDate": null
+    },
+    {
+      "id": "lm2025_025m_r1_c0",
+      "year": 2025,
+      "sha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "extent": [
+        639119.5,
+        6635121.5,
+        640143.5,
+        6636145.5
+      ],
+      "crs": "EPSG:3006",
+      "exportResolutionMetres": 0.25,
+      "nativeResolutionMetres": 0.16,
+      "horizontalAccuracyMetres": null,
+      "captureDate": null
+    },
+    {
+      "id": "ortho2024_025m_nw",
+      "year": 2024,
+      "sha256": "819f3c18d2d1b1550eadf5234849e14242775f1dbf3883911efe1c6bc4c84ab1",
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+      "extent": [
+        639119.5,
+        6636145.5,
+        640143.5,
+        6637169.5
+      ],
+      "crs": "EPSG:3006",
+      "exportResolutionMetres": 0.25,
+      "nativeResolutionMetres": 0.08,
+      "horizontalAccuracyMetres": null,
+      "captureDate": null
+    },
+    {
+      "id": "ortho2024_025m_sw",
+      "year": 2024,
+      "sha256": "bad26765a849f9233423e3469fd4fe451bb73bc68a9c419efb2139286f6c9038",
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2024/MapServer/export?f=pjson&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&bboxSR=3006&imageSR=3006&size=4096%2C4096&format=png32&transparent=false",
+      "extent": [
+        639119.5,
+        6635121.5,
+        640143.5,
+        6636145.5
+      ],
+      "crs": "EPSG:3006",
+      "exportResolutionMetres": 0.25,
+      "nativeResolutionMetres": 0.08,
+      "horizontalAccuracyMetres": null,
+      "captureDate": null
+    }
+  ],
+  "holes": [
+    {
+      "hole": 7,
+      "originalPads": [
+        {
+          "ring": [
+            [
+              -293.1,
+              473.3
+            ],
+            [
+              -284.5,
+              470.5
+            ],
+            [
+              -279.9,
+              484.7
+            ],
+            [
+              -288.5,
+              487.5
+            ]
+          ],
+          "cx": -286.5,
+          "cz": 479,
+          "ang": 342
+        },
+        {
+          "ring": [
+            [
+              -299.5,
+              454
+            ],
+            [
+              -291.9,
+              451.5
+            ],
+            [
+              -288.5,
+              462
+            ],
+            [
+              -296.1,
+              464.5
+            ]
+          ],
+          "cx": -294,
+          "cz": 458,
+          "ang": 342
+        }
+      ],
+      "originalLine": [
+        [
+          -296.2,
+          444.5
+        ],
+        [
+          -329.1,
+          328
+        ],
+        [
+          -362.2,
+          218
+        ],
+        [
+          -397.6,
+          150.5
+        ],
+        [
+          -428.5,
+          52.4
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            -296.2,
+            444.5
+          ],
+          "b": -15.8,
+          "m": 415
+        },
+        {
+          "c": [
+            -307.1,
+            406
+          ],
+          "b": -15.8,
+          "m": 375
+        },
+        {
+          "c": [
+            -309.5,
+            397.3
+          ],
+          "b": -15.8,
+          "m": 366
+        },
+        {
+          "c": [
+            -328.8,
+            329
+          ],
+          "b": -15.8,
+          "m": 295
+        },
+        {
+          "c": [
+            -328.8,
+            329
+          ],
+          "b": -15.8,
+          "m": 295
+        },
+        {
+          "c": [
+            -343.8,
+            279.2
+          ],
+          "b": -16.7,
+          "m": 243
+        }
+      ],
+      "originalDistances": [
+        415,
+        375,
+        366,
+        295,
+        295,
+        243
+      ],
+      "coverage": "complete-visible",
+      "retainOriginalPadIndices": [],
+      "retireOriginalPadIndices": [
+        0,
+        1
+      ],
+      "notes": [
+        "Retire both old unproven rectangles: both sit in grass/rough beside the rear paths, away from the four actual current mown decks. The path-side pair consists of two distinct mown platforms.",
+        "Four complete visible platforms are traced; provisional distance-derived markers are not moved to them."
+      ]
+    },
+    {
+      "hole": 8,
+      "originalPads": [
+        {
+          "ring": [
+            [
+              -474.602,
+              -48.252
+            ],
+            [
+              -473.174,
+              -50.118
+            ],
+            [
+              -471.108,
+              -51.96
+            ],
+            [
+              -468.966,
+              -53.72
+            ],
+            [
+              -467.007,
+              -54.846
+            ],
+            [
+              -465.148,
+              -55.416
+            ],
+            [
+              -463.402,
+              -55.111
+            ],
+            [
+              -462.08,
+              -54.181
+            ],
+            [
+              -461.173,
+              -52.787
+            ],
+            [
+              -460.755,
+              -51.171
+            ],
+            [
+              -460.977,
+              -49.499
+            ],
+            [
+              -461.758,
+              -47.848
+            ],
+            [
+              -462.937,
+              -46.213
+            ],
+            [
+              -464.586,
+              -44.835
+            ],
+            [
+              -466.398,
+              -43.383
+            ],
+            [
+              -468.375,
+              -41.777
+            ],
+            [
+              -470.184,
+              -40.405
+            ],
+            [
+              -472.131,
+              -39.598
+            ],
+            [
+              -474.134,
+              -39.433
+            ],
+            [
+              -475.708,
+              -40.053
+            ],
+            [
+              -476.789,
+              -41.053
+            ],
+            [
+              -477.379,
+              -42.356
+            ],
+            [
+              -477.245,
+              -43.791
+            ],
+            [
+              -476.624,
+              -45.447
+            ],
+            [
+              -475.607,
+              -47.009
+            ]
+          ],
+          "cx": -468.96855735480824,
+          "cz": -47.363284807027064,
+          "ang": 0,
+          "prov": "dated-orthophoto-trace",
+          "sourceId": "upsala-stora-hole8-tee-complex-ne-ortho2024",
+          "evidence": {
+            "source": "hole8_tees_008m.png",
+            "sourceProductYear": 2024,
+            "sourceSha256": "0e448d52b5095517b23ad339f8f92f215590715a7081b917c930b6e3c12dfa89",
+            "sourceHorizontalAccuracyM": null,
+            "uncertaintyM": 1,
+            "acceptance": "recommended tee surface",
+            "note": "Separate clear mown tee platform north of the southwest complex beside the path and access junction. Source shows worn playing surface and furniture next to it. Geometry is mowing extent; horizontal accuracy unreported and coloured tee identity is unverified. Visually cross-checked against the corresponding 2025 Lantmateriet orthophoto.",
+            "latestVisualCrossCheckYear": 2025
+          },
+          "preserveTerrain": true
+        },
+        {
+          "ring": [
+            [
+              -503.566,
+              -31.98
+            ],
+            [
+              -501.025,
+              -31.564
+            ],
+            [
+              -498.686,
+              -30.036
+            ],
+            [
+              -497.01,
+              -27.893
+            ],
+            [
+              -496.467,
+              -25.312
+            ],
+            [
+              -497.201,
+              -22.78
+            ],
+            [
+              -498.892,
+              -20.283
+            ],
+            [
+              -501.393,
+              -17.497
+            ],
+            [
+              -504.218,
+              -14.563
+            ],
+            [
+              -507.534,
+              -11.328
+            ],
+            [
+              -510.649,
+              -9.205
+            ],
+            [
+              -513.722,
+              -8.2
+            ],
+            [
+              -515.777,
+              -8.757
+            ],
+            [
+              -517.803,
+              -10.114
+            ],
+            [
+              -519.167,
+              -12.085
+            ],
+            [
+              -519.721,
+              -14.346
+            ],
+            [
+              -519.306,
+              -16.891
+            ],
+            [
+              -517.597,
+              -19.867
+            ],
+            [
+              -514.931,
+              -22.807
+            ],
+            [
+              -512.265,
+              -25.746
+            ],
+            [
+              -508.937,
+              -29.302
+            ],
+            [
+              -506.142,
+              -31.437
+            ]
+          ],
+          "cx": -508.17680108094726,
+          "cz": -20.220841078231995,
+          "ang": 0,
+          "prov": "dated-orthophoto-trace",
+          "sourceId": "upsala-stora-hole8-tee-sw-2025",
+          "evidence": {
+            "source": "lm2025_hole8_tees_016m.png",
+            "sourceProductYear": 2025,
+            "sourceSha256": "ea73dec659b041a72dd57c13b905fc0c93b2351430e086571aec5a247c3c838d",
+            "sourceHorizontalAccuracyM": null,
+            "uncertaintyM": 1.5,
+            "acceptance": "recommended tee surface; preserve terrain",
+            "note": "Narrower principal tee mowing surface is distinct in 2025 imagery inside the broader 2024 mown complex. Preserve the independent 1m terrain instead of flattening the whole polygon. Coloured tee identity and daily marker positions remain unassigned."
+          },
+          "preserveTerrain": true
+        }
+      ],
+      "originalLine": [
+        [
+          -499.8,
+          -1.6
+        ],
+        [
+          -466.6,
+          -39
+        ],
+        [
+          -405.3,
+          -139.8
+        ],
+        [
+          -341.1,
+          -201.5
+        ],
+        [
+          -262,
+          -243.4
+        ],
+        [
+          -159.1,
+          -306
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            -499.8,
+            -1.6
+          ],
+          "b": 41.6,
+          "m": 467
+        },
+        {
+          "c": [
+            -491.8,
+            -10.6
+          ],
+          "b": 41.6,
+          "m": 455
+        },
+        {
+          "c": [
+            -465.6,
+            -40.7
+          ],
+          "b": 31.3,
+          "m": 415
+        },
+        {
+          "c": [
+            -465.6,
+            -40.7
+          ],
+          "b": 31.3,
+          "m": 415
+        },
+        {
+          "c": [
+            -442.2,
+            -79.1
+          ],
+          "b": 31.3,
+          "m": 370
+        },
+        {
+          "c": [
+            -414.1,
+            -125.3
+          ],
+          "b": 31.3,
+          "m": 316
+        }
+      ],
+      "originalDistances": [
+        467,
+        455,
+        415,
+        415,
+        370,
+        316
+      ],
+      "coverage": "partial",
+      "retainOriginalPadIndices": [
+        0,
+        1
+      ],
+      "retireOriginalPadIndices": [],
+      "notes": [
+        "Retain both existing reviewed platform rings unchanged. Their 2024/2025 comparison remains consistent with the 1–1.5m stated mowing-boundary uncertainty.",
+        "Add the separate forward northeast platform visible in both years; no closed tee mowing boundary is visible at the most-forward provisional card marker."
+      ]
+    },
+    {
+      "hole": 9,
+      "originalPads": [
+        {
+          "ring": [
+            [
+              -83.244,
+              -305.168
+            ],
+            [
+              -81.661,
+              -304.789
+            ],
+            [
+              -80.745,
+              -303.634
+            ],
+            [
+              -80.646,
+              -302.03
+            ],
+            [
+              -81.344,
+              -300.456
+            ],
+            [
+              -82.361,
+              -298.895
+            ],
+            [
+              -83.674,
+              -297.984
+            ],
+            [
+              -85.305,
+              -297.086
+            ],
+            [
+              -87.114,
+              -295.714
+            ],
+            [
+              -88.414,
+              -295.123
+            ],
+            [
+              -89.513,
+              -295.644
+            ],
+            [
+              -89.63,
+              -296.769
+            ],
+            [
+              -88.932,
+              -298.342
+            ],
+            [
+              -88.08,
+              -299.75
+            ],
+            [
+              -87.701,
+              -301.336
+            ],
+            [
+              -86.684,
+              -302.898
+            ],
+            [
+              -85.035,
+              -304.276
+            ]
+          ],
+          "cx": -85.00150245641066,
+          "cz": -300.3728334596494,
+          "ang": 0,
+          "prov": "dated-orthophoto-trace",
+          "sourceId": "upsala-stora-hole9-tee-upper-2025",
+          "evidence": {
+            "source": "lm2025_hole9_tees_016m.png",
+            "sourceProductYear": 2025,
+            "sourceSha256": "bc4e9b4938e1540d4f49e68b896ffc29338231e921050e8ca229fbbfd4a7fba2",
+            "sourceHorizontalAccuracyM": null,
+            "uncertaintyM": 2.5,
+            "acceptance": "candidate; shadow limits southern edge",
+            "note": "Real upper tee beside the western access stairs is present in both 2024 and2025 and independently supported by 42 flat5x5 terrain cells near29.64mRH2000. North/east mowing edges are visible. Southern part is shadow-obscured; polygon is approximate there. Existing old modeled pad is ~43m southwest and lies on road/rough. Do not relocate daily coloured markers to force card lengths."
+          },
+          "preserveTerrain": true
+        }
+      ],
+      "originalLine": [
+        [
+          -83.6,
+          -288.7
+        ],
+        [
+          -38,
+          -393.9
+        ],
+        [
+          68.9,
+          -459.7
+        ],
+        [
+          130.4,
+          -465.5
+        ],
+        [
+          171.7,
+          -495.4
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            -83.6,
+            -288.7
+          ],
+          "b": 23.4,
+          "m": 353
+        },
+        {
+          "c": [
+            -80.4,
+            -296
+          ],
+          "b": 23.4,
+          "m": 345
+        },
+        {
+          "c": [
+            -80.4,
+            -296
+          ],
+          "b": 23.4,
+          "m": 345
+        },
+        {
+          "c": [
+            -78.1,
+            -301.5
+          ],
+          "b": 23.4,
+          "m": 339
+        },
+        {
+          "c": [
+            -59.8,
+            -343.7
+          ],
+          "b": 23.4,
+          "m": 293
+        },
+        {
+          "c": [
+            -59.8,
+            -343.7
+          ],
+          "b": 23.4,
+          "m": 293
+        }
+      ],
+      "originalDistances": [
+        353,
+        345,
+        345,
+        339,
+        293,
+        293
+      ],
+      "coverage": "partial",
+      "retainOriginalPadIndices": [
+        0
+      ],
+      "retireOriginalPadIndices": [],
+      "notes": [
+        "Retain the earlier reviewed upper western-access tee unchanged, including its existing 2.5m shadow-boundary uncertainty.",
+        "Add the separate western-lower and northern-lower circular platforms visible in both years. The old upper trace remains a partial observation, so this hole is not certified as complete."
+      ]
+    },
+    {
+      "hole": 10,
+      "originalPads": [
+        {
+          "ring": [
+            [
+              164.4,
+              -413.3
+            ],
+            [
+              180.5,
+              -398.3
+            ],
+            [
+              171.6,
+              -388.7
+            ],
+            [
+              155.5,
+              -403.7
+            ]
+          ],
+          "cx": 168,
+          "cz": -401,
+          "ang": 43
+        }
+      ],
+      "originalLine": [
+        [
+          158.1,
+          -391.5
+        ],
+        [
+          283.9,
+          -525.7
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            158.1,
+            -391.5
+          ],
+          "b": 43.1,
+          "m": 184
+        },
+        {
+          "c": [
+            173.1,
+            -407.5
+          ],
+          "b": 43.1,
+          "m": 162
+        },
+        {
+          "c": [
+            173.1,
+            -407.5
+          ],
+          "b": 43.1,
+          "m": 162
+        },
+        {
+          "c": [
+            185.4,
+            -420.6
+          ],
+          "b": 43.1,
+          "m": 144
+        },
+        {
+          "c": [
+            208,
+            -444.7
+          ],
+          "b": 43.1,
+          "m": 111
+        },
+        {
+          "c": [
+            208,
+            -444.7
+          ],
+          "b": 43.1,
+          "m": 111
+        }
+      ],
+      "originalDistances": [
+        184,
+        162,
+        162,
+        144,
+        111,
+        111
+      ],
+      "coverage": "complete-visible",
+      "retainOriginalPadIndices": [],
+      "retireOriginalPadIndices": [
+        0
+      ],
+      "notes": [
+        "Replace the old single inferred rectangle, which crossed intervening grass, with four distinct visible mown platforms; platform collars are excluded."
+      ]
+    },
+    {
+      "hole": 11,
+      "originalPads": [
+        {
+          "ring": [
+            [
+              282.7,
+              -564.4
+            ],
+            [
+              280.4,
+              -586.3
+            ],
+            [
+              293.3,
+              -587.6
+            ],
+            [
+              295.6,
+              -565.7
+            ]
+          ],
+          "cx": 288,
+          "cz": -576,
+          "ang": 264
+        }
+      ],
+      "originalLine": [
+        [
+          291.4,
+          -576.4
+        ],
+        [
+          170,
+          -563
+        ],
+        [
+          60,
+          -528
+        ],
+        [
+          -25,
+          -511
+        ],
+        [
+          -74.8,
+          -496.8
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            291.4,
+            -576.4
+          ],
+          "b": -96.3,
+          "m": 376
+        },
+        {
+          "c": [
+            278.4,
+            -575
+          ],
+          "b": -96.3,
+          "m": 363
+        },
+        {
+          "c": [
+            268.5,
+            -573.9
+          ],
+          "b": -96.3,
+          "m": 353
+        },
+        {
+          "c": [
+            203.9,
+            -566.7
+          ],
+          "b": -96.3,
+          "m": 288
+        },
+        {
+          "c": [
+            203.9,
+            -566.7
+          ],
+          "b": -96.3,
+          "m": 288
+        },
+        {
+          "c": [
+            164.4,
+            -561.2
+          ],
+          "b": -107.7,
+          "m": 248
+        }
+      ],
+      "originalDistances": [
+        376,
+        363,
+        353,
+        288,
+        288,
+        248
+      ],
+      "coverage": "partial",
+      "retainOriginalPadIndices": [],
+      "retireOriginalPadIndices": [
+        0
+      ],
+      "notes": [
+        "Retire the old inferred rectangle: its long axis runs across the real east–west rear tee and extends south across rough/approach.",
+        "Only the separate forward-west platform has a complete readable mowing boundary. A real rear platform exists but tree shadows obscure its southern/western edge in both dates; no guessed complete ring is adopted."
+      ]
+    },
+    {
+      "hole": 12,
+      "originalPads": [
+        {
+          "ring": [
+            [
+              -14.7,
+              -582.4
+            ],
+            [
+              -22.5,
+              -605.1
+            ],
+            [
+              -9.3,
+              -609.6
+            ],
+            [
+              -1.5,
+              -586.9
+            ]
+          ],
+          "cx": -12,
+          "cz": -596,
+          "ang": 251
+        }
+      ],
+      "originalLine": [
+        [
+          -7.9,
+          -598.1
+        ],
+        [
+          -120,
+          -560
+        ],
+        [
+          -232,
+          -500
+        ],
+        [
+          -290,
+          -420
+        ],
+        [
+          -340,
+          -345
+        ],
+        [
+          -399.9,
+          -282.5
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            -7.9,
+            -598.1
+          ],
+          "b": -108.8,
+          "m": 521
+        },
+        {
+          "c": [
+            -23,
+            -593
+          ],
+          "b": -108.8,
+          "m": 505
+        },
+        {
+          "c": [
+            -70.4,
+            -576.9
+          ],
+          "b": -108.8,
+          "m": 455
+        },
+        {
+          "c": [
+            -131.1,
+            -554.1
+          ],
+          "b": -118.2,
+          "m": 390
+        },
+        {
+          "c": [
+            -131.1,
+            -554.1
+          ],
+          "b": -118.2,
+          "m": 390
+        },
+        {
+          "c": [
+            -161.1,
+            -538
+          ],
+          "b": -118.2,
+          "m": 356
+        }
+      ],
+      "originalDistances": [
+        521,
+        505,
+        455,
+        390,
+        390,
+        356
+      ],
+      "coverage": "partial",
+      "retainOriginalPadIndices": [],
+      "retireOriginalPadIndices": [
+        0
+      ],
+      "notes": [
+        "Retire the old inferred rectangle; its southwest edge is on the worn shoulder outside the actual oblong rear deck.",
+        "Trace the complete rear oblong and forward circular platforms. The intermediate platform near the tree is visible but its southwest boundary is obscured in both years; no guessed complete ring is adopted."
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "upsala-stora-tee-07-front-north-2025",
+      "hole": 7,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "front-north",
+      "ring": [
+        [
+          -342.608,
+          323.248
+        ],
+        [
+          -340.586,
+          322.574
+        ],
+        [
+          -338.381,
+          323.657
+        ],
+        [
+          -336.49,
+          326.479
+        ],
+        [
+          -334.656,
+          330.798
+        ],
+        [
+          -332.591,
+          335.626
+        ],
+        [
+          -332.675,
+          337.873
+        ],
+        [
+          -333.728,
+          339.333
+        ],
+        [
+          -335.999,
+          339.998
+        ],
+        [
+          -338.214,
+          339.164
+        ],
+        [
+          -339.883,
+          337.101
+        ],
+        [
+          -341.497,
+          333.54
+        ],
+        [
+          -343.101,
+          329.73
+        ],
+        [
+          -343.727,
+          326.456
+        ]
+      ],
+      "c": [
+        -338.265,
+        331.494
+      ],
+      "area": 116.853,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r1_c0",
+      "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+      "sourceIds": [
+        "lm2025_025m_r1_c0",
+        "ortho2024_025m_sw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 119,
+        "finiteSamples": 119,
+        "flat5x5CellsWithin10cm": 18,
+        "flat5x5Fraction": 0.1513,
+        "medianRH2000Metres": 33.11,
+        "corePlaneSlopePercent": 1.884,
+        "corePlaneResidualP10P90Metres": 0.076
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639471.25,
+          6635591.0,
+          639593.25,
+          6635847.5
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            112,
+            277
+          ],
+          [
+            120,
+            274
+          ],
+          [
+            129,
+            278
+          ],
+          [
+            137,
+            289
+          ],
+          [
+            145,
+            306
+          ],
+          [
+            154,
+            325
+          ],
+          [
+            154,
+            334
+          ],
+          [
+            150,
+            340
+          ],
+          [
+            141,
+            343
+          ],
+          [
+            132,
+            340
+          ],
+          [
+            125,
+            332
+          ],
+          [
+            118,
+            318
+          ],
+          [
+            111,
+            303
+          ],
+          [
+            108,
+            290
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639499.25,
+            6635778.25
+          ],
+          [
+            639501.25,
+            6635779.0
+          ],
+          [
+            639503.5,
+            6635778.0
+          ],
+          [
+            639505.5,
+            6635775.25
+          ],
+          [
+            639507.5,
+            6635771.0
+          ],
+          [
+            639509.75,
+            6635766.25
+          ],
+          [
+            639509.75,
+            6635764.0
+          ],
+          [
+            639508.75,
+            6635762.5
+          ],
+          [
+            639506.5,
+            6635761.75
+          ],
+          [
+            639504.25,
+            6635762.5
+          ],
+          [
+            639502.5,
+            6635764.5
+          ],
+          [
+            639500.75,
+            6635768.0
+          ],
+          [
+            639499.0,
+            6635771.75
+          ],
+          [
+            639498.25,
+            6635775.0
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 117,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 2.915042,
+        "fullPlaneRmseMetres": 0.060542,
+        "coreSamples": 44,
+        "corePlaneSlopePercent": 1.175829,
+        "corePlaneRmseMetres": 0.020098,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-07-middle-north-2025",
+      "hole": 7,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "middle-north",
+      "ring": [
+        [
+          -300.966,
+          384.07
+        ],
+        [
+          -298.916,
+          382.647
+        ],
+        [
+          -296.184,
+          383.0
+        ],
+        [
+          -293.758,
+          384.841
+        ],
+        [
+          -291.867,
+          387.663
+        ],
+        [
+          -290.715,
+          390.206
+        ],
+        [
+          -291.537,
+          392.176
+        ],
+        [
+          -293.329,
+          393.358
+        ],
+        [
+          -295.793,
+          392.515
+        ],
+        [
+          -298.229,
+          390.923
+        ],
+        [
+          -299.889,
+          388.611
+        ],
+        [
+          -301.051,
+          386.317
+        ]
+      ],
+      "c": [
+        -295.996,
+        387.877
+      ],
+      "area": 70.72,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r1_c0",
+      "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+      "sourceIds": [
+        "lm2025_025m_r1_c0",
+        "ortho2024_025m_sw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 72,
+        "finiteSamples": 72,
+        "flat5x5CellsWithin10cm": 9,
+        "flat5x5Fraction": 0.125,
+        "medianRH2000Metres": 32.24,
+        "corePlaneSlopePercent": 1.623,
+        "corePlaneResidualP10P90Metres": 0.115
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639471.25,
+          6635591.0,
+          639593.25,
+          6635847.5
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            288,
+            514
+          ],
+          [
+            296,
+            508
+          ],
+          [
+            307,
+            509
+          ],
+          [
+            317,
+            516
+          ],
+          [
+            325,
+            527
+          ],
+          [
+            330,
+            537
+          ],
+          [
+            327,
+            545
+          ],
+          [
+            320,
+            550
+          ],
+          [
+            310,
+            547
+          ],
+          [
+            300,
+            541
+          ],
+          [
+            293,
+            532
+          ],
+          [
+            288,
+            523
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639543.25,
+            6635719.0
+          ],
+          [
+            639545.25,
+            6635720.5
+          ],
+          [
+            639548.0,
+            6635720.25
+          ],
+          [
+            639550.5,
+            6635718.5
+          ],
+          [
+            639552.5,
+            6635715.75
+          ],
+          [
+            639553.75,
+            6635713.25
+          ],
+          [
+            639553.0,
+            6635711.25
+          ],
+          [
+            639551.25,
+            6635710.0
+          ],
+          [
+            639548.75,
+            6635710.75
+          ],
+          [
+            639546.25,
+            6635712.25
+          ],
+          [
+            639544.5,
+            6635714.5
+          ],
+          [
+            639543.25,
+            6635716.75
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 70,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 2.266254,
+        "fullPlaneRmseMetres": 0.075307,
+        "coreSamples": 18,
+        "corePlaneSlopePercent": 1.412146,
+        "corePlaneRmseMetres": 0.021996,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-07-middle-south-2025",
+      "hole": 7,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "middle-south",
+      "ring": [
+        [
+          -291.815,
+          392.915
+        ],
+        [
+          -289.304,
+          392.51
+        ],
+        [
+          -287.127,
+          394.342
+        ],
+        [
+          -284.996,
+          397.422
+        ],
+        [
+          -282.645,
+          401.261
+        ],
+        [
+          -282.498,
+          404.017
+        ],
+        [
+          -283.81,
+          405.717
+        ],
+        [
+          -286.09,
+          406.632
+        ],
+        [
+          -288.554,
+          405.789
+        ],
+        [
+          -290.473,
+          403.716
+        ],
+        [
+          -292.345,
+          400.396
+        ],
+        [
+          -293.211,
+          396.863
+        ],
+        [
+          -293.117,
+          394.366
+        ]
+      ],
+      "c": [
+        -288.064,
+        399.717
+      ],
+      "area": 98.787,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r1_c0",
+      "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+      "sourceIds": [
+        "lm2025_025m_r1_c0",
+        "ortho2024_025m_sw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 101,
+        "finiteSamples": 101,
+        "flat5x5CellsWithin10cm": 21,
+        "flat5x5Fraction": 0.2079,
+        "medianRH2000Metres": 32.12,
+        "corePlaneSlopePercent": 1.888,
+        "corePlaneResidualP10P90Metres": 0.06
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639471.25,
+          6635591.0,
+          639593.25,
+          6635847.5
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            326,
+            548
+          ],
+          [
+            336,
+            546
+          ],
+          [
+            345,
+            553
+          ],
+          [
+            354,
+            565
+          ],
+          [
+            364,
+            580
+          ],
+          [
+            365,
+            591
+          ],
+          [
+            360,
+            598
+          ],
+          [
+            351,
+            602
+          ],
+          [
+            341,
+            599
+          ],
+          [
+            333,
+            591
+          ],
+          [
+            325,
+            578
+          ],
+          [
+            321,
+            564
+          ],
+          [
+            321,
+            554
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639552.75,
+            6635710.5
+          ],
+          [
+            639555.25,
+            6635711.0
+          ],
+          [
+            639557.5,
+            6635709.25
+          ],
+          [
+            639559.75,
+            6635706.25
+          ],
+          [
+            639562.25,
+            6635702.5
+          ],
+          [
+            639562.5,
+            6635699.75
+          ],
+          [
+            639561.25,
+            6635698.0
+          ],
+          [
+            639559.0,
+            6635697.0
+          ],
+          [
+            639556.5,
+            6635697.75
+          ],
+          [
+            639554.5,
+            6635699.75
+          ],
+          [
+            639552.5,
+            6635703.0
+          ],
+          [
+            639551.5,
+            6635706.5
+          ],
+          [
+            639551.5,
+            6635709.0
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 101,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 2.578454,
+        "fullPlaneRmseMetres": 0.048785,
+        "coreSamples": 34,
+        "corePlaneSlopePercent": 1.169221,
+        "corePlaneRmseMetres": 0.016205,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-07-back-east-2025",
+      "hole": 7,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "back-east",
+      "ring": [
+        [
+          -263.669,
+          420.977
+        ],
+        [
+          -261.158,
+          420.572
+        ],
+        [
+          -258.713,
+          421.914
+        ],
+        [
+          -256.841,
+          425.235
+        ],
+        [
+          -255.247,
+          429.295
+        ],
+        [
+          -254.64,
+          433.068
+        ],
+        [
+          -254.992,
+          435.805
+        ],
+        [
+          -256.553,
+          437.496
+        ],
+        [
+          -259.064,
+          437.902
+        ],
+        [
+          -261.26,
+          436.569
+        ],
+        [
+          -262.892,
+          433.507
+        ],
+        [
+          -264.726,
+          429.188
+        ],
+        [
+          -266.081,
+          425.387
+        ],
+        [
+          -265.987,
+          422.89
+        ]
+      ],
+      "c": [
+        -260.163,
+        429.065
+      ],
+      "area": 133.678,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r1_c0",
+      "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+      "sourceIds": [
+        "lm2025_025m_r1_c0",
+        "ortho2024_025m_sw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years. The outer mowing margin crosses the sloped bank. The separately fitted inner DTM plane has 0.029m RMSE; the outer margin is not flattened.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 131,
+        "finiteSamples": 131,
+        "flat5x5CellsWithin10cm": 29,
+        "flat5x5Fraction": 0.2214,
+        "medianRH2000Metres": 32.83,
+        "corePlaneSlopePercent": 3.685,
+        "corePlaneResidualP10P90Metres": 0.148
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639471.25,
+          6635591.0,
+          639593.25,
+          6635847.5
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            443,
+            656
+          ],
+          [
+            453,
+            654
+          ],
+          [
+            463,
+            659
+          ],
+          [
+            471,
+            672
+          ],
+          [
+            478,
+            688
+          ],
+          [
+            481,
+            703
+          ],
+          [
+            480,
+            714
+          ],
+          [
+            474,
+            721
+          ],
+          [
+            464,
+            723
+          ],
+          [
+            455,
+            718
+          ],
+          [
+            448,
+            706
+          ],
+          [
+            440,
+            689
+          ],
+          [
+            434,
+            674
+          ],
+          [
+            434,
+            664
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639582.0,
+            6635683.5
+          ],
+          [
+            639584.5,
+            6635684.0
+          ],
+          [
+            639587.0,
+            6635682.75
+          ],
+          [
+            639589.0,
+            6635679.5
+          ],
+          [
+            639590.75,
+            6635675.5
+          ],
+          [
+            639591.5,
+            6635671.75
+          ],
+          [
+            639591.25,
+            6635669.0
+          ],
+          [
+            639589.75,
+            6635667.25
+          ],
+          [
+            639587.25,
+            6635666.75
+          ],
+          [
+            639585.0,
+            6635668.0
+          ],
+          [
+            639583.25,
+            6635671.0
+          ],
+          [
+            639581.25,
+            6635675.25
+          ],
+          [
+            639579.75,
+            6635679.0
+          ],
+          [
+            639579.75,
+            6635681.5
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 131,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 5.016541,
+        "fullPlaneRmseMetres": 0.105825,
+        "coreSamples": 56,
+        "corePlaneSlopePercent": 2.203488,
+        "corePlaneRmseMetres": 0.02927,
+        "warnings": [],
+        "interpretation": "The flat inner platform is corroborated (core RMSE 0.029m); its mowing margin extends onto the graded shoulder (full-ring RMSE 0.106m). Preserve the source terrain rather than flattening this material outline."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-08-front-northeast-2025",
+      "hole": 8,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "front-northeast",
+      "ring": [
+        [
+          -432.33,
+          -79.404
+        ],
+        [
+          -430.022,
+          -81.067
+        ],
+        [
+          -428.0,
+          -81.741
+        ],
+        [
+          -425.766,
+          -81.407
+        ],
+        [
+          -424.308,
+          -80.352
+        ],
+        [
+          -423.386,
+          -78.318
+        ],
+        [
+          -423.978,
+          -75.84
+        ],
+        [
+          -425.576,
+          -73.15
+        ],
+        [
+          -427.913,
+          -70.737
+        ],
+        [
+          -430.48,
+          -68.834
+        ],
+        [
+          -432.752,
+          -68.169
+        ],
+        [
+          -434.459,
+          -69.234
+        ],
+        [
+          -435.649,
+          -70.778
+        ],
+        [
+          -435.823,
+          -72.785
+        ],
+        [
+          -434.723,
+          -75.494
+        ],
+        [
+          -433.642,
+          -77.703
+        ]
+      ],
+      "c": [
+        -429.74,
+        -75.18
+      ],
+      "area": 109.855,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r0_c0",
+      "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "sourceIds": [
+        "lm2025_025m_r0_c0",
+        "ortho2024_025m_nw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 109,
+        "finiteSamples": 109,
+        "flat5x5CellsWithin10cm": 28,
+        "flat5x5Fraction": 0.2569,
+        "medianRH2000Metres": 19.92,
+        "corePlaneSlopePercent": 1.054,
+        "corePlaneResidualP10P90Metres": 0.042
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639284.0,
+          6636072.0,
+          639436.0,
+          6636249.25
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            441,
+            287
+          ],
+          [
+            450,
+            280
+          ],
+          [
+            458,
+            277
+          ],
+          [
+            467,
+            278
+          ],
+          [
+            473,
+            282
+          ],
+          [
+            477,
+            290
+          ],
+          [
+            475,
+            300
+          ],
+          [
+            469,
+            311
+          ],
+          [
+            460,
+            321
+          ],
+          [
+            450,
+            329
+          ],
+          [
+            441,
+            332
+          ],
+          [
+            434,
+            328
+          ],
+          [
+            429,
+            322
+          ],
+          [
+            428,
+            314
+          ],
+          [
+            432,
+            303
+          ],
+          [
+            436,
+            294
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639394.25,
+            6636177.5
+          ],
+          [
+            639396.5,
+            6636179.25
+          ],
+          [
+            639398.5,
+            6636180.0
+          ],
+          [
+            639400.75,
+            6636179.75
+          ],
+          [
+            639402.25,
+            6636178.75
+          ],
+          [
+            639403.25,
+            6636176.75
+          ],
+          [
+            639402.75,
+            6636174.25
+          ],
+          [
+            639401.25,
+            6636171.5
+          ],
+          [
+            639399.0,
+            6636169.0
+          ],
+          [
+            639396.5,
+            6636167.0
+          ],
+          [
+            639394.25,
+            6636166.25
+          ],
+          [
+            639392.5,
+            6636167.25
+          ],
+          [
+            639391.25,
+            6636168.75
+          ],
+          [
+            639391.0,
+            6636170.75
+          ],
+          [
+            639392.0,
+            6636173.5
+          ],
+          [
+            639393.0,
+            6636175.75
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 109,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 1.575643,
+        "fullPlaneRmseMetres": 0.046082,
+        "coreSamples": 46,
+        "corePlaneSlopePercent": 1.103538,
+        "corePlaneRmseMetres": 0.015449,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-09-west-lower-2025",
+      "hole": 9,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "west-lower",
+      "ring": [
+        [
+          -98.144,
+          -317.832
+        ],
+        [
+          -96.611,
+          -318.774
+        ],
+        [
+          -94.607,
+          -318.949
+        ],
+        [
+          -92.651,
+          -317.875
+        ],
+        [
+          -91.71,
+          -316.339
+        ],
+        [
+          -92.025,
+          -314.601
+        ],
+        [
+          -93.107,
+          -312.391
+        ],
+        [
+          -94.908,
+          -310.959
+        ],
+        [
+          -96.671,
+          -310.526
+        ],
+        [
+          -98.379,
+          -311.59
+        ],
+        [
+          -99.061,
+          -313.366
+        ],
+        [
+          -98.976,
+          -315.613
+        ]
+      ],
+      "c": [
+        -95.59,
+        -314.897
+      ],
+      "area": 46.275,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r0_c0",
+      "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "sourceIds": [
+        "lm2025_025m_r0_c0",
+        "ortho2024_025m_nw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 48,
+        "finiteSamples": 48,
+        "flat5x5CellsWithin10cm": 3,
+        "flat5x5Fraction": 0.0625,
+        "medianRH2000Metres": 27.88,
+        "corePlaneSlopePercent": 1.723,
+        "corePlaneResidualP10P90Metres": 0.057
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639704.25,
+          6636374.75,
+          639782.5,
+          6636481.0
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            63,
+            210
+          ],
+          [
+            69,
+            206
+          ],
+          [
+            77,
+            205
+          ],
+          [
+            85,
+            209
+          ],
+          [
+            89,
+            215
+          ],
+          [
+            88,
+            222
+          ],
+          [
+            84,
+            231
+          ],
+          [
+            77,
+            237
+          ],
+          [
+            70,
+            239
+          ],
+          [
+            63,
+            235
+          ],
+          [
+            60,
+            228
+          ],
+          [
+            60,
+            219
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639720.0,
+            6636428.5
+          ],
+          [
+            639721.5,
+            6636429.5
+          ],
+          [
+            639723.5,
+            6636429.75
+          ],
+          [
+            639725.5,
+            6636428.75
+          ],
+          [
+            639726.5,
+            6636427.25
+          ],
+          [
+            639726.25,
+            6636425.5
+          ],
+          [
+            639725.25,
+            6636423.25
+          ],
+          [
+            639723.5,
+            6636421.75
+          ],
+          [
+            639721.75,
+            6636421.25
+          ],
+          [
+            639720.0,
+            6636422.25
+          ],
+          [
+            639719.25,
+            6636424.0
+          ],
+          [
+            639719.25,
+            6636426.25
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 48,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 4.395523,
+        "fullPlaneRmseMetres": 0.079377,
+        "coreSamples": 11,
+        "corePlaneSlopePercent": null,
+        "corePlaneRmseMetres": null,
+        "warnings": [
+          "no-supported-inner-plane; edge/core comparison uses full-ring plane if available"
+        ],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-09-north-lower-2025",
+      "hole": 9,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "north-lower",
+      "ring": [
+        [
+          -72.953,
+          -357.134
+        ],
+        [
+          -70.432,
+          -357.789
+        ],
+        [
+          -67.958,
+          -357.196
+        ],
+        [
+          -65.762,
+          -355.863
+        ],
+        [
+          -64.831,
+          -354.078
+        ],
+        [
+          -64.426,
+          -351.562
+        ],
+        [
+          -65.268,
+          -349.094
+        ],
+        [
+          -66.829,
+          -347.403
+        ],
+        [
+          -69.1,
+          -346.738
+        ],
+        [
+          -71.823,
+          -347.341
+        ],
+        [
+          -74.02,
+          -348.674
+        ],
+        [
+          -74.942,
+          -350.709
+        ],
+        [
+          -75.097,
+          -353.215
+        ],
+        [
+          -74.265,
+          -355.434
+        ]
+      ],
+      "c": [
+        -69.823,
+        -352.25
+      ],
+      "area": 90.828,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r0_c0",
+      "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "sourceIds": [
+        "lm2025_025m_r0_c0",
+        "ortho2024_025m_nw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 89,
+        "finiteSamples": 89,
+        "flat5x5CellsWithin10cm": 37,
+        "flat5x5Fraction": 0.4157,
+        "medianRH2000Metres": 25.88,
+        "corePlaneSlopePercent": 1.565,
+        "corePlaneResidualP10P90Metres": 0.027
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639704.25,
+          6636374.75,
+          639782.5,
+          6636481.0
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            158,
+            49
+          ],
+          [
+            168,
+            46
+          ],
+          [
+            178,
+            48
+          ],
+          [
+            187,
+            53
+          ],
+          [
+            191,
+            60
+          ],
+          [
+            193,
+            70
+          ],
+          [
+            190,
+            80
+          ],
+          [
+            184,
+            87
+          ],
+          [
+            175,
+            90
+          ],
+          [
+            164,
+            88
+          ],
+          [
+            155,
+            83
+          ],
+          [
+            151,
+            75
+          ],
+          [
+            150,
+            65
+          ],
+          [
+            153,
+            56
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639743.75,
+            6636468.75
+          ],
+          [
+            639746.25,
+            6636469.5
+          ],
+          [
+            639748.75,
+            6636469.0
+          ],
+          [
+            639751.0,
+            6636467.75
+          ],
+          [
+            639752.0,
+            6636466.0
+          ],
+          [
+            639752.5,
+            6636463.5
+          ],
+          [
+            639751.75,
+            6636461.0
+          ],
+          [
+            639750.25,
+            6636459.25
+          ],
+          [
+            639748.0,
+            6636458.5
+          ],
+          [
+            639745.25,
+            6636459.0
+          ],
+          [
+            639743.0,
+            6636460.25
+          ],
+          [
+            639742.0,
+            6636462.25
+          ],
+          [
+            639741.75,
+            6636464.75
+          ],
+          [
+            639742.5,
+            6636467.0
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 88,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 1.290087,
+        "fullPlaneRmseMetres": 0.015743,
+        "coreSamples": 33,
+        "corePlaneSlopePercent": 1.628336,
+        "corePlaneRmseMetres": 0.010927,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-10-back-southwest-2025",
+      "hole": 10,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "back-southwest",
+      "ring": [
+        [
+          155.497,
+          -398.264
+        ],
+        [
+          158.295,
+          -399.658
+        ],
+        [
+          161.564,
+          -400.284
+        ],
+        [
+          164.527,
+          -399.422
+        ],
+        [
+          166.455,
+          -397.6
+        ],
+        [
+          167.118,
+          -395.324
+        ],
+        [
+          166.046,
+          -393.365
+        ],
+        [
+          164.235,
+          -391.683
+        ],
+        [
+          161.446,
+          -390.538
+        ],
+        [
+          158.187,
+          -390.161
+        ],
+        [
+          155.492,
+          -391.513
+        ],
+        [
+          154.062,
+          -393.317
+        ],
+        [
+          153.639,
+          -395.334
+        ],
+        [
+          154.203,
+          -397.062
+        ]
+      ],
+      "c": [
+        160.292,
+        -395.244
+      ],
+      "area": 99.964,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r0_c0",
+      "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "sourceIds": [
+        "lm2025_025m_r0_c0",
+        "ortho2024_025m_nw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 99,
+        "finiteSamples": 99,
+        "flat5x5CellsWithin10cm": 69,
+        "flat5x5Fraction": 0.697,
+        "medianRH2000Metres": 33.36,
+        "corePlaneSlopePercent": 0.43,
+        "corePlaneResidualP10P90Metres": 0.03
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639945.75,
+          6636484.5,
+          640047.0,
+          6636592.0
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            101,
+            294
+          ],
+          [
+            112,
+            288
+          ],
+          [
+            125,
+            285
+          ],
+          [
+            137,
+            288
+          ],
+          [
+            145,
+            295
+          ],
+          [
+            148,
+            304
+          ],
+          [
+            144,
+            312
+          ],
+          [
+            137,
+            319
+          ],
+          [
+            126,
+            324
+          ],
+          [
+            113,
+            326
+          ],
+          [
+            102,
+            321
+          ],
+          [
+            96,
+            314
+          ],
+          [
+            94,
+            306
+          ],
+          [
+            96,
+            299
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639971.0,
+            6636518.5
+          ],
+          [
+            639973.75,
+            6636520.0
+          ],
+          [
+            639977.0,
+            6636520.75
+          ],
+          [
+            639980.0,
+            6636520.0
+          ],
+          [
+            639982.0,
+            6636518.25
+          ],
+          [
+            639982.75,
+            6636516.0
+          ],
+          [
+            639981.75,
+            6636514.0
+          ],
+          [
+            639980.0,
+            6636512.25
+          ],
+          [
+            639977.25,
+            6636511.0
+          ],
+          [
+            639974.0,
+            6636510.5
+          ],
+          [
+            639971.25,
+            6636511.75
+          ],
+          [
+            639969.75,
+            6636513.5
+          ],
+          [
+            639969.25,
+            6636515.5
+          ],
+          [
+            639969.75,
+            6636517.25
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 98,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 0.44753,
+        "fullPlaneRmseMetres": 0.014446,
+        "coreSamples": 39,
+        "corePlaneSlopePercent": 0.587924,
+        "corePlaneRmseMetres": 0.00997,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-10-middle-southwest-2025",
+      "hole": 10,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "middle-southwest",
+      "ring": [
+        [
+          170.49,
+          -411.948
+        ],
+        [
+          173.298,
+          -413.592
+        ],
+        [
+          176.28,
+          -413.229
+        ],
+        [
+          178.716,
+          -411.637
+        ],
+        [
+          181.124,
+          -409.296
+        ],
+        [
+          182.516,
+          -406.493
+        ],
+        [
+          182.431,
+          -404.246
+        ],
+        [
+          181.119,
+          -402.546
+        ],
+        [
+          178.829,
+          -401.382
+        ],
+        [
+          176.068,
+          -400.987
+        ],
+        [
+          173.105,
+          -401.849
+        ],
+        [
+          170.918,
+          -403.431
+        ],
+        [
+          169.009,
+          -405.754
+        ],
+        [
+          168.355,
+          -408.278
+        ],
+        [
+          168.929,
+          -410.257
+        ]
+      ],
+      "c": [
+        175.445,
+        -407.135
+      ],
+      "area": 128.967,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r0_c0",
+      "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "sourceIds": [
+        "lm2025_025m_r0_c0",
+        "ortho2024_025m_nw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 130,
+        "finiteSamples": 130,
+        "flat5x5CellsWithin10cm": 66,
+        "flat5x5Fraction": 0.5077,
+        "medianRH2000Metres": 32.4,
+        "corePlaneSlopePercent": 0.584,
+        "corePlaneResidualP10P90Metres": 0.045
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639945.75,
+          6636484.5,
+          640047.0,
+          6636592.0
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            159,
+            237
+          ],
+          [
+            170,
+            230
+          ],
+          [
+            182,
+            231
+          ],
+          [
+            192,
+            237
+          ],
+          [
+            202,
+            246
+          ],
+          [
+            208,
+            257
+          ],
+          [
+            208,
+            266
+          ],
+          [
+            203,
+            273
+          ],
+          [
+            194,
+            278
+          ],
+          [
+            183,
+            280
+          ],
+          [
+            171,
+            277
+          ],
+          [
+            162,
+            271
+          ],
+          [
+            154,
+            262
+          ],
+          [
+            151,
+            252
+          ],
+          [
+            153,
+            244
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639985.5,
+            6636532.75
+          ],
+          [
+            639988.25,
+            6636534.5
+          ],
+          [
+            639991.25,
+            6636534.25
+          ],
+          [
+            639993.75,
+            6636532.75
+          ],
+          [
+            639996.25,
+            6636530.5
+          ],
+          [
+            639997.75,
+            6636527.75
+          ],
+          [
+            639997.75,
+            6636525.5
+          ],
+          [
+            639996.5,
+            6636523.75
+          ],
+          [
+            639994.25,
+            6636522.5
+          ],
+          [
+            639991.5,
+            6636522.0
+          ],
+          [
+            639988.5,
+            6636522.75
+          ],
+          [
+            639986.25,
+            6636524.25
+          ],
+          [
+            639984.25,
+            6636526.5
+          ],
+          [
+            639983.5,
+            6636529.0
+          ],
+          [
+            639984.0,
+            6636531.0
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 129,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 0.577487,
+        "fullPlaneRmseMetres": 0.029012,
+        "coreSamples": 59,
+        "corePlaneSlopePercent": 0.625646,
+        "corePlaneRmseMetres": 0.01244,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-10-middle-northeast-2025",
+      "hole": 10,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "middle-northeast",
+      "ring": [
+        [
+          184.007,
+          -426.188
+        ],
+        [
+          185.77,
+          -426.622
+        ],
+        [
+          187.736,
+          -425.797
+        ],
+        [
+          189.176,
+          -424.243
+        ],
+        [
+          189.599,
+          -422.227
+        ],
+        [
+          189.274,
+          -420.239
+        ],
+        [
+          187.972,
+          -418.788
+        ],
+        [
+          186.198,
+          -418.105
+        ],
+        [
+          184.233,
+          -418.929
+        ],
+        [
+          182.535,
+          -420.243
+        ],
+        [
+          182.102,
+          -422.01
+        ],
+        [
+          182.427,
+          -423.998
+        ]
+      ],
+      "c": [
+        185.876,
+        -422.36
+      ],
+      "area": 47.238,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r0_c0",
+      "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "sourceIds": [
+        "lm2025_025m_r0_c0",
+        "ortho2024_025m_nw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 48,
+        "finiteSamples": 48,
+        "flat5x5CellsWithin10cm": 10,
+        "flat5x5Fraction": 0.2083,
+        "medianRH2000Metres": 30.95,
+        "corePlaneSlopePercent": 0.936,
+        "corePlaneResidualP10P90Metres": 0.025
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639945.75,
+          6636484.5,
+          640047.0,
+          6636592.0
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            211,
+            178
+          ],
+          [
+            218,
+            176
+          ],
+          [
+            226,
+            179
+          ],
+          [
+            232,
+            185
+          ],
+          [
+            234,
+            193
+          ],
+          [
+            233,
+            201
+          ],
+          [
+            228,
+            207
+          ],
+          [
+            221,
+            210
+          ],
+          [
+            213,
+            207
+          ],
+          [
+            206,
+            202
+          ],
+          [
+            204,
+            195
+          ],
+          [
+            205,
+            187
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639998.5,
+            6636547.5
+          ],
+          [
+            640000.25,
+            6636548.0
+          ],
+          [
+            640002.25,
+            6636547.25
+          ],
+          [
+            640003.75,
+            6636545.75
+          ],
+          [
+            640004.25,
+            6636543.75
+          ],
+          [
+            640004.0,
+            6636541.75
+          ],
+          [
+            640002.75,
+            6636540.25
+          ],
+          [
+            640001.0,
+            6636539.5
+          ],
+          [
+            639999.0,
+            6636540.25
+          ],
+          [
+            639997.25,
+            6636541.5
+          ],
+          [
+            639996.75,
+            6636543.25
+          ],
+          [
+            639997.0,
+            6636545.25
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 48,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 0.633658,
+        "fullPlaneRmseMetres": 0.021247,
+        "coreSamples": 10,
+        "corePlaneSlopePercent": null,
+        "corePlaneRmseMetres": null,
+        "warnings": [
+          "no-supported-inner-plane; edge/core comparison uses full-ring plane if available"
+        ],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-10-front-northeast-2025",
+      "hole": 10,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "front-northeast",
+      "ring": [
+        [
+          202.147,
+          -450.504
+        ],
+        [
+          204.437,
+          -451.668
+        ],
+        [
+          206.939,
+          -451.823
+        ],
+        [
+          209.404,
+          -450.98
+        ],
+        [
+          211.092,
+          -449.416
+        ],
+        [
+          211.506,
+          -447.15
+        ],
+        [
+          210.664,
+          -444.682
+        ],
+        [
+          209.103,
+          -442.991
+        ],
+        [
+          206.822,
+          -442.077
+        ],
+        [
+          204.348,
+          -442.671
+        ],
+        [
+          202.401,
+          -443.994
+        ],
+        [
+          200.962,
+          -445.549
+        ],
+        [
+          200.538,
+          -447.565
+        ],
+        [
+          201.103,
+          -449.294
+        ]
+      ],
+      "c": [
+        206.105,
+        -447.133
+      ],
+      "area": 79.861,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r0_c0",
+      "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "sourceIds": [
+        "lm2025_025m_r0_c0",
+        "ortho2024_025m_nw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 80,
+        "finiteSamples": 80,
+        "flat5x5CellsWithin10cm": 21,
+        "flat5x5Fraction": 0.2625,
+        "medianRH2000Metres": 28.02,
+        "corePlaneSlopePercent": 1.568,
+        "corePlaneResidualP10P90Metres": 0.096
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639945.75,
+          6636484.5,
+          640047.0,
+          6636592.0
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            280,
+            78
+          ],
+          [
+            289,
+            73
+          ],
+          [
+            299,
+            72
+          ],
+          [
+            309,
+            75
+          ],
+          [
+            316,
+            81
+          ],
+          [
+            318,
+            90
+          ],
+          [
+            315,
+            100
+          ],
+          [
+            309,
+            107
+          ],
+          [
+            300,
+            111
+          ],
+          [
+            290,
+            109
+          ],
+          [
+            282,
+            104
+          ],
+          [
+            276,
+            98
+          ],
+          [
+            274,
+            90
+          ],
+          [
+            276,
+            83
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            640015.75,
+            6636572.5
+          ],
+          [
+            640018.0,
+            6636573.75
+          ],
+          [
+            640020.5,
+            6636574.0
+          ],
+          [
+            640023.0,
+            6636573.25
+          ],
+          [
+            640024.75,
+            6636571.75
+          ],
+          [
+            640025.25,
+            6636569.5
+          ],
+          [
+            640024.5,
+            6636567.0
+          ],
+          [
+            640023.0,
+            6636565.25
+          ],
+          [
+            640020.75,
+            6636564.25
+          ],
+          [
+            640018.25,
+            6636564.75
+          ],
+          [
+            640016.25,
+            6636566.0
+          ],
+          [
+            640014.75,
+            6636567.5
+          ],
+          [
+            640014.25,
+            6636569.5
+          ],
+          [
+            640014.75,
+            6636571.25
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 78,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 2.21359,
+        "fullPlaneRmseMetres": 0.064275,
+        "coreSamples": 28,
+        "corePlaneSlopePercent": 0.46941,
+        "corePlaneRmseMetres": 0.012313,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-11-front-west-2025",
+      "hole": 11,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "front-west",
+      "ring": [
+        [
+          198.045,
+          -580.168
+        ],
+        [
+          200.058,
+          -580.592
+        ],
+        [
+          201.775,
+          -579.777
+        ],
+        [
+          202.965,
+          -578.232
+        ],
+        [
+          203.388,
+          -576.216
+        ],
+        [
+          203.064,
+          -574.228
+        ],
+        [
+          201.761,
+          -572.777
+        ],
+        [
+          199.978,
+          -571.844
+        ],
+        [
+          198.003,
+          -572.419
+        ],
+        [
+          196.286,
+          -573.234
+        ],
+        [
+          195.345,
+          -574.77
+        ],
+        [
+          195.43,
+          -577.017
+        ],
+        [
+          196.253,
+          -578.986
+        ]
+      ],
+      "c": [
+        199.374,
+        -576.219
+      ],
+      "area": 53.197,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r0_c0",
+      "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "sourceIds": [
+        "lm2025_025m_r0_c0",
+        "ortho2024_025m_nw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 53,
+        "finiteSamples": 53,
+        "flat5x5CellsWithin10cm": 16,
+        "flat5x5Fraction": 0.3019,
+        "medianRH2000Metres": 19.42,
+        "corePlaneSlopePercent": 0.676,
+        "corePlaneResidualP10P90Metres": 0.027
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639948.75,
+          6636656.75,
+          640130.0,
+          6636738.25
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            232,
+            145
+          ],
+          [
+            240,
+            143
+          ],
+          [
+            247,
+            146
+          ],
+          [
+            252,
+            152
+          ],
+          [
+            254,
+            160
+          ],
+          [
+            253,
+            168
+          ],
+          [
+            248,
+            174
+          ],
+          [
+            241,
+            178
+          ],
+          [
+            233,
+            176
+          ],
+          [
+            226,
+            173
+          ],
+          [
+            222,
+            167
+          ],
+          [
+            222,
+            158
+          ],
+          [
+            225,
+            150
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            640006.75,
+            6636702.0
+          ],
+          [
+            640008.75,
+            6636702.5
+          ],
+          [
+            640010.5,
+            6636701.75
+          ],
+          [
+            640011.75,
+            6636700.25
+          ],
+          [
+            640012.25,
+            6636698.25
+          ],
+          [
+            640012.0,
+            6636696.25
+          ],
+          [
+            640010.75,
+            6636694.75
+          ],
+          [
+            640009.0,
+            6636693.75
+          ],
+          [
+            640007.0,
+            6636694.25
+          ],
+          [
+            640005.25,
+            6636695.0
+          ],
+          [
+            640004.25,
+            6636696.5
+          ],
+          [
+            640004.25,
+            6636698.75
+          ],
+          [
+            640005.0,
+            6636700.75
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 53,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 0.724673,
+        "fullPlaneRmseMetres": 0.013537,
+        "coreSamples": 14,
+        "corePlaneSlopePercent": 0.520244,
+        "corePlaneRmseMetres": 0.01099,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-12-back-northeast-2025",
+      "hole": 12,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "back-northeast",
+      "ring": [
+        [
+          -30.783,
+          -602.309
+        ],
+        [
+          -29.442,
+          -604.759
+        ],
+        [
+          -25.896,
+          -606.125
+        ],
+        [
+          -20.826,
+          -608.184
+        ],
+        [
+          -14.999,
+          -610.464
+        ],
+        [
+          -10.197,
+          -612.033
+        ],
+        [
+          -7.464,
+          -611.68
+        ],
+        [
+          -5.277,
+          -610.098
+        ],
+        [
+          -4.623,
+          -607.573
+        ],
+        [
+          -5.465,
+          -605.104
+        ],
+        [
+          -8.023,
+          -603.451
+        ],
+        [
+          -13.084,
+          -601.642
+        ],
+        [
+          -18.652,
+          -599.602
+        ],
+        [
+          -23.723,
+          -597.543
+        ],
+        [
+          -27.758,
+          -596.445
+        ],
+        [
+          -30.213,
+          -597.538
+        ],
+        [
+          -31.375,
+          -599.832
+        ]
+      ],
+      "c": [
+        -18.064,
+        -604.416
+      ],
+      "area": 226.938,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r0_c0",
+      "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "sourceIds": [
+        "lm2025_025m_r0_c0",
+        "ortho2024_025m_nw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 228,
+        "finiteSamples": 228,
+        "flat5x5CellsWithin10cm": 79,
+        "flat5x5Fraction": 0.3465,
+        "medianRH2000Metres": 18.87,
+        "corePlaneSlopePercent": 1.259,
+        "corePlaneResidualP10P90Metres": 0.047
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639623.5,
+          6636621.25,
+          639831.75,
+          6636748.75
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            613,
+            133
+          ],
+          [
+            618,
+            123
+          ],
+          [
+            632,
+            117
+          ],
+          [
+            652,
+            108
+          ],
+          [
+            675,
+            98
+          ],
+          [
+            694,
+            91
+          ],
+          [
+            705,
+            92
+          ],
+          [
+            714,
+            98
+          ],
+          [
+            717,
+            108
+          ],
+          [
+            714,
+            118
+          ],
+          [
+            704,
+            125
+          ],
+          [
+            684,
+            133
+          ],
+          [
+            662,
+            142
+          ],
+          [
+            642,
+            151
+          ],
+          [
+            626,
+            156
+          ],
+          [
+            616,
+            152
+          ],
+          [
+            611,
+            143
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639776.75,
+            6636715.5
+          ],
+          [
+            639778.0,
+            6636718.0
+          ],
+          [
+            639781.5,
+            6636719.5
+          ],
+          [
+            639786.5,
+            6636721.75
+          ],
+          [
+            639792.25,
+            6636724.25
+          ],
+          [
+            639797.0,
+            6636726.0
+          ],
+          [
+            639799.75,
+            6636725.75
+          ],
+          [
+            639802.0,
+            6636724.25
+          ],
+          [
+            639802.75,
+            6636721.75
+          ],
+          [
+            639802.0,
+            6636719.25
+          ],
+          [
+            639799.5,
+            6636717.5
+          ],
+          [
+            639794.5,
+            6636715.5
+          ],
+          [
+            639789.0,
+            6636713.25
+          ],
+          [
+            639784.0,
+            6636711.0
+          ],
+          [
+            639780.0,
+            6636709.75
+          ],
+          [
+            639777.5,
+            6636710.75
+          ],
+          [
+            639776.25,
+            6636713.0
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 226,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 1.388195,
+        "fullPlaneRmseMetres": 0.023525,
+        "coreSamples": 110,
+        "corePlaneSlopePercent": 1.311075,
+        "corePlaneRmseMetres": 0.016751,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    },
+    {
+      "id": "upsala-stora-tee-12-front-southwest-2025",
+      "hole": 12,
+      "kind": "tee",
+      "status": "accepted",
+      "name": "front-southwest",
+      "ring": [
+        [
+          -137.879,
+          -562.346
+        ],
+        [
+          -135.598,
+          -563.26
+        ],
+        [
+          -132.607,
+          -563.147
+        ],
+        [
+          -130.41,
+          -561.814
+        ],
+        [
+          -129.229,
+          -560.019
+        ],
+        [
+          -129.074,
+          -557.513
+        ],
+        [
+          -129.916,
+          -555.045
+        ],
+        [
+          -131.726,
+          -553.363
+        ],
+        [
+          -134.257,
+          -552.459
+        ],
+        [
+          -136.98,
+          -553.061
+        ],
+        [
+          -138.918,
+          -554.634
+        ],
+        [
+          -140.08,
+          -556.928
+        ],
+        [
+          -139.986,
+          -559.425
+        ],
+        [
+          -138.914,
+          -561.385
+        ]
+      ],
+      "c": [
+        -134.558,
+        -558.004
+      ],
+      "area": 92.616,
+      "prov": "dated-orthophoto-trace",
+      "observedYear": 2025,
+      "crosscheckYear": 2024,
+      "sourceId": "lm2025_025m_r0_c0",
+      "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "sourceIds": [
+        "lm2025_025m_r0_c0",
+        "ortho2024_025m_nw"
+      ],
+      "boundaryInterpretationUncertaintyMetres": 1.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "notSurveyed": true,
+      "teeColour": null,
+      "dailyMarkerPosition": null,
+      "preserveTerrain": true,
+      "method": "Manual trace of visible inner mown tee platform on georeferenced 2025 orthophoto, checked against independent 2024 acquisition. Mown sloping shoulders excluded where distinguishable; no geometric fitting to card markers.",
+      "temporalReview": "Both dated clean crops show the same complete physical platform and support the traced mowing edge. Mowing and wear differ between years.",
+      "holeAssociationConfidence": "High: platform lies beside the hole access path and points along its established playing corridor; colour is not inferred.",
+      "terrain": {
+        "sampleSpacingMetres": 1,
+        "flatnessWindowDefinition": "5 by 5 adjacent 1m samples span 4 by 4m; counts corroborate the platform, not its precise footprint",
+        "surfaceSamples": 95,
+        "finiteSamples": 95,
+        "flat5x5CellsWithin10cm": 22,
+        "flat5x5Fraction": 0.2316,
+        "medianRH2000Metres": 18.4,
+        "corePlaneSlopePercent": 0.986,
+        "corePlaneResidualP10P90Metres": 0.036
+      },
+      "sourceCrop": {
+        "extentEPSG3006": [
+          639623.5,
+          6636621.25,
+          639831.75,
+          6636748.75
+        ],
+        "resolutionMetres": 0.25,
+        "pixelCoordinateConvention": "image corner coordinates, x right and y down",
+        "pixelRing": [
+          [
+            190,
+            309
+          ],
+          [
+            199,
+            305
+          ],
+          [
+            211,
+            305
+          ],
+          [
+            220,
+            310
+          ],
+          [
+            225,
+            317
+          ],
+          [
+            226,
+            327
+          ],
+          [
+            223,
+            337
+          ],
+          [
+            216,
+            344
+          ],
+          [
+            206,
+            348
+          ],
+          [
+            195,
+            346
+          ],
+          [
+            187,
+            340
+          ],
+          [
+            182,
+            331
+          ],
+          [
+            182,
+            321
+          ],
+          [
+            186,
+            313
+          ]
+        ],
+        "ringEPSG3006": [
+          [
+            639671.0,
+            6636671.5
+          ],
+          [
+            639673.25,
+            6636672.5
+          ],
+          [
+            639676.25,
+            6636672.5
+          ],
+          [
+            639678.5,
+            6636671.25
+          ],
+          [
+            639679.75,
+            6636669.5
+          ],
+          [
+            639680.0,
+            6636667.0
+          ],
+          [
+            639679.25,
+            6636664.5
+          ],
+          [
+            639677.5,
+            6636662.75
+          ],
+          [
+            639675.0,
+            6636661.75
+          ],
+          [
+            639672.25,
+            6636662.25
+          ],
+          [
+            639670.25,
+            6636663.75
+          ],
+          [
+            639669.0,
+            6636666.0
+          ],
+          [
+            639669.0,
+            6636668.5
+          ],
+          [
+            639670.0,
+            6636670.5
+          ]
+        ]
+      },
+      "waterIntersectionSquareMetres": 0.0,
+      "terrainPlaneReview": {
+        "tool": "geobuild/tee-platform-survey.mjs",
+        "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+        "sampleSpacingMetres": 1,
+        "quantizationStepMetres": 0.01,
+        "innerBandMetres": 2,
+        "interiorSamples": 95,
+        "completeInteriorCoverage": true,
+        "fullPlaneSlopePercent": 1.069881,
+        "fullPlaneRmseMetres": 0.026623,
+        "coreSamples": 36,
+        "corePlaneSlopePercent": 1.114666,
+        "corePlaneRmseMetres": 0.011915,
+        "warnings": [],
+        "interpretation": "Corroborates a physical tee platform; source terrain is preserved, with no automatic material-boundary adoption."
+      }
+    }
+  ],
+  "unresolvedCandidates": [
+    {
+      "hole": 11,
+      "name": "rear-east",
+      "status": "unresolved",
+      "locationForReviewOnly": [
+        277.809,
+        -583.653
+      ],
+      "locationEPSG3006": [
+        640086.5,
+        6636708.5
+      ],
+      "reason": "Tree shadow obscures the southern/western mowing boundary in both 2024 and 2025. The real platform is aligned east–west; the old inferred north–south rectangle is not an acceptable perimeter.",
+      "render": false
+    },
+    {
+      "hole": 12,
+      "name": "middle",
+      "status": "unresolved",
+      "locationForReviewOnly": [
+        -62.034,
+        -574.487
+      ],
+      "locationEPSG3006": [
+        639746.5,
+        6636686.5
+      ],
+      "reason": "Tree crown and shadow obscure the southwest mowing boundary in both 2024 and 2025. A visible circular northern section does not establish a complete footprint.",
+      "render": false
+    }
+  ],
+  "terrainSource": {
+    "provider": "Lantmäteriet",
+    "product": "Markhöjdmodell 1m",
+    "verticalReference": "RH2000",
+    "publishedGroundManifest": {
+      "bytes": 263314,
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "sha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+      "url": "grounds/upsala/ground-v2-df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53.json"
+    },
+    "reader": "geobuild/dtm-lib.mjs loadTerrain with BUILD=upsalamellanbuild",
+    "sampling": "Sample source grid directly in EPSG:3006, using exact image projection. Five by five adjacent1m samples span4m, rather than a5m square. Flatness is corroboration, not an instruction to flatten terrain.",
+    "reviewSampleCacheSha256": "34a78dbe388122ddafdfbd12702eacd7c02b81ba4c9aaa94e167cb94b2834ea5",
+    "secondReader": "geobuild/tee-platform-survey.mjs: independent native BVCH tile decode with complete interior coverage for all 14 rings"
+  },
+  "notes": [
+    "Physical platforms are distinct from coloured scorecard tees and daily marker placements. No colours, daily marker positions or adjusted playing-line distances are claimed.",
+    "No source absolute horizontal accuracy was reported. A 0.25m export pixel is not a 0.25m absolute accuracy certificate.",
+    "Only accepted complete visible new rings are adopted. Previously accepted H8/H9 rings are retained explicitly with their original provenance.",
+    "Both clean dated source crops and traced overlays were visually inspected. Raw imagery remains outside the repository; source requests, hashes and exact pixel/EPSG/local rings make each trace reviewable."
+  ],
+  "summary": {
+    "newAcceptedPlatforms": 14,
+    "retainedReviewedPlatforms": 3,
+    "unresolvedAdditionalPlatforms": 2,
+    "reviewedHoles": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "completeSurvey": false
+  }
+}

@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
-import { basename, dirname, join, relative, resolve } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   collectCoordinatePairs,
@@ -12,11 +12,14 @@ import {
   roundedCoordinate,
 } from './migration.mjs';
 import { latLonToSweref99Tm } from './proj.mjs';
+import { selectMigrationInputs } from './migration-inputs.mjs';
 
 const PACKAGE_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(PACKAGE_DIR, '..', '..');
 const GEO_ROOT = join(REPO_ROOT, 'geo_data', 'course-v2');
 const GENERATOR = 'course-geo/legacy-vector-migrator@1';
+const CS2CS_IMPLEMENTATION = 'PROJ cs2cs with authority axis order [latitude,longitude] -> [northing,easting]';
+const PYPROJ_IMPLEMENTATION = 'PROJ through pyproj.Transformer.from_crs with authority axis order [latitude,longitude] -> [northing,easting]; always_xy=False; PROJ_NETWORK=OFF';
 const mode = process.argv.includes('--write') ? 'write'
   : process.argv.includes('--check') ? 'check'
     : null;
@@ -108,12 +111,7 @@ const manifestPaths = readdir(GEO_ROOT, { withFileTypes: true })
 const groundReports = [];
 for (const manifestPath of await manifestPaths) {
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
-  const legacyModels = manifest.artifacts.filter(artifact =>
-    artifact.kind === 'composite'
-      && artifact.id.startsWith('legacy-')
-      && /model\.json$/.test(artifact.path),
-  );
-  if (!legacyModels.length) throw new Error(`${manifest.groundId} has no inventoried legacy model`);
+  const modelInputs = selectMigrationInputs(manifest);
 
   const projectedFrame = manifest.legacyFrame.projectedOriginEpsg3006;
   const [origin] = projectedFrame
@@ -135,8 +133,7 @@ for (const manifestPath of await manifestPaths) {
   };
 
   const modelResults = [];
-  const outputNames = new Set();
-  for (const artifact of legacyModels) {
+  for (const { artifact, outputName } of modelInputs) {
     const sourceFile = join(REPO_ROOT, artifact.path);
     const sourceText = await readFile(sourceFile, 'utf8');
     const sourceSha256 = hash(sourceText);
@@ -174,14 +171,6 @@ for (const manifestPath of await manifestPaths) {
       ? 'absolute EPSG:3006 coordinate pairs [easting,northing] translated exactly from the recorded projected source frame; scalar RH 2000 heights are unchanged and unapproved'
       : 'absolute EPSG:3006 coordinate pairs [easting,northing]; legacy scalar heights are unapproved and unchanged';
 
-    let outputName = basename(artifact.path).replace(/\.json$/, '.epsg3006.json');
-    if (outputNames.has(outputName)) {
-      outputName = `${artifact.id.replace(/^legacy-/, '')}.epsg3006.json`;
-    }
-    if (outputNames.has(outputName)) {
-      throw new Error(`${manifest.groundId} has colliding migration output ${outputName}`);
-    }
-    outputNames.add(outputName);
     const outputFile = join(dirname(manifestPath), 'migration', outputName);
     const converted = {
       schemaVersion: 1,
@@ -225,6 +214,15 @@ for (const manifestPath of await manifestPaths) {
   }
 
   const aggregate = aggregateScopes(modelResults);
+  const reportFile = join(dirname(manifestPath), 'migration', 'residual-report.json');
+  let implementation = process.env.COURSE_GEO_PYPROJ_PYTHON ? PYPROJ_IMPLEMENTATION : CS2CS_IMPLEMENTATION;
+  if (mode === 'check' && existsSync(reportFile)) {
+    // A check reproduces every coordinate and statistic using its selected
+    // backend, while retaining the report's recorded generation provenance.
+    // This lets real cs2cs verify a pyproj-generated report, and vice versa.
+    const previous = JSON.parse(await readFile(reportFile, 'utf8')).transform?.implementation;
+    if ([CS2CS_IMPLEMENTATION, PYPROJ_IMPLEMENTATION].includes(previous)) implementation = previous;
+  }
   const report = {
     schemaVersion: 1,
     generator: GENERATOR,
@@ -239,7 +237,7 @@ for (const manifestPath of await manifestPaths) {
     } : {
       source: 'EPSG:4326 legacy WGS84-like seed coordinates',
       target: 'EPSG:3006 SWEREF99 TM',
-      implementation: 'PROJ cs2cs with authority axis order [latitude,longitude] -> [northing,easting]',
+      implementation,
       datumCaveat: 'The legacy origins were not surveyed SWEREF 99 controls. These values seed migration only and cannot approve the canonical origin.',
     },
     candidateOrigin,
@@ -266,7 +264,6 @@ for (const manifestPath of await manifestPaths) {
       'Keep all converted vectors migration-only until residuals are checked against authoritative imagery or survey data.',
     ],
   };
-  const reportFile = join(dirname(manifestPath), 'migration', 'residual-report.json');
   const reportContent = stableJson(report);
   await emit(reportFile, reportContent);
   groundReports.push({

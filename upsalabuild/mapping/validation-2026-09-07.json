@@ -1,0 +1,1065 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-07T07:00:40.982675+00:00",
+  "branch": "codex/upsala-ground-mapping",
+  "main": "002c91c",
+  "baselineCommit": "975099b",
+  "completeSurvey": false,
+  "tests": {
+    "vitest": 509,
+    "node": 322,
+    "passed": 831,
+    "failed": 0,
+    "skipped": 0
+  },
+  "checks": {
+    "refresh": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/refresh.log",
+      "sha256": "5717a4985974d71b92c4118bddf03184c4b83c536b64c459a07013780e90d77e"
+    },
+    "tests": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/tests.log",
+      "sha256": "abce5cf9bac5f473d68bdfda009743327d8a5fb98500e4905e7ae710863c0227"
+    },
+    "page": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/page.log",
+      "sha256": "aa1dd767c668d9a60ba0fa25f33116d664f0296844f73e0abc440fde2ec9f4e2"
+    },
+    "pack": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/pack.log",
+      "sha256": "3e3974a300ec2e9fa1700c8853d0e31f186782732e16af8fc5d0da33b0eeda3d"
+    },
+    "packs": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/packs.log",
+      "sha256": "2e9cefdeec183e44275de37b3e7ea64d61329e04a8e3b4dcf156bf592de4cbe9"
+    },
+    "migration": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/migration.log",
+      "sha256": "f325b26ecac1248939a9f625d3eff3bf3d703bd8224590348bc38150d1568b69"
+    },
+    "manifests": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/manifests.log",
+      "sha256": "df217880f110c01d3398eb6bbd0d399a7a502c441ead510fc058d3c98c11272e"
+    },
+    "lint-app": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/lint-app.log",
+      "sha256": "9e07d767bc925cd9788dbdad3f72483592136c83d15c338064689f216d6ade72"
+    },
+    "lint-page": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/lint-page.log",
+      "sha256": "136fee48a11cbfb407a1e937ec13cef95a0ba8e8398dd859da123825bccc8e59"
+    },
+    "app-build": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/app-build.log",
+      "sha256": "c49c77ebd789a28472ce7081349d6e08d1a5bbbc9a96d2a47c33e8866259a3f7"
+    },
+    "renderer-build": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/renderer-build.log",
+      "sha256": "1fb494fa300c920660099ea88d7410de4155876f4a7cd0a63e23b501b647c675"
+    },
+    "legacy-browser": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/legacy-browser.log",
+      "sha256": "fb5ed0c7b8f0e341c39104480b9046d5acf67668a7f127565c1fc7ef3e048b36"
+    },
+    "acquisition-preservation-check": {
+      "passed": true,
+      "log": "upsalabuild/cache/review-2026-09-07/acquisition-preservation-check.log",
+      "sha256": "3017a6f36ad0e907704324a512007b8ca0373990b5a54c78c06523d8372683b0"
+    }
+  },
+  "artifacts": {
+    "upsalabuild/course-model.json": {
+      "sha256": "becbfca4ab43408ffc7003eb31051e5ad7700701b80add47f9a55a36225abb5d",
+      "bytes": 732704
+    },
+    "upsalamellanbuild/course-model.json": {
+      "sha256": "23cf42493f6d7dc7be60569e06967f2c94605c2ae6a3e9d6bd670c7e85bee39b",
+      "bytes": 660016
+    },
+    "apps/golf/public/courses/upsala/pack.bin": {
+      "sha256": "ccb4ea55db18b939e83c6a1d9fc2505d9eca286d45480527426b4ad769f9ab6d",
+      "bytes": 744341
+    },
+    "apps/golf/public/courses/upsala-mellanbanan/pack.bin": {
+      "sha256": "79e38f57dca2969b49a336236cfdaf5f51e424278dfc3d7cb88ceb2c69603f2c",
+      "bytes": 741048
+    },
+    "upsala3d.html": {
+      "sha256": "b37a7106444ec26d010f872d3e8f5c398ec72e87585dd7115934f9dc78a1d9d4",
+      "bytes": 1236944
+    },
+    "upsalabuild/mapping/ground-map.geojson": {
+      "sha256": "5b128ac7c7f1ba416e5959a8242ab4afa91e4351719079dadc4d41abcea255a9",
+      "bytes": 8359609
+    },
+    "upsalabuild/mapping/municipal-objects-2026-09-07.geojson": {
+      "sha256": "611e0169028cc27acfd5d8b91ee9b669a20a999239c4ad8bd7f5bfc3b4263119",
+      "bytes": 591510
+    },
+    "upsalabuild/mapping/municipal-objects-2026-09-07.json": {
+      "sha256": "fe67025caf505570277d9f0f2f8e17b9fb8f2d5f18f8197c05762fa07b6ba33e",
+      "bytes": 454113
+    },
+    "upsalabuild/mapping/practice-path-review-2026-09-07.json": {
+      "sha256": "a27ef1cb0530d11ecc5ae9bfc29ba2b8498f29e966373c45acf5d99d1a646c95",
+      "bytes": 25421
+    },
+    "upsalabuild/mapping/stora-tees-review-2026-09-07.json": {
+      "sha256": "e84fde315d08208b20e4735ff3941be532cabc258e286c71381efef18ee23854",
+      "bytes": 22841
+    },
+    "upsalabuild/mapping/mellan-tees-review-2026-09-07.json": {
+      "sha256": "e63d55a21d4124bff7ce9f14d7d5177aac36eb01bcf58ffe0e30927cbf781567",
+      "bytes": 36344
+    },
+    "upsalabuild/mapping/stora-par3-sahara-review-2026-09-07.json": {
+      "sha256": "2b2a2812aea7254e043f322c37a7e4eda4cf715b7962a2604271c4d9a16d96c8",
+      "bytes": 45496
+    },
+    "upsalabuild/mapping/municipal-ground-height-check-2026-09-07.json": {
+      "sha256": "638080f1640d0b7f218bdcba5a1430387cbddc2831f4758966f10f6d2768ebbd",
+      "bytes": 226635
+    },
+    "upsalabuild/mapping/source-review.html": {
+      "sha256": "d79de463d55f7631d649b301d7087dde286393887f8ee5ccc721ed9cc5aa1e73",
+      "bytes": 18778
+    }
+  },
+  "counts": {
+    "storaTeeRecords": 54,
+    "storaImageOutlines": 52,
+    "storaProvisionalOutlines": 2,
+    "mellanTeeRecords": 24,
+    "newDrainageObservations": 4,
+    "newBoundaryObservations": 19,
+    "bridgeFootprints": 4,
+    "municipalSourceObservations": 231,
+    "municipalOpenRoadEdges": 148,
+    "unlinkedMunicipalTrees": 50,
+    "mappedGroundGeojsonFeatures": 5851,
+    "lidarCrownCandidates": 4181,
+    "buildingFootprints": 444
+  },
+  "preservation": {
+    "routeCardPinAndMarkerReferences": true,
+    "buildingGeometry": true,
+    "continuousStreamGeometry": true,
+    "waterGeometry": true,
+    "vegetationGeometry": true,
+    "bothHeightfieldAndTreeCoverFiles": true,
+    "mainTerrainImplementationAndTests": true,
+    "note": "Reconciliation also restores original UTF-8 names that had replacement characters in earlier generated records."
+  },
+  "legacyBrowser": {
+    "bothCoursesPassed": true,
+    "luminance": {
+      "upsala": 0.376,
+      "upsala-mellanbanan": 0.399
+    }
+  },
+  "requiredV2Browser": [
+    {
+      "report": "upsalabuild/cache/review-2026-09-07/v2-stora/report.json",
+      "sha256": "293ab29e76a6da86600068620d8c75dc55052cc40b19c9356156efe462091cb0",
+      "passed": false,
+      "errors": [
+        {
+          "type": "harness",
+          "text": "page.waitForSelector: Timeout 240000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#boot.done') to be visible\u001b[22m\n\n    at main (C:\\Users\\olov_\\repos\\olovs-hemsida\\tools\\v2-graphics-review.mjs:243:16)\n    at async file:///C:/Users/olov_/repos/olovs-hemsida/tools/v2-graphics-review.mjs:309:9"
+        }
+      ],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend."
+      ],
+      "request": {
+        "course": "upsala",
+        "backend": "webgl2",
+        "autoFallback": true,
+        "q": "lo",
+        "viewport": [
+          960,
+          600
+        ],
+        "dpr": 1,
+        "views": [
+          {
+            "id": "h8_green_noon",
+            "hole": 8,
+            "cam": "green",
+            "preset": "noon"
+          },
+          {
+            "id": "h11_top_noon",
+            "hole": 11,
+            "cam": "top",
+            "preset": "noon"
+          },
+          {
+            "id": "h1_top_noon",
+            "hole": 1,
+            "cam": "top",
+            "preset": "noon"
+          }
+        ]
+      },
+      "fingerprint": null,
+      "views": []
+    },
+    {
+      "report": "upsalabuild/cache/review-2026-09-07/v2-mellan/report.json",
+      "sha256": "21505bf8ede204b45c2df16482c48c5a04cb9fa3d758f28b30073a7c52b4b053",
+      "passed": false,
+      "errors": [
+        {
+          "type": "harness",
+          "text": "page.waitForSelector: Timeout 240000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#boot.done') to be visible\u001b[22m\n\n    at main (C:\\Users\\olov_\\repos\\olovs-hemsida\\tools\\v2-graphics-review.mjs:243:16)\n    at async file:///C:/Users/olov_/repos/olovs-hemsida/tools/v2-graphics-review.mjs:309:9"
+        }
+      ],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend."
+      ],
+      "request": {
+        "course": "upsala-mellanbanan",
+        "backend": "webgl2",
+        "autoFallback": true,
+        "q": "lo",
+        "viewport": [
+          960,
+          600
+        ],
+        "dpr": 1,
+        "views": [
+          {
+            "id": "h8_top_noon",
+            "hole": 8,
+            "cam": "top",
+            "preset": "noon"
+          }
+        ]
+      },
+      "fingerprint": null,
+      "views": []
+    },
+    {
+      "report": "upsalabuild/cache/review-2026-09-07/v2-stora-serial/report.json",
+      "sha256": "f47e655cde693db9e70f731f2572a9a457726bab47f3b2d025062d6bf48307bc",
+      "passed": true,
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "Cancelled terrain request: http://127.0.0.1:8620/grounds/upsala/terrain/2eebb33ef08239afabb8868485b75f9d6983fbe855d8df49f5096c2b4ecdd903.bvch",
+        "Cancelled terrain request: http://127.0.0.1:8620/grounds/upsala/terrain/0342c800e1bf8d2a704ab8bf5e55fbee3bc118f0206ef669d375805bfef6c1a2.bvch",
+        "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend."
+      ],
+      "request": {
+        "course": "upsala",
+        "backend": "webgl2",
+        "autoFallback": true,
+        "q": "lo",
+        "viewport": [
+          960,
+          600
+        ],
+        "dpr": 1,
+        "views": [
+          {
+            "id": "h8_green_noon",
+            "hole": 8,
+            "cam": "green",
+            "preset": "noon"
+          },
+          {
+            "id": "h11_top_noon",
+            "hole": 11,
+            "cam": "top",
+            "preset": "noon"
+          },
+          {
+            "id": "h1_top_noon",
+            "hole": 1,
+            "cam": "top",
+            "preset": "noon"
+          }
+        ]
+      },
+      "fingerprint": {
+        "model": "f77491acfa03c91721101077f38e0d7258a88ad3aa47498d81c8d6b92e6aa6a8",
+        "routing": "ba7f36c44bc45e78e9acd33d09e08e563f1bfdecf0ccc6d8d1cb6728abf67873",
+        "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+        "treeInstances": "212c95a8f323e71bab4ce624af9af4ee21efbd66da1dd5c3174767ff07190add",
+        "treePositions": "a63be36fe389df8f8ab7033e631691f1ad2749cc2d20ccb348c89fa92f33de84",
+        "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+        "tintNear": "56db2e75c8c9cd9dfbf63589816c9bde66ce6526f05fa1581e797158e2268c0a",
+        "tintFar": "e4e43e2d1be2d9b0f157533991ffad058ef9668b790bd670aee11675601159a9",
+        "surfaceSource": null,
+        "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "counts": {
+          "trees": 53986,
+          "vista": 33483,
+          "tufts": 5617,
+          "bushes": 1058,
+          "stones": 242,
+          "reeds": 0,
+          "cars": 0,
+          "pylons": 21,
+          "stumps": 0,
+          "surfaceOverlays": 0
+        },
+        "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+      },
+      "views": [
+        {
+          "id": "h8_green_noon",
+          "imageSha256": "fc799726961e51ad74ee6a97e0ee02d2e0584ddc433bbf3a4693bf577d435427",
+          "camera": {
+            "pos": [
+              -267.7,
+              37.2,
+              -258.7
+            ],
+            "look": [
+              -159.1,
+              27.2,
+              -306
+            ],
+            "mode": "green"
+          },
+          "terrain": {
+            "kind": "graph",
+            "phase": "ready",
+            "requested": true,
+            "sourceReady": true,
+            "preflightReady": true,
+            "active": true,
+            "renderer": {
+              "status": "ready",
+              "kind": "graph",
+              "meshResolutionMetres": 1,
+              "levels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "tiles": 277,
+              "ringTiles": 6,
+              "fallbackRebuilt": false,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 4,
+                  "residentLayers": 4,
+                  "textureUploads": 5,
+                  "renderRevision": 5,
+                  "morphing": true,
+                  "frameAttributeVersion": 2,
+                  "paramsAttributeVersion": 3,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 532480,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 4,
+              "morphing": true,
+              "renderedTiles": 55,
+              "residentLayers": 4,
+              "drawCalls": 1,
+              "triangles": 532480,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 6,
+              "readyTiles": 86
+            },
+            "ringLevels": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "stream": {
+              "readyTiles": 86,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 31,
+              "drawCalls": 1,
+              "triangles": 4126720,
+              "selectedTiles": 31,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            }
+          },
+          "visibleTerrainTileIds": [
+            "l0/2/0",
+            "l0/3/0",
+            "l0/4/0",
+            "l0/5/0",
+            "l0/6/0",
+            "l0/7/0",
+            "l0/2/1",
+            "l0/3/1",
+            "l0/4/1",
+            "l0/5/1",
+            "l0/6/1",
+            "l0/7/1",
+            "l0/1/2",
+            "l0/2/2",
+            "l0/3/2",
+            "l0/4/2",
+            "l0/5/2",
+            "l0/6/2",
+            "l0/7/2",
+            "l0/1/3",
+            "l0/2/3",
+            "l0/3/3",
+            "l0/4/3",
+            "l0/5/3",
+            "l0/6/3",
+            "l0/7/3",
+            "l0/6/4",
+            "l0/7/4",
+            "l1/4/0",
+            "l1/5/0",
+            "l1/6/0",
+            "l1/7/0",
+            "l1/3/1",
+            "l1/4/1",
+            "l1/5/1",
+            "l1/6/1",
+            "l1/7/1",
+            "l1/3/2",
+            "l1/4/2",
+            "l1/5/2",
+            "l1/6/2",
+            "l1/7/2",
+            "l1/2/3",
+            "l1/3/3",
+            "l1/4/3",
+            "l1/5/3",
+            "l1/6/3",
+            "l1/7/3",
+            "l1/5/4",
+            "l1/6/4",
+            "l1/7/4",
+            "l2/4/0",
+            "l2/5/0",
+            "l2/6/0",
+            "l2/7/0",
+            "l2/4/1",
+            "l2/5/1",
+            "l2/6/1",
+            "l2/7/1",
+            "l2/3/2",
+            "l2/4/2",
+            "l2/5/2",
+            "l2/6/2",
+            "l2/7/2",
+            "l2/3/3",
+            "l2/4/3",
+            "l2/5/3",
+            "l2/6/3",
+            "l2/7/3",
+            "l2/4/4",
+            "l2/5/4",
+            "l2/6/4",
+            "l2/7/4",
+            "l3/5/0",
+            "l3/6/0",
+            "l3/7/0",
+            "l3/4/1",
+            "l3/5/1",
+            "l3/6/1",
+            "l3/7/1",
+            "l3/4/2",
+            "l3/5/2",
+            "l3/6/2",
+            "l3/7/2",
+            "l3/3/3",
+            "l3/4/3",
+            "l3/5/3",
+            "l3/6/3",
+            "l3/7/3",
+            "l3/4/4",
+            "l3/5/4",
+            "l3/6/4",
+            "l3/7/4",
+            "l4/2/0",
+            "l4/3/0",
+            "l4/1/1",
+            "l4/2/1",
+            "l4/3/1",
+            "l4/2/2",
+            "l4/3/2",
+            "l5/0/0",
+            "l5/1/0",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "renderer": {
+            "drawingBuffer": [
+              960,
+              600
+            ],
+            "drawCalls": 60,
+            "triangles": 4561329
+          }
+        },
+        {
+          "id": "h11_top_noon",
+          "imageSha256": "3be50598a9ccc70b576f54915f23c4851b5bdd17435025ef2201ca9539e0c6e7",
+          "camera": {
+            "pos": [
+              107.2,
+              349.7,
+              -542.9
+            ],
+            "look": [
+              107.2,
+              19.7,
+              -543
+            ],
+            "mode": "top"
+          },
+          "terrain": {
+            "kind": "graph",
+            "phase": "ready",
+            "requested": true,
+            "sourceReady": true,
+            "preflightReady": true,
+            "active": true,
+            "renderer": {
+              "status": "ready",
+              "kind": "graph",
+              "meshResolutionMetres": 1,
+              "levels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "tiles": 277,
+              "ringTiles": 6,
+              "fallbackRebuilt": false,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 4,
+                  "residentLayers": 4,
+                  "textureUploads": 5,
+                  "renderRevision": 5,
+                  "morphing": true,
+                  "frameAttributeVersion": 2,
+                  "paramsAttributeVersion": 3,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 532480,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 4,
+              "morphing": true,
+              "renderedTiles": 55,
+              "residentLayers": 4,
+              "drawCalls": 1,
+              "triangles": 532480,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 6,
+              "readyTiles": 86
+            },
+            "ringLevels": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "stream": {
+              "readyTiles": 54,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 6,
+              "drawCalls": 1,
+              "triangles": 798720,
+              "selectedTiles": 6,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            }
+          },
+          "visibleTerrainTileIds": [
+            "l0/2/1",
+            "l0/3/1",
+            "l0/4/1",
+            "l0/2/2",
+            "l0/3/2",
+            "l0/4/2",
+            "l1/3/2",
+            "l1/4/2",
+            "l1/3/3",
+            "l1/4/3",
+            "l2/3/3",
+            "l2/4/3",
+            "l3/3/3",
+            "l3/4/3",
+            "l4/1/1",
+            "l4/2/1",
+            "l5/0/0",
+            "l5/1/0",
+            "l6/0/0"
+          ],
+          "renderer": {
+            "drawingBuffer": [
+              960,
+              600
+            ],
+            "drawCalls": 48,
+            "triangles": 1065548
+          }
+        },
+        {
+          "id": "h1_top_noon",
+          "imageSha256": "5cbac29a443954f786a8c751dfe2603d5e155c341f0fc5fa8a46db5c82db212a",
+          "camera": {
+            "pos": [
+              142.6,
+              354.4,
+              -64.1
+            ],
+            "look": [
+              142.6,
+              24.4,
+              -64.2
+            ],
+            "mode": "top"
+          },
+          "terrain": {
+            "kind": "graph",
+            "phase": "ready",
+            "requested": true,
+            "sourceReady": true,
+            "preflightReady": true,
+            "active": true,
+            "renderer": {
+              "status": "ready",
+              "kind": "graph",
+              "meshResolutionMetres": 1,
+              "levels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "tiles": 277,
+              "ringTiles": 6,
+              "fallbackRebuilt": false,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 4,
+                  "residentLayers": 4,
+                  "textureUploads": 5,
+                  "renderRevision": 5,
+                  "morphing": true,
+                  "frameAttributeVersion": 2,
+                  "paramsAttributeVersion": 3,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 532480,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 4,
+              "morphing": true,
+              "renderedTiles": 55,
+              "residentLayers": 4,
+              "drawCalls": 1,
+              "triangles": 532480,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 6,
+              "readyTiles": 86
+            },
+            "ringLevels": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "stream": {
+              "readyTiles": 86,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 6,
+              "drawCalls": 1,
+              "triangles": 798720,
+              "selectedTiles": 6,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            }
+          },
+          "visibleTerrainTileIds": [
+            "l0/2/3",
+            "l0/3/3",
+            "l0/4/3",
+            "l0/2/4",
+            "l0/3/4",
+            "l0/4/4",
+            "l1/3/3",
+            "l1/4/3",
+            "l1/3/4",
+            "l1/4/4",
+            "l2/3/3",
+            "l2/4/3",
+            "l2/3/4",
+            "l2/4/4",
+            "l3/3/3",
+            "l3/4/3",
+            "l3/3/4",
+            "l3/4/4",
+            "l4/1/1",
+            "l4/2/1",
+            "l4/1/2",
+            "l4/2/2",
+            "l5/0/0",
+            "l5/1/0",
+            "l5/0/1",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "renderer": {
+            "drawingBuffer": [
+              960,
+              600
+            ],
+            "drawCalls": 59,
+            "triangles": 1119411
+          }
+        }
+      ]
+    },
+    {
+      "report": "upsalabuild/cache/review-2026-09-07/v2-mellan-serial/report.json",
+      "sha256": "6399d773b86071bbdb719f1cee0fa875f4bb6f6b5309d3d5d73c54dd564af1ad",
+      "passed": true,
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "THREE.WebGPURenderer: WebGPU is not available, running under WebGL2 backend."
+      ],
+      "request": {
+        "course": "upsala-mellanbanan",
+        "backend": "webgl2",
+        "autoFallback": true,
+        "q": "lo",
+        "viewport": [
+          960,
+          600
+        ],
+        "dpr": 1,
+        "views": [
+          {
+            "id": "h8_top_noon",
+            "hole": 8,
+            "cam": "top",
+            "preset": "noon"
+          }
+        ]
+      },
+      "fingerprint": {
+        "model": "63754f74da4b008b7c5c59512e1292a430c94337782ef6a27195e195d1e112d1",
+        "routing": "ce9ce55b6df078f50f12b75070333be915b4d4dd6c9c9c0f09910915f7e5c353",
+        "georeferencing": "524b2f5e1e9b9ce6d9a567e19e4b5e19c1c4547675e4ef2306e7f4f46c014b1b",
+        "treeInstances": "8db5840537f4d056ed5607ecc5249faf23ba9a086dffbd047c9cb56143f4d28a",
+        "treePositions": "a63be36fe389df8f8ab7033e631691f1ad2749cc2d20ccb348c89fa92f33de84",
+        "vistaPoints": "29252d600f7a08e505efe729c5442bba591f4d730fb340484ac231a50d02e876",
+        "tintNear": "171df283c64597c09a9e18e3a62a0602ccdee92695089f3b21259cb6bc1ea59e",
+        "tintFar": "c770c8858f726595988e8ed2811a468f4a826146620b4e3a619706a2e9176dbe",
+        "surfaceSource": null,
+        "vegetationSource": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+        "counts": {
+          "trees": 53986,
+          "vista": 33483,
+          "tufts": 3718,
+          "bushes": 644,
+          "stones": 173,
+          "reeds": 0,
+          "cars": 0,
+          "pylons": 21,
+          "stumps": 0,
+          "surfaceOverlays": 0
+        },
+        "treeExportPrecision": "positions rounded to 0.01 m; scales/yaw to 0.001 by V3D.legacyTrees"
+      },
+      "views": [
+        {
+          "id": "h8_top_noon",
+          "imageSha256": "238a2214920fbafd151e8adf03aedc14740594ff4903a82c546800651366a992",
+          "camera": {
+            "pos": [
+              520,
+              354.9,
+              7.7
+            ],
+            "look": [
+              520,
+              24.9,
+              7.6
+            ],
+            "mode": "top"
+          },
+          "terrain": {
+            "kind": "graph",
+            "phase": "ready",
+            "requested": true,
+            "sourceReady": true,
+            "preflightReady": true,
+            "active": true,
+            "renderer": {
+              "status": "ready",
+              "kind": "graph",
+              "meshResolutionMetres": 1,
+              "levels": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "tiles": 277,
+              "ringTiles": 6,
+              "fallbackRebuilt": false,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 1,
+                  "renderedTiles": 0,
+                  "residentLayers": 0,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 1,
+                  "textureCapacityBytes": 528392,
+                  "topologyBytes": 2603535,
+                  "triangles": 0,
+                  "drawCalls": 0
+                },
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 56,
+                  "renderedTiles": 1,
+                  "residentLayers": 1,
+                  "textureUploads": 1,
+                  "renderRevision": 3,
+                  "morphing": false,
+                  "frameAttributeVersion": 1,
+                  "paramsAttributeVersion": 2,
+                  "textureCapacityBytes": 29589952,
+                  "topologyBytes": 2603535,
+                  "triangles": 133120,
+                  "drawCalls": 1
+                }
+              ],
+              "renderRevision": 3,
+              "morphing": false,
+              "renderedTiles": 55,
+              "residentLayers": 1,
+              "drawCalls": 1,
+              "triangles": 133120,
+              "textureCapacityBytes": 30118344,
+              "textureUploads": 2,
+              "readyTiles": 74
+            },
+            "ringLevels": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "stream": {
+              "readyTiles": 86,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 8,
+              "drawCalls": 1,
+              "triangles": 1064960,
+              "selectedTiles": 8,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            }
+          },
+          "visibleTerrainTileIds": [
+            "l0/3/3",
+            "l0/4/3",
+            "l0/5/3",
+            "l0/3/4",
+            "l0/4/4",
+            "l0/5/4",
+            "l1/3/3",
+            "l1/4/3",
+            "l1/3/4",
+            "l1/4/4",
+            "l2/3/3",
+            "l2/4/3",
+            "l2/3/4",
+            "l2/4/4",
+            "l3/3/3",
+            "l3/4/3",
+            "l3/3/4",
+            "l3/4/4",
+            "l4/1/1",
+            "l4/2/1",
+            "l4/1/2",
+            "l4/2/2",
+            "l5/0/0",
+            "l5/1/0",
+            "l5/0/1",
+            "l5/1/1",
+            "l6/0/0"
+          ],
+          "renderer": {
+            "drawingBuffer": [
+              960,
+              600
+            ],
+            "drawCalls": 47,
+            "triangles": 1478219
+          }
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Initial simultaneous required-v2 runs timed out at boot after 240 seconds; sequential 600-second runs passed. No application error was reported in the timed-out runs.",
+    "Software WebGL2/SwiftShader correctness captures are not hardware performance measurements.",
+    "Municipal source accuracy does not certify whole-app accuracy; source registration is not capture.",
+    "Drainage and boundary records are geographic observations; unknown dimensions do not produce water, channel carving or fence extrusions.",
+    "Tree point/crown identities, botanical species, hidden tee boundaries, small objects and exact 2026 service-house position remain unresolved."
+  ],
+  "publication": {
+    "pushed": false,
+    "deployed": false
+  },
+  "additionalBrowserAndSourceChecks": {
+    "viewer": {
+      "file": "upsalabuild/cache/review-2026-09-07/source-review-final-browser-check.json",
+      "sha256": "7913365176b8f27c7ef54952b656601861e444fb8133f95fd3d7f949dc8fbc39",
+      "passed": true
+    },
+    "viewerInteractions": {
+      "file": "upsalabuild/cache/review-2026-09-07/source-review-browser-check.json",
+      "sha256": "5c81e39a676c65b5c0cc60ab175dfdc41767ad4f9b6bcf721d7c1b04710a12c1",
+      "passed": true
+    },
+    "saharaTrees": {
+      "file": "upsalabuild/cache/review-2026-09-07/source-inventory/sahara-tree-check.json",
+      "sha256": "d9c1a542c6f5f5dfb35c38c15bb95fcd133c326cdcd60239aa41ba581d6c6176",
+      "passed": true
+    }
+  },
+  "interactiveViewer": {
+    "groundFeatures": 5851,
+    "municipalObservations": 231,
+    "totalLoaded": 6082,
+    "pageErrors": 0,
+    "externalRequests": 0,
+    "desktopAndMobile": true
+  }
+}

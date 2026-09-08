@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-09-06",
+  "codeCheckpoint": "87b432ccb6a14f09a1f4e91c99e5c5f436dd2793",
+  "cameraFrame": "Runtime v2 local metres; camera arrays are [x,y,z], not geographic coordinates.",
+  "reviewScope": "Bounded engine checks, not independent survey accuracy or an all-object census.",
+  "status": "passed targeted required-v2 visual and source-boundary QA",
+  "renderer": "WebGL2 with coordinateSystem=2000 and reversedDepth=true",
+  "captureLimitation": "Playwright presentation screenshot timed out for Upsala oblique; actual rendered WebGL canvas exported successfully. CPU raycasts do not follow shader-displaced terrain.",
+  "views": [
+    {
+      "name": "range-top",
+      "captureMethod": "Playwright presentation PNG",
+      "meanLuminance": 68.222,
+      "fractionLuminanceBelow5": 0.0,
+      "terrainTilesRendered": 38,
+      "coarseFrustumHits": 13,
+      "loadingTerrainTiles": 0,
+      "failedTerrainTiles": [],
+      "noDataSamples": 0,
+      "appErrors": [],
+      "sourceBoundaryChecks": 100,
+      "sourceBoundaryMismatches": 0,
+      "camera": {
+        "pos": [
+          -102.1,
+          206.2,
+          -177.5
+        ],
+        "look": [
+          -102.1,
+          26.2,
+          -178.5
+        ],
+        "mode": "free"
+      },
+      "cameraInfo": {
+        "fov": 48,
+        "near": 1,
+        "far": 14000,
+        "aspect": 1.6,
+        "coordinateSystem": 2000,
+        "reversedDepth": true,
+        "position": [
+          -102.06670833333331,
+          206.18576816861764,
+          -177.48257499999823
+        ]
+      },
+      "rangeMatRayHits": 30,
+      "mappedBridgeGeometryVertices": 90,
+      "capture": {
+        "name": "range-top.png",
+        "sha256": "817807445f3fa48db14aae1acccc8f7cd97950b70dbb257cb5d0af77aa31682c",
+        "bytes": 944054,
+        "retainedInGit": false
+      }
+    },
+    {
+      "name": "range-oblique",
+      "captureMethod": "WebGL canvas PNG",
+      "meanLuminance": 93.656,
+      "fractionLuminanceBelow5": 0.0,
+      "terrainTilesRendered": 29,
+      "coarseFrustumHits": 6,
+      "loadingTerrainTiles": 0,
+      "failedTerrainTiles": [],
+      "noDataSamples": 0,
+      "appErrors": [],
+      "sourceBoundaryChecks": 100,
+      "sourceBoundaryMismatches": 0,
+      "camera": {
+        "pos": [
+          -2.1,
+          91.2,
+          -73.5
+        ],
+        "look": [
+          -102.1,
+          26.2,
+          -178.5
+        ],
+        "mode": "free"
+      },
+      "cameraInfo": {
+        "fov": 48,
+        "near": 1,
+        "far": 14000,
+        "aspect": 1.6,
+        "coordinateSystem": 2000,
+        "reversedDepth": true,
+        "position": [
+          -2.066708333333338,
+          91.18576816861766,
+          -73.482575
+        ]
+      },
+      "capture": {
+        "name": "range-oblique.png",
+        "sha256": "2645fd032d6596530a1b813f01ddcac4e49280d7d6ed281b61f44bf5b3420456",
+        "bytes": 1699264,
+        "retainedInGit": false
+      }
+    },
+    {
+      "name": "mellan-green-1",
+      "captureMethod": "WebGL canvas PNG",
+      "meanLuminance": 63.886,
+      "fractionLuminanceBelow5": 0.0,
+      "terrainTilesRendered": 4,
+      "coarseFrustumHits": 5,
+      "loadingTerrainTiles": 0,
+      "failedTerrainTiles": [],
+      "noDataSamples": 0,
+      "appErrors": [],
+      "sourceBoundaryChecks": 64,
+      "sourceBoundaryMismatches": 0,
+      "camera": {
+        "pos": [
+          452.5,
+          163.4,
+          -170
+        ],
+        "look": [
+          432.5,
+          33.4,
+          -250
+        ],
+        "mode": "free"
+      },
+      "cameraInfo": {
+        "fov": 48,
+        "near": 1,
+        "far": 14000,
+        "aspect": 1.6,
+        "coordinateSystem": 2000,
+        "reversedDepth": true,
+        "position": [
+          452.4724814814815,
+          163.39173090899922,
+          -170.04322222222225
+        ]
+      },
+      "courseSlug": "upsala-mellanbanan",
+      "reviewedGreenCount": 9,
+      "teePadCount": 23,
+      "capture": {
+        "name": "mellan-green-1.png",
+        "sha256": "613a87a29a97cb880f5db0964cbdf8af4bb2da1ce5c1836c5d5e6089a72a76a1",
+        "bytes": 1594842,
+        "retainedInGit": false
+      }
+    }
+  ],
+  "models": [
+    {
+      "path": "upsalabuild/course-model.json",
+      "sha256": "a8f35e5d68d9053ce46aacdb208c6d18c02bf0070c3f114fa9be24fcd34da109"
+    },
+    {
+      "path": "upsalamellanbuild/course-model.json",
+      "sha256": "9a8b61e232e98c5cf00a0a87becf200127c004d288fb4db0a9c1117b139e4018"
+    }
+  ]
+}

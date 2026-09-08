@@ -1,0 +1,1974 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-06",
+  "frame": {
+    "origin": {
+      "lat": 59.839,
+      "lon": 17.4952
+    },
+    "mPerLat": 111320,
+    "mPerLon": 55930.68
+  },
+  "completeSurvey": false,
+  "method": "Manual visible-edge interpretation across archived municipal services and the 2025 Lantmateriet product. Historical years are service labels, not independently verified flight dates. Pixel coordinates refer to the left 720 px comparison panel including its 44 px header.",
+  "baselineModelSha256": "eec859decdedc7531ba8ca06dbf8c71e09c3ec357f553d9ab2f4ec23c5765e2c",
+  "sources": [
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2023_1800/MapServer/export?f=pjson&bbox=639651%2C6636609%2C639821%2C6636779&bboxSR=3006&imageSR=3006&size=1700%2C1700&format=png32&transparent=false",
+      "retrievedAt": "2026-09-06T14:30:50.153235+00:00",
+      "sha256": "26703ab53b026db36365f9a6cb855122dfd1026839373bb7356567cceb0c4a81",
+      "bytes": 3296284,
+      "output": "h12-tee.png",
+      "provider": "municipal-service-2023",
+      "crs": "EPSG:3006",
+      "extent": [
+        639651,
+        6636609,
+        639821,
+        6636779
+      ],
+      "dimensions": [
+        1700,
+        1700
+      ],
+      "sourceProductYear": 2023,
+      "captureDate": null,
+      "horizontalAccuracyM": null,
+      "note": "Historical service-year label; exact flight date and correspondence to current turf are unverified.",
+      "id": "uppsala-service-2023-stora-tee-12",
+      "year": 2023,
+      "yearBasis": "municipal archive service name; exact flight date unknown"
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2023_1800/MapServer/export?f=pjson&bbox=639651%2C6636544%2C639743%2C6636636&bboxSR=3006&imageSR=3006&size=920%2C920&format=png32&transparent=false",
+      "retrievedAt": "2026-09-06T14:30:48.528879+00:00",
+      "sha256": "911912dc8121c496ac0a4a4df9643dd9c901efc71fbf0713ed46a13196338ce1",
+      "bytes": 973886,
+      "output": "h14-tee.png",
+      "provider": "municipal-service-2023",
+      "crs": "EPSG:3006",
+      "extent": [
+        639651,
+        6636544,
+        639743,
+        6636636
+      ],
+      "dimensions": [
+        920,
+        920
+      ],
+      "sourceProductYear": 2023,
+      "captureDate": null,
+      "horizontalAccuracyM": null,
+      "note": "Historical service-year label; exact flight date and correspondence to current turf are unverified.",
+      "id": "uppsala-service-2023-stora-tee-14",
+      "year": 2023,
+      "yearBasis": "municipal archive service name; exact flight date unknown"
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/Ortofoto_2023_1800/MapServer/export?f=pjson&bbox=639666%2C6636314%2C639742%2C6636390&bboxSR=3006&imageSR=3006&size=760%2C760&format=png32&transparent=false",
+      "retrievedAt": "2026-09-06T14:30:49.165298+00:00",
+      "sha256": "5f6961780fcb433ffa224a297651ca55c9560827c5bb43c77ea39c3cac088932",
+      "bytes": 711562,
+      "output": "h15-tee.png",
+      "provider": "municipal-service-2023",
+      "crs": "EPSG:3006",
+      "extent": [
+        639666,
+        6636314,
+        639742,
+        6636390
+      ],
+      "dimensions": [
+        760,
+        760
+      ],
+      "sourceProductYear": 2023,
+      "captureDate": null,
+      "horizontalAccuracyM": null,
+      "note": "Historical service-year label; exact flight date and correspondence to current turf are unverified.",
+      "id": "uppsala-service-2023-stora-tee-15",
+      "year": 2023,
+      "yearBasis": "municipal archive service name; exact flight date unknown"
+    },
+    {
+      "url": "https://kartportal.uppsala.se/cacheimage/rest/services/ortofoto/ortofoto2020/ImageServer/exportImage?f=pjson&bbox=639671%2C6635856%2C639776%2C6635962&bboxSR=3006&imageSR=3006&size=1050%2C1060&format=png32&transparent=false",
+      "retrievedAt": "2026-09-06T14:30:45.803347+00:00",
+      "sha256": "9faa562ac43fe64eba8f87036ef5ceec9b70ebf3b919402f5b08a67abcca7bc4",
+      "bytes": 1457629,
+      "output": "h18-tee.png",
+      "provider": "municipal-service-2020",
+      "crs": "EPSG:3006",
+      "extent": [
+        639671,
+        6635856,
+        639776,
+        6635962
+      ],
+      "dimensions": [
+        1050,
+        1060
+      ],
+      "sourceProductYear": 2020,
+      "captureDate": null,
+      "horizontalAccuracyM": null,
+      "note": "Historical service-year label; exact flight date and correspondence to current turf are unverified.",
+      "id": "uppsala-service-2020-stora-tee-18",
+      "year": 2020,
+      "yearBasis": "municipal archive service name; exact flight date unknown"
+    }
+  ],
+  "crosscheckSources": [
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6636145.5%2C640143.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:13.592647+00:00",
+      "sha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+      "bytes": 30086397,
+      "output": "lm_latest_r0_c0.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        639119.5,
+        6636145.5,
+        640143.5,
+        6637169.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          67.0768432021141,
+          86.90458118915558,
+          78.06652051210403
+        ],
+        "rgbStddev": [
+          23.66317059159542,
+          20.34003590031184,
+          16.514177228578706
+        ]
+      }
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6636145.5%2C641167.5%2C6637169.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:13.615781+00:00",
+      "sha256": "472062ee1fb58cb587cb8ccb217d9f1c4513960bf8f8757048401a891980e3ab",
+      "bytes": 34408712,
+      "output": "lm_latest_r0_c1.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        640143.5,
+        6636145.5,
+        641167.5,
+        6637169.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          68.9146072268486,
+          85.35816782712936,
+          78.1598824262619
+        ],
+        "rgbStddev": [
+          26.709571998492056,
+          23.629725018292064,
+          18.870814955647436
+        ]
+      }
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=639119.5%2C6635121.5%2C640143.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:14.961060+00:00",
+      "sha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+      "bytes": 35937935,
+      "output": "lm_latest_r1_c0.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        639119.5,
+        6635121.5,
+        640143.5,
+        6636145.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          60.3605614900589,
+          77.40978902578354,
+          71.28555810451508
+        ],
+        "rgbStddev": [
+          23.552454705567094,
+          22.25756963901018,
+          16.536067956876117
+        ]
+      }
+    },
+    {
+      "url": "https://kartportal.uppsala.se/proxy/0rt0?service=WMS&request=GetMap&version=1.1.1&srs=EPSG%3A3006&bbox=640143.5%2C6635121.5%2C641167.5%2C6636145.5&width=4096&height=4096&styles=&format=image%2Fpng&transparent=false&layers=Ortofoto_0.16",
+      "retrievedAt": "2026-09-06T14:09:18.816140+00:00",
+      "sha256": "61f45a853f39e6504d1830f40af3bbfa09ad609bbd21c756ac632257b8a365d5",
+      "bytes": 36514240,
+      "output": "lm_latest_r1_c1.png",
+      "provider": "lm-latest",
+      "crs": "EPSG:3006",
+      "extent": [
+        640143.5,
+        6635121.5,
+        641167.5,
+        6636145.5
+      ],
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "resolutionM": [
+        0.25,
+        0.25
+      ],
+      "sourceNativeResolutionM": 0.16,
+      "sourceProductYear": null,
+      "sourceFlightYearVerification": "Inspect flight-year metadata raster; observed2025 for defaultbbox on2026-09-05.",
+      "horizontalAccuracyRMSEM": null,
+      "exactFlightDate": null,
+      "rights": "Public advertised viewing API; imagery-specific redistribution terms not established. Retain source raster for analysis; do not label CC0.",
+      "quality": {
+        "rgbMean": [
+          69.33867365121841,
+          84.2480217218399,
+          79.79142940044403
+        ],
+        "rgbStddev": [
+          33.446294014043374,
+          29.016855750269027,
+          26.094708833571445
+        ]
+      }
+    }
+  ],
+  "holes": [
+    {
+      "hole": 12,
+      "coverage": "partial",
+      "originalPads": [
+        {
+          "ring": [
+            [
+              -30.783,
+              -602.309
+            ],
+            [
+              -29.442,
+              -604.759
+            ],
+            [
+              -25.896,
+              -606.125
+            ],
+            [
+              -20.826,
+              -608.184
+            ],
+            [
+              -14.999,
+              -610.464
+            ],
+            [
+              -10.197,
+              -612.033
+            ],
+            [
+              -7.464,
+              -611.68
+            ],
+            [
+              -5.277,
+              -610.098
+            ],
+            [
+              -4.623,
+              -607.573
+            ],
+            [
+              -5.465,
+              -605.104
+            ],
+            [
+              -8.023,
+              -603.451
+            ],
+            [
+              -13.084,
+              -601.642
+            ],
+            [
+              -18.652,
+              -599.602
+            ],
+            [
+              -23.723,
+              -597.543
+            ],
+            [
+              -27.758,
+              -596.445
+            ],
+            [
+              -30.213,
+              -597.538
+            ],
+            [
+              -31.375,
+              -599.832
+            ]
+          ],
+          "cx": -18.063827938454686,
+          "cz": -604.4162979738853,
+          "area": 226.93816199999628,
+          "ang": 0,
+          "prov": "dated-orthophoto-trace",
+          "sourceId": "upsala-stora-tee-12-back-northeast-2025",
+          "imagerySourceId": "lm2025_025m_r0_c0",
+          "observedYear": 2025,
+          "crosscheckYear": 2024,
+          "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+          "boundaryInterpretationUncertaintyMetres": 1.5,
+          "sourceAbsoluteHorizontalAccuracyMetres": null,
+          "centreProvenance": "polygon area centroid; not a tee marker",
+          "preserveTerrain": true
+        },
+        {
+          "ring": [
+            [
+              -137.879,
+              -562.346
+            ],
+            [
+              -135.598,
+              -563.26
+            ],
+            [
+              -132.607,
+              -563.147
+            ],
+            [
+              -130.41,
+              -561.814
+            ],
+            [
+              -129.229,
+              -560.019
+            ],
+            [
+              -129.074,
+              -557.513
+            ],
+            [
+              -129.916,
+              -555.045
+            ],
+            [
+              -131.726,
+              -553.363
+            ],
+            [
+              -134.257,
+              -552.459
+            ],
+            [
+              -136.98,
+              -553.061
+            ],
+            [
+              -138.918,
+              -554.634
+            ],
+            [
+              -140.08,
+              -556.928
+            ],
+            [
+              -139.986,
+              -559.425
+            ],
+            [
+              -138.914,
+              -561.385
+            ]
+          ],
+          "cx": -134.55775818723498,
+          "cz": -558.0044551862017,
+          "area": 92.61627400000725,
+          "ang": 0,
+          "prov": "dated-orthophoto-trace",
+          "sourceId": "upsala-stora-tee-12-front-southwest-2025",
+          "imagerySourceId": "lm2025_025m_r0_c0",
+          "observedYear": 2025,
+          "crosscheckYear": 2024,
+          "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+          "boundaryInterpretationUncertaintyMetres": 1.5,
+          "sourceAbsoluteHorizontalAccuracyMetres": null,
+          "centreProvenance": "polygon area centroid; not a tee marker",
+          "preserveTerrain": true
+        }
+      ],
+      "originalLine": [
+        [
+          -7.9,
+          -598.1
+        ],
+        [
+          -120,
+          -560
+        ],
+        [
+          -232,
+          -500
+        ],
+        [
+          -290,
+          -420
+        ],
+        [
+          -340,
+          -345
+        ],
+        [
+          -399.9,
+          -282.5
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            -7.9,
+            -598.1
+          ],
+          "b": -108.8,
+          "m": 521
+        },
+        {
+          "c": [
+            -23,
+            -593
+          ],
+          "b": -108.8,
+          "m": 505
+        },
+        {
+          "c": [
+            -70.4,
+            -576.9
+          ],
+          "b": -108.8,
+          "m": 455
+        },
+        {
+          "c": [
+            -131.1,
+            -554.1
+          ],
+          "b": -118.2,
+          "m": 390
+        },
+        {
+          "c": [
+            -131.1,
+            -554.1
+          ],
+          "b": -118.2,
+          "m": 390
+        },
+        {
+          "c": [
+            -161.1,
+            -538
+          ],
+          "b": -118.2,
+          "m": 356
+        }
+      ],
+      "originalDistances": [
+        521,
+        505,
+        455,
+        390,
+        390,
+        356
+      ],
+      "retainOriginalPadIndices": [
+        0,
+        1
+      ],
+      "retireOriginalPadIndices": [],
+      "note": "The leaf-off 2023 service exposes the omitted middle pad. Its northern arc and turf remain visible in 2025; the southern arc is shadowed in the later image."
+    },
+    {
+      "hole": 14,
+      "coverage": "partial",
+      "originalPads": [
+        {
+          "ring": [
+            [
+              -109.5,
+              -452.1
+            ],
+            [
+              -121.5,
+              -451.9
+            ],
+            [
+              -121.7,
+              -459.9
+            ],
+            [
+              -109.7,
+              -460.1
+            ]
+          ],
+          "cx": -115.6,
+          "cz": -456,
+          "ang": 179,
+          "preserveTerrain": true
+        },
+        {
+          "ring": [
+            [
+              -120.759,
+              -506.447
+            ],
+            [
+              -118.708,
+              -507.869
+            ],
+            [
+              -116.483,
+              -507.286
+            ],
+            [
+              -114.306,
+              -505.453
+            ],
+            [
+              -112.664,
+              -502.641
+            ],
+            [
+              -111.558,
+              -498.849
+            ],
+            [
+              -110.98,
+              -494.327
+            ],
+            [
+              -110.123,
+              -490.545
+            ],
+            [
+              -109.775,
+              -486.531
+            ],
+            [
+              -110.847,
+              -484.572
+            ],
+            [
+              -113.128,
+              -483.658
+            ],
+            [
+              -115.381,
+              -483.492
+            ],
+            [
+              -117.337,
+              -484.566
+            ],
+            [
+              -118.518,
+              -486.361
+            ],
+            [
+              -118.904,
+              -489.376
+            ],
+            [
+              -119.013,
+              -493.13
+            ],
+            [
+              -119.869,
+              -496.913
+            ],
+            [
+              -120.965,
+              -500.954
+            ],
+            [
+              -121.6,
+              -503.978
+            ]
+          ],
+          "cx": -115.578123443288,
+          "cz": -495.3716247978777,
+          "area": 191.45262999999977,
+          "ang": 0,
+          "prov": "dated-orthophoto-trace",
+          "sourceId": "upsala-stora-tee-14-rear-continuous-2025",
+          "imagerySourceId": "lm2025_025m_r0_c0",
+          "observedYear": 2025,
+          "crosscheckYear": 2024,
+          "sourceSha256": "3c1bc847b0ac7234534aee4dd0ca43781e1fba6d508aa1addafbcc3003507930",
+          "boundaryInterpretationUncertaintyMetres": 1.5,
+          "sourceAbsoluteHorizontalAccuracyMetres": null,
+          "centreProvenance": "polygon area centroid; not a tee marker",
+          "preserveTerrain": true
+        }
+      ],
+      "originalLine": [
+        [
+          -116,
+          -503.3
+        ],
+        [
+          -114.5,
+          -350.3
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            -116,
+            -503.3
+          ],
+          "b": 179.4,
+          "m": 153
+        },
+        {
+          "c": [
+            -115.9,
+            -493.3
+          ],
+          "b": 179.4,
+          "m": 143
+        },
+        {
+          "c": [
+            -115.8,
+            -485.3
+          ],
+          "b": 179.4,
+          "m": 135
+        },
+        {
+          "c": [
+            -115.8,
+            -485.3
+          ],
+          "b": 179.4,
+          "m": 135
+        },
+        {
+          "c": [
+            -115.5,
+            -454.3
+          ],
+          "b": 179.4,
+          "m": 104
+        },
+        {
+          "c": [
+            -115.5,
+            -454.3
+          ],
+          "b": 179.4,
+          "m": 104
+        }
+      ],
+      "originalDistances": [
+        153,
+        143,
+        135,
+        135,
+        104,
+        104
+      ],
+      "retainOriginalPadIndices": [
+        1
+      ],
+      "retireOriginalPadIndices": [
+        0
+      ],
+      "note": "The visible oval is east of the retained guessed rectangle. Leaf-off 2023 supplies the western edge, with the location and remaining arcs crosschecked in 2025."
+    },
+    {
+      "hole": 15,
+      "coverage": "partial",
+      "originalPads": [
+        {
+          "ring": [
+            [
+              -110.3,
+              -237.2
+            ],
+            [
+              -118.5,
+              -249.8
+            ],
+            [
+              -110.1,
+              -255.2
+            ],
+            [
+              -101.9,
+              -242.6
+            ]
+          ],
+          "cx": -110.2,
+          "cz": -246.2,
+          "ang": 237,
+          "preserveTerrain": true
+        },
+        {
+          "ring": [
+            [
+              -125.3,
+              -228.2
+            ],
+            [
+              -132.9,
+              -239.9
+            ],
+            [
+              -125.3,
+              -244.8
+            ],
+            [
+              -117.7,
+              -233.1
+            ]
+          ],
+          "cx": -125.3,
+          "cz": -236.5,
+          "ang": 237,
+          "preserveTerrain": true
+        }
+      ],
+      "originalLine": [
+        [
+          -111.3,
+          -245.5
+        ],
+        [
+          -190,
+          -194.5
+        ],
+        [
+          -260,
+          -144.7
+        ],
+        [
+          -320,
+          -93.2
+        ],
+        [
+          -367.7,
+          -31.1
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            -111.4,
+            -245.5
+          ],
+          "b": -122.9,
+          "m": 337
+        },
+        {
+          "c": [
+            -118.9,
+            -240.6
+          ],
+          "b": -122.9,
+          "m": 328
+        },
+        {
+          "c": [
+            -118.9,
+            -240.6
+          ],
+          "b": -122.9,
+          "m": 328
+        },
+        {
+          "c": [
+            -126.5,
+            -235.7
+          ],
+          "b": -122.9,
+          "m": 319
+        },
+        {
+          "c": [
+            -126.5,
+            -235.7
+          ],
+          "b": -122.9,
+          "m": 319
+        },
+        {
+          "c": [
+            -205.7,
+            -183.3
+          ],
+          "b": -125.4,
+          "m": 224
+        }
+      ],
+      "originalDistances": [
+        337,
+        328,
+        328,
+        319,
+        319,
+        224
+      ],
+      "retainOriginalPadIndices": [
+        0
+      ],
+      "retireOriginalPadIndices": [
+        1
+      ],
+      "note": "The lower pad has a distinct rounded edge in 2023 and a separate mown top in 2025. The upper original remains provisional because its eastern and southern limits remain less clear."
+    },
+    {
+      "hole": 18,
+      "coverage": "partial",
+      "originalPads": [
+        {
+          "ring": [
+            [
+              -135.5,
+              222.9
+            ],
+            [
+              -125.8,
+              228.1
+            ],
+            [
+              -129.5,
+              235.1
+            ],
+            [
+              -139.2,
+              229.9
+            ]
+          ],
+          "cx": -132.5,
+          "cz": 229,
+          "ang": 28,
+          "preserveTerrain": true
+        },
+        {
+          "ring": [
+            [
+              -132.7,
+              214.3
+            ],
+            [
+              -123,
+              219.5
+            ],
+            [
+              -126.3,
+              225.7
+            ],
+            [
+              -136,
+              220.5
+            ]
+          ],
+          "cx": -129.5,
+          "cz": 220,
+          "ang": 28,
+          "preserveTerrain": true
+        },
+        {
+          "ring": [
+            [
+              -123.784,
+              204.985
+            ],
+            [
+              -122.157,
+              201.546
+            ],
+            [
+              -119.802,
+              198.635
+            ],
+            [
+              -117.455,
+              195.973
+            ],
+            [
+              -115.396,
+              194.301
+            ],
+            [
+              -113.393,
+              194.126
+            ],
+            [
+              -111.686,
+              195.191
+            ],
+            [
+              -111.004,
+              196.967
+            ],
+            [
+              -111.836,
+              199.185
+            ],
+            [
+              -113.702,
+              202.365
+            ],
+            [
+              -115.827,
+              205.785
+            ],
+            [
+              -117.943,
+              208.956
+            ],
+            [
+              -120.021,
+              211.127
+            ],
+            [
+              -121.794,
+              211.811
+            ],
+            [
+              -123.741,
+              210.487
+            ],
+            [
+              -124.663,
+              208.452
+            ],
+            [
+              -124.597,
+              206.705
+            ]
+          ],
+          "cx": -118.1126769152027,
+          "cz": 202.7368380118959,
+          "area": 124.6840800000009,
+          "ang": 0,
+          "prov": "dated-orthophoto-trace",
+          "sourceId": "upsala-stora-tee-18-middle-2025",
+          "imagerySourceId": "lm2025_025m_r1_c0",
+          "observedYear": 2025,
+          "crosscheckYear": 2024,
+          "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+          "boundaryInterpretationUncertaintyMetres": 1.75,
+          "sourceAbsoluteHorizontalAccuracyMetres": null,
+          "centreProvenance": "polygon area centroid; not a tee marker",
+          "preserveTerrain": true
+        },
+        {
+          "ring": [
+            [
+              -97.002,
+              169.743
+            ],
+            [
+              -94.694,
+              168.08
+            ],
+            [
+              -92.413,
+              167.166
+            ],
+            [
+              -90.697,
+              167.981
+            ],
+            [
+              -89.516,
+              169.775
+            ],
+            [
+              -89.601,
+              172.022
+            ],
+            [
+              -90.701,
+              174.731
+            ],
+            [
+              -92.271,
+              176.672
+            ],
+            [
+              -94.303,
+              177.595
+            ],
+            [
+              -96.517,
+              176.762
+            ],
+            [
+              -98.206,
+              175.198
+            ],
+            [
+              -98.62,
+              172.932
+            ],
+            [
+              -98.046,
+              170.954
+            ]
+          ],
+          "cx": -93.94671426695294,
+          "cz": 172.3890248508252,
+          "area": 66.85751349999646,
+          "ang": 0,
+          "prov": "dated-orthophoto-trace",
+          "sourceId": "upsala-stora-tee-18-forward-2025",
+          "imagerySourceId": "lm2025_025m_r1_c0",
+          "observedYear": 2025,
+          "crosscheckYear": 2024,
+          "sourceSha256": "c86103ddf9ce87abf2a19717e7526e4c6921d1ace4cdd25005c87886217e373a",
+          "boundaryInterpretationUncertaintyMetres": 1.75,
+          "sourceAbsoluteHorizontalAccuracyMetres": null,
+          "centreProvenance": "polygon area centroid; not a tee marker",
+          "preserveTerrain": true
+        }
+      ],
+      "originalLine": [
+        [
+          -135.7,
+          234.6
+        ],
+        [
+          -95,
+          160
+        ],
+        [
+          -52,
+          88
+        ],
+        [
+          -18,
+          12
+        ],
+        [
+          -5,
+          -60
+        ],
+        [
+          -8.4,
+          -123.7
+        ]
+      ],
+      "originalMarks": [
+        {
+          "c": [
+            -135.7,
+            234.6
+          ],
+          "b": 28.6,
+          "m": 389
+        },
+        {
+          "c": [
+            -123.7,
+            212.6
+          ],
+          "b": 28.6,
+          "m": 364
+        },
+        {
+          "c": [
+            -105,
+            178.4
+          ],
+          "b": 28.6,
+          "m": 325
+        },
+        {
+          "c": [
+            -86.2,
+            145.3
+          ],
+          "b": 30.8,
+          "m": 287
+        },
+        {
+          "c": [
+            -86.2,
+            145.3
+          ],
+          "b": 30.8,
+          "m": 287
+        },
+        {
+          "c": [
+            -86.2,
+            145.3
+          ],
+          "b": 30.8,
+          "m": 287
+        }
+      ],
+      "originalDistances": [
+        389,
+        364,
+        325,
+        287,
+        287,
+        287
+      ],
+      "retainOriginalPadIndices": [
+        2,
+        3
+      ],
+      "retireOriginalPadIndices": [
+        0,
+        1
+      ],
+      "note": "The leaf-off 2020 service shows one continuous rear platform where two guessed rectangles existed. Its northern and western arcs and southern turf are corroborated in 2025; the later eastern edge is obscured by canopy."
+    }
+  ],
+  "features": [
+    {
+      "id": "upsala-stora-tee-12-middle-archive-2023",
+      "kind": "tee",
+      "hole": 12,
+      "status": "accepted",
+      "sourceId": "uppsala-service-2023-stora-tee-12",
+      "sourceSha256": "26703ab53b026db36365f9a6cb855122dfd1026839373bb7356567cceb0c4a81",
+      "observedYear": 2023,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "captureDate": null,
+      "crosscheckYear": 2025,
+      "boundaryInterpretationUncertaintyMetres": 2,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "ring": [
+        [
+          -66.253,
+          -576.396
+        ],
+        [
+          -64.296,
+          -578.666
+        ],
+        [
+          -60.98,
+          -579.713
+        ],
+        [
+          -57.726,
+          -579.121
+        ],
+        [
+          -55.693,
+          -577.169
+        ],
+        [
+          -55.097,
+          -574.334
+        ],
+        [
+          -56.372,
+          -571.57
+        ],
+        [
+          -58.788,
+          -569.551
+        ],
+        [
+          -62.104,
+          -568.504
+        ],
+        [
+          -65.098,
+          -569.789
+        ],
+        [
+          -67.122,
+          -571.975
+        ],
+        [
+          -67.501,
+          -574.333
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          639742.2028250529,
+          6636688.250034991
+        ],
+        [
+          639744.0778267729,
+          6636690.593787141
+        ],
+        [
+          639747.3590797831,
+          6636691.765663216
+        ],
+        [
+          639750.6403327931,
+          6636691.296912787
+        ],
+        [
+          639752.7497097282,
+          6636689.421911066
+        ],
+        [
+          639753.4528353732,
+          6636686.609408486
+        ],
+        [
+          639752.2809592983,
+          6636683.796905906
+        ],
+        [
+          639749.9372071482,
+          6636681.687528971
+        ],
+        [
+          639746.655954138,
+          6636680.515652896
+        ],
+        [
+          639743.609076343,
+          6636681.687528971
+        ],
+        [
+          639741.4996994078,
+          6636683.796905906
+        ],
+        [
+          639741.0309489779,
+          6636686.140658056
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          387,
+          428
+        ],
+        [
+          395,
+          418
+        ],
+        [
+          409,
+          413
+        ],
+        [
+          423,
+          415
+        ],
+        [
+          432,
+          423
+        ],
+        [
+          435,
+          435
+        ],
+        [
+          430,
+          447
+        ],
+        [
+          420,
+          456
+        ],
+        [
+          406,
+          461
+        ],
+        [
+          393,
+          456
+        ],
+        [
+          384,
+          447
+        ],
+        [
+          382,
+          437
+        ]
+      ],
+      "tracePanel": {
+        "id": "h12-tee",
+        "extentEPSG3006": [
+          639651.4996168453,
+          6636609.499962749,
+          639820.2497716502,
+          6636778.250117553
+        ],
+        "image": "h12-tee.png",
+        "sha256": "a78bbf91dfc7aaa6d5dc855cb7777668e4338e096c27c36424651247fd2571ff"
+      },
+      "panelSizePixels": [
+        720,
+        720
+      ],
+      "panelHeaderPixels": 44,
+      "note": "The leaf-off 2023 service exposes the omitted middle pad. Its northern arc and turf remain visible in 2025; the southern arc is shadowed in the later image."
+    },
+    {
+      "id": "upsala-stora-tee-14-forward-archive-2023",
+      "kind": "tee",
+      "hole": 14,
+      "status": "accepted",
+      "sourceId": "uppsala-service-2023-stora-tee-14",
+      "sourceSha256": "911912dc8121c496ac0a4a4df9643dd9c901efc71fbf0713ed46a13196338ce1",
+      "observedYear": 2023,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "captureDate": null,
+      "crosscheckYear": 2025,
+      "boundaryInterpretationUncertaintyMetres": 2,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "ring": [
+        [
+          -113.122,
+          -458.623
+        ],
+        [
+          -111.921,
+          -460.349
+        ],
+        [
+          -110.258,
+          -460.918
+        ],
+        [
+          -108.371,
+          -460.721
+        ],
+        [
+          -106.9,
+          -459.527
+        ],
+        [
+          -106.088,
+          -457.599
+        ],
+        [
+          -106.043,
+          -455.447
+        ],
+        [
+          -106.871,
+          -453.58
+        ],
+        [
+          -108.31,
+          -452.243
+        ],
+        [
+          -110.347,
+          -451.814
+        ],
+        [
+          -112.21,
+          -452.643
+        ],
+        [
+          -113.419,
+          -454.08
+        ],
+        [
+          -113.843,
+          -456.247
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          639699.6981081709,
+          6636568.717352697
+        ],
+        [
+          639700.8364915703,
+          6636570.488171318
+        ],
+        [
+          639702.4808231475,
+          6636571.12060654
+        ],
+        [
+          639704.3781288132,
+          6636570.994119495
+        ],
+        [
+          639705.8959733458,
+          6636569.855736095
+        ],
+        [
+          639706.7813826567,
+          6636567.95843043
+        ],
+        [
+          639706.907869701,
+          6636565.808150675
+        ],
+        [
+          639706.1489474347,
+          6636563.91084501
+        ],
+        [
+          639704.7575899464,
+          6636562.519487522
+        ],
+        [
+          639702.7337972362,
+          6636562.013539344
+        ],
+        [
+          639700.8364915703,
+          6636562.77246161
+        ],
+        [
+          639699.5716211265,
+          6636564.163819098
+        ],
+        [
+          639699.065672949,
+          6636566.314098853
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          385,
+          570
+        ],
+        [
+          394,
+          556
+        ],
+        [
+          407,
+          551
+        ],
+        [
+          422,
+          552
+        ],
+        [
+          434,
+          561
+        ],
+        [
+          441,
+          576
+        ],
+        [
+          442,
+          593
+        ],
+        [
+          436,
+          608
+        ],
+        [
+          425,
+          619
+        ],
+        [
+          409,
+          623
+        ],
+        [
+          394,
+          617
+        ],
+        [
+          384,
+          606
+        ],
+        [
+          380,
+          589
+        ]
+      ],
+      "tracePanel": {
+        "id": "h14-tee",
+        "extentEPSG3006": [
+          639651.0005960813,
+          6636544.178866085,
+          639742.071268041,
+          6636635.249538045
+        ],
+        "image": "h14-tee.png",
+        "sha256": "189186bd1b371782431f033ce72cc068fb9e724603b15e149fb0ccfd321d5cda"
+      },
+      "panelSizePixels": [
+        720,
+        720
+      ],
+      "panelHeaderPixels": 44,
+      "note": "The visible oval is east of the retained guessed rectangle. Leaf-off 2023 supplies the western edge, with the location and remaining arcs crosschecked in 2025."
+    },
+    {
+      "id": "upsala-stora-tee-15-lower-archive-2023",
+      "kind": "tee",
+      "hole": 15,
+      "status": "accepted",
+      "sourceId": "uppsala-service-2023-stora-tee-15",
+      "sourceSha256": "5f6961780fcb433ffa224a297651ca55c9560827c5bb43c77ea39c3cac088932",
+      "observedYear": 2023,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "captureDate": null,
+      "crosscheckYear": 2025,
+      "boundaryInterpretationUncertaintyMetres": 2.5,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "ring": [
+        [
+          -125.755,
+          -240.337
+        ],
+        [
+          -124.146,
+          -241.631
+        ],
+        [
+          -122.126,
+          -242.804
+        ],
+        [
+          -120.241,
+          -243.15
+        ],
+        [
+          -118.61,
+          -242.255
+        ],
+        [
+          -117.734,
+          -240.66
+        ],
+        [
+          -117.712,
+          -238.471
+        ],
+        [
+          -118.518,
+          -236.418
+        ],
+        [
+          -120.054,
+          -234.288
+        ],
+        [
+          -121.862,
+          -233.211
+        ],
+        [
+          -123.724,
+          -233.489
+        ],
+        [
+          -125.346,
+          -234.592
+        ],
+        [
+          -126.322,
+          -236.296
+        ],
+        [
+          -126.56,
+          -238.284
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          639695.2635723779,
+          6636349.969019898
+        ],
+        [
+          639696.8260723779,
+          6636351.323186565
+        ],
+        [
+          639698.8052390446,
+          6636352.573186565
+        ],
+        [
+          639700.6802390446,
+          6636352.989853232
+        ],
+        [
+          639702.3469057112,
+          6636352.156519898
+        ],
+        [
+          639703.2844057112,
+          6636350.594019898
+        ],
+        [
+          639703.3885723779,
+          6636348.406519898
+        ],
+        [
+          639702.6594057112,
+          6636346.323186565
+        ],
+        [
+          639701.2010723779,
+          6636344.135686565
+        ],
+        [
+          639699.4302390446,
+          6636342.989853232
+        ],
+        [
+          639697.5552390446,
+          6636343.198186565
+        ],
+        [
+          639695.8885723779,
+          6636344.239853232
+        ],
+        [
+          639694.8469057112,
+          6636345.906519898
+        ],
+        [
+          639694.5344057112,
+          6636347.885686565
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          280,
+          420
+        ],
+        [
+          295,
+          407
+        ],
+        [
+          314,
+          395
+        ],
+        [
+          332,
+          391
+        ],
+        [
+          348,
+          399
+        ],
+        [
+          357,
+          414
+        ],
+        [
+          358,
+          435
+        ],
+        [
+          351,
+          455
+        ],
+        [
+          337,
+          476
+        ],
+        [
+          320,
+          487
+        ],
+        [
+          302,
+          485
+        ],
+        [
+          286,
+          475
+        ],
+        [
+          276,
+          459
+        ],
+        [
+          273,
+          440
+        ]
+      ],
+      "tracePanel": {
+        "id": "h15-tee",
+        "extentEPSG3006": [
+          639666.0969057112,
+          6636314.135686565,
+          639741.0969057112,
+          6636389.135686565
+        ],
+        "image": "h15-tee.png",
+        "sha256": "56588dc5c17ad6b5370ce4e76000d959ab25ae5588ad7f699e178b886b99338c"
+      },
+      "panelSizePixels": [
+        720,
+        720
+      ],
+      "panelHeaderPixels": 44,
+      "note": "The lower pad has a distinct rounded edge in 2023 and a separate mown top in 2025. The upper original remains provisional because its eastern and southern limits remain less clear."
+    },
+    {
+      "id": "upsala-stora-tee-18-rear-archive-2020",
+      "kind": "tee",
+      "hole": 18,
+      "status": "accepted",
+      "sourceId": "uppsala-service-2020-stora-tee-18",
+      "sourceSha256": "9faa562ac43fe64eba8f87036ef5ceec9b70ebf3b919402f5b08a67abcca7bc4",
+      "observedYear": 2020,
+      "yearBasis": "municipal archive service name; exact flight date unknown",
+      "captureDate": null,
+      "crosscheckYear": 2025,
+      "boundaryInterpretationUncertaintyMetres": 2,
+      "sourceAbsoluteHorizontalAccuracyMetres": null,
+      "ring": [
+        [
+          -135.462,
+          222.525
+        ],
+        [
+          -134.214,
+          220.109
+        ],
+        [
+          -132.266,
+          218.298
+        ],
+        [
+          -130.222,
+          217.796
+        ],
+        [
+          -128.232,
+          218.74
+        ],
+        [
+          -126.714,
+          220.681
+        ],
+        [
+          -126.095,
+          223.458
+        ],
+        [
+          -126.348,
+          226.346
+        ],
+        [
+          -127.452,
+          228.768
+        ],
+        [
+          -129.384,
+          230.145
+        ],
+        [
+          -131.562,
+          230.352
+        ],
+        [
+          -133.84,
+          229.397
+        ],
+        [
+          -135.086,
+          227.901
+        ],
+        [
+          -135.866,
+          225.553
+        ]
+      ],
+      "sourceGeometryEPSG3006": [
+        [
+          639702.961831292,
+          6635886.77106998
+        ],
+        [
+          639704.1210329124,
+          6635889.234373424
+        ],
+        [
+          639706.0047355456,
+          6635891.118076057
+        ],
+        [
+          639708.0333383812,
+          6635891.697676867
+        ],
+        [
+          639710.0619412169,
+          6635890.828275652
+        ],
+        [
+          639711.655843445,
+          6635888.944573019
+        ],
+        [
+          639712.3803444577,
+          6635886.19146917
+        ],
+        [
+          639712.2354442552,
+          6635883.29346512
+        ],
+        [
+          639711.2211428373,
+          6635880.830161676
+        ],
+        [
+          639709.3374402041,
+          6635879.38115965
+        ],
+        [
+          639707.163937166,
+          6635879.091359246
+        ],
+        [
+          639704.8455339252,
+          6635879.960760461
+        ],
+        [
+          639703.5414321022,
+          6635881.409762486
+        ],
+        [
+          639702.672030887,
+          6635883.728165727
+        ]
+      ],
+      "originalPixelRing": [
+        [
+          220,
+          558
+        ],
+        [
+          228,
+          541
+        ],
+        [
+          241,
+          528
+        ],
+        [
+          255,
+          524
+        ],
+        [
+          269,
+          530
+        ],
+        [
+          280,
+          543
+        ],
+        [
+          285,
+          562
+        ],
+        [
+          284,
+          582
+        ],
+        [
+          277,
+          599
+        ],
+        [
+          264,
+          609
+        ],
+        [
+          249,
+          611
+        ],
+        [
+          233,
+          605
+        ],
+        [
+          224,
+          595
+        ],
+        [
+          218,
+          579
+        ]
+      ],
+      "tracePanel": {
+        "id": "h18-tee",
+        "extentEPSG3006": [
+          639671.0837867315,
+          6635856.921628255,
+          639775.4119325661,
+          6635961.249774091
+        ],
+        "image": "h18-tee.png",
+        "sha256": "54a264c26a772474f88ad11f6c783bfb571d29e87d18c4c85bc8d5e242b9075e"
+      },
+      "panelSizePixels": [
+        720,
+        720
+      ],
+      "panelHeaderPixels": 44,
+      "note": "The leaf-off 2020 service shows one continuous rear platform where two guessed rectangles existed. Its northern and western arcs and southern turf are corroborated in 2025; the later eastern edge is obscured by canopy."
+    }
+  ]
+}
