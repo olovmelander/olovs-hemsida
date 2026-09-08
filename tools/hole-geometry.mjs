@@ -12,7 +12,29 @@
    (sin b, -cos b) and the player's right hand is (cos b, sin b). lib's
    right() pairs with alongLine's angle, NOT with bearing(); mixing them
    reflects sides in a bearing-dependent way, which is how the first draft
-   of this script put every bunker on the wrong side of a north-going hole. */
+   of this script put every bunker on the wrong side of a north-going hole.
+
+   A SECOND WAY TO GET A SIDE WRONG, and it is not the convention: taking it
+   from the ring's CENTROID. That was this file until 2026-09-08, and it is
+   fine for a pond and meaningless for a coastline -- Visby's sea ring wraps
+   the west of the peninsula and its centroid falls a kilometre north of the
+   18th, which was therefore reported with the Baltic on its right while the
+   club's own local rule says left. The side is taken at the CLOSEST APPROACH
+   now, and a line that runs INTO the water is reported as crossing rather
+   than given a side it does not have.
+
+   MEASURED over all nine builds, old against new, so the change is known and
+   not assumed: 25 water lines whose hole CROSSES the ring go from an
+   arbitrary L/R to "both sides" -- 5 at Veckefjärden, 4 each at Puttom and
+   Ängsö, 3 each at Upsala and Johannesberg, 2 each at Norrfällsviken and
+   Lidingö, 1 each at Ribbingsfors and Visby. Only THREE non-crossing sides
+   actually flip: Visby's 11th and 18th on the sea ring (the 18th now agreeing with the club's rule
+   and the 11th with both the rule and Svensk Golf), and Upsala's 5th on a
+   water 21 m off the tee that no note mentions -- its note's "dike längs
+   vänstersidan" comes from the club's 2026 rules and from stream#5, which is
+   unchanged. So no committed hålguide outside Visby's 18th needed a word
+   changed; that was checked hole by hole, not inferred from the shape of the
+   fix. */
 import path from 'node:path';
 import { readJSON, decodeHF, bearing, hyp, polyLen, centroid, polySD, ptSeg } from '../geobuild/lib.mjs';
 
