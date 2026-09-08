@@ -1,4 +1,4 @@
-import { facilityPoint } from './reviewed-facilities.mjs';
+import { facilityPoint, validateNumberedPlatforms } from './reviewed-facilities.mjs';
 import { pointInPoly } from '../../geobuild/lib.mjs';
 
 /* Source pixels, physical turf and virtual cameras are separate records.
@@ -38,6 +38,7 @@ export function applyReviewedTeePlatforms(input, review) {
       (hole.tees.references ??= {})[tee] = point;
     }
     hole.tees.referenceMethod = review.method.camera;
+    validateNumberedPlatforms(hole, entry.numberedPlatformReview);
   }
   return geometry;
 }

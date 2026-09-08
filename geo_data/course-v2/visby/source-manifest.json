@@ -803,7 +803,7 @@
       "id": "canonical-routing-candidate",
       "kind": "composite",
       "path": "visbybuild/mapping/geometry.json",
-      "sha256": "17ba2e5e4d69c0102f788812ac3290ae10d35a07fa35d8ffcad5dd5a08e08b7c",
+      "sha256": "0340c9e6413686211dbe2f15d5c09acb8b4d6069000f0d3f11e811b5170a8d09",
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
@@ -909,7 +909,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "visbybuild/course-model.json",
-      "sha256": "9d485f6826f2275a1dbd8c8092ac447f210d64b2508406e1349f5d71a83c8699",
+      "sha256": "7fa91c189101583c345924e061e1e9a281733a12ef978e61693c580b695908c0",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -957,7 +957,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-      "sha256": "474f10049d49c0b5c40d6a6d6f6e2493403adb7ce1bc71a4e326689b6db7a36e",
+      "sha256": "420b0151f55c03956c57b3dba7798f43793500a341c26c5da70a49d5b3ced6e2",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -975,7 +975,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/visby/migration/residual-report.json",
-      "sha256": "71ec694bb1d03c2e2f861d41b71120726584aad54b03065b14802d09e72ce583",
+      "sha256": "c417e6362b61202769b76bd87d28b10351f93f28e78c6c572aad5c6b8d89c788",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -1067,23 +1067,25 @@
       "id": "clubhouse-and-first-tee-review",
       "kind": "control",
       "path": "visbybuild/mapping/facilities-review.json",
-      "sha256": "c7e5042667f2aff5cdcbfac4c092dc64b0d8b1e4e98dbf4c247106e21a851deb",
+      "sha256": "28c84fdbadebd659ba3f65b6d9bce00bdfa6ea4ddf8f7dc38b1a331805fa0c44",
       "derivedFrom": [
-        "visby-municipal-ortho-2022"
+        "visby-municipal-ortho-2022",
+        "club-banguide"
       ],
       "use": "discovery-evidence",
-      "notes": "Source image registration and pixel boundaries for a clubhouse practice green and two additional first-hole platforms. Camera references are inside observed surfaces; numbered tee associations and daily markers remain unverified."
+      "notes": "Source image registration and pixel boundaries for a clubhouse practice green and two additional first-hole platforms. Numbered platform groups checked against the retained Caddee plan; tee 59 corrected to the rear platform. Daily marker positions remain unverified."
     },
     {
       "id": "expanded-tee-platform-review",
       "kind": "control",
       "path": "visbybuild/mapping/tee-platform-review.json",
-      "sha256": "b983cf4b2ae326833a442bfd99abcf6c0114c4f76203dc0461e104c11577389d",
+      "sha256": "f45f472faed6a82ed5892763df8f88f3b021c9dbebc76564dad6f6d9d6c6c6cf",
       "derivedFrom": [
-        "visby-municipal-ortho-2022"
+        "visby-municipal-ortho-2022",
+        "club-banguide"
       ],
       "use": "discovery-evidence",
-      "notes": "All 18 tee windows inspected; 27 additional physical platforms on 12 holes, with bounded virtual-camera corrections. Retained source pixels and image hashes; not current numbered-marker or survey evidence."
+      "notes": "All 18 tee windows inspected; 27 additional physical platforms on 12 holes. Hole 9 numbered platform groups checked against the retained Caddee plan; tee 41 corrected to the front roadside platform. Other numeric associations and daily positions remain unverified."
     },
     {
       "id": "range-environment-surface-review",

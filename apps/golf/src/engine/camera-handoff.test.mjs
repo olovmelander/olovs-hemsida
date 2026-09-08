@@ -3,6 +3,9 @@ import { runInNewContext } from 'node:vm';
 import { EventDispatcher, PerspectiveCamera, Vector3 } from 'three';
 import { describe, expect, it, vi } from 'vitest';
 import { bindCameraGestureInterrupt } from './camera-gesture-interrupt.mjs';
+import { teeView } from './tee-view.mjs';
+import { GROUND_CLAMP } from './camera-clamp.mjs';
+import { alongLine, inRing, polyLen } from './geom.js';
 
 const main = readFileSync(new URL('../main.js', import.meta.url), 'utf8');
 function declaration(name) {
@@ -24,7 +27,7 @@ function classList(...initial) {
 // Execute the real application's camera functions together. Only unrelated
 // terrain/UI dependencies are stubbed; flight cleanup and lens/tween ownership
 // must be proved here rather than represented by helper callback spies.
-function fixture({ tour = false, reducedMotion = false, flying = true } = {}) {
+function fixture({ tour = false, reducedMotion = false, flying = true, courseHole, teeIdx = 0 } = {}) {
   const camera = new PerspectiveCamera(46, 4 / 3, 1, 14000);
   camera.position.set(11, 17, 23);
   vi.spyOn(camera, 'updateProjectionMatrix');
@@ -45,10 +48,9 @@ function fixture({ tour = false, reducedMotion = false, flying = true } = {}) {
     window: {}, groundClamp: { reset: vi.fn() },
     setClean: on => body.classList.toggle('clean', on), syncURL: vi.fn(),
     V3: (x, y, z) => new Vector3(x, y, z),
-    HOLES: [{ tees: { marks: [{ c: [0, 0] }] }, line: [[0, 0], [0, 100]], pin: [0, 100] }],
-    hole: 1, teeIdx: 0, camMode: 'tee', RMOTION: reducedMotion,
-    terrainH: () => 0, alongLine: (_line, t) => ({ x: 0, z: 100 * t, b: 0 }),
-    polyLen: () => 100,
+    HOLES: [courseHole ?? { tees: { marks: [{ c: [0, 0] }] }, line: [[0, 0], [0, 100]], pin: [0, 100] }],
+    hole: 1, teeIdx, camMode: 'tee', RMOTION: reducedMotion,
+    terrainH: () => 0, alongLine, polyLen, teeView, GROUND_CLAMP,
   };
   runInNewContext(['flyTo', 'setCam', 'stopFlight', 'endTour'].map(declaration).join('\n'), state);
   const unbind = bindCameraGestureInterrupt({
@@ -61,6 +63,38 @@ function fixture({ tour = false, reducedMotion = false, flying = true } = {}) {
 }
 
 describe('application camera handoff', () => {
+  it('places all 108 Visby tee views at their selected references, including narrow platforms', () => {
+    const model = JSON.parse(readFileSync(new URL('../../../../visbybuild/course-model.json', import.meta.url)));
+    let covered = 0, previouslyOutside = 0;
+    for (const courseHole of model.holes) {
+      for (let teeIdx = 0; teeIdx < courseHole.tees.marks.length; teeIdx++) {
+        const mark = courseHole.tees.marks[teeIdx], f = fixture({ courseHole, teeIdx });
+        f.state.setCam('tee', true);
+        expect(f.camera.position.toArray()).toEqual([mark.c[0], GROUND_CLAMP.eye, mark.c[1]]);
+        const pad = courseHole.tees.pads.find(p => inRing(...mark.c, p.ring));
+        if (pad) {
+          covered++;
+          expect(inRing(f.camera.position.x, f.camera.position.z, pad.ring)).toBe(true);
+          const b = alongLine(courseHole.line, 0.02).b;
+          if (!inRing(mark.c[0] - 7 * Math.sin(b), mark.c[1] - 7 * Math.cos(b), pad.ring)) previouslyOutside++;
+        }
+        f.unbind();
+      }
+    }
+    expect(covered).toBeGreaterThanOrEqual(67);
+    expect(previouslyOutside).toBeGreaterThan(0); // Exercises the reported regression with actual course geometry.
+  });
+
+  it('looks forward from an advanced tee after a dogleg instead of back toward the old 72% target', () => {
+    const courseHole = { line: [[0, 0], [0, 100], [100, 100]], pin: [100, 100], tees: { marks: [{ c: [80, 100] }] } };
+    const f = fixture({ courseHole });
+    f.state.setCam('tee', true);
+    expect(f.camera.position.toArray()).toEqual([80, 1.7, 100]);
+    expect(f.controls.target.x).toBeGreaterThan(80);
+    expect(f.controls.target.z).toBe(100);
+    f.unbind();
+  });
+
   it.each([
     { tour: false, label: 'standalone flight' },
     { tour: true, label: 'tour' },
@@ -95,7 +129,7 @@ describe('application camera handoff', () => {
     expect(f.camera.updateProjectionMatrix).toHaveBeenCalledTimes(1);
     expect(f.state.heldFlightLens).toBe(false);
     expect(f.camTween.on).toBe(true);
-    expect(f.camTween.to.toArray()).toEqual([0, 2.4, -7]);
+    expect(f.camTween.to.toArray()).toEqual([0, 1.7, 0]);
     expect(f.camTween.lookTo.toArray()).toEqual([0, 3, 72]);
     // Once the held lens is released, explicitly selected/custom lens values
     // keep the pre-existing setCam behaviour (including V3D.setFov callers).
@@ -124,7 +158,7 @@ describe('application camera handoff', () => {
     expect(f.state.flying).toBe(0);
     expect(f.camera.fov).toBe(48);
     expect(f.camTween.on).toBe(true);
-    expect(f.camTween.to.toArray()).toEqual([0, 2.4, -7]);
+    expect(f.camTween.to.toArray()).toEqual([0, 1.7, 0]);
     expect(f.body.classList.contains('tour')).toBe(false);
     expect(f.body.classList.contains('clean')).toBe(false);
     f.unbind();
@@ -138,12 +172,12 @@ describe('application camera handoff', () => {
     f.gesture();
     f.state.setCam('tee', options.instant);
     expect(f.camera.fov).toBe(48);
-    expect(f.camera.position.toArray()).toEqual([0, 2.4, -7]);
+    expect(f.camera.position.toArray()).toEqual([0, 1.7, 0]);
     expect(f.controls.target.toArray()).toEqual([0, 3, 72]);
     expect(f.camTween.on).toBe(false);
     f.gesture();
     expect(f.camTween.on).toBe(false);
-    expect(f.camera.position.toArray()).toEqual([0, 2.4, -7]);
+    expect(f.camera.position.toArray()).toEqual([0, 1.7, 0]);
     f.unbind();
   });
 });

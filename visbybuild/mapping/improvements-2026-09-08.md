@@ -181,3 +181,53 @@ The deployed page was opened, but the cloud browser could not create WebGPU or
 WebGL2, failing at graphics initialization. These results are source-image and
 software validation; in-app tee-height, aerial and grazing-angle acceptance is
 still open.
+
+## Tee camera and numbered-platform correction
+
+Continuation from main `6cedb4f350a23270768a7f4415e4fdd1acc5dbf2`, following
+feedback that the tees still felt displaced. Two different faults were found.
+
+The application placed the eye seven metres behind every selected tee, along
+the back route's initial bearing. This moved 36 references out of the very
+platform containing them. Across all 108 Visby selections, only 38 actual
+camera positions landed on any mapped platform, although 67 reference points
+were inside one. The camera now stands at the selected reference at the shared
+walking eye height of 1.7 m, and looks along 72% of the route remaining from
+that reference. A forward tee after a dogleg no longer aims behind itself.
+This is a shared camera correction; the source coordinates of other courses
+are unchanged.
+
+Separately, the retained Caddee plans establish the numbered platform groups
+on holes 1 and 9. The plans supply identity and topology, not a metric image
+registration; physical boundaries still come from the municipal orthophoto.
+
+| Selection | Correction |
+| --- | --- |
+| Hole 1 / tee 59 | Back platform shared with 63, instead of the middle platform belonging to 55/51. Representative reference moves 8 m back, to local (-579, 166.25). |
+| Hole 9 / tee 41 | Front roadside platform, instead of a route-derived point on the other side of the approach. Representative reference moves 37.665 m, to local (-353.88, 20.65). |
+
+The two review records retain the guide asset URLs and hashes, printed-label
+pixels, and all six platform associations per hole. Regeneration validates
+membership in the associated platform: being inside some other tee polygon
+is no longer sufficient. An explicit regression rejects the previous hole-1
+placement. The larger hole-9 correction relies on the plan identity and is
+recorded separately from the earlier bounded nearest-platform nudges.
+
+Actual tee camera positions now match their references for all 108 selections;
+68 are on mapped platforms. The remaining 40 reference positions still need
+source work, and membership alone does not establish a numbered association
+on the other holes. The 2022 image and guide disagree in several tee areas,
+including the separate hole-5 platform across the path and hole-17 platform
+sequence. Hole 12's start, the post-2022 third-hole rebuild and hole 9's green
+outline remain unresolved. No current daily marker positions are claimed.
+The contemporary public viewing request returned an empty body, so it supplied
+no new usable imagery for those remaining decisions.
+
+Validation: 521 Vitest and 391 Node tests passed, with three existing skips;
+42 Visby checks, source manifests, 180-hole source planning, source-overlay
+inspection, production build and published-graph build gate passed. The
+application camera test executes the actual `setCam` function against all
+108 Visby references and checks forward-tee framing and gesture handoff.
+The source terrain and coastal-water geometry are unchanged, with all 1,392
+played-area samples still protected. Cloud graphics initialization remains
+unavailable, so rendered 3D visual acceptance is still outstanding.

@@ -41,7 +41,7 @@
         },
         "bestFitSimilarity": {
           "scale": 0.999999995,
-          "rotationDegrees": -1.15e-7,
+          "rotationDegrees": -1.26e-7,
           "translationMetres": {
             "x": 0.000002,
             "z": -0.000003
@@ -54,7 +54,7 @@
             },
             "rmseMetres": 0.000222,
             "p50Metres": 0.000005,
-            "p95Metres": 0.000519,
+            "p95Metres": 0.000518,
             "p99Metres": 0.000617,
             "maxMetres": 0.000691
           }
@@ -79,7 +79,7 @@
           "rotationDegrees": -5e-9,
           "translationMetres": {
             "x": 0,
-            "z": -0.000001
+            "z": 0
           },
           "residuals": {
             "count": 23493,
@@ -105,7 +105,7 @@
           },
           "rmseMetres": 0.000095,
           "p50Metres": 0,
-          "p95Metres": 0.000195,
+          "p95Metres": 0.000194,
           "p99Metres": 0.000512,
           "maxMetres": 0.000689
         },
@@ -136,11 +136,11 @@
     {
       "source": {
         "path": "visbybuild/course-model.json",
-        "sha256": "9d485f6826f2275a1dbd8c8092ac447f210d64b2508406e1349f5d71a83c8699"
+        "sha256": "7fa91c189101583c345924e061e1e9a281733a12ef978e61693c580b695908c0"
       },
       "output": {
         "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-        "sha256": "474f10049d49c0b5c40d6a6d6f6e2493403adb7ce1bc71a4e326689b6db7a36e"
+        "sha256": "420b0151f55c03956c57b3dba7798f43793500a341c26c5da70a49d5b3ced6e2"
       },
       "coordinatePairCount": 26143,
       "ignoredMetadataPairCount": 0,
@@ -178,7 +178,7 @@
         },
         "rmseMetres": 0.000095,
         "p50Metres": 0,
-        "p95Metres": 0.000195,
+        "p95Metres": 0.000194,
         "p99Metres": 0.000512,
         "maxMetres": 0.000689
       },
@@ -219,7 +219,7 @@
           },
           "bestFitSimilarity": {
             "scale": 0.999999995,
-            "rotationDegrees": -1.15e-7,
+            "rotationDegrees": -1.26e-7,
             "translationMetres": {
               "x": 0.000002,
               "z": -0.000003
@@ -232,7 +232,7 @@
               },
               "rmseMetres": 0.000222,
               "p50Metres": 0.000005,
-              "p95Metres": 0.000519,
+              "p95Metres": 0.000518,
               "p99Metres": 0.000617,
               "maxMetres": 0.000691
             }
@@ -257,7 +257,7 @@
             "rotationDegrees": -5e-9,
             "translationMetres": {
               "x": 0,
-              "z": -0.000001
+              "z": 0
             },
             "residuals": {
               "count": 23493,
@@ -283,7 +283,7 @@
             },
             "rmseMetres": 0.000095,
             "p50Metres": 0,
-            "p95Metres": 0.000195,
+            "p95Metres": 0.000194,
             "p99Metres": 0.000512,
             "maxMetres": 0.000689
           },

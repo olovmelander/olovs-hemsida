@@ -40,12 +40,35 @@ test('expanded tee inventory survives regeneration and keeps reviewed cameras on
     for (const move of entry.cameraMoves) {
       const index = [63, 59, 55, 51, 46, 41].indexOf(move.tee), mark = hole.tees.marks[index];
       const distance = Math.hypot(mark.c[0] - move.fromLocal[0], mark.c[1] - move.fromLocal[1]);
-      assert.ok(distance <= review.method.maxCameraMoveMetres + 1e-6);
+      if (move.assignment === 'caddee-platform-identity') {
+        assert.ok(entry.numberedPlatformReview, 'a larger move requires independent numbered-platform evidence');
+      } else assert.ok(distance <= review.method.maxCameraMoveMetres + 1e-6);
       assert.ok(Math.abs(distance - move.distanceMetres) < 0.001);
       assert.ok(hole.tees.pads.some(p => pointInPoly(...mark.c, p.ring)));
       assert.ok(mark.placement.includes('daily marker location unverified'));
     }
   }
+});
+
+test('numbered tee references use the plan-identified platform, not just any nearby tee turf', () => {
+  const geometry = json('./mapping/geometry.json'), model = json('./course-model.json');
+  const facility = json('./mapping/facilities-review.json');
+  const platforms = json('./mapping/tee-platform-review.json');
+  const resources = json('./reference/club-resources.json');
+  for (const [n, review] of [[1, facility.hole1.numberedPlatformReview], [9, platforms.holes.find(h => h.n === 9).numberedPlatformReview]]) {
+    const asset = resources.downloads.find(a => a.id === review.sourceAssetId);
+    assert.equal(asset.holeNumber, n);
+    assert.equal(asset.sha256, review.sourceSha256);
+    assert.equal(asset.resolvedUrl, review.sourceUrl);
+    const hole = model.holes[n - 1];
+    for (const [i, tee] of ['tee-63', 'tee-59', 'tee-55', 'tee-51', 'tee-46', 'tee-41'].entries()) {
+      const ring = hole.tees.pads[review.padIndicesByTee[tee]].ring;
+      assert.ok(pointInPoly(...hole.tees.marks[i].c, ring), `hole ${n} ${tee} must be on its associated platform`);
+    }
+  }
+  const wrong = structuredClone(facility);
+  wrong.hole1.cameraReferencesPixels['tee-59'] = [256, 573]; // Previously accepted: inside the middle tee, but 59 belongs on the rear one.
+  assert.throws(() => applyReviewedFacilities(geometry, wrong), /outside its numbered platform/);
 });
 
 test('tee review rejects bad source grids, duplicate holes and cameras off platforms', () => {

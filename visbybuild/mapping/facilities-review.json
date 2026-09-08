@@ -9,8 +9,16 @@
     "sha256": "cbd6799fedc649c8bd4b6e3095fa5b84d1f90a7ee5677074bd46162a160bf8fb",
     "bytes": 1141590,
     "retrievedAt": "2026-09-08T14:55:34.422522+00:00",
-    "imageSize": [880, 880],
-    "extentEpsg3006": [687105.5, 6370716.5, 687325.5, 6370936.5],
+    "imageSize": [
+      880,
+      880
+    ],
+    "extentEpsg3006": [
+      687105.5,
+      6370716.5,
+      687325.5,
+      6370936.5
+    ],
     "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
     "observedYear": 2022,
     "captureDate": null,
@@ -22,22 +30,192 @@
     "id": "clubhouse-putting-green-2022",
     "identitySource": "https://www.visbygk.com/trackman-range/",
     "identityEvidence": "The club describes a large putting green beside the clubhouse. This separate mown surface lies immediately west of its mapped footprint.",
-    "ringPixels": [[229,780],[247,763],[283,746],[315,735],[407,730],[416,738],[419,784],[436,826],[434,837],[406,834],[374,826],[322,820],[267,815],[239,803],[229,791],[229,780]],
+    "ringPixels": [
+      [
+        229,
+        780
+      ],
+      [
+        247,
+        763
+      ],
+      [
+        283,
+        746
+      ],
+      [
+        315,
+        735
+      ],
+      [
+        407,
+        730
+      ],
+      [
+        416,
+        738
+      ],
+      [
+        419,
+        784
+      ],
+      [
+        436,
+        826
+      ],
+      [
+        434,
+        837
+      ],
+      [
+        406,
+        834
+      ],
+      [
+        374,
+        826
+      ],
+      [
+        322,
+        820
+      ],
+      [
+        267,
+        815
+      ],
+      [
+        239,
+        803
+      ],
+      [
+        229,
+        791
+      ],
+      [
+        229,
+        780
+      ]
+    ],
     "note": "Conservative visible mowing boundary; no daily practice flags or equipment inferred."
   },
   "hole1": {
     "additionalPads": [
-      {"id":"hole-01-middle-platform-2022","ringPixels":[[250,484],[291,486],[287,578],[242,578],[250,484]]},
-      {"id":"hole-01-forward-platform-2022","ringPixels":[[266,390],[297,389],[294,428],[262,428],[266,390]]}
+      {
+        "id": "hole-01-middle-platform-2022",
+        "ringPixels": [
+          [
+            250,
+            484
+          ],
+          [
+            291,
+            486
+          ],
+          [
+            287,
+            578
+          ],
+          [
+            242,
+            578
+          ],
+          [
+            250,
+            484
+          ]
+        ]
+      },
+      {
+        "id": "hole-01-forward-platform-2022",
+        "ringPixels": [
+          [
+            266,
+            390
+          ],
+          [
+            297,
+            389
+          ],
+          [
+            294,
+            428
+          ],
+          [
+            262,
+            428
+          ],
+          [
+            266,
+            390
+          ]
+        ]
+      }
     ],
     "cameraReferencesPixels": {
-      "tee-59": [256,573],
-      "tee-55": [264,493],
-      "tee-51": [264,493],
-      "tee-46": [277,400],
-      "tee-41": [277,400]
+      "tee-59": [
+        256,
+        605
+      ],
+      "tee-55": [
+        264,
+        493
+      ],
+      "tee-51": [
+        264,
+        493
+      ],
+      "tee-46": [
+        277,
+        400
+      ],
+      "tee-41": [
+        277,
+        400
+      ]
     },
-    "cameraReferenceMethod": "Move the existing card-offset virtual cameras a few metres onto the nearest visible platform interior. The back-tee reference is retained. This does not establish numbered tee-to-platform identity or daily marker positions."
+    "cameraReferenceMethod": "Numbered platform identity checked against the Caddee hole-1 plan and the three observed coastal platforms. References stay inside their associated platform; daily marker positions and current surveyed coordinates are unknown.",
+    "numberedPlatformReview": {
+      "sourceAssetId": "caddee-18-hole-01",
+      "sourceUrl": "https://caddee-prod-media.s3.amazonaws.com/hole-images/8e21ba14-945f-4416-be47-8ab863dff9c7/hole-normal_web_3rges9A.png",
+      "sourceSha256": "9e830e2f24fb6f6b269dd645bb874ead798f637768c0f8770c93a08c4eed5ef1",
+      "method": "Read the printed tee numbers and platform groups in the plan, then match the platform sequence and path/shore relationships to the orthophoto. Plan pixels are identity evidence, not georeferenced control points.",
+      "reading": "Three platforms run north from the lighthouse beside the coastal path. The rear rectangle carries 63 and 59; the middle carries 55 and 51; the front carries 46 and 41. Tee 59 must not move to the middle platform merely to satisfy a card-length offset.",
+      "padIndicesByTee": {
+        "tee-63": 0,
+        "tee-59": 0,
+        "tee-55": 1,
+        "tee-51": 1,
+        "tee-46": 2,
+        "tee-41": 2
+      },
+      "planLabelPixelsByTee": {
+        "tee-63": [
+          420,
+          742
+        ],
+        "tee-59": [
+          417,
+          705
+        ],
+        "tee-55": [
+          401,
+          634
+        ],
+        "tee-51": [
+          422,
+          634
+        ],
+        "tee-46": [
+          397,
+          582
+        ],
+        "tee-41": [
+          419,
+          582
+        ]
+      },
+      "dailyMarkerPositions": "unverified; displayed points are representative locations inside the associated platform"
+    }
   },
   "limitations": [
     "2022 imagery cannot establish subsequent construction or current mowing boundaries.",

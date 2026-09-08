@@ -422,7 +422,7 @@
   },
   "method": {
     "boundary": "Manual visible turf boundary interpretation on the exact 0.25 m municipal 2022 export; only distinct prepared platforms adopted.",
-    "camera": "Retain the back references. For shorter virtual starts outside all observed pads, use the nearest platform interior inset by 1.5 m only within 25 m. This is a display reference, not evidence of numbered tee identity or daily marker position.",
+    "camera": "Retain back references. Where a numberedPlatformReview is present, use its plan-identified platform rather than the nearest-pad distance rule. Other shorter virtual starts retain the prior nearest observed platform inset of 1.5 m within 25 m. Daily marker positions remain unknown.",
     "maxCameraMoveMetres": 25,
     "cameraInsetMetres": 1.5,
     "rawImageRedistributed": false
@@ -752,7 +752,7 @@
         ],
         "tee-46": [
           356.310402,
-          391.0
+          391
         ],
         "tee-41": [
           378.922745,
@@ -1215,6 +1215,10 @@
         "tee-46": [
           399.137365,
           496.688585
+        ],
+        "tee-41": [
+          290,
+          704
         ]
       },
       "cameraMoves": [
@@ -1249,8 +1253,60 @@
             -40.50746250656816
           ],
           "distanceMetres": 12.312
+        },
+        {
+          "tee": 41,
+          "fromLocal": [
+            -374.7677345204811,
+            -10.692680884018841
+          ],
+          "distanceMetres": 37.665,
+          "assignment": "caddee-platform-identity",
+          "baselineGitCommit": "6cedb4f350a23270768a7f4415e4fdd1acc5dbf2"
         }
-      ]
+      ],
+      "numberedPlatformReview": {
+        "sourceAssetId": "caddee-18-hole-09",
+        "sourceUrl": "https://caddee-prod-media.s3.amazonaws.com/hole-images/cf8e6a3b-475d-4cb8-8fbe-16194917f509/hole-normal_web_a0LYlsF.png",
+        "sourceSha256": "d0ad1d44345c5c531e438769884282b7308c7242c15e2684653706a9b23bd7b0",
+        "method": "Read the printed tee numbers and platform groups in the plan, then match the platform sequence and path/shore relationships to the orthophoto. Plan pixels are identity evidence, not georeferenced control points.",
+        "reading": "The 63 platform lies across the road from the other three. On the course side of the road, 59/55 and 51/46 occupy successive platforms, and 41 is the separate front platform beside the road at the fairway entrance. The old 41 reference was on the opposite side of the approach, away from every observed platform.",
+        "padIndicesByTee": {
+          "tee-63": 0,
+          "tee-59": 1,
+          "tee-55": 1,
+          "tee-51": 2,
+          "tee-46": 2,
+          "tee-41": 3
+        },
+        "planLabelPixelsByTee": {
+          "tee-63": [
+            371,
+            905
+          ],
+          "tee-59": [
+            377,
+            820
+          ],
+          "tee-55": [
+            399,
+            820
+          ],
+          "tee-51": [
+            350,
+            732
+          ],
+          "tee-46": [
+            373,
+            732
+          ],
+          "tee-41": [
+            319,
+            626
+          ]
+        },
+        "dailyMarkerPositions": "unverified; displayed points are representative locations inside the associated platform"
+      }
     },
     {
       "n": 11,
@@ -1724,9 +1780,9 @@
   "summary": {
     "newPlatforms": 27,
     "areaSquareMetres": 2174.031,
-    "movedReferences": 38,
+    "movedReferences": 39,
     "onPlatformBefore": 12,
-    "onPlatformAfter": 57,
+    "onPlatformAfter": 58,
     "movesMetres": [
       4.521,
       13.781,
@@ -1754,6 +1810,7 @@
       2.143,
       12.312,
       12.312,
+      37.665,
       24.646,
       24.646,
       15.885,
@@ -1781,6 +1838,9 @@
       17,
       18
     ],
-    "coverageCountsScope": "The 12 holes receiving additional platforms; first-hole work is retained separately."
+    "coverageCountsScope": "The 12 holes receiving additional platforms; first-hole work is retained separately.",
+    "numberedPlatformHoles": [
+      9
+    ]
   }
 }

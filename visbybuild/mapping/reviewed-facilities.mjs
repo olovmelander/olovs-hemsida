@@ -1,5 +1,25 @@
 /* An idempotent authoring overlay. Source pixels are retained in the review;
  * this conversion is shared by adoption, regeneration and regression checks. */
+import { pointInPoly } from '../../geobuild/lib.mjs';
+
+export function validateNumberedPlatforms(hole, review) {
+  if (!review) return;
+  const tees = ['tee-63', 'tee-59', 'tee-55', 'tee-51', 'tee-46', 'tee-41'];
+  if (!review.sourceAssetId || !review.sourceUrl || !/^[a-f0-9]{64}$/.test(review.sourceSha256) ||
+      JSON.stringify(Object.keys(review.padIndicesByTee)) !== JSON.stringify(tees)) {
+    throw new Error('Numbered platform review requires source identity and all six tee associations');
+  }
+  for (const tee of tees) {
+    const index = review.padIndicesByTee[tee], pixel = review.planLabelPixelsByTee?.[tee];
+    if (!Number.isInteger(index) || !hole.tees.pads[index] || !Array.isArray(pixel) ||
+        pixel.length !== 2 || !pixel.every(Number.isFinite)) throw new Error('Invalid numbered platform association');
+    const reference = hole.tees.references?.[tee];
+    if (reference && !pointInPoly(...reference, hole.tees.pads[index].ring)) {
+      throw new Error(`Hole ${hole.n} ${tee} camera is outside its numbered platform`);
+    }
+  }
+}
+
 export function facilityPoint(review, pixel) {
   const source = review.source;
   const [xmin, ymin, xmax, ymax] = source.extentEpsg3006;
@@ -27,6 +47,7 @@ export function applyReviewedFacilities(input, review) {
   }
   h1.tees.references = { ...h1.tees.references, ...Object.fromEntries(Object.entries(review.hole1.cameraReferencesPixels).map(([tee, pixel]) => [tee, facilityPoint(review, pixel)])) };
   h1.tees.referenceMethod = review.hole1.cameraReferenceMethod;
+  validateNumberedPlatforms(h1, review.hole1.numberedPlatformReview);
   const practice = ring(review.practiceGreen.ringPixels);
   const scenery = geometry.scenery ??= {};
   const greens = scenery.greens ??= [];

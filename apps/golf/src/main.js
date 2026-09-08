@@ -56,6 +56,7 @@ import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engi
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
+import { teeView } from './engine/tee-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildCoastalWater } from './engine/coastal-water.mjs';
@@ -6747,16 +6748,12 @@ function setCam(mode, instant) {
   if (window.__navDrawer) window.__navDrawer.updateActiveCam(mode);
   const h = HOLES[hole - 1];
   const mk = h.tees.marks[teeIdx] || h.tees.marks[0];
-  const p0 = alongLine(h.line, 0), p1 = alongLine(h.line, 1);
   const b = alongLine(h.line, 0.02).b;
   const F = [Math.sin(b), Math.cos(b)];
   if (mode === 'tee') {
-    /* standing on the tee at eye height, looking down the hole. The aim point is a
-       little short of the green so the whole corridor is in frame rather than a flag
-       three hundred metres away filling the middle of an empty picture. */
-    const x = mk.c[0] - F[0] * 7, z = mk.c[1] - F[1] * 7;
-    const aim = alongLine(h.line, 0.72);
-    flyTo(V3(x, terrainH(x, z) + 2.4, z), V3(aim.x, terrainH(aim.x, aim.z) + 3, aim.z), DUR);
+    // Stand at the selected tee reference, at the same eye height as walking.
+    const { position: [x, z], aim } = teeView(h, mk);
+    flyTo(V3(x, terrainH(x, z) + GROUND_CLAMP.eye, z), V3(aim.x, terrainH(aim.x, aim.z) + 3, aim.z), DUR);
   } else if (mode === 'green') {
     /* the approach, not a plan of the green: back down the fairway at the height a
        ball is at when it lands, so the complex is seen the way it is played */
