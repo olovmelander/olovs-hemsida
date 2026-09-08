@@ -1,11 +1,12 @@
-publish=false
+publish=true
 levels=
-# acquire: first ring read for Visby. Reads all seven levels and commits the
-# acquisition evidence so this ground own sea-fill numbers replace the
-# reviewed thresholds carried over from Norrfallsviken before anything
-# publishes. 40.2% of the 16 km root is untiled open Baltic, measured from
-# the items own polygons; if the run refuses a component, read the boundary
-# median it names rather than widening the rule.
-# re-fire 2026-09-08: run 34201653506 threw on lod 0 because the reader
-# asserted a coastal item's raster origin IS its square's north-west corner,
-# which is false for both of Visby's west-cropped items. Fixed in aece6fc.
+# publish: acquire run 34203277715 read all seven levels in 25 s and left every
+# sample of every level finite. Read before this: one sea-fill component per
+# level, boundary median 0.230 m RH 2000 at every one of them -- exactly the
+# sea plateau measured independently inside the course window -- boundary
+# maximum 0.230 then 0.290 m, water fraction 1.000 then 0.836..0.839, filled
+# with its own boundary median. 636_67 and 637_67 answer 404 while all four
+# eastern neighbours answer 200, so the unpublished column is confirmed. Both
+# coastal items stop their overview chain at 16x and levels 5 and 6 resample
+# over them, which the evidence records per item per level. Every threshold in
+# the spec is now this ground's own measurement rather than Norrfallsviken's.
