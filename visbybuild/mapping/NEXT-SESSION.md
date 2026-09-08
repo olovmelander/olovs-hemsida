@@ -190,20 +190,41 @@ the source images are not redistributed as runtime textures.
 | No measured trees; `vegetation.*` all empty | **3,012 machine-reviewed individuals** + stand fields on all 256 tiles, acquired and eyeballed; publish still to run |
 | `npm run check:visby` 28/29; manifest gate red | 29/29 and green -- hole 16's fairway was desynced from `geometry.json` and six checksums were stale |
 | CLAUDE.md had no Visby section | it has one |
+| Six numbered tee marks per hole on ONE point, span 0 m | the back tee on its platform and each shorter tee walked up the observed route by the card's own difference: **85 of 108 marks move, 18 points become 80** |
+| 65 bunkers in `scenery`, no hole owns any | **48 assigned to their hole**, 17 left in scenery with the reason |
+| The Baltic flagged neither sea nor lake | seven rings `isSea` + `isLake`, `seaTintBandMetres` 0.05, and **the generator agrees** -- `build-course.mjs` used to write `isSea:false` and would have reverted it |
+| The vegetation publish had never landed | **3,249 individuals + 256 stand tiles published** on the 469-tile ring graph (run 34207369939) |
 
 ## Remaining mapping and approval work
 
 1. **Settle hole 9.** [`green-9-review.json`](green-9-review.json) has four
    records agreeing the traced ring is wrong and two readings of WHY that
    disagree; a trace on the summer capture separates them. Do not move the ring.
-2. **The six numbered tees still share one point per hole** (`marks[].c`
-   identical across all six, span 0 m) while the card spans 6230 m to 4216 m --
-   roughly 112 m a hole. They are camera references, as `evidence
-   .numericTeePositions` says, but the 0.16 m frame now resolves individual tee
-   decks and the survey gives an independent back tee, so they are traceable
-   rather than merely unknown.
-3. All 65 bunkers sit in `scenery.bunkers` with no hole ownership, and OSM's own
-   5 bunkers and 17 greens are an independent check that has not been run.
+   One correction has been folded in: OSM is NOT an independent check here.
+   Seventeen of the eighteen model greens carry
+   `sourceIds:["visby-osm-2026-09-07"]` and the two area multisets are identical
+   apart from hole 3's, so asking OSM whether the model's greens are right is
+   asking the model about itself.
+2. **DONE, and the imagery refused its half.** The six numbered tees no longer
+   share one point: `teeMarks` in [`build-course.mjs`](../build-course.mjs)
+   holds the back tee on its observed platform and walks each shorter tee UP the
+   observed route by the card's own difference from the back tee -- 85 of 108
+   marks move, 18 points become 80, and `elev.tee` is re-read at the 59 tee.
+   Only differences are used, never absolute route length, so a route short of
+   its card (this one is, by a median 8%) does not corrupt the tee spacing; the
+   walk is clamped inside the measured line, so nothing is extrapolated and no
+   pad is inferred. `tees.inferPads` stays false. What the ORTHOPHOTO could not
+   do is recorded in [`tee-decks.json`](tee-decks.json) with its numbers: the
+   reading recovers 10 of the 17 mapped decks on the independent 2026 flight, at
+   a median 5.4 m and with areas 0.21-1.88x theirs, which is not an instrument.
+   It does corroborate that 90 of the 108 derived points sit on compact mown
+   ground, and none lands in water, a bunker, a building or on a green.
+3. **DONE.** 48 of the 65 observed bunkers now carry the hole that owns them
+   ([`assign-bunkers.mjs`](assign-bunkers.mjs), reviewed in
+   [`bunker-ownership-review.json`](bunker-ownership-review.json)); the
+   remaining 17 stay in `scenery.bunkers` because no hole's green or fairway
+   claims them by the margin the rule requires -- most belong to the separate
+   nine that shares this property. No outline moved.
 4. `vegetation.forest/wood/scrub/wetland/sand/rock` stay empty, and OSM will
    never fill them: it has **zero** vegetation polygons inside the played bbox
    +500 m while the imagery measures ~22.4 ha of canopy inside the same hull.

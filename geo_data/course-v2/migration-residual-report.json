@@ -1105,37 +1105,37 @@
       "outsideCourseVicinity5km": 0,
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 1330,
+          "coordinatePairCount": 2071,
           "directFrameDelta": {
-            "count": 1330,
+            "count": 2071,
             "biasMetres": {
               "x": 0.000005,
-              "z": 0.000004
+              "z": -0.000001
             },
-            "rmseMetres": 0.000287,
+            "rmseMetres": 0.000233,
             "p50Metres": 0,
-            "p95Metres": 0.000556,
-            "p99Metres": 0.000635,
+            "p95Metres": 0.000528,
+            "p99Metres": 0.000624,
             "maxMetres": 0.000689
           },
           "bestFitSimilarity": {
-            "scale": 0.999999993,
-            "rotationDegrees": 5.36e-7,
+            "scale": 0.999999997,
+            "rotationDegrees": -1.87e-7,
             "translationMetres": {
-              "x": 0.000003,
-              "z": 0.000004
+              "x": 0.000005,
+              "z": -0.000002
             },
             "residuals": {
-              "count": 1330,
+              "count": 2071,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 0.000287,
-              "p50Metres": 0.000016,
-              "p95Metres": 0.000555,
-              "p99Metres": 0.000633,
-              "maxMetres": 0.000697
+              "rmseMetres": 0.000233,
+              "p50Metres": 0.000006,
+              "p95Metres": 0.000525,
+              "p99Metres": 0.000621,
+              "maxMetres": 0.000693
             }
           }
         },
@@ -1145,19 +1145,19 @@
             "count": 19792,
             "biasMetres": {
               "x": 0,
-              "z": 0
+              "z": -0.000001
             },
             "rmseMetres": 0.00011,
             "p50Metres": 0,
-            "p95Metres": 0.000308,
-            "p99Metres": 0.000535,
+            "p95Metres": 0.000313,
+            "p99Metres": 0.000533,
             "maxMetres": 0.000689
           },
           "bestFitSimilarity": {
             "scale": 1,
-            "rotationDegrees": -1.8e-8,
+            "rotationDegrees": -2.6e-8,
             "translationMetres": {
-              "x": 0,
+              "x": 0.000001,
               "z": 0
             },
             "residuals": {
@@ -1168,9 +1168,9 @@
               },
               "rmseMetres": 0.00011,
               "p50Metres": 0.000001,
-              "p95Metres": 0.000308,
-              "p99Metres": 0.000535,
-              "maxMetres": 0.000689
+              "p95Metres": 0.000313,
+              "p99Metres": 0.000533,
+              "maxMetres": 0.00069
             }
           }
         },
@@ -1180,19 +1180,19 @@
             "count": 19792,
             "biasMetres": {
               "x": 0,
-              "z": 0
+              "z": -0.000001
             },
             "rmseMetres": 0.00011,
             "p50Metres": 0,
-            "p95Metres": 0.000308,
-            "p99Metres": 0.000535,
+            "p95Metres": 0.000313,
+            "p99Metres": 0.000533,
             "maxMetres": 0.000689
           },
           "bestFitSimilarity": {
             "scale": 1,
-            "rotationDegrees": -1.8e-8,
+            "rotationDegrees": -2.6e-8,
             "translationMetres": {
-              "x": 0,
+              "x": 0.000001,
               "z": 0
             },
             "residuals": {
@@ -1203,21 +1203,21 @@
               },
               "rmseMetres": 0.00011,
               "p50Metres": 0.000001,
-              "p95Metres": 0.000308,
-              "p99Metres": 0.000535,
-              "maxMetres": 0.000689
+              "p95Metres": 0.000313,
+              "p99Metres": 0.000533,
+              "maxMetres": 0.00069
             }
           }
         }
       },
       "report": {
         "path": "geo_data/course-v2/visby/migration/residual-report.json",
-        "sha256": "1dc4c7f4c112ef1bd1d7609f02ef1c96d955ce3a83f032496874590b5770a6d5"
+        "sha256": "2d5e9de2b9f84aa698071660d066e2a317f6da230a54e60ccf042db7962a86aa"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-          "sha256": "3f06eeca045fba67e47c9c374ac9829ea1d1c8b963d1a84e52ffed6c30518996"
+          "sha256": "27d0aee513081a056f7e1d5bf888286dd16f95a81ebb3bbf579557208b1a66d3"
         }
       ]
     }

@@ -3908,7 +3908,84 @@ without removing it, and `tools/audit-canopy-sources.mjs` is what settles it —
 the deciding statistic is the laser height where the raster claims canopy and
 the laser does not, never the fraction.
 
+### The six numbered tees stood on one point, and the photograph could not fix it
+
+Every hole carried six numbered tee marks at ONE coordinate while the card spans
+6230 m to 4216 m — about **112 m a hole** — so five of every six tee cameras
+stood up to 172 m from the tee whose number the HUD was printing, and Kikaren
+measured one distance to the green from all six against a card printed beside
+it. One deck a hole is mapped, 7–32 m long and aligned with the hole, which
+cannot hold six tees 112 m apart.
+
+**The orthophoto was asked first and refused.** `visbybuild/mapping/trace-tees.py`
+reads at the card's own point and its verdict is in `mapping/tee-decks.json`:
+it recovers only **10 of the 17 MAPPED decks** on the independent 2026 flight, at
+a median 5.4 m from their centres and with areas **0.21–1.88×** theirs. An
+instrument that misses two of every five features it is calibrated on cannot
+outline features nobody has mapped. Three measurements say why, and each is
+worth carrying to the next links:
+
+- **An absolute colour cut is useless here.** A threshold keeping 90% of the
+  mapped mown turf also keeps **51% of everything else** — in April the fescue
+  rough greens up with the fairway. What separates a deck is LOCAL: greener and
+  smoother than the ground immediately around it.
+- **The Ribbingsfors "a tee deck is laser-flat" rule says nothing on
+  Kronholmen.** 35% of the played box is flatter than 0.10 m over 5 m, so
+  flatness cannot detect a deck on this ground and is kept only as a
+  corroboration a reading may have or lack. A rule from a course with relief is
+  not a rule.
+- **The better-looking capture was the one that cannot be asked.** Region
+  Gotland's 0.25 m summer 2022 frame reproduces every mapped deck greener than
+  its collar and 4.7× smoother, against 16 of 17 and 13 of 17 on Lantmäteriet's
+  0.16 m April 2026 flight — and that comparison is worthless, because **the
+  mapped decks were traced ON the Gotland image**. It is being asked to
+  reproduce itself. The April flight is the independent record and its weaker
+  numbers are the real ones. Ängsö's lesson met from the other side: there a
+  newer picture lost to an older one on a test neither had seen; here the older
+  one wins a test it wrote itself.
+
+**So the position is DERIVED, and derived in the one way that needs no
+extrapolation and infers no platform.** `teeMarks` in `build-course.mjs` holds
+the back tee exactly where the observed platform is and walks each shorter tee
+UP the observed route by the card's OWN DIFFERENCE from the back tee. Only
+differences are used, never absolute route length — this course's routes run a
+median 8% short of their card, and that is a separate fault from the spacing
+between its tees — and the walk is clamped inside the measured line and stops
+20 m short of its end, so nothing stands on ground the route never covered.
+85 of 108 marks move, 18 points become 80, `inferPads` stays false and no daily
+marker is claimed. Corroboration, not proof: 90 of the 108 derived points have a
+compact mown patch within 26 m, and **none lands in water, a bunker, a building
+or on a green**.
+
+**The rule lives in ONE exported function because the model and its generator
+had already drifted once.** `build-course.mjs` cannot run in a fresh checkout —
+it reads the acquired 1 m Float32 raster from the ignored cache and asserts its
+pinned sha256, which a raster synthesised from the published graph cannot match
+byte for byte — so the sea flags were applied to `course-model.json` alone and
+the generator still wrote `isSea:false`, ready to revert them. Both are fixed
+together: the generator now writes the sea decision, and `teeMarks` is called by
+the generator, by `mapping/apply-tee-marks.mjs` and by `course.node-test.mjs`,
+which re-derives every mark and demands the committed model equals it.
+
+### The bunkers know their hole now
+
+48 of the 65 observed bunker outlines carry the hole that owns them
+(`mapping/assign-bunkers.mjs`, reviewed in `bunker-ownership-review.json`): a
+ring is a hole's when it lies within 25 m of that hole's own green or fairway
+and at least 8 m nearer to it than to any other. The remaining 17 stay in
+`scenery.bunkers` with the reason — most sit on the shared property away from
+the eighteen, which is where the separate nine plays. **No outline moved**, and
+the partition is asserted: every ring before is a ring after, none twice.
+
 ### What OSM can and cannot supply here
+
+**OSM IS AN INPUT HERE, NOT A CHECK — this catches people out.** Seventeen of
+the model's eighteen greens carry `sourceIds: ["visby-osm-2026-09-07"]` and ARE
+OSM's seventeen `golf=green` ways; only hole 3's comes from the 2022 municipal
+image, because OSM has no green there. So measuring the model's greens against
+OSM is circular and proves nothing, and anything odd about a green ring — hole
+9's 1670 m² among them — is odd in OpenStreetMap rather than mis-traced here.
+What stays independent is GolfTraxx, which entered neither.
 
 The property hull exists and is free, independent corroboration: **way
 199830330, 41 nodes, 123.716 ha, `golf:course=27_hole`**. Inside it: 17 greens,

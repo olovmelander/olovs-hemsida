@@ -215,60 +215,183 @@
             ],
             "b": 0,
             "m": 159,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              -580.0277727558587,
-              173.17129188559844
+              -579.4478447165108,
+              160.1839518425217
             ],
             "b": 0,
             "m": 146,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -580.0277727558587,
-              173.17129188559844
+              -578.2875341494337,
+              134.20985552738634
             ],
             "b": 0,
             "m": 120,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -580.0277727558587,
-              173.17129188559844
+              -578.2875341494337,
+              134.20985552738634
             ],
             "b": 0,
             "m": 120,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -580.0277727558587,
-              173.17129188559844
+              -577.1718509118596,
+              109.23476291667924
             ],
             "b": 0,
             "m": 95,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -580.0277727558587,
-              173.17129188559844
+              -577.1718509118596,
+              109.23476291667924
             ],
             "b": 0,
             "m": 95,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -585.25,
+              8.75
+            ],
+            [
+              -589.25,
+              9.25
+            ],
+            [
+              -588.75,
+              12.25
+            ],
+            [
+              -591.75,
+              12.75
+            ],
+            [
+              -592.75,
+              15.75
+            ],
+            [
+              -589.75,
+              17.75
+            ],
+            [
+              -590.25,
+              21.25
+            ],
+            [
+              -586.25,
+              21.25
+            ],
+            [
+              -586.25,
+              15.25
+            ],
+            [
+              -583.75,
+              11.75
+            ],
+            [
+              -582.25,
+              11.75
+            ],
+            [
+              -585.25,
+              8.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -558.75,
+              32.25
+            ],
+            [
+              -562.25,
+              32.25
+            ],
+            [
+              -564.25,
+              36.25
+            ],
+            [
+              -567.75,
+              36.25
+            ],
+            [
+              -569.75,
+              38.25
+            ],
+            [
+              -569.75,
+              48.25
+            ],
+            [
+              -568.75,
+              49.75
+            ],
+            [
+              -564.25,
+              50.25
+            ],
+            [
+              -563.25,
+              48.75
+            ],
+            [
+              -563.25,
+              43.25
+            ],
+            [
+              -560.75,
+              41.25
+            ],
+            [
+              -558.75,
+              41.25
+            ],
+            [
+              -557.25,
+              38.75
+            ],
+            [
+              -555.75,
+              38.75
+            ],
+            [
+              -558.75,
+              32.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
         "tee": 5.5,
         "green": 2.8,
-        "rise": -2.8
+        "rise": -2.7
       },
       "tiers": 1,
       "name": null,
@@ -589,60 +712,306 @@
             ],
             "b": 0,
             "m": 411,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              -534.1861118253186,
-              57.172292841502234
+              -521.4490491759099,
+              40.475590694506074
             ],
             "b": 0,
             "m": 390,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -534.1861118253186,
-              57.172292841502234
+              -503.2534051415141,
+              16.62357740058144
             ],
             "b": 0,
             "m": 360,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -534.1861118253186,
-              57.172292841502234
+              -478.38602496117323,
+              -15.974174101115565
             ],
             "b": 0,
             "m": 319,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -534.1861118253186,
-              57.172292841502234
+              -451.69908037739276,
+              -50.95712693220503
             ],
             "b": 0,
             "m": 275,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -534.1861118253186,
-              57.172292841502234
+              -451.69908037739276,
+              -50.95712693220503
             ],
             "b": 0,
             "m": 275,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -398.75,
+              -294.25
+            ],
+            [
+              -400.25,
+              -291.75
+            ],
+            [
+              -398.75,
+              -275.25
+            ],
+            [
+              -394.75,
+              -273.25
+            ],
+            [
+              -390.75,
+              -274.75
+            ],
+            [
+              -390.25,
+              -272.25
+            ],
+            [
+              -391.25,
+              -270.75
+            ],
+            [
+              -398.25,
+              -269.25
+            ],
+            [
+              -398.75,
+              -265.75
+            ],
+            [
+              -401.25,
+              -261.75
+            ],
+            [
+              -399.75,
+              -259.25
+            ],
+            [
+              -395.75,
+              -260.25
+            ],
+            [
+              -394.75,
+              -262.25
+            ],
+            [
+              -395.25,
+              -264.75
+            ],
+            [
+              -389.75,
+              -265.75
+            ],
+            [
+              -386.75,
+              -268.75
+            ],
+            [
+              -385.25,
+              -272.25
+            ],
+            [
+              -385.25,
+              -275.25
+            ],
+            [
+              -389.25,
+              -280.75
+            ],
+            [
+              -394.25,
+              -280.75
+            ],
+            [
+              -394.25,
+              -287.25
+            ],
+            [
+              -397.75,
+              -290.75
+            ],
+            [
+              -398.75,
+              -294.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -370.75,
+              -176.75
+            ],
+            [
+              -372.75,
+              -176.25
+            ],
+            [
+              -376.25,
+              -172.25
+            ],
+            [
+              -375.25,
+              -164.25
+            ],
+            [
+              -377.75,
+              -159.75
+            ],
+            [
+              -377.75,
+              -155.75
+            ],
+            [
+              -375.75,
+              -152.75
+            ],
+            [
+              -370.75,
+              -152.75
+            ],
+            [
+              -369.25,
+              -153.75
+            ],
+            [
+              -368.75,
+              -155.25
+            ],
+            [
+              -370.75,
+              -158.75
+            ],
+            [
+              -370.25,
+              -163.75
+            ],
+            [
+              -368.25,
+              -163.75
+            ],
+            [
+              -365.75,
+              -160.25
+            ],
+            [
+              -364.25,
+              -160.25
+            ],
+            [
+              -362.75,
+              -162.25
+            ],
+            [
+              -363.25,
+              -166.75
+            ],
+            [
+              -365.25,
+              -168.75
+            ],
+            [
+              -368.75,
+              -169.25
+            ],
+            [
+              -368.75,
+              -175.25
+            ],
+            [
+              -370.75,
+              -176.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -409.25,
+              -177.25
+            ],
+            [
+              -411.75,
+              -175.25
+            ],
+            [
+              -411.75,
+              -166.75
+            ],
+            [
+              -409.25,
+              -164.75
+            ],
+            [
+              -409.25,
+              -161.75
+            ],
+            [
+              -407.25,
+              -161.25
+            ],
+            [
+              -407.25,
+              -158.75
+            ],
+            [
+              -404.25,
+              -161.75
+            ],
+            [
+              -403.25,
+              -169.75
+            ],
+            [
+              -406.75,
+              -170.75
+            ],
+            [
+              -406.75,
+              -176.25
+            ],
+            [
+              -409.25,
+              -177.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
-        "tee": 4,
+        "tee": 3.3,
         "green": 4.1,
-        "rise": 0.1
+        "rise": 0.8
       },
       "tiers": 1,
       "name": null,
@@ -1081,60 +1450,333 @@
             ],
             "b": 0,
             "m": 525,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              -368.4611111111111,
-              -354.3722222222222
+              -360.8956243542877,
+              -388.5447756848598
             ],
             "b": 0,
             "m": 490,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -368.4611111111111,
-              -354.3722222222222
+              -360.8956243542877,
+              -388.5447756848598
             ],
             "b": 0,
             "m": 490,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -368.4611111111111,
-              -354.3722222222222
+              -351.8172236277225,
+              -429.5518804381572
             ],
             "b": 0,
             "m": 448,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -368.4611111111111,
-              -354.3722222222222
+              -340.5019604200129,
+              -476.1506137924629
             ],
             "b": 0,
             "m": 400,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -368.4611111111111,
-              -354.3722222222222
+              -333.9315479211875,
+              -495.04054972658605
             ],
             "b": 0,
             "m": 380,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -182.75,
+              -793.75
+            ],
+            [
+              -188.25,
+              -793.25
+            ],
+            [
+              -189.75,
+              -790.25
+            ],
+            [
+              -195.25,
+              -789.25
+            ],
+            [
+              -196.75,
+              -792.75
+            ],
+            [
+              -200.75,
+              -792.25
+            ],
+            [
+              -201.75,
+              -789.75
+            ],
+            [
+              -200.75,
+              -788.75
+            ],
+            [
+              -200.75,
+              -785.25
+            ],
+            [
+              -205.75,
+              -781.75
+            ],
+            [
+              -206.25,
+              -780.25
+            ],
+            [
+              -202.75,
+              -771.75
+            ],
+            [
+              -194.75,
+              -774.75
+            ],
+            [
+              -193.75,
+              -776.25
+            ],
+            [
+              -194.25,
+              -778.25
+            ],
+            [
+              -199.25,
+              -777.75
+            ],
+            [
+              -199.75,
+              -780.25
+            ],
+            [
+              -195.75,
+              -784.75
+            ],
+            [
+              -188.75,
+              -783.75
+            ],
+            [
+              -187.75,
+              -786.25
+            ],
+            [
+              -182.75,
+              -789.75
+            ],
+            [
+              -182.75,
+              -793.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -169.75,
+              -799.75
+            ],
+            [
+              -172.25,
+              -801.75
+            ],
+            [
+              -175.25,
+              -801.75
+            ],
+            [
+              -180.75,
+              -796.75
+            ],
+            [
+              -181.25,
+              -794.25
+            ],
+            [
+              -178.75,
+              -792.75
+            ],
+            [
+              -175.25,
+              -793.25
+            ],
+            [
+              -169.75,
+              -798.25
+            ],
+            [
+              -169.75,
+              -799.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -231.75,
+              -700.25
+            ],
+            [
+              -230.25,
+              -699.25
+            ],
+            [
+              -230.25,
+              -696.25
+            ],
+            [
+              -229.25,
+              -697.25
+            ],
+            [
+              -222.75,
+              -697.25
+            ],
+            [
+              -221.75,
+              -698.75
+            ],
+            [
+              -222.25,
+              -699.75
+            ],
+            [
+              -222.75,
+              -698.25
+            ],
+            [
+              -224.75,
+              -698.25
+            ],
+            [
+              -226.75,
+              -700.75
+            ],
+            [
+              -230.25,
+              -701.75
+            ],
+            [
+              -231.75,
+              -700.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -287.75,
+              -594.75
+            ],
+            [
+              -288.75,
+              -591.25
+            ],
+            [
+              -290.25,
+              -590.75
+            ],
+            [
+              -292.25,
+              -586.75
+            ],
+            [
+              -298.25,
+              -588.25
+            ],
+            [
+              -299.25,
+              -586.25
+            ],
+            [
+              -302.75,
+              -586.25
+            ],
+            [
+              -302.75,
+              -582.75
+            ],
+            [
+              -300.25,
+              -581.75
+            ],
+            [
+              -298.25,
+              -583.25
+            ],
+            [
+              -295.25,
+              -583.25
+            ],
+            [
+              -292.75,
+              -580.25
+            ],
+            [
+              -289.75,
+              -579.75
+            ],
+            [
+              -289.75,
+              -583.25
+            ],
+            [
+              -286.25,
+              -586.25
+            ],
+            [
+              -286.25,
+              -588.25
+            ],
+            [
+              -288.25,
+              -589.75
+            ],
+            [
+              -287.75,
+              -594.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
-        "tee": 3.8,
+        "tee": 3.1,
         "green": 2,
-        "rise": -1.8
+        "rise": -1.1
       },
       "tiers": 1,
       "name": null,
@@ -1511,56 +2153,266 @@
             ],
             "b": 0,
             "m": 310,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              -58.31182514803204,
-              -792.3670323928944
+              -77.49959940047732,
+              -805.0491145412934
             ],
             "b": 0,
             "m": 287,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -58.31182514803204,
-              -792.3670323928944
+              -77.49959940047732,
+              -805.0491145412934
             ],
             "b": 0,
             "m": 287,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -58.31182514803204,
-              -792.3670323928944
+              -108.36660713162453,
+              -825.4507770648551
             ],
             "b": 0,
             "m": 250,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -58.31182514803204,
-              -792.3670323928944
+              -108.36660713162453,
+              -825.4507770648551
             ],
             "b": 0,
             "m": 250,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -58.31182514803204,
-              -792.3670323928944
+              -136.73088450619224,
+              -844.1982507351549
             ],
             "b": 0,
             "m": 216,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -340.25,
+              -968.75
+            ],
+            [
+              -342.25,
+              -968.75
+            ],
+            [
+              -344.75,
+              -966.75
+            ],
+            [
+              -348.25,
+              -967.25
+            ],
+            [
+              -354.25,
+              -960.25
+            ],
+            [
+              -352.25,
+              -955.25
+            ],
+            [
+              -354.75,
+              -953.25
+            ],
+            [
+              -354.75,
+              -951.25
+            ],
+            [
+              -350.25,
+              -945.75
+            ],
+            [
+              -346.25,
+              -948.25
+            ],
+            [
+              -346.25,
+              -956.25
+            ],
+            [
+              -338.75,
+              -964.75
+            ],
+            [
+              -338.25,
+              -966.25
+            ],
+            [
+              -340.25,
+              -968.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -341.25,
+              -941.25
+            ],
+            [
+              -341.75,
+              -937.75
+            ],
+            [
+              -344.25,
+              -935.25
+            ],
+            [
+              -343.75,
+              -932.25
+            ],
+            [
+              -339.75,
+              -930.75
+            ],
+            [
+              -337.75,
+              -933.25
+            ],
+            [
+              -335.75,
+              -933.25
+            ],
+            [
+              -333.75,
+              -930.75
+            ],
+            [
+              -333.75,
+              -928.75
+            ],
+            [
+              -337.75,
+              -927.75
+            ],
+            [
+              -338.25,
+              -925.25
+            ],
+            [
+              -334.25,
+              -920.25
+            ],
+            [
+              -328.25,
+              -920.25
+            ],
+            [
+              -326.75,
+              -922.75
+            ],
+            [
+              -326.75,
+              -925.75
+            ],
+            [
+              -329.25,
+              -929.75
+            ],
+            [
+              -330.25,
+              -935.25
+            ],
+            [
+              -337.25,
+              -940.75
+            ],
+            [
+              -341.25,
+              -941.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -229.75,
+              -892.75
+            ],
+            [
+              -229.25,
+              -888.75
+            ],
+            [
+              -222.25,
+              -885.25
+            ],
+            [
+              -222.25,
+              -883.25
+            ],
+            [
+              -224.25,
+              -881.25
+            ],
+            [
+              -223.75,
+              -879.75
+            ],
+            [
+              -218.75,
+              -874.25
+            ],
+            [
+              -215.75,
+              -874.25
+            ],
+            [
+              -213.75,
+              -876.25
+            ],
+            [
+              -213.75,
+              -878.75
+            ],
+            [
+              -218.25,
+              -882.75
+            ],
+            [
+              -218.25,
+              -890.75
+            ],
+            [
+              -227.25,
+              -895.25
+            ],
+            [
+              -229.75,
+              -892.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
         "tee": 1.8,
         "green": 3.1,
@@ -1802,60 +2654,215 @@
             ],
             "b": 0,
             "m": 170,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              -400.14508632138114,
-              -905.7519920318725
+              -401.102065971742,
+              -892.7872633437701
             ],
             "b": 0,
             "m": 157,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -400.14508632138114,
-              -905.7519920318725
+              -402.2063716472992,
+              -877.8279682743181
             ],
             "b": 0,
             "m": 142,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -400.14508632138114,
-              -905.7519920318725
+              -402.7953346742631,
+              -869.8496775706103
             ],
             "b": 0,
             "m": 134,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -400.14508632138114,
-              -905.7519920318725
+              -403.7523995930793,
+              -856.8849551770852
             ],
             "b": 0,
             "m": 121,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -400.14508632138114,
-              -905.7519920318725
+              -405.51928867397083,
+              -832.950083065962
             ],
             "b": 0,
             "m": 97,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -416.25,
+              -787.25
+            ],
+            [
+              -417.75,
+              -786.75
+            ],
+            [
+              -419.75,
+              -782.25
+            ],
+            [
+              -421.25,
+              -772.25
+            ],
+            [
+              -423.25,
+              -769.25
+            ],
+            [
+              -421.75,
+              -766.75
+            ],
+            [
+              -418.75,
+              -765.75
+            ],
+            [
+              -414.25,
+              -773.25
+            ],
+            [
+              -415.75,
+              -779.75
+            ],
+            [
+              -413.25,
+              -780.75
+            ],
+            [
+              -412.25,
+              -782.75
+            ],
+            [
+              -412.75,
+              -785.75
+            ],
+            [
+              -416.25,
+              -787.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -388.75,
+              -757.75
+            ],
+            [
+              -389.75,
+              -757.75
+            ],
+            [
+              -390.25,
+              -755.75
+            ],
+            [
+              -396.25,
+              -756.25
+            ],
+            [
+              -399.75,
+              -752.75
+            ],
+            [
+              -399.75,
+              -748.75
+            ],
+            [
+              -397.25,
+              -746.25
+            ],
+            [
+              -398.75,
+              -740.75
+            ],
+            [
+              -396.75,
+              -738.75
+            ],
+            [
+              -397.25,
+              -734.25
+            ],
+            [
+              -395.75,
+              -732.25
+            ],
+            [
+              -391.25,
+              -731.75
+            ],
+            [
+              -389.25,
+              -734.25
+            ],
+            [
+              -389.25,
+              -741.25
+            ],
+            [
+              -391.75,
+              -743.75
+            ],
+            [
+              -391.75,
+              -745.75
+            ],
+            [
+              -393.25,
+              -746.25
+            ],
+            [
+              -393.25,
+              -748.25
+            ],
+            [
+              -389.75,
+              -750.25
+            ],
+            [
+              -389.75,
+              -753.75
+            ],
+            [
+              -385.75,
+              -754.25
+            ],
+            [
+              -388.75,
+              -757.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
         "tee": 6.1,
         "green": 5.2,
-        "rise": -0.8
+        "rise": -0.9
       },
       "tiers": 1,
       "name": null,
@@ -2212,56 +3219,333 @@
             ],
             "b": 0,
             "m": 447,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              -364.84103641456585,
-              -704.0297118847539
+              -370.20225747250436,
+              -680.6361805401973
             ],
             "b": 0,
             "m": 423,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -364.84103641456585,
-              -704.0297118847539
+              -374.6699182405203,
+              -661.1415657129705
             ],
             "b": 0,
             "m": 403,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -364.84103641456585,
-              -704.0297118847539
+              -384.7221549685562,
+              -617.2786823517101
             ],
             "b": 0,
             "m": 358,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -364.84103641456585,
-              -704.0297118847539
+              -384.7221549685562,
+              -617.2786823517101
             ],
             "b": 0,
             "m": 358,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -364.84103641456585,
-              -704.0297118847539
+              -390.08334789017533,
+              -593.885144559038
             ],
             "b": 0,
             "m": 334,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -437.25,
+              -576.25
+            ],
+            [
+              -444.25,
+              -578.25
+            ],
+            [
+              -447.25,
+              -574.75
+            ],
+            [
+              -447.75,
+              -572.75
+            ],
+            [
+              -443.75,
+              -571.75
+            ],
+            [
+              -443.25,
+              -569.25
+            ],
+            [
+              -450.25,
+              -566.25
+            ],
+            [
+              -450.75,
+              -562.25
+            ],
+            [
+              -449.75,
+              -559.25
+            ],
+            [
+              -448.75,
+              -561.25
+            ],
+            [
+              -442.75,
+              -560.75
+            ],
+            [
+              -440.75,
+              -561.75
+            ],
+            [
+              -436.75,
+              -566.25
+            ],
+            [
+              -435.75,
+              -573.75
+            ],
+            [
+              -437.25,
+              -576.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -422.75,
+              -521.25
+            ],
+            [
+              -424.75,
+              -520.75
+            ],
+            [
+              -427.25,
+              -517.75
+            ],
+            [
+              -430.75,
+              -505.25
+            ],
+            [
+              -429.75,
+              -500.75
+            ],
+            [
+              -426.75,
+              -498.75
+            ],
+            [
+              -422.75,
+              -501.25
+            ],
+            [
+              -419.75,
+              -501.25
+            ],
+            [
+              -419.25,
+              -499.75
+            ],
+            [
+              -418.25,
+              -501.75
+            ],
+            [
+              -419.75,
+              -502.25
+            ],
+            [
+              -419.75,
+              -505.25
+            ],
+            [
+              -415.25,
+              -507.75
+            ],
+            [
+              -415.25,
+              -509.25
+            ],
+            [
+              -418.75,
+              -512.75
+            ],
+            [
+              -421.25,
+              -512.75
+            ],
+            [
+              -423.25,
+              -515.75
+            ],
+            [
+              -422.75,
+              -521.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -425.75,
+              -375.75
+            ],
+            [
+              -427.75,
+              -375.25
+            ],
+            [
+              -428.75,
+              -373.25
+            ],
+            [
+              -427.75,
+              -367.75
+            ],
+            [
+              -430.75,
+              -365.75
+            ],
+            [
+              -432.75,
+              -362.25
+            ],
+            [
+              -431.75,
+              -359.75
+            ],
+            [
+              -428.75,
+              -359.25
+            ],
+            [
+              -429.25,
+              -356.25
+            ],
+            [
+              -426.75,
+              -353.75
+            ],
+            [
+              -424.25,
+              -354.25
+            ],
+            [
+              -422.75,
+              -356.75
+            ],
+            [
+              -420.25,
+              -356.25
+            ],
+            [
+              -417.75,
+              -359.75
+            ],
+            [
+              -418.75,
+              -363.25
+            ],
+            [
+              -422.25,
+              -364.25
+            ],
+            [
+              -421.25,
+              -369.25
+            ],
+            [
+              -423.25,
+              -374.25
+            ],
+            [
+              -425.75,
+              -375.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -424.75,
+              -340.75
+            ],
+            [
+              -427.25,
+              -340.75
+            ],
+            [
+              -428.25,
+              -339.25
+            ],
+            [
+              -429.25,
+              -321.25
+            ],
+            [
+              -425.75,
+              -322.25
+            ],
+            [
+              -423.75,
+              -327.75
+            ],
+            [
+              -424.25,
+              -332.25
+            ],
+            [
+              -422.75,
+              -334.25
+            ],
+            [
+              -423.25,
+              -338.75
+            ],
+            [
+              -424.75,
+              -340.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
         "tee": 1.9,
         "green": 3.2,
@@ -2507,60 +3791,230 @@
             ],
             "b": 0,
             "m": 200,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              -356.0972498343274,
-              -327.00049701789266
+              -328.70783045377544,
+              -336.5306553589388
             ],
             "b": 0,
             "m": 171,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -356.0972498343274,
-              -327.00049701789266
+              -300.37420678531834,
+              -346.3899540061169
             ],
             "b": 0,
             "m": 141,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -356.0972498343274,
-              -327.00049701789266
+              -300.37420678531834,
+              -346.3899540061169
             ],
             "b": 0,
             "m": 141,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -356.0972498343274,
-              -327.00049701789266
+              -300.37420678531834,
+              -346.3899540061169
             ],
             "b": 0,
             "m": 141,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -356.0972498343274,
-              -327.00049701789266
+              -272.98503723914314,
+              -355.9206093650558
             ],
             "b": 0,
             "m": 112,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -210.75,
+              -403.75
+            ],
+            [
+              -217.25,
+              -402.75
+            ],
+            [
+              -217.25,
+              -394.25
+            ],
+            [
+              -222.25,
+              -389.75
+            ],
+            [
+              -222.25,
+              -385.25
+            ],
+            [
+              -219.75,
+              -381.75
+            ],
+            [
+              -215.75,
+              -381.75
+            ],
+            [
+              -214.25,
+              -383.25
+            ],
+            [
+              -214.75,
+              -389.25
+            ],
+            [
+              -210.25,
+              -390.25
+            ],
+            [
+              -207.25,
+              -393.75
+            ],
+            [
+              -207.75,
+              -395.25
+            ],
+            [
+              -211.75,
+              -396.75
+            ],
+            [
+              -211.75,
+              -398.75
+            ],
+            [
+              -209.75,
+              -400.25
+            ],
+            [
+              -210.75,
+              -403.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -183.75,
+              -395.75
+            ],
+            [
+              -184.75,
+              -394.25
+            ],
+            [
+              -184.25,
+              -390.25
+            ],
+            [
+              -179.75,
+              -381.75
+            ],
+            [
+              -174.25,
+              -382.25
+            ],
+            [
+              -173.25,
+              -383.25
+            ],
+            [
+              -174.25,
+              -386.75
+            ],
+            [
+              -179.25,
+              -385.25
+            ],
+            [
+              -179.75,
+              -388.25
+            ],
+            [
+              -177.25,
+              -388.75
+            ],
+            [
+              -177.25,
+              -390.25
+            ],
+            [
+              -182.25,
+              -395.75
+            ],
+            [
+              -183.75,
+              -395.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -188.25,
+              -366.75
+            ],
+            [
+              -192.75,
+              -367.25
+            ],
+            [
+              -195.75,
+              -366.25
+            ],
+            [
+              -196.25,
+              -361.25
+            ],
+            [
+              -192.75,
+              -359.25
+            ],
+            [
+              -190.75,
+              -359.75
+            ],
+            [
+              -186.75,
+              -364.25
+            ],
+            [
+              -188.25,
+              -366.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
-        "tee": 3.9,
+        "tee": 2.3,
         "green": 3.7,
-        "rise": -0.2
+        "rise": 1.4
       },
       "tiers": 1,
       "name": null,
@@ -2913,58 +4367,110 @@
             ],
             "b": 0,
             "m": 414,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              -152.6072854291417,
-              -397.6911177644711
+              -164.9102338287812,
+              -374.7861519105309
             ],
             "b": 0,
             "m": 388,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -152.6072854291417,
-              -397.6911177644711
+              -185.25786526551357,
+              -336.90510262576447
             ],
             "b": 0,
             "m": 345,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -152.6072854291417,
-              -397.6911177644711
+              -212.2303069374611,
+              -286.6906884575858
             ],
             "b": 0,
             "m": 288,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -152.6072854291417,
-              -397.6911177644711
+              -212.2303069374611,
+              -286.6906884575858
             ],
             "b": 0,
             "m": 288,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -152.6072854291417,
-              -397.6911177644711
+              -233.99754056745385,
+              -246.166775269231
             ],
             "b": 0,
             "m": 242,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -332.25,
+              -131.75
+            ],
+            [
+              -333.25,
+              -130.75
+            ],
+            [
+              -332.75,
+              -121.75
+            ],
+            [
+              -326.25,
+              -119.25
+            ],
+            [
+              -324.75,
+              -116.25
+            ],
+            [
+              -322.75,
+              -115.75
+            ],
+            [
+              -320.75,
+              -117.25
+            ],
+            [
+              -316.75,
+              -126.25
+            ],
+            [
+              -317.75,
+              -129.25
+            ],
+            [
+              -320.75,
+              -130.75
+            ],
+            [
+              -332.25,
+              -131.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
-        "tee": 5,
+        "tee": 4.9,
         "green": 4.1,
         "rise": -0.8
       },
@@ -3399,56 +4905,301 @@
             ],
             "b": 0,
             "m": 334,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              -268,
-              -90
+              -301.71612669067827,
+              -64.95558343705858
             ],
             "b": 0,
             "m": 292,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -268,
-              -90
+              -301.71612669067827,
+              -64.95558343705858
             ],
             "b": 0,
             "m": 292,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -268,
-              -90
+              -334.62948846014984,
+              -40.50746250656816
             ],
             "b": 0,
             "m": 251,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -268,
-              -90
+              -334.62948846014984,
+              -40.50746250656816
             ],
             "b": 0,
             "m": 251,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -268,
-              -90
+              -374.7677345204811,
+              -10.692680884018841
             ],
             "b": 0,
             "m": 201,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -480.25,
+              64.75
+            ],
+            [
+              -482.25,
+              66.25
+            ],
+            [
+              -481.25,
+              70.75
+            ],
+            [
+              -482.25,
+              74.75
+            ],
+            [
+              -481.25,
+              76.25
+            ],
+            [
+              -475.75,
+              76.75
+            ],
+            [
+              -474.75,
+              72.25
+            ],
+            [
+              -477.25,
+              69.25
+            ],
+            [
+              -477.25,
+              65.75
+            ],
+            [
+              -480.25,
+              64.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -513.25,
+              91.75
+            ],
+            [
+              -515.25,
+              89.25
+            ],
+            [
+              -521.25,
+              90.75
+            ],
+            [
+              -523.25,
+              86.25
+            ],
+            [
+              -526.75,
+              88.25
+            ],
+            [
+              -532.75,
+              87.75
+            ],
+            [
+              -533.75,
+              88.75
+            ],
+            [
+              -533.25,
+              94.75
+            ],
+            [
+              -535.25,
+              98.75
+            ],
+            [
+              -533.75,
+              100.25
+            ],
+            [
+              -530.75,
+              98.75
+            ],
+            [
+              -529.25,
+              92.25
+            ],
+            [
+              -525.25,
+              91.75
+            ],
+            [
+              -524.75,
+              94.25
+            ],
+            [
+              -525.75,
+              96.25
+            ],
+            [
+              -521.75,
+              97.25
+            ],
+            [
+              -515.25,
+              94.25
+            ],
+            [
+              -513.25,
+              91.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -546.75,
+              134.25
+            ],
+            [
+              -549.75,
+              136.25
+            ],
+            [
+              -550.25,
+              138.75
+            ],
+            [
+              -548.25,
+              140.75
+            ],
+            [
+              -548.25,
+              143.25
+            ],
+            [
+              -546.75,
+              145.25
+            ],
+            [
+              -542.75,
+              145.75
+            ],
+            [
+              -540.75,
+              142.75
+            ],
+            [
+              -541.25,
+              138.75
+            ],
+            [
+              -543.75,
+              135.25
+            ],
+            [
+              -546.75,
+              134.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -509.75,
+              114.75
+            ],
+            [
+              -511.75,
+              114.75
+            ],
+            [
+              -516.75,
+              118.25
+            ],
+            [
+              -516.75,
+              123.25
+            ],
+            [
+              -518.75,
+              123.25
+            ],
+            [
+              -520.75,
+              120.75
+            ],
+            [
+              -524.25,
+              122.25
+            ],
+            [
+              -523.25,
+              125.25
+            ],
+            [
+              -524.25,
+              131.75
+            ],
+            [
+              -518.75,
+              132.75
+            ],
+            [
+              -516.25,
+              130.75
+            ],
+            [
+              -514.75,
+              125.75
+            ],
+            [
+              -508.75,
+              120.25
+            ],
+            [
+              -508.25,
+              116.75
+            ],
+            [
+              -509.75,
+              114.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
         "tee": 4.8,
         "green": 5.2,
@@ -3865,60 +5616,255 @@
             ],
             "b": 0,
             "m": 476,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              -383.8077047066409,
-              180.95567375886526
+              -371.94175617389817,
+              179.16702468878353
             ],
             "b": 0,
             "m": 464,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -383.8077047066409,
-              180.95567375886526
+              -320.5228258245298,
+              171.41501838545778
             ],
             "b": 0,
             "m": 412,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -383.8077047066409,
-              180.95567375886526
+              -320.5228258245298,
+              171.41501838545778
             ],
             "b": 0,
             "m": 412,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -383.8077047066409,
-              180.95567375886526
+              -280.96980247886177,
+              165.45193661366878
             ],
             "b": 0,
             "m": 372,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              -383.8077047066409,
-              180.95567375886526
+              -280.96980247886177,
+              165.45193661366878
             ],
             "b": 0,
             "m": 372,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -152.25,
+              201.25
+            ],
+            [
+              -153.25,
+              205.25
+            ],
+            [
+              -150.75,
+              208.75
+            ],
+            [
+              -147.75,
+              209.75
+            ],
+            [
+              -145.75,
+              206.75
+            ],
+            [
+              -143.75,
+              206.75
+            ],
+            [
+              -140.75,
+              210.75
+            ],
+            [
+              -135.75,
+              210.25
+            ],
+            [
+              -134.75,
+              213.75
+            ],
+            [
+              -137.75,
+              215.25
+            ],
+            [
+              -138.75,
+              218.75
+            ],
+            [
+              -143.25,
+              217.75
+            ],
+            [
+              -145.25,
+              219.75
+            ],
+            [
+              -147.25,
+              219.75
+            ],
+            [
+              -148.25,
+              214.75
+            ],
+            [
+              -150.25,
+              212.75
+            ],
+            [
+              -154.25,
+              213.75
+            ],
+            [
+              -155.75,
+              217.25
+            ],
+            [
+              -154.25,
+              221.75
+            ],
+            [
+              -149.75,
+              222.75
+            ],
+            [
+              -146.75,
+              226.25
+            ],
+            [
+              -144.75,
+              226.25
+            ],
+            [
+              -142.75,
+              223.75
+            ],
+            [
+              -138.75,
+              225.25
+            ],
+            [
+              -135.75,
+              224.75
+            ],
+            [
+              -132.75,
+              220.75
+            ],
+            [
+              -130.75,
+              210.75
+            ],
+            [
+              -133.25,
+              207.75
+            ],
+            [
+              -137.75,
+              205.75
+            ],
+            [
+              -141.75,
+              202.25
+            ],
+            [
+              -152.25,
+              201.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -24.75,
+              236.75
+            ],
+            [
+              -26.25,
+              244.25
+            ],
+            [
+              -22.75,
+              247.25
+            ],
+            [
+              -22.25,
+              252.25
+            ],
+            [
+              -20.75,
+              253.75
+            ],
+            [
+              -17.25,
+              253.75
+            ],
+            [
+              -15.25,
+              251.75
+            ],
+            [
+              -15.25,
+              249.25
+            ],
+            [
+              -16.75,
+              247.75
+            ],
+            [
+              -16.75,
+              245.75
+            ],
+            [
+              -14.75,
+              244.25
+            ],
+            [
+              -15.25,
+              241.75
+            ],
+            [
+              -20.75,
+              237.75
+            ],
+            [
+              -24.75,
+              236.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
-        "tee": 2.6,
+        "tee": 2.4,
         "green": 1.9,
-        "rise": -0.7
+        "rise": -0.5
       },
       "tiers": 1,
       "name": null,
@@ -4243,60 +6189,203 @@
             ],
             "b": 0,
             "m": 329,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              77.61345381526104,
-              379.6745553643144
+              104.04154383593581,
+              361.63138330750843
             ],
             "b": 0,
             "m": 297,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              77.61345381526104,
-              379.6745553643144
+              104.04154383593581,
+              361.63138330750843
             ],
             "b": 0,
             "m": 297,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              77.61345381526104,
-              379.6745553643144
+              147.81296396468562,
+              331.7472273061676
             ],
             "b": 0,
             "m": 244,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              77.61345381526104,
-              379.6745553643144
+              147.81296396468562,
+              331.7472273061676
             ],
             "b": 0,
             "m": 244,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              77.61345381526104,
-              379.6745553643144
+              177.5444946181761,
+              311.44855530525683
             ],
             "b": 0,
             "m": 208,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              260.75,
+              275.75
+            ],
+            [
+              263.75,
+              278.25
+            ],
+            [
+              275.25,
+              277.75
+            ],
+            [
+              278.25,
+              275.25
+            ],
+            [
+              280.75,
+              274.75
+            ],
+            [
+              281.25,
+              272.25
+            ],
+            [
+              277.25,
+              269.25
+            ],
+            [
+              276.25,
+              269.75
+            ],
+            [
+              276.25,
+              273.75
+            ],
+            [
+              273.25,
+              274.75
+            ],
+            [
+              270.75,
+              273.25
+            ],
+            [
+              270.75,
+              268.75
+            ],
+            [
+              268.75,
+              268.25
+            ],
+            [
+              267.75,
+              271.25
+            ],
+            [
+              262.75,
+              271.75
+            ],
+            [
+              260.75,
+              275.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              319.25,
+              281.75
+            ],
+            [
+              322.25,
+              284.75
+            ],
+            [
+              327.25,
+              285.75
+            ],
+            [
+              328.25,
+              284.25
+            ],
+            [
+              330.25,
+              284.25
+            ],
+            [
+              331.25,
+              286.75
+            ],
+            [
+              336.25,
+              288.25
+            ],
+            [
+              342.25,
+              284.25
+            ],
+            [
+              341.75,
+              282.25
+            ],
+            [
+              333.75,
+              280.25
+            ],
+            [
+              333.25,
+              275.75
+            ],
+            [
+              331.75,
+              274.25
+            ],
+            [
+              329.75,
+              274.25
+            ],
+            [
+              325.25,
+              278.25
+            ],
+            [
+              320.25,
+              279.75
+            ],
+            [
+              319.25,
+              281.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
-        "tee": 1.5,
+        "tee": 0.8,
         "green": 1.7,
-        "rise": 0.2
+        "rise": 0.9
       },
       "tiers": 1,
       "name": null,
@@ -4669,7 +6758,75 @@
           "visby-municipal-ortho-2022"
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              210.75,
+              121.75
+            ],
+            [
+              208.75,
+              122.25
+            ],
+            [
+              206.25,
+              125.75
+            ],
+            [
+              205.75,
+              128.75
+            ],
+            [
+              206.75,
+              131.25
+            ],
+            [
+              204.75,
+              131.75
+            ],
+            [
+              204.25,
+              133.75
+            ],
+            [
+              206.75,
+              135.25
+            ],
+            [
+              204.75,
+              140.75
+            ],
+            [
+              207.75,
+              143.75
+            ],
+            [
+              212.25,
+              143.25
+            ],
+            [
+              214.25,
+              138.25
+            ],
+            [
+              215.25,
+              127.25
+            ],
+            [
+              213.75,
+              123.25
+            ],
+            [
+              210.75,
+              121.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
         "tee": 0.8,
         "green": 3.4,
@@ -5006,60 +7163,199 @@
             ],
             "b": 0,
             "m": 376,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              262.06534772182255,
-              25.50179856115108
+              269.63481292193933,
+              30.370391449454466
             ],
             "b": 0,
             "m": 367,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              262.06534772182255,
-              25.50179856115108
+              269.63481292193933,
+              30.370391449454466
             ],
             "b": 0,
             "m": 367,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              262.06534772182255,
-              25.50179856115108
+              318.41705715420346,
+              61.7438300187878
             ],
             "b": 0,
             "m": 309,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              262.06534772182255,
-              25.50179856115108
+              351.905030452153,
+              78.20071863602186
             ],
             "b": 0,
             "m": 271,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              262.06534772182255,
-              25.50179856115108
+              351.905030452153,
+              78.20071863602186
             ],
             "b": 0,
             "m": 271,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              493.75,
+              46.25
+            ],
+            [
+              494.25,
+              47.75
+            ],
+            [
+              500.75,
+              49.75
+            ],
+            [
+              507.75,
+              49.25
+            ],
+            [
+              509.75,
+              50.25
+            ],
+            [
+              513.25,
+              50.25
+            ],
+            [
+              516.25,
+              47.25
+            ],
+            [
+              514.75,
+              43.75
+            ],
+            [
+              511.75,
+              43.75
+            ],
+            [
+              510.75,
+              41.25
+            ],
+            [
+              506.75,
+              39.75
+            ],
+            [
+              504.25,
+              40.75
+            ],
+            [
+              502.75,
+              44.25
+            ],
+            [
+              500.75,
+              44.25
+            ],
+            [
+              499.75,
+              39.75
+            ],
+            [
+              497.75,
+              39.75
+            ],
+            [
+              493.75,
+              46.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              539.75,
+              63.25
+            ],
+            [
+              533.25,
+              60.75
+            ],
+            [
+              528.75,
+              61.75
+            ],
+            [
+              524.25,
+              65.25
+            ],
+            [
+              524.25,
+              69.75
+            ],
+            [
+              517.75,
+              74.75
+            ],
+            [
+              516.25,
+              78.75
+            ],
+            [
+              521.75,
+              78.25
+            ],
+            [
+              524.75,
+              75.25
+            ],
+            [
+              534.75,
+              75.25
+            ],
+            [
+              536.25,
+              73.25
+            ],
+            [
+              535.75,
+              68.25
+            ],
+            [
+              539.75,
+              66.25
+            ],
+            [
+              539.75,
+              63.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
         "tee": 3.5,
         "green": 3,
-        "rise": -0.4
+        "rise": -0.5
       },
       "tiers": 1,
       "name": null,
@@ -5273,60 +7569,179 @@
             ],
             "b": 0,
             "m": 155,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              431.90686274509807,
-              -62.52647058823529
+              416.7507064677015,
+              -73.98469588627995
             ],
             "b": 0,
             "m": 136,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              431.90686274509807,
-              -62.52647058823529
+              416.7507064677015,
+              -73.98469588627995
             ],
             "b": 0,
             "m": 136,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              431.90686274509807,
-              -62.52647058823529
+              403.9877760981079,
+              -83.63392426894895
             ],
             "b": 0,
             "m": 120,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              431.90686274509807,
-              -62.52647058823529
+              403.9877760981079,
+              -83.63392426894895
             ],
             "b": 0,
             "m": 120,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              431.90686274509807,
-              -62.52647058823529
+              383.2480142475182,
+              -99.31392039078605
             ],
             "b": 0,
             "m": 94,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              312.25,
+              -160.25
+            ],
+            [
+              314.75,
+              -158.25
+            ],
+            [
+              323.25,
+              -158.25
+            ],
+            [
+              326.25,
+              -156.25
+            ],
+            [
+              335.25,
+              -160.75
+            ],
+            [
+              335.75,
+              -163.75
+            ],
+            [
+              332.25,
+              -166.75
+            ],
+            [
+              327.25,
+              -164.25
+            ],
+            [
+              320.25,
+              -166.75
+            ],
+            [
+              318.25,
+              -165.75
+            ],
+            [
+              317.75,
+              -163.75
+            ],
+            [
+              313.75,
+              -163.25
+            ],
+            [
+              312.25,
+              -160.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              340.75,
+              -130.25
+            ],
+            [
+              336.25,
+              -131.25
+            ],
+            [
+              333.75,
+              -126.25
+            ],
+            [
+              328.75,
+              -126.75
+            ],
+            [
+              327.75,
+              -125.75
+            ],
+            [
+              326.75,
+              -121.25
+            ],
+            [
+              328.25,
+              -117.75
+            ],
+            [
+              331.25,
+              -115.75
+            ],
+            [
+              331.25,
+              -114.25
+            ],
+            [
+              339.75,
+              -118.75
+            ],
+            [
+              342.25,
+              -121.25
+            ],
+            [
+              343.25,
+              -126.75
+            ],
+            [
+              340.75,
+              -130.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
-        "tee": 5,
+        "tee": 5.1,
         "green": 4.9,
-        "rise": -0.1
+        "rise": -0.2
       },
       "tiers": 1,
       "name": null,
@@ -5675,60 +8090,163 @@
             ],
             "b": 0,
             "m": 413,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              305.5316317626527,
-              -235.91884816753927
+              278.47624221765847,
+              -243.1303595643938
             ],
             "b": 0,
             "m": 385,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              305.5316317626527,
-              -235.91884816753927
+              244.6569275242882,
+              -252.1444570605822
             ],
             "b": 0,
             "m": 350,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              305.5316317626527,
-              -235.91884816753927
+              213.22418419466115,
+              -264.01746363302334
             ],
             "b": 0,
             "m": 316,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              305.5316317626527,
-              -235.91884816753927
+              213.22418419466115,
+              -264.01746363302334
             ],
             "b": 0,
             "m": 316,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              305.5316317626527,
-              -235.91884816753927
+              191.68881545333412,
+              -278.58550719333283
             ],
             "b": 0,
             "m": 290,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              74.25,
+              -374.25
+            ],
+            [
+              68.75,
+              -376.25
+            ],
+            [
+              61.75,
+              -376.25
+            ],
+            [
+              60.25,
+              -375.25
+            ],
+            [
+              59.25,
+              -371.25
+            ],
+            [
+              56.75,
+              -371.25
+            ],
+            [
+              54.75,
+              -369.75
+            ],
+            [
+              53.75,
+              -365.25
+            ],
+            [
+              55.75,
+              -361.75
+            ],
+            [
+              60.75,
+              -360.75
+            ],
+            [
+              72.25,
+              -369.25
+            ],
+            [
+              74.25,
+              -374.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              150.75,
+              -320.75
+            ],
+            [
+              147.75,
+              -319.75
+            ],
+            [
+              147.25,
+              -315.75
+            ],
+            [
+              144.75,
+              -315.75
+            ],
+            [
+              143.25,
+              -314.25
+            ],
+            [
+              143.75,
+              -307.75
+            ],
+            [
+              145.25,
+              -306.25
+            ],
+            [
+              152.75,
+              -309.25
+            ],
+            [
+              153.25,
+              -317.25
+            ],
+            [
+              150.75,
+              -320.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
-        "tee": 4.9,
+        "tee": 2.9,
         "green": 2.4,
-        "rise": -2.5
+        "rise": -0.5
       },
       "tiers": 1,
       "name": null,
@@ -6129,60 +8647,305 @@
             ],
             "b": 0,
             "m": 482,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              15.580211817168339,
-              -271.0547937569677
+              25.68483441586929,
+              -256.1585995402772
             ],
             "b": 0,
             "m": 464,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              15.580211817168339,
-              -271.0547937569677
+              37.47361824109501,
+              -238.77974526497763
             ],
             "b": 0,
             "m": 443,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              15.580211817168339,
-              -271.0547937569677
+              57.12159128313788,
+              -209.81498813947843
             ],
             "b": 0,
             "m": 408,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              15.580211817168339,
-              -271.0547937569677
+              80.21485962094586,
+              -175.93747691498783
             ],
             "b": 0,
             "m": 367,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              15.580211817168339,
-              -271.0547937569677
+              80.21485962094586,
+              -175.93747691498783
             ],
             "b": 0,
             "m": 367,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              166.25,
+              -121.75
+            ],
+            [
+              167.75,
+              -119.75
+            ],
+            [
+              167.75,
+              -117.25
+            ],
+            [
+              169.25,
+              -116.75
+            ],
+            [
+              168.25,
+              -114.25
+            ],
+            [
+              170.75,
+              -113.25
+            ],
+            [
+              170.75,
+              -110.25
+            ],
+            [
+              165.25,
+              -106.25
+            ],
+            [
+              165.75,
+              -100.75
+            ],
+            [
+              164.25,
+              -96.25
+            ],
+            [
+              167.75,
+              -95.25
+            ],
+            [
+              171.75,
+              -97.25
+            ],
+            [
+              172.75,
+              -102.75
+            ],
+            [
+              175.75,
+              -102.75
+            ],
+            [
+              177.25,
+              -104.25
+            ],
+            [
+              177.25,
+              -113.75
+            ],
+            [
+              174.25,
+              -114.25
+            ],
+            [
+              174.75,
+              -118.25
+            ],
+            [
+              172.25,
+              -120.75
+            ],
+            [
+              166.25,
+              -121.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              180.75,
+              -40.25
+            ],
+            [
+              178.75,
+              -40.75
+            ],
+            [
+              177.25,
+              -39.75
+            ],
+            [
+              175.25,
+              -31.75
+            ],
+            [
+              181.75,
+              -34.25
+            ],
+            [
+              182.25,
+              -38.25
+            ],
+            [
+              180.75,
+              -40.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              190.75,
+              123.75
+            ],
+            [
+              188.25,
+              129.75
+            ],
+            [
+              184.75,
+              129.25
+            ],
+            [
+              181.25,
+              131.75
+            ],
+            [
+              183.25,
+              134.75
+            ],
+            [
+              182.75,
+              140.75
+            ],
+            [
+              184.75,
+              141.75
+            ],
+            [
+              186.75,
+              141.25
+            ],
+            [
+              188.75,
+              138.75
+            ],
+            [
+              189.25,
+              129.75
+            ],
+            [
+              193.25,
+              129.25
+            ],
+            [
+              193.75,
+              128.25
+            ],
+            [
+              193.25,
+              125.25
+            ],
+            [
+              191.75,
+              125.25
+            ],
+            [
+              190.75,
+              123.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              158.25,
+              161.25
+            ],
+            [
+              155.75,
+              169.75
+            ],
+            [
+              158.25,
+              172.25
+            ],
+            [
+              159.25,
+              175.25
+            ],
+            [
+              163.75,
+              175.25
+            ],
+            [
+              164.75,
+              172.75
+            ],
+            [
+              162.75,
+              171.75
+            ],
+            [
+              162.75,
+              169.75
+            ],
+            [
+              165.25,
+              168.25
+            ],
+            [
+              166.25,
+              165.75
+            ],
+            [
+              164.25,
+              163.25
+            ],
+            [
+              158.25,
+              161.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
-        "tee": 2.3,
+        "tee": 2.1,
         "green": 2.1,
-        "rise": -0.2
+        "rise": 0
       },
       "tiers": 1,
       "name": null,
@@ -6416,56 +9179,318 @@
             ],
             "b": 0,
             "m": 192,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              159,
-              186.25
+              150.08083065037255,
+              201.88484627723173
             ],
             "b": 0,
             "m": 174,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              159,
-              186.25
+              140.17064248411987,
+              219.25689769637808
             ],
             "b": 0,
             "m": 154,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              159,
-              186.25
+              132.7380013594303,
+              232.28593626073783
             ],
             "b": 0,
             "m": 139,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              159,
-              186.25
+              124.80985082642815,
+              246.18357739605491
             ],
             "b": 0,
             "m": 123,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              159,
-              186.25
+              113.41313443523754,
+              266.16143652807324
             ],
             "b": 0,
             "m": 100,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              68.25,
+              311.25
+            ],
+            [
+              63.25,
+              311.75
+            ],
+            [
+              60.75,
+              313.25
+            ],
+            [
+              60.75,
+              316.25
+            ],
+            [
+              64.25,
+              317.25
+            ],
+            [
+              64.25,
+              319.75
+            ],
+            [
+              61.25,
+              322.75
+            ],
+            [
+              56.75,
+              323.25
+            ],
+            [
+              53.25,
+              321.75
+            ],
+            [
+              50.25,
+              327.25
+            ],
+            [
+              42.25,
+              327.25
+            ],
+            [
+              41.75,
+              329.25
+            ],
+            [
+              44.25,
+              329.75
+            ],
+            [
+              45.25,
+              337.25
+            ],
+            [
+              47.75,
+              341.25
+            ],
+            [
+              50.25,
+              341.75
+            ],
+            [
+              51.75,
+              340.75
+            ],
+            [
+              51.75,
+              337.75
+            ],
+            [
+              48.75,
+              335.25
+            ],
+            [
+              48.25,
+              332.25
+            ],
+            [
+              54.25,
+              332.75
+            ],
+            [
+              55.25,
+              327.25
+            ],
+            [
+              61.75,
+              325.75
+            ],
+            [
+              62.25,
+              328.75
+            ],
+            [
+              63.75,
+              329.75
+            ],
+            [
+              67.25,
+              328.75
+            ],
+            [
+              66.75,
+              324.25
+            ],
+            [
+              71.25,
+              322.75
+            ],
+            [
+              71.25,
+              319.75
+            ],
+            [
+              69.25,
+              318.25
+            ],
+            [
+              69.75,
+              314.25
+            ],
+            [
+              68.25,
+              311.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              97.25,
+              323.25
+            ],
+            [
+              93.75,
+              326.75
+            ],
+            [
+              94.25,
+              330.75
+            ],
+            [
+              97.75,
+              332.25
+            ],
+            [
+              95.25,
+              341.25
+            ],
+            [
+              98.25,
+              345.25
+            ],
+            [
+              100.75,
+              345.25
+            ],
+            [
+              103.25,
+              343.25
+            ],
+            [
+              101.25,
+              336.25
+            ],
+            [
+              106.25,
+              328.75
+            ],
+            [
+              106.25,
+              325.25
+            ],
+            [
+              104.25,
+              323.75
+            ],
+            [
+              99.25,
+              325.25
+            ],
+            [
+              97.25,
+              323.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              79.25,
+              355.25
+            ],
+            [
+              77.25,
+              351.75
+            ],
+            [
+              74.25,
+              350.25
+            ],
+            [
+              64.25,
+              353.25
+            ],
+            [
+              62.75,
+              356.25
+            ],
+            [
+              65.25,
+              360.25
+            ],
+            [
+              71.75,
+              360.75
+            ],
+            [
+              72.75,
+              359.75
+            ],
+            [
+              71.25,
+              357.75
+            ],
+            [
+              71.75,
+              355.25
+            ],
+            [
+              74.25,
+              355.25
+            ],
+            [
+              77.25,
+              357.75
+            ],
+            [
+              79.25,
+              356.75
+            ],
+            [
+              79.25,
+              355.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
         "tee": 3,
         "green": 2,
@@ -6866,60 +9891,353 @@
             ],
             "b": 0,
             "m": 516,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "observed-tee-platform; the card back tee, whose platform this is"
           },
           {
             "c": [
-              16.5,
-              353.25
+              -12.45022341999864,
+              327.11793992177115
             ],
             "b": 0,
             "m": 477,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              16.5,
-              353.25
+              -39.915819997946066,
+              302.32598548857965
             ],
             "b": 0,
             "m": 440,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              16.5,
-              353.25
+              -74.98696855142431,
+              275.62717190809593
             ],
             "b": 0,
             "m": 395,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              16.5,
-              353.25
+              -74.98696855142431,
+              275.62717190809593
             ],
             "b": 0,
             "m": 395,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           },
           {
             "c": [
-              16.5,
-              353.25
+              -129.23863436219222,
+              266.5852276063013
             ],
             "b": 0,
             "m": 340,
-            "placement": "shared-camera-reference-on-observed-platform; numeric tee position unknown"
+            "placement": "card-offset from the back tee along the observed route; physical platform not resolved in the imagery"
           }
         ]
       },
-      "bunkers": [],
+      "bunkers": [
+        {
+          "ring": [
+            [
+              -449.75,
+              252.25
+            ],
+            [
+              -451.75,
+              252.25
+            ],
+            [
+              -453.25,
+              255.75
+            ],
+            [
+              -459.25,
+              259.75
+            ],
+            [
+              -459.25,
+              261.75
+            ],
+            [
+              -456.25,
+              262.75
+            ],
+            [
+              -456.75,
+              265.25
+            ],
+            [
+              -459.25,
+              265.25
+            ],
+            [
+              -458.75,
+              269.75
+            ],
+            [
+              -456.75,
+              273.25
+            ],
+            [
+              -451.75,
+              271.75
+            ],
+            [
+              -451.75,
+              269.75
+            ],
+            [
+              -454.25,
+              268.75
+            ],
+            [
+              -454.25,
+              266.75
+            ],
+            [
+              -450.25,
+              265.25
+            ],
+            [
+              -449.25,
+              263.75
+            ],
+            [
+              -450.75,
+              258.75
+            ],
+            [
+              -448.25,
+              258.25
+            ],
+            [
+              -447.25,
+              256.25
+            ],
+            [
+              -449.75,
+              252.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -425.75,
+              255.25
+            ],
+            [
+              -426.75,
+              257.75
+            ],
+            [
+              -423.75,
+              261.75
+            ],
+            [
+              -419.75,
+              260.75
+            ],
+            [
+              -419.25,
+              256.75
+            ],
+            [
+              -417.25,
+              254.25
+            ],
+            [
+              -410.75,
+              255.75
+            ],
+            [
+              -410.75,
+              258.75
+            ],
+            [
+              -415.25,
+              258.75
+            ],
+            [
+              -416.75,
+              260.25
+            ],
+            [
+              -415.75,
+              262.75
+            ],
+            [
+              -411.25,
+              264.75
+            ],
+            [
+              -409.25,
+              264.75
+            ],
+            [
+              -403.75,
+              256.25
+            ],
+            [
+              -412.75,
+              247.75
+            ],
+            [
+              -416.25,
+              248.25
+            ],
+            [
+              -420.25,
+              252.75
+            ],
+            [
+              -425.75,
+              255.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -379.75,
+              267.25
+            ],
+            [
+              -385.75,
+              264.75
+            ],
+            [
+              -388.25,
+              266.25
+            ],
+            [
+              -388.25,
+              269.75
+            ],
+            [
+              -392.75,
+              271.25
+            ],
+            [
+              -392.75,
+              275.25
+            ],
+            [
+              -389.75,
+              276.75
+            ],
+            [
+              -387.25,
+              276.25
+            ],
+            [
+              -384.25,
+              273.25
+            ],
+            [
+              -379.75,
+              271.25
+            ],
+            [
+              -379.75,
+              267.25
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        },
+        {
+          "ring": [
+            [
+              -400.75,
+              282.75
+            ],
+            [
+              -406.25,
+              279.75
+            ],
+            [
+              -410.25,
+              279.25
+            ],
+            [
+              -412.25,
+              280.75
+            ],
+            [
+              -412.75,
+              282.75
+            ],
+            [
+              -421.75,
+              283.25
+            ],
+            [
+              -423.25,
+              287.25
+            ],
+            [
+              -419.25,
+              290.25
+            ],
+            [
+              -416.75,
+              290.25
+            ],
+            [
+              -415.25,
+              288.25
+            ],
+            [
+              -413.25,
+              288.25
+            ],
+            [
+              -412.75,
+              290.25
+            ],
+            [
+              -409.75,
+              290.25
+            ],
+            [
+              -405.75,
+              287.25
+            ],
+            [
+              -403.25,
+              287.25
+            ],
+            [
+              -400.75,
+              284.75
+            ],
+            [
+              -400.75,
+              282.75
+            ]
+          ],
+          "sourceIds": [
+            "visby-municipal-ortho-2022"
+          ]
+        }
+      ],
       "elev": {
-        "tee": 2,
+        "tee": 1.7,
         "green": 3,
-        "rise": 1
+        "rise": 1.3
       },
       "tiers": 1,
       "name": null,
@@ -78790,452 +82108,6 @@
     "bunkers": [
       [
         [
-          -340.25,
-          -968.75
-        ],
-        [
-          -342.25,
-          -968.75
-        ],
-        [
-          -344.75,
-          -966.75
-        ],
-        [
-          -348.25,
-          -967.25
-        ],
-        [
-          -354.25,
-          -960.25
-        ],
-        [
-          -352.25,
-          -955.25
-        ],
-        [
-          -354.75,
-          -953.25
-        ],
-        [
-          -354.75,
-          -951.25
-        ],
-        [
-          -350.25,
-          -945.75
-        ],
-        [
-          -346.25,
-          -948.25
-        ],
-        [
-          -346.25,
-          -956.25
-        ],
-        [
-          -338.75,
-          -964.75
-        ],
-        [
-          -338.25,
-          -966.25
-        ],
-        [
-          -340.25,
-          -968.75
-        ]
-      ],
-      [
-        [
-          -341.25,
-          -941.25
-        ],
-        [
-          -341.75,
-          -937.75
-        ],
-        [
-          -344.25,
-          -935.25
-        ],
-        [
-          -343.75,
-          -932.25
-        ],
-        [
-          -339.75,
-          -930.75
-        ],
-        [
-          -337.75,
-          -933.25
-        ],
-        [
-          -335.75,
-          -933.25
-        ],
-        [
-          -333.75,
-          -930.75
-        ],
-        [
-          -333.75,
-          -928.75
-        ],
-        [
-          -337.75,
-          -927.75
-        ],
-        [
-          -338.25,
-          -925.25
-        ],
-        [
-          -334.25,
-          -920.25
-        ],
-        [
-          -328.25,
-          -920.25
-        ],
-        [
-          -326.75,
-          -922.75
-        ],
-        [
-          -326.75,
-          -925.75
-        ],
-        [
-          -329.25,
-          -929.75
-        ],
-        [
-          -330.25,
-          -935.25
-        ],
-        [
-          -337.25,
-          -940.75
-        ],
-        [
-          -341.25,
-          -941.25
-        ]
-      ],
-      [
-        [
-          -229.75,
-          -892.75
-        ],
-        [
-          -229.25,
-          -888.75
-        ],
-        [
-          -222.25,
-          -885.25
-        ],
-        [
-          -222.25,
-          -883.25
-        ],
-        [
-          -224.25,
-          -881.25
-        ],
-        [
-          -223.75,
-          -879.75
-        ],
-        [
-          -218.75,
-          -874.25
-        ],
-        [
-          -215.75,
-          -874.25
-        ],
-        [
-          -213.75,
-          -876.25
-        ],
-        [
-          -213.75,
-          -878.75
-        ],
-        [
-          -218.25,
-          -882.75
-        ],
-        [
-          -218.25,
-          -890.75
-        ],
-        [
-          -227.25,
-          -895.25
-        ],
-        [
-          -229.75,
-          -892.75
-        ]
-      ],
-      [
-        [
-          -182.75,
-          -793.75
-        ],
-        [
-          -188.25,
-          -793.25
-        ],
-        [
-          -189.75,
-          -790.25
-        ],
-        [
-          -195.25,
-          -789.25
-        ],
-        [
-          -196.75,
-          -792.75
-        ],
-        [
-          -200.75,
-          -792.25
-        ],
-        [
-          -201.75,
-          -789.75
-        ],
-        [
-          -200.75,
-          -788.75
-        ],
-        [
-          -200.75,
-          -785.25
-        ],
-        [
-          -205.75,
-          -781.75
-        ],
-        [
-          -206.25,
-          -780.25
-        ],
-        [
-          -202.75,
-          -771.75
-        ],
-        [
-          -194.75,
-          -774.75
-        ],
-        [
-          -193.75,
-          -776.25
-        ],
-        [
-          -194.25,
-          -778.25
-        ],
-        [
-          -199.25,
-          -777.75
-        ],
-        [
-          -199.75,
-          -780.25
-        ],
-        [
-          -195.75,
-          -784.75
-        ],
-        [
-          -188.75,
-          -783.75
-        ],
-        [
-          -187.75,
-          -786.25
-        ],
-        [
-          -182.75,
-          -789.75
-        ],
-        [
-          -182.75,
-          -793.75
-        ]
-      ],
-      [
-        [
-          -169.75,
-          -799.75
-        ],
-        [
-          -172.25,
-          -801.75
-        ],
-        [
-          -175.25,
-          -801.75
-        ],
-        [
-          -180.75,
-          -796.75
-        ],
-        [
-          -181.25,
-          -794.25
-        ],
-        [
-          -178.75,
-          -792.75
-        ],
-        [
-          -175.25,
-          -793.25
-        ],
-        [
-          -169.75,
-          -798.25
-        ],
-        [
-          -169.75,
-          -799.75
-        ]
-      ],
-      [
-        [
-          -231.75,
-          -700.25
-        ],
-        [
-          -230.25,
-          -699.25
-        ],
-        [
-          -230.25,
-          -696.25
-        ],
-        [
-          -229.25,
-          -697.25
-        ],
-        [
-          -222.75,
-          -697.25
-        ],
-        [
-          -221.75,
-          -698.75
-        ],
-        [
-          -222.25,
-          -699.75
-        ],
-        [
-          -222.75,
-          -698.25
-        ],
-        [
-          -224.75,
-          -698.25
-        ],
-        [
-          -226.75,
-          -700.75
-        ],
-        [
-          -230.25,
-          -701.75
-        ],
-        [
-          -231.75,
-          -700.25
-        ]
-      ],
-      [
-        [
-          -287.75,
-          -594.75
-        ],
-        [
-          -288.75,
-          -591.25
-        ],
-        [
-          -290.25,
-          -590.75
-        ],
-        [
-          -292.25,
-          -586.75
-        ],
-        [
-          -298.25,
-          -588.25
-        ],
-        [
-          -299.25,
-          -586.25
-        ],
-        [
-          -302.75,
-          -586.25
-        ],
-        [
-          -302.75,
-          -582.75
-        ],
-        [
-          -300.25,
-          -581.75
-        ],
-        [
-          -298.25,
-          -583.25
-        ],
-        [
-          -295.25,
-          -583.25
-        ],
-        [
-          -292.75,
-          -580.25
-        ],
-        [
-          -289.75,
-          -579.75
-        ],
-        [
-          -289.75,
-          -583.25
-        ],
-        [
-          -286.25,
-          -586.25
-        ],
-        [
-          -286.25,
-          -588.25
-        ],
-        [
-          -288.25,
-          -589.75
-        ],
-        [
-          -287.75,
-          -594.75
-        ]
-      ],
-      [
-        [
           -106.25,
           -573.75
         ],
@@ -79294,364 +82166,6 @@
       ],
       [
         [
-          -416.25,
-          -787.25
-        ],
-        [
-          -417.75,
-          -786.75
-        ],
-        [
-          -419.75,
-          -782.25
-        ],
-        [
-          -421.25,
-          -772.25
-        ],
-        [
-          -423.25,
-          -769.25
-        ],
-        [
-          -421.75,
-          -766.75
-        ],
-        [
-          -418.75,
-          -765.75
-        ],
-        [
-          -414.25,
-          -773.25
-        ],
-        [
-          -415.75,
-          -779.75
-        ],
-        [
-          -413.25,
-          -780.75
-        ],
-        [
-          -412.25,
-          -782.75
-        ],
-        [
-          -412.75,
-          -785.75
-        ],
-        [
-          -416.25,
-          -787.25
-        ]
-      ],
-      [
-        [
-          -388.75,
-          -757.75
-        ],
-        [
-          -389.75,
-          -757.75
-        ],
-        [
-          -390.25,
-          -755.75
-        ],
-        [
-          -396.25,
-          -756.25
-        ],
-        [
-          -399.75,
-          -752.75
-        ],
-        [
-          -399.75,
-          -748.75
-        ],
-        [
-          -397.25,
-          -746.25
-        ],
-        [
-          -398.75,
-          -740.75
-        ],
-        [
-          -396.75,
-          -738.75
-        ],
-        [
-          -397.25,
-          -734.25
-        ],
-        [
-          -395.75,
-          -732.25
-        ],
-        [
-          -391.25,
-          -731.75
-        ],
-        [
-          -389.25,
-          -734.25
-        ],
-        [
-          -389.25,
-          -741.25
-        ],
-        [
-          -391.75,
-          -743.75
-        ],
-        [
-          -391.75,
-          -745.75
-        ],
-        [
-          -393.25,
-          -746.25
-        ],
-        [
-          -393.25,
-          -748.25
-        ],
-        [
-          -389.75,
-          -750.25
-        ],
-        [
-          -389.75,
-          -753.75
-        ],
-        [
-          -385.75,
-          -754.25
-        ],
-        [
-          -388.75,
-          -757.75
-        ]
-      ],
-      [
-        [
-          -437.25,
-          -576.25
-        ],
-        [
-          -444.25,
-          -578.25
-        ],
-        [
-          -447.25,
-          -574.75
-        ],
-        [
-          -447.75,
-          -572.75
-        ],
-        [
-          -443.75,
-          -571.75
-        ],
-        [
-          -443.25,
-          -569.25
-        ],
-        [
-          -450.25,
-          -566.25
-        ],
-        [
-          -450.75,
-          -562.25
-        ],
-        [
-          -449.75,
-          -559.25
-        ],
-        [
-          -448.75,
-          -561.25
-        ],
-        [
-          -442.75,
-          -560.75
-        ],
-        [
-          -440.75,
-          -561.75
-        ],
-        [
-          -436.75,
-          -566.25
-        ],
-        [
-          -435.75,
-          -573.75
-        ],
-        [
-          -437.25,
-          -576.25
-        ]
-      ],
-      [
-        [
-          -422.75,
-          -521.25
-        ],
-        [
-          -424.75,
-          -520.75
-        ],
-        [
-          -427.25,
-          -517.75
-        ],
-        [
-          -430.75,
-          -505.25
-        ],
-        [
-          -429.75,
-          -500.75
-        ],
-        [
-          -426.75,
-          -498.75
-        ],
-        [
-          -422.75,
-          -501.25
-        ],
-        [
-          -419.75,
-          -501.25
-        ],
-        [
-          -419.25,
-          -499.75
-        ],
-        [
-          -418.25,
-          -501.75
-        ],
-        [
-          -419.75,
-          -502.25
-        ],
-        [
-          -419.75,
-          -505.25
-        ],
-        [
-          -415.25,
-          -507.75
-        ],
-        [
-          -415.25,
-          -509.25
-        ],
-        [
-          -418.75,
-          -512.75
-        ],
-        [
-          -421.25,
-          -512.75
-        ],
-        [
-          -423.25,
-          -515.75
-        ],
-        [
-          -422.75,
-          -521.25
-        ]
-      ],
-      [
-        [
-          -425.75,
-          -375.75
-        ],
-        [
-          -427.75,
-          -375.25
-        ],
-        [
-          -428.75,
-          -373.25
-        ],
-        [
-          -427.75,
-          -367.75
-        ],
-        [
-          -430.75,
-          -365.75
-        ],
-        [
-          -432.75,
-          -362.25
-        ],
-        [
-          -431.75,
-          -359.75
-        ],
-        [
-          -428.75,
-          -359.25
-        ],
-        [
-          -429.25,
-          -356.25
-        ],
-        [
-          -426.75,
-          -353.75
-        ],
-        [
-          -424.25,
-          -354.25
-        ],
-        [
-          -422.75,
-          -356.75
-        ],
-        [
-          -420.25,
-          -356.25
-        ],
-        [
-          -417.75,
-          -359.75
-        ],
-        [
-          -418.75,
-          -363.25
-        ],
-        [
-          -422.25,
-          -364.25
-        ],
-        [
-          -421.25,
-          -369.25
-        ],
-        [
-          -423.25,
-          -374.25
-        ],
-        [
-          -425.75,
-          -375.75
-        ]
-      ],
-      [
-        [
           -393.75,
           -377.75
         ],
@@ -79694,398 +82208,6 @@
         [
           -393.75,
           -377.75
-        ]
-      ],
-      [
-        [
-          -424.75,
-          -340.75
-        ],
-        [
-          -427.25,
-          -340.75
-        ],
-        [
-          -428.25,
-          -339.25
-        ],
-        [
-          -429.25,
-          -321.25
-        ],
-        [
-          -425.75,
-          -322.25
-        ],
-        [
-          -423.75,
-          -327.75
-        ],
-        [
-          -424.25,
-          -332.25
-        ],
-        [
-          -422.75,
-          -334.25
-        ],
-        [
-          -423.25,
-          -338.75
-        ],
-        [
-          -424.75,
-          -340.75
-        ]
-      ],
-      [
-        [
-          -398.75,
-          -294.25
-        ],
-        [
-          -400.25,
-          -291.75
-        ],
-        [
-          -398.75,
-          -275.25
-        ],
-        [
-          -394.75,
-          -273.25
-        ],
-        [
-          -390.75,
-          -274.75
-        ],
-        [
-          -390.25,
-          -272.25
-        ],
-        [
-          -391.25,
-          -270.75
-        ],
-        [
-          -398.25,
-          -269.25
-        ],
-        [
-          -398.75,
-          -265.75
-        ],
-        [
-          -401.25,
-          -261.75
-        ],
-        [
-          -399.75,
-          -259.25
-        ],
-        [
-          -395.75,
-          -260.25
-        ],
-        [
-          -394.75,
-          -262.25
-        ],
-        [
-          -395.25,
-          -264.75
-        ],
-        [
-          -389.75,
-          -265.75
-        ],
-        [
-          -386.75,
-          -268.75
-        ],
-        [
-          -385.25,
-          -272.25
-        ],
-        [
-          -385.25,
-          -275.25
-        ],
-        [
-          -389.25,
-          -280.75
-        ],
-        [
-          -394.25,
-          -280.75
-        ],
-        [
-          -394.25,
-          -287.25
-        ],
-        [
-          -397.75,
-          -290.75
-        ],
-        [
-          -398.75,
-          -294.25
-        ]
-      ],
-      [
-        [
-          -370.75,
-          -176.75
-        ],
-        [
-          -372.75,
-          -176.25
-        ],
-        [
-          -376.25,
-          -172.25
-        ],
-        [
-          -375.25,
-          -164.25
-        ],
-        [
-          -377.75,
-          -159.75
-        ],
-        [
-          -377.75,
-          -155.75
-        ],
-        [
-          -375.75,
-          -152.75
-        ],
-        [
-          -370.75,
-          -152.75
-        ],
-        [
-          -369.25,
-          -153.75
-        ],
-        [
-          -368.75,
-          -155.25
-        ],
-        [
-          -370.75,
-          -158.75
-        ],
-        [
-          -370.25,
-          -163.75
-        ],
-        [
-          -368.25,
-          -163.75
-        ],
-        [
-          -365.75,
-          -160.25
-        ],
-        [
-          -364.25,
-          -160.25
-        ],
-        [
-          -362.75,
-          -162.25
-        ],
-        [
-          -363.25,
-          -166.75
-        ],
-        [
-          -365.25,
-          -168.75
-        ],
-        [
-          -368.75,
-          -169.25
-        ],
-        [
-          -368.75,
-          -175.25
-        ],
-        [
-          -370.75,
-          -176.75
-        ]
-      ],
-      [
-        [
-          -409.25,
-          -177.25
-        ],
-        [
-          -411.75,
-          -175.25
-        ],
-        [
-          -411.75,
-          -166.75
-        ],
-        [
-          -409.25,
-          -164.75
-        ],
-        [
-          -409.25,
-          -161.75
-        ],
-        [
-          -407.25,
-          -161.25
-        ],
-        [
-          -407.25,
-          -158.75
-        ],
-        [
-          -404.25,
-          -161.75
-        ],
-        [
-          -403.25,
-          -169.75
-        ],
-        [
-          -406.75,
-          -170.75
-        ],
-        [
-          -406.75,
-          -176.25
-        ],
-        [
-          -409.25,
-          -177.25
-        ]
-      ],
-      [
-        [
-          -210.75,
-          -403.75
-        ],
-        [
-          -217.25,
-          -402.75
-        ],
-        [
-          -217.25,
-          -394.25
-        ],
-        [
-          -222.25,
-          -389.75
-        ],
-        [
-          -222.25,
-          -385.25
-        ],
-        [
-          -219.75,
-          -381.75
-        ],
-        [
-          -215.75,
-          -381.75
-        ],
-        [
-          -214.25,
-          -383.25
-        ],
-        [
-          -214.75,
-          -389.25
-        ],
-        [
-          -210.25,
-          -390.25
-        ],
-        [
-          -207.25,
-          -393.75
-        ],
-        [
-          -207.75,
-          -395.25
-        ],
-        [
-          -211.75,
-          -396.75
-        ],
-        [
-          -211.75,
-          -398.75
-        ],
-        [
-          -209.75,
-          -400.25
-        ],
-        [
-          -210.75,
-          -403.75
-        ]
-      ],
-      [
-        [
-          -183.75,
-          -395.75
-        ],
-        [
-          -184.75,
-          -394.25
-        ],
-        [
-          -184.25,
-          -390.25
-        ],
-        [
-          -179.75,
-          -381.75
-        ],
-        [
-          -174.25,
-          -382.25
-        ],
-        [
-          -173.25,
-          -383.25
-        ],
-        [
-          -174.25,
-          -386.75
-        ],
-        [
-          -179.25,
-          -385.25
-        ],
-        [
-          -179.75,
-          -388.25
-        ],
-        [
-          -177.25,
-          -388.75
-        ],
-        [
-          -177.25,
-          -390.25
-        ],
-        [
-          -182.25,
-          -395.75
-        ],
-        [
-          -183.75,
-          -395.75
         ]
       ],
       [
@@ -80148,98 +82270,6 @@
         [
           191.25,
           -469.25
-        ]
-      ],
-      [
-        [
-          74.25,
-          -374.25
-        ],
-        [
-          68.75,
-          -376.25
-        ],
-        [
-          61.75,
-          -376.25
-        ],
-        [
-          60.25,
-          -375.25
-        ],
-        [
-          59.25,
-          -371.25
-        ],
-        [
-          56.75,
-          -371.25
-        ],
-        [
-          54.75,
-          -369.75
-        ],
-        [
-          53.75,
-          -365.25
-        ],
-        [
-          55.75,
-          -361.75
-        ],
-        [
-          60.75,
-          -360.75
-        ],
-        [
-          72.25,
-          -369.25
-        ],
-        [
-          74.25,
-          -374.25
-        ]
-      ],
-      [
-        [
-          150.75,
-          -320.75
-        ],
-        [
-          147.75,
-          -319.75
-        ],
-        [
-          147.25,
-          -315.75
-        ],
-        [
-          144.75,
-          -315.75
-        ],
-        [
-          143.25,
-          -314.25
-        ],
-        [
-          143.75,
-          -307.75
-        ],
-        [
-          145.25,
-          -306.25
-        ],
-        [
-          152.75,
-          -309.25
-        ],
-        [
-          153.25,
-          -317.25
-        ],
-        [
-          150.75,
-          -320.75
         ]
       ],
       [
@@ -80318,114 +82348,6 @@
         [
           346.25,
           -270.25
-        ]
-      ],
-      [
-        [
-          312.25,
-          -160.25
-        ],
-        [
-          314.75,
-          -158.25
-        ],
-        [
-          323.25,
-          -158.25
-        ],
-        [
-          326.25,
-          -156.25
-        ],
-        [
-          335.25,
-          -160.75
-        ],
-        [
-          335.75,
-          -163.75
-        ],
-        [
-          332.25,
-          -166.75
-        ],
-        [
-          327.25,
-          -164.25
-        ],
-        [
-          320.25,
-          -166.75
-        ],
-        [
-          318.25,
-          -165.75
-        ],
-        [
-          317.75,
-          -163.75
-        ],
-        [
-          313.75,
-          -163.25
-        ],
-        [
-          312.25,
-          -160.25
-        ]
-      ],
-      [
-        [
-          340.75,
-          -130.25
-        ],
-        [
-          336.25,
-          -131.25
-        ],
-        [
-          333.75,
-          -126.25
-        ],
-        [
-          328.75,
-          -126.75
-        ],
-        [
-          327.75,
-          -125.75
-        ],
-        [
-          326.75,
-          -121.25
-        ],
-        [
-          328.25,
-          -117.75
-        ],
-        [
-          331.25,
-          -115.75
-        ],
-        [
-          331.25,
-          -114.25
-        ],
-        [
-          339.75,
-          -118.75
-        ],
-        [
-          342.25,
-          -121.25
-        ],
-        [
-          343.25,
-          -126.75
-        ],
-        [
-          340.75,
-          -130.25
         ]
       ],
       [
@@ -80692,470 +82614,6 @@
       ],
       [
         [
-          493.75,
-          46.25
-        ],
-        [
-          494.25,
-          47.75
-        ],
-        [
-          500.75,
-          49.75
-        ],
-        [
-          507.75,
-          49.25
-        ],
-        [
-          509.75,
-          50.25
-        ],
-        [
-          513.25,
-          50.25
-        ],
-        [
-          516.25,
-          47.25
-        ],
-        [
-          514.75,
-          43.75
-        ],
-        [
-          511.75,
-          43.75
-        ],
-        [
-          510.75,
-          41.25
-        ],
-        [
-          506.75,
-          39.75
-        ],
-        [
-          504.25,
-          40.75
-        ],
-        [
-          502.75,
-          44.25
-        ],
-        [
-          500.75,
-          44.25
-        ],
-        [
-          499.75,
-          39.75
-        ],
-        [
-          497.75,
-          39.75
-        ],
-        [
-          493.75,
-          46.25
-        ]
-      ],
-      [
-        [
-          539.75,
-          63.25
-        ],
-        [
-          533.25,
-          60.75
-        ],
-        [
-          528.75,
-          61.75
-        ],
-        [
-          524.25,
-          65.25
-        ],
-        [
-          524.25,
-          69.75
-        ],
-        [
-          517.75,
-          74.75
-        ],
-        [
-          516.25,
-          78.75
-        ],
-        [
-          521.75,
-          78.25
-        ],
-        [
-          524.75,
-          75.25
-        ],
-        [
-          534.75,
-          75.25
-        ],
-        [
-          536.25,
-          73.25
-        ],
-        [
-          535.75,
-          68.25
-        ],
-        [
-          539.75,
-          66.25
-        ],
-        [
-          539.75,
-          63.25
-        ]
-      ],
-      [
-        [
-          -585.25,
-          8.75
-        ],
-        [
-          -589.25,
-          9.25
-        ],
-        [
-          -588.75,
-          12.25
-        ],
-        [
-          -591.75,
-          12.75
-        ],
-        [
-          -592.75,
-          15.75
-        ],
-        [
-          -589.75,
-          17.75
-        ],
-        [
-          -590.25,
-          21.25
-        ],
-        [
-          -586.25,
-          21.25
-        ],
-        [
-          -586.25,
-          15.25
-        ],
-        [
-          -583.75,
-          11.75
-        ],
-        [
-          -582.25,
-          11.75
-        ],
-        [
-          -585.25,
-          8.75
-        ]
-      ],
-      [
-        [
-          -558.75,
-          32.25
-        ],
-        [
-          -562.25,
-          32.25
-        ],
-        [
-          -564.25,
-          36.25
-        ],
-        [
-          -567.75,
-          36.25
-        ],
-        [
-          -569.75,
-          38.25
-        ],
-        [
-          -569.75,
-          48.25
-        ],
-        [
-          -568.75,
-          49.75
-        ],
-        [
-          -564.25,
-          50.25
-        ],
-        [
-          -563.25,
-          48.75
-        ],
-        [
-          -563.25,
-          43.25
-        ],
-        [
-          -560.75,
-          41.25
-        ],
-        [
-          -558.75,
-          41.25
-        ],
-        [
-          -557.25,
-          38.75
-        ],
-        [
-          -555.75,
-          38.75
-        ],
-        [
-          -558.75,
-          32.25
-        ]
-      ],
-      [
-        [
-          -480.25,
-          64.75
-        ],
-        [
-          -482.25,
-          66.25
-        ],
-        [
-          -481.25,
-          70.75
-        ],
-        [
-          -482.25,
-          74.75
-        ],
-        [
-          -481.25,
-          76.25
-        ],
-        [
-          -475.75,
-          76.75
-        ],
-        [
-          -474.75,
-          72.25
-        ],
-        [
-          -477.25,
-          69.25
-        ],
-        [
-          -477.25,
-          65.75
-        ],
-        [
-          -480.25,
-          64.75
-        ]
-      ],
-      [
-        [
-          -513.25,
-          91.75
-        ],
-        [
-          -515.25,
-          89.25
-        ],
-        [
-          -521.25,
-          90.75
-        ],
-        [
-          -523.25,
-          86.25
-        ],
-        [
-          -526.75,
-          88.25
-        ],
-        [
-          -532.75,
-          87.75
-        ],
-        [
-          -533.75,
-          88.75
-        ],
-        [
-          -533.25,
-          94.75
-        ],
-        [
-          -535.25,
-          98.75
-        ],
-        [
-          -533.75,
-          100.25
-        ],
-        [
-          -530.75,
-          98.75
-        ],
-        [
-          -529.25,
-          92.25
-        ],
-        [
-          -525.25,
-          91.75
-        ],
-        [
-          -524.75,
-          94.25
-        ],
-        [
-          -525.75,
-          96.25
-        ],
-        [
-          -521.75,
-          97.25
-        ],
-        [
-          -515.25,
-          94.25
-        ],
-        [
-          -513.25,
-          91.75
-        ]
-      ],
-      [
-        [
-          -546.75,
-          134.25
-        ],
-        [
-          -549.75,
-          136.25
-        ],
-        [
-          -550.25,
-          138.75
-        ],
-        [
-          -548.25,
-          140.75
-        ],
-        [
-          -548.25,
-          143.25
-        ],
-        [
-          -546.75,
-          145.25
-        ],
-        [
-          -542.75,
-          145.75
-        ],
-        [
-          -540.75,
-          142.75
-        ],
-        [
-          -541.25,
-          138.75
-        ],
-        [
-          -543.75,
-          135.25
-        ],
-        [
-          -546.75,
-          134.25
-        ]
-      ],
-      [
-        [
-          -509.75,
-          114.75
-        ],
-        [
-          -511.75,
-          114.75
-        ],
-        [
-          -516.75,
-          118.25
-        ],
-        [
-          -516.75,
-          123.25
-        ],
-        [
-          -518.75,
-          123.25
-        ],
-        [
-          -520.75,
-          120.75
-        ],
-        [
-          -524.25,
-          122.25
-        ],
-        [
-          -523.25,
-          125.25
-        ],
-        [
-          -524.25,
-          131.75
-        ],
-        [
-          -518.75,
-          132.75
-        ],
-        [
-          -516.25,
-          130.75
-        ],
-        [
-          -514.75,
-          125.75
-        ],
-        [
-          -508.75,
-          120.25
-        ],
-        [
-          -508.25,
-          116.75
-        ],
-        [
-          -509.75,
-          114.75
-        ]
-      ],
-      [
-        [
           -161.25,
           225.25
         ],
@@ -81242,132 +82700,6 @@
         [
           -161.25,
           225.25
-        ]
-      ],
-      [
-        [
-          -152.25,
-          201.25
-        ],
-        [
-          -153.25,
-          205.25
-        ],
-        [
-          -150.75,
-          208.75
-        ],
-        [
-          -147.75,
-          209.75
-        ],
-        [
-          -145.75,
-          206.75
-        ],
-        [
-          -143.75,
-          206.75
-        ],
-        [
-          -140.75,
-          210.75
-        ],
-        [
-          -135.75,
-          210.25
-        ],
-        [
-          -134.75,
-          213.75
-        ],
-        [
-          -137.75,
-          215.25
-        ],
-        [
-          -138.75,
-          218.75
-        ],
-        [
-          -143.25,
-          217.75
-        ],
-        [
-          -145.25,
-          219.75
-        ],
-        [
-          -147.25,
-          219.75
-        ],
-        [
-          -148.25,
-          214.75
-        ],
-        [
-          -150.25,
-          212.75
-        ],
-        [
-          -154.25,
-          213.75
-        ],
-        [
-          -155.75,
-          217.25
-        ],
-        [
-          -154.25,
-          221.75
-        ],
-        [
-          -149.75,
-          222.75
-        ],
-        [
-          -146.75,
-          226.25
-        ],
-        [
-          -144.75,
-          226.25
-        ],
-        [
-          -142.75,
-          223.75
-        ],
-        [
-          -138.75,
-          225.25
-        ],
-        [
-          -135.75,
-          224.75
-        ],
-        [
-          -132.75,
-          220.75
-        ],
-        [
-          -130.75,
-          210.75
-        ],
-        [
-          -133.25,
-          207.75
-        ],
-        [
-          -137.75,
-          205.75
-        ],
-        [
-          -141.75,
-          202.25
-        ],
-        [
-          -152.25,
-          201.25
         ]
       ],
       [
@@ -81500,118 +82832,6 @@
       ],
       [
         [
-          166.25,
-          -121.75
-        ],
-        [
-          167.75,
-          -119.75
-        ],
-        [
-          167.75,
-          -117.25
-        ],
-        [
-          169.25,
-          -116.75
-        ],
-        [
-          168.25,
-          -114.25
-        ],
-        [
-          170.75,
-          -113.25
-        ],
-        [
-          170.75,
-          -110.25
-        ],
-        [
-          165.25,
-          -106.25
-        ],
-        [
-          165.75,
-          -100.75
-        ],
-        [
-          164.25,
-          -96.25
-        ],
-        [
-          167.75,
-          -95.25
-        ],
-        [
-          171.75,
-          -97.25
-        ],
-        [
-          172.75,
-          -102.75
-        ],
-        [
-          175.75,
-          -102.75
-        ],
-        [
-          177.25,
-          -104.25
-        ],
-        [
-          177.25,
-          -113.75
-        ],
-        [
-          174.25,
-          -114.25
-        ],
-        [
-          174.75,
-          -118.25
-        ],
-        [
-          172.25,
-          -120.75
-        ],
-        [
-          166.25,
-          -121.75
-        ]
-      ],
-      [
-        [
-          180.75,
-          -40.25
-        ],
-        [
-          178.75,
-          -40.75
-        ],
-        [
-          177.25,
-          -39.75
-        ],
-        [
-          175.25,
-          -31.75
-        ],
-        [
-          181.75,
-          -34.25
-        ],
-        [
-          182.25,
-          -38.25
-        ],
-        [
-          180.75,
-          -40.25
-        ]
-      ],
-      [
-        [
           195.25,
           37.25
         ],
@@ -81690,180 +82910,6 @@
         [
           195.25,
           37.25
-        ]
-      ],
-      [
-        [
-          190.75,
-          123.75
-        ],
-        [
-          188.25,
-          129.75
-        ],
-        [
-          184.75,
-          129.25
-        ],
-        [
-          181.25,
-          131.75
-        ],
-        [
-          183.25,
-          134.75
-        ],
-        [
-          182.75,
-          140.75
-        ],
-        [
-          184.75,
-          141.75
-        ],
-        [
-          186.75,
-          141.25
-        ],
-        [
-          188.75,
-          138.75
-        ],
-        [
-          189.25,
-          129.75
-        ],
-        [
-          193.25,
-          129.25
-        ],
-        [
-          193.75,
-          128.25
-        ],
-        [
-          193.25,
-          125.25
-        ],
-        [
-          191.75,
-          125.25
-        ],
-        [
-          190.75,
-          123.75
-        ]
-      ],
-      [
-        [
-          210.75,
-          121.75
-        ],
-        [
-          208.75,
-          122.25
-        ],
-        [
-          206.25,
-          125.75
-        ],
-        [
-          205.75,
-          128.75
-        ],
-        [
-          206.75,
-          131.25
-        ],
-        [
-          204.75,
-          131.75
-        ],
-        [
-          204.25,
-          133.75
-        ],
-        [
-          206.75,
-          135.25
-        ],
-        [
-          204.75,
-          140.75
-        ],
-        [
-          207.75,
-          143.75
-        ],
-        [
-          212.25,
-          143.25
-        ],
-        [
-          214.25,
-          138.25
-        ],
-        [
-          215.25,
-          127.25
-        ],
-        [
-          213.75,
-          123.25
-        ],
-        [
-          210.75,
-          121.75
-        ]
-      ],
-      [
-        [
-          158.25,
-          161.25
-        ],
-        [
-          155.75,
-          169.75
-        ],
-        [
-          158.25,
-          172.25
-        ],
-        [
-          159.25,
-          175.25
-        ],
-        [
-          163.75,
-          175.25
-        ],
-        [
-          164.75,
-          172.75
-        ],
-        [
-          162.75,
-          171.75
-        ],
-        [
-          162.75,
-          169.75
-        ],
-        [
-          165.25,
-          168.25
-        ],
-        [
-          166.25,
-          165.75
-        ],
-        [
-          164.25,
-          163.25
-        ],
-        [
-          158.25,
-          161.25
         ]
       ],
       [
@@ -82030,384 +83076,6 @@
       ],
       [
         [
-          -24.75,
-          236.75
-        ],
-        [
-          -26.25,
-          244.25
-        ],
-        [
-          -22.75,
-          247.25
-        ],
-        [
-          -22.25,
-          252.25
-        ],
-        [
-          -20.75,
-          253.75
-        ],
-        [
-          -17.25,
-          253.75
-        ],
-        [
-          -15.25,
-          251.75
-        ],
-        [
-          -15.25,
-          249.25
-        ],
-        [
-          -16.75,
-          247.75
-        ],
-        [
-          -16.75,
-          245.75
-        ],
-        [
-          -14.75,
-          244.25
-        ],
-        [
-          -15.25,
-          241.75
-        ],
-        [
-          -20.75,
-          237.75
-        ],
-        [
-          -24.75,
-          236.75
-        ]
-      ],
-      [
-        [
-          68.25,
-          311.25
-        ],
-        [
-          63.25,
-          311.75
-        ],
-        [
-          60.75,
-          313.25
-        ],
-        [
-          60.75,
-          316.25
-        ],
-        [
-          64.25,
-          317.25
-        ],
-        [
-          64.25,
-          319.75
-        ],
-        [
-          61.25,
-          322.75
-        ],
-        [
-          56.75,
-          323.25
-        ],
-        [
-          53.25,
-          321.75
-        ],
-        [
-          50.25,
-          327.25
-        ],
-        [
-          42.25,
-          327.25
-        ],
-        [
-          41.75,
-          329.25
-        ],
-        [
-          44.25,
-          329.75
-        ],
-        [
-          45.25,
-          337.25
-        ],
-        [
-          47.75,
-          341.25
-        ],
-        [
-          50.25,
-          341.75
-        ],
-        [
-          51.75,
-          340.75
-        ],
-        [
-          51.75,
-          337.75
-        ],
-        [
-          48.75,
-          335.25
-        ],
-        [
-          48.25,
-          332.25
-        ],
-        [
-          54.25,
-          332.75
-        ],
-        [
-          55.25,
-          327.25
-        ],
-        [
-          61.75,
-          325.75
-        ],
-        [
-          62.25,
-          328.75
-        ],
-        [
-          63.75,
-          329.75
-        ],
-        [
-          67.25,
-          328.75
-        ],
-        [
-          66.75,
-          324.25
-        ],
-        [
-          71.25,
-          322.75
-        ],
-        [
-          71.25,
-          319.75
-        ],
-        [
-          69.25,
-          318.25
-        ],
-        [
-          69.75,
-          314.25
-        ],
-        [
-          68.25,
-          311.25
-        ]
-      ],
-      [
-        [
-          97.25,
-          323.25
-        ],
-        [
-          93.75,
-          326.75
-        ],
-        [
-          94.25,
-          330.75
-        ],
-        [
-          97.75,
-          332.25
-        ],
-        [
-          95.25,
-          341.25
-        ],
-        [
-          98.25,
-          345.25
-        ],
-        [
-          100.75,
-          345.25
-        ],
-        [
-          103.25,
-          343.25
-        ],
-        [
-          101.25,
-          336.25
-        ],
-        [
-          106.25,
-          328.75
-        ],
-        [
-          106.25,
-          325.25
-        ],
-        [
-          104.25,
-          323.75
-        ],
-        [
-          99.25,
-          325.25
-        ],
-        [
-          97.25,
-          323.25
-        ]
-      ],
-      [
-        [
-          260.75,
-          275.75
-        ],
-        [
-          263.75,
-          278.25
-        ],
-        [
-          275.25,
-          277.75
-        ],
-        [
-          278.25,
-          275.25
-        ],
-        [
-          280.75,
-          274.75
-        ],
-        [
-          281.25,
-          272.25
-        ],
-        [
-          277.25,
-          269.25
-        ],
-        [
-          276.25,
-          269.75
-        ],
-        [
-          276.25,
-          273.75
-        ],
-        [
-          273.25,
-          274.75
-        ],
-        [
-          270.75,
-          273.25
-        ],
-        [
-          270.75,
-          268.75
-        ],
-        [
-          268.75,
-          268.25
-        ],
-        [
-          267.75,
-          271.25
-        ],
-        [
-          262.75,
-          271.75
-        ],
-        [
-          260.75,
-          275.75
-        ]
-      ],
-      [
-        [
-          319.25,
-          281.75
-        ],
-        [
-          322.25,
-          284.75
-        ],
-        [
-          327.25,
-          285.75
-        ],
-        [
-          328.25,
-          284.25
-        ],
-        [
-          330.25,
-          284.25
-        ],
-        [
-          331.25,
-          286.75
-        ],
-        [
-          336.25,
-          288.25
-        ],
-        [
-          342.25,
-          284.25
-        ],
-        [
-          341.75,
-          282.25
-        ],
-        [
-          333.75,
-          280.25
-        ],
-        [
-          333.25,
-          275.75
-        ],
-        [
-          331.75,
-          274.25
-        ],
-        [
-          329.75,
-          274.25
-        ],
-        [
-          325.25,
-          278.25
-        ],
-        [
-          320.25,
-          279.75
-        ],
-        [
-          319.25,
-          281.75
-        ]
-      ],
-      [
-        [
           375.25,
           180.75
         ],
@@ -82462,416 +83130,6 @@
         [
           375.25,
           180.75
-        ]
-      ],
-      [
-        [
-          -449.75,
-          252.25
-        ],
-        [
-          -451.75,
-          252.25
-        ],
-        [
-          -453.25,
-          255.75
-        ],
-        [
-          -459.25,
-          259.75
-        ],
-        [
-          -459.25,
-          261.75
-        ],
-        [
-          -456.25,
-          262.75
-        ],
-        [
-          -456.75,
-          265.25
-        ],
-        [
-          -459.25,
-          265.25
-        ],
-        [
-          -458.75,
-          269.75
-        ],
-        [
-          -456.75,
-          273.25
-        ],
-        [
-          -451.75,
-          271.75
-        ],
-        [
-          -451.75,
-          269.75
-        ],
-        [
-          -454.25,
-          268.75
-        ],
-        [
-          -454.25,
-          266.75
-        ],
-        [
-          -450.25,
-          265.25
-        ],
-        [
-          -449.25,
-          263.75
-        ],
-        [
-          -450.75,
-          258.75
-        ],
-        [
-          -448.25,
-          258.25
-        ],
-        [
-          -447.25,
-          256.25
-        ],
-        [
-          -449.75,
-          252.25
-        ]
-      ],
-      [
-        [
-          -425.75,
-          255.25
-        ],
-        [
-          -426.75,
-          257.75
-        ],
-        [
-          -423.75,
-          261.75
-        ],
-        [
-          -419.75,
-          260.75
-        ],
-        [
-          -419.25,
-          256.75
-        ],
-        [
-          -417.25,
-          254.25
-        ],
-        [
-          -410.75,
-          255.75
-        ],
-        [
-          -410.75,
-          258.75
-        ],
-        [
-          -415.25,
-          258.75
-        ],
-        [
-          -416.75,
-          260.25
-        ],
-        [
-          -415.75,
-          262.75
-        ],
-        [
-          -411.25,
-          264.75
-        ],
-        [
-          -409.25,
-          264.75
-        ],
-        [
-          -403.75,
-          256.25
-        ],
-        [
-          -412.75,
-          247.75
-        ],
-        [
-          -416.25,
-          248.25
-        ],
-        [
-          -420.25,
-          252.75
-        ],
-        [
-          -425.75,
-          255.25
-        ]
-      ],
-      [
-        [
-          -379.75,
-          267.25
-        ],
-        [
-          -385.75,
-          264.75
-        ],
-        [
-          -388.25,
-          266.25
-        ],
-        [
-          -388.25,
-          269.75
-        ],
-        [
-          -392.75,
-          271.25
-        ],
-        [
-          -392.75,
-          275.25
-        ],
-        [
-          -389.75,
-          276.75
-        ],
-        [
-          -387.25,
-          276.25
-        ],
-        [
-          -384.25,
-          273.25
-        ],
-        [
-          -379.75,
-          271.25
-        ],
-        [
-          -379.75,
-          267.25
-        ]
-      ],
-      [
-        [
-          -400.75,
-          282.75
-        ],
-        [
-          -406.25,
-          279.75
-        ],
-        [
-          -410.25,
-          279.25
-        ],
-        [
-          -412.25,
-          280.75
-        ],
-        [
-          -412.75,
-          282.75
-        ],
-        [
-          -421.75,
-          283.25
-        ],
-        [
-          -423.25,
-          287.25
-        ],
-        [
-          -419.25,
-          290.25
-        ],
-        [
-          -416.75,
-          290.25
-        ],
-        [
-          -415.25,
-          288.25
-        ],
-        [
-          -413.25,
-          288.25
-        ],
-        [
-          -412.75,
-          290.25
-        ],
-        [
-          -409.75,
-          290.25
-        ],
-        [
-          -405.75,
-          287.25
-        ],
-        [
-          -403.25,
-          287.25
-        ],
-        [
-          -400.75,
-          284.75
-        ],
-        [
-          -400.75,
-          282.75
-        ]
-      ],
-      [
-        [
-          -188.25,
-          -366.75
-        ],
-        [
-          -192.75,
-          -367.25
-        ],
-        [
-          -195.75,
-          -366.25
-        ],
-        [
-          -196.25,
-          -361.25
-        ],
-        [
-          -192.75,
-          -359.25
-        ],
-        [
-          -190.75,
-          -359.75
-        ],
-        [
-          -186.75,
-          -364.25
-        ],
-        [
-          -188.25,
-          -366.75
-        ]
-      ],
-      [
-        [
-          -332.25,
-          -131.75
-        ],
-        [
-          -333.25,
-          -130.75
-        ],
-        [
-          -332.75,
-          -121.75
-        ],
-        [
-          -326.25,
-          -119.25
-        ],
-        [
-          -324.75,
-          -116.25
-        ],
-        [
-          -322.75,
-          -115.75
-        ],
-        [
-          -320.75,
-          -117.25
-        ],
-        [
-          -316.75,
-          -126.25
-        ],
-        [
-          -317.75,
-          -129.25
-        ],
-        [
-          -320.75,
-          -130.75
-        ],
-        [
-          -332.25,
-          -131.75
-        ]
-      ],
-      [
-        [
-          79.25,
-          355.25
-        ],
-        [
-          77.25,
-          351.75
-        ],
-        [
-          74.25,
-          350.25
-        ],
-        [
-          64.25,
-          353.25
-        ],
-        [
-          62.75,
-          356.25
-        ],
-        [
-          65.25,
-          360.25
-        ],
-        [
-          71.75,
-          360.75
-        ],
-        [
-          72.75,
-          359.75
-        ],
-        [
-          71.25,
-          357.75
-        ],
-        [
-          71.75,
-          355.25
-        ],
-        [
-          74.25,
-          355.25
-        ],
-        [
-          77.25,
-          357.75
-        ],
-        [
-          79.25,
-          356.75
-        ],
-        [
-          79.25,
-          355.25
         ]
       ]
     ],

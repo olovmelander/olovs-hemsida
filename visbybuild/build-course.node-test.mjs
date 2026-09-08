@@ -21,14 +21,41 @@ test('observed source routes, rings and tee positions are preserved without card
     assert.equal(hole.tees.inferPads, false);
     assert.deepEqual(hole.fairway.rings, []);
     assert.equal(hole.tees.marks.length, 6);
-    assert.ok(hole.tees.marks.every(mark => JSON.stringify(mark.c) === JSON.stringify([index * 35 + 10, -190])));
+    /* The back tee is the observed platform. The five shorter ones walk UP the
+       observed route by the card's own difference from it -- this fixture's
+       line runs 200 m from the platform in +z, so each mark lands at exactly
+       that difference and never past the line's own end. All six used to sit on
+       one point, which put five of every six cameras at the wrong tee. */
+    assert.deepEqual(hole.tees.marks[0].c, [index * 35 + 10, -190]);
+    hole.tees.marks.forEach((mark, tee) => {
+      assert.deepEqual(mark.c.map(value => Math.round(value * 1e6) / 1e6),
+        [index * 35 + 10, -190 + (hole.t[0] - hole.t[tee])]);
+      assert.equal(mark.m, hole.t[tee]);
+    });
   });
+  /* A card length still never moves GEOMETRY: not the route, not a ring, not an
+     observed platform. What it now positions is the tee camera, which is the
+     one thing the card is actually a statement about. */
   const revisedCard = structuredClone(card);
   revisedCard.holes[0].lengths['tee-63'] += 20;
   revisedCard.holes[1].lengths['tee-63'] -= 20;
   const revised = buildHoles(revisedCard, geometry, () => 3);
   assert.deepEqual(revised.map(h => h.line), holes.map(h => h.line));
-  assert.deepEqual(revised.map(h => h.tees.marks.map(mark => mark.c)), holes.map(h => h.tees.marks.map(mark => mark.c)));
+  assert.deepEqual(revised.map(h => h.green.ring), holes.map(h => h.green.ring));
+  assert.deepEqual(revised.map(h => h.tees.pads), holes.map(h => h.tees.pads));
+  assert.deepEqual(revised.map(h => h.tees.marks[0].c), holes.map(h => h.tees.marks[0].c));
+  assert.notDeepEqual(revised[0].tees.marks[5].c, holes[0].tees.marks[5].c);
+});
+
+test('a tee whose card offset runs past the observed route stays on the observed platform', () => {
+  const geometry = fixture();
+  /* a 40 m route cannot carry a 64 m walk: the reading is refused rather than
+     placed on ground the route never covered, and it says so in its placement */
+  geometry.holes[0].line = [[10, -190], [10, -150]].map(projected);
+  const [hole] = buildHoles(card, geometry, () => 3);
+  assert.deepEqual(hole.tees.marks[4].c, hole.tees.marks[0].c);
+  assert.match(hole.tees.marks[4].placement, /runs past the observed route/);
+  assert.match(hole.tees.marks[0].placement, /the card back tee, whose platform this is/);
 });
 
 test('a missing physical tee, unknown CRS or a camera reference off an observed pad fails', () => {

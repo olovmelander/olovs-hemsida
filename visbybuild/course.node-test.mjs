@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { readPack, inflateStream } from '../packages/course-pack/lib.mjs';
-import { decodeHF, pointInPoly } from '../geobuild/lib.mjs';
+import { centroid, decodeHF, pointInPoly, polyLen } from '../geobuild/lib.mjs';
+import { teeMarks } from './build-course.mjs';
 import { runtimeWater } from '../packages/course-pack/runtime-water.mjs';
 import { assertVisbyCanonicalRouting, visbyRuntimeContract } from '../packages/course-v2/compile-visby-ground-graph.mjs';
 import { VISBY_V2_CONFIG } from '../apps/golf/src/engine/v2-visby-config.mjs';
@@ -33,10 +34,41 @@ test('Visby published compatibility pack preserves canonical observed geometry a
       assert.ok(hole.tees.marks.every(mark => hole.fairway.rings.some(ring => pointInPoly(...mark.c, ring))));
     } else {
       assert.ok(hole.tees.pads.length > 0);
-      assert.ok(hole.tees.marks.every(mark => hole.tees.pads.some(pad => pointInPoly(...mark.c, pad.ring))));
+      /* The BACK tee is the observed platform and must stay on it. The five
+         shorter ones no longer can: this hole's card spans up to 176 m and one
+         platform 7-32 m long cannot hold six tees, which is why all six used to
+         share one point and every camera but one stood at the wrong tee. They
+         are walked up the observed route by the card's own difference from the
+         back tee -- see `teeMarks` for why that needs no extrapolation and
+         infers no platform -- so containment is asserted where it is true and
+         the derivation is re-derived below where it is not. */
+      assert.ok(hole.tees.pads.some(pad => pointInPoly(...hole.tees.marks[0].c, pad.ring)));
+      assert.equal(hole.tees.marks[0].placement, 'observed-tee-platform; the card back tee, whose platform this is');
     }
+    /* The model and its generator must not be able to disagree. `build-course`
+       cannot run in a checkout without the acquired 1 m raster it pins by
+       sha256, so the marks were applied to the model by `apply-tee-marks`; this
+       calls the same exported rule a third time and demands the committed model
+       equals it exactly. The sea flags were once applied to the model alone,
+       and a later generator run would have written them straight back. */
+    const centres = hole.tees.pads.map(pad => centroid(pad.ring));
+    const nearest = hole.tees.status === 'unresolved-physical-platform' ? hole.tees.marks[0].c
+      : [...centres].sort((a, b) => Math.hypot(a[0] - hole.line[0][0], a[1] - hole.line[0][1])
+                                  - Math.hypot(b[0] - hole.line[0][0], b[1] - hole.line[0][1]))[0];
+    assert.deepEqual(hole.tees.marks, teeMarks({
+      line: hole.line, lineLen: polyLen(hole.line), lengths: hole.t, nearest, pads: hole.tees.pads,
+      unresolvedPlatform: hole.tees.status === 'unresolved-physical-platform', references: null, hole: hole.n,
+    }));
+    assert.deepEqual(hole.tees.marks.map(mark => mark.m), hole.t);
     assert.ok(pointInPoly(...hole.pin, hole.green.ring));
   }
+  /* The tee dimension exists: 108 numbered tees used to stand on 18 points, so
+     `?tee=N` moved nothing and the rangefinder read one distance to the green
+     for all six against the card printed beside it. */
+  const teePoints = new Set(model.holes.flatMap(hole => hole.tees.marks.map(mark => mark.c.join(','))));
+  assert.equal(teePoints.size, 80);
+  assert.equal(model.holes.filter(hole => new Set(hole.tees.marks.map(mark => mark.c.join(','))).size === 1).length, 1,
+    'only hole 12, whose platform is unresolved, may still share one point across all six tees');
   assert.equal(model.infra.terrainPlacement, 'measured-only');
   assert.equal(model.infra.vegetationPlacement, 'measured-only');
   assert.equal(model.infra.objectPlacement, 'mapped-only');

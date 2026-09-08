@@ -25,6 +25,90 @@ export function localRing(ring, label, minimumAreaSquareMetres = 1) {
   return result;
 }
 
+/* Arc length along a polyline of the projection of `point`, and the inverse.
+   Both are clamped to the line's own extent: the tee walk must never leave the
+   measured route, which is the whole reason it is defensible. */
+function arcAlong(line, point) {
+  let travelled = 0, best = null;
+  for (let index = 0; index < line.length - 1; index++) {
+    const [ax, az] = line[index], [bx, bz] = line[index + 1];
+    const dx = bx - ax, dz = bz - az, length = Math.hypot(dx, dz);
+    if (!length) continue;
+    const t = Math.min(1, Math.max(0, ((point[0] - ax) * dx + (point[1] - az) * dz) / (length * length)));
+    const offset = Math.hypot(point[0] - (ax + t * dx), point[1] - (az + t * dz));
+    if (!best || offset < best[1]) best = [travelled + t * length, offset];
+    travelled += length;
+  }
+  return best ? best[0] : 0;
+}
+
+function pointAlong(line, arc) {
+  let travelled = 0;
+  for (let index = 0; index < line.length - 1; index++) {
+    const [ax, az] = line[index], [bx, bz] = line[index + 1];
+    const length = Math.hypot(bx - ax, bz - az);
+    if (!length) continue;
+    if (arc <= travelled + length || index === line.length - 2) {
+      const t = Math.min(1, Math.max(0, (arc - travelled) / length));
+      return [ax + t * (bx - ax), az + t * (bz - az)];
+    }
+    travelled += length;
+  }
+  return [...line.at(-1)];
+}
+
+/* WHERE THE SIX NUMBERED TEES STAND.
+
+   They used to share ONE point, and the card spans 6230 m to 4216 m -- about
+   112 m a hole -- so five of every six cameras stood up to 172 m from the tee
+   whose number the HUD was printing, and the rangefinder measured the same
+   distance to the green from all six against a card printed beside it.
+
+   The 2026 national orthophoto was asked to resolve the physical decks and
+   could not: `mapping/tee-decks.json` records what it can and cannot see, and
+   `mapping/trace-tees.py` records why (an absolute colour cut keeping 90% of
+   the mapped mown turf also keeps 51% of everything else, and the Ribbingsfors
+   laser-flatness rule says nothing on a links where 35% of the played box is
+   flatter than 0.10 m over 5 m). So the position is DERIVED -- and derived in
+   the one way that needs no extrapolation and no invented platform: hold the
+   back tee exactly where the observed platform is, and walk each shorter tee
+   UP the observed route by the card's OWN DIFFERENCE from the back tee.
+
+   Only differences are used, never absolute route length. A route may fall
+   short of its card -- this one does, by a median 8% -- without the gaps
+   between its tees being wrong, and the two faults have different causes. The
+   walk is clamped inside the measured line and stops 20 m short of its end, so
+   nothing is placed on ground the route never covered. What is derived is a
+   camera and a rangefinder origin: `inferPads` stays false, no pad is
+   synthesised, and no daily marker is claimed.
+
+   It lives here, exported, because the committed model and this generator must
+   not be able to disagree -- `visbybuild/mapping/apply-tee-marks.mjs` and
+   `course.node-test.mjs` both call THIS function. */
+export function teeMarks({ line, lineLen, lengths, nearest, pads, unresolvedPlatform, references, hole }) {
+  const anchorArc = unresolvedPlatform ? 0 : arcAlong(line, nearest);
+  const walkLimit = Math.max(0, lineLen - anchorArc - 20);
+  return lengths.map((metres, number) => {
+    const reference = references?.[number];
+    if (reference) {
+      if (!unresolvedPlatform && !pads.some(pad => pointInPoly(...reference, pad.ring))) throw new Error(`Hole ${hole} camera reference leaves observed tee platforms`);
+      return { c: [...reference], b: 0, m: metres, placement: 'source-declared-camera-reference; daily marker location unverified' };
+    }
+    const forward = lengths[0] - metres;
+    if (unresolvedPlatform || !(forward > 0) || forward > walkLimit) {
+      return { c: [...nearest], b: 0, m: metres,
+        placement: unresolvedPlatform ? 'approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown'
+          : forward > 0 ? 'shared-camera-reference-on-observed-platform; the card offset runs past the observed route'
+          : 'observed-tee-platform; the card back tee, whose platform this is' };
+    }
+    const c = pointAlong(line, anchorArc + forward);
+    return { c, b: 0, m: metres,
+      placement: pads.some(pad => pointInPoly(...c, pad.ring))
+        ? 'card-offset from the back tee along the observed route; still on the observed platform'
+        : 'card-offset from the back tee along the observed route; physical platform not resolved in the imagery' };
+  });
+}
+
 function interiorCentre(ring, label) {
   const centre = centroid(ring);
   if (!pointInPoly(...centre, ring)) throw new Error(`${label}: centroid is outside its ring; provide an explicit interior reference`);
@@ -74,13 +158,12 @@ export function buildHoles(card, geometry, heightAt) {
     const nearest = approximateCamera ?? [...centres].sort((a, b) => Math.hypot(a[0] - line[0][0], a[1] - line[0][1]) - Math.hypot(b[0] - line[0][0], b[1] - line[0][1]))[0];
     const t = card.tees.map(tee => row.lengths[tee.id]);
     if (t.some(length => !Number.isInteger(length) || length <= 0)) throw new Error(`Hole ${row.number} official lengths are invalid`);
-    const marks = card.tees.map((tee, number) => {
+    const references = card.tees.map(tee => {
       const reference = input.tees.references?.[tee.id];
-      if (reference && !point(reference)) throw new Error(`Hole ${row.number} has an invalid tee reference`);
-      const c = reference ? local(reference) : [...nearest];
-      if (!unresolvedPlatform && !pads.some(pad => pointInPoly(...c, pad.ring))) throw new Error(`Hole ${row.number} camera reference leaves observed tee platforms`);
-      return { c, b: 0, m: t[number], placement: unresolvedPlatform ? 'approximate-flyover-start-on-observed-fairway; physical platform and numeric tee positions unknown' : reference ? 'source-declared-camera-reference; daily marker location unverified' : 'shared-camera-reference-on-observed-platform; numeric tee position unknown' };
+      if (reference !== undefined && !point(reference)) throw new Error(`Hole ${row.number} has an invalid tee reference`);
+      return reference ? local(reference) : null;
     });
+    const marks = teeMarks({ line, lineLen, lengths: t, nearest, pads, unresolvedPlatform, references, hole: row.number });
     const teeHeight = heightAt(...marks[1].c), greenHeight = heightAt(...pin);
     return { n: row.number, par: row.par, idx: row.index, t, line, lineLen, pin,
       green: { ring: greenRing, c: pin, sourceIds: input.green.sourceIds ?? [] },
@@ -160,10 +243,23 @@ export async function buildCourse() {
         const ring = localRing(rings[0].map(coordinate => coordinate.slice(0, 2)), `${feature.id} water`, 1e-6);
         const level = feature.properties.heightRH2000;
         if (!Number.isFinite(level)) throw new Error(`${feature.id} water lacks RH2000 level`);
-        // These are finite source polygons, including offshore fragments. The
-        // legacy isSea switch also enables an unbounded height-based ocean
-        // interpretation; a clipped source polygon cannot establish that mask.
-        water.push({ id: `${feature.id}-part-${index + 1}`, ring, shoreline, level, isLake: feature.properties.isSea !== true, isSea: false,
+        /* These are finite source polygons, including offshore fragments, and
+           this comment used to say a clipped polygon cannot establish an
+           unbounded ocean -- so every ring was written isSea:false while seven
+           of them carried sourceIsSea from the national water break geometry.
+           906.7 ha of Baltic against 24.1 ha of inland pond was then flagged
+           neither sea NOR lake, a third state the engine has no treatment for:
+           no horizon plane (that block is gated on isSea), a farm pond's 18 m
+           shore bench instead of open water's 55 m, no foam (it keys off
+           isLake), invisible to the wetness test, and the vista tint painting
+           the open sea as forest. The objection the old comment raised was
+           TESTED rather than assumed: the sea plane at seaLevel + the tint band
+           covers 0.01 ha of dry land here, against the 65.8 ha that made the
+           same flag wrong at Angso, because this coast starts at 0.24 m while
+           Angso's reed beds sat below their lake. So the model adopts its own
+           source, and the count is asserted in course.node-test so a silent
+           flip in either direction fails. */
+        water.push({ id: `${feature.id}-part-${index + 1}`, ring, shoreline, level, isLake: true, isSea: feature.properties.isSea === true,
           sourceIsSea: feature.properties.isSea === true, area: Math.abs(polyArea(ring)), sourceId: feature.properties.sourceId,
           sourceFeatureId: feature.properties.sourceFeatureId, parentWaterId: feature.properties.parentWaterId,
           waterKind: feature.properties.waterKind ?? 'source-flattened-water', heightTreatment: feature.properties.heightTreatment,
@@ -174,7 +270,12 @@ export async function buildCourse() {
   }
   const model = { version: 1, origin: { lat: FRAME.latitude, lon: FRAME.longitude }, mPerLat: 111320,
     mPerLon: +(111320 * Math.cos(FRAME.latitude * Math.PI / 180)).toFixed(2), frame: FRAME.text,
-    seaLevel: water.find(body => body.sourceIsSea)?.level ?? 0.23, holes, water, streams, coast: [], vegetation, infra,
+    seaLevel: water.find(body => body.sourceIsSea)?.level ?? 0.23,
+    /* Measured on Visby's own far ring by connectivity, not by height: at
+       0.05 m the vista tint mislabels 1.7 ha of enclosed low pocket as sea,
+       where the engine's 0.5 m default mislabels 7.5. */
+    seaTintBandMetres: 0.05,
+    holes, water, streams, coast: [], vegetation, infra,
     surround: { clearfells: [], yard: null, hayfields: null, shallows: [] }, scenery, pois: [],
     evidence: { status: 'provisional-source-derived', terrain: TERRAIN.sourceFloat32Sha256, geometryPath: 'visbybuild/mapping/geometry.json', terrainModifiedForPlayingSurfaces: false,
       flagPositions: 'virtual green targets', numericTeePositions: 'unknown unless source reference supplied; camera references only', largeObjects: 'source footprints; generic dimensions where heights are absent', canonicalOriginApproval: 'pending-independent-control', skippedContext } };

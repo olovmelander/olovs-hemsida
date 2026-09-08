@@ -23,14 +23,18 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  /* 2026-09-08: re-migrated through PROJ 9.5.1 (pyproj 3.7.2) twice. First
-     after hole 16's fairway ring was re-synced from mapping/geometry.json,
-     which the model had never been rebuilt against; then after the seven
-     rings the national water break geometry calls sea were flagged isSea and
-     isLake, and the measured vista band was recorded beside seaLevel. No
-     coordinate moved in either pass -- both are attribute changes on existing
-     geometry, which the residual report shows as an unchanged pair count. */
-  visby: '3f06eeca045fba67e47c9c374ac9829ea1d1c8b963d1a84e52ffed6c30518996',
+  /* 2026-09-08: re-migrated through PROJ 9.5.1 (pyproj 3.7.2) four times. Hole
+     16's fairway ring was re-synced from mapping/geometry.json, which the model
+     had never been rebuilt against; the seven rings the national water break
+     geometry calls sea were flagged isSea and isLake with the measured vista
+     band recorded beside seaLevel; 48 of the 65 observed bunkers were given the
+     hole that owns them; and the six numbered tees, which had all shared one
+     point per hole against a card spanning 112 m a hole, were walked up each
+     observed route by the card's own difference from the back tee. Only the
+     last moves coordinates, and it moves 85 tee cameras and nothing else --
+     no green, route, fairway, bunker or water vertex changes, which the
+     residual report shows as an unchanged pair count. */
+  visby: '27d0aee513081a056f7e1d5bf888286dd16f95a81ebb3bbf579557208b1a66d3',
   lidingo: 'bffda03d0ee5cf0056d22e5e4262adc8016ed8f0b4a79fc766d2cf0db536cf74',
   angso: '6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',

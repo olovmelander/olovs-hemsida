@@ -803,7 +803,7 @@
       "id": "canonical-routing-candidate",
       "kind": "composite",
       "path": "visbybuild/mapping/geometry.json",
-      "sha256": "bd31b3a622080d73998770af29a94cd92922da0807a5adef1b66f2dc710082ed",
+      "sha256": "108f605d6dad9dffa99538b3c4d96d455c22c232355cf373998151d19c169e02",
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
@@ -898,7 +898,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "visbybuild/course-model.json",
-      "sha256": "8e5f1d1c8d1a404c41b756ec82f599cfce714dabb21326b34dc98477813c064b",
+      "sha256": "e98eb7af33dd7575ae91d79fef712e173740e21ddaa38da3f06f46db761923cd",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -946,7 +946,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-      "sha256": "3f06eeca045fba67e47c9c374ac9829ea1d1c8b963d1a84e52ffed6c30518996",
+      "sha256": "27d0aee513081a056f7e1d5bf888286dd16f95a81ebb3bbf579557208b1a66d3",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -964,7 +964,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/visby/migration/residual-report.json",
-      "sha256": "1dc4c7f4c112ef1bd1d7609f02ef1c96d955ce3a83f032496874590b5770a6d5",
+      "sha256": "2d5e9de2b9f84aa698071660d066e2a317f6da230a54e60ccf042db7962a86aa",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
