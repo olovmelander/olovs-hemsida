@@ -1039,6 +1039,18 @@
       ],
       "use": "discovery-evidence",
       "notes": "COPC headers, the COPC VLR and the full hierarchy pages for both items, read over authenticated range requests with no point bytes. Written by the ground-vegetation workflow, which re-pins this checksum in the same run because it rewrites the file every time it runs."
+    },
+    {
+      "id": "ground-rings",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/visby/acquisition/ground-rings.json",
+      "sha256": "c75e72ca2b9f368088edc41252354c67e2ecfadf41fa0edb0c4713b5256cb6e3",
+      "derivedFrom": [
+        "terrain-lm-636-68",
+        "terrain-lm-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
     }
   ],
   "blockers": [

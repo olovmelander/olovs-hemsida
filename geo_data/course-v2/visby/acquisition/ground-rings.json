@@ -39,7 +39,7 @@
       "maximumHeightRH2000": 11.012860298156738,
       "requests": 90,
       "bytes": 21619062,
-      "elapsedSeconds": 9.187,
+      "elapsedSeconds": 9.591,
       "rasterSha256": "deb6ce495470335a7778da55485ca63ec46386bdfd2bdf9d0a8ddf90a4e4e898",
       "seaFill": {
         "components": 0,
@@ -81,7 +81,7 @@
       "maximumHeightRH2000": 10.967398643493652,
       "requests": 90,
       "bytes": 21619062,
-      "elapsedSeconds": 4.375,
+      "elapsedSeconds": 4.372,
       "rasterSha256": "bae537bbc0440cc30d5c47a365c633297dedd1a2ad9df409aa7d77b70027f05c",
       "seaFill": {
         "components": 0,
@@ -119,7 +119,7 @@
       "maximumHeightRH2000": 19.1906795501709,
       "requests": 20,
       "bytes": 6561365,
-      "elapsedSeconds": 4.62,
+      "elapsedSeconds": 5.004,
       "rasterSha256": "f8ef648f0f283f0630bf3cc85df8fc9bd3ff3aaf04c48701bf11397ebecea047",
       "seaFill": {
         "components": 1,
@@ -168,7 +168,7 @@
       "maximumHeightRH2000": 58.15679931640625,
       "requests": 20,
       "bytes": 7262738,
-      "elapsedSeconds": 3.298,
+      "elapsedSeconds": 3.45,
       "rasterSha256": "9b2ede2cbda517f77086552441acf8ac47cf6194cff1ccf2d9d871abc0a2ee68",
       "seaFill": {
         "components": 1,
@@ -180,7 +180,7 @@
             "boundarySamples": 2674,
             "boundaryMedianHeightRH2000": 0.23000000417232513,
             "boundaryMaximumHeightRH2000": 0.28999999165534973,
-            "boundaryWaterFraction": 0.8362004487658938,
+            "boundaryWaterFraction": 1,
             "filledHeightRH2000": 0.23000000417232513
           }
         ]
@@ -217,7 +217,7 @@
       "maximumHeightRH2000": 58.089237213134766,
       "requests": 6,
       "bytes": 1917226,
-      "elapsedSeconds": 1.331,
+      "elapsedSeconds": 1.42,
       "rasterSha256": "4242370408be10a25d0414dcf0ecfe06a22d0ea3b096e53307e8cfcf2885fd3e",
       "seaFill": {
         "components": 1,
@@ -229,7 +229,7 @@
             "boundarySamples": 1337,
             "boundaryMedianHeightRH2000": 0.23000000417232513,
             "boundaryMaximumHeightRH2000": 0.28999999165534973,
-            "boundaryWaterFraction": 0.8369483919222139,
+            "boundaryWaterFraction": 1,
             "filledHeightRH2000": 0.23000000417232513
           }
         ]
@@ -266,7 +266,7 @@
       "maximumHeightRH2000": 57.722835540771484,
       "requests": 5,
       "bytes": 977652,
-      "elapsedSeconds": 0.993,
+      "elapsedSeconds": 1.077,
       "rasterSha256": "235112daa4ae1dd1e71a4553907d50da312caee09ecfb808fd0d3b9b157864a5",
       "seaFill": {
         "components": 1,
@@ -278,7 +278,7 @@
             "boundarySamples": 669,
             "boundaryMedianHeightRH2000": 0.23000000417232513,
             "boundaryMaximumHeightRH2000": 0.28999999165534973,
-            "boundaryWaterFraction": 0.8370702541106129,
+            "boundaryWaterFraction": 1,
             "filledHeightRH2000": 0.23000000417232513
           }
         ]
@@ -315,7 +315,7 @@
       "maximumHeightRH2000": 57.64935302734375,
       "requests": 5,
       "bytes": 977652,
-      "elapsedSeconds": 0.962,
+      "elapsedSeconds": 1.059,
       "rasterSha256": "b86c62cca97ff40645cd306b4a7ea7054b110625c3e590872980683fe937e24c",
       "seaFill": {
         "components": 1,
@@ -327,7 +327,7 @@
             "boundarySamples": 335,
             "boundaryMedianHeightRH2000": 0.23000000417232513,
             "boundaryMaximumHeightRH2000": 0.28999999165534973,
-            "boundaryWaterFraction": 0.8388059701492537,
+            "boundaryWaterFraction": 1,
             "filledHeightRH2000": 0.23000000417232513
           }
         ]
@@ -564,5 +564,102 @@
   ],
   "seaFillRule": "nodata components bounded ENTIRELY by finite samples at or below seaFill.boundaryMaximumHeightRH2000 are filled with the median of their own boundary; a component with land on its boundary, or with no finite boundary, fails the build",
   "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
-  "elapsedSeconds": 25.243
+  "elapsedSeconds": 26.354,
+  "publish": {
+    "observedOn": "2026-09-08",
+    "slug": "visby",
+    "groundId": "visby",
+    "frameFingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
+    "rootBytes": 594,
+    "rootSha256": "c98cb5b41688fd8f4d3c6f0b70a717d9a42357bc614dac176b3c230a7815e419",
+    "courseManifestSha256": "14765f887eb3fe90f028c241086a09c6b5634e0980080c237d7a126799daad25",
+    "groundManifestSha256": "c714b9cea9e6712386c08640e41bee41e61cbae18c8b420525b3fb4c7d4f62e1",
+    "routingSha256": "ebebcad697ac2b52604d359b7b0466d966ee8d750f33ceafca769bee44c9f303",
+    "holes": 18,
+    "tiles": 469,
+    "finestTiles": 256,
+    "shellBytes": 30223,
+    "chunks": 727,
+    "encodedChunkBytes": 10737852,
+    "decodedChunkBytes": 66283546,
+    "holeTileBufferMetres": 80,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 256,
+        "spanMetres": 4096,
+        "heightScaleMetres": 0.01,
+        "encodedBytes": 5835809,
+        "decodedBytes": 33817088,
+        "maximumGeometricErrorMetres": 0.005
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 64,
+        "spanMetres": 4096,
+        "heightScaleMetres": 0.02,
+        "encodedBytes": 1456939,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 0.8411072587966919
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 64,
+        "spanMetres": 8192,
+        "heightScaleMetres": 0.04,
+        "encodedBytes": 1225080,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 2.8016517502069473
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 64,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.08,
+        "encodedBytes": 1102633,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 3.8496827790141106
+      },
+      {
+        "lod": 4,
+        "sampleSpacingMetres": 16,
+        "tiles": 16,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 250632,
+        "decodedBytes": 2113568,
+        "maximumGeometricErrorMetres": 4.513760478626937
+      },
+      {
+        "lod": 5,
+        "sampleSpacingMetres": 32,
+        "tiles": 4,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 87990,
+        "decodedBytes": 528392,
+        "maximumGeometricErrorMetres": 10.260776119232178
+      },
+      {
+        "lod": 6,
+        "sampleSpacingMetres": 64,
+        "tiles": 1,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 30191,
+        "decodedBytes": 132098,
+        "maximumGeometricErrorMetres": 14.209483699798584
+      }
+    ],
+    "reusedCourseTiles": 256,
+    "reuseTies": 0,
+    "encodedBytes": 10019497,
+    "previousGroundManifest": "grounds/visby/ground-v2-82137bd40b2488fa64ad1c5039c92363178c3c0f6c4e9f9069b23d6569fd8910.json",
+    "previousCourseManifest": "courses/visby/course-v2-4995a4de82a5e06464cea521b38612e2036db9f3536f36d91ae853952add8b60.json",
+    "filesWritten": 730
+  }
 }
