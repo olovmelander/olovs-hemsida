@@ -13,3 +13,6 @@ levels=
 # re-run 3: gate scoped to this ground; a Visby checksum drift on the branch
 # failed run 34195430703 after the rings had already compiled.
 # re-run 4: run 34196094382 died on a transient ETIMEDOUT in the preflight.
+# re-run 5: run 34196653864 published the rings, then pnpm test failed on
+# three failures that are not this ground - one a missing COPC-reader install,
+# two Visby checksum drifts from 480e53d on the base branch.
