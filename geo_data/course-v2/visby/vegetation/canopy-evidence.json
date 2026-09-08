@@ -7,9 +7,9 @@
   "method": "Node reader over authenticated range requests (copc + laz-perf); ground from the cloud's own class 2/9 returns, mean per 1 m cell, nearest-fill to 60 m, 3x3 mean; height above ground bilinear; CHM = highest non-noise return per cell, 0 where only ground returns exist, NaN where none; densities counted, never copied",
   "haloMetres": 32,
   "frameFingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
-  "groundManifest": "grounds/visby/ground-v2-82137bd40b2488fa64ad1c5039c92363178c3c0f6c4e9f9069b23d6569fd8910.json",
+  "groundManifest": "grounds/visby/ground-v2-c714b9cea9e6712386c08640e41bee41e61cbae18c8b420525b3fb4c7d4f62e1.json",
   "campaignsSha256": "b995946c316fcab8406cac5ad093d8f0e223653d132de18b442a0ffcba954fdd",
-  "censusSha256": "45d92d401271070158c3fea2353140dd28f2595fa7afb6c01b4290ba88c7de6e",
+  "censusSha256": "451e9f1136847d158c43c5711409ca8c4534c998f384e1f92673196a95d35647",
   "rasterDirectory": "../../_temp/veg/rasters",
   "campaigns": [
     {
@@ -26,7 +26,7 @@
       "hierarchyNodes": 1391,
       "subdivision": "header-extent per axis (verified; not the specification cube)",
       "tiles": 80,
-      "elapsedMilliseconds": 75311.8,
+      "elapsedMilliseconds": 70852.9,
       "transfer": {
         "requests": 486,
         "bytes": 37336700
@@ -248,22 +248,22 @@
         "chm": {
           "data": "../../_temp/veg/rasters/chm-24e002-636-68.f32",
           "sidecar": "../../_temp/veg/rasters/chm-24e002-636-68.json",
-          "sha256": "41df814a2b487a8e123e9ae33ad5453a02962846ce4d0122c599421142051db7"
+          "sha256": "8b21bbe6245148a53196038e495ee500293628b4ce41ad144edf9c6a54ff4f1c"
         },
         "ground": {
           "data": "../../_temp/veg/rasters/ground-24e002-636-68.f32",
           "sidecar": "../../_temp/veg/rasters/ground-24e002-636-68.json",
-          "sha256": "1dc1a4baac7f1e4220a0b3f1abd8e43dfaae349cd455992bc50aed3ebe6a64ca"
+          "sha256": "89d096facfe4f7226bc4c61c51e7543db14c17ee4246bb3861cd9022b7f78c44"
         },
         "allReturns": {
           "data": "../../_temp/veg/rasters/allReturns-24e002-636-68.f32",
           "sidecar": "../../_temp/veg/rasters/allReturns-24e002-636-68.json",
-          "sha256": "9f961e671f211171057606d56f72acf6a485b912196df8203a65b6ded69083c3"
+          "sha256": "a136291dc182acbeda660c3da39850b9d8415646d32c66c8a94e06ace8c6dc23"
         },
         "firstReturns": {
           "data": "../../_temp/veg/rasters/firstReturns-24e002-636-68.f32",
           "sidecar": "../../_temp/veg/rasters/firstReturns-24e002-636-68.json",
-          "sha256": "2f1266e34813975b6621f44ac91bc5df5a00eac589e862724940e49ddcdeb0c9"
+          "sha256": "d9158d7011b24f29af3eef9207f4374d4abaa46553988074cbfc2087f1f57f86"
         }
       },
       "perTile": [
@@ -5064,7 +5064,7 @@
       "hierarchyNodes": 2013,
       "subdivision": "header-extent per axis (verified; not the specification cube)",
       "tiles": 192,
-      "elapsedMilliseconds": 155371.8,
+      "elapsedMilliseconds": 150738.6,
       "transfer": {
         "requests": 834,
         "bytes": 133321770
@@ -5286,22 +5286,22 @@
         "chm": {
           "data": "../../_temp/veg/rasters/chm-24e002-637-68.f32",
           "sidecar": "../../_temp/veg/rasters/chm-24e002-637-68.json",
-          "sha256": "432330ae81a42b650d8783df4097888cb0f52fa3b078ee962f2cdbdecb41fa33"
+          "sha256": "0bd23b6bc6b4d616dbe0cb059b1acfd0fa091f08f90bf85cd5fcba50fccf9c15"
         },
         "ground": {
           "data": "../../_temp/veg/rasters/ground-24e002-637-68.f32",
           "sidecar": "../../_temp/veg/rasters/ground-24e002-637-68.json",
-          "sha256": "59bd63edc4365ae1890951fdb7244f251f53e6d93c069df2a1006bfe7ccdec1b"
+          "sha256": "424e7d9ef719ff8582645935b7333881ae14658cbf9dd09efb5a6edb5c8e726f"
         },
         "allReturns": {
           "data": "../../_temp/veg/rasters/allReturns-24e002-637-68.f32",
           "sidecar": "../../_temp/veg/rasters/allReturns-24e002-637-68.json",
-          "sha256": "eaaa434d81b3ba91f528b90416ff64f737909475c75fcd661a5961963bfb3032"
+          "sha256": "6f38c87adbcd6e4c5d02a51f853a45e38eac840ebff0f2e0bec0155501c32f1f"
         },
         "firstReturns": {
           "data": "../../_temp/veg/rasters/firstReturns-24e002-637-68.f32",
           "sidecar": "../../_temp/veg/rasters/firstReturns-24e002-637-68.json",
-          "sha256": "83297413be8489ad12dddd797f98d81ea748164c2b0beaccf09b416277560d4a"
+          "sha256": "6b7d5092db8ea2e540ffdbb414960a3748bc8c5433dcb7e3979d3f6c7da10e58"
         }
       },
       "perTile": [
