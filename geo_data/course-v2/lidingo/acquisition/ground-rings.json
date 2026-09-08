@@ -38,7 +38,7 @@
       "maximumHeightRH2000": 61.1399040222168,
       "requests": 25,
       "bytes": 14980306,
-      "elapsedSeconds": 6.196,
+      "elapsedSeconds": 5.208,
       "rasterSha256": "80ffcd4865daa00f8e2393f43b8fcb1b37e020f968c0656a0189f80dde1de923",
       "seaFill": {
         "components": 0,
@@ -79,7 +79,7 @@
       "maximumHeightRH2000": 61.12322998046875,
       "requests": 81,
       "bytes": 33429843,
-      "elapsedSeconds": 5.799,
+      "elapsedSeconds": 5.078,
       "rasterSha256": "a871a601c99c2dbabafcde44e996588a6bc08fc1d1ca716a701527310a1d450a",
       "seaFill": {
         "components": 0,
@@ -117,7 +117,7 @@
       "maximumHeightRH2000": 69.39460754394531,
       "requests": 25,
       "bytes": 12591387,
-      "elapsedSeconds": 7.89,
+      "elapsedSeconds": 7.394,
       "rasterSha256": "323d470beb8e6b577f6bf3e134fa0e0ddf32e2aa39733d1f704abb2ab23a06b1",
       "seaFill": {
         "components": 0,
@@ -160,7 +160,7 @@
       "maximumHeightRH2000": 72.72464752197266,
       "requests": 36,
       "bytes": 14577269,
-      "elapsedSeconds": 11.45,
+      "elapsedSeconds": 8.966,
       "rasterSha256": "c233ba54c701fc17a972b58d8c91d55177aae8dabe4948e410f10bc1b70d8269",
       "seaFill": {
         "components": 0,
@@ -203,7 +203,7 @@
       "maximumHeightRH2000": 72.4203872680664,
       "requests": 20,
       "bytes": 5752898,
-      "elapsedSeconds": 4.11,
+      "elapsedSeconds": 3.069,
       "rasterSha256": "53ceaa01f6f656ca63e10f762ccc1bfd8905b8cb96cb1e6fd2b216f1256772f1",
       "seaFill": {
         "components": 0,
@@ -246,7 +246,7 @@
       "maximumHeightRH2000": 71.18954467773438,
       "requests": 9,
       "bytes": 2482236,
-      "elapsedSeconds": 3.188,
+      "elapsedSeconds": 2.458,
       "rasterSha256": "5b34f6a4763aaf3e6d0fb9d94c05b9987bb5086810db0205bca34e072669011c",
       "seaFill": {
         "components": 0,
@@ -289,7 +289,7 @@
       "maximumHeightRH2000": 70.60375213623047,
       "requests": 9,
       "bytes": 2482236,
-      "elapsedSeconds": 3.121,
+      "elapsedSeconds": 2.41,
       "rasterSha256": "607ec41acb210d960ae38ca8049aa2f07d7791b18cd40a3d350e3c661403c569",
       "seaFill": {
         "components": 0,
@@ -633,5 +633,102 @@
   ],
   "seaFillRule": "nodata components bounded ENTIRELY by finite samples at or below seaFill.boundaryMaximumHeightRH2000 are filled with the median of their own boundary; a component with land on its boundary, or with no finite boundary, fails the build",
   "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
-  "elapsedSeconds": 41.892
+  "elapsedSeconds": 34.725,
+  "publish": {
+    "observedOn": "2026-09-08",
+    "slug": "lidingo",
+    "groundId": "lidingo",
+    "frameFingerprint": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
+    "rootBytes": 605,
+    "rootSha256": "c120a8c126178f268eebfd852e06950ddd95b0fe13808b8d2f02c2e915e85f5f",
+    "courseManifestSha256": "4520a6671ed513c11b4e4acb9f15f784480fffea4aa92e151688410a96349e76",
+    "groundManifestSha256": "c18eafbef9cf5722a24b368eda4795a4cbb12d49e4823e18ab46ec3ca26ed479",
+    "routingSha256": "e499268b0ab1f381f6420038af92b0e4ea656a29402809e962055eeb96d3eeea",
+    "holes": 18,
+    "tiles": 277,
+    "finestTiles": 64,
+    "shellBytes": 66346,
+    "chunks": 343,
+    "encodedChunkBytes": 18104128,
+    "decodedChunkBytes": 37774532,
+    "holeTileBufferMetres": 80,
+    "levels": [
+      {
+        "lod": 0,
+        "sampleSpacingMetres": 1,
+        "tiles": 64,
+        "spanMetres": 2048,
+        "heightScaleMetres": 0.01,
+        "encodedBytes": 5595417,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 0.005
+      },
+      {
+        "lod": 1,
+        "sampleSpacingMetres": 2,
+        "tiles": 64,
+        "spanMetres": 4096,
+        "heightScaleMetres": 0.02,
+        "encodedBytes": 3603460,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 1.8572671508789063
+      },
+      {
+        "lod": 2,
+        "sampleSpacingMetres": 4,
+        "tiles": 64,
+        "spanMetres": 8192,
+        "heightScaleMetres": 0.04,
+        "encodedBytes": 3483074,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 4.341806907653808
+      },
+      {
+        "lod": 3,
+        "sampleSpacingMetres": 8,
+        "tiles": 64,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.08,
+        "encodedBytes": 3604083,
+        "decodedBytes": 8454272,
+        "maximumGeometricErrorMetres": 5.520616569519043
+      },
+      {
+        "lod": 4,
+        "sampleSpacingMetres": 16,
+        "tiles": 16,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 859211,
+        "decodedBytes": 2113568,
+        "maximumGeometricErrorMetres": 12.798308925628662
+      },
+      {
+        "lod": 5,
+        "sampleSpacingMetres": 32,
+        "tiles": 4,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 243607,
+        "decodedBytes": 528392,
+        "maximumGeometricErrorMetres": 22.167246417999266
+      },
+      {
+        "lod": 6,
+        "sampleSpacingMetres": 64,
+        "tiles": 1,
+        "spanMetres": 16384,
+        "heightScaleMetres": 0.16,
+        "encodedBytes": 66335,
+        "decodedBytes": 132098,
+        "maximumGeometricErrorMetres": 24.243989305496214
+      }
+    ],
+    "reusedCourseTiles": 64,
+    "reuseTies": 0,
+    "encodedBytes": 17521533,
+    "previousGroundManifest": "grounds/lidingo/ground-v2-6732ca39f30b00dbce720225d42149da5d0f9d9fd0753d0f871fc67f4184877a.json",
+    "previousCourseManifest": "courses/lidingo/course-v2-7f15acd0c2a8c3d667413ce9084a7e35be24648f789ca24c793c727b48eca6d1.json",
+    "filesWritten": 346
+  }
 }
