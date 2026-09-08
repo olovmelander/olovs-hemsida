@@ -3927,7 +3927,7 @@ recomputed when the numbers do.
 - **One body, one ring — so a better shoreline is a UNION, not an addition.** The
   model drew 9.90 ha of Baltic in three fragments clipped to the terrain window
   (and the clip is the window, not a source-item edge: centred on the model origin
-  to 0.000 m). Five measured plates at one level unite to **607.75 ha in three
+  to 0.000 m). Five measured plates at one level unite to **607.74 ha in three
   rings**, finest first so the 1 m trace wins where it overlaps the 2 m one.
 - **An island inside a water ring survives if it clears the carve's tolerance.**
   `carveTerrainTile` skips any sample more than 0.5 m above the level, so eight of
@@ -3950,6 +3950,13 @@ recomputed when the numbers do.
   within-block baseline); the evidence is the frame-level test, 4 of 4 outward at
   t = 5.15 on df 3. The lean is ~0.6 m at a median 296 m radius here, an order of
   magnitude below Johannesberg's, and nothing is applied.
+- **A total summed from rounded parts is not a measurement.** The united sea was
+  written down as 607.75 ha in this file, the dossier, the ledger and four commit
+  messages, because 599.96 + 6.55 + 1.24 is what the per-ring print-out adds to.
+  Measured off the model it is **607.7390 ha**. Nothing turns on 0.01 ha — the
+  point is that it is the same fault the six verifiers spent the morning finding
+  in the evidence files, committed by the person who had just finished writing
+  their corrections down. Read the total from the artefact.
 - **`emit-pack` reads `<build>/tree-cover.json` directly**, so a raster written
   there is live geometry the moment the pack is re-emitted — not a candidate
   waiting to be wired. Say so where the file is written.

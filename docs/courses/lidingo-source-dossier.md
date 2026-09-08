@@ -286,7 +286,7 @@ tracer has not reintroduced one.
 
 | layer | what it found | adopted |
 |---|---|---|
-| shoreline and sea | two 1 m plates and one 593.8 ha 2 m plate, all at a constant **0.100 m RH 2000**, against the OSM coastline at a median **2.85 m** (fine) and **5.27 m** (context) | yes — 607.75 ha replacing 9.90 |
+| shoreline and sea | two 1 m plates and one 593.8 ha 2 m plate, all at a constant **0.100 m RH 2000**, against the OSM coastline at a median **2.85 m** (fine) and **5.27 m** (context) | yes — 607.74 ha replacing 9.90 |
 | fairways | mown separates from rough and forest jointly (held-out TPR 0.901) but is **2.1×** a fairway; a fairway-grade cut reaches median ring IoU **0.665** on all 12 par 4s and 5s | candidate |
 | bunkers and sand | the detection confirms **34 of 40** mapped bunkers at sub-metre registration and offers each a 0.16 m outline | candidate |
 | tee decks | flatness does **not** define a deck here — every flatness and slope gap is negative — 42 platforms, **8** where the platform and a card distance agree | yes — 8 decks |
@@ -299,7 +299,7 @@ break-geometry feature, clipped to the 2,048 m terrain window — and the clip i
 not a source-item edge, it is the window, centred on the model origin to 0.000 m
 and identical to the published level-0 ring extent. The plates measure the same
 water at one level, so `build-coast-rings.py` unites all five, finest first, into
-one ring per body: **607.75 ha in three rings**. Two sheets at one level over one
+one ring per body: **607.74 ha in three rings**. Two sheets at one level over one
 body are a z-fight, not a belt and braces, so the fragments are replaced and not
 joined.
 

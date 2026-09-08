@@ -154,7 +154,7 @@ export async function buildCourse() {
          2,048 m terrain window - three fragments totalling 9.90 ha of a
          20.657 km2 source feature, closed with a straight chord across open
          water. It is superseded here by the united laser plates below, which
-         measure the same water at the same level over 607.75 ha. Two rings at
+         measure the same water at the same level over 607.74 ha. Two rings at
          one level over one body are a z-fight, not a belt and braces, so this
          is a REPLACEMENT: the fragments are skipped rather than joined. */
       if (f.properties.sourceFid === 14) continue;
