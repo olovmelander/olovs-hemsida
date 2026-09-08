@@ -1101,13 +1101,13 @@
         "status": "projected-source-frame-pending-independent-control",
         "source": "legacyFrame.projectedOriginEpsg3006"
       },
-      "coordinatePairCount": 19790,
+      "coordinatePairCount": 19792,
       "outsideCourseVicinity5km": 0,
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 1328,
+          "coordinatePairCount": 1330,
           "directFrameDelta": {
-            "count": 1328,
+            "count": 1330,
             "biasMetres": {
               "x": 0.000005,
               "z": 0.000004
@@ -1120,13 +1120,13 @@
           },
           "bestFitSimilarity": {
             "scale": 0.999999993,
-            "rotationDegrees": 5.37e-7,
+            "rotationDegrees": 5.36e-7,
             "translationMetres": {
               "x": 0.000003,
               "z": 0.000004
             },
             "residuals": {
-              "count": 1328,
+              "count": 1330,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -1140,9 +1140,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 19790,
+          "coordinatePairCount": 19792,
           "directFrameDelta": {
-            "count": 19790,
+            "count": 19792,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -1161,7 +1161,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 19790,
+              "count": 19792,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -1175,9 +1175,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 19790,
+          "coordinatePairCount": 19792,
           "directFrameDelta": {
-            "count": 19790,
+            "count": 19792,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -1196,7 +1196,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 19790,
+              "count": 19792,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -1212,12 +1212,12 @@
       },
       "report": {
         "path": "geo_data/course-v2/visby/migration/residual-report.json",
-        "sha256": "4a9995cdf4559bb98748b254cbd113257e2c81041f5f18c931605b4b38deb76a"
+        "sha256": "cbb10bff4c146c426211e13385ce8a5d99f614d6ed985bc6f18467c888c40cba"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-          "sha256": "17946a0470be6d03169159572b19c276098d485a4af6f700cb7ba3fa2cdf98a4"
+          "sha256": "8d95c92ca0ad4ce1b0fe7c39d7e30777824c2bec4aba4a765a7adc35cf25c1ea"
         }
       ]
     }

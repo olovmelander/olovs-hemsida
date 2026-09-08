@@ -23,7 +23,10 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  visby: '17946a0470be6d03169159572b19c276098d485a4af6f700cb7ba3fa2cdf98a4',
+  /* 2026-09-08: re-migrated through PROJ 9.5.1 (pyproj 3.7.2) after hole 16's
+     fairway ring was re-synced from mapping/geometry.json, which the model
+     had never been rebuilt against; nothing else in the model moved. */
+  visby: '8d95c92ca0ad4ce1b0fe7c39d7e30777824c2bec4aba4a765a7adc35cf25c1ea',
   lidingo: 'bffda03d0ee5cf0056d22e5e4262adc8016ed8f0b4a79fc766d2cf0db536cf74',
   angso: '6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c',
   norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',

@@ -22,13 +22,13 @@
   "independentControlAnchors": 0,
   "canonicalOriginPromoted": false,
   "aggregate": {
-    "coordinatePairCount": 19790,
+    "coordinatePairCount": 19792,
     "outsideCourseVicinity5km": 0,
     "scopes": {
       "playingGeometry": {
-        "coordinatePairCount": 1328,
+        "coordinatePairCount": 1330,
         "directFrameDelta": {
-          "count": 1328,
+          "count": 1330,
           "biasMetres": {
             "x": 0.000005,
             "z": 0.000004
@@ -41,13 +41,13 @@
         },
         "bestFitSimilarity": {
           "scale": 0.999999993,
-          "rotationDegrees": 5.37e-7,
+          "rotationDegrees": 5.36e-7,
           "translationMetres": {
             "x": 0.000003,
             "z": 0.000004
           },
           "residuals": {
-            "count": 1328,
+            "count": 1330,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -61,9 +61,9 @@
         }
       },
       "courseVicinity5km": {
-        "coordinatePairCount": 19790,
+        "coordinatePairCount": 19792,
         "directFrameDelta": {
-          "count": 19790,
+          "count": 19792,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -82,7 +82,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 19790,
+            "count": 19792,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -96,9 +96,9 @@
         }
       },
       "allInventoriedGeometry": {
-        "coordinatePairCount": 19790,
+        "coordinatePairCount": 19792,
         "directFrameDelta": {
-          "count": 19790,
+          "count": 19792,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -117,7 +117,7 @@
             "z": 0
           },
           "residuals": {
-            "count": 19790,
+            "count": 19792,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -136,16 +136,16 @@
     {
       "source": {
         "path": "visbybuild/course-model.json",
-        "sha256": "9e7f580c7bc6fc9d9fb50db14c9fb15000fc3bd9dfd466569e53470e4c73caa7"
+        "sha256": "621a29c4f14f2e9da2ceb2e9ae5d24cdba657156a97003c7a52e93da94e50170"
       },
       "output": {
         "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-        "sha256": "17946a0470be6d03169159572b19c276098d485a4af6f700cb7ba3fa2cdf98a4"
+        "sha256": "8d95c92ca0ad4ce1b0fe7c39d7e30777824c2bec4aba4a765a7adc35cf25c1ea"
       },
-      "coordinatePairCount": 19790,
+      "coordinatePairCount": 19792,
       "ignoredMetadataPairCount": 0,
       "coordinatePathCounts": {
-        "holes.[].fairway.rings.[].[]": 442,
+        "holes.[].fairway.rings.[].[]": 444,
         "holes.[].green.c": 18,
         "holes.[].green.ring.[]": 590,
         "holes.[].line.[]": 65,
@@ -163,7 +163,7 @@
         "water.[].shoreline.lines.[].line.[]": 13168
       },
       "directFrameDelta": {
-        "count": 19790,
+        "count": 19792,
         "biasMetres": {
           "x": 0,
           "z": 0
@@ -182,7 +182,7 @@
           "z": 0
         },
         "residuals": {
-          "count": 19790,
+          "count": 19792,
           "biasMetres": {
             "x": 0,
             "z": 0
@@ -196,9 +196,9 @@
       },
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 1328,
+          "coordinatePairCount": 1330,
           "directFrameDelta": {
-            "count": 1328,
+            "count": 1330,
             "biasMetres": {
               "x": 0.000005,
               "z": 0.000004
@@ -211,13 +211,13 @@
           },
           "bestFitSimilarity": {
             "scale": 0.999999993,
-            "rotationDegrees": 5.37e-7,
+            "rotationDegrees": 5.36e-7,
             "translationMetres": {
               "x": 0.000003,
               "z": 0.000004
             },
             "residuals": {
-              "count": 1328,
+              "count": 1330,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -231,9 +231,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 19790,
+          "coordinatePairCount": 19792,
           "directFrameDelta": {
-            "count": 19790,
+            "count": 19792,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -252,7 +252,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 19790,
+              "count": 19792,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -266,9 +266,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 19790,
+          "coordinatePairCount": 19792,
           "directFrameDelta": {
-            "count": 19790,
+            "count": 19792,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -287,7 +287,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 19790,
+              "count": 19792,
               "biasMetres": {
                 "x": 0,
                 "z": 0
