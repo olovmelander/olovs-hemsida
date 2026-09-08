@@ -83,6 +83,12 @@ test('compatibility terrain streams retain the declared acquired extent and stat
   assertV2LegacyCutoutContract({ grid: contract.core, plan: contract.cutout, contract: VISBY_V2_CONFIG.legacyCoreCutout });
 });
 
+/* The frontier stays 64 native-metre tiles after the ring publish -- the rings
+   change what serves BEYOND it, not the eager set the loader installs, which is
+   still bounded by the 8 MiB cap. What the publish does move is the ground's
+   own extent, from the 4,096 m source window to the 16,384 m root, and
+   loadPublishedGraphTerrainFrontier asserts that against
+   config.expectedBoundsEpsg5845; the config carries the root now. */
 test('the real runtime decodes exactly the reviewed 64 native-metre tiles and aligns source RH2000 heights', async () => {
   const entry = json('../apps/golf/public/courses/v2-index.json').courses.find(course => course.slug === 'visby');
   const course = json(`../apps/golf/public/${entry.manifest.url}`);

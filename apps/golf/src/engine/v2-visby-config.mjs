@@ -5,8 +5,26 @@ export const VISBY_V2_CONFIG = Object.freeze({
   slug: 'visby', groundId: 'visby',
   label: 'Visby GK · Lantmäteriet 1 m · Preliminära spelytor',
   frameFingerprint: 'd7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511',
+  /* THE GROUND'S OWN EXTENT, which the ring publish moved from the 4,096 m
+     source window to the 16,384 m root. Derived from the ring spec rather than
+     typed: the root level is 1 tile of 256 segments at 64 m centred on the
+     frame origin, so ringLevelExtent gives exactly these four numbers. If a
+     publish ever disagrees, read the assertion's own "got" line -- it is the
+     measurement, and this is the prediction. */
   expectedBoundsEpsg5845: Object.freeze({
-    minEasting: 685700.5, minNorthing: 6368903.5, maxEasting: 689796.5, maxNorthing: 6372999.5,
+    minEasting: 679556.5, minNorthing: 6362759.5, maxEasting: 695940.5, maxNorthing: 6379143.5,
+  }),
+  /* Declaring ringGraph is what makes check-course-v2 assert that a graph
+     ACTUALLY SERVES rather than that the fixed frontier does, which is the
+     branch that would have caught the published-pyramid state this replaced:
+     341 tiles with no parentId on any of them, so the streaming runtime never
+     engaged and every boot silently fell back to the 64-tile frontier while
+     the gate passed. The counts are the spec's own topology --
+     16^2 + 8^2 + 8^2 + 8^2 + 4^2 + 2^2 + 1^2 -- and are verified by the
+     publish, not assumed by it. */
+  ringGraph: Object.freeze({
+    levels: 7, tiles: 469, rootSpanMetres: 16384,
+    tilesByLod: Object.freeze([256, 64, 64, 64, 16, 4, 1]),
   }),
   expectedFrontierBoundsEpsg5845: Object.freeze({
     minEasting: 686724.5, minNorthing: 6370183.5, maxEasting: 688772.5, maxNorthing: 6372231.5,
