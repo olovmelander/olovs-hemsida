@@ -23,3 +23,10 @@
 run: rebuild
 ground: lidingo
 requestedOn: 2026-09-08
+attempt: 2
+attempt1: run 34221039176 failed at build-course in 37 s. The terrain
+  re-acquisition WORKED - 25 range requests, 4,198,401 finite samples - and then
+  build-course opened lidingobuild/cache/buildings/laser-2021-points.json, which
+  is one of FOUR gitignored caches it reads and the only one the workflow had a
+  step for. restore-build-caches.mjs now runs every committed acquirer and
+  proves what comes back against the hash the reviewed evidence carries.

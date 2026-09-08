@@ -82,8 +82,9 @@ jobs:
       # supported route (COURSE_GEO_PYPROJ_PYTHON).
       - name: Install pyproj for the horizontal PROJ backend
         run: |
-          python3 -m pip install --quiet pyproj
+          python3 -m pip install --quiet pyproj pillow
           python3 -c "import pyproj; print('PROJ', pyproj.proj_version_str)"
+          python3 -c "import PIL; print('Pillow', PIL.__version__)"
           echo "COURSE_GEO_PYPROJ_PYTHON=$(command -v python3)" >> "$GITHUB_ENV"
 
       - name: Verify repository secrets are configured
@@ -120,6 +121,19 @@ jobs:
         run: |
           node packages/course-geo/acquisition/build-terrain-window.mjs \
             --ground "$GROUND" --out "${GROUND}build/cache/terrain-review"
+
+      # build-course reads FOUR gitignored caches, not one, and this workflow's
+      # first run discovered the other three the hard way. restore-build-caches
+      # runs each committed acquirer and then proves what came back against the
+      # hash the reviewed evidence carries - so a source that has moved fails
+      # here rather than producing a model that silently differs. It also puts
+      # back the two committed records the acquirers rewrite with a fresh
+      # timestamp, which build-course compares by strict equality and by sha256.
+      - name: Restore and verify the caches build-course reads
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: node "${GROUND}build/restore-build-caches.mjs"
 
       - name: Rebuild the course model and its ledger
         run: |
