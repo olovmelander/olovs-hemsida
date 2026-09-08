@@ -6,6 +6,7 @@
    hashes, verifies the decoded tile identity/bounds, and creates the exact
    renderer resources consumed by V2TerrainLiveAdapter. */
 import { verifyChunkAssetWeb } from '../../../../packages/course-v2/runtime/decode-web.mjs';
+import { gridOriginFor } from './v2-frontier-configs.mjs';
 import { buildFrontierWaterBedField, carveDecodedTerrainTile } from './v2-water-bed.mjs';
 import {
   createTerrainRenderResource,
@@ -341,9 +342,7 @@ export async function loadPublishedGraphTerrainFrontier({
      are known before a tile is fetched -- which is when the lake beds must
      be, because a tile is carved as it is decoded. */
   const bridge = BRIDGE_MODES.get(config.bridgeMode)(graph.ground.frame, config);
-  const gridOrigin = config.bridgeMode === 'wgs84-legacy-frame'
-    ? config.legacyOriginEpsg3006
-    : config.canonicalOrigin;
+  const gridOrigin = gridOriginFor(config);
   const frontierBounds = config.expectedFrontierBoundsEpsg5845 || config.expectedBoundsEpsg5845;
   const expectedLocalBounds = {
     x0: frontierBounds.minEasting - gridOrigin.easting,

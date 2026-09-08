@@ -88,6 +88,7 @@ import {
 } from './engine/caddie.js';
 import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
+import { gridOriginFor } from './engine/v2-frontier-configs.mjs';
 import {
   selectV2TerrainSource,
   v2StreamProbeRequested,
@@ -284,7 +285,11 @@ if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
       source: TERRAIN_PREVIEW,
       courseSlug: CMETA.slug,
       baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
-      legacyOriginEpsg3006: TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,
+      /* the SAME grid origin the frontier loader used: a grid-authored pack
+         measures off its canonical origin and a flat-earth one off its
+         projected legacy origin, and Lidingö is the first ring-graph ground of
+         the former kind, where this field is simply absent. */
+      legacyOriginEpsg3006: gridOriginFor(TERRAIN_PREVIEW_CONFIG),
     });
     try {
       const ringStarted = performance.now();

@@ -41,3 +41,22 @@ for (const [slug, config] of Object.entries(V2_GRAPH_FRONTIER_CONFIGS)) {
     throw new Error(`v2 frontier config registered as ${slug} declares slug ${config.slug}`);
   }
 }
+
+/** The EPSG:3006 point the pack's local metres are measured from.
+
+    A pack authored in the grid frame measures straight off its canonical
+    origin; a flat-earth pack measures off its own origin PROJECTED into the
+    grid, which is a separate reviewed number because the projection is not
+    something the runtime may re-derive. One rule, in one place: the ring
+    adapter needs the same point the frontier does, and a config that wrote it
+    down twice could disagree with itself -- which is exactly how a hardcoded
+    coordinate travelled across five pages once already. */
+export function gridOriginFor(config) {
+  const origin = config.bridgeMode === 'wgs84-legacy-frame'
+    ? config.legacyOriginEpsg3006
+    : config.canonicalOrigin;
+  if (!Number.isFinite(origin?.easting) || !Number.isFinite(origin?.northing)) {
+    throw new TypeError(`${config.slug || 'this course'} has no finite EPSG:3006 grid origin for bridge mode ${config.bridgeMode}`);
+  }
+  return origin;
+}
