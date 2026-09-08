@@ -211,5 +211,11 @@ jobs:
             -m "Produced by the course-model-rebuild workflow run ${{ github.run_id }} with the repository's Lantmäteriet credentials." \
             -m "Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>" \
             -m "Claude-Session: https://claude.ai/code/session_01QmSEbz3WcA3QVpq36E5oy1"
-          git pull --rebase origin "${{ github.ref_name }}"
+          # The steps above leave files outside the three committed paths - the
+          # COPC reader's own npm install writes a lockfile, the app build writes
+          # dist - and a plain rebase refuses to run with a dirty tree. Print what
+          # is dirty rather than hiding it, then autostash: what is stashed is by
+          # definition NOT part of this commit, which is the point.
+          echo "--- outside the committed paths ---"; git status --short
+          git pull --rebase --autostash origin "${{ github.ref_name }}"
           git push origin "HEAD:${{ github.ref_name }}"

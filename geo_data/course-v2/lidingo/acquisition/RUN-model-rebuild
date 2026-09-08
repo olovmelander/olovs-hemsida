@@ -80,3 +80,12 @@ attempt6: THE MODEL REBUILT. Caches restored and verified, roof evidence
   hole-source-controls.mjs, now pinned to what run 7 produced. Since neither the
   model nor the migration carries a clock, run 8 matching that hash also proves
   the rebuild is deterministic.
+attempt: 8
+attempt7: EVERY GATE PASSED and the rebuilt model was committed - 12 files,
+  33,430 insertions. Which also settles the question run 7 was set up to ask:
+  the control-window inventory passed against the hash pinned from the PREVIOUS
+  run's artefact, so this rebuild is DETERMINISTIC. It then failed on git
+  plumbing alone: the commit adds three paths, the steps before it leave other
+  files dirty (the COPC reader's npm lockfile, the app build's dist), and
+  `git pull --rebase` refuses a dirty tree. Autostashed now, with the dirty list
+  printed first so what is left out stays visible.
