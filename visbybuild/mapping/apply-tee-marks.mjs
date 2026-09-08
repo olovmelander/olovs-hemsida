@@ -23,12 +23,14 @@ import { fileURLToPath } from 'node:url';
 import { centroid, pointInPoly, polyLen } from '../../geobuild/lib.mjs';
 import { teeMarks } from '../build-course.mjs';
 import { openPublishedGround, createPublishedGroundLookup } from '../../packages/course-v2/published-ground-lookup.mjs';
-import { VISBY_FRAME } from '../frame.mjs';
+import { VISBY_FRAME, local } from '../frame.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const MODEL = path.join(HERE, '..', 'course-model.json');
 const write = process.argv.includes('--write');
 const model = JSON.parse(fs.readFileSync(MODEL, 'utf8'));
+const geometry = JSON.parse(fs.readFileSync(path.join(HERE, 'geometry.json'), 'utf8'));
+const card = JSON.parse(fs.readFileSync(path.join(HERE, '..', 'reference', 'club-scorecard.json'), 'utf8'));
 
 const { ground, readAsset } = openPublishedGround(fs, path, path.join(HERE, '..', '..', 'apps', 'golf', 'public'), 'visby');
 const lookup = createPublishedGroundLookup(ground, readAsset);
@@ -44,7 +46,11 @@ for (const hole of model.holes) {
                                 - Math.hypot(b[0] - hole.line[0][0], b[1] - hole.line[0][1]))[0];
   const marks = teeMarks({
     line: hole.line, lineLen: polyLen(hole.line), lengths: hole.t, nearest,
-    pads: hole.tees.pads, unresolvedPlatform, references: null, hole: hole.n,
+    pads: hole.tees.pads, unresolvedPlatform,
+    references: card.tees.map(tee => {
+      const point = geometry.holes.find(source => source.n === hole.n).tees.references?.[tee.id];
+      return point ? local(point) : null;
+    }), hole: hole.n,
   });
   moved += marks.filter((mark, index) => Math.hypot(mark.c[0] - hole.tees.marks[index].c[0],
                                                     mark.c[1] - hole.tees.marks[index].c[1]) > 0.5).length;

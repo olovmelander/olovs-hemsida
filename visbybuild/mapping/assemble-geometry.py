@@ -6,6 +6,7 @@ identity only. Numerical card distances never enter this spatial join.
 from pathlib import Path
 from hashlib import sha256
 import json
+import subprocess
 from PIL import Image,ImageDraw,ImageFont
 from shapely.geometry import shape,Polygon,LineString,Point
 from shapely.validation import explain_validity
@@ -74,6 +75,8 @@ geometry={'schemaVersion':1,'groundId':'visby','courseSlug':'visby','horizontalC
 practice=read('visbybuild/mapping/practice-surfaces.geojson')
 geometry['scenery']['range']=[f['geometry']['coordinates'][0] for f in practice['features'] if f['properties']['kind']=='range_field']
 write('visbybuild/mapping/geometry.json',geometry)
+# Keep later source reviews through a full authoring regeneration.
+subprocess.run(['node',str(OUT/'apply-reviewed-facilities.mjs'),'--geometry-only','--write'],cwd=ROOT,check=True)
 inputs=['visbybuild/mapping/route-reference.json','visbybuild/mapping/surface-traces-2022.json','visbybuild/mapping/surface-stage.geojson','geo_data/course-v2/visby/reference/osm-golf-epsg3006.geojson','visbybuild/mapping/build-playing-surfaces.py','visbybuild/mapping/assemble-geometry.py']
 report={'schemaVersion':1,'groundId':'visby','status':geometry['status'],'inputs':[{'path':p,'sha256':sha256((ROOT/p).read_bytes()).hexdigest()} for p in inputs],'output':{'path':'visbybuild/mapping/playing-surfaces.geojson','sha256':sha256((OUT/'playing-surfaces.geojson').read_bytes()).hexdigest()},'counts':{kind:sum(f['properties']['kind']==kind for f in features) for kind in ['green','tee','fairway','bunker']},'holesWithGreen':list(range(1,19)),'holesWithAssociatedTee':list(range(1,19)),'holesWithFairway':[h['n'] for h in holes if h['fairway']['rings']],'validation':{'finiteClosedValidPolygons':True,'uniqueFeatureIds':True,'oneGreenAndObservedTeePerMainHole':True,'fairwayForEveryPar4AndPar5':True,'cardDistancesUsedToPlaceGeometry':False,'terrainModified':False},'independentHumanReview':False,'independentControlApproved':False,'limitations':['2022 imagery cannot establish current mowing limits or later alterations.','Numeric tee-marker associations, daily pins, fringes, all tee platforms and bunker completeness remain unverified.','Image reuse terms and independent positional controls remain unresolved; this is a local provisional implementation, not an approved production survey.','Two observed fairway corridors on the separate nine are retained as unassigned scenery; the nine has no playable routing.','Sand contours omit ambiguous connected components; bunkers remain unassigned shared-ground scenery rather than inferred hole ownership.']}
 report['holesWithAssociatedTee']=[h['n'] for h in holes if h['tees']['pads']]

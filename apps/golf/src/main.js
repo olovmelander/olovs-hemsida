@@ -58,6 +58,7 @@ import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, P
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
+import { buildCoastalWater } from './engine/coastal-water.mjs';
 import { buildGroundSurfaceFeatures, mappedPathSurface } from './engine/surface-features.mjs';
 import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
@@ -1766,6 +1767,27 @@ const SEA_TINT = [0.055, 0.085, 0.105];
 const HAS_SEA = M.water.some(w => w.isSea);
 const VISTA_SEA_BAND = Number.isFinite(GEO.seaTintBandMetres) ? GEO.seaTintBandMetres : 0.5;
 const VISTA_SEA_LEVEL = HAS_SEA ? GEO.seaLevel + VISTA_SEA_BAND : -Infinity;
+/* Visby's source water covers HF1 exactly. A rectangle under that window
+   floods low land when depth precision/LOD changes; it also leaves the actual
+   16 km ocean without a surface. Extend the mapped sea only outside its source
+   coverage, using the unmodified surrounding terrain and sea connectivity. */
+const COASTAL_WATER = (() => {
+  if (!HAS_SEA || M.infra.terrainPlacement !== 'measured-only') return null;
+  const sourceBounds = { x0: HF1.x0, x1: HF1.x0 + (HF1.nx - 1) * HF1.dx,
+    z0: HF1.z0, z1: HF1.z0 + (HF1.nz - 1) * HF1.dx };
+  const world = terrainV2.ringsLoaded ? V2_SELECTION.graph?.ground.bounds : null;
+  const origin = TERRAIN_PREVIEW_CONFIG?.legacyOriginEpsg3006;
+  const bounds = world && origin ? {
+    x0: world.minEasting - origin.easting, x1: world.maxEasting - origin.easting,
+    z0: origin.northing - world.maxNorthing, z1: origin.northing - world.minNorthing,
+  } : sourceBounds;
+  const start = performance.now();
+  const field = buildCoastalWater({ bounds, sourceBounds, bodies: M.water,
+    seaLevel: GEO.seaLevel, tolerance: VISTA_SEA_BAND,
+    heightAt: (x, z) => terrainV2.worldHeightAt?.(x, z) ?? null });
+  span('coastal water: connected extension', start, { cells: field.cells, quads: field.quads });
+  return field;
+})();
 /* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
    and a flat the sheet misses never reads as a pale plate */
 const FLAT_WATER_TINT = [0.05, 0.075, 0.09];
@@ -1837,7 +1859,7 @@ function fillGroundTintTextures(tint, heightAt) {
     const near = nearBox(x, z);
     if (near) return near.map(fromSrgbByte);
     const h = H(x, z);
-    if (h < VISTA_SEA_LEVEL) return SEA_TINT;
+    if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(x, z) : h < VISTA_SEA_LEVEL) return SEA_TINT;
     const sl = Math.hypot(H(x + GROUND_TINT_FAR.dx, z) - h, H(x, z + GROUND_TINT_FAR.dx) - h) / GROUND_TINT_FAR.dx;
     const t = clampf((h - 24) / 150, 0, 1);
     const rocky = smooth(0.22, 0.62, sl);
@@ -3171,7 +3193,9 @@ function makeWater({ mask = null, showBed = true } = {}) {
      two apart: the lake flickered. A depth bias toward the camera settles it
      without moving the sheet. */
   m.polygonOffset = true;
-  m.polygonOffsetFactor = DEPTH_SIGN * 1;
+  // A slope-scaled bias grows without bound at grazing camera angles on a
+  // low coast. Keep only the small constant separation for measured sheets.
+  m.polygonOffsetFactor = M.infra.terrainPlacement === 'measured-only' ? 0 : DEPTH_SIGN * 1;
   m.polygonOffsetUnits = DEPTH_SIGN * 2;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
@@ -3296,6 +3320,9 @@ for (const w of M.water) {
   g.setIndex(idx);
   g.computeVertexNormals();
   const m = new THREE.Mesh(g, waterMat);
+  // Display clearance above laser-flattened water. Source levels/DTM stay
+  // unchanged; this 6 cm lift is confined to the exact water polygon.
+  if (M.infra.terrainPlacement === 'measured-only') m.position.y = 0.06;
   m.renderOrder = 6;
   m.userData.tag = 'water';
   m.userData.water = w;
@@ -3362,7 +3389,23 @@ if (FLAT_WATER?.components.some(c => c.uncoveredCells > 0)) {
    whisker below 0 finishes the ocean: wherever the vista terrain is land it simply
    covers the sheet, and the real islands -- Mjältön, the Ulvöar, Högbonden's --
    stand out of it on their own DEM. */
-if (M.water.some(w => w.isSea)) {
+if (COASTAL_WATER?.indices.length) {
+  const g = new THREE.BufferGeometry();
+  const count = COASTAL_WATER.positions.length / 3;
+  g.setAttribute('position', new THREE.Float32BufferAttribute(COASTAL_WATER.positions, 3));
+  g.setAttribute('aShore', new THREE.Float32BufferAttribute(new Float32Array(count).fill(60), 1));
+  g.setAttribute('aFoam', new THREE.Float32BufferAttribute(new Float32Array(count).fill(1), 1));
+  g.setAttribute('aDepth', new THREE.Float32BufferAttribute(new Float32Array(count).fill(3), 1));
+  g.setIndex(COASTAL_WATER.indices);
+  g.computeVertexNormals();
+  const mesh = new THREE.Mesh(g, waterMat);
+  mesh.position.y = VISTA_SEA_BAND + 0.01;
+  mesh.renderOrder = 5;
+  mesh.userData.tag = 'water-coastal-extension';
+  scene.add(mesh);
+  WATER_MESHES.push(mesh);
+  stats.draws++;
+} else if (HAS_SEA && !COASTAL_WATER) {
   const SX0 = HF1.x0, SX1 = HF1.x0 + (HF1.nx - 1) * HF1.dx;
   const SZ0 = HF1.z0, SZ1 = HF1.z0 + (HF1.nz - 1) * HF1.dx;
   const NXs = 56, NZs = 64;
@@ -4820,7 +4863,7 @@ lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.
       if (openLand(px, pz)) continue;
       if (rnd2(i + 19, j + 13) > 0.8) continue;
       const h = terrainH(px, pz);
-      if (h < GEO.seaLevel + VISTA_SEA_BAND) continue;
+      if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(x, z) : h < GEO.seaLevel + VISTA_SEA_BAND) continue;
       if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.4, pz, 0.8 + rnd2(i + 5, j + 23) * 0.7);
     }
@@ -9820,6 +9863,11 @@ window.V3D = {
   flatWater: () => (terrainV2.flatWater
     ? { spacing: terrainV2.flatWater.spacing, sheets: stats.flatWaterSheets | 0, components: terrainV2.flatWater.components.map(c => ({ hectares: c.hectares, level: +c.level.toFixed(2), surface: +c.surfaceHeight.toFixed(2), known: c.knownCells, uncovered: c.uncoveredCells, bounds: c.bounds })) }
     : null),
+  coastalWater: () => COASTAL_WATER ? {
+    bounds: COASTAL_WATER.bounds, sourceBounds: COASTAL_WATER.sourceBounds,
+    spacingMetres: COASTAL_WATER.spacing, cells: COASTAL_WATER.cells, quads: COASTAL_WATER.quads,
+    sourceSheetDisplayLiftMetres: 0.06, extensionDisplayLiftMetres: VISTA_SEA_BAND + 0.01,
+  } : null,
   cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
   /* put the camera anywhere, at once: the harness stands where a person stood */
   placeCamera: (p, t) => flyTo(V3(p[0], p[1], p[2]), V3(t[0], t[1], t[2]), 0),

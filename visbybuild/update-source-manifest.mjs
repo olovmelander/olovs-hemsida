@@ -29,9 +29,9 @@ if (has('visbybuild/course-model.json')) {
 for (const s of m.sources) {
   if (terrain.includes(s.id)) s.notes = s.notes.replace('No approved canonical origin or playable course.', 'The local provisional 3D uses this exact terrain; canonical origin approval remains pending.');
   if (water.includes(s.id)) s.notes = 'Complete source GeoPackage SHA verified. Clipped EPSG:3006 water retains source levels and ten interior islands across both source items. Compatibility partition preserves polygon union; acquisition edges are not shoreline and heights are not bathymetry. See mapping/water-breakgeometry-review.json.';
-  if (laser.includes(s.id) && has('geo_data/course-v2/visby/vegetation/canopy-evidence.json')) Object.assign(s, { lifecycle: 'acquired', acquiredAt: '2026-09-07',
-    checksum: read('geo_data/course-v2/visby/vegetation/canopy-evidence.json').sourceIdentity.find(source => source.href === s.sourceUri).catalogueSha256, checksumReason: null,
-    notes: 'Bounded 2024 COPC hierarchy and point reads acquired measured 2 m canopy over the complete 4096 m terrain footprint. Whole-source checksum is provider-advertised, not a locally rehashed complete download. Explicit voids retained. 4 m stands are area representatives; no surveyed individual trees. See vegetation/canopy-evidence.json and stand-evidence.json.' });
+  // Acquisition owns source identities. The current canopy evidence records
+  // campaigns rather than the retired sourceIdentity array; refreshing vector
+  // artifacts must neither crash nor rewrite already verified laser checksums.
 }
 function artifact(id, kind, p, derivedFrom, notes, use = 'discovery-evidence') {
   if (!has(p)) return;
@@ -47,6 +47,7 @@ artifact('playing-surface-review', 'control', 'visbybuild/mapping/playing-surfac
 artifact('practice-surface-candidate', 'surface', 'visbybuild/mapping/practice-surfaces.geojson', surfaces, 'Observed range field excludes measured height cells that may be range structures, retaining visible boundary trees.');
 artifact('practice-surface-review', 'control', base+'vegetation/practice-surface-evidence.json', surfaces, 'Source pixel vertices, retained image hash and independent overlay review of range footprint.');
 artifact('canonical-routing-candidate', 'composite', 'visbybuild/mapping/geometry.json', surfaces, 'EPSG:3006 main-course authoring geometry; cardinal tee lengths do not determine source coordinates.');
+artifact('clubhouse-and-first-tee-review', 'control', 'visbybuild/mapping/facilities-review.json', ['visby-municipal-ortho-2022'], 'Source image registration and pixel boundaries for a clubhouse practice green and two additional first-hole platforms. Camera references are inside observed surfaces; numbered tee associations and daily markers remain unverified.');
 artifact('bunker-contour-review', 'control', 'visbybuild/mapping/bunker-contour-review.json', surfaces, 'Image component parameters and omitted unresolved contours.');
 artifact('water-canonical-geometry', 'topography', base+'mapping/water-breakgeometry-epsg3006.geojson', water, 'Canonical source-clipped PolygonZ/MultiPolygonZ with islands retained.');
 artifact('water-compatibility-geometry', 'topography', base+'mapping/water-breakgeometry-simple-epsg3006.geojson', water, 'Exact area-preserving simple-polygon decomposition for GPK1; artificial cuts explicitly distinguished from shores.');

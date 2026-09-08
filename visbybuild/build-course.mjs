@@ -2,6 +2,7 @@
    This compatibility model uses exact projected offsets and samples the actual
    acquired DTM; scorecard lengths never move geometry or alter terrain. */
 import { readFile, writeFile } from 'node:fs/promises';
+import { applyReviewedFacilities } from './mapping/reviewed-facilities.mjs';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -267,7 +268,7 @@ export async function buildCourse() {
   const fine = new Float32Array(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
   const heightAt = makeHeightSampler(fine);
   const card = await json('visbybuild/reference/club-scorecard.json');
-  const geometry = await json('visbybuild/mapping/geometry.json');
+  const geometry = applyReviewedFacilities(await json('visbybuild/mapping/geometry.json'), await json('visbybuild/mapping/facilities-review.json'));
   const holes = buildHoles(card, geometry, heightAt, holeNotes(await json('visbybuild/guide-notes.json')));
   const context = projectedFeatures(await json(geometry.contextPath ?? 'geo_data/course-v2/visby/mapping/osm-context-epsg3006.geojson'), 'Visby context');
   const { vegetation, landuse } = vistaLandcover(await json(geometry.vistaLandcoverPath ?? 'geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson'));

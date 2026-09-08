@@ -184,8 +184,87 @@
             "sourceIds": [
               "visby-municipal-ortho-2022"
             ]
+          },
+          {
+            "ring": [
+              [
+                687168,
+                6370815.5
+              ],
+              [
+                687178.25,
+                6370815
+              ],
+              [
+                687177.25,
+                6370792
+              ],
+              [
+                687166,
+                6370792
+              ],
+              [
+                687168,
+                6370815.5
+              ]
+            ],
+            "sourceIds": [
+              "visby-municipal-ortho-2022"
+            ],
+            "reviewId": "hole-01-middle-platform-2022"
+          },
+          {
+            "ring": [
+              [
+                687172,
+                6370839
+              ],
+              [
+                687179.75,
+                6370839.25
+              ],
+              [
+                687179,
+                6370829.5
+              ],
+              [
+                687171,
+                6370829.5
+              ],
+              [
+                687172,
+                6370839
+              ]
+            ],
+            "sourceIds": [
+              "visby-municipal-ortho-2022"
+            ],
+            "reviewId": "hole-01-forward-platform-2022"
           }
-        ]
+        ],
+        "references": {
+          "tee-59": [
+            687169.5,
+            6370793.25
+          ],
+          "tee-55": [
+            687171.5,
+            6370813.25
+          ],
+          "tee-51": [
+            687171.5,
+            6370813.25
+          ],
+          "tee-46": [
+            687174.75,
+            6370836.5
+          ],
+          "tee-41": [
+            687174.75,
+            6370836.5
+          ]
+        },
+        "referenceMethod": "Move the existing card-offset virtual cameras a few metres onto the nearest visible platform interior. The back-tee reference is retained. This does not establish numbered tee-to-platform identity or daily marker positions."
       },
       "fairway": {
         "rings": []
@@ -10158,7 +10237,76 @@
           6370857.25
         ]
       ]
-    ]
+    ],
+    "greens": [
+      [
+        [
+          687162.75,
+          6370741.5
+        ],
+        [
+          687167.25,
+          6370745.75
+        ],
+        [
+          687176.25,
+          6370750
+        ],
+        [
+          687184.25,
+          6370752.75
+        ],
+        [
+          687207.25,
+          6370754
+        ],
+        [
+          687209.5,
+          6370752
+        ],
+        [
+          687210.25,
+          6370740.5
+        ],
+        [
+          687214.5,
+          6370730
+        ],
+        [
+          687214,
+          6370727.25
+        ],
+        [
+          687207,
+          6370728
+        ],
+        [
+          687199,
+          6370730
+        ],
+        [
+          687186,
+          6370731.5
+        ],
+        [
+          687172.25,
+          6370732.75
+        ],
+        [
+          687165.25,
+          6370735.75
+        ],
+        [
+          687162.75,
+          6370738.75
+        ],
+        [
+          687162.75,
+          6370741.5
+        ]
+      ]
+    ],
+    "reviewedPracticeGreenIndex": 0
   },
   "contextPath": "geo_data/course-v2/visby/mapping/osm-context-epsg3006.geojson",
   "waterPath": "geo_data/course-v2/visby/mapping/water-breakgeometry-simple-epsg3006.geojson",

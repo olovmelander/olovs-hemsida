@@ -10,9 +10,31 @@ import { VISBY_V2_CONFIG } from '../apps/golf/src/engine/v2-visby-config.mjs';
 import { assertV2LegacyCutoutContract } from '../apps/golf/src/engine/v2-legacy-cutout.mjs';
 import { loadPublishedGraphTerrainFrontier } from '../apps/golf/src/engine/v2-graph-frontier.mjs';
 import { local } from './frame.mjs';
+import { applyReviewedFacilities, facilityPoint } from './mapping/reviewed-facilities.mjs';
 
 const bytes = relative => readFileSync(new URL(relative, import.meta.url));
 const json = relative => JSON.parse(bytes(relative));
+
+test('reviewed clubhouse practice green and first-hole cameras retain image registration and observed platforms', () => {
+  const geometry = json('./mapping/geometry.json'), model = json('./course-model.json');
+  const review = json('./mapping/facilities-review.json');
+  assert.deepEqual(applyReviewedFacilities(geometry, review), geometry, 'review adoption is idempotent');
+  assert.deepEqual(facilityPoint(review, [0, 0]), [687105.5, 6370936.5]);
+  assert.deepEqual(facilityPoint(review, [880, 880]), [687325.5, 6370716.5]);
+  assert.deepEqual(model.scenery.greens, geometry.scenery.greens.map(ring => ring.map(local)));
+  assert.deepEqual(model.scenery.greens[geometry.scenery.reviewedPracticeGreenIndex], review.practiceGreen.ringPixels.map(pixel => local(facilityPoint(review, pixel))));
+  const hole = model.holes[0];
+  assert.equal(hole.tees.pads.length, 3);
+  assert.ok(hole.tees.marks.every(mark => hole.tees.pads.some(pad => pointInPoly(...mark.c, pad.ring))), 'all first-hole camera starts are on observed platforms');
+  assert.ok(hole.tees.marks.slice(1).every(mark => mark.placement.includes('daily marker location unverified')));
+  const withoutReview = structuredClone(geometry);
+  withoutReview.holes[0].tees.pads = withoutReview.holes[0].tees.pads.filter(pad => !pad.reviewId);
+  withoutReview.scenery.greens = [];
+  delete withoutReview.scenery.reviewedPracticeGreenIndex;
+  const reapplied = applyReviewedFacilities(withoutReview, review);
+  assert.deepEqual(reapplied.holes.slice(1), geometry.holes.slice(1), 'no other hole changes during adoption');
+  assert.deepEqual(reapplied.holes[0].tees, geometry.holes[0].tees);
+});
 
 test('Visby published compatibility pack preserves canonical observed geometry and all official card values', () => {
   const model = json('./course-model.json'), geometry = json('./mapping/geometry.json');
@@ -57,7 +79,8 @@ test('Visby published compatibility pack preserves canonical observed geometry a
                                   - Math.hypot(b[0] - hole.line[0][0], b[1] - hole.line[0][1]))[0];
     assert.deepEqual(hole.tees.marks, teeMarks({
       line: hole.line, lineLen: polyLen(hole.line), lengths: hole.t, nearest, pads: hole.tees.pads,
-      unresolvedPlatform: hole.tees.status === 'unresolved-physical-platform', references: null, hole: hole.n,
+      unresolvedPlatform: hole.tees.status === 'unresolved-physical-platform',
+      references: card.tees.map(tee => source.tees.references?.[tee.id] ? local(source.tees.references[tee.id]) : null), hole: hole.n,
     }));
     assert.deepEqual(hole.tees.marks.map(mark => mark.m), hole.t);
     assert.ok(pointInPoly(...hole.pin, hole.green.ring));
@@ -65,7 +88,7 @@ test('Visby published compatibility pack preserves canonical observed geometry a
   /* The tee dimension exists: 108 numbered tees used to stand on 18 points, so
      `?tee=N` moved nothing and the rangefinder read one distance to the green
      for all six against the card printed beside it. */
-  const teePoints = new Set(model.holes.flatMap(hole => hole.tees.marks.map(mark => mark.c.join(','))));
+const teePoints = new Set(model.holes.flatMap(hole => hole.tees.marks.map(mark => mark.c.join(','))));
   assert.equal(teePoints.size, 80);
   assert.equal(model.holes.filter(hole => new Set(hole.tees.marks.map(mark => mark.c.join(','))).size === 1).length, 1,
     'only hole 12, whose platform is unresolved, may still share one point across all six tees');

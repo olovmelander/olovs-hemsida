@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "reviewedAt": "2026-09-08",
+  "status": "provisional-image-interpretation-not-surveyed",
+  "source": {
+    "id": "visby-municipal-ortho-2022",
+    "requestUrl": "https://imageserver.gotland.se/arcgis/rest/services/Ortofoto/Ortofoto_2022/ImageServer/exportImage?bbox=687105.5,6370716.5,687325.5,6370936.5&bboxSR=3006&imageSR=3006&size=880,880&format=png&f=pjson",
+    "sha256": "cbd6799fedc649c8bd4b6e3095fa5b84d1f90a7ee5677074bd46162a160bf8fb",
+    "bytes": 1141590,
+    "retrievedAt": "2026-09-08T14:55:34.422522+00:00",
+    "imageSize": [880, 880],
+    "extentEpsg3006": [687105.5, 6370716.5, 687325.5, 6370936.5],
+    "pixelConvention": "pixel edges from top left; E=xmin+u*0.25, N=ymax-v*0.25",
+    "observedYear": 2022,
+    "captureDate": null,
+    "interpretationUncertaintyMetres": 2,
+    "registrationAccuracy": "not independently measured",
+    "rawImageRedistributed": false
+  },
+  "practiceGreen": {
+    "id": "clubhouse-putting-green-2022",
+    "identitySource": "https://www.visbygk.com/trackman-range/",
+    "identityEvidence": "The club describes a large putting green beside the clubhouse. This separate mown surface lies immediately west of its mapped footprint.",
+    "ringPixels": [[229,780],[247,763],[283,746],[315,735],[407,730],[416,738],[419,784],[436,826],[434,837],[406,834],[374,826],[322,820],[267,815],[239,803],[229,791],[229,780]],
+    "note": "Conservative visible mowing boundary; no daily practice flags or equipment inferred."
+  },
+  "hole1": {
+    "additionalPads": [
+      {"id":"hole-01-middle-platform-2022","ringPixels":[[250,484],[291,486],[287,578],[242,578],[250,484]]},
+      {"id":"hole-01-forward-platform-2022","ringPixels":[[266,390],[297,389],[294,428],[262,428],[266,390]]}
+    ],
+    "cameraReferencesPixels": {
+      "tee-59": [256,573],
+      "tee-55": [264,493],
+      "tee-51": [264,493],
+      "tee-46": [277,400],
+      "tee-41": [277,400]
+    },
+    "cameraReferenceMethod": "Move the existing card-offset virtual cameras a few metres onto the nearest visible platform interior. The back-tee reference is retained. This does not establish numbered tee-to-platform identity or daily marker positions."
+  },
+  "limitations": [
+    "2022 imagery cannot establish subsequent construction or current mowing boundaries.",
+    "Hole 9 has conflicting green/approach evidence and is not changed by this review.",
+    "The remaining physical tee inventory, Hole 12 platform and equipment locations remain unresolved.",
+    "Source reuse terms and independent coordinate controls retain their existing pending status."
+  ]
+}

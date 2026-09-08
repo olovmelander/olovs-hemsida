@@ -57,6 +57,11 @@ jobs:
       - name: Install locked schema-test dependencies
         run: pnpm install --frozen-lockfile
 
+      # The full Node suite imports the offline reader through Visby's canopy
+      # tests. Its dependencies are deliberately outside the player workspace.
+      - name: Install the offline COPC test dependencies
+        run: npm install --prefix packages/course-geo/copc-reader --ignore-scripts --package-lock=false --no-audit --no-fund
+
       - uses: prefix-dev/setup-pixi@v0.10.2
         with:
           pixi-version: v0.78.0
