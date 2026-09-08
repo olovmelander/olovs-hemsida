@@ -909,17 +909,6 @@
       "notes": "The survey measured against two records it never saw: the card (its six no-target holes are exactly the six par 3s) and the observed greens (all 18 centres on the right hole, 16 strictly inside, median 5.25 m). The median offset is far smaller than the scatter, so no shift is applied to either record."
     },
     {
-      "id": "ground-rings-acquisition",
-      "kind": "acquisition",
-      "path": "geo_data/course-v2/lidingo/acquisition/ground-rings.json",
-      "sha256": "dde9863f63ad5eec867b8f0427f1b945d9076062f62f65319a7801494b37feb0",
-      "derivedFrom": [
-        "terrain-lm-1m"
-      ],
-      "use": "discovery-evidence",
-      "notes": "Seven nested Markhojdmodell ring levels to a 16,384 m root, read by authenticated range request. Level 0 reproduces all 64 published 1 m tiles to 0.005 m. Every sample of every level is finite and no sea fill has anything to justify: Markhojdmodell tiles the Baltic here with real depth, reaching -10.157 m."
-    },
-    {
       "id": "laser-campaign-inventory",
       "kind": "acquisition",
       "path": "geo_data/course-v2/lidingo/acquisition/laser-campaigns.json",

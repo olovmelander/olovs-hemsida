@@ -1,6 +1,11 @@
-# The acquire run (34198776798) was eyeballed before this was set to true: the
+# Eyeballed on the acquire run (34198776798) before this was set to true: the
 # 2 km overhead shows crowns through the villa gardens and the groves, the
 # played corridors black, and the exclusions firing on the roofs. Hole 2's crop
 # has no crown inside its fairway, green, pond or tee pads.
+#
+# Run 34201903656 then compiled 2,543 individuals and wrote 410 files, and lost
+# them at the gates: build-canopy rewrites canopy-evidence.json, which this
+# ground pins, so the publish failed on its own evidence. The workflow re-pins
+# it now, beside the census re-pin that exists for the same reason.
 publish=true
 observed_on=2026-09-08
