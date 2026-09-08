@@ -242,19 +242,33 @@ the source images are not redistributed as runtime textures.
    ~45% forest cover. `visbybuild/tree-cover.json` is still absent and is not
    needed. The photograph-classified attempt stays refused; it under-detected
    canopy 4.5×.
-6. `coast` is empty and no water ring carries `isSea`, on a course where the
-   median green stands 82 m from the Baltic. Seven rings already carry
-   `sourceIsSea:true`/`waterKind:'sea'` and account for **907 of 931 ha** of
-   water, yet all 40 are written `isSea:false`, so the vista tint paints the
-   Baltic as forest-green. Read CLAUDE.md's Angso section first -- `isSea` is
-   an instruction about the whole world, not a label on a ring -- but note the
-   Angso objection was TESTED here and does not apply: a sea plane at 0.18 m
-   would cover **0.01 ha** of dry land at Visby against Angso's 65.8 ha,
-   because this coast starts at 0.24 m and Angso's reed beds sat below their
-   lake. OSM's three coastline chains share four nodes with the property hull.
-   Check the water sheets at the same time: 99.9% of 583,473 ring-interior
-   samples sit within 0.02 m of their own bed, so every sheet is coplanar with
-   the ground under it and `aDepth` is zero everywhere.
+6. **The sea half is DONE; the two remaining halves are measured and one is
+   not a gap at all.** Seven rings carry `isSea` and `isLake`,
+   `seaTintBandMetres` is 0.05, and `build-course.mjs` writes all of it now, so
+   a rebuild cannot revert it.
+   - **`coast` is not a gap.** Nothing in the engine reads `model.coast` --
+     grep the whole app -- so an empty array is the correct value and filling it
+     would be work that changes nothing. Recorded so nobody spends a session on
+     it.
+   - **The water sheets ARE coplanar with their beds, and only on the GPK1
+     path.** Measured on `heightfields.json` under the seven sea rings: 566,872
+     samples at a mean depth of **-0.000 m**, none deeper than 0.10 m, because
+     Markhojdmodell carries the Baltic as a flattened plate (111,049 published
+     ring-graph samples read 0.230 m mean over a 0.23-0.24 m range -- there is
+     no bathymetry here at all). So under `?v2=0` the shader has no depth to
+     shade 907 ha of sea with. Under the default v2 boot the ring adapter's
+     `carveWaterBeds` runs unconditionally and gives it one; what is switched
+     off for this course is only the FRONTIER path's carve, by
+     `main.js`'s `waterBeds` provider returning null on
+     `terrainPlacement === 'measured-only'`.
+   - Two things a session that can RENDER should check, in this order. Does the
+     default boot's carve actually reach the sea (the objection that it would
+     ridge along the 40 partitions' artificial cut edges is answered -- the
+     depth comes from a distance transform over the UNION mask, so neighbouring
+     pieces fill each other's cuts)? And does the v2 water-level re-measurement
+     block leave `seaLevel` at 0.23, or raise it off shore samples? Neither can
+     be settled without looking at it, and 0 of 1,229 played ring and mark
+     points lie inside a sea ring, so a carve cannot touch a playing surface.
 7. **DONE.** The clubhouse is named in the model (declared in
    [`geometry.json`](geometry.json) beside its evidence, applied by
    [`apply-clubhouse.mjs`](apply-clubhouse.mjs), asserted by the artifact test)

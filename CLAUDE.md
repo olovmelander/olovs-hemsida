@@ -3977,6 +3977,31 @@ and at least 8 m nearer to it than to any other. The remaining 17 stay in
 the eighteen, which is where the separate nine plays. **No outline moved**, and
 the partition is asserted: every ring before is a ring after, none twice.
 
+### The Baltic has no bed, and `coast` is not a gap
+
+Two leftovers from the sea work, both settled by measurement rather than by
+filling something in.
+
+**Nothing in the engine reads `model.coast`** — grep the whole app — so Visby's
+empty array is the correct value and filling it would be work that changes
+nothing. Recorded so nobody spends a session on it.
+
+**The water sheets are coplanar with their beds, and Markhöjdmodell is why.**
+Measured under the seven sea rings on this pack's own heightfield: 566,872
+samples at a mean depth of **−0.000 m**, none deeper than 0.10 m; and on the
+published ring graph, 111,049 samples over a **0.23–0.24 m** range at a mean of
+0.230. The laser carries the Baltic as a flattened plate — there is no
+bathymetry here at all — so on `?v2=0` the shader has no depth to shade 907 ha
+of sea with. Under the default v2 boot the ring adapter's `carveWaterBeds` runs
+unconditionally and gives it one; what is switched off for this course is only
+the FRONTIER path's carve, because `main.js`'s `waterBeds` provider returns null
+on `terrainPlacement === 'measured-only'`. The obvious objection to carving here
+— that the depth would ridge along the forty render pieces' artificial cut edges
+— is answered and does not apply: the depth comes from a distance transform over
+the UNION mask, so neighbouring pieces fill each other's cuts. And a carve
+cannot reach a playing surface: **0 of 1,229 played ring and mark points lie
+inside a sea ring.** What is left needs a render, not another measurement.
+
 ### The far vista ring was gated on a raster, and Visby has none
 
 Both vista-cone loops sat inside `if (M.cover)` in main.js, so a course with no
