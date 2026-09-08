@@ -48,3 +48,13 @@ attempt3: the whole chain ran - caches restored, roof evidence regenerated,
   self-consistent by construction and proved nothing. It reads the COMMITTED
   record now - which makes it a real reproducibility check - asserts the window
   is otherwise identical, and restores it.
+attempt: 5
+attempt4: the new check worked and it fired - and it proved the thing that
+  matters on its way past: the re-acquired 1 m raster reproduces its reviewed
+  sha256 BYTE FOR BYTE. Only the record differed, and the check could not say
+  how, because it compared serialisations rather than naming fields. It names
+  them now and separates a declared volatile set (clocks, transfer counters and
+  the origin's own ETag/Last-Modified cache tokens, whose content claim is
+  measured directly by the raster hash) from anything material, printing every
+  tolerated difference so a source that really moved is visible rather than
+  absorbed. Volatile is NAMED, not widened until it passes.

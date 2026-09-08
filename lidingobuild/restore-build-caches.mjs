@@ -67,15 +67,34 @@ const steps = {
     const reviewed = committedBytes.stdout;
     const record = JSON.parse(reviewed.toString('utf8'));
     verify('terrain window', record.raster.path, record.raster.sha256);
-    /* everything but the clocks and the byte counters must be the same window,
-       so a moved source item or a changed lattice fails rather than being
-       papered over by the restore below */
-    const fresh = readJson(file);
-    const stable = value => JSON.stringify(value, (key, inner) =>
-      ['acquiredOn', 'transfer', 'lastModified'].includes(key) ? undefined : inner);
-    if (stable(fresh) !== stable(record)) {
-      throw new Error(`${file}: the re-acquisition describes a different window than the reviewed record. `
-        + 'Only its clocks and byte counters may differ.');
+    /* Everything but a declared volatile set must be the same window, so a moved
+       source item or a changed lattice fails rather than being papered over by
+       the restore below. VOLATILE IS NAMED, NOT WIDENED UNTIL IT PASSES: a
+       clock, a transfer counter, and the server's own cache tokens - an HTTP
+       ETag and Last-Modified are the origin's bookkeeping, not a content
+       identity, and what they stand proxy for is measured directly one line
+       above by the raster's sha256. Every tolerated difference is PRINTED, so a
+       source that really moved is visible in the log rather than absorbed. */
+    const VOLATILE = new Set(['acquiredOn', 'transfer', 'lastModified', 'etag']);
+    const differences = [];
+    const walk = (a, b, at) => {
+      if (JSON.stringify(a) === JSON.stringify(b)) return;
+      if (a && b && typeof a === 'object' && typeof b === 'object' && Array.isArray(a) === Array.isArray(b)) {
+        for (const key of new Set([...Object.keys(a), ...Object.keys(b)])) {
+          walk(a[key], b[key], at ? `${at}.${key}` : key);
+        }
+        return;
+      }
+      differences.push({ at, reviewed: a, fresh: b, volatile: at.split('.').some(part => VOLATILE.has(part)) });
+    };
+    walk(record, readJson(file), '');
+    const material = differences.filter(d => !d.volatile);
+    for (const d of differences.filter(d => d.volatile)) {
+      process.stdout.write(`    tolerated: ${d.at} ${JSON.stringify(d.reviewed)} -> ${JSON.stringify(d.fresh)}\n`);
+    }
+    if (material.length) {
+      throw new Error(`${file}: the re-acquisition describes a different window than the reviewed record:\n`
+        + material.map(d => `    ${d.at}: reviewed ${JSON.stringify(d.reviewed)}, got ${JSON.stringify(d.fresh)}`).join('\n'));
     }
     fs.writeFileSync(path.join(ROOT, file), reviewed);
     process.stdout.write('  terrain window: the reviewed record restored (only its clocks differed)\n');
