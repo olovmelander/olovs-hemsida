@@ -1,0 +1,47 @@
+name: Lidingö source environment
+on:
+  push:
+    branches: ['claude/lidingo-environment-lantmateriet']
+    paths: ['geo_data/course-v2/lidingo/acquisition/RUN-environment']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: lidingo-environment-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install shapely==2.1.2 rasterio==1.4.3 numpy==2.2.6 cryptography==45.0.7
+      - name: Acquire source water and audit 2025 orthophoto
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: python lidingobuild/acquire-environment.py
+      - name: Retain encrypted private review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lidingo-ortho-review-encrypted
+          path: /tmp/lidingo-ortho-review.enc
+          if-no-files-found: ignore
+          retention-days: 1
+      - name: Commit source evidence
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for file in environment-water.geojson environment-water.json ortho-2025-surface-audit.json; do
+            target="geo_data/course-v2/lidingo/acquisition/$file"
+            if test -f "$target"; then git add "$target"; fi
+          done
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Acquire Lidingö surrounding water and 2025 orthophoto evidence'
+          git pull --rebase origin '${{ github.ref_name }}'
+          git push origin 'HEAD:${{ github.ref_name }}'
