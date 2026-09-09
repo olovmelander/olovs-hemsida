@@ -293,6 +293,8 @@ export function deriveTerrainRenderResource(resource, overrides = {}) {
 }
 
 export function sampleTerrainRenderResource(resource, worldX, worldZ) {
+  // A reduced GPU view must never lower the construction/interaction sampler.
+  if (resource.sourceResource) resource = resource.sourceResource;
   finite(worldX, 'worldX');
   finite(worldZ, 'worldZ');
   const column = (worldX - resource.worldOriginX) / resource.sampleSpacingMetres;

@@ -1,0 +1,122 @@
+{
+  "backend": "webgl2",
+  "executionAdapter": "swiftshader-software",
+  "performanceEvidence": false,
+  "frameInputs": "simulated 60 FPS then 20 FPS; synthetic scene",
+  "errors": [],
+  "views": [
+    {
+      "mode": "reference",
+      "resolution": {
+        "mode": "fixed",
+        "requested": 2,
+        "pixelRatio": 2,
+        "detailPixelRatio": 2,
+        "maximumPixelRatio": 2,
+        "drawingBuffer": [
+          960,
+          640
+        ],
+        "extraPixelBudget": null,
+        "changes": 0,
+        "reason": "initial",
+        "frameP90Ms": null
+      },
+      "detailHeight": 640,
+      "buffer": [
+        960,
+        640
+      ],
+      "triangles": 1055,
+      "draws": 63,
+      "meanAbsoluteErrorToDpr2": 0,
+      "baselinePixelsRestored": true
+    },
+    {
+      "mode": "baseline",
+      "resolution": {
+        "mode": "adaptive",
+        "requested": null,
+        "pixelRatio": 1,
+        "detailPixelRatio": 1,
+        "maximumPixelRatio": 1.5,
+        "drawingBuffer": [
+          480,
+          320
+        ],
+        "extraPixelBudget": 1000000,
+        "changes": 0,
+        "reason": "initial",
+        "frameP90Ms": null
+      },
+      "detailHeight": 320,
+      "buffer": [
+        480,
+        320
+      ],
+      "triangles": 1055,
+      "draws": 63,
+      "meanAbsoluteErrorToDpr2": 1.3490287272135417,
+      "baselinePixelsRestored": true
+    },
+    {
+      "mode": "boosted",
+      "resolution": {
+        "mode": "adaptive",
+        "requested": null,
+        "pixelRatio": 1.5,
+        "detailPixelRatio": 1,
+        "maximumPixelRatio": 1.5,
+        "drawingBuffer": [
+          720,
+          480
+        ],
+        "extraPixelBudget": 1000000,
+        "changes": 2,
+        "reason": "sustained-headroom",
+        "frameP90Ms": 16.666666666666668
+      },
+      "detailHeight": 320,
+      "buffer": [
+        720,
+        480
+      ],
+      "triangles": 1055,
+      "draws": 63,
+      "meanAbsoluteErrorToDpr2": 0.763875732421875,
+      "baselinePixelsRestored": false
+    },
+    {
+      "mode": "recovered",
+      "resolution": {
+        "mode": "adaptive",
+        "requested": null,
+        "pixelRatio": 1,
+        "detailPixelRatio": 1,
+        "maximumPixelRatio": 1.5,
+        "drawingBuffer": [
+          480,
+          320
+        ],
+        "extraPixelBudget": 1000000,
+        "changes": 4,
+        "reason": "sustained-slow-frames",
+        "frameP90Ms": 50
+      },
+      "detailHeight": 320,
+      "buffer": [
+        480,
+        320
+      ],
+      "triangles": 1055,
+      "draws": 63,
+      "meanAbsoluteErrorToDpr2": 1.3490287272135417,
+      "baselinePixelsRestored": true
+    }
+  ],
+  "passed": true,
+  "portraitBuffer": [
+    320,
+    480
+  ]
+}

@@ -333,6 +333,9 @@ export class TerrainTextureBatch {
         layer,
         identity: this.identityByTile.get(resource.tileId) ?? null,
         sampleSpacingMetres: resource.sampleSpacingMetres,
+        sourceSampleSpacingMetres: resource.sourceResource?.sampleSpacingMetres ?? resource.sampleSpacingMetres,
+        renderStride: resource.renderStride ?? 1,
+        maximumReductionErrorMetres: resource.maximumReductionErrorMetres ?? 0,
         worldOriginX: resource.worldOriginX,
         worldOriginZ: resource.worldOriginZ,
         heightOffsetWorld: resource.heightOffsetWorld,
@@ -377,15 +380,22 @@ export class TerrainTextureBatch {
   }
 }
 
-/** At most one regular 257-grid batch plus a one-layer shell batch is live. */
+/** One batch per permitted grid size, plus the independent one-layer shell. */
 export class TerrainTileBatchSet {
   constructor({
     maximumTiles,
     morphDurationMilliseconds = 240,
     decorateMaterial,
+    compactCapacity = false,
+    allowMixedDimensions = false,
   } = {}) {
     positiveInteger(maximumTiles, 'maximumTiles');
+    if (typeof compactCapacity !== 'boolean' || typeof allowMixedDimensions !== 'boolean') {
+      throw new TypeError('terrain batch policies must be boolean');
+    }
     this.maximumTiles = maximumTiles;
+    this.compactCapacity = compactCapacity;
+    this.allowMixedDimensions = allowMixedDimensions;
     this.options = { morphDurationMilliseconds, decorateMaterial };
     this.group = new THREE.Group();
     this.group.name = 'banvy-v2-terrain';
@@ -400,17 +410,30 @@ export class TerrainTileBatchSet {
     return `${kind}:${resource.width}x${resource.height}`;
   }
 
-  #batch(key, resource) {
+  #batch(key, resource, count, now) {
     let batch = this.batches.get(key);
-    if (batch) return batch;
+    if (batch && batch.capacity >= count) return batch;
     const shell = resource.tileId === 'shell';
+    const previous = batch;
+    const capacity = shell ? 1 : this.compactCapacity
+      ? Math.min(this.maximumTiles, Math.ceil(count / 8) * 8)
+      : this.maximumTiles;
     batch = new TerrainTextureBatch({
       width: resource.width,
       height: resource.height,
-      capacity: shell ? 1 : this.maximumTiles,
+      capacity,
       ...this.options,
       tag: shell ? 'v2-terrain-shell' : 'v2-terrain-tiles',
     });
+    if (previous) {
+      // Grow only when a new frontier exceeds the allocation. Existing tiles
+      // keep their transition clocks; a resize must not replay a terrain pop.
+      batch.sync(previous.current, { now });
+      batch.morphStartByTile = new Map(previous.morphStartByTile);
+      batch.instanceStateDirty = true;
+      batch.tick(now);
+      previous.dispose();
+    }
     this.batches.set(key, batch);
     this.group.add(batch.mesh);
     return batch;
@@ -427,18 +450,28 @@ export class TerrainTileBatchSet {
       grouped.get(key).push(resource);
     }
     const regularKeys = [...grouped.keys()].filter(key => key.startsWith('regular:'));
-    if (regularKeys.length > 1) {
+    if (regularKeys.length > 1 && !this.allowMixedDimensions) {
       throw new Error('one render frontier may not mix regular terrain grid dimensions');
+    }
+    const regularCount = regularKeys.reduce((sum, key) => sum + grouped.get(key).length, 0);
+    if (regularCount > this.maximumTiles) {
+      throw new Error(`terrain frontier received ${regularCount} resources; capacity is ${this.maximumTiles}`);
     }
     let morphing = false, changed = false;
     for (const [key, batch] of this.batches) {
       if (grouped.has(key)) continue;
+      if (this.compactCapacity && !key.startsWith('shell:')) {
+        batch.dispose();
+        this.batches.delete(key);
+        changed = true;
+        continue;
+      }
       const before = batch.renderRevision;
       batch.sync([], { now });
       changed ||= batch.renderRevision !== before;
     }
     for (const [key, resources] of grouped) {
-      const batch = this.#batch(key, resources[0]), before = batch.renderRevision;
+      const batch = this.#batch(key, resources[0], resources.length, now), before = batch.renderRevision;
       const state = batch.sync(resources, { now });
       morphing ||= state.morphing;
       changed ||= batch.renderRevision !== before;

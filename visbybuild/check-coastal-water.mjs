@@ -22,9 +22,14 @@ const bounds = {x0:b.minEasting-frame.easting,x1:b.maxEasting-frame.easting,z0:f
 const heightAt = (x,z) => lookup.heightAt(frame.easting+x,frame.northing-z);
 const start = performance.now();
 const water = buildCoastalWater({bounds,sourceBounds,bodies:model.water,heightAt,seaLevel:model.seaLevel,tolerance:model.seaTintBandMetres});
+const terrainCoveredAt = (x,z) => {
+  const col=Math.floor((x-bounds.x0)/water.spacing),row=Math.floor((z-bounds.z0)/water.spacing);
+  return col>=0&&row>=0&&col<water.width&&row<water.height&&water.terrainCoverage[row*water.width+col]===1;
+};
 const milliseconds = Math.round(performance.now()-start);
 const played = model.holes.flatMap(h => [h.pin,...h.green.ring,...h.tees.marks.map(t=>t.c),...h.tees.pads.flatMap(p=>p.ring),...h.fairway.rings.flat()]);
 assert.ok(played.every(p=>!water.isSeaAt(...p)), 'sea must exclude every played ring vertex, pin and tee');
+assert.ok(played.every(p=>!terrainCoveredAt(...p)), 'terrain masking must preserve every played point');
 let lowDrySamples=0, islandSamples=0;
 // Every original island vertex's neighbourhood is handled by the original
 // source topology. Check interior points against all water partitions below.
@@ -35,19 +40,21 @@ const islands = source.features.flatMap(f=>f.geometry.coordinates.slice(1)).map(
 for(let z=-2040;z<2048;z+=16) for(let x=-2040;x<2048;x+=16) {
   const mapped=model.water.some(w=>w.isSea&&inside(x,z,w.ring));
   assert.equal(water.isSeaAt(x,z),mapped);
+  if(!mapped) assert.equal(terrainCoveredAt(x,z),false,'dry source terrain must not be masked');
   if(!mapped&&heightAt(x,z)<model.seaLevel+model.seaTintBandMetres) lowDrySamples++;
 }
 for(const r of islands) {
   for(let z=Math.min(...r.map(p=>p[1]))+1;z<Math.max(...r.map(p=>p[1]));z+=2)
     for(let x=Math.min(...r.map(p=>p[0]))+1;x<Math.max(...r.map(p=>p[0]));x+=2)
-      if(inside(x,z,r)){assert.equal(water.isSeaAt(x,z),false);islandSamples++;}
+      if(inside(x,z,r)){assert.equal(water.isSeaAt(x,z),false);assert.equal(terrainCoveredAt(x,z),false);islandSamples++;}
 }
 assert.ok(islands.length===10&&islandSamples>0);
 assert.ok(water.cells>10000&&water.quads<10000, 'a bounded, compact ocean must reach beyond the source window');
 const report={groundManifestSha256:courseManifest.groundManifest.sha256,modelSha256:createHash('sha256').update(fs.readFileSync(path.join(root,'visbybuild/course-model.json'))).digest('hex'),
   bounds,sourceBounds,spacingMetres:water.spacing,extensionHectares:water.cells*water.spacing**2/10000,quads:water.quads,milliseconds,
   playedPointsExcluded:played.length,sourceGridComparisons:256**2,lowDrySamplesProtected:lowDrySamples,islands:islands.length,islandSamplesExcluded:islandSamples,
-  sourceTerrainModified:false,sourceGeometryModified:false,visualCameraChecks:'not run; cloud browser cannot reach local preview',
+  terrainMaskBytes:water.terrainCoverage.byteLength,terrainMaskDryLandChecks:true,
+  sourceTerrainModified:false,sourceGeometryModified:false,visualCameraChecks:'not run by this command; see docs/graphics/visby-water-distance-2026-09-09',
   limitation:'Outside the 4096 m source window this is a conservative DTM-connected visual extension, not a surveyed coastline. Distant features narrower than the 32 m sampling can remain unresolved.'};
 console.log(JSON.stringify(report,null,2));
 if(process.argv.includes('--write'))fs.writeFileSync(path.join(root,'visbybuild/mapping/coastal-water-review.json'),JSON.stringify(report,null,2)+'\n');

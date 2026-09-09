@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import * as THREE from 'three/webgpu';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createGroundClamp } from './camera-clamp.mjs';
+import { coastalCameraNear } from './coastal-camera-depth.mjs';
 import { V2GraphTerrainAdapter } from './v2-graph-terrain.mjs';
 
 /* Run the application's real frame orchestration, including its flight camera
@@ -48,7 +49,7 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     const projection = new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
     const frustum = new THREE.Frustum().setFromProjectionMatrix(projection, camera.coordinateSystem, camera.reversedDepth);
     return { position: camera.position.toArray(), inverse: camera.matrixWorldInverse.toArray(),
-      projection: camera.projectionMatrix.toArray(), visible: boxes.map(box => frustum.intersectsBox(box)), fov: camera.fov };
+      projection: camera.projectionMatrix.toArray(), visible: boxes.map(box => frustum.intersectsBox(box)), fov: camera.fov, near: camera.near };
   };
   const graphAdapter = {
     phase: 'ready', group: new THREE.Group(), projection: new THREE.Matrix4(),
@@ -65,7 +66,10 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
   const clamp = createGroundClamp({ heightAt: () => 0 });
   const context = createContext({
     GRAPHICS_POLISH: polish, camera, controls, innerHeight: 900, hole: 1,
+    coastalCameraNear, COASTAL_DEPTH_ENABLED: false, COASTAL_TERRAIN_CEILING: 58.06,
     performance: { now: () => now }, last: 0, acc: 0, frames: 0, fps: 0,
+    BOOT_PERF: { doneAtMs: 1 }, document: { hidden: false },
+    renderResolution: { detailHeight: () => 240, sample() {} },
     FRAME_NO: 0, TIER_FRAME: 0, FRAME_MS: new Float32Array(120), DET: false,
     TREE_LOD: { clockDriven: false, fadeClock: 0, fadeS: 0.3, queue: [], qHead: 0 },
     treeFadeClock: { value: 0 }, treeFadeDuration: { value: 0 },
@@ -109,6 +113,41 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
 }
 
 describe('application camera frame ordering', () => {
+  it('samples resolution before visibility and keeps the geometry budget when the buffer grows', () => {
+    const f = fixture();
+    const samples = [];
+    f.context.renderResolution.sample = (interval, now, eligible) => {
+      samples.push({ interval, now, eligible });
+      f.context.renderer.domElement.height = 360;
+    };
+    f.step(16);
+    expect(samples).toEqual([{ interval: 16, now: 16, eligible: true }]);
+    expect(f.observed.terrain[0].bufferHeight).toBe(240);
+    f.context.BOOT_PERF.doneAtMs = 0;
+    f.step(16);
+    f.context.BOOT_PERF.doneAtMs = 1;
+    f.context.document.hidden = true;
+    f.step(16);
+    f.context.document.hidden = false;
+    f.context.captureRenderLocked = true;
+    f.step(16);
+    expect(samples.slice(1).every(s => !s.eligible)).toBe(true);
+  });
+  it('uses the coastal projection for both visibility and drawing, restoring near immediately on descent', () => {
+    const f = fixture();
+    f.context.COASTAL_DEPTH_ENABLED = true;
+    f.camera.position.set(500, 180, -1400);
+    f.controls.target.set(-500, 5, 300);
+    f.step();
+    expect(f.observed.render[0].near).toBeGreaterThan(7);
+    expect(f.observed.terrain[0]).toMatchObject(f.observed.render[0]);
+    expect(f.observed.trees[0]).toEqual(f.observed.render[0]);
+    f.camera.position.set(0, 10, 30);
+    f.controls.target.set(0, 10, 0);
+    f.step();
+    expect(f.observed.render[1].near).toBe(1);
+    expect(f.observed.terrain[1]).toMatchObject(f.observed.render[1]);
+  });
   it.each([
     ['WebGL2', THREE.WebGLCoordinateSystem, false],
     ['WebGL2 with reversed depth', THREE.WebGLCoordinateSystem, true],

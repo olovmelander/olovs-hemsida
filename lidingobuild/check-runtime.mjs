@@ -140,6 +140,8 @@ try {
       samples: points.map(p => ({ ...p, height: V.probeH(p.x, p.z), inspected: V.heightSample(p.x, p.z), waterBed: V.waterBedAt(p.x, p.z) })),
       renderer: V.rendererInfo(), quality: V.quality(), course: V.course(),
       roofs: { measuredBuildings: V.stats.measuredRoofBuildings ?? null, measuredTriangles: V.stats.measuredRoofTriangles ?? null,
+        sourceBuildings: V.stats.sourceRoofBuildings ?? null, sourceTriangles: V.stats.sourceRoofTriangles ?? null,
+        architecturalBuildings: V.stats.architecturalBuildings ?? null, architecturalTriangles: V.stats.architecturalTriangles ?? null,
         genericBuildings: V.stats.genericRoofBuildings ?? null,
         buildings: V.M.infra.buildings.filter(b => b.roofSurface).map(b => ({ id: b.id, roofSurface: b.roofSurface, ...(Object.hasOwn(b, 'h') ? { h: b.h } : {}) })) },
       waterBedSamples: V.waterLevels().map(w => ({ id: w.id, result: V.waterBedAt((w.bb.x0 + w.bb.x1) / 2, (w.bb.z0 + w.bb.z1) / 2) })),
@@ -178,9 +180,12 @@ try {
   const browserRoofComparison = roofSource.buildings.map(building => compareRoof(state.roofs.buildings.find(b => b.id === building.id), building));
   gate(state.roofs.buildings.length === 5 && browserRoofComparison.every(r => r.ok),
     'Loaded browser pack preserves every measured roof vertex, RH2000 height, triangle and supported wall endpoint exactly', browserRoofComparison);
-  gate(state.roofs.measuredBuildings === 5 && state.roofs.measuredTriangles === 7069 && state.roofs.genericBuildings === expectedGenericBuildings,
-    'Five measured roofs render 7069 triangles while the generic path renders only the other eligible buildings',
-    { measuredBuildings: state.roofs.measuredBuildings, measuredTriangles: state.roofs.measuredTriangles,
+  gate(state.roofs.sourceBuildings === 5 && state.roofs.sourceTriangles === 7069 &&
+    state.roofs.architecturalBuildings === 5 && state.roofs.architecturalTriangles > 0 && state.roofs.architecturalTriangles < 4700 &&
+    state.roofs.measuredBuildings === 0 && state.roofs.measuredTriangles === 0 && state.roofs.genericBuildings === expectedGenericBuildings,
+    'Five display models replace the raw TIN without changing its 7069 retained source triangles or the other generic buildings',
+    { sourceBuildings: state.roofs.sourceBuildings, sourceTriangles: state.roofs.sourceTriangles,
+      architecturalBuildings: state.roofs.architecturalBuildings, architecturalTriangles: state.roofs.architecturalTriangles,
       genericBuildings: state.roofs.genericBuildings, expectedGenericBuildings });
   await page.evaluate(() => { window.V3D.setPreset('noon'); window.V3D.setView(700, 850, 950, 0, 15, 0); });
   await page.waitForFunction(() => window.V3D.settled(), null, { timeout: 120000 });

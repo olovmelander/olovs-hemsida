@@ -31,6 +31,37 @@ function fixture() {
 }
 
 describe('Three r185 v2 terrain batching', () => {
+  it('grows compact batches without replaying existing morphs and enforces the combined budget', () => {
+    const template = fixture().get('l0/0/0');
+    const resources = Array.from({ length: 33 }, (_, i) => Object.freeze({ ...template,
+      tileId: `l0/${i}/0`, decodedSha256: `tile-${i}`, worldOriginX: i * 128 }));
+    const layer = new TerrainTileBatchSet({ maximumTiles: 128, compactCapacity: true, allowMixedDimensions: true });
+    layer.sync(resources.slice(0, 32), { now: 0 });
+    const previous = [...layer.batches.values()][0];
+    expect(previous.capacity).toBe(32);
+    layer.tick(300);
+    layer.sync(resources, { now: 400 });
+    const batch = [...layer.batches.values()][0];
+    expect(previous.disposed).toBe(true);
+    expect(batch.capacity).toBe(40);
+    expect(batch.attributes.params.array[2]).toBe(0);
+    expect(batch.attributes.params.array[32 * 4 + 2]).toBe(1);
+    expect(layer.stats().drawCalls).toBe(1);
+    expect(layer.stats().textureCapacityBytes).toBe(40 * 3 * 3 * 8);
+    layer.dispose();
+
+    const bounded = new TerrainTileBatchSet({ maximumTiles: 2, compactCapacity: true, allowMixedDimensions: true });
+    const small = { ...resources[2], width: 2, height: 2, textureData: new Uint8Array(32) };
+    expect(() => bounded.sync([resources[0], resources[1], small])).toThrow(/capacity is 2/);
+    expect(bounded.batches.size).toBe(0);
+    bounded.sync([resources[0], small]);
+    expect(bounded.stats().drawCalls).toBe(2);
+    const reduced = [...bounded.batches.values()].find(b => b.width === 2);
+    bounded.sync([resources[0]]);
+    expect(reduced.disposed).toBe(true);
+    expect(bounded.batches.size).toBe(1);
+    bounded.dispose();
+  });
   it('skips settled tile work but honors resync, time rewind and morph-duration edits', () => {
     const resource = fixture().get('l0/0/0');
     const batch = new TerrainTextureBatch({ width: resource.width, height: resource.height, capacity: 2 });

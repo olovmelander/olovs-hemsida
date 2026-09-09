@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { verifyChunkAsset } from '../../../../packages/course-v2/chunk-node.mjs';
 import { createSyntheticAssetGraph } from '../../../../packages/course-v2/synthetic-fixture.mjs';
 import { prepareTerrainRenderData } from '../../../../packages/course-v2/runtime/terrain-render-data.mjs';
+import { compileTerrainAssets } from '../../../../packages/course-v2/terrain-compiler-node.mjs';
 import {
   CourseV2TerrainRuntime,
   activeHoleTerrainTileIds,
@@ -39,6 +40,67 @@ async function settle(predicate) {
 }
 
 describe('isolated v2 terrain runtime', () => {
+  it.each(['webgpu', 'webgl2'])('reduces refinable parents and preserves native meshes/sampling on %s', async backend => {
+    const base = fixture();
+    const heights = Float64Array.from({ length: 17 * 17 }, (_, i) =>
+      35 + (i % 17) ** 2 * 0.01 + Math.floor(i / 17) ** 2 * 0.02);
+    const compiled = compileTerrainAssets({ groundId: 'quality-ground', courseSlugs: ['quality-course'],
+      heights, width: 17, height: 17, originEasting: 650000, originNorthing: 6640256, tileSegments: 8 });
+    const ground = { groundId: 'quality-ground', frame: base.ground.frame, shell: compiled.shell, tiles: compiled.tiles };
+    const course = { slug: 'quality-course', groundId: ground.groundId, holes: [{ number: 1, tileIds: ['l0/0/0'] }] };
+    const loader = { request: vi.fn(async ref => verifyChunkAsset(ref, compiled.resources.get(ref.url))), reprioritizeScope: vi.fn() };
+    const runtime = new CourseV2TerrainRuntime({ ground, course, scene: new THREE.Scene(), backend,
+      mobile: true, renderStride: 2, assetLoader: loader, clock: () => 0 });
+    const camera = { position: { x: 8, y: 100000, z: 8 }, fov: 48 };
+    runtime.update({ camera, viewportHeightPixels: 720, visible: () => true });
+    await settle(() => runtime.snapshot().stream.readyTileIds.includes('l1/0/0'));
+    const root = runtime.resources.get('l1/0/0');
+    expect(root.width).toBe(5);
+    expect(root.sourceResource.width).toBe(9);
+    expect(root.maximumReductionErrorMetres).toBeGreaterThan(0);
+    expect(runtime.manager.renderErrors.get(root.tileId)).toBe(root.geometricErrorMetres);
+    expect(runtime.snapshot().renderer.renderedTiles).toBe(1);
+    runtime.update({ camera, viewportHeightPixels: 720, activeHoleNumber: 1, visible: () => true });
+    await settle(() => runtime.snapshot().renderer.renderedTiles === 4);
+    const native = runtime.resources.get('l0/0/0');
+    expect(native.width).toBe(9);
+    expect(native.renderStride).toBe(1);
+    expect(native.parentRenderStride).toBe(2);
+    expect(native.maximumReductionErrorMetres).toBe(0);
+    expect(runtime.heightAt(native.worldOriginX + 3, native.worldOriginZ + 3).height)
+      .toBeCloseTo(heights[3 * 17 + 3] - ground.frame.origin.heightRH2000, 6);
+    expect(runtime.snapshot().renderer.drawCalls).toBe(1);
+    expect(runtime.snapshot().renderer.batches.find(b => b.renderedTiles).width).toBe(9);
+    runtime.dispose();
+  });
+  it('waits for a slower parent before exposing children, without duplicate loads', async () => {
+    const base = fixture();
+    const compiled = compileTerrainAssets({ groundId: 'quality-ground', courseSlugs: ['quality-course'],
+      heights: new Float64Array(17 * 17).fill(35), width: 17, height: 17,
+      originEasting: 650000, originNorthing: 6640256, tileSegments: 8 });
+    const ground = { groundId: 'quality-ground', frame: base.ground.frame, shell: compiled.shell, tiles: compiled.tiles };
+    const course = { slug: 'quality-course', groundId: ground.groundId, holes: [{ number: 1, tileIds: ['l0/0/0'] }] };
+    let releaseParent;
+    const parentGate = new Promise(resolve => { releaseParent = resolve; });
+    const loader = { request: vi.fn(async ref => {
+      const decoded = verifyChunkAsset(ref, compiled.resources.get(ref.url));
+      if (decoded.header.id === 'l1/0/0') await parentGate;
+      return decoded;
+    }), reprioritizeScope: vi.fn() };
+    const runtime = new CourseV2TerrainRuntime({ ground, course, scene: new THREE.Scene(), backend: 'webgl2',
+      renderStride: 2, assetLoader: loader, clock: () => 0 });
+    runtime.update({ camera: { position: { x: 8, y: 1000, z: 8 }, fov: 48 },
+      viewportHeightPixels: 720, activeHoleNumber: 1, visible: () => true });
+    await settle(() => loader.request.mock.calls.length === 6);
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(runtime.snapshot().stream.readyTileIds).toEqual(['shell']);
+    releaseParent();
+    await settle(() => runtime.snapshot().renderer.renderedTiles === 4);
+    expect(loader.request).toHaveBeenCalledTimes(6);
+    expect(runtime.snapshot().stream.failedTileIds).toEqual([]);
+    runtime.dispose();
+  });
+
   it('maps Banvy world axes to EPSG:5845 and resolves active-hole tiles', () => {
     const { course, ground } = fixture();
     expect(worldToCanonicalCamera({ x: 12, y: 3, z: 40 }, ground.frame)).toEqual({

@@ -56,10 +56,13 @@ import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engi
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
+import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
+import { createRenderResolution, requestedRenderResolution } from './engine/render-resolution.mjs';
 import { teeView } from './engine/tee-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { buildCoastalWater } from './engine/coastal-water.mjs';
+import { createCoastalTerrainMask } from './engine/coastal-terrain-mask.mjs';
 import { buildGroundSurfaceFeatures, mappedPathSurface } from './engine/surface-features.mjs';
 import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
@@ -76,6 +79,7 @@ import { waterShoreDistance } from './engine/water-shore.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
 import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
+import { createPackedGroundDetailTexture } from './engine/ground-detail-upload.mjs';
 import { bindCameraGestureInterrupt } from './engine/camera-gesture-interrupt.mjs';
 import { applyCrownDepth } from './engine/crown-depth.mjs';
 import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
@@ -259,6 +263,7 @@ let V2_VEGETATION = null;
 let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = MODEL;
+if (SCENERY?.applySurfaceAppearance) M.scenery = SCENERY.applySurfaceAppearance(M.scenery);
 const HOLES = M.holes;
 /* A verified descriptor alone may not alter either construction or visible
    ground. The adapter opens those gates separately after backend preflight and
@@ -1212,6 +1217,9 @@ const phoneDevice = !DET
   && Math.min(window.screen?.width ?? Infinity, window.screen?.height ?? Infinity) <= 768;
 const LOWQ = qualityParam === 'lo'
   || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice || phoneDevice));
+/* Opt-in v2 material pilot. Low quality builds only the coarse relief band. */
+const SURFACE_RELIEF = GRAPHICS_POLISH && new URLSearchParams(location.search).get('surfaceRelief') === '1'
+  ? (LOWQ ? 'low' : 'high') : 'off';
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
 let lowfx = false;
 let autoQualityDone = LOWQ || QUALITY_LOCK;   /* no pending verdict in a fixed-quality visit */
@@ -1248,8 +1256,10 @@ try {
   renderer = mkRenderer(true);
   await renderer.init();
 }
-renderer.setPixelRatio(LOWQ ? 1 : Math.min(devicePixelRatio, 2));
-renderer.setSize(innerWidth, innerHeight);
+const renderResolution = createRenderResolution({ renderer, lowQuality: LOWQ,
+  adaptive: GRAPHICS_POLISH && !DET && !QUALITY_LOCK,
+  requested: requestedRenderResolution(location.search),
+  width: innerWidth, height: innerHeight, devicePixelRatio });
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.20;
 renderer.shadowMap.enabled = true;
@@ -1266,6 +1276,10 @@ let captureRenderLocked = false;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.0, 14000);
+const COASTAL_DEPTH_ENABLED = !IS_GPU && M.infra.terrainPlacement === 'measured-only' && M.water.some(w => w.isSea);
+const COASTAL_TERRAIN_CEILING = V2_SELECTION.graph
+  ? V2_SELECTION.graph.ground.bounds.maxHeightRH2000 - V2_SELECTION.graph.ground.frame.origin.heightRH2000
+  : NaN;
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.055;
@@ -1294,7 +1308,7 @@ function canvasTex(size, draw, { srgb = true, rep = 1 } = {}) {
 /* One packed map does all the turf detail: R blade-scale speckle, G a medium clump,
    B a macro variation that keeps a fairway from tiling visibly, A a glint mask. */
 const TEX_STARTED = performance.now();
-const DETAIL = canvasTex(512, (g, S) => {
+const DETAIL = SURFACE_RELIEF !== 'off' ? createPackedGroundDetailTexture({ seamless: GRAPHICS_POLISH }) : canvasTex(512, (g, S) => {
   const im = g.createImageData(S, S), d = im.data;
   fillGroundDetailPixels(d, S, { seamless: GRAPHICS_POLISH });
   g.putImageData(im, 0, 0);
@@ -2247,21 +2261,24 @@ if (V2_WORLD) {
    fillGroundTintTextures falls back to the compatibility DEM outside the
    frontier's own sampler. */
 const GROUND_TINT = TERRAIN_PREVIEW.ready ? createGroundTintTextures() : null;
+const COASTAL_TERRAIN_MASK = V2_WORLD ? createCoastalTerrainMask(COASTAL_WATER) : null;
 if (TERRAIN_PREVIEW.ready) {
-  /* Low-quality WebGL2 keeps exact 1 m CPU sampling but submits every second
-     source vertex. Both frontiers must still preflight as the same 16 tiles
-     and one logical draw before legacy construction can omit anything. */
-  const renderStride = !IS_GPU && LOWQ ? 2 : 1;
+  /* Low WebGL2 requests reduced terrain. Ring grounds retain every native
+     course vertex and simplify surrounding levels with rebuilt morphs.
+     ?terrainStride=1|2 provides a matched comparison on either backend. */
+  const requestedTerrainStride = new URLSearchParams(location.search).get('terrainStride');
+  const renderStride = ['1', '2'].includes(requestedTerrainStride)
+    ? Number(requestedTerrainStride) : !IS_GPU && LOWQ ? 2 : 1;
   const prepareStarted = performance.now();
+  const decorateGround = createV2GroundMaterialDecorator({
+    atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
+    graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF,
+    debugMode: surfaceDebugMode, tint: GROUND_TINT,
+  });
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
     renderStride,
-    decorateMaterial: createV2GroundMaterialDecorator({
-      atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
-      graphicsPolish: GRAPHICS_POLISH,
-      debugMode: surfaceDebugMode,
-      tint: GROUND_TINT,
-    }),
+    decorateMaterial: COASTAL_TERRAIN_MASK ? COASTAL_TERRAIN_MASK.wrap(decorateGround) : decorateGround,
     legacySurfaceAtlas: TERRAIN_PREVIEW.surfacePolicy === 'legacy-ground-atlas'
       ? groundAtlas
       : null,
@@ -4737,7 +4754,7 @@ function updateTreeTiers() {
   let changed = drainTreeFades();
   TREE_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
   TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem, camera.reversedDepth ?? false);
-  const viewportH = renderer.domElement.height || innerHeight;
+  const viewportH = renderResolution.detailHeight();
   const Kpx = viewportH / (2 * Math.tan(camera.fov * 0.5 * Math.PI / 180));
   const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
   const thr = [TREE_LOD.heroPx, TREE_LOD.switchPx, TREE_LOD.impostorPx], hy = TREE_LOD.hysteresis;
@@ -5766,16 +5783,33 @@ if (M.infra.objectPlacement === 'mapped-only') {
 
   stats.measuredRoofBuildings = 0;
   stats.measuredRoofTriangles = 0;
+  stats.sourceRoofBuildings = 0;
+  stats.sourceRoofTriangles = 0;
+  stats.architecturalBuildings = 0;
+  stats.architecturalTriangles = 0;
   stats.genericRoofBuildings = 0;
+  stats.clubhouseDetails = [];
+  const sourceBuildingView = new URLSearchParams(location.search).get('buildingGeometry') === 'source';
   for (const b of M.infra.buildings) {
     if (b.ring.length < 3) continue;
     if (b.amenity === 'place_of_worship') continue;   /* the chapel is bespoke */
     if (b.roofSurface) {
+      stats.sourceRoofBuildings++;
+      stats.sourceRoofTriangles += b.roofSurface.triangleIndices.length / 3;
+      // Display architecture is explicitly distinct from retained measurements.
+      // The source view still renders the complete original TIN for inspection.
+      const authored = !sourceBuildingView && SCENERY?.renderArchitecture?.({ building:b, terrainH, tri, L });
+      if (authored) {
+        stats.architecturalBuildings++;
+        stats.architecturalTriangles += authored.triangles;
+        stats.clubhouseDetails.push(authored);
+        continue;
+      }
       const geometry = measuredRoofGeometry(b.roofSurface, terrainH);
-      // Roof shade follows the dark roof observation. Facade material remains
-      // a neutral rendering approximation; no borrowed clubhouse windows,
-      // overhangs, balconies, eave height or extra roof above the source TIN.
-      const wall = L(0xc5c0b4), roof = L(0x3c4141);
+      // Render the original measured surface in the source view, or when a
+      // course has no display model. Generic roof/decorations stay bypassed.
+      const look = SCENERY?.buildingLooks?.[b.id];
+      const wall = L(look?.wall ?? 0xc5c0b4), roof = L(look?.roof ?? 0x3c4141);
       for (const [a, c, d] of geometry.triangles) tri(a, c, d, roof);
       for (const [a, c, d, e] of geometry.walls) quad(a, c, d, e, wall);
       stats.measuredRoofBuildings++;
@@ -6016,6 +6050,9 @@ if (M.infra.objectPlacement === 'mapped-only') {
       }
     }
   }
+
+  stats.courtyardDetails = sourceBuildingView ? null : SCENERY?.renderCourtyard?.({
+    features:M.scenery.mappedFeatures || [], buildings:M.infra.buildings, terrainH, tri, L });
 
   /* Landuse describes a residential area, not individual house footprints.
      Retain this historical filler only for grounds permitting inferred objects;
@@ -9439,7 +9476,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
+  renderResolution.resize(innerWidth, innerHeight, devicePixelRatio, performance.now());
   captureReadbackTarget?.setSize(innerWidth, innerHeight);
 });
 
@@ -9450,11 +9487,15 @@ let last = performance.now(), acc = 0, frames = 0, fps = 0;
 let FRAME_NO = 0, TIER_FRAME = 0;   /* the frame the tree tiers last changed on */
 const FRAME_MS = new Float32Array(120);   /* the last frames' intervals, for the harness (V3D.frameTimes) */
 function updateFrameVisibility(now, dt) {
+  const near = coastalCameraNear({ enabled: COASTAL_DEPTH_ENABLED && terrainV2.kind === 'graph' && terrainV2.active,
+    cameraHeight: camera.position.y, terrainCeiling: COASTAL_TERRAIN_CEILING,
+    focusDistance: camera.position.distanceTo(controls.target) });
+  if (camera.near !== near) { camera.near = near; camera.updateProjectionMatrix(); }
   /* the world graph streams by screen-space error against the real camera */
   if (terrainV2.kind === 'graph' && terrainV2.active) {
     /* The graph adapter refreshes camera matrices before its frustum test;
        tree visibility below consumes that same pose, without a second sync. */
-    terrainV2.update({ camera, viewportHeightPixels: renderer.domElement.height || innerHeight, activeHoleNumber: hole });
+    terrainV2.update({ camera, viewportHeightPixels: renderResolution.detailHeight(), activeHoleNumber: hole });
   } else if (GRAPHICS_POLISH) camera.updateMatrixWorld(true);
   /* the crossfade clock: real time, a fixed 1/60 under det, or whatever the harness set */
   if (!TREE_LOD.clockDriven) TREE_LOD.fadeClock += DET ? 1 / 60 : dt;
@@ -9469,6 +9510,8 @@ function updateFrameVisibility(now, dt) {
 
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
+  renderResolution.sample(now - last, now,
+    BOOT_PERF.doneAtMs > 0 && !document.hidden && !captureRenderLocked);
   /* Morph state remains current before the ground clamp samples terrain. */
   terrainV2.tick(now);
   if (!GRAPHICS_POLISH) updateFrameVisibility(now, dt);
@@ -9743,7 +9786,13 @@ window.V3D = {
            inferredRangeTargets: stats.inferredRangeTargets | 0,
            measuredRoofBuildings: stats.measuredRoofBuildings | 0,
            measuredRoofTriangles: stats.measuredRoofTriangles | 0,
+           sourceRoofBuildings: stats.sourceRoofBuildings | 0,
+           sourceRoofTriangles: stats.sourceRoofTriangles | 0,
+           architecturalBuildings: stats.architecturalBuildings | 0,
+           architecturalTriangles: stats.architecturalTriangles | 0,
            genericRoofBuildings: stats.genericRoofBuildings | 0,
+           clubhouseDetails: stats.clubhouseDetails || [],
+           courtyardDetails: stats.courtyardDetails || null,
            draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
            backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
@@ -9907,6 +9956,7 @@ window.V3D = {
     depthTest: waterMat.depthTest, polygonOffset: waterMat.polygonOffset,
     depthFunc: waterMat.depthFunc,
     polygonOffsetFactor: waterMat.polygonOffsetFactor, polygonOffsetUnits: waterMat.polygonOffsetUnits,
+    terrainMaskBytes: COASTAL_TERRAIN_MASK?.bytes ?? 0,
   } : null,
   cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
   /* put the camera anywhere, at once: the harness stands where a person stood */
@@ -10032,7 +10082,8 @@ window.V3D = {
   /* the terrain stream's last plan and residency, for a harness that watches tiles come and go: desired, rendered (fallbacks included), requested, retained, and what is ready or loading */
   v2Plan: () => { const c = terrainV2.runtime?.controller, p = c?.lastPlan; if (!c || !p) return null; const snap = c.snapshot(); return { desired: [...p.desiredTileIds], render: [...p.renderTileIds], requests: p.requests.map(r => r.tileId), retain: [...(p.retainTileIds || [])], ready: [...snap.readyTileIds], loading: [...snap.loadingTileIds] }; },
   quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, qualityLocked: QUALITY_LOCK,
-                    graphicsPolish: GRAPHICS_POLISH, pixelRatio: renderer.getPixelRatio(),
+                    graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF, pixelRatio: renderer.getPixelRatio(),
+                    resolution: renderResolution.snapshot(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
   /* GPU milliseconds since the previous resolve, summed over every render
@@ -10243,8 +10294,7 @@ if (!LOWQ && !QUALITY_LOCK) setTimeout(() => {
         if (!DET && qualityParam !== 'hi') {
           try { localStorage.setItem('banvy-quality', 'lo'); } catch {}
         }
-        renderer.setPixelRatio(1);
-        renderer.setSize(innerWidth, innerHeight);
+        renderResolution.performanceFallback(performance.now());
         if (renderer.__bloomNode) renderer.__bloomNode.strength.value = 0;
         const sp = new URLSearchParams(location.search);
         sp.set('q', 'lo');

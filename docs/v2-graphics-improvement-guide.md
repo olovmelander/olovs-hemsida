@@ -7,6 +7,10 @@ implementation plan; it does not change rendering, geography or MCP settings.
 
 ## 1. Recommended direction
 
+**9 September follow-up:** after terrain optimization and the Visby water fix,
+the [mobile clarity pass](v2-mobile-render-clarity.md) separates screen resolution
+from terrain/tree quality and tests a bounded adaptive sharpness policy.
+
 Aim for believable Swedish golf landscapes with clear playing surfaces, good
 nearby silhouettes and restrained materials. The biggest gains will come from
 better surface response, more convincing trees and a few recognizable buildings,
@@ -119,6 +123,12 @@ all-hole or all-course appearance review.
 | P2 | Buildings are efficiently merged but mainly generic; no GLB/KTX2 model pipeline exists. | Introduce one lazy, versioned landmark asset path with fallbacks, then replace Upsala's clubhouse by stable ID. |
 
 ### The ring-terrain density gap
+
+**9 September material update:** the [ground relief pilot](v2-ground-material-relief.md)
+adds opt-in turf/sand normal detail with low/high quality tiers. It reuses the
+existing textures and preserves terrain normals. Device acceptance remains open.
+
+**9 September implementation update:** the [terrain optimization pilot](v2-terrain-render-optimization.md) now consumes this option, preserves all finest available leaves, and derives transitions from actual rendered parents. The audit observations below describe the pre-change baseline.
 
 The `renderStride` setting in [`main.js`](../apps/golf/src/main.js) reaches the
 fixed-frontier [live adapter](../apps/golf/src/engine/v2-terrain-live-adapter.mjs),

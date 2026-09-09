@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { LessDepth, LessEqualDepth, Matrix4, MeshBasicNodeMaterial, Vector3, WebGPUCoordinateSystem } from 'three/webgpu';
 import { configureWaterDepth, configureWaterRenderPasses, MEASURED_WATER_CLEARANCE_METRES } from './water-render-policy.mjs';
+import { coastalCameraNear } from './coastal-camera-depth.mjs';
 
-const projection = reversed => {
-  const top = Math.tan(48 * Math.PI / 360);
-  return new Matrix4().makePerspective(-top, top, top, -top, 1, 14000, WebGPUCoordinateSystem, reversed);
+const projection = (reversed, near = 1) => {
+  const top = near * Math.tan(48 * Math.PI / 360);
+  return new Matrix4().makePerspective(-top, top, top, -top, near, 14000, WebGPUCoordinateSystem, reversed);
 };
 const projectedDepth = (matrix, distance) => new Vector3(0, 0, -distance).applyMatrix4(matrix).z;
 const fixed24 = depth => Math.round(depth * (2 ** 24 - 1)) / (2 ** 24 - 1);
@@ -66,4 +67,22 @@ it('retains carved inland water depth policy and flat-mask pass behavior', () =>
     configureWaterRenderPasses(material, { mask: {} });
     expect(material.forceSinglePass).toBe(false);
   }
+});
+
+it.each([false, true])('separates coastal sea and dry land with fixed 24-bit depth (reversed=%s)', reversed => {
+  let oldSeaTies = 0;
+  for (const distance of [250, 1000, 2500, 4200]) for (const pitch of [2, 8, 30]) {
+    const sine = Math.sin(pitch * Math.PI / 180);
+    const near = coastalCameraNear({ enabled: true, cameraHeight: distance * sine + 0.29,
+      terrainCeiling: 58.06, focusDistance: distance });
+    const matrix = projection(reversed, near), old = projection(reversed);
+    const bedDistance = distance + 0.05 / sine;
+    const sea = fixed24(projectedDepth(matrix, distance));
+    const bed = fixed24(projectedDepth(matrix, bedDistance));
+    const dry = fixed24(projectedDepth(matrix, distance - 0.06 / sine));
+    expect(reversed ? sea > bed : sea < bed, `${distance} m / ${pitch}° sea`).toBe(true);
+    expect(reversed ? sea > dry : sea < dry, `${distance} m / ${pitch}° dry land`).toBe(false);
+    if (fixed24(projectedDepth(old, distance)) === fixed24(projectedDepth(old, bedDistance))) oldSeaTies++;
+  }
+  expect(oldSeaTies).toBeGreaterThan(0);
 });
